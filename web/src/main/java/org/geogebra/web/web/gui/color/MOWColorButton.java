@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.color;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -40,7 +39,7 @@ public class MOWColorButton extends ColorPopupMenuButton {
 		ImageOrText[] icons = new ImageOrText[FILL_TYPES_COUNT];
 		for (int i = 0; i < FILL_TYPES_COUNT; i++) {
 			icons[i] = GeoGebraIconW
-					.createPointStyleIcon(EuclidianView.getPointStyle(i));
+.createFillStyleIcon(i);
 		}
 
 		fillTable = new SelectionTableW(icons, 1, 5,

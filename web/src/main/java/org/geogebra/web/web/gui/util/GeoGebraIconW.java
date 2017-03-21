@@ -53,6 +53,9 @@ public class GeoGebraIconW extends BasicIcons {
 			LafIcons.line_dotted(), LafIcons.line_dash_dot(),
 			LafIcons.point_cross_diag() };
 	
+	private static ImageResource[] fillStyleIcons = { (LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
+			(LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()), (LafIcons.pattern_honeycomb()) };
+
 	/**
 	 * @param pointStyle
 	 *            int
@@ -62,6 +65,9 @@ public class GeoGebraIconW extends BasicIcons {
 		return new ImageOrText(pointStyleIcons[pointStyle]);
     }
 	
+	public static ImageOrText createFillStyleIcon(int fillStyle) {
+		return new ImageOrText(fillStyleIcons[fillStyle]);
+	}
 	/**
 	 * @param pointStyle
 	 *            int

@@ -112,6 +112,22 @@ public interface StyleBarResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_object_unfixed.png")
 	ImageResource objectUnfixed();
+	
+	// PATTERNS
+	@Source("org/geogebra/common/icons/png/web/stylingbar/pattern_cross_hatching.png")
+	ImageResource pattern_cross_hatching();
+	
+	@Source("org/geogebra/common/icons/png/web/stylingbar/pattern_dots.png")
+	ImageResource pattern_dots();
+	
+	@Source("org/geogebra/common/icons/png/web/stylingbar/pattern_filled.png")
+	ImageResource pattern_filled();
+	
+	@Source("org/geogebra/common/icons/png/web/stylingbar/pattern_hatching.png")
+	ImageResource pattern_hatching();
+	
+	@Source("org/geogebra/common/icons/png/web/stylingbar/pattern_honeycomb.png")
+	ImageResource pattern_honeycomb();
 
 	//ALGEBRA STYLEBAR
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_algebraview_auxiliary_objects.png")
