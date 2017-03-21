@@ -953,10 +953,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						// value
 						double alpha = 1.0;
 						boolean hasFillable = false;
+						boolean angle = false;
 						for (int i = 0; i < geos.length; i++) {
-							if (((GeoElement) geos[i]).isFillable()) {
+							GeoElement geo = (GeoElement) geos[i];
+							if (geo.isFillable()) {
+								angle = geo.isAngle();
 								hasFillable = true;
-								alpha = ((GeoElement) geos[i]).getAlphaValue();
+								alpha = geo.getAlphaValue();
 								break;
 							}
 							if (geos[i] instanceof GeoPolyLine
@@ -975,7 +978,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						setSliderVisible(hasFillable);
-						setFillEnabled(hasFillable);
+						setFillEnabled(hasFillable && !angle);
 
 						if (EuclidianView.isPenMode(mode)) {
 							setSliderValue(
