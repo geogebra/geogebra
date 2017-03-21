@@ -57,6 +57,7 @@ public class PopupMenuButtonW extends MyCJButton
 	private boolean multiselectionEnabled = false;
 	private StyleBarW2 changeEventHandler;
 	protected HashMap<Integer, Integer> lineStyleMap;
+	protected FlowPanel sliderPanel;
 
 	/**
 	 * @param app
@@ -456,12 +457,12 @@ public class PopupMenuButtonW extends MyCJButton
 		Slider.addInputHandler(mySlider.getElement(), this);
 
 		sliderLabel = new Label();
-		FlowPanel panel = new FlowPanel();
-		panel.add(mySlider);
-		panel.add(sliderLabel);
+		sliderPanel = new FlowPanel();
+		sliderPanel.add(mySlider);
+		sliderPanel.add(sliderLabel);
 		sliderLabel.addStyleName("popupSliderLabel");
-		panel.addStyleName("panelRow");
-		myPopup.getPanel().add(panel);
+		sliderPanel.addStyleName("panelRow");
+		myPopup.getPanel().add(sliderPanel);
 	}
 	
 

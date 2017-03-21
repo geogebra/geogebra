@@ -14,8 +14,8 @@ import org.geogebra.web.html5.main.AppW;
 public class PointStylePopup extends PopupMenuButtonW implements IComboListener {
 
 	private static final int DEFAULT_SIZE = 4;
-	private static HashMap<Integer, Integer> pointStyleMap;
-	private static int mode;
+	static HashMap<Integer, Integer> pointStyleMap;
+	static int mode;
 	private PointStyleModel model;
 	private boolean euclidian3D;
 
