@@ -5851,13 +5851,21 @@ public abstract class GeoElement extends ConstructionElement
 			sb.append(labelVisible);
 			sb.append("\"");
 
+			// default:
+			// showing in EV1
+			// hidden in EV2
 			int EVs = 0;
+
 			if (!isVisibleInView(App.VIEW_EUCLIDIAN)) {
-				// Application.debug("visible in ev1");
+				// bit 0 is opposite to bit 1
+				// 0 = showing
+				// 1 = hidden
 				EVs += 1; // bit 0
 			}
 
 			if (isVisibleInView(App.VIEW_EUCLIDIAN2)) {
+				// 0 = hidden
+				// 2 = showing
 				EVs += 2; // bit 1
 			}
 
