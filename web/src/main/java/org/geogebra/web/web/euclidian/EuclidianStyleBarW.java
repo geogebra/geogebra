@@ -1011,11 +1011,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						// value
 						double alpha = 1.0;
 						boolean hasFillable = false;
-						boolean angle = false;
+						boolean alphaOnly = false;
 						for (int i = 0; i < geos.length; i++) {
 							GeoElement geo = (GeoElement) geos[i];
 							if (geo.isFillable()) {
-								angle = geo.isAngle();
+								alphaOnly = geo.isAngle() || geo.isGeoImage();
 								hasFillable = true;
 								alpha = geo.getAlphaValue();
 								break;
@@ -1036,7 +1036,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						setSliderVisible(hasFillable);
-						setFillEnabled(hasFillable && !angle);
+						setFillEnabled(hasFillable && !alphaOnly);
 
 						if (EuclidianView.isPenMode(mode)) {
 							setSliderValue(
