@@ -1584,13 +1584,23 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (!ev.getShowAxis(0) && !ev.getShowAxis(1)) {
 			return 0;
 		}
-		if (ev.getAxesLineStyle() == EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS) {
-			return 2;
+
+		int type;
+		switch (ev.getAxesLineStyle()) {
+		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+			type = 2;
+			break;
+		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
+			type = 3;
+			break;
+
+		// EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
+		// EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED,...
+		default:
+			type = 1;
 		}
-		if (ev.getAxesLineStyle() == EuclidianStyleConstants.AXES_LINE_TYPE_FULL) {
-			return 3;
-		}
-		return 1;
+		return type;
 	}
 
 	@Override
