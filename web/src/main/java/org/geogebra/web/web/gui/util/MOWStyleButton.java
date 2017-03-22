@@ -33,13 +33,12 @@ public abstract class MOWStyleButton extends PointStylePopup {
 	 *            rows.
 	 * @param columns
 	 *            Columns
-	 * @param hasSlider
 	 * @param model
 	 */
 	public MOWStyleButton(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, boolean hasSlider, PointStyleModel model) {
+			Integer columns, PointStyleModel model) {
 		super(app, data, rows, columns, SelectionTable.MODE_ICON, true,
-				hasSlider, model);
+				true, model);
 
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();

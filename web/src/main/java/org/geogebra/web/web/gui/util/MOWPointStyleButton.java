@@ -16,9 +16,17 @@ public class MOWPointStyleButton extends MOWStyleButton {
 	private GGraphics2DW g2;
 	private DrawPoint drawPoint;
 	private GeoPoint p;
-	public MOWPointStyleButton(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, boolean hasSlider, PointStyleModel model) {
-		super(app, data, rows, columns, hasSlider, model);
+
+	/**
+	 * Constructor
+	 * 
+	 * @param app
+	 *            GGB app.
+	 * @param data
+	 *            PointStyle icons.
+	 */
+	public MOWPointStyleButton(AppW app, ImageOrText[] data) {
+		super(app, data, 2, -1, new PointStyleModel(app));
 		g2 = new GGraphics2DW(canvas);
 		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
 				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
@@ -30,10 +38,13 @@ public class MOWPointStyleButton extends MOWStyleButton {
 		setKeepVisible(true);
 	}
 
-	public static MOWPointStyleButton create(AppW app, int mode,
-			boolean hasSlider, PointStyleModel model) {
-
-		PointStylePopup.mode = mode;
+	/**
+	 * 
+	 * @param app
+	 *            GGB app.
+	 * @return Point style button for MOW
+	 */
+	public static MOWPointStyleButton create(AppW app) {
 
 		pointStyleMap = new HashMap<Integer, Integer>();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
@@ -47,8 +58,13 @@ public class MOWPointStyleButton extends MOWStyleButton {
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 		}
 
-		return new MOWPointStyleButton(app, pointStyleIcons, 2, -1,
-				hasSlider, model);
+		return new MOWPointStyleButton(app, pointStyleIcons);
+	}
+
+	@Override
+	public void handlePopupActionEvent() {
+		super.handlePopupActionEvent();
+		updateCanvas();
 	}
 
 	@Override
@@ -58,7 +74,7 @@ public class MOWPointStyleButton extends MOWStyleButton {
 		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
 				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
 		updateGeo();
-		// drawPoint.setGeoElement(p);
+		drawPoint.update();
 		drawPoint.update(coords);
 		drawPoint.draw(g2);
 
