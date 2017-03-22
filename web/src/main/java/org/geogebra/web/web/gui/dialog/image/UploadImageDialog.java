@@ -67,7 +67,8 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		inputPanel.setHeight("180px");
 		inputPanel.setWidth("240px");
 
-		uploadImagePanel = new UploadImagePanel(this, app, previewWidth, previewHeight);
+		uploadImagePanel = new UploadImagePanel(this, previewWidth,
+				previewHeight);
 		imagePanel.add(bottomPanel = new FlowPanel());
 
 		bottomPanel.add(insertBtn = new Button(""));

@@ -78,11 +78,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            application
 	 * @param geos
 	 *            selected elements
-	 * @param location
-	 *            screen position
 	 */
-	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos,
-			GPoint location) {
+	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos) {
 		this(app);
 		initPopup(app, geos);
 	}

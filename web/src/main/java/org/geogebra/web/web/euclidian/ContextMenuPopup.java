@@ -45,7 +45,7 @@ public class ContextMenuPopup extends MyCJButton
 
 	private void createPopup() {
 		popup = ((GuiManagerW) app.getGuiManager())
-				.getPopupMenu(ec.getAppSelectedGeos(), location);
+				.getPopupMenu(ec.getAppSelectedGeos());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
 		addClickHandler(this);
 

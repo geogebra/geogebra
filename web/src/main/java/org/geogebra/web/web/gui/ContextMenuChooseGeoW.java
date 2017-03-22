@@ -51,7 +51,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	public ContextMenuChooseGeoW(AppW app, EuclidianView view,
 	        ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
 			GPoint location, GPoint invokerLocation) {
-		super(app, selectedGeos, location);
+		super(app, selectedGeos);
 
 		// return if just one geo, or if first geos more than one
 		if (geos.size() < 2 || selectedGeos.size() > 1) {

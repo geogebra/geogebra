@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.dialog.image;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -25,7 +24,8 @@ public class UploadImagePanel extends VerticalPanel {
 	private UploadImageDialog dialog;
 	
 	
-	public UploadImagePanel(UploadImageDialog uploadImageDialog, AppW app, int previewWidth, int previewHeight) {
+	public UploadImagePanel(UploadImageDialog uploadImageDialog,
+			int previewWidth, int previewHeight) {
 		this.dialog = uploadImageDialog;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;

@@ -260,7 +260,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		} else {
 			// clear highlighting and selections in views
 			app.getActiveEuclidianView().resetMode();
-			getPopupMenu(geos, p).show(invoker, p.x, p.y);
+			getPopupMenu(geos).show(invoker, p.x, p.y);
 		}
 	}
 
@@ -269,7 +269,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	        final AlgebraView invoker, final GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
-		getPopupMenu(geos, p).show(p);
+		getPopupMenu(geos).show(p);
 	}
 
 	public SpreadsheetContextMenuW getSpreadsheetContextMenu(final MyTableW mt) {
@@ -287,9 +287,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public ContextMenuGeoElementW getPopupMenu(
-	        final ArrayList<GeoElement> geos, final GPoint location) {
+			final ArrayList<GeoElement> geos) {
 		removePopup();
-		currentPopup = new ContextMenuGeoElementW((AppW) app, geos, location);
+		currentPopup = new ContextMenuGeoElementW((AppW) app, geos);
 		((ContextMenuGeoElementW) currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
