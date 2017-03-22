@@ -1375,6 +1375,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				setGridType(ev, btnShowGrid.getSelectedIndex());
 			}
 			return true;
+		} else if (source == btnShowAxes_new) {
+			if (btnShowAxes_new.getSelectedValue() != null) {
+				setAxesType(ev, btnShowAxes_new.getSelectedIndex());
+			}
 		}
 		return false;
 	}
@@ -1508,6 +1512,32 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			evs.endBatch();
 		}
 		if (gridChanged) {
+			ev.getApplication().storeUndoInfo();
+		}
+	}
+
+	public static void setAxesType(EuclidianView ev, int val) {
+		EuclidianSettings evs = ev.getSettings();
+		boolean axesChanged = false;
+		if (val == 0) {
+			Log.debug("axes type changed: NO AXES");
+			axesChanged = evs.setShowAxes(false);
+		} else {
+			evs.beginBatch();
+			axesChanged = evs.setShowAxes(true);
+			switch (val) {
+			case 2:
+				Log.debug("axes type changed: AXES_FOUR_ARROWS");
+				break;
+			case 3:
+				Log.debug("axes type changed: AXES_NO_ARROW");
+				break;
+			default:
+				Log.debug("axes type changed: AXES_TWO_ARROWS");
+			}
+			evs.endBatch();
+		}
+		if (axesChanged) {
 			ev.getApplication().storeUndoInfo();
 		}
 	}
