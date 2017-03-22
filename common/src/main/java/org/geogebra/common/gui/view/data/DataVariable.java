@@ -436,7 +436,11 @@ public class DataVariable {
 
 		AlgoDependentList dl = new AlgoDependentList(cons, list, false);
 		cons.removeFromConstructionList(dl);
-		return (GeoList) dl.getGeoElements()[0];
+		GeoList ret = (GeoList) dl.getGeoElements()[0];
+
+		ret.setSelectionAllowed(false);
+
+		return ret;
 
 	}
 

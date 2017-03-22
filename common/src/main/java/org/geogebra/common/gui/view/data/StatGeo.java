@@ -180,6 +180,9 @@ public class StatGeo {
 			AlgoListMin minY = new AlgoListMin(cons,
 					(GeoList) listY.getOutput(0));
 
+			listX.getOutput()[0].setSelectionAllowed(false);
+			listY.getOutput()[0].setSelectionAllowed(false);
+
 			removeFromConstructionList(listX);
 			removeFromConstructionList(listY);
 			removeFromConstructionList(maxX);
@@ -832,6 +835,7 @@ public class StatGeo {
 		geo.setEuclidianVisible(true);
 		geo.setAuxiliaryObject(true);
 		geo.setLabelVisible(false);
+		geo.setSelectionAllowed(false);
 		geo.setObjColor(
 				listener.createColor(DataAnalysisModel.DOTPLOT_COLOR_IDX));
 		geo.setAlphaValue(DataAnalysisModel.opacityBarChart);
