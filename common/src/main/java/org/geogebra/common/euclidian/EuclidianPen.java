@@ -566,6 +566,7 @@ public class EuclidianPen implements GTimerListener {
 	private GeoElement tryCircle() {
 		GeoConic circle = getCircleThreePoints();
 		if (circle != null) {
+			circle.setIsShape(true);
 			// midpoint
 			GeoPoint m = new GeoPoint(app.getKernel().getConstruction(), null,
 					circle.getMidpoint().getX(), circle.getMidpoint().getY(),
@@ -1679,6 +1680,8 @@ public class EuclidianPen implements GTimerListener {
 		last.setEuclidianVisible(false);
 		GeoElement line = algo.getOutput(0);
 		line.updateRepaint();
+		line.setIsShape(true);
+		line.setLabelVisible(false);
 		return line;
 	}
 
