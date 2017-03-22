@@ -1269,8 +1269,6 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	private GeoConic makeAConic() {
 		double px, py;
-		Construction cons = this.app.getKernel().getConstruction();
-
 		// adapted from FitImplicit
 
 		// order 2 ie conic

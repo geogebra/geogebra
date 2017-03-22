@@ -116,11 +116,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 						if (elChild != null
 								&& Element.as(elChild).hasTagName("ARTICLE")) {
 							// found!!
-							if (elChild == el) {
-								// lastDummy!
-								if (lastDummy == null) {
-									tackleLastDummy(el);
-								}
+							if (elChild == el && lastDummy == null) {
+								tackleLastDummy(el);
 							}
 							return;
 						}
