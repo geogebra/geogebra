@@ -8,10 +8,11 @@ using namespace giac;
 
 using namespace v8;
 
+context ct;
+
 void Method(const v8::FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
-  context ct;
   std::string line_out;
 
   v8::String::Utf8Value param1(args[0]->ToString());
