@@ -217,7 +217,7 @@ public class GeoGebraIconW extends BasicIcons {
 				url = StyleBarResources.INSTANCE.axes();
 				break;
 			default:
-				url = StyleBarResources.INSTANCE.axes(); // stylingbar_empty()
+				url = StyleBarResources.INSTANCE.stylingbar_empty();
 			}
 
 		} else {
