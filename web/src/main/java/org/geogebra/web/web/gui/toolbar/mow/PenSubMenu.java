@@ -207,9 +207,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private void doSelectFreehand() {
 		reset();
 		freehand.getElement().setAttribute("selected", "true");
-		setColorsEnabled(false);
+		selectColor(BLACK);
 		slider.setVisible(false);
-
 	}
 
 
@@ -224,12 +223,14 @@ public class PenSubMenu extends SubMenuPanel {
 	private void selectColor(int idx) {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
-				btnColor[i].addStyleName("penSubMenu-selected");
 				getPenGeo().setObjColor(penColor[i]);
-				// set background of pen icon to selected color
-				pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
-						"background-color: " + penColor[i].toString());
 
+				if (colorsEnabled) {
+					btnColor[i].addStyleName("penSubMenu-selected");
+					// set background of pen icon to selected color
+					pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
+							"background-color: " + penColor[i].toString());
+				}
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");
 			}
