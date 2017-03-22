@@ -298,7 +298,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
             ArrayList<Integer> list = new ArrayList<Integer>();
             mathFieldController.getPath(mathFormula, x, y, list);
-            MathComponent cursor = editorState.getCursorField(false);
+			MathComponent cursor = editorState.getCursorField(
+					editorState.getSelectionEnd() != null && selectionLeft(x));
 
             CursorController.firstField(editorState);
 
@@ -307,7 +308,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             editorState.resetSelection();
 
             if (selectionMode && mousePositionChanged(x, y)) {
-                editorState.extendSelection(false);
+				editorState.extendSelection(selectionLeft(x));
                 editorState.extendSelection(cursor);
             }
 
@@ -330,7 +331,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
     }
 
-    @Override
+	private boolean selectionLeft(int x) {
+		return Math.abs(x - SelectionBox.endX) < Math
+				.abs(x - SelectionBox.startX);
+	}
+
+	@Override
 	public void onLongPress(int x, int y) {
         longPressOccured = true;
         if (!mathFormula.isEmpty()) {
@@ -377,7 +383,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		double dist = Integer.MAX_VALUE;
 		MathSequence closestComponent = null;
 		int closestOffset = -1;
-		while (cursorController.nextCharacter(editorState)) {
+		while (CursorController.nextCharacter(editorState)) {
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
@@ -394,6 +400,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		if (closestComponent != null) {
 			editorState.setCurrentField(closestComponent);
 			editorState.setCurrentOffset(closestOffset);
+
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
@@ -415,13 +422,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 		ArrayList<Integer> list = new ArrayList<Integer>();
 		mathFieldController.getPath(mathFormula, x, y, list);
-		MathComponent cursor = editorState.getCursorField(false);
+		MathComponent cursor = editorState.getCursorField(
+				editorState.getSelectionEnd() == null || selectionLeft(x));
 		MathSequence current = editorState.getCurrentField();
 		int offset = editorState.getCurrentOffset();
 		CursorController.firstField(editorState);
 		moveToSelection(x, y);
 		editorState.resetSelection();
-		editorState.extendSelection(false);
+		editorState.extendSelection(selectionLeft(x));
 		editorState.setCurrentField(current);
 		editorState.setCurrentOffset(offset);
 		editorState.extendSelection(cursor);
