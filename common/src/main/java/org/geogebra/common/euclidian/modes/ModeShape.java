@@ -108,6 +108,14 @@ public class ModeShape {
 	}
 
 	/**
+	 * if tool was changed clear data points
+	 */
+	public void clearPointList() {
+		pointListFreePoly.clear();
+		dragPointSet = false;
+	}
+
+	/**
 	 * get start point of dragging
 	 * 
 	 * @param event
@@ -123,7 +131,13 @@ public class ModeShape {
 			return;
 		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
-			pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
+			if (pointListFreePoly.get(0)
+					.distance(new GPoint(event.getX(), event.getY())) < 15) {
+				pointListFreePoly.add(pointListFreePoly.get(0));
+				pointListFreePoly.add(pointListFreePoly.get(0));
+			} else {
+				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
+			}
 		}
 	}
 
@@ -360,14 +374,23 @@ public class ModeShape {
 			return algo.getOutput(0);
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (wasDragged) {
-				pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
+				if (pointListFreePoly.get(0).distance(
+						new GPoint(event.getX(), event.getY())) < 15) {
+					pointListFreePoly.add(pointListFreePoly.get(0));
+					pointListFreePoly.add(pointListFreePoly.get(0));
+				} else {
+					pointListFreePoly
+							.add(new GPoint(event.getX(), event.getY()));
+				}
 			}
 			updateFreeFormPolygon(event, false);
 			// close with double click
 			if (pointListFreePoly.size() > 2
 					&& pointListFreePoly.get(pointListFreePoly.size() - 1)
 							.distance(
-					pointListFreePoly.get(pointListFreePoly.size() - 2)) == 0) {
+									pointListFreePoly.get(
+											pointListFreePoly.size()
+													- 2)) == 0) {
 				// polygon.closePath();
 				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
 						getRealPointsOfFreeFormPolygon(), false);

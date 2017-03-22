@@ -815,6 +815,12 @@ public abstract class EuclidianController {
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
+		
+		if (view.getShapePolygon() != null) {
+			view.setShapePolygon(null);
+			getShapeMode().clearPointList();
+			view.repaintView();
+		}
 
 		// GGB-545
 		// problem with
