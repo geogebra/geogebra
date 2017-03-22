@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.GgbMat;
@@ -4607,8 +4608,9 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public boolean isShape() {
-		return isShape;
+		return kernel.getApplication().has(Feature.BOUNDING_BOXES) && isShape;
 	}
+
 
 	@Override
 	public void setIsShape(boolean isShape) {

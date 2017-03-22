@@ -173,6 +173,9 @@ public enum Feature {
 	SOLVE_QUARTIC,
 
 	/** MOW-166 */
-	AXES_STYLE_SUBMENU
+	AXES_STYLE_SUBMENU,
+
+	/** MOW-55 */
+	BOUNDING_BOXES
 
 }

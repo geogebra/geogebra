@@ -4169,6 +4169,10 @@ public abstract class App implements UpdateSelection {
 		case DYNAMIC_STYLEBAR:
 			return prerelease && whiteboard;
 
+		/** MOW-55 */
+		case BOUNDING_BOXES:
+			return prerelease && whiteboard;
+
 		case PEN_IS_LOCUS:
 			return prerelease;
 		case PEN_EVENTS:
