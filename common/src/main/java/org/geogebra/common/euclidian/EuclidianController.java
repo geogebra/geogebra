@@ -803,6 +803,10 @@ public abstract class EuclidianController {
 		}
 	}
 
+	public int getPreviousMode() {
+		return previousMode;
+	}
+
 	public int getMode() {
 		return mode;
 	}
@@ -8488,6 +8492,7 @@ public abstract class EuclidianController {
 
 		if (!shouldCancelDrag()) {
 			if (shouldSetToFreehandMode()) {
+				oldMode = mode;
 				setModeToFreehand();
 			}
 			// Set capture events only if the mouse is actually down,

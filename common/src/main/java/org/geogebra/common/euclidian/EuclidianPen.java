@@ -19,11 +19,13 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -37,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
@@ -543,8 +546,6 @@ public class EuclidianPen implements GTimerListener {
 
 		GeoElement geo;
 		if ((geo = tryPolygonOrLine()) != null || (geo = tryCircle()) != null) {
-			geo.setLabelVisible(false);
-			geo.setIsShape(true);
 			return geo;
 		}
 
@@ -1361,27 +1362,13 @@ public class EuclidianPen implements GTimerListener {
 		if (conic.isDefined()
 				&& conic.getHalfAxis(0) / error > CONIC_AXIS_ERROR_RATIO
 				&& conic.getHalfAxis(1) / error > CONIC_AXIS_ERROR_RATIO) {
-			AlgoFocus algo = new AlgoFocus(cons, new String[] { null, null },
-					conic);
-			GeoPointND[] focus = algo.getFocus();
-
-			int type = conic.getType();
-			GeoPoint pointOnConic = this.app.getKernel().getAlgoDispatcher()
-					.Point(null, conic, null);
+			Equation equ = getEquationOfConic(conic.getMatrix());
+			equ.initEquation();
+			GeoElement[] geos = view.getKernel().getAlgebraProcessor()
+					.processConic(equ, equ.wrap());
+			geos[0].setEuclidianVisible(true);
 			conic.remove();
-
-			GeoPoint f0 = new GeoPoint(cons, null, focus[0].getInhomX(),
-					focus[0].getInhomY(), 1);
-			f0.setEuclidianVisible(false);
-			GeoPoint f1 = new GeoPoint(cons, null, focus[1].getInhomX(),
-					focus[1].getInhomY(), 1);
-			f1.setEuclidianVisible(false);
-			GeoPoint additionalPoint = new GeoPoint(cons, null,
-					pointOnConic.getInhomX(), pointOnConic.getInhomY(), 1);
-			additionalPoint.setEuclidianVisible(false);
-
-			conic = (GeoConic) this.app.getKernel().getAlgoDispatcher()
-					.EllipseHyperbola(null, f0, f1, additionalPoint, type);
+			conic = (GeoConic) geos[0];
 		} else {
 			conic.remove();
 			conic = null;
@@ -1389,8 +1376,50 @@ public class EuclidianPen implements GTimerListener {
 
 		if (conic != null) {
 			conic.setIsShape(true);
+			conic.setLabelVisible(false);
 		}
 		return conic;
+	}
+
+	private Equation getEquationOfConic(double[] coeffs) {
+		FunctionVariable xx = new FunctionVariable(view.getKernel(), "x");
+		FunctionVariable yy = new FunctionVariable(view.getKernel(), "y");
+		// x^2
+		ExpressionNode xSqr = new ExpressionNode(view.getKernel(), xx,
+				Operation.MULTIPLY, xx);
+		// x*x
+		ExpressionNode xy = new ExpressionNode(view.getKernel(), xx,
+				Operation.MULTIPLY, yy);
+		// y^2
+		ExpressionNode ySqr = new ExpressionNode(view.getKernel(), yy,
+				Operation.MULTIPLY, yy);
+		ExpressionNode term1 = new ExpressionNode(view.getKernel(),
+				new ExpressionNode(view.getKernel(), coeffs[0]),
+				Operation.MULTIPLY, xSqr);
+		ExpressionNode term2 = new ExpressionNode(view.getKernel(),
+				new ExpressionNode(view.getKernel(), coeffs[3] * 2),
+				Operation.MULTIPLY, xy);
+		ExpressionNode term3 = new ExpressionNode(view.getKernel(),
+				new ExpressionNode(view.getKernel(), coeffs[1]),
+				Operation.MULTIPLY, ySqr);
+		ExpressionNode term4 = new ExpressionNode(view.getKernel(),
+				new ExpressionNode(view.getKernel(), coeffs[4] * 2),
+				Operation.MULTIPLY, xx);
+		ExpressionNode term5 = new ExpressionNode(view.getKernel(),
+				new ExpressionNode(view.getKernel(), coeffs[5] * 2),
+				Operation.MULTIPLY, yy);
+
+		ExpressionNode term12 = new ExpressionNode(view.getKernel(), term1,
+				Operation.PLUS, term2);
+		ExpressionNode term34 = new ExpressionNode(view.getKernel(), term3,
+				Operation.PLUS, term4);
+		ExpressionNode term1234 = new ExpressionNode(view.getKernel(), term12,
+				Operation.PLUS, term34);
+		ExpressionNode lhs = new ExpressionNode(view.getKernel(), term1234,
+				Operation.PLUS, term5);
+		ExpressionNode rhs = new ExpressionNode(view.getKernel(), -coeffs[2]);
+		Equation equ = new Equation(view.getKernel(), lhs, rhs);
+		return equ;
 	}
 
 	private void optimize_polygonal(int nsides) {
@@ -1646,16 +1675,21 @@ public class EuclidianPen implements GTimerListener {
 		// poly.setLineThickness(penSize * PEN_SIZE_FACTOR);
 		// poly.setLineType(penLineStyle);
 		// poly.setObjColor(penColor);
-		poly.setAlphaValue(0);
-		poly.setBackgroundColor(GColor.WHITE);
-		poly.setObjColor(GColor.BLACK);
-		poly.updateRepaint();
-		for (GeoPointND point : points) {
-			point.setEuclidianVisible(false);
-		}
-		if (poly instanceof GeoPolygon) {
-			for (GeoSegmentND geoSeg : ((GeoPolygon) poly).getSegments()) {
-				((GeoSegment) geoSeg).setSelectionAllowed(false);
+		if (view.getEuclidianController()
+				.getPreviousMode() != EuclidianConstants.MODE_POLYGON) {
+			poly.setIsShape(true);
+			poly.setAlphaValue(0);
+			poly.setBackgroundColor(GColor.WHITE);
+			poly.setObjColor(GColor.BLACK);
+			poly.updateRepaint();
+			for (GeoPointND point : points) {
+				point.setEuclidianVisible(false);
+			}
+			if (poly instanceof GeoPolygon) {
+				for (GeoSegmentND geoSeg : ((GeoPolygon) poly).getSegments()) {
+					((GeoSegment) geoSeg).setSelectionAllowed(false);
+					((GeoSegment) geoSeg).setLabelVisible(false);
+				}
 			}
 		}
 		return poly;
