@@ -121,7 +121,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 
 			public void onValueChange(ValueChangeEvent<Double> event) {
-				sliderValueChanged();
+				sliderValueChanged(event.getValue());
 			}
 		});
 	}
@@ -129,12 +129,11 @@ public class PenSubMenu extends SubMenuPanel {
 	/**
 	 * Sets the size of pen/eraser from the slider value.
 	 */
-	void sliderValueChanged() {
-		int value = slider.getValue().intValue();
+	void sliderValueChanged(double value) {
 		if (colorsEnabled) {
-			getPenGeo().setLineThickness(value);
+			getPenGeo().setLineThickness((int) value);
 		} else {
-			app.getActiveEuclidianView().getSettings().setDeleteToolSize(value);
+			app.getActiveEuclidianView().getSettings().setDeleteToolSize((int) value);
 		}
 	}
 
