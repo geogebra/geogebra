@@ -14,6 +14,11 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Button for point style with preview
+ * 
+ * @author Laszlo
+ */
 public class MOWPointStyleButton extends PointStylePopup {
 	/** Size of the value canvas */
 	private static final int CANVAS_SIZE = 32;
@@ -105,10 +110,10 @@ public class MOWPointStyleButton extends PointStylePopup {
 	 */
 	@Override
 	protected void setSliderText(String text) {
-
+		// intentionally blank
 	}
 
-	protected void updateCanvas() {
+	private void updateCanvas() {
 
 		canvas.getContext2d().clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,

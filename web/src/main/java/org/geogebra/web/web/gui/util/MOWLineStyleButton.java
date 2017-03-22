@@ -13,6 +13,11 @@ import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Line style button with preview
+ * 
+ * @author Laszlo
+ */
 public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
 	private static final int CANVAS_WIDTH = 50;
@@ -83,7 +88,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	 */
 	@Override
 	protected void setSliderText(String text) {
-
+		// intentionally left blank
 	}
 
 	private void updateCanvas() {
