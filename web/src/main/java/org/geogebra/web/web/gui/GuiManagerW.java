@@ -100,6 +100,7 @@ import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -315,12 +316,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			final Canvas invoker = ((EuclidianViewWInterface) view).getCanvas();
 			// clear highlighting and selections in views
-			final GPoint screenPos = new GPoint(invoker.getAbsoluteLeft() + p.x,
-			                invoker.getAbsoluteTop() + p.y);
-
 			app.getActiveEuclidianView().resetMode();
 			ContextMenuGeoElementW menu = getPopupMenu(view, selectedGeos,
-					geos, screenPos, p);
+					geos, p);
 			menu.show(invoker, p.x, p.y);
 		}
 
@@ -328,10 +326,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	private ContextMenuGeoElementW getPopupMenu(
 	        final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
-	        final ArrayList<GeoElement> geos, final GPoint screenPos,
-	        final GPoint p) {
+			final ArrayList<GeoElement> geos, final GPoint p) {
 		currentPopup = new ContextMenuChooseGeoW((AppW) app, view,
-		        selectedGeos, geos, screenPos, p);
+				selectedGeos, geos, p);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
@@ -2116,6 +2113,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (textField instanceof RetexKeyboardListener) {
 			return new MathFieldProcessing(
 					((RetexKeyboardListener) textField).getMathField());
+		}
+		if (textField instanceof LatexTreeItem) {
+			return new MathFieldProcessing(
+					((LatexTreeItem) textField).getMathField());
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;

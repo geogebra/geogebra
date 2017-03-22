@@ -25,6 +25,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -218,7 +219,8 @@ public class AppWapplet extends AppWFull {
 		}
 
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
-			if (!(frame.getWidget(i) instanceof HasKeyboardPopup)) {
+			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
+					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
 			}
 		}
