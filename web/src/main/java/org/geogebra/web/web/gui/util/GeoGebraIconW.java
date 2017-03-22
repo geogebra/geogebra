@@ -207,13 +207,13 @@ public class GeoGebraIconW extends BasicIcons {
 
 		if (newStyle) {
 			switch (id) {
-			case EuclidianStyleConstants.AXES_TWO_ARROWS:
+			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
 				url = StyleBarResources.INSTANCE.axes_2arrows();
 				break;
-			case EuclidianStyleConstants.AXES_FOUR_ARROWS:
+			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
 				url = StyleBarResources.INSTANCE.axes_4arrows();
 				break;
-			case EuclidianStyleConstants.AXES_NO_ARROW:
+			case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
 				url = StyleBarResources.INSTANCE.axes();
 				break;
 			default:

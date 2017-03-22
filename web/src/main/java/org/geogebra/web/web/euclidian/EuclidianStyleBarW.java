@@ -28,6 +28,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
@@ -1313,7 +1314,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	protected void updateAxesAndGridGUI() {
 		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
-			btnShowAxes_new.setSelectedIndex(1); // TODO axesIndex(ev)
+			btnShowAxes_new.setSelectedIndex(axesIndex(ev));
 		} else {
 			btnShowAxes.removeValueChangeHandler();
 			btnShowAxes.setSelected(ev.getShowXaxis());
@@ -1377,7 +1378,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			return true;
 		} else if (source == btnShowAxes_new) {
 			if (btnShowAxes_new.getSelectedValue() != null) {
-				setAxesType(ev, btnShowAxes_new.getSelectedIndex());
+				setAxesLineType(ev, btnShowAxes_new.getSelectedIndex());
 			}
 		}
 		return false;
@@ -1516,7 +1517,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 	}
 
-	public static void setAxesType(EuclidianView ev, int val) {
+	public static void setAxesLineType(EuclidianView ev, int val) {
 		EuclidianSettings evs = ev.getSettings();
 		boolean axesChanged = false;
 		if (val == 0) {
@@ -1528,12 +1529,15 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			switch (val) {
 			case 2:
 				Log.debug("axes type changed: AXES_FOUR_ARROWS");
+				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS);
 				break;
 			case 3:
 				Log.debug("axes type changed: AXES_NO_ARROW");
+				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 				break;
 			default:
 				Log.debug("axes type changed: AXES_TWO_ARROWS");
+				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 			}
 			evs.endBatch();
 		}
@@ -1571,6 +1575,23 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			return 2;
 		}
 		if (ev.getGridType() == EuclidianView.GRID_ISOMETRIC) {
+			return 3;
+		}
+		return 1;
+	}
+
+	/**
+	 * @param ev
+	 * @return current axis type
+	 */
+	public static int axesIndex(EuclidianView ev) {
+		if (!ev.getShowAxis(0) && !ev.getShowAxis(1)) {
+			return 0;
+		}
+		if (ev.getAxesLineStyle() == EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS) {
+			return 2;
+		}
+		if (ev.getAxesLineStyle() == EuclidianStyleConstants.AXES_LINE_TYPE_FULL) {
 			return 3;
 		}
 		return 1;

@@ -129,8 +129,5 @@ public class EuclidianStyleConstants {
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
 
 	public static final int NO_AXES = 0;
-	public static final int AXES_TWO_ARROWS = 1;
-	public static final int AXES_FOUR_ARROWS = 2;
-	public static final int AXES_NO_ARROW = 3;
 
 }
