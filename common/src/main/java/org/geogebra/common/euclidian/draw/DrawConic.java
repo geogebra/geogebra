@@ -175,6 +175,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	private BoundingBox boundingBox;
 	private double fixCornerX = Double.NaN, fixCornerY = Double.NaN;
+	private double oldWidth = Double.NaN, oldHeight = Double.NaN;
 	private double proportion = Double.NaN;
 	private boolean isCircle = false;
 	/**
@@ -2174,6 +2175,12 @@ public class DrawConic extends Drawable implements Previewable {
 			proportion = getBoundingBox().getRectangle().getWidth()
 					/ getBoundingBox().getRectangle().getHeight();
 		}
+		if (Double.isNaN(oldWidth)) {
+			oldWidth = getBoundingBox().getRectangle().getWidth();
+		}
+		if (Double.isNaN(oldHeight)) {
+			oldHeight = getBoundingBox().getRectangle().getHeight();
+		}
 
 	}
 
@@ -2193,6 +2200,13 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 		fixCornerCoords(hitHandler);
+
+		/*
+		 * if (conic.getParentAlgorithm() != null && conic .getParentAlgorithm()
+		 * instanceof AlgoEllipseHyperbolaFociPoint) { translatePoints(event);
+		 * this.update(); //
+		 * etBoundingBox().setRectangle(prewEllipse.getBounds()); return; }
+		 */
 
 		int dx = (int) (event.getX() - fixCornerX);
 		int dy = (int) (event.getY() - fixCornerY);
@@ -2302,12 +2316,38 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
-		conic.setEuclidianVisible(false);
-		conic.updateRepaint();
 		if (isCornerHandler(handler)) {
-			updateEllipseCorner(handler, e);
+			if (conic.getParentAlgorithm() != null && conic
+					.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
+				fixCornerCoords(handler);
+				translatePointsForCornerHandler(e);
+				setFixCornerX(Double.NaN);
+				setFixCornerY(Double.NaN);
+				oldHeight = Double.NaN;
+				oldWidth = Double.NaN;
+				proportion = Double.NaN;
+				view.repaintView();
+			} else {
+				conic.setEuclidianVisible(false);
+				conic.updateRepaint();
+				updateEllipseCorner(handler, e);
+			}
 		} else {
-			updateEllipseSide(handler, e);
+			if (conic.getParentAlgorithm() != null && conic
+					.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
+				fixCornerCoords(handler);
+				translatePointsForSideHandler(e);
+				setFixCornerX(Double.NaN);
+				setFixCornerY(Double.NaN);
+				oldHeight = Double.NaN;
+				oldWidth = Double.NaN;
+				proportion = Double.NaN;
+				view.repaintView();
+			} else {
+				conic.setEuclidianVisible(false);
+				conic.updateRepaint();
+				updateEllipseSide(handler, e);
+			}
 		}
 		view.setShapeEllipse(prewEllipse);
 		view.setShapeFillCol(conic.getFillColor());
@@ -2317,6 +2357,130 @@ public class DrawConic extends Drawable implements Previewable {
 				conic.getLineType()));
 		view.getEuclidianController().setDynamicStylebarVisible(false);
 		view.repaintView();
+	}
+
+	private void translatePointsForSideHandler(AbstractEvent e) {
+		if (conic.getParentAlgorithm() != null && conic
+				.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
+			double pointsX[] = new double[3];
+			double pointsY[] = new double[3];
+			if (view.getHitHandler() == EuclidianBoundingBoxHandler.RIGHT
+					|| view.getHitHandler() == EuclidianBoundingBoxHandler.LEFT) {
+				fixCornerY = Double.NaN;
+			} else {
+				fixCornerX = Double.NaN;
+			}
+			GeoElement[] algoInput = conic.getParentAlgorithm().getInput();
+			if (!Double.isNaN(fixCornerX)) {
+				int width = (int) (e.getX() - fixCornerX);
+				double[] coords = new double[2];
+				for (int i = 0; i < 3; i++) {
+					coords[0] = view.toScreenCoordXd(
+							((GeoPointND) algoInput[i]).getInhomX());
+					coords[1] = view.toScreenCoordYd(
+							((GeoPointND) algoInput[i]).getInhomY());
+					// left or right side was moved
+					pointsX[i] = fixCornerX
+							+ (Math.abs(coords[0] - fixCornerX)) * width
+									/ oldWidth;
+					pointsY[i] = coords[1];
+				}
+			}
+
+			if (!Double.isNaN(fixCornerY)) {
+				int height = (int) (e.getY() - fixCornerY);
+				double[] coords = new double[2];
+				for (int i = 0; i < 3; i++) {
+					coords[0] = view.toScreenCoordXd(
+							((GeoPointND) algoInput[i]).getInhomX());
+					coords[1] = view.toScreenCoordYd(
+							((GeoPointND) algoInput[i]).getInhomY());
+					// bottom or top side was moved
+					pointsX[i] = coords[0];
+					pointsY[i] = fixCornerY
+							+ (Math.abs(coords[1] - fixCornerY)) * height
+									/ oldHeight;
+				}
+			}
+
+			for (int i = 0; i < 3; i++) {
+				((GeoPointND) conic.getParentAlgorithm().getInput(i)).setCoords(
+						view.toRealWorldCoordX(pointsX[i]),
+						view.toRealWorldCoordY(pointsY[i]), 1);
+				((GeoPointND) conic.getParentAlgorithm().getInput(i)).update();
+				((GeoPointND) conic.getParentAlgorithm().getInput(i))
+						.updateCascade();
+			}
+			conic.getParentAlgorithm().update();
+			conic.update();
+
+		}
+	}
+
+	private void translatePointsForCornerHandler(AbstractEvent e) {
+		if (conic.getParentAlgorithm() != null && conic
+				.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
+			int newWidth = (int) (e.getX() - fixCornerX);
+			int height = (int) (e.getY() - fixCornerY);
+			int newHeight = (int) (newWidth * oldHeight / oldWidth);
+
+			double ratioWidth = newWidth / oldWidth;
+			double ratioHeight = newHeight / oldHeight;
+
+			double pointsX[] = new double[3];
+			double pointsY[] = new double[3];
+			GeoElement[] algoInput = conic.getParentAlgorithm().getInput();
+			double[] currCoords = new double[2];
+			for (int i = 0; i < 3; i++) {
+				currCoords[0] = view.toScreenCoordXd(
+						((GeoPointND) algoInput[i]).getInhomX());
+				currCoords[1] = view.toScreenCoordYd(
+						((GeoPointND) algoInput[i]).getInhomY());
+
+				if (height >= 0) {
+					pointsX[i] = fixCornerX
+							+ (Math.abs(currCoords[0] - fixCornerX))
+									* ratioWidth;
+					if (newWidth >= 0) {
+						pointsY[i] = fixCornerY
+								+ (Math.abs(currCoords[1] - fixCornerY))
+										* ratioHeight;
+					} else {
+						pointsY[i] = fixCornerY
+								- (Math.abs(currCoords[1] - fixCornerY))
+										* ratioHeight;
+					}
+				}
+				// bottom or top left corner was moved
+				else {
+					pointsX[i] = fixCornerX
+							+ (Math.abs(currCoords[0] - fixCornerX))
+									* ratioWidth;
+					if (newWidth >= 0) {
+						pointsY[i] = fixCornerY
+								- (Math.abs(currCoords[1] - fixCornerY))
+										* ratioHeight;
+					} else {
+						pointsY[i] = fixCornerY
+								+ (Math.abs(currCoords[1] - fixCornerY))
+										* ratioHeight;
+					}
+				}
+			}
+
+			for (int i = 0; i < 3; i++) {
+				((GeoPointND) conic.getParentAlgorithm().getInput(i))
+						.setCoords(view.toRealWorldCoordX(pointsX[i]),
+								view.toRealWorldCoordY(pointsY[i]), 1);
+				((GeoPointND) conic.getParentAlgorithm().getInput(i)).update();
+				((GeoPointND) conic.getParentAlgorithm().getInput(i))
+						.updateCascade();
+			}
+			conic.getParentAlgorithm()
+					.update();
+			conic.update();
+
+		}
 	}
 
 	private double[] getEndPointRealCoords(AbstractEvent event) {
@@ -2386,6 +2550,25 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	@Override
 	public void updateGeo(AbstractEvent event) {
+		if (conic.getParentAlgorithm() != null && conic
+				.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
+			fixCornerCoords(view.getHitHandler());
+			if (isCornerHandler(view.getHitHandler())) {
+				translatePointsForCornerHandler(event);
+			} else {
+				translatePointsForSideHandler(event);
+			}
+			conic.setSelected(true);
+			conic.updateRepaint();
+			this.update();
+			setFixCornerX(Double.NaN);
+			setFixCornerY(Double.NaN);
+			oldHeight = Double.NaN;
+			oldWidth = Double.NaN;
+			proportion = Double.NaN;
+			view.repaintView();
+			return;
+		}
 		Equation equ = getEquationOfConic(event);
 		if (equ != null) {
 			equ.initEquation();
