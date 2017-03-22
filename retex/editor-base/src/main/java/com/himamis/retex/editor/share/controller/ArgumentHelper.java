@@ -13,7 +13,12 @@ public class ArgumentHelper {
         int currentOffset = editorState.getCurrentOffset();
         // get pass to argument
         MathSequence field = (MathSequence) container.getArgument(container.getInsertIndex());
-
+		if (currentField.getArgument(currentOffset - 1) instanceof MathCharacter
+				&& "\u200b".equals(currentField.getArgument(currentOffset - 1)
+						.toString())) {
+			currentField.delArgument(currentOffset - 1);
+			currentOffset--;
+		}
         // pass scripts first
         while (currentOffset > 0 && currentField.isScript(currentOffset - 1)) {
             MathFunction character = (MathFunction) currentField.getArgument(currentOffset - 1);

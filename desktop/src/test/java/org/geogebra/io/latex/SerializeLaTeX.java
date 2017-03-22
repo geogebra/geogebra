@@ -48,7 +48,8 @@ public class SerializeLaTeX {
 		checkCannon("1/ ( 2+3)", "(1)/(2+3)");
 		checkCannon("1/ ((2+3)+4)", "(1)/((2+3)+4)");
 		checkCannon("1/(2/3)", "(1)/((2)/(3))");
-		
+		checkCannon("x^2/ 3", "(x^(2))/(3)");
+		checkCannon("x^2 / 2", "(x^(2))/(2)");
 	}
 
 	@Test
