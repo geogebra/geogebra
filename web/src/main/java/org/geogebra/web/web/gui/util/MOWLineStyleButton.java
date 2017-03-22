@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -14,7 +15,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
-	private static final int CANVAS_SIZE = 30;
+	private static final int CANVAS_WIDTH = 50;
+	private static final int CANVAS_HEIGHT = 30;
 
 	/** The value canvas next to the slider */
 	protected Canvas canvas;
@@ -39,8 +41,8 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.add(sliderPanel);
 		panel.add(getMyTable());
 		canvas = Canvas.createIfSupported();
-		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
-		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
+		canvas.setCoordinateSpaceHeight(CANVAS_WIDTH);
+		canvas.setCoordinateSpaceWidth(CANVAS_HEIGHT);
 		sliderPanel.add(canvas);
 		g2 = new GGraphics2DW(canvas);
 		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
@@ -48,6 +50,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 
 		line = new GeoLine(app.getKernel().getConstruction(), 0, 1, 0);
 		line.setLineThrough(coords[0], coords[1]);
+		line.setLineType(1);
 		drawLine = new DrawLine(app.getActiveEuclidianView(), line);
 		setKeepVisible(true);
 	}
@@ -83,8 +86,8 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 
 	}
 
-	protected void updateCanvas() {
-		canvas.getContext2d().clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+	private void updateCanvas() {
+		canvas.getContext2d().clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		updateGeo();
 		drawLine.update();
 		drawLine.draw(g2);
@@ -93,7 +96,8 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	private void updateGeo() {
 		line.setObjColor(GColor.BLACK);
 		line.setLineThickness(getSliderValue());
-		line.setLineType(2);
+		int lineStyle = EuclidianView.getLineType(getSelectedIndex());
+		line.setLineType(lineStyle);
 		line.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
 }

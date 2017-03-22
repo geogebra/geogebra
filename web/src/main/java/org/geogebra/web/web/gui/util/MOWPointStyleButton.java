@@ -55,7 +55,6 @@ public class MOWPointStyleButton extends PointStylePopup {
 				coords[0], coords[1], 0);
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
 		p.setEuclidianVisible(true);
-		setKeepVisible(true);
 	}
 
 	/**
@@ -78,7 +77,9 @@ public class MOWPointStyleButton extends PointStylePopup {
 					.createPointStyleIcon(EuclidianView.getPointStyle(i));
 		}
 
-		return new MOWPointStyleButton(app, pointStyleIcons);
+		MOWPointStyleButton btn = new MOWPointStyleButton(app, pointStyleIcons);
+		btn.setKeepVisible(true);
+		return btn;
 	}
 
 	@Override
