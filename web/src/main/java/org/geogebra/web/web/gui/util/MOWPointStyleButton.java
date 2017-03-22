@@ -6,11 +6,20 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
+import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 
-public class MOWPointStyleButton extends MOWStyleButton {
+import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+public class MOWPointStyleButton extends PointStylePopup {
+	/** Size of the value canvas */
+	private static final int CANVAS_SIZE = 32;
+
+	/** The value canvas next to the slider */
+	protected Canvas canvas;
 
 	private static final double RW_MARGIN = 0.3;
 	private GGraphics2DW g2;
@@ -26,7 +35,18 @@ public class MOWPointStyleButton extends MOWStyleButton {
 	 *            PointStyle icons.
 	 */
 	public MOWPointStyleButton(AppW app, ImageOrText[] data) {
-		super(app, data, 2, -1, new PointStyleModel(app));
+		super(app, data, 2, -1, SelectionTable.MODE_ICON, true, true,
+				new PointStyleModel(app));
+
+		// Rearranging content.
+		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
+		panel.clear();
+		panel.add(sliderPanel);
+		panel.add(getMyTable());
+		canvas = Canvas.createIfSupported();
+		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
+		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
+		sliderPanel.add(canvas);
 		g2 = new GGraphics2DW(canvas);
 		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
 				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
@@ -68,6 +88,25 @@ public class MOWPointStyleButton extends MOWStyleButton {
 	}
 
 	@Override
+	protected void onClickAction() {
+		super.onClickAction();
+		updateCanvas();
+	}
+
+	@Override
+	public void onSliderInput() {
+		super.onSliderInput();
+		updateCanvas();
+	}
+
+	/**
+	 * No text (but canvas) for slider so leave this empty.
+	 */
+	@Override
+	protected void setSliderText(String text) {
+
+	}
+
 	protected void updateCanvas() {
 
 		canvas.getContext2d().clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
