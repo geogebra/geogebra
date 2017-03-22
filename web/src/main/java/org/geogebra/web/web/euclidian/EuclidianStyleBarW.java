@@ -1521,22 +1521,18 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		EuclidianSettings evs = ev.getSettings();
 		boolean axesChanged = false;
 		if (val == 0) {
-			Log.debug("axes type changed: NO AXES");
 			axesChanged = evs.setShowAxes(false);
 		} else {
 			evs.beginBatch();
 			axesChanged = evs.setShowAxes(true);
 			switch (val) {
 			case 2:
-				Log.debug("axes type changed: AXES_FOUR_ARROWS");
 				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS);
 				break;
 			case 3:
-				Log.debug("axes type changed: AXES_NO_ARROW");
 				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 				break;
 			default:
-				Log.debug("axes type changed: AXES_TWO_ARROWS");
 				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 			}
 			evs.endBatch();
