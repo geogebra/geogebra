@@ -58,8 +58,17 @@ public class LineStylePopup extends PopupMenuButtonW  {
 
 	}
 
-	
+	public int getSelectedLineType() {
+		if (lineStyleMap == null) {
+			lineStyleMap = createLineStyleMap();
+		}
+
+		int idx = getSelectedIndex() > 0 ? getSelectedIndex() : 0;
+		return getLineStyleMap().get(idx);
+	}
+
 	public void selectLineType(int type) {
+
 		setSelectedIndex(getLineStyleMap().get(type));
 	}
 

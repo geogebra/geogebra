@@ -38,7 +38,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createLineStyleBtn(int mode) {
-		btnLineStyle = new EuclidianLineStylePopup(app, -1, 6,
+		btnLineStyle = app.isWhiteboardActive() ? new MOWLineStyleButton(app)
+				: new EuclidianLineStylePopup(app, -1, 6,
 				SelectionTable.MODE_ICON, true, true);
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);
