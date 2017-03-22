@@ -21,7 +21,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** The value canvas next to the slider */
 	protected Canvas canvas;
 
-	private static final double RW_MARGIN = 0.3;
+	private static final double RW_MARGIN = 0.4;
 	private GGraphics2DW g2;
 	private GeoLine line;
 	private DrawLine drawLine;
@@ -62,7 +62,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 
 	@Override
 	public void handlePopupActionEvent() {
-		super.handlePopupActionEvent();
+		model.applyLineTypeFromIndex(getSelectedIndex());
 		updateCanvas();
 	}
 
@@ -100,4 +100,5 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		line.setLineType(lineStyle);
 		line.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 	}
+
 }

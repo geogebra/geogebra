@@ -13,7 +13,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 
 public class EuclidianLineStylePopup extends LineStylePopup implements
 		ILineStyleListener {
-	LineStyleModel model;
+	protected LineStyleModel model;
 
 	public EuclidianLineStylePopup(AppW app, Integer rows,
 			Integer columns, SelectionTable mode, boolean hasTable,
