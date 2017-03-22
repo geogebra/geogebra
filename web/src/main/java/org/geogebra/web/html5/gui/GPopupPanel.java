@@ -1372,9 +1372,12 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 				// Make sure scrolling is taken into account, since
 				// box.getAbsoluteLeft() takes scrolling into account.
-				int windowRight = Window.getClientWidth()
-						+ Window.getScrollLeft();
-				int windowLeft = Window.getScrollLeft();
+				int windowLeft = Window.getScrollLeft()
+						+ root.getAbsoluteLeft();
+				int windowRight = root.getOffsetWidth() + windowLeft;
+				// int windowRight = Window.getClientWidth()
+				// + Window.getScrollLeft();
+				// int windowLeft = Window.getScrollLeft();
 
 				// Compute the left value for the right edge of the textbox
 				int textBoxLeftValForRightEdge = textBoxAbsoluteLeft
@@ -1419,9 +1422,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			if (offsetWidthDiff > 0) {
 				// Make sure scrolling is taken into account, since
 				// box.getAbsoluteLeft() takes scrolling into account.
-				int windowRight = Window.getClientWidth()
-						+ Window.getScrollLeft();
-				int windowLeft = Window.getScrollLeft();
+				int windowLeft = Window.getScrollLeft()
+						+ root.getAbsoluteLeft();
+				int windowRight = root.getOffsetWidth() + windowLeft;
+				
 
 				// Distance from the left edge of the text box to the right edge
 				// of the window
