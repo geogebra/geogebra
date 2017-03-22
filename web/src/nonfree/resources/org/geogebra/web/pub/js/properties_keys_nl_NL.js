@@ -2868,7 +2868,7 @@ __GGB__keysVar.nl_NL.menu = {
     "UngroupObjectes": "Objecten uit groep",
     "UnitVectorOfA": "Eenheidsvector van %0",
     "UnitVectorPerpendicularToA": "Eenheidsvector loodrecht op %0",
-    "UnlockObject": "Unlock Object",
+    "UnlockObject": "Object ontgrendelen",
     "UnsavedChangesFound": "GeoGebra heeft niet opgeslagen wijzigingen gevonden. Herstellen of verwijderen?",
     "Untitled": "Zonder titel",
     "UntitledA": "Zonder titel %0",
