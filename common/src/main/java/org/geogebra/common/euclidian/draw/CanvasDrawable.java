@@ -261,7 +261,7 @@ public abstract class CanvasDrawable extends Drawable {
 	protected abstract void hideWidget();
 
 	public void setWidgetVisible(boolean show) {
-		if (show) {
+		if (geo.isEuclidianVisible() && show) {
 			showWidget();
 		} else {
 			hideWidget();
