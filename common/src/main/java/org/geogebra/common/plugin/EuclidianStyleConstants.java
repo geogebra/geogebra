@@ -128,6 +128,6 @@ public class EuclidianStyleConstants {
 	// since V3.0 this factor is 1, before it was 0.5
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
 
-	public static final int NO_AXES = 0;
+	public static final int NO_AXES = -1;
 
 }
