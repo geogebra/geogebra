@@ -6,26 +6,28 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
-import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 
 public class MOWPointStyleButton extends MOWStyleButton {
 
+	private static final double RW_MARGIN = 0.3;
 	private GGraphics2DW g2;
 	private DrawPoint drawPoint;
+	private GeoPoint p;
 	public MOWPointStyleButton(AppW app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode, boolean hasTable,
-			boolean hasSlider, PointStyleModel model) {
-		super(app, data, rows, columns, mode, hasTable, hasSlider, model);
+			Integer columns, boolean hasSlider, PointStyleModel model) {
+		super(app, data, rows, columns, hasSlider, model);
 		g2 = new GGraphics2DW(canvas);
-		GeoPoint p = new GeoPoint(app.getKernel().getConstruction(), 1, 1, 0);
-		p.setObjColor(GColor.RED);
-		p.setPointSize(7);
+		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
+				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
+
+		p = new GeoPoint(app.getKernel().getConstruction(),
+				coords[0], coords[1], 0);
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
 		p.setEuclidianVisible(true);
-		updateCanvas();
+		setKeepVisible(true);
 	}
 
 	public static MOWPointStyleButton create(AppW app, int mode,
@@ -46,15 +48,25 @@ public class MOWPointStyleButton extends MOWStyleButton {
 		}
 
 		return new MOWPointStyleButton(app, pointStyleIcons, 2, -1,
-				SelectionTable.MODE_ICON, true, hasSlider, model);
+				hasSlider, model);
 	}
-
 
 	@Override
 	protected void updateCanvas() {
-		double coords[] = { 0, 0 };
+
+		canvas.getContext2d().clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
+				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
+		updateGeo();
+		// drawPoint.setGeoElement(p);
 		drawPoint.update(coords);
 		drawPoint.draw(g2);
-		g2.drawRect(1, 1, 20, 20);
+
+	}
+
+	private void updateGeo() {
+		p.setPointSize(getSliderValue());
+		p.setObjColor(GColor.BLACK);
+		p.setPointStyle(getMyTable().getSelectedIndex());
 	}
 }
