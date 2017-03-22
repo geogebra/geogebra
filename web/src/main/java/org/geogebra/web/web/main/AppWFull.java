@@ -119,7 +119,9 @@ public abstract class AppWFull extends AppW {
 				}
 			});
 		}
-		maybeStartAutosave();
+		if (this.getArticleElement().getDataParamShowMenuBar(false)) {
+			maybeStartAutosave();
+		}
 
 	}
 

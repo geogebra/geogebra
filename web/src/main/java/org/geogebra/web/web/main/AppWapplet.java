@@ -86,8 +86,6 @@ public class AppWapplet extends AppWFull {
 	/******************************************************
 	 * Constructs AppW for applets
 	 * 
-	 * @param undoActive
-	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 * @param ae
 	 *            article element
 	 * @param gf
