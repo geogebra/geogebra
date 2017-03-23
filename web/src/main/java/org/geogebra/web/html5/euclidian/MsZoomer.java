@@ -121,10 +121,8 @@ public class MsZoomer {
 	private final PointerEventType[] types = new PointerEventType[] {
 			PointerEventType.MOUSE, PointerEventType.TOUCH,
 			PointerEventType.PEN };
+
 	private void setPointerType(int i) {
-		if (i == 0) {
-			Log.printStacktrace("switch to event type " + types[i]);
-		}
 		this.tc.setDefaultEventType(types[i]);
 	}
 

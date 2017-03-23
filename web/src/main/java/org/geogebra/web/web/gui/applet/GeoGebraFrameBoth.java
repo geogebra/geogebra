@@ -71,6 +71,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private boolean keyboardVisibilityChanging;
 	private final SimplePanel kbButtonSpace = new SimplePanel();
 	private GDevice device;
+	private boolean[] childVisible = new boolean[0];
+	private boolean keyboardShowing = false;
+	private ShowKeyboardButton showKeyboardButton;
+	private int keyboardHeight;
+	private DockPanelW dockPanelKB;
+	private HeaderPanel lastBG;
+	private MOWToolbar mowToolbar;
+	private StandardButton openMenuButton;
 
 	/**
 	 * @param factory
@@ -180,15 +188,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			this.add(glass);
 		}
 	}
-
-	private boolean[] childVisible = new boolean[0];
-	private boolean keyboardShowing = false;
-	private ShowKeyboardButton showKeyboardButton;
-	private int keyboardHeight;
-	private DockPanelW dockPanelKB;
-	private HeaderPanel lastBG;
-	private MOWToolbar mowToolbar;
-	private StandardButton openMenuButton;
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {

@@ -2615,24 +2615,25 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			int y2 = Math.max(corner1.y, corner2.y);
 			int h = y2 - y1 - 2 * borderWidth - 1;
 			int w = x2 - x1 - 2 * borderWidth - 1;
+			if (w >= 0 && h >= 0) {
+				int ssTop = gridPanel.getAbsoluteTop();
+				int ssLeft = gridPanel.getAbsoluteLeft();
 
-			int ssTop = gridPanel.getAbsoluteTop();
-			int ssLeft = gridPanel.getAbsoluteLeft();
+				selectionFrame.setWidth(w + "px");
+				selectionFrame.setHeight(h + "px");
 
-			selectionFrame.setWidth(w + "px");
-			selectionFrame.setHeight(h + "px");
+				gridPanel.setWidgetPosition(selectionFrame, x1 - ssLeft,
+						y1 - ssTop);
 
-			gridPanel
-			        .setWidgetPosition(selectionFrame, x1 - ssLeft, y1 - ssTop);
+				blueDot.setVisible(showDragHandle);
+				if (showDragHandle) {
+					gridPanel.setWidgetPosition(blueDot,
+							x2 - ssLeft - MyTableW.DOT_SIZE / 2 - 1,
+							y2 - ssTop - MyTableW.DOT_SIZE / 2 - 1);
+				}
 
-			blueDot.setVisible(showDragHandle);
-			if (showDragHandle) {
-				gridPanel.setWidgetPosition(blueDot, x2 - ssLeft
-				        - MyTableW.DOT_SIZE / 2 - 1, y2 - ssTop
-				        - MyTableW.DOT_SIZE / 2 - 1);
+				selectionFrame.setVisible(true);
 			}
-
-			selectionFrame.setVisible(true);
 		}
 
 	}
