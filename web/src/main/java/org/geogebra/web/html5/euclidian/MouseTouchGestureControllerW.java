@@ -391,23 +391,26 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		// we are on device where many small scrolls come, we want to merge them
 		int x = mouseEventX(event.getClientX() - style.getxOffset());
 		int y = mouseEventX(event.getClientY() - style.getyOffset());
+		boolean shiftOrMeta = event.isShiftKeyDown() || event.isMetaKeyDown();
 		if (delta == 0) {
 			deltaSum += getNativeDelta(event.getNativeEvent());
 			if (Math.abs(deltaSum) > 40) {
 				double ds = deltaSum;
 				deltaSum = 0;
 				ec.wrapMouseWheelMoved(x, y, ds,
-				        event.isShiftKeyDown() || event.isMetaKeyDown(),
+						shiftOrMeta,
 				        event.isAltKeyDown());
 			}
 			// normal scrolling
 		} else {
 			deltaSum = 0;
 			ec.wrapMouseWheelMoved(x, y, delta,
-			        event.isShiftKeyDown() || event.isMetaKeyDown(),
+					shiftOrMeta,
 			        event.isAltKeyDown());
 		}
-		event.preventDefault();
+		if (ec.allowMouseWheel(shiftOrMeta)) {
+			event.preventDefault();
+		}
 	}
 
 	private native double getNativeDelta(NativeEvent evt) /*-{

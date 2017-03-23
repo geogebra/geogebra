@@ -10595,12 +10595,7 @@ public abstract class EuclidianController {
 		app.maySetCoordSystem();
 
 		// don't allow mouse wheel zooming for applets if mode is not zoom mode
-		boolean allowMouseWheel = !app.isApplet()
-				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
-				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled()
-						&& (app.hasFocus() || shiftOrMeta));
-		if (!allowMouseWheel) {
+		if (!allowMouseWheel(shiftOrMeta)) {
 			return;
 		}
 
@@ -10632,6 +10627,13 @@ public abstract class EuclidianController {
 				px, py, factor, view.getXscale() * factor, 4, false);
 		// view.yscale * factor);
 		app.setUnsaved();
+	}
+
+	public boolean allowMouseWheel(boolean shiftOrMeta) {
+		return !app.isApplet() || (mode == EuclidianConstants.MODE_ZOOM_IN)
+				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
+				|| (app.isShiftDragZoomEnabled()
+						&& (app.hasFocus() || shiftOrMeta));
 	}
 
 	public void setLineEndPoint(GPoint2D p) {

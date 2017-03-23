@@ -1882,7 +1882,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            edited item
 	 */
 	void expandAVToItem(RadioTreeItem ri) {
-		int currentWidth = getOffsetWidth();
 		int editedWidth = ri.getWidthForEdit();
 		int expanded = editedWidth;
 		if (editedWidth < userWidth) {
