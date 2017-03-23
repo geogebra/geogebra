@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.common.util.debug.Log;
-
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -112,12 +110,10 @@ public class CancelEventTimer {
 	 * editing an item)
 	 */
 	public static void avRestoreWidth() {
-		Log.debug("[RS]  avRestoreWidth()");
 		avRestoreWidthEvent = System.currentTimeMillis();
 	}
 
 	public static boolean cancelAVRestoreWidth() {
-		Log.debug("[RS]  cancelAVRestoreWidth()");
 		return System.currentTimeMillis()
 				- avRestoreWidthEvent < TIME_BEFORE_RESTORING_AV_WIDTH;
 	}

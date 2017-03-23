@@ -1789,7 +1789,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (geos != null) {
 			for (GeoElement geo : geos) {
 				inputPanelLatex.previewValue(geo);
-				Log.debug("AVPreview: " + geo.getAlgebraDescriptionDefault());
 			}
 		} else {
 			inputPanelLatex.clearPreview();
@@ -1886,8 +1885,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		int currentWidth = getOffsetWidth();
 		int editedWidth = ri.getWidthForEdit();
 		int expanded = editedWidth;
-		Log.debug("[AVR] edited: " + editedWidth + " user: " + userWidth
-				+ "avWidth: " + currentWidth);
 		if (editedWidth < userWidth) {
 			expanded = userWidth;
 		} else {
@@ -2336,8 +2333,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	public int getMaxItemWidth() {
 		int avWidth = getAlgebraDockPanel().getOffsetWidth();
-		Log.debug("[AV] dock panel width: " + avWidth + " maxItemWidth: "
-				+ maxItemWidth);
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
 
@@ -2348,7 +2343,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            The width to expand.
 	 */
 	public void expandWidth(int width) {
-		Log.debug("[AVSIZE] expanding width");
 		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
 		}

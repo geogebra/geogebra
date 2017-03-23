@@ -263,9 +263,6 @@ public class MsZoomer {
 						});
 		function removePointer(out, stopPropagation){
 			return function(e) {
-				if(!out){
-					$wnd.console.log(e);
-				}
 				if($wnd.pointerCapture != element && !out){
 					$wnd.console.log("pointer up no capture");
 					return;
