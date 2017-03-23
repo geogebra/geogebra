@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -98,13 +97,10 @@ public class AlgebraDockPanelW extends DockPanelW {
 	public void onResize() {
 		DockSplitPaneW split = getParentSplitPane();
 		if (split != null && split.isForcedLayout()) {
-			Log.debug("[AVR] resize by user (forcedLayout)");
 			if (aview != null) {
 				int w = getOffsetWidth();
 				aview.setUserWidth(w);
 			}
-		} else {
-			Log.debug("[AVR] resize from code");
 		}
 		if (aview != null) {
 			aview.resize();

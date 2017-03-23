@@ -18,7 +18,6 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.web.gui.util.PopupPanel;
 
 import com.google.gwt.animation.client.Animation;
@@ -1414,8 +1413,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			// Left-align the popup.
 			left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
 					/ getScale(root.getElement(), "x");
-			Log.debug("LEFT " + left + " DIFF " + offsetWidthDiff + " WIDTH "
-					+ offsetWidth);
 			// If the suggestion popup is not as wide as the text box, always
 			// align to
 			// the left edge of the text box. Otherwise, figure out whether to
@@ -1441,8 +1438,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				// However, if there is not enough space on either side, then
 				// stick with
 				// left-alignment.
-				Log.debug(
-						distanceToWindowRight + " x " + distanceFromWindowLeft);
 				if (distanceToWindowRight < offsetWidth
 						&& distanceFromWindowLeft >= offsetWidthDiff) {
 					// Align with the right edge of the text box.
