@@ -170,6 +170,7 @@ public abstract class UndoManager {
 	 */
 	final public void storeUndoInfo(final boolean refresh) {
 		storeUndoInfo(construction.getCurrentUndoXML(true), refresh);
+		storeUndoInfoNeededForProperties = false;
 	}
 
 	/**
@@ -218,5 +219,20 @@ public abstract class UndoManager {
 			}
 		}
 
+	}
+
+	private boolean storeUndoInfoNeededForProperties = false;
+
+	public void setPropertiesOccured() {
+		storeUndoInfoNeededForProperties = true;
+	}
+
+	public void storeUndoInfoForProperties(boolean isUndoActive) {
+		if (isUndoActive) {
+			if (storeUndoInfoNeededForProperties) {
+				storeUndoInfo();
+			}
+		}
+		storeUndoInfoNeededForProperties = false;
 	}
 }

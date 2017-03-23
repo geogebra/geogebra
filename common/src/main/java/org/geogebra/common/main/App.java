@@ -368,7 +368,6 @@ public abstract class App implements UpdateSelection {
 	 * flag for current state
 	 */
 	private StoreUndoInfoForSetCoordSystem storeUndoInfoForSetCoordSystem = StoreUndoInfoForSetCoordSystem.NONE;
-	private boolean storeUndoInfoForProperties = false;
 	private boolean blockUpdateScripts = false;
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
@@ -902,16 +901,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void setPropertiesOccured() {
-		storeUndoInfoForProperties = true;
+		getKernel().getConstruction().getUndoManager().setPropertiesOccured();
 	}
 
 	public void storeUndoInfoForProperties() {
-
-		if (storeUndoInfoForProperties) {
-			storeUndoInfo();
-		}
-
-		storeUndoInfoForProperties = false;
+		getKernel().getConstruction().getUndoManager().storeUndoInfoForProperties(isUndoActive());
 	}
 
 	/**
