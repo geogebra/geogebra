@@ -98,8 +98,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			return;
 		}
 
-		this.getElement().getStyle().setTop(-10000, Unit.PX);
-
 		// make sure it reflects selected geos
 		setOpen(true);
 
@@ -107,9 +105,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		super.updateStyleBar();
 
 		if (activeGeoList == null || activeGeoList.size() == 0) {
-			// this.setVisible(false);
+			this.setVisible(false);
 			return;
 		}
+		
+		this.getElement().getStyle().setTop(-10000, Unit.PX);
 
 		DrawableND dr = ev.getDrawableND(activeGeoList.get(0));
 
