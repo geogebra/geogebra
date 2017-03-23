@@ -17,10 +17,7 @@ import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.ResizeEvent;
-import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -348,14 +345,6 @@ public abstract class KBBase extends PopupPanel {
 		add(p);
 
 		resetKeyboardState();
-		Window.addResizeHandler(new ResizeHandler() {
-
-			@Override
-			public void onResize(ResizeEvent event) {
-				updateSize();
-				setStyleName();
-			}
-		});
 	}
 
 	/**

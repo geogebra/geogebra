@@ -697,9 +697,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			public void execute() {
 				((AppW) app).centerAndResizePopups();
+				resizeKeyboard();
 			}
 
 		});
+
+	}
+
+	protected void resizeKeyboard() {
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.updateSize();
+			onScreenKeyboard.setStyleName();
+		}
 
 	}
 
