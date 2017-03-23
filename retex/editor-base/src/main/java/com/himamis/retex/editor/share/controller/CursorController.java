@@ -94,7 +94,6 @@ public class CursorController {
             // this component has no parent
             // previous component doesn't exist
             // no-op
-			System.out.println("no container");
 			return false;
         } else if (container instanceof MathSequence) {
             editorState.setCurrentField((MathSequence) container);
@@ -106,7 +105,6 @@ public class CursorController {
 			MathContainer component1 = (MathContainer) container
 					.getArgument(current);
 			firstField(editorState, component1);
-			System.out.println("has next");
 			return true;
             // try to delve down the tree
         } else {

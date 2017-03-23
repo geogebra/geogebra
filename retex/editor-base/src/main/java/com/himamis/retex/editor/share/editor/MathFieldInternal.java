@@ -332,8 +332,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
     }
 
 	private boolean selectionLeft(int x) {
-		return Math.abs(x - SelectionBox.endX) < Math
-				.abs(x - SelectionBox.startX);
+		return x > SelectionBox.startX;
 	}
 
 	@Override
@@ -428,6 +427,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		int offset = editorState.getCurrentOffset();
 		CursorController.firstField(editorState);
 		moveToSelection(x, y);
+
 		editorState.resetSelection();
 		editorState.extendSelection(selectionLeft(x));
 		editorState.setCurrentField(current);

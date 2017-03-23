@@ -213,7 +213,6 @@ public class EditorState {
 	public void anchor(boolean start) {
 		this.selectionAnchor = start ? this.currentSelStart
 				: this.currentSelEnd;
-		System.out.println("anchor");
 
 	}
 
