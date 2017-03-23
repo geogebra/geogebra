@@ -263,11 +263,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		setLabelFontSize((int) (view.getFontSize()
 				* geoInputBox.getFontSizeMultiplier()));
 
-		AutoCompleteTextField tf = getTextField();
+		updateGeoIntputBox();
 
-		updateStyle(tf);
+		updateStyle(getTextField());
 
-		geoInputBox.updateText(tf);
 		getBox().revalidate();
 
 		xLabel = geo.labelOffsetX;
@@ -276,6 +275,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
 				getPreferredSize().getHeight());
 		getBox().setBounds(labelRectangle);
+	}
+
+	public void updateGeoIntputBox() {
+		geoInputBox.updateText(getTextField());
+
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
