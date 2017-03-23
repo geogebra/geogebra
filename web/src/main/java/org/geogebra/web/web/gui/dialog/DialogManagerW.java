@@ -426,6 +426,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
     }
 
     private PopupPanel loadingAnimation  = null;
+	private ColorChooserDialog dialog = null;
     
 	/**
 	 * Shows a loading animation
@@ -497,8 +498,12 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 */
 	public void showColorChooserDialog(GColor originalColor,
 	        ColorChangeHandler handler) {
-		ColorChooserDialog dialog = new ColorChooserDialog((AppW)app,
-				originalColor, handler);
+		if (dialog == null) {
+			dialog = new ColorChooserDialog((AppW) app, originalColor, handler);
+		} else {
+			dialog.setOriginalColor(originalColor);
+			dialog.setHandler(handler);
+		}
 		dialog.center();
 	}
 

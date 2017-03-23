@@ -13,7 +13,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-public class ColorChooserDialog extends DialogBoxW implements SetLabels {
+public class ColorChooserDialog extends DialogBoxW
+		implements SetLabels, ClickHandler {
 
 	private ColorChooserW colorChooserW; 
 	private Button btnOk;
@@ -22,6 +23,7 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 	private GColor selectedColor;
 	private AppW app;
 	private ColorChangeHandler handler;
+	private GColor originalColor;
 	
 	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
 		super(false, true, null, app.getPanel());
@@ -30,6 +32,8 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		}
 		this.app = app;
 		this.handler = handler;
+		this.originalColor = originalColor;
+
 		final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
 		colorChooserW.enableOpacity(false);
@@ -50,30 +54,10 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 		btnPanel.add(btnReset);
 		mainWidget.add(btnPanel);
 		
-		btnOk.addClickHandler(new ClickHandler() {
+		btnOk.addClickHandler(this);
+		btnCancel.addClickHandler(this);
+		btnReset.addClickHandler(this);
 
-			@Override
-			public void onClick(ClickEvent event) {
-					handler.onColorChange(getSelectedColor());
-		            hide();	            
-    
-			}});
-		btnCancel.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				hide();
-            }});
-		
-		btnReset.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				setSelectedColor(originalColor);
-				colorChooserW.setSelectedColor(originalColor);
-				colorChooserW.update();
-			}});
-	
 		setLabels();
 
 		setWidget(mainWidget);
@@ -146,4 +130,27 @@ public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 	public void setHandler(ColorChangeHandler handler) {
 	    this.handler = handler;
     }
+
+	public void onClick(ClickEvent event) {
+		Object source = event.getSource();
+		if (source == btnOk) {
+			handler.onColorChange(getSelectedColor());
+			hide();
+		} else if (source == btnCancel) {
+			hide();
+		} else if (source == btnReset) {
+			reset();
+		}
+	}
+
+	public void setOriginalColor(GColor color) {
+		originalColor = color;
+		reset();
+	}
+
+	private void reset() {
+		setSelectedColor(originalColor);
+		colorChooserW.setSelectedColor(originalColor);
+		colorChooserW.update();
+	}
 }
