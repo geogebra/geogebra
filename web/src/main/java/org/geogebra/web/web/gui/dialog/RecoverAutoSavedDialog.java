@@ -4,6 +4,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.main.AppWFull;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,7 +15,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  *  A dialog to ask the user to recover the autoSaved file.
- *  Only used from {@link AppWapplication}
  */
 public class RecoverAutoSavedDialog extends DialogBoxW {
 	
@@ -26,8 +26,10 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	private String materialJSON;
 	
 	/**
-	 * only used from {@link AppWapplication}
-	 * @param app {@link AppW}
+	 * only used from {@link AppWapplet} with menu
+	 * 
+	 * @param app
+	 *            {@link AppW}
 	 */
 	public RecoverAutoSavedDialog(AppWFull app) {
 		super(app.getPanel());
@@ -133,6 +135,10 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 		super.center();
 	}
 
+	/**
+	 * @param json
+	 *            saved file json
+	 */
 	public void setJSON(String json) {
 		this.materialJSON = json;
 	}

@@ -122,6 +122,9 @@ public class MsZoomer {
 			PointerEventType.MOUSE, PointerEventType.TOUCH,
 			PointerEventType.PEN };
 	private void setPointerType(int i) {
+		if (i == 0) {
+			Log.printStacktrace("switch to event type " + types[i]);
+		}
 		this.tc.setDefaultEventType(types[i]);
 	}
 
@@ -194,7 +197,8 @@ public class MsZoomer {
 				.addEventListener(
 						fix("PointerMove"),
 						function(e) {
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
+							
+						//	zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								if ($wnd.second.id === e.pointerId) {
 									$wnd.second.x = e.x;
@@ -259,6 +263,9 @@ public class MsZoomer {
 						});
 		function removePointer(out, stopPropagation){
 			return function(e) {
+				if(!out){
+					$wnd.console.log(e);
+				}
 				if($wnd.pointerCapture != element && !out){
 					$wnd.console.log("pointer up no capture");
 					return;

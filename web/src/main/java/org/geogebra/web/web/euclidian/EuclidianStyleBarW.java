@@ -712,7 +712,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						EuclidianView.getAxesStyle(i), true);
 			}
 			btnShowAxes_new = new AxesPopup(app, axes, -1, 4,
-					SelectionTable.MODE_ICON, ev);
+					SelectionTable.MODE_ICON);
 			btnShowAxes_new.addPopupHandler(this);
 		} else {
 			btnShowAxes = new MyToggleButtonWforEV(

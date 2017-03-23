@@ -73,7 +73,7 @@ public class AppWsimple extends AppW {
 
 		// initGuiManager();// TODO: comment it out
 
-		GeoGebraFrameW.finishAsyncLoading(articleElement, frame, this);
+		GeoGebraFrameW.handleLoadFile(articleElement, this);
 		initing = false;
 	}
 

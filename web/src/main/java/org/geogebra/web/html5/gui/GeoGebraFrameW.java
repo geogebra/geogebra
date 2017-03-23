@@ -66,13 +66,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		        | Event.ONMOUSEUP | Event.ONMOUSEOVER);
 	}
 
-	protected static void tackleFirstDummy(Element parentElement) {
-		firstDummy = DOM.createSpan().cast();
-		firstDummy.addClassName("geogebraweb-dummy-invisible");
-		firstDummy.setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
-		parentElement.insertFirst(firstDummy);
-	}
-
+	/**
+	 * Add a dummy element to the parent
+	 * 
+	 * @param parentElement
+	 *            parent
+	 */
 	protected static void tackleLastDummy(Element parentElement) {
 		lastDummy = DOM.createSpan().cast();
 		lastDummy.addClassName("geogebraweb-dummy-invisible");
@@ -101,31 +100,36 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			// GeoGebraConstants.GGM_CLASS_NAME, but in case they do not,
 			// then they are probably child elements of class name
 			// "applet_container"
-			Element ell;
 			nodes = Dom.getElementsByClassName("applet_scaler");
 			Log.debug(nodes.getLength() + " scalers found");
 			// so "nodes" is meaning something else here actually
 			if (nodes.getLength() > 0) {
 				// no need to get the first node with articleElement
 
-				// get the last node that really contains an articleElement
-				for (int i = nodes.getLength() - 1; i >= 0; i--) {
-					ell = nodes.getItem(i);
-					for (int j = 0; j < ell.getChildCount(); j++) {
-						Node elChild = ell.getChild(j);
-						if (elChild != null
-								&& Element.as(elChild).hasTagName("ARTICLE")) {
-							// found!!
-							if (elChild == el && lastDummy == null) {
-								tackleLastDummy(el);
-							}
-							return;
-						}
-					}
-				}
+				checkForDummiesInScaler(nodes, el);
 
 			}
 		}
+	}
+
+	private static void checkForDummiesInScaler(NodeList<Element> nodes,
+			Element el) {
+		// get the last node that really contains an articleElement
+		for (int i = nodes.getLength() - 1; i >= 0; i--) {
+			Element ell = nodes.getItem(i);
+			for (int j = 0; j < ell.getChildCount(); j++) {
+				Node elChild = ell.getChild(j);
+				if (elChild != null
+						&& Element.as(elChild).hasTagName("ARTICLE")) {
+					// found!!
+					if (elChild == el && lastDummy == null) {
+						tackleLastDummy(el);
+					}
+					return;
+				}
+			}
+		}
+
 	}
 
 	/**
@@ -423,12 +427,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// });
 	}
 
-	public static void finishAsyncLoading(ArticleElement articleElement,
-	        GeoGebraFrameW inst, AppW app) {
-		handleLoadFile(articleElement, app);
-	}
-
-	private static void handleLoadFile(ArticleElement articleElement, AppW app) {
+	public static void handleLoadFile(ArticleElement articleElement, AppW app) {
 		ViewW view = new ViewW(articleElement, app);
 		ViewW.fileLoader.setView(view);
 		ViewW.fileLoader.onPageLoad();

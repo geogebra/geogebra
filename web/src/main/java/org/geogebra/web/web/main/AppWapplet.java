@@ -161,7 +161,7 @@ public class AppWapplet extends AppWFull {
 		// and for sync file loading this makes sure perspective setting is not
 		// blocked by initing flag
 		initing = false;
-		GeoGebraFrameW.finishAsyncLoading(articleElement, frame, this);
+		GeoGebraFrameW.handleLoadFile(articleElement, this);
 
 	}
 
