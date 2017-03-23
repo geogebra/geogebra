@@ -133,7 +133,8 @@ public class ModeShape {
 		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (pointListFreePoly.get(0)
-					.distance(new GPoint(event.getX(), event.getY())) < 15) {
+					.distance(new GPoint(event.getX(), event.getY())) < 15
+					&& pointListFreePoly.size() > 1) {
 				pointListFreePoly.add(pointListFreePoly.get(0));
 				pointListFreePoly.add(pointListFreePoly.get(0));
 			} else {
