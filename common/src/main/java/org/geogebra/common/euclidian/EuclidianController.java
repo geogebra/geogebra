@@ -9355,21 +9355,37 @@ public abstract class EuclidianController {
 				getShapeMode().handleMousePressedForShapeMode(event);
 			} else {
 				Drawable d = view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), null);
-				if ((d != null && view.getBoundingBox() != null
+				if (d != null && view.getBoundingBox() != null
 						&& view.getBoundingBox()
-							.equals(d.getBoundingBox())) || (view.getHits().size() == 1
+								.equals(d.getBoundingBox())) {
+					// we want to drag shape with shape tool
+					// switch to move mode and store current mode
+					shapeDragged = true;
+					oldShapeMode = mode;
+					mode = EuclidianConstants.MODE_MOVE;
+				} else if (view.getHits().size() == 1
 						&& view.getHits().get(0) != null
-						&& view.getHits().get(0).isShape() && view.getDrawableFor(view.getHits().get(0)) != null
+						&& view.getHits().get(0).isShape()) {
+					if (view.getDrawableFor(view.getHits().get(0)) != null
 							&& ((Drawable) view
 									.getDrawableFor(view.getHits().get(0)))
 											.getBoundingBox() == view
-													.getBoundingBox()) || (selection.getSelectedGeos().size() == 1 
+													.getBoundingBox()) {
+						shapeDragged = true;
+						oldShapeMode = mode;
+						mode = EuclidianConstants.MODE_MOVE;
+					} else {
+						selection.clearSelectedGeos();
+						view.setDefaultShapeStyle();
+						getShapeMode().handleMousePressedForShapeMode(event);
+					}
+				} else if (selection.getSelectedGeos().size() == 1
 						&& selection.getSelectedGeos().get(0).isShape()
 						&& view.getDrawableFor(selection.getSelectedGeos().get(0)) != null
 						&& ((Drawable) view.getDrawableFor(
 								selection.getSelectedGeos().get(0)))
 										.getBoundingBox() == view
-														.getBoundingBox())) {
+												.getBoundingBox()) {
 					shapeDragged = true;
 					oldShapeMode = mode;
 					mode = EuclidianConstants.MODE_MOVE;

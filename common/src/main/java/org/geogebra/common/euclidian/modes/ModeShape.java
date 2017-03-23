@@ -842,6 +842,9 @@ public class ModeShape {
 	 *            - true if mouse was dragged
 	 */
 	protected void updateFreeFormPolygon(AbstractEvent event, boolean wasDrag) {
+		if (pointListFreePoly.isEmpty()) {
+			return;
+		}
 		polygon.reset();
 		polygon.moveTo(pointListFreePoly.get(0).x, pointListFreePoly.get(0).y);
 		if (pointListFreePoly.size()<2) {
