@@ -1003,6 +1003,11 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		setLocalID(-1);
 		resetActiveMaterial();
 
+		if (isWhiteboardActive()) {
+			getEuclidianController().getPen().DEFAULT_PEN_LINE
+					.setLineThickness(2);
+		}
+
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
