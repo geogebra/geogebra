@@ -2,6 +2,8 @@ package org.geogebra.web.web.euclidian;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ContextMenuGeoElementW;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -10,13 +12,11 @@ import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.PopupPanel;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 
 public class ContextMenuPopup extends MyCJButton
-		implements ClickHandler, CloseHandler<PopupPanel> {
+		implements CloseHandler<PopupPanel> {
 
 	private static final int GAP_Y = 5;
 	private EuclidianController ec;
@@ -47,15 +47,16 @@ public class ContextMenuPopup extends MyCJButton
 		popup = ((GuiManagerW) app.getGuiManager())
 				.getPopupMenu(ec.getAppSelectedGeos());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
-		addClickHandler(this);
+		// addClickHandler(this);
+		ClickStartHandler.init(this, new ClickStartHandler() {
 
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				showMenu();
+
+			}
+		});
 	}
-	@Override
-	public void onClick(ClickEvent event) {
-		showMenu();
-	}
-
-
 
 	public void showMenu() {
 		updateLocation();
