@@ -452,28 +452,8 @@ public class EuclidianControllerW extends EuclidianController implements
 	// }
 
 	protected void addDynamicStylebar() {
-		// Let's wait until bounds will be updated, otherwise dynamic stylebar
-		// will be drawn at the old position of geo at drop
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			@Override
-			public void execute() {
-				EuclidianControllerW.this.getView().getDynamicStyleBar().setVisible(true);
-
-				// quick fix
-				// active view can change at onDrop, so let's update
-				// dynamic
-				// stylebar on both view, otherwise dynamic stylebar won't
-				// follow the geo all time at drop
-				if (mode == EuclidianConstants.MODE_MOVE) {
-					app.updateDynamicStyleBars();
-
-
-				} else {
-					EuclidianControllerW.this.getView().getDynamicStyleBar().updateStyleBar();
-				}
-			}
-		});
-
+		getView().getDynamicStyleBar().setVisible(true);
+		getView().getDynamicStyleBar().updateStyleBar();
 	}
 
 	public void onPointerEventMove(PointerEvent event) {
