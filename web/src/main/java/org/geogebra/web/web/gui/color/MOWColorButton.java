@@ -81,6 +81,20 @@ public class MOWColorButton extends ColorPopupMenuButton {
 		return idx != -1 ? fillTypes[idx] : FillType.STANDARD;
 
 	}
+
+	/**
+	 * Sets the original fill type of the geo.
+	 * 
+	 * @param fillType
+	 *            the type to select initially.
+	 */
+	public void setFillType(FillType fillType) {
+		for (int i = 0; i < fillTypes.length; i++) {
+			if (fillTypes[i] == fillType) {
+				fillTable.setSelectedIndex(i);
+			}
+		}
+	}
 	//
 	// @Override
 	// public void onClick(ClickEvent event) {

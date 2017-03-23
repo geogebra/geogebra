@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -1012,12 +1013,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						double alpha = 1.0;
 						boolean hasFillable = false;
 						boolean alphaOnly = false;
+						FillType fillType = null;
 						for (int i = 0; i < geos.length; i++) {
 							GeoElement geo = (GeoElement) geos[i];
 							if (geo.isFillable()) {
 								alphaOnly = geo.isAngle() || geo.isGeoImage();
 								hasFillable = true;
 								alpha = geo.getAlphaValue();
+								fillType = geo.getFillType();
 								break;
 							}
 							if (geos[i] instanceof GeoPolyLine
@@ -1036,7 +1039,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						setSliderVisible(hasFillable);
-						setFillEnabled(hasFillable && !alphaOnly);
+						boolean enableFill = hasFillable && !alphaOnly;
+						setFillEnabled(enableFill);
+						if (enableFill) {
+							setFillType(fillType);
+						}
 
 						if (EuclidianView.isPenMode(mode)) {
 							setSliderValue(
@@ -1061,6 +1068,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					}
 				}
 			}
+
 		};
 		btnColor.addPopupHandler(this);
 	}

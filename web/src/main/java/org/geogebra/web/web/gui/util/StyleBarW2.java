@@ -92,15 +92,16 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 				openColorChooser(targetGeos, false);
 			} else {
-				double alpha = btnColor.getSliderValue() / 100.0;
-				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos,
-						color,
-					alpha, app);
 				if (app.isWhiteboardActive()) {
 					FillType fillType = ((MOWColorButton) btnColor)
 							.getSelectedFillType();
 					EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
 				}
+
+				double alpha = btnColor.getSliderValue() / 100.0;
+				needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
+						alpha, app);
+
 			}
 		} else if (source == btnLineStyle) {
 			// if (btnLineStyle.getSelectedValue() != null) {
