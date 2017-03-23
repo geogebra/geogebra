@@ -10,7 +10,10 @@ import org.junit.Test;
 
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 
@@ -110,6 +113,15 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testList() {
+		checkCannon("{x,1}", "{x,1}");
+		checkCannon("{x, 1}", "{x,1}");
+		checkCannon("{x ,1}", "{x,1}");
+		checkCannon("{x , 1}", "{x,1}");
+
+	}
+
+	@Test
 	public void testComma() {
 		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
 				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
@@ -120,13 +132,29 @@ public class SerializeLaTeX {
 		MathFormula mf = null;
 		try {
 			mf = parser.parse(input);
+			checkLaTeXRender(mf);
 		} catch (ParseException e) {
 			Assert.assertNull(e);
 		}
 		Assert.assertNotNull(mf);
 		Assert.assertEquals(mf.getRootComponent() + "", output,
 				serializer.serialize(mf));
+		try {
+			mf = parser.parse(output);
+			checkLaTeXRender(mf);
+		} catch (ParseException e) {
+			Assert.assertNull(e);
+		}
 		
+	}
+
+	private static void checkLaTeXRender(MathFormula mf) {
+		String tex = TeXSerializer.serialize(mf.getRootComponent(),
+				new MetaModel());
+		TeXFormula tf = new TeXFormula();
+		TeXParser tp = new TeXParser(tex, tf);
+		tp.parse();
+
 	}
 
 }

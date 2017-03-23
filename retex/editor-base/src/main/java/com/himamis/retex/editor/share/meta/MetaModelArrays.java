@@ -31,8 +31,8 @@ class MetaModelArrays {
         List<MetaComponent> components = new ArrayList<MetaComponent>();
 
         List<MetaComponent> arrayComponents = new ArrayList<MetaComponent>();
-        arrayComponents.add(createArrayComponent(OPEN, "{", "\\lbrace"));
-        arrayComponents.add(createArrayComponent(CLOSE, "}", "\\rbrace"));
+		arrayComponents.add(createArrayComponent(OPEN, "{", "\\lbrace "));
+		arrayComponents.add(createArrayComponent(CLOSE, "}", "\\rbrace "));
         arrayComponents.add(createArrayComponent(FIELD, ","));
         arrayComponents.add(createArrayComponent(ROW, ";"));
         components.add(new MetaArray(ARRAY, CURLY, arrayComponents));
