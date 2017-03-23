@@ -1535,13 +1535,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			axesChanged = evs.setShowAxes(true);
 			switch (val) {
 			case 2:
-				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS);
+				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED);
 				break;
 			case 3:
 				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_FULL);
 				break;
 			default:
-				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
+				evs.setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED);
 			}
 			evs.endBatch();
 		}
