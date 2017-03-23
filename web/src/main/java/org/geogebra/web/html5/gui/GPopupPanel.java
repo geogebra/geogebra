@@ -18,6 +18,7 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.web.gui.util.PopupPanel;
 
 import com.google.gwt.animation.client.Animation;
@@ -1372,8 +1373,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 				// Make sure scrolling is taken into account, since
 				// box.getAbsoluteLeft() takes scrolling into account.
-				int windowLeft = Window.getScrollLeft()
-						+ root.getAbsoluteLeft();
+				int windowLeft = root.getAbsoluteLeft();
 				int windowRight = root.getOffsetWidth() + windowLeft;
 				// int windowRight = Window.getClientWidth()
 				// + Window.getScrollLeft();
@@ -1414,7 +1414,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			// Left-align the popup.
 			left = (relativeObject.getAbsoluteLeft() - root.getAbsoluteLeft())
 					/ getScale(root.getElement(), "x");
-
+			Log.debug("LEFT " + left + " DIFF " + offsetWidthDiff + " WIDTH "
+					+ offsetWidth);
 			// If the suggestion popup is not as wide as the text box, always
 			// align to
 			// the left edge of the text box. Otherwise, figure out whether to
@@ -1422,19 +1423,15 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 			if (offsetWidthDiff > 0) {
 				// Make sure scrolling is taken into account, since
 				// box.getAbsoluteLeft() takes scrolling into account.
-				int windowLeft = Window.getScrollLeft()
-						+ root.getAbsoluteLeft();
-				int windowRight = root.getOffsetWidth() + windowLeft;
-				
-
 				// Distance from the left edge of the text box to the right edge
 				// of the window
-				int distanceToWindowRight = windowRight - left;
+				int distanceToWindowRight = root.getOffsetWidth() - left;
 
 				// Distance from the left edge of the text box to the left edge
 				// of the
 				// window
-				int distanceFromWindowLeft = left - windowLeft;
+				int distanceFromWindowLeft = (relativeObject.getAbsoluteLeft()
+						- root.getAbsoluteLeft());
 
 				// If there is not enough space for the overflow of the popup's
 				// width to the right of the text box, and there IS enough space
@@ -1444,6 +1441,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				// However, if there is not enough space on either side, then
 				// stick with
 				// left-alignment.
+				Log.debug(
+						distanceToWindowRight + " x " + distanceFromWindowLeft);
 				if (distanceToWindowRight < offsetWidth
 						&& distanceFromWindowLeft >= offsetWidthDiff) {
 					// Align with the right edge of the text box.
