@@ -509,11 +509,6 @@ public class EuclidianViewCompanion {
 	 */
 	public void setHits(PointerEventType type) {
 		view.setHits(view.getEuclidianController().getMouseLoc(), type);
-		Drawable d = view.getBoundingBoxHandlerHit(
-				view.getEuclidianController().getMouseLoc(), type);
-		if (d != null) {
-			view.getHits().add(d.getGeoElement());
-		}
 	}
 
 	/**

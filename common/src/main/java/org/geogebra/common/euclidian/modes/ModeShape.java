@@ -112,7 +112,6 @@ public class ModeShape {
 	 */
 	public void clearPointList() {
 		pointListFreePoly.clear();
-		dragPointSet = false;
 	}
 
 	/**
@@ -123,8 +122,10 @@ public class ModeShape {
 	 */
 	public void handleMousePressedForShapeMode(AbstractEvent event) {
 		moveEnded = true;
-		if (!dragPointSet) {
+		if (!dragPointSet || (pointListFreePoly.isEmpty()
+				&& ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM)) {
 			dragStartPoint.setLocation(event.getX(), event.getY());
+			view.setBoundingBox(null);
 			pointListFreePoly.clear();
 			pointListFreePoly.add(dragStartPoint);
 			dragPointSet = true;
@@ -374,14 +375,16 @@ public class ModeShape {
 			return algo.getOutput(0);
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			if (wasDragged) {
-				if (pointListFreePoly.get(0).distance(
-						new GPoint(event.getX(), event.getY())) < 15) {
+				if (pointListFreePoly.size() > 1
+						&& pointListFreePoly.get(0).distance(
+								new
+				GPoint(event.getX(), event.getY())) < 15) {
 					pointListFreePoly.add(pointListFreePoly.get(0));
 					pointListFreePoly.add(pointListFreePoly.get(0));
 				} else {
 					pointListFreePoly
 							.add(new GPoint(event.getX(), event.getY()));
-				}
+				 }
 			}
 			updateFreeFormPolygon(event, false);
 			// close with double click
@@ -841,6 +844,9 @@ public class ModeShape {
 	protected void updateFreeFormPolygon(AbstractEvent event, boolean wasDrag) {
 		polygon.reset();
 		polygon.moveTo(pointListFreePoly.get(0).x, pointListFreePoly.get(0).y);
+		if (pointListFreePoly.size()<2) {
+			return;
+		}
 		for (int index = 1; index < pointListFreePoly.size(); index++) {
 			polygon.lineTo(pointListFreePoly.get(index).x,
 					pointListFreePoly.get(index).y);
