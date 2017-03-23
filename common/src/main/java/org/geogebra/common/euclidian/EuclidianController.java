@@ -136,6 +136,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -8455,7 +8456,6 @@ public abstract class EuclidianController {
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			if (getResizedShape() == null) {
 				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, null);
-				// for now allow only corner handlers
 				if (d != null && view
 						.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
 					if (view.getBoundingBox() != null && view.getBoundingBox()
@@ -9343,26 +9343,61 @@ public abstract class EuclidianController {
 			getPen().handleMousePressedForPenMode(event, hits);
 			return;
 		}
+		
+		Drawable d = view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
+		if (mode == EuclidianConstants.MODE_MOVE) {
+			// for now allow only corner handlers
+			if (d != null && view
+					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
+				EuclidianBoundingBoxHandler nrHandler = view.getHitHandler();
+				// we have only 2 handlers for segment
+				// needs special handling
+				if (d instanceof DrawSegment) {
+					nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
+				}
+				switch (nrHandler) {
+				case TOP_LEFT:
+				case BOTTOM_RIGHT:
+					view.setCursor(EuclidianCursor.RESIZE_NWSE);
+					break;
+				case BOTTOM_LEFT:
+				case TOP_RIGHT:
+					view.setCursor(EuclidianCursor.RESIZE_NESW);
+					break;
+				case TOP:
+				case BOTTOM:
+					view.setCursor(EuclidianCursor.RESIZE_NS);
+					break;
+				case LEFT:
+				case RIGHT:
+					view.setCursor(EuclidianCursor.RESIZE_EW);
+					break;
+				default:
+					break;
+				}
+				setResizedShape(d);
+			}
+		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
 			// no hit or no bounding box, so we have to create
 			// shape
-			if (view.getHits().isEmpty() || view.getBoundingBox() == null) {
+			if ((view.getHits().isEmpty() && view.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED) || view.getBoundingBox() == null) {
 				// clear selection to be able to drag created shape with shape
 				// tool
 				selection.clearSelectedGeos();
 				view.setDefaultShapeStyle();
 				getShapeMode().handleMousePressedForShapeMode(event);
 			} else {
-				Drawable d = view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), null);
 				if (d != null && view.getBoundingBox() != null
 						&& view.getBoundingBox()
 								.equals(d.getBoundingBox())) {
 					// we want to drag shape with shape tool
 					// switch to move mode and store current mode
-					shapeDragged = true;
-					oldShapeMode = mode;
-					mode = EuclidianConstants.MODE_MOVE;
+					//shapeDragged = true;
+					//oldShapeMode = mode;
+					//mode = EuclidianConstants.MODE_MOVE;
+					setResizedShape(d);
 				} else if (view.getHits().size() == 1
 						&& view.getHits().get(0) != null
 						&& view.getHits().get(0).isShape()) {
