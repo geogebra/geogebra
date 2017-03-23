@@ -256,21 +256,23 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void onPointerDown(int x, int y) {
         if (selectionMode) {
             ArrayList<Integer> list = new ArrayList<Integer>();
-
-			if (length(SelectionBox.startX - x, SelectionBox.startY - y) < 10) {
-				editorState.cursorToSelectionEnd();
-				selectionDrag = true;
-				return;
-			}
-			if (length(SelectionBox.endX - x, SelectionBox.endY - y) < 10) {
-				// editorState.anchor(true);
-				selectionDrag = true;
-				editorState.cursorToSelectionStart();
-				return;
+			if (SelectionBox.touchSelection) {
+				if (length(SelectionBox.startX - x,
+						SelectionBox.startY - y) < 10) {
+					editorState.cursorToSelectionEnd();
+					selectionDrag = true;
+					return;
+				}
+				if (length(SelectionBox.endX - x, SelectionBox.endY - y) < 10) {
+					// editorState.anchor(true);
+					selectionDrag = true;
+					editorState.cursorToSelectionStart();
+					return;
+				}
 			}
 			mathFieldController.getPath(mathFormula, x, y, list);
             editorState.resetSelection();
-            CursorController.firstField(editorState);
+
             this.mouseDownPos = new int[]{x, y};
 
 			moveToSelection(x, y);
@@ -300,8 +302,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
             mathFieldController.getPath(mathFormula, x, y, list);
 			MathComponent cursor = editorState.getCursorField(
 					editorState.getSelectionEnd() != null && selectionLeft(x));
-
-            CursorController.firstField(editorState);
 
 			moveToSelection(x, y);
 
@@ -379,10 +379,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	private void moveToSelection(int x, int y) {
 		// System.out.println("SELECTION" + list);
+		CursorController.firstField(editorState);
 		double dist = Integer.MAX_VALUE;
 		MathSequence closestComponent = null;
 		int closestOffset = -1;
-		while (CursorController.nextCharacter(editorState)) {
+		do  {
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
 					editorState.getCurrentField(),
@@ -395,7 +396,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				closestComponent = editorState.getCurrentField();
 				closestOffset = editorState.getCurrentOffset();
 			}
-		}
+		} while (CursorController.nextCharacter(editorState));
 		if (closestComponent != null) {
 			editorState.setCurrentField(closestComponent);
 			editorState.setCurrentOffset(closestOffset);
@@ -425,7 +426,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				editorState.getSelectionEnd() == null || selectionLeft(x));
 		MathSequence current = editorState.getCurrentField();
 		int offset = editorState.getCurrentOffset();
-		CursorController.firstField(editorState);
 		moveToSelection(x, y);
 
 		editorState.resetSelection();
