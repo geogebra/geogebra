@@ -176,6 +176,9 @@ public enum Feature {
 	AXES_STYLE_SUBMENU,
 
 	/** MOW-55 */
-	BOUNDING_BOXES
+	BOUNDING_BOXES,
+
+	/** MOW-3, MOW-4, MOW-6 */
+	FILE_CONTROLS
 
 }
