@@ -1004,8 +1004,12 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		resetActiveMaterial();
 
 		if (isWhiteboardActive()) {
+			// reset pen default size
 			getEuclidianController().getPen().DEFAULT_PEN_LINE
-					.setLineThickness(2);
+					.setLineThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
+			// reset eraser default size
+			getActiveEuclidianView().getSettings()
+					.setDeleteToolSize(EuclidianConstants.DEFAULT_ERASER_SIZE);
 		}
 
 		if (getGoogleDriveOperation() != null) {

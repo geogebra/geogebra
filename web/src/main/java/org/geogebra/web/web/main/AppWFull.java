@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
@@ -12,6 +13,7 @@ import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.GOptionPane;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
@@ -365,6 +367,11 @@ public abstract class AppWFull extends AppW {
 		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
+
+		if (isWhiteboardActive()) {
+			// reset pen tool
+			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+		}
 	}
 
 	private void resetAllToolbars() {
