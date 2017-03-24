@@ -6782,7 +6782,10 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM) {
+		Drawable d = view.getBoundingBoxHandlerHit(mouseLoc, event.getType());
+		if (mode == EuclidianConstants.MODE_SHAPE_FREEFORM && view
+				.getHitHandler() == EuclidianBoundingBoxHandler.UNDEFINED) {
+			view.setCursor(EuclidianCursor.DEFAULT);
 			getShapeMode().handleMouseMoveForShapeMode(event);
 			return;
 		}
@@ -6810,8 +6813,6 @@ public abstract class EuclidianController {
 				hits = tempArrayList;
 			}
 			if (view.getBoundingBox() != null && geo == null) {
-				Drawable d = view.getBoundingBoxHandlerHit(mouseLoc,
-						event.getType());
 				if (d != null && view.getBoundingBox() == d.getBoundingBox()) {
 					EuclidianBoundingBoxHandler nrHandler = view
 							.getHitHandler();
