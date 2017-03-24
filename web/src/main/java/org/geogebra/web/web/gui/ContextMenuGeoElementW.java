@@ -85,6 +85,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	public void initPopup(AppW app, ArrayList<GeoElement> geos) {
+		if (geos == null || geos.size() == 0) {
+			return;
+		}
 		this.setGeos(geos);
 		setGeo(geos.get(0));
 
