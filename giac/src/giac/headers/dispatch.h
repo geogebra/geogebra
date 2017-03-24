@@ -23,7 +23,7 @@
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#if !defined DOUBLEVAL && (defined __amd64 || defined __x86_64) && !defined SMARTPTR64 
+#if !defined DOUBLEVAL && (defined __amd64 || defined x86_64) && !defined SMARTPTR64 
 #define DOUBLEVAL 1
 #endif
 

@@ -9105,6 +9105,7 @@ namespace giac {
     int s=int(argv.size())-1;
     vecteur result,parameqs;
     gen t=argv.back();
+    if (has_op(t,*at_curve)) return gensizeerr(contextptr);
     if (s==1 && argv[0].type==_SYMB && !argv[0].is_symb_of_sommet(at_pnt)){
       vecteur s1,s2;
       t=remove_at_pnt(t);

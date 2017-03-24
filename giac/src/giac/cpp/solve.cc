@@ -2524,7 +2524,7 @@ namespace giac {
 #endif
     }
     arg1=apply(arg1,equal2diff);
-    arg1=subst(arg1,undef,identificateur("undef_"),false,contextptr);
+    arg1=subst(arg1,undef,identificateur("undef_"),true,contextptr);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
     if (_res.empty() || _res.front().type==_STRNG || is_undef(_res))
       return _res;
