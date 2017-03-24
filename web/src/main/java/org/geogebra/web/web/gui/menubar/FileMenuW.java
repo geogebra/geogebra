@@ -55,8 +55,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				app.fileNew();
 				app.setDefaultCursor();
 				
-				if(!app.has(Feature.FILE_CONTROLS) || !app.isWhiteboardActive()){
-						app.showPerspectivesPopup();					
+				if (!app.has(Feature.FILE_CONTROLS) || !app.isWhiteboardActive()) {
+					app.showPerspectivesPopup();
 				}
 			}
 		};
