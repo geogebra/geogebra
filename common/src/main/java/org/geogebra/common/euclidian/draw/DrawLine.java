@@ -448,6 +448,27 @@ public class DrawLine extends Drawable implements Previewable {
 	}
 
 	/**
+	 * Draws a horizontal segment just used for preview line style
+	 * 
+	 * @param g2
+	 *            Graphics to draw.
+	 * @param marginX
+	 *            Space from left and right.
+	 * @param marginY
+	 *            Space from top and bottom.
+	 * @param width
+	 *            The width of the segment.
+	 * 
+	 */
+	public void drawStylePreview(GGraphics2D g2, int marginX, int marginY,
+			int width) {
+		updateStrokes(geo);
+		g2.setStroke(objStroke);
+		g2.drawStraightLine(marginX, marginY, width - marginX, marginY);
+
+	}
+
+	/**
 	 * Update stylebar position
 	 */
 	public void updateDynamicStylebarPosition() {

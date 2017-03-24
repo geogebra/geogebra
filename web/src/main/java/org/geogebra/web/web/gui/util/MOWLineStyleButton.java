@@ -22,7 +22,9 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
 	private static final int CANVAS_WIDTH = 50;
 	private static final int CANVAS_HEIGHT = 30;
-
+	private static final int STYLE_PREVIEW_MARGIN_X = 2;
+	private static final int STYLE_PREVIEW_MARGIN_Y = CANVAS_HEIGHT / 2 - 1;
+	
 	/** The value canvas next to the slider */
 	protected Canvas canvas;
 
@@ -46,15 +48,11 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.add(sliderPanel);
 		panel.add(getMyTable());
 		canvas = Canvas.createIfSupported();
-		canvas.setCoordinateSpaceHeight(CANVAS_WIDTH);
-		canvas.setCoordinateSpaceWidth(CANVAS_HEIGHT);
+		canvas.setCoordinateSpaceWidth(CANVAS_WIDTH);
+		canvas.setCoordinateSpaceHeight(CANVAS_HEIGHT);
 		sliderPanel.add(canvas);
 		g2 = new GGraphics2DW(canvas);
-		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
-				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
-
 		line = new GeoLine(app.getKernel().getConstruction(), 0, 1, 0);
-		line.setLineThrough(coords[0], coords[1]);
 		line.setLineType(1);
 		drawLine = new DrawLine(app.getActiveEuclidianView(), line);
 		setKeepVisible(true);
@@ -94,8 +92,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	private void updateCanvas() {
 		canvas.getContext2d().clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 		updateGeo();
-		drawLine.update();
-		drawLine.draw(g2);
+		drawLine.drawStylePreview(g2, STYLE_PREVIEW_MARGIN_X, STYLE_PREVIEW_MARGIN_Y, CANVAS_WIDTH);
 	}
 
 	private void updateGeo() {
