@@ -136,7 +136,6 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -720,6 +719,13 @@ public abstract class EuclidianController {
 													.getY());
 							geo.updateRepaint();
 						}
+					} else if (geo instanceof GeoLocusStroke) {
+						setStartPointLocation(
+								((GeoLocusStroke) geo).getPoints().get(0)
+										.getX(),
+								((GeoLocusStroke) geo).getPoints().get(0)
+										.getY());
+						firstMoveable = false;
 					}
 				}
 			}

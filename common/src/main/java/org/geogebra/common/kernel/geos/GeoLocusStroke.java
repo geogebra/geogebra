@@ -129,4 +129,9 @@ public class GeoLocusStroke extends GeoLocus
 		return false;
 	}
 
+	@Override
+	public boolean isIndependent() {
+		return true;
+	}
+
 }
