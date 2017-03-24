@@ -177,6 +177,11 @@ public enum Feature {
 	BOUNDING_BOXES,
 
 	/** MOW-3, MOW-4, MOW-6 */
-	FILE_CONTROLS
+	FILE_CONTROLS,
+
+	/**
+	 * AND-193
+	 */
+	AND_TRACE_IN_PROPERTIES
 
 }
