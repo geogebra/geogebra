@@ -40,6 +40,7 @@ import org.geogebra.common.util.clipper.DefaultClipper;
 import org.geogebra.common.util.clipper.Path;
 import org.geogebra.common.util.clipper.Paths;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -83,6 +84,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	protected PolyOperation operationType;
 
 	protected String[] labels;
+	private boolean silent;
 
 	/**
 	 * special constructor without operation type for CmdDifference. after this
@@ -106,6 +108,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		this.inPoly1 = inPoly1;
 
 		this.labels = labels;
+		this.silent = cons.isSuppressLabelsActive();
 	}
 
 	/**
@@ -202,13 +205,16 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		createOutput();
 
+		this.labels = labels;
+		silent = cons.isSuppressLabelsActive();
+
 	}
 
 	protected void initialize(int[] outputSizes) {
 		setInputOutput();
 
-		compute();
-
+		compute(false);
+		Log.debug(labels.length + " labels");
 		// set labels
 		if (labels == null) {
 			outputPolygons.setLabels(null);
@@ -355,6 +361,10 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 	@Override
 	public void compute() {
+		compute(!silent);
+	}
+
+	private void compute(boolean updateLabels) {
 
 		// one or more input polygons are undefined, terminate immediately
 		if (!this.inPoly0.isDefined() || !this.inPoly1.isDefined()) {
@@ -463,8 +473,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 						pointCount++;
 					}
 				}
-
-				outputPoints.updateLabels();
+				if (updateLabels) {
+					outputPoints.updateLabels();
+				}
 
 				GeoPoint3D[] points = new GeoPoint3D[pointCount];
 				points = outputPoints.getOutput(points);
@@ -590,9 +601,10 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				setOutputUndefined();
 			}
 		}
-
-		outputSegments.updateLabels();
-		outputPolygons.updateLabels();
+		if (updateLabels) {
+			outputSegments.updateLabels();
+			outputPolygons.updateLabels();
+		}
 	}
 
 	private void setOutputUndefined() {

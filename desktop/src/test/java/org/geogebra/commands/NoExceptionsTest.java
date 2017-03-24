@@ -2202,12 +2202,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdUnion() {
-		t("Union[ list1, list1 ]");
-		t("Union[ poly1, poly1 ]");
-	}
-
-	@Test
 	public void cmdUnique() {
 		t("Unique[ list1]");
 

@@ -18,6 +18,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class CommandsTest extends Assert{
 	static AppDNoGui app;
 	static AlgebraProcessor ap;
@@ -40,19 +41,20 @@ public class CommandsTest extends Assert{
 		testSyntax(s, expected, app, ap, StringTemplate.xmlTemplate);
 	}
 
-	public static void testSyntax(String s, String[] expected, App app,
-			AlgebraProcessor ap, StringTemplate tpl) {
+	public static void testSyntax(String s, String[] expected, App app1,
+			AlgebraProcessor proc, StringTemplate tpl) {
 		if(syntaxes==-1000){
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
-			syntax = app.getLocalization().getCommand(cmdName + ".Syntax");
+			syntax = app1.getLocalization().getCommand(cmdName + ".Syntax");
 			syntaxes = 0;
 			for (int i = 0; i < syntax.length(); i++) {
 				if (syntax.charAt(i) == '[') {
 					syntaxes++;
 				}
 			}
-			String syntax3D = app.getLocalization().getCommand(
+			String syntax3D = app1.getLocalization()
+					.getCommand(
 					cmdName + ".Syntax3D");
 			if (syntax3D.contains("[")) {
 				syntax += "\n" + syntax3D;
@@ -81,7 +83,7 @@ public class CommandsTest extends Assert{
 		Throwable t = null;
 		GeoElementND[] result = null;
 		try {
-			result = ap.processAlgebraCommandNoExceptionHandling(s,
+			result = proc.processAlgebraCommandNoExceptionHandling(s,
 					false, TestErrorHandler.INSTANCE, false, null);
 		}catch (Throwable e) {
 			t = e;
@@ -871,6 +873,19 @@ public class CommandsTest extends Assert{
 		// overwrite
 		t("ab_1=3", "3");
 		t("ab_{1}+1", "4");
+	}
+
+	@Test
+	public void cmdUnion() {
+		t("join=Union[Polygon[(1,1),(1,0),(0,1)],Polygon[(0,0),(1,0),(0,1)]]",
+				new String[] { "1", "(1, 0)", "(1, 1)", "(0, 1)", "(0, 0)", "1",
+						"1", "1", "1" });
+		t("join=Union[Polygon[(1,1,0),(1,0,0),(0,1,0)],Polygon[(0,0,0),(1,0,0),(0,1,0)]]",
+				new String[] { "1", "(1, 0, 0)", "(0, 0, 0)", "(0, 1, 0)",
+						"(1, 1, 0)", "1", "1", "1", "1" });
+		t("Union[{1,2,3}, {2,2,2,4,4,4}]", "{1, 2, 3, 4}");
+		t("Union[{\"1\",\"2\",\"3\"}, {\"2\",\"2\",\"2\",\"4\",\"4\",\"4\"}]",
+				"{\"1\", \"2\", \"3\", \"4\"}");
 	}
 
 	@Test
