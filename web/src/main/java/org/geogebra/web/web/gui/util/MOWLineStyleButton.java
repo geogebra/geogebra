@@ -1,16 +1,10 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.gui.util.SelectionTable;
-import org.geogebra.common.kernel.geos.GProperty;
-import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -24,15 +18,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	private static final int CANVAS_HEIGHT = 30;
 	private static final int STYLE_PREVIEW_MARGIN_X = 2;
 	private static final int STYLE_PREVIEW_MARGIN_Y = CANVAS_HEIGHT / 2 - 1;
-	
-	/** The value canvas next to the slider */
-	protected Canvas canvas;
-
-	private static final double RW_MARGIN = 0.4;
-	private GGraphics2DW g2;
-	private GeoLine line;
-	private DrawLine drawLine;
-
+	private LineStylePreview preview;
 	/**
 	 * Constructor
 	 * 
@@ -47,38 +33,33 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.clear();
 		panel.add(sliderPanel);
 		panel.add(getMyTable());
-		canvas = Canvas.createIfSupported();
-		canvas.setCoordinateSpaceWidth(CANVAS_WIDTH);
-		canvas.setCoordinateSpaceHeight(CANVAS_HEIGHT);
-		sliderPanel.add(canvas);
-		g2 = new GGraphics2DW(canvas);
-		line = new GeoLine(app.getKernel().getConstruction(), 0, 1, 0);
-		line.setLineType(1);
-		drawLine = new DrawLine(app.getActiveEuclidianView(), line);
+		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
+		sliderPanel.add(preview);
 		setKeepVisible(true);
 	}
 
 	@Override
 	public void update(Object[] geos) {
 		updatePanel(geos);
+		updatePreview();
 	}
 
 	@Override
 	public void handlePopupActionEvent() {
 		model.applyLineTypeFromIndex(getSelectedIndex());
-		updateCanvas();
+		updatePreview();
 	}
 
 	@Override
 	protected void onClickAction() {
 		super.onClickAction();
-		updateCanvas();
+		updatePreview();
 	}
 
 	@Override
 	public void onSliderInput() {
 		super.onSliderInput();
-		updateCanvas();
+		updatePreview();
 	}
 
 	/**
@@ -89,18 +70,8 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		// intentionally left blank
 	}
 
-	private void updateCanvas() {
-		canvas.getContext2d().clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-		updateGeo();
-		drawLine.drawStylePreview(g2, STYLE_PREVIEW_MARGIN_X, STYLE_PREVIEW_MARGIN_Y, CANVAS_WIDTH);
-	}
-
-	private void updateGeo() {
-		line.setObjColor(GColor.BLACK);
-		line.setLineThickness(getSliderValue());
-		int lineStyle = EuclidianView.getLineType(getSelectedIndex());
-		line.setLineType(lineStyle);
-		line.updateVisualStyleRepaint(GProperty.LINE_STYLE);
+	private void updatePreview() {
+		preview.update(getSliderValue(), getSelectedIndex(), GColor.BLACK);
 	}
 
 }

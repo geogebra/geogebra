@@ -464,6 +464,7 @@ public class DrawLine extends Drawable implements Previewable {
 			int width) {
 		updateStrokes(geo);
 		g2.setStroke(objStroke);
+		g2.setColor(geo.getObjectColor());
 		g2.drawStraightLine(marginX, marginY, width - marginX, marginY);
 
 	}

@@ -12,6 +12,7 @@ import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
+import org.geogebra.web.web.gui.util.LineStylePreview;
 import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.core.client.GWT;
@@ -44,6 +45,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private GColor penColor[];
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
+	private LineStylePreview preview;
 	private boolean colorsEnabled;
 	// preset colors: black, purple, teal, orange
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
@@ -117,6 +119,10 @@ public class PenSubMenu extends SubMenuPanel {
 		sizePanel.addStyleName("sizePanel");
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
 		slider.addStyleName("optionsSlider");
+
+		preview = new LineStylePreview(app, 50, 30);
+		preview.addStyleName("preview");
+		slider.add(preview);
 		sizePanel.add(slider);
 		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
 
@@ -124,6 +130,7 @@ public class PenSubMenu extends SubMenuPanel {
 				sliderValueChanged(event.getValue());
 			}
 		});
+
 	}
 
 	/**
@@ -132,6 +139,7 @@ public class PenSubMenu extends SubMenuPanel {
 	void sliderValueChanged(double value) {
 		if (colorsEnabled) {
 			getPenGeo().setLineThickness((int) value);
+			updatePreview();
 		} else {
 			app.getActiveEuclidianView().getSettings().setDeleteToolSize((int) value);
 		}
@@ -143,8 +151,8 @@ public class PenSubMenu extends SubMenuPanel {
 		createPenPanel();
 		createColorPanel();
 		createSizePanel();
-
-		contentPanel.add(LayoutUtilW.panelRow(penPanel, colorPanel, sizePanel));
+		contentPanel.add(
+				LayoutUtilW.panelRow(penPanel, colorPanel, sizePanel));
 	}
 
 	@Override
@@ -188,7 +196,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) getPenGeo().getLineThickness());
 		slider.setVisible(true);
-
+		updatePreview();
 	}
 
 	private void doSelectEraser() {
@@ -218,6 +226,7 @@ public class PenSubMenu extends SubMenuPanel {
 		eraser.getElement().setAttribute("selected", "false");
 		freehand.getElement().setAttribute("selected", "false");
 		setColorsEnabled(false);
+
 	}
 
 	private void selectColor(int idx) {
@@ -235,6 +244,7 @@ public class PenSubMenu extends SubMenuPanel {
 				btnColor[i].removeStyleName("penSubMenu-selected");
 			}
 		}
+		updatePreview();
 
 	}
 
@@ -271,5 +281,11 @@ public class PenSubMenu extends SubMenuPanel {
 	@Override
 	public int getFirstMode() {
 		return EuclidianConstants.MODE_PEN;
+	}
+
+
+	private void updatePreview() {
+		preview.update(slider.getValue().intValue(), 0,
+				getPenGeo().getObjectColor());
 	}
 }
