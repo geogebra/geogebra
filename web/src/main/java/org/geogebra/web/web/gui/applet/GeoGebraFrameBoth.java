@@ -523,6 +523,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			final VirtualKeyboardW keyBoard = app.getGuiManager()
 					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
+				ensureKeyboardEditing();
 				if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 					if (viewHasKeyboard()) {
 						add(keyBoard);
@@ -565,20 +566,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 										av.setDefaultUserWidth();
 									}
 
-									DockManagerW dm = (DockManagerW) app
-											.getGuiManager().getLayout()
-											.getDockManager();
-									MathKeyboardListener ml = dm
-											.getPanelForKeyboard()
-											.getKeyboardListener();
-									((GuiManagerW) app.getGuiManager())
-											.setOnScreenKeyboardTextField(ml);
-									if (ml != null) {
-										ml.setFocus(true, true);
-										ml.ensureEditing();
-									}
+									ensureKeyboardEditing();
 
 								}
+
 							}.schedule(500);
 
 						}
@@ -604,6 +595,22 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	/**
+	 * Make sure keyboard is editing
+	 */
+	protected void ensureKeyboardEditing() {
+		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager();
+		MathKeyboardListener ml = dm.getPanelForKeyboard()
+				.getKeyboardListener();
+		dm.setFocusedPanel(dm.getPanelForKeyboard());
+		((GuiManagerW) app.getGuiManager()).setOnScreenKeyboardTextField(ml);
+		if (ml != null) {
+			ml.setFocus(true, true);
+			ml.ensureEditing();
+		}
+
+	}
 	@Override
 	public boolean isKeyboardShowing() {
 		return this.keyboardShowing;
