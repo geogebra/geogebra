@@ -1642,7 +1642,7 @@ __GGB__keysVar.zh_CN.menu = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "\u4e0b\u79fb",
     "Download": "\u4e0b\u8f7d",
-    "DownloadAs": "\u4e0b\u8f7d",
+    "DownloadAs": "\u5bfc\u51fa",
     "DownloadAsGgbFile": "\u4e0b\u8f7d *.ggb \u6587\u4ef6",
     "DrawAsDropDownList": "\u663e\u793a\u4e0b\u62c9\u5217\u8868",
     "DrawingPad": "\u7ed8\u56fe\u533a",
