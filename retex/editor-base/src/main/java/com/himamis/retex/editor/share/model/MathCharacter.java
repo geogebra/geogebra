@@ -41,7 +41,8 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
  */
 public class MathCharacter extends MathComponent {
 
-    private MetaCharacter meta;
+	public static final char ZERO_SPACE = '\u200b';
+	private MetaCharacter meta;
 
     /**
      * Use MathFormula.newCharacter(...)
