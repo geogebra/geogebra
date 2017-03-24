@@ -14,14 +14,11 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
-import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVector;
-import org.geogebra.common.kernel.geos.SpreadsheetTraceable;
-import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -40,9 +37,9 @@ import org.geogebra.common.util.debug.Log;
  * @author ggb3D
  * 
  */
-public class GeoVector3D extends GeoVec4D implements GeoVectorND, Vector3DValue,
-		SpreadsheetTraceable, RotateableND, Traceable, MirrorableAtPlane,
- Transformable, Dilateable, MatrixTransformable {
+public class GeoVector3D extends GeoVec4D
+		implements GeoVectorND, RotateableND, 
+		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable {
 
 	private GeoPointND startPoint;
 

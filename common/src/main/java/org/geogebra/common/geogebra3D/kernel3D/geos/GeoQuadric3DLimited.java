@@ -559,6 +559,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	private double volume;
 
+	/**
+	 * Compute volume from radius, halfAxes and parameters
+	 */
 	public void calcVolume() {
 
 		// Application.debug("ici");

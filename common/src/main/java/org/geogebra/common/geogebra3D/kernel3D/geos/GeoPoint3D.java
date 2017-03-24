@@ -60,7 +60,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.PointProperties;
-import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -82,7 +81,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		MatrixTransformable, RotateableND,
-		Transformable, Traceable, MirrorableAtPlane {
+		Transformable, MirrorableAtPlane {
 
 	private boolean isInfinite, isDefined;
 	private int pointSize;
@@ -2125,7 +2124,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public void recordChangeableCoordParentNumbers(EuclidianView view) {
-		changeableCoordParent.record(view);
+		if (changeableCoordParent != null) {
+			changeableCoordParent.record(view);
+		}
 	}
 
 	/**
