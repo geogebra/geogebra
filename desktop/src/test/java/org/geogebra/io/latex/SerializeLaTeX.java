@@ -44,6 +44,15 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testSqrt() {
+		checkCannon("sqrt(x + 1)", "sqrt(x+1)");
+		checkCannon("f(x) = sqrt(x)", "f(x)=sqrt(x)");
+		checkCannon("nroot(x + 1,3)", "nroot(x+1,3)");
+		checkCannon("f(x) = nroot(x,3)", "f(x)=nroot(x,3)");
+
+	}
+
+	@Test
 	public void testDiv() {
 		checkCannon("1/2", "(1)/(2)");
 		checkCannon("1/2+3", "(1)/(2)+3");
