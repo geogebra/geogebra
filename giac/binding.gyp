@@ -13,7 +13,7 @@
           "HAVE_LIBPTHREAD",
           "HAVE_SYSCONF",
           "HAVE_NO_HOME_DIRECTORY",
-          'VERSION="1.1.3"',
+          'VERSION="1.2.3"',
           "TIMEOUT",
           'HAVE_SYS_TIMES_H',
           'HAVE_SYS_TIME_H',

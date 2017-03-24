@@ -1,6 +1,6 @@
 {
   "name": "giac",
-  "version": "1.2.3-201703221752",
+  "version": "1.2.3-201703242041",
   "homepage": "https://www-fourier.ujf-grenoble.fr/~parisse/giac.html",
   "description": "Giac, a free computer algebra system",
   "repository" : {
@@ -9,7 +9,7 @@
   },
   "contributors" : [
     "Bernard Parisse <bernard.parisse@univ-grenoble-alpes.fr>",
-    "Zoltan Kovacs <zoltan@geogebra.org>"
+    "Zoltán Kovács <zoltan@geogebra.org>"
   ],
   "license": "GPL-3.0+",
   "main": "nodegiac.js",

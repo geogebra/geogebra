@@ -10,7 +10,7 @@ using namespace v8;
 
 context ct;
 
-void Method(const v8::FunctionCallbackInfo<Value>& args) {
+void Evaluate(const v8::FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = Isolate::GetCurrent();
   HandleScope scope(isolate);
   std::string line_out;
@@ -33,8 +33,8 @@ void Method(const v8::FunctionCallbackInfo<Value>& args) {
 
 void Init(Handle<Object> exports) {
   Isolate* isolate = Isolate::GetCurrent();
-  exports->Set(String::NewFromUtf8(isolate, "giac"),
-      FunctionTemplate::New(isolate, Method)->GetFunction());
+  exports->Set(String::NewFromUtf8(isolate, "evaluate"),
+      FunctionTemplate::New(isolate, Evaluate)->GetFunction());
 }
 
 NODE_MODULE(giac, Init)
