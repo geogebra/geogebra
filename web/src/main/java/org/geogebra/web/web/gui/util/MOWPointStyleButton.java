@@ -53,11 +53,8 @@ public class MOWPointStyleButton extends PointStylePopup {
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
 		sliderPanel.add(canvas);
 		g2 = new GGraphics2DW(canvas);
-		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
-				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
-
 		p = new GeoPoint(app.getKernel().getConstruction(),
-				coords[0], coords[1], 0);
+				0, 0, 0);
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
 		p.setEuclidianVisible(true);
 	}
@@ -116,11 +113,9 @@ public class MOWPointStyleButton extends PointStylePopup {
 	private void updateCanvas() {
 
 		canvas.getContext2d().clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-		double coords[] = { app.getActiveEuclidianView().getXmin() + RW_MARGIN,
-				app.getActiveEuclidianView().getYmax() - RW_MARGIN };
 		updateGeo();
 		drawPoint.update();
-		drawPoint.update(coords);
+		drawPoint.updateStylePreview(CANVAS_SIZE / 2, CANVAS_SIZE / 2);
 		drawPoint.draw(g2);
 
 	}

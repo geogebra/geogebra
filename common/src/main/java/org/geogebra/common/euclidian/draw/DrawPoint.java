@@ -168,24 +168,31 @@ public final class DrawPoint extends Drawable {
 	 *            (x,y) real world coords
 	 */
 	final public void update(double[] coords2) {
+		update(coords2, true);
+	}
+
+	private void update(double[] coords2, boolean rwCoords) {
 
 		isVisible = true;
 		labelVisible = geo.isLabelVisible();
 		this.coords = coords2;
 
-		// convert to screen
-		view.toScreenCoords(coords);
+		if (rwCoords) {
+			// convert to screen
+			view.toScreenCoords(coords);
 
-		// point outside screen?
-		if (Double.isNaN(coords[0]) || Double.isNaN(coords[1])) { // fix for #63
-			isVisible = false;
-		} else if (coords[0] > view.getWidth() + P.getPointSize()
-				|| coords[0] < -P.getPointSize()
-				|| coords[1] > view.getHeight() + P.getPointSize()
-				|| coords[1] < -P.getPointSize()) {
-			isVisible = false;
-			// don't return here to make sure that getBounds() works for
-			// offscreen points too
+			// point outside screen?
+			if (Double.isNaN(coords[0]) || Double.isNaN(coords[1])) { // fix for
+																		// #63
+				isVisible = false;
+			} else if (coords[0] > view.getWidth() + P.getPointSize()
+					|| coords[0] < -P.getPointSize()
+					|| coords[1] > view.getHeight() + P.getPointSize()
+					|| coords[1] < -P.getPointSize()) {
+				isVisible = false;
+				// don't return here to make sure that getBounds() works for
+				// offscreen points too
+			}
 		}
 
 		if (pointSize != P.getPointSize()) {
@@ -624,4 +631,23 @@ public final class DrawPoint extends Drawable {
 		
 	}
 
+	/**
+	 * Draw a point with given size and style for preview.
+	 * 
+	 * @param x
+	 *            x-coord.
+	 * @param y
+	 *            y-coord.
+	 */
+	final public void updateStylePreview(double x, double y) {
+		if (gp != null) {
+			gp.reset();
+		}
+
+		double coords2[] = { x, y };
+		update(coords2, false);
+	}
+
 }
+
+
