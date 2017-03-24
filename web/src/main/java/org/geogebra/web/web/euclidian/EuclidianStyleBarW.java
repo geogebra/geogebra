@@ -500,12 +500,19 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()) {
 			addContextMenuButton();
 		}
 	}
 
+	private boolean hasActiveGeos() {
+		return !ev.getEuclidianController().getAppSelectedGeos().isEmpty();
+	}
+
 	private void createContextMenuButton() {
+		if (!hasActiveGeos()) {
+			return;
+		}
 		btnContextMenu = new ContextMenuPopup(app);
 		// btnContextMenu.setIcon(new
 		// ImageOrText(AppResources.INSTANCE.dots()));
