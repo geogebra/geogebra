@@ -61,8 +61,6 @@ public enum Feature {
 	/** MOB-601 */
 	MOBILE_LOCAL_SAVE,
 
-	RETEX_EDITOR,
-
 	/** GGB-1121 */
 	AV_PREVIEW,
 

@@ -726,8 +726,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 	private void updateFont(Widget w) {
-		int size = app.has(Feature.RETEX_EDITOR) ? app.getFontSizeWeb() + 2
-				: app.getFontSizeWeb();
+		int size = app.getFontSizeWeb() + 2;
 		w.getElement().getStyle().setFontSize(size, Unit.PX);
 
 	}
@@ -810,9 +809,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 		if (!isInputTreeItem() && isDefinitionAndValue()) {
-			if (geo == null) {
-				Log.debug(Feature.RETEX_EDITOR, "Build item");
-			}
 			buildItemContent();
 		} else {
 			updateTextItems();
@@ -1184,8 +1180,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 				&& content.getElement().isOrHasChild(latexItem.getElement())) {
 			if (geo != null) {
 				LayoutUtilW.replace(content, canvas, latexItem);
-			} else {
-				Log.debug(Feature.RETEX_EDITOR, "update after redefine");
 			}
 
 		}

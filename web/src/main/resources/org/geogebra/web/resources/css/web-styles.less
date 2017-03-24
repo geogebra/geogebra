@@ -2549,10 +2549,24 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 }
 
 .CAS_commentLabel {
+	position: absolute;
+	top:~"calc(50% - 10px)";
 	color: gray;
 	float: left;
 	padding-left: 5px;
 	padding-right: 10px;
+}
+
+.CAS_outputPanel {
+	position: relative;
+}
+
+.CAS_outputPanel canvas{
+	margin-left: 30px;
+}
+
+.CAS_outputPanel {
+	position: relative;
 }
 
 .CAS_inputPanel {

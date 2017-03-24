@@ -1179,7 +1179,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			TreeItem parent = getParentNode(geo, forceLayer);
 			RadioTreeItem node = createAVItem(geo,
-					app.has(Feature.RETEX_EDITOR));
+					true);
 
 			addRadioTreeItem(parent, node);
 
@@ -1548,9 +1548,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private RadioTreeItem createInputPanel() {
-		return app.has(Feature.RETEX_EDITOR) ? new LatexTreeItem(kernel)
-				: new ReTeXHelper()
-						.getAVInput(kernel);
+		return new LatexTreeItem(kernel);
 	}
 
 	@Override
@@ -1818,9 +1816,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void startEditItem(GeoElement geo) {
 		if (geo == null) {
-			if (app.has(Feature.RETEX_EDITOR)) {
-				editItem = true;
-			}
+			editItem = true;
 			return;
 		}
 

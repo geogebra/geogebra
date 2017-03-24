@@ -2398,12 +2398,11 @@ public class GeoCasCell extends GeoElement
 						geos = new GeoElement[] { new GeoBoolean(cons, true) };
 					}
 					success = true;
-					Command tlc = evalVE.getTopLevelCommand();
 					/*
 					 * Relation does not return any output, so it does not make
 					 * sense to read off geos.
 					 */
-					if (!tlc.isTopLevelCommand("Relation")) {
+					if (!evalVE.isTopLevelCommand("Relation")) {
 						result = geos[0]
 								.toValueString(StringTemplate.numericNoLocal);
 						AlgoElement parentAlgo = geos[0].getParentAlgorithm();
@@ -2420,6 +2419,7 @@ public class GeoCasCell extends GeoElement
 					nativeOutput = false;
 				}
 			} catch (Throwable th2) {
+				th2.printStackTrace();
 				System.err.println("GeoCasCell.computeOutput(), GeoGebra eval: "
 						+ evalVE + "\n error: " + th2.getMessage());
 				success = false;

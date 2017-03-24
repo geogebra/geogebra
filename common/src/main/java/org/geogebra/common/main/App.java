@@ -4093,8 +4093,6 @@ public abstract class App implements UpdateSelection {
 		// MOB-601
 		case MOBILE_LOCAL_SAVE:
 			return prerelease;
-		case RETEX_EDITOR:
-			return true;
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:

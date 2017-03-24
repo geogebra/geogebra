@@ -440,7 +440,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		if (geo != null && !geo.isDefined() && lastInput != null) {
 			text = lastInput;
 		}
-		if (text == null || !app.has(Feature.RETEX_EDITOR)) {
+		if (text == null) {
 			return false;
 		}
 		clearErrorLabel();
