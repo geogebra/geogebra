@@ -1,6 +1,6 @@
 {
   "name": "giac",
-  "version": "1.2.3-201703242041",
+  "version": "1.2.3-201703242349",
   "homepage": "https://www-fourier.ujf-grenoble.fr/~parisse/giac.html",
   "description": "Giac, a free computer algebra system",
   "repository" : {
@@ -21,5 +21,5 @@
   "dependencies": {
     "bindings": "~1.2.1"
   },
-  "os": [ "linux" ]
+  "os": [ "linux", "darwin", "win32" ]
 }

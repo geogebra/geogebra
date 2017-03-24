@@ -24,12 +24,35 @@
       "cflags_cc!" : [
           "-fno-rtti"
       ],
-      "link_settings" : {
-        "libraries" : [
-          "-lgmp"
+      'conditions': [
+        ['OS=="linux"',
+          {
+            'link_settings': {
+              'libraries': [
+                '-lgmp'
+              ]
+            }
+          }
+        ],
+        ['OS=="mac"',
+          {
+            'link_settings': {
+              'libraries': [
+                '-lgmp'
+              ]
+            }
+          }
+        ],
+        ['OS=="win"',
+          {
+            'link_settings': {
+              'libraries': [
+                '-lgmp.lib'
+              ],
+            }
+          }
         ]
-      # See the bigint package how to do this linking on different operating systems.
-      }
+      ]
     }
   ]
 }

@@ -12,7 +12,8 @@ console.log(giac.evaluate("expand((x+y)^3);"));
 
 ## Supported platforms ##
 
-Currently only Linux is supported. Other system will be supported soon.
+Currently only Linux has been tested. Mac OS X and Windows platforms
+are theoretically supported but yet untested.
 
 ## Prerequisites ##
 
