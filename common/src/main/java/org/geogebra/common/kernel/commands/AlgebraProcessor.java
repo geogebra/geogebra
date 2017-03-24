@@ -3174,14 +3174,22 @@ public class AlgebraProcessor {
 	 * @return equation of the element
 	 */
 	public Equation parseEquation(GeoElementND geoConic) {
+		ValidExpression ret = null;
 		try {
-			return (Equation) kernel.getParser().parseGeoGebraExpression(
+			ret = kernel.getParser().parseGeoGebraExpression(
 					geoConic.toValueString(StringTemplate.maxPrecision));
-		} catch (Exception e) {
+		} catch (ParseException e) {
 			// could be ParseException or Classcast Exception
 			// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.StringIndexOutOfBoundsException&tf=String.java&tc=java.lang.String&tm=startEndAndLength&nid&an&c&s=new_status_desc&ed=0
 			e.printStackTrace();
 		}
+		if (ret instanceof Equation) {
+			return (Equation) ret;
+		}
+		if (geoConic.isDefined()) {
+			Log.debug(geoConic.toValueString(StringTemplate.maxPrecision));
+		}
+
 		return new Equation(kernel, new ExpressionNode(kernel, Double.NaN),
 				new ExpressionNode(kernel, Double.NaN));
 
