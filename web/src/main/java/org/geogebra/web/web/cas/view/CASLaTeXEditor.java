@@ -20,6 +20,7 @@ import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -72,6 +73,7 @@ public class CASLaTeXEditor extends FlowPanel
 		add(mf);
 		dummy = new Label(
 				app.getLocalization().getMenu("InputLabel") + Unicode.ellipsis);
+		dummy.getElement().getStyle().setMarginLeft(5, Unit.PX);
 
 	}
 
@@ -246,7 +248,7 @@ public class CASLaTeXEditor extends FlowPanel
 	 * Click start callback
 	 */
 	protected void doClickStart() {
-		app.getGuiManager().setOnScreenKeyboardTextField(retexListener);
+		app.showKeyboard(retexListener);
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
