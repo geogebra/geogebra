@@ -257,7 +257,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 
-		if (this.keyboardShowing == show) {
+		if (this.isKeyboardShowing() == show) {
 			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
@@ -298,7 +298,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private void removeKeyboard(MathKeyboardListener textField) {
 		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
-		this.keyboardShowing = false;
+		this.setKeyboardShowing(false);
 		app.addToHeight(keyboardHeight);
 		keyboardHeight = 0;
 		this.remove(keyBoard);
@@ -318,7 +318,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	void addKeyboard(final MathKeyboardListener textField) {
 		final VirtualKeyboardW keyBoard = app.getGuiManager()
 				.getOnScreenKeyboard(textField, this);
-		this.keyboardShowing = true;
+		this.setKeyboardShowing(true);
 
 		keyBoard.show();
 		keyBoard.setVisible(false);
@@ -333,6 +333,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 			@Override
 			public void run() {
+				// this is async, maybe we canceled the keyboard
+				if (!isKeyboardShowing()) {
+					remove(keyBoard);
+					return;
+				}
 				final boolean showPerspectivesPopup = app
 						.isPerspectivesPopupVisible();
 				onKeyboardAdded(keyBoard);
@@ -417,7 +422,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		if (app.getLAF().isTablet()
-				|| keyboardShowing // if keyboard is already
+				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
 				|| app.getGuiManager().getOnScreenKeyboard(textField, this)
@@ -514,7 +519,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void refreshKeyboard() {
-		if (keyboardShowing) {
+		if (isKeyboardShowing()) {
 			final VirtualKeyboardW keyBoard = app.getGuiManager()
 					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
@@ -536,7 +541,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
 				if (!app.isStartedWithFile()) {
-					keyboardShowing = true;
+					setKeyboardShowing(true);
 					app.invokeLater(new Runnable() {
 
 						@Override
@@ -614,7 +619,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void updateKeyboardHeight() {
-		if(keyboardShowing){
+		if(isKeyboardShowing()){
 			int newHeight = app.getGuiManager().getOnScreenKeyboard(null, this)
 					.getOffsetHeight();
 			if (newHeight == 0) {
@@ -634,7 +639,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public double getKeyboardHeight() {
-		return keyboardShowing ? keyboardHeight : 0;
+		return isKeyboardShowing() ? keyboardHeight : 0;
 	}
 
 	/**
@@ -826,5 +831,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		mowToolbar.setMode(mode);
+	}
+
+	private void setKeyboardShowing(boolean keyboardShowing) {
+		this.keyboardShowing = keyboardShowing;
 	}
 }
