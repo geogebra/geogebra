@@ -388,7 +388,7 @@ public class AppWapplet extends AppWFull {
 						.getParser(), ToolBar.getAllToolsNoMacros(true, false, this));
 			}
 			getGuiManager().updateFrameSize();
-			if(articleElement.getDataParamShowAlgebraInput(false)){
+			if (articleElement.getDataParamShowAlgebraInput(false) && !isWhiteboardActive()) {
 				Perspective p2 = getTmpPerspective(p);
 				if (!algebraVisible(p2)
 						&& getInputPosition() == InputPosition.algebraView) {
