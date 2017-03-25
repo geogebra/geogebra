@@ -1,7 +1,9 @@
 # Giac, a free computer algebra system #
 
-This document describes the Node port of Giac. It offers direct use of
-Giac in JavaScript programs including Electron applications.
+This document describes the Node port of
+[Giac](http://www-fourier.ujf-grenoble.fr/~parisse/giac.html). It offers
+direct use of Giac in JavaScript programs including
+[Electron](https://electron.atom.io/) applications.
 
 ## Example usage ##
 
@@ -12,13 +14,22 @@ console.log(giac.evaluate("expand((x+y)^3);"));
 
 ## Supported platforms ##
 
-Currently only Linux has been tested. Mac OS X and Windows platforms
-are theoretically supported but yet untested.
+Currently only Linux and Mac OS X have been tested. The Windows platform is
+theoretically supported but yet untested.
 
 ## Prerequisites ##
 
-Install the GMP development library. On a Debian based system it can be
-performed by running `apt install libgmp-dev`.
+Install the [GMP](https://gmplib.org) development library.
+
+### Linux ###
+
+On a Debian based system it can be performed by running `sudo apt install
+libgmp-dev`.
+
+### Mac OS X ###
+
+Install [MacPorts](https://www.macports.org/install.php). Then `sudo port
+install gmp` will install GMP as well.
 
 ## Compilation ##
 
@@ -27,10 +38,15 @@ several minutes.
 
 ## Testing ##
 
-Enter `node ./` in the current folder.
+Enter `npm test` in the current folder.
 
 ## Authors ##
 
 Giac was mostly written and is continuously developed by Bernard Parisse
 <bernard.parisse@univ-grenoble-alpes.fr>. The Node port was implemented
 by Zoltán Kovács <zoltan@geogebra.org>.
+
+## Acknowledgments ##
+
+The Node port of Giac is dedicated to Gábor Ancsin, one of the most
+prominent JavaScript heroes of the [GeoGebra](http://www.geogebra.org) [Team](http://www.geogebra.org/team).

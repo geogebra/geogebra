@@ -36,11 +36,20 @@
         ],
         ['OS=="mac"',
           {
+            'defines+': [ 
+              'NO_STDEXCEPT',
+              'APPLE_SMART',
+              'HAVE_UNISTD_H',
+              'NO_GETTEXT',
+              'CLANG' ],
             'link_settings': {
               'libraries': [
                 '-lgmp'
               ]
-            }
+            },
+            'xcode_settings': { 'GCC_ENABLE_CPP_RTTI': 'YES',
+            'OTHER_CPLUSPLUSFLAGS' : ['-std=c++11', '-stdlib=libc++', "-Wno-narrowing", "-fexceptions"],
+            'OTHER_LDFLAGS' : ['-L/opt/local/lib'] } # Assuming MacPorts is used to provide libgmp.
           }
         ],
         ['OS=="win"',
