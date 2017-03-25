@@ -870,8 +870,9 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoPlane3D Plane3D(String label, GeoCoordSys2D cs2D) {
-		AlgoPlaneCS2D algo = new AlgoPlaneCS2D(cons, label, cs2D);
+		AlgoPlaneCS2D algo = new AlgoPlaneCS2D(cons, cs2D);
 		GeoPlane3D plane = (GeoPlane3D) algo.getCoordSys();
+		plane.setLabel(label);
 		return plane;
 	}
 

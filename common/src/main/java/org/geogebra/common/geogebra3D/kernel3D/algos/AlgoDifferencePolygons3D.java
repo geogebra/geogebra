@@ -87,9 +87,9 @@ public class AlgoDifferencePolygons3D extends AlgoPolygonOperations3D {
 	}
 
 	@Override
-	public void compute() {
+	protected void compute(boolean useLabels) {
 		this.operationType = AlgoPolygonDifference.getOp(exclusive);
-		super.compute();
+		super.compute(useLabels);
 	}
 
 	@Override

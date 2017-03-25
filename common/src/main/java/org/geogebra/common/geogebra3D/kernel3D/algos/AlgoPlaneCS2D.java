@@ -23,22 +23,11 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 	private GeoCoordSys2D csInput;
 
 	/**
-	 * create a plane joining points, with label.
-	 * 
 	 * @param c
 	 *            construction
-	 * @param label
-	 *            label of the polygon
 	 * @param csInput
+	 *            contained polygon / conic
 	 */
-	public AlgoPlaneCS2D(Construction c, String label, GeoCoordSys2D csInput) {
-
-		this(c, csInput);
-
-		((GeoElement) cs).setLabel(label);
-
-	}
-
 	public AlgoPlaneCS2D(Construction c, GeoCoordSys2D csInput) {
 		super(c);
 

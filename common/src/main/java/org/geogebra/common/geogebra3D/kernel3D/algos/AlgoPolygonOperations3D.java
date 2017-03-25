@@ -40,7 +40,6 @@ import org.geogebra.common.util.clipper.DefaultClipper;
 import org.geogebra.common.util.clipper.Path;
 import org.geogebra.common.util.clipper.Paths;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -54,13 +53,16 @@ import org.geogebra.common.util.debug.Log;
 
 public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
-	// input
+	/** first input polygon */
 	protected GeoPolygon inPoly0;
+	/** second input polygon */
 	protected GeoPolygon inPoly1;
 
-	// output
+	/** output polygons */
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
+	/** output points */
 	protected OutputHandler<GeoPoint3D> outputPoints;
+	/** output segments */
 	protected OutputHandler<GeoSegment3D> outputSegments;
 
 	// clipper library compatible types
@@ -80,9 +82,9 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	private GeoPoint3D tmpPoint;
 	private ArrayList<Integer> intersectSegmentIndex;
 
-	// polygon operation type
+	/** polygon operation type */
 	protected PolyOperation operationType;
-
+	/** output labels */
 	protected String[] labels;
 	private boolean silent;
 
@@ -179,8 +181,6 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 *            input polygon 2
 	 * @param operationType
 	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,XOR
-	 * @param outputSizes
-	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperations3D(Construction cons, String[] labels,
 			GeoPoly inPoly0, GeoPoly inPoly1, PolyOperation operationType) {
@@ -210,11 +210,14 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 	}
 
+	/**
+	 * @param outputSizes
+	 *            size of polygon, point, segmen output
+	 */
 	protected void initialize(int[] outputSizes) {
 		setInputOutput();
 
 		compute(false);
-		Log.debug(labels.length + " labels");
 		// set labels
 		if (labels == null) {
 			outputPolygons.setLabels(null);
@@ -360,11 +363,15 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	}
 
 	@Override
-	public void compute() {
+	public final void compute() {
 		compute(!silent);
 	}
 
-	private void compute(boolean updateLabels) {
+	/**
+	 * @param updateLabels
+	 *            whether to set labels (should be false ion silent mode)
+	 */
+	protected void compute(boolean updateLabels) {
 
 		// one or more input polygons are undefined, terminate immediately
 		if (!this.inPoly0.isDefined() || !this.inPoly1.isDefined()) {
@@ -623,7 +630,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 */
 	private Coords o1, d1;
 
-	protected void setIntersectionLine(GeoLineND line) {
+	private void setIntersectionLine(GeoLineND line) {
 
 		o1 = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		d1 = line.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
@@ -634,21 +641,20 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * 
 	 * @param hasSegments
 	 * @param line
-	 * @param newCoords
+	 * @param newCoords1
 	 * 
 	 */
-	protected void intersectionsCoords(HasSegments hasSegments, GeoLineND line,
-			TreeMap<Double, Coords> newCoords) {
+	private void intersectionsCoords(GeoPolygon poly, GeoLineND line,
+			TreeMap<Double, Coords> newCoords1) {
 
-		GeoPolygon poly = (GeoPolygon) hasSegments;
 
 		// check if the line is contained by the polygon plane
 		switch (AlgoIntersectCS1D2D.getConfigLinePlane(line, poly)) {
 		case GENERAL: // intersect line/interior of polygon
-			intersectionsCoordsGeneral(poly, line, newCoords);
+			intersectionsCoordsGeneral(poly, line, newCoords1);
 			break;
 		case CONTAINED: // intersect line/segments
-			intersectionsCoordsContained(hasSegments, line, newCoords);
+			intersectionsCoordsContained(poly, line, newCoords1);
 			break;
 		case PARALLEL: // no intersection
 			break;
@@ -661,10 +667,10 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * 
 	 * @param p
 	 * @param line
-	 * @param newCoords
+	 * @param newCoords1
 	 */
-	protected void intersectionsCoordsContained(HasSegments p, GeoLineND line,
-			TreeMap<Double, Coords> newCoords) {
+	private void intersectionsCoordsContained(HasSegments p, GeoLineND line,
+			TreeMap<Double, Coords> newCoords1) {
 
 		// line origin and direction
 		setIntersectionLine(line);
@@ -687,7 +693,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 				double t2 = project[2].get(2); // parameter on segment
 
 				if (line.respectLimitedPath(t1) && seg.respectLimitedPath(t2)) {
-					newCoords.put(t1, project[0]);
+					newCoords1.put(t1, project[0]);
 				}
 			}
 		}
@@ -702,7 +708,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * @param newCoords
 	 * 
 	 */
-	protected void intersectionsCoordsGeneral(GeoPolygon p, GeoLineND line,
+	private static void intersectionsCoordsGeneral(GeoPolygon p,
+			GeoLineND line,
 			TreeMap<Double, Coords> newCoords) {
 
 		Coords globalCoords = new Coords(4);
