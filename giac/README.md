@@ -9,7 +9,7 @@ direct use of Giac in JavaScript programs including
 
 ```javascript
 var giac = require('bindings')('giac');
-console.log(giac.evaluate("expand((x+y)^3);"));
+console.log(giac.evaluate("expand((x+y)^3)"));
 ```
 
 ## Supported platforms ##
@@ -19,17 +19,17 @@ theoretically supported but yet untested.
 
 ## Prerequisites ##
 
-Install the [GMP](https://gmplib.org) development library.
+Install the [GMP](https://gmplib.org) and [MPFR](http://www.mpfr.org/) development libraries.
 
 ### Linux ###
 
 On a Debian based system it can be performed by running `sudo apt install
-libgmp-dev`.
+libgmp-dev libmpfr-dev`.
 
 ### Mac OS X ###
 
 Install [MacPorts](https://www.macports.org/install.php). Then `sudo port
-install gmp` will install GMP as well.
+install gmp mpfr` will install GMP and MPFR as well.
 
 ## Compilation ##
 
@@ -38,7 +38,8 @@ several minutes.
 
 ## Testing ##
 
-Enter `npm test` in the current folder.
+Enter `npm test` in the current folder. To play with Giac, modify the
+file **nodegiac.js** and run `npm test` again.
 
 ## Authors ##
 
@@ -49,4 +50,5 @@ by Zoltán Kovács <zoltan@geogebra.org>.
 ## Acknowledgments ##
 
 The Node port of Giac is dedicated to Gábor Ancsin, one of the most
-prominent JavaScript heroes of the [GeoGebra](http://www.geogebra.org) [Team](http://www.geogebra.org/team).
+prominent JavaScript heroes of the [GeoGebra](http://www.geogebra.org)
+[Team](http://www.geogebra.org/team).

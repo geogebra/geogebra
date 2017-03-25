@@ -17,6 +17,8 @@
           "TIMEOUT",
           'HAVE_SYS_TIMES_H',
           'HAVE_SYS_TIME_H',
+          'HAVE_MPFR_1',
+          'HAVE_LIBMPFR'
       ],
       "cflags_cc" : [
           "-fexceptions", "-fpermissive"
@@ -29,7 +31,7 @@
           {
             'link_settings': {
               'libraries': [
-                '-lgmp'
+                '-lgmp', '-lmpfr'
               ]
             }
           }
@@ -44,7 +46,7 @@
               'CLANG' ],
             'link_settings': {
               'libraries': [
-                '-lgmp'
+                '-lgmp', '-lmpfr'
               ]
             },
             'xcode_settings': { 'GCC_ENABLE_CPP_RTTI': 'YES',

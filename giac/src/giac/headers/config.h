@@ -19,16 +19,16 @@
 #define PACKAGE_NAME "giac"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "giac 1.2.2"
+#define PACKAGE_STRING "giac 1.2.3"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "giac"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "1.2.2"
+#define PACKAGE_VERSION "1.2.3"
 
 /* Version number of package */
-#define VERSION "1.2.2"
+#define VERSION "1.2.3"
 
 #define GIAC_NO_OPTIMIZATIONS
 #define HAVE_NO_HOME_DIRECTORY
