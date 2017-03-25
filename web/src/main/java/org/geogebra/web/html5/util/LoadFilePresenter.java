@@ -187,9 +187,14 @@ public class LoadFilePresenter {
 				        app.getKernel().getParser(),
 						ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
 				if ("1".equals(perspective)) {
-					double ratio = PerspectiveDecoder.landscapeRatio(
-							app.getArticleElement().getDataParamWidth());
-					pd.getSplitPaneData()[0].setDivider(ratio);
+					int width = app.getArticleElement().getDataParamWidth();
+					if (app.getArticleElement().getDataParamFitToScreen()) {
+						width = Window.getClientWidth();
+					}
+					if (width > 0) {
+						double ratio = PerspectiveDecoder.landscapeRatio(width);
+						pd.getSplitPaneData()[0].setDivider(ratio);
+					}
 
 				}
 				finishEmptyLoading(app, pd);
