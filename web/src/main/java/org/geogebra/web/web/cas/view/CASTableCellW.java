@@ -75,7 +75,7 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null) {
 			commentLabel = new Label();
 			commentLabel.addStyleName("CAS_commentLabel");
-			commentLabel.setText(casCell.getCommandAndComment());
+			commentLabel.setText(casCell.getCommandAndComment() + " ");
 			commentLabel.getElement().getStyle()
 					.setFontSize(app.getFontSizeWeb(), Unit.PX);
 			// commentLabel.getElement().getStyle().setColor("gray");
