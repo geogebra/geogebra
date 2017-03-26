@@ -1,6 +1,6 @@
 {
   "name": "giac",
-  "version": "1.2.3-201703251112",
+  "version": "1.2.3-201703270012",
   "homepage": "https://www-fourier.ujf-grenoble.fr/~parisse/giac.html",
   "description": "Giac, a free computer algebra system",
   "repository" : {
