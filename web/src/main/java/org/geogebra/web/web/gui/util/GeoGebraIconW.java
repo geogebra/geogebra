@@ -14,12 +14,11 @@ public class GeoGebraIconW extends BasicIcons {
 
 
 
-	/** creates LineStyle icon
+	/**
+	 * creates LineStyle icon
+	 * 
 	 * @param dashStyle
-	 * @param thickness
-	 * @param iconSize
-	 * @param fgColor
-	 * @param bgColor
+	 *            dash index (see lineStyleIcons)
 	 * @return Canvas with icon drawn
 	 */
 	public static ImageOrText createLineStyleIcon(int dashStyle) {
@@ -47,8 +46,8 @@ public class GeoGebraIconW extends BasicIcons {
 		(LafIcons.grid()),
 		(LafIcons.polar_grid()),
 		(LafIcons.isometric_grid())};
-	private static ImageResource[] lineStyleIcons = {
- LafIcons.line_solid(),
+
+	private static ImageResource[] lineStyleIcons = { LafIcons.line_solid(),
 			LafIcons.line_dashed_long(), LafIcons.line_dashed_short(),
 			LafIcons.line_dotted(), LafIcons.line_dash_dot(),
 			LafIcons.point_cross_diag() };

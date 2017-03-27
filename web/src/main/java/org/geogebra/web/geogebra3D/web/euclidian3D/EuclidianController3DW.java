@@ -369,7 +369,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	public void onPointerEventMove(PointerEvent event) {
-		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
+		mtg.onMouseMoveNow(event, System.currentTimeMillis(), true);
 	}
 
 	public void onPointerEventEnd(PointerEvent event) {

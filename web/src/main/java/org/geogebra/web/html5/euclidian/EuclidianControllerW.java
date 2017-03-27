@@ -338,7 +338,9 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void startCapture(AbstractEvent event) {
-		Event.setCapture(((PointerEvent) event).getRelativeElement());
+		if (app != null && !app.has(Feature.PEN_EVENTS)) {
+			Event.setCapture(((PointerEvent) event).getRelativeElement());
+		}
 	}
 
 	@Override
@@ -455,7 +457,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	public void onPointerEventMove(PointerEvent event) {
-		mtg.onMouseMoveNow(event, System.currentTimeMillis(), false);
+		mtg.onMouseMoveNow(event, System.currentTimeMillis(), true);
 	}
 
 	public void onPointerEventEnd(PointerEvent event) {
