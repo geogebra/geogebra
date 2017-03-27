@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Fit a Polynomial exactly to a set of coordinates. Unstable above about 12
@@ -180,7 +179,6 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-		Log.debug(cof);
 		// build polynomial
 		Function polyFun = buildPolyFunctionExpression(g.getKernel(), cof);
 
@@ -266,10 +264,8 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 					 {
 						coeffMyDouble.set(-coeff); // change sign
 					}
-					Log.debug(poly);
 					poly = new ExpressionNode(kernel, poly, Operation.MINUS,
 							partExp);
-					Log.debug(poly);
 				} else {
 					poly = new ExpressionNode(kernel, poly, Operation.PLUS,
 							partExp);

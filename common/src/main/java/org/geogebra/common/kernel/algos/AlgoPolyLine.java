@@ -30,15 +30,29 @@ import org.geogebra.common.plugin.GeoClass;
  * @author Michael Borcherds
  */
 public class AlgoPolyLine extends AlgoElement {
+	/** input points */
+	protected GeoPointND[] points;
+	/** alternative input */
+	protected GeoList geoList;
+	/** output polyline */
+	protected GeoPolyLine poly;
 
-	protected GeoPointND[] points; // input
-	protected GeoList geoList; // alternative input
-	protected GeoPolyLine poly; // output
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param geoList
+	 *            list of vertices
+	 */
 	public AlgoPolyLine(Construction cons, GeoList geoList) {
 		this(cons, (GeoPointND[]) null, geoList);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param points
+	 *            vertices
+	 */
 	public AlgoPolyLine(Construction cons, GeoPointND[] points) {
 		this(cons, points, null);
 	}
@@ -160,14 +174,23 @@ public class AlgoPolyLine extends AlgoElement {
 		getOutput(0).update();
 	}
 
+	/**
+	 * @return polyline
+	 */
 	public GeoPolyLine getPoly() {
 		return poly;
 	}
 
+	/**
+	 * @return points
+	 */
 	public GeoPointND[] getPoints() {
 		return points;
 	}
 
+	/**
+	 * @return point list
+	 */
 	public GeoList getPointsList() {
 		return geoList;
 	}
@@ -217,6 +240,9 @@ public class AlgoPolyLine extends AlgoElement {
 		return sb.toString();
 	}
 
+	/**
+	 * @return ND points (same as GetPoints in 2D)
+	 */
 	public final GeoPointND[] getPointsND() {
 		return points;
 	}
