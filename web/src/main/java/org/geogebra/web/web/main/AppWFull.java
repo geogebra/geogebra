@@ -367,11 +367,8 @@ public abstract class AppWFull extends AppW {
 		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
+		resetPenTool();
 
-		if (isWhiteboardActive()) {
-			// reset pen tool
-			setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
-		}
 	}
 
 	private void resetAllToolbars() {
@@ -386,8 +383,22 @@ public abstract class AppWFull extends AppW {
 		}
 
 		gm.setToolBarDefinition(gm.getDefaultToolbarString());
+
+	}
+
+	/**
+	 * Selects Pen tool in whiteboard
+	 */
+	protected void resetPenTool() {
+		if (!isWhiteboardActive()) {
+			return;
+		}
+
+		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+
 	}
 	
+
 	@Override
 	public void openOFF(String content){
 		OFFHandler h = new OFFHandler(getKernel().getConstruction());
