@@ -125,7 +125,7 @@ public class HttpRequestD extends HttpRequest {
 			}
 		} catch (Exception ex) {
 			processed = true;
-			String err = "";
+			String err = "(No error)";
 			try {
 				if (huc != null && huc.getErrorStream() != null) {
 					err = readOutput(huc.getErrorStream());
@@ -135,9 +135,10 @@ public class HttpRequestD extends HttpRequest {
 			}
 			System.out.println(post);
 			if (callback != null) {
+				Log.error(err);
 				callback.onError(
 						"Connection error: " + ex.getMessage());
-				Log.error(err);
+
 			}
 			ex.printStackTrace();
 			Log.error(ex.getMessage());

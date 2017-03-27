@@ -74,28 +74,7 @@ public class TubeAPITest extends Assert {
 		GeoGebraTubeAPID api = new GeoGebraTubeAPID(true, getAuthClient(null));
 		final ArrayList<String> titles = new ArrayList<String>();
 
-		api.uploadMaterial(0, "O", "testfile" + new Date() + Math.random(),
-					circleBase64,
-				new MaterialCallbackI() {
-
-					public void onLoaded(List<Material> result,
-							ArrayList<Chapter> meta) {
-						if (result.size() > 0) {
-							for (Material m : result) {
-								titles.add(m.getTitle());
-							}
-						} else {
-							titles.add("FAIL " + result.size());
-						}
-
-					}
-
-					public void onError(Throwable exception) {
-						exception.printStackTrace();
-						Assert.assertNull(exception.getMessage());
-
-					}
-				}, MaterialType.ggb);
+		uploadMaterial(api, titles, 0, null);
 
 		for (int i = 0; i < 20 && titles.size() < 1; i++) {
 			try {
@@ -111,6 +90,63 @@ public class TubeAPITest extends Assert {
 				titles.get(0).contains("FAIL"));
 	}
 
+	@Test
+	public void testReupload() {
+
+		final GeoGebraTubeAPID api = new GeoGebraTubeAPID(true,
+				getAuthClient(null));
+		final ArrayList<String> titles = new ArrayList<String>();
+
+		uploadMaterial(api, titles, 0, new IdCallback() {
+
+			public void handle(int id) {
+				uploadMaterial(api, titles, id, null);
+
+			}
+		});
+
+		for (int i = 0; i < 20 && titles.size() < 2; i++) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		assertEquals("Wrong number of upload results", 2, titles.size());
+		assertFalse("Wrong upload result: " + titles.get(0),
+				titles.get(0).contains("FAIL"));
+	}
+
+	private void uploadMaterial(GeoGebraTubeAPID api,
+			final ArrayList<String> titles, int id, final IdCallback callback) {
+		api.uploadMaterial(id, "O", "testfile" + new Date() + Math.random(),
+				circleBase64, new MaterialCallbackI() {
+
+					public void onLoaded(List<Material> result,
+							ArrayList<Chapter> meta) {
+						if (result.size() > 0) {
+							for (Material m : result) {
+								titles.add(m.getTitle());
+								if (callback != null) {
+									callback.handle(m.getId());
+								}
+							}
+						} else {
+							titles.add("FAIL " + result.size());
+						}
+
+					}
+
+					public void onError(Throwable exception) {
+						exception.printStackTrace();
+						Assert.assertNull(exception.getMessage());
+
+					}
+				}, MaterialType.ggb);
+
+	}
 	/**
 	 * Upload one material and delete all materials in account.
 	 */
