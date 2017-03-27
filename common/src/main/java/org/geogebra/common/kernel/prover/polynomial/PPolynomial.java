@@ -324,7 +324,10 @@ public class PPolynomial implements Comparable<PPolynomial> {
 				sb.append(c);
 			sb.append('+');
 		}
-		return sb.substring(0, sb.length() - 1); // removing closing "+"
+		String ret = sb.substring(0, sb.length() - 1); // removing closing "+"
+		ret = ret.replaceAll("\\+-", "-").replaceAll("-1\\*", "-")
+				.replaceAll("\\+1\\*", "+").replaceAll("^1\\*", "");
+		return ret;
 	}
 
 	/**
