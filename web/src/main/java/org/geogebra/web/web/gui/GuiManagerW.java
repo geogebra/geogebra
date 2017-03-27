@@ -1992,7 +1992,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 					// and the Menu
 					panel.showStyleBarPanel(true);
 					if (app.isWhiteboardActive()) {
-						panel.setStyleBarRightOffset(-(int) panelRightToAppRight - 2);
+						panel.setStyleBarRightOffset(-(int) panelRightToAppRight);
 					} else {
 						panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH - (int) panelRightToAppRight - 2);
 					}
