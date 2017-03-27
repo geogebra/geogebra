@@ -221,7 +221,6 @@ public abstract class FunctionInspector
 
 	@Override
 	public void remove(GeoElement geo) {
-		Log.debug(geo);
 		// not needed in this view
 	}
 
