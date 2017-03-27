@@ -62,14 +62,23 @@ public interface GeoGebraConstants {
 			this.suffix = suffix;
 		}
 
-		public String getVersionString() {
+		public String getVersionString(boolean prerelease, boolean canary) {
+
+			String preReleaseSuffix = "";
+
+			if (canary) {
+				preReleaseSuffix = "-canary";
+			} else if (prerelease) {
+				preReleaseSuffix = "-prerelease";
+			}
 
 			switch (this) {
 			case WEB_FOR_DESKTOP:
 				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix
+						+ preReleaseSuffix;
 			default:
-				return VERSION_STRING + "-" + suffix;
+				return VERSION_STRING + "-" + suffix + preReleaseSuffix;
 
 			}
 

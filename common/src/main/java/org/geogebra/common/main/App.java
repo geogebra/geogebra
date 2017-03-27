@@ -3206,7 +3206,7 @@ public abstract class App implements UpdateSelection {
 	public String getVersionString() {
 
 		if (version != null) {
-			return version.getVersionString();
+			return version.getVersionString(prerelease, canary);
 		}
 
 		// fallback in case version not set properly
