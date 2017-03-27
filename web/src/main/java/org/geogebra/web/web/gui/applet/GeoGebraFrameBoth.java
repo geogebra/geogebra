@@ -485,7 +485,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 	
 	private boolean appNeedsKeyboard() {
-		return (app.showAlgebraInput() && app.getInputPosition() == InputPosition.algebraView)
+		return (app.showAlgebraInput()
+				&& app.getInputPosition() == InputPosition.algebraView
+				&& app.showView(App.VIEW_ALGEBRA))
 				|| (app.showView(App.VIEW_CAS));
 	}
 
