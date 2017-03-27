@@ -12,7 +12,7 @@ import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.util.LineStylePreview;
+import org.geogebra.web.web.gui.util.PenPreview;
 import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.core.client.GWT;
@@ -45,7 +45,7 @@ public class PenSubMenu extends SubMenuPanel {
 	private GColor penColor[];
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
-	private LineStylePreview preview;
+	private PenPreview preview;
 	private boolean colorsEnabled;
 	// preset colors: black, purple, teal, orange
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
@@ -120,7 +120,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
 		slider.addStyleName("optionsSlider");
 
-		preview = new LineStylePreview(app, 50, 30);
+		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
 		slider.add(preview);
 		sizePanel.add(slider);
@@ -196,6 +196,8 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) getPenGeo().getLineThickness());
 		slider.setVisible(true);
+		slider.addStyleName("optionsSlider-pen");
+		preview.setVisible(true);
 		updatePreview();
 	}
 
@@ -210,6 +212,8 @@ public class PenSubMenu extends SubMenuPanel {
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
 		slider.setVisible(true);
+		slider.removeStyleName("optionsSlider-pen");
+		preview.setVisible(false);
 	}
 
 	private void doSelectFreehand() {
@@ -285,7 +289,6 @@ public class PenSubMenu extends SubMenuPanel {
 
 
 	private void updatePreview() {
-		preview.update(slider.getValue().intValue(), 0,
-				getPenGeo().getObjectColor());
+		preview.update();
 	}
 }

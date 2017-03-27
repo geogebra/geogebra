@@ -396,6 +396,34 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
+	 * Method to repaint the whole preview line from (x, y) with a given width.
+	 * 
+	 * @param g2D
+	 *            graphics for pen
+	 * @param color
+	 *            of the pen preview
+	 * @param thickness
+	 *            of the pen preview
+	 * @param x
+	 *            Start x coordinate
+	 * @param y
+	 *            Start y coordinate
+	 * @param width
+	 *            of the preview
+	 */
+	public void drawStylePreview(GGraphics2D g2D, GColor color, int thicknes,
+			int x, int y, int width) {
+		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
+		g2D.setStroke(EuclidianStatic.getStroke(thicknes,
+				EuclidianStyleConstants.LINE_TYPE_FULL));
+		g2D.setColor(color);
+		gp.reset();
+		gp.moveTo(x, y);
+		gp.lineTo(x + width, y);
+		g2D.draw(gp);
+	}
+
+	/**
 	 * add the saved points to the last stroke or create a new one
 	 *
 	 * @param e
