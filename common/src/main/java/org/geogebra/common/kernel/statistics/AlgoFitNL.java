@@ -1,5 +1,8 @@
 package org.geogebra.common.kernel.statistics;
 
+import org.apache.commons.math3.fitting.CurveFitter;
+import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
+
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
  http://www.geogebra.org
@@ -12,8 +15,6 @@ package org.geogebra.common.kernel.statistics;
 
  */
 
-import org.apache.commons.math3.optimization.fitting.CurveFitter;
-import org.apache.commons.math3.optimization.general.LevenbergMarquardtOptimizer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;

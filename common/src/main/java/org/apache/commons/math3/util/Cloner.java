@@ -61,19 +61,6 @@ public class Cloner {
 		return ret;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[] clone(
-			org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[] points) {
-		org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[] ret = new org.apache.commons.math3.optimization.fitting.WeightedObservedPoint[points.length];
-
-		for (int i = 0; i < points.length; i++) {
-			ret[i] = new org.apache.commons.math3.optimization.fitting.WeightedObservedPoint(
-					points[i].getWeight(), points[i].getX(), points[i].getY());
-		}
-
-		return ret;
-	}
-
 	public static EquationsMapper[] clone(EquationsMapper[] map) {
 
 		EquationsMapper[] ret = new EquationsMapper[map.length];
