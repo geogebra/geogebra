@@ -56,12 +56,12 @@ public class AlgoLocusStroke extends AlgoElement
 		updatePointArray(points);
 		// poly = new GeoPolygon(cons, points);
 		// updatePointArray already covered compute
-		input = new GeoElement[points.length + 1];
-		for (int i = 0; i < points.length; i++) {
-			input[i] = (GeoElement) points[i];
-		}
+		input = new GeoElement[1];
+		// for (int i = 0; i < points.length; i++) {
+		// input[i] = (GeoElement) points[i];
+		// }
 
-		input[points.length] = new GeoBoolean(cons, true); // dummy to
+		input[0] = new GeoBoolean(cons, true); // dummy to
 															// force
 															// PolyLine[...,
 															// true]
@@ -372,19 +372,24 @@ public class AlgoLocusStroke extends AlgoElement
 		}
 		// add expression
 		sb.append(" exp=\"PolyLine[");
+		appendPoints(sb, tpl);
+		sb.append("]\"");
+
+		// expression
+		sb.append(" />\n");
+		return sb.toString();
+	}
+
+	private void appendPoints(StringBuilder sb, StringTemplate tpl) {
 		ArrayList<MyPoint> pts = this.getPointsWithoutControl();
 		for (MyPoint m : pts) {
 			sb.append("(");
 			sb.append(kernel.format(m.getX(), tpl));
 			sb.append(",");
 			sb.append(kernel.format(m.getY(), tpl));
-			sb.append("),");
+			sb.append("), ");
 		}
-		sb.append("true]\"");
-
-		// expression
-		sb.append(" />\n");
-		return sb.toString();
+		sb.append("true");
 	}
 
 	@Override
@@ -392,4 +397,29 @@ public class AlgoLocusStroke extends AlgoElement
 		return true;
 	}
 
+	@Override
+	public String getDefinition(StringTemplate tpl) {
+		String def = "PolyLine";
+
+		// #2706
+		if (input == null) {
+			return null;
+		}
+		sbAE.setLength(0);
+		if (tpl.isPrintLocalizedCommandNames()) {
+			sbAE.append(getLoc().getCommand(def));
+		} else {
+			sbAE.append(def);
+		}
+
+		
+
+		sbAE.append(tpl.leftSquareBracket());
+		// input legth is 0 for ConstructionStep[]
+		
+		appendPoints(sbAE, tpl);
+		sbAE.append(tpl.rightSquareBracket());
+		return sbAE.toString();
+
+	}
 }
