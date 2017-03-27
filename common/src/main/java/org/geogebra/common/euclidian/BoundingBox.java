@@ -23,8 +23,7 @@ public class BoundingBox {
 	private int nrHandlers = 8;
 
 	/**
-	 * @param view
-	 *            - euclidianView
+	 * Make new bounding box
 	 */
 	public BoundingBox() {
 		handlers = new ArrayList<GEllipse2DDouble>();

@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -209,6 +208,43 @@ public class AlgoFractionText extends AlgoElement {
 	/**
 	 * @param sb
 	 *            builder
+	 * @param tpl
+	 *            template
+	 * @param left
+	 *            numerator
+	 * @param right
+	 *            denominator
+	 */
+	public static void appendFraction(StringBuilder sb,
+			StringTemplate tpl, String left, String right) {
+		sb.append(" \\frac{ ");
+		sb.append(left);
+		sb.append(" }{ ");
+		sb.append(right);
+		sb.append(" } ");
+	}
+
+	/**
+	 * Appends plus or minus infinity to sb
+	 * 
+	 * @param sb
+	 *            builder
+	 * @param tpl
+	 *            template
+	 * @param numer
+	 *            numerator (to decide +-)
+	 */
+	public static void appendInfinity(StringBuilder sb, StringTemplate tpl,
+			double numer) {
+		if (numer > 0) {
+			sb.append(" \\infty ");
+		} else {
+			sb.append(" - \\infty ");
+		}
+	}
+	/**
+	 * @param sb
+	 *            builder
 	 * @param frac
 	 *            [numerator, denominator]
 	 * @param tpl
@@ -221,17 +257,11 @@ public class AlgoFractionText extends AlgoElement {
 		if (frac[1] == 1) { // integer
 			sb.append(kernel.format(frac[0], tpl));
 		} else if (frac[1] == 0) { // 1 / 0 or -1 / 0
-			if (frac[0] < 0) {
-				DrawEquation.appendMinusInfinity(sb, tpl);
-			} else {
-				DrawEquation.appendInfinity(sb, tpl);
-			}
+			appendInfinity(sb, tpl, frac[0]);
 		} else {
-			DrawEquation.appendFractionStart(sb, tpl);
-			sb.append(kernel.format(Kernel.checkDecimalFraction(frac[0]), tpl));
-			DrawEquation.appendFractionMiddle(sb, tpl);
-			sb.append(kernel.format(Kernel.checkDecimalFraction(frac[1]), tpl));
-			DrawEquation.appendFractionEnd(sb, tpl);
+			appendFraction(sb, tpl,
+					kernel.format(Kernel.checkDecimalFraction(frac[0]), tpl),
+					kernel.format(Kernel.checkDecimalFraction(frac[1]), tpl));
 		}
 	}
 

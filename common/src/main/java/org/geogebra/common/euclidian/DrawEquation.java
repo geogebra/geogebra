@@ -9,7 +9,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
@@ -29,32 +28,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 public abstract class DrawEquation {
 
-	public static void appendFractionStart(StringBuilder sb,
-			StringTemplate tpl) {
-		sb.append(" \\frac{ ");
-	}
 
-	public static void appendFractionMiddle(StringBuilder sb,
-			StringTemplate tpl) {
-		sb.append(" }{ ");
-	}
-
-	public static void appendFractionEnd(StringBuilder sb, StringTemplate tpl) {
-		sb.append(" } ");
-	}
-
-	public static void appendInfinity(StringBuilder sb, StringTemplate tpl) {
-		sb.append(" \\infty ");
-	}
-
-	public static void appendMinusInfinity(StringBuilder sb,
-			StringTemplate tpl) {
-		sb.append(" - \\infty ");
-	}
-
-	public static void appendNegation(StringBuilder sb, StringTemplate tpl) {
-		sb.append("-");
-	}
 
 	/**
 	 * @param app

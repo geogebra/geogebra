@@ -16,11 +16,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.commons.math3.util.ArithmeticUtils;
-import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.Commands;
@@ -270,22 +270,16 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		if (denom == 1) { // integer
 			sBuilder.append(kernel.format(numer, tpl));
 		} else if (denom == 0) { // 1 / 0 or -1 / 0
-			if (numer < 0) {
-				DrawEquation.appendMinusInfinity(sBuilder, tpl);
-			} else {
-				DrawEquation.appendInfinity(sBuilder, tpl);
-			}
+			AlgoFractionText.appendInfinity(sBuilder, tpl, numer);
 		} else {
 			boolean negative = numer < 0;
 			if (negative) {
 				numer = -numer;
-				DrawEquation.appendNegation(sBuilder, tpl);
+				sb.append("-");
 			}
-			DrawEquation.appendFractionStart(sBuilder, tpl);
-			sBuilder.append(kernel.format(numer, tpl));
-			DrawEquation.appendFractionMiddle(sBuilder, tpl);
-			sBuilder.append(kernel.format(denom, tpl));
-			DrawEquation.appendFractionEnd(sBuilder, tpl);
+			AlgoFractionText.appendFraction(sBuilder, tpl,
+					kernel.format(numer, tpl), kernel.format(denom, tpl));
+
 		}
 	}
 
