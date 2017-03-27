@@ -97,6 +97,7 @@ public class LaTeXView extends View {
         ensureTeXIconExists();
         invalidate();
         requestLayout();
+        setContentDescription(latexText);
     }
 
     /**
