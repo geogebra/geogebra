@@ -2213,6 +2213,7 @@ __GGB__keysVar.in.menu = {
     "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Buka dari halaman web",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Buka halaman web",
     "Operation": "Operasi",

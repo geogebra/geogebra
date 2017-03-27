@@ -2213,6 +2213,7 @@ __GGB__keysVar.sk.menu = {
     "OpenFromGoogleDrive": "Otvori\u0165 z Google Drive",
     "OpenFromSkyDrive": "Otvori\u0165 z SkyDrive",
     "OpenFromWebpage": "Otvori\u0165 z webstr\xe1nky",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Otvori\u0165 webov\xfa str\xe1nku",
     "Operation": "Oper\xe1cia",

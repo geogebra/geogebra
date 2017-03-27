@@ -2213,6 +2213,7 @@ __GGB__keysVar.et.menu = {
     "OpenFromGoogleDrive": "Ava Google Draivist",
     "OpenFromSkyDrive": "Ava SkyDraivist",
     "OpenFromWebpage": "Ava veebist",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Ava veebileht",
     "Operation": "Operatsioon",

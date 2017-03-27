@@ -2213,6 +2213,7 @@ __GGB__keysVar.ru.menu = {
     "OpenFromGoogleDrive": "\u041e\u0442\u043a\u0440\u044b\u0442 \u0441 Google Drive",
     "OpenFromSkyDrive": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0441\u043e SkyDrive",
     "OpenFromWebpage": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0441 \u0412\u0435\u0431-\u0441\u0430\u0439\u0442\u0430",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "\u041e\u0442\u043a\u0440\u044b\u0442\u044c \u0412\u0435\u0431-\u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0443",
     "Operation": "\u041e\u043f\u0435\u0440\u0430\u0446\u0438\u044f",

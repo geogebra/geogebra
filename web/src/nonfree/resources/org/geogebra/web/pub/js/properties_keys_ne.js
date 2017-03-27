@@ -2213,6 +2213,7 @@ __GGB__keysVar.ne.menu = {
     "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "\u0935\u0947\u092c\u092a\u0947\u091c\u092c\u093e\u091f \u0916\u094b\u0932\u093f\u090f\u0915\u094b",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "\u0935\u0947\u092c\u092a\u0947\u091c \u0916\u094b\u0932\u094d\u0928\u0941\u0939\u094b\u0938",
     "Operation": "\u0915\u0943\u092f\u093e",

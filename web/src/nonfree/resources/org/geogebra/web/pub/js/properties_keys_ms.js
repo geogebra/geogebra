@@ -2213,6 +2213,7 @@ __GGB__keysVar.ms.menu = {
     "OpenFromGoogleDrive": "Buka daripada Google Drive",
     "OpenFromSkyDrive": "Buka daripad SkyDrive",
     "OpenFromWebpage": "Buka dari Laman Web",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Buka Tutorial",
     "OpenWebpage": "Buka Laman Web",
     "Operation": "Operasi",

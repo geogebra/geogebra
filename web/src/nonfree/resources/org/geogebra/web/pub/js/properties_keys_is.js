@@ -2213,6 +2213,7 @@ __GGB__keysVar.is.menu = {
     "OpenFromGoogleDrive": "Opna \xed Google Drive",
     "OpenFromSkyDrive": "Opna \xed SkyDrive",
     "OpenFromWebpage": "Opna fr\xe1 vefs\xed\xf0u",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Opna vefs\xed\xf0u",
     "Operation": "A\xf0ger\xf0",

@@ -2213,6 +2213,7 @@ __GGB__keysVar.fr.menu = {
     "OpenFromGoogleDrive": "Ouvrir \xe0 partir de Google Drive",
     "OpenFromSkyDrive": "Ouvrir \xe0 partir de SkyDrive",
     "OpenFromWebpage": "Ouvrir \xe0 partir d'une page Web",
+    "OpenMenu": "Ouvrir Menu",
     "OpenTutorial": "Ouvrir le Tutoriel",
     "OpenWebpage": "Ouvrir une page Web",
     "Operation": "Op\xe9ration",

@@ -2213,6 +2213,7 @@ __GGB__keysVar.cy.menu = {
     "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Agorwch o Dudalen We",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Agor Tudalen We",
     "Operation": "Gweithred",

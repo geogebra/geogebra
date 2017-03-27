@@ -2213,6 +2213,7 @@ __GGB__keysVar.ta.menu = {
     "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "Open from Webpage",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Open Webpage",
     "Operation": "\u0b9a\u0bc6\u0baf\u0bb2\u0bcd",

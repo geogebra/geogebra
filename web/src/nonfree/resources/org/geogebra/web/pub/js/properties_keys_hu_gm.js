@@ -2213,6 +2213,7 @@ __GGB__keysVar.hu_gm.menu = {
     "OpenFromGoogleDrive": "Megnyit\xe1s Google Drive-r\xf3l",
     "OpenFromSkyDrive": "Megnyit\xe1s SkyDrive-r\xf3l",
     "OpenFromWebpage": "Weblapr\xf3l megnyit",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "\xdatmutat\xf3 megnyit\xe1sa",
     "OpenWebpage": "Weboldalt megnyit",
     "Operation": "M\u0171velet",

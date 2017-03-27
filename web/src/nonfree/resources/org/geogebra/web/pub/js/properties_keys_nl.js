@@ -2213,6 +2213,7 @@ __GGB__keysVar.nl.menu = {
     "OpenFromGoogleDrive": "Open vanuit Google Drive",
     "OpenFromSkyDrive": "Open vanuit SkyDrive",
     "OpenFromWebpage": "Open uit webpagina",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open handleiding",
     "OpenWebpage": "Open webpagina",
     "Operation": "Bewerking",

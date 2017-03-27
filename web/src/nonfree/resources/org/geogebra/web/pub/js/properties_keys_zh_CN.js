@@ -2213,6 +2213,7 @@ __GGB__keysVar.zh_CN.menu = {
     "OpenFromGoogleDrive": "\u6253\u5f00 Google Drive",
     "OpenFromSkyDrive": "\u6253\u5f00 SkyDrive",
     "OpenFromWebpage": "\u4ece\u7f51\u9875\u6253\u5f00",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "\u6253\u5f00\u6559\u7a0b",
     "OpenWebpage": "\u6253\u5f00\u7f51\u9875",
     "Operation": "\u64cd\u4f5c",

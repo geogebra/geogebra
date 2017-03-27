@@ -2213,6 +2213,7 @@ __GGB__keysVar.no_NN.menu = {
     "OpenFromGoogleDrive": "Opne fr\xe5 Google Drive",
     "OpenFromSkyDrive": "Opne fr\xe5 SkyDrive",
     "OpenFromWebpage": "Opne fr\xe5 nettside",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Opne instruksjon",
     "OpenWebpage": "Opne nettside",
     "Operation": "Operasjon",

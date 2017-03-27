@@ -2213,6 +2213,7 @@ __GGB__keysVar.xh.menu = {
     "OpenFromGoogleDrive": "Vula kuGoogle Drive",
     "OpenFromSkyDrive": "Vula kuSkyDrive",
     "OpenFromWebpage": "Vula kwiWebpage",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Vula iWebpage",
     "Operation": "iOperation",

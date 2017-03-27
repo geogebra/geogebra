@@ -2213,6 +2213,7 @@ __GGB__keysVar.zh_TW.menu = {
     "OpenFromGoogleDrive": "\u5f9e Google \u96f2\u7aef\u786c\u789f\u958b\u555f",
     "OpenFromSkyDrive": "\u5f9e SkyDrive \u958b\u555f",
     "OpenFromWebpage": "\u5f9e\u7db2\u5740\u958b\u555f",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "\u958b\u555f\u7db2\u9801",
     "Operation": "Operation",

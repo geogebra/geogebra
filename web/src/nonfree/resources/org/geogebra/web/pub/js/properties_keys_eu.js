@@ -2213,6 +2213,7 @@ __GGB__keysVar.eu.menu = {
     "OpenFromGoogleDrive": "Google Drive-etik Ireki",
     "OpenFromSkyDrive": "SkyDrive-etik Ireki",
     "OpenFromWebpage": "Ireki Web-orrialdetik",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Tutoretza Irekia",
     "OpenWebpage": "Ireki Web-Orrialdea",
     "Operation": "Eragiketa",

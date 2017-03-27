@@ -2213,6 +2213,7 @@ __GGB__keysVar.fi.menu = {
     "OpenFromGoogleDrive": "Avaa GoogleDrivest\xe4",
     "OpenFromSkyDrive": "Avaa OneDrivest\xe4",
     "OpenFromWebpage": "Avaa www-sivulta",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Avaa opastus",
     "OpenWebpage": "Avaa www-sivu",
     "Operation": "Toiminto",

@@ -2213,6 +2213,7 @@ __GGB__keysVar.lt.menu = {
     "OpenFromGoogleDrive": "Atidaryti i\u0161 Google disko",
     "OpenFromSkyDrive": "Atidaryti i\u0161 SkyDrive",
     "OpenFromWebpage": "Atidaryti i\u0161 tinklalapio",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Atidaryti tinklalap\u012f",
     "Operation": "Veiksmai",

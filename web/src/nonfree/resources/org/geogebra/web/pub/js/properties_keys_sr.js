@@ -2213,6 +2213,7 @@ __GGB__keysVar.sr.menu = {
     "OpenFromGoogleDrive": "Otvori sa Google Drive",
     "OpenFromSkyDrive": "Otvori sa SkyDrive",
     "OpenFromWebpage": "Otvori sa Web stranice",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Otvori Web stranicu",
     "Operation": "Operacija",

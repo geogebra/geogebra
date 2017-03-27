@@ -2213,6 +2213,7 @@ __GGB__keysVar.cs.menu = {
     "OpenFromGoogleDrive": "Otev\u0159\xedt z Google Drive",
     "OpenFromSkyDrive": "Otev\u0159\xedt z OneDrive",
     "OpenFromWebpage": "Otev\u0159\xedt z webov\xe9 str\xe1nky",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Otev\u0159\xedt n\xe1vod",
     "OpenWebpage": "Otev\u0159\xedt webovou str\xe1nku",
     "Operation": "Operace",

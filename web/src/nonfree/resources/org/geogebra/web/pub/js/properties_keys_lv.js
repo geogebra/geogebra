@@ -2213,6 +2213,7 @@ __GGB__keysVar.lv.menu = {
     "OpenFromGoogleDrive": "Atv\u0113rt no Google Diska",
     "OpenFromSkyDrive": "Atv\u0113rt no SkyDrive",
     "OpenFromWebpage": "Atv\u0113rt no Webpage",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Atv\u0113rt Webpage",
     "Operation": "Oper\u0101cija",

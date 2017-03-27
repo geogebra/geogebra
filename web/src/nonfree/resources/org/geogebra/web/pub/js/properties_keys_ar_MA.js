@@ -2213,6 +2213,7 @@ __GGB__keysVar.ar_MA.menu = {
     "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromSkyDrive": "Open from SkyDrive",
     "OpenFromWebpage": "\u0641\u062a\u062d \u0627\u0646\u0637\u0644\u0627\u0642\u0627 \u0645\u0646 \u0635\u0641\u062d\u0629 \u0648\u064a\u0628",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "\u0641\u062a\u062d \u0635\u0641\u062d\u0629 \u0648\u064a\u0628",
     "Operation": "\u0639\u0645\u0644\u064a\u0629",

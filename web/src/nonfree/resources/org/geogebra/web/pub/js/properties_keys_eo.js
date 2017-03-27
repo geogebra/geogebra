@@ -2213,6 +2213,7 @@ __GGB__keysVar.eo.menu = {
     "OpenFromGoogleDrive": "Open from Google Drive",
     "OpenFromSkyDrive": "Malfermi el SkyDrive",
     "OpenFromWebpage": "Malfermi el TTT-pa\u011do",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Malfermi la lernilon",
     "OpenWebpage": "Malfermi TTT-pa\u011don",
     "Operation": "Operacio",

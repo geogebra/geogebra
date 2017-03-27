@@ -2213,6 +2213,7 @@ __GGB__keysVar.ro.menu = {
     "OpenFromGoogleDrive": "Deschide din Google Drive",
     "OpenFromSkyDrive": "Deschide din SkyDrive",
     "OpenFromWebpage": "Deschidere din pagin\u0103 web",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Deschide pagin\u0103 web",
     "Operation": "Opera\u0163ie",

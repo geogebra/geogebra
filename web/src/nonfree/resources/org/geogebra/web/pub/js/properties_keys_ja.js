@@ -2213,6 +2213,7 @@ __GGB__keysVar.ja.menu = {
     "OpenFromGoogleDrive": "Google Drive\u304b\u3089\u958b\u304f",
     "OpenFromSkyDrive": "SkyDrive\u304b\u3089\u958b\u304f",
     "OpenFromWebpage": "Web\u30da\u30fc\u30b8\u304b\u3089\u958b\u304f",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Open Tutorial",
     "OpenWebpage": "Web\u30da\u30fc\u30b8\u3092\u958b\u304f",
     "Operation": "\u64cd\u4f5c",

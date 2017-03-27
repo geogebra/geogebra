@@ -2213,6 +2213,7 @@ __GGB__keysVar.es_ES.menu = {
     "OpenFromGoogleDrive": "Abrir desde Google",
     "OpenFromSkyDrive": "Abrir desde SkyDrive",
     "OpenFromWebpage": "Abrir desde un sitio web",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "Abrir Tutorial",
     "OpenWebpage": "Abrir una p\xe1gina web",
     "Operation": "Operaci\xf3n",

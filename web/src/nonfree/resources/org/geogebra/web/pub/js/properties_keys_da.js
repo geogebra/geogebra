@@ -2213,6 +2213,7 @@ __GGB__keysVar.da.menu = {
     "OpenFromGoogleDrive": "\xc5bn fra Google Drev",
     "OpenFromSkyDrive": "\xc5bn fra SkyDrive",
     "OpenFromWebpage": "\xc5bn fra webside",
+    "OpenMenu": "Open Menu",
     "OpenTutorial": "\xc5bn vejledning",
     "OpenWebpage": "\xc5bn webside",
     "Operation": "Operation",
