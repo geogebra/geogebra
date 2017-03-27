@@ -205,6 +205,7 @@ public class LatexTreeItem extends RadioTreeItem {
 		}
 
 		if (focus) {
+			preventBlur();
 			canvas.setVisible(true);
 		} else {
 			if (geo == null && errorMessage == null) {
@@ -277,6 +278,7 @@ public class LatexTreeItem extends RadioTreeItem {
 	 * Update after key was typed
 	 */
 	public void onKeyTyped() {
+		this.removeDummy();
 		app.closePerspectivesPopup();
 		updatePreview();
 		popupSuggestions();
