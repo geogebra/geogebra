@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -165,7 +165,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 			int m = n;
 			try { // To catch eventual wrong indexes in arrays...
 				do { // debug("doing samples: "+m);
-					extremums = findExtremums(rrfunc, l, r, m);
+					extremums = findExtremums(rrfunc, l, r, m,
+							kernel.getExtremumFinder());
 					numberOfExtremums = extremums.length;
 
 					if (numberOfExtremums < m / 2) {
@@ -194,7 +195,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	 * collects extremums in intervals
 	 */
 	public final static double[] findExtremums(UnivariateFunction rrfunc,
-			double l, double r, int samples) {
+			double l, double r, int samples, ExtremumFinderI extrfinder) {
 		double[] y = new double[samples + 1]; // n+1 y-values
 		boolean[] grad = new boolean[samples]; // n gradients, true: f'>=0,
 												// false: f'<0
@@ -202,10 +203,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 		double deltax = (r - l) / samples; // x[i]=l+i*deltax, don't need
 											// x-array
-
-		// cons/kernel unusable in static method: ExtremumFinder extrfinder =
-		// cons.getExtremumFinder();
-		ExtremumFinder extrfinder = new ExtremumFinder();
 
 		for (int i = 0; i <= samples; i++) { // debug("iteration: "+i);
 

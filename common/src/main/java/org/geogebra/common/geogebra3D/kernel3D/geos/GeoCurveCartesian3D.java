@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -511,7 +511,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		double left = minParam - step;
 		double right = minParam + step;
 
-		ExtremumFinder extFinder = kernel.getExtremumFinder();
+		ExtremumFinderI extFinder = kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
 				Kernel.MIN_PRECISION);
 

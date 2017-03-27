@@ -75,7 +75,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
  * 
  */
 
-public class ExtremumFinder {
+public class ExtremumFinder implements ExtremumFinderI {
 
 	private int MAX_ITERATIONS = 100;
 

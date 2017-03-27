@@ -31,7 +31,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.optimization.NegativeRealRootFunction;
 import org.geogebra.common.util.debug.Log;
 
@@ -156,7 +156,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	private double[] leftBorder; // leftBorder (x val) of interval 0 <= i < N
 	// private double [] widths;
 
-	private ExtremumFinder extrFinder;
+	private ExtremumFinderI extrFinder;
 
 	// maximum frequency of bar chart
 	// this is used by stat dialogs when setting window dimensions

@@ -20,7 +20,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 
 /**
  * Command: Min[<function>,left-x,right-x]
@@ -49,7 +49,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 	private GeoNumberValue left; // input
 	private GeoNumberValue right; // input
 	private GeoPoint E; // output
-	private ExtremumFinder extrFinder = null;
+	private ExtremumFinderI extrFinder = null;
 	private boolean isMin;
 
 	/**
@@ -129,7 +129,7 @@ public class AlgoFunctionMinMax extends AlgoElement {
 		} // if input is ok?
 
 		// Brent's algorithm
-		extrFinder = new ExtremumFinder();
+		extrFinder = kernel.getExtremumFinder();
 		UnivariateFunction fun = f.getUnivariateFunctionY();
 
 		min = isMin ? extrFinder.findMinimum(l, r, fun, 5.0E-8)

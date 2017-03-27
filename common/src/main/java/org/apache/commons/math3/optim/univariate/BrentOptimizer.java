@@ -52,7 +52,7 @@ public class BrentOptimizer extends UnivariateOptimizer {
     /**
      * Relative threshold.
      */
-    private final double relativeThreshold;
+	private double relativeThreshold;
     /**
      * Absolute threshold.
      */
@@ -311,4 +311,9 @@ public class BrentOptimizer extends UnivariateOptimizer {
             return a.getValue() >= b.getValue() ? a : b;
         }
     }
+
+	public void setRelativePrecision(double rel) {
+		this.relativeThreshold = rel;
+
+	}
 }

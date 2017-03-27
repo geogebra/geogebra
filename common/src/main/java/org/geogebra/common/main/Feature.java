@@ -179,9 +179,10 @@ public enum Feature {
 	/** MOW-3, MOW-4, MOW-6 */
 	FILE_CONTROLS,
 
-	/**
-	 * AND-193
-	 */
-	AND_TRACE_IN_PROPERTIES
+	/** AND-193 */
+	AND_TRACE_IN_PROPERTIES,
+
+	/** GGB-1655 */
+	APACHE_EXTREMUM_FINDER,
 
 }

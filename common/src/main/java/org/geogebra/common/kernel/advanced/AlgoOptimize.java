@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 
 /**
  * AlgoOptimize: Abstract class for AlgoMaximize and AlgoMinimize Command
@@ -46,7 +46,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 	}
 
 	private Construction optCons = null;
-	private ExtremumFinder extrFinder = null; // Uses ExtremumFinder for the
+	private ExtremumFinderI extrFinder = null; // Uses ExtremumFinder for the
 												// dirty work
 	private UnivariateFunction i_am_not_a_real_function = null;
 	private GeoElement dep = null;
@@ -77,7 +77,7 @@ public abstract class AlgoOptimize extends AlgoElement {
 		this.dep = dep.toGeoElement();
 		this.indep = indep;
 		this.type = type;
-		extrFinder = new ExtremumFinder();
+		extrFinder = kernel.getExtremumFinder();
 		i_am_not_a_real_function = indep;
 		result = indep.getGeo().copy();
 		setInputOutput();

@@ -44,7 +44,7 @@ import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.kernel.prover.AlgoProveDetails;
@@ -2907,7 +2907,7 @@ public class Construction {
 	 * 
 	 * @return extremum finder
 	 */
-	public ExtremumFinder getExtremumFinder() {
+	public ExtremumFinderI getExtremumFinder() {
 		return kernel.getExtremumFinder();
 	}
 

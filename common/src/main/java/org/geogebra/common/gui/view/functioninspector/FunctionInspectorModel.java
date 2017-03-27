@@ -52,7 +52,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
+import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -271,7 +271,7 @@ public class FunctionInspectorModel {
 		highPoint.getCoords(coords);
 		xMax = coords[0];
 
-		ExtremumFinder ef = new ExtremumFinder();
+		ExtremumFinderI ef = kernel.getExtremumFinder();
 		UnivariateFunction fun = selectedGeo.getUnivariateFunctionY();
 
 		// get the table
