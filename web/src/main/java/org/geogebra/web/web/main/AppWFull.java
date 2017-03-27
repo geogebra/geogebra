@@ -395,6 +395,8 @@ public abstract class AppWFull extends AppW {
 		}
 
 		setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
+		getEuclidianController().getPen().DEFAULT_PEN_LINE
+				.setLineThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
 
 	}
 	
