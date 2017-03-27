@@ -183,6 +183,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * 
 	 */
 	public void computeEnvelope() {
+		double startTime = cons.getApplication().getMillisecondTime();
 		String result = null;
 		try {
 			result = getImplicitPoly();
@@ -205,6 +206,14 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		} else {
 			this.geoPoly.setUndefined();
 		}
+		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+				- startTime);
+		/*
+		 * Don't remove this. It is needed for automated testing. (String match
+		 * is assumed.)
+		 */
+		Log.debug("Benchmarking: " + elapsedTime + " ms");
+
 	}
 
 	/**

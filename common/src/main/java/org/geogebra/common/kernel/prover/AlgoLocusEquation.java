@@ -245,6 +245,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 *            if the computation will be done for an implicit locus
 	 */
 	public void computeExplicitImplicit(boolean implicit) {
+		double startTime = cons.getApplication().getMillisecondTime();
 		String result = null;
 		try {
 			result = getImplicitPoly(implicit);
@@ -267,6 +268,14 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		} else {
 			this.geoPoly.setUndefined();
 		}
+
+		int elapsedTime = (int) (cons.getApplication().getMillisecondTime()
+				- startTime);
+		/*
+		 * Don't remove this. It is needed for automated testing. (String match
+		 * is assumed.)
+		 */
+		Log.debug("Benchmarking: " + elapsedTime + " ms");
 	}
 
 	/**
