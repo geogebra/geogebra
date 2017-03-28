@@ -6,10 +6,6 @@ public interface AlgoStrokeInterface {
 
 	int getPointsLength();
 
-	int getPointsLengthWihtoutControl();
-
 	GeoPoint getPointCopy(int i);
-
-	GeoPoint getNoControlPointCopy(int i);
 
 }

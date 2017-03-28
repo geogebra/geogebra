@@ -1,10 +1,15 @@
 package org.geogebra.common.kernel.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -61,6 +66,25 @@ public class GeoLocusStroke extends GeoLocus
 		GeoLocusStroke ret = new GeoLocusStroke(cons);
 		ret.set(this);
 		return ret;
+	}
+
+	@Override
+	public ArrayList<MyPoint> getPointsWithoutControl() {
+		ArrayList<MyPoint> points = new ArrayList<MyPoint>();
+		for (MyPoint pt : getPoints()) {
+			if (pt.getSegmentType() != SegmentType.CONTROL) {
+				// also ignore third point added to simple segment
+				// to able to calc control points
+				if (!(!points.isEmpty()
+						&& points.get(points.size() - 1).getSegmentType() == pt
+						.getSegmentType()
+						&& Kernel.isZero(points.get(points.size() - 1)
+								.distance((Point) pt)))) {
+					points.add(pt);
+				}
+			}
+		}
+		return points;
 	}
 
 	@Override

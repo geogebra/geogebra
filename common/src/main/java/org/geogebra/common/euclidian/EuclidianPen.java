@@ -15,6 +15,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -22,6 +23,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -36,6 +38,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -775,6 +778,19 @@ public class EuclidianPen implements GTimerListener {
 				0);
 	}
 
+	/**
+	 * @param points
+	 *            - list of points without control points
+	 * @param i
+	 *            - index
+	 * @return copy of i-th no control point of poly
+	 */
+	public GeoPoint getNoControlPointCopy(ArrayList<MyPoint> points, int i) {
+		return new GeoPoint(
+				app.getKernel().getConstruction(),
+				points.get(i).getInhomX(), points.get(i).getInhomY(), 1);
+	}
+
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
 
 		Construction cons = app.getKernel().getConstruction();
@@ -796,14 +812,28 @@ public class EuclidianPen implements GTimerListener {
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
-			int ptsLength = algo.getPointsLengthWihtoutControl();
+			int ptsLength;
+			if (app.has(Feature.PEN_SMOOTHING)
+					&& algo instanceof AlgoLocusStroke) {
+				ArrayList<MyPoint> pointsNoControl = ((AlgoLocusStroke) algo)
+					.getPointsWithoutControl();
+				ptsLength = pointsNoControl.size();
 
-			newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
+				newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
 
-			for (int i = 0; i < ptsLength; i++) {
-				newPts[i] = algo.getNoControlPointCopy(i);
+				for (int i = 0; i < ptsLength; i++) {
+					newPts[i] = getNoControlPointCopy(pointsNoControl, i);
+				}
+			} else {
+				ptsLength = algo.getPointsLength();
+
+				newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
+
+				for (int i = 0; i < ptsLength; i++) {
+					newPts[i] = algo.getPointCopy(i);
+				}
+
 			}
-
 			newPts[ptsLength] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
 
 			offset = ptsLength + 1;

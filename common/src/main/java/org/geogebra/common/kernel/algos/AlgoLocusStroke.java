@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -87,12 +88,28 @@ public class AlgoLocusStroke extends AlgoElement
 		return true;
 	}
 
+	// data has to have at least 2 defined points after each other
+	private static boolean canBeBezierCurve(GeoPointND[] data) {
+		boolean firstDefFound = false;
+		for (int i=0;i<data.length;i++) {
+			if (data[i].isDefined()) {
+				if (firstDefFound) {
+					return true;
+				}
+				firstDefFound = true;
+			} else {
+				firstDefFound = false;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Update point array of polygon using the given array list
 	 * 
 	 * @param pointList
 	 */
-	private void updatePointArray(GeoPointND[] data) {
+	public void updatePointArray(GeoPointND[] data) {
 		// check if we have a point list
 		// create new points array
 		int size = data.length;
@@ -100,24 +117,34 @@ public class AlgoLocusStroke extends AlgoElement
 		poly.getPoints().clear();
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
-		if (size >= 4 && poly.getKernel().getApplication()
+		if (canBeBezierCurve(data) && poly.getKernel().getApplication()
 				.has(Feature.PEN_SMOOTHING)) {
-			int index = 2;
+			int index = 0;
 			pointList.clear();
-			// move at first point
-			pointList.add(new MyPoint(data[0].getInhomX(), data[0].getInhomY(),
-					SegmentType.MOVE_TO));
-			while (index <= data.length) {
+			if (data[0].isDefined()) {
+				// move at first point
 				pointList.add(
+						new MyPoint(data[0].getInhomX(), data[0].getInhomY(),
+					SegmentType.MOVE_TO));
+			}
+			// Log.debug("1: (" + data[0].getInhomX() + "," +
+			// data[0].getInhomY()
+			// + ") -> " +
+			// SegmentType.MOVE_TO);
+			while (index <= data.length) {
+				if (!pointList.isEmpty()
+						&& pointList.get(pointList.size() - 1).isDefined()) {
+					pointList.add(
 						new MyPoint(Double.NaN, Double.NaN,
 								SegmentType.LINE_TO));
+				}
 				GeoPointND[] partOfStroke = getPartOfPenStroke(index, data);
 				// if we found single point
 				// just add it to the list without control points
 				if (partOfStroke.length == 1) {
 					pointList.add(new MyPoint(partOfStroke[0].getInhomX(),
 							partOfStroke[0].getInhomY(), SegmentType.MOVE_TO));
-				} else {
+				} else if (partOfStroke.length > 1) {
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
 					for (int i = 0; i < partOfStroke.length - 1; i++) {
@@ -139,7 +166,11 @@ public class AlgoLocusStroke extends AlgoElement
 							partOfStroke[partOfStroke.length - 1].getInhomY(),
 							SegmentType.CURVE_TO));
 				}
-				index = index + partOfStroke.length + 1;
+				if (partOfStroke.length == 3 && Kernel.isZero(partOfStroke[partOfStroke.length-1].distance(partOfStroke[partOfStroke.length-2]))) {
+					index = index + partOfStroke.length;
+				} else {
+					index = index + partOfStroke.length + 1;
+				}
 			}
 			poly.setPoints(pointList);
 		} else {
@@ -301,27 +332,9 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	@Override
-	public int getPointsLengthWihtoutControl() {
-		int size = 0;
-		for (int i = 0; i < getPointsLength(); i++) {
-			if (poly.getPoints().get(i).getSegmentType() != SegmentType.CONTROL) {
-				size++;
-			}
-		}
-		return size;
-	}
-
-	@Override
 	public GeoPoint getPointCopy(int i) {
 		return new GeoPoint(cons, poly.getPoints().get(i).getInhomX(),
 				poly.getPoints().get(i).getInhomY(), 1);
-	}
-
-	@Override
-	public GeoPoint getNoControlPointCopy(int i) {
-		return new GeoPoint(cons,
-				poly.getPointsWithoutControl().get(i).getInhomX(),
-				poly.getPointsWithoutControl().get(i).getInhomY(), 1);
 	}
 
 	/**

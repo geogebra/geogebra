@@ -22,6 +22,8 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
@@ -88,7 +90,12 @@ public class ModeDeleteLocus extends ModeDelete {
 				// for
 				// hit detection).
 
-				List<MyPoint> realPoints = gps.getPoints();
+				List<MyPoint> realPoints;
+				if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+					realPoints = gps.getPointsWithoutControl();
+				} else {
+					realPoints = gps.getPoints();
+				}
 				List<MyPoint> dataPoints;
 
 				if (geo.getParentAlgorithm() != null && (geo
@@ -103,8 +110,14 @@ public class ModeDeleteLocus extends ModeDelete {
 
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					dataPoints = ((AlgoLocusStroke) gps.getParentAlgorithm())
-							.getPoints();
+					if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+						dataPoints = ((AlgoLocusStroke) gps
+								.getParentAlgorithm())
+										.getPointsWithoutControl();
+					} else {
+						dataPoints = ((AlgoLocusStroke) gps
+								.getParentAlgorithm()).getPoints();
+					}
 				} else {
 					dataPoints = gps.getPoints();
 				}
@@ -196,6 +209,13 @@ public class ModeDeleteLocus extends ModeDelete {
 					}
 
 					updatePolyLineDataPoints(dataPoints, gps);
+					if (view.getApplication().has(Feature.PEN_SMOOTHING)
+							&& gps.getParentAlgorithm() != null
+							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
+						((AlgoLocusStroke) gps.getParentAlgorithm())
+								.updatePointArray(
+										getPointArray(dataPoints));
+					}
 
 				} else {
 					Log.debug(
@@ -218,6 +238,16 @@ public class ModeDeleteLocus extends ModeDelete {
 		updateAlgoSet();
 	}
 
+	private GeoPointND[] getPointArray(List<MyPoint> dataPoints) {
+		GeoPointND[] pointArray = new GeoPointND[dataPoints.size()];
+		for (int i = 0; i < dataPoints.size(); i++) {
+			pointArray[i] = new GeoPoint(ec.getKernel().getConstruction(),
+					dataPoints.get(i).getInhomX(),
+					dataPoints.get(i).getInhomY(), 1);
+		}
+		return pointArray;
+	}
+
 	private void updateAlgoSet() {
 		// TODO Auto-generated method stub
 
@@ -237,8 +267,8 @@ public class ModeDeleteLocus extends ModeDelete {
 				realPoints.size());
 		int i = 1;
 		while (i < dataPoints.size()) {
-			if (!dataPoints.get(i).isDefined()
-					&& !dataPoints.get(i - 1).isDefined()) {
+			if ((!dataPoints.get(i).isDefined()
+					&& !dataPoints.get(i - 1).isDefined())) {
 				i++;
 			} else {
 				dataPointList.add(dataPoints.get(i - 1));
@@ -246,8 +276,10 @@ public class ModeDeleteLocus extends ModeDelete {
 				i++;
 			}
 		}
-		dataPointList.add(dataPoints.get(i - 1));
-		realPointList.add(realPoints.get(i - 1));
+		if (dataPoints.get(i - 1).isDefined()) {
+			dataPointList.add(dataPoints.get(i - 1));
+			realPointList.add(realPoints.get(i - 1));
+		}
 		if (dataPointList.size() != dataPoints.size()) {
 			newDataAndRealPoint.add(dataPointList);
 			newDataAndRealPoint.add(realPointList);
@@ -577,7 +609,12 @@ public class ModeDeleteLocus extends ModeDelete {
 					return false;
 				}
 				GeoLocusStroke gps = (GeoLocusStroke) geos[0];
-				List<MyPoint> realPoints = gps.getPoints();
+				List<MyPoint> realPoints;
+				if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+					realPoints = gps.getPointsWithoutControl();
+				} else {
+					realPoints = gps.getPoints();
+				}
 				List<MyPoint> dataPoints;
 
 				if (geos[0].getParentAlgorithm() != null && (geos[0]
@@ -591,9 +628,15 @@ public class ModeDeleteLocus extends ModeDelete {
 				}
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					dataPoints = ((AlgoLocusStroke) gps
+					if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+						dataPoints = ((AlgoLocusStroke) gps
+								.getParentAlgorithm())
+										.getPointsWithoutControl();
+					} else {
+						dataPoints = ((AlgoLocusStroke) gps
 							.getParentAlgorithm())
 									.getPoints();
+					}
 				} else {
 					dataPoints = gps.getPoints();
 				}
@@ -690,6 +733,12 @@ public class ModeDeleteLocus extends ModeDelete {
 					}
 
 					updatePolyLineDataPoints(dataPoints, gps);
+					if (view.getApplication().has(Feature.PEN_SMOOTHING)
+							&& gps.getParentAlgorithm() != null
+							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
+						((AlgoLocusStroke) gps.getParentAlgorithm())
+								.updatePointArray(getPointArray(dataPoints));
+					}
 
 				} else {
 					Log.debug(

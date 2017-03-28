@@ -192,12 +192,4 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 		return (GeoPoint) points[i].copyInternal(cons);
 	}
 
-	public int getPointsLengthWihtoutControl() {
-		return points.length;
-	}
-
-	public GeoPoint getNoControlPointCopy(int i) {
-		return getPointCopy(i);
-	}
-
 }
