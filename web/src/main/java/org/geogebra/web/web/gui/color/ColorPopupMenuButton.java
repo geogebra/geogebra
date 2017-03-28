@@ -62,9 +62,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		getMySlider().setMinorTickSpacing(5);
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
+
 		updateColorTable();
 		setKeepVisible(false);
 		getMyTable().removeDefaultStyle();
+
 	}
 
 	/**
@@ -80,6 +82,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
+		if (!hasSlider) {
+			getMyPopup().setHeight("38px");
+		}
 	}
 
 	/**

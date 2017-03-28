@@ -52,6 +52,8 @@ public class MOWPointStyleButton extends PointStylePopup {
 		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
 		sliderPanel.add(canvas);
+		sliderPanel.addStyleName("mowLinePopup");
+		canvas.addStyleName("preview");
 		g2 = new GGraphics2DW(canvas);
 		p = new GeoPoint(app.getKernel().getConstruction(),
 				0, 0, 0);

@@ -1537,7 +1537,7 @@ body.application[dir=rtl] .StyleBarPanel {
 .DynamicStyleBar{
 	position: absolute;
     border-radius: 5px;
-    padding: 5px;
+    padding: 5px 0px 5px 2px;
     background-color: #fff;
     box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
 }
@@ -5573,7 +5573,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	/* overwrite background-color and border-color with real color of the slider */
 	background-color: #000000;
 	border: 3px solid rgba(0, 0, 0, 0.4);
-	
+	top: -6px;
 	-moz-background-clip: padding;     /* Firefox 3.6 */
   	-webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
   	background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
@@ -6172,6 +6172,27 @@ body.application[dir=rtl] .deleteAlgebra {
 				left: -15px;
 			}
 
-.mowColorPopup {
-	width: 215px;
-	}			
+.mowColorPopup input[type="range"]{
+	width: 130px;
+    margin: 0 0 0 4px;
+	}	
+.mowColorPopup .popupSliderLabel{
+	margin-right: 3px;
+	padding-top: 2px;
+}
+.mowColorPopup .colorOnly {
+    height: 35px !important;
+}
+.mowColorPopup .optionsSlider {
+	
+}
+.mowLinePopup .preview{
+	    margin: 3px 0px 3px 9px;
+}
+.mowLinePopup input[type="range"]{
+	width: 130px;
+    margin: 0 0 0 4px;
+	}	
+.mowLinePopup .popupSliderLabel{
+	margin-right: 0px;
+}

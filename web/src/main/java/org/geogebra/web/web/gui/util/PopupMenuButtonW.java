@@ -453,6 +453,7 @@ public class PopupMenuButtonW extends MyCJButton
 		mySlider.setMajorTickSpacing(25);
 		mySlider.setMinorTickSpacing(5);
 		mySlider.addChangeHandler(this);
+
 		Slider.addInputHandler(mySlider.getElement(), this);
 
 		sliderLabel = new Label();
@@ -462,6 +463,10 @@ public class PopupMenuButtonW extends MyCJButton
 		sliderLabel.addStyleName("popupSliderLabel");
 		sliderPanel.addStyleName("panelRow");
 		myPopup.getPanel().add(sliderPanel);
+
+		Label placeholder = new Label();
+		placeholder.setHeight("8px");
+		myPopup.getPanel().add(placeholder);
 	}
 	
 

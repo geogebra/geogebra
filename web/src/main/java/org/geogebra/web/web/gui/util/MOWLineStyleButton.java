@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
-	private static final int CANVAS_WIDTH = 50;
+	private static final int CANVAS_WIDTH = 30;
 	private static final int CANVAS_HEIGHT = 30;
 	private static final int STYLE_PREVIEW_MARGIN_X = 2;
 	private static final int STYLE_PREVIEW_MARGIN_Y = CANVAS_HEIGHT / 2 - 1;
@@ -28,6 +28,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	public MOWLineStyleButton(AppW app) {
 		super(app, -1, 6, SelectionTable.MODE_ICON, true, true);
 
+
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();
@@ -35,6 +36,8 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.add(getMyTable());
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
+		sliderPanel.addStyleName("mowLinePopup");
+		preview.addStyleName("preview");
 		setKeepVisible(true);
 	}
 
