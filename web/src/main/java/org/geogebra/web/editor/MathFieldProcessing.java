@@ -33,6 +33,7 @@ public class MathFieldProcessing implements KeyboardListener {
 	@Override
 	public void onEnter() {
 		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_ENTER));
+		mf.getKeyListener().onKeyReleased(new KeyEvent(KeyEvent.VK_ENTER));
 
 	}
 
