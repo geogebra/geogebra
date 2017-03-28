@@ -145,7 +145,7 @@ public class PopupMenuButtonW extends MyCJButton
 			}
 		});
 		// merge mousedown + touchstart
-		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
