@@ -58,14 +58,12 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 	/**
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label
 	 * @param pointlist
 	 *            list of input points
 	 * @param functionlist
 	 *            lists of functions that can be used in result
 	 */
-	public AlgoFit(Construction cons, String label, GeoList pointlist,
+	public AlgoFit(Construction cons, GeoList pointlist,
 			GeoList functionlist) {
 		super(cons);
 
@@ -80,8 +78,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		fitfunction = functionarray.getTemplate(cons);
 		setInputOutput();
 		compute();
-		fitfunction.setLabel(label);
-	}// Constructor
+	}
 
 	@Override
 	public Commands getClassName() {

@@ -42,29 +42,29 @@ public class CmdFit extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
-		switch (n) {
-		case 2:
-			if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
+		if (n == 2) {
+			if(!arg[0].isGeoList()){
+				throw argErr(app, c, arg[0]);
+			}
+			if (arg[1].isGeoList()) {
 
-				AlgoFit algo = new AlgoFit(cons, c.getLabel(), (GeoList) arg[0],
+				AlgoFit algo = new AlgoFit(cons, (GeoList) arg[0],
 						(GeoList) arg[1]);
-
+				algo.getFit().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getFit().toGeoElement() };
 				return ret;
-			} else if ((arg[0].isGeoList()) && (arg[1].isGeoFunction())) {
+			} else if (arg[1].isGeoFunction()) {
 
-				AlgoFitNL algo = new AlgoFitNL(cons, c.getLabel(),
+				AlgoFitNL algo = new AlgoFitNL(cons,
 						(GeoList) arg[0], (GeoFunction) arg[1]);
-
+				algo.getFitNL().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getFitNL() };
 				return ret;
-			} else {
-				throw argErr(app, c, arg[0]);
-			} // if arg[0] is GeoList
+			} 
+			throw argErr(app, c, arg[1]);
+		}
 
-		default:
+		throw argNumErr(app, c, n);
 
-			throw argNumErr(app, c, n);
-		}// switch(number of arguments)
-	}// process(Command)
-}// class CmdFit
+	}
+}

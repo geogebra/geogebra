@@ -752,13 +752,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdFit() {
-		t("Fit[ ptlist1, f1 ]");
-		t("Fit[ ptlist1, list1 ]");
-
-	}
-
-	@Test
 	public void cmdFitLineX() {
 		t("FitLineX[ ptlist1 ]");
 	}

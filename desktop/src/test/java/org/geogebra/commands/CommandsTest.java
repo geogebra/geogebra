@@ -907,6 +907,22 @@ public class CommandsTest extends Assert{
 						+ Unicode.lambda + " (4, 4, 4)");
 	}
 
+	@Test
+	public void cmdFit() {
+		t("Fit[ {(0,1),(1,2),(2,5)}, {x^2,x,1} ]", unicode("1x^2 + 0x + 1 (1)"),
+				StringTemplate.editTemplate);
+		t("Fit[ {(0,1,1),(1,1,2),(2,1,5),(0,2,4),(1,2,5),(2,2,8)}, {x^2,x,1,x^2*y,x*y,y} ]",
+				unicode("3y + 0x y + 0x^2 y - 2 + 0x + 1x^2"),
+				StringTemplate.editTemplate);
+		t("a=Slider[0,10]", "0");
+		t("b=Slider[0,10]", "0");
+		t("c=Slider[0,10]", "0");
+		t("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
+				unicode("1x^2 + 0x + 1"),
+				StringTemplate.editTemplate);
+
+	}
+
 	private static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
 				Unicode.Superscript_3 + "");

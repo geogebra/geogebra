@@ -1,20 +1,21 @@
 package org.geogebra.common.kernel.statistics;
 
-import org.apache.commons.math3.fitting.CurveFitter;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
 
 /* 
- GeoGebra - Dynamic Mathematics for Everyone
- http://www.geogebra.org
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
 
- This file is part of GeoGebra.
+This file is part of GeoGebra.
 
- This program is free software; you can redistribute it and/or modify it 
- under the terms of the GNU General Public License as published by 
- the Free Software Foundation.
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
 
- */
+*/
 
+import org.apache.commons.math3.fitting.CurveFitter;
+import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -55,6 +56,7 @@ import org.geogebra.common.util.debug.Log;
  * @author Hans-Petter Ulven
  * @version 2011-03-15
  */
+@SuppressWarnings("deprecation")
 public class AlgoFitNL extends AlgoElement implements FitAlgo {
 
 	private GeoList pointlist; // input
@@ -67,9 +69,18 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 	private double[] ydata = null;
 	private FitRealFunction prfunction = null; // function for Apache lib
 	private LevenbergMarquardtOptimizer LMO = new LevenbergMarquardtOptimizer();
-	private CurveFitter curvefitter = new CurveFitter(LMO);
+	private CurveFitter<ParametricUnivariateFunction> curvefitter = new CurveFitter<ParametricUnivariateFunction>(
+			LMO);
 
-	public AlgoFitNL(Construction cons, String label, GeoList pointlist,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param pointlist
+	 *            points
+	 * @param inputfunction
+	 *            function with parameters
+	 */
+	public AlgoFitNL(Construction cons, GeoList pointlist,
 			GeoFunction inputfunction) {
 		super(cons);
 
@@ -78,7 +89,6 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		outputfunction = new GeoFunction(cons);
 		setInputOutput();
 		compute();
-		outputfunction.setLabel(label);
 	}
 
 	@Override
@@ -95,6 +105,9 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 		setDependencies();
 	}
 
+	/**
+	 * @return output function
+	 */
 	public GeoFunction getFitNL() {
 		return outputfunction;
 	}
