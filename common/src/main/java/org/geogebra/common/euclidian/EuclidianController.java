@@ -6016,6 +6016,7 @@ public abstract class EuclidianController {
 	public void exitTemporaryMode() {
 		if (temporaryMode) {
 			view.setMode(oldMode, ModeSetter.EXIT_TEMPORARY_MODE);
+			this.defaultEventType = this.oldEventType;
 			temporaryMode = false;
 		}
 	}
@@ -8675,9 +8676,7 @@ public abstract class EuclidianController {
 				}
 
 				if (viewHasHitsForMouseDragged()) {
-					temporaryMode = true;
-					oldMode = mode; // remember current mode
-					view.setMode(EuclidianConstants.MODE_MOVE);
+					setTempMode(EuclidianConstants.MODE_MOVE);
 					handleMousePressedForMoveMode(event, true);
 
 					// make sure that dragging doesn't deselect the geos
@@ -10309,6 +10308,7 @@ public abstract class EuclidianController {
 			// Michael Borcherds 2007-10-13 BEGIN
 			view.setMode(oldMode);
 			temporaryMode = false;
+			this.defaultEventType = oldEventType;
 			// Michael Borcherds 2007-12-08 BEGIN bugfix: couldn't select
 			// multiple points with Ctrl
 			if (!dontClearSelection) {
@@ -11026,14 +11026,6 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void showObjectContextMenu(int x, int y) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().showPopupChooseGeo(getAppSelectedGeos(),
-					view.getHits().getTopHits(), view, mouseLoc);
-			setObjectMenuActive(true);
-		}
-	}
-
 	public EuclidianPen getPen() {
 
 		if (pen == null) {
@@ -11219,6 +11211,7 @@ public abstract class EuclidianController {
 	}
 
 	private GeoNumeric circleRadius;
+	private PointerEventType oldEventType;
 
 	final public void twoTouchStartPhone(double x1, double y1, double x2,
 			double y2) {
@@ -11465,17 +11458,25 @@ public abstract class EuclidianController {
 	public final void setDefaultEventType(PointerEventType pointerEventType) {
 		if (app.has(Feature.PEN_EVENTS)) {
 			if (pointerEventType == PointerEventType.PEN
-					&& pointerEventType != defaultEventType) {
+					&& pointerEventType != defaultEventType
+					&& app.getMode() == EuclidianConstants.MODE_MOVE) {
 				app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
 			}
-			if (pointerEventType != PointerEventType.PEN
-					&& app.getMode() == EuclidianConstants.MODE_PEN
+			if (app.getMode() == EuclidianConstants.MODE_PEN
+					&& pointerEventType != PointerEventType.PEN
 					&& PointerEventType.PEN == defaultEventType) {
-				app.setMode(EuclidianConstants.MODE_MOVE,
-						ModeSetter.DOCK_PANEL);
+				setTempMode(EuclidianConstants.MODE_MOVE);
 			}
 		}
 		this.defaultEventType = pointerEventType;
+	}
+
+	private void setTempMode(int modePen) {
+		temporaryMode = true;
+		oldMode = mode;
+		oldEventType = defaultEventType;
+		view.setMode(modePen, ModeSetter.DOCK_PANEL);
+
 	}
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
