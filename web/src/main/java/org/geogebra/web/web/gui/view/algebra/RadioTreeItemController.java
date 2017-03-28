@@ -269,9 +269,8 @@ public class RadioTreeItemController
 			markForEdit = false;
 		}
 
-		if (app.has(Feature.AV_SCROLL)) {
-			event.preventDefault();
-		}
+		event.preventDefault();
+
 	}
 
 	@Override

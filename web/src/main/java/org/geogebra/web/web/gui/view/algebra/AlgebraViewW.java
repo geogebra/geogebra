@@ -183,29 +183,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						}
 					});
 
-		if (app.has(Feature.AV_SCROLL)) {
-			// addOnScroll();
-		}
 	}
 
-	// private void addOnScroll() {
-	// Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-	//
-	// public void execute() {
-	// ScrollPanel algebraPanel = ((AlgebraDockPanelW) app
-	// .getGuiManager().getLayout().getDockManager()
-	// .getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
-	// algebraPanel.addScrollHandler(new ScrollHandler() {
-	//
-	// public void onScroll(ScrollEvent event) {
-	// event.preventDefault();
-	// onAlgebraScroll();
-	// }
-	// });
-	// }
-	// });
-	//
-	// }
+
 
 	/**
 	 * Scroll handler
@@ -1187,9 +1167,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// setActiveTreeItem(node);
 			// }
 
-			if (app.has(Feature.AV_SCROLL)) {
-				RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
-			}
+			RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
 
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
@@ -1780,10 +1758,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
-		if (!app.has(Feature.AV_PREVIEW)) {
-			return;
-		}
-
 		if (geos != null) {
 			for (GeoElement geo : geos) {
 				inputPanelLatex.previewValue(geo);
@@ -2046,7 +2020,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		
 
-		if (app.has(Feature.AV_SCROLL)) {
+
 			int resizedWidth = getOffsetWidth();
 			if (maxItemWidth == 0) {
 				maxItemWidth = resizedWidth;
@@ -2061,29 +2035,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (activeItem != null) {
 				activeItem.updateButtonPanelPosition();
 			}
-
-
-			return;
-		}
-
-		if (this.getInputTreeItem() != null) {
-			this.getInputTreeItem().onResize();
-		}
-		for (int i = 0; i < getItemCount(); i++) {
-			TreeItem ti = getItem(i);
-			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem.as(ti).onResize();
-			} else if (ti.getWidget() instanceof GroupHeader) {
-
-				for (int j = 0; j < ti.getChildCount(); j++) {
-					if (ti.getChild(j) instanceof RadioTreeItem) {
-						RadioTreeItem.as(ti.getChild(j)).onResize();
-
-					}
-				}
-
-			}
-		}
 
 	}
 
@@ -2120,10 +2071,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            to set.
 	 */
 	public void setItemWidth(int width) {
-		if (!app.has(Feature.AV_SCROLL)) {
-			return;
-		}
-
 		if (width > maxItemWidth) {
 			maxItemWidth = width;
 		}
@@ -2131,9 +2078,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private void setWidths(int width) {
-		if (!app.has(Feature.AV_SCROLL)) {
-			return;
-		}
+
 		if (this.getInputTreeItem() != null) {
 			getInputTreeItem().setItemWidth(width);
 			getInputTreeItem().reposition();

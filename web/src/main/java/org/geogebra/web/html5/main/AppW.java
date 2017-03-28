@@ -2387,6 +2387,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 
 	public void addAsAutoHidePartnerForPopups(Element el) {
 		for (int i = 0; i < popups.size(); i++) {
+
 			Widget popup = popups.get(i);
 			if (popup instanceof GPopupPanel && ((GPopupPanel) popup).isModal()) {
 				((GPopupPanel) popup).addAutoHidePartner(el);

@@ -601,9 +601,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void clearPreview() {
-		if (!app.has(Feature.AV_PREVIEW)) {
-			return;
-		}
 		content.removeStyleName("avPreview");
 		content.addStyleName("noPreview");
 		if (valuePanel == null) {
@@ -614,9 +611,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void previewValue(GeoElement previewGeo) {
-		if (!app.has(Feature.AV_PREVIEW)) {
-			return;
-		}
 		if (!previewGeo.needToShowBothRowsInAV()) {
 			clearPreview();
 			return;
@@ -922,11 +916,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void adjustToPanel(final FlowPanel panel) {
-		if (!app.has(Feature.AV_SCROLL)) {
-			return;
-		}
-
-
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
@@ -1067,9 +1056,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void styleScrollBox() {
-		if (!app.has(Feature.AV_SCROLL)) {
-			return;
-		}
 		content.addStyleName("scrollableTextBox");
 
 	}
@@ -1198,14 +1184,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			doUpdateEnsureNoEditor();
 		}
 
-		if (!app.has(Feature.AV_SCROLL)) {
-			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				@Override
-				public void execute() {
-					scrollIntoView();
-				}
-			});
-		}
 	}
 
 	private boolean typeChanged() {
@@ -1457,15 +1435,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 					.getAbsolutePanel();
 			
 			if (accurate) { // new code
-				if (app.has(Feature.AV_SCROLL)) {
-					controls.reposition();
-				} else {
-					int scrollbarWidth = algebraPanel == null ? 0
-							: algebraPanel.getOffsetWidth() - algebraPanel
-									.getElement().getClientWidth();
-					controls.getElement().getStyle().setRight(-scrollbarWidth,
-							Unit.PX);
-				}
+				controls.reposition();
+
 			} else { // old code
 			
 				if (algebraPanel != null
@@ -1965,11 +1936,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (!app.has(Feature.AV_SINGLE_TAP_EDIT) || isInputTreeItem()) {
-			if (app.has(Feature.AV_PREVIEW)) {
-					content.insert(getClearInputButton(), 0);
-				} else {
-					content.add(getClearInputButton());
-				}
+			
+				content.insert(getClearInputButton(), 0);
+				
 				if (controls != null) {
 					controls.setVisible(false);
 				}

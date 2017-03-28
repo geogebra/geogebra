@@ -7,6 +7,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
@@ -221,6 +222,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		};
 		// keepFocus==false: this was called from blur, don't use modal slider
 		// dialog
+		Log.debug("GETTING HANDLER " + valid + ", " + keepFocus);
 		ErrorHandler err = item.getErrorHandler(valid, keepFocus);
 		err.resetError();
 		app.getKernel().getAlgebraProcessor()

@@ -4041,11 +4041,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case HANDWRITING:
 			return false;
-
-		// GGB-1121
-		case AV_PREVIEW:
-			return true;
-
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			if (isDesktop()) {
@@ -4085,10 +4080,6 @@ public abstract class App implements UpdateSelection {
 		case ADJUST_VIEWS:
 			return prerelease
 					|| Versions.WEB_FOR_DESKTOP.equals(getVersion());
-
-		// GGB-798
-		case AV_SCROLL:
-			return true;
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
