@@ -197,6 +197,27 @@ final class PredefinedCommands {
 				return PredefMacros.choose_macro(tp);
 			}
 		},
+		bangle(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.bangle_macro(tp);
+			}
+		},
+		brace(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.brace_macro(tp);
+			}
+		},
+		brack(0) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.brack_macro(tp);
+			}
+		},
 		underscore(0) {
 			@Override
 			public Object executeMacro(final TeXParser tp, final String[] args) {

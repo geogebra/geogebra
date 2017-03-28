@@ -410,13 +410,57 @@ public class PredefMacros {
 	}
 
 	public static final Atom choose_macro(final TeXParser tp) throws ParseException {
+		return brackets(tp, "lbrack", "rbrack");
+	}
+
+	/**
+	 * eg {a \bangle b}
+	 * http://www.combinatorics.net/weblib/commands/command.html
+	 * 
+	 * @param tp
+	 * @return
+	 * @throws ParseException
+	 */
+	public static final Atom bangle_macro(final TeXParser tp)
+			throws ParseException {
+		return brackets(tp, "langle", "rangle");
+	}
+
+	/**
+	 * eg {a \brack b} http://www.combinatorics.net/weblib/commands/command.html
+	 * 
+	 * @param tp
+	 * @return
+	 * @throws ParseException
+	 */
+	public static final Atom brack_macro(final TeXParser tp)
+			throws ParseException {
+		return brackets(tp, "lbrack", "rbrack");
+	}
+
+	/**
+	 * eg {a \brace b} http://www.combinatorics.net/weblib/commands/command.html
+	 * 
+	 * @param tp
+	 * @return
+	 * @throws ParseException
+	 */
+	public static final Atom brace_macro(final TeXParser tp)
+			throws ParseException {
+		return brackets(tp, "lbrace", "rbrace");
+	}
+
+	private static Atom brackets(TeXParser tp, String leftBracket,
+			String rightBracket) {
 		Atom num = tp.getFormulaAtom();
 		Atom denom = new TeXFormula(tp, tp.getOverArgument(), false).root;
 		if (num == null || denom == null) {
-			throw new ParseException("Both numerator and denominator of choose can't be empty!");
+			throw new ParseException(
+					"Both numerator and denominator of choose can't be empty!");
 		}
-		return new FencedAtom(new FractionAtom(num, denom, false), new SymbolAtom("lbrack",
-				TeXConstants.TYPE_OPENING, true), new SymbolAtom("rbrack", TeXConstants.TYPE_CLOSING, true));
+		return new FencedAtom(new FractionAtom(num, denom, false),
+				new SymbolAtom(leftBracket, TeXConstants.TYPE_OPENING, true),
+				new SymbolAtom(rightBracket, TeXConstants.TYPE_CLOSING, true));
 	}
 
 	public static final Atom binom_macro(final TeXParser tp, final String[] args) throws ParseException {
