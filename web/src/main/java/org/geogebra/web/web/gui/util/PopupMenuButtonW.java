@@ -209,8 +209,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	void handleClick() {
 		onClickAction();
-		if (EuclidianStyleBarW.getCurrentPopup() != myPopup
-		        || !app.wasPopupJustClosed()) {
+		if (EuclidianStyleBarW.getCurrentPopup() != myPopup) {
 			if (EuclidianStyleBarW.getCurrentPopup() != null) {
 				EuclidianStyleBarW.getCurrentPopup().hide();
 			}
