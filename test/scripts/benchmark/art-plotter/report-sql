@@ -10,8 +10,7 @@ HTML=html/all.html
 TEX=html/all.tex
 CSV=none
 # Don't use this, it is just an example:
-# COLUMNS="Recio PureSymbolic Botana,D BotanaGiac,D,p2 OpenGeoProver_Wu,p2 OpenGeoProver_Area Auto Web"
-COLUMNS="DesktopInternal DesktopGrobcov"
+COLUMNS="DesktopInternal DesktopGrobcov Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter

@@ -9,7 +9,8 @@ MY_VERSION=2.2
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
 TIMEOUT=20
-PROVERS="DesktopInternal DesktopGrobcov"
+PROVERS="DesktopInternal DesktopGrobcov Web"
+#PROVERS="Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
 GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
@@ -224,11 +225,10 @@ for i in `find -name '*.ggb' | sort`; do
    timeout $((TIMEOUT+2)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
    RETVAL=$?
    # 14:50:36.344 DEBUG: ?: Benchmarking: 1120 ms
-   # 14:50:36.345 DEBUG: ?: OUTPUT for Prove: proof = true
-   # 14:50:36.346 DEBUG: ?: all CAS up
    cat $MYDIR/tmp/.test.stdout | grep Benchmarking | tail -1 > $LOGFILE
+   TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $5}'`
    grep --silent " {{" $MYDIR/tmp/.test.stdout && \
-    cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\\\1/ | > $REGRESSIONFILE
+    cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\1/ > $REGRESSIONFILE
    RESULT=`cat $REGRESSIONFILE`
   else
    timeout $TIMEOUT $BINBASE \
@@ -257,9 +257,9 @@ for i in `find -name '*.ggb' | sort`; do
    if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
     grep --silent " {{" $LOGFILE && \
      RESULT=`tac $LOGFILE | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\\\1/`
+    TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $2}'`
     # FIXME in GeoGebra.
     fi
-   TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $2}'`
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
     cp $LOGFILE $LOGFILE-$TEST-$j
