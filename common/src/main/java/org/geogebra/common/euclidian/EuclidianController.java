@@ -11211,7 +11211,7 @@ public abstract class EuclidianController {
 	}
 
 	private GeoNumeric circleRadius;
-	private PointerEventType oldEventType;
+	private PointerEventType oldEventType = PointerEventType.MOUSE;
 
 	final public void twoTouchStartPhone(double x1, double y1, double x2,
 			double y2) {
