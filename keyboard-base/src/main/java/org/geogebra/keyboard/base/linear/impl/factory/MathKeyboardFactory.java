@@ -29,9 +29,9 @@ import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInp
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.createEmptySpace;
 
-public class MathKeyboardFactory {
+class MathKeyboardFactory {
 
-    public LinearKeyboard createMathKeyboard() {
+    LinearKeyboard createMathKeyboard() {
         LinearKeyboardImpl mathKeyboard = new LinearKeyboardImpl();
 
         RowImpl row = mathKeyboard.nextRow(9.2f);

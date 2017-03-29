@@ -1,26 +1,8 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
-import org.geogebra.keyboard.base.linear.impl.RowImpl;
 
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_CAPS_LOCK;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_LEFT;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RIGHT;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_CAPS_LOCK;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LEFT_ARROW;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RIGHT_ARROW;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.createEmptySpace;
-
-
-public class GreekKeyboardFactory {
+class GreekKeyboardFactory extends LetterKeyboardFactory {
 
     private static final String ALPHA = "\u03B1";
     private static final String BETA = "\u03B2";
@@ -49,55 +31,39 @@ public class GreekKeyboardFactory {
     private static final String PSI = "\u03C8";
     private static final String OMEGA = "\u03C9";
 
-    public LinearKeyboard createGreekKeyboard() {
-        LinearKeyboardImpl greekKeyboard = new LinearKeyboardImpl();
+    LinearKeyboard createGreekKeyboard() {
+        StringBuilder topRow = new StringBuilder();
+        topRow.append(PHI);
+        topRow.append(SIGMA_SPECIAL);
+        topRow.append(EPSILON);
+        topRow.append(RHO);
+        topRow.append(TAU);
+        topRow.append(UPSILON);
+        topRow.append(THETA);
+        topRow.append(IOTA);
+        topRow.append(OMICRON);
+        topRow.append(PI);
 
-        RowImpl row = greekKeyboard.nextRow(10.0f);
-        addInputButton(row, PHI);
-        addInputButton(row, SIGMA_SPECIAL);
-        addInputButton(row, EPSILON);
-        addInputButton(row, RHO);
-        addInputButton(row, TAU);
-        addInputButton(row, UPSILON);
-        addInputButton(row, THETA);
-        addInputButton(row, IOTA);
-        addInputButton(row, OMICRON);
-        addInputButton(row, PI);
+        StringBuilder middleRow = new StringBuilder();
+        middleRow.append(ALPHA);
+        middleRow.append(SIGMA);
+        middleRow.append(DELTA);
+        middleRow.append(PHI_VARIATION);
+        middleRow.append(GAMMA);
+        middleRow.append(ETA);
+        middleRow.append(XI);
+        middleRow.append(KAPPA);
+        middleRow.append(LAMBDA);
 
-        row = greekKeyboard.nextRow(10.0f);
-        addButton(row, createEmptySpace(0.5f));
-        addInputButton(row, ALPHA);
-        addInputButton(row, SIGMA);
-        addInputButton(row, DELTA);
-        addInputButton(row, PHI_VARIATION);
-        addInputButton(row, GAMMA);
-        addInputButton(row, ETA);
-        addInputButton(row, XI);
-        addInputButton(row, KAPPA);
-        addInputButton(row, LAMBDA);
-        addButton(row, createEmptySpace(0.5f));
+        StringBuilder bottomRow = new StringBuilder();
+        bottomRow.append(ZETA);
+        bottomRow.append(CHI);
+        bottomRow.append(PSI);
+        bottomRow.append(OMEGA);
+        bottomRow.append(BETA);
+        bottomRow.append(NU);
+        bottomRow.append(MU);
 
-        row = greekKeyboard.nextRow(10.0f);
-        addConstantCustomButton(row, RESOURCE_CAPS_LOCK, ACTION_CAPS_LOCK, 1.2f);
-        addButton(row, createEmptySpace(0.3f));
-        addInputButton(row, ZETA);
-        addInputButton(row, CHI);
-        addInputButton(row, PSI);
-        addInputButton(row, OMEGA);
-        addInputButton(row, BETA);
-        addInputButton(row, NU);
-        addInputButton(row, MU);
-        addButton(row, createEmptySpace(0.3f));
-        addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE, 1.2f);
-
-        row = greekKeyboard.nextRow(10.0f);
-        addInputButton(row, ",");
-        addInputButton(row, "'");
-        addInputButton(row, " ", 5.0f);
-        addConstantCustomButton(row, RESOURCE_LEFT_ARROW, ACTION_LEFT);
-        addConstantCustomButton(row, RESOURCE_RIGHT_ARROW, ACTION_RIGHT);
-        addConstantCustomButton(row, RESOURCE_RETURN, ACTION_RETURN);
-
-        return greekKeyboard;
+        return createLetterKeyboard(topRow.toString(), middleRow.toString(), bottomRow.toString());
     }
 }

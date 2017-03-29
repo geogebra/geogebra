@@ -7,6 +7,7 @@ public class KeyboardFactory {
     private MathKeyboardFactory mathKeyboardFactory;
     private GreekKeyboardFactory greekKeyboardFactory;
     private FunctionKeyboardFactory functionKeyboardFactory;
+    private LetterKeyboardFactory letterKeyboardFactory;
 
     public LinearKeyboard createMathKeyboard() {
         if (mathKeyboardFactory == null) {
@@ -27,5 +28,12 @@ public class KeyboardFactory {
             functionKeyboardFactory = new FunctionKeyboardFactory();
         }
         return functionKeyboardFactory.createFunctionKeyboard();
+    }
+
+    public LinearKeyboard createLetterKeyboard(String topRow, String middleRow, String bottomRow) {
+        if (letterKeyboardFactory == null) {
+            letterKeyboardFactory = new LetterKeyboardFactory();
+        }
+        return letterKeyboardFactory.createLetterKeyboard(topRow, middleRow, bottomRow);
     }
 }

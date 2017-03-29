@@ -27,13 +27,12 @@ import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCus
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputCommandButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputCommandButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addTranslateInputCommandButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.createEmptySpace;
 
-public class FunctionKeyboardFactory {
+class FunctionKeyboardFactory {
 
-    public LinearKeyboard createFunctionKeyboard() {
+    LinearKeyboard createFunctionKeyboard() {
         LinearKeyboardImpl functionKeyboard = new LinearKeyboardImpl();
         float width = 5.0f / 3;
         RowImpl row = functionKeyboard.nextRow(9.2f);
