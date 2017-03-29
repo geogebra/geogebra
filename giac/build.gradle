@@ -87,9 +87,10 @@ def iosClangCompilerArgs(args, sdk, arch, minIosVersion) {
     args << "-arch"
     args << "${arch}"
     args << "-miphoneos-version-min=${minIosVersion}"
-    args << "-fembed-bitcode"
     args << "-std=gnu++98"
     args << "-stdlib=libc++"
+    args << "-fembed-bitcode"
+    args << "-O0"
 }
 
 def giacCommonDefines(cppCompiler) {
@@ -486,7 +487,7 @@ task zipIosLibrary(dependsOn: 'createFatIosStaticLibrary', type: Zip) {
         into("headers")
     }
     from("${buildDir}/libs/lipo") {
-        include "*.a"
+        include "libsimpleInterface.a", "libgiac.a", "libgmp.a", "libmpfr.a"
         into("libs")
     }
     from("src/simpleInterface/pod/Giac.podspec")
