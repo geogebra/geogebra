@@ -337,4 +337,9 @@ public class CASTableCellEditorD extends CASTableCell
 	public void ensureEditing() {
 		// only in web
 	}
+
+	public void onEnter(boolean b) {
+		// only used in web
+
+	}
 }

@@ -236,7 +236,9 @@ public class UtilD extends Util {
 
 		String line = null;
 		try {
+
 			while ((line = reader.readLine()) != null) {
+				Log.debug(line);
 				sb.append(line + "\n");
 			}
 		} catch (IOException e) {

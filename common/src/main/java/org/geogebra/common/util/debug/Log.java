@@ -315,7 +315,8 @@ public abstract class Log {
 		}
 	}
 
-	private void handleImplementationNeeded(String caller, String message) {
+	private static void handleImplementationNeeded(String caller,
+			String message) {
 		if (message.length() >= 21
 				&& message.toLowerCase().substring(0, 21)
 						.equals("implementation needed")) {

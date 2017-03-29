@@ -118,8 +118,10 @@ public interface AlgebraView extends Editing, SetLabels {
 
 	/**
 	 * This is just used from Html5/Web, but interface is in Common
+	 * 
+	 * @param visible
+	 *            whether to show AV input
 	 */
-	public void setShowAlgebraInput(boolean b);
+	public void setShowAlgebraInput(boolean visible);
 
-	public void resetItems(boolean clear);
 }

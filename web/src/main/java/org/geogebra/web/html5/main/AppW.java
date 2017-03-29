@@ -2369,6 +2369,9 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 			getAlgebraView().resetItems(false);
 
 		}
+		if (getGuiManager() != null && getGuiManager().hasCasView()) {
+			getGuiManager().getCasView().resetItems(false);
+		}
 		if (getActiveEuclidianView() != null) {
 		getActiveEuclidianView().getEuclidianController()
 				.setObjectMenuActive(false);

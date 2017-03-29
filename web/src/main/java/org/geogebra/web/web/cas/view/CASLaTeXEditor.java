@@ -80,11 +80,7 @@ public class CASLaTeXEditor extends FlowPanel
 	public void onBlur(BlurEvent event) {
 		// autocommitting empty text produces $1
 		if (!isSuggesting()) {
-			if (!StringUtil.empty(getText())) {
-				this.onEnter(false);
-			} else {
-				this.setFocus(false, false);
-			}
+			onEnter(false);
 		}
 
 	}
@@ -203,12 +199,17 @@ public class CASLaTeXEditor extends FlowPanel
 	}
 
 	@Override
-	public void onEnter(boolean b) {
+	public void onEnter(boolean keepFocus) {
 		// TODO Auto-generated method stub
 		if (sug != null && sug.needsEnterForSuggestion()) {
 			return;
 		}
-		this.controller.handleEnterKey(false, false, app, b);
+		// got here by blur: do not use previous cell ref
+		if (!keepFocus && StringUtil.empty(getText())) {
+			this.setFocus(false, false);
+			return;
+		}
+		this.controller.handleEnterKey(false, false, app, keepFocus);
 	}
 
 	@Override
