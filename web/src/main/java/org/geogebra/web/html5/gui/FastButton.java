@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
@@ -46,8 +47,6 @@ public abstract class FastButton extends CustomButton {
 	// in case the same touch reaches different Buttons (f.e. TouchStart +
 	// TouchEnd open the StyleBar and MouseUp reaches the first Button on the
 	// StyleBar
-	private static boolean touchHandled = false;
-	private static boolean clickHandled = false;
 
 	private boolean touchMoved = false;
 	private int touchId;
@@ -189,13 +188,7 @@ public abstract class FastButton extends CustomButton {
 		event.stopPropagation();
 		event.preventDefault();
 
-		if (touchHandled) {
-			// if the touch is already handled, we are on a device that supports
-			// touch (so you aren't in the desktop browser)
-
-			touchHandled = false; // reset for next press
-			clickHandled = true; // ignore future ClickEvents
-		} else if (!clickHandled) {
+		if (!CancelEventTimer.cancelMouseEvent()) {
 			// Press not handled yet
 			fireFastClickEvent();
 		}
@@ -267,8 +260,8 @@ public abstract class FastButton extends CustomButton {
 	}
 
 	private void onTouchEnd(Event event) {
+		CancelEventTimer.touchEventOccured();
 		if (!this.touchMoved) {
-			touchHandled = true;
 			fireFastClickEvent();
 			event.preventDefault();
 			onHoldPressOffStyle();// Change back the style
