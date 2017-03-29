@@ -337,7 +337,8 @@ namespace giac {
       vector<const unary_function_ptr *> vu;
       vu.push_back(at_rootof); 
       vector <gen_op_context> vv;
-      vv.push_back(_nop);
+      vv.push_back(_nop); 
+      // FIXME: arg of e is two vectors, if rootof is ^, this raises a warning
       gen er=subst(e,vu,vv,false,context0);
       alg_lvar(er,l);
     }
