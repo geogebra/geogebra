@@ -413,10 +413,10 @@ void mathCharacter(MathContainer currentField) :
                 }
             }
             currentField.addArgument(new MathCharacter(metaCharacter));
-        }else
-            {
-              currentField.addArgument(new MathCharacter(createMetaCharacter("\u200b", metaModel)));
-            }
+        }else if(currentField.size() >0)              {
+                             currentField.addArgument(new MathCharacter(createMetaCharacter("\u200b", metaModel)));
+            	}
+            
     }
 }
 
