@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelCanvas;
 import org.geogebra.web.web.cas.view.InputPanel.InputPanelLabel;
@@ -55,12 +56,13 @@ public class CASTableCellW extends VerticalPanel {
 
 		Label outputLabel = null;
 		outputText = "";
-		Canvas c = null;
+		Canvas canvas = null;
 		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
 
-				c = DrawEquationW.paintOnCanvasOutput(casCell, eqstring, null,
+				canvas = DrawEquationW.paintOnCanvasOutput(casCell, eqstring,
+						null,
 						casCell.getKernel().getApplication().getFontSize() + 1);
 
 			} else {
@@ -75,13 +77,17 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null) {
 			commentLabel = new Label();
 			commentLabel.addStyleName("CAS_commentLabel");
-			commentLabel.setText(casCell.getCommandAndComment() + " ");
+			if (StringUtil.empty(casCell.getCommandAndComment())) {
+				commentLabel.setVisible(false);
+			} else {
+				commentLabel.setText(casCell.getCommandAndComment() + " ");
+			}
 			commentLabel.getElement().getStyle()
 					.setFontSize(app.getFontSizeWeb(), Unit.PX);
 			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
-		outputPanel.add(c == null ? outputLabel : c);
+		outputPanel.add(canvas == null ? outputLabel : canvas);
 		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
 
@@ -117,8 +123,7 @@ public class CASTableCellW extends VerticalPanel {
 		casEditorW.ensureEditing();
 		add(outputPanel);
 		if(getCASCell() != null && getCASCell().isError()){
-			outputPanel.clear();
-			outputPanel.add(renderPlain());
+			showError();
 		}
 		textField.requestFocus();
 	}
@@ -231,6 +236,12 @@ public class CASTableCellW extends VerticalPanel {
 		}
 
 		this.inputPanel.setPixelRatio(ratio);
+	}
+
+	public void showError() {
+		outputPanel.clear();
+		outputPanel.add(renderPlain());
+
 	}
 
 }

@@ -43,4 +43,6 @@ public interface CASTable {
 	void resetRowNumbers(int from);
 
 	boolean hasEditor();
+
+	boolean keepEditing(boolean failure, int rowNum);
 }

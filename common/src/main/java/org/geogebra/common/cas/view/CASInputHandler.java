@@ -829,7 +829,7 @@ public class CASInputHandler {
 
 		// check success
 		success = !cellValue.isError();
-		if (startEditing || !success) {
+		if (startEditing || consoleTable.keepEditing(!success, rowNum)) {
 			// start editing row below successful evaluation
 
 			boolean goDown = success &&
