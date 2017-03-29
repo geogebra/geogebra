@@ -343,7 +343,7 @@ public class CASInputHandler {
 					|| !inVE.getTopLevelCommand().getName().equals("Numeric")) {
 				cellValue.setProcessingInformation(prefix,
 						ggbcmd + "["
-								+ inVE.toString(StringTemplate.numericDefault)
+								+ inVE.toString(StringTemplate.numericNoLocal)
 								+ "]",
 						postfix);
 			}
