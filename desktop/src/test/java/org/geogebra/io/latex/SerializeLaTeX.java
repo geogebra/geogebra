@@ -118,6 +118,7 @@ public class SerializeLaTeX {
 	public void testMatrix() {
  		checkCannon("{{1,2},{3,4}}", "{{1,2},{3,4}}");
 		checkCannon("{{1 , 2} , { 3 , 4}}", "{{1,2},{3,4}}");
+		checkCannon("{{1 , 2} , 3}", "{{1,2},3}");
 		checkCannon("{{1,2},{3,4}}+1", "{{1,2},{3,4}}+1");
 		checkCannon("{7,{{1,2},{3,4}}+2,4,5,6}", "{7,{{1,2},{3,4}}+2,4,5,6}");
 	}

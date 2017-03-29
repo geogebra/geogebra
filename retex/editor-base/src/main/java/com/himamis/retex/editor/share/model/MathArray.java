@@ -236,6 +236,8 @@ public class MathArray extends MathContainer {
                 } else if (matrixWidth != row.size()) {
                     return -1;
                 }
+			} else {
+				return -1;
             }
         }
         return matrixWidth;
