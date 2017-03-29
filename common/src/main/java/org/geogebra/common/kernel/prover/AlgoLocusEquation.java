@@ -341,7 +341,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			sb.append("if(size(l)==0){print(\"{{1,1,1},{1,1,1,1}}\");exit;}")
 					.append("poly pp=1; ideal ii; int i; int j=1; poly c; for (i=1; i<=size(l); i++)")
 					.append("{ if ((string(l[i][3])==\"Normal\") || (string(l[i][3])==\"Accumulation\")) { c=point_to_0circle(l[i][1]); pp=pp*c; ii[j]=c; j++; } }")
-					.append("string s=string(pp);string si=\"ideal iii=\"+string(ii); int sl=size(s);string pg=\"poly p=\"+s[2,sl-2];")
+					.append("string s=string(pp);string si=\"ideal iii=\"+string(ii); int sl=size(s);if(sl==1){print(\"{{1,1,1},{1,1,1,1}}\");exit;}string pg=\"poly p=\"+s[2,sl-2];")
 					.append("ring rr=0,(").append(vars)
 					.append("),dp;execute(pg);execute(si);")
 					.append("string out=sprintf(\"{{%s,%s,%s},{\",size(coeffs(p,")
