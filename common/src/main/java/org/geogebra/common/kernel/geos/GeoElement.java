@@ -2319,7 +2319,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isRedefineable() {
 		return !fixed && kernel.getApplication().letRedefine()
-				&& !(this instanceof TextValue || isGeoImage())
+				&& !(this instanceof TextValue) && isAlgebraViewEditable()
 				&& (isChangeable() || // redefine changeable (independent and
 										// not fixed)
 						!isIndependent()); // redefine dependent object
