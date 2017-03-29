@@ -402,6 +402,7 @@ var app = document.createElement("script");
 				perspective(names[pName],pName);
 			}
 			document.body.className += " "+pName;
+			document.body.className += " "+module;
 			insertScript(codebase);
 			showStartScreen(codebase);
 			return;
@@ -733,10 +734,12 @@ border:1px solid #dcdcdc
 .exam-cas .startScreen .rightButtonPanel img:nth-child(1),
 .exam-graphing .startScreen .rightButtonPanel img:nth-child(1),
 .exam .startScreen .rightButtonPanel img:nth-child(1){
-    display: none;
+  display: none;
 }
 
-
+.tablet3d .examPerspectiveRow, .tablet .examPerspectiveRow .tabletWin .examPerspectiveRow{
+  display:none;
+}
 
 /** OLD STUFF */
 
@@ -746,15 +749,15 @@ border:1px solid #dcdcdc
 }
 
 #ggbsplash {
-text-align:center;
-position:absolute;
-left:0px;
-top:0px;
-width:100%;
+  text-align:center;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:100%;
 }
     
-	div.SymbolTablePopup{
-z-index:501;
+div.SymbolTablePopup{
+  z-index:501;
 }
     </style>
 </head>
@@ -926,7 +929,7 @@ z-index:501;
 <div class="gwt-Label" id="whiteboard">Whiteboard</div></td><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
-<table  class="perspectivesRow"><tbody><tr><td align="left" style="vertical-align: top;">
+<table class="perspectivesRow examPerspectiveRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABOUlEQVR42r1VOw6CQBDlCB7BI3AEj0ABBLuNpY00BktLY2wJwYbexiNwBCprjkBjP84zbGJQcAY/m7xks/tm5z/rOP9eQRC4jHIkXKkCYhRhGG4lALeVcaVekO/7M6nX4EJGE6aGhWKFghgyGgWIZ6HgI0Slo7XI87zJOy44Wo+dKIqmbdKMwHoDLmS05VrM54bS9Ep5Ti+BO3A04ex60SyX+14FuANHbX23/Far9OlxnGnLeajx6sViTYdDfQf2OBM3lkQBo9psTgbA/isKbIheJdGOh9EhsklmnAe8O49OcmvhYLPZJlOXaV+jHY9kgI8brTsqsoxmXJrVQ5lWOBs9Kuyw40embHHZ12i4A0c97GBRkpzqvoe7AFc7rmm3u5BUAbjiD8d+mRgFbJkIdmyIEv3zT//b6wbWa8kBL/WLbAAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
 <div class="gwt-Label" id="exam">Exam</div></td><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
