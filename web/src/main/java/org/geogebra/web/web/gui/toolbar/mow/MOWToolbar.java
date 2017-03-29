@@ -410,29 +410,29 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			subMenuPanel.setVisible(visible);
 			if (submenuHeight == 120) {
 				if (lastSubmenuHeight == 0) {
-					setStyleName("animate0to120");
+					setStyleName("animateBaseToDouble");
 
 				}
 				if (lastSubmenuHeight == 55) {
-					setStyleName("animate55to120");
+					setStyleName("animateSimpleToDouble");
 				}
 				lastSubmenuHeight = 120;
 			}
 			if (submenuHeight == 55) {
 				if (lastSubmenuHeight == 0) {
-					setStyleName("animate0to55");
+					setStyleName("animateBaseToSimple");
 				}
 				if (lastSubmenuHeight == 120) {
-					setStyleName("animate120to55");
+					setStyleName("animateDoubleToSimple");
 				}
 				lastSubmenuHeight = 55;
 			}
 		} else {
 			if (submenuHeight == 120) {
-				setStyleName("animate120to0");
+				setStyleName("animateDoubleToBase");
 			}
 			if (submenuHeight == 55) {
-				setStyleName("animate55to0");
+				setStyleName("animateSimpleToBase");
 			}
 			// timer delays hiding the submenu so it stays visible until the end
 			// of the animation

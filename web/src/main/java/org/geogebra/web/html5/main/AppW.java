@@ -2460,7 +2460,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 		        && getInputPosition() != InputPosition.algebraView) {
 			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
 		}
-		if (showToolBar()) {
+		if (showToolBar() && !isWhiteboardActive()) {
 			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
 		}
 		// menubar height is always 0
