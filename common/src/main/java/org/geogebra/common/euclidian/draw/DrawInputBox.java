@@ -277,7 +277,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		getBox().setBounds(labelRectangle);
 	}
 
-	public void updateGeoIntputBox() {
+	private void updateGeoIntputBox() {
 		geoInputBox.updateText(getTextField());
 
 	}
