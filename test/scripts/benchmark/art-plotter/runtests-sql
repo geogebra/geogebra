@@ -1,0 +1,323 @@
+#!/bin/bash
+# Creates a benchmark output for the prover in CSV format to stdout,
+# and also in HTML format into html/.
+# @author Zoltan Kovacs <zoltan@geogebra.org>
+
+# Setting defaults.
+MY_VERSION=2.2
+
+DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
+DBDEBUG=0
+TIMEOUT=20
+PROVERS="DesktopInternal DesktopGrobcov"
+TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
+GEOGEBRAWEB_URL1=https://web.geogebra.org/app/?filename=https://dev.geogebra.org/trac/export
+GEOGEBRAWEB_URL2=trunk/geogebra/test/scripts/benchmark/art-plotter
+SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
+PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
+
+GEOGEBRADIR=../../../../
+WEBCODEBASEDIR=$GEOGEBRADIR/web/war/web3d
+ABSWEBDIR=`readlink -f $WEBCODEBASEDIR`
+
+PHANTOMJS=`which phantomjs || echo unset`
+
+# Create database if it does not exit
+test -r sqlite3db || ./createdb || exit $?
+
+sql_provers() {
+ # Reads prover names from the SQL database.
+ sqlite3 sqlite3db "select name from provers;" | awk '{printf "%s ", $0}'
+ }
+
+usage() {
+ echo "$0 - a benchmarking tool for GeoGebra's theorem prover subsystem"
+ echo "Usage:"
+ echo " xvfb-run $0 [options]"
+ echo "  where options can be as follows (defaults in parentheses):"
+ echo "   -d           put some debugging logs into tmp/"
+ echo "   -b           save debugging information in the database"
+ echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
+ echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
+ echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
+ echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
+ echo "   -r           run GeoGebra desktop version from the current sources"
+ echo "   -P <path>    use path to run PhantomJS ($PHANTOMJS)"
+ echo "   -h           show this help, then exit"
+ echo "   -v           print script version, then exit"
+ echo "   -V           print available provers from the database, then exit"
+ echo
+ echo "Note: You may want to use 'xvfb-run -a -s \"-screen 0 1024x768x24\" $0 ...' for 3D compatibility. Tested under Ubuntu 14.10."
+ exit 0
+ }
+
+version() {
+ echo "$0 version $MY_VERSION"
+ exit 0
+ }
+
+while getopts "t:p:P:dbhvrV" OPT; do
+ case $OPT in
+  t)
+   TIMEOUT="$OPTARG"
+   ;;
+  P)
+   PHANTOMJS="$OPTARG"
+   which $PHANTOMJS >/dev/null || {
+    echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
+    exit 1
+    }
+   ;;
+  d)
+   DEBUG=1
+   ;;
+  b)
+   DBDEBUG=1
+   ;;
+  p)
+   PROVERS="$OPTARG"
+   ;;
+  g)
+   TESTGGBURLBASE_GGBDIR="$OPTARG"
+   ;;
+  s)
+   SINGULARWSREMOTEURL="$OPTARGS"
+   ;;
+  h)
+   usage
+   ;;
+  v)
+   version
+   ;;
+  V)
+   PROVERS=`sql_provers`
+   echo "Provers are: $PROVERS"
+   exit 0
+   ;;
+  r)
+   RUNDIR=$GEOGEBRADIR/desktop/build/install/desktop/bin # run the "installDist" task in Gradle first
+   BINBASE=./desktop
+   # VERSION=`cd $RUNDIR; $BINBASE --v 2>&1 | head -1 | cut -f5 -d" "`
+
+   ;;
+
+ esac
+done
+
+# Put name of the filters into $@
+shift $((OPTIND-1))
+
+PROVERSNO=`echo $PROVERS | wc -w`
+THISDIR=`dirname $0`
+MYDIR=`cd $THISDIR; pwd`
+mkdir -p $MYDIR/tmp
+LOGFILE=$MYDIR/tmp/.test.log
+REGRESSIONFILE=$MYDIR/tmp/.regression.out
+JSFILE=$MYDIR/tmp/settings.js # this is hardcoded in jstest.html
+
+# Testing prerequisites:
+prereq () {
+ which $1 2>&1 >/dev/null || {
+  echo "FATAL: No '$1' executable found. $2"
+  exit 1
+  }
+ }
+
+if [ "$RUNDIR" = "" ]; then
+ prereq geogebra "Try installing GeoGebra first."
+ BIN=`which geogebra`
+ RUNDIR=`dirname $BIN`
+ BINBASE="geogebra --2"
+ fi
+prereq unzip
+prereq zip
+prereq timeout
+
+REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
+if [ "$REVISION" != "" ]; then
+ REVISION=" (r$REVISION)"
+ fi
+# public static final String VERSION_STRING = "5.0.122.0";
+VERSION=`cat $GEOGEBRADIR/common/src/main/java/org/geogebra/common/GeoGebraConstants.java |\
+grep " VERSION_STRING =" | awk '{print $7}' | sed s/\"//g | sed s/";"//`
+
+# Title
+DATE=`date "+%Y-%m-%d %H:%M"`
+HOST=`hostname`
+HWINFO=`which hwinfo 2>&1 >/dev/null`
+if [ "$HWINFO" = "" ]; then
+ INFO=`lshw -quiet -class processor 2>/dev/null | grep product | cut -d: -f2`
+else
+ INFO=`hwinfo --short --cpu 2>&1 | grep CPU`
+ fi
+
+machine="$HOST, $INFO"
+
+if [ "$BUILD_NUMBER" = "" ]; then
+ BUILD_NUMBER=`date +%Y%m%d%H%M%S`
+ fi
+if [ "$SVN_REVISION" = "" ]; then
+ SVN_REVISION=null
+ fi
+if [ "$BUILD_URL" = "" ]; then
+ BUILD_URL=null
+ fi
+
+cd $MYDIR
+test sqlite3db || ./createdb
+
+sqlite3 sqlite3db "insert into builds (build_number, svn_revision, build_url, machine)
+values ('$BUILD_NUMBER', '$SVN_REVISION', '$BUILD_URL', '$machine')"
+
+# Header
+echo -n "Test file;"
+echo
+
+# Content
+TESTS=0
+for i in `find -name '*.ggb' | sort`; do
+ TESTS=$((TESTS+1))
+ # Creating thumbnail:
+ cd $MYDIR
+ DIRNAME=`dirname $i | sed s/"^\.\/tests\/"/""/`
+ TEST=`basename $i`
+ echo -n "$TEST;"
+ TEST=`echo $TEST | sed s/".ggb"//`
+ TEST_APOSTROPHED="'$TEST'"
+
+ declare -A RESULTDATA
+ declare -A RESULTCLASSDATA
+ declare -A CELLCOLORDATA
+ declare -A TIMEDATA
+ BESTTIME=""
+ WORSTTIME=""
+ BESTPROVER=""
+ WORSTPROVER=""
+
+ for j in $PROVERS; do
+  cd $MYDIR; cd $RUNDIR
+  ENGINE=`echo $j | cut -f1 -d_`
+  METHOD=""
+  unset SWSOPTS
+  unset EXTRAOPTS
+  if [ $ENGINE = DesktopInternal ]; then
+   SWSOPTS=",enable:false"
+  elif [ $ENGINE = DesktopGrobcov ]; then
+   SWSOPTS=",enable:true,caching:false"
+   fi
+
+  # Testing:
+  start_unixtime=`date +%s`
+  if [ "$ENGINE" = "Web" ]; then
+   which $PHANTOMJS >/dev/null || {
+    echo "FATAL: PhantomJS is not found in $PHANTOMJS (>= 2.0.0 needed)"
+    exit 1
+    }
+   test -d $ABSWEBDIR || {
+    echo; echo "FATAL: folder $ABSWEBDIR does not exist. You have to compile web platform first."
+    exit 1
+    }
+   echo -n "var ggbBase64File = \"" > $JSFILE
+   cat $MYDIR/$i | base64 -w0 >> $JSFILE
+   echo "\";" >> $JSFILE
+   echo "var html5codeBase = 'file://$ABSWEBDIR';" >> $JSFILE
+   timeout $((TIMEOUT+2)) $PHANTOMJS $MYDIR/testurl.js "file:///$MYDIR/jstest.html" $TIMEOUT > $MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+   RETVAL=$?
+   # 14:50:36.344 DEBUG: ?: Benchmarking: 1120 ms
+   # 14:50:36.345 DEBUG: ?: OUTPUT for Prove: proof = true
+   # 14:50:36.346 DEBUG: ?: all CAS up
+   cat $MYDIR/tmp/.test.stdout | grep Benchmarking | tail -1 > $LOGFILE
+   grep --silent " {{" $MYDIR/tmp/.test.stdout && \
+    cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\\\1/ | > $REGRESSIONFILE
+   RESULT=`cat $REGRESSIONFILE`
+  else
+   timeout $TIMEOUT $BINBASE \
+    --prover=timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
+    --logFile=$LOGFILE --logshowcaller=false --logshowtime=false --logshowlevel=false --loglevel=TRACE \
+    --regressionFile=$REGRESSIONFILE --language=en $EXTRAOPTS $MYDIR/$i \
+    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
+
+   # --regressionFile is broken since 5.0.244.0, so we don't use its output
+   RETVAL=$?
+   RESULT=""
+   fi
+
+  # Being optimistic
+  RESULTCLASS="ok"
+  accepted=1
+  errortype=0
+
+  if [ $RETVAL = 124 ]; then
+   RESULT=""
+   TIME=timeout
+   errortype=1
+   accepted=0
+  else
+   # --regressionFile is broken since 5.0.244.0, so we don't use its output:
+   if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
+    grep --silent " {{" $LOGFILE && \
+     RESULT=`tac $LOGFILE | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\\\1/`
+    # FIXME in GeoGebra.
+    fi
+   TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $2}'`
+   if [ $DEBUG = 1 ]; then
+    cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
+    cp $LOGFILE $LOGFILE-$TEST-$j
+    cp $MYDIR/tmp/.test.stdout $MYDIR/tmp/.test.stdout-$TEST-$j
+    cp $MYDIR/tmp/.test.stderr $MYDIR/tmp/.test.stderr-$TEST-$j
+    fi
+   fi # No timeout
+  if [ "$TIME" = "" ]; then
+   # Probably running the process was unsuccessful (maybe killed for another reason than 124).
+   # In this case we assume "timeout" and clean $RESULT (which should have been cleaned up earlier, actually, FIXME):
+   RESULT=""
+   TIME=timeout
+   errortype=3
+   accepted=0
+   fi
+  echo -n "$RESULT;$TIME;"
+  RESULT_APOSTROPHED="'$RESULT'"
+
+  EXPECTED_RESULT=`sqlite3 $MYDIR/sqlite3db "select count(*) from testcases where name=$TEST_APOSTROPHED\
+   and expected_result = $RESULT_APOSTROPHED"`
+
+  if [ "$EXPECTED_RESULT" == "0" ]; then
+   RESULTCLASS="error"
+   accepted=0
+   errortype=2
+  else
+   VARNAME=$`echo $j`
+   VALUE=`eval echo $VARNAME`
+   eval $j=`expr $VALUE + 1`
+   fi
+
+ speed="$TIME"
+ if [ "$TIME" = timeout ]; then
+  speed=null
+  fi
+
+  echo -n "insert into tests (testcase, prover, build_number, start_unixtime, result,
+  osresult, timeout_setting, accepted, errortype, speed, regressionfile, logfile, stdout, stderr) values
+  ('$TEST', '$j', '$BUILD_NUMBER', $start_unixtime, '$RESULT',
+  $RETVAL, $TIMEOUT, $accepted, $errortype, $speed, '" > $MYDIR/tmp/testcmd.sql
+  if [ "$DBDEBUG" = 0 ]; then
+   echo -n > $REGRESSIONFILE
+   echo -n > $LOGFILE
+   echo -n > $MYDIR/tmp/.test.stdout
+   echo -n > $MYDIR/tmp/.test.stderr
+   fi
+  cat $REGRESSIONFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo -n "', '" >> $MYDIR/tmp/testcmd.sql
+  cat $LOGFILE | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo -n "', '" >> $MYDIR/tmp/testcmd.sql
+  cat $MYDIR/tmp/.test.stdout | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo -n "', '" >> $MYDIR/tmp/testcmd.sql
+  cat $MYDIR/tmp/.test.stderr | sed s/"'"/"''"/g >> $MYDIR/tmp/testcmd.sql
+  echo "');" >> $MYDIR/tmp/testcmd.sql
+  cat $MYDIR/tmp/testcmd.sql | sqlite3 $MYDIR/sqlite3db
+
+  done # All provers done for this tests
+
+ echo
+ done # All tests done
+
