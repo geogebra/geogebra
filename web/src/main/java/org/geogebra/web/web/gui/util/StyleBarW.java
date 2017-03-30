@@ -204,6 +204,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 					closeButtonIndex = -1; 
 					separatorIndex = -1;
 				}
+				app.hideKeyboard();
 				if (i == closeButtonIndex){
 					app.getGuiManager().setShowView(false, viewID);
 				} else if (i != separatorIndex) { // ignore separator
