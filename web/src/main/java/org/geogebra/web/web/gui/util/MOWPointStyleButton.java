@@ -48,6 +48,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		panel.clear();
 		panel.add(sliderPanel);
 		panel.add(getMyTable());
+		panel.addStyleName("mowStylePopup");
 		canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);

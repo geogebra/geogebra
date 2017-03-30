@@ -6194,7 +6194,13 @@ body.application[dir=rtl] .deleteAlgebra {
 .mowLinePopup .popupSliderLabel{
 	margin-right: 0px;
 }
-.mowColorPopup .SelectionTable .gwt-Label.border.selected{
+.mowColorPopup .SelectionTable .gwt-Label.border.selected, 
+.mowColorPopup .SelectionTable .gwt-Label.border:hover,
+.mowColorPopup .SelectionTable .gwt-Label.border:active,
+.mowStylePopup .SelectionTable .gwt-Label.border.selected,
+.mowStylePopup .SelectionTable .gwt-Label.border:hover,	
+.mowStylePopup .SelectionTable .gwt-Label.border:active{	
 	background-color: transparent !important;
-	border: 1px solid @mow_purple;
+	border: 2px solid @mow_purple;
+	padding: 2px;
 }
