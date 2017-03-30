@@ -525,7 +525,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			final VirtualKeyboardW keyBoard = app.getGuiManager()
 					.getOnScreenKeyboard(null, this);
 			if (app.isKeyboardNeeded()) {
-				ensureKeyboardEditing();
+				ensureKeyboardDeferred();
 				if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 					if (viewHasKeyboard()) {
 						add(keyBoard);
@@ -556,23 +556,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 							addKeyboard(null);
 							app.getGuiManager().focusScheduled(false, false,
 									false);
-							new Timer() {
-
-								@Override
-								public void run() {
-
-									if (app.getGuiManager().hasAlgebraView()) {
-										AlgebraViewW av = (AlgebraViewW) app
-												.getAlgebraView();
-										// av.clearActiveItem();
-										av.setDefaultUserWidth();
-									}
-
-									ensureKeyboardEditing();
-
-								}
-
-							}.schedule(500);
+							ensureKeyboardDeferred();
 
 						}
 					});
@@ -595,6 +579,26 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				}
 			}
 		}
+	}
+
+	protected void ensureKeyboardDeferred() {
+		new Timer() {
+
+			@Override
+			public void run() {
+
+				if (app.getGuiManager().hasAlgebraView()) {
+					AlgebraViewW av = (AlgebraViewW) app.getAlgebraView();
+					// av.clearActiveItem();
+					av.setDefaultUserWidth();
+				}
+
+				ensureKeyboardEditing();
+
+			}
+
+		}.schedule(500);
+
 	}
 
 	/**
