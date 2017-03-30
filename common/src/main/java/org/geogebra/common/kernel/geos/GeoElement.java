@@ -257,6 +257,9 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean inverseFill = false;
 
 	private String fillSymbol = null;
+
+	/** The original location if any */
+	private ScreenLocation screenLocation = null;
 	// =================================
 	// G.Sturr new fill options
 	/**
@@ -8874,5 +8877,49 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isGeoLocusable() {
 		return false;
+	}
+
+	/**
+	 * 
+	 * @return the original screen location
+	 */
+	public ScreenLocation getScreenLocation() {
+		return screenLocation;
+	}
+
+	/**
+	 * 
+	 * @param screenLocation
+	 *            to set
+	 */
+	public void setScreenLocation(ScreenLocation screenLocation) {
+		this.screenLocation = screenLocation;
+	}
+
+	/**
+	 * Sets the original (x, y) location of the geo.
+	 * 
+	 * @param x
+	 *            to set
+	 * @param y
+	 *            to set
+	 */
+	public void setScreenLocation(int x, int y) {
+		this.screenLocation = new ScreenLocation(x, y);
+	}
+
+	/**
+	 * 
+	 * @return if this has original screen location comes from file.
+	 */
+	public boolean hasScreenLocation() {
+		return screenLocation != null;
+	}
+
+	/**
+	 * resets original location to null
+	 */
+	public void resetScreenLocation() {
+		screenLocation = null;
 	}
 }

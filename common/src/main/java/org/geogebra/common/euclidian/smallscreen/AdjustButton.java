@@ -20,8 +20,8 @@ public class AdjustButton extends AdjustWidget {
 		x = button.getAbsoluteScreenLocX();
 		y = button.getAbsoluteScreenLocY();
 
-		origX = button.getOrigX() == null ? 0 : button.getOrigX();
-		origY = button.getOrigY() == null ? 0 : button.getOrigY();
+		// origX = button.getOrigX() == null ? 0 : button.getOrigX();
+		// origY = button.getOrigY() == null ? 0 : button.getOrigY();
 		// origWidth = button.getOrigWidth() == null ? 0 :
 		// button.getOrigWidth();
 		// origHeight = button.getOrigHeight() == null ? 0

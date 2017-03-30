@@ -38,7 +38,7 @@ public class AlgoInputBox extends AlgoElement {
 			inputBox.setLinkedGeo(linkedGeo);
 		}
 		inputBox.setAbsoluteScreenLoc(30, 30);
-		inputBox.resetOrigLocation();
+		inputBox.resetScreenLocation();
 		setInputOutput();
 		compute();
 		inputBox.setLabel(label);

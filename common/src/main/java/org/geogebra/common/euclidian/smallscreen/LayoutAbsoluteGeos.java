@@ -7,12 +7,15 @@ import java.util.List;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -71,18 +74,20 @@ public class LayoutAbsoluteGeos {
 		}
 	}
 
+	/**
+	 * Reset all the collected geos to their original screen location that come
+	 * from file.
+	 */
 	public void reset() {
-		Log.debug("[LayoutButtons] reset ");
+		Log.debug("[LayoutAbsoluteGeos] reset ");
 		for (AbsoluteScreenLocateable loc : originals) {
-			if (loc instanceof GeoButton) {
-				GeoButton absGeo = (GeoButton) loc;
-				if (absGeo.getOrigX() != null && absGeo.getOrigY() != null) {
-					absGeo.setAbsoluteScreenLoc(absGeo.getOrigX(), absGeo.getOrigY());
-
-				}
+			ScreenLocation screenLoc = ((GeoElement) loc).getScreenLocation();
+			if (screenLoc != null) {
+				loc.setAbsoluteScreenLoc(screenLoc.getX(), screenLoc.getY());
 			}
 		}
 	}
+
 	public void clear() {
 		all.clear();
 		moveable.clear();
@@ -152,13 +157,13 @@ public class LayoutAbsoluteGeos {
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int x = absGeo.getAbsoluteScreenLocX();
-			int y = maxUnusedY(usedPositions, x, x + absGeo.getTotalWidth(view),
+			int y = maxUnusedY(usedPositions, x, x + getTotalWidth(absGeo),
 					view.getHeight());
-			y -= absGeo.getTotalHeight(view) + Y_GAP;
+			y -= getTotalHeight(absGeo) + Y_GAP;
 			y = Math.min(absGeo.getAbsoluteScreenLocY(), y);
 			setAbsoluteScreenLoc(absGeo, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					absGeo.getTotalWidth(view), absGeo.getTotalHeight(view)));
+					getTotalWidth(absGeo), getTotalHeight(absGeo)));
 			absGeo.update();
 		}
 	}
@@ -175,19 +180,41 @@ public class LayoutAbsoluteGeos {
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int y = absGeo.getAbsoluteScreenLocY();
-			int x = maxUnusedX(usedPositions, y, y + absGeo.getTotalHeight(view),
+			int x = maxUnusedX(usedPositions, y, y + getTotalHeight(absGeo),
 					view.getWidth());
-			x -= absGeo.getTotalWidth(view) + X_GAP;
+			x -= getTotalWidth(absGeo) + X_GAP;
 			x = Math.min(absGeo.getAbsoluteScreenLocX(), x);
 			setAbsoluteScreenLoc(absGeo, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					absGeo.getTotalWidth(view), absGeo.getTotalHeight(view)));
+					getTotalWidth(absGeo), getTotalHeight(absGeo)));
 			absGeo.update();
 
 		}
 	}
 
 
+	private int getTotalWidth(AbsoluteScreenLocateable absGeo) {
+		if (absGeo instanceof GeoButton) {
+			return absGeo.getTotalWidth(view);
+		} else if (absGeo instanceof GeoText) {
+			DrawText dt = (DrawText) view.getDrawableFor(absGeo);
+			dt.update();
+			return (int) dt.getBoundsRectangle().getWidth();
+		}
+		return 0;
+	}
+
+	private int getTotalHeight(AbsoluteScreenLocateable absGeo) {
+		if (absGeo instanceof GeoButton) {
+			return absGeo.getTotalHeight(view);
+		} else if (absGeo instanceof GeoText) {
+			DrawText dt = (DrawText) view.getDrawableFor(absGeo);
+			dt.update();
+			GRectangle rect = dt.getBoundsRectangle();
+			return rect != null ? (int) rect.getHeight() : 0;
+		}
+		return 0;
+	}
 	private void setAbsoluteScreenLoc(AbsoluteScreenLocateable absGeo, int x,
 			int y) {
 		if (absGeo instanceof GeoBoolean) {
@@ -249,7 +276,7 @@ public class LayoutAbsoluteGeos {
 
 	private boolean isHorizontallyOnScreen(AbsoluteScreenLocateable absGeo) {
 		int x = absGeo.getAbsoluteScreenLocX();
-		int width = absGeo.getTotalWidth(view);
+		int width = getTotalWidth(absGeo);
 		Log.debug("Checking" + view.getSettings().getFileWidth());
 		return view.getSettings().getFileWidth() == 0
 				|| x + width < view.getSettings().getFileWidth();
@@ -257,7 +284,7 @@ public class LayoutAbsoluteGeos {
 
 	private boolean isVerticallyOnScreen(AbsoluteScreenLocateable absGeo) {
 		int y = absGeo.getAbsoluteScreenLocY();
-		int height = absGeo.getTotalHeight(view);
+		int height = getTotalHeight(absGeo);
 		return view.getSettings().getFileHeight() == 0
 				|| y + height < view.getSettings().getFileHeight();
 	}
@@ -289,11 +316,17 @@ public class LayoutAbsoluteGeos {
 		this.collected = collected;
 	}
 
+	/**
+	 * 
+	 * @param geo
+	 *            to check.
+	 * @return if geo can be handled with this class or not.
+	 */
 	public static boolean match(GeoElement geo) {
 		// TODO Auto-generated method stub
 		return geo.isGeoButton() || (geo.isGeoBoolean()
 				&& geo.isEuclidianShowable()
-		// || ((geo.isGeoText() || geo.isGeoImage()) && geo.isVisible())
+				|| ((geo.isGeoText() || geo.isGeoImage()) && geo.isVisible())
 		// || (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 		);
 	}

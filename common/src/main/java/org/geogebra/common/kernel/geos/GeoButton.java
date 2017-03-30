@@ -44,10 +44,6 @@ public class GeoButton extends GeoElement
 
 	// original positions and widths
 	// set once (if null)
-	private Integer origX = null;
-	private Integer origY = null;
-	private Integer origHeight = null;
-	private Integer origWidth = null;
 
 	/**
 	 * Creates new button
@@ -176,12 +172,8 @@ public class GeoButton extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
-		if (origX == null) {
-			origX = x;
-		}
-
-		if (origY == null) {
-			origY = y;
+		if (!hasScreenLocation()) {
+			setScreenLocation(x, y);
 		}
 	}
 
@@ -364,8 +356,8 @@ public class GeoButton extends GeoElement
 	 */
 	public void setWidth(int width) {
 		this.width = width;
-		if (origWidth == null) {
-			origWidth = width;
+		if (hasScreenLocation()) {
+			getScreenLocation().initWidth(width);
 		}
 	}
 
@@ -383,8 +375,8 @@ public class GeoButton extends GeoElement
 	 */
 	public void setHeight(int height) {
 		this.height = height;
-		if (origHeight == null) {
-			origHeight = height;
+		if (hasScreenLocation()) {
+			getScreenLocation().initHeight(height);
 		}
 	}
 
@@ -428,41 +420,6 @@ public class GeoButton extends GeoElement
 		return ValueType.VOID;
 	}
 
-	/**
-	 * @return screen x from file
-	 */
-	public Integer getOrigX() {
-		return origX;
-	}
-
-	/**
-	 * @return screen y from file
-	 */
-	public Integer getOrigY() {
-		return origY;
-	}
-
-	/**
-	 * @return height from file
-	 */
-	public Integer getOrigHeight() {
-		return origHeight;
-	}
-
-	/**
-	 * @return width from file
-	 */
-	public Integer getOrigWidth() {
-		return origWidth;
-	}
-
-	/**
-	 * Reset the original location to null
-	 */
-	public void resetOrigLocation() {
-		this.origX = null;
-		this.origY = null;
-	}
 
 	/**
 	 * @return total screen width, overridden in GeoInputBox

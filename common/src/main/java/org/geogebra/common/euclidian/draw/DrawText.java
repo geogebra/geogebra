@@ -283,6 +283,10 @@ public final class DrawText extends Drawable {
 		return labelRectangle;
 	}
 
+	final public GRectangle getBoundsRectangle() {
+
+		return labelRectangle;
+	}
 	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
