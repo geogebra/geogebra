@@ -23,6 +23,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
@@ -594,13 +596,25 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *             Throws if the underlying CAS produces an error
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
-			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
+			MyArbitraryConstant arbconst, StringTemplate tpl,
+			final Kernel kernel)
 			throws CASException {
 		boolean ggbvect = giacString.startsWith("ggbvect");
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);
 		// replace rational exponents by roots or vice versa
 
+		ve = ve.traverse(new Traversing() {
+
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof MyVecNode) {
+					return new ExpressionNode(kernel,
+							new Variable(kernel, "ggbvect"), Operation.FUNCTION,
+							ev);
+				}
+				return ev;
+			}
+		});
 		String geogebraString = casParser.toGeoGebraString(ve, tpl);
 		if (ggbvect) {
 			geogebraString = "ggbvect(" + geogebraString + ")";

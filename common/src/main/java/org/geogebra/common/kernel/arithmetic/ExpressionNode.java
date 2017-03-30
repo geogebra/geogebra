@@ -582,6 +582,8 @@ public class ExpressionNode extends ValidExpression
 			evalToVector = geo.isGeoVector() || geo.isNumberValue();
 		} else if (left.isNumberValue()) {
 			evalToVector = true;
+		} else if (left instanceof MyVecNode) {
+			evalToVector = ((MyVecNode) left).isCASVector();
 		}
 
 		if ((right != null) && evalToVector) {
