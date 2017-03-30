@@ -2,6 +2,14 @@ package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.plugin.Operation;
 
+/**
+ * Replaces xcoord nodes by the expanded version, eg
+ * 
+ * x(A+B+(1,0)) -&gt; x(A)+x(B)+1
+ * 
+ * @author Zbynek
+ *
+ */
 public class CoordComputer implements Traversing {
 
 	public ExpressionValue process(ExpressionValue ev) {

@@ -9,6 +9,12 @@ import org.geogebra.web.html5.event.ZeroOffset;
 
 import com.google.gwt.dom.client.Element;
 
+/**
+ * Handles pointer events in Euclidian view(or MSPointer events in case of IE10)
+ * 
+ * @author Zbynek
+ *
+ */
 public class PointerEventHandler {
 
 	private final IsEuclidianController tc;
@@ -54,6 +60,12 @@ public class PointerEventHandler {
 
 	}
 
+	/**
+	 * @param tc
+	 *            euclidian controller
+	 * @param off
+	 *            offset provider
+	 */
 	public PointerEventHandler(IsEuclidianController tc, HasOffsets off) {
 		this.tc = tc;
 		Log.debug("Zoomer for" + off);
@@ -145,6 +157,9 @@ public class PointerEventHandler {
 
 	}
 
+	/**
+	 * Reset the pointers
+	 */
 	public native void reset()/*-{
 		$wnd.first = {
 			id : -1
@@ -154,6 +169,15 @@ public class PointerEventHandler {
 		};
 	}-*/;
 
+	/**
+	 * @param element
+	 *            listening element (EV)
+	 * @param zoomer
+	 *            event handler
+	 * @param override
+	 *            whether to use the full pointer implementation that does not
+	 *            require further event handling
+	 */
 	public static native void attachTo(Element element, PointerEventHandler zoomer,
 			boolean override) /*-{
 		$wnd.first = {
