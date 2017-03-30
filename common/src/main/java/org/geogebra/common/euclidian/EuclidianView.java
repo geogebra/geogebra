@@ -98,8 +98,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static final int EVNO_3D = -1;
 	/** euclidian view number */
 	protected int evNo = 1;
-	protected double xZeroOld, yZeroOld;
-	protected double xScaleStart, yScaleStart;
+	/** old onscreen x-coord of origin for animate zoom */
+	protected double xZeroOld;
+	/** old onscreen y-coord of origin for animate zoom */
+	protected double yZeroOld;
+	/** old onscreen x-scale for animate zoom */
+	protected double xScaleStart;
+	/** old onscreen y-scale for animate zoom */
+	protected double yScaleStart;
 	private int mode = EuclidianConstants.MODE_MOVE;
 	/** minimal width */
 	public static final int MIN_WIDTH = 50;
@@ -330,19 +336,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** true if grid is displayed */
 	protected boolean showGrid = false;
 
+	/** whether mouse coords are shown see also allowShowMouseCoords */
 	protected boolean showMouseCoords = false;
 
-	// set to false because it was set to false in Desktop anyway
-	// (due to a bug in MyXMLHandler?), and it does some speedup in Web
+	/**
+	 * whether to allow onscreen mouse coords.
+	 * 
+	 * set to false because it was set to false in Desktop anyway
+	 */
 	protected boolean allowShowMouseCoords = false;
-
+	/** whether axes ratio should be visible (true while axis zooming) */
 	protected boolean showAxesRatio = false;
 	/** true if animation button need highlighting */
 	protected boolean highlightAnimationButtons = false;
-
-	// only used for temporary views eg Text Preview, Spreadsheet plots
+	/** point capturing mode */
 	protected int pointCapturingMode;
-
+	/** show coords of view corners */
 	boolean showAxesCornerCoords = true;// private
 
 	/**
@@ -1129,7 +1138,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
-	/** Sets coord system from mouse move */
+	/**
+	 * Sets coord system from mouse move
+	 * 
+	 * @param dx
+	 *            x-displacement
+	 * @param dy
+	 *            y-displacement
+	 * @param mode
+	 *            app mode
+	 */
 	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
 		translateCoordSystemInPixels(dx, dy, 0, mode);
 	}
@@ -1861,6 +1879,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		repaintForPreviewFromInputBar();
 	}
 
+	/**
+	 * Repaint for input preview, overridden in 3D
+	 */
 	protected void repaintForPreviewFromInputBar() {
 		repaint();
 	}
@@ -1880,6 +1901,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return false;
 	}
 
+	/**
+	 * @return whether this view is used as plotPanel in prob calc
+	 */
 	public boolean isPlotPanel() {
 		return false;
 	}
@@ -1922,6 +1946,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * event coords
+	 * 
+	 * @param x
+	 *            event screen x-coord
+	 * @param y
+	 *            event screen y-coord
+	 * @param type
+	 *            event type
 	 *
 	 * @return whether textfield was clicked
 	 */
@@ -3144,6 +3175,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * say if the axis is logarithmic
 	 */
 
+	/**
+	 * @param axis
+	 *            axis index
+	 * @return whether to switch axis to log scale
+	 */
 	public boolean getLogAxis(int axis) {
 		return logAxes[axis];
 	}

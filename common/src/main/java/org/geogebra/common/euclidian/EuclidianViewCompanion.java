@@ -428,6 +428,7 @@ public class EuclidianViewCompanion {
 	/**
 	 * @param show
 	 *            true to show grid
+	 * @return whether the setting changed
 	 */
 	public boolean showGrid(boolean show) {
 		if (show == view.showGrid) {
@@ -482,6 +483,11 @@ public class EuclidianViewCompanion {
 		view.updateSizeKeepDrawables();
 	}
 
+	/**
+	 * @param sys
+	 *            coord system
+	 * @return whether the coord system is in the plane of this view
+	 */
 	public boolean isInPlane(CoordSys sys) {
 		return sys.getEquationVector()
 				.isEqual(CoordSys.Identity3D.getEquationVector());
@@ -518,6 +524,12 @@ public class EuclidianViewCompanion {
 		return view.hasMouse2D();
 	}
 
+	/**
+	 * @param mode
+	 *            mode
+	 * @param m
+	 *            mode setting event type
+	 */
 	public void setMode(int mode, ModeSetter m) {
 		// used for some input3D
 	}
