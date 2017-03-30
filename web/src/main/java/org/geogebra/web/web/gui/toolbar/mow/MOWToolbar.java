@@ -51,6 +51,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private int submenuHeight;
 	private int lastSubmenuHeight;
 	private ToolbarResources pr;
+	private boolean stayClosed;
 
 	/**
 	 *
@@ -88,6 +89,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		// hack
 		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 		lastSubmenuHeight = 0;
+		stayClosed = false;
 		addStyleName("mowToolbar");
 		// sets the horizontal position of the toolbar
 		setResponsivePosition();
@@ -304,6 +306,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				currentMenu.reset();
 			}
 		} else if (source == penButton) {
+			if (subMenuPanel.isVisible() && currentMenu == penMenu) {
+				stayClosed = true;
+			} else {
+				stayClosed = false;
+			}
 			setCurrentMenu(penMenu);
 		} else if (source == toolsButton) {
 			setCurrentMenu(toolsMenu);
@@ -348,7 +355,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (mode == EuclidianConstants.MODE_PEN) {
 			setButtonActive(penButton);
 		}
-		doSetCurrentMenu(getSubMenuForMode(mode));
+		// make sure the pen panel stays closed if it was closed manually
+		// (MOW-247)
+		if (!(mode == EuclidianConstants.MODE_PEN && currentMenu == penMenu && stayClosed)) {
+			doSetCurrentMenu(getSubMenuForMode(mode));
+		}
 
 		if (currentMenu != null) {
 			currentMenu.setMode(mode);
@@ -380,7 +391,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			if (!subMenuPanel.isVisible()) {
 				currentMenu.onOpen();
 			}
-
 			setSubmenuVisible(!subMenuPanel.isVisible());
 			return;
 		}
