@@ -278,9 +278,20 @@ for i in `find -name '*.ggb' | sort`; do
    fi
   echo -n "$RESULT;$TIME;"
   RESULT_APOSTROPHED="'$RESULT'"
+  RESULT_BRACKETED=`echo $RESULT | tr '{}' '[]'`
+  # It's possible that the result should be negated, that is,
+  # it's expanded form and also its first factor:
+  RESULT_NEGATIVE=`echo "
+result = $RESULT_BRACKETED
+for i in range (2, 2 + result[0][0]*result[0][1]):
+    result[0][i] *= -1
+for i in range (3, 3 + result[1][1]*result[1][2]):
+    result[1][i] *= -1
+print result" | python | tr '[]' '{}' | sed s/" "/""/g`
+  RESULT_NEGATIVE_APOSTROPHED="'$RESULT_NEGATIVE'"
 
   EXPECTED_RESULT=`sqlite3 $MYDIR/sqlite3db "select count(*) from testcases where name=$TEST_APOSTROPHED\
-   and expected_result = $RESULT_APOSTROPHED"`
+   and (expected_result = $RESULT_APOSTROPHED or expected_result = $RESULT_NEGATIVE_APOSTROPHED)"`
 
   if [ "$EXPECTED_RESULT" == "0" ]; then
    RESULTCLASS="error"

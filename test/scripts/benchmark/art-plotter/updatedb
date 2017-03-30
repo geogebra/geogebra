@@ -1,7 +1,7 @@
 #!/bin/sh
 (
 echo "delete from testcases;"
-cat tests/expected_results.txt | while read TEST EXPECTED_RESULT; do
+cat tests/expected_results.txt | grep -v '^#' | grep -v '^$' | while read TEST EXPECTED_RESULT; do
  echo "insert into testcases (name, expected_result) values ('$TEST', '$EXPECTED_RESULT');"
  done
 ) | sqlite3 sqlite3db
