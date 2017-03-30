@@ -29,7 +29,7 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
-import org.geogebra.web.html5.euclidian.MsZoomer;
+import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
@@ -77,7 +77,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	/** graphics */
 	public GGraphics2DW g2p = null;
 
-	private MsZoomer msZoomer;
+	private PointerEventHandler pointerHandler;
 
 	/**
 	 * constructor
@@ -205,9 +205,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 
 		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
-			msZoomer = new MsZoomer((IsEuclidianController) euclidianController,
+			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
+			PointerEventHandler.attachTo(evPanel.getElement(), pointerHandler,
 					app.has(Feature.PEN_EVENTS));
 			return;
 		}
@@ -631,7 +631,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public void resetMsZoomer() {
+	public void resetPointerEventHandler() {
 		// TODO Auto-generated method stub
 	}
 

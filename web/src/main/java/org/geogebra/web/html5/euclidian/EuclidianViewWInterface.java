@@ -75,7 +75,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public GGraphics2DW getG2P();
 
-	public void resetMsZoomer();
+	public void resetPointerEventHandler();
 
 	public String getExportImageDataUrl(double scale, boolean b);
 

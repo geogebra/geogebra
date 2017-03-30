@@ -115,7 +115,7 @@ public class EuclidianViewW extends EuclidianView implements
 			downArrowImage, playImageHL, pauseImageHL;
 
 	protected EuclidianPanelWAbstract EVPanel;
-	private MsZoomer msZoomer;
+	private PointerEventHandler pointerHandler;
 
 	// firstInstance is necessary for proper cycling
 	private static EuclidianViewWInterface firstInstance = null;
@@ -757,9 +757,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 
 		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
-			msZoomer = new MsZoomer((IsEuclidianController) euclidianController,
+			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			MsZoomer.attachTo(evPanel.getElement(), msZoomer,
+			PointerEventHandler.attachTo(evPanel.getElement(), pointerHandler,
 					app.has(Feature.PEN_EVENTS));
 
 			if (app.has(Feature.PEN_EVENTS)) {
@@ -1118,9 +1118,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public void resetMsZoomer() {
-		if (msZoomer != null) {
-			msZoomer.reset();
+	public void resetPointerEventHandler() {
+		if (pointerHandler != null) {
+			pointerHandler.reset();
 		}
 	}
 

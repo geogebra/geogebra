@@ -437,7 +437,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if ((x < ex || x > ex + eWidth) || (y < ey || y > ey + eHeight)) {
 			ToolTipManagerW.sharedInstance().hideToolTip();
 		}
-		((EuclidianViewWInterface) ec.getView()).resetMsZoomer();
+		((EuclidianViewWInterface) ec.getView()).resetPointerEventHandler();
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		ec.wrapMouseExited(e);
 		e.release();

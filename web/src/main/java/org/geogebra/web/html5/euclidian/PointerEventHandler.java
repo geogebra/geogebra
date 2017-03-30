@@ -9,7 +9,7 @@ import org.geogebra.web.html5.event.ZeroOffset;
 
 import com.google.gwt.dom.client.Element;
 
-public class MsZoomer {
+public class PointerEventHandler {
 
 	private final IsEuclidianController tc;
 	private HasOffsets off;
@@ -54,7 +54,7 @@ public class MsZoomer {
 
 	}
 
-	public MsZoomer(IsEuclidianController tc, HasOffsets off) {
+	public PointerEventHandler(IsEuclidianController tc, HasOffsets off) {
 		this.tc = tc;
 		Log.debug("Zoomer for" + off);
 		// this.off = (HasOffsets)this.tc;
@@ -154,7 +154,7 @@ public class MsZoomer {
 		};
 	}-*/;
 
-	public static native void attachTo(Element element, MsZoomer zoomer,
+	public static native void attachTo(Element element, PointerEventHandler zoomer,
 			boolean override) /*-{
 		$wnd.first = {
 			id : -1
@@ -196,12 +196,12 @@ public class MsZoomer {
 						fix("PointerMove"),
 						function(e) {
 							
-						//	zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
+						//	zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(I)(getType(e));
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								if ($wnd.second.id === e.pointerId) {
 									$wnd.second.x = e.x;
 									$wnd.second.y = e.y;
-									zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersMove(DDDD)($wnd.first.x,
+									zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::twoPointersMove(DDDD)($wnd.first.x,
 													$wnd.first.y,
 													$wnd.second.x,
 													$wnd.second.y);
@@ -213,13 +213,13 @@ public class MsZoomer {
 							}else{
 								if(override){
 									e.preventDefault();
-									zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
+									zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleMove(DDII)(e.x, e.y, getType(e), getModifiers(e));
 								}
 							}
 							if(override){
 								e.preventDefault();
 							}
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::checkMoveLongTouch()();
+							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::checkMoveLongTouch()();
 							
 						});
 
@@ -244,17 +244,17 @@ public class MsZoomer {
 							if(override && getType(e) != 0){
 								e.preventDefault();
 							}
-							zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
+							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(I)(getType(e));
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								zoomer
-										.@org.geogebra.web.html5.euclidian.MsZoomer::twoPointersDown(DDDD)($wnd.first.x,
+										.@org.geogebra.web.html5.euclidian.PointerEventHandler::twoPointersDown(DDDD)($wnd.first.x,
 												$wnd.first.y, $wnd.second.x,
 												$wnd.second.y);
 							} else if(override){
-								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleDown(DDII)(e.x, e.y, getType(e), getModifiers(e));
+								zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleDown(DDII)(e.x, e.y, getType(e), getModifiers(e));
 							}
 							if (e.pointerType == 2 || e.pointerType == "touch") {
-								zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::startLongTouch(II)($wnd.first.x, $wnd.first.y);
+								zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::startLongTouch(II)($wnd.first.x, $wnd.first.y);
 							}
 							
 
@@ -278,12 +278,12 @@ public class MsZoomer {
 					e.stopPropagation();
 				}
 				if(!out){
-					zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::singleUp(DDII)(e.x, e.y, getType(e), getModifiers(e));
+					zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::singleUp(DDII)(e.x, e.y, getType(e), getModifiers(e));
 				}
 			} else {
-				zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::pointersUp()();
+				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::pointersUp()();
 			}
-			zoomer.@org.geogebra.web.html5.euclidian.MsZoomer::setPointerType(I)(getType(e));
+			zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(I)(getType(e));
 		};
 		}
 				
