@@ -867,8 +867,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZ)(exportScale, transparent, dpi, copyToClipboard);
 		}
 
-		api.getFileJSON = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFileJSON(Z)(false);
+		api.getFileJSON = function(thumbnail) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFileJSON(Z)(!!thumbnail);
 		}
 		
 		api.setFileJSON = function(zip) {
