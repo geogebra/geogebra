@@ -69,7 +69,6 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
-import org.geogebra.common.kernel.optimization.ExtremumFinder;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.optimization.ExtreumumFinderBrent;
 import org.geogebra.common.kernel.parser.GParser;
@@ -485,11 +484,7 @@ public class Kernel {
 	final public ExtremumFinderI getExtremumFinder() {
 		if (extrFinder == null) {
 
-			if (app.has(Feature.APACHE_EXTREMUM_FINDER)) {
-				extrFinder = new ExtreumumFinderBrent();
-			} else {
-				extrFinder = new ExtremumFinder();
-			}
+			extrFinder = new ExtreumumFinderBrent();
 		}
 		return extrFinder;
 	}

@@ -177,7 +177,4 @@ public enum Feature {
 	/** AND-193 */
 	AND_TRACE_IN_PROPERTIES,
 
-	/** GGB-1655 */
-	APACHE_EXTREMUM_FINDER,
-
 }

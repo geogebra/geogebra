@@ -3973,10 +3973,6 @@ public abstract class App implements UpdateSelection {
 		case ALL_LANGUAGES:
 			return prerelease;
 
-		/** GGB-1655 */
-		case APACHE_EXTREMUM_FINDER:
-			return prerelease;
-
 		case SOLVE_QUARTIC:
 			return prerelease;
 
