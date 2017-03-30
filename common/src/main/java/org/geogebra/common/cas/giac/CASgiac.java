@@ -608,7 +608,9 @@ public abstract class CASgiac implements CASGenericInterface {
 
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev instanceof MyVecNDNode
-						&& ((MyVecNDNode) ev).isCASVector()) {
+						&& ((MyVecNDNode) ev).isCASVector()
+						&& !ev.toValueString(StringTemplate.giacTemplate)
+								.startsWith("ggbvect")) {
 					return new ExpressionNode(kernel,
 							new Variable(kernel, "ggbvect"), Operation.FUNCTION,
 							ev);
