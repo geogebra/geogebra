@@ -24,6 +24,13 @@ var analyticsVersion = 'V'+latestVersion;
 		return document.getElementById(id);
 	}
 	var finalLang = null;
+	
+	function setParamFromURL(paramName){
+		if(getURLparam(paramName)){
+			e("ggw").setAttribute("data-param-"+paramName,getURLparam(paramName));
+		}
+	}
+	
 	function perspective(id, name){		
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
@@ -42,12 +49,11 @@ var analyticsVersion = 'V'+latestVersion;
 					e("ggw").setAttribute("data-param-enableGraphing","true");	
 					e("ggw").setAttribute("data-param-enableCAS","true");				
 					e("ggw").setAttribute("data-param-enable3D","false");
-				}
-				if(getURLparam("rounding")){
-					e("ggw").setAttribute("data-param-rounding",getURLparam("rounding"));
-				}
+				}				
 				e("ggw").setAttribute("data-param-perspective",id);				
 			}
+			setParamFromURL("filename");
+			setParamFromURL("rounding");
 			
 			if(window.ggbRerun){
 				ggbRerun();
