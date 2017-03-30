@@ -232,7 +232,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   if [ "$ACCEPTED" = "" ]; then
    ALLGOOD=0
    if [ "$RESULT" = "" ]; then
-    if [ "$ERRORTYPE" = 1 ]; then
+    if [ "$ERRORTYPE" = 3 ]; then
     RESULTCLASS=" class=\"timeout\""
     CELLCOLOR="yellow!40"
     TIME="t/o"
@@ -308,16 +308,18 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
     BESTPROVER=$c
    else
     # At least second time result
-    if [ $TIME -lt $BESTTIME ]; then
-     BESTTIME=$TIME
-     BESTPROVER=$c
+    if [ "$TIME" != "t/o" ]; then
+     if [ $TIME -lt $BESTTIME ]; then
+      BESTTIME=$TIME
+      BESTPROVER=$c
+     fi
     else
      if [ "$WORSTTIME" = "" ]; then
       # Exactly the second time result
       WORSTTIME=$TIME 
       WORSTPROVER=$c
      else
-      if [ $WORSTTIME -lt $TIME ]; then
+      if [ "$TIME" != "t/o" -a $WORSTTIME -lt $TIME ]; then
        # More than second time result with worst current time
        WORSTTIME=$TIME
        WORSTPROVER=$c

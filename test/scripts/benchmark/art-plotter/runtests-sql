@@ -177,7 +177,7 @@ echo
 
 # Content
 TESTS=0
-for i in `find -name '*.ggb' | sort`; do
+for i in `find tests -name '*.ggb' | sort`; do
  TESTS=$((TESTS+1))
  # Creating thumbnail:
  cd $MYDIR
@@ -228,9 +228,19 @@ for i in `find -name '*.ggb' | sort`; do
    # 14:50:36.344 DEBUG: ?: Benchmarking: 1120 ms
    cat $MYDIR/tmp/.test.stdout | grep Benchmarking | tail -1 > $LOGFILE
    TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $5}'`
-   grep --silent " {{" $MYDIR/tmp/.test.stdout && \
+   rm -f $REGRESSIONFILE
+   grep --silent " {{" $MYDIR/tmp/.test.stdout && {
     cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\1/ > $REGRESSIONFILE
-   RESULT=`cat $REGRESSIONFILE`
+    RESULT=`cat $REGRESSIONFILE`
+    }
+   grep --silent ^Timeout $MYDIR/tmp/.test.stdout && {
+    RESULT=""
+    TIME=""
+    touch $REGRESSIONFILE
+    }
+  # Web
+
+  # Desktop*
   else
    timeout $TIMEOUT $BINBASE \
     --prover=timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
@@ -242,6 +252,9 @@ for i in `find -name '*.ggb' | sort`; do
    RETVAL=$?
    RESULT=""
    fi
+  # Desktop*
+
+  ### Processing result... ###
 
   # Being optimistic
   RESULTCLASS="ok"
@@ -251,14 +264,15 @@ for i in `find -name '*.ggb' | sort`; do
   if [ $RETVAL = 124 ]; then
    RESULT=""
    TIME=timeout
-   errortype=1
+   errortype=3
    accepted=0
   else
    # --regressionFile is broken since 5.0.244.0, so we don't use its output:
-   if [ "$RESULT" = "" -o "$RESULT" = "?" ]; then
+   if [ "$RESULT" = "" -a "$ENGINE" != "Web" ]; then
     grep --silent " {{" $LOGFILE && \
      RESULT=`tac $LOGFILE | grep " {{" | tail -1 | sed s/".* \({{.*}}\)"/\\\\1/`
     TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $2}'`
+
     # FIXME in GeoGebra.
     fi
    if [ $DEBUG = 1 ]; then
@@ -277,24 +291,29 @@ for i in `find -name '*.ggb' | sort`; do
    accepted=0
    fi
   echo -n "$RESULT;$TIME;"
-  RESULT_APOSTROPHED="'$RESULT'"
-  RESULT_BRACKETED=`echo $RESULT | tr '{}' '[]'`
-  # It's possible that the result should be negated, that is,
-  # it's expanded form and also its first factor:
-  RESULT_NEGATIVE=`echo "
+  if [ "$RESULT" != "" ]; then
+   RESULT_APOSTROPHED="'$RESULT'"
+   RESULT_BRACKETED=`echo $RESULT | tr '{}' '[]'`
+   # It's possible that the result should be negated, that is,
+   # it's expanded form and also its first factor:
+   RESULT_NEGATIVE=`echo "
 result = $RESULT_BRACKETED
 for i in range (2, 2 + result[0][0]*result[0][1]):
     result[0][i] *= -1
 for i in range (3, 3 + result[1][1]*result[1][2]):
     result[1][i] *= -1
 print result" | python | tr '[]' '{}' | sed s/" "/""/g`
-  RESULT_NEGATIVE_APOSTROPHED="'$RESULT_NEGATIVE'"
+   RESULT_NEGATIVE_APOSTROPHED="'$RESULT_NEGATIVE'"
 
-  EXPECTED_RESULT=`sqlite3 $MYDIR/sqlite3db "select count(*) from testcases where name=$TEST_APOSTROPHED\
-   and (expected_result = $RESULT_APOSTROPHED or expected_result = $RESULT_NEGATIVE_APOSTROPHED)"`
-
-  if [ "$EXPECTED_RESULT" == "0" ]; then
-   RESULTCLASS="error"
+   CORRECT=`sqlite3 $MYDIR/sqlite3db "select count(*) from testcases where name=$TEST_APOSTROPHED\
+    and (expected_result = $RESULT_APOSTROPHED or expected_result = $RESULT_NEGATIVE_APOSTROPHED)"`
+  else
+   CORRECT=""
+   RESULTCLASS=undefined
+   accepted=null
+   fi
+  if [ "$CORRECT" = "0" ]; then
+   RESULTCLASS=error
    accepted=0
    errortype=2
   else
