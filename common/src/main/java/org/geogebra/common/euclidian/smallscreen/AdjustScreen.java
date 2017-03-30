@@ -33,7 +33,7 @@ public class AdjustScreen {
 	private List<GeoNumeric> hSliders = new ArrayList<GeoNumeric>();
 	private List<GeoNumeric> vSliders = new ArrayList<GeoNumeric>();
 	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
-	private LayoutButtons layoutButtons;
+	private LayoutAbsoluteGeos layoutAbsoluteGeos;
 	private static class HSliderComparator implements Comparator<GeoNumeric> {
 		protected HSliderComparator() {
 			// avoid synthetic access warning
@@ -91,14 +91,14 @@ public class AdjustScreen {
 		app = view.getApplication();
 		kernel = app.getKernel();
 		enabled = true;// needsAdjusting();
-		layoutButtons = new LayoutButtons(view);
+		layoutAbsoluteGeos = new LayoutAbsoluteGeos(view);
 	}
 
 	/**
 	 * Remove old collection of buttons
 	 */
 	public void restartButtons() {
-		layoutButtons.restart();
+		layoutAbsoluteGeos.restart();
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class AdjustScreen {
 
 		checkOvelappingHSliders();
 		checkOvelappingVSliders();
-		layoutButtons.apply();
+		layoutAbsoluteGeos.apply();
 		// checkOvelappingInputs();
 		view.repaintView();
 	}
@@ -129,7 +129,7 @@ public class AdjustScreen {
 	private void collectWidgets() {
 		hSliders.clear();
 		vSliders.clear();
-		layoutButtons.clear();
+		layoutAbsoluteGeos.clear();
 		inputBoxes.clear();
 
 		Log.debug("[AS] collectWidgets()");
@@ -145,18 +145,18 @@ public class AdjustScreen {
 					}
 					// ensure = true;
 				}
-			} else if (geo.isGeoButton()
-					|| (geo.isGeoBoolean() && geo.isEuclidianShowable())) {
+			} else if (LayoutAbsoluteGeos.match(geo)) {
 				// if (geo.isGeoInputBox()) {
 				// Log.debug("[AS] collecting inputbox: " + geo);
 				// GeoInputBox input = (GeoInputBox) geo;
 				// inputBoxes.add(input);
 				// // ensure = true;
 				// } else {
-					if (!layoutButtons.isCollected()) {
-						Log.debug("[AS] collecting buttons: " + geo);
-					AbsoluteScreenLocateable btn = (AbsoluteScreenLocateable) geo;
-						layoutButtons.add(btn);
+					if (!layoutAbsoluteGeos.isCollected()) {
+					Log.debug(
+							"[AS] collecting absolute locateable geos: " + geo);
+					AbsoluteScreenLocateable absGeo = (AbsoluteScreenLocateable) geo;
+						layoutAbsoluteGeos.add(absGeo);
 					}
 
 				// }
@@ -166,7 +166,7 @@ public class AdjustScreen {
 			// ensureGeoOnScreen(geo);
 			// }
 		}
-		layoutButtons.setCollected(true);
+		layoutAbsoluteGeos.setCollected(true);
 
 	}
 
@@ -174,7 +174,7 @@ public class AdjustScreen {
 	 * Reset buttons from original coords
 	 */
 	public void reset() {
-		layoutButtons.reset();
+		layoutAbsoluteGeos.reset();
 	}
 	// private void ensureGeoOnScreen(GeoElement geo) {
 	// if (!app.has(Feature.ADJUST_WIDGETS)) {
