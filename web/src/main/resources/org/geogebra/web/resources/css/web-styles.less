@@ -5857,6 +5857,9 @@ body.application[dir=rtl] .deleteAlgebra {
    ###       MOW TOOLBAR 	            ###
    ######################################## */
 
+/* COLORS */
+@mow_purple_dark: #673AB7;
+@mow_purple: #a388d4;
 
 .mowToolbar {
 	position: relative;
@@ -5874,58 +5877,58 @@ body.application[dir=rtl] .deleteAlgebra {
 .animateBaseToDouble { 
     animation-name: animBaseToDouble;
     animation-duration: 0.2s;
-    bottom: 175px;
+    bottom: 172px;
 } 
 .animateDoubleToBase { 
     animation-name: animDoubleToBase;
     animation-duration: 0.2s;
-    bottom: 55px;
+    bottom: 50px;
 } 
 
 .animateBaseToSimple { 
     animation-name: animBaseToSimple;
     animation-duration: 0.2s;
-    bottom: 110px;
+    bottom: 107px;
 } 
 .animateSimpleToBase { 
     animation-name: animSimpleToBase;
     animation-duration: 0.2s;
-    bottom: 55px;
+    bottom: 50px;
 } 
 
 .animateSimpleToDouble { 
     animation-name: animSimpleToDouble;
     animation-duration: 0.2s;
-    bottom: 175px;
+    bottom: 172px;
 } 
 .animateDoubleToSimple { 
     animation-name: animDoubleToSimple;
     animation-duration: 0.2s;
-    bottom: 110px;
+    bottom: 107px;
 } 
 @keyframes animBaseToDouble {
-	0% {bottom: 55px;}
-	100% {bottom: 175px;}
+	0% {bottom: 50px;}
+	100% {bottom: 172px;}
 }
 @keyframes animDoubleToBase {
-	0% {bottom: 175px;}
-	100% {bottom: 55px;}
+	0% {bottom: 172px;}
+	100% {bottom: 50px;}
 }
 @keyframes animBaseToSimple {
-	0% {bottom: 55px;}
-	100% {bottom: 110px;}
+	0% {bottom: 50px;}
+	100% {bottom: 107px;}
 }
 @keyframes animSimpleToBase {
-	0% {bottom: 110px;}
-	100% {bottom: 55px;}
+	0% {bottom: 107px;}
+	100% {bottom: 50px;}
 }
 @keyframes animSimpleToDouble {
-	0% {bottom: 110px;}
-	100% {bottom: 175px;}
+	0% {bottom: 107px;}
+	100% {bottom: 172px;}
 }	
 @keyframes animDoubleToSimple {
-	0% {bottom: 175px;}
-	100% {bottom: 110px;}
+	0% {bottom: 172px;}
+	100% {bottom: 107px;}
 }
 
 .BigScreen {
@@ -5945,7 +5948,7 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 .opacityFixForOldIconsSelected {
 	opacity: 1 !important;
-	border: 2px solid #a388d4 !important;
+	border: 2px solid @mow_purple !important;
 	padding: 2px !important;
 }
 .mowPanelButton {
@@ -5967,7 +5970,7 @@ body.application[dir=rtl] .deleteAlgebra {
 	float: left;
 	
 	&[selected = true] {
-		border: 2px solid #a388d4;
+		border: 2px solid @mow_purple;
 		padding: 2px;
 		}
 }
@@ -6024,7 +6027,7 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 .mowSubMenuInfo .selected {
-	border: 2px solid #673AB7;
+	border: 2px solid @mow_purple_dark;
 	padding: 2px;
 }
 
@@ -6190,4 +6193,8 @@ body.application[dir=rtl] .deleteAlgebra {
 	}	
 .mowLinePopup .popupSliderLabel{
 	margin-right: 0px;
+}
+.mowColorPopup .SelectionTable .gwt-Label.border.selected{
+	background-color: transparent !important;
+	border: 1px solid @mow_purple;
 }
