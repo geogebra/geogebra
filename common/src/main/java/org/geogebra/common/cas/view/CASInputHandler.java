@@ -228,7 +228,13 @@ public class CASInputHandler {
 					cellValue.setInput(fixedInput);
 					evalText = fixedInput;
 				}
+				// fix GGB-1593
+				if (!cellValue.getInput(StringTemplate.defaultTemplate)
+						.equals(fixedInput)) {
+					cellValue.setInput(fixedInput);
+				}
 			}
+
 
 			// we want to avoid user selecting a+b in (a+b)/c
 			// TODO cache this somehow
