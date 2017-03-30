@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.arithmetic.MyVecNode;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
@@ -607,7 +607,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		ve = ve.traverse(new Traversing() {
 
 			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof MyVecNode) {
+				if (ev instanceof MyVecNDNode
+						&& ((MyVecNDNode) ev).isCASVector()) {
 					return new ExpressionNode(kernel,
 							new Variable(kernel, "ggbvect"), Operation.FUNCTION,
 							ev);
