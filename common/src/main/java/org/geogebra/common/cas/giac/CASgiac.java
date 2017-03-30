@@ -599,7 +599,6 @@ public abstract class CASgiac implements CASGenericInterface {
 			MyArbitraryConstant arbconst, StringTemplate tpl,
 			final Kernel kernel)
 			throws CASException {
-		boolean ggbvect = giacString.startsWith("ggbvect");
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString),
 				arbconst, kernel);
 		// replace rational exponents by roots or vice versa
@@ -608,9 +607,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev instanceof MyVecNDNode
-						&& ((MyVecNDNode) ev).isCASVector()
-						&& !ev.toValueString(StringTemplate.giacTemplate)
-								.startsWith("ggbvect")) {
+						&& ((MyVecNDNode) ev).isCASVector()) {
 					return new ExpressionNode(kernel,
 							new Variable(kernel, "ggbvect"), Operation.FUNCTION,
 							ev);
@@ -618,11 +615,8 @@ public abstract class CASgiac implements CASGenericInterface {
 				return ev;
 			}
 		});
-		String geogebraString = casParser.toGeoGebraString(ve, tpl);
-		if (ggbvect) {
-			geogebraString = "ggbvect(" + geogebraString + ")";
-		}
-		return geogebraString;
+		return casParser.toGeoGebraString(ve, tpl);
+
 	}
 
 	private static ExpressionValue replaceRoots(ExpressionValue ve0,
