@@ -134,8 +134,8 @@ public class PointerEventHandler {
 			PointerEventType.MOUSE, PointerEventType.TOUCH,
 			PointerEventType.PEN };
 
-	private void setPointerType(int i) {
-		this.tc.setDefaultEventType(types[i]);
+	private void setPointerType(int i, boolean pointerDown) {
+		this.tc.setDefaultEventType(types[i], pointerDown);
 	}
 
 	private void startLongTouch(int x, int y) {
@@ -268,7 +268,7 @@ public class PointerEventHandler {
 							if(override && getType(e) != 0){
 								e.preventDefault();
 							}
-							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(I)(getType(e));
+							zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(IZ)(getType(e), true);
 							if ($wnd.first.id >= 0 && $wnd.second.id >= 0) {
 								zoomer
 										.@org.geogebra.web.html5.euclidian.PointerEventHandler::twoPointersDown(DDDD)($wnd.first.x,
@@ -307,7 +307,7 @@ public class PointerEventHandler {
 			} else {
 				zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::pointersUp()();
 			}
-			zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(I)(getType(e));
+			zoomer.@org.geogebra.web.html5.euclidian.PointerEventHandler::setPointerType(IZ)(getType(e), false);
 		};
 		}
 				

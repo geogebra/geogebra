@@ -11455,14 +11455,15 @@ public abstract class EuclidianController {
 		return this.defaultEventType;
 	}
 
-	public final void setDefaultEventType(PointerEventType pointerEventType) {
+	public final void setDefaultEventType(PointerEventType pointerEventType,
+			boolean down) {
 		if (app.has(Feature.PEN_EVENTS)) {
 			if (pointerEventType == PointerEventType.PEN
 					&& pointerEventType != defaultEventType
 					&& app.getMode() == EuclidianConstants.MODE_MOVE) {
 				app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
 			}
-			if (app.getMode() == EuclidianConstants.MODE_PEN
+			if (down && app.getMode() == EuclidianConstants.MODE_PEN
 					&& pointerEventType != PointerEventType.PEN
 					&& PointerEventType.PEN == defaultEventType) {
 				setTempMode(EuclidianConstants.MODE_MOVE);

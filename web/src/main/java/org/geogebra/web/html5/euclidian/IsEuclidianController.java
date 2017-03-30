@@ -13,7 +13,8 @@ public interface IsEuclidianController extends LongTouchHandler {
 
 	void twoTouchStart(double x1, double y1, double x2, double y2);
 
-	void setDefaultEventType(PointerEventType pointerEventType);
+	void setDefaultEventType(PointerEventType pointerEventType,
+			boolean pointerDown);
 
 	void twoTouchMove(double x1, double y1, double x2, double y2);
 
