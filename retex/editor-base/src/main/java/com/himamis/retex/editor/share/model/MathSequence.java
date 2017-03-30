@@ -125,6 +125,13 @@ public class MathSequence extends MathContainer {
 				this.setArgument(0, arg0.getArgument(0));
 			}
 		}
+		if (size() == 1 && getArgument(0) instanceof MathSequence) {
+			MathSequence arg0 = ((MathSequence) getArgument(0));
+			this.clearArguments();
+			for (int i = 0; i < arg0.size(); i++) {
+				this.addArgument(arg0.getArgument(i));
+			}
+		}
 	}
 
 	@Override
