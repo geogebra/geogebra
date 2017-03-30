@@ -1245,7 +1245,11 @@ public class EuclidianViewW extends EuclidianView implements
 			setEraserCursor();
 			return;
 		case PEN:
-			setPenCursor();
+			if (app.isWhiteboardActive() && getEuclidianController().getDefaultEventType() != PointerEventType.MOUSE) {
+				setTransparentCursor();
+			} else {
+				setPenCursor();
+			}
 			return;
 		}
 
