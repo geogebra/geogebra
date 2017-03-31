@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
@@ -28,9 +27,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 
 public class GeoGebraCasIntegrationTest {
   private static final String GermanSolve = "L\u00f6se";
@@ -277,8 +274,8 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	// 100 seconds max per method tested
-	@Rule
-	public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
+	// @Rule
+	// public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
 
 
   // Self Test Section
@@ -4622,8 +4619,11 @@ public class GeoGebraCasIntegrationTest {
 	/* Test for GGB-1636 */
 	@Test
 	public void Ticket_Ticket1636_0() {
-		tk("Sequence[Vector[(i, i)],i,1,3]", "{(1, 1), (2, 2), (3, 3)}");
+		t("Sequence[Vector[(i, i)],i,1,3]", "{(1, 1), (2, 2), (3, 3)}");
 		t("Element[$1,1]", "(1, 1)");
+		GeoCasCell gv = (GeoCasCell) app.getKernel().lookupLabel("$2");
+		gv.plot();
+		Assert.assertTrue(gv.getTwinGeo().isGeoVector());
 	}
 
 
