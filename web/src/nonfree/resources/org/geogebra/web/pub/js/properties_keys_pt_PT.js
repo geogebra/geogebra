@@ -2213,7 +2213,7 @@ __GGB__keysVar.pt_PT.menu = {
     "OpenFromGoogleDrive": "Abrir do Google Drive",
     "OpenFromSkyDrive": "Abrir do SkyDrive",
     "OpenFromWebpage": "Abrir a partir de uma p\xe1gina Web",
-    "OpenMenu": "Open Menu",
+    "OpenMenu": "Abrir Menu",
     "OpenTutorial": "Abrir Tutorial",
     "OpenWebpage": "Abrir P\xe1gina Web",
     "Operation": "Opera\xe7\xe3o",

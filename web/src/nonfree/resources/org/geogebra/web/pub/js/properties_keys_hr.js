@@ -1653,7 +1653,7 @@ __GGB__keysVar.hr.menu = {
     "DrawingPadToClipboard": "Grafi\u010dki prikaz u me\u0111uspremnik",
     "DrawingPagAsPGF": "Grafi\u010dki prikaz kao PGF/TikZ",
     "DynamicColors": "Dinami\u010dne boje",
-    "DynamicCoordinatesOfA": "Dinami\u010dke koordinate od %0",
+    "DynamicCoordinatesOfA": "Dinami\u010dne koordinate od %0",
     "DynamicWorksheet": "Aplet",
     "DynamicWorksheetAsWebpage": "Web-stranica s apletom",
     "DynamicWorksheetExport": "Izvoz dinami\u010dnog uratka (html)",
