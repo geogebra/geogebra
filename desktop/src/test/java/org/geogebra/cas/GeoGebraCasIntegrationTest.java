@@ -4619,6 +4619,13 @@ public class GeoGebraCasIntegrationTest {
     Assert.assertEquals("f(x):=a x"+Unicode.Superscript_3+" + b x"+Unicode.Superscript_2+" + c x + d", f.getOutput(StringTemplate.defaultTemplate));
   }
 
+	/* Test for GGB-1636 */
+	@Test
+	public void Ticket_Ticket1636_0() {
+		tk("Sequence[Vector[(i, i)],i,1,3]", "{(1, 1), (2, 2), (3, 3)}");
+		t("Element[$1,1]", "(1, 1)");
+	}
+
 
   /*
    * Examples from the article "GeoGebraCAS - Vom symbolischen Notizblock zur dynamischen CAS Ansicht" published in "CAS Rundbrief".
