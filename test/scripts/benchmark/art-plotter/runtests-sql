@@ -230,7 +230,7 @@ for i in `find tests -name '*.ggb' | sort`; do
    TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $5}'`
    rm -f $REGRESSIONFILE
    grep --silent " {{" $MYDIR/tmp/.test.stdout && {
-    cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* {{\([0-9,]*\)}.*"/\\1/ > $REGRESSIONFILE
+    cat $MYDIR/tmp/.test.stdout | grep " {{" | tail -1 | sed s/".* {{\([0-9,\-]*\)}.*"/\\1/ > $REGRESSIONFILE
     RESULT=`cat $REGRESSIONFILE`
     }
    grep --silent ^Timeout $MYDIR/tmp/.test.stdout && {
@@ -270,7 +270,7 @@ for i in `find tests -name '*.ggb' | sort`; do
    # --regressionFile is broken since 5.0.244.0, so we don't use its output:
    if [ "$RESULT" = "" -a "$ENGINE" != "Web" ]; then
     grep --silent " {{" $LOGFILE && \
-     RESULT=`tac $LOGFILE | grep " {{" | tail -1 | sed s/".* {{\([0-9,]*\)}.*"/\\\\1/`
+     RESULT=`tac $LOGFILE | grep " {{" | tail -1 | sed s/".* {{\([0-9,\-]*\)}.*"/\\\\1/`
     TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $2}'`
 
     # FIXME in GeoGebra.
