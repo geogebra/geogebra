@@ -951,7 +951,7 @@ public class InputController {
 		} else if (ch == 215) { // multiplication cross char
 			newOperator(editorState, '*');
 			handled = true;
-		} else if (ch == ',') { // multiplication cross char
+		} else if (ch == ',' && allowFrac) { // multiplication cross char
 			comma(editorState);
 			handled = true;
 		} else if (meta.isOperator("" + ch)) {

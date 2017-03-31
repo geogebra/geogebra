@@ -588,7 +588,12 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	private void insertString(String text) {
+	/**
+	 * @param text
+	 *            input text; similar to simple keyPress events but do not
+	 *            create fractions/exponents
+	 */
+	public void insertString(String text) {
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 
 		mathFieldInternal.selectNextArgument();

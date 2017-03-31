@@ -69,6 +69,10 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.insertFunction("log10");
 		} else {
 			int length = text.length();
+			if (text.contains("/") || text.contains("^")) {
+				mf.insertString(text);
+				return;
+			}
 			if (length > 1 && Character.isLetter(text.charAt(0))
 					&& !text.contains("[")) {
 				mf.insertFunction(text);

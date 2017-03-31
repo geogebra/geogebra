@@ -218,6 +218,7 @@ public class CASTableCellW extends VerticalPanel {
 			return;
 		}
 		textField.insertString(input);
+		textField.ensureEditing();
 	}
 
 	public void setPixelRatio(double ratio) {
