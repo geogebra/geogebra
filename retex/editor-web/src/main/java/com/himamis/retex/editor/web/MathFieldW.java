@@ -219,7 +219,8 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
-	private void setKeyListener(Widget html2, final KeyListener keyListener) {
+	private void setKeyListener(final Widget html2,
+			final KeyListener keyListener) {
 		html2.addDomHandler(new KeyPressHandler() {
 
 			@Override
@@ -242,21 +243,21 @@ public class MathFieldW implements MathField, IsWidget {
 		html2.addDomHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
+				if (checkPowerKeyInput(html2.getElement())) {
+					keyListener.onKeyTyped(new KeyEvent(0, 0, '^'));
+					onFocusTimer(); // refocus to remove the half-written letter
+					updateAltForKeyUp(event);
+					event.preventDefault();
+					return;
+				}
 				int code = fixCode(event.getNativeEvent());
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
-				if (isRightAlt(event.getNativeEvent())) {
-					rightAltDown = false;
-				}
-				if (isLeftAlt(event.getNativeEvent())) {
-					leftAltDown = false;
-				}
+				updateAltForKeyUp(event);
 				if (code == 8 || code == 27) {
 					event.preventDefault();
 				}
-				event.stopPropagation();
-
 			}
 		}, KeyUpEvent.getType());
 		html2.addDomHandler(new KeyDownHandler() {
@@ -286,8 +287,34 @@ public class MathFieldW implements MathField, IsWidget {
 
 			}
 		}, KeyDownEvent.getType());
+		
+
 
 	}
+
+	/**
+	 * Update alt flags after key released
+	 * 
+	 * @param event
+	 *            keyUp event
+	 */
+	protected void updateAltForKeyUp(KeyUpEvent event) {
+		if (isRightAlt(event.getNativeEvent())) {
+			rightAltDown = false;
+		}
+		if (isLeftAlt(event.getNativeEvent())) {
+			leftAltDown = false;
+		}
+		event.stopPropagation();
+	}
+
+	native boolean checkPowerKeyInput(Element element) /*-{
+		if (element.value.match(/\^$/)) {
+			element.value = '';
+			return true;
+		}
+		return false;
+	}-*/;
 
 	/**
 	 * @param nativeEvent
@@ -664,12 +691,6 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}-*/;
 
-	protected void listenToTextArea() {
-		if (keyListener != null) {
-			getHiddenTextArea();
-			this.setKeyListener(wrap, keyListener);
-		}
-	}
 
 	@Override
 	public native boolean useCustomPaste() /*-{
