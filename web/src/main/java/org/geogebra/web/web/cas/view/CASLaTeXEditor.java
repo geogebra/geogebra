@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
+import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
@@ -239,6 +240,7 @@ public class CASLaTeXEditor extends FlowPanel
 			public void onClickStart(int x, int y,
 					final PointerEventType type) {
 				doClickStart();
+				app.getGuiManager().setActivePanelAndToolbar(App.VIEW_CAS);
 			}
 		});
 		setFocus(true, false);
