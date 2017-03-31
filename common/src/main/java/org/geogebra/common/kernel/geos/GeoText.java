@@ -754,6 +754,9 @@ public class GeoText extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
+		if (!hasScreenLocation() && (x != 0 && y != 0)) {
+			setScreenLocation(x, y);
+		}
 	}
 
 	@Override
