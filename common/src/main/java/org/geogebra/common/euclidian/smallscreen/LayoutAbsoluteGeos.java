@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -14,6 +15,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.util.MyMath;
@@ -200,6 +202,11 @@ public class LayoutAbsoluteGeos {
 			DrawText dt = (DrawText) view.getDrawableFor(absGeo);
 			dt.update();
 			return (int) dt.getBoundsRectangle().getWidth();
+		} else if (absGeo instanceof GeoList) {
+			DrawDropDownList dl = (DrawDropDownList) view
+					.getDrawableFor(absGeo);
+			dl.update();
+			return dl.getTotalWidth();
 		}
 		return 0;
 	}
@@ -212,6 +219,11 @@ public class LayoutAbsoluteGeos {
 			dt.update();
 			GRectangle rect = dt.getBoundsRectangle();
 			return rect != null ? (int) rect.getHeight() : 0;
+		} else if (absGeo instanceof GeoList) {
+			DrawDropDownList dl = (DrawDropDownList) view
+					.getDrawableFor(absGeo);
+			dl.update();
+			return dl.getTotalHeight();
 		}
 		return 0;
 	}
@@ -327,7 +339,7 @@ public class LayoutAbsoluteGeos {
 		return geo.isGeoButton() || (geo.isGeoBoolean()
 				&& geo.isEuclidianShowable()
 				|| ((geo.isGeoText() || geo.isGeoImage()) && geo.isVisible())
-		// || (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
+				|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 		);
 	}
 

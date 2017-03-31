@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.Unicode;
 
@@ -1148,6 +1149,15 @@ public final class DrawDropDownList extends CanvasDrawable
 		dropDown.drawSelected(geoList, g2, bgColor, boxLeft, boxTop, boxWidth,
 				boxHeight);
 
+		if (!geoList.hasScreenLocation() && boxWidth != 0) {
+			geoList.setScreenLocation(xLabel < boxLeft ? xLabel : boxLeft,
+					yLabel < boxTop ? yLabel : boxTop);
+			ScreenLocation sloc = geoList.getScreenLocation();
+			sloc.initWidth(boxWidth);
+			sloc.initHeight(boxHeight);
+
+		}
+
 		g2.setPaint(GColor.LIGHT_GRAY);
 		highlightLabel(g2, latexLabel);
 
@@ -1321,7 +1331,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	/**
 	 * @return preferred width of dropdown
 	 */
-	int getPreferredWidth() {
+	public int getPreferredWidth() {
 		int selectedWidth = selectedDimension.getWidth()
 				+ (isLatexString(selectedText) ? 0 : 2 * COMBO_TEXT_MARGIN)
 				+ getTriangleControlWidth();
@@ -1340,6 +1350,23 @@ public final class DrawDropDownList extends CanvasDrawable
 		return AwtFactory.getPrototype().newDimension(getPreferredWidth(),
 				selectedDimension.getHeight() + COMBO_TEXT_MARGIN);
 
+	}
+
+	/**
+	 * 
+	 * @return The whole width of the widget including the label.
+	 */
+	public int getTotalWidth() {
+		return labelSize.getX() + getPreferredWidth();
+	}
+
+	/**
+	 * 
+	 * @return The height of the combo including the label
+	 */
+	public int getTotalHeight() {
+		int h = labelSize.getY();
+		return h > selectedHeight ? h : selectedHeight;
 	}
 
 	@Override
@@ -1591,6 +1618,11 @@ public final class DrawDropDownList extends CanvasDrawable
 	public void updateBoundingBox() {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	public GDimension getSelectedDimension() {
+		return selectedDimension;
 	}
 
 }
