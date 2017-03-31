@@ -41,14 +41,20 @@ function waitFor() {
 var page = require('webpage').create();
 page.viewportSize = { width: 1920, height: 1080 };
 
-var lastmsg = "";
+var casloaded = 0;
 
 // Exitstring match condition.
 page.onConsoleMessage = function(msg) {
         console.log(msg);
         if (msg.search("all CAS up") >= 0) {
-                    page.render(output);
-                    phantom.exit(3);
+            casloaded = 1;
+            console.log("CAS loaded");
+            page.evaluate(function() { return document.ggbApplet.reset(); });
+        }
+        if ((casloaded == 1) && msg.search("Benchmarking") >= 0) {
+            console.log("Curve recomputed");
+            page.render(output);
+            phantom.exit(3);
         }
 }
 
@@ -64,7 +70,7 @@ page.open(url, function (status) {
     if (status !== "success") {
         console.log("phantomjs: Unable to access network");
     } else {
-        // Wait for 'signin-dropdown' to be visible
+        // Wait for an event...
         waitFor();
     }
 });
