@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Checks the output of runtests-sql-all and reports if a regression occurred.
+# Only the number of correct tests is counted. This should be improved.
+# Currently a diff HTML is also generated when regression is found.
+
+exitcode=0
+
+r() {
+ echo "Regression in $1: $2 ($3 needed)"
+ ./report-sql -c "$1,p1 $1" -o html/$1-diff.html
+ if ((exitcode = 0)); then
+  exitcode=$4 # allow non-fatal exit for DesktopGrobcov since it may be due to external reasons
+  fi
+ }
+
+MYDIR=`pwd $0`
+cd $MYDIR
+cat html/all.html | grep \"summary | grep -v Summary | cut -f2 -db | tr '></' '   ' | awk {'printf "%s ", $1'} > tmp/all.summary.out
+read di dg w < tmp/all.summary.out
+
+exitcode=0
+
+n=23;  if ((di < $n));   then r "DesktopInternal" $di $n 1; fi
+n=17; if ((dg < $n));  then r "DesktopGrobcov" $dg $n 0; fi
+n=22; if ((w < $n));   then r "Web" $w $n 1; fi
+
+exit $exitcode

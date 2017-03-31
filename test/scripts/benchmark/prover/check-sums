@@ -9,13 +9,17 @@ exitcode=0
 r() {
  echo "Regression in $1: $2 ($3 needed)"
  ./report-sql -c "$1,p1 $1" -o html/$1-diff.html
- exitcode=$4 # allow non-fatal exit for Botana* since it may be due to external reasons
+ if ((exitcode = 0)); then
+  exitcode=$4 # allow non-fatal exit for Botana* since it may be due to external reasons
+  fi
  }
 
 MYDIR=`pwd $0`
 cd $MYDIR
 cat html/all.html | grep \"summary | grep -v Summary | cut -f2 -db | tr '></' '   ' | awk {'printf "%s ", $1'} > tmp/all.summary.out
 read e1 e2 b e2g bg e3a ow e3b a ad w wd < tmp/all.summary.out
+
+exitcode=0
 
 n=35;  if ((e1 < $n));   then r "Recio" $e1 $n 1; fi
 n=200; if ((e2 < $n));  then r "Botana" $e2 $n 0; fi
