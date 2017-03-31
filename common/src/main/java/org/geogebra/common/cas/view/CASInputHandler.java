@@ -59,10 +59,10 @@ public class CASInputHandler {
 	public void processCurrentRow(String command, boolean focus) {
 		String ggbcmd = command;
 		int selRow = consoleTable.getSelectedRow();
-		if (selRow < 0) {
+		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
+		if (cellValue == null) {
 			return;
 		}
-		GeoCasCell cellValue = consoleTable.getGeoCasCell(selRow);
 		// Text cells do not need the processing below
 		if (cellValue.isUseAsText()) {
 			processRowThenEdit(selRow, true);

@@ -66,7 +66,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	@Override
 	public GeoCasCell getGeoCasCell(int n) {
-		if (this.getRowCount() > n) {
+		if (n >= 0 && this.getRowCount() > n) {
 			Widget w = getWidget(n, COL_CAS_CELLS_WEB);
 			if (w instanceof CASTableCellW) {
 				return ((CASTableCellW) w).getCASCell();
