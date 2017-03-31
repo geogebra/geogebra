@@ -366,15 +366,15 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
     fi
    # TODO: add/modify $HTMLRESULT
    fi
-  HTMLRESULT=`echo $RESULT | sed s/"{{\([0-9]\+\),\([0-9]\+\),.*}}"/\\\\1x\\\\2/`
+  HTMLRESULT=`echo $RESULT | sed s/"^\([0-9]\+\),\([0-9]\+\),.*"/\\\\1x\\\\2/`
   echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
   # TeX related changes
   TRUE=t
-  # TODO: add/modify $RESULT
+  TEXRESULT=$HTMLRESULT
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
    fi
-  echo "& \cellcolor{$CELLCOLOR}$RESULT & \cellcolor{$CELLCOLOR}{$SUMCLASSTEX $TIME} " >> $MYDIR/$TEX
+  echo "& \cellcolor{$CELLCOLOR}$TEXRESULT & \cellcolor{$CELLCOLOR}{$SUMCLASSTEX $TIME} " >> $MYDIR/$TEX
   done
 
  echo "</tr>" >> $MYDIR/$HTML
