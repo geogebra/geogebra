@@ -94,12 +94,6 @@ public class EuclidianViewW extends EuclidianView implements
 		@Override
 		public void execute(double ts) {
 			doRepaint2();
-			
-			if(app.has(Feature.DYNAMIC_STYLEBAR)){
-				if(EuclidianViewW.this.hasDynamicStyleBar()){
-					EuclidianViewW.this.getDynamicStyleBar().updateStyleBar();					
-				}			
-			}
 		}
 	};
 

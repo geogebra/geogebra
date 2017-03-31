@@ -10009,8 +10009,7 @@ public abstract class EuclidianController {
 		}
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if ((mode == EuclidianConstants.MODE_MOVE && !temporaryMode)
-					|| shapeDragged) {
+			if (mode == EuclidianConstants.MODE_MOVE && !draggingOccured) {
 				addDynamicStylebar();
 			}
 		}
