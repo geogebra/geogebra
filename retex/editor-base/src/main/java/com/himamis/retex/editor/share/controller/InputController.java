@@ -248,6 +248,12 @@ public class InputController {
 
 	public void newScript(EditorState editorState, String script) {
 		MathSequence currentField = editorState.getCurrentField();
+		if (currentField.size() == 0 && currentField.getParent() instanceof MathFunction 
+				&& "^".equals(
+						((MathFunction) currentField.getParent()).getName())
+				&& "^".equals(script)) {
+			return;
+		}
 		int currentOffset = editorState.getCurrentOffset();
 
 		int offset = currentOffset;
