@@ -177,6 +177,9 @@ public class CASTableW extends Grid implements CASTable {
 
 	}
 
+	/**
+	 * Stop editing without comitting changes
+	 */
 	public void cancelEditing() {
 		if (editing != null) {
 			editing.cancelEditing();
@@ -219,11 +222,6 @@ public class CASTableW extends Grid implements CASTable {
 
 	}
 
-	public void setInput() {
-		if (editing != null) {
-			editing.setInput();
-		}
-	}
 
 	@Override
 	public CASTableCellEditor getEditor() {
@@ -287,8 +285,8 @@ public class CASTableW extends Grid implements CASTable {
 		if (rowNumber >= this.getRowCount()) {
 			resize(rowNumber + 1, 2);
 		}
-		if (casCell.isUseAsText()) {
-			setInput();
+		if (casCell.isUseAsText() && editing != null) {
+			editing.setInput();
 		}
 
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
@@ -322,6 +320,13 @@ public class CASTableW extends Grid implements CASTable {
 		return editing != null;
 	}
 
+	/**
+	 * Convert event into cell coordinates
+	 * 
+	 * @param event
+	 *            mouise / touch event
+	 * @return (column, row)
+	 */
 	public GPoint getPointForEvent(HumanInputEvent<?> event) {
 		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 		if (td == null) {

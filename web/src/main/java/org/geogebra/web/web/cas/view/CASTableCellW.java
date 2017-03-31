@@ -37,6 +37,8 @@ public class CASTableCellW extends VerticalPanel {
 	 * 
 	 * @param casCell
 	 *            cas cell value
+	 * @param app
+	 *            application
 	 */
 	public CASTableCellW(GeoCasCell casCell, App app) {
 		this.casCell = casCell;
@@ -106,6 +108,8 @@ public class CASTableCellW extends VerticalPanel {
 	/**
 	 * @param casEditorW
 	 *            field for editing
+	 * @param newText
+	 *            editor content to overwrite current
 	 */
 	public void startEditing(CASEditorW casEditorW, String newText) {
 		clear();
@@ -152,6 +156,9 @@ public class CASTableCellW extends VerticalPanel {
 		add(outputPanel);
 	}
 
+	/**
+	 * Set input of cell from textField
+	 */
 	public void setInput() {
 		if (textField != null) {
 			casCell.setInput(textField.getText());

@@ -12,6 +12,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
@@ -233,14 +234,16 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void ensureEditing() {
-		app.getGuiManager().setOnScreenKeyboardTextField(this.retexListener);
+		final GuiManagerInterfaceW gui = app.getGuiManager();
+
+		gui.setOnScreenKeyboardTextField(this.retexListener);
 		CancelEventTimer.keyboardSetVisible();
 		ClickStartHandler.init(this, new ClickStartHandler(false, false) {
 			@Override
 			public void onClickStart(int x, int y,
 					final PointerEventType type) {
 				doClickStart();
-				app.getGuiManager().setActivePanelAndToolbar(App.VIEW_CAS);
+				gui.setActivePanelAndToolbar(App.VIEW_CAS);
 			}
 		});
 		setFocus(true, false);

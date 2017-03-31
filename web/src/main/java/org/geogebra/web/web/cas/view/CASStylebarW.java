@@ -3,6 +3,7 @@ package org.geogebra.web.web.cas.view;
 import java.util.ArrayList;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -10,7 +11,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
@@ -138,8 +138,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnBold.setValue(style == GFontW.BOLD
-					        || style == (GFontW.BOLD + org.geogebra.common.awt.GFont.ITALIC));
+					btnBold.setValue(style == GFont.BOLD || style == (GFont.BOLD
+							+ org.geogebra.common.awt.GFont.ITALIC));
 				}
 			}
 		};
@@ -156,8 +156,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
-					btnItalic.setSelected(style == GFontW.ITALIC
-					        || style == (GFontW.BOLD + GFontW.ITALIC));
+					btnItalic.setSelected(style == GFont.ITALIC
+							|| style == (GFont.BOLD + GFont.ITALIC));
 				}
 			}
 		};
