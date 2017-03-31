@@ -66,7 +66,7 @@ CONTRIBUTORS
   * Joan Carles Naranjo (Spain 2007)
   * Georgios Ouzounis (GSoC 2015)
   * Eloi Puertas (Spain 2007)
-  * Peter Rathgeb (Austria 2015-17)
+  * Peter Rathgeb (Austria 2015-16)
   * Johannes Renner (Austria 2011-12)
   * Sergio Arbeo Rodriguez (Spain 2010-12)
   * Christian Schott (Germany 2011-13)
