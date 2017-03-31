@@ -6,6 +6,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
@@ -27,8 +28,11 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
+@SuppressWarnings("javadoc")
 public class GeoGebraCasIntegrationTest {
   private static final String GermanSolve = "L\u00f6se";
 
@@ -274,8 +278,8 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	// 100 seconds max per method tested
-	// @Rule
-	// public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
+	@Rule
+	public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
 
 
   // Self Test Section
@@ -1116,13 +1120,13 @@ public class GeoGebraCasIntegrationTest {
     t("Cross[{1, 3, 2}, {0, 3, -2}]", "{-12, 2, 3}");
   }
 
-  @Test
-  public void Cross_1 () {
-    try {
-      t("Delete[f]", "true");
-    } catch (Throwable t) {
-
-    }
+	@Test
+	public void Cross_1() {
+		try {
+			t("Delete[f]", "true");
+		} catch (Throwable t) {
+			Log.warn(t.getMessage());
+		}
 		t("Cross[{a, b, c}, {d, e, f}]",
 				"{b * f - c * e, c * d - a * f, a * e - b * d}",
 				"{b * f - c * e, -a * f + c * d, a * e - b * d}");
@@ -2002,7 +2006,7 @@ public class GeoGebraCasIntegrationTest {
 		t("RightSide[lsd]", "1");
   }
 
-	private void in(String string) {
+	private static void in(String string) {
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommand(string, false);
 
