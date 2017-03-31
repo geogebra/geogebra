@@ -21,8 +21,8 @@ read di dg w < tmp/all.summary.out
 
 exitcode=0
 
-n=23;  if ((di < $n));   then r "DesktopInternal" $di $n 1; fi
-n=17; if ((dg < $n));  then r "DesktopGrobcov" $dg $n 0; fi
-n=22; if ((w < $n));   then r "Web" $w $n 1; fi
+n=64;  if ((di < $n));   then r "DesktopInternal" $di $n 1; fi
+n=48; if ((dg < $n));  then r "DesktopGrobcov" $dg $n 0; fi
+n=61; if ((w < $n));   then r "Web" $w $n 1; fi
 
 exit $exitcode
