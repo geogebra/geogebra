@@ -4970,5 +4970,11 @@ public class GeoGebraCasIntegrationTest {
 		t("f'(x+1)", "(-g(x + 1) + g'(x + 1) * (x + 1)) / (x + 1)^(2)");
 
 	}
-  
+
+	@Test
+	/** GGB-1663 */
+	public void ENotationTest() {
+		t("a:=1/1E8", "1 / 100000000");
+		t("b:=1/1E-8", "100000000");
+	}
 }
