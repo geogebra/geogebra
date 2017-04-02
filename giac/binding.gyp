@@ -58,7 +58,7 @@
             'xcode_settings': { 'GCC_ENABLE_CPP_RTTI': 'YES',
             'OTHER_CPLUSPLUSFLAGS' : ['-std=c++11', '-stdlib=libc++', "-Wno-narrowing", "-fexceptions"],
             'OTHER_LDFLAGS' : ['-L/opt/local/lib', # Assuming MacPorts is used to provide libgmp.
-              "-L$(LIBDIR)" ] # But user defined LIBDIR is also allowed.
+              "-L$(LIBDIR)/." ] # But user defined LIBDIR is also allowed. (FIXME: this will use "/." if LIBDIR is empty.)
             }
           }
         ],

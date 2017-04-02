@@ -107,7 +107,10 @@ node ./
 
 ## Testing ##
 
-Enter `npm test` in the current folder. To play with Giac, modify the
+Go to your **node_modules** folder, enter `cd giac` and `npm test`. (If you are under Windows,
+you need to copy the external .DLL files into this folder.)
+
+To play with Giac, modify the
 file **nodegiac.js** and run `npm test` again.
 
 ## Roadmap ##
