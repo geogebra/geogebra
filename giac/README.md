@@ -14,9 +14,9 @@ console.log(giac.evaluate("expand((x+y)^3)"));
 
 ## Supported platforms ##
 
-Currently only Linux and Mac OS X have been tested and work properly. The
-Windows platform is planned to be supported soon (it cannot be built at
-the moment).
+* Linux
+* Mac OS X
+* Windows
 
 ## Prerequisites ##
 
@@ -47,8 +47,34 @@ Ubuntu 16.04 and 16.10 should work. Currently the *amd64*, *i386* and
 Install [MacPorts](https://www.macports.org/install.php) first. Then `sudo port
 install gmp mpfr` will install GMP and MPFR as well.
 
+It will be silently assumed that GMP and MPFR have been installed in /opt/local/lib.
+If this is not the case, set the environment variable LIBDIR to the correct path.
+
 Mac OS X 10.11.6 with Xcode 8.2.1, GMP 6.1.0 and MPFR 3.1.3 is known to
 work correctly.
+
+### Windows ###
+
+At the moment only the 64 bit version was tested.
+
+First you need to have a working **node-gyp** installation. Please take the time
+to check it by following
+[Microsoft's NodeJS Guidelines](https://github.com/Microsoft/nodejs-guidelines/blob/master/windows-environment.md#compiling-native-addon-modules).
+
+You may need Visual Studio 2013 installed, newer versions may result in strange
+errors on compilation time.
+
+It is recommended to use [MPIR](http://mpir.org/) instead of GMP. To compile the Node port of Giac the .LIB
+files (that is, the static libraries) of both MPIR and MPFR will be required. You
+may either compile them on your own or get the precompiled binaries. (An option
+to download them is getting from [Atelier Web](http://www.atelierweb.com/mpir-and-mpfr/).
+This may support only Release mode compilation.) Put the .LIB files into the current
+folder, or set the LIBDIR environment variable to the correct path.
+
+After compilation you will also need the dynamic libraries (the .DLL files). Put them
+in the current folder (that is, both MPIR.DLL and MPFR.DLL).
+
+Note that some computations which require the MPFR subsystem mail fail in Release mode builds.
 
 ## Compilation ##
 
@@ -67,13 +93,26 @@ parallel jobs is usually the number of cores you have, but
 [this may depend on your system as
 well](http://stackoverflow.com/questions/2499070/gnu-make-should-the-number-of-jobs-equal-the-number-of-cpu-cores-in-a-system).
 
+### Troubleshooting ###
+
+It may be useful to download the Node port of Giac to a local machine
+and fine tune the compilation settings. This can be done as follows:
+```
+npm pack giac@latest
+tar xzf giac*tgz
+cd package
+node-gyp rebuild
+node ./
+```
+
 ## Testing ##
 
 Enter `npm test` in the current folder. To play with Giac, modify the
 file **nodegiac.js** and run `npm test` again.
 
 ## Roadmap ##
-* Windows implementation
+* Windows 32 bit test
+* MPFR fix for Windows 64 bit Release mode
 * Electron example
 
 ## Authors ##

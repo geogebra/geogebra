@@ -87,6 +87,10 @@ extern "C" void glcontext(int);
 #define GIAC_NO_OPTIMIZATIONS
 #endif
 
+#if defined(BUILDING_NODE_EXTENSION) && defined(_WIN64)
+#define DOUBLEVAL
+#endif
+
 #ifndef DOUBLEVAL
 // #define IMMEDIATE_VECTOR 12 // 48 extra bytes = 6 gens or 4 monomials or 3 sparse
 #define IMMEDIATE_VECTOR 6 // 24 extra bytes = 3 gens or 2 monomials or 1 sparse
@@ -279,7 +283,9 @@ typedef int ref_count_t;
 #endif
 
 #if defined(__LP64__) || defined(_WIN64) || (defined(x86_64) &&     !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
+#if !defined(BUILDING_NODE_EXTENSION) || !defined(_WIN64)
 #define SMARTPTR64
+#endif
 #else // x86_64
 #ifdef SMARTPTR64
 #undef SMARTPTR64
