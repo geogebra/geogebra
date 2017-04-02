@@ -26,20 +26,21 @@ system installed. In addition the [GMP](https://gmplib.org) and
 
 The compilation will be performed by
 [node-gyp](https://github.com/nodejs/node-gyp). In order to install it on
-your system you may have to perform some additional steps. In a doubt,
+your system you may have to accomplish some additional steps. In a doubt,
 please consult the **node-gyp** documentation.
 
 ### Linux ###
 
 You need a recent **gcc**. Former versions (like 4.8) may fail.
 
-Python 2.7 is required for compilation.
+Python 2.7 is required. On some systems you may have to create a symbolic link to
+the python2.7 executable (preferably as **/usr/local/bin/python**).
 
 On a Debian based system GMP and MPFR can be installed by running `sudo apt install
 libgmp-dev libmpfr-dev`.
 
-Ubuntu 16.04 and 16.10 should properly compile the Node version of Giac.
-Currently the *amd64* and *armhf* processors have been tested with success.
+Ubuntu 16.04 and 16.10 should work. Currently the *amd64*, *i386* and
+*armhf* processors have been tested with success.
 
 ### Mac OS X ###
 
@@ -47,7 +48,7 @@ Install [MacPorts](https://www.macports.org/install.php) first. Then `sudo port
 install gmp mpfr` will install GMP and MPFR as well.
 
 Mac OS X 10.11.6 with Xcode 8.2.1, GMP 6.1.0 and MPFR 3.1.3 is known to
-work well.
+work correctly.
 
 ## Compilation ##
 
