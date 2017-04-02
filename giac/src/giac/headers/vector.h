@@ -229,8 +229,14 @@ namespace std {
 	// if p0 is a vector element and the vector is realloced
 	_Tp p(p0); 
 	_realloc(_taille?-2*_taille:1);
-	*(_begin_immediate_vect+_taille)=p;
-	++_taille;
+	if (_taille==immvector_max){
+	  *(_begin_immediate_vect)=p;
+	  _taille=1;
+	}
+	else {
+	  *(_begin_immediate_vect+_taille)=p;
+	  ++_taille;
+	}
 	return;
       }
       if (_taille==immvector_max) 

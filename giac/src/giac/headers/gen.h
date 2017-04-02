@@ -541,7 +541,7 @@ namespace giac {
       ref_vecteur * __VECTptr ; // vecteur: std::vectors & dense_POLY1 (type _VECT)
       ref_sparse_poly1 * __SPOL1ptr ; // std::vector<monome>: sparse 1-d poly (type _SPOL1)
       ref_string * __STRNGptr;
-      unsigned _FUNC_;
+      size_t _FUNC_;
       // ref_unary_function_ptr * __FUNCptr;
       ref_gen_user * __USERptr;
       ref_gen_map * __MAPptr;
