@@ -2148,7 +2148,7 @@ __GGB__keysVar.fi.menu = {
     "Name.locus": "ura",
     "Name.matrix": "matriisi",
     "Name.numericalIntegral": "numeerinenIntegraali",
-    "Name.penStroke": "vahvuus",
+    "Name.penStroke": "piirto",
     "Name.picture": "kuva",
     "Name.polygon": "kuvio",
     "Name.slopefield": "suuntakentt\xe4",
