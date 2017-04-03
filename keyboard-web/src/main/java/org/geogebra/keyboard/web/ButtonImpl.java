@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
-import org.geogebra.keyboard.base.linear.WeightedButton;
+
+import org.geogebra.keyboard.base.model.WeightedButton;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
