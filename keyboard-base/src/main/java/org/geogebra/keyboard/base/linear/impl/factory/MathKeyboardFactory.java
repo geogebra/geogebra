@@ -59,7 +59,7 @@ class MathKeyboardFactory {
         addInputButton(row, "2");
         addInputButton(row, "3");
         addInputButton(row, "=");
-        addConstantCustomButton(row, Resource.BACKSPACE, Action.BACKSPACE);
+        addConstantCustomButton(row, Resource.BACKSPACE, Action.BACKSPACE_DELETE);
 
         row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, "(");

@@ -49,7 +49,7 @@ class FunctionKeyboardFactory {
         addConstantInputCommandButton(row, Resource.LOG_10, "Derivative", 1.0f);
         addConstantInputCommandButton(row, Resource.INTEGRAL, "Integral", 1.0f);
         addInputButton(row, "i", "\u03af");
-        addConstantCustomButton(row, Resource.BACKSPACE, Action.BACKSPACE);
+        addConstantCustomButton(row, Resource.BACKSPACE, Action.BACKSPACE_DELETE);
 
         row = functionKeyboard.nextRow(9.2f);
         addConstantInputButton(row, Resource.POWE_X, EULER + "^", width);
