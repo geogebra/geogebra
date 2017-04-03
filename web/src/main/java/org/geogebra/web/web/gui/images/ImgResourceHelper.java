@@ -1,8 +1,8 @@
 package org.geogebra.web.web.gui.images;
 
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.gui.util.HasSetIcon;
 import org.geogebra.web.web.gui.util.ImageOrText;
-import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;

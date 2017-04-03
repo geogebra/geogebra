@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.toolbar.svgimages;
 
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
-import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
 

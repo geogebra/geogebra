@@ -10,10 +10,10 @@ the Free Software Foundation.
 
 LessReference.java is based on SVG resource generator by Lukas Laag
  */
-package org.geogebra.web.html5.util;
+package org.geogebra.web.resources;
 
 
-import org.geogebra.web.vectomatic.LessReferenceGenerator;
+import org.geogebra.web.generator.LessReferenceGenerator;
 
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.resources.ext.DefaultExtensions;

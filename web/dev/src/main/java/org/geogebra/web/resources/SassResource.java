@@ -11,10 +11,10 @@ the Free Software Foundation.
 LessResource.java is based on SVG resource generator by Lukas Laag
  */
 
-package org.geogebra.web.html5.util;
+package org.geogebra.web.resources;
 
 
-import org.geogebra.web.vectomatic.SassResourceGenerator;
+import org.geogebra.web.generator.SassResourceGenerator;
 
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.resources.ext.DefaultExtensions;

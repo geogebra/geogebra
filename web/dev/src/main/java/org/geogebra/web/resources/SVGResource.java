@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with libgwtsvg.  If not, see http://www.gnu.org/licenses/
  **********************************************/
-package org.geogebra.web.web.gui.vectomatic.dom.svg.ui;
+package org.geogebra.web.resources;
 
 
-import org.geogebra.web.vectomatic.SVGResourceGenerator;
+import org.geogebra.web.generator.SVGResourceGenerator;
 
 import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.ext.DefaultExtensions;
@@ -37,3 +37,4 @@ import com.google.gwt.resources.ext.ResourceGeneratorType;
 public interface SVGResource extends DataResource {
 	//this is a hacked version of SVGResource, alll fancy stuff is gone
 }
+

@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.images;
 
-import org.geogebra.web.web.gui.vectomatic.dom.svg.ui.SVGResource;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
 

@@ -1,7 +1,7 @@
 package org.geogebra.web.web.css;
 
-import org.geogebra.web.html5.util.LessReference;
 import org.geogebra.web.html5.util.LessResource;
+import org.geogebra.web.resources.LessReference;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

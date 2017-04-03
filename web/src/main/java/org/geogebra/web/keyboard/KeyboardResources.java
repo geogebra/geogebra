@@ -1,6 +1,6 @@
 package org.geogebra.web.keyboard;
 
-import org.geogebra.web.html5.util.SassResource;
+import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;

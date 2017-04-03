@@ -4,7 +4,9 @@ apply plugin: 'java'
 
 dependencies {
 	compile 'com.google.gwt:gwt-dev:2.8.0',
-		project(':common')
+	'com.google.gwt:gwt-user:2.8.0',
+		project(':common'),
+		'io.bit3:jsass:5.4.0'
 }
 
 javadoc {

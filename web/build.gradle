@@ -40,6 +40,7 @@ dependencies {
         project(':renderer-web'),
         project(':editor-web'),
         project(':ggbjdk'),
+        files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':common').sourceSets.main.allSource.srcDirs),
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
@@ -47,8 +48,7 @@ dependencies {
         'com.googlecode:gwtgl:0.9.1',
         'com.googlecode:gwtgl:0.9.1:sources',
         'com.google.gwt:gwt-dev:2.8.0',
-        'com.asual.lesscss:lesscss-engine:1.3.0',
-        'io.bit3:jsass:5.4.0'
+        'com.asual.lesscss:lesscss-engine:1.3.0'
 }
 
 def devModule = 'org.geogebra.web.SuperWeb'
