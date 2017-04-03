@@ -10066,7 +10066,8 @@ public abstract class EuclidianController {
 				}
 			}
 		} else {
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU) && app
+					.getActiveEuclidianView().getDynamicStyleBar() != null) {
 				boolean dsVisible = app.getActiveEuclidianView()
 						.getDynamicStyleBar().isVisible();
 				wrapMouseReleasedND(event, true);
