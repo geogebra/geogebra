@@ -32,6 +32,16 @@ public class GCheckBoxMenuItem {
 	// }});
 	// setHTML(checkBox.toString());
 	// }
+
+	/*
+	 * text should be shown when the item is selected
+	 */
+	private String textSelected;
+	/*
+	 * text should be shown when the item is NON selected
+	 */
+	private String textNonSelected;
+
 	public GCheckBoxMenuItem(String text,
 			boolean isHtml, App app) {
 
@@ -65,13 +75,23 @@ public class GCheckBoxMenuItem {
 		setCommand(cmd);
 	}
 
+	public GCheckBoxMenuItem(String text, String textSel, String textNonSel,
+			final ScheduledCommand cmd, boolean isHtml, App app) {
+		this(text, isHtml, app);
+		textSelected = textSel;
+		textNonSelected = textNonSel;
+		setCommand(cmd);
+	}
+
 	public void setCommand(ScheduledCommand cmd) {
 		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
 
 	}
 	public void setSelected(boolean sel) {
 		selected = sel;
-		if (isToggleMenu()) {
+		if (textSelected != null) {
+			setText(sel ? textSelected : textNonSelected);
+		} else if (isToggleMenu()) {
 			itemPanel.clear();
 			String txt = app.getLocalization()
 					.getPlain(selected ? "On" : "Off");

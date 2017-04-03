@@ -196,14 +196,29 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							.asString();
 				}
 
-				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
-						loc.getMenu("ShowTrace"), true), new Command() {
+				if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+					cbItem = new GCheckBoxMenuItem(
+							MainMenu.getMenuBarHtml(img, "", true),
+							loc.getMenu("HideTrace"), loc.getMenu("ShowTrace"),
+							new Command() {
 
-							@Override
-							public void execute() {
-								traceCmd();
-							}
-						}, true, app);
+								@Override
+								public void execute() {
+									traceCmd();
+								}
+							}, true, app);
+				} else {
+					cbItem = new GCheckBoxMenuItem(
+							MainMenu.getMenuBarHtml(img,
+									loc.getMenu("ShowTrace"), true),
+							new Command() {
+
+								@Override
+								public void execute() {
+									traceCmd();
+								}
+							}, true, app);
+				}
 				cbItem.setSelected(((Traceable) getGeo()).getTrace());
 				wrappedPopup.addItem(cbItem);
 			}
