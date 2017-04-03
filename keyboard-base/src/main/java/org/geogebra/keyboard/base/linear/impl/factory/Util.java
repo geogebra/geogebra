@@ -41,7 +41,7 @@ class Util {
     }
 
     static WeightedButton createEmptySpace(float weight) {
-        return new WeightedButtonImpl(Resource.EMPTY, ResourceType.DEFINED_CONSTANT, Action.NONE, ActionType.CUSTOM, weight);
+        return new WeightedButtonImpl(Resource.EMPTY_IMAGE, ResourceType.DEFINED_CONSTANT, Action.NONE, ActionType.CUSTOM, weight);
     }
 
     // Add buttons to rows
