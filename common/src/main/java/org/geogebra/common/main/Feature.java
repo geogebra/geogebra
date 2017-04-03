@@ -177,4 +177,7 @@ public enum Feature {
 	/** AND-193 */
 	AND_TRACE_IN_PROPERTIES,
 
+	/** MOW-239 */
+	IMPROVE_CONTEXT_MENU
+
 }

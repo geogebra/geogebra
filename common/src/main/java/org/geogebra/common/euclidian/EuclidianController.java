@@ -10066,7 +10066,16 @@ public abstract class EuclidianController {
 				}
 			}
 		} else {
-			wrapMouseReleasedND(event, true);
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+				boolean dsVisible = app.getActiveEuclidianView()
+						.getDynamicStyleBar().isVisible();
+				wrapMouseReleasedND(event, true);
+				app.getActiveEuclidianView().getDynamicStyleBar()
+						.setVisible(dsVisible);
+			} else {
+				wrapMouseReleasedND(event, true);
+			}
+
 		}
 
 		if (getResizedShape() != null) {

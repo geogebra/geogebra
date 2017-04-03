@@ -567,8 +567,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				public void execute() {
 					ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
 					geoArray.add(geo);
-					EuclidianStyleBarStatic.applyFixObject(geoArray,
-							!geo.isFixed(), app.getActiveEuclidianView());
+					if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+						boolean dsVisible = app.getActiveEuclidianView()
+								.getDynamicStyleBar().isVisible();
+						EuclidianStyleBarStatic.applyFixObject(geoArray,
+								!geo.isFixed(), app.getActiveEuclidianView());
+						app.getActiveEuclidianView().getDynamicStyleBar()
+								.setVisible(dsVisible);
+					} else {
+						EuclidianStyleBarStatic.applyFixObject(geoArray,
+								!geo.isFixed(), app.getActiveEuclidianView());
+					}
+
 				}
 			};
 		}
