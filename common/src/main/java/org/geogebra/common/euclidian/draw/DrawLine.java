@@ -472,10 +472,11 @@ public class DrawLine extends Drawable implements Previewable {
 	/**
 	 * Update stylebar position
 	 */
-	public void updateDynamicStylebarPosition() {
+	public GRectangle getPreferredStylebarPosition() {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);
-		rect.setBounds((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50, 0, 0);
-		view.getDynamicStyleBar().setPosition(rect, false);
+		rect.setBounds((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50, 0,
+				0);
+		return rect;
 	}
 
 	@Override

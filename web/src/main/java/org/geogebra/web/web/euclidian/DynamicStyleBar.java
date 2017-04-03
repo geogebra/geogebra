@@ -1,5 +1,6 @@
 package org.geogebra.web.web.euclidian;
 
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
@@ -118,7 +119,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 		
 		if (dr instanceof DrawLine) {
-			((DrawLine) dr).updateDynamicStylebarPosition();
+			GRectangle rect = ((DrawLine) dr).getPreferredStylebarPosition();
+			setPosition(rect, false);
 		} else if (dr instanceof DrawLocus) {
 			setPosition(((DrawLocus) dr).getGpBounds(), true);
 		} else {
