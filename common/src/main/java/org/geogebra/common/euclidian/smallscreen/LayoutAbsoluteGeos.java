@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.ScreenLocation;
@@ -196,7 +197,7 @@ public class LayoutAbsoluteGeos {
 
 
 	private int getTotalWidth(AbsoluteScreenLocateable absGeo) {
-		if (absGeo instanceof GeoButton) {
+		if (absGeo instanceof GeoButton || absGeo instanceof GeoImage) {
 			return absGeo.getTotalWidth(view);
 		} else if (absGeo instanceof GeoText) {
 			DrawText dt = (DrawText) view.getDrawableFor(absGeo);
@@ -212,7 +213,7 @@ public class LayoutAbsoluteGeos {
 	}
 
 	private int getTotalHeight(AbsoluteScreenLocateable absGeo) {
-		if (absGeo instanceof GeoButton) {
+		if (absGeo instanceof GeoButton || absGeo instanceof GeoImage) {
 			return absGeo.getTotalHeight(view);
 		} else if (absGeo instanceof GeoText) {
 			DrawText dt = (DrawText) view.getDrawableFor(absGeo);
@@ -223,12 +224,11 @@ public class LayoutAbsoluteGeos {
 			DrawDropDownList dl = (DrawDropDownList) view
 					.getDrawableFor(absGeo);
 			dl.update();
-			int h = dl.getTotalHeight();
-			Log.debug("WWWWWWWWWWWWWW: dropdown total height: " + h);
-			return h;
+			return dl.getTotalHeight();
 		}
 		return 0;
 	}
+
 	private void setAbsoluteScreenLoc(AbsoluteScreenLocateable absGeo, int x,
 			int y) {
 		if (absGeo instanceof GeoBoolean) {
@@ -342,6 +342,8 @@ public class LayoutAbsoluteGeos {
 				&& geo.isEuclidianShowable()
 				|| ((geo.isGeoText() || geo.isGeoImage()) && geo.isVisible())
 				|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
+				|| (geo.isGeoImage() && ((AbsoluteScreenLocateable) geo)
+						.isAbsoluteScreenLocActive())
 		);
 	}
 

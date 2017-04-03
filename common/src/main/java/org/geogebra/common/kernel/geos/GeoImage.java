@@ -610,6 +610,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setAbsoluteScreenLoc(int x, int y) {
 		screenX = x;
 		screenY = y;
+		if (!hasScreenLocation() && (x != 0 && y != 0)) {
+			setScreenLocation(x, y);
+		}
 	}
 
 	@Override
@@ -1059,10 +1062,10 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
-		return 0;
+		return pixelWidth;
 	}
 
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
-		return 0;
+		return pixelHeight;
 	}
 }
