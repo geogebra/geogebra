@@ -1,4 +1,46 @@
 apply plugin: 'java'
+apply plugin: 'gwt-compiler'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+
+evaluationDependsOn(':keyboard-base')
+
+buildscript {
+    dependencies {
+        classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
+    }
+}
+
+dependencies{
+	compile project(':keyboard-base'),
+	files(project(':keyboard-base').sourceSets.main.allSource.srcDirs)
+}
+def kbModule = 'org.geogebra.keyboard.KeyboardWeb'
+gwt {
+    gwtVersion = '2.8.0'
+
+    
+    modules = [kbModule]    
+    
+    devModules kbModule
+    
+    maxHeapSize = '2000M'
+
+    compiler {
+        // Customize the GWT compiler here
+        strict = true;
+        // enableClosureCompiler = true;        
+        disableCastChecking = true;        
+        logLevel = 'INFO';
+        if (project.hasProperty("gdraft")) {
+            draftCompile = true
+        }
+        if (project.hasProperty("gdetailed")){
+            style = de.richsource.gradle.plugins.gwt.Style.DETAILED;
+        } else {
+            disableClassMetadata = true;
+        }
+        // style = de.richsource.gradle.plugins.gwt.Style.PRETTY;    
+    }
+}

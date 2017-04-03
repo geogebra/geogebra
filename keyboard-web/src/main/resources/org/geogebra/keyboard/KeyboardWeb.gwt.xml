@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module rename-to='mathkeyboard' >
+  <inherits name='com.google.gwt.user.User'/>
+  <inherits name='org.geogebra.keyboard.KeyboardBase'/>
+  <source path='web' />
+
+  <entry-point class='org.geogebra.keyboard.web.MathKeyboard'/>
+  <collapse-all-properties />
+</module>
