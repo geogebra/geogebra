@@ -7409,14 +7409,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (g.is_symb_of_sommet(at_interval)){
 	xmin=g._SYMBptr->feuille[0];
 	xmax=g._SYMBptr->feuille[1];
-	default_interval=false;
+	default_interval=(xmin==minus_inf && xmax==plus_inf);
       }
     }
     else {
       if (s>=4){
 	xmin=v[2];
 	xmax=v[3];
-	default_interval=false;
+	default_interval=(xmin==minus_inf && xmax==plus_inf);
 	s0=4;
       }
       if (s==2 && x.type!=_IDNT)
