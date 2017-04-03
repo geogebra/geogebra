@@ -57,9 +57,9 @@ class FunctionKeyboardFactory {
         addConstantInputButton(row, Resource.N_ROOT, "nroot", width);
         addButton(row, createEmptySpace(0.2f));
         addConstantInputButton(row, Resource.A_N, "a_n");
-        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT);
-        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT);
-        addConstantCustomButton(row, Resource.RETURN, Action.RETURN);
+        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+        addConstantCustomButton(row, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
         return functionKeyboard;
     }

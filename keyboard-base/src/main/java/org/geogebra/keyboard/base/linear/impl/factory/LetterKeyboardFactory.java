@@ -66,9 +66,9 @@ class LetterKeyboardFactory {
         addInputButton(controlRow, ",");
         addInputButton(controlRow, "'");
         addInputButton(controlRow, " ", spaceSize);
-        addConstantCustomButton(controlRow, Resource.LEFT_ARROW, Action.LEFT);
-        addConstantCustomButton(controlRow, Resource.RIGHT_ARROW, Action.RIGHT);
-        addConstantCustomButton(controlRow, Resource.RETURN, Action.RETURN);
+        addConstantCustomButton(controlRow, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+        addConstantCustomButton(controlRow, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+        addConstantCustomButton(controlRow, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
         return letterKeyboard;
     }

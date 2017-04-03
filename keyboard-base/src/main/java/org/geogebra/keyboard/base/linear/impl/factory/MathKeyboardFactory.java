@@ -69,9 +69,9 @@ class MathKeyboardFactory {
         addButton(row, createEmptySpace(0.2f));
         addInputButton(row, "0");
         addInputButton(row, ".");
-        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT);
-        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT);
-        addConstantCustomButton(row, Resource.RETURN, Action.RETURN);
+        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+        addConstantCustomButton(row, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
         return mathKeyboard;
     }
