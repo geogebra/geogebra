@@ -3244,7 +3244,7 @@ public class ExpressionNode extends ValidExpression
 			// GeoFunction and GeoFunctionConditional should not be expanded
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
-				if (geo.isLabelSet()) {
+				if (geo.isLabelSet() || geo.isLocalVariable()) {
 					if (stringType.equals(StringType.LIBRE_OFFICE)) {
 						sb.append("func ");
 					}
@@ -3715,6 +3715,7 @@ public class ExpressionNode extends ValidExpression
 		// no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
 		// parameters for unknown cas functions
 		if (!left.isGeoElement() || ((GeoElement) left).isLabelSet()
+				|| ((GeoElement) left).isLocalVariable()
 				|| left instanceof GeoDummyVariable
 				|| left instanceof GeoCasCell) {
 			sb.append(tpl.leftBracket());

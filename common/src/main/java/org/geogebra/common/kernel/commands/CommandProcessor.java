@@ -423,9 +423,9 @@ public abstract class CommandProcessor {
 			// remove local variable name from kernel again
 
 		}
-		GeoElement[] arg = resArg(c.getArgument(0)
-				.traverse(CommandReplacer.getReplacer(kernelA, false)).wrap(),
-				argInfo);
+		ExpressionNode def = c.getArgument(0)
+				.traverse(CommandReplacer.getReplacer(kernelA, false)).wrap();
+		GeoElement[] arg = resArg(def, argInfo);
 
 		return arg[0];
 	}

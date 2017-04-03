@@ -37,6 +37,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		super(ec, viewNo, settings);
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.GRAY);
+		ec.setView(this);
 	}
 
 	@Override
@@ -108,8 +109,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public EuclidianController getEuclidianController() {
-		// TODO Auto-generated method stub
-		return null;
+		return euclidianController;
 	}
 
 	@Override

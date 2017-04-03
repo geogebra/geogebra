@@ -120,7 +120,7 @@ public class CommandsTest extends Assert{
 	
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 		// make sure x=y is a line, not plane
@@ -921,6 +921,31 @@ public class CommandsTest extends Assert{
 				unicode("1x^2 + 0x + 1"),
 				StringTemplate.editTemplate);
 
+	}
+
+	@Test
+	public void zipReloadTest() {
+		app.getKernel().setUndoActive(true);
+		app.getKernel().initUndoInfo();
+		t("list1=Zip[f(1),f,{x,x+1}]", "{1, 2}");
+		app.getKernel().storeUndoInfo();
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(app.getKernel().isUndoActive());
+		assertTrue(app.getKernel().getConstruction().isUndoEnabled());
+		assertTrue("undo not possible", app.getKernel().getConstruction()
+				.getUndoManager()
+				.undoPossible());
+		t("list2=Zip[f(1,2),f,{x+y,y+x+1}]", "{3, 4}");
+		app.getKernel().storeUndoInfo();
+		app.getKernel().undo();
+		t("list1", "{1, 2}");
+		t("Object[\"list2\"]", "NaN");
+		app.getKernel().setUndoActive(false);
 	}
 
 	private static String unicode(String theSpline) {

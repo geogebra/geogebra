@@ -26,7 +26,7 @@ public class EuclidianControllerNoGui extends EuclidianController {
 
 	@Override
 	public void setView(EuclidianView view) {
-		// TODO Auto-generated method stub
+		super.setView(view);
 
 	}
 

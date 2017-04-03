@@ -31,7 +31,6 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.io.MyXMLioD;
-import org.geogebra.desktop.main.AppD;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -121,6 +120,7 @@ public class UndoManagerD extends UndoManager {
 
 		// force create event dispatcher before we go to thread
 		app.getEventDispatcher();
+
 		Thread undoSaverThread = new Thread() {
 			@Override
 			public void run() {
@@ -242,14 +242,14 @@ public class UndoManagerD extends UndoManager {
 			}
 
 			// load undo info
-			((AppD) app).getScriptManager().disableListeners();
+			app.getScriptManager().disableListeners();
 			((MyXMLioD) construction.getXMLio()).readZipFromMemory(is);
 			if (changed) {
 				listSelModel.setAnchorSelectionIndex(anchorIndex);
 				listSelModel.setLeadSelectionIndex(leadIndex);
 				listSelModel.setSelectionInterval(minIndex, maxIndex);
 			}
-			((AppD) app).getScriptManager().enableListeners();
+			app.getScriptManager().enableListeners();
 
 
 		} catch (Exception e) {
