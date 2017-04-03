@@ -223,7 +223,9 @@ public class LayoutAbsoluteGeos {
 			DrawDropDownList dl = (DrawDropDownList) view
 					.getDrawableFor(absGeo);
 			dl.update();
-			return dl.getTotalHeight();
+			int h = dl.getTotalHeight();
+			Log.debug("WWWWWWWWWWWWWW: dropdown total height: " + h);
+			return h;
 		}
 		return 0;
 	}

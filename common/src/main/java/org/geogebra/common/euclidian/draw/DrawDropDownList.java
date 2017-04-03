@@ -1366,7 +1366,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 */
 	public int getTotalHeight() {
 		int h = labelSize.getY();
-		return h > selectedHeight ? h : selectedHeight;
+		return h > boxHeight ? h : boxHeight;
 	}
 
 	@Override
