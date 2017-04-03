@@ -3,6 +3,7 @@ description 'Parts of GeoGebra related to web platforms'
 evaluationDependsOn(':common')
 evaluationDependsOn(':ggbjdk')
 evaluationDependsOn(':editor-web')
+evaluationDependsOn(':web:dev')
 
 buildscript {
     dependencies {
