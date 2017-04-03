@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.base.linear;
+package org.geogebra.keyboard.base.model;
 
 import org.geogebra.keyboard.base.Button;
 

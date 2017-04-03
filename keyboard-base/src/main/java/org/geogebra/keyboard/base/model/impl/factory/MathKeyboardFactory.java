@@ -1,10 +1,10 @@
-package org.geogebra.keyboard.base.linear.impl.factory;
+package org.geogebra.keyboard.base.model.impl.factory;
 
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
-import org.geogebra.keyboard.base.linear.impl.RowImpl;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 import static org.geogebra.keyboard.base.ButtonConstants.DIVISION;
 import static org.geogebra.keyboard.base.ButtonConstants.EULER;
@@ -14,15 +14,15 @@ import static org.geogebra.keyboard.base.ButtonConstants.MULTIPLICATION;
 import static org.geogebra.keyboard.base.ButtonConstants.PI;
 import static org.geogebra.keyboard.base.ButtonConstants.ROOT;
 import static org.geogebra.keyboard.base.ButtonConstants.SUP2;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
 class MathKeyboardFactory {
 
-    LinearKeyboard createMathKeyboard(ButtonFactory buttonFactory) {
-        LinearKeyboardImpl mathKeyboard = new LinearKeyboardImpl();
+    KeyboardModel createMathKeyboard(ButtonFactory buttonFactory) {
+        KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
         RowImpl row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "x");

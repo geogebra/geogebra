@@ -1,24 +1,24 @@
-package org.geogebra.keyboard.base.linear.impl.factory;
+package org.geogebra.keyboard.base.model.impl.factory;
 
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
-import org.geogebra.keyboard.base.linear.impl.RowImpl;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addCustomButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
 class LetterKeyboardFactory {
 
     private static final double MIN_PADDING_WEIGHT = 1.e-4;
     private static final String EXCEPTION_MESSAGE = "Deformed keyboard definition with long bottom row.";
 
-    LinearKeyboard createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
+    KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
         int topRowLength = topRow.length();
         int middleRowLength = middleRow.length();
         int bottomRowLength = bottomRow.length();
@@ -51,7 +51,7 @@ class LetterKeyboardFactory {
         }
         float spaceSize = rowWeightSum - 5;
 
-        LinearKeyboardImpl letterKeyboard = new LinearKeyboardImpl();
+        KeyboardModelImpl letterKeyboard = new KeyboardModelImpl();
 
         createRow(letterKeyboard, buttonFactory, topRow, rowWeightSum, topRowPadding);
         createRow(letterKeyboard, buttonFactory, middleRow, rowWeightSum, middleRowPadding);
@@ -75,7 +75,7 @@ class LetterKeyboardFactory {
         return letterKeyboard;
     }
 
-    private void createRow(LinearKeyboardImpl keyboard, ButtonFactory buttonFactory, String definition, float rowWeightSum, float rowPadding) {
+    private void createRow(KeyboardModelImpl keyboard, ButtonFactory buttonFactory, String definition, float rowWeightSum, float rowPadding) {
         RowImpl rowImpl = keyboard.nextRow(rowWeightSum);
         addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);
         addButtons(rowImpl, buttonFactory, definition);

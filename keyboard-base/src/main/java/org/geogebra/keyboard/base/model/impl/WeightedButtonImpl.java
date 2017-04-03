@@ -1,13 +1,11 @@
-package org.geogebra.keyboard.base.linear.impl;
+package org.geogebra.keyboard.base.model.impl;
 
-import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Background;
-import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.impl.ButtonImpl;
-import org.geogebra.keyboard.base.linear.KeyModifier;
-import org.geogebra.keyboard.base.linear.WeightedButton;
+import org.geogebra.keyboard.base.model.KeyModifier;
+import org.geogebra.keyboard.base.model.WeightedButton;
 
 public class WeightedButtonImpl extends ButtonImpl implements WeightedButton {
 

@@ -1,9 +1,9 @@
 package org.geogebra.keyboard.base.impl;
 
 import org.geogebra.keyboard.base.Keyboard;
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.impl.AccentModifier;
-import org.geogebra.keyboard.base.linear.impl.CapsLockModifier;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.AccentModifier;
+import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
 
 import java.util.ArrayList;
@@ -11,20 +11,20 @@ import java.util.List;
 
 public class KeyboardImpl implements Keyboard {
 
-    private LinearKeyboard model;
+    private KeyboardModel model;
     private CapsLockModifier capsLockModifier;
     private AccentModifier accentModifier;
 
     private List<KeyboardObserver> observers = new ArrayList<>();
 
-    public KeyboardImpl(LinearKeyboard model, CapsLockModifier capsLockModifier, AccentModifier accentModifier) {
+    public KeyboardImpl(KeyboardModel model, CapsLockModifier capsLockModifier, AccentModifier accentModifier) {
         this.model = model;
         this.capsLockModifier = capsLockModifier;
         this.accentModifier = accentModifier;
     }
 
     @Override
-    public LinearKeyboard getModel() {
+    public KeyboardModel getModel() {
         return model;
     }
 

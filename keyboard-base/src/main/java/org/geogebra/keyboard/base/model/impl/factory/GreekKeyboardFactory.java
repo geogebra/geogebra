@@ -1,6 +1,6 @@
-package org.geogebra.keyboard.base.linear.impl.factory;
+package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
+import org.geogebra.keyboard.base.model.KeyboardModel;
 
 class GreekKeyboardFactory extends LetterKeyboardFactory {
 
@@ -31,7 +31,7 @@ class GreekKeyboardFactory extends LetterKeyboardFactory {
     private static final String PSI = "\u03C8";
     private static final String OMEGA = "\u03C9";
 
-    LinearKeyboard createGreekKeyboard(ButtonFactory buttonFactory) {
+    KeyboardModel createGreekKeyboard(ButtonFactory buttonFactory) {
         StringBuilder topRow = new StringBuilder();
         topRow.append(PHI);
         topRow.append(SIGMA_SPECIAL);

@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.base;
 
-import org.geogebra.keyboard.base.linear.KeyModifier;
-
 /**
  * Describes a button that has an action and a look.
  */

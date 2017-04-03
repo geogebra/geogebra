@@ -1,24 +1,24 @@
-package org.geogebra.keyboard.base.linear.impl.factory;
+package org.geogebra.keyboard.base.model.impl.factory;
 
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
-import org.geogebra.keyboard.base.linear.impl.RowImpl;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 import static org.geogebra.keyboard.base.ButtonConstants.DEGREE;
 import static org.geogebra.keyboard.base.ButtonConstants.EULER;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputCommandButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.addTranslateInputCommandButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputCommandButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
 class FunctionKeyboardFactory {
 
-    LinearKeyboard createFunctionKeyboard(ButtonFactory buttonFactory) {
-        LinearKeyboardImpl functionKeyboard = new LinearKeyboardImpl();
+    KeyboardModel createFunctionKeyboard(ButtonFactory buttonFactory) {
+        KeyboardModelImpl functionKeyboard = new KeyboardModelImpl();
         float width = 5.0f / 3;
         RowImpl row = functionKeyboard.nextRow(9.2f);
         addTranslateInputCommandButton(row, buttonFactory, "Function.sin", "Function.sin", width);

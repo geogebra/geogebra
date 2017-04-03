@@ -1,19 +1,19 @@
 package org.geogebra.keyboard.base;
 
 import org.geogebra.keyboard.base.impl.KeyboardImpl;
-import org.geogebra.keyboard.base.linear.KeyModifier;
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.impl.AccentModifier;
-import org.geogebra.keyboard.base.linear.impl.CapsLockModifier;
-import org.geogebra.keyboard.base.linear.impl.factory.ButtonFactory;
-import org.geogebra.keyboard.base.linear.impl.factory.LinearKeyboardFactory;
+import org.geogebra.keyboard.base.model.KeyModifier;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.AccentModifier;
+import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
+import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
+import org.geogebra.keyboard.base.model.impl.factory.KeyboardModelFactory;
 
 /**
  * Creates {@link Keyboard} classes.
  */
 public class KeyboardFactory {
 
-    private LinearKeyboardFactory linearKeyboardFactory = new LinearKeyboardFactory();
+    private KeyboardModelFactory keyboardModelFactory = new KeyboardModelFactory();
     private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
 
     /**
@@ -22,7 +22,7 @@ public class KeyboardFactory {
      * @return math keyboard
      */
     public Keyboard createMathKeyboard() {
-        LinearKeyboard model = linearKeyboardFactory.createMathKeyboard(defaultButtonFactory);
+        KeyboardModel model = keyboardModelFactory.createMathKeyboard(defaultButtonFactory);
         return new KeyboardImpl(model, null, null);
     }
 
@@ -32,7 +32,7 @@ public class KeyboardFactory {
      * @return function keyboard
      */
     public Keyboard createFunctionsKeyboard() {
-        LinearKeyboard model = linearKeyboardFactory.createFunctionKeyboard(defaultButtonFactory);
+        KeyboardModel model = keyboardModelFactory.createFunctionKeyboard(defaultButtonFactory);
         return new KeyboardImpl(model, null, null);
     }
 
@@ -45,7 +45,7 @@ public class KeyboardFactory {
         AccentModifier accentModifier = new AccentModifier();
         CapsLockModifier capsLockModifier = new CapsLockModifier();
         ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
-        LinearKeyboard model = linearKeyboardFactory.createGreekKeyboard(buttonFactory);
+        KeyboardModel model = keyboardModelFactory.createGreekKeyboard(buttonFactory);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
 
@@ -64,7 +64,7 @@ public class KeyboardFactory {
         AccentModifier accentModifier = new AccentModifier();
         CapsLockModifier capsLockModifier = new CapsLockModifier();
         ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
-        LinearKeyboard model = linearKeyboardFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
+        KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
 }

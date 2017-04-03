@@ -1,13 +1,12 @@
-package org.geogebra.keyboard.base.linear.impl;
+package org.geogebra.keyboard.base.model.impl;
 
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
-import org.geogebra.keyboard.base.linear.Row;
-import org.geogebra.keyboard.base.linear.impl.RowImpl;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.Row;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LinearKeyboardImpl implements LinearKeyboard {
+public class KeyboardModelImpl implements KeyboardModel {
 
     private List<Row> rows = new ArrayList<>();
 

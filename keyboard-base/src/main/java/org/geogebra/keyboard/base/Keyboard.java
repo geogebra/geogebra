@@ -1,6 +1,6 @@
 package org.geogebra.keyboard.base;
 
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
+import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
 
 /**
@@ -14,7 +14,7 @@ public interface Keyboard {
      *
      * @return the model
      */
-    LinearKeyboard getModel();
+    KeyboardModel getModel();
 
     /**
      * Register a keyboard observer to refresh the view.

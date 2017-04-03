@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.base.linear;
+package org.geogebra.keyboard.base.model;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import java.util.List;
  * The rows can contain any number of buttons, and the number of buttons
  * can also differ for each row.
  */
-public interface LinearKeyboard {
+public interface KeyboardModel {
 
     /**
      * Get the rows that this keyboard consists of.

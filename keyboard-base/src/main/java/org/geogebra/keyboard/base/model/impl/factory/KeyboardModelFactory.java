@@ -1,40 +1,40 @@
-package org.geogebra.keyboard.base.linear.impl.factory;
+package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.linear.LinearKeyboard;
+import org.geogebra.keyboard.base.model.KeyboardModel;
 
 /**
- * This class can create {@link LinearKeyboard}s of different types.
+ * This class can create {@link KeyboardModel}s of different types.
  * It is not thread safe.
  */
-public class LinearKeyboardFactory {
+public class KeyboardModelFactory {
 
     private MathKeyboardFactory mathKeyboardFactory;
     private GreekKeyboardFactory greekKeyboardFactory;
     private FunctionKeyboardFactory functionKeyboardFactory;
     private LetterKeyboardFactory letterKeyboardFactory;
 
-    public LinearKeyboard createMathKeyboard(ButtonFactory buttonFactory) {
+    public KeyboardModel createMathKeyboard(ButtonFactory buttonFactory) {
         if (mathKeyboardFactory == null) {
             mathKeyboardFactory = new MathKeyboardFactory();
         }
         return mathKeyboardFactory.createMathKeyboard(buttonFactory);
     }
 
-    public LinearKeyboard createGreekKeyboard(ButtonFactory buttonFactory) {
+    public KeyboardModel createGreekKeyboard(ButtonFactory buttonFactory) {
         if (greekKeyboardFactory == null) {
             greekKeyboardFactory = new GreekKeyboardFactory();
         }
         return greekKeyboardFactory.createGreekKeyboard(buttonFactory);
     }
 
-    public LinearKeyboard createFunctionKeyboard(ButtonFactory buttonFactory) {
+    public KeyboardModel createFunctionKeyboard(ButtonFactory buttonFactory) {
         if (functionKeyboardFactory == null) {
             functionKeyboardFactory = new FunctionKeyboardFactory();
         }
         return functionKeyboardFactory.createFunctionKeyboard(buttonFactory);
     }
 
-    public LinearKeyboard createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
+    public KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
         if (letterKeyboardFactory == null) {
             letterKeyboardFactory = new LetterKeyboardFactory();
         }

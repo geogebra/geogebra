@@ -4,7 +4,7 @@ import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Button;
 import org.geogebra.keyboard.base.ResourceType;
-import org.geogebra.keyboard.base.linear.KeyModifier;
+import org.geogebra.keyboard.base.model.KeyModifier;
 
 public class ButtonImpl implements Button {
 
