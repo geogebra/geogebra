@@ -1,27 +1,13 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
 import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
 import org.geogebra.keyboard.base.linear.impl.RowImpl;
 
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_LEFT;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RIGHT;
 import static org.geogebra.keyboard.base.ButtonConstants.DEGREE;
 import static org.geogebra.keyboard.base.ButtonConstants.EULER;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_10_X;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_A_N;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_DERIVATIVE;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_E_X;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_INTEGRAL;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LEFT_ARROW;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LOG_10;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LOG_B;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_N_ROOT;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RIGHT_ARROW;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputButton;
@@ -57,23 +43,23 @@ class FunctionKeyboardFactory {
 
         row = functionKeyboard.nextRow(9.2f);
         addInputButton(row, "ln", width);
-        addConstantInputButton(row, RESOURCE_LOG_10, "log_{10}", width);
-        addConstantInputButton(row, RESOURCE_LOG_B, "logb", width);
+        addConstantInputButton(row, Resource.LOG_10, "log_{10}", width);
+        addConstantInputButton(row, Resource.LOG_B, "logb", width);
         addButton(row, createEmptySpace(0.2f));
-        addConstantInputCommandButton(row, RESOURCE_DERIVATIVE, "Derivative", 1.0f);
-        addConstantInputCommandButton(row, RESOURCE_INTEGRAL, "Integral", 1.0f);
+        addConstantInputCommandButton(row, Resource.LOG_10, "Derivative", 1.0f);
+        addConstantInputCommandButton(row, Resource.INTEGRAL, "Integral", 1.0f);
         addInputButton(row, "i", "\u03af");
-        addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
+        addConstantCustomButton(row, Resource.BACKSPACE, Action.BACKSPACE);
 
         row = functionKeyboard.nextRow(9.2f);
-        addConstantInputButton(row, RESOURCE_E_X, EULER + "^", width);
-        addConstantInputButton(row, RESOURCE_10_X, "10^", width);
-        addConstantInputButton(row, RESOURCE_N_ROOT, "nroot", width);
+        addConstantInputButton(row, Resource.POWE_X, EULER + "^", width);
+        addConstantInputButton(row, Resource.POW10_X, "10^", width);
+        addConstantInputButton(row, Resource.N_ROOT, "nroot", width);
         addButton(row, createEmptySpace(0.2f));
-        addConstantInputButton(row, RESOURCE_A_N, "a_n");
-        addConstantCustomButton(row, RESOURCE_LEFT_ARROW, ACTION_LEFT);
-        addConstantCustomButton(row, RESOURCE_RIGHT_ARROW, ACTION_RIGHT);
-        addConstantCustomButton(row, RESOURCE_RETURN, ACTION_RETURN);
+        addConstantInputButton(row, Resource.A_N, "a_n");
+        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT);
+        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT);
+        addConstantCustomButton(row, Resource.RETURN, Action.RETURN);
 
         return functionKeyboard;
     }

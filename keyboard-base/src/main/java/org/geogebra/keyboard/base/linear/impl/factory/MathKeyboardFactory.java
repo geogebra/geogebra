@@ -1,26 +1,17 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
 import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
 import org.geogebra.keyboard.base.linear.impl.RowImpl;
 
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_LEFT;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RIGHT;
 import static org.geogebra.keyboard.base.ButtonConstants.DIVISION;
 import static org.geogebra.keyboard.base.ButtonConstants.EULER;
 import static org.geogebra.keyboard.base.ButtonConstants.GEQ;
 import static org.geogebra.keyboard.base.ButtonConstants.LEQ;
 import static org.geogebra.keyboard.base.ButtonConstants.MULTIPLICATION;
 import static org.geogebra.keyboard.base.ButtonConstants.PI;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LEFT_ARROW;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_POWA2;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_POWAB;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RIGHT_ARROW;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_ROOT;
 import static org.geogebra.keyboard.base.ButtonConstants.ROOT;
 import static org.geogebra.keyboard.base.ButtonConstants.SUP2;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
@@ -44,12 +35,12 @@ class MathKeyboardFactory {
         addInputButton(row, "8");
         addInputButton(row, "9");
         addInputButton(row, MULTIPLICATION, "*");
-        addInputButton(row, DIVISION,  "/");
+        addInputButton(row, DIVISION, "/");
 
         row = mathKeyboard.nextRow(9.2f);
-        addConstantInputButton(row, RESOURCE_POWA2, SUP2);
-        addConstantInputButton(row, RESOURCE_POWAB, "^");
-        addConstantInputButton(row, RESOURCE_ROOT, ROOT);
+        addConstantInputButton(row, Resource.POWA2, SUP2);
+        addConstantInputButton(row, Resource.POWAB, "^");
+        addConstantInputButton(row, Resource.ROOT, ROOT);
         addInputButton(row, EULER);
         addButton(row, createEmptySpace(0.2f));
         addInputButton(row, "4");
@@ -68,7 +59,7 @@ class MathKeyboardFactory {
         addInputButton(row, "2");
         addInputButton(row, "3");
         addInputButton(row, "=");
-        addConstantCustomButton(row, RESOURCE_BACKSPACE, ACTION_BACKSPACE);
+        addConstantCustomButton(row, Resource.BACKSPACE, Action.BACKSPACE);
 
         row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, "(");
@@ -78,9 +69,9 @@ class MathKeyboardFactory {
         addButton(row, createEmptySpace(0.2f));
         addInputButton(row, "0");
         addInputButton(row, ".");
-        addConstantCustomButton(row, RESOURCE_LEFT_ARROW, ACTION_LEFT);
-        addConstantCustomButton(row, RESOURCE_RIGHT_ARROW, ACTION_RIGHT);
-        addConstantCustomButton(row, RESOURCE_RETURN, ACTION_RETURN);
+        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT);
+        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT);
+        addConstantCustomButton(row, Resource.RETURN, Action.RETURN);
 
         return mathKeyboard;
     }

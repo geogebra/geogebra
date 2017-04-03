@@ -1,19 +1,11 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
 import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
 import org.geogebra.keyboard.base.linear.impl.RowImpl;
 
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_CAPS_LOCK;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_LEFT;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_RIGHT;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_BACKSPACE;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_CAPS_LOCK;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_LEFT_ARROW;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RETURN;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_RIGHT_ARROW;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
@@ -64,19 +56,19 @@ class LetterKeyboardFactory {
 
         RowImpl bottomRowImpl = letterKeyboard.nextRow(rowWeightSum);
 
-        addConstantCustomButton(bottomRowImpl, RESOURCE_CAPS_LOCK, ACTION_CAPS_LOCK, actionButtonSize);
+        addConstantCustomButton(bottomRowImpl, Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
         addButton(bottomRowImpl, createEmptySpace(actionButtonMargin));
         addButtons(bottomRowImpl, bottomRow);
         addButton(bottomRowImpl, createEmptySpace(actionButtonMargin));
-        addConstantCustomButton(bottomRowImpl, RESOURCE_BACKSPACE, ACTION_BACKSPACE, actionButtonSize);
+        addConstantCustomButton(bottomRowImpl, Resource.BACKSPACE, Action.BACKSPACE, actionButtonSize);
 
         RowImpl controlRow = letterKeyboard.nextRow(rowWeightSum);
         addInputButton(controlRow, ",");
         addInputButton(controlRow, "'");
         addInputButton(controlRow, " ", spaceSize);
-        addConstantCustomButton(controlRow, RESOURCE_LEFT_ARROW, ACTION_LEFT);
-        addConstantCustomButton(controlRow, RESOURCE_RIGHT_ARROW, ACTION_RIGHT);
-        addConstantCustomButton(controlRow, RESOURCE_RETURN, ACTION_RETURN);
+        addConstantCustomButton(controlRow, Resource.LEFT_ARROW, Action.LEFT);
+        addConstantCustomButton(controlRow, Resource.RIGHT_ARROW, Action.RIGHT);
+        addConstantCustomButton(controlRow, Resource.RETURN, Action.RETURN);
 
         return letterKeyboard;
     }

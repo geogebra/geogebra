@@ -1,13 +1,12 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
+import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
+import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.linear.WeightedButton;
 import org.geogebra.keyboard.base.linear.impl.RowImpl;
 import org.geogebra.keyboard.base.linear.impl.WeightedButtonImpl;
-
-import static org.geogebra.keyboard.base.ButtonConstants.ACTION_NONE;
-import static org.geogebra.keyboard.base.ButtonConstants.RESOURCE_EMPTY;
 
 class Util {
 
@@ -42,7 +41,7 @@ class Util {
     }
 
     static WeightedButton createEmptySpace(float weight) {
-        return new WeightedButtonImpl(RESOURCE_EMPTY, ResourceType.DEFINED_CONSTANT, ACTION_NONE, ActionType.CUSTOM, weight);
+        return new WeightedButtonImpl(Resource.EMPTY, ResourceType.DEFINED_CONSTANT, Action.NONE, ActionType.CUSTOM, weight);
     }
 
     // Add buttons to rows
@@ -71,16 +70,32 @@ class Util {
         addButton(row, createConstantInputButton(name, action, weight));
     }
 
+    static void addConstantInputButton(RowImpl row, Resource resource, String action, float weight) {
+        addButton(row, createConstantInputButton(resource.name(), action, weight));
+    }
+
     static void addConstantInputButton(RowImpl row, String name, String action) {
         addConstantInputButton(row, name, action, 1.0f);
+    }
+
+    static void addConstantInputButton(RowImpl row, Resource resource, String action) {
+        addConstantInputButton(row, resource.name(), action, 1.0f);
     }
 
     static void addConstantCustomButton(RowImpl row, String resourceName, String action, float weight) {
         row.addButton(createCustomConstantButton(resourceName, action, weight));
     }
 
+    static void addConstantCustomButton(RowImpl row, Resource resource, Action action, float weight) {
+        row.addButton(createCustomConstantButton(resource.name(), action.name(), weight));
+    }
+
     static void addConstantCustomButton(RowImpl row, String resourceName, String action) {
         addConstantCustomButton(row, resourceName, action, 1.0f);
+    }
+
+    static void addConstantCustomButton(RowImpl row, Resource resource, Action action) {
+        addConstantCustomButton(row, resource.name(), action.name(), 1.0f);
     }
 
     static void addTranslateInputButton(RowImpl row, String translate, String input, float weight) {
@@ -97,5 +112,9 @@ class Util {
 
     static void addConstantInputCommandButton(RowImpl row, String resource, String translateInput, float weight) {
         row.addButton(new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
+    }
+
+    static void addConstantInputCommandButton(RowImpl row, Resource resource, String translateInput, float weight) {
+        row.addButton(new WeightedButtonImpl(resource.name(), ResourceType.DEFINED_CONSTANT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
     }
 }
