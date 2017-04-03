@@ -303,7 +303,9 @@ namespace giac {
   gen _restart(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     init_context((context *) ((void *) contextptr));
-    return _rm_all_vars(args,contextptr);
+    gen res= _rm_all_vars(args,contextptr);
+    *logptr(contextptr) << "============== restarted ===============" << endl;
+    return res;
   }
   static const char _restart_s []="restart";
   static define_unary_function_eval (__restart,&_restart,_restart_s);

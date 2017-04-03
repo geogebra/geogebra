@@ -6456,8 +6456,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gen periodef,periodeg,periode;
     if (is_periodic(f,t,periodef,contextptr) && is_periodic(g,t,periodeg,contextptr)){
       periode=gcd(periodef,periodeg,contextptr);
-      tmin=normal(-periode/2,contextptr);
-      tmax=normal(periode/2,contextptr);
+      if (is_greater(tmax-tmin,periode,contextptr)){
+	tmin=normal(-periode/2,contextptr);
+	tmax=normal(periode/2,contextptr);
+      }
     }
     int eof=0,eog=0;
     if (tmin==-tmax && (eof=is_even_odd(f,t,contextptr)) && (eog=is_even_odd(g,t,contextptr))){
@@ -6539,6 +6541,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     for (;it!=itend;++it){
       if (!lop(*it,at_rootof).empty())
 	*it=re(evalf(*it,1,contextptr),contextptr);
+      *it=recursive_normal(*it,contextptr);
       if (in_domain(df,t,*it,contextptr) && is_greater(*it,tmin,contextptr) && is_greater(tmax,*it,contextptr)){
 	crit.push_back(*it);
 	gen fx=limit(f,xid,*it,0,contextptr);
@@ -6967,8 +6970,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gprintf("====================\nFunction plot %gen, variable %gen",makevecteur(f,x),1,contextptr);
     if (is_periodic(f,x,periode,contextptr)){
       gprintf("Periodic function T=%gen",vecteur(1,periode),1,contextptr);
-      xmin=normal(-periode/2,contextptr);
-      xmax=normal(periode/2,contextptr);
+      if (is_greater(xmax-xmin,periode,contextptr)){
+	xmin=normal(-periode/2,contextptr);
+	xmax=normal(periode/2,contextptr);
+      }
     }
     int eo=0;
     if (xmin==-xmax && (eo=is_even_odd(f,x,contextptr))){
@@ -7382,7 +7387,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       v.pop_back();
       --s;
     }
-    if (s==2 && v[1].type==_SYMB)
+    if (s==2 && v[1].type==_SYMB && v[1]._SYMBptr->sommet!=at_equal)
       v=makevecteur(v,ggb_var(v));
     if (s==1){
       v.push_back(ggb_var(g));

@@ -4957,7 +4957,7 @@ unsigned int ConvertUTF8toUTF16 (
 #endif
     }
     std::string s=autosimplify(contextptr);
-    if (s.size()<1)
+    if (s.size()<1 || s=="'nop'")
       return g;
     gen a(s,contextptr);
     if (a.type==_FUNC)
