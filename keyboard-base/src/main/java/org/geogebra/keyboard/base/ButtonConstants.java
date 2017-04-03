@@ -12,6 +12,11 @@ public class ButtonConstants {
     public static final String DIVISION = "\u00F7";
     public static final String DEGREE = "\u00B0";
 
+    public static final String ACCENT_ACUTE = "\u00B4";
+    public static final String ACCENT_GRAVE = "\u0060";
+    public static final String ACCENT_CARON = "\u02C7";
+    public static final String ACCENT_CIRCUMFLEX = "\u005E";
+
     private ButtonConstants() {
     }
 }

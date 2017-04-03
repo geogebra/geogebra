@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
 import org.geogebra.keyboard.base.linear.impl.LinearKeyboardImpl;
@@ -8,6 +9,7 @@ import org.geogebra.keyboard.base.linear.impl.RowImpl;
 
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
+import static org.geogebra.keyboard.base.linear.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.createEmptySpace;
 
@@ -82,7 +84,27 @@ class LetterKeyboardFactory {
 
     private void addButtons(RowImpl rowImpl, String definition) {
         for (int i = 0; i < definition.length(); i++) {
-            addInputButton(rowImpl, String.valueOf(definition.charAt(i)));
+            addButtonCharacter(rowImpl, definition.charAt(i));
+        }
+    }
+
+    private void addButtonCharacter(RowImpl rowImpl, char character) {
+        String resource = String.valueOf(character);
+        switch (resource) {
+            case ButtonConstants.ACCENT_ACUTE:
+                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_ACUTE.name());
+                break;
+            case ButtonConstants.ACCENT_CARON:
+                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_CARON.name());
+                break;
+            case ButtonConstants.ACCENT_CIRCUMFLEX:
+                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_CIRCUMFLEX.name());
+                break;
+            case ButtonConstants.ACCENT_GRAVE:
+                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_GRAVE.name());
+                break;
+            default:
+                addInputButton(rowImpl, resource);
         }
     }
 
