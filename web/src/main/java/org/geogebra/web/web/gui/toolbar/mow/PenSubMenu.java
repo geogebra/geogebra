@@ -2,12 +2,14 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.gui.ImageFactory;
+import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
@@ -107,6 +109,7 @@ public class PenSubMenu extends SubMenuPanel {
 		btnCustomColor = new StandardButton("+");
 		btnCustomColor.addStyleName("MyCanvasButton color-button");
 		btnCustomColor.addStyleName("plusButton");
+		btnCustomColor.addFastClickHandler(this);
 		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
 				btnColor[2], btnColor[3], btnCustomColor));
 	}
@@ -163,7 +166,10 @@ public class PenSubMenu extends SubMenuPanel {
 			app.setMode(EuclidianConstants.MODE_ERASER);
 		} else if (source == freehand) {
 			app.setMode(EuclidianConstants.MODE_FREEHAND_SHAPE);
+		} else if (source == btnCustomColor) {
+			openColorDialog();
 		}
+
 	}
 
 	@Override
@@ -233,6 +239,12 @@ public class PenSubMenu extends SubMenuPanel {
 
 	}
 
+	private void setPenIconColor(String colorStr) {
+		// set background of pen icon to selected color
+		pen.getElement().getFirstChildElement().getNextSiblingElement()
+				.setAttribute("style", "background-color: " + colorStr);
+
+	}
 	private void selectColor(int idx) {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
@@ -240,9 +252,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 				if (colorsEnabled) {
 					btnColor[i].addStyleName("penSubMenu-selected");
-					// set background of pen icon to selected color
-					pen.getElement().getFirstChildElement().getNextSiblingElement().setAttribute("style",
-							"background-color: " + penColor[i].toString());
+					setPenIconColor(penColor[i].toString());
 				}
 			} else {
 				btnColor[i].removeStyleName("penSubMenu-selected");
@@ -291,4 +301,44 @@ public class PenSubMenu extends SubMenuPanel {
 	private void updatePreview() {
 		preview.update();
 	}
+
+	private void openColorDialog() {
+		final GeoElement penGeo = getPenGeo();
+		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
+		GColor originalColor = penGeo.getObjectColor();
+		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
+
+			public void onForegroundSelected() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onColorChange(GColor color) {
+				penGeo.setObjColor(color);
+				setPenIconColor(color.toString());
+				updatePreview();
+			}
+
+			public void onClearBackground() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onBarSelected() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onBackgroundSelected() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void onAlphaChange() {
+				// TODO Auto-generated method stub
+
+			}
+		});
+	}
+
 }
