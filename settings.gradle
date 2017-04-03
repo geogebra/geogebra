@@ -21,6 +21,9 @@ include 'editor-web'
 
 include 'test'
 
+include 'keyboard-base'
+include 'keyboard-web'
+
 rootProject.name = 'geogebra'
 rootProject.children.each { project ->
     String projectName = project.name
