@@ -4173,7 +4173,7 @@ public abstract class App implements UpdateSelection {
 		case PEN_IS_LOCUS:
 			return prerelease;
 		case PEN_EVENTS:
-			return prerelease;
+			return false;
 		case PEN_SMOOTHING:
 			return prerelease;
 		case AXES_STYLE_SUBMENU:

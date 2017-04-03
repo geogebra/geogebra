@@ -241,6 +241,12 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			toggleMediaButton(true);
 			toggleMoveButton(false);
 		}
+		if (button == moveButton) {
+			togglePenButton(false);
+			toggleToolsButton(false);
+			toggleMediaButton(false);
+			toggleMoveButton(true);
+		}
 	}
 
 	/**
@@ -301,9 +307,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			app.hideKeyboard();
 		} else if (source == moveButton) {
 			app.setMoveMode();
-			toggleMoveButton(true);
 			if (currentMenu != null) {
-				currentMenu.reset();
+				setCurrentMenu(null);
 			}
 		} else if (source == penButton) {
 			if (subMenuPanel.isVisible() && currentMenu == penMenu) {
@@ -344,7 +349,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 */
 	public void setMode(int mode) {
 		if(mode == EuclidianConstants.MODE_MOVE){
-			toggleMoveButton(true);
+			setButtonActive(moveButton);
 			if (currentMenu != null) {
 				currentMenu.reset();
 			}
@@ -384,6 +389,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 */
 	public void setCurrentMenu(SubMenuPanel submenu) {
 		if (submenu == null) {
+			setSubmenuVisible(false);
+			currentMenu = null;
 			return;
 		}
 

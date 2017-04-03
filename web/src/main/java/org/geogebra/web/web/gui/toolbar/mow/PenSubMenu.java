@@ -52,7 +52,7 @@ public class PenSubMenu extends SubMenuPanel {
 	// preset colors: black, purple, teal, orange
 	private final static String hexColors[] = { "000000", "673AB7", "009688",
 			"E67E22" };
-	private int lastSelectedColorIndex = -1;
+	private GColor lastSelectedColor = null;
 
 	/**
 	 * 
@@ -182,7 +182,6 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (source == btnColor[i]) {
 				selectColor(i);
-				lastSelectedColorIndex = i;
 			}
 		}
 
@@ -192,10 +191,10 @@ public class PenSubMenu extends SubMenuPanel {
 		// reset();
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
-		if (lastSelectedColorIndex == -1) {
+		if (lastSelectedColor == null) {
 			selectColor(BLACK);
 		} else {
-			selectColor(lastSelectedColorIndex);
+			selectColor(lastSelectedColor);
 		}
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_PEN_SIZE, false);
@@ -249,6 +248,7 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
 				getPenGeo().setObjColor(penColor[i]);
+				lastSelectedColor = penColor[i];
 
 				if (colorsEnabled) {
 					btnColor[i].addStyleName("penSubMenu-selected");
@@ -260,6 +260,15 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 		updatePreview();
 
+	}
+
+	// remember and set a color that was picked from color chooser
+	private void selectColor(GColor color) {
+		getPenGeo().setObjColor(color);
+		if (colorsEnabled) {
+			setPenIconColor(color.toString());
+		}
+		updatePreview();
 	}
 
 	private void setColorsEnabled(boolean enable) {
@@ -316,6 +325,7 @@ public class PenSubMenu extends SubMenuPanel {
 			public void onColorChange(GColor color) {
 				penGeo.setObjColor(color);
 				setPenIconColor(color.toString());
+				lastSelectedColor = color;
 				updatePreview();
 			}
 
