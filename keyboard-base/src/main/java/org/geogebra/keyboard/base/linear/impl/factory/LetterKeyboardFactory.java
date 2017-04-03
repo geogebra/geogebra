@@ -60,7 +60,7 @@ class LetterKeyboardFactory {
         addButton(bottomRowImpl, createEmptySpace(actionButtonMargin));
         addButtons(bottomRowImpl, bottomRow);
         addButton(bottomRowImpl, createEmptySpace(actionButtonMargin));
-        addConstantCustomButton(bottomRowImpl, Resource.BACKSPACE, Action.BACKSPACE_DELETE, actionButtonSize);
+        addConstantCustomButton(bottomRowImpl, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, actionButtonSize);
 
         RowImpl controlRow = letterKeyboard.nextRow(rowWeightSum);
         addInputButton(controlRow, ",");
