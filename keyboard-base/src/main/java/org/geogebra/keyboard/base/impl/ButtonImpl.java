@@ -1,10 +1,8 @@
 package org.geogebra.keyboard.base.impl;
 
-import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Button;
-import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.linear.KeyModifier;
 

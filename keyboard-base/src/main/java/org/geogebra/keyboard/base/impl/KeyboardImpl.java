@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.base.impl;
 
-import org.geogebra.keyboard.base.Accents;
-import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
 import org.geogebra.keyboard.base.linear.impl.AccentModifier;
