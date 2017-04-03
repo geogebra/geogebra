@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.base.linear.impl.factory;
 
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.linear.LinearKeyboard;
@@ -11,14 +12,13 @@ import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.createEmptySpace;
 
 class LetterKeyboardFactory {
 
     private static final double MIN_PADDING_WEIGHT = 1.e-4;
     private static final String EXCEPTION_MESSAGE = "Deformed keyboard definition with long bottom row.";
 
-    LinearKeyboard createLetterKeyboard(String topRow, String middleRow, String bottomRow) {
+    LinearKeyboard createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
         int topRowLength = topRow.length();
         int middleRowLength = middleRow.length();
         int bottomRowLength = bottomRow.length();
@@ -53,64 +53,64 @@ class LetterKeyboardFactory {
 
         LinearKeyboardImpl letterKeyboard = new LinearKeyboardImpl();
 
-        createRow(letterKeyboard, topRow, rowWeightSum, topRowPadding);
-        createRow(letterKeyboard, middleRow, rowWeightSum, middleRowPadding);
+        createRow(letterKeyboard, buttonFactory, topRow, rowWeightSum, topRowPadding);
+        createRow(letterKeyboard, buttonFactory, middleRow, rowWeightSum, middleRowPadding);
 
         RowImpl bottomRowImpl = letterKeyboard.nextRow(rowWeightSum);
 
-        addConstantCustomButton(bottomRowImpl, Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
-        addButton(bottomRowImpl, createEmptySpace(actionButtonMargin));
-        addButtons(bottomRowImpl, bottomRow);
-        addButton(bottomRowImpl, createEmptySpace(actionButtonMargin));
-        addConstantCustomButton(bottomRowImpl, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, actionButtonSize);
+        addConstantCustomButton(bottomRowImpl, buttonFactory, Resource.CAPS_LOCK, Action.CAPS_LOCK, actionButtonSize);
+        addButton(bottomRowImpl, buttonFactory.createEmptySpace(actionButtonMargin));
+        addButtons(bottomRowImpl, buttonFactory, bottomRow);
+        addButton(bottomRowImpl, buttonFactory.createEmptySpace(actionButtonMargin));
+        addConstantCustomButton(bottomRowImpl, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, actionButtonSize);
 
         RowImpl controlRow = letterKeyboard.nextRow(rowWeightSum);
-        addInputButton(controlRow, ",");
-        addInputButton(controlRow, "'");
-        addInputButton(controlRow, " ", spaceSize);
-        addConstantCustomButton(controlRow, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
-        addConstantCustomButton(controlRow, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
-        addConstantCustomButton(controlRow, Resource.RETURN_ENTER, Action.RETURN_ENTER);
+        addInputButton(controlRow, buttonFactory, ",");
+        addInputButton(controlRow, buttonFactory, "'");
+        addInputButton(controlRow, buttonFactory, " ", spaceSize);
+        addConstantCustomButton(controlRow, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+        addConstantCustomButton(controlRow, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+        addConstantCustomButton(controlRow, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
         return letterKeyboard;
     }
 
-    private void createRow(LinearKeyboardImpl keyboard, String definition, float rowWeightSum, float rowPadding) {
+    private void createRow(LinearKeyboardImpl keyboard, ButtonFactory buttonFactory, String definition, float rowWeightSum, float rowPadding) {
         RowImpl rowImpl = keyboard.nextRow(rowWeightSum);
-        addPaddingIfNecessary(rowImpl, rowPadding);
-        addButtons(rowImpl, definition);
-        addPaddingIfNecessary(rowImpl, rowPadding);
+        addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);
+        addButtons(rowImpl, buttonFactory, definition);
+        addPaddingIfNecessary(rowImpl, buttonFactory, rowPadding);
     }
 
-    private void addButtons(RowImpl rowImpl, String definition) {
+    private void addButtons(RowImpl rowImpl, ButtonFactory buttonFactory, String definition) {
         for (int i = 0; i < definition.length(); i++) {
-            addButtonCharacter(rowImpl, definition.charAt(i));
+            addButtonCharacter(rowImpl, buttonFactory, definition.charAt(i));
         }
     }
 
-    private void addButtonCharacter(RowImpl rowImpl, char character) {
+    private void addButtonCharacter(RowImpl rowImpl, ButtonFactory buttonFactory, char character) {
         String resource = String.valueOf(character);
         switch (resource) {
             case ButtonConstants.ACCENT_ACUTE:
-                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_ACUTE.name());
+                addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_ACUTE.name(), Background.STANDARD);
                 break;
             case ButtonConstants.ACCENT_CARON:
-                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_CARON.name());
+                addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_CARON.name(), Background.STANDARD);
                 break;
             case ButtonConstants.ACCENT_CIRCUMFLEX:
-                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_CIRCUMFLEX.name());
+                addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_CIRCUMFLEX.name(), Background.STANDARD);
                 break;
             case ButtonConstants.ACCENT_GRAVE:
-                addCustomButton(rowImpl, resource, Action.TOGGLE_ACCENT_GRAVE.name());
+                addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_GRAVE.name(), Background.STANDARD);
                 break;
             default:
-                addInputButton(rowImpl, resource);
+                addInputButton(rowImpl, buttonFactory, resource);
         }
     }
 
-    private void addPaddingIfNecessary(RowImpl rowImpl, float paddingWeight) {
+    private void addPaddingIfNecessary(RowImpl rowImpl, ButtonFactory buttonFactory, float paddingWeight) {
         if (paddingWeight > MIN_PADDING_WEIGHT) {
-            addButton(rowImpl, createEmptySpace(paddingWeight));
+            addButton(rowImpl, buttonFactory.createEmptySpace(paddingWeight));
         }
     }
 }

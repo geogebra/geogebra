@@ -31,7 +31,7 @@ class GreekKeyboardFactory extends LetterKeyboardFactory {
     private static final String PSI = "\u03C8";
     private static final String OMEGA = "\u03C9";
 
-    LinearKeyboard createGreekKeyboard() {
+    LinearKeyboard createGreekKeyboard(ButtonFactory buttonFactory) {
         StringBuilder topRow = new StringBuilder();
         topRow.append(PHI);
         topRow.append(SIGMA_SPECIAL);
@@ -64,6 +64,6 @@ class GreekKeyboardFactory extends LetterKeyboardFactory {
         bottomRow.append(NU);
         bottomRow.append(MU);
 
-        return createLetterKeyboard(topRow.toString(), middleRow.toString(), bottomRow.toString());
+        return createLetterKeyboard(buttonFactory, topRow.toString(), middleRow.toString(), bottomRow.toString());
     }
 }

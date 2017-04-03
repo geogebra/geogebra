@@ -2,6 +2,7 @@ package org.geogebra.keyboard.base.linear.impl.factory;
 
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
+import org.geogebra.keyboard.base.Background;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.linear.WeightedButton;
@@ -10,111 +11,81 @@ import org.geogebra.keyboard.base.linear.impl.WeightedButtonImpl;
 
 class Util {
 
-    // Create Button
-
-    static WeightedButton createInputButton(String name, String action, float weight) {
-        return new WeightedButtonImpl(name, ResourceType.TEXT, action, ActionType.INPUT, weight);
-    }
-
-    static WeightedButton createInputButton(String name, String action) {
-        return createInputButton(name, action, 1.0f);
-    }
-
-    static WeightedButton createInputButton(String name) {
-        return createInputButton(name, name);
-    }
-
-    static WeightedButton createConstantInputButton(String input, String action, float weight) {
-        return new WeightedButtonImpl(input, ResourceType.DEFINED_CONSTANT, action, ActionType.INPUT, weight);
-    }
-
-    static WeightedButton createTranslateInputButton(String translate, String input, float weight) {
-        return new WeightedButtonImpl(translate, ResourceType.TRANSLATION_MENU_KEY, input, ActionType.INPUT, weight);
-    }
-
-    static WeightedButton createCustomConstantButton(String resource, String action, float weight) {
-        return new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT, action, ActionType.CUSTOM, weight);
-    }
-
-    static WeightedButton createCustomButton(String resource, String action) {
-        return new WeightedButtonImpl(resource, ResourceType.TEXT, action, ActionType.CUSTOM, 1.0f);
-    }
-
-    static WeightedButton createEmptySpace(float weight) {
-        return new WeightedButtonImpl(Resource.EMPTY_IMAGE, ResourceType.DEFINED_CONSTANT, Action.NONE, ActionType.CUSTOM, weight);
-    }
-
     // Add buttons to rows
 
     static void addButton(RowImpl row, WeightedButton button) {
         row.addButton(button);
     }
 
-    static void addCustomButton(RowImpl row, String resource, String action) {
-        addButton(row, createCustomButton(resource, action));
+    static void addCustomButton(RowImpl row, ButtonFactory buttonFactory, String resource, String action) {
+        addButton(row, buttonFactory.createCustomButton(resource, action));
     }
 
-    static void addInputButton(RowImpl row, String name, float weight) {
-        addButton(row, createInputButton(name, name, weight));
+    static void addCustomButton(RowImpl row, ButtonFactory buttonFactory, String resource, String action, Background background) {
+        addButton(row, buttonFactory.createCustomButton(resource, action, background));
     }
 
-    static void addInputButton(RowImpl row, String name, String input) {
-        addButton(row, createInputButton(name, input));
+    static void addInputButton(RowImpl row, ButtonFactory buttonFactory, String name, float weight) {
+        addButton(row, buttonFactory.createInputButton(name, name, weight));
     }
 
-    static void addInputButton(RowImpl row, String name) {
-        addInputButton(row, name, 1.0f);
+    static void addInputButton(RowImpl row, ButtonFactory buttonFactory, String name, String input) {
+        addButton(row, buttonFactory.createInputButton(name, input));
     }
 
-    static void addConstantInputButton(RowImpl row, String name, String action, float weight) {
-        addButton(row, createConstantInputButton(name, action, weight));
+    static void addInputButton(RowImpl row, ButtonFactory buttonFactory, String name) {
+        addInputButton(row, buttonFactory, name, 1.0f);
     }
 
-    static void addConstantInputButton(RowImpl row, Resource resource, String action, float weight) {
-        addButton(row, createConstantInputButton(resource.name(), action, weight));
+    static void addConstantInputButton(RowImpl row, ButtonFactory buttonFactory, String name, String action, float weight) {
+        addButton(row, buttonFactory.createConstantInputButton(name, action, weight));
     }
 
-    static void addConstantInputButton(RowImpl row, String name, String action) {
-        addConstantInputButton(row, name, action, 1.0f);
+    static void addConstantInputButton(RowImpl row, ButtonFactory buttonFactory, Resource resource, String action, float weight) {
+        addButton(row, buttonFactory.createConstantInputButton(resource.name(), action, weight));
     }
 
-    static void addConstantInputButton(RowImpl row, Resource resource, String action) {
-        addConstantInputButton(row, resource.name(), action, 1.0f);
+    static void addConstantInputButton(RowImpl row, ButtonFactory buttonFactory, String name, String action) {
+        addConstantInputButton(row, buttonFactory, name, action, 1.0f);
     }
 
-    static void addConstantCustomButton(RowImpl row, String resourceName, String action, float weight) {
-        row.addButton(createCustomConstantButton(resourceName, action, weight));
+    static void addConstantInputButton(RowImpl row, ButtonFactory buttonFactory, Resource resource, String action) {
+        addConstantInputButton(row, buttonFactory, resource.name(), action, 1.0f);
     }
 
-    static void addConstantCustomButton(RowImpl row, Resource resource, Action action, float weight) {
-        row.addButton(createCustomConstantButton(resource.name(), action.name(), weight));
+    static void addConstantCustomButton(RowImpl row, ButtonFactory buttonFactory, String resourceName, String action, float weight) {
+        row.addButton(buttonFactory.createCustomConstantButton(resourceName, action, weight));
     }
 
-    static void addConstantCustomButton(RowImpl row, String resourceName, String action) {
-        addConstantCustomButton(row, resourceName, action, 1.0f);
+    static void addConstantCustomButton(RowImpl row, ButtonFactory buttonFactory, Resource resource, Action action, float weight) {
+        row.addButton(buttonFactory.createCustomConstantButton(resource.name(), action.name(), weight));
     }
 
-    static void addConstantCustomButton(RowImpl row, Resource resource, Action action) {
-        addConstantCustomButton(row, resource.name(), action.name(), 1.0f);
+    static void addConstantCustomButton(RowImpl row, ButtonFactory buttonFactory, String resourceName, String action) {
+        addConstantCustomButton(row, buttonFactory, resourceName, action, 1.0f);
     }
 
-    static void addTranslateInputButton(RowImpl row, String translate, String input, float weight) {
-        row.addButton(createTranslateInputButton(translate, input, weight));
+    static void addConstantCustomButton(RowImpl row, ButtonFactory buttonFactory, Resource resource, Action action) {
+        addConstantCustomButton(row, buttonFactory, resource.name(), action.name(), 1.0f);
     }
 
-    static void addTranslateInputCommandButton(RowImpl row, String translateName, String translateInput, float weight) {
-        row.addButton(new WeightedButtonImpl(translateName, ResourceType.TRANSLATION_MENU_KEY, translateInput, ActionType.INPUT_TRANSLATE_MENU, weight));
+    static void addTranslateInputButton(RowImpl row, ButtonFactory buttonFactory, String translate, String input, float weight) {
+        row.addButton(buttonFactory.createTranslateInputButton(translate, input, weight));
     }
 
-    static void addInputCommandButton(RowImpl row, String name, String translateInput, float weight) {
-        row.addButton(new WeightedButtonImpl(name, ResourceType.TEXT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
+    static void addTranslateInputCommandButton(RowImpl row, ButtonFactory buttonFactory, String translateName, String translateInput, float weight) {
+        row.addButton(buttonFactory.createTranslateInputTranslateButton(translateName, translateInput, weight));
     }
 
-    static void addConstantInputCommandButton(RowImpl row, String resource, String translateInput, float weight) {
-        row.addButton(new WeightedButtonImpl(resource, ResourceType.DEFINED_CONSTANT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
+    static void addInputCommandButton(RowImpl row, ButtonFactory buttonFactory, String name, String translateInput, float weight) {
+        row.addButton(buttonFactory.createInputTranslateButton(name, translateInput, weight));
     }
 
-    static void addConstantInputCommandButton(RowImpl row, Resource resource, String translateInput, float weight) {
-        row.addButton(new WeightedButtonImpl(resource.name(), ResourceType.DEFINED_CONSTANT, translateInput, ActionType.INPUT_TRANSLATE_COMMAND, weight));
+    static void addConstantInputCommandButton(RowImpl row, ButtonFactory buttonFactory, String resource, String translateInput, float weight) {
+        row.addButton(buttonFactory.createConstantInputTranslateButton(resource, translateInput, weight));
+    }
+
+    static void addConstantInputCommandButton(RowImpl row, ButtonFactory buttonFactory, Resource resource, String translateInput, float weight) {
+        addConstantInputCommandButton(row, buttonFactory, resource.name(), translateInput, weight);
     }
 }

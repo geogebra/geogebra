@@ -18,60 +18,59 @@ import static org.geogebra.keyboard.base.linear.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addConstantInputButton;
 import static org.geogebra.keyboard.base.linear.impl.factory.Util.addInputButton;
-import static org.geogebra.keyboard.base.linear.impl.factory.Util.createEmptySpace;
 
 class MathKeyboardFactory {
 
-    LinearKeyboard createMathKeyboard() {
+    LinearKeyboard createMathKeyboard(ButtonFactory buttonFactory) {
         LinearKeyboardImpl mathKeyboard = new LinearKeyboardImpl();
 
         RowImpl row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, "x");
-        addInputButton(row, "y");
-        addInputButton(row, "z");
-        addInputButton(row, PI);
-        addButton(row, createEmptySpace(0.2f));
-        addInputButton(row, "7");
-        addInputButton(row, "8");
-        addInputButton(row, "9");
-        addInputButton(row, MULTIPLICATION, "*");
-        addInputButton(row, DIVISION, "/");
+        addInputButton(row, buttonFactory, "x");
+        addInputButton(row, buttonFactory, "y");
+        addInputButton(row, buttonFactory, "z");
+        addInputButton(row, buttonFactory, PI);
+        addButton(row, buttonFactory.createEmptySpace(0.2f));
+        addInputButton(row, buttonFactory, "7");
+        addInputButton(row, buttonFactory, "8");
+        addInputButton(row, buttonFactory, "9");
+        addInputButton(row, buttonFactory, MULTIPLICATION, "*");
+        addInputButton(row, buttonFactory, DIVISION, "/");
 
         row = mathKeyboard.nextRow(9.2f);
-        addConstantInputButton(row, Resource.POWA2, SUP2);
-        addConstantInputButton(row, Resource.POWAB, "^");
-        addConstantInputButton(row, Resource.ROOT, ROOT);
-        addInputButton(row, EULER);
-        addButton(row, createEmptySpace(0.2f));
-        addInputButton(row, "4");
-        addInputButton(row, "5");
-        addInputButton(row, "6");
-        addInputButton(row, "+");
-        addInputButton(row, "-");
+        addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
+        addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
+        addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
+        addInputButton(row, buttonFactory, EULER);
+        addButton(row, buttonFactory.createEmptySpace(0.2f));
+        addInputButton(row, buttonFactory, "4");
+        addInputButton(row, buttonFactory, "5");
+        addInputButton(row, buttonFactory, "6");
+        addInputButton(row, buttonFactory, "+");
+        addInputButton(row, buttonFactory, "-");
 
         row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, "<");
-        addInputButton(row, ">");
-        addInputButton(row, LEQ);
-        addInputButton(row, GEQ);
-        addButton(row, createEmptySpace(0.2f));
-        addInputButton(row, "1");
-        addInputButton(row, "2");
-        addInputButton(row, "3");
-        addInputButton(row, "=");
-        addConstantCustomButton(row, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
+        addInputButton(row, buttonFactory, "<");
+        addInputButton(row, buttonFactory, ">");
+        addInputButton(row, buttonFactory, LEQ);
+        addInputButton(row, buttonFactory, GEQ);
+        addButton(row, buttonFactory.createEmptySpace(0.2f));
+        addInputButton(row, buttonFactory, "1");
+        addInputButton(row, buttonFactory, "2");
+        addInputButton(row, buttonFactory, "3");
+        addInputButton(row, buttonFactory, "=");
+        addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);
 
         row = mathKeyboard.nextRow(9.2f);
-        addInputButton(row, "(");
-        addInputButton(row, ")");
-        addInputButton(row, "|a|", "|");
-        addInputButton(row, ",");
-        addButton(row, createEmptySpace(0.2f));
-        addInputButton(row, "0");
-        addInputButton(row, ".");
-        addConstantCustomButton(row, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
-        addConstantCustomButton(row, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
-        addConstantCustomButton(row, Resource.RETURN_ENTER, Action.RETURN_ENTER);
+        addInputButton(row, buttonFactory, "(");
+        addInputButton(row, buttonFactory, ")");
+        addInputButton(row, buttonFactory, "|a|", "|");
+        addInputButton(row, buttonFactory, ",");
+        addButton(row, buttonFactory.createEmptySpace(0.2f));
+        addInputButton(row, buttonFactory, "0");
+        addInputButton(row, buttonFactory, ".");
+        addConstantCustomButton(row, buttonFactory, Resource.LEFT_ARROW, Action.LEFT_CURSOR);
+        addConstantCustomButton(row, buttonFactory, Resource.RIGHT_ARROW, Action.RIGHT_CURSOR);
+        addConstantCustomButton(row, buttonFactory, Resource.RETURN_ENTER, Action.RETURN_ENTER);
 
         return mathKeyboard;
     }

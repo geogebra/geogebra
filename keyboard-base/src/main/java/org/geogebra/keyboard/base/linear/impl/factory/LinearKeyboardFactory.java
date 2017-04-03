@@ -6,7 +6,7 @@ import org.geogebra.keyboard.base.linear.LinearKeyboard;
  * This class can create {@link LinearKeyboard}s of different types.
  * It is not thread safe.
  */
-public class KeyboardFactory {
+public class LinearKeyboardFactory {
 
     private MathKeyboardFactory mathKeyboardFactory;
     private GreekKeyboardFactory greekKeyboardFactory;
@@ -18,11 +18,11 @@ public class KeyboardFactory {
      *
      * @return math keyboard
      */
-    public LinearKeyboard createMathKeyboard() {
+    public LinearKeyboard createMathKeyboard(ButtonFactory buttonFactory) {
         if (mathKeyboardFactory == null) {
             mathKeyboardFactory = new MathKeyboardFactory();
         }
-        return mathKeyboardFactory.createMathKeyboard();
+        return mathKeyboardFactory.createMathKeyboard(buttonFactory);
     }
 
     /**
@@ -30,11 +30,11 @@ public class KeyboardFactory {
      *
      * @return greek keyboard
      */
-    public LinearKeyboard createGreekKeyboard() {
+    public LinearKeyboard createGreekKeyboard(ButtonFactory buttonFactory) {
         if (greekKeyboardFactory == null) {
             greekKeyboardFactory = new GreekKeyboardFactory();
         }
-        return greekKeyboardFactory.createGreekKeyboard();
+        return greekKeyboardFactory.createGreekKeyboard(buttonFactory);
     }
 
     /**
@@ -42,11 +42,11 @@ public class KeyboardFactory {
      *
      * @return function keyboard
      */
-    public LinearKeyboard createFunctionKeyboard() {
+    public LinearKeyboard createFunctionKeyboard(ButtonFactory buttonFactory) {
         if (functionKeyboardFactory == null) {
             functionKeyboardFactory = new FunctionKeyboardFactory();
         }
-        return functionKeyboardFactory.createFunctionKeyboard();
+        return functionKeyboardFactory.createFunctionKeyboard(buttonFactory);
     }
 
     /**
@@ -60,10 +60,10 @@ public class KeyboardFactory {
      * @param bottomRow a list of characters that will be the buttons of the last row
      * @return
      */
-    public LinearKeyboard createLetterKeyboard(String topRow, String middleRow, String bottomRow) {
+    public LinearKeyboard createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
         if (letterKeyboardFactory == null) {
             letterKeyboardFactory = new LetterKeyboardFactory();
         }
-        return letterKeyboardFactory.createLetterKeyboard(topRow, middleRow, bottomRow);
+        return letterKeyboardFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
     }
 }

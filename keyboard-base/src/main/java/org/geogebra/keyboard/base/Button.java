@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.base;
 
+import org.geogebra.keyboard.base.linear.KeyModifier;
+
 /**
  * Describes a button that has an action and a look.
  */
@@ -32,4 +34,11 @@ public interface Button {
      * @return type of the action
      */
     ActionType getActionType();
+
+    /**
+     * Get the type of background used on this button.
+     *
+     * @return the type of the background.
+     */
+    Background getBackground();
 }
