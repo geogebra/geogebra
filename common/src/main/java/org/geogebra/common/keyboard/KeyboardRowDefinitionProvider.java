@@ -17,9 +17,9 @@ public class KeyboardRowDefinitionProvider {
      * each containing an array of three corresponding to top, middle and bottom rows.
      */
     public String[][] getKeyboardDefinition() {
-        String topRow = localization.getMenu("Keyboard.row1");
-        String middleRow = localization.getMenu("Keyboard.row2");
-        String bottomRow = localization.getMenu("Keyboard.row3");
+        String topRow = localization.getKeyboardRow(1);
+        String middleRow = localization.getKeyboardRow(2);
+        String bottomRow = localization.getKeyboardRow(3);
 
         String topRowSmall = topRow.replaceAll("(.).", "$1");
         String middleRowSmall = middleRow.replaceAll("(.).", "$1");
