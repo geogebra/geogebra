@@ -320,14 +320,28 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								.asString();
 					}
 
-					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
-							loc.getMenu("LockObject")), new Command() {
+					if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+						cbItem = new GCheckBoxMenuItem(
+								MainMenu.getMenuBarHtml(img, ""),
+								loc.getMenu("UnlockObject"),
+								loc.getMenu("LockObject"), new Command() {
 
-								@Override
-								public void execute() {
-									fixObjectCmd();
-								}
-							}, true, app);
+									@Override
+									public void execute() {
+										fixObjectCmd();
+									}
+								}, true, app);
+					} else {
+						cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
+								loc.getMenu("LockObject")), new Command() {
+
+									@Override
+									public void execute() {
+										fixObjectCmd();
+									}
+								}, true, app);						
+					}
+
 					cbItem.setSelected(getGeo().isFixed());
 					wrappedPopup.addItem(cbItem);
 				} else if (getGeo().isGeoNumeric()) {
@@ -343,16 +357,31 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 									.getSafeUri().asString();
 						}
 
-						cbItem = new GCheckBoxMenuItem(
-								MainMenu.getMenuBarHtml(img,
-										loc.getMenu("LockObject")),
-								new Command() {
+						if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+							cbItem = new GCheckBoxMenuItem(
+									MainMenu.getMenuBarHtml(img, ""),
+									loc.getMenu("UnlockObject"),
+									loc.getMenu("LockObject"),
+									new Command() {
 
-									@Override
-									public void execute() {
-										fixObjectNumericCmd(num);
-									}
-								}, true, app);
+										@Override
+										public void execute() {
+											fixObjectNumericCmd(num);
+										}
+									}, true, app);
+						} else {
+							cbItem = new GCheckBoxMenuItem(
+									MainMenu.getMenuBarHtml(img,
+											loc.getMenu("LockObject")),
+									new Command() {
+
+										@Override
+										public void execute() {
+											fixObjectNumericCmd(num);
+										}
+									}, true, app);
+						}
+
 						cbItem.setSelected(num.isSliderFixed());
 						wrappedPopup.addItem(cbItem);
 					}
@@ -615,7 +644,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						.asString();
 			}
 
-			addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+				GCheckBoxMenuItem mi = new GCheckBoxMenuItem(
+						MainMenu.getMenuBarHtml(img, ""),
+						loc.getMenu("UnlockObject"), loc.getMenu("LockObject"),
+						cmd, true, app);
+				mi.setSelected(getGeo().isFixed());
+				wrappedPopup.addItem(mi);
+			} else {
+				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
+			}
 		}
 
 		// wrappedPopup.addSeparator();
