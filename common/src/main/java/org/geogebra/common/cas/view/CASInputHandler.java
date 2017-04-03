@@ -229,10 +229,13 @@ public class CASInputHandler {
 					evalText = fixedInput;
 				}
 				// fix GGB-1593
-				// if (!cellValue.getInput(StringTemplate.defaultTemplate)
-				// .equals(fixedInput)) {
-				// cellValue.setInput(fixedInput);
-				// }
+				if (cellValue.getTwinGeo() != null
+						&& fixedInput
+								.indexOf(GeoCasCell.ROW_REFERENCE_STATIC) == -1
+						&& !cellValue.getInput(StringTemplate.defaultTemplate)
+								.equals(fixedInput)) {
+					cellValue.setInput(fixedInput);
+				}
 			}
 
 
