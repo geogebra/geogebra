@@ -43,6 +43,7 @@ import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.ScriptManager;
@@ -350,8 +351,27 @@ public class AppDNoGui extends App {
 	}
 
 	@Override
-	public void setXML(String string, boolean b) {
-		// TODO Auto-generated method stub
+	public void setXML(String xml, boolean clearAll) {
+		if (xml == null) {
+			return;
+		}
+		if (clearAll) {
+			setCurrentFile(null);
+		}
+
+		try {
+
+			// make sure objects are displayed in the correct View
+			setActiveView(App.VIEW_EUCLIDIAN);
+
+			getXMLio().processXMLString(xml, clearAll, false);
+		} catch (MyError err) {
+			err.printStackTrace();
+			showError(err);
+		} catch (Exception e) {
+			e.printStackTrace();
+			showError("LoadFileFailed");
+		}
 
 	}
 
