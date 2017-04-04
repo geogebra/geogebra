@@ -8,6 +8,7 @@ import java.util.MissingResourceException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.KeyboardLocale;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.MyDictionary;
@@ -18,7 +19,8 @@ import com.google.gwt.user.client.ui.RootPanel;
  * JSON based localization for Web
  *
  */
-public final class LocalizationW extends Localization {
+public final class LocalizationW extends Localization
+		implements KeyboardLocale {
 	/**
 	 * @param dimension
 	 *            3 for 3D

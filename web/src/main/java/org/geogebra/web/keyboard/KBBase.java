@@ -6,12 +6,12 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.KeyboardLocale;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
+import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardLocale;
 import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
 
@@ -30,7 +30,6 @@ public abstract class KBBase extends PopupPanel {
 
 
 
-	private HasKeyboard hasKeyboard;
 	private KeyboardLocalization localization;
 
 	final String[] keysGreek = {
@@ -186,7 +185,7 @@ public abstract class KBBase extends PopupPanel {
 	/**
 	 * application that is used
 	 */
-	protected HasKeyboard app;
+	protected final HasKeyboard app;
 
 	protected boolean accentDown = false;
 	private KeyBoardButtonBase accentButton;
@@ -309,8 +308,9 @@ public abstract class KBBase extends PopupPanel {
 	 *            whether or not the popup should be automatically hidden when
 	 *            the user clicks outside of it or the history token changes.
 	 */
-	public KBBase(boolean autoHide) {
+	public KBBase(boolean autoHide, HasKeyboard app) {
 		super(autoHide);
+		this.app = app;
 		localization = new KeyboardLocalization();
 	}
 
@@ -369,8 +369,8 @@ public abstract class KBBase extends PopupPanel {
 	}
 
 	private void updateHeight() {
-		if (hasKeyboard != null) {
-			hasKeyboard.updateKeyboardHeight();
+		if (app != null) {
+			app.updateKeyboardHeight();
 		}
 	}
 
@@ -1216,9 +1216,6 @@ public abstract class KBBase extends PopupPanel {
 		this.keyboardWanted = true;
 	}
 
-	public void setHasKeyboard(HasKeyboard hasKeyboard) {
-		this.hasKeyboard = hasKeyboard;
-	}
 
 	/**
 	 * @param gwtLang

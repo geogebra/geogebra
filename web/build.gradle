@@ -40,11 +40,13 @@ dependencies {
         project(':editor-base'),
         project(':renderer-web'),
         project(':editor-web'),
+        project(':keyboard-web'),
         project(':ggbjdk'),
         files(project(':web:dev').sourceSets.main.allSource.srcDirs),
         files(project(':common').sourceSets.main.allSource.srcDirs),
         files(project(':ggbjdk').sourceSets.main.java.srcDirs),
         files(project(':editor-web').sourceSets.main.allSource.srcDirs),
+        files(project(':keyboard-web').sourceSets.main.allSource.srcDirs),
         'com.googlecode.gwtphonegap:gwtphonegap:3.5.0.1',
         'com.googlecode:gwtgl:0.9.1',
         'com.googlecode:gwtgl:0.9.1:sources',
@@ -73,7 +75,7 @@ gwt {
         strict = true;
         // enableClosureCompiler = true;        
         disableCastChecking = true;        
-        //logLevel = 'SPAM';
+        logLevel = 'SPAM';
         if (project.hasProperty("gdraft")) {
             draftCompile = true
         }

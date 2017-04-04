@@ -35,6 +35,7 @@ import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -82,7 +83,7 @@ public class RadioTreeItemController
 		LongTouchHandler {
 
 	private static final int VERTICAL_PADDING = 20;
-	protected AppW app;
+	protected AppWFull app;
 	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;

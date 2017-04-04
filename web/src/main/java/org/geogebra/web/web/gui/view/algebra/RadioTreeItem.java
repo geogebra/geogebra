@@ -52,6 +52,7 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -135,7 +136,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected GeoElement geo = null;
 	protected Kernel kernel;
-	protected AppW app;
+	protected AppWFull app;
 	protected AlgebraView av;
 	protected boolean latex = false;
 
@@ -238,7 +239,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public RadioTreeItem(Kernel kernel) {
 		super();
 		this.kernel = kernel;
-		app = (AppW) kernel.getApplication();
+		app = (AppWFull) kernel.getApplication();
 		loc = app.getLocalization();
 		av = app.getAlgebraView();
 		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);

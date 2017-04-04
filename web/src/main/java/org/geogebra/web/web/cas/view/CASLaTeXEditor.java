@@ -20,6 +20,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style.Unit;
@@ -49,7 +50,7 @@ public class CASLaTeXEditor extends FlowPanel
 	private MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
-	private AppW app;
+	private AppWFull app;
 	private CASTableW table;
 	private CASTableControllerW controller;
 	private boolean autocomplete = true;
@@ -65,7 +66,7 @@ public class CASLaTeXEditor extends FlowPanel
 	 */
 	public CASLaTeXEditor(CASTableW table, final AppW app,
 			final CASTableControllerW controller) {
-		this.app = app;
+		this.app = (AppWFull) app;
 		this.table = table;
 		this.controller = controller;
 		Canvas canvas = Canvas.createIfSupported();

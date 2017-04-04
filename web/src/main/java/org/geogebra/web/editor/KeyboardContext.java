@@ -1,7 +1,7 @@
 package org.geogebra.web.editor;
 
-import org.geogebra.common.main.KeyboardLocale;
-import org.geogebra.web.html5.util.keyboard.HasKeyboard;
+import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardLocale;
 
 public class KeyboardContext implements HasKeyboard {
 

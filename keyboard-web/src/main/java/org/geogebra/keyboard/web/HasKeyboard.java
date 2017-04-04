@@ -1,6 +1,4 @@
-package org.geogebra.web.html5.util.keyboard;
-
-import org.geogebra.common.main.KeyboardLocale;
+package org.geogebra.keyboard.web;
 
 public interface HasKeyboard {
 	

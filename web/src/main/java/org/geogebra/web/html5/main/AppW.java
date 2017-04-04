@@ -51,7 +51,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SpreadsheetTableModel;
@@ -122,7 +121,6 @@ import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
-import org.geogebra.web.html5.util.keyboard.HasKeyboard;
 import org.geogebra.web.plugin.WebsocketLogger;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -151,7 +149,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
-public abstract class AppW extends App implements SetLabels, HasKeyboard {
+public abstract class AppW extends App implements SetLabels {
 	public static final String STORAGE_MACRO_KEY = "storedMacro";
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
@@ -448,7 +446,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	void doSetLanguage(String lang) {
-		((LocalizationW) getLocalization()).setLanguage(lang);
+		getLocalization().setLanguage(lang);
 
 		// make sure digits are updated in all numbers
 		getKernel().updateConstructionLanguage();
@@ -563,7 +561,7 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	}
 
 	@Override
-	public Localization getLocalization() {
+	public LocalizationW getLocalization() {
 		return loc;
 	}
 
@@ -3060,21 +3058,6 @@ public abstract class AppW extends App implements SetLabels, HasKeyboard {
 	public HeaderPanel getLanguageGUI() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	/**
-	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
-	 * 
-	 * @param textField
-	 *            keyboard listener
-	 */
-	public void showKeyboard(MathKeyboardListener textField) {
-		// Overwritten in subclass - nothing to do here
-	}
-
-	@Override
-	public void updateKeyboardHeight() {
-		// Overwritten in subclass - nothing to do here
 	}
 
 	/**

@@ -11,7 +11,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
 
-public abstract class Localization implements KeyboardLocale {
+public abstract class Localization {
 
 	/** CAS syntax suffix for keys in command bundle */
 	public final static String syntaxCAS = ".SyntaxCAS";
@@ -1062,7 +1062,6 @@ public abstract class Localization implements KeyboardLocale {
 	 * exist (or isn't loaded)
 	 * 
 	 */
-	@Override
 	public String getFunction(String key) {
 		String ret = getPlain("Function." + key);
 
@@ -1075,7 +1074,6 @@ public abstract class Localization implements KeyboardLocale {
 		return ret;
 	}
 
-	@Override
 	public String getLocaleStr() {
 		return getLocale().toString();
 	}
@@ -1122,7 +1120,6 @@ public abstract class Localization implements KeyboardLocale {
 		return translateCommandTable;
 	}
 
-	@Override
 	public String getKeyboardRow(int row) {
 		return getPlain("Keyboard.row" + row);
 	}

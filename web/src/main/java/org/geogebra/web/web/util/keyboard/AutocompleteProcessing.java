@@ -1,6 +1,6 @@
 package org.geogebra.web.web.util.keyboard;
 
-import org.geogebra.common.main.KeyboardLocale;
+import org.geogebra.keyboard.web.KeyboardLocale;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.keyboard.KeyboardConstants;
 import org.geogebra.web.keyboard.KeyboardListener;

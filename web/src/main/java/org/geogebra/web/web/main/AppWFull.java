@@ -28,6 +28,7 @@ import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
+import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.HasKeyboardPopup;
 import org.geogebra.web.html5.gui.ToolBarInterface;
@@ -80,7 +81,7 @@ import com.google.gwt.user.client.ui.Widget;
  * App with all the GUI
  *
  */
-public abstract class AppWFull extends AppW {
+public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	private final static int AUTO_SAVE_PERIOD = 2000;
 
@@ -127,7 +128,12 @@ public abstract class AppWFull extends AppW {
 
 	}
 
-	@Override
+	/**
+	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
+	 * 
+	 * @param textField
+	 *            keyboard listener
+	 */
 	public void showKeyboard(MathKeyboardListener textField) {
 		showKeyboard(textField, false);
 	}

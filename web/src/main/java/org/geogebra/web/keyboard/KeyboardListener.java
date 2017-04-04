@@ -1,6 +1,6 @@
 package org.geogebra.web.keyboard;
 
-import org.geogebra.common.main.KeyboardLocale;
+import org.geogebra.keyboard.web.KeyboardLocale;
 
 /**
  * interface for classes that can receive input from the
