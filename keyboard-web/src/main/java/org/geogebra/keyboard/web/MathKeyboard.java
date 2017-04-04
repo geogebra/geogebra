@@ -7,11 +7,16 @@ import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class MathKeyboard implements EntryPoint {
 	public void onModuleLoad() {
@@ -32,24 +37,57 @@ public class MathKeyboard implements EntryPoint {
 
 			}
 		};
-
+		FlowPanel tabs = new FlowPanel();
+		HorizontalPanel switcher = new HorizontalPanel();
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), kb);
-		RootPanel.get().add(keyboard);
+		tabs.add(keyboard);
+		switcher.add(makeSwitcherButton(keyboard, "DEF"));
 
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), kb);
-		RootPanel.get().add(keyboard);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		switcher.add(makeSwitcherButton(keyboard, "Fn"));
 
 		keyboard = buildPanel(kbf.createGreekKeyboard(), kb);
-		RootPanel.get().add(keyboard);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		switcher.add(makeSwitcherButton(keyboard, "GREEK"));
 
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard("QWERTYUIOP", "ASDFGHJKL''",
 						"ZXCVBNM"),
 				kb);
-		RootPanel.get().add(keyboard);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		switcher.add(makeSwitcherButton(keyboard, "ABC"));
 
+
+
+
+
+		RootPanel.get().add(switcher);
+		RootPanel.get().add(tabs);
 		RootPanel.get().addStyleName("GeoGebraFrame");
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
+	}
+
+	private Widget makeSwitcherButton(final KeyPanelBase keyboard,
+			String string) {
+		Button ret = new Button(string);
+		ClickStartHandler.init(ret, new ClickStartHandler() {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				for (int i = 0; i < ((FlowPanel) keyboard.getParent())
+						.getWidgetCount(); i++) {
+					((FlowPanel) keyboard.getParent()).getWidget(i)
+							.setVisible(false);
+				}
+				keyboard.setVisible(true);
+
+			}
+		});
+		return ret;
 	}
 
 	private KeyPanelBase buildPanel(Keyboard layout, KBBase kb) {
@@ -70,6 +108,8 @@ public class MathKeyboard implements EntryPoint {
 					button.getElement().getStyle().setMarginLeft(offset * 50,
 							Unit.PX);
 					}
+					button.getElement().getStyle().setWidth(wb.getWeight() * 50,
+							Unit.PX);
 					keyboard.addToRow(index, button);
 					offset = 0;
 				}
