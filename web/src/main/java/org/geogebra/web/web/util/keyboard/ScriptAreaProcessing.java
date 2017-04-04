@@ -1,8 +1,8 @@
 package org.geogebra.web.web.util.keyboard;
 
-import org.geogebra.keyboard.web.KeyboardLocale;
-import org.geogebra.web.keyboard.KeyboardConstants;
-import org.geogebra.web.keyboard.KeyboardListener;
+import org.geogebra.keyboard.web.KeyboardConstants;
+import org.geogebra.keyboard.web.KeyboardListener;
+import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.web.gui.util.ScriptArea;
 
 import com.google.gwt.dom.client.Document;

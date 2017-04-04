@@ -2,7 +2,7 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;

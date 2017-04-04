@@ -1,4 +1,4 @@
-package org.geogebra.keyboard.web;
+package org.geogebra.web.html5.gui.util;
 
 public interface KeyboardLocale {
 

@@ -1,5 +1,6 @@
 package org.geogebra.web.web.helper;
 
+import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.js.JavaScriptInjector;
@@ -13,6 +14,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
+		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 	}
 
 	private native void jQueryNoConflict() /*-{

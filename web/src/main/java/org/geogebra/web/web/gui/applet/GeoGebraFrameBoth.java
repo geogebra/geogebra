@@ -9,20 +9,19 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
+import org.geogebra.keyboard.web.KBBase;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
-import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
-import org.geogebra.web.keyboard.KBBase;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.ImageFactory;
@@ -62,7 +61,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class GeoGebraFrameBoth extends GeoGebraFrameW implements
-		HeaderPanelDeck, UpdateKeyBoardListener {
+		HeaderPanelDeck {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -296,8 +295,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboardW keyBoard = app.getGuiManager()
-				.getOnScreenKeyboard(textField, this);
+		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(false);
 		app.addToHeight(keyboardHeight);
 		keyboardHeight = 0;
@@ -316,8 +314,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            keyboard listener
 	 */
 	void addKeyboard(final MathKeyboardListener textField) {
-		final VirtualKeyboardW keyBoard = app.getGuiManager()
-				.getOnScreenKeyboard(textField, this);
+		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(true);
 
 		keyBoard.show();
@@ -406,7 +403,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
-	@Override
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
 		if (forceShow) {
@@ -425,7 +421,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				|| isKeyboardShowing()
 									// showing, we don't have
 									// to handle the showKeyboardButton
-				|| app.getGuiManager().getOnScreenKeyboard(textField, this)
+				|| getOnScreenKeyboard(textField)
 						.shouldBeShown()) {
 			doShowKeyBoard(show, textField);
 		} else {
@@ -522,8 +518,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public void refreshKeyboard() {
 		if (isKeyboardShowing()) {
-			final VirtualKeyboardW keyBoard = app.getGuiManager()
-					.getOnScreenKeyboard(null, this);
+			final VirtualKeyboardW keyBoard = getOnScreenKeyboard(null);
 			if (app.isKeyboardNeeded()) {
 				ensureKeyboardDeferred();
 				if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
@@ -562,8 +557,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					});
 				} else {
 					this.showKeyboardButton(null);
-					app.getGuiManager().getOnScreenKeyboard(null, this)
-							.showOnFocus();
+					getOnScreenKeyboard(null).showOnFocus();
 					app.adjustScreen(true);
 				}
 
@@ -579,6 +573,15 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				}
 			}
 		}
+	}
+
+	private VirtualKeyboardW getOnScreenKeyboard(
+			MathKeyboardListener textField) {
+		if (app.getGuiManager() != null) {
+			return ((GuiManagerW) app.getGuiManager())
+				.getOnScreenKeyboard(textField, this);
+		}
+		return null;
 	}
 
 	protected void ensureKeyboardDeferred() {
@@ -625,15 +628,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public void showKeyboardOnFocus() {
 		if (app != null) {
-			this.app.getGuiManager().getOnScreenKeyboard(null, this)
-					.showOnFocus();
+			getOnScreenKeyboard(null).showOnFocus();
 		}
 	}
 
 	@Override
 	public void updateKeyboardHeight() {
 		if(isKeyboardShowing()){
-			int newHeight = app.getGuiManager().getOnScreenKeyboard(null, this)
+			int newHeight = getOnScreenKeyboard(null)
 					.getOffsetHeight();
 			if (newHeight == 0) {
 				newHeight = app.needsSmallKeyboard() ? KBBase.SMALL_HEIGHT
@@ -645,7 +647,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				app.updateCenterPanel();
 				app.updateViewSizes();
 				GeoGebraFrameBoth.this
-					.add(app.getGuiManager().getOnScreenKeyboard(null, this));
+						.add(getOnScreenKeyboard(null));
 			}
 		}
 	}

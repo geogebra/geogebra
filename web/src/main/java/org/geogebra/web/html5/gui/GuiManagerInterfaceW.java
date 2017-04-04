@@ -10,11 +10,9 @@ import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GuiManagerInterface;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
-import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
@@ -90,8 +88,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void listenToLogin();
 
-	public VirtualKeyboardW getOnScreenKeyboard(MathKeyboardListener textField,
-			UpdateKeyBoardListener listener);
 
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField);
 

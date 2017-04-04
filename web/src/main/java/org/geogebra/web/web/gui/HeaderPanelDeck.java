@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.ToolBarInterface;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.HasAppletProperties;
 
 import com.google.gwt.dom.client.Element;
@@ -10,7 +12,8 @@ import com.google.gwt.user.client.ui.HeaderPanel;
  * Interface for app frame
  *
  */
-public interface HeaderPanelDeck extends HasAppletProperties {
+public interface HeaderPanelDeck
+		extends HasAppletProperties, UpdateKeyBoardListener {
 	/**
 	 * Hide the full-sized GUI, e.g. material browser
 	 * 
@@ -46,5 +49,8 @@ public interface HeaderPanelDeck extends HasAppletProperties {
 	 * and appNeedsKeyboard() TODO rename one of those functions
 	 */
 	void refreshKeyboard();
+
+	public void showKeyBoard(boolean show, MathKeyboardListener textField,
+			boolean forceShow);
 
 }

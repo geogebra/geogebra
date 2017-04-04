@@ -1,7 +1,7 @@
 package org.geogebra.web.html5.gui.textbox;
 
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;

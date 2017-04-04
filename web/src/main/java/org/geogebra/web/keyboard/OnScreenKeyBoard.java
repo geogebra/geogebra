@@ -3,9 +3,13 @@ package org.geogebra.web.keyboard;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.Language;
 import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KBBase;
+import org.geogebra.keyboard.web.KeyBoardButtonBase;
+import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
+import org.geogebra.keyboard.web.KeyboardMode;
+import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
-import org.geogebra.web.keyboard.KeyboardListener.ArrowType;
 
 import com.google.gwt.core.client.Scheduler;
 

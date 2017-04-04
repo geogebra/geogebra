@@ -2,8 +2,8 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 

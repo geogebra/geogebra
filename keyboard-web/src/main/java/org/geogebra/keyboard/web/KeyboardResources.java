@@ -1,4 +1,4 @@
-package org.geogebra.web.keyboard;
+package org.geogebra.keyboard.web;
 
 import org.geogebra.web.resources.SassResource;
 
@@ -35,7 +35,7 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_open.png")
 	ImageResource keyboard_show();
 
-	@Source("org/geogebra/web/keyboard/css/keyboard-styles.scss")
+	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
 	SassResource keyboardStyle();
 
 }

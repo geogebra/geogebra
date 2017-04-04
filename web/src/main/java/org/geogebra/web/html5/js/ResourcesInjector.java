@@ -4,7 +4,6 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.keyboard.KeyboardResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -57,9 +56,6 @@ public class ResourcesInjector {
 				.getText());
 		injectLTRstyles();
 
-
-
-		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 
 		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null

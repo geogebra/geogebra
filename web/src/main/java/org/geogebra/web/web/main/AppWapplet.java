@@ -707,4 +707,8 @@ public class AppWapplet extends AppWFull {
 	public Panel getPanel() {
 		return frame;
 	}
+
+	public boolean hasKeyboardInProbCalculator() {
+		return has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC);
+	}
 }

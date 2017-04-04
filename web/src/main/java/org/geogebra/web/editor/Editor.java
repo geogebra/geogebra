@@ -1,10 +1,10 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.io.latex.GeoGebraSerializer;
+import org.geogebra.keyboard.web.KeyboardResources;
+import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.css.StyleInjector;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
-import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.keyboard.KeyboardResources;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.canvas.client.Canvas;

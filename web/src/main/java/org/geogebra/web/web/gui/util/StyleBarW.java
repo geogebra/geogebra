@@ -81,7 +81,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 				@Override
 				public void onClick(ClickEvent event) {
 					// close keyboard first to avoid perspective mess
-					app.getAppletFrame().showKeyBoard(false, null, false);
+					app.hideKeyboard();
 					if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
 						PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
 								.getGuiManager())

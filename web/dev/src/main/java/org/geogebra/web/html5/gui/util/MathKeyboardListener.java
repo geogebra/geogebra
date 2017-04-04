@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.view.algebra;
+package org.geogebra.web.html5.gui.util;
 
 import com.google.gwt.user.client.ui.UIObject;
 

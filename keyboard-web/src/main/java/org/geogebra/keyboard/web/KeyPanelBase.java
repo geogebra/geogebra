@@ -1,4 +1,4 @@
-package org.geogebra.web.keyboard;
+package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
 

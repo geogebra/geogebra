@@ -3,8 +3,8 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;

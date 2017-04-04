@@ -1,9 +1,9 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.common.util.Unicode;
-import org.geogebra.keyboard.web.KeyboardLocale;
-import org.geogebra.web.keyboard.KeyboardConstants;
-import org.geogebra.web.keyboard.KeyboardListener;
+import org.geogebra.keyboard.web.KeyboardConstants;
+import org.geogebra.keyboard.web.KeyboardListener;
+import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.web.MathFieldW;

@@ -75,7 +75,7 @@ gwt {
         strict = true;
         // enableClosureCompiler = true;        
         disableCastChecking = true;        
-        logLevel = 'SPAM';
+       	// logLevel = 'SPAM';
         if (project.hasProperty("gdraft")) {
             draftCompile = true
         }

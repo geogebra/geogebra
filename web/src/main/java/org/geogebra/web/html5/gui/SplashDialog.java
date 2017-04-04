@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;

@@ -46,6 +46,8 @@ import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.HasKeyboard;
+import org.geogebra.keyboard.web.KeyboardListener;
+import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
@@ -53,16 +55,14 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.NoDragImage;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.keyboard.KeyboardListener;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
@@ -2103,7 +2103,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
-	@Override
 	public OnScreenKeyBoard getOnScreenKeyboard(MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {

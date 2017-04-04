@@ -1,19 +1,15 @@
-package org.geogebra.web.keyboard;
+package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Language;
 import org.geogebra.common.util.Unicode;
-import org.geogebra.keyboard.web.HasKeyboard;
-import org.geogebra.keyboard.web.KeyboardLocale;
-import org.geogebra.web.html5.gui.NoDragImage;
-import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.keyboard.UpdateKeyBoardListener;
-import org.geogebra.web.keyboard.KeyBoardButtonFunctionalBase.Action;
+import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase.Action;
+import org.geogebra.web.html5.gui.util.KeyboardLocale;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -828,8 +824,7 @@ public abstract class KBBase extends PopupPanel {
 		// checking if app is null and instance of AppW needed only avoid
 		// exceptions at checking feature. So at deleting feature check, you can
 		// delete "app != null && app instanceof AppW" too
-		if (app instanceof AppW
-				&& ((AppW) app).has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
+		if (app.hasKeyboardInProbCalculator()) {
 			if (processField != null && processField.getField() != null){
 				if (processing == null
 						|| processField.getField() != processing.getField()) {

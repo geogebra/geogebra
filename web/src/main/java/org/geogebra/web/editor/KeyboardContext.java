@@ -1,7 +1,7 @@
 package org.geogebra.web.editor;
 
 import org.geogebra.keyboard.web.HasKeyboard;
-import org.geogebra.keyboard.web.KeyboardLocale;
+import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 public class KeyboardContext implements HasKeyboard {
 
@@ -45,6 +45,10 @@ public class KeyboardContext implements HasKeyboard {
 	public boolean needsSmallKeyboard() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public boolean hasKeyboardInProbCalculator() {
+		return true;
 	}
 
 }

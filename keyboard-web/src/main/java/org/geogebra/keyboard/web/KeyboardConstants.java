@@ -1,10 +1,10 @@
-package org.geogebra.web.keyboard;
+package org.geogebra.keyboard.web;
 
 import org.geogebra.common.util.Unicode;
 
 /**
- * Contains Strings which are used for the {@link KeyBoardButton buttons} of the
- * {@link OnScreenKeyBoard}
+ * Contains Strings which are used for the {@link KeyBoardButtonBase buttons} of
+ * the {@link KBBase}
  */
 public class KeyboardConstants {
 

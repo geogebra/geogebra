@@ -1,6 +1,6 @@
-package org.geogebra.web.html5.util.keyboard;
+package org.geogebra.keyboard.web;
 
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 public interface UpdateKeyBoardListener {
 

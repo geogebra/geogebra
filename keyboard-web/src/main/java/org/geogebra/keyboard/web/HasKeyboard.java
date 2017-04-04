@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.web;
 
+import org.geogebra.web.html5.gui.util.KeyboardLocale;
+
 public interface HasKeyboard {
 	
 	void updateKeyboardHeight();
@@ -9,5 +11,7 @@ public interface HasKeyboard {
 	KeyboardLocale getLocalization();
 
 	boolean needsSmallKeyboard();
+
+	boolean hasKeyboardInProbCalculator();
 
 }

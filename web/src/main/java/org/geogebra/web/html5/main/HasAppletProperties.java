@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
-
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -71,13 +69,7 @@ public interface HasAppletProperties {
 
 	public JavaScriptObject getOnLoadCallback();
 
-	/**
-	 * @param b
-	 * @param textField
-	 * @param forceShow
-	 */
-	public void showKeyBoard(boolean b, MathKeyboardListener textField,
-	        boolean forceShow);
+
 
 	/**
 	 * @return whether keyboard is visible

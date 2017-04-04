@@ -1,4 +1,5 @@
-package org.geogebra.web.keyboard;
+package org.geogebra.keyboard.web;
+
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -6,9 +7,9 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 public class KeyBoardMenu extends FlexTable implements ClickHandler {
 
-	private OnScreenKeyBoard keyboard;
+	private KBBase keyboard;
 
-	public KeyBoardMenu(OnScreenKeyBoard keyboard) {
+	public KeyBoardMenu(KBBase keyboard) {
 		this.keyboard = keyboard;
 		addStyleName("SymbolTable");
 		setUpTable();

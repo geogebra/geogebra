@@ -1,6 +1,6 @@
 package org.geogebra.web.html5.gui;
 
-import org.geogebra.web.html5.gui.view.algebra.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 /**
  * Interface for textfields, which has keyboard
