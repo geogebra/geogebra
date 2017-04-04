@@ -8498,6 +8498,7 @@ public abstract class EuclidianController {
 						setResizedShape(d);
 					}
 				} else {
+					setMouseLocation(event);
 					getShapeMode().handleMouseDraggedForShapeMode(event);
 					return;
 				}
