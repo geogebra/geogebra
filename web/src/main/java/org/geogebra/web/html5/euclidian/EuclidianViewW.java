@@ -1242,9 +1242,15 @@ public class EuclidianViewW extends EuclidianView implements
 			setTransparentCursor();
 			return;
 		case ERASER:
-			setEraserCursor();
+			if (app.isWhiteboardActive() && getEuclidianController().getDefaultEventType() != PointerEventType.MOUSE) {
+				setTransparentCursor();
+			} else {
+				setEraserCursor();
+			}
 			return;
 		case PEN:
+			// Log.debug("event type: " +
+			// getEuclidianController().getDefaultEventType());
 			if (app.isWhiteboardActive() && getEuclidianController().getDefaultEventType() != PointerEventType.MOUSE) {
 				setTransparentCursor();
 			} else {

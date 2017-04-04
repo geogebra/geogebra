@@ -281,7 +281,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			this.undoButton.setEnabled(app.getKernel().undoPossible());
 		}
 		if (this.redoButton != null) {
-			this.redoButton.setEnabled(app.getKernel().redoPossible());
+			this.redoButton.setVisible(app.getKernel().redoPossible());
 		}
 	}
 
