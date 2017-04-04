@@ -339,6 +339,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
 		final boolean inputBoxFocused = false;
+		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
 			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
@@ -552,6 +553,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 		// No prevent default here: make sure keyboard focus goes to canvas
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
+		ec.setDefaultEventType(PointerEventType.MOUSE, true);
 		ec.onPointerEventStart(e);
 
 		moveCounter = 0;
