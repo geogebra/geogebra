@@ -40,7 +40,7 @@ public class ModeShape {
 	/**
 	 * start point of dragging movement
 	 */
-	protected GPoint dragStartPoint = new GPoint();
+	protected final GPoint dragStartPoint = new GPoint();
 	private boolean dragPointSet = false;
 	private boolean moveEnded = false;
 	private boolean wasDragged = false;
@@ -91,23 +91,6 @@ public class ModeShape {
 	}
 
 	/**
-	 * @return start point from drawing of shape
-	 */
-	public GPoint getDragStartPoint() {
-		return dragStartPoint;
-	}
-
-	/**
-	 * @param x
-	 *            coord of start point
-	 * @param y
-	 *            coord of start point
-	 */
-	public void setDragStartPoint(int x, int y) {
-		this.dragStartPoint.setLocation(x, y);
-	}
-
-	/**
 	 * if tool was changed clear data points
 	 */
 	public void clearPointList() {
@@ -127,7 +110,7 @@ public class ModeShape {
 			dragStartPoint.setLocation(event.getX(), event.getY());
 			view.setBoundingBox(null);
 			pointListFreePoly.clear();
-			pointListFreePoly.add(dragStartPoint);
+			pointListFreePoly.add(new GPoint(event.getX(), event.getY()));
 			dragPointSet = true;
 			return;
 		}
