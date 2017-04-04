@@ -592,15 +592,30 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 
 			final boolean pinned = geo.isPinned();
-			addAction(new Command() {
 
-				@Override
-				public void execute() {
-					pinCmd(pinned);
-				}
-			}, MainMenu.getMenuBarHtml(img, loc.getMenu("PinToScreen")),
-					loc.getMenu("PinToScreen"));
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+				GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
+						MainMenu.getMenuBarHtml(img, ""),
+						loc.getMenu("ReleaseFromScreen"),
+						loc.getMenu("PinToScreen"), new Command() {
 
+							@Override
+							public void execute() {
+								pinCmd(pinned);
+							}
+						}, true, app);
+				cbItem.setSelected(pinned);
+				wrappedPopup.addItem(cbItem);
+			} else {
+				addAction(new Command() {
+
+					@Override
+					public void execute() {
+						pinCmd(pinned);
+					}
+				}, MainMenu.getMenuBarHtml(img, loc.getMenu("PinToScreen")),
+						loc.getMenu("PinToScreen"));
+			}
 		}
 
 		Command cmd = null;
@@ -796,15 +811,32 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 
 			final boolean pinned = getGeo().isPinned();
-			GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
-					MainMenu.getMenuBarHtml(img, loc.getMenu("PinToScreen")),
-					new Command() {
+			GCheckBoxMenuItem cbItem;
+			
+			if(app.has(Feature.IMPROVE_CONTEXT_MENU)){
+				cbItem = new GCheckBoxMenuItem(
+						MainMenu.getMenuBarHtml(img, ""),
+						loc.getMenu("ReleaseFromScreen"),
+						loc.getMenu("PinToScreen"),
+						new Command() {
 
-						@Override
-						public void execute() {
-							pinCmd(pinned);
-						}
-					}, true, app);
+							@Override
+							public void execute() {
+								pinCmd(pinned);
+							}
+						}, true, app);				
+			} else {
+				cbItem = new GCheckBoxMenuItem(
+						MainMenu.getMenuBarHtml(img, loc.getMenu("PinToScreen")),
+						new Command() {
+
+							@Override
+							public void execute() {
+								pinCmd(pinned);
+							}
+						}, true, app);
+			}
+
 			cbItem.setSelected(pinned);
 			//
 			// final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(
