@@ -3,6 +3,7 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ContextMenuGeoElementW;
@@ -48,11 +49,19 @@ public class ContextMenuPopup extends MyCJButton
 				.getPopupMenu(ec.getAppSelectedGeos());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
 		// addClickHandler(this);
-		ClickStartHandler.init(this, new ClickStartHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				showMenu();
+
+			}
+		});
+		ClickEndHandler.init(this, new ClickEndHandler(false, true) {
+
+			@Override
+			public void onClickEnd(int x, int y, PointerEventType type) {
+				// only stop
 
 			}
 		});
