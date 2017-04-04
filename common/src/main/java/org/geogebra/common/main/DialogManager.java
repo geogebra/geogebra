@@ -41,7 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 @SuppressWarnings("javadoc")
 public abstract class DialogManager {

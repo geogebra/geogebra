@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 
 import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.Language;
+import org.geogebra.common.util.lang.Language;
 
 /**
  * Desktop localization

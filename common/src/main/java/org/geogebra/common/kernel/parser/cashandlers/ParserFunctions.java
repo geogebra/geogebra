@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * Handles function references for Parser

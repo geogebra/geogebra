@@ -7,8 +7,8 @@ import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.main.AppD;
 
 /*

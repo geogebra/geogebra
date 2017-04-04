@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * Parses the input as a function, simplifies it and returns as text

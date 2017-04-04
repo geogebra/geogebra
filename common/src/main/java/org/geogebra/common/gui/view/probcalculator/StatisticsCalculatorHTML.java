@@ -2,7 +2,7 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * @author G. Sturr

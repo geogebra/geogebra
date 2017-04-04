@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.euclidian.event.FocusListener;
+import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.GFocusEvent;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
@@ -35,8 +36,8 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Unicode;
 
 //import javax.swing.SwingUtilities;
 
@@ -105,7 +106,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 * 
 	 * @author Michael + Judit
 	 */
-	public class InputFieldListener extends FocusListener {
+	public class InputFieldListener extends FocusListener
+			implements FocusListenerDelegate {
 
 		private String initialText;
 
@@ -403,11 +405,10 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	private int getTruncIndex(String text, GGraphics2D g2) {
 		int idx = text.length();
-		int mt = g2.getFontRenderContext().measureTextWidth(text, g2.getFont());
+		int mt = measureTextWidth(text, g2.getFont(), g2);
 		while (mt > boxWidth && idx > 0) {
 			idx--;
-			mt = g2.getFontRenderContext()
-					.measureTextWidth(text.substring(0, idx), g2.getFont());
+			mt = measureTextWidth(text.substring(0, idx), g2.getFont(), g2);
 
 		}
 		return idx;

@@ -1,4 +1,4 @@
-package org.geogebra.common.util;
+package org.geogebra.common.util.lang;
 
 /*
  * Copyright 2007-2011 Nicolas Zozol
@@ -26,6 +26,7 @@ package org.geogebra.common.util;
  *         <a href="http://www.edupassion.com">Edupassion.com</a> -
  *         nzozol@robustaweb.com
  */
+@SuppressWarnings("javadoc")
 public enum Country {
 
 	France("FR", "France"),

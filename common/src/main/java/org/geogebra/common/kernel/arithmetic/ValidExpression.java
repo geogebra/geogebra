@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MacroConstruction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.HasDebugString;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -33,7 +34,8 @@ import org.geogebra.common.util.debug.Log;
  * @author Markus
  * 
  */
-public abstract class ValidExpression implements ExpressionValue {
+public abstract class ValidExpression
+		implements ExpressionValue, HasDebugString {
 
 	private Vector<String> labels;
 	private boolean inTree; // used by ExpressionNode
@@ -343,6 +345,10 @@ public abstract class ValidExpression implements ExpressionValue {
 		return t.check(this);
 	}
 
+	@Override
+	public String getDebugString() {
+		return debugString(this);
+	}
 	/**
 	 * @param s
 	 *            expression

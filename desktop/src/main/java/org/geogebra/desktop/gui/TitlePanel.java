@@ -32,7 +32,7 @@ import javax.swing.event.DocumentListener;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.gui.inputfield.MyFormattedTextField;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;

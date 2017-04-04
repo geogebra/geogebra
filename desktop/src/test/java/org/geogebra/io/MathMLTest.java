@@ -1,7 +1,7 @@
 package org.geogebra.io;
 
 import org.geogebra.common.io.MathMLParser;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.junit.Test;
 
 public class MathMLTest {
@@ -25,7 +25,8 @@ public class MathMLTest {
 					+ "</mo> <mrow> <mi>"
 					+ Unicode.gamma
 					+ "</mi> </mrow> </msub> <mfrac> <mrow> <mi>f</mi> <mo>(</mo> <mi>z</mi> <mo>)</mo>"
-					+ " </mrow> <mrow> <mi>z</mi> <mo>−</mo> <mi>a</mi> </mrow> </mfrac> <mi>d</mi> <mi>z</mi> </mstyle></math>",
+					+ " </mrow> <mrow> <mi>z</mi> <mo>" + Unicode.MINUS
+					+ "</mo> <mi>a</mi> </mrow> </mfrac> <mi>d</mi> <mi>z</mi> </mstyle></math>",
 		// Double angle formula for Cosines
 		"<math display='block'><mrow><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>+</mo><mi>&#x03c6;</mi><mo>)</mo></mrow><mo>=</mo><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>)</mo></mrow><mi>cos</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03c6;</mi><mo>)</mo></mrow><mo>&#x2212;</mo><mi>sin</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03b8;</mi><mo>)</mo></mrow><mi>sin</mi><mo>&#x2061;</mo><mrow><mo>(</mo><mi>&#x03c6;</mi><mo>)</mo></mrow></mrow></math>",
 		// Gauss' Divergence Theorem

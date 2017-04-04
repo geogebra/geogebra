@@ -3,7 +3,7 @@ package org.geogebra.common.gui.inputfield;
 import java.util.HashMap;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 public class AltKeys {
 

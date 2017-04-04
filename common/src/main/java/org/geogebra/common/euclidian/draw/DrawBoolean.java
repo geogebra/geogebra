@@ -145,8 +145,8 @@ public final class DrawBoolean extends Drawable {
 						geoBool.getBackgroundColor(), false, false, null);
 			} else {
 				g2.setPaint(geo.getObjectColor());
-				GTextLayout layout = g2.getFontRenderContext()
-						.getTextLayout(labelDesc, view.getFontPoint());
+				GTextLayout layout = getTextLayout(labelDesc,
+						view.getFontPoint(), g2);
 
 				// ie labelDesc != ""
 				if (layout != null) {

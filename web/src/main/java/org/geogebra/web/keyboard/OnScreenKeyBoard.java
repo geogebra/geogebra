@@ -1,7 +1,7 @@
 package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.Language;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KBBase;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;

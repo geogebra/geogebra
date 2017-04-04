@@ -12,8 +12,8 @@ import javax.swing.UIManager;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.main.FontManager;
-import org.geogebra.common.util.Language;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.awt.GFontD;
 
 /**

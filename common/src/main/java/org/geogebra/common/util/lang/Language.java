@@ -1,4 +1,6 @@
-package org.geogebra.common.util;
+package org.geogebra.common.util.lang;
+
+import java.util.Locale;
 
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
@@ -544,7 +546,8 @@ public enum Language {
 
 	final public static String getClosestGWTSupportedLanguage(
 			String browserLangCode) {
-		String normalizedLanguage = StringUtil.toLowerCase(browserLangCode + "")
+		String normalizedLanguage = (browserLangCode + "")
+				.toLowerCase(Locale.US)
 				.replace("-", "_");
 
 		if ("he".equals(normalizedLanguage)) {

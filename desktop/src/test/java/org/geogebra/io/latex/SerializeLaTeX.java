@@ -3,7 +3,7 @@ package org.geogebra.io.latex;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

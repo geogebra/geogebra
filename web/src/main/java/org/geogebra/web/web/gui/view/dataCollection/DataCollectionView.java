@@ -20,7 +20,7 @@ import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.SensorLogger.Types;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;

@@ -41,8 +41,8 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.parser.cashandlers.ParserFunctions;
 import org.geogebra.common.main.BracketsError;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * Handles parsing and evaluating of input in the CAS view.

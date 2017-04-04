@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.inputfield.FieldHandler;

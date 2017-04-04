@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.Language;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase.Action;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.gui.util.NoDragImage;

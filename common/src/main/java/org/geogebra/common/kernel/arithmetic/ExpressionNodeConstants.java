@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * String constants + String types

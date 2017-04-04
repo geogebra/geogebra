@@ -30,8 +30,8 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.MyMathExact.MyDecimal;
 import org.geogebra.common.util.MyMathExact.MyDecimalMatrix;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * @author Tam

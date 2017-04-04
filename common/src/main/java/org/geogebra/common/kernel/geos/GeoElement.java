@@ -92,14 +92,14 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.LaTeXCache;
-import org.geogebra.common.util.Language;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.Unicode;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.lang.Unicode;
 
 import com.google.j2objc.annotations.Weak;
 

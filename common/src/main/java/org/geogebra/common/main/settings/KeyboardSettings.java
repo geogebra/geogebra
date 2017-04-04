@@ -3,8 +3,8 @@ package org.geogebra.common.main.settings;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.geogebra.common.util.Language;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Language;
 
 /**
  * Settings for Virtual Keyboard

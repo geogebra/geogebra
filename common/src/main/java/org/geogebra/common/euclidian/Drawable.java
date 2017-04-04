@@ -29,6 +29,7 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
+import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -825,6 +826,20 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public void updateGeo(AbstractEvent e) {
 		// do nothing here
+	}
+
+	public int measureTextWidth(String text, GFont font, GGraphics2D g2) {
+		GTextLayout layout = getTextLayout(text, font, g2);
+		return layout != null ? (int) layout.getAdvance() : 0;
+	}
+
+	public GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
+		if (text == null || text.isEmpty()) {
+			return null;
+		}
+		return AwtFactory.getPrototype().newTextLayout(text, font,
+				g2.getFontRenderContext());
+
 	}
 
 }

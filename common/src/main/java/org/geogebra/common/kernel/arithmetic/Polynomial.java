@@ -20,12 +20,13 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.HasDebugString;
 
 /**
  * An Polynomial is a list of Terms
  */
 
-public class Polynomial {
+public class Polynomial implements HasDebugString {
 
 	private ArrayList<Term> terms = new ArrayList<Term>();
 	private Kernel kernel;
@@ -651,6 +652,19 @@ public class Polynomial {
 			break;
 		}
 		return this;
+	}
+
+	@Override
+	public String getDebugString() {
+		StringBuilder sb = new StringBuilder();
+		ExpressionValue[][] coeff = getCoeff();
+		for (int i = 0; i < coeff.length; i++) {
+			for (int j = 0; j < coeff[i].length; j++) {
+				sb.append(ValidExpression.debugString(coeff[i][j]));
+				sb.append('\n');
+			}
+		}
+		return sb.toString();
 	}
 
 } // end of class Polynomial

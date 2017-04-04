@@ -166,8 +166,8 @@ public abstract class CanvasDrawable extends Drawable {
 	protected int getTextHeight(GGraphics2D g2, String text) {
 		// make sure layout won't be null ("" makes it null).
 
-		GTextLayout layout = g2.getFontRenderContext()
-				.getTextLayout("".equals(text) ? "A" : text, getLabelFont());
+		GTextLayout layout = getTextLayout("".equals(text) ? "A" : text,
+				getLabelFont(), g2);
 
 		return (int) (layout.getBounds().getHeight());
 	}
@@ -181,8 +181,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected GTextLayout getLayout(GGraphics2D g2, String text, GFont font) {
 		// make sure layout won't be null ("" makes it null).
-		return g2.getFontRenderContext()
-				.getTextLayout("".equals(text) ? "A" : text, font);
+		return getTextLayout("".equals(text) ? "A" : text, font, g2);
 	}
 
 	protected abstract void drawWidget(GGraphics2D g2);

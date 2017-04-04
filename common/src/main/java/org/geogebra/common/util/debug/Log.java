@@ -3,10 +3,7 @@ package org.geogebra.common.util.debug;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Polynomial;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
-import org.geogebra.common.main.Feature;
+//import org.geogebra.common.main.Feature;
 
 /**
  * Common logging class
@@ -448,7 +445,7 @@ public abstract class Log {
 		}
 	}
 
-	public static void debug(Feature f, String message) {
+	public static void debug(Object f, String message) {
 		if (logger != null) {
 			logger.log(logger.DEBUG, "[" + f + "] " + message);
 		}
@@ -509,18 +506,11 @@ public abstract class Log {
 			debug(sb.toString());
 			return;
 		}
-		if (s instanceof ExpressionValue) {
-			debug(ValidExpression.debugString((ExpressionValue) s), 5);
+		if (s instanceof HasDebugString) {
+			debug(((HasDebugString) s).getDebugString(), 5);
 			return;
 		}
-		if (s instanceof Polynomial) {
-			ExpressionValue[][] coeff = ((Polynomial) s).getCoeff();
-			for (int i = 0; i < coeff.length; i++) {
-				for (int j = 0; j < coeff[i].length; j++) {
-					debug(ValidExpression.debugString(coeff[i][j]), 5);
-				}
-			}
-		}
+
 		if (s instanceof Throwable && logger != null) {
 			logger.doPrintStacktrace((Throwable) s);
 			return;

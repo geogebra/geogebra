@@ -1,6 +1,6 @@
 package org.geogebra.web.editor;
 
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.web.KeyboardConstants;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;

@@ -26,8 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.Language;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.gui.menubar.LanguageActionListener;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;

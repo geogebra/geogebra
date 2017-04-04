@@ -5,7 +5,7 @@ package org.geogebra.common.io;
 
 import java.util.HashMap;
 
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 
 /**
  * Apache 2.0 Licence

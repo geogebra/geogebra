@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.Unicode;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ListDataModel;
 

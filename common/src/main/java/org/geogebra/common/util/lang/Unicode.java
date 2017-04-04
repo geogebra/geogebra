@@ -1,4 +1,4 @@
-package org.geogebra.common.util;
+package org.geogebra.common.util.lang;
 
 @SuppressWarnings("javadoc")
 public class Unicode {

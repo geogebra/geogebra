@@ -6,8 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.util.Country;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.lang.Country;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
