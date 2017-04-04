@@ -6,6 +6,7 @@ targetCompatibility = 1.7
 
 evaluationDependsOn(':keyboard-base')
 evaluationDependsOn(':common')
+evaluationDependsOn(':web:dev')
 
 buildscript {
     dependencies {
