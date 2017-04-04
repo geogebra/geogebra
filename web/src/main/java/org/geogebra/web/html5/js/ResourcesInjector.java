@@ -2,8 +2,9 @@ package org.geogebra.web.html5.js;
 
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -18,10 +19,7 @@ import com.google.gwt.user.client.Window.Location;
  */
 public class ResourcesInjector {
 
-	/**
-	 * resource class name
-	 */
-	public static final String CLASSNAME = "ggw_resource";
+
 	private static boolean resourcesInjected = false;
 	private static ResourcesInjector INSTANCE;
 
@@ -101,7 +99,8 @@ public class ResourcesInjector {
 	public static void removeResources() {
 		resourcesInjected = false;
 		// this list is live
-		NodeList<Element> resources = Dom.getElementsByClassName(CLASSNAME);
+		NodeList<Element> resources = Dom
+				.getElementsByClassName(StyleInjector.CLASSNAME);
 		while (resources.getLength() > 0) {
 			resources.getItem(resources.getLength() - 1).removeFromParent();
 		}

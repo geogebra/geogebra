@@ -106,7 +106,6 @@ import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
-import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
@@ -122,6 +121,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;

@@ -138,8 +138,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
-					btnBold.setValue(style == GFont.BOLD || style == (GFont.BOLD
-							+ org.geogebra.common.awt.GFont.ITALIC));
+					btnBold.setValue(style == GFont.BOLD
+							|| style == (GFont.BOLD + GFont.ITALIC));
 				}
 			}
 		};

@@ -13,9 +13,8 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.geogebra.web.html5.css;
+package org.geogebra.web.resources;
 
-import org.geogebra.web.html5.js.ResourcesInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
@@ -44,6 +43,10 @@ import com.google.gwt.resources.client.TextResource;
  * up until, and excluding, IE10).
  */
 public class StyleInjector {
+	/**
+	 * resource class name
+	 */
+	public static final String CLASSNAME = "ggw_resource";
 
 	/**
 	 * The DOM-compatible way of adding stylesheets. This implementation
@@ -245,7 +248,7 @@ public class StyleInjector {
 	public static StyleElement createElementGGB() {
 		StyleElement style = Document.get().createStyleElement();
 		style.setPropertyString("language", "text/css");
-		style.setClassName(ResourcesInjector.CLASSNAME);
+		style.setClassName(CLASSNAME);
 		return style;
 	}
 

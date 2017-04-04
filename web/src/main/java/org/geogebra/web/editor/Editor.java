@@ -3,9 +3,9 @@ package org.geogebra.web.editor;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
-import org.geogebra.web.html5.css.StyleInjector;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;

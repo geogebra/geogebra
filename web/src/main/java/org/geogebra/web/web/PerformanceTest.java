@@ -27,13 +27,13 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GeoGebraFrameSimple;
-import org.geogebra.web.html5.js.JavaScriptInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.html5.util.debug.LoggerW;
+import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;

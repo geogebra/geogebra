@@ -10,7 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.js.JavaScriptInjector;
+import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;

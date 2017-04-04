@@ -66,7 +66,6 @@ public class KeyBoardButtonBase extends SimplePanel {
 			}
 		});
 		addStyleName("KeyBoardButton");
-		addStyleName("MouseDownDoesntExitEditingFeature");
 	}
 
 	/**

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.js;
+package org.geogebra.web.resources;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -31,7 +31,7 @@ public class JavaScriptInjector {
 		ScriptElement script = Document.get().createScriptElement();
 		script.setAttribute("language", "javascript");
 		script.setAttribute("id", id);
-		script.setClassName(ResourcesInjector.CLASSNAME);
+		script.setClassName(StyleInjector.CLASSNAME);
 		return script;
 	}
 
