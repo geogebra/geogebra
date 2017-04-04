@@ -202,6 +202,9 @@ public final class DrawText extends Drawable {
 				g2.draw(labelRectangle);
 			}
 		}
+		GeoText geoText = (GeoText) geo;
+		geoText.setTotalWidth((int) labelRectangle.getWidth());
+		geoText.setTotalHeight((int) labelRectangle.getHeight());
 	}
 
 	/**
@@ -283,10 +286,6 @@ public final class DrawText extends Drawable {
 		return labelRectangle;
 	}
 
-	final public GRectangle getBoundsRectangle() {
-
-		return labelRectangle;
-	}
 	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub

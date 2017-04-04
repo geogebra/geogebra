@@ -1272,6 +1272,8 @@ public class GeoText extends GeoElement
 
 	private TraceModesEnum traceModes;
 	private boolean symbolicMode;
+	private int totalHeight;
+	private int totalWidth;
 
 	@Override
 	public TraceModesEnum getTraceModes() {
@@ -1410,12 +1412,32 @@ public class GeoText extends GeoElement
 		return this.symbolicMode;
 	}
 
+	/**
+	 * Sets the total width of the geo.
+	 * 
+	 * @param width
+	 *            to set.
+	 */
+	public void setTotalWidth(int width) {
+		totalWidth = width;
+	}
+
+	/**
+	 * Sets the total height of the geo.
+	 * 
+	 * @param height
+	 *            to set.
+	 */
+	public void setTotalHeight(int height) {
+		totalHeight = height;
+	}
+
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
-		return (int) (ev.getXscale() * boundingBox.getWidth());
+		return totalWidth;
 	}
 
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
-		return (int) (ev.getYscale() * boundingBox.getHeight());
+		return totalHeight;
 	}
 
 }

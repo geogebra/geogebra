@@ -1087,6 +1087,9 @@ public final class DrawDropDownList extends CanvasDrawable
 		if (isVisible) {
 			drawOnCanvas(g2, "");
 		}
+		geoList.setTotalWidth(getTotalWidth());
+		geoList.setTotalWidth(getTotalHeight());
+
 	}
 
 	/**

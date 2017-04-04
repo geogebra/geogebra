@@ -2651,6 +2651,9 @@ public class GeoList extends GeoElement
 	private boolean emphasizeRightAngle = true;
 	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 
+	private int totalWidth = 0;
+	private int totalHeight = 0;
+
 	@Override
 	public void setAngleStyle(int style) {
 		setAngleStyle(AngleStyle.getStyle(style));
@@ -3170,12 +3173,32 @@ public class GeoList extends GeoElement
 		return bgColor;
 	}
 
+	/**
+	 * Sets the total width of the geo.
+	 * 
+	 * @param width
+	 *            to set.
+	 */
+	public void setTotalWidth(int width) {
+		totalWidth = width;
+	}
+
+	/**
+	 * Sets the total height of the geo.
+	 * 
+	 * @param height
+	 *            to set.
+	 */
+	public void setTotalHeight(int height) {
+		totalHeight = height;
+	}
+
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
-		return 0;
+		return totalWidth;
 	}
 
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
-		return 0;
+		return totalHeight;
 	}
 
 }
