@@ -7032,12 +7032,12 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseclicked(boolean control, int clickCount,
 			PointerEventType type) {
-
+		if (app.showMenuBar() || control || penMode(this.mode)) {
+			return;
+		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
 		if (clickCount == 2) {
-			if (app.isApplet() || control) {
-				return;
-			}
+
 
 			selection.clearSelectedGeos(true, false);
 			app.updateSelection(false);
