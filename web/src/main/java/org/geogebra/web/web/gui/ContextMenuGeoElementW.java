@@ -244,18 +244,30 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								.getSafeUri().asString();
 					}
 
-					cbItem = new GCheckBoxMenuItem(
-							MainMenu.getMenuBarHtml(img,
-									loc.getMenu("RecordToSpreadsheet")),
-							new Command() {
+					if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+						cbItem = new GCheckBoxMenuItem(
+								MainMenu.getMenuBarHtml(img, ""),
+								loc.getMenu("DontRecordToSpreadsheet"),
+								loc.getMenu("RecordToSpreadsheet"),
+								new Command() {
 
-								@Override
-								public void execute() {
-									recordToSpreadSheetCmd();
-									// Log.debug("not ported yet
-									// recordToSpreadSheetCmd();");
-								}
-							}, true, app);
+									@Override
+									public void execute() {
+										recordToSpreadSheetCmd();
+									}
+								}, true, app);
+					} else {
+						cbItem = new GCheckBoxMenuItem(
+								MainMenu.getMenuBarHtml(img,
+										loc.getMenu("RecordToSpreadsheet")),
+								new Command() {
+
+									@Override
+									public void execute() {
+										recordToSpreadSheetCmd();
+									}
+								}, true, app);
+					}
 					cbItem.setSelected(getGeo().getSpreadsheetTrace());
 					wrappedPopup.addItem(cbItem);
 				}
