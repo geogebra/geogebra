@@ -608,7 +608,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
 				GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
-						loc.getMenu("ReleaseFromScreen"),
+						loc.getMenu("UnpinFromScreen"),
 						loc.getMenu("PinToScreen"), new Command() {
 
 							@Override
@@ -828,7 +828,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			if(app.has(Feature.IMPROVE_CONTEXT_MENU)){
 				cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
-						loc.getMenu("ReleaseFromScreen"),
+						loc.getMenu("UnpinFromScreen"),
 						loc.getMenu("PinToScreen"),
 						new Command() {
 
