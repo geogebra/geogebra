@@ -1,9 +1,17 @@
 package org.geogebra.keyboard.web;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Language;
+import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -18,38 +26,58 @@ import com.google.gwt.user.client.ui.Widget;
 public class TabbedKeyboard extends FlowPanel {
 
 	private KeyboardLocale locale;
+	private boolean isSmallKeyboard;
+	private HasKeyboard app;
+	private ArrayList<Keyboard> layouts = new ArrayList<Keyboard>(4);
+	private Object keyboardLocale;
+	private ButtonHandler bh;
 
 	public TabbedKeyboard() {
 
 	}
 
-	public void buildGUI(ButtonHandler kb, KeyboardLocale loc) {
+	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
 		KeyboardFactory kbf = new KeyboardFactory();
 		FlowPanel tabs = new FlowPanel();
 		HorizontalPanel switcher = new HorizontalPanel();
-		this.locale = loc;
-		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), kb);
+		this.app = app;
+		this.bh = bh;
+		this.locale = app.getLocalization();
+		this.keyboardLocale = locale.getLocaleStr();
+		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), bh);
 		tabs.add(keyboard);
 		switcher.add(makeSwitcherButton(keyboard, "DEF"));
 
-		keyboard = buildPanel(kbf.createFunctionsKeyboard(), kb);
+		keyboard = buildPanel(kbf.createFunctionsKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, "Fn"));
 
-		keyboard = buildPanel(kbf.createGreekKeyboard(), kb);
+		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, "GREEK"));
 
-		keyboard = buildPanel(kbf.createLettersKeyboard("QWERTYUIOP",
-				"ASDFGHJKL''", "ZXCVBNM"), kb);
+		keyboard = buildPanel(
+				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1)),
+						filter(locale.getKeyboardRow(2)),
+						filter(locale.getKeyboardRow(3))),
+				bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, "ABC"));
-
 		add(switcher);
 		add(tabs);
+		addStyleName("KeyBoard");
+	}
+
+	private String filter(String keys) {
+		StringBuilder sb = new StringBuilder(11);
+		for (int i = 0; i < keys.length(); i += 2) {
+			sb.append(keys.charAt(i));
+		}
+		Log.debug(sb);
+		return sb.toString();
 	}
 
 	private Widget makeSwitcherButton(final KeyPanelBase keyboard,
@@ -71,10 +99,25 @@ public class TabbedKeyboard extends FlowPanel {
 		return ret;
 	}
 
-	private KeyPanelBase buildPanel(Keyboard layout, ButtonHandler b) {
-		KeyPanelBase keyboard = new KeyPanelBase();
-		keyboard.addStyleName("KeyBoard");
+	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
+		final KeyPanelBase keyboard = new KeyPanelBase();
+		layouts.add(layout);
+		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
+		updatePanel(keyboard, layout, bh);
+		layout.registerKeyboardObserver(new KeyboardObserver() {
+
+			public void keyboardModelChanged(Keyboard l2) {
+				updatePanel(keyboard, l2, bh);
+
+			}
+		});
+		return keyboard;
+	}
+
+	private void updatePanel(KeyPanelBase keyboard, Keyboard layout,
+			ButtonHandler bh) {
+		keyboard.reset();
 		int index = 0;
 		for (Row row : layout.getModel().getRows()) {
 			double offset = 0;
@@ -82,7 +125,7 @@ public class TabbedKeyboard extends FlowPanel {
 				if (Action.NONE.name().equals(wb.getActionName())) {
 					offset = wb.getWeight();
 				} else {
-					KeyBoardButtonBase button = makeButton(wb, b);
+					KeyBoardButtonBase button = makeButton(wb, bh);
 					if (offset > 0) {
 						button.getElement().getStyle()
 								.setMarginLeft(offset * 50, Unit.PX);
@@ -95,27 +138,174 @@ public class TabbedKeyboard extends FlowPanel {
 			}
 			index++;
 		}
-		return keyboard;
+
 	}
 
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
-		switch (wb.getActionType()) {
+		switch (wb.getResourceType()) {
 
 
-		case INPUT_TRANSLATE_MENU:
+		case TRANSLATION_MENU_KEY:
 			return new KeyBoardButtonBase(locale.getMenu(wb.getActionName()),
 					wb.getActionName().replace("Function.", ""), b);
-		case INPUT_TRANSLATE_COMMAND:
+		case TRANSLATION_COMMAND_KEY:
 			return new KeyBoardButtonBase(locale.getCommand(wb.getActionName()),
 					wb.getActionName(), b);
-		case CUSTOM:
-			return new KeyBoardButtonBase(wb.getActionName(),
-					wb.getActionName(), b);
-		case INPUT:
+		case DEFINED_CONSTANT:
+			return functionButton(wb, b);
+		case TEXT:
 		default:
+			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
+				return accentButton(ButtonConstants.ACCENT_ACUTE, b);
+			}
+			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_CARON.name())) {
+				return accentButton(ButtonConstants.ACCENT_CARON, b);
+			}
+			if (wb.getActionName()
+					.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
+				return accentButton(ButtonConstants.ACCENT_CIRCUMFLEX, b);
+			}
+			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
+				return accentButton(ButtonConstants.ACCENT_GRAVE, b);
+			}
+
 			return new KeyBoardButtonBase(wb.getActionName(),
 					wb.getActionName(), b);
 		}
+
+	}
+
+	protected boolean isAccent(String txt) {
+		return ButtonConstants.ACCENT_GRAVE.equals(txt)
+				|| ButtonConstants.ACCENT_ACUTE.equals(txt)
+				|| ButtonConstants.ACCENT_CIRCUMFLEX.equals(txt)
+				|| ButtonConstants.ACCENT_CARON.equals(txt);
+	}
+	private KeyBoardButtonBase accentButton(String accent, ButtonHandler b) {
+		return new KeyBoardButtonBase(accent, accent, b);
+	}
+
+	protected void processShift() {
+		for (Keyboard layout : layouts) {
+			layout.toggleCapsLock();
+		}
+	}
+
+	protected void processAccent(String text) {
+		for (Keyboard layout : layouts) {
+			layout.toggleAccent(text);
+		}
+
+	}
+
+	private KeyBoardButtonBase functionButton(WeightedButton button,
+			ButtonHandler bh) {
+		String resourceName = button.getResourceName();
+		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_enter(), bh,
+					KeyBoardButtonFunctionalBase.Action.ENTER);
+		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
+					KeyBoardButtonFunctionalBase.Action.BACKSPACE);
+		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_arrowLeft(), bh,
+					KeyBoardButtonFunctionalBase.Action.ARROW_LEFT);
+		} else if (resourceName.equals(Resource.RIGHT_ARROW.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_arrowRight(), bh,
+					KeyBoardButtonFunctionalBase.Action.ARROW_RIGHT);
+		} else if (resourceName.equals(Resource.POWA2.name())) {
+			return new KeyBoardButtonBase("a^2", "^2", bh);
+		} else if (resourceName.equals(Resource.POWAB.name())) {
+			return new KeyBoardButtonBase("a^b", "a^x", bh);
+		}
+		else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_shift(), bh,
+					KeyBoardButtonFunctionalBase.Action.SHIFT);
+		} else if (resourceName.equals(Resource.CAPS_LOCK_ENABLED.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
+					KeyBoardButtonFunctionalBase.Action.SHIFT);
+		} else if (resourceName.equals(Resource.POW10_X.name())) {
+			return new KeyBoardButtonBase("10^x", "10^", bh);
+		} else if (resourceName.equals(Resource.POWE_X.name())) {
+			return new KeyBoardButtonBase(Unicode.EULER_STRING + "^x",
+					Unicode.EULER_STRING + "^", bh);
+		}
+		else if (resourceName.equals(Resource.LOG_10.name())) {
+			return new KeyBoardButtonBase("log_10", "log10", bh);
+		}
+		// else if (resourceName.equals(Resource.LOG_B.name())) {
+		// buttonView.setSpannable(createSubscript("log", "b"));
+		// }
+		else if (resourceName.equals(Resource.A_N.name())) {
+			return new KeyBoardButtonBase("a_n", "_", bh);
+		}
+		// else if (resourceName.equals(Resource.N_ROOT.name())) {
+		// buttonView.setImageResource(R.drawable.nroot);
+		// } else if (resourceName.equals(Resource.INTEGRAL.name())) {
+		// buttonView.setImageResource(R.drawable.integral);
+		// } else if (resourceName.equals(Resource.DERIVATIVE.name())) {
+		// buttonView.setImageResource(R.drawable.d_dx);
+		// } else if (resourceName.equals(Resource.ROOT.name())) {
+		// buttonView.setImageResource(R.drawable.sqrt);
+		// }
+
+		return new KeyBoardButtonBase(button.getActionName(),
+				button.getActionName(), bh);
+	}
+
+	public void updateSize() {
+		if (app.getWidth() < 12) {
+			return;
+		}
+		// -10 because of padding, -2 for applet border
+		this.setWidth(app.getWidth() - 12 + "px");
+		boolean shouldBeSmall = app.needsSmallKeyboard();
+		if (shouldBeSmall && !isSmallKeyboard) {
+			this.addStyleName("lowerHeight");
+			this.isSmallKeyboard = true;
+		} else if (!shouldBeSmall && isSmallKeyboard) {
+			this.removeStyleName("lowerHeight");
+			this.isSmallKeyboard = false;
+		}
+		updateHeight();
+	}
+
+	private void updateHeight() {
+		if (app != null) {
+			app.updateKeyboardHeight();
+		}
+	}
+
+	/**
+	 * loads the translation-files for the active language if it is different
+	 * from the last loaded language and sets the {@link #keyboardLocale} to the
+	 * new language
+	 */
+	protected void checkLanguage() {
+		if (bh == null) {
+			return;
+		}
+		// TODO validate?
+		String newKeyboardLocale = app.getLocalization().getLocaleStr();
+
+		if (newKeyboardLocale != null
+				&& keyboardLocale.equals(newKeyboardLocale)) {
+			return;
+		}
+		if (newKeyboardLocale != null) {
+			this.keyboardLocale = newKeyboardLocale;
+		} else {
+			this.keyboardLocale = Language.English_US.localeGWT;
+		}
+
+		clear();
+		buildGUI(bh, app);
 
 	}
 }

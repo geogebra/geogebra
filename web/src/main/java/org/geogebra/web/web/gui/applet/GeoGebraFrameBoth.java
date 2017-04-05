@@ -370,8 +370,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		int oldHeight = keyboardHeight;
 		keyboardHeight = keyBoard.getOffsetHeight();
 		if (keyboardHeight == 0) {
-			keyboardHeight = app.needsSmallKeyboard() ? KBBase.SMALL_HEIGHT
-					: KBBase.BIG_HEIGHT;
+			keyboardHeight = estimateKeyboardHeight();
 		}
 		app.addToHeight(oldHeight - keyboardHeight);
 		app.updateCenterPanel();
@@ -584,6 +583,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		return null;
 	}
 
+	/**
+	 * Schedule keyboard editing in 500ms
+	 */
 	protected void ensureKeyboardDeferred() {
 		new Timer() {
 
@@ -638,8 +640,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			int newHeight = getOnScreenKeyboard(null)
 					.getOffsetHeight();
 			if (newHeight == 0) {
-				newHeight = app.needsSmallKeyboard() ? KBBase.SMALL_HEIGHT
-						: KBBase.BIG_HEIGHT;
+				newHeight = estimateKeyboardHeight();
 			}
 			if (newHeight > 0) {
 				app.addToHeight(this.keyboardHeight - newHeight);
@@ -650,6 +651,15 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 						.add(getOnScreenKeyboard(null));
 			}
 		}
+	}
+
+	private int estimateKeyboardHeight() {
+		int newHeight = app.needsSmallKeyboard() ? KBBase.SMALL_HEIGHT
+				: KBBase.BIG_HEIGHT;
+		if (app.has(Feature.TABBED_KEYBOARD)) {
+			newHeight += 30;
+		}
+		return newHeight;
 	}
 
 	@Override

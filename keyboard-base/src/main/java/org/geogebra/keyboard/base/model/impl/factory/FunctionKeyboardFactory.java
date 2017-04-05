@@ -1,11 +1,5 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
 import static org.geogebra.keyboard.base.ButtonConstants.DEGREE;
 import static org.geogebra.keyboard.base.ButtonConstants.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
@@ -14,6 +8,12 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInpu
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
+
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
 
 class FunctionKeyboardFactory {
 
@@ -45,7 +45,7 @@ class FunctionKeyboardFactory {
         addConstantInputButton(row, buttonFactory, Resource.LOG_10, "log_{10}", width);
         addConstantInputButton(row, buttonFactory, Resource.LOG_B, "logb", width);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
-        addConstantInputCommandButton(row, buttonFactory, Resource.LOG_10, "Derivative", 1.0f);
+		addConstantInputCommandButton(row, buttonFactory, Resource.DERIVATIVE, "Derivative", 1.0f);
         addConstantInputCommandButton(row, buttonFactory, Resource.INTEGRAL, "Integral", 1.0f);
         addInputButton(row, buttonFactory, "i", "\u03af");
         addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE);

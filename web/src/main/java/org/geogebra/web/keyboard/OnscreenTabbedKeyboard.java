@@ -10,6 +10,7 @@ import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
@@ -21,10 +22,19 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	private UpdateKeyBoardListener updateKeyBoardListener;
 
 	public OnscreenTabbedKeyboard(HasKeyboard app) {
-		buildGUI(this, app.getLocalization());
+		buildGUI(this, app);
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// just stop propagation
+
+			}
+		});
 	}
 
 	public void show() {
+		checkLanguage();
 		setVisible(true);
 
 	}
@@ -44,10 +54,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}
 
-	public void updateSize() {
-		// TODO Auto-generated method stub
 
-	}
 
 	public void setStyleName() {
 		// TODO Auto-generated method stub
@@ -81,7 +88,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			switch (button.getAction()) {
 			case SHIFT:
 				// removeAccents();
-				// processShift();
+				processShift();
 				break;
 			case BACKSPACE:
 				processField.onBackSpace();
@@ -130,7 +137,12 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		} else {
 
 			String text = btn.getFeedback();
-			processField.insertString(text); // TODO
+			if (isAccent(text)) {
+				processAccent(text);
+			} else {
+				processField.insertString(text); // TODO
+				processAccent(null);
+			}
 			// if (isAccent(text)) {
 			// processAccent(text, btn);
 			// } else {
@@ -160,5 +172,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			}
 		});
 	}
+
 
 }

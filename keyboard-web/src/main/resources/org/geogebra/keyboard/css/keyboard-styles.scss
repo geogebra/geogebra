@@ -43,7 +43,7 @@
 	}
 	
 	/* special css for Springboard */
-	.GeoGebraFrame .KeyBoard table {
+	.KeyBoard table {
 	    border-collapse: separate;
 	}
 	
@@ -278,5 +278,9 @@
 	/* width of panel with enter, delete, left, right */
 	.scale .KeyPanelLetters .KeyPanelRow td {
 		width: 9%;
+	}
+	/** tabbed keyboard */
+	.KeyPanel{
+		margin:auto;
 	} 
 }

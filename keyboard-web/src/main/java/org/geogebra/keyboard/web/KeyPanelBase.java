@@ -39,6 +39,12 @@ public class KeyPanelBase extends VerticalPanel {
 		buttons.add(button);
 	}
 
+	public void reset() {
+		clear();
+		rows.clear();
+		buttons.clear();
+	}
+
 	/**
 	 * @return all {@link KeyBoardButtonBase buttons} of this keyPanel
 	 */
