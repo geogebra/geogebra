@@ -65,6 +65,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
 import org.geogebra.web.web.cas.view.RowHeaderPopupMenuW;
@@ -99,6 +100,7 @@ import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.ScriptArea;
+import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
@@ -169,7 +171,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private boolean listeningToLogin = false;
 	private ToolBarW updateToolBar = null;
 	private DataCollectionView dataCollectionView;
-	private OnScreenKeyBoard onScreenKeyboard;
+	private VirtualKeyboardGUI onScreenKeyboard;
 
 	private int activeViewID;
 
@@ -2109,7 +2111,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (onScreenKeyboard == null) {
 
 			boolean korean = app.has(Feature.KOREAN_KEYBOARD);
-			onScreenKeyboard = new OnScreenKeyBoard((HasKeyboard) app, korean);
+			if (app.has(Feature.TABBED_KEYBOARD)) {
+				onScreenKeyboard = new OnscreenTabbedKeyboard(
+						(HasKeyboard) app);
+			} else {
+				onScreenKeyboard = new OnScreenKeyBoard((HasKeyboard) app,
+						korean);
+			}
 		}
 
 		if (textField != null) {

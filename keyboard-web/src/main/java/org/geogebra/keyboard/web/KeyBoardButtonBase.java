@@ -79,9 +79,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	/**
 	 * @param caption
 	 *            text of the button
-	 * @param setFeedback
-	 *            whether or not the feedback of the button should be changed to
-	 *            the new caption
+	 * @param feedback1
+	 *            feedback of the button (to be inserted in textfield)
 	 */
 	public void setCaption(String caption, String feedback1) {
 		this.caption = caption;

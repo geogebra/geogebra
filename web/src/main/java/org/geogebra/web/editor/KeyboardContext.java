@@ -39,6 +39,14 @@ public class KeyboardContext implements HasKeyboard {
 				return i == 1 ? "qQwWeErRtTyYuUiIoOpP"
 						: (i == 2 ? "aAsSdDfFgGhHjJkKlL''" : "zZxXcCvVbBnNmM");
 			}
+
+			public String getMenu(String string) {
+				return string.replace("Function.", "");
+			}
+
+			public String getCommand(String string) {
+				return string;
+			}
 		};
 	}
 

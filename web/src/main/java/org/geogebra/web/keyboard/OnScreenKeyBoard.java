@@ -10,7 +10,7 @@ import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
 import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.KeyboardMode;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
 
@@ -18,7 +18,7 @@ import com.google.gwt.core.client.Scheduler;
  * on screen keyboard containing mathematical symbols and formulas
  */
 public class OnScreenKeyBoard extends KBBase
-		implements VirtualKeyboardW, ButtonHandler {
+		implements VirtualKeyboardGUI, ButtonHandler {
 	/**
 	 * should not be called; use getInstance instead
 	 * 
