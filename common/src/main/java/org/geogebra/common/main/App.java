@@ -4181,7 +4181,7 @@ public abstract class App implements UpdateSelection {
 		case FILE_CONTROLS:
 			return prerelease;
 		case IMPROVE_CONTEXT_MENU:
-			return prerelease;
+			return prerelease && whiteboard;
 		case CLEAR_VIEW_STYLEBAR:
 			return prerelease && whiteboard;
 
