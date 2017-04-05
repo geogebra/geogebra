@@ -3,6 +3,7 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
@@ -22,9 +23,16 @@ public class AxesPopup extends PopupMenuButtonW {
 
 	@Override
 	public void update(Object[] geos) {
-		this.setVisible(
-				geos.length == 0 && !EuclidianView.isPenMode(app.getMode())
-						&& app.getMode() != EuclidianConstants.MODE_DELETE);
+		if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			this.setVisible(geos.length == 0);
+		} else {
+			this.setVisible(
+					geos.length == 0 && !EuclidianView.isPenMode(app.getMode())
+							&& app.getMode() != EuclidianConstants.MODE_DELETE);
+
+		}
+		
+		
 	}
 
 	@Override

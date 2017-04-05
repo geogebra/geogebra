@@ -386,13 +386,18 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		Object[] geos;
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			ArrayList<GeoElement> geoList = new ArrayList<GeoElement>();
-			for (GeoElement geo0 : activeGeoList) {
-				if (geo0.isEuclidianVisible()) {
-					geoList.add(geo0);
+
+			if (!isDynamicStylebar() && app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+				geos = new Object[0];
+			} else {
+				ArrayList<GeoElement> geoList = new ArrayList<GeoElement>();
+				for (GeoElement geo0 : activeGeoList) {
+					if (geo0.isEuclidianVisible()) {
+						geoList.add(geo0);
+					}
 				}
+				geos = geoList.toArray();
 			}
-			geos = geoList.toArray();
 		} else {
 			geos = activeGeoList.toArray();
 		}

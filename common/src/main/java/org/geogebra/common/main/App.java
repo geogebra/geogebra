@@ -4182,6 +4182,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case IMPROVE_CONTEXT_MENU:
 			return prerelease;
+		case CLEAR_VIEW_STYLEBAR:
+			return prerelease;
 
 			case AND_TRACE_IN_PROPERTIES:
 				return prerelease;
