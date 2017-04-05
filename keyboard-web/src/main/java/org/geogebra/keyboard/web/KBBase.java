@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase.Action;
@@ -231,6 +230,8 @@ public abstract class KBBase extends PopupPanel {
 
 	private boolean isSmallKeyboard = false;
 
+	private ButtonHandler handler;
+
 	protected void initAccentAcuteLetters() {
 		accentAcute.put("a", "\u00e1");
 		accentAcute.put("A", "\u00c1");
@@ -308,6 +309,14 @@ public abstract class KBBase extends PopupPanel {
 		super(autoHide);
 		this.app = app;
 		localization = new KeyboardLocalization();
+	}
+
+	/**
+	 * @param handler
+	 *            click handler for buttons
+	 */
+	public void setButtonHandler(ButtonHandler handler) {
+		this.handler = handler;
 	}
 
 	@Override
@@ -753,7 +762,7 @@ public abstract class KBBase extends PopupPanel {
 	protected KeyBoardButtonBase addButton(String caption, String feedback,
 			int index, KeyPanelBase panel) {
 		KeyBoardButtonBase button = new KeyBoardButtonBase(caption, feedback,
-				this);
+				handler);
 		panel.addToRow(index, button);
 		return button;
 	}
@@ -776,7 +785,7 @@ public abstract class KBBase extends PopupPanel {
 	protected KeyBoardButtonFunctionalBase addFunctionalButton(int index,
 			KeyPanelBase keyPanel, String caption, Action action) {
 		KeyBoardButtonFunctionalBase button = new KeyBoardButtonFunctionalBase(
-				caption, this, action);
+				caption, handler, action);
 		keyPanel.addToRow(index, button);
 		return button;
 	}
@@ -799,20 +808,12 @@ public abstract class KBBase extends PopupPanel {
 	protected KeyBoardButtonFunctionalBase addFunctionalButton(
 			ImageResource image, Action action, int index, KeyPanelBase keyPanel) {
 		KeyBoardButtonFunctionalBase button = new KeyBoardButtonFunctionalBase(
-				image, this, action);
+				image, handler, action);
 		keyPanel.addToRow(index, button);
 		return button;
 	}
 
-	/**
-	 * processes the click on one of the keyboard buttons
-	 * 
-	 * @param btn
-	 *            the button that was clicked
-	 * @param type
-	 *            the type of click (mouse vs. touch)
-	 */
-	public abstract void onClick(KeyBoardButtonBase btn, PointerEventType type);
+
 
 	/**
 	 * set the text field that will receive the input from the keyboard

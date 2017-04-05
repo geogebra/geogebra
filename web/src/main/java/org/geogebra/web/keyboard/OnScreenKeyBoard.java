@@ -2,12 +2,13 @@ package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.lang.Language;
+import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KBBase;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;
 import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
-import org.geogebra.keyboard.web.KeyboardMode;
 import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
+import org.geogebra.keyboard.web.KeyboardMode;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 
@@ -16,7 +17,8 @@ import com.google.gwt.core.client.Scheduler;
 /**
  * on screen keyboard containing mathematical symbols and formulas
  */
-public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
+public class OnScreenKeyBoard extends KBBase
+		implements VirtualKeyboardW, ButtonHandler {
 	/**
 	 * should not be called; use getInstance instead
 	 * 
@@ -31,6 +33,7 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 			addSupportedLocale(Language.Korean, "ko");
 		}
 		this.loc = app.getLocalization(); // TODO
+		setButtonHandler(this);
 		addStyleName("KeyBoard");
 		createKeyBoard();
 		initAccentAcuteLetters();
@@ -43,7 +46,6 @@ public class OnScreenKeyBoard extends KBBase implements VirtualKeyboardW {
 
 	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
-		// TODO
 		ToolTipManagerW.hideAllToolTips();
 		if (processField == null) {
 			return;

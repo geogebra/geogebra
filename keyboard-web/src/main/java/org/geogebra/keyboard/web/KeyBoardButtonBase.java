@@ -35,7 +35,8 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButtonBase(String caption, String feedback, KBBase handler) {
+	public KeyBoardButtonBase(String caption, String feedback,
+			ButtonHandler handler) {
 		this(handler);
 		this.label = new Label();
 		setCaption(caption);
@@ -50,7 +51,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	protected KeyBoardButtonBase(final KBBase handler) {
+	protected KeyBoardButtonBase(final ButtonHandler handler) {
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {

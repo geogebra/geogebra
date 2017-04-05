@@ -32,7 +32,8 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctionalBase(ImageResource image, KBBase handler,
+	public KeyBoardButtonFunctionalBase(ImageResource image,
+			ButtonHandler handler,
 	        Action action) {
 		super(handler);
 		this.image = new Image(image);
@@ -52,7 +53,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param action
 	 *            {@link Action}
 	 */
-	public KeyBoardButtonFunctionalBase(String caption, KBBase handler,
+	public KeyBoardButtonFunctionalBase(String caption, ButtonHandler handler,
 	        Action action) {
 		super(caption, caption, handler);
 		this.action = action;

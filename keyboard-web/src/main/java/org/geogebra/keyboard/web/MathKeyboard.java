@@ -22,17 +22,9 @@ public class MathKeyboard implements EntryPoint {
 	public void onModuleLoad() {
 		KeyboardFactory kbf = new KeyboardFactory();
 		HasKeyboard hk = null;
-
-		KBBase kb = new KBBase(true, hk) {
-
+		ButtonHandler kb = new ButtonHandler() {
 			@Override
 			public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void setKeyboardMode(KeyboardMode mode) {
 				// TODO Auto-generated method stub
 
 			}
@@ -90,7 +82,7 @@ public class MathKeyboard implements EntryPoint {
 		return ret;
 	}
 
-	private KeyPanelBase buildPanel(Keyboard layout, KBBase kb) {
+	private KeyPanelBase buildPanel(Keyboard layout, ButtonHandler b) {
 		KeyPanelBase keyboard = new KeyPanelBase();
 		keyboard.addStyleName("KeyBoard");
 		keyboard.addStyleName("normal");
@@ -103,7 +95,7 @@ public class MathKeyboard implements EntryPoint {
 				} else {
 					KeyBoardButtonBase button = new KeyBoardButtonBase(
 							wb.getActionName(),
-							wb.getActionName(), kb);
+							wb.getActionName(), b);
 					if (offset > 0) {
 					button.getElement().getStyle().setMarginLeft(offset * 50,
 							Unit.PX);
