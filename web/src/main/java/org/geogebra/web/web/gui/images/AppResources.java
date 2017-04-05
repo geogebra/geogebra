@@ -209,6 +209,9 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/label.png")
 	ImageResource label20();
 
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/label_off.png")
+	ImageResource label_off20();
+
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/lock.png")
 	ImageResource lock20();
 
@@ -217,6 +220,9 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/pin.png")
 	ImageResource pin20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/unpin.png")
+	ImageResource unpin20();
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/properties.png")
 	ImageResource properties20();
@@ -229,6 +235,9 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/trace.png")
 	ImageResource trace20();
+
+	@Source("org/geogebra/common/icons/png/web/context_menu_20/trace_off.png")
+	ImageResource trace_off20();
 
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/unlock.png")
 	ImageResource unlock20();
