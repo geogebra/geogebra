@@ -562,4 +562,11 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	}
 
+	/**
+	 * Selects all the text in editor.
+	 */
+	public void selectAll() {
+		autoCompleteTextField.getTextField().setFocus(true);
+		autoCompleteTextField.selectAll();
+	}
 }

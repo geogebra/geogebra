@@ -396,6 +396,10 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			break;
 
 		case KeyCodes.KEY_ENTER:// KeyEvent.VK_ENTER:
+			if (!editor.isEditing()) {
+				editOnEnter();
+				break;
+			}
 			editor.onEnter();
 
 			// fall through
@@ -522,6 +526,34 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		        table.getSelectedColumn());
 
 		table.editCellAt(table.getSelectedRow(), table.getSelectedColumn());
+		table.setAllowEditing(false);
+	}
+
+	private void editOnEnter() {
+		int row = table.getSelectedRow();
+		int col = table.getSelectedColumn();
+		// memorize that this is OK according to keyCode
+		keyDownSomething = true;
+
+		table.setAllowEditing(true);
+		table.repaint(); // G.Sturr 2009-10-10: cleanup when keypress edit
+		// begins
+
+		// check if cell fixed
+		Object o = model.getValueAt(table.getSelectedRow(),
+				table.getSelectedColumn());
+		if (o instanceof GeoElement) {
+			GeoElement geo = (GeoElement) o;
+			if (geo.isFixed()) {
+				return;
+			}
+		}
+
+		model.setValueAt(model.getValueAt(row, col), row, col);
+
+		table.editCellAt(row, col);
+
+		editor.selectAll();
 		table.setAllowEditing(false);
 	}
 
