@@ -43,6 +43,7 @@ import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
@@ -804,6 +805,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public void closePopups() {
 		super.closePopups();
+		EuclidianStyleBarW.setCurrentPopup(null);
 		if (this.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
 			if (this.getToolbar() != null
 					&& this.getToolbar().isMobileToolbar()) {
