@@ -191,6 +191,7 @@ public class PenSubMenu extends SubMenuPanel {
 		// reset();
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
+		// colorPanel.setVisible(true);
 		if (lastSelectedColor == null) {
 			selectColor(BLACK);
 		} else {
@@ -210,6 +211,7 @@ public class PenSubMenu extends SubMenuPanel {
 		reset();
 		eraser.getElement().setAttribute("selected", "true");
 		setColorsEnabled(false);
+		// colorPanel.setVisible(false);
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_ERASER_SIZE, false);
 		slider.setStep(ERASER_STEP);
@@ -223,6 +225,7 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void doSelectFreehand() {
 		reset();
+		// colorPanel.setVisible(false);
 		freehand.getElement().setAttribute("selected", "true");
 		selectColor(BLACK);
 		slider.setVisible(false);
@@ -248,9 +251,9 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
 				getPenGeo().setObjColor(penColor[i]);
-				lastSelectedColor = penColor[i];
 
 				if (colorsEnabled) {
+					lastSelectedColor = penColor[i];
 					btnColor[i].addStyleName("penSubMenu-selected");
 					setPenIconColor(penColor[i].toString());
 				}
