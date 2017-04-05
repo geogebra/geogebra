@@ -603,13 +603,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (pinnable) {
 
 			String img;
+			final boolean pinned = geo.isPinned();
+
 			if (isWhiteboard()) {
-				img = AppResources.INSTANCE.pin20().getSafeUri().asString();
+				if (!app.has(Feature.IMPROVE_CONTEXT_MENU) || !pinned) {
+					img = AppResources.INSTANCE.pin20().getSafeUri().asString();
+				} else {
+					img = AppResources.INSTANCE.unpin20().getSafeUri()
+							.asString();
+				}
 			} else {
 				img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			}
-
-			final boolean pinned = geo.isPinned();
 
 			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
 				GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
@@ -822,13 +827,19 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (getGeo().isPinnable()) {
 
 			String img;
+			final boolean pinned = getGeo().isPinned();
+
 			if (isWhiteboard()) {
-				img = AppResources.INSTANCE.pin20().getSafeUri().asString();
+				if (!app.has(Feature.IMPROVE_CONTEXT_MENU) || !pinned) {
+					img = AppResources.INSTANCE.pin20().getSafeUri().asString();
+				} else {
+					img = AppResources.INSTANCE.unpin20().getSafeUri()
+							.asString();
+				}
 			} else {
 				img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			}
 
-			final boolean pinned = getGeo().isPinned();
 			GCheckBoxMenuItem cbItem;
 			
 			if(app.has(Feature.IMPROVE_CONTEXT_MENU)){
