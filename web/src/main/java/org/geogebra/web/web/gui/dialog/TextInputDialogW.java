@@ -84,7 +84,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		super.createGUI(title, message, autoComplete, columns, rows1,
 				showSymbolPopupIcon, selectInitText, showProperties, showApply,
 				type);
-
+		app.unregisterPopup(wrappedPopup);
 		editor = inputPanel.getTextAreaComponent();
 		if (editor != null) {
 			editor.setText(editGeo);
