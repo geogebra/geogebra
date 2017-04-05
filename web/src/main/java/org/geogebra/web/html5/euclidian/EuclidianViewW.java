@@ -1248,7 +1248,11 @@ public class EuclidianViewW extends EuclidianView implements
 			 * PointerEventType.MOUSE) { setTransparentCursor(); } else {
 			 * setEraserCursor(); }
 			 */
-			setTransparentCursor();
+			if (app.isWhiteboardActive()) {
+				setTransparentCursor();
+			} else {
+				setEraserCursor();
+			}
 			return;
 		case PEN:
 			// Log.debug("event type: " +
@@ -1259,7 +1263,11 @@ public class EuclidianViewW extends EuclidianView implements
 			 * PointerEventType.MOUSE) { setTransparentCursor(); } else {
 			 * setPenCursor(); }
 			 */
-			setTransparentCursor();
+			if (app.isWhiteboardActive()) {
+				setTransparentCursor();
+			} else {
+				setPenCursor();
+			}
 			return;
 		 
 		}
