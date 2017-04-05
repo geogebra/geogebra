@@ -189,8 +189,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 				String img;
 				if (isWhiteboard()) {
-					img = AppResources.INSTANCE.trace20().getSafeUri()
-							.asString();
+					if (!isTracing() || !app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+						img = AppResources.INSTANCE.trace20().getSafeUri()
+								.asString();
+					} else {
+						img = AppResources.INSTANCE.trace_off20().getSafeUri()
+								.asString();
+					}
+
 				} else {
 					img = AppResources.INSTANCE.trace_on().getSafeUri()
 							.asString();

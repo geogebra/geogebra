@@ -460,6 +460,10 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
+	public boolean isTracing() {
+		return false; // TODO
+	}
+
 	public void animationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 
