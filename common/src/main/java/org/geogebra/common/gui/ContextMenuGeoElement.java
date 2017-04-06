@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
 
@@ -551,6 +552,8 @@ public abstract class ContextMenuGeoElement {
 		SpreadsheetTraceManager traceManager = app.getTraceManager();
 		if (!traceManager.isTraceGeo(getGeo())) {
 			traceManager.addSpreadsheetTraceGeo(getGeo());
+		} else if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+			traceManager.removeSpreadsheetTraceGeo(getGeo());
 		}
 	}
 
