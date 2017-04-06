@@ -16,14 +16,12 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
-import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
@@ -394,28 +392,10 @@ public class DockManagerW extends DockManager {
 				}
 
 				setSplitPaneDividers(spData, splitPanes, windowHeight2, windowWidth2, windowHeight, windowWidth);
-				setPreferredSizes(rootPane, windowHeight, windowWidth);
+
 				// for debugging
 				// rootPane.setPixelSize(spw.get(rootPane), sph.get(rootPane));
 				
-			} else {
-				
-				//set dividers for application 
-				windowWidth = app.getOWidth();
-				windowHeight = app.getOHeight();
-				windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
-				if (app.showAlgebraInput()
-				        && app.getInputPosition() != InputPosition.algebraView) {
-					windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
-				}
-
-				rootPane.clear();
-				rootPane.setSize("100%", "100%");
-
-				// this might be good as well:
-				//rootPane.setPixelSize(windowWidth, windowHeight);
-				
-				setSplitPaneDividers(spData, splitPanes, windowHeight, windowWidth, windowHeight, windowWidth);
 			}
 
 		
@@ -542,8 +522,9 @@ public class DockManagerW extends DockManager {
 				}
 			}
 		}
-
+		setPreferredSizes(rootPane, windowHeight, windowWidth);
 		rootPane.setComponentsSilentRecursive();
+
 	}
 	
 	/** 

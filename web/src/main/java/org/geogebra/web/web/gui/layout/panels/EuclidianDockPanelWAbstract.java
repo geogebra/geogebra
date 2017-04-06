@@ -169,7 +169,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 				// TODO handle this better?
 				// exit if new size cannot be determined
-				if (h <= 0 || w <= 0) {
+				// one dimension may be intentionally 0, resize to avoid DOM
+				// overflow
+				if (h < 0 || w < 0 || (w == 0 && h == 0)) {
 					return;
 				}
 				if (h != oldHeight || w != oldWidth) {
