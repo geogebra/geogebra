@@ -9739,7 +9739,7 @@ namespace giac {
       return G;
     }
     if (g.type!=_SYMB)
-      return (g.type==_FRAC || is_integer(g))?abs(g,context0):1;
+      return (g.type==_FRAC || (is_integer(g) && g!=0))?abs(g,context0):1;
     if (g._SYMBptr->sommet==at_plus || g._SYMBptr->sommet==at_neg)
       return fast_icontent(g._SYMBptr->feuille);
     if (g._SYMBptr->sommet==at_inv)

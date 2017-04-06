@@ -1033,12 +1033,17 @@ namespace giac {
       return false;
     }
     if (base.size()==1){
+      gen basepow;
+      if (e.type==_FRAC && e._FRACptr->den==2 && is_positive(-base.front().coeff,contextptr))
+	basepow=pow(cst_i,e._FRACptr->num,contextptr)*pow(-base.front().coeff,e,contextptr);
+      else
+	basepow=pow(base.front().coeff,e,contextptr);
       if (&base==&res){
-	res.front().coeff=pow(res.front().coeff,e,contextptr);
+	res.front().coeff=basepow;
 	res.front().exponent=res.front().exponent*e;	
       }
       else 
-	res=sparse_poly1(1,monome(pow(base.front().coeff,e,contextptr),base.front().exponent*e));
+	res=sparse_poly1(1,monome(basepow,base.front().exponent*e));
       return true;
     }
     gen n=porder(base);
@@ -1902,8 +1907,9 @@ namespace giac {
 	}
 	else {
 	  sparse_poly1 temp;
-	  if (!ppow(s,shift_coeff,ordre,direction,temp,contextptr) ||
-	      !pcompose(*expansion._VECTptr,s,s,contextptr) ||
+	  if (!ppow(s,shift_coeff,ordre,direction,temp,contextptr))
+	    return false;
+	  if (!pcompose(*expansion._VECTptr,s,s,contextptr) ||
 	      !pmul(s,temp,s,true,ordre,contextptr))
 	    return false;
 	  if (is_positive(shift_coeff,contextptr)){

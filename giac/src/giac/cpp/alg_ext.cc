@@ -1148,7 +1148,7 @@ namespace giac {
     if (has_num_coeff(e))
       return approx_rootof(e,contextptr);
     if (!lop(lvar(e),at_pow).empty()){
-      *logptr(contextptr) << gettext("Algebraic extensions not allowed in a rootof");
+      *logptr(contextptr) << gettext("Algebraic extensions not allowed in a rootof")<<endl;
       return approx_rootof(e,contextptr);
     }
     // should call factor before returning unevaluated rootof
@@ -1164,7 +1164,7 @@ namespace giac {
     if ( (e.type!=_VECT) || (e._VECTptr->size()!=2) )
       return gensizeerr(contextptr);
     if (!lidnt(e).empty())
-      return e;
+      return symbolic(at_rootof,e);
     gen a=e._VECTptr->front(),b=e._VECTptr->back();
     return alg_evalf(a,b,contextptr);
   }
