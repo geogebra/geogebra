@@ -155,13 +155,20 @@ public class LayoutAbsoluteGeos {
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int x = absGeo.getAbsoluteScreenLocX();
-			int y = maxUnusedY(usedPositions, x, x + absGeo.getTotalWidth(view),
+			int geoHeight = absGeo.getTotalWidth(view);
+			int y = maxUnusedY(usedPositions, x, x + geoHeight,
 					view.getHeight());
-			y -= absGeo.getTotalHeight(view) + Y_GAP;
-			y = Math.min(absGeo.getAbsoluteScreenLocY(), y);
+			y -= geoHeight + Y_GAP;
+			int yCorner;
+			if (absGeo.isGeoText()) {
+				yCorner = y + geoHeight;
+			} else {
+				yCorner = y;
+			}
+			y = Math.min(absGeo.getAbsoluteScreenLocY(), yCorner);
 			setAbsoluteScreenLoc(absGeo, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					absGeo.getTotalWidth(view), absGeo.getTotalHeight(view)));
+					absGeo.getTotalWidth(view), geoHeight));
 			absGeo.update();
 		}
 	}
