@@ -145,7 +145,7 @@ public class AdjustScreen {
 					}
 					// ensure = true;
 				}
-			} else if (LayoutAbsoluteGeos.match(geo)) {
+			} else if (layoutAbsoluteGeos.match(geo)) {
 				// if (geo.isGeoInputBox()) {
 				// Log.debug("[AS] collecting inputbox: " + geo);
 				// GeoInputBox input = (GeoInputBox) geo;
@@ -153,8 +153,6 @@ public class AdjustScreen {
 				// // ensure = true;
 				// } else {
 					if (!layoutAbsoluteGeos.isCollected()) {
-					Log.debug(
-							"[AS] collecting absolute locateable geos: " + geo);
 					AbsoluteScreenLocateable absGeo = (AbsoluteScreenLocateable) geo;
 						layoutAbsoluteGeos.add(absGeo);
 					}

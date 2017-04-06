@@ -311,10 +311,15 @@ public class LayoutAbsoluteGeos {
 	 *            to check.
 	 * @return if geo can be handled with this class or not.
 	 */
-	public static boolean match(GeoElement geo) {
+	public boolean match(GeoElement geo) {
+		if (!view.isVisibleInThisView(geo)) {
+			return false;
+		}
 		return geo.isGeoButton()
 				|| (geo.isGeoBoolean() && geo.isEuclidianShowable())
-				|| (geo.isGeoText() && geo.isVisible())
+				|| (geo.isGeoText() && geo.isVisible()
+						&& ((AbsoluteScreenLocateable) geo)
+								.isAbsoluteScreenLocActive())
 				|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
 				|| (geo.isGeoImage() && ((AbsoluteScreenLocateable) geo)
 						.isAbsoluteScreenLocActive()
