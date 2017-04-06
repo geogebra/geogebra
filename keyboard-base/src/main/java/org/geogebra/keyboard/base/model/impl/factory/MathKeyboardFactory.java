@@ -40,7 +40,7 @@ class MathKeyboardFactory {
         addConstantInputButton(row, buttonFactory, Resource.POWA2, SUP2);
         addConstantInputButton(row, buttonFactory, Resource.POWAB, "^");
         addConstantInputButton(row, buttonFactory, Resource.ROOT, ROOT);
-        addInputButton(row, buttonFactory, EULER);
+        addInputButton(row, buttonFactory, "e", EULER);
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "4");
         addInputButton(row, buttonFactory, "5");
