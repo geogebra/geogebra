@@ -825,12 +825,10 @@ public abstract class KBBase extends PopupPanel {
 		// checking if app is null and instance of AppW needed only avoid
 		// exceptions at checking feature. So at deleting feature check, you can
 		// delete "app != null && app instanceof AppW" too
-		if (app.hasKeyboardInProbCalculator()) {
-			if (processField != null && processField.getField() != null){
-				if (processing == null
-						|| processField.getField() != processing.getField()) {
-					endEditing();
-				}
+		if (processField != null && processField.getField() != null) {
+			if (processing == null
+					|| processField.getField() != processing.getField()) {
+				endEditing();
 			}
 		}
 		this.processField = processing;

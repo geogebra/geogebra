@@ -139,7 +139,7 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void endEditing() {
-		// TODO Auto-generated method stub
+		mf.blur();
 
 	}
 
