@@ -6,6 +6,8 @@ import org.geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
@@ -83,10 +85,11 @@ public class CopyPasteCutW extends CopyPasteCut {
 		}
 		for (int row = row1; row <= row2; ++row) {
 			for (int column = column1; column <= column2; ++column) {
-				GeoElement value = RelativeCopy.getValue(app, column, row);
-				if (value != null) {
-					getCellBufferStr().append(value
-							.toValueString(StringTemplate.maxPrecision));
+				GeoElement geo = RelativeCopy.getValue(app, column, row);
+				if (geo != null) {
+					getCellBufferStr().append(getCellDefOrValue(geo, false));
+					Log.debug("[SP] copy: " + getCellBufferStr());
+
 				}
 				if (column != column2) {
 					getCellBufferStr().append('\t');
@@ -149,6 +152,56 @@ public class CopyPasteCutW extends CopyPasteCut {
 	}
 
 
+	private String getCellDefOrValue(GeoElement cell, boolean equals) {
+		if (app.has(Feature.SPREADSHEET_COPY_BY_DEFINITION)
+				&& cell.needToShowBothRowsInAV()) {
+			String result = cell.getDefinition(StringTemplate.defaultTemplate);
+			return equals ? "=" + result : result;
+		}
+
+		return cell.toValueString(StringTemplate.maxPrecision);
+	}
+
+	private String getPasteStringFromBuffer() {
+		GeoElement[][] geos = getCellBufferGeo();
+		if (geos == null) {
+			return "";
+		}
+
+		int rowCount = geos[0] != null ? geos[0].length : -1;
+		int colCount = geos[1] != null ? geos[1].length : -1;
+		StringBuilder sb = new StringBuilder();
+
+		 if (colCount == -1) {
+			 for (int row = 0; row < rowCount; row++) {
+				sb.append(getCellDefOrValue(geos[0][row], true));
+				if (row != rowCount) {
+					sb.append("\n");
+				}
+		 }
+		} else if (rowCount == -1) {
+			for (int col = 0; col < colCount; col++) {
+				sb.append(getCellDefOrValue(geos[col][0], true));
+				if (col != colCount) {
+					sb.append("\t");
+				}
+			}
+		} else {
+		for (int row = 0; row < rowCount; ++row) {
+			for (int col = 0; col < colCount; ++col) {
+					sb.append(getCellDefOrValue(geos[col][row], true));
+					if (col != colCount) {
+						sb.append("\t");
+					}
+				}
+				if (row != rowCount) {
+					sb.append("\n");
+				}
+			}
+		}
+
+		return sb.toString();
+	}
 	/**
 	 * Pastes data from given Transferable into the given spreadsheet cells.
 	 * 
@@ -173,11 +226,17 @@ public class CopyPasteCutW extends CopyPasteCut {
 		String transferString = null;
 
 		// extract a String from the Transferable contents
-		transferString = contents;//DataImport.convertTransferableToString(contents);
+		if (app.has(Feature.SPREADSHEET_COPY_BY_DEFINITION)) {
+			String buffStr = getPasteStringFromBuffer();
+			transferString = buffStr.isEmpty() ? contents : buffStr;
+		} else {
+			transferString = contents;
+		}
 		if (transferString == null) {
 			return false;
 		}
-
+		Log.debug("[SP] contents: " + contents);
+		Log.debug("[SP] transferString: " + transferString);
 		// isCSV = DataImport.hasHTMLFlavor(contents);
 		// App.debug("transfer string: " + transferString);
 
