@@ -174,14 +174,20 @@ public class CopyPasteCutW extends CopyPasteCut {
 
 		 if (colCount == -1) {
 			 for (int row = 0; row < rowCount; row++) {
-				sb.append(getCellDefOrValue(geos[0][row], true));
+				GeoElement geo = geos[0][row];
+				if (geo != null) {
+					sb.append(getCellDefOrValue(geo, true));
+				}
 				if (row != rowCount) {
 					sb.append("\n");
 				}
 		 }
 		} else if (rowCount == 1) {
 			for (int col = 0; col <= colCount; ++col) {
-				sb.append(getCellDefOrValue(geos[col][0], true));
+				GeoElement geo = geos[col][0];
+				if (geo != null) {
+					sb.append(getCellDefOrValue(geo, true));
+				}
 				if (col != colCount) {
 					sb.append("\t");
 				}
@@ -189,7 +195,10 @@ public class CopyPasteCutW extends CopyPasteCut {
 		} else {
 		for (int row = 0; row < rowCount; ++row) {
 			for (int col = 0; col < colCount; ++col) {
-					sb.append(getCellDefOrValue(geos[col][row], true));
+					GeoElement geo = geos[col][row];
+					if (geo != null) {
+						sb.append(getCellDefOrValue(geo, true));
+					}
 					if (col != colCount) {
 						sb.append("\t");
 					}
