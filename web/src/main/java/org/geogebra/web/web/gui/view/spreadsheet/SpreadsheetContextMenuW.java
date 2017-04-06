@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -119,7 +120,12 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 		if (isWhiteboard()) {
-			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+				html = MainMenu.getMenuBarHtml(
+						getIconUrlNew(cmdString, isSelected), text);
+			} else {
+				html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
+			}
 		} else {
 			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 		}
@@ -222,6 +228,25 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			im = AppResources.INSTANCE.empty();
 		}
 		return im.getSafeUri().asString();
+	}
+
+	private static String getIconUrlNew(String cmdString, boolean selected) {
+
+		if (cmdString == null) {
+			return AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+
+		ImageResource im = null;
+
+		if (MenuCommand.valueOf(cmdString) == MenuCommand.ShowLabel) {
+			if (selected) {
+				im = AppResources.INSTANCE.label_off20();
+			} else {
+				im = AppResources.INSTANCE.label20();
+			}
+			return im.getSafeUri().asString();
+		}
+		return getIconUrlNew(cmdString);
 	}
 
 	private static String getIconUrlNew(String cmdString) {
