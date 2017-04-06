@@ -162,6 +162,7 @@ public class LayoutAbsoluteGeos {
 		}
 
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
+		boolean moveNeeded = false;
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int x = absGeo.getAbsoluteScreenLocX();
 			int geoHeight = absGeo.getTotalHeight(view);
@@ -175,11 +176,16 @@ public class LayoutAbsoluteGeos {
 			} else {
 				yCorner = y;
 			}
-			y = Math.min(absGeo.getAbsoluteScreenLocY(), yCorner);
-			setAbsoluteScreenLoc(absGeo, x, y);
-			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					geoWidth, geoHeight));
-			absGeo.update();
+			if (yCorner < absGeo.getAbsoluteScreenLocY() + Y_GAP) {
+				moveNeeded = true;
+			}
+			if (moveNeeded) {
+				y = Math.min(absGeo.getAbsoluteScreenLocY(), yCorner);
+				setAbsoluteScreenLoc(absGeo, x, y);
+				usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
+						geoWidth, geoHeight));
+				absGeo.update();
+			}
 		}
 	}
 
@@ -196,16 +202,23 @@ public class LayoutAbsoluteGeos {
 		}
 
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
+		boolean moveNeeded = false;
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int y = absGeo.getAbsoluteScreenLocY();
 			int x = maxUnusedX(usedPositions, y,
 					y + absGeo.getTotalHeight(view), view.getWidth());
 			x -= absGeo.getTotalWidth(view) + X_GAP;
-			x = Math.min(absGeo.getAbsoluteScreenLocX(), x);
-			setAbsoluteScreenLoc(absGeo, x, y);
-			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					absGeo.getTotalWidth(view), absGeo.getTotalHeight(view)));
-			absGeo.update();
+			if (x < absGeo.getAbsoluteScreenLocX() + X_GAP) {
+				moveNeeded = true;
+			}
+			if (moveNeeded) {
+				x = Math.min(absGeo.getAbsoluteScreenLocX(), x);
+				setAbsoluteScreenLoc(absGeo, x, y);
+				usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
+						absGeo.getTotalWidth(view),
+						absGeo.getTotalHeight(view)));
+				absGeo.update();
+			}
 
 		}
 	}
@@ -312,7 +325,7 @@ public class LayoutAbsoluteGeos {
 	 * @return if geo can be handled with this class or not.
 	 */
 	public boolean match(GeoElement geo) {
-		if (!view.isVisibleInThisView(geo)) {
+		if (!view.isVisibleInThisView(geo) || !geo.isEuclidianVisible()) {
 			return false;
 		}
 		return geo.isGeoButton()
