@@ -69,6 +69,7 @@ public class TabbedKeyboard extends FlowPanel {
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
+		addStyleName("gwt-PopupPanel");
 	}
 
 	private String filter(String keys) {
