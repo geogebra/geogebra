@@ -6144,8 +6144,13 @@ namespace giac {
       return undef;
     if (is_undef(exponent))
       return exponent;
-    if (exponent.is_symb_of_sommet(at_neg))
-      return minus1pow(exponent._SYMBptr->feuille,contextptr);
+    if (exponent.is_symb_of_sommet(at_neg)){
+      gen tmp=minus1pow(exponent._SYMBptr->feuille,contextptr);
+      if (is_assumed_integer(exponent,contextptr))
+	return tmp;
+      else
+	return symb_inv(tmp);
+    }
     if (exponent.is_symb_of_sommet(at_plus)){
       gen res(1);
       gen & f=exponent._SYMBptr->feuille;
@@ -6174,9 +6179,18 @@ namespace giac {
 	  if (!is_assumed_integer(v[i],contextptr))
 	    perhapsone=false;
 	}
-	if (allow_recursion){
+	if (allow_recursion && perhapsone){
+#ifndef NO_STDEXCEPT
+	  gen num1=undef;
+	  try {
+	    num1=_irem(makesequence(num,2*den),contextptr);
+	  } catch (std::runtime_error & err){
+	    num1=undef;
+	  }
+#else
 	  gen num1=_irem(makesequence(num,2*den),contextptr);
-	  if (num1!=num) return minus1pow(symb_prod(num1,symb_inv(den)),contextptr,false);
+#endif
+	  if (!is_undef(num1) && num1!=num) return minus1pow(symb_prod(num1,symb_inv(den)),contextptr,false);
 	}
 	if (even && perhapsone)
 	  return 1;

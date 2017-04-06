@@ -2212,6 +2212,38 @@ namespace giac {
     return subst(e,pow_tab,powneg2invpow_tab,false,contextptr);
   }
 
+  bool in_cklin(const gen & tmp){	
+    if (tmp.is_symb_of_sommet(at_neg))
+      return in_cklin(tmp._SYMBptr->feuille);
+    if (tmp.is_symb_of_sommet(at_exp))
+      return true;
+    if (tmp.is_symb_of_sommet(at_pow))
+      return in_cklin(tmp._SYMBptr->feuille[0]);
+    if (tmp.is_symb_of_sommet(at_prod)){
+      gen t=tmp._SYMBptr->feuille;
+      if (t.type==_VECT){
+	const_iterateur it=t._VECTptr->begin(),itend=t._VECTptr->end();
+	for (;it!=itend;++it)
+	  if (in_cklin(*it))
+	    return true;
+      }
+    }
+  }
+
+  // ck if g has a denominator with exponentials, if so linearize
+  gen cklin(const gen & g,GIAC_CONTEXT){
+    vecteur gn,gd;
+    prod2frac(g,gn,gd);
+    if (gd.empty())
+      return g;
+    for (int i=0;i<gd.size();++i){
+      gen tmp=simplifier(gd[i],contextptr);
+      if (in_cklin(tmp))
+	return _lin(g,contextptr);
+    }
+    return g;
+  }
+
   gen simplify(const gen & e_orig,GIAC_CONTEXT){
     if (e_orig.type<=_POLY || is_inf(e_orig) || has_num_coeff(e_orig))
       return e_orig;
@@ -2439,6 +2471,7 @@ namespace giac {
     }
 #endif	
     gen g=tsimplify_noexpln(e,s1,s2,contextptr); 
+    g=cklin(g,contextptr);
     g=_exp2pow(g,contextptr);
     if (s1<=1 && s2<= 1)
       return ratnormal(quotesubst(g,vabs2,vabs,contextptr),contextptr);
