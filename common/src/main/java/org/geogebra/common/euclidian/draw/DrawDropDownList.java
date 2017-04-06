@@ -1080,6 +1080,8 @@ public final class DrawDropDownList extends CanvasDrawable
 		labelRectangle.setBounds(xLabel, yLabel,
 				(int) (getHitRect().getWidth()),
 				(int) (getHitRect().getHeight()));
+		geoList.setTotalWidth(getTotalWidth());
+		geoList.setTotalHeight(getTotalHeight());
 	}
 
 	@Override
@@ -1087,9 +1089,6 @@ public final class DrawDropDownList extends CanvasDrawable
 		if (isVisible) {
 			drawOnCanvas(g2, "");
 		}
-		geoList.setTotalWidth(getTotalWidth());
-		geoList.setTotalHeight(getTotalHeight());
-
 	}
 
 	/**

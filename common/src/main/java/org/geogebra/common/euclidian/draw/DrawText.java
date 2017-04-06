@@ -128,6 +128,8 @@ public final class DrawText extends Drawable {
 			xLabel += text.labelOffsetX;
 			yLabel += text.labelOffsetY;
 
+			text.setTotalWidth((int) labelRectangle.getWidth());
+			text.setTotalHeight((int) labelRectangle.getHeight());
 		}
 
 		boolean positionChanged = xLabel != oldXpos || yLabel != oldYpos;
@@ -202,9 +204,7 @@ public final class DrawText extends Drawable {
 				g2.draw(labelRectangle);
 			}
 		}
-		GeoText geoText = (GeoText) geo;
-		geoText.setTotalWidth((int) labelRectangle.getWidth());
-		geoText.setTotalHeight((int) labelRectangle.getHeight());
+
 	}
 
 	/**
