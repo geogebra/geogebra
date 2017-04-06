@@ -909,7 +909,7 @@ public class DockManagerW extends DockManager {
 					currentPane.replaceComponent(opposite, newSplitPane);
 				}
 			}
-
+			newSplitPane.setPreferredWidth(oppositeWidth, oppositeHeight);
 
 
 			//App.debug("\n"+((DockComponent) opposite).toString("opposite"));
