@@ -4,7 +4,6 @@ import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -115,17 +114,33 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	@Override
+	public void addCheckBoxMenuItem(final String cmdString, String nonSelected,
+			String selected,
+			boolean isSelected) {
+
+		String html;
+
+		if (isWhiteboard()) {
+			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString, isSelected),
+					"");
+		} else {
+			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), "");
+		}
+
+		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html, selected,
+				nonSelected,
+				getCommand(cmdString), true, app);
+		cbItem.setSelected(isSelected);
+		popup.addItem(cbItem);
+	}
+
+	@Override
 	public void addCheckBoxMenuItem(final String cmdString, String text,
 	        boolean isSelected) {
 
 		String html;
 		if (isWhiteboard()) {
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
-				html = MainMenu.getMenuBarHtml(
-						getIconUrlNew(cmdString, isSelected), text);
-			} else {
-				html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
-			}
+			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
 		}
@@ -230,7 +245,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		return im.getSafeUri().asString();
 	}
 
-	private static String getIconUrlNew(String cmdString, boolean selected) {
+	private static String getIconUrlNew(String cmdString, boolean isSelected) {
 
 		if (cmdString == null) {
 			return AppResources.INSTANCE.empty().getSafeUri().asString();
@@ -239,7 +254,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		ImageResource im = null;
 
 		if (MenuCommand.valueOf(cmdString) == MenuCommand.ShowLabel) {
-			if (selected) {
+			if (isSelected) {
 				im = AppResources.INSTANCE.label_off20();
 			} else {
 				im = AppResources.INSTANCE.label20();

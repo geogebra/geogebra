@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 
@@ -45,7 +46,7 @@ public class SpreadsheetContextMenu {
 
 	@SuppressWarnings("javadoc")
 	public enum MenuCommand {
-		ShowObject, ShowLabel,
+		ShowObject, ShowLabel, HideLabel,
 
 		RecordToSpreadsheet,
 
@@ -252,8 +253,15 @@ public class SpreadsheetContextMenu {
 
 				if (doLabelMenu) {
 					cmdString = MenuCommand.ShowLabel.toString();
-					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-							geo.isLabelVisible());
+					if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+								loc.getMenu(MenuCommand.HideLabel.toString()),
+								geo.isLabelVisible());
+
+					} else {
+						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+								geo.isLabelVisible());
+					}
 				}
 			}
 
@@ -670,6 +678,21 @@ public class SpreadsheetContextMenu {
 	 */
 	public void addCheckBoxMenuItem(final String cmdString, String text,
 			boolean isSelected) {
+		// to be overridden
+	}
+
+	/** 
+	 * @param cmdString
+	 *            Action command key (and icon key)
+	 * @param selected
+	 *            Text of selected menu item
+	 * @param nonSelected
+	 *            Text of non-selected menu item
+	 * @param isSelected
+	 *            flag Flag to set selection state
+	 */
+	public void addCheckBoxMenuItem(final String cmdString, String nonSelected,
+			String selected, boolean isSelected) {
 		// to be overridden
 	}
 
