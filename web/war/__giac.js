@@ -2000,6 +2000,9 @@ var __giac = [ {},
 { cat:"NSolve", cmd:"NSolve[{3x-5y=11,14x^2-11x=52}]", result:"{x = 2.359738544716, y = -0.7841568731702}", round:"{x = 2.36, y = -0.78}", notes:"Giac calculates exact then rounds" },
 { cat:"Solve", cmd:"Solve[(1 + x) (1 - abs(x)) > 0]", result:"{x  <  -1, -1  <  x  <  1}", notes:"could be simplified" },
 { cat:"Vector", cmd:"Element[Sequence[Vector[(i, i)],i,1,3],1]", result:"ggbvect((1, 1))", notes:"GGB-1636 (doesn't catch that bug though)" },
+{ cat:"Integral", cmd:"Integral[cos(((n)*(pi))*((x)/(4))),1,4]", result:"(-4 sin(1 / 4 n \u03C0) + 4sin(n \u03C0)) / (n \u03C0)" },
+{ cat:"Simplify", cmd:"Simplify[4*sin(n*pi)/(n*pi)-4*sin(n*pi/4)/(n*pi)]", result:"(4sin(n \u03C0) - 4sin(n \u03C0 / 4)) / (n \u03C0)" },
+
 // JSONEND
 //{ 
 // 
