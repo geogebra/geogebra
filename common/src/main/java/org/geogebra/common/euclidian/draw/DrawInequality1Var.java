@@ -363,6 +363,9 @@ public class DrawInequality1Var extends Drawable {
 
 	}
 
+	/**
+	 * Set all lines to null
+	 */
 	public void ignoreLines() {
 		for (int i = 0; i < lines.length; i++) {
 			lines[i] = null;
@@ -370,6 +373,9 @@ public class DrawInequality1Var extends Drawable {
 
 	}
 
+	/**
+	 * @return inequality
+	 */
 	public Inequality getIneq() {
 		return this.ineq;
 	}

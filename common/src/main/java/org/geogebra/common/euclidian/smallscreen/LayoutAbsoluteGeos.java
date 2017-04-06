@@ -17,6 +17,13 @@ import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Adjusts position of absolutely positioned elements (texts, buttons, lists,
+ * images, checkboxes)
+ * 
+ * @author Laszlo
+ *
+ */
 public class LayoutAbsoluteGeos {
 	private static final int Y_GAP = 5;
 	private static final int X_GAP = 5;
@@ -62,6 +69,10 @@ public class LayoutAbsoluteGeos {
 		}
 	}
 
+	/**
+	 * @param view
+	 *            view
+	 */
 	public LayoutAbsoluteGeos(EuclidianView view) {
 		this.view = view;
 	}
@@ -97,11 +108,11 @@ public class LayoutAbsoluteGeos {
 		originals.clear();
 	}
 
-	protected void sortX() {
+	private void sortX() {
 		Collections.sort(all, comparatorX);
 	}
 
-	protected void sortY() {
+	private void sortY() {
 		Collections.sort(all, comparatorY);
 	}
 
@@ -125,8 +136,6 @@ public class LayoutAbsoluteGeos {
 	//
 	// }
 
-
-
 	public void apply() {
 		all.clear();
 		all.addAll(originals);
@@ -142,7 +151,6 @@ public class LayoutAbsoluteGeos {
 		// debugButtons("after vertically: ", all);
 
 	}
-
 
 	private void applyVertically() {
 		sortY();
@@ -174,7 +182,7 @@ public class LayoutAbsoluteGeos {
 		}
 	}
 
-	private boolean bottomAnchor(AbsoluteScreenLocateable absGeo) {
+	private static boolean bottomAnchor(AbsoluteScreenLocateable absGeo) {
 		return absGeo.isGeoText() || absGeo.isGeoImage();
 	}
 
@@ -186,13 +194,11 @@ public class LayoutAbsoluteGeos {
 			return;
 		}
 
-
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int y = absGeo.getAbsoluteScreenLocY();
 			int x = maxUnusedX(usedPositions, y,
-					y + absGeo.getTotalHeight(view),
-					view.getWidth());
+					y + absGeo.getTotalHeight(view), view.getWidth());
 			x -= absGeo.getTotalWidth(view) + X_GAP;
 			x = Math.min(absGeo.getAbsoluteScreenLocX(), x);
 			setAbsoluteScreenLoc(absGeo, x, y);
@@ -203,8 +209,8 @@ public class LayoutAbsoluteGeos {
 		}
 	}
 
-
-	private void setAbsoluteScreenLoc(AbsoluteScreenLocateable absGeo, int x,
+	private static void setAbsoluteScreenLoc(AbsoluteScreenLocateable absGeo,
+			int x,
 			int y) {
 		if (absGeo instanceof GeoBoolean) {
 			((GeoBoolean) absGeo).setAbsoluteScreenLoc(x, y, true);
@@ -214,9 +220,10 @@ public class LayoutAbsoluteGeos {
 
 	}
 
-	private int maxUnusedX(ArrayList<GRectangle> usedPositions, int yTop, int yBottom, int max0) {
+	private static int maxUnusedX(ArrayList<GRectangle> usedPositions, int yTop,
+			int yBottom, int max0) {
 		int max = max0;
-		for(GRectangle rect: usedPositions){
+		for (GRectangle rect : usedPositions) {
 			if (MyMath.intervalsIntersect(rect.getMinY(), rect.getMaxY(), yTop,
 					yBottom)) {
 				if (max > rect.getMinX()) {
@@ -227,7 +234,8 @@ public class LayoutAbsoluteGeos {
 		return max;
 	}
 
-	private int maxUnusedY(ArrayList<GRectangle> usedPositions, int xLeft,
+	private static int maxUnusedY(ArrayList<GRectangle> usedPositions,
+			int xLeft,
 			int xRight, int max0) {
 		int max = max0;
 		for (GRectangle rect : usedPositions) {
@@ -273,33 +281,22 @@ public class LayoutAbsoluteGeos {
 	private boolean isVerticallyOnScreen(AbsoluteScreenLocateable absGeo) {
 		int y = absGeo.getAbsoluteScreenLocY();
 		int height = absGeo.getTotalHeight(view);
-		Log.debug((y + (bottomAnchor(absGeo) ? 0 : height)) + " CHECK Y "
-				+ view.getSettings().getFileHeight());
 		return view.getSettings().getFileHeight() == 0
 				|| y + (bottomAnchor(absGeo) ? 0 : height) < view.getSettings()
 						.getFileHeight();
 	}
 
-	// private static int getTotalWidths(List<GeoButton> buttons) {
-	// int w = 0;
-	// for (GeoButton absGeo : buttons) {
-	// w += absGeo.getTotalWidth(view) + X_GAP;
-	// }
-	// return w;
-	// }
-
-	// private static int getHeights(List<GeoButton> buttons) {
-	// int h = 0;
-	// for (GeoButton absGeo : buttons) {
-	// h += absGeo.getHeight() + Y_GAP;
-	// }
-	// return h;
-	// }
-
+	/**
+	 * @return whether widget collection was finished
+	 */
 	public boolean isCollected() {
 		return collected;
 	}
 
+	/**
+	 * @param collected
+	 *            whether widget collection was finished
+	 */
 	public void setCollected(boolean collected) {
 		if (originals.isEmpty()) {
 			return;
@@ -315,14 +312,13 @@ public class LayoutAbsoluteGeos {
 	 */
 	public static boolean match(GeoElement geo) {
 		// TODO Auto-generated method stub
-		return geo.isGeoButton() || (geo.isGeoBoolean()
-				&& geo.isEuclidianShowable()
-				|| ((geo.isGeoText() || geo.isGeoImage()) && geo.isVisible())
-				|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-				|| (geo.isGeoImage() && ((AbsoluteScreenLocateable) geo)
-						.isAbsoluteScreenLocActive())
-		);
+		return geo.isGeoButton()
+				|| (geo.isGeoBoolean() && geo.isEuclidianShowable()
+						|| ((geo.isGeoText() || geo.isGeoImage())
+								&& geo.isVisible())
+						|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
+						|| (geo.isGeoImage() && ((AbsoluteScreenLocateable) geo)
+								.isAbsoluteScreenLocActive()));
 	}
 
 }
-

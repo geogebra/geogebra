@@ -470,7 +470,10 @@ public class DrawLine extends Drawable implements Previewable {
 	}
 
 	/**
-	 * Update stylebar position
+	 * For updating stylebar position
+	 * 
+	 * @return 0 sized rectangle with top-left corner close to the center of the
+	 *         visible part of the line
 	 */
 	public GRectangle getPreferredStylebarPosition() {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);

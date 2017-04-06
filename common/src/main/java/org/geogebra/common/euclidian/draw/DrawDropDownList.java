@@ -1088,7 +1088,7 @@ public final class DrawDropDownList extends CanvasDrawable
 			drawOnCanvas(g2, "");
 		}
 		geoList.setTotalWidth(getTotalWidth());
-		geoList.setTotalWidth(getTotalHeight());
+		geoList.setTotalHeight(getTotalHeight());
 
 	}
 
@@ -1621,11 +1621,6 @@ public final class DrawDropDownList extends CanvasDrawable
 	public void updateBoundingBox() {
 		// TODO Auto-generated method stub
 		
-	}
-
-
-	public GDimension getSelectedDimension() {
-		return selectedDimension;
 	}
 
 }

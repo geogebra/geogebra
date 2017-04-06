@@ -2291,7 +2291,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
 		if (splitPane == null || splitPane
-				.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
+				.getOrientation() == SwingConstants.VERTICAL_SPLIT
+				|| splitPane.isCenter(avDockPanel)) {
 			return;
 		}
 
