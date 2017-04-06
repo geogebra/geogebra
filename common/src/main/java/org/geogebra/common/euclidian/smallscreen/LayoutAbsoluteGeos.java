@@ -155,12 +155,13 @@ public class LayoutAbsoluteGeos {
 		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int x = absGeo.getAbsoluteScreenLocX();
-			int geoHeight = absGeo.getTotalWidth(view);
-			int y = maxUnusedY(usedPositions, x, x + geoHeight,
+			int geoHeight = absGeo.getTotalHeight(view);
+			int geoWidth = absGeo.getTotalWidth(view);
+			int y = maxUnusedY(usedPositions, x, x + geoWidth,
 					view.getHeight());
 			y -= geoHeight + Y_GAP;
 			int yCorner;
-			if (absGeo.isGeoText()) {
+			if (bottomAnchor(absGeo)) {
 				yCorner = y + geoHeight;
 			} else {
 				yCorner = y;
@@ -168,9 +169,13 @@ public class LayoutAbsoluteGeos {
 			y = Math.min(absGeo.getAbsoluteScreenLocY(), yCorner);
 			setAbsoluteScreenLoc(absGeo, x, y);
 			usedPositions.add(AwtFactory.getPrototype().newRectangle(x, y,
-					absGeo.getTotalWidth(view), geoHeight));
+					geoWidth, geoHeight));
 			absGeo.update();
 		}
+	}
+
+	private boolean bottomAnchor(AbsoluteScreenLocateable absGeo) {
+		return absGeo.isGeoText() || absGeo.isGeoImage();
 	}
 
 	private void applyHorizontally() {
@@ -261,7 +266,6 @@ public class LayoutAbsoluteGeos {
 	private boolean isHorizontallyOnScreen(AbsoluteScreenLocateable absGeo) {
 		int x = absGeo.getAbsoluteScreenLocX();
 		int width = absGeo.getTotalWidth(view);
-		Log.debug("Checking" + view.getSettings().getFileWidth());
 		return view.getSettings().getFileWidth() == 0
 				|| x + width < view.getSettings().getFileWidth();
 	}
@@ -269,8 +273,11 @@ public class LayoutAbsoluteGeos {
 	private boolean isVerticallyOnScreen(AbsoluteScreenLocateable absGeo) {
 		int y = absGeo.getAbsoluteScreenLocY();
 		int height = absGeo.getTotalHeight(view);
+		Log.debug((y + (bottomAnchor(absGeo) ? 0 : height)) + " CHECK Y "
+				+ view.getSettings().getFileHeight());
 		return view.getSettings().getFileHeight() == 0
-				|| y + height < view.getSettings().getFileHeight();
+				|| y + (bottomAnchor(absGeo) ? 0 : height) < view.getSettings()
+						.getFileHeight();
 	}
 
 	// private static int getTotalWidths(List<GeoButton> buttons) {
