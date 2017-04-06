@@ -179,8 +179,8 @@ public class CopyPasteCutW extends CopyPasteCut {
 					sb.append("\n");
 				}
 		 }
-		} else if (rowCount == -1) {
-			for (int col = 0; col < colCount; col++) {
+		} else if (rowCount == 1) {
+			for (int col = 0; col <= colCount; ++col) {
 				sb.append(getCellDefOrValue(geos[col][0], true));
 				if (col != colCount) {
 					sb.append("\t");
