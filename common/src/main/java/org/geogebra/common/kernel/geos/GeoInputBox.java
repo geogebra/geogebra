@@ -481,4 +481,13 @@ public class GeoInputBox extends GeoButton {
 		return getWidth();
 	}
 
+	@Override
+	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
+		DrawableND draw = ev.getDrawableFor(this);
+		if (draw instanceof DrawInputBox) {
+			return ((DrawInputBox) draw).getTotalSize().getHeight();
+		}
+		return getHeight();
+	}
+
 }

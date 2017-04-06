@@ -323,7 +323,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 			@Override
 			public int getHeight() {
-				return labelSize.y + getPreferredSize().getHeight();
+				return Math.max(labelSize.y, getPreferredSize().getHeight());
 			}
 		};
 	}
