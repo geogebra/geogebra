@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.util.MyMath;
@@ -311,14 +312,13 @@ public class LayoutAbsoluteGeos {
 	 * @return if geo can be handled with this class or not.
 	 */
 	public static boolean match(GeoElement geo) {
-		// TODO Auto-generated method stub
 		return geo.isGeoButton()
-				|| (geo.isGeoBoolean() && geo.isEuclidianShowable()
-						|| ((geo.isGeoText() || geo.isGeoImage())
-								&& geo.isVisible())
-						|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
-						|| (geo.isGeoImage() && ((AbsoluteScreenLocateable) geo)
-								.isAbsoluteScreenLocActive()));
+				|| (geo.isGeoBoolean() && geo.isEuclidianShowable())
+				|| (geo.isGeoText() && geo.isVisible())
+				|| (geo.isGeoList() && ((GeoList) geo).drawAsComboBox())
+				|| (geo.isGeoImage() && ((AbsoluteScreenLocateable) geo)
+						.isAbsoluteScreenLocActive()
+						&& !((GeoImage) geo).isInBackground());
 	}
 
 }
