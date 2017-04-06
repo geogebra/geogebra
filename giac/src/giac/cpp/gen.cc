@@ -6148,8 +6148,7 @@ namespace giac {
       gen tmp=minus1pow(exponent._SYMBptr->feuille,contextptr);
       if (is_assumed_integer(exponent,contextptr))
 	return tmp;
-      else
-	return symb_inv(tmp);
+      //else return symb_inv(tmp);
     }
     if (exponent.is_symb_of_sommet(at_plus)){
       gen res(1);
