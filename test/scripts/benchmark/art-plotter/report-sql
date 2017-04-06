@@ -1,5 +1,5 @@
 #!/bin/bash
-# Creates a benchmark output for the prover in HTML and TeX format into html/.
+# Create a benchmark output for the prover in HTML and TeX format into html/.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.

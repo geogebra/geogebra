@@ -1,5 +1,5 @@
 #!/bin/bash
-# Creates a benchmark output for the prover in CSV format to stdout,
+# Create a benchmark output for the prover in CSV format to stdout,
 # and also in HTML format into html/.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 

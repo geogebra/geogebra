@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Checks the output of runtests-sql-all and reports if a regression occurred.
+# Check the output of runtests-sql-all and report if a regression occurred.
 # Only the number of correct tests is counted. This should be improved.
 # Currently a diff HTML is also generated when regression is found.
 
@@ -21,8 +21,8 @@ read di dg w < tmp/all.summary.out
 
 exitcode=0
 
-n=64;  if ((di < $n));   then r "DesktopInternal" $di $n 1; fi
-n=48; if ((dg < $n));  then r "DesktopGrobcov" $dg $n 0; fi
-n=61; if ((w < $n));   then r "Web" $w $n 1; fi
+n=79;  if ((di < $n));   then r "DesktopInternal" $di $n 1; fi
+n=57; if ((dg < $n));  then r "DesktopGrobcov" $dg $n 0; fi
+n=72; if ((w < $n));   then r "Web" $w $n 1; fi
 
 exit $exitcode
