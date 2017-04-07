@@ -269,7 +269,8 @@ public class SpreadsheetContextMenu {
 			// Tracing
 			// ===============================================
 
-			if (geo.isSpreadsheetTraceable()
+			if ((!app.isHTML5Applet() || !app.has(Feature.IMPROVE_CONTEXT_MENU))
+					&& geo.isSpreadsheetTraceable()
 					&& selectionType != MyTableInterface.ROW_SELECT) {
 
 				boolean showRecordToSpreadsheet = true;
