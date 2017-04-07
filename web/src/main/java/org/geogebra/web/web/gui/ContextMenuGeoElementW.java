@@ -213,6 +213,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 									traceCmd();
 								}
 							}, true, app);
+					cbItem.setSelected(isTracing());
 				} else {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img,
@@ -224,8 +225,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 									traceCmd();
 								}
 							}, true, app);
+					cbItem.setSelected(((Traceable) getGeo()).getTrace());
 				}
-				cbItem.setSelected(((Traceable) getGeo()).getTrace());
 				wrappedPopup.addItem(cbItem);
 			}
 

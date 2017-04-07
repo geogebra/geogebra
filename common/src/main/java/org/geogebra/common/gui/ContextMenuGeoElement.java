@@ -448,21 +448,47 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void traceCmd() {
-		ArrayList<GeoElement> geos2 = checkOneGeo();
+        ArrayList<GeoElement> geos2 = checkOneGeo();
 
-		for (int i = geos2.size() - 1; i >= 0; i--) {
-			GeoElement geo1 = geos2.get(i);
-			if (geo1.isTraceable()) {
-				((Traceable) geo1).setTrace(!((Traceable) geo1).getTrace());
-				geo1.updateRepaint();
-			}
+        if (app.has(Feature.IMPROVE_CONTEXT_MENU)) { // if there is at least 1
+                                                        // geo, which has no
+                                                        // trace, all geo will
+                                                        // have trace,
+                                                        // otherwise, if all geo
+                                                        // has trace, tracing
+                                                        // will be set to false
+            boolean istracing = isTracing();
+            for (int i = geos2.size() - 1; i >= 0; i--) {
+                GeoElement geo1 = geos2.get(i);
+                if (geo1.isTraceable()) {
+                    ((Traceable) geo1).setTrace(!istracing);
+                    geo1.updateRepaint();
+                }
+            }
+        } else { // every geo's behaviour will be changed for the inverse
+            for (int i = geos2.size() - 1; i >= 0; i--) {
+                GeoElement geo1 = geos2.get(i);
+                if (geo1.isTraceable()) {
+                    ((Traceable) geo1).setTrace(!((Traceable) geo1).getTrace());
+                    geo1.updateRepaint();
+                }
 
-		}
-		app.storeUndoInfo();
-	}
-
-	public boolean isTracing() {
-		return false; // TODO
+            }
+        }
+        app.storeUndoInfo();
+    }
+    
+    public boolean isTracing() {
+        ArrayList<GeoElement> geos2 = checkOneGeo();
+        for (int i = geos2.size() - 1; i >= 0; i--) {
+            GeoElement geo1 = geos2.get(i);
+            if (geo1.isTraceable()) {
+            	if(!((Traceable) geo1).getTrace()){
+            		return false;
+            	}
+            }
+        }
+		return true;
 	}
 
 	public void animationCmd() {
