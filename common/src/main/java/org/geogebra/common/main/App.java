@@ -4188,10 +4188,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case AND_TRACE_IN_PROPERTIES:
 			return prerelease;
-		case SPREADSHEET_COPY_BY_DEFINITION:
-			return prerelease;
-
-
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
