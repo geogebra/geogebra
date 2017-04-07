@@ -6178,19 +6178,17 @@ namespace giac {
 	  if (!is_assumed_integer(v[i],contextptr))
 	    perhapsone=false;
 	}
-	if (allow_recursion && perhapsone){
 #ifndef NO_STDEXCEPT
+	if (allow_recursion && perhapsone){
 	  gen num1=undef;
 	  try {
 	    num1=_irem(makesequence(num,2*den),contextptr);
 	  } catch (std::runtime_error & err){
 	    num1=undef;
 	  }
-#else
-	  gen num1=_irem(makesequence(num,2*den),contextptr);
-#endif
 	  if (!is_undef(num1) && num1!=num) return minus1pow(symb_prod(num1,symb_inv(den)),contextptr,false);
 	}
+#endif
 	if (even && perhapsone)
 	  return 1;
 	if (num.type==_INT_ && den.type==_INT_ && den.val<=MAX_ALG_EXT_ORDER_SIZE){
