@@ -24,7 +24,7 @@ class LetterKeyboardFactory {
         int bottomRowLength = bottomRow.length();
 
         // sanity checks
-        if (bottomRowLength > topRowLength - 1 || bottomRowLength > middleRowLength - 1) {
+        if (bottomRowLength > topRowLength - 1 && bottomRowLength > middleRowLength - 1) {
             throw new RuntimeException(EXCEPTION_MESSAGE);
         }
 
