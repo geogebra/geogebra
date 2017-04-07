@@ -48,7 +48,7 @@ public class SpreadsheetContextMenu {
 	public enum MenuCommand {
 		ShowObject, ShowLabel, HideLabel,
 
-		RecordToSpreadsheet,
+		RecordToSpreadsheet, DontRecordToSpreadsheet,
 
 		Copy, Paste, Duplicate, Cut, Delete, DeleteObjects,
 
@@ -281,8 +281,16 @@ public class SpreadsheetContextMenu {
 
 				if (showRecordToSpreadsheet) {
 					cmdString = MenuCommand.RecordToSpreadsheet.toString();
-					addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
-							geo.getSpreadsheetTrace());
+
+					if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+								MenuCommand.DontRecordToSpreadsheet.toString(),
+								geo.getSpreadsheetTrace());
+					} else {
+						addCheckBoxMenuItem(cmdString, loc.getMenu(cmdString),
+								geo.getSpreadsheetTrace());
+					}
+
 				}
 			}
 
