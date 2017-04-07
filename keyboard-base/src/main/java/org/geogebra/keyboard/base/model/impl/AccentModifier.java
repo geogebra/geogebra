@@ -19,13 +19,9 @@ public class AccentModifier implements KeyModifier {
 
     public boolean setAccent(String accent) {
         if (graveAccent || acuteAccent || caronAccent || circumflexAccent) {
-            if (accent == null) {
-                graveAccent = acuteAccent = caronAccent = circumflexAccent = false;
-                return true;
-            } else {
-                return false;
-            }
-        } else if (accent != null) {
+            graveAccent = acuteAccent = caronAccent = circumflexAccent = false;
+        }
+        if (accent != null) {
             switch (accent) {
                 case ButtonConstants.ACCENT_ACUTE:
                     acuteAccent = true;
