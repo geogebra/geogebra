@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GCheckBoxMenuItem {
 
@@ -90,7 +91,8 @@ public class GCheckBoxMenuItem {
 	public void setSelected(boolean sel) {
 		selected = sel;
 		if (textSelected != null) {
-			setText(sel ? textSelected : textNonSelected);
+			setText(sel ? textSelected : textNonSelected)
+					.addStyleName("GCheckboxMenuItemText");
 		} else if (isToggleMenu()) {
 			itemPanel.clear();
 			String txt = app.getLocalization()
@@ -119,12 +121,10 @@ public class GCheckBoxMenuItem {
 		return menuItem;
 	}
 
-	private void setText(String text) {
-		if (isHtml) {
-			itemPanel.add(new HTML(text));
-		} else {
-			itemPanel.add(new Label(text));
-		}
+	private Widget setText(String text) {
+		Widget w = isHtml ? new HTML(text) : new Label(text);
+		itemPanel.add(w);
+		return w;
 	}
 
 	public boolean isForceCheckbox() {
