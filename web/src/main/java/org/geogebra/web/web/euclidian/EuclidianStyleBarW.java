@@ -31,6 +31,7 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.color.MOWColorButton;
@@ -387,7 +388,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 
-			if (!isDynamicStylebar() && app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			if (!isDynamicStylebar()
+					&& (this.getView() instanceof EuclidianViewW)
+					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+				// in view stylebar won't be appeared object stylebar
 				geos = new Object[0];
 			} else {
 				ArrayList<GeoElement> geoList = new ArrayList<GeoElement>();
