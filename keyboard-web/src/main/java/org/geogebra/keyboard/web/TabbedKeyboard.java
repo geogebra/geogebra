@@ -169,7 +169,21 @@ public class TabbedKeyboard extends FlowPanel {
 			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
 				return accentButton(ButtonConstants.ACCENT_GRAVE, b);
 			}
-
+			if (wb.getActionName().equals("*")) {
+				return new KeyBoardButtonBase(Unicode.MULTIPLY + "", "*", b);
+			}
+			if (wb.getActionName().equals("/")) {
+				return new KeyBoardButtonBase(Unicode.DIVIDE, "*", b);
+			}
+			if (wb.getActionName().equals("|")) {
+				return new KeyBoardButtonBase("|a|", "|", b);
+			}
+			if (wb.getActionName().equals("-")) {
+				return new KeyBoardButtonBase(Unicode.MINUS + "", "-", b);
+			}
+			if (wb.getActionName().equals(Unicode.EULER_STRING)) {
+				return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
+			}
 			return new KeyBoardButtonBase(wb.getActionName(),
 					wb.getActionName(), b);
 		}
@@ -234,15 +248,15 @@ public class TabbedKeyboard extends FlowPanel {
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return new KeyBoardButtonBase("10^x", "10^", bh);
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
-			return new KeyBoardButtonBase(Unicode.EULER_STRING + "^x",
+			return new KeyBoardButtonBase("e^x",
 					Unicode.EULER_STRING + "^", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10", "log10", bh);
 		}
-		// else if (resourceName.equals(Resource.LOG_B.name())) {
-		// buttonView.setSpannable(createSubscript("log", "b"));
-		// }
+		else if (resourceName.equals(Resource.LOG_B.name())) {
+			return new KeyBoardButtonBase("log_b", "log_", bh);
+		}
 		else if (resourceName.equals(Resource.A_N.name())) {
 			return new KeyBoardButtonBase("a_n", "_", bh);
 		}

@@ -58,7 +58,7 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.insertFunction("^");
 		} else if (text.equals(Unicode.Superscript_2 + "")) {
 			mf.insertFunction("^");
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '2'));
+			type("2");
 			mf.getKeyListener().onKeyPressed(
 					new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
 		} else if (Unicode.DIVIDE.equals(text)) {
@@ -68,13 +68,22 @@ public class MathFieldProcessing implements KeyboardListener {
 		} else if ("log".equals(text)) {
 			mf.insertFunction("log10");
 		} else if (text.equals("10^")) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '1'));
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, '0'));
+			type("10");
 			mf.insertFunction("^");
 		} else if (text.equals(Unicode.eulerChar + "^")) {
 			mf.getKeyListener()
 					.onKeyTyped(new KeyEvent(0, 0, Unicode.eulerChar));
 			mf.insertFunction("^");
+		} else if (text.equals("log_")) {
+			type("log_");
+			mf.getKeyListener()
+					.onKeyPressed(new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
+			type("(");
+			mf.getKeyListener()
+					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0, '\0'));
+			mf.getKeyListener()
+					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0, '\0'));
+
 		} else {
 			int length = text.length();
 			if (text.contains("/") || text.contains("^")) {
@@ -86,10 +95,14 @@ public class MathFieldProcessing implements KeyboardListener {
 				mf.insertFunction(text);
 				return;
 			}
-			for (int i = 0; i < length; i++) {
-				mf.getKeyListener().onKeyTyped(
-						new KeyEvent(0, 0, text.charAt(i)));
-			}
+			type(text);
+		}
+
+	}
+
+	private void type(String text) {
+		for (int i = 0; i < text.length(); i++) {
+			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
 		}
 
 	}
