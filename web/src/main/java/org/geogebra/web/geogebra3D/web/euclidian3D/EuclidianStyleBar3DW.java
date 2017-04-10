@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -346,6 +347,22 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	// btnClipping.updateGUI();
 	//
 	// }
+
+	@Override
+	protected MyToggleButtonW[] newToggleBtnList() {
+		MyToggleButtonW[] superList = super.newToggleBtnList();
+		
+		if (!app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			return superList;
+		}
+
+		MyToggleButtonW[] ret = new MyToggleButtonW[superList.length + 1];
+		for (int i = 0; i < superList.length; i++) {
+			ret[i] = superList[i];
+		}
+		ret[superList.length] = btnShowGrid3D;
+		return ret;
+	}
 
 	@Override
 	protected PopupMenuButtonW[] newPopupBtnList() {

@@ -630,7 +630,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return btnShowGrid;
 	}
 
-	private MyToggleButtonW[] newToggleBtnList() {
+	protected MyToggleButtonW[] newToggleBtnList() {
 		if (app.has(Feature.AXES_STYLE_SUBMENU)) { // no axes button here if
 													// feature flag is true
 			return new MyToggleButtonW[] { btnBold, btnItalic, btnFixPosition,
