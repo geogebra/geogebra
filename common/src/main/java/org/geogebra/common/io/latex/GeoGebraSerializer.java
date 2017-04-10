@@ -214,10 +214,10 @@ public class GeoGebraSerializer implements Serializer {
 
 	private static void serialize(MathArray mathArray,
 			StringBuilder stringBuilder) {
-		String open = mathArray.getOpen().getCasName();
-		String close = mathArray.getClose().getCasName();
-		String field = mathArray.getField().getCasName();
-		String row = mathArray.getRow().getCasName();
+		String open = mathArray.getOpen().getKey() + "";
+		String close = mathArray.getClose().getKey() + "";
+		String field = mathArray.getField().getKey() + "";
+		String row = mathArray.getRow().getKey() + "";
 		if (mathArray.isMatrix()) {
 			stringBuilder.append(open);
 		}

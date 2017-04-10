@@ -33,8 +33,15 @@ package com.himamis.retex.editor.share.meta;
  * @author Bea Petrovicova
  */
 public class MetaSymbol extends MetaCharacter {
+	private String cas;
 
-    MetaSymbol(String name, String casName, String texName, char key, char unicode, int type) {
-        super(name, casName, texName, key, unicode, type);
+	MetaSymbol(String name, String casName, String texName, char key,
+			char unicode, int type) {
+		super(name, texName, key, unicode, type);
+		this.cas = casName;
     }
+
+	public String getCasName() {
+		return cas;
+	}
 }

@@ -53,7 +53,7 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     private String tagName;
 
     MetaArray(String tagName, String name, List<MetaComponent> metaComponents) {
-        super(name, name, name, (char) 0, (char) 0);
+		super(name, name, (char) 0, (char) 0);
         this.tagName = tagName;
         setupComponents(metaComponents);
     }
@@ -64,7 +64,7 @@ public class MetaArray extends MetaComponent implements MetaGroup {
                 return metaComponent;
             }
         }
-		return new MetaComponent(name, "", "", (char) 0, (char) 0);
+		return new MetaComponent(name, "", (char) 0, (char) 0);
     }
 
     private void setupComponents(List<MetaComponent> metaComponents) {

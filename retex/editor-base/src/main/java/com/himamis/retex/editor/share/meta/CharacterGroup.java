@@ -26,7 +26,7 @@ public class CharacterGroup implements MetaGroup {
         MetaCharacter character = characters.get(name);
         if (character == null) {
             char code = name.length() > 0 ? name.charAt(0) : 0;
-            character = new MetaCharacter(name, name, name, code, code,
+			character = new MetaCharacter(name, name, code, code,
                     MetaCharacter.CHARACTER);
             characters.put(name, character);
         }

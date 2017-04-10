@@ -35,8 +35,9 @@ public class MetaCharacter extends MetaComponent {
 
     private int type;
 
-    MetaCharacter(String name, String casName, String texName, char key, char unicode, int type) {
-        super(name, casName, texName, key, unicode);
+	MetaCharacter(String name, String texName, char key, char unicode,
+			int type) {
+		super(name, texName, key, unicode);
         this.type = type;
     }
 

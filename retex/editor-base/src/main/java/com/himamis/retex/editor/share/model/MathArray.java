@@ -119,13 +119,6 @@ public class MathArray extends MathContainer {
         return getArgument(i * columns + j);
     }
 
-    /**
-     * Uid name.
-     */
-    public String getName() {
-        return meta.getName();
-    }
-
     public MetaComponent getOpen() {
         return meta.getOpen();
     }

@@ -42,14 +42,12 @@ public class MetaComponent implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String name;
-    private String casName;
     private String texName;
     private char key;
     private char unicode;
 
-    MetaComponent(String name, String casName, String texName, char key, char unicode) {
+	MetaComponent(String name, String texName, char key, char unicode) {
         this.name = name;
-        this.casName = casName;
         this.texName = texName;
         this.key = key;
         this.unicode = unicode;
@@ -60,13 +58,6 @@ public class MetaComponent implements Serializable{
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Cas name.
-     */
-    public String getCasName() {
-        return casName;
     }
 
     /**

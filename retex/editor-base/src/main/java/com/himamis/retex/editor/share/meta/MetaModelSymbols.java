@@ -9,7 +9,7 @@ import java.util.List;
 class MetaModelSymbols {
 
     private static MetaComponent createSymbol(String name, String cas, String tex, char key, char unicode, int type) {
-        return new MetaSymbol(name, cas, tex, key, unicode, type);
+		return new MetaSymbol(name, cas, tex, key, unicode, type);
     }
 
     private static MetaComponent createOperator(String name, String cas, String tex, char key, char unicode) {
