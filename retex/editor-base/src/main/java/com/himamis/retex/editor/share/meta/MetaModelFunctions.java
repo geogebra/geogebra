@@ -132,10 +132,6 @@ class MetaModelFunctions {
     MetaGroup createFunctions() {
         List<MetaComponent> functions = new ArrayList<MetaComponent>();
 
-        functions.add(createFunction("sin"));
-        functions.add(createFunction("cos"));
-        functions.add(createFunction("tan"));
-
         functions.add(createFunction("asin", "sin^{-1}"));
         functions.add(createFunction("acos", "cos^{-1}"));
         functions.add(createFunction("atan", "tan^{-1}"));
@@ -144,9 +140,6 @@ class MetaModelFunctions {
         functions.add(createFunction("arccos", "acos", "cos^{-1}"));
         functions.add(createFunction("arctan", "atan", "tan^{-1}"));
 
-        functions.add(createFunction("sinh"));
-        functions.add(createFunction("cosh"));
-        functions.add(createFunction("tanh"));
 
         functions.add(createFunction("asinh", "sinh^{-1}"));
         functions.add(createFunction("acosh", "cosh^{-1}"));
@@ -154,45 +147,14 @@ class MetaModelFunctions {
 
         functions.add(createFunction("ln", "log", "ln"));
         functions.add(createFunction("log10", "log10", "log_{10}"));
-        functions.add(createFunction("log"));
-        functions.add(createFunction("exp"));
-
-        // Statistics
-
-        functions.add(createFunction("corrcoef", "x", "y"));
-
-        functions.add(createFunction("cov", "x", "y"));
-
-        functions.add(createFunction("median", "a"));
-        functions.add(createFunction("mean", "a"));
-        functions.add(createFunction("std", "a"));
-        functions.add(createFunction("var", "a"));
-        functions.add(createFunction("cov", "a"));
-
-        // Miscellaneous Functions
-
-        functions.add(createFunction("mod", "n", "m"));
+		functions.add(createFunction("log2", "log2", "log_{2}"));
 
         functions.add(createFunction("floor"));
-        functions.add(createFunction("ceil"));
-        functions.add(createFunction("sign"));
-
-        functions.add(createFunctionParams("gcd", "x", "y"));
-        functions.add(createFunctionParams("lcm", "x", "y"));
-
-        functions.add(createFunction("rand", new MetaParameter[0]));
-        functions.add(createFunction("random", new MetaParameter[0]));
+		functions.add(createFunction("ceil"));
 
         // Matrix operations
 
-        functions.add(createFunctionParams("eye", "n", "m"));
-        functions.add(createFunctionParams("transpose", "a"));
-        functions.add(createFunctionParams("inverse", "a"));
-        functions.add(createFunctionParams("det", "a"));
-        functions.add(createFunctionParams("min", "a"));
-        functions.add(createFunctionParams("max", "a"));
-        functions.add(createFunctionParams("rows", "a"));
-        functions.add(createFunctionParams("columns", "a"));
+
 
         return new ListMetaGroup(MetaModel.FUNCTIONS, MetaModel.FUNCTIONS, functions);
     }
