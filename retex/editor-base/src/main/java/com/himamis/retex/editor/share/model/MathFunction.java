@@ -73,13 +73,6 @@ public class MathFunction extends MathContainer {
     }
 
     /**
-     * Cas name.
-     */
-    public String getCasName() {
-        return meta.getCasName();
-    }
-
-    /**
      * TeX name.
      */
     public String getTexName() {

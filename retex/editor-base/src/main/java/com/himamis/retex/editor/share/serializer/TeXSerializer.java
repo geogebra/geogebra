@@ -17,14 +17,9 @@ public class TeXSerializer extends SerializerAdapter {
 	private static final String selection_start = "\\jlmselection{";
 	private static final String selection_end = "}";
 
-    private static final String latexFunctions[] = {"sin", "cos", "tan",
-            "sec", "csc", "cot", "sinh", "cosh", "tanh", "coth", "lim",
-            "limsup", "liminf", "min", "max", "sup", "exp", "ln", "lg", "log",
-            "ker", "deg", "gcd", "det", "hom", "arg", "dim", "sum", "prod",
-            "int", "pmod"};
 
     private static final String characterMissing = "\\nbsp ";
-    private boolean jmathtex = true;
+	private static final boolean jmathtex = true;
     private MetaModel metaModel;
 
 	/**
@@ -47,9 +42,9 @@ public class TeXSerializer extends SerializerAdapter {
 		if ("=".equals(mathCharacter.getName())) {
 			stringBuilder.append("\\,=\\,");
 		} else if ("@".equals(mathCharacter.getName())) {
-			stringBuilder.append((jmathtex ? "\\@" : "@") + " ");
+			stringBuilder.append(("\\@") + " ");
 		} else if (" ".equals(mathCharacter.getName())) {
-            stringBuilder.append((jmathtex ? "\\nbsp" : "\\ ") + " ");
+			stringBuilder.append(("\\nbsp") + " ");
         } else {
             String texName = mathCharacter.getTexName();
             if (LaTeXUtil.isSymbolEscapeable(texName)) {
@@ -236,7 +231,7 @@ public class TeXSerializer extends SerializerAdapter {
                 }
                 serialize(function.getArgument(2), stringBuilder);
                 // jmathtex v0.7: incompatibility
-                stringBuilder.append(" " + (jmathtex ? "\\nbsp" : "\\ ") + " d");
+				stringBuilder.append(" " + ("\\nbsp") + " d");
                 serialize(function.getArgument(3), stringBuilder);
                 if (addBraces) {
 					stringBuilder.append("\\right)");
@@ -245,14 +240,14 @@ public class TeXSerializer extends SerializerAdapter {
 
             } else if ("nint".equals(function.getName())) {
                 stringBuilder.append(function.getTexName());
-                stringBuilder.append((jmathtex ? "_{\\nbsp}" : "") + "{");
+				stringBuilder.append(("_{\\nbsp}") + "{");
                 boolean addBraces = currentBraces;
                 if (addBraces) {
                     stringBuilder.append('(');
                 }
                 serialize(function.getArgument(0), stringBuilder);
                 // jmathtex v0.7: incompatibility
-                stringBuilder.append(" " + (jmathtex ? "\\nbsp" : "\\ ") + " d");
+				stringBuilder.append(" " + ("\\nbsp") + " d");
                 serialize(function.getArgument(1), stringBuilder);
                 if (addBraces) {
                     stringBuilder.append(')');
@@ -261,16 +256,12 @@ public class TeXSerializer extends SerializerAdapter {
 
             } else if ("lim".equals(function.getName())) {
                 // lim not implemented in jmathtex
-                if (!jmathtex) {
-                    stringBuilder.append("\\");
-                }
-                stringBuilder.append(function.getTexName());
-                stringBuilder.append("_{");
+				stringBuilder.append("\\lim_{");
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append(" \\rightarrow ");
                 serialize(function.getArgument(1), stringBuilder);
                 // jmathtex v0.7: incompatibility
-                stringBuilder.append("} " + (jmathtex ? "\\nbsp" : "\\ ") + " {");
+				stringBuilder.append("} " + ("\\nbsp") + " {");
 				boolean addBraces = (function.getArgument(2).hasOperator()
 						&& function
                         .getParent().hasOperator());
@@ -293,7 +284,7 @@ public class TeXSerializer extends SerializerAdapter {
             } else if ("function".equals(function.getName())) {
                 stringBuilder.append("\\mathrm{" + function.getTexName() + "} ");
                 // jmathtex v0.7: incompatibility
-                stringBuilder.append((jmathtex ? "\\nbsp" : "\\ ") + " ");
+				stringBuilder.append(("\\nbsp") + " ");
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append("\\left(");
                 serialize(function.getArgument(1), stringBuilder);
@@ -310,11 +301,7 @@ public class TeXSerializer extends SerializerAdapter {
                 }
             }
         } else {
-            if (!jmathtex && isLatexFunction(function.getTexName())) {
-                stringBuilder.append("{\\" + function.getTexName());
-            } else {
-                stringBuilder.append("{\\mathrm{" + function.getTexName() + "}");
-            }
+			stringBuilder.append("{\\mathrm{" + function.getTexName() + "}");
             stringBuilder.append("\\left");
             stringBuilder.append(MathFunction.getOpeningBracket());
             for (int i = 0; i < function.size(); i++) {
@@ -346,41 +333,24 @@ public class TeXSerializer extends SerializerAdapter {
 
 	@Override
     public void serialize(MathArray array, StringBuilder stringBuilder) {
-		if (!jmathtex && MetaModel.MATRIX.equals(array.getName())) {
-            // jmathlib does not implement matrix
-            stringBuilder.append(array.getOpen().getCasName());
-            for (int i = 0; i < array.rows(); i++) {
-                for (int j = 0; j < array.columns(); j++) {
-                    serialize(array.getArgument(i, j), stringBuilder);
-                    if (j + 1 < array.columns()) {
-                        stringBuilder.append(array.getField().getCasName());
-                    } else if (i + 1 < array.rows()) {
-                        stringBuilder.append(array.getRow().getCasName());
-                    }
-                }
-            }
-            stringBuilder.append(array.getClose().getCasName());
-
-        } else {
-			if (this.currentSelStart == array) {
-				stringBuilder.append(TeXSerializer.selection_start);
+		if (this.currentSelStart == array) {
+			stringBuilder.append(TeXSerializer.selection_start);
+		}
+		stringBuilder.append(array.getOpen().getTexName());
+		for (int i = 0; i < array.rows(); i++) {
+			for (int j = 0; j < array.columns(); j++) {
+				serialize(array.getArgument(i, j), stringBuilder);
+				if (j + 1 < array.columns()) {
+					stringBuilder.append(array.getField().getTexName());
+				} else if (i + 1 < array.rows()) {
+					stringBuilder.append(array.getRow().getTexName());
+				}
 			}
-            stringBuilder.append(array.getOpen().getTexName());
-            for (int i = 0; i < array.rows(); i++) {
-                for (int j = 0; j < array.columns(); j++) {
-                    serialize(array.getArgument(i, j), stringBuilder);
-                    if (j + 1 < array.columns()) {
-                        stringBuilder.append(array.getField().getTexName());
-                    } else if (i + 1 < array.rows()) {
-                        stringBuilder.append(array.getRow().getTexName());
-                    }
-                }
-            }
-            stringBuilder.append(array.getClose().getTexName());
-			if (this.currentSelEnd == array) {
-				stringBuilder.append(TeXSerializer.selection_end);
-			}
-        }
+		}
+		stringBuilder.append(array.getClose().getTexName());
+		if (this.currentSelEnd == array) {
+			stringBuilder.append(TeXSerializer.selection_end);
+		}
     }
 
     private static int letterLength(MathSequence symbol, int i) {
@@ -389,22 +359,6 @@ public class TeXSerializer extends SerializerAdapter {
                     .length();
         }
 		return 2;
-    }
-
-    private static boolean isLatexFunction(String texName) {
-        for (int i = 0; i < latexFunctions.length; i++) {
-            if (latexFunctions[i].equals(texName)) {
-                return true;
-            } else if (texName.length() > latexFunctions[i].length() + 1
-                    && texName.startsWith(latexFunctions[i])
-                    && (texName.charAt(latexFunctions[i].length()) == ' '
-                    || texName.charAt(latexFunctions[i].length()) == '^'
-                    || texName.charAt(latexFunctions[i].length()) == '_' || texName
-                    .charAt(latexFunctions[i].length()) == '{')) {
-                return true;
-            }
-        }
-        return false;
     }
 
 	/**
