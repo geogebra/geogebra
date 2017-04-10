@@ -741,6 +741,9 @@ public class MathFieldW implements MathField, IsWidget {
 
 	public void blur() {
 		this.wrap.setFocus(false);
+		if (this.onTextfieldBlur != null) {
+			this.onTextfieldBlur.onBlur(null);
+		}
 
 	}
 
