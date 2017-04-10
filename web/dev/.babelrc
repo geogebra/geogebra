@@ -1,7 +1,0 @@
-{
-  "plugins": [
-    "transform-class-properties",
-    "syntax-dynamic-import",
-    "transform-es2015-classes"
-  ]
-}

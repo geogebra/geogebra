@@ -4,7 +4,8 @@
   <inherits name='com.google.gwt.user.User'/>
   <inherits name='org.geogebra.keyboard.KeyboardBase'/>
   <source path='web' />
-
+  <resource path='css' />
+  <resource path='common/icons' />
   <entry-point class='org.geogebra.keyboard.web.MathKeyboard'/>
   <collapse-all-properties />
 </module>
