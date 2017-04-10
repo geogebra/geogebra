@@ -48,6 +48,7 @@ public class FunctionGroup implements MetaGroup {
     }
 
     private MetaComponent createComponent(String componentName) {
-        return new MetaFunction(componentName, componentName, componentName, '\0', defaultParameters);
+		return new MetaFunction(componentName, componentName, '\0',
+				defaultParameters);
     }
 }

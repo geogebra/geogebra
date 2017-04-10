@@ -39,7 +39,8 @@ public class MetaFunction extends MetaComponent {
     private MetaParameter arguments[];
     private String desc;
 
-    public MetaFunction(String name, String casName, String texName, char key, MetaParameter parameters[]) {
+	public MetaFunction(String name, String texName, char key,
+			MetaParameter parameters[]) {
 		super(name, texName, key, key);
         this.arguments = parameters != null ? parameters : new MetaParameter[0];
         insertIndex = 0;
