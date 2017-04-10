@@ -1210,6 +1210,18 @@ public class AlgoDispatcher {
 	 */
 	final public GeoPoint[] IntersectPolynomials(String[] labels, GeoFunction a,
 			GeoFunction b) {
+		if (isConditionalPolynomial(a) && b.isPolynomialFunction(false)) {
+			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
+					cons, labels, a, b);
+			GeoPoint[] g = algo.getRootPoints();
+			return g;
+		}
+		if (isConditionalPolynomial(b) && a.isPolynomialFunction(false)) {
+			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
+					cons, labels, b, a);
+			GeoPoint[] g = algo.getRootPoints();
+			return g;
+		}
 		// TODO decide polynomial when CAS not loaded
 		if (!a.isPolynomialFunction(false) || !b.isPolynomialFunction(false)) {
 
@@ -1248,6 +1260,17 @@ public class AlgoDispatcher {
 		return point;
 	}
 
+	private boolean isConditionalPolynomial(GeoFunction f) {
+		if (f.getFunctionExpression() != null && Operation.IF
+				.equals(f.getFunctionExpression().getOperation())) {
+			Function test = new Function(
+					f.getFunctionExpression().deepCopy(cons.getKernel())
+							.getRightTree());
+			test.initFunction();
+			return test.isPolynomialFunction(false, true);
+		}
+		return false;
+	}
 	/**
 	 * IntersectPolyomialLine yields all intersection points of polynomial f and
 	 * line l
@@ -1255,19 +1278,11 @@ public class AlgoDispatcher {
 	final public GeoPoint[] IntersectPolynomialLine(String[] labels,
 			GeoFunction f, GeoLine l, GeoPoint pref) {
 		// TODO decide polynomial when CAS not loaded ?
-		if (f.getFunctionExpression() != null && Operation.IF
-				.equals(f.getFunctionExpression().getOperation())) {
-			Function test = new Function(
-					f.getFunctionExpression().deepCopy(cons.getKernel())
-							.getRightTree());
-			test.initFunction();
-			if (test.isPolynomialFunction(false, true)) {
+		if (isConditionalPolynomial(f)) {
 				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
 						cons, labels, f, l);
 				GeoPoint[] g = algo.getRootPoints();
 				return g;
-			}
-
 		}
 		if (!f.isPolynomialFunction(false)) {
 

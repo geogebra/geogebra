@@ -290,7 +290,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		if (f.isDefined() && g.isDefined()) {
 			yValFunction = f.getFunction();
 			// get difference f - g
-			Function.difference(f.getFunction(), g.getFunction(), diffFunction);
+			updateDiffFunctions();
 			calcRoots(diffFunction, 0);
 
 			// check if the intersection points are really on the functions
@@ -308,6 +308,14 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		} else {
 			solution.resetRoots();
 		}
+	}
+
+	/**
+	 * Compute difference between functions, overridden for conditional case
+	 */
+	protected void updateDiffFunctions() {
+		Function.difference(f.getFunction(), g.getFunction(), diffFunction);
+
 	}
 
 	// intersection of f and line
@@ -343,6 +351,10 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		}
 	}
 
+	/**
+	 * Compute difference between function and line, overridden for conditional
+	 * case
+	 */
 	protected void updateDiffLine() {
 		Function.difference(f.getFunction(), line, diffFunction);
 	}

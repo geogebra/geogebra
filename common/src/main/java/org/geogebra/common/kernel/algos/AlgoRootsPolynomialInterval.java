@@ -61,6 +61,21 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 		super(cons, labels, !cons.isSuppressLabelsActive(), f, null, g);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param conditional
+	 *            conditional function
+	 * @param polynomial
+	 *            polynomial function
+	 */
+	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
+			GeoFunction conditional, GeoFunction polynomial) {
+		super(cons, labels, !cons.isSuppressLabelsActive(), conditional, polynomial, null);
+	}
+
 	@Override
 	public void compute() {
 
@@ -120,8 +135,15 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	}
 
 	@Override
+	protected void updateDiffFunctions() {
+		updateIntervalFun();
+		Function.difference(intervalFun, g.getFunction(), diffFunction);
+
+	}
+
+	@Override
 	public final String toString(StringTemplate tpl) {
-		if (line != null) {
+		if (line != null || g != null) {
 			return getLoc().getPlain("IntersectionPointOfAB",
 					input[0].getLabel(tpl), input[1].getLabel(tpl));
 		}
