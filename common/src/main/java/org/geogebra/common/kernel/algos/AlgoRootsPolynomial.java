@@ -44,7 +44,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	protected GeoFunction f; // input (g for intersection of polynomials)
 	GeoFunction g;
-	private GeoLine line; // input (for intersection of polynomial with line)
+	protected GeoLine line; // input (for intersection of polynomial with line)
 	protected GeoPoint[] rootPoints; // output, inherited from AlgoIntersect
 	// private int rootPointsLength;
 
@@ -56,7 +56,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 
 	protected Function yValFunction;
 	// used for AlgoExtremumPolynomial, see setRootPoints()
-	private Function diffFunction; // used for intersection of f and g
+	/** used for intersection of f and g */
+	protected Function diffFunction;
 	private GeoPoint tempPoint;
 
 	/**
@@ -81,7 +82,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		this(cons, null, false, f, null, l);
 	}
 
-	private AlgoRootsPolynomial(Construction cons, String[] labels,
+	protected AlgoRootsPolynomial(Construction cons, String[] labels,
 			boolean setLabels, GeoFunction f, GeoFunction g, GeoLine l) {
 		super(cons);
 		this.f = f;
@@ -321,7 +322,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// standard case
 			else {
 				// get difference f - line
-				Function.difference(f.getFunction(), line, diffFunction);
+				updateDiffLine();
 				calcRoots(diffFunction, 0);
 			}
 
@@ -340,6 +341,10 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		} else {
 			solution.curRealRoots = 0;
 		}
+	}
+
+	protected void updateDiffLine() {
+		Function.difference(f.getFunction(), line, diffFunction);
 	}
 
 	/**

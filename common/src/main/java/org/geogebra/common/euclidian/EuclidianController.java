@@ -2547,19 +2547,16 @@ public abstract class EuclidianController {
 			GeoElement[] ret = { null };
 			checkZooming();
 
-			if (fun[0].isPolynomialFunction(false)) {
-				if (singlePointWanted) {
+			if (singlePointWanted && fun[0].isPolynomialFunction(false)) {
+
 					ret[0] = getAlgoDispatcher().IntersectPolynomialLineSingle(
 							null, fun[0], line[0], xRW, yRW);
-				} else {
-					ret = getAlgoDispatcher().IntersectPolynomialLine(null,
-							fun[0], line[0]);
-				}
 			} else {
 				GeoPoint initPoint = new GeoPoint(kernel.getConstruction());
 				initPoint.setCoords(xRW, yRW, 1.0);
-				ret[0] = getAlgoDispatcher().IntersectFunctionLine(null, fun[0],
-						line[0], initPoint);
+					ret = getAlgoDispatcher().IntersectPolynomialLine(null,
+						fun[0], line[0], initPoint);
+
 			}
 			return ret;
 		}

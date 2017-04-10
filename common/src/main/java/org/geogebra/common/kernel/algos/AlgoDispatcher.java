@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -1252,13 +1253,30 @@ public class AlgoDispatcher {
 	 * line l
 	 */
 	final public GeoPoint[] IntersectPolynomialLine(String[] labels,
-			GeoFunction f, GeoLine l) {
+			GeoFunction f, GeoLine l, GeoPoint pref) {
 		// TODO decide polynomial when CAS not loaded ?
+		if (f.getFunctionExpression() != null && Operation.IF
+				.equals(f.getFunctionExpression().getOperation())) {
+			Function test = new Function(
+					f.getFunctionExpression().deepCopy(cons.getKernel())
+							.getRightTree());
+			test.initFunction();
+			if (test.isPolynomialFunction(false, true)) {
+				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
+						cons, labels, f, l);
+				GeoPoint[] g = algo.getRootPoints();
+				return g;
+			}
+
+		}
 		if (!f.isPolynomialFunction(false)) {
 
 			// dummy point
-			GeoPoint A = new GeoPoint(cons);
-			A.setZero();
+			GeoPoint A = pref;
+			if (A == null) {
+				A = new GeoPoint(cons);
+				A.setZero();
+			}
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(

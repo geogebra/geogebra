@@ -1157,4 +1157,19 @@ public class Function extends FunctionNVar
 		return deriv;
 	}
 
+	/**
+	 * @param forRootFinding
+	 *            whether to ignore top level sqrt, abs
+	 * @param symbolic
+	 *            function's symbolic expression must be a polynomial, e.g. x^2
+	 *            is ok but not x^a
+	 * @return whether this function is polynomial
+	 */
+	public boolean isPolynomialFunction(boolean forRootFinding,
+			boolean symbolic) {
+		return isConstantFunction() || (symbolic
+				? getSymbolicPolynomialFactors(forRootFinding, false)
+				: getPolynomialFactors(forRootFinding, false)) != null;
+	}
+
 }

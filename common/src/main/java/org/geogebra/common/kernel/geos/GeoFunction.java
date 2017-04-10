@@ -727,9 +727,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (!isDefined()) {
 			return false;
 		}
-		return fun.isConstantFunction() || (symbolic
-				? fun.getSymbolicPolynomialFactors(forRootFinding, false)
-				: fun.getPolynomialFactors(forRootFinding, false)) != null;
+		return fun.isPolynomialFunction(forRootFinding, symbolic);
 	}
 
 	/**

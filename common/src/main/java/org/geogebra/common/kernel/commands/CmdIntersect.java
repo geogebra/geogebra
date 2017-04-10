@@ -208,13 +208,13 @@ public class CmdIntersect extends CommandProcessor {
 				return getAlgoDispatcher().IntersectPolynomialLine(
 						c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(GeoLine) arg[1]);
+						(GeoLine) arg[1], null);
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
 				return getAlgoDispatcher().IntersectPolynomialLine(
 						c.getLabels(),
 						((GeoFunctionable) arg[1]).getGeoFunction(),
-						(GeoLine) arg[0]);
+						(GeoLine) arg[0], null);
 			} else if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1].isGeoPolyLine()))
 					&& ((GeoFunctionable) arg[0]).getGeoFunction()
