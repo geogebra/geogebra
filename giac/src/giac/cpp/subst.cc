@@ -1964,9 +1964,12 @@ namespace giac {
     int n_ln=int(independant.size());
     independant.push_back(e2r(cst_i*cst_pi,vars,contextptr));
     matrice m;
+    int st=step_infolevel(contextptr);
+    step_infolevel(0,contextptr);
     for (int i=0;i<s;++i){
       m.push_back(as_linear_combination(e2r(newl[i],vars,contextptr),independant,contextptr));
     }
+    step_infolevel(st,contextptr);
     // we have a matrix of rational numbers and a vector "independant"
     // so that newl[i]=i-th line of the matrix dot independant
     // For each column of the matrix we take the lcm of the denominators

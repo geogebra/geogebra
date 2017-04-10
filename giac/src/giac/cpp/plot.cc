@@ -11189,12 +11189,14 @@ namespace giac {
     if (xmin>xmax)
       giac::swapdouble(xmin,xmax);
     vecteur res(2*niter+1);
-    res[0]=x0;
+    res[0]=gen(x0,xmin);
     int j=1;
     gen newx0;
     double x1;
+    gprintf("======== u_(n+1)=(%gen->%gen)(u_n), u0=%gen",makevecteur(x,f,x0),1,contextptr);
     for (int i=0;i<niter;++i){
       newx0=subst(f,x,x0,false,contextptr).evalf2double(eval_level(contextptr),contextptr);
+      gprintf("n=%gen u_n=%gen",makevecteur(i+1,newx0),1,contextptr);
       if (newx0.type!=_DOUBLE_)
 	return gensizeerr(gettext("Bad iteration"));
       x1=newx0._DOUBLE_val;
@@ -11205,7 +11207,7 @@ namespace giac {
       ++j;
     }
     vecteur g(gen2vecteur(_plotfunc(gen(makevecteur(f,symb_equal(x,symb_interval(xmin,xmax))),_SEQ__VECT),contextptr)));
-    g.push_back(pnt_attrib(gen(makevecteur(gen(gnuplot_xmin,gnuplot_xmin),gen(gnuplot_xmax,gnuplot_xmax)),_LINE__VECT),attributs,contextptr));
+    g.push_back(pnt_attrib(gen(makevecteur(gen(xmin,xmin),gen(xmax,xmax)),_LINE__VECT),attributs,contextptr));
 #ifdef GIAC_HAS_STO_38
     int color=FL_BLACK;
 #else
@@ -11214,7 +11216,7 @@ namespace giac {
     if (!attributs.empty())
       color = color | (attributs[0].val & 0xffff0000);
     g.push_back(symb_pnt(gen(res,_LINE__VECT),color,contextptr));
-    g.push_back(symb_pnt(gen(makevecteur(gen(x0,x0),gen(x0)),_VECTOR__VECT), color | _DASH_LINE,contextptr));
+    g.push_back(symb_pnt(gen(makevecteur(gen(x0,x0),gen(x0,xmin)),_VECTOR__VECT), color | _DASH_LINE,contextptr));
     return g; // gen(g,_SEQ__VECT);
   }
   int find_plotseq_args(const gen & args,gen & expr,gen & x,double & x0d,double & xmin,double & xmax,int & niter,vecteur & attributs,GIAC_CONTEXT){
