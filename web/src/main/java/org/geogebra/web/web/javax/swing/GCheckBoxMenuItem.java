@@ -91,8 +91,7 @@ public class GCheckBoxMenuItem {
 	public void setSelected(boolean sel) {
 		selected = sel;
 		if (textSelected != null) {
-			setText(sel ? textSelected : textNonSelected)
-					.addStyleName("GCheckboxMenuItemText");
+			setText(sel ? textSelected : textNonSelected);
 		} else if (isToggleMenu()) {
 			itemPanel.clear();
 			String txt = app.getLocalization()
@@ -121,10 +120,9 @@ public class GCheckBoxMenuItem {
 		return menuItem;
 	}
 
-	private Widget setText(String text) {
+	private void setText(String text) {
 		Widget w = isHtml ? new HTML(text) : new Label(text);
 		itemPanel.add(w);
-		return w;
 	}
 
 	public boolean isForceCheckbox() {

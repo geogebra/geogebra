@@ -378,14 +378,17 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public static String getMenuBarHtml(String url, String str, boolean enabled) {
 		String text2 = str.replace("\"", "'");
 		String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
-		return "<img class=\"GeoGebraMenuImage\" alt=\"" + text2 + "\" src=\""
-		        + url + "\" draggable=\"false\">" + " " + text3;
+		return "<img class=\"GeoGebraMenuImage menuImg\" alt=\"" + text2
+				+ "\" src=\""
+				+ url + "\" draggable=\"false\">" + text3;
     }
 
 	public static String getMenuBarHtml(String url, String str) {
 		String text = str.replace("\"", "'");
-		return "<img width=\"16\" height=\"16\" alt=\"" + text + "\" src=\""
-		        + url + "\" draggable=\"false\">" + " " + text;
+		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text
+				+ "\" src=\""
+				+ url + "\" draggable=\"false\">"
+				+ text;
     }
 
 	public static void setMenuSelected(MenuItem m, boolean visible) {
