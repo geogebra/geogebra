@@ -1956,4 +1956,9 @@ public class GeoNumeric extends GeoElement
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 0;
 	}
+
+	@Override
+	public double evaluateDouble() {
+		return getDouble();
+	}
 }

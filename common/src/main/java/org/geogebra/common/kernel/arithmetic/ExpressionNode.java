@@ -5305,22 +5305,11 @@ public class ExpressionNode extends ValidExpression
 		case MINUS:
 			return left.evaluateDouble() - right.evaluateDouble();
 		case MULTIPLY:
-			double lt = left.evaluateDouble();
-			double rt = right.evaluateDouble();
-			return !Double.isNaN(lt) && !Double.isNaN(rt) ? lt * rt
-					: super.evaluateDouble();
+			return evaluateMultiplyDouble();
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
 		case POWER:
-			if (!left.evaluatesToNumber(false)) {
-				return super.evaluateDouble();
-			}
-			lt = left.evaluateDouble();
-			if (lt < 0 && right.isExpressionNode() && ((ExpressionNode) right)
-					.getOperation() == Operation.DIVIDE) {
-				return ExpressionNodeEvaluator.negPower(lt, right);
-			}
-			return Math.pow(left.evaluateDouble(), right.evaluateDouble());
+			return evaluatePowerDouble();
 		case SIN:
 			return Math.sin(left.evaluateDouble());
 		case COS:
@@ -5333,6 +5322,26 @@ public class ExpressionNode extends ValidExpression
 		// TODO: evaluate basic operations here, but make sure errors are thrown
 		// when necessary
 		return super.evaluateDouble();
+	}
+
+	private double evaluateMultiplyDouble() {
+		double lt = left.evaluateDouble();
+		if (!Double.isNaN(lt)) {
+			lt *= right.evaluateDouble();
+		}
+		return !Double.isNaN(lt) ? lt : super.evaluateDouble();
+	}
+
+	private double evaluatePowerDouble() {
+		if (!left.evaluatesToNumber(false)) {
+			return super.evaluateDouble();
+		}
+		double lt = left.evaluateDouble();
+		if (lt < 0 && right.isExpressionNode() && ((ExpressionNode) right)
+				.getOperation() == Operation.DIVIDE) {
+			return ExpressionNodeEvaluator.negPower(lt, right);
+		}
+		return Math.pow(left.evaluateDouble(), right.evaluateDouble());
 	}
 
 	/**

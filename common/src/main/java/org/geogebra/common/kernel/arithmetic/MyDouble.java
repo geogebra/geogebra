@@ -1305,4 +1305,9 @@ public class MyDouble extends ValidExpression
 	public static boolean isOdd(int i) {
 		return (i % 2) != 0;
 	}
+	
+	@Override
+	public double evaluateDouble() {
+		return getDouble();
+	}
 }
