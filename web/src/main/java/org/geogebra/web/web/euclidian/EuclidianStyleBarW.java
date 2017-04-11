@@ -1002,7 +1002,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
 				} else {
 					boolean geosOK = (geos.length > 0
-							|| EuclidianView.isPenMode(mode));
+							|| (EuclidianView.isPenMode(mode)
+									&& !app.has(Feature.CLEAR_VIEW_STYLEBAR)));
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
