@@ -18,7 +18,6 @@ import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -72,7 +71,7 @@ public final class ToolTipManagerW {
 	private SimplePanel tipPanel;
 	private HTML tipHTML;
 
-	private HorizontalPanel bottomInfoTipPanel;
+	private TooltipPanel bottomInfoTipPanel;
 	private HTML bottomInfoTipHTML;
 	private String questionMark;
 	private String viewSavedFile;
@@ -181,7 +180,7 @@ public final class ToolTipManagerW {
 		viewSavedFile = GuiResourcesSimple.INSTANCE.viewSaved().getSafeUri()
 				.asString();
 
-		bottomInfoTipPanel = new HorizontalPanel();
+		bottomInfoTipPanel = new TooltipPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
 

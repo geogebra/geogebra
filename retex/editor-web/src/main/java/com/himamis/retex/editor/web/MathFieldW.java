@@ -516,8 +516,12 @@ public class MathFieldW implements MathField, IsWidget {
 			if (focuser != null) {
 				focuser.cancel();
 			}
-			this.lastIcon = null;
 			instances.remove(this);
+			// last repaint with no cursor
+			CursorBox.blink = false;
+			repaintWeb();
+			this.lastIcon = null;
+
 		}
 		this.focused = focus;
 	}

@@ -208,6 +208,12 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 	}
 
+	protected void disableCapsLock() {
+		for (Keyboard layout : layouts) {
+			layout.disableCapsLock();
+		}
+	}
+
 	protected void processAccent(String text) {
 		for (Keyboard layout : layouts) {
 			layout.toggleAccent(text);
