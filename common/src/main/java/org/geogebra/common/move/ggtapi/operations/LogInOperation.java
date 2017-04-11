@@ -48,9 +48,16 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 		String token = getModel().getLoginToken();
 		if (token != null) {
 			performTokenLogin(token, true);
-		} else {
+		} else if (!performCookieLogin()) {
 			getGeoGebraTubeAPI().checkAvailable(this);
 		}
+	}
+
+	/**
+	 * @return whether we found the cookie for login
+	 */
+	protected boolean performCookieLogin() {
+		return false;
 	}
 
 	/**

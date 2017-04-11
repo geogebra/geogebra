@@ -12,6 +12,8 @@ import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.web.move.ggtapi.models.AuthenticationModelW;
 import org.geogebra.web.web.move.ggtapi.models.GeoGebraTubeAPIW;
 
+import com.google.gwt.user.client.Cookies;
+
 /**
  * The web version of the login operation. uses an own AuthenticationModel and
  * an own implementation of the API
@@ -39,6 +41,15 @@ public class LoginOperationW extends LogInOperation {
 		iniNativeEvents();
 	}
 
+	@Override
+	protected boolean performCookieLogin() {
+		String cookie = Cookies.getCookie("SSID");
+		if (cookie != null) {
+			app.getLoginOperation().performCookieLogin(cookie);
+			return true;
+		}
+		return false;
+	}
 	private native void iniNativeEvents() /*-{
 		var t = this;
 		$wnd
