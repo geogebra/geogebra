@@ -699,8 +699,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		@Override
 		public void update(Object[] geos) {
-			super.setVisible(geos.length == 0
-					&& mode != EuclidianConstants.MODE_PEN);
+			if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+				super.setVisible(geos.length == 0);
+			} else {
+				super.setVisible(geos.length == 0
+						&& mode != EuclidianConstants.MODE_PEN);
+			}
 		}
 
 		/*
@@ -783,11 +787,15 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 			@Override
 			public void update(Object[] geos) {
-				// same as axes
-				super.setVisible(geos.length == 0
-				        && !EuclidianView.isPenMode(mode)
-						&& mode != EuclidianConstants.MODE_DELETE
-						&& mode != EuclidianConstants.MODE_ERASER);
+				if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+					super.setVisible(geos.length == 0);
+				} else {
+					// same as axes
+					super.setVisible(
+							geos.length == 0 && !EuclidianView.isPenMode(mode)
+									&& mode != EuclidianConstants.MODE_DELETE
+									&& mode != EuclidianConstants.MODE_ERASER);
+				}
 			}
 
 			@Override
