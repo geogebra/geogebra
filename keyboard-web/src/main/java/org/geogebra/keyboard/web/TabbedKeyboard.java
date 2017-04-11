@@ -3,7 +3,6 @@ package org.geogebra.keyboard.web;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Action;
@@ -59,7 +58,7 @@ public class TabbedKeyboard extends FlowPanel {
 		switcher.add(makeSwitcherButton(keyboard, Unicode.alphaBetaGamma));
 
 		keyboard = buildPanel(
-				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1)),
+				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
 						filter(locale.getKeyboardRow(2)),
 						filter(locale.getKeyboardRow(3))),
 				bh);
@@ -79,8 +78,8 @@ public class TabbedKeyboard extends FlowPanel {
 		for (int i = 0; i < keys.length(); i += 2) {
 			sb.append(keys.charAt(i));
 		}
-		Log.debug(sb);
-		return sb.toString();
+		// TODO remove the replace once ggbtrans is fixed
+		return sb.toString().replace("'", "");
 	}
 
 	private Widget makeSwitcherButton(final KeyPanelBase keyboard,
