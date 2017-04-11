@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
 /**
  * on screen keyboard containing mathematical symbols and formulas
@@ -187,5 +188,22 @@ public class OnScreenKeyBoard extends KBBase
 		checkLanguage();
 		setStyleName();// maybe not needed always, but definitely in Win8 app
 		super.show();
+	}
+
+	public void afterShown(final Runnable runnable) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				runnable.run();
+			}
+		});
+	}
+
+	public void prepareShow() {
+		show();
+
+		setVisible(false);
+
 	}
 }

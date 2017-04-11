@@ -315,5 +315,23 @@
 		color:white;
 		border:0;
 		box-shadow: none;
+	}
+	
+	.TabbedKeyBoard { 
+    	z-index:200;
+    	position:absolute;
+    	bottom: 0px;
+    	position:absolute;
+    	width:100%;
+	}
+	.TabbedKeyBoard.animating {
+		animation-duration: 0.2s;
+		animation-name: addKeyBoard;
+		overflow:hidden;
+	}
+	 
+	@keyframes addKeyBoard {
+		0% {max-height: 0px;}
+		100% {max-height: 200px;}
 	}	
 }

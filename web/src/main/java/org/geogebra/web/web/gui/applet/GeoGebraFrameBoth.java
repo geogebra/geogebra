@@ -317,8 +317,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(true);
 
-		keyBoard.show();
-		keyBoard.setVisible(false);
+		keyBoard.prepareShow();
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());
 		}
@@ -326,7 +325,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		this.add(keyBoard);
 
-		app.invokeLater(new Runnable() {
+		keyBoard.afterShown(new Runnable() {
 
 			@Override
 			public void run() {

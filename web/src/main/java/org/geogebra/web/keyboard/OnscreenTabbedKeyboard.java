@@ -173,5 +173,31 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		});
 	}
 
+	public void afterShown(final Runnable runnable) {
+		runOnAnimation(runnable, getElement());
+	}
+
+	private native void runOnAnimation(Runnable runnable,
+			com.google.gwt.dom.client.Element root) /*-{
+		var callback = function() {
+			root.className = root.className.replace(/animating/, "");
+			runnable.@java.lang.Runnable::run()();
+		};
+		if (root.style.animation || root.style.animation === "") {
+			$wnd.console.log("animation handler");
+
+			root.addEventListener("animationend", callback);
+			return;
+		}
+		$wnd.console.log("animation fallback");
+		window.setTimeout(callback, 0);
+
+	}-*/;
+
+	public void prepareShow() {
+		addStyleName("animating");
+		show();
+
+	}
 
 }

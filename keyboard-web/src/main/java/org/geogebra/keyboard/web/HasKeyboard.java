@@ -13,5 +13,4 @@ public interface HasKeyboard {
 	boolean needsSmallKeyboard();
 
 	boolean hasKeyboardInProbCalculator();
-
 }
