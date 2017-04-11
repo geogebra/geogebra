@@ -40,6 +40,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.action = action;
 		this.add(this.image);
 		addStyleName("colored");
+		this.addStyleName("waves-light");
 	}
 
 	/**

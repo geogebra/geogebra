@@ -39,11 +39,14 @@ public class KeyBoardButtonBase extends SimplePanel {
 			ButtonHandler handler) {
 		this(handler);
 		this.label = new Label();
+		this.setWidget(label);
 		setCaption(caption);
 		this.feedback = feedback;
-
-		this.setWidget(label);
 	}
+
+	private native void addWave(Element element) /*-{
+		$wnd.Waves.attach(element);
+	}-*/;
 
 	/**
 	 * Constructor for subclass {@link KeyBoardButtonFunctionalBase}
@@ -67,6 +70,9 @@ public class KeyBoardButtonBase extends SimplePanel {
 			}
 		});
 		addStyleName("KeyBoardButton");
+		this.addStyleName("waves-effect");
+		this.addStyleName("btn");
+		addWave(this.getElement());
 	}
 
 	/**

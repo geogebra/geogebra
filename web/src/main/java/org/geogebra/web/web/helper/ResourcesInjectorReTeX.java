@@ -15,6 +15,8 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
+		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
+		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
 	}
 
 	private native void jQueryNoConflict() /*-{

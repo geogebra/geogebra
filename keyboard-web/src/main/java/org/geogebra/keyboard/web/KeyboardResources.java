@@ -5,6 +5,7 @@ import org.geogebra.web.resources.SassResource;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.TextResource;
 
 public interface KeyboardResources extends ClientBundle {
 
@@ -37,5 +38,11 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
 	SassResource keyboardStyle();
+
+	@Source("com/materializecss/sass/components/_waves.scss")
+	SassResource wavesStyle();
+
+	@Source("com/materializecss/js/waves.js")
+	TextResource wavesScript();
 
 }
