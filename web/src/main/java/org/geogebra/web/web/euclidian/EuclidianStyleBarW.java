@@ -481,6 +481,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		add(btnLineStyle);
 		add(btnPointStyle);
 
+		if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) { // order of buttons changed
+			add(btnTextSize);
+		}
+
 		// add text decoration buttons
 		if (btnBold.isVisible()) {
 			addSeparator();
@@ -488,7 +492,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		add(btnBold);
 		add(btnItalic);
-		add(btnTextSize);
+		if (!app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			add(btnTextSize);
+		}
 
 		add(btnAngleInterval);
 
@@ -1185,7 +1191,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos);
+				boolean geosOK = !app.has(Feature.CLEAR_VIEW_STYLEBAR)
+						&& checkGeoText(geos);
 				super.setVisible(geosOK);
 
 				if (geosOK) {
