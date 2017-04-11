@@ -1,34 +1,34 @@
 /* ### onScreenKeyboard ### */
 .GeoGebraFrame{
 	.openKeyboardButton:active {
-		box-shadow: inset 0px 0px 1px 0px #cdcdcd;
+		box-shadow: inset 0 0 1px 0 #cdcdcd;
 	}
-	
+
 	.openKeyboardButton:hover {
 		border: 1px solid #9999FF;
 	}
-	
+
 	.openKeyboardButton {
-		position:absolute;
-		bottom:0px;
+		position: absolute;
+		bottom: 0;
 		width: 48px;
 		height: 21px;
-		padding-top: 0px;
+		padding-top: 0;
 		padding-bottom: 8px;
-		padding-left: 0px;
+		padding-left: 0;
 		background-color: #f8f8f8;
-		border-radius: 0px;
+		border-radius: 0;
 		cursor: pointer;
 		cursor: hand;
 		border: 1px solid #DCDCDC;
-		box-shadow: 0px 0px 1px 0px rgba(102, 102, 102, 0.3);
+		box-shadow: 0 0 1px 0 rgba(102, 102, 102, 0.3);
 		text-align: center;
 	}
-	
+
 	.keyBoardClosePanel {
 		position: absolute;
-		top: 0px;
-		right: 0px;
+		top: 0;
+		right: 0;
 		width: 30px;
 		height: 30px;
 		cursor: pointer;
@@ -37,19 +37,19 @@
 		background-color: #666666;
 		border-top-left-radius: 5px;
 	}
-	
+
 	.keyBoardClosePanel .closeIcon {
 		padding-top: 6px;
 	}
-	
+
 	/* special css for Springboard */
 	.KeyBoard table {
-	    border-collapse: separate;
+		border-collapse: separate;
 	}
-	
+
 	.KeyBoard {
-		border-radius: 0px;
-		-webkit-border-radius: 0px;
+		border-radius: 0;
+		-webkit-border-radius: 0;
 		background-color: #666666;
 		color: #000;
 		box-shadow: none;
@@ -58,35 +58,35 @@
 		padding: 5px 0;
 	}
 	.TabbedKeyBoard.KeyBoard{
-		padding-top:0;
-		background-color:#EEEEEE;
+		padding-top: 0;
+		background-color: #EEEEEE;
 	}
-	
+
 	.KeyBoard .SymbolTable {
 		display: none;
 	}
-	
+
 	.KeyBoardContentNumbers,
 	.KeyBoardContentSpecialChars {
 		margin: 0 auto;
 		max-width: 745px !important;
 	}
-	
+
 	.KeyPanelLetters {
 		margin: 0 auto;
 		position: relative;
 	}
-	
+
 	.KeyPanelFunction,
 	.KeyPanelNum, 
 	.normal .contentLetters {
 		padding-right: 20px;
 	}
-	
+
 	.KeyPanelRow {
 		margin: 0 auto;
 	}
-	
+
 	.KeyBoard .KeyBoardButton {
 		padding: 10px;
 		height: 20px;
@@ -98,137 +98,137 @@
 		white-space: nowrap;
 		color: #000;
 	}
-	
+
 	/** obsolte */
 	.KeyBoard .KeyBoardButton {
 		background-color: #F8F8F8;
 	}
-	
+
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton{
-		background-color:white;
+		background-color: white;
 	}
-	
+
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
-		background-color:#C8C8CF;
+		background-color: #C8C8CF;
 	}
-	
+
 	.lowerHeight .KeyBoardButton {
 		height: 10px;
 		padding-top: 3px;
-	    padding-bottom: 13px;
+		padding-bottom: 13px;
 	}
-	
+
 	.waves-effect.waves-keyboard .waves-ripple {
 		background-color: rgba(200, 200, 200, 0.65);
-    }
-	
+	}
+
 	.KeyBoardButton.accentDown {
 		background-color: #dcdcdc;
 	}
-	
+
 	.KeyBoardButton.supScript .gwt-Label {
 		margin-top: -6px;
 	}
-	
+
 	.KeyBoard td.hidden {
 		display: none;
 	}
-	
+
 	.normal .KeyBoardButton {
 		width: 50px;
 	}
-	
+
 	.KeyBoardButton:active {
-		box-shadow: inset 0px 0px 0px 1px #7C7C7C;
+		box-shadow: inset 0 0 0 1px #7C7C7C;
 	}
-	
+
 	.KeyBoardButton.colored {
 		background-color: #AFAFAF;
 	}
-	
+
 	.KeyBoardButton.backspace {
 		padding-top: 8px;
 		padding-bottom: 12px;
 	}
-	
+
 	.lowerHeight .KeyBoardButton.backspace {
-	    padding-top: 1px;
-	    padding-bottom: 15px;
+		padding-top: 1px;
+		padding-bottom: 15px;
 	}
-	
+
 	/* -- NUMBERS -- */
 	.normal .KeyBoardButton.backspace,
 	.normal .KeyBoardButton.enter {
 		width: 64px;
 	}
-	
+
 	.normal .KeyBoardButton.arrow {
 		width: 20px;
 		padding-left: 9px;
 		padding-right: 11px;
 	}
-	
+
 	.KeyBoardButton.enter {
 		height: 64px;
 	}
-	
+
 	.lowerHeight .KeyBoardButton.enter {
-	    height: 41px;
+		height: 41px;
 	}
-	
+
 	.lowerHeight .KeyBoardButton.enter img {
-		padding-top: 15px;	
+		padding-top: 15px;
 	}
-	
+
 	.KeyBoardButton.enter img {
-		padding-top: 23px;	
+		padding-top: 23px;
 	}
-	
+
 	/* -- LETTERS -- */
 	.normal .KeyBoardButton.shift {
 		width: 80px;
 		position: absolute;
-		left: 0px;
+		left: 0;
 	}
-	
+
 	.normal .KeyBoardButton.delete {
 		width: 80px;
 		position: absolute;
-		right: 0px;
+		right: 0;
 	}
-	
+
 	.normal .KeyBoardButton.delete.small, 
 	.normal .KeyBoardButton.shift.small {
 		width: 50px;
 	}
-	
+
 	/* last row */
 	.KeyPanelLetters > tbody > tr:nth-child(4) .KeyPanelRow {
 		width: 100%;
 	}
-	
+
 	/* cell of space button */
 	.KeyPanelLetters > tbody > tr:nth-child(4) > td > table > tbody > tr > td:nth-child(4) {
 		width: 100%
 	}
-	
+
 	.normal .KeyBoardButton.space {
 		width: 99%;
-		padding: 0px 0px 20px 0px;
-		margin: 2px 2px 0px 2px;
+		padding: 0 0 20px 0;
+		margin: 2px 2px 0 2px;
 	}
-	
+
 	/* 
 	 * SCALE CONTENT OF KEYBOARD
 	 */
-	
+
 	.scale .keyBoardClosePanel {
 		top: -25px;
-		right: 0px;
+		right: 0;
 		width: 35px;
 		height: 25px;
 	}
-	
+
 	.scale .KeyPanelRow, 
 	.scale .KeyBoardContentNumbers, 
 	.scale .KeyBoardContentSpecialChars,
@@ -238,59 +238,59 @@
 	.scale .KeyPanelNum {
 		width: 100% !important;
 	}
-	
+
 	.scale .KeyPanelRow td {
 		width: 25%;
 	}
-	
+
 	.scale .KeyPanelLetters .KeyPanelRow td {
 		width: 7%;
 	}
-	
+
 	.scale .KeyBoardButton {
 		padding-left: 0%;
 		padding-right: 0%;
 	}
-	
+
 	.scale .KeyPanelControl {
-		padding-right: 0px;
+		padding-right: 0;
 	}
-	
+
 	.scale.smallerFont {
 		font-size: 100% !important;
 	}
-	
+
 	.scale.smallerFont .switchKeyboard {
 		font-size: 10pt;
 	}
-	
+
 	.scale.smallerFont .KeyBoardContentNumbers .KeyBoardButton.colored {
 		font-size: 86% !important;
 	}
-	
-	
+
+
 	.scale.smallerFont .KeyBoardContentSpecialChars .KeyPanelFunction {
 		font-size: 75% !important;
 	}
-	
+
 	.scale.smallerFont .KeyBoardButton.supScript .gwt-Label {
 		margin-top: -5px;
 	}
-	
+
 	.scale .KeyPanelFunction,
 	.scale .KeyPanelNum {
 		padding-right: 2%;
 	}
-	
+
 	.scale .KeyBoardContentSpecialChars>tbody>tr>td,
 	.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(2),
 	.scale .KeyBoardContentNumbers>tbody>tr>td, 
 	.scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(2) {
-	 	width: 45%;
+		width: 45%;
 	}
-	
+
 	/* -- LETTERS -- */
-	
+
 	/* space */
 	.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(4) {
 		width: 50%;
@@ -301,37 +301,39 @@
 	}
 	/** tabbed keyboard */
 	.KeyPanel{
-		margin:auto;
+		margin: auto;
 	}
-	
+
 	.KeyboardSwitcher {
 		background-color: #C8C8CF;
 		border: #dcdcdc solid;
 		border-width: 1px 0;
 		width: 100%;
-		margin-bottom:5px;
+		margin-bottom: 5px;
 	}
+
 	.KeyboardSwitcher .gwt-Button {
-		color:white;
-		border:0;
+		color: white;
+		border: 0;
 		box-shadow: none;
 	}
-	
+
 	.TabbedKeyBoard { 
-    	z-index:200;
-    	position:absolute;
-    	bottom: 0px;
-    	position:absolute;
-    	width:100%;
+		z-index: 200;
+		position: absolute;
+		bottom: 0;
+		position: absolute;
+		width: 100%;
 	}
+
 	.TabbedKeyBoard.animating {
 		animation-duration: 0.2s;
 		animation-name: addKeyBoard;
-		overflow:hidden;
+		overflow: hidden;
 	}
-	 
+
 	@keyframes addKeyBoard {
-		0% {max-height: 0px;}
+		0% {max-height: 0;}
 		100% {max-height: 200px;}
-	}	
+	}
 }
