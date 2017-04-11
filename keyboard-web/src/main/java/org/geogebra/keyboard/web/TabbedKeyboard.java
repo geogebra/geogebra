@@ -221,19 +221,19 @@ public class TabbedKeyboard extends FlowPanel {
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_enter(), bh,
-					KeyBoardButtonFunctionalBase.Action.ENTER);
+					Action.RETURN_ENTER);
 		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
-					KeyBoardButtonFunctionalBase.Action.BACKSPACE);
+					Action.BACKSPACE_DELETE);
 		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowLeft(), bh,
-					KeyBoardButtonFunctionalBase.Action.ARROW_LEFT);
+					Action.LEFT_CURSOR);
 		} else if (resourceName.equals(Resource.RIGHT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowRight(), bh,
-					KeyBoardButtonFunctionalBase.Action.ARROW_RIGHT);
+					Action.RIGHT_CURSOR);
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return new KeyBoardButtonBase("a^2", "^2", bh);
 		} else if (resourceName.equals(Resource.POWAB.name())) {
@@ -242,11 +242,11 @@ public class TabbedKeyboard extends FlowPanel {
 		else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
-					KeyBoardButtonFunctionalBase.Action.SHIFT);
+					Action.CAPS_LOCK);
 		} else if (resourceName.equals(Resource.CAPS_LOCK_ENABLED.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
-					KeyBoardButtonFunctionalBase.Action.SHIFT);
+					Action.CAPS_LOCK);
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return new KeyBoardButtonBase("10^x", "10^", bh);
 		} else if (resourceName.equals(Resource.POWE_X.name())) {

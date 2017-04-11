@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.web;
 
+import org.geogebra.keyboard.base.Action;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
@@ -15,9 +17,9 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * the possible actions for a functional button
 	 * 
 	 */
-	public enum Action {
-		ENTER, BACKSPACE, SHIFT, ARROW_LEFT, ARROW_RIGHT, SWITCH_KEYBOARD;
-	}
+	// public enum Action {
+	// ENTER, BACKSPACE, SHIFT, ARROW_LEFT, ARROW_RIGHT, SWITCH_KEYBOARD;
+	// }
 	
 	private Image image;
 	private Action action;

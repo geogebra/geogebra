@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * A button of the {@link OnScreenKeyBoardBase}.
+ * A button of the {@link TabbedKeyboard}.
  */
 public class KeyBoardButtonBase extends SimplePanel {
 
@@ -45,6 +45,11 @@ public class KeyBoardButtonBase extends SimplePanel {
 	}
 
 	private native void addWave(Element element) /*-{
+		$wnd.Waves.initialized || $wnd.Waves.displayEffect({
+			"duration" : 100
+		});
+		$wnd.Waves.initialized = true;
+
 		$wnd.Waves.attach(element);
 	}-*/;
 

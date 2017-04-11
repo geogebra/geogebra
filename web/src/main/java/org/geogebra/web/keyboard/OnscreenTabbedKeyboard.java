@@ -86,24 +86,24 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 
 			switch (button.getAction()) {
-			case SHIFT:
+			case CAPS_LOCK:
 				// removeAccents();
 				processShift();
 				break;
-			case BACKSPACE:
+			case BACKSPACE_DELETE:
 				processField.onBackSpace();
 				break;
-			case ENTER:
+			case RETURN_ENTER:
 				// make sure enter is processed correctly
 				processField.onEnter();
 				if (processField.resetAfterEnter()) {
 					updateKeyBoardListener.keyBoardNeeded(false, null);
 				}
 				break;
-			case ARROW_LEFT:
+			case LEFT_CURSOR:
 				processField.onArrow(ArrowType.left);
 				break;
-			case ARROW_RIGHT:
+			case RIGHT_CURSOR:
 				processField.onArrow(ArrowType.right);
 				break;
 			case SWITCH_KEYBOARD:

@@ -6,7 +6,7 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
-import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase.Action;
+import org.geogebra.keyboard.base.Action;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
@@ -523,17 +523,18 @@ public abstract class KBBase extends PopupPanel {
 		control.addStyleName("KeyPanelControl");
 
 		int index = 0;
-		addFunctionalButton(BACKSPACE, Action.BACKSPACE, index, control)
+		addFunctionalButton(BACKSPACE, Action.BACKSPACE_DELETE, index, control)
 				.addStyleName("backspace");
 
 		index++;
-		addFunctionalButton(ENTER, Action.ENTER, index, control).addStyleName(
+		addFunctionalButton(ENTER, Action.RETURN_ENTER, index, control)
+				.addStyleName(
 				"enter");
 
 		index++;
-		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, control)
+		addFunctionalButton(ARROW_LEFT, Action.LEFT_CURSOR, index, control)
 				.addStyleName("arrow");
-		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, control)
+		addFunctionalButton(ARROW_RIGHT, Action.RIGHT_CURSOR, index, control)
 				.addStyleName("arrow");
 
 		return control;
@@ -558,13 +559,15 @@ public abstract class KBBase extends PopupPanel {
 
 		// create third row
 		index++;
-		shiftButton = addFunctionalButton(SHIFT, Action.SHIFT, index, letters);
+		shiftButton = addFunctionalButton(SHIFT, Action.CAPS_LOCK, index,
+				letters);
 		shiftButton.addStyleName("shift");
 
 		for (int i = 0; i < KEY_PER_ROW - 1; i++) {
 			addButton("", index, letters);
 		}
-		backspaceButton = addFunctionalButton(BACKSPACE, Action.BACKSPACE,
+		backspaceButton = addFunctionalButton(BACKSPACE,
+				Action.BACKSPACE_DELETE,
 				index, letters);
 		backspaceButton.addStyleName("delete");
 
@@ -578,9 +581,9 @@ public abstract class KBBase extends PopupPanel {
 				Action.SWITCH_KEYBOARD);
 		switchABCGreek.addStyleName("switchKeyboard");
 		addButton(" ", index, letters).addStyleName("space");
-		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, letters);
-		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, letters);
-		addFunctionalButton(ENTER, Action.ENTER, index, letters);
+		addFunctionalButton(ARROW_LEFT, Action.LEFT_CURSOR, index, letters);
+		addFunctionalButton(ARROW_RIGHT, Action.RIGHT_CURSOR, index, letters);
+		addFunctionalButton(ENTER, Action.RETURN_ENTER, index, letters);
 
 		contentLetters.add(letters);
 	}
