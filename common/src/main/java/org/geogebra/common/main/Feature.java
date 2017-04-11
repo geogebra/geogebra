@@ -180,7 +180,7 @@ public enum Feature {
 	/** MOW-239 */
 	IMPROVE_CONTEXT_MENU,
 
-	/** MOW-251 */
+	/** MOW-251, MOW-197 */
 	CLEAR_VIEW_STYLEBAR,
 
 	TABBED_KEYBOARD
