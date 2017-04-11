@@ -2,6 +2,7 @@ package org.geogebra.web.web.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -25,9 +26,13 @@ public class MyToggleButtonWforEV extends MyToggleButtonW {
 
 	@Override
 	public void update(Object[] geos) {
-		int mode = stylebar.mode;
-		this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
-				&& mode != EuclidianConstants.MODE_DELETE
-				&& mode != EuclidianConstants.MODE_ERASER);
+		if (stylebar.app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			this.setVisible(geos.length == 0);
+		} else {
+			int mode = stylebar.mode;
+			this.setVisible(geos.length == 0 && !EuclidianView.isPenMode(mode)
+					&& mode != EuclidianConstants.MODE_DELETE
+					&& mode != EuclidianConstants.MODE_ERASER);
+		}
 	}
 }

@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
@@ -60,10 +61,14 @@ public class AxesAndPlanePopup extends PopupMenuButtonW {
 	}
 
 	@Override
-	public void update(Object[] geos) {
-		this.setVisible(geos.length == 0
-		        && !EuclidianView.isPenMode(app.getMode())
-		        && app.getMode() != EuclidianConstants.MODE_DELETE);
+	public void update(Object[] geos) {	
+		if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			this.setVisible(geos.length == 0);
+		} else {
+			this.setVisible(
+					geos.length == 0 && !EuclidianView.isPenMode(app.getMode())
+							&& app.getMode() != EuclidianConstants.MODE_DELETE);
+		}
 	}
 
 	@Override

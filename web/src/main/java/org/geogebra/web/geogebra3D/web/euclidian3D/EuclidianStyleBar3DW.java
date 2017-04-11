@@ -215,8 +215,12 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		@Override
 		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0
-			        && mode != EuclidianConstants.MODE_PEN);
+			if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+				this.setVisible(geos.length == 0);
+			} else {
+				this.setVisible(geos.length == 0
+						&& mode != EuclidianConstants.MODE_PEN);
+			}
 		}
 
 		/*

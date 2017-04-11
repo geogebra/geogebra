@@ -397,6 +397,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			} else if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianView3D)
 					&& (app.getMode() != EuclidianConstants.MODE_MOVE)
+					&& (app.getMode() != EuclidianConstants.MODE_PEN)
 					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
 				// show the object stylebar in 3D view, when the user selects a
 				// tool
