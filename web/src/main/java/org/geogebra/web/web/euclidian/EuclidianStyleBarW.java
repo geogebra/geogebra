@@ -394,6 +394,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
 				// in view stylebar won't be appeared object stylebar
 				geos = new Object[0];
+			} else if (!isDynamicStylebar()
+					&& (this.getView() instanceof EuclidianView3D)
+					&& (app.getMode() != EuclidianConstants.MODE_MOVE)
+					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+				// show the object stylebar in 3D view, when the user selects a
+				// tool
+				geos = activeGeoList.toArray();
 			} else {
 				ArrayList<GeoElement> geoList = new ArrayList<GeoElement>();
 				for (GeoElement geo0 : activeGeoList) {
