@@ -55,7 +55,11 @@
 		box-shadow: none;
 		font-family: geogebra-sans-serif;
 		position: relative;
-		padding: 5px;
+		padding: 5px 0;
+	}
+	.TabbedKeyBoard.KeyBoard{
+		padding-top:0;
+		background-color:#EEEEEE;
 	}
 	
 	.KeyBoard .SymbolTable {
@@ -91,9 +95,21 @@
 		font-size: 120%;
 		cursor: pointer;
 		border-radius: 5px;
-		background-color: #F8F8F8;
 		white-space: nowrap;
 		color: #000;
+	}
+	
+	/** obsolte */
+	.KeyBoard .KeyBoardButton {
+		background-color: #F8F8F8;
+	}
+	
+	.KeyBoard.TabbedKeyBoard .KeyBoardButton{
+		background-color:white;
+	}
+	
+	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
+		background-color:#C8C8CF;
 	}
 	
 	.lowerHeight .KeyBoardButton {
@@ -101,6 +117,10 @@
 		padding-top: 3px;
 	    padding-bottom: 13px;
 	}
+	
+	.waves-effect.waves-keyboard .waves-ripple {
+		background-color: rgba(200, 200, 200, 0.65);
+    }
 	
 	.KeyBoardButton.accentDown {
 		background-color: #dcdcdc;
@@ -282,5 +302,18 @@
 	/** tabbed keyboard */
 	.KeyPanel{
 		margin:auto;
-	} 
+	}
+	
+	.KeyboardSwitcher {
+		background-color: #C8C8CF;
+		border: #dcdcdc solid;
+		border-width: 1px 0;
+		width: 100%;
+		margin-bottom:5px;
+	}
+	.KeyboardSwitcher .gwt-Button {
+		color:white;
+		border:0;
+		box-shadow: none;
+	}	
 }

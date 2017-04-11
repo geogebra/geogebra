@@ -20,7 +20,6 @@ import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TabbedKeyboard extends FlowPanel {
@@ -39,24 +38,25 @@ public class TabbedKeyboard extends FlowPanel {
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
 		KeyboardFactory kbf = new KeyboardFactory();
 		FlowPanel tabs = new FlowPanel();
-		HorizontalPanel switcher = new HorizontalPanel();
+		FlowPanel switcher = new FlowPanel();
+		switcher.addStyleName("KeyboardSwitcher");
 		this.app = app;
 		this.bh = bh;
 		this.locale = app.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), bh);
 		tabs.add(keyboard);
-		switcher.add(makeSwitcherButton(keyboard, "DEF"));
+		switcher.add(makeSwitcherButton(keyboard, "123"));
 
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.add(makeSwitcherButton(keyboard, "Fn"));
+		switcher.add(makeSwitcherButton(keyboard, "fx"));
 
 		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.add(makeSwitcherButton(keyboard, "GREEK"));
+		switcher.add(makeSwitcherButton(keyboard, Unicode.alphaBetaGamma));
 
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1)),
@@ -69,6 +69,7 @@ public class TabbedKeyboard extends FlowPanel {
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
+		addStyleName("TabbedKeyBoard");
 		addStyleName("gwt-PopupPanel");
 	}
 
