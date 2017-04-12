@@ -332,6 +332,50 @@ public class ProverBotanasMethod {
 			return polys;
 		}
 
+		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<GeoElement, PPolynomial[]>();
+
+		/**
+		 * Retrieve polynomial belonging to a given GeoElement.
+		 * 
+		 * @param geo
+		 *            input geometric object
+		 * @return algebraic representation of the geometric object
+		 */
+		public PPolynomial[] getGeoPolys(GeoElement geo) {
+			return geoPolys.get(geo);
+		}
+
+		/**
+		 * Add algebraic representation of a geometric object to the polynomial
+		 * system. It may contain one or more polynomials.
+		 * 
+		 * @param geo
+		 *            geometric object
+		 * @param ps
+		 *            algebraic representation of the geometric object
+		 */
+		public void addGeoPolys(GeoElement geo, PPolynomial[] ps) {
+			geoPolys.put(geo, ps);
+			for (PPolynomial p : ps) {
+				addPolynomial(p);
+			}
+		}
+
+		/**
+		 * Remove all polynomials from the system which describe constraints of
+		 * the given input geometric object
+		 * 
+		 * @param geo
+		 *            geometric object
+		 */
+		public void removeGeoPolys(GeoElement geo) {
+			PPolynomial[] ps = geoPolys.get(geo);
+			for (PPolynomial p : ps) {
+				removePolynomial(p);
+			}
+			geoPolys.remove(geo);
+		}
+
 		/**
 		 * Return the elimination variables of the algebraic structure as a
 		 * String. Use computeStrings() before using this method.
@@ -367,6 +411,16 @@ public class ProverBotanasMethod {
 		 */
 		public void addPolynomial(PPolynomial p) {
 			polynomials.add(p);
+		}
+
+		/**
+		 * Remove a polynomial from the system manually.
+		 * 
+		 * @param p
+		 *            the polynomial to be removed
+		 */
+		public void removePolynomial(PPolynomial p) {
+			polynomials.remove(p);
 		}
 
 		/**
@@ -696,8 +750,8 @@ public class ProverBotanasMethod {
 							}
 							if (useThisPoly) {
 								Log.debug("Hypotheses:");
+								addGeoPolys(geo, geoPolys);
 								for (PPolynomial p : geoPolys) {
-									polynomials.add(p);
 									nHypotheses++;
 									Log.debug((nHypotheses) + ". " + p);
 									if (proverSettings.captionAlgebra) {
@@ -790,7 +844,9 @@ public class ProverBotanasMethod {
 					movingPoint.getConstruction()
 							.removeFromConstructionList(adn);
 					Log.debug("Hypothesis:");
-					polynomials.add(botanaPolynomial);
+					PPolynomial[] botanaPolynomials = new PPolynomial[1];
+					botanaPolynomials[0] = botanaPolynomial;
+					addGeoPolys(movingPoint, botanaPolynomials);
 					nHypotheses++;
 					Log.debug((nHypotheses) + ". " + botanaPolynomial);
 					if (proverSettings.captionAlgebra) {
@@ -1075,8 +1131,9 @@ public class ProverBotanasMethod {
 				Log.debug("Thesis equations (non-denied ones):");
 				for (PPolynomial[] statement : statements) {
 					for (int j = 0; j < statement.length - minus; ++j) {
+						/* Note: the geo is not stored */
+						addPolynomial(statement[j]);
 						Log.debug((k + 1) + ". " + statement[j]);
-						polynomials.add(statement[j]);
 						if (proverSettings.captionAlgebra) {
 							geoStatement.addCaptionBotanaPolynomial(
 									statement[j].toTeX());
@@ -1117,7 +1174,8 @@ public class ProverBotanasMethod {
 							.subtract(new PPolynomial(BigInteger.ONE));
 					spoly = spoly.multiply(factor);
 				}
-				polynomials.add(spoly);
+				/* Note: the geo is not stored */
+				addPolynomial(spoly);
 				Log.debug("that is,");
 				Log.debug((k + 1) + ". " + spoly);
 				if (proverSettings.captionAlgebra) {
@@ -1179,6 +1237,7 @@ public class ProverBotanasMethod {
 				}
 			}
 		}
+
 	}
 
 	/**
@@ -1663,6 +1722,20 @@ public class ProverBotanasMethod {
 						vars[0].setFree(true);
 						vars[1].setFree(false);
 						createY = false;
+					}
+				}
+				if (createX && createY) {
+					/*
+					 * Remove any other polynomials which define other
+					 * constraints for this point. This is necessary because we
+					 * can obtain contradiction if the other (symbolic)
+					 * constraints are slightly different than this inaccurate
+					 * numerical one.
+					 */
+					if (as.getGeoPolys(freePoint) != null) {
+						Log.debug("Removing other constraints for "
+								+ freePoint.getLabelSimple());
+						as.removeGeoPolys(freePoint);
 					}
 				}
 				long[] q = new long[2]; // P and Q for P/Q
