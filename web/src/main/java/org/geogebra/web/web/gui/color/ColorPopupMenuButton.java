@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
@@ -84,6 +85,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		showSlider(hasSlider);
 		if (!hasSlider && app.isWhiteboardActive()) {
 			getMyPopup().setHeight("38px");
+		} else if (app.isWhiteboardActive()
+				&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			getMyPopup().setHeight("80px");
 		}
 	}
 
