@@ -182,6 +182,10 @@ public class SpreadsheetTraceManager {
 		}
 		traceGeoCollection.remove(geo);
 		app.repaintSpreadsheet();
+
+		if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+			geo.setSpreadsheetTrace(false);
+		}
 	}
 
 	/** Remove all geos from the trace collection. */
