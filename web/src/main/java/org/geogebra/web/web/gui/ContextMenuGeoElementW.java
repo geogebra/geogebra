@@ -257,7 +257,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								loc.getMenu("DontRecordToSpreadsheet"),
 								loc.getMenu("RecordToSpreadsheet"),
 								new Command() {
-
 									@Override
 									public void execute() {
 										recordToSpreadSheetCmd();
@@ -668,7 +667,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				public void execute() {
 					ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
 					geoArray.add(geo);
-					if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+					if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+							&& app.getActiveEuclidianView()
+									.getDynamicStyleBar() != null) {
 						boolean dsVisible = app.getActiveEuclidianView()
 								.getDynamicStyleBar().isVisible();
 						EuclidianStyleBarStatic.applyFixObject(geoArray,
