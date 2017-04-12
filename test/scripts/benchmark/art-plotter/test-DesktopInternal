@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Test the desktop version. This script is useful when
+# slight modifications are done in the desktop version
+# and an immediate check is needed if there is any
+# regression introduced.
+
+set -e
+cd ../../../../desktop
+../gradlew installDist
+cd ../test/scripts/benchmark/art-plotter
+./runtests-sql -r -p DesktopInternal -d
+./report-sql -c DesktopInternal
+google-chrome html/all.html &
