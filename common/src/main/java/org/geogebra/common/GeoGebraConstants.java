@@ -26,6 +26,8 @@ public interface GeoGebraConstants {
 
 		ANDROID_NATIVE_3D("a3D"),
 
+		ANDROID_GEOMETRY("ag"),
+
 		ANDROID_WEBVIEW("aw"),
 
 		ANDROID_WEBVIEW_EXAM("exam", true),
