@@ -332,8 +332,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					String img;
 					if (isWhiteboard()) {
-						img = AppResources.INSTANCE.lock20().getSafeUri()
-								.asString();
+						if (getGeo().isFixed()) {
+							img = AppResources.INSTANCE.unlock20().getSafeUri()
+									.asString();
+						} else {
+							img = AppResources.INSTANCE.lock20().getSafeUri()
+									.asString();
+
+						}
 					} else {
 						img = AppResources.INSTANCE.objectFixed().getSafeUri()
 								.asString();
@@ -369,8 +375,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 						String img;
 						if (isWhiteboard()) {
-							img = AppResources.INSTANCE.lock20().getSafeUri()
-									.asString();
+							if (getGeo().isFixed()) {
+								img = AppResources.INSTANCE.unlock20()
+										.getSafeUri().asString();
+							} else {
+								img = AppResources.INSTANCE.lock20()
+										.getSafeUri().asString();
+
+							}
 						} else {
 							img = AppResources.INSTANCE.objectFixed()
 									.getSafeUri().asString();
@@ -408,8 +420,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					String img;
 					if (isWhiteboard()) {
-						img = AppResources.INSTANCE.lock20().getSafeUri()
-								.asString();
+						if (getGeo().isFixed()) {
+							img = AppResources.INSTANCE.unlock20().getSafeUri()
+									.asString();
+						} else {
+							img = AppResources.INSTANCE.lock20().getSafeUri()
+									.asString();
+
+						}
 					} else {
 						img = AppResources.INSTANCE.objectFixed().getSafeUri()
 								.asString();
@@ -671,10 +689,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			String img;
 			if (isWhiteboard()) {
 				if (geo.isFixed()) {
-					img = AppResources.INSTANCE.lock20().getSafeUri()
+					img = AppResources.INSTANCE.unlock20().getSafeUri()
 							.asString();
 				} else {
-					img = AppResources.INSTANCE.unlock20().getSafeUri()
+					img = AppResources.INSTANCE.lock20().getSafeUri()
 							.asString();
 
 				}
