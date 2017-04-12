@@ -160,6 +160,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// or if it should not be evaluated (i.e. a shade-only integral)
 		if ((evaluate == null || evaluate.getBoolean())
 				&& !f.isGeoFunctionConditional() && !f.isFreehandFunction()
+				&& !f.includesDivisionByVar()
 				&& !evaluateNumerically) {
 			refreshCASResults();
 		}

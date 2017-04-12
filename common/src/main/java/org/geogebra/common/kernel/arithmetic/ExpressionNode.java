@@ -609,6 +609,14 @@ public class ExpressionNode extends ValidExpression
 	 * @return true iff contains division by val
 	 */
 	final public boolean includesDivisionBy(ExpressionValue val) {
+		if (operation == Operation.POWER) {
+			// x^-4
+			if (left.contains(val) && right.evaluateDouble() < 0) {
+				return true;
+			}
+
+		}
+
 		if (operation == Operation.DIVIDE) {
 			if (right.contains(val)) {
 				return true;
