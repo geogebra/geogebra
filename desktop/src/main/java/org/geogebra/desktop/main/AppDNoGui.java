@@ -71,11 +71,23 @@ import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.StringUtilD;
 
+/**
+ * App for testing: does not use Swing
+ * 
+ * @author Zbynek
+ *
+ */
 public class AppDNoGui extends App {
 	private GgbAPI ggbapi;
 	private LocalizationD loc;
 	private SpreadsheetTableModelD tableModel;
 
+	/**
+	 * @param loc
+	 *            localization
+	 * @param silent
+	 *            whether to mute logging
+	 */
 	public AppDNoGui(LocalizationD loc, boolean silent) {
 
 		super(Versions.DESKTOP);
@@ -635,6 +647,7 @@ public class AppDNoGui extends App {
 	@Override
 	public CommandDispatcher getCommandDispatcher(Kernel k) {
 		return new CommandDispatcher(k) {
+			// abstract for some reason ...
 		};
 	}
 
@@ -667,6 +680,10 @@ public class AppDNoGui extends App {
 
 	}
 
+	/**
+	 * @param locale
+	 *            locale
+	 */
 	public void setLanguage(Locale locale) {
 
 		if ((locale == null)
@@ -697,6 +714,10 @@ public class AppDNoGui extends App {
 
 	private SensorLogger udpLogger;
 
+	/**
+	 * @param locale
+	 *            locale
+	 */
 	public void setLocale(Locale locale) {
 		if (locale == loc.getLocale()) {
 			return;

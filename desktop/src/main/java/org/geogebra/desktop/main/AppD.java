@@ -2964,6 +2964,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	@Override
 	public void updateDynamicStyleBars() {
 		// not implemented here
 	}
@@ -4870,6 +4871,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				: ComponentOrientation.LEFT_TO_RIGHT;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void setComponentOrientation(Component c) {
 		boolean rtl = getLocalization().isRightToLeftReadingOrder();
 		ComponentOrientation orientation = rtl
