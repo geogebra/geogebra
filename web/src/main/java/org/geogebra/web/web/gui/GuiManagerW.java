@@ -63,7 +63,6 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.web.cas.view.CASTableW;
@@ -2106,7 +2105,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
-	public VirtualKeyboardW getOnScreenKeyboard(MathKeyboardListener textField,
+	public VirtualKeyboardGUI getOnScreenKeyboard(
+			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
 

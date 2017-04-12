@@ -25,7 +25,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 	private KeyboardLocale locale;
 	private boolean isSmallKeyboard;
-	private HasKeyboard app;
+	protected HasKeyboard app;
 	private ArrayList<Keyboard> layouts = new ArrayList<Keyboard>(4);
 	private Object keyboardLocale;
 	private ButtonHandler bh;

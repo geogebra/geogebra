@@ -206,4 +206,9 @@ public class OnScreenKeyBoard extends KBBase
 		setVisible(false);
 
 	}
+
+	public void remove(Runnable runnable) {
+		runnable.run();
+
+	}
 }

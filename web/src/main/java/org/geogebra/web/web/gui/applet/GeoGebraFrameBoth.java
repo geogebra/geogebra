@@ -37,6 +37,7 @@ import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.StandardButton;
+import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.GDevice;
 
@@ -295,16 +296,21 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void removeKeyboard(MathKeyboardListener textField) {
-		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
+		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(false);
 		app.addToHeight(keyboardHeight);
 		keyboardHeight = 0;
-		this.remove(keyBoard);
-		app.updateCenterPanel();
-		// TODO too expensive
-		app.updateViewSizes();
-		keyBoard.resetKeyboardState();
-		app.centerAndResizePopups();
+		keyBoard.remove(new Runnable() {
+
+			public void run() {
+				remove(keyBoard);
+				// TODO too expensive
+				app.updateCenterPanelAndViews();
+				keyBoard.resetKeyboardState();
+				app.centerAndResizePopups();
+
+			}
+		});
 	}
 
 	/**
@@ -372,9 +378,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			keyboardHeight = estimateKeyboardHeight();
 		}
 		app.addToHeight(oldHeight - keyboardHeight);
-		app.updateCenterPanel();
 		// TODO maybe too expensive?
-		app.updateViewSizes();
+		app.updateCenterPanelAndViews();
 		GeoGebraFrameBoth.this.add(keyBoard);
 		keyBoard.setVisible(true);
 		if (showKeyboardButton != null) {
@@ -573,7 +578,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
-	private VirtualKeyboardW getOnScreenKeyboard(
+	private VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField) {
 		if (app.getGuiManager() != null) {
 			return ((GuiManagerW) app.getGuiManager())
@@ -644,8 +649,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			if (newHeight > 0) {
 				app.addToHeight(this.keyboardHeight - newHeight);
 				keyboardHeight = newHeight;
-				app.updateCenterPanel();
-				app.updateViewSizes();
+				app.updateCenterPanelAndViews();
 				GeoGebraFrameBoth.this
 						.add(getOnScreenKeyboard(null));
 			}

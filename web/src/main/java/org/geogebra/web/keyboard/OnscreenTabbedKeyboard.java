@@ -197,4 +197,11 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}
 
+	public void remove(Runnable runnable) {
+		app.updateCenterPanelAndViews();
+		this.addStyleName("animatingOut");
+		runOnAnimation(runnable, getElement());
+
+	}
+
 }

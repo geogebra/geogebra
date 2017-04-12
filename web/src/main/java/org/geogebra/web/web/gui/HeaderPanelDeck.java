@@ -50,6 +50,14 @@ public interface HeaderPanelDeck
 	 */
 	void refreshKeyboard();
 
+	/**
+	 * @param show
+	 *            whether to show it
+	 * @param textField
+	 *            listening text field
+	 * @param forceShow
+	 *            whether to force showing
+	 */
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow);
 

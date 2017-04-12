@@ -59,4 +59,9 @@ public class KeyboardContext implements HasKeyboard {
 		return true;
 	}
 
+	public void updateCenterPanelAndViews() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

@@ -3542,4 +3542,9 @@ public abstract class AppW extends App implements SetLabels {
 		// TODO Auto-generated method stub
 
 	}
+
+	public final void updateCenterPanelAndViews() {
+		updateCenterPanel();
+		updateViewSizes();
+	}
 }

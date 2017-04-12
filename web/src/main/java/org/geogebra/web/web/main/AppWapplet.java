@@ -14,6 +14,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -218,6 +219,7 @@ public class AppWapplet extends AppWFull {
 
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
+					|| frame.getWidget(i) instanceof TabbedKeyboard
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
 			}

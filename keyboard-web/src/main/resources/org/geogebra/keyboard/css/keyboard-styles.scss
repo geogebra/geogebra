@@ -335,9 +335,20 @@
 		animation-name: addKeyBoard;
 		overflow: hidden;
 	}
+	
+	.TabbedKeyBoard.animatingOut {
+		animation-duration: 0.2s;
+		animation-name: removeKeyBoard;
+		overflow: hidden;
+	}
 
 	@keyframes addKeyBoard {
 		0% {max-height: 0;}
 		100% {max-height: 200px;}
+	}
+	
+	@keyframes removeKeyBoard {
+		0% {max-height: 200px;}
+		100% {max-height: 0;}
 	}
 }

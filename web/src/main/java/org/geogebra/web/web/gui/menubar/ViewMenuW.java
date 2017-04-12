@@ -118,9 +118,7 @@ public class ViewMenuW extends GMenuBar {
 										? InputPosition.bottom
 										: InputPosition.algebraView,
 								true);
-						app.updateCenterPanel();
-
-						app.updateViewSizes();
+						app.updateCenterPanelAndViews();
 						if (app.getGuiManager() != null
 								&& app.getGuiManager().getLayout() != null) {
 							app.getGuiManager().getLayout().getDockManager()
