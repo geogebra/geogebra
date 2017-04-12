@@ -133,7 +133,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addCoordsModeItems() {
-		if (!(getGeo() instanceof CoordStyle)) {
+		if (!(getGeo() instanceof CoordStyle) || getGeo() instanceof GeoLine) {
 			return;
 		}
 
