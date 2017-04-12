@@ -51,7 +51,8 @@ public class OnScreenKeyBoard extends KBBase
 		if (processField == null) {
 			return;
 		}
-		if (btn instanceof KeyBoardButtonFunctionalBase) {
+		if (btn instanceof KeyBoardButtonFunctionalBase
+				&& ((KeyBoardButtonFunctionalBase) btn).getAction() != null) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 
 			switch (button.getAction()) {
@@ -210,5 +211,9 @@ public class OnScreenKeyBoard extends KBBase
 	public void remove(Runnable runnable) {
 		runnable.run();
 
+	}
+
+	public boolean hasTouchFeedback() {
+		return false;
 	}
 }

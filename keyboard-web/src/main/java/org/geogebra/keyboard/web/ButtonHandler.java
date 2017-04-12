@@ -14,4 +14,6 @@ public interface ButtonHandler {
 
 	void onClick(KeyBoardButtonBase btn, PointerEventType type);
 
+	boolean hasTouchFeedback();
+
 }

@@ -293,15 +293,25 @@ public class TabbedKeyboard extends FlowPanel {
 		else if (resourceName.equals(Resource.A_N.name())) {
 			return new KeyBoardButtonBase("a_n", "_", bh);
 		}
-		// else if (resourceName.equals(Resource.N_ROOT.name())) {
-		// buttonView.setImageResource(R.drawable.nroot);
-		// } else if (resourceName.equals(Resource.INTEGRAL.name())) {
-		// buttonView.setImageResource(R.drawable.integral);
-		// } else if (resourceName.equals(Resource.DERIVATIVE.name())) {
-		// buttonView.setImageResource(R.drawable.d_dx);
-		// } else if (resourceName.equals(Resource.ROOT.name())) {
-		// buttonView.setImageResource(R.drawable.sqrt);
-		// }
+		else if (resourceName.equals(Resource.N_ROOT.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.nroot(), button.getActionName(),
+					bh);
+		}
+		else if (resourceName.equals(Resource.INTEGRAL.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.integral(),
+					button.getActionName(), bh);
+		} else if (resourceName.equals(Resource.DERIVATIVE.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.derivative(),
+					button.getActionName(), bh);
+		}
+		if (resourceName.equals(Resource.ROOT.name())) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.sqrt(),
+					button.getActionName(), bh);
+		}
 
 		return new KeyBoardButtonBase(button.getActionName(),
 				button.getActionName(), bh);

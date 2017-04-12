@@ -78,7 +78,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		if (processField == null) {
 			return;
 		}
-		if (btn instanceof KeyBoardButtonFunctionalBase) {
+		if (btn instanceof KeyBoardButtonFunctionalBase
+				&& ((KeyBoardButtonFunctionalBase) btn).getAction() != null) {
 			KeyBoardButtonFunctionalBase button = (KeyBoardButtonFunctionalBase) btn;
 
 			switch (button.getAction()) {
@@ -203,6 +204,10 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		this.addStyleName("animatingOut");
 		runOnAnimation(runnable, getElement());
 
+	}
+
+	public boolean hasTouchFeedback() {
+		return true;
 	}
 
 }

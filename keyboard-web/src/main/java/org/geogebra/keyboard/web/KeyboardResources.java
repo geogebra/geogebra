@@ -15,14 +15,23 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/view_close.png")
 	ImageResource keyboard_close();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shiftDown.png")
+	@Source("org/geogebra/common/icons/png/keyboard/shift_purple.png")
 	ImageResource keyboard_shiftDown();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shift.png")
+	@Source("org/geogebra/common/icons/png/keyboard/shift_black.png")
 	ImageResource keyboard_shift();
 
-	@Source("org/geogebra/common/icons/png/keyboard/keyboard_backspace.png")
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shiftDown.png")
+	ImageResource keyboard_shiftDownOld();
+
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_shift.png")
+	ImageResource keyboard_shiftOld();
+
+	@Source("org/geogebra/common/icons/png/keyboard/backspace.png")
 	ImageResource keyboard_backspace();
+
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_backspace.png")
+	ImageResource keyboard_backspaceOld();
 
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter.png")
 	ImageResource keyboard_enter();
@@ -44,5 +53,17 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("com/materializecss/js/waves.js")
 	TextResource wavesScript();
+
+	@Source("org/geogebra/common/icons/png/keyboard/integral.png")
+	ImageResource integral();
+
+	@Source("org/geogebra/common/icons/png/keyboard/d_dx.png")
+	ImageResource derivative();
+
+	@Source("org/geogebra/common/icons/png/keyboard/nroot.png")
+	ImageResource nroot();
+
+	@Source("org/geogebra/common/icons/png/keyboard/sqrt.png")
+	ImageResource sqrt();
 
 }

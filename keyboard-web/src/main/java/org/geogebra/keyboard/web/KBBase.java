@@ -156,13 +156,13 @@ public abstract class KBBase extends PopupPanel {
 
 	// images of the buttons:
 	private final ImageResource SHIFT = KeyboardResources.INSTANCE
-			.keyboard_shift();
+			.keyboard_shiftOld();
 	private final ImageResource SHIFT_DOWN = KeyboardResources.INSTANCE
-			.keyboard_shiftDown();
+			.keyboard_shiftDownOld();
 	private final ImageResource ENTER = KeyboardResources.INSTANCE
 			.keyboard_enter();
 	private final ImageResource BACKSPACE = KeyboardResources.INSTANCE
-			.keyboard_backspace();
+			.keyboard_backspaceOld();
 	private final ImageResource ARROW_LEFT = KeyboardResources.INSTANCE
 			.keyboard_arrowLeft();
 	private final ImageResource ARROW_RIGHT = KeyboardResources.INSTANCE

@@ -75,10 +75,13 @@ public class KeyBoardButtonBase extends SimplePanel {
 			}
 		});
 		addStyleName("KeyBoardButton");
-		this.addStyleName("waves-effect");
-		this.addStyleName("waves-keyboard");
-		this.addStyleName("btn");
-		addWave(this.getElement());
+
+		if (handler.hasTouchFeedback()) {
+			this.addStyleName("waves-effect");
+			this.addStyleName("waves-keyboard");
+			this.addStyleName("btn");
+			addWave(this.getElement());
+		}
 	}
 
 	/**

@@ -45,6 +45,15 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.addStyleName("waves-light");
 	}
 
+	public KeyBoardButtonFunctionalBase(ImageResource image,
+			String feedback, ButtonHandler handler) {
+		super(handler);
+		this.image = new Image(image);
+		this.feedback = feedback;
+		this.add(this.image);
+
+	}
+
 	/**
 	 * used for keyboardButtons with an image.
 	 * 
