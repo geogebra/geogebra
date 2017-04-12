@@ -283,6 +283,13 @@ public class DrawSlider extends Drawable {
 		return line.getBounds();
 	}
 
+	final public GRectangle getBoundsForStylebarPosition() {
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
+			return null;
+		}
+		return line.getBounds();
+	}
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return circle.intersects(rect) || line.intersects(rect);

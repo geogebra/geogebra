@@ -279,8 +279,7 @@ public final class DrawText extends Drawable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || ((GeoText) geo).isAbsoluteScreenLocActive()
-				|| !geo.isEuclidianVisible()) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
 		return labelRectangle;
