@@ -885,7 +885,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 				GeoElement geo = EuclidianStyleBarStatic
 				        .checkGeosForAngleInterval(geos);
-				boolean geosOK = (geo != null);
+				boolean geosOK = (geo != null
+						&& !app.has(Feature.CLEAR_VIEW_STYLEBAR));
 				super.setVisible(geosOK);
 
 				if (geosOK) {
