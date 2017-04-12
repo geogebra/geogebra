@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
@@ -154,7 +154,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		}
 	}
 
-	protected void openColorDialog(final List<GeoElement> targetGeos,
+	protected void openColorDialog(final ArrayList<GeoElement> targetGeos,
 			final boolean background) {
 		if (!app.isWhiteboardActive()) {
 			return;
@@ -162,7 +162,14 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		final GeoElement geo0 = targetGeos.get(0);
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
-		GColor originalColor = geo0.getObjectColor();
+
+		GColor originalColor;
+		if (app.has(Feature.CLEAR_VIEW_STYLEBAR) && background) {
+			originalColor = geo0.getBackgroundColor();
+		} else {
+			originalColor = geo0.getObjectColor();
+		}
+
 		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
 
 			public void onForegroundSelected() {
@@ -172,6 +179,10 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 			public void onColorChange(GColor color) {
 				if (background) {
+					if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+						EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
+								geo0.getAlphaValue());
+					}
 					return;
 				}
 				EuclidianStyleBarStatic.applyColor(targetGeos, color,
