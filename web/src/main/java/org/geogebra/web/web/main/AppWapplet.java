@@ -711,4 +711,8 @@ public class AppWapplet extends AppWFull {
 	public boolean hasKeyboardInProbCalculator() {
 		return has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC);
 	}
+
+	public double getInnerWidth() {
+		return getWidth() - getArticleElement().getBorderThickness();
+	}
 }

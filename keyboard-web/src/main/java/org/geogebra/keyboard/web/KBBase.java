@@ -357,11 +357,11 @@ public abstract class KBBase extends PopupPanel {
 	 * keyboard needs to be scaled
 	 */
 	public void updateSize() {
-		if (app.getWidth() < 12) {
+		if (app.getInnerWidth() < 10) {
 			return;
 		}
-		// -10 because of padding, -2 for applet border
-		this.setWidth(app.getWidth() - 12 + "px");
+		// -10 because of padding
+		this.setWidth(app.getInnerWidth() - 10 + "px");
 		boolean shouldBeSmall = app.needsSmallKeyboard();
 		if (shouldBeSmall && !isSmallKeyboard) {
 			this.addStyleName("lowerHeight");
@@ -384,11 +384,11 @@ public abstract class KBBase extends PopupPanel {
 	 * or not)
 	 */
 	public void setStyleName() {
-		if (app.getWidth() < getMinWidthWithoutScaling()) {
+		if (app.getInnerWidth() < getMinWidthWithoutScaling()) {
 			addStyleName("scale");
 			removeStyleName("normal");
 			removeStyleName("smallerFont");
-			if (app.getWidth() < MIN_WIDTH_FONT) {
+			if (app.getInnerWidth() < MIN_WIDTH_FONT) {
 				addStyleName("smallerFont");
 			}
 		} else {

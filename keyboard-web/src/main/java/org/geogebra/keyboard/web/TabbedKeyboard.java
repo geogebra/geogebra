@@ -29,9 +29,18 @@ public class TabbedKeyboard extends FlowPanel {
 	private ArrayList<Keyboard> layouts = new ArrayList<Keyboard>(4);
 	private Object keyboardLocale;
 	private ButtonHandler bh;
+	private UpdateKeyBoardListener updateKeyBoardListener;
 
 	public TabbedKeyboard() {
 
+	}
+
+	public UpdateKeyBoardListener getUpdateKeyBoardListener() {
+		return updateKeyBoardListener;
+	}
+
+	public void setListener(UpdateKeyBoardListener listener) {
+		this.updateKeyBoardListener = listener;
 	}
 
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
@@ -57,6 +66,8 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, Unicode.alphaBetaGamma));
 
+
+
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
 						filter(locale.getKeyboardRow(2)),
@@ -65,12 +76,28 @@ public class TabbedKeyboard extends FlowPanel {
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, "ABC"));
+
+		switcher.add(makeCloseButton());
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
 		addStyleName("TabbedKeyBoard");
 		addStyleName("animating");
 		addStyleName("gwt-PopupPanel");
+	}
+
+	private Widget makeCloseButton() {
+		Button closeButton = new Button("x");
+		closeButton.addStyleName("closeTabbedKeyboardButton");
+		ClickStartHandler.init(closeButton, new ClickStartHandler() {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				updateKeyBoardListener.keyBoardNeeded(false, null);
+
+			}
+		});
+		return closeButton;
 	}
 
 	private String filter(String keys) {
@@ -281,12 +308,15 @@ public class TabbedKeyboard extends FlowPanel {
 				button.getActionName(), bh);
 	}
 
+	/**
+	 * 
+	 */
 	public void updateSize() {
-		if (app.getWidth() < 12) {
+		if (app.getInnerWidth() < 0) {
 			return;
 		}
-		// -10 because of padding, -2 for applet border
-		this.setWidth(app.getWidth() - 12 + "px");
+		// -2 for applet border
+		this.setWidth(app.getInnerWidth() + "px");
 		boolean shouldBeSmall = app.needsSmallKeyboard();
 		if (shouldBeSmall && !isSmallKeyboard) {
 			this.addStyleName("lowerHeight");

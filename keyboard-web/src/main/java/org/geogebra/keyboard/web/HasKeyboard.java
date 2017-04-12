@@ -6,7 +6,7 @@ public interface HasKeyboard {
 	
 	void updateKeyboardHeight();
 
-	double getWidth();
+	double getInnerWidth();
 
 	KeyboardLocale getLocalization();
 

@@ -8,7 +8,6 @@ import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
@@ -19,7 +18,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		implements VirtualKeyboardGUI, ButtonHandler {
 
 	private KeyboardListener processField;
-	private UpdateKeyBoardListener updateKeyBoardListener;
+
 
 	public OnscreenTabbedKeyboard(HasKeyboard app) {
 		buildGUI(this, app);
@@ -71,10 +70,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}
 
-	public void setListener(UpdateKeyBoardListener listener) {
-		this.updateKeyBoardListener = listener;
 
-	}
 
 	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {
@@ -97,7 +93,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 				// make sure enter is processed correctly
 				processField.onEnter();
 				if (processField.resetAfterEnter()) {
-					updateKeyBoardListener.keyBoardNeeded(false, null);
+					getUpdateKeyBoardListener().keyBoardNeeded(false, null);
 				}
 				break;
 			case LEFT_CURSOR:

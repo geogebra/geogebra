@@ -12,9 +12,9 @@ public class KeyboardContext implements HasKeyboard {
 	}
 
 	@Override
-	public double getWidth() {
+	public double getInnerWidth() {
 		// TODO Auto-generated method stub
-		return 800;
+		return 798;
 	}
 
 	@Override
