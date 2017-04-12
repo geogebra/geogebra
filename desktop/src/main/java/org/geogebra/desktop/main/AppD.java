@@ -202,6 +202,7 @@ import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
+import org.geogebra.desktop.gui.dialog.DecorationListRenderer;
 import org.geogebra.desktop.gui.dialog.PointStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.options.OptionsAdvancedD;
 import org.geogebra.desktop.gui.inputbar.AlgebraInputD;
@@ -4890,6 +4891,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			JComboBox cb = (JComboBox) c;
 			ListCellRenderer renderer = cb.getRenderer();
 			if (!(renderer instanceof DashListRenderer
+					|| renderer instanceof DecorationListRenderer
 					|| renderer instanceof AxesStyleListRenderer
 					|| renderer instanceof PointStyleListRenderer)) {
 				// if we didn't load GUI yet, assume there is no tool creation
