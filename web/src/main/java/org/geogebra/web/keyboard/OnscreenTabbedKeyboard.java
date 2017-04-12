@@ -180,19 +180,20 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			root.className = root.className.replace(/animating/, "");
 			runnable.@java.lang.Runnable::run()();
 		};
-		if (root.style.animation || root.style.animation === "") {
-			$wnd.console.log("animation handler");
+		if ((root.style.animation || root.style.animation === "")
+				&& root.className.match(/animating/)) {
 
 			root.addEventListener("animationend", callback);
 			return;
 		}
-		$wnd.console.log("animation fallback");
 		window.setTimeout(callback, 0);
 
 	}-*/;
 
-	public void prepareShow() {
-		addStyleName("animating");
+	public void prepareShow(boolean animated) {
+		if (animated) {
+			addStyleName("animating");
+		}
 		show();
 
 	}

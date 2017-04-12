@@ -200,7 +200,7 @@ public class OnScreenKeyBoard extends KBBase
 		});
 	}
 
-	public void prepareShow() {
+	public void prepareShow(boolean animated) {
 		show();
 
 		setVisible(false);

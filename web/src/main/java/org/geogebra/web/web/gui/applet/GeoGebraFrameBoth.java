@@ -273,7 +273,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			keyboardVisibilityChanging = true;
 			app.hideMenu();
 			app.persistWidthAndHeight();
-			addKeyboard(textField);
+			addKeyboard(textField, true);
 		} else {
 			keyboardVisibilityChanging = true;
 			app.persistWidthAndHeight();
@@ -319,11 +319,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * @param textField
 	 *            keyboard listener
 	 */
-	void addKeyboard(final MathKeyboardListener textField) {
+	void addKeyboard(final MathKeyboardListener textField, boolean animated) {
 		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(true);
 
-		keyBoard.prepareShow();
+		keyBoard.prepareShow(animated);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.addAsAutoHidePartnerForPopups(keyBoard.asWidget().getElement());
 		}
@@ -551,7 +551,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 								return;
 							}
 							app.persistWidthAndHeight();
-							addKeyboard(null);
+							addKeyboard(null, false);
 							app.getGuiManager().focusScheduled(false, false,
 									false);
 							ensureKeyboardDeferred();

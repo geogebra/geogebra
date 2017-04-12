@@ -82,7 +82,6 @@ public class TabbedKeyboard extends FlowPanel {
 		add(tabs);
 		addStyleName("KeyBoard");
 		addStyleName("TabbedKeyBoard");
-		addStyleName("animating");
 		addStyleName("gwt-PopupPanel");
 	}
 
