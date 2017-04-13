@@ -578,7 +578,7 @@ __GGB__keysVar.zh_CN.command = {
     "NIntegral.Syntax": "[ <\u51fd\u6570> ]\n[ <\u51fd\u6570>, <x-\u8d77\u59cb\u503c>, <x-\u7ec8\u6b62\u503c> ]",
     "NIntegral.SyntaxCAS": "[ <\u51fd\u6570>, <x-\u79ef\u5206\u4e0b\u9650>, <x-\u79ef\u5206\u4e0a\u9650> ]\n[ <\u51fd\u6570>, <\u53d8\u91cf>, <\u79ef\u5206\u4e0b\u9650>, <\u79ef\u5206\u4e0a\u9650> ]",
     "NInvert": "NInvert",
-    "NInvert.Syntax": "[ <Function> ]",
+    "NInvert.Syntax": "[ <\u51fd\u6570> ]",
     "NSolutions": "\u8fd1\u4f3c\u89e3\u96c6",
     "NSolutions.SyntaxCAS": "[ <\u65b9\u7a0b> ]\n[ <\u65b9\u7a0b>, <\u53d8\u91cf> ]\n[ <\u65b9\u7a0b>, <\u53d8\u91cf = \u521d\u503c> ]\n[ <\u65b9\u7a0b\u7ec4\u5217\u8868>, <\u53d8\u91cf\u5217\u8868> ]",
     "NSolve": "\u8fd1\u4f3c\u89e3",

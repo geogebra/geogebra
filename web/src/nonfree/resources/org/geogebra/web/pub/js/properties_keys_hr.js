@@ -578,7 +578,7 @@ __GGB__keysVar.hr.command = {
     "NIntegral.Syntax": "[ <funkcija> ]\n[ <funkcija>, <po\u010detna vrijednost x>, <krajnja vrijednost x> ]",
     "NIntegral.SyntaxCAS": "[ <funkcija>, <po\u010detna vrijednost x>, <krajnja vrijednost x> ]\n[ <funkcija>, <varijabla>, <po\u010detna vrijednost>, <krajnja vrijednost> ]",
     "NInvert": "NInvert",
-    "NInvert.Syntax": "[ <Function> ]",
+    "NInvert.Syntax": "[ <funkcija> ]",
     "NSolutions": "NRje\u0161enja",
     "NSolutions.SyntaxCAS": "[ <jednad\u017eba> ]\n[ <jednad\u017eba>, <varijabla> ]\n[ <jednad\u017eba>, <varijabla = po\u010detna vrijednost> ]\n[ <lista jednad\u017ebi>, <lista varijabli> ]",
     "NSolve": "NRije\u0161i",
