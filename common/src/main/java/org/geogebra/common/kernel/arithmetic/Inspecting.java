@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.plugin.Operation;
 
 /**
@@ -282,6 +283,23 @@ public interface Inspecting {
 		@Override
 		public boolean check(ExpressionValue v) {
 			return (v instanceof GeoText || v instanceof MyStringBuffer);
+		}
+	};
+
+	/**
+	 * returns true if Plane have been found in the expression
+	 */
+	public static Inspecting planeFinder = new Inspecting() {
+
+		@Override
+		public boolean check(ExpressionValue v) {
+			if (v instanceof GeoDummyVariable) {
+				GeoElement geo = ((GeoDummyVariable) v).getKernel()
+						.lookupLabel(((GeoDummyVariable) v)
+								.toString(StringTemplate.defaultTemplate));
+				return (geo instanceof GeoPlaneND);
+			}
+			return (v instanceof GeoPlaneND);
 		}
 	};
 
