@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -170,6 +171,39 @@ public class AlgoDependentPoint extends AlgoElement
 				botanaPolynomials[1] = new PPolynomial(botanaVars[1])
 						.subtract(new PPolynomial(leftBotanaVars[1]));
 			}
+			if (op == Operation.PLUS && left != null && right != null) {
+				if (left instanceof GeoPoint && right instanceof GeoVector) {
+					PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)
+							.getBotanaVars(left);
+					PVariable[] rightBotanaVars = ((SymbolicParametersBotanaAlgo) right)
+							.getBotanaVars(right);
+					botanaPolynomials = new PPolynomial[2];
+					/* P=left+right => P-left-right=0 */
+					botanaPolynomials[0] = new PPolynomial(botanaVars[0])
+							.subtract(new PPolynomial(leftBotanaVars[0]))
+							.subtract(new PPolynomial(rightBotanaVars[0]));
+					botanaPolynomials[1] = new PPolynomial(botanaVars[1])
+							.subtract(new PPolynomial(leftBotanaVars[1]))
+							.subtract(new PPolynomial(rightBotanaVars[1]));
+				}
+			}
+			if (op == Operation.MINUS && left != null && right != null) {
+				if (left instanceof GeoPoint && right instanceof GeoVector) {
+					PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)
+							.getBotanaVars(left);
+					PVariable[] rightBotanaVars = ((SymbolicParametersBotanaAlgo) right)
+							.getBotanaVars(right);
+					botanaPolynomials = new PPolynomial[2];
+					/* P=left-right => P-left+right=0 */
+					botanaPolynomials[0] = new PPolynomial(botanaVars[0])
+							.subtract(new PPolynomial(leftBotanaVars[0]))
+							.add(new PPolynomial(rightBotanaVars[0]));
+					botanaPolynomials[1] = new PPolynomial(botanaVars[1])
+							.subtract(new PPolynomial(leftBotanaVars[1]))
+							.add(new PPolynomial(rightBotanaVars[1]));
+				}
+			}
+
 			/* FIXME: This code does not handle *many* other cases yet. */
 		}
 
