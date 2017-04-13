@@ -2,6 +2,8 @@ package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
 
+import org.geogebra.keyboard.base.Keyboard;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -12,12 +14,19 @@ public class KeyPanelBase extends VerticalPanel {
 
 	private ArrayList<HorizontalPanel> rows;
 	private ArrayList<KeyBoardButtonBase> buttons;
+	private Keyboard layout;
 
 	/**
 	 */
-	public KeyPanelBase() {
+	public KeyPanelBase(Keyboard layout) {
 		rows = new ArrayList<HorizontalPanel>();
 		buttons = new ArrayList<KeyBoardButtonBase>();
+		this.layout = layout;
+	}
+
+
+	public KeyPanelBase() {
+		this(null);
 	}
 
 	/**
@@ -39,8 +48,9 @@ public class KeyPanelBase extends VerticalPanel {
 		buttons.add(button);
 	}
 
-	public void reset() {
+	public void reset(Keyboard layout) {
 		clear();
+		this.layout = layout;
 		rows.clear();
 		buttons.clear();
 	}
@@ -57,5 +67,9 @@ public class KeyPanelBase extends VerticalPanel {
 	 */
 	public ArrayList<HorizontalPanel> getRows() {
 		return this.rows;
+	}
+
+	public Keyboard getLayout() {
+		return layout;
 	}
 }

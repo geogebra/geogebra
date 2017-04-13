@@ -30,6 +30,7 @@ public class TabbedKeyboard extends FlowPanel {
 	private Object keyboardLocale;
 	private ButtonHandler bh;
 	private UpdateKeyBoardListener updateKeyBoardListener;
+	private FlowPanel tabs;
 
 	public TabbedKeyboard() {
 
@@ -45,7 +46,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
 		KeyboardFactory kbf = new KeyboardFactory();
-		FlowPanel tabs = new FlowPanel();
+		this.tabs = new FlowPanel();
 		FlowPanel switcher = new FlowPanel();
 		switcher.addStyleName("KeyboardSwitcher");
 		this.app = app;
@@ -128,24 +129,34 @@ public class TabbedKeyboard extends FlowPanel {
 	}
 
 	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
-		final KeyPanelBase keyboard = new KeyPanelBase();
+		final KeyPanelBase keyboard = new KeyPanelBase(layout);
 		layouts.add(layout);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
-		updatePanel(keyboard, layout, bh);
+		updatePanel(keyboard, layout, bh, getBaseSize());
 		layout.registerKeyboardObserver(new KeyboardObserver() {
 
 			public void keyboardModelChanged(Keyboard l2) {
-				updatePanel(keyboard, l2, bh);
+				updatePanel(keyboard, l2, bh, getBaseSize());
 
 			}
 		});
 		return keyboard;
 	}
 
-	private void updatePanel(KeyPanelBase keyboard, Keyboard layout,
-			ButtonHandler bh) {
-		keyboard.reset();
+	/**
+	 * 
+	 * @return button base size
+	 */
+	int getBaseSize() {
+		final int n = 13;
+		return (int) ((app.getInnerWidth() - 200) > 50 * n ? 50
+				: (app.getInnerWidth() - 200) / n);
+	}
+
+	void updatePanel(KeyPanelBase keyboard, Keyboard layout,
+			ButtonHandler bh, int baseSize) {
+		keyboard.reset(layout);
 		int index = 0;
 		for (Row row : layout.getModel().getRows()) {
 			double offset = 0;
@@ -156,15 +167,47 @@ public class TabbedKeyboard extends FlowPanel {
 					KeyBoardButtonBase button = makeButton(wb, bh);
 					if (offset > 0) {
 						button.getElement().getStyle()
-								.setMarginLeft(offset * 50, Unit.PX);
+								.setMarginLeft(offset * baseSize, Unit.PX);
 					}
-					button.getElement().getStyle().setWidth(wb.getWeight() * 50,
-							Unit.PX);
+					button.getElement().getStyle()
+							.setWidth(wb.getWeight() * baseSize, Unit.PX);
 					keyboard.addToRow(index, button);
 					offset = 0;
 				}
 			}
 			index++;
+		}
+
+	}
+
+	/**
+	 * This is much faster than updatePanel as it doesn't clear the model. It
+	 * assumes the model and button layout are in sync.
+	 */
+	private void updatePanelSize(KeyPanelBase keyboard, int baseSize) {
+		int buttonIndex = 0;
+		if (keyboard.getLayout() == null) {
+			return;
+		}
+		for (Row row : keyboard.getLayout().getModel().getRows()) {
+			double offset = 0;
+
+			for (WeightedButton wb : row.getButtons()) {
+				if (Action.NONE.name().equals(wb.getActionName())) {
+					offset = wb.getWeight();
+				} else {
+					KeyBoardButtonBase button = keyboard.getButtons()
+							.get(buttonIndex);
+					if (offset > 0) {
+						button.getElement().getStyle()
+								.setMarginLeft(offset * baseSize, Unit.PX);
+					}
+					button.getElement().getStyle()
+							.setWidth(wb.getWeight() * baseSize, Unit.PX);
+					offset = 0;
+					buttonIndex++;
+				}
+			}
 		}
 
 	}
@@ -335,6 +378,12 @@ public class TabbedKeyboard extends FlowPanel {
 			this.isSmallKeyboard = false;
 		}
 		updateHeight();
+		for (int i = 0; tabs != null && i < tabs.getWidgetCount(); i++) {
+			Widget wdgt = tabs.getWidget(i);
+			if (wdgt instanceof KeyPanelBase) {
+				updatePanelSize((KeyPanelBase) wdgt, getBaseSize());
+			}
+		}
 	}
 
 	private void updateHeight() {
