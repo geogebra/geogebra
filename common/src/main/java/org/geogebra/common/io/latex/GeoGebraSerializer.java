@@ -1,5 +1,7 @@
 package org.geogebra.common.io.latex;
 
+import java.util.HashMap;
+
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.model.MathArray;
@@ -9,12 +11,21 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.Serializer;
+import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.EmptyAtom;
+import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.SymbolAtom;
 
 /**
  * Serializes internal formulas representation into GeoGebra string
  *
  */
 public class GeoGebraSerializer implements Serializer {
+
+	private static HashMap<String, String> mappings;
 
 	@Override
 	public String serialize(MathFormula formula) {
@@ -264,5 +275,51 @@ public class GeoGebraSerializer implements Serializer {
 			e.printStackTrace();
 		}
 		return formula1 == null ? formula : formula1;
+	}
+
+	public static String serialize(Atom root) {
+		if(root instanceof FractionAtom){
+			FractionAtom frac = (FractionAtom) root;
+			return "(" + serialize(frac.getNumerator()) + ")/("
+					+ serialize(frac.getDenominator()) + ")";
+		}
+		if (root instanceof NthRoot) {
+			NthRoot frac = (NthRoot) root;
+			if (frac.getRoot() instanceof EmptyAtom) {
+				return "sqrt(" + serialize(frac.getBase()) + ")";
+			}
+			return "nroot(" + serialize(frac.getBase()) + ","
+					+ serialize(frac.getRoot()) + ")";
+			// return "+";
+		}
+		if (root instanceof CharAtom) {
+			CharAtom ch = (CharAtom) root;
+			return ch.getCharacter() + "";
+		}
+		if (root instanceof SymbolAtom) {
+			if (mappings == null) {
+				initMappings();
+			}
+			SymbolAtom ch = (SymbolAtom) root;
+			return mappings.get(ch.getName()) == null ? ch.getName()
+					: mappings.get(ch.getName());
+			// return "+";
+		}
+		if (root instanceof RowAtom) {
+			RowAtom row = (RowAtom) root;
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; row.getElement(i) != null; i++) {
+				sb.append(serialize(row.getElement(i)));
+			}
+			return sb.toString();
+		}
+		return root.getClass().getName();
+	}
+
+	private static void initMappings() {
+		mappings = new HashMap<String, String>();
+		mappings.put("plus", "+");
+		mappings.put("minus", "-");
+
 	}
 }

@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * PolyLine (open Polygon) through given points
@@ -362,7 +363,10 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void pointChanged(GeoPointND PI) {
-
+		if (PI.isGeoElement3D()) {
+			Log.warn("3D point on 2D line");
+			return;
+		}
 		GeoPoint P = (GeoPoint) PI;
 
 		double qx = P.x / P.z;

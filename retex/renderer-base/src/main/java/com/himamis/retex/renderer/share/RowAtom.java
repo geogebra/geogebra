@@ -126,6 +126,11 @@ public class RowAtom extends Atom implements Row {
 		return new SpaceAtom(TeXConstants.UNIT_POINT, 0.0f, 0.0f, 0.0f);
 	}
 
+	public Atom getElement(int i) {
+		return i < elements.size() ? elements.get(i) : null;
+
+	}
+
 	public final void add(Atom el) {
 		if (el != null) {
 			elements.add(el);

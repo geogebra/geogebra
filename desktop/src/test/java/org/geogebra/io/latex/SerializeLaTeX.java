@@ -139,6 +139,21 @@ public class SerializeLaTeX {
 		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
 	}
 
+	@Test
+	public void testParseLaTeX() {
+		checkLaTeX("\\frac{x+y}{x-y}", "(x+y)/(x-y)");
+		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
+		checkLaTeX("\\sqrt{x}+2", "sqrt(x)+2");
+		checkLaTeX("1-\\sqrt[3]{x}", "1-nroot(x,3)");
+	}
+
+	private void checkLaTeX(String string, String string2) {
+		TeXFormula tf = new TeXFormula();
+		TeXParser tp = new TeXParser(string, tf);
+		tp.parse();
+		Assert.assertEquals(string2, GeoGebraSerializer.serialize(tf.root));
+	}
+
 	private static void checkCannon(String input, String output) {
 		MathFormula mf = null;
 		try {

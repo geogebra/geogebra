@@ -133,4 +133,12 @@ public class NthRoot extends Atom {
 		res.add(squareRoot);
 		return res;
 	}
+
+	public Atom getBase() {
+		return base;
+	}
+
+	public Atom getRoot() {
+		return root;
+	}
 }

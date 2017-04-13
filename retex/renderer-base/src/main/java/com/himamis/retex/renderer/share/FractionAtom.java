@@ -300,4 +300,12 @@ public class FractionAtom extends Atom {
 
 		return new HorizontalBox(vBox, vBox.getWidth() + 2 * f, TeXConstants.ALIGN_CENTER);
 	}
+
+	public Atom getNumerator() {
+		return numerator;
+	}
+
+	public Atom getDenominator() {
+		return denominator;
+	}
 }

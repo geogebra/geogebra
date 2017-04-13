@@ -128,7 +128,6 @@ public class SymbolAtom extends CharSymbol {
 		if (type == TeXConstants.TYPE_BIG_OPERATOR) {
 			this.type_limits = TeXConstants.SCRIPT_NORMAL;
 		}
-
 		delimiter = del;
 	}
 
