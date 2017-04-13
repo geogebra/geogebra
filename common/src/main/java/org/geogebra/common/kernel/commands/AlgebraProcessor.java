@@ -2940,7 +2940,9 @@ public class AlgebraProcessor {
 	private GeoElement[] processPointVector(ExpressionNode n,
 			ExpressionValue evaluate) {
 		String label = n.getLabel();
+		boolean isCasVector = false;
 		if (evaluate instanceof MyVecNode) {
+			isCasVector = ((MyVecNode) evaluate).isCASVector();
 			ExpressionValue x = ((MyVecNode) evaluate).getX();
 			ExpressionValue y = ((MyVecNode) evaluate).getY();
 			if (isEquation(x) && isEquation(y)) {
@@ -2962,7 +2964,9 @@ public class AlgebraProcessor {
 			n.setForcePoint();
 		}
 		// make vector, if label begins with lowercase character
-		else if (label != null) {
+		// do not force point just because starts with uppercase character
+		// see GGB-1492
+		else if (label != null && !isCasVector) {
 			if (!(n.isForcedPoint() || n.isForcedVector())) { // may be set by
 				// MyXMLHandler
 				if (Character.isLowerCase(label.charAt(0))) {
