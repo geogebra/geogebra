@@ -10,6 +10,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -33,6 +34,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	private CheckBox showAuxiliaryObjects;
 	private ListBox sortMode;
 	private AlgebraStyleListBox description;
+	private ListBox coordStyle;
 	private Label lblSortMode;
 	private Label lblDescriptionMode;
 	private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
@@ -57,6 +59,9 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		lblDescriptionMode.addStyleName("panelTitle");
 		sortMode = new ListBox();
 		description = new AlgebraStyleListBox(app);
+		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			coordStyle = new ListBox();
+		}
 
 		optionsPanel.add(lblShow);
 		optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
@@ -64,6 +69,10 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		optionsPanel.add(LayoutUtilW.panelRowIndent(sortMode));
 		optionsPanel.add(lblDescriptionMode);
 		optionsPanel.add(LayoutUtilW.panelRowIndent(description));
+		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			optionsPanel.add(LayoutUtilW.panelRowIndent(coordStyle));
+			coordStyle.addChangeHandler(this);
+		}
 		sortMode.addChangeHandler(this);
 		description.addChangeHandler(new ChangeHandler() {
 
@@ -96,11 +105,25 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
 	}
 
+	private void updateCoordStyle() {
+		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			coordStyle.clear();
+			coordStyle.addItem(app.getLocalization().getMenu("A = (x, y)"));
+			coordStyle.addItem(app.getLocalization().getMenu("A(x | y)"));
+			coordStyle.addItem(app.getLocalization().getMenu("A: (x, y)"));
+			coordStyle.setSelectedIndex(app.getKernel().getCoordStyle());
+			app.getKernel().updateConstruction();
+		}
+	}
+
 	@Override
 	public void updateGUI() {
 		showAuxiliaryObjects.setValue(app.showAuxiliaryObjects);
 		updateSortMode();
 		description.update();
+		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			updateCoordStyle();
+		}
 	}
 
 	@Override
@@ -133,6 +156,9 @@ public class OptionsAlgebraW extends OptionsAdvanced
 				"AlgebraDescriptions"));
 		updateSortMode();
 		description.update();
+		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			updateCoordStyle();
+		}
 	}
 
 	@Override
@@ -143,6 +169,11 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			app.getSettings().getAlgebra()
 .setTreeMode(supportedModes.get(i));
 
+		} else if (app.has(Feature.ADVANCED_OPTIONS) && source == coordStyle) {
+			int i = coordStyle.getSelectedIndex();
+			Log.debug("SELECTED COORD INDEX: " + i);
+			app.getKernel().setCoordStyle(i);
+			app.getKernel().updateConstruction();
 		}
 	}
 

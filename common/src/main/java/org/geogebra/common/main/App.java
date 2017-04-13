@@ -4192,6 +4192,9 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
 			return prerelease;
+		case ADVANCED_OPTIONS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
