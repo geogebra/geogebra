@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.plugin.Operation;
 
 /**
  *
@@ -41,6 +42,8 @@ public class AlgoDependentPoint extends AlgoElement
 	private GeoPoint P; // output
 
 	private PVariable[] botanaVars;
+	private PPolynomial[] botanaPolynomials;
+
 	private GeoVec2D temp;
 
 	/**
@@ -144,18 +147,32 @@ public class AlgoDependentPoint extends AlgoElement
 	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		GeoElement left = (GeoElement) P.getDefinition().getLeft();
-		// GeoElement right = (GeoElement) root.getRight();
-		if (left != null) {
-			botanaVars = ((SymbolicParametersBotanaAlgo) left)
-					.getBotanaVars(left);
-		}
 		return botanaVars;
 	}
 
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		return null;
+		if (botanaVars == null) {
+			botanaVars = new PVariable[2];
+			botanaVars[0] = new PVariable(kernel);
+			botanaVars[1] = new PVariable(kernel);
+
+			GeoElement left = (GeoElement) P.getDefinition().getLeft();
+			GeoElement right = (GeoElement) P.getDefinition().getRight();
+			Operation op = P.getDefinition().getOperation();
+			if (op == Operation.NO_OPERATION && left != null) {
+				PVariable[] leftBotanaVars = ((SymbolicParametersBotanaAlgo) left)
+						.getBotanaVars(left);
+				botanaPolynomials = new PPolynomial[2];
+				botanaPolynomials[0] = new PPolynomial(botanaVars[0])
+						.subtract(new PPolynomial(leftBotanaVars[0]));
+				botanaPolynomials[1] = new PPolynomial(botanaVars[1])
+						.subtract(new PPolynomial(leftBotanaVars[1]));
+			}
+			/* FIXME: This code does not handle *many* other cases yet. */
+		}
+
+		return botanaPolynomials;
 	}
 }
