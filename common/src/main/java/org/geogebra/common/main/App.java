@@ -418,7 +418,7 @@ public abstract class App implements UpdateSelection {
 	 * 
 	 * @param version
 	 */
-	protected void setVersion(Versions version) {
+	public void setVersion(Versions version) {
 		this.version = version;
 	}
 
