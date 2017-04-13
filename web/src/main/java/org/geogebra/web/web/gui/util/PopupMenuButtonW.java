@@ -462,11 +462,16 @@ public class PopupMenuButtonW extends MyCJButton
 		sliderPanel.add(sliderLabel);
 		sliderLabel.addStyleName("popupSliderLabel");
 		sliderPanel.addStyleName("panelRow");
+		if (app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+			sliderPanel.addStyleName("panelRow2");
+		}
 		myPopup.getPanel().add(sliderPanel);
 
-		Label placeholder = new Label();
-		placeholder.setHeight("8px");
-		myPopup.getPanel().add(placeholder);
+		if (app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+			Label placeholder = new Label();
+			placeholder.setHeight("8px");
+			myPopup.getPanel().add(placeholder);
+		}
 	}
 	
 
