@@ -209,6 +209,9 @@ public class OnScreenKeyBoard extends KBBase
 	}
 
 	public void remove(Runnable runnable) {
+		removeFromParent();
+		// TODO too expensive
+		app.updateCenterPanelAndViews();
 		runnable.run();
 
 	}

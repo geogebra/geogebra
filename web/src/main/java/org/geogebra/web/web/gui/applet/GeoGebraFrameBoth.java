@@ -301,11 +301,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		app.addToHeight(keyboardHeight);
 		keyboardHeight = 0;
 		keyBoard.remove(new Runnable() {
-
 			public void run() {
-				remove(keyBoard);
-				// TODO too expensive
-				app.updateCenterPanelAndViews();
+
 				keyBoard.resetKeyboardState();
 				app.centerAndResizePopups();
 

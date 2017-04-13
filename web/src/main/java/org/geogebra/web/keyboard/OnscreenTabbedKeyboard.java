@@ -14,12 +14,21 @@ import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
 
+/**
+ * Web implementation of onscreen keyboard
+ * 
+ * @author Zbynek, based on Balaz's cross-platform model
+ */
 public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		implements VirtualKeyboardGUI, ButtonHandler {
 
 	private KeyboardListener processField;
 
 
+	/**
+	 * @param app
+	 *            keyboard context
+	 */
 	public OnscreenTabbedKeyboard(HasKeyboard app) {
 		buildGUI(this, app);
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
@@ -164,13 +173,19 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 						.scheduleDeferred(new Scheduler.ScheduledCommand() {
 							@Override
 							public void execute() {
-								processField.scrollCursorIntoView();
+								scrollCursorIntoView();
 							}
 						});
 			}
 		});
 	}
 
+	/**
+	 * Scroll cursor of selected textfield into view
+	 */
+	protected void scrollCursorIntoView() {
+		processField.scrollCursorIntoView();
+	}
 	public void afterShown(final Runnable runnable) {
 		runOnAnimation(runnable, getElement());
 	}
@@ -199,10 +214,15 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}
 
-	public void remove(Runnable runnable) {
+	public void remove(final Runnable runnable) {
 		app.updateCenterPanelAndViews();
 		this.addStyleName("animatingOut");
-		runOnAnimation(runnable, getElement());
+		runOnAnimation(new Runnable() {
+			public void run() {
+				removeFromParent();
+				runnable.run();
+			}
+		}, getElement());
 
 	}
 
