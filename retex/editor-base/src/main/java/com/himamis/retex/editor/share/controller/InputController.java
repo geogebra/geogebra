@@ -968,16 +968,23 @@ public class InputController {
 	}
 
 	private void comma(EditorState editorState) {
-		int idx = editorState.getCurrentOffset();
-		MathSequence field = editorState.getCurrentField();
-		if (field.getArgument(idx) instanceof MathCharacter
-				&& ",".equals(field.getArgument(idx).toString())
-				&& doSelectNext(field, editorState, idx + 1)) {
+		if (trySelectNext(editorState)) {
 			return;
 		}
 
 		newOperator(editorState, ',');
 
+	}
+
+	public static boolean trySelectNext(EditorState editorState) {
+		int idx = editorState.getCurrentOffset();
+		MathSequence field = editorState.getCurrentField();
+		if (field.getArgument(idx) instanceof MathCharacter
+				&& ",".equals(field.getArgument(idx).toString())
+				&& doSelectNext(field, editorState, idx + 1)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

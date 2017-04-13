@@ -90,6 +90,9 @@ public class KeyListenerImpl {
 		case KeyEvent.VK_OPEN_BRACKET:
 		case KeyEvent.VK_OPEN_PAREN:
 			return false;
+		case KeyEvent.VK_TAB:
+			InputController.trySelectNext(editorState);
+			return true;
 		default:
 			// InputController.deleteSelection(editorState);
 			return false;

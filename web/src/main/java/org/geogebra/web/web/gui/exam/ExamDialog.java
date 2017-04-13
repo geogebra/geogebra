@@ -253,6 +253,7 @@ public class ExamDialog {
 			app.getLAF().toggleFullscreen(true);
 		}
 		ensureExamStyle();
+		blockEscTab();
 
 		Date date = new Date();
 		guiManager.updateToolbarActions();
@@ -295,6 +296,19 @@ public class ExamDialog {
 	////////////////////////////////////
 	// ANDROID TABLETS
 	////////////////////////////////////
+
+	private static native void blockEscTab() /*-{
+		$doc.body.addEventListener("keyup", function(e) {
+			if (e && e.keyCode == 27 && $doc.querySelector(".examToolbar")) {
+				e.preventDefault()
+			}
+		});
+		$doc.body.addEventListener("keydown", function(e) {
+			if (e && e.keyCode == 9 && $doc.querySelector(".examToolbar")) {
+				e.preventDefault()
+			}
+		});
+	}-*/;
 
 	private static void ensureExamStyle() {
 		if (examStyle) {

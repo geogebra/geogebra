@@ -255,7 +255,7 @@ public class MathFieldW implements MathField, IsWidget {
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				updateAltForKeyUp(event);
-				if (code == 8 || code == 27) {
+				if (code == KeyEvent.VK_DELETE || code == KeyEvent.VK_ESCAPE) {
 					event.preventDefault();
 				}
 			}
@@ -280,7 +280,9 @@ public class MathFieldW implements MathField, IsWidget {
 				// also need killing.
 				// also kill events while left alt down: alt+e, alt+d working in
 				// browser
-				if (code == 8 || code == 27 || handled || leftAltDown) {
+				if (code == KeyEvent.VK_DELETE || code == KeyEvent.VK_ESCAPE
+						|| handled
+						|| leftAltDown) {
 					event.preventDefault();
 				}
 				event.stopPropagation();
