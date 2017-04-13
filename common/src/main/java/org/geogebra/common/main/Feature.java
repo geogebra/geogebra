@@ -183,6 +183,9 @@ public enum Feature {
 	/** MOW-251, MOW-197 */
 	CLEAR_VIEW_STYLEBAR,
 
+	/** MOW-197 */
+	COLORPOPUP_IMPROVEMENTS,
+
 	TABBED_KEYBOARD,
 
 	/** AND-278 */

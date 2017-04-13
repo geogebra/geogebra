@@ -4184,6 +4184,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 		case CLEAR_VIEW_STYLEBAR:
 			return prerelease && whiteboard;
+		case COLORPOPUP_IMPROVEMENTS:
+			return prerelease;
 		case TABBED_KEYBOARD:
 			return prerelease;
 		case AND_TRACE_IN_PROPERTIES:

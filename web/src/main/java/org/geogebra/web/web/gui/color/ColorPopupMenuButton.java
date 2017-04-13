@@ -83,11 +83,10 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
-		if (!hasSlider && app.isWhiteboardActive()) {
-			getMyPopup().setHeight("38px");
-		} else if (app.isWhiteboardActive()
-				&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
-			getMyPopup().setHeight("80px");
+		if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+			if (!hasSlider && app.isWhiteboardActive()) {
+				getMyPopup().setHeight("38px");
+			}
 		}
 	}
 
