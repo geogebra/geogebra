@@ -476,7 +476,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 
 		case LATEX:
-			printFormPI = "\\pi";
+			printFormPI = "\\pi ";
 			printFormImaginary = "i";
 			break;
 
