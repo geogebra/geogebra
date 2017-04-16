@@ -578,7 +578,7 @@ __GGB__keysVar.ca_XV.command = {
     "NIntegral.Syntax": "[ <Funci\xf3> ]\n[ <Funci\xf3>, <Valor-inicial-x>, <Valor-final-x> ]",
     "NIntegral.SyntaxCAS": "[ <Funci\xf3>, <Valor x inicial>, <Valor x final> ]\n[ <Funci\xf3>, <Variable>, <Valor inicial de la variable>, <Valor final de la variable> ]",
     "NInvert": "NInvert",
-    "NInvert.Syntax": "[ <Function> ]",
+    "NInvert.Syntax": "[ <Funci\xf3> ]",
     "NSolutions": "SolucionsN",
     "NSolutions.SyntaxCAS": "[ <Equaci\xf3> ]\n[ <Equaci\xf3>, <Variable> ]\n[ <Equaci\xf3>, <Variable = valor inicial> ]\n[ <Llista d'equacions>, <Llista de variables> ]",
     "NSolve": "ResolNum",
