@@ -156,8 +156,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// If labels are suppressed (processing command arguments) accept y and
 		// z as
 		// functions
-		if (!suppressLabel && !isBooleanFunction()
-				&& (this.isFunctionOfY()
+		if (suppressLabel || isBooleanFunction()) {
+			return true;
+		}
+		if ((this.isFunctionOfY()
 						// needed for GGB-1028
 						&& this.getCorrespondingCasCell() == null)
 				|| (autoLabel && this.isFunctionOfZ())) {
@@ -2525,7 +2527,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			boolean substituteNumbers) {
 
 		String ret = "";
-		if (getFunctionExpression().isConditional()) {
+		if (getFunctionExpression() != null
+				&& getFunctionExpression().isConditional()) {
 			if (tpl.hasType(StringType.LATEX)) {
 				ret = conditionalLaTeX(substituteNumbers, tpl);
 			}
