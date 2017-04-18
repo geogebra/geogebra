@@ -218,13 +218,14 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		event.stopPropagation();
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 		mouseDown = true;
 		handleMouseDownSelection(event);
 		onPointerDown();
-		event.stopPropagation();
+
 	}
 
 	private void onPointerDown() {
@@ -279,6 +280,7 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
+		event.stopPropagation();
 		handleTouchStartSelection(event);
 		touchDown = true;
 		longTouchManager.scheduleTimer(this,

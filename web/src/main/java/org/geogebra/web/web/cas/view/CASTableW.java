@@ -6,13 +6,11 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.cas.view.CASTable;
 import org.geogebra.common.cas.view.CASTableCellEditor;
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.util.ReTeXHelper;
 
@@ -46,14 +44,6 @@ public class CASTableW extends Grid implements CASTable {
 		addStyleName("CAS-table");
 		insertRow(0, null, false);
 		view = casViewW;
-		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// only stop propagation to prevent auto-commit
-			}
-
-		});
 	}
 
 	@Override
