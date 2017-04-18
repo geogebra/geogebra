@@ -387,4 +387,13 @@ public abstract class Box {
 		}
 
 	}
+
+	public Box getChild(int i) {
+		return children.get(i);
+	}
+
+	public Integer getCount() {
+		// TODO Auto-generated method stub
+		return children.size();
+	}
 }

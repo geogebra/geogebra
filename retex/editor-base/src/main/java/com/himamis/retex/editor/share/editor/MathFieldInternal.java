@@ -78,13 +78,17 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	private Runnable enterCallback;
 
+	private boolean directFormulaBuilder;
+
     public MathFieldInternal(MathField mathField) {
         this.mathField = mathField;
+		this.directFormulaBuilder = false;
         cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
         keyListener = new KeyListenerImpl(cursorController, inputController);
         mathFormula = MathFormula.newFormula(mathField.getMetaModel());
-		mathFieldController = new MathFieldController(mathField, false);
+		mathFieldController = new MathFieldController(mathField,
+				directFormulaBuilder);
 		inputController.setMathField(mathField);
         setupMathField();
     }
@@ -376,8 +380,21 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		return mouseDownPos != null && (Math.abs(x - mouseDownPos[0]) > 10
 				|| Math.abs(y - mouseDownPos[1]) > 10);
 	}
-
+	
+	private void moveToSelectionDirect(int x, int y) {
+		ArrayList<Integer> list2 = new ArrayList<Integer>();
+		mathFieldController.getPath(mathFormula, x, y,
+				list2);
+	}
 	private void moveToSelection(int x, int y) {
+		if (this.directFormulaBuilder) {
+			this.moveToSelectionDirect(x, y);
+		} else {
+			this.moveToSelectionIterative(x, y);
+		}
+	}
+
+	private void moveToSelectionIterative(int x, int y) {
 		// System.out.println("SELECTION" + list);
 		CursorController.firstField(editorState);
 		double dist = Integer.MAX_VALUE;

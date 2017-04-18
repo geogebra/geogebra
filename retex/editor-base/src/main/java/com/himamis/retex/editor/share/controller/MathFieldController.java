@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.share.Atom;
+import com.himamis.retex.renderer.share.Box;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -107,7 +108,13 @@ public class MathFieldController {
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
 		renderer.getBox().getPath(x / size, y / size, list);
-		drawWithStub(renderer);
+		Box current = renderer.getBox();
+		for (int i = 0; i < list.size() && current.getCount() > 0
+				&& list.get(i) >= 0; i++) {
+			System.out.println(current.getChild(list.get(i) + 1));
+			current = current.getChild(list.get(i));
+
+		}
 	}
 
 	public void getSelectedPath(MathFormula mathFormula,

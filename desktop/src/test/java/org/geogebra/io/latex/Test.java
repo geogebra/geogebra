@@ -120,7 +120,7 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("()");
+					.parse("1+2+3+4");
 			mathField.setFormula(f);
 			// insertString(mathField, "Plane[<7>,<7>]");
 			for (int i = 0; i < 1; i++) {
