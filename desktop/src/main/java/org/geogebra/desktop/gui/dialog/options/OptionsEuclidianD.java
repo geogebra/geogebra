@@ -1254,4 +1254,9 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbAxisLabelBold.setSelected(isBold);
 		cbAxisLabelItalic.setSelected(isItalic);
 	}
+
+	public void addRightAngleStyleItem(String item) {
+		// TODO Auto-generated method stub
+
+	}
 }

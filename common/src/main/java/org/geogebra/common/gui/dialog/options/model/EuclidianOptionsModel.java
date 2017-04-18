@@ -160,10 +160,31 @@ public class EuclidianOptionsModel {
 
 	}
 
+	/**
+	 * Apply chosen right angle style
+	 * 
+	 * @param mode0
+	 *            - right angle style
+	 */
+	public void applyRightAngleStyle(int mode0) {
+		int mode = mode0;
+		if (mode == 0) {
+			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE;
+		} else if (mode == 1) {
+			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
+		} else if (mode == 2) {
+			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
+		} else if (mode == 3) {
+			mode = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L;
+		}
+
+		app.setRightAngleStyle(mode);
+		app.getEuclidianView1().updateAllDrawables(true);
+	}
+
 	public void showAxes(boolean value) {
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1).setShowAxes(value, value);
-
 			return;
 
 		}
@@ -553,6 +574,16 @@ public class EuclidianOptionsModel {
 		}
 	}
 
+	/**
+	 * fill list with right angle styles
+	 */
+	public void fillRightAngleCombo() {
+		listener.addRightAngleStyleItem(app.getLocalization().getMenu("off"));
+		listener.addRightAngleStyleItem("\u25a1");
+		listener.addRightAngleStyleItem("\u2219");
+		listener.addRightAngleStyleItem("\u2335");
+	}
+
 	public void updateProperties() {
 
 		listener.updateAxes(view.getAxesColor(),
@@ -728,6 +759,8 @@ public class EuclidianOptionsModel {
 		void setMinMaxText(String minX, String maxX, String minY, String maxY);
 
 		void addTooltipItem(String item);
+
+		void addRightAngleStyleItem(String item);
 
 		void addGridTypeItem(String item);
 
