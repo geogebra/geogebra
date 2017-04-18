@@ -100,10 +100,14 @@ public class MathFieldController {
 
 	public void getPath(MathFormula mathFormula, int x, int y,
 			ArrayList<Integer> list) {
-		String serializedFormula = texSerializer
-				.serialize(mathFormula, null, 0);
+		if (texBuilder == null) {
+			return;
+		}
+		Atom root = texBuilder.build(mathFormula.getRootComponent(), null, 0,
+				null, null);
 
-		TeXFormula texFormula = new TeXFormula(serializedFormula);
+		TeXFormula texFormula = new TeXFormula();
+		texFormula.root = root;
 		TeXIcon renderer = texFormula.new TeXIconBuilder()
 				.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 				.setType(type).build();
@@ -111,9 +115,8 @@ public class MathFieldController {
 		Box current = renderer.getBox();
 		for (int i = 0; i < list.size() && current.getCount() > 0
 				&& list.get(i) >= 0; i++) {
-			System.out.println(current.getChild(list.get(i) + 1));
 			current = current.getChild(list.get(i));
-
+			System.out.println(current + ":" + current.getAtom());
 		}
 	}
 

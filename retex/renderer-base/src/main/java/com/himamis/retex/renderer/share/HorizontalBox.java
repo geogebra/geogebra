@@ -200,7 +200,7 @@ public class HorizontalBox extends Box {
 		for (Box box : children) {
 			if (xPos + box.getWidth() > x) {
 				int idx = children.indexOf(box);
-				list.add(box instanceof CharBox ? idx - 1 : idx);
+				list.add(idx);
 				box.getPath(x - xPos, y, list);
 				return;
 			}

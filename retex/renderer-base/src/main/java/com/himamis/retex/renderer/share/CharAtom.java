@@ -90,10 +90,10 @@ public class CharAtom extends CharSymbol {
 		}
 		boolean smallCap = env.getSmallCap();
 		Char ch = getChar(env.getTeXFont(), env.getStyle(), smallCap);
-		Box box = new CharBox(ch);
+		Box box = new CharBox(ch).setAtom(this);
 		if (smallCap && Character.isLowerCase(c)) {
 			// We have a small capital
-			box = new ScaleBox(box, 0.8f, 0.8f);
+			box = new ScaleBox(box, 0.8f, 0.8f).setAtom(this);
 		}
 
 		return box;

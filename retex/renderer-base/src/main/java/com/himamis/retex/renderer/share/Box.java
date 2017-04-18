@@ -129,6 +129,8 @@ public abstract class Box {
 	protected LinkedList<Box> children = new LinkedList<Box>();
 	protected Color markForDEBUG;
 
+	private Atom atom;
+
 	/**
 	 * Inserts the given box at the end of the list of child boxes.
 	 *
@@ -393,7 +395,15 @@ public abstract class Box {
 	}
 
 	public Integer getCount() {
-		// TODO Auto-generated method stub
 		return children.size();
+	}
+
+	public Atom getAtom() {
+		return atom;
+	}
+
+	public Box setAtom(Atom parent) {
+		atom = parent;
+		return this;
 	}
 }

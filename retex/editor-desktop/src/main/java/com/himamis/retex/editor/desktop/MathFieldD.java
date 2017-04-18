@@ -79,6 +79,7 @@ public class MathFieldD extends JLabel implements MathField {
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
+		mathFieldInternal.setSize(72);
 		this.setVerticalAlignment(SwingConstants.TOP);
 		Timer t = new Timer(500, new ActionListener() {
 
