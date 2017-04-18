@@ -1,6 +1,7 @@
 package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -103,6 +104,9 @@ public class OnScreenKeyBoard extends KBBase
 				} else if (caption.equals(PAGE_TWO_OF_TWO)) {
 					showFirstPage();
 				}
+				break;
+			default:
+				Log.warn("unexpected keyboard action");
 			}
 		} else {
 

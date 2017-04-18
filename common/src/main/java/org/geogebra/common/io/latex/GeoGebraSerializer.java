@@ -14,9 +14,12 @@ import com.himamis.retex.editor.share.serializer.Serializer;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
+import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.RowAtom;
+import com.himamis.retex.renderer.share.ScriptsAtom;
+import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 
 /**
@@ -296,6 +299,18 @@ public class GeoGebraSerializer implements Serializer {
 			CharAtom ch = (CharAtom) root;
 			return ch.getCharacter() + "";
 		}
+		if (root instanceof ScriptsAtom) {
+			ScriptsAtom ch = (ScriptsAtom) root;
+			return subSup(ch);
+		}
+		if (root instanceof FencedAtom) {
+			FencedAtom ch = (FencedAtom) root;
+			return serialize(ch.getLeft()) + serialize(ch.getBase())
+					+ serialize(ch.getRight());
+		}
+		if (root instanceof SpaceAtom) {
+			return " ";
+		}
 		if (root instanceof SymbolAtom) {
 			if (mappings == null) {
 				initMappings();
@@ -316,10 +331,38 @@ public class GeoGebraSerializer implements Serializer {
 		return root.getClass().getName();
 	}
 
+
+	private static String subSup(ScriptsAtom ch) {
+		StringBuilder sb = new StringBuilder(serialize(ch.getBase()));
+		if (ch.getSub() != null) {
+			String sub = serialize(ch.getSub());
+			if (sub.length() > 1) {
+				sb.append("_{");
+				sb.append(sub);
+				sb.append("}");
+			} else {
+				sb.append("_");
+				sb.append(sub);
+			}
+		}
+		if (ch.getSup() != null) {
+			sb.append("^(");
+			sb.append(serialize(ch.getSup()));
+			sb.append(")");
+		}
+		return sb.toString();
+	}
+
 	private static void initMappings() {
 		mappings = new HashMap<String, String>();
 		mappings.put("plus", "+");
 		mappings.put("minus", "-");
-
+		mappings.put("equals", "=");
+		mappings.put("lbrack", "(");
+		mappings.put("rbrack", ")");
+		mappings.put("lsqbrack", "[");
+		mappings.put("rsqbrack", "]");
+		mappings.put("normaldot", ".");
+		mappings.put("comma", ",");
 	}
 }

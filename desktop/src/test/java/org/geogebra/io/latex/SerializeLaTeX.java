@@ -145,6 +145,13 @@ public class SerializeLaTeX {
 		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
 		checkLaTeX("\\sqrt{x}+2", "sqrt(x)+2");
 		checkLaTeX("1-\\sqrt[3]{x}", "1-nroot(x,3)");
+		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)",
+				"X=(x_0+2x_x,y_0+2x_y)");
+		checkLaTeX("i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
+				"i=[0,(6pi)/(p)...24pi]");
+		checkLaTeX(
+				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
+				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
 	}
 
 	private void checkLaTeX(String string, String string2) {

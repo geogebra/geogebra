@@ -175,4 +175,16 @@ public class FencedAtom extends Atom {
 
 		return hBox;
 	}
+
+	public Atom getBase() {
+		return base;
+	}
+
+	public Atom getLeft() {
+		return left;
+	}
+
+	public Atom getRight() {
+		return right;
+	}
 }
