@@ -218,7 +218,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			rightPanelWidth = this.rightPanel.getOffsetWidth();
 		}
 		
-		return appWidth - WIDTH_HEADER_FIRST - rightPanelWidth;
+		return Math.max(0, appWidth - WIDTH_HEADER_FIRST - rightPanelWidth);
     }
 
 	@Override
