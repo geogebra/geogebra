@@ -4,7 +4,6 @@ import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.common.cas.view.CASView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASViewW;
@@ -90,10 +89,12 @@ public class CASDockPanelW extends NavigableDockPanelW {
 
 	@Override
 	public void onResize() {
+		if (casView == null) {
+			return;
+		}
 		boolean oldFocus = ((CASTableCellEditor) casView.getEditor())
 				.hasFocus();
 		super.onResize();
-		Log.debug("CAS " + oldFocus);
 		if (oldFocus) {
 			casView.getEditor().setFocus(true, true);
 		}
