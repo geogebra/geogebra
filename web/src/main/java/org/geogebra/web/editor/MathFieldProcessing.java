@@ -67,14 +67,14 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.insertFunction("sqrt");
 		} else if ("log".equals(text)) {
 			mf.insertFunction("log10");
-		} else if (text.equals("10^")) {
+		} else if ("10^".equals(text)) {
 			type("10");
 			mf.insertFunction("^");
 		} else if (text.equals(Unicode.eulerChar + "^")) {
 			mf.getKeyListener()
 					.onKeyTyped(new KeyEvent(0, 0, Unicode.eulerChar));
 			mf.insertFunction("^");
-		} else if (text.equals("log_")) {
+		} else if ("log_".equals(text)) {
 			type("log_");
 			mf.getKeyListener()
 					.onKeyPressed(new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
