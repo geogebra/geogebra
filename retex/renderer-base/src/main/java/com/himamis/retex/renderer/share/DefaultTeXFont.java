@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.AlphabetRegistrationException;
@@ -366,6 +367,9 @@ public class DefaultTeXFont implements TeXFont {
 	public Char getChar(String symbolName, int style) throws SymbolMappingNotFoundException {
 		Object obj = symbolMappings.get(symbolName);
 		if (obj == null) {// no symbol mapping found!
+			for (Entry<String, CharFont> e : symbolMappings.entrySet()) {
+				System.out.println(e.getKey() + " , " + e.getValue());
+			}
 			throw new SymbolMappingNotFoundException(symbolName);
 		}
 		return getChar((CharFont) obj, style);

@@ -84,7 +84,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		inputController = new InputController(mathField.getMetaModel());
         keyListener = new KeyListenerImpl(cursorController, inputController);
         mathFormula = MathFormula.newFormula(mathField.getMetaModel());
-        mathFieldController = new MathFieldController(mathField);
+		mathFieldController = new MathFieldController(mathField, false);
 		inputController.setMathField(mathField);
         setupMathField();
     }

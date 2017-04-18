@@ -7,7 +7,9 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.serializer.TeXBuilder;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
@@ -23,10 +25,15 @@ public class MathFieldController {
     private int type = TeXFormula.SERIF;
 
 	private GraphicsStub graphics;
+	private TeXBuilder texBuilder;
 
-    public MathFieldController(MathField mathField) {
-        this.mathField = mathField;
-        texSerializer = new TeXSerializer(mathField.getMetaModel());
+	public MathFieldController(MathField mathField,
+			boolean directFormulaBuilder) {
+		this.mathField = mathField;
+		texSerializer = new TeXSerializer(mathField.getMetaModel());
+		if (directFormulaBuilder) {
+			texBuilder = new TeXBuilder();
+		}
 		graphics = new GraphicsStub();
 	}
 
@@ -65,9 +72,17 @@ public class MathFieldController {
 			MathComponent selectionStart, MathComponent selectionEnd) {
 		String serializedFormula = texSerializer.serialize(mathFormula,
 				currentField, currentOffset, selectionStart, selectionEnd);
-
+		TeXFormula texFormula = null;
+		if (texBuilder != null) {
+			Atom root = texBuilder.build(mathFormula.getRootComponent(),
+					currentField, currentOffset, selectionStart, selectionEnd);
+			texFormula = new TeXFormula();
+			texFormula.root = root;
+		}
 		try {
-			TeXFormula texFormula = new TeXFormula(serializedFormula);
+			if (texFormula == null) {
+				texFormula = new TeXFormula(serializedFormula);
+			}
 			TeXIcon renderer = texFormula.new TeXIconBuilder()
 					.setStyle(TeXConstants.STYLE_DISPLAY).setSize(size)
 					.setType(type).build();
