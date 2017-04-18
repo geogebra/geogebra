@@ -6,11 +6,11 @@ import java.util.List;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -35,6 +35,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	private ListBox sortMode;
 	private AlgebraStyleListBox description;
 	private ListBox coordStyle;
+	private ListBox angleUnit;
 	private Label lblSortMode;
 	private Label lblDescriptionMode;
 	private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
@@ -61,6 +62,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		description = new AlgebraStyleListBox(app);
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
 			coordStyle = new ListBox();
+			angleUnit = new ListBox();
 		}
 
 		optionsPanel.add(lblShow);
@@ -72,6 +74,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
 			optionsPanel.add(LayoutUtilW.panelRowIndent(coordStyle));
 			coordStyle.addChangeHandler(this);
+			optionsPanel.add(LayoutUtilW.panelRowIndent(angleUnit));
+			angleUnit.addChangeHandler(this);
 		}
 		sortMode.addChangeHandler(this);
 		description.addChangeHandler(new ChangeHandler() {
@@ -116,6 +120,19 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		}
 	}
 
+	private void updateAngleUnit() {
+		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			angleUnit.clear();
+			angleUnit.addItem(app.getLocalization().getMenu("Degree"));
+			angleUnit.addItem(app.getLocalization().getMenu("Radiant"));
+			angleUnit.setSelectedIndex(
+					app.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT ? 1
+							: 0);
+			app.getKernel().updateConstruction();
+			app.setUnsaved();
+		}
+	}
+
 	@Override
 	public void updateGUI() {
 		showAuxiliaryObjects.setValue(app.showAuxiliaryObjects);
@@ -123,6 +140,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		description.update();
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
 			updateCoordStyle();
+			updateAngleUnit();
 		}
 	}
 
@@ -158,6 +176,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		description.update();
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
 			updateCoordStyle();
+			updateAngleUnit();
 		}
 	}
 
@@ -169,11 +188,18 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			app.getSettings().getAlgebra()
 .setTreeMode(supportedModes.get(i));
 
-		} else if (app.has(Feature.ADVANCED_OPTIONS) && source == coordStyle) {
-			int i = coordStyle.getSelectedIndex();
-			Log.debug("SELECTED COORD INDEX: " + i);
-			app.getKernel().setCoordStyle(i);
-			app.getKernel().updateConstruction();
+		} else if (app.has(Feature.ADVANCED_OPTIONS)) {
+			if (source == coordStyle) {
+				int i = coordStyle.getSelectedIndex();
+				app.getKernel().setCoordStyle(i);
+				app.getKernel().updateConstruction();
+			} else if (source == angleUnit) {
+				int i = angleUnit.getSelectedIndex();
+				app.getKernel().setAngleUnit(
+						i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
+				app.getKernel().updateConstruction();
+				app.setUnsaved();
+			}
 		}
 	}
 
