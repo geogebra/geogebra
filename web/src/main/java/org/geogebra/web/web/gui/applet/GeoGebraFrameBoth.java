@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KBBase;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -261,7 +262,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			app.getGuiManager().setOnScreenKeyboardTextField(textField);
 			return;
 		}
-
+		if (show) {
+			Log.printStacktrace("show kb");
+		}
 		GuiManagerInterfaceW gm = app.getGuiManager();
 		if (gm != null) {
 			gm.onScreenEditingEnded();

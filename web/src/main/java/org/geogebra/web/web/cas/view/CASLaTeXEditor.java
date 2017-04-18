@@ -255,6 +255,7 @@ public class CASLaTeXEditor extends FlowPanel
 	 * Click start callback
 	 */
 	protected void doClickStart() {
+		setFocus(true, false);
 		app.showKeyboard(retexListener);
 		// prevent that keyboard is closed on clicks (changing
 		// cursor position)
@@ -399,6 +400,10 @@ public class CASLaTeXEditor extends FlowPanel
 	public boolean onEscape() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	public boolean hasFocus() {
+		return mf.hasFocus();
 	}
 
 }

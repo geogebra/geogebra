@@ -50,4 +50,6 @@ public interface CASTableCellEditor extends SetLabels {
 	void ensureEditing();
 
 	void onEnter(boolean b);
+
+	boolean hasFocus();
 }

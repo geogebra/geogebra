@@ -776,6 +776,13 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 				sp.deferredOnResize();
 			}
 		}
+		if (getGuiManager().hasCasView()) {
+			DockPanel sp = getGuiManager().getLayout().getDockManager()
+					.getPanel(App.VIEW_CAS);
+			if (sp != null) {
+				((DockPanelW) sp).onResize();
+			}
+		}
 		getAppletFrame().setMenuHeight(
 				getInputPosition() == InputPosition.bottom);
 	}
