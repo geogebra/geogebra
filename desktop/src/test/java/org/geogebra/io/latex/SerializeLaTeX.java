@@ -137,6 +137,7 @@ public class SerializeLaTeX {
 		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
 				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
 		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
+		checkCannon("(t^n;t)", "(t^(n);t)");
 	}
 
 	@Test
