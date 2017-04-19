@@ -32,6 +32,10 @@ public abstract class CASView implements Editing, SetLabels {
 	/** input handler */
 	private CASInputHandler casInputHandler;
 
+	/**
+	 * @param kernel2
+	 *            kernel
+	 */
 	public CASView(Kernel kernel2) {
 		kernel = kernel2;
 		getCAS();
@@ -294,6 +298,10 @@ public abstract class CASView implements Editing, SetLabels {
 		if (geo instanceof GeoCasCell) {
 			GeoCasCell casCell = (GeoCasCell) geo;
 			int row = casCell.getRowNumber();
+			if (row < 0) {
+				return;
+			}
+			casCell.setRowNumber(-1);
 			// we must stop editing here, otherwise content of deleted cell is
 			// copied below
 			boolean wasEditing = getConsoleTable().isEditing();
@@ -303,6 +311,7 @@ public abstract class CASView implements Editing, SetLabels {
 			if (wasEditing) {
 				getConsoleTable().startEditingRow(row);
 			}
+
 		}
 	}
 
@@ -330,6 +339,8 @@ public abstract class CASView implements Editing, SetLabels {
 	 * 
 	 * @param ggbcmd
 	 *            command name
+	 * @param focus
+	 *            whether the view should keep focus afterwards
 	 */
 	public void processInput(String ggbcmd, boolean focus) {
 		getApp().getCommandDictionaryCAS(); // #5456 make sure we have the right
@@ -549,6 +560,10 @@ public abstract class CASView implements Editing, SetLabels {
 
 	}
 
+	/**
+	 * @param casInputHandler
+	 *            input handler
+	 */
 	protected void setCasInputHandler(CASInputHandler casInputHandler) {
 		this.casInputHandler = casInputHandler;
 	}
