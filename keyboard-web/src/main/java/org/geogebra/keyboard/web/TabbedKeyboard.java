@@ -243,7 +243,7 @@ public class TabbedKeyboard extends FlowPanel {
 				return new KeyBoardButtonBase(Unicode.MULTIPLY + "", "*", b);
 			}
 			if (wb.getActionName().equals("/")) {
-				return new KeyBoardButtonBase(Unicode.DIVIDE, "*", b);
+				return new KeyBoardButtonBase(Unicode.DIVIDE, Unicode.DIVIDE, b);
 			}
 			if (wb.getActionName().equals("|")) {
 				return new KeyBoardButtonBase("|a|", "|", b);
