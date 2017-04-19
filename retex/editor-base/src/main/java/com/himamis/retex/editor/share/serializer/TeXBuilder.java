@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
+import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.DefaultTeXFont;
 import com.himamis.retex.renderer.share.EmptyAtom;
@@ -16,6 +17,7 @@ import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
+import com.himamis.retex.renderer.share.SelectionAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXEnvironment;
@@ -26,11 +28,16 @@ public class TeXBuilder {
 	private MathSequence currentField;
 	private int currentOffset;
 	private HashMap<Atom, MathComponent> atomToComponent;
-
+	private MathComponent selectionStart;
+	private MathComponent selectionEnd;
 
 	private Atom buildSequence(MathSequence mathFormula) {
+		return buildSequence(mathFormula, 0, mathFormula.size() - 1);
+	}
+	private Atom buildSequence(MathSequence mathFormula, int from, int to) {
 		RowAtom ra = new RowAtom(null);
-		for(int i=0;i<mathFormula.size();i++){
+		int i= from;
+		while (i <= to) {
 			if (mathFormula == currentField && i == 0 && currentOffset == 0) {
 				addCursor(ra);
 			}
@@ -39,14 +46,30 @@ public class TeXBuilder {
 				String name = ((MathFunction) mathFormula.getArgument(i + 1))
 						.getName();
 				if ("^".equals(name) || "_".equals(name)) {
+					i++;
 					continue;
 				}
 			}
-			ra.add(build(mathFormula.getArgument(i)));
+			
 
-			if (mathFormula == currentField && i == currentOffset - 1) {
+			if (mathFormula.getArgument(i) == selectionStart) {
+				selectionStart = null;
+				SelectionAtom sa = new SelectionAtom(
+						buildSequence(mathFormula, i,
+								selectionEnd.getParentIndex()),
+						ColorAtom.getColor("#CCCCFF"),
+						null);
+				ra.add(sa);
+				i = selectionEnd.getParentIndex();
+			} else {
+				ra.add(build(mathFormula.getArgument(i)));
+			}
+			
+			if (mathFormula == currentField && i == currentOffset - 1
+					&& selectionEnd == null) {
 				addCursor(ra);
 			}
+			i++;
 		}
 		return ra;
 
@@ -115,6 +138,8 @@ public class TeXBuilder {
 		this.currentField = currentField;
 		this.currentOffset = currentOffset;
 		this.atomToComponent = new HashMap<Atom, MathComponent>();
+		this.selectionStart = selectionStart;
+		this.selectionEnd = selectionEnd;
 		return build(rootComponent);
 	}
 
