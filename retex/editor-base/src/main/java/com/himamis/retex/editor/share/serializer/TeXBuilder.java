@@ -5,13 +5,13 @@ import java.util.HashMap;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
+import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.CursorAtom;
-import com.himamis.retex.renderer.share.DefaultTeXFont;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
@@ -20,7 +20,6 @@ import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SelectionAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TeXConstants;
-import com.himamis.retex.renderer.share.TeXEnvironment;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class TeXBuilder {
@@ -37,6 +36,9 @@ public class TeXBuilder {
 	private Atom buildSequence(MathSequence mathFormula, int from, int to) {
 		RowAtom ra = new RowAtom(null);
 		int i= from;
+		if (mathFormula == currentField && to < from) {
+			addCursor(ra);
+		}
 		while (i <= to) {
 			if (mathFormula == currentField && i == 0 && currentOffset == 0) {
 				addCursor(ra);
@@ -77,7 +79,7 @@ public class TeXBuilder {
 
 	private void addCursor(RowAtom ra) {
 		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
-				.createColor(100, 100, 255), 1));
+				.createColor(100, 100, 255), 0.9));
 
 	}
 
@@ -103,14 +105,37 @@ public class TeXBuilder {
 	}
 
 	private Atom buildArray(MathArray argument) {
-		Atom ret = new FencedAtom(buildSequence(argument.getArgument(0)),
-				new SymbolAtom("lbrack", TeXConstants.TYPE_OPENING, true),
-				new SymbolAtom("rbrack", TeXConstants.TYPE_CLOSING, true));
-		System.out.println(
-				ret.createBox(new TeXEnvironment(0, new DefaultTeXFont(12))));
-		return ret;
+		String leftKey = "lbrack";
+		if (argument.getOpenKey() == '[') {
+			leftKey = "lsqbrack";
+		}
+		if (argument.getOpenKey() == '{') {
+			leftKey = "lbrace";
+		}
+		String rightKey = "rbrack";
+		if (argument.getCloseKey() == ']') {
+			rightKey = "rsqbrack";
+		}
+		if (argument.getCloseKey() == '}') {
+			rightKey = "rbrace";
+		}
+
+		return buildFenced(leftKey, rightKey, argument, 0);
 	}
 
+	private Atom buildFenced(String leftKey, String rightKey,
+			MathContainer argument, int offset) {
+		RowAtom row = new RowAtom(null);
+		for (int i = offset; i < argument.size(); i++) {
+			if (i > 0) {
+				row.add(new CharAtom(',', "mathnormal"));
+			}
+			row.add(build(argument.getArgument(i)));
+		}
+		return new FencedAtom(row,
+				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING, true),
+				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING, true));
+	}
 	private Atom buildFunction(MathFunction argument) {
 		if ("^".equals(argument.getName())) {
 			MathSequence parent = argument.getParent();
@@ -129,7 +154,12 @@ public class TeXBuilder {
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1)));
 		}
-		return new CharAtom('F', "mathnormal");
+		RowAtom row = new RowAtom(null);
+		for (int i = 0; i < argument.getName().length(); i++) {
+			row.add(new CharAtom(argument.getName().charAt(i), "mathnormal"));
+		}
+		row.add(buildFenced("lbrack", "rbrack", argument, 0));
+		return row;
 	}
 
 	public Atom build(MathSequence rootComponent, MathSequence currentField,

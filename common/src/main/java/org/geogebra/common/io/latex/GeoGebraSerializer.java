@@ -362,6 +362,8 @@ public class GeoGebraSerializer implements Serializer {
 		mappings.put("rbrack", ")");
 		mappings.put("lsqbrack", "[");
 		mappings.put("rsqbrack", "]");
+		mappings.put("lbrace", "{");
+		mappings.put("rbrace", "}");
 		mappings.put("normaldot", ".");
 		mappings.put("comma", ",");
 	}
