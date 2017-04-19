@@ -2218,7 +2218,7 @@ namespace giac {
   bool in_cklin(const gen & tmp){	
     if (tmp.is_symb_of_sommet(at_neg))
       return in_cklin(tmp._SYMBptr->feuille);
-    if (tmp.is_symb_of_sommet(at_exp))
+    if (tmp.is_symb_of_sommet(at_exp) && has_i(tmp))
       return true;
     if (tmp.is_symb_of_sommet(at_pow))
       return in_cklin(tmp._SYMBptr->feuille[0]);
@@ -2474,10 +2474,14 @@ namespace giac {
     }
 #endif	
     gen g=tsimplify_noexpln(e,s1,s2,contextptr); 
-    g=cklin(g,contextptr);
+    gen glin=cklin(g,contextptr);
+    bool glinb=glin!=g;
+    g=glin;
     g=_exp2pow(g,contextptr);
-    if (s1<=1 && s2<= 1)
-      return ratnormal(quotesubst(g,vabs2,vabs,contextptr),contextptr);
+    if (s1<=1 && s2<= 1){
+      g=quotesubst(g,vabs2,vabs,contextptr);
+      return ratnormal(g,contextptr);//glinb?g:ratnormal(g,contextptr);
+    }
     int te=taille(e,RAND_MAX);
     int tg=taille(g,10*te);
     if (tg>=10*te)
