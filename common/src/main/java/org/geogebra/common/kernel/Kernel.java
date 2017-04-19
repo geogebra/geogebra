@@ -3997,6 +3997,9 @@ public class Kernel {
 	/**
 	 * Remove object from CAS, ignore CAS cells with index -1 as they were
 	 * removed in Construction.removeFromConstructionList
+	 * 
+	 * NB we can't ignore all cells so that construction protocol navigation
+	 * works
 	 */
 	private static void removeFromCAS(View view, GeoElement geo) {
 		if (geo instanceof GeoCasCell
