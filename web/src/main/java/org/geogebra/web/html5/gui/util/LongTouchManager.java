@@ -128,4 +128,12 @@ public final class LongTouchManager {
 		}
 		timer.rescheduleIfRunning(handler, x, y, delayMillis, shouldCancel);
 	}
+	
+	/**
+	 * 
+	 * @return if long touch is just happened.
+	 */
+	public boolean isLongTouchHappened() {
+		return timer.isLongTouchHappened();
+	}
 }

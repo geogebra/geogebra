@@ -262,7 +262,7 @@ public class RadioTreeItemController
 	 * @return if editing can start or not.
 	 */
 	protected boolean canEditStart(MouseEvent<?> event) {
-		return !isMarbleHit(event);
+		return !(isMarbleHit(event) || longTouchManager.isLongTouchHappened());
 	}
 
 
@@ -369,17 +369,20 @@ public class RadioTreeItemController
 
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
+
 		if (isEditing()) {
 			item.adjustCaret(x, y);
 			return;
 		}
+
+		getLongTouchManager().scheduleTimer(this, x, y);
+
 		if (markForEdit() && !item.isInputTreeItem()) {
 			return;
 		}
 		// Do NOT prevent default, kills scrolling on touch
 		// event.preventDefault();
 
-		getLongTouchManager().scheduleTimer(this, x, y);
 
 		handleAVItem(event);
 
@@ -608,11 +611,12 @@ public class RadioTreeItemController
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
-			item.cancelEditing();
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) /*&& isEditing()*/) {
+			//item.cancelEditing();
 			// return;
+			getAV().resetItems(false);
 		}
-
+		
 		onRightClick(x, y);
 	}
 

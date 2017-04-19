@@ -29,6 +29,7 @@ public class LongTouchTimer extends Timer {
 	private LongTouchHandler handler;
 	private int x;
 	private int y;
+	private boolean longTouchHappened = false;
 
 	public LongTouchTimer() {
 		this(null);
@@ -49,6 +50,7 @@ public class LongTouchTimer extends Timer {
 		if (handler == null) {
 			return;
 		}
+		longTouchHappened = true;
 		handler.handleLongTouch(x, y);
 	}
 
@@ -82,6 +84,7 @@ public class LongTouchTimer extends Timer {
 		this.handler = handler;
 		this.x = x;
 		this.y = y;
+		longTouchHappened = false;
 		schedule(delayMillis);
 	}
 
@@ -156,4 +159,9 @@ public class LongTouchTimer extends Timer {
 		}
 		return false;
 	}
+
+	public boolean isLongTouchHappened() {
+		return longTouchHappened;
+	}
+
 }
