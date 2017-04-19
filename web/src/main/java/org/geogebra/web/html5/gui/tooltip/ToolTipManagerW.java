@@ -371,7 +371,7 @@ public final class ToolTipManagerW {
 	 */
 	public void hideBottomInfoToolTip() {
 		cancelTimer();
-		bottomInfoTipPanel.setVisible(false);
+		bottomInfoTipPanel.removeFromParent();
 	}
 
 	// =====================================

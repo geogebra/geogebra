@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -193,6 +194,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public void showBrowser(HeaderPanel bg) {
 		keyBoardNeeded(false, null);
 		GeoGebraFrameW frameLayout = this;
+		ToolTipManagerW.hideAllToolTips();
 		final int count = frameLayout.getWidgetCount();
 		final int oldHeight = this.getOffsetHeight();
 		final int oldWidth = this.getOffsetWidth();
@@ -219,6 +221,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	public void hideBrowser(MyHeaderPanel bg) {
 		remove(bg);
 		lastBG = null;
+		ToolTipManagerW.hideAllToolTips();
 		final int count = getWidgetCount();
 		for (int i = 0; i < count; i++) {
 			if (childVisible.length > i) {
