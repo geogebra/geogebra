@@ -43,7 +43,7 @@ public class Editor implements EntryPoint, MathFieldListener {
 		Element el = DOM.createDiv();
 		el.appendChild(canvas.getCanvasElement());
 		MathFieldW fld = new MathFieldW(parentWidget, canvas,
-				this);
+				this, false);
 		final OnScreenKeyBoard kb = new OnScreenKeyBoard(new KeyboardContext(),
 				false);
 		kb.setListener(new UpdateKeyBoardListener() {

@@ -329,12 +329,24 @@ public class CASTableW extends Grid implements CASTable {
 		return new GPoint(column, row);
 	}
 
+	/**
+	 * @param from
+	 *            min selected row
+	 * @param to
+	 *            max selected row
+	 */
 	public void setSelectedRows(int from, int to) {
 		selectedRows = new int[0];
 		addSelectedRows(from, to);
 		view.getCASStyleBar().setSelectedRow(getGeoCasCell(from));
 	}
 
+	/**
+	 * @param a
+	 *            min or max selected row
+	 * @param b
+	 *            min or max selected row
+	 */
 	public void addSelectedRows(int a, int b) {
 		int from = Math.min(a, b);
 		int to = Math.max(a, b);
@@ -366,6 +378,9 @@ public class CASTableW extends Grid implements CASTable {
 		setRowSelected(rowNumber, b);
 	}
 
+	/**
+	 * @return CAS view
+	 */
 	public CASViewW getCASView() {
 		return view;
 	}

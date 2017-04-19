@@ -152,4 +152,8 @@ public class Dummy {
 			((Row) el).setPreviousAtom(prev);
 		}
 	}
+
+	public Atom getAtom() {
+		return el;
+	}
 }

@@ -98,10 +98,10 @@ public class MathFieldController {
 
     }
 
-	public void getPath(MathFormula mathFormula, int x, int y,
+	public MathComponent getPath(MathFormula mathFormula, int x, int y,
 			ArrayList<Integer> list) {
 		if (texBuilder == null) {
-			return;
+			return null;
 		}
 		Atom root = texBuilder.build(mathFormula.getRootComponent(), null, 0,
 				null, null);
@@ -118,6 +118,8 @@ public class MathFieldController {
 			current = current.getChild(list.get(i));
 			System.out.println(current + ":" + current.getAtom());
 		}
+		return texBuilder.getComponent(current.getAtom());
+
 	}
 
 	public void getSelectedPath(MathFormula mathFormula,

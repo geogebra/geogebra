@@ -75,11 +75,11 @@ public class MathFieldD extends JLabel implements MathField {
 		SelectionBox.touchSelection = false;
 		setBackground(Color.white);
 		setCursor(Cursor.getPredefinedCursor(Cursor.TEXT_CURSOR));
-		mathFieldInternal = new MathFieldInternal(this);
+		mathFieldInternal = new MathFieldInternal(this, true);
 		mathFieldInternal.setFormula(MathFormula.newFormula(metaModel));
 		mathFieldInternal.setSelectionMode(true);
 		mathFieldInternal.setType(TeXFormula.SANSSERIF);
-		mathFieldInternal.setSize(72);
+		mathFieldInternal.setSize(36);
 		this.setVerticalAlignment(SwingConstants.TOP);
 		Timer t = new Timer(500, new ActionListener() {
 

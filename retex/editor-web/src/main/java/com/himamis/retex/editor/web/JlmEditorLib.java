@@ -68,7 +68,7 @@ public class JlmEditorLib extends JlmLib {
 						// TODO Auto-generated method stub
 						return false;
 					}
-				});
+				}, false);
 		fld.requestViewFocus();
 	}
 

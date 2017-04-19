@@ -106,11 +106,11 @@ public class MathFieldW implements MathField, IsWidget {
 	 *            listener for special events
 	 */
 	public MathFieldW(Panel parent, Canvas canvas,
-			MathFieldListener listener) {
+			MathFieldListener listener, boolean directFormulaBuilder) {
 		html = canvas;
 		bottomOffset = 10;
 		this.parent = parent;
-		mathFieldInternal = new MathFieldInternal(this);
+		mathFieldInternal = new MathFieldInternal(this, directFormulaBuilder);
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);

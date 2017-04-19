@@ -80,9 +80,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 
 	private boolean directFormulaBuilder;
 
-    public MathFieldInternal(MathField mathField) {
+	public MathFieldInternal(MathField mathField) {
+		this(mathField, false);
+	}
+
+	public MathFieldInternal(MathField mathField,
+			boolean directFormulaBuilder) {
         this.mathField = mathField;
-		this.directFormulaBuilder = false;
+		this.directFormulaBuilder = directFormulaBuilder;
         cursorController = new CursorController();
 		inputController = new InputController(mathField.getMetaModel());
         keyListener = new KeyListenerImpl(cursorController, inputController);
@@ -383,8 +388,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	
 	private void moveToSelectionDirect(int x, int y) {
 		ArrayList<Integer> list2 = new ArrayList<Integer>();
-		mathFieldController.getPath(mathFormula, x, y,
+		MathComponent mc = mathFieldController.getPath(mathFormula, x, y,
 				list2);
+		if (mc != null) {
+			editorState.setCurrentField((MathSequence) mc.getParent());
+			editorState.setCurrentOffset(mc.getParentIndex());
+		}
 	}
 	private void moveToSelection(int x, int y) {
 		if (this.directFormulaBuilder) {

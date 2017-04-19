@@ -1,5 +1,7 @@
 package com.himamis.retex.editor.share.serializer;
 
+import java.util.HashMap;
+
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -9,6 +11,7 @@ import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.DefaultTeXFont;
+import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.RowAtom;
@@ -22,9 +25,10 @@ public class TeXBuilder {
 
 	private MathSequence currentField;
 	private int currentOffset;
+	private HashMap<Atom, MathComponent> atomToComponent;
 
 
-	private Atom build(MathSequence mathFormula) {
+	private Atom buildSequence(MathSequence mathFormula) {
 		RowAtom ra = new RowAtom(null);
 		for(int i=0;i<mathFormula.size();i++){
 			if (mathFormula == currentField && i == 0 && currentOffset == 0) {
@@ -55,21 +59,28 @@ public class TeXBuilder {
 	}
 
 	private Atom build(MathComponent argument) {
+		Atom ret = null;
 		if (argument instanceof MathCharacter) {
-			return new CharAtom(((MathCharacter) argument).getUnicode(),
+			ret = new CharAtom(((MathCharacter) argument).getUnicode(),
 					"mathnormal");
 		}
-		if (argument instanceof MathFunction) {
-			return buildFunction((MathFunction) argument);
+		else if (argument instanceof MathFunction) {
+			ret = buildFunction((MathFunction) argument);
 		}
-		if (argument instanceof MathArray) {
-			return buildArray((MathArray) argument);
+		else if (argument instanceof MathArray) {
+			ret = buildArray((MathArray) argument);
 		}
-		return new CharAtom('X', "mathnormal");
+		else if (argument instanceof MathSequence) {
+			ret = buildSequence((MathSequence) argument);
+		} else {
+			ret = new EmptyAtom();
+		}
+		atomToComponent.put(ret, argument);
+		return ret;
 	}
 
 	private Atom buildArray(MathArray argument) {
-		Atom ret = new FencedAtom(build(argument.getArgument(0)),
+		Atom ret = new FencedAtom(buildSequence(argument.getArgument(0)),
 				new SymbolAtom("lbrack", TeXConstants.TYPE_OPENING, true),
 				new SymbolAtom("rbrack", TeXConstants.TYPE_CLOSING, true));
 		System.out.println(
@@ -103,7 +114,13 @@ public class TeXBuilder {
 			MathComponent selectionEnd) {
 		this.currentField = currentField;
 		this.currentOffset = currentOffset;
+		this.atomToComponent = new HashMap<Atom, MathComponent>();
 		return build(rootComponent);
+	}
+
+	public MathComponent getComponent(Atom atom) {
+		// TODO Auto-generated method stub
+		return atomToComponent.get(atom);
 	}
 
 }

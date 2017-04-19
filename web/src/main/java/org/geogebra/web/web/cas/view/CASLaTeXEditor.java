@@ -8,6 +8,7 @@ import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
@@ -70,7 +71,8 @@ public class CASLaTeXEditor extends FlowPanel
 		this.table = table;
 		this.controller = controller;
 		Canvas canvas = Canvas.createIfSupported();
-		mf = new MathFieldW(this, canvas, this);
+		mf = new MathFieldW(this, canvas, this,
+				app.has(Feature.DIRECT_FORMULA_CONVERSION));
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);

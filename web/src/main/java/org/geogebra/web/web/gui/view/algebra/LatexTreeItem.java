@@ -155,7 +155,8 @@ public class LatexTreeItem extends RadioTreeItem {
 			latexItem = new FlowPanel();
 		}
 		mf = new MathFieldW(latexItem, canvas,
-				getLatexController());
+				getLatexController(),
+				app.has(Feature.DIRECT_FORMULA_CONVERSION));
 		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setOnBlur(getLatexController());

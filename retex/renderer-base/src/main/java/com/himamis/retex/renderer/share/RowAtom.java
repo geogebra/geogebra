@@ -220,7 +220,10 @@ public class RowAtom extends Atom implements Row {
 			// insert glue, unless it's the first element of the row
 			// OR this element or the next is a Kern.
 			if (it.previousIndex() != 0 && previousAtom != null && !previousAtom.isKern() && !atom.isKern()) {
-				hBox.add(Glue.get(previousAtom.getRightType(), atom.getLeftType(), env));
+				Box glue = Glue.get(previousAtom.getRightType(),
+						atom.getLeftType(), env);
+				glue.setAtom(previousAtom.getAtom());
+				hBox.add(glue);
 			}
 
 			// insert atom's box
