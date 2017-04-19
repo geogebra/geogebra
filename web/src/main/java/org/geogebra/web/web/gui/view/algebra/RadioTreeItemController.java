@@ -101,8 +101,15 @@ public class RadioTreeItemController
 	}
 
 	protected boolean isMarbleHit(MouseEvent<?> evt) {
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(evt,
+				ZeroOffset.instance);
+	
 		if (item.marblePanel != null
 				&& item.marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
+			if (app.isRightClick(wrappedEvent)) {
+				onRightClick(evt.getClientX(), evt.getClientY());
+				return false;
+			}
 			return true;
 		}
 
