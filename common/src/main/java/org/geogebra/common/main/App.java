@@ -4194,6 +4194,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case ADVANCED_OPTIONS:
 			return prerelease;
+		case DIRECT_FORMULA_CONVERSION:
+			return canary;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
