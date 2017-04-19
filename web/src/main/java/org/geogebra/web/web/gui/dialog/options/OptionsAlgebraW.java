@@ -34,7 +34,9 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	private CheckBox showAuxiliaryObjects;
 	private ListBox sortMode;
 	private AlgebraStyleListBox description;
+	private Label lblCoordStyle;
 	private ListBox coordStyle;
+	private Label lblAngleUnit;
 	private ListBox angleUnit;
 	private Label lblSortMode;
 	private Label lblDescriptionMode;
@@ -61,7 +63,11 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		sortMode = new ListBox();
 		description = new AlgebraStyleListBox(app);
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			lblCoordStyle = new Label(
+					app.getLocalization().getMenu("Coordinates") + ":");
 			coordStyle = new ListBox();
+			lblAngleUnit = new Label(
+					app.getLocalization().getMenu("AngleUnit") + ":");
 			angleUnit = new ListBox();
 		}
 
@@ -72,9 +78,11 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		optionsPanel.add(lblDescriptionMode);
 		optionsPanel.add(LayoutUtilW.panelRowIndent(description));
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			optionsPanel.add(LayoutUtilW.panelRowIndent(coordStyle));
+			optionsPanel
+					.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
 			coordStyle.addChangeHandler(this);
-			optionsPanel.add(LayoutUtilW.panelRowIndent(angleUnit));
+			optionsPanel
+					.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
 			angleUnit.addChangeHandler(this);
 		}
 		sortMode.addChangeHandler(this);
@@ -111,6 +119,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 
 	private void updateCoordStyle() {
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			lblCoordStyle.setText(
+					app.getLocalization().getMenu("Coordinates") + ":");
 			coordStyle.clear();
 			coordStyle.addItem(app.getLocalization().getMenu("A = (x, y)"));
 			coordStyle.addItem(app.getLocalization().getMenu("A(x | y)"));
@@ -122,6 +132,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 
 	private void updateAngleUnit() {
 		if (app.has(Feature.ADVANCED_OPTIONS)) {
+			lblAngleUnit
+					.setText(app.getLocalization().getMenu("AngleUnit") + ":");
 			angleUnit.clear();
 			angleUnit.addItem(app.getLocalization().getMenu("Degree"));
 			angleUnit.addItem(app.getLocalization().getMenu("Radiant"));
