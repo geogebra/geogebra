@@ -453,6 +453,9 @@ public class ConstructionDefaults {
 		function.setLineThickness(3);
 		function.remove();
 		function.setAutoColor(true);
+		if (cons.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)) {
+			function.setFixed(true);
+		}
 
 		defaultGeoElements.put(DEFAULT_FUNCTION, function);
 

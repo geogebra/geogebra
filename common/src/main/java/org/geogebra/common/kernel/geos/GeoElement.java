@@ -1643,7 +1643,7 @@ public abstract class GeoElement extends ConstructionElement
 		setAuxiliaryObject(geo.isAuxiliaryObject());
 
 		// set fixed
-		setFixed(geo.isFixed());
+		setFixed(geo.isLocked());
 
 		// if layer is not zero (eg a new object has layer set to
 		// ev.getMaxLayerUsed())
@@ -1933,7 +1933,13 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/** @return true if this is fixed (moving & deleting forbidden) */
-	public boolean isFixed() {
+	@Deprecated
+	public final boolean isFixed() {
+		return fixed;
+	}
+
+	/** @return true if this is fixed (moving forbidden, deleting OK) */
+	public boolean isLocked() {
 		return fixed;
 	}
 
@@ -1966,7 +1972,7 @@ public abstract class GeoElement extends ConstructionElement
 	final public void removeOrSetUndefinedIfHasFixedDescendent() {
 
 		// can't delete a fixed object at all
-		if (isFixed()) {
+		if (isProtected()) {
 			return;
 		}
 
@@ -1975,7 +1981,7 @@ public abstract class GeoElement extends ConstructionElement
 		final Set<GeoElement> tree = getAllChildren();
 		final Iterator<GeoElement> it = tree.iterator();
 		while (it.hasNext() && !hasFixedDescendent) {
-			if (it.next().isFixed()) {
+			if (it.next().isProtected()) {
 				hasFixedDescendent = true;
 			}
 		}
@@ -2302,7 +2308,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this geo can be changed directly
 	 */
 	public boolean isChangeable() {
-		return !fixed && isIndependent();
+		return !isLocked() && isIndependent();
 	}
 
 	/**
@@ -2321,11 +2327,19 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
-		return !fixed && kernel.getApplication().letRedefine()
+		return !isProtected() && kernel.getApplication().letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
 				&& (isChangeable() || // redefine changeable (independent and
 										// not fixed)
 						!isIndependent()); // redefine dependent object
+	}
+
+	/**
+	 * @return whether this is protected against deleting and editing
+	 */
+	public boolean isProtected() {
+		return kernel.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)
+				? false : fixed;
 	}
 
 	/**
@@ -6691,7 +6705,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public boolean doHighlighting() {
 		return (highlighted || selected)
-				&& (!isFixed() || isSelectionAllowed(null));
+				&& (!isLocked() || isSelectionAllowed(null));
 	}
 
 	/**

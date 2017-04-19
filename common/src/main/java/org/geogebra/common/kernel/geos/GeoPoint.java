@@ -396,10 +396,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// make sure Point[circle, param] is not draggable
 		if (algo instanceof FixedPathRegionAlgo) {
 			return ((FixedPathRegionAlgo) algo).isChangeable(point)
-					&& !point.isFixed();
+					&& !point.isLocked();
 		}
 
-		return !point.isFixed() && (point.isIndependent()
+		return !point.isLocked() && (point.isIndependent()
 				|| point.isPointOnPath() || point.isPointInRegion());
 	}
 
@@ -518,7 +518,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	final public boolean hasChangeableCoordParentNumbers() {
 
-		if (isFixed()) {
+		if (isLocked()) {
 			return false;
 		}
 
@@ -2362,7 +2362,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		if (hasChangeableCoordParentNumbers()) {
 			return MOVE_MODE_XY;
 		}
-		if (!isIndependent() || isFixed()) {
+		if (!isIndependent() || isLocked()) {
 			return MOVE_MODE_NONE;
 		} else if (isPointOnPath()) {
 			return MOVE_MODE_Z;

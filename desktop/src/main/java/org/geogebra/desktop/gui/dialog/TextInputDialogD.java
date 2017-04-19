@@ -1095,7 +1095,8 @@ public class TextInputDialogD extends InputDialogD
 		@Override
 		public void processInput(String inputValue0, ErrorHandler handler,
 				final AsyncOperation<Boolean> callback) {
-			if (inputValue0 == null || (editGeo != null && editGeo.isFixed())
+			if (inputValue0 == null
+					|| (editGeo != null && editGeo.isProtected())
 					|| (editGeo != null && !editGeo.isLabelSet())) {
 				callback.callback(false);
 				return;

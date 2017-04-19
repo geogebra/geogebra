@@ -1393,7 +1393,7 @@ public abstract class EuclidianController {
 		while (it.hasNext()) {
 			geo = it.next();
 
-			if (!highlight || !geo.isFixed()) {
+			if (!highlight || !geo.isLocked()) {
 				geo.setHighlighted(highlight);
 			}
 		}
@@ -1528,7 +1528,7 @@ public abstract class EuclidianController {
 		case 1:
 			ret = geos.get(0);
 
-			if (!includeFixed && ret.isFixed()) {
+			if (!includeFixed && ret.isLocked()) {
 				return null;
 			}
 
@@ -1546,7 +1546,7 @@ public abstract class EuclidianController {
 				GeoElement geo = (geos.get(i));
 				int layer = geo.getLayer();
 
-				if ((layer > maxLayer) && (includeFixed || !geo.isFixed())) {
+				if ((layer > maxLayer) && (includeFixed || !geo.isLocked())) {
 					maxLayer = layer;
 					layerCount = 1;
 					ret = geo;
@@ -1573,7 +1573,7 @@ public abstract class EuclidianController {
 				GeoElement geo = (geos.get(i));
 
 				if (geo.isGeoPoint() && (geo.getLayer() == maxLayer)
-						&& (includeFixed || !geo.isFixed())) {
+						&& (includeFixed || !geo.isLocked())) {
 					pointCount++;
 					ret = geo;
 
@@ -1651,7 +1651,7 @@ public abstract class EuclidianController {
 
 				allFixed = true;
 				for (int i = 0; i < geos.size(); i++) {
-					if (!geos.get(i).isFixed()) {
+					if (!geos.get(i).isLocked()) {
 						allFixed = false;
 					}
 				}
@@ -1659,7 +1659,7 @@ public abstract class EuclidianController {
 				if (!allFixed) {
 					for (int i = geos.size() - 1; i >= 0; i--) {
 						GeoElement geo = geos.get(i);
-						if (geo.isFixed()) {
+						if (geo.isLocked()) {
 							geos.remove(i);
 						}
 					}
@@ -7050,7 +7050,7 @@ public abstract class EuclidianController {
 				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
 					// double-click slider -> Object Properties
 					getDialogManager().showPropertiesDialog(hits);
-				} else if (!geo0.isFixed()
+				} else if (!geo0.isProtected()
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
 						&& geo0.isRedefineable()
 						&& !geo0.isGeoButton() && !(geo0.isGeoList()
@@ -7818,7 +7818,7 @@ public abstract class EuclidianController {
 		}
 		GeoButton button = (GeoButton) geo;
 		return (!button.isTextField() && ((temporaryMode
-				&& app.isRightClickEnabled() || !button.isFixed()
+				&& app.isRightClickEnabled() || !button.isLocked()
 				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
 	}
 
@@ -7828,7 +7828,7 @@ public abstract class EuclidianController {
 		}
 		GeoInputBox textField = (GeoInputBox) geo;
 		return (textField.isTextField() && ((temporaryMode
-				&& app.isRightClickEnabled() || !textField.isFixed()
+				&& app.isRightClickEnabled() || !textField.isLocked()
 				|| app.getMode() == EuclidianConstants.MODE_TEXTFIELD_ACTION)));
 	}
 
@@ -8390,7 +8390,7 @@ public abstract class EuclidianController {
 
 			geo = th.get(0);
 
-			if (geo.isFixed() && !isMoveButtonExpected(geo)
+			if (geo.isLocked() && !isMoveButtonExpected(geo)
 					&& !isMoveTextFieldExpected(geo)) {
 				runScriptsIfNeeded(geo);
 				moveMode = MOVE_NONE;
@@ -8400,7 +8400,7 @@ public abstract class EuclidianController {
 			}
 		}
 
-		if ((geo != null) && (!geo.isFixed() || isMoveButtonExpected(geo)
+		if ((geo != null) && (!geo.isLocked() || isMoveButtonExpected(geo)
 				|| isMoveTextFieldExpected(geo))) {
 
 			moveModeSelectionHandled = true;

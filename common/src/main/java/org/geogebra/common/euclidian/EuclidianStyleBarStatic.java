@@ -883,7 +883,7 @@ public class EuclidianStyleBarStatic {
 	 */
 	final static public boolean checkSelectedFixObject(GeoElement geo) {
 
-		return geo.isFixed();
+		return geo.isLocked();
 
 	}
 

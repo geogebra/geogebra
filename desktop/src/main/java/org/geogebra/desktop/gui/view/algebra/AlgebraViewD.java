@@ -432,7 +432,7 @@ public class AlgebraViewD extends AlgebraTree
 			}
 
 			if (!geo.isChangeable()) {
-				if (geo.isFixed()) {
+				if (geo.isProtected()) {
 					// app.showMessage(app.getError("AssignmentToFixed"));
 				} else if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);

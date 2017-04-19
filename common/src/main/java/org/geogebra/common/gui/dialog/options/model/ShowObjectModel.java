@@ -47,7 +47,7 @@ public class ShowObjectModel extends BooleanOptionModel {
 		if (!geo.isDrawable()
 				// can't allow a free fixed number to become visible (as a
 				// slider)
-				|| (geo.isGeoNumeric() && geo.isFixed())) {
+				|| (geo.isGeoNumeric() && geo.isLocked())) {
 			isValid = false;
 
 		}

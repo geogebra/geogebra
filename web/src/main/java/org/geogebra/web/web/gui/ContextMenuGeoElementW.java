@@ -331,7 +331,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					String img;
 					if (isWhiteboard()) {
-						if (getGeo().isFixed()) {
+						if (getGeo().isLocked()) {
 							img = AppResources.INSTANCE.unlock20().getSafeUri()
 									.asString();
 						} else {
@@ -366,7 +366,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								}, true, app);						
 					}
 
-					cbItem.setSelected(getGeo().isFixed());
+					cbItem.setSelected(getGeo().isLocked());
 					wrappedPopup.addItem(cbItem);
 				} else if (getGeo().isGeoNumeric()) {
 					final GeoNumeric num = (GeoNumeric) getGeo();
@@ -374,7 +374,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 						String img;
 						if (isWhiteboard()) {
-							if (getGeo().isFixed()) {
+							if (getGeo().isLocked()) {
 								img = AppResources.INSTANCE.unlock20()
 										.getSafeUri().asString();
 							} else {
@@ -534,7 +534,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				loc.getMenu("Rename"));
 
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
-				&& !getGeo().isTextCommand() && !getGeo().isFixed()) {
+				&& !getGeo().isTextCommand() && !getGeo().isProtected()) {
 
 			String img2;
 			if (isWhiteboard()) {
@@ -673,12 +673,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						boolean dsVisible = app.getActiveEuclidianView()
 								.getDynamicStyleBar().isVisible();
 						EuclidianStyleBarStatic.applyFixObject(geoArray,
-								!geo.isFixed(), app.getActiveEuclidianView());
+								!geo.isLocked(), app.getActiveEuclidianView());
 						app.getActiveEuclidianView().getDynamicStyleBar()
 								.setVisible(dsVisible);
 					} else {
 						EuclidianStyleBarStatic.applyFixObject(geoArray,
-								!geo.isFixed(), app.getActiveEuclidianView());
+								!geo.isLocked(), app.getActiveEuclidianView());
 					}
 
 				}
@@ -689,7 +689,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			String img;
 			if (isWhiteboard()) {
-				if (geo.isFixed()) {
+				if (geo.isLocked()) {
 					img = AppResources.INSTANCE.unlock20().getSafeUri()
 							.asString();
 				} else {
@@ -707,7 +707,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnlockObject"), loc.getMenu("LockObject"),
 						cmd, true, app);
-				mi.setSelected(getGeo().isFixed());
+				mi.setSelected(getGeo().isLocked());
 				wrappedPopup.addItem(mi);
 			} else {
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
@@ -837,7 +837,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		boolean canDelete = app.letDelete() && !getGeo().isFixed();
+		boolean canDelete = app.letDelete() && !getGeo().isProtected();
 		mnuCut.setEnabled(canDelete);
 		updatePasteItem();
 		mnuDelete.setEnabled(canDelete);
@@ -1144,7 +1144,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		if (getGeo().isFixed()) {
+		if (getGeo().isProtected()) {
 			return;
 		}
 

@@ -1322,7 +1322,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			return MOVE_MODE_NONE;
 		}
 
-		if (isFixed()) {
+		if (isLocked()) {
 			return MOVE_MODE_NONE;
 		}
 
@@ -2136,7 +2136,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	final public boolean hasChangeableCoordParentNumbers() {
 
-		if (isFixed()) {
+		if (isLocked()) {
 			return false;
 		}
 

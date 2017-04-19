@@ -1102,7 +1102,7 @@ public abstract class App implements UpdateSelection {
 			Object[] geos = selection.getSelectedGeos().toArray();
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isFixed()) {
+				if (!geo.isProtected()) {
 					if (isCut || geo.isShape()) {
 						if (geo.getParentAlgorithm() != null) {
 							for (GeoElement ge : geo
@@ -1120,7 +1120,7 @@ public abstract class App implements UpdateSelection {
 					.getEuclidianController().getJustCreatedGeos();
 			for (int j = 0; j < geos2.size(); j++) {
 				GeoElement geo = geos2.get(j);
-				if (!geo.isFixed()) {
+				if (!geo.isProtected()) {
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
 			}
@@ -4196,6 +4196,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case DIRECT_FORMULA_CONVERSION:
 			return canary;
+		case FIXED_OBJECTS_EDITABLE:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

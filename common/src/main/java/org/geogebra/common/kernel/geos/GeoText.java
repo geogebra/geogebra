@@ -460,7 +460,7 @@ public class GeoText extends GeoElement
 			return false;
 		}
 
-		return !isFixed();
+		return !isLocked();
 	}
 
 	/**

@@ -342,7 +342,7 @@ public class TextOptionsModel extends OptionsModel {
 	public boolean isTextEditable() {
 		return getGeosLength() == 1 && getObjectAt(0) instanceof GeoText
 				&& !getGeoTextAt(0).isTextCommand()
-				&& !getGeoTextAt(0).isFixed();
+				&& !getGeoTextAt(0).isProtected();
 	}
 
 	@Override

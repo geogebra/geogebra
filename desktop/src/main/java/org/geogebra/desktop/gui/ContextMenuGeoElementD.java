@@ -137,7 +137,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			return;
 		}
 
-		if (getGeo().isFixed()) {
+		if (getGeo().isProtected()) {
 			return;
 		}
 
@@ -625,7 +625,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 				cbItem = new JCheckBoxMenuItem(loc.getMenu("FixObject"));
 				((AppD) app).setEmptyIcon(cbItem);
-				cbItem.setSelected(getGeo().isFixed());
+				cbItem.setSelected(getGeo().isLocked());
 				cbItem.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
@@ -686,7 +686,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		// EDITING
 		// EDIT Text in special dialog
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
-				&& !getGeo().isTextCommand() && !getGeo().isFixed()) {
+				&& !getGeo().isTextCommand() && !getGeo().isProtected()) {
 			addAction(new AbstractAction(loc.getMenu("Edit"),
 					((AppD) app).getScaledIcon(GuiResourcesD.EDIT)) {
 				private static final long serialVersionUID = 1L;
@@ -699,7 +699,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		// DELETE
-		if (app.letDelete() && !getGeo().isFixed()) {
+		if (app.letDelete() && !getGeo().isProtected()) {
 			addAction(new AbstractAction(loc.getMenu("Delete"),
 					((AppD) app).getScaledIcon(GuiResourcesD.DELETE_SMALL)) {
 				/**

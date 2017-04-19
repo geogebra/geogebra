@@ -1817,7 +1817,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			if (!geo.isChangeable()) {
-				if (geo.isFixed()) {
+				if (geo.isProtected()) {
 					app.showMessage(loc.getError("AssignmentToFixed"));
 					return;
 				} else if (geo.isRedefineable()

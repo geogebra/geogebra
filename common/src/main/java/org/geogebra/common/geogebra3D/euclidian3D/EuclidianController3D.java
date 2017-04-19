@@ -3338,7 +3338,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// return super.chooseGeo(geos, includeFixed);
 			// return first element : ordering done in hits
 			GeoElement geo = geos.get(0);
-			if (!includeFixed && geo.isFixed()) {
+			if (!includeFixed && geo.isLocked()) {
 				return null;
 			}
 

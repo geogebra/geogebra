@@ -756,7 +756,7 @@ public abstract class GlobalKeyDispatcher {
 								|| (geo.isGeoList()
 										&& ((GeoList) geo).drawAsComboBox())
 								|| geo.isGeoBoolean()
-								|| (geo.isGeoPoint() && !geo.isFixed())) {
+								|| (geo.isGeoPoint() && !geo.isLocked())) {
 
 							geo.setSelectionAllowed(true);
 						} else {

@@ -1699,7 +1699,7 @@ public class AlgebraProcessor {
 			for (int i = 0; i < labels.length; i++) {
 				GeoElement geo = kernel.lookupLabel(labels[i]);
 				if (geo != null) {
-					if (geo.isFixed()) {
+					if (geo.isProtected()) {
 						String[] strs = { "IllegalAssignment",
 								"AssignmentToFixed", ":\n",
 								geo.getLongDescription() };

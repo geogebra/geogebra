@@ -29,7 +29,7 @@ public class CoordsModel extends MultipleOptionsModel {
 		}
 
 		// check if fixed
-		if (geo.isFixed()) {
+		if (geo.isProtected()) {
 			valid = false;
 		}
 		return valid;

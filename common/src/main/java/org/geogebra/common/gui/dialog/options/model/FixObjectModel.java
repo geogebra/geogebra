@@ -23,6 +23,6 @@ public class FixObjectModel extends BooleanOptionModel {
 
 	@Override
 	public boolean getValueAt(int index) {
-		return getGeoAt(index).isFixed();
+		return getGeoAt(index).isLocked();
 	}
 }
