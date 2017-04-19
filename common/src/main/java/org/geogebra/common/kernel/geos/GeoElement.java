@@ -2308,7 +2308,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this geo can be changed directly
 	 */
 	public boolean isChangeable() {
-		return !isLocked() && isIndependent();
+		return !isProtected() && isIndependent();
 	}
 
 	/**
