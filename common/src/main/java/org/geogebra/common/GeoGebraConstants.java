@@ -34,6 +34,8 @@ public interface GeoGebraConstants {
 
 		IOS_NATIVE("i"),
 
+		IOS_GEOMETRY("ig"),
+
 		IOS_WEBVIEW("iw"),
 
 		WEB_FOR_DESKTOP("offline"),
