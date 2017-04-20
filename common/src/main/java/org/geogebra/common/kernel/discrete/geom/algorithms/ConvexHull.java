@@ -145,7 +145,7 @@ public class ConvexHull {
 		}
 	}
 
-	private static Double polarAngle(Point2D p0, Point2D p1) {
+	static Double polarAngle(Point2D p0, Point2D p1) {
 		if (p0.equals(p1)) {
 			return null;
 		}

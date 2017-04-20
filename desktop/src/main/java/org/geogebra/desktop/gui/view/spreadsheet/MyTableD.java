@@ -1144,7 +1144,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++) {
 						if (tableModel.getValueAt(i, j) instanceof GeoElement) {
 							showBlueDot &= !((GeoElement) tableModel
-									.getValueAt(i, j)).isFixed();
+									.getValueAt(i, j)).isProtected();
 						}
 					}
 				}
@@ -1465,7 +1465,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// prevent editing fixed geos when allowEditing == true
 		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
-		if (geo != null && geo.isFixed()) {
+		if (geo != null && geo.isProtected()) {
 			return false;
 		}
 

@@ -419,7 +419,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					String img;
 					if (isWhiteboard()) {
-						if (getGeo().isFixed()) {
+						if (getGeo().isLocked()) {
 							img = AppResources.INSTANCE.unlock20().getSafeUri()
 									.asString();
 						} else {
@@ -457,7 +457,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		// DELETE
-		if (app.letDelete() && !getGeo().isFixed() && !isWhiteboard()) {
+		if (app.letDelete() && !getGeo().isProtected() && !isWhiteboard()) {
 
 			String img;
 			if (isWhiteboard()) {

@@ -13,7 +13,7 @@ public class SpreadsheetController {
 	}
 
 	public boolean redefineIfNeeded(GeoElement geo) {
-		if (!geo.isFixed()) {
+		if (!geo.isProtected()) {
 			if (!geo.isGeoText() && !geo.isIndependent()
 					&& getEditorInitString(geo).length() > 20) {
 				app.getDialogManager().showRedefineDialog(geo, false);

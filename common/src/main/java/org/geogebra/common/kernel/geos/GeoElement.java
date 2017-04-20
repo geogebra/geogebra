@@ -1932,12 +1932,6 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	/** @return true if this is fixed (moving & deleting forbidden) */
-	@Deprecated
-	public final boolean isFixed() {
-		return fixed;
-	}
-
 	/** @return true if this is fixed (moving forbidden, deleting OK) */
 	public boolean isLocked() {
 		return fixed;
@@ -2346,7 +2340,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isProtected() {
 		return kernel.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)
-				? false : fixed;
+				? isLocked() && this.getSpreadsheetCoords() != null : fixed;
 	}
 
 	/**

@@ -279,7 +279,7 @@ public class Point_dt {
 	}
 }
 
-class Compare implements Comparator {
+class Compare implements Comparator<Point_dt> {
 	private int _flag;
 
 	public Compare(int i) {
@@ -288,12 +288,9 @@ class Compare implements Comparator {
 
 	/** compare between two points. */
 	@Override
-	public int compare(Object o1, Object o2) {
+	public int compare(Point_dt d1, Point_dt d2) {
 		int ans = 0;
-		if (o1 != null && o2 != null && o1 instanceof Point_dt
-				&& o2 instanceof Point_dt) {
-			Point_dt d1 = (Point_dt) o1;
-			Point_dt d2 = (Point_dt) o2;
+		if (d1 != null && d2 != null) {
 			if (_flag == 0) {
 				if (greaterThan(d1.x, d2.x)) {
 					return 1;
@@ -353,13 +350,13 @@ class Compare implements Comparator {
 				}
 			}
 		} else {
-			if (o1 == null && o2 == null) {
+			if (d1 == null && d2 == null) {
 				return 0;
 			}
-			if (o1 == null && o2 != null) {
+			if (d1 == null && d2 != null) {
 				return 1;
 			}
-			if (o1 != null && o2 == null) {
+			if (d1 != null && d2 == null) {
 				return -1;
 			}
 		}

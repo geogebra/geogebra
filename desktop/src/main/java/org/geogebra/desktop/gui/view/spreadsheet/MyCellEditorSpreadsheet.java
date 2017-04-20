@@ -431,7 +431,7 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 								.lookupLabel(cellBelowStr);
 
 						boolean moveDown = cellBelow == null
-								|| !cellBelow.isFixed();
+								|| !cellBelow.isProtected();
 
 						// don't move down to cell below after <Enter> if it's
 						// fixed

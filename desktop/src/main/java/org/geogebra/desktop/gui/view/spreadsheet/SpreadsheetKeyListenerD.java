@@ -429,7 +429,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				table.getSelectedColumn());
 		if (o != null && o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isFixed()) {
+			if (geo.isProtected()) {
 				return;
 			}
 		}

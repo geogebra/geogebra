@@ -118,7 +118,7 @@ public class SpreadsheetContextMenu {
 				? MenuCommand.DeleteObjects.toString()
 				: MenuCommand.Delete.toString();
 
-		addMenuItem(cmdString, loc.getMenu(cmdString), !allFixed());
+		addMenuItem(cmdString, loc.getMenu(cmdString), !allProtected());
 
 	}
 
@@ -367,12 +367,12 @@ public class SpreadsheetContextMenu {
 		return false;
 	}
 
-	private boolean allFixed() {
+	private boolean allProtected() {
 		boolean allFixed = true;
 		if (geos != null && geos.size() > 0) {
 			for (int i = 0; (i < geos.size() && allFixed); i++) {
 				GeoElement geo = geos.get(i);
-				if (!geo.isFixed()) {
+				if (!geo.isProtected()) {
 					allFixed = false;
 				}
 			}

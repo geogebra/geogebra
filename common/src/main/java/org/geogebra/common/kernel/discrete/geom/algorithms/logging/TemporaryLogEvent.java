@@ -27,5 +27,5 @@ package org.geogebra.common.kernel.discrete.geom.algorithms.logging;
  * @author cyberpython
  */
 public abstract class TemporaryLogEvent extends LogEvent {
-
+	// intentionally left blank
 }

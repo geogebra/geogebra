@@ -109,28 +109,28 @@ public class DrawLabel3D {
 	 * 
 	 * @param text
 	 * @param fontsize
-	 * @param color
+	 * @param fgColor
 	 * @param v
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public void update(String text, GFont font0, GColor backgroundColor,
-			GColor color, Coords v, float xOffset, float yOffset) {
+	public void update(String text, GFont font0, GColor bgColor,
+			GColor fgColor, Coords v, float xOffset, float yOffset) {
 
 		this.origin = v;
 		if (text.length() == 0) {
 			return;
 		}
 
-		this.color = new Coords((double) color.getRed() / 255,
-				(double) color.getGreen() / 255, (double) color.getBlue() / 255,
+		this.color = new Coords((double) fgColor.getRed() / 255,
+				(double) fgColor.getGreen() / 255, (double) fgColor.getBlue() / 255,
 				1);
 
-		if (backgroundColor != null) {
+		if (bgColor != null) {
 			this.backgroundColor = new Coords(
-					(double) backgroundColor.getRed() / 255,
-					(double) backgroundColor.getGreen() / 255,
-					(double) backgroundColor.getBlue() / 255, 1);
+					(double) bgColor.getRed() / 255,
+					(double) bgColor.getGreen() / 255,
+					(double) bgColor.getBlue() / 255, 1);
 		} else {
 			this.backgroundColor = null;
 		}

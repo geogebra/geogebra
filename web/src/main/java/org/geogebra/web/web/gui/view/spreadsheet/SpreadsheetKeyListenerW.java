@@ -517,7 +517,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		        table.getSelectedColumn());
 		if (o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isFixed()) {
+			if (geo.isProtected()) {
 				return;
 			}
 		}

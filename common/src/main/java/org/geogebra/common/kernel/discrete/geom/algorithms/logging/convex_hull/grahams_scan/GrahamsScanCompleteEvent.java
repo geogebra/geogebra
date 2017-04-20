@@ -29,5 +29,5 @@ import org.geogebra.common.kernel.discrete.geom.algorithms.logging.LogEvent;
  * @author cyberpython
  */
 public class GrahamsScanCompleteEvent extends LogEvent {
-
+	// intentionally left blank
 }
