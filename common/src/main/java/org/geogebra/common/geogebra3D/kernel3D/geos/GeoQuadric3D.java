@@ -102,9 +102,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			matrix[i] = coeffs[i];
 		}
 
-		if (kernel.getConstruction() != null
-				&& !kernel.getConstruction().isFileLoading()) {
-			// will be done at XML end, by setMatrixFromXML()
+		// try to classify quadric
+		if (type == QUADRIC_NOT_CLASSIFIED) {
 			classifyQuadric();
 		}
 	}
