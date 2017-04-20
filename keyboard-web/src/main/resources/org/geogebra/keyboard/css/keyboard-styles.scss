@@ -324,7 +324,12 @@
 	.KeyboardSwitcher .gwt-Button {
 		color: black;
 		border: 0;
+		margin-top: 5px;
 		box-shadow: none;
+	}
+
+	.KeyboardSwitcher .selected {
+		background: #6666FF;
 	}
 
 	.TabbedKeyBoard { 

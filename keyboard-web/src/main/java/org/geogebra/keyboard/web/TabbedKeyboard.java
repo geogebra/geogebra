@@ -122,7 +122,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 	private Widget makeSwitcherButton(final KeyPanelBase keyboard,
 			String string) {
-		Button ret = new Button(string);
+		final Button ret = new Button(string);
 		ClickStartHandler.init(ret, new ClickStartHandler(true, true) {
 
 			@Override
@@ -131,11 +131,12 @@ public class TabbedKeyboard extends FlowPanel {
 						.getWidgetCount(); i++) {
 					((FlowPanel) keyboard.getParent()).getWidget(i)
 							.setVisible(false);
+					switcher.getWidget(i).removeStyleName("selected");
 				}
 				currentKeyboard = keyboard;
 				keyboard.setVisible(true);
 				adjustSwitcher(keyboard);
-
+				ret.addStyleName("selected");
 			}
 		});
 		return ret;
@@ -234,10 +235,14 @@ public class TabbedKeyboard extends FlowPanel {
 			
 			@Override
 			public void execute() {
-				adjustSwitcher(currentKeyboard == null
-						? (KeyPanelBase) tabs.getWidget(0)
-								: currentKeyboard);
+				if (currentKeyboard != null) {
+					adjustSwitcher(currentKeyboard);
+				} else {
+					adjustSwitcher((KeyPanelBase) tabs.getWidget(0));
+					switcher.getWidget(0).addStyleName("selected");
 			}
+				}
+			
 		});
 	}
 		
