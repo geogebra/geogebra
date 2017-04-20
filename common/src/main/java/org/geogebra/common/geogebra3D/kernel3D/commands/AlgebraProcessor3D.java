@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
@@ -61,7 +62,12 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 		double[] p = ((Vector3DValue) evaluate).getPointAsDouble();
 		int mode = ((Vector3DValue) evaluate).getMode();
-
+		if (evaluate instanceof MyVecNDNode) {
+			// force vector for CAS vectors GGB-1492
+			if (((MyVecNDNode) evaluate).isCASVector()) {
+				n.setForceVector();
+			}
+		}
 		GeoElement[] ret = new GeoElement[1];
 		boolean isIndependent = n.isConstant();
 

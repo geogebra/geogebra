@@ -6,7 +6,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
@@ -20,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -28,9 +28,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 
 @SuppressWarnings("javadoc")
 public class GeoGebraCasIntegrationTest {
@@ -278,8 +276,8 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	// 100 seconds max per method tested
-	@Rule
-	public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
+	// @Rule
+	// public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
 
 
   // Self Test Section
@@ -4980,5 +4978,18 @@ public class GeoGebraCasIntegrationTest {
 	public void ENotationTest() {
 		t("a:=1/1E8", "1 / 100000000");
 		t("b:=1/1E-8", "100000000");
+	}
+	
+	@Test
+	public void vectorPointTest(){
+		t("v:=(1,1)","(1,1)");
+		t("V:=v+v", "(2,2)");
+		Assert.assertEquals(GeoClass.VECTOR, app.getKernel()
+				.lookupCasCellLabel("V").getTwinGeo().getGeoClassType());
+
+		t("w:=(1,1,1)", "(1,1,1)");
+		t("W:=w+w", "(2,2,2)");
+		Assert.assertEquals(GeoClass.VECTOR3D, app.getKernel()
+				.lookupCasCellLabel("W").getTwinGeo().getGeoClassType());
 	}
 }
