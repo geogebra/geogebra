@@ -103,7 +103,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		// try to classify quadric
-		if (type == QUADRIC_NOT_CLASSIFIED) {
+		if (kernel.getConstruction() != null
+				&& !kernel.getConstruction().isFileLoading()) {
 			classifyQuadric();
 		}
 	}
