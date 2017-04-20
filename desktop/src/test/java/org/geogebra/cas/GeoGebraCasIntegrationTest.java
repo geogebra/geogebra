@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
@@ -28,7 +29,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 
 @SuppressWarnings("javadoc")
 public class GeoGebraCasIntegrationTest {
@@ -158,6 +161,7 @@ public class GeoGebraCasIntegrationTest {
         f.setEvalCommand("Keepinput");
       }
       f.computeOutput();
+			f.setLabelOfTwinGeo();
 
       boolean includesNumericCommand = false;
       HashSet<Command> commands = new HashSet<Command>();
@@ -172,8 +176,15 @@ public class GeoGebraCasIntegrationTest {
         }
       }
 
-      result = f.getOutputValidExpression() != null ? f.getOutputValidExpression().toString(
+			result = f.getOutputValidExpression() != null
+					? f.getOutputValidExpression()
+							.toString(
           includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplate) : f.getOutput(StringTemplate.testTemplate);
+          if(f.getOutputValidExpression()!= null && f.getOutputValidExpression().unwrap() instanceof GeoElement){
+				result = ((GeoElement) f.getOutputValidExpression().unwrap())
+						.toValueString(StringTemplate.testTemplate);
+          }
+
     } catch (Throwable t) {
       String sts = "";
       StackTraceElement[] st = t.getStackTrace();
@@ -276,8 +287,8 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	// 100 seconds max per method tested
-	// @Rule
-	// public Timeout globalTimeout = new Timeout(10, TimeUnit.SECONDS);
+	@Rule
+	public Timeout globalTimeout = new Timeout(10000);
 
 
   // Self Test Section
@@ -4991,5 +5002,11 @@ public class GeoGebraCasIntegrationTest {
 		t("W:=w+w", "(2,2,2)");
 		Assert.assertEquals(GeoClass.VECTOR3D, app.getKernel()
 				.lookupCasCellLabel("W").getTwinGeo().getGeoClassType());
+	}
+
+	@Test
+	public void orthogonalVectorFallbackTest() {
+		t("E:=Plane[(1,-2,3), (-2, 0,1),(0,3,2)]", "8x - y -  13z = -29");
+		t("PerpendicularVector[E]", "(8, -1, -13)");
 	}
 }
