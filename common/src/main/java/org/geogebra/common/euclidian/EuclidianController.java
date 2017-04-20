@@ -8684,6 +8684,31 @@ public abstract class EuclidianController {
 				}
 
 			}
+
+			// Slider can be moved too on whiteboard without using right mouse
+			// button or selecting slider tool.
+			else if (app.isWhiteboardActive()
+					&& app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+				setViewHits(event.getType());
+				GeoElement geo0 = null;
+				Hits hits0 = view.getHits();
+				if (!hits0.isEmpty()) {
+					geo0 = hits0.get(0);
+
+					if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()
+							&& viewHasHitsForMouseDragged()) {
+						setTempMode(EuclidianConstants.MODE_MOVE);
+						handleMousePressedForMoveMode(event, true);
+
+						// make sure that dragging doesn't deselect the geos
+						dontClearSelection = true;
+
+						return;
+					}
+
+				}
+			}
+
 			if (!app.isRightClickEnabled()) {
 				return;
 				// Michael Borcherds 2007-10-07
