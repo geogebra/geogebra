@@ -16,6 +16,8 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -24,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class TabbedKeyboard extends FlowPanel {
 
+	private static final int SWITCHER_HEIGHT = 40;
 	private KeyboardLocale locale;
 	private boolean isSmallKeyboard;
 	protected HasKeyboard app;
@@ -32,6 +35,8 @@ public class TabbedKeyboard extends FlowPanel {
 	private ButtonHandler bh;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	private FlowPanel tabs;
+	private FlowPanel switcher;
+	protected KeyPanelBase currentKeyboard=null;
 
 	public TabbedKeyboard() {
 
@@ -48,7 +53,7 @@ public class TabbedKeyboard extends FlowPanel {
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
 		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
-		FlowPanel switcher = new FlowPanel();
+		switcher = new FlowPanel();
 		switcher.addStyleName("KeyboardSwitcher");
 		this.app = app;
 		this.bh = bh;
@@ -85,6 +90,7 @@ public class TabbedKeyboard extends FlowPanel {
 		addStyleName("KeyBoard");
 		addStyleName("TabbedKeyBoard");
 		addStyleName("gwt-PopupPanel");
+		
 	}
 
 	private Widget makeCloseButton() {
@@ -125,7 +131,9 @@ public class TabbedKeyboard extends FlowPanel {
 					((FlowPanel) keyboard.getParent()).getWidget(i)
 							.setVisible(false);
 				}
+				currentKeyboard = keyboard;
 				keyboard.setVisible(true);
+				adjustSwitcher(keyboard);
 
 			}
 		});
@@ -202,10 +210,12 @@ public class TabbedKeyboard extends FlowPanel {
 				} else {
 					KeyBoardButtonBase button = keyboard.getButtons()
 							.get(buttonIndex);
+					
 					if (offset > 0) {
 						button.getElement().getStyle()
 								.setMarginLeft(offset * baseSize, Unit.PX);
 					}
+	
 					button.getElement().getStyle()
 							.setWidth(wb.getWeight() * baseSize, Unit.PX);
 					offset = 0;
@@ -214,8 +224,28 @@ public class TabbedKeyboard extends FlowPanel {
 			}
 		}
 
+
+
 	}
 
+	protected void adjustSwitcher() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			
+			@Override
+			public void execute() {
+				adjustSwitcher(currentKeyboard == null
+						? (KeyPanelBase) tabs.getWidget(0)
+								: currentKeyboard);
+			}
+		});
+	}
+		
+	protected void adjustSwitcher(KeyPanelBase keyboard) {
+		switcher.getElement().getStyle().setLeft(keyboard.getAbsoluteLeft(),
+				Unit.PX);
+		switcher.setPixelSize(keyboard.getOffsetWidth(), SWITCHER_HEIGHT);
+		
+	}
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
 		switch (wb.getResourceType()) {
 

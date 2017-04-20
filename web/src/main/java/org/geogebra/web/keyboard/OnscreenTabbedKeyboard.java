@@ -44,7 +44,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	public void show() {
 		checkLanguage();
 		setVisible(true);
-
 	}
 
 	public void resetKeyboardState() {
@@ -188,6 +187,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 	public void afterShown(final Runnable runnable) {
 		runOnAnimation(runnable, getElement());
+		adjustSwitcher();
 	}
 
 	private native void runOnAnimation(Runnable runnable,
