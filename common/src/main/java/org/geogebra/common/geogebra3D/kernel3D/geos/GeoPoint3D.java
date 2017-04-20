@@ -2009,7 +2009,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public boolean isAnimatable() {
-		return isPointOnPath() && isChangeable();
+		return isPointOnPath() && isPointerChangeable();
 	}
 
 	private double animationValue;
