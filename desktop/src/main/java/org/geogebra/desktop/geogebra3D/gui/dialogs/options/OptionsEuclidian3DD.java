@@ -320,7 +320,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			buttons[buttonSelected].setSelected(true);
 		}
 
-		private JButton getButton(int i) {
+		JButton getButton(int i) {
 			return buttons[i];
 		}
 

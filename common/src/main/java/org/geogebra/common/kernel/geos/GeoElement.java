@@ -2311,6 +2311,9 @@ public abstract class GeoElement extends ConstructionElement
 		return !isProtected() && isIndependent();
 	}
 
+	/**
+	 * @return whether this is changeable by dragging the pointer
+	 */
 	public boolean isPointerChangeable() {
 		return !isLocked() && isIndependent();
 	}

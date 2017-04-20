@@ -219,10 +219,12 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
+		// only click
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
+		// only click
 	}
 
 	@Override
@@ -390,6 +392,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void keyTyped(KeyEvent e) {
+		// only press
 	}
 
 	@Override
@@ -487,6 +490,7 @@ public class SpreadsheetRowHeaderD extends JList implements MouseListener,
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// only press
 	}
 
 }

@@ -208,8 +208,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 		// add trace dialog button
 		btnTraceDialog = new JButton(
-				app.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_BUTTON)) {
-		};
+				app.getScaledIcon(GuiResourcesD.SPREADSHEETTRACE_BUTTON));
 		btnTraceDialog.setBorderPainted(false);
 		btnTraceDialog.setPreferredSize(new Dimension(18, 18));
 		btnTraceDialog.setContentAreaFilled(false);
@@ -741,14 +740,17 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	@Override
 	public void componentHidden(ComponentEvent e) {
+		// only resize
 	}
 
 	@Override
 	public void componentMoved(ComponentEvent e) {
+		// only resize
 	}
 
 	@Override
 	public void componentShown(ComponentEvent e) {
+		// only resize
 	}
 
 	// ===============================================================

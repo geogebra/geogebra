@@ -594,7 +594,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	// copied on GeoPoint
 	@Override
-	public boolean isChangeable() {
+	public boolean isPointerChangeable() {
 		return GeoPoint.isPointChangeable(this);
 	}
 

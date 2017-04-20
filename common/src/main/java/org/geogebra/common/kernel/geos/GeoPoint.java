@@ -376,7 +376,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public boolean isChangeable() {
+	public boolean isPointerChangeable() {
 
 		return isPointChangeable(this);
 	}
