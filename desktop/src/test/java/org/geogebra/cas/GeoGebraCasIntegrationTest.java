@@ -11,6 +11,7 @@ import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -153,15 +154,20 @@ public class GeoGebraCasIntegrationTest {
 
     try {
       GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-      kernel.getConstruction().addToConstructionList(f, false);
+
+			if (tkiontki) {
+				f.setEvalCommand("Keepinput");
+			}
 
       f.setInput(input);
-
-      if (tkiontki) {
-        f.setEvalCommand("Keepinput");
-      }
-      f.computeOutput();
+			if (!f.hasVariablesOrCommands()) {
+				kernel.getConstruction().addToConstructionList(f, false);
+				f.computeOutput();
 			f.setLabelOfTwinGeo();
+			} else {
+				kernel.getConstruction().removeFromConstructionList(f);
+				KernelCAS.dependentCasCell(f);
+			}
 
       boolean includesNumericCommand = false;
       HashSet<Command> commands = new HashSet<Command>();
