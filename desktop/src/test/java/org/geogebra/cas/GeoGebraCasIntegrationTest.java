@@ -149,62 +149,71 @@ public class GeoGebraCasIntegrationTest {
    * @param validResults
    *          Valid, but undesired results.
    */
-  private static void ta (boolean tkiontki, String input, String expectedResult, String ... validResults) {
-    String result;
+	private static void ta(boolean tkiontki, String input,
+			String expectedResult, String... validResults) {
+		String result;
 
-    try {
-      GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		try {
+			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
 
+			f.setInput(input);
 			if (tkiontki) {
 				f.setEvalCommand("Keepinput");
 			}
-
-      f.setInput(input);
 			if (!f.hasVariablesOrCommands()) {
 				kernel.getConstruction().addToConstructionList(f, false);
 				f.computeOutput();
-			f.setLabelOfTwinGeo();
+				f.setLabelOfTwinGeo();
 			} else {
 				kernel.getConstruction().removeFromConstructionList(f);
 				KernelCAS.dependentCasCell(f);
 			}
 
-      boolean includesNumericCommand = false;
-      HashSet<Command> commands = new HashSet<Command>();
+			boolean includesNumericCommand = false;
+			HashSet<Command> commands = new HashSet<Command>();
 
-      f.getInputVE().traverse(CommandCollector.getCollector(commands));
+			f.getInputVE().traverse(CommandCollector.getCollector(commands));
 
-      if (!commands.isEmpty()) {
-        for (Command cmd : commands) {
-          String cmdName = cmd.getName();
-          // Numeric used
-          includesNumericCommand = includesNumericCommand || ("Numeric".equals(cmdName) && cmd.getArgumentNumber() > 1);
-        }
-      }
+			if (!commands.isEmpty()) {
+				for (Command cmd : commands) {
+					String cmdName = cmd.getName();
+					// Numeric used
+					includesNumericCommand = includesNumericCommand
+							|| ("Numeric".equals(cmdName) && cmd
+									.getArgumentNumber() > 1);
+				}
+			}
 
-			result = f.getOutputValidExpression() != null
-					? f.getOutputValidExpression()
-							.toString(
-          includesNumericCommand ? StringTemplate.testNumeric : StringTemplate.testTemplate) : f.getOutput(StringTemplate.testTemplate);
-          if(f.getOutputValidExpression()!= null && f.getOutputValidExpression().unwrap() instanceof GeoElement){
+			result = f.getOutputValidExpression() != null ? f
+					.getOutputValidExpression().toString(
+							includesNumericCommand ? StringTemplate.testNumeric
+									: StringTemplate.testTemplate) : f
+					.getOutput(StringTemplate.testTemplate);
+			if (f.getOutputValidExpression() != null
+					&& f.getOutputValidExpression().unwrap() instanceof GeoElement) {
 				result = ((GeoElement) f.getOutputValidExpression().unwrap())
 						.toValueString(StringTemplate.testTemplate);
-          }
+			}
 
-    } catch (Throwable t) {
-      String sts = "";
-      StackTraceElement[] st = t.getStackTrace();
+		} catch (Throwable t) {
+			String sts = "";
+			StackTraceElement[] st = t.getStackTrace();
 
-      for (int i = 0; i < 10 && i < st.length; i++) {
-        StackTraceElement stElement = st[i];
-        sts += stElement.getClassName() + ":" + stElement.getMethodName() + stElement.getLineNumber() + "\n";
-      }
+			for (int i = 0; i < 10 && i < st.length; i++) {
+				StackTraceElement stElement = st[i];
+				sts += stElement.getClassName() + ":"
+						+ stElement.getMethodName() + stElement.getLineNumber()
+						+ "\n";
+			}
 
-      result = t.getClass().getName() + ":" + t.getMessage() + sts;
-    }
+			result = t.getClass().getName() + ":" + t.getMessage() + sts;
+		}
 
-    assertThat(result, equalToIgnoreWhitespaces(logger, input, expectedResult, validResults));
-  }
+		assertThat(
+				result,
+				equalToIgnoreWhitespaces(logger, input, expectedResult,
+						validResults));
+	}
 
   /**
    * For comparing polynomial equations<br/>
@@ -293,8 +302,9 @@ public class GeoGebraCasIntegrationTest {
   }
 
 	// 100 seconds max per method tested
+	@SuppressWarnings("deprecation")
 	@Rule
-	public Timeout globalTimeout = new Timeout(10000);
+	public Timeout globalTimeout = new Timeout(50000);
 
 
   // Self Test Section
