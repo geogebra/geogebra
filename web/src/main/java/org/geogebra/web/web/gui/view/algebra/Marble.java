@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -41,6 +42,10 @@ public class Marble extends SimplePanel
 			public boolean onClickStart(int x, int y, PointerEventType type,
 					boolean right) {
 				if (type == PointerEventType.TOUCH) {
+					if (isLongTouchHappened()) {
+						gc.getController().handleLongTouch(x, y);
+					}
+					
 					return false;
 				}
 				if (right) {
@@ -53,8 +58,16 @@ public class Marble extends SimplePanel
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (type == PointerEventType.TOUCH) {
-					toggleVisibility();
+					if (isLongTouchHappened()) {
+						gc.getController().handleLongTouch(x, y);
+					} else {
+						toggleVisibility();
+					}
 				}
+			}
+
+			private boolean isLongTouchHappened() {
+				return gc.getController().getLongTouchManager().isLongTouchHappened();
 			}
 		});
 	}

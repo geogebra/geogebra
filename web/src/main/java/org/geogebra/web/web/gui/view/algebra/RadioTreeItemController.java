@@ -262,8 +262,7 @@ public class RadioTreeItemController
 	 * @return if editing can start or not.
 	 */
 	protected boolean canEditStart(MouseEvent<?> event) {
-		return !(isMarbleHit(event));
-		// || longTouchManager.isLongTouchHappened());
+		return !isMarbleHit(event);
 	}
 
 
@@ -616,9 +615,7 @@ public class RadioTreeItemController
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) /*&& isEditing()*/) {
-			//item.cancelEditing();
-			// return;
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			getAV().resetItems(false);
 		}
 		
