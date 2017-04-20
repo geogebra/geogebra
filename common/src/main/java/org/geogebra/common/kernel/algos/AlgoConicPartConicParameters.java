@@ -44,14 +44,14 @@ public class AlgoConicPartConicParameters extends AlgoConicPart {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
-	 * @param type
+	 * @param partType
 	 *            arc/sector
 	 * @return new conic part
 	 */
-	protected GeoConicND newGeoConicPart(Construction cons, int type) {
-		return new GeoConicPart(cons, type);
+	protected GeoConicND newGeoConicPart(Construction cons1, int partType) {
+		return new GeoConicPart(cons1, partType);
 	}
 
 	// for AlgoElement

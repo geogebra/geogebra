@@ -24,21 +24,21 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void arc(Coords center, Coords v1, Coords v2, double radius,
-			double start, double extent, int longitude) {
+			double arcStart, double extent, int longitude) {
 
 		startCurve();
 
-		super.arc(center, v1, v2, radius, start, extent, longitude);
+		super.arc(center, v1, v2, radius, arcStart, extent, longitude);
 
 		endCurve();
 	}
 
 	@Override
 	public void arcExtendedWithArrows(Coords center, Coords v1, Coords v2,
-			double radius, double start, double extent, int longitude) {
+			double radius, double arcStart, double extent, int longitude) {
 		startCurve();
 
-		super.arcExtendedWithArrows(center, v1, v2, radius, start, extent,
+		super.arcExtendedWithArrows(center, v1, v2, radius, arcStart, extent,
 				longitude);
 
 		endCurve();
@@ -46,10 +46,10 @@ public class PlotterBrushElements extends PlotterBrush {
 
 	@Override
 	public void arcEllipse(Coords center, Coords v1, Coords v2, double a,
-			double b, double start, double extent) {
+			double b, double arcStart, double extent) {
 
 		startCurve();
-		super.arcEllipse(center, v1, v2, a, b, start, extent);
+		super.arcEllipse(center, v1, v2, a, b, arcStart, extent);
 		endCurve();
 	}
 

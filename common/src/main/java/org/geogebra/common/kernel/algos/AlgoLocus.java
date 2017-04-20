@@ -34,14 +34,14 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 	}
 
 	@Override
-	protected void createStartPos(Construction cons) {
-		startQPos = new GeoPoint(cons);
-		startPPos = new GeoPoint(cons);
+	protected void createStartPos(Construction cons1) {
+		startQPos = new GeoPoint(cons1);
+		startPPos = new GeoPoint(cons1);
 	}
 
 	@Override
-	protected GeoLocus newGeoLocus(Construction cons) {
-		return new GeoLocus(cons);
+	protected GeoLocus newGeoLocus(Construction cons1) {
+		return new GeoLocus(cons1);
 	}
 
 	public AlgoLocus(Construction cons, String label, GeoPointND Q,
@@ -149,7 +149,7 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
 	@Override
 	protected boolean areEqual(GeoPointND p1, GeoPointND p2) {
-		return ((GeoPoint) p1).isEqual(((GeoPoint) p2), Kernel.MIN_PRECISION);
+		return ((GeoPoint) p1).isEqual(p2, Kernel.MIN_PRECISION);
 	}
 
 	@Override

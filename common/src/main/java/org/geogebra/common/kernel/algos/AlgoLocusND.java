@@ -236,7 +236,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		while (it.hasNext()) {
 			GeoElement parent = it.next();
 			if (parent.isLabelSet()
-					&& parent.isChildOf((GeoElement) movingPoint)) {
+					&& parent.isChildOf(movingPoint)) {
 				// note: locusConsOrigElements will contain AlgoElement and
 				// GeoElement objects
 				Macro.addDependentElement(parent, locusConsOrigElements,

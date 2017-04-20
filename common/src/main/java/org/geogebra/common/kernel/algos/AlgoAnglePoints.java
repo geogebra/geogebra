@@ -68,6 +68,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	 * used as a helper algo (for AlgoAnglePolygon)
 	 * 
 	 * @param cons
+	 *            construction
 	 */
 	protected AlgoAnglePoints(Construction cons) {
 		super(cons);

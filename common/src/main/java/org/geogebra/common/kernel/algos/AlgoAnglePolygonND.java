@@ -69,10 +69,10 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 * @return helper algo
 	 */
-	abstract protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons);
+	abstract protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1);
 
 	protected void setLabels(String[] labels) {
 		// if only one label (e.g. "A") for more than one output, new labels

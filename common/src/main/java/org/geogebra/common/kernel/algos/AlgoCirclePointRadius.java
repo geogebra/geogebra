@@ -56,8 +56,8 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	}
 
 	@Override
-	protected GeoQuadricND createSphereND(Construction cons) {
-		return new GeoConic(cons);
+	protected GeoQuadricND createSphereND(Construction cons1) {
+		return new GeoConic(cons1);
 	}
 
 	@Override

@@ -58,10 +58,10 @@ abstract public class Manager {
 		// empty constructor
 	}
 
-	final protected void init(Renderer renderer, EuclidianView3D view3D) {
+	final protected void init(Renderer renderer, EuclidianView3D newView3D) {
 
 		// geogebra
-		this.view3D = view3D;
+		this.view3D = newView3D;
 		setScalerView();
 
 		setRenderer(renderer);

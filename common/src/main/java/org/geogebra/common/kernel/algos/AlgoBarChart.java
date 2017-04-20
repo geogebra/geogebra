@@ -935,14 +935,14 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 	}
 
-	private void computeFromValueFrequencyLists(GeoList list1, GeoList list2) {
+	private void computeFromValueFrequencyLists(GeoList xList, GeoList yList) {
 
 		if (barWidth < 0) {
-			if (list1.size() > 1) {
+			if (xList.size() > 1) {
 				double x1, x2;
-				if (list1.get(1).isGeoNumeric()) {
-					x1 = list1.get(0).evaluateDouble();
-					x2 = list1.get(1).evaluateDouble();
+				if (xList.get(1).isGeoNumeric()) {
+					x1 = xList.get(0).evaluateDouble();
+					x2 = xList.get(1).evaluateDouble();
 				} else {
 					// use integers 1,2,3 ... for non-numeric data
 					x1 = 1;
@@ -960,7 +960,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			}
 		}
 
-		N = list1.size();
+		N = xList.size();
 		if (yval == null || yval.length < N) {
 			yval = new double[N];
 			leftBorder = new double[N];
@@ -968,20 +968,20 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 		value = new String[N];
 		for (int i = 0; i < N; i++) {
-			value[i] = list1.get(i)
+			value[i] = xList.get(i)
 					.toValueString(StringTemplate.defaultTemplate);
 		}
 
 		double ySum = 0;
 		double x = 0;
-		if (list2.size() < N) {
+		if (yList.size() < N) {
 			sum.setUndefined();
 			return;
 		}
 
 		for (int i = 0; i < N; i++) {
-			if (list1.get(i).isGeoNumeric()) {
-				x = list1.get(i).evaluateDouble();
+			if (xList.get(i).isGeoNumeric()) {
+				x = xList.get(i).evaluateDouble();
 			} else {
 				// use integers 1,2,3 ... to position non-numeric data
 				x = i + 1;
@@ -995,7 +995,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			}
 
 			// frequencies
-			double y = list2.get(i).evaluateDouble();
+			double y = yList.get(i).evaluateDouble();
 			if (!Double.isNaN(y)) {
 				yval[i] = y;
 				ySum += y;

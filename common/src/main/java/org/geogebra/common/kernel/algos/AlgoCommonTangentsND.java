@@ -115,11 +115,11 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new point
 	 */
-	abstract protected void createPoints(Construction cons);
+	abstract protected void createPoints(Construction cons1);
 
 	/**
 	 * set coords to the point (i.e z=1)
@@ -156,7 +156,7 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @param p
 	 *            point
@@ -166,7 +166,7 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 	 *            conic
 	 * @return intersect algo
 	 */
-	abstract protected AlgoIntersectND createAlgo(Construction cons,
+	abstract protected AlgoIntersectND createAlgo(Construction cons1,
 			GeoPointND p, GeoLine line, GeoConicND conic);
 
 	@Override
@@ -317,12 +317,12 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 	abstract protected void updatePolarLines();
 
 	/**
-	 * @param tangentPoints
+	 * @param tangentPts
 	 *            tangent points
 	 * @param index
 	 *            first/second tangents
 	 */
-	abstract protected void updateTangents(GeoPointND[] tangentPoints,
+	abstract protected void updateTangents(GeoPointND[] tangentPts,
 			int index);
 
 	/**

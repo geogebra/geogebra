@@ -60,8 +60,8 @@ public class AlgoAreaPoints extends AlgoElement
 		// none here
 	}
 
-	protected void createOutput(Construction cons) {
-		area = new GeoNumeric(cons);
+	protected void createOutput(Construction cons1) {
+		area = new GeoNumeric(cons1);
 	}
 
 	@Override

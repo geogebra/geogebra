@@ -38,10 +38,10 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 	}
 
 	@Override
-	protected void createPoints(Construction cons) {
+	protected void createPoints(Construction cons1) {
 		P = new GeoPoint[2];
-		P[0] = new GeoPoint(cons);
-		P[1] = new GeoPoint(cons);
+		P[0] = new GeoPoint(cons1);
+		P[1] = new GeoPoint(cons1);
 	}
 
 	@Override
@@ -71,10 +71,10 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 	}
 
 	@Override
-	protected AlgoIntersectND createAlgo(Construction cons, GeoPointND p,
+	protected AlgoIntersectND createAlgo(Construction cons1, GeoPointND p,
 			GeoLine line, GeoConicND conic) {
 		conic.polarLine((GeoPoint) p, line);
-		return new AlgoIntersectLineConic(cons, line, (GeoConic) conic);
+		return new AlgoIntersectLineConic(cons1, line, (GeoConic) conic);
 	}
 
 	/**
@@ -103,12 +103,12 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 	}
 
 	@Override
-	protected void updateTangents(GeoPointND[] tangentPoints, int index) {
+	protected void updateTangents(GeoPointND[] tangentPts, int index) {
 		// calc tangents through tangentPoints
 		GeoVec3D.lineThroughPoints((GeoPoint) P[index],
-				(GeoPoint) tangentPoints[0], (GeoLine) tangents[0 + 2 * index]);
+				(GeoPoint) tangentPts[0], (GeoLine) tangents[0 + 2 * index]);
 		GeoVec3D.lineThroughPoints((GeoPoint) P[index],
-				(GeoPoint) tangentPoints[1], (GeoLine) tangents[1 + 2 * index]);
+				(GeoPoint) tangentPts[1], (GeoLine) tangents[1 + 2 * index]);
 	}
 
 	@Override

@@ -74,11 +74,11 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new conic
 	 */
-	abstract protected GeoConicND newGeoConic(Construction cons);
+	abstract protected GeoConicND newGeoConic(Construction cons1);
 
 	/**
 	 * set the input

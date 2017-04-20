@@ -45,8 +45,8 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND
 	}
 
 	@Override
-	protected GeoConicPart createConicPart(Construction cons, int type) {
-		return new GeoConicPart(cons, type);
+	protected GeoConicPart createConicPart(Construction cons1, int partType) {
+		return new GeoConicPart(cons1, partType);
 	}
 
 	/**

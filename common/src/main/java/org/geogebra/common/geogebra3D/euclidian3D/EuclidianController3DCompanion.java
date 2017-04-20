@@ -529,6 +529,8 @@ public class EuclidianController3DCompanion
 
 	/**
 	 * 
+	 * @param movedGeoElement
+	 *            moved element
 	 * @return true if there is a free plane to move
 	 */
 	protected boolean handleMovedElementFreePlane(GeoElement movedGeoElement) {

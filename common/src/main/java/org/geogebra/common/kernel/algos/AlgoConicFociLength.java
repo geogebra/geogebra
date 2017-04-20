@@ -51,8 +51,8 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 	}
 
 	@Override
-	protected GeoConicND newGeoConic(Construction cons) {
-		return new GeoConic(cons);
+	protected GeoConicND newGeoConic(Construction cons1) {
+		return new GeoConic(cons1);
 	}
 
 	@Override

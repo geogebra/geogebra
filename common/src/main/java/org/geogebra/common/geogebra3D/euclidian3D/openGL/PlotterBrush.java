@@ -593,11 +593,11 @@ public class PlotterBrush implements PathPlotter {
 	 * @param v1
 	 * @param v2
 	 * @param radius
-	 * @param start
+	 * @param arcStart
 	 * @param extent
 	 */
 	public void arc(Coords center, Coords v1, Coords v2, double radius,
-			double start, double extent, int longitude) {
+			double arcStart, double extent, int longitude) {
 
 		length = (float) (extent * radius);
 
@@ -606,8 +606,8 @@ public class PlotterBrush implements PathPlotter {
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
 		float u, v;
-		u = (float) Math.cos(start);
-		v = (float) Math.sin(start);
+		u = (float) Math.cos(arcStart);
+		v = (float) Math.sin(arcStart);
 
 		setTextureX(0, 0);
 		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
@@ -615,8 +615,8 @@ public class PlotterBrush implements PathPlotter {
 		down(tmpCoords, vn1, vn2);
 
 		for (int i = 1; i <= longitude; i++) {
-			u = (float) Math.cos(start + i * da);
-			v = (float) Math.sin(start + i * da);
+			u = (float) Math.cos(arcStart + i * da);
+			v = (float) Math.sin(arcStart + i * da);
 
 			setTextureX(i * dt);
 			vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
@@ -633,12 +633,12 @@ public class PlotterBrush implements PathPlotter {
 	 * @param v1
 	 * @param v2
 	 * @param radius
-	 * @param start
+	 * @param arcStart
 	 * @param extent
 	 * @param longitude
 	 */
 	public void arcExtendedWithArrows(Coords center, Coords v1, Coords v2,
-			double radius, double start, double extent, int longitude) {
+			double radius, double arcStart, double extent, int longitude) {
 
 		length = (float) (extent * radius);
 
@@ -653,8 +653,8 @@ public class PlotterBrush implements PathPlotter {
 		float u, v;
 
 		// start arrow
-		u = (float) Math.cos(start);
-		v = (float) Math.sin(start);
+		u = (float) Math.cos(arcStart);
+		v = (float) Math.sin(arcStart);
 
 		vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
 
@@ -676,8 +676,8 @@ public class PlotterBrush implements PathPlotter {
 
 		// arc
 		for (int i = 1; i <= longitude; i++) {
-			u = (float) Math.cos(start + i * da);
-			v = (float) Math.sin(start + i * da);
+			u = (float) Math.cos(arcStart + i * da);
+			v = (float) Math.sin(arcStart + i * da);
 
 			setTextureX(i * dt);
 			vn1.setAdd(tmpCoords.setMul(v1, u), vn1.setMul(v2, v));
@@ -721,7 +721,7 @@ public class PlotterBrush implements PathPlotter {
 	 *            2nd eigenvalue
 	 */
 	public void arcEllipse(Coords center, Coords v1, Coords v2, double a,
-			double b, double start, double extent) {
+			double b, double arcStart, double extent) {
 
 		// Ramanujan approximation
 		// length=(float) (Math.PI*(3*(a+b)-Math.sqrt((3*a+b)*(a+3*b)))); //TODO
@@ -743,8 +743,8 @@ public class PlotterBrush implements PathPlotter {
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
 		float u, v;
-		u = (float) Math.cos(start);
-		v = (float) Math.sin(start);
+		u = (float) Math.cos(arcStart);
+		v = (float) Math.sin(arcStart);
 
 		m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));
 
@@ -755,8 +755,8 @@ public class PlotterBrush implements PathPlotter {
 		down(tmpCoords, vn1, vn2);
 
 		for (int i = 1; i <= longitude; i++) {
-			u = (float) Math.cos(start + i * da);
-			v = (float) Math.sin(start + i * da);
+			u = (float) Math.cos(arcStart + i * da);
+			v = (float) Math.sin(arcStart + i * da);
 
 			tmpCoords2.set(m);
 			m.setAdd(m.setMul(v1, a * u), tmpCoords.setMul(v2, b * v));

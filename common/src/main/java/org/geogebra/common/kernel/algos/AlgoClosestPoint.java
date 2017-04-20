@@ -47,14 +47,14 @@ public class AlgoClosestPoint extends AlgoElement
 	/**
 	 * create the output point
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
-	 * @param path
+	 * @param pointPath
 	 *            path
 	 */
-	protected void createOutputPoint(Construction cons, Path path) {
-		P = new GeoPoint(cons);
-		((GeoPoint) P).setPath(path);
+	protected void createOutputPoint(Construction cons1, Path pointPath) {
+		P = new GeoPoint(cons1);
+		((GeoPoint) P).setPath(pointPath);
 	}
 
 	public AlgoClosestPoint(Construction cons, String label, Path path,

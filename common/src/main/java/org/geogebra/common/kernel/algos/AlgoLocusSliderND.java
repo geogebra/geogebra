@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -126,7 +125,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		maxYdist = new double[3];
 	}
 
-	protected abstract void createStartPos(Construction cons);
+	protected abstract void createStartPos(Construction cons1);
 
 	// private void printMacroConsStatus() {
 	// System.out.print("MOVER POINT: " + Pcopy);
@@ -141,7 +140,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	// }
 	// }
 
-	protected abstract GeoLocusND<T> newGeoLocus(Construction cons);
+	protected abstract GeoLocusND<T> newGeoLocus(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
@@ -151,11 +150,6 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	@Override
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_LOCUS;
-	}
-
-	public ArrayList getMoveableInputPoints() {
-		// TODO ?
-		return null;
 	}
 
 	/**

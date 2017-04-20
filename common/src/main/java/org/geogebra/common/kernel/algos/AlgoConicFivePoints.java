@@ -109,12 +109,12 @@ public class AlgoConicFivePoints extends AlgoElement
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return output conic
 	 */
-	protected GeoConicND newGeoConic(Construction cons) {
-		return new GeoConic(cons);
+	protected GeoConicND newGeoConic(Construction cons1) {
+		return new GeoConic(cons1);
 	}
 
 	private void checkCriticalCase() {

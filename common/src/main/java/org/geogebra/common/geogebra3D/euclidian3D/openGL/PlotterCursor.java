@@ -192,15 +192,15 @@ public class PlotterCursor {
 
 	private float r, g, b, a;
 
-	private void color(float r, float g, float b, float a) {
-		this.r = r;
-		this.g = g;
-		this.b = b;
-		this.a = a;
+	private void color(float red, float green, float blue, float alpha) {
+		this.r = red;
+		this.g = green;
+		this.b = blue;
+		this.a = alpha;
 	}
 
-	private void color(float r, float g, float b) {
-		color(r, g, b, 1f);
+	private void color(float red, float green, float blue) {
+		color(red, green, blue, 1f);
 	}
 
 	private void vertex(float x, float y, float z) {

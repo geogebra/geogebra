@@ -717,7 +717,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void vertices(double[] vertices) {
+	protected void vertices(double[] vert) {
 		// TODO Auto-generated method stub
 	}
 

@@ -47,8 +47,8 @@ public class AlgoConicPartConicPoints extends AlgoConicPartConicPointsND {
 	}
 
 	@Override
-	protected GeoConicND newGeoConicPart(Construction cons, int type) {
-		return new GeoConicPart(cons, type);
+	protected GeoConicND newGeoConicPart(Construction cons1, int partType) {
+		return new GeoConicPart(cons1, partType);
 	}
 
 	@Override

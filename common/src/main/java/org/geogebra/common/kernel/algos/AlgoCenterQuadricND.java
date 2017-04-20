@@ -47,10 +47,10 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 * @return new GeoPoint
 	 */
-	abstract public GeoPointND newGeoPoint(Construction cons);
+	abstract public GeoPointND newGeoPoint(Construction cons1);
 
 	@Override
 	public Commands getClassName() {
