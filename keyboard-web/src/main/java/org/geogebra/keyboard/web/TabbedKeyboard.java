@@ -68,13 +68,6 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, "fx"));
 
-		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
-		tabs.add(keyboard);
-		keyboard.setVisible(false);
-		switcher.add(makeSwitcherButton(keyboard, Unicode.alphaBetaGamma));
-
-
-
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
 						filter(locale.getKeyboardRow(2)),
@@ -84,6 +77,14 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		switcher.add(makeSwitcherButton(keyboard, "ABC"));
 
+		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
+		tabs.add(keyboard);
+		keyboard.setVisible(false);
+		switcher.add(makeSwitcherButton(keyboard, Unicode.alphaBetaGamma));
+
+
+
+		
 		switcher.add(makeCloseButton());
 		add(switcher);
 		add(tabs);
