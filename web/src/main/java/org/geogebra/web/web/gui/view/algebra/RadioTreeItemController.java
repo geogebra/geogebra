@@ -262,7 +262,8 @@ public class RadioTreeItemController
 	 * @return if editing can start or not.
 	 */
 	protected boolean canEditStart(MouseEvent<?> event) {
-		return !(isMarbleHit(event) || longTouchManager.isLongTouchHappened());
+		return !(isMarbleHit(event));
+		// || longTouchManager.isLongTouchHappened());
 	}
 
 
