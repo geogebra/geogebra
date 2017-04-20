@@ -1040,7 +1040,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	private static boolean isMoveablePoint(GeoElement point) {
 		return (point.isPointInRegion() || point.isPointOnPath())
-				&& point.isChangeable();
+				&& point.isPointerChangeable();
 	}
 
 	public void styleEditor() {

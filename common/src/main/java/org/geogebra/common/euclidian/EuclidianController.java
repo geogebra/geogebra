@@ -6026,7 +6026,7 @@ public abstract class EuclidianController {
 			tempNum = new MyDouble(kernel);
 		}
 		tempNum.set(angle);
-		if (rotGeoElement.isChangeable()) {
+		if (rotGeoElement.isPointerChangeable()) {
 			((PointRotateable) rotGeoElement).rotate(tempNum, rotationCenter);
 			if (repaint) {
 				rotGeoElement.updateRepaint();

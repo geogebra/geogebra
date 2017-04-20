@@ -558,9 +558,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		boolean ret = (num1 instanceof GeoNumeric
-				&& ((GeoNumeric) num1).isChangeable())
+				&& ((GeoNumeric) num1).isPointerChangeable())
 				|| (num2 instanceof GeoNumeric
-						&& ((GeoNumeric) num2).isChangeable());
+						&& ((GeoNumeric) num2).isPointerChangeable());
 
 		return ret;
 	}
@@ -605,13 +605,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						NumberValue yNum = proc.getCoordNumber(ycoord);
 
 						if (xNum instanceof GeoNumeric
-								&& ((GeoNumeric) xNum).isChangeable()) {
+								&& ((GeoNumeric) xNum).isPointerChangeable()) {
 							changeableCoordNumbers.add(xNum);
 						} else {
 							changeableCoordNumbers.add(null);
 						}
 						if (yNum instanceof GeoNumeric
-								&& ((GeoNumeric) yNum).isChangeable()) {
+								&& ((GeoNumeric) yNum).isPointerChangeable()) {
 							changeableCoordNumbers.add(yNum);
 						} else {
 							changeableCoordNumbers.add(null);

@@ -492,7 +492,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	final public boolean isMoveable() {
 		return (hasAbsoluteScreenLocation || hasAbsoluteLocation)
-				&& isChangeable();
+				&& isPointerChangeable();
 	}
 
 	/**
@@ -501,7 +501,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	final public boolean isRotateMoveable() {
 		return !hasAbsoluteScreenLocation && hasAbsoluteLocation
-				&& isChangeable();
+				&& isPointerChangeable();
 	}
 
 	/**

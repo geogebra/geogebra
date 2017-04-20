@@ -570,7 +570,8 @@ public class ParametricProcessor {
 			GeoElement geo = kernel.lookupLabel(ev.isGeoElement()
 					? ((GeoElement) ev).getLabel(StringTemplate.defaultTemplate)
 					: ev.toString(StringTemplate.defaultTemplate));
-			if (geo != null && geo.isGeoNumeric() && geo.isChangeable()) {
+			if (geo != null && geo.isGeoNumeric()
+					&& geo.isPointerChangeable()) {
 				return (GeoNumeric) geo;
 			}
 			return null;

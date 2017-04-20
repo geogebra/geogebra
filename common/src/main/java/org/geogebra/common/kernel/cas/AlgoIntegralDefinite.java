@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Markus Hohenwarter
  */
+@SuppressWarnings("deprecation")
 public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		implements DrawInformationAlgo, AlgoIntegralDefiniteInterface {
 

@@ -37,11 +37,11 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 
 		if (geo.isPointOnPath() || geo
 				.getDefaultGeoType() == ConstructionDefaults.DEFAULT_POINT_ON_PATH) {
-			if (!geo.isChangeable()) {
+			if (!geo.isPointerChangeable()) {
 				return false;
 			}
 		} else if (geo.isGeoNumeric() && geo.isIndependent()) {
-			if (!isShowSliders() || !geo.isChangeable()) {
+			if (!isShowSliders() || !geo.isPointerChangeable()) {
 				return false;
 			}
 		} else {

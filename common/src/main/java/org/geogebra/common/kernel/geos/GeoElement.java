@@ -2311,6 +2311,10 @@ public abstract class GeoElement extends ConstructionElement
 		return !isProtected() && isIndependent();
 	}
 
+	public boolean isPointerChangeable() {
+		return !isLocked() && isIndependent();
+	}
+
 	/**
 	 * Returns whether this GeoElement is a point on a path.
 	 * 
@@ -2350,7 +2354,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public boolean isMoveable() {
-		return isChangeable();
+		return isPointerChangeable();
 	}
 
 	/**
@@ -2571,7 +2575,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this geo can be rotated
 	 */
 	public boolean isRotateMoveable() {
-		return isChangeable() && (this instanceof PointRotateable);
+		return isPointerChangeable() && (this instanceof PointRotateable);
 	}
 
 	/**

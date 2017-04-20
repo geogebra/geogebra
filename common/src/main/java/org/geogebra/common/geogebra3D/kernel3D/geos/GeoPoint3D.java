@@ -2077,19 +2077,19 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 						NumberValue zNum = proc.getCoordNumber(zcoord);
 
 						if (xNum instanceof GeoNumeric
-								&& ((GeoNumeric) xNum).isChangeable()) {
+								&& ((GeoNumeric) xNum).isPointerChangeable()) {
 							changeableCoordNumbers.add(xNum);
 						} else {
 							changeableCoordNumbers.add(null);
 						}
 						if (yNum instanceof GeoNumeric
-								&& ((GeoNumeric) yNum).isChangeable()) {
+								&& ((GeoNumeric) yNum).isPointerChangeable()) {
 							changeableCoordNumbers.add(yNum);
 						} else {
 							changeableCoordNumbers.add(null);
 						}
 						if (zNum instanceof GeoNumeric
-								&& ((GeoNumeric) zNum).isChangeable()) {
+								&& ((GeoNumeric) zNum).isPointerChangeable()) {
 							changeableCoordNumbers.add(zNum);
 						} else {
 							changeableCoordNumbers.add(null);
@@ -2135,7 +2135,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	@Override
 	final public boolean hasChangeableCoordParentNumbers() {
-
+		// TODO why does this check only x,y?
 		if (isLocked()) {
 			return false;
 		}
@@ -2180,9 +2180,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		boolean ret = (num1 instanceof GeoNumeric
-				&& ((GeoNumeric) num1).isChangeable())
+				&& ((GeoNumeric) num1).isPointerChangeable())
 				|| (num2 instanceof GeoNumeric
-						&& ((GeoNumeric) num2).isChangeable());
+						&& ((GeoNumeric) num2).isPointerChangeable());
 
 		return ret;
 	}
