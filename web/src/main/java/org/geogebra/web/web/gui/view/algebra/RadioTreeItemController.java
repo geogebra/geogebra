@@ -299,6 +299,10 @@ public class RadioTreeItemController
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
+		if (getLongTouchManager().isLongTouchHappened()) {
+			return;
+		}
+		
 		if (editOnTap(active, wrappedEvent)) {
 			onPointerUp(wrappedEvent);
 			CancelEventTimer.touchEventOccured();

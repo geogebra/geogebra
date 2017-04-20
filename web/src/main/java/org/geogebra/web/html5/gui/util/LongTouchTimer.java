@@ -43,6 +43,7 @@ public class LongTouchTimer extends Timer {
 		this.handler = handler;
 		this.x = 0;
 		this.y = 0;
+		longTouchHappened = false;
 	}
 
 	@Override
@@ -65,6 +66,7 @@ public class LongTouchTimer extends Timer {
 	 *            the y coordinate passed to the handler
 	 */
 	public void schedule(LongTouchHandler handler, int x, int y) {
+		longTouchHappened = false;
 		schedule(handler, x, y, SHOW_CONTEXT_MENU_DELAY);
 	}
 
@@ -138,6 +140,7 @@ public class LongTouchTimer extends Timer {
 	public void rescheduleIfRunning(LongTouchHandler handler, int x, int y,
 	        int delayMillis, boolean shouldCancel) {
 		if (isRunning()) {
+			longTouchHappened = false;
 			cancel();
 			if (!shouldCancel || pointWithinLimit(x, y)) {
 				schedule(handler, x, y, delayMillis);
@@ -149,6 +152,7 @@ public class LongTouchTimer extends Timer {
 		x = 0;
 		y = 0;
 		handler = null;
+		longTouchHappened = false;
 		cancel();
 	}
 
