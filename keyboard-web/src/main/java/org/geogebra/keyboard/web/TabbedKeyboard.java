@@ -19,6 +19,7 @@ import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TabbedKeyboard extends FlowPanel {
@@ -87,7 +88,10 @@ public class TabbedKeyboard extends FlowPanel {
 	}
 
 	private Widget makeCloseButton() {
-		Button closeButton = new Button("x");
+		Image img = new Image(KeyboardResources.INSTANCE
+				.keyboard_close_black().getSafeUri().asString());
+		Button closeButton = new Button();
+		closeButton.getElement().appendChild(img.getElement());
 		closeButton.addStyleName("closeTabbedKeyboardButton");
 		ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
