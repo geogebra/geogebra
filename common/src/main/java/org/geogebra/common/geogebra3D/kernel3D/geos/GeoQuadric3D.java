@@ -150,7 +150,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				- matrix[1] * matrix[5] * matrix[5]
 				- matrix[2] * matrix[4] * matrix[4]
 				+ 2 * matrix[4] * matrix[5] * matrix[6];
-		Log.debug(detS + ",");
+
 		if (Kernel.isZero(detS)) {
 			classifyNoMidpointQuadric();
 		} else {
@@ -190,6 +190,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				planes[0].setEquation(matrix[7], matrix[8], matrix[9],
 						matrix[3] / 2);
 				type = GeoQuadricNDConstants.QUADRIC_PLANE;
+
 			} else {
 				// two eigenvalues = 0
 				twoZeroEigenvalues(eigenval[1]);
@@ -1851,6 +1852,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
 			getLine().set(quadric.line);
+		}
+
+		if (kernel.getConstruction().isFileLoading() && typeChanged
+				&& type == QUADRIC_NOT_CLASSIFIED) {
+			classifyQuadric();
 		}
 		super.set(geo);
 		if (typeChanged) {
