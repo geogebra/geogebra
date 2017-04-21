@@ -127,63 +127,6 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append("Limit");
 			serializeArgs(mathFunction, stringBuilder,
 					new int[] { 2, 3, 0, 1 });
-		}
-
-		/*
-		 * else if ("nsum".equals(function.getName()) ||
-		 * "nprod".equals(function.getName())) {
-		 * buffer.append(function.getTexName()); buffer.append("_{");
-		 * serialize(function.getArgument(0), buffer); buffer.append('=');
-		 * serialize(function.getArgument(1), buffer); buffer.append('}');
-		 * boolean addBraces = currentBraces ||
-		 * (function.getArgument(2).hasOperator()); if (addBraces) {
-		 * buffer.append('('); } serialize(function.getArgument(2), buffer); if
-		 * (addBraces) { buffer.append(')'); }
-		 * 
-		 * } else if ("int".equals(function.getName())) {
-		 * buffer.append(function.getTexName()); buffer.append('_');
-		 * serialize(function.getArgument(0), buffer); buffer.append('^');
-		 * serialize(function.getArgument(1), buffer); buffer.append('{');
-		 * boolean addBraces = currentBraces; if (addBraces) {
-		 * buffer.append('('); } serialize(function.getArgument(2), buffer); //
-		 * jmathtex v0.7: incompatibility buffer.append(" " + (jmathtex ?
-		 * "\\nbsp" : "\\ ") + " d"); serialize(function.getArgument(3),
-		 * buffer); if (addBraces) { buffer.append(')'); } buffer.append('}');
-		 * 
-		 * } else if ("nint".equals(function.getName())) {
-		 * buffer.append(function.getTexName()); buffer.append((jmathtex ?
-		 * "_{\\nbsp}" : "") + "{"); boolean addBraces = currentBraces; if
-		 * (addBraces) { buffer.append('('); }
-		 * serialize(function.getArgument(0), buffer); // jmathtex v0.7:
-		 * incompatibility buffer.append(" " + (jmathtex ? "\\nbsp" : "\\ ") +
-		 * " d"); serialize(function.getArgument(1), buffer); if (addBraces) {
-		 * buffer.append(')'); } buffer.append('}');
-		 * 
-		 * } else if ("lim".equals(function.getName())) { // lim not implemented
-		 * in jmathtex if (!jmathtex) { buffer.append("\\"); }
-		 * buffer.append(function.getTexName()); buffer.append("_{");
-		 * serialize(function.getArgument(0), buffer); buffer.append(
-		 * " \\rightarrow "); serialize(function.getArgument(1), buffer); //
-		 * jmathtex v0.7: incompatibility buffer.append("} " + (jmathtex ?
-		 * "\\nbsp" : "\\ ") + " {"); boolean addBraces = currentBraces ||
-		 * (function.getArgument(2).hasOperator() && function
-		 * .getParent().hasOperator()); if (addBraces) { buffer.append('('); }
-		 * serialize(function.getArgument(2), buffer); if (addBraces) {
-		 * buffer.append(')'); } buffer.append('}');
-		 * 
-		 * }
-		 */
-		else if ("factorial".equals(mathFunctionName)) {
-			MathSequence argument = mathFunction.getArgument(0);
-			boolean addBraces = argument.hasOperator();
-			if (addBraces) {
-				stringBuilder.append('(');
-			}
-			serialize(argument, stringBuilder);
-			if (addBraces) {
-				stringBuilder.append(')');
-			}
-			stringBuilder.append("!");
 		} else {
 			// some general function
 			maybeInsertTimes(mathFunction, stringBuilder);
