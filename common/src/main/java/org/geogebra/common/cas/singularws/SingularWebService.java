@@ -61,7 +61,8 @@ public class SingularWebService {
 					+ caching);
 		} else {
 			httpr.sendRequestPost(url1,
-					"c=" + command + "&p=" + encodedParameters + caching, null);
+					"c=" + command + "&p=" + encodedParameters + caching,
+					null);
 		}
 		// In fact we will not use Varnish after changing SingularWS to version
 		// >= 3 (2014-01-03).
@@ -205,7 +206,8 @@ public class SingularWebService {
 	 *             ComputationException when problem occurs
 	 */
 	public String directCommand(String singularProgram) throws Throwable {
-		return swsCommandResult(singularDirectCommand, singularProgram);
+		return swsCommandResult(singularDirectCommand,
+				singularProgram);
 	}
 
 	/**

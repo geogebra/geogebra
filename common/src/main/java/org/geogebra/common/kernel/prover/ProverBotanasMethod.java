@@ -319,8 +319,9 @@ public class ProverBotanasMethod {
 
 		private boolean disallowFixSecondPoint = false;
 
-
 		private String polys, elimVars, freeVars;
+
+		private PPolynomial[] thesisFactors;
 
 		/**
 		 * Return the polynomials of the algebraic structure as a String. Use
@@ -401,6 +402,15 @@ public class ProverBotanasMethod {
 		 */
 		public Set<PPolynomial> getPolynomials() {
 			return polynomials;
+		}
+
+		/**
+		 * Create the negated thesis. Note that this can be called only once and
+		 * cannot be reverted.
+		 */
+		public void negateThesis() {
+			removeGeoPolys(geoStatement);
+			addGeoPolys(geoStatement, thesisFactors);
 		}
 
 		/**
@@ -1167,15 +1177,25 @@ public class ProverBotanasMethod {
 				 * FIXME: this always introduces an extra variable, shouldn't
 				 * do.
 				 */
+				thesisFactors = new PPolynomial[statements.length];
+				int i = 0;
 				for (PPolynomial[] statement : statements) {
 					PPolynomial factor = (statement[statement.length - 1]);
+					thesisFactors[i] = factor;
 					Log.debug("(" + factor + ")*" + z + "-1");
 					factor = factor.multiply(new PPolynomial(z))
 							.subtract(new PPolynomial(BigInteger.ONE));
 					spoly = spoly.multiply(factor);
+					i++;
 				}
-				/* Note: the geo is not stored */
-				addPolynomial(spoly);
+				/*
+				 * We store the geoStatement -> product mapping. Later we should
+				 * be able to remove this and use the last polys for checking
+				 * the negated statement.
+				 */
+				PPolynomial[] spolys = new PPolynomial[1];
+				spolys[0] = spoly;
+				addGeoPolys(geoStatement, spolys);
 				Log.debug("that is,");
 				Log.debug((k + 1) + ". " + spoly);
 				if (proverSettings.captionAlgebra) {
@@ -1378,6 +1398,40 @@ public class ProverBotanasMethod {
 							 */
 							Log.debug("Statement is NOT GENERALLY TRUE");
 
+							/*
+							 * It is possible that the statement is not
+							 * generally false, either.
+							 * 
+							 */
+							as.negateThesis();
+							eliminationIdeal = PPolynomial.eliminate(
+									as.getPolynomials()
+											.toArray(new PPolynomial[as
+													.getPolynomials().size()]),
+									substitutions, k, permutation++, true,
+									false);
+							ndgSet = eliminationIdeal.iterator();
+							while (ndgSet.hasNext()) {
+								thisNdgSet = ndgSet.next();
+								ndg = thisNdgSet.iterator();
+								while (ndg.hasNext()) {
+									poly = ndg.next();
+									if (poly.isZero()) {
+										/*
+										 * Here we know that the statement is
+										 * reported to be not generally false.
+										 */
+										Log.debug(
+												"Statement is NOT GENERALLY FALSE");
+										return ProofResult.UNKNOWN;
+									}
+								}
+							}
+							/*
+							 * End of checking if the statement is not generally
+							 * false.
+							 */
+
 							if (as.interpretFalseAsUndefined) {
 								Log.debug("Interpreting FALSE as UNKNOWN");
 								return ProofResult.UNKNOWN;
@@ -1511,6 +1565,36 @@ public class ProverBotanasMethod {
 				}
 				/* Here we know that the statement is not generally true. */
 				Log.debug("Statement is NOT GENERALLY TRUE");
+
+				/*
+				 * It is possible that the statement is not generally false,
+				 * either.
+				 */
+				as.negateThesis();
+				solvable = PPolynomial
+						.solvable(
+								as.getPolynomials()
+										.toArray(new PPolynomial[as
+												.getPolynomials().size()]),
+								substitutions, statement.getKernel(),
+								proverSettings.transcext);
+				if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
+					/*
+					 * Prover returned with no success, search for another
+					 * prover:
+					 */
+					Log.debug(
+							"Unsuccessful run on negated statement, statement is UNKNOWN at the moment");
+					return ProofResult.UNKNOWN;
+				}
+				if (solvable.boolVal()) {
+					/*
+					 * Here we know that the statement is not generally false.
+					 */
+					Log.debug("Statement is NOT GENERALLY FALSE");
+					return ProofResult.UNKNOWN;
+				}
+				/* End of checking if the statement is not generally false. */
 
 				if (as.interpretFalseAsUndefined
 						&& !as.interpretTrueAsUndefined) {
