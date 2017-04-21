@@ -1423,7 +1423,7 @@ public class ProverBotanasMethod {
 										 */
 										Log.debug(
 												"Statement is NOT GENERALLY FALSE");
-										return ProofResult.UNKNOWN;
+										return ProofResult.UNDERDETERMINED;
 									}
 								}
 							}
@@ -1592,7 +1592,7 @@ public class ProverBotanasMethod {
 					 * Here we know that the statement is not generally false.
 					 */
 					Log.debug("Statement is NOT GENERALLY FALSE");
-					return ProofResult.UNKNOWN;
+					return ProofResult.UNDERDETERMINED;
 				}
 				/* End of checking if the statement is not generally false. */
 

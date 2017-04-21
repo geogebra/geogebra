@@ -96,6 +96,12 @@ public abstract class Prover {
 		 */
 		TRUE_NDG_UNREADABLE,
 		/**
+		 * The statement is neither generally true, nor generally false. That
+		 * is, it is true on a component, but not true on all components in the
+		 * algebraic geometry context.
+		 */
+		UNDERDETERMINED,
+		/**
 		 * The proof is completed, the statement is generally false
 		 */
 		FALSE,
@@ -631,7 +637,8 @@ public abstract class Prover {
 	public ExtendedBoolean getYesNoAnswer() {
 		if (result != null) {
 			if (result == Prover.ProofResult.TRUE
-					|| result == Prover.ProofResult.TRUE_NDG_UNREADABLE) {
+					|| result == Prover.ProofResult.TRUE_NDG_UNREADABLE
+					|| result == Prover.ProofResult.UNDERDETERMINED) {
 				return ExtendedBoolean.TRUE;
 			}
 			if (result == Prover.ProofResult.FALSE) {
