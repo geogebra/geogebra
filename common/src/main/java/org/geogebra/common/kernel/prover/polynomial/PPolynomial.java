@@ -1292,10 +1292,21 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			ret.add(polys);
 			return ret;
 		}
+		/*
+		 * Singular may return "halt 1" or something similar. We should handle
+		 * this in general but for some strange reason we cannot catch the
+		 * exception later from PolynomialParser. TODO: find a better way than
+		 * this hack.
+		 */
+		if (elimResult.contains("halt")) {
+			return null; // too difficult problem for Singular
+		}
+
 		// Giac returns ? or empty string if there was a timeout:
 		if ("?".equals(elimResult) || "".equals(elimResult)) {
 			return null; // cannot decide
 		}
+
 		try {
 			return PolynomialParser.parseFactoredPolynomialSet(
 					elimResult, variables);
