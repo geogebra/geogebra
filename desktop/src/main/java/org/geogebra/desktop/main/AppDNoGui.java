@@ -764,4 +764,8 @@ public class AppDNoGui extends App {
 
 	}
 
+	public boolean is3D() {
+		return true;
+	}
+
 }

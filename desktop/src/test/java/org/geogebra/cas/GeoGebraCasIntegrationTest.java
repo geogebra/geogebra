@@ -5011,18 +5011,32 @@ public class GeoGebraCasIntegrationTest {
 	public void vectorPointTest(){
 		t("v:=(1,1)","(1,1)");
 		t("V:=v+v", "(2,2)");
-		Assert.assertEquals(GeoClass.VECTOR, app.getKernel()
-				.lookupCasCellLabel("V").getTwinGeo().getGeoClassType());
+		Assert.assertEquals(GeoClass.VECTOR,
+				app.getKernel().lookupLabel("V").getGeoClassType());
 
 		t("w:=(1,1,1)", "(1,1,1)");
 		t("W:=w+w", "(2,2,2)");
-		Assert.assertEquals(GeoClass.VECTOR3D, app.getKernel()
-				.lookupCasCellLabel("W").getTwinGeo().getGeoClassType());
+		Assert.assertEquals(GeoClass.VECTOR3D,
+				app.getKernel().lookupLabel("W").getGeoClassType());
 	}
 
 	@Test
 	public void orthogonalVectorFallbackTest() {
-		t("E:=Plane[(1,-2,3), (-2, 0,1),(0,3,2)]", "8x - y -  13z = -29");
+		t("E:=Plane[(1,-2,3), (-2, 0,1),(0,3,2)]", "8x - y - 13z = -29");
 		t("PerpendicularVector[E]", "(8, -1, -13)");
+	}
+
+	@Test
+	public void quadricReloadTest() {
+		t("a:=2", "2");
+		t("K:=x^2+y^2+z^2=a", "x^(2) + y^(2) + z^(2) = 2");
+		Assert.assertEquals("Sphere",
+				app.getKernel().lookupCasCellLabel("K").getTwinGeo()
+						.getTypeString());
+		String xml = app.getXML();
+		app.getKernel().clearConstruction(true);
+		app.setXML(xml, true);
+		Assert.assertEquals("Sphere", app.getKernel().lookupCasCellLabel("K")
+				.getTwinGeo().getTypeString());
 	}
 }

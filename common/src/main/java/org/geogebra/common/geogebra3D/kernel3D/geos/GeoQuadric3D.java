@@ -1853,7 +1853,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
 			getLine().set(quadric.line);
 		}
-
+		// GGB-1629 we may need to classify quadric from CAS
 		if (kernel.getConstruction().isFileLoading() && typeChanged
 				&& type == QUADRIC_NOT_CLASSIFIED) {
 			classifyQuadric();
