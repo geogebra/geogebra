@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.lang.Language;
@@ -20,13 +21,100 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TabbedKeyboard extends FlowPanel {
+	
+	private class KeyboardSwitcher extends FlowPanel {
+		private static final int SWITCHER_HEIGHT = 40;
+		private FlowPanel contents;
+		private List<Widget> switches;
+		private Button closeButton;
+		private Button moreButton;
+		public KeyboardSwitcher() {
+			addStyleName("KeyboardSwitcher");
+			add(makeCloseButton());
+			contents = new FlowPanel();
+			contents.addStyleName("switcherContents");
+			add(contents);
+			switches = new ArrayList<>();
+		}
 
-	private static final int SWITCHER_HEIGHT = 40;
+		public void addMoreButton() {
+			contents.add(makeMoreButton());
+		
+		}
+		public void addSwitch(final KeyPanelBase keyboard,
+				String string) {
+			Widget btn = makeSwitcherButton(keyboard, string);
+			switches.add(btn);
+			contents.add(btn);
+		}
+		
+		private Widget makeSwitcherButton(final KeyPanelBase keyboard,
+				String string) {
+			final Button ret = new Button(string);
+			ClickStartHandler.init(ret, new ClickStartHandler(true, true) {
+
+				private ComplexPanel switchButtonCount;
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					for (int i = 0; i < switches.size(); i++) {
+						((FlowPanel) keyboard.getParent()).getWidget(i)
+								.setVisible(false);
+						switches.get(i).removeStyleName("selected");
+					}
+					currentKeyboard = keyboard;
+					keyboard.setVisible(true);
+					adjustSwitcher(keyboard);
+					ret.addStyleName("selected");
+				}
+			});
+			return ret;
+		}
+
+		private Widget makeCloseButton() {
+			Image img = new Image(KeyboardResources.INSTANCE
+					.keyboard_close_black().getSafeUri().asString());
+			closeButton = new Button();
+			closeButton.getElement().appendChild(img.getElement());
+			closeButton.addStyleName("closeTabbedKeyboardButton");
+			ClickStartHandler.init(closeButton, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					updateKeyBoardListener.keyBoardNeeded(false, null);
+
+				}
+			});
+			return closeButton;
+		}
+
+		private Widget makeMoreButton() {
+			Image img = new Image(KeyboardResources.INSTANCE
+					.keyboard_more().getSafeUri().asString());
+			moreButton = new Button();
+			moreButton.getElement().appendChild(img.getElement());
+			moreButton.addStyleName("moreKeyboardButton");
+			ClickStartHandler.init(moreButton, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+
+				}
+			});
+			return moreButton;
+		}
+		public void setWidth(int width) {
+			contents.setPixelSize(width, getOffsetHeight());
+		}
+
+	}
+
 	private KeyboardLocale locale;
 	private boolean isSmallKeyboard;
 	protected HasKeyboard app;
@@ -35,7 +123,7 @@ public class TabbedKeyboard extends FlowPanel {
 	private ButtonHandler bh;
 	private UpdateKeyBoardListener updateKeyBoardListener;
 	private FlowPanel tabs;
-	private FlowPanel switcher;
+	private KeyboardSwitcher switcher;
 	protected KeyPanelBase currentKeyboard=null;
 
 	public TabbedKeyboard() {
@@ -53,20 +141,22 @@ public class TabbedKeyboard extends FlowPanel {
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
 		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
-		switcher = new FlowPanel();
-		switcher.addStyleName("KeyboardSwitcher");
+		switcher = new KeyboardSwitcher();
 		this.app = app;
 		this.bh = bh;
 		this.locale = app.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
+
+		switcher.addMoreButton();
+
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), bh);
 		tabs.add(keyboard);
-		switcher.add(makeSwitcherButton(keyboard, "123"));
+		switcher.addSwitch(keyboard, "123");
 
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.add(makeSwitcherButton(keyboard, "fx"));
+		switcher.addSwitch(keyboard, "fx");
 
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
@@ -75,17 +165,15 @@ public class TabbedKeyboard extends FlowPanel {
 				bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.add(makeSwitcherButton(keyboard, "ABC"));
+		switcher.addSwitch(keyboard, "ABC");
 
 		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.add(makeSwitcherButton(keyboard, Unicode.alphaBetaGamma));
+		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
 
 
 
-		
-		switcher.add(makeCloseButton());
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
@@ -94,22 +182,7 @@ public class TabbedKeyboard extends FlowPanel {
 		
 	}
 
-	private Widget makeCloseButton() {
-		Image img = new Image(KeyboardResources.INSTANCE
-				.keyboard_close_black().getSafeUri().asString());
-		Button closeButton = new Button();
-		closeButton.getElement().appendChild(img.getElement());
-		closeButton.addStyleName("closeTabbedKeyboardButton");
-		ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				updateKeyBoardListener.keyBoardNeeded(false, null);
-
-			}
-		});
-		return closeButton;
-	}
 
 	private String filter(String keys) {
 		StringBuilder sb = new StringBuilder(11);
@@ -120,27 +193,6 @@ public class TabbedKeyboard extends FlowPanel {
 		return sb.toString().replace("'", "");
 	}
 
-	private Widget makeSwitcherButton(final KeyPanelBase keyboard,
-			String string) {
-		final Button ret = new Button(string);
-		ClickStartHandler.init(ret, new ClickStartHandler(true, true) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				for (int i = 0; i < ((FlowPanel) keyboard.getParent())
-						.getWidgetCount(); i++) {
-					((FlowPanel) keyboard.getParent()).getWidget(i)
-							.setVisible(false);
-					switcher.getWidget(i).removeStyleName("selected");
-				}
-				currentKeyboard = keyboard;
-				keyboard.setVisible(true);
-				adjustSwitcher(keyboard);
-				ret.addStyleName("selected");
-			}
-		});
-		return ret;
-	}
 
 	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
 		final KeyPanelBase keyboard = new KeyPanelBase(layout);
@@ -239,7 +291,6 @@ public class TabbedKeyboard extends FlowPanel {
 					adjustSwitcher(currentKeyboard);
 				} else {
 					adjustSwitcher((KeyPanelBase) tabs.getWidget(0));
-					switcher.getWidget(0).addStyleName("selected");
 			}
 				}
 			
@@ -247,10 +298,7 @@ public class TabbedKeyboard extends FlowPanel {
 	}
 		
 	protected void adjustSwitcher(KeyPanelBase keyboard) {
-		switcher.getElement().getStyle().setLeft(keyboard.getAbsoluteLeft(),
-				Unit.PX);
-		switcher.setPixelSize(keyboard.getOffsetWidth(), SWITCHER_HEIGHT);
-		
+		switcher.setWidth(keyboard.getRows().get(0).getOffsetWidth());	
 	}
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
 		switch (wb.getResourceType()) {

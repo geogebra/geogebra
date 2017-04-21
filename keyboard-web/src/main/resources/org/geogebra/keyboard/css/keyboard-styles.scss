@@ -48,11 +48,13 @@
 		width: 24px;
 		height: 24px; 
 		float: right;
+		
 	}
 
 	/* special css for Springboard */
 	.KeyBoard table {
 		border-collapse: separate;
+		clear: both;
 	}
 
 	.KeyBoard {
@@ -325,6 +327,14 @@
 		margin-bottom: 5px;
 	}
 
+	
+
+	.KeyboardSwitcher .switcherContents {
+		margin-left: auto;
+		margin-right: auto;
+		
+	}
+
 	.KeyboardSwitcher .gwt-Button {
 		color: black;
 		border: 0;
@@ -332,7 +342,11 @@
 		box-shadow: none;
 	}
 
-	.KeyboardSwitcher .selected {
+	.KeyboardSwitcher .switcherContents .moreKeyboardButton {
+		float: right;
+	}
+	
+	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
 		color: #6666FF;
 	}
 	
