@@ -334,19 +334,19 @@ public class TabbedKeyboard extends FlowPanel {
 		String resourceName = button.getResourceName();
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.keyboard_enter(), bh,
+					KeyboardResources.INSTANCE.keyboard_enter_black(), bh,
 					Action.RETURN_ENTER);
 		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
+					KeyboardResources.INSTANCE.keyboard_backspace_black(), bh,
 					Action.BACKSPACE_DELETE);
 		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.keyboard_arrowLeft(), bh,
+					KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), bh,
 					Action.LEFT_CURSOR);
 		} else if (resourceName.equals(Resource.RIGHT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.keyboard_arrowRight(), bh,
+					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
 					Action.RIGHT_CURSOR);
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return new KeyBoardButtonBase("a^2", "^2", bh);

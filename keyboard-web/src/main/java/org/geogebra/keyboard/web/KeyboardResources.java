@@ -33,18 +33,34 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/keyboard/backspace.png")
 	ImageResource keyboard_backspace();
+	
+	// backspace for new keyboard
+	@Source("org/geogebra/common/icons/png/keyboard/backspace_black.png")
+	ImageResource keyboard_backspace_black();
 
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_backspace.png")
 	ImageResource keyboard_backspaceOld();
 
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter.png")
 	ImageResource keyboard_enter();
+	
+	// enter for new keyboard
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_enter_black.png")
+	ImageResource keyboard_enter_black();
 
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowLeft.png")
 	ImageResource keyboard_arrowLeft();
-
+	
+	// left arrow for new keyboard
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowLeft_black.png")
+	ImageResource keyboard_arrowLeft_black();
+	
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight.png")
 	ImageResource keyboard_arrowRight();
+	
+	// right arrow for new keyboard
+	@Source("org/geogebra/common/icons/png/keyboard/keyboard_arrowRight_black.png")
+	ImageResource keyboard_arrowRight_black();
 
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_open.png")
 	ImageResource keyboard_show();
