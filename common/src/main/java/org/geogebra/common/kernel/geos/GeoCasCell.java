@@ -834,7 +834,7 @@ public class GeoCasCell extends GeoElement
 		} else {
 			for (Command cmd : commands) {
 				String cmdName = cmd.getName();
-				wasPerpVectorCmd = "OrthogonalVector".equals(cmdName);
+				wasPerpVectorCmd = "UnitOrthogonalVector".equals(cmdName);
 				// Numeric used
 				includesNumericCommand = includesNumericCommand
 						|| ("Numeric".equals(cmdName)

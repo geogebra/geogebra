@@ -1602,7 +1602,9 @@ public class Ggb2giac {
 				"ggbvect[%0,%1]" + "))");
 
 		p("OrthogonalVector.1",
-				"when(is_3dpoint(%0),?,convert([[0,-1],[1,0]]*(%0),25))");
+				"when(is_3dpoint(%0),?,"
+						+ "when((%0)[0]=='=',convert(when(count_eq(z,lname(%0))==0,[xcoord(%0),ycoord(%0)],[xcoord(%0),ycoord(%0),zcoord(%0)]),25),"
+						+ "convert([[0,-1],[1,0]]*(%0),25)))");
 		p("UnitOrthogonalVector.1",
 				"when(type(%0)==DOM_LIST && size(%0) != 2,?,"
 						+ "when(is_3dpoint(%0),?,"
