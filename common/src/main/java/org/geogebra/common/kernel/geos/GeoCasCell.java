@@ -828,13 +828,11 @@ public class GeoCasCell extends GeoElement
 		// get all command names
 		HashSet<Command> commands = new HashSet<Command>();
 		ve.traverse(CommandCollector.getCollector(commands));
-		boolean wasPerpVectorCmd = false;
 		if (commands.isEmpty()) {
 			commands = null;
 		} else {
 			for (Command cmd : commands) {
 				String cmdName = cmd.getName();
-				wasPerpVectorCmd = "UnitOrthogonalVector".equals(cmdName);
 				// Numeric used
 				includesNumericCommand = includesNumericCommand
 						|| ("Numeric".equals(cmdName)
@@ -861,11 +859,7 @@ public class GeoCasCell extends GeoElement
 		}
 
 		useGeoGebraFallback = useGeoGebraFallback
-				|| ve.inspect(Inspecting.textFinder)
-				// use geogebra fallback for PerpendicularVector cmd with Plane
-				// argument
-				// see GGB-1630
-				|| (wasPerpVectorCmd && ve.inspect(Inspecting.planeFinder));
+				|| ve.inspect(Inspecting.textFinder);
 
 		// get all used GeoElement variables
 		// check for function

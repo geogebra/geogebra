@@ -1614,13 +1614,13 @@ public class Ggb2giac {
 						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25)) , "
 						// case UnitOrthogonalVecto[Line]
 						// UnitOrthogonalVector[Segment]
-						+ "when ((unitV([xcoord(%0),ycoord(%0)]))[0] == 'undef',"
+						+ "[[gguv:=unitV(when(count_eq(z,lname(%0))==0,[xcoord(%0),ycoord(%0)],[xcoord(%0),ycoord(%0),zcoord(%0)]))],when ((gguv)[0] == 'undef',"
 						+ "point(?,?),"
-						+ "when (size(unitV([xcoord(%0),ycoord(%0)])) == 1 , "
+						+ "when (size(gguv) == 1 , "
 						+ "regroup(convert("
-						+ "point(getNum(unitV([xcoord(%0),ycoord(%0)]))[0]/getDenom(unitV([xcoord(%0),ycoord(%0)])),"
-						+ "getNum(unitV([xcoord(%0),ycoord(%0)]))[1]/getDenom(unitV([xcoord(%0),ycoord(%0)])) ),25)) , "
-						+ "regroup(convert(unitV([xcoord(%0),ycoord(%0)]),25)) ) )"
+						+ "point(getNum(gguv)[0]/getDenom(gguv),"
+						+ "getNum(gguv)[1]/getDenom(gguv) ),25)) , "
+						+ "regroup(convert(gguv,25)) ) )][1]"
 						+ " ) ) )");
 		p("UnitVector.1",
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
