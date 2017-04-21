@@ -27,8 +27,8 @@ public class AlgoCenterQuadric extends AlgoCenterQuadricND {
 	}
 
 	@Override
-	public GeoPointND newGeoPoint(Construction cons) {
-		return new GeoPoint3D(cons);
+	public GeoPointND newGeoPoint(Construction cons1) {
+		return new GeoPoint3D(cons1);
 	}
 
 	@Override

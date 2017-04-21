@@ -40,10 +40,10 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	}
 
 	@Override
-	protected void createPoints(Construction cons) {
+	protected void createPoints(Construction cons1) {
 		P = new GeoPoint3D[2];
-		P[0] = new GeoPoint3D(cons);
-		P[1] = new GeoPoint3D(cons);
+		P[0] = new GeoPoint3D(cons1);
+		P[1] = new GeoPoint3D(cons1);
 
 		coords2D = new Coords[2];
 		coords2D[0] = new Coords(3);
@@ -95,9 +95,9 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	}
 
 	@Override
-	protected AlgoIntersectND createAlgo(Construction cons, GeoPointND p,
+	protected AlgoIntersectND createAlgo(Construction cons1, GeoPointND p,
 			GeoLine line, GeoConicND conic) {
-		return new AlgoIntersectLineIncludedConic3D(cons, line, conic);
+		return new AlgoIntersectLineIncludedConic3D(cons1, line, conic);
 	}
 
 	/**
@@ -128,9 +128,9 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	}
 
 	@Override
-	protected void updateTangents(GeoPointND[] tangentPoints, int index) {
+	protected void updateTangents(GeoPointND[] tangentPts, int index) {
 		// calc tangents through tangentPoints
-		if (!tangentPoints[0].isDefined()) {
+		if (!tangentPts[0].isDefined()) {
 			tangents[0 + 2 * index].setUndefined();
 		} else {
 			// if (P[index].isInfinite()){
@@ -140,10 +140,10 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 			// P[index].getCoords());
 			// }else{
 			((GeoLine3D) tangents[0 + 2 * index]).setCoord(P[index],
-					tangentPoints[0]);
+					tangentPts[0]);
 			// }
 		}
-		if (!tangentPoints[1].isDefined()) {
+		if (!tangentPts[1].isDefined()) {
 			tangents[1 + 2 * index].setUndefined();
 		} else {
 			// if (P[index].isInfinite()){
@@ -153,7 +153,7 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 			// P[index].getCoords());
 			// }else{
 			((GeoLine3D) tangents[1 + 2 * index]).setCoord(P[index],
-					tangentPoints[1]);
+					tangentPts[1]);
 			// }
 		}
 	}

@@ -49,8 +49,8 @@ public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
 	}
 
 	@Override
-	protected GeoAngle newGeoAngle(Construction cons) {
-		GeoAngle ret = new GeoAngle3D(cons);
+	protected GeoAngle newGeoAngle(Construction cons1) {
+		GeoAngle ret = new GeoAngle3D(cons1);
 		ret.setDrawable(true);
 		return ret;
 	}

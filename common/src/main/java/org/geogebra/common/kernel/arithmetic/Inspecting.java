@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Allows checking whether at least one part of structured expression value has
@@ -293,11 +294,15 @@ public interface Inspecting {
 
 		@Override
 		public boolean check(ExpressionValue v) {
+
 			if (v instanceof GeoDummyVariable) {
+				String name = ((GeoDummyVariable) v)
+						.toString(StringTemplate.defaultTemplate);
+				Log.debug(name);
 				GeoElement geo = ((GeoDummyVariable) v).getKernel()
-						.lookupLabel(((GeoDummyVariable) v)
-								.toString(StringTemplate.defaultTemplate));
-				return (geo instanceof GeoPlaneND);
+						.lookupLabel(name);
+				return (geo instanceof GeoPlaneND)
+						|| "z".equals(name);
 			}
 			return (v instanceof GeoPlaneND);
 		}

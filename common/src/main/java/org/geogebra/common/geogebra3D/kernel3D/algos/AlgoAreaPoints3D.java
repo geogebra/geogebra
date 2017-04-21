@@ -35,12 +35,12 @@ public class AlgoAreaPoints3D extends AlgoAreaPoints {
 	private GeoPoint[] points2D;
 
 	@Override
-	protected void createOutput(Construction cons) {
-		super.createOutput(cons);
+	protected void createOutput(Construction cons1) {
+		super.createOutput(cons1);
 		coordSys = new CoordSys(2);
 		points2D = new GeoPoint[P.length];
 		for (int i = 0; i < P.length; i++) {
-			points2D[i] = new GeoPoint(cons, true);
+			points2D[i] = new GeoPoint(cons1, true);
 		}
 	}
 

@@ -1080,13 +1080,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private double findBivariateColinear(final double x0, final double y0,
 			final double z0, final double vx, final double vy, final double vz,
 			final double vSquareNorm, final double gxc, final double gyc,
-			final double gzc, double[] uv) {
+			final double gzc, double[] uvParams) {
 
 		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
 
 			// calc angle vector between hitting direction and hitting
 			// origin-point on surface
-			setVectorForBivariate(uv, xyz, vx, vy, vz, gxc, gyc, gzc,
+			setVectorForBivariate(uvParams, xyz, vx, vy, vz, gxc, gyc, gzc,
 					bivariateVector);
 
 			double dx = xyz[0] - x0;
@@ -1101,7 +1101,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			}
 
 			// set jacobian matrix and solve it
-			setJacobianForBivariate(uv, vx, vy, vz, jacobian);
+			setJacobianForBivariate(uvParams, vx, vy, vz, jacobian);
 			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
 
 			// if no solution, dismiss
@@ -1110,11 +1110,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 			}
 
 			// calc new parameters
-			uv[0] -= bivariateDelta.getX();
-			uv[1] -= bivariateDelta.getY();
+			uvParams[0] -= bivariateDelta.getX();
+			uvParams[1] -= bivariateDelta.getY();
 
 			// check bounds
-			randomBackInIntervalsIfNeeded(uv);
+			randomBackInIntervalsIfNeeded(uvParams);
 
 		}
 
