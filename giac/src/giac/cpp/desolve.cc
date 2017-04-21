@@ -844,6 +844,7 @@ namespace giac {
 	    }
 	    if (reel && is_zero(im(cst,contextptr)))
 	      part=re(part,contextptr);
+	    //part=recursive_ratnormal(part,contextptr);
 	    part=simplify(part,contextptr);
 	  }
 	  if (step_info)

@@ -71,7 +71,7 @@ namespace giac {
   }
   typedef gen (* gen_op_context) (const gen &,GIAC_CONTEXT);
   gen subst(const gen & e,const std::vector<const unary_function_ptr *> & v,const std::vector< gen_op_context > & w,bool quotesubst,GIAC_CONTEXT);
-  gen subst(const gen & e,const unary_function_ptr * v,const gen_op_context * w,bool quotesubst,GIAC_CONTEXT);
+  gen subst(const gen & e,const unary_function_ptr * v,const gen_op_context * w,bool quotesubst,GIAC_CONTEXT,bool recursive_nonrat=true);
 
   gen subst(const gen & e,const std::vector<const unary_function_ptr *> & v,const std::vector< gen (*) (const gen &) > & w,bool quotesubst,GIAC_CONTEXT);
 

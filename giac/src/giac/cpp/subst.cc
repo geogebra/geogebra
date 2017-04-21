@@ -900,7 +900,7 @@ namespace giac {
     return false;
   }
 
-  gen subst(const gen & e,const unary_function_ptr * v,const gen_op_context * w,bool quotesubst,GIAC_CONTEXT){
+  gen subst(const gen & e,const unary_function_ptr * v,const gen_op_context * w,bool quotesubst,GIAC_CONTEXT,bool recursive_nonrat){
     if (*v==0 || !has_op_list(e,v))
       return e;
     if (e.type==_VECT){
@@ -908,12 +908,15 @@ namespace giac {
       vecteur res;
       res.reserve(itend-it);
       for (;it!=itend;++it)
-	res.push_back(subst(*it,v,w,quotesubst,contextptr));
+	res.push_back(subst(*it,v,w,quotesubst,contextptr,recursive_nonrat));
       return gen(res,e.subtype);
     }
     if (e.type!=_SYMB)
       return e;
-    gen arg=subst(e._SYMBptr->feuille,v,w,quotesubst,contextptr);
+    // recursive call only for rational operators
+    gen arg=e._SYMBptr->feuille; int pos=-1;
+    if (recursive_nonrat || ((pos= equalposcomp(analytic_sommets,e._SYMBptr->sommet)) && pos<=4))
+      arg=subst(arg,v,w,quotesubst,contextptr,recursive_nonrat);
     int n=equalposcomp(v,e._SYMBptr->sommet);
     if (!n){
       if (quotesubst){
@@ -2019,10 +2022,10 @@ namespace giac {
   gen tsimplify_noexpln(const gen & e,int s1,int s2,GIAC_CONTEXT){
     int te=taille(e,65536);
     gen g=e;
-    if (s1>1)
-      g=trig2exp(e,contextptr);
-    if (s2>1)
-      g=atrig2ln(g,contextptr);
+    if (s1>1 && angle_radian(contextptr))
+      g=subst(e,sincostan_tab,trig2exp_tab,false,contextptr,false); // g=trig2exp(e,contextptr);
+    if (s2>1 && angle_radian(contextptr))
+      g=subst(g,asinacosatan_tab,atrig2ln_tab,false,contextptr,false);//g=atrig2ln(g,contextptr);
     bool b=complex_mode(contextptr);
     complex_mode(true,contextptr);
     g=tsimplify_common(g,contextptr);
