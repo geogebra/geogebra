@@ -75,9 +75,9 @@ public class MathFieldController {
 				currentField, currentOffset, selectionStart, selectionEnd);
 		TeXFormula texFormula = null;
 		if (texBuilder != null) {
-			Atom root = texBuilder.build(mathFormula.getRootComponent(),
-					currentField, currentOffset, selectionStart, selectionEnd);
 			texFormula = new TeXFormula();
+			Atom root = texBuilder.build(mathFormula.getRootComponent(),
+					currentField, currentOffset, selectionStart, selectionEnd);			
 			texFormula.root = root;
 		}
 		try {

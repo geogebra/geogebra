@@ -9,7 +9,6 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.Atom;
-import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.ColorAtom;
 import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
@@ -20,6 +19,8 @@ import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SelectionAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TeXConstants;
+import com.himamis.retex.renderer.share.TeXFormula;
+import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 public class TeXBuilder {
@@ -29,6 +30,7 @@ public class TeXBuilder {
 	private HashMap<Atom, MathComponent> atomToComponent;
 	private MathComponent selectionStart;
 	private MathComponent selectionEnd;
+	private TeXParser parser;
 
 	private Atom buildSequence(MathSequence mathFormula) {
 		return buildSequence(mathFormula, 0, mathFormula.size() - 1);
@@ -86,8 +88,7 @@ public class TeXBuilder {
 	private Atom build(MathComponent argument) {
 		Atom ret = null;
 		if (argument instanceof MathCharacter) {
-			ret = new CharAtom(((MathCharacter) argument).getUnicode(),
-					"mathnormal");
+			ret = newCharAtom(((MathCharacter) argument).getUnicode());
 		}
 		else if (argument instanceof MathFunction) {
 			ret = buildFunction((MathFunction) argument);
@@ -104,6 +105,13 @@ public class TeXBuilder {
 		return ret;
 	}
 
+	private Atom newCharAtom(char unicode) {
+		if (parser == null) {
+			TeXFormula tf = new TeXFormula();
+			parser = new TeXParser("", tf);
+		}
+		return parser.convertCharacter(unicode, false);
+	}
 	private Atom buildArray(MathArray argument) {
 		String leftKey = "lbrack";
 		if (argument.getOpenKey() == '[') {
@@ -128,7 +136,7 @@ public class TeXBuilder {
 		RowAtom row = new RowAtom(null);
 		for (int i = offset; i < argument.size(); i++) {
 			if (i > 0) {
-				row.add(new CharAtom(',', "mathnormal"));
+				row.add(newCharAtom(','));
 			}
 			row.add(build(argument.getArgument(i)));
 		}
@@ -156,7 +164,7 @@ public class TeXBuilder {
 		}
 		RowAtom row = new RowAtom(null);
 		for (int i = 0; i < argument.getName().length(); i++) {
-			row.add(new CharAtom(argument.getName().charAt(i), "mathnormal"));
+			row.add(newCharAtom(argument.getName().charAt(i)));
 		}
 		row.add(buildFenced("lbrack", "rbrack", argument, 0));
 		return row;
