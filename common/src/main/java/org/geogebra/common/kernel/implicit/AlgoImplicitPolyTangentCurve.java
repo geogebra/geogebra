@@ -189,7 +189,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
 					Kernel.STANDARD_PRECISION_SQRT)
 					&& Kernel.isEqual(0,
-							this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
+							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
 							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
 			}
