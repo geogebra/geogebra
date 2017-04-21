@@ -836,7 +836,9 @@ namespace giac {
 	      bool b=calc_mode(contextptr)==1;
 	      if (b)
 		calc_mode(0,contextptr);
-	      part += _lin(_integrate(makesequence(_lin(c[i]*exp(-rac[i]*x,contextptr),contextptr),x),contextptr)*exp(rac[i]*x,contextptr),contextptr);
+	      gen tmp=_lin(c[i]*exp(-rac[i]*x,contextptr),contextptr);
+	      tmp = _integrate(makesequence(tmp,x),contextptr);
+	      part += _lin(tmp*exp(rac[i]*x,contextptr),contextptr);
 	      if (b)
 		calc_mode(1,contextptr);
 	    }
