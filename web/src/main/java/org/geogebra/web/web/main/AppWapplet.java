@@ -288,6 +288,12 @@ public class AppWapplet extends AppWFull {
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
+
+		if (has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+			addToHeight(-inputbar.getOffsetHeight());
+			oldSplitLayoutPanel.setHeight(spHeight + "px");
+		}
+
 		this.getGuiManager().getAlgebraInput()
 				.setInputFieldWidth(this.appletWidth);
 	}

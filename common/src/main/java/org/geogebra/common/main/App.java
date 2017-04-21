@@ -4188,6 +4188,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case TABBED_KEYBOARD:
 			return prerelease;
+		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
+			return prerelease;
 		case AND_TRACE_IN_PROPERTIES:
 			return prerelease;
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
