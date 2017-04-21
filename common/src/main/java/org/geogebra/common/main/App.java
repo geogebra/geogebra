@@ -4154,7 +4154,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case CONTEXT_MENU:
-			return prerelease;
+			return prerelease && whiteboard;
 
 		case DIALOGS_OVERLAP_KEYBOARD:
 			// see comment at GPopupPanel.setOverlapFeature

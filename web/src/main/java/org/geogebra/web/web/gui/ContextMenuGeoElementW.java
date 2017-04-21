@@ -131,7 +131,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	protected boolean isWhiteboard() {
-		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+		return app.has(Feature.CONTEXT_MENU);
 	}
 
 	private void addForAllItems() {
