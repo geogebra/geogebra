@@ -44,8 +44,9 @@
 
 	.closeTabbedKeyboardButton {
 		position: relative;
-		right: -12px;
 		bottom: 1px;
+		width: 24px;
+		height: 24px; 
 		float: right;
 	}
 
@@ -313,7 +314,7 @@
 
 	.KeyboardSwitcher {
 		position: relative;
-		background-color: #C8C8CF;
+		background-color: #f8f8f8;
 		border: #dcdcdc solid;
 		border-width: 1px 0;
 		width: 100%;
@@ -329,7 +330,12 @@
 	}
 
 	.KeyboardSwitcher .selected {
-		background: #6666FF;
+		color: #6666FF;
+	}
+	
+	.KeyboardSwitcher .gwt-Button:hover {
+    	color: #6666ff;
+   	 	background-color: #f8f8f8;
 	}
 
 	.TabbedKeyBoard { 
