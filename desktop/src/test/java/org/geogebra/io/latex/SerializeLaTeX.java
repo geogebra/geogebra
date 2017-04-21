@@ -94,6 +94,16 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testSubscript() {
+		checkCannon("x_2", "x_{2}");
+		checkCannon("x_2 = 7", "x_{2}=7");
+		checkCannon("x_2 t", "x_{2}*t");
+		checkCannon("x_2 sin(x)", "x_{2}*sin(x)");
+		checkCannon("f_2(x)", "f_{2}(x)");
+
+	}
+
+	@Test
 	public void testPoint() {
 		checkCannon("(1, 2)", "(1,2)");
 		checkCannon("(1; 2)", "(1;2)");

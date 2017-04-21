@@ -90,7 +90,7 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(mathFunctionName + '{');
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			// a_{1}sin(x) should be a_{1} sin(x)
-			stringBuilder.append("} ");
+			stringBuilder.append("}");
 		} else if ("frac".equals(mathFunctionName)) {
 			stringBuilder.append('(');
 			serialize(mathFunction.getArgument(0), stringBuilder);
@@ -163,6 +163,12 @@ public class GeoGebraSerializer implements Serializer {
 				MathCharacter mathCharacter = (MathCharacter) mathComponent;
 				if (mathCharacter.isCharacter() && mathCharacter
 						.getUnicode() != MathCharacter.ZERO_SPACE) {
+					stringBuilder.append("*");
+				}
+			}
+			if (mathComponent instanceof MathFunction) {
+				MathFunction mathCharacter = (MathFunction) mathComponent;
+				if ("_".equals(mathCharacter.getName())) {
 					stringBuilder.append("*");
 				}
 			}

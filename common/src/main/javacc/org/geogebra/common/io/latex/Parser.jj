@@ -411,6 +411,14 @@ void mathCharacter(MathContainer currentField) :
                         currentField.addArgument(timesChar);
                     }
                 }
+                if (comp instanceof MathFunction) {
+                    MathFunction mf = (MathFunction) comp;
+                    if ("_".equals(mf.getName())) {
+                        MetaCharacter times = metaModel.getOperator("*");
+                        MathCharacter timesChar = new MathCharacter(times);
+                        currentField.addArgument(timesChar);
+                    }
+                }
             }
             currentField.addArgument(new MathCharacter(metaCharacter));
         }else if(currentField.size() >0)              {

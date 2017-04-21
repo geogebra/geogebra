@@ -653,7 +653,7 @@ public class EquationSolver implements EquationSolverInterface {
 					// System.out.println(" find extremum successfull: " +
 					// root);
 				} catch (RuntimeException ex) {
-					Log.debug(ex.getMessage());
+					//Log.debug(ex.getMessage());
 				}
 			}
 
