@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
@@ -67,7 +68,7 @@ public class Marble extends SimplePanel
 			}
 
 			private boolean isLongTouchHappened() {
-				return gc.getController().getLongTouchManager().isLongTouchHappened();
+				return gc.getController().isLongTouchHappened();
 			}
 		});
 	}

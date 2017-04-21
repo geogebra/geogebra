@@ -106,7 +106,7 @@ public class RadioTreeItemController
 	
 		if (item.marblePanel != null
 				&& item.marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
-			if (app.isRightClick(wrappedEvent)) {
+			if (app.has(Feature.AV_CONTEXT_MENU) && app.isRightClick(wrappedEvent)) {
 				onRightClick(evt.getClientX(), evt.getClientY());
 				return false;
 			}
@@ -298,7 +298,7 @@ public class RadioTreeItemController
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
-		if (getLongTouchManager().isLongTouchHappened()) {
+		if (isLongTouchHappened()) {
 			return;
 		}
 		
@@ -619,7 +619,9 @@ public class RadioTreeItemController
 			getAV().resetItems(false);
 		}
 		
-		onRightClick(x, y);
+		if (app.has(Feature.AV_CONTEXT_MENU)) {
+			onRightClick(x, y);
+		}
 	}
 
 	private void onRightClick(int x, int y) {
@@ -750,6 +752,11 @@ public class RadioTreeItemController
 
 	public boolean hasMultiGeosSelected() {
 		return selectionCtrl.hasMultGeos();
+	}
+
+	public boolean isLongTouchHappened() {
+		return app.has(Feature.AV_CONTEXT_MENU) 
+				&& getLongTouchManager().isLongTouchHappened();
 	}
 }
 

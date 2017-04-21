@@ -4199,6 +4199,9 @@ public abstract class App implements UpdateSelection {
 		case FIXED_OBJECTS_EDITABLE:
 			return prerelease;
 
+		case AV_CONTEXT_MENU:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -4257,16 +4260,6 @@ public abstract class App implements UpdateSelection {
 		companion.addToViewsForPlane(geo);
 	}
 
-	/**
-	 * remove from views for plane (if any)
-	 *
-	 * @param geo
-	 *            geo
-	 */
-	final public void removeFromViewsForPlane(GeoElement geo) {
-		companion.removeFromViewsForPlane(geo);
-	}
-
 	public boolean isModeValid(int mode) {
 		return !"".equals(getToolName(mode));
 	}
@@ -4313,6 +4306,16 @@ public abstract class App implements UpdateSelection {
 	public void setAltText() {
 		// ignored in desktop
 
+	}
+
+	/**
+	 * remove from views for plane (if any)
+	 *
+	 * @param geo
+	 *            geo
+	 */
+	final public void removeFromViewsForPlane(GeoElement geo) {
+		companion.removeFromViewsForPlane(geo);
 	}
 
 	public int getFontSizeWeb() {
