@@ -1,6 +1,18 @@
-To create a proof test in a .ggb file, make sure that the .ggb file
-contains one and only one Prove statement. You should put the file
-into true/ or false/, depending on the correct output.
+This test database has been created during several years since 2011. Most
+of the tests have been constructed by members of the GeoGebra Team
+including Csilla Solyom-Gecse and Zoltan Kovacs with the help of Tomas
+Recio's, Franisco Botana's, Miguel A. Abanades', Simon Weitzhofer's,
+Damien Desfontaines', Predrag Janicic's and Ivan Petrovic's.
 
-Then run ./runtests in the parent directory. The .csv output will be
-given on stdout, and also an .html export will be created in html/.
+Many tests are simply taken from Chou's 1988 book "Mechanical Geometry
+Theorem Proving", but in some cases the labels in the constructions have
+been changed. Their test names always contain an "ex-..." part which
+describes the example number in Chou's book.
+
+In some other tests the abbreviated names of other contributors have been
+used. They include AL (Andreas Lindner, Linz, Austria) and JH (Josef
+Hayboeck, Linz, Austria).
+
+Despite the fact that some tests seem to be present multiple times in
+different formulations, these occurences are still useful to check various
+ways for entering the theorem in GeoGebra.
