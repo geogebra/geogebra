@@ -243,7 +243,7 @@ namespace giac {
   // step by step utilities
   // poi=point of interest, tvi=table of variation
   // asym=list of asymptotes, crit=critical points, inflex=inflection points
-  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poig,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT);
+  int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poig,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT,bool do_inflex=true);
   extern const unary_function_ptr * const  at_tabvar;
   int step_param(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT);
 

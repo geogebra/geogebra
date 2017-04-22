@@ -1327,7 +1327,11 @@ namespace giac {
   }
 #endif
 
-  static string idnt2mathml(const string & sorig){
+  static string indice_mathml(const string & s1,const string & s2){
+    return "<msub><mi>"+s1+"</mi><mn>"+s2+"</mn></msub>";
+  }
+
+  static string idnt2mathml_(const string & sorig){
     string s0=sorig;
     int n=int(s0.size()),j;
     for (j=n-1;j>=2;--j){
@@ -1370,6 +1374,14 @@ namespace giac {
     return s0;
   }
 
+  static string idnt2mathml(const string & s0){
+    int n=int(s0.size()),j;
+    for (j=n-1;j>=1;--j){
+      if (j<n-1 && s0[j]=='_')
+	return indice_mathml(idnt2mathml_(s0.substr(0,j)),s0.substr(j+1,n-1-j));
+    }
+    return "<mi>"+idnt2mathml_(s0)+"</mi>";
+  }
 
   string gen2mathml(const gen &e, string &svg,GIAC_CONTEXT){
     string part_re="", part_im="<mi>i</mi>";
@@ -1419,7 +1431,7 @@ namespace giac {
 	return "<mi>&pi;</mi>";
       if (e==undef)
 	return "<mi>undef</mi>";
-      return  "<mi>"+idnt2mathml(e.print(contextptr))+"</mi>";
+      return  idnt2mathml(e.print(contextptr));
     case _SYMB: {
       gen tmp=aplatir_fois_plus(e);
       if (tmp.type!=_SYMB)

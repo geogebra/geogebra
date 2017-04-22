@@ -257,6 +257,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp T_INTERVAL exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_INTERVAL	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,RAND_MAX) ,_SEQ__VECT)); }
 	| T_INTERVAL exp	{$$ = symbolic(*$1._FUNCptr,gen(makevecteur(0,$2) ,_SEQ__VECT)); }
+	| T_INTERVAL T_VIRGULE exp	{$$ = makesequence(symbolic(*$1._FUNCptr,gen(makevecteur(0,RAND_MAX) ,_SEQ__VECT)),$3); }
 	/* | exp T_PLUS T_PLUS		{$$ = symb_sto($1+1,$1);} */
 	/* | exp T_MOINS T_MOINS	{$$ = symb_sto($1-1,$1);} */
 	| exp T_AND_OP exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
