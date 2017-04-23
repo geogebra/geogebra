@@ -1767,9 +1767,12 @@ public class ExpressionNode extends ValidExpression
 			} else {
 
 				if (tpl.getStringType().isGiac()) {
-					sb.append("when(" + CustomFunctions.IS_ZERO + "(simplify(");
+					// brackets needed round FIRST argument for eg
+					// $1==$2 where $1=y=9 and $2=y=9
+					sb.append(
+							"when(" + CustomFunctions.IS_ZERO + "(simplify((");
 					tpl.append(sb, leftStr, left, operation);
-					sb.append("-(");
+					sb.append(")-(");
 					tpl.append(sb, rightStr, right, operation);
 					sb.append("))),true,false)");
 				} else {
