@@ -2497,6 +2497,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		getNormalProjectionParameters(coords, parameters);
 		evaluatePoint(parameters[0], parameters[1], ret);
 	}
+	
+	private Coords tmpCoords6;
 
 	/**
 	 * try with t1, then with t2
@@ -2513,15 +2515,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 */
 	protected Coords[] getProjection(Coords willingCoords,
 			Coords willingDirection, double t1, double t2) {
-		return getNormalProjection(willingCoords.add(willingDirection.mul(t1)));
-		// TODO faster implementation breaks
-		// https://www.geogebra.org/m/Er9e6mSV; setW(0) might make it equivalent
-		// with the current one
 
-		// tmpCoords.setMul3(willingDirection, t1);
-		// tmpCoords.setAdd3(tmpCoords, willingCoords);
-		// tmpCoords.setW(1);
-		// return getNormalProjection(tmpCoords);
+		if (tmpCoords6 == null) {
+			tmpCoords6 = Coords.createInhomCoorsInD3();
+		}
+
+		tmpCoords6.setMul3(willingDirection, t1);
+		tmpCoords6.setAdd3(tmpCoords6, willingCoords);
+		tmpCoords6.setW(0);
+		return getNormalProjection(tmpCoords6);
 	}
 
 	@Override
