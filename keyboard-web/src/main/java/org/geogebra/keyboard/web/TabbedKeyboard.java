@@ -21,6 +21,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -31,8 +32,8 @@ public class TabbedKeyboard extends FlowPanel {
 		private static final int SWITCHER_HEIGHT = 40;
 		private FlowPanel contents;
 		private List<Button> switches;
-		private Button closeButton;
-		private Button moreButton;
+		private CustomButton closeButton;
+		private CustomButton moreButton;
 		public KeyboardSwitcher() {
 			addStyleName("KeyboardSwitcher");
 			add(makeCloseButton());
@@ -89,8 +90,12 @@ public class TabbedKeyboard extends FlowPanel {
 		private Widget makeCloseButton() {
 			Image img = new Image(KeyboardResources.INSTANCE
 					.keyboard_close_black().getSafeUri().asString());
-			closeButton = new Button();
-			closeButton.getElement().appendChild(img.getElement());
+			Image hoverImg = new Image(KeyboardResources.INSTANCE
+					.keyboard_close_purple().getSafeUri().asString());
+			closeButton = new CustomButton(){};
+			closeButton.getUpFace().setImage(img);
+			closeButton.getUpHoveringFace().setImage(hoverImg);
+			//closeButton.getElement().appendChild(img.getElement());
 			closeButton.addStyleName("closeTabbedKeyboardButton");
 			ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
@@ -108,8 +113,12 @@ public class TabbedKeyboard extends FlowPanel {
 		private Widget makeMoreButton() {
 			Image img = new Image(KeyboardResources.INSTANCE
 					.keyboard_more().getSafeUri().asString());
-			moreButton = new Button();
-			moreButton.getElement().appendChild(img.getElement());
+			Image hoverImg = new Image(KeyboardResources.INSTANCE
+					.keyboard_more_purple().getSafeUri().asString());
+			moreButton = new CustomButton() {};
+			moreButton.getUpFace().setImage(img);
+			moreButton.getUpHoveringFace().setImage(hoverImg);
+//			moreButton.getElement().appendChild(img.getElement());
 			moreButton.addStyleName("moreKeyboardButton");
 			ClickStartHandler.init(moreButton, new ClickStartHandler() {
 
