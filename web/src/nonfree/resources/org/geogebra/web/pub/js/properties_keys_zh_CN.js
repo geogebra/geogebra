@@ -1845,7 +1845,7 @@ __GGB__keysVar.zh_CN.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D \u7ed8\u56fe",
     "GeoGebra3DGrapher.short": "3D\u7ed8\u56fe",
     "GeoGebraForum": "GeoGebra \u8bba\u575b",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra \u51e0\u4f55",
     "GeoGebraGraphingCalculator": "GeoGebra \u56fe\u5f62\u8ba1\u7b97\u5668",
     "GeoGebraMaterials": "GeoGebra \u7d20\u6750",
     "GeoGebraProperties": "GeoGebra \u5c5e\u6027",

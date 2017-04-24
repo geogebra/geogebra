@@ -1938,7 +1938,7 @@ __GGB__keysVar.ca.menu = {
     "InfiniteConePointsABNumberC": "Con amb centre %0, eix que creua per %1, angle %2",
     "InfiniteCylinderPointAVectorBNumberC": "Cilindre amb eix que passa per %0 i \xe9s paral\xb7lel a %1, radi %2",
     "InfiniteCylinderPointsABNumberC": "Cilindre amb eix que passa per %0 i %1, radi %2",
-    "InflectionPointofA": "Punt d'intersecci\xf3 de %0",
+    "InflectionPointofA": "Punt d'inflexi\xf3 de %0",
     "InputField": "Entrada",
     "InputField.Help": "Seleccioneu un objecte per copiar el seu nom a la l\xednia d'entrada",
     "InputFieldHelp": "<html><body><p><b>Utilitzaci\xf3 del camp d\'entrada de text</b></p><table border=\"1\"><tr><td>Retorn </td><td>executar entrada</td></tr><tr><td>Escape</td><td>neteja el camp d\'entrada de text</td></tr><tr><td>&#8593;</td><td>entrada anterior</td></tr><tr><td>&#8595;</td><td>entrada seg\xfcent</td></tr><tr><td>F1</td><td>ajuda del comandament actual</td></tr></table><p><br><b>Auto-escritura dels comandaments</b><br>Un cop escrites les dues primeres lletres<br>es mostrar\xe0 un comandament, </p><table border=\"1\"><tr><td>Retorn </td><td>accepta el comandament proposat</td></tr><tr><td>una lletra m\xe9s</td><td>continua escrivint</td></tr></table></body></html>",
