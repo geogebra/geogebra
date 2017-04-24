@@ -328,8 +328,10 @@ public class AlgebraProcessor {
 			ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
 
 		try {
+			EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
+					redefineIndependent);
 			changeGeoElementNoExceptionHandling(geo, newValue,
-					redefineIndependent, storeUndoInfo, callback, handler);
+					info, storeUndoInfo, callback, handler);
 		} catch (MyError e) {
 			ErrorHelper.handleError(e, newValue, loc, handler);
 		} catch (Exception e) {
@@ -359,7 +361,7 @@ public class AlgebraProcessor {
 	 *
 	 */
 	public void changeGeoElementNoExceptionHandling(GeoElementND geo,
-			String newValue, boolean redefineIndependent, boolean storeUndoInfo,
+			String newValue, EvalInfo info, boolean storeUndoInfo,
 			AsyncOperation<GeoElementND> callback, ErrorHandler handler)
 			throws Exception, MyError {
 
@@ -369,7 +371,7 @@ public class AlgebraProcessor {
 				ve = getParamProcessor().checkParametricEquationF(ve, ve, cons,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
 			}
-			changeGeoElementNoExceptionHandling(geo, ve, redefineIndependent,
+			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
 		} catch (Exception e) {
 			Log.debug("EXCEPTION" + e.getMessage() + ":" + newValue);
@@ -394,7 +396,7 @@ public class AlgebraProcessor {
 	 *            old geo
 	 * @param newValue
 	 *            new value
-	 * @param redefineIndependent
+	 * @param info
 	 *            true to make sure independent are redefined instead of value
 	 *            change
 	 * @param storeUndoInfo
@@ -406,13 +408,11 @@ public class AlgebraProcessor {
 	 *            decides how to handle exceptions
 	 */
 	public void changeGeoElementNoExceptionHandling(final GeoElementND geo,
-			ValidExpression newValue, boolean redefineIndependent,
+			ValidExpression newValue, EvalInfo info,
 			final boolean storeUndoInfo,
 			final AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 		String oldLabel, newLabel;
 		GeoElementND[] result;
-		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
-				redefineIndependent);
 
 		app.getCompanion().storeViewCreators();
 		oldLabel = geo.getLabel(StringTemplate.defaultTemplate);

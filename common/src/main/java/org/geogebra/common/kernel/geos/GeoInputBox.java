@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
@@ -287,9 +288,11 @@ public class GeoInputBox extends GeoButton {
 
 			} else {
 				final boolean imaginary = imaginaryAdded;
+				EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
+						linkedGeo.isIndependent());
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
-								defineText, linkedGeo.isIndependent(), true,
+								defineText, info, true,
 								new AsyncOperation<GeoElementND>() {
 
 									@Override

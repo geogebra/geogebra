@@ -75,6 +75,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAxis;
@@ -779,7 +780,8 @@ public abstract class EuclidianController {
 	}
 
 	public void mergeStickyPointsAfterPaste() {
-
+		EvalInfo info = new EvalInfo(
+				!kernel.getConstruction().isSuppressLabelsActive(), true);
 		for (int i = 0; i < pastePreviewSelected.size(); i++) {
 			GeoElement geo = pastePreviewSelected.get(i);
 			if (geo.isGeoPoint() && (geo instanceof GeoPoint)
@@ -795,7 +797,7 @@ public abstract class EuclidianController {
 
 						kernel.getAlgebraProcessor()
 								.changeGeoElementNoExceptionHandling(geo,
-										geo2.wrap(), true, false, null,
+										geo2.wrap(), info, false, null,
 										ErrorHelper.silent());
 						GeoElement newGeo = kernel.lookupLabel(geolabel);
 						if (newGeo != null) {

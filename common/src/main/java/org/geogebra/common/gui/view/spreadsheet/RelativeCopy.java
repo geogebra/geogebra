@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.SpreadsheetVariableRenamer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
@@ -979,8 +980,10 @@ public class RelativeCopy {
 
 		// always redefine objects in spreadsheet, don't store undo info
 		// here
+		EvalInfo info = new EvalInfo(
+				!kernel.getConstruction().isSuppressLabelsActive(), true);
 		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(
-				oldValue, text, true, false,
+				oldValue, text, info, false,
 				new AsyncOperation<GeoElementND>() {
 
 					@Override
