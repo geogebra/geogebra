@@ -105,7 +105,7 @@ public class FormulaEditor extends View implements MathField {
             mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
             mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
             mText = a.getString(R.styleable.FormulaEditor_fe_text);
-            mType = a.getInteger(R.styleable.FormulaEditor_fe_type, TeXFormula.SERIF);
+            mType = a.getInteger(R.styleable.FormulaEditor_fe_type, TeXFormula.SANSSERIF);
         } finally {
             a.recycle();
         }

@@ -4085,6 +4085,10 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_LOCAL_SAVE:
 			return prerelease;
 
+		//AND-217
+		case MOBILE_AV_EDITOR:
+			return false;
+
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
 			return true;
