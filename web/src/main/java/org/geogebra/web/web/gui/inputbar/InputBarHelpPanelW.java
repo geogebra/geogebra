@@ -259,6 +259,19 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 			sp.setPixelSize(w, h);
 		}
 	}
+	
+	public int getPreferredWidth(double scale) {
+		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
+				.getOffsetWidth() * scale - 60;
+
+		if (app.getArticleElement().hasDataParamEnableGraphing()
+				&& !app.getArticleElement().getDataParamEnableGraphing(true)) {
+			return (int) Math.min(400, width);
+		}
+		
+		return (int) Math.min(700, width);
+		
+	}
 
 	// =================================================================
 	// Index Tree

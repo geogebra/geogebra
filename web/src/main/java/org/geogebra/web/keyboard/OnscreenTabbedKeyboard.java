@@ -49,7 +49,23 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			}
 		});
 	}
+	
+	private void createHelpPopup() {
+		if (helpPopup != null) {
+			return;
+		}
+		helpPopup = new InputBarHelpPopup((AppW)app, null,
+				"helpPopupAV");
+		helpPopup.addAutoHidePartner(this.getElement());
+		helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> event) {
+			}
+
+		});
+	}
+	
 	public void show() {
 		checkLanguage();
 		setVisible(true);
@@ -243,25 +259,9 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		Log.debug("showHelp");
 		boolean show = helpPopup != null && helpPopup.isShowing();
 		if (!show) {
+			createHelpPopup();
 			GuiManagerInterfaceW gm = ((AppW)app).getGuiManager();
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW)(gm.getInputHelpPanel());
-
-			if (helpPopup == null) {
-				helpPopup = new InputBarHelpPopup((AppW)app, null,
-						"helpPopupAV");
-				helpPopup.addAutoHidePartner(this.getElement());
-				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-
-					@Override
-					public void onClose(CloseEvent<GPopupPanel> event) {
-					}
-
-				});
-			} else if (helpPopup.getWidget() == null) {
-				helpPanel = (InputBarHelpPanelW)(gm.getInputHelpPanel());
-				helpPopup.add(helpPanel);
-			}
-
 			updateHelpPosition(helpPanel, x, y);
 			
 		} else if (helpPopup != null) {
@@ -277,12 +277,10 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 				double scale = appw.getArticleElement().getScaleX();
 				double renderScale = appw.getArticleElement().getDataParamApp()
 						? scale : 1;
-				double left = x - appw.getAbsLeft();
-				if (appw.getWidth() - x < helpPopup.getOffsetWidth()) {
-					left =  (appw.getWidth() - helpPopup.getOffsetWidth()) - appw.getAbsLeft();
-				}
+				double left = x - appw.getAbsLeft() - helpPanel.getPreferredWidth(scale);
+				
 				helpPopup.getElement().getStyle()
-						.setProperty("left", left* renderScale
+						.setProperty("left", left * renderScale
 										+ "px");
 				int maxOffsetHeight;
 				int totalHeight = (int) appw.getHeight();
