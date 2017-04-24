@@ -1334,6 +1334,9 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return preferred width of dropdown
 	 */
 	public int getPreferredWidth() {
+		if (selectedDimension == null) {
+			return 0;
+		}
 		int selectedWidth = selectedDimension.getWidth()
 				+ (isLatexString(selectedText) ? 0 : 2 * COMBO_TEXT_MARGIN)
 				+ getTriangleControlWidth();
