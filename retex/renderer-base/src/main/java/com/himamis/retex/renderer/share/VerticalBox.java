@@ -148,6 +148,10 @@ class VerticalBox extends Box {
 	public void getPath(double x, double y, ArrayList<Integer> list) {
 		double yPos = 0;
 		for (Box box : children) {
+			if (box instanceof StrutBox || box instanceof HorizontalRule) {
+				yPos += box.getHeight() + box.getDepth();
+				continue;
+			}
 			if (yPos + box.getHeight() + box.getDepth() > y) {
 				list.add(children.indexOf(box));
 				box.getPath(x, y - yPos, list);

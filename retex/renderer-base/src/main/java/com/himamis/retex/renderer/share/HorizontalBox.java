@@ -200,6 +200,7 @@ public class HorizontalBox extends Box {
 		for (Box box : children) {
 			if (xPos + box.getWidth() > x) {
 				if (box instanceof StrutBox) {
+					xPos += box.getWidth();
 					continue;
 				}
 				int idx = children.indexOf(box);

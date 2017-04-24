@@ -222,7 +222,7 @@ public class RowAtom extends Atom implements Row {
 			if (it.previousIndex() != 0 && previousAtom != null && !previousAtom.isKern() && !atom.isKern()) {
 				Box glue = Glue.get(previousAtom.getRightType(),
 						atom.getLeftType(), env);
-				glue.setAtom(previousAtom.getAtom());
+				glue.setAtom(atom.getAtom());
 				hBox.add(glue);
 			}
 

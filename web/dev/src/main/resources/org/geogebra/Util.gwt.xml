@@ -8,5 +8,4 @@
   <source path='common/util/debug' />
   <source path='common/awt' />
   <source path='common/euclidian/event' />
-  <resource path='com' />   
 </module>
