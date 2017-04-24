@@ -237,21 +237,16 @@ public class CursorController {
         int i = list.size() - 1;
 		while (i >=0) {
             int index = list.get(i);
-            System.out.println("index: "+index+" / "+current.size());
 			if (index < current.size()) {
                 MathComponent child = current.getArgument(index);
-                System.out.println("child: "+child);
                 if (child instanceof MathCharacter){
                     editorState.setCurrentField((MathSequence) current);
                     editorState.setCurrentOffset(index);
-                    System.out.println("-- offset");
                     return;
                 }else if (child instanceof MathSequence) {
-                    System.out.println("-- MathSequence");
 					current = (MathSequence) child;
                     i--;
 				} else  {
-                    System.out.println("-- MathContainer (MathArray or MathSequence)");
                     i--;
                     current = (MathSequence) ((MathContainer) child).getArgument(list.get(i));
                     i--;
@@ -259,7 +254,6 @@ public class CursorController {
             } else if (index == current.size()){
                 editorState.setCurrentField((MathSequence) current);
                 editorState.setCurrentOffset(index);
-                System.out.println("-- offset");
                 return;
 			} else {
 				return;

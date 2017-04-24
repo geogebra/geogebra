@@ -23,6 +23,12 @@ import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXParser;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
+/**
+ * Directly convert MathComponents into atoms
+ * 
+ * @author Zbynek
+ *
+ */
 public class TeXBuilder {
 
 	private MathSequence currentField;
@@ -79,7 +85,7 @@ public class TeXBuilder {
 
 	}
 
-	private void addCursor(RowAtom ra) {
+	private static void addCursor(RowAtom ra) {
 		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
 				.createColor(100, 100, 255), 0.9));
 
@@ -110,7 +116,11 @@ public class TeXBuilder {
 			TeXFormula tf = new TeXFormula();
 			parser = new TeXParser("", tf);
 		}
-		return parser.convertCharacter(unicode, false);
+		Atom ret = parser.convertCharacter(unicode, false);
+		if (ret instanceof SymbolAtom) {
+			ret = ret.duplicate();
+		}
+		return ret;
 	}
 	private Atom buildArray(MathArray argument) {
 		String leftKey = "lbrack";
@@ -170,17 +180,37 @@ public class TeXBuilder {
 		return row;
 	}
 
-	public Atom build(MathSequence rootComponent, MathSequence currentField,
-			int currentOffset, MathComponent selectionStart,
-			MathComponent selectionEnd) {
-		this.currentField = currentField;
-		this.currentOffset = currentOffset;
+	/**
+	 * @param rootComponent
+	 *            root
+	 * @param currentField1
+	 *            selected field
+	 * @param currentOffset1
+	 *            cursor offset within currentField
+	 * @param selectionStart1
+	 *            first selected atom
+	 * @param selectionEnd1
+	 *            last selected atom
+	 * @return atom representing the whole sequence
+	 */
+	public Atom build(MathSequence rootComponent, MathSequence currentField1,
+			int currentOffset1, MathComponent selectionStart1,
+			MathComponent selectionEnd1) {
+		this.currentField = currentField1;
+		this.currentOffset = currentOffset1;
 		this.atomToComponent = new HashMap<Atom, MathComponent>();
-		this.selectionStart = selectionStart;
-		this.selectionEnd = selectionEnd;
+		this.selectionStart = selectionStart1;
+		this.selectionEnd = selectionEnd1;
 		return build(rootComponent);
 	}
 
+	/**
+	 * Access the internal mapping atom-&gt; component
+	 * 
+	 * @param atom
+	 *            atom
+	 * @return corresponding component
+	 */
 	public MathComponent getComponent(Atom atom) {
 		// TODO Auto-generated method stub
 		return atomToComponent.get(atom);
