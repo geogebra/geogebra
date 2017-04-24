@@ -18,9 +18,15 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/view_more.png")
 	ImageResource keyboard_more();
 	
+	@Source("org/geogebra/common/icons/png/keyboard/view_more_purple.png")
+	ImageResource keyboard_more_purple();
+	
 	// close button for new keyboard
 	@Source("org/geogebra/common/icons/png/keyboard/view_close_black.png")
 	ImageResource keyboard_close_black();
+	
+	@Source("org/geogebra/common/icons/png/keyboard/view_close_purple.png")
+	ImageResource keyboard_close_purple();
 
 	@Source("org/geogebra/common/icons/png/keyboard/shift_purple.png")
 	ImageResource keyboard_shiftDown();

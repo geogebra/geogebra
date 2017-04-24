@@ -90,7 +90,9 @@ public class TabbedKeyboard extends FlowPanel {
 					updateKeyBoardListener.keyBoardNeeded(false, null);
 
 				}
+				
 			});
+			
 			return closeButton;
 		}
 
@@ -386,7 +388,7 @@ public class TabbedKeyboard extends FlowPanel {
 					Action.RETURN_ENTER);
 		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
 			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.keyboard_backspace_black(), bh,
+					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
 					Action.BACKSPACE_DELETE);
 		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(

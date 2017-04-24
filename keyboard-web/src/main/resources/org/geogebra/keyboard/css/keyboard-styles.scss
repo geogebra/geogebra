@@ -343,6 +343,10 @@
 	}
 
 	.KeyboardSwitcher .switcherContents .moreKeyboardButton {
+		position: relative;
+		bottom: 3px;
+		width: 24px;
+		height: 24px; 
 		float: right;
 	}
 	
