@@ -116,7 +116,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					
+					showHelp(moreButton.getAbsoluteLeft(), moreButton.getAbsoluteTop());
 				}
 			});
 			return moreButton;
@@ -518,4 +518,8 @@ public class TabbedKeyboard extends FlowPanel {
 		buildGUI(bh, app);
 
 	}
+	
+	protected void showHelp(int x, int y) {
+	}
+	
 }

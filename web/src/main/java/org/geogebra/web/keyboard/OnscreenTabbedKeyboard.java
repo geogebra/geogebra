@@ -1,6 +1,7 @@
 package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;
@@ -8,11 +9,18 @@ import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 
 /**
  * Web implementation of onscreen keyboard
@@ -23,6 +31,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		implements VirtualKeyboardGUI, ButtonHandler {
 
 	private KeyboardListener processField;
+	private InputBarHelpPopup helpPopup=null;
 
 
 	/**
@@ -230,4 +239,81 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		return true;
 	}
 
+	protected void showHelp(int x, int y) {
+		Log.debug("showHelp");
+		boolean show = helpPopup != null && helpPopup.isShowing();
+		if (!show) {
+			GuiManagerInterfaceW gm = ((AppW)app).getGuiManager();
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW)(gm.getInputHelpPanel());
+
+			if (helpPopup == null) {
+				helpPopup = new InputBarHelpPopup((AppW)app, null,
+						"helpPopupAV");
+				helpPopup.addAutoHidePartner(this.getElement());
+				helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+
+					@Override
+					public void onClose(CloseEvent<GPopupPanel> event) {
+					}
+
+				});
+			} else if (helpPopup.getWidget() == null) {
+				helpPanel = (InputBarHelpPanelW)(gm.getInputHelpPanel());
+				helpPopup.add(helpPanel);
+			}
+
+			updateHelpPosition(helpPanel, x, y);
+			
+		} else if (helpPopup != null) {
+			helpPopup.hide();
+		}
+	}
+	
+	protected void updateHelpPosition(final InputBarHelpPanelW helpPanel, final int x, final int y) {
+		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			@Override
+			public void setPosition(int offsetWidth, int offsetHeight) {
+				AppW appw = (AppW)app;
+				double scale = appw.getArticleElement().getScaleX();
+				double renderScale = appw.getArticleElement().getDataParamApp()
+						? scale : 1;
+				double left = x - appw.getAbsLeft();
+				if (appw.getWidth() - x < helpPopup.getOffsetWidth()) {
+					left =  (appw.getWidth() - helpPopup.getOffsetWidth()) - appw.getAbsLeft();
+				}
+				helpPopup.getElement().getStyle()
+						.setProperty("left", left* renderScale
+										+ "px");
+				int maxOffsetHeight;
+				int totalHeight = (int) appw.getHeight();
+				int toggleButtonTop = (int) ((y  - (int) appw.getAbsTop()) / scale);
+				if (toggleButtonTop < totalHeight / 2) {
+					int top = (toggleButtonTop);
+					maxOffsetHeight = totalHeight - top;
+					helpPopup.getElement().getStyle().setProperty("top",
+							top * renderScale + "px");
+					helpPopup.getElement().getStyle().setProperty("bottom",
+							"auto");
+					helpPopup.removeStyleName("helpPopupAVBottom");
+					helpPopup.addStyleName("helpPopupAV");
+				} else {
+					int minBottom = appw.isApplet() ? 0 : 10;
+					int bottom = (totalHeight
+							- toggleButtonTop);
+					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
+							: totalHeight - minBottom;
+					helpPopup.getElement().getStyle().setProperty("bottom",
+							(bottom > 0 ? bottom : minBottom) * renderScale
+									+ "px");
+					helpPopup.getElement().getStyle().setProperty("top",
+							"auto");
+					helpPopup.removeStyleName("helpPopupAV");
+					helpPopup.addStyleName("helpPopupAVBottom");
+				}
+				helpPanel.updateGUI(maxOffsetHeight, 1);
+				helpPopup.show();
+			}
+		});
+
+	}
 }
