@@ -135,6 +135,7 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 
 		public void reset() {
+			adjustSwitcher();
 			if (moreButton != null) { 
 				moreButton.setValue(false);
 			}
@@ -525,6 +526,7 @@ public class TabbedKeyboard extends FlowPanel {
 	 * new language
 	 */
 	protected void checkLanguage() {
+		switcher.reset();
 		if (bh == null) {
 			return;
 		}
@@ -543,6 +545,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 		clear();
 		buildGUI(bh, app);
+
 
 	}
 	
