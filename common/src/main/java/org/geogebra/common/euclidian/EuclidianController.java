@@ -1393,10 +1393,15 @@ public abstract class EuclidianController {
 		while (it.hasNext()) {
 			geo = it.next();
 
-			if (!highlight || !geo.isLocked()) {
+			if (!highlight || mayHighlight(geo)) {
 				geo.setHighlighted(highlight);
 			}
 		}
+	}
+
+	private boolean mayHighlight(GeoElement geo) {
+		return mode == EuclidianConstants.MODE_MOVE ? !geo.isLocked()
+				: !geo.isProtected();
 	}
 
 	public final void doSingleHighlighting(GeoElement geo) {
