@@ -36,6 +36,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
+import java.util.UUID;
 import java.util.zip.GZIPOutputStream;
 
 import org.freehep.graphicsio.AbstractVectorGraphicsIO;
@@ -1136,12 +1137,18 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 		// clipping
 		if (isProperty(CLIP) && (getClip() != null)) {
-			// SVG uses unique lip numbers, don't reset allways increment them
+			// SVG uses unique lip numbers, don't reset always increment them
 			clipNumber.set(clipNumber.getInt() + 1);
 
 			// define clip
 			result.append("<clipPath id=\"clip");
-			result.append(clipNumber.getInt());
+
+			// result.append(clipNumber.getInt());
+			// need unique id so that 2 SVGs can be embedding in the same
+			// webpage
+			// http://stackoverflow.com/questions/15911717/clippath-in-multiple-svg-tags
+			result.append(UUID.randomUUID());
+
 			result.append("\">\n  ");
 			result.append(getPath(getClip().getPathIterator(null)));
 			result.append("\n</clipPath>\n");
