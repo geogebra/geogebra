@@ -21,7 +21,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -127,6 +126,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 	}
 
+	private static final int BASE_WIDTH = 70;
 	private KeyboardLocale locale;
 	private boolean isSmallKeyboard;
 	protected HasKeyboard app;
@@ -227,31 +227,42 @@ public class TabbedKeyboard extends FlowPanel {
 	 * @return button base size
 	 */
 	int getBaseSize() {
-		final int n = 13;
-		return (int) ((app.getInnerWidth() - 200) > 50 * n ? 50
-				: (app.getInnerWidth() - 200) / n);
+		final int n = 11;
+		return (int) ((app.getInnerWidth() - 50) > BASE_WIDTH * n ? BASE_WIDTH
+				: (app.getInnerWidth() - 50) / n);
 	}
 
 	void updatePanel(KeyPanelBase keyboard, Keyboard layout,
 			ButtonHandler bh, int baseSize) {
 		keyboard.reset(layout);
 		int index = 0;
+		int margins = 4;
 		for (Row row : layout.getModel().getRows()) {
 			double offset = 0;
+			KeyBoardButtonBase button = null;
 			for (WeightedButton wb : row.getButtons()) {
 				if (Action.NONE.name().equals(wb.getActionName())) {
 					offset = wb.getWeight();
 				} else {
-					KeyBoardButtonBase button = makeButton(wb, bh);
+					button = makeButton(wb, bh);
 					if (offset > 0) {
 						button.getElement().getStyle()
-								.setMarginLeft(offset * baseSize, Unit.PX);
+								.setMarginLeft(offset * baseSize + margins / 2,
+										Unit.PX);
 					}
 					button.getElement().getStyle()
-							.setWidth(wb.getWeight() * baseSize, Unit.PX);
+							.setWidth(wb.getWeight() * baseSize - margins,
+									Unit.PX);
 					keyboard.addToRow(index, button);
 					offset = 0;
 				}
+			}
+			// last button is empty
+			if (Action.NONE.name().equals(row.getButtons()
+					.get(row.getButtons().size() - 1).getActionName())) {
+				button.getElement().getStyle()
+						.setMarginRight(offset * baseSize + margins / 2,
+								Unit.PX);
 			}
 			index++;
 		}

@@ -108,6 +108,11 @@
 		white-space: nowrap;
 		color: #000;
 	}
+	
+	.TabbedKeyBoard.KeyBoard .KeyBoardButton {
+		height: 40px;
+		box-sizing:border-box;
+	}
 
 	/** obsolte */
 	.KeyBoard .KeyBoardButton {
