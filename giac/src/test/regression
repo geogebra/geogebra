@@ -2,7 +2,7 @@
 # Creates *.out files from *.in files or runs a regression test.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-MINIGIAC=../../build/install/minigiac/minigiac
+MINIGIAC=../../build/install/minigiac/linux64/minigiac
 
 OVERWRITE=0
 TIMEOUT=480
