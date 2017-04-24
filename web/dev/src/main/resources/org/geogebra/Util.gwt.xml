@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module>
-<inherits name='com.google.gwt.user.User'/> 
+  <inherits name='com.google.gwt.user.User'/> 
+  <inherits name='com.materializecss.Materialize'/>
   <source path='web/html5' />
   <source path='web/resources' />
   <source path='common/util/lang' />
   <source path='common/util/debug' />
   <source path='common/awt' />
-  <source path='common/euclidian/event' />  
+  <source path='common/euclidian/event' />
+  <resource path='com' />   
 </module>
