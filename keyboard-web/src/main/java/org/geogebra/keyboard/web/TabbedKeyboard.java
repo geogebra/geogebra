@@ -31,7 +31,7 @@ public class TabbedKeyboard extends FlowPanel {
 	private class KeyboardSwitcher extends FlowPanel {
 		private static final int SWITCHER_HEIGHT = 40;
 		private FlowPanel contents;
-		private List<Widget> switches;
+		private List<Button> switches;
 		private Button closeButton;
 		private Button moreButton;
 		public KeyboardSwitcher() {
@@ -49,34 +49,44 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		public void addSwitch(final KeyPanelBase keyboard,
 				String string) {
-			Widget btn = makeSwitcherButton(keyboard, string);
+			Button btn = makeSwitcherButton(keyboard, string);
 			switches.add(btn);
 			contents.add(btn);
 		}
 		
-		private Widget makeSwitcherButton(final KeyPanelBase keyboard,
+		private Button makeSwitcherButton(final KeyPanelBase keyboard,
 				String string) {
 			final Button ret = new Button(string);
 			ClickStartHandler.init(ret, new ClickStartHandler(true, true) {
-
-				private ComplexPanel switchButtonCount;
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					for (int i = 0; i < switches.size(); i++) {
 						((FlowPanel) keyboard.getParent()).getWidget(i)
 								.setVisible(false);
-						switches.get(i).removeStyleName("selected");
+						setSelected(i, false);
 					}
 					currentKeyboard = keyboard;
 					keyboard.setVisible(true);
 					adjustSwitcher(keyboard);
-					ret.addStyleName("selected");
+					setSelected(ret, true);
 				}
 			});
 			return ret;
 		}
+		
+		private void setSelected(Button btn, boolean value) {
+			if (value) {
+				btn.addStyleName("selected");
+			} else {
+				btn.removeStyleName("selected");
+			}
+		}
 
+		private void setSelected(int idx, boolean value) {
+			setSelected(switches.get(idx), value);
+		}
+		
 		private Widget makeCloseButton() {
 			Image img = new Image(KeyboardResources.INSTANCE
 					.keyboard_close_black().getSafeUri().asString());
@@ -106,7 +116,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-
+					
 				}
 			});
 			return moreButton;
@@ -173,7 +183,7 @@ public class TabbedKeyboard extends FlowPanel {
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
-
+		switcher.setSelected(0, true);
 
 
 		add(switcher);
