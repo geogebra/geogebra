@@ -24,6 +24,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TabbedKeyboard extends FlowPanel {
@@ -33,7 +34,7 @@ public class TabbedKeyboard extends FlowPanel {
 		private FlowPanel contents;
 		private List<Button> switches;
 		private CustomButton closeButton;
-		private CustomButton moreButton;
+		private ToggleButton moreButton;
 		public KeyboardSwitcher() {
 			addStyleName("KeyboardSwitcher");
 			add(makeCloseButton());
@@ -115,8 +116,7 @@ public class TabbedKeyboard extends FlowPanel {
 					.keyboard_more().getSafeUri().asString());
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_more_purple().getSafeUri().asString());
-			moreButton = new CustomButton() {};
-			moreButton.getUpFace().setImage(img);
+			moreButton = new ToggleButton(img, hoverImg);
 			moreButton.getUpHoveringFace().setImage(hoverImg);
 //			moreButton.getElement().appendChild(img.getElement());
 			moreButton.addStyleName("moreKeyboardButton");
@@ -132,6 +132,12 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		public void setWidth(int width) {
 			contents.setPixelSize(width, getOffsetHeight());
+		}
+
+		public void reset() {
+			if (moreButton != null) { 
+				moreButton.setValue(false);
+			}
 		}
 
 	}
@@ -538,6 +544,12 @@ public class TabbedKeyboard extends FlowPanel {
 		clear();
 		buildGUI(bh, app);
 
+	}
+	
+	@Override
+	public void setVisible(boolean b) {
+		switcher.reset();
+		super.setVisible(b);
 	}
 	
 	protected void showHelp(int x, int y) {
