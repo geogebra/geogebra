@@ -20,3 +20,9 @@ Compilation and running
    > Building 85% > :run
 
    Here you can type some examples and exit with CTRL-D.
+
+Troubleshooting
+---------------
+
+You may want to remove the line "include giac-android" from the file
+settings.gradle in order to avoid installing the whole Android SDK.

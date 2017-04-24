@@ -250,7 +250,7 @@ model {
             targetPlatform 'ios_arm64'
             targetPlatform 'ios_i386'
             targetPlatform 'ios_x86_64'
-            
+
             binaries.all {
                 giacCommonDefines(cppCompiler)
                 if (targetPlatform.operatingSystem.name == 'ios') {
@@ -259,6 +259,8 @@ model {
                         cppCompiler.define 'x86_64'
                     }
                 }
+            cppCompiler.args '-fpermissive' // needed for recent G++
+
             }
         }
 
@@ -294,6 +296,7 @@ model {
                 cppCompiler.define 'HAVE_UNISTD_H'
                 cppCompiler.define 'HAVE_SYS_TIMES_H'
                 cppCompiler.define 'HAVE_SYS_TIME_H'
+                cppCompiler.args '-fpermissive' // needed for recent G++
             }
             sources.all {
                 source {
@@ -321,7 +324,6 @@ model {
                 lib library: 'mpfr', linkage: 'static'
                 lib library: 'gmp', linkage: 'static'
             }
-                
 
             binaries.withType(SharedLibraryBinarySpec) {
                 // Common settings for all platforms and architectures:
@@ -518,7 +520,7 @@ task androidCopyX86LibjavagiacSo (dependsOn: 'javagiacAndroidx86SharedLibrary', 
 
 task run (dependsOn: 'installMinigiacExecutable', type: Exec) {
     description "Runs Giac's minigiac terminal"
-    commandLine 'build/install/minigiac/minigiac'
+    commandLine "build/install/minigiac/linux64/minigiac" // FIXME, this is hardcoded
     standardInput = System.in
 }
 
@@ -716,8 +718,10 @@ task emMakeMpfr {
    PATH=.../cross-compilers/x86/bin:/.../cross-compilers/arm/bin:$PATH JAVA_HEAP_SIZE=3072m ../gradlew createGiacJs
  */
 
+/*
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
 }
+*/
