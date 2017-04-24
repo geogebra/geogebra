@@ -193,6 +193,7 @@ public class SymbolAtom extends CharSymbol {
 		int style = env.getStyle();
 		Char c = tf.getChar(name, style);
 		Box cb = new CharBox(c);
+		cb.setAtom(this);
 		if (env.getSmallCap() && unicode != 0 && Character.isLowerCase(unicode)) {
 			try {
 				cb = new ScaleBox(new CharBox(tf.getChar(
@@ -206,6 +207,7 @@ public class SymbolAtom extends CharSymbol {
 				c = tf.getNextLarger(c, style);
 			}
 			cb = new CharBox(c);
+			cb.setAtom(this);
 			cb.setShift(-(cb.getHeight() + cb.getDepth()) / 2
 					- env.getTeXFont().getAxisHeight(env.getStyle()));
 			double delta = c.getItalic();
