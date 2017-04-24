@@ -2197,18 +2197,14 @@ public class GeoCasCell extends GeoElement
 				}
 
 				expandedEvalVE = pointList ? wrapPointList(evalVE) : evalVE;
-				if (expandedEvalVE instanceof ExpressionNode
-						&& ((ExpressionNode) expandedEvalVE)
-								.getLeft() instanceof Command
-						&& !("Evaluate")
-								.equals(((Command) ((ExpressionNode) expandedEvalVE)
-										.getLeft()).getName())
-						&& ((Command) ((ExpressionNode) expandedEvalVE)
-								.getLeft()).getArgumentNumber() != 1
-						&& ((Command) ((ExpressionNode) expandedEvalVE)
-								.getLeft()).getArgument(0) != null) {
-					ExpressionNode node = ((Command) ((ExpressionNode) expandedEvalVE)
-							.getLeft()).getArgument(0);
+				if (expandedEvalVE.isTopLevelCommand()
+						&& !expandedEvalVE.isTopLevelCommand("Evaluate")
+						&& ((Command) expandedEvalVE
+								.unwrap()).getArgumentNumber() != 1
+						&& ((Command) expandedEvalVE
+								.unwrap()).getArgument(0) != null) {
+					ExpressionNode node = ((Command) expandedEvalVE.unwrap())
+							.getArgument(0);
 					if (!(node.getLeft() instanceof GeoSurfaceCartesian3D)
 							&& !(node.getRight() instanceof MyList)) {
 						// needed for GGB-494
@@ -2230,18 +2226,14 @@ public class GeoCasCell extends GeoElement
 				}
 
 				// make work NSolve with cell input
-				if (expandedEvalVE.isExpressionNode()
-						&& ((ExpressionNode) expandedEvalVE)
-								.getLeft() instanceof Command
-						&& expandedEvalVE.getTopLevelCommand().getName()
-								.equals("NSolve")
-						&& ((Command) ((ExpressionNode) expandedEvalVE)
-								.getLeft()).getArgument(0)
+				if (expandedEvalVE.isTopLevelCommand("NSolve")
+						&& ((Command) expandedEvalVE.unwrap()).getArgument(0)
 										.getLeft() instanceof GeoCasCell) {
-					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) ((GeoCasCell) ((Command) ((ExpressionNode) expandedEvalVE)
-							.getLeft()).getArgument(0).getLeft()).getInputVE();
-					((Command) ((ExpressionNode) expandedEvalVE).getLeft())
-							.setArgument(0, inputVEofGeoCasCell);
+					ExpressionNode inputVEofGeoCasCell = (ExpressionNode) ((GeoCasCell) ((Command) expandedEvalVE
+							.unwrap())
+							.getArgument(0).getLeft()).getInputVE();
+					((Command) expandedEvalVE.unwrap()).setArgument(0,
+							inputVEofGeoCasCell);
 				}
 
 				// hack needed for GGB-494
@@ -2435,9 +2427,7 @@ public class GeoCasCell extends GeoElement
 
 	// replace in Solutions[{h(s)=g(t)},{s,t}] vector nodes with equations
 	private ValidExpression processSolutionCommand(ValidExpression ve) {
-		if (ve instanceof ExpressionNode
-				&& ((ExpressionNode) ve).getLeft() instanceof Command
-				&& ((Command) ve.unwrap()).getName().equals("Solutions")) {
+		if (ve.isTopLevelCommand("Solutions")) {
 			Command cmd = (Command) ve.unwrap();
 			if (cmd.getArgumentNumber() == 2) {
 				ExpressionNode arg1 = cmd.getArgument(0);
