@@ -285,13 +285,16 @@ public class AppWapplet extends AppWFull {
 	public void attachAlgebraInput() {
 		// inputbar's width varies,
 		// so it's probably good to regenerate every time
+		boolean regenerate = getGuiManager().getAlgebraInput() != null;
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
 
 		if (has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
-			addToHeight(-inputbar.getOffsetHeight());
-			oldSplitLayoutPanel.setHeight(spHeight + "px");
+			if (!regenerate) {
+				addToHeight(-inputbar.getOffsetHeight());
+				oldSplitLayoutPanel.setHeight(spHeight + "px");
+			}
 		}
 
 		this.getGuiManager().getAlgebraInput()

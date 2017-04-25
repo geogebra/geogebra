@@ -1780,6 +1780,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		} else {
 			((AppWapplet) app).attachAlgebraInput();
 		}
+		
+		if (show) {
+			// ((AppW) app).addToHeight(-algebraInput.getOffsetHeight());
+			((AppW) app).addToHeight(-42);
+		} else {
+			// ((AppW) app).addToHeight(algebraInput.getOffsetHeight());
+			((AppW) app).addToHeight(42);
+
+		}
+		
 		((AppW) app).closePopups();
 	}
 
