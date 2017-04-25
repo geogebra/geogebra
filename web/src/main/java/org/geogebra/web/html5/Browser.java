@@ -479,4 +479,8 @@ public class Browser {
 		return $wnd.screen.height;
 	}-*/;
 
+	public static native boolean isEdge() /*-{
+		return $wnd.navigator.userAgent.indexOf("Edge") > -1;
+	}-*/;
+
 }

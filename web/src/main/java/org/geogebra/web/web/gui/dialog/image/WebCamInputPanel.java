@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.dialog.image;
 
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -38,16 +40,10 @@ public class WebCamInputPanel extends VerticalPanel {
 		add(inputWidget);
 	}
 
-	private native Element populate(Element el, String messageChrome,
-			String messageFirefox, String messageEdge, String errorMessage) /*-{
+	private native Element populate(Element el, String message,
+			String errorMessage) /*-{
 
 		el.style.position = "relative";
-		var message = ($wnd.navigator.mozGetUserMedia) ? messageFirefox
-				: messageChrome;
-
-		// check for Windows 10 Edge browser		
-		message = navigator.userAgent.indexOf("Edge") > -1 ? messageEdge
-				: message;
 
 		var ihtml = "<span style='position:absolute;width:213px;height:160px;text-align:center;'><br><br>"
 				+ message + "</span>\n";
@@ -153,8 +149,17 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private void resetVideo() {
 		Localization loc = app.getLocalization();
-		video = populate(inputWidget.getElement(), loc.getMenu("Webcam.Chrome"),
-				loc.getMenu("Webcam.Firefox"), loc.getMenu("Webcam.Edge"),
+		String message;
+		if (app.getVersion() == Versions.WEB_FOR_DESKTOP) {
+			message = "";
+		} else if (Browser.isFirefox()) {
+			message = loc.getMenu("Webcam.Firefox"); 
+		}else if(Browser.isEdge()){
+			message = loc.getMenu("Webcam.Edge");
+		}else{
+			message = loc.getMenu("Webcam.Chrome");
+		}
+		video = populate(inputWidget.getElement(), message,
 				loc.getMenu("Webcam.Problem"));
 
 	}
