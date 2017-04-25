@@ -7,3 +7,5 @@ giac-android
 gradle-scripts
 LINUX_README
 settings.gradle
+node_modules
+local.properties

@@ -72,9 +72,9 @@ This may support only Release mode compilation.) Put the .LIB files into the cur
 folder, or set the LIBDIR environment variable to the correct path.
 
 After compilation you will also need the dynamic libraries (the .DLL files). Put them
-in the current folder (that is, both MPIR.DLL and MPFR.DLL).
+in the current folder (that is, both MPIR.DLL and MPFR.DLL) before testing/running Giac.
 
-Note that some computations which require the MPFR subsystem mail fail in Release mode builds.
+Note that some computations which require the MPFR subsystem may fail in Release mode builds.
 
 ## Compilation ##
 
