@@ -33,7 +33,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	PopupMenuButtonW viewButton;
 	MyCJButton menuButton;
 	public AppW app;
-	int viewID;
+	protected int viewID;
 	protected OptionType optionType;
 
 	/**

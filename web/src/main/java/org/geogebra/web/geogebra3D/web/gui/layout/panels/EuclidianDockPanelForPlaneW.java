@@ -6,6 +6,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
@@ -82,7 +83,11 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 
 	@Override
 	public Widget loadComponent() {
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			setViewImage(getResources().settings());
+		} else {
 		setViewImage(getResources().styleBar_graphics_extra());
+		}
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();

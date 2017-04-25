@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
@@ -34,6 +35,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.color.MOWColorButton;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -105,6 +107,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private MyToggleButtonW btnFixPosition, btnFixObject;
 	
 	protected MyCJButton btnStandardView;
+	protected MyCJButton btnCloseView;
 
 	private MyToggleButtonW[] toggleBtnList;
 	private MyToggleButtonW[] btnDeleteSizes = new MyToggleButtonW[3];
@@ -470,6 +473,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		// --- order matters here
 
+		// button for closing extra views
+		if (app.has(Feature.DYNAMIC_STYLEBAR) && App.VIEW_EUCLIDIAN_FOR_PLANE_START <= viewID
+				&& viewID <= App.VIEW_EUCLIDIAN_FOR_PLANE_END) {
+			addCloseViewButton();
+		}
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
 		add(btnPointCapture);
@@ -629,6 +637,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		add(btnChangeView);
 	}
 
+	protected void addCloseViewButton() {
+		add(btnCloseView);
+	}
+
 	/**
 	 * add automatic rotate 3D view button
 	 */
@@ -703,6 +715,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		createFixObjectBtn();
 		createTextSizeBtn();
 		createChangeViewButtons();
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			createCloseViewBtn();
+		}
 	}
 
 	protected class ProjectionPopup extends PopupMenuButtonW {
@@ -920,6 +935,19 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		});
     }
+
+	private void createCloseViewBtn() {
+		btnCloseView = new MyCJButton();
+		ImageOrText icon = new ImageOrText(GuiResources.INSTANCE.dockbar_close());
+		btnCloseView.setIcon(icon);
+		btnCloseView.addStyleName("StylebarCloseViewButton");
+		btnCloseView.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				app.getGuiManager().setShowView(false, viewID);
+			}
+		});
+	}
 
 	/**
 	 * set EV to standard view
