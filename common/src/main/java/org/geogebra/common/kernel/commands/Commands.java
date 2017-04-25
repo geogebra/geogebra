@@ -1098,6 +1098,8 @@ public enum Commands implements CommandsConstants,
 
 	NIntegral(TABLE_FUNCTION),
 
+	NInvert(TABLE_ENGLISH), // TODO move to TABLE_FUNCTION
+
 	NSolve(TABLE_CAS),
 
 	NSolutions(TABLE_CAS),
@@ -1142,7 +1144,7 @@ public enum Commands implements CommandsConstants,
 
 	TrigCombine(TABLE_FUNCTION),
 
-	RoundedPolygon(TABLE_ENGLISH);
+	RoundedPolygon(TABLE_ENGLISH); // TODO move to TABLE_GEOMETRY
 
 	private int table;
 

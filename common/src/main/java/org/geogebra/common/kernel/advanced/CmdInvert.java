@@ -13,14 +13,19 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdInvert extends CommandProcessor {
 
+	private boolean numeric;
+
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
+	 * @param numeric
+	 *            whether to use NInvert
 	 */
-	public CmdInvert(Kernel kernel) {
+	public CmdInvert(Kernel kernel, boolean numeric) {
 		super(kernel);
+		this.numeric = numeric;
 	}
 
 	@Override
@@ -35,12 +40,12 @@ public class CmdInvert extends CommandProcessor {
 			if (arg[0].isGeoFunction()) {
 
 				AlgoFunctionInvert algo = new AlgoFunctionInvert(cons,
-						c.getLabel(), (GeoFunction) arg[0]);
-
+						(GeoFunction) arg[0], numeric);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} else if (arg[0].isGeoList()) {
+			} else if (arg[0].isGeoList() && !numeric) {
 
 				AlgoInvert algo = new AlgoInvert(cons, c.getLabel(),
 						(GeoList) arg[0]);

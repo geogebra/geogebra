@@ -201,8 +201,14 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdPointList(kernel);
 		case ApplyMatrix:
 			return new CmdApplyMatrix(kernel);
+		case NInvert:
+			if (!kernel.getApplication().has(Feature.NINVERT)) {
+				return null;
+			}
+			return new CmdInvert(kernel, true);
 		case Invert:
-			return new CmdInvert(kernel);
+			return new CmdInvert(kernel, !kernel.getApplication().getSettings()
+					.getCasSettings().isEnabled());
 		case Transpose:
 			return new CmdTranspose(kernel);
 		case ReducedRowEchelonForm:

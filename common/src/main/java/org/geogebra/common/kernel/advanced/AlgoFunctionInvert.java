@@ -41,16 +41,13 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 	private GeoFunction f; // input
 	private GeoFunction g; // output
+	private boolean numeric;
 
-	public AlgoFunctionInvert(Construction cons, String label, GeoFunction f) {
-		this(cons, f);
-		g.setLabel(label);
-	}
 
-	public AlgoFunctionInvert(Construction cons, GeoFunction f) {
+	public AlgoFunctionInvert(Construction cons, GeoFunction f, boolean numeric) {
 		super(cons);
 		this.f = f;
-
+		this.numeric = numeric;
 		g = new GeoFunction(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -58,7 +55,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		return Commands.Invert;
+		return numeric ? Commands.NInvert : Commands.Invert;
 	}
 
 	// for AlgoElement
@@ -105,6 +102,9 @@ public class AlgoFunctionInvert extends AlgoElement {
 		tempFun.initFunction();
 		g.setDefined(true);
 		g.setFunction(tempFun);
+		if (numeric) {
+			g.setSecret(this);
+		}
 
 	}
 

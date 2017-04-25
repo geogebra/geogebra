@@ -209,6 +209,6 @@ public enum Feature {
 	MOBILE_AV_EDITOR,
 
 	/** GGB-1662 */
-	AV_PLUS
+	AV_PLUS, NINVERT
 
 }

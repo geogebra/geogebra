@@ -384,6 +384,7 @@ public abstract class CommandDispatcher {
 			case PointList:
 			case ApplyMatrix:
 			case Invert:
+			case NInvert:
 			case Transpose:
 			case ReducedRowEchelonForm:
 			case Determinant:
