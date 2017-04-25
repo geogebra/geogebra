@@ -93,13 +93,18 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	public void endEditing() {
-		// TODO Auto-generated method stub
-
+		if (processField != null) {
+			processField.endEditing();
+		}
 	}
 
 	public void setProcessing(KeyboardListener field) {
+		if (processField != null && processField.getField() != null) {
+			if (field == null || processField.getField() != field.getField()) {
+				endEditing();
+			}
+		}
 		this.processField = field;
-
 	}
 
 
