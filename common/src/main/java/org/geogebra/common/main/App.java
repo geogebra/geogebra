@@ -4074,8 +4074,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1288
 		case ADJUST_VIEWS:
-			return prerelease
-					|| Versions.WEB_FOR_DESKTOP.equals(getVersion());
+			return true;
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
