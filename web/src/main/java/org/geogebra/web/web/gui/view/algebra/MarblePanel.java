@@ -25,6 +25,7 @@ public class MarblePanel extends FlowPanel {
 	private ToggleButton btnPlus;
 	/** av item */
 	RadioTreeItem item;
+	ContextMenuPlus cmPlus=null;
 
 	/**
 	 * @param item
@@ -204,6 +205,18 @@ public class MarblePanel extends FlowPanel {
 	
 	public void createPlus() {
 		btnPlus = new ToggleButton(" + ");
+		ClickStartHandler.init(btnPlus, new ClickStartHandler() {
+			
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (cmPlus == null) {
+					cmPlus = new ContextMenuPlus(item.app);
+				}
+				cmPlus.show(getAbsoluteLeft(), getAbsoluteTop() +
+						getOffsetHeight() / 2);
+			}
+			
+		});
 	}
  
 	/**
