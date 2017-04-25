@@ -194,7 +194,14 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 			@Override
 			public void onBrowserEvent(Event event) {
-
+				int etype = event.getTypeInt();
+				if (etype == Event.ONMOUSEDOWN
+						|| etype == Event.ONMOUSEMOVE
+						|| etype == Event.ONMOUSEUP) {
+					event.stopPropagation();
+					return;
+				}
+						
 				// TODO required for mobile devices
 				// if (showOnScreenKeyBoard
 				// && DOM.eventGetType(event) == FOCUS) {
@@ -219,8 +226,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
 				}
+								
 			}
 		};
+		
+		textField.sinkEvents(Event.ONMOUSEMOVE|Event.ONMOUSEUP);
+		
 		if (columns > 0) {
 			setColumns(columns);
 		}
