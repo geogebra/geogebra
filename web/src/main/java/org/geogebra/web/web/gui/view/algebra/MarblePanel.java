@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.eclipse.jetty.deploy.App;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
