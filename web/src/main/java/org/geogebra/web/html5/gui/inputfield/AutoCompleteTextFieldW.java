@@ -201,7 +201,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					event.stopPropagation();
 					return;
 				}
-						
+
 				// TODO required for mobile devices
 				// if (showOnScreenKeyBoard
 				// && DOM.eventGetType(event) == FOCUS) {
@@ -226,12 +226,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
 				}
-								
 			}
 		};
-		
-		textField.sinkEvents(Event.ONMOUSEMOVE|Event.ONMOUSEUP);
-		
+
+		textField.sinkEvents(Event.ONMOUSEMOVE | Event.ONMOUSEUP);
+
 		if (columns > 0) {
 			setColumns(columns);
 		}
