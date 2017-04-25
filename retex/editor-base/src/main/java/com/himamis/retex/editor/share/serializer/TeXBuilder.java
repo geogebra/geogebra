@@ -81,6 +81,10 @@ public class TeXBuilder {
 			}
 			i++;
 		}
+		if (mathFormula == currentField
+				&& currentOffset == currentField.size()) {
+			addCursor(ra);
+		}
 		return ra;
 
 	}

@@ -98,7 +98,7 @@ public class MathFieldController {
 
     }
 
-	public MathComponent getPath(MathFormula mathFormula, int x, int y,
+	public EditorState getPath(MathFormula mathFormula, int x, int y,
 			ArrayList<Integer> list) {
 		if (texBuilder == null) {
 			return null;
@@ -113,12 +113,27 @@ public class MathFieldController {
 				.setType(type).build();
 		renderer.getBox().getPath(x / size, y / size, list);
 		Box current = renderer.getBox();
+		EditorState es = new EditorState(mathFormula.getMetaModel());
 		for (int i = 0; i < list.size() && current.getCount() > 0
 				&& list.get(i) >= 0; i++) {
+			if (list.get(i) == current.getCount()) {
+				current = current.getChild(list.get(i) - 1);
+				MathComponent comp = texBuilder.getComponent(current.getAtom());
+				if (comp != null) {
+					es.setCurrentField((MathSequence) comp.getParent());
+					es.setCurrentOffset(comp.getParentIndex() + 1);
+				}
+				return es;
+			}
+
 			current = current.getChild(list.get(i));
-			System.out.println(current + ":" + current.getAtom());
+
 		}
-		return texBuilder.getComponent(current.getAtom());
+
+		MathComponent comp = texBuilder.getComponent(current.getAtom());
+		es.setCurrentField((MathSequence) comp.getParent());
+		es.setCurrentOffset(comp.getParentIndex());
+		return es;
 
 	}
 

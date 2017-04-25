@@ -210,6 +210,11 @@ public class HorizontalBox extends Box {
 			}
 			xPos += box.getWidth();
 		}
+		if (children.get(children.size() - 1) instanceof StrutBox) {
+			list.add(children.size() - 2);
+			children.get(children.size() - 2).getPath(x, y, list);
+			return;
+		}
 		if (x > xPos) {
 			list.add(children.size());
 			children.get(children.size() - 1).getPath(x - xPos, y, list);

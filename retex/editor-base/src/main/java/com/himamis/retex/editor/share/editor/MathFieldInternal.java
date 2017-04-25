@@ -388,11 +388,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	
 	private void moveToSelectionDirect(int x, int y) {
 		ArrayList<Integer> list2 = new ArrayList<Integer>();
-		MathComponent mc = mathFieldController.getPath(mathFormula, x, y,
+		EditorState mc = mathFieldController.getPath(mathFormula, x, y,
 				list2);
-		if (mc != null) {
-			editorState.setCurrentField((MathSequence) mc.getParent());
-			editorState.setCurrentOffset(mc.getParentIndex());
+		if (mc != null && mc.getCurrentField() != null) {
+			editorState.setCurrentField(mc.getCurrentField());
+			editorState.setCurrentOffset(mc.getCurrentOffset());
 		}
 	}
 	private void moveToSelection(int x, int y) {
