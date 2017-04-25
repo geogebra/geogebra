@@ -1,7 +1,6 @@
 package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;
@@ -210,6 +209,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	protected void scrollCursorIntoView() {
 		processField.scrollCursorIntoView();
 	}
+
 	public void afterShown(final Runnable runnable) {
 		runOnAnimation(runnable, getElement());
 		adjustSwitcher();
@@ -256,7 +256,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	protected void showHelp(int x, int y) {
-		Log.debug("showHelp");
 		boolean show = helpPopup != null && helpPopup.isShowing();
 		if (!show) {
 			createHelpPopup();

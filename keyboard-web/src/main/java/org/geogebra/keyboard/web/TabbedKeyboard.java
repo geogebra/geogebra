@@ -96,7 +96,6 @@ public class TabbedKeyboard extends FlowPanel {
 			closeButton = new CustomButton(){};
 			closeButton.getUpFace().setImage(img);
 			closeButton.getUpHoveringFace().setImage(hoverImg);
-			//closeButton.getElement().appendChild(img.getElement());
 			closeButton.addStyleName("closeTabbedKeyboardButton");
 			ClickStartHandler.init(closeButton, new ClickStartHandler() {
 
@@ -118,7 +117,6 @@ public class TabbedKeyboard extends FlowPanel {
 					.keyboard_more_purple().getSafeUri().asString());
 			moreButton = new ToggleButton(img, hoverImg);
 			moreButton.getUpHoveringFace().setImage(hoverImg);
-//			moreButton.getElement().appendChild(img.getElement());
 			moreButton.addStyleName("moreKeyboardButton");
 			ClickStartHandler.init(moreButton, new ClickStartHandler() {
 
@@ -130,6 +128,7 @@ public class TabbedKeyboard extends FlowPanel {
 			});
 			return moreButton;
 		}
+		
 		public void setWidth(int width) {
 			contents.setPixelSize(width, getOffsetHeight());
 		}
