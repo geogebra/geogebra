@@ -329,15 +329,10 @@ public class EquationSolver implements EquationSolverInterface {
 
 		// Application.debug(Math.abs(CR2 - CQ3)+"");
 
-		if (Math.abs(R) < Kernel.STANDARD_PRECISION
-				&& Math.abs(Q) < Kernel.STANDARD_PRECISION) // if
-		// (R
-		// ==
-		// 0
-		// &&
-		// Q
-		// ==
-		// 0)
+		// changed back to original GGB-1725
+		// if (Math.abs(R) < Kernel.STANDARD_PRECISION
+		// && Math.abs(Q) < Kernel.STANDARD_PRECISION)
+		if (R == 0 && Q == 0)
 		{
 			res[roots++] = -a / 3;
 			res[roots++] = -a / 3;
