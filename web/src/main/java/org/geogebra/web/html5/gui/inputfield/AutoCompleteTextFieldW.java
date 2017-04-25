@@ -197,7 +197,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				int etype = event.getTypeInt();
 				if (etype == Event.ONMOUSEDOWN
 						|| etype == Event.ONMOUSEMOVE
-						|| etype == Event.ONMOUSEUP) {
+						|| etype == Event.ONMOUSEUP
+						|| etype == Event.ONTOUCHMOVE
+						|| etype == Event.ONTOUCHSTART
+						|| etype == Event.ONTOUCHEND) {
 					event.stopPropagation();
 					return;
 				}
@@ -229,7 +232,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 		};
 
-		textField.sinkEvents(Event.ONMOUSEMOVE | Event.ONMOUSEUP);
+		textField.sinkEvents(
+				Event.ONMOUSEMOVE | Event.ONMOUSEUP | Event.TOUCHEVENTS);
 
 		if (columns > 0) {
 			setColumns(columns);
