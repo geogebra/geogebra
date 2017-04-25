@@ -529,6 +529,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 						add(keyBoard);
 					} else {
 						showKeyboardButton(null);
+						if (app.has(
+								Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+							app.updateSplitPanelHeight();
+						}
 					}
 				} else {
 					add(keyBoard);

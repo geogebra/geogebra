@@ -3547,4 +3547,9 @@ public abstract class AppW extends App implements SetLabels {
 		updateCenterPanel();
 		updateViewSizes();
 	}
+
+	public void updateSplitPanelHeight() {
+		// implemented in subclass
+
+	}
 }

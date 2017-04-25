@@ -25,8 +25,10 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
+import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
+import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -713,6 +715,32 @@ public class AppWapplet extends AppWFull {
 		this.spHeight += i;
 	}
 
+	/**
+	 * Updates height of split panel accordingly if there is algebra input
+	 * and/or toolbar or not. Implemented for the case if there is no keyboard
+	 * open.
+	 */
+	@Override
+	public void updateSplitPanelHeight() {
+		int newHeight = frame.getOffsetHeight();
+		if (this.showAlgebraInput()
+				&& getInputPosition() != InputPosition.algebraView
+				&& getGuiManager().getAlgebraInput() != null) {
+			newHeight -= ((AlgebraInputW) getGuiManager().getAlgebraInput())
+					.getOffsetHeight();
+		}
+
+		if (getToolbar()!=null && getToolbar().isVisible()){
+			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
+		}
+
+		// if (frame.isKeyboardShowing()) {
+		// newHeight -= frame.getKeyboardHeight();
+		// }
+
+		this.spHeight = newHeight;
+		oldSplitLayoutPanel.setHeight(spHeight + "px");
+	}
 
 	@Override
 	public Panel getPanel() {
