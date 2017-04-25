@@ -126,7 +126,7 @@ __GGB__keysVar.nl.command = {
     "Bottom": "Grondvlak",
     "Bottom.Syntax": "[ <Kwadriek> ]",
     "BoxPlot": "Boxplot",
-    "BoxPlot.Syntax": "[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen> ]\n[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen>, <Uitschieters> ]\n[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen>, <Lijst met frequenties>, <Uitschieters> ]\n[ <Verticale positie>, <Hoogte>, <Minimumwaarde>, <Q1>, <Mediaan>, <Q3>, <Maximumwaarde> ]",
+    "BoxPlot.Syntax": "[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen> ]\n[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen>, <Uitschieters true/false> ]\n[ <Verticale positie>, <Hoogte>, <Lijst met waarnemingsgetallen>, <Lijst met frequenties>, <Uitschieters true/false> ]\n[ <Verticale positie>, <Hoogte>, <Minimumwaarde>, <Q1>, <Mediaan>, <Q3>, <Maximumwaarde> ]",
     "Button": "Actieknop",
     "Button.Syntax": "[ ]\n[ <Titel> ]",
     "CFactor": "CFactor",
