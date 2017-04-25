@@ -26,7 +26,6 @@ import org.geogebra.common.euclidian.event.FocusListenerDelegate;
 import org.geogebra.common.euclidian.event.GFocusEvent;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.StringTemplate;
@@ -84,8 +83,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		// ((geogebra.gui.inputfield.AutoCompleteTextField)
 		// textField).addFocusListener(bl);
 		if (getTextField() != null) {
-			getTextField().addFocusListener(
-					AwtFactory.getPrototype().newFocusListener(ifListener));
+			// getTextField().addFocusListener(
+			// AwtFactory.getPrototype().newFocusListener(ifListener));
 			// label.addMouseListener(bl);
 			// label.addMouseMotionListener(bl);
 			getTextField().addKeyHandler(ifKeyListener);

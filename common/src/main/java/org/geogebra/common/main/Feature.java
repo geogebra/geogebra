@@ -206,6 +206,9 @@ public enum Feature {
 	/** GGB-1671 */
 	AV_CONTEXT_MENU,
 
-	MOBILE_AV_EDITOR
+	MOBILE_AV_EDITOR,
+
+	/** GGB-1662 */
+	AV_PLUS
 
 }

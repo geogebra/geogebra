@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.eclipse.jetty.deploy.App;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -21,6 +23,7 @@ public class MarblePanel extends FlowPanel {
 	private boolean selected = false;
 	/** warning triangle / help button */
 	private ToggleButton btnHelpToggle;
+	private ToggleButton btnPlus;
 	/** av item */
 	RadioTreeItem item;
 
@@ -36,11 +39,18 @@ public class MarblePanel extends FlowPanel {
 
 
 		addStyleName("marblePanel");
+		
+		if (item.app.has(Feature.AV_PLUS) && item.getAV().isInputActive()) {
+			updatePlus();
+			return;
+		}
+		
 		if (item.getGeo() != null) {
 			marble.setChecked(item.geo.isEuclidianVisible());
 			add(marble);
 		} else {
 			updateIcons(false);
+			
 		}
 		update();
 	}
@@ -88,6 +98,7 @@ public class MarblePanel extends FlowPanel {
 	 *            whether warning triangle should be visible
 	 */
 	public void updateIcons(boolean warning) {
+		
 		initHelpToggle();
 		// if (!warning) {
 		// clearErrorLabel();
@@ -122,6 +133,21 @@ public class MarblePanel extends FlowPanel {
 								.asString(),
 				24));
 
+	}
+
+	private void updatePlus() {
+		
+		if (btnPlus == null) {
+			createPlus();
+		}
+		if (item.getController().isEditing() || item.geo == null) {
+			remove(marble);
+			add(btnPlus);
+		} else {
+			add(marble);
+			marble.setEnabled(shouldShowMarble());
+			remove(btnPlus);
+		}
 	}
 
 	private void initHelpToggle() {
@@ -176,7 +202,11 @@ public class MarblePanel extends FlowPanel {
 			});
 		}
 	}
-
+	
+	public void createPlus() {
+		btnPlus = new ToggleButton(" + ");
+	}
+ 
 	/**
 	 * @return help button
 	 */

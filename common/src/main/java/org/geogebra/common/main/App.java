@@ -4208,6 +4208,9 @@ public abstract class App implements UpdateSelection {
 		case AV_CONTEXT_MENU:
 			return prerelease;
 
+		case AV_PLUS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
