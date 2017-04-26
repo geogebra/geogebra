@@ -14,6 +14,10 @@ publishing {
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
 
+dependencies {
+    compile 'com.google.j2objc:annotations:1.0.2'
+}
+
 task jarSources(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
     from sourceSets.main.allSource 
