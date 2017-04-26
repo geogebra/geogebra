@@ -27,7 +27,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Find Numerator
@@ -112,7 +111,6 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 				Function fun = new Function((ExpressionNode) ev,
 						f.getFunction().getFunctionVariables()[0]);
 				((GeoFunction) g).setFunction(fun);
-				Log.debug(fun);
 			} else {
 				FunctionNVar fun = new FunctionNVar((ExpressionNode) ev,
 						f.getFunction().getFunctionVariables());
