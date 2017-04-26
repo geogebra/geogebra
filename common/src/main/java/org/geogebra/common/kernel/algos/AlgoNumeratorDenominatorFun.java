@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Find Numerator
@@ -39,12 +40,14 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 	private GeoElement g; // output
 	private Commands type;
 
-	public AlgoNumeratorDenominatorFun(Construction cons, String label,
-			Evaluate2Var f, Commands type) {
-		this(cons, f, type);
-		g.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param type
+	 *            denominator / numerator
+	 */
 	public AlgoNumeratorDenominatorFun(Construction cons, Evaluate2Var f,
 			Commands type) {
 		super(cons);
@@ -75,6 +78,9 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return denominator or numerator
+	 */
 	public GeoElement getResult() {
 		return g;
 	}
@@ -106,6 +112,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 				Function fun = new Function((ExpressionNode) ev,
 						f.getFunction().getFunctionVariables()[0]);
 				((GeoFunction) g).setFunction(fun);
+				Log.debug(fun);
 			} else {
 				FunctionNVar fun = new FunctionNVar((ExpressionNode) ev,
 						f.getFunction().getFunctionVariables());
@@ -115,7 +122,8 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 			if (f instanceof GeoFunction) {
 
 				// construct function f(x) = x
-				FunctionVariable fv = new FunctionVariable(kernel);
+				FunctionVariable fv = ((GeoFunction) f)
+						.getFunctionVariables()[0].deepCopy(kernel);
 				ExpressionNode en = new ExpressionNode(kernel, fv);
 				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
