@@ -383,6 +383,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				+ url + "\" draggable=\"false\">" + text3;
     }
 
+	
 	public static String getMenuBarHtml(String url, String str) {
 		String text = str.replace("\"", "'");
 		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text

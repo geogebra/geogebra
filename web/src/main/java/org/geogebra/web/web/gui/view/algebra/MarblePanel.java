@@ -42,7 +42,7 @@ public class MarblePanel extends FlowPanel {
 		
 		if (item.app.has(Feature.AV_PLUS) && item.getAV().isInputActive()) {
 			addStyleName("plus");
-			updatePlus();
+			initPlus();
 			return;
 		}
 
@@ -99,58 +99,46 @@ public class MarblePanel extends FlowPanel {
 	 * @param warning
 	 *            whether warning triangle should be visible
 	 */
-	public void updateIcons(boolean warning) {
-		
-		initHelpToggle();
-		// if (!warning) {
-		// clearErrorLabel();
-		// }
+	public void updateIcons(boolean warning) {	
+		ToggleButton btn = btnHelpToggle;
+		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
+		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
+			initPlus();
+			img = GuiResources.INSTANCE.algebra_new().getSafeUri().asString();
+			btn = btnPlus;
+		} else {
+			initHelpToggle();
+		}
+
 		if (warning) {
 			remove(marble);
-			add(btnHelpToggle);
+			add(btn);
 			addStyleName("error");
 			removeStyleName("help");
 		}
 		else if (item.getController().isEditing() || item.geo == null) {
 			remove(marble);
-			add(btnHelpToggle);
+			add(btn);
 			removeStyleName("error");
 			addStyleName("error");
 		} else {
 			add(marble);
 			marble.setEnabled(shouldShowMarble());
-			remove(btnHelpToggle);
+			remove(btn);
 			removeStyleName("error");
 		}
-		btnHelpToggle.getUpFace().setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
-						: GuiResources.INSTANCE.icon_help()).getSafeUri()
-								.asString(),
-				24));
+		btn.getUpFace().setImage(new NoDragImage(
+				warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
+						.asString()	: img,24));
 		// new
 		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
-		btnHelpToggle.getDownFace().setImage(new NoDragImage(
-				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
-						: GuiResources.INSTANCE.icon_help()).getSafeUri()
-								.asString(),
+		btn.getDownFace().setImage(new NoDragImage(
+				warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
+						.asString() : img,
 				24));
 
 	}
 
-	private void updatePlus() {
-		
-		if (btnPlus == null) {
-			createPlus();
-		}
-		if (item.getController().isEditing() || item.geo == null) {
-			remove(marble);
-			add(btnPlus);
-		} else {
-			add(marble);
-			marble.setEnabled(shouldShowMarble());
-			remove(btnPlus);
-		}
-	}
 
 	private void initHelpToggle() {
 		if (btnHelpToggle == null) {
@@ -205,8 +193,23 @@ public class MarblePanel extends FlowPanel {
 		}
 	}
 	
-	public void createPlus() {
-		btnPlus = new ToggleButton();
+	public void initPlus() {
+		if (btnPlus == null) {
+			btnPlus = new ToggleButton();
+			add(btnPlus);
+			ClickStartHandler.init(btnPlus, new ClickStartHandler() {
+				
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					if (cmPlus == null) {
+						cmPlus = new ContextMenuPlus(item.app);
+					}
+					cmPlus.show(getAbsoluteLeft(), getAbsoluteTop());
+				}
+				
+			});
+		}
+		
 		btnPlus.getUpFace().setImage(new NoDragImage(
 				GuiResources.INSTANCE.algebra_new().getSafeUri()
 							.asString(),
@@ -218,18 +221,7 @@ public class MarblePanel extends FlowPanel {
 		
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
 
-		ClickStartHandler.init(btnPlus, new ClickStartHandler() {
-			
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (cmPlus == null) {
-					cmPlus = new ContextMenuPlus(item.app);
-				}
-				cmPlus.show(getAbsoluteLeft(), getAbsoluteTop());
 			}
-			
-		});
-	}
  
 	/**
 	 * @return help button
