@@ -718,10 +718,9 @@ task emMakeMpfr {
    PATH=.../cross-compilers/x86/bin:/.../cross-compilers/arm/bin:$PATH JAVA_HEAP_SIZE=3072m ../gradlew createGiacJs
  */
 
-/*
+
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
 task androidAar (dependsOn: ['androidCopyCrystaxSo', 'androidCopyEabiLibjavagiacSo', 'androidCopyX86LibjavagiacSo', 'giac-android:assemble']) {
     description 'Creates .aar package'
 }
-*/
