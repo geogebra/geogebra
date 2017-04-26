@@ -120,13 +120,13 @@
 
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton{
 		background-color: white;
+		border-radius: 5px;
+		border-bottom: 1px solid;
+		border-bottom-color: #C7C7C7; 
 	}
 
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
 		background-color: #DCDCDC;
-		border-radius: 5px;
-		border-bottom: 1px;
-		border-bottom-color: #C7C7C7; 
 	}
 
 	.lowerHeight .KeyBoardButton {
