@@ -4211,6 +4211,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case NINVERT:
 			return prerelease;
+
+		case AND_KILL_TOOLBAR:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

@@ -209,6 +209,9 @@ public enum Feature {
 	MOBILE_AV_EDITOR,
 
 	/** GGB-1662 */
-	AV_PLUS, NINVERT
+	AV_PLUS, NINVERT,
+
+	/** AND-247 */
+	AND_KILL_TOOLBAR
 
 }
