@@ -1,0 +1,11 @@
+ext.getGeogebraVersion = { ->
+	    def version = "undef"
+	    file('../common/src/main/java/org/geogebra/common/GeoGebraConstants.java').eachLine { line ->
+	        def pattern = ~/ VERSION_STRING = "(.*)"/
+	        def matcher = (line =~ pattern)
+	        if (matcher) {
+	            version = line.substring(matcher.start(1), matcher.end(1))
+	        }
+	    }
+	    return version
+}
