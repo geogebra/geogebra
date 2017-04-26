@@ -30,6 +30,7 @@ package com.himamis.retex.editor.share.editor;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
@@ -57,6 +58,7 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
  */
 public class MathFieldInternal implements KeyListener, FocusListener, ClickListener {
 
+	@Weak
     private MathField mathField;
 
     private CursorController cursorController;
