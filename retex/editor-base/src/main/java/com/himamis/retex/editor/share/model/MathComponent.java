@@ -27,6 +27,7 @@
  */
 package com.himamis.retex.editor.share.model;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.model.inspect.Inspectable;
 import com.himamis.retex.editor.share.model.traverse.Traversable;
 
@@ -43,6 +44,8 @@ abstract public class MathComponent implements Traversable, Inspectable, Seriali
 	 * MathComponent needs to implement serializable for Parcel (Android project)
 	 */
 	private static final long serialVersionUID = 1L;
+
+    @Weak
 	private MathContainer parent;
 
     /**
