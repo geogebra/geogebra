@@ -100,7 +100,7 @@ public class MarblePanel extends FlowPanel {
 	 *            whether warning triangle should be visible
 	 */
 	public void updateIcons(boolean warning) {	
-		ToggleButton btn = btnHelpToggle;
+		ToggleButton btn = null;
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
 		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
 			initPlus();
@@ -108,6 +108,7 @@ public class MarblePanel extends FlowPanel {
 			btn = btnPlus;
 		} else {
 			initHelpToggle();
+			btn = btnHelpToggle;
 		}
 
 		if (warning) {
