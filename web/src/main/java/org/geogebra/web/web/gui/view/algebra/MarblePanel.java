@@ -204,7 +204,19 @@ public class MarblePanel extends FlowPanel {
 	}
 	
 	public void createPlus() {
-		btnPlus = new ToggleButton(" + ");
+		btnPlus = new ToggleButton();
+		btnPlus.getUpFace().setImage(new NoDragImage(
+				GuiResources.INSTANCE.algebra_new().getSafeUri()
+							.asString(),
+			24));
+
+		NoDragImage hoverImg = new NoDragImage(
+				GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
+				.asString(), 24);
+		
+		btnPlus.getUpHoveringFace().setImage(hoverImg);
+//		btnPlus.getDownFace().setImage(hoverImg);
+
 		ClickStartHandler.init(btnPlus, new ClickStartHandler() {
 			
 			@Override
