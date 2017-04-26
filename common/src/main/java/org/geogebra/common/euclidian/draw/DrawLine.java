@@ -130,10 +130,6 @@ public class DrawLine extends Drawable implements Previewable {
 		this.previewMode = previewMode;
 		this.view = view;
 		this.points = points;
-		if (points.size() == 2) {
-			GeoPoint p = (GeoPoint) points.get(1);
-			p.setCoords(p.inhomX, Math.round(p.inhomY), 1);
-		}
 		g = new GeoLine(view.getKernel().getConstruction());
 		geo = view.getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
