@@ -41,9 +41,11 @@ public class MarblePanel extends FlowPanel {
 		addStyleName("marblePanel");
 		
 		if (item.app.has(Feature.AV_PLUS) && item.getAV().isInputActive()) {
+			addStyleName("plus");
 			updatePlus();
 			return;
 		}
+
 		
 		if (item.getGeo() != null) {
 			marble.setChecked(item.geo.isEuclidianVisible());
@@ -215,7 +217,6 @@ public class MarblePanel extends FlowPanel {
 				.asString(), 24);
 		
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
-//		btnPlus.getDownFace().setImage(hoverImg);
 
 		ClickStartHandler.init(btnPlus, new ClickStartHandler() {
 			
