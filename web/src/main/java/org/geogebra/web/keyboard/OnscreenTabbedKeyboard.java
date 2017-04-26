@@ -174,7 +174,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			if (isAccent(text)) {
 				processAccent(text);
 			} else {
-				processField.insertString(text); // TODO
+				processField.insertString(app.getLocalization().getMenu(text)); // TODO
 				processAccent(null);
 				disableCapsLock();
 			}
