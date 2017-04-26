@@ -531,6 +531,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 						showKeyboardButton(null);
 						if (app.has(
 								Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+							this.setKeyboardShowing(false);
+							keyboardHeight = 0;
 							app.updateSplitPanelHeight();
 						}
 					}
