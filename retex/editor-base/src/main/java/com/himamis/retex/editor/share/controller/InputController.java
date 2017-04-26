@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import java.util.ArrayList;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaArray;
@@ -24,9 +25,30 @@ public class InputController {
 
 	private MetaModel metaModel;
 
+    @Weak
+    private MathField mathField;
+
+    private boolean createFrac = true;
+
 	public InputController(MetaModel metaModel) {
 		this.metaModel = metaModel;
 	}
+
+    public MathField getMathField() {
+        return mathField;
+    }
+
+    public void setMathField(MathField mathField) {
+        this.mathField = mathField;
+    }
+
+    public boolean getCreateFrac() {
+        return createFrac;
+    }
+
+    public void setCreateFrac(boolean createFrac) {
+        this.createFrac = createFrac;
+    }
 
 	final static private char getLetter(MathComponent component)
 			throws Exception {
@@ -248,7 +270,7 @@ public class InputController {
 
 	public void newScript(EditorState editorState, String script) {
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentField.size() == 0 && currentField.getParent() instanceof MathFunction 
+		if (currentField.size() == 0 && currentField.getParent() instanceof MathFunction
 				&& "^".equals(
 						((MathFunction) currentField.getParent()).getName())
 				&& "^".equals(script)) {
@@ -316,7 +338,7 @@ public class InputController {
 
 	/**
 	 * Insert symbol.
-	 * 
+	 *
 	 * @param editorState
 	 *            state
 	 * @param sy
@@ -329,7 +351,7 @@ public class InputController {
 
 	/**
 	 * Insert character.
-	 * 
+	 *
 	 * @param editorState
 	 *            state
 	 * @param ch
@@ -342,7 +364,7 @@ public class InputController {
 
 	/**
 	 * Insert character.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @param meta
@@ -355,7 +377,7 @@ public class InputController {
 
 	/**
 	 * Insert field.
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 * @param ch
@@ -576,7 +598,7 @@ public class InputController {
 
 	/**
 	 * Backspace to remove container
-	 * 
+	 *
 	 * @param editorState
 	 *            current state
 	 */
@@ -910,7 +932,7 @@ public class InputController {
 	 */
 	public boolean handleChar(EditorState editorState, char ch) {
 		boolean handled = false;
-		boolean allowFrac = mCreateFrac && !editorState.isInsideQuotes();
+		boolean allowFrac = createFrac && !editorState.isInsideQuotes();
 		// backspace, delete and escape are handled for key down
 		if (ch == KeyEvent.VK_BACK_SPACE || ch == KeyEvent.VK_DELETE
 				|| ch == KeyEvent.VK_ESCAPE) {
@@ -1017,35 +1039,16 @@ public class InputController {
 		return false;
 	}
 
-
-	private boolean mCreateFrac = true;
-	private MathField mathField;
-
-	public void setCreateFrac(boolean createFrac) {
-		this.mCreateFrac = createFrac;
-	}
-
-	public boolean getCreateFrac() {
-		return mCreateFrac;
-	}
-
 	public void paste() {
-		if (this.mathField != null) {
-			this.mathField.paste();
+		if (mathField != null) {
+			mathField.paste();
 		}
-
 	}
 
 	public void copy() {
-		if (this.mathField != null) {
-			this.mathField.copy();
+		if (mathField != null) {
+			mathField.copy();
 		}
-
-	}
-
-	public void setMathField(MathField mathField) {
-		this.mathField = mathField;
-
 	}
 
 	public static MathSequence getSelectionText(EditorState editorState) {
@@ -1073,7 +1076,5 @@ public class InputController {
 		return null;
 	}
 
-	public MathField getMathField() {
-		return mathField;
-	}
+
 }

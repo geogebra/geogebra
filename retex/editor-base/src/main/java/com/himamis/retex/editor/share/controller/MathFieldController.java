@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.controller;
 
 import java.util.ArrayList;
 
+import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
@@ -19,8 +20,10 @@ import com.himamis.retex.renderer.share.platform.graphics.stubs.GraphicsStub;
 
 public class MathFieldController {
 
+	@Weak
     private MathField mathField;
-    private TeXSerializer texSerializer;
+
+	private TeXSerializer texSerializer;
 
     private double size = 16;
     private int type = TeXFormula.SERIF;
