@@ -1,9 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -14,7 +12,6 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class ContextMenuPlus {
 	protected GPopupMenuW wrappedPopup;
-	private AppW app;
 	protected Localization loc;
 	
 	/**
@@ -24,7 +21,6 @@ public class ContextMenuPlus {
 	 *            application
 	 */
 	ContextMenuPlus(AppW app) {
-		this.app = app;
 		this.loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 		buildGUI();
