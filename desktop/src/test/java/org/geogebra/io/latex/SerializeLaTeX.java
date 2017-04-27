@@ -62,6 +62,7 @@ public class SerializeLaTeX {
 		checkCannon("1/(2/3)", "(1)/((2)/(3))");
 		checkCannon("x^2/ 3", "(x^(2))/(3)");
 		checkCannon("x^2 / 2", "(x^(2))/(2)");
+		checkCannon("2/cos(x)", "(2)/(cos(x))");
 	}
 
 	@Test

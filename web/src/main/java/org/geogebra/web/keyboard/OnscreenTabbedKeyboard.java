@@ -60,6 +60,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 			@Override
 			public void onClose(CloseEvent<GPopupPanel> event) {
+				// TODO handle closing?
 			}
 
 		});
@@ -174,7 +175,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			if (isAccent(text)) {
 				processAccent(text);
 			} else {
-				processField.insertString(app.getLocalization().getMenu(text)); // TODO
+				processField
+						.insertString(app.getLocalization().getCommand(text)); // TODO
 				processAccent(null);
 				disableCapsLock();
 			}

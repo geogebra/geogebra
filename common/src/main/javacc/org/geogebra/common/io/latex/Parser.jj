@@ -166,7 +166,8 @@ void mathAtom(MathContainer currentField) : {
     |
         quotes(currentField)
     |
-        (mathAtomCharacter(currentField))+
+        (          (mathAtomCharacter(currentField))+ (arrayParantheses(currentField))?
+          )
     )
 }
 
