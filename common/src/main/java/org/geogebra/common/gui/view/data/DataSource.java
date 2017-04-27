@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
@@ -29,6 +30,7 @@ public class DataSource {
 
 	private ArrayList<DataVariable> dataList;
 	private int selectedIndex;
+	private boolean frequencyFromColumn = false;
 
 	// ====================================
 	// Constructor
@@ -490,6 +492,22 @@ public class DataSource {
 
 		default:
 		case DataAnalysisModel.MODE_ONEVAR:
+			if (isFrequencyFromColumn()) {
+				CellRange cr = rangeList.get(0);
+				cr.debug();
+
+				if (cr.is2D()) {
+					var.setGroupType(GroupType.FREQUENCY);
+					add1DCellRanges(rangeList, itemList);
+					ArrayList<DataItem> values = new ArrayList<DataItem>();
+					values.add(itemList.get(0));
+					var.setDataVariable(GroupType.FREQUENCY, GeoClass.NUMERIC,
+							values,
+							itemList.get(1), null, null);
+					break;
+
+				}
+			}
 			itemList.add(new DataItem(rangeList));
 			var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
 			break;
@@ -614,5 +632,27 @@ public class DataSource {
 		}
 		Log.debug(sb.toString());
 
+	}
+
+	/**
+	 * 
+	 * @return if frequency data comes from column.
+	 */
+	public boolean isFrequencyFromColumn() {
+		if (!app.has(Feature.ONE_VAR_FREQUENCY_TABLE)) {
+			return false;
+		}
+		return frequencyFromColumn;
+	}
+
+	/**
+	 * When set to true, spreadsheet 2nd column of selected cells are treated as
+	 * frequency data for One-variable analysis.
+	 * 
+	 * @param value
+	 *            to set
+	 */
+	public void setFrequencyFromColumn(boolean value) {
+		this.frequencyFromColumn = value;
 	}
 }

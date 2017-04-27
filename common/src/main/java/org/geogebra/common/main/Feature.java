@@ -212,6 +212,9 @@ public enum Feature {
 	AV_PLUS, NINVERT,
 
 	/** AND-247 */
-	AND_KILL_TOOLBAR
+	AND_KILL_TOOLBAR,
+
+	/** GGB-1499 */
+	ONE_VAR_FREQUENCY_TABLE
 
 }

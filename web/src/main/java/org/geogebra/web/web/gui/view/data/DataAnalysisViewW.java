@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -138,7 +139,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
-
+		
+		if (app.has(Feature.ONE_VAR_FREQUENCY_TABLE)) {
+			dataSource.setFrequencyFromColumn(true);
+		}
+		
 		dataSource.setDataListFromSelection(mode);
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);

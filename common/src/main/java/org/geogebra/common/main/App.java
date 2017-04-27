@@ -4212,6 +4212,9 @@ public abstract class App implements UpdateSelection {
 		case NINVERT:
 			return prerelease;
 
+		case ONE_VAR_FREQUENCY_TABLE:
+			return prerelease;
+
 		case AND_KILL_TOOLBAR:
 			return false;
 
