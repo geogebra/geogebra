@@ -206,7 +206,8 @@ public class MarblePanel extends FlowPanel {
 					if (cmPlus == null) {
 						cmPlus = new ContextMenuPlus(item.app);
 					}
-					cmPlus.show(btnPlus.getAbsoluteLeft(), btnPlus.getAbsoluteTop());
+					cmPlus.show(btnPlus.getAbsoluteLeft(),
+							btnPlus.getAbsoluteTop() - 8);
 				}
 				
 			});

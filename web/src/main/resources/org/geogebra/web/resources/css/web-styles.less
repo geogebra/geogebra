@@ -1417,12 +1417,17 @@ Paddings for menuitems.
 }
 
 .mioMenu.gwt-PopupPanel {
-		padding: 8px 0px 8px 3px;
+		padding: 8px 0px 8px 0px;
 		border-radius: 2px;
 		min-width:182px;
 	
 		.gwt-MenuItem {
 			height: 32px;
+			min-width:182px;
+		}
+		
+		.gwt-MenuItem:hover {
+			background-color: #f8f8f8;
 		}
 		
 		.gwt-MenuItem.no_image {
