@@ -12,12 +12,15 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.himamis.retex.editor.share.event.KeyEvent;
+import com.himamis.retex.editor.web.MathFieldW;
 
 public class ContextMenuPlus implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
 	protected Localization loc;
 	private AppW app;
 	private RadioTreeItem item;
+	private MathFieldW mf;
 	/**
 	 * Creates new context menu
 	 * 
@@ -28,6 +31,7 @@ public class ContextMenuPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
+		mf = ((LatexTreeItemController)item.getController()).getRetexListener().getMathField();
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		buildGUI();
@@ -47,7 +51,8 @@ public class ContextMenuPlus implements SetLabels {
 					
 					@Override
 					public void execute() {
-						item.setText("");
+						item.setText(" ");
+						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
 					}
 				});
 
@@ -62,7 +67,7 @@ public class ContextMenuPlus implements SetLabels {
 					@Override
 					public void execute() {
 						item.setText("\"\"");
-									
+						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
 					}
 				});
 
