@@ -112,16 +112,8 @@
 		height: 40px;
 		box-sizing:border-box;
 	}
-	
-	.sub {
-    	padding: 6.5px !important;
-	}
-	
-	.sup {
-		padding: 5.5px !important;
-	}
 
-	/** obsolte */
+	/** obsolete */
 	.KeyBoard .KeyBoardButton {
 		background-color: #F8F8F8;
 	}
@@ -132,6 +124,14 @@
 		border-bottom: 1px solid;
 		border-bottom-color: #C7C7C7; 
 		padding: 9px;
+		
+		&.sub {
+    		padding: 6.5px;
+		}
+	
+		&.sup {
+			padding: 5.5px;
+		}
 	}
 
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
