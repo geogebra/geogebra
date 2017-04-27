@@ -302,6 +302,7 @@ public class TabbedKeyboard extends FlowPanel {
 	 */
 	private void updatePanelSize(KeyPanelBase keyboard, int baseSize) {
 		int buttonIndex = 0;
+		int margins = 4;
 		if (keyboard.getLayout() == null) {
 			return;
 		}
