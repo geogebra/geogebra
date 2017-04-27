@@ -306,6 +306,7 @@ public class TabbedKeyboard extends FlowPanel {
 		if (keyboard.getLayout() == null) {
 			return;
 		}
+		KeyBoardButtonBase button = null;
 		for (Row row : keyboard.getLayout().getModel().getRows()) {
 			double offset = 0;
 
@@ -313,7 +314,7 @@ public class TabbedKeyboard extends FlowPanel {
 				if (Action.NONE.name().equals(wb.getActionName())) {
 					offset = wb.getWeight();
 				} else {
-					KeyBoardButtonBase button = keyboard.getButtons()
+					 button = keyboard.getButtons()
 							.get(buttonIndex);
 					
 					if (offset > 0) {
