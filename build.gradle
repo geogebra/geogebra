@@ -1,6 +1,7 @@
 project.description = 'GeoGebra'
 
 apply from: 'gradle-scripts/repositories.gradle'
+apply from: 'gradle-scripts/versions.gradle'
 
 subprojects {
 	apply plugin: 'eclipse'
@@ -37,7 +38,7 @@ subprojects {
 
 task wrapper(type: Wrapper) {
 	description = 'Creates the gradle wrapper'
-	gradleVersion = '3.0'
+	gradleVersion = gradleVersionGGB
 }
 
 // eclipse related tasks

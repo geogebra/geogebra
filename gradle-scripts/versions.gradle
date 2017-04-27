@@ -9,3 +9,5 @@ ext.getGeogebraVersion = { ->
 	    }
 	    return version
 }
+
+ext.gradleVersionGGB = 3.5
