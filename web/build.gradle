@@ -117,9 +117,11 @@ task cleanWar(type: Delete) {
     }
 }
 
-task copyHtml << {
-    String html = file("war/app-release.html").text;
-    file("war/app.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
+task copyHtml {
+	doLast {
+	    String html = file("war/app-release.html").text;
+	    file("war/app.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
+    }
 }
 
 task deployIntoWar(type: Copy, dependsOn: ['cleanWar','copyHtml']) {
