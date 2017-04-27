@@ -28,6 +28,10 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class TabbedKeyboard extends FlowPanel {
+	private static final int TAB_NUMBERS = 0;
+	private static final int TAB_FX = 1;
+	private static final int TAB_ABC = 2;
+	private static final int TAB_ALPHA = 3;
 	
 	private class KeyboardSwitcher extends FlowPanel {
 		private static final int SWITCHER_HEIGHT = 40;
@@ -137,6 +141,13 @@ public class TabbedKeyboard extends FlowPanel {
 			adjustSwitcher();
 			if (moreButton != null) { 
 				moreButton.setValue(false);
+			}
+		}
+
+		public void select(int idx) {
+			for (int i = 0; i < tabs.getWidgetCount();i++) {
+				tabs.getWidget(i).setVisible(i == idx);
+				setSelected(i, i == idx);
 			}
 		}
 
@@ -557,4 +568,23 @@ public class TabbedKeyboard extends FlowPanel {
 	protected void showHelp(int x, int y) {
 	}
 	
+	private void selectTab(int idx) {
+		switcher.select(idx);
+	}
+	
+	public void selectNumbers() {
+		selectTab(TAB_NUMBERS);
+	}
+	
+	public void selectFunctions() {
+		selectTab(TAB_FX);
+	}
+	
+	public void selectAbc() {
+		selectTab(TAB_ABC);
+	}
+	
+	public void selectGreek() {
+		selectTab(TAB_ALPHA);
+	}
 }

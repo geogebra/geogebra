@@ -4,10 +4,13 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.menubar.MainMenu;
+import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
@@ -21,6 +24,7 @@ public class ContextMenuPlus implements SetLabels {
 	private AppW app;
 	private RadioTreeItem item;
 	private MathFieldW mf;
+	private TabbedKeyboard kbd;
 	/**
 	 * Creates new context menu
 	 * 
@@ -32,6 +36,7 @@ public class ContextMenuPlus implements SetLabels {
 		loc = app.getLocalization();
 		this.item = item;
 		mf = ((LatexTreeItemController)item.getController()).getRetexListener().getMathField();
+		kbd = (TabbedKeyboard)((GuiManagerW)app.getGuiManager()).getOnScreenKeyboard(item, null);
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		buildGUI();
@@ -53,6 +58,7 @@ public class ContextMenuPlus implements SetLabels {
 					public void execute() {
 						item.setText(" ");
 						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
+						kbd.selectNumbers();
 					}
 				});
 
@@ -68,6 +74,7 @@ public class ContextMenuPlus implements SetLabels {
 					public void execute() {
 						item.setText("\"\"");
 						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
+						kbd.selectAbc();
 					}
 				});
 
