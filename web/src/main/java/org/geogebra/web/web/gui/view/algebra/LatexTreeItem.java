@@ -239,7 +239,9 @@ public class LatexTreeItem extends RadioTreeItem {
 	
 	@Override
 	public void setText(String text0) {
-		removeDummy();
+		if (!"".equals(text0)) {
+			removeDummy();
+		}
 		if(mf!=null){
 			Parser parser = new Parser(mf.getMetaModel());
 			MathFormula formula;
