@@ -317,14 +317,20 @@ public class TabbedKeyboard extends FlowPanel {
 					
 					if (offset > 0) {
 						button.getElement().getStyle()
-								.setMarginLeft(offset * baseSize, Unit.PX);
+								.setMarginLeft(offset * baseSize + margins / 2, Unit.PX);
 					}
 	
 					button.getElement().getStyle()
-							.setWidth(wb.getWeight() * baseSize, Unit.PX);
+							.setWidth(wb.getWeight() * baseSize - margins, Unit.PX);
 					offset = 0;
 					buttonIndex++;
 				}
+			}
+			if (Action.NONE.name().equals(row.getButtons()
+					.get(row.getButtons().size() - 1).getActionName())) {
+				button.getElement().getStyle()
+						.setMarginRight(offset * baseSize + margins / 2,
+								Unit.PX);
 			}
 		}
 
