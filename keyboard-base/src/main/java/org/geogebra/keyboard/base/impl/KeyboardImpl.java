@@ -42,7 +42,7 @@ public class KeyboardImpl implements Keyboard {
     @Override
     public void toggleAccent(String accent) {
         if (accentModifier != null) {
-            boolean changed = accentModifier.setAccent(accent);
+            boolean changed = accentModifier.toggleAccent(accent);
             if (changed) {
                 fireKeyboardModelChanged();
             }

@@ -10,37 +10,36 @@ import org.geogebra.keyboard.base.model.KeyModifier;
 
 public class AccentModifier implements KeyModifier {
 
-    private boolean graveAccent;
-    private boolean circumflexAccent;
-    private boolean caronAccent;
-    private boolean acuteAccent;
+    private static final byte GRAVE_ACCENT = 0b0001;
+    private static final byte CIRCUMFLEX_ACCENT = 0b0010;
+    private static final byte CARON_ACCENT = 0b0100;
+    private static final byte ACUTE_ACCENT = 0b1000;
+
+    private int currentAccent = 0;
 
     private Accents accents = new Accents();
 
-    public boolean setAccent(String accent) {
-        boolean changed = false;
-        if (graveAccent || acuteAccent || caronAccent || circumflexAccent) {
-            graveAccent = acuteAccent = caronAccent = circumflexAccent = false;
-            changed = true;
-        }
+    public boolean toggleAccent(String accent) {
+        boolean changed = true;
         if (accent != null) {
-            changed = true;
             switch (accent) {
                 case ButtonConstants.ACCENT_ACUTE:
-                    acuteAccent = true;
+                    currentAccent = ~currentAccent & ACUTE_ACCENT;
                     break;
                 case ButtonConstants.ACCENT_CARON:
-                    caronAccent = true;
+                    currentAccent = ~currentAccent & CARON_ACCENT;
                     break;
                 case ButtonConstants.ACCENT_CIRCUMFLEX:
-                    circumflexAccent = true;
+                    currentAccent = ~currentAccent & CIRCUMFLEX_ACCENT;
                     break;
                 case ButtonConstants.ACCENT_GRAVE:
-                    graveAccent = true;
+                    currentAccent = ~currentAccent & GRAVE_ACCENT;
                     break;
                 default:
                     changed = false;
             }
+        } else {
+            changed = currentAccent != (currentAccent = 0);
         }
         return changed;
     }
@@ -64,10 +63,10 @@ public class AccentModifier implements KeyModifier {
     @Override
     public Background modifyBackground(Background background, ActionType actionType, String actionName) {
         if (actionType == ActionType.CUSTOM && (
-                (actionName.equals(Action.TOGGLE_ACCENT_ACUTE.name()) && acuteAccent) ||
-                (actionName.equals(Action.TOGGLE_ACCENT_CARON.name()) && caronAccent) ||
-                (actionName.equals(Action.TOGGLE_ACCENT_GRAVE.name()) && graveAccent) ||
-                (actionName.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name()) && circumflexAccent))) {
+                (actionName.equals(Action.TOGGLE_ACCENT_ACUTE.name()) && hasAccent(ACUTE_ACCENT)) ||
+                (actionName.equals(Action.TOGGLE_ACCENT_CARON.name()) && hasAccent(CARON_ACCENT)) ||
+                (actionName.equals(Action.TOGGLE_ACCENT_GRAVE.name()) && hasAccent(GRAVE_ACCENT)) ||
+                (actionName.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name()) && hasAccent(CIRCUMFLEX_ACCENT)))) {
             return Background.STANDARD_PRESSED;
         }
         return background;
@@ -75,15 +74,19 @@ public class AccentModifier implements KeyModifier {
 
     private String getAccent(String letter) {
         String returnValue = null;
-        if (graveAccent) {
+        if (hasAccent(GRAVE_ACCENT)) {
             returnValue = accents.getGraveAccent(letter);
-        } else if (acuteAccent) {
+        } else if (hasAccent(ACUTE_ACCENT)) {
             returnValue = accents.getAcuteLetter(letter);
-        } else if (caronAccent) {
+        } else if (hasAccent(CARON_ACCENT)) {
             returnValue = accents.getCaronLetter(letter);
-        } else if (circumflexAccent) {
+        } else if (hasAccent(CIRCUMFLEX_ACCENT)) {
             returnValue = accents.getCircumflexLetter(letter);
         }
         return returnValue != null ? returnValue : letter;
+    }
+
+    private boolean hasAccent(byte accent) {
+        return (currentAccent & accent) != 0;
     }
 }
