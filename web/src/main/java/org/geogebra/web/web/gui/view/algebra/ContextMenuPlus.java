@@ -24,7 +24,6 @@ public class ContextMenuPlus {
 		this.loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
-
 		buildGUI();
 	}
 
@@ -47,7 +46,7 @@ public class ContextMenuPlus {
 					}
 				});
 
-		mi.addStyleName("no_image");
+		// mi.addStyleName("no_image");
 		wrappedPopup.addItem(mi);
 	}
 
@@ -62,7 +61,7 @@ public class ContextMenuPlus {
 					}
 				});
 
-		mi.addStyleName("no_image");
+		// mi.addStyleName("no_image");
 		wrappedPopup.addItem(mi);
 	}
 	
@@ -77,7 +76,7 @@ public class ContextMenuPlus {
 					}
 				});
 
-		mi.addStyleName("no_image");
+		// mi.addStyleName("no_image");
 		wrappedPopup.addItem(mi);
 	}
 
@@ -94,7 +93,7 @@ public class ContextMenuPlus {
 					}
 				});
 
-		mi.addStyleName("image");
+		// mi.addStyleName("image");
 		wrappedPopup.addItem(mi);
 	}
 	public void show(GPoint p) {
@@ -104,5 +103,4 @@ public class ContextMenuPlus {
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
 	}
-
 }
