@@ -944,7 +944,7 @@ __GGB__keysVar.nl.command = {
     "Sum.SyntaxCAS": "[ <Lijst> ]\n[ <Uitdrukking>, <Variabele>, <Startwaarde>, <Eindwaarde> ]",
     "SumSquaredErrors": "SomSquaredErrors",
     "SumSquaredErrors.Syntax": "[ <Lijst met punten>, <Functie> ]",
-    "SurdText": "SurdTekst",
+    "SurdText": "TekstIrrationaal",
     "SurdText.Syntax": "[ <Punt> ]\n[ <Getal> ]\n[ <Getal>, <Lijst> ]",
     "Surface": "Oppervlak",
     "Surface.Syntax": "[ <Functie>, <Hoek> ]\n[ <Kromme>, <Hoek>, <Rechte> ]\n[ <Uitdrukking>, <Uitdrukking>, <Uitdrukking>, <Parameter variabele 1>, <Beginwaarde>, <Eindwaarde>, <Parameter variabele 2>, <Beginwaarde>, <Eindwaarde> ]",
