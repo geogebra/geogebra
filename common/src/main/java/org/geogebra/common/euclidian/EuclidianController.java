@@ -7036,7 +7036,7 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseclicked(boolean control, int clickCount,
 			PointerEventType type) {
-		if (app.showMenuBar() || control || penMode(this.mode)) {
+		if (!app.showMenuBar() || control || penMode(this.mode)) {
 			return;
 		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
