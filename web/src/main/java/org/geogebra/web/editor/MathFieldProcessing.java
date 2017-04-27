@@ -102,7 +102,8 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	private void type(String text) {
 		for (int i = 0; i < text.length(); i++) {
-			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)));
+			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)),
+					i == text.length() - 1);
 		}
 
 	}

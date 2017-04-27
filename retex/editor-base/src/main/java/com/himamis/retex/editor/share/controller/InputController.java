@@ -576,6 +576,7 @@ public class InputController {
 		editorState.getRootComponent().clearArguments();
 		editorState.setCurrentField(editorState.getRootComponent());
 		editorState.setCurrentOffset(0);
+		editorState.resetSelection();
 		// String name = ArgumentHelper.readCharacters(editorState);
 		// while (name.length() > 0) {
 		// if (metaModel.isSymbol(name)) {
@@ -1000,10 +1001,26 @@ public class InputController {
 
 	public static boolean trySelectNext(EditorState editorState) {
 		int idx = editorState.getCurrentOffset();
+		if (editorState.getSelectionEnd() != null) {
+			idx = editorState.getSelectionEnd().getParentIndex() + 1;
+		}
 		MathSequence field = editorState.getCurrentField();
 		if (field.getArgument(idx) instanceof MathCharacter
 				&& ",".equals(field.getArgument(idx).toString())
 				&& doSelectNext(field, editorState, idx + 1)) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean trySelectFirst(EditorState editorState) {
+		int idx = editorState.getCurrentOffset();
+		if (editorState.getSelectionEnd() != null) {
+			idx = editorState.getSelectionEnd().getParentIndex() + 1;
+		}
+
+		MathSequence field = editorState.getCurrentField();
+		if (idx == field.size() - 1 && doSelectNext(field, editorState, 0)) {
 			return true;
 		}
 		return false;

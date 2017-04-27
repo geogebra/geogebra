@@ -32,4 +32,6 @@ public interface KeyListener {
 	boolean onKeyReleased(KeyEvent keyEvent);
 	
 	boolean onKeyTyped(KeyEvent keyEvent);
+
+	boolean onKeyTyped(KeyEvent keyEvent, boolean fireUpdate);
 }

@@ -239,8 +239,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		return false;
     }
 
+	@Override
+	public boolean onKeyTyped(KeyEvent keyEvent) {
+		return onKeyTyped(keyEvent, true);
+	}
     @Override
-    public boolean onKeyTyped(KeyEvent keyEvent) {
+	public boolean onKeyTyped(KeyEvent keyEvent, boolean fire) {
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0;
 		boolean enter = keyEvent.getUnicodeKeyChar() == (char) 13
 				|| keyEvent.getUnicodeKeyChar() == (char) 10;
@@ -249,7 +253,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				|| ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
 				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
-        if (handled) {
+		if (handled && fire) {
 			notifyAndUpdate();
         }
         return handled;

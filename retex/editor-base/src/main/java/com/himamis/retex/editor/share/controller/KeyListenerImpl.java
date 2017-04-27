@@ -62,6 +62,9 @@ public class KeyListenerImpl {
 			}
 			return true;
 		case KeyEvent.VK_RIGHT:
+			if (InputController.trySelectNext(editorState)) {
+				return true;
+			}
 			cursorController.nextCharacter(editorState);
 			if ((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0) {
 				editorState.extendSelection(false);
@@ -91,7 +94,9 @@ public class KeyListenerImpl {
 		case KeyEvent.VK_OPEN_PAREN:
 			return false;
 		case KeyEvent.VK_TAB:
-			InputController.trySelectNext(editorState);
+			if (!InputController.trySelectNext(editorState)) {
+				InputController.trySelectFirst(editorState);
+			}
 			return true;
 		default:
 			// InputController.deleteSelection(editorState);

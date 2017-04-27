@@ -83,6 +83,7 @@ public class MathFieldController {
 					currentField, currentOffset, selectionStart, selectionEnd);			
 			texFormula.root = root;
 		}
+
 		try {
 			if (texFormula == null) {
 				texFormula = new TeXFormula(serializedFormula);
