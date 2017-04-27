@@ -6,10 +6,11 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.FontStyle;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
-
 /**
  * A button of the {@link TabbedKeyboard}.
  */
@@ -110,14 +111,20 @@ public class KeyBoardButtonBase extends SimplePanel {
 			Element sup = Document.get().createElement("sup");
 			sup.appendChild(Document.get().createTextNode(
 			        caption.substring(index + 1)));
+			sup.getStyle().setFontSize(14, Unit.PX);
+			sup.getStyle().setFontStyle(FontStyle.NORMAL);
 			this.label.getElement().appendChild(sup);
+			this.addStyleName("sup");
 		} else if (caption.length() > 1 && caption.indexOf('_') > -1) {
 			int index = caption.indexOf('_');
 			this.label.setText(caption.substring(0, index));
 			Element sub = Document.get().createElement("sub");
 			sub.appendChild(Document.get().createTextNode(
 			        caption.substring(index + 1)));
+			sub.getStyle().setFontSize(14, Unit.PX);
+			sub.getStyle().setFontStyle(FontStyle.NORMAL);
 			this.label.getElement().appendChild(sub);
+			this.addStyleName("sub");
 		} else {
 			this.label.setText(caption);
 		}
