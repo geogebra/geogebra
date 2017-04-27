@@ -18,10 +18,13 @@ public class AccentModifier implements KeyModifier {
     private Accents accents = new Accents();
 
     public boolean setAccent(String accent) {
+        boolean changed = false;
         if (graveAccent || acuteAccent || caronAccent || circumflexAccent) {
             graveAccent = acuteAccent = caronAccent = circumflexAccent = false;
+            changed = true;
         }
         if (accent != null) {
+            changed = true;
             switch (accent) {
                 case ButtonConstants.ACCENT_ACUTE:
                     acuteAccent = true;
@@ -35,10 +38,11 @@ public class AccentModifier implements KeyModifier {
                 case ButtonConstants.ACCENT_GRAVE:
                     graveAccent = true;
                     break;
+                default:
+                    changed = false;
             }
-            return true;
         }
-        return false;
+        return changed;
     }
 
     @Override
