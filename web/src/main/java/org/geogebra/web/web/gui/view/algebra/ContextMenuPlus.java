@@ -1,27 +1,33 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
-public class ContextMenuPlus {
+public class ContextMenuPlus implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
 	protected Localization loc;
-	
+	private AppW app;
+	private RadioTreeItem item;
 	/**
 	 * Creates new context menu
 	 * 
-	 * @param app
+	 * @param item
 	 *            application
 	 */
-	ContextMenuPlus(AppW app) {
-		this.loc = app.getLocalization();
+	ContextMenuPlus(RadioTreeItem item) {
+		app = item.getApplication();
+		loc = app.getLocalization();
+		this.item = item;
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		buildGUI();
@@ -36,13 +42,12 @@ public class ContextMenuPlus {
 	}
 	
 	private void addExpressionItem() {
-		MenuItem mi = new MenuItem(loc.getMenu("Expression"),
+		MenuItem mi = new MenuItem(loc.getPlain("NewExpression"),
 				new Command() {
 					
 					@Override
 					public void execute() {
-						// TODO Auto-generated method stub
-						
+						item.setText("");
 					}
 				});
 
@@ -51,13 +56,13 @@ public class ContextMenuPlus {
 	}
 
 	private void addTextItem() {
-		MenuItem mi = new MenuItem(loc.getMenu("Text"),
+		MenuItem mi = new MenuItem(loc.getPlain("Text"),
 				new Command() {
 					
 					@Override
 					public void execute() {
-						// TODO Auto-generated method stub
-						
+						item.setText("\"\"");
+									
 					}
 				});
 
@@ -66,7 +71,7 @@ public class ContextMenuPlus {
 	}
 	
 	private void addImageItem() {
-		MenuItem mi = new MenuItem(loc.getMenu("Image"),
+		MenuItem mi = new MenuItem(loc.getPlain("Image"),
 				new Command() {
 					
 					@Override
@@ -102,5 +107,10 @@ public class ContextMenuPlus {
 
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
+	}
+
+	@Override
+	public void setLabels() {
+		buildGUI();
 	}
 }

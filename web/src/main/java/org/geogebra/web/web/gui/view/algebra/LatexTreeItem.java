@@ -259,7 +259,9 @@ public class LatexTreeItem extends RadioTreeItem {
 	public void setLabels() {
 		if (dummyLabel != null) {
 			dummyLabel.setText(loc.getPlain("InputLabel") + Unicode.ellipsis);
+			super.setLabels();
 		}
+		
 	}
 
 	@Override

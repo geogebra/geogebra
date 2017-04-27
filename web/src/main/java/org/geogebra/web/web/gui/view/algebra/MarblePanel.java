@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -17,7 +18,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
 /**
  * @author Zbynek
  */
-public class MarblePanel extends FlowPanel {
+public class MarblePanel extends FlowPanel implements SetLabels {
+	
 	private Marble marble;
 	private boolean selected = false;
 	/** warning triangle / help button */
@@ -204,8 +206,9 @@ public class MarblePanel extends FlowPanel {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					if (cmPlus == null) {
-						cmPlus = new ContextMenuPlus(item.app);
+						cmPlus = new ContextMenuPlus(item);
 					}
+					item.cancelEditing();
 					cmPlus.show(btnPlus.getAbsoluteLeft(),
 							btnPlus.getAbsoluteTop() - 8);
 				}
@@ -231,6 +234,13 @@ public class MarblePanel extends FlowPanel {
 	 */
 	public ToggleButton getBtnHelpToggle() {
 		return btnHelpToggle;
+	}
+
+	@Override
+	public void setLabels() {
+		if (cmPlus != null) {
+			cmPlus.setLabels();
+		}
 	}
 
 }

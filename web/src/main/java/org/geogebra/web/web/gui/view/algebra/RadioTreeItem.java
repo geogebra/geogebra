@@ -1783,8 +1783,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void setLabels() {
-		// TODO Auto-generated method stub
-
+		if (hasMarblePanel()) {
+			marblePanel.setLabels();
+		}
 	}
 
 	/**
