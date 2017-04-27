@@ -1098,7 +1098,7 @@ public enum Commands implements CommandsConstants,
 
 	NIntegral(TABLE_FUNCTION),
 
-	NInvert(TABLE_ENGLISH), // TODO move to TABLE_FUNCTION
+	NInvert(TABLE_FUNCTION),
 
 	NSolve(TABLE_CAS),
 

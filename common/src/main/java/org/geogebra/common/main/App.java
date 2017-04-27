@@ -4209,8 +4209,10 @@ public abstract class App implements UpdateSelection {
 
 		case AV_PLUS:
 			return prerelease;
+
+		/** GGB-1710 */
 		case NINVERT:
-			return prerelease;
+			return true;
 
 		/** GGB-1499 */
 		case ONE_VAR_FREQUENCY_TABLE:
