@@ -24,6 +24,7 @@ public class ContextMenuPlus {
 		this.loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
+
 		buildGUI();
 	}
 
@@ -93,6 +94,7 @@ public class ContextMenuPlus {
 					}
 				});
 
+		mi.addStyleName("image");
 		wrappedPopup.addItem(mi);
 	}
 	public void show(GPoint p) {

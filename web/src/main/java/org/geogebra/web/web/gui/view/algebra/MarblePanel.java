@@ -22,7 +22,7 @@ public class MarblePanel extends FlowPanel {
 	private boolean selected = false;
 	/** warning triangle / help button */
 	private ToggleButton btnHelpToggle;
-	private ToggleButton btnPlus;
+	ToggleButton btnPlus;
 	/** av item */
 	RadioTreeItem item;
 	ContextMenuPlus cmPlus=null;
@@ -198,6 +198,7 @@ public class MarblePanel extends FlowPanel {
 		if (btnPlus == null) {
 			btnPlus = new ToggleButton();
 			add(btnPlus);
+			btnPlus.addStyleName("avPlusButton");
 			ClickStartHandler.init(btnPlus, new ClickStartHandler() {
 				
 				@Override
@@ -205,7 +206,7 @@ public class MarblePanel extends FlowPanel {
 					if (cmPlus == null) {
 						cmPlus = new ContextMenuPlus(item.app);
 					}
-					cmPlus.show(getAbsoluteLeft(), getAbsoluteTop());
+					cmPlus.show(btnPlus.getAbsoluteLeft(), btnPlus.getAbsoluteTop());
 				}
 				
 			});
