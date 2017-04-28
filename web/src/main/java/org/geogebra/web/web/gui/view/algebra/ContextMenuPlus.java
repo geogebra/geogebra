@@ -58,7 +58,7 @@ public class ContextMenuPlus implements SetLabels {
 					@Override
 					public void execute() {
 						item.setText(" ");
-						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
+						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_SPACE));
 						kbd.selectNumbers();
 					}
 				});
@@ -75,9 +75,9 @@ public class ContextMenuPlus implements SetLabels {
 					
 					@Override
 					public void execute() {
-						item.setText("");
 						item.getController().setInputAsText(true);
-						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
+						item.setText(" ");
+						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_SPACE));
 						kbd.selectAbc();
 					}
 				});

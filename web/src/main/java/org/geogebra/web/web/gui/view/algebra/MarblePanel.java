@@ -102,7 +102,9 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 *            whether warning triangle should be visible
 	 */
 	public void updateIcons(boolean warning) {	
-		ToggleButton btn = null;
+		ToggleButton btn = null; 
+		boolean textInput = item.getController().isInputAsText();
+		
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
 		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
 			initPlus();
@@ -113,7 +115,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			btn = btnHelpToggle;
 		}
 
-		if (warning) {
+		if (warning && !textInput) {
 			remove(marble);
 			add(btn);
 			addStyleName("error");
@@ -130,15 +132,15 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			remove(btn);
 			removeStyleName("error");
 		}
-		btn.getUpFace().setImage(new NoDragImage(
-				warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
-						.asString()	: img,24));
-		// new
-		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
-		btn.getDownFace().setImage(new NoDragImage(
-				warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
-						.asString() : img,
-				24));
+		if (!textInput) {
+			btn.getUpFace().setImage(new NoDragImage(
+					warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
+							.asString()	: img,24));
+			btn.getDownFace().setImage(new NoDragImage(
+					warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
+							.asString() : img,
+							24));
+		}
 
 	}
 
