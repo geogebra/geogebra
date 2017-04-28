@@ -317,6 +317,9 @@ public class LatexTreeItem extends RadioTreeItem {
 	}
 
 	private void updatePreview() {
+		if (getController().isInputAsText()) {
+			return;
+		}
 		String text = getText();
 		app.getKernel()
 				.getInputPreviewHelper()
