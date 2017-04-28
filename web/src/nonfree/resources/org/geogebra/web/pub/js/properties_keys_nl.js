@@ -396,7 +396,7 @@ __GGB__keysVar.nl.command = {
     "HideLayer": "VerbergLaag",
     "HideLayer.Syntax": "[ <Getal> ]",
     "Histogram": "Histogram",
-    "Histogram.Syntax": "[ <Lijst met klassengrenzen>, <Lijst met hoogtes> ]\n[ <Lijst met klassengrenzen>, <Lijst met ruwe data>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]\n[ <Cumulatief>, <Lijst met klassengrenzen>, <Lijst met ruwe data>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]",
+    "Histogram.Syntax": "[ <Lijst met klassengrenzen>, <Lijst met hoogtes> ]\n[ <Lijst met klassengrenzen>, <Lijst met waarnemingsgetallen>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]\n[ <Cumulatief>, <Lijst met klassengrenzen>, <Lijst met waarnemingsgetallen>, <Gebruiksdichtheid>, <Dichtheidsschaalfactor (optioneel)> ]",
     "HistogramRight": "HistogramRechts",
     "HistogramRight.Syntax": "[ <Lijst met klassengrenzen>, <Lijst met hoogtes> ]\n[ <Lijst met klassengrenzen>, <Lijst met waarnemingsgetallen>, <Booleaans Gebruik dichtheid>, <Dichtheidsschaalfactor (optioneel)> ]\n[ <Cumulatief>, <Lijst met klassengrenzen>, <Lijst met waarnemingsgetallen>, <Booleaans Gebruik dichtheid>, <Dichtheidsschaalfactor (optioneel)> ]",
     "HyperGeometric": "HyperGeometrisch",
