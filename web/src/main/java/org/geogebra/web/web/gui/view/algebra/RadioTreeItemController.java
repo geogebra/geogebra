@@ -92,7 +92,7 @@ public class RadioTreeItemController
 	private boolean markForEdit = false;
 	public long latestTouchEndTime = 0;
 	private int editHeigth;
-
+	private boolean inputAsText = false;
 	public RadioTreeItemController(RadioTreeItem item) {
 		this.item = item;
 		this.app = item.app;
@@ -757,6 +757,28 @@ public class RadioTreeItemController
 	public boolean isLongTouchHappened() {
 		return app.has(Feature.AV_CONTEXT_MENU) 
 				&& getLongTouchManager().isLongTouchHappened();
+	}
+	
+	/** 
+	 * When setting to true, all input typed treated as text,
+	 * so the newly created item will be GeoText.
+	 * 
+	 *  used in LatexTreeItemController 
+	 *  @param value to set.  
+	 */
+	protected void setInputAsText(boolean value)   {
+		inputAsText = value;
+	}
+	
+	public void forceInputAsText() {
+		setInputAsText(true);
+	}
+
+	/**
+	 * @return if input should be treated as text item.
+	 */
+	public boolean isInputAsText()   {
+		return inputAsText;
 	}
 }
 

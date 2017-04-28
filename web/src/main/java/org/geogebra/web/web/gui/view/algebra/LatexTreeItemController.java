@@ -168,8 +168,13 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	private void createGeoFromInput(final boolean keepFocus) {
 		String newValue = item.getText();
-		final String input = app.getKernel().getInputPreviewHelper()
+		final String rawInput = app.getKernel().getInputPreviewHelper()
 				.getInput(newValue);
+
+		final String input = isInputAsText() ? "\"" + rawInput + "\"": rawInput;
+		
+		setInputAsText(false);
+		
 		final boolean valid = input.equals(newValue);
 
 		app.setScrollToShow(true);

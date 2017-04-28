@@ -75,7 +75,8 @@ public class ContextMenuPlus implements SetLabels {
 					
 					@Override
 					public void execute() {
-						item.setText("\"\"");
+						item.setText("");
+						item.getController().setInputAsText(true);
 						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT));
 						kbd.selectAbc();
 					}
