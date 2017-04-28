@@ -545,4 +545,9 @@ public class LatexTreeItem extends RadioTreeItem {
 		mf.setOnBlur(getLatexController());
 	}
 
+	public void setInputAsText(boolean value) {
+		mf.setPlainTextMode(value);
+
+	}
+
 }

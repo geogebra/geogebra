@@ -745,6 +745,10 @@ public class MathFieldW implements MathField, IsWidget {
 
 	}
 
+	public void setPlainTextMode(boolean plainText) {
+		this.mathFieldInternal.setPlainTextMode(plainText);
+	}
+
 	public void blur() {
 		this.wrap.setFocus(false);
 		if (this.onTextfieldBlur != null) {

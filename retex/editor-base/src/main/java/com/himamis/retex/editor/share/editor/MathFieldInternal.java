@@ -259,6 +259,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         return handled;
     }
 
+	public void setPlainTextMode(boolean plainText) {
+		this.inputController.setCreateFrac(!plainText);
+    }
+
 	private void notifyAndUpdate() {
 		if (listener != null) {
 			listener.onKeyTyped();

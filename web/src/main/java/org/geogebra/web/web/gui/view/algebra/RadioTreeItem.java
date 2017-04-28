@@ -2139,6 +2139,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 
 	}
+
+	public void setInputAsText(boolean value) {
+		// TODO Auto-generated method stub
+
+	}
 }
 
 

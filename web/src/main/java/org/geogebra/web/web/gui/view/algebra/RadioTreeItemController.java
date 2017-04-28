@@ -768,6 +768,7 @@ public class RadioTreeItemController
 	 */
 	protected void setInputAsText(boolean value)   {
 		inputAsText = value;
+		item.setInputAsText(value);
 	}
 	
 	public void forceInputAsText() {
