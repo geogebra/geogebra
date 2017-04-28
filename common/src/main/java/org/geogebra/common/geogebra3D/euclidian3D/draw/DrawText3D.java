@@ -12,9 +12,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class DrawText3D extends Drawable3DCurves {
 
+	private boolean wasLaTeX;
+
 	public DrawText3D(EuclidianView3D a_view3d, GeoText text) {
 		super(a_view3d, text);
-
+		wasLaTeX = text.isLaTeX();
 		((DrawLabel3DForText) label).setGeo(text);
 
 		setPickingType(PickingType.POINT_OR_CURVE);
@@ -46,7 +48,10 @@ public class DrawText3D extends Drawable3DCurves {
 	protected void updateLabel() {
 
 		GeoText text = (GeoText) getGeoElement();
-
+		if (wasLaTeX != text.isLaTeX()) {
+			label.setWaitForReset();
+		}
+		wasLaTeX = text.isLaTeX();
 		label.update(text.getTextString(), getFont(),
 				getGeoElement().getBackgroundColor(),
 				getGeoElement().getObjectColor(), getLabelPosition(),
