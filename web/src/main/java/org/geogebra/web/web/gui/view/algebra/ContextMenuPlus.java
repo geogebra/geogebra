@@ -1,19 +1,19 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
+import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.himamis.retex.editor.share.event.KeyEvent;
@@ -115,8 +115,7 @@ public class ContextMenuPlus implements SetLabels {
 					
 					@Override
 					public void execute() {
-						// TODO Auto-generated method stub
-						
+						showHelp();
 					}
 				});
 
@@ -134,4 +133,32 @@ public class ContextMenuPlus implements SetLabels {
 	public void setLabels() {
 		buildGUI();
 	}
+	
+	private void showHelp() {
+		item.preventBlur();
+		item.requestFocus();
+		if (item.showCurrentError()) {
+
+			return;
+		}
+
+		item.app.hideKeyboard();
+		Scheduler.get().scheduleDeferred(
+				new Scheduler.ScheduledCommand() {
+					@Override
+					public void execute() {
+						item.setShowInputHelpPanel(
+								true);
+						
+						((InputBarHelpPanelW) item.app
+								.getGuiManager()
+								.getInputHelpPanel())
+						.focusCommand(
+								item.getCommand());
+					}
+
+				});
+	}
+
 }
+

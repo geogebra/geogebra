@@ -1822,25 +1822,27 @@ public abstract class RadioTreeItem extends AVTreeItem
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
-				double scale = app.getArticleElement().getScaleX();
+				Widget btn = marblePanel.getBtnHelpToggle() == null ?
+						marblePanel.getBtnPlus(): 
+					marblePanel.getBtnHelpToggle();
+			double scale = app.getArticleElement().getScaleX();
 				double renderScale = app.getArticleElement().getDataParamApp()
 						? scale : 1;
 				helpPopup.getElement().getStyle()
 						.setProperty("left",
-								(marblePanel.getBtnHelpToggle().getAbsoluteLeft()
+								(btn.getAbsoluteLeft()
 										- app.getAbsLeft()
-										+ marblePanel.getBtnHelpToggle()
-												.getOffsetWidth())
+										+ btn.getOffsetWidth())
 										* renderScale
 										+ "px");
 				int maxOffsetHeight;
 				int totalHeight = (int) app.getHeight();
-				int toggleButtonTop = (int) ((marblePanel.getBtnHelpToggle()
+				int toggleButtonTop = (int) ((btn
 						.getParent()
 						.getAbsoluteTop() - (int) app.getAbsTop()) / scale);
 				if (toggleButtonTop < totalHeight / 2) {
 					int top = (toggleButtonTop
-							+ marblePanel.getBtnHelpToggle().getParent()
+							+ btn.getParent()
 									.getOffsetHeight());
 					maxOffsetHeight = totalHeight - top;
 					helpPopup.getElement().getStyle().setProperty("top",

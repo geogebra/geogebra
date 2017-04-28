@@ -250,4 +250,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		}
 	}
 
+	public ToggleButton getBtnPlus() {
+		return btnPlus;
+	}
+
 }
