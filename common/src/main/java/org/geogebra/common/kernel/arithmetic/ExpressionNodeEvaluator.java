@@ -225,10 +225,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 													// Borcherds
 			// 2008-06-05
 			{
-				MyList myList = ((ListValue) lt).getMyList();
+
 				// list lt operation rt
-				myList.applyRight(operation, rt, tpl);
-				return myList;
+				return listOperation((ListValue) lt, operation, rt, right,
+						true, tpl);
 			}
 		} else if (rt instanceof ListValue
 				&& !operation.equals(Operation.EQUAL_BOOLEAN) // added
@@ -265,10 +265,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return myVec;
 				}
 			}
-			MyList myList = ((ListValue) rt).getMyList();
+
 			// lt operation list rt
-			myList.applyLeft(operation, lt, tpl);
-			return myList;
+
+			return listOperation((ListValue) rt, operation, lt, left, false,
+					tpl);
 		}
 
 		else if ((lt instanceof FunctionalNVar)
@@ -290,6 +291,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					left, false);
 		}
 		return null;
+	}
+
+	private ExpressionValue listOperation(ListValue lt, Operation operation,
+			ExpressionValue rt, ExpressionValue right, boolean b,
+			StringTemplate tpl) {
+		boolean symbolic = right.wrap().containsFreeFunctionVariable(null);
+		ExpressionValue myRt = symbolic ? right : rt;
+		MyList myList = symbolic ? lt.getMyList().deepCopy(kernel) : lt
+				.getMyList();
+		// list lt operation rt
+		myList.apply(operation, myRt, b, tpl);
+		return myList;
 	}
 
 	/**

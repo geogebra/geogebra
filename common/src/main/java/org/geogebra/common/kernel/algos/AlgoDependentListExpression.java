@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
@@ -292,22 +293,7 @@ public class AlgoDependentListExpression extends AlgoElement
 			return geo;
 		} else if (element instanceof GeoFunction) {
 			GeoFunction fun = (GeoFunction) element;
-			if (cachedGeo != null) {
-
-				// the cached element is a point: set value
-				if (cachedGeo.isGeoFunction()) {
-					((GeoFunction) cachedGeo).set(fun);
-					geo = cachedGeo;
-				}
-			}
-
-			// no cached point: create new one
-			if (geo == null) {
-				GeoFunction geoFun = new GeoFunction(cons);
-				geoFun.set(fun);
-				geo = geoFun;
-			}
-			return geo;
+			return getFunction(fun, cachedGeo);
 		} else if (element instanceof GeoText) {
 			GeoText text = (GeoText) element;
 			if (cachedGeo != null) {
@@ -326,7 +312,9 @@ public class AlgoDependentListExpression extends AlgoElement
 				geo = geoFun;
 			}
 			return geo;
-
+		} else if (element instanceof Function) {
+			GeoFunction fun = new GeoFunction(cons, (Function) element);
+			return getFunction(fun, cachedGeo);
 		} else if (element instanceof GeoElement) {
 			GeoElement geo0 = (GeoElement) element;
 			if (cachedGeo != null) {
@@ -349,6 +337,26 @@ public class AlgoDependentListExpression extends AlgoElement
 			Log.debug("unsupported list operation: " + element.getClass() + "");
 			return null;
 		}
+	}
+
+	private static GeoElement getFunction(GeoFunction fun, GeoElement cachedGeo) {
+		GeoElement geo = null;
+		if (cachedGeo != null) {
+
+			// the cached element is a point: set value
+			if (cachedGeo.isGeoFunction()) {
+				((GeoFunction) cachedGeo).set(fun);
+				geo = cachedGeo;
+			}
+		}
+
+		// no cached point: create new one
+		if (geo == null) {
+			GeoFunction geoFun = new GeoFunction(fun.getConstruction());
+			geoFun.set(fun);
+			geo = geoFun;
+		}
+		return geo;
 	}
 
 	@Override

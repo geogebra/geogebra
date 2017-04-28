@@ -507,7 +507,7 @@ public abstract class Log {
 			return;
 		}
 		if (s instanceof HasDebugString) {
-			debug(((HasDebugString) s).getDebugString(), 5);
+			debug(((HasDebugString) s).getDebugString(), 4);
 			return;
 		}
 

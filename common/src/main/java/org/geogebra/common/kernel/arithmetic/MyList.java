@@ -258,7 +258,7 @@ public class MyList extends ValidExpression
 	 *            string template in case we do string concatenation here
 	 * @author Markus Hohenwarter
 	 */
-	private void apply(Operation operation, ExpressionValue value,
+	public void apply(Operation operation, ExpressionValue value,
 			boolean right, StringTemplate tpl) {
 		int size = size();
 
@@ -350,12 +350,13 @@ public class MyList extends ValidExpression
 		matrixRows = -1; // reset
 		matrixCols = -1;
 
-		// return empty list if sizes don't match
+
 
 		if (needsExpand()) {
 			expand();
 			size = size();
 		}
+		// return empty list if sizes don't match
 		if (size == 0 || (valueList != null && valueList.size() > size)) {
 			listElements.clear();
 			return;
@@ -378,7 +379,6 @@ public class MyList extends ValidExpression
 			return;
 
 		}
-
 		for (int i = 0; i < size; i++) {
 			// try {
 			// singleValue to apply to i-th element of this list
@@ -465,7 +465,11 @@ public class MyList extends ValidExpression
 		// evaluate operation
 
 		ExpressionValue operationResult = tempNode.evaluate(tpl);
-
+		if (tempNode.containsFreeFunctionVariable(null)) {
+			operationResult = kernel.getAlgebraProcessor().processFunction(
+					new Function(tempNode.deepCopy(kernel)),
+					new EvalInfo(false))[0];
+		}
 		// Application.debug(" tempNode : " + tempNode + ", result: "
 		// + operationResult);
 		if (operationResult instanceof NumberValue) {

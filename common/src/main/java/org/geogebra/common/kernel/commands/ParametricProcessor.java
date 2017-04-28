@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
@@ -220,6 +221,9 @@ public class ParametricProcessor {
 			ExpressionValue ev, FunctionVariable[] fv, String label,
 			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
+		if (ev instanceof MyList) {
+			return kernel.getAlgebraProcessor().listExpression(exp).asArray();
+		}
 		if (fv.length < 2 && ev instanceof VectorValue
 				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);

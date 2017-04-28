@@ -1928,12 +1928,14 @@ public class AlgebraProcessor {
 			}
 		}
 		if (!fun.initFunction(info.isSimplifyingIntegers())) {
+			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
+
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
-					fun.getExpression()
-							.evaluate(StringTemplate.defaultTemplate),
+					copy.evaluate(StringTemplate.defaultTemplate),
 					new FunctionVariable[] { fun.getFunctionVariable() },
 					fun.getLabel(), info);
+
 		}
 
 		String label = fun.getLabel();
