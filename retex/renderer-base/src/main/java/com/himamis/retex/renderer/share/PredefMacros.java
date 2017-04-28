@@ -50,6 +50,7 @@ import java.util.Map;
 import com.himamis.retex.renderer.share.Cancel.Type;
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.ParseException;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 
@@ -1505,7 +1506,9 @@ public class PredefMacros {
 
 	public static final Atom cursor_macro(final String[] args) throws ParseException {
 		try {
-			return new CursorAtom(ColorAtom.getColor("red"),
+			return new CursorAtom(
+					FactoryProvider.getInstance().getGraphicsFactory()
+							.createColor(96, 96, 255),
 					Double.parseDouble(args[1]));
 		} catch (NumberFormatException e) {
 			throw new ParseException(e.toString());

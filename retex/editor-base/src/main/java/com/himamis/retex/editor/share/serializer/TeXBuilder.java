@@ -91,7 +91,7 @@ public class TeXBuilder {
 
 	private static void addCursor(RowAtom ra) {
 		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
-				.createColor(100, 100, 255), 0.9));
+				.createColor(0, 80, 0), 0.9));
 
 	}
 
