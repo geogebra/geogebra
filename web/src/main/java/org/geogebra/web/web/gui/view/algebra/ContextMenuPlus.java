@@ -3,14 +3,12 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
-import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
@@ -51,7 +49,10 @@ public class ContextMenuPlus implements SetLabels {
 	}
 	
 	private void addExpressionItem() {
-		MenuItem mi = new MenuItem(loc.getPlain("NewExpression"),
+		String img = StyleBarResources.INSTANCE.description().getSafeUri()
+				.asString();
+		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
+				loc.getPlain("NewExpression"), true), true,
 				new Command() {
 					
 					@Override
@@ -62,7 +63,6 @@ public class ContextMenuPlus implements SetLabels {
 					}
 				});
 
-		// mi.addStyleName("no_image");
 		wrappedPopup.addItem(mi);
 	}
 
@@ -78,7 +78,6 @@ public class ContextMenuPlus implements SetLabels {
 					}
 				});
 
-		// mi.addStyleName("no_image");
 		wrappedPopup.addItem(mi);
 	}
 	
@@ -93,12 +92,11 @@ public class ContextMenuPlus implements SetLabels {
 					}
 				});
 
-		// mi.addStyleName("no_image");
 		wrappedPopup.addItem(mi);
 	}
 
 	private void addHelpItem() {
-		String img = GuiResources.INSTANCE.icon_help().getSafeUri()
+		String img = GuiResources.INSTANCE.icon_help_black().getSafeUri()
 		.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("Help"), true),
 				true, new Command() {
@@ -110,7 +108,6 @@ public class ContextMenuPlus implements SetLabels {
 					}
 				});
 
-		// mi.addStyleName("image");
 		wrappedPopup.addItem(mi);
 	}
 	public void show(GPoint p) {
