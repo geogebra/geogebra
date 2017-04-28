@@ -1073,12 +1073,7 @@ public class NoExceptionsTest {
 		t("InverseZipf[ n1, n2, prob ]");
 	}
 
-	@Test
-	public void cmdInvert() {
-		t("Invert[ matrix1 ]");
-		t("Invert[ sin(x) ]");
 
-	}
 
 	@Test
 	public void cmdIsInRegion() {

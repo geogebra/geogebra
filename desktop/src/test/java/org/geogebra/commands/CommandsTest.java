@@ -889,6 +889,22 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdInvert() {
+		t("Invert[ {{1,1},{0,2}} ]", "{{1, -0.5}, {0, 0.5}}");
+		t("Invert[ sin(x) ]", "asin(x)");
+		app.getSettings().getCasSettings().setEnabled(false);
+		app.getKernel().getAlgebraProcessor().reinitCommands();
+		t("Invert[ sin(x) ]", "NInvert[sin(x)]");
+		app.getSettings().getCasSettings().setEnabled(true);
+	}
+
+	@Test
+	public void cmdNInvert() {
+		t("ni(x)=Invert[ sin(x) ]", "NInvert[sin(x)]");
+		t("ni(sin(1))", "1");
+	}
+
+	@Test
 	public void testShorthandIntersect() {
 		t("x=2*y=3*z", "X = (0, 0, 0) + " + Unicode.lambda + " (6, 3, 2)");
 		t("(x=2y,2y=3z)", "X = (0, 0, 0) + " + Unicode.lambda + " (6, 3, 2)");
