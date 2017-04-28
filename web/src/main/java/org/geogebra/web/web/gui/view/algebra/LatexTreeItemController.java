@@ -170,8 +170,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 		String newValue = item.getText();
 		final String rawInput = app.getKernel().getInputPreviewHelper()
 				.getInput(newValue);
-
-		final String input = isInputAsText() ? "\"" + rawInput + "\"": rawInput;
+		boolean textInput = isInputAsText();
+		final String input = textInput ? "\"" + rawInput + "\"": rawInput;
 		
 		setInputAsText(false);
 		
@@ -227,9 +227,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 		};
 		// keepFocus==false: this was called from blur, don't use modal slider
 		// dialog
-		Log.debug("GETTING HANDLER " + valid + ", " + keepFocus);
-		ErrorHandler err = item.getErrorHandler(valid, keepFocus);
-		err.resetError();
+		ErrorHandler err = null;
+		if (!textInput) {
+			Log.debug("GETTING HANDLER " + valid + ", " + keepFocus);
+			err = item.getErrorHandler(valid, keepFocus);
+			err.resetError();
+		}
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,
 						true, callback);
