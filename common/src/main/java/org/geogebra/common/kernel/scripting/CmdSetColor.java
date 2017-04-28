@@ -62,10 +62,7 @@ public class CmdSetColor extends CmdScripting {
 					throw argErr(app, c, ev);
 				}
 
-				EuclidianViewInterfaceCommon view = app
-						.getActiveEuclidianView();
-				view.setBackground(col);
-				view.updateBackground();
+				setViewBackground(col);
 
 				return null;
 
@@ -104,10 +101,8 @@ public class CmdSetColor extends CmdScripting {
 			int green = MyDouble.normalize0to255(greenD);
 			int blue = MyDouble.normalize0to255(blueD);
 
-			EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
-			view.setBackground(GColor.newColor(red, green, blue));
-			view.updateBackground();
-
+			GColor col = GColor.newColor(red, green, blue);
+			setViewBackground(col);
 			return null;
 
 		}
@@ -156,13 +151,6 @@ public class CmdSetColor extends CmdScripting {
 				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
 						color);
 
-				// support for translated color names
-				// if (col == null) {
-				// // translate to English
-				// color = app.reverseGetColor(color).toUpperCase();
-				// col = (Color) colors.get(color);
-				// // Application.debug(color);
-				// }
 
 				// SetBackgroundColor(text1, "none") is OK
 				if (col == null && !background) {
@@ -220,5 +208,12 @@ public class CmdSetColor extends CmdScripting {
 		default:
 			throw argNumErr(app, c, n);
 		}
+	}
+
+	private void setViewBackground(GColor col) {
+		EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+		view.getSettings().setBackground(col);
+		view.updateBackground();
+
 	}
 }
