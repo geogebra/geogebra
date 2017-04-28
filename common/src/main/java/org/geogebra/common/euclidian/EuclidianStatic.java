@@ -605,4 +605,54 @@ public class EuclidianStatic {
 				yLabel - fontSize - 3, xoffset + 6, height + 6);
 	}
 
+	public static boolean drawIndexedMultilineString(App app, String labelDesc,
+			GGraphics2D g2, GRectangle labelRectangle, GFont textFont,
+			boolean serif, int xLabel, int yLabel) {
+		// draw text line by line
+		int lineBegin = 0;
+		int lines = 0;
+		int fontSize = textFont.getSize();
+		double lineSpread = fontSize * 1.5;
+		int length = labelDesc.length();
+		int xoffset = 0, yoffset = 0;
+		for (int i = 0; i < length - 1; i++) {
+			if (labelDesc.charAt(i) == '\n') {
+				// end of line reached: draw this line
+
+				// iOS (bug?) - bold text needs font setting for each line
+				g2.setFont(textFont);
+				GPoint p = EuclidianStatic.drawIndexedString(
+						app, g2,
+						labelDesc.substring(lineBegin, i), xLabel,
+						yLabel + lines * lineSpread, serif);
+				if (p.x > xoffset) {
+					xoffset = p.x;
+				}
+				if (p.y > yoffset) {
+					yoffset = p.y;
+				}
+				lines++;
+				lineBegin = i + 1;
+			}
+		}
+
+		double ypos = yLabel + lines * lineSpread;
+
+		// iOS (bug?) - bold text needs font setting for each line
+		g2.setFont(textFont);
+		GPoint p = EuclidianStatic.drawIndexedString(app, g2,
+				labelDesc.substring(lineBegin), xLabel, ypos, serif);
+		if (p.x > xoffset) {
+			xoffset = p.x;
+		}
+		if (p.y > yoffset) {
+			yoffset = p.y;
+		}
+
+		int height = (int) ((lines + 1) * lineSpread);
+		labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3, xoffset + 6,
+				height + 6);
+		return yoffset > 0;
+	}
+
 }

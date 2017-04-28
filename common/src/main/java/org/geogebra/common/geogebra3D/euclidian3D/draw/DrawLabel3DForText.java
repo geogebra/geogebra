@@ -3,10 +3,10 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.draw.DrawText;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -33,20 +33,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
 					GColor.WHITE, text, 0, 0,
 					((TextProperties) geo).isSerifFont(), getCallBack());
 		}
+		GRectangle bounds = AwtFactory.getPrototype().newRectangle();
+		EuclidianStatic.drawIndexedMultilineString(view.getApplication(), text,
+				tempGraphics, bounds, font,
+				((TextProperties) geo).isSerifFont(), 0, 0);
+		return bounds;
 
-		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), text, 0, 0, tempGraphics,
-				((TextProperties) geo).isSerifFont(), tempGraphics.getFont());
-		if (text.contains("_")) { // text contains subscript
-			hasIndex = true;
-			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					tempGraphics, text, 0, 0, false);
-			rectangle.setRect(rectangle.getMinX(), rectangle.getMinY(),
-					rectangle.getWidth(), rectangle.getHeight() + p.y);
-		} else {
-			hasIndex = false;
-		}
-		return rectangle;
 	}
 
 	@Override
@@ -59,12 +51,10 @@ public class DrawLabel3DForText extends DrawLabel3D {
 					tempGraphics, geo, g2d, font, GColor.BLACK, GColor.WHITE,
 					text, 0, 0, ((TextProperties) geo).isSerifFont(),
 					getCallBack());
-		} else if (hasIndex) {
-				EuclidianStatic.drawIndexedString(view.getApplication(), g2d,
-						text, 0, 0, false);
 		} else {
-			EuclidianStatic.drawMultiLineText(view.getApplication(), text, 0, 0,
-					g2d, ((TextProperties) geo).isSerifFont(), g2d.getFont());
+			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
+					text, g2d, AwtFactory.getPrototype().newRectangle(),
+					g2d.getFont(), ((TextProperties) geo).isSerifFont(), 0, 0);
 		}
 
 		return bimg;

@@ -390,58 +390,21 @@ public abstract class Drawable extends DrawableND {
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
 					isSerif(), textFont));
 		} else {
-			int lines = 0;
-			int fontSize = textFont.getSize();
-			double lineSpread = fontSize * 1.5;
 
-			int xoffset = 0, yoffset = 0;
+
+
+
+
 			// text with indices
 			// label description has changed, search for possible indices
 			oldLabelDesc = labelDesc;
 
-			// draw text line by line
-			int lineBegin = 0;
-			int length = labelDesc.length();
-			xoffset = 0;
-			yoffset = 0;
-			for (int i = 0; i < length - 1; i++) {
-				if (labelDesc.charAt(i) == '\n') {
-					// end of line reached: draw this line
+			labelHasIndex = EuclidianStatic
+					.drawIndexedMultilineString(view.getApplication(),
+							labelDesc, g2, labelRectangle, textFont, isSerif(),
+							xLabel, yLabel);
 
-					// iOS (bug?) - bold text needs font setting for each line
-					g2.setFont(textFont);
-					GPoint p = EuclidianStatic.drawIndexedString(
-							view.getApplication(), g2,
-							labelDesc.substring(lineBegin, i), xLabel,
-							yLabel + lines * lineSpread, isSerif());
-					if (p.x > xoffset) {
-						xoffset = p.x;
-					}
-					if (p.y > yoffset) {
-						yoffset = p.y;
-					}
-					lines++;
-					lineBegin = i + 1;
-				}
-			}
 
-			double ypos = yLabel + lines * lineSpread;
-
-			// iOS (bug?) - bold text needs font setting for each line
-			g2.setFont(textFont);
-			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, labelDesc.substring(lineBegin), xLabel, ypos,
-					isSerif());
-			if (p.x > xoffset) {
-				xoffset = p.x;
-			}
-			if (p.y > yoffset) {
-				yoffset = p.y;
-			}
-			labelHasIndex = yoffset > 0;
-			int height = (int) ((lines + 1) * lineSpread);
-			labelRectangle.setBounds(xLabel - 3, yLabel - fontSize - 3,
-					xoffset + 6, height + 6);
 		}
 	}
 
