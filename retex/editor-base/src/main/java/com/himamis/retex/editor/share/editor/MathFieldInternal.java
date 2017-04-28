@@ -514,14 +514,19 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		StringBuilder str = new StringBuilder(" ");
 		MathSequence sel = editorState.getCurrentField();
 		if (sel != null) {
-			for (int i = Math.min(editorState.getCurrentOffset() - 1,
-					sel.size() - 1); i >= 0; i--) {
+			int wordEnd = editorState.getCurrentOffset() - 1;
+			if (editorState.getSelectionEnd() != null) {
+				wordEnd = editorState.getSelectionEnd().getParentIndex();
+			}
+			for (int i = Math.min(wordEnd, sel.size() - 1); i >= 0; i--) {
+
 				if (sel.getArgument(i) instanceof MathCharacter) {
 					if (!((MathCharacter) sel.getArgument(i)).isCharacter()) {
 						break;
 					}
 					str.append(
 							((MathCharacter) sel.getArgument(i)).getUnicode());
+					FactoryProvider.getInstance().debug(str);
 				} else {
 					break;
 				}
