@@ -302,9 +302,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected RadioTreeItemController createController() {
-		return new RadioTreeItemController(this);
-	}
+	protected abstract RadioTreeItemController createController();
 
 	protected void addMarble() {
 		main.addStyleName("elem");
@@ -2137,11 +2135,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (outputPanel != null) {
 			outputPanel.removeFromParent();
 		}
-
-	}
-
-	public void setInputAsText(boolean value) {
-		// TODO Auto-generated method stub
 
 	}
 }

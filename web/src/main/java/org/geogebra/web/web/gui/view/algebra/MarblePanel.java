@@ -24,9 +24,11 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	private boolean selected = false;
 	/** warning triangle / help button */
 	private ToggleButton btnHelpToggle;
+	/** plus button (new expression / text, ...) */
 	ToggleButton btnPlus;
 	/** av item */
 	RadioTreeItem item;
+	/** plus menu */
 	ContextMenuPlus cmPlus=null;
 
 	/**
@@ -198,6 +200,9 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		}
 	}
 	
+	/**
+	 * Creaate plus button if it doesn't exist, update the image
+	 */
 	public void initPlus() {
 		if (btnPlus == null) {
 			btnPlus = new ToggleButton();

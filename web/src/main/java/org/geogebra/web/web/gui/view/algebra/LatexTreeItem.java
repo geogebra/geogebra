@@ -545,7 +545,13 @@ public class LatexTreeItem extends RadioTreeItem {
 		mf.setOnBlur(getLatexController());
 	}
 
-	public void setInputAsText(boolean value) {
+	/**
+	 * Switches editor to text mode
+	 * 
+	 * @param value
+	 *            switches editor to text mode
+	 */
+	protected void setInputAsText(boolean value) {
 		mf.setPlainTextMode(value);
 
 	}

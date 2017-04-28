@@ -37,14 +37,13 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * @param item
 	 *            AV item
 	 */
-	public LatexTreeItemController(RadioTreeItem item) {
+	public LatexTreeItemController(LatexTreeItem item) {
 		super(item);
 	}
 
 	@Override
 	protected void startEdit(boolean substituteNumbers) {
-		LatexTreeItem li = getLatexTreeItem();
-		if (li.isInputTreeItem() && li.onEditStart(false)) {
+		if (item.isInputTreeItem() && item.onEditStart(false)) {
 			setOnScreenKeyboardTextField();
 		} else {
 			super.startEdit(substituteNumbers);
@@ -118,12 +117,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public void onKeyTyped() {
-		getLatexTreeItem().onKeyTyped();
+		item.onKeyTyped();
 	}
 
 	@Override
 	public void onCursorMove() {
-		getLatexTreeItem().onCursorMove();
+		item.onCursorMove();
 	}
 
 	@Override
@@ -294,12 +293,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	}
 
-	private LatexTreeItem getLatexTreeItem() {
-		return (LatexTreeItem) item;
-	}
-
 	private MathFieldW getMathField() {
-		return getLatexTreeItem().getMathField();
+		return item.getMathField();
 	}
 
 	/**
