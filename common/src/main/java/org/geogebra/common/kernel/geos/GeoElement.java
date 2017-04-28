@@ -6099,7 +6099,7 @@ public abstract class GeoElement extends ConstructionElement
 	protected void getXMLanimationTags(final StringBuilder sb) {
 		StringTemplate tpl = StringTemplate.xmlTemplate;
 		// animation step width
-		if (isChangeable()) {
+		if (isPointerChangeable()) {
 			sb.append("\t<animation");
 			final String animStep = animationIncrement == null ? "1"
 					: getAnimationStepObject().getLabel(tpl);
