@@ -1426,11 +1426,14 @@ Paddings for menuitems.
 			min-width: 182px;
 			cursor: pointer; 
 			padding-left: 64px;
-			color: black
 		}
 		
 		.gwt-MenuItem:hover {
 			background-color: #eeeeee;
+			img {
+				opacity: 0.87;
+			}
+			color: black;
 		}
 		
 		img {
@@ -1438,6 +1441,8 @@ Paddings for menuitems.
 			height: 24px !important;
 			position: absolute;
 			margin-left: -40px;	
+			opacity: 0.54;
+			filter: alpha(opacity=54); /* For IE8 and earlier */
 		}
 }	
 
