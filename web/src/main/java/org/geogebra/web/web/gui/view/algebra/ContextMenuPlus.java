@@ -52,7 +52,7 @@ public class ContextMenuPlus implements SetLabels {
 		String img = StyleBarResources.INSTANCE.description().getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getPlain("NewExpression"), true), true,
+				loc.getPlain("Expression"), true), true,
 				new Command() {
 					
 					@Override
