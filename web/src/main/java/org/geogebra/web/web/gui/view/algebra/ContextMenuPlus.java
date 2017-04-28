@@ -1,9 +1,12 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.html5.factories.AwtFactoryW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -23,6 +26,7 @@ public class ContextMenuPlus implements SetLabels {
 	private RadioTreeItem item;
 	private MathFieldW mf;
 	private TabbedKeyboard kbd;
+	private GeoPoint imgPoint;
 	/**
 	 * Creates new context menu
 	 * 
@@ -38,7 +42,8 @@ public class ContextMenuPlus implements SetLabels {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		buildGUI();
-	}
+		imgPoint = new GeoPoint(app.getKernel().getConstruction(), 0, 0, 0);  
+		}
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
@@ -94,8 +99,8 @@ public class ContextMenuPlus implements SetLabels {
 					
 					@Override
 					public void execute() {
-						// TODO Auto-generated method stub
-						
+
+						((GuiManagerW)app.getGuiManager()).loadImage(imgPoint, null, false, app.getActiveEuclidianView());
 					}
 				});
 

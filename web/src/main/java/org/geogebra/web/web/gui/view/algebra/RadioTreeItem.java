@@ -610,7 +610,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	public void previewValue(GeoElement previewGeo) {
-		if (!previewGeo.needToShowBothRowsInAV()) {
+		if (!previewGeo.needToShowBothRowsInAV() || getController().isInputAsText()) {
 			clearPreview();
 			return;
 		}
