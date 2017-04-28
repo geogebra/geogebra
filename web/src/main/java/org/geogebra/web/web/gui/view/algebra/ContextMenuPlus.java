@@ -67,7 +67,10 @@ public class ContextMenuPlus implements SetLabels {
 	}
 
 	private void addTextItem() {
-		MenuItem mi = new MenuItem(loc.getPlain("Text"),
+		String img = GuiResources.INSTANCE.icon_quote_black().getSafeUri()
+				.asString();
+		MenuItem mi = new MenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getPlain("Text"), true), true,
 				new Command() {
 					
 					@Override
@@ -82,7 +85,10 @@ public class ContextMenuPlus implements SetLabels {
 	}
 	
 	private void addImageItem() {
-		MenuItem mi = new MenuItem(loc.getPlain("Image"),
+		String img = GuiResources.INSTANCE.insert_photo_black().getSafeUri()
+				.asString();
+		MenuItem mi = new MenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getPlain("Image"), true), true,
 				new Command() {
 					
 					@Override
