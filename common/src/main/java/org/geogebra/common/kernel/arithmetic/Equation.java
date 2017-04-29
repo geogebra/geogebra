@@ -737,7 +737,8 @@ public class Equation extends ValidExpression implements EquationValue {
 	 *         e=x are equations).
 	 */
 	public ValidExpression equationOrAssignment() {
-		if (!rhs.containsFreeFunctionVariable(null)) {
+		if (!lhs.unwrap().isExpressionNode()
+				&& (!rhs.containsFreeFunctionVariable(null) || rhsHasLists())) {
 			// assignment, e.g. z = 23
 			if (lhs.isSingleVariable()) {
 				rhs.setLabel(((Variable) lhs
@@ -770,28 +771,25 @@ public class Equation extends ValidExpression implements EquationValue {
 			}
 
 		}
-		if (lhs.isSingleVariable()) {
-			Inspecting check = new Inspecting() {
 
-				public boolean check(ExpressionValue v) {
-					if(!v.isExpressionNode()){
-						return false;
-					}
-					ExpressionNode n = (ExpressionNode)v;
-					return n.getOperation() != Operation.FUNCTION_NVAR
-							&& n.getOperation() != Operation.ELEMENT_OF
-							&& (n.getLeft() instanceof MyList
-									|| n.getRight() instanceof MyList);
-				}
-			};
-			if (rhs.inspect(check)) {
-				rhs.setLabel(((Variable) lhs
-						.evaluate(StringTemplate.defaultTemplate))
-								.getName(StringTemplate.defaultTemplate));
-				return rhs;
-			}
-		}
 		return this;
+	}
+
+	private boolean rhsHasLists() {
+		Inspecting check = new Inspecting() {
+
+			public boolean check(ExpressionValue v) {
+				if (!v.isExpressionNode()) {
+					return false;
+				}
+				ExpressionNode n = (ExpressionNode) v;
+				return n.getOperation() != Operation.FUNCTION_NVAR
+						&& n.getOperation() != Operation.ELEMENT_OF
+						&& (n.getLeft() instanceof MyList
+								|| n.getRight() instanceof MyList);
+			}
+		};
+		return rhs.inspect(check);
 	}
 
 	/**
