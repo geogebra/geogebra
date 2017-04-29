@@ -1496,7 +1496,7 @@ __GGB__keysVar.nl.menu = {
     "CopyVisualStyle.Help": "Selecteer eerste object; klik op andere objecten om stijl te kopi\xebren.",
     "CornerPoint": "Hoeknummer",
     "CorrelationCoefficient.short": "r",
-    "Count": "Absoluut",
+    "Count": "Frequentie",
     "CountCells": "Bereken het totale aantal waarden in de geselecteerde cellen",
     "CountCells.Help": "Selecteer een aantal cellen",
     "CrashReport": "Verzend een crashrapport naar GeoGebra",
