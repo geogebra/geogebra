@@ -20,10 +20,13 @@ package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
@@ -466,9 +469,20 @@ public class MyList extends ValidExpression
 
 		ExpressionValue operationResult = tempNode.evaluate(tpl);
 		if (tempNode.containsFreeFunctionVariable(null)) {
-			operationResult = kernel.getAlgebraProcessor().processFunction(
-					new Function(tempNode.deepCopy(kernel)),
-					new EvalInfo(false))[0];
+			FunctionNVar toProc = kernel.getAlgebraProcessor()
+					.makeFunctionNVar(tempNode.deepCopy(kernel));
+			Set<String> fvSet = new TreeSet<String>();
+			FVarCollector fvc = FVarCollector.getCollector(fvSet);
+			tempNode.traverse(fvc);
+
+			if (toProc instanceof Function) {
+				operationResult = kernel.getAlgebraProcessor().processFunction(
+						(Function) toProc, new EvalInfo(false))[0];
+			} else {
+				operationResult = kernel.getAlgebraProcessor()
+						.processFunctionNVar(toProc,
+								new EvalInfo(false))[0];
+			}
 		}
 		// Application.debug(" tempNode : " + tempNode + ", result: "
 		// + operationResult);

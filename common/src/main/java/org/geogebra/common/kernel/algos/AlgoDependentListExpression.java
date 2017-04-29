@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
@@ -33,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -315,6 +317,10 @@ public class AlgoDependentListExpression extends AlgoElement
 		} else if (element instanceof Function) {
 			GeoFunction fun = new GeoFunction(cons, (Function) element);
 			return getFunction(fun, cachedGeo);
+		} else if (element instanceof FunctionNVar) {
+			GeoFunctionNVar fun = new GeoFunctionNVar(cons,
+					(FunctionNVar) element);
+			return toGeo(fun, cachedGeo, cons);
 		} else if (element instanceof GeoElement) {
 			GeoElement geo0 = (GeoElement) element;
 			if (cachedGeo != null) {

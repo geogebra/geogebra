@@ -346,8 +346,8 @@ public class AlgebraProcessor {
 	 *            old geo
 	 * @param newValue
 	 *            new value
-	 * @param redefineIndependent
-	 *            true to allow redefinition of free objects
+	 * @param info
+	 *            evaluation flags
 	 * @param storeUndoInfo
 	 *            true to make undo step
 	 * @param callback
@@ -2650,22 +2650,7 @@ public class AlgebraProcessor {
 		n.resolveVariables(info);
 		String label = n.getLabel();
 		if (n.containsFreeFunctionVariable(null)) {
-			Set<String> fvSet = new TreeSet<String>();
-			FVarCollector fvc = FVarCollector.getCollector(fvSet);
-			n.traverse(fvc);
-
-			if (fvSet.size() == 1) {
-				n = new ExpressionNode(kernel, new Function(n,
-						new FunctionVariable(kernel, fvSet.iterator().next())));
-			} else {
-				FunctionVariable[] fvArray = new FunctionVariable[fvSet.size()];
-				Iterator<String> it = fvSet.iterator();
-				int i = 0;
-				while (it.hasNext()) {
-					fvArray[i++] = new FunctionVariable(kernel, it.next());
-				}
-				n = new ExpressionNode(kernel, new FunctionNVar(n, fvArray));
-			}
+			n = makeFunctionNVar(n).wrap();
 		}
 		eval = n.evaluate(StringTemplate.defaultTemplate);
 		if (eval instanceof ValidExpression && label != null) {
@@ -2754,6 +2739,32 @@ public class AlgebraProcessor {
 		// if we get here, nothing worked
 		Log.debug("Unhandled ExpressionNode: " + eval + ", " + eval.getClass());
 		return null;
+	}
+
+	/**
+	 * Make function or nvar function from expression, using all function
+	 * variables it has
+	 * 
+	 * @param n
+	 *            exression
+	 * @return function or nvar function
+	 */
+	public FunctionNVar makeFunctionNVar(ExpressionNode n) {
+		Set<String> fvSet = new TreeSet<String>();
+		FVarCollector fvc = FVarCollector.getCollector(fvSet);
+		n.traverse(fvc);
+
+		if (fvSet.size() == 1) {
+			return new Function(n, new FunctionVariable(kernel, fvSet
+					.iterator().next()));
+		}
+		FunctionVariable[] fvArray = new FunctionVariable[fvSet.size()];
+		Iterator<String> it = fvSet.iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			fvArray[i++] = new FunctionVariable(kernel, it.next());
+		}
+		return new FunctionNVar(n, fvArray);
 	}
 
 	/**
