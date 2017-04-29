@@ -36,6 +36,8 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     public static final String SQUARE = "square";
     public static final String APOSTROPHES = "apostrophes";
     public static final String LINE = "line";
+	public static final String CEIL = "ceil";
+	public static final String FLOOR = "floor";
 
     /* Array and matrix elements. */
     static final String OPEN = "Open";

@@ -451,6 +451,13 @@ public abstract class KBBase extends PopupPanel {
 		addButton("a^x", KeyboardConstants.A_POWER_X, index, functions)
 				.addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
+
+		// just for testing:
+		// addButton(Unicode.LFLOOR + "x" + Unicode.RFLOOR, "floor", index,
+		// functions);
+		// addButton(Unicode.LCEIL + "x" + Unicode.RCEIL, "ceil", index,
+		// functions);
+
 		addButton(Unicode.DEGREE, index, functions);
 		addButton(Unicode.PI_STRING, index, functions);
 

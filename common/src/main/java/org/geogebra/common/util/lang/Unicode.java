@@ -189,6 +189,11 @@ public class Unicode {
 	public static final String CAS_OUTPUT_NUMERIC = "\u2248";
 	public static final char micro = '\u00b5';
 
+	public static final char LCEIL = '\u2308';
+	public static final char RCEIL = '\u2309';
+	public static final char LFLOOR = '\u230a';
+	public static final char RFLOOR = '\u230b';
+
 	/**
 	 * converts an integer to a unicode superscript string (including minus
 	 * sign) eg for use as a power

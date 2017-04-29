@@ -134,6 +134,8 @@ class MetaModelFunctions {
         }));
 
         functions.add(createFunction("abs"));
+		functions.add(createFunction("floor"));
+		functions.add(createFunction("ceil"));
 
         return new ListMetaGroup(MetaModel.FUNCTIONS, MetaModel.GENERAL, functions);
     }

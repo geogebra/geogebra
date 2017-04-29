@@ -2,9 +2,11 @@ package com.himamis.retex.editor.share.meta;
 
 import static com.himamis.retex.editor.share.meta.MetaArray.APOSTROPHES;
 import static com.himamis.retex.editor.share.meta.MetaArray.ARRAY;
+import static com.himamis.retex.editor.share.meta.MetaArray.CEIL;
 import static com.himamis.retex.editor.share.meta.MetaArray.CLOSE;
 import static com.himamis.retex.editor.share.meta.MetaArray.CURLY;
 import static com.himamis.retex.editor.share.meta.MetaArray.FIELD;
+import static com.himamis.retex.editor.share.meta.MetaArray.FLOOR;
 import static com.himamis.retex.editor.share.meta.MetaArray.LINE;
 import static com.himamis.retex.editor.share.meta.MetaArray.MATRIX;
 import static com.himamis.retex.editor.share.meta.MetaArray.OPEN;
@@ -28,6 +30,11 @@ class MetaModelArrays {
 	private static MetaCharacter createArrayComponent(String name, char cas) {
         return createArrayComponent(name, cas, null);
     }
+
+	public static final char LCEIL = '\u2308';
+	public static final char RCEIL = '\u2309';
+	public static final char LFLOOR = '\u230a';
+	public static final char RFLOOR = '\u230b';
 
     MetaGroup createArraysGroup() {
         List<MetaComponent> components = new ArrayList<MetaComponent>();
@@ -66,6 +73,20 @@ class MetaModelArrays {
         arrayComponents.add(createArrayComponent(FIELD, ','));
         arrayComponents.add(createArrayComponent(ROW, ';'));
         components.add(new MetaArray(ARRAY, LINE, arrayComponents));
+
+		arrayComponents = new ArrayList<MetaComponent>();
+		arrayComponents.add(createArrayComponent(OPEN, LCEIL, "\\lceil"));
+		arrayComponents.add(createArrayComponent(CLOSE, RCEIL, "\\rceil"));
+		arrayComponents.add(createArrayComponent(FIELD, ','));
+		arrayComponents.add(createArrayComponent(ROW, ';'));
+		components.add(new MetaArray(ARRAY, CEIL, arrayComponents));
+
+		arrayComponents = new ArrayList<MetaComponent>();
+		arrayComponents.add(createArrayComponent(OPEN, LFLOOR, "\\lfloor"));
+		arrayComponents.add(createArrayComponent(CLOSE, RFLOOR, "\\rfloor"));
+		arrayComponents.add(createArrayComponent(FIELD, ','));
+		arrayComponents.add(createArrayComponent(ROW, ';'));
+		components.add(new MetaArray(ARRAY, FLOOR, arrayComponents));
 
         return new ListMetaGroup(MetaModel.ARRAYS, MetaModel.ARRAYS, components);
     }

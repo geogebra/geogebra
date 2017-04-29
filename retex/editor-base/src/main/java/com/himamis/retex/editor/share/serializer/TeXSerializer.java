@@ -281,6 +281,14 @@ public class TeXSerializer extends SerializerAdapter {
                 stringBuilder.append("\\left|");
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append("\\right|");
+			} else if ("floor".equals(function.getName())) {
+				stringBuilder.append("\\lfloor");
+				serialize(function.getArgument(0), stringBuilder);
+				stringBuilder.append("\\rfloor");
+			} else if ("ceil".equals(function.getName())) {
+				stringBuilder.append("\\lceil");
+				serialize(function.getArgument(0), stringBuilder);
+				stringBuilder.append("\\rceil");
             } else if ("function".equals(function.getName())) {
                 stringBuilder.append("\\mathrm{" + function.getTexName() + "} ");
                 // jmathtex v0.7: incompatibility
