@@ -177,7 +177,7 @@ public class MySpecialDouble extends MyDouble {
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:
-				return "\\pi";
+				return "\\pi ";
 			case Unicode.DEGREE_CHAR:
 				return "^{\\circ}";
 			case Unicode.eulerChar:
