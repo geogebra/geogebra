@@ -123,7 +123,7 @@ public class AlgoFunctionInvert extends AlgoElement {
 			FunctionVariable oldFV, FunctionVariable x, Kernel kernel) {
 		boolean fvLeft;
 		ExpressionNode newRoot = x.wrap();
-		ExpressionValue root = root0;
+		ExpressionValue root = root0.unwrap();
 		while (root != null && !root.isLeaf() && root.isExpressionNode()) {
 			ExpressionValue left = ((ExpressionNode) root).getLeft().unwrap();
 			ExpressionValue right = ((ExpressionNode) root).getRight().unwrap();
