@@ -39,21 +39,32 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 
 	private double[] polarCoords;
 
-	/** Creates new AlgoPolarLine */
+	/**
+	 * Creates new AlgoPolarLine
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param c
+	 *            conic
+	 * @param line
+	 *            polar line
+	 */
 	public AlgoPolarPoint3D(Construction cons, String label, GeoConicND c,
 			GeoLineND line) {
 		super(cons, label, c, line);
 	}
 
 	@Override
-	protected GeoPointND newGeoPoint(Construction cons) {
+	protected GeoPointND newGeoPoint(Construction cons1) {
 
 		// we also need this
-		polar2D = new GeoPoint(cons);
+		polar2D = new GeoPoint(cons1);
 		polarCoords = new double[3];
 
 		// create 3D line
-		return new GeoPoint3D(cons);
+		return new GeoPoint3D(cons1);
 	}
 
 	// calc polar line of P relativ to c

@@ -268,8 +268,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		super.getOutputXML(sb);
 		
 		//append XML for polygon and segments linked once more, to avoid override of specific properties		
-		for (GeoPolygon polygon : polyhedron.getPolygonsLinked())
+		for (GeoPolygon polygon : polyhedron.getPolygonsLinked()) {
 			polygon.getXML(false, sb);
+		}
 		for (GeoSegmentND segment : polyhedron.getSegmentsLinked()){
 			if (segment.isLabelSet()){
 				((GeoElement) segment).getXML(false, sb);

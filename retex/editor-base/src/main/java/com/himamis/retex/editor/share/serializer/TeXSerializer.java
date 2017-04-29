@@ -19,7 +19,6 @@ public class TeXSerializer extends SerializerAdapter {
 
 
     private static final String characterMissing = "\\nbsp ";
-	private static final boolean jmathtex = true;
     private MetaModel metaModel;
 
 	/**
@@ -282,13 +281,13 @@ public class TeXSerializer extends SerializerAdapter {
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append("\\right|");
 			} else if ("floor".equals(function.getName())) {
-				stringBuilder.append("\\lfloor");
+				stringBuilder.append("\\left\\lfloor");
 				serialize(function.getArgument(0), stringBuilder);
-				stringBuilder.append("\\rfloor");
+				stringBuilder.append("\\right\\rfloor");
 			} else if ("ceil".equals(function.getName())) {
-				stringBuilder.append("\\lceil");
+				stringBuilder.append("\\left\\lceil");
 				serialize(function.getArgument(0), stringBuilder);
-				stringBuilder.append("\\rceil");
+				stringBuilder.append("\\right\\rceil");
             } else if ("function".equals(function.getName())) {
                 stringBuilder.append("\\mathrm{" + function.getTexName() + "} ");
                 // jmathtex v0.7: incompatibility
