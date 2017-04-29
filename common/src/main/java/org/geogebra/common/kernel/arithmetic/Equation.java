@@ -770,6 +770,27 @@ public class Equation extends ValidExpression implements EquationValue {
 			}
 
 		}
+		if (lhs.isSingleVariable()) {
+			Inspecting check = new Inspecting() {
+
+				public boolean check(ExpressionValue v) {
+					if(!v.isExpressionNode()){
+						return false;
+					}
+					ExpressionNode n = (ExpressionNode)v;
+					return n.getOperation() != Operation.FUNCTION_NVAR
+							&& n.getOperation() != Operation.ELEMENT_OF
+							&& (n.getLeft() instanceof MyList
+									|| n.getRight() instanceof MyList);
+				}
+			};
+			if (rhs.inspect(check)) {
+				rhs.setLabel(((Variable) lhs
+						.evaluate(StringTemplate.defaultTemplate))
+								.getName(StringTemplate.defaultTemplate));
+				return rhs;
+			}
+		}
 		return this;
 	}
 

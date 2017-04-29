@@ -2306,6 +2306,7 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			EvalInfo info) throws MyError {
+		Log.printStacktrace("");
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
