@@ -56,6 +56,7 @@ public class CharBox extends Box {
 
 	private final CharFont cf;
 	private final double size;
+	private double italic;
 
 	private final char[] arr = new char[1];
 
@@ -70,6 +71,12 @@ public class CharBox extends Box {
 		width = c.getWidth();
 		height = c.getHeight();
 		depth = c.getDepth();
+		italic = c.getItalic();
+	}
+
+	public void addItalicCorrectionToWidth() {
+		width += italic;
+		italic = 0;
 	}
 
 	@Override
