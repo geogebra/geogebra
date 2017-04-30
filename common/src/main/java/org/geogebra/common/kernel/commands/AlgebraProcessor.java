@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.KernelCAS;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentBoolean;
 import org.geogebra.common.kernel.algos.AlgoDependentConic;
+import org.geogebra.common.kernel.algos.AlgoDependentEquationList;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDependentFunctionNVar;
 import org.geogebra.common.kernel.algos.AlgoDependentGeoCopy;
@@ -95,6 +96,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -2306,7 +2308,6 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			EvalInfo info) throws MyError {
-		Log.printStacktrace("");
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -2402,6 +2403,13 @@ public class AlgebraProcessor {
 		// check no terms in z
 		checkNoTermsInZ(equ);
 		checkNoTheta(equ);
+		if (app.has(Feature.EQUATION_LIST) && (equ.getLHS().evaluatesToList()
+				|| equ.getRHS().evaluatesToList())) {
+			AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
+					equ);
+			return algo.getList().asArray();
+
+		}
 
 		if (equ.isFunctionDependent()) {
 			return processImplicitPoly(equ, def);

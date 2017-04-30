@@ -434,7 +434,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	}
 
 	@Override
-	public ExpressionValue evaluate(StringTemplate tpl) {
+	public GeoElement evaluate(StringTemplate tpl) {
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
 		GeoElement ge = kernel.getAlgebraProcessor().processEquation(this,

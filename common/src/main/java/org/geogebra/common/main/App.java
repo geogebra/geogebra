@@ -4217,6 +4217,8 @@ public abstract class App implements UpdateSelection {
 		/** GGB-1499 */
 		case ONE_VAR_FREQUENCY_TABLE:
 			return true;
+		case EQUATION_LIST:
+			return prerelease;
 
 		case AND_KILL_TOOLBAR:
 			return false;
