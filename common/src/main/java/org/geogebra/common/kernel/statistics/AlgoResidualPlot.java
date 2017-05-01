@@ -97,7 +97,7 @@ public class AlgoResidualPlot extends AlgoElement {
 		double x, y, r;
 
 		min = Double.MAX_VALUE;
-		max = Double.MIN_VALUE;
+		max = -Double.MAX_VALUE;
 
 		for (int i = 0; i < size; i++) {
 			GeoElement p = inputList.get(i);

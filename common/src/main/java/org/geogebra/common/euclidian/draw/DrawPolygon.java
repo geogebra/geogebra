@@ -831,8 +831,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private final void calculateBounds() {
 		double xmin = Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
-		double xmax = Double.MIN_VALUE;
-		double ymax = Double.MIN_VALUE;
+		double xmax = -Double.MAX_VALUE;
+		double ymax = -Double.MAX_VALUE;
 
 		for (int i = 0; i < poly.getPointsLength(); i++) {
 			double x = poly.getPointX(i);
