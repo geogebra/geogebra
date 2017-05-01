@@ -2407,7 +2407,9 @@ public class AlgebraProcessor {
 				|| equ.getRHS().evaluatesToList())) {
 			AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
 					equ);
-			return algo.getList().asArray();
+			GeoList list = algo.getList();
+			list.setLabel(equ.getLabel());
+			return list.asArray();
 
 		}
 
