@@ -112,6 +112,7 @@ public class ColorAtom extends Atom implements Row {
 		color = (c == null ? old.color : c);
 	}
 
+	@Override
 	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
 		TeXEnvironment copy = env.copy();
@@ -122,14 +123,17 @@ public class ColorAtom extends Atom implements Row {
 		return elements.createBox(copy);
 	}
 
+	@Override
 	public int getLeftType() {
 		return elements.getLeftType();
 	}
 
+	@Override
 	public int getRightType() {
 		return elements.getRightType();
 	}
 
+	@Override
 	public void setPreviousAtom(Dummy prev) {
 		elements.setPreviousAtom(prev);
 	}
