@@ -139,7 +139,7 @@ public class ColorAtom extends Atom implements Row {
 	}
 
 	protected Color getBackground() {
-		return color;
+		return background;
 	}
 
 	public static Color getColor(String s0) {
