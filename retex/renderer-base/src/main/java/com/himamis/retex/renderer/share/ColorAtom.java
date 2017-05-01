@@ -25,23 +25,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 package com.himamis.retex.renderer.share;
@@ -112,30 +112,24 @@ public class ColorAtom extends Atom implements Row {
 		color = (c == null ? old.color : c);
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		env.isColored = true;
 		TeXEnvironment copy = env.copy();
-		if (background != null) {
+		if (background != null)
 			copy.setBackground(background);
-		}
-		if (color != null) {
+		if (color != null)
 			copy.setColor(color);
-		}
 		return elements.createBox(copy);
 	}
 
-	@Override
 	public int getLeftType() {
 		return elements.getLeftType();
 	}
 
-	@Override
 	public int getRightType() {
 		return elements.getRightType();
 	}
 
-	@Override
 	public void setPreviousAtom(Dummy prev) {
 		elements.setPreviousAtom(prev);
 	}
@@ -148,75 +142,84 @@ public class ColorAtom extends Atom implements Row {
 		return background;
 	}
 
-	public static Color getColor(String s0) {
+	public static Color getColor(String s) {
 		Graphics graphics = new Graphics();
-		if (s0 != null && s0.length() != 0) {
-			String s = s0.trim();
-			if (s.charAt(0) == '#') {
-				return ColorUtil.decode(s);
-			} else if (s.indexOf(',') != -1) {
-				String[] toks = s.split(";|,");
-				int n = toks.length;
-				if (n == 3) {
-					// RGB model
-					try {
-						String R = toks[0].trim();
-						String G = toks[1].trim();
-						String B = toks[2].trim();
+		if (s != null) {
+			s = s.trim();
+			if (s.length() >= 1) {
+				if (s.charAt(0) == '#') {
+					return ColorUtil.decode(s);
+				} else if (s.indexOf(',') != -1 || s.indexOf(';') != -1) {
+					StringTokenizer toks = new StringTokenizer(s, ";,");
+					int n = toks.countTokens();
+					if (n == 3) {
+						// RGB model
+						try {
+							String R = toks.nextToken().trim();
+							String G = toks.nextToken().trim();
+							String B = toks.nextToken().trim();
 
-						double r = Double.parseDouble(R);
-						double g = Double.parseDouble(G);
-						double b = Double.parseDouble(B);
+							double r = Double.parseDouble(R);
+							double g = Double.parseDouble(G);
+							double b = Double.parseDouble(B);
 
-						if (r == (int) r && g == (int) g && b == (int) b
-								&& R.indexOf('.') == -1 && G.indexOf('.') == -1
-								&& B.indexOf('.') == -1) {
-							int ir = (int) Math.min(255, Math.max(0, r));
-							int ig = (int) Math.min(255, Math.max(0, g));
-							int ib = (int) Math.min(255, Math.max(0, b));
-							return graphics.createColor(ir, ig, ib);
+							if (r == (int) r && g == (int) g && b == (int) b
+									&& R.indexOf('.') == -1
+									&& G.indexOf('.') == -1
+									&& B.indexOf('.') == -1) {
+								int ir = (int) Math.min(255, Math.max(0, r));
+								int ig = (int) Math.min(255, Math.max(0, g));
+								int ib = (int) Math.min(255, Math.max(0, b));
+								return graphics.createColor(ir, ig, ib);
+							}
+							r = Math.min(1, Math.max(0, r));
+							g = Math.min(1, Math.max(0, g));
+							b = Math.min(1, Math.max(0, b));
+							return graphics.createColor(r, g, b);
+						} catch (NumberFormatException e) {
+							return ColorUtil.BLACK;
 						}
-						r = Math.min(1, Math.max(0, r));
-						g = Math.min(1, Math.max(0, g));
-						b = Math.min(1, Math.max(0, b));
-						return graphics.createColor(r, g, b);
-					} catch (NumberFormatException e) {
-						return ColorUtil.BLACK;
+					} else if (n == 4) {
+						// CMYK model
+						try {
+							double c = Double
+									.parseDouble(toks.nextToken().trim());
+							double m = Double
+									.parseDouble(toks.nextToken().trim());
+							double y = Double
+									.parseDouble(toks.nextToken().trim());
+							double k = Double
+									.parseDouble(toks.nextToken().trim());
+
+							c = Math.min(1, Math.max(0, c));
+							m = Math.min(1, Math.max(0, m));
+							y = Math.min(1, Math.max(0, y));
+							k = Math.min(1, Math.max(0, k));
+
+							return convColor(c, m, y, k);
+						} catch (NumberFormatException e) {
+							return ColorUtil.BLACK;
+						}
 					}
-				} else if (n == 4) {
-					// CMYK model
+				}
+
+				Color c = Colors.get(s.toLowerCase());
+				if (c != null) {
+					return c;
+				}
+				if (s.indexOf('.') != -1) {
 					try {
-						double c = Double.parseDouble(toks[0].trim());
-						double m = Double.parseDouble(toks[1].trim());
-						double y = Double.parseDouble(toks[2].trim());
-						double k = Double.parseDouble(toks[3].trim());
+						double g = Math.min(1,
+								Math.max(Double.parseDouble(s), 0));
 
-						c = Math.min(1, Math.max(0, c));
-						m = Math.min(1, Math.max(0, m));
-						y = Math.min(1, Math.max(0, y));
-						k = Math.min(1, Math.max(0, k));
-
-						return convColor(c, m, y, k);
+						return graphics.createColor(g, g, g);
 					} catch (NumberFormatException e) {
-						return ColorUtil.BLACK;
+						//
 					}
 				}
-			}
 
-			Color c = Colors.get(s.toLowerCase());
-			if (c != null) {
-				return c;
+				return ColorUtil.decode("#" + s);
 			}
-			if (s.indexOf('.') != -1) {
-				try {
-					double g = Math.min(1, Math.max(Double.parseDouble(s), 0));
-
-					return graphics.createColor(g, g, g);
-				} catch (NumberFormatException e) {
-				}
-			}
-
-			return ColorUtil.decode("#" + s);
 		}
 
 		return ColorUtil.BLACK;
@@ -296,8 +299,8 @@ public class ColorAtom extends Atom implements Row {
 
 	private static Color convColor(final double c, final double m,
 			final double y, final double k) {
-		final double kk = 1 - k;
-		return new Graphics().createColor(kk * (1 - c), kk * (1 - m),
-				kk * (1 - y));
+		final double kk = 1d - k;
+		return new Graphics().createColor(kk * (1d - c), kk * (1d - m),
+				kk * (1d - y));
 	}
 }
