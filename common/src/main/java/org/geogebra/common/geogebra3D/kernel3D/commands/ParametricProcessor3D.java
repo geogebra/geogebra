@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 
@@ -53,7 +54,14 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				return processSurface(exp, fv, label);
 			}
 			GeoNumeric loc = getLocalVar(exp, fv[0]);
-
+			if (exp.getOperation() == Operation.IF) {
+				ExpressionNode exp1 = exp.getRightTree();
+				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
+				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);
+				ExpressionNode cz = VectorArithmetic.computeCoord(exp1, 2);
+				return cartesianCurve(cons, label, exp1, loc,
+						new ExpressionNode[] { cx, cy, cz }, exp.getLeftTree());
+			}
 			ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
 			ExpressionNode cy = VectorArithmetic.computeCoord(exp, 1);
 			ExpressionNode cz = VectorArithmetic.computeCoord(exp, 2);
@@ -87,7 +95,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 					return new GeoElement[] { conic };
 				}
 				return dependentConic(cons, exp, coefX, coefY, coefZ, label,
-						fv[0]);
+						fv[0], true);
 			}
 			for (int i = 0; i < coefX.length; i++) {
 				coefX[i] = new ExpressionNode(kernel, 0);
@@ -152,6 +160,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							&& expr(coefY[i]).isConstant()
 							&& expr(coefZ[i]).isConstant();
 				}
+				Log.printStacktrace("parabola" + constant);
 				if (constant) {
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					updateParabola(conic, coefX, coefY, coefZ);
@@ -162,36 +171,29 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				}
 				//
 				return dependentConic(cons, exp, coefX, coefY, coefZ, label,
-						fv[0]);
+						fv[0], false);
 
 			}
-			checkNumber(cx);
-			checkNumber(cy);
-			checkNumber(cz);
-			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
-			cons.removeFromConstructionList(nx);
-			AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
-			cons.removeFromConstructionList(ny);
-			AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
-			cons.removeFromConstructionList(nz);
-			GeoNumeric from = new GeoNumeric(cons, -10);
-			GeoNumeric to = new GeoNumeric(cons, 10);
-			AlgoCurveCartesian ac = new AlgoCurveCartesian3D(cons, exp,
-					new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
-							nz.getNumber() },
-					loc, from, to);
-			ac.getCurve().setLabel(label);
-			return ac.getOutput();
+			return cartesianCurve(cons, label, exp, loc,
+					new ExpressionNode[] { cx, cy, cz }, null);
 		}
 		return super.processParametricFunction(exp, ev, fv, label, info);
 
 	}
 
+	@Override
+	protected AlgoCurveCartesian makeCurveAlgo(Construction cons,
+			ExpressionNode wrap, GeoNumberValue[] coords, GeoNumeric locVar,
+			GeoNumberValue from, GeoNumberValue to) {
+		return new AlgoCurveCartesian3D(cons, wrap, coords, locVar, from, to);
+	}
+
 	private GeoElement[] dependentConic(Construction cons, ExpressionNode exp,
 			ExpressionValue[] coefX, ExpressionValue[] coefY,
-			ExpressionValue[] coefZ, String label, FunctionVariable fv0) {
+			ExpressionValue[] coefZ, String label, FunctionVariable fv0,
+			boolean trig) {
 		AlgoDependentConic3D ellipseHyperbolaAlgo = new AlgoDependentConic3D(
-				cons, buildParamEq(exp), coefX, coefY, coefZ, true);
+				cons, buildParamEq(exp), coefX, coefY, coefZ, trig);
 		ellipseHyperbolaAlgo.getConic3D().setLabel(label);
 		ellipseHyperbolaAlgo.getConic3D().toParametric(fv0.getSetVarString());
 		return new GeoElement[] { ellipseHyperbolaAlgo.getConic3D() };

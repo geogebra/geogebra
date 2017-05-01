@@ -741,4 +741,10 @@ final public class Geo3DVec extends ValidExpression
 
 	}
 
+	@Override
+	public ExpressionValue getUndefinedCopy(Kernel kernel1) {
+		return kernel1.getManager3D().newGeo3DVec(Double.NaN, Double.NaN,
+				Double.NaN);
+	}
+
 }

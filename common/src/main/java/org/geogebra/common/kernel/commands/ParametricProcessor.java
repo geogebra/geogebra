@@ -231,7 +231,8 @@ public class ParametricProcessor {
 				ExpressionNode exp1 = exp.getRightTree();
 				ExpressionNode cx = VectorArithmetic.computeCoord(exp1, 0);
 				ExpressionNode cy = VectorArithmetic.computeCoord(exp1, 1);
-				return this.cartesianCurve(cons, label, exp1, locVar, cx, cy,
+				return cartesianCurve(cons, label, exp1, locVar,
+						new ExpressionNode[] { cx, cy },
 						exp.getLeftTree());
 			}
 			ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
@@ -343,7 +344,8 @@ public class ParametricProcessor {
 
 				return paramConic(eq, exp, label, fv[0].getSetVarString());
 			}
-			return cartesianCurve(cons, label, exp, locVar, cx, cy, null);
+			return cartesianCurve(cons, label, exp, locVar,
+					new ExpressionNode[] { cx, cy }, null);
 		} else if (ev instanceof Function) {
 			return ap.processFunction((Function) ev, info);
 		} else if (ev instanceof FunctionNVar) {
@@ -357,21 +359,40 @@ public class ParametricProcessor {
 
 	}
 
-	private GeoElement[] cartesianCurve(Construction cons, String label,
-			ExpressionNode exp, GeoNumeric locVar, ExpressionNode cx,
-			ExpressionNode cy, ExpressionNode condition) {
-		checkNumber(cx);
-		checkNumber(cy);
-		AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
-		cons.removeFromConstructionList(nx);
-		AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
-		cons.removeFromConstructionList(ny);
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param exp
+	 *            expression
+	 * @param locVar
+	 *            variable
+	 * @param c
+	 *            coordinates
+	 * @param condition
+	 *            limitation for input variable
+	 * @return curve
+	 */
+	protected GeoElement[] cartesianCurve(Construction cons, String label,
+			ExpressionNode exp, GeoNumeric locVar, ExpressionNode[] c,
+			ExpressionNode condition) {
+		for (int i = 0; i < c.length; i++) {
+			checkNumber(c[i]);
+		}
+		GeoNumberValue[] coords = new GeoNumberValue[c.length];
+		for (int i = 0; i < c.length; i++) {
+			AlgoDependentNumber nx = new AlgoDependentNumber(cons, c[i], false);
+			cons.removeFromConstructionList(nx);
+			coords[i] = nx.getNumber();
+		}
+
 		GeoNumberValue from = null, to = null;
 		if (condition != null) {
 			from = getBound(locVar, condition, true);
 			to = getBound(locVar, condition, false);
 		}
-		boolean trig = cx.has2piPeriodicOperations();
+		boolean trig = c[0].has2piPeriodicOperations();
 		if (from == null) {
 			from = new GeoNumeric(cons, trig ? 0 : -10);
 
@@ -379,12 +400,33 @@ public class ParametricProcessor {
 		if (to == null) {
 			to = trig ? piTimes(2, cons) : new GeoNumeric(cons, 10);
 		}
-		AlgoCurveCartesian ac = new AlgoCurveCartesian(cons,
+		AlgoCurveCartesian ac = makeCurveAlgo(cons,
 				exp.deepCopy(kernel).wrap(),
-				new GeoNumberValue[] { nx.getNumber(), ny.getNumber() }, locVar,
+				coords, locVar,
 				from, to);
 		ac.getCurve().setLabel(label);
 		return ac.getOutput();
+	}
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param wrap
+	 *            expression
+	 * @param coords
+	 *            coords
+	 * @param locVar
+	 *            variable
+	 * @param from
+	 *            min
+	 * @param to
+	 *            max
+	 * @return curve algo
+	 */
+	protected AlgoCurveCartesian makeCurveAlgo(Construction cons,
+			ExpressionNode wrap, GeoNumberValue[] coords, GeoNumeric locVar,
+			GeoNumberValue from, GeoNumberValue to) {
+		return new AlgoCurveCartesian(cons, wrap, coords, locVar, from, to);
 	}
 
 	/**
