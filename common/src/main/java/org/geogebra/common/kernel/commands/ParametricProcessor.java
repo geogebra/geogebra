@@ -222,7 +222,9 @@ public class ParametricProcessor {
 			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
 		if (ev instanceof MyList) {
-			return kernel.getAlgebraProcessor().listExpression(exp).asArray();
+			GeoElement ge = kernel.getAlgebraProcessor().listExpression(exp);
+			ge.setLabel(exp.getLabel());
+			return ge.asArray();
 		}
 		if (fv.length < 2 && ev instanceof VectorValue
 				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
