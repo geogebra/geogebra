@@ -109,15 +109,22 @@ public class ViewMenuW extends GMenuBar {
 						boolean visibleBelow = app
 								.getInputPosition() == InputPosition.algebraView
 								|| !app.showAlgebraInput();
-						app.addToHeight(
-								visibleBelow ? -GLookAndFeelI.COMMAND_LINE_HEIGHT
-										: GLookAndFeelI.COMMAND_LINE_HEIGHT);
+						if (!app.has(
+								Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+							app.addToHeight(visibleBelow
+									? -GLookAndFeelI.COMMAND_LINE_HEIGHT
+									: GLookAndFeelI.COMMAND_LINE_HEIGHT);
+						}
 						app.setShowAlgebraInput(true, false);
 						app.setInputPosition(
 								app.getInputPosition() == InputPosition.algebraView
 										? InputPosition.bottom
 										: InputPosition.algebraView,
 								true);
+						if (app.has(
+								Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+							app.updateSplitPanelHeight();
+						}
 						app.updateCenterPanelAndViews();
 						if (app.getGuiManager() != null
 								&& app.getGuiManager().getLayout() != null) {

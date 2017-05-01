@@ -301,7 +301,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private void removeKeyboard(MathKeyboardListener textField) {
 		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(false);
-		app.addToHeight(keyboardHeight);
+		if (app.has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+			app.updateSplitPanelHeight();
+		} else {
+			app.addToHeight(keyboardHeight);
+		}
 		keyboardHeight = 0;
 		keyBoard.remove(new Runnable() {
 			public void run() {
@@ -377,7 +381,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (keyboardHeight == 0) {
 			keyboardHeight = estimateKeyboardHeight();
 		}
-		app.addToHeight(oldHeight - keyboardHeight);
+		if (app.has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+			app.updateSplitPanelHeight();
+		} else {
+			app.addToHeight(oldHeight - keyboardHeight);
+		}
 		// TODO maybe too expensive?
 		app.updateCenterPanelAndViews();
 		GeoGebraFrameBoth.this.add(keyBoard);
@@ -653,7 +661,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				newHeight = estimateKeyboardHeight();
 			}
 			if (newHeight > 0) {
-				app.addToHeight(this.keyboardHeight - newHeight);
+				if (app.has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
+					app.updateSplitPanelHeight();
+				} else {
+					app.addToHeight(this.keyboardHeight - newHeight);
+				}
 				keyboardHeight = newHeight;
 				app.updateCenterPanelAndViews();
 				GeoGebraFrameBoth.this

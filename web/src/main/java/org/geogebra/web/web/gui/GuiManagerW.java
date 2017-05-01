@@ -1782,11 +1782,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 		
 		if (app.has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
-			if (show) {
-				((AppW) app).addToHeight(-algebraInput.getOffsetHeight());
-			} else {
-				((AppW) app).addToHeight(algebraInput.getOffsetHeight());
-			}
+			app.setShowAlgebraInput(show, false);
+			((AppW) app).updateSplitPanelHeight();
 		}
 		
 		((AppW) app).closePopups();

@@ -293,10 +293,7 @@ public class AppWapplet extends AppWFull {
 		frame.add(inputbar);
 
 		if (has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
-			if (!regenerate) {
-				addToHeight(-inputbar.getOffsetHeight());
-				oldSplitLayoutPanel.setHeight(spHeight + "px");
-			}
+			updateSplitPanelHeight();
 		}
 
 		this.getGuiManager().getAlgebraInput()
@@ -722,7 +719,7 @@ public class AppWapplet extends AppWFull {
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = frame.getOffsetHeight();
+		int newHeight = appletHeight;
 		if (this.showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {
@@ -734,9 +731,9 @@ public class AppWapplet extends AppWFull {
 			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
 		}
 
-		// if (frame.isKeyboardShowing()) {
-		// newHeight -= frame.getKeyboardHeight();
-		// }
+		if (frame.isKeyboardShowing()) {
+			newHeight -= frame.getKeyboardHeight();
+		}
 
 		this.spHeight = newHeight;
 		oldSplitLayoutPanel.setHeight(spHeight + "px");
