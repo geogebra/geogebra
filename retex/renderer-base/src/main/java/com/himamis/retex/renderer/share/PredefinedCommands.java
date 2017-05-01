@@ -1803,6 +1803,13 @@ final class PredefinedCommands {
 			public Object executeMacro(final TeXParser tp, final String[] args) {
 				return PredefMacros.fcscore_macro(args);
 			}
+		},
+		mathnormal(1) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.textstyle_macros(tp, args);
+			}
 		};
 
 		private int numArgs;
