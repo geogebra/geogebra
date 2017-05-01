@@ -285,9 +285,6 @@ public class AppWapplet extends AppWFull {
 	 * Attach algebra input
 	 */
 	public void attachAlgebraInput() {
-		// inputbar's width varies,
-		// so it's probably good to regenerate every time
-		boolean regenerate = getGuiManager().getAlgebraInput() != null;
 		GGWCommandLine inputbar = new GGWCommandLine();
 		inputbar.attachApp(this);
 		frame.add(inputbar);
