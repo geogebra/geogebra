@@ -75,8 +75,8 @@ public class CharBox extends Box {
 	}
 
 	public void addItalicCorrectionToWidth() {
-		// width += italic;
-		// italic = 0;
+		width += italic;
+		italic = 0;
 	}
 
 	@Override

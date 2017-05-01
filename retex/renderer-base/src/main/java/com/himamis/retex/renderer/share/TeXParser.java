@@ -1338,7 +1338,7 @@ public class TeXParser {
 			return new JavaFontRenderingAtom(parseString.substring(start,
 					end + 1), fontInfos);
 		}
-		return new CharAtom(c, formula.textStyle);
+		return new CharAtom(c, ignoreWhiteSpace, formula.textStyle);
 	}
 
 	private String getCommand() {

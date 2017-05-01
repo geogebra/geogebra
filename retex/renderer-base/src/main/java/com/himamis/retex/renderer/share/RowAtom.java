@@ -229,10 +229,11 @@ public class RowAtom extends Atom implements Row {
 			// insert atom's box
 			atom.setPreviousAtom(previousAtom);
 			Box b = atom.createBox(env);
-			if (atom.isCharSymbol() && b instanceof CharBox) {
+			if (atom.isCharInMathMode() && b instanceof CharBox) {
 				// When we've a single char, we need to add italic correction
 				// As an example: (TVY) looks crappy...
-				((CharBox) b).addItalicCorrectionToWidth();
+				CharBox cb = (CharBox) b;
+				cb.addItalicCorrectionToWidth();
 			}
 			if (markAdded || (at instanceof CharAtom && Character.isDigit(((CharAtom) at).getCharacter()))) {
 				hBox.addBreakPosition(hBox.children.size());

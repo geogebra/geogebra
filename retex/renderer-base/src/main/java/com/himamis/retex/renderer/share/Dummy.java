@@ -108,6 +108,10 @@ public class Dummy {
 		return el instanceof CharSymbol;
 	}
 
+	public boolean isCharInMathMode() {
+		return el instanceof CharAtom && ((CharAtom) el).isMathMode();
+	}
+
 	/**
 	 * This method will only be called if isCharSymbol returns true.
 	 */

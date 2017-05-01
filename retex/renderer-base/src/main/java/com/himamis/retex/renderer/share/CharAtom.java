@@ -57,10 +57,11 @@ public class CharAtom extends CharSymbol {
 
 	// text style (null means the default text style)
 	private String textStyle;
+	private boolean mathMode;
 
 	@Override
 	final public Atom duplicate() {
-		return setFields(new CharAtom(c, textStyle, textSymbol));
+		return setFields(new CharAtom(c, textStyle, textSymbol, mathMode));
 	}
 
 	/**
@@ -75,9 +76,26 @@ public class CharAtom extends CharSymbol {
 		this.textStyle = textStyle;
 	}
 
+	public CharAtom(char c, boolean mathMode, String textStyle) {
+		this.c = c;
+		this.textStyle = textStyle;
+		this.mathMode = mathMode;
+	}
+
+	public boolean isMathMode() {
+		return mathMode;
+	}
+
 	public CharAtom(char c, String textStyle, boolean textSymbol) {
 		this(c, textStyle);
 		this.textSymbol = textSymbol;
+	}
+
+	public CharAtom(char c, String textStyle, boolean textSymbol,
+			boolean mathMode) {
+		this(c, textStyle);
+		this.textSymbol = textSymbol;
+		this.mathMode = mathMode;
 	}
 
 	@Override
