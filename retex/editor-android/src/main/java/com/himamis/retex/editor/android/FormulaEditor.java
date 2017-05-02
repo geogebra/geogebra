@@ -305,7 +305,7 @@ public class FormulaEditor extends View implements MathField {
 
     }
 
-    private void updateShiftX() {
+    protected void updateShiftX() {
 
         int inputBarWidth = getVisibleWidth();
 
