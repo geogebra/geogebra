@@ -135,13 +135,28 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			removeStyleName("error");
 		}
 		if (!textInput) {
-			btn.getUpFace().setImage(new NoDragImage(
-					warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
-							.asString()	: img,24));
-			btn.getDownFace().setImage(new NoDragImage(
-					warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
-							.asString() : img,
-							24));
+			if (warning) {
+				NoDragImage warnIcon = new NoDragImage(
+						GuiResourcesSimple.INSTANCE.icon_dialog_warning().getSafeUri()
+						.asString());
+				
+				btn.getUpFace().setImage(warnIcon);
+				btn.getUpHoveringFace().setImage(warnIcon);
+				btn.getDownFace().setImage(warnIcon);
+				btn.getDownHoveringFace().setImage(warnIcon);
+					
+			} else {
+				btn.getUpFace().setImage(new NoDragImage(img,24));
+				btn.getDownFace().setImage(new NoDragImage(img,	24));
+				if (btn == btnPlus) {
+					NoDragImage hover = new NoDragImage(
+							GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
+							.asString(), 24);
+					btn.getUpHoveringFace().setImage(hover);
+					btn.getDownHoveringFace().setImage(hover);
+					
+				}
+			}
 		}
 
 	}
@@ -233,6 +248,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				.asString(), 24);
 		
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
+		btnPlus.getDownHoveringFace().setImage(hoverImg);
 
 			}
  
