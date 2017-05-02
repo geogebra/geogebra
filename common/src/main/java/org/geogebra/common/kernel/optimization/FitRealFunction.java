@@ -127,7 +127,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	@Override
 	public final double[] gradient(double x, double[] pars) {
 		double oldf, newf1;
-		double deltap = 1.0E-5;// 1E-10 and 1E-15 is far too small, keep E-5
+		double deltap = 1.0E-8;// 1E-10 and 1E-15 is far too small, keep E-5
 								// until search algo is made
 		double[] gradient = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
