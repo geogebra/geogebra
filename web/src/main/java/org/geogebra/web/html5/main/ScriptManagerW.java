@@ -939,6 +939,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.copyTextToClipboard = function(text) {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::copyTextToClipboard(Ljava/lang/String;)(text+"");
 		};
+		
+		api.evalLaTeX = function(text,mode) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalLaTeX(Ljava/lang/String;I)(text+"",mode);
+		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;

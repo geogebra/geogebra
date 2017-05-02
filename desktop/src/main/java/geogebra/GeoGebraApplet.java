@@ -1045,4 +1045,8 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	public boolean isTracing(String objName) {
 		return getGgbApi().isTracing(objName);
 	}
+
+	public void evalLaTeX(String input, int mode) {
+		getGgbApi().evalLaTeX(input, mode);
+	}
 }

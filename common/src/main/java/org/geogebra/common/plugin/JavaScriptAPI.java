@@ -825,4 +825,6 @@ public interface JavaScriptAPI {
 	 * @return name of given tool.
 	 */
 	public String getToolName(int mode);
+
+	public void evalLaTeX(String input, int mode);
 }

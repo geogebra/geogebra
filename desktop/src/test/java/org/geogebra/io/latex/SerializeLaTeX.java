@@ -3,6 +3,7 @@ package org.geogebra.io.latex;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
+import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.geogebra.common.util.lang.Unicode;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -170,7 +171,7 @@ public class SerializeLaTeX {
 		TeXFormula tf = new TeXFormula();
 		TeXParser tp = new TeXParser(string, tf);
 		tp.parse();
-		Assert.assertEquals(string2, GeoGebraSerializer.serialize(tf.root));
+		Assert.assertEquals(string2, TeXAtomSerializer.serialize(tf.root));
 	}
 
 	private static void checkCannon(String input, String output) {

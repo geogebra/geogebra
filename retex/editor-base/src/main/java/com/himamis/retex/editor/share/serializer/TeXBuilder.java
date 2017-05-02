@@ -14,9 +14,11 @@ import com.himamis.retex.renderer.share.CursorAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
+import com.himamis.retex.renderer.share.NthRoot;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SelectionAtom;
+import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -72,7 +74,7 @@ public class TeXBuilder {
 				ra.add(sa);
 				i = selectionEnd.getParentIndex();
 			} else {
-				ra.add(build(mathFormula.getArgument(i)));
+				addArg(ra, mathFormula.getArgument(i));
 			}
 			
 			if (mathFormula == currentField && i == currentOffset - 1
@@ -89,6 +91,17 @@ public class TeXBuilder {
 
 	}
 
+	private void addArg(RowAtom ra, MathComponent argument) {
+		if (argument instanceof MathCharacter
+				&& ((MathCharacter) argument).getUnicode() == '=') {
+			ra.add(space());
+			ra.add(build(argument));
+			ra.add(space());
+		} else {
+			ra.add(build(argument));
+		}
+
+	}
 	private static void addCursor(RowAtom ra) {
 		ra.add(new CursorAtom(FactoryProvider.getInstance().getGraphicsFactory()
 				.createColor(0, 80, 0), 0.9));
@@ -126,6 +139,11 @@ public class TeXBuilder {
 		}
 		return ret;
 	}
+
+	private Atom space() {
+		return new SpaceAtom();
+	}
+
 	private Atom buildArray(MathArray argument) {
 		String leftKey = "lbrack";
 		if (argument.getOpenKey() == '[') {
@@ -152,7 +170,7 @@ public class TeXBuilder {
 			if (i > 0) {
 				row.add(newCharAtom(','));
 			}
-			row.add(build(argument.getArgument(i)));
+			addArg(row, argument.getArgument(i));
 		}
 		return new FencedAtom(row,
 				new SymbolAtom(leftKey, TeXConstants.TYPE_OPENING, true),
@@ -175,6 +193,13 @@ public class TeXBuilder {
 			return new FractionAtom(
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1)));
+		}
+		if ("sqrt".equals(argument.getName())) {
+			return new NthRoot(build(argument.getArgument(0)), new EmptyAtom());
+		}
+		if ("nroot".equals(argument.getName())) {
+			return new NthRoot(build(argument.getArgument(1)),
+					build(argument.getArgument(0)));
 		}
 		RowAtom row = new RowAtom(null);
 		for (int i = 0; i < argument.getName().length(); i++) {
