@@ -101,6 +101,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -286,7 +288,10 @@ public class AlgebraProcessor {
 			try {
 				// update construction order and
 				// rebuild construction using XML
+				app.getScriptManager().disableListeners();
 				cons.changeCasCell(casCell);
+				app.getScriptManager().enableListeners();
+				app.dispatchEvent(new Event(EventType.UPDATE, casCell));
 				// the changeCasCell command computes the output
 				// so we don't need to call computeOutput,
 				// which also causes marble crashes
@@ -294,9 +299,13 @@ public class AlgebraProcessor {
 				// casCell.computeOutput();
 				// casCell.updateCascade();
 			} catch (Exception e) {
+				app.getScriptManager().enableListeners();
 				e.printStackTrace();
 				casCell.setError("RedefinitionFailed");
 				// app.showError(e.getMessage());
+			} catch (Error er) {
+				app.getScriptManager().enableListeners();
+				throw er;
 			}
 		} else {
 			casCell.notifyAdd();
