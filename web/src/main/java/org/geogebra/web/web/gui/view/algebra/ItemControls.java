@@ -1,13 +1,17 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -35,6 +39,8 @@ public class ItemControls extends FlowPanel {
 	/** animation controls */
 	protected AnimPanel animPanel;
 
+	private ContextMenuMore cmMore = null;
+	
 	/**
 	 * @param radioTreeItem
 	 *            parent item
@@ -90,16 +96,31 @@ public class ItemControls extends FlowPanel {
 					GuiResources.INSTANCE.dots_hover()));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
-			btnMore.addMouseDownHandler(new MouseDownHandler() {
+			ClickStartHandler.init(btnMore, new ClickStartHandler() {
+			
 				@Override
-				public void onMouseDown(MouseDownEvent event) {
-					if (event
-							.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-						return;
+				public void onClickStart(int x, int y, PointerEventType type) {
+					if (cmMore == null) {
+						cmMore = new ContextMenuMore(radioTreeItem);
 					}
-					event.stopPropagation();
+					radioTreeItem.cancelEditing();
+					cmMore.show(btnMore.getAbsoluteLeft(),
+							btnMore.getAbsoluteTop() - 8);
 				}
+				
 			});
+//
+//			btnMore.addMouseDownHandler(new MouseDownHandler() {
+//				@Override
+//				public void onMouseDown(MouseDownEvent event) {
+//					if (event
+//							.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+//						return;
+//					}
+//					
+//					event.stopPropagation();
+//				}
+//			});
 		}
 		return btnMore;
 
@@ -302,6 +323,8 @@ public class ItemControls extends FlowPanel {
 			}
 		});
 	}
+	
+
 
 	/**
 	 * @return controller
