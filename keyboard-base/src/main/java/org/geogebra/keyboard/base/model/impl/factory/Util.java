@@ -14,6 +14,10 @@ class Util {
         row.addButton(button);
     }
 
+    static void addCustomButton(RowImpl row, ButtonFactory buttonFactory, String resource, Action action) {
+        addCustomButton(row, buttonFactory, resource, action.name());
+    }
+
     static void addCustomButton(RowImpl row, ButtonFactory buttonFactory, String resource, String action) {
         addButton(row, buttonFactory.createCustomButton(resource, action));
     }
@@ -32,6 +36,10 @@ class Util {
 
     static void addInputButton(RowImpl row, ButtonFactory buttonFactory, String name) {
         addInputButton(row, buttonFactory, name, 1.0f);
+    }
+
+    static void addInputButton(RowImpl row, ButtonFactory buttonFactory, char name) {
+        addInputButton(row, buttonFactory, String.valueOf(name));
     }
 
     static void addConstantInputButton(RowImpl row, ButtonFactory buttonFactory, String name, String action, float weight) {
