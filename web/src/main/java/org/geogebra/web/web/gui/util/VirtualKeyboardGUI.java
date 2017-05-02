@@ -17,7 +17,4 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 	void setListener(UpdateKeyBoardListener listener);
 
 	void remove(Runnable runnable);
-
-	void checkLanguage();
-
 }
