@@ -28,6 +28,9 @@ public class ItemControls extends FlowPanel {
 	/** Deletes the whole item */
 	protected PushButton btnDelete;
 
+	/** opens context menu */
+	protected PushButton btnMore;
+
 
 	/** animation controls */
 	protected AnimPanel animPanel;
@@ -74,6 +77,35 @@ public class ItemControls extends FlowPanel {
 	}
 
 	/**
+	 * 
+	 * @return The more button which opens the context menu.
+	 */
+	public PushButton getMoreButton() {
+		if (btnMore == null) {
+			btnMore = new PushButton(
+					new Image(GuiResources.INSTANCE.dots()));
+			btnMore.getUpHoveringFace().setImage(new Image(
+					GuiResources.INSTANCE.dots_hover()));
+			btnMore.getDownFace().setImage(new Image(
+					GuiResources.INSTANCE.dots_hover()));
+			btnMore.addStyleName("XButton");
+			btnMore.addStyleName("shown");
+			btnMore.addMouseDownHandler(new MouseDownHandler() {
+				@Override
+				public void onMouseDown(MouseDownEvent event) {
+					if (event
+							.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+						return;
+					}
+					event.stopPropagation();
+				}
+			});
+		}
+		return btnMore;
+
+	}
+
+	/**
 	 * @param value
 	 *            whether to show animation panel
 	 */
@@ -99,8 +131,11 @@ public class ItemControls extends FlowPanel {
 			showAnimPanel(false);
 		}
 
-		add(getDeleteButton());
+		add(hasMoreMenu() ? getMoreButton(): getDeleteButton());
+	}
 
+	private boolean hasMoreMenu() {
+		return radioTreeItem.app.has(Feature.AV_MORE_MENU);
 	}
 
 	/**
@@ -157,7 +192,7 @@ public class ItemControls extends FlowPanel {
 				add(radioTreeItem.getPButton());
 			}
 			if (showX) {
-				add(getDeleteButton());
+				add(hasMoreMenu() ? getMoreButton(): getDeleteButton());
 			}
 
 			setVisible(true);
