@@ -113,4 +113,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void onScreenEditingEnded();
 
 	void setActivePanelAndToolbar(int viewID);
+
+	public void updateKeyboardLanguage();
 }

@@ -122,7 +122,6 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
 import org.geogebra.web.resources.JavaScriptInjector;
-import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -541,7 +540,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	void updateKeyboardLanguage() {
-		// ((GuiManagerW) getGuiManager()).updateKeyboardLanguage();
+		getGuiManager().updateKeyboardLanguage();
 	}
 
 
