@@ -56,7 +56,7 @@ public class Derivative {
 			return wrap(left.derivative(fv, kernel0));
 		case DIVIDE:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left).derivative(fv, kernel0).divide(right);
+				return wrap(left).derivative(fv, kernel0).divideSimplify(right);
 			}
 			if (right.isExpressionNode()
 					&& ((ExpressionNode) right)
@@ -271,7 +271,7 @@ public class Derivative {
 			// kernel)).multiply(wrap(left).power(-2d/3d)).divide(3);
 			// correct domain
 			return wrap(left.derivative(fv, kernel0))
-					.divide(wrap(left).square().cbrt()).divide(3);
+					.divideSimplify(wrap(left).square().cbrt()).divide(3);
 
 		case FUNCTION:
 			if (left instanceof GeoFunction) {
@@ -471,7 +471,7 @@ public class Derivative {
 		return wrap(left).power(right).multiply(
 				wrap(right.derivative(fv, kernel0)).multiply(wrap(left).ln())
 						.plus(wrap(right).multiply(left.derivative(fv, kernel0))
-								.divide(left)));
+								.divideSimplify(left)));
 	}
 
 	private static ExpressionNode derivativeConstantPower(ExpressionValue left,
