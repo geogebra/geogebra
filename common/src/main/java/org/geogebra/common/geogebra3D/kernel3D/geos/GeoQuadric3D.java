@@ -42,8 +42,10 @@ import org.geogebra.common.util.debug.Log;
  * 
  * @author Mathieu
  * 
- *         ( A[0] A[4] A[5] A[7]) matrix = ( A[4] A[1] A[6] A[8]) ( A[5] A[6]
- *         A[2] A[9]) ( A[7] A[8] A[9] A[3])
+ *                  ( A[0] A[4] A[5] A[7]) 
+ *         matrix = ( A[4] A[1] A[6] A[8]) 
+ *                  ( A[5] A[6] A[2] A[9]) 
+ *                  ( A[7] A[8] A[9] A[3])
  * 
  */
 public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
@@ -143,6 +145,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		if (!defined) {
 			return;
 		}
+		
+		double max = Math.abs(matrix[0]);
+		for (int i = 1 ; i < 3 ; i++){
+			double v = Math.abs(matrix[i]);
+			if (v > max) {
+				max = v;
+			}
+		}
+		for (int i = 4 ; i < 7 ; i++){
+			double v = Math.abs(matrix[i]);
+			if (v > max) {
+				max = v;
+			}
+		}
 
 		// det of S
 		detS = matrix[0] * matrix[1] * matrix[2]
@@ -151,7 +167,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				- matrix[2] * matrix[4] * matrix[4]
 				+ 2 * matrix[4] * matrix[5] * matrix[6];
 
-		if (Kernel.isZero(detS)) {
+		double v =  max * max * max;
+
+		if (Kernel.isEpsilonWithPrecision(detS, v, Kernel.STANDARD_PRECISION_CUBE)) {
 			classifyNoMidpointQuadric();
 		} else {
 			classifyMidpointQuadric();
@@ -1063,6 +1081,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	private void ellipsoid(double beta) {
 
+		Log.debug(eigenval[0]+","+eigenval[1]+","+eigenval[2]+","+beta);
+		
 		// sphere
 		if (Kernel.isEqual(eigenval[0] / eigenval[1], 1.0)
 				&& Kernel.isEqual(eigenval[0] / eigenval[2], 1.0)) {

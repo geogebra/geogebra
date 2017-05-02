@@ -247,6 +247,8 @@ public class Kernel {
 	public final static double STANDARD_PRECISION_SQRT = 1E-4;
 	/** square of standard precision */
 	public final static double STANDARD_PRECISION_SQUARE = 1E-16;
+	/** cube of standard precision */
+	public final static double STANDARD_PRECISION_CUBE = 1E-24;
 
 	/** minimum precision */
 	public final static double MIN_PRECISION = 1E-5;
@@ -2245,14 +2247,26 @@ public class Kernel {
 	 * @return
 	 */
 	final public static boolean isEpsilon(double e, double x) {
+		return isEpsilonWithPrecision(e, x, STANDARD_PRECISION);
+	}
+	
+	/**
+	 * 
+	 * check if e is zero in comparison to eps and x
+	 * 
+	 * @param e
+	 * @param x
+	 * @return
+	 */
+	final public static boolean isEpsilonWithPrecision(double e, double x, double eps) {
 
 		double eAbs = Math.abs(e);
 
-		if (eAbs > STANDARD_PRECISION) {
+		if (eAbs > eps) {
 			return false;
 		}
 
-		if (eAbs > Math.abs(x) * STANDARD_PRECISION) {
+		if (eAbs > Math.abs(x) * eps) {
 			return false;
 		}
 
