@@ -222,7 +222,7 @@ public class Ggb2giac {
 		// (4x+3y-1)[2] = 3y
 		// (4x+3y-1)[3] = -1
 		p("Element.2",
-				"[[[ggbelarg0:=%0], [ggbelarg1:=%1]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,(ggbelarg0)[ggbelarg1],?))][1]");
+				"[[[ggbelarg0:=%0], [ggbelarg1:=%1]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,when(ggbelarg0[0]=='pnt',?,(ggbelarg0)[ggbelarg1]),?))][1]");
 
 		// if %0[0]=='=' then %0[%1] else when(...) fi;
 
