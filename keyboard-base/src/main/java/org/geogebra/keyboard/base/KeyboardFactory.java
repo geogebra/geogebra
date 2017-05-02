@@ -58,7 +58,7 @@ public class KeyboardFactory {
      * @param topRow    a list of characters that will be the buttons of the top row
      * @param middleRow a list of characters that will the buttons of the middle row
      * @param bottomRow a list of characters that will be the buttons of the last row
-     * @return
+     * @return letter keyboard
      */
     public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
         AccentModifier accentModifier = new AccentModifier();
@@ -66,5 +66,16 @@ public class KeyboardFactory {
         ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
         KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
+    }
+
+    /**
+     * Creates a special symbols keyboard with symbols control buttons,
+     * and a button to switch to the letters keyboard.
+     *
+     * @return special symbols keyboard
+     */
+    public Keyboard createSpecialSymbolsKeyboard() {
+        KeyboardModel model = keyboardModelFactory.createSpecialSymbolsKeyboard(defaultButtonFactory);
+        return new KeyboardImpl(model, null, null);
     }
 }

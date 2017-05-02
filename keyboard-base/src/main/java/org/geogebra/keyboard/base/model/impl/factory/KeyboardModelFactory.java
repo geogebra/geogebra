@@ -12,6 +12,7 @@ public class KeyboardModelFactory {
     private GreekKeyboardFactory greekKeyboardFactory;
     private FunctionKeyboardFactory functionKeyboardFactory;
     private LetterKeyboardFactory letterKeyboardFactory;
+    private SpecialSymbolsKeyboardFactory specialSymbolsKeyboardFactory;
 
     public KeyboardModel createMathKeyboard(ButtonFactory buttonFactory) {
         if (mathKeyboardFactory == null) {
@@ -39,5 +40,12 @@ public class KeyboardModelFactory {
             letterKeyboardFactory = new LetterKeyboardFactory();
         }
         return letterKeyboardFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
+    }
+
+    public KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
+        if (specialSymbolsKeyboardFactory == null) {
+            specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory();
+        }
+        return specialSymbolsKeyboardFactory.createSpecialSymbolsKeyboard(buttonFactory);
     }
 }
