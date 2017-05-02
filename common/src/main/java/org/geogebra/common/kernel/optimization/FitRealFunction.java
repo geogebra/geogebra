@@ -1,7 +1,14 @@
 package org.geogebra.common.kernel.optimization;
 
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
 /* 
  GeoGebra - Dynamic Mathematics for Everyone
  http://www.geogebra.org
@@ -13,17 +20,9 @@ import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
  the Free Software Foundation.
 
  */
-
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * <h3>FitRealFunction</h3>
@@ -78,7 +77,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	private Function newf = null;
 	private double lastvalue = 0.0d;
 	private MyDouble[] mydoubles = null;
-	public boolean parametersOK = true;
+	private boolean parametersOK = true;
 
 	// / --- Interface --- ///
 
@@ -107,7 +106,7 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 * @return functionvalue
 	 */
 	@Override
-	public final double value(double x, double[] pars) {
+	public final double value(double x, double... pars) {
 		for (int i = 0; i < numberOfParameters; i++) {
 			mydoubles[i].set(pars[i]);
 			// mydoubles[i].setLabel("p_{"+i+"}");
@@ -117,7 +116,11 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	}// evaluate(x,pars[])
 
 	/**
-	 * Implementing org.apache...fitting.ParametricUnivariateFunction
+	 * Returns array of partial derivatives with respect to parameters.
+	 * 
+	 * Derivatives are approximated numerically, the step for given slider is
+	 * 
+	 * max(1E-5, 0.01 * slider step)
 	 * 
 	 * @param x
 	 *            double variable
@@ -125,21 +128,35 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 	 *            double[] parameters
 	 */
 	@Override
-	public final double[] gradient(double x, double[] pars) {
+	public final double[] gradient(double x, double... pars) {
 		double oldf, newf1;
-		double deltap = 1.0E-8;// 1E-10 and 1E-15 is far too small, keep E-5
+		double deltap = 1.0E-5;// 1E-10 and 1E-15 is far too small, keep E-5
 								// until search algo is made
 		double[] gradient = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
 			oldf = value(x, pars);
-			pars[i] += deltap;
+			double old = pars[i];
+			double deltaI = deltap;
+			if (gliders[i] instanceof GeoNumeric) {
+				double step = ((GeoNumeric) gliders[i]).getAnimationStep();
+				if (step > 1E-13) {
+					deltaI = Math.min(step * 0.01, deltap);
+				}
+			}
+			pars[i] += deltaI;
 			newf1 = value(x, pars);
 			gradient[i] = (newf1 - oldf) / deltap;
-			pars[i] -= deltap;
-		} // for all parameters
+			pars[i] = old;
+		}
 		return gradient;
-	}// gradient(x,pars)
+	}
 
+	/**
+	 * Converts function to FitRealFunction
+	 * 
+	 * @param f
+	 *            function depending on GeoNumeric parameters
+	 */
 	public void setFunction(Function f) {
 		kernel = f.getKernel();
 		FunctionVariable fvar = f.getFunctionVariable();
@@ -227,5 +244,8 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		return mydoubles;
 	}
 
+	public boolean isParametersOK() {
+		return parametersOK;
+	}
 
 }// Class FitRealFunction

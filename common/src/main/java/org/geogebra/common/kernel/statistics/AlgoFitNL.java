@@ -1,20 +1,6 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-
-/* 
-GeoGebra - Dynamic Mathematics for Everyone
-http://www.geogebra.org
-
-This file is part of GeoGebra.
-
-This program is free software; you can redistribute it and/or modify it 
-under the terms of the GNU General Public License as published by 
-the Free Software Foundation.
-
-*/
-
-import org.apache.commons.math3.fitting.CurveFitter;
 import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -26,6 +12,18 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.FitRealFunction;
 import org.geogebra.common.util.debug.Log;
+/* 
+GeoGebra - Dynamic Mathematics for Everyone
+http://www.geogebra.org
+
+This file is part of GeoGebra.
+
+This program is free software; you can redistribute it and/or modify it 
+under the terms of the GNU General Public License as published by 
+the Free Software Foundation.
+
+*/
+import org.apache.commons.math3.fitting.CurveFitter;
 
 /**
  * <pre>
@@ -148,7 +146,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 			// parameters instead of GeoNumerics
 			prfunction = new FitRealFunction(inputfunction.getFunction());
 
-			if (!prfunction.parametersOK) {
+			if (!prfunction.isParametersOK()) {
 				outputfunction.setUndefined();
 				return;
 			}
