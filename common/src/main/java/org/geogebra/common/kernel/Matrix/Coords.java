@@ -2525,6 +2525,24 @@ public class Coords {
 		val[1] *= sy;
 		val[2] *= sz;
 	}
+	
+	/**
+	 * mul coords by x, y, z factors
+	 * 
+	 * @param coords
+	 *            coords
+	 * @param sx
+	 *            x scale
+	 * @param sy
+	 *            y scale
+	 * @param sz
+	 *            z scale
+	 */
+	public void setMul(Coords coords, double sx, double sy, double sz) {
+		val[0] = coords.val[0] * sx;
+		val[1] = coords.val[1] * sy;
+		val[2] = coords.val[2] * sz;
+	}
 
 	@Override
 	public String toString() {

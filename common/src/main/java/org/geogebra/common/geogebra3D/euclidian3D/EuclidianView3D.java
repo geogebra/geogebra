@@ -4773,6 +4773,18 @@ public abstract class EuclidianView3D extends EuclidianView
 				settings.getXYscale());
 		coords.normalizeIfPossible();
 	}
+	
+	@Override
+	public boolean scaleAndNormalizeNormalXYZ(Coords coords, Coords ret) {
+		EuclidianSettings3D settings = getSettings();
+		if (settings.hasSameScales()) {
+			return false;
+		}
+		ret.setMul(coords, settings.getYZscale(), settings.getZXscale(),
+				settings.getXYscale());
+		ret.normalize();
+		return true;
+	}
 
 	/**
 	 * TODO remove this (not needed after Feature.DIFFERENT_AXIS_RATIO_3D)

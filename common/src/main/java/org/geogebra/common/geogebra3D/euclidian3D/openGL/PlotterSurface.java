@@ -967,7 +967,7 @@ public class PlotterSurface {
 
 		manager.setDummyTexture();
 		tmpCoords.setCrossProduct(v1, v2);
-		manager.normal(tmpCoords);
+		manager.normalToScale(tmpCoords);
 
 		tmpCoords.setAdd(center, tmpCoords.setMul(v1, l1));
 		tmpCoords2.setAdd(tmpCoords, tmpCoords2.setMul(v2, l2));
@@ -1039,7 +1039,7 @@ public class PlotterSurface {
 		float da = (float) (extent * dt);
 
 		manager.setDummyTexture();
-		manager.normal(v1.crossProduct(v2));
+		manager.normalToScale(v1.crossProduct(v2));
 
 		u = (float) Math.cos(start);
 		v = (float) Math.sin(start);
@@ -1160,14 +1160,14 @@ public class PlotterSurface {
 			if (fading < 1) {
 				manager.texture(0, fading);
 			}
-			manager.normal(n);
+			manager.normalToScale(n);
 			manager.vertexToScale(center);
 
 			// point on circle
 			if (fading < 1) {
 				manager.texture(0, 1);
 			}
-			manager.normal(n);
+			manager.normalToScale(n);
 			manager.vertexToScale(tmpCoords2.setAdd(center2, m));
 		}
 
@@ -1246,7 +1246,7 @@ public class PlotterSurface {
 					manager.texture(0, 0);
 				}
 			}
-			manager.normal(n);
+			manager.normalToScale(n);
 			manager.vertexToScale(
 					tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, rmax)));
 
@@ -1258,7 +1258,7 @@ public class PlotterSurface {
 					manager.texture(0, 0);
 				}
 			}
-			manager.normal(n);
+			manager.normalToScale(n);
 			manager.vertexToScale(
 					tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, rmin)));
 
@@ -1319,7 +1319,7 @@ public class PlotterSurface {
 			tmpCoords3.setAdd(tmpCoords.setMul(vx, r1 * c),
 					tmpCoords2.setMul(vy, r2 * s));
 
-			manager.normal(n);
+			manager.normalToScale(n);
 			manager.vertexToScale(tmpCoords.setAdd(center2, tmpCoords3));
 			// point on bottom circle
 			if (fading) {
@@ -1329,7 +1329,7 @@ public class PlotterSurface {
 					manager.texture(0, 0);
 				}
 			}
-			manager.normal(n);
+			manager.normalToScale(n);
 			manager.vertexToScale(tmpCoords.setAdd(center1, tmpCoords3));
 
 		}
@@ -1364,7 +1364,7 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
 		manager.texture(0, 0);
-		manager.normal(v1.crossProduct(v2));
+		manager.normalToScale(v1.crossProduct(v2));
 
 		int longitude = manager.getLongitudeDefault();
 
@@ -1423,7 +1423,7 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLE_FAN);
 
 		manager.texture(0, 0);
-		manager.normal(v1.crossProduct(v2));
+		manager.normalToScale(v1.crossProduct(v2));
 
 		int longitude = manager.getLongitudeDefault();
 
@@ -1520,7 +1520,7 @@ public class PlotterSurface {
 	}
 
 	public void drawNV(Coords normal, Coords point) {
-		manager.normal(normal);
+		manager.normalToScale(normal);
 		manager.vertexToScale(point);
 	}
 

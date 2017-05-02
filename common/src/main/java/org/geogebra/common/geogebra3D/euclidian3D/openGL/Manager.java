@@ -240,7 +240,7 @@ abstract public class Manager {
 		setDummyTexture();
 
 		// set normal
-		normal(n);
+		normalToScale(n);
 
 		triangleFanApex(v[0]);
 
@@ -280,7 +280,7 @@ abstract public class Manager {
 		setDummyTexture();
 
 		// set normal
-		normal(n);
+		normalToScale(n);
 
 		// fan apex
 		triangleFanApex(v[triFan.getApexPoint()]);
@@ -459,6 +459,26 @@ abstract public class Manager {
 	 */
 	protected void normal(Coords n) {
 		normal(n.getX(), n.getY(), n.getZ());
+	}
+	
+	private Coords normalToScaleTmp = new Coords(3);
+	
+	/**
+	 * scale normal and draw it
+	 * 
+	 * @param n
+	 *            normal
+	 */
+	final protected void normalToScale(Coords n) {
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			if (scalerXYZ.scaleAndNormalizeNormalXYZ(n, normalToScaleTmp)){
+				normal(normalToScaleTmp);
+			} else {
+				normal(n);
+			}
+		} else {
+			normal(n);
+		}
 	}
 
 	/**
@@ -695,6 +715,17 @@ abstract public class Manager {
 		 *            coords
 		 */
 		public void scaleXYZ(Coords coords);
+		
+		
+		/**
+		 * scale and normalize x, y, z values
+		 * 
+		 * @param coords
+		 *            coords
+		 *            
+		 * @return false if nothing scaled (then use coords instead of ret)
+		 */
+		public boolean scaleAndNormalizeNormalXYZ(Coords coords, Coords ret);
 
 		/**
 		 * @return scale on x-axis
@@ -719,6 +750,12 @@ abstract public class Manager {
 		@Override
 		public void scaleXYZ(Coords coords) {
 			// do nothing
+		}
+		
+		@Override
+		public boolean scaleAndNormalizeNormalXYZ(Coords coords, Coords ret) {
+			// do nothing
+			return false;
 		}
 
 		@Override

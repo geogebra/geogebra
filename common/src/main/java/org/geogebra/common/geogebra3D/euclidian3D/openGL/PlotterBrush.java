@@ -293,7 +293,7 @@ public class PlotterBrush implements PathPlotter {
 		s.getNormalAndPosition(u, v, drawNormal, drawPos);
 
 		// set normal
-		manager.normal(drawNormal);
+		manager.normalToScale(drawNormal);
 
 		// set texture
 		float pos = textureX[texture];

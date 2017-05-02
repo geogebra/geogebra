@@ -55,7 +55,7 @@ public class PlotterMouseCursor {
 		// lines
 		index = manager.startNewList(-1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		manager.normal(n);
+		manager.normalToScale(n);
 		vertexBlack(manager, a[0]);
 		vertexBlack(manager, b[0]);
 		vertexBlack(manager, b[1]);

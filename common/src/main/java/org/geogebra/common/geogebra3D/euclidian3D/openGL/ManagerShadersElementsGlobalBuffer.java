@@ -428,7 +428,7 @@ public class ManagerShadersElementsGlobalBuffer
 		setDummyTexture();
 
 		// set normal
-		normal(n);
+		normalToScale(n);
 
 		// set vertices
 		for (int i = 0; i < length; i++) {
@@ -453,7 +453,7 @@ public class ManagerShadersElementsGlobalBuffer
 		setDummyTexture();
 
 		// set normal
-		normal(n);
+		normalToScale(n);
 
 		// set vertices
 		for (int i = 0; i < length; i++) {
