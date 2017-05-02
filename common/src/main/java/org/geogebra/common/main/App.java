@@ -4207,6 +4207,9 @@ public abstract class App implements UpdateSelection {
 		case AV_CONTEXT_MENU:
 			return prerelease;
 
+		case AV_MORE_MENU:
+			return prerelease;
+
 		case AV_PLUS:
 			return prerelease;
 
