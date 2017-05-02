@@ -1190,7 +1190,7 @@ public abstract class KBBase extends PopupPanel {
 	 * from the last loaded language and sets the {@link #keyboardLocale} to the
 	 * new language
 	 */
-	protected void checkLanguage() {
+	public void checkLanguage() {
 		String locale = app.getLocalization().getLocaleStr();
 		String newKeyboardLocale = supportedLocales.get(locale);
 

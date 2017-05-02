@@ -543,7 +543,7 @@ public class TabbedKeyboard extends FlowPanel {
 	 * from the last loaded language and sets the {@link #keyboardLocale} to the
 	 * new language
 	 */
-	protected void checkLanguage() {
+	public void checkLanguage() {
 		switcher.reset();
 		if (bh == null) {
 			return;
