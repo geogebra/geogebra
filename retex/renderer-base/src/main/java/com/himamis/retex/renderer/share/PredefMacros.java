@@ -53,6 +53,7 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.Graphics;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
+import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 
 /**
  * This class contains the most of basic commands of LaTeX, they're activated in byt the class
@@ -1508,7 +1509,10 @@ public class PredefMacros {
 		try {
 			return new CursorAtom(
 					FactoryProvider.getInstance().getGraphicsFactory()
-							.createColor(96, 96, 255),
+							.createColor(
+									GraphicsFactory.CURSOR_RED,
+									GraphicsFactory.CURSOR_GREEN,
+									GraphicsFactory.CURSOR_BLUE),
 					Double.parseDouble(args[1]));
 		} catch (NumberFormatException e) {
 			throw new ParseException(e.toString());

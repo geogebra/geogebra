@@ -38,6 +38,7 @@ import com.himamis.retex.renderer.share.TeXConstants;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.GraphicsFactory;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
 import java.util.ArrayList;
@@ -46,9 +47,8 @@ import java.util.Collections;
 public class FormulaEditor extends View implements MathField {
 
     private final static int CURSOR_MARGIN = 5;
-    // min-max values for cursor color
-    private final static int CURSOR_MIN_RED = 222;
-    private final static int CURSOR_MAX_GREEN_BLUE = 128;
+    // tolerance for cursor color
+    private final static int CURSOR_TOLERANCE = 10;
     protected static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     private TeXIcon mTeXIcon;
@@ -307,7 +307,7 @@ public class FormulaEditor extends View implements MathField {
 
     private void updateShiftX() {
 
-        int inputBarWidth = getWidth();
+        int inputBarWidth = getVisibleWidth();
 
         if (inputBarWidth == 0) {
             debug("updateShiftX: inputBarWidth == 0");
@@ -348,11 +348,14 @@ public class FormulaEditor extends View implements MathField {
             for (int x = 0; x < iconWidth; x++) {
                 int color = pix[index];
                 int red = Color.red(color);
-                if (red > CURSOR_MIN_RED) {
+                if (red > GraphicsFactory.CURSOR_RED - CURSOR_TOLERANCE
+                        && red < GraphicsFactory.CURSOR_RED + CURSOR_TOLERANCE) {
                     int green = Color.green(color);
-                    if (green < CURSOR_MAX_GREEN_BLUE) {
+                    if (green > GraphicsFactory.CURSOR_GREEN - CURSOR_TOLERANCE
+                            && green < GraphicsFactory.CURSOR_GREEN + CURSOR_TOLERANCE) {
                         int blue = Color.blue(color);
-                        if (green == blue) { // red or light red
+                        if (blue > GraphicsFactory.CURSOR_BLUE - CURSOR_TOLERANCE
+                                && blue < GraphicsFactory.CURSOR_BLUE + CURSOR_TOLERANCE) {
                             pixRed++;
                             cursorRed += x;
                         }
@@ -378,6 +381,10 @@ public class FormulaEditor extends View implements MathField {
         }
         debug("mShiftX: " + mShiftX);
 
+    }
+
+    protected int getVisibleWidth() {
+        return getWidth();
     }
 
     public void scroll(int dx, int dy) {

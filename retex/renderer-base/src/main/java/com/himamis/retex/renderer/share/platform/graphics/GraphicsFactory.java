@@ -44,7 +44,11 @@
 package com.himamis.retex.renderer.share.platform.graphics;
 
 public abstract class GraphicsFactory {
-	
+
+	static public int CURSOR_RED = 96;
+	static public int CURSOR_GREEN = 96;
+	static public int CURSOR_BLUE = 255;
+
 	public abstract BasicStroke createBasicStroke(double width, int cap, int join, double miterLimit);
 	
 	public abstract Color createColor(int red, int green, int blue);
