@@ -18,6 +18,4 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
 	void remove(Runnable runnable);
 
-	void checkLanguage();
-
 }
