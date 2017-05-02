@@ -385,14 +385,22 @@ public class MyVecNode extends ValidExpression
 	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// MyNumberPair used for datafunction -- don't simplify
-		if (!(this instanceof MyNumberPair) && x.evaluatesToList()
-				&& y.evaluatesToList()) {
+		if (!(this instanceof MyNumberPair)
+				&& (x.evaluatesToList() || y.evaluatesToList())) {
 			MyList result = new MyList(kernel);
-			ListValue xEval = (ListValue) x.evaluate(tpl);
-			ListValue yEval = (ListValue) y.evaluate(tpl);
-			for (int idx = 0; idx < xEval.size() && idx < yEval.size(); idx++) {
+			ExpressionValue xEval = x.evaluate(tpl);
+			ExpressionValue yEval = y.evaluate(tpl);
+			int size = 0;
+			int maxSize = Integer.MAX_VALUE;
+			if (xEval instanceof ListValue) {
+				maxSize = size = ((ListValue) xEval).size();
+			}
+			if (yEval instanceof ListValue) {
+				size = Math.min(((ListValue) yEval).size(), maxSize);
+			}
+			for (int idx = 0; idx < size; idx++) {
 				result.addListElement(new MyVecNode(kernel,
-						xEval.getListElement(idx), yEval.getListElement(idx)));
+						MyList.get(xEval, idx), MyList.get(yEval, idx)));
 			}
 			return result;
 		}

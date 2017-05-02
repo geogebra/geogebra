@@ -185,6 +185,9 @@ public class ParametricProcessor3D extends ParametricProcessor {
 	protected AlgoCurveCartesian makeCurveAlgo(Construction cons,
 			ExpressionNode wrap, GeoNumberValue[] coords, GeoNumeric locVar,
 			GeoNumberValue from, GeoNumberValue to) {
+		if (coords.length == 2) {
+			return super.makeCurveAlgo(cons, wrap, coords, locVar, from, to);
+		}
 		return new AlgoCurveCartesian3D(cons, wrap, coords, locVar, from, to);
 	}
 

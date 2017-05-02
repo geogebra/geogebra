@@ -26,6 +26,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
+import org.geogebra.common.kernel.arithmetic.ListValue;
+import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
@@ -428,5 +430,36 @@ public class MyVec3DNode extends ValidExpression
 			((ReplaceChildrenByValues) z).replaceChildrenByValues(geo);
 		}
 	}
+
+	@Override
+	public ExpressionValue evaluate(StringTemplate tpl) {
+		// MyNumberPair used for datafunction -- don't simplify
+		if (x.evaluatesToList() || y.evaluatesToList() || z.evaluatesToList()) {
+			MyList result = new MyList(kernel);
+			ExpressionValue xEval = x.evaluate(tpl);
+			ExpressionValue yEval = y.evaluate(tpl);
+			ExpressionValue zEval = y.evaluate(tpl);
+			int size = 0;
+			int maxSize = Integer.MAX_VALUE;
+			if (xEval instanceof ListValue) {
+				maxSize = size = ((ListValue) xEval).size();
+			}
+			if (yEval instanceof ListValue) {
+				size = Math.min(((ListValue) yEval).size(), maxSize);
+			}
+			if (zEval instanceof ListValue) {
+				size = Math.min(((ListValue) zEval).size(), maxSize);
+			}
+			for (int idx = 0; idx < size; idx++) {
+				result.addListElement(new MyVec3DNode(kernel,
+						MyList.get(xEval, idx), MyList.get(yEval, idx),
+						MyList.get(zEval, idx)));
+			}
+			return result;
+		}
+		return super.evaluate(tpl);
+	}
+
+
 
 }

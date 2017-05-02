@@ -1289,4 +1289,16 @@ public class MyList extends ValidExpression
 		return ValueType.LIST;
 	}
 
+	/**
+	 * @param xEval
+	 *            list or simple value
+	 * @param idx
+	 *            index
+	 * @return value from list at given index or simple value
+	 */
+	public static ExpressionValue get(ExpressionValue xEval, int idx) {
+		return xEval instanceof ListValue
+				? ((ListValue) xEval).getListElement(idx) : xEval;
+	}
+
 }
