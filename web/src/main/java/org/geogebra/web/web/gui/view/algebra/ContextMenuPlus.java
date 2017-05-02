@@ -26,7 +26,6 @@ public class ContextMenuPlus implements SetLabels {
 	private RadioTreeItem item;
 	private MathFieldW mf;
 	private TabbedKeyboard kbd;
-	private GeoPoint imgPoint;
 	/**
 	 * Creates new context menu
 	 * 
@@ -42,7 +41,6 @@ public class ContextMenuPlus implements SetLabels {
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		buildGUI();
-		imgPoint = new GeoPoint(app.getKernel().getConstruction(), 0, 0, 0);  
 		}
 
 	private void buildGUI() {
@@ -100,7 +98,7 @@ public class ContextMenuPlus implements SetLabels {
 					@Override
 					public void execute() {
 
-						((GuiManagerW)app.getGuiManager()).loadImage(imgPoint, null, false, app.getActiveEuclidianView());
+						((GuiManagerW)app.getGuiManager()).loadImage(null, null, false, app.getActiveEuclidianView());
 					}
 				});
 
