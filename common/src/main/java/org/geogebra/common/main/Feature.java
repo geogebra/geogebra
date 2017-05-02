@@ -223,6 +223,9 @@ public enum Feature {
 	EQUATION_LIST,
 
 	/** GGB-1697 */
-	AV_MORE_MENU
+	AV_MORE_MENU,
+
+	/** GGB-1633 */
+	SWITCH_BETWEEN_KEYBOARD_LANGUAGE
 
 }

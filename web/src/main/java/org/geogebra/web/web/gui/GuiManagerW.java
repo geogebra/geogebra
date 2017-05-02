@@ -2134,6 +2134,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return onScreenKeyboard;
 	}
 
+	public void updateKeyboardLanguage() {
+		onScreenKeyboard.checkLanguage();
+	}
+
 	public static KeyboardListener makeKeyboardListener(
 			MathKeyboardListener textField) {
 		if (textField instanceof RetexKeyboardListener) {

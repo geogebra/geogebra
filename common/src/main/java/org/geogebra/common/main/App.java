@@ -4226,6 +4226,9 @@ public abstract class App implements UpdateSelection {
 		case AND_KILL_TOOLBAR:
 			return false;
 
+		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
