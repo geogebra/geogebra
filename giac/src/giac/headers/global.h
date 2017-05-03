@@ -643,6 +643,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   std::string autosimplify(GIAC_CONTEXT);
   std::string autosimplify(const std::string & s,GIAC_CONTEXT);
 
+  bool csv_guess(const char * data,int count,char & sep,char & nl,char & decsep);
   std::string & format_double(GIAC_CONTEXT);
 
   int check_thread(context * contextptr);

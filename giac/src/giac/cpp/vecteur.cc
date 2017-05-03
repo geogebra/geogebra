@@ -21,6 +21,11 @@ using namespace std;
 #include <stdexcept>
 #include <map>
 #include <iostream>
+#ifdef HAVE_SSTREAM
+#include <sstream>
+#else
+#include <strstream>
+#endif
 #include "gen.h"
 #include "vecteur.h"
 #include "modpoly.h"
@@ -16240,9 +16245,16 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     char sep(';'),nl('\n'),eof(0),decsep(',');
     gen tmp,gs;
+    bool isfile=true;
+    int s=0;
     if (g.type==_VECT && !g._VECTptr->empty()){
       gs=g._VECTptr->front();
-      int s=int(g._VECTptr->size());
+      s=int(g._VECTptr->size());
+      tmp=g[s-1];
+      if (tmp==at_string){
+	isfile=false;
+	--s;
+      }
       if (s>1){
 	tmp=g[1];
 	if (tmp.type==_STRNG && !tmp._STRNGptr->empty())
@@ -16269,8 +16281,34 @@ namespace giac {
     if (gs.type!=_STRNG)
       return gensizeerr(gettext("Expecting file name to convert"));
     string file=*gs._STRNGptr;
-    ifstream i(file.c_str());
-    return csv2gen(i,sep,nl,decsep,eof,contextptr);
+    if (isfile){
+      ifstream i(file.c_str());
+      return csv2gen(i,sep,nl,decsep,eof,contextptr);
+    }
+    else {
+      // count [ ]
+      int open=0,close=0,sp=0;
+      for (size_t i=0;i<file.size();++i){
+	if (file[i]=='[')
+	  ++open;
+	if (file[i]==']')
+	  ++close;
+	if (file[i]==' ')
+	  ++sp;
+      }
+      if (file.size()<=20 && sp==0)
+	return eval(gen(file,contextptr),1,contextptr);
+      if (open>=2 && absint(open-close)<=1)
+	return gen(file,contextptr);
+#ifdef HAVE_SSTREAM
+      istringstream i(file.c_str());
+#else
+      istrstream i(file.c_str());
+#endif
+      if (s==1) // guess
+	csv_guess(file.c_str(),file.size(),sep,nl,decsep);
+      return csv2gen(i,sep,nl,decsep,eof,contextptr);
+    }
   }
   static const char _csv2gen_s []="csv2gen";
   static define_unary_function_eval (__csv2gen,&_csv2gen,_csv2gen_s);

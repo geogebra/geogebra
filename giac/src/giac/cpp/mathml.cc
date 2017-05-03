@@ -782,7 +782,7 @@ namespace giac {
   static string svg_text(gen A, string legende, svg_attribut attr,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     double x_scale=(xmax-xmin)/10;
     double y_scale=(ymax-ymin)/10;
-    double fontscale=0.4*x_scale;
+    double fontscale=0.3*x_scale;
     double ratio=y_scale/x_scale/0.6;
     if (legende=="")
       return legende;

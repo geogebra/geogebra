@@ -4967,6 +4967,49 @@ unsigned int ConvertUTF8toUTF16 (
     return g;
   }
 
+  bool csv_guess(const char * data,int count,char & sep,char & nl,char & decsep){
+    bool ans=true;
+    int nb[256],pointdecsep=0,commadecsep=0; 
+    for (int i=0;i<256;++i)
+      nb[i]=0;
+    // count occurence of each char
+    // and detect decimal separator between . or ,
+    for (int i=1;i<count-1;++i){
+      if (data[i]=='[' || data[i]==']')
+	ans=false;
+      ++nb[(unsigned char) data[i]];
+      if (data[i-1]>='0' && data[i-1]<='9' && data[i+1]>='0' && data[i+1]<='9'){
+	if (data[i]=='.')
+	  ++pointdecsep;
+	if (data[i]==',')
+	  ++commadecsep;
+      }
+    }
+    decsep=commadecsep>pointdecsep?',':'.';
+    // detect nl (ctrl-M or ctrl-J)
+    nl=nb[10]>nb[13]?10:13;
+    // find in control characters and : ; the most used (except 10/13)
+    int nbmax=0,imax=-1;
+    for (int i=0;i<60;++i){
+      if (i==10 || i==13 || (i>=' ' && i<='9') )
+	continue;
+      if (nb[i]>nbmax){
+	imax=i;
+	nbmax=nb[i];
+      }
+    }
+    // compare . with , (44)
+    if (nb[unsigned(',')] && nb[unsigned(',')]>=nbmax){
+      imax=',';
+      nbmax=nb[unsigned(',')];
+    }
+    if (nbmax && nbmax>=nb[unsigned(nl)] && imax!=decsep)
+      sep=imax;
+    else
+      sep=' ';
+    return ans;
+  }
+
   void (*my_gprintf)(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT)=0;
 
 

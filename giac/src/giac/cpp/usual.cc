@@ -5016,7 +5016,8 @@ namespace giac {
     vecteur vb(lvar(b));
     vecteur vab(lvar(makevecteur(a,b)));
     if (vab.size()==va.size()+vb.size()){
-      if (va.size()!=1 || va.front().type!=_IDNT || lvarx(b,va.front()).empty())
+      vecteur lvarxb;
+      if (va.size()!=1 || va.front().type!=_IDNT || (lvarxb=lvarx(b,va.front())).empty() || !lop(lvarxb,at_of).empty())
 	return symb_of(a,b);
     }
     if (!warn_implicit(a,b,contextptr))

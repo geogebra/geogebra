@@ -5945,6 +5945,12 @@ namespace giac {
   }
   gen _ans(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()>1){
+      vecteur v=*args._VECTptr;
+      gen tmp=_ans(v.front(),contextptr);
+      v.erase(v.begin());
+      return _at(makesequence(tmp,gen(v,args.subtype)),contextptr);
+    }
     int s=int(history_out(contextptr).size());
     if (!s)
       return undef;
