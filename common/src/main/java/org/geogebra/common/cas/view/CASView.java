@@ -301,7 +301,7 @@ public abstract class CASView implements Editing, SetLabels {
 			if (row < 0) {
 				return;
 			}
-			casCell.setRowNumber(-1 - casCell.getRowNumber());
+			casCell.resetRowNumber();
 			// we must stop editing here, otherwise content of deleted cell is
 			// copied below
 			boolean wasEditing = getConsoleTable().isEditing();
@@ -324,7 +324,7 @@ public abstract class CASView implements Editing, SetLabels {
 		if (geo instanceof GeoCasCell) {
 			GeoCasCell casCell = (GeoCasCell) geo;
 			if (casCell.getRowNumber() < 0) {
-				casCell.setRowNumber(-1 - casCell.getRowNumber());
+				casCell.reloadRowNumber();
 			}
 			getConsoleTable().setRow(casCell.getRowNumber(), casCell);
 		}

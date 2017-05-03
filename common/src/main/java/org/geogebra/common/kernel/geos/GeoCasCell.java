@@ -3398,6 +3398,8 @@ public class GeoCasCell extends GeoElement
 
 	private int SCREEN_WIDTH = 80;
 
+	private int preferredRowNumber = -1;
+
 	@Override
 	public String getTooltipText(final boolean colored,
 			final boolean alwaysOn) {
@@ -3710,6 +3712,24 @@ public class GeoCasCell extends GeoElement
 					getFormulaString(tpl, output), getAssignmentType());
 		}
 		return getOutput(tpl);
+	}
+
+	/**
+	 * Reset row number (to avoid double deletion) and save it to preference
+	 */
+	public void resetRowNumber() {
+		if (getRowNumber() >= 0) {
+			preferredRowNumber = getRowNumber();
+		}
+		setRowNumber(-1);
+	}
+
+	/**
+	 * Reload the current row number from saved preference
+	 */
+	public void reloadRowNumber() {
+		setRowNumber(preferredRowNumber);
+		preferredRowNumber = -1;
 	}
 
 }
