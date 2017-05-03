@@ -1,13 +1,16 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
+import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Background;
-import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.Resource;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
 import org.geogebra.keyboard.base.model.impl.RowImpl;
 
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.HASHTAG;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_SIGN;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
@@ -49,7 +52,8 @@ class LetterKeyboardFactory {
         } else {
             throw new RuntimeException(EXCEPTION_MESSAGE);
         }
-        float spaceSize = rowWeightSum - 5;
+        float spaceSize = rowWeightSum - 6;
+        StringBuilder builder = new StringBuilder();
 
         KeyboardModelImpl letterKeyboard = new KeyboardModelImpl();
 
@@ -65,6 +69,11 @@ class LetterKeyboardFactory {
         addConstantCustomButton(bottomRowImpl, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, actionButtonSize);
 
         RowImpl controlRow = letterKeyboard.nextRow(rowWeightSum);
+
+        builder.append(HASHTAG);
+        builder.append(AMPERSAND);
+        builder.append(NOT_SIGN);
+        addCustomButton(controlRow, buttonFactory, builder.toString(), Action.SWITCH_TO_SPECIAL_SYMBOLS);
         addInputButton(controlRow, buttonFactory, ",");
         addInputButton(controlRow, buttonFactory, "'");
         addInputButton(controlRow, buttonFactory, " ", spaceSize);
@@ -91,16 +100,16 @@ class LetterKeyboardFactory {
     private void addButtonCharacter(RowImpl rowImpl, ButtonFactory buttonFactory, char character) {
         String resource = String.valueOf(character);
         switch (resource) {
-            case ButtonConstants.ACCENT_ACUTE:
+            case Accents.ACCENT_ACUTE:
                 addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_ACUTE.name(), Background.STANDARD);
                 break;
-            case ButtonConstants.ACCENT_CARON:
+            case Accents.ACCENT_CARON:
                 addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_CARON.name(), Background.STANDARD);
                 break;
-            case ButtonConstants.ACCENT_CIRCUMFLEX:
+            case Accents.ACCENT_CIRCUMFLEX:
                 addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_CIRCUMFLEX.name(), Background.STANDARD);
                 break;
-            case ButtonConstants.ACCENT_GRAVE:
+            case Accents.ACCENT_GRAVE:
                 addCustomButton(rowImpl, buttonFactory, resource, Action.TOGGLE_ACCENT_GRAVE.name(), Background.STANDARD);
                 break;
             default:

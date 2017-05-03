@@ -25,10 +25,6 @@ public class ButtonFactory {
         return createInputButton(name, action, 1.0f);
     }
 
-    WeightedButton createInputButton(String name) {
-        return createInputButton(name, name);
-    }
-
     WeightedButton createConstantInputButton(String input, String action, float weight) {
         return new WeightedButtonImpl(input, ResourceType.DEFINED_CONSTANT, action, ActionType.INPUT, Background.STANDARD, modifiers, weight);
     }

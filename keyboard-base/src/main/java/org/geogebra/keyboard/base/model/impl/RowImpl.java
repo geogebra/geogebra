@@ -12,7 +12,7 @@ public class RowImpl implements Row {
 
     private List<WeightedButton> buttons = new ArrayList<>();
 
-    public RowImpl(float rowWeightSum) {
+    RowImpl(float rowWeightSum) {
         this.rowWeightSum = rowWeightSum;
     }
 

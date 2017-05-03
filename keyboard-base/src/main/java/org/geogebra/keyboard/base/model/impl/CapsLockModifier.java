@@ -9,7 +9,7 @@ import org.geogebra.keyboard.base.model.KeyModifier;
 
 public class CapsLockModifier implements KeyModifier {
 
-    boolean capsLock = false;
+    private boolean capsLock = false;
 
     public void toggleCapsLock() {
         capsLock = !capsLock;

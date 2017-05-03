@@ -2,6 +2,15 @@ package org.geogebra.keyboard.base.model.impl.factory;
 
 class Characters {
 
+    static final String SUP2 = "\u00B2";
+    static final String ROOT = "\u221A";
+    static final String EULER = "\u212f";
+    static final String LEQ = "\u2264";
+    static final String GEQ = "\u2265";
+    static final String MULTIPLICATION = "\u00D7";
+    static final String DIVISION = "\u00F7";
+    static final String DEGREE = "\u00B0";
+
     /** Greek */
     static final char ALPHA = '\u03B1';
     static final char BETA = '\u03B2';

@@ -1,7 +1,7 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import static org.geogebra.keyboard.base.ButtonConstants.DEGREE;
-import static org.geogebra.keyboard.base.ButtonConstants.EULER;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.DEGREE;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.EULER;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputButton;

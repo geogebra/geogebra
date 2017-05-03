@@ -14,7 +14,7 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
-public class SpecialSymbolsKeyboardFactory {
+class SpecialSymbolsKeyboardFactory {
 
     KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
@@ -74,11 +74,7 @@ public class SpecialSymbolsKeyboardFactory {
 
         row = mathKeyboard.nextRow(10.0f);
 
-        name.setLength(0);
-        name.append(HASHTAG);
-        name.append(AMPERSAND);
-        name.append(NOT_SIGN);
-        addCustomButton(row, buttonFactory, name.toString(), Action.SWITCH_TO_ABC);
+        addCustomButton(row, buttonFactory, "ABC", Action.SWITCH_TO_ABC);
         addInputButton(row, buttonFactory, ",");
         addInputButton(row, buttonFactory, "'");
         addInputButton(row, buttonFactory, " ", 4.0f);

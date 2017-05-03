@@ -4,7 +4,6 @@ import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Background;
-import org.geogebra.keyboard.base.ButtonConstants;
 import org.geogebra.keyboard.base.ResourceType;
 import org.geogebra.keyboard.base.model.KeyModifier;
 
@@ -23,16 +22,16 @@ public class AccentModifier implements KeyModifier {
         boolean changed = true;
         if (accent != null) {
             switch (accent) {
-                case ButtonConstants.ACCENT_ACUTE:
+                case Accents.ACCENT_ACUTE:
                     currentAccent = ~currentAccent & ACUTE_ACCENT;
                     break;
-                case ButtonConstants.ACCENT_CARON:
+                case Accents.ACCENT_CARON:
                     currentAccent = ~currentAccent & CARON_ACCENT;
                     break;
-                case ButtonConstants.ACCENT_CIRCUMFLEX:
+                case Accents.ACCENT_CIRCUMFLEX:
                     currentAccent = ~currentAccent & CIRCUMFLEX_ACCENT;
                     break;
-                case ButtonConstants.ACCENT_GRAVE:
+                case Accents.ACCENT_GRAVE:
                     currentAccent = ~currentAccent & GRAVE_ACCENT;
                     break;
                 default:

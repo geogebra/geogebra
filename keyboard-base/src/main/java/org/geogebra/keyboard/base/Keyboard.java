@@ -26,7 +26,7 @@ public interface Keyboard {
     /**
      * Toggle the accent on/off.
      *
-     * @param accent one of {@link ButtonConstants} with the prefix <i>ACCENT</i>.
+     * @param accent one of {@link Accents} with the prefix <i>ACCENT</i>.
      */
     void toggleAccent(String accent);
 
