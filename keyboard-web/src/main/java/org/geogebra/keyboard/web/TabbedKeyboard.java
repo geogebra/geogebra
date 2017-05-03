@@ -263,37 +263,16 @@ public class TabbedKeyboard extends FlowPanel {
 			ButtonHandler bh, int baseSize) {
 		keyboard.reset(layout);
 		int index = 0;
-		int margins = 4;
 		for (Row row : layout.getModel().getRows()) {
-			double offset = 0;
-			KeyBoardButtonBase button = null;
 			for (WeightedButton wb : row.getButtons()) {
-				if (Action.NONE.name().equals(wb.getActionName())) {
-					offset = wb.getWeight();
-				} else {
-					button = makeButton(wb, bh);
-					if (offset > 0) {
-						button.getElement().getStyle()
-								.setMarginLeft(offset * baseSize + margins / 2,
-										Unit.PX);
-					}
-					button.getElement().getStyle()
-							.setWidth(wb.getWeight() * baseSize - margins,
-									Unit.PX);
+				if (!Action.NONE.name().equals(wb.getActionName())) {
+					KeyBoardButtonBase button = makeButton(wb, bh);
 					keyboard.addToRow(index, button);
-					offset = 0;
 				}
-			}
-			// last button is empty
-			if (Action.NONE.name().equals(row.getButtons()
-					.get(row.getButtons().size() - 1).getActionName())) {
-				button.getElement().getStyle()
-						.setMarginRight(offset * baseSize + margins / 2,
-								Unit.PX);
 			}
 			index++;
 		}
-
+		updatePanelSize(keyboard, baseSize);
 	}
 
 	/**
