@@ -107,6 +107,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 */
 	public void updateIcons(boolean warning) {	
 		ToggleButton btn = null; 
+		String tooltip="";
 		boolean textInput = item.getController().isInputAsText();
 		noPlus = !item.getText().isEmpty();
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
@@ -116,10 +117,18 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 					GuiResources.INSTANCE.algebra_new().getSafeUri().asString()
 				: AppResources.INSTANCE.empty().getSafeUri().asString();
 			btn = btnPlus;
+			if (warning) {
+				tooltip = "";
+			} else {
+				tooltip = noPlus ? " ": item.app.getLocalization().getMenu("AddItem");
+			}
 		} else {
 			initHelpToggle();
 			btn = btnHelpToggle;
+			tooltip = warning ? "": item.app.getLocalization().getMenu("InputHelp");
 		}
+		
+		btn.setTitle(tooltip);
 		
 		if (warning && !textInput) {
 			remove(marble);
@@ -132,6 +141,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			add(btn);
 			removeStyleName("error");
 			addStyleName("error");
+
 		} else {
 			add(marble);
 			marble.setEnabled(shouldShowMarble());
@@ -150,16 +160,19 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				btn.getDownHoveringFace().setImage(warnIcon);
 					
 			} else {
-				btn.getUpFace().setImage(new NoDragImage(img,24));
-				btn.getDownFace().setImage(new NoDragImage(img,	24));
-				if (btn == btnPlus) {
-					NoDragImage hover = new NoDragImage(noPlus ? img:
-							GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
+				NoDragImage ndi = new NoDragImage(img,24);
+				btn.getUpFace().setImage(ndi);
+				btn.getDownFace().setImage(ndi);
+				
+				if (btn == btnPlus && !noPlus) {
+					NoDragImage hover = new NoDragImage(GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
 							.asString(), 24);
 					btn.getUpHoveringFace().setImage(hover);
 					btn.getDownHoveringFace().setImage(hover);
-
-
+				} else {
+					btn.getUpHoveringFace().setImage(ndi);
+					btn.getDownHoveringFace().setImage(ndi);
+					
 				}
 			}
 		}
@@ -226,6 +239,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	public void initPlus() {
 		if (btnPlus == null) {
 			btnPlus = new ToggleButton();
+			btnPlus.setTitle(item.app.getLocalization().getMenu("AddItem"));
 			add(btnPlus);
 			btnPlus.addStyleName("avPlusButton");
 			ClickStartHandler.init(btnPlus, new ClickStartHandler() {
