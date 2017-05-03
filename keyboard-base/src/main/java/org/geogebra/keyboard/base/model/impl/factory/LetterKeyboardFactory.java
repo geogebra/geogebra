@@ -21,7 +21,13 @@ class LetterKeyboardFactory {
     private static final double MIN_PADDING_WEIGHT = 1.e-4;
     private static final String EXCEPTION_MESSAGE = "Deformed keyboard definition with long bottom row.";
 
-    KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
+    KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow,
+                                       String bottomRow) {
+        return createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow, true);
+    }
+
+    KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow,
+                                       String bottomRow, boolean withSpecialSymbols) {
         int topRowLength = topRow.length();
         int middleRowLength = middleRow.length();
         int bottomRowLength = bottomRow.length();
@@ -52,7 +58,7 @@ class LetterKeyboardFactory {
         } else {
             throw new RuntimeException(EXCEPTION_MESSAGE);
         }
-        float spaceSize = rowWeightSum - 6;
+        float spaceSize = rowWeightSum - 5;
         StringBuilder builder = new StringBuilder();
 
         KeyboardModelImpl letterKeyboard = new KeyboardModelImpl();
@@ -69,11 +75,13 @@ class LetterKeyboardFactory {
         addConstantCustomButton(bottomRowImpl, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, actionButtonSize);
 
         RowImpl controlRow = letterKeyboard.nextRow(rowWeightSum);
-
-        builder.append(HASHTAG);
-        builder.append(AMPERSAND);
-        builder.append(NOT_SIGN);
-        addCustomButton(controlRow, buttonFactory, builder.toString(), Action.SWITCH_TO_SPECIAL_SYMBOLS);
+        if (withSpecialSymbols) {
+            builder.append(HASHTAG);
+            builder.append(AMPERSAND);
+            builder.append(NOT_SIGN);
+            addCustomButton(controlRow, buttonFactory, builder.toString(), Action.SWITCH_TO_SPECIAL_SYMBOLS);
+            spaceSize -= 1;
+        }
         addInputButton(controlRow, buttonFactory, ",");
         addInputButton(controlRow, buttonFactory, "'");
         addInputButton(controlRow, buttonFactory, " ", spaceSize);

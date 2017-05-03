@@ -38,6 +38,6 @@ class GreekKeyboardFactory extends LetterKeyboardFactory {
         bottomRow.append(NU);
         bottomRow.append(MU);
 
-        return createLetterKeyboard(buttonFactory, topRow.toString(), middleRow.toString(), bottomRow.toString());
+        return createLetterKeyboard(buttonFactory, topRow.toString(), middleRow.toString(), bottomRow.toString(), false);
     }
 }
