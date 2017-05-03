@@ -285,6 +285,8 @@ public class InputController {
 			MathFunction function = (MathFunction) currentField
 					.getArgument(offset - 1);
 			if (script.equals(function.getName())) {
+				editorState.setCurrentField(function.getArgument(0));
+				editorState.setCurrentOffset(function.getArgument(0).size());
 				return;
 			}
 			if (!"^".equals(function.getName())
@@ -300,6 +302,8 @@ public class InputController {
 			MathFunction function = (MathFunction) currentField
 					.getArgument(offset);
 			if (script.equals(function.getName())) {
+				editorState.setCurrentField(function.getArgument(0));
+				editorState.setCurrentOffset(0);
 				return;
 			}
 			if (!"^".equals(function.getName())
