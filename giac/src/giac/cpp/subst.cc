@@ -2243,7 +2243,7 @@ namespace giac {
     prod2frac(g,gn,gd);
     if (gd.empty())
       return g;
-    for (int i=0;i<gd.size();++i){
+    for (unsigned i=0;i<gd.size();++i){
       gen tmp=simplifier(gd[i],contextptr);
       if (in_cklin(tmp))
 	return _lin(g,contextptr);

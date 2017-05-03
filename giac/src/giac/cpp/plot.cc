@@ -98,7 +98,7 @@ using namespace std;
 #else
 #ifndef BESTA_OS
 #define clock_t int
-#define CLOCK() 0
+//#define CLOCK() 0
 #endif
 #endif
 #ifndef HAVE_NO_SYS_RESOURCE_WAIT_H
