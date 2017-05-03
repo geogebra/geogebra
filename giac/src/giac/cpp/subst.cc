@@ -2234,6 +2234,7 @@ namespace giac {
 	    return true;
       }
     }
+    return false;
   }
 
   // ck if g has a denominator with exponentials, if so linearize

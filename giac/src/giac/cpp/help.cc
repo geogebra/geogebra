@@ -1063,7 +1063,7 @@ namespace giac {
     ifstream if_mtt(filename);
     int n=0;
     while (if_mtt && !if_mtt.eof()){
-      if_mtt.getline(buf,BUFFER_SIZE,'¤');
+      if_mtt.getline(buf,BUFFER_SIZE,char(0xa4)); // was '¤', utf8 not compatible, octal \244
       if (!if_mtt || if_mtt.eof()){
 	if (verbose)
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
@@ -1073,7 +1073,7 @@ namespace giac {
 	return true;
       }
       string first(buf);
-      if_mtt.getline(buf,BUFFER_SIZE,'¤');
+      if_mtt.getline(buf,BUFFER_SIZE,char(0xa4));
       if (!if_mtt || if_mtt.eof()){
 #if defined VISUALC || defined BESTA_OS
 	delete [] buf;
@@ -1130,7 +1130,7 @@ namespace giac {
     ifstream if_mtt(filename);
     int n=0;
     while (if_mtt && !if_mtt.eof()){
-      if_mtt.getline(buf,BUFFER_SIZE,'¤');
+      if_mtt.getline(buf,BUFFER_SIZE,char(0xa4));
       if (!if_mtt || if_mtt.eof()){
 #if defined VISUALC || defined BESTA_OS
 	delete [] buf;
@@ -1200,17 +1200,17 @@ namespace giac {
     ofstream of_mtt((html_help_dir+"html_mtt").c_str());
     multimap<string,string>::const_iterator it=html_mtt.begin(),itend=html_mtt.end();
     for (;it!=itend;++it)
-      of_mtt << it->first << '¤' << it->second << '¤' << endl;
+      of_mtt << it->first << char(0xa4) << it->second << char(0xa4) << endl;
     of_mtt.close();
     ofstream of_mall((html_help_dir+"html_mall").c_str());
     it=html_mall.begin();itend=html_mall.end();
     for (;it!=itend;++it)
-      of_mall << it->first << '¤' << it->second << '¤' << endl;
+      of_mall << it->first << char(0xa4) << it->second << char(0xa4) << endl;
     of_mall.close();
     ofstream of_vall((html_help_dir+"html_vall").c_str());
     vector<string>::const_iterator st=html_vall.begin(),stend=html_vall.end();
     for (;st!=stend;++st)
-      of_vall << *st << '¤' << endl;
+      of_vall << *st << char(0xa4) << endl;
     of_vall.close();
     /*
     if (debug_infolevel){
