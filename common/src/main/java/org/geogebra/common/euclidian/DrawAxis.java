@@ -221,10 +221,22 @@ public class DrawAxis {
 				// drawXTicksLog(g2, 0, minusSign, drawRightArrow,
 				// fontsize, xAxisStart);
 			} else {
-				drawXTicksLinear(g2, 0, minusSign, drawRightArrow, fontsize,
-						xAxisStart);
+				if (view.getYmin() < view.axisCross[0]) {
+					drawXTicksLinear(g2, 0, minusSign, drawRightArrow, fontsize,
+							xAxisStart);
+				} else if (view.getYmax() > view.axisCross[0]) {
+					drawXTicksLinear(g2,
+							view.getHeight()
+									- view.getYOffsetForXAxis(fontsize),
+							minusSign,
+							drawRightArrow,
+							fontsize,
+							xAxisStart);
+				}
 			}
 		}
+
+
 
 		// ========================================
 		// Y-AXIS
