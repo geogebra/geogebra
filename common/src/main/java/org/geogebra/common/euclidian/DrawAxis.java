@@ -9,6 +9,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
 
@@ -214,6 +215,15 @@ public class DrawAxis {
 						fontsize, xAxisStart);
 			}
 
+		} else if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+			if (view.logAxes[0]) {
+				// TODO
+				// drawXTicksLog(g2, 0, minusSign, drawRightArrow,
+				// fontsize, xAxisStart);
+			} else {
+				drawXTicksLinear(g2, 0, minusSign, drawRightArrow, fontsize,
+						xAxisStart);
+			}
 		}
 
 		// ========================================

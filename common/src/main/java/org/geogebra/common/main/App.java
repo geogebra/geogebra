@@ -4232,6 +4232,9 @@ public abstract class App implements UpdateSelection {
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return prerelease;
 
+		case TICK_NUMBERS_AT_EDGE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

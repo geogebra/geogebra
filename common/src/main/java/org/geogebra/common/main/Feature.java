@@ -229,6 +229,9 @@ public enum Feature {
 	SWITCH_BETWEEN_KEYBOARD_LANGUAGE,
 
 	/** Dynamic stylebar added for locked geos too */
-	LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR
+	LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR,
+
+	/** GGB-1686 */
+	TICK_NUMBERS_AT_EDGE
 
 }
