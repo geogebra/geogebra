@@ -20,6 +20,10 @@ import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -39,6 +43,9 @@ public class TabbedKeyboard extends FlowPanel {
 		private List<Button> switches;
 		private CustomButton closeButton;
 		private ToggleButton moreButton;
+		private Integer width = null;
+		private int selectedIdx;
+		private Button selectedButton;
 		public KeyboardSwitcher() {
 			addStyleName("KeyboardSwitcher");
 			add(makeCloseButton());
@@ -83,6 +90,7 @@ public class TabbedKeyboard extends FlowPanel {
 		private void setSelected(Button btn, boolean value) {
 			if (value) {
 				btn.addStyleName("selected");
+				selectedButton = btn;
 			} else {
 				btn.removeStyleName("selected");
 			}
@@ -90,6 +98,15 @@ public class TabbedKeyboard extends FlowPanel {
 
 		private void setSelected(int idx, boolean value) {
 			setSelected(switches.get(idx), value);
+			if (value) {
+				selectedIdx = idx;
+			}
+		}
+		
+		private void unselectAll() {
+			for (Widget btn: switches) {
+				btn.removeStyleName("selected");
+			}
 		}
 		
 		private Widget makeCloseButton() {
@@ -126,15 +143,38 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
+					unselectAll();
 					showHelp(moreButton.getAbsoluteLeft() + moreButton.getOffsetWidth(),
 							moreButton.getAbsoluteTop());	
+				}
+			});
+			
+			moreButton.addMouseOverHandler(new MouseOverHandler() {
+				
+				@Override
+				public void onMouseOver(MouseOverEvent event) {
+					unselectAll();
+				}
+			});
+			
+			moreButton.addMouseOutHandler(new MouseOutHandler() {
+				
+				@Override
+				public void onMouseOut(MouseOutEvent event) {
+					setSelected(selectedButton, true);
 				}
 			});
 			return moreButton;
 		}
 		
 		public void setWidth(int width) {
-			contents.setPixelSize(width, getOffsetHeight());
+//			if (this.width != null) {
+//				return;
+//			}
+			this.width = width;
+			//	contents.getElement().getStyle().setProperty("height", getOffsetHeight(), Unit.PX);
+			contents.getElement().getStyle().setProperty("width", width, Unit.PX);
+	
 		}
 
 		public void reset() {
@@ -149,6 +189,7 @@ public class TabbedKeyboard extends FlowPanel {
 				tabs.getWidget(i).setVisible(i == idx);
 				setSelected(i, i == idx);
 			}
+			adjustSwitcher();
 		}
 
 	}
@@ -205,7 +246,6 @@ public class TabbedKeyboard extends FlowPanel {
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, "ABC");
-
 		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
