@@ -21,8 +21,7 @@ public enum ResourceType {
     TRANSLATION_COMMAND_KEY,
 
     /**
-     * The resource is specified in the {@link ButtonConstants} class,
-     * with the constants starting with <i><b>RESORUCE_</b></i>.
+     * The resource is specified in the {@link Resource} class.
      */
     DEFINED_CONSTANT
 }

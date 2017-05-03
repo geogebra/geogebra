@@ -11,18 +11,17 @@ public enum ActionType {
     INPUT,
 
     /**
-     * The action is a translation key, whose value is the input of the button (menu table keys).
+     * The action is a menu translation key, whose value is the input of the button.
      */
     INPUT_TRANSLATE_MENU,
 
     /**
-     * The action is a translation key, whose value is the input of the button.
+     * The action is a command translation key, whose value is the input of the button.
      */
     INPUT_TRANSLATE_COMMAND,
 
     /**
-     * The action is specified in the {@link ButtonConstants} class (command table keys),
-     * with the constants starting with <i><b>ACTION_</b></i>.
+     * The action is specified in the {@link Action} class.
      */
     CUSTOM
 }
