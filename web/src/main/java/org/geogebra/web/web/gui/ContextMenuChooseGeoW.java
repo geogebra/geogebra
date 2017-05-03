@@ -34,6 +34,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private ArrayList<GeoElement> selectedGeos;
 	private GPoint loc;
 	private MenuBar selectAnotherMenu;
+	private ArrayList<GeoElement> tmpAnotherMenuItemList;
 
 	/**
 	 * 
@@ -64,8 +65,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		// section to choose a geo
 		// addSeparator();
-		addSelectAnotherMenu(view.getMode());
-		addOtherItems();
+		// addSelectAnotherMenu(view.getMode());
 
 		this.loc = invokerLocation;
 		this.selectedGeos = selectedGeos;
@@ -77,20 +77,41 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		// add geos
 		metas = new TreeSet<GeoElement>();
 
+		// first collect geos in tmp list
+		addGeosToTmpAnotherMenuItemList(metas, geos, geoSelected);
+
+		// if tmp list not empty
+		if (!tmpAnotherMenuItemList.isEmpty()) {
+			// add menu item
+			addSelectAnotherMenu(view.getMode());
+			for (GeoElement geo : tmpAnotherMenuItemList) {
+				// add geos to submenu
+				addGeo(geo);
+			}
+		}
+		addOtherItems();
+	}
+
+	private void addGeosToTmpAnotherMenuItemList(TreeSet<GeoElement> metas,
+			ArrayList<GeoElement> geos, GeoElement geoSelected) {
+		tmpAnotherMenuItemList = new ArrayList<GeoElement>();
+
 		for (GeoElement geo1 : geos) {
-			if (geo1 != geoSelected) {// don't add selected geo
-				addGeo(geo1);
+			// do not add xoy plane or selected geo
+			if (geo1 != geoSelected && geo1 != app.getKernel().getXOYPlane()) {
+				tmpAnotherMenuItemList.add(geo1);
 			}
 
 			if (geo1.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
 					if (!metas.contains(meta)) {
-						addGeo(meta);
+						tmpAnotherMenuItemList.add(meta);
 					}
 				}
 			}
 
 		}
+
 	}
 
 	private class MyMouseOverListener implements EventListener {
