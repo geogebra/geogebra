@@ -7,6 +7,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -30,7 +31,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	RadioTreeItem item;
 	/** plus menu */
 	ContextMenuPlus cmPlus=null;
-	private boolean warning=false;
+	private boolean noPlus=false;
 	
 	/**
 	 * @param item
@@ -106,19 +107,20 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 */
 	public void updateIcons(boolean warning) {	
 		ToggleButton btn = null; 
-		this.warning = warning;
 		boolean textInput = item.getController().isInputAsText();
-		
+		noPlus = !item.getText().isEmpty();
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
 		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
 			initPlus();
-			img = GuiResources.INSTANCE.algebra_new().getSafeUri().asString();
+			img = item.getText().isEmpty() ? 
+					GuiResources.INSTANCE.algebra_new().getSafeUri().asString()
+				: AppResources.INSTANCE.empty().getSafeUri().asString();
 			btn = btnPlus;
 		} else {
 			initHelpToggle();
 			btn = btnHelpToggle;
 		}
-
+		
 		if (warning && !textInput) {
 			remove(marble);
 			add(btn);
@@ -151,12 +153,13 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				btn.getUpFace().setImage(new NoDragImage(img,24));
 				btn.getDownFace().setImage(new NoDragImage(img,	24));
 				if (btn == btnPlus) {
-					NoDragImage hover = new NoDragImage(
+					NoDragImage hover = new NoDragImage(noPlus ? img:
 							GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
 							.asString(), 24);
 					btn.getUpHoveringFace().setImage(hover);
 					btn.getDownHoveringFace().setImage(hover);
-					
+
+
 				}
 			}
 		}
@@ -218,7 +221,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	}
 	
 	/**
-	 * Creaate plus button if it doesn't exist, update the image
+	 * Crea te plus button if it doesn't exist, update the image
 	 */
 	public void initPlus() {
 		if (btnPlus == null) {
@@ -229,7 +232,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					if (warning) {
+					if (noPlus) {
 						return;
 					}
 					
