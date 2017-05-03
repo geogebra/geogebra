@@ -70,7 +70,8 @@ class SpecialSymbolsKeyboardFactory {
         addTranslateInputCommandButton(row, buttonFactory, "Translate.currency", "Translate.currency", 1.0f);
         addInputButton(row, buttonFactory, LEFT_GUILLEMET);
         addInputButton(row, buttonFactory, RIGHT_GUILLEMET);
-        addButton(row, buttonFactory.createEmptySpace(1.5f));
+        addButton(row, buttonFactory.createEmptySpace(0.3f));
+        addConstantCustomButton(row, buttonFactory, Resource.BACKSPACE_DELETE, Action.BACKSPACE_DELETE, 1.2f);
 
         row = mathKeyboard.nextRow(10.0f);
 

@@ -55,7 +55,7 @@ class Characters {
     static final char SUBSET_OF_OR_EQUAL_TO = '\u2286';
     static final char ANGLE = '\u2220';
     static final char LEFT_FLOOR = '\u230A';
-    static final char RIGHT_FLOOR = '\u221E';
+    static final char RIGHT_FLOOR = '\u230B';
     static final char LEFT_CEILING = '\u2308';
     static final char RIGHT_CEILING = '\u2309';
     static final char AMPERSAND = '\u0026';
