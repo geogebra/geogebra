@@ -1327,6 +1327,11 @@ public class EuclidianPen implements GTimerListener {
 	 *         there are too few points or the thresholds cannot be fulfilled
 	 */
 	private GeoConic makeAConic() {
+		// disable ellipse for whiteboard
+		if (app.isWhiteboardActive()) {
+			return null;
+		}
+
 		double px, py;
 		// adapted from FitImplicit
 
