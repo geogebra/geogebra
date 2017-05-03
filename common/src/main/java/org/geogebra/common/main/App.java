@@ -4194,7 +4194,7 @@ public abstract class App implements UpdateSelection {
 		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
 			return prerelease;
 		case AND_TRACE_IN_PROPERTIES:
-			return true;
+			return true; // 5.0.356
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
 			return prerelease;
 		case ADVANCED_OPTIONS:
