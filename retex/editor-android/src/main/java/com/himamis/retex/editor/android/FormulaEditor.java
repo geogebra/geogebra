@@ -305,13 +305,13 @@ public class FormulaEditor extends View implements MathField {
 
     }
 
-    protected void updateShiftX() {
+    protected int calcCursorX() {
 
-        int inputBarWidth = getVisibleWidth();
+        int inputBarWidth = getWidth();
 
         if (inputBarWidth == 0) {
             debug("updateShiftX: inputBarWidth == 0");
-            return;
+            return -1;
         }
 
         debug("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
@@ -337,6 +337,8 @@ public class FormulaEditor extends View implements MathField {
             mHiddenBitmapW = iconWidth;
             mHiddenBitmapH = iconHeight;
             debug("==== new Bitmap");
+        } else {
+            mHiddenCanvas.drawColor(Color.BLACK);
         }
         drawShifted(mHiddenCanvas, 0);
         int[] pix = new int[iconWidth * iconHeight];
@@ -367,10 +369,21 @@ public class FormulaEditor extends View implements MathField {
 
         // if no red pixel, no cursor: do nothing
         if (pixRed == 0) {
+            return -1;
+        }
+
+        return cursorRed / pixRed;
+
+    }
+
+    protected void updateShiftX() {
+
+        int cursorX = calcCursorX();
+        if (cursorX < 0) {
             return;
         }
 
-        int cursorX = cursorRed / pixRed;
+        int inputBarWidth = getWidth();
 
         debug("cursorX: " + cursorX);
         int margin = (int) (CURSOR_MARGIN * mScale);
@@ -380,11 +393,6 @@ public class FormulaEditor extends View implements MathField {
             mShiftX = inputBarWidth - cursorX - margin;
         }
         debug("mShiftX: " + mShiftX);
-
-    }
-
-    protected int getVisibleWidth() {
-        return getWidth();
     }
 
     public void scroll(int dx, int dy) {
