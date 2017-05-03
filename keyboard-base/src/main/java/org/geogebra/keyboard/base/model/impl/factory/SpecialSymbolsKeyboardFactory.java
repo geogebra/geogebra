@@ -68,8 +68,8 @@ public class SpecialSymbolsKeyboardFactory {
         addInputButton(row, buttonFactory, COLON);
         addInputButton(row, buttonFactory, QUOTATION_MARK);
         addTranslateInputCommandButton(row, buttonFactory, "Translate.currency", "Translate.currency", 1.0f);
-        addInputButton(row, buttonFactory, MUCH_LESS_THAN);
-        addInputButton(row, buttonFactory, MUCH_GREATER_THAN);
+        addInputButton(row, buttonFactory, LEFT_GUILLEMET);
+        addInputButton(row, buttonFactory, RIGHT_GUILLEMET);
         addButton(row, buttonFactory.createEmptySpace(1.5f));
 
         row = mathKeyboard.nextRow(10.0f);

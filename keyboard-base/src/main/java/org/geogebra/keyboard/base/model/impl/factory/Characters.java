@@ -56,6 +56,6 @@ class Characters {
     static final char RIGHT_SQUARE_BRACKET = '\u005D';
     static final char COLON = '\u003A';
     static final char QUOTATION_MARK = '\u0022';
-    static final char MUCH_LESS_THAN = '\u226A';
-    static final char MUCH_GREATER_THAN = '\u226B';
+    static final char LEFT_GUILLEMET = '\u00AB';
+    static final char RIGHT_GUILLEMET = '\u00BB';
 }
