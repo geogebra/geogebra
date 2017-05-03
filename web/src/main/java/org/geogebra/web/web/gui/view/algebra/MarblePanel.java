@@ -30,7 +30,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	RadioTreeItem item;
 	/** plus menu */
 	ContextMenuPlus cmPlus=null;
-
+	private boolean warning=false;
+	
 	/**
 	 * @param item
 	 *            AV item
@@ -105,6 +106,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 */
 	public void updateIcons(boolean warning) {	
 		ToggleButton btn = null; 
+		this.warning = warning;
 		boolean textInput = item.getController().isInputAsText();
 		
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
@@ -227,6 +229,10 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
+					if (warning) {
+						return;
+					}
+					
 					if (cmPlus == null) {
 						cmPlus = new ContextMenuPlus(item);
 					}
