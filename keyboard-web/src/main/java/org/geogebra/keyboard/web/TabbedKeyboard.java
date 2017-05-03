@@ -7,7 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.ButtonConstants;
+import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.Resource;
@@ -373,17 +373,17 @@ public class TabbedKeyboard extends FlowPanel {
 		case TEXT:
 		default:
 			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
-				return accentButton(ButtonConstants.ACCENT_ACUTE, b);
+				return accentButton(Accents.ACCENT_ACUTE, b);
 			}
 			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_CARON.name())) {
-				return accentButton(ButtonConstants.ACCENT_CARON, b);
+				return accentButton(Accents.ACCENT_CARON, b);
 			}
 			if (wb.getActionName()
 					.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
-				return accentButton(ButtonConstants.ACCENT_CIRCUMFLEX, b);
+				return accentButton(Accents.ACCENT_CIRCUMFLEX, b);
 			}
 			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
-				return accentButton(ButtonConstants.ACCENT_GRAVE, b);
+				return accentButton(Accents.ACCENT_GRAVE, b);
 			}
 			if (wb.getActionName().equals("*")) {
 				return new KeyBoardButtonBase(Unicode.MULTIPLY + "", "*", b);
@@ -407,10 +407,10 @@ public class TabbedKeyboard extends FlowPanel {
 	}
 
 	protected boolean isAccent(String txt) {
-		return ButtonConstants.ACCENT_GRAVE.equals(txt)
-				|| ButtonConstants.ACCENT_ACUTE.equals(txt)
-				|| ButtonConstants.ACCENT_CIRCUMFLEX.equals(txt)
-				|| ButtonConstants.ACCENT_CARON.equals(txt);
+		return Accents.ACCENT_GRAVE.equals(txt)
+				|| Accents.ACCENT_ACUTE.equals(txt)
+				|| Accents.ACCENT_CIRCUMFLEX.equals(txt)
+				|| Accents.ACCENT_CARON.equals(txt);
 	}
 	private KeyBoardButtonBase accentButton(String accent, ButtonHandler b) {
 		return new KeyBoardButtonBase(accent, accent, b);
