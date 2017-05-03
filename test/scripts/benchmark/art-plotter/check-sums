@@ -23,6 +23,6 @@ exitcode=0
 
 n=96;  if ((di < $n));   then r "DesktopInternal" $di $n 1; fi
 n=69; if ((dg < $n));  then r "DesktopGrobcov" $dg $n 0; fi
-n=88; if ((w < $n));   then r "Web" $w $n 1; fi
+n=89; if ((w < $n));   then r "Web" $w $n 1; fi
 
 exit $exitcode
