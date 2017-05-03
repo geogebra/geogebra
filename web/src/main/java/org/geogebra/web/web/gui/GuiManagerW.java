@@ -2137,11 +2137,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void updateKeyboardLanguage() {
-		if (onScreenKeyboard instanceof KBBase) {
-			((KBBase) onScreenKeyboard).checkLanguage();
-		} else if (onScreenKeyboard instanceof TabbedKeyboard) {
-			((TabbedKeyboard) onScreenKeyboard).checkLanguage();
-		}
+		onScreenKeyboard.checkLanguage();
 	}
 
 	public static KeyboardListener makeKeyboardListener(
