@@ -10,7 +10,9 @@ import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLocus;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
@@ -29,7 +31,17 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						if (addToSelection) {
 							return;
 						}
-						DynamicStyleBar.this.setVisible(addToSelection);
+
+						if (app.has(Feature.LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR)) {
+							// If the activeGeoList will be null or empty, this will
+							// hide the dynamic stylebar.
+							// If we clicked on a locked geo, the activeGeoList will
+							// contain it, so in this case the dynamic stylebar will
+							// be visible yet.
+							DynamicStyleBar.this.updateStyleBar();
+						} else {
+							DynamicStyleBar.this.setVisible(addToSelection);
+						}
 					}
 				});
 		stopPointer(getElement());

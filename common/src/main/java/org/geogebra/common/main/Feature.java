@@ -226,6 +226,9 @@ public enum Feature {
 	AV_MORE_MENU,
 
 	/** GGB-1633 */
-	SWITCH_BETWEEN_KEYBOARD_LANGUAGE
+	SWITCH_BETWEEN_KEYBOARD_LANGUAGE,
+
+	/** Dynamic stylebar added for locked geos too */
+	LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR
 
 }

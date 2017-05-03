@@ -4229,6 +4229,9 @@ public abstract class App implements UpdateSelection {
 		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
 			return prerelease;
 
+		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
