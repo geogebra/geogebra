@@ -44,7 +44,6 @@ class SpecialSymbolsKeyboardFactory {
         name.append("x");
         name.append(RIGHT_FLOOR);
         command.append(LEFT_FLOOR);
-        command.append(RIGHT_FLOOR);
         addInputCommandButton(row, buttonFactory, name.toString(), command.toString(), 1.0f);
 
         name.setLength(0);
@@ -53,7 +52,6 @@ class SpecialSymbolsKeyboardFactory {
         name.append("x");
         name.append(RIGHT_CEILING);
         command.append(LEFT_CEILING);
-        command.append(RIGHT_CEILING);
         addInputCommandButton(row, buttonFactory, name.toString(), command.toString(), 1.0f);
 
         addInputButton(row, buttonFactory, AMPERSAND);
