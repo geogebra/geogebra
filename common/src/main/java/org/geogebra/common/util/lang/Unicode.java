@@ -194,6 +194,10 @@ public class Unicode {
 	public static final char LFLOOR = '\u230a';
 	public static final char RFLOOR = '\u230b';
 
+	public static final char HASHTAG = '\u0023';
+	public static final char AMPERSAND = '\u0026';
+	public static final char NOT_SIGN = '\u00AC';
+
 	/**
 	 * converts an integer to a unicode superscript string (including minus
 	 * sign) eg for use as a power

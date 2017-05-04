@@ -251,6 +251,11 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
 		switcher.setSelected(0, true);
+		
+		// add special char tab
+		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(), bh);
+		keyboard.setVisible(false);
+		tabs.add(keyboard);
 
 
 		add(switcher);
@@ -419,6 +424,9 @@ public class TabbedKeyboard extends FlowPanel {
 			if (wb.getActionName().equals(Unicode.EULER_STRING)) {
 				return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
 			}
+			if (wb.getActionName().equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())) {
+				return functionButton(wb, bh);
+			}
 			return new KeyBoardButtonBase(wb.getActionName(),
 					wb.getActionName(), b);
 		}
@@ -519,6 +527,9 @@ public class TabbedKeyboard extends FlowPanel {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.sqrt(),
 					button.getActionName(), bh);
+		}
+		if (resourceName.equals(KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS)) {
+			return new KeyBoardButtonFunctionalBase(KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, bh, Action.SWITCH_TO_SPECIAL_SYMBOLS);
 		}
 
 		return new KeyBoardButtonBase(button.getActionName(),
