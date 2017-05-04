@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.EventType;
 
 public class SpreadsheetController {
 	private App app;
@@ -13,7 +14,7 @@ public class SpreadsheetController {
 	}
 
 	public boolean redefineIfNeeded(GeoElement geo) {
-		if (!geo.isProtected()) {
+		if (!geo.isProtected(EventType.UPDATE)) {
 			if (!geo.isGeoText() && !geo.isIndependent()
 					&& getEditorInitString(geo).length() > 20) {
 				app.getDialogManager().showRedefineDialog(geo, false);

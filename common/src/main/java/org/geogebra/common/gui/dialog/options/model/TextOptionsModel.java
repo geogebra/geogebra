@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -342,7 +343,7 @@ public class TextOptionsModel extends OptionsModel {
 	public boolean isTextEditable() {
 		return getGeosLength() == 1 && getObjectAt(0) instanceof GeoText
 				&& !getGeoTextAt(0).isTextCommand()
-				&& !getGeoTextAt(0).isProtected();
+				&& !getGeoTextAt(0).isProtected(EventType.UPDATE);
 	}
 
 	@Override

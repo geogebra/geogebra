@@ -9,6 +9,7 @@ import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.main.AppD;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -429,7 +430,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 				table.getSelectedColumn());
 		if (o != null && o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isProtected()) {
+			if (geo.isProtected(EventType.UPDATE)) {
 				return;
 			}
 		}

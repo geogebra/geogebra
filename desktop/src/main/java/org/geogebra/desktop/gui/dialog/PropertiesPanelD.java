@@ -127,6 +127,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
@@ -2023,7 +2024,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private boolean checkGeos(Object[] geos) {
 			return geos.length == 1 && geos[0] instanceof GeoText
 					&& !((GeoText) geos[0]).isTextCommand()
-					&& !((GeoText) geos[0]).isProtected();
+					&& !((GeoText) geos[0]).isProtected(EventType.UPDATE);
 		}
 
 		/**

@@ -76,6 +76,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -1096,7 +1097,8 @@ public class TextInputDialogD extends InputDialogD
 		public void processInput(String inputValue0, ErrorHandler handler,
 				final AsyncOperation<Boolean> callback) {
 			if (inputValue0 == null
-					|| (editGeo != null && editGeo.isProtected())
+					|| (editGeo != null
+							&& editGeo.isProtected(EventType.UPDATE))
 					|| (editGeo != null && !editGeo.isLabelSet())) {
 				callback.callback(false);
 				return;

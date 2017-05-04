@@ -352,11 +352,12 @@ public abstract class ContextMenuGeoElement {
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
 			if (geo1.isGeoNumeric()) {
-				((GeoNumeric) geo1).setSliderFixed(!geo1.isProtected());
+				((GeoNumeric) geo1)
+						.setSliderFixed(!((GeoNumeric) geo1).isSliderFixed());
 				geo1.updateRepaint();
 			} else {
 				if (geo1.isFixable()) {
-					geo1.setFixed(!geo1.isProtected());
+					geo1.setFixed(!geo1.isLocked());
 					geo1.updateRepaint();
 				}
 			}

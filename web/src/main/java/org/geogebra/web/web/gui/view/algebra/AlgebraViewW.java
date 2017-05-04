@@ -24,6 +24,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -1817,7 +1818,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			if (!geo.isChangeable()) {
-				if (geo.isProtected()) {
+				if (geo.isProtected(EventType.UPDATE)) {
 					app.showMessage(loc.getError("AssignmentToFixed"));
 					return;
 				} else if (geo.isRedefineable()

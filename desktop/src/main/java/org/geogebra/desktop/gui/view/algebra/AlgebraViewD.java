@@ -53,6 +53,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.view.Gridable;
@@ -432,7 +433,7 @@ public class AlgebraViewD extends AlgebraTree
 			}
 
 			if (!geo.isChangeable()) {
-				if (geo.isProtected()) {
+				if (geo.isProtected(EventType.UPDATE)) {
 					// app.showMessage(app.getError("AssignmentToFixed"));
 				} else if (geo.isRedefineable()) {
 					app.getDialogManager().showRedefineDialog(geo, true);

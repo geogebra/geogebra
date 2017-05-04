@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -137,7 +138,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			return;
 		}
 
-		if (getGeo().isProtected()) {
+		if (getGeo().isProtected(EventType.UPDATE)) {
 			return;
 		}
 
@@ -686,7 +687,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		// EDITING
 		// EDIT Text in special dialog
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
-				&& !getGeo().isTextCommand() && !getGeo().isProtected()) {
+				&& !getGeo().isTextCommand()
+				&& !getGeo().isProtected(EventType.UPDATE)) {
 			addAction(new AbstractAction(loc.getMenu("Edit"),
 					((AppD) app).getScaledIcon(GuiResourcesD.EDIT)) {
 				private static final long serialVersionUID = 1L;
@@ -699,7 +701,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		}
 
 		// DELETE
-		if (app.letDelete() && !getGeo().isProtected()) {
+		if (app.letDelete() && !getGeo().isProtected(EventType.REMOVE)) {
 			addAction(new AbstractAction(loc.getMenu("Delete"),
 					((AppD) app).getScaledIcon(GuiResourcesD.DELETE_SMALL)) {
 				/**

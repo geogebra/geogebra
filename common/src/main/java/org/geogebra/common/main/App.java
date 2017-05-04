@@ -1102,7 +1102,7 @@ public abstract class App implements UpdateSelection {
 			Object[] geos = selection.getSelectedGeos().toArray();
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
-				if (!geo.isProtected()) {
+				if (!geo.isProtected(EventType.REMOVE)) {
 					if (isCut || geo.isShape()) {
 						if (geo.getParentAlgorithm() != null) {
 							for (GeoElement ge : geo
@@ -1120,7 +1120,7 @@ public abstract class App implements UpdateSelection {
 					.getEuclidianController().getJustCreatedGeos();
 			for (int j = 0; j < geos2.size(); j++) {
 				GeoElement geo = geos2.get(j);
-				if (!geo.isProtected()) {
+				if (!geo.isProtected(EventType.REMOVE)) {
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				}
 			}

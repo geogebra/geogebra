@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.plugin.EventType;
 
 public class CoordsModel extends MultipleOptionsModel {
 
@@ -29,7 +30,7 @@ public class CoordsModel extends MultipleOptionsModel {
 		}
 
 		// check if fixed
-		if (geo.isProtected()) {
+		if (geo.isProtected(EventType.UPDATE)) {
 			valid = false;
 		}
 		return valid;

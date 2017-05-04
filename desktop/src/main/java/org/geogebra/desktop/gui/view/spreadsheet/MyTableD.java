@@ -52,6 +52,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -1144,7 +1145,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 					for (int j = minSelectionColumn; j <= maxSelectionColumn; j++) {
 						if (tableModel.getValueAt(i, j) instanceof GeoElement) {
 							showBlueDot &= !((GeoElement) tableModel
-									.getValueAt(i, j)).isProtected();
+									.getValueAt(i, j))
+											.isProtected(EventType.UPDATE);
 						}
 					}
 				}
@@ -1465,7 +1467,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// prevent editing fixed geos when allowEditing == true
 		GeoElement geo = (GeoElement) getModel().getValueAt(row, column);
-		if (geo != null && geo.isProtected()) {
+		if (geo != null && geo.isProtected(EventType.UPDATE)) {
 			return false;
 		}
 

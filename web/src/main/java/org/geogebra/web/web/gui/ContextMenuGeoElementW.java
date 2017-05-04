@@ -27,6 +27,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -457,7 +458,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		// DELETE
-		if (app.letDelete() && !getGeo().isProtected() && !isWhiteboard()) {
+		if (app.letDelete() && !getGeo().isProtected(EventType.REMOVE)
+				&& !isWhiteboard()) {
 
 			String img;
 			if (isWhiteboard()) {
@@ -534,7 +536,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				loc.getMenu("Rename"));
 
 		if (getGeos().size() == 1 && getGeo() instanceof TextValue
-				&& !getGeo().isTextCommand() && !getGeo().isProtected()) {
+				&& !getGeo().isTextCommand()
+				&& !getGeo().isProtected(EventType.UPDATE)) {
 
 			String img2;
 			if (isWhiteboard()) {
@@ -825,7 +828,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		boolean canDelete = app.letDelete() && !getGeo().isProtected();
+		boolean canDelete = app.letDelete()
+				&& !getGeo().isProtected(EventType.REMOVE);
 		mnuCut.setEnabled(canDelete);
 		updatePasteItem();
 		mnuDelete.setEnabled(canDelete);
@@ -1132,7 +1136,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		if (getGeo().isProtected()) {
+		if (getGeo().isProtected(EventType.UPDATE)) {
 			return;
 		}
 

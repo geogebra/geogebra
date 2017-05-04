@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Superclass that creates a context menu for spreadsheet cells, rows and
@@ -372,7 +373,7 @@ public class SpreadsheetContextMenu {
 		if (geos != null && geos.size() > 0) {
 			for (int i = 0; (i < geos.size() && allFixed); i++) {
 				GeoElement geo = geos.get(i);
-				if (!geo.isProtected()) {
+				if (!geo.isProtected(EventType.REMOVE)) {
 					allFixed = false;
 				}
 			}

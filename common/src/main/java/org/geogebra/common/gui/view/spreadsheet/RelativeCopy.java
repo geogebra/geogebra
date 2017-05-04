@@ -28,6 +28,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -105,7 +106,8 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isProtected()) {
+								if (vOld != null
+										&& vOld.isProtected(EventType.UPDATE)) {
 									break;
 								}
 
@@ -145,7 +147,8 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isProtected()) {
+								if (vOld != null
+										&& vOld.isProtected(EventType.UPDATE)) {
 									break;
 								}
 
@@ -191,7 +194,8 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isProtected()) {
+								if (vOld != null
+										&& vOld.isProtected(EventType.UPDATE)) {
 									break;
 								}
 
@@ -230,7 +234,8 @@ public class RelativeCopy {
 								// quick solution: stop on fixed cell
 								// this may be improved later
 								GeoElement vOld = getValue(app, x, y);
-								if (vOld != null && vOld.isProtected()) {
+								if (vOld != null
+										&& vOld.isProtected(EventType.UPDATE)) {
 									break;
 								}
 
@@ -345,7 +350,7 @@ public class RelativeCopy {
 					GPoint p = geo.getSpreadsheetCoords();
 
 					GeoElement vOld = getValue(app, p.x, dy1 + iy);
-					if (vOld != null && vOld.isProtected()) {
+					if (vOld != null && vOld.isProtected(EventType.UPDATE)) {
 						continue;
 					}
 
@@ -400,7 +405,7 @@ public class RelativeCopy {
 					GPoint p = geo.getSpreadsheetCoords();
 
 					GeoElement vOld = getValue(app, dx1 + ix, p.y);
-					if (vOld != null && vOld.isProtected()) {
+					if (vOld != null && vOld.isProtected(EventType.UPDATE)) {
 						continue;
 					}
 

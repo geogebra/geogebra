@@ -132,6 +132,7 @@ import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -1403,7 +1404,7 @@ public abstract class EuclidianController {
 
 	private boolean mayHighlight(GeoElement geo) {
 		return mode == EuclidianConstants.MODE_MOVE ? !geo.isLocked()
-				: !geo.isProtected();
+				: !geo.isProtected(EventType.UPDATE);
 	}
 
 	public final void doSingleHighlighting(GeoElement geo) {
@@ -7057,7 +7058,7 @@ public abstract class EuclidianController {
 				if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSlider()) {
 					// double-click slider -> Object Properties
 					getDialogManager().showPropertiesDialog(hits);
-				} else if (!geo0.isProtected()
+				} else if (!geo0.isProtected(EventType.UPDATE)
 						&& !(geo0.isGeoBoolean() && geo0.isIndependent())
 						&& geo0.isRedefineable()
 						&& !geo0.isGeoButton() && !(geo0.isGeoList()

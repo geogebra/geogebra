@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SpreadsheetTableModel;
+import org.geogebra.common.plugin.EventType;
 
 public abstract class CopyPasteCut {
 
@@ -532,7 +533,7 @@ public abstract class CopyPasteCut {
 		for (int column = column1; column <= column2; ++column) {
 			for (int row = row1; row <= row2; ++row) {
 				GeoElement value0 = RelativeCopy.getValue(app, column, row);
-				if (value0 != null && !value0.isProtected()) {
+				if (value0 != null && !value0.isProtected(EventType.REMOVE)) {
 					toRemove.add(value0);
 				}
 			}

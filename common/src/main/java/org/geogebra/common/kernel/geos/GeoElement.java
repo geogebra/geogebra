@@ -1966,7 +1966,7 @@ public abstract class GeoElement extends ConstructionElement
 	final public void removeOrSetUndefinedIfHasFixedDescendent() {
 
 		// can't delete a fixed object at all
-		if (isProtected()) {
+		if (isProtected(EventType.REMOVE)) {
 			return;
 		}
 
@@ -1975,7 +1975,7 @@ public abstract class GeoElement extends ConstructionElement
 		final Set<GeoElement> tree = getAllChildren();
 		final Iterator<GeoElement> it = tree.iterator();
 		while (it.hasNext() && !hasFixedDescendent) {
-			if (it.next().isProtected()) {
+			if (it.next().isProtected(EventType.REMOVE)) {
 				hasFixedDescendent = true;
 			}
 		}
@@ -2302,7 +2302,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this geo can be changed directly
 	 */
 	public boolean isChangeable() {
-		return !isProtected() && isIndependent();
+		return !isProtected(EventType.UPDATE) && isIndependent();
 	}
 
 	/**
@@ -2328,7 +2328,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this object may be redefined
 	 */
 	public boolean isRedefineable() {
-		return !isProtected() && kernel.getApplication().letRedefine()
+		return !isProtected(EventType.UPDATE)
+				&& kernel.getApplication().letRedefine()
 				&& !(this instanceof TextValue) && isAlgebraViewEditable()
 				&& (isChangeable() || // redefine changeable (independent and
 										// not fixed)
@@ -2336,11 +2337,16 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @param type
+	 *            event type (UPDATE or REMOVE)
 	 * @return whether this is protected against deleting and editing
 	 */
-	public boolean isProtected() {
-		return kernel.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)
-				? isLocked() && this.getSpreadsheetCoords() != null : fixed;
+	public boolean isProtected(EventType type) {
+		if (kernel.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)) {
+			return isLocked() && this.getSpreadsheetCoords() != null
+					&& type == EventType.REMOVE;
+		}
+		return fixed;
 	}
 
 	/**

@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -458,7 +459,7 @@ public class MyCellEditorW implements BaseCellEditor {
 						        .lookupLabel(cellBelowStr);
 
 						boolean moveDown = cellBelow == null
-								|| !cellBelow.isProtected();
+								|| !cellBelow.isProtected(EventType.UPDATE);
 
 						// don't move down to cell below after <Enter> if it's
 						// fixed

@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GWTKeycodes;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -517,7 +518,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		        table.getSelectedColumn());
 		if (o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isProtected()) {
+			if (geo.isProtected(EventType.UPDATE)) {
 				return;
 			}
 		}
@@ -544,7 +545,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				table.getSelectedColumn());
 		if (o instanceof GeoElement) {
 			GeoElement geo = (GeoElement) o;
-			if (geo.isProtected()) {
+			if (geo.isProtected(EventType.UPDATE)) {
 				return;
 			}
 		}
