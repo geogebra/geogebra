@@ -344,6 +344,10 @@ $tab123-width: 644px;
 		margin: auto;
 	}
 
+	.scale .KeyPanel{
+		margin: 0;
+	}
+
 	.KeyboardSwitcher {
 		position: relative;
 		background-color: $switcher-background;
@@ -362,6 +366,20 @@ $tab123-width: 644px;
 		margin-right: auto;
 		white-space: nowrap;
 				
+	}
+
+
+	.scale.smallerFont .KeyboardSwitcher .switcherContents {
+		font-size: 86% !important;
+	}
+	
+	.scale.normal .KeyboardSwitcher .switcherContents {
+		font-size: 100% !important;
+	}
+	
+	.scale .KeyboardSwitcher .switcherContents {
+		margin-left: 0;
+		margin-right: 0;
 	}
 
 	.KeyboardSwitcher .gwt-Button {

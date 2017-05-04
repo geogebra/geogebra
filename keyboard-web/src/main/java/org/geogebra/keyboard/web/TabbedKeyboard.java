@@ -36,6 +36,12 @@ public class TabbedKeyboard extends FlowPanel {
 	private static final int TAB_FX = 1;
 	private static final int TAB_ABC = 2;
 	private static final int TAB_ALPHA = 3;
+
+	/**
+	 * minimum width of the whole application to use normal font (small font
+	 * otherwise)
+	 */
+	protected static final int MIN_WIDTH_FONT = 485;
 	
 	private class KeyboardSwitcher extends FlowPanel {
 		private static final int SWITCHER_HEIGHT = 40;
@@ -358,12 +364,16 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		if (app.getInnerWidth() < getMinWidthWithoutScaling()) {
 			addStyleName("scale");
+			removeStyleName("normal");
+			removeStyleName("smallerFont");
+			if (app.getInnerWidth() < MIN_WIDTH_FONT) {
+				addStyleName("smallerFont");
+			}
 		} else {
+			addStyleName("normal");
 			removeStyleName("scale");
+			removeStyleName("smallerFont");
 		}
-
-
-
 
 	}
 
