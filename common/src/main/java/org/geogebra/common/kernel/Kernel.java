@@ -1904,8 +1904,17 @@ public class Kernel {
 		return squared;
 	}
 
-	/*
+	/**
 	 * y = a (x + h)^2 + k
+	 * 
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            strings to substitute for xx,yy,xy,x,y (only indices 3 and 4
+	 *            are used)
+	 * @param tpl
+	 *            template
+	 * @return vertex equation of the parabola
 	 */
 	public final StringBuilder buildVertexformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
@@ -1925,7 +1934,8 @@ public class Kernel {
 			sbBuildVertexformEquation.append("(");
 			sbBuildVertexformEquation.append(vars[3]);
 			sbBuildVertexformEquation.append(" ");
-			sbBuildVertexformEquation.append(sign(h) + ' ');
+			sbBuildVertexformEquation.append(sign(h));
+			sbBuildVertexformEquation.append(' ');
 			sbBuildVertexformEquation.append(format(Math.abs(h), tpl));
 			sbBuildVertexformEquation.append(")");
 			sbBuildVertexformEquation.append(squared(tpl));
