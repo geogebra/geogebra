@@ -41,9 +41,9 @@ public class TeXSerializer extends SerializerAdapter {
 		if ("=".equals(mathCharacter.getName())) {
 			stringBuilder.append("\\,=\\,");
 		} else if ("@".equals(mathCharacter.getName())) {
-			stringBuilder.append(("\\@") + " ");
+			stringBuilder.append("\\@ ");
 		} else if (" ".equals(mathCharacter.getName())) {
-			stringBuilder.append(("\\nbsp") + " ");
+			stringBuilder.append("\\nbsp ");
         } else {
             String texName = mathCharacter.getTexName();
             if (LaTeXUtil.isSymbolEscapeable(texName)) {
@@ -171,8 +171,9 @@ public class TeXSerializer extends SerializerAdapter {
                 stringBuilder.append('}');
 
             } else if ("frac".equals(function.getName())) {
-                stringBuilder.append("{" + function.getTexName());
                 stringBuilder.append("{");
+				stringBuilder.append(function.getTexName());
+				stringBuilder.append("{");
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append("}{");
                 serialize(function.getArgument(1), stringBuilder);
@@ -237,22 +238,6 @@ public class TeXSerializer extends SerializerAdapter {
                 }
                 stringBuilder.append('}');
 
-            } else if ("nint".equals(function.getName())) {
-                stringBuilder.append(function.getTexName());
-				stringBuilder.append(("_{\\nbsp}") + "{");
-                boolean addBraces = currentBraces;
-                if (addBraces) {
-                    stringBuilder.append('(');
-                }
-                serialize(function.getArgument(0), stringBuilder);
-                // jmathtex v0.7: incompatibility
-				stringBuilder.append(" " + ("\\nbsp") + " d");
-                serialize(function.getArgument(1), stringBuilder);
-                if (addBraces) {
-                    stringBuilder.append(')');
-                }
-                stringBuilder.append('}');
-
             } else if ("lim".equals(function.getName())) {
                 // lim not implemented in jmathtex
 				stringBuilder.append("\\lim_{");
@@ -291,7 +276,7 @@ public class TeXSerializer extends SerializerAdapter {
             } else if ("function".equals(function.getName())) {
                 stringBuilder.append("\\mathrm{" + function.getTexName() + "} ");
                 // jmathtex v0.7: incompatibility
-				stringBuilder.append(("\\nbsp") + " ");
+				stringBuilder.append("\\nbsp ");
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append("\\left(");
                 serialize(function.getArgument(1), stringBuilder);
@@ -308,7 +293,9 @@ public class TeXSerializer extends SerializerAdapter {
                 }
             }
         } else {
-			stringBuilder.append("{\\mathrm{" + function.getTexName() + "}");
+			stringBuilder.append("{\\mathrm{");
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append("}");
             stringBuilder.append("\\left");
             stringBuilder.append(MathFunction.getOpeningBracket());
             for (int i = 0; i < function.size(); i++) {

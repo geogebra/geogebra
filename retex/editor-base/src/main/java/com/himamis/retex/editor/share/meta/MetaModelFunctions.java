@@ -25,7 +25,8 @@ class MetaModelFunctions {
 				new MetaParameter[] { createParameter("x", 0) });
     }
 
-    private static MetaFunction createFunctionInitial(String name, String cas, String tex, int initial, MetaParameter[] parameters) {
+	private static MetaFunction createFunctionInitial(String name, String tex,
+			int initial, MetaParameter[] parameters) {
 		MetaFunction metaFunction = createFunction(name, tex, parameters);
         metaFunction.setInitialIndex(initial);
         return metaFunction;
@@ -72,7 +73,7 @@ class MetaModelFunctions {
         functions.add(createFunctionParams("_", "i"));
         functions.add(createFunctionParams("^", "n"));
 
-		functions.add(createFunctionInitial("frac", "/", "\\frac", 1,
+		functions.add(createFunctionInitial("frac", "\\frac", 1,
 				new MetaParameter[] {
                 createParameterDown("x", 0, 1),
                 createParameterUp("y", 1, 0)

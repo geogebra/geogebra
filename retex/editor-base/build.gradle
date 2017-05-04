@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'maven-publish'
+apply plugin: 'pmd'
 
 group 'com.himamis.retex'
 version '0.1'
@@ -18,4 +19,9 @@ targetCompatibility = 1.6
 
 dependencies {
 	compile project(':renderer-base')
+}
+pmd {
+     ignoreFailures = true
+     ruleSets = []
+     ruleSetFiles = files("src/main/config/pmd.xml")
 }
