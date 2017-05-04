@@ -9,7 +9,7 @@ $new-keyboard-background: #eeeeee;
 $new-keyboard-button-border: #c7c7c7;
 $active-switcher: #6666ff;
 $black: #000000;
-
+$tab123-width: 644px;
 
 .GeoGebraFrame{
 	.openKeyboardButton:active {
@@ -356,10 +356,11 @@ $black: #000000;
 	
 
 	.KeyboardSwitcher .switcherContents {
+		width: $tab123-width;
 		margin-left: auto;
 		margin-right: auto;
 		white-space: nowrap;
-		
+				
 	}
 
 	.KeyboardSwitcher .gwt-Button {
@@ -378,6 +379,10 @@ $black: #000000;
 	
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
 		color: $active-switcher;
+	}
+	
+	.KeyboardSwitcher .switcherContents > :first-child {
+		margin-left: -8px;
 	}
 	
 	.KeyboardSwitcher .gwt-Button:hover {

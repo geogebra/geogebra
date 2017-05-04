@@ -80,7 +80,6 @@ public class TabbedKeyboard extends FlowPanel {
 					}
 					currentKeyboard = keyboard;
 					keyboard.setVisible(true);
-					adjustSwitcher(keyboard);
 					setSelected(ret, true);
 				}
 			});
@@ -168,17 +167,16 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		
 		public void setWidth(int width) {
-			if (this.width != null) {
-				return;
-			}
-			this.width = width;
-			//	contents.getElement().getStyle().setProperty("height", getOffsetHeight(), Unit.PX);
-			contents.getElement().getStyle().setProperty("width", width, Unit.PX);
-	
+//			if (this.width != null) {
+//				return;
+//			}
+//			this.width = width;
+//			//	contents.getElement().getStyle().setProperty("height", getOffsetHeight(), Unit.PX);
+//			contents.getElement().getStyle().setProperty("width", width, Unit.PX);
+//	
 		}
 
 		public void reset() {
-			adjustSwitcher();
 			if (moreButton != null) { 
 				moreButton.setValue(false);
 			}
@@ -189,7 +187,6 @@ public class TabbedKeyboard extends FlowPanel {
 				tabs.getWidget(i).setVisible(i == idx);
 				setSelected(i, i == idx);
 			}
-			adjustSwitcher();
 		}
 
 	}
@@ -227,7 +224,6 @@ public class TabbedKeyboard extends FlowPanel {
 		this.locale = app.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 
-		switcher.addMoreButton();
 
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), bh);
 		tabs.add(keyboard);
@@ -257,6 +253,7 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		tabs.add(keyboard);
 
+		switcher.addMoreButton();
 
 		add(switcher);
 		add(tabs);
@@ -364,24 +361,6 @@ public class TabbedKeyboard extends FlowPanel {
 
 	}
 
-	protected void adjustSwitcher() {
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			
-			@Override
-			public void execute() {
-				if (currentKeyboard != null) {
-					adjustSwitcher(currentKeyboard);
-				} else {
-					adjustSwitcher((KeyPanelBase) tabs.getWidget(0));
-			}
-				}
-			
-		});
-	}
-		
-	protected void adjustSwitcher(KeyPanelBase keyboard) {
-		switcher.setWidth(keyboard.getRows().get(0).getOffsetWidth());	
-	}
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
 		switch (wb.getResourceType()) {
 

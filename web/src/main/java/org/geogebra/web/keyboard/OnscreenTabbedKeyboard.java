@@ -219,7 +219,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	public void afterShown(final Runnable runnable) {
 		runOnAnimation(runnable, getElement());
-		adjustSwitcher();
 	}
 
 	private native void runOnAnimation(Runnable runnable,
