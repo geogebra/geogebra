@@ -138,7 +138,7 @@ public class AlgebraStyleTest extends Assert {
 						+ " 1.32 cosh(t), 0.66 sinh(t))");
 		// double line TODO wrong
 		checkEquation("-x^2=x +x -1", GeoConicND.EQUATION_PARAMETRIC,
-				"X = X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + "
+				"X = (-1 " + Unicode.PLUSMINUS + " 1.41, 0, 0) + "
 						+ Unicode.lambda + " (0, 1, 0)");
 		// parabolas
 		checkEquation("-x^2-x=x -1+y", GeoConicND.EQUATION_PARAMETRIC,

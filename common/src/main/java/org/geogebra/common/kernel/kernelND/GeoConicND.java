@@ -1558,14 +1558,8 @@ public abstract class GeoConicND extends GeoQuadricND
 			if (abs > Kernel.STANDARD_PRECISION) {
 				allZero = false;
 			}
-			if ((i == 0 || i == 1 || i == 3) && maxCoeffAbs < abs) { // check
-																		// max
-																		// only
-																		// on
-																		// coeffs
-																		// x*x,
-																		// y*y,
-																		// x*y
+			// check max only on coeffs x*x, y*y, x*y
+			if ((i == 0 || i == 1 || i == 3) && maxCoeffAbs < abs) {
 				maxCoeffAbs = abs;
 			}
 		}
@@ -4457,7 +4451,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			tmpCoords1.setAdd(d1, d2).mulInside(0.5);
 			tmpCoords2.setSub(d2, d1).mulInside(0.5);
 			tmpCoords2.checkReverseForFirstValuePositive();
-			sbBuildValueString.append("X = (");
+			sbBuildValueString.append("(");
 			sbBuildValueString.append(kernel.format(center.getX(), tpl));
 			sbBuildValueString.append(", ");
 			sbBuildValueString.append(kernel.format(center.getY(), tpl));
@@ -4485,7 +4479,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			tmpCoords1.setAdd(c1, c2).mulInside(0.5);
 			tmpCoords2.setSub(c2, c1).mulInside(0.5);
 			tmpCoords2.checkReverseForFirstValuePositive();
-			sbBuildValueString.append("X = (");
+			sbBuildValueString.append("(");
 			kernel.appendTwoCoeffs(tmpCoords1.getX(), tmpCoords2.getX(), tpl,
 					sbBuildValueString);
 			sbBuildValueString.append(", ");
@@ -4509,7 +4503,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		case CONIC_DOUBLE_LINE:
 			center = getMidpoint3D();
 			d = getDirection3D(0);
-			sbBuildValueString.append("X = (");
+			sbBuildValueString.append("(");
 			sbBuildValueString.append(kernel.format(center.getX(), tpl));
 			sbBuildValueString.append(", ");
 			sbBuildValueString.append(kernel.format(center.getY(), tpl));
