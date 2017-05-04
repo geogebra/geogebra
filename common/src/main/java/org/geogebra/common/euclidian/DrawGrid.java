@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -48,8 +49,21 @@ public class DrawGrid {
 
 	}
 
-	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix,
+	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
 			double yCrossPix) {
+
+		double xCrossPix = xCrossPix1;
+
+		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+			// if xCrossPix less than the width of the view, grid won't be drawn
+			// to the right border at the case when the yAxis is offscreen on
+			// the right.
+			if (xCrossPix1 >= view.getWidth()) {
+				xCrossPix = view.getWidth() - Kernel.MIN_PRECISION;
+			}
+		}
+
+
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		double pix = start;
