@@ -221,18 +221,15 @@ public class DrawAxis {
 				// drawXTicksLog(g2, 0, minusSign, drawRightArrow,
 				// fontsize, xAxisStart);
 			} else {
-				if (view.getYmin() < view.axisCross[0]) {
-					drawXTicksLinear(g2, 0, minusSign, drawRightArrow, fontsize,
-							xAxisStart);
-				} else if (view.getYmax() > view.axisCross[0]) {
-					drawXTicksLinear(g2,
-							view.getHeight()
-									- view.getYOffsetForXAxis(fontsize),
-							minusSign,
-							drawRightArrow,
-							fontsize,
-							xAxisStart);
+				int tickposition = 0;
+				if (view.getYmin() >= view.axisCross[0]) {
+					tickposition = view.getHeight()
+							- view.getYOffsetForXAxis(fontsize);
 				}
+
+				drawXTicksLinear(g2, tickposition, minusSign, drawRightArrow,
+						fontsize,
+						xAxisStart);
 			}
 		}
 
