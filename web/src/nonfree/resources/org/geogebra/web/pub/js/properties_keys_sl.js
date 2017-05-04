@@ -2813,7 +2813,7 @@ __GGB__keysVar.sl.menu = {
     "ToolHelp": "Pomo\u010d za orodje",
     "ToolName": "Ime orodja",
     "Toolbar": "Orodjarna",
-    "Toolbar.Customize": "Prilagajanje orodjarne",
+    "Toolbar.Customize": "Prilagajanje orodij",
     "Toolbar.ResetDefault": "Nastavi privzeto orodjarno",
     "ToolbarIcon": "Ikona orodja",
     "ToolbarIconsConstructionProtocolExport": "Prikaz ikon z orodji",

@@ -2035,7 +2035,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Line": "Reta",
     "LineBisector": "Mediatriz",
     "LineBisector.Help": "Selecione dois pontos ou um segmento de reta",
-    "LineBisectorAB": "Mediatriz %0, %1",
+    "LineBisectorAB": "Mediatriz %0%1",
     "LineBisectorOfA": "Mediatriz %0",
     "LineGraph": "Gr\xe1fico Linear",
     "LineMenu": "Reta",
