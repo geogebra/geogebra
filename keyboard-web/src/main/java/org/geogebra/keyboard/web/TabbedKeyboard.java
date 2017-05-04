@@ -356,6 +356,12 @@ public class TabbedKeyboard extends FlowPanel {
 								Unit.PX);
 			}
 		}
+		if (app.getInnerWidth() < getMinWidthWithoutScaling()) {
+			addStyleName("scale");
+		} else {
+			removeStyleName("scale");
+		}
+
 
 
 
@@ -604,4 +610,17 @@ public class TabbedKeyboard extends FlowPanel {
 	public void selectGreek() {
 		selectTab(TAB_ALPHA);
 	}
+
+	/**
+	 * check the minimum width. Either width of ABC panel or 123 panel. 70 =
+	 * width of button; 82 = padding
+	 * 
+	 * @return
+	 */
+	private int getMinWidthWithoutScaling() {
+		int abc = 10 * 70 + 82;
+		int numbers = 850;
+		return Math.max(abc, numbers);
+	}
+
 }
