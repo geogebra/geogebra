@@ -143,34 +143,34 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					unselectAll();
+//					unselectAll();
 					showHelp(moreButton.getAbsoluteLeft() + moreButton.getOffsetWidth(),
 							moreButton.getAbsoluteTop());	
 				}
 			});
 			
-			moreButton.addMouseOverHandler(new MouseOverHandler() {
-				
-				@Override
-				public void onMouseOver(MouseOverEvent event) {
-					unselectAll();
-				}
-			});
-			
-			moreButton.addMouseOutHandler(new MouseOutHandler() {
-				
-				@Override
-				public void onMouseOut(MouseOutEvent event) {
-					setSelected(selectedButton, true);
-				}
-			});
+//			moreButton.addMouseOverHandler(new MouseOverHandler() {
+//				
+//				@Override
+//				public void onMouseOver(MouseOverEvent event) {
+//					unselectAll();
+//				}
+//			});
+//			
+//			moreButton.addMouseOutHandler(new MouseOutHandler() {
+//				
+//				@Override
+//				public void onMouseOut(MouseOutEvent event) {
+//					setSelected(selectedButton, true);
+//				}
+//			});
 			return moreButton;
 		}
 		
 		public void setWidth(int width) {
-//			if (this.width != null) {
-//				return;
-//			}
+			if (this.width != null) {
+				return;
+			}
 			this.width = width;
 			//	contents.getElement().getStyle().setProperty("height", getOffsetHeight(), Unit.PX);
 			contents.getElement().getStyle().setProperty("width", width, Unit.PX);
