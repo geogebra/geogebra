@@ -269,6 +269,17 @@ public class DrawAxis {
 				drawYticksLinear(g2, xCrossPix, fontsize, minusSign,
 						drawTopArrow, yCrossPix, yAxisEnd);
 			}
+		} else if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+			if (view.logAxes[1]) {
+				//TODO
+			} else {
+				int tickposition = 20;
+				if (view.getXmax() <= view.axisCross[1]) {
+					tickposition = view.getWidth();
+				}
+				drawYticksLinear(g2, tickposition, fontsize, minusSign,
+						drawTopArrow, yCrossPix, yAxisEnd);
+			}
 		}
 
 	}
