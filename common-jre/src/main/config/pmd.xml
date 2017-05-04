@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<ruleset name="Custom ruleset" xmlns="http://pmd.sf.net/ruleset/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0 http://pmd.sf.net/ruleset_xml_schema.xsd"
+	xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+	<description>
+  This ruleset checks my code for bad stuff
+	</description>
+	<exclude-pattern>.*/org/mozilla/.*</exclude-pattern>
+	<!-- We'll use the entire 'strings' ruleset -->
+	<rule ref="rulesets/java/strings.xml">
+		<exclude name="ConsecutiveAppendsShouldReuse" />
+		<exclude name="AppendCharacterWithChar" />
+		<exclude name="AvoidDuplicateLiterals" />
+		<exclude name="AvoidStringBufferField" />
+		<exclude name="UseIndexOfChar" />
+		<exclude name="InsufficientStringBufferDeclaration" />
+		<exclude name="ConsecutiveLiteralAppends" />
+		<!-- string constructors handled by FindBugs -->
+		<exclude name="StringInstantiation" />
+	</rule>
+
+	<!-- Here's some rules we'll specify one at a time -->
+	<rule ref="rulesets/java/unusedcode.xml">
+		<exclude name="UnusedModifier" />
+	</rule>
+
+
+	<rule ref="rulesets/java/braces.xml">
+	</rule>
+	
+	<rule ref="rulesets/java/empty.xml">
+		<exclude name="EmptyCatchBlock"/>
+		<exclude name="EmptyIfStmt"/>
+	</rule>
+	
+	<rule ref="rulesets/java/imports.xml">
+		<exclude name="TooManyStaticImports"/>
+	</rule>
+	<rule ref="rulesets/java/design.xml">
+	<exclude name="ImmutableField"/>
+	<exclude name="ConstructorCallsOverridableMethod"/>
+	<exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
+	<exclude name="UseVarargs"/>
+	<exclude name="DefaultLabelNotLastInSwitchStmt"/>
+	<exclude name="SingularField"/>
+	<exclude name="UnnecessaryLocalBeforeReturn"/>
+	<exclude name="GodClass"/>
+	<exclude name="MissingBreakInSwitch"/>
+	<exclude name="ReturnEmptyArrayRatherThanNull"/>
+	<exclude name="EmptyMethodInAbstractClassShouldBeAbstract"/>
+	<exclude name="NonThreadSafeSingleton"/>
+	<exclude name="ConfusingTernary"/>
+	<exclude name="SwitchStmtsShouldHaveDefault"/>
+	<exclude name="SwitchDensity"/>
+	<exclude name="UseCollectionIsEmpty"/>
+	<exclude name="ConstantsInInterface"/>
+	<exclude name="CompareObjectsWithEquals"/>
+	<exclude name="AvoidSynchronizedAtMethodLevel"/>
+	<exclude name="TooFewBranchesForASwitchStatement"/>
+	<exclude name="UseUtilityClass"/>
+	<exclude name="SimplifyBooleanReturns"/>
+	<exclude name="UseLocaleWithCaseConversions"/>
+	<exclude name="AvoidConstantsInterface"/>
+	<exclude name="AbstractClassWithoutAbstractMethod"/>
+	<exclude name="UncommentedEmptyConstructor"/>
+	<exclude name="OptimizableToArrayCall"/>
+	<exclude name="AbstractClassWithoutAnyMethod"/>
+	<exclude name="PreserveStackTrace"/>
+	
+	</rule>
+	<rule ref="rulesets/java/design.xml/AvoidDeeplyNestedIfStmts">
+    <properties>
+        <property name="problemDepth" value="4"/>
+    </properties>
+  </rule>
+	<rule ref="rulesets/java/basic.xml">
+		<exclude name="CollapsibleIfStatements" />
+		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />		
+	</rule>
+</ruleset>

@@ -4,7 +4,7 @@ import org.geogebra.common.cas.giac.binding.Context;
 
 import javagiac.context;
 
-class Util {
+final class Util {
 
     private Util() {
     }

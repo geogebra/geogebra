@@ -2,7 +2,6 @@ package org.geogebra.desktop.cas.giac;
 
 import org.geogebra.common.cas.CASparser;
 import org.geogebra.common.jre.cas.giac.CASgiacJre;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -16,13 +15,9 @@ public class CASgiacD extends CASgiacJre {
 	/**
 	 * @param casParser
 	 *            casParser
-	 * @param t
-	 *            CasParserTools
-	 * @param k
-	 *            Kernel
 	 */
-	public CASgiacD(CASparser casParser, Kernel k) {
-		super(casParser, k);
+	public CASgiacD(CASparser casParser) {
+		super(casParser);
 	}
 
 	private static boolean giacLoaded = false;

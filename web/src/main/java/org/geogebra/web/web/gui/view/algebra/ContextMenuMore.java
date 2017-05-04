@@ -2,23 +2,14 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Localization;
-import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.StyleBarResources;
-import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.web.MathFieldW;
 
 public class ContextMenuMore implements SetLabels {
 	protected GPopupMenuW wrappedPopup;

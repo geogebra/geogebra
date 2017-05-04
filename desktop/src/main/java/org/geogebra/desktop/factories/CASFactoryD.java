@@ -10,7 +10,7 @@ public class CASFactoryD extends CASFactory {
 
 	@Override
 	public CASGenericInterface newGiac(CASparser p, Kernel k) {
-		return new CASgiacD(p, k);
+		return new CASgiacD(p);
 	}
 
 }

@@ -5,7 +5,6 @@ import org.geogebra.common.cas.error.TimeoutException;
 import org.geogebra.common.cas.giac.CASgiacB;
 import org.geogebra.common.cas.giac.binding.CASGiacBinding;
 import org.geogebra.common.jre.cas.giac.binding.CASGiacBindingJre;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -17,7 +16,7 @@ public abstract class CASgiacJre extends CASgiacB {
      * @param casParser casParser
      * @param k         Kernel
      */
-    public CASgiacJre(CASparser casParser, Kernel k) {
+	public CASgiacJre(CASparser casParser) {
         super(casParser);
     }
 

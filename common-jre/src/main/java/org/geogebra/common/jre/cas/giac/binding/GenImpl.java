@@ -19,8 +19,8 @@ class GenImpl implements Gen {
 
     @Override
     public Gen eval(int level, Context context) {
-        javagiac.gen g = gen.eval(level, Util.convert(context));
-        return new GenImpl(g);
+		gen g = gen.eval(level, Util.convert(context));
+		return new GenImpl(g);
     }
 
     @Override
