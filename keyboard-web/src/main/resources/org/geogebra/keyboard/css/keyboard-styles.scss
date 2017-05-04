@@ -361,7 +361,7 @@ $tab123-width: 644px;
 	
 
 	.KeyboardSwitcher .switcherContents {
-		width: $tab123-width;
+		max-width: $tab123-width;
 		margin-left: auto;
 		margin-right: auto;
 		white-space: nowrap;
