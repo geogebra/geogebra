@@ -435,6 +435,11 @@ public class MyVec3DNode extends ValidExpression
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// MyNumberPair used for datafunction -- don't simplify
 		if (x.evaluatesToList() || y.evaluatesToList() || z.evaluatesToList()) {
+			if (x.wrap().containsFreeFunctionVariable(null)
+					|| y.wrap().containsFreeFunctionVariable(null)
+					|| z.wrap().containsFreeFunctionVariable(null)) {
+				return super.evaluate(tpl);
+			}
 			MyList result = new MyList(kernel);
 			ExpressionValue xEval = x.evaluate(tpl);
 			ExpressionValue yEval = y.evaluate(tpl);

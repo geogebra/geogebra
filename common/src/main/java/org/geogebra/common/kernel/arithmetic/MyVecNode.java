@@ -387,6 +387,10 @@ public class MyVecNode extends ValidExpression
 		// MyNumberPair used for datafunction -- don't simplify
 		if (!(this instanceof MyNumberPair)
 				&& (x.evaluatesToList() || y.evaluatesToList())) {
+			if (x.wrap().containsFreeFunctionVariable(null)
+					|| y.wrap().containsFreeFunctionVariable(null)) {
+				return super.evaluate(tpl);
+			}
 			MyList result = new MyList(kernel);
 			ExpressionValue xEval = x.evaluate(tpl);
 			ExpressionValue yEval = y.evaluate(tpl);
