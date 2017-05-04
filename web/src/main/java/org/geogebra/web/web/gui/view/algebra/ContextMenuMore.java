@@ -1,8 +1,12 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -33,7 +37,10 @@ public class ContextMenuMore implements SetLabels {
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
+		addDuplicateItem();
 		addCloseItem();
+		wrappedPopup.addSeparator();
+		addPropertiesItem();
 	}
 	
 	public void show(GPoint p) {
@@ -44,7 +51,28 @@ public class ContextMenuMore implements SetLabels {
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
-	
+	private void addDuplicateItem() {
+		String img = AppResources.INSTANCE.duplicate20().getSafeUri()
+				.asString();
+		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
+				loc.getMenu("Duplicate"), true), true,
+				new Command() {
+					
+					@Override
+					public void execute() {
+						app.setWaitCursor();
+						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+						list.add(item.geo);
+						app.getCopyPaste().copyToXML(app, list, false);
+						app.getCopyPaste().pasteFromXML(app, false);
+						app.setDefaultCursor();
+						app.getAlgebraView().repaintView();
+					}
+				});
+
+		wrappedPopup.addItem(mi);
+	}
+		
 	private void addCloseItem() {
 		String img = AppResources.INSTANCE.delete_small().getSafeUri()
 				.asString();
@@ -60,6 +88,26 @@ public class ContextMenuMore implements SetLabels {
 
 		wrappedPopup.addItem(mi);
 	}
+
+	private void addPropertiesItem() {
+		String img = AppResources.INSTANCE.properties20().getSafeUri()
+				.asString();
+		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
+				loc.getMenu("Properties"), true), true,
+				new Command() {
+					
+					@Override
+					public void execute() {
+						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+						list.add(item.geo);
+						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+								list);
+					}
+				});
+
+		wrappedPopup.addItem(mi);
+	}
+
 	@Override
 	public void setLabels() {
 		buildGUI();
