@@ -266,13 +266,13 @@ public class TeXSerializer extends SerializerAdapter {
                 serialize(function.getArgument(0), stringBuilder);
                 stringBuilder.append("\\right|");
 			} else if ("floor".equals(function.getName())) {
-				stringBuilder.append("\\left\\lfloor");
+				stringBuilder.append("\\left\\lfloor ");
 				serialize(function.getArgument(0), stringBuilder);
-				stringBuilder.append("\\right\\rfloor");
+				stringBuilder.append("\\right\\rfloor ");
 			} else if ("ceil".equals(function.getName())) {
-				stringBuilder.append("\\left\\lceil");
+				stringBuilder.append("\\left\\lceil ");
 				serialize(function.getArgument(0), stringBuilder);
-				stringBuilder.append("\\right\\rceil");
+				stringBuilder.append("\\right\\rceil ");
             } else if ("function".equals(function.getName())) {
                 stringBuilder.append("\\mathrm{" + function.getTexName() + "} ");
                 // jmathtex v0.7: incompatibility

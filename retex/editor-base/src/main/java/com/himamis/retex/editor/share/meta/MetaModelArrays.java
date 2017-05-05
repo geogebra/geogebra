@@ -17,7 +17,7 @@ import static com.himamis.retex.editor.share.meta.MetaArray.SQUARE;
 import java.util.ArrayList;
 import java.util.List;
 
-class MetaModelArrays {
+public class MetaModelArrays {
 
 	private static MetaCharacter createArrayComponent(String name, char cas,
 			String defaultTex) {
@@ -40,8 +40,9 @@ class MetaModelArrays {
         List<MetaComponent> components = new ArrayList<MetaComponent>();
 
         List<MetaComponent> arrayComponents = new ArrayList<MetaComponent>();
-		arrayComponents.add(createArrayComponent(OPEN, '{', "\\lbrace "));
-		arrayComponents.add(createArrayComponent(CLOSE, '}', "\\rbrace "));
+		arrayComponents.add(createArrayComponent(OPEN, '{', "\\left\\lbrace "));
+		arrayComponents
+				.add(createArrayComponent(CLOSE, '}', "\\right\\rbrace "));
 		arrayComponents.add(createArrayComponent(FIELD, ','));
 		arrayComponents.add(createArrayComponent(ROW, ';'));
         components.add(new MetaArray(ARRAY, CURLY, arrayComponents));
@@ -75,15 +76,19 @@ class MetaModelArrays {
         components.add(new MetaArray(ARRAY, LINE, arrayComponents));
 
 		arrayComponents = new ArrayList<MetaComponent>();
-		arrayComponents.add(createArrayComponent(OPEN, LCEIL, "\\lceil"));
-		arrayComponents.add(createArrayComponent(CLOSE, RCEIL, "\\rceil"));
+		arrayComponents
+				.add(createArrayComponent(OPEN, LCEIL, "\\left\\lceil "));
+		arrayComponents
+				.add(createArrayComponent(CLOSE, RCEIL, "\\right\\rceil "));
 		arrayComponents.add(createArrayComponent(FIELD, ','));
 		arrayComponents.add(createArrayComponent(ROW, ';'));
 		components.add(new MetaArray(ARRAY, CEIL, arrayComponents));
 
 		arrayComponents = new ArrayList<MetaComponent>();
-		arrayComponents.add(createArrayComponent(OPEN, LFLOOR, "\\lfloor"));
-		arrayComponents.add(createArrayComponent(CLOSE, RFLOOR, "\\rfloor"));
+		arrayComponents
+				.add(createArrayComponent(OPEN, LFLOOR, "\\left\\lfloor "));
+		arrayComponents
+				.add(createArrayComponent(CLOSE, RFLOOR, "\\right\\rfloor "));
 		arrayComponents.add(createArrayComponent(FIELD, ','));
 		arrayComponents.add(createArrayComponent(ROW, ';'));
 		components.add(new MetaArray(ARRAY, FLOOR, arrayComponents));

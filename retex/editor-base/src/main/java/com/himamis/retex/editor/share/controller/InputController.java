@@ -9,6 +9,7 @@ import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.meta.MetaModelArrays;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -943,7 +944,9 @@ public class InputController {
 				|| ch == KeyEvent.VK_ESCAPE) {
 			return true;
 		}
-		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|') {
+		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
+				&& ch != MetaModelArrays.LFLOOR
+				&& ch != MetaModelArrays.LCEIL) {
 			deleteSelection(editorState);
 		}
 		MetaModel meta = editorState.getMetaModel();
