@@ -1938,11 +1938,14 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
 			if (!app.has(Feature.AV_SINGLE_TAP_EDIT) || isInputTreeItem()) {
-			
-				content.insert(getClearInputButton(), 0);
+
+				boolean hasMoreMenu = app.has(Feature.AV_MORE_MENU);
+				if (!hasMoreMenu) {
+					content.insert(getClearInputButton(), 0);
+				}
 				
 				if (controls != null) {
-					controls.setVisible(false);
+					controls.setVisible(hasMoreMenu);
 				}
 				adjustStyleBar();
 			}
