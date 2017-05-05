@@ -93,6 +93,10 @@ PARSER_END(Parser)
     | < SQUARE_BRACKETS_CLOSE : "]" >
     | < CURLY_BRACKETS_OPEN : "{" >
     | < CURLY_BRACKETS_CLOSE : "}" >
+    | < LCEIL : "\u2308" >
+	| < RCEIL : "\u2309" >
+	| < LFLOOR : "\u230a" >
+	| < RFLOOR : "\u230b" >
     | < QUOTE_START : "\""> : IN_QUOTE
     | < SQRT : "sqrt" >
     | < NROOT : "nroot" >
@@ -309,13 +313,20 @@ void arraySquare(MathContainer currentField) :
 {
     MathArray mathArray = null;
     MathSequence mathSequence = null;
+    Token open = null;
 }
 {
-    <SQUARE_BRACKETS_OPEN>
+    (open = <SQUARE_BRACKETS_OPEN> | open = <LFLOOR > | open = <LCEIL>) 
     {
         mathSequence = new MathSequence();
-
-        mathArray = new MathArray(metaModel.getArray(MetaArray.SQUARE), 0);        
+		String arrayType = MetaArray.SQUARE;
+		if(LCEIL == open.kind)		{
+		  arrayType = MetaArray.CEIL;		}
+		if(LFLOOR == open.kind)
+		{
+		  arrayType = MetaArray.FLOOR;
+		}
+        mathArray = new MathArray(metaModel.getArray(arrayType), 0);        
         currentField.addArgument(mathArray);
     }
     (mathContainer(mathSequence))
@@ -332,7 +343,7 @@ void arraySquare(MathContainer currentField) :
         }
     )* 
 
-    <SQUARE_BRACKETS_CLOSE>
+    (<SQUARE_BRACKETS_CLOSE> | <RFLOOR > | <RCEIL>)
 }
 
 void arrayCurly(MathContainer currentField) :

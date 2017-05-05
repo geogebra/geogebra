@@ -1,6 +1,7 @@
 package org.geogebra.common.io.latex;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Unicode;
 
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -167,6 +168,13 @@ public class GeoGebraSerializer implements Serializer {
 		String close = mathArray.getClose().getKey() + "";
 		String field = mathArray.getField().getKey() + "";
 		String row = mathArray.getRow().getKey() + "";
+		if ((Unicode.LFLOOR + "").equals(open)) {
+			open = "floor(";
+			close = ")";
+		} else if ((Unicode.LCEIL + "").equals(open)) {
+			open = "ceil(";
+			close = ")";
+		}
 		if (mathArray.isMatrix()) {
 			stringBuilder.append(open);
 		}

@@ -74,9 +74,17 @@ public class SerializeLaTeX {
 		checkCannon(Unicode.EULER_STRING + "^-30+1", Unicode.EULER_STRING
 				+ "^(-30)+1");
 		checkCannon(Unicode.EULER_STRING + Unicode.Superscript_Minus
-				+ Unicode.Superscript_1
- + Unicode.Superscript_0,
+				+ Unicode.Superscript_1 + Unicode.Superscript_0,
 				Unicode.EULER_STRING + "^(-10)");
+
+	}
+
+	@Test
+	public void testFloorCeil() {
+		checkCannon("floor(x)", "floor(x)");
+		checkCannon("ceil(x)", "ceil(x)");
+		checkCannon(Unicode.LFLOOR + "x" + Unicode.RFLOOR, "floor(x)");
+		checkCannon(Unicode.LCEIL + "x" + Unicode.RCEIL, "ceil(x)");
 
 	}
 
@@ -102,6 +110,7 @@ public class SerializeLaTeX {
 		checkCannon("x_2 t", "x_{2}*t");
 		checkCannon("x_2 sin(x)", "x_{2}*sin(x)");
 		checkCannon("f_2(x)", "f_{2}(x)");
+		checkCannon("f_2 (x)", "f_{2} (x)");
 
 	}
 
