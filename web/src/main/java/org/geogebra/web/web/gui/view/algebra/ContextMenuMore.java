@@ -60,13 +60,8 @@ public class ContextMenuMore implements SetLabels {
 					
 					@Override
 					public void execute() {
-						app.setWaitCursor();
-						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-						list.add(item.geo);
-						app.getCopyPaste().copyToXML(app, list, false);
-						app.getCopyPaste().pasteFromXML(app, false);
-						app.setDefaultCursor();
-						app.getAlgebraView().repaintView();
+						String dup = item.geo.getDefinitionForEditorNoLabel();
+						item.getAV().getInputTreeItem().setText(dup);
 					}
 				});
 
