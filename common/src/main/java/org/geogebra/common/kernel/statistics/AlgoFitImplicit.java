@@ -92,13 +92,18 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		datasize = pointlist.size(); // rows in M and Y
 
-		if (!pointlist.isDefined() || datasize < order * (order + 3) / 2) {
+		if (!pointlist.isDefined() || datasize < (order * (order + 3)) / 2) {
 			fitfunction.setUndefined();
 			return;
 		}
 
 		if (!pointlist.getElementType().equals(GeoClass.POINT)) {
 			fitfunction.setUndefined();
+			return;
+		}
+		// no additional degrees of freedom => use algo for ImplicitPoly[points]
+		if (datasize == (order * (order + 3)) / 2) {
+			fitfunction.throughPoints(pointlist);
 			return;
 		}
 		try {
@@ -154,8 +159,8 @@ public class AlgoFitImplicit extends AlgoElement {
 			}
 			point = (GeoPoint) geo;
 
-			x = point.getX();
-			y = point.getY();
+			x = point.getX() / point.getZ();
+			y = point.getY() / point.getZ();
 			int c = 0;
 
 			// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
