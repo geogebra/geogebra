@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * AlgoFit A general linear curvefit: Fit[<List of Points>,<List of Functions>]
@@ -108,16 +107,17 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		datasize = pointlist.size(); // rows in M and Y
 		functionsize = functionlist.size(); // cols in M
 		functionarray.setSize(functionsize);
-		Log.debug(functionsize);
+		if (functionsize < 1 || datasize < 1) {
+			fitfunction.setUndefined();
+			return;
+		}
 		M = new Array2DRowRealMatrix(datasize, functionsize);
 		Y = new Array2DRowRealMatrix(datasize, 1);
 		P = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
 		if (!pointlist.isDefined() || // Lot of things can go wrong...
 				!functionlist.isDefined() || (functionsize > datasize)
-				|| (functionsize < 1) || (datasize < 1) // Perhaps a max
-														// restriction of
-														// functions and data?
+		// Perhaps a max restriction of functions and data?
 		) // Even if noone would try 500 datapoints and 100 functions...
 		{
 			fitfunction.setUndefined();
