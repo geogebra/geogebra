@@ -6453,6 +6453,23 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     return res;
   }
   
+  vecteur endpoints(const gen & g){
+    vecteur res;
+    if (g.type==_VECT){
+      const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+      for (;it!=itend;++it)
+	res=mergevecteur(res,endpoints(*it));
+      return res;
+    }
+    if (g.type!=_SYMB)
+      return res;
+    if (g._SYMBptr->sommet==at_and || g._SYMBptr->sommet==at_ou)
+      return endpoints(g._SYMBptr->feuille);
+    if (is_inequation(g) || g._SYMBptr->sommet==at_different || g._SYMBptr->sommet==at_equal)
+      return vecteur(1,g._SYMBptr->feuille[1]);
+    return res;
+  }
+
   int step_param_(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){
     if (t.type!=_IDNT)
       return 0;
@@ -6726,6 +6743,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvx.insert(tvx.begin(),tmin0);
     if (in_domain(df,t,tmax0,contextptr))
       tvx.push_back(tmax0);
+    // add endpoints of df
+    vecteur ep=endpoints(df);
+    for (size_t i=0;i<ep.size();++i){
+      if (is_greater(ep[i],tmin0,contextptr) && is_greater(tmax0,ep[i],contextptr) && in_domain(df,t,ep[i],contextptr))
+	tvx.push_back(ep[i]);
+    }
     comprim(tvx);
     gen tmp=_sort(tvx,contextptr);
     if (tmp.type!=_VECT){
@@ -7188,6 +7211,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvx.insert(tvx.begin(),xmin0);
     if (in_domain(df,x,xmax0,contextptr))
       tvx.push_back(xmax0);
+    // add endpoints of df
+    vecteur ep=endpoints(df);
+    for (size_t i=0;i<ep.size();++i){
+      if (is_greater(ep[i],xmin0,contextptr) && is_greater(xmax0,ep[i],contextptr) && in_domain(df,x,ep[i],contextptr))
+	tvx.push_back(ep[i]);
+    }
     comprim(tvx);
     gen tmp=_sort(tvx,contextptr);
     if (tmp.type!=_VECT){

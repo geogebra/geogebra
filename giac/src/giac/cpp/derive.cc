@@ -988,10 +988,7 @@ namespace giac {
 	continue;
       }
       if (u==at_tan){
-	if (mode==1)
-	  excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(symb_cos(gf),0),x),contextptr)));
-	else
-	  eqs.push_back(symb_cos(gf));
+	excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(symb_cos(gf),0),x),contextptr)));
 	continue;
       }
       if (u==at_sin || u==at_cos || u==at_exp || u==at_atan)

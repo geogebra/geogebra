@@ -7474,6 +7474,11 @@ namespace giac {
       return pi*std::exp(z-(s-1)*std::log(z));
     }
 #endif
+    if (z<0){
+      double l=lower_incomplete_gamma(s,z,regularize,context0)._DOUBLE_val;
+      if (regularize) return 1-l;
+      return std::exp(lngamma(s))-l;
+    }
     // int_z^inf t^(s-1) exp(-t) dt
     // Continued fraction expansion: a1/(b1+a2/(b2+...)))
     // a1=1, a2=1-s, a3=1, a_{m+2}=a_m+1
