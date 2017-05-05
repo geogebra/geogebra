@@ -141,6 +141,12 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 			case RIGHT_CURSOR:
 				processField.onArrow(ArrowType.right);
 				break;
+			case SWITCH_TO_SPECIAL_SYMBOLS:
+				selectSpecial();
+				break;
+			case SWITCH_TO_ABC:
+				selectAbc();
+				break;
 			case SWITCH_KEYBOARD:
 				// String caption = button.getCaption();
 				// if (caption.equals(GREEK)) {

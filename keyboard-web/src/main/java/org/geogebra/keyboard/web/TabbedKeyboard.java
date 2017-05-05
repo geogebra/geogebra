@@ -17,13 +17,7 @@ import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -36,7 +30,8 @@ public class TabbedKeyboard extends FlowPanel {
 	private static final int TAB_FX = 1;
 	private static final int TAB_ABC = 2;
 	private static final int TAB_ALPHA = 3;
-
+	private static final int TAB_SPECIAL = 4;
+	
 	/**
 	 * minimum width of the whole application to use normal font (small font
 	 * otherwise)
@@ -102,7 +97,11 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 
 		private void setSelected(int idx, boolean value) {
-			setSelected(switches.get(idx), value);
+			if (idx == TAB_SPECIAL) {
+				setSelected(switches.get(TAB_ABC), value);
+			} else {
+				setSelected(switches.get(idx), value);
+			}
 			if (value) {
 				selectedIdx = idx;
 			}
@@ -422,6 +421,15 @@ public class TabbedKeyboard extends FlowPanel {
 			if (wb.getActionName().equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())) {
 				return functionButton(wb, bh);
 			}
+			if (wb.getActionName().equals(Action.SWITCH_TO_ABC.name())) {
+				return functionButton(wb, bh);
+			}
+			if (wb.getActionName().equals("" + Unicode.LFLOOR)) {
+				return new KeyBoardButtonBase(KeyboardConstants.FLOOR,wb.getActionName(),bh);
+			}
+			if (wb.getActionName().equals("" + Unicode.LCEIL)) {
+				return new KeyBoardButtonBase(KeyboardConstants.CEIL, wb.getActionName(), bh);
+			}
 			return new KeyBoardButtonBase(wb.getActionName(),
 					wb.getActionName(), b);
 		}
@@ -526,6 +534,9 @@ public class TabbedKeyboard extends FlowPanel {
 		if (resourceName.equals(KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS)) {
 			return new KeyBoardButtonFunctionalBase(KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, bh, Action.SWITCH_TO_SPECIAL_SYMBOLS);
 		}
+		if (resourceName.equals("ABC")) {
+			return new KeyBoardButtonFunctionalBase("ABC", bh, Action.SWITCH_TO_ABC);
+		}
 
 		return new KeyBoardButtonBase(button.getActionName(),
 				button.getActionName(), bh);
@@ -619,6 +630,10 @@ public class TabbedKeyboard extends FlowPanel {
 	
 	public void selectGreek() {
 		selectTab(TAB_ALPHA);
+	}
+	
+	public void selectSpecial() {
+		selectTab(TAB_SPECIAL);
 	}
 
 	/**
