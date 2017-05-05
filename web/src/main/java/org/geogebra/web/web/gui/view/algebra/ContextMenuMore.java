@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
@@ -60,7 +61,12 @@ public class ContextMenuMore implements SetLabels {
 					
 					@Override
 					public void execute() {
-						String dup = item.geo.getDefinitionForEditorNoLabel();
+						String dup = "";
+						if ("".equals(item.geo.getDefinition(StringTemplate.defaultTemplate))) {
+							dup = item.geo.getValueForInputBar();
+						} else {
+							dup = item.geo.getDefinitionForEditorNoLabel();
+						}
 						item.getAV().getInputTreeItem().setText(dup);
 					}
 				});
