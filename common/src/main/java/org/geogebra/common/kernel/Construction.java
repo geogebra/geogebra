@@ -2670,6 +2670,7 @@ public class Construction {
 		}
 
 		StringBuilder sbIndexLabel = new StringBuilder();
+		StringBuilder sbLongIndexLabel = new StringBuilder();
 
 		int n = startIndex;
 		// int n = 1; // start index
@@ -2683,19 +2684,24 @@ public class Construction {
 
 		do {
 			sbIndexLabel.setLength(0);
-			sbIndexLabel.append(pref);
+			sbLongIndexLabel.setLength(0);
+			sbLongIndexLabel.append(pref);
+			sbLongIndexLabel.append("_{");
+			sbLongIndexLabel.append(n);
+			sbLongIndexLabel.append('}');
 			// n as index
 
 			if (n < 10) {
+				sbIndexLabel.setLength(0);
+				sbIndexLabel.append(pref);
 				sbIndexLabel.append('_');
 				sbIndexLabel.append(n);
 			} else {
-				sbIndexLabel.append("_{");
-				sbIndexLabel.append(n);
-				sbIndexLabel.append('}');
+				sbIndexLabel.append(sbLongIndexLabel);
 			}
 			n++;
-		} while (!isFreeLabel(sbIndexLabel.toString()));
+		} while (!isFreeLabel(sbIndexLabel.toString())
+				|| !isFreeLabel(sbLongIndexLabel.toString()));
 		return sbIndexLabel.toString();
 	}
 
