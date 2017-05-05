@@ -1467,6 +1467,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ListValue lv = (ListValue) rt;
 			int idx = -1;
 			// convert list1(1,2) into Element[Element[list1,1],2]
+			boolean sublistUndefined = false;
 			for (int i = 0; i < lv.size(); i++) {
 				ExpressionNode ith = (ExpressionNode) lv.getMyList()
 						.getListElement(i);
@@ -1480,6 +1481,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						nextSublist = sublist.get(idx);
 					} else {
 						nextSublist = sublist.createTemplateElement();
+						sublistUndefined = true;
 						nextSublist.setUndefined();
 					}
 					if (nextSublist instanceof GeoList) {
@@ -1515,7 +1517,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				idx = sublist.size() + 1 + idx;
 			}
 			GeoElement ret;
-			if (idx >= 0 && idx < sublist.size()) {
+			if (idx >= 0 && idx < sublist.size() && !sublistUndefined) {
 				ret = sublist.get(idx).copyInternal(sublist.getConstruction());
 			} else {
 				ret = sublist.createTemplateElement();

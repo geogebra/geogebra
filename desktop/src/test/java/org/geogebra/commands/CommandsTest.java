@@ -145,6 +145,9 @@ public class CommandsTest extends Assert{
 		t("listF:={x, 2 * x,3 * x+1}", "{x, (2 * x), (3 * x) + 1}");
 		t("matrix1:={{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}",
 				"{{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}");
+		t("aa:=1", "1");
+		t("matrix2:={{aa}}", "{{1}}");
+		// app.getKernel().lookupLabel("matrix2").setFixed(true);
 		t("list1(1)", "1");
 		t("list1(4)", "NaN");
 		t("list1(0)", "NaN");
@@ -160,6 +163,10 @@ public class CommandsTest extends Assert{
 		t("matrix1(2,3)", "6");
 		t("matrix1(2,3,4)", "NaN");
 		t("matrix1(2,-1)", "6");
+		t("matrix1(5,2)", "NaN");
+		t("matrix1(2,5)", "NaN");
+		t("matrix2(1,2)", "NaN");
+		t("matrix2(2,1)", "NaN");
 		t("Delete[list1]", new String[] {});
 		t("Delete[matrix1]", new String[] {});
 	}
