@@ -11340,7 +11340,7 @@ namespace giac {
 	gen arg=farg._VECTptr->front();
 	gen expo=farg._VECTptr->back();
 	if (ck_is_positive(expo,contextptr))
-	  return in_plotimplicit(farg,x,y,xmin,xmax,ymin,ymax,nxstep,nystep,eps,attributs,ckgeo2d,contextptr);
+	  return in_plotimplicit(arg,x,y,xmin,xmax,ymin,ymax,nxstep,nystep,eps,attributs,ckgeo2d,contextptr);
 	else
 	  return vecteur(0); // gen(vecteur(0),_SEQ__VECT);
       }
