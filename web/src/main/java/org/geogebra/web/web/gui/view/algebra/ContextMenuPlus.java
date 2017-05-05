@@ -97,6 +97,8 @@ public class ContextMenuPlus implements SetLabels {
 					@Override
 					public void execute() {
 
+						app.getImageManager().setPreventAuxImage(true);
+						
 						((GuiManagerW)app.getGuiManager()).loadImage(null, null, false, app.getActiveEuclidianView());
 					}
 				});

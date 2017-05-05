@@ -972,6 +972,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			ensure2ndCornerOnScreen(point1.inhomX, point2);
 		}
 		geoImage.setLabel(null);
+
 		//
 		GeoImage.updateInstances(app);
 		// }

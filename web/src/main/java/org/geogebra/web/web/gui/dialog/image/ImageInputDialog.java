@@ -104,7 +104,8 @@ public class ImageInputDialog extends UploadImageDialog {
 	    	}
 	    	hide();
 	    } else if (source == cancelBtn) {
-	    	hide();
+	      	app.getImageManager().setPreventAuxImage(false);
+	  	   	hide();
 	    } else if (source == upload) {
 	    	uploadClicked();
 	    } else if (webcam != null && source == webcam) {

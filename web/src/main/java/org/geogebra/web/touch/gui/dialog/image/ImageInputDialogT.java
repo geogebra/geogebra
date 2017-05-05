@@ -143,7 +143,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 			}
 	    	hide();
 	    } else if (source == cancelBtn) {
-	    	hide();
+	      	app.getImageManager().setPreventAuxImage(false);
+	  	   	hide();
 	    } else if (source == upload) {
 	    	uploadClicked();
 	    } else if (source == camera) {

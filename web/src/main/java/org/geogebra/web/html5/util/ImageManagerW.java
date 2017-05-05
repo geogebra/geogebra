@@ -21,7 +21,7 @@ public class ImageManagerW extends ImageManager {
 
 	private HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
 	private HashMap<String, String> externalImageSrcs = new HashMap<String, String>();
-
+	private boolean preventAuxImage;
 	public void reset() {
 		externalImageTable = new HashMap<String, ImageElement>();
 		externalImageSrcs = new HashMap<String, String>();
@@ -208,5 +208,17 @@ getExternalImage(
 	public String getErrorURL() {
 		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
 		        .asString();
+	}
+
+	public boolean isPreventAuxImage() {
+		if (preventAuxImage) {
+			preventAuxImage = false;
+			return true;
+		}
+		return false;
+	}
+
+	public void setPreventAuxImage(boolean value) {
+		this.preventAuxImage = value;
 	}
 }

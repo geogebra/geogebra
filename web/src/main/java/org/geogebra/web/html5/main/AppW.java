@@ -1559,8 +1559,11 @@ public abstract class AppW extends App implements SetLabels {
 		GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
 		geoImage.setImageFileName(imgFileName, width, height);
-
+	
 		getGuiManager().setImageCornersFromSelection(geoImage);
+		if (has(Feature.AV_PLUS) && getImageManager().isPreventAuxImage()) {
+			geoImage.setAuxiliaryObject(false);
+		}
 		setDefaultCursor();
 
 
