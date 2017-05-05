@@ -1,12 +1,32 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
-import static org.geogebra.keyboard.base.model.impl.factory.Characters.*;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.AT;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.CIRCLED_TIMES;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.COLON;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.ELEMENT_OF;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.HASHTAG;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.INFINITY;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_CEILING;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_FLOOR;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_GUILLEMET;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LEFT_SQUARE_BRACKET;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LOGICAL_AND;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.LOGICAL_OR;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_EQUAL_TO;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.NOT_SIGN;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.PARALLEL_TO;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUESTIONED_EQUAL_TO;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.QUOTATION_MARK;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHTWARDS_ARROW;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_CEILING;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_FLOOR;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_GUILLEMET;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.RIGHT_SQUARE_BRACKET;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF_OR_EQUAL_TO;
+import static org.geogebra.keyboard.base.model.impl.factory.Characters.UP_TACK;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
@@ -14,12 +34,17 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
+
 class SpecialSymbolsKeyboardFactory {
 
     KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
         StringBuilder name = new StringBuilder();
-        StringBuilder command = new StringBuilder();
 
         RowImpl row = mathKeyboard.nextRow(10.0f);
         addInputButton(row, buttonFactory, INFINITY);
@@ -43,16 +68,15 @@ class SpecialSymbolsKeyboardFactory {
         name.append(LEFT_FLOOR);
         name.append("x");
         name.append(RIGHT_FLOOR);
-        command.append(LEFT_FLOOR);
-        addInputCommandButton(row, buttonFactory, name.toString(), command.toString(), 1.0f);
+		addInputCommandButton(row, buttonFactory, name.toString(),
+				LEFT_FLOOR + "", 1.0f);
 
         name.setLength(0);
-        command.setLength(0);
         name.append(LEFT_CEILING);
         name.append("x");
         name.append(RIGHT_CEILING);
-        command.append(LEFT_CEILING);
-        addInputCommandButton(row, buttonFactory, name.toString(), command.toString(), 1.0f);
+		addInputCommandButton(row, buttonFactory, name.toString(),
+				LEFT_CEILING + "", 1.0f);
 
         addInputButton(row, buttonFactory, AMPERSAND);
         addInputButton(row, buttonFactory, AT);
