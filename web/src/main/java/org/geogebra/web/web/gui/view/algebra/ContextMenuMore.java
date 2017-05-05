@@ -91,17 +91,17 @@ public class ContextMenuMore implements SetLabels {
 	}
 
 	private void addPropertiesItem() {
-		String img = AppResources.INSTANCE.properties20().getSafeUri()
+		String img = AppResources.INSTANCE.view_properties16().getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getMenu("Properties"), true), true,
+				loc.getMenu("Settings"), true), true,
 				new Command() {
 					
 					@Override
 					public void execute() {
 						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 						list.add(item.geo);
-						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+						app.getDialogManager().showPropertiesDialog(OptionType.ALGEBRA,
 								list);
 					}
 				});
