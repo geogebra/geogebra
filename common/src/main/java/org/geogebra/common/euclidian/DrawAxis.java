@@ -238,7 +238,8 @@ public class DrawAxis {
 		// ========================================
 		// Y-AXIS
 
-		if (view.yAxisOnscreen()) {
+		if (view.yAxisOnscreen()
+				|| view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
 
 			// label of y axis
 			if (view.axesLabels[1] != null) {
@@ -266,16 +267,18 @@ public class DrawAxis {
 				drawYticksLinear(g2, xCrossPix, fontsize, minusSign,
 						drawTopArrow, yCrossPix, yAxisEnd);
 			}
-		} else if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+		}
+
+		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
 			if (view.logAxes[1]) {
 				//TODO
 			} else {
 				int tickposition = 20;
 				if (view.getXmax() <= view.axisCross[1]) {
 					tickposition = view.getWidth();
+					drawYticksLinear(g2, tickposition, fontsize, minusSign,
+							drawTopArrow, yCrossPix, yAxisEnd);
 				}
-				drawYticksLinear(g2, tickposition, fontsize, minusSign,
-						drawTopArrow, yCrossPix, yAxisEnd);
 			}
 		}
 
@@ -449,8 +452,17 @@ public class DrawAxis {
 						} else {
 							y = (int) (pix + yoffset);
 						}
+
+						// At the left edge numbers will be stayed at the border
+						if (xCrossPix < view.yLabelMaxWidthNeg
+								+ 10) {
+							x = (int) ((view.yLabelMaxWidthNeg + 10 + xoffset)
+									- width);
+						}
+
 						// draw number
 						drawString(g2, sb.toString(), x, y);
+
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
 						if (sb.charAt(0) == minusSign
