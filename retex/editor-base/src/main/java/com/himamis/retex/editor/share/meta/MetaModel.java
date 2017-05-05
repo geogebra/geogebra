@@ -300,6 +300,10 @@ public class MetaModel {
         isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.REGULAR).getCloseKey() == key;
         isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.SQUARE).getCloseKey() == key;
         isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.CURLY).getCloseKey() == key;
+		isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.FLOOR)
+				.getCloseKey() == key;
+		isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.CEIL)
+				.getCloseKey() == key;
         return isArrayCloseKey;
     }
 }
