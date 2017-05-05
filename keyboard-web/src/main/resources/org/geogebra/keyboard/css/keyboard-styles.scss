@@ -361,11 +361,11 @@ $tab123-width: 644px;
 	
 
 	.KeyboardSwitcher .switcherContents {
-		max-width: $tab123-width;
+		width: $tab123-width;
 		margin-left: auto;
 		margin-right: auto;
 		white-space: nowrap;
-				
+
 	}
 
 
@@ -380,6 +380,7 @@ $tab123-width: 644px;
 	.scale .KeyboardSwitcher .switcherContents {
 		margin-left: 0;
 		margin-right: 0;
+		padding: 0;
 	}
 
 	.KeyboardSwitcher .gwt-Button {
@@ -389,11 +390,19 @@ $tab123-width: 644px;
 		box-shadow: none;
 	}
 
+	.scale .KeyboardSwitcher .gwt-Button {
+		padding: 0px;
+	}
+
 	.KeyboardSwitcher .switcherContents .moreKeyboardButton {
 		position: relative;
 		top: 6px;
 		right: 6px;
 		float: right;
+	}
+
+	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
+		right: -25px;
 	}
 	
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {

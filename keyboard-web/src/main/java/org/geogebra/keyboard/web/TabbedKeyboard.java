@@ -259,6 +259,9 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
+		
+		switcher.addMoreButton();
+
 		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
 		switcher.setSelected(0, true);
 		
@@ -267,8 +270,7 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		tabs.add(keyboard);
 
-		switcher.addMoreButton();
-
+		
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
