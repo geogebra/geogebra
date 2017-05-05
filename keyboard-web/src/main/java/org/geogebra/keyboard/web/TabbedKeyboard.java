@@ -47,6 +47,7 @@ public class TabbedKeyboard extends FlowPanel {
 		private Integer width = null;
 		private int selectedIdx;
 		private Button selectedButton;
+		boolean isSpecialActive = false;
 		public KeyboardSwitcher() {
 			addStyleName("KeyboardSwitcher");
 			add(makeCloseButton());
@@ -74,7 +75,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					for (int i = 0; i < switches.size(); i++) {
+					for (int i = 0; i <= switches.size(); i++) {
 						((FlowPanel) keyboard.getParent()).getWidget(i)
 								.setVisible(false);
 						setSelected(i, false);
@@ -98,10 +99,18 @@ public class TabbedKeyboard extends FlowPanel {
 
 		private void setSelected(int idx, boolean value) {
 			if (idx == TAB_SPECIAL) {
+				if (value) {
+					setSelected(switches.get(TAB_ABC), value);
+					isSpecialActive = true;
+				}
+				return;
+			} else if (idx == TAB_ABC && isSpecialActive) {
 				setSelected(switches.get(TAB_ABC), value);
+				isSpecialActive = false;
 			} else {
 				setSelected(switches.get(idx), value);
 			}
+			
 			if (value) {
 				selectedIdx = idx;
 			}
@@ -381,6 +390,10 @@ public class TabbedKeyboard extends FlowPanel {
 
 
 		case TRANSLATION_MENU_KEY:
+			if (wb.getResourceName().equals("Translate.currency")) {
+				return new KeyBoardButtonBase(Language.getCurrency(locale.getLocaleStr()),
+						wb.getActionName(), b);
+			}
 			return new KeyBoardButtonBase(locale.getMenu(wb.getActionName()),
 					wb.getActionName().replace("Function.", ""), b);
 		case TRANSLATION_COMMAND_KEY:
