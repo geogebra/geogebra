@@ -910,7 +910,7 @@ __GGB__keysVar.pt.command = {
     "SolveCubic.SyntaxCAS": "[ <Polin\xf4mio de Grau 3> ]",
     "SolveODE": "ResolverEDO",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Ponto de f> ]\n[ <f'(x, y)>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de x Final>, <Passo> ]\n[ <y'>, <x'>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de t Final>, <Passo> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de y' Inicial>, <Valor de x Final>, <Passo> ]",
-    "SolveODE.SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente> ]",
+    "SolveODE.SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Ponto(s) em f> ]\n[ <Equa\xe7\xe3o>, <Ponto(s) em f>, <Ponto(s) em f'> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente>, <Ponto(s) em f> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente>, <Ponto(s) em f>, <Ponto(s) em f'> ]",
     "SolveQuartic": "ResolverQu\xe1rtica",
     "SolveQuartic.SyntaxCAS": "[ <Polin\xf4mio de Grau 4> ]",
     "Sort": "Ordenar",
