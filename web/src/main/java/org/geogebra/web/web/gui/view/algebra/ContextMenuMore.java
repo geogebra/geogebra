@@ -40,7 +40,7 @@ public class ContextMenuMore implements SetLabels {
 		wrappedPopup.clearItems();
 		addDuplicateItem();
 		addCloseItem();
-		wrappedPopup.addSeparator();
+		// wrappedPopup.addSeparator();
 		addPropertiesItem();
 	}
 	
@@ -75,7 +75,7 @@ public class ContextMenuMore implements SetLabels {
 	}
 		
 	private void addCloseItem() {
-		String img = AppResources.INSTANCE.delete_small().getSafeUri()
+		String img = AppResources.INSTANCE.delete_black().getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
 				loc.getPlain("Delete"), true), true,
@@ -91,7 +91,7 @@ public class ContextMenuMore implements SetLabels {
 	}
 
 	private void addPropertiesItem() {
-		String img = AppResources.INSTANCE.view_properties16().getSafeUri()
+		String img = AppResources.INSTANCE.settings_black().getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Settings"), true), true,

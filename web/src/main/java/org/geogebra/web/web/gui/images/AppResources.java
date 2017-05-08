@@ -263,4 +263,9 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/context_menu_20/edit.png")
 	ImageResource edit20();
 
+	@Source("org/geogebra/common/icons/png/web/menu_icons24/delete_black.png")
+	ImageResource delete_black();
+
+	@Source("org/geogebra/common/icons/png/web/menu_icons24/settings_black.png")
+	ImageResource settings_black();
 }
