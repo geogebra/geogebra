@@ -266,7 +266,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 
 		GuiManagerInterfaceW gm = app.getGuiManager();
-		if (gm != null) {
+		if (gm != null && !show) {
 			gm.onScreenEditingEnded();
 		}
 
@@ -322,6 +322,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * 
 	 * @param textField
 	 *            keyboard listener
+	 * @param animated
+	 *            whether to animate the keyboard in
 	 */
 	void addKeyboard(final MathKeyboardListener textField, boolean animated) {
 		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
