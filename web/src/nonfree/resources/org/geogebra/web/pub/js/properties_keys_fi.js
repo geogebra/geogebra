@@ -1845,7 +1845,7 @@ __GGB__keysVar.fi.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D-ohjelma",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra Forum",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "GeoGebra graafinen laskin",
     "GeoGebraMaterials": "GeoGebra Materiaalit",
     "GeoGebraProperties": "GeoGebran ominaisuudet",

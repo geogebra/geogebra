@@ -1845,7 +1845,7 @@ __GGB__keysVar.ji.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra \u05be\u05e4\u05bf\u05d0\u05b8\u05e8\u05d5\u05dd",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra\u05be\u05d0\u05d9\u05d9\u05d2\u05e0\u05e9\u05d0\u05b7\u05e4\u05bf\u05d8\u05df",

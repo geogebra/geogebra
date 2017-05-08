@@ -1845,7 +1845,7 @@ __GGB__keysVar.sk.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "GeoGebra F\xf3rum",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra vlastnosti",

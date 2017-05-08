@@ -1845,7 +1845,7 @@ __GGB__keysVar.xh.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "Iforam ye-Geogebra",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "Isixhobo sokubala sokwenza igrafu",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "IiMpawu zeJiyoJebra",

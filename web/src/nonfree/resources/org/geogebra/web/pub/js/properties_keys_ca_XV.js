@@ -1845,7 +1845,7 @@ __GGB__keysVar.ca_XV.menu = {
     "GeoGebra3DGrapher": "GeoGebra - Gr\xe0fics 3D",
     "GeoGebra3DGrapher.short": "Gr\xe0fics 3D",
     "GeoGebraForum": "F\xf2rum del GeoGebra",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "Calculadora gr\xe0fica GeoGebra",
     "GeoGebraMaterials": "Materials amb GeoGebra",
     "GeoGebraProperties": "Propietats del GeoGebra",

@@ -1845,7 +1845,7 @@ __GGB__keysVar.hu_gm.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D rajzol\xf3",
     "GeoGebra3DGrapher.short": "3D rajzol\xf3",
     "GeoGebraForum": "GeoGebra F\xf3rum",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra tulajdons\xe1gok",

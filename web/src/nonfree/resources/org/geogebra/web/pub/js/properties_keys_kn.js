@@ -1845,7 +1845,7 @@ __GGB__keysVar.kn.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grapher",
     "GeoGebra3DGrapher.short": "3D Grapher",
     "GeoGebraForum": "\u0c9c\u0cbf\u0caf\u0ccb\u0c9c\u0cc0\u0cac\u0ccd\u0cb0\u0cbe \u0cb5\u0cc7\u0ca6\u0cbf\u0c95\u0cc6",
-    "GeoGebraGeometry": "GeoGebra Geometry",
+    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "\u0c9c\u0cc0\u0caf\u0ccb\u0c9c\u0cc0\u0cac\u0ccd\u0cb0\u0ca7 \u0c97\u0cc1\u0ca3\u0cb5\u0cbf\u0cb6\u0cc7\u0cb7\u0c97\u0cb3\u0cc1",
