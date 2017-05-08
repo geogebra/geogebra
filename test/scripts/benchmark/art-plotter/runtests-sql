@@ -270,7 +270,7 @@ for i in `find tests -name '*.ggb' | sort`; do
    # --regressionFile is broken since 5.0.244.0, so we don't use its output:
    if [ "$RESULT" = "" -a "$ENGINE" != "Web" ]; then
     grep --silent " {{" $LOGFILE && \
-     RESULT=`tac $LOGFILE | grep " {{" | tail -1 | sed s/".* {{\([0-9,\-]*\)}.*"/\\\\1/`
+     RESULT=`cat $LOGFILE | grep " {{" | tail -1 | sed s/".* {{\([0-9,\-]*\)}.*"/\\\\1/`
     TIME=`cat $LOGFILE | grep Benchmarking | tail -1 | awk '{print $2}'`
 
     # FIXME in GeoGebra.
