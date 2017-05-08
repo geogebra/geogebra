@@ -146,14 +146,16 @@ public class DrawGrid {
 		double yCrossPix = yCrossPix1;
 
 		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			// If the xAxis is offscreen on the bottom, or almost offsreen,
-			// numbers
-			// will be fixed at the bottom edge of view, and because of this
-			// grid won't be drawn there, there will be some space for the
-			// numbers. The position of this space depends on value of
-			// yCrossPix.
 			if (yCrossPix1 >= view.getHeight() - view.xLabelHeights - 5) {
+				// If the xAxis is offscreen on the bottom, or almost offsreen,
+				// numbers
+				// will be fixed at the bottom edge of view, and because of this
+				// grid won't be drawn there, there will be some space for the
+				// numbers. The position of this space depends on value of
+				// yCrossPix.
 				yCrossPix = view.getHeight() - view.xLabelHeights - 5;
+			} else if (yCrossPix1 <= 0) {
+				yCrossPix = 0 + Kernel.MIN_PRECISION;
 			}
 		}
 
