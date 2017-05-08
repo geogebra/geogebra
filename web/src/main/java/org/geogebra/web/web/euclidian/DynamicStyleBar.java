@@ -12,13 +12,22 @@ import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.util.debug.Log;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 
+/**
+ * Dynamically positioned stylebar
+ * 
+ * @author Judit
+ *
+ */
 public class DynamicStyleBar extends EuclidianStyleBarW {
 
+	/**
+	 * @param ev
+	 *            parent view
+	 */
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
 		addStyleName("DynamicStyleBar");
@@ -107,6 +116,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		this.getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
+	@Override
 	public void updateStyleBar() {
 		if (!isVisible()) {
 			return;
@@ -144,6 +154,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	}
 
+	@Override
 	protected boolean isDynamicStylebar(){
 		return true;
 	}

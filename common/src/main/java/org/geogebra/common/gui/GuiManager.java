@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -918,7 +919,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	}
 
-	private void ensure1stCornerOnScreen(GeoPoint point) {
+	private void ensure1stCornerOnScreen(GeoPointND point) {
 		EuclidianView ev = app.getActiveEuclidianView();
 		double xmin = ev.toRealWorldCoordX(0.0);
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
@@ -932,13 +933,13 @@ public abstract class GuiManager implements GuiManagerInterface {
 	/**
 	 * Loads the image and sets its corners
 	 * 
-	 * @param fileName
-	 *            The image file name.
+	 * @param geoImage
+	 *            The image.
 	 */
 	@Override
 	public void setImageCornersFromSelection(GeoImage geoImage) {
 
-		ArrayList<GeoPoint> corners = new ArrayList<GeoPoint>();
+		ArrayList<GeoPointND> corners = new ArrayList<GeoPointND>();
 		for (int i = 0; i < 3; i++) {
 			GeoPoint p = getImageCornerFromSelection(i);
 			if (p != null) {
@@ -946,7 +947,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			}
 		}
 
-		GeoPoint point1 = null;
+		GeoPointND point1 = null;
 
 		if (corners.size() == 0) {
 			point1 = new GeoPoint(app.getKernel().getConstruction());
@@ -969,7 +970,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			point2.setLabel(null);
 
 			// make sure 2nd corner is on screen
-			ensure2ndCornerOnScreen(point1.inhomX, point2);
+			ensure2ndCornerOnScreen(point1.getInhomX(), point2);
 		}
 		geoImage.setLabel(null);
 

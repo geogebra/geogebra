@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
@@ -11,7 +10,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ContextMenuEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -100,12 +98,7 @@ public class ItemControls extends FlowPanel {
 			
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					if (cmMore == null) {
-						cmMore = new ContextMenuMore(radioTreeItem);
-					}
-					radioTreeItem.cancelEditing();
-					cmMore.show(btnMore.getAbsoluteLeft(),
-							btnMore.getAbsoluteTop() - 8);
+					showMoreContexMenu();
 				}
 				
 			});
@@ -123,6 +116,18 @@ public class ItemControls extends FlowPanel {
 //			});
 		}
 		return btnMore;
+
+	}
+
+	/**
+	 * Show the More context menu
+	 */
+	protected void showMoreContexMenu() {
+		if (cmMore == null) {
+			cmMore = new ContextMenuMore(radioTreeItem);
+		}
+		radioTreeItem.cancelEditing();
+		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
 
 	}
 
