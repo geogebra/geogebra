@@ -751,6 +751,15 @@ public class DrawAxis {
 											/ 2));
 						}
 
+						if (view.getApplication()
+								.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+							if (yCrossPix >= view.getHeight()
+									- (view.xLabelHeights + 5)) {
+								y = (int) (view.getHeight() - view.xLabelHeights
+										- 5 + yoffset);
+							}
+						}
+
 						drawString(g2, sb.toString(), x, y);
 
 						// store position of number, so grid line can avoid
