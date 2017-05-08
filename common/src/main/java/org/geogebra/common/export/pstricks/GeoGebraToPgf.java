@@ -2742,7 +2742,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		}
 		spaceTick = euclidianView.getAxesNumberingDistances()[1];
 		showNumbers = euclidianView.getShowAxesNumbers()[1];
-		tickStyle = resizePt(euclidianView.getAxesTickStyles()[1]);
+		tickStyle = euclidianView.getAxesTickStyles()[1];
 		if (showAxis) {
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
 			colorCode(color, codeBeginDoc);
