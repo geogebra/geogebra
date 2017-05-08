@@ -49,7 +49,6 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * This class is a Math Field. Displays and allows to edit single formula.
@@ -526,7 +525,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 					}
 					str.append(
 							((MathCharacter) sel.getArgument(i)).getUnicode());
-					FactoryProvider.getInstance().debug(str);
+					// FactoryProvider.getInstance().debug(str);
 				} else {
 					break;
 				}
@@ -572,9 +571,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			field = field.getParent();
 		}
 		reverse(path);
-		for (int i : path) {
-			FactoryProvider.getInstance().debug("" + i);
-		}
+		// for (int i : path) {
+		// FactoryProvider.getInstance().debug("" + i);
+		// }
 		if (listener != null) {
 			listener.onInsertString();
 		}
