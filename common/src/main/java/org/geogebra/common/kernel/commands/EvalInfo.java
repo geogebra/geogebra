@@ -14,6 +14,7 @@ public class EvalInfo {
 	private boolean simplifyIntegers = true;
 	private boolean useCAS = true;
 	private boolean autocreateSliders = true;
+	private boolean fractions = false;
 
 	/**
 	 * @param labelOut
@@ -161,6 +162,19 @@ public class EvalInfo {
 		EvalInfo ret = copy();
 		ret.autocreateSliders = sliders;
 		return ret;
+	}
+
+	public EvalInfo withFractions(boolean b) {
+		if (b == fractions) {
+			return this;
+		}
+		EvalInfo ret = copy();
+		ret.fractions = b;
+		return ret;
+	}
+
+	public boolean isFractions() {
+		return fractions;
 	}
 
 }

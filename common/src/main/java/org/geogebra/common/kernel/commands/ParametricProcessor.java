@@ -468,7 +468,7 @@ public class ParametricProcessor {
 				&& checkVar == locVar) {
 			return (GeoNumberValue) ap.processNumber(checkNum.wrap(),
 					checkNum.evaluate(StringTemplate.defaultTemplate),
-					false)[0];
+					new EvalInfo(false))[0];
 
 		}
 		if ((condition.getOperation() == Operation.LESS
@@ -476,7 +476,7 @@ public class ParametricProcessor {
 				&& checkNum == locVar) {
 			return (GeoNumberValue) ap.processNumber(checkVar.wrap(),
 					checkVar.evaluate(StringTemplate.defaultTemplate),
-					false)[0];
+					new EvalInfo(false))[0];
 
 		}
 		return null;

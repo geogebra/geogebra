@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -613,8 +614,8 @@ public class AlgebraProcessor {
 	 *            true to make undo step
 	 * @param handler
 	 *            decides how to handle exceptions
-	 * @param autoCreateSliders
-	 *            whether to show a popup for undefined variables
+	 * @param info
+	 *            flags for labeling output, using sliders etc.
 	 * @param callback0
 	 *            callback after the geos are created
 	 * @return resulting geos
@@ -2733,7 +2734,7 @@ public class AlgebraProcessor {
 		if (eval instanceof BooleanValue) {
 			return processBoolean(n, eval);
 		} else if (eval instanceof NumberValue) {
-			return processNumber(n, eval, true);
+			return processNumber(n, eval, info);
 		} else if (eval instanceof VectorValue) {
 			return processPointVector(n, eval);
 		} else if (eval instanceof Vector3DValue) {
@@ -2815,12 +2816,12 @@ public class AlgebraProcessor {
 	 *            expression node
 	 * @param evaluate
 	 *            evaluated node
-	 * @param needsLabel
-	 *            whether to call setLabel
+	 * @param info
+	 *            flags for setting label, using symbolic mode
 	 * @return value
 	 */
 	GeoElement[] processNumber(ExpressionNode n, ExpressionValue evaluate,
-			boolean needsLabel) {
+			EvalInfo info) {
 		GeoElement ret;
 		boolean isIndependent = !n.inspect(Inspecting.dynamicGeosFinder);
 		MyDouble val = ((NumberValue) evaluate).getNumber();
@@ -2842,12 +2843,16 @@ public class AlgebraProcessor {
 		if (n.isForcedFunction()) {
 			ret = ((GeoFunctionable) ret).getGeoFunction();
 		}
-		if (needsLabel) {
+		if (info.isFractions()) {
+			InputHelper.updateSymbolicMode(ret);
+		}
+		if (info.isLabelOutput()) {
 			String label = n.getLabel();
 			ret.setLabel(label);
 		} else {
 			cons.removeFromConstructionList(ret);
 		}
+
 		return array(ret);
 	}
 
