@@ -215,6 +215,22 @@ public class DrawAxis {
 						fontsize, xAxisStart);
 			}
 
+		} else if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+			if (view.logAxes[0]) {
+				// TODO
+				// drawXTicksLog(g2, 0, minusSign, drawRightArrow,
+				// fontsize, xAxisStart);
+			} else {
+				int tickposition = 0;
+				if (view.getYmin() >= view.axisCross[0]) {
+					tickposition = view.getHeight()
+							- view.getYOffsetForXAxis(fontsize);
+				}
+
+				drawXTicksLinear(g2, tickposition, minusSign, drawRightArrow,
+						fontsize,
+						xAxisStart);
+			}
 		}
 
 		// ========================================
@@ -248,19 +264,6 @@ public class DrawAxis {
 			} else {
 				drawYticksLinear(g2, xCrossPix, fontsize, minusSign,
 						drawTopArrow, yCrossPix, yAxisEnd);
-			}
-		}
-
-		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			if (view.logAxes[1]) {
-				//TODO
-			} else {
-				int tickposition = 20;
-				if (view.getXmax() <= view.axisCross[1]) {
-					tickposition = view.getWidth();
-					drawYticksLinear(g2, tickposition, fontsize, minusSign,
-							drawTopArrow, yCrossPix, yAxisEnd);
-				}
 			}
 		}
 
@@ -444,7 +447,7 @@ public class DrawAxis {
 								x = (int) ((view.yLabelMaxWidthNeg + 10
 										+ xoffset) - width);
 							} else if (xCrossPix > view.getWidth()) {
-								x = (int) (view.getWidth() - width - xoffset);
+								x = (int) (view.getWidth() - width + xoffset);
 							}
 						}
 
