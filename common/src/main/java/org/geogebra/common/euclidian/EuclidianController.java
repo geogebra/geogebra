@@ -7037,7 +7037,8 @@ public abstract class EuclidianController {
 
 	protected void wrapMouseclicked(boolean control, int clickCount,
 			PointerEventType type) {
-		if (!app.showMenuBar() || control || penMode(this.mode)) {
+		if (!app.showMenuBar() || control || penMode(this.mode)
+				|| isDragTool()) {
 			return;
 		}
 		// double-click on object selects MODE_MOVE and opens redefine dialog
@@ -10053,13 +10054,7 @@ public abstract class EuclidianController {
 			getShapeMode().setDragStartPointSet(false);
 		}
 
-		if (!event.isRightClick() && (this.mode == EuclidianConstants.MODE_JOIN
-				|| this.mode == EuclidianConstants.MODE_SEGMENT
-				|| this.mode == EuclidianConstants.MODE_RAY
-				|| this.mode == EuclidianConstants.MODE_VECTOR
-				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
-				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+		if (!event.isRightClick() && isDragTool()) {
 
 			if (withinPointSelectionDistance(startPosition, event)) {
 
@@ -10127,6 +10122,16 @@ public abstract class EuclidianController {
 		//
 		// }
 		// }
+	}
+
+	private boolean isDragTool() {
+		return this.mode == EuclidianConstants.MODE_JOIN
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
+				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON;
 	}
 
 	public void wrapMouseReleasedND(final AbstractEvent event,
