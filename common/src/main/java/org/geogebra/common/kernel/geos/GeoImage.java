@@ -1068,4 +1068,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return pixelHeight;
 	}
+
+	@Override
+	public boolean isAlgebraDuplicateable() {
+		return false;
+	}
 }

@@ -75,4 +75,8 @@ public class GeoPenStroke extends GeoPolyLine {
 		return false;
 	}
 
+	@Override
+	public boolean isAlgebraDuplicateable() {
+		return false;
+	}
 }

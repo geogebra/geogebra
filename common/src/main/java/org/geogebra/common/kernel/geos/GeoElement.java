@@ -8943,4 +8943,12 @@ public abstract class GeoElement extends ConstructionElement
 	public void resetScreenLocation() {
 		screenLocation = null;
 	}
+
+	/**
+	 * 
+	 * @return if geo can be duplicated from Algebra View.
+	 */
+	public boolean isAlgebraDuplicateable() {
+		return true;
+	}
 }

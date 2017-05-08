@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -70,7 +71,7 @@ public class ContextMenuMore implements SetLabels {
 						item.getAV().getInputTreeItem().setText(dup);
 					}
 				});
-
+		mi.setEnabled(item.geo.isAlgebraDuplicateable());
 		wrappedPopup.addItem(mi);
 	}
 		
@@ -86,7 +87,6 @@ public class ContextMenuMore implements SetLabels {
 						item.geo.remove();
 					}
 				});
-
 		wrappedPopup.addItem(mi);
 	}
 

@@ -158,4 +158,8 @@ public class GeoLocusStroke extends GeoLocus
 		return true;
 	}
 
+	@Override
+	public boolean isAlgebraDuplicateable() {
+		return false;
+	}
 }
