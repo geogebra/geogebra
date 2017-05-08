@@ -418,10 +418,10 @@ public class EuclidianPen implements GTimerListener {
 	 * @param width
 	 *            of the preview
 	 */
-	public void drawStylePreview(GGraphics2D g2D, GColor color, int thicknes,
+	public void drawStylePreview(GGraphics2D g2D, GColor color, int thickness,
 			int x, int y, int width) {
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
-		g2D.setStroke(EuclidianStatic.getStroke(thicknes,
+		g2D.setStroke(EuclidianStatic.getStroke(thickness,
 				EuclidianStyleConstants.LINE_TYPE_FULL));
 		g2D.setColor(color);
 		gp.reset();
@@ -625,6 +625,9 @@ public class EuclidianPen implements GTimerListener {
 		return null;
 	}
 
+	/**
+	 * @return circle through three points
+	 */
 	protected GeoConic getCircleThreePoints() {
 		Inertia s = new Inertia();
 		this.calc_inertia(0, penPoints.size() - 1, s);
@@ -638,6 +641,9 @@ public class EuclidianPen implements GTimerListener {
 		return null;
 	}
 
+	/**
+	 * Reset the first point
+	 */
 	protected void resetInitialPoint() {
 		if (this.deleteInitialPoint && this.initialPoint != null) {
 			this.initialPoint.remove();
@@ -660,6 +666,11 @@ public class EuclidianPen implements GTimerListener {
 		return tryPolygon(n);
 	}
 
+	/**
+	 * @param n
+	 *            number of vertices
+	 * @return polygon
+	 */
 	protected GeoElement tryPolygon(int n) {
 		int j;
 		RecoSegment temp1;
@@ -772,6 +783,9 @@ public class EuclidianPen implements GTimerListener {
 		return getJoinPointsSegment(p, q);
 	}
 
+	/**
+	 * @return
+	 */
 	protected int getPolygonal() {
 		brk = new int[5];
 		a = new Inertia();
