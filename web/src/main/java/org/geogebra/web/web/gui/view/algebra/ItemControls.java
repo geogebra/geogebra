@@ -47,7 +47,10 @@ public class ItemControls extends FlowPanel {
 		this.radioTreeItem = radioTreeItem;
 		addStyleName("AlgebraViewObjectStylebar");
 		addStyleName("smallStylebar");
-		setVisible(false);
+		buildGUI();
+		if (hasMoreMenu()) {
+			add(getMoreButton());
+		}
 	}
 
 	/**
@@ -157,9 +160,11 @@ public class ItemControls extends FlowPanel {
 			showAnimPanel(false);
 		}
 
-		add(hasMoreMenu() ? getMoreButton(): getDeleteButton());
+		if (!hasMoreMenu()) {
+			add(getDeleteButton());
+		}
 	}
-
+	
 	private boolean hasMoreMenu() {
 		return radioTreeItem.app.has(Feature.AV_MORE_MENU);
 	}
@@ -277,7 +282,11 @@ public class ItemControls extends FlowPanel {
 	 *            whether this is the only selected item
 	 */
 	public void show(boolean value) {
-		if (!radioTreeItem.app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+		if (radioTreeItem.app.has(Feature.AV_MORE_MENU)) {
+			super.setVisible(true);
+			return;
+		}
+			if (!radioTreeItem.app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			return;
 		}
 
