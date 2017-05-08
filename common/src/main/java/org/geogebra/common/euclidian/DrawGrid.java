@@ -50,9 +50,10 @@ public class DrawGrid {
 	}
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
-			double yCrossPix) {
+			double yCrossPix1) {
 
 		double xCrossPix = xCrossPix1;
+		double yCrossPix = yCrossPix1;
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		double pix = start;
@@ -140,7 +141,22 @@ public class DrawGrid {
 	}
 
 	private void drawVerticalGridLinear(GGraphics2D g2, double xCrossPix,
-			double yCrossPix) {
+			double yCrossPix1) {
+
+		double yCrossPix = yCrossPix1;
+
+		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+			// If the xAxis is offscreen on the bottom, or almost offsreen,
+			// numbers
+			// will be fixed at the bottom edge of view, and because of this
+			// grid won't be drawn there, there will be some space for the
+			// numbers. The position of this space depends on value of
+			// yCrossPix.
+			if (yCrossPix1 >= view.getHeight() - view.xLabelHeights - 5) {
+				yCrossPix = view.getHeight() - view.xLabelHeights - 5;
+			}
+		}
+
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
 		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
