@@ -13,6 +13,7 @@ public class EvalInfo {
 	private boolean scripting = true;
 	private boolean simplifyIntegers = true;
 	private boolean useCAS = true;
+	private boolean autocreateSliders = true;
 
 	/**
 	 * @param labelOut
@@ -105,6 +106,7 @@ public class EvalInfo {
 		ret.casMap = this.casMap;
 		ret.simplifyIntegers = this.simplifyIntegers;
 		ret.useCAS = this.useCAS;
+		ret.autocreateSliders = this.autocreateSliders;
 		return ret;
 	}
 
@@ -146,6 +148,19 @@ public class EvalInfo {
 	 */
 	public boolean isUsingCAS() {
 		return useCAS;
+	}
+
+	public boolean isAutocreateSliders() {
+		return this.autocreateSliders;
+	}
+
+	public EvalInfo withSliders(boolean sliders) {
+		if (sliders == autocreateSliders) {
+			return this;
+		}
+		EvalInfo ret = copy();
+		ret.autocreateSliders = sliders;
+		return ret;
 	}
 
 }

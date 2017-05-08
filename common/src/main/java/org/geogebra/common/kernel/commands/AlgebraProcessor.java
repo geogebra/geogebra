@@ -479,7 +479,7 @@ public class AlgebraProcessor {
 			app.getScriptManager().enableListeners();
 
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
-					true, changeCallback, info);
+					changeCallback, info.withSliders(true));
 
 			cons.registerFunctionVariable(null);
 			return;
@@ -487,7 +487,7 @@ public class AlgebraProcessor {
 			newValue.setLabel(oldLabel);
 			// rename to oldLabel to enable overwriting
 			result = processAlgebraCommandNoExceptionHandling(newValue, false,
-					handler, true, null, info);
+					handler, null, info.withSliders(true));
 			result[0].setLabel(newLabel); // now we rename
 			app.getCompanion().recallViewCreators();
 			if (storeUndoInfo) {
@@ -600,13 +600,37 @@ public class AlgebraProcessor {
 			final String cmd, final boolean storeUndo,
 			final ErrorHandler handler, boolean autoCreateSliders,
 			final AsyncOperation<GeoElementND[]> callback0) {
+		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
+				new EvalInfo(!cons.isSuppressLabelsActive(), true)
+						.withSliders(autoCreateSliders),
+				callback0);
+	}
+
+	/**
+	 * @param cmd
+	 *            string to process
+	 * @param storeUndo
+	 *            true to make undo step
+	 * @param handler
+	 *            decides how to handle exceptions
+	 * @param autoCreateSliders
+	 *            whether to show a popup for undefined variables
+	 * @param callback0
+	 *            callback after the geos are created
+	 * @return resulting geos
+	 */
+	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
+			final String cmd, final boolean storeUndo,
+			final ErrorHandler handler, EvalInfo info,
+			final AsyncOperation<GeoElementND[]> callback0) {
 
 		// both return this and call callback0 in case of success!
 		GeoElementND[] rett;
 
 		if (cmd.length() > 0 && cmd.charAt(0) == '<'
 				&& cmd.startsWith("<math")) {
-			rett = parseMathml(cmd, storeUndo, handler, autoCreateSliders,
+			rett = parseMathml(cmd, storeUndo, handler,
+					info.isAutocreateSliders(),
 					callback0);
 			if (rett != null && callback0 != null) {
 				callback0.callback(rett);
@@ -624,8 +648,8 @@ public class AlgebraProcessor {
 				return new GeoElement[0];
 			}
 			return processAlgebraCommandNoExceptionHandling(ve, storeUndo,
-					handler, autoCreateSliders, callback0,
-					new EvalInfo(!cons.isSuppressLabelsActive(), true));
+					handler, callback0,
+					info);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -650,8 +674,6 @@ public class AlgebraProcessor {
 	 *            true to make undo step
 	 * @param handler
 	 *            defines how to deal with exceptions
-	 * @param autoCreateSliders
-	 *            whether to show a popup for undefined variables
 	 * @param callback0
 	 *            callback after the geos are created
 	 * @param info
@@ -661,7 +683,7 @@ public class AlgebraProcessor {
 	 */
 	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
 			ValidExpression ve, final boolean storeUndo,
-			final ErrorHandler handler, boolean autoCreateSliders,
+			final ErrorHandler handler,
 			final AsyncOperation<GeoElementND[]> callback0,
 			final EvalInfo info) {
 		// collect undefined variables
@@ -670,8 +692,9 @@ public class AlgebraProcessor {
 		final TreeSet<String> undefinedVariables = collecter.getResult();
 
 		GeoElement[] ret = getParamProcessor().checkParametricEquation(ve,
-				undefinedVariables, autoCreateSliders, callback0,
-				new EvalInfo(!cons.isSuppressLabelsActive()));
+				undefinedVariables, callback0,
+				new EvalInfo(!cons.isSuppressLabelsActive())
+						.withSliders(info.isAutocreateSliders()));
 		final int step = cons.getStep();
 		if (ret != null) {
 			if (storeUndo) {
@@ -737,7 +760,7 @@ public class AlgebraProcessor {
 			// ==========================
 			if (sb.length() > 0) {
 				// eg from Spreadsheet we don't want a popup
-				if (!autoCreateSliders) {
+				if (!info.isAutocreateSliders()) {
 					GeoElementND[] rett = tryReplacingProducts(ve, handler);
 					if (rett != null) {
 						runCallback(callback0, rett, step);

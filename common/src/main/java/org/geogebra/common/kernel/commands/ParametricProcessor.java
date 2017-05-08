@@ -79,7 +79,7 @@ public class ParametricProcessor {
 	 * @return resulting elements
 	 */
 	final GeoElement[] checkParametricEquation(ValidExpression ve0,
-			TreeSet<String> undefinedVariables, boolean autocreateSliders,
+			TreeSet<String> undefinedVariables,
 			AsyncOperation<GeoElementND[]> callback, EvalInfo info) {
 		if (undefinedVariables.isEmpty()) {
 			return null;
@@ -121,7 +121,8 @@ public class ParametricProcessor {
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv },
 						"X".equals(ve.getLabel()) ? null : ve.getLabel(), info);
-				if (ret != null && (num.isEmpty() || autocreateSliders)) {
+				if (ret != null
+						&& (num.isEmpty() || info.isAutocreateSliders())) {
 					cons.setSuppressLabelCreation(oldMacroMode);
 					ap.processReplace(replaceable, ret, null, info);
 					return ret;
@@ -145,7 +146,8 @@ public class ParametricProcessor {
 				GeoElement[] ret = processParametricFunction(exp,
 						exp.evaluate(StringTemplate.defaultTemplate),
 						new FunctionVariable[] { fv }, ve.getLabel(), info);
-				if (ret != null && (num.isEmpty() || autocreateSliders)) {
+				if (ret != null
+						&& (num.isEmpty() || info.isAutocreateSliders())) {
 					cons.setSuppressLabelCreation(oldMacroMode);
 					ap.processReplace(replaceable, ret, null, info);
 					return ret;

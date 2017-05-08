@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -232,9 +233,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 			err = item.getErrorHandler(valid, keepFocus);
 			err.resetError();
 		}
+		EvalInfo info = new EvalInfo(true, true).withSliders(true);
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,
-						true, callback);
+						info, callback);
 		if (!keepFocus) {
 			item.setFocus(false, false);
 		}

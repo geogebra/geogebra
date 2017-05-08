@@ -132,7 +132,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve, false,
-									validation, false, null, info);
+									validation, null, info.withSliders(false));
 					previewGeos = null;
 					if (inputGeos != null) {
 						InputHelper.updateProperties(previewGeos, kernel
