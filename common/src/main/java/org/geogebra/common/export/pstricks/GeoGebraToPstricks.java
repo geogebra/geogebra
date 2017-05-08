@@ -944,7 +944,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		int id = st.indexOf("\n");
 		startBeamer(code);
 		// One line
-		if (id == -1) {
+		if (id == -1 || isLatex) {
 			code.append("\\rput[tl](");
 			code.append(format(x));
 			code.append(",");
@@ -2327,6 +2327,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	private void addText(String st0, boolean isLatex, int style,
 			GColor geocolor) {
 		String st = st0;
+
+		if (isLatex) {
+			st = st.replaceAll("\n", " ");
+		}
+
 		if (isLatex) {
 			if (!st.startsWith("$")) {
 				code.append("$");

@@ -1053,7 +1053,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		boolean comma = false;
 
 		// One line
-		if (id == -1) {
+		if (id == -1 || isLatex) {
 			if (!compact) {
 				code.append("\n");
 			}
@@ -3241,6 +3241,11 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append("$");
 		}
 		String st = st0;
+
+		if (isLatex) {
+			st = st.replaceAll("\n", " ");
+		}
+
 		if (isLatex && st.charAt(0) == '$') {
 			st = st.substring(1);
 		}

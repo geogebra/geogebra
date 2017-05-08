@@ -1032,7 +1032,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				.toRealWorldCoordY(y - euclidianView.getFont().getSize());
 		int id = st.indexOf("\n");
 		// One line
-		if (id == -1) {
+		if (id == -1 || isLatex) {
 			startBeamer(code);
 			code.append("\\draw ");
 			// Color
@@ -1089,6 +1089,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 	private void addText(String st0, boolean isLatex, int style) {
 		String st = st0;
+
+		if (isLatex) {
+			st = st.replaceAll("\n", " ");
+		}
+
 		if (format == FORMAT_LATEX) {
 			if (isLatex) {
 				if (!st.startsWith("$")) {
