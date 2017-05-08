@@ -215,25 +215,7 @@ public class DrawAxis {
 						fontsize, xAxisStart);
 			}
 
-		} else if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			if (view.logAxes[0]) {
-				// TODO
-				// drawXTicksLog(g2, 0, minusSign, drawRightArrow,
-				// fontsize, xAxisStart);
-			} else {
-				int tickposition = 0;
-				if (view.getYmin() >= view.axisCross[0]) {
-					tickposition = view.getHeight()
-							- view.getYOffsetForXAxis(fontsize);
-				}
-
-				drawXTicksLinear(g2, tickposition, minusSign, drawRightArrow,
-						fontsize,
-						xAxisStart);
-			}
 		}
-
-
 
 		// ========================================
 		// Y-AXIS
@@ -453,11 +435,17 @@ public class DrawAxis {
 							y = (int) (pix + yoffset);
 						}
 
-						// At the left edge numbers will be stayed at the border
-						if (xCrossPix < view.yLabelMaxWidthNeg
-								+ 10) {
-							x = (int) ((view.yLabelMaxWidthNeg + 10 + xoffset)
-									- width);
+						if (view.getApplication()
+								.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+							// At the left and right edge numbers will be stayed
+							// at
+							// the border
+							if (xCrossPix < view.yLabelMaxWidthNeg + 10) {
+								x = (int) ((view.yLabelMaxWidthNeg + 10
+										+ xoffset) - width);
+							} else if (xCrossPix > view.getWidth()) {
+								x = (int) (view.getWidth() - width - xoffset);
+							}
 						}
 
 						// draw number
