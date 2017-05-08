@@ -13,6 +13,7 @@ package org.geogebra.common.kernel.statistics;
  */
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.kernel.Construction;
@@ -25,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Fits implicit curve of given degree through points
@@ -39,7 +39,7 @@ public class AlgoFitImplicit extends AlgoElement {
 
 	// variables:
 	private int datasize = 0; // rows in M and Y
-	private Array2DRowRealMatrix M = null, V;
+	private RealMatrix M = null, V;
 
 	/**
 	 * @param cons
@@ -114,25 +114,23 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
-			 Log.debug("datasize = " + datasize);
-			 Log.debug("order = " + order);
-			 Log.debug("M cols = "+M.getColumnDimension());
-			 Log.debug("M rows = "+M.getRowDimension());
-			 Log.debug("M = "+M.toString());
-
-			log(M.getData());
+			// Log.debug("datasize = " + datasize);
+			// Log.debug("order = " + order);
+			// Log.debug("M cols = "+M.getColumnDimension());
+			// Log.debug("M rows = "+M.getRowDimension());
+			// Log.debug("M = "+M.toString());
 
 			SingularValueDecomposition svd = new SingularValueDecomposition(
 					M);
 
-			V = (Array2DRowRealMatrix) svd.getV();
+			V = svd.getV();
 
+			// Log.debug("V = "+V.toString());
 
-			Log.debug("size of M = " + M.getColumnDimension() + " "
-					+ M.getRowDimension());
-			Log.debug("size of V = " + V.getColumnDimension() + " "
-					+ V.getRowDimension());
-			log(V.getData());
+			// Log.debug("size of M = "+M.getColumnDimension()+"
+			// "+M.getRowDimension());
+			// Log.debug("size of V = "+V.getColumnDimension()+"
+			// "+V.getRowDimension());
 
 			makeFunction();
 
@@ -142,19 +140,6 @@ public class AlgoFitImplicit extends AlgoElement {
 		}
 
 	}// compute()
-
-	private void log(double[][] data) {
-		for (int i = 0; i < data.length; i++) {
-			double[] data2 = data[i];
-			for (int j = 0; j < data2.length; j++) {
-				System.out.print("" + data2[j]);
-				System.out.print(", ");
-			}
-			System.out.print("\n");
-
-		}
-
-	}
 
 	// Get info from lists into matrixes and functionarray
 	private final boolean makeMatrixes() {
@@ -185,8 +170,7 @@ public class AlgoFitImplicit extends AlgoElement {
 					int ypower = i - xpower;
 
 					double val = power(x, xpower) * power(y, ypower);
-					// System.err.print(
-					// val + "x^" + xpower + " * y^" + ypower + "+");
+					// Log.debug(val + "x^"+xpower+" * y^"+ypower);
 
 					M.setEntry(r, c++, val);
 
@@ -249,9 +233,6 @@ public class AlgoFitImplicit extends AlgoElement {
 
 			}
 		}
-
-		Log.debug("coeffs=");
-		log(coeffs);
 
 		fitfunction.setCoeff(coeffs);
 		fitfunction.setDefined();
