@@ -70,7 +70,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.GStringTokenizer;
+import org.geogebra.common.util.StringTokenizer;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
@@ -1094,7 +1094,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// MultiLine
 		else {
 			StringBuilder sb = new StringBuilder();
-			GStringTokenizer stk = new GStringTokenizer(st, '\n');
+			StringTokenizer stk = new StringTokenizer(st, "\n");
 			int width = 0;
 			GFont font = AwtFactory.getPrototype().newFont(
 					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
