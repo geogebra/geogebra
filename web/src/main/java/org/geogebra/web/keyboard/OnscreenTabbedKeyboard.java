@@ -67,6 +67,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 	
 	public void show() {
+		this.keyboardWanted = true;
 		checkLanguage();
 		setVisible(true);
 	}
@@ -75,18 +76,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		// TODO Auto-generated method stub
 
 	}
-
-	public boolean shouldBeShown() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	public void showOnFocus() {
-		// TODO Auto-generated method stub
-
-	}
-
-
 
 	public void setStyleName() {
 		// TODO Auto-generated method stub

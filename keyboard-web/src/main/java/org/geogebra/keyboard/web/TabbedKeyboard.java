@@ -1,15 +1,13 @@
 package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
-import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Accents;
+import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Keyboard;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.Resource;
@@ -138,7 +136,7 @@ public class TabbedKeyboard extends FlowPanel {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					updateKeyBoardListener.keyBoardNeeded(false, null);
-
+					keyboardWanted = false;
 				}
 				
 			});
@@ -218,6 +216,7 @@ public class TabbedKeyboard extends FlowPanel {
 	private FlowPanel tabs;
 	private KeyboardSwitcher switcher;
 	protected KeyPanelBase currentKeyboard=null;
+	protected boolean keyboardWanted = false;
 
 	public TabbedKeyboard() {
 
@@ -663,6 +662,14 @@ public class TabbedKeyboard extends FlowPanel {
 		int abc = 10 * 70 + 82;
 		int numbers = 850;
 		return Math.max(abc, numbers);
+	}
+
+	public final boolean shouldBeShown() {
+		return this.keyboardWanted;
+	}
+
+	public final void showOnFocus() {
+		this.keyboardWanted = true;
 	}
 
 }
