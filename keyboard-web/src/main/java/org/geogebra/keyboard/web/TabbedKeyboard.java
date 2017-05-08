@@ -1,9 +1,11 @@
 package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Action;
@@ -393,8 +395,8 @@ public class TabbedKeyboard extends FlowPanel {
 
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
-				return new KeyBoardButtonBase(Language.getCurrency(locale.getLocaleStr()),
-						wb.getActionName(), b);
+				return new KeyBoardButtonBase(Language.getCurrency(keyboardLocale.toString()),
+						Language.getCurrency(keyboardLocale.toString()), b);
 			}
 			return new KeyBoardButtonBase(locale.getMenu(wb.getActionName()),
 					wb.getActionName().replace("Function.", ""), b);
