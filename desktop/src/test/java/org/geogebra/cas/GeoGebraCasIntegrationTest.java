@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.view.CASCellProcessor;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
@@ -132,6 +133,11 @@ public class GeoGebraCasIntegrationTest {
     ta(false, input, expectedResult, validResults);
   }
 
+	private static void ta(boolean keepInput, String input,
+			String expectedResult, String... validResults) {
+		GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+		ta(f, keepInput, input, expectedResult, validResults);
+	}
   /**
    * ta contains the code shared by {@link #t} and {@link #tk}. In explicit: If tkiontki is false, it behaves exactly like t used to. If tkiontki is
    * true, it switches to Keepinput mode, simulating evaluation with Keepinput.
@@ -140,7 +146,7 @@ public class GeoGebraCasIntegrationTest {
    * Note: Direct calls to ta are "Not Recommended". Use t or tk instead.
    * </p>
    * 
-   * @param tkiontki
+   * @param keepInput
    *          To Keepinput or not to Keepinput.
    * @param input
    *          The input.
@@ -149,15 +155,15 @@ public class GeoGebraCasIntegrationTest {
    * @param validResults
    *          Valid, but undesired results.
    */
-	private static void ta(boolean tkiontki, String input,
+	private static void ta(GeoCasCell f, boolean keepInput, String input,
 			String expectedResult, String... validResults) {
 		String result;
 
 		try {
-			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+
 
 			f.setInput(input);
-			if (tkiontki) {
+			if (keepInput) {
 				f.setEvalCommand("Keepinput");
 			}
 			if (!f.hasVariablesOrCommands()) {
@@ -5038,5 +5044,20 @@ public class GeoGebraCasIntegrationTest {
 		app.setXML(xml, true);
 		Assert.assertEquals("Sphere", app.getKernel().lookupCasCellLabel("K")
 				.getTwinGeo().getTypeString());
+	}
+
+	@Test
+	public void renameCellShouldNotReplaceInput() {
+		t("a(x) := x^2 * x", "x^(3)");
+		t("b(x) := -a(x)", "-x^(3)");
+
+		GeoCasCell a = app.getKernel().lookupCasCellLabel("a");
+		String input = "c(x) := x^2 * x";
+		ta(a, false, input, "x^(3)");
+		new CASCellProcessor(app.getLocalization()).fixInput(a, input, false);
+
+		Assert.assertEquals("c(x) := x^2 * x",
+				a.getInput(StringTemplate.defaultTemplate));
+		Assert.assertFalse(a.isError());
 	}
 }

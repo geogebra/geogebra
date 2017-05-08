@@ -37,6 +37,7 @@ public class CASInputHandler {
 	private CASView casView;
 	private Kernel kernel;
 	private CASTable consoleTable;
+	private CASCellProcessor casCellProcessor;
 
 	/**
 	 * @param view
@@ -46,6 +47,8 @@ public class CASInputHandler {
 		this.casView = view;
 		kernel = view.getApp().getKernel();
 		consoleTable = view.getConsoleTable();
+		casCellProcessor = new CASCellProcessor(
+				view.getApp().getLocalization());
 	}
 
 	/**
@@ -223,18 +226,10 @@ public class CASInputHandler {
 			// FIX common INPUT ERRORS in evalText
 			if (!hasSelectedText && ("Evaluate".equals(ggbcmd)
 					|| "KeepInput".equals(ggbcmd))) {
-				String fixedInput = fixInputErrors(selRowInput);
-				if (!fixedInput.equals(selRowInput)) {
-					cellValue.setInput(fixedInput);
-					evalText = fixedInput;
-				}
-				// fix GGB-1593
-				if (cellValue.getTwinGeo() != null
-						&& fixedInput
-								.indexOf(GeoCasCell.ROW_REFERENCE_STATIC) == -1
-						&& !cellValue.getInput(StringTemplate.defaultTemplate)
-								.equals(fixedInput)) {
-					cellValue.setInput(fixedInput);
+				String fix = casCellProcessor.fixInput(cellValue, selRowInput,
+						staticReferenceFound);
+				if (fix != null) {
+					evalText = fix;
 				}
 			}
 
@@ -308,6 +303,8 @@ public class CASInputHandler {
 		// process given row and below, then start editing
 		processRowThenEdit(selRow, focus);
 	}
+
+
 
 	private String wrapPrevCell(int selRow, GeoCasCell cellValue) {
 		// get previous cell
@@ -778,7 +775,8 @@ public class CASInputHandler {
 
 		// FIX common INPUT ERRORS in evalText
 		if (("Evaluate".equals(ggbcmd) || "KeepInput".equals(ggbcmd))) {
-			String fixedInput = fixInputErrors(cellText.toString());
+			String fixedInput = casCellProcessor
+					.fixInputErrors(cellText.toString());
 			if (!fixedInput.equals(cellText.toString())) {
 				evalText = fixedInput;
 			}
@@ -1027,30 +1025,7 @@ public class CASInputHandler {
 		}
 	}
 
-	/**
-	 * Fixes common input errors and returns the corrected input String.
-	 * 
-	 * @param input
-	 * @return
-	 */
-	private String fixInputErrors(String input) {
-		String inputTrim = input.trim();
 
-		// replace a := with Delete[a]
-		if (inputTrim.endsWith(":=")) {
-			inputTrim = casView.getApp().getLocalization().getCommand("Delete")
-					+ "["
-					+ inputTrim.substring(0, inputTrim.length() - 2).trim()
-					+ "];";
-		}
-
-		// remove trailing =
-		else if (inputTrim.endsWith("=")) {
-			inputTrim = inputTrim.substring(0, inputTrim.length() - 1);
-		}
-
-		return inputTrim;
-	}
 
 	/**
 	 * @param cell
