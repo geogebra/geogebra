@@ -1239,7 +1239,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					@Override
 					public void execute() {
-						wrappedPopup.setVisible(false);
+						if (isWhiteboard()) {
+							wrappedPopup.setVisible(true);
+						} else {
+							wrappedPopup.setVisible(false);
+						}
 					}
 				});
 		title.addStyleName("menuTitle");
