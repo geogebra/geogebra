@@ -261,7 +261,7 @@ $tab123-width: 644px;
 	 * SCALE CONTENT OF KEYBOARD
 	 */
 
-	.scale .closeTabbedKeyboardButton,
+
 	.scale .keyBoardClosePanel {
 		top: -25px;
 		right: 0;
@@ -269,6 +269,7 @@ $tab123-width: 644px;
 		height: 25px;
 	}
 
+	
 	.scale .KeyPanelRow, 
 	.scale .KeyBoardContentNumbers, 
 	.scale .KeyBoardContentSpecialChars,
@@ -402,7 +403,7 @@ $tab123-width: 644px;
 	}
 
 	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
-		right: -25px;
+		right: 5px;
 	}
 	
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
