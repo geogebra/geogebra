@@ -2005,7 +2005,8 @@ var __giac = [ {},
 { cat:"Vector", cmd:"Element[Sequence[Vector[(i, i)],i,1,3],1]", result:"ggbvect((1, 1))", notes:"GGB-1636 (doesn't catch that bug though)" },
 { cat:"Integral", cmd:"Integral[cos(((n)*(pi))*((x)/(4))),1,4]", result:"(-4 sin(1 / 4 n \u03C0) + 4sin(n \u03C0)) / (n \u03C0)" },
 { cat:"Simplify", cmd:"Simplify[4*sin(n*pi)/(n*pi)-4*sin(n*pi/4)/(n*pi)]", result:"(4sin(n \u03C0) - 4sin(n \u03C0 / 4)) / (n \u03C0)" },
-
+{ cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
+{ cat:"NSolve", cmd:"NSolve[3 / 100 exp(1 / 5 x) + 7 = 6exp((-3) / 200 x + 2)]", result:"{x = 32.56196357101}", round:"{x = 32.56}" },
 // JSONEND
 //{ 
 // 
