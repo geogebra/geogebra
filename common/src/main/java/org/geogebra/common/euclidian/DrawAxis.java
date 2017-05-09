@@ -426,10 +426,11 @@ public class DrawAxis {
 						if (view.getApplication()
 								.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 							// At the left and right edge numbers will be stayed
-							// at
-							// the border
-							if (xCrossPix < view.yLabelMaxWidthNeg + 10) {
-								x = (int) ((view.yLabelMaxWidthNeg + 10
+							// at the border
+							double numbermaxwidth = view.estimateNumberWidth(rw,
+									view.getFontAxes());
+							if (xCrossPix < numbermaxwidth) {
+								x = (int) ((numbermaxwidth
 										+ xoffset) - width);
 							} else if (xCrossPix > view.getWidth()) {
 								x = (int) (view.getWidth() - width + xoffset);
