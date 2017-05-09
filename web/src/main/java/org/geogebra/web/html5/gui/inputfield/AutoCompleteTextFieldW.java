@@ -195,6 +195,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			@Override
 			public void onBrowserEvent(Event event) {
 				int etype = event.getTypeInt();
+				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
+						&& app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+					app.getGuiManager().setOnScreenKeyboardTextField(
+							AutoCompleteTextFieldW.this);
+				}
 				if (etype == Event.ONMOUSEDOWN
 						|| etype == Event.ONMOUSEMOVE
 						|| etype == Event.ONMOUSEUP

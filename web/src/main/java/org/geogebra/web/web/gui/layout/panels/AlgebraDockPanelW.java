@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -135,6 +136,9 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	@Override
 	public MathKeyboardListener getKeyboardListener() {
+		if (app.getInputPosition() != InputPosition.algebraView) {
+			return null;
+		}
 		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 	}
 
