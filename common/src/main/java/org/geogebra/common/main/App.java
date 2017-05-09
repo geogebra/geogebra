@@ -4197,8 +4197,11 @@ public abstract class App implements UpdateSelection {
 			return true; // 5.0.356
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
 			return prerelease;
+
+		/** GGB-1679 5.0.357.0 */
 		case ADVANCED_OPTIONS:
-			return prerelease;
+			return true;
+
 		case DIRECT_FORMULA_CONVERSION:
 			return canary;
 		case FIXED_OBJECTS_EDITABLE:
