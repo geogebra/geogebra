@@ -4203,7 +4203,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case DIRECT_FORMULA_CONVERSION:
-			return canary;
+			return false;
 		case FIXED_OBJECTS_EDITABLE:
 			return prerelease;
 
