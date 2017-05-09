@@ -3923,7 +3923,10 @@ namespace giac {
       return symb_dollar(args);
     gen a=vargs.front(),b=vargs[1],b1=eval(b,eval_level(contextptr),contextptr);
     if (b1.type==_VECT && b1.subtype==_SEQ__VECT && b1._VECTptr->size()==2){
-      return _dollar(gen(makevecteur(a,b1._VECTptr->front(),b1._VECTptr->back()),_SEQ__VECT),contextptr);
+      gen b11=b1._VECTptr->front();
+      if (b.type==_VECT && b.subtype==_SEQ__VECT && b._VECTptr->size()==2 && b11.is_symb_of_sommet(at_equal) && b._VECTptr->front().is_symb_of_sommet(at_equal))
+	b11=symb_equal(b._VECTptr->front()[1],b11[2]);
+      return _dollar(gen(makevecteur(a,b11,b1._VECTptr->back()),_SEQ__VECT),contextptr);
     }
     if (a.is_symb_of_sommet(at_interval) && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
       a=eval(a,1,contextptr);
@@ -5918,7 +5921,7 @@ namespace giac {
 	      *it=val;
 	    }
 	  }
-	  return res;
+	  return gen(res,subtype);
 	}
 	sort(w.begin(),w.end());
 	vector_int2vecteur(w,v);

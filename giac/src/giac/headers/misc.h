@@ -246,6 +246,10 @@ namespace giac {
   int step_func(const gen & f,const gen & x,gen & xmin,gen&xmax,vecteur & poig,vecteur & tvi,gen & periode,vecteur & asym,vecteur & parab,vecteur & crit,vecteur & inflex,bool printtvi,bool exactlegende,GIAC_CONTEXT,bool do_inflex=true);
   extern const unary_function_ptr * const  at_tabvar;
   int step_param(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT);
+  // translate HTML Xcas for Firefox link to a giac list of commands
+  std::string link2giac(const std::string & s,GIAC_CONTEXT);
+  // parse %ab to char from html link, e.g. %20 to space
+  std::string html_filter(const std::string & s);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

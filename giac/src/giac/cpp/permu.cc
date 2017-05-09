@@ -1185,6 +1185,7 @@ namespace giac {
 	*jt=_poly2symb(makesequence(*jt,var),contextptr);
       }
     }
+    return true;
   }
 
   bool unmod(std_matrix<gen> & a,const gen & p){

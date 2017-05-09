@@ -5897,6 +5897,8 @@ namespace giac {
       int dim=a.front()._POLYptr->dim;
       if (a[1]._POLYptr->dim!=dim)
 	return gendimerr(contextptr);
+      // Possible improvement? compute quotient of a and b using heap division
+      // then a-b*q with array multiplication instead of univariate conversion
       if (a.size()==3 && a.back().type==_INT_){
 	polynome rem,quo;
 	if ( !divrem1(*a.front()._POLYptr,*a[1]._POLYptr,quo,rem,args._VECTptr->back().val) )

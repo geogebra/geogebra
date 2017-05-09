@@ -7581,6 +7581,74 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__ggbsort,&_ggbsort,_ggbsort_s);
   define_unary_function_ptr5( at_ggbsort ,alias_at_ggbsort,&__ggbsort,0,true);
 
+  int charx2int(char c){
+    if (c>='0' && c<='9') return c-'0';
+    if (c>='a' && c<='z') return c-'a'+10;
+    if (c>='A' && c<='Z') return c-'A'+10;
+    return -1;
+  }
+
+  string html_filter(const string & s){
+    int ss=s.size();
+    string res;
+    bool semi=false;
+    for (int i=0;i<ss;++i){
+      char c=s[i];
+      if (i<ss-2 && c=='%'){
+	c = char(charx2int(s[i+1])*16+charx2int(s[i+2]));
+	i += 2;
+      }
+      if (c==';') 
+	semi=true;
+      else {
+	if (c!=' ')
+	  semi=false;
+      }
+      res += c;
+    }
+    if (!semi)
+      res += ';';
+    return res;
+  }
+
+  // translate HTML Xcas for Firefox link to a giac list of commands
+  string link2giac(const string & s,GIAC_CONTEXT){
+    string res;
+    // find # position, then create normal line for +, slider for *
+    int pos=s.find('#'),L=s.size();
+    if (pos>0 && pos<L){
+      bool finished=false;
+      while (!finished){
+	int nextpos=s.find('&',pos+1);
+	if (nextpos > L){
+	  nextpos=L;
+	  finished=true;
+	}
+	if (nextpos<pos+2)
+	  break;
+	string txt=s.substr(pos+2,nextpos-pos-2);
+	txt=html_filter(txt);
+	if (s[pos+1]=='*'){
+	  gen g(txt,contextptr);
+	  if (g.type==_VECT && g._VECTptr->size()>=5){
+	    txt="assume("+g[0].print(contextptr)+"=["+g[1].print(contextptr)+","+g[2].print(contextptr)+","+g[3].print(contextptr)+","+g[4].print(contextptr)+"])";
+	  }
+	}
+	res += txt;
+	pos=nextpos;
+      }
+    }
+    return res;
+  }
+
+  gen _link2giac(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_STRNG)
+      return gensizeerr(contextptr);
+    return string2gen(link2giac(*args._STRNGptr,contextptr),false);
+  }
+  static const char _link2giac_s []="link2giac";
+  static define_unary_function_eval (__link2giac,&_link2giac,_link2giac_s);
+  define_unary_function_ptr5( at_link2giac ,alias_at_link2giac,&__link2giac,0,true);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
