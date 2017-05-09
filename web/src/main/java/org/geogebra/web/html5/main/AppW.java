@@ -2756,6 +2756,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void showErrorDialog(final String msg) {
+
 		if (!isErrorDialogsActive()) {
 			return;
 		}
@@ -2773,6 +2774,9 @@ public abstract class AppW extends App implements SetLabels {
 			@Override
 			public void showError(String msg) {
 				Log.printStacktrace("");
+				if (!isErrorDialogsActive()) {
+					return;
+				}
 				String title = GeoGebraConstants.APPLICATION_NAME + " - "
 						+ getLocalization().getError("Error");
 
