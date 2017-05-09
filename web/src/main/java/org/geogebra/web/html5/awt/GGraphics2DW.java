@@ -69,6 +69,19 @@ public class GGraphics2DW implements GGraphics2D {
 		preventContextMenu(canvas.getElement());
 	}
 
+	/*
+	 * GGB-1780 special method for SVG export this.canvas not set
+	 */
+	public GGraphics2DW(Context2d ctx) {
+		// HACK
+		this.canvas = null;
+		// could also try this if necessary
+		// this.canvas = Canvas.createIfSupported();
+
+		this.context = (JLMContext2d) ctx;
+		this.context.initTransform();
+	}
+
 	/**
 	 * @param view
 	 *            The view associated with this instance of GGraphics2DW

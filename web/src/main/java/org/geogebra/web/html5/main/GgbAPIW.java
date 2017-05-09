@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
@@ -25,6 +26,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -1086,5 +1088,23 @@ public class GgbAPIW extends GgbAPI {
 	native boolean isUsingWebWorkers()/*-{
 		return $wnd.zip.useWebWorkers;
 	}-*/;
+
+	/**
+	 * GGB-1780 Experimental
+	 * 
+	 * @return current construction as SVG
+	 */
+	final public String exportSVG() {
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		if (ev instanceof EuclidianViewW) {
+			EuclidianViewW evw = (EuclidianViewW) ev;
+
+			return evw.getExportSVG(1, true);
+		}
+
+		return null;
+
+	}
 
 }

@@ -44,6 +44,7 @@ import org.geogebra.web.html5.util.ImageWrapper;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -323,6 +324,38 @@ public class EuclidianViewW extends EuclidianView implements
 		this.app.setExporting(ExportType.NONE, 1);
 		return g4copy.getCanvas().toDataUrl();
 	}
+
+	public String getExportSVG(double scale, boolean transparency) {
+		int width = (int) Math.floor(getExportWidth() * scale);
+		int height = (int) Math.floor(getExportHeight() * scale);
+
+		JavaScriptObject ctx = getCanvas2SVG(width, height);
+
+		if (ctx == null) {
+			Log.debug("canvas2SVG not found");
+			return null;
+		}
+
+		g4copy = new GGraphics2DW((Context2d) ctx.cast());
+		this.app.setExporting(ExportType.SVG, scale);
+		exportPaintPre(g4copy, scale, transparency);
+		drawObjects(g4copy);
+		this.app.setExporting(ExportType.NONE, 1);
+		return getSerializedSvg(ctx);
+	}
+
+	private native JavaScriptObject getCanvas2SVG(double width,
+			double height) /*-{
+		if ($wnd.C2S) {
+			return new $wnd.C2S(width, height);
+		}
+
+		return null;
+	}-*/;
+
+	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
+		return ctx.getSerializedSvg(true);
+	}-*/;
 
 	@Override
 	public GBufferedImageW getExportImage(double scale) {
