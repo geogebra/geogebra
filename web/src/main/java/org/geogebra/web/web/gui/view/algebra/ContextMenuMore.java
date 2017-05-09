@@ -16,6 +16,8 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.himamis.retex.editor.share.event.KeyEvent;
+import com.himamis.retex.editor.web.MathFieldW;
 
 public class ContextMenuMore implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
@@ -62,13 +64,18 @@ public class ContextMenuMore implements SetLabels {
 					
 					@Override
 					public void execute() {
+						RadioTreeItem input = item.getAV().getInputTreeItem();
+						
 						String dup = "";
 						if ("".equals(item.geo.getDefinition(StringTemplate.defaultTemplate))) {
 							dup = item.geo.getValueForInputBar();
 						} else {
 							dup = item.geo.getDefinitionForEditorNoLabel();
 						}
-						item.getAV().getInputTreeItem().setText(dup);
+						item.setSelected(false);
+						input.setText(dup);
+						input.setFocus(true, true);
+					
 					}
 				});
 		mi.setEnabled(item.geo.isAlgebraDuplicateable());
