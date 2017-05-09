@@ -229,9 +229,13 @@ public class FormulaEditor extends View implements MathField {
         requestFocus();
     }
 
+    protected int getWidthForIconWithPadding() {
+        return mTeXIcon.getIconWidth();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int desiredWidth = mTeXIcon.getIconWidth();
+        final int desiredWidth = getWidthForIconWithPadding();
         final int desiredHeight = (int) (Math.max(getMinHeigth(), mTeXIcon.getIconHeight()) + 0.5);
 
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
