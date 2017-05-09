@@ -12,9 +12,14 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
+import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * Item action bar
@@ -31,7 +36,7 @@ public class ItemControls extends FlowPanel {
 	protected PushButton btnDelete;
 
 	/** opens context menu */
-	protected PushButton btnMore;
+	protected ToggleButton btnMore;
 
 
 	/** animation controls */
@@ -87,13 +92,11 @@ public class ItemControls extends FlowPanel {
 	 * 
 	 * @return The more button which opens the context menu.
 	 */
-	public PushButton getMoreButton() {
+	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new PushButton(
+			btnMore = new ToggleButton(
 					new Image(GuiResources.INSTANCE.dots()));
 			btnMore.getUpHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.dots_hover()));
-			btnMore.getDownFace().setImage(new Image(
 					GuiResources.INSTANCE.dots_hover()));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
@@ -105,18 +108,6 @@ public class ItemControls extends FlowPanel {
 				}
 				
 			});
-//
-//			btnMore.addMouseDownHandler(new MouseDownHandler() {
-//				@Override
-//				public void onMouseDown(MouseDownEvent event) {
-//					if (event
-//							.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
-//						return;
-//					}
-//					
-//					event.stopPropagation();
-//				}
-//			});
 		}
 		return btnMore;
 
