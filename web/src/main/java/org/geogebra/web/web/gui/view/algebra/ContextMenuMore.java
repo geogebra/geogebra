@@ -72,7 +72,7 @@ public class ContextMenuMore implements SetLabels {
 						} else {
 							dup = item.geo.getDefinitionForEditorNoLabel();
 						}
-						item.setSelected(false);
+						item.selectItem(false);
 						input.setText(dup);
 						input.setFocus(true, true);
 					
