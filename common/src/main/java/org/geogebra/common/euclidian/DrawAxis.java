@@ -117,7 +117,8 @@ public class DrawAxis {
 
 		// ========================================
 		// X-AXIS
-		if (view.xAxisOnscreen()) {
+		if (view.xAxisOnscreen()
+				|| view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
 			// erase the grid to make space for labels, use two rectangles
 
 			// label of x axis
@@ -215,22 +216,6 @@ public class DrawAxis {
 						fontsize, xAxisStart);
 			}
 
-		} else if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			if (view.logAxes[0]) {
-				// TODO
-				// drawXTicksLog(g2, 0, minusSign, drawRightArrow,
-				// fontsize, xAxisStart);
-			} else {
-				int tickposition = 0;
-				if (view.getYmin() >= view.axisCross[0]) {
-					tickposition = view.getHeight()
-							- view.getYOffsetForXAxis(fontsize);
-				}
-
-				drawXTicksLinear(g2, tickposition, minusSign, drawRightArrow,
-						fontsize,
-						xAxisStart);
-			}
 		}
 
 		// ========================================
@@ -717,7 +702,8 @@ public class DrawAxis {
 
 			// 285, 285.1, 285.2 -> rounding problems
 			if (pix >= xAxisStart && pix <= maxX) {
-				if (view.showAxesNumbers[0]) {
+				if (view.showAxesNumbers[0] || view.getApplication()
+						.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 					String strNum = tickDescription(view, labelno, 0);
 
 					if ((labelno % unitsPerLabelX) == 0) {
@@ -757,6 +743,8 @@ public class DrawAxis {
 									- (view.xLabelHeights + 5)) {
 								y = (int) (view.getHeight() - view.xLabelHeights
 										- 5 + yoffset);
+							} else if (yCrossPix <= 0) {
+								y = (int) yoffset;
 							}
 						}
 
