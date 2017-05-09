@@ -207,7 +207,7 @@ public class RadioTreeItemController
 
 		Log.debug("[xx] mouseDown");
 
-		if (app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW)){
+		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			app.getGuiManager().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_ALGEBRA);
 		}

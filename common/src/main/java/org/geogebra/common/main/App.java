@@ -4145,9 +4145,6 @@ public abstract class App implements UpdateSelection {
 		case READ_OBJECT_NAME_AT_SELECTING:
 			return prerelease;
 
-		case SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW:
-			return prerelease;
-
 		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
 			return prerelease;
 

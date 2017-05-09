@@ -127,13 +127,8 @@ public class LayoutW extends Layout implements SettingListener {
 //												|| dp.getViewId() == App.VIEW_SPREADSHEET)) {
 					app.setKeyboardNeeded(true);
 				}
-			}
-			
-			if (dp.isVisible()
-					&& (dp.getViewId() == App.VIEW_ALGEBRA
-							|| dp.getViewId() == App.VIEW_CAS || (app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW) &&
-							(dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
-											|| dp.getViewId() == App.VIEW_SPREADSHEET)))) {
+			} else if (dp.isVisible() && (dp.getViewId() == App.VIEW_ALGEBRA
+					|| dp.getViewId() == App.VIEW_CAS)) {
 				app.setKeyboardNeeded(true);
 			}
 

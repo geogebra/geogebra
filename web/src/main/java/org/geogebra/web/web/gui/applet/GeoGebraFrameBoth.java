@@ -461,22 +461,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 
 		if (showKeyboardButton != null) {
-			if(app.has(Feature.SHOW_KEYBOARD_BUTTON_IN_EVERY_VIEW)){
-				if(app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
-					this.setKeyboardButton();
-				} else {
-					DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
-							.getDockManager();
-					DockPanelW newDockPanelKB = dm.getPanelForKeyboard();
-					if(dockPanelKB != newDockPanelKB){
-						dockPanelKB.setKeyBoardButton(null);
-						showKeyboardButton.removeFromParent();
-						dockPanelKB = newDockPanelKB;
-						showKeyboardButton = new ShowKeyboardButton(this, dm,
-								dockPanelKB, app);
-						dockPanelKB.setKeyBoardButton(showKeyboardButton);
-					}
-				}
+			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
+				this.setKeyboardButton();
 			}
 			// showKeyboardButton.show(app.isKeyboardNeeded(), textField);
 			showKeyboardButton.show(app.isKeyboardNeeded(), textField,
