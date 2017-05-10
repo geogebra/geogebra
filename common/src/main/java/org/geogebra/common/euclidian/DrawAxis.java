@@ -507,8 +507,12 @@ public class DrawAxis {
 			// At the left and right edge numbers will be stayed
 			// at
 			// the border
-			if (xCrossPix < view.yLabelMaxWidthNeg + 10) {
-				x = (int) ((view.yLabelMaxWidthNeg + 10 + xoffset) - width);
+
+			double leftLimit = (view.yLabelMaxWidthNeg > 0
+					? view.yLabelMaxWidthNeg : view.yLabelMaxWidthPos) + 10;
+
+			if (xCrossPix < leftLimit) {
+				x = (int) ((leftLimit + xoffset) - width);
 			} else if (xCrossPix > view.getWidth()) {
 				x = (int) (view.getWidth() - width + xoffset);
 			}
