@@ -722,7 +722,7 @@ public class ProverBotanasMethod {
 							maxFixcoords = 2;
 						}
 
-						if (geoPolys != null) {
+						if (geoPolynomials != null) {
 							if (geo instanceof GeoPoint) {
 								PVariable[] v;
 								v = ((SymbolicParametersBotanaAlgo) geo)
