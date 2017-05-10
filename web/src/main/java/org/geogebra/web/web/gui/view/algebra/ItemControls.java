@@ -40,9 +40,12 @@ public class ItemControls extends FlowPanel {
 
 
 	/** animation controls */
-	protected AnimPanel animPanel;
+	protected AnimPanel animPanel = null;
 
 	private ContextMenuMore cmMore = null;
+
+
+	private boolean playOnly;
 	
 	/**
 	 * @param radioTreeItem
@@ -50,6 +53,7 @@ public class ItemControls extends FlowPanel {
 	 */
 	public ItemControls(RadioTreeItem radioTreeItem) {
 		this.radioTreeItem = radioTreeItem;
+		playOnly = radioTreeItem.app.has(Feature.AV_PLAY_ONLY);
 		addStyleName("AlgebraViewObjectStylebar");
 		addStyleName("smallStylebar");
 		buildGUI();
@@ -138,11 +142,20 @@ public class ItemControls extends FlowPanel {
 	private void buildGUI() {
 		radioTreeItem.setFirst(radioTreeItem.first);
 		clear();
+		buildAnimPanel();
+		
+
+		if (!hasMoreMenu()) {
+			add(getDeleteButton());
+		}
+	}
+	
+	private void buildAnimPanel() {
 		if (radioTreeItem.geo.isAnimatable()) {
 			if (animPanel == null) {
 				createAnimPanel();
 			}
-
+			
 			add(animPanel);
 			reset();
 			updateAnimPanel();
@@ -150,12 +163,8 @@ public class ItemControls extends FlowPanel {
 		} else {
 			showAnimPanel(false);
 		}
-
-		if (!hasMoreMenu()) {
-			add(getDeleteButton());
-		}
+		
 	}
-	
 	private boolean hasMoreMenu() {
 		return radioTreeItem.app.has(Feature.AV_MORE_MENU);
 	}

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -33,7 +34,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private boolean speedButtons = false;
 	private boolean play = false;
 	private int speedIndex = 6;
-
+	private boolean playOnly;
 	/**
 	 * @param radioTreeItem
 	 *            parent item
@@ -42,7 +43,22 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		super();
 		this.radioTreeItem = radioTreeItem;
 		addStyleName("elemRow");
+		playOnly = radioTreeItem.app.has(Feature.AV_PLAY_ONLY);
+		
+		if (playOnly) {
+			buildPlayOnly();
+		} else {
+			buildPlayWithSpeedButtons();
+		}
+	}
+	
+	private void buildPlayOnly() {
+		createPlayButton();
+		btnPlay.addStyleName("playOnly");
+		add(btnPlay);	
+	}
 
+	private void buildPlayWithSpeedButtons() {
 		btnSpeedDown = new MyToggleButtonW(
 				GuiResources.INSTANCE.icons_play_rewind());
 		btnSpeedDown.getUpHoveringFace().setImage(
@@ -73,6 +89,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		add(btnSpeedUp);
 		add(btnPlay);
 		showSpeedValue(false);
+		
 	}
 
 	private void createPlayButton() {
@@ -147,6 +164,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 */
 	void setPlay(boolean value) {
 		play = value;
+		if (playOnly) {
+			return;
+		}
+		
 		showSpeedButtons(false);
 
 		if (value) {
@@ -158,6 +179,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void showSpeedValue(boolean value) {
+		if (playOnly) {
+			return;
+		}
+		
 		setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
 		if (value) {
 			btnSpeedValue.removeStyleName("hidden");
@@ -176,6 +201,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void showSpeedButtons(boolean value) {
+		if (playOnly) {
+			return;
+		}
+		
 		if (value) {
 			setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
 			btnSpeedUp.removeStyleName("hidden");
@@ -188,12 +217,20 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void setSpeed() {
+		if (playOnly) {
+			return;
+		}
+		
 		double speed = animSpeeds[this.speedIndex];
 		this.radioTreeItem.geo.setAnimationSpeed(speed);
 		setSpeedText(speed);
 	}
 
 	private void setSpeedText(double speed) {
+		if (playOnly) {
+			return;
+		}
+		
 		String speedStr = speed + " " + Unicode.MULTIPLY;
 		btnSpeedValue.getUpFace().setText(speedStr);
 		btnSpeedValue.getUpHoveringFace().setText(speedStr);
@@ -260,7 +297,14 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 * Reset UI
 	 */
 	public void reset() {
+		if (playOnly) {
+			return;
+		}
 		showSpeedButtons(false);
 		showSpeedValue(isGeoAnimating());
+	}
+	
+	MyToggleButtonW getPlayButton() {
+		return btnPlay;
 	}
 }
