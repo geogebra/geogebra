@@ -324,7 +324,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void addControls() {
+		if (controls != null) { 
+			return;
+		}
 		createControls();
+
 		main.add(controls);
 		controls.setVisible(true);
 	}
