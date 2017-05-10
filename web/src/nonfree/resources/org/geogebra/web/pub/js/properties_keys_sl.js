@@ -1123,7 +1123,7 @@ __GGB__keysVar.sl.error = {
     "DivisorMustBeConstant": "Delitelj mora biti konstanta",
     "Error": "Napaka",
     "ExponentMustBeConstant": "Eksponent mora biti konstanta",
-    "ExponentMustBeInteger": "Eksponent mora biti naravno \u0161tevilo",
+    "ExponentMustBeInteger": "Eksponent mora biti celo \u0161tevilo",
     "ExportJarMissing": "\u017dal manjka ali pa je po\u0161kodovana datoteka geogebra_export.jar",
     "FileFormatNewer": "Namestite novo razli\u010dico programa GeoGebra.\nTa format ni ve\u010d podprt",
     "FileFormatUnknown": "Neznan format datoteke",
