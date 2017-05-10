@@ -2,6 +2,8 @@ package org.geogebra.common.io.latex;
 
 import java.util.HashMap;
 
+import org.geogebra.common.util.lang.Unicode;
+
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
@@ -100,5 +102,10 @@ public class TeXAtomSerializer {
 		mappings.put("rbrace", "}");
 		mappings.put("normaldot", ".");
 		mappings.put("comma", ",");
+		mappings.put("ge", ">=");
+		mappings.put("le", "<=");
+		mappings.put("geq", ">=");
+		mappings.put("leq", "<=");
+		mappings.put("theta", Unicode.thetaStr);
 	}
 }

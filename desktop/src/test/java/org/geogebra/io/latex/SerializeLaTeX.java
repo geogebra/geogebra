@@ -174,6 +174,10 @@ public class SerializeLaTeX {
 		checkLaTeX(
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
 				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
+		checkLaTeX("\\frac{x^2}{m^2}+\\frac{y^2}{n^2}\\ge2",
+				"(x^(2))/(m^(2))+(y^(2))/(n^(2))>=2");
+		checkLaTeX("a\\leq b", "a<=b");
+		checkLaTeX("r\\ =\\ g^{\\theta}", "r = g^(" + Unicode.thetaStr + ")");
 	}
 
 	private void checkLaTeX(String string, String string2) {
