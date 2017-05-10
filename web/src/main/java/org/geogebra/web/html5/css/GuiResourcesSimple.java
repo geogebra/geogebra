@@ -2,6 +2,7 @@ package org.geogebra.web.html5.css;
 
 import org.geogebra.web.html5.util.LessResource;
 import org.geogebra.web.resources.LessReference;
+import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -230,4 +231,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/common/icons_fillings/p18/filling_cancel.png")
 	ImageResource icons_fillings_cancel();
+
+	@Source("org/geogebra/web/resources/css/reset.scss")
+	SassResource reset();
 }
