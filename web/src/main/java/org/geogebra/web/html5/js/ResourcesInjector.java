@@ -53,6 +53,7 @@ public class ResourcesInjector {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 				.getText());
 		injectLTRstyles();
+		injectScss();
 
 
 		Browser.setWebWorkerSupported(Location
@@ -91,6 +92,15 @@ public class ResourcesInjector {
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR().getText());
 
+	}
+
+	private static void injectScss() {
+		StyleInjector
+				.inject(GuiResourcesSimple.INSTANCE.colorsScss().getText());
+		StyleInjector
+				.inject(GuiResourcesSimple.INSTANCE.avStyleScss().getText());
+		StyleInjector.inject(
+				GuiResourcesSimple.INSTANCE.toolBarStyleScss().getText());
 	}
 
 	/**
