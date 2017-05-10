@@ -74,4 +74,8 @@ public class RomanAtom extends Atom {
 
 		return box;
 	}
+
+	public Atom getBase() {
+		return base;
+	}
 }

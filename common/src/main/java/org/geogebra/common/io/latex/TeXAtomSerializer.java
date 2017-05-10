@@ -10,10 +10,12 @@ import com.himamis.retex.renderer.share.EmptyAtom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.FractionAtom;
 import com.himamis.retex.renderer.share.NthRoot;
+import com.himamis.retex.renderer.share.RomanAtom;
 import com.himamis.retex.renderer.share.RowAtom;
 import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
+import com.himamis.retex.renderer.share.TypedAtom;
 
 public class TeXAtomSerializer {
 	private static HashMap<String, String> mappings;
@@ -35,6 +37,14 @@ public class TeXAtomSerializer {
 		if (root instanceof CharAtom) {
 			CharAtom ch = (CharAtom) root;
 			return ch.getCharacter() + "";
+		}
+		if (root instanceof TypedAtom) {
+			TypedAtom ch = (TypedAtom) root;
+			return serialize(ch.getBase());
+		}
+		if (root instanceof RomanAtom) {
+			RomanAtom ch = (RomanAtom) root;
+			return serialize(ch.getBase());
 		}
 		if (root instanceof ScriptsAtom) {
 			ScriptsAtom ch = (ScriptsAtom) root;

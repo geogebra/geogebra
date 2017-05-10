@@ -177,6 +177,7 @@ public class SerializeLaTeX {
 		checkLaTeX("\\frac{x^2}{m^2}+\\frac{y^2}{n^2}\\ge2",
 				"(x^(2))/(m^(2))+(y^(2))/(n^(2))>=2");
 		checkLaTeX("a\\leq b", "a<=b");
+		checkLaTeX("f\\left(x\\right)=\\sin\\left(x\\right)", "f(x)=sin(x)");
 		checkLaTeX("r\\ =\\ g^{\\theta}", "r = g^(" + Unicode.thetaStr + ")");
 	}
 
