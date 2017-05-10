@@ -140,7 +140,7 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
 			}
 			bool.setDefined();
 			if (result == ProofResult.TRUE
-					|| result == ProofResult.UNDERDETERMINED) {
+					|| result == ProofResult.TRUE_COMPONENT) {
 				bool.setValue(true);
 			}
 			if (result == ProofResult.FALSE) {

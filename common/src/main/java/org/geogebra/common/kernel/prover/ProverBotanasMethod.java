@@ -70,7 +70,7 @@ public class ProverBotanasMethod {
 	 * @param statement
 	 *            the input statement
 	 * @throws NoSymbolicParametersException
-	 *             if implementaion is missing
+	 *             if implementation is missing
 	 */
 	static void updateBotanaVarsInv(GeoElement statement)
 			throws NoSymbolicParametersException {
@@ -655,19 +655,24 @@ public class ProverBotanasMethod {
 								}
 							}
 						}
-						PPolynomial[] geoPolys = ((SymbolicParametersBotanaAlgo) geo)
+						PPolynomial[] geoPolynomials = ((SymbolicParametersBotanaAlgo) geo)
 								.getBotanaPolynomials(geo);
 
 						/*
-						 * Check if the construction step could be reliably
-						 * translated to an algebraic representation. This is
-						 * the case for linear constructions (parallel,
+						 * We used to check if the construction step could be
+						 * reliably translated to an algebraic representation.
+						 * This was the case for linear constructions (parallel,
 						 * perpendicular etc.) but not for quadratic ones
 						 * (intersection of conics etc.). In the latter case the
-						 * equation system may be solvable even if
-						 * geometrically, "seemingly" the statement is true. To
-						 * avoid such confusing cases, it's better to report
+						 * equation system might have been solvable even if
+						 * geometrically, "seemingly" the statement was true. To
+						 * avoid such confusing cases, it was better to report
 						 * undefined instead of false.
+						 * 
+						 * Now we check the statement's negation as well and it
+						 * is enough to handle those cases.
+						 * 
+						 * TODO: This piece of code can be removed on a cleanup.
 						 */
 						AlgoElement algo = geo.getParentAlgorithm();
 						if (algo instanceof AlgoAngularBisectorPoints
@@ -678,10 +683,13 @@ public class ProverBotanasMethod {
 								|| (algo instanceof AlgoIntersectLineConic
 										&& ((AlgoIntersectLineConic) algo)
 												.existingIntersections() != 1)) {
-							interpretFalseAsUndefined = true;
-							Log.info("Due to " + algo
-									+ " is not 1-1 algebraic mapping, FALSE will be interpreted as UNKNOWN");
+							// interpretFalseAsUndefined = true;
+							Log.info(algo
+									+ " is not 1-1 algebraic mapping, but FALSE will not be interpreted as UNKNOWN");
 						}
+						/*
+						 * End of reliability check.
+						 */
 
 						if (algo instanceof AlgoCirclePointRadius) {
 							disallowFixSecondPoint = true;
@@ -760,8 +768,8 @@ public class ProverBotanasMethod {
 							}
 							if (useThisPoly) {
 								Log.debug("Hypotheses:");
-								addGeoPolys(geo, geoPolys);
-								for (PPolynomial p : geoPolys) {
+								addGeoPolys(geo, geoPolynomials);
+								for (PPolynomial p : geoPolynomials) {
 									nHypotheses++;
 									Log.debug((nHypotheses) + ". " + p);
 									if (proverSettings.captionAlgebra) {
@@ -1423,7 +1431,7 @@ public class ProverBotanasMethod {
 										 */
 										Log.debug(
 												"Statement is NOT GENERALLY FALSE");
-										return ProofResult.UNDERDETERMINED;
+										return ProofResult.TRUE_COMPONENT;
 									}
 								}
 							}
@@ -1592,7 +1600,7 @@ public class ProverBotanasMethod {
 					 * Here we know that the statement is not generally false.
 					 */
 					Log.debug("Statement is NOT GENERALLY FALSE");
-					return ProofResult.UNDERDETERMINED;
+					return ProofResult.TRUE_COMPONENT;
 				}
 				/* End of checking if the statement is not generally false. */
 
