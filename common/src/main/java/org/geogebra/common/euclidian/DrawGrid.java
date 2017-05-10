@@ -147,7 +147,7 @@ public class DrawGrid {
 
 		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
 			if (yCrossPix1 >= view.getHeight() - view.xLabelHeights - 5) {
-				// If the xAxis is offscreen on the bottom, or almost offsreen,
+				// If the xAxis is offscreen on the bottom, or almost offscreen,
 				// numbers
 				// will be fixed at the bottom edge of view, and because of this
 				// grid won't be drawn there, there will be some space for the
