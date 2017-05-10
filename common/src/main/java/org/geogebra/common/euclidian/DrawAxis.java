@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
@@ -377,6 +379,8 @@ public class DrawAxis {
 		// int maxY = height - view.SCREEN_BORDER;
 		int maxY = EuclidianView.SCREEN_BORDER;
 
+		ArrayList<TickNumber> numbers = new ArrayList<TickNumber>();
+		
 		// yAxisEnd
 
 		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
@@ -425,20 +429,13 @@ public class DrawAxis {
 
 						if (view.getApplication()
 								.has(Feature.TICK_NUMBERS_AT_EDGE)) {
-							// At the left and right edge numbers will be stayed
-							// at the border
-							double numbermaxwidth = view.estimateNumberWidth(rw,
-									view.getFontAxes());
-							if (xCrossPix < numbermaxwidth) {
-								x = (int) ((numbermaxwidth
-										+ xoffset) - width);
-							} else if (xCrossPix > view.getWidth()) {
-								x = (int) (view.getWidth() - width + xoffset);
-							}
+							numbers.add(new TickNumber(g2, sb.toString(), x, y,
+									xCrossPix, xoffset, width));
+						} else {
+							// draw number
+							drawString(g2, sb.toString(), x, y);
 						}
 
-						// draw number
-						drawString(g2, sb.toString(), x, y);
 
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
@@ -475,6 +472,48 @@ public class DrawAxis {
 						smallTickPix);
 			}
 
+		}
+
+		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+			for (int i = 0; i < numbers.size(); i++) {
+				numbers.get(i).draw();
+			}
+		}
+
+	}
+
+	private class TickNumber {
+		String text;
+		int x;
+		int y;
+		double xCrossPix;
+		double xoffset;
+		double width;
+		GGraphics2D g2;
+
+		TickNumber(GGraphics2D graphics, String text1, int x1, int y1,
+				double xCrossPix1,
+				double xoffset1, double width1) {
+			text = text1;
+			x = x1;
+			y = y1;
+			xCrossPix = xCrossPix1;
+			xoffset = xoffset1;
+			width = width1;
+			g2 = graphics;
+		}
+
+		public void draw() {
+			// At the left and right edge numbers will be stayed
+			// at
+			// the border
+			if (xCrossPix < view.yLabelMaxWidthNeg + 10) {
+				x = (int) ((view.yLabelMaxWidthNeg + 10 + xoffset) - width);
+			} else if (xCrossPix > view.getWidth()) {
+				x = (int) (view.getWidth() - width + xoffset);
+			}
+
+			drawString(g2, text, x, y);
 		}
 
 	}
@@ -634,7 +673,7 @@ public class DrawAxis {
 	/*
 	 * spaceToLeft so that minus signs are more visible next to grid
 	 */
-	private void drawString(GGraphics2D g2, String text, double x, double y) {
+	void drawString(GGraphics2D g2, String text, double x, double y) {
 
 		g2.setColor(view.axesColor);
 		g2.drawString(text, (int) (x), (int) y);
