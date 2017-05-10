@@ -230,6 +230,9 @@ public enum Feature {
 	TICK_NUMBERS_AT_EDGE,
 
 	/** GGB-1732 */
-	AV_PLAY_ONLY
+	AV_PLAY_ONLY,
+
+	/** GGB-1773 */
+	NEW_TOOLBAR
 
 }

@@ -4238,6 +4238,9 @@ public abstract class App implements UpdateSelection {
 		case TICK_NUMBERS_AT_EDGE:
 			return prerelease;
 
+		case NEW_TOOLBAR:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
