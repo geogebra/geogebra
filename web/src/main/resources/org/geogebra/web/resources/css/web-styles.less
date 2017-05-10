@@ -1,156 +1,134 @@
 /**
- * The file contains styles for GWT widgets in the Clean theme.
- *
- * In order to maintain cross-browser compatibility, the following syntax is
- * used to create IE6 specific style rules:
- *    .gwt-Widget {
- *      property: rule applies to all browsers
- *      -property: rule applies only to IE6 (overrides previous rule)
- *    }
- *    * html .gwt-Widget {
- *      property: rule applies to all versions of IE
- *    }
+ * The file contains some styles.
  */
  
-/**
- * The reference theme can be used to determine when this style sheet has
- * loaded.  Create a hidden div element with absolute position, assign the style
- * name below, and attach it to the DOM.  Use a timer to detect when the
- * element's height and width are set to 5px.
- */
-.GeoGebraFrame button {
-	border: none;
-	background: none;
-	padding: 0px;
-	margin: 0px;
-}
+.GeoGebraFrame {
+	button {
+		border: none;
+		background: none;
+		padding: 0px;
+		margin: 0px;
+	}
 
 /* .InputTreeItem, */
-.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
-	position: relative;
+	.gwt-Tree .gwt-TreeItem .elem {
+		position: relative;
+	}
+
+
+
+	.XButtonPanelParent {
+		position: relative !important;
+	}
+
+	.InputTreeItemParent {
+		/* afaik, ::after is relative this this element this way */
+		position: relative !important;
+		display: block !important;
+		box-sizing: border-box;
+		padding-right: 40px;
+		width: 100%;
+
+		/* moved here from another CSS rule with the same name */
+		padding-top: 0px !important;
+	}
+
+	.InputTreeItemParent::after {
+		/* Hiding .InputTreeItem scrollbar by overlapping it! */
+		/* a different solution would use clipping (i.e. overflow: hidden) */
+		/* with negative margins and/or relative positioning and/or */
+		/* and/or vertical-align and/or absolute positioning, */
+		/* but all of them turned out to be more difficult than this solution */
+		content: "";
+		position: absolute;
+		display: block;
+		bottom: 0px;
+		left:0px;
+		right:0px;
+		height: 18px;
+		width: 100%;
+
+		/* on mobile browsers z-index is needed for whatever reason. 10 is not enough for Win8 */
+		z-index: 98;
+
+		/* or whatever is the background-color of Algebra View */
+		/* TODO: may be put elsewhere in CSS too */
+		background-color: white;
+	}
+
+	.positionedObjectStyleBar{
+		right: 46px;
+	}
+
+	.positionedObjectStyleBar_scrollbarVisible{ 
+		right: 31px;
+	}
+
+	.avControlsWithSmallStyleBar{
+		right: 46px !important;
+	}
+
+	.avControlsNormal{
+		right: 0px;
+	}
+
+	.InputTreeItem {
+		overflow-x: scroll;
+		overflow-y: hidden;
+		direction: ltr;
+		/* force editing cursor */
+		cursor: text;
+		/* push the scrollbar down so that ::after can kill it*/
+		padding-bottom:18px;
+		/* may need to hide blue selected background */
+		background-color:white;
+	}
+
+	.InputTreeItem * {
+		/* some of its descendants would not naturally get it */
+		/* probably because of GWT or web-styles.css */
+		cursor: text !important;
+	}
+
+	.AdvancedFocusPanelsTextarea {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 1px;
+		height: 1px;
+		z-index: -32000;
+		/* almost good, but caret is still visible in IE */
+		clip: rect(1em 1em 1em 1em);
+		padding: 0px;
+    	font-size: 0px;
+    	-webkit-transform:scale(0.0);  
+    	resize:none;
+	    -webkit-user-select: text;
+    	-moz-user-select: text;
+    	user-select: text;
+	}
+
+	&.minWidth > div {
+		overflow-x: auto !important;	
+	}
+	/* end */
+
+	input[type="text"],	.gwt-TextBox,
+	select,	textarea,
+	.gwt-TextArea,	.gwt-SuggestBox,
+	iframe.objectPropertiesTextEditor {
+		border: #DCDCDC solid 1px;
+		background: #FFFFFF;
+		padding: 4px 5px;
+		color: #666666;	
+		border-radius: 5px;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		font-size: 100%;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
+	}
 }
-
-
-
-.XButtonPanelParent {
-	position: relative !important;
-}
-
-.GeoGebraFrame .InputTreeItemParent {
-	/* afaik, ::after is relative this this element this way */
-	position: relative !important;
-	display: block !important;
-	box-sizing: border-box;
-	padding-right: 40px;
-	width: 100%;
-
-	/* moved here from another CSS rule with the same name */
-	padding-top: 0px !important;
-}
-
-.InputTreeItemParent::after {
-	/* Hiding .InputTreeItem scrollbar by overlapping it! */
-	/* a different solution would use clipping (i.e. overflow: hidden) */
-	/* with negative margins and/or relative positioning and/or */
-	/* and/or vertical-align and/or absolute positioning, */
-	/* but all of them turned out to be more difficult than this solution */
-	content: "";
-	position: absolute;
-	display: block;
-	bottom: 0px;
-	left:0px;
-	right:0px;
-	height: 18px;
-	width: 100%;
-
-	/* on mobile browsers z-index is needed for whatever reason. 10 is not enough for Win8 */
-	z-index: 98;
-
-	/* or whatever is the background-color of Algebra View */
-	/* TODO: may be put elsewhere in CSS too */
-	background-color: white;
-}
-
-.GeoGebraFrame .positionedObjectStyleBar{
-	right: 46px;
-}
-
-.GeoGebraFrame .positionedObjectStyleBar_scrollbarVisible{ 
-	right: 31px;
-}
-
-.GeoGebraFrame .avControlsWithSmallStyleBar{
-	right: 46px !important;
-}
-
-.GeoGebraFrame .avControlsNormal{
-	right: 0px;
-}
-
-.InputTreeItem {
-	overflow-x: scroll;
-	overflow-y: hidden;
-	direction: ltr;
-
-	/* force editing cursor */
-	cursor: text;
-	/* push the scrollbar down so that ::after can kill it*/
-	padding-bottom:18px;
-	/* may need to hide blue selected background */
-	background-color:white;
-}
-
-.InputTreeItem * {
-	/* some of its descendants would not naturally get it */
-	/* probably because of GWT or web-styles.css */
-	cursor: text !important;
-}
-
-.AdvancedFocusPanelsTextarea {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	width: 1px;
-	height: 1px;
-	z-index: -32000;
-
-	/* almost good, but caret is still visible in IE */
-	clip: rect(1em 1em 1em 1em);
-	padding: 0px;
-    font-size: 0px;
-    -webkit-transform:scale(0.0);  
-    resize:none;
-
-    -webkit-user-select: text;
-    -moz-user-select: text;
-    user-select: text;
-}
-
-.GeoGebraFrame.minWidth > div {
-	overflow-x: auto !important;	
-}
-/* end */
-
-.GeoGebraFrame input[type="text"],
-.GeoGebraFrame .gwt-TextBox,
-.GeoGebraFrame select,
-.GeoGebraFrame textarea,
-.GeoGebraFrame .gwt-TextArea,
-.GeoGebraFrame .gwt-SuggestBox,
-.GeoGebraFrame iframe.objectPropertiesTextEditor
-	{
-	border: #DCDCDC solid 1px;
-	background: #FFFFFF;
-	padding: 4px 5px;
-	color: #666666;	
-	border-radius: 5px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	font-size: 100%;
-	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
-}
-
 .GeoGebraFrame input[type="text"]:focus,
 .gwt-TextBox:focus,
 .GeoGebraFrame select:focus,
@@ -3999,481 +3977,475 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-CheckBox {
 	}
 
 
-}
-.GeoGebraFrame .CustomColorButtonParent {
-	width: 100%;
-}
+	.CustomColorButtonParent {
+		width: 100%;
+	}
 
-.GeoGebraFrame button.CustomColorButton {
-	position: relative;
-	left: 227px;
-	top: 1px;
-	border: 2px solid #555555 !important;
-	cursor: pointer;
-	background-color: #ffffff !important;
-	width: 14px;
-	height: 14px;
-}
+	button.CustomColorButton {
+		position: relative;
+		left: 227px;
+		top: 1px;
+		border: 2px solid #555555 !important;
+		cursor: pointer;
+		background-color: #ffffff !important;
+		width: 14px;
+		height: 14px;
+	}
 
-.GeoGebraFrame button.CustomColorButton:hover {
-	background-color: rgb(204, 204, 255) !important;
-}
+	button.CustomColorButton:hover {
+		background-color: rgb(204, 204, 255) !important;
+	}
 
-.GeoGebraFrame button.CustomColorButton:active {
-	border: 2px inset #555555 !important;
-}
+	button.CustomColorButton:active {
+		border: 2px inset #555555 !important;
+	}
 
-.propertiesTab .gwt-TabPanelBottom {
-	/* height: 100%; FIXME breaks scripting tab in Chrome */
-	-moz-box-sizing: border-box;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-}
+	.propertiesTab .gwt-TabPanelBottom {	
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
 
-.scriptArea {
-	height: 300px;
-	width: 100%;
-}
+	.scriptArea {
+		height: 300px;
+		width: 100%;
+	}
 
-.scriptTabPanel {
-	width: 100%;
-}
+	.scriptTabPanel {
+		width: 100%;
+	}
 
-/* disabled styles */
-.disabled>.panelIndent, .disabled>div>.panelRowIndent {
-	color: #CCCCCC;
-}
+	/* disabled styles */
+	.disabled>.panelIndent, .disabled>div>.panelRowIndent {
+		color: #CCCCCC;
+	}
 
-.disabled .gwt-ListBox {
-	opacity: 0.4;
-	cursor: default;
-}
+	.disabled .gwt-ListBox {
+		opacity: 0.4;
+		cursor: default;
+	}
 
-/*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-.advanced-TextButtonPanel {
-	position: relative;
-	margin: 3px 0px;
-}
+	/*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+	.advanced-TextButtonPanel {
+		position: relative;
+		margin: 3px 0px;
+	}
 
-.advanced-TextButtonPanel input[disabled=""],.advanced-TextButtonPanel .choice-button-up-disabled
-	{
-	opacity: 1;
-	cursor: default;
-}
+	.advanced-TextButtonPanel input[disabled=""],
+	.advanced-TextButtonPanel .choice-button-up-disabled {
+		opacity: 1;
+		cursor: default;
+	}
 
-.advanced-TextButtonPanel input.selected-value {
-	padding-right: 1.3em;
-}
+	.advanced-TextButtonPanel input.selected-value {
+		padding-right: 1.3em;
+	}
 
-.advanced-TextButtonPanel .choice-button {
-	position: absolute;
-	right: 0.3em;
-	top: 0.3em;
-	cursor: pointer;
-}
+	.advanced-TextButtonPanel .choice-button {
+		position: absolute;
+		right: 0.3em;
+		top: 0.3em;
+		cursor: pointer;
+	}
 
-.advanced-ListPopupPanel {
-	border-radius: 5px;
-	padding: 5px;
-	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	overflow: visible;
-	position: absolute;
-	background-color: white;
-	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-}
+	.advanced-ListPopupPanel {
+		border-radius: 5px;
+		padding: 5px;
+		background-color: rgba(255, 255, 255, 0.9);
+		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+		overflow: visible;
+		position: absolute;
+		background-color: white;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+	}
 
-.advanced-ListPopupPanel .item {
-	cursor: pointer;
-	padding: 0px 5px;
-}
+	.advanced-ListPopupPanel .item {
+		cursor: pointer;
+		padding: 0px 5px;
+	}
 
-.advanced-ListPopupPanel .item:hover {
-	background: #CCCCFF;
-}
-.geoSelectFirst {
-	width:50%;
-}
-/*#####################################################################################
-###       PROPABILITY CALCULATOR
-#####################################################################################*/
-.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
-	margin: 0;
-	padding: 0;
-}
+	.advanced-ListPopupPanel .item:hover {
+		background: #CCCCFF;
+	}
 
-.ProbCalcPanel {
-	overflow: auto;
-}
+	.geoSelectFirst {
+		width:50%;
+	}
+	/*#####################################################################################
+	###       PROPABILITY CALCULATOR
+	#####################################################################################*/
+	.ProbabilityCalculatorStyleBarW .gwt-MenuItem {
+		margin: 0;
+		padding: 0;
+	}
 
-.ProbCalcPanel .PlotPanelPlus {
-	float: left;
-	margin: 0;
-	margin-top: 6px;
-	padding: 0;
-}
+	.ProbCalcPanel {
+		overflow: auto;
+	}
 
-.ProbCalcPanel .ProbabilityTableW {
-	float: right;
-	margin: 0;
-	padding: 0;
-	padding-left: 10px;
-	overflow: auto;
-}
+	.ProbCalcPanel .PlotPanelPlus {
+		float: left;
+		margin: 0;
+		margin-top: 6px;
+		padding: 0;
+	}
 
-.ProbCalcPanel .ProbabilityTableW table {
-	border-collapse: collapse;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none
-}
+	.ProbCalcPanel .ProbabilityTableW {
+		float: right;
+		margin: 0;
+		padding: 0;
+		padding-left: 10px;
+		overflow: auto;
+	}
 
-.ProbCalcPanel .ProbabilityTableW td {
-	border: 1px solid #DCDCDC;
-	padding: 2px;
-}
+	.ProbCalcPanel .ProbabilityTableW table {
+		border-collapse: collapse;
+		-webkit-touch-callout: none;
+		-webkit-user-select: none;
+		-khtml-user-select: none;
+		-moz-user-select: none;
+		-ms-user-select: none;
+		user-select: none
+	}
 
-.ProbCalcPanel .ProbabilityTableW td.headercell {
-	font-weight: bold;
-}
+	.ProbCalcPanel .ProbabilityTableW td {
+		border: 1px solid #DCDCDC;
+		padding: 2px;
+	}
 
-.ProbCalcPanel .ProbabilityTableW tr:hover,.ProbCalcPanel .ProbabilityTableW tr.selected
-	{
-	background: #CCCCFF;
-}
+	.ProbCalcPanel .ProbabilityTableW td.headercell {
+		font-weight: bold;
+	}
 
-.plotPanelOptions {
-	display: block;
-	white-space: nowrap;
-	overflow: hidden;
-}
+	.ProbCalcPanel .ProbabilityTableW tr:hover,
+	.ProbCalcPanel .ProbabilityTableW tr.selected	{
+		background: #CCCCFF;
+	}
 
-.lblMeanSigma {
-	padding: 5px;
-	float: left;
-}
+	.plotPanelOptions {
+		display: block;
+		white-space: nowrap;
+		overflow: hidden;
+	}
 
-.btnExport,.btnNormalOverlay {
-	float: right;
-}
+	.lblMeanSigma {
+		padding: 5px;
+		float: left;
+	}
 
-.controlPanel {
-	float: left;
-	overflow: auto;
-}
+	.btnExport,.btnNormalOverlay {
+		float: right;
+	}
 
-.controlPanel>div {
-	padding: 5px 0px;
-	margin-right: 30px;
-	float: left;
-	white-space: nowrap;
-}
+	.controlPanel {
+		float: left;
+		overflow: auto;
+	}
 
-.controlPanel>div.clear {
-	padding: 0px;
-	margin: 0px;
-}
+	.controlPanel>div {
+		padding: 5px 0px;
+		margin-right: 30px;
+		float: left;
+		white-space: nowrap;
+	}
 
-.cbPanel .gwt-ToggleButton,.cbPanel .gwt-ListBox {
-	display: inline-block;
-	margin-right: 10px;
-}
+	.controlPanel>div.clear {
+		padding: 0px;
+		margin: 0px;
+	}
 
-.cbPanel .gwt-ToggleButton {
-	float: left;
-}
+	.cbPanel .gwt-ToggleButton,.cbPanel .gwt-ListBox {
+		display: inline-block;
+		margin-right: 10px;
+	}
 
-.parameterPanel>*,.resultPanel>* {
-	display: inline-block;
-	margin: 0 5px;
-	padding: 0px;
-}
+	.cbPanel .gwt-ToggleButton {
+		float: left;
+	}
 
-/*.parameterPanel .gwt-SuggestBox,
-.resultPanel .gwt-SuggestBox,
-.StatisticsCalculatorW .gwt-SuggestBox {
-	margin: 0px;
-	padding: 0px;
-}*/
-.intervalPanel>* {
-	display: inline-block;
-}
+	.parameterPanel>*,.resultPanel>* {
+		display: inline-block;
+		margin: 0 5px;
+		padding: 0px;
+	}
+
+	.intervalPanel>* {
+		display: inline-block;
+	}
 
 /* --------- STATISTICS CALCULATOR --------------- */
-.StatisticsCalculatorW .panelControl {
-	margin: 5px 0 5px 0px;
-}
+	.StatisticsCalculatorW .panelControl {
+		margin: 5px 0 5px 0px;
+	}
 
-.StatisticsCalculatorW .scroller {
-	overflow: auto;
-	padding-bottom: 8px;
-}
+	.StatisticsCalculatorW .scroller {
+		overflow: auto;
+		padding-bottom: 8px;
+	}
 
-.StatisticsCalculatorW .lineBreak {
-	height: 0px;
-	margin: 0px;
-	padding: 0px;
-	width: 100%;
-}
+	.StatisticsCalculatorW .lineBreak {
+		height: 0px;
+		margin: 0px;
+		padding: 0px;
+		width: 100%;
+	}
 
-.StatisticsCalculatorW .gwt-RadioButton label,.StatisticsCalculatorW .gwt-CheckBox label
-	{
-	margin: 0 20px 0 5px;
-}
+	.StatisticsCalculatorW .gwt-RadioButton label,
+	.StatisticsCalculatorW .gwt-CheckBox label	{
+		margin: 0 20px 0 5px;
+	}
 
-.StatisticsCalculatorW span.gwt-CheckBox {
-	margin-top: 10px;
-	min-width: 170px;
-}
+	.StatisticsCalculatorW span.gwt-CheckBox {
+		margin-top: 10px;
+		min-width: 170px;
+	}
 
-.StatisticsCalculatorW .lblSampleStat {
-	min-width: 80px;
-	text-align: right;
-}
+	.StatisticsCalculatorW .lblSampleStat {
+		min-width: 80px;
+		text-align: right;
+	}
 
-.StatisticsCalculatorW .gwt-Label,.StatisticsCalculatorW .AutoCompleteTextFieldW,.StatisticsCalculatorW .gwt-ListBox,.StatisticsCalculatorW .gwt-CheckBox,.StatisticsCalculatorW .gwt-RadioButton
-	{
-	display: inline-block;
-	margin: 3px 5px;
-}
+	.StatisticsCalculatorW .gwt-Label,.StatisticsCalculatorW .AutoCompleteTextFieldW,
+	.StatisticsCalculatorW .gwt-ListBox,.StatisticsCalculatorW .gwt-CheckBox,
+	.StatisticsCalculatorW .gwt-RadioButton	{
+		display: inline-block;
+		margin: 3px 5px;
+	}
 
-.StatisticsCalculatorW .panelSample1,.StatisticsCalculatorW .panelSample2
-	{
-	text-align: center;
-	max-width: 50%;
-	margin-right: 20px;
-	display: inline-block;
-	margin-top: 10px;
-	white-space: nowrap;
-}
+	.StatisticsCalculatorW .panelSample1,.StatisticsCalculatorW .panelSample2 {
+		text-align: center;
+		max-width: 50%;
+		margin-right: 20px;
+		display: inline-block;
+		margin-top: 10px;
+		white-space: nowrap;
+	}
 
-.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child
-	{
-	display: block;
-}
+	.StatisticsCalculatorW .panelSample1 .gwt-Label:first-child,
+	.StatisticsCalculatorW .panelSample2 .gwt-Label:first-child	{
+		display: block;
+	}
 
-.StatisticsCalculatorW .pnlControl .gwt-Label {
-	min-width: 80px;
-}
+	.StatisticsCalculatorW .pnlControl .gwt-Label {
+		min-width: 80px;
+	}
 
-.StatisticsCalculatorW .pnlCount {
-	overflow: auto;
-	text-align: right;
-	display: table;
-	border-collapse: collapse;
-}
+	.StatisticsCalculatorW .pnlCount {
+		overflow: auto;
+		text-align: right;
+		display: table;
+		border-collapse: collapse;
+	}
 
-.StatisticsCalculatorW .chirow {
-	display: table-row;
-}
+	.StatisticsCalculatorW .chirow {
+		display: table-row;
+	}
 
-.StatisticsCalculatorW .chirow .ChiSquarePanelW {
-	display: table-cell;
-	margin: 5px;
-	vertical-align: middle;
-}
+	.StatisticsCalculatorW .chirow .ChiSquarePanelW {
+		display: table-cell;
+		margin: 5px;
+		vertical-align: middle;
+	}
 
-.StatisticsCalculatorW .chirow .inputcell {
-	border: 1px solid #DCDCDC;
-}
+	.StatisticsCalculatorW .chirow .inputcell {
+		border: 1px solid #DCDCDC;
+	}
 
-.StatisticsCalculatorW .chirow .ChiSquarePanelW>* {
-	display: block;
-	text-align: center;
-}
+	.StatisticsCalculatorW .chirow .ChiSquarePanelW>* {
+		display: block;
+		text-align: center;
+	}
 
-.StatisticsCalculatorW .chirow input {
-	text-align: center;
-}
+	.StatisticsCalculatorW .chirow input {
+		text-align: center;
+	}
 
-.StatisticsCalculatorW .chirow .headercell input {
-	background: #CCCCFF;
-	border: 1px solid #6666FF;
-}
+	.StatisticsCalculatorW .chirow .headercell input {
+		background: #CCCCFF;
+		border: 1px solid #6666FF;
+	}
 
-.StatisticsCalculatorW .chirow .headercell input:focus {
-	background: white;
-}
+	.StatisticsCalculatorW .chirow .headercell input:focus {
+		background: white;
+	}
 
-.StatisticsCalculatorW .resultPane {
-	margin-top: 5px;
-}
+	.StatisticsCalculatorW .resultPane {
+		margin-top: 5px;
+	}
 
-.resultPane table td {
-	padding: 3px;
-	padding-right: 40px;
-}
+	.resultPane table td {
+		padding: 3px;
+		padding-right: 40px;
+	}
 
-.StatisticsCalculatorW .gwt-Label.lblHeading {
-	margin-top: 20px;
-	padding-bottom: 5px;
-	color: #6666FF;
-	display: block;
-	border-bottom: 1px solid #CCCCFF;
-}
+	.StatisticsCalculatorW .gwt-Label.lblHeading {
+		margin-top: 20px;
+		padding-bottom: 5px;
+		color: #6666FF;
+		display: block;
+		border-bottom: 1px solid #CCCCFF;
+	}
 
-/*=========== Probability Calculator End =============*/
-.ggw_glabel {
-	white-space: nowrap;
-	margin-right: 10px;
-}
+	/*=========== Probability Calculator End =============*/
+	.ggw_glabel {
+		white-space: nowrap;
+		margin-right: 10px;
+	}
 
-.ggw_glabel.ggw_glabel_nomargin {
-	margin-right: 0px;
-}
+	.ggw_glabel.ggw_glabel_nomargin {
+		margin-right: 0px;
+	}
 
-/*###################################################################################################################
-###		OPEN SCREEN FROM TOUCH
-###################################################################################################################*/
-.GeoGebraFrame .headerbar {
-	background-color: #F8F8F8;
-	border-bottom: 1px solid #EDEDED;
-	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	color: #666666;
-	height: 61px;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	position: relative;
-	z-index: 100;
-	width: 100%;
-	margin-bottom: 1px;
-}
+	/*###################################################################################################################
+	###		OPEN SCREEN FROM TOUCH
+	###################################################################################################################*/
+	.headerbar {
+		background-color: #F8F8F8;
+		border-bottom: 1px solid #EDEDED;
+		box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+		color: #666666;
+		height: 61px;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		position: relative;
+		z-index: 100;
+		width: 100%;
+		margin-bottom: 1px;
+	}
 
-.optionsPopup {
-	float: right;
-	background: none;
-	box-shadow: none;
-	margin-top: 20px;
-}
+	.optionsPopup {
+		float: right;
+		background: none;
+		box-shadow: none;
+		margin-top: 20px;
+	}
 
-.headerFirst {
-	padding-top: 15px;
-	cursor: pointer;
-	float: left;
-	width: 80px;
-}
+	.headerFirst {
+		padding-top: 15px;
+		cursor: pointer;
+		float: left;
+		width: 80px;
+	}
 
-.headerFirst .ggbLogoPanel,.headerFirst .backButton {
-	float: left;
-}
+	.headerFirst .ggbLogoPanel,.headerFirst .backButton {
+		float: left;
+	}
 
-.ggbLogoPanel {
-	margin-right: 5px;
-}
+	.ggbLogoPanel {
+		margin-right: 5px;
+	}
 
-.locationTitle {
-	font-size: 150%;
-	color: #6666FF;
-	float: left;
-	padding-top: 22px;
-}
+	.locationTitle {
+		font-size: 150%;
+		color: #6666FF;
+		float: left;
+		padding-top: 22px;
+	}
 
-.languageGUI .locationTitle {
-	text-align: center;
-	float: none;
-}
+	.languageGUI .locationTitle {
+		text-align: center;
+		float: none;
+	}
 
-.headerSecond {
-	padding-top: 10px;
-	padding-right: 10px;
-	float: right;
-}
+	.headerSecond {
+		padding-top: 10px;
+		padding-right: 10px;
+		float: right;
+	}
 
-.GeoGebraFrame button.gwt-Button.signInButton {
-	margin-top: 6px;
-}
+	button.gwt-Button.signInButton {
+		margin-top: 6px;
+	}
 
-.profilePanel {
-	cursor: pointer;
-	text-align: center;
-	padding-right: 10px;
-	width: 40px;
-	height: 40px;
-	overflow: hidden;
-}
+	.profilePanel {
+		cursor: pointer;
+		text-align: center;
+		padding-right: 10px;
+		width: 40px;
+		height: 40px;
+		overflow: hidden;
+	}
 
-.profilePanel .profileImage {
-	max-width: 70px;
-}
+	.profilePanel .profileImage {
+		max-width: 70px;
+	}
 
-.profilePanel .optionsArrow {
-	position: absolute;
-	right: 0px;
-	bottom: 0px;
-}
+	.profilePanel .optionsArrow {
+		position: absolute;
+		right: 0px;
+		bottom: 0px;
+	}
 
-.profileOptionsPanel {
-	position: relative;
-	z-index: 200;
-}
+	.profileOptionsPanel {
+		position: relative;
+		z-index: 200;
+	}
 
-.profileOptionsPanel .arrow {
-	position: absolute;
-	z-index: 300;
-	right: 15px;
-}
+	.profileOptionsPanel .arrow {
+		position: absolute;
+		z-index: 300;
+		right: 15px;
+	}
 
-.profileOptionsPanel .profileOptionsContent {
-	position: relative;
-	top: 15px;
-	margin-left: 5px;
-	z-index: 200;
-	border-radius: 10px;
-	padding: 5px;
-	background-color: rgba(255, 255, 255, 0.9);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-}
+	.profileOptionsPanel .profileOptionsContent {
+		position: relative;
+		top: 15px;
+		margin-left: 5px;
+		z-index: 200;
+		border-radius: 10px;
+		padding: 5px;
+		background-color: rgba(255, 255, 255, 0.9);
+		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+	}
 
-.profileOptionsContent .logoutButton {
-	margin: 20px 10px 10px;
-	min-width: 75px;
-}
+	.profileOptionsContent .logoutButton {
+		margin: 20px 10px 10px;
+		min-width: 75px;
+	}
 
-.backButton {
-	cursor: pointer;
-	padding: 8px 10px 10px 10px;
-}
+	.backButton {
+		cursor: pointer;
+		padding: 8px 10px 10px 10px;
+	}
 
-.backButton img {
-	height: 20px;
-	width: 11px;
-}
+	.backButton img {
+		height: 20px;
+		width: 11px;
+	}
 
 /*+++++++++++++++++++++++++++++++++++++++++++++++
 PROVIDERS
 +++++++++++++++++++++++++++++++++++++++++++++++*/
-.providers {
-	width: 70px;
-	float: right;
-	padding-left: 2px;
-}
+	.providers {
+		width: 70px;
+		float: right;
+		padding-left: 2px;
+	}
 
-.providers .button {
-	width: 50px;
-	height: 50px;
-	padding: 10px;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-	border: none;
-	background: none;
-	position: relative;
-	cursor: pointer;
-}
+	.providers .button {
+		width: 50px;
+		height: 50px;
+		padding: 10px;
+		-moz-box-sizing: content-box;
+		box-sizing: content-box;
+		border: none;
+		background: none;
+		position: relative;
+		cursor: pointer;
+	}
 
-.providers .button.selected {
-	background-image: -webkit-linear-gradient(left, #EDEDED, #FAFAFA);
-	background-image: -moz-linear-gradient(left, #EDEDED, #FAFAFA);
-	background-image: -ms-linear-gradient(left, #EDEDED, #FAFAFA);
-	background-image: -o-linear-gradient(left, #EDEDED, #FAFAFA);
-	background-image: linear-gradient(left, #EDEDED, #FAFAFA);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,
-		startColorstr='#EDEDED', endColorstr='#FAFAFA' );
-	zoom: 1;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
-		rgba(0, 0, 0, 0.05);
+	.providers .button.selected {
+		background-image: -webkit-linear-gradient(left, #EDEDED, #FAFAFA);
+		background-image: -moz-linear-gradient(left, #EDEDED, #FAFAFA);
+		background-image: -ms-linear-gradient(left, #EDEDED, #FAFAFA);
+		background-image: -o-linear-gradient(left, #EDEDED, #FAFAFA);
+		background-image: linear-gradient(left, #EDEDED, #FAFAFA);
+		filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,
+			startColorstr='#EDEDED', endColorstr='#FAFAFA' );
+		zoom: 1;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+			rgba(0, 0, 0, 0.05);
+	}
 }
 
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
