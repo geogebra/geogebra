@@ -73,7 +73,8 @@ public class DrawGrid {
 				// drawn, labelspace should contain the bigger width.
 				// See drawLineAvoidingLabelsH function.
 				double labelspace = (view.yLabelMaxWidthNeg > 0)
-						? view.yLabelMaxWidthNeg + 10 : view.yLabelMaxWidthPos;
+						? view.yLabelMaxWidthNeg + 10
+						: view.yLabelMaxWidthPos + 10;
 
 				if (xCrossPix - labelspace <= 0) {
 					xCrossPix = labelspace;
