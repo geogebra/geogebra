@@ -256,6 +256,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		return true;
 	}
 
+	@Override
 	protected void showHelp(int x, int y) {
 		boolean show = helpPopup != null && helpPopup.isShowing();
 		if (!show) {
@@ -269,49 +270,65 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		}
 	}
 	
-	protected void updateHelpPosition(final InputBarHelpPanelW helpPanel, final int x, final int y) {
+	private void updateHelpPosition(final InputBarHelpPanelW helpPanel,
+			final int x, final int y) {
 		helpPopup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
-				AppW appw = (AppW)app;
-				double scale = appw.getArticleElement().getScaleX();
-				double renderScale = appw.getArticleElement().getDataParamApp()
-						? scale : 1;
-				double left = x - appw.getAbsLeft() - helpPanel.getPreferredWidth(scale);
-				
-				helpPopup.getElement().getStyle()
-						.setProperty("left", left * renderScale
-										+ "px");
-				int maxOffsetHeight;
-				int totalHeight = (int) appw.getHeight();
-				int toggleButtonTop = (int) ((y  - (int) appw.getAbsTop()) / scale);
-				if (toggleButtonTop < totalHeight / 2) {
-					int top = (toggleButtonTop);
-					maxOffsetHeight = totalHeight - top;
-					helpPopup.getElement().getStyle().setProperty("top",
-							top * renderScale + "px");
-					helpPopup.getElement().getStyle().setProperty("bottom",
-							"auto");
-					helpPopup.removeStyleName("helpPopupAVBottom");
-					helpPopup.addStyleName("helpPopupAV");
-				} else {
-					int minBottom = appw.isApplet() ? 0 : 10;
-					int bottom = (totalHeight
-							- toggleButtonTop);
-					maxOffsetHeight = bottom > 0 ? totalHeight - bottom
-							: totalHeight - minBottom;
-					helpPopup.getElement().getStyle().setProperty("bottom",
-							(bottom > 0 ? bottom : minBottom) * renderScale
-									+ "px");
-					helpPopup.getElement().getStyle().setProperty("top",
-							"auto");
-					helpPopup.removeStyleName("helpPopupAV");
-					helpPopup.addStyleName("helpPopupAVBottom");
-				}
-				helpPanel.updateGUI(maxOffsetHeight, 1);
-				helpPopup.show();
+				doUpdateHelpPosition(helpPanel, x, y, offsetWidth,
+						offsetHeight);
 			}
 		});
+
+	}
+
+	/**
+	 * @param helpPanel
+	 *            help panel
+	 * @param x
+	 *            popup x-coord
+	 * @param y
+	 *            popup y-coord
+	 * @param offsetWidth
+	 *            panel width
+	 * @param offsetHeight
+	 *            panel height
+	 */
+	protected void doUpdateHelpPosition(final InputBarHelpPanelW helpPanel,
+			final int x, final int y, int offsetWidth, int offsetHeight) {
+		AppW appw = (AppW) app;
+		double scale = appw.getArticleElement().getScaleX();
+		double renderScale = appw.getArticleElement().getDataParamApp() ? scale
+				: 1;
+		double left = x - appw.getAbsLeft()
+				- helpPanel.getPreferredWidth(scale);
+
+		helpPopup.getElement().getStyle().setProperty("left",
+				left * renderScale + "px");
+		int maxOffsetHeight;
+		int totalHeight = (int) appw.getHeight();
+		int toggleButtonTop = (int) ((y - (int) appw.getAbsTop()) / scale);
+		if (toggleButtonTop < totalHeight / 2) {
+			int top = (toggleButtonTop);
+			maxOffsetHeight = totalHeight - top;
+			helpPopup.getElement().getStyle().setProperty("top",
+					top * renderScale + "px");
+			helpPopup.getElement().getStyle().setProperty("bottom", "auto");
+			helpPopup.removeStyleName("helpPopupAVBottom");
+			helpPopup.addStyleName("helpPopupAV");
+		} else {
+			int minBottom = appw.isApplet() ? 0 : 10;
+			int bottom = (totalHeight - toggleButtonTop);
+			maxOffsetHeight = bottom > 0 ? totalHeight - bottom
+					: totalHeight - minBottom;
+			helpPopup.getElement().getStyle().setProperty("bottom",
+					(bottom > 0 ? bottom : minBottom) * renderScale + "px");
+			helpPopup.getElement().getStyle().setProperty("top", "auto");
+			helpPopup.removeStyleName("helpPopupAV");
+			helpPopup.addStyleName("helpPopupAVBottom");
+		}
+		helpPanel.updateGUI(maxOffsetHeight, 1);
+		helpPopup.show();
 
 	}
 }
