@@ -3753,7 +3753,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				da = new DrawAxis(this);
 			}
 			da.drawAxes(g);
-			drawCornerCoordsIfNeeded(g);
+			if (!app.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+				drawCornerCoordsIfNeeded(g);
+			}
 		}
 
 		if (showGrid) {
