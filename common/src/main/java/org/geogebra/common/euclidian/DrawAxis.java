@@ -120,7 +120,9 @@ public class DrawAxis {
 		// ========================================
 		// X-AXIS
 		if (view.xAxisOnscreen()
-				|| view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+				&& !view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)
+				|| view.showAxes[0] && view.getApplication()
+						.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 			// erase the grid to make space for labels, use two rectangles
 
 			// label of x axis
@@ -224,7 +226,9 @@ public class DrawAxis {
 		// Y-AXIS
 
 		if (view.yAxisOnscreen()
-				|| view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
+				&& !view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)
+				|| view.showAxes[1] && view.getApplication()
+						.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 
 			// label of y axis
 			if (view.axesLabels[1] != null) {
@@ -746,8 +750,7 @@ public class DrawAxis {
 
 			// 285, 285.1, 285.2 -> rounding problems
 			if (pix >= xAxisStart && pix <= maxX) {
-				if (view.showAxesNumbers[0] || view.getApplication()
-						.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+				if (view.showAxesNumbers[0]) {
 					String strNum = tickDescription(view, labelno, 0);
 
 					if ((labelno % unitsPerLabelX) == 0) {
