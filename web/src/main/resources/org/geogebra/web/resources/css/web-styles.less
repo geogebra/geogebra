@@ -330,8 +330,8 @@ input[type="text"]::-ms-clear {
 .buttonPanel .button[disabled="disabled"]:hover,
 .gwt-Button[disabled="disabled"]:active,
 .buttonPanel .button[disabled="disabled"]:active {
-  	background-color: none;
-  	border: 1px solid #6161FF;
+ 	background-color: none;
+ 	border: 1px solid #6161FF;
 }
 
 .buttonPanel .button {
@@ -1476,31 +1476,33 @@ Paddings for menuitems.
 .ButtonPopupMenu div:focus {
 	border: 1px solid transparent;
 }
+.GeoGebraFrame {
+	.TitleBarPanel {
+		z-index: 11;
+		left: auto !important;
+		bottom: auto !important;
+		max-width:100%;
+	}
+	body.application[dir=rtl] .TitleBarPanel {
+		left: 0px !important;
+		right: auto !important;
+	}
 
-.TitleBarPanel {
-	z-index: 11;
-	left: auto !important;
-	bottom: auto !important;
-	max-width:100%;
-}
-body.application[dir=rtl] .TitleBarPanel {
-	left: 0px !important;
-	right: auto !important;
+	.TitleBarPanel-open {
+		left: 0px !important;
+	}
+
+	.TitleBarPanelContent {
+		height: 32px;
+		padding: 5px;
+		border-bottom-left-radius: 5px;
+		background-color: rgba(255, 255, 255, 1);
+		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+		padding-right: 40px;
+		overflow: hidden;
+	}
 }
 
-.TitleBarPanel-open {
-	left: 0px !important;
-}
-
-.TitleBarPanelContent {
-	height: 32px;
-	padding: 5px;
-	border-bottom-left-radius: 5px;
-	background-color: rgba(255, 255, 255, 1);
-	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-	padding-right: 40px;
-	overflow: hidden;
-}
 body.application[dir=rtl] .TitleBarPanelContent {
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 5px;
@@ -1718,8 +1720,8 @@ body.application[dir=rtl] .MyCanvasButton-rightaligned {
 	background-repeat: no-repeat;
 	background-position: center center;
 	/*width: 24px;*/ /*height: 24px;*/ /*text-align: center;*/
-	 /* 	border-radius: 5px; */
-	/* 	border: #DCDCDC solid 1px; */
+	 /*	border-radius: 5px; */
+	/*	border: #DCDCDC solid 1px; */
 	padding: 3px;
 	cursor: pointer;
 }
@@ -2178,64 +2180,142 @@ body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent .gwt-Label {
 /*#####################################################################################
 ###       DIALOGS
 #####################################################################################*/
-.DialogBox,
-.gwt-DialogBox {
-	z-index: 501;
-	/*box-shadow: 1px 1px 6px 1px #666666;*/
+.GeoGebraFrame { 
+	.DialogBox,
+	.gwt-DialogBox {
+		z-index: 501;
+		/*box-shadow: 1px 1px 6px 1px #666666;*/
 	
-	background-color: rgba(255,255,255,0.9);
-	border-radius: 10px;
+		background-color: rgba(255,255,255,0.9);
+		border-radius: 10px;
 
-	box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+		box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
 	
-	padding: 15px;
+		padding: 15px;
+	}
+
+	.gwt-DialogBox .Caption {
+		cursor: default;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		font-size: 110%;
+		/*padding: 10px;*/
+		padding-bottom: 5px;
+		color: #333333;
+		border-bottom: 1px solid #DCDCDC;
+		margin-bottom: 15px;	
+	}
+
+	.dialogContent {
+		color: #666666;
+	}
+
+	.dialogContent table {
+		width: 100%;
+	}
+
+	.dialogContent input[type="text"],
+	.dialogContent select {
+		margin-top: 5px;
+		margin-bottom: 10px;
+		/* width: 98%; */
+		width: 100%;
+	}
+
+	.dialogContent textarea {
+		margin-top: 5px;
+	}
+
+	.dialogContent .optionsPanel > * {
+		margin: 3px 0px;
+	}
+
+	.panelRow.rows > * {
+		width: 100%;
+		display: block;
+	}
+
+	.dialogContent .gwt-CheckBox {
+		margin-right: 10px;
+	}
+	
+	.DialogButtonPanel {
+		text-align: right;
+		padding-top: 10px;
+		padding-right: 10px;
+		min-width: 250px;
+		max-width:100%;
+	}
+	
+	.DialogButtonPanel button {
+		margin-left: 5px;
+	}
+	
+	
+	.DialogBox .gwt-Button,
+	.DialogBox .saveButton {
+		background-color: #6161FF;
+		border: 1px solid #6161FF;
+		color: #FFF;
+		font-size: 100%;
+		box-shadow: none;
+		font-weight: normal;
+		margin-left: 15px;
+	}
+
+	.DialogBox .gwt-Button:hover,
+	.DialogBox .saveButton:hover {
+		/*border: 1px solid #3333FF;*/
+		background-color: #CCCCFF;
+		color: #6161FF;
+	}
+
+	.DialogBox .gwt-Button:active,
+	.DialogBox .saveButton:active {
+		/* box-shadow: 0 1px 1px rgba(0,0,0,0.2) inset; */
+		box-shadow: 0 1px 3px 0 rgba(51, 51, 255, 0.5) inset;
+		/*border: 1px solid #3333FF;*/
+		background-color: #CCCCFF;
+		color: #6161FF;
+	}
+
+	.DialogBox .gwt-Button.cancelBtn,
+	.DialogBox .button.cancelBtn,
+	.DialogBox .gwt-Button.resetBtn,
+	.DialogBox .button.resetBtn {
+		color: #666666;
+		border: none;
+		background: none;
+		text-decoration: underline;
+		padding: 5px 0;
+		font-size: 100%;
+		box-shadow: none;
+		font-weight: normal;
+	}
+	.DialogBox .gwt-Button.cancelBtn:hover,
+	.DialogBox .gwt-Button.cancelBtn:active,
+	.DialogBox .button.cancelBtn:hover,
+	.DialogBox .button.cancelBtn:active,
+	.DialogBox .gwt-Button.resetBtn:hover,
+	.DialogBox .gwt-Button.resetBtn:active,
+	.DialogBox .button.resetBtn:hover,
+	.DialogBox .button.resetBtn:active {
+		color: #6161FF;
+		background-color: none;
+		border: none;
+	}
+
+	.DialogBox .mainChild{
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	.TextInputDialog .gwt-ToggleButton {
+		padding-right: 6px;
+		cursor: hand;
+		cursor: pointer;
+	}
 }
 
-.gwt-DialogBox .Caption {
-	cursor: default;
-	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
-	font-size: 110%;
-	/*padding: 10px;*/
-	padding-bottom: 5px;
-	color: #333333;
-	border-bottom: 1px solid #DCDCDC;
-	margin-bottom: 15px;
-
-		
-}
-
-.dialogContent {
-	color: #666666;
-
-}
-
-.dialogContent table {
-	width: 100%;
-}
-
-.dialogContent input[type="text"],
-.dialogContent select {
-	margin-top: 5px;
-	margin-bottom: 10px;
-	/* width: 98%; */
-	width: 100%;
-}
-
-.dialogContent textarea {
-	margin-top: 5px;
-}
-
-.dialogContent .optionsPanel > * {
-	margin: 3px 0px;
-}	
-.panelRow.rows > * {
-	width: 100%;
-	display: block;
-}
-
-.dialogContent .gwt-CheckBox {
-	margin-right: 10px;
-}
 body.application[dir=rtl] .dialogContent .gwt-CheckBox {
 	margin-right: 0px;
 	margin-left: 10px;
@@ -2252,20 +2332,12 @@ body.application[dir=rtl] .DialogRbPanel td {
 	padding-left: 20px;
 }
 
-.DialogButtonPanel {
-	text-align: right;
-	padding-top: 10px;
-	padding-right: 10px;
-	min-width: 250px;
-	max-width:100%;
-}
+
 body.application[dir=rtl] .DialogButtonPanel {
 	text-align: left;
 }
 
-.DialogButtonPanel button {
-	margin-left: 5px;
-}
+
 body.application[dir=rtl] .DialogButtonPanel button {
 	margin-left: 0px;
 	margin-right: 5px;
@@ -2273,70 +2345,6 @@ body.application[dir=rtl] .DialogButtonPanel button {
 
 
 
-.DialogBox .gwt-Button,
-.DialogBox .saveButton {
-	background-color: #6161FF;
-	border: 1px solid #6161FF;
-	color: #FFF;
-	font-size: 100%;
-	box-shadow: none;
-	font-weight: normal;
-	margin-left: 15px;
-}
-.DialogBox .gwt-Button:hover,
-.DialogBox .saveButton:hover {
-	/*border: 1px solid #3333FF;*/
-	background-color: #CCCCFF;
-	color: #6161FF;
-}
-.DialogBox .gwt-Button:active,
-.DialogBox .saveButton:active {
-	/* box-shadow: 0 1px 1px rgba(0,0,0,0.2) inset; */
-	box-shadow: 0 1px 3px 0 rgba(51, 51, 255, 0.5) inset;
-	/*border: 1px solid #3333FF;*/
-	background-color: #CCCCFF;
-	color: #6161FF;
-}
-
-.DialogBox .gwt-Button.cancelBtn,
-.DialogBox .button.cancelBtn,
-.DialogBox .gwt-Button.resetBtn,
-.DialogBox .button.resetBtn {
-	color: #666666;
-	border: none;
-	background: none;
-	text-decoration: underline;
-	padding: 5px 0;
-	
-	font-size: 100%;
-	box-shadow: none;
-	font-weight: normal;
-}
-.DialogBox .gwt-Button.cancelBtn:hover,
-.DialogBox .gwt-Button.cancelBtn:active,
-.DialogBox .button.cancelBtn:hover,
-.DialogBox .button.cancelBtn:active,
-.DialogBox .gwt-Button.resetBtn:hover,
-.DialogBox .gwt-Button.resetBtn:active,
-.DialogBox .button.resetBtn:hover,
-.DialogBox .button.resetBtn:active {
-	color: #6161FF;
-	background-color: none;
-	border: none;
-}
-
-.DialogBox .mainChild{
-	overflow-x: hidden;
-	overflow-y: auto;
-
-}
-
-
-.TextInputDialog .gwt-ToggleButton {
-	padding-right: 6px;
-	cursor: hand;
-	cursor: pointer;
-}
 
 /*--------- saveDialog ---------------------------*/
 .buttonPanel .visibility {
@@ -2879,12 +2887,12 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 /* View - Settings */
 .dataCollectionView .closeButtonPanel {
-  	position: absolute;
-  	top: 0px;
-  	right: 0px;
-  	padding: 5px;
-  	cursor: pointer;
-  	cursor: hand;
+ 	position: absolute;
+ 	top: 0px;
+ 	right: 0px;
+ 	padding: 5px;
+ 	cursor: pointer;
+ 	cursor: hand;
 }
 
 .dataCollectionView .gwt-Label {
@@ -2904,18 +2912,18 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 /** CONNECTION */
 .dataCollectionView .connection .panelIndent .gwt-TextBox {
 	float: left;
-  	width: 80px;
+ 	width: 80px;
 }
 
 .dataCollectionView .connectButton {
 	margin-left: 20px;
-  	float: left;
+ 	float: left;
 }
 
 .dataCollectionView .connectButton:hover {
-  	border: 1px solid #6666ff;
-  	cursor: pointer;
-  	cursor: hand;
+ 	border: 1px solid #6666ff;
+ 	cursor: pointer;
+ 	cursor: hand;
 }
 
 .dataCollectionView .connectButton.gwt-ToggleButton-down {
@@ -2938,8 +2946,8 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .dataCollectionView .panelIndent .gwt-Label {
 	float: left;
-  	padding-top: 5px;
-  	padding-right: 15px;
+ 	padding-top: 5px;
+ 	padding-right: 15px;
 }
 
 .dataCollectionView .collapse {
@@ -2956,8 +2964,8 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .dataCollectionView .rowContainer {
 	display: inline-block;
-  	width: 100%;
-  	padding-bottom: 5px;
+ 	width: 100%;
+ 	padding-bottom: 5px;
 }
 
 .dataCollectionView .gwt-ListBox {
@@ -2973,7 +2981,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .dataCollectionView .sensorOnOffButton {
 	float: left;
-  	padding-right: 5px;
+ 	padding-right: 5px;
 }
 
 /*#####################################################################################
@@ -3014,8 +3022,8 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	border-right: 1px solid #DDDDDD;
 	border-bottom: 1px solid #DDDDDD;
 	padding-left: 2px;
- 	padding-right: 2px;
- 	font-weight: normal;
+	padding-right: 2px;
+	font-weight: normal;
 }
 
 .cpScrollPanel tbody tr:hover {
@@ -3033,7 +3041,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	border-bottom: 1px solid #DDDDDD;
 	border-right: 1px solid #DDDDDD;
 	padding-left: 2px;
-  	padding-right: 2px;
+ 	padding-right: 2px;
 }
 
 .cpScrollPanel tbody tr td:FIRST-CHILD {
@@ -3285,7 +3293,7 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 /*.algebraView div div>div {*/
 .algebraView > div > div > div {
 	margin-left: 0px !important;
-/* 	width: 100%; */
+/*	width: 100%; */
 }
 
 
@@ -3333,125 +3341,126 @@ body.application[dir=rtl] .algebraOpenButton {
 	right: 0;
 }
 
-.GeoGebraFrame .avItem,
+.GeoGebraFrame { .avItem,
 .avItem .gwt-TreeItem,
 .avItem .gwt-TreeItem >* {
- 	width: 100%;
- 	box-sizing: border-box;
- 	-moz-box-sizing: border-box;
- 	-webkit-box-sizing: border-box;
+	width: 100%;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
  }
  
  .avItem .gwt-TreeItem,
  .avItem .gwt-TreeItem-selected {
- 	display: inline-block !important;
- 	background: none;
+	display: inline-block !important;
+	background: none;
  }
 
  
  .algebraView .panelRow > * {
- 	margin: 0px;
+	margin: 0px;
  }
  
- .NewRadioButtonTreeItemParent {
- 	/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
- 	position: absolute;
- 	width: 100%;
- 	z-index: 4;
- }
+	.NewRadioButtonTreeItemParent {
+		/* AlgebraViewObjectStylebar was not at right position, needs position absolute */
+		position: absolute;
+		width: 100%;
+		z-index: 4;
+	}
  
- .NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
- 	padding: 0px 0px 2px 5px;
- }
+	.NewRadioButtonTreeItemParent .AlgebraViewObjectStylebar .gwt-PushButton {
+		padding: 0px 0px 2px 5px;
+	}
  
- .avItem .gwt-TreeItem {
- 	padding: 0px;
- 	/*padding-bottom: 1px;*/
- 	margin-top: 1px;
- 	border-top: 1px solid #DCDCDC;
- 	border-bottom: 1px solid #DCDCDC;
- 	background-color: transparent !important;
- }
-.avItem.avSelectedRow .gwt-TreeItem {
-	padding: 0px;
-	/*margin-top: 1px;*/
+	.avItem .gwt-TreeItem {
+		padding: 0px;
+		/*padding-bottom: 1px;*/
+		margin-top: 1px;
+		border-top: 1px solid #DCDCDC;
+		border-bottom: 1px solid #DCDCDC;
+		background-color: transparent !important;
+	}
+	.avItem.avSelectedRow .gwt-TreeItem {
+		padding: 0px;
+		/*margin-top: 1px;*/
 	
-/* 	border-top: 1px solid #6161FF;
-	border-bottom: 1px solid #6161FF; */
-}
+	/*	border-top: 1px solid #6161FF;
+		border-bottom: 1px solid #6161FF; */
+	}
 
-.avItem.avSelectedRow .marblePanel  {
-	/* background-color: #CCCCFF; */
-	background-color: #DCDCDC;
-	/*border-right: 1px solid #DCDCDC;*/
-}
+	.avItem.avSelectedRow .marblePanel  {
+		/* background-color: #CCCCFF; */
+		background-color: #DCDCDC;
+		/*border-right: 1px solid #DCDCDC;*/
+	}
+	
+	.algebraHelpButton, .marblePanel {
+		border-right: 1px solid #DCDCDC;
+	}
 
+	.algebraView .gwt-CheckBox{
+		padding-left: 40px;
+	}
+
+	.marble {
+		height: 18px;
+		width: 18px;
+		background-color: #6161FF;
+		border: 1px solid #000000;
+		border-radius: 18px;
+	
+		position: relative;
+		top: 50%;
+		margin-top: -10px;
+	}
+	.marble.elemHidden {
+		background-color: #FFFFFF;
+	}
+	.marble.elemShown {
+		background-color: #6161FF;
+		border: 1px solid #CCCCFF;
+	}
+	
+	.avItem .elemText {
+		padding-top: 10px;
+		padding-left: 40px;
+		padding-bottom: 4px;
+		display: inline-block;
+	}
+	
+	label {
+		display: inline;
+		font-weight: normal;
+	}
+
+	.algebraPanel.NoHorizontalScroll {
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+	}
+
+	.algebraSimpleP {
+		height: 100%;
+		background-color: #FFFFFF;
+	}
+
+	.tb_img {
+		width: 32px;
+		height: 32px;
+	}
+
+	.bold {
+		font-weight: bold;
+	}
+
+	.italic {
+		font-style: italic;
+	}
+}
 /* Colors will be overwritten in java code
 ** see: org.geogebra.web.web.gui.view.algebra.Marble.java
 */
- 
 
-.GeoGebraFrame .algebraHelpButton, .GeoGebraFrame .marblePanel {
-	border-right: 1px solid #DCDCDC;
-}
 
-.algebraView .gwt-CheckBox{
-	padding-left: 40px;
-}
-.marble {
-	height: 18px;
-	width: 18px;
-	background-color: #6161FF;
-	border: 1px solid #000000;
-	border-radius: 18px;
-	
-	position: relative;
-	top: 50%;
-	margin-top: -10px;
-}
-.marble.elemHidden {
-	background-color: #FFFFFF;
-}
-.marble.elemShown {
-	background-color: #6161FF;
-	border: 1px solid #CCCCFF;
-}
-
-.GeoGebraFrame .avItem .elemText {
-	padding-top: 10px;
-	padding-left: 40px;
-	padding-bottom: 4px;
-	display: inline-block;
-}
-
-.GeoGebraFrame label {
-	display: inline;
-	/*color:black;*/
-	font-weight: normal;
-}
-
-.algebraPanel.NoHorizontalScroll {
-	overflow-x: hidden !important;
-	overflow-y: auto !important;
-}
-
-.algebraSimpleP {
-	height: 100%;
-	background-color: #FFFFFF;
-}
-
-.tb_img {
-	width: 32px;
-	height: 32px;
-}
-
-.bold {
-	font-weight: bold;
-}
-
-.italic {
-	font-style: italic;
-}
 
 #imageList {
 	width: 16px;
@@ -3488,80 +3497,83 @@ body.application[dir=rtl] .imageCorner {
 }
 
 /*============ AutocompleteTextFieldW =======*/
-.GeoGebraFrame .AutoCompleteTextFieldW {
-	box-sizing: border-box;
-	position: relative;
-}
+.GeoGebraFrame {
+	 .AutoCompleteTextFieldW {
+		box-sizing: border-box;
+		position: relative;
+	}
+	
+	.AutoCompleteTextFieldW .TextField {
+		display: inline-block;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		padding-left: 5px;
+		padding-right: 5px;
+		/*width: 100% !important;*/
+	}
 
-.AutoCompleteTextFieldW .TextField {
-	display: inline-block;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	padding-left: 5px;
-	padding-right: 5px;
-	/*width: 100% !important;*/
-}
+	.AutoCompleteTextFieldW.FromDrawTextFieldNew input[type="text"].TextField {
+		padding-left: 2px;
+		padding-right: 2px;
+	}
 
-.GeoGebraFrame .AutoCompleteTextFieldW.FromDrawTextFieldNew input[type="text"].TextField {
-	padding-left: 2px;
-	padding-right: 2px;
-}
+	.AutoCompleteTextFieldW.FromDrawTextField .TextField {
+		margin: 0px;
+	}
 
-.AutoCompleteTextFieldW.FromDrawTextField .TextField {
-	margin: 0px;
-}
+	.InputTreeItem .hasCursorPermanent {
+		border-color: #DCDCDC;
+	}
 
-.InputTreeItem .hasCursorPermanent {
-	border-color: #DCDCDC;
-}
+	.scrollableTextBox{	
+		width: 100%;
+		display: inline-block;
+	}
 
-.scrollableTextBox{	
-	width: 100%;
-	display: inline-block;
-}
+	.scrollableTextBox > div{
+		width: ~"calc(100% - 18px)";
+		overflow-x: hidden;
+		display: inline-block;
+	}
 
-.scrollableTextBox > div{
-	width: ~"calc(100% - 18px)";
-	overflow-x: hidden;
-	display: inline-block;
-}
+	.scrollableTextBox > div.gwt-PushButton{
+		width: auto;
+	}
 
-.scrollableTextBox > div.gwt-PushButton{
-	width: auto;
-}
+	.scrollableTextBox > div::-webkit-scrollbar{
+		display: none;
+	}
 
-.scrollableTextBox > div::-webkit-scrollbar{
-	display: none;
-}
+	/* Slider top row: no extra padding*/
+	.gwt-TreeItem .noPadding{
+		padding-left: 0;
+	}
 
-/* Slider top row: no extra padding*/
-.GeoGebraFrame .gwt-TreeItem .noPadding{
-	padding-left: 0;
-}
+	.latexEditor .scrollableTextBox{
+		padding-left:40px;
+		padding-top:5px;
+		padding-bottom:5px;
+		padding-right:10px;
+		box-sizing: border-box;
+	}
 
-.latexEditor .scrollableTextBox{
-	padding-left:40px;
-	padding-top:5px;
-	padding-bottom:5px;
-	padding-right:10px;
-	box-sizing: border-box;
-}
 
-.NewRadioButtonTreeItemParent .scrollableTextBox,
-.NewRadioButtonTreeItemParent .inputBorder
-{
-	border-top: #6161FF solid 1px;
-	border-bottom:	#6161FF solid 1px;
-	min-height:61px;
-	overflow: hidden;
-}
+	.NewRadioButtonTreeItemParent .scrollableTextBox,
+	.NewRadioButtonTreeItemParent .inputBorder
+	{
+		border-top: #6161FF solid 1px;
+		border-bottom:	#6161FF solid 1px;
+		min-height:61px;
+		overflow: hidden;
+	}
 
-.scrollableTextBox {
-	overflow: hidden;
-}
+	.scrollableTextBox {
+		overflow: hidden;
+	}
 
-.scrollableTextBox >* {
-	overflow: hidden;
+	.scrollableTextBox >* {
+		overflow: hidden;
+	}
 }
 
 .NoHorizontalScroll .InputTreeItem .hasCursorPermanent {
@@ -3670,326 +3682,324 @@ body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 
 /*=========== Checkbox menuitem =============*/
 /* Stefi do you magic here :-) */
-.gwt-MenuBar-horizontal .GChecBoxMenuItem,
-.gwt-MenuBar-vertical .GChecBoxMenuItem {
-	margin: 0;
-	padding: 0;
-	vertical-align: top;
-	overflow: hidden;
-}
+.GeoGebraFrame {
+	.gwt-MenuBar-horizontal .GChecBoxMenuItem,
+	.gwt-MenuBar-vertical .GChecBoxMenuItem {
+		margin: 0;
+		padding: 0;
+		vertical-align: top;
+		overflow: hidden;
+	}
 
-.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,
-.gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
-	background: #CCCCFF;
-}
+	.gwt-MenuBar-horizontal .GChecBoxMenuItem.selected,
+	.gwt-MenuBar-vertical .GChecBoxMenuItem.selected {
+		background: #CCCCFF;
+	}
 
-.GChecBoxMenuItem .gwt-CheckBox {
+	.GChecBoxMenuItem .gwt-CheckBox {
+		float: left;
+	}
+
+
+	.GChecBoxMenuItem .gwt-HTML {
+		float: right;
+	}
+
+
+	.ggb-AlgebraViewSuggestionPopup {
+		/* overcoming the z-index of the onScreen keyboard PopupPanel */
+		z-index: 600;
+	}
+
+	.ggb-AlgebraViewSuggestionList {
+		overflow-x: hidden !important;
+		overflow-y: auto !important;
+	}
+}
+body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	float: left;
 }
 body.application[dir=rtl] .GChecBoxMenuItem .gwt-CheckBox {
 	float: right;
 }
-
-.GChecBoxMenuItem .gwt-HTML {
-	float: right;
-}
-body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
-	float: left;
-}
-
-.ggb-AlgebraViewSuggestionPopup {
-	/* overcoming the z-index of the onScreen keyboard PopupPanel */
-	z-index: 600;
-}
-
-.ggb-AlgebraViewSuggestionList {
-	overflow-x: hidden !important;
-	overflow-y: auto !important;
-}
-
 /*#################################################################
 	PROPERTIES
 ###################################################################*/
-.PropertiesViewW {
-	background-color: #F8F8F8;
-	border-radius: 0px;
-	padding: 0px;
+.GeoGebraFrame {
+	.PropertiesViewW {
+		background-color: #F8F8F8;
+		border-radius: 0px;
+		padding: 0px;
+	}
+
+	.contentsPanel {
+		overflow-x: auto;
+		overflow-y: hidden;
+		height: 100%;
+	}
+
+	.contentsPanel2 {
+		overflow-x: hidden;
+	}
+
+	.contentsPanel > table.gwt-TabPanel {
+		width: 100%;
+	}
+
+	.propertiesStyleBar {
+		width: 34px;
+		position: absolute;
+		right: 0px;
+		top: 30px;
+		max-width:100%;
+		overflow:hidden;
+	}
+
+	.menuProperties {
+		margin: 0px;
+		padding: 0px;
+	}
+
+	.menuProperties table {
+		cellpadding: 0px;
+		cellspacing: 0px;
+		border-collapse: collapse;
+	}
+
+	.menuProperties .gwt-MenuItem {
+		padding: 5px;
+		cursor: pointer;
+	}
+
+	.menuProperties .gwt-MenuItem:hover {
+		background: #F0F0F0;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+			rgba(0, 0, 0, 0.05);
+	}
+
+	.propertiesStyleBar .selected,
+	.propertiesStyleBar .gwt-MenuItem.selected:hover
+		{
+		background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8);
+		background-image: -moz-linear-gradient(left, #DCDCDC, #F8F8F8);
+		background-image: -ms-linear-gradient(left, #DCDCDC, #F8F8F8);
+		background-image: -o-linear-gradient(left, #DCDCDC, #F8F8F8);
+		background-image: linear-gradient(left, #DCDCDC, #F8F8F8);
+		filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,
+			startColorstr='#DCDCDC', endColorstr='#F8F8F8' );
+		zoom: 1;
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
+			rgba(0, 0, 0, 0.05);
+	}
+
+	.menuProperties .gwt-MenuItem img {
+		width: 24px !important;
+		height: 24px !important;
+	}
+
+	.ggb-MultiRowsTabPanel>*{
+		float:left;
+	}
+
+	.propertiesPanel2{
+		height: 100%;
+	}
+
+	/* EUCLIDIAN PROPERTIES */
+	.axisPanel>*>*:first-child {
+		min-width: 110px;
+	}
+
+	.axisPanel>.checkBoxPanel>*:first-child {
+		min-width: 0px;
+	}
+
+	/* OBJECT PROPERTIES */
+	.propertiesTab {
+		overflow: auto;
+		padding-right: 8px;
+	}
+
+	.propertiesTabPanel {
+		width: 100%;
+		flex-flow: column;
+	}
+
+	.propertiesTabPanel2{
+		height: 100%;
+		display: flex;
+		flex: column;
+	}
+
+	.propView_deckPanel{
+		flex: 1;
+		overflow-x: hidden;
+	}
+
+	.propertiesTab>*,
+	.axisPanel>.checkBoxPanel {
+		margin-bottom: 10px;
+		display: block;
+	}
+
+	.objectPropertiesPanel > .checkBoxPanel {
+		white-space: nowrap;
+		margin-bottom: 10px;
+	}
+
+	.objectPropertiesPanel > .checkBoxPanel:last-child {
+		margin-bottom: 0px;
+	}
+
+	.propertiesTab .panelRow+.checkBoxPanel {
+		margin-top: 10px;
+	}
+
+	.propertiesTab .panelTitle:first-child {
+		margin-top: 0px;
+	}
+
+	.propertiesTab .scriptTabPanel {
+		display: table;
+	}
+
+	.propertiesTab .MyCanvasButton,.propertiesTab .gwt-Button {
+		margin-left: 0px;
+	}
+
+	.panelTitle {
+		padding-bottom: 5px;
+		color: #6666FF;
+		display: block;
+		border-bottom: 1px solid #CCCCFF;
+	}
+
+	.checkBoxPanel,.panelRow,.panelRowIndent,.panelIndent,.listBoxPanel,.optionsInput,.optionsPanel,
+	.optionsPanel .optionsPanelIndent,.propertiesTab .sliderIntervalPanel,
+	.propertiesTab .sliderWidthPanel,.minMaxPanel {
+		display: block;
+	}
+
+	.panelIndent,.panelRowIndent,.optionsPanelIndent {
+		padding-left: 25px;
+	}
+
+	.optionsInput,.optionsPanel,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel,.textPropertiesTab>*	{
+		margin-bottom: 10px;
+	}
+
+	.checkBoxPanel>*,.panelRow>*,.listBoxPanel>*,.panelRowIndent>*,.propertiesTab .gwt-CheckBox>*,.panelRowCell>*,
+	.panelRowCell>*,.optionsPanel>*,.optionsPanelIndent>*,.optionsPanelCell>*,.propertiesTab .sliderIntervalPanel>*,
+	.propertiesTab .sliderWidthPanel>*,.textOptionsToolBar>*,.BackgroundColorPanel>*,.minMaxPanel>*	{
+		display: inline-block;
+		vertical-align: middle;
+		margin: 3px 10px 3px 0px;
+	}
+
+	.optionsInput>*,.propertiesTab .sliderIntervalPanel>div>*,.CustomColorPreview>*	{
+		display: block;
+		margin: 3px 0px 3px 0px;
+	}
+
+	.panelRowCell {
+		white-space: nowrap;
+		margin-right: 20px;
+	}
+
+	.checkBoxPanel .gwt-Label,.panelRow .gwt-Label,.listBoxPanel .gwt-Label,.panelRowIndent .gwt-Label,
+	.optionsPanel .gwt-Label,.optionsPanelIndent .gwt-Label	{
+		margin-right: 10px;
+	}
+
+
+	.optionsPanelCell {
+		display: block;
+	}
+
+	.optionsPanelCell .gwt-Label {
+		min-width: 100px;
+	}
+
+	.numberInput {
+		width: 70px;
+		margin-right: 20px;
+	}
+
+	.optionsInput table {
+		display: inline-table;
+	}
+
+	.textOptionsToolBar {
+		display: inline-block;
+	}
+
+	.objectPropertiesTextEditor {
+		width: 100%;
+		height: 100px;
+	}
+
+	.colorChooserPreview,.optionsSlider {
+		display: table-row;
+		margin-top: 5px;
+	}
+
+	.colorChooserPreview>*,.optionsSlider>* {
+		display: table-cell;
+		vertical-align: middle;
+		margin-right: 20px;
+	}
+
+	.CustomColorPreview canvas,.colorChooserPreview canvas {
+		padding: 3px;
+		border-radius: 5px;
+		border: 1px solid #DCDCDC;
+	}
+
+	.propertiesTab .colorChooserPreview canvas {
+		cursor: pointer;
+		cursor: hand;
+	}
+
+	.gwt-PopupPanel .panelTitle {
+		padding: 5px 10px 10px 10px;
+	}
+
+	.textOptionsToolBar .gwt-ToggleButton {
+		display: inline-block;
+	}
+
+	iframe.objectPropertiesTextEditor {
+		margin-bottom: 10px;
+	}
+
+	.propertiesTab .gwt-TabLayoutPanel {
+		background: #FFFFFF;
+	}
+
+	.colorComponent {
+		display: block;
+		margin-top: 5px;
+		margin-bottom: 5px;
+	}
+
+	.colorComponent>* {
+		display: inline-block;
+	}
+
+	.colorSlider {
+		margin-right: 20px;
+		/* display: table-row; */
+		display: inline-block;
+	}
+
+	.colorSlider>* {
+		display: inline-block;
+		/* display: table-cell; */
+		vertical-align: middle;
+	}
+
+
 }
-
-.contentsPanel {
-	overflow-x: auto;
-	overflow-y: hidden;
-	height: 100%;
-}
-
-.contentsPanel2 {
-	overflow-x: hidden;
-}
-
-.contentsPanel > table.gwt-TabPanel {
-	width: 100%;
-}
-
-.propertiesStyleBar {
-	width: 34px;
-	position: absolute;
-	right: 0px;
-	top: 30px;
-	max-width:100%;
-	overflow:hidden;
-}
-
-.menuProperties {
-	margin: 0px;
-	padding: 0px;
-}
-
-.menuProperties table {
-	cellpadding: 0px;
-	cellspacing: 0px;
-	border-collapse: collapse;
-}
-
-.menuProperties .gwt-MenuItem {
-	padding: 5px;
-	cursor: pointer;
-}
-
-.menuProperties .gwt-MenuItem:hover {
-	background: #F0F0F0;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
-		rgba(0, 0, 0, 0.05);
-}
-
-.propertiesStyleBar .selected,
-.propertiesStyleBar .gwt-MenuItem.selected:hover
-	{
-	background-image: -webkit-linear-gradient(left, #DCDCDC, #F8F8F8);
-	background-image: -moz-linear-gradient(left, #DCDCDC, #F8F8F8);
-	background-image: -ms-linear-gradient(left, #DCDCDC, #F8F8F8);
-	background-image: -o-linear-gradient(left, #DCDCDC, #F8F8F8);
-	background-image: linear-gradient(left, #DCDCDC, #F8F8F8);
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1,
-		startColorstr='#DCDCDC', endColorstr='#F8F8F8' );
-	zoom: 1;
-	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px
-		rgba(0, 0, 0, 0.05);
-}
-
-.menuProperties .gwt-MenuItem img {
-	width: 24px !important;
-	height: 24px !important;
-}
-
-.ggb-MultiRowsTabPanel>*{
-	float:left;
-}
-
-.propertiesPanel2{
-	height: 100%;
-}
-
-/* EUCLIDIAN PROPERTIES */
-.axisPanel>*>*:first-child {
-	min-width: 110px;
-}
-
-.axisPanel>.checkBoxPanel>*:first-child {
-	min-width: 0px;
-}
-
-/* OBJECT PROPERTIES */
-.propertiesTab {
-	overflow: auto;
-	padding-right: 8px;
-}
-
-.propertiesTabPanel {
-	width: 100%;
-	flex-flow: column;
-}
-
-.propertiesTabPanel2{
-	height: 100%;
-	display: flex;
-	flex: column;
-}
-
-.propView_deckPanel{
-	flex: 1;
-	overflow-x: hidden;
-}
-
-.propertiesTab>*,
-.axisPanel>.checkBoxPanel {
-	margin-bottom: 10px;
-	display: block;
-}
-
-.objectPropertiesPanel > .checkBoxPanel {
-	white-space: nowrap;
-	margin-bottom: 10px;
-}
-
-.objectPropertiesPanel > .checkBoxPanel:last-child {
-	margin-bottom: 0px;
-}
-
-.propertiesTab .panelRow+.checkBoxPanel {
-	margin-top: 10px;
-}
-
-.propertiesTab .panelTitle:first-child {
-	margin-top: 0px;
-}
-
-.propertiesTab .scriptTabPanel {
-	display: table;
-}
-
-.propertiesTab .MyCanvasButton,.propertiesTab .gwt-Button {
-	margin-left: 0px;
-}
-
-.panelTitle {
-	padding-bottom: 5px;
-	color: #6666FF;
-	display: block;
-	border-bottom: 1px solid #CCCCFF;
-}
-
-.checkBoxPanel,.panelRow,.panelRowIndent,.panelIndent,.listBoxPanel,.optionsInput,.optionsPanel,.optionsPanel .optionsPanelIndent,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel,.minMaxPanel
-	{
-	display: block;
-}
-
-.panelIndent,.panelRowIndent,.optionsPanelIndent {
-	padding-left: 25px;
-}
-
-.optionsInput,.optionsPanel,.propertiesTab .sliderIntervalPanel,.propertiesTab .sliderWidthPanel,.textPropertiesTab>*
-	{
-	margin-bottom: 10px;
-}
-
-.checkBoxPanel>*,.panelRow>*,.listBoxPanel>*,.panelRowIndent>*,.propertiesTab .gwt-CheckBox>*,.panelRowCell>*,.panelRowCell>*,.optionsPanel>*,.optionsPanelIndent>*,.optionsPanelCell>*,.propertiesTab .sliderIntervalPanel>*,.propertiesTab .sliderWidthPanel>*,.textOptionsToolBar>*,.BackgroundColorPanel>*,.minMaxPanel>*
-	{
-	display: inline-block;
-	vertical-align: middle;
-	margin: 3px 10px 3px 0px;
-}
-
-.optionsInput>*,.propertiesTab .sliderIntervalPanel>div>*,.CustomColorPreview>*
-	{
-	display: block;
-	margin: 3px 0px 3px 0px;
-}
-
-.panelRowCell {
-	white-space: nowrap;
-	margin-right: 20px;
-}
-
-.checkBoxPanel .gwt-Label,.panelRow .gwt-Label,.listBoxPanel .gwt-Label,.panelRowIndent .gwt-Label,.optionsPanel .gwt-Label,.optionsPanelIndent .gwt-Label
-	{
-	margin-right: 10px;
-}
-
-
-.optionsPanelCell {
-	display: block;
-}
-
-.optionsPanelCell .gwt-Label {
-	min-width: 100px;
-}
-
-.numberInput {
-	width: 70px;
-	margin-right: 20px;
-}
-
-.optionsInput table {
-	display: inline-table;
-}
-
-.textOptionsToolBar {
-	display: inline-block;
-}
-
-.objectPropertiesTextEditor {
-	width: 100%;
-	height: 100px;
-}
-
-.colorChooserPreview,.optionsSlider {
-	display: table-row;
-	margin-top: 5px;
-}
-
-.colorChooserPreview>*,.optionsSlider>* {
-	display: table-cell;
-	vertical-align: middle;
-	margin-right: 20px;
-}
-
-.CustomColorPreview canvas,.colorChooserPreview canvas {
-	padding: 3px;
-	border-radius: 5px;
-	border: 1px solid #DCDCDC;
-}
-
-.propertiesTab .colorChooserPreview canvas {
-	cursor: pointer;
-	cursor: hand;
-}
-
-.gwt-PopupPanel .panelTitle {
-	padding: 5px 10px 10px 10px;
-}
-
-.textOptionsToolBar .gwt-ToggleButton {
-	display: inline-block;
-}
-
-.GeoGebraFrame iframe.objectPropertiesTextEditor {
-	margin-bottom: 10px;
-}
-
-.propertiesTab .gwt-TabLayoutPanel {
-	background: #FFFFFF;
-}
-
-.colorComponent {
-	display: block;
-	margin-top: 5px;
-	margin-bottom: 5px;
-}
-
-.colorComponent>* {
-	display: inline-block;
-}
-
-.colorSlider {
-	margin-right: 20px;
-	/* display: table-row; */
-	display: inline-block;
-}
-
-.colorSlider>* {
-	display: inline-block;
-	/* display: table-cell; */
-	vertical-align: middle;
-}
-
-/* .ColorDialog-content {
-	padding: 8px;
-} */
-
-/*.CustomColorPreview {
-	align: center;
-}*/
-
 .GeoGebraFrame .CustomColorButtonParent {
 	width: 100%;
 }
@@ -4949,9 +4959,9 @@ body.zoomedBody .geogebraweb-table-spreadsheet td {
 
 /* ##########################################
    ##########################################
-   #### 								 ####
+   ####								 ####
    ####             PHONE                ####
-   #### 								 ####
+   ####								 ####
    ##########################################
    ########################################## */
 /* ########################################
@@ -5121,9 +5131,9 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
 /* ##########################################
    ##########################################
-   #### 								 ####
+   ####								 ####
    ####        END  PHONE                ####
-   #### 								 ####
+   ####								 ####
    ##########################################
    ########################################## */
 
@@ -5306,8 +5316,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    ######################################## */
    
 .cbCreationList {
-  	width: 80%;
-  	overflow: auto;
+ 	width: 80%;
+ 	overflow: auto;
   }
   
 .RelationTool {
@@ -5322,7 +5332,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    ######################################## */
  
  .usedToolsPanel {
- 	float: left;
+	float: left;
 	padding: 20px 0px 0px 20px;
  }
 
@@ -5348,32 +5358,32 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 }
  
  .toolBarDropping { 
- 	background-color: rgba(204, 204, 255, 0.3);
+	background-color: rgba(204, 204, 255, 0.3);
  }
  
  .insertBeforeBorder {
- 	border-top: 1px solid transparent;
+	border-top: 1px solid transparent;
  }
  .insertAfterBorder {
- 	border-bottom: 1px solid transparent;
+	border-bottom: 1px solid transparent;
  }
  
  .insertBeforeLeaf {
- 	width: 99%; 
- 	/*border-top: 1px solid;*/
- 	border-top-color: #6161FF;
+	width: 99%; 
+	/*border-top: 1px solid;*/
+	border-top-color: #6161FF;
  }
 
 .insertAfterLeaf { 
- 	width: 99%;
-  	/*border-bottom: 1px solid;*/
-  	/*border-bottom: -11px;*/
-  	border-bottom-color: #6161FF;
+	width: 99%;
+ 	/*border-bottom: 1px solid;*/
+ 	/*border-bottom: -11px;*/
+ 	border-bottom-color: #6161FF;
  }
  
  .insertBeforeBranch { 
- 	/*border-top: 5px solid;*/
- 	border-top-color: #6161FF; 
+	/*border-top: 5px solid;*/
+	border-top-color: #6161FF; 
  }
 
 .insertAfterBranch { 
@@ -5395,11 +5405,11 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .insertAfterBranch >* >*,
 .insertBeforeBranch >*,
 .insertBeforeBranch >* >* { 
- 	pointer-events: none;
+	pointer-events: none;
  }
  
 .customizeToolbarButtonPanel {
- 	text-align: right;
+	text-align: right;
 	padding: 10px;
 	background-color: #F8F8F8;
 	border-top: 1px solid #EDEDED;
@@ -5498,8 +5508,8 @@ body.application[dir=rtl] .deleteAlgebra {
 	padding-top: 2px;
 	padding-bottom: 8px;
 	box-sizing: border-box;
- 	-moz-box-sizing: border-box;
- 	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
 }
 
 .avItemContent img {
@@ -5634,8 +5644,8 @@ body.application[dir=rtl] .deleteAlgebra {
 	border: 3px solid rgba(0, 0, 0, 0.4);
 	top: -6px;
 	-moz-background-clip: padding;     /* Firefox 3.6 */
-  	-webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
-  	background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+ 	-webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
+ 	background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
 	
 	/* white outline for better contrast */
 	box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.4);
@@ -5852,7 +5862,7 @@ body.application[dir=rtl] .deleteAlgebra {
    ########################################
    ###       New Start Screen           ###
    ######################################## */
-
+.GeoGebraFrame {
 .perspectivesBox{
 	width: 250px;
 	position: absolute !important;
@@ -5910,10 +5920,10 @@ body.application[dir=rtl] .deleteAlgebra {
 .upperBorder div{
 	padding-top: 0px;
 }
-
+}
 /*
    ########################################
-   ###       MOW TOOLBAR 	            ###
+   ###       MOW TOOLBAR	            ###
    ######################################## */
 
 /* COLORS */
@@ -6207,10 +6217,10 @@ body.application[dir=rtl] .deleteAlgebra {
 }
 
 .mowMenubar {
- 	  position: absolute;
- 	  width: 100%;
-   	  top: 45px;
-   	  background-color: #ffffff !important;
+	  position: absolute;
+	  width: 100%;
+  	  top: 45px;
+  	  background-color: #ffffff !important;
 	}
 .mowMenubar .menuPanel {
 	width: 267px !important;
