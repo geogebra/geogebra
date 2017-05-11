@@ -97,11 +97,11 @@ public class ResourcesInjector {
 
 	private static void injectScss() {
 		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.colorsScss().getText());
+				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
 		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.avStyleScss().getText());
+				.inject(GuiResourcesSimple.INSTANCE.avStyleScss());
 		StyleInjector.inject(
-				GuiResourcesSimple.INSTANCE.toolBarStyleScss().getText());
+				GuiResourcesSimple.INSTANCE.toolBarStyleScss());
 	}
 
 	/**

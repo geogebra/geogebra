@@ -108,14 +108,13 @@ public interface GuiResourcesSimple extends ClientBundle {
 	LessReference avStyle();
 
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
-	LessReference avStyleScss();
+	SassResource avStyleScss();
 
 	@Source("org/geogebra/web/resources/scss/colors.scss")
-	LessReference colorsScss();
+	SassResource colorsScss();
 
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
-	LessReference toolBarStyleScss();
-
+	SassResource toolBarStyleScss();
 
 	// don't include these anywhere!
 	// they are only here, because otherwise they are not compiled on browser
