@@ -49,9 +49,10 @@ public class PenSubMenu extends SubMenuPanel {
 	private StandardButton btnCustomColor;
 	private PenPreview preview;
 	private boolean colorsEnabled;
-	// preset colors: black, purple, teal, orange
-	private final static String hexColors[] = { "000000", "673AB7", "009688",
-			"E67E22" };
+	// preset colors: black, blue, green, red, magenta, violet, cyan, orange, yellow,
+	// 
+	private final static String hexColors[] = { "000000", "0000FF", "009933", "CC0000", "CC0099", "663399", "0099CC",
+			"FF6600", "FFCC00" };
 	private GColor lastSelectedColor = null;
 
 	/**
@@ -90,8 +91,8 @@ public class PenSubMenu extends SubMenuPanel {
 				aColor);
 		Label label = new Label();
 		color.applyToLabel(label);
-		label.addStyleName("MyCanvasButton");
-		label.addStyleName("color-button");
+		// label.addStyleName("MyCanvasButton");
+		label.addStyleName("mowColorButton");
 		label.addClickHandler(this);
 		return label;
 	}
@@ -107,11 +108,13 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 
 		btnCustomColor = new StandardButton("+");
-		btnCustomColor.addStyleName("MyCanvasButton color-button");
-		btnCustomColor.addStyleName("plusButton");
+		//btnCustomColor.addStyleName("MyCanvasButton color-button");
+		btnCustomColor.addStyleName("mowColorButton");
+		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(this);
 		colorPanel.add(LayoutUtilW.panelRow(btnColor[0], btnColor[1],
-				btnColor[2], btnColor[3], btnCustomColor));
+				btnColor[2], btnColor[3], btnColor[4], btnColor[5], btnColor[6], btnColor[7], btnColor[8],
+				btnCustomColor));
 	}
 
 	/**
@@ -254,11 +257,11 @@ public class PenSubMenu extends SubMenuPanel {
 
 				if (colorsEnabled) {
 					lastSelectedColor = penColor[i];
-					btnColor[i].addStyleName("penSubMenu-selected");
+					btnColor[i].addStyleName("mowColorButton-selected");
 					setPenIconColor(penColor[i].toString());
 				}
 			} else {
-				btnColor[i].removeStyleName("penSubMenu-selected");
+				btnColor[i].removeStyleName("mowColorButton-selected");
 			}
 		}
 		updatePreview();

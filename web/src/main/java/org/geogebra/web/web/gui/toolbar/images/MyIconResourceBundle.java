@@ -574,12 +574,12 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	ImageResource tools_panel_active_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/move_hand.png")
-	ImageResource move_hand_32();
+	@Source("org/geogebra/common/icons_toolbar/p32/move_pointer.png")
+	ImageResource move_pointer_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/move_hand_active.png")
-	ImageResource move_hand_active_32();
+	@Source("org/geogebra/common/icons_toolbar/p32/move_pointer_active.png")
+	ImageResource move_pointer_active_32();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_geogebra.png")

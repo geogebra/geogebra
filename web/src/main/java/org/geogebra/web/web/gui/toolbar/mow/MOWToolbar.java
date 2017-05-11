@@ -30,9 +30,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
-	private static final int DEFAULT_SUBMENU_HEIGHT = 55;
-	private static final int TOOLS_SUBMENU_HEIGHT = 120;
-	private static final int MEDIA_SUBMENU_HEIGHT = 55;
+	private static final int DEFAULT_SUBMENU_HEIGHT = 120;
+	// private static final int TOOLS_SUBMENU_HEIGHT = 120;
+	// private static final int MEDIA_SUBMENU_HEIGHT = 55;
 	private AppW app;
 	private StandardButton redoButton;
 	private StandardButton undoButton;
@@ -147,7 +147,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void createMoveButton() {
 		moveButton = new StandardButton("");
-		moveButton.getUpFace().setImage(getImage(pr.move_hand_32(), 32));
+		moveButton.getUpFace().setImage(getImage(pr.move_pointer_32(), 32));
 		rightPanel.add(moveButton);
 		moveButton.addFastClickHandler(this);
 	}
@@ -207,8 +207,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true = highlighted icon, false = gray icon
 	 */
 	public void toggleMoveButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.move_hand_32(), 32);
-		NoDragImage downFace = getImage(pr.move_hand_active_32(), 32);
+		NoDragImage upFace = getImage(pr.move_pointer_32(), 32);
+		NoDragImage downFace = getImage(pr.move_pointer_active_32(), 32);
 		if (toggle) {
 			moveButton.getUpFace().setImage(downFace);
 		} else {
@@ -420,43 +420,17 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true if submenu should be visible
 	 */
 	private void setSubmenuVisible(final boolean visible) {
-
-		if (currentMenu == toolsMenu) {
-			submenuHeight = TOOLS_SUBMENU_HEIGHT;
-		} else {
-			submenuHeight = DEFAULT_SUBMENU_HEIGHT;
-		}
-
+		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
 		if (visible) {
 			subMenuPanel.setVisible(visible);
-			if (submenuHeight == 120) {
-				if (lastSubmenuHeight == 0) {
-					setStyleName("animateBaseToDouble");
-
-				}
-				if (lastSubmenuHeight == 55) {
-					setStyleName("animateSimpleToDouble");
-				}
-				lastSubmenuHeight = 120;
+			if (lastSubmenuHeight == 0) {
+				setStyleName("animateBaseToDouble");
 			}
-			if (submenuHeight == 55) {
-				if (lastSubmenuHeight == 0) {
-					setStyleName("animateBaseToSimple");
-				}
-				if (lastSubmenuHeight == 120) {
-					setStyleName("animateDoubleToSimple");
-				}
-				lastSubmenuHeight = 55;
-			}
+			lastSubmenuHeight = 120;
 		} else {
 			if (submenuHeight == 120) {
 				setStyleName("animateDoubleToBase");
 			}
-			if (submenuHeight == 55) {
-				setStyleName("animateSimpleToBase");
-			}
-			// timer delays hiding the submenu so it stays visible until the end
-			// of the animation
 			Timer timer = new Timer() {
 				@Override
 				public void run() {
@@ -468,6 +442,30 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 		addStyleName("mowToolbar");
 		setResponsivePosition();
+
+		/*
+		 * if (currentMenu == toolsMenu) { submenuHeight = TOOLS_SUBMENU_HEIGHT;
+		 * } else { submenuHeight = DEFAULT_SUBMENU_HEIGHT; }
+		 * 
+		 * if (visible) { subMenuPanel.setVisible(visible); if (submenuHeight ==
+		 * 120) { if (lastSubmenuHeight == 0) {
+		 * setStyleName("animateBaseToDouble");
+		 * 
+		 * } if (lastSubmenuHeight == 55) {
+		 * setStyleName("animateSimpleToDouble"); } lastSubmenuHeight = 120; }
+		 * if (submenuHeight == 55) { if (lastSubmenuHeight == 0) {
+		 * setStyleName("animateBaseToSimple"); } if (lastSubmenuHeight == 120)
+		 * { setStyleName("animateDoubleToSimple"); } lastSubmenuHeight = 55; }
+		 * } else { if (submenuHeight == 120) {
+		 * setStyleName("animateDoubleToBase"); } if (submenuHeight == 55) {
+		 * setStyleName("animateSimpleToBase"); } // timer delays hiding the
+		 * submenu so it stays visible until the end // of the animation Timer
+		 * timer = new Timer() {
+		 * 
+		 * @Override public void run() { doShowSubmenu(visible); } };
+		 * timer.schedule(500); lastSubmenuHeight = 0; }
+		 * addStyleName("mowToolbar"); setResponsivePosition();
+		 */
 	}
 
 	/**

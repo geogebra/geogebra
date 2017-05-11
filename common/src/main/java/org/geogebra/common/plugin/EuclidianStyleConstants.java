@@ -31,7 +31,7 @@ public class EuclidianStyleConstants {
 	 */
 	public static final int DEFAULT_POINT_SIZE_DEPENDENT = 3;
 
-	public static final int DEFAULT_LINE_THICKNESS = 2;
+	public static final int DEFAULT_LINE_THICKNESS = 3;
 
 	public static final int DEFAULT_ANGLE_SIZE = 30;
 

@@ -125,6 +125,7 @@ $mow_purple: #a388d4;
 	.mowSubMenu {
 		position: absolute;
 		top: 50px;
+		height: 120px;
 		width: 100%;
 		border-top: 2px solid #e0e0e0;
 		background-color: #eee;
@@ -133,7 +134,7 @@ $mow_purple: #a388d4;
 	
 	.mowSubMenuContent {
 		width: 380px;
-		height: 65px;
+		/*height: 65px;*/
 		background-color: #fafafa;
 	}
 	.mowSubMenuInfo {
@@ -176,11 +177,12 @@ $mow_purple: #a388d4;
 	.penSubMenu .mowSubMenuContent {
 		position: absolute;
 		width: 700px;
-		height: 55px;
+		/*height: 55px;*/
 	}
 	
 	.penSubMenu .penPanel {
 		margin-left: 0px;
+		width: 100px;
 	}
 	
 	.penSubMenu .plusButton {
@@ -198,7 +200,7 @@ $mow_purple: #a388d4;
 	
 	.penSubMenu .sizePanel {
 		color: black;
-	    padding-top: 14px;
+	    padding-top: 50px;
 		float: right; 
 	}
 	
@@ -222,15 +224,29 @@ $mow_purple: #a388d4;
 	    height: 27px;
 	}
 	
-	.penSubMenu .MyCanvasButton .color-button {
+	/*.penSubMenu .MyCanvasButton .color-button {
 		padding: 2px;
-	}
+	}*/
 	
 	.penSubMenu .disabled {
 		border-color: rgb(111,111,111);
 		opacity: 0.3;
 	}
-	
+	.mowColorButton {
+		 width: 28px;
+		 height: 28px;
+		 border-radius: 14px;
+	}
+	.mowColorButton-selected {
+		width: 34px;
+		height: 34px;
+		border-radius: 17px;
+	}
+	.mowColorPlusButton {
+		 border: 1px solid #666666;
+		 text-align: center;
+		 font-size: larger;
+	}
 	.toolsSubMenu {
 		position: absolute;
 	}
@@ -241,7 +257,7 @@ $mow_purple: #a388d4;
 	
 	.toolsSubMenu .mowSubMenuContent {
 		width: 380px;
-		height: 120px;
+		/*height: 120px;*/
 		top: -3px;
 		overflow: hidden;
 		overflow-x: scroll;
@@ -259,7 +275,7 @@ $mow_purple: #a388d4;
 	.mediaSubMenu .mowSubMenuContent {
 		position: absolute;
 		width: 380px;
-		height: 115px;
+		/*height: 115px;*/
 		top: -3px;
 		padding-top: 3px;
 		border-right: 2px solid #e0e0e0;

@@ -394,7 +394,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype tools_panel_32();
 
-	ResourcePrototype move_hand_32();
+	ResourcePrototype move_pointer_32();
 
 	ResourcePrototype mode_geogebra_32();
 
@@ -410,7 +410,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype media_panel_active_32();
 
-	ResourcePrototype move_hand_active_32();
+	ResourcePrototype move_pointer_active_32();
 
 	ResourcePrototype tools_panel_active_32();
 
