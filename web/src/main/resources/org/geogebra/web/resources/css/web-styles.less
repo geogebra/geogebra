@@ -10,12 +10,10 @@
 		margin: 0px;
 	}
 
-/* .InputTreeItem, */
+	/* .InputTreeItem, */
 	.gwt-Tree .gwt-TreeItem .elem {
 		position: relative;
 	}
-
-
 
 	.XButtonPanelParent {
 		position: relative !important;
@@ -128,278 +126,259 @@
 		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 		box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 	}
-}
-.GeoGebraFrame input[type="text"]:focus,
-.gwt-TextBox:focus,
-.GeoGebraFrame select:focus,
-.GeoGebraFrame textarea:focus,
-.gwt-TextArea:focus,
-.GeoGebraFrame iframe.objectPropertiesTextEditor:focus {
-	border-color: #6161FF;
-}
 
-/* avoid 'x' in IE */
-input[type="text"]::-ms-clear {
-	display: none;
-}
+	 input[type="text"]:focus,
+	.gwt-TextBox:focus,
+	 select:focus,
+	 textarea:focus,
+	.gwt-TextArea:focus,
+	 iframe.objectPropertiesTextEditor:focus {
+		border-color: #6161FF;
+	}
 
-.GeoGebraFrame input[type="range"] { 
-	padding: 5px 0px;
-	margin: 0px 10px;
-}
+	/* avoid 'x' in IE */
+	input[type="text"]::-ms-clear {
+		display: none;
+	}
 
-.gwt-TextBox-readonly,.gwt-TextArea-readonly {
-	color: #CCC;
-}
+	input[type="range"] { 
+		padding: 5px 0px;
+		margin: 0px 10px;
+	}
 
-.GeoGebraFrame hr {
-	height: 0px;
-	border: none;
-	border-bottom: 1px solid #DCDCDC;
-}
+	.gwt-TextBox-readonly,.gwt-TextArea-readonly {
+		color: #CCC;
+	}
 
-.clear {
-	clear: both;
-	margin: 0px;
-	padding: 0px;
-}
+	hr {
+		height: 0px;
+		border: none;
+		border-bottom: 1px solid #DCDCDC;
+	}
 
-.gwt-Reference-clean {
-	height: 5px;
-	width: 5px;
-	zoom: 1;
-}
+	.clear {
+		clear: both;
+		margin: 0px;
+		padding: 0px;
+	}
 
-.gwt-FileUpload {
-	margin-bottom: 10px;
-	font-size: 80%;
-}
+	.gwt-Reference-clean {
+		height: 5px;
+		width: 5px;
+		zoom: 1;
+	}
 
-.GeoGebraFrame .gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
-.DialogButtonPanel .gwt-Button, .inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
-	border-radius: 5px;
-	border: 1px solid #6161FF;
-	color: #6161FF;
-	background: none;
-	font-size: 110%;
-	padding: 4px 15px;
-	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
+	.gwt-FileUpload {
+		margin-bottom: 10px;
+		font-size: 80%;
+	}
+
+	.gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
+	.DialogButtonPanel .gwt-Button, .inputHelp-detailPanelTitle .gwt-Button, .optionsPopup .gwt-Button {
+		border-radius: 5px;
+		border: 1px solid #6161FF;
+		color: #6161FF;
+		background: none;
+		font-size: 110%;
+		padding: 4px 15px;
+		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
 		rgba(204, 204, 204, 0.5);
-	cursor: pointer;
-	cursor: hand;
-	margin-left: 5px;
-	min-height: 0px;
-}
+		cursor: pointer;
+		cursor: hand;
+		margin-left: 5px;
+		min-height: 0px;
+	}
 
-/* Pop-up Exam Mode Dialog */
-.ExamCheckboxPanel {
+	/* Pop-up Exam Mode Dialog */
+	.ExamCheckboxPanel {
 		margin: 10px 20px;	
 	}
-.examCheckbox{
+
+	.examCheckbox{
 		line-height:2em;
 		display: block;
 	}
-.boxsize {
-	width: 340px;
-	max-width: 100%;
+	
+	.boxsize {
+		width: 340px;
+		max-width: 100%;
 	}
-.ExamTabletBoxsize {
-/*	width: 150px;
-	height: 150px; */
 
+	.ExamTabletBoxsize {
+	/*	width: 150px;
+		height: 150px; */
+	
     /*margin-top: 30%;*/
-}
-
-.ExamTabletBoxsize div {
-	text-align: center;
-}
-
-.ExamTabletBoxsize .Caption {
-    margin-bottom: 5px !important;
-}
-
-.ExamTabletStartButton {
-	margin: 30px 0px 10px 0px !important;
-}
-
-.examContent{
-	/*min-width:260px;*/
 	}
-.examScrollPanel{
-	overflow: auto;
-	min-height: 100px;
-	max-height:350px;
-	/*min-width:275px;*/
-	/*margin: 0px 10px 10px 10px;*/
-	padding: 0px 10px 10px 5px;
-}
-.examMessagePanel{
-	margin-right:30px;
-}
-.examInfo {
-	margin-left: 5px;
-	cursor: pointer;
-}
 
-.centerDialog{
-	position: absolute !important;
-    left: 50% !important;
-    top: 50% !important;
-    margin-top: -200px;
-    margin-left: -170px;
-}
+	.ExamTabletBoxsize div {
+		text-align: center;
+	}
 
-.webkitFullscreen:-webkit-full-screen {
-  width: 100%;
-  height: 100%;
-}
-.GeoGebraFrame .gwt-Button.minor {
-	border-radius: 5px;
-	border: 1px solid #999999;
-	color: #666666;
-	background: none;
-	font-size: 110%;
-	padding: 4px 15px;
-	box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
+	.ExamTabletBoxsize .Caption {
+		margin-bottom: 5px !important;
+	}
+
+	.ExamTabletStartButton {
+		margin: 30px 0px 10px 0px !important;
+	}
+	
+	.examScrollPanel{
+		overflow: auto;
+		min-height: 100px;
+		max-height:350px;
+		/*min-width:275px;*/
+		/*margin: 0px 10px 10px 10px;*/
+		padding: 0px 10px 10px 5px;
+	}
+	
+	.examMessagePanel{
+		margin-right:30px;
+	}
+	
+	.examInfo {
+		margin-left: 5px;
+		cursor: pointer;
+	}
+
+	.centerDialog{
+		position: absolute !important;
+    	left: 50% !important;
+    	top: 50% !important;
+    	margin-top: -200px;
+    	margin-left: -170px;
+	}
+
+	.webkitFullscreen:-webkit-full-screen {
+  		width: 100%;
+  		height: 100%;
+	}
+
+	.gwt-Button.minor {
+		border-radius: 5px;
+		border: 1px solid #999999;
+		color: #666666;
+		background: none;
+		font-size: 110%;
+		padding: 4px 15px;
+		box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.65), 0px 0px 2px
 		rgba(204, 204, 204, 0.5);
-	cursor: pointer;
-	cursor: hand;
+		cursor: pointer;
+		cursor: hand;
+	}
+
+	.gwt-Button.minor:hover {
+		color: #666666 !important;
+		background-color: rgba(204, 204, 204, 0.2);
+	}
+
+	.gwt-Button.minor:active {
+		border: 1px inset #999999;
+		background-color: rgba(204, 204, 204, 0.2);
+	}
+
+	.gwt-Button.minor[disabled="disabled"]:hover,
+	.gwt-Button.minor[disabled="disabled"]:active {
+		border: 1px solid #999999;
+		background-color: none;
+	}
+
+	.gwt-Button:active,
+	.buttonPanel .button:active, 
+	.headerbar .headerSecond .signInButton:active {
+		border: 1px inset #6666FF;
+		background-color: rgba(204, 204, 255, 0.2);
+	}
+
+	.gwt-Button:hover,
+	.confirmDelete .button:hover,
+	.buttonPanel .button:hover,
+	.headerbar .headerSecond .signInButton:hover	{
+		background-color: rgba(204, 204, 255, 0.2);
+	}
+
+	.gwt-Button[disabled="disabled"],
+	.buttonPanel .button[disabled="disabled"] {
+		cursor: default;
+		opacity: .5;
+		zoom: 1;
+		filter: ~'alpha(opacity = 50)';
+	}
+
+	.gwt-Button[disabled="disabled"]:hover,
+	.buttonPanel .button[disabled="disabled"]:hover,
+	.gwt-Button[disabled="disabled"]:active,
+	.buttonPanel .button[disabled="disabled"]:active {
+ 		background-color: none;
+ 		border: 1px solid #6161FF;
+	}
+
+	.buttonPanel .button {
+		float: right;
+	}
+
+	.textButton {
+		color: #6161FF;
+		cursor: pointer;
+	}
+
+	.textButton:hover {
+		text-decoration: underline;
+	}
+
+	.gwt-CheckBox-disabled,
+	.checkBoxPanel-disabled {
+		color: #CCCCCC;
+	}
+
+	.gwt-DisclosurePanel {
+		margin-top: 5px;
+	}
+
+	.gwt-DisclosurePanel .header,.gwt-DisclosurePanel .header a,
+	.gwt-DisclosurePanel .header td	{
+		text-decoration: none; /* Remove underline from header */
+		cursor: pointer;
+		cursor: hand;
+		color: #666666;
+	}
+
+	.gwt-DisclosurePanel .content {
+		border-left: 3px solid #e7e7e7;
+		padding: 4px 0px 4px 8px;
+		margin-left: 6px;
+	}
+
+	.gwt-Frame {
+		border-top: 2px solid #666;
+		border-left: 2px solid #666;
+		border-right: 2px solid #bbb;
+		border-bottom: 2px solid #bbb;
+	}
+
+	.gwt-HorizontalSplitPanel .hsplitter {
+		cursor: move;
+		border: 0px;
+		background: #e7e7e7;
+		line-height: 0px;
+	}
+
+	.gwt-VerticalSplitPanel .vsplitter {
+		cursor: move;
+		border: 0px;
+		background: #e7e7e7;
+		line-height: 0px;
+	}
+
+	.gwt-HTML {
+		padding: 0 0px;
+	}
+
+	.gwt-Image {
+		border: none;
+	}
 }
 
-.gwt-Button.minor:hover {
-	color: #666666 !important;
-	background-color: rgba(204, 204, 204, 0.2);
-}
-
-.gwt-Button.minor:active {
-	border: 1px inset #999999;
-	background-color: rgba(204, 204, 204, 0.2);
-}
-
-.gwt-Button.minor[disabled="disabled"]:hover,
-.gwt-Button.minor[disabled="disabled"]:active {
-	border: 1px solid #999999;
-	background-color: none;
-}
-
-.gwt-Button:active,
-.buttonPanel .button:active, 
-.headerbar .headerSecond .signInButton:active {
-	border: 1px inset #6666FF;
-	background-color: rgba(204, 204, 255, 0.2);
-}
-
-.gwt-Button:hover,
-.confirmDelete .button:hover,
-.buttonPanel .button:hover,
-.headerbar .headerSecond .signInButton:hover
-	{
-	background-color: rgba(204, 204, 255, 0.2);
-}
-
-.gwt-Button[disabled="disabled"],
-.buttonPanel .button[disabled="disabled"] {
-	cursor: default;
-	opacity: .5;
-	zoom: 1;
-	filter: ~'alpha(opacity = 50)';
-}
-.gwt-Button[disabled="disabled"]:hover,
-.buttonPanel .button[disabled="disabled"]:hover,
-.gwt-Button[disabled="disabled"]:active,
-.buttonPanel .button[disabled="disabled"]:active {
- 	background-color: none;
- 	border: 1px solid #6161FF;
-}
-
-.buttonPanel .button {
-	float: right;
-}
-
-.textButton {
-	color: #6161FF;
-	cursor: pointer;
-}
-
-.textButton:hover {
-	text-decoration: underline;
-}
-
-.gwt-CheckBox-disabled,
-.checkBoxPanel-disabled {
-	color: #CCCCCC;
-}
-
-.gwt-DisclosurePanel {
-	margin-top: 5px;
-}
-
-.gwt-DisclosurePanel-open {
-	
-}
-
-.gwt-DisclosurePanel-closed {
-	
-}
-
-.gwt-DisclosurePanel .header,.gwt-DisclosurePanel .header a,.gwt-DisclosurePanel .header td
-	{
-	text-decoration: none; /* Remove underline from header */
-	cursor: pointer;
-	cursor: hand;
-	color: #666666;
-}
-
-.gwt-DisclosurePanel .content {
-	border-left: 3px solid #e7e7e7;
-	padding: 4px 0px 4px 8px;
-	margin-left: 6px;
-}
-
-.gwt-Frame {
-	border-top: 2px solid #666;
-	border-left: 2px solid #666;
-	border-right: 2px solid #bbb;
-	border-bottom: 2px solid #bbb;
-}
-
-.gwt-HorizontalSplitPanel {
-	
-}
-
-.gwt-HorizontalSplitPanel .hsplitter {
-	cursor: move;
-	border: 0px;
-	background: #e7e7e7;
-	line-height: 0px;
-}
-
-.gwt-VerticalSplitPanel {
-	
-}
-
-.gwt-VerticalSplitPanel .vsplitter {
-	cursor: move;
-	border: 0px;
-	background: #e7e7e7;
-	line-height: 0px;
-}
-
-.gwt-HTML {
-	padding: 0 0px;
-}
-
-.gwt-Hyperlink {
-	
-}
-
-.gwt-Image {
-	border: none;
-}
-
-.gwt-Label {
-	
-}
 body.application[dir=rtl] .gwt-Label {
 	text-align: right;
 }
@@ -513,26 +492,6 @@ body.application[dir=rtl] .gwt-Label {
 	zoom: 1;
 }
 
-.gwt-DecoratedPopupPanel .popupTopLeft {
-	background: url(images/circles.png) no-repeat 0px -16px;
-	-background: url(images/circles_ie6.png) no-repeat 0px -16px;
-}
-
-.gwt-DecoratedPopupPanel .popupTopRight {
-	background: url(images/circles.png) no-repeat -6px -16px;
-	-background: url(images/circles_ie6.png) no-repeat -6px -16px;
-}
-
-.gwt-DecoratedPopupPanel .popupBottomLeft {
-	background: url(images/circles.png) no-repeat 0px -21px;
-	-background: url(images/circles_ie6.png) no-repeat 0px -21px;
-}
-
-.gwt-DecoratedPopupPanel .popupBottomRight {
-	background: url(images/circles.png) no-repeat -6px -21px;
-	-background: url(images/circles_ie6.png) no-repeat -6px -21px;
-}
-
 * html .gwt-DecoratedPopupPanel .popupTopLeftInner {
 	width: 6px;
 	height: 5px;
@@ -566,10 +525,6 @@ body.application[dir=rtl] .gwt-Label {
 
 .gwt-RadioButton-disabled {
 	color: #888;
-}
-
-.gwt-RichTextArea {
-	
 }
 
 .hasRichTextToolbar {
@@ -682,8 +637,7 @@ body.application[dir=rtl] .gwt-Label {
 	cursor: hand;
 }
 
-.gwt-DecoratedStackPanel .stackItemTopLeft,.gwt-DecoratedStackPanel .stackItemTopRight
-	{
+.gwt-DecoratedStackPanel .stackItemTopLeft, .gwt-DecoratedStackPanel .stackItemTopRight	{
 	height: 6px;
 	width: 6px;
 	zoom: 1;
@@ -723,8 +677,7 @@ body.application[dir=rtl] .gwt-Label {
 	border-left: 1px solid #bbbbbb;
 }
 
-.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,.gwt-DecoratedStackPanel .stackItemMiddleRightInner
-	{
+.gwt-DecoratedStackPanel .stackItemMiddleLeftInner,.gwt-DecoratedStackPanel .stackItemMiddleRightInner	{
 	width: 1px;
 	height: 1px;
 }
@@ -740,8 +693,7 @@ body.application[dir=rtl] .gwt-Label {
 	background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 }
 
-.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft
-	{
+.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft	{
 	border: 0px;
 	background-color: white;
 }
@@ -835,124 +787,6 @@ body.application[dir=rtl] .gwt-Label {
 * html .gwt-TreeItem .gwt-RadioButton input,* html .gwt-TreeItem .gwt-CheckBox input
 	{
 	margin-left: -4px;
-}
-
-.gwt-DateBox {
-	padding: 5px 4px;
-	border: 1px solid #ccc;
-	border-top: 1px solid #999;
-	font-size: 100%;
-}
-
-.gwt-DateBox input {
-	width: 8em;
-}
-
-.dateBoxFormatError {
-	background: #ffcccc;
-}
-
-.dateBoxPopup {
-	
-}
-
-.gwt-DatePicker {
-	border: 1px solid #ccc;
-	border-top: 1px solid #999;
-	cursor: default;
-}
-
-.gwt-DatePicker td,.datePickerMonthSelector td:focus {
-	outline: none;
-}
-
-.datePickerDays {
-	width: 100%;
-	background: white;
-}
-
-.datePickerDay,.datePickerWeekdayLabel,.datePickerWeekendLabel {
-	font-size: 85%;
-	text-align: center;
-	padding: 4px;
-	outline: none;
-	font-weight: bold;
-	color: #333;
-	border-right: 1px solid #EDEDED;
-	border-bottom: 1px solid #EDEDED;
-}
-
-.datePickerWeekdayLabel,.datePickerWeekendLabel {
-	background: #fff;
-	padding: 0px 4px 2px;
-	cursor: default;
-	color: #666;
-	font-size: 70%;
-	font-weight: normal;
-}
-
-.datePickerDay {
-	padding: 4px 7px;
-	cursor: hand;
-	cursor: pointer;
-}
-
-.datePickerDayIsWeekend {
-	background: #f7f7f7;
-}
-
-.datePickerDayIsFiller {
-	color: #999;
-	font-weight: normal;
-}
-
-.datePickerDayIsValue {
-	background: #d7dfe8;
-}
-
-.datePickerDayIsDisabled {
-	color: #AAAAAA;
-	font-style: italic;
-}
-
-.datePickerDayIsHighlighted {
-	background: #F0E68C;
-}
-
-.datePickerDayIsValueAndHighlighted {
-	background: #d7dfe8;
-}
-
-.datePickerDayIsToday {
-	padding: 3px;
-	color: #fff;
-	background: url(images/hborder.png) repeat-x 0px -2607px;
-}
-
-.datePickerMonthSelector {
-	width: 100%;
-	padding: 1px 0 5px 0;
-	background: #fff;
-}
-
-.GeoGebraFrame td.datePickerMonth {
-	text-align: center;
-	vertical-align: middle;
-	white-space: nowrap;
-	font-size: 100%;
-	font-weight: bold;
-	color: #333;
-}
-
-.datePickerPreviousButton,.datePickerNextButton {
-	font-size: 120%;
-	line-height: 1em;
-	color: #3a6aad;
-	cursor: hand;
-	cursor: pointer;
-	font-weight: bold;
-	padding: 0px 4px;
-	outline: none;
 }
 
 .gwt-StackLayoutPanel {
