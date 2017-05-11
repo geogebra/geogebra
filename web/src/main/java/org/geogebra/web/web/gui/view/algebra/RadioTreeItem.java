@@ -37,6 +37,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -50,7 +51,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
-import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.main.AppWFull;
@@ -1998,7 +1998,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public abstract RadioTreeItem copy();
 
 	@Override
-	public void updatePosition(DefaultSuggestionDisplay sug) {
+	public void updatePosition(AbstractSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(content);
 	}
 

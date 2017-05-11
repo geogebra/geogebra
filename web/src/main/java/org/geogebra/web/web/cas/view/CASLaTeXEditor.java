@@ -14,12 +14,12 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.main.AppWFull;
@@ -321,7 +321,7 @@ public class CASLaTeXEditor extends FlowPanel
 	}
 
 	@Override
-	public void updatePosition(DefaultSuggestionDisplay sugPanel) {
+	public void updatePosition(AbstractSuggestionDisplay sugPanel) {
 		sugPanel.setPositionRelativeTo(this);
 
 	}

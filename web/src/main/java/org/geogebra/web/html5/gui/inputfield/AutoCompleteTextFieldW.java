@@ -43,7 +43,6 @@ import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.gui.inputfield.GSuggestBox;
-import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -1869,7 +1868,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	}
 
 	@Override
-	public void updatePosition(DefaultSuggestionDisplay sug) {
+	public void updatePosition(AbstractSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(textField);
 
 	}

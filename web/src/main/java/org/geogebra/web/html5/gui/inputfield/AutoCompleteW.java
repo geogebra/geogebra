@@ -3,8 +3,6 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
-
 import com.google.gwt.user.client.ui.Widget;
 
 public interface AutoCompleteW {
@@ -38,7 +36,7 @@ public interface AutoCompleteW {
 
 	public void autocomplete(String s);
 
-	public void updatePosition(DefaultSuggestionDisplay sug);
+	public void updatePosition(AbstractSuggestionDisplay sug);
 
 	public boolean isForCAS();
 

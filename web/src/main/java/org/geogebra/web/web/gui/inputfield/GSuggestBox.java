@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.web.html5.gui.GDecoratedPopupPanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 
 /*
@@ -320,7 +321,7 @@ public class GSuggestBox extends Composite
 	 * </dl>
 	 */
 	public static class DefaultSuggestionDisplay extends SuggestionDisplay
-			implements HasAnimation {
+			implements HasAnimation, AbstractSuggestionDisplay {
 
 		private final SuggestionMenu suggestionMenu;
 		private final GPopupPanel suggestionPopup;
