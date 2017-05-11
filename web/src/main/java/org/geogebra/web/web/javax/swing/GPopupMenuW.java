@@ -3,9 +3,9 @@ package org.geogebra.web.web.javax.swing;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
-import org.geogebra.web.web.gui.util.PopupPanel;
 import org.geogebra.web.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GPopupMenuW implements AttachedToDOM {
 
-	protected PopupPanel popupPanel;
+	protected GPopupPanel popupPanel;
 	protected PopupMenuBar popupMenu;
 	private int popupMenuSize = 0;
 	/*
@@ -50,17 +50,17 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public GPopupMenuW(AppW app) {
 		this.app = app;
-		popupPanel = new PopupPanel();
+		popupPanel = new GPopupPanel(app.getPanel());
 		Browser.scale(popupPanel.getElement(), app.getArticleElement()
 		        .getScaleX(), 0, 0);
 		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
 
-		popupPanel.addCloseHandler(new CloseHandler<PopupPanel>() {
+		popupPanel.addCloseHandler(new CloseHandler<GPopupPanel>() {
 
 			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
+			public void onClose(CloseEvent<GPopupPanel> event) {
 				if (subPopup != null) {
 					subPopup.removeFromDOM();
 					subPopup = null;
@@ -78,8 +78,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @param mb
 	 *            menu
 	 */
-	public GPopupMenuW(MenuBar mb) {
-		popupPanel = new PopupPanel();
+	public GPopupMenuW(MenuBar mb, AppW app) {
+		popupPanel = new GPopupPanel(app.getPanel());
 		popupPanel.add(mb);
 	}
 
@@ -239,7 +239,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					if (subPopup != null) {
 						subPopup.removeFromDOM();
 					}
-					subPopup = new GPopupMenuW(subMenu);
+					subPopup = new GPopupMenuW(subMenu, app);
 					subPopup.setVisible(true);
 					int xPercent = 0;
 					// Calculate the position of the "submenu", and show it
@@ -358,7 +358,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		return popupMenu;
 	}
 
-	public PopupPanel getPopupPanel() {
+	public GPopupPanel getPopupPanel() {
 		return popupPanel;
 	}
 

@@ -3,6 +3,7 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -11,13 +12,12 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.MyCJButton;
-import org.geogebra.web.web.gui.util.PopupPanel;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 
 public class ContextMenuPopup extends MyCJButton
-		implements CloseHandler<PopupPanel> {
+		implements CloseHandler<GPopupPanel> {
 
 	private static final int GAP_Y = 5;
 	private EuclidianController ec;
@@ -82,7 +82,7 @@ public class ContextMenuPopup extends MyCJButton
 
 	}
 
-	public void onClose(CloseEvent<PopupPanel> event) {
+	public void onClose(CloseEvent<GPopupPanel> event) {
 		hideMenu();
 	}
 	

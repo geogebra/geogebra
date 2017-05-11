@@ -18,8 +18,6 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.web.web.gui.util.PopupPanel;
-
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -51,6 +49,7 @@ import com.google.gwt.user.client.ui.HasAnimation;
 import com.google.gwt.user.client.ui.KeyboardListenerCollection;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupListener;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.SourcesPopupEvents;
 import com.google.gwt.user.client.ui.UIObject;
@@ -102,8 +101,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		EventPreview, HasAnimation, HasCloseHandlers<GPopupPanel> {
 
 	/**
-	 * A callback that is used to set the position of a {@link PopupPanel} right
-	 * before it is shown.
+	 * A callback that is used to set the position of a {@link GPopupPanel}
+	 * right before it is shown.
 	 */
 	public interface PositionCallback {
 
@@ -117,7 +116,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		 *            the offsetWidth of the PopupPanel
 		 * @param offsetHeight
 		 *            the offsetHeight of the PopupPanel
-		 * @see PopupPanel#setPopupPositionAndShow(PositionCallback)
+		 * @see GPopupPanel#setPopupPositionAndShow(PositionCallback)
 		 */
 		void setPosition(int offsetWidth, int offsetHeight);
 	}
