@@ -46,6 +46,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public abstract class AlgoElement extends ConstructionElement
 		implements EuclidianViewCE {
+	private static boolean tempSetLock = false;
 	/** input elements */
 	public GeoElement[] input;
 	/**
@@ -675,13 +676,15 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		// update all geos
+		tempSetLock = true;
 		GeoElement.updateCascade(geos, getTempSet(), true);
+		tempSetLock = false;
 	}
 
 	private static TreeSet<AlgoElement> tempSet;
 
 	private static TreeSet<AlgoElement> getTempSet() {
-		if (tempSet == null) {
+		if (tempSet == null || tempSetLock) {
 			tempSet = new TreeSet<AlgoElement>();
 		}
 		return tempSet;
@@ -1380,6 +1383,11 @@ public abstract class AlgoElement extends ConstructionElement
 
 	}
 
+	/**
+	 * @param cmdName
+	 *            command name
+	 * @return whether this algo should print &lt;expression&gt; in XML
+	 */
 	protected boolean hasExpXML(String cmdName) {
 		return "Expression".equals(cmdName);
 	}
