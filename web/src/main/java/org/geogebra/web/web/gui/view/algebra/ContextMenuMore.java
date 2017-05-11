@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
@@ -53,7 +53,8 @@ public class ContextMenuMore implements SetLabels {
 	}
 
 	private void addDuplicateItem() {
-		String img = AppResources.INSTANCE.duplicate20().getSafeUri()
+		String img = MaterialDesignResources.INSTANCE.duplicate_black()
+				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Duplicate"), true), true,
@@ -80,7 +81,8 @@ public class ContextMenuMore implements SetLabels {
 	}
 		
 	private void addDeleteItem() {
-		String img = AppResources.INSTANCE.delete_black().getSafeUri()
+		String img = MaterialDesignResources.INSTANCE.delete_black()
+				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
 				loc.getPlain("Delete"), true), true,
@@ -95,7 +97,8 @@ public class ContextMenuMore implements SetLabels {
 	}
 
 	private void addPropertiesItem() {
-		String img = AppResources.INSTANCE.settings_black().getSafeUri()
+		String img = MaterialDesignResources.INSTANCE.settings_black()
+				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Settings"), true), true,

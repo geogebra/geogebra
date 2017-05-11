@@ -5,6 +5,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -95,9 +96,10 @@ public class ItemControls extends FlowPanel {
 	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
 			btnMore = new ToggleButton(
-					new Image(GuiResources.INSTANCE.more_vert_black()));
+					new Image(MaterialDesignResources.INSTANCE
+							.more_vert_black()));
 			btnMore.getUpHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.more_vert_purple()));
+					MaterialDesignResources.INSTANCE.more_vert_purple()));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			ClickStartHandler.init(btnMore, new ClickStartHandler() {

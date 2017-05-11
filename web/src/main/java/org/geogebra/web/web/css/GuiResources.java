@@ -117,15 +117,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu-help.png")
 	ImageResource icon_help();
 
-	@Source("org/geogebra/common/icons/png/web/menu_help_black.png")
-	ImageResource icon_help_black();
-
-	@Source("org/geogebra/common/icons/png/web/format_quote_black.png")
-	ImageResource icon_quote_black();
-
-	@Source("org/geogebra/common/icons/png/web/insert_photo_black.png")
-	ImageResource insert_photo_black();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-help-about.png")
 	ImageResource menu_icon_help_about();
 
@@ -447,11 +438,4 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/exam/css/exam.less")
 	LessReference examStyle();
-
-	// NEW TOOLBAR ICONS
-	@Source("org/geogebra/common/icons/png/toolbar/more_vert_black_24x24.png")
-	ImageResource more_vert_black();
-
-	@Source("org/geogebra/common/icons/png/toolbar/more_vert_purple_24x24.png")
-	ImageResource more_vert_purple();
 }

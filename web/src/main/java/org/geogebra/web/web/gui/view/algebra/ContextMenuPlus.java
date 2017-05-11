@@ -5,7 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
@@ -70,7 +70,8 @@ public class ContextMenuPlus implements SetLabels {
 	}
 
 	private void addTextItem() {
-		String img = GuiResources.INSTANCE.icon_quote_black().getSafeUri()
+		String img = MaterialDesignResources.INSTANCE.icon_quote_black()
+				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getPlain("Text"), true), true,
@@ -89,7 +90,8 @@ public class ContextMenuPlus implements SetLabels {
 	}
 	
 	private void addImageItem() {
-		String img = GuiResources.INSTANCE.insert_photo_black().getSafeUri()
+		String img = MaterialDesignResources.INSTANCE.insert_photo_black()
+				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getPlain("Image"), true), true,
@@ -109,7 +111,8 @@ public class ContextMenuPlus implements SetLabels {
 	}
 
 	private void addHelpItem() {
-		String img = GuiResources.INSTANCE.icon_help_black().getSafeUri()
+		String img = MaterialDesignResources.INSTANCE.icon_help_black()
+				.getSafeUri()
 		.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("Help"), true),
 				true, new Command() {
