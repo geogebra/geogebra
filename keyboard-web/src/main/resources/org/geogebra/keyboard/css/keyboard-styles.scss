@@ -68,7 +68,7 @@ $tab123-width: 644px;
 		clear: both;
 	}
 
-	.KeyBoard {
+	.KeyBoard, .KeyBoard.gwt-PopupPanel {
 		border-radius: 0;
 		-webkit-border-radius: 0;
 		background-color: $old-keyboard-background;
