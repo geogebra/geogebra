@@ -21,7 +21,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		return new ToolbarPanel();
+		return new ToolbarPanel(app);
 	}
 
 

@@ -1,3 +1,54 @@
-.toolbar {
+@import 'colors';
 
-}
+.toolbar {
+	.header {
+			background-color: $toolbar-header;
+			
+			.flatButton {
+				padding-top: 8px;
+				padding-bottom: 8px;
+				margin-top: 8px;
+				margin-bottom: 8px;
+				height: 36px;
+				border-radius: 2px;
+			}
+			
+			.flatButton:hover {
+				background: #999999;
+				opacity: 0.4;
+			}
+			
+			.close {
+				position: absolute;
+			}
+			
+			
+		}
+
+		.header-open {
+			@extend .header;
+			
+			height: 56px;
+			width: 100%;
+			
+			.close {
+				position: absolute;
+				right: 16px;
+			}
+			
+		}
+		
+		.header-close {
+			@extend .header;
+			
+			width: 56px;
+			height: 100%;
+			
+			.close {
+				position: absolute;
+				bottom: 16px;
+			}
+			
+		}
+
+ }

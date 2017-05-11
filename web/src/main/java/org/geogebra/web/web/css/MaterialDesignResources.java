@@ -40,4 +40,11 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/insert_photo_black.png")
 	ImageResource insert_photo_black();
 
+	// Toolbar resoures
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/open_white.png")
+	ImageResource toolbar_open_white();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_white.png")
+	ImageResource toolbar_close_white();
+
 }
