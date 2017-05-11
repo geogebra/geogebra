@@ -19,8 +19,10 @@ import java.net.URL;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.Util;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.GeoGebraServer;
 
 public class GeoGebra {
 
@@ -76,7 +78,11 @@ public class GeoGebra {
 		if (!args.getBooleanValue("showSplash", true)) {
 			showSplash = false;
 		}
-
+		if (args.containsArg("startHttpServer")) {
+			Log.error("startHttpServer");
+			new GeoGebraServer(args.getStringValue("startHttpServer"));
+			return;
+		}
 		if (args.containsArg("help") || args.containsArg("proverhelp")
 				|| args.containsArg("v")
 				|| args.containsArg("regressionFile")) {

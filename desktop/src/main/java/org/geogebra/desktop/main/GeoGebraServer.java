@@ -22,8 +22,8 @@ public class GeoGebraServer {
 	GgbAPI api;
 	private String secret;
 
-	public GeoGebraServer(App app, String secret) {
-		this.app = app;
+	public GeoGebraServer(String secret) {
+		this.app = new AppDNoGui(new LocalizationD(3), false);
 		api = app.getGgbApi();
 		this.secret = secret;
 
@@ -31,7 +31,6 @@ public class GeoGebraServer {
 		try {
 			// setup http://localhost:8000/test?123=456
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
-			server.createContext("/test", new MyHandler());
 			server.createContext("/json", new MyHandlerJSON());
 			server.start();
 		} catch (IOException e) {
@@ -39,17 +38,6 @@ public class GeoGebraServer {
 			e.printStackTrace();
 		}
 
-	}
-
-	class MyHandler implements HttpHandler {
-		public void handle(HttpExchange t) throws IOException {
-			Log.error("" + t.getRequestURI().getQuery());
-			String response = "This is the response" + Math.random();
-			t.sendResponseHeaders(200, response.length());
-			OutputStream os = t.getResponseBody();
-			os.write(response.getBytes());
-			os.close();
-		}
 	}
 
 	class MyHandlerJSON implements HttpHandler {
@@ -129,7 +117,7 @@ public class GeoGebraServer {
 			if (result.length() > 1) {
 				result.setCharAt(result.length() - 1, ']');
 			} else {
-				result.append('[');
+				result.append(']');
 			}
 			writeOutput(t, result.toString());
 			

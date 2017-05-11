@@ -904,12 +904,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			return;
 		}
 
-		if (args.containsArg("startHttpServer")) {
-			Log.error("startHttpServer");
-			new GeoGebraServer(this, args.getStringValue("startHttpServer"));
-			// new GgbHttpServer(this);
-		}
-
 		if (args.containsArg("showAlgebraInput")) {
 			boolean showInputBar = args.getBooleanValue("showAlgebraInput",
 					true);
