@@ -14,6 +14,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		jQueryNoConflict();
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
 		StyleInjector.inject(GuiResources.INSTANCE.mowStyle());
+		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());

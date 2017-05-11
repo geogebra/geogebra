@@ -1609,18 +1609,6 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	
 }
 
-.SpreadsheetEditorCell {
-	
-}
-
-.SpreadsheetEditorCell input, .SpreadsheetEditorCell input[type="text"] {
-	border-radius: 0px;
-	box-sizing: content-box;
-	-webkit-box-sizing: content-box;
-	padding: 1px 1px;
-	margin:-3px;	
-}
-
 .editorPanel {
 	padding-top: 1px;
 	padding-left: 1px;
@@ -1630,16 +1618,10 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
  * The view buttons for these stylebars should take all the remaining place
  * so that they will be right aligned
  */
-.SpreadsheetStyleBar td:last-child {
-	width: 100%;
-}
+
 
 .CASStyleBar td:last-child {
 	width: 100%;
-}
-
-.SpreadsheetWrapView {
-	background-color: #FFFFFF;
 }
 
 .geogebraweb-dummy-invisible {
@@ -1654,209 +1636,89 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	outline: 0px;
 }
 
-/**
- * According to the CSS2 specification, width will be the greater of
- * this width property and the computed width...
- */
-.geogebraweb-table-spreadsheet {
-	table-layout: fixed;
-	width: 0px;
-	cursor: default;
-	-ms-touch-action: none;
-	empty-cells: show;
-}
-
-.geogebraweb-table-spreadsheet td {
-	border-right: 1px solid #CCCCCC;
-	border-bottom: 1px solid #CCCCCC;
-	overflow: hidden;
-	padding: 2px 4px;
-	white-space: nowrap;
-	-ms-touch-action: none;
-}
-
-.geogebraweb-table-spreadsheet.off td {
-	border-right: 0px;
-	border-bottom: 0px;
-}
-
-.geogebraweb-table-spreadsheet.upperCorner {
-	border-collapse:collapse;
-}
-.geogebraweb-table-spreadsheet.upperCorner td {
-	background-color: #F8F8F8;
-	color: #F8F8F8 !important;
-}
-
-.geogebraweb-table-spreadsheet td.SVCenterTD {
-	overflow: hidden; /* for some reason, overflow:hidden only works well here */
-}
-
-.geogebraweb-table-spreadsheet td .SVCenterParent {
-	position: relative; /* needed as frame of absolute positioning of content */
-	overflow: visible; /* need overflow:hidden one level up */
-	height: 100%; /* required to follow the size of TD */
-	width: 100%; /* required to follow the size of TD */
-	top: 0px; /* might be required to follow the size of TD - works! */
-	left: 0px; /* might be required to follow the size of TD - works! */
-}
-
-.geogebraweb-table-spreadsheet td .SVCenterParent .SVCenterContent {
-	/* this hack is pretty fixed, although its parents can change */
-	position: absolute; /* needed for overflow to the left/top etc */
-	margin: auto; /* center to the center of .SVCenterParent (hack) */
-	top: -8192px; /* needed in case the image is bigger than the cell */
-	left: -8192px; /* needed in case the image is bigger than the cell */
-	bottom: -8192px; /* needed in case the image is bigger than the cell */
-	right: -8192px; /* needed in case the image is bigger than the cell */
-}
-
-.geogebraweb-table-spreadsheet td.SVheader {
-	padding-left: 0px;
-	padding-right: 0px;
-	text-align: center;
-	background-color: #F8F8F8;
-}
-
-.geogebraweb-table-spreadsheet td.SVheader.selected {
-	background-color: #CCCCFF;
-	color: #333333;
-	border-color: #999999;
-}
-
-.geogebraweb-table-spreadsheet-lowerLeftCorner {
-	border-right: 1px solid #CCCCCC;
-	padding: 0px 0px;
-}
-
-.geogebraweb-popup-spreadsheet {
-	z-index: 11;
-}
-
-.geogebraweb-popup-spreadsheet .gwt-MenuBar {
-	background-color: white;
-}
-
-.GeoGebraFrame{ 
-	.geogebraweb-button-spreadsheet,.geogebraweb-checkbox-spreadsheet,.geogebraweb-select-spreadsheet
-	{
-		position: relative;
-		z-index: 10;
-	}
-
- .geogebraweb-button-spreadsheet {
-	text-align: center;
-	width: 100%;
-	height: 100%;
-	padding: 0px !important;
-	margin: 0px !important;
-	}
-	
-	.geogebraweb-checkbox-spreadsheet {
-		display: -moz-inline-box;
-		display: inline-block;
-	}
-	
-	.geogebraweb-select-spreadsheet {
-		width: 100%;
-	}
-	
-	.geogebraweb-selectionframe-spreadsheet {
-		z-index: 6;
-		border-style: solid;
-		/*border-width: 2px;*/
-		border-color: #0000FF;
-		-ms-touch-action: none; /* prevent scrolling on IE tablets */
-	}
-}
 
 
 /*#####################################################################################
 ###       ALGEBRA INPUT
 #####################################################################################*/
-.GeoGebraFrame .AlgebraInput {
-	background-color: #F8F8F8;
-	border-top: 1px solid #DCDCDC;
-	display: table;
-	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
-	box-sizing: border-box;
-	width: 100%;
-	height: 43px; /* 100% breaks applets */
-	-moz-box-sizing: border-box;
-	z-index: 50;
+.GeoGebraFrame {
+	.AlgebraInput {
+		background-color: #F8F8F8;
+		border-top: 1px solid #DCDCDC;
+		display: table;
+		box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.5);
+		box-sizing: border-box;
+		width: 100%;
+		height: 43px; /* 100% breaks applets */
+		-moz-box-sizing: border-box;
+		z-index: 50;
+	}
+
+	.AlgebraInput>* {
+		display: table-cell;
+		vertical-align: middle;
+		text-align: center;
+	}
+
+	.AlgebraInputLabel {
+		padding: 0px 10px;
+	}
+
+	.InputPanel {
+		overflow: hidden;
+		padding-left:20px;
+	}
+
+	.AlgebraInput2 .InputPanel{
+		padding-left:50px;
+	}
+
+	.InputPanel .TextField {
+		width: 100%;
+		box-sizing: border-box;
+		-moz-box-sizing: border-box;
+	}
+
+	.InputPanel .html-face, .AutoCompleteTextFieldW .html-face {
+		cursor: hand;
+		cursor: pointer;
+	}
+
+	.inputHelp-toggleButton {
+		padding: 0px 10px;
+	}
+
+	.inputHelp-toggleButton img {
+		cursor: pointer;
+		padding-top: 4px;
+	}
+
+	.SymbolTable td {
+		padding: 5px;
+	}
+
+	.SymbolTable td:hover,.SymbolTable td.focus {
+		background: #CCCCFF;
+		color: #6666FF;
+	}
+
+	.historyList {
+		min-width: 200px;
+		font-size: inherit;
+		border: none;
+		margin: 0px;
+	}
+
+	.inputHelpToggleButton {
+		text-decoration: none;
+		border: none;
+		background: none;
+		width: 100%;
+	}
 }
-
-.AlgebraInput>* {
-	display: table-cell;
-	vertical-align: middle;
-	text-align: center;
-}
-
-.AlgebraInputLabel {
-	padding: 0px 10px;
-}
-
-.InputPanel {
-	overflow: hidden;
-	padding-left:20px;
-}
-
-.AlgebraInput2 .InputPanel{
-	padding-left:50px;
-}
-
-.InputPanel .TextField {
-	width: 100%;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
-}
-
-.InputPanel .html-face, .AutoCompleteTextFieldW .html-face {
-	cursor: hand;
-	cursor: pointer;
-}
-
-.inputHelp-toggleButton {
-	padding: 0px 10px;
-}
-
-.inputHelp-toggleButton img {
-	cursor: pointer;
-	padding-top: 4px;
-}
-
-.SymbolTable td {
-	padding: 5px;
-}
-
-.SymbolTable td:hover,.SymbolTable td.focus {
-	background: #CCCCFF;
-	color: #6666FF;
-}
-
-
-
-
-/*.InputPanel input.TextField {
-    display:block;
-}*/
-.historyList {
-	min-width: 200px;
-	font-size: inherit;
-	border: none;
-	margin: 0px;
-}
-
-.inputHelpToggleButton {
-	text-decoration: none;
-	border: none;
-	background: none;
-	width: 100%;
-}
-
-/*#####################################################################################
-###       TOOLTIP
-#####################################################################################*/
+	/*#####################################################################################
+	###       TOOLTIP
+	#####################################################################################*/
 .ToolTip {
 	display: block;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
@@ -1952,12 +1814,7 @@ body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent img {
 
 .AVmenuListContainer .AVmenuListContent .gwt-Label {
 	display: inline;
-	/*padding: 7px 5px 0 10px;*/
 }
-body.application[dir=rtl] .AVmenuListContainer .AVmenuListContent .gwt-Label {
-	/*padding: 7px 10px 0 5px;*/
-}
-
 
 .gwt-MenuBar-horizontal .toolbarItemSeparator {
 	width: 5px;
