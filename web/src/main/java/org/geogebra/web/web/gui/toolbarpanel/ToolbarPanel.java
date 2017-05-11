@@ -14,7 +14,6 @@ import com.google.gwt.user.client.ui.ToggleButton;
 
 
 public class ToolbarPanel extends FlowPanel {
-	private static final int OPEN_WIDTH = 600;
 	private static final int CLOSED_WIDTH = 56;
 
 	private Header header;
@@ -86,10 +85,16 @@ public class ToolbarPanel extends FlowPanel {
 	}
 
 	public void open() {
+		if (header.isOpen()) {
+			return;
+		}
 		header.setOpen(true);
 	}
 
 	public void close() {
+		if (!header.isOpen()) {
+			return;
+		}
 		header.setOpen(false);
 	}
 

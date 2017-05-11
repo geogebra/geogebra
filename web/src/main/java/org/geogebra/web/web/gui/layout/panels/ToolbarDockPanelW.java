@@ -8,6 +8,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ToolbarDockPanelW extends DockPanelW {
 
+	private static final int CLOSING_WIDTH = 86;
+	private ToolbarPanel toolbar;
+
 	public ToolbarDockPanelW(App app1) {
 		super(
 				App.VIEW_ALGEBRA, // view id
@@ -21,8 +24,17 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		return new ToolbarPanel(app);
+		toolbar = new ToolbarPanel(app);
+		return toolbar;
 	}
 
 
+	@Override
+	public void onResize() {
+		if (toolbar.getOffsetWidth() < CLOSING_WIDTH) {
+			toolbar.close();
+		} else {
+			toolbar.open();
+		}
+	}
 }
