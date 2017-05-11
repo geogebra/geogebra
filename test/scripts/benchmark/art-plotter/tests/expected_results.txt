@@ -55,6 +55,19 @@ Arbeo-B16-limacon 7,7,0,0,0,0,-12,0,1,0,0,-64,0,4,0,0,-64,0,-24,0,3,0,0,-64,0,8,
 # grobcov correctly removes the circle component:
 Arbeo-B16-limacon 5,5,0,0,-12,0,1,-16,0,0,0,0,-12,0,2,0,0,0,0,0,0,0,1,0,0,0,0
 
+# Noel Lambert's elementary examples
+Lambert-2-parallels 3,3,-9,0,1,0,-2,0,1,0,0
+Lambert-parallel-1 2,2,4,-1,1,0
+Lambert-parallel-2 2,2,-4,1,-1,0
+Lambert-Thales 3,3,-7,0,1,-6,0,0,1,0,0
+Lambert-bisector 2,2,15693,3550,-5300,0
+Lambert-circle-1 3,3,-15,0,1,-2,0,0,1,0,0
+Lambert-circle-2 3,3,-7,-2,1,2,0,0,1,0,0
+Lambert-circle-3 3,3,-14,-2,1,-2,0,0,1,0,0
+Lambert-circle-4 3,3,-4,0,1,0,0,0,1,0,0
+Lambert-line 2,2,-1,-1,1,0
+Lambert-angle-bisector 3,3,-93922266897,-49696812850,-3188529375,46332556050,23237751250,0,3188529375,0,0
+
 ## Example by Francisco Botana
 # grobcov correctly removes the circle component:
 limacon 7,7,576,-384,-116,120,-11,-6,1,0,0,0,0,0,0,0,-80,120,-22,-12,3,0,0,0,0,0,0,0,0,0,-11,-6,3,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0
