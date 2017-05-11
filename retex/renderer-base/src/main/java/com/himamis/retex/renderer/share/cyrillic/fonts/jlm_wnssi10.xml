@@ -545,7 +545,6 @@
       <Kern code="1103" val="-0.027779"/>
    </Char>
    <Char code="1090" width="0.458334" height="0.444445" italic="0.113913" >
-      <Lig code="1089" ligCode="1094"/>
       <Kern code="1076" val="-0.027779"/>
       <Kern code="1083" val="-0.027779"/>
       <Kern code="1113" val="-0.027779"/>
