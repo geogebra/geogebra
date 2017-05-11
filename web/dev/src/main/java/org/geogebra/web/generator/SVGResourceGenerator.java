@@ -85,7 +85,7 @@ public class SVGResourceGenerator extends AbstractResourceGenerator {
 		sw.println("public String getUrl() {");
 		sw.indent();
 		sw.println("return \"data:image/svg+xml;base64,\" + "
-				+ Base64Encoder.class.getName() + ".base64encode(svg);");
+				+ Base64Encoder.class.getName() + ".encodeBase64(svg);");
 		sw.outdent();
 		sw.println("}");
 
@@ -94,7 +94,7 @@ public class SVGResourceGenerator extends AbstractResourceGenerator {
 		sw.indent();
 		sw.println("return " + UriUtils.class.getName()
 		        + ".fromSafeConstant(\"data:image/svg+xml;base64,\" + "
-				+ Base64Encoder.class.getName() + ".base64encode(svg));");
+				+ Base64Encoder.class.getName() + ".encodeBase64(svg));");
 		sw.outdent();
 		sw.println("}");
 
