@@ -71,7 +71,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/css/web-styles.less")
 	LessResource modernStyle();
 
-
+	@Source("org/geogebra/web/resources/css/web-styles-global.less")
+	LessResource modernStyleGlobal();
 
 	// New less resources
 	@Source("org/geogebra/web/resources/css/definitions.less")
