@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -29,13 +28,13 @@ public class InputSuggestions implements HasSuggestions {
 
 	private AutoCompleteW component;
 
-	public InputSuggestions(App app, AutoCompleteW component) {
+	public InputSuggestions(AppW app, AutoCompleteW component) {
 		this.app = app;
 		this.component = component;
 		curWord = new StringBuilder();
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
-		sug = new ScrollableSuggestionDisplay(this);
+		sug = new ScrollableSuggestionDisplay(this, app.getPanel());
 
 	}
 
@@ -48,7 +47,7 @@ public class InputSuggestions implements HasSuggestions {
 		}
 	};
 
-	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
+	protected GSuggestBox.SuggestionCallback sugCallback = new GSuggestBox.SuggestionCallback() {
 		@Override
 		public void onSuggestionSelected(Suggestion s) {
 

@@ -42,6 +42,8 @@ import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.web.gui.inputfield.GSuggestBox;
+import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -72,8 +74,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
@@ -174,7 +174,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		CompletionsPopup completionsPopup = new CompletionsPopup();
-		textField = new ScrollableSuggestBox(completionsPopup, this) {
+		textField = new ScrollableSuggestBox(completionsPopup, this,
+				app.getPanel()) {
 			@Override
 			public void setText(String s) {
 				String oldText = super.getText();
@@ -1501,7 +1502,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		showSymbolButton.setDown(toggled);
 	}
 
-	public SuggestBox getTextField() {
+	public GSuggestBox getTextField() {
 		return textField;
 	}
 

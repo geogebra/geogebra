@@ -1,12 +1,13 @@
 package org.geogebra.web.html5.gui.view.autocompletion;
 
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.web.gui.inputfield.GSuggestBox;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -14,10 +15,14 @@ import com.google.gwt.user.client.ui.Widget;
  * @author bencze
  * Decorator class for SuggestBox
  */
-public class ScrollableSuggestBox extends SuggestBox {
+public class ScrollableSuggestBox extends GSuggestBox {
 
 	public static final class CustomSuggestionDisplay extends
 	        DefaultSuggestionDisplay {
+
+		public CustomSuggestionDisplay(Panel panel) {
+			super(panel);
+		}
 
 		@Override
 		protected Widget decorateSuggestionList(Widget suggestionList) {
@@ -26,8 +31,8 @@ public class ScrollableSuggestBox extends SuggestBox {
 		}
 
 		@Override
-		protected PopupPanel createPopup() {
-			PopupPanel su = super.createPopup();
+		protected GPopupPanel createPopup(Panel panel) {
+			GPopupPanel su = super.createPopup(panel);
 			su.addStyleName("ggb-AlgebraViewSuggestionPopup");
 			return su;
 		}
@@ -38,9 +43,10 @@ public class ScrollableSuggestBox extends SuggestBox {
 	 * Constructor for ScrollableSuggestBox
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
-	public ScrollableSuggestBox(SuggestOracle oracle, HasSymbolPopup hsp) {
+	public ScrollableSuggestBox(SuggestOracle oracle, HasSymbolPopup hsp,
+			Panel panel) {
 		super(oracle, new GTextBox(false, hsp),
-				new CustomSuggestionDisplay());
+				new CustomSuggestionDisplay(panel));
 	}
 
 	/**

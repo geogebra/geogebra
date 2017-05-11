@@ -4,6 +4,7 @@ import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -30,6 +31,9 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	protected boolean isShiftKeyDown;
 	protected boolean isMetaKeyDown;
 
+	public GTextBox(Element e) {
+		super(e);
+	}
 	public GTextBox() {
 		this(false, null);
 	}

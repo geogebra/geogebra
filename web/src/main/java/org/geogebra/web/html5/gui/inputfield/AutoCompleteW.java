@@ -3,7 +3,8 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
+import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
+
 import com.google.gwt.user.client.ui.Widget;
 
 public interface AutoCompleteW {

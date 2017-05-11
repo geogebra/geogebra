@@ -1,12 +1,12 @@
 package org.geogebra.web.web.gui.inputfield;
 
+import org.geogebra.web.html5.gui.GPopupPanel;
 //import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
+import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
 
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 import com.google.gwt.user.client.ui.Widget;
@@ -21,8 +21,8 @@ public final class ScrollableSuggestionDisplay extends
 	public final static int lineWidth = 29;
 	private HasSuggestions editor;
 
-	public ScrollableSuggestionDisplay(HasSuggestions ed) {
-		super();
+	public ScrollableSuggestionDisplay(HasSuggestions ed, Panel panel) {
+		super(panel);
 		this.editor = ed;
 	}
 
@@ -47,8 +47,8 @@ public final class ScrollableSuggestionDisplay extends
 	}
 
 	@Override
-	protected PopupPanel createPopup() {
-		PopupPanel su = super.createPopup();
+	protected GPopupPanel createPopup(Panel panel) {
+		GPopupPanel su = super.createPopup(panel);
 		su.addStyleName("ggb-AlgebraViewSuggestionPopup");
 		return su;
 	}
@@ -87,7 +87,7 @@ public final class ScrollableSuggestionDisplay extends
 	}
 
 	public void accessShowSuggestions(SuggestOracle.Response res,
-	        CompletionsPopup pop, SuggestBox.SuggestionCallback xcb) {
+			CompletionsPopup pop, GSuggestBox.SuggestionCallback xcb) {
 		showSuggestions(null, res.getSuggestions(),
 		        pop.isDisplayStringHTML(), true, xcb);
 
