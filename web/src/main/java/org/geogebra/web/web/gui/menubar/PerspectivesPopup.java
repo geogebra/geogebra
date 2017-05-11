@@ -96,11 +96,23 @@ public class PerspectivesPopup {
 		contentPanel.add(examRow);
 
 		// add link to tutorials
-		HorizontalPanel tutorialsRow = addPerspectiveRow(
-				GuiResources.INSTANCE.icon_help(),
-				"Tutorials", -2, 8);
-		tutorialsRow.addStyleName("upperBorder");
-		contentPanel.add(tutorialsRow);
+		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
+			// contentPanel.add(new Image(ImgResourceHelper
+			// .safeURI(GuiResources.INSTANCE.icon_help())));
+
+			// String image = "<img src=\"" + PerspectiveResources.INSTANCE
+			// .app_store().getSafeUri().asString() + "\" >";
+			// contentPanel.add(new Image(image));
+			
+			// ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources().app_store()
+
+		} else {
+			HorizontalPanel tutorialsRow = addPerspectiveRow(
+					GuiResources.INSTANCE.icon_help(), "Tutorials", -2, 8);
+			tutorialsRow.addStyleName("upperBorder");
+			contentPanel.add(tutorialsRow);
+
+		}
 
 		box.getCaption()
 				.setText(app.getLocalization().getMenu("CreateYourOwn"));

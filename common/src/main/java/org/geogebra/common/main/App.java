@@ -4238,6 +4238,10 @@ public abstract class App implements UpdateSelection {
 		case TICK_NUMBERS_AT_EDGE:
 			return prerelease;
 
+		case STORE_IMAGES_ON_APPS_PICKER:
+			return prerelease;
+
+
 		case NEW_TOOLBAR:
 			return false;
 

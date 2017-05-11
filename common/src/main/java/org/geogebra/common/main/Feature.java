@@ -229,6 +229,9 @@ public enum Feature {
 	/** GGB-1686 */
 	TICK_NUMBERS_AT_EDGE,
 
+	/** GGB-1756 */
+	STORE_IMAGES_ON_APPS_PICKER,
+
 	/** GGB-1732 */
 	AV_PLAY_ONLY,
 

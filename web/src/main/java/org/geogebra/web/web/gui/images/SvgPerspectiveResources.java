@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.images;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.TextResource;
 
 /**
  * SVGs of the main buttons
@@ -128,5 +129,8 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_whiteboard.svg")
 	SVGResource menu_icon_whiteboard24();
 
+	//@Override
+	//@Source("org/geogebra/common/icons/svg/web/app_store.svg")
+	//TextResource app_store();
 
 }
