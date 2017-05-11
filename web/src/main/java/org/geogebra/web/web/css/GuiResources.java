@@ -2,6 +2,7 @@ package org.geogebra.web.web.css;
 
 import org.geogebra.web.html5.util.LessResource;
 import org.geogebra.web.resources.LessReference;
+import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
@@ -438,4 +439,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/exam/css/exam.less")
 	LessReference examStyle();
+
+	@Source("org/geogebra/web/resources/scss/mow.scss")
+	SassResource mowStyle();
 }

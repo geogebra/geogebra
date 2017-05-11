@@ -5,6 +5,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
+import org.geogebra.web.web.css.GuiResources;
 
 public class ResourcesInjectorReTeX extends ResourcesInjector {
 	@Override
@@ -12,6 +13,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
 		jQueryNoConflict();
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
+		StyleInjector.inject(GuiResources.INSTANCE.mowStyle());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
