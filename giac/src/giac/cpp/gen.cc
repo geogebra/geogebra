@@ -15159,7 +15159,8 @@ namespace giac {
 	});
 #endif // GIAC_GGB
       //CERR << gwidth << endl;
-      if (ratio<gratio/3 || ratio>3*gratio) ortho=false; else ortho=true;
+      int maxgratio=ortho?10:3;
+      if (ratio<gratio/maxgratio || ratio>maxgratio*gratio) ortho=false; else ortho=true;
       if (ortho){
 	if (ratio>gratio){ // yscale>gratio*xscale, use yscale for x
 	  double xc=(window_xmax+window_xmin)/2;

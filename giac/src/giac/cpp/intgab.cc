@@ -859,8 +859,7 @@ namespace giac {
     return subst(g,inv_v,applyinv_v,false,contextptr);
   }
 
-  // if true put int(g,x=a..b) into res
-  bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,GIAC_CONTEXT){
+  static bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,bool nonrecursive,GIAC_CONTEXT){
     if (x.type!=_IDNT)
       return false;
     if (is_zero(g0)){
@@ -1238,8 +1237,8 @@ namespace giac {
       gm=subst(g0,x,tt+(a+b)/2,false,contextptr);
       eo=is_even_odd(gm,tt,contextptr);
     }
-    if (eo==1){
-      if (!intgab(g0,x,a,(a+b)/2,res,contextptr))
+    if (!nonrecursive && eo==1){
+      if (!intgab(g0,x,a,(a+b)/2,res,true,contextptr))
 	return false;
       res=2*res;
       return true;
@@ -1378,6 +1377,11 @@ namespace giac {
     }
 #endif
     return false;
+  }
+
+  // if true put int(g,x=a..b) into res
+  bool intgab(const gen & g0,const gen & x,const gen & a,const gen & b,gen & res,GIAC_CONTEXT){
+    return intgab(g0,x,a,b,res,false,contextptr);
   }
 
   static gen quotesubstcheck(const gen & g,const gen & x,const gen & i,const vecteur & v,GIAC_CONTEXT){
