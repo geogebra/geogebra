@@ -3,7 +3,6 @@ package org.geogebra.web.html5.gui.view.autocompletion;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.HasSymbolPopup;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
-import org.geogebra.web.web.gui.inputfield.GSuggestBox;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.Panel;

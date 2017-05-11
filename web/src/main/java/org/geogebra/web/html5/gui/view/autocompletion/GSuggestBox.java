@@ -1,4 +1,4 @@
-package org.geogebra.web.web.gui.inputfield;
+package org.geogebra.web.html5.gui.view.autocompletion;
 
 import java.util.Collection;
 import java.util.List;

@@ -3,7 +3,8 @@ package org.geogebra.web.web.gui.inputfield;
 import org.geogebra.web.html5.gui.GPopupPanel;
 //import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
-import org.geogebra.web.web.gui.inputfield.GSuggestBox.DefaultSuggestionDisplay;
+import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
+import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox.DefaultSuggestionDisplay;
 
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.ScrollPanel;

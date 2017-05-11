@@ -11,6 +11,7 @@ import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
+import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.SuggestOracle;
