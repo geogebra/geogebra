@@ -2242,12 +2242,12 @@
 	}
 	
 	.consProtNav button.gwt-Button:active, 
-	.Tablet .consProtNav button.gwt-Button:active {
+	&.Tablet .consProtNav button.gwt-Button:active {
 		border: 1px solid #6666FF !important;
 	}
 	
 	/* no border-color for touch */
-	.Tablet .consProtNav button.gwt-Button:hover {
+	&.Tablet .consProtNav button.gwt-Button:hover {
 		border: 1px solid #CDCDCD;
 	}
 
@@ -2277,7 +2277,7 @@
 		top: 2px;
 	}
 	.consProtNav .navbar_btOpenWindow.consProtIsOpen, 
-	.Tablet .consProtNav button.navbar_btOpenWindow.consProtIsOpen {
+	&.Tablet .consProtNav button.navbar_btOpenWindow.consProtIsOpen {
 		border-color: #6666FF;
 	}
 	
@@ -2714,10 +2714,9 @@
 	.elemHeadingName {
 		padding: 15px 10px 10px 40px;
 	}
-	
-	
-	.Tablet .elemHeadingName,
-	.Tablet .gwt-InlineHTML {
+
+	&.Tablet .elemHeadingName,
+	&.Tablet .gwt-InlineHTML {
 		font-size: 115%;
 	}
 	
@@ -2725,15 +2724,14 @@
 		padding: 10px 10px 10px 0px;
 		cursor: default;
 	}
-	
+
 	.algebraOpenButton {
 		position: absolute;
 		top: 17px;
 		left: 10px;
 	}
 
-
-	 .avItem,
+	.avItem,
 	.avItem .gwt-TreeItem,
 	.avItem .gwt-TreeItem >* {
 		width: 100%;
