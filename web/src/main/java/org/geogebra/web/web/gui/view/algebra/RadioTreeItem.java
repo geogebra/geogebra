@@ -37,7 +37,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -53,6 +52,7 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
+import org.geogebra.web.web.gui.util.Resizer;
 import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -940,8 +940,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public void setItemWidth(int width) {
 		if (getOffsetWidth() != width) {
 			if (isInputTreeItem()) {
-				getWidget().getElement().getParentElement().getStyle()
-						.setWidth(width, Unit.PX);
+				Element inputParent = getWidget().getElement().getParentElement();
+				Resizer.setPixelWidth(inputParent, width);
+
 			} else {
 				setWidth(width + "px");
 			}
