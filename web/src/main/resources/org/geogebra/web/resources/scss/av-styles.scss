@@ -1,3 +1,7 @@
+@import 'colors';
 .avStyle {
-
+	.avHeader {
+		background-color: $av-header;
+		height: 56px;
+	}
 }

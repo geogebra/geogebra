@@ -578,7 +578,7 @@ public class AppWapplet extends AppWFull {
 		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
 				.setPosition(Position.RELATIVE);
-		if (getGuiManager().hasAlgebraView() && showView(App.VIEW_ALGEBRA)) {
+		if (!has(Feature.NEW_TOOLBAR) && getGuiManager().hasAlgebraView() && showView(App.VIEW_ALGEBRA)) {
 			((AlgebraViewW) getAlgebraView())
 					.setShowAlgebraInput(showAlgebraInput()
 							&& getInputPosition() == InputPosition.algebraView);

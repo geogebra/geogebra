@@ -1861,7 +1861,10 @@ public class DockManagerW extends DockManager {
 		}
 
 		AlgebraViewW av = ((AlgebraViewW) app.getAlgebraView());
-		double avHeight = kbHeight + av.getInputTreeItem().getOffsetHeight();
+		double avHeight = kbHeight;
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			avHeight += av.getInputTreeItem().getOffsetHeight();
+		}
 
 		double portraitDivider = avHeight / app.getHeight();
 

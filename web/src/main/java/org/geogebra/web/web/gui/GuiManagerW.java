@@ -94,6 +94,7 @@ import org.geogebra.web.web.gui.layout.panels.FunctionInspectorDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ProbabilityCalculatorDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.PropertiesDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.SpreadsheetDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
@@ -813,8 +814,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(app));
 
-		// register algebra view
-		layout.registerPanel(new AlgebraDockPanelW(app));
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			// register toolbar panel
+			layout.registerPanel(new ToolbarDockPanelW(app));
+		}
+		else {
+			// register algebra view
+			layout.registerPanel(new AlgebraDockPanelW(app));
+		}
 
 		// register CAS view
 		layout.registerPanel(new CASDockPanelW(app));
@@ -968,6 +975,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void attachAlgebraView() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		getAlgebraView();
 		algebraView.attachView();
 	}
