@@ -147,7 +147,6 @@
    <Char code="1097" width="0.524996" height="0.430555" depth="0.13889" />
    <Char code="1096" width="0.524996" height="0.430555" >
       <Lig code="1095" ligCode="1097"/>
-      <Lig code="1094" ligCode="0"/>
    </Char>
    <Char code="1099" width="0.524996" height="0.430555" >
       <Lig code="1072" ligCode="1103"/>

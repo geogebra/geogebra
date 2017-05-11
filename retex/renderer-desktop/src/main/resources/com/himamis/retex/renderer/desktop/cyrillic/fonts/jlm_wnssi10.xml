@@ -568,7 +568,6 @@
    <Char code="1097" width="0.7777815" height="0.444445" depth="0.162038" italic="0.04169" />
    <Char code="1096" width="0.76667" height="0.444445" italic="0.04169" >
       <Lig code="1095" ligCode="1097"/>
-      <Lig code="1094" ligCode="0"/>
    </Char>
    <Char code="1099" width="0.683336" height="0.444445" italic="0.04169" >
       <Lig code="1072" ligCode="1103"/>
