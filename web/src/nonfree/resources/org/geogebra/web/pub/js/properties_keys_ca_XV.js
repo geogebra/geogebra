@@ -1702,7 +1702,7 @@ __GGB__keysVar.ca_XV.menu = {
     "EstimatedValue": "Valor estimat",
     "Evaluate": "Avalua",
     "Evaluate.Help": "Avaluaci\xf3 exacta",
-    "ExamCAS": "GeoGebra Exam CAS",
+    "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",

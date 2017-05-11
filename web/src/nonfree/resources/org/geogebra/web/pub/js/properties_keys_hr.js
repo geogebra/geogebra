@@ -1702,7 +1702,7 @@ __GGB__keysVar.hr.menu = {
     "EstimatedValue": "O\u010dekivana vrijednost",
     "Evaluate": "Izra\u010dunaj",
     "Evaluate.Help": "Ra\u010duna to\u010dnu vrijednost",
-    "ExamCAS": "GeoGebra Exam CAS",
+    "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra ispitni mod - grafi\u010dki kalkulator",
     "ExamGraphingCalc.short": "Grafi\u010dki ispit",
     "ExamSimpleCalc.long": "GeoGebra ispitni mod - jedostavni kalkulator",

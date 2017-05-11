@@ -1702,7 +1702,7 @@ __GGB__keysVar.pl.menu = {
     "EstimatedValue": "Warto\u015b\u0107 oczekiwana",
     "Evaluate": "Symbolicznie",
     "Evaluate.Help": "Wynik dok\u0142adny",
-    "ExamCAS": "GeoGebra Exam CAS",
+    "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",

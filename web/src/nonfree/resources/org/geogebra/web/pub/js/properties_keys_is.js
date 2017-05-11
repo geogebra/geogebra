@@ -1702,7 +1702,7 @@ __GGB__keysVar.is.menu = {
     "EstimatedValue": "Meti\xf0 gildi",
     "Evaluate": "N\xe1kv\xe6mt gildi",
     "Evaluate.Help": "N\xe1kv\xe6mt reikna\xf0 gildi",
-    "ExamCAS": "GeoGebra Exam CAS",
+    "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Pr\xf3fhamur graf\xedsks vasareiknis",
     "ExamGraphingCalc.short": "Exam Graphing",
     "ExamSimpleCalc.long": "Pr\xf3fhamur einfalds GeoGebra vasareiknis",
