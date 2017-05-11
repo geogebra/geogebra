@@ -1,10 +1,12 @@
 package org.geogebra.common.gui.toolcategorization;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * Created by mathieu on 11/05/17.
@@ -16,9 +18,6 @@ public class ToolCategorization {
 
     public enum Category {
         BASIC("Basic"), LINES("Lines"), CIRCLES("Circles");
-//
-//        static private int categoriesLength;
-//        private int id;
 
         private final String header;
 
@@ -32,6 +31,7 @@ public class ToolCategorization {
     }
 
     private TreeMap<Category, ArrayList<Integer>> categoriesMap;
+    private TreeSet<Integer> availableTools;
 
     private App app;
 
@@ -68,6 +68,15 @@ public class ToolCategorization {
             ret = storeTools(category);
         }
         return ret;
+    }
+
+    public void resetTools(String toolbarDef) {
+        if (toolbarDef == null) {
+            this.availableTools = null;
+        } else {
+            this.availableTools = ToolBar.toSet(toolbarDef);
+        }
+        categoriesMap.clear();
     }
 
     private ArrayList<Integer> storeTools(Category category) {
@@ -115,6 +124,8 @@ public class ToolCategorization {
     }
 
     final private void addToList(ArrayList<Integer> toolList, int mode) {
-        toolList.add(mode);
+        if (availableTools == null || availableTools.contains(mode)) {
+            toolList.add(mode);
+        }
     }
 }

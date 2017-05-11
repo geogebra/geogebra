@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.toolbar;
 
 import java.util.List;
+import java.util.TreeSet;
 import java.util.Vector;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -1362,8 +1363,42 @@ public class ToolBar {
 					"17 26 62 73 14 66 68" },
 			{ "25 52 60 61" }, { "40 41 42 27 28 35 6" } };
 
+	/**
+	 * any toolbar composed of a set of following menus should be considered as
+	 * default toolbar
+	 */
+	static private final String[][] DEFAULT_TOOLBAR = {
+			{"0 39 73 62 110"},
+			{"1 501 67 5 19 72 75 76"},
+			{"2 15 45 18 65 7 37"},
+			{"4 3 8 9 13 44 58 47"},
+			{"16 51 64 70"},
+			{"10 34 53 11 24 20 22 21 23"},
+			{"55 56 57 12"},
+			{"36 46 38 49 50 71 14 68"},
+			{"30 29 54 32 31 33"},
+			{"25 17 26 60 52 61"},
+			{"40 41 42 27 28 35 6"}
+	};
+
 	final static public boolean isOldDefaultToolbar(String definition) {
 
+		if (definition == null) {
+			return false;
+		}
+
+		String def2 = definition.replaceAll(",", ""); // remove comas
+		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
+		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
+		// bars
+		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+
+		String[] split = def2.split(" \\| "); // split by tool menus
+
+		return isDefaultToolbar(split, DEFAULT_TOOLBAR_PRE_5_0_280);
+	}
+
+	final static public boolean isDefaultToolbar(String definition) {
 		// Log.debug("\n"+definition);
 
 		if (definition == null) {
@@ -1373,36 +1408,29 @@ public class ToolBar {
 		String def2 = definition.replaceAll(",", ""); // remove comas
 		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
 		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
-													// bars
+		// bars
 		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
 
 		String[] split = def2.split(" \\| "); // split by tool menus
 
-		// Log.debug("lengths:"+split.length+"/"+DEFAULT_TOOLBAR_PRE_5_0_280.length);
-		//
-		// for (int i = 0 ; i < DEFAULT_TOOLBAR_PRE_5_0_280.length && i <
-		// split.length; i++){
-		// String menu = split[i];
-		// String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
-		// String out = "\n"+menu+"/";
-		// for (int j = 0 ; j < defaults.length ; j++){
-		// out+=defaults[j]+",";
-		// }
-		// Log.debug(out);
-		// }
+		if (isDefaultToolbar(split, DEFAULT_TOOLBAR_PRE_5_0_280)) {
+			return true;
+		}
 
-		if (split.length != DEFAULT_TOOLBAR_PRE_5_0_280.length) {
+		return isDefaultToolbar(split, DEFAULT_TOOLBAR);
+	}
+
+	final static public boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
+
+		if (split.length != defaultToolbar.length) {
 			return false;
 		}
 
-		// Log.debug("\ntest");
-
-		for (int i = 0; i < DEFAULT_TOOLBAR_PRE_5_0_280.length; i++) {
+		for (int i = 0; i < defaultToolbar.length; i++) {
 			boolean found = false;
 			String menu = split[i];
-			String[] defaults = DEFAULT_TOOLBAR_PRE_5_0_280[i];
+			String[] defaults = defaultToolbar[i];
 			for (int j = 0; j < defaults.length && !found; j++) {
-				// Log.debug("\n"+menu+"/"+defaults[j]);
 				if (defaults[j].equals(menu)) {
 					found = true;
 				}
@@ -1412,9 +1440,28 @@ public class ToolBar {
 			}
 		}
 
-		// Log.debug("\n >> default toolbar");
-
 		return true;
+	}
+
+	final static public TreeSet<Integer> toSet(String definition) {
+		String def2 = definition.replaceAll(",", ""); // remove comas
+		def2 = def2.replaceAll("\\|", " "); // remove vertical bars
+		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+
+		String[] split = def2.split(" "); // split by tool menus
+
+		TreeSet<Integer> ret = new TreeSet<Integer>();
+		for (String s : split) {
+			try {
+				int mode = Integer.parseInt(s);
+				ret.add(mode);
+			} catch (NumberFormatException e) {
+				// not an integer
+			}
+		}
+
+		return ret;
+
 	}
 
 }
