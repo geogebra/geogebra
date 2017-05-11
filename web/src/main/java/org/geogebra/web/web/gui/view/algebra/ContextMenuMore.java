@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -16,8 +15,6 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.web.MathFieldW;
 
 public class ContextMenuMore implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
@@ -42,7 +39,7 @@ public class ContextMenuMore implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addDuplicateItem();
-		addCloseItem();
+		addDeleteItem();
 		// wrappedPopup.addSeparator();
 		addPropertiesItem();
 	}
@@ -82,7 +79,7 @@ public class ContextMenuMore implements SetLabels {
 		wrappedPopup.addItem(mi);
 	}
 		
-	private void addCloseItem() {
+	private void addDeleteItem() {
 		String img = AppResources.INSTANCE.delete_black().getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,

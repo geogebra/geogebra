@@ -447,4 +447,11 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/exam/css/exam.less")
 	LessReference examStyle();
+
+	// NEW TOOLBAR ICONS
+	@Source("org/geogebra/common/icons/png/toolbar/more_vert_black_24x24.png")
+	ImageResource more_vert_black();
+
+	@Source("org/geogebra/common/icons/png/toolbar/more_vert_purple_24x24.png")
+	ImageResource more_vert_purple();
 }

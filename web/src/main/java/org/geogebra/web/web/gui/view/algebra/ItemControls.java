@@ -12,10 +12,6 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -99,9 +95,9 @@ public class ItemControls extends FlowPanel {
 	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
 			btnMore = new ToggleButton(
-					new Image(GuiResources.INSTANCE.dots()));
+					new Image(GuiResources.INSTANCE.more_vert_black()));
 			btnMore.getUpHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.dots_hover()));
+					GuiResources.INSTANCE.more_vert_purple()));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			ClickStartHandler.init(btnMore, new ClickStartHandler() {
