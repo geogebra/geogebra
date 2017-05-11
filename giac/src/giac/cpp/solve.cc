@@ -2180,6 +2180,8 @@ namespace giac {
       return res;
     }
     if (e.type==_VECT){
+      if (x.type==_IDNT && lvarx(e,x,contextptr)==vecteur(1,x))
+	return solve(_gcd(e,contextptr),x,isolate_mode,contextptr);
       const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
       gen curx=x._IDNTptr->eval(1,x,contextptr);
       res=vecteur(1,x); // everything is solution up to now
