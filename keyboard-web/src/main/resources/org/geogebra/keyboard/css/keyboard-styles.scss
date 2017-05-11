@@ -75,8 +75,11 @@ $tab123-width: 644px;
 		color: $black;
 		box-shadow: none;
 		font-family: geogebra-sans-serif;
-		position: relative;
 		padding: 5px 0;
+	}
+	
+	.KeyBoard {
+		position: relative;
 	}
 	
 	.TabbedKeyBoard.KeyBoard{
