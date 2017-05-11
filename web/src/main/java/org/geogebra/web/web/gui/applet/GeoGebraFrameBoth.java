@@ -405,7 +405,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * Scroll to the input-field, if the input-field is in the algebraView.
 	 */
 	void scrollToInputField() {
-		if (app.showAlgebraInput()
+		if (!app.has(Feature.NEW_TOOLBAR) && app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView) {
 			AlgebraDockPanelW dp = (AlgebraDockPanelW) (app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
