@@ -25,8 +25,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/settings_black.png")
 	ImageResource settings_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/content_copy_black.png")
-	ImageResource copy_content_black();
+	// @Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/content_copy_black.png")
+	// ImageResource copy_content_black();
 
 
 	// plus menu icon resources
