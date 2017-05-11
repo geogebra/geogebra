@@ -177,7 +177,7 @@ echo
 
 # Content
 TESTS=0
-for i in `find -name '*.ggb' | sort`; do
+for i in `find tests -name '*.ggb' | sort`; do
  TESTS=$((TESTS+1))
  # Creating thumbnail:
  cd $MYDIR
