@@ -31,7 +31,7 @@ public class GeoGebraServer {
 		try {
 			// setup http://localhost:8000/test?123=456
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
-			server.createContext("v0.1/json", new MyHandlerJSON());
+			server.createContext("v0.1", new MyHandlerJSON());
 			server.start();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
