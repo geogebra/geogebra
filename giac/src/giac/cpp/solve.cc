@@ -2175,8 +2175,9 @@ namespace giac {
       }
       if (x.type==_VECT )
 	return gsolve(gen2vecteur(e),*x._VECTptr,complexmode,(approx_mode(contextptr)?1:0),contextptr);
-      identificateur xx("x");
+      identificateur xx("x_solve");
       res=solve(subst(e,x,xx,false,contextptr),xx,isolate_mode,contextptr);
+      res=subst(res,xx,x,false,contextptr);
       return res;
     }
     if (e.type==_VECT){
