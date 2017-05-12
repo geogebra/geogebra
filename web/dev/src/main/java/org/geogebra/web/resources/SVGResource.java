@@ -24,6 +24,7 @@ import com.google.gwt.resources.client.DataResource;
 import com.google.gwt.resources.ext.DefaultExtensions;
 import com.google.gwt.resources.ext.ResourceGeneratorType;
 //import org.vectomatic.dom.svg.OMSVGSVGElement;
+import com.google.gwt.safehtml.shared.SafeUri;
 
 /**
  * A resource that contains SVG that should be incorporated into the compiled output. 
@@ -36,5 +37,9 @@ import com.google.gwt.resources.ext.ResourceGeneratorType;
 @ResourceGeneratorType(SVGResourceGenerator.class)
 public interface SVGResource extends DataResource {
 	//this is a hacked version of SVGResource, alll fancy stuff is gone
+	/**
+	 * Override this explicitly for dev mode to work properly
+	 */
+	SafeUri getSafeUri();
 }
 
