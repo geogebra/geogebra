@@ -1800,11 +1800,5 @@ public class EuclidianStyleBarD extends JToolBar
 		// TODO Auto-generated method stub
 		
 	}
-	
-	@Override
-	public boolean isDynamicStylebarHit(int x, int y) {
-		// implemented for dynamic stylebar on web
-		return false;
-	}
 
 }

@@ -1812,12 +1812,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	@Override
-	public boolean isDynamicStylebarHit(int x, int y) {
-		// overwritten in DynamicStyleBar class
-		return false;
-	}
-
-	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		if (btnContextMenu != null) {
