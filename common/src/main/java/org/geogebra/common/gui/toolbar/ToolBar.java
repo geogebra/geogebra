@@ -1381,46 +1381,75 @@ public class ToolBar {
 			{"40 41 42 27 28 35 6"}
 	};
 
+	/**
+	 * any toolbar composed of a set of following menus should be considered as
+	 * default toolbar
+	 */
+	static private final String[][] DEFAULT_TOOLBAR_3D = {
+			{"0"},
+			{"1 501 5 19 67"},
+			{"2 15 45 18 7 37"},
+			{"514 3 9 13 44 47"},
+			{"16"},
+			{"551 550 11 20 22 21 23 55 56 57 12"},
+			{"69"},
+			{"510 511 512 513"},
+			{"533 531 534 532 522 523 537 536 535"},
+			{"521 520"},
+			{"36 38 49 560"},
+			{"571 30 29 570 31 33"},
+			{"17"},
+			{"540 40 41 42 27 28 35 6 502"}
+	};
+
+	final static private String[] split(String definition) {
+		String def2 = definition.replaceAll(",", ""); // remove comas
+		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
+		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
+		// bars
+		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+
+		return def2.split(" \\| "); // split by tool menus
+	}
+
 	final static public boolean isOldDefaultToolbar(String definition) {
 
 		if (definition == null) {
 			return false;
 		}
 
-		String def2 = definition.replaceAll(",", ""); // remove comas
-		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
-		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
-		// bars
-		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+		String[] defSplit = split(definition);
 
-		String[] split = def2.split(" \\| "); // split by tool menus
-
-		return isDefaultToolbar(split, DEFAULT_TOOLBAR_PRE_5_0_280);
+		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_PRE_5_0_280);
 	}
 
 	final static public boolean isDefaultToolbar(String definition) {
-		// Log.debug("\n"+definition);
 
 		if (definition == null) {
 			return false;
 		}
 
-		String def2 = definition.replaceAll(",", ""); // remove comas
-		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
-		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
-		// bars
-		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+		String[] defSplit = split(definition);
 
-		String[] split = def2.split(" \\| "); // split by tool menus
-
-		if (isDefaultToolbar(split, DEFAULT_TOOLBAR_PRE_5_0_280)) {
+		if (isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_PRE_5_0_280)) {
 			return true;
 		}
 
-		return isDefaultToolbar(split, DEFAULT_TOOLBAR);
+		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR);
 	}
 
-	final static public boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
+	final static public boolean isDefaultToolbar3D(String definition) {
+
+		if (definition == null) {
+			return false;
+		}
+
+		String[] defSplit = split(definition);
+
+		return isDefaultToolbar(defSplit, DEFAULT_TOOLBAR_3D);
+	}
+
+	final static private boolean isDefaultToolbar(String[] split, String[][] defaultToolbar) {
 
 		if (split.length != defaultToolbar.length) {
 			return false;

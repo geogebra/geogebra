@@ -16,7 +16,8 @@ public class ToolCategorization {
     public enum Type {GEOMETRY, GRAPHING_CALCULATOR, GRAPHER_3D}
 
     public enum Category {
-        BASIC("Basic"), LINES("Lines"), CIRCLES("Circles");
+        BASIC("Basic"), LINES("Lines"), CIRCLES("Circles"),
+        PLANES("Planes");
 
         private final String header;
 
@@ -103,7 +104,6 @@ public class ToolCategorization {
         switch (type) {
             case GEOMETRY:
             case GRAPHING_CALCULATOR:
-            case GRAPHER_3D:
             default:
                 category = Category.BASIC;
                 tools = new ArrayList<Integer>();
@@ -147,6 +147,45 @@ public class ToolCategorization {
                 addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
                 storeIfNotEmpty(category, tools);
                 break;
+
+            case GRAPHER_3D:
+                category = Category.BASIC;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_MOVE);
+                addToList(tools, EuclidianConstants.MODE_POINT);
+                addToList(tools, EuclidianConstants.MODE_SEGMENT);
+                addToList(tools, EuclidianConstants.MODE_JOIN);
+                addToList(tools, EuclidianConstants.MODE_SPHERE_TWO_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CUBE);
+                addToList(tools, EuclidianConstants.MODE_INTERSECT);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.LINES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
+                addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
+                addToList(tools, EuclidianConstants.MODE_PARALLEL);
+                addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
+                addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
+                addToList(tools, EuclidianConstants.MODE_SEGMENT);
+                addToList(tools, EuclidianConstants.MODE_JOIN);
+                addToList(tools, EuclidianConstants.MODE_RAY);
+                addToList(tools, EuclidianConstants.MODE_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_POLYLINE);
+                addToList(tools, EuclidianConstants.MODE_TANGENTS);
+                addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_INTERSECTION_CURVE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.PLANES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_PLANE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_PLANE);
+                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL_PLANE);
+                addToList(tools, EuclidianConstants.MODE_PARALLEL_PLANE);
+                storeIfNotEmpty(category, tools);
+                break;
+
         }
 
 
