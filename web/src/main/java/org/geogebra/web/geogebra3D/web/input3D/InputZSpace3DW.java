@@ -89,6 +89,10 @@ public class InputZSpace3DW extends Input3D {
 
 	@Override
 	public boolean update() {
+		
+		if (zSpace == null) {
+			return false;
+		}
 
 		// set screen dimensions
 		RootPanel rootPanel = RootPanel.get();
@@ -166,7 +170,7 @@ public class InputZSpace3DW extends Input3D {
 		handleButtons();
 
 
-		return false;
+		return true;
 	}
 
 	@Override

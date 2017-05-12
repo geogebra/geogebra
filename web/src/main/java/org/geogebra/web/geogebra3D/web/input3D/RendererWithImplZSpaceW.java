@@ -3,8 +3,12 @@ package org.geogebra.web.geogebra3D.web.input3D;
 import org.geogebra.common.main.App;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
+import org.geogebra.web.html5.util.DynamicScriptElement;
+import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
@@ -20,8 +24,64 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 	public RendererWithImplZSpaceW(EuclidianViewInput3DW view) {
 		super(view);
-		zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
-		((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
+
+		DynamicScriptElement script = (DynamicScriptElement) Document.get()
+				.createScriptElement();
+		script.setSrc(GWT.getModuleBaseURL() + "js/gl-matrix-min.js");
+		ScriptLoadCallback scriptCallback = new ScriptLoadCallback() {
+			private boolean canceled = false;
+			@Override
+			public void onLoad() {
+				if (canceled) {
+					return;
+				}
+				DynamicScriptElement script = (DynamicScriptElement) Document.get()
+						.createScriptElement();
+				script.setSrc(GWT.getModuleBaseURL() + "js/zSpace.js");
+				ScriptLoadCallback scriptCallback = new ScriptLoadCallback() {
+					private boolean canceled = false;
+					@Override
+					public void onLoad() {
+						// create zspace object
+						zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
+						((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
+						if (canceled) {
+							return;
+						}
+					}
+
+					@Override
+					public void onError() {
+						if (canceled) {
+							return;
+						}
+					}
+
+					public void cancel() {
+						canceled = true;
+
+					}
+
+				};
+				script.addLoadHandler(scriptCallback);
+				Document.get().getBody().appendChild(script);
+			}
+
+			@Override
+			public void onError() {
+				if (canceled) {
+					return;
+				}
+			}
+
+			public void cancel() {
+				canceled = true;
+
+			}
+
+		};
+		script.addLoadHandler(scriptCallback);
+		Document.get().getBody().appendChild(script);
 
 	}
 
@@ -62,6 +122,11 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 	@Override
 	public void drawScene() {
+		
+		if (zSpace == null) {
+			super.drawScene();
+			return;
+		}
 
 		// give canvas position to zSpace
 		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
@@ -83,16 +148,18 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 	@Override
 	final protected void setBufferLeft() {
+		if (zSpace == null) {
+			return;
+		}
 		zSpace.zspaceLeftView();
 	}
 
 	@Override
 	final protected void setBufferRight() {
+		if (zSpace == null) {
+			return;
+		}
 		zSpace.zspaceRightView();
-	}
-
-	public ZSpaceGwt getZSpace() {
-		return zSpace;
 	}
 
 }
