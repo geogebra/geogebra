@@ -60,7 +60,7 @@ public class GeoGebraServer {
 					Log.debug("secret = " + topLevel.get("secret"));
 
 					if (!secret.equals(topLevel.get("secret"))) {
-						writeOutput(t, "{error:'wrong secret'}");
+						writeOutput(t, "{\"error\":\"wrong secret\"}");
 						return;
 					}
 
@@ -102,7 +102,7 @@ public class GeoGebraServer {
 
 				e.printStackTrace();
 				Log.debug(inputJSON);
-				writeOutput(t, "{ error:\"" + e.getMessage() + "\"}");
+				writeOutput(t, "{\"error\":\"" + e.getMessage() + "\"}");
 				return;
 			}
 
@@ -131,6 +131,7 @@ public class GeoGebraServer {
 
 		private void writeOutput(HttpExchange t, String message) {
 		try {
+			t.getResponseHeaders().set("Content-type", "applcation/json");
 			t.sendResponseHeaders(200, message.length());
 			OutputStream os = t.getResponseBody();
 			os.write(message.getBytes());
