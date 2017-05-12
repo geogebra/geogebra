@@ -16,6 +16,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -101,8 +102,11 @@ public class PerspectivesPopup {
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
 			SimplePanel holderPanel = new SimplePanel();
 			holderPanel.addStyleName("appstoreholder");
-			holderPanel.add(new NoDragImage(ImgResourceHelper
-					.safeURI(GuiResources.INSTANCE.app_store()), 135));
+			NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
+					.safeURI(GuiResources.INSTANCE.app_store()), 135);
+			Anchor link = new Anchor(appStoreIcon.toString(), true,
+					"http://www.geogebra.org/download");
+			holderPanel.add(link);
 			contentPanel.add(holderPanel);
 		} else {
 			HorizontalPanel tutorialsRow = addPerspectiveRow(
