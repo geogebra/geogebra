@@ -126,7 +126,7 @@ public class GeoGebraServer {
 	public void writeError(HttpExchange t, String message) {
 		JSONObject error = new JSONObject();
 		try {
-			error.put("error", message);
+			error.put("error", message + "");
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

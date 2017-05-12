@@ -56,6 +56,7 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GFontD;
+import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
@@ -81,6 +82,7 @@ public class AppDNoGui extends App {
 	private GgbAPI ggbapi;
 	private LocalizationD loc;
 	private SpreadsheetTableModelD tableModel;
+	private DrawEquationD drawEquation;
 
 	/**
 	 * @param loc
@@ -286,8 +288,10 @@ public class AppDNoGui extends App {
 
 	@Override
 	public DrawEquation getDrawEquation() {
-		// TODO Auto-generated method stub
-		return null;
+		if (drawEquation == null) {
+			drawEquation = new DrawEquationD();
+		}
+		return drawEquation;
 	}
 
 	@Override
