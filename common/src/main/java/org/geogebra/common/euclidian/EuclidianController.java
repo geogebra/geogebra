@@ -5819,11 +5819,6 @@ public abstract class EuclidianController {
 			// do nothing
 		}
 
-		// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-		// if (ret != null && ret.length > 0) {
-		// addDynamicStylebar(ret[0]);
-		// }
-		// }
 		return endOfSwitchModeForProcessMode(ret, changedKernel, callback,
 				selectionPreview);
 	}
@@ -5831,20 +5826,6 @@ public abstract class EuclidianController {
 	protected void addDynamicStylebar(){
 		// implemented in EuclidianControllerW
 	}
-
-	// private void addDynamicStylebar(Drawable dr) {
-	// if (!app.has(Feature.DYNAMIC_STYLEBAR)) {
-	// return;
-	// }
-	// if (dr instanceof DrawLine) {
-	// ((DrawLine) dr).updateDynamicStylebarPosition();
-	// } else if (dr instanceof DrawLocus) {
-	// setDynamicStyleBarPosition(((DrawLocus) dr).getGpBounds(), true);
-	// } else if (dr != null) {
-	// setDynamicStyleBarPosition(dr.getBounds(), true);
-	// }
-	// setDynamicStylebarVisible(true);
-	// }
 
 	final protected boolean endOfSwitchModeForProcessMode(GeoElementND[] ret,
 			boolean changedKernel, AsyncOperation<Boolean> callback,
@@ -8387,7 +8368,6 @@ public abstract class EuclidianController {
 			BoundingBox boundingBox = dr
 					.getBoundingBox();
 			view.setBoundingBox(boundingBox);
-			// addDynamicStylebar(dr);
 			view.repaintView();
 		}
 
@@ -8433,15 +8413,6 @@ public abstract class EuclidianController {
 		// Floating stylebar not supported
 	}
 
-	/**
-	 * @param gRectangle2D
-	 *            position
-	 * @param hasBoundingBox TODO
-	 */
-	// public void setDynamicStyleBarPosition(GRectangle2D gRectangle2D, boolean
-	// hasBoundingBox) {
-	// // Floating stylebar not supported
-	// }
 
 	protected boolean shouldCancelDrag() {
 		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY
@@ -9303,8 +9274,6 @@ public abstract class EuclidianController {
 			this.setDynamicStylebarVisible(false);
 		}
 
-		//setDynamicStylebarVisible(false);
-
 		// if we need label hit, it will be recomputed
 		view.setLabelHitNeedsRefresh();
 
@@ -9999,8 +9968,6 @@ public abstract class EuclidianController {
 			getResizedShape().updateGeo(event);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			addDynamicStylebar();
-			// setDynamicStyleBarPosition(getResizedShape().getBounds(), true);
-			// setDynamicStylebarVisible(true);
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
@@ -10017,22 +9984,8 @@ public abstract class EuclidianController {
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
-					// addDynamicStylebar(d);
 					addDynamicStylebar();
 				}
-
-				// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				// // if (mode == EuclidianConstants.MODE_MOVE) {
-				//
-				// if (d instanceof DrawLine) {
-				// ((DrawLine) d).updateDynamicStylebarPosition();
-				// } else {
-				// setDynamicStyleBarPosition(d.getBounds(), true);
-				// }
-				// setDynamicStylebarVisible(true);
-				//
-				// // }
-				// }
 
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
@@ -10099,29 +10052,6 @@ public abstract class EuclidianController {
 			setResizedShape(null);
 		}
 
-		// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-		//
-		// ArrayList<GeoElement> selGeos = app.getSelectionManager()
-		// .getSelectedGeos();
-		// if (selGeos != null && selGeos.size() > 0) {
-		//
-		// if (mode == EuclidianConstants.MODE_MOVE) {
-		// // || !view.isDrawingPredecessor(selGeos.get(0))) {
-		//
-		// DrawableND dr = view.getDrawableFor(selGeos.get(0));
-		// if (dr instanceof Drawable) {
-		// if (dr instanceof DrawLine) {
-		// ((DrawLine) dr).updateDynamicStylebarPosition();
-		// } else {
-		// setDynamicStyleBarPosition(
-		// ((Drawable) dr).getBounds(), true);
-		// }
-		// setDynamicStylebarVisible(true);
-		// }
-		// }
-		//
-		// }
-		// }
 	}
 
 	private boolean isDragTool() {
