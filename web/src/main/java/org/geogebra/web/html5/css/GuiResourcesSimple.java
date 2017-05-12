@@ -117,6 +117,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
 	SassResource toolBarStyleScss();
 
+	@Source("org/geogebra/web/resources/scss/perspectives-popup.scss")
+	SassResource perspectivesPopupScss();
+
 	// don't include these anywhere!
 	// they are only here, because otherwise they are not compiled on browser
 	// refresh and then I cannot see the changes!

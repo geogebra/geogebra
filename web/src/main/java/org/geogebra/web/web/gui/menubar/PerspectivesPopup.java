@@ -20,6 +20,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Apps Picker Dialog for new Start screen (GGB-992)
@@ -98,8 +99,11 @@ public class PerspectivesPopup {
 
 		// add link to tutorials
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
-			contentPanel.add(new NoDragImage(ImgResourceHelper
-					.safeURI(GuiResources.INSTANCE.app_store()), 200));
+			SimplePanel holderPanel = new SimplePanel();
+			holderPanel.addStyleName("appstoreholder");
+			holderPanel.add(new NoDragImage(ImgResourceHelper
+					.safeURI(GuiResources.INSTANCE.app_store()), 135));
+			contentPanel.add(holderPanel);
 		} else {
 			HorizontalPanel tutorialsRow = addPerspectiveRow(
 					GuiResources.INSTANCE.icon_help(), "Tutorials", -2, 8);

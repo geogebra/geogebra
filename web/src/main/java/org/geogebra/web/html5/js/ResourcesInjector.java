@@ -104,6 +104,8 @@ public class ResourcesInjector {
 				.inject(GuiResourcesSimple.INSTANCE.avStyleScss());
 		StyleInjector.inject(
 				GuiResourcesSimple.INSTANCE.toolBarStyleScss());
+		StyleInjector
+				.inject(GuiResourcesSimple.INSTANCE.perspectivesPopupScss());
 	}
 
 	/**
