@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.util.HttpRequestD;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -45,7 +46,7 @@ public class GeoGebraServer {
 
 			app.reset();
 
-			String inputJSON = "" + t.getRequestURI().getQuery() + "";
+			String inputJSON = HttpRequestD.readOutput(t.getRequestBody());
 
 			Log.error(inputJSON);
 
@@ -54,25 +55,28 @@ public class GeoGebraServer {
 			ArrayList results = new ArrayList();
 
 			try {
-				json = new JSONArray(inputJSON);
+				JSONObject topLevel = new JSONObject(inputJSON);
+				if (secret != null) {
+					Log.debug("secret = " + topLevel.get("secret"));
+
+					if (!secret.equals(topLevel.get("secret"))) {
+						writeOutput(t, "{error:'wrong secret'}");
+						return;
+					}
+
+				}
+				json = topLevel.getJSONArray("commands");
 				int i = 0;
 				while (i < json.length()) {
 					Object testVal = json.opt(i);
 					if (!(testVal instanceof JSONObject)) {
 						Log.debug("Invalid JSON:" + testVal);
+						i++;
 						continue;
 					}
 					JSONObject test = (JSONObject) testVal;
 
-					if (i == 0 && secret != null) {
-						Log.debug("secret = " + test.get("secret"));
 
-						if (!secret.equals(test.get("secret"))) {
-							writeOutput(t, "{error:'wrong secret'}");
-							return;
-						}
-
-					}
 					
 					String cmd = test.get("cmd").toString();
 					String args = test.get("args").toString();
@@ -97,6 +101,7 @@ public class GeoGebraServer {
 			} catch (JSONException e) {
 
 				e.printStackTrace();
+				Log.debug(inputJSON);
 				writeOutput(t, "{ error:\"" + e.getMessage() + "\"}");
 				return;
 			}

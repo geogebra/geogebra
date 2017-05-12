@@ -145,7 +145,7 @@ public class HttpRequestD extends HttpRequest {
 		}
 	}
 
-	private static String readOutput(InputStream inputStream)
+	public static String readOutput(InputStream inputStream)
 			throws IOException {
 		BufferedReader in = null;
 		StringBuilder ans;
