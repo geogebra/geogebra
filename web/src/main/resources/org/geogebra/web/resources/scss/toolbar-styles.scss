@@ -5,20 +5,27 @@
 			background-color: $toolbar-header;
 			
 			.flatButton {
-				padding-top: 8px;
-				padding-bottom: 8px;
-				margin-top: 8px;
-				margin-bottom: 8px;
-				height: 36px;
-				border-radius: 2px;
+				padding: 12px;
+				width: 24px;
+				height: 24px;
 			}
 			
 			
 			.close {
-				position: absolute;
+					
 			}
 			
+			.menu {
+			}
 			
+			.menu:hover {
+				opacity: 0.7;	
+			}
+			
+			.contents {
+				padding-top: 4px;
+				padding-bottom: 4px;
+			}
 		}
 
 		.header-open {
@@ -28,8 +35,7 @@
 			width: 100%;
 			
 			.close {
-				position: absolute;
-				right: 16px;
+				float: right;
 			}
 			
 		}
@@ -43,7 +49,6 @@
 			.close {
 				position: absolute;
 				bottom: 0px;
-				left: 16px;
 			}
 			
 		}

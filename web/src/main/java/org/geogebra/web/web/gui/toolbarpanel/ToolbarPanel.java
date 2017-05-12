@@ -24,12 +24,19 @@ public class ToolbarPanel extends FlowPanel {
 	private App app;
 	private Integer lastOpenWidth = null;
 	private class Header extends FlowPanel {
+		private ToggleButton btnMenu;
 		private ToggleButton btnClose;
 		private boolean open = true;
 		private Image imgClose;
 		private Image imgOpen;
+		private FlowPanel contents;
 		public Header() {
+			contents = new FlowPanel();
+			contents.addStyleName("contents");
+			add(contents);
+
 			createCloseButton();
+			createMenuButton();
 		}
 
 		private void createCloseButton() {
@@ -39,7 +46,7 @@ public class ToolbarPanel extends FlowPanel {
 			btnClose = new ToggleButton();
 			btnClose.addStyleName("flatButton");
 			btnClose.addStyleName("close");
-			add(btnClose);
+			contents.add(btnClose);
 
 			ClickStartHandler.init(btnClose, new ClickStartHandler() {
 
@@ -51,6 +58,21 @@ public class ToolbarPanel extends FlowPanel {
 
 					setOpen(!open);
 					((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame()).showKeyBoard(false, null, true);
+
+				}
+			});
+		}
+
+		private void createMenuButton() {
+			btnMenu = new ToggleButton(new Image(MaterialDesignResources.INSTANCE.toolbar_menu_white()));
+			btnMenu.addStyleName("flatButton");
+			btnMenu.addStyleName("menu");
+			contents.add(btnMenu);
+
+			ClickStartHandler.init(btnMenu, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
 
 				}
 			});

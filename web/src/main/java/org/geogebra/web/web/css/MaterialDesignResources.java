@@ -65,4 +65,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_white.png")
 	ImageResource toolbar_close_white();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/menu_white.png")
+	ImageResource toolbar_menu_white();
+
 }
