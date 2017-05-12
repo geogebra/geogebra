@@ -100,14 +100,16 @@ public class PerspectivesPopup {
 
 		// add link to tutorials
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
-			SimplePanel holderPanel = new SimplePanel();
-			holderPanel.addStyleName("appstoreholder");
-			NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
-					.safeURI(GuiResources.INSTANCE.app_store()), 135);
-			Anchor link = new Anchor(appStoreIcon.toString(), true,
-					"http://www.geogebra.org/download");
-			holderPanel.add(link);
-			contentPanel.add(holderPanel);
+			if (!app.getLAF().isSmart() && !app.getLAF().isTablet()) {
+				SimplePanel holderPanel = new SimplePanel();
+				holderPanel.addStyleName("appstoreholder");
+				NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
+						.safeURI(GuiResources.INSTANCE.app_store()), 135);
+				Anchor link = new Anchor(appStoreIcon.toString(), true,
+						"http://www.geogebra.org/download");
+				holderPanel.add(link);
+				contentPanel.add(holderPanel);
+			}
 		} else {
 			HorizontalPanel tutorialsRow = addPerspectiveRow(
 					GuiResources.INSTANCE.icon_help(), "Tutorials", -2, 8);
