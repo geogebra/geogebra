@@ -1705,7 +1705,7 @@ __GGB__keysVar.hu.menu = {
     "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Vizsga Rajzol\xf3",
-    "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
+    "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",
     "Exercise.CreateNew": "\xdaj feladat",
     "Exit": "Kil\xe9p\xe9s",
     "ExitExamShutDown": "Le\xe1ll\xedt\xe1s",

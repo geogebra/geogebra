@@ -231,7 +231,7 @@ __GGB__keysVar.nl_NL.command = {
     "CurveCartesian.Syntax3D": "[ <Uitdrukking>, <Uitdrukking>, <Parameter>, <Startwaarde>, <Eindwaarde> ]\n[ <Uitdrukking>, <Uitdrukking>, <Uitdrukking>, <Parameter>, <Startwaarde>, <Eindwaarde> ]",
     "Cylinder": "Cilinder",
     "Cylinder.Syntax": "[ <Cirkel>, <Hoogte> ]\n[ <Punt>, <Punt>, <Straal> ]",
-    "DataFunction": "DataFunction",
+    "DataFunction": "Gegevensfunctie",
     "DataFunction.Syntax": "[ <Lijst met getallen>, <Lijst met getallen> ]",
     "Defined": "Gedefinieerd",
     "Defined.Syntax": "[ <Object> ]",

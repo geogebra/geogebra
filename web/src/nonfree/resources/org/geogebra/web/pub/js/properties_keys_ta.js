@@ -1705,7 +1705,7 @@ __GGB__keysVar.ta.menu = {
     "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
     "ExamGraphingCalc.short": "Exam Graphing",
-    "ExamSimpleCalc.long": "GeoGebra Exam Simple Calculator",
+    "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",
     "Exercise.CreateNew": "\u0baa\u0bc1\u0ba4\u0bbf\u0baf \u0baa\u0baf\u0bbf\u0bb1\u0bcd\u0b9a\u0bbf",
     "Exit": "\u0ba8\u0bbf\u0bb1\u0bc8\u0bb5\u0bc1",
     "ExitExamShutDown": "\u0bae\u0bc2\u0b9f\u0bc1",
