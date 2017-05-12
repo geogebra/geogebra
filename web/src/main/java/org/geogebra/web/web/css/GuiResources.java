@@ -2,6 +2,7 @@ package org.geogebra.web.web.css;
 
 import org.geogebra.web.html5.util.LessResource;
 import org.geogebra.web.resources.LessReference;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
@@ -450,8 +451,8 @@ public interface GuiResources extends ClientBundle {
 	// @MimeType("image/svg+xml")
 	// DataResource app_store();
 
-	// @Source("org/geogebra/common/icons/svg/web/app_store.svg")
-	// TextResource app_store();
+	@Source("org/geogebra/common/icons/svg/web/app_store.svg")
+	SVGResource app_store();
 
 
 	@Source("org/geogebra/web/resources/scss/open-screen.scss")
