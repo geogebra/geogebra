@@ -22,7 +22,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 
 	private ZSpaceGwt zSpace;
 
-	public RendererWithImplZSpaceW(EuclidianViewInput3DW view) {
+	public RendererWithImplZSpaceW(final EuclidianViewInput3DW view) {
 		super(view);
 
 		DynamicScriptElement script = (DynamicScriptElement) Document.get()
