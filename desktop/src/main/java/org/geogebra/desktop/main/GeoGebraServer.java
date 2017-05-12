@@ -3,7 +3,6 @@ package org.geogebra.desktop.main;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
@@ -45,28 +44,25 @@ public class GeoGebraServer {
 		public void handle(HttpExchange t) throws IOException {
 
 			app.reset();
-
-			String inputJSON = HttpRequestD.readOutput(t.getRequestBody());
-
-			Log.error(inputJSON);
-
-			JSONArray json;
-			
-			ArrayList results = new ArrayList();
-
+			String inputJSON = null;
+			String result;
 			try {
+				inputJSON = HttpRequestD.readOutput(t.getRequestBody());
+
+				Log.error(inputJSON);
 				JSONObject topLevel = new JSONObject(inputJSON);
 				if (secret != null) {
 					Log.debug("secret = " + topLevel.get("secret"));
 
 					if (!secret.equals(topLevel.get("secret"))) {
-						writeOutput(t, "{\"error\":\"wrong secret\"}");
+						writeError(t, "Wrong secret");
 						return;
 					}
 
 				}
-				json = topLevel.getJSONArray("commands");
+				JSONArray json = topLevel.getJSONArray("commands");
 				int i = 0;
+				JSONArray results = new JSONArray();
 				while (i < json.length()) {
 					Object testVal = json.opt(i);
 					if (!(testVal instanceof JSONObject)) {
@@ -88,48 +84,33 @@ public class GeoGebraServer {
 					} else if ("evalLaTeX".equals(cmd)) {
 						api.evalLaTeX(args, 0);
 					} else if ("getValue".equals(cmd)) {
-						results.add(api.getValue(args));
+						results.put(api.getValue(args));
 					} else if ("getValueString".equals(cmd)) {
-						results.add(api.getValueString(args));
+						results.put(api.getValueString(args));
 					} else if ("getLaTeXString".equals(cmd)) {
-						results.add(api.getLaTeXString(args));
+						results.put(api.getLaTeXString(args));
 					}
 
 					i++;
 
 				}
-			} catch (JSONException e) {
+				result = results.toString();
+			} catch (Throwable e) {
 
 				e.printStackTrace();
 				Log.debug(inputJSON);
-				writeOutput(t, "{\"error\":\"" + e.getMessage() + "\"}");
+				writeError(t, e.getMessage());
 				return;
 			}
 
-			StringBuilder result = new StringBuilder("[");
-			for (int i = 0 ; i < results.size() ; i++) {
-				Object obj = results.get(i);
-				if (obj instanceof String) {
-					result.append("'");
-					result.append(obj.toString());
-					result.append("'");				
-				} else {
-					result.append(obj.toString());					
-				}
-				result.append(",");
-			}
-			
-			if (result.length() > 1) {
-				result.setCharAt(result.length() - 1, ']');
-			} else {
-				result.append(']');
-			}
+			// StringBuilder result = new StringBuilder("[");
+
 			writeOutput(t, result.toString());
 			
 		}
 	}
 
-		private void writeOutput(HttpExchange t, String message) {
+	private void writeOutput(HttpExchange t, String message) {
 		try {
 			t.getResponseHeaders().set("Content-type", "applcation/json");
 			t.sendResponseHeaders(200, message.length());
@@ -140,6 +121,18 @@ public class GeoGebraServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	public void writeError(HttpExchange t, String message) {
+		JSONObject error = new JSONObject();
+		try {
+			error.put("error", message);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		writeOutput(t, error.toString());
+
+	}
 
 }
