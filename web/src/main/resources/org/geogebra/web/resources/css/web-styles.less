@@ -1455,35 +1455,40 @@
 		background-color: none;
 	}
 	
-	.SelectionTable .gwt-Label.borderButton {
-		border: 1px solid;
-		border-radius: 5px;
-		height: 24px;
-		width: 24px;
+	.SelectionTable {
+		border-collapse:collapse;
+		td {
+			padding:2px;
+		}
+		.gwt-Label.borderButton {
+			border: 1px solid;
+			border-radius: 5px;
+			height: 24px;
+			width: 24px;
+		}
+		
+		.plusButton {
+			text-align: center;
+			font-size: larger;
+		}
+		
+		a {
+			text-decoration: none;
+			color: #666666;
+			border-radius: none;
+			display: block;
+			padding: 1px;
+		}
+
+		a:hover, a:focus, .gwt-Label:hover, .gwt-Label:focus, .stylebarButton.selected, canvas:hover, canvas:focus
+			{
+			background-color: #CCCCFF;
+		}
+		
+		 .gwt-Label.selected {
+			color: #6161FF;
+		}
 	}
-	
-	.SelectionTable .plusButton {
-		text-align: center;
-		font-size: larger;
-	}
-	
-	.SelectionTable a {
-		text-decoration: none;
-		color: #666666;
-		border-radius: none;
-		display: block;
-		padding: 1px;
-	}
-	
-	.SelectionTable a:hover,.SelectionTable a:focus,.SelectionTable .gwt-Label:hover,.SelectionTable .gwt-Label:focus,.SelectionTable .stylebarButton.selected,.SelectionTable canvas:hover,.SelectionTable canvas:focus
-		{
-		background-color: #CCCCFF;
-	}
-	
-	.SelectionTable .gwt-Label.selected {
-		color: #6161FF;
-	}
-	
 	.editorPanel {
 		padding-top: 1px;
 		padding-left: 1px;
