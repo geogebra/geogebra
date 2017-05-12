@@ -1,10 +1,8 @@
 @import 'colors';
 
-.avStyle {
+.GeoGebraFrame {
 	
-}
-
-.matMenu.gwt-PopupPanel {
+	.matMenu.gwt-PopupPanel {
 		padding: 8px 0px 8px 0px;
 		border-radius: 2px;
 		min-width: 182px;
@@ -63,4 +61,5 @@
 		.subMenuIcon:hover {
 			opacity: 0.87;
 		}
+	}
 }
