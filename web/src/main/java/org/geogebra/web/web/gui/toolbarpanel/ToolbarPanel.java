@@ -4,9 +4,13 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.main.AppWFull;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -46,6 +50,8 @@ public class ToolbarPanel extends FlowPanel {
 					}
 
 					setOpen(!open);
+					((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame()).showKeyBoard(false, null, true);
+
 				}
 			});
 		}
@@ -66,7 +72,9 @@ public class ToolbarPanel extends FlowPanel {
 				btnClose.getUpFace().setImage(imgOpen);
 
 			}
+
 			updateWidth();
+			showKeyboardButtonDeferred(open);
 		}
 	}
 
@@ -116,4 +124,18 @@ public class ToolbarPanel extends FlowPanel {
 		return (ToolbarDockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
+	public boolean isOpen() {
+		return header.isOpen();
+	}
+
+	private void showKeyboardButtonDeferred(final boolean show) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame()).showKeyboardButton(show);
+
+			}
+		});
+	}
 }
