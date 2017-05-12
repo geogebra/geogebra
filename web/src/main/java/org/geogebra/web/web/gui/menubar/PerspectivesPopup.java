@@ -4,6 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -97,15 +98,8 @@ public class PerspectivesPopup {
 
 		// add link to tutorials
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
-			// contentPanel.add(new Image(ImgResourceHelper
-			// .safeURI(GuiResources.INSTANCE.icon_help())));
-
-			// String image = "<img src=\"" + PerspectiveResources.INSTANCE
-			// .app_store().getSafeUri().asString() + "\" >";
-			// contentPanel.add(new Image(image));
-			
-			// ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources().app_store()
-
+			contentPanel.add(new NoDragImage(ImgResourceHelper
+					.safeURI(GuiResources.INSTANCE.app_store()), 200));
 		} else {
 			HorizontalPanel tutorialsRow = addPerspectiveRow(
 					GuiResources.INSTANCE.icon_help(), "Tutorials", -2, 8);
