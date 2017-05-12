@@ -2,10 +2,12 @@ package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -206,7 +208,13 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
-	private static ImageResource getSubMenuIcon(boolean isRTL) {
+	private static ImageResource getSubMenuIcon(boolean isRTL,
+			boolean isNewDesign) {
+		if (isNewDesign) {
+			return isRTL
+					? MaterialDesignResources.INSTANCE.arrow_drop_left_black()
+					: MaterialDesignResources.INSTANCE.arrow_drop_right_black();
+		}
 		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL()
 		        : GuiResources.INSTANCE.menuBarSubMenuIconLTR();
 	}
@@ -272,7 +280,7 @@ public class GPopupMenuW implements AttachedToDOM {
 			DOM.setElementProperty(td, "vAlign", "middle");
 			td.addClassName("subMenuIcon");
 			ImageResource imgRes = getSubMenuIcon(LocaleInfo.getCurrentLocale()
-			        .isRTL());
+					.isRTL(), app.has(Feature.NEW_TOOLBAR));
 			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes)
 			        .getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");

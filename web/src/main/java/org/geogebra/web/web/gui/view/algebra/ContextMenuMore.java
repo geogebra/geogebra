@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
@@ -32,7 +33,11 @@ public class ContextMenuMore implements SetLabels {
 		loc = app.getLocalization();
 		this.item = item;
 		wrappedPopup = new GPopupMenuW(app);
-		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			wrappedPopup.getPopupPanel().addStyleName("matMenu");
+		} else {
+			wrappedPopup.getPopupPanel().addStyleName("mioMenu");
+		}
 		buildGUI();
 		}
 

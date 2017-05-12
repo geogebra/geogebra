@@ -1,10 +1,12 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -50,32 +52,19 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		addZoomMenu();
 
 		String img;
-		if (isWhiteboard()) {
-			img = AppResources.INSTANCE.standard_view20().getSafeUri().asString();
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+			img = AppResources.INSTANCE.show_all_objects20().getSafeUri()
+					.asString();
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
+					.getSafeUri().asString();
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
 
-		MenuItem miStandardView = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("StandardView")), true,
-				new Command() {
-
-			        @Override
-					public void execute() {
-				        ((EuclidianView3DW) app.getEuclidianView3D())
-				                .setStandardView(true);
-			        }
-		        });
-
-		wrappedPopup.addItem(miStandardView);
-
-		String img2;
-		if (isWhiteboard()) {
-			img2 = AppResources.INSTANCE.show_all_objects20().getSafeUri().asString();
-		} else {
-			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
-		}
-
-		MenuItem miShowAllObjectsView = new MenuItem(MainMenu.getMenuBarHtml(img2, loc.getMenu("ShowAllObjects")), true,
+		MenuItem miShowAllObjectsView = new MenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
+				true,
 				new Command() {
 
 			        @Override
@@ -86,6 +75,31 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		        });
 
 		wrappedPopup.addItem(miShowAllObjectsView);
+
+		String img2;
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+			img2 = AppResources.INSTANCE.standard_view20().getSafeUri()
+					.asString();
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri()
+					.asString();
+		} else {
+			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+
+		MenuItem miStandardView = new MenuItem(
+				MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")),
+				true,
+				new Command() {
+
+			        @Override
+					public void execute() {
+						((EuclidianView3DW) app.getEuclidianView3D())
+								.setStandardView(true);
+			        }
+		        });
+
+		wrappedPopup.addItem(miStandardView);
 
 		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
 	}

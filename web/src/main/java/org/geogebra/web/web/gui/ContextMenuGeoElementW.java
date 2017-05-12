@@ -667,6 +667,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (fixable) {
 			cmd = new Command() {
 
+				@Override
 				public void execute() {
 					ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
 					geoArray.add(geo);
@@ -727,6 +728,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		mnuCut = addAction(new Command() {
 
+			@Override
 			public void execute() {
 				app.setWaitCursor();
 				cutCmd();
@@ -745,6 +747,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		addAction(new Command() {
 
+			@Override
 			public void execute() {
 				if (!selection.getSelectedGeos().isEmpty()) {
 					app.setWaitCursor();
@@ -767,6 +770,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		addAction(new Command() {
 
+			@Override
 			public void execute() {
 				app.setWaitCursor();
 				duplicateCmd();
@@ -787,6 +791,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		mnuDelete = addAction(new Command() {
 
+			@Override
 			public void execute() {
 				deleteCmd(false);
 			}
@@ -808,6 +813,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		mnuPaste = addAction(new Command() {
 
+			@Override
 			public void execute() {
 				if (!app.getCopyPaste().isEmpty()) {
 					app.setWaitCursor();
@@ -1246,8 +1252,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}
 					}
 				});
-		title.addStyleName("menuTitle");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			title.addStyleName("no-hover");
+		} else {
+			title.addStyleName("menuTitle");
+		}
 		wrappedPopup.addItem(title);
+		// wrappedPopup.addSeparator();
 	}
 
 	public GPopupMenuW getWrappedPopup() {

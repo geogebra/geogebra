@@ -26,6 +26,21 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/settings_black.png")
 	ImageResource settings_black();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/zoom_in_black.png")
+	ImageResource zoom_in_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/home_black.png")
+	ImageResource home_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/show_all_objects_black.png")
+	ImageResource show_all_objects_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/arrow_drop_right_black.png")
+	ImageResource arrow_drop_right_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/arrow_drop_left_black.png")
+	ImageResource arrow_drop_left_black();
+
 	// @Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/content_copy_black.png")
 	// ImageResource copy_content_black();
 

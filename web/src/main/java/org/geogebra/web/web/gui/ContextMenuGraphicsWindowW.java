@@ -4,8 +4,10 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -24,8 +26,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	protected ContextMenuGraphicsWindowW(AppW app) {
 		super(app);
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
 
@@ -48,8 +52,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 
 		String img;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri().asString();
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
+					.getSafeUri().asString();
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
@@ -65,8 +72,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		        });
 
 		String img2;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			img2 = AppResources.INSTANCE.standard_view20().getSafeUri().asString();
+		} else if (app.has(Feature.NEW_TOOLBAR)){
+			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri().asString();
 		} else {
 			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
@@ -130,8 +139,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addMiProperties(String name, final OptionType type) {
 
 		String img;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			img = AppResources.INSTANCE.properties20().getSafeUri().asString();
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			img = MaterialDesignResources.INSTANCE.settings_black().getSafeUri()
+					.asString();
 		} else {
 			img = AppResources.INSTANCE.view_properties16().getSafeUri().asString();
 		}
@@ -219,20 +231,26 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		MenuBar zoomMenu = new MenuBar(true);
 
 		String img;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			img = AppResources.INSTANCE.zoom20().getSafeUri().asString();
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
+					.asString();
 		} else {
 			img = AppResources.INSTANCE.zoom16().getSafeUri().asString();
 		}
 
-		MenuItem zoomMenuItem = new MenuItem(MainMenu.getMenuBarHtml(
-img,
+		MenuItem zoomMenuItem = new MenuItem(
+				MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Zoom")), true, zoomMenu);
 		if (!isWhiteboard()) {
 			zoomMenuItem.addStyleName("mi_with_image");
 		}
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			// zoomMenu.addStyleName("matMenu");
+		}
 
 		if (!app.getActiveEuclidianView().isZoomable()) {
 			zoomMenuItem.setEnabled(false);
@@ -270,6 +288,9 @@ img,
 				}
 			});
 			menu.addItem(mi);
+			if (app.has(Feature.NEW_TOOLBAR)) {
+				menu.addStyleName("matMenu");
+			}
 		}
 
 	}

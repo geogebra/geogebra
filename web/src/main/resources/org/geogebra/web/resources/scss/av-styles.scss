@@ -1,3 +1,66 @@
+@import 'colors';
+
 .avStyle {
 	
+}
+
+.matMenu.gwt-PopupPanel {
+		padding: 8px 0px 8px 0px;
+		border-radius: 2px;
+		min-width: 182px;
+	
+		.gwt-MenuItem {
+			height: 32px;
+			min-width: 182px;
+			cursor: pointer; 
+			padding-left: 64px;
+		}
+		
+		.gwt-MenuItem.no-hover,
+		 gwt-MenuItem.no-hover:hover{
+		 	background-color: transparent !important;
+			color: $black;
+			font-size: 120%;
+			padding-left: 24px;
+			padding-bottom: 8px;
+			cursor: default;
+		}
+		
+		.gwt-MenuItem:hover {
+			background-color: #eeeeee;
+			img {
+				opacity: 0.87;
+			}
+			color: $black;
+		}
+		
+		.gwt-MenuItem-disabled,
+		.gwt-MenuItem-disabled:hover {
+			img {
+				opacity: 0.38;
+			}
+			color: $black;
+			opacity: 0.38;
+		}
+		
+		img {
+			width: 24px !important;
+			height: 24px !important;
+			position: absolute;
+			margin-left: -40px;	
+			opacity: 0.54;
+		}
+		
+		.subMenuIcon {
+			padding-right: 0px;
+		}
+		
+		.subMenuIcon img {
+			margin-right: 0px !important;
+			margin-top: -11px !important;
+		}
+		
+		.subMenuIcon:hover {
+			opacity: 0.87;
+		}
 }

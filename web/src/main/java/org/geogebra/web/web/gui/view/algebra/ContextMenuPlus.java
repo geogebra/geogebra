@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.main.AppW;
@@ -38,9 +39,13 @@ public class ContextMenuPlus implements SetLabels {
 		mf = ((LatexTreeItemController)item.getController()).getRetexListener().getMathField();
 		kbd = (TabbedKeyboard)((GuiManagerW)app.getGuiManager()).getOnScreenKeyboard(item, null);
 		wrappedPopup = new GPopupMenuW(app);
-		wrappedPopup.getPopupPanel().addStyleName("mioMenu");
-		buildGUI();
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			wrappedPopup.getPopupPanel().addStyleName("matMenu");
+		} else {
+			wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		}
+		buildGUI();
+	}
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
