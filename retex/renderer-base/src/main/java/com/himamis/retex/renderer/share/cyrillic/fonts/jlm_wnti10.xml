@@ -328,16 +328,9 @@
       <Kern code="1091" val="-0.025556"/>
    </Char>
    <Char code="1041" width="0.703885" height="0.683332" italic="0.069166" />
-   <Char code="1062" width="0.768885" height="0.683332" depth="0.194445" italic="0.16389" >
-      <Lig code="1061" ligCode="1063"/>
-      <Lig code="1093" ligCode="1063"/>
-   </Char>
-   <Char code="1044" width="0.768885" height="0.683332" depth="0.194445" italic="0.16389" >
-      <Lig code="1032" ligCode="1026"/>
-      <Lig code="1112" ligCode="1026"/>
-   </Char>
-   <Char code="1045" width="0.678329" height="0.683332" italic="0.120277" >
-   </Char>
+   <Char code="1062" width="0.768885" height="0.683332" depth="0.194445" italic="0.16389" />
+   <Char code="1044" width="0.768885" height="0.683332" depth="0.194445" italic="0.16389" />
+   <Char code="1045" width="0.678329" height="0.683332" italic="0.120277" />
    <Char code="1060" width="0.817774" height="0.683332" italic="0.0940275" >
       <Kern code="1040" val="-0.025556"/>
       <Kern code="1044" val="-0.025556"/>
@@ -388,8 +381,6 @@
    <Char code="1032" width="0.524997" height="0.683332" italic="0.140279" >
    </Char>
    <Char code="1050" width="0.768885" height="0.683332" italic="0.145277" >
-      <Lig code="1061" ligCode="1061"/>
-      <Lig code="1093" ligCode="1061"/>
       <Kern code="1054" val="-0.025556"/>
       <Kern code="1060" val="-0.025556"/>
       <Kern code="1138" val="-0.025556"/>
@@ -397,15 +388,9 @@
       <Kern code="1028" val="-0.025556"/>
       <Kern code="1095" val="-0.025556"/>
    </Char>
-   <Char code="1051" width="0.768885" height="0.683332" italic="0.16389" >
-      <Lig code="1032" ligCode="1033"/>
-      <Lig code="1112" ligCode="1033"/>
-   </Char>
+   <Char code="1051" width="0.768885" height="0.683332" italic="0.16389" />
    <Char code="1052" width="0.896662" height="0.683332" italic="0.16389" />
-   <Char code="1053" width="0.768885" height="0.683332" italic="0.16389" >
-      <Lig code="1032" ligCode="1034"/>
-      <Lig code="1112" ligCode="1034"/>
-   </Char>
+   <Char code="1053" width="0.768885" height="0.683332" italic="0.16389" />
    <Char code="1054" width="0.766663" height="0.683332" italic="0.0940275" >
       <Kern code="1040" val="-0.025556"/>
       <Kern code="1044" val="-0.025556"/>
@@ -433,13 +418,8 @@
       <Kern code="1083" val="-0.076666"/>
       <Kern code="1113" val="-0.076666"/>
    </Char>
-   <Char code="1057" width="0.715551" height="0.683332" italic="0.145277" >
-      <Lig code="1061" ligCode="1064"/>
-      <Lig code="1093" ligCode="1064"/>
-   </Char>
+   <Char code="1057" width="0.715551" height="0.683332" italic="0.145277" />
    <Char code="1058" width="0.715551" height="0.683332" italic="0.133055" >
-      <Lig code="1057" ligCode="1062"/>
-      <Lig code="1089" ligCode="1062"/>
       <Kern code="1040" val="-0.076666"/>
       <Kern code="1044" val="-0.076666"/>
       <Kern code="1071" val="-0.076666"/>
@@ -501,22 +481,9 @@
    </Char>
    <Char code="1042" width="0.703885" height="0.683332" italic="0.077014" />
    <Char code="1065" width="1.088327" height="0.683332" depth="0.194445" italic="0.16389" />
-   <Char code="1064" width="1.088327" height="0.683332" italic="0.16389" >
-      <Lig code="1063" ligCode="1065"/>
-      <Lig code="1095" ligCode="1065"/>
-      <Lig code="1062" ligCode="0"/>
-      <Lig code="1094" ligCode="0"/>
-   </Char>
-   <Char code="1067" width="0.947772" height="0.683332" italic="0.16389" >
-      <Lig code="1040" ligCode="1071"/>
-      <Lig code="1072" ligCode="1071"/>
-      <Lig code="1059" ligCode="1070"/>
-      <Lig code="1091" ligCode="1070"/>
-   </Char>
-   <Char code="1047" width="0.61333" height="0.683332" italic="0.10257" >
-      <Lig code="1061" ligCode="1046"/>
-      <Lig code="1093" ligCode="1046"/>
-   </Char>
+   <Char code="1064" width="1.088327" height="0.683332" italic="0.16389" />
+   <Char code="1067" width="0.947772" height="0.683332" italic="0.16389" />
+   <Char code="1047" width="0.61333" height="0.683332" italic="0.10257" />
    <Char code="1068" width="0.703885" height="0.683332" italic="0.036629" >
       <Kern code="1046" val="-0.025556"/>
       <Kern code="1061" val="-0.025556"/>
@@ -595,12 +562,8 @@
       <Kern code="1084" val="-0.025556"/>
       <Kern code="1113" val="-0.025556"/>
    </Char>
-   <Char code="1094" width="0.567331" height="0.430555" depth="0.194445" italic="0.076714" >
-      <Lig code="1093" ligCode="1095"/>
-   </Char>
-   <Char code="1076" width="0.475329" height="0.694445" italic="0.113861" >
-      <Lig code="1112" ligCode="1106"/>
-   </Char>
+   <Char code="1094" width="0.567331" height="0.430555" depth="0.194445" italic="0.076714" />
+   <Char code="1076" width="0.475329" height="0.694445" italic="0.113861" />
    <Char code="1077" width="0.442108" height="0.430555" italic="0.075139" >
       <Kern code="1092" val="-0.051111"/>
       <Kern code="1072" val="-0.051111"/>
@@ -621,11 +584,8 @@
    </Char>
    <Char code="1112" width="0.306665" height="0.655359" depth="0.194445" italic="0.144673" >
    </Char>
-   <Char code="1082" width="0.511108" height="0.430555" italic="0.107638" >
-      <Lig code="1093" ligCode="1093"/>
-   </Char>
+   <Char code="1082" width="0.511108" height="0.430555" italic="0.107638" />
    <Char code="1083" width="0.536664" height="0.430555" italic="0.076714" >
-      <Lig code="1112" ligCode="1113"/>
       <Kern code="1083" val="-0.025556"/>
       <Kern code="1084" val="-0.025556"/>
       <Kern code="1113" val="-0.025556"/>
@@ -634,9 +594,7 @@
       <Kern code="1095" val="-0.076666"/>
    </Char>
    <Char code="1084" width="0.741107" height="0.430555" italic="0.076714" />
-   <Char code="1085" width="0.56222" height="0.430555" italic="0.076714" >
-      <Lig code="1112" ligCode="1114"/>
-   </Char>
+   <Char code="1085" width="0.56222" height="0.430555" italic="0.076714" />
    <Char code="1086" width="0.475329" height="0.430555" italic="0.063124" >
       <Kern code="1092" val="-0.051111"/>
       <Kern code="1072" val="-0.051111"/>
@@ -655,28 +613,19 @@
       <Kern code="1113" val="-0.025556"/>
    </Char>
    <Char code="1089" width="0.442108" height="0.430555" italic="0.056528" >
-      <Lig code="1093" ligCode="1096"/>
       <Kern code="1092" val="-0.051111"/>
       <Kern code="1072" val="-0.051111"/>
       <Kern code="1083" val="-0.025556"/>
       <Kern code="1084" val="-0.025556"/>
       <Kern code="1113" val="-0.025556"/>
    </Char>
-   <Char code="1090" width="0.817774" height="0.430555" italic="0.076714" >
-   </Char>
+   <Char code="1090" width="0.817774" height="0.430555" italic="0.076714" />
    <Char code="1091" width="0.511108" height="0.430555" depth="0.194445" italic="0.088472" />
    <Char code="1074" width="0.493219" height="0.430555" italic="0.075139" />
    <Char code="1097" width="0.8228855" height="0.430555" depth="0.194445" italic="0.076714" />
-   <Char code="1096" width="0.817774" height="0.430555" italic="0.076714" >
-      <Lig code="1095" ligCode="1097"/>
-   </Char>
-   <Char code="1099" width="0.664441" height="0.430555" italic="0.076714" >
-      <Lig code="1072" ligCode="1103"/>
-      <Lig code="1091" ligCode="1102"/>
-   </Char>
-   <Char code="1079" width="0.459997" height="0.430555" italic="0.056528" >
-      <Lig code="1093" ligCode="1078"/>
-   </Char>
+   <Char code="1096" width="0.817774" height="0.430555" italic="0.076714" />
+   <Char code="1099" width="0.664441" height="0.430555" italic="0.076714" />
+   <Char code="1079" width="0.459997" height="0.430555" italic="0.056528" />
    <Char code="1100" width="0.511108" height="0.430555" italic="0.063124" >
       <Kern code="1083" val="-0.025556"/>
       <Kern code="1084" val="-0.025556"/>
@@ -702,4 +651,3 @@
       <Kern code="1108" val="-0.025556"/>
    </Char>
 </Font>
-
