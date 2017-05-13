@@ -70,6 +70,7 @@ import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.LoggerD;
+import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
 
 /**
@@ -587,8 +588,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public NormalizerMinimal getNormalizer() {
-		// TODO Auto-generated method stub
-		return null;
+		return Normalizer.getInstance();
 	}
 
 	@Override

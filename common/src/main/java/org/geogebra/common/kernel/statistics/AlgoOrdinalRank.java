@@ -93,6 +93,10 @@ public class AlgoOrdinalRank extends AlgoElement {
 				NumberValue num = (NumberValue) geo;
 				OrderedPair pair = new OrderedPair(num.getDouble(), i);
 				sortedSet.add(pair);
+				if (Double.isNaN(num.getDouble())) {
+					outputList.setUndefined();
+					return;
+				}
 			} else {
 				outputList.setUndefined();
 				return;

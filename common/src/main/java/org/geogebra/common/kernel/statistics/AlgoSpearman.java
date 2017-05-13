@@ -141,7 +141,10 @@ public class AlgoSpearman extends AlgoElement {
 					NumberValue numy = (NumberValue) geoy;
 					valX[i] = numx.getDouble();
 					valY[i] = numy.getDouble();
-
+					if (Double.isNaN(valX[i]) || Double.isNaN(valY[i])) {
+						result.setUndefined();
+						return;
+					}
 				} else {
 					result.setUndefined();
 					return;
