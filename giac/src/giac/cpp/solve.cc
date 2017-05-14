@@ -2181,7 +2181,7 @@ namespace giac {
       return res;
     }
     if (e.type==_VECT){
-      if (x.type==_IDNT && lvarx(e,x,contextptr)==vecteur(1,x))
+      if (x.type==_IDNT && lvarx(e,x)==vecteur(1,x))
 	return solve(_gcd(e,contextptr),x,isolate_mode,contextptr);
       const_iterateur it=e._VECTptr->begin(),itend=e._VECTptr->end();
       gen curx=x._IDNTptr->eval(1,x,contextptr);
@@ -6566,7 +6566,7 @@ namespace giac {
 	  if (j==16) order=_16VAR_ORDER;
 	  if (j==32) order=_32VAR_ORDER;
 	  if (j==64) order=_64VAR_ORDER;
-	  for (;l.size()<j;)
+	  for (;int(l.size())<j;)
 	    l.push_back(0);
 	}
       }
@@ -7013,7 +7013,7 @@ namespace giac {
 	    neweq.push_back(r);
 	  }
 	  vecteur newelim;
-	  for (int i=0;i<elim.size();++i){
+	  for (int i=0;i<int(elim.size());++i){
 	    if (elim[i]!=bestvar)
 	      newelim.push_back(elim[i]);
 	  }
