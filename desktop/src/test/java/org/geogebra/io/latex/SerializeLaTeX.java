@@ -1,5 +1,6 @@
 package org.geogebra.io.latex;
 
+import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
@@ -179,13 +180,27 @@ public class SerializeLaTeX {
 		checkLaTeX("a\\leq b", "a<=b");
 		checkLaTeX("f\\left(x\\right)=\\sin\\left(x\\right)", "f(x)=sin(x)");
 		checkLaTeX("r\\ =\\ g^{\\theta}", "r = g^(" + Unicode.thetaStr + ")");
+		checkLaTeX("7\\cdot 6", "7*6");
+		checkLaTeX("7\\times 6", "7*6");
+	}
+
+	@Test
+	public void testParseLaTeXAdapter() {
+		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)",
+				new BracketsAdapter());
 	}
 
 	private void checkLaTeX(String string, String string2) {
+		checkLaTeX(string, string2, null);
+
+	}
+
+	private void checkLaTeX(String string, String string2, BracketsAdapter ad) {
 		TeXFormula tf = new TeXFormula();
 		TeXParser tp = new TeXParser(string, tf);
 		tp.parse();
-		Assert.assertEquals(string2, TeXAtomSerializer.serialize(tf.root));
+		Assert.assertEquals(string2,
+				new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
 	private static void checkCannon(String input, String output) {

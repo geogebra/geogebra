@@ -19,7 +19,13 @@ import com.himamis.retex.renderer.share.TypedAtom;
 
 public class TeXAtomSerializer {
 	private static HashMap<String, String> mappings;
-	public static String serialize(Atom root) {
+	private BracketsAdapter adapter;
+
+	public TeXAtomSerializer(BracketsAdapter ad) {
+		this.adapter = ad;
+	}
+
+	public String serialize(Atom root) {
 		if (root instanceof FractionAtom) {
 			FractionAtom frac = (FractionAtom) root;
 			return "(" + serialize(frac.getNumerator()) + ")/("
@@ -52,8 +58,13 @@ public class TeXAtomSerializer {
 		}
 		if (root instanceof FencedAtom) {
 			FencedAtom ch = (FencedAtom) root;
-			return serialize(ch.getLeft()) + serialize(ch.getBase())
-					+ serialize(ch.getRight());
+			String left = serialize(ch.getLeft());
+			String right = serialize(ch.getRight());
+			String base = serialize(ch.getBase());
+			if (adapter == null) {
+				return left + base + right;
+			}
+			return adapter.transformBrackets(left, base, right);
 		}
 		if (root instanceof SpaceAtom) {
 			return " ";
@@ -78,7 +89,7 @@ public class TeXAtomSerializer {
 		return root.getClass().getName();
 	}
 
-	private static String subSup(ScriptsAtom ch) {
+	private String subSup(ScriptsAtom ch) {
 		StringBuilder sb = new StringBuilder(serialize(ch.getBase()));
 		if (ch.getSub() != null) {
 			String sub = serialize(ch.getSub());
@@ -116,6 +127,8 @@ public class TeXAtomSerializer {
 		mappings.put("le", "<=");
 		mappings.put("geq", ">=");
 		mappings.put("leq", "<=");
+		mappings.put("cdot", "*");
+		mappings.put("times", "*");
 		mappings.put("theta", Unicode.thetaStr);
 	}
 }

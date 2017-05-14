@@ -17,6 +17,7 @@ import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -1086,7 +1087,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		TeXFormula tf = new TeXFormula();
 		TeXParser tp = new TeXParser(input, tf);
 		tp.parse();
-		evalCommand(TeXAtomSerializer.serialize(tf.root));
+		BracketsAdapter ad = mode == 1 ? new BracketsAdapter() : null;
+		evalCommand(new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
 	/**
