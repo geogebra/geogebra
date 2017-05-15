@@ -90,6 +90,8 @@ public class GeoGebraServer {
 						results.put(api.getValueString(args));
 					} else if ("getLaTeXString".equals(cmd)) {
 						results.put(api.getLaTeXString(args));
+					} else if ("setRounding".equals(cmd)) {
+						api.setRounding(args);
 					}
 
 					i++;
