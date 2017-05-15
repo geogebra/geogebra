@@ -1124,7 +1124,6 @@ __GGB__keysVar.tl.error = {
     "Error": "Error",
     "ExponentMustBeConstant": "Ang bawat exponent ay dapat constant",
     "ExponentMustBeInteger": "Ang bawat exponent ay dapat integer.",
-    "ExportJarMissing": "Paumanhin, ang geogebra_export.jar file ay nawala o nasira",
     "FileFormatNewer": "Paki-upgrade sa panibagong version ng GeoGebra\nAng file format na ito ay hindi suportado",
     "FileFormatUnknown": "Hindi kilalang file format",
     "FileIsTooLarge": "Ang data file ay masyadong malaki",

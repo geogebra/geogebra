@@ -1124,7 +1124,6 @@ __GGB__keysVar.xh.error = {
     "Error": "Impazamo",
     "ExponentMustBeConstant": "I eksponenti nganye mayingatshintshi",
     "ExponentMustBeInteger": "Ieksponenti nganye mayibe yiintheja",
-    "ExportJarMissing": "Uxolo, ifayile ye geogebra_export.jar  ilahlekile okanye yonakele",
     "FileFormatNewer": "Nceda unyukele kwisiqendu esitsha seJiyoJibhra kunesi.\nOluhlobo lwe lwefayile aluhambisani nayo",
     "FileFormatUnknown": "Oluhlobo lwefayile alwaziwa",
     "FileIsTooLarge": "Lefayile yedatha inkulu kakhulu",

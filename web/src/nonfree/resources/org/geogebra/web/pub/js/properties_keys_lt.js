@@ -1124,7 +1124,6 @@ __GGB__keysVar.lt.error = {
     "Error": "Klaida",
     "ExponentMustBeConstant": "Kiekvienas laipsnio rodiklis turi b\u016bti pastovus.",
     "ExponentMustBeInteger": "Kiekvienas laipsnio rodiklis turi b\u016bti sveikas skai\u010dius.",
-    "ExportJarMissing": "Atsipra\u0161au, failas geogebra_export.jar nerastas arba pa\u017eeistas.",
     "FileFormatNewer": "Atnaujinkite GeoGebra versij\u0105.\n\u0160is dokumento tipas nepalaikomas.",
     "FileFormatUnknown": "Ne\u017einomas dokumento tipas.",
     "FileIsTooLarge": "Dokumentas per didelis.",

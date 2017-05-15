@@ -1124,7 +1124,6 @@ __GGB__keysVar.eo.error = {
     "Error": "Eraro",
     "ExponentMustBeConstant": "\u0108iu eksponento devas esti konstanta",
     "ExponentMustBeInteger": "\u0108iu eksponento devas esti entjera",
-    "ExportJarMissing": "Sorry, the geogebra_export.jar file is missing or corrupt",
     "FileFormatNewer": "Please upgrade to a newer version of GeoGebra\nThis file format is not supported",
     "FileFormatUnknown": "Nekonata datuma formato",
     "FileIsTooLarge": "Tro granda datumdosiero",

@@ -1124,7 +1124,6 @@ __GGB__keysVar.bn.error = {
     "Error": "\u09a4\u09cd\u09b0\u09c1\u099f\u09bf",
     "ExponentMustBeConstant": "\u09aa\u09cd\u09b0\u09a4\u09bf\u099f\u09bf \u098f\u0995\u09cd\u09b8\u09aa\u09cb\u09a8\u09c7\u09a8\u09cd\u099f\u0995\u09c7 \u09a7\u09cd\u09b0\u09c1\u09ac \u09b9\u09a4\u09c7 \u09b9\u09ac\u09c7",
     "ExponentMustBeInteger": "Every exponent has to be an integer",
-    "ExportJarMissing": "Sorry, the geogebra_export.jar file is missing or corrupt",
     "FileFormatNewer": "Please upgrade to a newer version of GeoGebra\nThis file format is not supported",
     "FileFormatUnknown": "\u0985\u099c\u09be\u09a8\u09be \u09ab\u09be\u0987\u09b2 \u09ab\u09b0\u09ae\u09cd\u09af\u09be\u099f",
     "FileIsTooLarge": "\u09a1\u09c7\u099f\u09be \u09ab\u09be\u0987\u09b2 \u0985\u09a8\u09c7\u0995 \u09ac\u09c7\u09b6\u09bf \u09ac\u09dc",

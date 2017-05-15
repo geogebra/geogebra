@@ -1124,7 +1124,6 @@ __GGB__keysVar.pl.error = {
     "Error": "B\u0142\u0105d",
     "ExponentMustBeConstant": "Wyk\u0142adnik musi by\u0107 sta\u0142y",
     "ExponentMustBeInteger": "Wyk\u0142adnik musi by\u0107 liczb\u0105 ca\u0142kowit\u0105",
-    "ExportJarMissing": "Przepraszamy, plik geogebra_export.jar jest niedost\u0119pny lub uszkodzony",
     "FileFormatNewer": "Prosz\u0119 zaktualizuj program GeoGebra do nowszej wersji.\nTen format pliku nie jest u\u017cywany",
     "FileFormatUnknown": "Nieznany format pliku",
     "FileIsTooLarge": "Plik z danymi ma zbyt du\u017cy rozmiar.",

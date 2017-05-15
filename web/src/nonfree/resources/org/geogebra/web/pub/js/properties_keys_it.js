@@ -1124,7 +1124,6 @@ __GGB__keysVar.it.error = {
     "Error": "Errore",
     "ExponentMustBeConstant": "Gli esponenti devono essere costanti.",
     "ExponentMustBeInteger": "Gli esponenti devono essere interi.",
-    "ExportJarMissing": "Il file geogebra_export.jar \xe8 mancante o danneggiato",
     "FileFormatNewer": "Aggiornare GeoGebra alla versione pi\xf9 recente.\nQuesto formato di file non \xe8 supportato.",
     "FileFormatUnknown": "Formato di file sconosciuto",
     "FileIsTooLarge": "Il file dei dati \xe8 troppo grande.",

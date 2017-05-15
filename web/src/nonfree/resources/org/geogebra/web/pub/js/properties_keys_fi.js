@@ -1124,7 +1124,6 @@ __GGB__keysVar.fi.error = {
     "Error": "Virhe",
     "ExponentMustBeConstant": "Kaikkien eksponenttien on oltava vakioita",
     "ExponentMustBeInteger": "Kaikkien eksponenttien on oltava kokonaislukuja",
-    "ExportJarMissing": "Valitettavasti tiedosto geogebra_export.jar puuttuu tai on vahingoittunut",
     "FileFormatNewer": "P\xe4ivit\xe4 uudempaan GeoGebran versioon\nT\xe4t\xe4 tiedostomuotoa ei tueta",
     "FileFormatUnknown": "Tuntematon tiedostomuoto",
     "FileIsTooLarge": "Tiedosto on liian suuri",

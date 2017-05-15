@@ -1124,7 +1124,6 @@ __GGB__keysVar.sq.error = {
     "Error": "Gabim",
     "ExponentMustBeConstant": "Cdo eksponent te jete konstant",
     "ExponentMustBeInteger": "Cdo eksponent te jete numer i plote",
-    "ExportJarMissing": "Na vjen keq, dokumenti gjeogjebra_export.jar mungon ose eshte i korruptuarr",
     "FileFormatNewer": "Ju lutem, beni rinovim me versionin me te ri te GeoGebra. Ky format dokumenti nuk mbeshtetet.",
     "FileFormatUnknown": "Format i panjohur dokumenti",
     "FileIsTooLarge": "Dokumenti me te dhena eshte shume i madh",

@@ -1124,7 +1124,6 @@ __GGB__keysVar.fr.error = {
     "Error": "Erreur",
     "ExponentMustBeConstant": "Chaque exposant doit \xeatre constant.",
     "ExponentMustBeInteger": "Chaque exposant doit \xeatre un nombre entier.",
-    "ExportJarMissing": "D\xe9sol\xe9, l'archive geogebra_export.jar est absente ou d\xe9t\xe9rior\xe9e.",
     "FileFormatNewer": "Faire la mise \xe0 jour de GeoGebra.\nCe format de fichier n'est pas support\xe9.",
     "FileFormatUnknown": "Format de fichier inconnu",
     "FileIsTooLarge": "Le fichier de donn\xe9es est trop gros.",

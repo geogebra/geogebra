@@ -1124,7 +1124,6 @@ __GGB__keysVar.de.error = {
     "Error": "Fehler",
     "ExponentMustBeConstant": "Jeder Exponent muss konstant sein.",
     "ExponentMustBeInteger": "Jeder Exponent muss eine ganze Zahl sein.",
-    "ExportJarMissing": "Die Datei geogebra_export.jar wurde nicht gefunden oder ist fehlerhaft.",
     "FileFormatNewer": "Bitte aktualisieren Sie Ihre GeoGebra Version.\nDieses Dateiformat wird nicht unterst\xfctzt.",
     "FileFormatUnknown": "Unbekanntes Dateiformat",
     "FileIsTooLarge": "Die Datei ist zu gro\xdf",

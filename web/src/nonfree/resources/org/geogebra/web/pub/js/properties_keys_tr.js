@@ -1124,7 +1124,6 @@ __GGB__keysVar.tr.error = {
     "Error": "Hata",
     "ExponentMustBeConstant": "B\xfct\xfcn \xfcsler sabit olmal\u0131d\u0131r",
     "ExponentMustBeInteger": "B\xfct\xfcn \xfcsler tamsay\u0131 olmal\u0131d\u0131r",
-    "ExportJarMissing": "Maalesef geogebra_export.jar dosyas\u0131 eksik ya da bozulmu\u015f",
     "FileFormatNewer": "L\xfctfen Geogeabra'n\u0131n yeni s\xfcr\xfcm\xfcn\xfc g\xfcncelleyiniz.\nBu dosya bi\xe7imi desteklenmiyor",
     "FileFormatUnknown": "Bilinmeyen dosya bi\xe7imi",
     "FileIsTooLarge": "Veri dosyas\u0131 \xe7ok b\xfcy\xfck",

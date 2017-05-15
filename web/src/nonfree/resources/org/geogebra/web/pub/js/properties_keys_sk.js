@@ -1124,7 +1124,6 @@ __GGB__keysVar.sk.error = {
     "Error": "Chyba",
     "ExponentMustBeConstant": "Ka\u017ed\xfd mocnite\u013e mus\xed by\u0165 kon\u0161tantn\xfd",
     "ExponentMustBeInteger": "Ka\u017ed\xfd mocnite\u013e mus\xed by\u0165 pr\xedrodzen\xe9 \u010d\xedslo",
-    "ExportJarMissing": "Prep\xe1\u010dte, ale s\xfabor geogebra_export.jar ch\xfdba alebo je po\u0161koden\xfd",
     "FileFormatNewer": "Aktualizujte GeoGebru nov\u0161ou verziou\nTento form\xe1t s\xfaboru nie je podporovan\xfd",
     "FileFormatUnknown": "Nezn\xe1my form\xe1t s\xfaboru",
     "FileIsTooLarge": "D\xe1tov\xfd s\xfabor je pr\xedli\u0161 ve\u013ek\xfd.",

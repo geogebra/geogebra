@@ -1124,7 +1124,6 @@ __GGB__keysVar.da.error = {
     "Error": "Fejl",
     "ExponentMustBeConstant": "Hver eksponent skal v\xe6re konstant",
     "ExponentMustBeInteger": "Hver eksponent skal v\xe6re et helt tal",
-    "ExportJarMissing": "Undskyld, men filen geogebra_export.jar mangler eller er i stykker.",
     "FileFormatNewer": "F\xe5 en nyere version af GeoGebra.\nDette filformat er ikke underst\xf8ttet",
     "FileFormatUnknown": "Ukendt filformat",
     "FileIsTooLarge": "Datafilen er for stor.",

@@ -1124,7 +1124,6 @@ __GGB__keysVar.bs.error = {
     "Error": "Gre\u0161ka",
     "ExponentMustBeConstant": "Vrijednost svakog eksponenta mora biti konstanta.",
     "ExponentMustBeInteger": "Vrijednost svakog eksponenta mora biti cijeli broj.",
-    "ExportJarMissing": "\u017dao nam je, geogebra_export.jar datoteka ili nedostaje ili je o\u0161te\u0107ena.",
     "FileFormatNewer": "Molimo instalirajte novu verziju programa GeoGebra.\n\nOvaj format datoteke vi\u0161e nije podr\u017ean.",
     "FileFormatUnknown": "Nepoznati format datoteke",
     "FileIsTooLarge": "Datoteka je prevelika.",

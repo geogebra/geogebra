@@ -1124,7 +1124,6 @@ __GGB__keysVar.no_NB.error = {
     "Error": "Feil",
     "ExponentMustBeConstant": "Eksponenten m\xe5 v\xe6re en konstant.",
     "ExponentMustBeInteger": "Eksponenten m\xe5 v\xe6re et helt tall.",
-    "ExportJarMissing": "Fila geogebra_export.jar er skadet eller mangler.",
     "FileFormatNewer": "Du m\xe5 skaffe en nyere versjon av GeoGebra.\nDet er ikke st\xf8tte for dette filformatet.",
     "FileFormatUnknown": "Ukjent filformat.",
     "FileIsTooLarge": "Datafila er for stor.",

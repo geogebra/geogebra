@@ -1124,7 +1124,6 @@ __GGB__keysVar.nl_NL.error = {
     "Error": "Foutmelding",
     "ExponentMustBeConstant": "Elke exponent moet constant zijn",
     "ExponentMustBeInteger": "Elke exponent moet een geheel getal zijn",
-    "ExportJarMissing": "Sorry,GeoGebra_export.jar file ontbreekt of is corrupt.",
     "FileFormatNewer": "Gebruik een recentere versie van GeoGebra.\nDit bestandsformaat wordt niet ondersteund",
     "FileFormatUnknown": "Onbekend bestandsformaat",
     "FileIsTooLarge": "Databestand is te groot",

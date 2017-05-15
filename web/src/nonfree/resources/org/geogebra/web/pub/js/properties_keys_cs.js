@@ -1124,7 +1124,6 @@ __GGB__keysVar.cs.error = {
     "Error": "Chyba",
     "ExponentMustBeConstant": "Exponent mus\xed b\xfdt konstantn\xed.",
     "ExponentMustBeInteger": "Exponent mus\xed b\xfdt p\u0159irozen\xe9 \u010d\xedslo.",
-    "ExportJarMissing": "Lituji, ale soubor geogebra_export.jar chyb\xed nebo je po\u0161kozen.",
     "FileFormatNewer": "Aktualizujte GeoGebru nov\u011bj\u0161\xed verz\xed.\nTento datov\xfd form\xe1t nen\xed podporov\xe1n.",
     "FileFormatUnknown": "Nezn\xe1m\xfd datov\xfd form\xe1t",
     "FileIsTooLarge": "Datov\xfd soubor je p\u0159\xedli\u0161 velk\xfd.",

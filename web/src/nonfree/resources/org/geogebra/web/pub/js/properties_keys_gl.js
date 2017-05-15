@@ -1124,7 +1124,6 @@ __GGB__keysVar.gl.error = {
     "Error": "Erro",
     "ExponentMustBeConstant": "Os expo\xf1entes deben ser constantes",
     "ExponentMustBeInteger": "Os expo\xf1entes te\xf1en que ser enteiros",
-    "ExportJarMissing": "Lamentablemente, o arquivo geogebra_export.jar est\xe1 da\xf1ado ou perdido",
     "FileFormatNewer": "Por favor, actualice \xe1 unha versi\xf3n m\xe1is nova de GeoGebra\nEste formato de ficheiro non est\xe1 soportado",
     "FileFormatUnknown": "Formato de ficheiro desco\xf1ecido",
     "FileIsTooLarge": "O ficheiro de datos \xe9 demasiado grande",

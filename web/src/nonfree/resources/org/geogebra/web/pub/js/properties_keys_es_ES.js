@@ -1124,7 +1124,6 @@ __GGB__keysVar.es_ES.error = {
     "Error": "Error.",
     "ExponentMustBeConstant": "Cada exponente debe ser constante.",
     "ExponentMustBeInteger": "Cada exponente debe ser un n\xfamero entero.",
-    "ExportJarMissing": "Lo sentimos, el archivo geogebra_export.jar est\xe1 da\xf1ado o ausente.",
     "FileFormatNewer": "Por favor, actualiza la versi\xf3n de GeoGebra. \nEste formato de archivo carece de respaldo.",
     "FileFormatUnknown": "Archivo de formato desconocido.",
     "FileIsTooLarge": "Archivo de datos demasiado grande.",

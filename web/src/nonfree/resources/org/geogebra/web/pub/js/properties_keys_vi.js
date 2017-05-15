@@ -1124,7 +1124,6 @@ __GGB__keysVar.vi.error = {
     "Error": "L\u1ed7i",
     "ExponentMustBeConstant": "S\u1ed1 m\u0169 b\u1eaft bu\u1ed9c ph\u1ea3i l\xe0 m\u1ed9t h\u1eb1ng s\u1ed1",
     "ExponentMustBeInteger": "S\u1ed1 m\u0169 b\u1eaft bu\u1ed9c ph\u1ea3i l\xe0 m\u1ed9t s\u1ed1 nguy\xean",
-    "ExportJarMissing": "T\u1eadp tin geogebra_export.jar b\u1ecb l\u1ed7i ho\u1eb7c kh\xf4ng c\xf3",
     "FileFormatNewer": "T\u1eadp tin n\xe0y kh\xf4ng \u0111\u01b0\u1ee3c h\u1ed7 tr\u1ee3",
     "FileFormatUnknown": "Kh\xf4ng x\xe1c \u0111\u1ecbnh \u0111\u01b0\u1ee3c \u0111\u1ecbnh d\u1ea1ng c\u1ee7a t\u1eadp tin",
     "FileIsTooLarge": "D\u1eef li\u1ec7u t\u1eadp tin qu\xe1 l\u1edbn",

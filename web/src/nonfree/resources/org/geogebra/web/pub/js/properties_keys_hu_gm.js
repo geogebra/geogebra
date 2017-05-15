@@ -1124,7 +1124,6 @@ __GGB__keysVar.hu_gm.error = {
     "Error": "Hiba",
     "ExponentMustBeConstant": "Minden kitev\u0151nek konstansnak kell lennie.",
     "ExponentMustBeInteger": "Minden kitev\u0151nek eg\xe9sznek kell lennie.",
-    "ExportJarMissing": "Sajn\xe1lom, a geogebra_export.jar f\xe1jl hi\xe1nyzik vagy hib\xe1s.",
     "FileFormatNewer": "Szerezd be a GeoGebra \xfajabb v\xe1ltozat\xe1t!\nEz a f\xe1jlform\xe1tum nem t\xe1mogatott.",
     "FileFormatUnknown": "Ismeretlen f\xe1jlform\xe1tum",
     "FileIsTooLarge": "Az adatf\xe1jl t\xfal nagy.",

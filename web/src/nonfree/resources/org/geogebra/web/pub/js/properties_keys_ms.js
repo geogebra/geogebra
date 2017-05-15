@@ -1124,7 +1124,6 @@ __GGB__keysVar.ms.error = {
     "Error": "Ralat",
     "ExponentMustBeConstant": "Setiap eksponen mestilah malar.",
     "ExponentMustBeInteger": "Setiap eksponen mestilah satu integer.",
-    "ExportJarMissing": "Maaf, fail geogebra_export.jar telah hilang atau rosak.",
     "FileFormatNewer": "Sila menaiktarafkan ke satu versi GeoGebra yang lebih baru. \nFormat fail ini tidak disokong.",
     "FileFormatUnknown": "Format fail tidak dikenali",
     "FileIsTooLarge": "File data terlalu besar",

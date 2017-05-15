@@ -1124,7 +1124,6 @@ __GGB__keysVar.ca_XV.error = {
     "Error": "Error",
     "ExponentMustBeConstant": "Els exponents han de ser constants.",
     "ExponentMustBeInteger": "Els exponents han de ser enters.",
-    "ExportJarMissing": "El fitxer geogebra_export.jar s'ha perdut o est\xe0 malm\xe8s.",
     "FileFormatNewer": "S'ha d'actualitzar la versi\xf3 del GeoGebra.\nEste format de fitxer no s'admet",
     "FileFormatUnknown": "El format de fitxer \xe9s desconegut",
     "FileIsTooLarge": "El fitxer de dades \xe9s massa llarg",

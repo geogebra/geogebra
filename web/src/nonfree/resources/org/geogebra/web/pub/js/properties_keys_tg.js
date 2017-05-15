@@ -1124,7 +1124,6 @@ __GGB__keysVar.tg.error = {
     "Error": "\u0445\u0430\u0442\u043e",
     "ExponentMustBeConstant": "Every exponent has to be constant",
     "ExponentMustBeInteger": "Every exponent has to be an integer",
-    "ExportJarMissing": "Sorry, the geogebra_export.jar file is missing or corrupt",
     "FileFormatNewer": "Please upgrade to a newer version of GeoGebra\nThis file format is not supported",
     "FileFormatUnknown": "Unknown file format",
     "FileIsTooLarge": "\u0424\u0430\u0439\u043b\u0438 \u043c\u0430\u044a\u043b\u0443\u043c\u043e\u0442\u0438 \u0445\u0435\u043b\u0435 \u043a\u0430\u043b\u043e\u043d \u0430\u0441\u0442",

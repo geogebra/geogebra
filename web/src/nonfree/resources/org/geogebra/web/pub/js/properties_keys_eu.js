@@ -1124,7 +1124,6 @@ __GGB__keysVar.eu.error = {
     "Error": "Errorea",
     "ExponentMustBeConstant": "Berretzaileek konstante izan behar dute.",
     "ExponentMustBeInteger": "Berretzaileek zenbaki oso izan behar dute.",
-    "ExportJarMissing": "Sentitzen dugu, geogebra_export.jar fitxategia falta da edo hondatuta dago.",
     "FileFormatNewer": "Gaurkotu GeoGebraren bertsio berri batekin.\nFitxategiaren formatu hau ez dago indarrean.",
     "FileFormatUnknown": "Fitxategiaren formatua ezezaguna",
     "FileIsTooLarge": "Datu-fitxategia handiegia da.",

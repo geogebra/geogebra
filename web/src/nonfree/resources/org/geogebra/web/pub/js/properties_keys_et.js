@@ -1124,7 +1124,6 @@ __GGB__keysVar.et.error = {
     "Error": "Viga",
     "ExponentMustBeConstant": "Iga aste peab olema konstant.",
     "ExponentMustBeInteger": "Iga aste peab olema t\xe4isarv.",
-    "ExportJarMissing": "Kahjuks fail geogebra_export.jar puudub v\xf5i on vigane.",
     "FileFormatNewer": "Palun hankige uuem GeoGebra versioon.\nSellist failivormingut ei saa kasutada.",
     "FileFormatUnknown": "Tundmatu failivorming",
     "FileIsTooLarge": "Andmefail on liiga suur.",

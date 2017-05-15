@@ -1124,7 +1124,6 @@ __GGB__keysVar.is.error = {
     "Error": "Villa",
     "ExponentMustBeConstant": "S\xe9rhver veldisv\xedsir ver\xf0ur a\xf0 vera fasti",
     "ExponentMustBeInteger": "S\xe9rhver veldisv\xedsir ver\xf0ur a\xf0 vera heil tala",
-    "ExportJarMissing": "\xdev\xed mi\xf0ur, geogebra_export.jar skr\xe1in er g\xf6llu\xf0 e\xf0a ekki til",
     "FileFormatNewer": "Vinsamlegast uppf\xe6ri\xf0 \xed n\xfdrri \xfatg\xe1fu af GeoGebra\n\xdeetta skr\xe1arsni\xf0 er ekki stutt",
     "FileFormatUnknown": "\xd3\xfeekkt skr\xe1arsni\xf0",
     "FileIsTooLarge": "Gagnaskr\xe1 of st\xf3r",

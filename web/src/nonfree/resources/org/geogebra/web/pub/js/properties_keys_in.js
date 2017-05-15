@@ -1124,7 +1124,6 @@ __GGB__keysVar.in.error = {
     "Error": "Kesalahan",
     "ExponentMustBeConstant": "Setiap eksponen harus konstan",
     "ExponentMustBeInteger": "Setiap eksponen harus suatu bilangan bulat.",
-    "ExportJarMissing": "Maaf, berkas geogebra_export.jar hilang atau rusak.",
     "FileFormatNewer": "Silahkan mutakhirkan GeoGebra ini ke versi terbaru.\nBerkas ini tidak dapat dibuka secara benar.",
     "FileFormatUnknown": "Format berkas tidak diketahui",
     "FileIsTooLarge": "Data file is too large",
