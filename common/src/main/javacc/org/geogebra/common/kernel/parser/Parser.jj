@@ -246,7 +246,7 @@ TOKEN :  {
   | < GREATER_EQUAL: (">=" | "\u2265") >
  // | < INEQUALITY: ( < LESS > | < LESS_EQUAL > | < GREATER_EQUAL > | < GREATER > ) >
   | < PARALLEL: "\u2225" >
-  | < PERPENDICULAR: "\u22a5" >
+  | < PERPENDICULAR: ("\u22a5" | "\u27c2") >
   | < EQUAL:    ("=" | "%=") > // %= for Giac
   | < PLUS:     "+" >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >

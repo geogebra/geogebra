@@ -95,7 +95,8 @@ class MetaModelSymbols {
         operators.add(createOperator("forall", "NaN", "\\forall", '\u2200'));
         operators.add(createOperator("exists", "NaN", "\\exists", '\u2203'));
 
-        operators.add(createOperator("perpendicular", "\\perp", '\u27c2'));
+		operators.add(createOperator("perpendicular", "\\perp", '\u22a5'));
+		operators.add(createOperator("\u27c2"));
         operators.add(createOperator("parallel", "\\parallel", '\u2225'));
 
         operators.add(createOperator("subset", "NaN", "\\subset", '\u2282'));
