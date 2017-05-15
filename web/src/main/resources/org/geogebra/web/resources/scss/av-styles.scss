@@ -12,6 +12,10 @@
 			min-width: 182px;
 			cursor: pointer; 
 			padding-left: 64px;
+			
+			.no-image {
+				padding-left: 0px !important;
+			}
 		}
 		
 		.gwt-MenuItem.no-hover,
@@ -25,7 +29,7 @@
 		}
 		
 		.gwt-MenuItem:hover {
-			background-color: #eeeeee;
+			background-color: $selected-menuitem-backgroung;
 			img {
 				opacity: 0.87;
 			}
@@ -61,5 +65,30 @@
 		.subMenuIcon:hover {
 			opacity: 0.87;
 		}
+	}
+	
+	.matSubMenu.gwt-PopupPanel {
+		padding: 4px 0px 4px 0px;
+		border-radius: 2px;
+		min-width: 128px;
+	
+		.gwt-MenuItem {
+			height: 24px;
+			min-width: 128px;
+			cursor: pointer; 
+			padding-left: 0px;
+		}
+		
+		.gwt-MenuItem:hover {
+			background-color: $selected-menuitem-backgroung;
+			color: $black;
+		}
+		
+		.gwt-MenuItem-disabled,
+		.gwt-MenuItem-disabled:hover {
+			color: $black;
+			opacity: 0.38;
+		}
+		
 	}
 }

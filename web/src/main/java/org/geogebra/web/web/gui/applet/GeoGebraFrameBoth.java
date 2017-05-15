@@ -309,6 +309,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 		keyboardHeight = 0;
 		keyBoard.remove(new Runnable() {
+			@Override
 			public void run() {
 
 				keyBoard.resetKeyboardState();
@@ -417,6 +418,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	@Override
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
 		if (forceShow) {
@@ -825,6 +827,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		
 	}
 
+	@Override
 	public boolean isHeaderPanelOpen() {
 		return lastBG != null;
 	}

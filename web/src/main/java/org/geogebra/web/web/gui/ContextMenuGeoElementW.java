@@ -1258,7 +1258,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			title.addStyleName("menuTitle");
 		}
 		wrappedPopup.addItem(title);
-		// wrappedPopup.addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			wrappedPopup.addSeparator();
+		}
 	}
 
 	public GPopupMenuW getWrappedPopup() {

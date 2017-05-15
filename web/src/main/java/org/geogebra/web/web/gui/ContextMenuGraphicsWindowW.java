@@ -149,7 +149,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getMenu(name) + " ..."), true,
+				app.has(Feature.NEW_TOOLBAR) ? loc.getMenu("Settings")
+						: loc.getMenu(name) + " ..."),
+				true,
 		        new Command() {
 
 			        @Override

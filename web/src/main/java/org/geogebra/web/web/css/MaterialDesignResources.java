@@ -17,11 +17,26 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/more_vert_purple.png")
 	ImageResource more_vert_purple();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/cut_black.png")
+	ImageResource cut_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/copy_black.png")
+	ImageResource copy_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/paste_black.png")
+	ImageResource paste_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/duplicate_black.png")
 	ImageResource duplicate_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/delete_black.png")
 	ImageResource delete_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/label_black.png")
+	ImageResource label_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/record_to_spreadsheet_black.png")
+	ImageResource record_to_spreadsheet_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/settings_black.png")
 	ImageResource settings_black();
@@ -46,6 +61,13 @@ public interface MaterialDesignResources extends ClientBundle {
 
 
 	// plus menu icon resources
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/add_black.png")
+	ImageResource add_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/add_purple.png")
+	ImageResource add_purple();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/menu_help_black.png")
 	ImageResource icon_help_black();
 

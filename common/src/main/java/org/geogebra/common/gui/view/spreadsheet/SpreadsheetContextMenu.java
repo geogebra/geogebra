@@ -61,7 +61,7 @@ public class SpreadsheetContextMenu {
 
 		ImportDataFile,
 
-		SpreadsheetOptions, Properties;
+		SpreadsheetOptions, Properties, Create;
 	}
 
 	/**
@@ -124,7 +124,9 @@ public class SpreadsheetContextMenu {
 	}
 
 	protected void addEditItems() {
-		addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 		addCopy();
 		addPaste();
 		addCut();
@@ -139,12 +141,13 @@ public class SpreadsheetContextMenu {
 		String cmdString = null;
 
 		setTitle(getTitleString());
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 
 		// ===============================================
 		// Cut-Copy-Paste-Delete
 		// ===============================================
-
-		addSeparator();
 
 		addEditItems();
 
@@ -156,9 +159,13 @@ public class SpreadsheetContextMenu {
 		if (selectionType == MyTableInterface.COLUMN_SELECT
 				|| selectionType == MyTableInterface.ROW_SELECT) {
 
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				addSeparator();
+			}
 
-			subMenu = addSubMenu(loc.getMenu("Insert") + " ...", null);
+			subMenu = addSubMenu(app.has(Feature.NEW_TOOLBAR)
+					? loc.getMenu("Insert") : loc.getMenu("Insert") + " ...",
+					null);
 
 			if (selectionType == MyTableInterface.COLUMN_SELECT) {
 
@@ -202,9 +209,12 @@ public class SpreadsheetContextMenu {
 
 		if (!isEmptySelection()) {
 
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				addSeparator();
+			}
 
-			subMenu = addSubMenu(loc.getMenu("Create"), null);
+			subMenu = addSubMenu(loc.getMenu("Create"),
+					MenuCommand.Create.toString());
 
 			cmdString = MenuCommand.List.toString();
 			enabled = true;
@@ -246,7 +256,9 @@ public class SpreadsheetContextMenu {
 			boolean doLabelMenu = geo.isLabelShowable();
 
 			if (doObjectMenu || doLabelMenu) {
-				addSeparator();
+				if (!app.has(Feature.NEW_TOOLBAR)) {
+					addSeparator();
+				}
 
 				if (doObjectMenu) {
 					addShowObject(geo);
@@ -312,10 +324,14 @@ public class SpreadsheetContextMenu {
 		// ===============================================
 
 		if (isEmptySelection()) {
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				addSeparator();
+			}
 
 			cmdString = MenuCommand.SpreadsheetOptions.toString();
-			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
+			addMenuItem(cmdString, app.has(Feature.NEW_TOOLBAR)
+					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
+					true);
 		}
 
 		// ===============================================
@@ -324,10 +340,14 @@ public class SpreadsheetContextMenu {
 
 		if (app.getSelectionManager().selectedGeosSize() > 0
 				&& app.letShowPropertiesDialog()) {
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				addSeparator();
+			}
 
 			cmdString = MenuCommand.Properties.toString();
-			addMenuItem(cmdString, loc.getMenu(cmdString) + " ...", true);
+			addMenuItem(cmdString, app.has(Feature.NEW_TOOLBAR)
+					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
+					true);
 		}
 
 	}

@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -45,8 +46,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup = new GPopupMenuW((AppW) app);
 		popup.getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
 		initMenu();
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			popup.getPopupPanel().addStyleName("contextMenu");
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			popup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
 
@@ -61,7 +64,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 				        popup.setVisible(false);
 			        }
 		        });
-		title.addStyleName("menuTitle");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			title.addStyleName("no-hover");
+		} else {
+			title.addStyleName("menuTitle");
+		}
 		popup.addItem(title);
 	}
 
@@ -72,7 +79,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	protected void addEditItems() {
 		if (isWhiteboard()) {
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				addSeparator();
+			}
 			addCut();
 			addCopy();
 			addDuplicate();
@@ -97,10 +106,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 		String html;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+			html = MainMenu.getMenuBarHtml(
+					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), text);
 		}
 
 		MenuItem mi;
@@ -120,11 +130,12 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString, isSelected),
 					"");
 		} else {
-			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), "");
+			html = MainMenu.getMenuBarHtml(
+					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), "");
 		}
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html, selected,
@@ -139,10 +150,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        boolean isSelected) {
 
 		String html;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+			html = MainMenu.getMenuBarHtml(
+					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), text);
 		}
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
@@ -152,19 +164,23 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public Object addSubMenu(String text, String cmdString) {
+	public MenuItem addSubMenu(String text, String cmdString) {
 
 		String html;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+			html = MainMenu.getMenuBarHtml(
+					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), text);
 		}
 
 		MenuBar subMenu = new MenuBar(true);
 		MenuItem menuItem = new MenuItem(html, true, subMenu);
 
 		popup.addItem(menuItem);
+		if (app.has(Feature.NEW_TOOLBAR)) {
+
+		}
 		return menuItem;
 	}
 
@@ -173,10 +189,12 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        String text, boolean enabled) {
 
 		String html;
-		if (isWhiteboard()) {
+		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
-			html = MainMenu.getMenuBarHtml(getIconUrl(cmdString), text);
+			html = MainMenu.getMenuBarHtml(
+					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)),
+					text);
 		}
 
 		MenuItem mi = new MenuItem(html, true, getCommand(cmdString));
@@ -184,6 +202,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		mi.setEnabled(enabled);
 
 		((MenuItem) menu).getSubMenu().addItem(mi);
+
 	}
 
 	@Override
@@ -201,7 +220,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		return cmd;
 	}
 
-	private static String getIconUrl(String cmdString) {
+	private static String getIconUrl(String cmdString, boolean isNewDesign) {
 
 		if (cmdString == null) {
 			return AppResources.INSTANCE.empty().getSafeUri().asString();
@@ -215,29 +234,76 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			im = AppResources.INSTANCE.mode_showhideobject_16();
 			break;
 		case ShowLabel:
-			im = AppResources.INSTANCE.mode_showhidelabel_16();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.label_black();
+			} else {
+				im = AppResources.INSTANCE.mode_showhidelabel_16();
+			}
 			break;
 		case Copy:
-			im = AppResources.INSTANCE.edit_copy();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.copy_black();
+			} else {
+				im = AppResources.INSTANCE.edit_copy();
+			}
 			break;
 		case Cut:
-			im = AppResources.INSTANCE.edit_cut();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.cut_black();
+			} else {
+				im = AppResources.INSTANCE.edit_cut();
+			}
 			break;
 		case Paste:
-			im = AppResources.INSTANCE.edit_paste();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.paste_black();
+			} else {
+				im = AppResources.INSTANCE.edit_paste();
+			}
+			break;
+		case Duplicate:
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.duplicate_black();
+			} else {
+				im = AppResources.INSTANCE.duplicate20();
+			}
 			break;
 		case Delete:
 		case DeleteObjects:
-			im = AppResources.INSTANCE.delete_small();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.delete_black();
+			} else {
+				im = AppResources.INSTANCE.delete_small();
+			}
 			break;
 		case RecordToSpreadsheet:
-			im = AppResources.INSTANCE.spreadsheettrace();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE
+						.record_to_spreadsheet_black();
+			} else {
+				im = AppResources.INSTANCE.spreadsheettrace();
+			}
 			break;
 		case Properties:
-			im = AppResources.INSTANCE.view_properties16();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.settings_black();
+			} else {
+				im = AppResources.INSTANCE.view_properties16();
+			}
 			break;
 		case SpreadsheetOptions:
-			im = AppResources.INSTANCE.view_properties16();
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.settings_black();
+			} else {
+				im = AppResources.INSTANCE.view_properties16();
+			}
+			break;
+		case Create:
+			if (isNewDesign) {
+				im = MaterialDesignResources.INSTANCE.add_black();
+			} else {
+				im = AppResources.INSTANCE.empty();
+			}
 			break;
 		default:
 			im = AppResources.INSTANCE.empty();

@@ -7,6 +7,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 
@@ -223,6 +224,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			// => we need to push focus to parent item
 			btnHelpToggle.addFocusHandler(new FocusHandler() {
 
+				@Override
 				public void onFocus(FocusEvent event) {
 					item.setFocus(true, true);
 					event.preventDefault();
@@ -234,7 +236,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	}
 	
 	/**
-	 * Crea te plus button if it doesn't exist, update the image
+	 * Create plus button if it doesn't exist, update the image
 	 */
 	public void initPlus() {
 		if (btnPlus == null) {
@@ -262,12 +264,12 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		}
 		
 		btnPlus.getUpFace().setImage(new NoDragImage(
-				GuiResources.INSTANCE.algebra_new().getSafeUri()
+				MaterialDesignResources.INSTANCE.add_black().getSafeUri()
 							.asString(),
 			24));
 
 		NoDragImage hoverImg = new NoDragImage(
-				GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
+				MaterialDesignResources.INSTANCE.add_purple().getSafeUri()
 				.asString(), 24);
 		
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
