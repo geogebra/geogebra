@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -73,7 +74,7 @@ public class ToolbarPanel extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-
+					Log.debug("not implemented");
 				}
 			});
 		}
