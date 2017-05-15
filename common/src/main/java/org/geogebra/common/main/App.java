@@ -4255,6 +4255,10 @@ public abstract class App implements UpdateSelection {
 
 		case NEW_TOOLBAR:
 			return false;
+			
+		// MOB-1216
+		case WEB_ZSPACE:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

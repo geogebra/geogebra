@@ -236,6 +236,9 @@ public enum Feature {
 	AV_PLAY_ONLY,
 
 	/** GGB-1773 */
-	NEW_TOOLBAR
+	NEW_TOOLBAR,
+
+	/** MOB-1216 */
+	WEB_ZSPACE
 
 }

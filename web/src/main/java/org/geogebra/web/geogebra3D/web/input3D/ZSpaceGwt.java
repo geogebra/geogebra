@@ -12,6 +12,35 @@ public class ZSpaceGwt {
 	public ZSpaceGwt(WebGLRenderingContext gl, Element canvas) {
 		init(gl, canvas);
 	}
+	
+	public static native boolean zspaceIsAvailable() /*-{
+	    if (navigator.getVRDisplays) {
+	      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("navigator.getVRDisplays");
+	      navigator.getVRDisplays().then(function (displays) {
+	        if (displays.length > 0) {
+	          var i;
+	          var flag = false;
+	          for (i = 0; i < displays.length; i++) {
+	          	@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("displays[i].displayName = "+displays[i].displayName);
+	            if (displays[i].displayName == "ZSpace Display") {
+	              flag = true;
+	            }
+	          }
+	          if (flag) {
+	          	$wnd.localStorage.setItem('zSpace', 'true');
+	          } else {
+	          	$wnd.localStorage.setItem('zSpace', 'false');
+	          }
+	        }
+	      });
+	      var stored = $wnd.localStorage.getItem('zSpace');
+	      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("localStorage.getItem = "+stored);
+	      if (stored == "true") {
+	      	return true;
+	      }
+	    } 
+	    return false;
+	}-*/;
 
 	protected native void init(WebGLRenderingContext gl,
 			Element canvas) /*-{
