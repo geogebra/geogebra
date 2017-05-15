@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -37,6 +38,7 @@ public class NDGDetector {
 	private HashMap<String, NDGCondition> lookupTable;
 	private Prover prover;
 	private HashMap<PVariable, BigInteger> substitutions;
+	private Set<PVariable> freeVariables;
 
 	/**
 	 * Creates an NDGDetector instance. The NDG detector will try to detect
@@ -45,13 +47,18 @@ public class NDGDetector {
 	 * 
 	 * @param prover
 	 *            The prover we are create this instance for.
-	 * @param substitutions2
+	 * @param substitutionsInput
 	 *            Fix substitutions.
+	 * @param freeVariablesInput
+	 *            the input set of free variables
 	 */
-	NDGDetector(Prover prover, HashMap<PVariable, BigInteger> substitutions2) {
+	NDGDetector(Prover prover,
+			HashMap<PVariable, BigInteger> substitutionsInput,
+			Set<PVariable> freeVariablesInput) {
 		lookupTable = new HashMap<String, NDGCondition>();
 		this.prover = prover;
-		this.substitutions = substitutions2;
+		this.substitutions = substitutionsInput;
+		this.freeVariables = freeVariablesInput;
 	}
 
 	/**
@@ -293,13 +300,13 @@ public class NDGDetector {
 				try {
 					x = ((SymbolicParametersBotanaAlgo) geo)
 							.getBotanaVars(geo)[0];
-					if (x.isFree()) {
+					if (freeVariables.contains(x)) {
 						freeXvars.add(x);
 						xvarGeo.put(x, geo);
 					}
 					y = ((SymbolicParametersBotanaAlgo) geo)
 							.getBotanaVars(geo)[1];
-					if (y.isFree()) {
+					if (freeVariables.contains(y)) {
 						freeYvars.add(y);
 						yvarGeo.put(y, geo);
 					}

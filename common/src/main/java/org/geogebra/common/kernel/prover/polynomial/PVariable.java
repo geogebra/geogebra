@@ -16,7 +16,6 @@ public class PVariable implements Comparable<PVariable> {
 	// private int nextAvailableNumber = 0;
 	// private HashMap<String,Integer> nameToId;
 	private HashMap<Integer, PVariable> twins = new HashMap<Integer, PVariable>();
-	private boolean isFree = false;
 
 	private GeoElement parent;
 	// private final String name;
@@ -24,23 +23,15 @@ public class PVariable implements Comparable<PVariable> {
 
 	/**
 	 * Creates a new variable
+	 * 
+	 * @param kernel
+	 *            current kernel
 	 */
 	public PVariable(Kernel kernel) {
 		// nextAvailableNumber++;
 		// name = "v".concat(Integer.toString(nextAvailableNumber));
 		// nameToId.put(name,n);
 		id = kernel.getConstruction().getNextVariableID();
-	}
-
-	/**
-	 * Creates a new variable
-	 * 
-	 * @param free
-	 *            true if the Variable is a free variable
-	 */
-	public PVariable(Kernel kernel, boolean free) {
-		this(kernel);
-		isFree = free;
 	}
 
 	/**
@@ -175,23 +166,4 @@ public class PVariable implements Comparable<PVariable> {
 		this.parent = parent;
 	}
 
-	/**
-	 * Tests whether the variable is free or dependent
-	 * 
-	 * @return returns true if this is a free variable and returns false if it
-	 *         is a dependent variable
-	 */
-	public boolean isFree() {
-		return isFree;
-	}
-
-	/**
-	 * Set a variable to be free or dependent.
-	 * 
-	 * @param value
-	 *            true if free, false if dependent
-	 */
-	public void setFree(boolean value) {
-		isFree = value;
-	}
 }

@@ -236,7 +236,7 @@ public abstract class AbstractProverReciosMethod {
 					as.getPolynomials().toArray(
 							new PPolynomial[as.getPolynomials().size()]),
 					substitutions, as.geoStatement.getKernel(),
-					proverSettings.transcext);
+					proverSettings.transcext, as.freeVariables);
 			Log.debug("Recio meets Botana:" + substitutions);
 			if (solvable.boolVal()) {
 				return ProofResult.FALSE;
@@ -275,7 +275,7 @@ public abstract class AbstractProverReciosMethod {
 						as.getPolynomials().toArray(
 								new PPolynomial[as.getPolynomials().size()]),
 						substitutions, as.geoStatement.getKernel(),
-						proverSettings.transcext);
+						proverSettings.transcext, as.freeVariables);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
 				if (solvable.boolVal()) {
 					return ProofResult.FALSE;
@@ -330,7 +330,7 @@ public abstract class AbstractProverReciosMethod {
 									.toArray(new PPolynomial[as.getPolynomials()
 											.size()]),
 							substitutions, as.geoStatement.getKernel(),
-							ProverSettings.get().transcext);
+							ProverSettings.get().transcext, as.freeVariables);
 					Log.debug("Recio meets Botana: #" + caseno + " "
 							+ substitutions);
 					if (solvable.boolVal()) {

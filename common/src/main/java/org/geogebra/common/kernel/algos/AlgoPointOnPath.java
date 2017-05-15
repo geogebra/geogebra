@@ -292,7 +292,7 @@ public class AlgoPointOnPath extends AlgoElement
 		if (input[0] != null && input[0] instanceof GeoLine) {
 			if (botanaVars == null) {
 				botanaVars = new PVariable[2];
-				botanaVars[0] = new PVariable(kernel, true);
+				botanaVars[0] = new PVariable(kernel); // ,true
 				botanaVars[1] = new PVariable(kernel);
 			}
 			PVariable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
@@ -307,7 +307,7 @@ public class AlgoPointOnPath extends AlgoElement
 			if (((GeoConic) input[0]).isCircle()) {
 				if (botanaVars == null) {
 					botanaVars = new PVariable[2];
-					botanaVars[0] = new PVariable(kernel, true);
+					botanaVars[0] = new PVariable(kernel); // ,true
 					botanaVars[1] = new PVariable(kernel);
 				}
 				PVariable[] fv = ((SymbolicParametersBotanaAlgo) input[0])
@@ -324,7 +324,7 @@ public class AlgoPointOnPath extends AlgoElement
 				if (botanaVars == null) {
 					botanaVars = new PVariable[4];
 					// point P on parabola
-					botanaVars[0] = new PVariable(kernel, true);
+					botanaVars[0] = new PVariable(kernel); // ,true
 					botanaVars[1] = new PVariable(kernel);
 					// T- projection of P on AB
 					botanaVars[2] = new PVariable(kernel);
@@ -356,7 +356,7 @@ public class AlgoPointOnPath extends AlgoElement
 				if (botanaVars == null) {
 					botanaVars = new PVariable[4];
 					// P - point on ellipse/hyperbola
-					botanaVars[0] = new PVariable(kernel, true);
+					botanaVars[0] = new PVariable(kernel); // ,true
 					botanaVars[1] = new PVariable(kernel);
 					// distances between point on ellipse/hyperbola
 					// and foci points

@@ -2748,8 +2748,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		if (algoParent == null) {
 			if (botanaVars == null) {
 				botanaVars = new PVariable[2];
-				botanaVars[0] = new PVariable(kernel, true);
-				botanaVars[1] = new PVariable(kernel, true);
+				botanaVars[0] = new PVariable(kernel); // ,true
+				botanaVars[1] = new PVariable(kernel); // ,true
 				Log.trace("Free point " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + "," + botanaVars[1] + ")");
 			}

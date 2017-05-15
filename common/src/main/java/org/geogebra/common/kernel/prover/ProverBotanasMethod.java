@@ -309,6 +309,12 @@ public class ProverBotanasMethod {
 		 */
 		private Set<PPolynomial> polynomials;
 		/**
+		 * The set of free variables. By default each variable is non-free, thus
+		 * this list is empty. Some algos and geo types should create an entry
+		 * for some of the Botana variables.
+		 */
+		Set<PVariable> freeVariables = new HashSet<PVariable>();
+		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
 		boolean interpretFalseAsUndefined = false;
@@ -347,6 +353,15 @@ public class ProverBotanasMethod {
 		}
 
 		/**
+		 * Retrieve free variables.
+		 * 
+		 * @return the set of free variables
+		 */
+		public Set<PVariable> getFreeVariables() {
+			return freeVariables;
+		}
+
+		/**
 		 * Add algebraic representation of a geometric object to the polynomial
 		 * system. It may contain one or more polynomials.
 		 * 
@@ -380,7 +395,6 @@ public class ProverBotanasMethod {
 		/**
 		 * Return the elimination variables of the algebraic structure as a
 		 * String. Use computeStrings() before using this method.
-		 * 
 		 * @return elimination variables in String format
 		 */
 		public String getElimVars() {
@@ -495,12 +509,6 @@ public class ProverBotanasMethod {
 		public void computeStrings() {
 			TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
 
-			/*
-			 * We don't use this at the moment, but later it could be useful for
-			 * the prover.
-			 */
-			TreeSet<PVariable> freeVariables = new TreeSet<PVariable>();
-
 			PPolynomial[] eqSystem = this.getPolynomials()
 					.toArray(new PPolynomial[this.getPolynomials().size()]);
 			TreeSet<PVariable> variables = new TreeSet<PVariable>(
@@ -509,13 +517,8 @@ public class ProverBotanasMethod {
 			Iterator<PVariable> variablesIterator = variables.iterator();
 			while (variablesIterator.hasNext()) {
 				PVariable variable = variablesIterator.next();
-				if (!variable.isFree()) {
+				if (!freeVariables.contains(variable)) {
 					dependentVariables.add(variable);
-				} else {
-					if (substitutions == null
-							|| !substitutions.containsKey(variable)) {
-						freeVariables.add(variable);
-					}
 				}
 			}
 
@@ -538,9 +541,9 @@ public class ProverBotanasMethod {
 			this.polys = PPolynomial
 					.getPolysAsCommaSeparatedString(eqSystemSubstituted);
 			this.elimVars = PPolynomial.getVarsAsCommaSeparatedString(
-					eqSystemSubstituted, null, false);
+					eqSystemSubstituted, null, false, freeVariables);
 			this.freeVars = PPolynomial.getVarsAsCommaSeparatedString(
-					eqSystemSubstituted, null, true);
+					eqSystemSubstituted, null, true, freeVariables);
 			Log.trace("gbt polys = " + polys);
 			Log.trace("gbt vars = " + elimVars + "," + freeVars);
 		}
@@ -658,6 +661,7 @@ public class ProverBotanasMethod {
 						PPolynomial[] geoPolynomials = ((SymbolicParametersBotanaAlgo) geo)
 								.getBotanaPolynomials(geo);
 
+						AlgoElement algo = geo.getParentAlgorithm();
 						/*
 						 * We used to check if the construction step could be
 						 * reliably translated to an algebraic representation.
@@ -674,7 +678,6 @@ public class ProverBotanasMethod {
 						 * 
 						 * TODO: This piece of code can be removed on a cleanup.
 						 */
-						AlgoElement algo = geo.getParentAlgorithm();
 						if (algo instanceof AlgoAngularBisectorPoints
 								|| algo instanceof AlgoEllipseHyperbolaFociPoint
 								|| (algo instanceof AlgoIntersectConics
@@ -690,6 +693,31 @@ public class ProverBotanasMethod {
 						/*
 						 * End of reliability check.
 						 */
+
+						/*
+						 * Declare free variables. Now this is done here, not in
+						 * the getBotanaVars() and getBotanaPolynomials()
+						 * methods in order to allow different sets of free
+						 * variables for the same objects which may appear in
+						 * different ART commands.
+						 */
+						PVariable[] geoVariables = ((SymbolicParametersBotanaAlgo) geo)
+								.getBotanaVars(geo);
+						if (geoVariables != null) {
+							if (algo instanceof AlgoPointOnPath
+									|| geo instanceof GeoNumeric) {
+								freeVariables.add(geoVariables[0]);
+							} else if (algo instanceof AlgoDynamicCoordinates
+									|| (geo instanceof GeoLine
+											&& ((GeoLine) geo).hasFixedSlope())
+									|| (geo instanceof GeoPoint
+											&& algo == null)) {
+								for (PVariable geoVariable : geoVariables) {
+									freeVariables.add(geoVariable);
+									Log.debug(geoVariable + " is free");
+								}
+							}
+						}
 
 						if (algo instanceof AlgoCirclePointRadius) {
 							disallowFixSecondPoint = true;
@@ -1035,7 +1063,7 @@ public class ProverBotanasMethod {
 
 							for (PPolynomial p : polyListOfFactors) {
 								NDGCondition ndgc = new NDGDetector(geoProver,
-										null).detect(p);
+										null, freeVariables).detect(p);
 								if (ndgc != null) {
 									geoProver.addNDGcondition(ndgc);
 								}
@@ -1341,7 +1369,8 @@ public class ProverBotanasMethod {
 		if (prover.isReturnExtraNDGs()) {
 			/* START OF PROVEDETAILS. */
 			Set<Set<PPolynomial>> eliminationIdeal;
-			NDGDetector ndgd = new NDGDetector(prover, substitutions);
+			NDGDetector ndgd = new NDGDetector(prover, substitutions,
+					as.freeVariables);
 
 			boolean found = false;
 			int permutation = 0;
@@ -1369,7 +1398,8 @@ public class ProverBotanasMethod {
 						as.getPolynomials()
 								.toArray(new PPolynomial[as.getPolynomials()
 										.size()]),
-						substitutions, k, permutation++, true, false);
+						substitutions, k, permutation++, true, false,
+						as.freeVariables);
 				if (eliminationIdeal == null) {
 					return ProofResult.UNKNOWN;
 				}
@@ -1417,7 +1447,7 @@ public class ProverBotanasMethod {
 											.toArray(new PPolynomial[as
 													.getPolynomials().size()]),
 									substitutions, k, permutation++, true,
-									false);
+									false, as.freeVariables);
 							ndgSet = eliminationIdeal.iterator();
 							while (ndgSet.hasNext()) {
 								thisNdgSet = ndgSet.next();
@@ -1553,7 +1583,7 @@ public class ProverBotanasMethod {
 							.toArray(new PPolynomial[as.getPolynomials()
 									.size()]),
 					substitutions, statement.getKernel(),
-					proverSettings.transcext);
+					proverSettings.transcext, as.freeVariables);
 			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
 				/*
 				 * Prover returned with no success, search for another prover:
@@ -1585,7 +1615,7 @@ public class ProverBotanasMethod {
 										.toArray(new PPolynomial[as
 												.getPolynomials().size()]),
 								substitutions, statement.getKernel(),
-								proverSettings.transcext);
+								proverSettings.transcext, as.freeVariables);
 				if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
 					/*
 					 * Prover returned with no success, search for another
@@ -1739,7 +1769,7 @@ public class ProverBotanasMethod {
 				}
 				// These coordinates are no longer free.
 				for (int i = 0; i < 4; i++) {
-					vars[i].setFree(false);
+					as.freeVariables.remove(vars[i]);
 				}
 			}
 			AlgoElement algo = geo.getParentAlgorithm();
@@ -1806,13 +1836,13 @@ public class ProverBotanasMethod {
 					((GeoLine) ae.input[0]).getDirection(dir);
 					if (dir[0] == 0.0) {
 						/* vertical */
-						vars[0].setFree(false);
-						vars[1].setFree(true);
+						as.freeVariables.remove(vars[0]);
+						as.freeVariables.add(vars[1]);
 						createX = false;
 					} else {
 						/* horizontal */
-						vars[0].setFree(true);
-						vars[1].setFree(false);
+						as.freeVariables.add(vars[0]);
+						as.freeVariables.remove(vars[1]);
 						createY = false;
 					}
 				}
@@ -1843,7 +1873,7 @@ public class ProverBotanasMethod {
 					} else { // fractional
 						q = k.doubleToRational(x);
 					}
-					vars[0].setFree(false);
+					as.freeVariables.remove(vars[0]);
 					PPolynomial ph = new PPolynomial((int) q[0])
 							.subtract(new PPolynomial(vars[0])
 									.multiply(new PPolynomial((int) q[1])));
@@ -1863,7 +1893,7 @@ public class ProverBotanasMethod {
 					} else { // fractional
 						q = k.doubleToRational(y);
 					}
-					vars[1].setFree(false);
+					as.freeVariables.remove(vars[1]);
 					PPolynomial ph = new PPolynomial((int) q[0])
 							.subtract(new PPolynomial(vars[1])
 									.multiply(new PPolynomial((int) q[1])));
@@ -1877,12 +1907,12 @@ public class ProverBotanasMethod {
 					condition = tracer.equals(freePoint);
 				}
 				if (condition) {
-					vars[0].setFree(true);
-					vars[1].setFree(true);
+					as.freeVariables.add(vars[0]);
+					as.freeVariables.add(vars[1]);
 					as.curveVars = vars;
 				} else {
-					vars[0].setFree(false);
-					vars[1].setFree(false);
+					as.freeVariables.remove(vars[0]);
+					as.freeVariables.remove(vars[1]);
 				}
 			}
 		}

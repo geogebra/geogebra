@@ -407,12 +407,21 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	
 	/**
 	 * Creates a comma separated list of the variables in the given polynomials
-	 * @param polys the polynomials
-	 * @param extraVars (maybe) extra variables (typically substituted variables)
-	 * @param free filter the query if the variables are free or dependant (or any if null)
+	 * 
+	 * @param polys
+	 *            the polynomials
+	 * @param extraVars
+	 *            (maybe) extra variables (typically substituted variables)
+	 * @param free
+	 *            filter the query if the variables are free or dependant (or
+	 *            any if null)
+	 * @param freeVariables
+	 *            set of free variables
 	 * @return the comma separated list
 	 */
-	public static String getVarsAsCommaSeparatedString(PPolynomial[] polys, HashSet<PVariable> extraVars, Boolean free) {
+	public static String getVarsAsCommaSeparatedString(PPolynomial[] polys,
+			HashSet<PVariable> extraVars, Boolean free,
+			Set<PVariable> freeVariables) {
 		StringBuilder sb = new StringBuilder();
 		HashSet<PVariable> vars = getVars(polys);
 		if (extraVars != null)
@@ -420,7 +429,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		Iterator<PVariable> it = vars.iterator();
 		while (it.hasNext()) {
 			PVariable fv = it.next();
-			if ((free == null) || (free && fv.isFree()) || (!free && !fv.isFree()))
+			if ((free == null) || (free && freeVariables.contains(fv))
+					|| (!free && !(freeVariables.contains(fv))))
 				sb.append("," + fv);		
 		}
 		if (sb.length()>0)
@@ -445,6 +455,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		return "";
 	}
 	
+
 	/**
 	 * Creates a Singular program for creating a ring to work with two
 	 * polynomials, and multiply them; adds a closing ";" 
@@ -454,7 +465,8 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @return the Singular program code
 	 */
 	public String getSingularMultiplication(String ringVariable, PPolynomial p1, PPolynomial p2) {
-		String vars = getVarsAsCommaSeparatedString(new PPolynomial[] {p1, p2}, null, null);
+		String vars = getVarsAsCommaSeparatedString(
+				new PPolynomial[] { p1, p2 }, null, null, null);
 		if (!"".equals(vars))
 			return "ring " + ringVariable + "=0,(" 
 				+ vars
@@ -1003,24 +1015,33 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	}
 
 	/**
-	 * Decides if an array of polynomials (as a set) gives a solvable equation system
-	 * on the field of the complex numbers.
-	 * @param polys the array of polynomials
-	 * @param substitutions some variables which are to be evaluated with exact numbers
-	 * @param kernel kernel for the prover
-	 * @param transcext use coefficients from transcendent extension if possible 
+	 * Decides if an array of polynomials (as a set) gives a solvable equation
+	 * system on the field of the complex numbers.
+	 * 
+	 * @param polys
+	 *            the array of polynomials
+	 * @param substitutions
+	 *            some variables which are to be evaluated with exact numbers
+	 * @param kernel
+	 *            kernel for the prover
+	 * @param transcext
+	 *            use coefficients from transcendent extension if possible
+	 * @param freeVariables
+	 *            set of free variables
 	 * @return yes if solvable, no if no solutions, or null (if cannot decide)
 	 */
 	public static ExtendedBoolean solvable(PPolynomial[] polys,
 			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
-			boolean transcext) {
+			boolean transcext, Set<PVariable> freeVariables) {
 		
 		HashSet<PVariable> substVars = null;
 		String polysAsCommaSeparatedString = getPolysAsCommaSeparatedString(polys);
 		substVars = new HashSet<PVariable>(substitutions.keySet());		
 		
-		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true);
-		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars, false);
+		String freeVars = getVarsAsCommaSeparatedString(polys, substVars, true,
+				freeVariables);
+		String dependantVars = getVarsAsCommaSeparatedString(polys, substVars,
+				false, freeVariables);
 		String solvableResult, solvableProgram;
 		
 		SingularWebService singularWS = kernel.getApplication().getSingularWS();
@@ -1128,11 +1149,14 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 * @param oneCurve
 	 *            prefer getting one algebraic curve than an ideal with more
 	 *            elements
+	 * @param freeVariablesInput
+	 *            input set of free variables
 	 * @return elements of the elimination ideal or null if computation failed
 	 */
 	public static Set<Set<PPolynomial>> eliminate(PPolynomial[] eqSystem,
 			HashMap<PVariable, BigInteger> substitutions, Kernel kernel,
-			int permutation, boolean factorized, boolean oneCurve) {
+			int permutation, boolean factorized, boolean oneCurve,
+			Set<PVariable> freeVariablesInput) {
 
 		TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
 		TreeSet<PVariable> freeVariables = new TreeSet<PVariable>();
@@ -1140,7 +1164,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		Iterator<PVariable> variablesIterator = variables.iterator();
 		while (variablesIterator.hasNext()) {
 			PVariable variable = variablesIterator.next();
-			if (!variable.isFree()) {
+			if (!freeVariablesInput.contains(variable)) {
 				dependentVariables.add(variable);
 			} else {
 				if (substitutions == null
@@ -1149,6 +1173,10 @@ public class PPolynomial implements Comparable<PPolynomial> {
 				}
 			}
 		}
+		/*
+		 * Maybe the freeVariables will be the same as the freeVariablesInput.
+		 * If this is always so, then the above code is redundant. TODO: check.
+		 */
 		PPolynomial[] eqSystemSubstituted;
 		if (substitutions != null) {
 			eqSystemSubstituted = new PPolynomial[eqSystem.length];
@@ -1247,9 +1275,10 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 			
 			String polys = getPolysAsCommaSeparatedString(eqSystemSubstituted);
-			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted, null, false);
+			String elimVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
+					null, false, freeVariablesInput);
 			String freeVars = getVarsAsCommaSeparatedString(eqSystemSubstituted,
-					null, true);
+					null, true, freeVariablesInput);
 			Log.trace("gbt polys = " + polys);
 			Log.trace("gbt vars = " + elimVars + "," + freeVars);
 			// Consider uncomment this if Giac cannot find a readable NDG:

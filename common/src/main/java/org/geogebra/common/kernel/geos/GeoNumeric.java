@@ -1789,7 +1789,7 @@ public class GeoNumeric extends GeoElement
 		if (algoParent == null) {
 			if (botanaVars == null) {
 				botanaVars = new PVariable[1];
-				botanaVars[0] = new PVariable(kernel, true);
+				botanaVars[0] = new PVariable(kernel); // ,true
 				Log.debug("Variable " + geo.getLabelSimple() + "("
 						+ botanaVars[0] + ")");
 			}
