@@ -4129,8 +4129,9 @@ public abstract class App implements UpdateSelection {
 		case WHITEBOARD_APP:
 			return prerelease;
 
+		// MOB-351 5.0.358.0
 		case MOBILE_CACHE_FEATURED:
-			return prerelease;
+			return true;
 
 		// MOB-961, MOB-962
 		case BIND_ANDROID_TO_EXAM_APP:
