@@ -97,7 +97,6 @@ public class PerspectivesPopup {
 				"exam_menu_entry", -1, 7);
 		contentPanel.add(examRow);
 
-		// add link to tutorials
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
 			if (!app.getLAF().isSmart() && !app.getLAF().isTablet()) {
 
@@ -116,6 +115,7 @@ public class PerspectivesPopup {
 				contentPanel.add(holderPanel);
 			}
 		} else {
+			// add link to tutorials
 			HorizontalPanel tutorialsRow = addPerspectiveRow(
 					GuiResources.INSTANCE.icon_help(), "Tutorials", -2, 8);
 			tutorialsRow.addStyleName("upperBorder");

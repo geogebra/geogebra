@@ -128,8 +128,4 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_whiteboard.svg")
 	SVGResource menu_icon_whiteboard24();
 
-	//@Override
-	//@Source("org/geogebra/common/icons/svg/web/app_store.svg")
-	//TextResource app_store();
-
 }

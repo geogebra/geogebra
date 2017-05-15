@@ -447,10 +447,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
 
-	// @Source("org/geogebra/common/icons/svg/web/app_store.svg")
-	// @MimeType("image/svg+xml")
-	// DataResource app_store();
-
 	@Source("org/geogebra/common/icons/svg/web/app_store.svg")
 	SVGResource app_store();
 

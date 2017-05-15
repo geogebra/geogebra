@@ -98,6 +98,4 @@ public interface PerspectiveResources {
 
 	ResourcePrototype menu_header_back();
 
-	//ResourcePrototype app_store();
-
 }
