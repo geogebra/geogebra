@@ -4090,9 +4090,9 @@ public abstract class App implements UpdateSelection {
 		case EXPORT_ANIMATED_PDF:
 			return prerelease;
 
-		// MOB-601
+		// MOB-601 5.0.358.0
 		case MOBILE_LOCAL_SAVE:
-			return prerelease;
+			return true;
 
 		//AND-217
 		case MOBILE_AV_EDITOR:
