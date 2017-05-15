@@ -134,8 +134,13 @@ public class ToolbarPanel extends FlowPanel {
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && lastOpenWidth != null) {
-			dockParent.setWidgetSize(dockPanel,
-					header.isOpen() ? lastOpenWidth.intValue() : CLOSED_WIDTH);
+			if (header.isOpen()) {
+				dockParent.setWidgetSize(dockPanel, lastOpenWidth.intValue());
+				dockParent.removeStyleName("hide-HDragger");
+			} else {
+				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH);
+				dockParent.addStyleName("hide-HDragger");
+			}
 			dockPanel.deferredOnResize();
 		}
 

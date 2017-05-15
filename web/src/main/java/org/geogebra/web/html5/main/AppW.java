@@ -2372,12 +2372,12 @@ public abstract class AppW extends App implements SetLabels {
 		closePopupsNoTooltips();
 		ToolTipManagerW.hideAllToolTips();
 
-		if (getGuiManager() != null && getGuiManager().hasAlgebraView()) {
+		if (!has(Feature.NEW_TOOLBAR) && getGuiManager() != null && getGuiManager().hasAlgebraView()) {
 			getAlgebraView().resetItems(false);
 
 		}
 		if (getGuiManager() != null && getGuiManager().hasCasView()) {
-			getGuiManager().getCasView().resetItems(false);
+			// getGuiManager().getCasView().resetItems(false);
 		}
 		if (getActiveEuclidianView() != null) {
 		getActiveEuclidianView().getEuclidianController()

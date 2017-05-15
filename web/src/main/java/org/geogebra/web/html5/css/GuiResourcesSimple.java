@@ -120,6 +120,10 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/perspectives-popup.scss")
 	SassResource perspectivesPopupScss();
 
+
+	@Source("org/geogebra/web/resources/scss/layout.scss")
+	SassResource layoutScss();
+	
 	// don't include these anywhere!
 	// they are only here, because otherwise they are not compiled on browser
 	// refresh and then I cannot see the changes!
