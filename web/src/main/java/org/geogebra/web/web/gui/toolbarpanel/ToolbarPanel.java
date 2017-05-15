@@ -133,7 +133,8 @@ public class ToolbarPanel extends FlowPanel {
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && lastOpenWidth != null) {
-			dockParent.setWidgetSize(dockPanel, header.isOpen() ? lastOpenWidth : CLOSED_WIDTH);
+			dockParent.setWidgetSize(dockPanel,
+					header.isOpen() ? lastOpenWidth.intValue() : CLOSED_WIDTH);
 			dockPanel.deferredOnResize();
 		}
 

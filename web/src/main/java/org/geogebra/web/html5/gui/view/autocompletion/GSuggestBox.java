@@ -1222,6 +1222,9 @@ public class GSuggestBox extends Composite
 						setNewSelection(suggestion);
 					}
 					break;
+				default:
+					// nothing to do
+					break;
 				}
 			}
 

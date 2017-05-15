@@ -42,15 +42,12 @@ public class ItemControls extends FlowPanel {
 	private ContextMenuMore cmMore = null;
 
 
-	private boolean playOnly;
-	
 	/**
 	 * @param radioTreeItem
 	 *            parent item
 	 */
 	public ItemControls(RadioTreeItem radioTreeItem) {
 		this.radioTreeItem = radioTreeItem;
-		playOnly = radioTreeItem.app.has(Feature.AV_PLAY_ONLY);
 		addStyleName("AlgebraViewObjectStylebar");
 		addStyleName("smallStylebar");
 		buildGUI();

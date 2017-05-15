@@ -1,7 +1,8 @@
 package org.geogebra.desktop.main;
 
 import java.io.IOException;
-import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.InetSocketAddress;
 
 import org.geogebra.common.main.App;
@@ -111,12 +112,14 @@ public class GeoGebraServer {
 	}
 
 	private void writeOutput(HttpExchange t, String message) {
+		String encoding = "UTF-8";
 		try {
-			t.getResponseHeaders().set("Content-type", "applcation/json");
+			t.getResponseHeaders().set("Content-type",
+					"applcation/json; charset="+encoding);
 			t.sendResponseHeaders(200, message.length());
-			OutputStream os = t.getResponseBody();
-			os.write(message.getBytes());
-			os.close();
+			Writer out = new OutputStreamWriter(t.getResponseBody(), encoding);
+			out.write(message);
+			out.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
