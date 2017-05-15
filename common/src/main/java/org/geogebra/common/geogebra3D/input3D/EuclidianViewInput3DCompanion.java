@@ -967,4 +967,9 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		return input3D.useInputDepthForHitting();
 	}
 
+	@Override
+	public boolean useOnlyProjectionGlasses() {
+		return true;
+	}
+
 }
