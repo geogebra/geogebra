@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Apps Picker Dialog for new Start screen (GGB-992)
@@ -101,12 +100,18 @@ public class PerspectivesPopup {
 		// add link to tutorials
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
 			if (!app.getLAF().isSmart() && !app.getLAF().isTablet()) {
-				SimplePanel holderPanel = new SimplePanel();
+
+				String text_playstore = "<a href='https://play.google.com/store/apps/details?id=org.geogebra&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' style='height: 40px' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>";
+				Anchor link_playstore = new Anchor(text_playstore, true);
+
+				FlowPanel holderPanel = new FlowPanel();
 				holderPanel.addStyleName("appstoreholder");
+				holderPanel.addStyleName("panelRow");
 				NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
-						.safeURI(GuiResources.INSTANCE.app_store()), 135);
+						.safeURI(GuiResources.INSTANCE.app_store()), 90);
 				Anchor link = new Anchor(appStoreIcon.toString(), true,
 						"http://www.geogebra.org/download");
+				holderPanel.add(link_playstore);
 				holderPanel.add(link);
 				contentPanel.add(holderPanel);
 			}
