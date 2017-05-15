@@ -247,7 +247,7 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, "fx");
+		switcher.addSwitch(keyboard, "f(x)");
 
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
