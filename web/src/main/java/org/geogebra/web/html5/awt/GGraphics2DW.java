@@ -78,7 +78,7 @@ public class GGraphics2DW implements GGraphics2D {
 		// could also try this if necessary
 		// this.canvas = Canvas.createIfSupported();
 
-		this.context = (JLMContext2d) ctx;
+		this.context = (JLMContext2d) ctx.cast();
 		this.context.initTransform();
 	}
 

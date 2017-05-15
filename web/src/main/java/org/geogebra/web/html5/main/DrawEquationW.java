@@ -9,7 +9,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 
@@ -113,9 +112,7 @@ public class DrawEquationW extends DrawEquation {
 			return c0 == null ? Canvas.createIfSupported() : c0;
 		}
 		AppW app = ((AppW) geo.getKernel().getApplication());
-		final GColor fgColor = app.has(Feature.AV_TEXT_BLACK) ? GColor.BLACK
-				: geo.getAlgebraColor();
-		return paintOnCanvas(app, text0, c0, fontSize, fgColor);
+		return paintOnCanvas(app, text0, c0, fontSize, GColor.BLACK);
 	}
 
 	/**

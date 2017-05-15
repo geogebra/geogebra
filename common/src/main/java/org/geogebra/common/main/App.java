@@ -1222,7 +1222,6 @@ public abstract class App implements UpdateSelection {
 	 * @return EV1
 	 */
 	public EuclidianView getEuclidianView1() {
-		Log.notice("AbstrEuclView");
 		return euclidianView;
 	}
 
@@ -4170,9 +4169,6 @@ public abstract class App implements UpdateSelection {
 		case DIALOGS_OVERLAP_KEYBOARD:
 			// see comment at GPopupPanel.setOverlapFeature
 			return prerelease;
-
-		case AV_TEXT_BLACK:
-			return true;
 			
 		case DYNAMIC_STYLEBAR:
 			return prerelease && whiteboard;

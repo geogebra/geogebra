@@ -273,11 +273,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		getPlainTextItem().addStyleName("sqrtFontFix");
 		getPlainTextItem().addStyleName("avPlainTextItem");
-		if (app.has(Feature.AV_TEXT_BLACK)) {
-			getElement().getStyle().setColor("black");
-		} else {
-			updateColor(getPlainTextItem());
-		}
+
+		getElement().getStyle().setColor("black");
 
 		updateFont(getPlainTextItem());
 
@@ -867,13 +864,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 		if (!latexAfterEdit) {
 
 			buildPlainTextItem();
-			if (!latex) {
-				// original text was plain
-
-				updateItemColor();
-			} else {
+			if (latex) {
 				// original text was latex.
-
 				updateItemColor();
 				content.clear();
 				content.add(getPlainTextItem());
@@ -884,15 +876,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	private void updateItemColor() {
-		if (app.has(Feature.AV_TEXT_BLACK)) {
-			if (isDefinitionAndValue() && definitionPanel != null) {
-				definitionPanel.getElement().getStyle().setColor("black");
-			}
-		} else {
-			updateColor(getPlainTextItem());
-			if (isDefinitionAndValue() && definitionPanel != null) {
-				updateColor(definitionPanel);
-			}
+		if (isDefinitionAndValue() && definitionPanel != null) {
+			definitionPanel.getElement().getStyle().setColor("black");
 		}
 	}
 

@@ -139,8 +139,6 @@ public enum Feature {
 	/** GGB- 1501 */
 	DIALOGS_OVERLAP_KEYBOARD,
 
-	AV_TEXT_BLACK,
-
 	/** MOV-169 */
 	DYNAMIC_STYLEBAR,
 
