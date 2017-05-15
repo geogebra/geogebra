@@ -162,6 +162,7 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 */
 	public static void setValue2(GeoElement arg0, GeoElement arg1) {
+		Log.error(arg0.getLabelSimple() + " " + arg1.getLabelSimple());
 		if (arg0.isGeoFunction() && arg1.isGeoFunctionable()) {
 			// eg f(x)=x^2
 			// SetValue[f,1]
@@ -187,7 +188,10 @@ public class CmdSetValue extends CmdScripting {
 					// eg SetValue[a,?] for line
 					arg0.setUndefined();
 				} else {
-					arg0.set(arg1);
+					// copy() needed for eg
+					// rnd = {1,2,3,4}
+					// SetValue[rnd, Shuffle[rnd]]
+					arg0.set(arg1.isGeoList() ? arg1.copy() : arg1);
 					if (arg1.isChildOf(arg0)) {
 						arg0.resetDefinition();
 					}
