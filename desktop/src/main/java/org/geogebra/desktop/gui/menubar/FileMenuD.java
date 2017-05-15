@@ -396,31 +396,24 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
-					Thread runner = new Thread() {
-						@Override
-						public void run() {
-							app.setWaitCursor();
-							try {
+				Thread runner = new Thread() {
+					@Override
+					public void run() {
+						app.setWaitCursor();
+						try {
 
-								app.getGuiManager().showGraphicExport();
+							app.getGuiManager().showGraphicExport();
 
-							} catch (Exception e1) {
-								Log.debug(
-										"GraphicExportDialog not available for 3D view yet");
-								// for 3D View
-								app.copyGraphicsViewToClipboard();
-							}
-							app.setDefaultCursor();
+						} catch (Exception e1) {
+							Log.debug(
+									"GraphicExportDialog not available for 3D view yet");
+							// for 3D View
+							app.copyGraphicsViewToClipboard();
 						}
-					};
-					runner.start();
-				}
-
-				catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
-				}
+						app.setDefaultCursor();
+					}
+				};
+				runner.start();
 			}
 		};
 
@@ -436,9 +429,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					new AnimationExportDialogD(app);
 				} catch (Exception ex) {
 					Log.debug("AnimationExportDialog not available");
-				} catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
 				}
 			}
 		};
@@ -455,9 +445,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					new PstricksFrame(export).setVisible(true);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPstricks not available");
-				} catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
 				}
 			}
 		};
@@ -474,9 +461,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					new PgfFrame(export);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPGF not available");
-				} catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
 				}
 			}
 		};
@@ -496,9 +480,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 						new PdfFrame(export);
 					} catch (Exception ex) {
 						Log.debug("GeoGebraToPDF not available");
-					} catch (java.lang.NoClassDefFoundError ee) {
-						app.localizeAndShowError("ExportJarMissing");
-						ee.printStackTrace();
 					}
 				}
 			};
@@ -518,9 +499,6 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					new AsymptoteFrame(export);
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToAsymptote not available");
-				} catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
 				}
 			}
 		};
@@ -535,36 +513,29 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
 
-					Thread runner = new Thread() {
-						@Override
-						public void run() {
+				Thread runner = new Thread() {
+					@Override
+					public void run() {
 
-							app.setWaitCursor();
-							try {
-								app.getSelectionManager()
-										.clearSelectedGeos(true, false);
-								app.updateSelection(false);
-								WorksheetExportDialog d = new WorksheetExportDialog(
-										app);
+						app.setWaitCursor();
+						try {
+							app.getSelectionManager().clearSelectedGeos(true,
+									false);
+							app.updateSelection(false);
+							WorksheetExportDialog d = new WorksheetExportDialog(
+									app);
 
-								d.setVisible(true);
-							} catch (Exception e1) {
-								Log.debug(
-										"WorksheetExportDialog not available");
-								e1.printStackTrace();
-							}
-							app.setDefaultCursor();
+							d.setVisible(true);
+						} catch (Exception e1) {
+							Log.debug("WorksheetExportDialog not available");
+							e1.printStackTrace();
 						}
-					};
-					runner.start();
-				}
+						app.setDefaultCursor();
+					}
+				};
+				runner.start();
 
-				catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
-				}
 			}
 		};
 
@@ -575,35 +546,29 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				try {
 
-					Thread runner = new Thread() {
-						@Override
-						public void run() {
+				Thread runner = new Thread() {
+					@Override
+					public void run() {
 
-							app.setWaitCursor();
-							try {
-								app.getSelectionManager()
-										.clearSelectedGeos(true, false);
-								app.updateSelection(false);
+						app.setWaitCursor();
+						try {
+							app.getSelectionManager().clearSelectedGeos(true,
+									false);
+							app.updateSelection(false);
 
-								// callback for 3D
-								app.uploadToGeoGebraTubeOnCallback();
+							// callback for 3D
+							app.uploadToGeoGebraTubeOnCallback();
 
-							} catch (Exception e1) {
-								Log.debug("Uploading failed");
-								e1.printStackTrace();
-							}
-							app.setDefaultCursor();
+						} catch (Exception e1) {
+							Log.debug("Uploading failed");
+							e1.printStackTrace();
 						}
-					};
-					runner.start();
-				}
+						app.setDefaultCursor();
+					}
+				};
+				runner.start();
 
-				catch (java.lang.NoClassDefFoundError ee) {
-					app.localizeAndShowError("ExportJarMissing");
-					ee.printStackTrace();
-				}
 			}
 		};
 	}

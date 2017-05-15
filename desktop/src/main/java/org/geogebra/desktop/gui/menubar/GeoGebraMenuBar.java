@@ -477,63 +477,59 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param app
 	 */
 	public static void showPrintPreview(final AppD app) {
-		try {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
+		Thread runner = new Thread() {
+			@Override
+			public void run() {
 
-					try {
-						app.setWaitCursor();
-						// use reflection for
-						// new geogebra.export.PrintPreview(app,
-						// app.getEuclidianView(), PageFormat.LANDSCAPE);
-						// Class classObject =
-						// Class.forName("geogebra.export.PrintPreview");
-						// Object[] args = new Object[] { app ,
-						// app.getEuclidianView(), new
-						// Integer(PageFormat.LANDSCAPE)};
-						// Class [] types = new Class[] {Application.class,
-						// Printable.class, int.class};
-						// Constructor constructor =
-						// classObject.getDeclaredConstructor(types);
-						// constructor.newInstance(args);
-						/*
-						 * old code boolean printCAS=false; if
-						 * (((GuiManagerD)app.getGuiManager()).hasCasView()){
-						 * DockManager
-						 * dm=((GuiManagerD)app.getGuiManager()).getLayout
-						 * ().getDockManager(); //if CAS-view has Focus, print
-						 * CAS if
-						 * (dm.getFocusedPanel()==dm.getPanel(Application.
-						 * VIEW_CAS)){ new geogebra.export.PrintPreview(app,
-						 * ((GuiManagerD)app.getGuiManager()).getCasView(),
-						 * PageFormat.LANDSCAPE); printCAS=true; } }
-						 * 
-						 * if (!printCAS) new geogebra.export.PrintPreview(app,
-						 * app .getEuclidianView(), PageFormat.LANDSCAPE);
-						 */
-						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
-						DockManagerD dm = gui.getLayout().getDockManager();
-						int viewId = (dm.getFocusedPanel() == null) ? -1
-								: dm.getFocusedPanel().getViewId();
-						PrintPreviewD pre = PrintPreviewD.get(app, viewId,
-								PageFormat.LANDSCAPE);
+				try {
+					app.setWaitCursor();
+					// use reflection for
+					// new geogebra.export.PrintPreview(app,
+					// app.getEuclidianView(), PageFormat.LANDSCAPE);
+					// Class classObject =
+					// Class.forName("geogebra.export.PrintPreview");
+					// Object[] args = new Object[] { app ,
+					// app.getEuclidianView(), new
+					// Integer(PageFormat.LANDSCAPE)};
+					// Class [] types = new Class[] {Application.class,
+					// Printable.class, int.class};
+					// Constructor constructor =
+					// classObject.getDeclaredConstructor(types);
+					// constructor.newInstance(args);
+					/*
+					 * old code boolean printCAS=false; if
+					 * (((GuiManagerD)app.getGuiManager()).hasCasView()){
+					 * DockManager
+					 * dm=((GuiManagerD)app.getGuiManager()).getLayout
+					 * ().getDockManager(); //if CAS-view has Focus, print
+					 * CAS if
+					 * (dm.getFocusedPanel()==dm.getPanel(Application.
+					 * VIEW_CAS)){ new geogebra.export.PrintPreview(app,
+					 * ((GuiManagerD)app.getGuiManager()).getCasView(),
+					 * PageFormat.LANDSCAPE); printCAS=true; } }
+					 * 
+					 * if (!printCAS) new geogebra.export.PrintPreview(app,
+					 * app .getEuclidianView(), PageFormat.LANDSCAPE);
+					 */
+					GuiManagerD gui = (GuiManagerD) app.getGuiManager();
+					DockManagerD dm = gui.getLayout().getDockManager();
+					int viewId = (dm.getFocusedPanel() == null) ? -1
+							: dm.getFocusedPanel().getViewId();
+					PrintPreviewD pre = PrintPreviewD.get(app, viewId,
+							PageFormat.LANDSCAPE);
 
-						pre.setVisible(true);
-					} catch (Exception e) {
-						e.printStackTrace();
-						Log.debug("Print preview not available");
-					} finally {
-						app.setDefaultCursor();
-					}
-
+					pre.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+					Log.debug("Print preview not available");
+				} finally {
+					app.setDefaultCursor();
 				}
-			};
-			runner.start();
-		} catch (java.lang.NoClassDefFoundError ee) {
-			app.localizeAndShowError("ExportJarMissing");
-			ee.printStackTrace();
-		}
+
+			}
+		};
+		runner.start();
+
 	}
 
 	private static String glVersion = null;

@@ -441,34 +441,28 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			try {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						getApplication().setWaitCursor();
-						try {
-							getApplication().getSelectionManager()
-									.clearSelectedGeos(true, false);
-							getApplication().updateSelection(false);
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					getApplication().setWaitCursor();
+					try {
+						getApplication().getSelectionManager()
+								.clearSelectedGeos(true, false);
+						getApplication().updateSelection(false);
 
-							// use reflection for
-							JDialog d = new GraphicExportDialog(
-									getApplication(), plotPanelEV);
-							d.setVisible(true);
+						// use reflection for
+						JDialog d = new GraphicExportDialog(getApplication(),
+								plotPanelEV);
+						d.setVisible(true);
 
-						} catch (Exception ex) {
-							Log.debug("GraphicExportDialog not available");
-						}
-						getApplication().setDefaultCursor();
+					} catch (Exception ex) {
+						Log.debug("GraphicExportDialog not available");
 					}
-				};
-				runner.start();
-			}
+					getApplication().setDefaultCursor();
+				}
+			};
+			runner.start();
 
-			catch (java.lang.NoClassDefFoundError ee) {
-				getApplication().localizeAndShowError("ExportJarMissing");
-				ee.printStackTrace();
-			}
 		}
 	};
 
