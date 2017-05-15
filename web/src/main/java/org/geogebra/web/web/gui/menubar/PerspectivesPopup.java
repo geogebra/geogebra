@@ -100,18 +100,22 @@ public class PerspectivesPopup {
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
 			if (!app.getLAF().isSmart() && !app.getLAF().isTablet()) {
 
+				// creating of play store icon
 				String text_playstore = "<a href='https://play.google.com/store/apps/details?id=org.geogebra&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' style='height: 40px' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>";
 				Anchor link_playstore = new Anchor(text_playstore, true);
 
+				// creating of app store icon
+				NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
+						.safeURI(GuiResources.INSTANCE.app_store()), 90);
+				Anchor link_appstore = new Anchor(appStoreIcon.toString(), true,
+						"http://www.geogebra.org/download");
+
+				// holder panel
 				FlowPanel holderPanel = new FlowPanel();
 				holderPanel.addStyleName("appstoreholder");
 				holderPanel.addStyleName("panelRow");
-				NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
-						.safeURI(GuiResources.INSTANCE.app_store()), 90);
-				Anchor link = new Anchor(appStoreIcon.toString(), true,
-						"http://www.geogebra.org/download");
 				holderPanel.add(link_playstore);
-				holderPanel.add(link);
+				holderPanel.add(link_appstore);
 				contentPanel.add(holderPanel);
 			}
 		} else {
