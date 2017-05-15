@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.DrawableND;
@@ -1676,6 +1677,32 @@ public abstract class GeoGebraExport {
 			sb.replace(ind, ind + nameFunc.length(), nameNew);
 			ind = sb.indexOf(nameFunc);
 		}
+	}
+
+	/**
+	 * @param st
+	 *            multiline string
+	 * @param sb
+	 *            output builder (gets filled with st using LaTeX linebreaks \\
+	 *            instead of \n)
+	 * @param font
+	 *            font
+	 * @return estimated max width
+	 */
+	protected int getWidth(String st, StringBuilder sb, GFont font) {
+		int width = 0;
+		String[] lines = st.split("\n");
+
+		for (int i = 0; i < lines.length; i++) {
+			String line = lines[i];
+			width = Math.max(width, (int) Math.ceil(
+					StringUtil.getPrototype().estimateLength(line, font)));
+			sb.append(line);
+			if (i < lines.length - 1) {
+				sb.append(" \\\\ ");
+			}
+		}
+		return width;
 	}
 
 }

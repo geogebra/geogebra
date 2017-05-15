@@ -182,6 +182,7 @@ public class GSuggestBox extends Composite
 		 * @see UIObject#onEnsureDebugId(String)
 		 */
 		protected void onEnsureDebugId(String suggestBoxBaseID) {
+			// overridden in subclasses
 		}
 
 		/**

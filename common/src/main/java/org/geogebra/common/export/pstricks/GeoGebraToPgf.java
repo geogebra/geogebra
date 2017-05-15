@@ -63,7 +63,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringTokenizer;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.lang.Unicode;
 
@@ -1051,19 +1050,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// MultiLine
 		else {
 			StringBuilder sb = new StringBuilder();
-			StringTokenizer stk = new StringTokenizer(st, "\n");
-			int width = 0;
+
 			GFont font = AwtFactory.getPrototype().newFont(
 					geo.isSerifFont() ? "Serif" : "SansSerif", style, size);
-			while (stk.hasMoreTokens()) {
-				String line = stk.nextToken();
-				width = Math.max(width, (int) Math.ceil(
-						StringUtil.getPrototype().estimateLength(line, font)));
-				sb.append(line);
-				if (stk.hasMoreTokens()) {
-					sb.append(" \\\\ ");
-				}
-			}
+			int width = getWidth(st, sb, font);
+
 			startBeamer(code);
 			code.append("\\draw ");
 

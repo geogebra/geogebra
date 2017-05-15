@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.images;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.TextResource;
 
 /**
  * SVGs of the main buttons
