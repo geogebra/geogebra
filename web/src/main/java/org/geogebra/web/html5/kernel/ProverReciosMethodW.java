@@ -80,7 +80,7 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 				ExtendedBoolean solvable = PPolynomial.solvable(as.getPolynomials()
 						.toArray(new PPolynomial[as.getPolynomials().size()]),
 						substitutions, as.geoStatement.getKernel(),
-						ProverSettings.get().transcext);
+						ProverSettings.get().transcext, as.getFreeVariables());
 				Log.debug("Recio meets Botana #" + nrOfTests + ": "
 						+ substitutions);
 				if (solvable.boolVal()) {

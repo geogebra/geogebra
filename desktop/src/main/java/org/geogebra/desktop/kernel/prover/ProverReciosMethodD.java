@@ -231,7 +231,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 						as.getPolynomials()
 								.toArray(new PPolynomial[as.getPolynomials().size()]),
 						substitutions, as.geoStatement.getKernel(),
-						ProverSettings.get().transcext);
+						ProverSettings.get().transcext, as.getFreeVariables());
 				Log.debug("Recio meets Botana (threaded): " + substitutions);
 				if (solvable.boolVal()) {
 					wrong = true;
