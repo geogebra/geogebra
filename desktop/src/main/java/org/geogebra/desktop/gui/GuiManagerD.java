@@ -1362,7 +1362,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			} catch (Exception e) {
 				app.setDefaultCursor();
 				e.printStackTrace();
-				app.showError("PasteImageFailed");
+				app.localizeAndShowError("PasteImageFailed");
 				return null;
 			}
 		}
@@ -1629,7 +1629,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			app.setDefaultCursor();
 			e.printStackTrace();
-			app.showError("LoadFileFailed");
+			app.localizeAndShowError("LoadFileFailed");
 			return null;
 		}
 
@@ -1724,7 +1724,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			app.setDefaultCursor();
 			e.printStackTrace();
-			app.showError("LoadFileFailed");
+			app.localizeAndShowError("LoadFileFailed");
 			return null;
 		}
 
@@ -2643,7 +2643,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			Log.debug("openHelp error: " + e.toString() + " " + e.getMessage()
 					+ " " + page + " " + type);
-			app.showError(e.getMessage());
+			app.localizeAndShowError(e.getMessage());
 			e.printStackTrace();
 		}
 	}

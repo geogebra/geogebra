@@ -977,12 +977,22 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Show error dialog wiith given text
+	 * Translate key and then show error dialog
 	 *
 	 * @param s
 	 *            error message
 	 */
-	public abstract void showError(String s);
+	public void localizeAndShowError(String key) {
+		showError(getLocalization().getError(key));
+	}
+
+	/**
+	 * Show error dialog with given text
+	 *
+	 * @param s
+	 *            error message
+	 */
+	public abstract void showError(String localizedError);
 
 	/**
 	 * Shows error dialog with a given text
@@ -3930,7 +3940,7 @@ public abstract class App implements UpdateSelection {
 		} catch (Exception e) {
 			e.printStackTrace();
 			ok = false;
-			showError("LoadFileFailed");
+			localizeAndShowError("LoadFileFailed");
 		}
 		return ok;
 	}

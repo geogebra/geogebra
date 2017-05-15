@@ -179,7 +179,7 @@ public class TextOptionsModel extends OptionsModel {
 				multiplier = 100;
 			}
 		} catch (NumberFormatException e2) {
-			app.showError("InvalidInput");
+			app.localizeAndShowError("InvalidInput");
 			return;
 		}
 		applyFontSize(multiplier);

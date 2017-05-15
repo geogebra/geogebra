@@ -418,7 +418,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				}
 
 				catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}
@@ -437,7 +437,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				} catch (Exception ex) {
 					Log.debug("AnimationExportDialog not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}
@@ -456,7 +456,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPstricks not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}
@@ -475,7 +475,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToPGF not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}
@@ -497,7 +497,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					} catch (Exception ex) {
 						Log.debug("GeoGebraToPDF not available");
 					} catch (java.lang.NoClassDefFoundError ee) {
-						app.showError("ExportJarMissing");
+						app.localizeAndShowError("ExportJarMissing");
 						ee.printStackTrace();
 					}
 				}
@@ -519,7 +519,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				} catch (Exception ex) {
 					Log.debug("GeoGebraToAsymptote not available");
 				} catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}
@@ -562,7 +562,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				}
 
 				catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}
@@ -601,7 +601,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				}
 
 				catch (java.lang.NoClassDefFoundError ee) {
-					app.showError("ExportJarMissing");
+					app.localizeAndShowError("ExportJarMissing");
 					ee.printStackTrace();
 				}
 			}

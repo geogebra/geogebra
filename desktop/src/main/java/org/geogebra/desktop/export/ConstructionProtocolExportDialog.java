@@ -201,7 +201,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 									prot.getHTML(null));
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
-							app.showError("SaveFileFailed");
+							app.localizeAndShowError("SaveFileFailed");
 							Log.debug(ex.toString());
 						}
 					}
@@ -310,7 +310,7 @@ public class ConstructionProtocolExportDialog extends JDialog
 						((GuiManagerD) app.getGuiManager())
 								.showURLinBrowser(HTMLfile.toURI().toURL());
 					} catch (Exception ex) {
-						app.showError("SaveFileFailed");
+						app.localizeAndShowError("SaveFileFailed");
 						Log.debug(ex.toString());
 					}
 				}

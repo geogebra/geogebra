@@ -1175,7 +1175,7 @@ public class TextInputDialogD extends InputDialogD
 				// app.addSelectedGeo(newText);
 				callback.callback(false);
 			} catch (Exception e) {
-				app.showError("ReplaceFailed");
+				app.localizeAndShowError("ReplaceFailed");
 				callback.callback(false);
 			} catch (MyError err) {
 				app.showError(err);

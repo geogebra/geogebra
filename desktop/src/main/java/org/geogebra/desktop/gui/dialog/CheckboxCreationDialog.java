@@ -207,7 +207,7 @@ public class CheckboxCreationDialog extends JDialog implements
 				geo.setShowObjectCondition(geoBoolean);
 			}
 		} catch (CircularDefinitionException e) {
-			app.showError("CircularDefinition");
+			app.localizeAndShowError("CircularDefinition");
 		}
 
 		// set caption text

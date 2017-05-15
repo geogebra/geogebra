@@ -43,13 +43,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends FlowPanel implements
-        MaterialListElementI {
-	
+public class MaterialListElement extends FlowPanel
+		implements MaterialListElementI {
+
 	public enum State {
 		Default, Selected, Disabled;
 	}
-	
+
 	private FlowPanel materialElementContent;
 	private FlowPanel background;
 	protected FlowPanel infoPanel;
@@ -82,18 +82,22 @@ public class MaterialListElement extends FlowPanel implements
 		public void run() {
 			Log.debug("DELETE finished");
 			MaterialListElement.this.app.getGuiManager().getBrowseView()
-			        .setMaterialsDefaultStyle();
+					.setMaterialsDefaultStyle();
 		}
 
 	};
 
 	/**
 	 * 
-	 * @param m {@link Material}
-	 * @param app {@link AppW}
-	 * @param isLocal boolean
+	 * @param m
+	 *            {@link Material}
+	 * @param app
+	 *            {@link AppW}
+	 * @param isLocal
+	 *            boolean
 	 */
-	public MaterialListElement(final Material m, final AppW app, boolean isLocal) {
+	public MaterialListElement(final Material m, final AppW app,
+			boolean isLocal) {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.guiManager = (GuiManagerW) app.getGuiManager();
@@ -106,22 +110,22 @@ public class MaterialListElement extends FlowPanel implements
 			// this.material.setSyncStamp(-1);
 		}
 		this.editMaterial = new Runnable() {
-			
+
 			@Override
 			public void run() {
 				onEdit();
 			}
 		};
 		initMaterialInfos();
-		
+
 		this.materialElementContent = new FlowPanel();
 		this.materialElementContent.addStyleName("materialElementContent");
 		this.add(this.materialElementContent);
-		
+
 		addPreviewPicture();
 		addInfoPanel();
 		showDetails(false);
-		
+
 		this.addDomHandler(new ClickHandler() {
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -136,7 +140,7 @@ public class MaterialListElement extends FlowPanel implements
 				}
 			}
 		}, ClickEvent.getType());
-		
+
 		setLabels();
 	}
 
@@ -151,7 +155,6 @@ public class MaterialListElement extends FlowPanel implements
 		}
 		this.title.addStyleName("fileTitle");
 	}
-
 
 	private void addInfoPanel() {
 		this.infoPanel = new FlowPanel();
@@ -173,7 +176,7 @@ public class MaterialListElement extends FlowPanel implements
 			this.infoPanel.add(this.sharedBy);
 		}
 	}
-	
+
 	protected void addOptions() {
 		if (isOwnMaterial && !isLocal()) {
 			addEditButton();
@@ -189,9 +192,10 @@ public class MaterialListElement extends FlowPanel implements
 			addViewButton();
 		}
 	}
-	
+
 	private void addRenameButton() {
-		this.renameButton = new StandardButton(BrowseResources.INSTANCE.document_rename(), "", 20);
+		this.renameButton = new StandardButton(
+				BrowseResources.INSTANCE.document_rename(), "", 20);
 		this.infoPanel.add(this.renameButton);
 		this.renameButton.addFastClickHandler(new FastClickHandler() {
 
@@ -206,14 +210,15 @@ public class MaterialListElement extends FlowPanel implements
 		this.renameTitleBox.setVisible(true);
 		this.renameTitleBox.setText(this.title.getText());
 		this.title.setVisible(false);
-		this.renameTitleBox.setSelectionRange(0, this.renameTitleBox.getText().length());
+		this.renameTitleBox.setSelectionRange(0,
+				this.renameTitleBox.getText().length());
 		this.renameTitleBox.setFocus(true);
 	}
-	
+
 	void doRename() {
 		if (this.renameTitleBox.getText().length() < 1
-		        ||
-				this.renameTitleBox.getText().equals(this.title.getText())) { //no changes
+				|| this.renameTitleBox.getText().equals(this.title.getText())) { // no
+																					// changes
 			this.title.setVisible(true);
 			this.renameTitleBox.setVisible(false);
 			return;
@@ -222,7 +227,6 @@ public class MaterialListElement extends FlowPanel implements
 		this.title.setText(this.renameTitleBox.getText());
 		this.renameTitleBox.setVisible(false);
 		this.title.setVisible(true);
-		
 
 		if (app.getNetworkOperation().isOnline() && this.material.getId() > 0) {
 
@@ -230,58 +234,56 @@ public class MaterialListElement extends FlowPanel implements
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 					.uploadRenameMaterial(this.material,
 							new MaterialCallback() {
-				
-				@Override
-				                public void onLoaded(
-				                        List<Material> parseResponse,
-				                        ArrayList<Chapter> meta) {
-					if (parseResponse.size() != 1) {
-										app.showError(
-												loc.getError("RenameFailed"));
-						title.setText(oldTitle);
-					                } else {
+
+								@Override
+								public void onLoaded(
+										List<Material> parseResponse,
+										ArrayList<Chapter> meta) {
+									if (parseResponse.size() != 1) {
+										app.localizeAndShowError(
+												"RenameFailed");
+										title.setText(oldTitle);
+									} else {
 										Log.debug("RENAME local");
-						                material.setModified(parseResponse.get(
-						                        0).getModified());
-						                material.setSyncStamp(parseResponse
-						                        .get(0)
-						                        .getModified());
-						                if (material.getLocalID() <= 0) {
-							                return;
-						                }
+										material.setModified(parseResponse
+												.get(0).getModified());
+										material.setSyncStamp(parseResponse
+												.get(0).getModified());
+										if (material.getLocalID() <= 0) {
+											return;
+										}
 										Log.debug("RENAME CALLBACK" + oldTitle
-						                        + "->" + title.getText());
-						                material.setTitle(oldTitle);
-						                app.getFileManager().rename(
-						                        title.getText(),
-						                                material);
-					}
-				}
-			});
+												+ "->" + title.getText());
+										material.setTitle(oldTitle);
+										app.getFileManager().rename(
+												title.getText(), material);
+									}
+								}
+							});
 		} else {
-			this.material.setModified(Math.max(
-			        SaveDialogW.getCurrentTimestamp(app),
-			        material.getSyncStamp() + 1));
+			this.material
+					.setModified(Math.max(SaveDialogW.getCurrentTimestamp(app),
+							material.getSyncStamp() + 1));
 			this.app.getFileManager().rename(this.title.getText(),
-			        this.material);
+					this.material);
 		}
 	}
-	
+
 	private void initRenameTextBox() {
 		this.renameTitleBox = new GTextBox();
 		this.renameTitleBox.addStyleName("renameBox");
 		this.infoPanel.add(this.renameTitleBox);
 		this.renameTitleBox.setVisible(false);
 		this.renameTitleBox.addBlurHandler(new BlurHandler() {
-			
+
 			@Override
 			public void onBlur(BlurEvent event) {
 				doRename();
 			}
 		});
-		
+
 		this.renameTitleBox.addKeyDownHandler(new KeyDownHandler() {
-			
+
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
@@ -290,7 +292,7 @@ public class MaterialListElement extends FlowPanel implements
 			}
 		});
 	}
-	
+
 	private void addSeperator() {
 		FlowPanel separator = new FlowPanel();
 		separator.setStyleName("Separator");
@@ -317,9 +319,9 @@ public class MaterialListElement extends FlowPanel implements
 
 		background = new FlowPanel();
 		background.setStyleName("background");
-		
+
 		setPictureAsBackground();
-		
+
 		previewPicturePanel.add(background);
 		this.materialElementContent.add(previewPicturePanel);
 
@@ -327,16 +329,16 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	private void addSyncDecoration() {
-		if(this.material.getType() == Material.MaterialType.book){
+		if (this.material.getType() == Material.MaterialType.book) {
 			final Label deco = new Label();
 			deco.setStyleName("bookDecoration");
 			background.add(deco);
 		}
-		if ((this.app.getFileManager().shouldKeep(this.material.getId()) || this.app
-				.has(Feature.LOCALSTORAGE_FILES))
-		        && this.material.getType() != MaterialType.book
-		        && this.material.getSyncStamp() > 0
-		        && this.material.getModified() <= this.material.getSyncStamp()) {
+		if ((this.app.getFileManager().shouldKeep(this.material.getId())
+				|| this.app.has(Feature.LOCALSTORAGE_FILES))
+				&& this.material.getType() != MaterialType.book
+				&& this.material.getSyncStamp() > 0 && this.material
+						.getModified() <= this.material.getSyncStamp()) {
 			final Label deco = new Label();
 			deco.setStyleName("syncDecoration");
 			background.add(deco);
@@ -348,26 +350,20 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	private void setPictureAsBackground() {
-	    final String thumb = this.material.getThumbnail();
+		final String thumb = this.material.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
-			background
-			        .getElement()
-			        .getStyle()
-			        .setBackgroundImage(
-			                "url(" + Browser.normalizeURL(thumb) + ")");
+			background.getElement().getStyle().setBackgroundImage(
+					"url(" + Browser.normalizeURL(thumb) + ")");
 		} else {
-			background
-			.getElement()
-			.getStyle()
-			.setBackgroundImage(
-					"url("
-							+ AppResources.INSTANCE.geogebra64()
-							.getSafeUri().asString() + ")");
+			background.getElement().getStyle().setBackgroundImage("url("
+					+ AppResources.INSTANCE.geogebra64().getSafeUri().asString()
+					+ ")");
 		}
-    }
+	}
 
 	private void addDeleteButton() {
-		this.deleteButton = new StandardButton(BrowseResources.INSTANCE.document_delete());
+		this.deleteButton = new StandardButton(
+				BrowseResources.INSTANCE.document_delete());
 		this.infoPanel.add(this.deleteButton);
 		this.deleteButton.addFastClickHandler(new FastClickHandler() {
 
@@ -378,12 +374,11 @@ public class MaterialListElement extends FlowPanel implements
 		});
 		initConfirmDeletePanel();
 	}
-	
+
 	private void addFavoriteButton() {
 		this.favoriteButton = new StandardButton(
-		        this.material.isFavorite() ? BrowseResources.INSTANCE
-		                .favorite() : BrowseResources.INSTANCE
-		                .not_favorite());
+				this.material.isFavorite() ? BrowseResources.INSTANCE.favorite()
+						: BrowseResources.INSTANCE.not_favorite());
 		this.favoriteButton.addStyleName("ggbFavorite");
 		this.background.add(this.favoriteButton);
 		this.favoriteButton.addFastClickHandler(new FastClickHandler() {
@@ -395,21 +390,22 @@ public class MaterialListElement extends FlowPanel implements
 		});
 	}
 
-	void onFavorite(){
+	void onFavorite() {
 		app.getLoginOperation().getGeoGebraTubeAPI()
-		        .favorite(this.material.getId(), !this.material.isFavorite());
+				.favorite(this.material.getId(), !this.material.isFavorite());
 		this.material.setFavorite(!this.material.isFavorite());
 		updateFavoriteText();
 		if (this.material.isFavorite()) {
 			if (app.getFileManager().shouldKeep(this.material.getId())) {
 				this.app.getFileManager().getFromTube(this.material.getId(),
-				        this.material.isFromAnotherDevice());
+						this.material.isFromAnotherDevice());
 			}
 		} else if (this.material.isFromAnotherDevice()) {
 			this.app.getFileManager().delete(this.material, true,
-			        this.deleteCallback);
+					this.deleteCallback);
 		}
 	}
+
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
 		if (this.editButton != null) {
@@ -422,7 +418,8 @@ public class MaterialListElement extends FlowPanel implements
 			this.renameButton.setVisible(false);
 		}
 		this.confirmDeletePanel.setVisible(true);
-		this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete_active());
+		this.deleteButton
+				.setIcon(BrowseResources.INSTANCE.document_delete_active());
 	}
 
 	private void initConfirmDeletePanel() {
@@ -461,68 +458,66 @@ public class MaterialListElement extends FlowPanel implements
 		setAllMaterialsDefault();
 		final Material toDelete = this.material;
 
-
 		if (app.getNetworkOperation().isOnline() && toDelete.getId() > 0) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 					.deleteMaterial(toDelete, new MaterialCallback() {
 
-				@Override
-				        public void onLoaded(List<Material> parseResponse,
-				                ArrayList<Chapter> meta) {
+						@Override
+						public void onLoaded(List<Material> parseResponse,
+								ArrayList<Chapter> meta) {
 							Log.debug("DELETE local");
-					remove();
-					        MaterialListElement.this.app.getFileManager()
-					                .delete(toDelete,
-					                        true,
-					                        MaterialListElement.this.deleteCallback);
-				}
+							remove();
+							MaterialListElement.this.app.getFileManager()
+									.delete(toDelete, true,
+											MaterialListElement.this.deleteCallback);
+						}
 
-				@Override
-				public void onError(Throwable exception) {
+						@Override
+						public void onError(Throwable exception) {
 							Log.debug("DELETE backup");
-					        MaterialListElement.this.app.getFileManager()
-					                .delete(toDelete,
-					                        false,
-					                        MaterialListElement.this.deleteCallback);
-					setVisible(true);
+							MaterialListElement.this.app.getFileManager()
+									.delete(toDelete, false,
+											MaterialListElement.this.deleteCallback);
+							setVisible(true);
 							app.showError(loc.getMenu("DeleteFailed"));
-				}
-			});
+						}
+					});
 		} else {
 			Log.debug("DELETE permanent");
 			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
-			        this.deleteCallback);
+					this.deleteCallback);
 		}
-		
+
 	}
 
 	protected void remove() {
 		app.getGuiManager().getBrowseView()
-		        .removeMaterial(MaterialListElement.this.material);
-    }
-	
+				.removeMaterial(MaterialListElement.this.material);
+	}
+
 	protected void setAllMaterialsDefault() {
 		app.getGuiManager().getBrowseView().setMaterialsDefaultStyle();
 	}
-	
+
 	void onCancel() {
 		showDetails(true);
 	}
-	
 
 	/**
 	 * 
 	 */
 	protected void openDefault() {
 		if (isOwnMaterial) {
-			((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(editMaterial);
+			((DialogManagerW) app.getDialogManager()).getSaveDialog()
+					.showIfNeeded(editMaterial);
 		} else {
 			onView();
 		}
 	}
 
 	protected void addEditButton() {
-		this.editButton = new StandardButton(BrowseResources.INSTANCE.document_edit(), "", 20);
+		this.editButton = new StandardButton(
+				BrowseResources.INSTANCE.document_edit(), "", 20);
 		this.infoPanel.add(this.editButton);
 		this.editButton.addFastClickHandler(new FastClickHandler() {
 
@@ -539,57 +534,59 @@ public class MaterialListElement extends FlowPanel implements
 	protected void onEdit() {
 		if (!isLocal) {
 			Log.debug(material.getType().toString());
-			if(material.getType() == MaterialType.book){
+			if (material.getType() == MaterialType.book) {
 				((GeoGebraTubeAPIW) app.getLoginOperation()
-				        .getGeoGebraTubeAPI()).getBookItems(material.getId(),
-				        new MaterialCallback() {
+						.getGeoGebraTubeAPI()).getBookItems(material.getId(),
+								new MaterialCallback() {
 
-					        @Override
-					        public void onLoaded(final List<Material> response,
-					                final ArrayList<Chapter> chapters) {
-						        guiManager.getBrowseView().clearMaterials();
-						        guiManager.getBrowseView().onSearchResults(
-						                response, chapters);
-					        }
-				        });
+									@Override
+									public void onLoaded(
+											final List<Material> response,
+											final ArrayList<Chapter> chapters) {
+										guiManager.getBrowseView()
+												.clearMaterials();
+										guiManager.getBrowseView()
+												.onSearchResults(response,
+														chapters);
+									}
+								});
 				return;
 			}
 			final long synced = material.getSyncStamp();
 			if (material.getType() == MaterialType.ws) {
 				((GeoGebraTubeAPIW) app.getLoginOperation()
-				        .getGeoGebraTubeAPI()).getWorksheetItems(
-				        material.getId(),
-				        new MaterialCallback() {
+						.getGeoGebraTubeAPI()).getWorksheetItems(
+								material.getId(), new MaterialCallback() {
 
-					        @Override
-					        public void onLoaded(final List<Material> response,
-					                ArrayList<Chapter> meta) {
-								if (response.size() != 1
-										|| StringUtil.empty(material
-												.getBase64())) {
+									@Override
+									public void onLoaded(
+											final List<Material> response,
+											ArrayList<Chapter> meta) {
+										if (response.size() != 1 || StringUtil
+												.empty(material.getBase64())) {
 											// guiManager.getBrowseView().clearMaterials();
 											// guiManager.getBrowseView().onSearchResults(
 											// response, null);
 											Browser.openTubeWindow(
 													material.getEditUrl());
-						        } else {
-							        material = response.get(0);
-							        material.setSyncStamp(synced);
-							        app.getGgbApi().setBase64(
-							                material.getBase64());
-							        app.setActiveMaterial(material);
-						        }
-					        }
-				        });
+										} else {
+											material = response.get(0);
+											material.setSyncStamp(synced);
+											app.getGgbApi().setBase64(
+													material.getBase64());
+											app.setActiveMaterial(material);
+										}
+									}
+								});
 				return;
 			}
-			ToolTipManagerW.sharedInstance().showBottomMessage(
-					loc.getMenu("Loading"), false, app);
+			ToolTipManagerW.sharedInstance()
+					.showBottomMessage(loc.getMenu("Loading"), false, app);
 
 			loadGGBfromTube();
 		} else {
-			ToolTipManagerW.sharedInstance().showBottomMessage(
-					loc.getMenu("Loading"), false, app);
+			ToolTipManagerW.sharedInstance()
+					.showBottomMessage(loc.getMenu("Loading"), false, app);
 			if (!this.app.getFileManager().hasBase64(this.material)) {
 				loadGGBfromTube();
 			} else {
@@ -622,15 +619,14 @@ public class MaterialListElement extends FlowPanel implements
 									}
 									app.setActiveMaterial(material);
 								} else {
-									app.showError(loc
-											.getError("LoadFileFailed"));
+									app.showError(
+											loc.getError("LoadFileFailed"));
 								}
 							}
 
 							@Override
 							public void onError(Throwable error) {
-								app.showError(loc.getError(
-									"LoadFileFailed"));
+								app.showError(loc.getError("LoadFileFailed"));
 							}
 						});
 
@@ -641,7 +637,8 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	protected void addViewButton() {
-		this.viewButton = new StandardButton(BrowseResources.INSTANCE.document_view(), "", 20);
+		this.viewButton = new StandardButton(
+				BrowseResources.INSTANCE.document_view(), "", 20);
 		this.viewButton.addStyleName("viewButton");
 		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(new FastClickHandler() {
@@ -652,7 +649,7 @@ public class MaterialListElement extends FlowPanel implements
 			}
 		});
 	}
-	
+
 	/**
 	 * marks the material as selected and disables the other materials
 	 */
@@ -667,7 +664,7 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	/**
-	 * sets the default style 
+	 * sets the default style
 	 */
 	public void setDefaultStyle() {
 		this.state = State.Default;
@@ -676,34 +673,34 @@ public class MaterialListElement extends FlowPanel implements
 		this.addStyleName("default");
 		showDetails(false);
 	}
-	
+
 	/**
 	 * Disables the material.
 	 */
 	public void disableMaterial() {
 		this.state = State.Disabled;
-	    this.addStyleName("unselected");
-	    this.removeStyleName("selected");
-	    this.removeStyleName("default");
-    }
+		this.addStyleName("unselected");
+		this.removeStyleName("selected");
+		this.removeStyleName("default");
+	}
 
 	/**
 	 * 
 	 */
 	public void setLabels() {
-		if(this.deleteButton != null){
+		if (this.deleteButton != null) {
 			this.deleteButton.setText(loc.getPlain("Delete"));
 		}
-		if(this.cancel != null){
+		if (this.cancel != null) {
 			this.cancel.setText(this.loc.getPlain("Cancel"));
 		}
-		if(this.confirm != null){
+		if (this.confirm != null) {
 			this.confirm.setText(this.loc.getPlain("Delete"));
 		}
-		if(this.editButton != null){
+		if (this.editButton != null) {
 			this.editButton.setText(loc.getMenu("Edit"));
 		}
-		if(this.viewButton != null){
+		if (this.viewButton != null) {
 			this.viewButton
 					.setText(loc.getMenu(getInsertWorksheetTitle(material)));
 		}
@@ -714,9 +711,9 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	private void updateFavoriteText() {
-		this.favoriteButton
-		        .setIcon(material.isFavorite() ? BrowseResources.INSTANCE
-		                .favorite() : BrowseResources.INSTANCE.not_favorite());
+		this.favoriteButton.setIcon(
+				material.isFavorite() ? BrowseResources.INSTANCE.favorite()
+						: BrowseResources.INSTANCE.not_favorite());
 	}
 
 	/**
@@ -737,14 +734,16 @@ public class MaterialListElement extends FlowPanel implements
 			this.viewButton.setVisible(show);
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
-			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
+			this.deleteButton
+					.setIcon(BrowseResources.INSTANCE.document_delete());
 			this.confirmDeletePanel.setVisible(false);
 			this.renameButton.setVisible(show);
 			this.editButton.setVisible(show);
 		} else if (isLocal()) {
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
-			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
+			this.deleteButton
+					.setIcon(BrowseResources.INSTANCE.document_delete());
 			this.confirmDeletePanel.setVisible(false);
 			this.renameButton.setVisible(show);
 			this.editButton.setVisible(show);
@@ -753,8 +752,7 @@ public class MaterialListElement extends FlowPanel implements
 			this.viewButton.setVisible(show);
 			this.editButton.setVisible(show);
 		}
-		
-		
+
 		if (show) {
 			this.infoPanel.addStyleName("detailed");
 			showListener.onShowDetails(materialElementContent);
@@ -762,7 +760,7 @@ public class MaterialListElement extends FlowPanel implements
 			this.infoPanel.removeStyleName("detailed");
 		}
 	}
-	
+
 	/*** LAF dependent methods **/
 
 	public String getInsertWorksheetTitle(final Material m) {
@@ -770,14 +768,13 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	/**
-	 * Opens GeoGebraTube material in a new window (overwritten for tablet app, smart widget)
+	 * Opens GeoGebraTube material in a new window (overwritten for tablet app,
+	 * smart widget)
 	 */
 	protected void onView() {
 		this.guiManager.getBrowseView().setMaterialsDefaultStyle();
 		Browser.openTubeWindow(material.getURL());
 	}
-
-
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
@@ -794,15 +791,15 @@ public class MaterialListElement extends FlowPanel implements
 		this.background.clear();
 		setPictureAsBackground();
 		addSyncDecoration();
-    }
+	}
 
-	public void setShowDetailsListener(ShowDetailsListener listener){
+	public void setShowDetailsListener(ShowDetailsListener listener) {
 		this.showListener = listener;
 	}
 
 	private static String extractTitle(String key) {
-	    return key.substring(key.indexOf("_", key.indexOf("_")+1)+1);
-    }
+		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
+	}
 
 	/**
 	 * @return true if this material is saved local

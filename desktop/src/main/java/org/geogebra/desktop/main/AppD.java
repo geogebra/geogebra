@@ -2265,7 +2265,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		} catch (Exception e) {
 			setDefaultCursor();
 			e.printStackTrace();
-			showError("LoadFileFailed");
+			localizeAndShowError("LoadFileFailed");
 			return null;
 		} catch (java.lang.OutOfMemoryError t) {
 			Log.debug("Out of memory");
@@ -2273,7 +2273,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			setDefaultCursor();
 			// t.printStackTrace();
 			// TODO change to OutOfMemoryError
-			showError("LoadFileFailed");
+			localizeAndShowError("LoadFileFailed");
 			return null;
 		}
 	}
@@ -2560,7 +2560,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			fontManager.setLanguage(loc.getLocale());
 		} catch (Exception e) {
 			e.printStackTrace();
-			showError(e.getMessage());
+			localizeAndShowError(e.getMessage());
 
 			// go back to previous locale
 			loc.setLocale(oldLocale);
@@ -3703,7 +3703,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			return true;
 		} catch (Exception e) {
 			setDefaultCursor();
-			showError("SaveFileFailed");
+			localizeAndShowError("SaveFileFailed");
 			e.printStackTrace();
 			return false;
 		}
@@ -3722,7 +3722,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			return true;
 		} catch (Exception e) {
 			setDefaultCursor();
-			showError("SaveFileFailed");
+			localizeAndShowError("SaveFileFailed");
 			e.printStackTrace();
 			return false;
 		}
@@ -3748,7 +3748,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			showError("LoadFileFailed");
+			localizeAndShowError("LoadFileFailed");
 		}
 	}
 

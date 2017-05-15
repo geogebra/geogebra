@@ -278,7 +278,7 @@ public class EuclidianStyleBarStatic {
 					});
 
 		} catch (Exception e) {
-			app.showError("ReplaceFailed");
+			app.localizeAndShowError("ReplaceFailed");
 		} catch (MyError err) {
 			app.showError(err);
 		}

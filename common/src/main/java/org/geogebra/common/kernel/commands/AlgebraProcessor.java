@@ -233,7 +233,7 @@ public class AlgebraProcessor {
 			// set twin geo to undefined
 			casCell.computeOutput();
 			casCell.updateCascade();
-			app.showError("CircularDefinition");
+			app.localizeAndShowError("CircularDefinition");
 			return;
 		}
 
@@ -1323,7 +1323,7 @@ public class AlgebraProcessor {
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			if (!suppressErrors) {
-				app.showError("CircularDefinition");
+				app.localizeAndShowError("CircularDefinition");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1423,7 +1423,7 @@ public class AlgebraProcessor {
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
 			if (!suppressErrors) {
-				app.showError("CircularDefinition");
+				app.localizeAndShowError("CircularDefinition");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1583,7 +1583,7 @@ public class AlgebraProcessor {
 		} catch (CircularDefinitionException e) {
 			if (showErrors) {
 				Log.debug("CircularDefinition");
-				app.showError("CircularDefinition");
+				app.localizeAndShowError("CircularDefinition");
 			}
 		} catch (Exception e) {
 			if (showErrors) {
@@ -1627,7 +1627,7 @@ public class AlgebraProcessor {
 			geo = temp[0];
 		} catch (CircularDefinitionException e) {
 			Log.debug("CircularDefinition");
-			app.showError("CircularDefinition");
+			app.localizeAndShowError("CircularDefinition");
 		} catch (Exception e) {
 			e.printStackTrace();
 			if (showErrors) {
@@ -3159,7 +3159,7 @@ public class AlgebraProcessor {
 	 * @param key
 	 *            key for error.properties
 	 */
-	public void showError(String key) {
+	public void showErrorxxx(String key) {
 		app.showError(key);
 	}
 

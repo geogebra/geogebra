@@ -363,7 +363,7 @@ public class AnimationExportDialogD extends JDialog {
 					n, val, min, max, step);
 
 		} catch (Exception ex) {
-			app.showError("SaveFileFailed");
+			app.localizeAndShowError("SaveFileFailed");
 			ex.printStackTrace();
 		} finally {
 			app.setDefaultCursor();

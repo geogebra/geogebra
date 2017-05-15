@@ -531,7 +531,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			};
 			runner.start();
 		} catch (java.lang.NoClassDefFoundError ee) {
-			app.showError(app.getLocalization().getError("ExportJarMissing"));
+			app.localizeAndShowError("ExportJarMissing");
 			ee.printStackTrace();
 		}
 	}

@@ -99,7 +99,7 @@ public class CmdCheckbox extends CommandProcessor {
 				}
 			}
 		} catch (CircularDefinitionException e) {
-			app.showError("CircularDefinition");
+			app.localizeAndShowError("CircularDefinition");
 		}
 		return new GeoElement[] { gb };
 	}

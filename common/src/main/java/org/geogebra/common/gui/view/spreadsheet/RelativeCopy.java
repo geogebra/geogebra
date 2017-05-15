@@ -957,7 +957,7 @@ public class RelativeCopy {
 			// objects
 		} catch (CircularDefinitionException ce) {
 			// circular definition
-			kernel.getApplication().showError("CircularDefinition");
+			kernel.getApplication().localizeAndShowError("CircularDefinition");
 			return null;
 		} catch (Exception e) {
 			// create text if something went wrong

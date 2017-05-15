@@ -117,7 +117,7 @@ public class SaveCallback {
 							app.getLocalization()
 									.getMenu("SaveLocalCopyFailed"));
 		} else {
-			app.showError(app.getLocalization().getError("SaveFileFailed"));
+			app.localizeAndShowError("SaveFileFailed");
 		}
 
 	}

@@ -917,7 +917,7 @@ public abstract class AppW extends App implements SetLabels {
 			showError(err);
 		} catch (Exception e) {
 			e.printStackTrace();
-			showError("LoadFileFailed");
+			localizeAndShowError("LoadFileFailed");
 		}
 	}
 

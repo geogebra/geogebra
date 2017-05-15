@@ -466,7 +466,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 			}
 
 			catch (java.lang.NoClassDefFoundError ee) {
-				getApplication().showError("ExportJarMissing");
+				getApplication().localizeAndShowError("ExportJarMissing");
 				ee.printStackTrace();
 			}
 		}

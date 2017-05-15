@@ -88,7 +88,7 @@ public class RedefineInputHandler implements InputHandler {
 
 			return;
 		} catch (Exception e) {
-			app.showError("ReplaceFailed");
+			app.localizeAndShowError("ReplaceFailed");
 		} catch (MyError err) {
 			app.showError(err);
 		}

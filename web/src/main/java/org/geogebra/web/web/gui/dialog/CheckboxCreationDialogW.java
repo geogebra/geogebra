@@ -306,7 +306,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 				geo.setShowObjectCondition(geoBoolean);
 			}
 		} catch (CircularDefinitionException e) {
-			app.showError("CircularDefinition");
+			app.localizeAndShowError("CircularDefinition");
 		}
 
 		// set caption text
