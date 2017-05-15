@@ -346,7 +346,7 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	/**
 	 * 
-	 * @return true for 3D stereo devices
+	 * @return true for some 3D stereo devices
 	 */
 	public boolean useOnlyProjectionGlasses() {
 		return false;

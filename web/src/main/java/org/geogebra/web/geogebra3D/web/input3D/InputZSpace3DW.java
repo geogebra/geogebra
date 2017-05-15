@@ -392,4 +392,9 @@ public class InputZSpace3DW extends Input3D {
 	public boolean isZSpace() {
 		return true;
 	}
+	
+	@Override
+	public boolean useOnlyProjectionGlasses() {
+		return true;
+	}
 }

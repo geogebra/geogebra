@@ -969,7 +969,7 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	@Override
 	public boolean useOnlyProjectionGlasses() {
-		return true;
+		return input3D.useOnlyProjectionGlasses();
 	}
 
 }

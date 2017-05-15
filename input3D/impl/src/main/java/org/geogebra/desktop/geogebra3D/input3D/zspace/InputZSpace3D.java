@@ -342,4 +342,9 @@ public class InputZSpace3D extends Input3D {
 			settings.endBatch();
 		}
 	}
+	
+	@Override
+	public boolean useOnlyProjectionGlasses() {
+		return true;
+	}
 }

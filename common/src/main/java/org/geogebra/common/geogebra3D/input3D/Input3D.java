@@ -919,4 +919,11 @@ abstract public class Input3D implements Input3DConstants {
 		return startMouse3DPosition;
 	}
 
+	/**
+	 * 
+	 * @return true for some 3D stereo devices
+	 */
+	public boolean useOnlyProjectionGlasses() {
+		return false;
+	}
 }
