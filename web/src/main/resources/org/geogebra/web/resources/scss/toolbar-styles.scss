@@ -16,15 +16,6 @@
 				background-color: $white-30;
 			}
 			
-			
-			.close {
-					
-			}
-			
-			.menu {
-			
-			}
-			
 			.contents {
 				padding-top: 4px;
 				padding-bottom: 4px;
@@ -49,9 +40,14 @@
 			width: 56px;
 			height: 100%;
 			
+			
+			.flatButton {
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+			
 			.close {
 				position: absolute;
-				margin-left: 4px;
 				bottom: 0px;
 			}
 					 
