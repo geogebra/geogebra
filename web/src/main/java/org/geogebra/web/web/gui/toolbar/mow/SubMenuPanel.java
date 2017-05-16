@@ -282,9 +282,7 @@ public abstract class SubMenuPanel extends FlowPanel
 			infoImage.addStyleName("mowToolButton");
 			// opacity hack: old icons don't need opacity, new ones do
 			if (imageNeedsOpacity(mode)) {
-				infoImage.addStyleName("opacityFixForOldIconsSelected");
-			} else {
-				infoImage.addStyleName("selected");
+				infoImage.addStyleName("opacityFixForOldIcons");
 			}
 			infoLabel = new HTML(app.getToolTooltipHTML(mode));
 			infoLabel.addStyleName("mowInfoLabel");

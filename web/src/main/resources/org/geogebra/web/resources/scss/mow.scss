@@ -1,19 +1,41 @@
-$mow_purple_dark: #673AB7;
-$mow_purple: #a388d4;
+@import 'colors';
 
 .GeoGebraFrame{
+
+/*****************
+*   TOOLBAR
+******************/	
+	
 	.mowToolbar {
 		position: relative;
 		height: 40px;
-		/*bottom: 0px;*/
-	
 		/** explicit non-transparent to hide EV content */
 		background-color: #fff;
 		
-	/*	border: 1px solid #e0e0e0;*/
-		box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
-	/*	box-shadow: 0px 0px 5px rgba(204, 204, 204, 0.8);*/
-	    padding: 5px 0px 5px 0px;
+		border-radius: 2px;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
+  		padding: 5px 0px 5px 0px;
+	    
+	    img {
+			opacity: 0.6;
+		}
+		
+		.left {
+			position: absolute;
+			top: 3px;
+			float: left;
+			padding-left: 10px;
+		} 
+		.middle {
+			position: absolute;
+			top: 3px;
+			left: 45%; 
+		} 
+		.right {
+			top: 3px;
+			float: right;
+			padding-right: 5px;
+		} 
 	}
 	.animateBaseToDouble { 
 	    animation-name: animBaseToDouble;
@@ -26,290 +48,232 @@ $mow_purple: #a388d4;
 	    bottom: 50px;
 	} 
 	
-	.animateBaseToSimple { 
-	    animation-name: animBaseToSimple;
-	    animation-duration: 0.2s;
-	    bottom: 107px;
-	} 
-	.animateSimpleToBase { 
-	    animation-name: animSimpleToBase;
-	    animation-duration: 0.2s;
-	    bottom: 50px;
-	} 
-	
-	.animateSimpleToDouble { 
-	    animation-name: animSimpleToDouble;
-	    animation-duration: 0.2s;
-	    bottom: 172px;
-	} 
-	.animateDoubleToSimple { 
-	    animation-name: animDoubleToSimple;
-	    animation-duration: 0.2s;
-	    bottom: 107px;
-	} 
 	@keyframes animBaseToDouble {
 		0% {bottom: 50px;}
 		100% {bottom: 172px;}
+	}
+	@keyframes animDoubleToBase {
+		0% {bottom: 172px;}
+		100% {bottom: 50px;}
 	}
 	
 	.BigScreen {
 		width: 700px;
 	} 
-	
 	.SmallScreen {
 		width: 100%;
 	} 
 	
-	.mowToolbar img {
-		opacity: 0.6;
-	}
 		
 	.opacityFixForOldIcons {
 		opacity: 1 !important;
 	}
-	.opacityFixForOldIconsSelected {
-		opacity: 1 !important;
-		border: 2px solid $mow_purple !important;
-		padding: 2px !important;
-	}
+	
 	.mowPanelButton {
-		opacity: 0.6;
+		/*opacity: 0.6;*/
 	}	
-		
 	.mowPanelButton :hover {
 		opacity: 0.8;
 	}
 	
 	.mowToolButton {
-	    width: 32px;
-	    height: 32px;
+	  /*  width: 34px;
+	    height: 34px;*/
 	    padding: 3px;
-	    margin: 5px 0px 0px 5px;
-		border-radius: 5px;
-	    border: 1px solid #dcdcdc;
-	    background-color: #ffffff;
+	    margin: 4px !important;
 		float: left;
 		
 		&[selected = true] {
+			border-radius: 2px;
 			border: 2px solid $mow_purple;
-			padding: 2px;
+			margin: 2px !important;
 			}
 	}
 	
-	.mowToolbar .left {
-		position: absolute;
-		top: 3px;
-		float: left;
-		padding-left: 10px;
-	} 
 	
-	.mowToolbar .middle {
-		position: absolute;
-		top: 3px;
-		left: 45%; 
-	} 
-	
-	.mowToolbar .right {
-		top: 3px;
-		float: right;
-		padding-right: 5px;
-	} 
-	
-	.mowOpenMenuButton {
-		position: absolute;
-		top: 5px;
-		left: 5px;
-		z-index: 99999;
-	}
 	
 	.mowSubMenu {
 		position: absolute;
 		top: 50px;
 		height: 120px;
 		width: 100%;
-		border-top: 2px solid #e0e0e0;
-		background-color: #eee;
-		box-shadow: 0 2px 2px 1px rgba(102,102,102,0.3);
+		/*padding-top: 10px;*/
+		border-top: 1px solid #e0e0e0;
+		background-color: #fff;
+		box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
 	}
 	
 	.mowSubMenuContent {
 		width: 380px;
-		/*height: 65px;*/
-		background-color: #fafafa;
-	}
-	.mowSubMenuInfo {
-		position: absolute;
-		top: 0px;
-		width: 320px;
-	}
-	
-	.mowSubMenuInfo img {
-		margin-top: 5px;
-		margin-left: 0px;
-	}
-	
-	.mowSubMenuInfo .selected {
-		border: 2px solid $mow_purple_dark;
-		padding: 2px;
-	}
-	
-	.mowInfoLabel {
-		position: absolute;
-		padding-left: 50px;
+		padding-left: 10px;
 		padding-top: 5px;
-		padding-right: 30px;
-		max-width: 220px;
+		/*height: 65px;*/
+		background-color: #fff;
 	}
-		
-	.mowInfoLabel b {
-		font-weight: bold !important;
-	}
-		
-	.mowQuestionMark {
-		position: absolute;
-		top: 10px;
-	    right: 20px;
-		width: 24px;
-		height:24px;
-		cursor: pointer;
+	
+	.penSubMenu {
+		.mowSubMenuContent {
+			width: 690px;
+			panelRow {
+				top: -2px;
+			}
 		}
+		.penPanel {
+			width: 100px;
+			margin-top: 1px;	
+		}
+		.colorPanel {
+			position: absolute;
+			left: 30%; 
+			top: 5px;
+		} 
+		.plusButton {
+			text-align: center;
+			font-size: larger;
+		}
+		.sizePanel {
+			position: absolute;
+			left: 35%; 
+	    	top: 60px;
+	    	
+		}
+		.disabled {
+			border-color: rgb(111,111,111);
+			opacity: 0.3;
+			cursor: default;
+		}
+	}
 	
-	.penSubMenu .mowSubMenuContent {
+	.toolsSubMenu {
 		position: absolute;
-		width: 700px;
-		/*height: 55px;*/
+		
+		.mowSubMenuContent {
+			width: 380px;
+			height: 117px;
+			top: -3px;
+			overflow: hidden;
+			overflow-x: scroll;
+			overflow-y: hidden !important;
+			border-right: 2px solid #e0e0e0;
+			
+			.panelRow {
+				position: absolute;    
+				top: -2px;
+				width: 1750px;
+			}	
+		}
+		.groupPanel {
+			padding-right: 10px;
+		}
 	}
 	
-	.penSubMenu .penPanel {
-		margin-left: 0px;
-		width: 100px;
-	}
-	
-	.penSubMenu .plusButton {
-		text-align: center;
-		font-size: larger;
-	}
-	
-	.penSubMenu .colorPanel {
-		position: absolute;
-		left: 18%; 
-		margin-left: 45px;
-	    margin-right: 20px;
-		top: 5px;
-	} 
-	
-	.penSubMenu .sizePanel {
-		color: black;
-	    padding-top: 50px;
-		float: right; 
-	}
-	
-	.penSubMenu .sizePanel .optionsSlider-pen .gwt-Label {
-		display: none;
-	} 
-	
-	.penSubMenu .sizePanel .optionsSlider .preview {
-		display: inline-block;
-		padding-left: 30px;
-		margin-right: 0px;
-	} 
-	
-	.penSubMenu .sizePanel .optionsSlider .gwt-Label {
-		padding-left: 15px;
-	} 
-	
-	.penSubMenu-selected {
-		border: 2px solid #666666;
-	    width: 27px;
-	    height: 27px;
-	}
-	
-	/*.penSubMenu .MyCanvasButton .color-button {
-		padding: 2px;
-	}*/
-	
-	.penSubMenu .disabled {
-		border-color: rgb(111,111,111);
-		opacity: 0.3;
+	.mediaSubMenu {
+		.mowSubMenuContent {
+			position: absolute;
+			width: 380px;
+			height: 115px;
+			padding-top: 6px;
+   			top: -3px;
+			border-right: 2px solid #e0e0e0;
+			
+			panelRow {
+				margin-top: 3px;
+			}
+		}	
 	}
 	.mowColorButton {
 		 width: 28px;
 		 height: 28px;
-		 border-radius: 14px;
+		 border-radius: 2px;
 	}
 	.mowColorButton-selected {
 		width: 34px;
 		height: 34px;
-		border-radius: 17px;
+		border-radius: 2px;
 	}
 	.mowColorPlusButton {
 		 border: 1px solid #666666;
 		 text-align: center;
 		 font-size: larger;
 	}
-	.toolsSubMenu {
-		position: absolute;
+	.mowColorPlusButton  div {
+	 	margin-top: 3px;	 
 	}
 	
-	.toolsSubMenu .groupPanel {
-		height: 80px;
-	}
-	
-	.toolsSubMenu .mowSubMenuContent {
-		width: 380px;
-		/*height: 120px;*/
-		top: -3px;
-		overflow: hidden;
-		overflow-x: scroll;
-		overflow-y: hidden;
-		border-right: 2px solid #e0e0e0;
-	}
-	
-	.toolsSubMenu .mowSubMenuContent .panelRow {
-		position: absolute;
-		width: 1760px;
-		height: 80px;
-		
-	}	
-	
-	.mediaSubMenu .mowSubMenuContent {
-		position: absolute;
-		width: 380px;
-		/*height: 115px;*/
-		top: -3px;
-		padding-top: 3px;
-		border-right: 2px solid #e0e0e0;
-	}	
-	.mediaSubMenu .mowSubMenuContent panelRow {
-		margin-top: 3px;
-	}
-	
-	.mowMenubar {
-		  position: absolute;
-		  width: 100%;
-	  	  top: 45px;
-	  	  background-color: #ffffff !important;
+
+	.optionsSlider { 
+		.preview {
+			position: absolute;
+			display: inline-block;
+			padding-left: 30px;
+			top: -2px;
+		} 
+		.gwt-Label {
+			padding-left: 15px;
+			display: none !important;
+		} 
+		.ui-slider-horizontal {
+			height: 4px;
+			background-color: $slider-background;
 		}
-	.mowMenubar .menuPanel {
-		width: 267px !important;
-		border: 1px solid #DCDCDC;
+		.ui-slider-handle {
+	        cursor: pointer;
+	        position: absolute;
+	        top: -5.5px;
+	        left: 0%;
+	        width: 15px;
+	        height: 15px;
+	        margin-left: -8px;
+	        border-radius: 50%;
+	        border: 2px solid $slider-handle;
+	        transition: all .2s ease;
+	        user-select: none;
+	        z-index: 2;
+    	}
+    	.ui-slider-handle:active { 
+    		box-shadow: 0 0 0 10px rgba($mow_purple,.26); 
+    	}
 	}
 	
-	.subMenuRightSidePopup {
-		box-shadow: none;
-		padding: 0px;
-		border-radius:0px;
-		left: 280px;
-	}
-	
-	.subMenuRightSide {
-		left: -15px;
-	}
-	.subMenuRightSide .arrowSubmenu {
+/*****************
+*   INFOPANEL
+******************/	
+		
+	.mowSubMenuInfo {
 		position: absolute;
-		top: 0px;
-		left: -15px;
+		top: 10px;
+		width: 290px;
+		img {
+			margin-top: 5px;
+			margin-left: 0px;
+		}
 	}
+	
+	.mowInfoLabel {
+		position: absolute;
+		padding-left: 50px !important;
+		padding-top: 5px;
+		padding-right: 30px;
+		max-width: 210px;
+		b {
+			font-weight: bold !important;
+		}
+	}
+		
+	.mowQuestionMark {
+		position: absolute;
+		top: 10px;
+	    right: 0px;
+		width: 24px;
+		height:24px;
+		cursor: pointer;
+		}
+	
+	
+	
+/*****************
+*   STYLEBAR
+******************/	
 	
 	.mowColorPopup input[type="range"]{
 		width: 130px;
@@ -342,25 +306,43 @@ $mow_purple: #a388d4;
 		border: 2px solid $mow_purple;
 		padding: 2px;
 	}
+	
+/*****************
+*   BURGER MENU
+******************/
+
+	.mowOpenMenuButton {
+		position: absolute;
+		top: 5px;
+		left: 5px;
+		z-index: 99999;
+	}
+	.mowMenubar {
+		  position: absolute;
+		  width: 100%;
+	  	  top: 45px;
+	  	  background-color: #fff !important;
+	  	  
+	  	  .menuPanel {
+			width: 267px !important;
+			border: 1px solid #DCDCDC;
+		}
+	}
+	.subMenuRightSidePopup {
+		box-shadow: none;
+		padding: 0px;
+		border-radius:0px;
+		left: 280px;
+	}
+	.subMenuRightSide {
+		left: -15px;
+		
+		.arrowSubmenu {
+			position: absolute;
+			top: 0px;
+			left: -15px;
+		}
+	}
 }
 
-@keyframes animDoubleToBase {
-	0% {bottom: 172px;}
-	100% {bottom: 50px;}
-}
-@keyframes animBaseToSimple {
-	0% {bottom: 50px;}
-	100% {bottom: 107px;}
-}
-@keyframes animSimpleToBase {
-	0% {bottom: 107px;}
-	100% {bottom: 50px;}
-}
-@keyframes animSimpleToDouble {
-	0% {bottom: 107px;}
-	100% {bottom: 172px;}
-}	
-@keyframes animDoubleToSimple {
-	0% {bottom: 172px;}
-	100% {bottom: 107px;}
-}
+

@@ -205,7 +205,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) getPenGeo().getLineThickness());
 		slider.setVisible(true);
-		slider.addStyleName("optionsSlider-pen");
+		// slider.addStyleName("optionsSlider-pen");
 		preview.setVisible(true);
 		updatePreview();
 	}
@@ -222,7 +222,7 @@ public class PenSubMenu extends SubMenuPanel {
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
 		slider.setVisible(true);
-		slider.removeStyleName("optionsSlider-pen");
+		// slider.removeStyleName("optionsSlider-pen");
 		preview.setVisible(false);
 	}
 
@@ -279,13 +279,18 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void setColorsEnabled(boolean enable) {
 		for (int i = 0; i < btnColor.length; i++) {
-			btnColor[i].removeStyleName("penSubMenu-selected");
 			if (enable) {
 				btnColor[i].removeStyleName("disabled");
 			} else {
 				btnColor[i].addStyleName("disabled");
 
+
 			}
+		}
+		if (enable) {
+			btnCustomColor.removeStyleName("disabled");
+		} else {
+			btnCustomColor.addStyleName("disabled");
 		}
 		colorsEnabled = enable;
 
@@ -318,6 +323,7 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	private void openColorDialog() {
+		if (colorsEnabled) {
 		final GeoElement penGeo = getPenGeo();
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 		GColor originalColor = penGeo.getObjectColor();
@@ -332,6 +338,7 @@ public class PenSubMenu extends SubMenuPanel {
 				penGeo.setObjColor(color);
 				setPenIconColor(color.toString());
 				lastSelectedColor = color;
+					selectColor(-1);
 				updatePreview();
 			}
 
@@ -356,5 +363,5 @@ public class PenSubMenu extends SubMenuPanel {
 			}
 		});
 	}
-
+	}
 }
