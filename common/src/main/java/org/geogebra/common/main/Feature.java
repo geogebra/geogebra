@@ -101,11 +101,6 @@ public enum Feature {
 	FIX_KEYBOARD_POSITION,
 
 	/**
-	 * MOB-1005
-	 */
-	MOBILE_DO_NOT_AUTOSYNC_APPS,
-
-	/**
 	 * related to MOB-1005
 	 */
 	MOBILE_ASK_WHICH_APP_SHOULD_OPEN,

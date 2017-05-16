@@ -4136,10 +4136,6 @@ public abstract class App implements UpdateSelection {
 		case BIND_ANDROID_TO_EXAM_APP:
 			return true;
 
-		// MOB-1005
-		case MOBILE_DO_NOT_AUTOSYNC_APPS:
-			return true; // 5.0.299
-
 		// related to MOB-1005
 		case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
 			return false;
