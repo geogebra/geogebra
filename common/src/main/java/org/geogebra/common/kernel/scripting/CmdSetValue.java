@@ -162,7 +162,6 @@ public class CmdSetValue extends CmdScripting {
 	 *            value
 	 */
 	public static void setValue2(GeoElement arg0, GeoElement arg1) {
-		Log.error(arg0.getLabelSimple() + " " + arg1.getLabelSimple());
 		if (arg0.isGeoFunction() && arg1.isGeoFunctionable()) {
 			// eg f(x)=x^2
 			// SetValue[f,1]
