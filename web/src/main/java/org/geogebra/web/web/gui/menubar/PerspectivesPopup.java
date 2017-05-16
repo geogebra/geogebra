@@ -93,9 +93,11 @@ public class PerspectivesPopup {
 		}
 
 		// add exam mode
-		HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),
-				"exam_menu_entry", -1, 7);
-		contentPanel.add(examRow);
+		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
+			HorizontalPanel examRow = addPerspectiveRow(pr.menu_icon_exam24(),
+					"exam_menu_entry", -1, 7);
+			contentPanel.add(examRow);
+		}
 
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
 			if (!app.getLAF().isSmart() && !app.getLAF().isTablet()) {
@@ -194,12 +196,12 @@ public class PerspectivesPopup {
 				if (index >= 0) {
 					PerspectivesMenuW.setPerspective(app, index);
 					if (!(app.isExam() && app.getExam().getStart() >= 0)) {
-						((AppWFull) app).showStartTooltip(defID);
+						app.showStartTooltip(defID);
 					}
 				} else if (index == -1) {
 					app.getLAF().toggleFullscreen(true);
 					app.setNewExam();
-					((AppWFull) app).examWelcome();
+					app.examWelcome();
 					// activePerspective = -1;
 				} else if (index == -2) {
 					String URL = GeoGebraConstants.QUICKSTART_URL + tutorials[defID]
