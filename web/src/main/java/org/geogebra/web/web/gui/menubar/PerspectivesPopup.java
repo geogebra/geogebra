@@ -101,26 +101,22 @@ public class PerspectivesPopup {
 			if (!app.getLAF().isSmart() && !app.getLAF().isTablet()) {
 
 				// creating of play store icon
-//				String text_playstore = "<a href='https://play.google.com/store/apps/details?id=org.geogebra&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' style='height: 40px' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>";
-//				Anchor link_playstore = new Anchor(text_playstore, true);
-
 				NoDragImage playStoreIcon = new NoDragImage(ImgResourceHelper
 						.safeURI(GuiResources.INSTANCE.google_play_badge()),
-						104);
+						125);
 				Anchor link_playstore = new Anchor(playStoreIcon.toString(),
 						true,
 						"https://play.google.com/store/apps/details?id=org.geogebra.android");
 				
 				// creating of app store icon
 				NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
-						.safeURI(GuiResources.INSTANCE.app_store()), 90);
+						.safeURI(GuiResources.INSTANCE.app_store()), 110);
 				Anchor link_appstore = new Anchor(appStoreIcon.toString(), true,
-						"http://www.geogebra.org/download");
+						"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204");
 
 				// holder panel
 				FlowPanel holderPanel = new FlowPanel();
 				holderPanel.addStyleName("appstoreholder");
-				holderPanel.addStyleName("panelRow");
 				holderPanel.add(link_playstore);
 				holderPanel.add(link_appstore);
 				contentPanel.add(holderPanel);
