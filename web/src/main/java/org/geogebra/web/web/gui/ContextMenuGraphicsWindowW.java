@@ -272,7 +272,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			sb.setLength(0);
 
 			if ((perc <= 100) && (!separatorAdded)) {
-				menu.addSeparator();
+				if (!app.has(Feature.NEW_TOOLBAR)) {
+					menu.addSeparator();
+				}
 				separatorAdded = true;
 			}
 
@@ -291,7 +293,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			});
 			menu.addItem(mi);
 			if (app.has(Feature.NEW_TOOLBAR)) {
-				menu.addStyleName("matMenu");
+				mi.addStyleName("no-image");
 			}
 		}
 

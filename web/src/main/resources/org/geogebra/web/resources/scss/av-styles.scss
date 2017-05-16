@@ -5,11 +5,11 @@
 	.matMenu.gwt-PopupPanel {
 		padding: 8px 0px 8px 0px;
 		border-radius: 2px;
-		min-width: 182px;
+		min-width: 192px;
 	
 		.gwt-MenuItem {
 			height: 32px;
-			min-width: 182px;
+			min-width: 192px;
 			cursor: pointer; 
 			padding-left: 64px;
 			
@@ -29,7 +29,7 @@
 		}
 		
 		.gwt-MenuItem:hover {
-			background-color: $selected-menuitem-backgroung;
+			background-color: $selected-menuitem-background;
 			img {
 				opacity: 0.87;
 			}
@@ -70,17 +70,22 @@
 	.matSubMenu.gwt-PopupPanel {
 		padding: 4px 0px 4px 0px;
 		border-radius: 2px;
-		min-width: 128px;
+		min-width: 64px;
 	
 		.gwt-MenuItem {
 			height: 24px;
-			min-width: 128px;
+			min-width: 64px;
 			cursor: pointer; 
 			padding-left: 0px;
 		}
 		
+		.gwt-MenuItem.no-image {
+			padding-left: 24px !important;
+			padding-right: 0px;
+		}
+		
 		.gwt-MenuItem:hover {
-			background-color: $selected-menuitem-backgroung;
+			background-color: $selected-menuitem-background;
 			color: $black;
 		}
 		
@@ -91,4 +96,5 @@
 		}
 		
 	}
+	
 }
