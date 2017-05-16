@@ -153,7 +153,6 @@ var analyticsVersion = 'V'+latestVersion;
 		button("spreadsheet",3).innerHTML=dict["Perspective.Spreadsheet"] || "Spreadsheet";
 		button("perspective3d",5).innerHTML=dict["GeoGebra3DGrapher.short"] || "3D Grapher";
 		button("probability",6).innerHTML=dict["Perspective.Probability"] || "Probability";
-		button("whiteboard",7).innerHTML=dict["Perspective.Whiteboard"] || "Whiteboard";
 		if(!prerelease){
 			button("tutorials",0).innerHTML=dict["Tutorials"] || "Tutorials";
 		}
@@ -314,7 +313,6 @@ var app = document.createElement("script");
 	function setPrerelease(prereleaseParam){
 		e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
 		e("ggw").setAttribute("data-param-showlogging",true);
-		e("whiteboardRow").style.display="block";		
 	}
 	
 	function getPerspective(){
@@ -398,7 +396,7 @@ var app = document.createElement("script");
 			}
 		}
 		else if(getPerspective()){
-			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1,'whiteboard':7};
+			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1};
 			var pName = getPerspective();
 			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
 				if(e("perspectivesBox")){
@@ -742,11 +740,6 @@ border:1px solid #dcdcdc
     left: 50%;
 }
 
-.whiteboard .startScreen.splitter, .geometry .startScreen.splitter,
-.whiteboard .startScreen.gwt-TreeItem, .geometry .startScreen.gwt-TreeItem   {
-    display: none;
-}
-
 .cas .toolBPanel.cas, .exam-cas .toolBPanel.cas{
  display:block;
 }
@@ -949,10 +942,6 @@ div.SymbolTablePopup{
 <div class="gwt-Label" id="probability">Probability</div></td><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
-<table  class="perspectivesRow" id="whiteboardRow" style="display:none"><tbody><tr><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAArElEQVR42mNgoAdIS0tjTU1NTUpPT98BZB+gBIPMAJkFMhNuAVTgGJB2B9IalGCgBa5AfAhkJtwCqK3u1AoRoFn2IDORgwjkPQ1qWZCRkaEAMnPUglELRi0YdhZkZua/y8oqekUNnJlZ8BbDgokTn/+fOfM/VfDkyW/+j1pAmgWgyqG7+xrVLOjtvfUfpcIBVW9FRd3/e3pugm2nBIMMLy7u+49SZdK80qclAABJLH8ovBt5+AAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
-<div class="gwt-Label" id="whiteboard">Whiteboard</div></td><td align="left" style="vertical-align: top;">
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABE0lEQVR42t1V2w3CMAxkBEZgBEZghI7QERihG+Sjr8+MwAiMwAgdoSOUHLIlExwnBVEJIllNY/l1vji73d+vcRwPXded+773wzBcIdjjDLqPHMNRkCUjfnWgkGUVDGc4oIxr59ye9djjjHQIMsNmjfNioyiZqgSWmeSoOGpInnT4ZzsTLsZcZkJwTBr2icq9lf0DcwUGYD2FrxO4L3G2rFOrICrCsNaC875t2xMHwD5CoMY5fCXhkWyJF8F1owBTQq/DxOUVOn8hgUhUhTkbQEBoMiUZIAcRXyw0OlOlDpHVZNlgq0dmky2aygq15hbRNHXRhO7C9MyMGP/WqCBdE3N/1aj4+rDbZFxv8uBs8mT+zLoDT+fe+64Z+dIAAAAASUVORK5CYII=" width="24" height="24" class="gwt-Image perspectivesHelp"></td></tr></tbody></table>
 
 <table class="perspectivesRow examPerspectiveRow"><tbody><tr><td align="left" style="vertical-align: top;">
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAABOUlEQVR42r1VOw6CQBDlCB7BI3AEj0ABBLuNpY00BktLY2wJwYbexiNwBCprjkBjP84zbGJQcAY/m7xks/tm5z/rOP9eQRC4jHIkXKkCYhRhGG4lALeVcaVekO/7M6nX4EJGE6aGhWKFghgyGgWIZ6HgI0Slo7XI87zJOy44Wo+dKIqmbdKMwHoDLmS05VrM54bS9Ep5Ti+BO3A04ex60SyX+14FuANHbX23/Far9OlxnGnLeajx6sViTYdDfQf2OBM3lkQBo9psTgbA/isKbIheJdGOh9EhsklmnAe8O49OcmvhYLPZJlOXaV+jHY9kgI8brTsqsoxmXJrVQ5lWOBs9Kuyw40embHHZ12i4A0c97GBRkpzqvoe7AFc7rmm3u5BUAbjiD8d+mRgFbJkIdmyIEv3zT//b6wbWa8kBL/WLbAAAAABJRU5ErkJggg==" class="gwt-Image"></td><td align="left" style="vertical-align: top;">
