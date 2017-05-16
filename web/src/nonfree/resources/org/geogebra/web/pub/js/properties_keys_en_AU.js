@@ -3041,7 +3041,7 @@ __GGB__keysVar.en_AU.menu = {
     "insert_worksheet": "Insert Worksheet",
     "jpg": "JPG Format",
     "materials": "Materials",
-    "math_apps": "Maths Apps",
+    "math_apps": "Maths Calculators",
     "max": "Max",
     "min": "Min",
     "off": "off",

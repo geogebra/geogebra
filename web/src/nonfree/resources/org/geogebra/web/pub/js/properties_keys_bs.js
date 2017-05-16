@@ -1519,7 +1519,7 @@ __GGB__keysVar.bs.menu = {
     "CreateSlidersForA": "Kreiraj kliza\u010d(e) za: %0",
     "CreateTable": "Tabela",
     "CreateTable.Help": "Ozna\u010dite \u0107elije i kliknite na alat",
-    "CreateYourOwn": "Kreirajte sami",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Kreirano u programu",
     "CreatedWithGeoGebra": "Kreirano GeoGebrom",
     "CreatingAnimatedGIF": "Kreiranje animiranog GIFa:",

@@ -1519,7 +1519,7 @@ __GGB__keysVar.pt_PT.menu = {
     "CreateSlidersForA": "Criar seletor(es) para: %0",
     "CreateTable": "Criar Tabela",
     "CreateTable.Help": "Selecione c\xe9lulas depois clique no bot\xe3o da ferramenta",
-    "CreateYourOwn": "Crie o seu pr\xf3prio",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Criado com",
     "CreatedWithGeoGebra": "Criado com GeoGebra",
     "CreatingAnimatedGIF": "A criar uma anima\xe7\xe3o GIF:",

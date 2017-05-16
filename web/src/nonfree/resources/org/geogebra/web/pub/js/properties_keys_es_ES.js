@@ -1519,7 +1519,7 @@ __GGB__keysVar.es_ES.menu = {
     "CreateSlidersForA": "Crea alg\xfan deslizador para: %0",
     "CreateTable": "Tabla",
     "CreateTable.Help": "Elige las celdas; luego, esta herramienta",
-    "CreateYourOwn": "Haz tu propia creaci\xf3n",
+    "CreateYourOwn": "Aplicaciones Geogebra",
     "CreatedWith": "Creado con",
     "CreatedWithGeoGebra": "Creado con GeoGebra",
     "CreatingAnimatedGIF": "Creando el GIF animado:",

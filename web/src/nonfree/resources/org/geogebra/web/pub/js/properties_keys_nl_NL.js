@@ -1519,7 +1519,7 @@ __GGB__keysVar.nl_NL.menu = {
     "CreateSlidersForA": "Maak schuifknop voor: %0",
     "CreateTable": "Maak een tabel",
     "CreateTable.Help": "Selecteer de cellen de klik op de knop",
-    "CreateYourOwn": "Maak jouw eigen",
+    "CreateYourOwn": "GeoGebra Wiskunde apps",
     "CreatedWith": "Gemaakt met",
     "CreatedWithGeoGebra": "Gemaakt met GeoGebra",
     "CreatingAnimatedGIF": "Maak een Animated GIF:",

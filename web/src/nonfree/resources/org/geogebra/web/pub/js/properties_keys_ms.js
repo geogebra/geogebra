@@ -1519,7 +1519,7 @@ __GGB__keysVar.ms.menu = {
     "CreateSlidersForA": "Cipta gelongsor untuk: %0",
     "CreateTable": "Jadual",
     "CreateTable.Help": "Pilih sel-sel kemudian klik butang alatan",
-    "CreateYourOwn": "Cipta milikan sendiri",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Dicipta dengan",
     "CreatedWithGeoGebra": "Dicipta dengan GeoGebra",
     "CreatingAnimatedGIF": "Mencipta GIF Animasi:",

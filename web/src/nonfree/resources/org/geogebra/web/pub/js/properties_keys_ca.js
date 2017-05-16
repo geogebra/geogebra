@@ -1519,7 +1519,7 @@ __GGB__keysVar.ca.menu = {
     "CreateSlidersForA": "Crea Punt(s) Lliscant(s) per a: %0",
     "CreateTable": "Crea una taula",
     "CreateTable.Help": "Seleccioneu les cel\xb7les i cliqueu l\u2019eina",
-    "CreateYourOwn": "Fes la teva pr\xf2pia creaci\xf3",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Creat amb",
     "CreatedWithGeoGebra": "Creat amb GeoGebra",
     "CreatingAnimatedGIF": "Creant el GIF animat",

@@ -1519,7 +1519,7 @@ __GGB__keysVar.tr.menu = {
     "CreateSlidersForA": "%0 i\xe7in s\xfcrg\xfc(ler) olu\u015ftur",
     "CreateTable": "Tablo Olu\u015ftur",
     "CreateTable.Help": "H\xfccreleri se\xe7in ve sonra ara\xe7 d\xfc\u011fmesine t\u0131klay\u0131n",
-    "CreateYourOwn": "Kendine \xf6zel Olu\u015ftur",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Olu\u015fturuldu",
     "CreatedWithGeoGebra": "GeoGebra ile olu\u015fturuldu",
     "CreatingAnimatedGIF": "Hareketli GIF olu\u015fturuluyor:",

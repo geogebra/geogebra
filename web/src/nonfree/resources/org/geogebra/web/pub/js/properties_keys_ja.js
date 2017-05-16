@@ -1519,7 +1519,7 @@ __GGB__keysVar.ja.menu = {
     "CreateSlidersForA": "%0 \u306e\u30b9\u30e9\u30a4\u30c0\u30fc\u3092\u4f5c\u6210",
     "CreateTable": "\u8868\u306e\u4f5c\u6210",
     "CreateTable.Help": "\u30bb\u30eb\u3092\u9078\u629e\u3057\u3066\u30c4\u30fc\u30eb\u30dc\u30bf\u30f3\u3092\u30af\u30ea\u30c3\u30af",
-    "CreateYourOwn": "\u6559\u6750\u3092\u4f5c\u6210\u3059\u308b",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "\u4f5c\u6210",
     "CreatedWithGeoGebra": "Created with GeoGebra",
     "CreatingAnimatedGIF": "\u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3GIF\u306e\u4f5c\u6210:",

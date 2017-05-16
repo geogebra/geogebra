@@ -1519,7 +1519,7 @@ __GGB__keysVar.et.menu = {
     "CreateSlidersForA": "Loo liugur(id) %0 jaoks",
     "CreateTable": "Moodusta tabel",
     "CreateTable.Help": "Valige lahtrid ja seej\xe4rel kl\xf5psake t\xf6\xf6riistale",
-    "CreateYourOwn": "Loo enda oma",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Loodud programmiga",
     "CreatedWithGeoGebra": "Loodud programmiga GeoGebra",
     "CreatingAnimatedGIF": "Animeeritud GIF-i loomine:",

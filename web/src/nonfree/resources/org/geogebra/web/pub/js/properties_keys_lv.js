@@ -1519,7 +1519,7 @@ __GGB__keysVar.lv.menu = {
     "CreateSlidersForA": "Izveidot sl\u012bdni priek\u0161: %0",
     "CreateTable": "Izveidot tabulu",
     "CreateTable.Help": "Izv\u0113leties \u0161\u016bnas, tad spiediet r\u012bku pogu",
-    "CreateYourOwn": "Izveidot savu",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Izveidots ar",
     "CreatedWithGeoGebra": "Izveidots ar GeoGebra",
     "CreatingAnimatedGIF": "Creating Animated GIF:",

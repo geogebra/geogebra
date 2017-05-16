@@ -1519,7 +1519,7 @@ __GGB__keysVar.ro.menu = {
     "CreateSlidersForA": "Crea\u021bi glisoare pentru: %0",
     "CreateTable": "Creaz\u0103 tabel",
     "CreateTable.Help": "Selecta\u021bi celule apoi click pe instrument",
-    "CreateYourOwn": "Creaz\u0103 propria",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Creat cu",
     "CreatedWithGeoGebra": "Creat cu GeoGebra",
     "CreatingAnimatedGIF": "Creating Animated GIF:",

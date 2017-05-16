@@ -1519,7 +1519,7 @@ __GGB__keysVar.zh_TW.menu = {
     "CreateSlidersForA": "\u65b0\u589e %0 \u7684\u6578\u503c\u6ed1\u687f",
     "CreateTable": "\u65b0\u589e\u8868\u683c",
     "CreateTable.Help": "\u5148\u9078\u64c7\u6578\u500b\u5132\u5b58\u683c\uff0c\u518d\u6309\u5de5\u5177\u6309\u9215\u3002",
-    "CreateYourOwn": "\u88fd\u4f5c\u65b0\u5716\u6a94",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "\u88fd\u4f5c\u8edf\u9ad4\uff1a",
     "CreatedWithGeoGebra": "GeoGebra \u88fd\u4f5c",
     "CreatingAnimatedGIF": "Creating Animated GIF:",

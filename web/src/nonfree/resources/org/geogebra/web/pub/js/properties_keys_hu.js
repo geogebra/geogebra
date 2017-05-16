@@ -1519,7 +1519,7 @@ __GGB__keysVar.hu.menu = {
     "CreateSlidersForA": "Cs\xfaszka l\xe9trehoz\xe1sa a k\xf6vetkez\u0151 v\xe1ltoz\xf3(k)hoz: %0",
     "CreateTable": "T\xe1bl\xe1zat",
     "CreateTable.Help": "Cell\xe1k kijel\xf6l\xe9se, majd kattint\xe1s az eszk\xf6z\xf6n",
-    "CreateYourOwn": "Saj\xe1t anyag l\xe9trehoz\xe1sa",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "K\xe9sz\xedtette a",
     "CreatedWithGeoGebra": "Ez a dokumentum a GeoGebra programmal k\xe9sz\xfclt.",
     "CreatingAnimatedGIF": "Anim\xe1lt GIF l\xe9trehoz\xe1sa:",

@@ -1519,7 +1519,7 @@ __GGB__keysVar.gl.menu = {
     "CreateSlidersForA": "Crea alg\xfan esvarador para: %0",
     "CreateTable": "T\xe1boa",
     "CreateTable.Help": "Selecci\xf3n de celas; logo, clic no bot\xf3n da ferramenta.",
-    "CreateYourOwn": "Fai a t\xfaa propia creaci\xf3n",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Creado con",
     "CreatedWithGeoGebra": "Creado con GeoGebra",
     "CreatingAnimatedGIF": "Creando el GIF animado:",

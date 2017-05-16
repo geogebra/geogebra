@@ -1519,7 +1519,7 @@ __GGB__keysVar.da.menu = {
     "CreateSlidersForA": "Opret skyder(e) for: %0",
     "CreateTable": "Oprettabel",
     "CreateTable.Help": "V\xe6lg celler og klik p\xe5 v\xe6rkt\xf8jet",
-    "CreateYourOwn": "Start GeoGebra",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Lavet med",
     "CreatedWithGeoGebra": "Lavet med GeoGebra",
     "CreatingAnimatedGIF": "Lav Animeret GIF:",

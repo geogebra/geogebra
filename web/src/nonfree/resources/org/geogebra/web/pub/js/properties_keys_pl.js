@@ -1519,7 +1519,7 @@ __GGB__keysVar.pl.menu = {
     "CreateSlidersForA": "Utw\xf3rz suwak/suwaki dla: %0",
     "CreateTable": "Tabela",
     "CreateTable.Help": "Wybierz kom\xf3rki, potem kliknij przycisk",
-    "CreateYourOwn": "Stw\xf3rz w\u0142asny",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Utworzony z",
     "CreatedWithGeoGebra": "Utworzony z GeoGebra",
     "CreatingAnimatedGIF": "Tworzenie Animowanego GIFa:",

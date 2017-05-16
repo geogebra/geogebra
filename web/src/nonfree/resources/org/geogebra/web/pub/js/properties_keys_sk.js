@@ -1519,7 +1519,7 @@ __GGB__keysVar.sk.menu = {
     "CreateSlidersForA": "Vytvori\u0165 posuvn\xedk(y) k: %0",
     "CreateTable": "Vytvori\u0165 tabu\u013eku",
     "CreateTable.Help": "Vyber bunky a potom klikni na tla\u010didlo n\xe1stroja",
-    "CreateYourOwn": "Vytvorte vlastn\xfa",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Vytvoren\xe9 pomocou programu",
     "CreatedWithGeoGebra": "Vytvoren\xe9 s GeoGebrou",
     "CreatingAnimatedGIF": "Creating Animated GIF:",

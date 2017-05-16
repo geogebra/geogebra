@@ -1519,7 +1519,7 @@ __GGB__keysVar.lt.menu = {
     "CreateSlidersForA": "Sukurti slankjuost\u0119 skirt\u0105: %0",
     "CreateTable": "Sukurti lentel\u0119",
     "CreateTable.Help": "Pasirinkite laukelius, tuomet \u012franki\u0173 mygtuk\u0105",
-    "CreateYourOwn": "Sukurti savo",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Sukurta su",
     "CreatedWithGeoGebra": "Sukurta su GeoGebra",
     "CreatingAnimatedGIF": "Kuriamas GIF paveiksl\u0117lis:",

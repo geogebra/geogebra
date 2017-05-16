@@ -1519,7 +1519,7 @@ __GGB__keysVar.vi.menu = {
     "CreateSlidersForA": "Create slider(s) for: %0",
     "CreateTable": "T\u1ea1o b\u1ea3ng",
     "CreateTable.Help": "Ch\u1ecdn c\xe1c \xf4 r\u1ed3i nh\u1ea5p chu\u1ed9t v\xe0o n\xfat c\xf4ng c\u1ee5",
-    "CreateYourOwn": "T\u1ea1o m\u1eabu theo \xfd c\u1ee7a ri\xeang m\xecnh",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "T\u1ea1o v\u1edbi",
     "CreatedWithGeoGebra": "T\u1ea1o m\u1edbi v\u1edbi GeoGebra",
     "CreatingAnimatedGIF": "Creating Animated GIF:",

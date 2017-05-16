@@ -1519,7 +1519,7 @@ __GGB__keysVar.xh.menu = {
     "CreateSlidersForA": "Yenzela izilayda u: %0",
     "CreateTable": "Yenza itable",
     "CreateTable.Help": "Khetha iicells uze wandule ukuklikha iqhosha letool",
-    "CreateYourOwn": "Zenzele eyakho",
+    "CreateYourOwn": "GeoGebra Math Calculators",
     "CreatedWith": "Yenziwe nge",
     "CreatedWithGeoGebra": "Yenziwe ngeJiyoJebra",
     "CreatingAnimatedGIF": "Creating Animated GIF:",
