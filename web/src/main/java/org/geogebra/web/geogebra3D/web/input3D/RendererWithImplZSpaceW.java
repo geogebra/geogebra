@@ -42,12 +42,12 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 					private boolean canceled = false;
 					@Override
 					public void onLoad() {
-						// create zspace object
-						zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
-						((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
 						if (canceled) {
 							return;
 						}
+						// create zspace object
+						zSpace = new ZSpaceGwt(glContext, webGLCanvas.getElement());
+						((InputZSpace3DW) view.getInput3D()).setZSpace(zSpace);
 					}
 
 					@Override
@@ -92,8 +92,6 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			glContext = getBufferedContext(webGLCanvas.getElement());
 
 		} else {
-			// glContext = (WebGLRenderingContext) webGLCanvas
-			// .getContext("webgl");
 			glContext = getBufferedContextNoPDB(webGLCanvas.getElement());
 			((RendererImplShadersW) getRendererImpl()).setGL(glContext);
 		}
