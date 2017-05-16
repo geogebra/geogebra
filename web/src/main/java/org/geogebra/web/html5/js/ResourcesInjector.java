@@ -75,7 +75,6 @@ public class ResourcesInjector {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.base64Js());
 
 	}
 

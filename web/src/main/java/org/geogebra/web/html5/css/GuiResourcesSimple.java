@@ -39,16 +39,13 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/inflate.js")
 	TextResource inflateJs();
 
-	@Source("org/geogebra/web/resources/js/zipjs/base64.js")
-	TextResource base64Js();
-
 	@Source("org/geogebra/web/resources/js/zipjs/arraybuffer.js")
 	TextResource arrayBufferJs();
 
-	@Source("org/geogebra/web/resources/js/zipjs/dataview.js")
+	@Source("org/geogebra/web/resources/js/zipjs/zip-ext.js")
 	TextResource dataViewJs();
 
-	@Source("org/geogebra/web/resources/js/zipjs/zip-3.js")
+	@Source("org/geogebra/web/resources/js/zipjs/zip.js")
 	TextResource zipJs();
 
 	// used by ExamUtil (eg toggleFullScreen)

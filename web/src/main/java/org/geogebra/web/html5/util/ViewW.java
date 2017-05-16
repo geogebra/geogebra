@@ -308,7 +308,7 @@ public class ViewW {
 	      		}
 		      })(entries[i]);
 		      } 
-	      reader.close();
+	     // reader.close();
 	      });
       };
       
