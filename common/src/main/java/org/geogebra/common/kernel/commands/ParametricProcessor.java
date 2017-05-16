@@ -70,8 +70,6 @@ public class ParametricProcessor {
 	 *            equations X=... handled here for some reason)
 	 * @param undefinedVariables
 	 *            list of names of undefined variables
-	 * @param autocreateSliders
-	 *            whether to create sliders
 	 * @param callback
 	 *            call this after sliders are created
 	 * @param info

@@ -4552,6 +4552,13 @@ public class ExpressionNode extends ValidExpression
 		return new ExpressionNode(kernel, this, Operation.DIVIDE, v2);
 	}
 
+	/**
+	 * Like divide, but simplify this/1=this, 0/y=0
+	 * 
+	 * @param v2
+	 *            denominator
+	 * @return this / v2
+	 */
 	public ExpressionNode divideSimplify(ExpressionValue v2) {
 		// 0 / y = 0
 		if (isConstantDouble(this, 0)) {

@@ -151,10 +151,18 @@ public class EvalInfo {
 		return useCAS;
 	}
 
+	/**
+	 * @return slider autocreation flag
+	 */
 	public boolean isAutocreateSliders() {
 		return this.autocreateSliders;
 	}
 
+	/**
+	 * @param sliders
+	 *            whether this may ceate sliders
+	 * @return derived eval info
+	 */
 	public EvalInfo withSliders(boolean sliders) {
 		if (sliders == autocreateSliders) {
 			return this;
@@ -164,15 +172,23 @@ public class EvalInfo {
 		return ret;
 	}
 
-	public EvalInfo withFractions(boolean b) {
-		if (b == fractions) {
+	/**
+	 * @param symbFractions
+	 *            whether to show symbolic fractionss
+	 * @return derived eval info
+	 */
+	public EvalInfo withFractions(boolean symbFractions) {
+		if (symbFractions == this.fractions) {
 			return this;
 		}
 		EvalInfo ret = copy();
-		ret.fractions = b;
+		ret.fractions = symbFractions;
 		return ret;
 	}
 
+	/**
+	 * @return whether to show symbolic fractions
+	 */
 	public boolean isFractions() {
 		return fractions;
 	}
