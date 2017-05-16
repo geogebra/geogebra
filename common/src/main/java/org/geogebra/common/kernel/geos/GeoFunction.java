@@ -847,8 +847,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
-		initStringBuilder(sbToString, tpl, label, getVarString(tpl),
-				isLabelSet(), isBooleanFunction());
+		if (isLabelSet()) {
+			initStringBuilder(sbToString, tpl, label, getVarString(tpl),
+					isBooleanFunction());
+		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
@@ -862,25 +864,20 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            geo label
 	 * @param var
 	 *            geo var
-	 * @param isLabelSet
-	 *            says if label is set
 	 * @param isBooleanFunction
 	 *            says if it's a boolean function
 	 */
 	public final static void initStringBuilder(StringBuilder stringBuilder,
-			StringTemplate tpl, String label, String var, boolean isLabelSet,
+			StringTemplate tpl, String label, String var,
 			boolean isBooleanFunction) {
-		stringBuilder.setLength(0);
-		if (isLabelSet) {
-			stringBuilder.append(label);
-			if (isBooleanFunction && !tpl.hasType(StringType.GEOGEBRA_XML)) {
-				stringBuilder.append(": ");
-			} else {
-				stringBuilder.append(tpl.leftBracket());
-				stringBuilder.append(var);
-				stringBuilder.append(tpl.rightBracket());
-				stringBuilder.append(" = ");
-			}
+		stringBuilder.append(label);
+		if (isBooleanFunction && !tpl.hasType(StringType.GEOGEBRA_XML)) {
+			stringBuilder.append(": ");
+		} else {
+			stringBuilder.append(tpl.leftBracket());
+			stringBuilder.append(var);
+			stringBuilder.append(tpl.rightBracket());
+			stringBuilder.append(" = ");
 		}
 	}
 

@@ -402,19 +402,6 @@ public class GeoFunctionNVar extends GeoElement
 		return isDefined() && (!isBooleanFunction() || isInequality);
 	}
 
-	/**
-	 * @return function description as f(x)=...
-	 */
-	private String toXMLString(StringTemplate tpl) {
-		sbToString.setLength(0);
-		sbToString.append(label);
-		sbToString.append("(");
-		sbToString.append(getVarString(tpl));
-		sbToString.append(") = ");
-		sbToString.append(toValueString(tpl));
-		return sbToString.toString();
-	}
-
 	@Override
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
@@ -431,13 +418,10 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	@Override
 	public String toString(StringTemplate tpl) {
-		if (isLabelSet() && !isBooleanFunction()) {
-			return toXMLString(tpl);
-		}
 		sbToString.setLength(0);
 		if (isLabelSet()) {
-			sbToString.append(label);
-			sbToString.append(": ");
+			GeoFunction.initStringBuilder(sbToString, tpl, label,
+					getVarString(tpl), isBooleanFunction());
 		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
@@ -488,7 +472,7 @@ public class GeoFunctionNVar extends GeoElement
 			sb.append(" label =\"");
 			sb.append(label);
 			sb.append("\" exp=\"");
-			StringUtil.encodeXML(sb, toXMLString(StringTemplate.xmlTemplate));
+			StringUtil.encodeXML(sb, toString(StringTemplate.xmlTemplate));
 			// expression
 			sb.append("\"/>\n");
 		}
