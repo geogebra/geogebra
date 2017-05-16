@@ -414,9 +414,7 @@
 						outputSize += outputData.length;
 						writer.writeUint8Array(outputData, function() {
 							chunkIndex++;
-							if (obj.zip.synchronous) {
-								step();
-							} else {
+							if (!obj.zip.synchronous) {
 								setTimeout(step, 1);
 							}
 						}, onwriteerror);
@@ -424,9 +422,7 @@
 							crc.append(outputData);
 					} else {
 						chunkIndex++;
-						if (obj.zip.synchronous) {
-							step();
-						} else {
+						if (!obj.zip.synchronous) {
 							setTimeout(step, 1);
 						}
 					}
@@ -434,6 +430,9 @@
 						crc.append(inputData);
 					if (onprogress)
 						onprogress(index, size);
+					if (obj.zip.synchronous) {
+						step();
+					}
 				}, onreaderror);
 			else {
 				try {
