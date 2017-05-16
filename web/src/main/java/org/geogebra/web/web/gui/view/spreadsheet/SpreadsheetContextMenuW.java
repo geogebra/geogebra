@@ -79,9 +79,8 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	protected void addEditItems() {
 		if (isWhiteboard()) {
-			if (!app.has(Feature.NEW_TOOLBAR)) {
-				addSeparator();
-			}
+			addSeparator();
+
 			addCut();
 			addCopy();
 			addDuplicate();
@@ -207,7 +206,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 	@Override
 	public void addSeparator() {
-		popup.addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			popup.addSeparator();
+		}
 	}
 
 	private Command getCommand(final String cmdString) {

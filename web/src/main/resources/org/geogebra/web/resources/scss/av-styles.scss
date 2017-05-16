@@ -3,6 +3,7 @@
 .GeoGebraFrame {
 	
 	.matMenu.gwt-PopupPanel {
+		background-color: $white-80;
 		padding: 8px 0px 8px 0px;
 		border-radius: 2px;
 		min-width: 192px;
@@ -71,6 +72,7 @@
 		padding: 4px 0px 4px 0px;
 		border-radius: 2px;
 		min-width: 64px;
+		background-color: $white-80;
 	
 		.gwt-MenuItem {
 			height: 24px;

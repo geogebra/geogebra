@@ -17,6 +17,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/more_vert_purple.png")
 	ImageResource more_vert_purple();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/rename_black.png")
+	ImageResource rename_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/edit_black.png")
+	ImageResource edit_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/cut_black.png")
 	ImageResource cut_black();
 
@@ -34,6 +40,30 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/label_black.png")
 	ImageResource label_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/angle_black.png")
+	ImageResource angle_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/pin_black.png")
+	ImageResource pin_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/unpin_black.png")
+	ImageResource unpin_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/lock_black.png")
+	ImageResource lock_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/unlock_black.png")
+	ImageResource unlock_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/trace_black.png")
+	ImageResource trace_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/trace_off_black.png")
+	ImageResource trace_off_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/play_black.png")
+	ImageResource play_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/record_to_spreadsheet_black.png")
 	ImageResource record_to_spreadsheet_black();

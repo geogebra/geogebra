@@ -124,9 +124,8 @@ public class SpreadsheetContextMenu {
 	}
 
 	protected void addEditItems() {
-		if (!app.has(Feature.NEW_TOOLBAR)) {
-			addSeparator();
-		}
+		addSeparator();
+
 		addCopy();
 		addPaste();
 		addCut();
@@ -141,9 +140,7 @@ public class SpreadsheetContextMenu {
 		String cmdString = null;
 
 		setTitle(getTitleString());
-		if (!app.has(Feature.NEW_TOOLBAR)) {
-			addSeparator();
-		}
+		addSeparator();
 
 		// ===============================================
 		// Cut-Copy-Paste-Delete
@@ -159,9 +156,7 @@ public class SpreadsheetContextMenu {
 		if (selectionType == MyTableInterface.COLUMN_SELECT
 				|| selectionType == MyTableInterface.ROW_SELECT) {
 
-			if (!app.has(Feature.NEW_TOOLBAR)) {
-				addSeparator();
-			}
+			addSeparator();
 
 			subMenu = addSubMenu(app.has(Feature.NEW_TOOLBAR)
 					? loc.getMenu("Insert") : loc.getMenu("Insert") + " ...",
@@ -209,9 +204,7 @@ public class SpreadsheetContextMenu {
 
 		if (!isEmptySelection()) {
 
-			if (!app.has(Feature.NEW_TOOLBAR)) {
-				addSeparator();
-			}
+			addSeparator();
 
 			subMenu = addSubMenu(loc.getMenu("Create"),
 					MenuCommand.Create.toString());
@@ -256,9 +249,7 @@ public class SpreadsheetContextMenu {
 			boolean doLabelMenu = geo.isLabelShowable();
 
 			if (doObjectMenu || doLabelMenu) {
-				if (!app.has(Feature.NEW_TOOLBAR)) {
-					addSeparator();
-				}
+				addSeparator();
 
 				if (doObjectMenu) {
 					addShowObject(geo);
@@ -324,9 +315,7 @@ public class SpreadsheetContextMenu {
 		// ===============================================
 
 		if (isEmptySelection()) {
-			if (!app.has(Feature.NEW_TOOLBAR)) {
-				addSeparator();
-			}
+			addSeparator();
 
 			cmdString = MenuCommand.SpreadsheetOptions.toString();
 			addMenuItem(cmdString, app.has(Feature.NEW_TOOLBAR)
@@ -340,9 +329,7 @@ public class SpreadsheetContextMenu {
 
 		if (app.getSelectionManager().selectedGeosSize() > 0
 				&& app.letShowPropertiesDialog()) {
-			if (!app.has(Feature.NEW_TOOLBAR)) {
-				addSeparator();
-			}
+			addSeparator();
 
 			cmdString = MenuCommand.Properties.toString();
 			addMenuItem(cmdString, app.has(Feature.NEW_TOOLBAR)

@@ -171,7 +171,9 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	public void addSeparator() {
-		popupMenu.addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			popupMenu.addSeparator();
+		}
 	}
 
 	public void addVerticalSeparator() {
