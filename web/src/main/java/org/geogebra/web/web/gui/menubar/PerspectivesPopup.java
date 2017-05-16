@@ -103,14 +103,14 @@ public class PerspectivesPopup {
 				// creating of play store icon
 				NoDragImage playStoreIcon = new NoDragImage(ImgResourceHelper
 						.safeURI(GuiResources.INSTANCE.google_play_badge()),
-						125);
+						111);
 				Anchor link_playstore = new Anchor(playStoreIcon.toString(),
 						true,
 						"https://play.google.com/store/apps/details?id=org.geogebra.android");
 				
 				// creating of app store icon
 				NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
-						.safeURI(GuiResources.INSTANCE.app_store()), 110);
+						.safeURI(GuiResources.INSTANCE.app_store()), 112);
 				Anchor link_appstore = new Anchor(appStoreIcon.toString(), true,
 						"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204");
 

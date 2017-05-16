@@ -10,6 +10,11 @@
 	.appstoreholder a {
 		display: inline-block;
 		vertical-align: middle;
-	}	
+		padding-top: 10px;
+	}
+	
+	.appstoreholder a:first-child{
+		padding-right: 10px;
+	}
 	
 }
