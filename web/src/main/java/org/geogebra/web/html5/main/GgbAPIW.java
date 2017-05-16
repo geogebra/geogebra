@@ -337,14 +337,6 @@ public class GgbAPIW extends GgbAPI {
 		getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultsXML(defaults2d, defaults3d);
 		String geogebra_javascript = getKernel().getLibraryJavaScript();
-		writeConstructionImages(getConstruction(), "", archiveContent);
-
-		// write construction thumbnails
-		if (includeThumbnail) {
-			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-					getViewForThumbnail()
-							.getCanvasBase64WithTypeString(), archiveContent);
-		}
 
 		if (!"".equals(macroXml)) {
 			writeMacroImages(archiveContent);
@@ -366,6 +358,17 @@ public class GgbAPIW extends GgbAPI {
 		}
 
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
+
+		// GGB-1758 write images at the end
+		writeConstructionImages(getConstruction(), "", archiveContent);
+
+		// write construction thumbnails
+		if (includeThumbnail) {
+			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
+					getViewForThumbnail().getCanvasBase64WithTypeString(),
+					archiveContent);
+		}
+
 		getKernel().setSaving(isSaving);
 		return archiveContent;
 	}
