@@ -118,7 +118,7 @@ public class PerspectivesPopup {
 
 				// holder panel
 				FlowPanel holderPanel = new FlowPanel();
-				holderPanel.addStyleName("appstoreholder");
+				holderPanel.addStyleName("storeIconHolder");
 				holderPanel.add(link_playstore);
 				holderPanel.add(link_appstore);
 				contentPanel.add(holderPanel);
