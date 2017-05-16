@@ -487,15 +487,19 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 	
 	private boolean appNeedsKeyboard() {
+		if (app.showAlgebraInput()
+				&& app.getInputPosition() == InputPosition.algebraView
+				&& app.showView(App.VIEW_ALGEBRA)) {
+			return true;
+		}
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			return app.showAlgebraInput() || app.showView(App.VIEW_CAS)
+			return (app.showAlgebraInput()
+					&& app.getInputPosition() != InputPosition.algebraView)
+					|| app.showView(App.VIEW_CAS)
 					|| app.showView(App.VIEW_SPREADSHEET)
 					|| app.showView(App.VIEW_PROBABILITY_CALCULATOR);
 		}
-		return (app.showAlgebraInput()
-				&& app.getInputPosition() == InputPosition.algebraView
-				&& app.showView(App.VIEW_ALGEBRA))
-				|| (app.showView(App.VIEW_CAS));
+		return app.showView(App.VIEW_CAS);
 	}
 
 
