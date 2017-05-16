@@ -143,7 +143,7 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 		int width = getAV().getOffsetWidth() - 2 * marblePanel.getOffsetWidth()
 				+ SLIDER_EXT;
-		if (app.has(Feature.AV_PLAY_ONLY)) {
+		if (app.has(Feature.AV_PLAY_ONLY) && controls.getAnimPanel() != null) {
 			width -= controls.getAnimPanel().getPlayButton().getOffsetWidth();
 		}
 		slider.setWidth(width);
