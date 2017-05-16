@@ -4,6 +4,12 @@
 	.appstoreholder {
 		width: 100%;
 		text-align: center;
+		display: block;
 	}
+
+	.appstoreholder a {
+		display: inline-block;
+		vertical-align: middle;
+	}	
 	
 }
