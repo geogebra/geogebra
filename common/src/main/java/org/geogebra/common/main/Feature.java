@@ -101,16 +101,6 @@ public enum Feature {
 	FIX_KEYBOARD_POSITION,
 
 	/**
-	 * related to MOB-1005
-	 */
-	MOBILE_ASK_WHICH_APP_SHOULD_OPEN,
-
-	/**
-	 * related to MOB-1005
-	 */
-	MOBILE_OPEN_IN_RELEVANT_APP,
-
-	/**
 	 * EXAM-10
 	 */
 	EXAM_ANDROID_CHECK_SCREEN_STATE,

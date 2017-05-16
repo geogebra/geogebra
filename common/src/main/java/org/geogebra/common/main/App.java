@@ -4136,14 +4136,6 @@ public abstract class App implements UpdateSelection {
 		case BIND_ANDROID_TO_EXAM_APP:
 			return true;
 
-		// related to MOB-1005
-		case MOBILE_ASK_WHICH_APP_SHOULD_OPEN:
-			return false;
-
-		// related to MOB-1005
-		case MOBILE_OPEN_IN_RELEVANT_APP:
-			return false;
-
 			//EXAM-10
 		case EXAM_ANDROID_CHECK_SCREEN_STATE:
 			return true;
