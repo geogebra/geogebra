@@ -615,7 +615,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		boolean pinnable = geo.isPinnable();
 		boolean fixable = geo.isFixable();
 		if (!(pinnable || fixable)) {
-			Log.debug("NEMFIXABLE!");
 			return;
 		}
 
