@@ -360,11 +360,10 @@ public class GgbAPIW extends GgbAPI {
 			archiveContent.put(MyXMLio.XML_FILE_DEFAULTS_3D,
 					defaults3d.toString());
 		}
+
 		if (!StringUtil.emptyTrim(geogebra_javascript)) {
 			archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
 		}
-
-		archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
 
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
 		getKernel().setSaving(isSaving);
