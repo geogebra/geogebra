@@ -690,7 +690,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		int newHeight = app.needsSmallKeyboard() ? KBBase.SMALL_HEIGHT
 				: KBBase.BIG_HEIGHT;
 		if (app.has(Feature.TABBED_KEYBOARD)) {
-			newHeight += 30;
+			newHeight += 40;
 		}
 		return newHeight;
 	}
