@@ -79,18 +79,17 @@ public class PerspectivesPopup {
 				.create(ImageFactory.class)).getPerspectiveResources();
 		contentPanel.clear();
 		addPerspective(0, pr.menu_icon_algebra24());
-		if (app.supportsView(App.VIEW_CAS)) {
-			addPerspective(3, pr.menu_icon_cas24());
-		}
 		addPerspective(1, pr.menu_icon_geometry24());
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 			addPerspective(4, pr.menu_icon_graphics3D24());
 		}
+		if (app.supportsView(App.VIEW_CAS)) {
+			addPerspective(3, pr.menu_icon_cas24());
+		}
+
 		addPerspective(2, pr.menu_icon_spreadsheet24());
 		addPerspective(5, pr.menu_icon_probability24());
-		if (app.has(Feature.WHITEBOARD_APP)) {
-			addPerspective(6, pr.menu_icon_whiteboard24());
-		}
+
 
 		// add exam mode
 		if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
