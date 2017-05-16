@@ -337,7 +337,6 @@ public class GgbAPIW extends GgbAPI {
 		getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultsXML(defaults2d, defaults3d);
 		String geogebra_javascript = getKernel().getLibraryJavaScript();
-		writeConstructionImages(getConstruction(), "", archiveContent);
 
 		// write construction thumbnails
 		if (includeThumbnail) {
@@ -364,6 +363,9 @@ public class GgbAPIW extends GgbAPI {
 		archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
 
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
+
+		writeConstructionImages(getConstruction(), "", archiveContent);
+
 		getKernel().setSaving(isSaving);
 		return archiveContent;
 	}
@@ -479,62 +481,84 @@ public class GgbAPIW extends GgbAPI {
 						function(zipWriter) {
 
 							function addImage(name, data, callback) {
-								var data2 = data.substr(data.indexOf(',') + 1);
-								zipWriter.add(name,
-										new $wnd.zip.Data64URIReader(data2),
-										callback);
+								try {
+									var data2 = data
+											.substr(data.indexOf(',') + 1);
+									zipWriter
+											.add(
+													name,
+													new $wnd.zip.Data64URIReader(
+															data2), callback);
+								} catch (e) {
+									alert(e);
+								}
 							}
 
 							function addText(name, data, callback) {
-								zipWriter.add(name, new ASCIIReader(data),
-										callback);
+								try {
+									zipWriter.add(name, new ASCIIReader(data),
+											callback);
+								} catch (e) {
+									alert(e);
+								}
+
 							}
 
 							function checkIfStillFilesToAdd() {
-								var item, imgExtensions = [ "jpg", "jpeg",
-										"png", "gif", "bmp" ];
-								if (arch.archive.length > 0) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
-									item = arch.archive.shift();
-									var ind = item.fileName.lastIndexOf('.');
-									if (ind > -1
-											&& imgExtensions
-													.indexOf(item.fileName
-															.substr(ind + 1)
-															.toLowerCase()) > -1) {
-										//if (item.fileName.indexOf(".png") > -1) 
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
-										addImage(item.fileName,
-												item.fileContent, function() {
-													checkIfStillFilesToAdd();
-												});
+								try {
+									var item, imgExtensions = [ "jpg", "jpeg",
+											"png", "gif", "bmp" ];
+									if (arch.archive.length > 0) {
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("arch.archive.length: "+arch.archive.length);
+										item = arch.archive.shift();
+										var ind = item.fileName
+												.lastIndexOf('.');
+										if (ind > -1
+												&& imgExtensions
+														.indexOf(item.fileName
+																.substr(ind + 1)
+																.toLowerCase()) > -1) {
+											//if (item.fileName.indexOf(".png") > -1) 
+											//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+											addImage(
+													item.fileName,
+													item.fileContent,
+													function() {
+														checkIfStillFilesToAdd();
+													});
+										} else {
+											//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
+											addText(
+													item.fileName,
+													encodeUTF8(item.fileContent),
+													function() {
+														checkIfStillFilesToAdd();
+													});
+										}
 									} else {
-										//@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("text zipped: " + item.fileName);
-										addText(item.fileName,
-												encodeUTF8(item.fileContent),
-												function() {
-													checkIfStillFilesToAdd();
+										zipWriter
+												.close(function(dataURI) {
+													if (typeof clb === "function") {
+														clb(dataURI);
+														// that's right, this truncation is necessary
+														//clb(dataURI.substr(dataURI.indexOf(',')+1));
+													} else {
+														@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
+														@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
+													}
 												});
 									}
-								} else {
-									zipWriter
-											.close(function(dataURI) {
-												if (typeof clb === "function") {
-													clb(dataURI);
-													// that's right, this truncation is necessary
-													//clb(dataURI.substr(dataURI.indexOf(',')+1));
-												} else {
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("not callback was given");
-													@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(dataURI);
-												}
-											});
+								} catch (e) {
+									alert(e);
 								}
+
 							}
 
 							checkIfStillFilesToAdd();
 
 						},
 						function(error) {
+							alert(error);
 							if (typeof errorClb === "function") {
 								errorClb(error + "");
 							}
@@ -652,7 +676,7 @@ public class GgbAPIW extends GgbAPI {
 															.substr(ind + 1)
 															.toLowerCase()) > -1) {
 
-										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image zipped: " + item.fileName);
+										@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("image    zipped: " + item.fileName);
 										addImage(item.fileName,
 												item.fileContent, function() {
 													checkIfStillFilesToAdd();
