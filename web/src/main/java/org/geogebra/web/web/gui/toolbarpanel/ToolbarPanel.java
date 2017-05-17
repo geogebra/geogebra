@@ -17,7 +17,11 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ToggleButton;
 
-
+/**
+ * 
+ * @author Laszlo Gal
+ *
+ */
 public class ToolbarPanel extends FlowPanel {
 	private static final int CLOSED_WIDTH = 56;
 
@@ -53,12 +57,12 @@ public class ToolbarPanel extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					if (open) {
-						lastOpenWidth = getOffsetWidth();
+					if (isOpen()) {
+						setLastOpenWidth(getOffsetWidth());
 					}
 
-					setOpen(!open);
-					((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame()).showKeyBoard(false, null, true);
+					setOpen(!isOpen());
+					getFrame().showKeyBoard(false, null, true);
 
 				}
 			});
@@ -74,7 +78,7 @@ public class ToolbarPanel extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					((AppW) app).toggleMenu();
+					toggleMenu();
 				}
 			});
 		}
@@ -97,10 +101,15 @@ public class ToolbarPanel extends FlowPanel {
 			}
 
 			updateWidth();
-			showKeyboardButtonDeferred(open);
+			showKeyboardButtonDeferred(isOpen());
 		}
 	}
 
+	/**
+	 * 
+	 * @param app
+	 *            .
+	 */
 	public ToolbarPanel(App app) {
 		this.app = app;
 		initGUI();
@@ -115,6 +124,9 @@ public class ToolbarPanel extends FlowPanel {
 		open();
 	}
 
+	/**
+	 * Opens the toolbar.
+	 */
 	public void open() {
 		if (header.isOpen()) {
 			return;
@@ -122,6 +134,9 @@ public class ToolbarPanel extends FlowPanel {
 		header.setOpen(true);
 	}
 
+	/**
+	 * Closes the toolbar.
+	 */
 	public void close() {
 		if (!header.isOpen()) {
 			return;
@@ -129,13 +144,17 @@ public class ToolbarPanel extends FlowPanel {
 		header.setOpen(false);
 	}
 
+	/**
+	 * updates panel width according to its state.
+	 */
 	public void updateWidth() {
 
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
-		if (dockPanel != null && lastOpenWidth != null) {
+		if (dockPanel != null && getLastOpenWidth() != null) {
 			if (header.isOpen()) {
-				dockParent.setWidgetSize(dockPanel, lastOpenWidth.intValue());
+				dockParent.setWidgetSize(dockPanel,
+						getLastOpenWidth().intValue());
 				dockParent.removeStyleName("hide-HDragger");
 			} else {
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH);
@@ -153,18 +172,56 @@ public class ToolbarPanel extends FlowPanel {
 		return (ToolbarDockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
+	/**
+	 * @return if toolbar is open or not.
+	 */
 	public boolean isOpen() {
 		return header.isOpen();
 	}
 
-	private void showKeyboardButtonDeferred(final boolean show) {
+	/**
+	 * @return the frame with casting.
+	 */
+	GeoGebraFrameBoth getFrame() {
+		return ((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame());
+	}
+
+	/**
+	 * @param b
+	 *            To show or hide keyboard button.
+	 */
+	void showKeyboardButtonDeferred(final boolean b) {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
 			public void execute() {
-				((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame()).showKeyboardButton(show);
+				getFrame().showKeyboardButton(b);
 
 			}
 		});
+	}
+
+	/**
+	 * 
+	 * @return the last width when toolbar was open.
+	 */
+	Integer getLastOpenWidth() {
+		return lastOpenWidth;
+	}
+
+	/**
+	 * 
+	 * @param value
+	 *            to set.
+	 */
+	void setLastOpenWidth(Integer value) {
+		this.lastOpenWidth = value;
+	}
+
+	/**
+	 * Opens and closes Burger Menu
+	 */
+	void toggleMenu() {
+		((AppW) app).toggleMenu();
 	}
 }
