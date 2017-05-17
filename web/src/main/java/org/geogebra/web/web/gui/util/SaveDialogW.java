@@ -448,7 +448,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				loc.getMenu("Saving"), false, app);
 		if (!this.title.getText().equals(
 		        app.getKernel().getConstruction().getTitle())) {
-			app.resetUniqueId();
+			app.setTubeId(0);
 			app.setLocalID(-1);
 		}
 		app.getKernel().getConstruction().setTitle(this.title.getText());
@@ -597,7 +597,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				        } else {
 					        // if the file was deleted meanwhile
 							// (parseResponse.size() == 0)
-					        app.resetUniqueId();
+							app.setTubeId(0);
 					        materialCallback = initMaterialCB(base64, false);
 					        doUploadToGgt(app.getTubeId(), visibility, base64,
 					                materialCallback);

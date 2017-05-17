@@ -192,6 +192,9 @@ public abstract class MyXMLio {
 		if (cons != null) {
 			cons.setFileLoading(true);
 		}
+		if (!isGgtFile) {
+			app.resetUniqueId();
+		}
 		processXMLString(xml, clearConstruction, isGgtFile, true, randomize);
 		if (cons != null) {
 			cons.setFileLoading(false);

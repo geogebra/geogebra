@@ -260,7 +260,6 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public final void resetUniqueId() {
 		uniqueId = UUIDW.randomUUID().toString();
-		setTubeId(0);
 	}
 
 	/**
