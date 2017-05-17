@@ -649,7 +649,6 @@ public class AppWapplet extends AppWFull {
 				this.menuInited = true;
 			}
 			if (has(Feature.NEW_TOOLBAR)) {
-				Log.debug("o lesz az!");
 				toggleFloatingMenu(needsUpdate);
 				return;
 			}
