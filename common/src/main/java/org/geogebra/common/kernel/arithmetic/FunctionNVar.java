@@ -613,8 +613,8 @@ public class FunctionNVar extends ValidExpression
 			} else {
 				resultFun = (kernel.getParser()
 						.parseFunctionNVar(sb.toString()));
+				resultFun = ensureVarsAreNotNull(resultFun);
 			}
-
 			resultFun.initFunction();
 		} catch (Error err) {
 			err.printStackTrace();
@@ -633,6 +633,19 @@ public class FunctionNVar extends ValidExpression
 
 		// System.out.println("NO caching: " + casString + " -> " + resultFun);
 
+		return resultFun;
+	}
+
+	private FunctionNVar ensureVarsAreNotNull(FunctionNVar resultFun) {
+		if (resultFun.getFunctionVariables() == null) {
+			int dim = getFunctionVariables().length;
+			FunctionVariable[] fv = new FunctionVariable[dim];
+
+			for (int i = 0; i < dim; i++) {
+				fv[i] = getFunctionVariables()[i].deepCopy(kernel);
+			}
+			return new FunctionNVar(resultFun.getFunctionExpression(), fv);
+		}
 		return resultFun;
 	}
 
