@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -70,8 +71,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 */
 	public MainMenu(AppW app) {
 		this.addStyleName("menubarSMART");
-		leftSide = app.isWhiteboardActive();
-		if (leftSide) {
+		leftSide = app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR);
+		if (leftSide && !app.has(Feature.NEW_TOOLBAR)) {
 			addStyleName("mowMenubar");
 		}
 		this.app = app;

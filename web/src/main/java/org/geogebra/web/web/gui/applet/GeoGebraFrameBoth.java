@@ -97,6 +97,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.factory = factory;
 		kbButtonSpace.addStyleName("kbButtonSpace");
 		this.add(kbButtonSpace);
+
 	}
 
 	@Override
@@ -110,9 +111,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			this.add(kbButtonSpace);
 		}
 		
+		if (app != null && app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("newToolbar");
+		}
+
 		this.glass = new DockGlassPaneW(new GDimensionW(
 				article.getDataParamWidth(), article.getDataParamHeight()));
 		this.add(glass);
+
 		return application;
 	}
 
@@ -805,7 +811,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event,
 						getToolbar().getOpenMenuButtonElement())
-				&& !getGlassPane().isDragInProgress()) {
+				&& !getGlassPane().isDragInProgress() && !app.has(Feature.NEW_TOOLBAR)) {
 			app.toggleMenu();
 		}
 	}

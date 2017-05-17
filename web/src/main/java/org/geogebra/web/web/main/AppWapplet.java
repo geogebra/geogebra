@@ -45,6 +45,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -222,6 +223,7 @@ public class AppWapplet extends AppWFull {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
+					|| (has(Feature.NEW_TOOLBAR) && frame.getWidget(i) instanceof FloatingMenuPanel)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
 			}
@@ -326,7 +328,7 @@ public class AppWapplet extends AppWFull {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
-			if (getArticleElement().getDataParamShowMenuBar(false)) {
+			if (!has(Feature.NEW_TOOLBAR) && getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
 				// TODO
 				splitPanelWrapper.add(oldSplitLayoutPanel);
@@ -477,7 +479,15 @@ public class AppWapplet extends AppWFull {
 		return false;
 	}
 
+	private class FloatingMenuPanel extends FlowPanel {
+		public FloatingMenuPanel() {
+			addStyleName("floatingMenu");
+			add(frame.getMenuBar(AppWapplet.this));
+			
+		}
+	};
 	private View focusedView;
+	private FloatingMenuPanel floatingMenuPanel = null;
 
 	@Override
 	public void focusLost(View v, Element el) {
@@ -637,6 +647,12 @@ public class AppWapplet extends AppWFull {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
+			if (has(Feature.NEW_TOOLBAR)) {
+				Log.debug("o lesz az!");
+				toggleFloatingMenu(needsUpdate);
+				return;
+			}
+
 			if (isWhiteboardActive()) {
 				this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
 
@@ -657,8 +673,29 @@ public class AppWapplet extends AppWFull {
 			getGuiManager().updateStyleBarPositions(true);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
-			hideMenu();
+			if (has(Feature.NEW_TOOLBAR)) {
+				floatingMenuPanel.setVisible(false);
+				menuShowing = false;
+			} else {
+				hideMenu();
+			}
 		}
+	}
+
+	private void toggleFloatingMenu(boolean needsUpdate) {
+		if (!has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
+
+		if (floatingMenuPanel == null) {
+			floatingMenuPanel = new FloatingMenuPanel();
+			frame.add(floatingMenuPanel);
+		}
+		if (needsUpdate) {
+			frame.getMenuBar(this).getMenubar().updateMenubar();
+		}
+		floatingMenuPanel.setVisible(menuShowing);
+		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
 	}
 
 	@Override

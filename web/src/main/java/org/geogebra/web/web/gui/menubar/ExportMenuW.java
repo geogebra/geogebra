@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -30,7 +31,10 @@ public class ExportMenuW extends MenuBar {
 
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
-		MainMenu.addSubmenuArrow(this, app.isWhiteboardActive());
+		MainMenu.addSubmenuArrow(this, app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR));
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("floating-Popup");
+		}
 
 		initActions();
 	}
