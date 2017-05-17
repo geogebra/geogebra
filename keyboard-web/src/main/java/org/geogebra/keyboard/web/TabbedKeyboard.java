@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Accents;
@@ -203,6 +204,10 @@ public class TabbedKeyboard extends FlowPanel {
 			}
 		}
 
+		public FlowPanel getContent() {
+			return contents;
+		}
+
 	}
 
 	private static final int BASE_WIDTH = 70;
@@ -313,9 +318,8 @@ public class TabbedKeyboard extends FlowPanel {
 	 * @return button base size
 	 */
 	int getBaseSize() {
-		final int n = 11;
-		return (int) ((app.getInnerWidth() - 50) > BASE_WIDTH * n ? BASE_WIDTH
-				: (app.getInnerWidth() - 50) / n);
+		final int n = 10;
+		return (int) ((app.getInnerWidth()) > BASE_WIDTH * n ? BASE_WIDTH : (app.getInnerWidth()) / n);
 	}
 
 	void updatePanel(KeyPanelBase keyboard, Keyboard layout,
@@ -385,6 +389,15 @@ public class TabbedKeyboard extends FlowPanel {
 			removeStyleName("scale");
 			removeStyleName("smallerFont");
 		}
+
+		// set width of switcher contents
+
+		if (app.getInnerWidth() > 700) {
+			switcher.getContent().getElement().getStyle().setWidth(644, Unit.PX);
+		} else {
+			switcher.getContent().getElement().getStyle().setWidth(app.getInnerWidth() - 50, Unit.PX);
+		}
+		Log.debug("app.getInnerWidth(): " + app.getInnerWidth());
 
 	}
 

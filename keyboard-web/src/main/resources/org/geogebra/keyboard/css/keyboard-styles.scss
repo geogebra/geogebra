@@ -59,7 +59,7 @@ $tab123-width: 644px;
 		top: 8px;
 		right: 5px;
 		float: right;
-		
+		margin-left: 25px;
 	}
 
 	/* special css for Springboard */
@@ -349,7 +349,6 @@ $tab123-width: 644px;
 	}
 
 	.scale .KeyPanel{
-		/*margin: 0;*/
 	}
 
 	.KeyboardSwitcher {
@@ -374,7 +373,6 @@ $tab123-width: 644px;
 
 
 	.scale.smallerFont .KeyboardSwitcher .switcherContents {
-		font-size: 86% !important;
 	}
 	
 	.scale.normal .KeyboardSwitcher .switcherContents {
@@ -382,9 +380,6 @@ $tab123-width: 644px;
 	}
 	
 	.scale .KeyboardSwitcher .switcherContents {
-	/*	margin-left: 0;
-		margin-right: 0;*/
-		width: 80%;
 		padding: 0;
 	}
 
@@ -396,19 +391,16 @@ $tab123-width: 644px;
 	}
 
 	.scale .KeyboardSwitcher .gwt-Button {
-		/*padding: 0px;*/
-		padding-right: 5px;
 	}
 
 	.KeyboardSwitcher .switcherContents .moreKeyboardButton {
 		position: relative;
 		top: 6px;
-		right: 6px;
+		right: -3px;
 		float: right;
 	}
 
 	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
-		right: 15px;
 	}
 	
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
@@ -416,10 +408,9 @@ $tab123-width: 644px;
 	}
 	
 	.KeyboardSwitcher .switcherContents > :first-child {
-		margin-left: -8px;
+		margin-left: -14px;
 	}
 	.scale .KeyboardSwitcher .switcherContents > :first-child {
-		margin-left: 0px;
 	}
 	
 	.KeyboardSwitcher .gwt-Button:hover {
