@@ -7195,8 +7195,16 @@ namespace giac {
     gen g(x);
     if (g.type==_FLOAT_)
       g=evalf_double(g,1,contextptr);
-    if (g.type==_DOUBLE_)
+    if (g.type==_DOUBLE_){
+      if (g._DOUBLE_val<0){
+	if (g._DOUBLE_val==int(g._DOUBLE_val))
+	  return undef;
+	gen gg(g._DOUBLE_val,0.1);
+	*(gg._CPLXptr+1)=0.0; // convert to complex
+	return lngamma(gg,contextptr);
+      }
       return lngamma(g._DOUBLE_val);
+    }
     if (g.type==_CPLX && (g._CPLXptr->type==_DOUBLE_ || (g._CPLXptr+1)->type==_DOUBLE_ ||
 			  g._CPLXptr->type==_FLOAT_ || (g._CPLXptr+1)->type==_FLOAT_)){
       g=evalf_double(g,1,contextptr);

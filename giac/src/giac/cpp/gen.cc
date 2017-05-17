@@ -11488,7 +11488,7 @@ namespace giac {
   /* I/O: Print routines */
   string print_DOUBLE_(double d,GIAC_CONTEXT){
     if (my_isnan(d))
-      return calc_mode(contextptr)?"?":"undef";
+      return calc_mode(contextptr)==1?"?":"undef";
     if (my_isinf(d))
       return "infinity";
 #ifdef BCD
