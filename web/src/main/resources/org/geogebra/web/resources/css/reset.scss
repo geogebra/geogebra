@@ -1,48 +1,58 @@
 .GeoGebraFrame {
-  * {
-    margin: initial;
-    padding: initial;
-    border: initial;
-    outline: initial;
-    height: initial;
-    width: initial;
-    border-collapse: initial;
-    border-spacing: initial;
-    letter-spacing: normal;
-	font-weight: normal;
-	font-variant: normal;
-	font-stretch: normal;
-	font-kerning: auto;
-	text-decoration: none;
-	box-sizing:content-box;
-  }
-  input {
-    margin: initial;
-    padding: initial;
-    border: initial;
-    outline: initial;
-    height: initial;
-    width: initial;
-  }
-  input[type="checkbox"] {
-    position: initial;
-    left: initial;
-    opacity: initial;
-  }
-  input[type="checkbox"] + label {
-    &:after, &:before {
-      content: none;
-    }
-    position: initial;
-    padding-left: initial;
-    cursor: initial;
-    display: initial;
-    height: initial;
-    line-height: initial;
-    font-size: initial;
-  }
-  table {
-    border-collapse: initial;
-    border-spacing: initial;
-  }
+	* {
+		margin: initial;
+		padding: initial;
+		border: initial;
+		outline: initial;
+		height: initial;
+		width: initial;
+		border-collapse: initial;
+		border-spacing: initial;
+		letter-spacing: normal;
+		font-weight: normal;
+		font-variant: normal;
+		font-stretch: normal;
+		font-kerning: auto;
+		text-decoration: none;
+		box-sizing:content-box;
+	}
+	input {
+		margin: initial;
+		padding: initial;
+		border: initial;
+		outline: initial;
+		height: initial;
+		width: initial;
+	}
+	input[type="checkbox"] {
+		position: initial;
+		left: initial;
+		opacity: initial;
+	}
+	input[type="checkbox"] + label {
+		&:after, &:before {
+			content: none;
+		}
+		position: initial;
+		padding-left: initial;
+		cursor: initial;
+		display: initial;
+		height: initial;
+		line-height: initial;
+		font-size: initial;
+	}
+	table {
+		border-collapse: initial;
+		border-spacing: initial;
+	}
+	.thumb {
+		display: none;
+	}
+	.btn {
+		text-transform: initial;
+		line-height: initial;
+	}	
+	input[type=range] {
+		-webkit-appearance: slider;
+	}
 }
