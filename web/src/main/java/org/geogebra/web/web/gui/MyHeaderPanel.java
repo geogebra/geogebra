@@ -36,6 +36,12 @@ public abstract class MyHeaderPanel extends HeaderPanel {
 	 */
 	public abstract AppW getApp();
 
+	/**
+	 * @param width
+	 *            new width (pixels)
+	 * @param height
+	 *            new height (pixels)
+	 */
 	public abstract void resizeTo(int width, int height);
 
 }

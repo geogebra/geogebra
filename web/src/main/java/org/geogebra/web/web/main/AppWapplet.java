@@ -482,10 +482,11 @@ public class AppWapplet extends AppWFull {
 	private class FloatingMenuPanel extends FlowPanel {
 		public FloatingMenuPanel() {
 			addStyleName("floatingMenu");
-			add(frame.getMenuBar(AppWapplet.this));
+			add(getAppletFrame().getMenuBar(AppWapplet.this));
 			
 		}
-	};
+	}
+
 	private View focusedView;
 	private FloatingMenuPanel floatingMenuPanel = null;
 

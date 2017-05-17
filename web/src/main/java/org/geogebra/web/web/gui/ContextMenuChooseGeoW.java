@@ -19,6 +19,9 @@ import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * Menu for choosing geos
+ */
 public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 	/**
@@ -32,7 +35,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private TreeSet<GeoElement> metas;
 
 	private ArrayList<GeoElement> selectedGeos;
-	private GPoint loc;
+	private GPoint location;
 	private MenuBar selectAnotherMenu;
 	private ArrayList<GeoElement> tmpAnotherMenuItemList;
 
@@ -67,7 +70,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		// addSeparator();
 		// addSelectAnotherMenu(view.getMode());
 
-		this.loc = invokerLocation;
+		this.location = invokerLocation;
 		this.selectedGeos = selectedGeos;
 		this.setGeos(geos);
 		this.view = view;
@@ -92,7 +95,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		addOtherItems();
 	}
 
-	private void addGeosToTmpAnotherMenuItemList(TreeSet<GeoElement> metas,
+	private void addGeosToTmpAnotherMenuItemList(TreeSet<GeoElement> metaElements,
 			ArrayList<GeoElement> geos, GeoElement geoSelected) {
 		tmpAnotherMenuItemList = new ArrayList<GeoElement>();
 
@@ -104,7 +107,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 			if (geo1.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
-					if (!metas.contains(meta)) {
+					if (!metaElements.contains(meta)) {
 						tmpAnotherMenuItemList.add(meta);
 					}
 				}
@@ -158,7 +161,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		@Override
 		public void execute() {
-			geoActionCmd(this.geo, selectedGeos, getGeos(), view, loc);
+			geoActionCmd(this.geo);
 		}
 
 	}
@@ -176,5 +179,14 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		}
 		selectAnotherMenuItem.addStyleName("mi_no_image");
 		wrappedPopup.addItem(selectAnotherMenuItem);
+	}
+
+	/**
+	 * @param geo
+	 *            single geo
+	 */
+	public void geoActionCmd(GeoElement geo) {
+		geoActionCmd(geo, selectedGeos, getGeos(), view, location);
+
 	}
 }
