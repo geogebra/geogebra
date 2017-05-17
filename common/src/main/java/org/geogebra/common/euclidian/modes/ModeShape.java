@@ -40,7 +40,7 @@ public class ModeShape {
 	/**
 	 * start point of dragging movement
 	 */
-	protected final GPoint dragStartPoint = new GPoint();
+	protected GPoint dragStartPoint = new GPoint();
 	private boolean dragPointSet = false;
 	private boolean moveEnded = false;
 	private boolean wasDragged = false;
@@ -133,6 +133,9 @@ public class ModeShape {
 	 *            - mouse event
 	 */
 	public void handleMouseDraggedForShapeMode(AbstractEvent event) {
+		if (!ec.isDraggingBeyondThreshold()) {
+			return;
+		}
 		wasDragged = true;
 		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM) {
 			dragPointSet = false;
@@ -289,6 +292,7 @@ public class ModeShape {
 		// make sure we set new start point after ignoring simple click
 		if (ec.getMode() != EuclidianConstants.MODE_SHAPE_FREEFORM && !wasDragged) {
 			dragPointSet = false;
+			dragStartPoint = new GPoint();
 			return null;
 		}
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
