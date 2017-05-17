@@ -5,6 +5,8 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.InetSocketAddress;
 
+import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -21,7 +23,7 @@ public class GeoGebraServer {
 
 	App app;
 	GgbAPI api;
-	private String secret;
+	String secret;
 
 	public GeoGebraServer(String secret) {
 		this.app = new AppDNoGui(new LocalizationD(3), false);
@@ -30,7 +32,6 @@ public class GeoGebraServer {
 
 		HttpServer server;
 		try {
-			// setup http://localhost:8000/test?123=456
 			server = HttpServer.create(new InetSocketAddress(8000), 0);
 			server.createContext("/v0.1/json", new MyHandlerJSON());
 			server.start();
@@ -45,10 +46,23 @@ public class GeoGebraServer {
 		public void handle(HttpExchange t) throws IOException {
 
 			app.reset();
+			api.setRounding("10");
+
+			boolean testing = false;
+
 			String inputJSON = null;
 			String result;
 			try {
 				inputJSON = HttpRequestD.readOutput(t.getRequestBody());
+
+				
+				
+				if (inputJSON == null) {
+					// ? syntax eg
+					// http://localhost:8000/test?123=456
+					inputJSON = t.getRequestURI().getQuery();
+					testing = true;
+				}
 
 				Log.error(inputJSON);
 				JSONObject topLevel = new JSONObject(inputJSON);
@@ -56,7 +70,7 @@ public class GeoGebraServer {
 					Log.debug("secret = " + topLevel.get("secret"));
 
 					if (!secret.equals(topLevel.get("secret"))) {
-						writeError(t, "Wrong secret");
+						writeError(t, "Wrong secret", testing);
 						return;
 					}
 
@@ -80,6 +94,8 @@ public class GeoGebraServer {
 					Log.debug("cmd = " + cmd);
 					Log.debug("args = " + args);
 
+					// Log.error(api.evalCommandCAS("Expand[(x+1)^2]"));
+
 					if ("evalCommand".equals(cmd)) {
 						api.evalCommand(args);
 					} else if ("evalLaTeX".equals(cmd)) {
@@ -92,6 +108,19 @@ public class GeoGebraServer {
 						results.put(api.getLaTeXString(args));
 					} else if ("setRounding".equals(cmd)) {
 						api.setRounding(args);
+					} else if ("evalCommandCAS".equals(cmd)) {
+						results.put(api.evalCommandCAS(args));
+					} else if ("evalGeoGebraCAS".equals(cmd)) {
+						results.put(app.getKernel().evaluateGeoGebraCAS(args,
+								null, StringTemplate
+										.fullFigures(StringType.GEOGEBRA)));
+					} else if ("expressionEvaluatesToZero".equals(cmd)) {
+
+						String answer = app.getKernel().evaluateGeoGebraCAS(
+								"Simplify[" + args + "]", null,
+								StringTemplate.defaultTemplate);
+
+						results.put("0".equals(answer) ? "true" : "false");
 					}
 
 					i++;
@@ -102,24 +131,30 @@ public class GeoGebraServer {
 
 				e.printStackTrace();
 				Log.debug(inputJSON);
-				writeError(t, e.getMessage());
+				writeError(t, e.getMessage(), testing);
 				return;
 			}
 
 			// StringBuilder result = new StringBuilder("[");
 
-			writeOutput(t, result.toString());
+			writeOutput(t, result.toString(), testing);
 			
 		}
 	}
 
-	private void writeOutput(HttpExchange t, String message) {
+	private void writeOutput(HttpExchange t, String message, boolean testing) {
 		String encoding = "UTF-8";
 		try {
-			t.getResponseHeaders().set("Content-type",
-					"applcation/json; charset="+encoding);
-			t.sendResponseHeaders(200, message.length());
+			if (!testing) {
+				t.getResponseHeaders().set("Content-type",
+						"applcation/json; charset=" + encoding);
+			}
+
+			// http://stackoverflow.com/questions/6828076/how-to-correctly-compute-the-length-of-a-string-in-java
+			t.sendResponseHeaders(200, message.getBytes(encoding).length);
+
 			Writer out = new OutputStreamWriter(t.getResponseBody(), encoding);
+			Log.debug("message = " + message);
 			out.write(message);
 			out.close();
 		} catch (IOException e) {
@@ -128,7 +163,7 @@ public class GeoGebraServer {
 		}
 	}
 
-	public void writeError(HttpExchange t, String message) {
+	public void writeError(HttpExchange t, String message, boolean testing) {
 		JSONObject error = new JSONObject();
 		try {
 			error.put("error", message + "");
@@ -136,7 +171,9 @@ public class GeoGebraServer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		writeOutput(t, error.toString());
+		Log.debug("error = " + error);
+
+		writeOutput(t, error.toString(), testing);
 
 	}
 
