@@ -747,7 +747,6 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void addToHeight(int i) {
-		Log.printStacktrace("adding" + i);
 		this.spHeight += i;
 	}
 
