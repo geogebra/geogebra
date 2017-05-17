@@ -279,6 +279,17 @@ public class CommandsTest extends Assert{
 		t("Intersect[x=y,x^2+y^2=2]", new String[] { "(1, 1)", "(-1, -1)" });
 		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
+
+	}
+
+	@Test
+	public void testIntersectCurves() {
+		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4]]",
+				new String[] { "(0, 0)",
+						"(1.4142135623730951, 1.4142135623730951)",
+						"(-1.4142135623730951, -1.4142135623730951)" });
+		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4], 1, 1]",
+				"(1.4142135623730951, 1.4142135623730956)");
 	}
 
 	@Test
