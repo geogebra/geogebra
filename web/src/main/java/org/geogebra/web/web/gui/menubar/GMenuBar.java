@@ -1,5 +1,8 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -10,17 +13,20 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class GMenuBar extends MenuBar{
 	private int separators = 0;
 	private String menuTitle;
+	private App app;
 
-	public GMenuBar(boolean vertical, String menuTitle) {
+	public GMenuBar(boolean vertical, String menuTitle, App app) {
 	    super(vertical);
 		this.menuTitle = menuTitle;
-    }
+		this.app = app;
+	}
 
 	public GMenuBar(boolean vertical, String menuTitle,
-			MenuResources menuResources) {
+			MenuResources menuResources, App app) {
 	    super(vertical, menuResources);
 		this.menuTitle = menuTitle;
-    }
+		this.app = app;
+	}
 
 	public boolean isFirstItemSelected(){
 		return this.getItemIndex(this.getSelectedItem()) == 0;
@@ -86,6 +92,9 @@ public class GMenuBar extends MenuBar{
 
 						}
 
+						if (app.has(Feature.NEW_TOOLBAR)) {
+							pp.addStyleName("floatingSubMenu");
+						}
 						pp.add(submenupopup);
 						MenuItem mi0 = ((MenuItem) ait[0]);
 						        

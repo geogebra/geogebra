@@ -30,7 +30,7 @@ public class EditMenuW extends GMenuBar {
 	 */
 	public EditMenuW(AppW app) {
 
-		super(true, "edit", new MenuResources());
+		super(true, "edit", new MenuResources(), app);
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.selection = app.getSelectionManager();

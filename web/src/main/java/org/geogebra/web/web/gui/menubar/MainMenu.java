@@ -61,7 +61,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	GMenuBar[] menus;
 	private GMenuBar userMenu;
 	/** sign in menu */
-	GMenuBar signInMenu = new GMenuBar(true, "signin");
+	GMenuBar signInMenu = new GMenuBar(true, "signin", app);
 
 	/**
 	 * Constructs the menubar
@@ -270,7 +270,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     }
 
 	private void createUserMenu() {
-		this.userMenu = new GMenuBar(true, "user");
+		this.userMenu = new GMenuBar(true, "user", app);
 	    this.userMenu.addStyleName("GeoGebraMenuBar");
 		this.userMenu.addItem(
 				getMenuBarHtml(

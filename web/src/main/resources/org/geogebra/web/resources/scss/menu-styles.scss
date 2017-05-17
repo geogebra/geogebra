@@ -1,3 +1,7 @@
+@import 'colors';
+
+$shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+
 .GeoGebraFrame {
 	.floatingMenu {
 			position: absolute;
@@ -8,5 +12,33 @@
 			height: 80%;
 			z-index: 9999;
 	}
+	
 }	
+.floatingSubMenu {
+	z-index: 9999;
 
+	.subMenuRightSide {
+		position: relative;
+		width: 100%;
+		left: 405px;
+		border-radius: 10px 10px 10px 10px;
+		padding: 5px;
+		background-color: $white-90;
+		box-shadow: $shadow-dark;
+		
+		.arrowSubmenu {
+			position: absolute;
+			top: 0px;
+			left: -15px;
+		}
+			
+			.gwt-MenuItem {
+				padding: 3px 10px;
+			}
+			
+			input[type="radio"] {
+				margin: 0px 5px 0px 0px;
+			}
+			
+	}
+}

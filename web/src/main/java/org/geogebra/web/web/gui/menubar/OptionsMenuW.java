@@ -25,7 +25,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	 * @param app Application instance
 	 */
 	public OptionsMenuW(AppW app) {
-		super(true, "options", new MenuResources());
+		super(true, "options", new MenuResources(), app);
 	    this.app = app;
 	    addStyleName("GeoGebraMenuBar");
 	    initItems();

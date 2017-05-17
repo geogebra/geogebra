@@ -22,7 +22,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	 */
 	public HelpMenuW(final App app)  {
 
-		super(true, "help");
+		super(true, "help", app);
 	    addStyleName("GeoGebraMenuBar");
 	    
 		Localization loc = app.getLocalization();

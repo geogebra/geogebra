@@ -44,7 +44,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	 * @param app application
 	 */
 	public FileMenuW(final AppW app) {
-		super(true, "file");
+		super(true, "file", app);
 	    this.app = app;
 		this.loc = app.getLocalization();
 	    this.newConstruction = new Runnable() {
