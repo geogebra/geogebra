@@ -13,8 +13,12 @@
 		padding-top: 10px;
 	}
 	
-	.storeIconHolder a:first-child{
-		padding-right: 10px;
+	.storeIconHolder .separatorDiv {
+		clear: both;
+	}
+	
+	.storeIconHolder .linkPlaystore {
+		margin-right: 10px;
 	}
 	
 }

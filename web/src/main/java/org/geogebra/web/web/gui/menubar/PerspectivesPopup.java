@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Apps Picker Dialog for new Start screen (GGB-992)
@@ -100,11 +101,16 @@ public class PerspectivesPopup {
 
 		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
 
+			// separator
+			SimplePanel separator = new SimplePanel();
+			separator.addStyleName("separatorDiv");
+
 			// creating play store icon
 			NoDragImage playStoreIcon = new NoDragImage(ImgResourceHelper
 					.safeURI(GuiResources.INSTANCE.google_play_badge()), 111);
 			Anchor link_playstore = new Anchor(playStoreIcon.toString(), true,
 					"https://play.google.com/store/apps/details?id=org.geogebra.android");
+			link_playstore.addStyleName("linkPlaystore");
 
 			// creating app store icon
 			NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
@@ -115,6 +121,7 @@ public class PerspectivesPopup {
 			// holder panel
 			FlowPanel holderPanel = new FlowPanel();
 			holderPanel.addStyleName("storeIconHolder");
+			holderPanel.add(new SimplePanel()); // separator
 			holderPanel.add(link_playstore);
 			holderPanel.add(link_appstore);
 			contentPanel.add(holderPanel);
