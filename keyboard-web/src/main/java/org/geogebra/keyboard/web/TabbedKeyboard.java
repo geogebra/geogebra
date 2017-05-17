@@ -302,11 +302,11 @@ public class TabbedKeyboard extends FlowPanel {
 		layouts.add(layout);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
-		updatePanel(keyboard, layout, bh, getBaseSize());
+		updatePanel(keyboard, layout, bh);
 		layout.registerKeyboardObserver(new KeyboardObserver() {
 
 			public void keyboardModelChanged(Keyboard l2) {
-				updatePanel(keyboard, l2, bh, getBaseSize());
+				updatePanel(keyboard, l2, bh);
 
 			}
 		});
@@ -315,15 +315,17 @@ public class TabbedKeyboard extends FlowPanel {
 
 	/**
 	 * 
+	 * @param maxWeightSum
+	 *            weight sum of the widest row
 	 * @return button base size
 	 */
-	int getBaseSize() {
-		final int n = 10;
-		return (int) ((app.getInnerWidth()) > BASE_WIDTH * n ? BASE_WIDTH : (app.getInnerWidth()) / n);
+	int getBaseSize(double maxWeightSum) {
+
+		return (int) ((app.getInnerWidth()) > BASE_WIDTH * maxWeightSum ? BASE_WIDTH : (app.getInnerWidth()) / maxWeightSum);
 	}
 
 	void updatePanel(KeyPanelBase keyboard, Keyboard layout,
-			ButtonHandler bh, int baseSize) {
+			ButtonHandler bh) {
 		keyboard.reset(layout);
 		int index = 0;
 		for (Row row : layout.getModel().getRows()) {
@@ -335,20 +337,25 @@ public class TabbedKeyboard extends FlowPanel {
 			}
 			index++;
 		}
-		updatePanelSize(keyboard, baseSize);
+		updatePanelSize(keyboard);
 	}
 
 	/**
 	 * This is much faster than updatePanel as it doesn't clear the model. It
 	 * assumes the model and button layout are in sync.
 	 */
-	private void updatePanelSize(KeyPanelBase keyboard, int baseSize) {
+	private void updatePanelSize(KeyPanelBase keyboard) {
 		int buttonIndex = 0;
 		int margins = 4;
 		if (keyboard.getLayout() == null) {
 			return;
 		}
 		KeyBoardButtonBase button = null;
+		double weightSum = 7; // initial guess
+		for (Row row : keyboard.getLayout().getModel().getRows()) {
+			weightSum = Math.max(row.getRowWeightSum(), weightSum);
+		}
+		int baseSize = getBaseSize(weightSum);
 		for (Row row : keyboard.getLayout().getModel().getRows()) {
 			double offset = 0;
 
@@ -592,7 +599,7 @@ public class TabbedKeyboard extends FlowPanel {
 		for (int i = 0; tabs != null && i < tabs.getWidgetCount(); i++) {
 			Widget wdgt = tabs.getWidget(i);
 			if (wdgt instanceof KeyPanelBase) {
-				updatePanelSize((KeyPanelBase) wdgt, getBaseSize());
+				updatePanelSize((KeyPanelBase) wdgt);
 			}
 		}
 	}
