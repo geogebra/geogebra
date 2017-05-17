@@ -271,18 +271,23 @@ public class TableSymbols {
 			" acos(x) ", " tan(x) ", " atan(x) ", " sinh(x) ", " asinh(x) ",
 			" cosh(x) ", " acosh(x) ", " tanh(x) ", " atanh(x) ", " sec(x) ",
 			" sech(x) ", " cosec(x) ", " cosech(x) ", " cot(x) ", " coth(x) ",
-			" atan2(y, x) ", " erf(x) ", " gamma(x) ", " beta(a, b) ",
-			" gamma(a, x) ", " beta(a, b, x) ", " gammaRegularized(a, x) ",
+			" asind(x) ", " acosd(x) ", " atand(x) ", " atan2(y, x) ",
+			" erf(x) ", " gamma(x) ", " beta(a, b) ", " gamma(a, x) ",
+			" beta(a, b, x) ", " gammaRegularized(a, x) ",
 			" betaRegularized(a, b, x) ", " psi(x) ", " polyGamma(m, x) ",
 			" nroot(x, n) ", " fractionalPart(x) ", " real(x) ",
 			" imaginary(x) ", " sinIntegral(x) ", " cosIntegral(x) ",
 			" expIntegral(x) ", " random() ", " zeta(x) ", };
 
 	// spaces either side (for multiply when inserted into the input bar)
-	private final static String[][] functionsGrouped = { { " random() " },
+	private final static String[][] functionsGrouped = {
+
+			{ " random() " },
+
 			{ " sqrt(x) ", " cbrt(x) ", " nroot(x, n) " },
 
 			{ " abs(x) ", " sgn(x) " },
+
 			{ " arg(x) ", " conjugate(x) ", " real(x) ", " imaginary(x) " },
 
 			{ " floor(x) ", " ceil(x) ", " round(x) ", " fractionalPart(x) " },
@@ -290,19 +295,29 @@ public class TableSymbols {
 			{ " log(b,x) ", " exp(x) ", " ln(x) ", " lg(x) ", " ld(x) " },
 
 			{ " sin(x) ", " cos(x) ", " tan(x) " },
+
 			{ " sec(x) ", " cosec(x) ", " cot(x) " },
-			{ " asin(x) ", " acos(x) ", " atan(x) " }, { " atan2(y, x) " },
+
+			{ " asin(x) ", " acos(x) ", " atan(x) " },
+
+			{ " asind(x) ", " acosd(x) ", " atand(x) " },
+
+			{ " atan2(y, x) " },
 
 			{ " sinh(x) ", " cosh(x) ", " tanh(x) " },
+
 			{ " sech(x) ", " cosech(x) ", " coth(x) " },
+
 			{ " asinh(x) ", " acosh(x) ", " atanh(x) " },
 
 			{ " gamma(x) ", " gamma(a, x) ", " gammaRegularized(a, x) " },
+
 			{ " psi(x) ", " polyGamma(m, x) " },
 
 			{ " beta(a, b) ", " beta(a, b, x) ", " betaRegularized(a, b, x) " },
 
 			{ " erf(x) " },
+
 			{ " sinIntegral(x) ", " cosIntegral(x) ", " expIntegral(x) " },
 
 			{ " zeta(x) " }, };
