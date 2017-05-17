@@ -915,7 +915,7 @@ namespace giac {
       return e;
     // recursive call only for rational operators
     gen arg=e._SYMBptr->feuille; int pos=-1;
-    if (recursive_nonrat || ((pos= equalposcomp(analytic_sommets,e._SYMBptr->sommet)) && pos<=4))
+    if (recursive_nonrat || ((pos= equalposcomp(analytic_sommets,e._SYMBptr->sommet)) && (pos<=4 || (pos==5 && is_integer(e._SYMBptr->feuille[1])))))
       arg=subst(arg,v,w,quotesubst,contextptr,recursive_nonrat);
     int n=equalposcomp(v,e._SYMBptr->sommet);
     if (!n){
