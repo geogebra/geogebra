@@ -29,13 +29,13 @@ import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Function of N variables that returns either a number or a boolean. This
@@ -391,6 +391,9 @@ public class FunctionNVar extends ValidExpression
 		} else if (ev instanceof GeoFunction) {
 			expression = ((GeoFunction) ev).getFunctionExpression();
 			fVars = ((GeoFunction) ev).getFunction().getFunctionVariables();
+		} else if (ev instanceof GeoFunctionNVar) {
+			expression = ((GeoFunctionNVar) ev).getFunctionExpression();
+			fVars = ((GeoFunctionNVar) ev).getFunction().getFunctionVariables();
 		} else {
 			return false;
 		}
@@ -1014,7 +1017,6 @@ public class FunctionNVar extends ValidExpression
 	 *            variable in which to dilate
 	 */
 	protected void dilateX(ExpressionNode en, double vx, int varNo) {
-		Log.debug(vx);
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
 

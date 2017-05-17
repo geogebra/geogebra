@@ -957,6 +957,16 @@ public class CommandsTest extends Assert{
 		t("Object[\"list2\"]", "NaN");
 	}
 
+	@Test
+	public void conditionalDerivativeTest() {
+		t("f(x)=If[x>0,x^2]", "If[x > 0, x^(2)]");
+		t("f'(x)=Derivative[f]", "If[x > 0, (2 * x)]");
+		t("f'(3)", "6");
+		t("g(x,y)=If[x+y>0,x^2+x*y]", "If[x + y > 0, x^(2) + (x * y)]");
+		t("h(x,y)=Derivative[g, x]", "If[x + y > 0, (2 * x) + y]");
+		t("h(1,3)", "5");
+	}
+
 	private static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
 				Unicode.Superscript_3 + "");
