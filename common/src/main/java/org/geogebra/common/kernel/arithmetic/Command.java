@@ -555,6 +555,10 @@ public class Command extends ValidExpression
 		if ("Evaluate".equals(name) && args.size() > 0) {
 			return args.get(0).getValueType();
 		}
+		Command evaluationCopy = this;
+		if ("Sum".equals(name)) {
+			evaluationCopy = deepCopy(kernel);
+		}
 		if (lastType != null) {
 			return lastType;
 		}
@@ -563,7 +567,8 @@ public class Command extends ValidExpression
 			return ValueType.UNKNOWN;
 		}
 		try {
-			lastType = evaluate(StringTemplate.defaultTemplate).getValueType();
+			lastType = evaluationCopy.evaluate(StringTemplate.defaultTemplate)
+					.getValueType();
 		} catch (Throwable ex) {
 			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
 					.evaluateToExpression(this, null, kernel);
