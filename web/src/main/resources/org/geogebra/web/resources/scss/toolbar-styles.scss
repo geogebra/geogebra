@@ -59,6 +59,13 @@
 			.close {
 				float: right;
 			}
+	
+		 	.center {
+				margin: auto;
+				width: 64px;
+				display: flex;
+				top: -48px;
+			}
 			
 		}
 		
@@ -77,7 +84,14 @@
 			
 			.close {
 				position: absolute;
+				left: 0px;
 				bottom: 0px;
+			}
+		
+		 	.center {
+		 		top: 0px;
+				display: table-cell;
+				vertical-align: middle;
 			}
 					 
 		}

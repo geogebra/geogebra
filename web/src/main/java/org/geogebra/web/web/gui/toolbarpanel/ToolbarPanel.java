@@ -30,6 +30,7 @@ public class ToolbarPanel extends FlowPanel {
 	private Integer lastOpenWidth = null;
 
 	private class Header extends FlowPanel {
+		private static final int PADDING = 12;
 		private ToggleButton btnMenu;
 		private ToggleButton btnAlgebra;
 		private ToggleButton btnTools;
@@ -120,11 +121,27 @@ public class ToolbarPanel extends FlowPanel {
 				removeStyleName("header-open");
 				addStyleName("header-close");
 				btnClose.getUpFace().setImage(imgOpen);
-
 			}
 
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+				public void execute() {
+					updateCenterSize();
+				}
+			});
 			updateWidth();
 			showKeyboardButtonDeferred(isOpen());
+		}
+
+		void updateCenterSize() {
+			if (open) {
+				return;
+			}
+
+			int h = getOffsetHeight() - btnMenu.getOffsetHeight()
+					- btnClose.getOffsetHeight() - 2 * PADDING;
+			center.setHeight(h + "px");
+
 		}
 	}
 
