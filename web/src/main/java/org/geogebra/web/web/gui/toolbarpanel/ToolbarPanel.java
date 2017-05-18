@@ -31,18 +31,40 @@ public class ToolbarPanel extends FlowPanel {
 
 	private class Header extends FlowPanel {
 		private ToggleButton btnMenu;
+		private ToggleButton btnAlgebra;
+		private ToggleButton btnTools;
 		private ToggleButton btnClose;
 		private boolean open = true;
 		private Image imgClose;
 		private Image imgOpen;
 		private FlowPanel contents;
+		private FlowPanel center;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
 			add(contents);
 
-			createCloseButton();
+
 			createMenuButton();
+			createCloseButton();
+			createCenter();
+
+		}
+
+		private void createCenter() {
+			btnAlgebra = new ToggleButton(new Image(
+					MaterialDesignResources.INSTANCE.toolbar_algebra_dummy()));
+			btnAlgebra.addStyleName("flatButton");
+
+			btnTools = new ToggleButton(new Image(
+					MaterialDesignResources.INSTANCE.toolbar_tools_dummy()));
+			btnTools.addStyleName("flatButton");
+			center = new FlowPanel();
+			center.addStyleName("center");
+			center.add(btnAlgebra);
+			center.add(btnTools);
+			contents.add(center);
+
 		}
 
 		private void createCloseButton() {

@@ -11,6 +11,7 @@
 				height: 24px;
 			}
 			
+			
 			.flatButton:hover {
 				crusor: hand;
 				background-color: $white-30;
@@ -19,6 +20,33 @@
 			.contents {
 				padding-top: 4px;
 				padding-bottom: 4px;
+			}
+			
+			.contents >* {
+				display: inline-block;
+			 }
+			 
+			.center {
+				position: relative;
+				margin: auto;
+				width: 64px;
+				display: flex;
+				top: -48px;
+			
+				.gwt-Image {
+					width: 24px;
+					height: 24px;
+				}
+				
+				.gwt-ToggleButton {
+					padding-left: 0;
+					padding-right: 0;
+					
+				}
+			}
+			
+			.center >* {
+				display: inline-block;
 			}
 		}
 

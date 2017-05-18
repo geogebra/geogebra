@@ -2383,6 +2383,7 @@ public abstract class AppW extends App implements SetLabels {
 				.setObjectMenuActive(false);
 		}
 
+
 	}
 
 	public void closePopupsNoTooltips() {

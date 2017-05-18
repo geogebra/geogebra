@@ -117,4 +117,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/menu_white.png")
 	ImageResource toolbar_menu_white();
 
+	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_spreadsheetview_show_input_bar.png")
+	ImageResource toolbar_algebra_dummy();
+
+	@Source("org/geogebra/common/icons_toolbar/p32/tools_panel.png")
+	ImageResource toolbar_tools_dummy();
 }
