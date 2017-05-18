@@ -91,7 +91,7 @@ public class AlgoDependentCasCell extends AlgoElement
 	 * can be called again after the GeoCasCell's input expression has changed.
 	 */
 	@Override
-	protected void setInputOutput() {
+	public void setInputOutput() {
 		// init output
 		// twin geo that may be created as a side effect
 		// e.g. the CAS cell m := c + 3 will create a GeoNumeric m

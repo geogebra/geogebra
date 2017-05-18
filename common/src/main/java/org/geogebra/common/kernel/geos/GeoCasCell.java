@@ -53,6 +53,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -3328,6 +3329,10 @@ public class GeoCasCell extends GeoElement
 			// notify only construction protocol
 			// needed for GGB-810
 			kernel.notifyConstructionProtocol(twinGeo);
+			// dependent CAS cell algo needs to reference twin geo as output
+			if (getParentAlgorithm() instanceof AlgoDependentCasCell) {
+				((AlgoDependentCasCell) getParentAlgorithm()).setInputOutput();
+			}
 		} else {
 			// Log.debug("Fail" + oldEvalComment);
 			if (twinGeo != null && twinGeo.getLabelSimple() != null) {
