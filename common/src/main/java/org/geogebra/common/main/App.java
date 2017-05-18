@@ -4854,5 +4854,22 @@ public abstract class App implements UpdateSelection {
 	public boolean nativeCAS() {
 		return true;
 	}
+	
+	private long ceIDcounter = 1;
+	private int nextVariableID = 1;
+
+	/**
+	 * @return next construction element ID
+	 */
+	public long getNextCeIDcounter() {
+		return ceIDcounter++;
+	}
+
+	/**
+	 * @return next prover variable ID
+	 */
+	public int getNextVariableID() {
+		return nextVariableID++;
+	}
 
 }
