@@ -13,4 +13,13 @@ public class NoDragImage extends Image {
 		super(uri);
 		this.getElement().setAttribute("draggable", "false");
 	}
+
+	public NoDragImage(String uri, Integer size, boolean isHeight) {
+		this(uri);
+		if (isHeight) {
+			this.setHeight(size + "px");
+		} else {
+			this.setWidth(size + "px");
+		}
+	}
 }
