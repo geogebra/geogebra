@@ -278,10 +278,23 @@
 	.mowColorPopup input[type="range"]{
 		width: 130px;
 	    margin: 0 0 0 4px;
+	    background-color: transparent;
 		}	
 	.mowColorPopup .popupSliderLabel{
-		margin-right: 3px;
-		padding-top: 2px;
+		margin-right: 3px !important;
+		margin-top: 0px;
+	}
+	.mowColorPopup {
+		.SelectionTable .gwt-Label.borderButton{
+			border: 2px solid;
+		    border-radius: 5px;
+		    height: 22px;
+		    width: 22px;
+		}
+		.ButtonPopupMenu .panelRow2 {
+			/*padding-bottom: 8px;
+			padding-top: 4px;*/
+		}
 	}
 	
 	.mowLinePopup .preview{
@@ -290,6 +303,7 @@
 	.mowLinePopup input[type="range"]{
 		width: 130px;
 	    margin: 0 0 0 4px;
+	    background-color: transparent;
 	}
 	
 	.mowLinePopup .popupSliderLabel{

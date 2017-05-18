@@ -138,6 +138,12 @@ public class GeoGebraColorConstants {
 	public static final GColor MOW_TEAL = GColor.newColor(0, 150, 136);
 	public static final GColor MOW_CARROT = GColor.newColor(230, 126, 34);
 
+	public static final GColor MOW_BLUE = GColor.newColor(0, 0, 255);
+	public static final GColor MOW_GREEN = GColor.newColor(0, 153, 51);
+	public static final GColor MOW_RED = GColor.newColor(204, 0, 0);
+	public static final GColor MOW_MAGENTA = GColor.newColor(204, 0, 153);
+	public static final GColor MOW_YELLOW = GColor.newColor(255, 204, 0);
+
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color
@@ -513,14 +519,19 @@ public class GeoGebraColorConstants {
 
 		GColor[] popupColors = new GColor[5];
 		popupColors[0] = GColor.BLACK;
-		popupColors[1] = MOW_PURPLE_DARK;
-		popupColors[2] = MOW_TEAL;
-		popupColors[3] = MOW_CARROT;
+		popupColors[1] = MOW_BLUE;
+		popupColors[2] = MOW_GREEN;
+		popupColors[3] = MOW_RED;
+		popupColors[4] = MOW_MAGENTA;
+		popupColors[5] = MOW_PURPLE_DARK;
+		popupColors[6] = MOW_TEAL;
+		popupColors[7] = MOW_CARROT;
+		popupColors[8] = MOW_YELLOW;
 		// popupColors[0] = GGB_GREEN;
 		// popupColors[1] = GColor.BLUE;
 		// popupColors[2] = GGB_PURPLE;
 		// popupColors[3] = GGB_VIOLET;// rgb(244, 0, 153);
-		popupColors[4] = null; // placeholder for (...) button
+		popupColors[9] = null; // placeholder for (...) button
 		return popupColors;
 	}
 

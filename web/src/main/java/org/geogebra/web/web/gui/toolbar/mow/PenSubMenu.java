@@ -51,8 +51,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private boolean colorsEnabled;
 	// preset colors: black, blue, green, red, magenta, violet, cyan, orange, yellow,
 	// 
-	private final static String hexColors[] = { "000000", "0000FF", "009933", "CC0000", "CC0099", "663399", "0099CC",
-			"FF6600", "FFCC00" };
+	private final static String hexColors[] = { "000000", "0000FF", "009933", "CC0000", "CC0099", "6633CC", "009999",
+			"FF6633", "FFCC00" };
 	private GColor lastSelectedColor = null;
 
 	/**
