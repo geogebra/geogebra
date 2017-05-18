@@ -541,7 +541,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					+ "px");
 			app.persistWidthAndHeight();
 		}
-
 	}
 
 	/**
@@ -554,8 +553,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			setHeight(app.getArticleElement().getDataParamHeight() + "px");
 		}
 	}
-
-
 
 	/**
 	 * @param show

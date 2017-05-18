@@ -14,6 +14,7 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Window;
 
 /**
  * Web implementation of FileMenu
@@ -74,15 +75,15 @@ public class PerspectivesMenuW extends GMenuBar {
 	}
 
 
-	private void addPerspective(int i, ResourcePrototype icon) {
-		if (Layout.getDefaultPerspectives(i) == null) {
+	private void addPerspective(final int index, ResourcePrototype icon) {
+		if (Layout.getDefaultPerspectives(index) == null) {
 			return;
 		}
-		final int index = i;
-		final int defID = Layout.getDefaultPerspectives(i).getDefaultID();
+
+		final int defID = Layout.getDefaultPerspectives(index).getDefaultID();
 		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
-						.getMenu(Layout.getDefaultPerspectives(i).getId()),
+						.getMenu(Layout.getDefaultPerspectives(index).getId()),
 				true), true,
 				new MenuCommand(app) {
 
@@ -133,7 +134,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1
 				&& app.getArticleElement().getDataParamApp()) {
-
+			Window.setTitle(app.getLocalization()
+					.getMenu(Layout.getDefaultPerspectives(index).getId()));
 			Browser.changeUrl(Perspective.getPerspectiveSlug(index));
 
 		}

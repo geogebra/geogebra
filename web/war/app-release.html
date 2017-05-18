@@ -122,7 +122,10 @@ var analyticsVersion = 'V'+latestVersion;
 		}
 		return ret;
 	}
-	function button(id,perspectiveId){
+	function button(id, perspectiveId, caption){
+		if(getPerspective()==id){
+			document.title = caption;
+		}
 		var ret = e(id);
 		var parent = parentTable(ret);
 		if(id == "tutorials"){
@@ -135,6 +138,7 @@ var analyticsVersion = 'V'+latestVersion;
 				if(e("ggw")){
 					e("ggw").setAttribute("data-param-showAppsPicker","false");
 				}
+				document.title = ret.innerText;
 				perspective(perspectiveId,id.replace("perspective",""));
 			});
 			parent.getElementsByTagName("TD")[2].addEventListener("click",function(e){
@@ -143,21 +147,21 @@ var analyticsVersion = 'V'+latestVersion;
 				window.open("https://www.geogebra.org/tutorial/"+id.replace("perspective",""));
 			});
 		}
-		return ret;
+		ret.innerHTML = caption;
 	}
 	
 	function setPickerLabels(dict){
-		button("graphing",1).innerHTML=dict["GraphingCalculator"] || "Graphing Calculator";
-		button("geometry",2).innerHTML=dict["Perspective.Geometry"] || "Geometry";
-		button("cas",4).innerHTML=dict["Perspective.CAS"] || "CAS";
-		button("spreadsheet",3).innerHTML=dict["Perspective.Spreadsheet"] || "Spreadsheet";
-		button("perspective3d",5).innerHTML=dict["GeoGebra3DGrapher.short"] || "3D Grapher";
-		button("probability",6).innerHTML=dict["Perspective.Probability"] || "Probability";
+		button("graphing", 1, dict["GraphingCalculator"] || "Graphing Calculator");
+		button("geometry", 2, dict["Perspective.Geometry"] || "Geometry Calculator");
+		button("cas", 4, dict["Perspective.CAS"] || "CAS Calculator");
+		button("spreadsheet",  3, dict["Perspective.Spreadsheet"] || "Spreadsheet Calc");
+		button("perspective3d", 5, dict["GeoGebra3DGrapher.short"] || "3D Calculator");
+		button("probability", 6, dict["Perspective.Probability"] || "Probability Calc");
 		if(!prerelease){
-			button("tutorials",0).innerHTML=dict["Tutorials"] || "Tutorials";
+			button("tutorials",0, dict["Tutorials"] || "Tutorials");
 		}
-		button("exam","exam").innerHTML=dict["exam_menu_entry"] || "Exam";			
-		e("create").innerHTML=dict["CreateYourOwn"] || "GeoGebra Math Apps";
+		button("exam","exam", dict["exam_menu_entry"] || "Exam Calculator");			
+		e("create").innerHTML=dict["CreateYourOwn"] || "GeoGebra Math Calculators";
 	}
 	function showInLang(lang){
 		document.body.parentNode.style.overflow = "auto";
