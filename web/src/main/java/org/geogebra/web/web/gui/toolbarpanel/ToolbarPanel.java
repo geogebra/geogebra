@@ -54,11 +54,11 @@ public class ToolbarPanel extends FlowPanel {
 
 		private void createCenter() {
 			btnAlgebra = new ToggleButton(new Image(
-					MaterialDesignResources.INSTANCE.toolbar_algebra_dummy()));
+					MaterialDesignResources.INSTANCE.toolbar_algebra()));
 			btnAlgebra.addStyleName("flatButton");
 
 			btnTools = new ToggleButton(new Image(
-					MaterialDesignResources.INSTANCE.toolbar_tools_dummy()));
+					MaterialDesignResources.INSTANCE.toolbar_tools()));
 			btnTools.addStyleName("flatButton");
 			center = new FlowPanel();
 			center.addStyleName("center");
