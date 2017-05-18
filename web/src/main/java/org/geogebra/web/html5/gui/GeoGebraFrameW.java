@@ -550,8 +550,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	@Override
 	public void resetAutoSize() {
 		if (app.getArticleElement().getDataParamWidth() > 0) {
-			setWidth(app.getArticleElement().getDataParamWidth());
-			setHeight(app.getArticleElement().getDataParamHeight());
+			setWidth(app.getArticleElement().getDataParamWidth() + "px");
+			setHeight(app.getArticleElement().getDataParamHeight() + "px");
 		}
 	}
 
