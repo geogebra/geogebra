@@ -31,7 +31,7 @@ public class PVariable implements Comparable<PVariable> {
 		// nextAvailableNumber++;
 		// name = "v".concat(Integer.toString(nextAvailableNumber));
 		// nameToId.put(name,n);
-		id = kernel.getConstruction().getNextVariableID();
+		id = kernel.getNextVariableID();
 	}
 
 	/**

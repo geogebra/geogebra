@@ -47,7 +47,7 @@ public abstract class ConstructionElement
 	 *            construction
 	 */
 	public ConstructionElement(final Construction c) {
-		ceID = c.getNextCeIDcounter();
+		ceID = c.getKernel().getNextCeIDcounter();
 		setConstruction(c);
 	}
 
