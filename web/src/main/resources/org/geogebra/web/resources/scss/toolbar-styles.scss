@@ -32,15 +32,15 @@
 				width: 64px;
 				display: flex;
 				top: -48px;
-			
+				padding-left: 0;
+				padding-right: 0;
+				
 				.gwt-Image {
 					width: 24px;
 					height: 24px;
 				}
 				
 				.gwt-ToggleButton {
-					padding-left: 0;
-					padding-right: 0;
 					
 				}
 			}
