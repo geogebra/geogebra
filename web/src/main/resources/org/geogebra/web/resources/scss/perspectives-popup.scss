@@ -20,6 +20,11 @@
 	.storeIconHolder .linkPlaystore {
 		margin-right: 10px;
 	}
+
+	.storeIconHolder a img:hover {
+		background-color: #FFFFFF;
+		opacity: 0.7;
+	}
 	
 	.storeIconHolder .separatorDiv {
 		clear: both;
