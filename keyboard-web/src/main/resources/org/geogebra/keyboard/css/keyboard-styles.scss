@@ -116,6 +116,7 @@ $tab123-width: 644px;
 		padding: 10px;
 		height: 20px;
 		text-align: center;
+		line-height: inherit;
 		margin: 2px;
 		font-size: 120%;
 		cursor: pointer;
@@ -388,6 +389,10 @@ $tab123-width: 644px;
 		border: 0;
 		margin-top: 7px;
 		box-shadow: none;
+	}
+	.KeyboardSwitcher .gwt-Button:active {
+		border: none;
+		background-color: transparent;
 	}
 
 	.scale .KeyboardSwitcher .gwt-Button {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Accents;
@@ -321,7 +320,8 @@ public class TabbedKeyboard extends FlowPanel {
 	 */
 	int getBaseSize(double maxWeightSum) {
 
-		return (int) ((app.getInnerWidth()) > BASE_WIDTH * maxWeightSum ? BASE_WIDTH : (app.getInnerWidth()) / maxWeightSum);
+		return (int) ((app.getInnerWidth() - 10) > BASE_WIDTH * maxWeightSum ? BASE_WIDTH
+				: (app.getInnerWidth() - 10) / maxWeightSum);
 	}
 
 	void updatePanel(KeyPanelBase keyboard, Keyboard layout,
@@ -398,14 +398,11 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 
 		// set width of switcher contents
-
 		if (app.getInnerWidth() > 700) {
 			switcher.getContent().getElement().getStyle().setWidth(644, Unit.PX);
 		} else {
-			switcher.getContent().getElement().getStyle().setWidth(app.getInnerWidth() - 50, Unit.PX);
+			switcher.getContent().getElement().getStyle().setWidth(Math.min(644, app.getInnerWidth() - 10), Unit.PX);
 		}
-		Log.debug("app.getInnerWidth(): " + app.getInnerWidth());
-
 	}
 
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
