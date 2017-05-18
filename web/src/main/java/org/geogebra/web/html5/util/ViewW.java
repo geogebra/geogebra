@@ -48,18 +48,6 @@ public class ViewW {
 		return container;
 	}
 
-	public void promptUserForGgbFile() {
-		Log.debug("No data-param-fi7/7leName attribute presented");
-	}
-
-	public void showError(String errorMessage) {
-		Log.debug(errorMessage);
-	}
-
-	public void hide() {
-		Log.debug("View.hide called");
-	}
-
 	public String getDataParamFileName() {
 		return ((ArticleElement) container).getDataParamFileName();
 	}

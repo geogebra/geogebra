@@ -420,6 +420,10 @@ public class AppWapplet extends AppWFull {
 
 		getEuclidianView1().synCanvasSize();
 
+		if (!articleElement.getDataParamFitToScreen()) {
+			getAppletFrame().resetAutoSize();
+		}
+
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
