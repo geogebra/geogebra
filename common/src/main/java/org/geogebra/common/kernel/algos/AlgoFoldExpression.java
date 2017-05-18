@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
 
@@ -125,7 +124,7 @@ public class AlgoFoldExpression extends AlgoElement {
 		updateLocalVar();
 		GeoElement fn = expression.copyInternal(cons);
 		if (fn instanceof CasEvaluableFunction) {
-			((GeoFunction) fn).replaceChildrenByValues(var);
+			((CasEvaluableFunction) fn).replaceChildrenByValues(var);
 		}
 
 		foldComputer.setFrom(fn, kernel);
@@ -134,7 +133,7 @@ public class AlgoFoldExpression extends AlgoElement {
 			updateLocalVar();
 			fn = expression.copyInternal(cons);
 			if (fn instanceof CasEvaluableFunction) {
-				((GeoFunction) fn).replaceChildrenByValues(var);
+				((CasEvaluableFunction) fn).replaceChildrenByValues(var);
 			}
 			foldComputer.add(fn, op);
 		}
