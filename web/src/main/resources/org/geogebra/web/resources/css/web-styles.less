@@ -127,13 +127,15 @@
 		box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 	}
 
-	 input[type="text"]:focus,
-	.gwt-TextBox:focus,
-	 select:focus,
-	 textarea:focus,
-	.gwt-TextArea:focus,
-	 iframe.objectPropertiesTextEditor:focus {
-		border-color: #6161FF;
+	 input[type="text"],
+	.gwt-TextBox,
+	 select,
+	 textarea,
+	.gwt-TextArea,
+	 iframe.objectPropertiesTextEditor {
+	 	&:focus,&:focus:not([readonly]){
+			border: 1px #6161FF solid;
+	 	}
 	}
 
 	/* avoid 'x' in IE */

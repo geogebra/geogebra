@@ -1022,11 +1022,8 @@ public class FunctionNVar extends ValidExpression
 
 		// left tree
 		if (left == fVars[varNo]) {
-			if (right instanceof MyDouble && right.isConstant()) { // is there a
-																	// constant
-																	// number to
-																	// the
-																	// right?
+			// is there a constant number to the right?
+			if (right instanceof MyDouble && right.isConstant()) {
 				MyDouble num = (MyDouble) right;
 				double temp;
 				switch (en.getOperation()) {
@@ -1062,11 +1059,8 @@ public class FunctionNVar extends ValidExpression
 
 		// right tree
 		if (right == fVars[varNo]) {
-			if (left instanceof MyDouble && left.isConstant()) { // is there a
-				// constant
-				// number to
-				// the
-				// right?
+			// is there a constant number to the left?
+			if (left instanceof MyDouble && left.isConstant()) { 				
 				MyDouble num = (MyDouble) left;
 				double temp;
 				switch (en.getOperation()) {

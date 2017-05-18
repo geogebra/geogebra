@@ -50,11 +50,12 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset().getText());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 				.getText());
 		StyleInjector.inject(
 				GuiResourcesSimple.INSTANCE.modernStyleGlobal().getText());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset().getText());
+
 		injectLTRstyles();
 		injectScss();
 
