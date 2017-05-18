@@ -239,6 +239,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons_fillings/p18/filling_cancel.png")
 	ImageResource icons_fillings_cancel();
 
-	@Source("org/geogebra/web/resources/css/reset.scss")
+	@Source("org/geogebra/web/resources/scss/reset.scss")
 	SassResource reset();
 }

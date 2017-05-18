@@ -1,0 +1,167 @@
+@import 'colors';
+$slider-diameter:15px;
+
+
+
+.GeoGebraFrame {
+	* {
+		margin: initial;
+		padding: initial;
+		border: initial;
+		outline: initial;
+		height: initial;
+		width: initial;
+		border-collapse: initial;
+		border-spacing: initial;
+		letter-spacing: normal;
+		font-weight: normal;
+		font-variant: normal;
+		font-stretch: normal;
+		font-kerning: auto;
+		text-decoration: none;
+		box-sizing:content-box;
+	}
+	input {
+		margin: initial;
+		padding: initial;
+		border: initial;
+		outline: initial;
+		height: initial;
+		width: initial;
+	}
+	input[type="checkbox"] {
+		position: initial;
+		left: initial;
+		opacity: initial;
+	}
+	input[type="checkbox"] + label {
+		&:after, &:before {
+			content: none;
+		}
+		position: initial;
+		padding-left: initial;
+		cursor: initial;
+		display: initial;
+		height: initial;
+		line-height: initial;
+		font-size: initial;
+	}
+	table {
+		border-collapse: initial;
+		border-spacing: initial;
+	}
+	.thumb {
+		display: none;
+	}
+	.btn {
+		text-transform: initial;
+		line-height: initial;
+		box-shadow: initial;
+	}	
+	
+	input:not([type]),
+	input[type=text],
+	input[type=password],
+	input[type=email],
+	input[type=url],
+	input[type=time],
+	input[type=date],
+	input[type=datetime],
+	input[type=datetime-local],
+	input[type=tel],
+	input[type=number],
+	input[type=search] {
+		&:focus:not([readonly]) {
+			border: initial;
+			box-shadow: initial;
+		}
+	}
+	
+	input[type=range]{
+	  -webkit-appearance: none;
+	  width:129px; //default in Edge and Chrome
+		}
+		input[type=range]::-webkit-slider-runnable-track {
+	  height: 5px;
+	  background-color: $slider-track;
+	  border: none;
+	}
+	
+	input[type=range]::-webkit-slider-thumb {
+	  -webkit-appearance: none;
+	  border: none;
+	  height: $slider-diameter;
+	  width: $slider-diameter;
+	  border-radius: 50%;
+	  background-color: $black;
+	  transform-origin: 50% 50%;
+	  margin: -5px 0 0 0;
+	  transition: initial;
+		}
+		
+		input[type=range]::-moz-range-track {
+	  height: 5px;
+	  background: #ddd;
+	  border: none;
+	}
+	
+	input[type=range]::-moz-range-thumb {
+	  border: none;
+	  height: $slider-diameter;
+	  width: $slider-diameter;
+	  border-radius: 50%;
+	  background: $black;
+	  margin-top: -5px;
+	}
+	
+	// hide the outline behind the border
+	input[type=range]:-moz-focusring {
+	  outline: 1px solid #fff;
+	  outline-offset: -1px;
+	}
+	
+	input[type=range]:focus::-moz-range-track {
+	  background: $slider-track-focus;
+	}
+	
+	input[type=range]::-ms-track {
+	  height: 5px;
+	
+	  // remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
+	  background: transparent;
+	
+	  // leave room for the larger thumb to overflow with a transparent border */
+	  border-color: transparent;
+	  border-width: 5px 0;
+	
+	  /*remove default tick marks*/
+	  color: transparent;
+	}
+	
+	input[type=range]::-ms-fill-lower {
+	  background: $slider-track;
+	}
+	
+	input[type=range]::-ms-fill-upper {
+	  background: $slider-track;
+	}
+	
+	input[type=range]::-ms-thumb {
+	  border: none;
+	  height: $slider-diameter;
+	  width: $slider-diameter;
+	  border-radius: 50%;
+	  background: $black;
+	}
+	
+	input[type=range]:focus::-ms-fill-lower {
+	  background: $slider-track-focus;
+	}
+	
+	input[type=range]:focus::-ms-fill-upper {
+	  background: $slider-track-focus;
+	}
+	
+	
+
+}
