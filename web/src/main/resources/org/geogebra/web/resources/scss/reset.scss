@@ -78,88 +78,89 @@ $slider-diameter:15px;
 	}
 	
 	input[type=range]{
-	  -webkit-appearance: none;
-	  width:129px; //default in Edge and Chrome
-		}
-		input[type=range]::-webkit-slider-runnable-track {
-	  height: 5px;
-	  background-color: $slider-track;
-	  border: none;
+		-webkit-appearance: none;
+		width:129px; //default in Edge and Chrome
+	}
+	
+	input[type=range]::-webkit-slider-runnable-track {
+		height: 5px;
+		background-color: $slider-track;
+		border: none;
 	}
 	
 	input[type=range]::-webkit-slider-thumb {
-	  -webkit-appearance: none;
-	  border: none;
-	  height: $slider-diameter;
-	  width: $slider-diameter;
-	  border-radius: 50%;
-	  background-color: $black;
-	  transform-origin: 50% 50%;
-	  margin: -5px 0 0 0;
-	  transition: initial;
-		}
+		-webkit-appearance: none;
+		border: none;
+		height: $slider-diameter;
+		width: $slider-diameter;
+		border-radius: 50%;
+		background-color: $black;
+		transform-origin: 50% 50%;
+		margin: -5px 0 0 0;
+		transition: initial;
+	}
 		
-		input[type=range]::-moz-range-track {
-	  height: 5px;
-	  background: #ddd;
-	  border: none;
+	input[type=range]::-moz-range-track {
+		height: 5px;
+		background: $slider-track;
+		border: none;
 	}
 	
 	input[type=range]::-moz-range-thumb {
-	  border: none;
-	  height: $slider-diameter;
-	  width: $slider-diameter;
-	  border-radius: 50%;
-	  background: $black;
-	  margin-top: -5px;
+		border: none;
+		height: $slider-diameter;
+		width: $slider-diameter;
+		border-radius: 50%;
+		background: $black;
+		margin-top: -5px;
 	}
 	
 	// hide the outline behind the border
 	input[type=range]:-moz-focusring {
-	  outline: 1px solid #fff;
-	  outline-offset: -1px;
+		outline: 1px solid $white;
+		outline-offset: -1px;
 	}
 	
 	input[type=range]:focus::-moz-range-track {
-	  background: $slider-track-focus;
+		background: $slider-track-focus;
 	}
 	
 	input[type=range]::-ms-track {
-	  height: 5px;
+		height: 5px;
 	
-	  // remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
-	  background: transparent;
+		// remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead
+		background: transparent;
 	
-	  // leave room for the larger thumb to overflow with a transparent border */
-	  border-color: transparent;
-	  border-width: 5px 0;
+		// leave room for the larger thumb to overflow with a transparent border */
+		border-color: transparent;
+		border-width: 5px 0;
 	
-	  /*remove default tick marks*/
-	  color: transparent;
+		/*remove default tick marks*/
+		color: transparent;
 	}
 	
 	input[type=range]::-ms-fill-lower {
-	  background: $slider-track;
+		background: $slider-track;
 	}
 	
 	input[type=range]::-ms-fill-upper {
-	  background: $slider-track;
+		background: $slider-track;
 	}
 	
 	input[type=range]::-ms-thumb {
-	  border: none;
-	  height: $slider-diameter;
-	  width: $slider-diameter;
-	  border-radius: 50%;
-	  background: $black;
+		border: none;
+		height: $slider-diameter;
+		width: $slider-diameter;
+		border-radius: 50%;
+		background: $black;
 	}
 	
 	input[type=range]:focus::-ms-fill-lower {
-	  background: $slider-track-focus;
+		background: $slider-track-focus;
 	}
 	
 	input[type=range]:focus::-ms-fill-upper {
-	  background: $slider-track-focus;
+		background: $slider-track-focus;
 	}
 	
 	

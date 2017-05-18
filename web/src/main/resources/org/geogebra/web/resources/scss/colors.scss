@@ -3,9 +3,10 @@ $transparent: #00ffff;
 $toolbar-header:  #6161ff;
 $toolbar-menu-hover:  #ffff00;
 $selected-menuitem-background: #eeeeee;
-$white-30: rgba(255,255,255,0.3);
-$white-80: rgba(255,255,255,0.8);
-$white-90: rgba(255,255,255,0.9);
+$white: rgb(255, 255, 255);
+$white-30: rgba(255, 255, 255, 0.3);
+$white-80: rgba(255, 255, 255, 0.8);
+$white-90: rgba(255, 255, 255, 0.9);
 
 $mow_purple: #a388d4;
 $mow_purple_dark: #673AB7;
@@ -13,5 +14,5 @@ $mow_purple_dark: #673AB7;
 $slider-background: #bebebe;
 $slider-handle: #5c5c5c;
 
-$slider-track: rgba(0,0,0,0.4);
-$slider-track-focus: rgba(0,0,0,0.6)
+$slider-track: rgba(0, 0, 0, 0.4);
+$slider-track-focus: rgba(0, 0, 0, 0.6)
