@@ -158,6 +158,9 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			return;
 		}
 		zSpace.zspaceRightView();
+		// this is needed to set correctly the right buffer after drawing the left one
+		// TODO check why
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
 	}
 
 }
