@@ -207,6 +207,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 						|| etype == Event.ONTOUCHSTART
 						|| etype == Event.ONTOUCHEND) {
 					event.stopPropagation();
+					app.getGlobalKeyDispatcher().setFocused(true);
 					return;
 				}
 
