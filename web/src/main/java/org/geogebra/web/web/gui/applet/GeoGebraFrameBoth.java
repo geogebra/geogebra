@@ -811,7 +811,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event,
 						getToolbar().getOpenMenuButtonElement())
-				&& !getGlassPane().isDragInProgress() && !app.has(Feature.NEW_TOOLBAR)) {
+				&& !getGlassPane().isDragInProgress()
+				&& !app.has(Feature.NEW_TOOLBAR)
+		) {
 			app.toggleMenu();
 		}
 	}

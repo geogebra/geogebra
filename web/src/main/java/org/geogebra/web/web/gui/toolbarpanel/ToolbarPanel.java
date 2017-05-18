@@ -28,6 +28,7 @@ public class ToolbarPanel extends FlowPanel {
 	private Header header;
 	private App app;
 	private Integer lastOpenWidth = null;
+
 	private class Header extends FlowPanel {
 		private ToggleButton btnMenu;
 		private ToggleButton btnClose;

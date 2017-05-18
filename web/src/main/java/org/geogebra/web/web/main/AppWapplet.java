@@ -750,6 +750,14 @@ public class AppWapplet extends AppWFull {
 		this.spHeight += i;
 	}
 
+	@Override
+	public void closePopups() {
+		super.closePopups();
+		if (has(Feature.NEW_TOOLBAR)) {
+			hideMenu();
+		}
+	}
+
 	/**
 	 * Updates height of split panel accordingly if there is algebra input
 	 * and/or toolbar or not. Implemented for the case if there is no keyboard
