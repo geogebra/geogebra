@@ -56,10 +56,19 @@ $tab123-width: 644px;
 
 	.closeTabbedKeyboardButton {
 		position: relative;
-		top: 8px;
-		right: 5px;
 		float: right;
-		margin-left: 25px;
+		width: 24px;
+		height: 24px;
+   		padding-top: 4px;
+    	padding-bottom: 4px;
+    	padding-left: 4px;
+    	padding-right: 4px;
+    	margin-top: 4px;
+    	margin-bottom: 4px;
+    	top: 0px;
+    	margin-right: 4px;
+    	margin-left: 5px;
+    	right: 0px;
 	}
 
 	/* special css for Springboard */
@@ -387,7 +396,12 @@ $tab123-width: 644px;
 	.KeyboardSwitcher .gwt-Button {
 		color: $black;
 		border: 0;
-		margin-top: 7px;
+	    padding-left: 10px;
+ 	   	padding-right: 10px;
+ 	   	margin-top: 7px;
+   	 	margin-bottom: 6px;
+  	 	margin-left: 4px;
+  		margin-right: 4px;
 		box-shadow: none;
 	}
 	.KeyboardSwitcher .gwt-Button:active {
@@ -400,9 +414,17 @@ $tab123-width: 644px;
 
 	.KeyboardSwitcher .switcherContents .moreKeyboardButton {
 		position: relative;
-		top: 6px;
-		right: -3px;
 		float: right;
+		width: 24px;
+    	height: 24px;
+    	padding-top: 4px;
+   	 	padding-bottom: 4px;
+   		padding-left: 4px;
+    	padding-right: 4px;
+    	margin-top: 4px;
+    	margin-bottom: 4px;
+    	margin-right: 0px;
+    	margin-left: 4px;
 	}
 
 	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
@@ -413,7 +435,7 @@ $tab123-width: 644px;
 	}
 	
 	.KeyboardSwitcher .switcherContents > :first-child {
-		margin-left: -14px;
+		margin-left: -6px;
 	}
 	.scale .KeyboardSwitcher .switcherContents > :first-child {
 	}
