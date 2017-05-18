@@ -1804,6 +1804,13 @@ final class PredefinedCommands {
 				return PredefMacros.fcscore_macro(args);
 			}
 		},
+		imagebasesixtyfour(3) {
+			@Override
+			public Object executeMacro(final TeXParser tp,
+					final String[] args) {
+				return PredefMacros.includegraphics_macro(tp, args);
+			}
+		},
 		mathnormal(1) {
 			@Override
 			public Object executeMacro(final TeXParser tp,

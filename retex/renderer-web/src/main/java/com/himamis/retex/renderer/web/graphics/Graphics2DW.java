@@ -47,6 +47,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.CanvasElement;
+import com.google.gwt.dom.client.ImageElement;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
@@ -56,6 +57,7 @@ import com.himamis.retex.renderer.share.platform.geom.RoundRectangle2D;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
+import com.himamis.retex.renderer.share.platform.graphics.ImageBase64;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 import com.himamis.retex.renderer.share.platform.graphics.Transform;
 import com.himamis.retex.renderer.web.DrawingFinishedCallback;
@@ -397,10 +399,24 @@ public class Graphics2DW implements Graphics2DInterface {
 
 	@Override
 	public void drawImage(Image image, int x, int y) {
-		ImageW impl = (ImageW) image;
-		Canvas imageCanvas = impl.getCanvas();
-		CanvasElement canvasElement = imageCanvas.getCanvasElement();
-		context.drawImage(canvasElement, x, y);
+		
+		if (image instanceof ImageBase64) {
+			String base64 = ((ImageBase64) image).getBase64();
+			final com.google.gwt.user.client.ui.Image img = new com.google.gwt.user.client.ui.Image();
+			img.getElement().setAttribute("src", base64);
+			
+			// img2 = new ImageElement();
+
+			ImageElement img2 = ImageElement.as(img.getElement());
+
+			context.drawImage(img2, x, y);
+
+		} else {
+			ImageW impl = (ImageW) image;
+			Canvas imageCanvas = impl.getCanvas();
+			CanvasElement canvasElement = imageCanvas.getCanvasElement();
+			context.drawImage(canvasElement, x, y);
+		}
 	}
 
 	@Override
