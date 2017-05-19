@@ -403,8 +403,10 @@ public class MyVecNode extends ValidExpression
 				size = Math.min(((ListValue) yEval).size(), maxSize);
 			}
 			for (int idx = 0; idx < size; idx++) {
-				result.addListElement(new MyVecNode(kernel,
-						MyList.get(xEval, idx), MyList.get(yEval, idx)));
+				MyVecNode el = new MyVecNode(kernel, MyList.get(xEval, idx),
+						MyList.get(yEval, idx));
+				el.setMode(mode);
+				result.addListElement(el);
 			}
 			return result;
 		}

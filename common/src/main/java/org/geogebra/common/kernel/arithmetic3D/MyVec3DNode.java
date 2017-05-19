@@ -443,7 +443,7 @@ public class MyVec3DNode extends ValidExpression
 			MyList result = new MyList(kernel);
 			ExpressionValue xEval = x.evaluate(tpl);
 			ExpressionValue yEval = y.evaluate(tpl);
-			ExpressionValue zEval = y.evaluate(tpl);
+			ExpressionValue zEval = z.evaluate(tpl);
 			int size = 0;
 			int maxSize = Integer.MAX_VALUE;
 			if (xEval instanceof ListValue) {
@@ -456,9 +456,11 @@ public class MyVec3DNode extends ValidExpression
 				size = Math.min(((ListValue) zEval).size(), maxSize);
 			}
 			for (int idx = 0; idx < size; idx++) {
-				result.addListElement(new MyVec3DNode(kernel,
+				MyVec3DNode el = new MyVec3DNode(kernel,
 						MyList.get(xEval, idx), MyList.get(yEval, idx),
-						MyList.get(zEval, idx)));
+						MyList.get(zEval, idx));
+				el.setMode(mode);
+				result.addListElement(el);
 			}
 			return result;
 		}

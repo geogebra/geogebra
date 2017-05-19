@@ -174,6 +174,21 @@ public class CommandsTest extends Assert{
 	@Test
 	public void tuples() {
 		t("(1..2,1..2)", "{(1, 1), (2, 2)}");
+		t("(1,1..5)", "{(1, 1), (1, 2), (1, 3), (1, 4), (1, 5)}");
+		t("(1,1..5,6..2)",
+				"{(1, 1, 6), (1, 2, 5), (1, 3, 4), (1, 4, 3), (1, 5, 2)}");
+		t("(1;(1..5)*2pi/5)",
+				unicode("{(1; 72deg), (1; 144deg), (1; 216deg), (1; 288deg), (1; 0deg)}"),
+				StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void equationListTest() {
+		t("x+y=1..5",
+				"{x + y = 1, x + y = 2, x + y = 3, x + y = 4, x + y = 5}");
+		t("x^2+y^2=1..5",
+				unicode("{x^2 + y^2 = 1, x^2 + y^2 = 2, x^2 + y^2 = 3, x^2 + y^2 = 4, x^2 + y^2 = 5}"),
+				StringTemplate.editTemplate);
 	}
 
 	private static GeoElement get(String label) {
@@ -981,6 +996,6 @@ public class CommandsTest extends Assert{
 
 	private static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
-				Unicode.Superscript_3 + "");
+				Unicode.Superscript_3 + "").replace("deg", Unicode.DEGREE);
 	}
 }
