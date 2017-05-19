@@ -16,8 +16,16 @@ public class ToolCategorization {
     public enum Type {GEOMETRY, GRAPHING_CALCULATOR, GRAPHER_3D}
 
     public enum Category {
-        BASIC("Basic"), LINES("Lines"), CIRCLES("Circles"),
-        PLANES("Planes");
+        // from Geometry & Graphing Calculator
+        SIMPLE("ToolCategory.Simple"), EDIT("ToolCategory.Edit"), LINES("ToolCategory.Lines"),
+        POINTS("ToolCategory.Points"),
+        CIRCLES("ToolCategory.Circles"), ANGLES_AND_MEASURING("ToolCategory.AnglesAndMeasuring"),
+        POLYGONS("ToolCategory.Polygons"), TRANSFORMATIONS("ToolCategory.Transformations"),
+        SPECIAL_LINES("ToolCategory.SpecialLines"),
+        CURVES("ToolCategory.Curves"), OTHERS("ToolCategory.Others"),
+        // specific to 3D Grapher
+        LINES_AND_POLYGONS("ToolCategory.LinesAndPolygons"), SOLIDS("ToolCategory.Solids"),
+        PLANES("ToolCategory.Planes"), SELECT_AND_FORMAT("ToolCategory.SelectAndFormat");
 
         private final String header;
 
@@ -103,91 +111,346 @@ public class ToolCategorization {
         ArrayList<Integer> tools;
         switch (type) {
             case GEOMETRY:
-            case GRAPHING_CALCULATOR:
-            default:
-                category = Category.BASIC;
+                category = Category.SIMPLE;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MOVE);
+                addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
                 addToList(tools, EuclidianConstants.MODE_POINT);
                 addToList(tools, EuclidianConstants.MODE_SEGMENT);
                 addToList(tools, EuclidianConstants.MODE_JOIN);
-                addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
                 addToList(tools, EuclidianConstants.MODE_POLYGON);
-                addToList(tools, EuclidianConstants.MODE_INTERSECT);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.EDIT;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+                addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+                addToList(tools, EuclidianConstants.MODE_DELETE);
+                addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
                 storeIfNotEmpty(category, tools);
 
                 category = Category.LINES;
                 tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
                 addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
                 addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
                 addToList(tools, EuclidianConstants.MODE_PARALLEL);
                 addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
-                addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
-                addToList(tools, EuclidianConstants.MODE_SEGMENT);
-                addToList(tools, EuclidianConstants.MODE_JOIN);
-                addToList(tools, EuclidianConstants.MODE_RAY);
-                addToList(tools, EuclidianConstants.MODE_VECTOR);
-                addToList(tools, EuclidianConstants.MODE_POLYLINE);
                 addToList(tools, EuclidianConstants.MODE_TANGENTS);
+                addToList(tools, EuclidianConstants.MODE_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_RAY);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.POINTS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_INTERSECT);
+                addToList(tools, EuclidianConstants.MODE_MIDPOINT);
+                addToList(tools, EuclidianConstants.MODE_POINT_ON_OBJECT);
+                addToList(tools, EuclidianConstants.MODE_ATTACH_DETACH);
+                addToList(tools, EuclidianConstants.MODE_EXTREMUM);
+                addToList(tools, EuclidianConstants.MODE_ROOTS);
+                addToList(tools, EuclidianConstants.MODE_COMPLEX_NUMBER);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.CIRCLES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_COMPASSES);
+                addToList(tools, EuclidianConstants.MODE_SEMICIRCLE);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.ANGLES_AND_MEASURING;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_ANGLE);
+                addToList(tools, EuclidianConstants.MODE_ANGLE_FIXED);
+                addToList(tools, EuclidianConstants.MODE_DISTANCE);
+                addToList(tools, EuclidianConstants.MODE_AREA);
+                addToList(tools, EuclidianConstants.MODE_SLOPE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.POLYGONS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_REGULAR_POLYGON);
+                addToList(tools, EuclidianConstants.MODE_VECTOR_POLYGON);
+                addToList(tools, EuclidianConstants.MODE_RIGID_POLYGON);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.TRANSFORMATIONS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
+                addToList(tools, EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+                addToList(tools, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_DILATE_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.SPECIAL_LINES;
+                tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_POLYLINE);
                 addToList(tools, EuclidianConstants.MODE_FITLINE);
                 addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.CURVES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_PARABOLA);
+                addToList(tools, EuclidianConstants.MODE_LOCUS);
+                addToList(tools, EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.OTHERS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_SLIDER);
+                addToList(tools, EuclidianConstants.MODE_PEN);
+                addToList(tools, EuclidianConstants.MODE_RELATION);
+                addToList(tools, EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+                storeIfNotEmpty(category, tools);
+
+                break;
+
+            case GRAPHING_CALCULATOR:
+            default:
+                category = Category.SIMPLE;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_MOVE);
+                addToList(tools, EuclidianConstants.MODE_POINT);
+                addToList(tools, EuclidianConstants.MODE_SLIDER);
+                addToList(tools, EuclidianConstants.MODE_INTERSECT);
+                addToList(tools, EuclidianConstants.MODE_EXTREMUM);
+                addToList(tools, EuclidianConstants.MODE_ROOTS);
+                addToList(tools, EuclidianConstants.MODE_DISTANCE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.EDIT;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+                addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+                addToList(tools, EuclidianConstants.MODE_DELETE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.LINES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_SEGMENT);
+                addToList(tools, EuclidianConstants.MODE_JOIN);
+                addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
+                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
+                addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
+                addToList(tools, EuclidianConstants.MODE_PARALLEL);
+                addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
+                addToList(tools, EuclidianConstants.MODE_TANGENTS);
+                addToList(tools, EuclidianConstants.MODE_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_RAY);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.POINTS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_MIDPOINT);
+                addToList(tools, EuclidianConstants.MODE_POINT_ON_OBJECT);
+                addToList(tools, EuclidianConstants.MODE_ATTACH_DETACH);
+                addToList(tools, EuclidianConstants.MODE_COMPLEX_NUMBER);
                 storeIfNotEmpty(category, tools);
 
                 category = Category.CIRCLES;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-                addToList(tools, EuclidianConstants.MODE_COMPASSES);
                 addToList(tools, EuclidianConstants.MODE_CIRCLE_POINT_RADIUS);
                 addToList(tools, EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_COMPASSES);
                 addToList(tools, EuclidianConstants.MODE_SEMICIRCLE);
                 addToList(tools, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
-                addToList(tools, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
                 addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
                 addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
                 storeIfNotEmpty(category, tools);
+
+                category = Category.ANGLES_AND_MEASURING;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_ANGLE);
+                addToList(tools, EuclidianConstants.MODE_ANGLE_FIXED);
+                addToList(tools, EuclidianConstants.MODE_AREA);
+                addToList(tools, EuclidianConstants.MODE_SLOPE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.POLYGONS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_POLYGON);
+                addToList(tools, EuclidianConstants.MODE_REGULAR_POLYGON);
+                addToList(tools, EuclidianConstants.MODE_VECTOR_POLYGON);
+                addToList(tools, EuclidianConstants.MODE_RIGID_POLYGON);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.TRANSFORMATIONS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
+                addToList(tools, EuclidianConstants.MODE_ROTATE_BY_ANGLE);
+                addToList(tools, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_DILATE_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_CIRCLE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.SPECIAL_LINES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_POLYLINE);
+                addToList(tools, EuclidianConstants.MODE_FITLINE);
+                addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.CURVES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_PARABOLA);
+                addToList(tools, EuclidianConstants.MODE_LOCUS);
+                addToList(tools, EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.OTHERS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
+                addToList(tools, EuclidianConstants.MODE_PEN);
+                addToList(tools, EuclidianConstants.MODE_RELATION);
+                addToList(tools, EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+                addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
+                storeIfNotEmpty(category, tools);
+
                 break;
 
             case GRAPHER_3D:
-                category = Category.BASIC;
+                category = Category.SIMPLE;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MOVE);
                 addToList(tools, EuclidianConstants.MODE_POINT);
-                addToList(tools, EuclidianConstants.MODE_SEGMENT);
-                addToList(tools, EuclidianConstants.MODE_JOIN);
-                addToList(tools, EuclidianConstants.MODE_SPHERE_TWO_POINTS);
+                addToList(tools, EuclidianConstants.MODE_PYRAMID);
                 addToList(tools, EuclidianConstants.MODE_CUBE);
-                addToList(tools, EuclidianConstants.MODE_INTERSECT);
+                addToList(tools, EuclidianConstants.MODE_SPHERE_TWO_POINTS);
+                addToList(tools, EuclidianConstants.MODE_PLANE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_INTERSECTION_CURVE);
+                addToList(tools, EuclidianConstants.MODE_NET);
                 storeIfNotEmpty(category, tools);
 
-                category = Category.LINES;
+                category = Category.EDIT;
                 tools = new ArrayList<Integer>();
-                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
-                addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
-                addToList(tools, EuclidianConstants.MODE_PARALLEL);
-                addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
-                addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
+//                addToList(tools, EuclidianConstants.MODE_POINT);
+                addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+                addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+                addToList(tools, EuclidianConstants.MODE_DELETE);
+                addToList(tools, EuclidianConstants.MODE_VIEW_IN_FRONT_OF);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.POINTS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_INTERSECT);
+                addToList(tools, EuclidianConstants.MODE_MIDPOINT);
+                addToList(tools, EuclidianConstants.MODE_POINT_ON_OBJECT);
+                addToList(tools, EuclidianConstants.MODE_ATTACH_DETACH);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.LINES_AND_POLYGONS;
+                tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_SEGMENT);
                 addToList(tools, EuclidianConstants.MODE_JOIN);
-                addToList(tools, EuclidianConstants.MODE_RAY);
-                addToList(tools, EuclidianConstants.MODE_VECTOR);
-                addToList(tools, EuclidianConstants.MODE_POLYLINE);
+                addToList(tools, EuclidianConstants.MODE_SEGMENT_FIXED);
+                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL_THREE_D);
+                addToList(tools, EuclidianConstants.MODE_PARALLEL);
+                addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
                 addToList(tools, EuclidianConstants.MODE_TANGENTS);
-                addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
-                addToList(tools, EuclidianConstants.MODE_INTERSECTION_CURVE);
+                addToList(tools, EuclidianConstants.MODE_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_RAY);
+                addToList(tools, EuclidianConstants.MODE_POLYGON);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.SOLIDS;
+                tools = new ArrayList<Integer>();
+//                addToList(tools, EuclidianConstants.MODE_PYRAMID);
+                addToList(tools, EuclidianConstants.MODE_PRISM);
+                addToList(tools, EuclidianConstants.MODE_TETRAHEDRON);
+//                addToList(tools, EuclidianConstants.MODE_CUBE);
+//                addToList(tools, EuclidianConstants.MODE_SPHERE_TWO_POINTS);
+                addToList(tools, EuclidianConstants.MODE_SPHERE_POINT_RADIUS);
+                addToList(tools, EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS);
+                addToList(tools, EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS);
+                addToList(tools, EuclidianConstants.MODE_CONIFY);
+                addToList(tools, EuclidianConstants.MODE_EXTRUSION);
+//                addToList(tools, EuclidianConstants.MODE_NET);
                 storeIfNotEmpty(category, tools);
 
                 category = Category.PLANES;
                 tools = new ArrayList<Integer>();
-                addToList(tools, EuclidianConstants.MODE_PLANE_THREE_POINTS);
+//                addToList(tools, EuclidianConstants.MODE_PLANE_THREE_POINTS);
                 addToList(tools, EuclidianConstants.MODE_PLANE);
-                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL_PLANE);
                 addToList(tools, EuclidianConstants.MODE_PARALLEL_PLANE);
+                addToList(tools, EuclidianConstants.MODE_ORTHOGONAL_PLANE);
                 storeIfNotEmpty(category, tools);
+
+                category = Category.CIRCLES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_AXIS_POINT);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.CURVES;
+                tools = new ArrayList<Integer>();
+//                addToList(tools, EuclidianConstants.MODE_INTERSECTION_CURVE);
+                addToList(tools, EuclidianConstants.MODE_LOCUS);
+                addToList(tools, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_CONIC_FIVE_POINTS);
+                addToList(tools, EuclidianConstants.MODE_PARABOLA);
+                addToList(tools, EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.TRANSFORMATIONS;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_PLANE);
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
+                addToList(tools, EuclidianConstants.MODE_ROTATE_AROUND_LINE);
+                addToList(tools, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+                addToList(tools, EuclidianConstants.MODE_DILATE_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.ANGLES_AND_MEASURING;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_VOLUME);
+                addToList(tools, EuclidianConstants.MODE_ANGLE);
+                addToList(tools, EuclidianConstants.MODE_DISTANCE);
+                addToList(tools, EuclidianConstants.MODE_AREA);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.SELECT_AND_FORMAT;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_ROTATEVIEW);
+                addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
+                addToList(tools, EuclidianConstants.MODE_COPY_VISUAL_STYLE);
+                storeIfNotEmpty(category, tools);
+
+                category = Category.SPECIAL_LINES;
+                tools = new ArrayList<Integer>();
+                addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
+                addToList(tools, EuclidianConstants.MODE_POLYLINE);
+                addToList(tools, EuclidianConstants.MODE_FITLINE);
+                addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
+                storeIfNotEmpty(category, tools);
+
                 break;
 
         }
-
 
     }
 
