@@ -52,6 +52,7 @@ import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.Resizer;
 import org.geogebra.web.web.main.AppWFull;
@@ -1063,7 +1064,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 		styleEditor();
 
-		if (stylebarShown != null) {
+		if (!app.has(Feature.NEW_TOOLBAR) && stylebarShown != null) {
 			getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
 			stylebarShown = null;
 		}
@@ -1373,7 +1374,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 	boolean styleBarCanHide() {
-		if (!getAlgebraDockPanel().isStyleBarPanelShown()) {
+		if (!app.has(Feature.NEW_TOOLBAR)
+				&& !getAlgebraDockPanel().isStyleBarPanelShown()) {
 			return false;
 		}
 		int itemTop = this.isInputTreeItem()
@@ -1721,6 +1723,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
+	protected ToolbarDockPanelW getToolbarDockPanel() {
+		return (ToolbarDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+
+	}
 
 
 	@Override
@@ -1948,16 +1955,26 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	protected void updateEditorFocus(Object source, boolean blurtrue) {
 		// deselects current selection
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			if (controls != null) {
+				updateButtonPanelPosition();
+			}
+			
+			return;
+		}
+			
 		((AlgebraViewW) av).setActiveTreeItem(null);
 
 		boolean emptyCase = ((AlgebraViewW) av).isNodeTableEmpty()
 				&& !this.getAlgebraDockPanel().hasLongStyleBar();
 
 		// update style bar icon look
+		if (!app.has(Feature.NEW_TOOLBAR)) {
 		if (emptyCase) {
 			getAlgebraDockPanel().showStyleBarPanel(blurtrue);
 		} else {
 			getAlgebraDockPanel().showStyleBarPanel(true);
+		}
 		}
 
 		// After changing the stylebar visibility, maybe the small stylebar's
@@ -2067,6 +2084,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 	void adjustStyleBar() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		// expandSize(getWidthForEdit());
 		if (styleBarCanHide() && (!getAlgebraDockPanel().isStyleBarVisible())) {
 			stylebarShown = getAlgebraDockPanel().isStyleBarPanelShown();

@@ -266,11 +266,14 @@ public class SliderTreeItemRetex extends LatexTreeItem
 
 	@Override
 	public void selectItem(boolean selected) {
-		AlgebraDockPanelW dp = getAlgebraDockPanel();
-		if (first && !dp.hasLongStyleBar()) {
-			dp.showStyleBarPanel(!selected);
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			AlgebraDockPanelW dp = getAlgebraDockPanel();
+			if (first && !dp.hasLongStyleBar()) {
+				dp.showStyleBarPanel(!selected);
+			}
 		}
 		super.selectItem(selected);
+
 
 	}
 

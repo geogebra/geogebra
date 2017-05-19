@@ -37,6 +37,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -1193,7 +1194,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				public void execute() {
 
 					inputPanelLatex.updateButtonPanelPosition();
-					getAlgebraDockPanel().scrollToBottom();
+					if (app.has(Feature.NEW_TOOLBAR)) {
+						Log.debug(
+								"new toolbar scroll to bottom - not implemented.");
+					} else {
+						getAlgebraDockPanel().scrollToBottom();
+					}
 				}
 			});
 		}
@@ -1805,7 +1811,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		getAlgebraDockPanel().saveScrollPosition();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			getAlgebraDockPanel().saveScrollPosition();
+		}
+
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
 					|| !attached) // needed for F2 when Algebra
@@ -2273,7 +2282,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return the max item width.
 	 */
 	public int getMaxItemWidth() {
-		int avWidth = getAlgebraDockPanel().getOffsetWidth();
+		int avWidth = app.has(Feature.NEW_TOOLBAR)
+				? getToolbarDockPanel().getOffsetWidth()
+				:getAlgebraDockPanel().getOffsetWidth();
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
 
@@ -2288,6 +2299,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
+
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
@@ -2315,6 +2330,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		int w = userWidth;
 		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW avParent = getAlgebraDockPanel().getParentSplitPane();
@@ -2337,6 +2355,14 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	AlgebraDockPanelW getAlgebraDockPanel() {
 		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+	}
+
+	/**
+	 * @return toolbar dock panel
+	 */
+	ToolbarDockPanelW getToolbarDockPanel() {
+		return (ToolbarDockPanelW) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 

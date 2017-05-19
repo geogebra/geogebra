@@ -216,7 +216,10 @@ public class LatexTreeItem extends RadioTreeItem {
 		mf.setFocus(focus);
 
 		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
-		if (getAlgebraDockPanel().getOffsetHeight() < kH) {
+		int h = app.has(Feature.NEW_TOOLBAR)
+				? getToolbarDockPanel().getOffsetHeight()
+				: getAlgebraDockPanel().getOffsetHeight();
+		if (h < kH) {
 			app.adjustViews(true);
 		}
 	}

@@ -8,13 +8,17 @@ import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
@@ -25,9 +29,12 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public class ToolbarPanel extends FlowPanel {
 	private static final int CLOSED_WIDTH = 56;
 
+	/** Application */
+	App app;
 	private Header header;
-	private App app;
+	private FlowPanel main;
 	private Integer lastOpenWidth = null;
+	private AlgebraTab tabAlgebra = null;
 
 	private class Header extends FlowPanel {
 		private static final int PADDING = 12;
@@ -56,6 +63,14 @@ public class ToolbarPanel extends FlowPanel {
 			btnAlgebra = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_algebra()));
 			btnAlgebra.addStyleName("flatButton");
+
+			ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					openAlgebra();
+				}
+			});
 
 			btnTools = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_tools()));
@@ -145,6 +160,62 @@ public class ToolbarPanel extends FlowPanel {
 		}
 	}
 
+	private class AlgebraTab extends ScrollPanel {
+		SimplePanel simplep;
+		AlgebraViewW aview = null;
+		private int savedScrollPosition;
+
+		public AlgebraTab() {
+			setSize("100%", "900px");
+			setAlwaysShowScrollBars(false);
+
+			if (app != null) {
+				setAlgebraView((AlgebraViewW) app.getAlgebraView());
+				aview.setInputPanel();
+			}
+		}
+
+		public void setAlgebraView(final AlgebraViewW av) {
+			if (av != aview) {
+				if (aview != null && simplep != null) {
+					simplep.remove(aview);
+					remove(simplep);
+				}
+
+				simplep = new SimplePanel(aview = av);
+				add(simplep);
+				simplep.addStyleName("algebraSimpleP");
+				addStyleName("algebraPanel");
+				addDomHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						int bt = simplep.getAbsoluteTop()
+								+ simplep.getOffsetHeight();
+						if (event.getClientY() > bt) {
+							app.getSelectionManager().clearSelectedGeos();
+							av.resetItems(true);
+						}
+					}
+				}, ClickEvent.getType());
+			}
+		}
+
+		@Override
+		public void onResize() {
+			// DockSplitPaneW split = getParentSplitPane();
+			// if (split != null && split.isForcedLayout()) {
+			// if (aview != null) {
+			// int w = getOffsetWidth();
+			// aview.setUserWidth(w);
+			// }
+			// }
+			if (aview != null) {
+				aview.resize();
+			}
+		}
+
+	}
 	/**
 	 * 
 	 * @param app
@@ -160,7 +231,8 @@ public class ToolbarPanel extends FlowPanel {
 		addStyleName("toolbar");
 		header = new Header();
 		add(header);
-		add(new Label("Here comes the contents..."));
+		main = new FlowPanel();
+		add(main);
 		open();
 	}
 
@@ -264,4 +336,28 @@ public class ToolbarPanel extends FlowPanel {
 	void toggleMenu() {
 		((AppW) app).toggleMenu();
 	}
+
+	/**
+	 * Opens algebra tab.
+	 */
+	void openAlgebra() {
+		if (tabAlgebra == null) {
+			tabAlgebra = new AlgebraTab();
+		}
+
+		if (!isOpen()) {
+			open();
+		}
+
+		main.clear();
+		main.add(tabAlgebra);
+	}
+
+	public void resize() {
+
+		if (tabAlgebra != null) {
+			tabAlgebra.onResize();
+		}
+	}
+
 }

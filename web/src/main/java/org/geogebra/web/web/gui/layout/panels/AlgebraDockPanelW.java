@@ -1,8 +1,8 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -20,7 +20,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AlgebraDockPanelW extends DockPanelW {
+public class AlgebraDockPanelW extends DockPanelW
+		implements AlgebraPanelInterface {
 
 	ScrollPanel algebrap;
 	SimplePanel simplep;
@@ -64,6 +65,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return aview.getStyleBar(true);
 	}
 
+	@Override
 	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
 			if (aview != null && simplep != null) {
@@ -113,21 +115,14 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return getResources().menu_icon_algebra();
 	}
 
-	/**
-	 * scrolls to a specific position of the panel
-	 * 
-	 * @param position
-	 *            to scroll to.
-	 */
+	@Override
 	public void scrollTo(int position) {
 		if (this.algebrap != null) {
 			this.algebrap.setVerticalScrollPosition(position);
 		}
 	}
 
-	/**
-	 * scrolls to the bottom of the panel
-	 */
+	@Override
 	public void scrollToBottom(){
 		if (this.algebrap != null) {
 			this.algebrap.scrollToBottom();
@@ -156,9 +151,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return itemController.getRetexListener();
 	}
 
-	/**
-	 * Scroll to the item that is selected.
-	 */
+	@Override
 	public void scrollToActiveItem() {
 
 		final RadioTreeItem item = aview == null ? null

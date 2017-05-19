@@ -36,6 +36,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 		} else {
 			toolbar.open();
 		}
+		toolbar.resize();
 	}
 
 	public ToolbarPanel getToolbar() {
