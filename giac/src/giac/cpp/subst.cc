@@ -852,6 +852,8 @@ namespace giac {
     }
     if (e.type!=_SYMB)
       return e;
+    if (e._SYMBptr->sommet==at_entry || e._SYMBptr->sommet==at_ans)
+      return gensizeerr(contextptr);
     gen arg=subst(e._SYMBptr->feuille,v,w,quotesubst,contextptr);
     int n=equalposcomp(v,&e._SYMBptr->sommet);
     if (!n){

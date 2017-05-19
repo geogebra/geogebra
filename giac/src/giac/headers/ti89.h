@@ -24,6 +24,8 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   typedef unsigned char octet;
   class gen;
+  extern const unary_function_ptr * const  at_entry;
+  extern const unary_function_ptr * const  at_ans;
   gen _seq(const gen & g,GIAC_CONTEXT);
   gen _logb(const gen & g,GIAC_CONTEXT);
   gen _getType(const gen & g,GIAC_CONTEXT);

@@ -1943,7 +1943,10 @@ namespace giac {
 	return _limit(tmp,contextptr);
       }
       else {
-	tmp=gen(makevecteur(arg0,newx,ndiff),_SEQ__VECT);
+	if (ndiff==1)
+	  tmp=gen(makesequence(arg0,newx));
+	else
+	  tmp=gen(makevecteur(arg0,newx,ndiff),_SEQ__VECT);
 	tmp=_derive(tmp,contextptr);
 	// return _limit(makesequence(tmp,newx,value),contextptr);
 	tmp=subst(tmp,newx,value,false,contextptr);

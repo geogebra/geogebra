@@ -369,7 +369,7 @@ namespace giac {
       return symbolic(at_plus,gen(v,_SEQ__VECT));
     }
     // integrate
-    if (s.sommet==at_integrate){
+    if (s.sommet==at_integrate || s.sommet==at_HPINT){
       if (s.feuille.type!=_VECT)
 	return s.feuille;
       vecteur v=*s.feuille._VECTptr;
@@ -1029,7 +1029,7 @@ namespace giac {
     if (excluded.empty())
       return res.size()==1?res.front():res;
     vecteur tmp;
-    for (int i=0;i<excluded.size();++i){
+    for (int i=0;i<int(excluded.size());++i){
       tmp.push_back(symbolic(at_different,makesequence(x,excluded[i])));
     }
     if (res.size()==1 && res.front()==x)
