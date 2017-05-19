@@ -24,11 +24,11 @@ import javax.imageio.ImageIO;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.jre.gui.MyImageJre;
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.geogebra3D.input3D.leonar3do.Base64;
 
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
@@ -292,7 +292,7 @@ public class MyImageD implements MyImageJre {
 			try {
 				ImageIO.write(bi, "PNG", os);
 				return "\\imagebasesixtyfour{"+getWidth()+"}{"+getHeight()+"}{data:image/png;base64,"
-						+ Base64.encode(os.toByteArray(), 0) + "}";
+						+ Base64.encodeToString(os.toByteArray(), false) + "}";
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
