@@ -14,6 +14,7 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
+import org.geogebra.common.jre.util.Base64;
 
 
 @WebSocket(maxMessageSize = 64 * 1024)
@@ -192,7 +193,6 @@ public class LeoSocket {
     @OnWebSocketMessage
     public void onMessage(String msg) {
         
-        try {
 			byte[] buffer = Base64.decode(msg);
 			ByteBuffer bb = ByteBuffer.wrap(buffer);
 			bb.order(ByteOrder.LITTLE_ENDIAN);
@@ -238,11 +238,6 @@ public class LeoSocket {
 
 			
 			gotMessage = true;
-	        
-	        
-		} catch (IOException e) {
-			e.printStackTrace();
-		}         
         	
     }
     
