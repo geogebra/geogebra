@@ -339,7 +339,7 @@ var app = document.createElement("script");
 			if(e("perspectivesBox")){
 				if(window.innerHeight < 650 || window.innerWidth < 650){
 					e("perspectivesBox").style.display = "none";
-				}else{
+				} else {
 					e("perspectivesBox").style.top= (Math.max(0,Math.round(window.innerHeight/2 -250))-53)+"px";
 				}
 			}
@@ -400,7 +400,7 @@ var app = document.createElement("script");
 			}
 		}
 		else if(getPerspective()){
-			var names = {'geometry':2,'spreadsheet':3,'cas':4,'3d':5,'probability':6,'graphing':1};
+			var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7};
 			var pName = getPerspective();
 			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
 				if(e("perspectivesBox")){
@@ -762,6 +762,11 @@ border:1px solid #dcdcdc
     display: none;
 }
 
+.whiteboard .startScreen.splitter,
+.whiteboard .startScreen.gwt-TreeItem,
+.whiteboard #appPicker {
+    display: none;
+}
 .cas .toolBPanel.cas, .exam-cas .toolBPanel.cas{
  display:block;
 }
