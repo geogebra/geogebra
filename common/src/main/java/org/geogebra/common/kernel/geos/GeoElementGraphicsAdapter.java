@@ -71,4 +71,9 @@ public abstract class GeoElementGraphicsAdapter {
 	 */
 	public abstract void convertToSaveableFormat();
 
+	public String toLaTeXStringBase64() {
+		// TODO: implement in Android and iOS
+		return "";
+	}
+
 }

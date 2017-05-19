@@ -44,7 +44,6 @@ dependencies {
 	compile project(':common')
 	compile project(':common-jre')
 	compile project(':editor-desktop')
-	compile project(':keyboard-base')
 	compile project(':jogl2')
 	compile project(':input3D:impl')
 	compile project(':giac-jni')

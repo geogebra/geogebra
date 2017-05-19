@@ -1073,4 +1073,17 @@ public class GeoImage extends GeoElement implements Locateable,
 	public boolean isAlgebraDuplicateable() {
 		return false;
 	}
+
+	@Override
+	public String toLaTeXString(final boolean symbolic, StringTemplate tpl) {
+		return getGraphicsAdapter().toLaTeXStringBase64();
+	}
+
+	@Override
+	public String getFormulaString(final StringTemplate tpl,
+			final boolean substituteNumbers) {
+		// assume LaTeX
+		return toLaTeXString(true, null);
+	}
+
 }

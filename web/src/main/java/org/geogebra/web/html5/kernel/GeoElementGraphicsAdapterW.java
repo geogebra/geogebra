@@ -129,4 +129,8 @@ public class GeoElementGraphicsAdapterW extends
 		Log.debug("Converted:" + oldFn + "->" + imageFileName);
 	}
 
+	public String toLaTeXStringBase64() {
+		return image.toLaTeXStringBase64();
+	}
+
 }

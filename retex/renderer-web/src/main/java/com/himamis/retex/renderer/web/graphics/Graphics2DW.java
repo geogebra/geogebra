@@ -48,6 +48,8 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.event.dom.client.LoadEvent;
+import com.google.gwt.event.dom.client.LoadHandler;
 import com.himamis.retex.renderer.share.platform.font.Font;
 import com.himamis.retex.renderer.share.platform.font.FontLoader;
 import com.himamis.retex.renderer.share.platform.font.FontRenderContext;
@@ -69,7 +71,7 @@ import com.himamis.retex.renderer.web.font.FontWrapper;
 
 public class Graphics2DW implements Graphics2DInterface {
 
-	private JLMContext2d context;
+	JLMContext2d context;
 
 	private BasicStrokeW basicStroke;
 	private ColorW color;
@@ -398,18 +400,24 @@ public class Graphics2DW implements Graphics2DInterface {
 	}
 
 	@Override
-	public void drawImage(Image image, int x, int y) {
+	public void drawImage(Image image, final int x, final int y) {
 		
 		if (image instanceof ImageBase64) {
 			String base64 = ((ImageBase64) image).getBase64();
 			final com.google.gwt.user.client.ui.Image img = new com.google.gwt.user.client.ui.Image();
 			img.getElement().setAttribute("src", base64);
 			
-			// img2 = new ImageElement();
+			img.addLoadHandler(new LoadHandler() {
+				public void onLoad(LoadEvent event) {
+					context.drawImage(ImageElement.as(img.getElement()), x, y);
+				}
+			});
 
-			ImageElement img2 = ImageElement.as(img.getElement());
+			context.drawImage(ImageElement.as(img.getElement()), x, y);
 
-			context.drawImage(img2, x, y);
+
+			// ImageElement img2 = ImageElement.as(img.getElement());
+			// context.drawImage(img2, x, y);
 
 		} else {
 			ImageW impl = (ImageW) image;

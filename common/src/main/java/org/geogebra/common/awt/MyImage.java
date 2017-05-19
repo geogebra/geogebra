@@ -21,4 +21,6 @@ public interface MyImage {
 
 	GGraphics2D createGraphics();
 
+	public String toLaTeXStringBase64();
+
 }
