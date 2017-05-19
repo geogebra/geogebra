@@ -976,9 +976,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void attachAlgebraView() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
-			return;
-		}
 		getAlgebraView();
 		algebraView.attachView();
 	}
