@@ -233,7 +233,7 @@ public class ToolbarPanel extends FlowPanel {
 		add(header);
 		main = new FlowPanel();
 		add(main);
-		open();
+		openAlgebra();
 	}
 
 	/**
