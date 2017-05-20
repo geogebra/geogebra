@@ -64,7 +64,8 @@ dependencies {
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64", // 201503271100 should have been used (for some strange reason versions cannot be mixed)
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
 	    "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
-	
+
+	testCompile project(':keyboardBase')	
 	testCompile 'junit:junit:4.+'
 }
 
