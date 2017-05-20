@@ -17,6 +17,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -35,6 +36,7 @@ public class ToolbarPanel extends FlowPanel {
 	private FlowPanel main;
 	private Integer lastOpenWidth = null;
 	private AlgebraTab tabAlgebra = null;
+	private ToolsTab tabTools = null;
 
 	private class Header extends FlowPanel {
 		private static final int PADDING = 12;
@@ -75,6 +77,14 @@ public class ToolbarPanel extends FlowPanel {
 			btnTools = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_tools()));
 			btnTools.addStyleName("flatButton");
+			ClickStartHandler.init(btnTools, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					openTools();
+				}
+			});
+
 			center = new FlowPanel();
 			center.addStyleName("center");
 			center.add(btnAlgebra);
@@ -160,15 +170,28 @@ public class ToolbarPanel extends FlowPanel {
 		}
 	}
 
-	private class AlgebraTab extends ScrollPanel {
-		SimplePanel simplep;
-		AlgebraViewW aview = null;
-		private int savedScrollPosition;
-
-		public AlgebraTab() {
-			setSize("100%", "900px");
+	private class ToolbarTab extends ScrollPanel {
+		public ToolbarTab() {
+			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
 
+		}
+
+		@Override
+		public void onResize() {
+			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
+					ToolbarPanel.this.getOffsetHeight());
+		}
+	}
+
+	private class AlgebraTab extends ToolbarTab {
+		SimplePanel simplep;
+		AlgebraViewW aview = null;
+
+		// TODO
+		// private int savedScrollPosition;
+
+		public AlgebraTab() {
 			if (app != null) {
 				setAlgebraView((AlgebraViewW) app.getAlgebraView());
 				aview.setInputPanel();
@@ -203,18 +226,25 @@ public class ToolbarPanel extends FlowPanel {
 
 		@Override
 		public void onResize() {
-			// DockSplitPaneW split = getParentSplitPane();
-			// if (split != null && split.isForcedLayout()) {
-			// if (aview != null) {
-			// int w = getOffsetWidth();
-			// aview.setUserWidth(w);
-			// }
-			// }
+			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
+					ToolbarPanel.this.getOffsetHeight());
+
 			if (aview != null) {
 				aview.resize();
 			}
 		}
 
+	}
+
+	private class ToolsTab extends ToolbarTab {
+	
+		public ToolsTab() {
+			createContents();
+		}
+
+		private void createContents() {
+			add(new Label("Here comes the tools..."));
+		}
 	}
 	/**
 	 * 
@@ -345,18 +375,40 @@ public class ToolbarPanel extends FlowPanel {
 			tabAlgebra = new AlgebraTab();
 		}
 
+		open(tabAlgebra);
+	}
+
+	/**
+	 * Opens tools tab.
+	 */
+	void openTools() {
+		if (tabTools == null) {
+			tabTools = new ToolsTab();
+		}
+
+		open(tabTools);
+	}
+
+	private void open(ToolbarTab tab) {
+
 		if (!isOpen()) {
 			open();
 		}
-
 		main.clear();
-		main.add(tabAlgebra);
+		main.add(tab);
+		tab.onResize();
 	}
 
+	/**
+	 * Resize tabs.
+	 */
 	public void resize() {
-
 		if (tabAlgebra != null) {
 			tabAlgebra.onResize();
+		}
+
+		if (tabTools != null) {
+			tabTools.onResize();
 		}
 	}
 
