@@ -315,7 +315,7 @@ __GGB__keysVar.ug.command = {
     "FDistribution.SyntaxCAS": "[ <Numerator Degrees of Freedom>, <Denominator Degrees of Freedom>, <Variable Value> ]",
     "Factor": "Factor",
     "Factor.Syntax": "[ <Polynomial> ]",
-    "Factor.SyntaxCAS": "[ <Polynomial> ]\n[ <Expression>, <Variable> ]",
+    "Factor.SyntaxCAS": "[ <Number> ]\n[ <Polynomial> ]\n[ <Expression>, <Variable> ]",
     "Factors": "Factors",
     "Factors.Syntax": "[ <Polynomial> ]\n[ <Number> ]",
     "FillCells": "FillCells",
