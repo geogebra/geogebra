@@ -1374,8 +1374,8 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 	boolean styleBarCanHide() {
-		if (!app.has(Feature.NEW_TOOLBAR)
-				&& !getAlgebraDockPanel().isStyleBarPanelShown()) {
+		if (app.has(Feature.NEW_TOOLBAR)
+				|| !getAlgebraDockPanel().isStyleBarPanelShown()) {
 			return false;
 		}
 		int itemTop = this.isInputTreeItem()
