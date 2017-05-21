@@ -105,11 +105,13 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * Shows the popup menu, ensures that the popup menu must be on the client
 	 * area.
 	 */
-	public void show(GPoint p) {
-		int top = p.getY();
-		int left = p.getX();
+	public final void show(GPoint p) {
+		int top = (int) (p.getY() - (app.getPanel().getAbsoluteTop()
+				/ app.getArticleElement().getScaleY()));
+		int left = (int) (p.getX() - (app.getPanel().getAbsoluteLeft()
+				/ app.getArticleElement().getScaleX()));
 		boolean newPoz = false;
-		showAtPoint(p);
+		showAtPoint(new GPoint(left, top));
 		if (left + popupPanel.getOffsetWidth()
 		        * app.getArticleElement().getScaleX() > Window.getClientWidth()
 		        + Window.getScrollLeft()) {
@@ -148,7 +150,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	public void show(Canvas c, int x, int y) {
 		show(new GPoint(
 		        (int) (c.getAbsoluteLeft()
-		                / app.getArticleElement().getScaleX() + x),
+						/ app.getArticleElement().getScaleX()
+						+ x),
 		        (int) (c.getAbsoluteTop() / app.getArticleElement().getScaleY() + y)));
 	}
 
@@ -271,7 +274,9 @@ public class GPopupMenuW implements AttachedToDOM {
 							xPercent = 100;
 						}
 					}
-					yCord = Math.min(newItem.getAbsoluteTop(),
+					yCord = Math.min(
+							newItem.getAbsoluteTop()
+									- app.getPanel().getAbsoluteTop(),
 					        Window.getClientHeight() - getSubPopupHeight());
 					Browser.scale(subPopup.getPopupPanel().getElement(), app
 					        .getArticleElement().getScaleX(), xPercent, 0);
@@ -337,7 +342,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public int getLeftSubPopupXCord() {
 		int xCord;
-		xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth();
+		xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth()
+				- app.getPanel().getAbsoluteLeft();
 		return xCord;
 	}
 
@@ -351,7 +357,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	public int getRightSubPopupXCord() {
 		return popupPanel.getAbsoluteLeft()
 		        + (int) (popupPanel.getOffsetWidth() * app.getArticleElement()
-		                .getScaleX());
+						.getScaleX())
+				- app.getPanel().getAbsoluteLeft();
 	}
 
 	public void addItem(GCheckBoxMenuItem item) {
