@@ -120,7 +120,7 @@ public class Test {
 		Parser p = new Parser(mathField.getMetaModel());
 		try {
 			MathFormula f = p
-					.parse("x^{1, 2, 3}");
+					.parse("Distance[A,B]/2");
 			mathField.setFormula(f);
 			// insertString(mathField, "Plane[<7>,<7>]");
 			for (int i = 0; i < 1; i++) {

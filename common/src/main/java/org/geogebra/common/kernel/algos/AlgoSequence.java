@@ -28,8 +28,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -40,17 +38,12 @@ import org.geogebra.common.util.debug.Log;
  */
 public class AlgoSequence extends AlgoElement {
 
-	private enum SequenceType {
-		SIMPLE, RANGE, FULL
-	}
-
 	private GeoElementND expression; // input expression dependent on var
 	private GeoNumeric var; // input: local variable
 	private GeoNumberValue var_from, var_to, var_step;
 	private GeoElement var_from_geo, var_to_geo, var_step_geo;
 	private GeoList list; // output
 
-	private SequenceType type;
 
 	private double last_from = Double.MIN_VALUE, last_to = Double.MIN_VALUE,
 			last_step = Double.MIN_VALUE;
@@ -121,69 +114,12 @@ public class AlgoSequence extends AlgoElement {
 
 		expressionParentAlgo = expression.getParentAlgorithm();
 		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
-		type = SequenceType.FULL;
-		// Application.debug("expression: " + expression);
-		// Application.debug(" parent algo: " +
-		// expression.getParentAlgorithm());
-		// // Application.debug(" parent algo input is var?: " +
-		// (expression.getParentAlgorithm().getInput()[0] == var));
-		// Application.debug(" variable: " + var);
-		// Application.debug(" expIsGeoFunction: " + expIsGeoFunction);
+
 
 		list = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
 		compute();
-	}
-
-	/**
-	 * Creates simple sequence start..upTo
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param from
-	 *            lower bound
-	 * @param upTo
-	 *            upper bound
-	 */
-	public AlgoSequence(Construction cons, String label, GeoNumberValue from,
-			GeoNumberValue upTo) {
-		super(cons);
-		type = SequenceType.RANGE;
-		var_from = from;
-		var_from_geo = var_from.toGeoElement();
-		var_to = upTo;
-		var_to_geo = var_to.toGeoElement();
-		list = new GeoList(cons);
-		setInputOutput();
-		compute();
-		list.setLabel(label);
-	}
-
-	/**
-	 * Creates simple sequence 1..upTo
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            label
-	 * @param upTo
-	 *            upper bound
-	 */
-	public AlgoSequence(Construction cons, String label, GeoNumberValue upTo) {
-		super(cons);
-		type = SequenceType.SIMPLE;
-		var_from = new GeoNumeric(cons, 1);
-		var_from_geo = (GeoElement) var_from;
-
-		var_to = upTo;
-		var_to_geo = var_to.toGeoElement();
-		list = new GeoList(cons);
-		setInputOutput();
-		compute();
-		list.setLabel(label);
 	}
 
 	@Override
@@ -194,36 +130,17 @@ public class AlgoSequence extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-
-		switch (type) {
-		case SIMPLE:
-			input = new GeoElement[1];
-			input[0] = var_to_geo;
-			list.setTypeStringForXML(StringUtil
-					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
-			break;
-		case RANGE:
-			input = new GeoElement[2];
-			input[0] = var_from_geo;
-			input[1] = var_to_geo;
-			list.setTypeStringForXML(StringUtil
-					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
-			break;
-		default:
-			// make sure that x(Element[list,1]) will work even if the output
-			// list's length is zero
-			list.setTypeStringForXML(expression.getXMLtypeString());
-			int len = var_step == null ? 4 : 5;
-			input = new GeoElement[len];
-			input[0] = expression.toGeoElement();
-			input[1] = var;
-			input[2] = var_from_geo;
-			input[3] = var_to_geo;
-			if (len == 5) {
-				input[4] = var_step_geo;
-			}
-			break;
-
+		// make sure that x(Element[list,1]) will work even if the output
+		// list's length is zero
+		list.setTypeStringForXML(expression.getXMLtypeString());
+		int len = var_step == null ? 4 : 5;
+		input = new GeoElement[len];
+		input[0] = expression.toGeoElement();
+		input[1] = var;
+		input[2] = var_from_geo;
+		input[3] = var_to_geo;
+		if (len == 5) {
+			input[4] = var_step_geo;
 		}
 
 		setOutputLength(1);
@@ -242,9 +159,6 @@ public class AlgoSequence extends AlgoElement {
 	 */
 	@Override
 	public GeoElement[] getInputForUpdateSetPropagation() {
-		if (!type.equals(SequenceType.FULL)) {
-			return input;
-		}
 		// if expression and var are the same, skip both
 		int skip = expression == var ? 2 : 1;
 		GeoElement[] realInput = new GeoElement[input.length - skip];
@@ -271,16 +185,6 @@ public class AlgoSequence extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		switch (type) {
-		case SIMPLE:
-			computeSimple();
-			return;
-		case RANGE:
-			computeRange();
-			return;
-
-		}
 
 		if (updateRunning) {
 			return;
@@ -332,62 +236,6 @@ public class AlgoSequence extends AlgoElement {
 		// revert label creation setting
 		cons.setSuppressLabelCreation(oldSuppressLabels);
 		updateRunning = false;
-	}
-
-	// use doubles
-	// ef Sequence[9007199254000027, 9007199254000187]
-	private void computeRange() {
-		double from = Math.round(var_from.getDouble());
-		double to = Math.round(var_to.getDouble());
-
-		if (from > MyMath.LARGEST_INTEGER || from < -MyMath.LARGEST_INTEGER
-				|| to > MyMath.LARGEST_INTEGER
-				|| to < -MyMath.LARGEST_INTEGER) {
-			list.setUndefined();
-			return;
-		}
-
-		list.clear();
-
-		// also see Operation.java case Sequence:
-		if (from < to) {
-
-			// increasing list
-			for (double k = from; k <= to; k++) {
-				list.addNumber(k, null);
-			}
-
-		} else {
-
-			// decreasing list
-			for (double k = from; k >= to; k--) {
-				list.addNumber(k, null);
-			}
-
-		}
-	}
-
-	private void computeSimple() {
-		int to = (int) Math.round(var_to.getDouble());
-
-		if (last_to < to) {
-			for (int k = (int) last_to; k < to; k++) {
-				if (k >= 0) {
-					list.addNumber(k + 1, null);
-				}
-			}
-		}
-		if (last_to > to) {
-			for (int k = (int) last_to; k > to; k--) {
-				if (k >= 1) {
-					GeoElement ge = list.get(k - 1);
-					ge.remove();
-					list.remove(k - 1);
-				}
-			}
-		}
-		last_to = to;
-
 	}
 
 	private void createNewList(double from, double to, double step) {

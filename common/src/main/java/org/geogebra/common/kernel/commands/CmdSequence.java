@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoSequence;
+import org.geogebra.common.kernel.algos.AlgoSequenceRange;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -30,7 +31,7 @@ public class CmdSequence extends CommandProcessor {
 		// avoid
 		// "Command Sequence not known eg
 		// Sequence[If[Element[list1,i]=="b",0,1]]
-		if (n != 4 && n != 5 && n != 1 && n != 2) {
+		if (n < 1 || n > 5) {
 			throw argNumErr(app, c, n);
 		}
 
@@ -38,7 +39,7 @@ public class CmdSequence extends CommandProcessor {
 
 		// create local variable at position 1 and resolve arguments
 		GeoElement[] arg;
-		if (n > 2) {
+		if (n > 3) {
 			arg = resArgsLocalNumVar(c, 1, 2);
 		} else {
 			arg = resArgs(c);
@@ -47,7 +48,8 @@ public class CmdSequence extends CommandProcessor {
 		case 1:
 			if (arg[0] instanceof GeoNumberValue) {
 
-				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
+				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
+						c.getLabel(),
 						(GeoNumberValue) arg[0]);
 				return algo.getOutput();
 			}
@@ -56,8 +58,20 @@ public class CmdSequence extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
-				AlgoSequence algo = new AlgoSequence(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
+						c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], null);
+				return algo.getOutput();
+			}
+			throw argErr(app, c, getBadArg(ok, arg));
+		case 3:
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+
+				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 				return algo.getOutput();
 			}
 			throw argErr(app, c, getBadArg(ok, arg));
