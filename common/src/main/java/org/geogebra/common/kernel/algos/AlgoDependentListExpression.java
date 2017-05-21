@@ -28,10 +28,12 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyStringBuffer;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -42,6 +44,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -172,6 +176,39 @@ public class AlgoDependentListExpression extends AlgoElement
 
 		// point
 		else if (element instanceof VectorValue) {
+			if (element instanceof MyVecNode) {
+				Function fx = isFunction(((MyVecNode) element).getX(), cons);
+				Function fy = isFunction(((MyVecNode) element).getY(), cons);
+				if (fx != null || fy != null) {
+					if (!cons.getKernel().getApplication()
+							.has(Feature.EQUATION_LIST)) {
+						String[] str = { "NumberExpected",
+								element.toString(
+										StringTemplate.defaultTemplate) };
+						throw new MyParseError(cons.getKernel().getApplication()
+								.getLocalization(), str);
+					}
+					if (fx == null) {
+						fx = new Function(((MyVecNode) element).getX().wrap(),
+								fy.getFunctionVariable()
+										.deepCopy(cons.getKernel()));
+					}
+					if (fy == null) {
+						fy = new Function(((MyVecNode) element).getY().wrap(),
+								fx.getFunctionVariable()
+										.deepCopy(cons.getKernel()));
+					}
+					fx.initFunction();
+					fy.initFunction();
+
+					GeoCurveCartesian curve = new GeoCurveCartesian(cons,
+							fx, fy,
+							null);
+					cons.removeFromConstructionList(curve);
+					curve.setInterval(-10, 10);
+					return curve;
+				}
+			}
 			GeoVec2D vec = ((VectorValue) element).getVector();
 
 			// try to use cached element of same type
@@ -343,6 +380,25 @@ public class AlgoDependentListExpression extends AlgoElement
 			Log.debug("unsupported list operation: " + element.getClass() + "");
 			return null;
 		}
+	}
+
+	private static Function isFunction(ExpressionValue val, Construction cons) {
+		if (val.unwrap() instanceof Function) {
+			return (Function) val.unwrap();
+		}
+		if (val.unwrap() instanceof GeoFunction) {
+			return ((GeoFunction) val.unwrap()).getFunction()
+					.deepCopy(cons.getKernel());
+		}
+		if (val.wrap().containsFreeFunctionVariable(null)) {
+
+			FunctionNVar fun = cons.getKernel().getAlgebraProcessor()
+					.makeFunctionNVar(val.wrap());
+			if (fun instanceof Function) {
+				return ((Function) fun).deepCopy(cons.getKernel());
+			}
+		}
+		return null;
 	}
 
 	private static GeoElement getFunction(GeoFunction fun, GeoElement cachedGeo) {

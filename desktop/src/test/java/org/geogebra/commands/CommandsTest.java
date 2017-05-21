@@ -189,6 +189,12 @@ public class CommandsTest extends Assert{
 		t("x^2+y^2=1..5",
 				unicode("{x^2 + y^2 = 1, x^2 + y^2 = 2, x^2 + y^2 = 3, x^2 + y^2 = 4, x^2 + y^2 = 5}"),
 				StringTemplate.editTemplate);
+		t("f(r)=(r,sin(r)*(1..5))",
+				"{(r, sin(r)), (r, (sin(r) * 2)), (r, (sin(r) * 3)), (r, (sin(r) * 4)), (r, (sin(r) * 5))}");
+		t("f(r)=(r+(1..5),sin(r)*(1..5))",
+				"{(r + 1, sin(r)), (r + 2, (sin(r) * 2)), (r + 3, (sin(r) * 3)), (r + 4, (sin(r) * 4)), (r + 5, (sin(r) * 5))}");
+		t("f(r)=((1..5)*r,sin(r)+1)",
+				"{(r, sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1), ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
 	}
 
 	private static GeoElement get(String label) {

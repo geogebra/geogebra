@@ -387,10 +387,6 @@ public class MyVecNode extends ValidExpression
 		// MyNumberPair used for datafunction -- don't simplify
 		if (!(this instanceof MyNumberPair)
 				&& (x.evaluatesToList() || y.evaluatesToList())) {
-			if (x.wrap().containsFreeFunctionVariable(null)
-					|| y.wrap().containsFreeFunctionVariable(null)) {
-				return super.evaluate(tpl);
-			}
 			MyList result = new MyList(kernel);
 			ExpressionValue xEval = x.evaluate(tpl);
 			ExpressionValue yEval = y.evaluate(tpl);
@@ -398,9 +394,15 @@ public class MyVecNode extends ValidExpression
 			int maxSize = Integer.MAX_VALUE;
 			if (xEval instanceof ListValue) {
 				maxSize = size = ((ListValue) xEval).size();
+			} else if (x.wrap().containsFreeFunctionVariable(null)) {
+				// function -> undo evaluation to keep variables
+				xEval = x.deepCopy(kernel);
 			}
 			if (yEval instanceof ListValue) {
 				size = Math.min(((ListValue) yEval).size(), maxSize);
+			} else if (y.wrap().containsFreeFunctionVariable(null)) {
+				// function -> undo evaluation to keep variables
+				yEval = y.deepCopy(kernel);
 			}
 			for (int idx = 0; idx < size; idx++) {
 				MyVecNode el = new MyVecNode(kernel, MyList.get(xEval, idx),
