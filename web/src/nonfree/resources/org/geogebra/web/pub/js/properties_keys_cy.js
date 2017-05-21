@@ -315,7 +315,7 @@ __GGB__keysVar.cy.command = {
     "FDistribution.SyntaxCAS": "[ <Graddfa Ryddid y Rhifiadur>, <Graddfa Ryddid yr Enwadur>, x ]",
     "Factor": "Ffactor",
     "Factor.Syntax": "[ <Polynomial> ]",
-    "Factor.SyntaxCAS": "[ <Polynomial> ]",
+    "Factor.SyntaxCAS": "[ <Number> ]\n[ <Polynomial> ]\n[ <Expression>, <Variable> ]",
     "Factors": "Ffactorau",
     "Factors.Syntax": "[ <Polynomial> ]",
     "FillCells": "LlenwiCelloed",

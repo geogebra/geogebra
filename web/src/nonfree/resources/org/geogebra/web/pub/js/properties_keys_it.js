@@ -315,7 +315,7 @@ __GGB__keysVar.it.command = {
     "FDistribution.SyntaxCAS": "[ <Gradi di libert\xe0 numeratore>, <Gradi di libert\xe0 denominatore>, <Valore variabile> ]",
     "Factor": "Fattorizza",
     "Factor.Syntax": "[ <Polinomio> ]",
-    "Factor.SyntaxCAS": "[ <Polinomio> ]\n[ <Espressione>, <Variabile> ]",
+    "Factor.SyntaxCAS": "[ <Numero> ]\n[ <Polinomio> ]\n[ <Espressione>, <Variabile> ]",
     "Factors": "Fattori",
     "Factors.Syntax": "[ <Polinomio> ]\n[ <Numero> ]",
     "FillCells": "RiempiCelle",

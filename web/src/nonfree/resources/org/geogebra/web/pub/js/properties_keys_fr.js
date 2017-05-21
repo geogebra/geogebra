@@ -315,7 +315,7 @@ __GGB__keysVar.fr.command = {
     "FDistribution.SyntaxCAS": "[ <Degr\xe9 libert\xe9 Num\xe9rateur>, <Degr\xe9 libert\xe9 D\xe9nominateur>, x ]",
     "Factor": "Factoriser",
     "Factor.Syntax": "[ <Polyn\xf4me> ]",
-    "Factor.SyntaxCAS": "[ <Polyn\xf4me> ]\n[ <Expression>, <Variable> ]",
+    "Factor.SyntaxCAS": "[ <Nombre> ]\n[ <Polyn\xf4me> ]\n[ <Expression>, <Variable> ]",
     "Factors": "Facteurs",
     "Factors.Syntax": "[ <Nombre> ]\n[ <Polyn\xf4me> ]",
     "FillCells": "RemplirCellules",
