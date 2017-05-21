@@ -25,23 +25,23 @@
  * Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
  * 02110-1301, USA.
  *
- * Linking this library statically or dynamically with other modules 
- * is making a combined work based on this library. Thus, the terms 
- * and conditions of the GNU General Public License cover the whole 
+ * Linking this library statically or dynamically with other modules
+ * is making a combined work based on this library. Thus, the terms
+ * and conditions of the GNU General Public License cover the whole
  * combination.
- * 
- * As a special exception, the copyright holders of this library give you 
- * permission to link this library with independent modules to produce 
- * an executable, regardless of the license terms of these independent 
- * modules, and to copy and distribute the resulting executable under terms 
- * of your choice, provided that you also meet, for each linked independent 
- * module, the terms and conditions of the license of that module. 
- * An independent module is a module which is not derived from or based 
- * on this library. If you modify this library, you may extend this exception 
- * to your version of the library, but you are not obliged to do so. 
- * If you do not wish to do so, delete this exception statement from your 
+ *
+ * As a special exception, the copyright holders of this library give you
+ * permission to link this library with independent modules to produce
+ * an executable, regardless of the license terms of these independent
+ * modules, and to copy and distribute the resulting executable under terms
+ * of your choice, provided that you also meet, for each linked independent
+ * module, the terms and conditions of the license of that module.
+ * An independent module is a module which is not derived from or based
+ * on this library. If you modify this library, you may extend this exception
+ * to your version of the library, but you are not obliged to do so.
+ * If you do not wish to do so, delete this exception statement from your
  * version.
- * 
+ *
  */
 
 /* Modified by Calixte Denizet */
@@ -60,14 +60,17 @@ public class VRowAtom extends Atom {
 	protected LinkedList<Atom> elements = new LinkedList<Atom>();
 	private SpaceAtom raise = new SpaceAtom(TeXConstants.UNIT_EX, 0, 0, 0);
 	protected boolean addInterline = false;
-
-	@Override
-	final public Atom duplicate() {
-		return setFields(new VRowAtom(elements, raise, addInterline));
-	}
+	protected boolean vtop = false;
+	protected int halign = TeXConstants.ALIGN_NONE;
 
 	public VRowAtom() {
 		// empty
+	}
+
+	@Override
+	final public Atom duplicate() {
+		return setFields(
+				new VRowAtom(elements, raise, addInterline, vtop, halign));
 	}
 
 	public VRowAtom(Atom el) {
@@ -81,11 +84,13 @@ public class VRowAtom extends Atom {
 		}
 	}
 
-	private VRowAtom(LinkedList<Atom> elements, SpaceAtom raise, boolean addInterline) {
+	private VRowAtom(LinkedList<Atom> elements, SpaceAtom raise,
+			boolean addInterline, boolean vtop, int halign) {
 		this.elements = elements;
 		this.raise = raise;
 		this.addInterline = addInterline;
-		
+		this.vtop = vtop;
+		this.halign = halign;
 	}
 
 	public void setAddInterline(boolean addInterline) {
@@ -94,6 +99,22 @@ public class VRowAtom extends Atom {
 
 	public boolean getAddInterline() {
 		return this.addInterline;
+	}
+
+	public void setHalign(int halign) {
+		this.halign = halign;
+	}
+
+	public int getHalign() {
+		return halign;
+	}
+
+	public void setVtop(boolean vtop) {
+		this.vtop = vtop;
+	}
+
+	public boolean getVtop() {
+		return vtop;
 	}
 
 	public void setRaise(int unit, double r) {
@@ -105,34 +126,60 @@ public class VRowAtom extends Atom {
 	}
 
 	public final void add(Atom el) {
-		if (el != null) {
+		if (el != null)
 			elements.add(0, el);
-		}
 	}
 
 	public final void append(Atom el) {
-		if (el != null) {
+		if (el != null)
 			elements.add(el);
-		}
 	}
 
-	@Override
 	public Box createBox(TeXEnvironment env) {
 		VerticalBox vb = new VerticalBox();
-		Box interline = new StrutBox(0, env.getInterline(), 0, 0);
+		if (halign != TeXConstants.ALIGN_NONE) {
+			double maxWidth = -Double.POSITIVE_INFINITY;
+			LinkedList<Box> boxes = new LinkedList<Box>();
+			for (ListIterator it = elements.listIterator(); it.hasNext();) {
+				Box b = ((Atom) it.next()).createBox(env);
+				boxes.add(b);
+				if (maxWidth < b.getWidth()) {
+					maxWidth = b.getWidth();
+				}
+			}
+			Box interline = new StrutBox(0, env.getInterline(), 0, 0);
 
-		// convert atoms to boxes and add to the horizontal box
-		for (ListIterator it = elements.listIterator(); it.hasNext();) {
-			vb.add(((Atom) it.next()).createBox(env));
-			if (addInterline && it.hasNext()) {
-				vb.add(interline);
+			// convert atoms to boxes and add to the horizontal box
+			for (ListIterator it = boxes.listIterator(); it.hasNext();) {
+				Box b = (Box) it.next();
+				vb.add(new HorizontalBox(b, maxWidth, halign));
+				if (addInterline && it.hasNext()) {
+					vb.add(interline);
+				}
+			}
+		} else {
+			Box interline = new StrutBox(0, env.getInterline(), 0, 0);
+
+			// convert atoms to boxes and add to the horizontal box
+			for (ListIterator it = elements.listIterator(); it.hasNext();) {
+				vb.add(((Atom) it.next()).createBox(env));
+				if (addInterline && it.hasNext()) {
+					vb.add(interline);
+				}
 			}
 		}
 
 		vb.setShift(-raise.createBox(env).getWidth());
-		double t = vb.getSize() == 0 ? 0 : vb.children.getLast().getDepth();
-		vb.setHeight(vb.getDepth() + vb.getHeight() - t);
-		vb.setDepth(t);
+		if (vtop) {
+			double t = vb.getSize() == 0 ? 0
+					: vb.children.getFirst().getHeight();
+			vb.setHeight(t);
+			vb.setDepth(vb.getDepth() + vb.getHeight() - t);
+		} else {
+			double t = vb.getSize() == 0 ? 0 : vb.children.getLast().getDepth();
+			vb.setHeight(vb.getDepth() + vb.getHeight() - t);
+			vb.setDepth(t);
+		}
 
 		return vb;
 	}

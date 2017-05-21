@@ -349,6 +349,13 @@ public class TeXConstants {
 	 */
 	public static final int UNIT_CC = 12;
 
+	/**
+	 * Unit constant: x8
+	 * <p>
+	 * 1 s8 = 1 default rule thickness
+	 */
+	public static final int UNIT_X8 = 13;
+
 	public static final Map<String, Integer> CONSTANTS_MAP = new HashMap<String, Integer>();
 
 	static {

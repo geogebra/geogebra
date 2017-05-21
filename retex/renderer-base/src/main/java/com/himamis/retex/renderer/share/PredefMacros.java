@@ -131,7 +131,6 @@ public class PredefMacros {
 		NewCommandMacro.addNewCommand("L", "\\mathrm{\\polishlcross L}", 0);
 		NewCommandMacro.addNewCommand("l", "\\mathrm{\\polishlcross l}", 0);
 		NewCommandMacro.addNewCommand("Join", "\\mathop{\\rlap{\\ltimes}\\rtimes}", 0);
-		NewCommandMacro.addNewCommand("longdiv", "{\\overline{\\smash{)}#1}}", 1);
 		NewCommandMacro.addNewCommand("questeq", "{\\stackrel{?}{=}}", 0);
 
 
@@ -1947,6 +1946,18 @@ public class PredefMacros {
 
 	public static final Atom qquad_macro() throws ParseException {
 		return new SpaceAtom(TeXConstants.UNIT_EM, 2f, 0f, 0f);
+	}
+
+	public static final Atom longdiv_macro(final TeXParser tp,
+			final String[] args) throws ParseException {
+		try {
+			long dividend = Long.valueOf(args[1]);
+			long divisor = Long.valueOf(args[2]);
+			return new LongdivAtom(divisor, dividend);
+		} catch (NumberFormatException e) {
+			throw new ParseException(
+					"Divisor and dividend must be integer numbers");
+		}
 	}
 
 	public static final Atom muskip_macros(final String[] args) throws ParseException {

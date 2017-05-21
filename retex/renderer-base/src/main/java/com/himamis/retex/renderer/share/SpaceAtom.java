@@ -174,6 +174,10 @@ public class SpaceAtom extends Atom {
 				public double getPixelConversion(TeXEnvironment env) {
 					return (12.7924193070f * TeXFormula.PIXELS_PER_POINT) / env.getSize();
 				}
+			}, new UnitConversion() {// X8
+				public double getPixelConversion(TeXEnvironment env) {
+				                 return env.getTeXFont().getDefaultRuleThickness(env.getStyle());
+				             }
 			} };
 
 	// whether a hard space should be represented
