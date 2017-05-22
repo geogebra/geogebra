@@ -4001,6 +4001,7 @@ public abstract class App implements UpdateSelection {
 
 		case LOCALSTORAGE_FILES:
 			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+
 		case POLYGON_TRIANGULATION:
 			return false;
 
@@ -4040,10 +4041,11 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case ANALYTICS:
-
 			return prerelease;
+
 		case HANDWRITING:
 			return false;
+
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			if (isDesktop()) {
@@ -4152,6 +4154,10 @@ public abstract class App implements UpdateSelection {
 			// see comment at GPopupPanel.setOverlapFeature
 			return prerelease;
 
+		/** GGB-1691 */
+		case TABBED_KEYBOARD:
+			return prerelease;
+
 		// **********************************************************************
 		// KEYBOARD END
 		// *********************************************************
@@ -4177,6 +4183,7 @@ public abstract class App implements UpdateSelection {
 
 		case ERASER:
 			return prerelease;
+
 		case ROUNDED_POLYGON:
 			return prerelease;
 
@@ -4192,26 +4199,32 @@ public abstract class App implements UpdateSelection {
 
 		case PEN_IS_LOCUS:
 			return prerelease;
+
 		case PEN_EVENTS:
 			return false;
+
 		case PEN_SMOOTHING:
 			return prerelease;
+
 		case AXES_STYLE_SUBMENU:
 			return prerelease && whiteboard;
+
 		case FILE_CONTROLS:
 			return prerelease;
+
 		case IMPROVE_CONTEXT_MENU:
 			return prerelease && whiteboard;
+
 		case CLEAR_VIEW_STYLEBAR:
 			return prerelease && whiteboard;
+
 		case COLORPOPUP_IMPROVEMENTS:
-			return prerelease;
-		case TABBED_KEYBOARD:
 			return prerelease;
 
 
 		case AND_TRACE_IN_PROPERTIES:
 			return true; // 5.0.356
+
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
 			return prerelease;
 
@@ -4221,6 +4234,7 @@ public abstract class App implements UpdateSelection {
 
 		case DIRECT_FORMULA_CONVERSION:
 			return false;
+
 		case FIXED_OBJECTS_EDITABLE:
 			return prerelease;
 
@@ -4243,6 +4257,7 @@ public abstract class App implements UpdateSelection {
 		/** GGB-1499 */
 		case ONE_VAR_FREQUENCY_TABLE:
 			return true;
+
 		case EQUATION_LIST:
 			return prerelease;
 
