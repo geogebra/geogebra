@@ -96,11 +96,11 @@ public class ImageInputDialog extends UploadImageDialog {
 				location.setLabel(null);
 	    	}
 	    	if(camera){
-				app.imageDropHappened(name, data, "", location,
+				app.imageDropHappened(name, data, "",
 						webcamPanel.getCanvasWidth(),
 						webcamPanel.getCanvasHeight());
 	    	}else{
-				app.imageDropHappened(name, data, "", location, 0, 0);
+				app.imageDropHappened(name, data, "", 0, 0);
 	    	}
 	    	hide();
 	    } else if (source == cancelBtn) {

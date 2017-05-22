@@ -11,7 +11,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 	private static final int CLOSING_WIDTH = 86;
 	private ToolbarPanel toolbar;
 
-	public ToolbarDockPanelW(App app1) {
+	public ToolbarDockPanelW() {
 		super(
 				App.VIEW_ALGEBRA, // view id
 				"ToolbarWindow", 			// view title phrase

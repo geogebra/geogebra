@@ -41,7 +41,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -1468,8 +1467,8 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public void imageDropHappened(String imgFileName, String fileStr,
-			String fileStr2, GeoPoint loc1) {
-		imageDropHappened(imgFileName, fileStr, fileStr2, loc1, 0, 0);
+			String fileStr2) {
+		imageDropHappened(imgFileName, fileStr, fileStr2, 0, 0);
 	}
 
 	/**
@@ -1508,7 +1507,7 @@ public abstract class AppW extends App implements SetLabels {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, url, null, 0, 0);
+		doDropHappened(imgFileName, url, 0, 0);
 		if (insertImageCallback != null) {
 			this.insertImageCallback.run();
 		}
@@ -1526,7 +1525,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param loc
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
-			String notUsed, GeoPoint loc1, int width, int height) {
+			String notUsed, int width, int height) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String zip_directory = md5e.encrypt(fileStr);
@@ -1543,15 +1542,15 @@ public abstract class AppW extends App implements SetLabels {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		fn = zip_directory + '/' + fn;
 
-		doDropHappened(fn, fileStr, loc1, width, height);
+		doDropHappened(fn, fileStr, width, height);
 	}
 
 	/**
 	 * @param pt
 	 *            drop location TODO make sure it's used
 	 */
-	private void doDropHappened(String imgFileName, String fileStr,
-			GeoPoint pt, int width, int height) {
+	private void doDropHappened(String imgFileName, String fileStr, int width,
+			int height) {
 
 		Construction cons = getKernel().getConstruction();
 		getImageManager().addExternalImage(imgFileName, fileStr);
@@ -1591,7 +1590,7 @@ public abstract class AppW extends App implements SetLabels {
 			if (reader.readyState === reader.DONE) {
 				var fileStr = reader.result;
 				var fileName = fileToHandle.name;
-				appl.@org.geogebra.web.html5.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lorg/geogebra/common/kernel/geos/GeoPoint;)(fileName, fileStr, fileStr, null);
+				appl.@org.geogebra.web.html5.main.AppW::imageDropHappened(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fileName, fileStr, fileStr);
 				if (callback != null) {
 					callback();
 				}

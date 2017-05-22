@@ -427,7 +427,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 						pngBase64end);
 
 				((AppW) app).imageDropHappened("pastedFromClipboard.png",
-						base64, "", imageLoc, 0, 0);
+						base64, "", 0, 0);
 
 				return;
 			}
@@ -817,7 +817,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			// register toolbar panel
-			layout.registerPanel(new ToolbarDockPanelW(app));
+			layout.registerPanel(new ToolbarDockPanelW());
 		}
 		else {
 			// register algebra view

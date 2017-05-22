@@ -135,11 +135,11 @@ public class ImageInputDialogT extends UploadImageDialog {
 	    	}
 			if (this.cameraIsActive && !"".equals(this.pictureFromCameraString)) {
 				app.imageDropHappened("devicePicture",
-						this.pictureFromCameraString, "", location);
+						this.pictureFromCameraString, "");
 			} else if (!this.cameraIsActive
 					&& !"".equals(this.pictureFromFileString)) {
 				app.imageDropHappened("devicePicture",
-						this.pictureFromFileString, "", location);
+						this.pictureFromFileString, "");
 			}
 	    	hide();
 	    } else if (source == cancelBtn) {
@@ -227,7 +227,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 	
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
-		$wnd.imageInputDialogT_catchImage = $entry(function(data) {			
+		$wnd.imageInputDialogT_catchImage = $entry(function(data) {
 			that.@org.geogebra.web.touch.gui.dialog.image.ImageInputDialogT::catchImage(Ljava/lang/String;)(data);
 		});
 	}-*/;
