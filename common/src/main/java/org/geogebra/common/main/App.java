@@ -4133,7 +4133,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1252
 		case KEYBOARD_BEHAVIOUR:
-			return prerelease;
+			return true;
 
 		/**
 		 * GGB-1398 + GGB-1529
