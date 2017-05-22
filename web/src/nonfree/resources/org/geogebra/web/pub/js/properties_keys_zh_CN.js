@@ -315,7 +315,7 @@ __GGB__keysVar.zh_CN.command = {
     "FDistribution.SyntaxCAS": "[ <\u5206\u5b50\u81ea\u7531\u5ea6>, <\u5206\u6bcd\u81ea\u7531\u5ea6>, <\u53d8\u91cf\u503c> ]",
     "Factor": "\u56e0\u5f0f\u5206\u89e3",
     "Factor.Syntax": "[ <\u591a\u9879\u5f0f> ]",
-    "Factor.SyntaxCAS": "[ <\u591a\u9879\u5f0f> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf> ]",
+    "Factor.SyntaxCAS": "[ <\u6b63\u6574\u6570> ]\n[ <\u591a\u9879\u5f0f> ]\n[ <\u8868\u8fbe\u5f0f>, <\u53d8\u91cf> ]",
     "Factors": "\u56e0\u5f0f\u96c6\u7c07",
     "Factors.Syntax": "[ <\u591a\u9879\u5f0f> ]\n[ <\u6570\u503c> ]",
     "FillCells": "\u586b\u5145\u5355\u5143\u683c",

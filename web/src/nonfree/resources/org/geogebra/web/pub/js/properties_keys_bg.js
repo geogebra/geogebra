@@ -1703,7 +1703,7 @@ __GGB__keysVar.bg.menu = {
     "Evaluate.Help": "\u041f\u0440\u0435\u0441\u043c\u0435\u0442\u043d\u0438 \u043a\u043e\u0440\u0435\u043a\u0442\u043e",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
-    "ExamGraphingCalc.short": "Exam Graphing",
+    "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",
     "Exercise.CreateNew": "\u041d\u043e\u0432\u043e \u0443\u043f\u0440\u0430\u0436\u043d\u0435\u043d\u0438\u0435",
     "Exit": "\u0418\u0437\u0445\u043e\u0434",

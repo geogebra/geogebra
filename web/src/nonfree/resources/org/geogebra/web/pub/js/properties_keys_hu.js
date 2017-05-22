@@ -3041,7 +3041,7 @@ __GGB__keysVar.hu.menu = {
     "insert_worksheet": "Munkalap besz\xfar\xe1sa",
     "jpg": "JPG form\xe1tum",
     "materials": "Anyagok",
-    "math_apps": "Math Apps",
+    "math_apps": "Math Calcs",
     "max": "max",
     "min": "min",
     "off": "ki",

@@ -1703,7 +1703,7 @@ __GGB__keysVar.eu.menu = {
     "Evaluate.Help": "Ebaluazio zehatza",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
-    "ExamGraphingCalc.short": "Exam Graphing",
+    "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",
     "Exercise.CreateNew": "Ariketa Berria",
     "Exit": "Irten",

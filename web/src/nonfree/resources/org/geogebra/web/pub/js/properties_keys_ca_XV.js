@@ -1703,7 +1703,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Evaluate.Help": "Avaluaci\xf3 exacta",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
-    "ExamGraphingCalc.short": "Exam Graphing",
+    "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",
     "Exercise.CreateNew": "Nou exercici",
     "Exit": "Ix",

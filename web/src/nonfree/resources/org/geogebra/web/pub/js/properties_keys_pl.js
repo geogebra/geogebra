@@ -1703,7 +1703,7 @@ __GGB__keysVar.pl.menu = {
     "Evaluate.Help": "Wynik dok\u0142adny",
     "ExamCAS": "GeoGebra Exam CAS Calculator",
     "ExamGraphingCalc.long": "GeoGebra Exam Graphing Calculator",
-    "ExamGraphingCalc.short": "Exam Graphing",
+    "ExamGraphingCalc.short": "Exam Graphing Calc",
     "ExamSimpleCalc.long": "GeoGebra Exam Scientific Calculator",
     "Exercise.CreateNew": "Nowe \u0107wiczenie",
     "Exit": "Wyj\u015bcie",
