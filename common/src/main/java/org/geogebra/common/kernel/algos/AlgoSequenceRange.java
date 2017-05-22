@@ -117,14 +117,12 @@ public class AlgoSequenceRange extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 
-		switch (type) {
-		case SIMPLE:
+		if (type == SequenceType.SIMPLE) {
 			input = new GeoElement[1];
 			input[0] = var_to_geo;
 			list.setTypeStringForXML(StringUtil
 					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
-			break;
-		case RANGE:
+		} else {
 			if (var_step == null) {
 				input = new GeoElement[] { var_from_geo, var_to_geo };
 			} else {
@@ -134,8 +132,6 @@ public class AlgoSequenceRange extends AlgoElement {
 
 			list.setTypeStringForXML(StringUtil
 					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
-			break;
-
 		}
 
 		setOutputLength(1);
@@ -156,15 +152,10 @@ public class AlgoSequenceRange extends AlgoElement {
 
 	@Override
 	public final void compute() {
-
-		switch (type) {
-		case SIMPLE:
+		if (type == SequenceType.SIMPLE) {
 			computeSimple();
-			return;
-		case RANGE:
+		} else {
 			computeRange();
-			return;
-
 		}
 	}
 

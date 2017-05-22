@@ -517,7 +517,7 @@ public class GeoGebraColorConstants {
 	 */
 	public static GColor[] getMOWPopupArray() {
 
-		GColor[] popupColors = new GColor[5];
+		GColor[] popupColors = new GColor[10];
 		popupColors[0] = GColor.BLACK;
 		popupColors[1] = MOW_BLUE;
 		popupColors[2] = MOW_GREEN;

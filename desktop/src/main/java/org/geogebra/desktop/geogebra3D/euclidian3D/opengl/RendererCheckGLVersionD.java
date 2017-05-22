@@ -622,7 +622,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 				}
 			}
 			bi.flush();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			Log.error("setExportImage: " + e.getMessage());
 		}
 

@@ -62,7 +62,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	GMenuBar[] menus;
 	private GMenuBar userMenu;
 	/** sign in menu */
-	GMenuBar signInMenu = new GMenuBar(true, "signin", app);
+	final GMenuBar signInMenu;
 
 	/**
 	 * Constructs the menubar
@@ -74,6 +74,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!app.has(Feature.NEW_TOOLBAR)) {
 			this.addStyleName("menubarSMART");
 		}
+		signInMenu = new GMenuBar(true, "signin", app);
 		leftSide = app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR);
 		if (leftSide && !app.has(Feature.NEW_TOOLBAR)) {
 			addStyleName("mowMenubar");
