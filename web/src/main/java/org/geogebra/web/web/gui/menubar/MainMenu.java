@@ -232,21 +232,35 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 			this.menuPanel
 					.add(perspectivesMenu,
-							getHTML(GuiResources.INSTANCE
+							getHTML(app.has(Feature.NEW_TOOLBAR)
+									? MaterialDesignResources.INSTANCE
+											.geogebra_black()
+									: GuiResources.INSTANCE
 									.menu_icon_perspectives(), "math_apps"),
 							true);
 			this.menuPanel.add(viewMenu,
-					getHTML(GuiResources.INSTANCE.menu_icon_view(), "View"),
+					getHTML(app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.home_black()
+							: GuiResources.INSTANCE.menu_icon_view(), "View"),
 					true);
 
 		}
-		this.menuPanel.add(optionsMenu, getHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
+		this.menuPanel.add(optionsMenu,
+				getHTML(app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.settings_black()
+						: GuiResources.INSTANCE.menu_icon_options(),
+						app.has(Feature.NEW_TOOLBAR)
+								? app.getLocalization().getMenu("Settings")
+								: "Options"),
+				true);
 		if (!app.getLAF().isSmart() && enableGraph) {
 			this.menuPanel.add(toolsMenu, getHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
 		if (!exam) {
 			this.menuPanel.add(helpMenu,
-					getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"),
+					getHTML(app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.icon_help_black()
+							: GuiResources.INSTANCE.menu_icon_help(), "Help"),
 					true);
 			if(app.getNetworkOperation().isOnline()){
 				render(true);

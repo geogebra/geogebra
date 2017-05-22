@@ -2,10 +2,12 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.MenuItem;
@@ -34,7 +36,11 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
         //    }
 	    //});
 	 // Tutorials
-	    tutorials = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+		tutorials = addItem(
+				MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.tutorial_black()
+								.getSafeUri().asString()
+						: AppResources.INSTANCE.empty().getSafeUri().asString(),
 				loc.getMenu("Tutorials"), true), true,
 				new MenuCommand((AppW) app) {
 			
@@ -45,7 +51,12 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    });
 	    
 	    // Help
-	    manual = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
+		manual = addItem(
+				MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.manual_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE.menu_icon_help().getSafeUri()
+								.asString(),
 				loc.getMenu("Manual"), true), true,
 				new MenuCommand((AppW) app) {
 			
@@ -56,7 +67,13 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
             }
 	    });
 	    
-	    forum = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+		forum = addItem(MainMenu
+				.getMenuBarHtml(
+						app.has(Feature.NEW_TOOLBAR)
+								? MaterialDesignResources.INSTANCE.forum_black()
+										.getSafeUri().asString()
+								: AppResources.INSTANCE.empty().getSafeUri()
+										.asString(),
 				loc.getMenu("GeoGebraForum"), true), true,
 				new MenuCommand((AppW) app) {
 			
@@ -67,10 +84,16 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
             }
 	    });
 
-	    addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 	    
 	    // Report Bug
-	    bug = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+		bug = addItem(
+				MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.bug_report_black()
+								.getSafeUri().asString()
+						: AppResources.INSTANCE.empty().getSafeUri().asString(),
 				loc.getMenu("ReportBug"), true), true,
 				new MenuCommand((AppW) app) {
 			
@@ -80,9 +103,17 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
             }
 	    });
 	    
-	    addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 
-	    about = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
+		about = addItem(
+				MainMenu.getMenuBarHtml(
+						app.has(Feature.NEW_TOOLBAR)
+								? MaterialDesignResources.INSTANCE.info_black()
+										.getSafeUri().asString()
+								: GuiResources.INSTANCE.menu_icon_help_about()
+										.getSafeUri().asString(),
 				loc.getMenu("AboutLicense"), true), true,
 				new MenuCommand((AppW) app) {
 	    	

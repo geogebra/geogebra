@@ -5,8 +5,10 @@ import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
@@ -48,14 +50,20 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			return;
 		}
 
-		addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 		getOptionsMenu().addLabelingMenu(this);
-		addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 		getOptionsMenu().addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
 		if (!getApp().isApplet() && getApp().enableFileFeatures()) {
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				addSeparator();
+			}
 			addSaveSettingsMenu();
 			addRestoreDefaultSettingsMenu();
 		}
@@ -70,7 +78,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void addLanguageMenu() {
 
 		if (!app.isExam()) {
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			addItem(MainMenu.getMenuBarHtml(
+					app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.language_black()
+									.getSafeUri().asString()
+							: GuiResources.INSTANCE
 		        .menu_icon_options_language().getSafeUri().asString(),
 					getApp().getLocalization()
 				.getMenu("Language"), true), true, new MenuCommand(app) {
@@ -139,7 +151,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	
 	private void addSaveSettingsMenu(){
 		if (!app.isExam()) {
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			addItem(MainMenu.getMenuBarHtml(
+					app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.save_black()
+									.getSafeUri().asString()
+							: GuiResources.INSTANCE
 					.menu_icon_file_save().getSafeUri().asString(),
 					getApp().getLocalization()
 				.getMenu("Settings.Save"), true),
@@ -181,10 +197,14 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				ImageResource imgRes = AppResources.INSTANCE.empty();
 
 				if ("Labeling".equals(key)) {
-					imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
+					imgRes = app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.label_black()
+							: AppResources.INSTANCE.mode_showhidelabel_16();
 				}
 				if ("FontSize".equals(key)) {
-					imgRes = GuiResources.INSTANCE
+					imgRes = app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.font_size_black()
+							: GuiResources.INSTANCE
 							.menu_icon_options_font_size();
 				}
 				((GMenuBar) parentMenu).addItem(

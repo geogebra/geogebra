@@ -150,4 +150,28 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/select_all_black.png")
 	ImageResource select_all_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geogebra_black.png")
+	ImageResource geogebra_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/language_black.png")
+	ImageResource language_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/font_size_black.png")
+	ImageResource font_size_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/forum_black.png")
+	ImageResource forum_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/info_black.png")
+	ImageResource info_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/bug_report_black.png")
+	ImageResource bug_report_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/tutorial_black.png")
+	ImageResource tutorial_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/manual_black.png")
+	ImageResource manual_black();
 }
