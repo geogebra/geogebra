@@ -3999,8 +3999,6 @@ public abstract class App implements UpdateSelection {
 		case CONTOUR_PLOT_COMMAND:
 			return prerelease;
 
-		case KOREAN_KEYBOARD:
-			return prerelease;
 		case LOCALSTORAGE_FILES:
 			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 		case POLYGON_TRIANGULATION:
@@ -4108,22 +4106,56 @@ public abstract class App implements UpdateSelection {
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
 
-		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
+		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 
-		case ONSCREEN_KEYBOARD_AT_PROBCALC:
+		// **********************************************************************
+		// KEYBOARD START
+		// *******************************************************
+		// **********************************************************************
+
+		case KOREAN_KEYBOARD:
 			return prerelease;
 
 		// GGB-1349
 		case FIX_KEYBOARD_POSITION:
 			return prerelease;
 
-		case AUTOSCROLLING_SPREADSHEET:
+		/** GGB-1244 */
+		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
+			return prerelease;
+
+		/** GGB-1245 */
+		case ONSCREEN_KEYBOARD_AT_PROBCALC:
 			return prerelease;
 
 		// GGB-1252
 		case KEYBOARD_BEHAVIOUR:
 			return prerelease;
+
+		/**
+		 * GGB-1398 + GGB-1529
+		 */
+		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
+			return prerelease;
+
+		/** GGB-1694 */
+		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
+			return prerelease;
+
+		/** GGB-1633 */
+		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
+			return prerelease;
+
+		/** GGB- 1501 */
+		case DIALOGS_OVERLAP_KEYBOARD:
+			// see comment at GPopupPanel.setOverlapFeature
+			return prerelease;
+
+		// **********************************************************************
+		// KEYBOARD END
+		// *********************************************************
+		// **********************************************************************
 
 		case WHITEBOARD_APP:
 			return prerelease;
@@ -4143,9 +4175,6 @@ public abstract class App implements UpdateSelection {
 		case READ_OBJECT_NAME_AT_SELECTING:
 			return prerelease;
 
-		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
-			return prerelease;
-
 		case ERASER:
 			return prerelease;
 		case ROUNDED_POLYGON:
@@ -4154,10 +4183,6 @@ public abstract class App implements UpdateSelection {
 		case CONTEXT_MENU:
 			return prerelease && whiteboard;
 
-		case DIALOGS_OVERLAP_KEYBOARD:
-			// see comment at GPopupPanel.setOverlapFeature
-			return prerelease;
-			
 		case DYNAMIC_STYLEBAR:
 			return prerelease && whiteboard;
 
@@ -4183,8 +4208,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case TABBED_KEYBOARD:
 			return prerelease;
-		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
-			return prerelease;
+
+
 		case AND_TRACE_IN_PROPERTIES:
 			return true; // 5.0.356
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
@@ -4223,9 +4248,6 @@ public abstract class App implements UpdateSelection {
 
 		case AND_KILL_TOOLBAR:
 			return false;
-
-		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
-			return prerelease;
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return prerelease;
