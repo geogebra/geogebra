@@ -13,11 +13,11 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -179,7 +179,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		
 
 		// this is enabled always
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.add_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 				.menu_icon_file_new().getSafeUri().asString(),
 				loc.getMenu("New"), true), true, new MenuCommand(app) {
 
@@ -192,7 +196,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		// open menu is always visible in menu
 		
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.search_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 				.menu_icon_file_open().getSafeUri().asString(),
 				loc.getMenu("Open"), true), true, new MenuCommand(app) {
     		
@@ -204,7 +212,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		
 		
 		if(app.getLAF().undoRedoSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			addItem(MainMenu.getMenuBarHtml(
+					app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.save_black()
+									.getSafeUri().asString()
+							: GuiResources.INSTANCE
 					.menu_icon_file_save().getSafeUri().asString(),
 					loc.getMenu("Save"), true), true, new MenuCommand(app) {
 		
@@ -215,9 +227,15 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});			
 		}
 
-		addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 
-		shareItem = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		shareItem = addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.share_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 					.menu_icon_file_share().getSafeUri().asString(),
 					loc.getMenu("Share"), true), true, new MenuCommand(app) {
 
@@ -237,9 +255,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 
 		if (app.getLAF().exportSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-				        .menu_icons_file_export()
-.getSafeUri().asString(),
+			addItem(MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+					? MaterialDesignResources.INSTANCE.file_download_black()
+							.getSafeUri().asString()
+					: GuiResources.INSTANCE
+							.menu_icons_file_export().getSafeUri().asString(),
 					loc.getMenu("DownloadAs") + Unicode.ellipsis, true),
 					true, new ExportMenuW(app), !app.isWhiteboardActive());
 
@@ -247,11 +267,13 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 
 		if (app.getLAF().printSupported()) {
-			Log.debug("new printItem");
-			printItem = new MenuItem(MainMenu.getMenuBarHtml(
-					GuiResources.INSTANCE
-					.menu_icons_file_print().getSafeUri().asString(),
- loc.getMenu("PrintPreview"), true),
+			printItem = new MenuItem(
+					MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.print_black()
+									.getSafeUri().asString()
+							: GuiResources.INSTANCE
+							.menu_icons_file_print().getSafeUri().asString(),
+					loc.getMenu("PrintPreview"), true),
 					true, new MenuCommand(
 					app) {
 

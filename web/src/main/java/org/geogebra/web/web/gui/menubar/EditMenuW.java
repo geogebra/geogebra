@@ -1,10 +1,12 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 
 /**
@@ -57,12 +59,18 @@ public class EditMenuW extends GMenuBar {
 
 		if (app.isUndoRedoEnabled()) {
 			addUndoRedo();
-			// separator
-			addSeparator();
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				// separator
+				addSeparator();
+			}
 		}
 
 		// copy menu
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.copy_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 		        .menu_icon_edit_copy().getSafeUri().asString(),
 				loc.getMenu("Copy"), true), true, new MenuCommand(app) {
 
@@ -80,7 +88,11 @@ public class EditMenuW extends GMenuBar {
 		});
 
 		// paste menu
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.paste_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 		        .menu_icon_edit_paste().getSafeUri().asString(),
 				loc.getMenu("Paste"), true), true, new MenuCommand(app) {
 
@@ -95,15 +107,19 @@ public class EditMenuW extends GMenuBar {
 			}
 		});
 
-		addSeparator();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 
 		// object properties menu
 
 		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE
+						.settings_black().getSafeUri().asString() :
 				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
-						.asString(),
- !app.getKernel()
-						.isEmpty() ? loc.getMenu("Properties")
+								.asString(),
+				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
+						: app.has(Feature.NEW_TOOLBAR) ? loc.getMenu("Settings")
 								: loc
 						.getMenu("Options") + " ...", true), true,
 				new MenuCommand(app) {
@@ -115,11 +131,15 @@ public class EditMenuW extends GMenuBar {
 					}
 				});
 
-		addSeparator();
-
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addSeparator();
+		}
 
 		// select all menu
-		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("SelectAll"), true),
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE
+						.select_all_black().getSafeUri().asString() : noIcon,
+				loc.getMenu("SelectAll"), true),
 		        true, new MenuCommand(app) {
 
 			        @Override
@@ -231,7 +251,11 @@ public class EditMenuW extends GMenuBar {
 
 
 		// undo menu
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.undo_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 				.menu_icon_edit_undo().getSafeUri().asString(),
 				loc.getMenu("Undo"), true), true, new MenuCommand(app) {
 
@@ -244,7 +268,11 @@ public class EditMenuW extends GMenuBar {
 				});
 
 		// redo menu
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.redo_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE
 				.menu_icon_edit_redo().getSafeUri().asString(),
 				loc.getMenu("Redo"), true), true, new MenuCommand(app) {
 

@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 
@@ -70,7 +71,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 *            application
 	 */
 	public MainMenu(AppW app) {
-		this.addStyleName("menubarSMART");
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			this.addStyleName("menubarSMART");
+		}
 		leftSide = app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR);
 		if (leftSide && !app.has(Feature.NEW_TOOLBAR)) {
 			addStyleName("mowMenubar");
@@ -204,13 +207,26 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				  }
 
 		};
-		this.menuPanel.addStyleName("menuPanel");
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			this.menuPanel.addStyleName("menuPanel");
+		} else {
+			// this.menuPanel.removeStyleName("gwt-StackPanel");
+		}
 		if(app.enableFileFeatures()){	
-			this.menuPanel.add(fileMenu, getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
+			this.menuPanel.add(
+					fileMenu, getHTML(
+							app.has(Feature.NEW_TOOLBAR)
+									? MaterialDesignResources.INSTANCE
+											.insert_file_black()
+									: GuiResources.INSTANCE.menu_icon_file(),
+							"File"),
+					true);
 		}
 		if (enableGraph) {
 			this.menuPanel.add(editMenu,
-					getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
+					getHTML(app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.edit_black()
+							: GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
 					true);
 
 			this.menuPanel
