@@ -2369,7 +2369,7 @@ namespace giac {
        );
 #if 1 // heap division
     if (heap_mult<0 || use_heap ||
-	(quo_only && quo_only<3){
+	(quo_only && quo_only<3)){
 	  // quo_only<3){
       bool norem=quo_only==2 || quo_only==-2;
 #ifdef HASHDIVREM_STATS
