@@ -102,6 +102,7 @@ public class ResourcesInjector {
 				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.avStyleScss());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
 		StyleInjector.inject(
 				GuiResourcesSimple.INSTANCE.toolBarStyleScss());
 

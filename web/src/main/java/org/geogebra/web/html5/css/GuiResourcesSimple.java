@@ -108,6 +108,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/av-styles.scss")
 	SassResource avStyleScss();
 
+	@Source("org/geogebra/web/resources/scss/ev-styles.scss")
+	SassResource evStyleScss();
+	
 	@Source("org/geogebra/web/resources/scss/colors.scss")
 	SassResource colorsScss();
 

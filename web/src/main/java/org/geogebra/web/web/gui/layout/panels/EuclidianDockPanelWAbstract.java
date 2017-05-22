@@ -2,14 +2,20 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
+import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -155,6 +161,28 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			absoluteEuclidianPanel.getElement().getStyle()
 					.setOverflow(Overflow.VISIBLE);
 			checkFocus();
+			addUndoRedoButtons();
+		}
+
+		private void addUndoRedoButtons() {
+			addUndoButton();
+
+		}
+
+		private void addUndoButton() {
+			ToggleButton btnUndo = new ToggleButton(new Image(
+					MaterialDesignResources.INSTANCE.undo_black()));
+			btnUndo.addStyleName("flatButton");
+			btnUndo.addStyleName("btnUndoFlat");
+
+			ClickStartHandler.init(btnUndo, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					Log.debug("undo");
+				}
+			});
+			absoluteEuclidianPanel.add(btnUndo);
 		}
 
 		@Override
