@@ -93,6 +93,16 @@ public class ToolbarPanel extends FlowPanel {
 
 		}
 
+		void selectAlgebra() {
+			btnAlgebra.addStyleName("selected");
+			btnTools.removeStyleName("selected");
+		}
+
+		void selectTools() {
+			btnAlgebra.removeStyleName("selected");
+			btnTools.addStyleName("selected");
+		}
+
 		private void createCloseButton() {
 			imgClose = new Image(MaterialDesignResources.INSTANCE.toolbar_close_white());
 			imgOpen = new Image(MaterialDesignResources.INSTANCE.toolbar_open_white());
@@ -374,7 +384,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (tabAlgebra == null) {
 			tabAlgebra = new AlgebraTab();
 		}
-
+		header.selectAlgebra();
 		open(tabAlgebra);
 	}
 
@@ -385,6 +395,8 @@ public class ToolbarPanel extends FlowPanel {
 		if (tabTools == null) {
 			tabTools = new ToolsTab();
 		}
+
+		header.selectTools();
 
 		open(tabTools);
 	}

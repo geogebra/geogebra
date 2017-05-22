@@ -4,6 +4,7 @@
 	.header {
 			background-color: $toolbar-header;
 			
+			
 			.flatButton {
 				margin: 6px;
 				padding: 6px;
@@ -11,7 +12,7 @@
 				height: 24px;
 			}
 			
-			
+			.selected,
 			.flatButton:hover {
 				crusor: hand;
 				background-color: $white-30;
