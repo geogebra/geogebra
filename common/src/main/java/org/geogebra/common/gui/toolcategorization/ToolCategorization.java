@@ -433,7 +433,7 @@ public class ToolCategorization {
                 addToList(tools, EuclidianConstants.MODE_AREA);
                 storeIfNotEmpty(category, tools);
 
-                category = Category.SELECT_AND_FORMAT;
+                category = Category.OTHERS;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_ROTATEVIEW);
                 addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
