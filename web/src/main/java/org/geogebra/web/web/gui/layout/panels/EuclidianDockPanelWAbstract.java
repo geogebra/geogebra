@@ -161,7 +161,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			absoluteEuclidianPanel.getElement().getStyle()
 					.setOverflow(Overflow.VISIBLE);
 			checkFocus();
-			addUndoRedoButtons();
+			// addUndoRedoButtons();
 		}
 
 		private void addUndoRedoButtons() {
