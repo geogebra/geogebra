@@ -753,7 +753,7 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void closePopups() {
 		super.closePopups();
-		if (has(Feature.NEW_TOOLBAR)) {
+		if (has(Feature.NEW_TOOLBAR) && !isWhiteboardActive()) {
 			hideMenu();
 		}
 	}

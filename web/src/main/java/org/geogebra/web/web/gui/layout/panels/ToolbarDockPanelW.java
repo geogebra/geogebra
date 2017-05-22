@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 
@@ -32,9 +31,6 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
-		if (app.has(Feature.MOW_TOOLBAR)) {
-			return;
-		}
 		if (toolbar.getOffsetWidth() < CLOSING_WIDTH) {
 			toolbar.close();
 		} else {

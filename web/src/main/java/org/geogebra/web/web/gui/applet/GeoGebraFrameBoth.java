@@ -440,7 +440,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		
-		if (app.has(Feature.NEW_TOOLBAR) && !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2().isOpen()) {
+		if (app.has(Feature.NEW_TOOLBAR) && !app.isWhiteboardActive()
+				&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
+						.isOpen()) {
 			return;
 		}
 		if (app.getLAF().isTablet()

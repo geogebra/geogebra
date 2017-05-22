@@ -815,7 +815,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(app));
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.has(Feature.NEW_TOOLBAR) && !app.has(Feature.MOW_TOOLBAR)) {
 			// register toolbar panel
 			layout.registerPanel(new ToolbarDockPanelW());
 		}
