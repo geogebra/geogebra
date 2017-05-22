@@ -1694,7 +1694,61 @@ namespace giac {
     return res;
   }
 
-#define QUO_ONLY 1
+  void submulpoly(const polynome & a,const polynome & b,const polynome & q,polynome & r){
+#if 0
+    r=a-b*q;
+#else
+    polynome tmp(a.dim);
+    mulpoly(b,q,tmp,0);
+    vector< monomial<gen> >::const_iterator a_beg=a.coord.begin();
+    vector< monomial<gen> >::const_iterator a_end=a.coord.end();
+    vector< monomial<gen> >::const_iterator b_beg=tmp.coord.begin();
+    vector< monomial<gen> >::const_iterator b_end=tmp.coord.end();
+    vector< monomial<gen> > & new_coord=r.coord;
+    new_coord.clear();
+    for (;;) {
+      // If a is empty, fill up with elements from b and stop
+      if (a_beg == a_end) {
+	while (b_beg != b_end) {
+	  new_coord.push_back(-(*b_beg));
+	  ++b_beg;
+	}
+	break;
+      } 
+      const index_m & pow_a = a_beg->index;
+      // If b is empty, fill up with elements from a and stop
+      if (b_beg == b_end) {
+	while (a_beg != a_end) {
+	  new_coord.push_back(*a_beg);
+	  ++a_beg;
+	}
+	break;
+      } 
+      const index_m & pow_b = b_beg->index;
+      // a and b are non-empty, compare powers
+      if (pow_a!=pow_b){
+	if (a.is_strictly_greater(pow_a, pow_b)) {
+	  // a has lesser power, get coefficient from a
+	  new_coord.push_back(*a_beg);
+	  ++a_beg;
+	} 
+	else  {
+	  // b has lesser power, get coefficient from b
+	  new_coord.push_back(-(*b_beg));
+	  ++b_beg;
+	} 
+      }
+      else {
+	gen diff = (*a_beg).value - (*b_beg).value;
+	if (!is_zero(diff))
+	  new_coord.push_back(monomial<gen>(diff,pow_a));
+	++a_beg;
+	++b_beg;
+      }
+    }  
+#endif
+  }
+
   // exactquo==2 means we know that b divides a and we search the cofactor
   // exactquo==1 means we want to check that b divides a
   // exactquo==-1 means compute quotient first using heap div then r=a-b*quo
@@ -1710,6 +1764,7 @@ namespace giac {
     }
     int bdeg=b.coord.front().index.front(),rdeg=a.lexsorted_degree(),ddeg=rdeg-bdeg;
 #ifndef NO_TEMPLATE_MULTGCD
+    int hashdivremres=0;
     if (ddeg>3 && !allowrational){ 
       index_t d1=a.degree(),d2=b.degree(),d3=b.coord.front().index.iref(),d(a.dim);
       // i-th degrees of th / other in quotient and remainder
@@ -1751,11 +1806,12 @@ namespace giac {
 	      // try with int instead of longlong
 	      std::vector< T_unsigned<int,unsigned> > p132,p232,quot32,remain32;
 	      if (convert_int32(a,d,p132) && convert_int32(b,d,p232) && 
-		  hashdivrem<int,unsigned>(p132,p232,quot32,remain32,vars,0,RAND_MAX/double(maxp2)/p2.size(),false,exactquo)==1){
+		  (hashdivremres=hashdivrem<int,unsigned>(p132,p232,quot32,remain32,vars,0,RAND_MAX/double(maxp2)/p2.size(),false,exactquo))>=1){
 		if (debug_infolevel>1)
 		  CERR << "hashdivrem1 int32 success " << CLOCK() << " maxp1=" << maxp1 << " maxp2=" << maxp2 << " ddeg=" << ddeg << std::endl;
 		convert_from(quot32,d,quo,true);
-		convert_from(remain32,d,r,true);
+		if (exactquo==-1 && hashdivremres==2) submulpoly(a,b,quo,r); else
+		  convert_from(remain32,d,r,true);
 		return true;
 	      }
 	      else {
@@ -1765,40 +1821,58 @@ namespace giac {
 	    }
 	    if (debug_infolevel>1)
 	      CERR << "hashdivrem1 longlong begin " << CLOCK() << " maxp1=" << maxp1 << " maxp2=" << maxp2 << " ddeg=" << ddeg << std::endl;
-	    if (hashdivrem<longlong,unsigned>(p1,p2,quot,remain,vars,/* reduce*/0,RAND_MAX/double(maxp2)/p2.size()*RAND_MAX,false,exactquo)==1){
+	    if ((hashdivremres=hashdivrem<longlong,unsigned>(p1,p2,quot,remain,vars,/* reduce*/0,RAND_MAX/double(maxp2)/p2.size()*RAND_MAX,false,exactquo))>=1){
 	      if (debug_infolevel>1)
 		CERR << "hashdivrem1 longlong end " << CLOCK() << std::endl;
 	      convert_from(quot,d,quo,false);
-	      convert_from(remain,d,r,false);
+	      if (hashdivremres==2 && exactquo==-1) submulpoly(a,b,quo,r); else
+		convert_from(remain,d,r,false);
 	      return true;
 	    }
 	    else {
 	      if (debug_infolevel>1)	      
 		CERR << "hashdivrem1 longlong failure " << CLOCK() << std::endl;
 	    }
-	    doit=false;
 	  }
+#ifdef INT128
+	  {
+	    int128_t maxp1,maxp2;
+	    vector< T_unsigned<int128_t,unsigned> > aD,bD,qD,rD;
+	    if (debug_infolevel>1)
+	      CERR << "hashdivrem1 int128 int begin " << CLOCK() << " maxp1=" << double(maxp1) << " maxp2=" << double(maxp2) << " ddeg=" << ddeg << std::endl;
+	    if (convert_int(a,d,aD,maxp1) && convert_int(b,d,bD,maxp2) && (hashdivremres=hashdivrem<int128_t,unsigned>(aD,bD,qD,rD,vars,0,1.7e38/double(maxp2)/p2.size(),false,exactquo))>=1){
+	      if (debug_infolevel>1)
+		CERR << "hashdivrem1 int128 int success " << CLOCK() << " maxp1=" << double(maxp1) << " maxp2=" << double(maxp2) << " ddeg=" << ddeg << std::endl;
+	      convert_from<int128_t,unsigned>(qD,d,quo,true);
+	      if (hashdivremres==2 && exactquo==-1) submulpoly(a,b,quo,r); else
+		convert_from<int128_t,unsigned>(rD,d,r,true);
+	      return true;
+	    }
+	  }
+#endif
+	  doit=false;
 	}
 #ifdef HAVE_GMPXX_H
 	if (mpzclass_allowed)
 	{
 	  std::vector< T_unsigned<myint,unsigned> > p1,p2,quot,remain;
 	  if (debug_infolevel>1)
-	    CERR << "divrem1mpz convert " << CLOCK() << std::endl;
+	    CERR << "divrem1mpz int convert " << CLOCK() << std::endl;
 	  doit=convert_myint(a,d,p1) && convert_myint(b,d,p2);
 	  if (doit){
 	    if (debug_infolevel>1)
-	      CERR << "hashdivrem1mpz begin " << CLOCK() << " ddeg=" << ddeg << std::endl;
-	    if (hashdivrem<myint,unsigned>(p1,p2,quot,remain,vars,/* reduce */ 0,/* no size check */0.0,false,exactquo)==1){
+	      CERR << "hashdivrem1mpz int begin " << CLOCK() << " ddeg=" << ddeg << std::endl;
+	    if ((hashdivremres=hashdivrem<myint,unsigned>(p1,p2,quot,remain,vars,/* reduce */ 0,/* no size check */0.0,false,exactquo))>=1){
 	      if (debug_infolevel>1)
-		CERR << "hashdivrem1mpz end " << CLOCK() << std::endl;
+		CERR << "hashdivrem1mpz int end " << CLOCK() << std::endl;
 	      convert_from(quot,d,quo,false);
-	      convert_from(remain,d,r,false);
+	      if (hashdivremres==2 && exactquo==-1) submulpoly(a,b,quo,r); else
+		convert_from(remain,d,r,false);
 	      return true;
 	    }
 	    else {
 	      if (debug_infolevel>1)	      
-		CERR << "hashdivrem1mpz failure " << CLOCK() << std::endl;
+		CERR << "hashdivrem1mpz int failure " << CLOCK() << std::endl;
 	    }
 	  }
 	}
@@ -1825,17 +1899,34 @@ namespace giac {
 	  if (doit){
 	    if (debug_infolevel>1)
 	      CERR << "hashdivrem1 longlong ulonglong begin " << CLOCK() << " maxp1=" << maxp1 << " maxp2=" << maxp2 << " ddeg=" << ddeg << std::endl;
-	    if (hashdivrem<longlong,ulonglong>(p1,p2,quot,remain,vars,/* reduce */0,RAND_MAX/double(maxp2)/p2.size()*RAND_MAX,false,exactquo)==1){
+	    if ((hashdivremres=hashdivrem<longlong,ulonglong>(p1,p2,quot,remain,vars,/* reduce */0,RAND_MAX/double(maxp2)/p2.size()*RAND_MAX,false,exactquo))>=1){
 	      if (debug_infolevel>1)
 		CERR << "hashdivrem1 longlong ulonglong end " << CLOCK() << std::endl;
 	      convert_from(quot,d,quo,false);
-	      convert_from(remain,d,r,false);
+	      if (hashdivremres==2 && exactquo==-1) submulpoly(a,b,quo,r); else
+		convert_from(remain,d,r,false);
 	      return true;
 	    }
 	    else {
 	      if (debug_infolevel>1)	      
 		CERR << "hashdivrem1 longlong ulonglong failure " << CLOCK() << std::endl;
 	    }
+	  }
+#ifdef INT128
+	  {
+	    int128_t maxp1,maxp2;
+	    vector< T_unsigned<int128_t,ulonglong> > aD,bD,qD,rD;
+	    if (debug_infolevel>1)
+	      CERR << "hashdivrem1 int128 ulonglong begin " << CLOCK() <<  " ddeg=" << ddeg << std::endl;
+	    if (convert_int(a,d,aD,maxp1) && convert_int(b,d,bD,maxp2) && (hashdivremres=hashdivrem<int128_t,ulonglong>(aD,bD,qD,rD,vars,0,1.7e38/double(maxp2)/p2.size(),false,exactquo))>=1){
+	      if (debug_infolevel>1)
+		CERR << "hashdivrem1 int128 ulonglong success " << CLOCK() << " maxp1=" << double(maxp1) << " maxp2=" << double(maxp2) << " ddeg=" << ddeg << std::endl;
+	      convert_from<int128_t,ulonglong>(qD,d,quo,true);
+	      if (hashdivremres==2 && exactquo==-1) submulpoly(a,b,quo,r); else
+		convert_from<int128_t,ulonglong>(rD,d,r,true);
+	      return true;
+	    }
+#endif
 	  }
 	}
 #ifdef HAVE_GMPXX_H
@@ -1849,11 +1940,12 @@ namespace giac {
 	  if (doit){
 	    if (debug_infolevel>1)
 	      CERR << "hashdivrem1z ulonglong begin " << CLOCK() <<  " ddeg=" << ddeg << std::endl;
-	    if (hashdivrem<myint,ulonglong>(p1,p2,quot,remain,vars,/* reduce */ 0,/* no size check */0.0,false,exactquo)==1){
+	    if ((hashdivremres=hashdivrem<myint,ulonglong>(p1,p2,quot,remain,vars,/* reduce */ 0,/* no size check */0.0,false,exactquo))>=1){
 	      if (debug_infolevel>1)
 		CERR << "hashdivrem1 ulonglong end " << CLOCK() << std::endl;
 	      convert_from(quot,d,quo,false);
-	      convert_from(remain,d,r,false);
+	      if (hashdivremres==2 && exactquo==-1) submulpoly(a,b,quo,r); else
+		convert_from(remain,d,r,false);
 	      return true;
 	    }
 	    else {

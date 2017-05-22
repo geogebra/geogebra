@@ -425,6 +425,44 @@ namespace giac {
     return true;
   }
 
+#ifdef INT128
+  template <class U>
+  bool convert_int(const polynome & p,const index_t & deg,std::vector< T_unsigned<int128_t,U> >  & v,int128_t & maxp){
+    typename std::vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
+    v.clear();
+    v.reserve(itend-it);
+    T_unsigned<int128_t,U> gu;
+    U u;
+    maxp=0;
+    int128_t tmp;
+    mpz_t tmpz;
+    mpz_init(tmpz);
+    index_t::const_iterator itit,ditbeg=deg.begin(),ditend=deg.end(),dit;
+    for (;it!=itend;++it){
+      u=0;
+      itit=it->index.begin();
+      for (dit=ditbeg;dit!=ditend;++itit,++dit)
+	u=u*unsigned(*dit)+unsigned(*itit);
+      gu.u=u;
+      if (it->value.type==_INT_)
+	gu.g=it->value.val;
+      else {
+	if (it->value.type!=_ZINT || mpz_sizeinbase(*it->value._ZINTptr,2)>124){
+	  mpz_clear(tmpz);
+	  return false;
+	}
+	mpz2int128(it->value._ZINTptr,&tmpz,gu.g);
+      }
+      tmp=gu.g>0?gu.g:-gu.g;
+      if (tmp>maxp)
+	maxp=tmp;
+      v.push_back(gu);
+    }
+    mpz_clear(tmpz);
+    return true;
+  }
+#endif
+
   template<class U> void convert_longlong(const std::vector< T_unsigned<gen,U> > & p,std::vector< T_unsigned<longlong,U> > & pd){
     typename std::vector< T_unsigned<gen,U> >::const_iterator it=p.begin(),itend=p.end();
     pd.reserve(itend-it);

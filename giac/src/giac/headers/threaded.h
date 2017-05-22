@@ -235,6 +235,31 @@ namespace giac {
     }
   }
 
+#ifdef INT128
+  // tmp is an allocated mpz_t 
+  inline void mpz2int128(mpz_t * ptr,mpz_t * tmp,int128_t & ans){
+    int i=mpz_sgn(*ptr);
+    if (i<0)
+      mpz_neg(*ptr,*ptr);
+    mpz_tdiv_q_2exp(*tmp,*ptr,93);
+    ans=mpz_get_ui(*tmp);
+    ans <<= 93;
+    mpz_tdiv_q_2exp(*tmp,*ptr,62);
+    mpz_tdiv_r_2exp(*tmp,*tmp,31);
+    ans += (int128_t(mpz_get_ui(*tmp)) << 62);
+    mpz_tdiv_q_2exp(*tmp,*ptr,31);
+    mpz_tdiv_r_2exp(*tmp,*tmp,31);
+    ans += (ulonglong(mpz_get_ui(*tmp))<<31);
+    mpz_tdiv_r_2exp(*tmp,*ptr,31);
+    ans += mpz_get_ui(*tmp);
+    if (i<0){
+      mpz_neg(*ptr,*ptr);
+      ans = -ans;
+    }
+  }
+
+#endif
+
   class my_mpz {
   public:
     mpz_t ptr;
@@ -2162,11 +2187,14 @@ namespace giac {
   // / should return the quotient of the main variable exponent
   // > should return true if a monomial has main degree >
   // vars is the list of monomials x,y,z,etc. as translated in U type
-  // quo_only==2 means we know that b divides a and we search the cofactor
-  // quo_only==1 means we want to check that b divides a
-  // quo_only==-1 means compute quotient first using heap div then r=a-b*q
   // quo_only==-2 means compute quotient only using heap div
-  // if quo_only is >= 2 or <=-2, r is not computed
+  // quo_only==-1 heap quotient then guess between heap remainder 
+  //           or r=a-b*q must be done by caller (if returns 2)
+  // quo_only==1 means we want to check that b divides a
+  // quo_only==2 means we know that b divides a and we search the cofactor
+  // quo_only==3 array division if enough memory
+  // if quo_only is <=-2, r is not computed
+  // returns 1 if ok, 2 if ok but remainder not computed, 0 or -1 otherwise
   template<class T,class U,class R>
   int hashdivrem(const std::vector< T_unsigned<T,U> > & a,const std::vector< T_unsigned<T,U> > & b,std::vector< T_unsigned<T,U> > & q,std::vector< T_unsigned<T,U> > & r,const std::vector<U> & vars,const R & reduce,double qmax,bool allowrational,int quo_only=0){
     // CERR << "hashdivrem dim " << vars.size() << " clock " << CLOCK() << std::endl;
@@ -2192,7 +2220,7 @@ namespace giac {
     }
     U rstop=U(bdeg) << mainvar;
     typename std::vector< T_unsigned<T,U> >::iterator it1,it1end;
-    typename std::vector< T_unsigned<T,U> >::const_iterator it2,it2end,itbbeg=b.begin(),itbend=b.end(),ita=a.begin(),itaend=a.end(),cit,citend;
+    typename std::vector< T_unsigned<T,U> >::const_iterator it2,it2end,itbbeg=b.begin(),itbend=b.end(),ita=a.begin(),itaend=a.end(),cit,citend,qbeg;
     T binv=b.front().g;
     if (!is_zero(reduce))
       binv=invmod(binv,reduce);
@@ -2222,11 +2250,13 @@ namespace giac {
     unsigned as=unsigned(a.size()),bs=unsigned(b.size());
     double v1v2=double(as)*bs;
     // FIXME, if bdeg==0
-    if ( (!quo_only || quo_only==3) && 
+    if (
+	(!quo_only || quo_only==3) &&
+	// quo_only==3 && //is_zero(reduce) &&
 	bdeg && as>=a.front().u/25. // array div disabled, probably too much memory used
 	&& heap_mult>=0 && a.front().u < 512e6/sizeof(T)){
       U umax=a.front().u,u;
-      if (debug_infolevel>20)
+      if (debug_infolevel>1)
 	CERR << "array division, a size " << a.size() << " b size " << b.size() << " u " << umax << std::endl;
       // array division
       T * rem = new T[unsigned(umax+1)];
@@ -2283,7 +2313,7 @@ namespace giac {
 	}
 	else {
 	  int recdivres=hashdivrem(maincoeff,lcoeffb,quo,tmp,std::vector<U>(vars.begin()+1,vars.end()),reduce,qmax,allowrational);
-	  if (recdivres!=1){
+	  if (recdivres<1){
 	    delete [] rem;
 	    return recdivres;
 	  }
@@ -2338,8 +2368,14 @@ namespace giac {
        && v1v2>=heap_mult
        );
 #if 1 // heap division
-    if (heap_mult<0 || use_heap || (quo_only && quo_only!=3)){
-      if (debug_infolevel>20)
+    if (heap_mult<0 || use_heap ||
+	(quo_only && quo_only<3){
+	  // quo_only<3){
+      bool norem=quo_only==2 || quo_only==-2;
+#ifdef HASHDIVREM_STATS
+      unsigned chain=0,nochain=0,typeopreduce=0;
+#endif
+      if (debug_infolevel>1)
 	CERR << "heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
       // heap division:
       // ita an iterator on a, initial value a.begin()
@@ -2355,7 +2391,7 @@ namespace giac {
       //
       // vindex[i] is the heap chain corresponding to index i
       // it contains pairs of index in g and q
-      std::vector< std::vector< std::pair<unsigned,unsigned> > > vindex(bs);
+      std::vector< std::vector< std::pair<unsigned,unsigned> > > vindex(bs) ; // ,std::vector< std::pair<unsigned,unsigned> >(4));
       U_unsigned<U> * heap = new U_unsigned<U>[bs], * heapbeg =heap, * heapend=heap ;
       T g;
       U heapu,u;
@@ -2373,7 +2409,7 @@ namespace giac {
 	if (heapbeg!=heapend){
 	  heapu=heapbeg->u;
 	  if (ita!=itaend && ita->u>heapu){
-	    if (ita->u>bu){
+	    if (ita->u>=bu){
 	      heapu=ita->u;
 	      g=ita->g;
 	      ++ita;
@@ -2387,13 +2423,20 @@ namespace giac {
 	      while (heapend!=heapbeg && heapu==heapbeg->u){
 		nouveau.clear();
 		// add all elements of the top chain	
-		it=vindex[heapbeg->v].begin();
-		itend=vindex[heapbeg->v].end();
+		std::vector< std::pair<unsigned,unsigned> > & V=vindex[heapbeg->v];
+		it=V.begin();
+		itend=V.end();
+		qbeg=q.begin();
+		size_t qsize=q.size();
 		for (;it!=itend;++it){
-		  type_operator_plus_times_reduce((itbbeg+it->first)->g,(q.begin()+it->second)->g,g,reduce);
+#ifdef HASHDIVREM_STATS
+		  ++typeopreduce;
+#endif
+		  unsigned & its=it->second;
+		  type_operator_plus_times_reduce((itbbeg+it->first)->g,(qbeg+its)->g,g,reduce);
 		  // increment 2nd poly index of the elements of the top chain
-		  ++it->second;
-		  if (it->second<q.size())
+		  ++its;
+		  if (its<qsize)
 		    nouveau.push_back(*it);
 		  else // wait for computation of a new term of a before adding to the heap 
 		    qnouveau.push_back(*it);
@@ -2409,30 +2452,42 @@ namespace giac {
 		// push each element of the incremented top chain 
 		it=nouveau.begin();
 		itend=nouveau.end();
-		for (;it!=itend;++it){
-		  u=(itbbeg+it->first)->u+(q.begin()+it->second)->u;
+		for (;it!=itend;++it) {
+		  u=(itbbeg+it->first)->u+(qbeg+it->second)->u;
+		  // if (norem && u<bu) continue;
 		  // check if u is in the path to the root of the heap
 		  unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 		  if (holeindex && u==heapbeg->u){
+#ifdef HASHDIVREM_STATS
+		    ++chain;
+#endif
 		    vindex[heapbeg->v].push_back(*it);
 		    continue;
 		  }
 		  bool done=false;
 		  while (holeindex){
 		    parentindex=(holeindex-1) >> 1;
-		    if (u<(heapbeg+parentindex)->u)
+		    U pu=(heapbeg+parentindex)->u;
+		    if (u<pu)
 		      break;
-		    if (u==(heapbeg+parentindex)->u){
+		    if (u==pu){
 		      done=true;
 		      vindex[(heapbeg+parentindex)->v].push_back(*it);
+#ifdef HASHDIVREM_STATS
+		      ++chain;
+#endif
 		      break;
 		    }
 		    holeindex=parentindex;
 		  }
 		  if (!done){
+#ifdef HASHDIVREM_STATS
+		    ++nochain;
+#endif
 		    // not found, add a new node to the heap
-		    vindex[heapend->v].clear();
-		    vindex[heapend->v].push_back(*it);
+		    std::vector< std::pair<unsigned,unsigned> > & V=vindex[heapend->v];
+		    V.clear();
+		    V.push_back(*it);
 		    heapend->u=u;
 		    ++heapend;
 #ifdef USTL
@@ -2445,7 +2500,9 @@ namespace giac {
 		} // end adding incremented pairs from nouveau
 	      } // end loop on monomial of the heap having the same u
 	      if (heapu==ita->u){
-		g = ita->g -g ;
+		g = ita->g -g ; // FIXME must be reduced!
+		if (!is_zero(reduce))
+		  g = g % reduce;
 		++ita;
 	      }
 	      else
@@ -2456,7 +2513,7 @@ namespace giac {
 	  } // end else ita->u>heapu
 	} // if heap non empty
 	else {
-	  if (ita!=itaend && (heapu=ita->u)>bu){
+	  if (ita!=itaend && (heapu=ita->u)>=bu){
 	    g=ita->g;
 	    ++ita;
 	  } 
@@ -2472,7 +2529,7 @@ namespace giac {
 	  type_operator_reduce(g,binv,g,reduce);
 	else
 	  g=g/binv;
-	if (qmax && g>qmax){
+	if (qmax && (g>qmax || -g>qmax)){
 	  delete [] heap;
 	  return -1;
 	}
@@ -2487,18 +2544,27 @@ namespace giac {
 	  if (!it->first) // leading term of b already taken in account
 	    continue;
 	  u=(itbbeg+it->first)->u+(q.begin()+it->second)->u;
+	  // if we compute quotient only check that u is smaller than bu 
+	  //if (norem && u<bu) continue;
 	  // check if u is in the path to the root of the heap
 	  unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 	  if (holeindex && u==heapbeg->u){
+#ifdef HASHDIVREM_STATS
+	    ++chain;
+#endif
 	    vindex[heapbeg->v].push_back(*it);
 	    continue;
 	  }
 	  bool done=false;
 	  while (holeindex){
 	    parentindex=(holeindex-1) >> 1;
-	    if (u<(heapbeg+parentindex)->u)
+	    U pu=(heapbeg+parentindex)->u;
+	    if (u<pu)
 	      break;
-	    if (u==(heapbeg+parentindex)->u){
+	    if (u==pu){
+#ifdef HASHDIVREM_STATS
+	      ++chain;
+#endif
 	      done=true;
 	      vindex[(heapbeg+parentindex)->v].push_back(*it);
 	      break;
@@ -2506,9 +2572,13 @@ namespace giac {
 	    holeindex=parentindex;
 	  }
 	  if (!done){
+#ifdef HASHDIVREM_STATS
+	    ++nochain;
+#endif
 	    // not found, add a new node to the heap
-	    vindex[heapend->v].clear();
-	    vindex[heapend->v].push_back(*it);
+	    std::vector< std::pair<unsigned,unsigned> > & V=vindex[heapend->v];
+	    V.clear();
+	    V.push_back(*it);
 	    heapend->u=u;
 	    ++heapend;
 #ifdef USTL
@@ -2521,22 +2591,37 @@ namespace giac {
 	} // end adding incremented pairs from qnouveau
 	qnouveau.clear();
       } // for (;;)
+#ifdef HASHDIVREM_STATS
+      if (debug_infolevel)
+	CERR << "chain " << chain << ", nochain " << nochain << ", type_op_reduce " << typeopreduce << std::endl;
+#endif
       // r still empty
-      if (debug_infolevel>20)
+      if (debug_infolevel>2)
 	CERR << "Finished computing quotient, size " << q.size() << " " << CLOCK() << std::endl ;
-      if (quo_only>=2 || quo_only<=-2){
+      if (quo_only==2 || quo_only<=-2){
 	delete [] heap;
 	return 1;
       }
-      // do not define QUO_ONLY unless R==int
+      if (quo_only==-1){
+	// try to compare heap mult and array mult, return for array mult only
+	double qb=double(q.size())*b.size();
+	qb /= a.size();
+	if (debug_infolevel>1)
+	  CERR << CLOCK() << " qb=" << qb << endl;
+	if (qb>100){
+	  delete [] heap;
+	  return 2;
+	}
+      }      
 #ifdef QUO_ONLY
+      // QUO_ONLY should not be defined because the monomials are not stored
+      // efficiently, b and q should be converted back to
+      // polynome and a-b*q computed as polynomials with optimal monomial storage
       if (quo_only==-1 && is_zero(reduce) 
 	  && q.size()*double(b.size())>10000 
-	  ){
+	  ) {
 	if (debug_infolevel>20)
 	  CERR << "Computing q*b, size " << q.size() << " " << b.size() << std::endl ;
-	if (debug_infolevel>30)
-	  CERR << "Computing b*q, " << b << " * " << q << " " << vars.front() << " " <<a.size() << std::endl ;
 	std::vector< T_unsigned<T,U> > bq;
 	if (!threadmult(b,q,bq,vars.front(),0,a.size()))
 	  smallmult(b,q,bq,reduce,as);
@@ -2568,10 +2653,11 @@ namespace giac {
 	  it=vindex[heapbeg->v].begin();
 	  itend=vindex[heapbeg->v].end();
 	  for (;it!=itend;++it){
-	    type_operator_plus_times_reduce((itbbeg+it->first)->g,(q.begin()+it->second)->g,g,reduce);
+	    unsigned & its=it->second;
+	    type_operator_plus_times_reduce((itbbeg+it->first)->g,(q.begin()+its)->g,g,reduce);
 	    // increment 2nd poly index of the elements of the top chain
-	    ++it->second;
-	    if (it->second<q.size())
+	    ++its;
+	    if (its<q.size())
 	      qnouveau.push_back(*it);
 	  }
 	  // erase top node, 
@@ -2596,9 +2682,10 @@ namespace giac {
 	    bool done=false;
 	    while (holeindex){
 	      parentindex=(holeindex-1) >> 1;
-	      if (u<(heapbeg+parentindex)->u)
+	      U pu=(heapbeg+parentindex)->u;
+	      if (u<pu)
 		break;
-	      if (u==(heapbeg+parentindex)->u){
+	      if (u==pu){
 		done=true;
 		vindex[(heapbeg+parentindex)->v].push_back(*it);
 		break;
@@ -2607,8 +2694,9 @@ namespace giac {
 	    }
 	    if (!done){
 	      // not found, add a new node to the heap
-	      vindex[heapend->v].clear();
-	      vindex[heapend->v].push_back(*it);
+	      std::vector< std::pair<unsigned,unsigned> > & V=vindex[heapend->v];
+	      V.clear();
+	      V.push_back(*it);
 	      heapend->u=u;
 	      ++heapend;
 #ifdef USTL
@@ -2692,7 +2780,7 @@ namespace giac {
       }
       else {
 	int recdivres=hashdivrem(maincoeff,lcoeffb,quo,tmp,std::vector<U>(vars.begin()+1,vars.end()),reduce,qmax,allowrational);
-	if (recdivres!=1)
+	if (recdivres<1)
 	  return recdivres;
 	if (!tmp.empty())
 	  return 0;
