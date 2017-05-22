@@ -444,7 +444,7 @@ public class ToolCategorization {
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_VECTOR_FROM_POINT);
                 addToList(tools, EuclidianConstants.MODE_POLYLINE);
-                addToList(tools, EuclidianConstants.MODE_FITLINE);
+//                addToList(tools, EuclidianConstants.MODE_FITLINE);
                 addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
                 storeIfNotEmpty(category, tools);
 
