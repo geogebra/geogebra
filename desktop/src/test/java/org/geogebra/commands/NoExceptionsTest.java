@@ -1,5 +1,6 @@
 package org.geogebra.commands;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Locale;
 import java.util.Set;
@@ -2761,6 +2762,49 @@ public class NoExceptionsTest {
 	@Test
 	public void implicitSurface() {
 		t("x^3+y^3+z^3=1");
+	}
+
+	// @Test
+	public void runLast() {
+
+		try {
+			for (Method m : this.getClass().getMethods()) {
+				if (!"runLast".equals(m.getName())
+						&& !"wait".equals(m.getName())
+						&& !"notify".equals(m.getName())
+						&& !"notifyAll".equals(m.getName())) {
+					safeInvoke(m);
+				}
+			}
+			Method mean = this.getClass().getMethod("cmdMeanY");
+			safeInvoke(mean);
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	private void safeInvoke(Method m) {
+		try {
+			if (m.getParameterCount() == 0) {
+				System.out.println(m.getName());
+				m.invoke(this);
+			}
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+			Assert.fail();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
