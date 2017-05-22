@@ -1,9 +1,10 @@
 @import 'colors';
 
-.GeoGebraFrame {
-	
+.GeoGebraFrame {	
+
 	.matMenu.gwt-PopupPanel {
-		background-color: $white-80;
+		
+		background-color: $white-95;
 		padding: 8px 0px 8px 0px;
 		border-radius: 2px;
 		min-width: 192px;
@@ -13,7 +14,9 @@
 			min-width: 192px;
 			cursor: pointer; 
 			padding-left: 64px;
-			
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-right: 0px;
 			.no-image {
 				padding-left: 0px !important;
 			}
@@ -51,6 +54,7 @@
 			height: 24px !important;
 			position: absolute;
 			margin-left: -40px;	
+			margin-top: -2px;
 			opacity: 0.54;
 		}
 		
@@ -60,7 +64,7 @@
 		
 		.subMenuIcon img {
 			margin-right: 0px !important;
-			margin-top: -11px !important;
+			margin-top: -12px !important;
 		}
 		
 		.subMenuIcon:hover {
@@ -72,13 +76,15 @@
 		padding: 4px 0px 4px 0px;
 		border-radius: 2px;
 		min-width: 64px;
-		background-color: $white-80;
+		background-color: $white-95;
 	
 		.gwt-MenuItem {
 			height: 24px;
 			min-width: 64px;
 			cursor: pointer; 
 			padding-left: 0px;
+			padding-top: 0px;
+			padding-bottom: 0px;
 		}
 		
 		.gwt-MenuItem.no-image {
