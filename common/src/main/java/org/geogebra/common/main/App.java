@@ -4143,7 +4143,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1694 */
 		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
-			return prerelease;
+			return true;
 
 		/** GGB-1633 */
 		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
