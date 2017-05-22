@@ -112,12 +112,14 @@ public class PerspectivesPopup {
 			Anchor link_playstore = new Anchor(playStoreIcon.toString(), true,
 					"https://play.google.com/store/apps/details?id=org.geogebra.android");
 			link_playstore.addStyleName("linkPlaystore");
+			link_playstore.setTarget("_blank");
 
 			// creating app store icon
 			NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
 					.safeURI(GuiResources.INSTANCE.app_store()), 34, true);
 			Anchor link_appstore = new Anchor(appStoreIcon.toString(), true,
 					"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204");
+			link_appstore.setTarget("_blank");
 
 			// holder panel
 			FlowPanel holderPanel = new FlowPanel();
