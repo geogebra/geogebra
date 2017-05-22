@@ -4121,7 +4121,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1349
 		case FIX_KEYBOARD_POSITION:
-			return prerelease;
+			return true;
 
 		/** GGB-1244 */
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
