@@ -392,7 +392,11 @@ public class DrawAxis {
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
-						&& (pix > maxY + fontsize || yCrossPix > 0)) {
+						&& (pix > maxY + fontsize || yCrossPix > 0)
+						&& (pix < view.getHeight() - maxY
+								- (view.xLabelHeights + 5)
+								|| yCrossPix < view.getHeight()
+										- (view.xLabelHeights + 5))) {
 					String strNum = tickDescription(view, labelno, 1);
 
 					if ((labelno % unitsPerLabelY) == 0) {
