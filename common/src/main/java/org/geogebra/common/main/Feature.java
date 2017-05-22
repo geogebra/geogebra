@@ -163,6 +163,7 @@ public enum Feature {
 
 	/** MOW-197 */
 	COLORPOPUP_IMPROVEMENTS,
+
 	/** GGB-1691 */
 	TABBED_KEYBOARD,
 

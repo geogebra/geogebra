@@ -4154,9 +4154,9 @@ public abstract class App implements UpdateSelection {
 			// see comment at GPopupPanel.setOverlapFeature
 			return prerelease;
 
-		/** GGB-1691 */
+		/** GGB-1691 GGB-1420 */
 		case TABBED_KEYBOARD:
-			return prerelease;
+			return true;
 
 		// **********************************************************************
 		// KEYBOARD END
