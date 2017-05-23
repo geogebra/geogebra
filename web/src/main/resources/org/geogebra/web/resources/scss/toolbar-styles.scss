@@ -51,7 +51,9 @@
 			}
 		}
 
-		.header-open {
+
+		.header-open-portrait,
+		.header-open-landscape {
 			@extend .header;
 			
 			height: 56px;
@@ -70,7 +72,7 @@
 			
 		}
 		
-		.header-close {
+		.header-close-landscape {
 			@extend .header;
 	 
 			width: 56px;
@@ -94,9 +96,15 @@
 				display: table-cell;
 				vertical-align: middle;
 			}
-					 
+ 
 		}
 
+	.header-close-portrait	{
+		@extend .header-open-landscape;
+		position: absolute;
+		bottom: 0px;
+	}				
+			
 	.algebraPanel {
 	}
 		

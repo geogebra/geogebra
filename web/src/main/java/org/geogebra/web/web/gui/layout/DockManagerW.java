@@ -1753,6 +1753,7 @@ public class DockManagerW extends DockManager {
 	
 
 	private double kbHeight = 0;
+	private boolean portrait;
 
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){
@@ -1816,7 +1817,7 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 		calculateKeyboardHeight();
-		final boolean portrait = app.getWidth() < app.getHeight();
+		portrait = app.getWidth() < app.getHeight();
 		final double landscape = PerspectiveDecoder
 				.landscapeRatio(app.getWidth());
 
@@ -1824,7 +1825,7 @@ public class DockManagerW extends DockManager {
 
 			@Override
 			public void execute() {
-				adjustViews(portrait, landscape);
+				adjustViews(landscape);
 			}
 		});
 	}
@@ -1837,7 +1838,7 @@ public class DockManagerW extends DockManager {
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
-	protected void adjustViews(boolean portrait, double landscapeRatio) {
+	protected void adjustViews(double landscapeRatio) {
 		if (!app.has(Feature.ADJUST_VIEWS)) {
 			return;
 		}
@@ -1893,4 +1894,14 @@ public class DockManagerW extends DockManager {
 			kbHeight = kh;
 		}
 	}
+
+	/**
+	 * app is portrait mode if its height larger than width.
+	 * 
+	 * @return true if app is portrait mode.
+	 */
+	public boolean isPortrait() {
+		return portrait;
+	}
+
 }

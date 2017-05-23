@@ -6,6 +6,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -148,24 +149,35 @@ public class ToolbarPanel extends FlowPanel {
 
 		public void setOpen(boolean value) {
 			this.open = value;
+			styleHeader();
+			
+			if (!isPortrait()) {
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+					public void execute() {
+						updateCenterSize();
+					}
+				});
+				updateWidth();
+			}
+			
+			showKeyboardButtonDeferred(isOpen());
+		}
+
+		private void styleHeader() {
+			removeStyleName("header-open-portrait");
+			removeStyleName("header-close-portrait");
+			removeStyleName("header-open-landscape");
+			removeStyleName("header-close-landscape");
+
+			String orientation = isPortrait() ? "portrait" : "landscape";
 			if (open) {
-				removeStyleName("header-close");
-				addStyleName("header-open");
+				addStyleName("header-open-" + orientation);
 				btnClose.getUpFace().setImage(imgClose);
 			} else {
-				removeStyleName("header-open");
-				addStyleName("header-close");
+				addStyleName("header-close-" + orientation);
 				btnClose.getUpFace().setImage(imgOpen);
 			}
-
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				public void execute() {
-					updateCenterSize();
-				}
-			});
-			updateWidth();
-			showKeyboardButtonDeferred(isOpen());
 		}
 
 		void updateCenterSize() {
@@ -177,6 +189,10 @@ public class ToolbarPanel extends FlowPanel {
 					- btnClose.getOffsetHeight() - 2 * PADDING;
 			center.setHeight(h + "px");
 
+		}
+
+		public void resize() {
+			styleHeader();
 		}
 	}
 
@@ -293,6 +309,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (!header.isOpen()) {
 			return;
 		}
+		
 		header.setOpen(false);
 	}
 
@@ -415,6 +432,7 @@ public class ToolbarPanel extends FlowPanel {
 	 * Resize tabs.
 	 */
 	public void resize() {
+		header.resize();
 		if (tabAlgebra != null) {
 			tabAlgebra.onResize();
 		}
@@ -422,6 +440,16 @@ public class ToolbarPanel extends FlowPanel {
 		if (tabTools != null) {
 			tabTools.onResize();
 		}
+
+
 	}
 
+	/**
+	 * 
+	 * @return if app is in portrait mode.
+	 */
+	boolean isPortrait() {
+		return ((DockManagerW) (app.getGuiManager().getLayout()
+				.getDockManager())).isPortrait();
+	}
 }
