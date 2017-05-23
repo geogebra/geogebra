@@ -14,7 +14,7 @@
 			
 			.selected,
 			.flatButton:hover {
-				crusor: hand;
+				cursor: hand;
 				background-color: $white-30;
 			}
 			
@@ -32,7 +32,7 @@
 				margin: auto;
 				width: 64px;
 				display: flex;
-				top: -48px;
+				top: 0px;
 				padding-left: 0;
 				padding-right: 0;
 				
@@ -49,6 +49,7 @@
 			.center >* {
 				display: inline-block;
 			}
+			
 		}
 
 
@@ -67,7 +68,7 @@
 				margin: auto;
 				width: 64px;
 				display: flex;
-				top: -48px;
+				top: 0px;
 			}
 			
 		}
@@ -104,6 +105,8 @@
 		position: absolute;
 		bottom: 0px;
 	}				
+	
+	
 			
 	.algebraPanel {
 	}

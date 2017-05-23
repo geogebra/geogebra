@@ -6,6 +6,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.Presistable;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -45,7 +46,17 @@ public class ToolbarPanel extends FlowPanel {
 
 	private class Header extends FlowPanel {
 		private static final int PADDING = 12;
-		private ToggleButton btnMenu;
+
+		private class PresistableToggleButton extends ToggleButton
+				implements Presistable {
+
+			public PresistableToggleButton(Image image) {
+				super(image);
+			}
+
+		}
+
+		private PresistableToggleButton btnMenu;
 		private ToggleButton btnAlgebra;
 		private ToggleButton btnTools;
 		private ToggleButton btnClose;
@@ -54,6 +65,7 @@ public class ToolbarPanel extends FlowPanel {
 		private Image imgOpen;
 		private FlowPanel contents;
 		private FlowPanel center;
+		private Image imgMenu;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
@@ -114,7 +126,8 @@ public class ToolbarPanel extends FlowPanel {
 		private void createCloseButton() {
 			imgClose = new Image();
 			imgOpen = new Image();
-			updateCloseImages();
+			imgMenu = new Image();
+			updateButtonImages();
 			btnClose = new ToggleButton();
 			btnClose.addStyleName("flatButton");
 			btnClose.addStyleName("close");
@@ -140,25 +153,31 @@ public class ToolbarPanel extends FlowPanel {
 			});
 		}
 
-		private void updateCloseImages() {
+		private void updateButtonImages() {
 			if (isPortrait()) {
 				imgOpen.setResource(MaterialDesignResources.INSTANCE
 						.toolbar_open_portrait_white());
 				imgClose.setResource(MaterialDesignResources.INSTANCE
 						.toolbar_close_portrait_white());
+				imgMenu.setResource(
+						MaterialDesignResources.INSTANCE.toolbar_menu_black());
 			} else {
 				imgOpen.setResource(MaterialDesignResources.INSTANCE
 						.toolbar_open_landscape_white());
 				imgClose.setResource(MaterialDesignResources.INSTANCE
 						.toolbar_close_landscape_white());
+				imgMenu.setResource(
+						MaterialDesignResources.INSTANCE.toolbar_menu_white());
 			}
 		}
 
 		private void createMenuButton() {
-			btnMenu = new ToggleButton(new Image(MaterialDesignResources.INSTANCE.toolbar_menu_white()));
+			btnMenu = new PresistableToggleButton(new Image(
+					MaterialDesignResources.INSTANCE.toolbar_menu_black()));
 			btnMenu.addStyleName("flatButton");
 			btnMenu.addStyleName("menu");
-			contents.add(btnMenu);
+
+			getFrame().add(btnMenu);
 
 			ClickStartHandler.init(btnMenu, new ClickStartHandler() {
 
@@ -222,7 +241,7 @@ public class ToolbarPanel extends FlowPanel {
 
 		public void setOpen(boolean value) {
 			this.open = value;
-			styleHeader();
+			updateStyle();
 			
 			if (isPortrait()) {
 				updateHeight();
@@ -240,14 +259,16 @@ public class ToolbarPanel extends FlowPanel {
 			
 
 			showKeyboardButtonDeferred(isOpen());
+
 		}
 
-		private void styleHeader() {
+		void updateStyle() {
+			ToolbarPanel.this.updateStyle();
 			removeStyleName("header-open-portrait");
 			removeStyleName("header-close-portrait");
 			removeStyleName("header-open-landscape");
 			removeStyleName("header-close-landscape");
-			updateCloseImages();
+			updateButtonImages();
 			String orientation = isPortrait() ? "portrait" : "landscape";
 			if (open) {
 				addStyleName("header-open-" + orientation);
@@ -256,6 +277,9 @@ public class ToolbarPanel extends FlowPanel {
 				addStyleName("header-close-" + orientation);
 				btnClose.getUpFace().setImage(imgOpen);
 			}
+
+			btnMenu.getUpFace().setImage(imgMenu);
+
 		}
 
 		void updateCenterSize() {
@@ -273,7 +297,7 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		public void resize() {
-			styleHeader();
+			updateStyle();
 		}
 	}
 
@@ -343,9 +367,6 @@ public class ToolbarPanel extends FlowPanel {
 
 		@Override
 		public void onResize() {
-			if (isPortrait()) {
-				return;
-			}
 			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
 					ToolbarPanel.this.getOffsetHeight());
 
@@ -569,6 +590,18 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 
+	}
+
+	/**
+	 * Shows/hides full toolbar.
+	 */
+	void updateStyle() {
+		if (header.isOpen()) {
+			main.removeStyleName("hidden");
+		} else {
+			main.addStyleName("hidden");
+
+		}
 	}
 
 	/**
