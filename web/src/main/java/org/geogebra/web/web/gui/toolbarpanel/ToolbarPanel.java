@@ -16,6 +16,7 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -77,6 +78,7 @@ public class ToolbarPanel extends FlowPanel {
 		private FlowPanel contents;
 		private FlowPanel center;
 		private Image imgMenu;
+		/* used in landscape mode */
 		private PresistablePanel undoRedoPanel;
 		private ToggleButton btnUndoPortrait;
 		private ToggleButton btnRedoPortrait;
@@ -341,8 +343,20 @@ public class ToolbarPanel extends FlowPanel {
 
 			btnMenu.getUpFace().setImage(imgMenu);
 			
-			updateUndoRedoLandscapePosition();
-
+			if (isPortrait()) {
+				undoRedoPanel.getElement().getStyle().setDisplay(Display.NONE);
+				btnUndoPortrait.getElement().getStyle()
+						.setDisplay(Display.BLOCK);
+				btnRedoPortrait.getElement().getStyle()
+						.setDisplay(Display.BLOCK);
+			} else {
+				updateUndoRedoLandscapePosition();
+				undoRedoPanel.getElement().getStyle().setDisplay(Display.BLOCK);
+				btnUndoPortrait.getElement().getStyle()
+						.setDisplay(Display.NONE);
+				btnRedoPortrait.getElement().getStyle()
+						.setDisplay(Display.NONE);
+			}
 		}
 
 		void updateCenterSize() {
