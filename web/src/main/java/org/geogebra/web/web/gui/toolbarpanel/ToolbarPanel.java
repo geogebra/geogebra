@@ -173,6 +173,7 @@ public class ToolbarPanel extends FlowPanel {
 			FlowPanel undoRedoPanel = new FlowPanel();
 			undoRedoPanel.addStyleName("undoRedoPanel");
 			addUndoButton(undoRedoPanel);
+			addRedoButton(undoRedoPanel);
 			addForEV(undoRedoPanel);
 		}
 
@@ -187,7 +188,6 @@ public class ToolbarPanel extends FlowPanel {
 			ToggleButton btnUndo = new ToggleButton(
 					new Image(MaterialDesignResources.INSTANCE.undo_black()));
 			btnUndo.addStyleName("flatButton");
-			// btnUndo.addStyleName("btnUndoFlat");
 
 			ClickStartHandler.init(btnUndo, new ClickStartHandler() {
 
@@ -201,6 +201,23 @@ public class ToolbarPanel extends FlowPanel {
 			panel.add(btnUndo);
 		}
 
+		private void addRedoButton(final FlowPanel panel) {
+			ToggleButton btnRedo = new ToggleButton(
+					new Image(MaterialDesignResources.INSTANCE.redo_black()));
+			btnRedo.addStyleName("flatButton");
+
+			ClickStartHandler.init(btnRedo, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					app.getGuiManager().redo();
+					addForEV(panel);
+				}
+			});
+
+			panel.add(btnRedo);
+		}
+		
 		public boolean isOpen() {
 			return open;
 		}
