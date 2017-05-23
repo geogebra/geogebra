@@ -442,7 +442,7 @@ public class PredefMacros {
 	 */
 	public static final Atom brack_macro(final TeXParser tp)
 			throws ParseException {
-		return brackets(tp, "lbrack", "rbrack");
+		return brackets(tp, "lsqbrack", "rsqbrack");
 	}
 
 	/**
