@@ -103,6 +103,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	// private GeoFunctionConditional parentCondFun = null;
 
 	private Boolean isInequality = null;
+	private boolean shortLHS = false;
 
 	/**
 	 * Creates new function
@@ -848,8 +849,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		if (isLabelSet()) {
-			initStringBuilder(sbToString, tpl, label, getVarString(tpl),
-					isBooleanFunction());
+
+			initStringBuilder(sbToString, tpl, label, this);
+
 		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
@@ -862,18 +864,23 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            string template
 	 * @param label
 	 *            geo label
-	 * @param var
-	 *            geo var
-	 * @param isBooleanFunction
-	 *            says if it's a boolean function
+	 * @param fn
+	 *            function; to determine what kind of LHS we want
 	 */
 	public final static void initStringBuilder(StringBuilder stringBuilder,
-			StringTemplate tpl, String label, String var,
-			boolean isBooleanFunction) {
+			StringTemplate tpl, String label,
+			FunctionalNVar fn) {
 		stringBuilder.append(label);
-		if (isBooleanFunction && !tpl.hasType(StringType.GEOGEBRA_XML)) {
+		if (fn.isShortLHS()) {
+			stringBuilder.append(": ");
+			stringBuilder
+					.append((char) ('x' + fn.getFunctionVariables().length));
+			stringBuilder.append(" =");
+		} else if (fn.isBooleanFunction()
+				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
 			stringBuilder.append(": ");
 		} else {
+			String var = fn.getVarString(tpl);
 			stringBuilder.append(tpl.leftBracket());
 			stringBuilder.append(var);
 			stringBuilder.append(tpl.rightBracket());
@@ -2077,7 +2084,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	public char getLabelDelimiter() {
-		return isBooleanFunction() ? ':' : '=';
+		return isBooleanFunction() || isShortLHS() ? ':' : '=';
 	}
 
 	/**
@@ -2565,7 +2572,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				ret = "-\\infty";
 			}
 		}
-
+		if (isShortLHS()) {
+			return "y = " + ret;
+		}
 		return ret;
 
 	}
@@ -3216,6 +3225,18 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public ArrayList<MyPoint> getPoints() {
 		return ((AlgoFunctionFreehand) getParentAlgorithm()).getPoints();
+	}
+
+	public boolean isShortLHS() {
+		return this.shortLHS;
+	}
+
+	/**
+	 * @param shortLHS
+	 *            whether lhs should be just f: y= instead of f(x)=
+	 */
+	public void setShortLHS(boolean shortLHS) {
+		this.shortLHS = shortLHS;
 	}
 
 }

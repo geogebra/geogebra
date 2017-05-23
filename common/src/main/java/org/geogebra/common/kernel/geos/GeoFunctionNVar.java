@@ -420,8 +420,7 @@ public class GeoFunctionNVar extends GeoElement
 	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		if (isLabelSet()) {
-			GeoFunction.initStringBuilder(sbToString, tpl, label,
-					getVarString(tpl), isBooleanFunction());
+			GeoFunction.initStringBuilder(sbToString, tpl, label, this);
 		}
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
@@ -1280,6 +1279,10 @@ public class GeoFunctionNVar extends GeoElement
 			ret = toOutputValueString(tpl);
 		}
 
+		if (isShortLHS()) {
+			return "z = " + ret;
+		}
+
 		return ret;
 
 	}
@@ -1293,6 +1296,7 @@ public class GeoFunctionNVar extends GeoElement
 			normal = new Coords(3);
 
 	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+	private boolean shortLHS;
 
 	private boolean setNormalFromNeighbours(Coords3 p, double u, double v,
 			Coords3 n) {
@@ -1419,6 +1423,18 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public boolean isMoveable() {
 		return false;
+	}
+
+	public boolean isShortLHS() {
+		return this.shortLHS;
+	}
+
+	/**
+	 * @param shortLHS
+	 *            whether lhs should be just f: y= instead of f(x)=
+	 */
+	public void setShortLHS(boolean shortLHS) {
+		this.shortLHS = shortLHS;
 	}
 
 }

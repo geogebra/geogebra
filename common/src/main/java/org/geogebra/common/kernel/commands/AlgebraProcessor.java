@@ -2479,8 +2479,12 @@ public class AlgebraProcessor {
 				Function fun = new Function(equ.getRHS());
 				// try to use label of equation
 				fun.setLabel(equ.getLabel());
-				return processFunction(fun,
+				GeoElement[] ret = processFunction(fun,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
+				if (ret[0].isGeoFunction()) {
+					((GeoFunction) ret[0]).setShortLHS(true);
+				}
+				return ret;
 			}
 			if ("z".equals(lhsStr)
 					&& !equ.getRHS().containsFreeFunctionVariable("z")
@@ -2491,8 +2495,12 @@ public class AlgebraProcessor {
 						new FunctionVariable[] { x, y });
 				// try to use label of equation
 				fun.setLabel(equ.getLabel());
-				return processFunctionNVar(fun,
+				GeoElement[] ret = processFunctionNVar(fun,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
+				if (ret[0].isGeoFunctionNVar()) {
+					((GeoFunctionNVar) ret[0]).setShortLHS(true);
+				}
+				return ret;
 			}
 			return processImplicitPoly(equ, def);
 		}

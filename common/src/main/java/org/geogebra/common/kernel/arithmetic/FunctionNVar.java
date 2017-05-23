@@ -1472,4 +1472,8 @@ public class FunctionNVar extends ValidExpression
 
 	}
 
+	public boolean isShortLHS() {
+		return false;
+	}
+
 }
