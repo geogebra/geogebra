@@ -71,8 +71,11 @@ public abstract class GeoElementGraphicsAdapter {
 	 */
 	public abstract void convertToSaveableFormat();
 
+	/**
+	 * @return string in the form \\imagebasesixtyfour{data url} or "" if not
+	 *         implemented
+	 */
 	public String toLaTeXStringBase64() {
-		// TODO: implement in Android and iOS
 		return "";
 	}
 

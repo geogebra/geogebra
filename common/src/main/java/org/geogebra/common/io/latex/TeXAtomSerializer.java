@@ -17,14 +17,29 @@ import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TypedAtom;
 
+/**
+ * Converts parsed LaTeX to GGB syntax
+ * 
+ * @author Zbynek
+ *
+ */
 public class TeXAtomSerializer {
 	private static HashMap<String, String> mappings;
 	private BracketsAdapter adapter;
 
+	/**
+	 * @param ad
+	 *            adapter
+	 */
 	public TeXAtomSerializer(BracketsAdapter ad) {
 		this.adapter = ad;
 	}
 
+	/**
+	 * @param root
+	 *            tex formula
+	 * @return expression in GeoGebra syntax
+	 */
 	public String serialize(Atom root) {
 		if (root instanceof FractionAtom) {
 			FractionAtom frac = (FractionAtom) root;

@@ -25,6 +25,11 @@ import org.geogebra.common.util.debug.Log;
  */
 public class PerspectiveDecoder {
 
+	/**
+	 * @param width
+	 *            applet width
+	 * @return prefered ratio of left panel for AV perspective
+	 */
 	public static double landscapeRatio(double width) {
 		if (width < 300) {
 			return 2.0 / 3.0;

@@ -63,6 +63,10 @@ public class DockSplitPaneData {
 		return sb.toString();
 	}
 
+	/**
+	 * @param ratio
+	 *            divider percentage
+	 */
 	public void setDivider(double ratio) {
 		this.dividerLocation = ratio;
 	}
