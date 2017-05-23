@@ -809,7 +809,7 @@ public class EuclidianPen implements GTimerListener {
 	public GeoPoint getNoControlPointCopy(ArrayList<MyPoint> points, int i) {
 		return new GeoPoint(
 				app.getKernel().getConstruction(),
-				points.get(i).getInhomX(), points.get(i).getInhomY(), 1);
+				points.get(i).getX(), points.get(i).getY(), 1);
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {

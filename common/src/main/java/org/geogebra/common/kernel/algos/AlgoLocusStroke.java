@@ -333,8 +333,8 @@ public class AlgoLocusStroke extends AlgoElement
 
 	@Override
 	public GeoPoint getPointCopy(int i) {
-		return new GeoPoint(cons, poly.getPoints().get(i).getInhomX(),
-				poly.getPoints().get(i).getInhomY(), 1);
+		return new GeoPoint(cons, poly.getPoints().get(i).getX(),
+				poly.getPoints().get(i).getY(), 1);
 	}
 
 	/**

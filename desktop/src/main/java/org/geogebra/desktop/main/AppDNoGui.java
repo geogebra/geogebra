@@ -151,7 +151,6 @@ public class AppDNoGui extends App {
 
 	@Override
 	public void storeUndoInfo() {
-		Log.debug("UNDO" + isUndoActive());
 		if (isUndoActive()) {
 			kernel.storeUndoInfo();
 			setUnsaved();

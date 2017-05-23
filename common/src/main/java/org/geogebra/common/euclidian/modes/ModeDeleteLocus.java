@@ -242,8 +242,7 @@ public class ModeDeleteLocus extends ModeDelete {
 		GeoPointND[] pointArray = new GeoPointND[dataPoints.size()];
 		for (int i = 0; i < dataPoints.size(); i++) {
 			pointArray[i] = new GeoPoint(ec.getKernel().getConstruction(),
-					dataPoints.get(i).getInhomX(),
-					dataPoints.get(i).getInhomY(), 1);
+					dataPoints.get(i).getX(), dataPoints.get(i).getY(), 1);
 		}
 		return pointArray;
 	}
@@ -792,7 +791,7 @@ public class ModeDeleteLocus extends ModeDelete {
 			double realX = view.toRealWorldCoordX(interPoints.get(0).getX());
 			double realY = view.toRealWorldCoordY(interPoints.get(0).getY());
 			// switch old point with intersection point
-			dataPoints.get(i).setCoords(realX, realY, 1);
+			dataPoints.get(i).setCoords(realX, realY);
 		}
 		// no intersection
 		else if (interPoints.isEmpty()) {
@@ -817,7 +816,7 @@ public class ModeDeleteLocus extends ModeDelete {
 						.toRealWorldCoordY(interPoints.get(0).getY());
 				// switch old point with intersection
 				// point
-				dataPoints.get(i).setCoords(realX, realY, 1);
+				dataPoints.get(i).setCoords(realX, realY);
 			} else {
 				dataPoints.get(i).setUndefined();
 			}
@@ -853,7 +852,7 @@ public class ModeDeleteLocus extends ModeDelete {
 						.toRealWorldCoordY(interPoints.get(0).getY());
 				// switch old point with intersection
 				// point
-				dataPoints.get(i).setCoords(realX, realY, 1);
+				dataPoints.get(i).setCoords(realX, realY);
 			} else {
 				double[] realCoords = getInterRealCoords(
 						dataPoints.get(i - 1));
@@ -891,14 +890,12 @@ public class ModeDeleteLocus extends ModeDelete {
 					// switch old point with
 					// intersection point
 					dataPoints.get(i - 1).setCoords(realCoords[0],
-							realCoords[1],
-							1);
+							realCoords[1]);
 					dataPoints.get(i).setUndefined();
 					// switch old point with
 					// intersection point
 					dataPoints.get(i + 1).setCoords(realCoords[2],
-							realCoords[3],
-							1);
+							realCoords[3]);
 					newDataAndRealPoint.add(dataPoints);
 					newDataAndRealPoint.add(realPoints);
 					index = i + 2;
@@ -937,7 +934,7 @@ public class ModeDeleteLocus extends ModeDelete {
 			double realY = view.toRealWorldCoordY(interPoints.get(0).getY());
 			// switch old point with
 			// intersection point
-			dataPoints.get(i).setCoords(realX, realY, 1);
+			dataPoints.get(i).setCoords(realX, realY);
 			newDataAndRealPoint.add(dataPoints);
 			newDataAndRealPoint.add(realPoints);
 		}

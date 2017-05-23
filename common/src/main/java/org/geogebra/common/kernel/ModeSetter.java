@@ -13,6 +13,10 @@ public enum ModeSetter {
 	/**
 	 * exit mode set temporarily
 	 */
-	EXIT_TEMPORARY_MODE, CAS_BLUR
+	EXIT_TEMPORARY_MODE,
+	/**
+	 * Cas focus lost triggers CAS evaluation (and mode change)
+	 */
+	CAS_BLUR
 
 }

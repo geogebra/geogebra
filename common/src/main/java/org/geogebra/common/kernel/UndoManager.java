@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Undo manager common to Desktop and Web
@@ -110,7 +109,6 @@ public abstract class UndoManager {
 	final public synchronized void restoreCurrentUndoInfo() {
 		app.getSelectionManager().storeSelectedGeosNames();
 		if (iterator != null) {
-			Log.printStacktrace("UNDO");
 			loadUndoInfo(iterator.previous());
 			iterator.next();
 			updateUndoActions();
@@ -225,15 +223,23 @@ public abstract class UndoManager {
 
 	private boolean storeUndoInfoNeededForProperties = false;
 
+	/**
+	 * Notify about properties change
+	 */
 	public void setPropertiesOccured() {
 		storeUndoInfoNeededForProperties = true;
 	}
 
+	/**
+	 * End batch of properties changes; reset properties change flag and store
+	 * undo if necessary
+	 * 
+	 * @param isUndoActive
+	 *            whether undo should be actually stored
+	 */
 	public void storeUndoInfoForProperties(boolean isUndoActive) {
-		if (isUndoActive) {
-			if (storeUndoInfoNeededForProperties) {
+		if (isUndoActive && storeUndoInfoNeededForProperties) {
 				storeUndoInfo();
-			}
 		}
 		storeUndoInfoNeededForProperties = false;
 	}

@@ -241,28 +241,35 @@ public class MyPoint extends GPoint2D implements Point {
 		return segmentType;
 	}
 
+	/**
+	 * @return copy of this point
+	 */
 	public MyPoint copy() {
 		return new MyPoint(x, y, segmentType);
 	}
 
+	/**
+	 * @return whether coordinates are not NaN (checks only x)
+	 */
 	public boolean isDefined() {
 		return MyDouble.isFinite(x);
 	}
 
-	public double getInhomX() {
-		return x;
-	}
-
-	public double getInhomY() {
-		return y;
-	}
-
-	public void setCoords(double d, double e, int i) {
-		x = d;
-		y = e;
+	/**
+	 * @param x1
+	 *            x-coord
+	 * @param y1
+	 *            y-coord
+	 */
+	public void setCoords(double x1, double y1) {
+		x = x1;
+		y = y1;
 
 	}
 
+	/**
+	 * Invalidate this point
+	 */
 	public void setUndefined() {
 		x = java.lang.Double.NaN;
 
