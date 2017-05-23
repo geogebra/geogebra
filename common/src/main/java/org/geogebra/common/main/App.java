@@ -3972,6 +3972,7 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
+		boolean keyboard = prerelease;
 		switch (f) {
 
 		// leave as prerelease
@@ -4121,19 +4122,19 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-1349
 		case FIX_KEYBOARD_POSITION:
-			return true;
+			return keyboard;
 
 		/** GGB-1244 */
 		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
-			return true;
+			return keyboard;
 
 		/** GGB-1245 */
 		case ONSCREEN_KEYBOARD_AT_PROBCALC:
-			return true;
+			return keyboard;
 
 		// GGB-1252
 		case KEYBOARD_BEHAVIOUR:
-			return true;
+			return keyboard;
 
 		/**
 		 * GGB-1398 + GGB-1529
@@ -4143,7 +4144,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1694 */
 		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
-			return true;
+			return keyboard;
 
 		/** GGB-1633 */
 		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
@@ -4156,7 +4157,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1691 GGB-1420 */
 		case TABBED_KEYBOARD:
-			return true;
+			return keyboard;
 
 		// **********************************************************************
 		// KEYBOARD END
@@ -4274,7 +4275,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case STORE_IMAGES_ON_APPS_PICKER:
-			return prerelease;
+			return true;
 
 
 		case NEW_TOOLBAR:
