@@ -170,30 +170,35 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void addUndoRedoButtons() {
-			addUndoButton();
-
+			FlowPanel undoRedoPanel = new FlowPanel();
+			undoRedoPanel.addStyleName("undoRedoPanel");
+			addUndoButton(undoRedoPanel);
+			addForEV(undoRedoPanel);
 		}
 
-		void addUndoButton() {
+		void addForEV(FlowPanel panel) {
+			if (((AppW) app).getEuclidianViewpanel() != null) {
+				((AppW) app).getEuclidianViewpanel().getAbsolutePanel()
+						.add(panel);
+			}
+		}
+
+		private void addUndoButton(final FlowPanel panel) {
 			ToggleButton btnUndo = new ToggleButton(
 					new Image(MaterialDesignResources.INSTANCE.undo_black()));
 			btnUndo.addStyleName("flatButton");
-			btnUndo.addStyleName("btnUndoFlat");
+			// btnUndo.addStyleName("btnUndoFlat");
 
 			ClickStartHandler.init(btnUndo, new ClickStartHandler() {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					app.getGuiManager().undo();
-					addUndoButton();
+					addForEV(panel);
 				}
 			});
-		
-			if (((AppW) app).getEuclidianViewpanel() != null) {
-				((AppW) app).getEuclidianViewpanel().getAbsolutePanel()
-						.add(btnUndo);
 
-			}
+			panel.add(btnUndo);
 		}
 
 		public boolean isOpen() {
