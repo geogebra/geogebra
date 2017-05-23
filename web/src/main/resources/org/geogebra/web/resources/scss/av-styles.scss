@@ -16,7 +16,7 @@
 			padding-left: 64px;
 			padding-top: 0px;
 			padding-bottom: 0px;
-			padding-right: 0px;
+			padding-right: 16px;
 			.no-image {
 				padding-left: 0px !important;
 			}
@@ -85,11 +85,12 @@
 			padding-left: 0px;
 			padding-top: 0px;
 			padding-bottom: 0px;
+			padding-rigth: 16px;
 		}
 		
 		.gwt-MenuItem.no-image {
 			padding-left: 24px !important;
-			padding-right: 0px;
+			padding-right: 16px;
 		}
 		
 		.gwt-MenuItem:hover {

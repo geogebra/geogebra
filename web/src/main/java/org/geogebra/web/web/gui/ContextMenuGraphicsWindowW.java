@@ -250,9 +250,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
-		if (app.has(Feature.NEW_TOOLBAR)) {
-			// zoomMenu.addStyleName("matMenu");
-		}
 
 		if (!app.getActiveEuclidianView().isZoomable()) {
 			zoomMenuItem.setEnabled(false);
