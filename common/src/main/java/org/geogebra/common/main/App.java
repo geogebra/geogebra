@@ -4235,8 +4235,11 @@ public abstract class App implements UpdateSelection {
 		case DIRECT_FORMULA_CONVERSION:
 			return false;
 
+		/**
+		 * GGB-1572 Functions fixed by default
+		 */
 		case FIXED_OBJECTS_EDITABLE:
-			return prerelease;
+			return true;
 
 		case AV_CONTEXT_MENU:
 			return prerelease;
