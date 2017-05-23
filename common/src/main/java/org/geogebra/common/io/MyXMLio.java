@@ -501,4 +501,8 @@ public abstract class MyXMLio {
 	 *             when problem occurs
 	 */
 	abstract public void readZipFromString(byte[] zipFile) throws Exception;
+
+	public boolean hasErrors() {
+		return getGGBHandler().hasErrors();
+	}
 }

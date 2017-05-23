@@ -151,8 +151,11 @@ public class AppDNoGui extends App {
 
 	@Override
 	public void storeUndoInfo() {
-		// TODO Auto-generated method stub
-
+		Log.debug("UNDO" + isUndoActive());
+		if (isUndoActive()) {
+			kernel.storeUndoInfo();
+			setUnsaved();
+		}
 	}
 
 	@Override

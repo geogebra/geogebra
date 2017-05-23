@@ -3109,6 +3109,11 @@ public class Construction {
 			restoreCurrentUndoInfo();
 			throw err;
 		}
+		if (kernel.getConstruction().getXMLio().hasErrors()) {
+			restoreCurrentUndoInfo();
+			throw new MyError(getApplication().getLocalization(),
+					"ReplaceFailed");
+		}
 	}
 
 	/**

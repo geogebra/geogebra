@@ -364,7 +364,6 @@ public class MyXMLHandler implements DocHandler {
 		minMaxList.clear();
 		animationStepList.clear();
 		animationSpeedList.clear();
-
 		errors.clear();
 
 		if (start) {
@@ -427,6 +426,10 @@ public class MyXMLHandler implements DocHandler {
 			throw new SAXException(
 					loc.getPlain("XMLTagANotFound", "<geogebra>"));
 		}
+	}
+
+	public boolean hasErrors() {
+		return !errors.isEmpty();
 	}
 
 	@Override

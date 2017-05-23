@@ -105,6 +105,17 @@ public class CommandsTest extends Assert{
 
 	}
 
+	public void checkError(String s, String msg) {
+		ErrorAccumulator errorStore = new ErrorAccumulator();
+
+			app.getKernel().getAlgebraProcessor()
+					.processAlgebraCommandNoExceptionHandling(s, false,
+							errorStore, false, null);
+
+		assertTrue(msg.equals(errorStore.getErrors()));
+
+	}
+
 	private static int syntaxes = -1000;
 	
 	@Before
@@ -1000,6 +1011,24 @@ public class CommandsTest extends Assert{
 		t("g(x,y)=If[x+y>0,x^2+x*y]", "If[x + y > 0, x^(2) + (x * y)]");
 		t("h(x,y)=Derivative[g, x]", "If[x + y > 0, (2 * x) + y]");
 		t("h(1,3)", "5");
+	}
+
+	@Test
+	public void redefineTest() {
+		t("A=(1,1)", "(1, 1)");
+		t("B=(1,0)", "(1, 0)");
+		t("C=(0,0)", "(0, 0)");
+		t("D=(0,1)", "(0, 1)");
+		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
+		t("a", "1"); // polygon side
+		app.getKernel().setUndoActive(true);
+		app.getKernel().initUndoInfo();
+		app.storeUndoInfo();
+		checkError("A(x)=x", "Redefinition failed");
+		t("A", "(1, 1)");
+		t("poly1", "1");
+		t("a", "1");
+
 	}
 
 	private static String unicode(String theSpline) {
