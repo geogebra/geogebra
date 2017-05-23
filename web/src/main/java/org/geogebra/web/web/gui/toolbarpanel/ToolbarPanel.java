@@ -72,10 +72,14 @@ public class ToolbarPanel extends FlowPanel {
 		private boolean open = true;
 		private Image imgClose;
 		private Image imgOpen;
+		private Image imgUndo;
+		private Image imgRedo;
 		private FlowPanel contents;
 		private FlowPanel center;
 		private Image imgMenu;
 		private PresistablePanel undoRedoPanel;
+		private ToggleButton btnUndoPortrait;
+		private ToggleButton btnRedoPortrait;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
@@ -83,6 +87,7 @@ public class ToolbarPanel extends FlowPanel {
 
 
 			createMenuButton();
+			createUndoRedoForPortrait();
 			createCloseButton();
 			createCenter();
 			if (app.has(Feature.NEW_UNDO_REDO_BUTTONS)) {
@@ -159,6 +164,39 @@ public class ToolbarPanel extends FlowPanel {
 					setOpen(!isOpen());
 					getFrame().showKeyBoard(false, null, true);
 
+				}
+			});
+		}
+
+		private void createUndoRedoForPortrait() {
+			imgUndo = new Image();
+			imgUndo.setResource(MaterialDesignResources.INSTANCE.undo_white());
+			imgRedo = new Image();
+			imgRedo.setResource(MaterialDesignResources.INSTANCE.redo_white());
+			btnUndoPortrait = new ToggleButton();
+			btnUndoPortrait.addStyleName("flatButton");
+			btnUndoPortrait.addStyleName("undo");
+			btnUndoPortrait.getUpFace().setImage(imgUndo);
+			contents.add(btnUndoPortrait);
+			btnRedoPortrait = new ToggleButton();
+			btnRedoPortrait.addStyleName("flatButton");
+			btnRedoPortrait.addStyleName("redo");
+			btnRedoPortrait.getUpFace().setImage(imgRedo);
+			contents.add(btnRedoPortrait);
+
+			ClickStartHandler.init(btnUndoPortrait, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					app.getGuiManager().undo();
+				}
+			});
+
+			ClickStartHandler.init(btnRedoPortrait, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					app.getGuiManager().redo();
 				}
 			});
 		}

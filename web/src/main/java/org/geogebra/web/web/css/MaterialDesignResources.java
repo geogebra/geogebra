@@ -154,8 +154,14 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/undo_black.png")
 	ImageResource undo_black();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/undo_white.png")
+	ImageResource undo_white();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/redo_black.png")
 	ImageResource redo_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/redo_white.png")
+	ImageResource redo_white();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/select_all_black.png")
 	ImageResource select_all_black();
