@@ -176,6 +176,23 @@ public class AlgebraStyleTest extends Assert {
 		checkEquation("x^2-4*y^2=2x+2y+1", mode, "x^2 - 4y^2 - 2x - 2y = 1");
 		// double line
 		checkEquation("-x^2=x +x -1", mode, "-x^2 - 2x = -1");
+	}
+	
+	@Test
+	public void undefinedNumbersShouldBeQuestionMark() {
+		t("b=1");
+		t("SetValue[b,?]");
+		assertEquals("b = ?", app.getKernel().lookupLabel("b")
+				.toString(StringTemplate.editTemplate));
+		assertEquals("b = ?", app.getKernel().lookupLabel("b")
+				.toString(StringTemplate.editorTemplate));
+		assertEquals("b = ?",
+				app.getKernel().lookupLabel("b").getDefinitionForEditor());
+	}
+
+	private void t(String def) {
+		ap.processAlgebraCommandNoExceptionHandling(def, false,
+				TestErrorHandler.INSTANCE, false, null);
 
 	}
 

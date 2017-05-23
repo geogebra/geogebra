@@ -535,12 +535,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// setPixelSize(width, height);
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().resize(width, height);
-			setWidth(width - app.getArticleElement().getBorderThickness()
-					+ "px");
-			setHeight(height - app.getArticleElement().getBorderThickness()
-					+ "px");
+			setFramePixelSize(width, height);
 			app.persistWidthAndHeight();
 		}
+	}
+
+	private void setFramePixelSize(int width, int height) {
+		setWidth(width - app.getArticleElement().getBorderThickness() + "px");
+		setHeight(height - app.getArticleElement().getBorderThickness() + "px");
 	}
 
 	/**
@@ -549,8 +551,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	@Override
 	public void resetAutoSize() {
 		if (app.getArticleElement().getDataParamWidth() > 0) {
-			setWidth(app.getArticleElement().getDataParamWidth() + "px");
-			setHeight(app.getArticleElement().getDataParamHeight() + "px");
+			setFramePixelSize(app.getArticleElement().getDataParamWidth(),
+					app.getArticleElement().getDataParamHeight());
 		}
 	}
 

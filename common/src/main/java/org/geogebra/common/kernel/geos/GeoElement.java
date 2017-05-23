@@ -5218,9 +5218,12 @@ public abstract class GeoElement extends ConstructionElement
 	 * Returns algebraic representation (e.g. coordinates, equation) of this
 	 * construction element.
 	 * 
+	 * For editing ? is better than undefined (because of localization).
+	 * 
 	 * @param tpl
 	 *            string template
-	 * @return algebraic representation (e.g. coordinates, equation)
+	 * @return algebraic representation (e.g. coordinates, equation) or a= ? for
+	 *         undefined
 	 */
 	final public String getAlgebraDescription(StringTemplate tpl) {
 
@@ -5229,8 +5232,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		final StringBuilder sbAlgebraDesc = new StringBuilder();
 		sbAlgebraDesc.append(label);
-		sbAlgebraDesc.append(' ');
-		sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
+		sbAlgebraDesc.append(" = ?");
 		return sbAlgebraDesc.toString();
 
 	}
