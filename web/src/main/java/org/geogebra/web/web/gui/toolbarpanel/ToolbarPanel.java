@@ -2,6 +2,8 @@ package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -59,6 +61,9 @@ public class ToolbarPanel extends FlowPanel {
 			createMenuButton();
 			createCloseButton();
 			createCenter();
+			if (app.has(Feature.NEW_UNDO_REDO_BUTTONS)) {
+				addUndoRedoButtons();
+			}
 
 		}
 
@@ -141,6 +146,32 @@ public class ToolbarPanel extends FlowPanel {
 					toggleMenu();
 				}
 			});
+		}
+
+		private void addUndoRedoButtons() {
+			addUndoButton();
+
+		}
+
+		private void addUndoButton() {
+			ToggleButton btnUndo = new ToggleButton(
+					new Image(MaterialDesignResources.INSTANCE.undo_black()));
+			btnUndo.addStyleName("flatButton");
+			btnUndo.addStyleName("btnUndoFlat");
+
+			ClickStartHandler.init(btnUndo, new ClickStartHandler() {
+
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					Log.debug("undo");
+				}
+			});
+		
+			if (((AppW) app).getEuclidianViewpanel() != null) {
+				((AppW) app).getEuclidianViewpanel().getAbsolutePanel()
+						.add(btnUndo);
+
+			}
 		}
 
 		public boolean isOpen() {

@@ -223,6 +223,9 @@ public enum Feature {
 	NEW_TOOLBAR,
 
 	/** MOB-1216 */
-	WEB_ZSPACE
+	WEB_ZSPACE,
+
+	/** GGB-1778 */
+	NEW_UNDO_REDO_BUTTONS
 
 }

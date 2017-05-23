@@ -4276,6 +4276,9 @@ public abstract class App implements UpdateSelection {
 
 		case NEW_TOOLBAR:
 			return false;
+		
+		case NEW_UNDO_REDO_BUTTONS:
+			return prerelease;
 			
 		// MOB-1216 5.0.358.0
 		case WEB_ZSPACE:
