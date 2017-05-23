@@ -31,10 +31,14 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
-		if (toolbar.getOffsetWidth() < CLOSING_WIDTH) {
-			toolbar.close();
+		if (toolbar.isPortrait()) {
+
 		} else {
-			toolbar.open();
+			if (toolbar.getOffsetWidth() < CLOSING_WIDTH) {
+				toolbar.close();
+			} else {
+				toolbar.open();
+			}
 		}
 		toolbar.resize();
 	}

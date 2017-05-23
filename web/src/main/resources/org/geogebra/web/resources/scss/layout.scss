@@ -1,8 +1,14 @@
 .GeoGebraFrame {
-
 	.hide-HDragger {
 		
 		.gwt-SplitLayoutPanel-HDragger {
+			display: none;
+		}
+	}
+	
+	.hide-VDragger {
+		
+		.gwt-SplitLayoutPanel-VDragger {
 			display: none;
 		}
 	}

@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * 
@@ -30,13 +31,15 @@ import com.google.gwt.user.client.ui.ToggleButton;
  *
  */
 public class ToolbarPanel extends FlowPanel {
-	private static final int CLOSED_WIDTH = 56;
+	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
+	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
 
 	/** Application */
 	App app;
 	private Header header;
 	private FlowPanel main;
 	private Integer lastOpenWidth = null;
+	private Integer lastOpenHeight = null;
 	private AlgebraTab tabAlgebra = null;
 	private ToolsTab tabTools = null;
 
@@ -109,9 +112,9 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void createCloseButton() {
-			imgClose = new Image(MaterialDesignResources.INSTANCE.toolbar_close_white());
-			imgOpen = new Image(MaterialDesignResources.INSTANCE.toolbar_open_white());
-
+			imgClose = new Image();
+			imgOpen = new Image();
+			updateCloseImages();
 			btnClose = new ToggleButton();
 			btnClose.addStyleName("flatButton");
 			btnClose.addStyleName("close");
@@ -122,7 +125,12 @@ public class ToolbarPanel extends FlowPanel {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					if (isOpen()) {
-						setLastOpenWidth(getOffsetWidth());
+						if (isPortrait()) {
+							setLastOpenHeight(
+									app.getActiveEuclidianView().getHeight());
+						} else {
+							setLastOpenWidth(getOffsetWidth());
+						}
 					}
 
 					setOpen(!isOpen());
@@ -130,6 +138,20 @@ public class ToolbarPanel extends FlowPanel {
 
 				}
 			});
+		}
+
+		private void updateCloseImages() {
+			if (isPortrait()) {
+				imgOpen.setResource(MaterialDesignResources.INSTANCE
+						.toolbar_open_portrait_white());
+				imgClose.setResource(MaterialDesignResources.INSTANCE
+						.toolbar_close_portrait_white());
+			} else {
+				imgOpen.setResource(MaterialDesignResources.INSTANCE
+						.toolbar_open_landscape_white());
+				imgClose.setResource(MaterialDesignResources.INSTANCE
+						.toolbar_close_landscape_white());
+			}
 		}
 
 		private void createMenuButton() {
@@ -182,7 +204,10 @@ public class ToolbarPanel extends FlowPanel {
 			this.open = value;
 			styleHeader();
 			
-			if (!isPortrait()) {
+			if (isPortrait()) {
+				updateHeight();
+			} else {
+
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 					public void execute() {
@@ -190,8 +215,10 @@ public class ToolbarPanel extends FlowPanel {
 					}
 				});
 				updateWidth();
+
 			}
 			
+
 			showKeyboardButtonDeferred(isOpen());
 		}
 
@@ -200,7 +227,7 @@ public class ToolbarPanel extends FlowPanel {
 			removeStyleName("header-close-portrait");
 			removeStyleName("header-open-landscape");
 			removeStyleName("header-close-landscape");
-
+			updateCloseImages();
 			String orientation = isPortrait() ? "portrait" : "landscape";
 			if (open) {
 				addStyleName("header-open-" + orientation);
@@ -218,7 +245,10 @@ public class ToolbarPanel extends FlowPanel {
 
 			int h = getOffsetHeight() - btnMenu.getOffsetHeight()
 					- btnClose.getOffsetHeight() - 2 * PADDING;
-			center.setHeight(h + "px");
+
+			if (h > 0) {
+				center.setHeight(h + "px");
+			}
 
 		}
 
@@ -283,6 +313,9 @@ public class ToolbarPanel extends FlowPanel {
 
 		@Override
 		public void onResize() {
+			if (isPortrait()) {
+				return;
+			}
 			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
 					ToolbarPanel.this.getOffsetHeight());
 
@@ -345,9 +378,12 @@ public class ToolbarPanel extends FlowPanel {
 	}
 
 	/**
-	 * updates panel width according to its state.
+	 * updates panel width according to its state in landscape mode.
 	 */
 	public void updateWidth() {
+		if (isPortrait()) {
+			return;
+		}
 
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
@@ -357,10 +393,40 @@ public class ToolbarPanel extends FlowPanel {
 						getLastOpenWidth().intValue());
 				dockParent.removeStyleName("hide-HDragger");
 			} else {
-				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH);
+				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.addStyleName("hide-HDragger");
 			}
 			dockPanel.deferredOnResize();
+		}
+
+	}
+
+	/**
+	 * updates panel height according to its state in portrait mode.
+	 */
+	public void updateHeight() {
+		if (!isPortrait()) {
+			return;
+		}
+
+		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
+		DockSplitPaneW dockParent = dockPanel != null
+				? dockPanel.getParentSplitPane() : null;
+		if (dockPanel != null && getLastOpenHeight() != null) {
+			Widget d = dockParent.getOpposite(dockPanel);
+			if (header.isOpen()) {
+				int h = dockPanel.getOffsetHeight();
+				dockParent.setWidgetSize(d, getLastOpenHeight());
+				dockParent.removeStyleName("hide-VDragger");
+			} else {
+				int h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT;
+				if (h > 0) {
+					dockParent.setWidgetSize(d, d.getOffsetHeight() + h);
+					dockParent.addStyleName("hide-VDragger");
+				}
+
+			}
+			// dockPanel.deferredOnResize();
 		}
 
 	}
@@ -479,8 +545,16 @@ public class ToolbarPanel extends FlowPanel {
 	 * 
 	 * @return if app is in portrait mode.
 	 */
-	boolean isPortrait() {
+	public boolean isPortrait() {
 		return ((DockManagerW) (app.getGuiManager().getLayout()
 				.getDockManager())).isPortrait();
+	}
+
+	Integer getLastOpenHeight() {
+		return lastOpenHeight;
+	}
+
+	void setLastOpenHeight(Integer lastOpenHeight) {
+		this.lastOpenHeight = lastOpenHeight;
 	}
 }

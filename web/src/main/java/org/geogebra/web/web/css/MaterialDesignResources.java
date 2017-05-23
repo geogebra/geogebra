@@ -108,11 +108,17 @@ public interface MaterialDesignResources extends ClientBundle {
 	ImageResource insert_photo_black();
 
 	// Toolbar resoures
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/open_white.png")
-	ImageResource toolbar_open_white();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/open_portrait_white.png")
+	ImageResource toolbar_open_portrait_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_white.png")
-	ImageResource toolbar_close_white();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_portrait_white.png")
+	ImageResource toolbar_close_portrait_white();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/open_landscape_white.png")
+	ImageResource toolbar_open_landscape_white();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_landscape_white.png")
+	ImageResource toolbar_close_landscape_white();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/menu_white.png")
 	ImageResource toolbar_menu_white();
