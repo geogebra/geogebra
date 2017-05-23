@@ -99,6 +99,7 @@ import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.UndoRedoPanel;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
@@ -1685,7 +1686,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		final Iterator<Widget> it = ep.iterator();
 		while (it.hasNext()) {
 			final Widget nextItem = it.next();
-			if (!(nextItem instanceof Canvas)) {
+			if (!(nextItem instanceof Canvas)
+					&& !(nextItem instanceof UndoRedoPanel)) {
 				it.remove();
 			}
 		}
