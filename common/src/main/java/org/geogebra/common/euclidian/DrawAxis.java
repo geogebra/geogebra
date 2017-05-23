@@ -394,13 +394,15 @@ public class DrawAxis {
 				if (view.showAxesNumbers[1]
 						// Don't show the biggest number on y-axis if x-axis is
 						// too close to the top of EV.
-						&& (pix > maxY + fontsize || yCrossPix > 0 || view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE))
+						&& (pix > maxY + fontsize || yCrossPix > 0
+								|| !view.getApplication()
+										.has(Feature.TICK_NUMBERS_AT_EDGE))
 						// Don't show the lowest number on y-axis if x-axis is
 						// too close to the bottom of EV.
 						&& (pix < view.getHeight() - (view.xLabelHeights + 5)
 								|| yCrossPix < view.getHeight()
 										- (view.xLabelHeights + 5)
-								|| view.getApplication()
+								|| !view.getApplication()
 										.has(Feature.TICK_NUMBERS_AT_EDGE))) {
 					String strNum = tickDescription(view, labelno, 1);
 
