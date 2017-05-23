@@ -33,6 +33,22 @@
 			background-color: $white-30;
 	}
 	
+	.undoRedoPanel {
+		margin: 4px;
+		position: absolute;
+		z-index: 10;
+
+		.flatButton {
+			margin: 6px 6px 6px 6px;
+			padding: 6px;
+			width: 24px;
+			height: 24px;
+			display: inline-block;
+			cursor: pointer;
+		}
+
+	}
+	
   }
   
  

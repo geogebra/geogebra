@@ -16,6 +16,7 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -56,6 +57,14 @@ public class ToolbarPanel extends FlowPanel {
 
 		}
 
+		private class PresistablePanel extends FlowPanel
+				implements Presistable {
+
+			public PresistablePanel() {
+				super();
+			}
+		}
+
 		private PresistableToggleButton btnMenu;
 		private ToggleButton btnAlgebra;
 		private ToggleButton btnTools;
@@ -66,6 +75,7 @@ public class ToolbarPanel extends FlowPanel {
 		private FlowPanel contents;
 		private FlowPanel center;
 		private Image imgMenu;
+		private PresistablePanel undoRedoPanel;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
@@ -189,11 +199,24 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void addUndoRedoButtons() {
-			UndoRedoPanel undoRedoPanel = new UndoRedoPanel();
+			undoRedoPanel = new PresistablePanel();
 			undoRedoPanel.addStyleName("undoRedoPanel");
 			addUndoButton(undoRedoPanel);
 			addRedoButton(undoRedoPanel);
-			addForEV(undoRedoPanel);
+			getFrame().add(undoRedoPanel);
+		}
+
+		private void updateUndoRedoLandscapePosition() {
+
+			if (((AppW) app).getEuclidianViewpanel() != null) {
+				int evTop = ((AppW) app).getEuclidianViewpanel()
+						.getAbsolutePanel().getElement().getAbsoluteTop();
+				int evLeft = ((AppW) app).getEuclidianViewpanel()
+						.getAbsolutePanel().getElement().getAbsoluteLeft();
+				undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
+				undoRedoPanel.getElement().getStyle().setLeft(evLeft, Unit.PX);
+
+			}
 		}
 
 		void addForEV(FlowPanel panel) {
@@ -279,6 +302,8 @@ public class ToolbarPanel extends FlowPanel {
 			}
 
 			btnMenu.getUpFace().setImage(imgMenu);
+			
+			updateUndoRedoLandscapePosition();
 
 		}
 
