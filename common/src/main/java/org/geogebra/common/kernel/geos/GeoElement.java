@@ -5666,7 +5666,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (isIndependent() && definition != null && getDefaultGeoType() < 0) {
 			sb.append("<expression");
 			sb.append(" label =\"");
-			sb.append(label);
+			sb.append(StringUtil.encodeXML(label));
 			sb.append("\" exp=\"");
 			StringUtil.encodeXML(sb,
 					definition.toString(StringTemplate.xmlTemplate));
