@@ -2607,7 +2607,7 @@ namespace giac {
 	double qb=double(q.size())*b.size();
 	qb /= a.size();
 	if (debug_infolevel>1)
-	  CERR << CLOCK() << " qb=" << qb << endl;
+	  CERR << CLOCK() << " qb=" << qb << std::endl;
 	if (qb>100){
 	  delete [] heap;
 	  return 2;
