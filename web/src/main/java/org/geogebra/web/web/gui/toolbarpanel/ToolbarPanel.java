@@ -217,27 +217,19 @@ public class ToolbarPanel extends FlowPanel {
 			getFrame().add(undoRedoPanel);
 		}
 
-		private void updateUndoRedoPosition() {
+		public void updateUndoRedoPosition() {
 			final EuclidianView ev = ((AppW) app).getEuclidianView1();
 			if (ev != null) {
-
-				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-					@Override
-					public void execute() {
-						int evTop = ev.getAbsoluteTop();
-						int evLeft = ev.getAbsoluteLeft();
-						int move = isPortrait() ? 36 : 0;
-						undoRedoPanel.getElement().getStyle().setTop(evTop,
-								Unit.PX);
-						undoRedoPanel.getElement().getStyle()
-								.setLeft(evLeft + move, Unit.PX);
-					}
-
-				});
-
+				int evTop = ev.getAbsoluteTop();
+				int evLeft = ev.getAbsoluteLeft();
+				if ((evLeft == 0) && !isPortrait()) {
+					return;
+				}
+				int move = isPortrait() ? 36 : 0;
+				undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
+				undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
+						Unit.PX);
 			}
-
 		}
 
 		public void updateUndoRedoActions() {
@@ -364,6 +356,13 @@ public class ToolbarPanel extends FlowPanel {
 	 */
 	public void updateUndoRedoActions() {
 		header.updateUndoRedoActions();
+	}
+
+	/**
+	 * Updates the position of undo and redo buttons
+	 */
+	public void updateUndoRedoPosition() {
+		header.updateUndoRedoPosition();
 	}
 
 	private class ToolbarTab extends ScrollPanel {

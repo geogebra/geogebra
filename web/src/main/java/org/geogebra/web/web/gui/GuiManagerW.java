@@ -598,6 +598,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		// toolbarPanel.validate();
 		// toolbarPanel.updateHelpText();
+
+		if (getToolbarPanelV2() != null) {
+			getToolbarPanelV2().updateUndoRedoPosition();
+		}
 	}
 
 	@Override
