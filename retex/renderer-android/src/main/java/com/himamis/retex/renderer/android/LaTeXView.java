@@ -131,6 +131,22 @@ public class LaTeXView extends View {
     }
 
     /**
+     * Sets the type of the LaTeX view. Must be called from the UI thread.
+     *
+     * @param type one of {@link TeXFormula#SERIF}, {@link TeXFormula#SANSSERIF},
+     *             {@link TeXFormula#BOLD}, {@link TeXFormula#ITALIC}, {@link TeXFormula#ROMAN}
+     */
+    public void setType(int type) {
+        if (mType != type) {
+            mType = type;
+            mTexIcon = null;
+            ensureTeXIconExists();
+            invalidate();
+            requestLayout();
+        }
+    }
+
+    /**
      * Sets the color of the text. Must be called from the UI thread.
      *
      * @param foregroundColor color represented as packed ints

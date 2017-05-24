@@ -32,6 +32,7 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCust
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addLatexInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
 import org.geogebra.keyboard.base.Action;
@@ -48,7 +49,7 @@ class SpecialSymbolsKeyboardFactory {
 
         RowImpl row = mathKeyboard.nextRow(10.0f);
         addInputButton(row, buttonFactory, INFINITY);
-        addInputButton(row, buttonFactory, QUESTIONED_EQUAL_TO);
+        addLatexInputButton(row, buttonFactory, "\\questeq", String.valueOf(QUESTIONED_EQUAL_TO));
         addInputButton(row, buttonFactory, NOT_EQUAL_TO);
         addInputButton(row, buttonFactory, LOGICAL_AND);
         addInputButton(row, buttonFactory, LOGICAL_OR);

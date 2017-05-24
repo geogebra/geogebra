@@ -23,5 +23,10 @@ public enum ResourceType {
     /**
      * The resource is specified in the {@link Resource} class.
      */
-    DEFINED_CONSTANT
+    DEFINED_CONSTANT,
+
+    /**
+     * The resourse is a LaTeX formula
+     */
+    LATEX
 }

@@ -17,6 +17,10 @@ public class ButtonFactory {
         this.modifiers = modifiers;
     }
 
+    WeightedButton createLatexInputButton(String formula, String action, float weight) {
+        return new WeightedButtonImpl(formula, ResourceType.LATEX, action, ActionType.INPUT, Background.STANDARD, modifiers, weight);
+    }
+
     WeightedButton createInputButton(String name, String action, float weight) {
         return new WeightedButtonImpl(name, ResourceType.TEXT, action, ActionType.INPUT, Background.STANDARD, modifiers, weight);
     }

@@ -34,6 +34,10 @@ class Util {
         addButton(row, buttonFactory.createInputButton(name, input));
     }
 
+    static void addLatexInputButton(RowImpl row, ButtonFactory buttonFactory, String formula, String input) {
+        addButton(row, buttonFactory.createLatexInputButton(formula, input, 1.0f));
+    }
+
     static void addInputButton(RowImpl row, ButtonFactory buttonFactory, String name) {
         addInputButton(row, buttonFactory, name, 1.0f);
     }
