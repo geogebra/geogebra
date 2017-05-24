@@ -213,8 +213,10 @@ public class ToolbarPanel extends FlowPanel {
 						.getAbsolutePanel().getElement().getAbsoluteTop();
 				int evLeft = ((AppW) app).getEuclidianViewpanel()
 						.getAbsolutePanel().getElement().getAbsoluteLeft();
+				int move = isPortrait() ? 36 : 0;
 				undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
-				undoRedoPanel.getElement().getStyle().setLeft(evLeft, Unit.PX);
+				undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
+						Unit.PX);
 
 			}
 		}
