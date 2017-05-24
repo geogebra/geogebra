@@ -4279,7 +4279,7 @@ public abstract class App implements UpdateSelection {
 
 
 		case NEW_TOOLBAR:
-			return false;
+			return canary;
 		
 		case NEW_UNDO_REDO_BUTTONS:
 			return prerelease;
