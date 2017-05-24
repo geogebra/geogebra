@@ -15,7 +15,7 @@ targetCompatibility = 1.6
 
 gwt {
 	maxHeapSize = '2000M'
-	gwtVersion '2.8.0'
+	gwtVersion '2.8.1'
 	// only compilable module
 	modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
 	devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
@@ -29,9 +29,9 @@ evaluationDependsOn ':renderer-base'
 dependencies {
 	compile project(':renderer-base')
 	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
-	compile 'com.google.gwt:gwt-dev:2.8.0'
-	compile 'com.google.gwt:gwt-user:2.8.0'
-	testCompile 'com.google.gwt:gwt-user:2.8.0'
+	compile 'com.google.gwt:gwt-dev:2.8.1'
+	compile 'com.google.gwt:gwt-user:2.8.1'
+	testCompile 'com.google.gwt:gwt-user:2.8.1'
 	testCompile 'junit:junit:4.12'
 }
 
