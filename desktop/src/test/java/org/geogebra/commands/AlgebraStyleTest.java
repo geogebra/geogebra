@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.lang.Unicode;
@@ -182,12 +183,29 @@ public class AlgebraStyleTest extends Assert {
 	public void undefinedNumbersShouldBeQuestionMark() {
 		t("b=1");
 		t("SetValue[b,?]");
-		assertEquals("b = ?", app.getKernel().lookupLabel("b")
+		assertEquals("b = ?",
+				getGeo("b")
 				.toString(StringTemplate.editTemplate));
 		assertEquals("b = ?", app.getKernel().lookupLabel("b")
 				.toString(StringTemplate.editorTemplate));
 		assertEquals("b = ?",
 				app.getKernel().lookupLabel("b").getDefinitionForEditor());
+	}
+
+	private GeoElement getGeo(String string) {
+		return app.getKernel().lookupLabel(string);
+	}
+
+	@Test
+	public void shortLHSshouldBeDisplayedInLaTeX(){
+		t("f:y=x^3");
+		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
+				getGeo("f").getLaTeXAlgebraDescription(
+				false,
+				StringTemplate.defaultTemplate));
+		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
+				getGeo("f").getLaTeXAlgebraDescription(true,
+				StringTemplate.defaultTemplate));
 	}
 
 	private void t(String def) {

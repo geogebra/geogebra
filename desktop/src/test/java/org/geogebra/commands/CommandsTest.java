@@ -1031,7 +1031,7 @@ public class CommandsTest extends Assert{
 
 	}
 
-	private static String unicode(String theSpline) {
+	static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
 				Unicode.Superscript_3 + "").replace("deg", Unicode.DEGREE);
 	}

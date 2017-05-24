@@ -62,7 +62,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		}
 	};
 	private MinMaxPanel minMaxPanel;
-	private GeoNumeric num;
+	private GeoNumeric num = null;
 
 	/**
 	 * Creates a SliderTreeItem for AV sliders
@@ -174,6 +174,10 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	@Override
 	protected void doUpdate() {
+		if (num == null) {
+			// called from super constructor, ignore
+			return;
+		}
 		setNeedsUpdate(false);
 		marblePanel.update();
 		controls.updateAnimPanel();

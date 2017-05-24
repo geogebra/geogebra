@@ -8,6 +8,8 @@ import org.geogebra.web.html5.awt.PrintableW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.resources.StyleInjector;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -81,7 +83,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	}
 
 	private void createGUI() {
-
+		StyleInjector.inject(GuiResources.INSTANCE.printStyle());
 		// Maybe there is older print panel, because after open pdf in preview
 		// the previous print panel hasn't been removed
 		removePrintPanelFromDOM();

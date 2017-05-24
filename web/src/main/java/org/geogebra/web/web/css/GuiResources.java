@@ -455,4 +455,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/open-screen.scss")
 	SassResource openScreenStyle();
+
+	@Source("org/geogebra/web/resources/scss/print.scss")
+	SassResource printStyle();
 }
