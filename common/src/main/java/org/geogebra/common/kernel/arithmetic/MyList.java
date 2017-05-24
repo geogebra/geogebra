@@ -319,6 +319,7 @@ public class MyList extends ValidExpression
 			// else power = 1, so drop through to standard list code below
 
 		}
+		Log.debug(value);
 
 		// expression value is list
 		MyList valueList = value instanceof ListValue

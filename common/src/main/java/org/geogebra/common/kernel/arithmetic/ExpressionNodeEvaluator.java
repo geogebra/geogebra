@@ -297,7 +297,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt, ExpressionValue right, boolean b,
 			StringTemplate tpl) {
 		boolean symbolic = right.wrap().containsFreeFunctionVariable(null);
-		ExpressionValue myRt = symbolic ? right : rt;
+		ExpressionValue myRt = symbolic && !(rt instanceof ListValue) ? right
+				: rt;
 		MyList myList = symbolic ? lt.getMyList().deepCopy(kernel) : lt
 				.getMyList();
 		// list lt operation rt

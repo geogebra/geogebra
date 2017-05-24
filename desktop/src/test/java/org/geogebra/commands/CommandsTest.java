@@ -208,6 +208,14 @@ public class CommandsTest extends Assert{
 				"{(r, sin(r) + 1), ((2 * r), sin(r) + 1), ((3 * r), sin(r) + 1), ((4 * r), sin(r) + 1), ((5 * r), sin(r) + 1)}");
 	}
 
+	@Test
+	public void functionsList() {
+		t("(1..2)+x*(1..2)", "{1 + x, 2 + (x * 2)}");
+		t("list1=(-2..2)", "{-2, -1, 0, 1, 2}");
+		t("(list1*t,(1-t)*(1-list1))",
+				"{((-2 * t), ((1 - t) * 3)), ((-t), ((1 - t) * 2)), ((0 * t), (1 - t)), (t, ((1 - t) * 0)), ((2 * t), ((1 - t) * (-1)))}");
+	}
+
 	private static GeoElement get(String label) {
 		return app.getKernel().lookupLabel(label);
 	}
