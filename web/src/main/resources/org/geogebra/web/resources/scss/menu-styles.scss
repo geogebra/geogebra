@@ -8,7 +8,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			position: absolute;
 			top: 46px;
 			left: 6px;
-			padding: 16px 0px 16px 0px;
+			padding: 8px 0px 8px 0px;
 			box-shadow: 2px 2px 2px #888888;
 			background-color: $white;
 			border-radius: 2px;
@@ -18,15 +18,18 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				min-width: 232px;
 				background-color: $white;
 				img {
+					height: 24px !important;
+					width: 24px !important;
 					opacity: 1;
 				}
 				
 				.gwt-MenuItem {
+				    padding-top: 0px;
+   					height: 40px;
+    				padding-bottom: 0px;
 					padding-right: 16px;
-					padding-top: 0px;
-					padding-bottom: 0px;
 					padding-left: 72px;
-					height: 48px;
+    				line-height: normal;
 					min-width: 232px;
 					color: $black-87;
 					
@@ -39,6 +42,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					
 					span.gwt-CheckBox.matCheckBox {
 					    padding-left: 16px;
+					}
+					
+					td {
+						vertical-align: middle;
 					}
 				}
 				
@@ -65,7 +72,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					padding-top: 0px;
 					padding-bottom: 0px;
 					padding-left: 72px;
-					height: 48px;
+					line-height: normal;
+					height: 40px;
 					min-width: 232px;
 					color: $black-87;
 					
@@ -89,7 +97,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			/* burger menu items */
 			.gwt-StackPanel .gwt-StackPanelItem {
 				min-width: 232px;
-				height: 56px;
+				height: 48px;
 				background-color: $white;
 				padding-left: 72px;
 				padding-top: 0px;
@@ -97,7 +105,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				padding-right: 16px;
 				border-bottom:none;
 				border-top:none;
+				line-height: normal;
 				img {
+				    height: 24px !important;
+					width: 24px !important;
 					position: absolute;
 					margin-left: -56px;	
 					opacity: 0.54;
