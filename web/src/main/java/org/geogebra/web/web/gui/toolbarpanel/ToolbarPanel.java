@@ -12,6 +12,7 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
@@ -38,14 +39,19 @@ public class ToolbarPanel extends FlowPanel {
 
 	/** Application */
 	App app;
+
+	enum TabIds {
+		ALGEBRA, TOOLS
+	};
 	private Header header;
 	private FlowPanel main;
 	private Integer lastOpenWidth = null;
 	private Integer lastOpenHeight = null;
 	private AlgebraTab tabAlgebra = null;
 	private ToolsTab tabTools = null;
-
+	private TabIds selectedTab;
 	private class Header extends FlowPanel {
+
 		private static final int PADDING = 12;
 
 		private class PresistableToggleButton extends ToggleButton
@@ -72,9 +78,13 @@ public class ToolbarPanel extends FlowPanel {
 		private boolean open = true;
 		private Image imgClose;
 		private Image imgOpen;
+
+		private Image imgMenu;
+		private Image imgUndo;
+		private Image imgRedo;
+
 		private FlowPanel contents;
 		private FlowPanel center;
-		private Image imgMenu;
 		PresistablePanel undoRedoPanel;
 		private ToggleButton btnUndo;
 		private ToggleButton btnRedo;
@@ -125,11 +135,13 @@ public class ToolbarPanel extends FlowPanel {
 		void selectAlgebra() {
 			btnAlgebra.addStyleName("selected");
 			btnTools.removeStyleName("selected");
+			setSelectedTab(TabIds.ALGEBRA);
 		}
 
 		void selectTools() {
 			btnAlgebra.removeStyleName("selected");
 			btnTools.addStyleName("selected");
+			setSelectedTab(TabIds.TOOLS);
 		}
 
 		private void createCloseButton() {
@@ -322,7 +334,6 @@ public class ToolbarPanel extends FlowPanel {
 			}
 
 			btnMenu.getUpFace().setImage(imgMenu);
-			
 			updateUndoRedoPosition();
 			updateUndoRedoActions();
 
@@ -379,8 +390,7 @@ public class ToolbarPanel extends FlowPanel {
 		SimplePanel simplep;
 		AlgebraViewW aview = null;
 
-		// TODO
-		// private int savedScrollPosition;
+		private int savedScrollPosition;
 
 		public AlgebraTab() {
 			if (app != null) {
@@ -425,6 +435,21 @@ public class ToolbarPanel extends FlowPanel {
 			}
 		}
 
+		public void scrollToActiveItem() {
+			final RadioTreeItem item = aview.getActiveTreeItem();
+
+			int spH = getOffsetHeight();
+
+			int top = item.getElement().getOffsetTop();
+
+			int relTop = top - savedScrollPosition;
+
+			if (spH < relTop + item.getOffsetHeight()) {
+
+				int pos = top + item.getOffsetHeight() - spH;
+				setVerticalScrollPosition(pos);
+			} 
+		}
 	}
 
 	private class ToolsTab extends ToolbarTab {
@@ -504,13 +529,16 @@ public class ToolbarPanel extends FlowPanel {
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && getLastOpenWidth() != null) {
+			Widget opposite = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
 				dockParent.removeStyleName("hide-HDragger");
+				opposite.removeStyleName("hiddenHDraggerRightPanel");
 			} else {
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.addStyleName("hide-HDragger");
+				opposite.addStyleName("hiddenHDraggerRightPanel");
 			}
 			dockPanel.deferredOnResize();
 		}
@@ -529,15 +557,17 @@ public class ToolbarPanel extends FlowPanel {
 		DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && getLastOpenHeight() != null) {
-			Widget d = dockParent.getOpposite(dockPanel);
+			Widget opposite = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
 				dockPanel.getOffsetHeight();
-				dockParent.setWidgetSize(d, getLastOpenHeight());
+				dockParent.setWidgetSize(opposite, getLastOpenHeight());
 				dockParent.removeStyleName("hide-VDragger");
 			} else {
-				int h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT;
+				int h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT
+						+ 8;
 				if (h > 0) {
-					dockParent.setWidgetSize(d, d.getOffsetHeight() + h);
+					dockParent.setWidgetSize(opposite,
+							opposite.getOffsetHeight() + h);
 					dockParent.addStyleName("hide-VDragger");
 				}
 
@@ -684,5 +714,31 @@ public class ToolbarPanel extends FlowPanel {
 
 	void setLastOpenHeight(Integer lastOpenHeight) {
 		this.lastOpenHeight = lastOpenHeight;
+	}
+
+	/**
+	 * Scrolls to currently edited item, if AV is active.
+	 */
+	public void scrollToActiveItem() {
+		if (tabAlgebra != null && selectedTab == TabIds.ALGEBRA) {
+			tabAlgebra.scrollToActiveItem();
+		}
+	}
+
+	/**
+	 * 
+	 * @return the selected tab id.
+	 */
+	public TabIds getSelectedTab() {
+		return selectedTab;
+	}
+
+	/**
+	 * 
+	 * @param selectedTab
+	 *            to set.
+	 */
+	public void setSelectedTab(TabIds selectedTab) {
+		this.selectedTab = selectedTab;
 	}
 }
