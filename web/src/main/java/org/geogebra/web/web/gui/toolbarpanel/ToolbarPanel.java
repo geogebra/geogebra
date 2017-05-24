@@ -358,18 +358,12 @@ public class ToolbarPanel extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Updates the style of undo and redo buttons accordingly of they are active
+	 * or inactive
+	 */
 	public void updateUndoRedoActions() {
 		header.updateUndoRedoActions();
-	}
-
-	/**
-	 * Panel for undo and redo buttons
-	 *
-	 */
-	public class UndoRedoPanel extends FlowPanel {
-		// UndoRedoPanel extends FlowPanel only because it's used for
-		// checking object class in GuiManagerW.clearAbsolutePanel function.
-		// If there won't be needed checking more, let's clear this class.
 	}
 
 	private class ToolbarTab extends ScrollPanel {
