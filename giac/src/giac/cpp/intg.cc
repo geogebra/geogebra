@@ -2470,7 +2470,13 @@ namespace giac {
 	  fu=_trigsin(tan2sincos(fu,contextptr),contextptr);
 	if (it->is_symb_of_sommet(at_tan))
 	  fu=_trigtan(fu,contextptr);
-	if (is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr)){
+	bool tst=is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr);
+	if (tst){
+	  vecteur fxv=lvarx(fx,gen_x);
+	  if (has_op(fxv,*at_ln) || has_op(fxv,*at_atan))
+	    tst=false;
+	}
+	if (tst){
 	  if ( (intmode & 2)==0)
 	    gprintf(step_fuuprime,gettext("Integration of %gen: f(u)*u' where f=%gen->%gen and u=%gen"),makevecteur(e,gen_x,fx,*it),contextptr);
 #if 0
@@ -2528,7 +2534,13 @@ namespace giac {
 	}
 	if (it->is_symb_of_sommet(at_pow)){
 	  v[it-v.begin()]=powexpand(*it,contextptr);
-	  if (is_rewritable_as_f_of(powexpand(fu,contextptr),*it,fx,gen_x,contextptr)){
+	  bool tst=is_rewritable_as_f_of(powexpand(fu,contextptr),*it,fx,gen_x,contextptr);
+	  if (tst){
+	    vecteur fxv=lvarx(fx,gen_x);
+	    if (has_op(fxv,*at_ln) || has_op(fxv,*at_atan))
+	      tst=false;
+	  }
+	  if (tst){
 	    if ( (intmode & 2)==0)
 	      gprintf(step_fuuprime,gettext("Integration of %gen: f(u)*u' where f=%gen->%gen and u=%gen"),makevecteur(e,gen_x,fx,*it),contextptr);
 	    e=linear_integrate_nostep(fx,gen_x,tmprem,intmode,contextptr);

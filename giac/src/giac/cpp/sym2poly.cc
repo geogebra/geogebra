@@ -2496,8 +2496,10 @@ namespace giac {
     if (g.type==_SYMB) {
       if (g._SYMBptr->sommet==at_pow && g._SYMBptr->feuille._VECTptr->back().type!=_INT_) 
 	return vecteur(1,g);
-      else
-	return lop_pow(g._SYMBptr->feuille);
+      else {
+	if (g._SYMBptr->sommet!=at_ln)
+	  return lop_pow(g._SYMBptr->feuille);
+      }
     }
     if (g.type!=_VECT)
       return vecteur(0);
