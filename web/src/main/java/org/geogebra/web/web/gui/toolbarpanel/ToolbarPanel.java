@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -84,13 +83,10 @@ public class ToolbarPanel extends FlowPanel {
 			contents.addStyleName("contents");
 			add(contents);
 
-
 			createMenuButton();
 			createCloseButton();
 			createCenter();
-			if (app.has(Feature.NEW_UNDO_REDO_BUTTONS)) {
-				addUndoRedoButtons();
-			}
+			addUndoRedoButtons();
 
 		}
 

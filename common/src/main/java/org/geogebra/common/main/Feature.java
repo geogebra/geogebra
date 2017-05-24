@@ -225,7 +225,4 @@ public enum Feature {
 	/** MOB-1216 */
 	WEB_ZSPACE,
 
-	/** GGB-1778 */
-	NEW_UNDO_REDO_BUTTONS
-
 }
