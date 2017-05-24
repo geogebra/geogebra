@@ -4097,7 +4097,7 @@ public abstract class App implements UpdateSelection {
 
 		//AND-217
 		case MOBILE_AV_EDITOR:
-			return true;
+			return prerelease;
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
@@ -4267,7 +4267,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_KILL_TOOLBAR:
-			return true;
+			return prerelease;
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return prerelease;
