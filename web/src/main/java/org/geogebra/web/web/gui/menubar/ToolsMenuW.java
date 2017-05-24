@@ -26,7 +26,11 @@ public class ToolsMenuW extends GMenuBar {
 
 		super(true, "tools", application);
 		this.app = application;
-		addStyleName("GeoGebraMenuBar");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("matStackPanel");
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
 		initActions();
 	}
 

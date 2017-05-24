@@ -25,7 +25,11 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	public HelpMenuW(final App app)  {
 
 		super(true, "help", app);
-	    addStyleName("GeoGebraMenuBar");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("matStackPanel");
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
 	    
 		Localization loc = app.getLocalization();
 	    // TODO: This item has no localization entry yet.

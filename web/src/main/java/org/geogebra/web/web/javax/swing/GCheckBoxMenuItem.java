@@ -63,9 +63,16 @@ public class GCheckBoxMenuItem {
 		itemPanel = new HorizontalPanel();
 
 		checkBox = new CheckBox();
-		itemPanel.add(checkBox);
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			itemPanel.add(checkBox);
+		}
 		checkBox.setVisible(!isToggleMenu());
+
 		setText(text);
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			itemPanel.add(checkBox);
+			checkBox.addStyleName("matCheckBox");
+		}
 	}
 
 

@@ -3,42 +3,162 @@
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 .GeoGebraFrame {
+
 	.floatingMenu {
 			position: absolute;
-			/*box-shadow: 2px 2px 2px #888888;*/
-			top: 57px;
-			left: 4px;
-			width: 400px;
-			height: 80%;
+			top: 46px;
+			left: 6px;
+			padding: 16px 0px 16px 0px;
+			box-shadow: 2px 2px 2px #888888;
+			background-color: $white;
+			border-radius: 2px;
 			z-index: 9999;
+			
+			.gwt-StackPanel .matStackPanelNoOpacity {
+				min-width: 232px;
+				background-color: $white;
+				img {
+					opacity: 1;
+				}
+				
+				.gwt-MenuItem {
+					padding-right: 16px;
+					padding-top: 0px;
+					padding-bottom: 0px;
+					padding-left: 72px;
+					height: 48px;
+					min-width: 232px;
+					color: $black-87;
+					
+					img {
+						height: 24px !important;
+						width: 24px !important;
+						position: absolute;
+						margin-left: -40px;	
+					}
+					
+					.gwt-CheckBox .matCheckBox {
+					    padding-left: 16px;
+					}
+				}
+				
+				.gwt-MenuItem:hover {
+					background-color: $selected-menuitem-background;
+					img {
+						opacity: 1;
+					}
+					color: $black-87; 
+				}
+			}
+			
+			
+			/* sub menu items */
+			.gwt-StackPanel .matStackPanel {
+				min-width: 232px;
+				background-color: $white;
+				img {
+					opacity: 0.54;
+				}
+				
+				.gwt-MenuItem {
+					padding-right: 16px;
+					padding-top: 0px;
+					padding-bottom: 0px;
+					padding-left: 72px;
+					height: 48px;
+					min-width: 232px;
+					color: $black-87;
+					
+					img {
+						height: 24px !important;
+						width: 24px !important;
+						position: absolute;
+						margin-left: -40px;	
+					}
+				}
+				
+				.gwt-MenuItem:hover {
+					background-color: $selected-menuitem-background;
+					img {
+						opacity: 0.87;
+					}
+					color: $black-87; 
+				}
+			}
+			
+			/* burger menu items */
+			.gwt-StackPanel .gwt-StackPanelItem {
+				min-width: 232px;
+				height: 56px;
+				background-color: $white;
+				padding-left: 72px;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				padding-right: 16px;
+				border-bottom:none;
+				border-top:none;
+				img {
+					position: absolute;
+					margin-left: -56px;	
+					opacity: 0.54;
+				}
+			}
+			
+			.gwt-StackPanel .gwt-StackPanelItem:hover, .gwt-StackPanel .gwt-StackPanelItem-selected  {
+				background-color: $selected-menuitem-background;
+				img {
+					opacity: 0.87;
+				}
+				color: $black-87; 
+			}
+			
+			.gwt-StackPanel .gwt-StackPanelItem-selected:hover {
+				background-color: $black-12;
+			}
+			
 	}
 	
-}	
+}
+	
 .floatingSubMenu {
 	z-index: 9999;
-
+	
+	.gwt-MenuBar.gwt-MenuBar-vertical.floating-Popup.subMenuRightSide.matMenuBar.subMenuLeftSide2 {
+		top: 11px;
+		padding-top: 8px;
+   		padding-bottom: 8px;
+    	padding-left: 0px;
+    	padding-right: 0px;
+	}
+		
 	.subMenuRightSide {
 		position: relative;
 		width: 100%;
-		left: 405px;
-		border-radius: 10px 10px 10px 10px;
+		left: 326px;
+		border-radius: 2px;
 		padding: 5px;
 		background-color: $white-90;
 		box-shadow: $shadow-dark;
 		
 		.arrowSubmenu {
 			position: absolute;
-			top: 0px;
-			left: -15px;
+			top: -2px;
+			left: -17px;
 		}
 			
-			.gwt-MenuItem {
-				padding: 3px 10px;
-			}
+		.gwt-MenuItem {
+			min-width: 36px;
+			padding-left: 12px;
+			padding-right: 16px;
+		}
 			
-			input[type="radio"] {
-				margin: 0px 5px 0px 0px;
-			}
+		.gwt-MenuItemSeparator {
+			padding: 0px;
+		}
+		
+		input[type="radio"] {
+			margin: 0px 12px 0px 0px;
+		}
 			
 	}
 }

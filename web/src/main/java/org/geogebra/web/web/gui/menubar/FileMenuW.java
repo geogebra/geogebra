@@ -60,7 +60,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			}
 		};
-	    addStyleName("GeoGebraMenuBar");
+
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("matStackPanel");
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
 	    initActions();
 	}
 

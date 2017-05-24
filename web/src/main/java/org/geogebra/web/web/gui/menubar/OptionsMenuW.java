@@ -29,7 +29,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	public OptionsMenuW(AppW app) {
 		super(true, "options", new MenuResources(), app);
 	    this.app = app;
-	    addStyleName("GeoGebraMenuBar");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("matStackPanel");
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
 	    initItems();
 	}
 
@@ -192,7 +196,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 					MenuInterface subMenu) {
 
 				if (subMenu instanceof MenuBar) {
-					((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
+					if (app.has(Feature.NEW_TOOLBAR)) {
+						((MenuBar) subMenu).addStyleName("matMenuBar");
+					} else {
+						((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
+					}
 				}
 				ImageResource imgRes = AppResources.INSTANCE.empty();
 
@@ -207,6 +215,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 							: GuiResources.INSTANCE
 							.menu_icon_options_font_size();
 				}
+
 				((GMenuBar) parentMenu).addItem(
 						getApp().getGuiManager().getMenuBarHtml(imgRes,
 								getApp().getLocalization().getMenu(key), true),

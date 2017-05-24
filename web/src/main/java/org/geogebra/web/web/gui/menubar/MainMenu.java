@@ -210,8 +210,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		};
 		if (!app.has(Feature.NEW_TOOLBAR)) {
 			this.menuPanel.addStyleName("menuPanel");
-		} else {
-			// this.menuPanel.removeStyleName("gwt-StackPanel");
 		}
 		if(app.enableFileFeatures()){	
 			this.menuPanel.add(

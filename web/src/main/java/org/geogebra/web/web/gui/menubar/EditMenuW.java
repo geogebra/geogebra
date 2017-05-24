@@ -36,7 +36,11 @@ public class EditMenuW extends GMenuBar {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.selection = app.getSelectionManager();
-		addStyleName("GeoGebraMenuBar");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("matStackPanel");
+		} else {
+			addStyleName("GeoGebraMenuBar");
+		}
 		initActions();
 	}
 

@@ -46,7 +46,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 			addStyleName("floating-Popup");
 		}
 
-		if(arrow){
+		if (arrow) {
 			MainMenu.addSubmenuArrow(this, app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR));
 		}
 
