@@ -36,6 +36,7 @@ import org.geogebra.common.factories.Factory;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.OptionsMenu;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.io.MyXMLio;
@@ -4096,7 +4097,7 @@ public abstract class App implements UpdateSelection {
 
 		//AND-217
 		case MOBILE_AV_EDITOR:
-			return false;
+			return true;
 
 		// GGB-790
 		case AV_INPUT_BUTTON_COVER:
@@ -4266,7 +4267,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_KILL_TOOLBAR:
-			return false;
+			return true;
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return prerelease;
@@ -4911,6 +4912,25 @@ public abstract class App implements UpdateSelection {
 	 */
 	public int getNextVariableID() {
 		return nextVariableID++;
+	}
+
+	public ToolCategorization createToolCategorization() {
+		ToolCategorization.Type type;
+		switch (getVersion()) {
+			case ANDROID_NATIVE_GRAPHING:
+			case IOS_NATIVE:
+			default:
+				type = ToolCategorization.Type.GRAPHING_CALCULATOR;
+				break;
+			case ANDROID_GEOMETRY:
+			case IOS_GEOMETRY:
+				type = ToolCategorization.Type.GEOMETRY;
+				break;
+			case ANDROID_NATIVE_3D:
+				type = ToolCategorization.Type.GRAPHER_3D;
+				break;
+		}
+		return new ToolCategorization(this, type);
 	}
 
 }
