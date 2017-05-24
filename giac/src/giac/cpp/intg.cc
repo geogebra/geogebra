@@ -2472,9 +2472,11 @@ namespace giac {
 	  fu=_trigtan(fu,contextptr);
 	bool tst=is_rewritable_as_f_of(fu,*it,fx,gen_x,contextptr);
 	if (tst){
-	  vecteur fxv=lvarx(fx,gen_x);
-	  if (has_op(fxv,*at_ln) || has_op(fxv,*at_atan))
-	    tst=false;
+	  if (taille(fx,256)>taille(e,255)){
+	    vecteur fxv=lvarx(fx,gen_x);
+	    if (has_op(fxv,*at_ln) || has_op(fxv,*at_atan))
+	      tst=false;
+	  }
 	}
 	if (tst){
 	  if ( (intmode & 2)==0)
@@ -2536,9 +2538,11 @@ namespace giac {
 	  v[it-v.begin()]=powexpand(*it,contextptr);
 	  bool tst=is_rewritable_as_f_of(powexpand(fu,contextptr),*it,fx,gen_x,contextptr);
 	  if (tst){
-	    vecteur fxv=lvarx(fx,gen_x);
-	    if (has_op(fxv,*at_ln) || has_op(fxv,*at_atan))
-	      tst=false;
+	    if (taille(fx,256)>taille(e,255)){
+	      vecteur fxv=lvarx(fx,gen_x);
+	      if (has_op(fxv,*at_ln) || has_op(fxv,*at_atan))
+		tst=false;
+	    }
 	  }
 	  if (tst){
 	    if ( (intmode & 2)==0)
