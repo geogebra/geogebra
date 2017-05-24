@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -75,7 +76,7 @@ public class ToolbarPanel extends FlowPanel {
 		private FlowPanel contents;
 		private FlowPanel center;
 		private Image imgMenu;
-		private PresistablePanel undoRedoPanel;
+		PresistablePanel undoRedoPanel;
 		private ToggleButton btnUndo;
 		private ToggleButton btnRedo;
 		public Header() {
@@ -209,16 +210,23 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void updateUndoRedoPosition() {
+			final EuclidianView ev = ((AppW) app).getEuclidianView1();
+			if (ev != null) {
 
-			if (((AppW) app).getEuclidianViewpanel() != null) {
-				int evTop = ((AppW) app).getEuclidianViewpanel()
-						.getAbsolutePanel().getElement().getAbsoluteTop();
-				int evLeft = ((AppW) app).getEuclidianViewpanel()
-						.getAbsolutePanel().getElement().getAbsoluteLeft();
-				int move = isPortrait() ? 36 : 0;
-				undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
-				undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
-						Unit.PX);
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+					public void execute() {
+						int evTop = ev.getAbsoluteTop();
+						int evLeft = ev.getAbsoluteLeft();
+						int move = isPortrait() ? 36 : 0;
+						undoRedoPanel.getElement().getStyle().setTop(evTop,
+								Unit.PX);
+						undoRedoPanel.getElement().getStyle()
+								.setLeft(evLeft + move, Unit.PX);
+					}
+
+				});
+
 			}
 
 		}
