@@ -95,4 +95,6 @@ public interface FunctionalNVar extends Evaluate2Var {
 
 	public boolean isShortLHS();
 
+	public void setShortLHS(boolean shortLHS);
+
 }

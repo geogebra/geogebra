@@ -60,6 +60,9 @@ public class FunctionNVar extends ValidExpression
 
 	/** kernel */
 	protected Kernel kernel;
+	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
+	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
+	private boolean shortLHS;
 
 	/**
 	 * Creates new Function from expression. Note: call initFunction() after
@@ -707,8 +710,7 @@ public class FunctionNVar extends ValidExpression
 		casEvalMap.clear();
 	}
 
-	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
-	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
+
 
 	@Override
 	public boolean isNumberValue() {
@@ -1473,7 +1475,11 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	public boolean isShortLHS() {
-		return false;
+		return shortLHS;
+	}
+
+	public void setShortLHS(boolean b) {
+		this.shortLHS = b;
 	}
 
 }

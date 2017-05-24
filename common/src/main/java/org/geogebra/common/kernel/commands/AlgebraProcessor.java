@@ -2030,6 +2030,7 @@ public class AlgebraProcessor {
 					&& !isIndependent) {
 				f = (GeoFunction) dependentGeoCopy(
 						((GeoFunctionable) left).getGeoFunction());
+				f.setShortLHS(fun.isShortLHS());
 				f.setLabel(label);
 				return array(f);
 			}
@@ -2047,6 +2048,7 @@ public class AlgebraProcessor {
 		}
 
 		if (f.validate(label == null)) {
+			f.setShortLHS(fun.isShortLHS());
 			f.setLabel(label);
 			return array(f);
 		}
@@ -2301,14 +2303,16 @@ public class AlgebraProcessor {
 
 		if (isIndependent) {
 			gf = new GeoFunctionNVar(cons, fun, info.isSimplifyingIntegers());
-			gf.setLabel(label);
 		} else {
-			gf = dependentFunctionNVar(label, fun);
+			gf = dependentFunctionNVar(fun);
 		}
+		gf.setShortLHS(fun.isShortLHS());
+		gf.setLabel(label);
 		if (!gf.validate(label == null)) {
 			gf.remove();
 			throw new MyError(loc, "InvalidInput");
 		}
+
 		return array(gf);
 	}
 
@@ -2316,10 +2320,10 @@ public class AlgebraProcessor {
 	 * Multivariate Function depending on coefficients of arithmetic expressions
 	 * with variables, e.g. f(x,y) = a x^2 + b y^2
 	 */
-	final private GeoFunctionNVar dependentFunctionNVar(String label,
+	final private GeoFunctionNVar dependentFunctionNVar(
 			FunctionNVar fun) {
 		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
-				label, fun);
+				fun);
 		GeoFunctionNVar f = algo.getFunction();
 		return f;
 	}
@@ -2479,11 +2483,9 @@ public class AlgebraProcessor {
 				Function fun = new Function(equ.getRHS());
 				// try to use label of equation
 				fun.setLabel(equ.getLabel());
+				fun.setShortLHS(true);
 				GeoElement[] ret = processFunction(fun,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
-				if (ret[0].isGeoFunction()) {
-					((GeoFunction) ret[0]).setShortLHS(true);
-				}
 				return ret;
 			}
 			if ("z".equals(lhsStr)
@@ -2495,11 +2497,9 @@ public class AlgebraProcessor {
 						new FunctionVariable[] { x, y });
 				// try to use label of equation
 				fun.setLabel(equ.getLabel());
+				fun.setShortLHS(true);
 				GeoElement[] ret = processFunctionNVar(fun,
 						new EvalInfo(!cons.isSuppressLabelsActive()));
-				if (ret[0].isGeoFunctionNVar()) {
-					((GeoFunctionNVar) ret[0]).setShortLHS(true);
-				}
 				return ret;
 			}
 			return processImplicitPoly(equ, def);

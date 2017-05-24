@@ -324,7 +324,8 @@ public class CmdIf extends CommandProcessor {
 			return ret;
 		}
 		AlgoDependentFunctionNVar algo = new AlgoDependentFunctionNVar(cons,
-				label, fun);
+				fun);
+		algo.getFunction().setLabel(label);
 		return algo.getFunction();
 	}
 
