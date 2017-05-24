@@ -76,6 +76,8 @@ public class ToolbarPanel extends FlowPanel {
 		private FlowPanel center;
 		private Image imgMenu;
 		private PresistablePanel undoRedoPanel;
+		private ToggleButton btnUndo;
+		private ToggleButton btnRedo;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
@@ -206,7 +208,7 @@ public class ToolbarPanel extends FlowPanel {
 			getFrame().add(undoRedoPanel);
 		}
 
-		private void updateUndoRedoLandscapePosition() {
+		private void updateUndoRedoPosition() {
 
 			if (((AppW) app).getEuclidianViewpanel() != null) {
 				int evTop = ((AppW) app).getEuclidianViewpanel()
@@ -217,7 +219,23 @@ public class ToolbarPanel extends FlowPanel {
 				undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
 				undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
 						Unit.PX);
+			}
 
+		}
+
+		public void updateUndoRedoActions() {
+			if (app.getKernel().undoPossible()) {
+				btnUndo.addStyleName("buttonActive");
+				btnUndo.removeStyleName("buttonInactive");
+			} else {
+				btnUndo.removeStyleName("buttonActive");
+				btnUndo.addStyleName("buttonInactive");
+			}
+
+			if (app.getKernel().redoPossible()) {
+				btnRedo.removeStyleName("hideButton");
+			} else {
+				btnRedo.addStyleName("hideButton");
 			}
 		}
 
@@ -229,7 +247,7 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void addUndoButton(final FlowPanel panel) {
-			ToggleButton btnUndo = new ToggleButton(
+			btnUndo = new ToggleButton(
 					new Image(MaterialDesignResources.INSTANCE.undo_black()));
 			btnUndo.addStyleName("flatButton");
 
@@ -245,9 +263,10 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void addRedoButton(final FlowPanel panel) {
-			ToggleButton btnRedo = new ToggleButton(
+			btnRedo = new ToggleButton(
 					new Image(MaterialDesignResources.INSTANCE.redo_black()));
 			btnRedo.addStyleName("flatButton");
+			btnRedo.addStyleName("buttonActive");
 
 			ClickStartHandler.init(btnRedo, new ClickStartHandler() {
 
@@ -305,7 +324,8 @@ public class ToolbarPanel extends FlowPanel {
 
 			btnMenu.getUpFace().setImage(imgMenu);
 			
-			updateUndoRedoLandscapePosition();
+			updateUndoRedoPosition();
+			updateUndoRedoActions();
 
 		}
 
@@ -326,6 +346,10 @@ public class ToolbarPanel extends FlowPanel {
 		public void resize() {
 			updateStyle();
 		}
+	}
+
+	public void updateUndoRedoActions() {
+		header.updateUndoRedoActions();
 	}
 
 	/**

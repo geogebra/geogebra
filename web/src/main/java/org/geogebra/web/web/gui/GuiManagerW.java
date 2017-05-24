@@ -242,6 +242,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (getToolbarPanel() != null) {
 			getToolbarPanel().updateUndoActions();
 		}
+
+		if (getToolbarPanelV2() != null) {
+			getToolbarPanelV2().updateUndoRedoActions();
+		}
+
 	}
 
 	@Override

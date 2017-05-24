@@ -46,6 +46,19 @@
 			display: inline-block;
 			cursor: pointer;
 		}
+		
+		.buttonActive {
+			opacity: 0.54;
+		}
+		
+		.buttonInactive {
+			opacity: 0.26;
+		}
+		
+		.hideButton {
+			display: none;
+		}
+		
 
 	}
 	
