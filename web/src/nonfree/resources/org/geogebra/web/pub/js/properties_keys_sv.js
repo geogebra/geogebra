@@ -819,7 +819,7 @@ __GGB__keysVar.sv.command = {
     "Semicircle": "Halvcirkel",
     "Semicircle.Syntax": "[ <Punkt>, <Punkt> ]",
     "Sequence": "Talf\xf6ljd",
-    "Sequence.Syntax": "[ <Slutv\xe4rde> ]\n[ <Uttryck>, <Variabel>, <Fr\xe5n>, <Till> ]\n[ <Uttryck>, <Variabel>, <Fr\xe5n>, <Till>, <Stegl\xe4ngd> ]",
+    "Sequence.Syntax": "[ <Slutv\xe4rde (Till)> ]\n[ <Fr\xe5n>, <Till> ]\n[ <Uttryck>, <Variabel>, <Fr\xe5n>, <Till> ]\n[ <Uttryck>, <Variabel>, <Fr\xe5n>, <Till>, <Stegl\xe4ngd> ]",
     "SetActiveView": "S\xe4ttAktivtRitomr\xe5de",
     "SetActiveView.Syntax": "[ <Visa> ]\n[ <Plan> ]",
     "SetAxesRatio": "S\xe4ttAxelF\xf6rh\xe5llande",

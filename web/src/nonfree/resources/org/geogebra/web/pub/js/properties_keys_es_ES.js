@@ -1865,7 +1865,7 @@ __GGB__keysVar.es_ES.menu = {
     "GraphicsViewForPlaneA": "Vista de %0",
     "Graphing": "Gr\xe1fica",
     "GraphingCalculator": "Calculadora gr\xe1fica",
-    "GraphingCalculator.short": "Graphing Calc",
+    "GraphingCalculator.short": "Calc. Gr\xe1fica",
     "GraphingCalculator3D.Function3D": "funciones z=f(x,y)",
     "GraphingCalculator3D.LinearEquations": "Ecuaciones lineales",
     "GrayScale": "Escala de grises",
