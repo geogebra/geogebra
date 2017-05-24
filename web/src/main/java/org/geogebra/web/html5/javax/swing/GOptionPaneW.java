@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -59,24 +58,6 @@ public class GOptionPaneW extends GDialogBox
 	private int enterOption;
 
 	private static FocusWidget caller;
-
-	/**
-	 * Singleton instance of GOptionPaneW. Provides entry point for all calls to
-	 * show a dialog or access getters/setters.
-	 */
-	@Deprecated
-	public static GOptionPaneW INSTANCE = new GOptionPaneW();
-
-	/**
-	 * A private constructor is used to force use of singleton instance.
-	 * 
-	 * @deprecated
-	 */
-	@Deprecated
-	private GOptionPaneW() {
-		super(false, true, RootPanel.get());
-		createGUI();
-	}
 
 	public GOptionPaneW(Panel root) {
 		super(false, true, root);

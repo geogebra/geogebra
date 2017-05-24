@@ -13,6 +13,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -202,4 +203,8 @@ public class AppWsimple extends AppW {
 		return false;
 	}
 
+	@Override
+	public Panel getPanel() {
+		return frame;
+	}
 }
