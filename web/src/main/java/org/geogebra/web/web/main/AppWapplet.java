@@ -718,13 +718,17 @@ public class AppWapplet extends AppWFull {
 			}
 			return;
 		}
+		if (this.has(Feature.NEW_TOOLBAR)) {
+			this.toggleMenu();
+		}
 		this.menuShowing = false;
 		this.oldSplitLayoutPanel.setPixelSize(
 				this.oldSplitLayoutPanel.getOffsetWidth()
 						+ GLookAndFeel.MENUBAR_WIDTH,
 				this.oldSplitLayoutPanel.getOffsetHeight());
-
-		this.splitPanelWrapper.remove(frame.getMenuBar(this));
+		if (this.splitPanelWrapper != null) {
+			this.splitPanelWrapper.remove(frame.getMenuBar(this));
+		}
 		oldSplitLayoutPanel.getElement().getStyle()
 				.setOverflow(Overflow.VISIBLE);
 		if (this.getGuiManager() != null
@@ -793,10 +797,12 @@ public class AppWapplet extends AppWFull {
 		return frame;
 	}
 
+	@Override
 	public boolean hasKeyboardInProbCalculator() {
 		return has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC);
 	}
 
+	@Override
 	public double getInnerWidth() {
 		return getWidth() - getArticleElement().getBorderThickness();
 	}
