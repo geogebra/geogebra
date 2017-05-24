@@ -211,6 +211,7 @@ public class ToolbarPanel extends FlowPanel {
 
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+					@Override
 					public void execute() {
 						int evTop = ev.getAbsoluteTop();
 						int evLeft = ev.getAbsoluteLeft();
@@ -240,13 +241,6 @@ public class ToolbarPanel extends FlowPanel {
 				btnRedo.removeStyleName("hideButton");
 			} else {
 				btnRedo.addStyleName("hideButton");
-			}
-		}
-
-		void addForEV(FlowPanel panel) {
-			if (((AppW) app).getEuclidianViewpanel() != null) {
-				((AppW) app).getEuclidianViewpanel().getAbsolutePanel()
-						.add(panel);
 			}
 		}
 
@@ -297,6 +291,7 @@ public class ToolbarPanel extends FlowPanel {
 
 				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+					@Override
 					public void execute() {
 						updateCenterSize();
 					}
@@ -450,6 +445,21 @@ public class ToolbarPanel extends FlowPanel {
 	public ToolbarPanel(App app) {
 		this.app = app;
 		initGUI();
+
+		initClickStartHandler();
+	}
+
+	private void initClickStartHandler() {
+		ClickStartHandler.init(this, new ClickStartHandler() {
+			@Override
+			public void onClickStart(final int x, final int y,
+					PointerEventType type) {
+
+				app.getActiveEuclidianView().getEuclidianController()
+						.closePopups(x, y, type);
+
+			}
+		});
 	}
 
 	private void initGUI() {
@@ -521,7 +531,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (dockPanel != null && getLastOpenHeight() != null) {
 			Widget d = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
-				int h = dockPanel.getOffsetHeight();
+				dockPanel.getOffsetHeight();
 				dockParent.setWidgetSize(d, getLastOpenHeight());
 				dockParent.removeStyleName("hide-VDragger");
 			} else {
