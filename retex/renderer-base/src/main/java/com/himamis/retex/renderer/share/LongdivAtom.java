@@ -45,7 +45,7 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * An atom representing a long division.
@@ -93,7 +93,7 @@ public class LongdivAtom extends VRowAtom {
 	}
 
 	private String[] makeResults(long divisor, long dividend) {
-		Vector<String> vec = new Vector<String>();
+		ArrayList<String> vec = new ArrayList<String>();
 		long q = dividend / divisor;
 		final long r = dividend % divisor;
 		vec.add(Long.toString(q));
