@@ -4,14 +4,6 @@
 	.header {
 			background-color: $toolbar-header;
 			
-			
-			.flatButton {
-				margin: 6px;
-				padding: 6px;
-				width: 24px;
-				height: 24px;
-			}
-			
 			.selected,
 			.flatButton:hover {
 				cursor: hand;

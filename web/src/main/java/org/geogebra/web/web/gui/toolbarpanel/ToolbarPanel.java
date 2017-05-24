@@ -225,7 +225,7 @@ public class ToolbarPanel extends FlowPanel {
 				if ((evLeft == 0) && !isPortrait()) {
 					return;
 				}
-				int move = isPortrait() ? 36 : 0;
+				int move = isPortrait() ? 48 : 0;
 				undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
 				undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
 						Unit.PX);

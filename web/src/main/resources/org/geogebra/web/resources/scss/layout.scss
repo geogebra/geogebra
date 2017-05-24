@@ -26,30 +26,30 @@
 	 
 	.menu {
 		position: absolute;
-		top: 12px;
-		left: 12px;
-		padding-top: 4px;
-		padding-top: 4px;
+		top: 4px;
+		left: 0px;
 		z-index: 99999;
 	}
 	
 	.menu:hover {
-			cursor: hand;
 			background-color: $white-30;
 	}
 	
+	.flatButton {
+		margin: 6px;
+		padding: 6px;
+		width: 24px;
+		height: 24px;
+		cursor: pointer;
+	}
+	
 	.undoRedoPanel {
-		margin: 4px;
+		padding-top: 4px;
 		position: absolute;
 		z-index: 10;
 
 		.flatButton {
-			margin: 6px 6px 6px 6px;
-			padding: 6px;
-			width: 24px;
-			height: 24px;
 			display: inline-block;
-			cursor: pointer;
 		}
 		
 		.buttonActive {
