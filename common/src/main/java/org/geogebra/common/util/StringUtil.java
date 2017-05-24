@@ -1674,4 +1674,12 @@ public class StringUtil {
 		return true;
 	}
 
+	/**
+	 * @param s
+	 * @return s with \n changed to \cr
+	 */
+	public static String convertToLaTeX(String s) {
+		return s.replaceAll("\n", "\\\\cr ");
+	}
+
 }

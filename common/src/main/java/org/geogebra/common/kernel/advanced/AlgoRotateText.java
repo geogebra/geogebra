@@ -18,6 +18,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles rotated texts
@@ -132,10 +134,17 @@ public class AlgoRotateText extends AlgoElement {
 		sbuilder.append("\\rotatebox{");
 		sbuilder.append(degrees); // convert to degrees
 		sbuilder.append("}{ ");
+
+		String s = text.getTextString();
+
 		if (!latex) {
 			sbuilder.append("\\text{ ");
+			// eg change \n to \cr
+			Log.error("before = " + s);
+			s = StringUtil.convertToLaTeX(s);
+			Log.error("after  = " + s);
 		}
-		sbuilder.append(text.getTextString());
+		sbuilder.append(s);
 		if (!latex) {
 			sbuilder.append(" } ");
 		}
