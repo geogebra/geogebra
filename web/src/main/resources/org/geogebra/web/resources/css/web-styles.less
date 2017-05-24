@@ -89,16 +89,15 @@
 	}
 
 	.AdvancedFocusPanelsTextarea {
+	/* all the tricks to hide this without font-size=0 or display=none which kill keyboard/paste. Transform needed for safari. */
 		position: absolute;
 		top: 0px;
 		left: 0px;
 		width: 1px;
 		height: 1px;
 		z-index: -32000;
-		/* almost good, but caret is still visible in IE */
 		clip: rect(1em 1em 1em 1em);
 		padding: 0px;
-    	font-size: 0px;
     	-webkit-transform:scale(0.0);  
     	resize:none;
 	    -webkit-user-select: text;
