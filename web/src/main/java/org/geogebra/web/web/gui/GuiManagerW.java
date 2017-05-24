@@ -104,7 +104,6 @@ import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.gui.view.algebra.AlgebraControllerW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
@@ -2161,9 +2160,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return new MathFieldProcessing(
 					((RetexKeyboardListener) textField).getMathField());
 		}
-		if (textField instanceof LatexTreeItem) {
+		if (textField instanceof RadioTreeItem) {
 			return new MathFieldProcessing(
-					((LatexTreeItem) textField).getMathField());
+					((RadioTreeItem) textField).getMathField());
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;

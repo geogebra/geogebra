@@ -16,8 +16,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.io.latex.GeoGebraSerializer;
+import org.geogebra.common.io.latex.ParseException;
+import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -35,6 +39,7 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
+import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
@@ -42,15 +47,19 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
+import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
@@ -81,6 +90,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.serializer.TeXSerializer;
+import com.himamis.retex.editor.web.MathFieldW;
+import com.himamis.retex.renderer.share.CursorBox;
 
 /**
  * main -> marblePanel content controls
@@ -96,7 +109,7 @@ import com.google.gwt.user.client.ui.Widget;
  * definitionPanel -> c | STRING
  */
 @SuppressWarnings("javadoc")
-public abstract class RadioTreeItem extends AVTreeItem
+public class RadioTreeItem extends AVTreeItem
 		implements MathKeyboardListener, 
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
@@ -171,6 +184,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 	private RadioTreeItemController controller;
 
 	String lastTeX;
+	private MathFieldW mf;
 
 
 	public void updateOnNextRepaint() {
@@ -298,10 +312,9 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 		createAvexWidget();
 		addAVEXWidget(content);
-
+		getWidget().addStyleName("latexEditor");
 	}
 
-	protected abstract RadioTreeItemController createController();
 
 	protected void addMarble() {
 		main.addStyleName("elem");
@@ -364,7 +377,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 
 
-	protected abstract void clearInput();
 
 	private void buildPlainTextItem() {
 		if (geo.isIndependent() && geo.getDefinition() == null) {
@@ -751,14 +763,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		updateButtonPanelPosition();
 	}
 
-	/**
-	 * Method to be overridden in InputTreeItem
-	 */
-	public boolean popupSuggestions() {
-		return false;
-	}
-
-
 
 	/**
 	 * Method to be overridden in InputTreeItem
@@ -788,33 +792,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public boolean commonEditingCheck() {
 		return av.isEditItem() || controller.isEditing() || isInputTreeItem()
 				|| geo == null;
-	}
-
-
-
-	/**
-	 * Updates all the contents of the AV Item
-	 */
-	protected void doUpdate() {
-		setNeedsUpdate(false);
-		if (hasMarblePanel()) {
-			marblePanel.update();
-		}
-
-		if (controls != null) {
-			controls.updateAnimPanel();
-		}
-
-		if (!isInputTreeItem() && isDefinitionAndValue()) {
-			buildItemContent();
-		} else {
-			updateTextItems();
-		}
-
-
-		if (plainTextItem != null) {
-			updateFont(plainTextItem);
-		}
 	}
 
 	protected void doUpdateEnsureNoEditor() {
@@ -881,15 +858,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 			definitionPanel.getElement().getStyle().setColor("black");
 		}
 	}
-
-
-
-	protected abstract void renderLatex(String text0, Widget w,
-			boolean forceMQ);
-
-
-
-
 
 	private Canvas latexToCanvas(String text) {
 		return DrawEquationW.paintOnCanvas(geo, text, canvas, getFontSize());
@@ -967,9 +935,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-
-	public abstract void cancelEditing();
-
 	/**
 	 * Switches to edit mode
 	 * 
@@ -998,7 +963,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		controller.setEditing(true);
 
 
-		if (!onEditStart(false)) {
+		if (!onEditStart()) {
 			return false;
 		}
 		if (controls != null) {
@@ -1018,11 +983,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 						tpl, true);
 
 	}
-
-	/**
-	 * Starts the equation editor for the item
-	 */
-	public abstract boolean onEditStart(boolean substituteNumbers);
 
 	protected boolean isDefinitionAndValue() {
 		return definitionAndValue && kernel
@@ -1144,13 +1104,11 @@ public abstract class RadioTreeItem extends AVTreeItem
 		updateAfterRedefine(newValue0 == null);
 	}
 
-	protected abstract String getEditorLatex();
-
 	/**
 	 * @param success
 	 *            whether redefinition was successful
 	 */
-	protected void updateAfterRedefine(boolean success) {
+	protected void doUpdateAfterRedefine(boolean success) {
 		if (latexItem == null) {
 			return;
 		}
@@ -1192,8 +1150,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	protected String stopCommon(String newValue) {
 		return newValue;
 	}
-
-	protected abstract void blurEditor();
 
 	private static final int MARGIN_RESIZE = 50;
 
@@ -1268,11 +1224,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		};
 	}
 
-	protected boolean showSliderDialog(String string,
-			AsyncOperation<String[]> callback) {
-		return app.getGuiManager().checkAutoCreateSliders(string, callback);
 
-	}
 
 	protected void saveError() {
 		if (geo != null) {
@@ -1368,9 +1320,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected void focusAfterHelpClosed() {
-		content.getElement().getElementsByTagName("textarea").getItem(0).focus();
-	}
+
 
 
 	boolean styleBarCanHide() {
@@ -1549,36 +1499,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	/**
-	 * Update GUI after focus
-	 * 
-	 * @param source
-	 *            event source
-	 * @param blurtrue
-	 *            blur
-	 */
-	protected void updateGUIfocus(Object source, boolean blurtrue) {
-		// only in input element
-	}
-
-	@Override
-	public boolean getAutoComplete() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public List<String> resetCompletions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getCompletions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public final void toggleSymbolButton(boolean toggled) {
 		// Just for compatibility with AutoCompleteTextFieldW
@@ -1588,18 +1508,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	public ArrayList<String> getHistory() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void setText(String s) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean isSuggesting() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	@Override
@@ -1729,12 +1637,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-
-	@Override
-	public void autocomplete(String s) {
-		// TODO implement autocomplete in RTI
-	}
-
 	public FlowPanel getPlainTextItem() {
 		return plainTextItem;
 	}
@@ -1752,13 +1654,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 	}
 
 
-	/**
-	 * 
-	 * @return if the item is the input or not.
-	 */
-	public boolean isInputTreeItem() {
-		return false;
-	}
 
 	protected boolean hasAnimPanel() {
 		return controls.animPanel != null;
@@ -1779,11 +1674,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		return Unicode.CAS_OUTPUT_PREFIX;
 	}
 
-	public void setLabels() {
-		if (hasMarblePanel()) {
-			marblePanel.setLabels();
-		}
-	}
+
 
 	/**
 	 * Remove the main panel from parent
@@ -1800,8 +1691,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		// TODO Auto-generated method stub
 
 	}
-
-	public abstract void handleFKey(int key, GeoElement geo1);
 
 	@Override
 	public Widget getHelpToggle() {
@@ -1999,8 +1888,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 
-	public abstract RadioTreeItem copy();
-
 	@Override
 	public void updatePosition(AbstractSuggestionDisplay sug) {
 		sug.setPositionRelativeTo(content);
@@ -2042,14 +1929,6 @@ public abstract class RadioTreeItem extends AVTreeItem
 		this.forceControls = forceControls;
 	}
 
-	/**
-	 * @param pixelRatio
-	 *            pixel ratio for input panel
-	 */
-	public void setPixelRatio(double pixelRatio) {
-		// only for LaTeX tree item
-
-	}
 
 	public boolean isSliderItem() {
 		return false;
@@ -2108,28 +1987,7 @@ public abstract class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	protected void showKeyboard() {
-		app.showKeyboard(this);
-	}
 
-	/**
-	 * @param x
-	 *            click event x-coord
-	 * @param y
-	 *            click event y-coord
-	 */
-	public void adjustCaret(int x, int y) {
-		// only in JLM
-
-	}
-
-	public void updateFonts() {
-		// only in JLM
-	}
-
-	public void preventBlur() {
-		// TODO Auto-generated method stub
-	}
 
 	public void setError(String error) {
 		this.errorMessage = error;
@@ -2155,6 +2013,494 @@ public abstract class RadioTreeItem extends AVTreeItem
 
 	}
 	
+	protected RadioTreeItemController createController() {
+		return new LatexTreeItemController(this);
+	}
+
+	/**
+	 * 
+	 * @return The controller as LatexTreeItemController.
+	 */
+	public LatexTreeItemController getLatexController() {
+		return (LatexTreeItemController) getController();
+	}
+
+	public void showKeyboard() {
+		getLatexController().showKeyboard();
+
+	}
+
+	/**
+	 * @param old
+	 *            what to replace
+	 */
+	protected void renderLatex(String text0, boolean showKeyboard) {
+
+		// latexItem.addStyleName("avTextItem");
+		// TODO updateColor(latexItem);
+
+		content.clear();
+
+		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && !(latexItem == null
+				|| isInputTreeItem() || isSliderItem())) {
+			latexItem.getElement().getStyle().setProperty("minHeight",
+					getController().getEditHeigth() + "px");
+		}
+
+		ensureCanvas();
+		appendCanvas();
+
+		if (!content.isAttached()) {
+			main.add(content);
+		}
+
+		setText(text0);
+		getLatexController().initAndShowKeyboard(showKeyboard);
+
+	}
+
+	private void appendCanvas() {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
+		latexItem.clear();
+		latexItem.add(canvas);
+		content.add(latexItem);
+
+	}
+
+	/**
+	 * @return whether canvas was created
+	 */
+	protected boolean ensureCanvas() {
+		if (canvas == null) {
+			canvas = Canvas.createIfSupported();
+			initMathField();
+			return true;
+		}
+		if (mf == null) {
+			initMathField();
+		}
+
+		return false;
+	}
+
+	private void initMathField() {
+		if (latexItem == null) {
+			latexItem = new FlowPanel();
+		}
+		mf = new MathFieldW(latexItem, canvas, getLatexController(),
+				app.has(Feature.DIRECT_FORMULA_CONVERSION));
+		mf.setFontSize(getFontSize());
+		mf.setPixelRatio(app.getPixelRatio());
+		mf.setOnBlur(getLatexController());
+	}
+
+	@Override
+	public void setFocus(boolean focus, boolean sv) {
+		if (focus) {
+			removeDummy();
+		}
+
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			if (focus) {
+				content.addStyleName("scrollableTextBox");
+				if (isInputTreeItem()) {
+					MinMaxPanel.closeMinMaxPanel();
+					if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+						getAV().restoreWidth(true);
+					} else {
+						setItemWidth(getAV().getOffsetWidth());
+					}
+				}
+			} else {
+				if (isInputTreeItem()) {
+					setItemWidth(getAV().getMaxItemWidth());
+				} else {
+					content.removeStyleName("scrollableTextBox");
+				}
+				// this.getAV().setActiveTreeItem(null);
+			}
+		}
+
+		if (ensureCanvas()) {
+			main.clear();
+			main.add(this.marblePanel);
+
+			if (isInputTreeItem()) {
+				appendCanvas();
+			}
+			main.add(content);
+			if (controls != null) {
+				main.add(controls);
+				updateButtonPanelPosition();
+			}
+
+		}
+
+		if (focus) {
+			preventBlur();
+			canvas.setVisible(true);
+		} else {
+			if (geo == null && errorMessage == null) {
+				addDummyLabel();
+			}
+		}
+		mf.setFocus(focus);
+
+		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
+		int h = app.has(Feature.NEW_TOOLBAR)
+				? getToolbarDockPanel().getOffsetHeight()
+				: getAlgebraDockPanel().getOffsetHeight();
+		if (h < kH) {
+			app.adjustViews(true);
+		}
+	}
+
+	@Override
+	public String getText() {
+		if (mf == null) {
+			return "";
+		}
+		GeoGebraSerializer s = new GeoGebraSerializer();
+		return s.serialize(mf.getFormula());
+	}
+
+	@Override
+	public void onEnter(final boolean keepFocus) {
+		getLatexController().onEnter(keepFocus);
+	}
+
+	@Override
+	public void setText(String text0) {
+		if (!"".equals(text0)) {
+			removeDummy();
+		}
+		if (mf != null) {
+			Parser parser = new Parser(mf.getMetaModel());
+			MathFormula formula;
+			try {
+				formula = parser.parse(text0);
+				mf.setFormula(formula);
+			} catch (ParseException e) {
+				Log.warn("Problem parsing: " + text0);
+				e.printStackTrace();
+			}
+		}
+		updatePreview();
+	}
+
+	public void setLabels() {
+		if (dummyLabel != null) {
+			dummyLabel.setText(loc.getPlain("InputLabel") + Unicode.ellipsis);
+
+		}
+		if (hasMarblePanel()) {
+			marblePanel.setLabels();
+		}
+
+	}
+
+	@Override
+	public String getCommand() {
+		return mf == null ? "" : mf.getCurrentWord();
+	}
+
+	@Override
+	public void autocomplete(String text) {
+		getLatexController().autocomplete(text);
+	}
+
+	protected void focusAfterHelpClosed() {
+		getController().setFocus(true);
+	}
+
+	/**
+	 * Update after key was typed
+	 */
+	public void onKeyTyped() {
+		this.removeDummy();
+		app.closePerspectivesPopup();
+		updatePreview();
+		popupSuggestions();
+		onCursorMove();
+	}
+
+	/**
+	 * Cursor listener
+	 */
+	public void onCursorMove() {
+		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
+				- 10 < CursorBox.startX) {
+			latexItem.getElement().setScrollLeft(
+					(int) CursorBox.startX - latexItem.getOffsetWidth() + 10);
+		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft()
+				+ 10) {
+			latexItem.getElement().setScrollLeft((int) CursorBox.startX - 10);
+		}
+
+	}
+
+	public boolean popupSuggestions() {
+		return getInputSuggestions().popupSuggestions();
+	}
+
+	/**
+	 * @return suggestions model
+	 */
+	InputSuggestions getInputSuggestions() {
+		return getLatexController().getInputSuggestions();
+	}
+
+	private void updatePreview() {
+		if (getController().isInputAsText()) {
+			return;
+		}
+		String text = getText();
+		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(text,
+				AlgebraInputW.getWarningHandler(this, app));
+	}
+
+	public RadioTreeItem copy() {
+		return new RadioTreeItem(geo);
+	}
+
+	@Override
+	public void insertString(String text) {
+		new MathFieldProcessing(mf).autocomplete(text);
+
+	}
+
+	public void cancelEditing() {
+		this.stopEditing(null, null);
+
+	}
+
+	protected void blurEditor() {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
+		if (forceMQ) {
+			// TODO
+			// editLatexMQ(text0);
+		} else {
+			replaceToCanvas(text0, w);
+		}
+
+	}
+
+	protected void clearInput() {
+		setText("");
+
+	}
+
+	/**
+	 * @param key
+	 *            2,3,4 for F2, F3, F4
+	 * @param geoElement
+	 *            geo
+	 */
+	public void handleFKey(int key, GeoElement geoElement) {
+		// TODO Auto-generated method stub
+
+	}
+
+	protected void updateGUIfocus(Object source, boolean blurtrue) {
+		if (geo == null) {
+			updateEditorFocus(source, blurtrue);
+		}
+	}
+
+	@Override
+	public List<String> getCompletions() {
+		return getInputSuggestions().getCompletions();
+	}
+
+	@Override
+	public List<String> resetCompletions() {
+		return getInputSuggestions().resetCompletions();
+	}
+
+	@Override
+	public boolean getAutoComplete() {
+		return true;
+	}
+
+	@Override
+	public boolean isSuggesting() {
+		return getLatexController().isSuggesting();
+	}
+
+	public void setPixelRatio(double pixelRatio) {
+		if (mf != null) {
+			mf.setPixelRatio(pixelRatio);
+			mf.repaint();
+		}
+
+	}
+
+	protected void updateAfterRedefine(boolean success) {
+		if (mf != null && success) {
+			mf.setEnabled(false);
+		}
+		doUpdateAfterRedefine(success);
+	}
+
+	/**
+	 * 
+	 * @return if the item is the input or not.
+	 */
+	public boolean isInputTreeItem() {
+
+		return getAV().getInputTreeItem() == this;
+
+	}
+
+	/**
+	 * @return math field
+	 */
+	public MathFieldW getMathField() {
+		return mf;
+	}
+
+	public boolean onEditStart() {
+		String text = geo == null ? "" : geo.getDefinitionForEditor();
+		if (geo != null && !geo.isDefined() && lastInput != null) {
+			text = lastInput;
+		}
+		if (text == null) {
+			return false;
+		}
+		clearErrorLabel();
+		removeDummy();
+
+		renderLatex(text, true);
+		getMathField().requestViewFocus();
+		app.getGlobalKeyDispatcher().setFocused(true);
+		// canvas.addBlurHandler(getLatexController());
+		CancelEventTimer.keyboardSetVisible();
+		ClickStartHandler.init(main, new ClickStartHandler(false, false) {
+			@Override
+			public void onClickStart(int x, int y,
+					final PointerEventType type) {
+				getLatexController().setOnScreenKeyboardTextField();
+			}
+		});
+
+		return true;
+
+	}
+
+	public void adjustCaret(int x, int y) {
+		if (mf != null) {
+			mf.adjustCaret(x, y);
+		}
+
+	}
+
+	public void updateFonts() {
+		if (mf != null) {
+			mf.setFontSize(getFontSize());
+		}
+	}
+
+	protected String getEditorLatex() {
+		return mf == null ? null
+				: TeXSerializer.serialize(mf.getFormula().getRootComponent(),
+						mf.getMetaModel());
+	}
+
+	protected void doUpdate() {
+		if (mf != null) {
+			mf.setEnabled(false);
+		}
+		setNeedsUpdate(false);
+		if (hasMarblePanel()) {
+			marblePanel.update();
+		}
+
+		if (controls != null) {
+			controls.updateAnimPanel();
+		}
+
+		if (!isInputTreeItem() && isDefinitionAndValue()) {
+			buildItemContent();
+		} else {
+			updateTextItems();
+		}
+
+		if (plainTextItem != null) {
+			updateFont(plainTextItem);
+		}
+	}
+
+	public void preventBlur() {
+		((LatexTreeItemController) getController()).preventBlur();
+
+	}
+
+	protected boolean showSliderDialog(final String string,
+			final AsyncOperation<String[]> callback) {
+		Runnable r = new Runnable() {
+
+			@Override
+			public void run() {
+				app.getGuiManager().checkAutoCreateSliders(string,
+						new AsyncOperation<String[]>() {
+
+							@Override
+							public void callback(String[] obj) {
+								callback.callback(obj);
+								listenToBlur();
+							}
+						});
+
+			}
+		};
+		if (mf != null) {
+			mf.setOnBlur(null);
+			mf.checkEnterReleased(r);
+		} else {
+			r.run();
+		}
+		return false;
+
+	}
+
+	/**
+	 * Start listening to blur events
+	 */
+	protected void listenToBlur() {
+		mf.setOnBlur(getLatexController());
+	}
+
+	/**
+	 * Switches editor to text mode
+	 * 
+	 * @param value
+	 *            switches editor to text mode
+	 */
+	protected void setInputAsText(boolean value) {
+		mf.setPlainTextMode(value);
+
+	}
+
+	public RadioTreeItem initInput() {
+		this.insertHelpToggle();
+		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
+			content.addStyleName("scrollableTextBox");
+			if (isInputTreeItem()) {
+				content.addStyleName("inputBorder");
+			}
+		}
+		getWidget().addStyleName("latexEditor");
+		content.addStyleName("noPreview");
+		renderLatex("", false);
+		return this;
+	}
+
 }
 
 

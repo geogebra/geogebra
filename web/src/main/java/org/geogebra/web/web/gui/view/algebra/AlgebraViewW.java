@@ -1034,7 +1034,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			}
 		} else if (forceRetex) {
-			ti = new LatexTreeItem(ob);
+			ti = new RadioTreeItem(ob);
 		} else {
 			ti = new ReTeXHelper().getAVItem(ob);
 		}
@@ -1533,7 +1533,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private RadioTreeItem createInputPanel() {
-		return new LatexTreeItem(kernel);
+		return new RadioTreeItem(kernel).initInput();
 	}
 
 	@Override

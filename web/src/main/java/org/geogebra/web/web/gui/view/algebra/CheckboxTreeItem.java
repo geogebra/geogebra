@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
  * ReTeX based implementation of AV checkbox
  *
  */
-public class CheckboxTreeItem extends LatexTreeItem {
+public class CheckboxTreeItem extends RadioTreeItem {
 	/**
 	 * checkbox displaying boolean variables
 	 */

@@ -7,7 +7,6 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 
@@ -143,10 +142,11 @@ public class AlgebraDockPanelW extends DockPanelW
 		}
 
 		// if no retex editor yet
-		if (!(ml instanceof LatexTreeItem)) {
+		if (!(ml instanceof RadioTreeItem)) {
 			return ml;
 		}
-		LatexTreeItemController itemController = ((LatexTreeItem) ml).getLatexController();
+		LatexTreeItemController itemController = ((RadioTreeItem) ml)
+				.getLatexController();
 		itemController.initAndShowKeyboard(false);
 		return itemController.getRetexListener();
 	}

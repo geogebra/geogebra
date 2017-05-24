@@ -8,7 +8,6 @@ import org.geogebra.web.web.cas.view.CASLaTeXEditor;
 import org.geogebra.web.web.cas.view.CASTableControllerW;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.CheckboxTreeItem;
-import org.geogebra.web.web.gui.view.algebra.LatexTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.SliderTreeItemRetex;
 
@@ -26,12 +25,12 @@ public class ReTeXHelper extends LaTeXHelper {
 
 	@Override
 	public RadioTreeItem getAVItem(GeoElement ob) {
-		return new LatexTreeItem(ob);
+		return new RadioTreeItem(ob);
 	}
 
 	@Override
 	public RadioTreeItem getAVInput(Kernel kernel) {
-		return new LatexTreeItem(kernel);
+		return new RadioTreeItem(kernel).initInput();
 	}
 
 	@Override

@@ -38,13 +38,13 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 * @param item
 	 *            AV item
 	 */
-	public LatexTreeItemController(LatexTreeItem item) {
+	public LatexTreeItemController(RadioTreeItem item) {
 		super(item);
 	}
 
 	@Override
 	protected void startEdit(boolean substituteNumbers) {
-		if (item.isInputTreeItem() && item.onEditStart(false)) {
+		if (item.isInputTreeItem() && item.onEditStart()) {
 			setOnScreenKeyboardTextField();
 		} else {
 			super.startEdit(substituteNumbers);

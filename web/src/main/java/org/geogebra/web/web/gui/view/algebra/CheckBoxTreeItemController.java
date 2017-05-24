@@ -21,7 +21,7 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 	 * @param item
 	 *            AV item
 	 */
-	public CheckBoxTreeItemController(LatexTreeItem item) {
+	public CheckBoxTreeItemController(RadioTreeItem item) {
 		super(item);
 	}
 

@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author laszlo
  *
  */
-public class SliderTreeItemRetex extends LatexTreeItem
+public class SliderTreeItemRetex extends RadioTreeItem
 		implements SliderTreeItemInterface {
 
 	private static final int SLIDER_EXT = 15;
@@ -340,11 +340,11 @@ public class SliderTreeItemRetex extends LatexTreeItem
 	}
 
 	@Override
-	public boolean onEditStart(boolean substituteNumbers) {
+	public boolean onEditStart() {
 		if (minMaxPanel.isVisible()) {
 			return false;
 		}
-		return super.onEditStart(substituteNumbers);
+		return super.onEditStart();
 	}
 
 }

@@ -84,7 +84,7 @@ public class RadioTreeItemController
 
 	private static final int VERTICAL_PADDING = 20;
 	protected AppWFull app;
-	LatexTreeItem item;
+	RadioTreeItem item;
 	private LongTouchManager longTouchManager;
 	protected AVSelectionController selectionCtrl;
 	protected boolean editing = false;
@@ -94,7 +94,7 @@ public class RadioTreeItemController
 	private int editHeigth;
 	private boolean inputAsText = false;
 
-	public RadioTreeItemController(LatexTreeItem item) {
+	public RadioTreeItemController(RadioTreeItem item) {
 		this.item = item;
 		this.app = item.app;
 		selectionCtrl = getAV().getSelectionCtrl();
