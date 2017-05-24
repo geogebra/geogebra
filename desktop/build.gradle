@@ -109,7 +109,7 @@ gradle.projectsEvaluated {
         projs.each {
             additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
             additionalClassDirs files(files(it.sourceSets.main.output.classesDir).collect({
-		File f -> fileTree(dir: f, exclude: ['org/apache/**','edu/**','org/geogebra/common/kernel/barycentric/**'])
+		File f -> fileTree(dir: f, exclude: ['org/apache/**','edu/**','org/geogebra/common/kernel/barycentric/**','org/mozilla/**'])
 	     }))
         }
     }
@@ -118,7 +118,7 @@ gradle.projectsEvaluated {
 jacocoTestReport {	
    afterEvaluate {
         classDirectories = files(classDirectories.files.collect {
-            fileTree(dir: it, exclude: ['com/kitfox/**','org/mozilla/**','org/jfugue/**','org/freehep/**','org/geogebra/desktop/**'])
+            fileTree(dir: it, exclude: ['com/kitfox/**','org/jfugue/**','org/freehep/**','org/geogebra/desktop/**'])
         })
 
     }
