@@ -10,6 +10,7 @@ import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.gui.view.algebra.CheckboxTreeItem;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.gui.view.algebra.SliderTreeItemRetex;
+import org.geogebra.web.web.gui.view.algebra.TextTreeItem;
 
 /**
  * Factory class for ReTeX based editor
@@ -46,6 +47,11 @@ public class ReTeXHelper extends LaTeXHelper {
 	@Override
 	public RadioTreeItem getCheckboxItem(GeoElement ob) {
 		return new CheckboxTreeItem(ob);
+	}
+
+	@Override
+	public RadioTreeItem getTextItem(GeoElement ob) {
+		return new TextTreeItem(ob);
 	}
 
 }

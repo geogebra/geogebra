@@ -219,6 +219,9 @@ public enum Feature {
 	/** GGB-1732 */
 	AV_PLAY_ONLY,
 
+	/** GGB-1810 */
+	AV_TEXT_ITEM,
+
 	/** GGB-1773 */
 	NEW_TOOLBAR,
 

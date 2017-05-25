@@ -1048,8 +1048,9 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (newValue0 != null) {
 			String rawInput = stopCommon(newValue0);
-			String newValue = app.getKernel().getInputPreviewHelper()
+			String v = app.getKernel().getInputPreviewHelper()
 					.getInput(rawInput);
+			String newValue = isTextItem() ? "\"" + v + "\"" : v;
 			boolean valid = rawInput != null && rawInput.equals(newValue);
 			// Formula Hacks ended.
 			if (geo != null) {
@@ -1938,6 +1939,11 @@ public class RadioTreeItem extends AVTreeItem
 		return false;
 	}
 
+	public boolean isTextItem() {
+		return false;
+	}
+
+
 	public RadioTreeItemController getController() {
 		return controller;
 	}
@@ -2500,7 +2506,6 @@ public class RadioTreeItem extends AVTreeItem
 		renderLatex("", false);
 		return this;
 	}
-
 }
 
 

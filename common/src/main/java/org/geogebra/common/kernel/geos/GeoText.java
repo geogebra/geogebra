@@ -36,8 +36,10 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1440,4 +1442,23 @@ public class GeoText extends GeoElement
 		return totalHeight;
 	}
 
+	@Override
+	public String getDefinitionForEditor() {
+		if (!getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)) {
+			return super.getDefinitionForEditor();
+		}
+
+		String ret = getAlgebraDescription(StringTemplate.editorTemplate)
+				.replace('"', ' ').split("=")[1];
+
+		return ret;
+	}
+	final public String getDescriptionForAV(
+			IndexHTMLBuilder builder) {
+		String txt = getDefinitionForEditor();
+		builder.clear();
+		builder.append(txt);
+		return txt;
+
+}
 }

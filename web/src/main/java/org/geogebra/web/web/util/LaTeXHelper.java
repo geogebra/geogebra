@@ -65,7 +65,14 @@ public abstract class LaTeXHelper {
 	/**
 	 * @param ob
 	 *            bool
-	 * @return chackbox item
+	 * @return checkbox item
 	 */
 	public abstract RadioTreeItem getCheckboxItem(GeoElement ob);
+
+	/**
+	 * @param ob
+	 *            geo text
+	 * @return text item
+	 */
+	public abstract RadioTreeItem getTextItem(GeoElement ob);
 }

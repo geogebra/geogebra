@@ -1033,6 +1033,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 						.getCheckboxItem(ob);
 
 			}
+		} else if (TextTreeItem.match(ob)) {
+			if (forceRetex) {
+				ti = new TextTreeItem(ob);
+			} else {
+				ti = new ReTeXHelper().getTextItem(ob);
+
+			}
 		} else if (forceRetex) {
 			ti = new RadioTreeItem(ob);
 		} else {

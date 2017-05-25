@@ -4252,6 +4252,9 @@ public abstract class App implements UpdateSelection {
 		case AV_PLAY_ONLY:
 			return prerelease;
 
+		case AV_TEXT_ITEM:
+			return prerelease;
+
 		case AV_PLUS:
 			return prerelease;
 
