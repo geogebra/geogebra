@@ -196,6 +196,10 @@ public class LatexTreeItemController extends RadioTreeItemController
 					geos[0].setLabel(geos[0].getDefaultLabel());
 				}
 
+				if (app.has(Feature.AV_TEXT_ITEM) && geos.length == 1
+						&& geos[0].isGeoText()) {
+					geos[0].setEuclidianVisible(false);
+				}
 				InputHelper.updateProperties(geos,
 						app.getActiveEuclidianView(), oldStep);
 				app.setScrollToShow(false);
