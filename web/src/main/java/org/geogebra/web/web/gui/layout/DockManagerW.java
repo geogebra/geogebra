@@ -26,6 +26,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
@@ -44,6 +46,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
+	private static final int PORTRAIT_AV_HEADER = 57;
 	private static final int DEFAULT_KEYBOARD_HEIGHT = 186;
 	AppW app;
 	private LayoutW layout;
@@ -1863,11 +1866,16 @@ public class DockManagerW extends DockManager {
 
 		AlgebraViewW av = ((AlgebraViewW) app.getAlgebraView());
 		double avHeight = kbHeight;
-		if (!app.has(Feature.NEW_TOOLBAR)) {
-			avHeight += av.getInputTreeItem().getOffsetHeight();
+		avHeight += av.getInputTreeItem().getOffsetHeight();
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			ToolbarPanel toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
+			avHeight = kbHeight + toolbar.getMinVHeight();
+			Log.debug("TTTTT: app: " + app.getHeight());
+			Log.debug("TTTTT: av : " + avHeight);
+			Log.debug("TTTTT: kb : " + kbHeight);
 		}
 
-		double portraitDivider = avHeight / app.getHeight();
+		double portraitDivider = (avHeight) / app.getHeight();
 
 		split.clear();
 		setDividerLocation(split,

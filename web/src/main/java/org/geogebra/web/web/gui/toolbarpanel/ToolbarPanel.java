@@ -497,7 +497,7 @@ public class ToolbarPanel extends FlowPanel {
 	void setLastSize() {
 		if (isPortrait()) {
 			if (lastOpenHeight == null) {
-				lastOpenHeight = getOffsetHeight();
+				lastOpenHeight = app.getActiveEuclidianView().getViewHeight();
 			}
 		} else {
 			if (lastOpenWidth == null) {
@@ -768,5 +768,14 @@ public class ToolbarPanel extends FlowPanel {
 	 */
 	public void setSelectedTab(TabIds selectedTab) {
 		this.selectedTab = selectedTab;
+	}
+
+	/**
+	 * 
+	 * @return The height that AV should have minimally in portrait mode.
+	 */
+	public double getMinVHeight() {
+		return 3 * header.getOffsetHeight();
+				
 	}
 }

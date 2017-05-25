@@ -37,6 +37,7 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
@@ -299,7 +300,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			public void run() {
 				// onResize();
 				// dockPanel.onResize();
-				scrollToInputField();
+				if (app.has(Feature.NEW_TOOLBAR)) {
+					scrollToInputFieldInToolbar();
+				} else {
+					scrollToInputField();
+				}
 			}
 		};
 		timer.schedule(0);
@@ -412,7 +417,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 * Scroll to the input-field, if the input-field is in the algebraView.
 	 */
 	void scrollToInputField() {
-		if (!app.has(Feature.NEW_TOOLBAR) && app.showAlgebraInput()
+		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView) {
 			AlgebraDockPanelW dp = (AlgebraDockPanelW) (app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
@@ -424,6 +429,19 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
+	/**
+	 * Scroll to the input-field, if the input-field is in the algebraView.
+	 */
+	void scrollToInputFieldInToolbar() {
+		if (app.showAlgebraInput()
+				&& app.getInputPosition() == InputPosition.algebraView) {
+			ToolbarDockPanelW dp = (ToolbarDockPanelW) (app.getGuiManager()
+					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
+			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+				dp.getToolbar().scrollToActiveItem();
+			}
+		}
+	}
 	@Override
 	public void showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
