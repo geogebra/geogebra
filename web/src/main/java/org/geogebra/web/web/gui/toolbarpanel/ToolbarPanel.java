@@ -22,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -452,7 +451,7 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void createContents() {
-			add(new Label("Here comes the tools..."));
+			add(new Tools((AppW) ToolbarPanel.this.app));
 		}
 	}
 	/**
