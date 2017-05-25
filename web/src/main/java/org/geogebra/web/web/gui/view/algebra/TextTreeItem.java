@@ -11,15 +11,17 @@ import com.google.gwt.user.client.ui.TreeItem;
  *
  */
 public class TextTreeItem extends RadioTreeItem {
+	private GeoText text;
+
 	/**
 	 * @param geo0
 	 *            text geo
 	 */
-	private GeoText text;
-
 	public TextTreeItem(GeoElement geo0) {
 		super(geo0);
 		text = (GeoText) geo;
+		geo.setEuclidianVisible(false);
+		doUpdate();
 	}
 
 	@Override
