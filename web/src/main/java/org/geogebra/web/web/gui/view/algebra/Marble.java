@@ -5,7 +5,9 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.web.css.MaterialDesignResources;
 
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -15,7 +17,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class Marble extends SimplePanel
 {
 	private RadioTreeItem gc;
-	
+	private Image imgText = null;
 	/**
 	 * Toggle visibility of corresponding geo
 	 */
@@ -34,7 +36,11 @@ public class Marble extends SimplePanel
 	 */
 	public Marble(final RadioTreeItem gc) {
 		this.gc = gc;
-
+		if (gc.isTextItem()) {
+			imgText = new Image(MaterialDesignResources.INSTANCE.text_black());
+			imgText.addStyleName("textOverMarble");
+			add(imgText);
+		}
 		// stopPropagation activated (parameters for the constructor)
 		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
 			@Override
