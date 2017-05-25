@@ -23,6 +23,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraServer;
+import org.geogebra.desktop.main.StepByStepSolver;
 
 public class GeoGebra {
 
@@ -81,6 +82,10 @@ public class GeoGebra {
 		if (args.containsArg("startHttpServer")) {
 			Log.error("startHttpServer");
 			new GeoGebraServer(args.getStringValue("startHttpServer"));
+			return;
+		}
+		if (args.containsArg("solver")) {
+			new StepByStepSolver(args.getStringValue("solver"));
 			return;
 		}
 		if (args.containsArg("help") || args.containsArg("proverhelp")
