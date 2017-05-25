@@ -188,6 +188,8 @@ public class SerializeLaTeX {
 	public void testParseLaTeXAdapter() {
 		checkLaTeX("a=\\left[1,...,4\\right]", "a=(1...4)",
 				new BracketsAdapter());
+		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
+				"a=Sequence[0.8,4,1.2-(0.8)]", new BracketsAdapter());
 	}
 
 	private void checkLaTeX(String string, String string2) {

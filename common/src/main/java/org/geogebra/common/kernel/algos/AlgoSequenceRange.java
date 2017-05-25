@@ -41,7 +41,6 @@ public class AlgoSequenceRange extends AlgoElement {
 	}
 
 	private GeoNumberValue var_from, var_to, var_step;
-	private GeoElement var_from_geo, var_to_geo;
 	private GeoList list; // output
 
 	private SequenceType type;
@@ -72,9 +71,7 @@ public class AlgoSequenceRange extends AlgoElement {
 		super(cons);
 		type = SequenceType.RANGE;
 		var_from = from;
-		var_from_geo = var_from.toGeoElement();
 		var_to = upTo;
-		var_to_geo = var_to.toGeoElement();
 		var_step = step;
 
 		list = new GeoList(cons);
@@ -98,10 +95,8 @@ public class AlgoSequenceRange extends AlgoElement {
 		super(cons);
 		type = SequenceType.SIMPLE;
 		var_from = new GeoNumeric(cons, 1);
-		var_from_geo = (GeoElement) var_from;
 
 		var_to = upTo;
-		var_to_geo = var_to.toGeoElement();
 		list = new GeoList(cons);
 		setInputOutput();
 		compute();
@@ -119,21 +114,21 @@ public class AlgoSequenceRange extends AlgoElement {
 
 		if (type == SequenceType.SIMPLE) {
 			input = new GeoElement[1];
-			input[0] = var_to_geo;
-			list.setTypeStringForXML(StringUtil
-					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
+			input[0] = var_to.toGeoElement();
 		} else {
 			if (var_step == null) {
-				input = new GeoElement[] { var_from_geo, var_to_geo };
+				input = new GeoElement[] { var_from.toGeoElement(),
+						var_to.toGeoElement() };
 			} else {
-				input = new GeoElement[] { var_from_geo, var_to_geo,
+				input = new GeoElement[] { var_from.toGeoElement(),
+						var_to.toGeoElement(),
 						var_step.toGeoElement() };
 			}
 
-			list.setTypeStringForXML(StringUtil
-					.toLowerCase(var_to_geo.getGeoClassType().xmlName));
-		}
 
+		}
+		list.setTypeStringForXML(StringUtil.toLowerCase(var_to
+				.getGeoClassType().xmlName));
 		setOutputLength(1);
 		setOutput(0, list);
 
@@ -162,9 +157,12 @@ public class AlgoSequenceRange extends AlgoElement {
 	// use doubles
 	// ef Sequence[9007199254000027, 9007199254000187]
 	private void computeRange() {
-		double from = Math.round(var_from.getDouble());
-		double to = Math.round(var_to.getDouble());
-
+		double from = var_from.getDouble();
+		double to = var_to.getDouble();
+		if (var_step == null) {
+			from = Math.round(from);
+			to = Math.round(to);
+		}
 		if (from > MyMath.LARGEST_INTEGER || from < -MyMath.LARGEST_INTEGER
 				|| to > MyMath.LARGEST_INTEGER
 				|| to < -MyMath.LARGEST_INTEGER) {
