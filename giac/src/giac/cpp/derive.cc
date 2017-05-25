@@ -513,6 +513,15 @@ namespace giac {
   }
 
   gen derive(const gen & e,const identificateur & i,GIAC_CONTEXT){
+    if (abs_calc_mode(contextptr)==38 && i.id_name[0]>='A' && i.id_name[0]<='Z'){
+      identificateur tmp("xdiff");
+      gen ee=subst(e,i,tmp,true,contextptr);
+      ee=eval(ee,1,contextptr);
+      ee=subst(ee,i,tmp,true,contextptr);
+      ee=derive(ee,tmp,contextptr);
+      ee=subst(ee,tmp,i,true,contextptr);
+      return ee;
+    }
     switch (e.type){
     case _INT_: case _DOUBLE_: case _ZINT: case _CPLX: case _MOD: case _REAL: case _USER: case _FLOAT_:
       return 0;

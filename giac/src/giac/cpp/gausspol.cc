@@ -1926,7 +1926,7 @@ namespace giac {
 		convert_from<int128_t,ulonglong>(rD,d,r,true);
 	      return true;
 	    }
-    }
+	  }
 #endif
 	}
 #ifdef HAVE_GMPXX_H

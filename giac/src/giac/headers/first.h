@@ -282,7 +282,7 @@ typedef int ref_count_t;
 //#define CP15_TPIDRURW          15, 0, 13,  0, 2         // Software Thread ID Register, User Read/Write
 #endif
 
-#if defined(__LP64__) || defined(_WIN64) || (defined(x86_64) &&     !defined(__ILP32__) ) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__)
+#if __BYTE_ORDER__ ==__ORDER_LITTLE_ENDIAN__ && (defined(__LP64__) || defined(_WIN64) || (defined(x86_64) && !defined(__ILP32__)) || defined(_M_X64) || defined(__ia64) || defined (_M_IA64) || defined(__aarch64__) || defined(__powerpc64__))
 #if !defined(BUILDING_NODE_EXTENSION) || !defined(_WIN64)
 #define SMARTPTR64
 #endif

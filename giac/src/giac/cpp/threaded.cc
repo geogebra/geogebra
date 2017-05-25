@@ -3815,10 +3815,17 @@ mpz_class smod(const mpz_class & a,int reduce){
     mulmodpoly(a,b,c);
   }
 
-  static void type_operator_plus_times(vecteur & a,const vecteur & b,const vecteur & c){
+  static void type_operator_plus_times(const vecteur & a,const vecteur & b,vecteur & c){
     vecteur tmp;
-    mulmodpoly(b,c,tmp);
-    addmodpoly(a,tmp,a);
+    mulmodpoly(a,b,tmp);
+    addmodpoly(c,tmp,c);
+  }
+
+  static void type_operator_plus_times_reduce(const vecteur & a,const vecteur & b,vecteur & c,int reduce){
+    assert(reduce==0);
+    vecteur tmp;
+    mulmodpoly(a,b,tmp);
+    addmodpoly(c,tmp,c);
   }
 
   // c += a*b % reduce
