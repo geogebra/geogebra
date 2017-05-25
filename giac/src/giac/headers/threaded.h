@@ -2240,6 +2240,21 @@ namespace giac {
     }
   }
 
+  inline bool hashdivrem_finish_later(longlong a){ return false;}
+  inline bool hashdivrem_finish_later(double a){return false;}
+  inline bool hashdivrem_finish_later(int a){ return false; }
+  inline bool hashdivrem_finish_later(const vecteur & v){ return false; }
+  inline bool hashdivrem_finish_later(const std::vector<int> & v){ return false; }
+#ifdef INT128
+  inline bool hashdivrem_finish_later(int128_t a){return false;}
+#endif
+  
+  inline bool hashdivrem_finish_later(const gen & a){return true;}
+  inline bool hashdivrem_finish_later(const my_mpz & a){return true;}
+#ifdef HAVE_GMPXX_H
+  inline bool hashdivrem_finish_later(const mpz_class & a){return true;}
+#endif
+
   // note that U may be of type vector of int or an int
   // + is used to multiply monomials and - to divide
   // / should return the quotient of the main variable exponent
@@ -2663,26 +2678,18 @@ namespace giac {
 	delete [] heap;
 	return 1;
       }
-#if 1
-      if (quo_only==-1){
+      if (quo_only==-1 ){
 	// try to compare heap mult and array mult, return for array mult only
 	double qb=double(q.size())*b.size();
 	qb /= a.size();
 	if (debug_infolevel>1)
 	  CERR << CLOCK() << " qb=" << qb << std::endl;
 	if (qb>100){
-	  delete [] heap;
-	  return 2;
-	}
-      }      
-#else
-      // FIXME: the coefficients might be not optimal (mpz_class instead of int)
-      if (quo_only==-1) {
-	double qb=double(q.size())*b.size();
-	qb /= a.size();
-	if (debug_infolevel>1)
-	  CERR << CLOCK() << " qb=" << qb << std::endl;
-	if (qb>100){
+	  // the coefficients might be not optimal (mpz_class instead of int)
+	  if (hashdivrem_finish_later(a.front().g)){
+	    delete [] heap;
+	    return 2;
+	  }
 	  // the monomials are not stored efficiently for array *, compress
 	  index_t adeg,bdeg,qdeg,bqdeg;
 	  partial_degrees(a,vars,adeg);
@@ -2704,7 +2711,6 @@ namespace giac {
 	  return 1;
 	}
       }
-#endif
       // now q is computed, combine a and remaining product to r
       for (;heapbeg!=heapend;){
 	heapu=heapbeg->u;
