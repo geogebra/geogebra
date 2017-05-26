@@ -281,7 +281,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				public void callback(GeoElementND[] ret) {
 					if (ret != null && ret[0] instanceof GeoText) {
 						GeoText t = (GeoText) ret[0];
-
+						t.setEuclidianVisible(true);
 						positionText(t);
 
 						app.storeUndoInfo();
