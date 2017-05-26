@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class ScreenReader {
 
@@ -13,18 +14,32 @@ public class ScreenReader {
 				if (geo0.isGeoInputBox()) {
 					return;
 				}
-				String text = geo0.getCaptionSimple();
-				if (text == null || "".equals(text)) {
-					text = geo0.getAlgebraDescriptionDefault();
-				}
-				// MOW-137 if selection originated in AV we don't want to move
-				// focus to EV
-				if (app.getGuiManager() == null || app.getGuiManager()
-						.getLayout().getDockManager().getFocusedViewId() == app
-								.getActiveEuclidianView().getViewID()) {
-					app.getActiveEuclidianView().readText(text);
-				}
+
+				readText(geo0, app);
 			}
+		}
+
+	}
+
+	public static void sliderChanged(GeoNumeric geo0) {
+		App app = geo0.getKernel().getApplication();
+
+		readText(geo0, app);
+
+	}
+
+	private static void readText(GeoElement geo0, App app) {
+		String text = geo0.getCaptionSimple();
+		if (text == null || "".equals(text)) {
+			text = geo0.getAlgebraDescriptionDefault();
+		}
+
+		// MOW-137 if selection originated in AV we don't want to move
+		// focus to EV
+		if (app.getGuiManager() == null || app.getGuiManager().getLayout()
+				.getDockManager().getFocusedViewId() == app
+						.getActiveEuclidianView().getViewID()) {
+			app.getActiveEuclidianView().readText(text);
 		}
 
 	}
