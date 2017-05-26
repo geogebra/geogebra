@@ -1202,8 +1202,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 					inputPanelLatex.updateButtonPanelPosition();
 					if (app.has(Feature.NEW_TOOLBAR)) {
-						Log.debug(
-								"new toolbar scroll to bottom - not implemented.");
+						getToolbarDockPanel().scrollAVToBottom();
 					} else {
 						getAlgebraDockPanel().scrollToBottom();
 					}
@@ -1818,7 +1817,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			getToolbarDockPanel().saveAVScrollPosition();
+		} else {
 			getAlgebraDockPanel().saveScrollPosition();
 		}
 

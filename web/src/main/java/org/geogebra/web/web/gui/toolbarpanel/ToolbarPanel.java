@@ -3,7 +3,9 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Presistable;
@@ -12,6 +14,7 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.web.main.AppWFull;
 
@@ -39,10 +42,16 @@ public class ToolbarPanel extends FlowPanel {
 	/** Application */
 	App app;
 
+	/**
+	 * Tab ids.
+	 */
 	enum TabIds {
 		ALGEBRA, TOOLS
-	};
-	private Header header;
+	}
+
+	/** Header of the panel with buttons and tabs */
+	Header header;
+
 	private FlowPanel main;
 	private Integer lastOpenWidth = null;
 	private Integer lastOpenHeight = null;
@@ -429,7 +438,8 @@ public class ToolbarPanel extends FlowPanel {
 
 			int spH = getOffsetHeight();
 
-			int top = item.getElement().getOffsetTop();
+			int top = header.getOffsetHeight()
+					+ item.getElement().getOffsetTop();
 
 			int relTop = top - savedScrollPosition;
 
@@ -439,6 +449,12 @@ public class ToolbarPanel extends FlowPanel {
 				setVerticalScrollPosition(pos);
 			} 
 		}
+
+		public void saveScrollPosition() {
+			savedScrollPosition = getVerticalScrollPosition();
+		}
+
+
 	}
 
 	private class ToolsTab extends ToolbarTab {
@@ -732,19 +748,37 @@ public class ToolbarPanel extends FlowPanel {
 				.getDockManager())).isPortrait();
 	}
 
+	/**
+	 * 
+	 * @return last opened height in portrait mode.
+	 */
 	Integer getLastOpenHeight() {
 		return lastOpenHeight;
 	}
 
-	void setLastOpenHeight(Integer lastOpenHeight) {
-		this.lastOpenHeight = lastOpenHeight;
+	/**
+	 * Sets the last opened height in portrait mode.
+	 * 
+	 * @param value
+	 *            to set.
+	 */
+	void setLastOpenHeight(Integer value) {
+		this.lastOpenHeight = value;
+	}
+
+	/**
+	 * 
+	 * @return true if AV is selected and ready to use.
+	 */
+	public boolean isAlgebraViewActive() {
+		return tabAlgebra != null && selectedTab == TabIds.ALGEBRA;
 	}
 
 	/**
 	 * Scrolls to currently edited item, if AV is active.
 	 */
 	public void scrollToActiveItem() {
-		if (tabAlgebra != null && selectedTab == TabIds.ALGEBRA) {
+		if (isAlgebraViewActive()) {
 			tabAlgebra.scrollToActiveItem();
 		}
 	}
@@ -774,4 +808,54 @@ public class ToolbarPanel extends FlowPanel {
 		return 3 * header.getOffsetHeight();
 				
 	}
+
+	/**
+	 * Saves the scroll position of algebra view
+	 */
+	public void saveAVScrollPosition() {
+		tabAlgebra.saveScrollPosition();
+	}
+
+	/**
+	 * Scrolls to the bottom of AV.
+	 */
+	public void scrollAVToBottom() {
+		if (tabAlgebra != null) {
+			tabAlgebra.scrollToBottom();
+		}
+	}
+
+	/**
+	 * @return keyboard listener of AV.
+	 * 
+	 */
+	public MathKeyboardListener getKeyboardListener() {
+		if (tabAlgebra == null
+				|| app.getInputPosition() != InputPosition.algebraView) {
+			return null;
+		}
+		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
+	}
+
+	/**
+	 * @param ml
+	 *            to update.
+	 * @return the updated listener.
+	 */
+	public MathKeyboardListener updateKeyboardListener(
+			MathKeyboardListener ml) {
+		if (tabAlgebra.aview.getInputTreeItem() != ml) {
+			return ml;
+		}
+
+		// if no retex editor yet
+		if (!(ml instanceof RadioTreeItem)) {
+			return ml;
+		}
+		LatexTreeItemController itemController = ((RadioTreeItem) ml)
+				.getLatexController();
+		itemController.initAndShowKeyboard(false);
+		return itemController.getRetexListener();
+	}
+
 }

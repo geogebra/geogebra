@@ -12,6 +12,7 @@ import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -70,8 +71,18 @@ public class ShowKeyboardButton extends SimplePanel {
 						.getKeyboardListener();
 						
 				if (app.has(Feature.KEYBOARD_BEHAVIOUR) && panel instanceof AlgebraDockPanelW) {
-					listener.doShowKeyBoard(true,
-							((AlgebraDockPanelW) panel).updateKeyboardListener(mathKeyboardListener));
+					if (app.has(Feature.NEW_TOOLBAR)) {
+						listener.doShowKeyBoard(true,
+								((ToolbarDockPanelW) panel)
+										.updateKeyboardListener(
+												mathKeyboardListener));
+
+					} else {
+						listener.doShowKeyBoard(true,
+								((AlgebraDockPanelW) panel)
+										.updateKeyboardListener(
+												mathKeyboardListener));
+					}
 				} else {
 					listener.doShowKeyBoard(true, mathKeyboardListener);
 				}
