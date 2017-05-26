@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -11,6 +12,7 @@ import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Widget;
 
 public class Tools extends FlowPanel {
 
@@ -34,6 +36,7 @@ public class Tools extends FlowPanel {
 
 	private class CategoryPanel extends FlowPanel {
 		private Category category;
+		private FlowPanel toolsPanel;
 
 		public CategoryPanel(ToolCategorization.Category cat) {
 			super();
@@ -44,7 +47,7 @@ public class Tools extends FlowPanel {
 		private void initGui() {
 			add(new Label(mToolCategorization.getLocalizedHeader(category)));
 
-			FlowPanel toolsPanel = new FlowPanel();
+			toolsPanel = new FlowPanel();
 			ArrayList<Integer> tools = mToolCategorization.getTools(
 					mToolCategorization.getCategories().indexOf(category));
 
@@ -56,12 +59,38 @@ public class Tools extends FlowPanel {
 
 		}
 
-		private StandardButton getButton(int mode) {
+		private FlowPanel getToolsPanel() {
+			return toolsPanel;
+		}
+
+		private StandardButton getButton(final int mode) {
 			NoDragImage im = new NoDragImage(GGWToolBar
 					.getImageURL(mode, app));
-			StandardButton btn = new StandardButton(null, "", 32);
+			final StandardButton btn = new StandardButton(null, "", 32);
 			btn.getUpFace().setImage(im);
+
+			btn.addFastClickHandler(new FastClickHandler() {
+
+				public void onClick(Widget source) {
+					app.setMode(mode);
+					clearSelectionStyle();
+					btn.getElement().setAttribute("selected", "true");
+				}
+
+			});
+
 			return btn;
+		}
+
+		public void clearSelectionStyle() {
+			for (int i = 0; i < Tools.this.getWidgetCount(); i++) {
+				CategoryPanel categoryPanel = (CategoryPanel) Tools.this
+						.getWidget(i);
+				for (int j = 0; j < categoryPanel.getWidgetCount(); j++) {
+					categoryPanel.getToolsPanel().getWidget(j).getElement()
+							.setAttribute("selected", "false");
+				}
+			}
 		}
 	}
 

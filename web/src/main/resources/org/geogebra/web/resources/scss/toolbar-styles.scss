@@ -108,6 +108,10 @@
 			margin: 3px;
 			padding: 3px;
 		}
+		
+		.button[selected=true]{
+			border: 2px solid #a388d4;
+		}
 	}
 		
  }
