@@ -4680,11 +4680,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			sbxml.append(getEuclidianController().getDeleteToolSize());
 		}
 
-		sbxml.append("\" checkboxSize=\"");
-		sbxml.append(app.getCheckboxSize()); // Michael Borcherds
-												// 2008-05-12
-
-		sbxml.append("\" gridType=\"");
+		// checkbox size 13 deprecated
+		sbxml.append("\" checkboxSize=\"26\" gridType=\"");
 		sbxml.append(getGridType()); // cartesian/isometric/polar
 
 		if (lockedAxesRatio > 0) {
