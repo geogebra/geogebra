@@ -2703,10 +2703,16 @@ namespace giac {
 	  convert(acopy,vars,newvars);
 	  convert(bcopy,vars,newvars);
 	  convert(qcopy,vars,newvars);
+	  if (debug_infolevel>1)
+	    CERR << CLOCK() << " compress monomials done" <<std::endl;
 	  if (!threadmult(bcopy,qcopy,bq,vars.front(),reduce,a.size()))
 	    smallmult(bcopy,qcopy,bq,reduce,as);
 	  smallsub(acopy,bq,r);
+	  if (debug_infolevel>1)
+	    CERR << CLOCK() << " uncompress monomials" <<std::endl;
 	  convert(r,newvars,vars);
+	  if (debug_infolevel>1)
+	    CERR << CLOCK() << " uncompress monomials end"<< std::endl;
 	  delete [] heap;
 	  return 1;
 	}
