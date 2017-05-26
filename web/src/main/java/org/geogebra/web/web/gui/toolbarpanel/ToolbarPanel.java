@@ -79,9 +79,6 @@ public class ToolbarPanel extends FlowPanel {
 		private Image imgOpen;
 
 		private Image imgMenu;
-		private Image imgUndo;
-		private Image imgRedo;
-
 		private FlowPanel contents;
 		private FlowPanel center;
 		PresistablePanel undoRedoPanel;
