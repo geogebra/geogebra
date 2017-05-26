@@ -84,10 +84,10 @@ public class Tools extends FlowPanel {
 
 		public void clearSelectionStyle() {
 			for (int i = 0; i < Tools.this.getWidgetCount(); i++) {
-				CategoryPanel categoryPanel = (CategoryPanel) Tools.this
-						.getWidget(i);
-				for (int j = 0; j < categoryPanel.getWidgetCount(); j++) {
-					categoryPanel.getToolsPanel().getWidget(j).getElement()
+				FlowPanel panelTools = ((CategoryPanel) Tools.this.getWidget(i))
+						.getToolsPanel();
+				for (int j = 0; j < panelTools.getWidgetCount(); j++) {
+					panelTools.getWidget(j).getElement()
 							.setAttribute("selected", "false");
 				}
 			}
