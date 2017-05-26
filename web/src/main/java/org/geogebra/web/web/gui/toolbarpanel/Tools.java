@@ -19,6 +19,7 @@ public class Tools extends FlowPanel {
 
 	public Tools(AppW appl) {
 		app = appl;
+		this.addStyleName("toolsPanel");
 		mToolCategorization = new ToolCategorization(app,
 				ToolCategorization.Type.GRAPHING_CALCULATOR, false);
 		mToolCategorization.resetTools();
