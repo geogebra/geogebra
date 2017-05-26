@@ -105,12 +105,13 @@
 	.toolsPanel {
 		.button {
 			display: inline-block;
-			margin: 3px;
+			margin: 4px;
 			padding: 3px;
 		}
 		
 		.button[selected=true]{
 			border: 2px solid #a388d4;
+			margin: 2px;
 		}
 	}
 		
