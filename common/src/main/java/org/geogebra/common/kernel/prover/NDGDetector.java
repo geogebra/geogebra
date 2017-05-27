@@ -383,7 +383,7 @@ public class NDGDetector {
 			}
 		}
 
-		// CHECKING PERPENDICULARITY AND PARALLELISM
+		// CHECKING PERPENDICULARITY, PARALLELISM AND CONGRUENCE
 
 		Combinations pairs1 = new Combinations(freePointsSet, 2);
 
@@ -456,50 +456,18 @@ public class NDGDetector {
 					lookupTable.put(keyString, ndgc);
 					return ndgc;
 				}
-			}
-		}
-
-		// CHECKING ISOSCELES TRIANGLES
-
-		pairs = new Combinations(freePointsSet, 2);
-
-		while (pairs.hasNext()) {
-			HashSet<Object> pair = (HashSet<Object>) pairs.next();
-			Iterator<Object> it1 = pair.iterator();
-			// GeoElement[] points = (GeoElement[]) pair.toArray();
-			// This is not working directly, so we have to do it manually:
-			int i = 0;
-			GeoElement[] points = new GeoElement[4];
-			while (it1.hasNext()) {
-				points[i] = (GeoElement) it1.next();
-				i += 2;
-			}
-			it = freePointsSet.iterator();
-			while (it.hasNext()) {
-				points[1] = points[3] = it.next();
-				PVariable[] fv1, fv2, fv3;
-				try {
-					fv1 = ((SymbolicParametersBotanaAlgo) points[0])
-							.getBotanaVars(points[0]);
-					fv2 = ((SymbolicParametersBotanaAlgo) points[1])
-							.getBotanaVars(points[1]);
-					fv3 = ((SymbolicParametersBotanaAlgo) points[2])
-							.getBotanaVars(points[2]);
-				} catch (NoSymbolicParametersException e) {
-					Log.debug("Cannot get Botana vars during NDG detection");
-					return null;
-				}
-
-				// Creating the polynomial for being isosceles:
-				PPolynomial eq = PPolynomial.equidistant(fv1[0], fv1[1], fv2[0],
-						fv2[1], fv3[0], fv3[1]).substitute(substitutions);
+				// Creating the polynomial for congruence:
+				eq = PPolynomial.sqrDistance(fv1[0], fv1[1], fv2[0], fv2[1])
+						.subtract(PPolynomial.sqrDistance(fv3[0], fv3[1],
+								fv4[0], fv4[1]))
+						.substitute(substitutions);
 				if (PPolynomial.areAssociates1(p, eq)) {
-					Log.debug(p + " means being isosceles triangle for base "
-							+ pair + " and opposite vertex " + points[1]);
+					Log.debug(p + " means congruence for " + pair1 + " and "
+							+ pair2);
 					ndgc = new NDGCondition();
 					ndgc.setGeos(points);
-					ndgc.setCondition("IsIsoscelesTriangle");
-					ndgc.setReadability(1.25);
+					ndgc.setCondition("AreCongruent");
+					ndgc.setReadability(0.75);
 					lookupTable.put(keyString, ndgc);
 					return ndgc;
 				}

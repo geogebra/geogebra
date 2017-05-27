@@ -363,9 +363,10 @@ public abstract class Prover {
 					geos[1] = l2;
 					sortGeos();
 				}
-			} else if (("AreEqual".equals(cond)
+			} else if ("AreEqual".equals(cond)
 					|| "ArePerpendicular".equals(cond)
-					|| "AreParallel".equals(cond))) {
+					|| "AreParallel".equals(cond)
+					|| "AreCongruent".equals(cond)) {
 				if (this.geos.length == 4) {
 					// This is an AreEqual[P1,P2,P3,P4]-like condition.
 					// We should try to rewrite it to
@@ -387,19 +388,6 @@ public abstract class Prover {
 					// We should sort l1 and l2.
 					sortGeos();
 					// Unsure if this is called at all.
-				}
-			} else if ("IsIsoscelesTriangle".equals(cond)) {
-				GeoPoint P1 = (GeoPoint) this.geos[0];
-				GeoPoint P2 = (GeoPoint) this.geos[1];
-				GeoPoint P3 = (GeoPoint) this.geos[2];
-				GeoSegment l1 = segment(P1, P2, cons);
-				GeoSegment l2 = segment(P2, P3, cons);
-				if (l1 != null && l2 != null) {
-					geos = new GeoElement[2];
-					geos[0] = l1;
-					geos[1] = l2;
-					sortGeos();
-					this.setCondition("AreCongruent");
 				}
 			}
 		}
