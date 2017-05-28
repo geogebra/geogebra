@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.himamis.retex.editor.share.model.Korean;
 
 public class InputSuggestions implements HasSuggestions {
 	protected AutoCompleteDictionary dict;
@@ -91,6 +92,8 @@ public class InputSuggestions implements HasSuggestions {
 				hideSuggestions();
 			} else {
 				Log.debug("requestingSug" + curWord);
+				Log.debug(
+						"Korean:" + Korean.unflattenKorean(curWord.toString()));
 				popup.requestSuggestions(
 						new SuggestOracle.Request(this.curWord.toString(),
 								querylimit), popupCallback);
