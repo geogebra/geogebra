@@ -47,6 +47,11 @@ public class MathSequence extends MathContainer {
 
 	@Override
 	public void addArgument(int i, MathComponent argument) {
+
+		if (checkKorean(i, argument)) {
+			return;
+		}
+
 		if (i <= arguments.size()) {
 			if (argument != null) {
 				argument.setParent(this);

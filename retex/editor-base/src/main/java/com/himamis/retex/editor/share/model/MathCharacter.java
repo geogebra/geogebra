@@ -116,4 +116,9 @@ public class MathCharacter extends MathComponent {
 		return meta.getUnicode() == ',' || meta.getUnicode() == ';'
 				|| meta.getUnicode() == ':';
 	}
+
+	public void setChar(MetaCharacter metaCharacter) {
+		this.meta = metaCharacter;
+
+	}
 }
