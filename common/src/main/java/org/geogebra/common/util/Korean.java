@@ -2,8 +2,6 @@ package org.geogebra.common.util;
 
 import java.util.HashMap;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 public class Korean {
 
 	static StringBuilder sb;
@@ -19,22 +17,25 @@ public class Korean {
 		koreanLeadToTail.put(new Character('\u1101'), new Character('\u11a9'));
 		koreanLeadToTail.put(new Character('\u1102'), new Character('\u11ab'));
 		koreanLeadToTail.put(new Character('\u1103'), new Character('\u11ae'));
-		koreanLeadToTail.put(new Character('\u1104'), new Character('\u1104')); // map
-																				// to
-																				// itself
+
+		// map to itself
+		koreanLeadToTail.put(new Character('\u1104'), new Character('\u1104'));
+
 		koreanLeadToTail.put(new Character('\u1105'), new Character('\u11af'));
 		koreanLeadToTail.put(new Character('\u1106'), new Character('\u11b7'));
 		koreanLeadToTail.put(new Character('\u1107'), new Character('\u11b8'));
-		koreanLeadToTail.put(new Character('\u1108'), new Character('\u1108')); // map
-																				// to
-																				// itself
+
+		// map to itself
+		koreanLeadToTail.put(new Character('\u1108'), new Character('\u1108'));
+
 		koreanLeadToTail.put(new Character('\u1109'), new Character('\u11ba'));
 		koreanLeadToTail.put(new Character('\u110a'), new Character('\u11bb'));
 		koreanLeadToTail.put(new Character('\u110b'), new Character('\u11bc'));
 		koreanLeadToTail.put(new Character('\u110c'), new Character('\u11bd'));
-		koreanLeadToTail.put(new Character('\u110d'), new Character('\u110d')); // map
-																				// to
-																				// itself
+
+		// map to itself
+		koreanLeadToTail.put(new Character('\u110d'), new Character('\u110d'));
+
 		koreanLeadToTail.put(new Character('\u110e'), new Character('\u11be'));
 		koreanLeadToTail.put(new Character('\u110f'), new Character('\u11bf'));
 		koreanLeadToTail.put(new Character('\u1110'), new Character('\u11c0'));
@@ -66,14 +67,14 @@ public class Korean {
 				appendKoreanMultiChar(sb, c);
 			} else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
-				if (lastWasVowel && isKoreanLeadChar(c)) {
+				if (lastWasVowel && isKoreanLeadChar(c, false)) {
 					sb.append(koreanLeadToTail.get(Character.valueOf(c))
 							.charValue());
 				} else {
 					sb.append(c);
 				}
 			}
-			lastWasVowel = isKoreanVowelChar(sb.charAt(sb.length() - 1));
+			lastWasVowel = isKoreanVowelChar(sb.charAt(sb.length() - 1), false);
 		}
 
 		return sb.toString();
@@ -97,7 +98,7 @@ public class Korean {
 
 	// from 0xac00 to 0xd788, every 28th character is a combination of 2
 	// characters not 3
-	static boolean isKoreanLeadPlusVowelChar(char c) {
+	public static boolean isKoreanLeadPlusVowelChar(char c) {
 		if (c >= 0xac00 && c <= 0xd7af) {
 
 			int ch = c - 0xac00;
@@ -110,7 +111,7 @@ public class Korean {
 		return false;
 	}
 
-	private static boolean isKoreanMultiChar(char c) {
+	public static boolean isKoreanMultiChar(char c) {
 
 		if (c >= 0xac00 && c <= 0xd7af) {
 			return true;
@@ -119,7 +120,12 @@ public class Korean {
 		return false;
 	}
 
-	private static boolean isKoreanLeadChar(char c) {
+	public static boolean isKoreanLeadChar(char c, boolean convertJamo) {
+
+		if (convertJamo) {
+			c = convertFromCompatibilityJamo(c, true);
+		}
+
 		if (c >= 0x1100 && c <= 0x1112) {
 			return true;
 		}
@@ -127,7 +133,12 @@ public class Korean {
 		return false;
 	}
 
-	private static boolean isKoreanVowelChar(char c) {
+	public static boolean isKoreanVowelChar(char c, boolean convertJamo) {
+
+		if (convertJamo) {
+			c = convertFromCompatibilityJamo(c, true);
+		}
+
 		if (c >= 0x1161 && c <= 0x1175) {
 			return true;
 		}
@@ -135,7 +146,12 @@ public class Korean {
 		return false;
 	}
 
-	private static boolean isKoreanTailChar(char c) {
+	public static boolean isKoreanTailChar(char c, boolean convertJamo) {
+
+		if (convertJamo) {
+			c = convertFromCompatibilityJamo(c, false);
+		}
+
 		if (c >= 0x11a8 && c <= 0x11c2) {
 			return true;
 		}
@@ -160,9 +176,9 @@ public class Korean {
 
 			boolean korean = false;
 
-			char c = str.charAt(i);
+			char c = convertFromCompatibilityJamo(str.charAt(i), lead == 0);
 
-			if (isKoreanLeadChar(c)) {
+			if (isKoreanLeadChar(c, false)) {
 				korean = true;
 				if (lead != 0) {
 					appendKoreanChar(ret, lead, vowel, tail);
@@ -172,11 +188,11 @@ public class Korean {
 				}
 				lead = c;
 			}
-			if (isKoreanVowelChar(c)) {
+			if (isKoreanVowelChar(c, false)) {
 				korean = true;
 				vowel = c;
 			}
-			if (isKoreanTailChar(c)) {
+			if (isKoreanTailChar(c, false)) {
 				korean = true;
 				tail = c;
 				appendKoreanChar(ret, lead, vowel, tail);
@@ -210,6 +226,173 @@ public class Korean {
 				+ 44032);
 
 		ret.append(unicode);
+	}
+
+	/**
+	 * https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
+	 * 
+	 * @param ch
+	 * @param lead
+	 * @return
+	 */
+	public static char convertFromCompatibilityJamo(char ch, boolean lead) {
+		switch (ch) {
+		case '\u3131':
+			return lead ? '\u1100' : '\u11a8';
+
+		case '\u3132':
+			return lead ? '\u1101' : '\u11a9';
+
+		case '\u3133':
+			return '\u11aa';
+
+		case '\u3134':
+			return lead ? '\u1102' : '\u11ab';
+
+		case '\u3135':
+			return '\u11ac';
+
+		case '\u3136':
+			return '\u11ad';
+
+		case '\u3137':
+			return lead ? '\u1103' : '\u11ae';
+
+		case '\u3138':
+			return '\u1104';
+
+		case '\u3139':
+			return lead ? '\u1105' : '\u11af';
+
+		case '\u313a':
+			return '\u11b0';
+
+		case '\u313b':
+			return '\u11b1';
+
+		case '\u313c':
+			return '\u11b2';
+
+		case '\u313d':
+			return '\u11b3';
+
+		case '\u313e':
+			return '\u11b4';
+
+		case '\u313f':
+			return '\u11b5';
+
+		case '\u3140':
+			return '\u11b6';
+
+		case '\u3141':
+			return lead ? '\u1106' : '\u11b7';
+
+		case '\u3142':
+			return lead ? '\u1107' : '\u11b8';
+
+		case '\u3143':
+			return '\u1108';
+
+		case '\u3144':
+			return lead ? '\u1121' : '\u11b9';
+
+		case '\u3145':
+			return lead ? '\u1109' : '\u11ba';
+
+		case '\u3146':
+			return lead ? '\u110a' : '\u11bb';
+
+		case '\u3147':
+			return lead ? '\u110b' : '\u11bc';
+
+		case '\u3148':
+			return lead ? '\u110c' : '\u11bd';
+
+		case '\u3149':
+			return '\u110d';
+
+		case '\u314a':
+			return lead ? '\u110e' : '\u11be';
+
+		case '\u314b':
+			return lead ? '\u110f' : '\u11bf';
+
+		case '\u314c':
+			return lead ? '\u1110' : '\u11c0';
+
+		case '\u314d':
+			return lead ? '\u1111' : '\u11c1';
+
+		case '\u314e':
+			return lead ? '\u1112' : '\u11a8';
+
+		case '\u314f':
+			return '\u1161';
+
+		case '\u3150':
+			return '\u1162';
+
+		case '\u3151':
+			return '\u1163';
+
+		case '\u3152':
+			return '\u1164';
+
+		case '\u3153':
+			return '\u1165';
+
+		case '\u3154':
+			return '\u1166';
+
+		case '\u3155':
+			return '\u1167';
+
+		case '\u3156':
+			return '\u1168';
+
+		case '\u3157':
+			return '\u1169';
+
+		case '\u3158':
+			return '\u116a';
+
+		case '\u3159':
+			return '\u116b';
+
+		case '\u315a':
+			return '\u116c';
+
+		case '\u315b':
+			return '\u116d';
+
+		case '\u315c':
+			return '\u116e';
+
+		case '\u315d':
+			return '\u116f';
+
+		case '\u315e':
+			return '\u1170';
+
+		case '\u315f':
+			return '\u1171';
+
+		case '\u3160':
+			return '\u1172';
+
+		case '\u3161':
+			return '\u1173';
+
+		case '\u3162':
+			return '\u1174';
+
+		case '\u3163':
+			return '\u1175';
+
+		}
+
+		return ch;
 	}
 
 	/*
@@ -247,8 +430,6 @@ public class Korean {
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 */
-	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
-			"missing break is deliberate" })
 	public static String mergeDoubleCharacters(String str) {
 
 		if (str.length() < 2) {
