@@ -77,9 +77,11 @@ public class TextLayoutW implements TextLayout {
 
 	@Override
 	public void draw(Graphics2DInterface graphics, int x, int y) {
-		Graphics2DW g2d = (Graphics2DW) graphics;
-		g2d.setFont(font);
-		g2d.drawText(string, x, y);
+		if (graphics instanceof Graphics2DW) {
+			Graphics2DW g2d = (Graphics2DW) graphics;
+			g2d.setFont(font);
+			g2d.drawText(string, x, y);
+		}
 	}
 
 }
