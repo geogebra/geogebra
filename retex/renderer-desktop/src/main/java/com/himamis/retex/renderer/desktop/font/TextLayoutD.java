@@ -65,8 +65,11 @@ public class TextLayoutD implements TextLayout {
 
 	@Override
 	public void draw(Graphics2DInterface graphics, int x, int y) {
-		Graphics2DD g2 = (Graphics2DD) graphics;
-		layout.draw(g2.getImpl(), x, y);
+		// can be GraphicsStub
+		if (graphics instanceof Graphics2DD) {
+			Graphics2DD g2 = (Graphics2DD) graphics;
+			layout.draw(g2.getImpl(), x, y);
+		}
 		
 	}
 
