@@ -48,7 +48,19 @@ public class Test {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setVisible(true);
-		mathField.insertString("ggbmatrix(3,3)");
+		// mathField.insertString("ggbmatrix(3,3)");
+
+		// these two should both end up inserting a single char \uB458
+		mathField.insertString("\u3137\u315c\u3139 ");
+		mathField.insertString("\u1103\u116e\u11af ");
+		// sector command (short format)
+		mathField.insertString("\ubd80\ucc44\uaf34 ");
+		// sector command (long format)
+		mathField.insertString("\u1107\u116E\u110E\u1162\u1101\u1169\u11AF ");
+
+		// sector command (compatibility format)
+		mathField.insertString("\u3142\u315c\u314a\u3150\u3132\u3157\u3139 ");
+
 		// mathField.insertString("Midpoint(<Point>, <Point>)");
 
 	}
