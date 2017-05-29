@@ -200,12 +200,22 @@ public class AlgebraStyleTest extends Assert {
 	public void shortLHSshouldBeDisplayedInLaTeX(){
 		t("f:y=x^3");
 		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
-				getGeo("f").getLaTeXAlgebraDescription(
-				false,
-				StringTemplate.defaultTemplate));
+				getGeo("f").getLaTeXAlgebraDescription(false,
+						StringTemplate.defaultTemplate));
 		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
 				getGeo("f").getLaTeXAlgebraDescription(true,
 				StringTemplate.defaultTemplate));
+		assertEquals(CommandsTest.unicode("f: y = x^3"),
+				getGeo("f").getDefinitionForEditor());
+	}
+
+	@Test
+	public void operatorsShouldHaveOneSpace() {
+		t("f(x)=If[3 < x <= 5,x^(2)]");
+		assertEquals(CommandsTest
+				.unicode("f(x) = If[3 < x " + Unicode.LESS_EQUAL + " 5, x^2]"),
+
+				getGeo("f").getDefinitionForEditor());
 	}
 
 	private void t(String def) {

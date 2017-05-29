@@ -2103,7 +2103,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
 			return "\\-<";
 		}
-		return " < ";
+		return "<";
 	}
 
 	public String strictSubsetSign() {

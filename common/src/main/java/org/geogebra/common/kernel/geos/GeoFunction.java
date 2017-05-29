@@ -875,7 +875,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			stringBuilder.append(": ");
 			stringBuilder
 					.append((char) ('x' + fn.getFunctionVariables().length));
-			stringBuilder.append(" =");
+			stringBuilder.append(" = ");
 		} else if (fn.isBooleanFunction()
 				&& !tpl.hasType(StringType.GEOGEBRA_XML)) {
 			stringBuilder.append(": ");
