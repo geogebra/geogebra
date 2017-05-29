@@ -115,6 +115,7 @@ public class ToolbarPanel extends FlowPanel {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					openAlgebra();
+					tabTools.setMoveMode();
 				}
 			});
 
@@ -461,12 +462,19 @@ public class ToolbarPanel extends FlowPanel {
 
 	private class ToolsTab extends ToolbarTab {
 	
+		private Tools toolsPanel;
+
 		public ToolsTab() {
 			createContents();
 		}
 
 		private void createContents() {
-			add(new Tools((AppW) ToolbarPanel.this.app));
+			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
+			add(toolsPanel);
+		}
+
+		void setMoveMode() {
+			toolsPanel.setMoveMode();
 		}
 	}
 	/**

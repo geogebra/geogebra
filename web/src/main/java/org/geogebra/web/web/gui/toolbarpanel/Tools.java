@@ -2,6 +2,8 @@ package org.geogebra.web.web.gui.toolbarpanel;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -18,6 +20,7 @@ public class Tools extends FlowPanel {
 
 	ToolCategorization mToolCategorization;
 	AppW app;
+	private StandardButton moveButton;
 
 	public Tools(AppW appl) {
 		app = appl;
@@ -32,6 +35,25 @@ public class Tools extends FlowPanel {
 			add(new CategoryPanel(categories.get(i)));
 		}
 
+	}
+
+	public void setMoveMode() {
+		app.setMode(EuclidianConstants.MODE_MOVE);
+		clearSelectionStyle();
+		if (moveButton != null) {
+			moveButton.getElement().setAttribute("selected", "true");
+		}
+	}
+
+	public void clearSelectionStyle() {
+		for (int i = 0; i < getWidgetCount(); i++) {
+			FlowPanel panelTools = ((CategoryPanel) getWidget(i))
+					.getToolsPanel();
+			for (int j = 0; j < panelTools.getWidgetCount(); j++) {
+				panelTools.getWidget(j).getElement().setAttribute("selected",
+						"false");
+			}
+		}
 	}
 
 	private class CategoryPanel extends FlowPanel {
@@ -52,14 +74,18 @@ public class Tools extends FlowPanel {
 					mToolCategorization.getCategories().indexOf(category));
 
 			for (int i = 0; i < tools.size(); i++) {
-				toolsPanel.add(getButton(tools.get(i)));
+				StandardButton btn = getButton(tools.get(i));
+				toolsPanel.add(btn);
+				if (tools.get(i) == EuclidianConstants.MODE_MOVE) {
+					moveButton = btn;
+				}
 			}
 
 			add(toolsPanel);
 
 		}
 
-		private FlowPanel getToolsPanel() {
+		FlowPanel getToolsPanel() {
 			return toolsPanel;
 		}
 
@@ -80,17 +106,6 @@ public class Tools extends FlowPanel {
 			});
 
 			return btn;
-		}
-
-		public void clearSelectionStyle() {
-			for (int i = 0; i < Tools.this.getWidgetCount(); i++) {
-				FlowPanel panelTools = ((CategoryPanel) Tools.this.getWidget(i))
-						.getToolsPanel();
-				for (int j = 0; j < panelTools.getWidgetCount(); j++) {
-					panelTools.getWidget(j).getElement()
-							.setAttribute("selected", "false");
-				}
-			}
 		}
 	}
 
