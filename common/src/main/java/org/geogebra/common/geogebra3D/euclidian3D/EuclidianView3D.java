@@ -60,6 +60,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -419,8 +420,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 		renderer.setDrawable3DLists(drawable3DLists);
 
-		createExportToPrinter3D();
-
 		createPanel();
 
 		attachView();
@@ -448,10 +447,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		// tells the renderer if use clipping cube
 		updateUseClippingCube();
 
-	}
-
-	protected void createExportToPrinter3D() {
-		// not implemented here
 	}
 
 	/**
@@ -4950,5 +4945,30 @@ public abstract class EuclidianView3D extends EuclidianView
 	public DrawClippingCube3D getClippingCubeDrawable() {
 		return clippingCubeDrawable;
 	}
+	
+	public void setFlagForSCADexport() {
+		doExportToPrinter3D = true;
+	}
+	
+	private boolean doExportToPrinter3D = false;
+	private ExportToPrinter3D exportToPrinter;
+	
+	abstract protected ExportToPrinter3D createExportToPrinter3D();
+
+	/**
+	 * export drawables to 3D printer file
+	 */
+	public void exportToPrinter3D() {
+		if (doExportToPrinter3D) {
+			if (exportToPrinter == null) {
+				exportToPrinter = createExportToPrinter3D();
+			}
+			exportToPrinter.start();
+			renderer.drawable3DLists.exportToPrinter3D(exportToPrinter);
+			exportToPrinter.end();
+			doExportToPrinter3D = false;
+		}
+	}
+
 
 }

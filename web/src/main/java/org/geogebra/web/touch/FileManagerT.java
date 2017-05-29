@@ -1098,17 +1098,7 @@ public class FileManagerT extends FileManager {
 
 	@Override
 	public void showExportAsPictureDialog(String url, String filename,
-			App app) {
-
-		String extension = "png";
-
-		if (url.startsWith("data:text/")) {
-			// eg Tizk export
-			extension = "txt";
-			// could use:
-			// TitleExportPstricks
-			// TitleExportPgf
-		}
+			String extension, String titleKey, App app) {
 
 		exportImage(url, filename, extension);
 		// TODO check if it really happened

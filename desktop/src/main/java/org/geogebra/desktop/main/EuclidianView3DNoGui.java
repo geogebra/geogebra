@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.MyZoomer;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -184,6 +185,12 @@ public class EuclidianView3DNoGui extends EuclidianView3D {
 	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected ExportToPrinter3D createExportToPrinter3D() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

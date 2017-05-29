@@ -72,7 +72,7 @@ public class ExportMenuW extends MenuBar {
 										.getExportImageDataUrl(1.0, false);
 
 						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), app);
+								app.getExportTitle(), "png", "ExportAsPicture", app);
 						dialogEvent("exportPNG");
 					}
 				});
@@ -107,7 +107,7 @@ public class ExportMenuW extends MenuBar {
 								+ app.getGgbApi().exportPSTricks();
 
 						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), app);
+								app.getExportTitle(), "txt", "Export", app);
 						dialogEvent("exportPSTricks");
 					}
 				});
@@ -128,7 +128,7 @@ public class ExportMenuW extends MenuBar {
 								+ app.getGgbApi().exportPGF();
 
 						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), app);
+								app.getExportTitle(), "txt", "Export", app);
 						dialogEvent("exportPGF");
 					}
 				});
@@ -149,10 +149,24 @@ public class ExportMenuW extends MenuBar {
 								+ app.getGgbApi().exportAsymptote();
 
 						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), app);
+								app.getExportTitle(), "txt", "Export", app);
 						dialogEvent("exportPGF");
 					}
 				});
+		
+		
+		if (app.has(Feature.EXPORT_SCAD)) {
+			addItem(MainMenu.getMenuBarHtml(
+					AppResources.INSTANCE.empty().getSafeUri().asString(),
+					"Export to Solid CAD", true), true,
+					new MenuCommand(app) {
+						@Override
+						public void doExecute() {
+							hide();
+							app.setFlagForSCADexport();
+						}
+					});
+		}
 
 	}
 

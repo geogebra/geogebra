@@ -1130,7 +1130,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 							((FileManagerW) ((AppW) getApp()).getFileManager())
 									.showExportAsPictureDialog(url,
 											getApp().getExportTitle(),
-											getApp());
+											"png", "ExportAsPicture", getApp());
 						}
 					});
 			menu.addItem(miAsPicture);

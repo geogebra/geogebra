@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -23,6 +24,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
+import org.geogebra.web.geogebra3D.web.euclidian3D.printer3D.ExportToPrinter3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
@@ -742,6 +744,15 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
 		// TODO Auto-generated method stub
 
+	}
+	
+	public void setFlagForSCADexport() {
+		super.setFlagForSCADexport();
+		repaint();
+	}
+	
+	protected ExportToPrinter3D createExportToPrinter3D() {
+		return new ExportToPrinter3DW(this, renderer);
 	}
 
 }

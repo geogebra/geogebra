@@ -192,5 +192,10 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * @return whether stylebar exists
 	 */
 	public boolean hasStyleBar();
+	
+	/**
+	 * set flag so a Solid CAD export will be done on next 3D frame
+	 */
+	public void setFlagForSCADexport();
 
 }

@@ -15,12 +15,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
@@ -34,9 +30,9 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -148,60 +144,8 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	}
 
-	private ExportToPrinter3DD exportToPrinter;
-
-	@Override
-	protected void createExportToPrinter3D() {
-		if (hasPrinter()) {
-			exportToPrinter = new ExportToPrinter3DD();
-		}
-	}
-
-	public boolean hasPrinter() {
-		return false;
-	}
-
-	private boolean doExportToPrinter3D = true;
-
-	/**
-	 * export drawables to 3D printer file
-	 */
-	public void exportToPrinter3D() {
-		if (hasPrinter()) {
-			if (doExportToPrinter3D) {
-				try {
-					StringBuilder sb = new StringBuilder();
-					sb.append("test");
-					exportToPrinter.getFormat().getExtension(sb);
-					BufferedWriter writer = new BufferedWriter(
-							new OutputStreamWriter(
-									new FileOutputStream(sb.toString()),
-									"UTF-8"));
-
-					sb.setLength(0);
-					exportToPrinter.getFormat().getScriptStart(sb);
-					writer.write(sb.toString());
-
-					exportToPrinter.startFile(writer, this,
-							(ManagerShadersElementsGlobalBuffer) renderer
-									.getGeometryManager());
-
-					// Log.debug("=== Creating 3D printer file === ");
-					renderer.drawable3DLists.exportToPrinter3D(exportToPrinter);
-
-					sb.setLength(0);
-					exportToPrinter.getFormat().getScriptEnd(sb);
-					writer.write(sb.toString());
-
-					writer.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-				doExportToPrinter3D = false;
-			}
-		}
+	protected ExportToPrinter3D createExportToPrinter3D() {
+		return new ExportToPrinter3DD(this, renderer);
 	}
 
 	private boolean canUseCanvas() {

@@ -146,7 +146,7 @@ public class TestMaterialsManager extends MaterialsManager {
 	}
 
 	public void showExportAsPictureDialog(String url, String filename,
-			App app) {
+			String extension, String titleKey, App app) {
 		// TODO Auto-generated method stub
 
 	}

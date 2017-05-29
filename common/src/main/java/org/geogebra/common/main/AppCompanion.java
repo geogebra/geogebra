@@ -180,5 +180,12 @@ public class AppCompanion {
 	public void removeFromViewsForPlane(GeoElement geo) {
 		// implemented in App3DCompanion
 	}
+	
+	/**
+	 * set flag so a Solid CAD export will be done on next 3D frame
+	 */
+	public void setFlagForSCADexport() {
+		// implemented in App3DCompanion
+	}
 
 }

@@ -4028,7 +4028,7 @@ public abstract class App implements UpdateSelection {
 			return canary;
 
 		case DIFFERENT_AXIS_RATIO_3D:
-			return prerelease;
+			return false;
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
@@ -4289,6 +4289,9 @@ public abstract class App implements UpdateSelection {
 		// MOB-1216 5.0.358.0
 		case WEB_ZSPACE:
 			return true;
+			
+		case EXPORT_SCAD:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4942,6 +4945,13 @@ public abstract class App implements UpdateSelection {
 				break;
 		}
 		return new ToolCategorization(this, type, isPhoneApp);
+	}
+	
+	/**
+	 * set flag so a Solid CAD export will be done on next 3D frame
+	 */
+	public void setFlagForSCADexport() {
+		companion.setFlagForSCADexport();
 	}
 
 }

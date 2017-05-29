@@ -368,18 +368,8 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void showExportAsPictureDialog(String url, String filename,
+	public void showExportAsPictureDialog(String url, String filename, String extension, String titleKey,
 			App app1) {
-
-		String extension = "png";
-
-		if (url.startsWith("data:text/")) {
-			// eg Tizk export
-			extension = "txt";
-			// could use:
-			// TitleExportPstricks
-			// TitleExportPgf
-		}
 
 		exportImage(url, filename, extension);
 		// TODO check if it really happened

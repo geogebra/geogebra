@@ -43,7 +43,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction newWindowAction, deleteAll, saveAction, saveAsAction,
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
-			exportPSTricksAction, exportAsymptoteAction, exportPDFaction;
+			exportPSTricksAction, exportAsymptoteAction, exportPDFaction, exportSCADaction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
 	/** share item */
@@ -166,6 +166,9 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		mi = submenu.add(exportAsymptoteAction);
 		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
 			mi = submenu.add(exportPDFaction);
+		}
+		if (app.has(Feature.EXPORT_SCAD)) {
+			mi = submenu.add(exportSCADaction);
 		}
 		addSeparator();
 
@@ -571,6 +574,26 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			}
 		};
+		
+		
+		if (app.has(Feature.EXPORT_SCAD)) {
+			// added by Hoszu Henrietta, animated pdf export
+			exportSCADaction = new AbstractAction(
+					loc.getMenu("Export to Solid CAD") + " ...",
+					app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						app.setFlagForSCADexport();
+					} catch (Exception ex) {
+						Log.debug("Export to Solid CAD not available");
+					}
+				}
+			};
+		}
+
 	}
 
 	@Override
