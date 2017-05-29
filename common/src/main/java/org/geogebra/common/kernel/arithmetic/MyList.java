@@ -265,12 +265,6 @@ public class MyList extends ValidExpression
 			boolean right, StringTemplate tpl) {
 		int size = size();
 
-		// if (!right)
-		// Application.debug("apply: " + value + " < op: " + operation + " > " +
-		// this);
-		// else
-		// Application.debug("apply: " + this + " < op: " + operation + " > " +
-		// value);
 
 		// matrix ^ integer
 		if (right && operation == Operation.POWER
@@ -319,7 +313,6 @@ public class MyList extends ValidExpression
 			// else power = 1, so drop through to standard list code below
 
 		}
-		Log.debug(value);
 
 		// expression value is list
 		MyList valueList = value instanceof ListValue
