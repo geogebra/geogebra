@@ -718,19 +718,23 @@ public class AppWapplet extends AppWFull {
 			}
 			return;
 		}
+
 		if (this.has(Feature.NEW_TOOLBAR)) {
 			this.toggleMenu();
+		} else {
+
+			this.oldSplitLayoutPanel.setPixelSize(
+					this.oldSplitLayoutPanel.getOffsetWidth()
+							+ GLookAndFeel.MENUBAR_WIDTH,
+					this.oldSplitLayoutPanel.getOffsetHeight());
+			if (this.splitPanelWrapper != null) {
+				this.splitPanelWrapper.remove(frame.getMenuBar(this));
+			}
+			oldSplitLayoutPanel.getElement().getStyle()
+					.setOverflow(Overflow.VISIBLE);
 		}
 		this.menuShowing = false;
-		this.oldSplitLayoutPanel.setPixelSize(
-				this.oldSplitLayoutPanel.getOffsetWidth()
-						+ GLookAndFeel.MENUBAR_WIDTH,
-				this.oldSplitLayoutPanel.getOffsetHeight());
-		if (this.splitPanelWrapper != null) {
-			this.splitPanelWrapper.remove(frame.getMenuBar(this));
-		}
-		oldSplitLayoutPanel.getElement().getStyle()
-				.setOverflow(Overflow.VISIBLE);
+
 		if (this.getGuiManager() != null
 				&& this.getGuiManager().getLayout() != null) {
 			this.getGuiManager().getLayout().getDockManager().resizePanels();
