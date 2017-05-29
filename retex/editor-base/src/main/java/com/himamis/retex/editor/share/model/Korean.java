@@ -202,6 +202,18 @@ public class Korean {
 			}
 
 			if (!korean) {
+				// needed for eg
+				// "\uD56D\uC131\uC740 \uD56D\uC0C1 \uD63C\uC790 \uC788\uB294
+				// \uAC83\uC774 \uC544\uB2C8\uB77C, \uB450 \uAC1C
+				// \uC774\uC0C1\uC758"
+				// to stop order changing
+				if (lead != 0) {
+					appendKoreanChar(ret, lead, vowel, tail);
+					lead = 0;
+					vowel = 0;
+					tail = 0;
+
+				}
 				ret.append(c);
 			}
 		}
