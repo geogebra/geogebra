@@ -32,7 +32,9 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	RadioTreeItem item;
 	/** plus menu */
 	ContextMenuPlus cmPlus=null;
-	private boolean noPlus=false;
+
+	/** No PLUS menu */
+	boolean noPlus = false;
 	
 	/**
 	 * @param item
@@ -244,7 +246,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			btnPlus.setTitle(item.app.getLocalization().getMenu("AddItem"));
 			add(btnPlus);
 			btnPlus.addStyleName("avPlusButton");
-			ClickStartHandler.init(btnPlus, new ClickStartHandler() {
+			ClickStartHandler.init(btnPlus, new ClickStartHandler(true, true) {
 				
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
@@ -291,6 +293,10 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		}
 	}
 
+	/**
+	 * 
+	 * @return the Plus menu button.
+	 */
 	public ToggleButton getBtnPlus() {
 		return btnPlus;
 	}

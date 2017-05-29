@@ -16,16 +16,14 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.himamis.retex.editor.share.event.KeyEvent;
-import com.himamis.retex.editor.web.MathFieldW;
 
 public class ContextMenuPlus implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
 	protected Localization loc;
 	private AppW app;
-	private RadioTreeItem item;
-	private MathFieldW mf;
-	private TabbedKeyboard kbd;
+
+	RadioTreeItem item;
+	TabbedKeyboard kbd;
 	/**
 	 * Creates new context menu
 	 * 
@@ -36,7 +34,6 @@ public class ContextMenuPlus implements SetLabels {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
-		mf = ((LatexTreeItemController)item.getController()).getRetexListener().getMathField();
 		kbd = (TabbedKeyboard)((GuiManagerW)app.getGuiManager()).getOnScreenKeyboard(item, null);
 		wrappedPopup = new GPopupMenuW(app);
 		if (app.has(Feature.NEW_TOOLBAR)) {
@@ -54,7 +51,7 @@ public class ContextMenuPlus implements SetLabels {
 		addImageItem();
 		addHelpItem();
 	}
-	
+
 	private void addExpressionItem() {
 		String img = StyleBarResources.INSTANCE.description().getSafeUri()
 				.asString();
@@ -65,8 +62,7 @@ public class ContextMenuPlus implements SetLabels {
 					@Override
 					public void execute() {
 						item.getController().setInputAsText(false);
-						item.setText(" ");
-						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_SPACE));
+						item.ensureEditing();
 						kbd.selectNumbers();
 					}
 				});
@@ -85,8 +81,7 @@ public class ContextMenuPlus implements SetLabels {
 					@Override
 					public void execute() {
 						item.getController().setInputAsText(true);
-						item.setText(" ");
-						mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_SPACE));
+						item.ensureEditing();
 						kbd.selectAbc();
 					}
 				});
