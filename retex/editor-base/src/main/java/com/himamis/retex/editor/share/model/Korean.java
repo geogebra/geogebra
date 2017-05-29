@@ -62,7 +62,7 @@ public class Korean {
 		boolean lastWasVowel = false;
 
 		for (int i = 0; i < s.length(); i++) {
-			char c = s.charAt(i);
+			char c = convertFromCompatibilityJamo(s.charAt(i), !lastWasVowel);
 			if (isKoreanMultiChar(c)) {
 				appendKoreanMultiChar(sb, c);
 			} else {

@@ -155,6 +155,29 @@ abstract public class MathContainer extends MathComponent {
 
 			}
 
+			// case 3
+			// character typed twice (instead of pressing <Shift>)
+			String merged = Korean
+					.mergeDoubleCharacters(
+							Korean.flattenKorean(lastChar + "" + newChar));
+
+			System.err.println(lastChar + "" + newChar + " " + merged + " "
+					+ merged.length());
+
+			if (merged.length() == 1) {
+
+				char c = merged.charAt(0);
+
+				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
+						MetaCharacter.CHARACTER);
+
+				// TODO: deal with case of tail chars + compatibility Jamo
+				MathCharacter mathChar = (MathCharacter) comp;
+				mathChar.setChar(metaChar);
+				return true;
+
+			}
+
 		}
 
 		return false;
