@@ -180,9 +180,9 @@ public class ProverBotanasMethod {
 		HashSet<HashSet<GeoElement>> triplets = new HashSet<HashSet<GeoElement>>();
 		for (GeoElement geo1 : freePoints) {
 			for (GeoElement geo2 : freePoints) {
-				if (!geo1.isEqual(geo2)) {
+				if (!isEqual(geo1, geo2)) {
 					for (GeoElement geo3 : freePoints) {
-						if (!geo1.isEqual(geo3) && !geo2.isEqual(geo3)) {
+						if (!isEqual(geo1, geo3) && !isEqual(geo2, geo3)) {
 							HashSet<GeoElement> triplet = new HashSet<GeoElement>();
 							triplet.add(geo1);
 							triplet.add(geo2);
@@ -203,9 +203,9 @@ public class ProverBotanasMethod {
 								PPolynomial p = PPolynomial.collinear(fv1[0],
 										fv1[1], fv2[0], fv2[1], fv3[0], fv3[1]);
 								Log.info("Forcing non-collinearity for points "
-										+ geo1.getLabelSimple() + ", "
-										+ geo2.getLabelSimple() + " and "
-										+ geo3.getLabelSimple());
+										+ geo1 + ":" + geo1.hashCode() + ", "
+										+ geo2 + ":" + geo2.hashCode() + " and "
+										+ geo3);
 								/*
 								 * Rabinowitsch trick for prohibiting
 								 * collinearity:
@@ -228,6 +228,19 @@ public class ProverBotanasMethod {
 			}
 		}
 		return ret;
+	}
+
+	/**
+	 * Comparisan that gives true when comparing undefined object with self
+	 * 
+	 * @param geo1
+	 *            comparison argument
+	 * @param geo3
+	 *            comparison argument
+	 * @return whether objects have equal value or are identical
+	 */
+	private static boolean isEqual(GeoElement geo1, GeoElement geo3) {
+		return geo1 == geo3 || geo1.isEqual(geo3);
 	}
 
 	/**
