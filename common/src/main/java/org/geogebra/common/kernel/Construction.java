@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
 import org.geogebra.common.kernel.cas.UsesCAS;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -2263,7 +2264,7 @@ public class Construction {
 					}
 				}
 			} else if (label1.contains("_")) {
-				label1 = label1.replace("_", "_{") + "}";
+				label1 = AlgebraProcessor.curlyLabel(label1);
 				geo = geoTableVarLookup(label1);
 				if (geo != null) {
 					return checkConstructionStep(geo);

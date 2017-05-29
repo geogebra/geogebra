@@ -454,7 +454,7 @@ public class AlgebraProcessor {
 			}
 		}
 
-		if (newLabel.equals(oldLabel)) {
+		if (sameLabel(newLabel, oldLabel)) {
 			// try to overwrite
 			final boolean listeners = app.getScriptManager().hasListeners();
 			app.getScriptManager().disableListeners();
@@ -504,6 +504,32 @@ public class AlgebraProcessor {
 
 		cons.registerFunctionVariable(null);
 
+	}
+
+	private static boolean sameLabel(String newLabel, String oldLabel) {
+		if (newLabel.equals(oldLabel)) {
+			return true;
+		}
+		if (oldLabel == null) {
+			return false;
+		}
+		if (newLabel.indexOf('_') > 0) {
+			return curlyLabel(newLabel).equals(curlyLabel(oldLabel));
+		}
+
+		return false;
+	}
+
+	/**
+	 * @param newLabel
+	 *            input label
+	 * @return a_1 transformed into a_{1}
+	 */
+	public static String curlyLabel(String newLabel) {
+		if (newLabel.indexOf("_{") > 0 || newLabel.indexOf("_") == -1) {
+			return newLabel;
+		}
+		return newLabel.replace("_", "_{") + "}";
 	}
 
 	/*
