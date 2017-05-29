@@ -94,9 +94,14 @@ public class MathArray extends MathContainer {
     }
 
     @Override
-    public void addArgument(int i, MathComponent argument) {
-        super.addArgument(i, argument);
-        columns += 1;
+	public boolean addArgument(int i, MathComponent argument) {
+		if (super.addArgument(i, argument)) {
+			columns += 1;
+			return true;
+		}
+
+		return false;
+
     }
 
     @Override

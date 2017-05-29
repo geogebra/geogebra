@@ -29,6 +29,10 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.controller.InputController;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
+import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -41,6 +45,11 @@ public class Test {
 	public static void main(String[] args) {
 		final MathFieldD mathField = new MathFieldD();
 		
+		MathFieldInternal mathFieldInternal = mathField.getInternal();
+		InputController inputController = mathFieldInternal
+				.getInputController();
+		EditorState editorState = mathFieldInternal.getEditorState();
+
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));
 		frame.getContentPane().add(mathField);
@@ -59,7 +68,26 @@ public class Test {
 		mathField.insertString("\u1107\u116E\u110E\u1162\u1101\u1169\u11AF ");
 
 		// sector command (compatibility format)
-		mathField.insertString("\u3142\u315c\u314a\u3150\u3132\u3157\u3139 ");
+		mathField.insertString(
+				" compat \u3142\u315c\u314a\u3150\u3132\u3157\u3139 ");
+
+		// from
+		// https://stackoverflow.com/questions/40941528/get-last-character-of-korean-word-in-java
+		String testString = "\uD56D\uC131\uC740 \uD56D\uC0C1 \uD63C\uC790 \uC788\uB294 \uAC83\uC774 \uC544\uB2C8\uB77C, \uB450 \uAC1C \uC774\uC0C1\uC758";
+		// mathField.insertString(testString);
+
+		String flat = Korean.flattenKorean(testString);
+		String unflat = Korean.unflattenKorean(flat).toString();
+
+		System.err.println("original " + testString);
+		System.err.println("unflat   " + unflat);
+		System.err.println("flat     " + flat);
+
+		// inputController.bkspCharacter(editorState);
+		// inputController.bkspCharacter(editorState);
+		// mathFieldInternal.update();
+
+		// MathContainer.toHexString(c)
 
 		// mathField.insertString("Midpoint(<Point>, <Point>)");
 

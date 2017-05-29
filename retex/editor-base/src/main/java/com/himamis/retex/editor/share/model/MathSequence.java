@@ -46,11 +46,12 @@ public class MathSequence extends MathContainer {
     }
 
 	@Override
-	public void addArgument(int i, MathComponent argument) {
+	public boolean addArgument(int i, MathComponent argument) {
 
 		if (checkKorean(i, argument)) {
-			return;
+			return false;
 		}
+		// argument = checkKorean(i, argument);
 
 		if (i <= arguments.size()) {
 			if (argument != null) {
@@ -58,6 +59,8 @@ public class MathSequence extends MathContainer {
 			}
 			arguments.add(i, argument);
 		}
+
+		return true;
     }
 
 	@Override

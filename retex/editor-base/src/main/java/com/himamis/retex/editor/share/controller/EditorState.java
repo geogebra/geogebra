@@ -59,8 +59,9 @@ public class EditorState {
     }
 
     public void addArgument(MathComponent mathComponent) {
-        currentField.addArgument(currentOffset, mathComponent);
-        incCurrentOffset();
+		if (currentField.addArgument(currentOffset, mathComponent)) {
+			incCurrentOffset();
+		}
     }
 
     public MetaModel getMetaModel() {

@@ -29,6 +29,7 @@ package com.himamis.retex.editor.share.model;
 
 import java.util.ArrayList;
 
+import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.model.inspect.Inspecting;
 import com.himamis.retex.editor.share.model.traverse.Traversing;
 
@@ -72,20 +73,30 @@ abstract public class MathContainer extends MathComponent {
 		return hexSB.toString();
 	}
 
-	// public void doPrintStacktrace(String message) {
-	// try {
-	// // message null check done in caller
-	// throw new Exception(message);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
+	public static void doPrintStacktrace(String message) {
+		try {
+			// message null check done in caller
+			throw new Exception(message);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
-	public boolean checkKorean(int i, MathComponent ch) {
+	/**
+	 * checks previous character to see if it combines with ch
+	 * 
+	 * @param i
+	 * @param ch
+	 * @return true if it's been combined (so ch doesn't need adding)
+	 */
+	protected boolean checkKorean(int i, MathComponent ch) {
 
 		if (i > 0 && arguments.size() > 0 && i - 1 < arguments.size()) {
 
 			MathComponent comp = arguments.get(i - 1);
+			if (!(comp instanceof MathCharacter)) {
+				return false;
+			}
 			String s = comp.toString();
 
 			char newChar = ch.toString().charAt(0);
@@ -112,14 +123,14 @@ abstract public class MathContainer extends MathComponent {
 						+ toHexString(lastChar) + " with "
 						+ replaceChar + " " + toHexString(replaceChar));
 
-				// System.err.println(comp.getClass());
+				char c = replaceChar.charAt(0);
 
-				// DOESN"T WORK
-				// MathCharacter mathChar = (MathCharacter) comp;
-				// mathChar.setChar(new MetaCharacter("", "",
-				// replaceChar.charAt(0), replaceChar.charAt(0),
-				// MetaCharacter.CHARACTER));
-				// return true;
+				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
+						MetaCharacter.CHARACTER);
+
+				MathCharacter mathChar = (MathCharacter) comp;
+				mathChar.setChar(metaChar);
+				return true;
 			}
 
 			// case 2
@@ -133,14 +144,14 @@ abstract public class MathContainer extends MathComponent {
 						+ toHexString(lastChar) + " with "
 						+ replaceChar + " " + toHexString(replaceChar));
 
-				// System.err.println(comp.getClass());
+				char c = replaceChar.charAt(0);
 
-				// DOESN"T WORK
-				// MathCharacter mathChar = (MathCharacter) comp;
-				// mathChar.setChar(new MetaCharacter("", "",
-				// replaceChar.charAt(0), replaceChar.charAt(0),
-				// MetaCharacter.CHARACTER));
-				// return true;
+				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
+						MetaCharacter.CHARACTER);
+
+				MathCharacter mathChar = (MathCharacter) comp;
+				mathChar.setChar(metaChar);
+				return true;
 
 			}
 
@@ -226,7 +237,7 @@ abstract public class MathContainer extends MathComponent {
         arguments.add(argument);
     }
 
-    public void addArgument(int index, MathComponent argument) {
+	public boolean addArgument(int index, MathComponent argument) {
         if (arguments == null) {
             arguments = new ArrayList<MathComponent>(index + 1);
         }
@@ -234,6 +245,8 @@ abstract public class MathContainer extends MathComponent {
             argument.setParent(this);
         }
         arguments.add(index, argument);
+
+		return true;
     }
 
     /**
