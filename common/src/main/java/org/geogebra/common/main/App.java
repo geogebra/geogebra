@@ -4119,7 +4119,7 @@ public abstract class App implements UpdateSelection {
 		// **********************************************************************
 
 		case KOREAN_KEYBOARD:
-			return prerelease;
+			return true;
 
 		// GGB-1349
 		case FIX_KEYBOARD_POSITION:
