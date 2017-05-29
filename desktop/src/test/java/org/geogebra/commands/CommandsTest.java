@@ -105,17 +105,6 @@ public class CommandsTest extends Assert{
 
 	}
 
-	public void checkError(String s, String msg) {
-		ErrorAccumulator errorStore = new ErrorAccumulator();
-
-			app.getKernel().getAlgebraProcessor()
-					.processAlgebraCommandNoExceptionHandling(s, false,
-							errorStore, false, null);
-
-		assertTrue(msg.equals(errorStore.getErrors()));
-
-	}
-
 	private static int syntaxes = -1000;
 	
 	@Before
@@ -880,7 +869,7 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdSpline() {
-		String theSpline = "(If[t  <  0.38743, 0.88246t^3 + 0t^2 + 2.44868t, t  <  1, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377], If[t  <  0.38743, -5.43794t^3 + 0t^2 + 3.39737t, t  <  1, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623])";
+		String theSpline = "(If[t < 0.38743, 0.88246t^3 + 0t^2 + 2.44868t, t < 1, -0.55811t^3 + 1.67434t^2 + 1.8t + 0.08377], If[t < 0.38743, -5.43794t^3 + 0t^2 + 3.39737t, t < 1, 3.43925t^3 - 10.31776t^2 + 7.39473t - 0.51623])";
 		t("Spline[{(0,0),(1,1),(3,0)}]", unicode(theSpline),
 				StringTemplate.editTemplate);
 		t("Spline[{(0,0),(1,1),(3,0)},3]", unicode(theSpline),
@@ -1021,23 +1010,7 @@ public class CommandsTest extends Assert{
 		t("h(1,3)", "5");
 	}
 
-	@Test
-	public void redefineTest() {
-		t("A=(1,1)", "(1, 1)");
-		t("B=(1,0)", "(1, 0)");
-		t("C=(0,0)", "(0, 0)");
-		t("D=(0,1)", "(0, 1)");
-		t("poly1=Polygon[A,B,C,D]", new String[] { "1", "1", "1", "1", "1" });
-		t("a", "1"); // polygon side
-		app.getKernel().setUndoActive(true);
-		app.getKernel().initUndoInfo();
-		app.storeUndoInfo();
-		checkError("A(x)=x", "Redefinition failed");
-		t("A", "(1, 1)");
-		t("poly1", "1");
-		t("a", "1");
 
-	}
 
 	static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
