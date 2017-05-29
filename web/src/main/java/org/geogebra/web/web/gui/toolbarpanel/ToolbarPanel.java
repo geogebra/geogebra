@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolbarPanel extends FlowPanel {
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
+	private static final int OPEN_HEIGHT = 56;
 
 	/** Application */
 	App app;
@@ -338,12 +339,14 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		void updateCenterSize() {
+			int h = 0;
 			if (open) {
-				return;
-			}
+				h = OPEN_HEIGHT;
+			} else {
+				h = getOffsetHeight() - btnMenu.getOffsetHeight()
+						- btnClose.getOffsetHeight() - 2 * PADDING;
 
-			int h = getOffsetHeight() - btnMenu.getOffsetHeight()
-					- btnClose.getOffsetHeight() - 2 * PADDING;
+			}
 
 			if (h > 0) {
 				center.setHeight(h + "px");
@@ -352,7 +355,9 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		public void resize() {
+			updateCenterSize();
 			updateStyle();
+
 		}
 	}
 
@@ -427,9 +432,10 @@ public class ToolbarPanel extends FlowPanel {
 
 		@Override
 		public void onResize() {
+			int tabHeight = ToolbarPanel.this.getOffsetHeight()
+					- header.getOffsetHeight();
 			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
-					ToolbarPanel.this.getOffsetHeight()
-							- header.getOffsetHeight());
+					tabHeight);
 
 			if (aview != null) {
 				aview.resize();
@@ -515,14 +521,17 @@ public class ToolbarPanel extends FlowPanel {
 
 	/**
 	 * Sets last height and width
+	 * 
+	 * @param force
+	 *            override values even they are not null.
 	 */
-	void setLastSize() {
+	void setLastSize(boolean force) {
 		if (isPortrait()) {
-			if (lastOpenHeight == null) {
+			if (force || lastOpenHeight == null) {
 				lastOpenHeight = app.getActiveEuclidianView().getViewHeight();
 			}
 		} else {
-			if (lastOpenWidth == null) {
+			if (force || lastOpenWidth == null) {
 				lastOpenWidth = getOffsetWidth();
 			}
 		}
@@ -536,9 +545,7 @@ public class ToolbarPanel extends FlowPanel {
 			return;
 		}
 		header.setOpen(true);
-		if (lastOpenWidth == null) {
-			setLastSize();
-		}
+		setLastSize(false);
 
 	}
 
@@ -717,7 +724,7 @@ public class ToolbarPanel extends FlowPanel {
 		}
 		main.clear();
 		main.add(tab);
-		tab.onResize();
+		resize();
 	}
 
 	/**

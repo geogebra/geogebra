@@ -42,6 +42,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 	@Override
 	public void onResize() {
+		toolbar.resize();
 		if (toolbar.isPortrait()) {
 			int h = toolbar.getOffsetHeight();
 			if (h > HEIGHT_CLOSED) {
@@ -58,7 +59,6 @@ public class ToolbarDockPanelW extends DockPanelW {
 				toolbar.open();
 			}
 		}
-		toolbar.resize();
 	}
 
 	@Override
