@@ -461,6 +461,7 @@ namespace giac {
     gen operator () (const gen & arg,GIAC_CONTEXT) const;
 #ifdef NO_UNARY_FUNCTION_COMPOSE
     inline unary_function_eval * ptr() const {
+      return (unary_function_eval *) (((size_t) _ptr) & ~(uintptr_t)3);
 #ifdef x86_64
       return (unary_function_eval *) (((ulonglong ) _ptr) & 0xfffffffffffffffc);
 #else
@@ -470,6 +471,7 @@ namespace giac {
 #else // NO_UNARY_FUNCTION_COMPOSE
     inline unary_function_abstract * ptr () const
     {
+      return (unary_function_abstract *) (((ulonglong ) _ptr) & ~(uintptr_t)3);
 #ifdef x86_64
       return (unary_function_abstract *) (((ulonglong ) _ptr) & 0xfffffffffffffffc);
 #else
@@ -480,6 +482,7 @@ namespace giac {
     bool quoted() const ;
     inline bool operator ==(const unary_function_ptr & u) const { 
       // if (&u==this) return true; 
+      return ((ulonglong)(_ptr) & ~(uintptr_t)3 )  == ((ulonglong)( u._ptr) & ~(uintptr_t)3 );
 #ifdef x86_64
       return ((ulonglong)(_ptr) & 0xfffffffffffffffc)  == ((ulonglong)( u._ptr) & 0xfffffffffffffffc ); 
 #else
@@ -489,6 +492,7 @@ namespace giac {
     inline bool operator !=(const unary_function_ptr & u) const { return !(*this==u); }
     inline bool operator ==(const unary_function_ptr * u) const { 
       // if (&u==this) return true; 
+      return u && ( ((ulonglong)(_ptr) &  ~(uintptr_t)3 ) == ((ulonglong)(u->_ptr) &  ~(uintptr_t)3) ); 
 #ifdef x86_64
       return u && ( ((ulonglong)(_ptr) & 0xfffffffffffffffc) == ((ulonglong)(u->_ptr) & 0xfffffffffffffffc) ); 
 #else
