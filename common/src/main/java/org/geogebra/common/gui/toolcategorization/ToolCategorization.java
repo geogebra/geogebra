@@ -7,10 +7,6 @@ import org.geogebra.common.main.App;
 import java.util.ArrayList;
 import java.util.TreeSet;
 
-/**
- * Created by mathieu on 11/05/17.
- */
-
 public class ToolCategorization {
 
     public enum Type {GEOMETRY, GRAPHING_CALCULATOR, GRAPHER_3D}
@@ -67,6 +63,13 @@ public class ToolCategorization {
      */
     public ArrayList<Category> getCategories() {
         return customizedCategories;
+    }
+
+    /**
+     * @return toolsList
+     */
+    public ArrayList<ArrayList<Integer>> getToolsLists() {
+        return toolsLists;
     }
 
     /**
