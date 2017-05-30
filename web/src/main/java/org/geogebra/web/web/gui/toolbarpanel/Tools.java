@@ -19,18 +19,32 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author judit Content of tools tab of Toolbar panel.
+ */
 public class Tools extends FlowPanel {
 
 	ToolCategorization mToolCategorization;
+	/**
+	 * application
+	 */
 	AppW app;
 	private StandardButton moveButton;
 
+	/**
+	 * @param appl
+	 *            application
+	 */
 	public Tools(AppW appl) {
 		app = appl;
 		this.addStyleName("toolsPanel");
 		buildGui();
 	}
 
+	/**
+	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
+	 * this.
+	 */
 	public void setMoveMode() {
 		app.setMode(EuclidianConstants.MODE_MOVE);
 		clearSelectionStyle();
