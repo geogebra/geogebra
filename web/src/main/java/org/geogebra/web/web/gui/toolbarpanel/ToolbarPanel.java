@@ -327,9 +327,15 @@ public class ToolbarPanel extends FlowPanel {
 			if (open) {
 				addStyleName("header-open-" + orientation);
 				btnClose.getUpFace().setImage(imgClose);
+				btnMenu.removeStyleName("landscapeMenuBtn");
 			} else {
 				addStyleName("header-close-" + orientation);
 				btnClose.getUpFace().setImage(imgOpen);
+				if (!isPortrait()) {
+					btnMenu.addStyleName("landscapeMenuBtn");
+				} else {
+					btnMenu.removeStyleName("landscapeMenuBtn");
+				}
 			}
 
 			btnMenu.getUpFace().setImage(imgMenu);

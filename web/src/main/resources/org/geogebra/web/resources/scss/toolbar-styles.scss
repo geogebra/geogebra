@@ -1,5 +1,10 @@
 @import 'colors';
 
+.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn {
+		margin-left: 10px;
+    	margin-right: 10px;
+}
+
 .toolbar {
 	.header {
 			background-color: $toolbar-header;
@@ -72,7 +77,7 @@
 			height: 100%;
 			
 			
-			.flatButton {
+			.flatButton, .menu {
 				margin-left: 10px;
 				margin-right: 10px;
 			}
@@ -95,9 +100,7 @@
 		@extend .header-open-landscape;
 		position: absolute;
 		bottom: 0px;
-	}				
-	
-	
+	}		
 			
 	.algebraPanel {
 	}
