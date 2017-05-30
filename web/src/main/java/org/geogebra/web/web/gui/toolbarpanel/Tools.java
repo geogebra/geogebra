@@ -3,10 +3,11 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -93,14 +94,25 @@ public class Tools extends FlowPanel {
 			NoDragImage im = new NoDragImage(GGWToolBar
 					.getImageURL(mode, app));
 			final StandardButton btn = new StandardButton(null, "", 32);
+			btn.setTitle(app.getLocalization()
+					.getMenu(EuclidianConstants.getModeText(mode)));
+
 			btn.getUpFace().setImage(im);
 
 			btn.addFastClickHandler(new FastClickHandler() {
 
+				@Override
 				public void onClick(Widget source) {
 					app.setMode(mode);
 					clearSelectionStyle();
 					btn.getElement().setAttribute("selected", "true");
+					ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+					ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+							app.getToolTooltipHTML(mode),
+							app.getGuiManager().getTooltipURL(mode),
+							ToolTipLinkType.Help, app,
+							app.getAppletFrame().isKeyboardShowing());
+					ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 				}
 
 			});
