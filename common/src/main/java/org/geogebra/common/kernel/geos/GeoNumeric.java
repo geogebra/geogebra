@@ -320,6 +320,10 @@ public class GeoNumeric extends GeoElement
 
 	private void initScreenLocation() {
 		int count = countSliders();
+		if (getConstruction().getKernel().getApplication()
+				.has(Feature.NEW_TOOLBAR)) {
+			count++;
+		}
 		sliderPos = new SliderPosition();
 		if (isAbsoluteScreenLocActive()) {
 			sliderPos.x = 30;
