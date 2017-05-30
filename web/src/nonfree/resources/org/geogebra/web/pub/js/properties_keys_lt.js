@@ -2000,7 +2000,6 @@ __GGB__keysVar.lt.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\u016b\u016a\u02c7\u02c7",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\u0173\u0172\u0117\u0116\u0105\u0104",
     "Keyboard.row3": "zZxXcCvVbBnNmM''\u012f\u012e\u0119\u0118",
-    "KinectWindow": "Kinect langas",
     "LaTeXFormula": "LaTeX formul\u0117",
     "LaTeXHelp": "Latex pagalba",
     "LabelColumn": "Etiket\u0117s stulpelis",

@@ -2000,7 +2000,6 @@ __GGB__keysVar.hr.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Kinect prozor",
     "LaTeXFormula": "LaTeX formula",
     "LaTeXHelp": "LaTeX pomo\u0107",
     "LabelColumn": "Oznaka stupca",

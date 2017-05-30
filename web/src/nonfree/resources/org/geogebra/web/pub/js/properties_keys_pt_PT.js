@@ -2000,7 +2000,6 @@ __GGB__keysVar.pt_PT.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xe0\xc0''",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xe7\xc7\xe3\xc3\xf5\xd5",
     "Keyboard.row3": "zZxXcCvVbBnNmM\xe2\xc2\xea\xca''",
-    "KinectWindow": "Janela Kinect",
     "LaTeXFormula": "F\xf3rmula LaTeX",
     "LaTeXHelp": "Ajuda LaTeX",
     "LabelColumn": "Rotular Coluna",

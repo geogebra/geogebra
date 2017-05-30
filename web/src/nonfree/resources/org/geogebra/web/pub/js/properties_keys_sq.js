@@ -2000,7 +2000,6 @@ __GGB__keysVar.sq.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Dritare Kinect",
     "LaTeXFormula": "Formula LaTex",
     "LaTeXHelp": "Latex ndihme",
     "LabelColumn": "Etiketo Kolone",

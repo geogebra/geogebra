@@ -2000,7 +2000,6 @@ __GGB__keysVar.uk.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "\u0412\u0456\u043a\u043d\u043e Kinect",
     "LaTeXFormula": "LaTeX",
     "LaTeXHelp": "\u0414\u043e\u0432\u0456\u0434\u043a\u0430 LaTeX",
     "LabelColumn": "\u041f\u043e\u0437\u043d\u0430\u0447\u043a\u0430 \u0441\u0442\u043e\u0432\u043f\u0447\u0438\u043a\u0430",

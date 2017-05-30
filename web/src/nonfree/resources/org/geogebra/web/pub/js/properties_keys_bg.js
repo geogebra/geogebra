@@ -2000,7 +2000,6 @@ __GGB__keysVar.bg.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Kinect \u043f\u0440\u043e\u0437\u043e\u0440\u0435\u0446",
     "LaTeXFormula": "LaTeX \u0444\u043e\u0440\u043c\u0443\u043b\u0430",
     "LaTeXHelp": "\u041f\u043e\u043c\u043e\u0449 Latex",
     "LabelColumn": "\u0415\u0442\u0438\u043a\u0435\u0442 \u043d\u0430 \u043a\u043e\u043b\u043e\u043d\u0430",

@@ -2000,7 +2000,6 @@ __GGB__keysVar.fi.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xe5\xc5",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xf6\xd6\xe4\xc4",
     "Keyboard.row3": "zZxXcCvVbBnNmM''",
-    "KinectWindow": "Kinect-ikkuna",
     "LaTeXFormula": "LaTeX-kaava",
     "LaTeXHelp": "LaTeX-ohje",
     "LabelColumn": "Nime\xe4 sarake",

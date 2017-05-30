@@ -2000,7 +2000,6 @@ __GGB__keysVar.sk.menu = {
     "Keyboard.row1": "qQwWeErRtTzZuUiIoOpP\u02c7\u02c7",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xe4\xc4\xf4\xd4",
     "Keyboard.row3": "yYxXcCvVbBnNmM''\xb4\xb4",
-    "KinectWindow": "Kinect okno",
     "LaTeXFormula": "LaTeX vzorec",
     "LaTeXHelp": "LaTeX n\xe1poveda",
     "LabelColumn": "Ozna\u010denie st\u013apca",

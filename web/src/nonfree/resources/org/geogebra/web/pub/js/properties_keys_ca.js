@@ -2000,7 +2000,6 @@ __GGB__keysVar.ca.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xb4\xb4``",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xe7\xc7\xb7\xb7",
     "Keyboard.row3": "zZxXcCvVbBnNmM\xef\xcf\xfc\xdc''",
-    "KinectWindow": "Finestra Kinect",
     "LaTeXFormula": "F\xf3rmula LaTeX",
     "LaTeXHelp": "Ajuda de Latex",
     "LabelColumn": "Columna d\u2019etiquetes",

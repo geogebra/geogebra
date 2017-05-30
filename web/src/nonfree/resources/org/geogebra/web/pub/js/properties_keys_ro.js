@@ -2000,7 +2000,6 @@ __GGB__keysVar.ro.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\u0103\u0102\xee\xce",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\u0219\u0218\u021b\u021a\xe2\xc2",
     "Keyboard.row3": "zZxXcCvVbBnNmM''",
-    "KinectWindow": "Fereastr\u0103 Kinect",
     "LaTeXFormula": "Formul\u0103 LaTeX",
     "LaTeXHelp": "Ajutor Latex",
     "LabelColumn": "Etichet\u0103 coloan\u0103",

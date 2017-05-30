@@ -2000,7 +2000,6 @@ __GGB__keysVar.hu_gm.menu = {
     "Keyboard.row1": "qQwWeErRtTzZuUiIoOpP\u0151\u0150''",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\u0171\u0170\xb4\xb4",
     "Keyboard.row3": "yYxXcCvVbBnNmM\xf6\xd6\xfc\xdc",
-    "KinectWindow": "Kinect ablak",
     "LaTeXFormula": "LaTeX formula",
     "LaTeXHelp": "Latex s\xfag\xf3",
     "LabelColumn": "Oszlop c\xedmke",

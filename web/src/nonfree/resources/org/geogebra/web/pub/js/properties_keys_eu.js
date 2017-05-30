@@ -2000,7 +2000,6 @@ __GGB__keysVar.eu.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Kinect-lehioa",
     "LaTeXFormula": "LaTeX formula",
     "LaTeXHelp": "LaTeX-erako laguntza",
     "LabelColumn": "Zutabearen Etiketa",

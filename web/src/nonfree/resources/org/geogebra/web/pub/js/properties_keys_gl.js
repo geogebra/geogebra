@@ -2000,7 +2000,6 @@ __GGB__keysVar.gl.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Ventana quin\xe9tica",
     "LaTeXFormula": "F\xf3rmula LaTeX",
     "LaTeXHelp": "Axuda Latex",
     "LabelColumn": "R\xf3tulo de columna",

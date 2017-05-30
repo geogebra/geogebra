@@ -2000,7 +2000,6 @@ __GGB__keysVar.et.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xfc\xdc\xf5\xd5",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xf6\xd6\xe4\xc4",
     "Keyboard.row3": "zZxXcCvVbBnNmM''",
-    "KinectWindow": "Kinecti aken",
     "LaTeXFormula": "LaTeX'i avaldis",
     "LaTeXHelp": "Latexi abi",
     "LabelColumn": "T\xe4hista veerg",

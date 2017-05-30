@@ -2000,7 +2000,6 @@ __GGB__keysVar.lv.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Kinect logs",
     "LaTeXFormula": "LaTeX formula",
     "LaTeXHelp": "Latex pal\u012bdz\u012bba",
     "LabelColumn": "atsl\u0113gas v\u0101rdu sleja",

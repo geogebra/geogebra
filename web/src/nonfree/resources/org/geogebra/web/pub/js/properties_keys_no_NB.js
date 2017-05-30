@@ -2000,7 +2000,6 @@ __GGB__keysVar.no_NB.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP\xe5\xc5",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\xf8\xd8\xe6\xc6",
     "Keyboard.row3": "zZxXcCvVbBnNmM''",
-    "KinectWindow": "Kinect-vindu",
     "LaTeXFormula": "LaTeX-formel",
     "LaTeXHelp": "LaTeX-hjelp",
     "LabelColumn": "Navngi kolonne",

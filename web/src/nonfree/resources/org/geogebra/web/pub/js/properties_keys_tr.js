@@ -2000,7 +2000,6 @@ __GGB__keysVar.tr.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuU\u0131IoOpP\u011f\u011e\xfc\xdc",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\u015f\u015ei\u0130''",
     "Keyboard.row3": "zZxXcCvVbBnNmM\xf6\xd6\xe7\xc7",
-    "KinectWindow": "Kinect Penceresi",
     "LaTeXFormula": "LaTeX form\xfcl\xfc",
     "LaTeXHelp": "Latex yard\u0131m",
     "LabelColumn": "S\xfctunu Etiketlendir",

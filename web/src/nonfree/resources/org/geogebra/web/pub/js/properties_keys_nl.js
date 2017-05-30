@@ -2000,7 +2000,6 @@ __GGB__keysVar.nl.menu = {
     "Keyboard.row1": "qQwWeErRtTyYuUiIoOpP",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL''",
     "Keyboard.row3": "zZxXcCvVbBnNmM",
-    "KinectWindow": "Kinect venster",
     "LaTeXFormula": "LaTeX formule",
     "LaTeXHelp": "Latex hulp",
     "LabelColumn": "Kolomlabel",

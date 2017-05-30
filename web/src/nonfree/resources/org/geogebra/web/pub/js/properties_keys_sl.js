@@ -2000,7 +2000,6 @@ __GGB__keysVar.sl.menu = {
     "Keyboard.row1": "qQwWeErRtTzZuUiIoOpP\u0161\u0160\u0111\u0110",
     "Keyboard.row2": "aAsSdDfFgGhHjJkKlL\u010d\u010c\u0107\u0106\u017e\u017d",
     "Keyboard.row3": "yYxXcCvVbBnNmM''",
-    "KinectWindow": "Okno kinect",
     "LaTeXFormula": "Formula v LaTeXu",
     "LaTeXHelp": "Pomo\u010d za Latex",
     "LabelColumn": "Oznaka stolpca",
