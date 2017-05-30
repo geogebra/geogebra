@@ -234,7 +234,7 @@ abstract public class MathContainer extends MathComponent {
 			
 			// case5: a tailed char is doubled
 			// entered as two key presses
-			// eg
+			// eg \u3131 \u314F \u3142 \u3145 needs to give \uAC12
 
 			if (lastCharFlat.length() == 3 && !Korean.isVowel(newChar)) {
 
