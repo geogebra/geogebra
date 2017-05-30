@@ -117,19 +117,24 @@ public class ToolbarPanel extends FlowPanel {
 				public void onClickStart(int x, int y, PointerEventType type) {
 					openAlgebra();
 					tabTools.setMoveMode();
+					getFrame().showKeyboardButton(true);
 				}
 			});
 
 			btnTools = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_tools()));
 			btnTools.addStyleName("flatButton");
-			ClickStartHandler.init(btnTools, new ClickStartHandler() {
+			ClickStartHandler.init(btnTools,
+					new ClickStartHandler(false, true) {
 
-				@Override
-				public void onClickStart(int x, int y, PointerEventType type) {
-					openTools();
-				}
-			});
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							getFrame().keyBoardNeeded(false, null);
+							getFrame().showKeyboardButton(false);
+							openTools();
+						}
+					});
 
 			center = new FlowPanel();
 			center.addStyleName("center");
