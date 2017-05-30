@@ -100,7 +100,8 @@ public abstract class Layout implements SettingListener {
 
 		int i = 0; // current perspective
 
-		defaultPerspectives[i] = new Perspective(1, spData, dpData, defToolbar,
+		defaultPerspectives[i] = new Perspective(Perspective.GRAPHING, spData,
+				dpData, defToolbar,
 				true, true, true, true, true, InputPosition.algebraView);
 
 		// basic geometry - just the euclidian view
@@ -140,7 +141,8 @@ public abstract class Layout implements SettingListener {
 		 */
 
 		// geometry - like basic geometry but with less toolbar entries
-		defaultPerspectives[++i] = new Perspective(2, spData, dpData,
+		defaultPerspectives[++i] = new Perspective(Perspective.GEOMETRY, spData,
+				dpData,
 				defToolbar, true, false, false, false, true,
 				InputPosition.algebraView);
 
@@ -176,7 +178,8 @@ public abstract class Layout implements SettingListener {
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 				"1,1", 500);
 
-		defaultPerspectives[++i] = new Perspective(3, spData, dpData,
+		defaultPerspectives[++i] = new Perspective(Perspective.SPREADSHEET,
+				spData, dpData,
 				defToolbar, true, false, true, false, true,
 				InputPosition.algebraView);
 
@@ -209,7 +212,8 @@ public abstract class Layout implements SettingListener {
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
 					"1,1", 500);
 
-			defaultPerspectives[++i] = new Perspective(4, spData, dpData,
+			defaultPerspectives[++i] = new Perspective(Perspective.CAS, spData,
+					dpData,
 					defToolbar, true, false, true, false, true,
 					InputPosition.algebraView);
 
@@ -256,7 +260,8 @@ public abstract class Layout implements SettingListener {
 			// Note: toolbar definition is always for EV1, for 3D we use
 			// definition from the 3D dock panel classes
 
-			defaultPerspectives[++i] = new Perspective(5, spData, dpData,
+			defaultPerspectives[++i] = new Perspective(Perspective.GRAPHER_3D,
+					spData, dpData,
 					defToolbar, true, false, true, true, true,
 					InputPosition.algebraView);
 		} else {
@@ -300,7 +305,8 @@ public abstract class Layout implements SettingListener {
 		// Note: toolbar definition is always for EV1, for 3D we use definition
 		// from the 3D dock panel classes
 
-		defaultPerspectives[++i] = new Perspective(6, spData, dpData,
+		defaultPerspectives[++i] = new Perspective(Perspective.PROBABILITY,
+				spData, dpData,
 				defToolbar, false, false, true, false, true,
 				InputPosition.algebraView);
 		if (app.has(Feature.WHITEBOARD_APP)) {

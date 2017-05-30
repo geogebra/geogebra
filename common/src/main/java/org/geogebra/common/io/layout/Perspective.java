@@ -94,6 +94,13 @@ public class Perspective {
 			"geometry", "spreadsheet", "cas", "3d", "probability",
 			"whiteboard" };
 
+	public static final int GRAPHING = 1;
+	public static final int GEOMETRY = 2;
+	public static final int SPREADSHEET = 3;
+	public static final int CAS = 4;
+	public static final int GRAPHER_3D = 5;
+	public static final int PROBABILITY = 6;
+
 	/**
 	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the
 	 * perspectivesSlugs should be changed to the list below. because of the new
