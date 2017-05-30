@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Type;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -67,13 +66,10 @@ public class Tools extends FlowPanel {
 	public void buildGui() {
 		this.clear();
 
-		// int activePerspective = app.getActivePerspective();
-		int focusedViewID = app.getGuiManager().getLayout().getDockManager()
-				.getFocusedViewId();
+		int activePerspective = app.getActivePerspective();
 
 		Type type = ToolCategorization.Type.GRAPHING_CALCULATOR;
-		if (focusedViewID == App.VIEW_EUCLIDIAN3D
-				|| focusedViewID == App.VIEW_EUCLIDIAN3D_2) {
+		if (activePerspective == 4) { // TODO change 4 to a constant
 			type = ToolCategorization.Type.GRAPHER_3D;
 		}
 
