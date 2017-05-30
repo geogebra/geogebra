@@ -120,8 +120,8 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanLeadChar(char c, boolean convertJamo) {
-
+	public static boolean isKoreanLeadChar(char c0, boolean convertJamo) {
+		char c = c0;
 		if (convertJamo) {
 			c = convertFromCompatibilityJamo(c, true);
 		}
@@ -133,8 +133,8 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanVowelChar(char c, boolean convertJamo) {
-
+	public static boolean isKoreanVowelChar(char c0, boolean convertJamo) {
+		char c = c0;
 		if (convertJamo) {
 			c = convertFromCompatibilityJamo(c, true);
 		}
@@ -146,8 +146,8 @@ public class Korean {
 		return false;
 	}
 
-	public static boolean isKoreanTailChar(char c, boolean convertJamo) {
-
+	public static boolean isKoreanTailChar(char c0, boolean convertJamo) {
+		char c = c0;
 		if (convertJamo) {
 			c = convertFromCompatibilityJamo(c, false);
 		}
@@ -411,17 +411,17 @@ public class Korean {
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 * http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
 	 */
-	private static void appendKoreanMultiChar(StringBuilder sb, char c) {
+	private static void appendKoreanMultiChar(StringBuilder sBuilder, char c) {
 		char tail = (char) (0x11a7 + (c - 44032) % 28);
 		char vowel = (char) (0x1161
 				+ ((c - 44032 - (tail - 0x11a7)) % 588) / 28);
 		char lead = (char) (0x1100 + (c - 44032) / 588);
 		// Application.debug(Util.toHexString(c)+" decoded to
 		// "+Util.toHexString(lead)+Util.toHexString(vowel)+Util.toHexString(tail));
-		sb.append(lead);
-		sb.append(vowel);
+		sBuilder.append(lead);
+		sBuilder.append(vowel);
 		if (!isKoreanLeadPlusVowelChar(c)) {
-			sb.append(tail);
+			sBuilder.append(tail);
 		}
 	}
 
