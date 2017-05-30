@@ -4932,7 +4932,7 @@ public abstract class App implements UpdateSelection {
 				break;
 			case ANDROID_GEOMETRY:
 			case IOS_GEOMETRY:
-				type = ToolCategorization.Type.GEOMETRY;
+				type = ToolCategorization.Type.GEOMETRY_CALC;
 				isPhoneApp = true;
 				break;
 			case ANDROID_NATIVE_3D:

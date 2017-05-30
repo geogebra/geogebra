@@ -9,7 +9,7 @@ import java.util.TreeSet;
 
 public class ToolCategorization {
 
-    public enum Type {GEOMETRY, GRAPHING_CALCULATOR, GRAPHER_3D}
+    public enum Type {GEOMETRY_CALC, GRAPHING_CALCULATOR, GRAPHER_3D}
 
     public enum Category {
         // from Geometry & Graphing Calculator
@@ -117,7 +117,7 @@ public class ToolCategorization {
         Category category;
         ArrayList<Integer> tools;
         switch (type) {
-            case GEOMETRY:
+            case GEOMETRY_CALC:
                 category = Category.SIMPLE;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MOVE);
