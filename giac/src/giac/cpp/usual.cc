@@ -2644,8 +2644,9 @@ namespace giac {
     gen a,b;
     if (is_algebraic_program(e,a,b))
       return symbolic(at_program,gen(makevecteur(a,0,asinh(b,contextptr)),_SEQ__VECT));
+    if (keep_acosh_asinh(contextptr))
+      return symbolic(at_asinh,e);
     return ln(e+sqrt(pow(e,2)+1,contextptr),contextptr);
-    // return symbolic(at_asinh,e);
   }
   static gen d_asinh(const gen & args,GIAC_CONTEXT){
     return inv(recursive_normal(sqrt(pow(args,2)+1,contextptr),contextptr),contextptr);
@@ -2702,9 +2703,10 @@ namespace giac {
     gen a,b;
     if (is_algebraic_program(e,a,b))
       return symbolic(at_program,gen(makevecteur(a,0,acosh(b,contextptr)),_SEQ__VECT));
+    if (keep_acosh_asinh(contextptr))
+      return symbolic(at_acosh,e);
     return acoshasln(e,contextptr);
     // return ln(e+sqrt(pow(e,2)-1,contextptr),contextptr);
-    // return symbolic(at_acosh,e);
   }
   static gen d_acosh(const gen & args,GIAC_CONTEXT){
     return inv(recursive_normal(sqrt(pow(args,2)-1,contextptr),contextptr),contextptr);
@@ -10238,9 +10240,9 @@ namespace giac {
   const gen_op_context factorial2gamma_tab[]={factorialtogamma,0};
 
   // for integration
-  const alias_type  primitive_tab_op_alias[]={ (const alias_type)&__sin, (const alias_type)&__cos, (const alias_type)&__tan, (const alias_type)&__exp, (const alias_type)&__sinh, (const alias_type)&__cosh, (const alias_type)&__tanh, (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__ln,0};
+  const alias_type  primitive_tab_op_alias[]={ (const alias_type)&__sin, (const alias_type)&__cos, (const alias_type)&__tan, (const alias_type)&__exp, (const alias_type)&__sinh, (const alias_type)&__cosh, (const alias_type)&__tanh, (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__ln,(const alias_type)&__asinh, (const alias_type)&__acosh, (const alias_type)&__atanh,0};
   const unary_function_ptr * const primitive_tab_op=(const unary_function_ptr * const)primitive_tab_op_alias;
-  const alias_type inverse_tab_op_alias[]={ (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__ln, (const alias_type)&__asinh, (const alias_type)&__acos, (const alias_type)&__atanh, (const alias_type)&__erf, (const alias_type)&__erfc, (const alias_type)&__Ei, (const alias_type)&__Si, (const alias_type)&__Ci,0};
+  const alias_type inverse_tab_op_alias[]={ (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__ln, (const alias_type)&__asinh, (const alias_type)&__acosh, (const alias_type)&__atanh, (const alias_type)&__erf, (const alias_type)&__erfc, (const alias_type)&__Ei, (const alias_type)&__Si, (const alias_type)&__Ci,0};
   const unary_function_ptr * const inverse_tab_op=(const unary_function_ptr * const)inverse_tab_op_alias;
 
   const alias_type  analytic_sommets_alias[]={ (const alias_type)&__plus, (const alias_type)&__prod, (const alias_type)&__neg, (const alias_type)&__inv, (const alias_type)&__pow, (const alias_type)&__sin, (const alias_type)&__cos, (const alias_type)&__tan, (const alias_type)&__exp, (const alias_type)&__sinh, (const alias_type)&__cosh, (const alias_type)&__tanh, (const alias_type)&__asin, (const alias_type)&__acos, (const alias_type)&__atan, (const alias_type)&__asinh, (const alias_type)&__atanh, (const alias_type)&__acosh, (const alias_type)&__ln, (const alias_type)&__sqrt,0};  

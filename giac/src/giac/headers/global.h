@@ -537,6 +537,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     bool _try_parse_i_;
     bool _specialtexprint_double_;
     bool _atan_tan_no_floor_;
+    bool _keep_acosh_asinh_;
     bool _keep_algext_;
     int _angle_mode_;
     int _bounded_function_no_;
@@ -694,6 +695,9 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   bool & atan_tan_no_floor(GIAC_CONTEXT);
   void atan_tan_no_floor(bool b,GIAC_CONTEXT);
+
+  bool & keep_acosh_asinh(GIAC_CONTEXT);
+  void keep_acosh_asinh(bool b,GIAC_CONTEXT);
 
   bool & keep_algext(GIAC_CONTEXT);
   void keep_algext(bool b,GIAC_CONTEXT);
