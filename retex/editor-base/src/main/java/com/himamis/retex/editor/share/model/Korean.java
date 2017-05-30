@@ -47,18 +47,9 @@ public class Korean {
 
 	}
 
-	public static char tailToLead(char ch) {
+	public static Character tailToLead(char ch) {
 		
-		HashMap<Character, Character> a = getKoreanTailToLead();
-
-		if (a == null) {
-			System.err.print("XXXXXXXXXXXXX");
-		}
-
-		System.err.println(a.get('a'));
-		System.err.println("ch = " + ch);
-
-		return a.get(ch);
+		return getKoreanTailToLead().get(ch);
 	}
 
 	static HashMap<Character, Character> getKoreanTailToLead() {
@@ -648,6 +639,13 @@ public class Korean {
 					i++;
 				} else {
 					sb.append(c);
+				}
+				break;
+			case '\u11b8':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u11ba') {
+					sb.append('\u11b9');
+					i++;
 				}
 				break;
 			default:

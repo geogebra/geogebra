@@ -232,6 +232,41 @@ abstract public class MathContainer extends MathComponent {
 				
 			}
 			
+			// case5: a tailed char is doubled
+			// entered as two key presses
+			// eg
+
+			if (lastCharFlat.length() == 3 && !Korean.isVowel(newChar)) {
+
+				System.err.println("case 5");
+
+				// not needed, useful for debugging
+				newChar = Korean.convertFromCompatibilityJamo(newChar, false);
+
+				char lastChar2 = lastCharFlat.charAt(2);
+
+				// if this is length 1, merge succeeded
+				String doubleCheck = Korean
+						.mergeDoubleCharacters(lastChar2 + "" + newChar);
+
+				if (doubleCheck.length() == 1) {
+					System.err.println("merge check passed");
+
+					newChar = Korean.unflattenKorean(
+							lastCharFlat.substring(0, 2) + "" + doubleCheck)
+							.charAt(0);
+
+					MathCharacter mathChar = (MathCharacter) compLast;
+					mathChar.setChar(
+							new MetaCharacter(newChar + "", newChar + "",
+									newChar, newChar, MetaCharacter.CHARACTER));
+
+					return true;
+
+				}
+
+
+			}
 
 		}
 
