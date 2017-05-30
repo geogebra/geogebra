@@ -158,6 +158,8 @@ public class SerializeLaTeX {
 	public void testComma() {
 		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
 				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
+		checkCannon("If[x  <  1/x  +  7,x/2,sqrt(x/2)]",
+				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
 		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
 		checkCannon("(t^n;t)", "(t^(n);t)");
 	}

@@ -34,7 +34,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
-import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
@@ -45,6 +44,8 @@ import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
+
+import com.himamis.retex.editor.share.model.Korean;
 
 public class AutoCompleteTextFieldD extends MathTextField
 		implements AutoComplete, AutoCompleteTextField {

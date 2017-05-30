@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.himamis.retex.editor.share.model.Korean;
+
 /**
  * A default implementation of the autocomplete dictionary. This implementation
  * is based upon the TreeSet collection class to provide quick lookups and

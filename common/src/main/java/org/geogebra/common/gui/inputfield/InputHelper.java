@@ -10,9 +10,10 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.Korean;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+
+import com.himamis.retex.editor.share.model.Korean;
 
 /**
  * Helper methods used by plain text and latex editors

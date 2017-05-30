@@ -1,5 +1,7 @@
 package org.geogebra.common.util;
 
+import com.himamis.retex.editor.share.model.Korean;
+
 public class KoreanTest {
 	public static void main(String[] args) {
 
