@@ -132,14 +132,21 @@ namespace giac {
       vecteur v=*g._VECTptr;
       iterateur it=v.begin(),itend=v.end();
       for (;it!=itend;++it)
-	*it=attoof(*it);
+       *it=attoof(*it);
       return gen(v,g.subtype);
     }
     if (g.type!=_SYMB)
       return g;
     if (g._SYMBptr->sommet!=at_at)
       return symbolic(g._SYMBptr->sommet,attoof(g._SYMBptr->feuille));
-    return symbolic(at_of,attoof(g._SYMBptr->feuille));
+    if (g._SYMBptr->feuille.type!=_VECT || g._SYMBptr->feuille._VECTptr->size()<=1) // not somehting that I recognize as a proper parameter list, just return as before
+      return symbolic(at_of,attoof(g._SYMBptr->feuille));
+    // This looks like it is a vector of at least 2 objects. The first one should be the variable to do an at/of on and all the rest should be indices that needs to be incremented
+    vecteur v=*g._SYMBptr->feuille._VECTptr; 
+    iterateur it=v.begin()+1,itend=v.end(); // from item 1 to n-1 in the vector
+    for (;it!=itend;++it) 
+      *it=attoof(*it)+gen(1); // add 1 to the object
+    return symbolic(at_of,attoof(gen(v,g._SYMBptr->feuille.subtype))); // return the of(vector with modified indices) gen
   }
 
   static int prog_eval_level(GIAC_CONTEXT){

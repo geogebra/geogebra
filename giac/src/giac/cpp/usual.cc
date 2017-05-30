@@ -285,8 +285,12 @@ namespace giac {
   define_unary_function_ptr5( at_id ,alias_at_id,&__id,0,true);
 
   static string printasnot(const gen & g,const char * s,GIAC_CONTEXT){
-    if (abs_calc_mode(contextptr)==38)
-      return "NOT "+g.print(contextptr);
+    if (abs_calc_mode(contextptr)==38){
+      if (g.is_symb_of_sommet(at_and) ||g.is_symb_of_sommet(at_ou))
+	return "NOT("+g.print(contextptr)+")";
+      else
+	return "NOT "+g.print(contextptr);
+    }
     else
       return "not("+g.print(contextptr)+")";
     

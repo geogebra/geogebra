@@ -878,6 +878,10 @@ namespace giac {
 	reim(tmp,r,i,contextptr);
 	if (is_zero(ratnormal(i,contextptr)))
 	  remains_to_integrate=ratnormal(r,contextptr);
+	else {
+	  res=0;
+	  remains_to_integrate=e_orig;
+	}
       }
     }
     vector<const unary_function_ptr *> SiCiexp(1,at_Si);
