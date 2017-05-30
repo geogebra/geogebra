@@ -5,42 +5,99 @@ import java.util.HashMap;
 public class Korean {
 
 	static StringBuilder sb;
-	static HashMap<Character, Character> koreanLeadToTail;
+	static HashMap<Character, Character> koreanLeadToTail = null;
+	static HashMap<Character, Character> koreanTailToLead = null;
 
-	static void init() {
+	static HashMap<Character, Character> getKoreanLeadToTail() {
 
 		if (koreanLeadToTail == null) {
 			koreanLeadToTail = new HashMap<Character, Character>();
+
+			koreanLeadToTail.put('\u1100', '\u11a8');
+			koreanLeadToTail.put('\u1101', '\u11a9');
+			koreanLeadToTail.put('\u1102', '\u11ab');
+			koreanLeadToTail.put('\u1103', '\u11ae');
+
+			// map to itself
+			koreanLeadToTail.put('\u1104', '\u1104');
+
+			koreanLeadToTail.put('\u1105', '\u11af');
+			koreanLeadToTail.put('\u1106', '\u11b7');
+			koreanLeadToTail.put('\u1107', '\u11b8');
+
+			// map to itself
+			koreanLeadToTail.put('\u1108', '\u1108');
+
+			koreanLeadToTail.put('\u1109', '\u11ba');
+			koreanLeadToTail.put('\u110a', '\u11bb');
+			koreanLeadToTail.put('\u110b', '\u11bc');
+			koreanLeadToTail.put('\u110c', '\u11bd');
+
+			// map to itself
+			koreanLeadToTail.put('\u110d', '\u110d');
+
+			koreanLeadToTail.put('\u110e', '\u11be');
+			koreanLeadToTail.put('\u110f', '\u11bf');
+			koreanLeadToTail.put('\u1110', '\u11c0');
+			koreanLeadToTail.put('\u1111', '\u11c1');
+			koreanLeadToTail.put('\u1112', '\u11c2');
 		}
 
-		koreanLeadToTail.put(new Character('\u1100'), new Character('\u11a8'));
-		koreanLeadToTail.put(new Character('\u1101'), new Character('\u11a9'));
-		koreanLeadToTail.put(new Character('\u1102'), new Character('\u11ab'));
-		koreanLeadToTail.put(new Character('\u1103'), new Character('\u11ae'));
+		return koreanLeadToTail;
 
-		// map to itself
-		koreanLeadToTail.put(new Character('\u1104'), new Character('\u1104'));
+	}
 
-		koreanLeadToTail.put(new Character('\u1105'), new Character('\u11af'));
-		koreanLeadToTail.put(new Character('\u1106'), new Character('\u11b7'));
-		koreanLeadToTail.put(new Character('\u1107'), new Character('\u11b8'));
+	public static char tailToLead(char ch) {
+		
+		HashMap<Character, Character> a = getKoreanTailToLead();
 
-		// map to itself
-		koreanLeadToTail.put(new Character('\u1108'), new Character('\u1108'));
+		if (a == null) {
+			System.err.print("XXXXXXXXXXXXX");
+		}
 
-		koreanLeadToTail.put(new Character('\u1109'), new Character('\u11ba'));
-		koreanLeadToTail.put(new Character('\u110a'), new Character('\u11bb'));
-		koreanLeadToTail.put(new Character('\u110b'), new Character('\u11bc'));
-		koreanLeadToTail.put(new Character('\u110c'), new Character('\u11bd'));
+		System.err.println(a.get('a'));
+		System.err.println("ch = " + ch);
 
-		// map to itself
-		koreanLeadToTail.put(new Character('\u110d'), new Character('\u110d'));
+		return a.get(ch);
+	}
 
-		koreanLeadToTail.put(new Character('\u110e'), new Character('\u11be'));
-		koreanLeadToTail.put(new Character('\u110f'), new Character('\u11bf'));
-		koreanLeadToTail.put(new Character('\u1110'), new Character('\u11c0'));
-		koreanLeadToTail.put(new Character('\u1111'), new Character('\u11c1'));
-		koreanLeadToTail.put(new Character('\u1112'), new Character('\u11c2'));
+	static HashMap<Character, Character> getKoreanTailToLead() {
+
+		if (koreanTailToLead == null) {
+			koreanTailToLead = new HashMap<Character, Character>();
+
+			koreanTailToLead.put('\u11a8', '\u1100');
+			koreanTailToLead.put('\u11a9', '\u1101');
+			koreanTailToLead.put('\u11ab', '\u1102');
+			koreanTailToLead.put('\u11ae', '\u1103');
+
+			// map to itself
+			// koreanTailToLead.put('\u1104','\u1104');
+
+			koreanTailToLead.put('\u11af', '\u1105');
+			koreanTailToLead.put('\u11b7', '\u1106');
+			koreanTailToLead.put('\u11b8', '\u1107');
+
+			// map to itself
+			// koreanTailToLead.put('\u1108', '\u1108');
+
+			koreanTailToLead.put('\u11ba', '\u1109');
+			koreanTailToLead.put('\u11bb', '\u110a');
+			koreanTailToLead.put('\u11bc', '\u110b');
+			koreanTailToLead.put('\u11bd', '\u110c');
+
+			// map to itself
+			// koreanTailToLead.put('\u110d', '\u110d');
+
+			koreanTailToLead.put('\u11be', '\u110e');
+			koreanTailToLead.put('\u11bf', '\u110f');
+			koreanTailToLead.put('\u11c0', '\u1110');
+			koreanTailToLead.put('\u11c1', '\u1111');
+			koreanTailToLead.put('\u11c2', '\u1112');
+		}
+
+		return koreanTailToLead;
+
 
 	}
 
@@ -50,8 +107,6 @@ public class Korean {
 	 * and \uB450 to \u1103\u116E
 	 */
 	public static String flattenKorean(String s) {
-
-		init();
 
 		if (sb == null) {
 			sb = new StringBuilder();
@@ -68,7 +123,7 @@ public class Korean {
 			} else {
 				// if a "lead char" follows a vowel, turn into a "tail char"
 				if (lastWasVowel && isKoreanLeadChar(c, false)) {
-					sb.append(koreanLeadToTail.get(Character.valueOf(c))
+					sb.append(getKoreanLeadToTail().get(Character.valueOf(c))
 							.charValue());
 				} else {
 					sb.append(c);
@@ -605,6 +660,13 @@ public class Korean {
 		}
 
 		return sb.toString();
+	}
+
+	public static boolean isVowel(char ch) {
+
+		ch = convertFromCompatibilityJamo(ch, true);
+
+		return ch >= '\u1161' && ch <= '\u1175';
 	}
 
 }

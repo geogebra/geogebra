@@ -86,20 +86,20 @@ abstract public class MathContainer extends MathComponent {
 	 * checks previous character to see if it combines with ch
 	 * 
 	 * @param i
-	 * @param ch
+	 * @param comp
 	 * @return true if it's been combined (so ch doesn't need adding)
 	 */
-	protected boolean checkKorean(int i, MathComponent ch) {
+	protected boolean checkKorean(int i, MathComponent comp) {
 
 		if (i > 0 && arguments.size() > 0 && i - 1 < arguments.size()) {
 
-			MathComponent comp = arguments.get(i - 1);
-			if (!(comp instanceof MathCharacter)) {
+			MathComponent compLast = arguments.get(i - 1);
+			if (!(compLast instanceof MathCharacter)) {
 				return false;
 			}
-			String s = comp.toString();
+			String s = compLast.toString();
 
-			char newChar = ch.toString().charAt(0);
+			char newChar = comp.toString().charAt(0);
 
 			char lastChar = 0;
 
@@ -128,7 +128,7 @@ abstract public class MathContainer extends MathComponent {
 				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
 						MetaCharacter.CHARACTER);
 
-				MathCharacter mathChar = (MathCharacter) comp;
+				MathCharacter mathChar = (MathCharacter) compLast;
 				mathChar.setChar(metaChar);
 				return true;
 			}
@@ -149,7 +149,7 @@ abstract public class MathContainer extends MathComponent {
 				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
 						MetaCharacter.CHARACTER);
 
-				MathCharacter mathChar = (MathCharacter) comp;
+				MathCharacter mathChar = (MathCharacter) compLast;
 				mathChar.setChar(metaChar);
 				return true;
 
@@ -172,11 +172,66 @@ abstract public class MathContainer extends MathComponent {
 						MetaCharacter.CHARACTER);
 
 				// TODO: deal with case of tail chars + compatibility Jamo
-				MathCharacter mathChar = (MathCharacter) comp;
+				MathCharacter mathChar = (MathCharacter) compLast;
 				mathChar.setChar(metaChar);
 				return true;
 
 			}
+			
+			// case 4
+			// we have something like 
+			// \u3141 \u3163 \u3142 \u315C \u3134
+			// which has been grouped as
+			// (\u3141 \u3163 \u3142) + \u315C 
+			// but when \u3134 is typed it needs to change to 
+			// (\u3141 \u3163) + (\u3142 \u315C \u3134)
+			// ie "\u3134" needs to change from tail (\u11ab) to lead (\u1102)
+			
+			String lastCharFlat = Korean.flattenKorean(lastChar+"");
+			
+			if (lastCharFlat.length() == 3 && Korean.isVowel(newChar)) {
+				
+				// System.err.println("case 4");
+				
+				// not needed, useful for debugging
+				// newChar = Korean.convertFromCompatibilityJamo(newChar,
+				// false);
+
+				char newLastChar = Korean.unflattenKorean(lastCharFlat.substring(0,2)).charAt(0);
+
+				char newNewChar = Korean.unflattenKorean(
+						Korean.tailToLead(lastCharFlat.charAt(2)) + ""
+								+ newChar)
+						.charAt(0);
+				// System.err.println(
+				// "lastCharFlat.charAt(2) = " + lastCharFlat.charAt(2)
+				// + " " + toHexString(lastCharFlat.charAt(2)));
+				// System.err.println(
+				// "newChar = " + newChar + " " + toHexString(newChar));
+				//
+				// System.err.println("newLastChar = " + newLastChar + " "
+				// + toHexString(newLastChar));
+				// System.err.println("newNewChar = " + newNewChar + " "
+				// + toHexString(newNewChar) + " "
+				// + Korean.flattenKorean(newNewChar + ""));
+
+				MathCharacter mathChar = (MathCharacter) compLast;
+				mathChar.setChar(new MetaCharacter(newLastChar + "",
+						newLastChar + "", newLastChar, newLastChar,
+						MetaCharacter.CHARACTER));
+
+				mathChar = (MathCharacter) comp;
+				mathChar.setChar(new MetaCharacter(newNewChar + "",
+						newNewChar + "", newNewChar, newNewChar,
+						MetaCharacter.CHARACTER));
+
+				
+				// make sure comp is still inserted
+				return false;
+				
+				
+			}
+			
 
 		}
 
