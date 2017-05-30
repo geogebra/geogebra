@@ -110,6 +110,10 @@
 		padding: 4px 2px 0px 0px;
 		box-shadow: none;
 		
+		.gwt-ToggleButton.XButton.shown.gwt-ToggleButton-up-hovering {
+			opacity: 1;
+		}
+		
 		.XButton{			
 			opacity: 0.54;
 		}
