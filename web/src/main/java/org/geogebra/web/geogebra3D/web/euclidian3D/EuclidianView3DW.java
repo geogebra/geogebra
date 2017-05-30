@@ -31,8 +31,8 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
-import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
+import org.geogebra.web.html5.euclidian.PointerEventHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.javax.swing.GBoxW;
 import org.geogebra.web.html5.main.AppW;
@@ -70,7 +70,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class EuclidianView3DW extends EuclidianView3D implements
-        EuclidianViewWInterface {
+		EuclidianViewWInterface {
 
 	private EuclidianPanelWAbstract EVPanel;
 

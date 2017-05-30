@@ -560,6 +560,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	public void onInsertString() {
+		if (!this.getInputController().getCreateFrac()) {
+			insertStringFinished();
+			return;
+		}
 		ArrayList<Integer> path = new ArrayList<Integer>();
 		path.add(getEditorState().getCurrentOffset()
 				- getEditorState().getCurrentField().size());
@@ -579,11 +583,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 		getMathFieldController().setSelectedPath(getFormula(), path,
 				getEditorState());
+		insertStringFinished();
+	}
+
+	private void insertStringFinished() {
 		mathField.requestViewFocus();
 		// do this as late as possible
 		if (listener != null) {
 			listener.onKeyTyped();
 		}
+
 	}
 
 	public void insertFunction(String text) {

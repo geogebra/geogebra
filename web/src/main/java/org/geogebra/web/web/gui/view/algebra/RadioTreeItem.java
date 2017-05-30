@@ -2182,18 +2182,28 @@ public class RadioTreeItem extends AVTreeItem
 		if (!"".equals(text0)) {
 			removeDummy();
 		}
-		if (mf != null) {
-			Parser parser = new Parser(mf.getMetaModel());
-			MathFormula formula;
-			try {
-				formula = parser.parse(text0);
-				mf.setFormula(formula);
-			} catch (ParseException e) {
-				Log.warn("Problem parsing: " + text0);
-				e.printStackTrace();
-			}
+		if (this.isTextItem() && mf != null) {
+			parseText("");
+			mf.setPlainTextMode(true);
+			mf.insertString(text0);
+		}
+		else if (mf != null) {
+			parseText(text0);
 		}
 		updatePreview();
+	}
+
+	private void parseText(String text0) {
+		Parser parser = new Parser(mf.getMetaModel());
+		MathFormula formula;
+		try {
+			formula = parser.parse(text0);
+			mf.setFormula(formula);
+		} catch (ParseException e) {
+			Log.warn("Problem parsing: " + text0);
+			e.printStackTrace();
+		}
+
 	}
 
 	public void setLabels() {
