@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.Type;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -26,16 +28,7 @@ public class Tools extends FlowPanel {
 	public Tools(AppW appl) {
 		app = appl;
 		this.addStyleName("toolsPanel");
-		mToolCategorization = new ToolCategorization(app,
-				ToolCategorization.Type.GRAPHING_CALCULATOR, false);
-		mToolCategorization.resetTools();
-		ArrayList<ToolCategorization.Category> categories = mToolCategorization
-				.getCategories();
-
-		for (int i = 0; i < categories.size(); i++) {
-			add(new CategoryPanel(categories.get(i)));
-		}
-
+		buildGui();
 	}
 
 	public void setMoveMode() {
@@ -54,6 +47,30 @@ public class Tools extends FlowPanel {
 				panelTools.getWidget(j).getElement().setAttribute("selected",
 						"false");
 			}
+		}
+	}
+
+	public void buildGui() {
+		this.clear();
+
+		// int activePerspective = app.getActivePerspective();
+		int focusedViewID = app.getGuiManager().getLayout().getDockManager()
+				.getFocusedViewId();
+
+		Type type = ToolCategorization.Type.GRAPHING_CALCULATOR;
+		if (focusedViewID == App.VIEW_EUCLIDIAN3D
+				|| focusedViewID == App.VIEW_EUCLIDIAN3D_2) {
+			type = ToolCategorization.Type.GRAPHER_3D;
+		}
+
+		mToolCategorization = new ToolCategorization(app,
+				type, false);
+		mToolCategorization.resetTools();
+		ArrayList<ToolCategorization.Category> categories = mToolCategorization
+				.getCategories();
+
+		for (int i = 0; i < categories.size(); i++) {
+			add(new CategoryPanel(categories.get(i)));
 		}
 	}
 
