@@ -129,4 +129,66 @@
 	}	
 	
 	
+	.marblePanel {
+		position: absolute;
+		height: 100%;
+	
+		.gwt-ToggleButton{
+			position:relative;
+			top:50%;
+			margin-top:-12px;
+		}
+	}
+	
+	.marblePanel,
+	.marblePanel.error, 
+	.marblePanel.help,
+	.marblePanel.plus {
+		padding-left: 16px;
+		margin: 0px;
+		width: 54px;
+	}
+	
+	.marblePanel.plus {
+		padding-left: 16px;
+		img {
+			opacity: 0.54;
+		}
+	}
+	
+	.marblePanel.plus :hover{
+		img {
+			opacity: 1;
+		}
+	}
+	
+	.marble {
+		height: 18px;
+		width: 18px;
+		background-color: #6161FF;
+		border: 1px solid #000000;
+		border-radius: 18px;
+	
+		position: relative;
+		top: 50%;
+		margin-top: -10px;
+	}
+	.marble.elemHidden {
+		background-color: #FFFFFF;
+	}
+	.marble.elemShown {
+		background-color: #6161FF;
+		border: 1px solid #CCCCFF;
+	}
+	
+	.scrollableTextBox,
+	.scrollableTextBox.avPreview,
+	.scrollableTextBox.noPreview, 
+	.avItem .elemText {
+		padding-top: 10px;
+		padding-left: 88px; // 72 + 16
+		padding-bottom: 4px;
+		display: inline-block;
+	}
+		
 }
