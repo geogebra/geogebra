@@ -1,9 +1,9 @@
 @import 'colors';
 $slider-diameter:15px;
 
-
-
 .GeoGebraFrame {
+	box-sizing:content-box;
+
 	* {
 		margin: initial;
 		padding: initial;
