@@ -1993,6 +1993,7 @@ __GGB__keysVar.iw.menu = {
     "KeepInput": "\u05e9\u05de\u05d5\u05e8 \u05e7\u05dc\u05d8",
     "KeepInput.Help": "\u05e9\u05d5\u05de\u05e8 \u05d5\u05d1\u05d5\u05d3\u05e7 \u05e7\u05dc\u05d8",
     "Keyboard": "\u05de\u05e7\u05dc\u05d3\u05ea",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "\u05de\u05e7\u05dc\u05d3\u05ea \u05d9\u05d5\u05d5\u05e0\u05d9\u05ea",
     "Keyboard.Math": "\u05de\u05e7\u05dc\u05d3\u05ea \u05de\u05ea\u05de\u05d8\u05d9\u05ea",
     "Keyboard.Numeric": "\u05de\u05d7\u05e9\u05d1\u05d5\u05df",

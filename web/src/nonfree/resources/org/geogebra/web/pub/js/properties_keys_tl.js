@@ -1993,6 +1993,7 @@ __GGB__keysVar.tl.menu = {
     "KeepInput": "Keep Input",
     "KeepInput.Help": "Keeps and checks input",
     "Keyboard": "Kibord",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Greek Keyboard",
     "Keyboard.Math": "Math Keyboard",
     "Keyboard.Numeric": "Calculator",

@@ -1993,6 +1993,7 @@ __GGB__keysVar.am.menu = {
     "KeepInput": "\u130d\u1264\u1275 \u1320\u1265\u1245",
     "KeepInput.Help": "Keeps and checks input",
     "Keyboard": "\u1241\u120d\u134d \u1230\u120c\u12f3",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "\u130d\u122a\u12ad\u129b \u1241\u120d\u134d \u1230\u120c\u12f3",
     "Keyboard.Math": "\u1212\u1233\u1265 \u1230\u120c\u12f3",
     "Keyboard.Numeric": "\u121b\u1235\u12eb",

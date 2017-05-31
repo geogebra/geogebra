@@ -1993,6 +1993,7 @@ __GGB__keysVar.ta.menu = {
     "KeepInput": "Keep Input",
     "KeepInput.Help": "Keeps and checks input",
     "Keyboard": "\u0bb5\u0bbf\u0b9a\u0bc8\u0baa\u0bcd\u0baa\u0bb2\u0b95\u0bc8",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "\u0b95\u0bbf\u0bb0\u0bc7\u0b95\u0bcd\u0b95 \u0bb5\u0bbf\u0b9a\u0bc8\u0baa\u0bcd\u0baa\u0bb2\u0b95\u0bc8",
     "Keyboard.Math": "\u0b95\u0ba3\u0bbf\u0ba4 \u0bb5\u0bbf\u0b9a\u0bc8\u0baa\u0bcd\u0baa\u0bb2\u0b95\u0bc8",
     "Keyboard.Numeric": "\u0b95\u0ba3\u0bbf\u0baa\u0bcd\u0baa\u0bbe\u0ba9\u0bcd",

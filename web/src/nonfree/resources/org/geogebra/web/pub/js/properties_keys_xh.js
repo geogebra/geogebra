@@ -1993,6 +1993,7 @@ __GGB__keysVar.xh.menu = {
     "KeepInput": "Gcina okuFakileyo",
     "KeepInput.Help": "Igcina itshekishe okufakiweyo",
     "Keyboard": "iKhibhodi",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "iKhibhodi yamaGrike",
     "Keyboard.Math": "IKhibhodi yeZibalo",
     "Keyboard.Numeric": "UmatshinaWokubala",

@@ -1993,6 +1993,7 @@ __GGB__keysVar.sk.menu = {
     "KeepInput": "Zanecha\u0165 vstup",
     "KeepInput.Help": "zanech\xe1 a overuje vstup",
     "Keyboard": "Kl\xe1vesnica",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Gr\xe9cka abeceda",
     "Keyboard.Math": "Matematick\xe9 symboly",
     "Keyboard.Numeric": "Kalkula\u010dka",

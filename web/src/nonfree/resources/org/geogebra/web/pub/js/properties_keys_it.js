@@ -1993,6 +1993,7 @@ __GGB__keysVar.it.menu = {
     "KeepInput": "Mantieni inserimento",
     "KeepInput.Help": "Mantiene e verifica l'inserimento",
     "Keyboard": "Tastiera",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Tastiera greco",
     "Keyboard.Math": "Tastiera matematica",
     "Keyboard.Numeric": "Calcolatrice",

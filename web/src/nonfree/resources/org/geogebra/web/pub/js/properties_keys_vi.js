@@ -1993,6 +1993,7 @@ __GGB__keysVar.vi.menu = {
     "KeepInput": "Gi\u1eef nguy\xean \u0111\u1ea7u v\xe0o",
     "KeepInput.Help": "Gi\u1eef v\xe0 ki\u1ec3m tra \u0111\u1ea7u v\xe0o",
     "Keyboard": "B\xe0n ph\xedm",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "B\xe0n ph\xedm k\xed t\u1ef1 Hy L\u1ea1p",
     "Keyboard.Math": "B\xe0n ph\xedm k\xed hi\u1ec7u to\xe1n h\u1ecdc",
     "Keyboard.Numeric": "M\xe1y t\xednh",

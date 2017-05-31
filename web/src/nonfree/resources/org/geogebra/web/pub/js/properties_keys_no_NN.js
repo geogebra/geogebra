@@ -1993,6 +1993,7 @@ __GGB__keysVar.no_NN.menu = {
     "KeepInput": "Behald inntasting",
     "KeepInput.Help": "Beheld og kontrollerer inntasting",
     "Keyboard": "Tastatur",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Greske bokstavar",
     "Keyboard.Math": "Matematisk tastatur",
     "Keyboard.Numeric": "Kalkulator",

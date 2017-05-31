@@ -1993,6 +1993,7 @@ __GGB__keysVar.tr.menu = {
     "KeepInput": "Girdiyi tut",
     "KeepInput.Help": "Girdiyi tutar ve denetler",
     "Keyboard": "Klavye",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Yunan Klavyesi",
     "Keyboard.Math": "Matematik Klavye",
     "Keyboard.Numeric": "Hesap makinesi",

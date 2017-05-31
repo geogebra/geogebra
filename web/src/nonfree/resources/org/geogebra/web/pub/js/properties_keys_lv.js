@@ -1993,6 +1993,7 @@ __GGB__keysVar.lv.menu = {
     "KeepInput": "Patur\u0113t ievad\u012bto",
     "KeepInput.Help": "Patur\u0113t un p\u0101rbaud\u012bt ievadi",
     "Keyboard": "Keyboard",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Grie\u0137u tastat\u016bra",
     "Keyboard.Math": "Matem\u0101tikas tastat\u016bra",
     "Keyboard.Numeric": "Kalkulators",

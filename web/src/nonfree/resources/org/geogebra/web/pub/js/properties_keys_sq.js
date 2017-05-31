@@ -1993,6 +1993,7 @@ __GGB__keysVar.sq.menu = {
     "KeepInput": "Mbaj Input",
     "KeepInput.Help": "Mban dhe kontrollon input",
     "Keyboard": "Tastiere",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Tastire Greke",
     "Keyboard.Math": "Tastiere Matematike",
     "Keyboard.Numeric": "Kalkulator",

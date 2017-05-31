@@ -1993,6 +1993,7 @@ __GGB__keysVar.et.menu = {
     "KeepInput": "S\xe4ilita sisend",
     "KeepInput.Help": "S\xe4ilitab ja kontrollib sisendit",
     "Keyboard": "Klaviatuur",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Kreeka klaviatuur",
     "Keyboard.Math": "Matemaatika klaviatuur",
     "Keyboard.Numeric": "Kalkulaator",

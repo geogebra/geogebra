@@ -1993,6 +1993,7 @@ __GGB__keysVar.fi.menu = {
     "KeepInput": "Tarkista lauseke",
     "KeepInput.Help": "Pit\xe4\xe4 ja tarkistaa sy\xf6tteen",
     "Keyboard": "N\xe4pp\xe4imist\xf6",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Kreikkalainen n\xe4pp\xe4imist\xf6",
     "Keyboard.Math": "Matematiikkan\xe4pp\xe4imist\xf6",
     "Keyboard.Numeric": "Laskin",

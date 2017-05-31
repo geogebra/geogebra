@@ -1993,6 +1993,7 @@ __GGB__keysVar.de.menu = {
     "KeepInput": "Behalte Eingabe",
     "KeepInput.Help": "Lassen Sie die Eingabe unver\xe4ndert.",
     "Keyboard": "Tastatur",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Griechische Tastatur",
     "Keyboard.Math": "Mathematische Tastatur",
     "Keyboard.Numeric": "Taschenrechner",

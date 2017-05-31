@@ -1993,6 +1993,7 @@ __GGB__keysVar.nl.menu = {
     "KeepInput": "Bewaar Invoer",
     "KeepInput.Help": "Bewaart en controleert invoer",
     "Keyboard": "Toetsenbord",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Grieks toetsenbord",
     "Keyboard.Math": "Wiskunde toetsenbord",
     "Keyboard.Numeric": "Rekentoestel",

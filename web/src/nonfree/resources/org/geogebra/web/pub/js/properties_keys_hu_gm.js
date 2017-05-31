@@ -1993,6 +1993,7 @@ __GGB__keysVar.hu_gm.menu = {
     "KeepInput": "Bemenetet megtart",
     "KeepInput.Help": "Bemenet megtart\xe1sa \xe9s ellen\u0151rz\xe9se",
     "Keyboard": "Billenty\u0171zet",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "G\xf6r\xf6g billenty\u0171zet",
     "Keyboard.Math": "Matematikai billenty\u0171zet",
     "Keyboard.Numeric": "Sz\xe1mol\xf3g\xe9p",

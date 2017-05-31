@@ -1993,6 +1993,7 @@ __GGB__keysVar.lt.menu = {
     "KeepInput": "I\u0161saugoti ivest\u012f",
     "KeepInput.Help": "I\u0161saugo ir patikrina ivest\u012f",
     "Keyboard": "Klaviat\u016bra",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Graiki\u0161ka Klaviat\u016bra",
     "Keyboard.Math": "Matematin\u0117 Klaviat\u016bra",
     "Keyboard.Numeric": "Skai\u010diuotuvas",

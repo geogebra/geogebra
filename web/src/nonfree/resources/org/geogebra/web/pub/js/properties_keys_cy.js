@@ -1993,6 +1993,7 @@ __GGB__keysVar.cy.menu = {
     "KeepInput": "Cadw'r Mewnbwn",
     "KeepInput.Help": "Cadw a gwirio mewnbwn",
     "Keyboard": "Allweddell",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Bysellfwrdd Groegaidd",
     "Keyboard.Math": "Bysellfwrdd Mathemateg",
     "Keyboard.Numeric": "Cyfrifiannell",

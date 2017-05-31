@@ -1993,6 +1993,7 @@ __GGB__keysVar.uz.menu = {
     "KeepInput": "Keep Input",
     "KeepInput.Help": "Kiritilganlarni saqlash va tekshirish",
     "Keyboard": "Keyboard",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Greek Keyboard",
     "Keyboard.Math": "Math Keyboard",
     "Keyboard.Numeric": "Kalkulator",

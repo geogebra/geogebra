@@ -1993,6 +1993,7 @@ __GGB__keysVar.pl.menu = {
     "KeepInput": "Pozostaw wprowadzone wyra\u017cenie",
     "KeepInput.Help": "Pozostawia wyra\u017cenie w oryginalnej postaci",
     "Keyboard": "Klawiatura",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Symbole greckie",
     "Keyboard.Math": "Symbole matematyczne",
     "Keyboard.Numeric": "Kalkulator",

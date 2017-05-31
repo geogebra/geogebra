@@ -1993,6 +1993,7 @@ __GGB__keysVar.zh_TW.menu = {
     "KeepInput": "\u4fdd\u7559\u539f\u5f0f",
     "KeepInput.Help": "\u6aa2\u67e5\u8f38\u5165\uff0c\u4e26\u4fdd\u7559\u539f\u5f0f\u4e0d\u6574\u7406\u4e0d\u5c55\u958b",
     "Keyboard": "\u9375\u76e4",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "\u5e0c\u81d8\u5b57\u6bcd",
     "Keyboard.Math": "\u6578\u5b78\u7b26\u865f",
     "Keyboard.Numeric": "\u8a08\u7b97\u6a5f",

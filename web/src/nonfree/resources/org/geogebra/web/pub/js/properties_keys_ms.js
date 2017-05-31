@@ -1993,6 +1993,7 @@ __GGB__keysVar.ms.menu = {
     "KeepInput": "Kekalkan Input",
     "KeepInput.Help": "Kekal dan semak input",
     "Keyboard": "Papan Kekunci",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Papan kekunci Yunani",
     "Keyboard.Math": "Papan Kekunci Mate",
     "Keyboard.Numeric": "Kalkulator",

@@ -1993,6 +1993,7 @@ __GGB__keysVar.ne.menu = {
     "KeepInput": "\u0908\u0928\u094d\u092a\u0941\u091f \u0930\u093e\u0916\u094d\u0928\u0941\u0939\u094b\u0938",
     "KeepInput.Help": "\u0908\u0928\u094d\u092a\u0941\u091f \u092a\u0930\u093f\u0915\u094d\u0937\u0923 \u0917\u0930\u093f\u0930\u0939\u0928\u0941\u0939\u094b\u0938",
     "Keyboard": "\u0915\u093f\u092c\u094b\u094d\u0930\u094d\u0921",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Greek Keyboard",
     "Keyboard.Math": "Math Keyboard",
     "Keyboard.Numeric": "Calculator",

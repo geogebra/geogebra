@@ -1993,6 +1993,7 @@ __GGB__keysVar.sl.menu = {
     "KeepInput": "Ohrani vnos",
     "KeepInput.Help": "Ohrani in preveri vnos",
     "Keyboard": "Tipkovnica",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Tipkovnica gr\u0161kih \u010drk",
     "Keyboard.Math": "Tipkovnica matemati\u010dnih simbolov",
     "Keyboard.Numeric": "Ra\u010dunalo",

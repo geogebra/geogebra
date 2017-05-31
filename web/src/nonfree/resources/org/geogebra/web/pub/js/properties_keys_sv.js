@@ -1993,6 +1993,7 @@ __GGB__keysVar.sv.menu = {
     "KeepInput": "Beh\xe5ll inmatning",
     "KeepInput.Help": "Beh\xe5ll och kontrollera inmatning",
     "Keyboard": "Tangentbord",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Grekiskt tangentbord",
     "Keyboard.Math": "Matematiskt tangentbord",
     "Keyboard.Numeric": "R\xe4knare",

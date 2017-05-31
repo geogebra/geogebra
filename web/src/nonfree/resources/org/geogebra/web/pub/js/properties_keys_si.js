@@ -1993,6 +1993,7 @@ __GGB__keysVar.si.menu = {
     "KeepInput": "Keep Input",
     "KeepInput.Help": "Keeps and checks input",
     "Keyboard": "\u0dba\u0dad\u0dd4\u0dbb\u0dd4 \u0db4\u0dd4\u0dc0\u0dbb\u0dd4\u0dc0",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Greek Keyboard",
     "Keyboard.Math": "Math Keyboard",
     "Keyboard.Numeric": "Calculator",

@@ -1993,6 +1993,7 @@ __GGB__keysVar.az.menu = {
     "KeepInput": "Keep Input",
     "KeepInput.Help": "Keeps and checks input",
     "Keyboard": "Keyboard",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Yunan klaviaturas\u0131",
     "Keyboard.Math": "Math Keyboard",
     "Keyboard.Numeric": "Calculator",

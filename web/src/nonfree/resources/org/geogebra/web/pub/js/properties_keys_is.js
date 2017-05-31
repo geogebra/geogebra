@@ -1993,6 +1993,7 @@ __GGB__keysVar.is.menu = {
     "KeepInput": "\xd3breytt inntak",
     "KeepInput.Help": "Heldur og athugar inntak",
     "Keyboard": "Lyklabor\xf0",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Gr\xedskt lyklabor\xf0",
     "Keyboard.Math": "St\xe6r\xf0fr\xe6\xf0ilyklabor\xf0",
     "Keyboard.Numeric": "Reikniv\xe9l",

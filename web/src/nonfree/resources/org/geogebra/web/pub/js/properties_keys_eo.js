@@ -1993,6 +1993,7 @@ __GGB__keysVar.eo.menu = {
     "KeepInput": "Konservi la enigon",
     "KeepInput.Help": "Keeps and checks input",
     "Keyboard": "Klavaro",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Greka klavaro",
     "Keyboard.Math": "Matematika klavaro",
     "Keyboard.Numeric": "Kalkulilo",

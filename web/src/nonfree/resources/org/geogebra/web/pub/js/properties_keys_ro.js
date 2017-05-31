@@ -1993,6 +1993,7 @@ __GGB__keysVar.ro.menu = {
     "KeepInput": "P\u0103strare Input",
     "KeepInput.Help": "P\u0103streaz\u0103 \u0219i verific\u0103 input",
     "Keyboard": "Tastatur\u0103",
+    "Keyboard.ABC": "ABC",
     "Keyboard.Greek": "Tastatur\u0103 greceasc\u0103",
     "Keyboard.Math": "Tastatur\u0103 matematic\u0103",
     "Keyboard.Numeric": "Calculator",
