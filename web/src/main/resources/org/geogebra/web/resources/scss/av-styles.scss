@@ -132,6 +132,7 @@
 	.marblePanel {
 		position: absolute;
 		height: 100%;
+		padding: 0px;
 	
 		.gwt-ToggleButton{
 			position:relative;
@@ -147,6 +148,10 @@
 		padding-left: 16px;
 		margin: 0px;
 		width: 54px;
+		.gwt-Image {
+			height: 24px;
+			width: 24px;
+		}
 	}
 	
 	.marblePanel.plus {
@@ -163,15 +168,15 @@
 	}
 	
 	.marble {
-		height: 18px;
-		width: 18px;
+		position: relative;
+		margin-top: -12px;
+		top: 50%;
+		height: 24px;
+		width: 24px;
 		background-color: #6161FF;
 		border: 1px solid #000000;
-		border-radius: 18px;
+		border-radius: 24px;
 	
-		position: relative;
-		top: 50%;
-		margin-top: -10px;
 	}
 	.marble.elemHidden {
 		background-color: #FFFFFF;
@@ -187,7 +192,7 @@
 	.avItem .elemText,
 	.avItemContent {
 		padding-top: 10px;
-		padding-left: 88px; // 72 + 16
+		padding-left: 80px; // 72 + 8
 		padding-bottom: 4px;
 		display: inline-block;
 	}
