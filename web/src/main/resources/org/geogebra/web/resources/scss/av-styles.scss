@@ -206,7 +206,22 @@
 		padding-bottom: 0px;
 		display: inline-block;
 	}
+	
+	.avItemContent {
+		padding-top: 6px;
+		min-height: 72px;	
 		
+		.panelRow {
+			padding-top: 8px;
+		}
+	}
+	
+	.playOnly {
+			position: absolute;
+			top: 42px;
+    		right: 2px;
+		}
+	
 	.NewRadioButtonTreeItemParent .scrollableTextBox,
 	.NewRadioButtonTreeItemParent .inputBorder
 	{
