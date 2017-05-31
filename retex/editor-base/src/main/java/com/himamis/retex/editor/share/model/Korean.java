@@ -383,7 +383,7 @@ public class Korean {
 			return lead ? '\u1111' : '\u11c1';
 
 		case '\u314e':
-			return lead ? '\u1112' : '\u11a8';
+			return lead ? '\u1112' : '\u11c2';
 
 		case '\u314f':
 			return '\u1161';
