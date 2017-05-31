@@ -115,10 +115,17 @@ abstract public class MathContainer extends MathComponent {
 
 			if (Korean.isKoreanLeadPlusVowelChar(lastChar)
 					&& Korean.isKoreanTailChar(newChar, true)) {
+
+				String strToFlatten = Korean.flattenKorean(lastChar + "") + ""
+						+ newChar;
+
 				String replaceChar = Korean
-						.unflattenKorean(Korean.flattenKorean(lastChar + "")
-								+ "" + newChar)
+						.unflattenKorean(strToFlatten)
 						.toString();
+
+				System.err.println("flattening " + strToFlatten + " "
+						+ toHexString(strToFlatten));
+
 				System.err.println("need to replace " + lastChar + " "
 						+ toHexString(lastChar) + " with "
 						+ replaceChar + " " + toHexString(replaceChar));
@@ -241,7 +248,8 @@ abstract public class MathContainer extends MathComponent {
 				System.err.println("case 5");
 
 				// not needed, useful for debugging
-				newChar = Korean.convertFromCompatibilityJamo(newChar, false);
+				// newChar = Korean.convertFromCompatibilityJamo(newChar,
+				// false);
 
 				char lastChar2 = lastCharFlat.charAt(2);
 
@@ -265,6 +273,47 @@ abstract public class MathContainer extends MathComponent {
 
 				}
 
+
+			}
+
+			// case 6
+			// a vowel character is a "doubled" char
+			// case 1
+			// we already have Jamo lead + vowel as single unicode
+
+			System.err.println("Korean.isKoreanLeadPlusVowelChar(lastChar) = "
+					+ Korean.isKoreanLeadPlusVowelChar(lastChar));
+			System.err.println("Korean.isKoreanVowelChar(newChar, true) = "
+					+ Korean.isKoreanVowelChar(newChar, true));
+
+			if (Korean.isKoreanLeadPlusVowelChar(lastChar)
+					&& Korean.isKoreanVowelChar(newChar, true)) {
+
+				char lastChar1 = lastCharFlat.charAt(1);
+
+				// if this is length 1, merge succeeded
+				String doubleCheck = Korean
+						.mergeDoubleCharacters(lastChar1 + "" + Korean
+								.convertFromCompatibilityJamo(newChar, true));
+
+				System.err.println("doubleCheck = " + doubleCheck);
+
+				if (doubleCheck.length() == 1) {
+					System.err.println("merge check 2 passed");
+
+					newChar = Korean
+							.unflattenKorean(
+									lastCharFlat.charAt(0) + "" + doubleCheck)
+							.charAt(0);
+
+					MathCharacter mathChar = (MathCharacter) compLast;
+					mathChar.setChar(
+							new MetaCharacter(newChar + "", newChar + "",
+									newChar, newChar, MetaCharacter.CHARACTER));
+
+					return true;
+
+				}
 
 			}
 
