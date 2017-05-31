@@ -1,6 +1,6 @@
 @import 'colors';
 
-.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn {
+.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
 		margin-left: 10px;
     	margin-right: 10px;
 }
@@ -64,6 +64,7 @@
 			
 			.menu {
 				margin-right: 10px;
+				margin-left: 10px;
 			}
 	
 		 	.center {
