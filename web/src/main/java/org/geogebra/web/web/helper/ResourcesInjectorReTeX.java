@@ -24,7 +24,6 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 	}
 
 	private native void jQueryNoConflict() /*-{
-		$wnd.$ggbQuery = $wnd.jQuery;
-		$wnd.jQuery.noConflict();
+		$wnd.$ggbQuery = $wnd.jQuery.noConflict(true);
 	}-*/;
 }
