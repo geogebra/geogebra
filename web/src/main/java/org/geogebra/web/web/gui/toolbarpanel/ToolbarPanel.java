@@ -387,12 +387,6 @@ public class ToolbarPanel extends FlowPanel {
 		header.updateUndoRedoPosition();
 	}
 
-	public void updateTools() {
-		if (tabTools != null) {
-			tabTools.updateTools();
-		}
-	}
-
 	private class ToolbarTab extends ScrollPanel {
 		public ToolbarTab() {
 			setSize("100%", "100%");
@@ -500,9 +494,6 @@ public class ToolbarPanel extends FlowPanel {
 			toolsPanel.setMoveMode();
 		}
 
-		public void updateTools() {
-			toolsPanel.buildGui();
-		}
 	}
 	/**
 	 * 
