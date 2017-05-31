@@ -70,14 +70,14 @@ public class ShowKeyboardButton extends SimplePanel {
 				final MathKeyboardListener mathKeyboardListener = panel
 						.getKeyboardListener();
 						
-				if (app.has(Feature.KEYBOARD_BEHAVIOUR) && panel instanceof AlgebraDockPanelW) {
-					if (app.has(Feature.NEW_TOOLBAR)) {
+				if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+					if (panel instanceof ToolbarDockPanelW) {
 						listener.doShowKeyBoard(true,
 								((ToolbarDockPanelW) panel)
 										.updateKeyboardListener(
 												mathKeyboardListener));
 
-					} else {
+					} else if (panel instanceof AlgebraDockPanelW) {
 						listener.doShowKeyBoard(true,
 								((AlgebraDockPanelW) panel)
 										.updateKeyboardListener(
