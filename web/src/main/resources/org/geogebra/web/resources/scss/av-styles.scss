@@ -132,22 +132,16 @@
 	.marblePanel {
 		position: absolute;
 		height: 100%;
-		padding: 0px;
-	
-		.gwt-ToggleButton{
-			position:relative;
-			top:50%;
-			margin-top:-12px;
-		}
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding-left: 16px;
+		width: 48px;
 	}
 	
-	.marblePanel,
 	.marblePanel.error, 
 	.marblePanel.help,
 	.marblePanel.plus {
-		padding-left: 16px;
-		margin: 0px;
-		width: 54px;
+		
 		.gwt-Image {
 			height: 24px;
 			width: 24px;
@@ -155,9 +149,17 @@
 	}
 	
 	.marblePanel.plus {
-		padding-left: 16px;
+		padding-top: 6px;
+		padding-left: 6px;
+		width: 58px; // 6 + 58 + 1
 		img {
 			opacity: 0.54;
+		}
+		.gwt-ToggleButton {
+			margin: 0px;
+			top: 0px;
+			padding-top: 12px;
+			padding-left: 12px;
 		}
 	}
 	
