@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
 public class ExportToPrinter3DD extends ExportToPrinter3D {
 
 	public ExportToPrinter3DD(EuclidianView3D view, Renderer renderer) {
-		super(view, renderer);
+		super();
 		Manager manager = renderer.getGeometryManager();
 		if (manager instanceof ManagerShadersElementsGlobalBuffer){
 			set(view, (ManagerShadersElementsGlobalBuffer) manager);

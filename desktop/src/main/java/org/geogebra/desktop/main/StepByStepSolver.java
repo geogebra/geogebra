@@ -68,8 +68,8 @@ public class StepByStepSolver {
 				"NSolutions[" + LHS + "=" + RHS + "]", null,
 				StringTemplate.defaultTemplate, app.getKernel());
 
-		int degeeLHS = degree(LHS);
-		int degeeRHS = degree(RHS);
+		int degreeLHS = degree(LHS);
+		int degreeRHS = degree(RHS);
 
 		GeoList solutionsList = ap.evaluateToList(solutionsStr);
 
@@ -77,6 +77,8 @@ public class StepByStepSolver {
 
 		Log.error("number of solutions = " + solutionsList.size());
 		Log.error("number of numeric solutions = " + NsolutionsList.size());
+		Log.error("numeric solutions = " + NsolutionsStr);
+		Log.error("degree = " + Math.max(degreeLHS, degreeRHS));
 
 		// PartialFractions[1/2 x] gives x/2
 		// maybe also "Polynomial" is useful

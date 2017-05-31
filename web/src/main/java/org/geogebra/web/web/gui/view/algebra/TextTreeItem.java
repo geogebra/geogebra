@@ -11,7 +11,7 @@ import com.google.gwt.user.client.ui.TreeItem;
  *
  */
 public class TextTreeItem extends RadioTreeItem {
-	private GeoText text;
+	private GeoText text = null;
 
 	/**
 	 * @param geo0
@@ -32,6 +32,9 @@ public class TextTreeItem extends RadioTreeItem {
 
 	@Override
 	protected void doUpdate() {
+		if (text == null) {
+			return; // called from super constructor
+		}
 		setNeedsUpdate(false);
 		if (hasMarblePanel()) {
 			marblePanel.update();

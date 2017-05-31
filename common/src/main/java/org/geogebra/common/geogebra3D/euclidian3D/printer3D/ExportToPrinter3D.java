@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer.GeometryElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -37,7 +36,7 @@ public abstract class ExportToPrinter3D {
 	/**
 	 * constructor
 	 */
-	public ExportToPrinter3D(EuclidianView3D view, Renderer renderer) {
+	public ExportToPrinter3D() {
 		format = new FormatJscad();
 		// format = new FormatScad();
 		sb = new StringBuilder();

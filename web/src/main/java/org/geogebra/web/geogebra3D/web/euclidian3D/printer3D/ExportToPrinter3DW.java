@@ -13,7 +13,7 @@ public class ExportToPrinter3DW extends ExportToPrinter3D {
 	private StringBuilder sb = new StringBuilder();
 
 	public ExportToPrinter3DW(EuclidianView3D view, Renderer renderer) {
-		super(view, renderer);
+		super();
 		set(view, (ManagerShadersElementsGlobalBuffer) renderer.getGeometryManager());
 	}
 	
@@ -43,7 +43,7 @@ public class ExportToPrinter3DW extends ExportToPrinter3D {
 	}
 	
 	public static native String encodeURIComponent(String component) /*-{
-	    return encodeURIComponent(component);
+		return encodeURIComponent(component);
 	}-*/;
 
 }
