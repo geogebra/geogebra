@@ -13846,6 +13846,11 @@ namespace giac {
     vecteur p_car;
     p_car=mpcar(mr,m_adj,true,contextptr);
     p_car=common_deno(p_car)*p_car; // remove denominators
+    // extension handling
+    gen modulo;
+    if (has_mod_coeff(p_car,modulo)){
+      *logptr(contextptr) << "Warning! Automatic extension not implemented. You can try to diagonalize the matrix * a non trivial element of GF(" << modulo << ",lcm of degrees of factor(" << symb_horner(p_car,vx_var) << "))" <<  endl;
+    }
     // factorizes p_car
     factorization f;
     polynome ppcar(poly1_2_polynome(p_car,1));
@@ -13969,11 +13974,15 @@ namespace giac {
 	vecteur ww(w.size());
 	for (unsigned i=0;i<w.size();++i)
 	  ww[i]=r2e(w[i],lv,contextptr);
-	v=solve(horner(ww,tmpx),tmpx,complex_mode(contextptr),contextptr); 
+	gen wwx=horner(ww,tmpx);
+	v=solve(wwx,tmpx,complex_mode(contextptr),contextptr); 
 	v=*apply(v,recursive_normal,contextptr)._VECTptr;
 	if (v.size()!=w.size()-1){
 	  gen m0num=evalf(m0,1,contextptr);
-	  if (m0num.type==_VECT && lidnt(m0num).empty()){
+	  if (m0num.type==_VECT 
+	      && is_numericm(*m0num._VECTptr)
+	      // && lidnt(m0num).empty()
+	      ){
 	    *logptr(contextptr) << gettext("Unable to find exact eigenvalues. Trying approx") << endl;
 	    return egv(*m0num._VECTptr,p,d,contextptr,jordan,false,eigenvalues_only);
 	  }

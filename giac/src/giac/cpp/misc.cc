@@ -1333,9 +1333,9 @@ namespace giac {
 	  vector<int> res;
 	  if (mod_pcar(M,N,modulo,krylov,res,contextptr,true)){
 	    vector_int2vecteur(res,w);
-	    environment env;
-	    w=modularize(w,modulo,&env);
-	    return gen(w,_POLY1__VECT);
+	    return makemod(gen(w,_POLY1__VECT),modulo);
+	    // environment env; w=modularize(w,modulo,&env);
+	    // return gen(w,_POLY1__VECT);
 	  }
 	}
       }
