@@ -116,7 +116,7 @@ public class ToolbarPanel extends FlowPanel {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					openAlgebra();
-					tabTools.setMoveMode();
+					setMoveMode();
 					getFrame().showKeyboardButton(true);
 				}
 			});
@@ -373,6 +373,14 @@ public class ToolbarPanel extends FlowPanel {
 	}
 
 	/**
+	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
+	 * this.
+	 */
+	void setMoveMode() {
+		tabTools.setMoveMode();
+	}
+
+	/**
 	 * Updates the style of undo and redo buttons accordingly of they are active
 	 * or inactive
 	 */
@@ -490,6 +498,10 @@ public class ToolbarPanel extends FlowPanel {
 			add(toolsPanel);
 		}
 
+		/**
+		 * Selects MODE_MOVE as mode and changes visual settings accordingly of
+		 * this.
+		 */
 		void setMoveMode() {
 			toolsPanel.setMoveMode();
 		}
