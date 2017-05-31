@@ -70,7 +70,7 @@ public class Tools extends FlowPanel {
 		int activePerspective = app.getActivePerspective();
 
 		Type type = ToolCategorization.Type.GRAPHING_CALCULATOR;
-		if (activePerspective == Perspective.GRAPHER_3D) {
+		if (activePerspective == Perspective.GRAPHER_3D - 1) {
 			type = ToolCategorization.Type.GRAPHER_3D;
 		}
 
