@@ -24,12 +24,18 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class Tools extends FlowPanel {
 
+	/**
+	 * Tool categories
+	 */
 	ToolCategorization mToolCategorization;
 	/**
 	 * application
 	 */
 	AppW app;
-	private StandardButton moveButton;
+	/**
+	 * move button
+	 */
+	StandardButton moveButton;
 
 	/**
 	 * @param appl
@@ -53,6 +59,9 @@ public class Tools extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Clears visual selection of all tools.
+	 */
 	public void clearSelectionStyle() {
 		for (int i = 0; i < getWidgetCount(); i++) {
 			FlowPanel panelTools = ((CategoryPanel) getWidget(i))
@@ -64,6 +73,9 @@ public class Tools extends FlowPanel {
 		}
 	}
 
+	/**
+	 * Builds the panel of tools.
+	 */
 	public void buildGui() {
 		this.clear();
 
