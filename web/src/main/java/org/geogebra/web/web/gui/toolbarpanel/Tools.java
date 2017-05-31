@@ -83,6 +83,8 @@ public class Tools extends FlowPanel {
 		for (int i = 0; i < categories.size(); i++) {
 			add(new CategoryPanel(categories.get(i)));
 		}
+
+		setMoveMode();
 	}
 
 	private class CategoryPanel extends FlowPanel {
