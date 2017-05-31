@@ -99,6 +99,7 @@ public class Tools extends FlowPanel {
 			add(new Label(mToolCategorization.getLocalizedHeader(category)));
 
 			toolsPanel = new FlowPanel();
+			toolsPanel.addStyleName("categoryPanel");
 			ArrayList<Integer> tools = mToolCategorization.getTools(
 					mToolCategorization.getCategories().indexOf(category));
 
