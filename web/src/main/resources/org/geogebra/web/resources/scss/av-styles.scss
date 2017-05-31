@@ -17,8 +17,13 @@
 			padding-top: 0px;
 			padding-bottom: 0px;
 			padding-right: 16px;
+			
 			.no-image {
 				padding-left: 0px !important;
+			}
+			
+			span.gwt-CheckBox.matCheckBox {
+				padding-left: 16px;
 			}
 		}
 		
@@ -86,16 +91,29 @@
 			padding-top: 0px;
 			padding-bottom: 0px;
 			padding-rigth: 16px;
+			
+			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame {
+				padding-left: 16px;
+				padding-right: 16px;
+			}
+			
+			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame:hover {
+				background-color: $selected-menuitem-background;
+			}
 		}
 		
 		.gwt-MenuItem.no-image {
-			padding-left: 24px !important;
+			padding-left: 16px !important;
 			padding-right: 16px;
 		}
 		
 		.gwt-MenuItem:hover {
 			background-color: $selected-menuitem-background;
 			color: $black;
+			
+			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame {
+				background-color: $selected-menuitem-background;
+			}
 		}
 		
 		.gwt-MenuItem-disabled,
