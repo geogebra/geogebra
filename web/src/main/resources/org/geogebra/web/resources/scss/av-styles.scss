@@ -167,17 +167,17 @@
 	}
 	
 	.marblePanel.plus {
-		padding-top: 6px;
-		padding-left: 6px;
-		width: 60px; 
+		padding-top: 0px;
+		padding-left: 4px;
+		width: 62px; 
 		img {
 			opacity: 0.54;
 		}
 		.gwt-ToggleButton {
 			margin: 0px;
 			top: 0px;
-			padding-top: 12px;
-			padding-left: 12px;
+			padding: 12px;
+			padding: 12px;
 		}
 	}
 	
@@ -213,8 +213,17 @@
 	.avItemContent {
 		padding-top: 10px;
 		padding-left: 80px; // 72 + 8
-		padding-bottom: 4px;
+		padding-bottom: 0px;
 		display: inline-block;
+	}
+		
+	.NewRadioButtonTreeItemParent .scrollableTextBox,
+	.NewRadioButtonTreeItemParent .inputBorder
+	{
+		border-top: #6161FF solid 1px;
+		border-bottom:	#6161FF solid 1px;
+		min-height: 48px;
+		overflow: hidden;
 	}
 		
 }
