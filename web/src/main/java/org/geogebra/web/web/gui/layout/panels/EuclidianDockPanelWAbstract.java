@@ -117,7 +117,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (consProtNav != null) {
 			consProtNav.update();
 			consProtNav.setVisible(app.showConsProtNavigation(id));
-			((RequiresResize) getEuclidianPanel()).onResize();
+			getEuclidianPanel().onResize();
 		}
 	}
 
@@ -130,7 +130,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		return 30;
 	}
 
-	public class EuclidianPanel extends FlowPanel implements RequiresResize {
+	/**
+	 * Wrapper of euclidian view
+	 */
+	public static class EuclidianPanel extends FlowPanel
+			implements RequiresResize {
 
 		/** dock panel */
 		EuclidianDockPanelWAbstract dockPanel;
@@ -141,11 +145,20 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		/** current width */
 		int oldWidth = 0;
 
+		/**
+		 * @param dockPanel
+		 *            parent dock panel
+		 */
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
 			this(dockPanel, new AbsolutePanel());
-
 		}
 
+		/**
+		 * @param dockPanel
+		 *            parent dock panel
+		 * @param absPanel
+		 *            absolute panel (for positioning stuff over canvas)
+		 */
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel,
 				AbsolutePanel absPanel) {
 			super();
@@ -160,7 +173,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		@Override
 		public void onResize() {
 
-			if (app != null) {
+			if (dockPanel.getApp() != null) {
 
 				int h = dockPanel.getComponentInteriorHeight()
 						- dockPanel.navHeightIfShown();
@@ -216,6 +229,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	protected abstract EuclidianPanel getEuclidianPanel();
+
+	public Object getApp() {
+		return app;
+	}
 
 	public final AbsolutePanel getAbsolutePanel() {
 		return getEuclidianPanel() == null ? null : getEuclidianPanel()
