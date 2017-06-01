@@ -133,6 +133,7 @@ public class GeoFactory3D extends GeoFactory {
 			return v;
 
 		case LINE:
+		case AXIS:
 			GeoElement ret = new GeoLine3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;

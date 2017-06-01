@@ -45,6 +45,8 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		origin.setCoords(0, 0, 1);
 		setStartPoint(origin);
 
+		GeoPoint end = new GeoPoint(cons);
+		
 		switch (type) {
 		default:
 		case X_AXIS:
@@ -52,12 +54,16 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			label = "xAxis";
 			setObjColor(GColor.newColor(255, 0, 0));// will be
 													// Color.RED
+			end.setCoords(1, 0, 1);
+			setEndPoint(end);
 			break;
 
 		case Y_AXIS:
 			setCoords(-1, 0, 0);
 			label = "yAxis";
 			setObjColor(GColor.newColor(0, 128, 0));
+			end.setCoords(0, 1, 1);
+			setEndPoint(end);
 			break;
 		}
 
