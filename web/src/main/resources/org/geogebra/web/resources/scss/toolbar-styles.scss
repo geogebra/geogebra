@@ -2,7 +2,10 @@
 
 .gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
 		margin-left: 10px;
-    	margin-right: 10px;
+}
+
+.gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
+	opacity: 0.54;
 }
 
 .toolbar {
@@ -106,10 +109,7 @@
 		@extend .header-open-landscape;
 		position: absolute;
 		bottom: 0px;
-	}		
-			
-	.algebraPanel {
-	}
+	}	
 	
 	.toolsPanel {
 	
