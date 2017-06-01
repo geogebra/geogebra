@@ -1014,6 +1014,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	private FunctionNVar getFactor(int factor) {
+		if (factorExpression[factor] == null) {
+			throw new IllegalStateException("No factors for " + this.expression
+					+ " defined as " + this.getParentAlgorithm());
+		}
 		return this.factorExpression[factor];
 	}
 
