@@ -10,7 +10,12 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.himamis.retex.editor.desktop.MathFieldD;
+import com.himamis.retex.editor.share.controller.EditorState;
+import com.himamis.retex.editor.share.controller.InputController;
+import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -190,6 +195,63 @@ public class SerializeLaTeX {
 				new BracketsAdapter());
 		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
 				"a=Sequence[0.8,4,1.2-(0.8)]", new BracketsAdapter());
+	}
+
+	@Test
+	public void testKorean() {
+		testEditor("\u314D\u3157\u314E", "MathSequence[\uD407]");
+		testEditor("\u3141\u3163\u3142\u315C\u3134",
+				"MathSequence[\uBBF8, \uBD84]");
+		testEditor("\u3145\u3145", "MathSequence[\u110A]");
+		testEditor("\u3147\u315C\u3163", "MathSequence[\uC704]");
+		testEditor("\u3131\u314F\u3142\u3145", "MathSequence[\uAC13]");
+		testEditor(Korean.flattenKorean("\uB098"), "MathSequence[\uB098]");
+		testEditor(Korean.flattenKorean("\uB108"), "MathSequence[\uB108]");
+		testEditor(Korean.flattenKorean("\uC6B0\uB9AC"),
+				"MathSequence[\uC6B0, \uB9AC]");
+		testEditor(Korean.flattenKorean("\uBBF8\uBD84"),
+				"MathSequence[\uBBF8, \uBD84]");
+		testEditor(Korean.flattenKorean("\uBCA1\uD130"),
+				"MathSequence[\uBCA1, \uD130]");
+		testEditor(Korean.flattenKorean("\uC0C1\uC218"),
+				"MathSequence[\uC0C1, \uC218]");
+		testEditor(Korean.flattenKorean("\uB2ED\uBA39\uC5B4"),
+				"MathSequence[\uB2ED, \uBA39, \uC5B4]");
+		testEditor(Korean.flattenKorean("\uC6EC\uC77C"),
+				"MathSequence[\uC6EC, \uC77C]");
+		testEditor(Korean.flattenKorean("\uC801\uBD84"),
+				"MathSequence[\uC801, \uBD84]");
+		testEditor(Korean.flattenKorean("\uC288\uD37C\uB9E8"),
+				"MathSequence[\uC288, \uD37C, \uB9E8]");
+		testEditor(Korean.flattenKorean("\u3137\u3137"),
+				"MathSequence[\u1104]");
+		testEditor(Korean.flattenKorean("\uC778\uD14C\uADF8\uB784"),
+				"MathSequence[\uC778, \uD14C, \uADF8, \uB784]");
+		testEditor(Korean.flattenKorean("\u3137"), "MathSequence[\u1103]");
+		testEditor(Korean.flattenKorean("\u3131"), "MathSequence[\u1100]");
+		testEditor(Korean.flattenKorean("\u3134"), "MathSequence[\u1102]");
+		testEditor(Korean.flattenKorean("\uC8FC\uC778\uC7A5"),
+				"MathSequence[\uC8FC, \uC778, \uC7A5]");
+		testEditor(Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"),
+				"MathSequence[\uC774, \uC81C, \uC880, \uC790, \uC790]");
+		testEditor(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
+				"MathSequence[\uC544, \uBAA8, \uB974, \uACA0, \uB2E4]");
+		
+		
+	}
+
+	public void testEditor(String input, String output) {
+		final MathFieldD mathField = new MathFieldD();
+
+		MathFieldInternal mathFieldInternal = mathField.getInternal();
+		InputController inputController = mathFieldInternal
+				.getInputController();
+		EditorState editorState = mathFieldInternal.getEditorState();
+
+		mathField.insertString(input);
+
+		Assert.assertEquals(output, editorState.getRootComponent().toString());
+
 	}
 
 	private void checkLaTeX(String string, String string2) {
