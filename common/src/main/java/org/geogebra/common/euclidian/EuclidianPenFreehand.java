@@ -114,8 +114,16 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 			boolean recreate = false;
 
+			ArrayList<GeoPointND> points = ((GeoConic) geoCircle)
+					.getPointsOnConic();
+
+			if (points == null || points.size() < 3) {
+				resetInitialPoint();
+				return false;
+			}
+
 			ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
-			for (GeoPointND geo : ((GeoConic) geoCircle).getPointsOnConic()) {
+			for (GeoPointND geo : points) {
 				if (!geo.isLabelSet()) {
 					recreate = true;
 					geo.setLabel(null);
