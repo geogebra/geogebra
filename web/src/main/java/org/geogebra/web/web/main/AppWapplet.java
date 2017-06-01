@@ -758,10 +758,7 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void addToHeight(int i) {
-		Log.debug2("addToHeight before: " + spHeight + ", add: " + i);
 		this.spHeight += i;
-		Log.debug2("addToHeight after: " + spHeight);
-
 	}
 
 	@Override

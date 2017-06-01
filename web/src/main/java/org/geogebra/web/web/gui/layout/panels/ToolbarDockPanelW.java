@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
@@ -40,21 +39,9 @@ public class ToolbarDockPanelW extends DockPanelW {
 		return toolbar;
 	}
 
-	private void resizeView(int w, int h) {
-		toolbar.setPixelSize(w, h);
-	}
 
 	@Override
 	public void onResize() {
-/*
-		int h1 = getComponentInteriorHeight() - navHeightIfShown();
-		int w1 = getComponentInteriorWidth();
-
-		resizeView(w1, h1);
-
-		Log.debug("toolbar onresize");
-		Log.debug("toolbar offsetheight before: " + toolbar.getOffsetHeight());
-*/
 		toolbar.resize();
 		if (toolbar.isPortrait()) {
 			int h = toolbar.getOffsetHeight();
@@ -72,9 +59,6 @@ public class ToolbarDockPanelW extends DockPanelW {
 				toolbar.open();
 			}
 		}
-
-		Log.debug2(
-				"toolbar offsetheight after: " + toolbar.getOffsetHeight());
 	}
 
 	@Override

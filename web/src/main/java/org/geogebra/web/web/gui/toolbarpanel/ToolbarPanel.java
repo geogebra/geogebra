@@ -638,7 +638,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (dockPanel != null && getLastOpenHeight() != null) {
 			Widget opposite = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
-				// dockPanel.getOffsetHeight();
+				dockPanel.getOffsetHeight();
 				dockParent.setWidgetSize(opposite, getLastOpenHeight());
 				dockParent.removeStyleName("hide-VDragger");
 			} else {
