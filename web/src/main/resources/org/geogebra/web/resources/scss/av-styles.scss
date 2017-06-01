@@ -20,6 +20,10 @@
 			.no-image {
 				padding-left: 0px !important;
 			}
+			
+			 span.gwt-CheckBox.matCheckBox { 
+	 	        padding-left: 16px; 
+			}
 		}
 		
 		.gwt-MenuItem.no-hover,
@@ -88,6 +92,15 @@
 			padding-rigth: 16px;
 		}
 		
+		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
+	 	    padding-left: 16px; 
+	 	    padding-right: 16px; 
+	 	} 
+	 	                         
+	 	 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame:hover { 
+	 	    background-color: $selected-menuitem-background; 
+	 	} 
+		
 		.gwt-MenuItem.no-image {
 			padding-left: 24px !important;
 			padding-right: 16px;
@@ -96,6 +109,10 @@
 		.gwt-MenuItem:hover {
 			background-color: $selected-menuitem-background;
 			color: $black;
+			
+			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
+	 	       background-color: $selected-menuitem-background; 
+	 	    } 
 		}
 		
 		.gwt-MenuItem-disabled,
