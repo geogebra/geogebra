@@ -2555,7 +2555,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
-				if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+				if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
 					cursorNormal.mulInside(-1);
 				}
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
@@ -2583,7 +2583,7 @@ public abstract class EuclidianView3D extends EuclidianView
 					scaleXYZ(cursorMatrix.getOrigin());
 					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
 							.getMainDirection());
-					if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+					if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
 						cursorNormal.mulInside(-1);
 					}
 					scaleXYZ(cursorNormal);
@@ -2597,7 +2597,7 @@ public abstract class EuclidianView3D extends EuclidianView
 					t = 1 / getScale();
 					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
 							.getMainDirection());
-					if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+					if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
 						cursorNormal.mulInside(-1);
 					}
 					cursorNormal.normalize();
@@ -2664,7 +2664,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
-				if (cursorNormal.dotproduct(getViewDirection()) > 0) {
+				if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
 					cursorNormal.mulInside(-1);
 				}
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
