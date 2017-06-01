@@ -28,6 +28,7 @@ public class ExportToPrinter3DD extends ExportToPrinter3D {
 
 	public void start() {
 		
+		super.start();
 		StringBuilder sb = new StringBuilder();
 		sb.append("test");
 		getFormat().getExtension(sb);

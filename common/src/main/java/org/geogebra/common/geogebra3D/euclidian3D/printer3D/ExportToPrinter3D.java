@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.main.Feature;
 
 public abstract class ExportToPrinter3D {
 
@@ -32,6 +33,9 @@ public abstract class ExportToPrinter3D {
 	private Coords center = null;
 
 	private boolean reverse = false;
+	
+	private double xInvScale;
+	private boolean differentAxisRatio = false;
 
 	/**
 	 * constructor
@@ -144,7 +148,13 @@ public abstract class ExportToPrinter3D {
 		if (convexity != Convexity.NOT) {
 
 			Coords n = polygon.getMainDirection();
-			double delta = 3 * PlotterBrush.LINE3D_THICKNESS / view.getScale();
+			double delta;
+			if (differentAxisRatio) {
+				delta = 3 * PlotterBrush.LINE3D_THICKNESS;
+			} else {
+				delta = 3 * PlotterBrush.LINE3D_THICKNESS / view.getScale();
+			}
+			
 			double dx = n.getX() * delta;
 			double dy = n.getY() * delta;
 			double dz = n.getZ() * delta;
@@ -164,11 +174,19 @@ public abstract class ExportToPrinter3D {
 			format.getVerticesStart(sb);
 			for (int i = 0; i < length; i++) {
 				Coords v = vertices[i];
-				getVertex(notFirst, v.getX() + dx, v.getY() + dy,
-						v.getZ() + dz);
+				double x, y, z;
+				if (differentAxisRatio) {
+					x = v.getX() * view.getXscale();
+					y = v.getY() * view.getYscale();
+					z = v.getZ() * view.getZscale();
+				} else {
+					x = v.getX();
+					y = v.getY();
+					z = v.getZ();
+				}
+				getVertex(notFirst, x + dx, y + dy, z + dz);
 				notFirst = true;
-				getVertex(notFirst, v.getX() - dx, v.getY() - dy,
-						v.getZ() - dz);
+				getVertex(notFirst, x - dx, y - dy, z - dz);
 			}
 			format.getVerticesEnd(sb);
 
@@ -221,8 +239,13 @@ public abstract class ExportToPrinter3D {
 		double y = y0;
 		double z = z0;
 		if (center != null) {
-			double r = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR
-					/ view.getScale();
+			double r;
+			if (differentAxisRatio) {
+				r = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR;
+			} else {
+				r = center.getW() * DrawPoint3D.DRAW_POINT_FACTOR
+						/ view.getScale();
+			}
 			x = center.getX() + x * r;
 			y = center.getY() + y * r;
 			z = center.getZ() + z * r;
@@ -230,9 +253,13 @@ public abstract class ExportToPrinter3D {
 		if (notFirst) {
 			format.getVerticesSeparator(sb);
 		}
-		format.getVertices(sb, x, y, z);
+		if (differentAxisRatio) {
+			format.getVertices(sb, x * xInvScale, y * xInvScale, z * xInvScale);
+		} else {
+			format.getVertices(sb, x, y, z);
+		}
 	}
-
+	
 	private void getFace(boolean notFirst, int v1, int v2, int v3) {
 		if (notFirst) {
 			format.getFacesSeparator(sb);
@@ -245,7 +272,11 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 	
-	abstract public void start();
+	public void start() {
+		xInvScale = 1 / view.getXscale();
+		differentAxisRatio = view.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D);
+	}
+	
 	abstract public void end();
 
 }

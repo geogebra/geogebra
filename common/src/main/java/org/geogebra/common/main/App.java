@@ -4028,7 +4028,7 @@ public abstract class App implements UpdateSelection {
 			return canary;
 
 		case DIFFERENT_AXIS_RATIO_3D:
-			return false;
+			return prerelease;
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:

@@ -19,6 +19,7 @@ public class ExportToPrinter3DW extends ExportToPrinter3D {
 	
 	@Override
 	public void start() {
+		super.start();
 		sb.setLength(0);
 		getFormat().getScriptStart(sb);
 	}
