@@ -32,7 +32,6 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
-import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.shared.GWT;
