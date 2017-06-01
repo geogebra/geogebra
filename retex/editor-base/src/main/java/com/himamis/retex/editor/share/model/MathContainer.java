@@ -106,216 +106,46 @@ abstract public class MathContainer extends MathComponent {
 			if (s.length() == 1) {
 				lastChar = s.charAt(0);
 			} else {
-				System.err.println("length isn't 1" + s + " " + toHexString(s));
+				// System.err.println("length isn't 1" + s + " " +
+				// toHexString(s));
 				return false;
 			}
 
-			// case 1
-			// we already have Jamo lead + vowel as single unicode
+			char[] ret = Korean.checkMerge(lastChar, newChar);
 
-			if (Korean.isKoreanLeadPlusVowelChar(lastChar)
-					&& Korean.isKoreanTailChar(newChar, true)) {
-
-				String strToFlatten = Korean.flattenKorean(lastChar + "") + ""
-						+ newChar;
-
-				String replaceChar = Korean
-						.unflattenKorean(strToFlatten)
-						.toString();
-
-				System.err.println("flattening " + strToFlatten + " "
-						+ toHexString(strToFlatten));
-
-				System.err.println("need to replace " + lastChar + " "
-						+ toHexString(lastChar) + " with "
-						+ replaceChar + " " + toHexString(replaceChar));
-
-				char c = replaceChar.charAt(0);
-
-				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
-						MetaCharacter.CHARACTER);
+			// check if "previous" char needs changing
+			if (ret[0] != lastChar) {
+				MetaCharacter metaChar = new MetaCharacter(ret[0] + "",
+						ret[0] + "", ret[0], ret[0], MetaCharacter.CHARACTER);
 
 				MathCharacter mathChar = (MathCharacter) compLast;
 				mathChar.setChar(metaChar);
-				return true;
-			}
-
-			// case 2
-			// we already have just Jamo lead char as single unicode
-
-			if (Korean.isKoreanLeadChar(lastChar, true)
-					&& Korean.isKoreanVowelChar(newChar, true)) {
-				String replaceChar = Korean
-						.unflattenKorean(lastChar + "" + newChar).toString();
-				System.err.println("need to replace " + lastChar + " "
-						+ toHexString(lastChar) + " with "
-						+ replaceChar + " " + toHexString(replaceChar));
-
-				char c = replaceChar.charAt(0);
-
-				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
-						MetaCharacter.CHARACTER);
-
-				MathCharacter mathChar = (MathCharacter) compLast;
-				mathChar.setChar(metaChar);
-				return true;
 
 			}
 
-			// case 3
-			// character typed twice (instead of pressing <Shift>)
-			String merged = Korean
-					.mergeDoubleCharacters(
-							Korean.flattenKorean(lastChar + "" + newChar));
+			char newNewChar = ret[1];
 
-			System.err.println(lastChar + "" + newChar + " " + merged + " "
-					+ merged.length());
-
-			if (merged.length() == 1) {
-
-				char c = merged.charAt(0);
-
-				MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
-						MetaCharacter.CHARACTER);
-
-				// TODO: deal with case of tail chars + compatibility Jamo
-				MathCharacter mathChar = (MathCharacter) compLast;
-				mathChar.setChar(metaChar);
-				return true;
-
-			}
-			
-			// case 4
-			// we have something like 
-			// \u3141 \u3163 \u3142 \u315C \u3134
-			// which has been grouped as
-			// (\u3141 \u3163 \u3142) + \u315C 
-			// but when \u3134 is typed it needs to change to 
-			// (\u3141 \u3163) + (\u3142 \u315C \u3134)
-			// ie "\u3134" needs to change from tail (\u11ab) to lead (\u1102)
-			
-			String lastCharFlat = Korean.flattenKorean(lastChar+"");
-			
-			if (lastCharFlat.length() == 3 && Korean.isVowel(newChar)) {
-				
-				// System.err.println("case 4");
-				
-				// not needed, useful for debugging
-				// newChar = Korean.convertFromCompatibilityJamo(newChar,
-				// false);
-
-				char newLastChar = Korean.unflattenKorean(lastCharFlat.substring(0,2)).charAt(0);
-
-				char newNewChar = Korean.unflattenKorean(
-						Korean.tailToLead(lastCharFlat.charAt(2)) + ""
-								+ newChar)
-						.charAt(0);
-				// System.err.println(
-				// "lastCharFlat.charAt(2) = " + lastCharFlat.charAt(2)
-				// + " " + toHexString(lastCharFlat.charAt(2)));
-				// System.err.println(
-				// "newChar = " + newChar + " " + toHexString(newChar));
-				//
-				// System.err.println("newLastChar = " + newLastChar + " "
-				// + toHexString(newLastChar));
-				// System.err.println("newNewChar = " + newNewChar + " "
-				// + toHexString(newNewChar) + " "
-				// + Korean.flattenKorean(newNewChar + ""));
-
-				MathCharacter mathChar = (MathCharacter) compLast;
-				mathChar.setChar(new MetaCharacter(newLastChar + "",
-						newLastChar + "", newLastChar, newLastChar,
-						MetaCharacter.CHARACTER));
-
-				mathChar = (MathCharacter) comp;
-				mathChar.setChar(new MetaCharacter(newNewChar + "",
-						newNewChar + "", newNewChar, newNewChar,
-						MetaCharacter.CHARACTER));
-
-				
-				// make sure comp is still inserted
+			if (newNewChar == newChar) {
+				// doesn't need updating
 				return false;
-				
-				
+			}
+
+			// check
+			if (newNewChar == 0) {
+				return true;
 			}
 			
-			// case5: a tailed char is doubled
-			// entered as two key presses
-			// eg \u3131 \u314F \u3142 \u3145 needs to give \uAC12
+			MathCharacter mathChar = (MathCharacter) comp;
+			mathChar.setChar(new MetaCharacter(newNewChar + "", newNewChar + "",
+					newNewChar, newNewChar, MetaCharacter.CHARACTER));
+			
+			// make sure comp is still inserted
+			if (true)
+				return false;
 
-			if (lastCharFlat.length() == 3 && !Korean.isVowel(newChar)) {
-
-				System.err.println("case 5");
-
-				// not needed, useful for debugging
-				// newChar = Korean.convertFromCompatibilityJamo(newChar,
-				// false);
-
-				char lastChar2 = lastCharFlat.charAt(2);
-
-				// if this is length 1, merge succeeded
-				String doubleCheck = Korean
-						.mergeDoubleCharacters(lastChar2 + "" + newChar);
-
-				if (doubleCheck.length() == 1) {
-					System.err.println("merge check passed");
-
-					newChar = Korean.unflattenKorean(
-							lastCharFlat.substring(0, 2) + "" + doubleCheck)
-							.charAt(0);
-
-					MathCharacter mathChar = (MathCharacter) compLast;
-					mathChar.setChar(
-							new MetaCharacter(newChar + "", newChar + "",
-									newChar, newChar, MetaCharacter.CHARACTER));
-
-					return true;
-
-				}
+			
 
 
-			}
-
-			// case 6
-			// a vowel character is a "doubled" char
-			// case 1
-			// we already have Jamo lead + vowel as single unicode
-
-			System.err.println("Korean.isKoreanLeadPlusVowelChar(lastChar) = "
-					+ Korean.isKoreanLeadPlusVowelChar(lastChar));
-			System.err.println("Korean.isKoreanVowelChar(newChar, true) = "
-					+ Korean.isKoreanVowelChar(newChar, true));
-
-			if (Korean.isKoreanLeadPlusVowelChar(lastChar)
-					&& Korean.isKoreanVowelChar(newChar, true)) {
-
-				char lastChar1 = lastCharFlat.charAt(1);
-
-				// if this is length 1, merge succeeded
-				String doubleCheck = Korean
-						.mergeDoubleCharacters(lastChar1 + "" + Korean
-								.convertFromCompatibilityJamo(newChar, true));
-
-				System.err.println("doubleCheck = " + doubleCheck);
-
-				if (doubleCheck.length() == 1) {
-					System.err.println("merge check 2 passed");
-
-					newChar = Korean
-							.unflattenKorean(
-									lastCharFlat.charAt(0) + "" + doubleCheck)
-							.charAt(0);
-
-					MathCharacter mathChar = (MathCharacter) compLast;
-					mathChar.setChar(
-							new MetaCharacter(newChar + "", newChar + "",
-									newChar, newChar, MetaCharacter.CHARACTER));
-
-					return true;
-
-				}
-
-			}
 
 		}
 
@@ -333,6 +163,8 @@ abstract public class MathContainer extends MathComponent {
 	//
 	// return sb.toString();
 	// }
+
+
 
 	protected void ensureArguments(int size) {
         if (arguments == null) {
