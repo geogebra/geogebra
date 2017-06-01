@@ -817,7 +817,8 @@ public class Korean {
 		// entered as two key presses
 		// eg \u3131 \u314F \u3142 \u3145 needs to give \uAC12
 
-		if (lastCharFlat.length() == 3 && !Korean.isVowel(newChar)) {
+		if (lastCharFlat.length() == 3
+				&& Korean.isKoreanTailChar(newChar, true)) {
 
 			// System.err.println("case 5");
 
@@ -900,6 +901,18 @@ public class Korean {
 
 		return ret;
 
+	}
+
+	public static boolean isCompatibilityChar(char ch) {
+		return ch >= '\u3131' && ch <= '\u318e';
+	}
+
+	public static boolean isSingleKoreanChar(char ch) {
+		
+		return isKoreanLeadChar(ch, true) || isKoreanVowelChar(ch, true)
+				|| isKoreanTailChar(ch, true);
+		
+		
 	}
 
 }

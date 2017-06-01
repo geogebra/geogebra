@@ -101,6 +101,10 @@ abstract public class MathContainer extends MathComponent {
 
 			char newChar = comp.toString().charAt(0);
 
+			if (!Korean.isSingleKoreanChar(newChar)) {
+				return false;
+			}
+
 			char lastChar = 0;
 
 			if (s.length() == 1) {
@@ -130,7 +134,7 @@ abstract public class MathContainer extends MathComponent {
 				return false;
 			}
 
-			// check
+			// '0' means doesn't need updating
 			if (newNewChar == 0) {
 				return true;
 			}
@@ -140,12 +144,7 @@ abstract public class MathContainer extends MathComponent {
 					newNewChar, newNewChar, MetaCharacter.CHARACTER));
 			
 			// make sure comp is still inserted
-			if (true)
-				return false;
-
-			
-
-
+			return false;
 
 		}
 
