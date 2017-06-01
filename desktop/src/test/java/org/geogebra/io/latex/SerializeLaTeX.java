@@ -240,6 +240,12 @@ public class SerializeLaTeX {
 		
 	}
 
+	@Test
+	public void testEditor() {
+		testEditor("sqrt(x/2)",
+				"MathSequence[MathFunction[MathSequence[x, /, 2]]]");
+	}
+
 	public void testEditor(String input, String output) {
 		final MathFieldD mathField = new MathFieldD();
 
