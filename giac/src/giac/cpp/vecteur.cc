@@ -42,6 +42,8 @@ using namespace std;
 #include "ti89.h"
 #include "csturm.h"
 #include "sparse.h"
+#include "modfactor.h"
+#include "quater.h"
 #include "giacintl.h"
 #ifdef HAVE_LIBGSL
 #include <gsl/gsl_linalg.h>
@@ -13849,7 +13851,25 @@ namespace giac {
     // extension handling
     gen modulo;
     if (has_mod_coeff(p_car,modulo)){
-      *logptr(contextptr) << "Warning! Automatic extension not implemented. You can try to diagonalize the matrix * a non trivial element of GF(" << modulo << ",lcm of degrees of factor(" << symb_horner(p_car,vx_var) << "))" <<  endl;
+      modpoly pc=*unmod(p_car)._VECTptr;
+      vector< facteur<modpoly> > vpc; vector<modpoly> qmat;
+      environment env;
+      env.modulo=modulo; env.moduloon=true; env.pn=modulo;
+      if (ddf(pc,qmat,&env,vpc)){
+	int extdeg=1;
+	for (int j=0;j<int(vpc.size());++j){
+	  extdeg=lcm(extdeg,vpc[j].mult).val;
+	}
+	if (extdeg>1){
+	  *logptr(contextptr) << "Creating splitting field extension GF(" << modulo << "," << extdeg << ")" << endl;
+	  gen tmp=_galois_field(makesequence(modulo,extdeg),contextptr);
+	  tmp=tmp[plus_two];
+	  tmp=eval(tmp[2],1,contextptr); // field generator
+	  p_car=tmp*p_car;
+	}
+      }
+      else
+	*logptr(contextptr) << "Warning! Automatic extension not implemented. You can try to diagonalize the matrix * a non trivial element of GF(" << modulo << ",lcm of degrees of factor(" << symb_horner(p_car,vx_var) << "))" <<  endl;
     }
     // factorizes p_car
     factorization f;
