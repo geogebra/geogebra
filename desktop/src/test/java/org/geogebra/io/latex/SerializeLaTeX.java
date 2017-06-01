@@ -136,9 +136,9 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testCommand() {
-		checkCannon("turtle1=Turtle[]", "turtle1=Turtle[");
-		checkCannon("Turtle[]", "Turtle[");
-		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7");
+		checkCannon("turtle1=Turtle[]", "turtle1=Turtle[]");
+		checkCannon("Turtle[]", "Turtle[]");
+		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7]");
 	}
 
 	@Test
@@ -162,7 +162,7 @@ public class SerializeLaTeX {
 	@Test
 	public void testComma() {
 		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
-				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))");
+				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
 		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
 		checkCannon("(t^n;t)", "(t^(n);t)");
 	}
@@ -176,7 +176,7 @@ public class SerializeLaTeX {
 		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)",
 				"X=(x_0+2x_x,y_0+2x_y)");
 		checkLaTeX("i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
-				"i=[0,(6pi)/(p)...24pi");
+				"i=[0,(6pi)/(p)...24pi]");
 		checkLaTeX(
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
 				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
