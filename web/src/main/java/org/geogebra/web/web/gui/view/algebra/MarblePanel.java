@@ -245,8 +245,9 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			btnPlus = new ToggleButton();
 			btnPlus.setTitle(item.app.getLocalization().getMenu("AddItem"));
 			add(btnPlus);
-
-			btnPlus.addStyleName("flatButton");
+			if (item.app.has(Feature.NEW_TOOLBAR)) {
+				btnPlus.addStyleName("flatButton");
+			}
 			
 			ClickStartHandler.init(btnPlus, new ClickStartHandler(true, true) {
 				
