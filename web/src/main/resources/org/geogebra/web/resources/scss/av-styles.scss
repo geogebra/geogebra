@@ -145,111 +145,112 @@
     	opacity: 0.54;
 	}	
 	
+	.matDesign  {
+		.marblePanel.error, 
+		.marblePanel.help,
+		.marblePanel {
+			position: absolute;
+			height: 100%;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-left: 16px;
+			width: 48px;
+		}
 	
-	.marblePanel.error, 
-	.marblePanel.help,
-	.marblePanel {
-		position: absolute;
-		height: 100%;
-		padding-top: 0px;
-		padding-bottom: 0px;
-		padding-left: 16px;
-		width: 48px;
-	}
-
-	.marblePanel.error, 
-	.marblePanel.help {
-		width: 49px;
-	}
-	
-	
-	.marblePanel.error, 
-	.marblePanel.help,
-	.marblePanel.plus {
+		.marblePanel.error, 
+		.marblePanel.help {
+			width: 49px;
+		}
 		
-		.gwt-Image {
+		
+		.marblePanel.error, 
+		.marblePanel.help,
+		.marblePanel.plus {
+			
+			.gwt-Image {
+				height: 24px;
+				width: 24px;
+			}
+		}
+		
+		.marblePanel.plus {
+			padding-top: 0px;
+			padding-left: 4px;
+			width: 62px; 
+			img {
+				opacity: 0.54;
+			}
+			.gwt-ToggleButton {
+				margin: 0px;
+				top: 0px;
+				padding: 12px;
+				padding: 12px;
+			}
+		}
+		
+		.marblePanel.plus :hover{
+			img {
+				opacity: 1;
+			}
+		}
+		
+		.marble {
+			position: relative;
+			margin-top: -12px;
+			top: 50%;
 			height: 24px;
 			width: 24px;
-		}
-	}
-	
-	.marblePanel.plus {
-		padding-top: 0px;
-		padding-left: 4px;
-		width: 62px; 
-		img {
-			opacity: 0.54;
-		}
-		.gwt-ToggleButton {
-			margin: 0px;
-			top: 0px;
-			padding: 12px;
-			padding: 12px;
-		}
-	}
-	
-	.marblePanel.plus :hover{
-		img {
-			opacity: 1;
-		}
-	}
-	
-	.marble {
-		position: relative;
-		margin-top: -12px;
-		top: 50%;
-		height: 24px;
-		width: 24px;
-		background-color: #6161FF;
-		border: 1px solid #000000;
-		border-radius: 24px;
-	
-	}
-	.marble.elemHidden {
-		background-color: #FFFFFF;
-	}
-	.marble.elemShown {
-		background-color: #6161FF;
-		border: 1px solid #CCCCFF;
-	}
-	
-	.scrollableTextBox,
-	.scrollableTextBox.avPreview,
-	.scrollableTextBox.noPreview, 
-	.avItem .elemText,
-	.avItemContent {
-		padding-top: 10px;
-		padding-left: 80px; // 72 + 8
-		padding-bottom: 0px;
-		display: inline-block;
-	}
-	
-	.avItemContent {
-		padding-top: 6px;
-		min-height: 72px;	
+			background-color: #6161FF;
+			border: 1px solid #000000;
+			border-radius: 24px;
 		
-		.panelRow {
-			padding-top: 8px;
 		}
-	}
-	
-	.playOnly {
-			position: absolute;
-			top: 42px;
-    		right: 2px;
+		.marble.elemHidden {
+			background-color: #FFFFFF;
 		}
-	
-	.NewRadioButtonTreeItemParent .scrollableTextBox,
-	.NewRadioButtonTreeItemParent .inputBorder
-	{
-		border-top: #6161FF solid 1px;
-		border-bottom:	#6161FF solid 1px;
-		min-height: 48px;
-		overflow: hidden;
-	}
-	
-	.gwt-Tree .gwt-TreeItem .elem {
-		min-height: 48px;
-		position: relative;
+		.marble.elemShown {
+			background-color: #6161FF;
+			border: 1px solid #CCCCFF;
+		}
+		
+		.scrollableTextBox,
+		.scrollableTextBox.avPreview,
+		.scrollableTextBox.noPreview, 
+		.avItem .elemText,
+		.avItemContent {
+			padding-top: 10px;
+			padding-left: 80px; // 72 + 8
+			padding-bottom: 0px;
+			display: inline-block;
+		}
+		
+		.avItemContent {
+			padding-top: 6px;
+			min-height: 72px;	
+			
+			.panelRow {
+				padding-top: 8px;
+			}
+		}
+		
+		.playOnly {
+				position: absolute;
+				top: 42px;
+	    		right: 2px;
+			}
+		
+		.NewRadioButtonTreeItemParent .scrollableTextBox,
+		.NewRadioButtonTreeItemParent .inputBorder
+		{
+			border-top: #6161FF solid 1px;
+			border-bottom:	#6161FF solid 1px;
+			min-height: 48px;
+			overflow: hidden;
+		}
+		
+		.gwt-Tree .gwt-TreeItem .elem {
+			min-height: 48px;
+			position: relative;
+		}
 	}
 }

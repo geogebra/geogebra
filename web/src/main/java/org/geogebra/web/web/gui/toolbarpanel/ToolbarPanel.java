@@ -434,6 +434,7 @@ public class ToolbarPanel extends FlowPanel {
 				add(simplep);
 				simplep.addStyleName("algebraSimpleP");
 				addStyleName("algebraPanel");
+				addStyleName("matDesign");
 				addDomHandler(new ClickHandler() {
 
 					@Override
