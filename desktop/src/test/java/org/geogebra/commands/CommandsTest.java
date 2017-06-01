@@ -1029,6 +1029,12 @@ public class CommandsTest extends Assert{
 		t("Reflect[x^3+y^3=0,e]", "?");
 		t("picT=ToolImage[2]", new String[0]);
 		t("Reflect[picT,e]", "picT'");
+		t("Reflect[xAxis,e]", unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 0, 1)"),
+				StringTemplate.editTemplate);
+		t("Reflect[yAxis,e]", unicode("X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)"),
+				StringTemplate.editTemplate);
+		t("Reflect[zAxis,e]", unicode("X = (0, 0, 0) + " + Unicode.lambda + " (1, 0, 0)"),
+				StringTemplate.editTemplate);
 	}
 
 
