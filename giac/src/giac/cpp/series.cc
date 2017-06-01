@@ -42,7 +42,7 @@ namespace giac {
 
   static int mrv_begin_order=2;
 
-  bool taylor(const gen & f_x,const gen & x,const gen & lim_point,int ordre,vecteur & v,GIAC_CONTEXT){
+  static bool taylor_(const gen & f_x,const gen & x,const gen & lim_point,int ordre,vecteur & v,GIAC_CONTEXT){
     gen current_derf(f_x),value,factorielle(1);
     for (int i=0;;++i){
       value=subst(current_derf,x,lim_point,false,contextptr);
@@ -60,6 +60,14 @@ namespace giac {
     }
     v.dbgprint();
     return false;
+  }
+
+  bool taylor(const gen & f_x,const gen & x,const gen & lim_point,int ordre,vecteur & v,GIAC_CONTEXT){
+    int i=series_flags(contextptr);
+    series_flags(contextptr)=series_flags(contextptr) | (1<<7) ;
+    bool b=taylor_(f_x,x,lim_point,ordre,v,contextptr);
+    series_flags(i,contextptr);
+    return b;
   }
 
   // direction is always ignored for taylor, but might not 
@@ -1113,8 +1121,14 @@ namespace giac {
 
   bool pintegrate(sparse_poly1 & p,const gen & t,GIAC_CONTEXT){
     sparse_poly1::iterator it=p.begin(),itend=p.end();
+    identificateur idu("u"); gen u(idu);
     for (;it!=itend;++it){
+#if 1
       it->coeff=integrate_gen(it->coeff,t,contextptr);
+#else
+      gen tmp=subst(it->coeff,t,u,false,contextptr);
+      it->coeff=_integrate(makesequence(tmp,u,0,t),contextptr);
+#endif
     }
     return true;
   }
@@ -1708,6 +1722,17 @@ namespace giac {
 	  if (contains(t,x)){
 	    invalidserieserr(gettext("Integration variable must be != from series expansion variable"));
 	    return false;
+	  }
+	  if (!contains(tempfv[0],x)){
+	    vecteur v;
+	    if (!taylor(temp__SYMB,x,lim_point,ordre,v,contextptr))
+	      return false;
+	    s.clear();
+	    for (int i=0;i<v.size();++i){
+	      s.push_back(monome(v[i],i));
+	    }
+	    lvx_s.push_back(s);
+	    continue;
 	  }
 	  if (!in_series__SPOL1(tempfv[0],x,lvx,lvx_s,ordre,direction,s,contextptr))
 	    return false;

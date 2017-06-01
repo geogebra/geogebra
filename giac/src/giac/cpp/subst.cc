@@ -432,7 +432,9 @@ namespace giac {
   }
 
   static gen subst_derive(const gen & e,const gen & i,const gen & newi,bool quotesubst,GIAC_CONTEXT){
-    vecteur & v=*e._SYMBptr->feuille._VECTptr;
+    if (series_flags(contextptr) & (1<<7))
+      return symbolic(at_of,makesequence(e,symb_equal(i,newi)));
+    vecteur v=*e._SYMBptr->feuille._VECTptr;
     int s=int(v.size());
     if ( (s==2) && (v[1]==i) ){
       vecteur l(*_lname(newi,contextptr)._VECTptr);
@@ -440,10 +442,10 @@ namespace giac {
 	return gensizeerr(contextptr);
       v[1]=l.front();
       v=subst(v,i,newi,quotesubst,contextptr);
-      return rdiv(symbolic(at_derive,v),derive(newi,l.front(),contextptr),contextptr); 
+      return rdiv(symbolic(at_derive,gen(v,_SEQ__VECT)),derive(newi,l.front(),contextptr),contextptr); 
     }
     // Warning: ? return e for desolve (is_linear_diffeq)
-    return symbolic(at_derive,subst(v,i,newi,quotesubst,contextptr));
+    return symbolic(at_derive,subst(gen(v,_SEQ__VECT),i,newi,quotesubst,contextptr));
     // return e;
   }
 

@@ -9105,7 +9105,11 @@ namespace giac {
     int s=int(argv.size())-1;
     vecteur result,parameqs;
     gen t=argv.back();
-    if (has_op(t,*at_curve)) return gensizeerr(contextptr);
+    if (has_op(t,*at_curve)){
+      if (s==1 && est_element(t,argv.front(),contextptr))
+	return tangent(t,contextptr);
+      return gensizeerr(contextptr);
+    }
     if (s==1 && argv[0].type==_SYMB && !argv[0].is_symb_of_sommet(at_pnt)){
       vecteur s1,s2;
       t=remove_at_pnt(t);
@@ -9273,8 +9277,17 @@ namespace giac {
 	gen m,tmin,tmax;
 	double T=1;
 	if (v[1].type==_IDNT && find_curve_parametrization(curve,m,v[1],T,tmin,tmax,false,contextptr)){
-	  if (re(m,contextptr)==v[1]){
-	    gen r=re(M,contextptr);
+	  gen rem;
+	  if (m.is_symb_of_sommet(at_plus) && m._SYMBptr->feuille.type==_VECT && m._SYMBptr->feuille._VECTptr->size()==2 && m._SYMBptr->feuille._VECTptr->front()==v[1] && !has_i(rem=_simplifier(-cst_i*m._SYMBptr->feuille._VECTptr->back(),contextptr)))
+	    rem=v[1];
+	  else 
+	    rem=re(m,contextptr);
+	  if (rem==v[1]){
+	    gen r;
+	    if (M.is_symb_of_sommet(at_plus) && M._SYMBptr->feuille.type==_VECT && M._SYMBptr->feuille._VECTptr->size()==2 && !has_i(r=_simplifier(-cst_i*M._SYMBptr->feuille._VECTptr->back(),contextptr)))
+	      r=M._SYMBptr->feuille._VECTptr->front();
+	    else 
+	      r=re(M,contextptr);
 	    // check that M is on the curve? was disabled, re-enabled, if not don't draw anything
 	    if (
 		// true || is_zero(normal(M-subst(m,v[1],r,false,contextptr),contextptr))

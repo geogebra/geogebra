@@ -541,7 +541,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     bool _keep_algext_;
     int _angle_mode_;
     int _bounded_function_no_;
-    int _series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=atan does not rewrite sin/cos to tan, bit4=no back conversion, bit5=write<<1,1>> with series_variable_name, bit 6=write O() instead of order_size
+    int _series_flags_; // 1= full simplify, 2=1 for truncation, bit3=atan does not rewrite sin/cos to tan, bit4=no back conversion, bit5=write<<1,1>> with series_variable_name, bit 6=write O() instead of order_size, bit7= 1 diff in subst does not variable substitution
     int _step_infolevel_; 
     int _default_color_;
     double _epsilon_;
