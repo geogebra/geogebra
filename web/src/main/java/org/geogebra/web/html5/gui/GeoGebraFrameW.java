@@ -198,7 +198,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 
 
-	private int computeHeight() {
+	public int computeHeight() {
 		// do we have data-param-height?
 		int height = ae.getDataParamHeight();
 		if (height > 0) {
