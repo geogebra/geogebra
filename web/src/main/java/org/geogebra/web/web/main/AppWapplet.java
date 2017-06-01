@@ -774,12 +774,12 @@ public class AppWapplet extends AppWFull {
 
 	/**
 	 * Updates height of split panel accordingly if there is algebra input
-	 * and/or toolbar or not. Implemented for the case if there is no keyboard
-	 * open.
+	 * and/or toolbar or not.
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = appletHeight - getArticleElement().getBorderThickness();
+		int newHeight = this.getAppletFrame().computeHeight()
+				- getArticleElement().getBorderThickness();
 		if (this.showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {
