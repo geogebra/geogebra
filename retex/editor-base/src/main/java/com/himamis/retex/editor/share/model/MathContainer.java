@@ -48,40 +48,6 @@ abstract public class MathContainer extends MathComponent {
         }
     }
 
-	// table to convert a nibble to a hex char.
-	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
-	final public static String toHexString(String s) {
-		StringBuilder sb = new StringBuilder(s.length() * 6);
-		for (int i = 0; i < s.length(); i++) {
-			sb.append(toHexString(s.charAt(i)));
-		}
-
-		return sb.toString();
-	}
-
-	final public static String toHexString(char c) {
-		int i = c + 0;
-
-		StringBuilder hexSB = new StringBuilder(8);
-		hexSB.append("\\u");
-		hexSB.append(hexChar[(i & 0xf000) >>> 12]);
-		hexSB.append(hexChar[(i & 0x0f00) >> 8]); // look up low nibble char
-		hexSB.append(hexChar[(i & 0xf0) >>> 4]);
-		hexSB.append(hexChar[i & 0x0f]); // look up low nibble char
-		return hexSB.toString();
-	}
-
-	public static void doPrintStacktrace(String message) {
-		try {
-			// message null check done in caller
-			throw new Exception(message);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * checks previous character to see if it combines with ch
 	 * 

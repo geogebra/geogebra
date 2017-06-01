@@ -660,13 +660,18 @@ public class Korean {
 		return sb.toString();
 	}
 
-	public static boolean isVowel(char ch) {
-
-		ch = convertFromCompatibilityJamo(ch, true);
-
-		return ch >= '\u1161' && ch <= '\u1175';
-	}
-
+	/**
+	 * tries to combine lastChar+newChar as a single char or two chars if
+	 * necessary
+	 * 
+	 * not as simple as doing this!! unflatten(flatten(lastChar)+newChar)
+	 * 
+	 * @param lastChar
+	 *            already typed character
+	 * @param newChar
+	 *            new character just typed
+	 * @return {char, char2} if 2 chars are needed, otherwise just {char, 0}
+	 */
 	public static char[] checkMerge(char lastChar, char newChar) {
 
 		char[] ret = { lastChar, newChar };
@@ -696,12 +701,6 @@ public class Korean {
 			ret[1] = 0;
 			return ret;
 
-			// MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
-			// MetaCharacter.CHARACTER);
-			//
-			// MathCharacter mathChar = (MathCharacter) compLast;
-			// mathChar.setChar(metaChar);
-			// return true;
 		}
 
 		// case 2
@@ -721,13 +720,6 @@ public class Korean {
 			ret[1] = 0;
 			return ret;
 
-			// MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
-			// MetaCharacter.CHARACTER);
-			//
-			// MathCharacter mathChar = (MathCharacter) compLast;
-			// mathChar.setChar(metaChar);
-			// return true;
-
 		}
 
 		// case 3
@@ -746,14 +738,6 @@ public class Korean {
 			ret[1] = 0;
 			return ret;
 
-			// MetaCharacter metaChar = new MetaCharacter(c + "", c + "", c, c,
-			// MetaCharacter.CHARACTER);
-			//
-			// // TODO: deal with case of tail chars + compatibility Jamo
-			// MathCharacter mathChar = (MathCharacter) compLast;
-			// mathChar.setChar(metaChar);
-			// return true;
-
 		}
 
 		// case 4
@@ -767,7 +751,8 @@ public class Korean {
 
 		String lastCharFlat = Korean.flattenKorean(lastChar + "");
 
-		if (lastCharFlat.length() == 3 && Korean.isVowel(newChar)) {
+		if (lastCharFlat.length() == 3
+				&& Korean.isKoreanVowelChar(newChar, true)) {
 
 			// System.err.println("case 4");
 
@@ -781,35 +766,10 @@ public class Korean {
 			char newNewChar = Korean.unflattenKorean(
 					Korean.tailToLead(lastCharFlat.charAt(2)) + "" + newChar)
 					.charAt(0);
-			// System.err.println(
-			// "lastCharFlat.charAt(2) = " + lastCharFlat.charAt(2)
-			// + " " + toHexString(lastCharFlat.charAt(2)));
-			// System.err.println(
-			// "newChar = " + newChar + " " + toHexString(newChar));
-			//
-			// System.err.println("newLastChar = " + newLastChar + " "
-			// + toHexString(newLastChar));
-			// System.err.println("newNewChar = " + newNewChar + " "
-			// + toHexString(newNewChar) + " "
-			// + Korean.flattenKorean(newNewChar + ""));
 
 			ret[0] = newLastChar;
 			ret[1] = newNewChar;
 			return ret;
-
-			// MathCharacter mathChar = (MathCharacter) compLast;
-			// mathChar.setChar(new MetaCharacter(newLastChar + "",
-			// newLastChar + "", newLastChar, newLastChar,
-			// MetaCharacter.CHARACTER));
-			//
-			// mathChar = (MathCharacter) comp;
-			// mathChar.setChar(new MetaCharacter(newNewChar + "",
-			// newNewChar + "", newNewChar, newNewChar,
-			// MetaCharacter.CHARACTER));
-			//
-			//
-			// // make sure comp is still inserted
-			// return false;
 
 		}
 
@@ -843,13 +803,6 @@ public class Korean {
 				ret[0] = newChar;
 				ret[1] = 0;
 				return ret;
-
-				// MathCharacter mathChar = (MathCharacter) compLast;
-				// mathChar.setChar(
-				// new MetaCharacter(newChar + "", newChar + "",
-				// newChar, newChar, MetaCharacter.CHARACTER));
-				//
-				// return true;
 
 			}
 
@@ -887,13 +840,6 @@ public class Korean {
 				ret[0] = newChar;
 				ret[1] = 0;
 				return ret;
-
-				// MathCharacter mathChar = (MathCharacter) compLast;
-				// mathChar.setChar(
-				// new MetaCharacter(newChar + "", newChar + "",
-				// newChar, newChar, MetaCharacter.CHARACTER));
-				//
-				// return true;
 
 			}
 
