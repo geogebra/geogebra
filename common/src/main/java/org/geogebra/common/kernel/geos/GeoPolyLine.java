@@ -168,7 +168,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * overwrite methods
 	 */
 	@Override
-	public boolean isDefined() {
+	public final boolean isDefined() {
 		return defined;
 	}
 

@@ -96,7 +96,7 @@ public class CmdToolImage extends CommandProcessor {
 				} catch (CircularDefinitionException e) {
 					e.printStackTrace();
 				}
-				geoImage.setLabel(null);
+				geoImage.setLabel(c.getLabel());
 
 				GeoElement[] ret = {};
 				return ret;

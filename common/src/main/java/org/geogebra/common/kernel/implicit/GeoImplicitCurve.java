@@ -608,6 +608,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (!isDefined()) {
+			return "?";
+		}
 		if (!inputForm && coeff != null) {
 			return toRawValueString(coeff, kernel, tpl);
 		}

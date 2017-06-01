@@ -160,6 +160,11 @@ public class GeoFactory3D extends GeoFactory {
 		case IMPLICIT_POLY:
 			return new GeoImplicitCurve3D((GeoImplicitCurve) geo);
 
+		case POLYLINE:
+			ret = new GeoPolyLine3D(geo.getConstruction());
+			ret.set(geo);
+			return ret;
+
 		default:
 			return super.copy3D(geo);
 		}
@@ -196,6 +201,10 @@ public class GeoFactory3D extends GeoFactory {
 			ret = new GeoSegment3D(geo.getConstruction(),
 					new GeoPoint3D(((GeoSegmentND) geo).getStartPoint()),
 					new GeoPoint3D(((GeoSegmentND) geo).getEndPoint()));
+			ret.set(geo);
+			return ret;
+		case POLYLINE:
+			ret = new GeoPolyLine3D(cons1);
 			ret.set(geo);
 			return ret;
 

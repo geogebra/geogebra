@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Algo for mirror at 3D point / 3D line
@@ -71,7 +72,11 @@ public class AlgoMirror3D extends AlgoMirror {
 	@Override
 	protected void computeRegardingMirror() {
 		if (mirror == mirrorPlane) {
-			((MirrorableAtPlane) out).mirror(mirrorPlane);
+			if (out instanceof MirrorableAtPlane) {
+				((MirrorableAtPlane) out).mirror(mirrorPlane);
+			} else {
+				out.setUndefined();
+			}
 		} else {
 			super.computeRegardingMirror();
 		}
@@ -81,6 +86,7 @@ public class AlgoMirror3D extends AlgoMirror {
 	@Override
 	protected GeoElement copy(GeoElement geo) {
 		if (mirror.isGeoElement3D()) {
+			Log.debug("COPY " + geo.getGeoClassType());
 			return kernel.copy3D(geo);
 		}
 		return super.copy(geo);

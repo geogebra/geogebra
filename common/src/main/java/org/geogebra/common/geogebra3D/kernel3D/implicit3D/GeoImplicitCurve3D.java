@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -10,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
+import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -17,7 +19,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * 3D extension of implicit curves
  *
  */
-public class GeoImplicitCurve3D extends GeoImplicitCurve {
+public class GeoImplicitCurve3D extends GeoImplicitCurve
+		implements MirrorableAtPlane {
 
 	private CoordSys transformCoordSys;
 	private FunctionNVar functionExpression;
@@ -79,6 +82,9 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
+		if (!isDefined()) {
+			return "?";
+		}
 		StringBuilder valueSb = new StringBuilder(50);
 		valueSb.append("(");
 		if (functionExpression != null) {
@@ -206,6 +212,12 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve {
 	@Override
 	public double getTranslateZ() {
 		return translateZ;
+	}
+
+	public void mirror(GeoCoordSys2D plane) {
+		setUndefined();
+		// TODO Auto-generated method stub
+
 	}
 
 }

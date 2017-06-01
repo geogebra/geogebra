@@ -1010,6 +1010,27 @@ public class CommandsTest extends Assert{
 		t("h(1,3)", "5");
 	}
 
+	@Test
+	public void cmdMirrorPlane() {
+		t("e:x-z=0", "x - z = 0");
+		t("Reflect[Vector[(0,1)],e]", "(0, 1, 0)");
+		t("Reflect[Curve[(t,t^3),t,0,5],e]", unicode("(0t, t^3, 1t)"),
+				StringTemplate.editTemplate);
+		t("Reflect[y=x^2,e]", unicode("X = (0, 0, 0) + (0, 0.25 t^2, -0.5 t)"),
+				StringTemplate.editTemplate);
+		t("Reflect[Polygon[(0,0),(0,1),4],e]", "1",
+				StringTemplate.editTemplate);
+		t("Reflect[Polyline[(0,0),(0,1),(1,1)],e]", "2");
+		t("Reflect[Line[(0,0),(0,1)],e]",
+				"X = (0, 0, 0) + " + Unicode.lambda + " (0, 1, 0)");
+		t("Reflect[x+y,e]", "(0u + 1 (u + v), v, 1u + 0 (u + v))",
+				StringTemplate.editTemplate);
+		t("Reflect[(1,0),e]", "(0, 0, 1)");
+		t("Reflect[x^3+y^3=0,e]", "?");
+		t("picT=ToolImage[2]", new String[0]);
+		t("Reflect[picT,e]", "picT'");
+	}
+
 
 
 	static String unicode(String theSpline) {
