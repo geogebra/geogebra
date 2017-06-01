@@ -1865,7 +1865,7 @@ __GGB__keysVar.uk.menu = {
     "GraphicsViewForPlaneA": "\u0412\u0438\u0434 %0",
     "Graphing": "\u0413\u0440\u0430\u0444\u0456\u0447\u043d\u0438\u0439",
     "GraphingCalculator": "\u0413\u0440\u0430\u0444\u0456\u0447\u043d\u0438\u0439 \u041a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440",
-    "GraphingCalculator.short": "Graphing Calc",
+    "GraphingCalculator.short": "\u0413\u0440\u0430\u0444\u0456\u0447\u043d\u0438\u0439 \u041a\u0430\u043b\u044c\u043a",
     "GraphingCalculator3D.Function3D": "z=f(x,y) \u0444\u0443\u043d\u043a\u0446\u0456\u0457",
     "GraphingCalculator3D.LinearEquations": "\u041b\u0456\u043d\u0456\u0439\u043d\u0456 \u0420\u0456\u0432\u043d\u044f\u043d\u043d\u044f",
     "GrayScale": "\u0412\u0456\u0434\u0442\u0456\u043d\u043a\u0438 \u0441\u0456\u0440\u043e\u0433\u043e",
