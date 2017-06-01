@@ -136,9 +136,9 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testCommand() {
-		checkCannon("turtle1=Turtle[]", "turtle1=Turtle[]");
-		checkCannon("Turtle[]", "Turtle[]");
-		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7]");
+		checkCannon("turtle1=Turtle[]", "turtle1=Turtle[");
+		checkCannon("Turtle[]", "Turtle[");
+		checkCannon("Turtle[1*3,7]", "Turtle[1*3,7");
 	}
 
 	@Test
@@ -162,7 +162,7 @@ public class SerializeLaTeX {
 	@Test
 	public void testComma() {
 		checkCannon("If[x<1/x,x/2,sqrt(x/2)]",
-				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))]");
+				"If[x<(1)/(x),(x)/(2),sqrt((x)/(2))");
 		checkCannon("(1;sqrt(2))", "(1;sqrt(2))");
 		checkCannon("(t^n;t)", "(t^(n);t)");
 	}
@@ -176,7 +176,7 @@ public class SerializeLaTeX {
 		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)",
 				"X=(x_0+2x_x,y_0+2x_y)");
 		checkLaTeX("i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
-				"i=[0,(6pi)/(p)...24pi]");
+				"i=[0,(6pi)/(p)...24pi");
 		checkLaTeX(
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
 				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
@@ -199,43 +199,43 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testKorean() {
-		testEditor("\u314D\u3157\u314E", "MathSequence[\uD407]");
+		testEditor("\u314D\u3157\u314E", "\uD407");
 		testEditor("\u3141\u3163\u3142\u315C\u3134",
-				"MathSequence[\uBBF8, \uBD84]");
-		testEditor("\u3145\u3145", "MathSequence[\u110A]");
-		testEditor("\u3147\u315C\u3163", "MathSequence[\uC704]");
-		testEditor("\u3131\u314F\u3142\u3145", "MathSequence[\uAC13]");
-		testEditor(Korean.flattenKorean("\uB098"), "MathSequence[\uB098]");
-		testEditor(Korean.flattenKorean("\uB108"), "MathSequence[\uB108]");
+				"\uBBF8\uBD84");
+		testEditor("\u3145\u3145", "\u110A");
+		testEditor("\u3147\u315C\u3163", "\uC704");
+		testEditor("\u3131\u314F\u3142\u3145", "\uAC13");
+		testEditor(Korean.flattenKorean("\uB098"), "\uB098");
+		testEditor(Korean.flattenKorean("\uB108"), "\uB108");
 		testEditor(Korean.flattenKorean("\uC6B0\uB9AC"),
-				"MathSequence[\uC6B0, \uB9AC]");
+				"\uC6B0\uB9AC");
 		testEditor(Korean.flattenKorean("\uBBF8\uBD84"),
-				"MathSequence[\uBBF8, \uBD84]");
+				"\uBBF8\uBD84");
 		testEditor(Korean.flattenKorean("\uBCA1\uD130"),
-				"MathSequence[\uBCA1, \uD130]");
+				"\uBCA1\uD130");
 		testEditor(Korean.flattenKorean("\uC0C1\uC218"),
-				"MathSequence[\uC0C1, \uC218]");
+				"\uC0C1\uC218");
 		testEditor(Korean.flattenKorean("\uB2ED\uBA39\uC5B4"),
-				"MathSequence[\uB2ED, \uBA39, \uC5B4]");
+				"\uB2ED\uBA39\uC5B4");
 		testEditor(Korean.flattenKorean("\uC6EC\uC77C"),
-				"MathSequence[\uC6EC, \uC77C]");
+				"\uC6EC\uC77C");
 		testEditor(Korean.flattenKorean("\uC801\uBD84"),
-				"MathSequence[\uC801, \uBD84]");
+				"\uC801\uBD84");
 		testEditor(Korean.flattenKorean("\uC288\uD37C\uB9E8"),
-				"MathSequence[\uC288, \uD37C, \uB9E8]");
+				"\uC288\uD37C\uB9E8");
 		testEditor(Korean.flattenKorean("\u3137\u3137"),
-				"MathSequence[\u1104]");
+				"\u1104");
 		testEditor(Korean.flattenKorean("\uC778\uD14C\uADF8\uB784"),
-				"MathSequence[\uC778, \uD14C, \uADF8, \uB784]");
-		testEditor(Korean.flattenKorean("\u3137"), "MathSequence[\u1103]");
-		testEditor(Korean.flattenKorean("\u3131"), "MathSequence[\u1100]");
-		testEditor(Korean.flattenKorean("\u3134"), "MathSequence[\u1102]");
+				"\uC778\uD14C\uADF8\uB784");
+		testEditor(Korean.flattenKorean("\u3137"), "\u1103");
+		testEditor(Korean.flattenKorean("\u3131"), "\u1100");
+		testEditor(Korean.flattenKorean("\u3134"), "\u1102");
 		testEditor(Korean.flattenKorean("\uC8FC\uC778\uC7A5"),
-				"MathSequence[\uC8FC, \uC778, \uC7A5]");
+				"\uC8FC\uC778\uC7A5");
 		testEditor(Korean.flattenKorean("\uC774\uC81C\uC880\uC790\uC790"),
-				"MathSequence[\uC774, \uC81C, \uC880, \uC790, \uC790]");
+				"\uC774\uC81C\uC880\uC790\uC790");
 		testEditor(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
-				"MathSequence[\uC544, \uBAA8, \uB974, \uACA0, \uB2E4]");
+				"\uC544\uBAA8\uB974\uACA0\uB2E4");
 		
 		
 	}
@@ -243,7 +243,7 @@ public class SerializeLaTeX {
 	@Test
 	public void testEditor() {
 		testEditor("sqrt(x/2)",
-				"MathSequence[MathFunction[MathSequence[x, /, 2]]]");
+				"sqrt(x/2)");
 	}
 
 	public void testEditor(String input, String output) {
@@ -256,7 +256,8 @@ public class SerializeLaTeX {
 
 		mathField.insertString(input);
 
-		Assert.assertEquals(output, editorState.getRootComponent().toString());
+		Assert.assertEquals(output,
+				GeoGebraSerializer.serialize(editorState.getRootComponent()));
 
 	}
 
