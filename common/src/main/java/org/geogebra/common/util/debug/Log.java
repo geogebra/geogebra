@@ -451,6 +451,12 @@ public abstract class Log {
 		}
 	}
 
+	public static void debug2(String message) {
+		if (logger != null) {
+			// logger.log(logger.DEBUG, message);
+		}
+	}
+
 	/**
 	 * @param message
 	 *            debug message

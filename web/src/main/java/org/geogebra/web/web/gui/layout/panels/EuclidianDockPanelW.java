@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
 
@@ -156,6 +157,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 	@Override
 	public void resizeView(int width, int height) {
+		Log.debug2("EVDockPanel. resizeView: " + height);
 		app.ggwGraphicsViewDimChanged(width, height);
 	}
 }
