@@ -4268,7 +4268,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case EQUATION_LIST:
-			return prerelease;
+			return true;
 
 		case AND_KILL_TOOLBAR:
 			return prerelease;
