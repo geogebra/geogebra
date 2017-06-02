@@ -9,7 +9,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			top: 0px;
 			/*left: 6px;*/
 			/*padding: 8px 0px 8px 0px;*/
-			box-shadow: 2px 2px 2px #888888;
+			box-shadow: 0 0 16px $black-28;
 			background-color: $white;
 			/*border-radius: 2px;*/
 			z-index:  100000;;
@@ -136,7 +136,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	}
 	
 	.floatingMenu.animateIn {
-		animation-duration: 0.2s;
+		animation-duration: 0.25s;
 		animation-name: animateIn;
 		overflow: auto;
 	}
