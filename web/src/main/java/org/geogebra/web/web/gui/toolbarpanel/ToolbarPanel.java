@@ -39,6 +39,9 @@ public class ToolbarPanel extends FlowPanel {
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
 	private static final int OPEN_HEIGHT = 56;
+	private static final int HEIGHT_CLOSED = 57;
+	private static final int WIDTH_AUTO_CLOSE = 86;
+	private static final int HEIGHT_AUTO_CLOSE = 86;
 
 	/** Application */
 	App app;
@@ -59,6 +62,7 @@ public class ToolbarPanel extends FlowPanel {
 	private AlgebraTab tabAlgebra = null;
 	private ToolsTab tabTools = null;
 	private TabIds selectedTab;
+	private boolean closedByUser = false;
 	private class Header extends FlowPanel {
 
 		private static final int PADDING = 12;
@@ -176,7 +180,11 @@ public class ToolbarPanel extends FlowPanel {
 									app.getActiveEuclidianView().getHeight());
 						} else {
 							setLastOpenWidth(getOffsetWidth());
+							setClosedByUser(true);
 						}
+					} else {
+						setClosedByUser(false);
+
 					}
 
 					setOpen(!isOpen());
@@ -575,6 +583,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (header.isOpen()) {
 			return;
 		}
+		setClosedByUser(false);
 		header.setOpen(true);
 		setLastSize(false);
 
@@ -770,7 +779,22 @@ public class ToolbarPanel extends FlowPanel {
 			tabTools.onResize();
 		}
 
-
+		if (isPortrait()) {
+			int h = getOffsetHeight();
+			if (h > HEIGHT_CLOSED) {
+				if (h < HEIGHT_AUTO_CLOSE) {
+					close();
+				} else {
+					open();
+				}
+			}
+		} else {
+			if (getOffsetWidth() < WIDTH_AUTO_CLOSE) {
+				close();
+			} else if (!isClosedByUser()) {
+				open();
+			}
+		}
 	}
 
 	/**
@@ -903,6 +927,25 @@ public class ToolbarPanel extends FlowPanel {
 				.getLatexController();
 		itemController.initAndShowKeyboard(false);
 		return itemController.getRetexListener();
+	}
+
+	/**
+	 * 
+	 * @return true if toolbar is closed by user with close button, and not by
+	 *         code.
+	 */
+	boolean isClosedByUser() {
+		return closedByUser;
+	}
+
+	/**
+	 * Sets if user closed the toolbar.
+	 * 
+	 * @param value
+	 *            to set
+	 */
+	void setClosedByUser(boolean value) {
+		this.closedByUser = value;
 	}
 
 }

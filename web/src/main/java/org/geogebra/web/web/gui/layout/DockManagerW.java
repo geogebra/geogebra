@@ -1756,7 +1756,9 @@ public class DockManagerW extends DockManager {
 	
 
 	private double kbHeight = 0;
-	private boolean portrait;
+
+	// null it to trigger orientation change for the first time.
+	private Boolean portrait = null;
 
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){
@@ -1820,17 +1822,21 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 		calculateKeyboardHeight();
+		Boolean old = portrait;
 		portrait = app.getWidth() < app.getHeight();
-		final double landscape = PerspectiveDecoder
-				.landscapeRatio(app.getWidth());
+		if (old != portrait) {
+			// run only if oreintation has changed;
+			final double landscape = PerspectiveDecoder
+					.landscapeRatio(app.getWidth());
 
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-			@Override
-			public void execute() {
-				adjustViews(landscape);
-			}
-		});
+				@Override
+				public void execute() {
+					adjustViews(landscape);
+				}
+			});
+		}
 	}
 
 
@@ -1870,9 +1876,6 @@ public class DockManagerW extends DockManager {
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			ToolbarPanel toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = kbHeight + toolbar.getMinVHeight();
-			Log.debug("TTTTT: app: " + app.getHeight());
-			Log.debug("TTTTT: av : " + avHeight);
-			Log.debug("TTTTT: kb : " + kbHeight);
 		}
 
 		double portraitDivider = (avHeight) / app.getHeight();
@@ -1909,7 +1912,7 @@ public class DockManagerW extends DockManager {
 	 * @return true if app is portrait mode.
 	 */
 	public boolean isPortrait() {
-		return portrait;
+		return portrait != null && portrait;
 	}
 
 }

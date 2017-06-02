@@ -13,9 +13,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ToolbarDockPanelW extends DockPanelW {
 
-	private static final int HEIGHT_CLOSED = 57;
-	private static final int WIDTH_AUTO_CLOSE = 86;
-	private static final int HEIGHT_AUTO_CLOSE = 86;
 
 	private ToolbarPanel toolbar;
 
@@ -43,22 +40,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 	@Override
 	public void onResize() {
 		toolbar.resize();
-		if (toolbar.isPortrait()) {
-			int h = toolbar.getOffsetHeight();
-			if (h > HEIGHT_CLOSED) {
-				if (h < HEIGHT_AUTO_CLOSE) {
-					toolbar.close();
-				} else {
-					toolbar.open();
-				}
-			}
-		} else {
-			if (toolbar.getOffsetWidth() < WIDTH_AUTO_CLOSE) {
-				toolbar.close();
-			} else {
-				toolbar.open();
-			}
-		}
+
 	}
 
 	@Override
