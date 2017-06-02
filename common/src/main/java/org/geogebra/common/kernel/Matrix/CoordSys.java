@@ -1269,7 +1269,7 @@ public class CoordSys {
 	public void setXequal(double value) {
 		resetCoordSys();
 		// equation x=0
-		equationVector.set(new double[] { 1, 0, 0, 0 });
+		equationVector.set(new double[] { 1, 0, 0, -value });
 		origin.setX(value);
 		origin.setY(0);
 		origin.setZ(0);

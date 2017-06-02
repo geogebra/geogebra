@@ -74,7 +74,7 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 			curve.getTransformedCoordSys().setZequal(a, b, 1, d);
 		} else {
 			if (Kernel.isZero(norm.getY())) {
-				double a = norm.getW() / norm.getX();
+				double a = -norm.getW() / norm.getX();
 				ExpressionNode substX = new ExpressionNode(kernel, a);
 				VariableReplacer.addVars("x", substX);
 				VariableReplacer.addVars("y",
