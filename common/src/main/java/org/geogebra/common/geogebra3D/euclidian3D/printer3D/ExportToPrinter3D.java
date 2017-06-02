@@ -36,6 +36,7 @@ public abstract class ExportToPrinter3D {
 	
 	private double xInvScale;
 	private boolean differentAxisRatio = false;
+	private Coords tmpNormal = new Coords(3);
 
 	/**
 	 * constructor
@@ -151,6 +152,9 @@ public abstract class ExportToPrinter3D {
 			double delta;
 			if (differentAxisRatio) {
 				delta = 3 * PlotterBrush.LINE3D_THICKNESS;
+				if (view.scaleAndNormalizeNormalXYZ(n, tmpNormal)) {
+					n = tmpNormal;
+				}
 			} else {
 				delta = 3 * PlotterBrush.LINE3D_THICKNESS / view.getScale();
 			}
