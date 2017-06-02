@@ -18,6 +18,7 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 
@@ -223,7 +224,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	private native void runOnAnimation(Runnable runnable,
-			com.google.gwt.dom.client.Element root) /*-{
+			Element root) /*-{
 		var callback = function() {
 			root.className = root.className.replace(/animating/, "");
 			runnable.@java.lang.Runnable::run()();

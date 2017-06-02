@@ -691,7 +691,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 	private native void runOnAnimateOut(Runnable runnable,
-			com.google.gwt.dom.client.Element root) /*-{
+			Element root) /*-{
 		var callback = function() {
 			root.className = root.className.replace(/animateOut/, "");
 			runnable.@java.lang.Runnable::run()();
@@ -732,7 +732,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 	private native void runOnAnimateIn(Runnable runnable,
-			com.google.gwt.dom.client.Element root) /*-{
+			Element root) /*-{
 		var callback = function() {
 			root.className = root.className.replace(/animateIn/, "");
 			runnable.@java.lang.Runnable::run()();
