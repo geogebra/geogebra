@@ -677,13 +677,75 @@ public class AppWapplet extends AppWFull {
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (has(Feature.NEW_TOOLBAR)) {
-				floatingMenuPanel.setVisible(false);
 				menuShowing = false;
+				this.remove(new Runnable() {
+					@Override
+					public void run() {
+						floatingMenuPanel.setVisible(false);
+					}
+				});
 			} else {
 				hideMenu();
 			}
 		}
 	}
+
+	private native void runOnAnimateOut(Runnable runnable,
+			com.google.gwt.dom.client.Element root) /*-{
+		var callback = function() {
+			root.className = root.className.replace(/animateOut/, "");
+			runnable.@java.lang.Runnable::run()();
+		};
+		if ((root.style.animation || root.style.animation === "")
+				&& root.className.match(/animateOut/)) {
+
+			root.addEventListener("animationend", callback);
+			return;
+		}
+		window.setTimeout(callback, 0);
+
+	}-*/;
+
+	public void remove(final Runnable runnable) {
+		this.updateCenterPanelAndViews();
+		floatingMenuPanel.addStyleName("animateOut");
+		runOnAnimateOut(new Runnable() {
+			@Override
+			public void run() {
+				floatingMenuPanel.setVisible(false);
+				runnable.run();
+			}
+		}, floatingMenuPanel.getElement());
+
+	}
+
+	public void add(final Runnable runnable) {
+		this.updateCenterPanelAndViews();
+		floatingMenuPanel.addStyleName("animateIn");
+		runOnAnimateIn(new Runnable() {
+			@Override
+			public void run() {
+				runnable.run();
+			}
+		}, floatingMenuPanel.getElement());
+
+	}
+
+	private native void runOnAnimateIn(Runnable runnable,
+			com.google.gwt.dom.client.Element root) /*-{
+		var callback = function() {
+			root.className = root.className.replace(/animateIn/, "");
+			runnable.@java.lang.Runnable::run()();
+		};
+		if ((root.style.animation || root.style.animation === "")
+				&& root.className.match(/animateIn/)) {
+
+			root.addEventListener("animationend", callback);
+			return;
+		}
+		window.setTimeout(callback, 0);
+
+	}-*/;
 
 	private void toggleFloatingMenu(boolean needsUpdate) {
 		if (!has(Feature.NEW_TOOLBAR)) {
@@ -696,6 +758,17 @@ public class AppWapplet extends AppWFull {
 		}
 		if (needsUpdate) {
 			frame.getMenuBar(this).getMenubar().updateMenubar();
+		}
+		if (has(Feature.NEW_TOOLBAR) && menuShowing) {
+			this.add(new Runnable() {
+
+				@Override
+				public void run() {
+					floatingMenuPanel.setVisible(true);
+				}
+			});
+			floatingMenuPanel.setVisible(true);
+			return;
 		}
 		floatingMenuPanel.setVisible(menuShowing);
 		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);

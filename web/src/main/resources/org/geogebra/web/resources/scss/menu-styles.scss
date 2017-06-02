@@ -6,14 +6,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 
 	.floatingMenu {
 			position: absolute;
-			top: 46px;
-			left: 6px;
-			padding: 8px 0px 8px 0px;
+			top: 0px;
+			/*left: 6px;*/
+			/*padding: 8px 0px 8px 0px;*/
 			box-shadow: 2px 2px 2px #888888;
 			background-color: $white;
-			border-radius: 2px;
-			z-index: 9999;
-			
+			/*border-radius: 2px;*/
+			z-index:  100000;;
+			height: 100%;
+    		overflow-y: auto;	
+    		
+    		.ggbmenubarwrapper { 
+    			padding-bottom: 6px;
+    		}
+	
 			.gwt-StackPanel .matStackPanelNoOpacity {
 				min-width: 232px;
 				background-color: $white;
@@ -127,6 +133,30 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				background-color: $black-12;
 			}
 			
+	}
+	
+	.floatingMenu.animateIn {
+		animation-duration: 0.2s;
+		animation-name: animateIn;
+		overflow: auto;
+	}
+			
+	@keyframes animateIn {
+		0% {left:-320px; top:0px;}
+		50% {left:-100; top:0px;}
+		100% {left:0px; top:0px;}
+	}
+	
+	.floatingMenu.animateOut {
+		animation-duration: 0.2s;
+		animation-name: animateOut;
+		overflow-y: auto;
+	}
+			
+	@keyframes animateOut {
+		0% {left:0px; top:0px;}
+		50% {left:-220; top:0px;}
+		100% {left:-320px; top:0px;}
 	}
 	
 }

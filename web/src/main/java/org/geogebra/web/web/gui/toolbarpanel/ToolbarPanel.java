@@ -343,6 +343,12 @@ public class ToolbarPanel extends FlowPanel {
 				}
 			}
 
+			if (isPortrait()) {
+				btnMenu.addStyleName("portraitMenuBtn");
+			} else {
+				btnMenu.removeStyleName("portraitMenuBtn");
+			}
+
 			btnMenu.getUpFace().setImage(imgMenu);
 			updateUndoRedoPosition();
 			updateUndoRedoActions();

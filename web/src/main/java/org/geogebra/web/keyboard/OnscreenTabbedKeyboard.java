@@ -66,28 +66,33 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		});
 	}
 	
+	@Override
 	public void show() {
 		this.keyboardWanted = true;
 		checkLanguage();
 		setVisible(true);
 	}
 
+	@Override
 	public void resetKeyboardState() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setStyleName() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endEditing() {
 		if (processField != null) {
 			processField.endEditing();
 		}
 	}
 
+	@Override
 	public void setProcessing(KeyboardListener field) {
 		if (processField != null && processField.getField() != null) {
 			if (field == null || processField.getField() != field.getField()) {
@@ -212,6 +217,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		processField.scrollCursorIntoView();
 	}
 
+	@Override
 	public void afterShown(final Runnable runnable) {
 		runOnAnimation(runnable, getElement());
 	}
@@ -232,6 +238,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}-*/;
 
+	@Override
 	public void prepareShow(boolean animated) {
 		if (animated) {
 			addStyleName("animating");
@@ -240,10 +247,12 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}
 
+	@Override
 	public void remove(final Runnable runnable) {
 		app.updateCenterPanelAndViews();
 		this.addStyleName("animatingOut");
 		runOnAnimation(new Runnable() {
+			@Override
 			public void run() {
 				removeFromParent();
 				runnable.run();
@@ -252,6 +261,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	}
 
+	@Override
 	public boolean hasTouchFeedback() {
 		return true;
 	}
