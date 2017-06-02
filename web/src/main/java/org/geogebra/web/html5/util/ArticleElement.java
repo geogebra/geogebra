@@ -563,6 +563,9 @@ public final class ArticleElement extends Element {
 
 	public void initID(int i) {
 		String paramID = getDataParamId();
+		if (paramID.equals(getId())) {
+			return;
+		}
 		if (paramID.length() > 0) {
 			int suffix = 0;
 			while (DOM.getElementById(paramID) != null) {
