@@ -5,15 +5,7 @@ package com.himamis.retex.editor.share.meta;
  */
 public interface MetaGroup {
 
-    /**
-     * @return the name of the group
-     */
-	Tag getName();
 
-    /**
-     * @return the group name
-     */
-	Tag getGroup();
 
     /**
      * @param componentName the name of the component

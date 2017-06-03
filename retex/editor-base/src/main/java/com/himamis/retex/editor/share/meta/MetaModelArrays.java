@@ -35,7 +35,7 @@ public class MetaModelArrays {
 	public static final char LFLOOR = '\u230a';
 	public static final char RFLOOR = '\u230b';
 
-    MetaGroup createArraysGroup() {
+	ListMetaGroup createArraysGroup() {
         List<MetaComponent> components = new ArrayList<MetaComponent>();
 		MetaArray curly = new MetaArray(1, CURLY);
 		curly.setOpen(createArrayComponent(OPEN, '{', "\\left\\lbrace "));
@@ -87,7 +87,7 @@ public class MetaModelArrays {
 		floor.setRow(createArrayComponent(ROW, ';'));
 		components.add(floor);
 
-		return new ListMetaGroup(Tag.ARRAYS, Tag.ARRAYS, components);
+		return new ListMetaGroup(components);
     }
 
 	MetaArray createMatrixGroup() {

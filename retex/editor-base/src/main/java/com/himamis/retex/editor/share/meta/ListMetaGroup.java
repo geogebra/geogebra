@@ -37,13 +37,9 @@ import java.util.List;
 public class ListMetaGroup implements MetaGroup {
 
     private List<MetaComponent> components;
-	private Tag name;
-	private Tag group;
 
-	ListMetaGroup(Tag name, Tag group, List<MetaComponent> components) {
-        this.name = name;
+	ListMetaGroup(List<MetaComponent> components) {
         this.components = components;
-        this.group = group;
     }
 
     @Override
@@ -60,13 +56,4 @@ public class ListMetaGroup implements MetaGroup {
         return components;
     }
 
-    @Override
-	public Tag getName() {
-        return name;
-    }
-
-    @Override
-	public Tag getGroup() {
-        return group;
-    }
 }

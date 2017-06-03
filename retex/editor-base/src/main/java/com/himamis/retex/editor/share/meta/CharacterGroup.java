@@ -8,16 +8,6 @@ public class CharacterGroup implements MetaGroup {
     private Map<String, MetaCharacter> characters = new HashMap<String, MetaCharacter>();
 
     @Override
-	public Tag getName() {
-		return Tag.CHARACTERS;
-    }
-
-    @Override
-	public Tag getGroup() {
-        return getName();
-    }
-
-    @Override
     public MetaComponent getComponent(String name) {
         if (name == null || name.length() != 1) {
             return null;

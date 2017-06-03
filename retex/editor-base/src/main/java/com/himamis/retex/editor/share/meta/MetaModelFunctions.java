@@ -137,37 +137,9 @@ class MetaModelFunctions {
         functions.add(createFunction("abs"));
 		functions.add(createFunction("floor"));
 		functions.add(createFunction("ceil"));
-
-		return new ListMetaGroup(Tag.FUNCTIONS, Tag.GENERAL, functions);
-    }
-
-    MetaGroup createFunctions() {
-        List<MetaComponent> functions = new ArrayList<MetaComponent>();
-
-        functions.add(createFunction("asin", "sin^{-1}"));
-        functions.add(createFunction("acos", "cos^{-1}"));
-        functions.add(createFunction("atan", "tan^{-1}"));
-
-		functions.add(createFunction("arcsin", "sin^{-1}"));
-		functions.add(createFunction("arccos", "cos^{-1}"));
-		functions.add(createFunction("arctan", "tan^{-1}"));
-
-
-        functions.add(createFunction("asinh", "sinh^{-1}"));
-        functions.add(createFunction("acosh", "cosh^{-1}"));
-        functions.add(createFunction("atanh", "tanh^{-1}"));
-
-		functions.add(createFunction("ln", "ln"));
 		functions.add(createFunction("log10", "log_{10}"));
 		functions.add(createFunction("log2", "log_{2}"));
 
-        functions.add(createFunction("floor"));
-		functions.add(createFunction("ceil"));
-
-        // Matrix operations
-
-
-
-		return new ListMetaGroup(Tag.FUNCTIONS, Tag.FUNCTIONS, functions);
+		return new ListMetaGroup(functions);
     }
 }

@@ -16,16 +16,6 @@ public class FunctionGroup implements MetaGroup {
     private MetaParameter[] defaultParameters = new MetaParameter[]{new MetaParameter("x", 0)};
 
     @Override
-	public Tag getName() {
-		return Tag.FUNCTIONS;
-    }
-
-    @Override
-	public Tag getGroup() {
-        return getName();
-    }
-
-    @Override
     public MetaComponent getComponent(String componentName) {
         if (acceptedFunction(componentName)) {
             return getMathComponent(componentName);
