@@ -27,8 +27,6 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-import java.util.List;
-
 public class MetaArray extends MetaComponent implements MetaGroup {
 
     public static final String CURLY = "curly";
@@ -45,36 +43,19 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     static final String FIELD = "Field";
     static final String ROW = "Row";
 
-    static final String ARRAY = "Array";
     static final String MATRIX = "Matrix";
 
     private MetaComponent open;
-    private MetaComponent close;
+
+	private MetaComponent close;
     private MetaComponent field;
     private MetaComponent row;
-    private String tagName;
+	private int dimension;
 
-    MetaArray(String tagName, String name, List<MetaComponent> metaComponents) {
+	MetaArray(int dimension, String name) {
 		super(name, name, (char) 0, (char) 0);
-        this.tagName = tagName;
-        setupComponents(metaComponents);
-    }
-
-    private static MetaComponent getComponent(List<MetaComponent> metaComponents, String name) {
-        for (MetaComponent metaComponent : metaComponents) {
-            if (metaComponent.getName().equals(name)) {
-                return metaComponent;
-            }
-        }
-		return new MetaComponent(name, "", (char) 0, (char) 0);
-    }
-
-    private void setupComponents(List<MetaComponent> metaComponents) {
-        open = getComponent(metaComponents, OPEN);
-        close = getComponent(metaComponents, CLOSE);
-        field = getComponent(metaComponents, FIELD);
-        row = getComponent(metaComponents, ROW);
-    }
+		this.dimension = dimension;
+	}
 
     public MetaComponent getOpen() {
         return open;
@@ -109,12 +90,28 @@ public class MetaArray extends MetaComponent implements MetaGroup {
     }
 
     public boolean isArray() {
-        return ARRAY.equals(tagName);
+		return dimension == 1;
     }
 
     public boolean isMatrix() {
-        return MATRIX.equals(tagName);
+		return dimension == 2;
     }
+
+	public void setOpen(MetaComponent open) {
+		this.open = open;
+	}
+
+	public void setClose(MetaComponent close) {
+		this.close = close;
+	}
+
+	public void setField(MetaComponent field) {
+		this.field = field;
+	}
+
+	public void setRow(MetaComponent row) {
+		this.row = row;
+	}
 
     @Override
     public String getGroup() {
