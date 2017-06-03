@@ -67,7 +67,7 @@ class MetaModelFunctions {
         return parameter;
     }
 
-    MetaGroup createGeneralFunctionsGroup() {
+	ListMetaGroup createGeneralFunctionsGroup() {
         List<MetaComponent> functions = new ArrayList<MetaComponent>();
 
         functions.add(createFunctionParams("_", "i"));

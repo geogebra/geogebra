@@ -50,7 +50,7 @@ class MetaModelSymbols {
         return createSymbol(name, cas, tex, '\0');
     }
 
-    MetaGroup createOperators() {
+	ListMetaGroup createOperators() {
         List<MetaComponent> operators = new ArrayList<MetaComponent>();
 
         operators.add(createOperator("-"));
@@ -123,7 +123,7 @@ class MetaModelSymbols {
 		return new ListMetaGroup(operators);
     }
 
-    MetaGroup createSymbols() {
+	ListMetaGroup createSymbols() {
         List<MetaComponent> symbols = new ArrayList<MetaComponent>();
 
         symbols.add(createSymbol("inf", "\\infty", '\u221e'));

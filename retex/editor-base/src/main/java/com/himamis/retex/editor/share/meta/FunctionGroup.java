@@ -12,11 +12,11 @@ import com.himamis.retex.editor.share.input.Character;
  */
 public class FunctionGroup implements MetaGroup {
 
-	private Map<String, MetaComponent> components = new HashMap<String, MetaComponent>();
-    private MetaParameter[] defaultParameters = new MetaParameter[]{new MetaParameter("x", 0)};
+	private Map<String, MetaFunction> components = new HashMap<String, MetaFunction>();
+	private static MetaParameter[] defaultParameters = new MetaParameter[] {
+			new MetaParameter("x", 0) };
 
-    @Override
-    public MetaComponent getComponent(String componentName) {
+	public MetaFunction getComponent(String componentName) {
         if (acceptedFunction(componentName)) {
             return getMathComponent(componentName);
         }
@@ -28,8 +28,8 @@ public class FunctionGroup implements MetaGroup {
 		return !"".equals(functionName) && Character.areLetters(functionName);
     }
 
-    private MetaComponent getMathComponent(String componentName) {
-        MetaComponent component = null;
+	private MetaFunction getMathComponent(String componentName) {
+		MetaFunction component = null;
         if ((component = components.get(componentName)) == null) {
             component = createComponent(componentName);
             components.put(componentName, component);
@@ -37,7 +37,7 @@ public class FunctionGroup implements MetaGroup {
         return component;
     }
 
-    private MetaComponent createComponent(String componentName) {
+	private MetaFunction createComponent(String componentName) {
 		return new MetaFunction(componentName, componentName, '\0',
 				defaultParameters);
     }
