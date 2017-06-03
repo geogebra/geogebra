@@ -8,12 +8,12 @@ public interface MetaGroup {
     /**
      * @return the name of the group
      */
-    String getName();
+	Tag getName();
 
     /**
      * @return the group name
      */
-    String getGroup();
+	Tag getGroup();
 
     /**
      * @param componentName the name of the component

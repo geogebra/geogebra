@@ -87,10 +87,10 @@ public class MetaModelArrays {
 		floor.setRow(createArrayComponent(ROW, ';'));
 		components.add(floor);
 
-        return new ListMetaGroup(MetaModel.ARRAYS, MetaModel.ARRAYS, components);
+		return new ListMetaGroup(Tag.ARRAYS, Tag.ARRAYS, components);
     }
 
-    MetaGroup createMatrixGroup() {
+	MetaArray createMatrixGroup() {
 		MetaArray matrix = new MetaArray(2, MATRIX);
 		matrix.setOpen(createArrayComponent(OPEN, '{', "\\begin{pmatrix} "));
 		matrix.setClose(createArrayComponent(CLOSE, '}', " \\end{pmatrix}"));

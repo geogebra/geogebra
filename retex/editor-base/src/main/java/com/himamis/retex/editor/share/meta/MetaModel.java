@@ -60,19 +60,20 @@ public class MetaModel {
     private int defaultVectorSize = 1;
     private int defaultMatrixColumns = 2;
     private int defaultMatrixRows = 2;
+	private MetaArray matrixGroup;
 
     public MetaModel() {
-        groups.add(new CharacterGroup());
-        groups.add(new FunctionGroup());
+		groups.add(new CharacterGroup()); // characters/characters
+		groups.add(new FunctionGroup()); // functions/functions
 
-        groups.add(arrays.createArraysGroup());
-        groups.add(arrays.createMatrixGroup());
+		groups.add(arrays.createArraysGroup()); // arrays/arrays
+		matrixGroup = arrays.createMatrixGroup(); //
 
-        groups.add(functions.createGeneralFunctionsGroup());
-        groups.add(functions.createFunctions());
+		groups.add(functions.createGeneralFunctionsGroup()); // functions/general
+		groups.add(functions.createFunctions()); // functions/functions
 
-        groups.add(symbols.createOperators());
-        groups.add(symbols.createSymbols());
+		groups.add(symbols.createOperators()); // operators/operators
+		groups.add(symbols.createSymbols()); // symbols/symbols
     }
 
     private static MetaArray getMetaArray(MetaGroup metaGroup, String name) {
@@ -83,11 +84,11 @@ public class MetaModel {
      * get array
      */
     public MetaArray getArray(String name) {
-        return (MetaArray) getComponent(ARRAYS, name);
+		return (MetaArray) getComponent(Tag.ARRAYS, name);
     }
 
     public MetaArray getArray(char arrayOpenKey) {
-        ListMetaGroup listMetaGroup = (ListMetaGroup) getGroup(ARRAYS);
+		ListMetaGroup listMetaGroup = (ListMetaGroup) getGroup(Tag.ARRAYS);
         for (MetaComponent component : listMetaGroup.getComponents()) {
             MetaArray metaArray = (MetaArray) component;
             if (metaArray.getOpenKey() == arrayOpenKey) {
@@ -102,7 +103,7 @@ public class MetaModel {
      * get matrix
      */
     public MetaArray getMatrix() {
-        return (MetaArray) getGroup(MATRIX);
+		return matrixGroup;
     }
 
     /**
@@ -121,7 +122,7 @@ public class MetaModel {
      * get character
      */
     public MetaCharacter getCharacter(String name) {
-        return (MetaCharacter) getComponent(CHARACTERS, name);
+		return (MetaCharacter) getComponent(Tag.CHARACTERS, name);
     }
 
     /**
@@ -140,7 +141,7 @@ public class MetaModel {
      * get operator
      */
     public MetaCharacter getOperator(String name) {
-        return (MetaCharacter) getComponent(OPERATORS, name);
+		return (MetaCharacter) getComponent(Tag.OPERATORS, name);
     }
 
     /**
@@ -159,7 +160,7 @@ public class MetaModel {
      * get symbol
      */
     public MetaSymbol getSymbol(String name) {
-        return (MetaSymbol) getComponent(SYMBOLS, name);
+		return (MetaSymbol) getComponent(Tag.SYMBOLS, name);
     }
 
     /**
@@ -167,7 +168,7 @@ public class MetaModel {
      */
     public boolean isGeneral(String name) {
         try {
-            getComponent(GENERAL, name);
+			getComponent(Tag.GENERAL, name);
             return true;
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
@@ -178,7 +179,7 @@ public class MetaModel {
      * get custom function
      */
     public MetaFunction getGeneral(String name) {
-        return (MetaFunction) getComponent(GENERAL, name);
+		return (MetaFunction) getComponent(Tag.GENERAL, name);
     }
 
     /**
@@ -197,13 +198,13 @@ public class MetaModel {
      * get function
      */
     public MetaFunction getFunction(String name) {
-        return (MetaFunction) getComponent(FUNCTIONS, name);
+		return (MetaFunction) getComponent(Tag.FUNCTIONS, name);
     }
 
     /**
      * get component
      */
-    public MetaComponent getComponent(String tabName, String name) {
+	public MetaComponent getComponent(Tag tabName, String name) {
         MetaGroup group[] = getGroups(tabName);
         for (int i = 0; i < group.length; i++) {
             MetaComponent meta = group[i].getComponent(name);
@@ -219,7 +220,7 @@ public class MetaModel {
     /**
      * get group
      */
-    public MetaGroup getGroup(String groupName) {
+	public MetaGroup getGroup(Tag groupName) {
         for (int i = 0; i < groups.size(); i++) {
             if (groups.get(i).getName().equals(groupName)) {
                 return groups.get(i);
@@ -233,7 +234,7 @@ public class MetaModel {
     /**
      * get groups
      */
-    public MetaGroup[] getGroups(String tab) {
+	public MetaGroup[] getGroups(Tag tab) {
         ArrayList<MetaGroup> arrayList = new ArrayList<MetaGroup>();
         for (int i = 0; i < groups.size(); i++) {
             if (groups.get(i).getGroup().equals(tab)) {
@@ -276,7 +277,7 @@ public class MetaModel {
     }
 
     public boolean isArrayOpenKey(char key) {
-        ListMetaGroup metaGroup = (ListMetaGroup) getGroup(ARRAYS);
+		ListMetaGroup metaGroup = (ListMetaGroup) getGroup(Tag.ARRAYS);
         for (MetaComponent metaComponent : metaGroup.getComponents()) {
             MetaArray metaArray = (MetaArray) metaComponent;
             if (metaArray.getOpenKey() == key) {
@@ -287,7 +288,7 @@ public class MetaModel {
     }
 
     public boolean isFunctionOpenKey(char key) {
-        MetaGroup metaGroup = getGroup(ARRAYS);
+		MetaGroup metaGroup = getGroup(Tag.ARRAYS);
         boolean isFunctionOpenKey = false;
         isFunctionOpenKey |= getMetaArray(metaGroup, MetaArray.REGULAR).getOpenKey() == key;
         isFunctionOpenKey |= getMetaArray(metaGroup, MetaArray.SQUARE).getOpenKey() == key;
@@ -295,7 +296,7 @@ public class MetaModel {
     }
 
     public boolean isArrayCloseKey(char key) {
-        MetaGroup metaGroup = getGroup(ARRAYS);
+		MetaGroup metaGroup = getGroup(Tag.ARRAYS);
         boolean isArrayCloseKey = false;
         isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.REGULAR).getCloseKey() == key;
         isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.SQUARE).getCloseKey() == key;

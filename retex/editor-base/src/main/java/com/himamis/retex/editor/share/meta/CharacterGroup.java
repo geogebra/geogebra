@@ -8,12 +8,12 @@ public class CharacterGroup implements MetaGroup {
     private Map<String, MetaCharacter> characters = new HashMap<String, MetaCharacter>();
 
     @Override
-    public String getName() {
-        return MetaModel.CHARACTERS;
+	public Tag getName() {
+		return Tag.CHARACTERS;
     }
 
     @Override
-    public String getGroup() {
+	public Tag getGroup() {
         return getName();
     }
 

@@ -27,7 +27,7 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-public class MetaArray extends MetaComponent implements MetaGroup {
+public class MetaArray extends MetaComponent {
 
     public static final String CURLY = "curly";
     public static final String REGULAR = "regular";
@@ -112,15 +112,5 @@ public class MetaArray extends MetaComponent implements MetaGroup {
 	public void setRow(MetaComponent row) {
 		this.row = row;
 	}
-
-    @Override
-    public String getGroup() {
-        return getName();
-    }
-
-    @Override
-    public MetaComponent getComponent(String componentName) {
-        return null;
-    }
 
 }

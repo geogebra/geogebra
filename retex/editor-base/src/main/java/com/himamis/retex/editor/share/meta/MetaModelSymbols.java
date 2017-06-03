@@ -120,7 +120,7 @@ class MetaModelSymbols {
         operators.add(createOperator("notleftrightarrow", "NaN", "\\not\\leftrightarrow", '\u21ae'));
         operators.add(createOperator("vectorprod", "\\times", '\u2a2f'));
 
-        return new ListMetaGroup(MetaModel.OPERATORS, MetaModel.OPERATORS, operators);
+		return new ListMetaGroup(Tag.OPERATORS, Tag.OPERATORS, operators);
     }
 
     MetaGroup createSymbols() {
@@ -180,6 +180,6 @@ class MetaModelSymbols {
         symbols.add(createSymbol("degree", "\\degree", '\u00b0'));
         symbols.add(createSymbol("quotes", "\"", '"'));
 
-        return new ListMetaGroup(MetaModel.SYMBOLS, MetaModel.SYMBOLS, symbols);
+		return new ListMetaGroup(Tag.SYMBOLS, Tag.SYMBOLS, symbols);
     }
 }

@@ -16,12 +16,12 @@ public class FunctionGroup implements MetaGroup {
     private MetaParameter[] defaultParameters = new MetaParameter[]{new MetaParameter("x", 0)};
 
     @Override
-    public String getName() {
-        return MetaModel.FUNCTIONS;
+	public Tag getName() {
+		return Tag.FUNCTIONS;
     }
 
     @Override
-    public String getGroup() {
+	public Tag getGroup() {
         return getName();
     }
 

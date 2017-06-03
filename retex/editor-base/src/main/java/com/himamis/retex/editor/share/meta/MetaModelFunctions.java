@@ -138,7 +138,7 @@ class MetaModelFunctions {
 		functions.add(createFunction("floor"));
 		functions.add(createFunction("ceil"));
 
-        return new ListMetaGroup(MetaModel.FUNCTIONS, MetaModel.GENERAL, functions);
+		return new ListMetaGroup(Tag.FUNCTIONS, Tag.GENERAL, functions);
     }
 
     MetaGroup createFunctions() {
@@ -168,6 +168,6 @@ class MetaModelFunctions {
 
 
 
-        return new ListMetaGroup(MetaModel.FUNCTIONS, MetaModel.FUNCTIONS, functions);
+		return new ListMetaGroup(Tag.FUNCTIONS, Tag.FUNCTIONS, functions);
     }
 }
