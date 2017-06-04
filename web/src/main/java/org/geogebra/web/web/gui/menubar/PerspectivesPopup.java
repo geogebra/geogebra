@@ -99,7 +99,7 @@ public class PerspectivesPopup {
 			contentPanel.add(examRow);
 		}
 
-		if (app.has(Feature.STORE_IMAGES_ON_APPS_PICKER)) {
+		if (!app.getLAF().isTablet()) {
 
 			// separator
 			SimplePanel separator = new SimplePanel();
@@ -128,13 +128,6 @@ public class PerspectivesPopup {
 			holderPanel.add(link_playstore);
 			holderPanel.add(link_appstore);
 			contentPanel.add(holderPanel);
-
-		} else {
-			// add link to tutorials
-			HorizontalPanel tutorialsRow = addPerspectiveRow(
-					GuiResources.INSTANCE.icon_help(), "Tutorials", -2, 8);
-			tutorialsRow.addStyleName("upperBorder");
-			contentPanel.add(tutorialsRow);
 
 		}
 

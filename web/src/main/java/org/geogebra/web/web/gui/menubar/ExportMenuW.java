@@ -4,7 +4,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.MenuBar;
@@ -76,20 +75,21 @@ public class ExportMenuW extends MenuBar {
 						dialogEvent("exportPNG");
 					}
 				});
-		if (!app.getLAF().isTablet()) {
-			addItem(MainMenu.getMenuBarHtml(
-					AppResources.INSTANCE.empty().getSafeUri().asString(),
-					app.getLocalization().getMenu("AnimatedGIF"), true), true,
-					new MenuCommand(app) {
-						@Override
-						public void doExecute() {
-							hide();
-							dialogEvent("exportGIF");
-							((DialogManagerW) app.getDialogManager())
-									.showAnimGifExportDialog();
-						}
-					});
-		}
+		// TODO add gif back when ready
+		// if (!app.getLAF().isTablet()) {
+		// addItem(MainMenu.getMenuBarHtml(
+		// AppResources.INSTANCE.empty().getSafeUri().asString(),
+		// app.getLocalization().getMenu("AnimatedGIF"), true), true,
+		// new MenuCommand(app) {
+		// @Override
+		// public void doExecute() {
+		// hide();
+		// dialogEvent("exportGIF");
+		// ((DialogManagerW) app.getDialogManager())
+		// .showAnimGifExportDialog();
+		// }
+		// });
+		// }
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed

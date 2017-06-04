@@ -30,7 +30,6 @@ import org.geogebra.common.kernel.parser.FunctionParser;
 import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 
 /**
@@ -118,7 +117,6 @@ public class Variable extends ValidExpression {
 
 		// if we get here we couldn't resolve this variable name as a GeoElement
 		String[] str = { "UndefinedVariable", name };
-		Log.debug(kernel.getClass());
 		throw new MyParseError(kernel.getApplication().getLocalization(), str);
 	}
 
