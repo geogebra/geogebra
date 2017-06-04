@@ -3,6 +3,7 @@ package org.geogebra.common.io.latex;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -68,66 +69,88 @@ public class GeoGebraSerializer implements Serializer {
 
 	private static void serialize(MathFunction mathFunction,
 			StringBuilder stringBuilder) {
-		String mathFunctionName = mathFunction.getName();
-		if ("^".equals(mathFunctionName)) {
-			stringBuilder.append(mathFunctionName + '(');
+		Tag mathFunctionName = mathFunction.getName();
+		switch (mathFunctionName) {
+		case SUPERSCRIPT:
+			stringBuilder.append("^(");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(')');
-		} else if ("_".equals(mathFunction.getName())) {
-			stringBuilder.append(mathFunctionName + '{');
+			break;
+		case SUBSCRIPT:
+			stringBuilder.append("_{");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			// a_{1}sin(x) should be a_{1} sin(x)
 			stringBuilder.append("}");
-		} else if ("frac".equals(mathFunctionName)) {
+			break;
+		case FRAC:
 			stringBuilder.append('(');
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(")/(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(")");
-		} else if ("sqrt".equals(mathFunctionName)) {
+			break;
+		case SQRT:
 			maybeInsertTimes(mathFunction, stringBuilder);
 			stringBuilder.append("sqrt(");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(')');
-		} else if ("nroot".equals(mathFunctionName)) {
+			break;
+		case NROOT:
 			maybeInsertTimes(mathFunction, stringBuilder);
 			stringBuilder.append("nroot(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
 			stringBuilder.append(",");
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			stringBuilder.append(')');
-		} // Strict control of available functions is needed, so that SUM/ and
+			break;
+			// Strict control of available functions is needed, so that SUM/ and
 			// Prod doesn't work
-		else if ("sum".equals(mathFunctionName)) {
+		case SUM:
 			stringBuilder.append("Sum");
 			serializeArgs(mathFunction, stringBuilder,
 					new int[] { 3, 0, 1, 2 });
-		} else if ("prod".equals(mathFunctionName)) {
+			break;
+		case PROD:
 			stringBuilder.append("Product");
 			serializeArgs(mathFunction, stringBuilder,
 					new int[] { 3, 0, 1, 2 });
-		} else if ("int".equals(mathFunctionName)) {
+			break;
+		case INT:
 			stringBuilder.append("Integral");
 			serializeArgs(mathFunction, stringBuilder,
 					new int[] { 2, 0, 1 });
-		} else if ("lim".equals(mathFunctionName)) {
+			break;
+		case LIM:
 			stringBuilder.append("Limit");
 			serializeArgs(mathFunction, stringBuilder,
 					new int[] { 2, 3, 0, 1 });
-		} else {
+			break;
+		case APPLY:
+			maybeInsertTimes(mathFunction, stringBuilder);
+			serialize(mathFunction.getArgument(0), stringBuilder);
+			serializeArgs(mathFunction, stringBuilder, 1);
+			break;
+		default:
 			// some general function
 			maybeInsertTimes(mathFunction, stringBuilder);
-			stringBuilder.append(mathFunctionName);
-			stringBuilder.append('(');
-			for (int i = 0; i < mathFunction.size(); i++) {
-				serialize(mathFunction.getArgument(i), stringBuilder);
-				stringBuilder.append(',');
-			}
-			if (mathFunction.size() > 0) {
-				stringBuilder.deleteCharAt(stringBuilder.length() - 1);
-			}
-			stringBuilder.append(')');
+			stringBuilder.append(mathFunction.getName().getFunction());
+			serializeArgs(mathFunction, stringBuilder, 0);
+
 		}
+	}
+
+	private static void serializeArgs(MathFunction mathFunction,
+			StringBuilder stringBuilder, int offset) {
+		stringBuilder.append('(');
+		for (int i = offset; i < mathFunction.size(); i++) {
+			serialize(mathFunction.getArgument(i), stringBuilder);
+			stringBuilder.append(',');
+		}
+		if (mathFunction.size() > offset) {
+			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
+		}
+		stringBuilder.append(')');
+
 	}
 
 	private static void serializeArgs(MathFunction mathFunction,
@@ -154,8 +177,8 @@ public class GeoGebraSerializer implements Serializer {
 				}
 			}
 			if (mathComponent instanceof MathFunction) {
-				MathFunction mathCharacter = (MathFunction) mathComponent;
-				if ("_".equals(mathCharacter.getName())) {
+				MathFunction innerFunction = (MathFunction) mathComponent;
+				if (Tag.SUBSCRIPT == innerFunction.getName()) {
 					stringBuilder.append("*");
 				}
 			}

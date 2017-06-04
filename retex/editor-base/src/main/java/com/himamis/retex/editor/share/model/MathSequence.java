@@ -27,6 +27,8 @@
  */
 package com.himamis.retex.editor.share.model;
 
+import com.himamis.retex.editor.share.meta.Tag;
+
 public class MathSequence extends MathContainer {
 
     /**
@@ -82,7 +84,8 @@ public class MathSequence extends MathContainer {
             if (isOperator(i)) {
                 return true;
             } else if (getArgument(i) instanceof MathFunction &&
-                    ("^".equals(((MathFunction) getArgument(i)).getName()))) {
+					(Tag.SUPERSCRIPT.equals(
+							((MathFunction) getArgument(i)).getName()))) {
                 return true;
             }
         }
@@ -94,8 +97,10 @@ public class MathSequence extends MathContainer {
      */
     public boolean isScript(int i) {
         return i >= 0 && i < size() && getArgument(i) instanceof MathFunction &&
-                ("^".equals(((MathFunction) getArgument(i)).getName()) ||
-                        "_".equals(((MathFunction) getArgument(i)).getName()));
+				(Tag.SUPERSCRIPT
+						.equals(((MathFunction) getArgument(i)).getName())
+						|| Tag.SUBSCRIPT.equals(
+								((MathFunction) getArgument(i)).getName()));
     }
 
     /**

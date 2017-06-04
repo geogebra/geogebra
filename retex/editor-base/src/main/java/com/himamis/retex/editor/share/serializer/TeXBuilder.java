@@ -2,6 +2,7 @@ package com.himamis.retex.editor.share.serializer;
 
 import java.util.HashMap;
 
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -55,9 +56,9 @@ public class TeXBuilder {
 			}
 
 			if (mathFormula.getArgument(i + 1) instanceof MathFunction) {
-				String name = ((MathFunction) mathFormula.getArgument(i + 1))
+				Tag name = ((MathFunction) mathFormula.getArgument(i + 1))
 						.getName();
-				if ("^".equals(name) || "_".equals(name)) {
+				if (Tag.SUPERSCRIPT == name || Tag.SUBSCRIPT == name) {
 					i++;
 					continue;
 				}
@@ -177,36 +178,36 @@ public class TeXBuilder {
 				new SymbolAtom(rightKey, TeXConstants.TYPE_CLOSING, true));
 	}
 	private Atom buildFunction(MathFunction argument) {
-		if ("^".equals(argument.getName())) {
+		switch (argument.getName()) {
+		case SUPERSCRIPT:
 			MathSequence parent = argument.getParent();
 			int idx = argument.getParentIndex();
 			return new ScriptsAtom(build(parent.getArgument(idx - 1)), null,
 					build(argument.getArgument(0)));
-		}
-		if ("_".equals(argument.getName())) {
-			MathSequence parent = argument.getParent();
-			int idx = argument.getParentIndex();
+		case SUBSCRIPT:
+			parent = argument.getParent();
+			idx = argument.getParentIndex();
 			return new ScriptsAtom(build(parent.getArgument(idx - 1)),
 					build(argument.getArgument(0)), null);
-		}
-		if ("frac".equals(argument.getName())) {
+		case FRAC:
 			return new FractionAtom(
 					build(argument.getArgument(0)),
 					build(argument.getArgument(1)));
-		}
-		if ("sqrt".equals(argument.getName())) {
+		case SQRT:
 			return new NthRoot(build(argument.getArgument(0)), new EmptyAtom());
-		}
-		if ("nroot".equals(argument.getName())) {
+		case  NROOT:
+
 			return new NthRoot(build(argument.getArgument(1)),
 					build(argument.getArgument(0)));
+		default:
+			RowAtom row = new RowAtom(null);
+
+			row.add(build(argument.getArgument(0)));
+
+			row.add(buildFenced("lbrack", "rbrack", argument, 1));
+			return row;
+
 		}
-		RowAtom row = new RowAtom(null);
-		for (int i = 0; i < argument.getName().length(); i++) {
-			row.add(newCharAtom(argument.getName().charAt(i)));
-		}
-		row.add(buildFenced("lbrack", "rbrack", argument, 0));
-		return row;
 	}
 
 	/**

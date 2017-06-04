@@ -154,164 +154,151 @@ public class TeXSerializer extends SerializerAdapter {
 		if (function == currentSelStart) {
 			stringBuilder.append(selection_start);
 		}
-        if (metaModel.isGeneral(function.getName())) {
+		switch (function.getName()) {
 
-            if ("^".equals(function.getName())
-                    || "_".equals(function.getName())) {
-                MathSequence parent = function.getParent();
-                int index = function.getParentIndex();
-                if (index == 0
-                        || (index > 0
-                        && parent.getArgument(index - 1) instanceof MathCharacter && ((MathCharacter) parent
-                        .getArgument(index - 1)).isOperator())) {
-                    stringBuilder.append(characterMissing);
-                }
-                stringBuilder.append(function.getName() + '{');
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append('}');
+		case SUPERSCRIPT:
+			appendIndex(stringBuilder, function, "^");
+			break;
+		case SUBSCRIPT:
+			appendIndex(stringBuilder, function, "_");
+			break;
 
-            } else if ("frac".equals(function.getName())) {
-                stringBuilder.append("{");
-				stringBuilder.append(function.getTexName());
-				stringBuilder.append("{");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append("}{");
-                serialize(function.getArgument(1), stringBuilder);
-                stringBuilder.append("}}");
+		case FRAC:
+			stringBuilder.append("{");
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append("{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}{");
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("}}");
+			break;
+		case SQRT:
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append("{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
+			break;
+		case NROOT:
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append('[');
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("]{");
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append('}');
 
-            } else if ("sqrt".equals(function.getName())) {
-                stringBuilder.append(function.getTexName());
-                stringBuilder.append("{");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append("}");
+			break;
+		case SUM:
+		case PROD:
 
-            } else if ("nroot".equals(function.getName())) {
-                stringBuilder.append(function.getTexName());
-                stringBuilder.append('[');
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append("]{");
-                serialize(function.getArgument(1), stringBuilder);
-                stringBuilder.append('}');
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append("_{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append('=');
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append("}^");
+			serialize(function.getArgument(2), stringBuilder);
+			boolean addBraces = function.getArgument(3).hasOperator();
+			addWithBraces(stringBuilder, function.getArgument(3), addBraces);
 
-            } else if ("sum".equals(function.getName())
-                    || "prod".equals(function.getName())) {
-                stringBuilder.append(function.getTexName());
-                stringBuilder.append("_{");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append('=');
-                serialize(function.getArgument(1), stringBuilder);
-                stringBuilder.append("}^");
-                serialize(function.getArgument(2), stringBuilder);
-				boolean addBraces = function.getArgument(3).hasOperator();
-				addWithBraces(stringBuilder, function.getArgument(3),
-						addBraces);
-
-            } else if ("nsum".equals(function.getName())
-                    || "nprod".equals(function.getName())) {
-                stringBuilder.append(function.getTexName());
-                stringBuilder.append("_{");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append('=');
-                serialize(function.getArgument(1), stringBuilder);
-                stringBuilder.append('}');
-				boolean addBraces = function.getArgument(2).hasOperator();
-				addWithBraces(stringBuilder, function.getArgument(2),
-						addBraces);
-
-            } else if ("int".equals(function.getName())) {
-                stringBuilder.append(function.getTexName());
-                stringBuilder.append('_');
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append('^');
-                serialize(function.getArgument(1), stringBuilder);
-                stringBuilder.append('{');
-                boolean addBraces = currentBraces;
-                if (addBraces) {
-					stringBuilder.append("\\left(");
-                }
-                serialize(function.getArgument(2), stringBuilder);
-                // jmathtex v0.7: incompatibility
-				stringBuilder.append(" " + ("\\nbsp") + " d");
-                serialize(function.getArgument(3), stringBuilder);
-                if (addBraces) {
-					stringBuilder.append("\\right)");
-                }
-                stringBuilder.append('}');
-
-            } else if ("lim".equals(function.getName())) {
-                // lim not implemented in jmathtex
-				stringBuilder.append("\\lim_{");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append(" \\rightarrow ");
-                serialize(function.getArgument(1), stringBuilder);
-                // jmathtex v0.7: incompatibility
-				stringBuilder.append("} " + ("\\nbsp") + " {");
-				boolean addBraces = (function.getArgument(2).hasOperator()
-						&& function
-                        .getParent().hasOperator());
-				this.addWithBraces(stringBuilder, function.getArgument(2),
-						addBraces);
-                stringBuilder.append('}');
-
-            } else if ("factorial".equals(function.getName())) {
-				boolean addBraces = function.getArgument(0).hasOperator();
-				addWithBraces(stringBuilder, function.getArgument(0),
-						addBraces);
-                stringBuilder.append(function.getTexName());
-            } else if ("'".equals(function.getName())) {
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append("'");
-            } else if ("abs".equals(function.getName())) {
-                stringBuilder.append("\\left|");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append("\\right|");
-			} else if ("floor".equals(function.getName())) {
-				stringBuilder.append("\\left\\lfloor ");
-				serialize(function.getArgument(0), stringBuilder);
-				stringBuilder.append("\\right\\rfloor ");
-			} else if ("ceil".equals(function.getName())) {
-				stringBuilder.append("\\left\\lceil ");
-				serialize(function.getArgument(0), stringBuilder);
-				stringBuilder.append("\\right\\rceil ");
-            } else if ("function".equals(function.getName())) {
-                stringBuilder.append("\\mathrm{" + function.getTexName() + "} ");
-                // jmathtex v0.7: incompatibility
-				stringBuilder.append("\\nbsp ");
-                serialize(function.getArgument(0), stringBuilder);
-                stringBuilder.append("\\left(");
-                serialize(function.getArgument(1), stringBuilder);
-                stringBuilder.append("\\right)=");
-                boolean addBraces = currentBraces
-                        || (function.getArgument(2).hasOperator() && function
-                        .getParent().hasOperator());
-                if (addBraces) {
-                    stringBuilder.append("\\left(");
-                }
-                serialize(function.getArgument(2), stringBuilder);
-                if (addBraces) {
-                    stringBuilder.append("\\right)");
-                }
-            }
-        } else {
+			break;
+		case INT:
+			stringBuilder.append(function.getTexName());
+			stringBuilder.append('_');
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append('^');
+			serialize(function.getArgument(1), stringBuilder);
+			stringBuilder.append('{');
+			addBraces = currentBraces;
+			if (addBraces) {
+				stringBuilder.append("\\left(");
+			}
+			serialize(function.getArgument(2), stringBuilder);
+			// jmathtex v0.7: incompatibility
+			stringBuilder.append(" " + ("\\nbsp") + " d");
+			serialize(function.getArgument(3), stringBuilder);
+			if (addBraces) {
+				stringBuilder.append("\\right)");
+			}
+			stringBuilder.append('}');
+			break;
+		case LIM:
+			// lim not implemented in jmathtex
+			stringBuilder.append("\\lim_{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append(" \\rightarrow ");
+			serialize(function.getArgument(1), stringBuilder);
+			// jmathtex v0.7: incompatibility
+			stringBuilder.append("} " + ("\\nbsp") + " {");
+			addBraces = (function.getArgument(2).hasOperator()
+					&& function.getParent().hasOperator());
+			this.addWithBraces(stringBuilder, function.getArgument(2),
+					addBraces);
+			stringBuilder.append('}');
+			break;
+		case ABS:
+			stringBuilder.append("\\left|");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("\\right|");
+			break;
+		case FLOOR:
+			stringBuilder.append("\\left\\lfloor ");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("\\right\\rfloor ");
+			break;
+		case CEIL:
+			stringBuilder.append("\\left\\lceil ");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("\\right\\rceil ");
+			break;
+		case APPLY:
+			stringBuilder.append("{\\mathrm{");
+			serialize(function.getArgument(0), stringBuilder);
+			stringBuilder.append("}");
+			serializeArguments(stringBuilder, function, 1);
+			break;
+		default:
 			stringBuilder.append("{\\mathrm{");
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("}");
-            stringBuilder.append("\\left");
-            stringBuilder.append(MathFunction.getOpeningBracket());
-            for (int i = 0; i < function.size(); i++) {
-                serialize(function.getArgument(i), stringBuilder);
-                if (i + 1 < function.size()) {
-                    stringBuilder.append(",");
-                }
-            }
-            stringBuilder.append("\\right");
-            stringBuilder.append(MathFunction.getClosingBracket());
-            stringBuilder.append("}");
-        }
+			serializeArguments(stringBuilder, function, 0);
+
+		}
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
     }
+
+	private void serializeArguments(StringBuilder stringBuilder,
+			MathFunction function, int offset) {
+		stringBuilder.append("\\left");
+		stringBuilder.append(MathFunction.getOpeningBracket());
+		for (int i = offset; i < function.size(); i++) {
+			serialize(function.getArgument(i), stringBuilder);
+			if (i + 1 < function.size()) {
+				stringBuilder.append(",");
+			}
+		}
+		stringBuilder.append("\\right");
+		stringBuilder.append(MathFunction.getClosingBracket());
+		stringBuilder.append("}");
+
+	}
+
+	private void appendIndex(StringBuilder stringBuilder, MathFunction function,
+			String idxType) {
+		MathSequence parent = function.getParent();
+		int index = function.getParentIndex();
+		if (index == 0 || (index > 0
+				&& parent.getArgument(index - 1) instanceof MathCharacter
+				&& ((MathCharacter) parent.getArgument(index - 1))
+						.isOperator())) {
+			stringBuilder.append(characterMissing);
+		}
+		stringBuilder.append(idxType + '{');
+		serialize(function.getArgument(0), stringBuilder);
+		stringBuilder.append('}');
+
+	}
 
 	private void addWithBraces(StringBuilder stringBuilder,
 			MathSequence argument, boolean addBraces) {

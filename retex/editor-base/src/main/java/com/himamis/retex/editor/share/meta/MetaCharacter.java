@@ -34,15 +34,21 @@ public class MetaCharacter extends MetaComponent {
     public static final int SYMBOL = 3;
 
     private int type;
+	private String name;
 
 	public MetaCharacter(String name, String texName, char key, char unicode,
 			int type) {
-		super(name, texName, key, unicode);
+		super(Tag.CHAR, texName, key, unicode);
         this.type = type;
+		this.name = name;
     }
 
     public int getType() {
         return type;
     }
+
+	public String getCharName() {
+		return name;
+	}
 
 }

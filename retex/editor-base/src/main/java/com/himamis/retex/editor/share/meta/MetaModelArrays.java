@@ -1,17 +1,9 @@
 package com.himamis.retex.editor.share.meta;
 
-import static com.himamis.retex.editor.share.meta.MetaArray.APOSTROPHES;
-import static com.himamis.retex.editor.share.meta.MetaArray.CEIL;
 import static com.himamis.retex.editor.share.meta.MetaArray.CLOSE;
-import static com.himamis.retex.editor.share.meta.MetaArray.CURLY;
 import static com.himamis.retex.editor.share.meta.MetaArray.FIELD;
-import static com.himamis.retex.editor.share.meta.MetaArray.FLOOR;
-import static com.himamis.retex.editor.share.meta.MetaArray.LINE;
-import static com.himamis.retex.editor.share.meta.MetaArray.MATRIX;
 import static com.himamis.retex.editor.share.meta.MetaArray.OPEN;
-import static com.himamis.retex.editor.share.meta.MetaArray.REGULAR;
 import static com.himamis.retex.editor.share.meta.MetaArray.ROW;
-import static com.himamis.retex.editor.share.meta.MetaArray.SQUARE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,49 +29,49 @@ public class MetaModelArrays {
 
 	ListMetaGroup createArraysGroup() {
         List<MetaComponent> components = new ArrayList<MetaComponent>();
-		MetaArray curly = new MetaArray(1, CURLY);
+		MetaArray curly = new MetaArray(1, Tag.CURLY);
 		curly.setOpen(createArrayComponent(OPEN, '{', "\\left\\lbrace "));
 		curly.setClose(createArrayComponent(CLOSE, '}', "\\right\\rbrace "));
 		curly.setField(createArrayComponent(FIELD, ','));
 		curly.setRow(createArrayComponent(ROW, ';'));
 		components.add(curly);
 
-		MetaArray regular = new MetaArray(1, REGULAR);
+		MetaArray regular = new MetaArray(1, Tag.REGULAR);
 		regular.setOpen(createArrayComponent(OPEN, '(', "\\left("));
 		regular.setClose(createArrayComponent(CLOSE, ')', "\\right)"));
 		regular.setField(createArrayComponent(FIELD, ','));
 		regular.setRow(createArrayComponent(ROW, ';'));
 		components.add(regular);
 
-		MetaArray square = new MetaArray(1, SQUARE);
+		MetaArray square = new MetaArray(1, Tag.SQUARE);
 		square.setOpen(createArrayComponent(OPEN, '[', "\\left["));
 		square.setClose(createArrayComponent(CLOSE, ']', "\\right]"));
 		square.setField(createArrayComponent(FIELD, ','));
 		square.setRow(createArrayComponent(ROW, ';'));
 		components.add(square);
 
-		MetaArray apostrophes = new MetaArray(1, APOSTROPHES);
+		MetaArray apostrophes = new MetaArray(1, Tag.APOSTROPHES);
 		apostrophes.setOpen(createArrayComponent(OPEN, '\"', " \\text{\""));
 		apostrophes.setClose(createArrayComponent(CLOSE, '\"', "\"} "));
 		apostrophes.setField(createArrayComponent(FIELD, '\0'));
 		apostrophes.setRow(createArrayComponent(ROW, '\0'));
 		components.add(apostrophes);
 
-		MetaArray line = new MetaArray(1, LINE);
+		MetaArray line = new MetaArray(1, Tag.LINE);
 		line.setOpen(createArrayComponent(OPEN, '|', "|"));
 		line.setClose(createArrayComponent(CLOSE, '|', "|"));
 		line.setField(createArrayComponent(FIELD, ','));
 		line.setRow(createArrayComponent(ROW, ';'));
 		components.add(line);
 
-		MetaArray ceil = new MetaArray(1, CEIL);
+		MetaArray ceil = new MetaArray(1, Tag.CEIL);
 		ceil.setOpen(createArrayComponent(OPEN, LCEIL, "\\left\\lceil "));
 		ceil.setClose(createArrayComponent(CLOSE, RCEIL, "\\right\\rceil "));
 		ceil.setField(createArrayComponent(FIELD, ','));
 		ceil.setRow(createArrayComponent(ROW, ';'));
 		components.add(ceil);
 
-		MetaArray floor = new MetaArray(1, FLOOR);
+		MetaArray floor = new MetaArray(1, Tag.FLOOR);
 		floor.setOpen(createArrayComponent(OPEN, LFLOOR, "\\left\\lfloor "));
 		floor.setClose(
 				createArrayComponent(CLOSE, RFLOOR, "\\right\\rfloor "));
@@ -91,7 +83,7 @@ public class MetaModelArrays {
     }
 
 	MetaArray createMatrixGroup() {
-		MetaArray matrix = new MetaArray(2, MATRIX);
+		MetaArray matrix = new MetaArray(2, Tag.MATRIX);
 		matrix.setOpen(createArrayComponent(OPEN, '{', "\\begin{pmatrix} "));
 		matrix.setClose(createArrayComponent(CLOSE, '}', " \\end{pmatrix}"));
 		matrix.setField(createArrayComponent(FIELD, ',', " & "));

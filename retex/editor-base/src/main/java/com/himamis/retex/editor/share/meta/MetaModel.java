@@ -79,14 +79,14 @@ public class MetaModel {
     }
 
 	private static MetaArray getMetaArray(ListMetaGroup metaGroup,
-			String name) {
+			Tag name) {
         return (MetaArray) metaGroup.getComponent(name);
     }
 
     /**
      * get array
      */
-    public MetaArray getArray(String name) {
+	public MetaArray getArray(Tag name) {
 		return (MetaArray) getComponent(name, arrayGroup);
     }
 
@@ -168,19 +168,14 @@ public class MetaModel {
     /**
      * Custom Function.
      */
-    public boolean isGeneral(String name) {
-        try {
-			getComponent(name, generalFunctionGroup);
-            return true;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return false;
-        }
+	public boolean isGeneral(Tag name) {
+		return name != Tag.APPLY;
     }
 
     /**
      * get custom function
      */
-    public MetaFunction getGeneral(String name) {
+	public MetaFunction getGeneral(Tag name) {
 		return (MetaFunction) getComponent(name, generalFunctionGroup);
     }
 
@@ -188,24 +183,15 @@ public class MetaModel {
      * Function.
      */
     public boolean isFunction(String casName) {
-        try {
-			if (getFunction(casName) == null) {
-				return false;
-			}
-            return true;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return false;
-        }
+		return Tag.lookup(casName) != null
+				|| FunctionGroup.isAcceptable(casName);
     }
 
     /**
      * get function
      */
     public MetaFunction getFunction(String name) {
-		MetaComponent mc = generalFunctionGroup.getComponent(name);
-		if (mc instanceof MetaFunction) {
-			return (MetaFunction) mc;
-		}
+
 		return customFunctionGroup.getComponent(name);
     }
 
@@ -222,6 +208,17 @@ public class MetaModel {
 
 		throw new ArrayIndexOutOfBoundsException(
 				"Component Not found " + group + "/" + name);
+	}
+
+	public MetaComponent getComponent(Tag name, ListMetaGroup group) {
+
+		MetaComponent meta = group.getComponent(name);
+		if (meta != null) {
+			return meta;
+		}
+
+		throw new ArrayIndexOutOfBoundsException(
+				"Component Not found:" + name);
 	}
 
     /**
@@ -297,20 +294,25 @@ public class MetaModel {
     public boolean isFunctionOpenKey(char key) {
 		ListMetaGroup metaGroup = arrayGroup;
         boolean isFunctionOpenKey = false;
-        isFunctionOpenKey |= getMetaArray(metaGroup, MetaArray.REGULAR).getOpenKey() == key;
-        isFunctionOpenKey |= getMetaArray(metaGroup, MetaArray.SQUARE).getOpenKey() == key;
+		isFunctionOpenKey |= getMetaArray(metaGroup, Tag.REGULAR)
+				.getOpenKey() == key;
+		isFunctionOpenKey |= getMetaArray(metaGroup, Tag.SQUARE)
+				.getOpenKey() == key;
         return isFunctionOpenKey;
     }
 
     public boolean isArrayCloseKey(char key) {
 		ListMetaGroup metaGroup = arrayGroup;
         boolean isArrayCloseKey = false;
-        isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.REGULAR).getCloseKey() == key;
-        isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.SQUARE).getCloseKey() == key;
-        isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.CURLY).getCloseKey() == key;
-		isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.FLOOR)
+		isArrayCloseKey |= getMetaArray(metaGroup, Tag.REGULAR)
 				.getCloseKey() == key;
-		isArrayCloseKey |= getMetaArray(metaGroup, MetaArray.CEIL)
+		isArrayCloseKey |= getMetaArray(metaGroup, Tag.SQUARE)
+				.getCloseKey() == key;
+		isArrayCloseKey |= getMetaArray(metaGroup, Tag.CURLY)
+				.getCloseKey() == key;
+		isArrayCloseKey |= getMetaArray(metaGroup, Tag.FLOOR)
+				.getCloseKey() == key;
+		isArrayCloseKey |= getMetaArray(metaGroup, Tag.CEIL)
 				.getCloseKey() == key;
         return isArrayCloseKey;
     }

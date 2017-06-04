@@ -65,7 +65,7 @@ public class MathCharacter extends MathComponent {
     }
 
     public String getName() {
-        return meta.getName();
+		return meta.getCharName();
     }
 
     public String getTexName() {

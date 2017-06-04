@@ -29,14 +29,6 @@ package com.himamis.retex.editor.share.meta;
 
 public class MetaArray extends MetaComponent {
 
-    public static final String CURLY = "curly";
-    public static final String REGULAR = "regular";
-    public static final String SQUARE = "square";
-    public static final String APOSTROPHES = "apostrophes";
-    public static final String LINE = "line";
-	public static final String CEIL = "ceil";
-	public static final String FLOOR = "floor";
-
     /* Array and matrix elements. */
     static final String OPEN = "Open";
     static final String CLOSE = "Close";
@@ -52,8 +44,8 @@ public class MetaArray extends MetaComponent {
     private MetaComponent row;
 	private int dimension;
 
-	MetaArray(int dimension, String name) {
-		super(name, name, (char) 0, (char) 0);
+	MetaArray(int dimension, Tag name) {
+		super(name, name + "", (char) 0, (char) 0);
 		this.dimension = dimension;
 	}
 

@@ -5,45 +5,47 @@ import java.util.List;
 
 class MetaModelFunctions {
 
-	private static MetaFunction createFunction(String name, String tex,
+	private static MetaFunction createFunction(Tag name, String tex,
 			char key, MetaParameter[] parameters) {
 		return new MetaFunction(name, tex, key, parameters);
     }
 
-	private static MetaFunction createFunction(String name, String tex,
+	private static MetaFunction createFunction(Tag name, String tex,
 			MetaParameter[] parameters) {
-        char key = name.length() == 1 ? name.charAt(0) : 0;
+		char key = name.getKey();
 		return createFunction(name, tex, key, parameters);
     }
 
-    private static MetaFunction createFunction(String name) {
+	private static MetaFunction createFunction(Tag name) {
         return createFunction(name, new MetaParameter[]{createParameter("x", 0)});
     }
 
-    private static MetaFunction createFunction(String name, String tex) {
+	private static MetaFunction createFunction(Tag name, String tex) {
 		return createFunction(name, tex,
 				new MetaParameter[] { createParameter("x", 0) });
     }
 
-	private static MetaFunction createFunctionInitial(String name, String tex,
+	private static MetaFunction createFunctionInitial(Tag name, String tex,
 			int initial, MetaParameter[] parameters) {
 		MetaFunction metaFunction = createFunction(name, tex, parameters);
         metaFunction.setInitialIndex(initial);
         return metaFunction;
     }
 
-	private static MetaFunction createFunctionInsert(String name, String tex,
+	private static MetaFunction createFunctionInsert(Tag name, String tex,
 			int insert, MetaParameter[] parameters) {
 		MetaFunction metaFunction = createFunction(name, tex, parameters);
         metaFunction.setInsertIndex(insert);
         return metaFunction;
     }
 
-    private static MetaFunction createFunction(String name, MetaParameter[] parameters) {
-		return createFunction(name, name, parameters);
+	private static MetaFunction createFunction(Tag name,
+			MetaParameter[] parameters) {
+		return createFunction(name, name.toString().toLowerCase(), parameters);
     }
 
-    private static MetaFunction createFunctionParams(String name, String... parameterNames) {
+	private static MetaFunction createFunctionParams(Tag name,
+			String... parameterNames) {
         MetaParameter[] parameters = new MetaParameter[parameterNames.length];
         for (int i = 0; i < parameterNames.length; i++) {
             parameters[i] = createParameter(parameterNames[i], i);
@@ -70,34 +72,35 @@ class MetaModelFunctions {
 	ListMetaGroup createGeneralFunctionsGroup() {
         List<MetaComponent> functions = new ArrayList<MetaComponent>();
 
-        functions.add(createFunctionParams("_", "i"));
-        functions.add(createFunctionParams("^", "n"));
+		functions.add(createFunctionParams(Tag.SUBSCRIPT, "i"));
+		functions.add(createFunctionParams(Tag.SUPERSCRIPT, "n"));
 
-		functions.add(createFunctionInitial("frac", "\\frac", 1,
+		functions.add(createFunctionInitial(Tag.FRAC, "\\frac", 1,
 				new MetaParameter[] {
                 createParameterDown("x", 0, 1),
                 createParameterUp("y", 1, 0)
         }));
 
-        functions.add(createFunction("sqrt",  "\\sqrt", new MetaParameter[]{
+		functions.add(createFunction(Tag.SQRT, "\\sqrt", new MetaParameter[] {
                 createParameter("x", 0)
         }));
 
 		functions.add(
-				createFunctionInsert("nroot", "\\sqrt", 1, new MetaParameter[] {
+				createFunctionInsert(Tag.NROOT, "\\sqrt", 1,
+						new MetaParameter[] {
                 createParameterDown("n", 0, 0),
                 createParameterUp("x", 1, 1)
         }));
 
 		functions.add(
-				createFunctionInsert("sum", "\\sum", 3, new MetaParameter[] {
+				createFunctionInsert(Tag.SUM, "\\sum", 3, new MetaParameter[] {
                 createParameterUp("v", 0, 2),
                 createParameterUp("fm", 1, 2),
                 createParameterDown("to", 2, 0),
                 createParameter("x", 3)
         }));
 
-		functions.add(createFunctionInsert("prod", "\\prod", 3,
+		functions.add(createFunctionInsert(Tag.PROD, "\\prod", 3,
 				new MetaParameter[] {
                 createParameterUp("v", 0, 2),
                 createParameterUp("fm", 1, 2),
@@ -105,13 +108,11 @@ class MetaModelFunctions {
                 createParameter("x", 3)
         }));
 
-		functions.add(createFunction("nint", "\\int", new MetaParameter[] {
-                createParameter("x", 0),
-                createParameter("v", 1)
-        }));
+
 
 		functions.add(
-				createFunctionInsert("int", "\\int", 2, new MetaParameter[] {
+				createFunctionInsert(Tag.INT, "\\int", 2,
+						new MetaParameter[] {
                 createParameterUp("fm", 0, 1),
                 createParameterDown("to", 1, 0),
                 createParameter("x", 2),
@@ -119,26 +120,20 @@ class MetaModelFunctions {
         }));
 
 		functions
-				.add(createFunctionInsert("lim", "\\lim", 2,
+				.add(createFunctionInsert(Tag.LIM, "\\lim", 2,
 						new MetaParameter[] {
                 createParameter("v", 0),
                 createParameter("to", 1),
                 createParameter("x", 2)
         }));
 
-		functions
-				.add(createFunctionInsert("function", "function", 2,
-						new MetaParameter[] {
-                createParameter("name", 0),
-                createParameter("v", 1),
-                createParameter("x", 2)
-        }));
 
-        functions.add(createFunction("abs"));
-		functions.add(createFunction("floor"));
-		functions.add(createFunction("ceil"));
-		functions.add(createFunction("log10", "log_{10}"));
-		functions.add(createFunction("log2", "log_{2}"));
+
+		functions.add(createFunction(Tag.ABS));
+		functions.add(createFunction(Tag.FLOOR));
+		functions.add(createFunction(Tag.CEIL));
+		functions.add(createFunction(Tag.LOG10, "log_{10}"));
+		functions.add(createFunction(Tag.LOG2, "log_{2}"));
 
 		return new ListMetaGroup(functions);
     }

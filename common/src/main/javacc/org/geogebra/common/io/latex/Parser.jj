@@ -186,7 +186,7 @@ void superscript(MathContainer currentField) :
 {
     (t = <POWERN>) {
         
-        MathFunction power = new MathFunction(metaModel.getGeneral("^"));
+        MathFunction power = new MathFunction(metaModel.getGeneral(Tag.SUPERSCRIPT));
         mathSequence = new MathSequence();
         power.setArgument(0, mathSequence);
         currentField.addArgument(power);
@@ -202,7 +202,7 @@ void superscript(MathContainer currentField) :
 void power(MathContainer currentField) : { }
 {
     <POWER> {
-        MathFunction power = new MathFunction(metaModel.getGeneral("^"));
+        MathFunction power = new MathFunction(metaModel.getGeneral(Tag.SUPERSCRIPT));
         MathSequence mathSequence = new MathSequence();
         mathAtom(mathSequence);
         mathSequence.removeBrackets();
@@ -217,7 +217,7 @@ void fraction(MathContainer currentField) :
 }
 {
     <FRACTION> {
-        fraction = new MathFunction(metaModel.getGeneral("frac"));
+        fraction = new MathFunction(metaModel.getGeneral(Tag.FRAC));
         //handle numerator
         MathSequence passArgs = new MathSequence();
         editorState.setCurrentField((MathSequence) currentField);
@@ -239,7 +239,7 @@ void subscript(MathContainer currentField) :
 }
 {
     <SUBSCRIPT> {
-        MathFunction subscriptFunction = new MathFunction(metaModel.getGeneral("_"));
+        MathFunction subscriptFunction = new MathFunction(metaModel.getGeneral(Tag.SUBSCRIPT));
         subscript = new MathSequence();
     }
     ((<CURLY_BRACKETS_OPEN> mathContainer(subscript) <CURLY_BRACKETS_CLOSE>)
@@ -253,7 +253,7 @@ void subscript(MathContainer currentField) :
 void sqrt(MathContainer currentField) : {}
 {
     <SQRT> <PARANTHESES_OPEN> {
-        MathFunction sqrt = new MathFunction(metaModel.getGeneral("sqrt"));
+        MathFunction sqrt = new MathFunction(metaModel.getGeneral(Tag.SQRT));
         MathSequence mathSequence = new MathSequence();
         mathContainer(mathSequence);
         sqrt.setArgument(0, mathSequence);
@@ -264,7 +264,7 @@ void sqrt(MathContainer currentField) : {}
 void nroot(MathContainer currentField) : {}
 {
     <NROOT> <PARANTHESES_OPEN> {
-        MathFunction nroot = new MathFunction(metaModel.getGeneral("nroot"));
+        MathFunction nroot = new MathFunction(metaModel.getGeneral(Tag.NROOT));
         MathSequence param1 = new MathSequence();
         mathContainer(param1);
     } <COMMA> {
@@ -291,7 +291,7 @@ void arrayParantheses(MathContainer currentField) :
         mathSequence = editorState.getCurrentField();
         mathArrayOrFunction = mathSequence.getParent();
 
-        //mathArray = new MathArray(metaModel.getArray(MetaArray.REGULAR), 0);
+        //mathArray = new MathArray(metaModel.getArray(Tag.REGULAR), 0);
         //mathArray.addArgument(mathSequence);
         //currentField.addArgument(mathArray);
     }
@@ -321,12 +321,12 @@ void arraySquare(MathContainer currentField) :
     (open = <SQUARE_BRACKETS_OPEN> | open = <LFLOOR > | open = <LCEIL>) 
     {
         mathSequence = new MathSequence();
-		String arrayType = MetaArray.SQUARE;
+		Tag arrayType = Tag.SQUARE;
 		if(LCEIL == open.kind)		{
-		  arrayType = MetaArray.CEIL;		}
+		  arrayType = Tag.CEIL;		}
 		if(LFLOOR == open.kind)
 		{
-		  arrayType = MetaArray.FLOOR;
+		  arrayType = Tag.FLOOR;
 		}
         mathArray = new MathArray(metaModel.getArray(arrayType), 0);        
         currentField.addArgument(mathArray);
@@ -359,7 +359,7 @@ void arrayCurly(MathContainer currentField) :
     {
         mathSequence = new MathSequence();
 
-        mathArray = new MathArray(metaModel.getArray(MetaArray.CURLY), 0);
+        mathArray = new MathArray(metaModel.getArray(Tag.CURLY), 0);
         currentField.addArgument(mathArray);
     }
        (mathContainer(mathSequence))
@@ -391,7 +391,7 @@ void quotes(MathContainer currentField) :
 {
     <QUOTE_START> {
         mathSequence = new MathSequence();
-        mathArray = new MathArray(metaModel.getArray(MetaArray.APOSTROPHES), 0);
+        mathArray = new MathArray(metaModel.getArray(Tag.APOSTROPHES), 0);
         mathArray.addArgument(mathSequence);
         currentField.addArgument(mathArray);
     } ((t = <CHAR>) {
@@ -427,7 +427,7 @@ void mathCharacter(MathContainer currentField) :
                 }
                 if (comp instanceof MathFunction) {
                     MathFunction mf = (MathFunction) comp;
-                    if ("_".equals(mf.getName())) {
+                    if (Tag.SUBSCRIPT == mf.getName()) {
                         MetaCharacter times = metaModel.getOperator("*");
                         MathCharacter timesChar = new MathCharacter(times);
                         currentField.addArgument(timesChar);

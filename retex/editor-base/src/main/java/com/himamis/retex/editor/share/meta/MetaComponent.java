@@ -41,28 +41,28 @@ public class MetaComponent implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String name;
+	private Tag name;
     private String texName;
     private char key;
     private char unicode;
 
-	MetaComponent(String name, String texName, char key, char unicode) {
-        this.name = name;
+	MetaComponent(Tag name, String texName, char key, char unicode) {
+		this.name = name;
         this.texName = texName;
         this.key = key;
         this.unicode = unicode;
     }
 
-    /**
-     * Uid name.
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Uid name.
+	 */
+	public Tag getName() {
+		return name;
+	}
 
-    /**
-     * TeX name.
-     */
+	/**
+	 * TeX name.
+	 */
     public String getTexName() {
         return texName;
     }

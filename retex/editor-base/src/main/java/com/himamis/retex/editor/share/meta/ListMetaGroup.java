@@ -55,4 +55,13 @@ public class ListMetaGroup implements MetaGroup {
         return components;
     }
 
+	public MetaComponent getComponent(Tag name) {
+		for (MetaComponent component : components) {
+			if (component.getName().equals(name)) {
+				return component;
+			}
+		}
+		return null;
+	}
+
 }

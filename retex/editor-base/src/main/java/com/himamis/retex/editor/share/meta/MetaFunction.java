@@ -39,7 +39,7 @@ public class MetaFunction extends MetaComponent {
     private MetaParameter arguments[];
     private String desc;
 
-	public MetaFunction(String name, String texName, char key,
+	public MetaFunction(Tag name, String texName, char key,
 			MetaParameter parameters[]) {
 		super(name, texName, key, key);
         this.arguments = parameters != null ? parameters : new MetaParameter[0];

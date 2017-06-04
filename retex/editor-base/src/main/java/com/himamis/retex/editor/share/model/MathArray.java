@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaComponent;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.meta.Tag;
 
 /**
  * Array/array. This class is part of model.
@@ -227,7 +228,7 @@ public class MathArray extends MathContainer {
                     && getArgument(i).getArgument(0) instanceof MathArray) {
                 MathArray row = (MathArray) getArgument(i).getArgument(0);
 
-                if (row.meta != metaModel.getArray(MetaArray.CURLY)) {
+				if (row.meta != metaModel.getArray(Tag.CURLY)) {
                     return -1;
                 } else if (matrixWidth == -1) {
                     matrixWidth = row.size();

@@ -10,6 +10,7 @@ import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.meta.MetaModelArrays;
+import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -127,7 +128,7 @@ public class InputController {
 	 */
 	public void newBraces(EditorState editorState, char ch) {
 		String casName = ArgumentHelper.readCharacters(editorState);
-		if (ch == FUNCTION_OPEN_KEY && metaModel.isGeneral(casName)) {
+		if (ch == FUNCTION_OPEN_KEY && Tag.lookup(casName) != null) {
 			delCharacters(editorState, casName.length());
 			newFunction(editorState, casName);
 
@@ -191,7 +192,7 @@ public class InputController {
 					currentField.delArgument(currentOffset - 1);
 					// add braces
 					MathArray array = new MathArray(
-							metaModel.getArray(MetaArray.REGULAR), 1);
+							metaModel.getArray(Tag.REGULAR), 1);
 					currentField.addArgument(currentOffset - 1, array);
 					// add sequence
 					MathSequence field = new MathSequence();
@@ -203,17 +204,26 @@ public class InputController {
 
 		// add function
 		MathFunction function;
-		if (metaModel.isGeneral(name)) {
-			MetaFunction meta = metaModel.getGeneral(name);
+		Tag tag = Tag.lookup(name);
+		int offset = 0;
+		if (tag != null) {
+			MetaFunction meta = metaModel.getGeneral(tag);
 			function = new MathFunction(meta);
 
 		} else {
+			offset = 1;
 			MetaFunction meta = metaModel.getFunction(name);
+			MathSequence nameS = new MathSequence();
+			for (int i = 0; i < name.length(); i++) {
+				nameS.addArgument(new MathCharacter(
+						metaModel.getCharacter(name.charAt(i) + "")));
+			}
 			function = new MathFunction(meta);
+			function.setArgument(0, nameS);
 		}
 
 		// add sequences
-		for (int i = 0; i < function.size(); i++) {
+		for (int i = offset; i < function.size(); i++) {
 			MathSequence field = new MathSequence();
 			function.setArgument(i, field);
 		}
@@ -249,7 +259,7 @@ public class InputController {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
 				MathSequence field = new MathSequence();
-				function.setArgument(0, field);
+				function.setArgument(offset, field);
 				insertReverse(field, -1, removed);
 				editorState.resetSelection();
 				editorState.incCurrentOffset();
@@ -258,11 +268,11 @@ public class InputController {
 		}
 		currentOffset = editorState.getCurrentOffset();
 		currentField.addArgument(currentOffset, function);
-
+		int select = offset > 0 ? offset : initial;
 		if (function.hasChildren()) {
 			// set current sequence
 			CursorController.firstField(editorState,
-					function.getArgument(initial));
+					function.getArgument(select));
 			editorState.setCurrentOffset(editorState.getCurrentField().size());
 		} else {
 			editorState.incCurrentOffset();
@@ -272,8 +282,8 @@ public class InputController {
 	public void newScript(EditorState editorState, String script) {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentField.size() == 0 && currentField.getParent() instanceof MathFunction
-				&& "^".equals(
-						((MathFunction) currentField.getParent()).getName())
+				&& Tag.SUPERSCRIPT == ((MathFunction) currentField.getParent())
+						.getName()
 				&& "^".equals(script)) {
 			return;
 		}
@@ -290,8 +300,8 @@ public class InputController {
 				editorState.setCurrentOffset(function.getArgument(0).size());
 				return;
 			}
-			if (!"^".equals(function.getName())
-					&& !"_".equals(function.getName())) {
+			if (Tag.SUPERSCRIPT != function.getName()
+					&& Tag.SUBSCRIPT != function.getName()) {
 				break;
 			}
 			offset--;
@@ -307,8 +317,8 @@ public class InputController {
 				editorState.setCurrentOffset(0);
 				return;
 			}
-			if (!"^".equals(function.getName())
-					&& !"_".equals(function.getName())) {
+			if (Tag.SUPERSCRIPT != function.getName()
+					&& Tag.SUBSCRIPT != function.getName()) {
 				break;
 			}
 			offset++;
@@ -317,7 +327,7 @@ public class InputController {
 				.getArgument(currentOffset - 1) instanceof MathFunction) {
 			MathFunction function = (MathFunction) currentField
 					.getArgument(currentOffset - 1);
-			if ("^".equals(function.getName()) && "_".equals(script)) {
+			if (Tag.SUPERSCRIPT == function.getName() && "_".equals(script)) {
 				currentOffset--;
 			}
 		}
@@ -325,7 +335,7 @@ public class InputController {
 				.getArgument(currentOffset) instanceof MathFunction) {
 			MathFunction function = (MathFunction) currentField
 					.getArgument(currentOffset);
-			if ("_".equals(function.getName()) && "^".equals(script)) {
+			if (Tag.SUBSCRIPT == function.getName() && "^".equals(script)) {
 				currentOffset++;
 			}
 		}
@@ -616,7 +626,7 @@ public class InputController {
 			MathFunction parent = (MathFunction) currentField.getParent();
 
 			// fraction has operator like behavior
-			if ("frac".equals(parent.getName())) {
+			if (Tag.FRAC == parent.getName()) {
 
 				// if second operand is empty sequence
 				if (currentField.getParentIndex() == 1

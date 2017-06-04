@@ -28,6 +28,7 @@
 package com.himamis.retex.editor.share.model;
 
 import com.himamis.retex.editor.share.meta.MetaFunction;
+import com.himamis.retex.editor.share.meta.Tag;
 
 /**
  * Function. This class is part of model.
@@ -68,7 +69,7 @@ public class MathFunction extends MathContainer {
     /**
      * Uid name.
      */
-    public String getName() {
+	public Tag getName() {
         return meta.getName();
     }
 
