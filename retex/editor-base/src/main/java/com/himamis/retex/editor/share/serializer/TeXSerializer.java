@@ -251,6 +251,7 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\right\\rceil ");
 			break;
 		case APPLY:
+		case APPLY_SQUARE:
 			stringBuilder.append("{\\mathrm{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
@@ -271,7 +272,7 @@ public class TeXSerializer extends SerializerAdapter {
 	private void serializeArguments(StringBuilder stringBuilder,
 			MathFunction function, int offset) {
 		stringBuilder.append("\\left");
-		stringBuilder.append(MathFunction.getOpeningBracket());
+		stringBuilder.append(function.getOpeningBracket());
 		for (int i = offset; i < function.size(); i++) {
 			serialize(function.getArgument(i), stringBuilder);
 			if (i + 1 < function.size()) {
@@ -279,7 +280,7 @@ public class TeXSerializer extends SerializerAdapter {
 			}
 		}
 		stringBuilder.append("\\right");
-		stringBuilder.append(MathFunction.getClosingBracket());
+		stringBuilder.append(function.getClosingBracket());
 		stringBuilder.append("}");
 
 	}

@@ -190,9 +190,9 @@ public class MetaModel {
     /**
      * get function
      */
-    public MetaFunction getFunction(String name) {
+    public MetaFunction getFunction(String name, boolean square) {
 
-		return customFunctionGroup.getComponent(name);
+		return customFunctionGroup.getComponent(name, square);
     }
 
     /**

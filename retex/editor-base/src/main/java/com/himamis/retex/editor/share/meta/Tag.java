@@ -6,7 +6,8 @@ public enum Tag {
 
 	SUPERSCRIPT("^"), SUBSCRIPT("_"), FRAC("frac"), SQRT("sqrt"), NROOT(
 			"nroot"), PROD("prod"), INT("int"), LIM("lim"), APPLY, LOG2(
-					"log2"), LOG10("log10"), ABS("abs"), SUM("sum");
+					"log2"), LOG10(
+							"log10"), ABS("abs"), SUM("sum"), APPLY_SQUARE;
 
 	private final String key;
 

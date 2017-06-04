@@ -127,11 +127,11 @@ public class MetaFunction extends MetaComponent {
 		return order[casOrder];
 	} */
 
-    public static String getOpeningBracket() {
-        return "(";
+	public String getOpeningBracket() {
+		return getName() == Tag.APPLY_SQUARE ? "[" : "(";
     }
 
-    public static String getClosingBracket() {
-        return ")";
+	public String getClosingBracket() {
+		return getName() == Tag.APPLY_SQUARE ? "]" : ")";
     }
 }

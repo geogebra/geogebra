@@ -130,11 +130,12 @@ public class InputController {
 		String casName = ArgumentHelper.readCharacters(editorState);
 		if (ch == FUNCTION_OPEN_KEY && Tag.lookup(casName) != null) {
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName);
+			newFunction(editorState, casName, false);
 
-		} else if (ch == FUNCTION_OPEN_KEY && metaModel.isFunction(casName)) {
+		} else if ((ch == FUNCTION_OPEN_KEY || ch == '[')
+				&& metaModel.isFunction(casName)) {
 			delCharacters(editorState, casName.length());
-			newFunction(editorState, casName);
+			newFunction(editorState, casName, ch == '[');
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
@@ -165,8 +166,9 @@ public class InputController {
 	 * @param name
 	 *            function
 	 */
-	public void newFunction(EditorState editorState, String name) {
-		newFunction(editorState, name, 0);
+	public void newFunction(EditorState editorState, String name,
+			boolean square) {
+		newFunction(editorState, name, 0, square);
 	}
 
 	/**
@@ -175,7 +177,8 @@ public class InputController {
 	 * @param name
 	 *            function
 	 */
-	public void newFunction(EditorState editorState, String name, int initial) {
+	public void newFunction(EditorState editorState, String name, int initial,
+			boolean square) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		// add extra braces for sqrt, nthroot and fraction
@@ -212,7 +215,7 @@ public class InputController {
 
 		} else {
 			offset = 1;
-			MetaFunction meta = metaModel.getFunction(name);
+			MetaFunction meta = metaModel.getFunction(name, square);
 			MathSequence nameS = new MathSequence();
 			for (int i = 0; i < name.length(); i++) {
 				nameS.addArgument(new MathCharacter(
@@ -251,7 +254,7 @@ public class InputController {
 				editorState.resetSelection();
 				editorState.setCurrentOffset(
 						array.getParentIndex() + 1);
-				newFunction(editorState, name, initial);
+				newFunction(editorState, name, initial, square);
 				return;
 			}
 		} else {
@@ -340,7 +343,7 @@ public class InputController {
 			}
 		}
 		editorState.setCurrentOffset(currentOffset);
-		newFunction(editorState, script);
+		newFunction(editorState, script, false);
 	}
 
 	/**
@@ -974,13 +977,13 @@ public class InputController {
 			handled = true;
 		} else if (allowFrac && ch == '/') { // slash used in android ggb
 												// keyboard
-			newFunction(editorState, "frac", 1);
+			newFunction(editorState, "frac", 1, false);
 			handled = true;
 		} else if (allowFrac && ch == 47) { // simple / char
-			newFunction(editorState, "frac", 1);
+			newFunction(editorState, "frac", 1, false);
 			handled = true;
 		} else if (ch == 8730) { // square root char
-			newFunction(editorState, "sqrt", 0);
+			newFunction(editorState, "sqrt", 0, false);
 			handled = true;
 		} else if (meta.isArrayOpenKey(ch)) {
 			newArray(editorState, 1, ch);

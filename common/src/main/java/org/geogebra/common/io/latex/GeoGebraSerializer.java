@@ -126,6 +126,7 @@ public class GeoGebraSerializer implements Serializer {
 					new int[] { 2, 3, 0, 1 });
 			break;
 		case APPLY:
+		case APPLY_SQUARE:
 			maybeInsertTimes(mathFunction, stringBuilder);
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			serializeArgs(mathFunction, stringBuilder, 1);
@@ -141,7 +142,7 @@ public class GeoGebraSerializer implements Serializer {
 
 	private static void serializeArgs(MathFunction mathFunction,
 			StringBuilder stringBuilder, int offset) {
-		stringBuilder.append('(');
+		stringBuilder.append(mathFunction.getOpeningBracket());
 		for (int i = offset; i < mathFunction.size(); i++) {
 			serialize(mathFunction.getArgument(i), stringBuilder);
 			stringBuilder.append(',');
@@ -149,7 +150,7 @@ public class GeoGebraSerializer implements Serializer {
 		if (mathFunction.size() > offset) {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		}
-		stringBuilder.append(')');
+		stringBuilder.append(mathFunction.getClosingBracket());
 
 	}
 

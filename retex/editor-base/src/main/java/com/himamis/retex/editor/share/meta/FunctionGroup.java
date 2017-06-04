@@ -14,12 +14,14 @@ public class FunctionGroup implements MetaGroup {
 			new MetaParameter("f", 0), new MetaParameter("x", 1) };
 	private MetaFunction apply = new MetaFunction(Tag.APPLY, null, (char) 0,
 			defaultParameters);
+	private MetaFunction applySquare = new MetaFunction(Tag.APPLY_SQUARE, null,
+			(char) 0, defaultParameters);
 
-	public MetaFunction getComponent(String componentName) {
+	public MetaFunction getComponent(String componentName, boolean square) {
 		if (!isAcceptable(componentName)) {
 			return null;
 		}
-		return apply;
+		return square ? applySquare : apply;
 	}
 
 	public static boolean isAcceptable(String functionName) {
