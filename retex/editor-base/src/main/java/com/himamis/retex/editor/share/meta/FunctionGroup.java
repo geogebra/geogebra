@@ -17,8 +17,8 @@ public class FunctionGroup implements MetaGroup {
 	private MetaFunction applySquare = new MetaFunction(Tag.APPLY_SQUARE, null,
 			(char) 0, defaultParameters);
 
-	public MetaFunction getComponent(String componentName, boolean square) {
-		if (!isAcceptable(componentName)) {
+	public MetaFunction getComponent(String name, boolean square) {
+		if (!isAcceptable(name)) {
 			return null;
 		}
 		return square ? applySquare : apply;
@@ -26,7 +26,8 @@ public class FunctionGroup implements MetaGroup {
 
 	public static boolean isAcceptable(String functionName) {
         // Accept only functions that consist of no special characters
-		return !"".equals(functionName) && Character.areLetters(functionName);
+		return !"".equals(functionName)
+				&& Character.areLettersOrDigits(functionName);
     }
 
 	

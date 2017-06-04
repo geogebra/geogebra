@@ -492,9 +492,10 @@ public class InputController {
 
 				// if ')' typed at the end of last field of function ... move
 				// after closing character
-			} else if (ch == FUNCTION_CLOSE_KEY
-					&& currentOffset == currentField.size()
+			} else if (currentOffset == currentField.size()
 					&& parent instanceof MathFunction
+					&& ch == ((MathFunction) parent).getClosingBracket()
+							.charAt(0)
 					&& parent.size() == currentField.getParentIndex() + 1) {
 
 				currentOffset = parent.getParentIndex() + 1;
@@ -651,8 +652,11 @@ public class InputController {
 
 				// not a fraction, and cursor is right after the sign
 			} else {
-				if (currentField.getParentIndex() == 0) {
-					delContainer(editorState, parent, currentField);
+				if (currentField.getParentIndex() == 1) {
+					int len = parent.getArgument(0).size();
+					delContainer(editorState, parent, parent.getArgument(0));
+					editorState
+							.setCurrentOffset(len);
 				}
 			}
 
@@ -1063,6 +1067,11 @@ public class InputController {
 					&& ((MathCharacter) args.getArgument(i))
 							.getUnicode() == '>') {
 				endchar = i;
+				if (i < args.size() - 1
+						&& args.getArgument(i + 1) instanceof MathCharacter
+						&& " ".equals(args.getArgument(i + 1).toString())) {
+					endchar++;
+				}
 				break;
 			}
 		}

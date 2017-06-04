@@ -6,6 +6,7 @@ import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
+import com.himamis.retex.editor.share.meta.FunctionGroup;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
@@ -85,13 +86,11 @@ public class MathFieldProcessing implements KeyboardListener {
 					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0, '\0'));
 
 		} else {
-			int length = text.length();
 			if (text.contains("/") || text.contains("^")) {
 				mf.insertString(text);
 				return;
 			}
-			if (length > 1 && Character.isLetter(text.charAt(0))
-					&& !text.contains("[")) {
+			if (FunctionGroup.isAcceptable(text)) {
 				mf.insertFunction(text);
 				return;
 			}

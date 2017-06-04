@@ -41,11 +41,11 @@ import com.himamis.retex.editor.share.event.FocusListener;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
@@ -537,10 +537,14 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	public void selectNextArgument() {
 		EditorState state = getEditorState();
 		MathSequence seq = state.getCurrentField();
+
 		if (seq != null && seq.size() > 0) {
 			MathComponent last = seq.getArgument(state.getCurrentOffset() - 1);
-			if (last instanceof MathArray && ((MathArray) last).size() > 0) {
-				MathSequence args = ((MathArray) last).getArgument(0);
+			if (last instanceof MathFunction
+					&& ((MathFunction) last).size() > 0) {
+				// log10: sizse 1, select 0 sin: size 2 select 1
+				MathSequence args = ((MathFunction) last)
+						.getArgument(((MathFunction) last).size() - 1);
 				if (InputController.doSelectNext(args, state, 0)) {
 					update();
 				}

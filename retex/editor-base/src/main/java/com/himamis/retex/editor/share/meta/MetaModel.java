@@ -169,7 +169,7 @@ public class MetaModel {
      * Custom Function.
      */
 	public boolean isGeneral(Tag name) {
-		return name != Tag.APPLY;
+		return name != Tag.APPLY && name != Tag.APPLY_SQUARE;
     }
 
     /**
