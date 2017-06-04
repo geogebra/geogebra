@@ -131,7 +131,7 @@ void mathContainer(MathContainer currentField) : {}
     |
         arrayParantheses(currentField)
     |
-        arraySquare(currentField)
+        arrayFloorCeil(currentField)
     |
         arrayCurly(currentField)
     |
@@ -166,7 +166,7 @@ void mathAtom(MathContainer currentField) : {
     |
         arrayParantheses(currentField)
     |
-        arraySquare(currentField)
+        arrayFloorCeil(currentField)
     |
         arrayCurly(currentField)
     |
@@ -280,20 +280,17 @@ void arrayParantheses(MathContainer currentField) :
 {
     MathContainer mathArrayOrFunction = null;
     MathSequence mathSequence = null;
+    Token open = null;
 }
 {
-    <PARANTHESES_OPEN>
+    (open = <PARANTHESES_OPEN> | open = <SQUARE_BRACKETS_OPEN>)
     {
         editorState.setCurrentField((MathSequence) currentField);
         editorState.setCurrentOffset(currentField.size());
-        inputController.newBraces(editorState, '(');
+        inputController.newBraces(editorState, open.image.charAt(0));
 
         mathSequence = editorState.getCurrentField();
         mathArrayOrFunction = mathSequence.getParent();
-
-        //mathArray = new MathArray(metaModel.getArray(Tag.REGULAR), 0);
-        //mathArray.addArgument(mathSequence);
-        //currentField.addArgument(mathArray);
     }
     mathContainer(mathSequence)
     {
@@ -308,22 +305,20 @@ void arrayParantheses(MathContainer currentField) :
         }
     )* 
 
-    <PARANTHESES_CLOSE>
+    (<PARANTHESES_CLOSE> | <SQUARE_BRACKETS_CLOSE>)
 }
 
-void arraySquare(MathContainer currentField) :
+void arrayFloorCeil(MathContainer currentField) :
 {
     MathArray mathArray = null;
     MathSequence mathSequence = null;
     Token open = null;
 }
 {
-    (open = <SQUARE_BRACKETS_OPEN> | open = <LFLOOR > | open = <LCEIL>) 
+    (open = <LFLOOR > | open = <LCEIL>) 
     {
         mathSequence = new MathSequence();
-		Tag arrayType = Tag.SQUARE;
-		if(LCEIL == open.kind)		{
-		  arrayType = Tag.CEIL;		}
+		Tag arrayType = Tag.CEIL;		
 		if(LFLOOR == open.kind)
 		{
 		  arrayType = Tag.FLOOR;
@@ -345,7 +340,7 @@ void arraySquare(MathContainer currentField) :
         }
     )* 
 
-    (<SQUARE_BRACKETS_CLOSE> | <RFLOOR > | <RCEIL>)
+    (<RFLOOR > | <RCEIL>)
 }
 
 void arrayCurly(MathContainer currentField) :
