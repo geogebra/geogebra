@@ -4182,7 +4182,7 @@ public abstract class App implements UpdateSelection {
 
 		/* GGB-1374 */
 		case READ_OBJECT_NAME_AT_SELECTING:
-			return true;
+			return prerelease;
 
 		case ERASER:
 			return prerelease;
