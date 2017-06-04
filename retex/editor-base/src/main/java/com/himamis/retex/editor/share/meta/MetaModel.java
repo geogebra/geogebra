@@ -189,7 +189,9 @@ public class MetaModel {
      */
     public boolean isFunction(String casName) {
         try {
-            getFunction(casName);
+			if (getFunction(casName) == null) {
+				return false;
+			}
             return true;
         } catch (ArrayIndexOutOfBoundsException e) {
             return false;
