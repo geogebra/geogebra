@@ -22,7 +22,7 @@ public class ScreenReader {
 	}
 
 	public static void sliderChanged(GeoNumeric geo0) {
-		App app = geo0.getKernel().getApplication();
+		// App app = geo0.getKernel().getApplication();
 
 		// readText(geo0, app);
 

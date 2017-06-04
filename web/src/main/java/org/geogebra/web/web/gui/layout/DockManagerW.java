@@ -17,6 +17,7 @@ import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -1758,7 +1759,7 @@ public class DockManagerW extends DockManager {
 	private double kbHeight = 0;
 
 	// null it to trigger orientation change for the first time.
-	private Boolean portrait = null;
+	private ExtendedBoolean portrait = ExtendedBoolean.UNKNOWN;
 
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){
@@ -1822,8 +1823,9 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 		calculateKeyboardHeight();
-		Boolean old = portrait;
-		portrait = app.getWidth() < app.getHeight();
+		ExtendedBoolean old = portrait;
+		portrait = ExtendedBoolean
+				.newExtendedBoolean(app.getWidth() < app.getHeight());
 		if (old != portrait) {
 			// run only if oreintation has changed;
 			final double landscape = PerspectiveDecoder
@@ -1882,11 +1884,11 @@ public class DockManagerW extends DockManager {
 
 		split.clear();
 		setDividerLocation(split,
-				portrait ? 1 - portraitDivider : landscapeRatio);
+				isPortrait() ? 1 - portraitDivider : landscapeRatio);
 
-		split.setOrientation(portrait ? SwingConstants.VERTICAL_SPLIT
+		split.setOrientation(isPortrait() ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT);
-		if (portrait) {
+		if (isPortrait()) {
 			split.setRightComponent(avPanel);
 			split.setLeftComponent(opposite);
 		} else {
@@ -1912,7 +1914,7 @@ public class DockManagerW extends DockManager {
 	 * @return true if app is portrait mode.
 	 */
 	public boolean isPortrait() {
-		return portrait != null && portrait;
+		return portrait == ExtendedBoolean.TRUE;
 	}
 
 }
