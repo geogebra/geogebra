@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
+import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -2380,8 +2381,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	@Override
 	public Equation getEquation() {
 		try {
-			return (Equation) kernel.getParser().parseGeoGebraExpression(
+			ValidExpression ret = kernel.getParser().parseGeoGebraExpression(
 					this.toValueString(StringTemplate.maxPrecision));
+
+			if (ret instanceof Equation) {
+				return (Equation) ret;
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
