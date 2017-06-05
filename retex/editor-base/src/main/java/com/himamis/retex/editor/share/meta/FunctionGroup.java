@@ -27,8 +27,17 @@ public class FunctionGroup implements MetaGroup {
 	public static boolean isAcceptable(String functionName) {
         // Accept only functions that consist of no special characters
 		return !"".equals(functionName)
-				&& Character.areLettersOrDigits(functionName);
+				&& Character.areLettersOrDigits(functionName)
+				&& containsLetter(functionName);
     }
 
+	private static boolean containsLetter(String functionName) {
+		for (int i = 0; i < functionName.length(); i++) {
+			if (Character.isLetter(functionName.charAt(i))) {
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
