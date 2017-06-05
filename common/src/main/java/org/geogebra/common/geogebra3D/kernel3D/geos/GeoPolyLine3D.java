@@ -102,6 +102,11 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 		GeoPolyLine poly = (GeoPolyLine) geo;
 		length = poly.getLength();
 		defined = poly.isDefined();
+
+		if (!defined || poly.getPointsND() == null) {
+			return;
+		}
+
 		// make sure both arrays have same size
 		if (points.length != poly.getPointsND().length) {
 			GeoPointND[] tempPoints = new GeoPointND[poly.getPointsND().length];
