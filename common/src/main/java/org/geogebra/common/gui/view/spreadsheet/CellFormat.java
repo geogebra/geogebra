@@ -1085,4 +1085,11 @@ public class CellFormat implements CellFormatInterface {
 		return (value & (1 << position)) == 0;
 	}
 
+	public static boolean isOneBit(Byte value, int position) {
+		if (value == null) {
+			return false;
+		}
+		return ((int)value & (1 << position)) != 0;
+	}
+
 }
