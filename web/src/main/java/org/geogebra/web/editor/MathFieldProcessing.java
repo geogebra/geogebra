@@ -90,7 +90,7 @@ public class MathFieldProcessing implements KeyboardListener {
 				mf.insertString(text);
 				return;
 			}
-			if (FunctionGroup.isAcceptable(text)) {
+			if (text.length() > 1 && FunctionGroup.isAcceptable(text)) {
 				mf.insertFunction(text);
 				return;
 			}
