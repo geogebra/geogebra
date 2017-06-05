@@ -95,6 +95,10 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 
 	@Override
 	public void set(GeoElementND geo) {
+		if (!(geo instanceof GeoPolyLine)) {
+			Log.error("wrong class");
+			return;
+		}
 		GeoPolyLine poly = (GeoPolyLine) geo;
 		length = poly.getLength();
 		defined = poly.isDefined();

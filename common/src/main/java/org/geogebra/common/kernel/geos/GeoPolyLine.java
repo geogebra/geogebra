@@ -140,6 +140,10 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void set(GeoElementND geo) {
+		if (!(geo instanceof GeoPolyLine)) {
+			Log.error("wrong class!");
+			return;
+		}
 		GeoPolyLine poly = (GeoPolyLine) geo;
 		length = poly.length;
 		defined = poly.defined;
