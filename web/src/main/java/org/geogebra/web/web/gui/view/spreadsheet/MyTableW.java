@@ -2365,11 +2365,13 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}
 		for (int row = 0; row < getRowCount(); row++) {
-			defaultTableCellRenderer.updateCellBorder(row, -1);
+			for (int column = 0; column < getColumnCount(); column++) {
+				defaultTableCellRenderer.updateCellBorder(row, column);
+			}
 		}
-		for (int column = 0; column < getColumnCount(); column++) {
-			defaultTableCellRenderer.updateColumnBorder(column);
-		}
+		// for (int column = 0; column < getColumnCount(); column++) {
+		// defaultTableCellRenderer.updateColumnBorder(column);
+		// }
 
 	}
 

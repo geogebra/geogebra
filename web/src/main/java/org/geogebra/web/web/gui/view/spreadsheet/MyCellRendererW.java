@@ -192,45 +192,82 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	public void updateCellBorder(int row, int column) {
 		Byte border = (Byte) formatHandler.getCellFormat(column, row,
 				CellFormat.FORMAT_BORDER);
-		if ((row == -1) || (column == -1)) {
+		if (row == -1 || column == -1 || border == null) {
 			return;
 		}
 		Style s = table.getCellFormatter().getElement(row, column).getStyle();
-		// s.clearProperty("borderBottomColor");
-		// s.clearProperty("borderRightColor");
-		if (border != null) {
-			// left bar, 0
-			if (!CellFormat.isZeroBit(border, 0)) {
-				// left borders' width is 0px, so left neighbor's right border
-				// will be colored.
-				if (column > 0) {
-					Style sLeft = table.getCellFormatter()
-							.getElement(row, column - 1).getStyle();
-					sLeft.setProperty("borderRightColor", "#000000");
-				}
-			}
+		
+		final int TOP_BIT = 1;
+		final int BOTTOM_BIT = 3;
+		final int LEFT_BIT = 0;
+		final int RIGHT_BIT = 2;
+		
+
+		// correct order for borderWidth
+		// top right bottom left
+		boolean top = CellFormat.isOneBit(border, TOP_BIT);
+
+		// drawn by the adjacent cells (if possible, see below)
+		boolean right = false;
+		boolean bottom = false;
+
+		boolean left = CellFormat.isOneBit(border, LEFT_BIT);
+		
+		if (column > 0) {
+			Byte borderLeft = (Byte) formatHandler.getCellFormat(column -1, row,
+					CellFormat.FORMAT_BORDER);
+			left = left || CellFormat.isOneBit(borderLeft, RIGHT_BIT);
 			
-			// top bar, 1
-			if (!CellFormat.isZeroBit(border, 1)) {
-				// top borders' width is 0px, so top neighbor's bottom border
-				// will be colored.
-				if (row > 0) {
-					Style sTop = table.getCellFormatter()
-							.getElement(row - 1, column).getStyle();
-					sTop.setProperty("borderBottomColor", "#000000");
-				}
-			}
-			
-			// right bar, 2
-			if (!CellFormat.isZeroBit(border, 2)) {
-				s.setProperty("borderRightColor", "#000000");
-			}
-			
-			// bottom bar, 3
-			if (!CellFormat.isZeroBit(border, 3)) {
-				s.setProperty("borderBottomColor", "#000000");
-			}
 		}
+
+		if (row > 0) {
+			Byte borderTop = (Byte) formatHandler.getCellFormat(column, row-1,
+					CellFormat.FORMAT_BORDER);
+			top = top || CellFormat.isOneBit(borderTop, BOTTOM_BIT);
+
+		}
+
+		// right border drawn only if adjacent cell has no formatting
+		if (formatHandler.getCellFormat(column + 1, row,
+				CellFormat.FORMAT_BORDER) == null) {
+			right = CellFormat.isOneBit(border, RIGHT_BIT);
+		}
+
+		// bottom border drawn only if adjacent cell has no formatting
+		if (formatHandler.getCellFormat(column, row + 1,
+				CellFormat.FORMAT_BORDER) == null) {
+			bottom = CellFormat.isOneBit(border, BOTTOM_BIT);
+		}
+
+		final String NONE = " 0px";
+		final String LINE = " 2px";
+
+		// make a string like "0px 2px 2px 0px"
+		// top right bottom left
+		String borderWidth = top ? LINE : NONE;
+		borderWidth += right ? LINE : NONE;
+		borderWidth += bottom ? LINE : NONE;
+		borderWidth += left ? LINE : NONE;
+
+		s.setProperty("borderStyle", "solid");
+		// top right bottom left
+		s.setProperty("borderWidth", borderWidth);
+
+		if (top) {
+			s.setProperty("borderTopColor", "#000000");
+		}
+		if (right) {
+			s.setProperty("borderRightColor", "#000000");
+		}
+
+		if (bottom) {
+			s.setProperty("borderBottomColor", "#000000");
+		}
+
+		if (left) {
+			s.setProperty("borderLeftColor", "#000000");
+		}
+
 	}
 
 	public void updateCellBackground(GeoElement geo, int row,
