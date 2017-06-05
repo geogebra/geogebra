@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
-import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -49,7 +48,6 @@ import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
@@ -2380,17 +2378,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public Equation getEquation() {
-		try {
-			ValidExpression ret = kernel.getParser().parseGeoGebraExpression(
-					this.toValueString(StringTemplate.maxPrecision));
-
-			if (ret instanceof Equation) {
-				return (Equation) ret;
-			}
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return null;
+		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
 	@Override
