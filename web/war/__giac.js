@@ -2008,7 +2008,9 @@ var __giac = [ {},
 { cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
 { cat:"NSolve", cmd:"NSolve[3 / 100 exp(1 / 5 x) + 7 = 6exp((-3) / 200 x + 2)]", result:"{x = 32.56196357101}", round:"{x = 32.56}" },
 // JSONEND
-//{ cat:"Simplify", cmd:"Simplify[nroot(a^6 b^6 ,6)]", result:"" },
+//{ cat:"Simplify", cmd:"nroot(a^6 b^6 ,6)", result:"a b" },
+// Simplify[nroot(nroot(a^12 b^24,3),2)]
+// evalfa(regroup(integrate((a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a)))),x)))
 //{ 
 // 
 // 
