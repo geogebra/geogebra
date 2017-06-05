@@ -969,7 +969,7 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral[x^(-2),x,-3,2]", result:"\u221E" },
 { cat:"Evaluate", cmd:"Evaluate[((-1)*(-1))^(1/2)]", result:"1" },
 { cat:"Evaluate", cmd:"Evaluate[(-1)^(1/2)*(-1)^(1/2)]", result:"-1" },
-{ cat:"Substitute", cmd:"Substitute[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}, NSolve[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}, {x = 3, y = 1.5}]]", round:"{1 = 1, 1.42 (10^(-14)) = 2.5 (10^(-14))}",result:"{1 = 1, 0 = 1.224606353822*10^(-16)}|OR|{1 = 1, 1.42108547152*10^(-14) = 2.499145638699*10^(-14)}|OR|{1 = 1, 1.42108547152*10^(-14) = 2.499146043152*10^(-14)}", notes:"should give something like {0.3569127590283 = 0.3569127590283, 0.5831878979034 = 0.5831878979035}" },
+{ cat:"Substitute", cmd:"Substitute[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}, NSolve[{\u03C0 / x = cos(x - 2y), 2 y - \u03C0 = sin(x)}, {x = 3, y = 1.5}]]", round:"{1 = 1, 0 = 1.22 (10^(-16))}",result:"{1 = 1, 0 = 1.224606353822*10^(-16)}|OR|{1 = 1, 1.42108547152*10^(-14) = 2.499145638699*10^(-14)}|OR|{1 = 1, 1.42108547152*10^(-14) = 2.499146043152*10^(-14)}", notes:"should give something like {0.3569127590283 = 0.3569127590283, 0.5831878979034 = 0.5831878979035}" },
 { cat:"Simplify", cmd:"Simplify[(1/x)^(1/2)-1/x^(1/2)]", result:"0" },
 { cat:"Simplify", cmd:"Simplify[log(x*y*abs(z))-log(abs(z))-log(x)]", result:"ln(y)" },
 { cat:"Simplify", cmd:"Simplify[log(x^2)-2*log(x)+log(abs(y)^2)-2*log(abs(y))]", result:"0" },
@@ -1785,7 +1785,7 @@ var __giac = [ {},
 { cat: "Angle", cmd:"Angle[z=0, x+y+z=0]", result:"acos(sqrt(3) / 3)", notes:"TRAC-3905" },
 { cat: "Angle", cmd:"Angle[2x-3y+z=0, 2x-y+7z=0]", result:"acos(sqrt(21) / 9)", notes:"TRAC-3905" },
 { cat: "Expand", cmd:"Expand[a(b)]", result:"a(b)|OR|a[b]", notes:"GGB-315" },
-{ cat: "Numeric", cmd:"Numeric[3^(26778293/2100000)]", result:"1213512.262751", round:"1213512.25", notes:"GGB-321" },
+{ cat: "Numeric", cmd:"Numeric[3^(26778293/2100000)]", result:"1213512.262751", round:"1213512.26", notes:"GGB-321" },
 { cat: "Solve", cmd:"Solve[{67000=c*a^2007,3=c*a^9},{c,a}]", result:"{{c = 3 / (67000 / 3)^(1 / 222), a = (67000 / 3)^(1 / 1998)}}" },
 { cat: "Solve", cmd:"Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"{{c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070, a = (67 / 3)^(1 / 1057)}}" },
 { cat: "Solve", cmd:"Solve[{((67/10))*((10)^(9))=(c)*((a)^(2007)), (3)*((10)^(8))=(c)*((a)^(950))},{a, c}]", result:"{{a = (67 / 3)^(1 / 1057), c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070}}", notes:"" },
@@ -2007,10 +2007,10 @@ var __giac = [ {},
 { cat:"Simplify", cmd:"Simplify[4*sin(n*pi)/(n*pi)-4*sin(n*pi/4)/(n*pi)]", result:"(4sin(n \u03C0) - 4sin(n \u03C0 / 4)) / (n \u03C0)" },
 { cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
 { cat:"NSolve", cmd:"NSolve[3 / 100 exp(1 / 5 x) + 7 = 6exp((-3) / 200 x + 2)]", result:"{x = 32.56196357101}", round:"{x = 32.56}" },
+{ cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },
 // JSONEND
 //{ cat:"Simplify", cmd:"nroot(a^6 b^6 ,6)", result:"a b" },
 // Simplify[nroot(nroot(a^12 b^24,3),2)]
-// evalfa(regroup(integrate((a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a)))),x)))
 //{ 
 // 
 // 

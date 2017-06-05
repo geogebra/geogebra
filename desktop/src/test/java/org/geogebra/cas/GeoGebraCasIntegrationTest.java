@@ -1510,8 +1510,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void FDistribution_1 () {
     // Giac only supports 13dp
-		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.9077534389794",
-				"0.90775343897945");
+		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.9077534389795",
+				"0.9077534389794");
   }
 
 
@@ -3905,7 +3905,7 @@ public class GeoGebraCasIntegrationTest {
 	  t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
 				"(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)");
 		t("Tangent[P, c]",
-				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287352}",
+				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287356}",
 				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948644 * x - 0.02680674287311}",
 				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948645 * x - 0.02680674287353}",
 				"{y = (-sqrt(2 * sqrt(10) + 3) + 3) / 2, y = 5.558213948644 * x - 0.02680674287309}");
