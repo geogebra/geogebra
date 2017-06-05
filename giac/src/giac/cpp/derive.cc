@@ -319,11 +319,14 @@ namespace giac {
 	// diff/v2 of int_0^v2 t^(v0-1)*(1-t)^(v1-1) dt
 	gen tmp=pow(v2,v0-1,contextptr)*pow(1-v2,v1-1,contextptr)*derive(v2,i,contextptr);
 	if (vs==4){
+	  if (is_one(v3))
+	    return tmp/Beta(v0,v1,contextptr);
+	  return gensizeerr(contextptr);
 	  gen v3p=derive(v3,i,contextptr);
 	  if (!is_zero(v3p))
 	    return tmp-pow(v3,v0-1,contextptr)*pow(1-v3,v1-1,contextptr)*v3p;
 	}
-	return tmp/Beta(v0,v1,contextptr);
+	return tmp;
       }
       if (vs==4 && s.sommet==at_sum){
 	gen v0=v[0],v1=v[1],v2=v[2],v3=v[3];
