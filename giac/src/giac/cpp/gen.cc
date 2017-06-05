@@ -4067,6 +4067,8 @@ namespace giac {
       if (*(a._MODptr+1)==b) // avoid e.g. 7 % 5 % 5
 	return a;
     }
+    if (a.type==_USER)
+      return a;
     if (is_exactly_zero(b)) 
       return a;
     gen res=makemodquoted(0,0);
@@ -10472,6 +10474,8 @@ namespace giac {
   }
 
   gen invmod(const gen & a,const gen & modulo){
+    if (a.type==_USER)
+      return a._USERptr->inv();
     if (a.type==_CPLX){
       gen r=re(a,context0),i=im(a,context0); // ok
       gen n=invmod(r*r+i*i,modulo);

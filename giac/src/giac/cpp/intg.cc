@@ -2159,7 +2159,7 @@ namespace giac {
     for (int j=0;j<i;++j){
       gen val=l4[j],a,b,r;
       if (val.is_symb_of_sommet(at_sign)){
-	if (is_linear_wrt(val._SYMBptr->feuille,gen_x,a,b,contextptr) && has_evalf(a,r,1,contextptr) && has_evalf(b,r,1,contextptr)){
+	if (is_linear_wrt(val._SYMBptr->feuille,gen_x,a,b,contextptr) && ((has_evalf(a,r,1,contextptr) && has_evalf(b,r,1,contextptr)) || lvar(res)==lidnt(res))){
 	  r=-b/a;
 	  vecteur l5(l4);
 #if 1
