@@ -244,6 +244,10 @@ public class SerializeLaTeX {
 	public void testEditor() {
 		testEditor("sqrt(x/2)",
 				"sqrt(x/2)");
+		testEditor("1+2+3-4", "1+2+3-4");
+		testEditor("12345", "12345");
+		testEditor("1/2/3/4", "1/2/3/4");
+		testEditor("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
 	}
 
 	public void testEditor(String input, String output) {
