@@ -3082,10 +3082,10 @@ public abstract class GeoElement extends ConstructionElement
 					}
 					captionSB.append(cText);
 					break;
-				case 'd':
+				case 'f':
 					captionSB.append(getDefinition(tpl));
 					break;
-				case 'f':
+				case 'd':
 					captionSB.append(getDefinitionDescription(tpl));
 					break;
 				case 'v':
