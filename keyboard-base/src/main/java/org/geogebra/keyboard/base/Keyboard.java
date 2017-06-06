@@ -1,7 +1,9 @@
 package org.geogebra.keyboard.base;
 
-import org.geogebra.keyboard.base.model.KeyboardModel;
+import java.util.HashMap;
+
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
+import org.geogebra.keyboard.base.model.KeyboardModel;
 
 /**
  * An internal keyboard controller.
@@ -39,4 +41,6 @@ public interface Keyboard {
      * Toggle the caps lock on/off.
      */
     void toggleCapsLock();
+
+	void setUpperKeys(HashMap<String, String> uKeys);
 }

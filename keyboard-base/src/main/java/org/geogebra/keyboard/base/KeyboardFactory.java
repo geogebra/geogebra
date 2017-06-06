@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.base;
 
+import java.util.HashMap;
+
 import org.geogebra.keyboard.base.impl.KeyboardImpl;
 import org.geogebra.keyboard.base.model.KeyModifier;
 import org.geogebra.keyboard.base.model.KeyboardModel;
@@ -67,6 +69,13 @@ public class KeyboardFactory {
         KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
+
+	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow,
+			HashMap<String, String> uKeys) {
+		Keyboard keyboard = createLettersKeyboard(topRow, middleRow, bottomRow);
+		keyboard.setUpperKeys(uKeys);
+		return keyboard;
+	}
 
     /**
      * Creates a special symbols keyboard with symbols control buttons,

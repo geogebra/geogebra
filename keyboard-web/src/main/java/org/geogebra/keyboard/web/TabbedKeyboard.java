@@ -1,6 +1,7 @@
 package org.geogebra.keyboard.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -31,6 +32,9 @@ public class TabbedKeyboard extends FlowPanel {
 	private static final int TAB_ABC = 2;
 	private static final int TAB_ALPHA = 3;
 	private static final int TAB_SPECIAL = 4;
+	
+	private HashMap<String, String> upperKeys = new HashMap<String, String>();
+	
 	
 	/**
 	 * minimum width of the whole application to use normal font (small font
@@ -256,7 +260,7 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
 						filter(locale.getKeyboardRow(2)),
-						filter(locale.getKeyboardRow(3))),
+						filter(locale.getKeyboardRow(3)), upperKeys),
 				bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
@@ -284,12 +288,11 @@ public class TabbedKeyboard extends FlowPanel {
 		
 	}
 
-
-
 	private String filter(String keys) {
 		StringBuilder sb = new StringBuilder(11);
 		for (int i = 0; i < keys.length(); i += 2) {
 			sb.append(keys.charAt(i));
+			upperKeys.put(keys.charAt(i) + "", keys.charAt(i + 1) + "");
 		}
 		// TODO remove the replace once ggbtrans is fixed
 		return sb.toString().replace("'", "");

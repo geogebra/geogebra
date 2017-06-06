@@ -1,5 +1,7 @@
 package org.geogebra.keyboard.base.model.impl;
 
+import java.util.HashMap;
+
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
 import org.geogebra.keyboard.base.Background;
@@ -10,6 +12,7 @@ import org.geogebra.keyboard.base.model.KeyModifier;
 public class CapsLockModifier implements KeyModifier {
 
     private boolean capsLock = false;
+    private HashMap<String, String> upperKeys;
 
     public void toggleCapsLock() {
         capsLock = !capsLock;
@@ -35,11 +38,18 @@ public class CapsLockModifier implements KeyModifier {
         return resourceName;
     }
 
-    @Override
+	private String getUpperCase(String resourceName) {
+		return upperKeys.get(resourceName);
+	}
+
+	@Override
     public String modifyActionName(String actionName, ActionType actionType) {
         if (actionType == ActionType.INPUT && actionName.length() == 1) {
             if (capsLock) {
-                return actionName.toUpperCase();
+				//if (upperKeys != null) {
+				//	return getUpperCase(actionName);
+				//}
+				return actionName.toUpperCase();
             }
         }
         return actionName;
@@ -54,4 +64,8 @@ public class CapsLockModifier implements KeyModifier {
         }
         return background;
     }
+
+	public void setUpperKeys(HashMap<String, String> uKeys) {
+		upperKeys = uKeys;
+	}
 }
