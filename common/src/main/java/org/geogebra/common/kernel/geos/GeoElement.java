@@ -3085,7 +3085,7 @@ public abstract class GeoElement extends ConstructionElement
 				case 'd':
 					captionSB.append(getDefinition(tpl));
 					break;
-				case 's':
+				case 'f':
 					captionSB.append(getDefinitionDescription(tpl));
 					break;
 				case 'v':
@@ -3145,6 +3145,9 @@ public abstract class GeoElement extends ConstructionElement
 						captionSB.append("%z");
 					}
 					break;
+
+				// Can't use %s as %style is used for something else
+				case 's':
 				default:
 					captionSB.append('%');
 					captionSB.append(ch);
