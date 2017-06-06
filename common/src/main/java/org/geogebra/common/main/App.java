@@ -2238,7 +2238,14 @@ public abstract class App implements UpdateSelection {
 	 * Changes current mode to move mode
 	 */
 	public void setMoveMode() {
-		setMode(EuclidianConstants.MODE_MOVE);
+		setMoveMode(ModeSetter.TOOLBAR);
+	}
+
+	/**
+	 * Changes current mode to move mode
+	 */
+	public void setMoveMode(ModeSetter m) {
+		setMode(EuclidianConstants.MODE_MOVE, m);
 	}
 
 	/**
