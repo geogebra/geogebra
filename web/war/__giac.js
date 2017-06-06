@@ -2007,10 +2007,20 @@ var __giac = [ {},
 { cat:"Simplify", cmd:"Simplify[4*sin(n*pi)/(n*pi)-4*sin(n*pi/4)/(n*pi)]", result:"(4sin(n \u03C0) - 4sin(n \u03C0 / 4)) / (n \u03C0)" },
 { cat:"Element", cmd:"Element[(1,2), 1]", result:"?" },
 { cat:"NSolve", cmd:"NSolve[3 / 100 exp(1 / 5 x) + 7 = 6exp((-3) / 200 x + 2)]", result:"{x = 32.56196357101}", round:"{x = 32.56}" },
-{ cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^2 b^2 ,2)]", result:"abs(a) abs(b)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^3 b^3 ,3)]", result:"a b", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^4 b^4 ,4)]", result:"nroot(a\u2074 b\u2074,4)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^5 b^5 ,5)]", result:"nroot(a\u2075 b\u2075,5)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^6 b^6 ,6)]", result:"nroot(a\u2076 b\u2076,6)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^7 b^7 ,7)]", result:"nroot(a\u2077 b\u2077,7)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(a^8 b^8 ,8)]", result:"nroot(a\u2078 b\u2078,8)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"Simplify[nroot(nroot(a^12 b^24,3),2)]", result:"nroot(a\u00B9\u00B2 b\u00B2\u2074,6)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"nroot((x+1)/x^4,4)", result:"nroot((x + 1) / x\u2074,4)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
+{ cat:"Simplify", cmd:"nroot((x+1)/x^6,6)", result:"nroot((x + 1) / x\u2076,6)", notes:"https://dev.geogebra.org/trac/changeset/51376" },
 // JSONEND
-//{ cat:"Simplify", cmd:"nroot(a^6 b^6 ,6)", result:"a b" },
-// Simplify[nroot(nroot(a^12 b^24,3),2)]
+// not working in giac.js yet
+// { cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },
+// 
 //{ 
 // 
 // 
