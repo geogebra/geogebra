@@ -117,7 +117,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
 			initPlus();
 			img = item.getText().isEmpty() ? 
-					GuiResources.INSTANCE.algebra_new().getSafeUri().asString()
+					MaterialDesignResources.INSTANCE.add_black().getSafeUri()
+							.asString()
 				: AppResources.INSTANCE.empty().getSafeUri().asString();
 			btn = btnPlus;
 			if (warning) {
@@ -168,8 +169,10 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				btn.getDownFace().setImage(ndi);
 				
 				if (btn == btnPlus && !noPlus) {
-					NoDragImage hover = new NoDragImage(GuiResources.INSTANCE.algebra_new_hover().getSafeUri()
-							.asString(), 24);
+					NoDragImage hover = new NoDragImage(
+							MaterialDesignResources.INSTANCE.add_purple()
+									.getSafeUri().asString(),
+							24);
 					btn.getUpHoveringFace().setImage(hover);
 					btn.getDownHoveringFace().setImage(hover);
 				} else {
@@ -261,8 +264,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 						cmPlus = new ContextMenuPlus(item);
 					}
 					item.cancelEditing();
-					cmPlus.show(btnPlus.getAbsoluteLeft(),
-							btnPlus.getAbsoluteTop() - 8);
+					cmPlus.show(btnPlus.getAbsoluteLeft() + 16,
+							btnPlus.getAbsoluteTop() + 6);
 				}
 				
 			});

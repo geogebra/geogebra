@@ -126,7 +126,7 @@
 	.matDesign  {
 	
 	.AlgebraViewObjectStylebar.smallStylebar {
-		padding: 4px 2px 0px 0px;
+		padding: 8px 2px 0px 0px;
 		box-shadow: none;
 		
 		.gwt-ToggleButton.XButton.shown.gwt-ToggleButton-up-hovering {
@@ -154,8 +154,9 @@
 			height: 100%;
 			padding-top: 0px;
 			padding-bottom: 0px;
-			padding-left: 16px;
-			width: 48px;
+			padding-left: 18px;
+    		padding-right: 18px;
+			/*width: 48px;*/
 		}
 	
 		.marblePanel.error, 
@@ -177,7 +178,8 @@
 		.marblePanel.plus {
 			padding-top: 0px;
 			padding-left: 4px;
-			width: 62px; 
+			padding-right: 3px;
+			/*width: 62px; */
 			img {
 				opacity: 0.54;
 			}
@@ -199,8 +201,8 @@
 			position: relative;
 			margin-top: -12px;
 			top: 50%;
-			height: 24px;
-			width: 24px;
+			height: 18px;
+			width: 18px;
 			background-color: #6161FF;
 			border: 1px solid #000000;
 			border-radius: 24px;
@@ -220,7 +222,7 @@
 		.avItem .elemText,
 		.avItemContent {
 			padding-top: 10px;
-			padding-left: 80px; // 72 + 8
+			padding-left: 68px;
 			padding-bottom: 0px;
 			display: inline-block;
 		}

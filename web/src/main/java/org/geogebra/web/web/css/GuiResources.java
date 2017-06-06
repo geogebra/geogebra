@@ -367,12 +367,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_matrix_size_hover.png")
 	ImageResource algebra_matrix_size_hover();
 
-	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_new.png")
-	ImageResource algebra_new();
-
-	@Source("org/geogebra/common/icons/png/web/stylingbar/algebra_new_hover.png")
-	ImageResource algebra_new_hover();
-
 	@Source("org/geogebra/common/menu_icons/p20/menu-remove.png")
 	ImageResource algebra_remove();
 
