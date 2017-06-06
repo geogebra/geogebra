@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -2238,16 +2237,6 @@ public class Coords {
 		return this;
 	}
 
-	// /////////////////////////////////////////////////:
-	/** for testing the package */
-	public static synchronized void main(String[] args) {
-
-		Coords v1 = new Coords(2);
-		v1.val[0] = 3.0;
-		v1.val[1] = 4.0;
-
-		Log.debug("v1.v1 = " + v1.dotproduct(v1));
-	}
 
 	/**
 	 * if the ND hom coords is in x-y plane, return this coords

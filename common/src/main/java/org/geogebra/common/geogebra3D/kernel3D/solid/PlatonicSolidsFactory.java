@@ -207,46 +207,6 @@ public class PlatonicSolidsFactory {
 
 	}
 
-	// code below used to create solids
-
-	// public static void main(String[] args) {
-	//
-	// IArchimedeanSolid solid = ArchimedeanSolidFactory
-	// .create(Commands.Icosahedron);
-	// Coords[] coords = solid.getVerticesInABv();
-	// String s = "new Coords[] {";
-	// for (int i = 0; i < coords.length; i++) {
-	// Coords c = coords[i];
-	// s += "\nnew Coords(" + c.getX() + "," + c.getY() + "," + c.getZ()
-	// + "," + c.getW() + ")";
-	// if (i == coords.length - 1) {
-	// s += "}";
-	// } else {
-	// s += ",";
-	// }
-	// }
-	//
-	// // faces
-	// s += "\n,\nnew int[][]{";
-	// IFace[] faces = solid.getFaces();
-	// for (int i = 0; i < solid.getFaceCount(); i++) {
-	// s += "\n{";
-	// for (int j = 0; j < faces[i].getVertexCount(); j++){
-	// s += faces[i].getVertexIndices()[j];
-	// if (j == faces[i].getVertexCount() - 1) {
-	// s += "}";
-	// } else {
-	// s += ",";
-	// }
-	// }
-	// if (i == solid.getFaceCount() - 1) {
-	// s += "}";
-	// } else {
-	// s += ",";
-	// }
-	// }
-	//
-	// System.out.println(s);
-	// }
+	// code below used to create solids}
 
 }

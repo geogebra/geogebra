@@ -787,51 +787,6 @@ public class StringUtil {
 		return false;
 	}
 
-	// public static void main(String [] args) {
-	// System.out.println("starting test");
-	//
-	//
-	// for (int cc = 0; cc < 65536; ++cc) {
-	// char c = (char)cc;
-	// if (Character.isLetter(c) != isLetter(c)) {
-	// System.out.println("isLetter failed "+c +
-	// " "+toHexString(c)+Character.isLetter(c)+" "+isLetter(c));
-	// }
-	// }
-	// for (int cc = 0; cc < 65536; ++cc) {
-	// char c = (char)cc;
-	// if (Character.isDigit(c) != isDigit(c)) {
-	// System.out.println("isDigit failed "+c +
-	// " "+toHexString(c)+Character.isDigit(c)+" "+isDigit(c));
-	// }
-	// }
-	// for (int cc = 0; cc < 65536; ++cc) {
-	// char c = (char)cc;
-	// if (Character.isWhitespace(c) != isWhitespace(c)) {
-	// System.out.println("isWhitespace failed "+c +
-	// " "+toHexString(c)+Character.isWhitespace(c)+" "+isWhitespace(c));
-	// }
-	// }
-	//
-	// boolean start = true;
-	//
-	// for (int cc = 0; cc < 65536-1; ++cc) {
-	// char c = (char)cc;
-	// char c2 = (char)(cc+1);
-	// if (Character.isLetter(c) != Character.isLetter(c2)) {
-	// if (start) {
-	// System.out.print(toHexString(c2));
-	// } else {
-	// System.out.println(" "+toHexString(c));
-	// }
-	// start = !start;
-	// }
-	// }
-	//
-	// System.out.println("ending test");
-	//
-	// }
-
 	/**
 	 * Character.isLetter() doesn't work in GWT, see
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983

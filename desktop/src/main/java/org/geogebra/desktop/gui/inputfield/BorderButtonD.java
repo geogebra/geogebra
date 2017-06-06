@@ -212,44 +212,4 @@ public class BorderButtonD extends AbstractBorder
 		}
 	}
 
-	/**************************************************************
-	 * TODO Main --- for testing, remove later
-	 **************************************************************/
-	/*
-	 * private static void createAndShowGUI() { //Create and set up the window.
-	 * JFrame frame = new JFrame("Test");
-	 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	 * frame.setPreferredSize(new Dimension(150, 150));
-	 * 
-	 * 
-	 * JTextField tf = new JTextField("Some text here"); tf.setColumns(3);
-	 * 
-	 * 
-	 * 
-	 * ActionListener al = new ActionListener(){
-	 * 
-	 * public void actionPerformed(ActionEvent e) { String cmd =
-	 * e.getActionCommand(); if(cmd.endsWith(cmdSuffix)){ int i =
-	 * Integer.parseInt(cmd.substring(0, 1)); } } };
-	 * 
-	 * BorderButton btnBorder = new BorderButton(tf);
-	 * btnBorder.setBorderButton(0, GeoGebraIcon.createTreeIcon(), al);
-	 * btnBorder.setBorderButton(1, GeoGebraIcon.createTreeIcon(), al);
-	 * 
-	 * Border tfBorder = tf.getBorder();
-	 * tf.setBorder(BorderFactory.createCompoundBorder(tfBorder, btnBorder));
-	 * 
-	 * //tf.setBorder(BorderFactory.createEtchedBorder());
-	 * 
-	 * 
-	 * JPanel p = new JPanel(new BorderLayout()); p.add(tf, BorderLayout.NORTH);
-	 * 
-	 * frame.getContentPane().add(p, BorderLayout.CENTER); frame.pack();
-	 * frame.setVisible(true); }
-	 * 
-	 * public static void main(String[] args) {
-	 * javax.swing.SwingUtilities.invokeLater(new Runnable() { public void run()
-	 * { createAndShowGUI(); } }); }
-	 */
-
 }
