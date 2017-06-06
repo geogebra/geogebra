@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings("javadoc")
 public class CoordsTest {
 
 	@Test
