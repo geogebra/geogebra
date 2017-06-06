@@ -1037,6 +1037,14 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 	}
 
+	@Test
+	public void cmdEnvelope() {
+		t("circ: x^2+y^2=1", unicode("x^2 + y^2 = 1"));
+		t("P=Point[circ]", "(1, 0)");
+		t("tgt=Tangent[P,circ]", new String[] { "x = 1", "y = ?" });
+		t("Envelope[ tgt, P ]", "?");
+	}
+
 
 
 	static String unicode(String theSpline) {

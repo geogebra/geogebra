@@ -28,13 +28,10 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 	private GeoPoint movingPoint;
-	private GeoElement path;
-	/**
-	 * class name
-	 */
-	public static final String CLASS_NAME = "AlgoEnvelope";
+	private Path path;
 	private GeoImplicit geoPoly;
-	private GeoElement[] efficientInput, standardInput;
+	private GeoElement[] efficientInput;
+	private GeoElement[] standardInput;
 	private String efficientInputFingerprint;
 
 	/**
@@ -49,7 +46,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-	public AlgoEnvelope(Construction cons, String label, GeoElement path,
+	public AlgoEnvelope(Construction cons, String label, Path path,
 			GeoPoint movingPoint) {
 		this(cons, path, movingPoint);
 		this.geoPoly.setLabel(label);
@@ -65,7 +62,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 * @param movingPoint
 	 *            moving point
 	 */
-	public AlgoEnvelope(Construction cons, GeoElement path,
+	public AlgoEnvelope(Construction cons, Path path,
 			GeoPoint movingPoint) {
 		super(cons);
 
@@ -94,7 +91,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// we need all independent parents of Q PLUS
 		// all parents of Q that are points on a path
 
-		Iterator<GeoElement> it = this.path.getAllPredecessors().iterator();
+		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
+				.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isIndependent() || geo.isPointOnPath()) {
@@ -114,7 +112,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		efficientInput = inSet.toArray(efficientInput);
 
 		standardInput = new GeoElement[2];
-		standardInput[0] = this.path;
+		standardInput[0] = this.path.toGeoElement();
 		standardInput[1] = this.movingPoint;
 
 		setOutputLength(1);
@@ -223,7 +221,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
 		inSet.add(this.movingPoint);
-		Iterator<GeoElement> it = this.path.getAllPredecessors().iterator();
+		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
+				.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isIndependent() || geo.isPointOnPath()) {
@@ -236,7 +235,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		efficientInput = inSet.toArray(efficientInput);
 
 		standardInput = new GeoElement[2];
-		standardInput[0] = this.path;
+		standardInput[0] = this.path.toGeoElement();
 		standardInput[1] = this.movingPoint;
 
 		setOutputLength(1);
@@ -254,7 +253,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		 * equation to this virtual locus point.
 		 */
 		GeoPoint locusPoint = new GeoPoint(cons);
-		AlgoPointOnPath apop = new AlgoPointOnPath(cons, (Path) path, 1, 1);
+		AlgoPointOnPath apop = new AlgoPointOnPath(cons, path, 1, 1);
 		locusPoint.setParentAlgorithm(apop);
 		/*
 		 * Now we collect all the restriction equations except for the linear

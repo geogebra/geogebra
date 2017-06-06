@@ -1771,6 +1771,7 @@ public class Construction {
 	 */
 	protected void doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
 			GeoElement newGeo) {
+		Log.printStacktrace("REPLACE");
 		String oldXML, newXML; // a = old string, b = new string
 
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();

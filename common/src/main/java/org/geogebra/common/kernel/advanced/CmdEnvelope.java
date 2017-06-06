@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -33,7 +34,7 @@ public class CmdEnvelope extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			if ((ok[0] = (arg[0].isGeoElement()))
+			if ((ok[0] = (arg[0].isPath()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				linear = arg[0];
 				movingPoint = (GeoPoint) arg[1];
@@ -47,7 +48,8 @@ public class CmdEnvelope extends CommandProcessor {
 		}
 
 		return new GeoElement[] {
-				envelope(c.getLabel(), linear, movingPoint).toGeoElement() };
+				envelope(c.getLabel(), (Path) linear, movingPoint)
+						.toGeoElement() };
 	}
 
 	/**
@@ -61,7 +63,7 @@ public class CmdEnvelope extends CommandProcessor {
 	 *            moving point
 	 * @return implicit curve
 	 */
-	final public GeoImplicit envelope(String label, GeoElement linear,
+	final public GeoImplicit envelope(String label, Path linear,
 			GeoPoint movingPoint) {
 		// TODO: add check here if linear is a correct input
 		if (movingPoint.getPath() == null || !movingPoint.isParentOf(linear)) {

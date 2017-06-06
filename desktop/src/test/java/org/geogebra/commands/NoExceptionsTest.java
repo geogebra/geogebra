@@ -1193,11 +1193,6 @@ public class NoExceptionsTest {
 		t("LocusEquation[ loc ]");
 		t("LocusEquation[ seg1==seg2, Pt4 ]");
 	}
-	
-	@Test
-	public void cmdEnvelope() {
-		t("Envelope[ Depoint, ptonpath1 ]");
-	}	
 
 	@Test
 	public void cmdLogistic() {
