@@ -237,6 +237,8 @@ public class SerializeLaTeX {
 		testEditor(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
 				"\uC544\uBAA8\uB974\uACA0\uB2E4");
 		
+		testEditor("\u3145\u3145\u1161\u11BC", "\uC30D");
+		testEditor("\u110A\u1161\u11BC", "\uC30D");
 		
 	}
 
