@@ -12903,6 +12903,7 @@ namespace giac {
       // if (abs_calc_mode(contextptr)==38) return "("+_CPLXptr->print(contextptr)+","+(_CPLXptr+1)->print(contextptr)+")";
       if (is_exactly_zero(*(_CPLXptr+1)))
 	return _CPLXptr->print(contextptr);
+#ifndef GIAC_GGB
       if (*complex_display_ptr(*this) &1){
 #ifdef BCD
 	if (_CPLXptr->type==_FLOAT_ && (_CPLXptr+1)->type==_FLOAT_)
@@ -12916,6 +12917,7 @@ namespace giac {
 	// return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+(angle_radian(contextptr)?arg(*this,contextptr):arg(*this,contextptr)*rad2deg_g).print(contextptr);
 	return abs(*this,contextptr).print(contextptr)+"\xe2\x88\xa1"+arg(*this,contextptr).print(contextptr);
       }
+#endif // GIAC_GGB
       if (is_exactly_zero(*_CPLXptr)){
 	if (is_one(*(_CPLXptr+1)))
 	  return printi(contextptr);
