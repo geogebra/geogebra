@@ -467,6 +467,10 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     protected Parcelable onSaveInstanceState() {
+        if (appHasFeatureAND_KILL_TOOLBAR()) { // TODO remove all the method when feature is done
+            return super.onSaveInstanceState();
+        }
+
         Parcelable superState = super.onSaveInstanceState();
         FormulaEditorState state = new FormulaEditorState(superState);
 
@@ -479,7 +483,7 @@ public class FormulaEditor extends View implements MathField {
         return state;
     }
 
-    private ArrayList<Integer> getCurrentPath(MathComponent component) {
+    public ArrayList<Integer> getCurrentPath(MathComponent component) {
         ArrayList<Integer> currentPath = new ArrayList<>();
         getPath(component, currentPath);
         Collections.reverse(currentPath);
@@ -498,6 +502,11 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
+        if (appHasFeatureAND_KILL_TOOLBAR()) { // TODO remove all the method when feature is done
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
         if (!(state instanceof FormulaEditorState)) {
             super.onRestoreInstanceState(state);
             return;
@@ -532,6 +541,19 @@ public class FormulaEditor extends View implements MathField {
 
     public boolean isEmpty() {
         return mMathFieldInternal.isEmpty();
+    }
+
+    public void setFormula(int currentOffset, ArrayList<Integer> currentPath, MathSequence rootComponent) {
+        // Set the formula
+        MathFormula mathFormula = MathFormula.newFormula(sMetaModel);
+        mathFormula.setRootComponent(rootComponent);
+        mMathFieldInternal.setFormula(mathFormula);
+
+        // Change the editor state
+        EditorState editorState = getEditorState();
+        editorState.setRootComponent(rootComponent);
+        editorState.setCurrentField(getCurrentField(rootComponent, currentPath));
+        editorState.setCurrentOffset(currentOffset);
     }
 
     static class FormulaEditorState extends BaseSavedState {
@@ -570,5 +592,9 @@ public class FormulaEditor extends View implements MathField {
             out.writeInt(currentOffset);
         }
 
+    }
+
+    protected boolean appHasFeatureAND_KILL_TOOLBAR() {
+        return false;
     }
 }
