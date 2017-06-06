@@ -307,7 +307,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * absfact(16x^4+16y^4-16x^2*y^2-72x^2-72y^2+81) should return
 		 * 16*(x^2+(-sqrt(3))*x*y+y^2-9/4)*(x^2+sqrt(3)*x*y+y^2-9/4).
 		 * absfact(x^2*y^2-2) should return (x*y-sqrt(2))*(x*y+sqrt(2)).
-		 * absfact(x^2*y^2-2) should return (x*y+i*sqrt(2))*(x*y-i*sqrt(2)).
+		 * absfact(x^2*y^2+2) should return (x*y+i*sqrt(2))*(x*y-i*sqrt(2)).
 		 */
 		/** function name */
 		final public String functionName;
