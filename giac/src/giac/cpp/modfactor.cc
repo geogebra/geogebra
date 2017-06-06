@@ -44,6 +44,7 @@ namespace giac {
   bool roots(const modpoly & q,environment * env, vecteur & v,vector<modpoly> & w){
     modpoly ddfactor(q);
     modpoly x(xpower1());
+    gen pn=env->pn;
     normalize_env(env);
     // try modulars from -modulo/2 to modulo/2
     int moduloover2=env->pn.val/2;
@@ -66,7 +67,7 @@ namespace giac {
     if (is_undef(xtop))
       return false;
     if (ddfactor.size()-1){
-      for (int i=0;i<env->pn.val;i++){
+      for (int i=0;i<pn.val;i++){
 	int dddeg=int(ddfactor.size())-1;
 	if (!dddeg)
 	  break; // no more linear factor to extract
@@ -158,7 +159,7 @@ namespace giac {
     modpoly::const_iterator itend=r.end(),itbeg=r.begin();
     --itend;
     --itbeg;
-    if ( env->moduloon && env->pn.type==_INT_ && env->pn.val<smallint ){
+    if ( env->moduloon && is_zero(env->coeff) && env->pn.type==_INT_ && env->pn.val<smallint ){
       for (int i=0;i<maxdeg;++i,++resptr){ // compute coeff of x^i
 	int res=0; // init coeff
 	itvptr=itv; // itvptr points to itv[0], after the coeff of x^i in v[0]

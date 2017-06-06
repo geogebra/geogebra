@@ -35,6 +35,7 @@
 #include "ifactor.h"
 #include "risch.h"
 #include "solve.h"
+#include "modfactor.h"
 #include "giacintl.h"
 using namespace std;
 
@@ -241,6 +242,12 @@ namespace giac {
     }
     return true;
   }
+  int gfsize(const gen & P){
+    if (P.type!=_VECT)
+      return 0;
+    return P._VECTptr->size()-1;
+  }
+
   gen _galois_field(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v;
@@ -330,7 +337,10 @@ namespace giac {
 	*logptr(contextptr) << gettext("Assigning variables ") << g << gettext(" and ") << K << endl;
 	*logptr(contextptr) << gettext("Now e.g. ") << g << gettext("^200+1 will build an element of ") << K << endl;
 	sto(fieldvalue,K,contextptr);
-	sto(galois_field(gf->p,gf->P,gf->x,makevecteur(1,0)),g,contextptr);
+	gen gene=galois_field(gf->p,gf->P,gf->x,makevecteur(1,0));
+	sto(gene,g,contextptr);
+	gen_context_t genec={gene,(context *)contextptr};
+	gf_list()[pow(gf->p,gfsize(gf->P),contextptr)]=genec;
 	return fieldvalue;
       }
       return fieldvalue;
@@ -453,13 +463,95 @@ namespace giac {
       reduce();
   }
 
+  // find common GF, returns 0 if impossible, 1 if same, 2 if extension created
+  int common_gf(galois_field & a,galois_field & b){
+    if (a.p!=b.p || is_undef(a.P) || is_undef(b.P))
+      return 0;
+    if (a.P==b.P)
+      return 1;
+    gfmap & l=gf_list();
+    gen_context_t agc=l[pow(a.p,gfsize(a.P),context0)],bgc=l[pow(b.p,gfsize(b.P),context0)];
+    if (agc.ptr!=bgc.ptr || !equalposcomp(context_list(),agc.ptr))
+      return false;
+    gen ag=agc.g, bg=bgc.g;
+    context * contextptr=agc.ptr;
+    if (ag.type==_USER && bg.type==_USER){
+      galois_field * agptr=dynamic_cast<galois_field *>(ag._USERptr);
+      galois_field * bgptr=dynamic_cast<galois_field *>(bg._USERptr);
+      if (!agptr || !bgptr) 
+	return 0;
+      galois_field * tmpptr=agptr;
+      if (agptr->P!=bgptr->P){
+	// build a common field extension
+	int as=gfsize(a.P),bs=gfsize(b.P);
+	int cs=lcm(as,bs).val;
+	gen tmp;
+	if (cs==as)
+	  tmp=ag;
+	if (cs==bs)
+	  tmp=bg;
+	if (cs!=as && cs!=bs){
+	  // GF(a.p,cs), then factor a.P and b.P over GF 
+	  // select one root as new generators for a.GF and b.GF
+	  // update gf_list, a and b
+	  *logptr(contextptr) << "Creating common field extension GF(" << a.p << "," << cs << ")" << endl;
+	  tmp=_galois_field(makesequence(a.p,cs),contextptr);
+	}
+	if (tmp.type!=_USER || !(tmpptr=dynamic_cast<galois_field *>(tmp._USERptr)))
+	  return 0;     
+	*logptr(contextptr) << "Minimal polynomial of field generator " << symb_horner(*tmpptr->P._VECTptr,tmpptr->x[2]) << endl;
+	tmp=galois_field(tmpptr->p,tmpptr->P,tmpptr->x,makevecteur(1,0)); // field generator
+	if (agptr->P.type==_VECT && bgptr->P.type==_VECT){
+	  polynome A; factorization f;
+	  if (cs>as){
+	    poly12polynome(*agptr->P._VECTptr,1,A,1);
+	    gen af=tmpptr->polyfactor(A,f);
+	    A=f.front().fact;
+	    if (A.lexsorted_degree()!=1)
+	      return 0;
+	    ag=-A.coord.back().value/A.coord.front().value;
+	    *logptr(contextptr) << "GF(" << a.p << "," << gfsize(a.P) << ") generator maps to " << ag << endl;
+	    agc.g=ag;
+	    l[pow(a.p,gfsize(a.P),context0)]=agc;
+	    f.clear();
+	  }
+	  if (cs>bs){
+	    poly12polynome(*bgptr->P._VECTptr,1,A,1);
+	    gen af=tmpptr->polyfactor(A,f);
+	    A=f.front().fact;
+	    if (A.lexsorted_degree()!=1)
+	      return 0;
+	    bg=-A.coord.back().value/A.coord.front().value;
+	    *logptr(contextptr) << "GF(" << b.p << "," << gfsize(b.P) << ") generator maps to " << bg << endl;
+	    bgc.g=bg;
+	    l[pow(b.p,gfsize(b.P),context0)]=bgc;
+	  }
+	}
+      }
+      ag=horner(a.a,ag);
+      if (ag.type!=_USER)
+	ag=galois_field(tmpptr->p,tmpptr->P,tmpptr->x,vecteur(1,ag));
+      bg=horner(b.a,bg);
+      if (bg.type!=_USER)
+	bg=galois_field(tmpptr->p,tmpptr->P,tmpptr->x,vecteur(1,bg));
+      if (ag.type==_USER && bg.type==_USER){
+	agptr=dynamic_cast<galois_field *>(ag._USERptr);
+	bgptr=dynamic_cast<galois_field *>(bg._USERptr);
+	a=*agptr;
+	b=*bgptr;
+	return 2;
+      }     
+    }
+    return 0;
+  }
+
   void gf_add(const vecteur & a,const vecteur &b,int p,vecteur & c){
     int n=int(a.size()),m=int(b.size());
     if (n<m){
       gf_add(b,a,p,c);
       return;
     }
-    c.reserve(n);
+    c.clear(); c.reserve(n);
     const_iterateur it=a.begin(),itend=a.end(),jt=b.begin();
     if (n>m){
       for (;n>m;--n,++it)
@@ -496,12 +588,14 @@ namespace giac {
     if (g.type!=_USER)
       return sym_add(*this,g,context0); // ok symbolic(at_plus,makesequence(g,*this));
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){
-      if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P))
-	return gensizeerr();
+      // if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P)) return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
-	galois_field * gfptr=new galois_field(p,P,x,new ref_vecteur(0));
-	ref_gen_user * resptr=new ref_gen_user(*gfptr);
-	if (p.type==_INT_){
+	galois_field * gfptr=new galois_field(p,P,x,new ref_vecteur(*a._VECTptr));
+	int tst=common_gf(*gfptr,*gptr);
+	if (!tst)
+	  return gensizeerr();
+	if (tst==1 && p.type==_INT_){
+	  ref_gen_user * resptr=new ref_gen_user(*gfptr);
 	  gf_add(*a._VECTptr,*gptr->a._VECTptr,p.val,*gfptr->a._VECTptr);
 	  return resptr;
 	}
@@ -509,8 +603,11 @@ namespace giac {
 	env.modulo=p;
 	env.pn=env.modulo;
 	env.moduloon=true;
-	addmodpoly(*a._VECTptr,*gptr->a._VECTptr,&env,*gfptr->a._VECTptr);
-	return resptr; // galois_field(p,P,x,res,false);
+	addmodpoly(*gfptr->a._VECTptr,*gptr->a._VECTptr,&env,*gfptr->a._VECTptr);
+	// CERR << gfptr->P << " " << gfptr->a << endl;	
+	gen res=*gfptr;
+	delete gfptr;
+	return res;
       }
       return galois_field(p,P,x,a+gptr->a);
     }
@@ -533,8 +630,8 @@ namespace giac {
     if (g.type!=_USER)
       return sym_add(*this,-g,context0); // ok symbolic(at_plus,makesequence(-g,*this));
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){
-      if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P))
-	return gensizeerr();
+      return *this+(-g);
+      if (gptr->p!=p || gptr->P!=P || is_undef(P) || is_undef(gptr->P)) return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
 	vecteur res;
 	environment env;
@@ -585,11 +682,13 @@ namespace giac {
     if (g.type!=_USER)
       return sym_mult(*this,g,context0); // ok symbolic(at_prod,makesequence(g,*this));
     if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr)){
-      if (gptr->p!=p || gptr->P!=P || P.type!=_VECT || is_undef(P) || is_undef(gptr->P))
-	return gensizeerr();
+      // if (gptr->p!=p || gptr->P!=P || P.type!=_VECT || is_undef(P) || is_undef(gptr->P)) return gensizeerr();
       if (a.type==_VECT && gptr->a.type==_VECT){
-	if (p.type==_INT_ ){
-	  galois_field * gfptr=new galois_field(p,P,x,new ref_vecteur(0));
+	galois_field * gfptr=new galois_field(p,P,x,new ref_vecteur(*a._VECTptr));
+	int tst=common_gf(*gfptr,*gptr);
+	if (!tst)
+	  return gensizeerr();
+	if (tst==1 && p.type==_INT_){
 	  ref_gen_user * resptr=new ref_gen_user(*gfptr);
 	  int m=p.val;
 	  vector<int> amod,bmod,ab,pmod;
@@ -615,10 +714,11 @@ namespace giac {
 	env.pn=env.modulo;
 	env.moduloon=true;
 	vecteur resdbg,quo;
-	mulmodpoly(*a._VECTptr,*gptr->a._VECTptr,&env,resdbg);
-	gen res(new_ref_vecteur(0));
-	DivRem(resdbg,*P._VECTptr,&env,quo,*res._VECTptr);
-	return galois_field(p,P,x,res,false);
+	mulmodpoly(*gfptr->a._VECTptr,*gptr->a._VECTptr,&env,resdbg);
+	DivRem(resdbg,*gptr->P._VECTptr,&env,quo,*gfptr->a._VECTptr);
+	gen res=*gfptr;
+	delete gfptr;
+	return res;
       }
       return galois_field(p,P,x,a*gptr->a);
     }
@@ -885,7 +985,7 @@ namespace giac {
     if (P.type!=_VECT)
       return gensizeerr(gettext("GF polyfactor"));
     environment env;
-    env.moduloon=false;
+    env.moduloon=true; // false;
     env.coeff=*this;
     env.modulo=this->p.to_int();
     int exposant=int(this->P._VECTptr->size())-1;
@@ -914,6 +1014,49 @@ namespace giac {
     }
     v=trim(v,0);
     return galois_field(p,P,x,v);
+  }
+
+  gfmap & gf_list(){
+    static gfmap * ans= new gfmap;
+    return *ans;
+  }
+
+  bool has_gf_coeff(const vecteur & v,gen & p, gen & pmin){
+    const_iterateur it=v.begin(),itend=v.end();
+    for (;it!=itend;++it){
+      if (has_gf_coeff(*it,p,pmin))
+	return true;
+    }
+    return false;
+  }
+
+  bool has_gf_coeff(const polynome & P,gen & p, gen & pmin){
+    vector< monomial<gen> >::const_iterator it=P.coord.begin(),itend=P.coord.end();
+    for (;it!=itend;++it){
+      if (has_gf_coeff(it->value,p,pmin))
+	return true;
+    }
+    return false;
+  }
+
+  bool has_gf_coeff(const gen & e,gen & p, gen & pmin){
+    switch (e.type){
+    case _USER:
+      if (galois_field * ptr=dynamic_cast<galois_field *>(e._USERptr)){
+	p = ptr->p;
+	pmin=ptr->P;
+	return true;
+      }
+      return false;
+    case _SYMB:
+      return has_gf_coeff(e._SYMBptr->feuille,p,pmin);
+    case _VECT:
+      return has_gf_coeff(*e._VECTptr,p,pmin);
+    case _POLY:
+      return has_gf_coeff(*e._POLYptr,p,pmin);
+    default:
+      return false;
+    }
   }
 
 #endif // NO_RTTI

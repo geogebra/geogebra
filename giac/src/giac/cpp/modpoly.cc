@@ -72,7 +72,7 @@ namespace giac {
 
   // random modular number
   gen nrandom(environment * env){
-    if (env->moduloon){
+    if (env->moduloon && is_zero(env->coeff)){
       double d=env->modulo.to_int();
       int j=(int) (d*std_rand()/(RAND_MAX+1.0));
       return smod(gen(j),env->modulo);
@@ -339,7 +339,7 @@ namespace giac {
   }
 
   bool normalize_env(environment * env){
-    if (env->moduloon || is_zero(env->pn)){
+    if ( (env->moduloon && is_zero(env->coeff)) || is_zero(env->pn)){
       env->pn=env->modulo;
       if (env->complexe)
 	env->pn = env->pn * env->pn ;
@@ -1271,7 +1271,7 @@ namespace giac {
     }
     new_coord.reserve(product_deg+1);
     modpoly::const_iterator ita=a.begin(),ita_end=a.end(),itb=b.begin(),itb_end=b.end(); // ,ita_begin=a.begin()
-    if ( env && (env->moduloon) && !env->complexe && (env->modulo.type==_INT_) && (env->modulo.val < smallint) && (product_deg < 65536) )
+    if ( env && (env->moduloon) && is_zero(env->coeff) && !env->complexe && (env->modulo.type==_INT_) && (env->modulo.val < smallint) && (product_deg < 65536) )
       Mulmodpolysmall(ita,ita_end,itb,itb_end,env,new_coord);
     else {
       if ( //1 ||
@@ -1289,12 +1289,12 @@ namespace giac {
 	}
 	if (ita==ita_end && itb==itb_end){
 	  //CERR << "// fftmult" << endl;
-	  if (fftmult(a,b,new_coord,(env && env->moduloon && env->modulo.type==_INT_)?env->modulo.val:0)){
+	  if (fftmult(a,b,new_coord,(env && env->moduloon && is_zero(env->coeff) && env->modulo.type==_INT_)?env->modulo.val:0)){
 #if 0
 	    vecteur save=new_coord;
 	    Muldense_POLY1(a.begin(),ita_end,b.begin(),itb_end,env,new_coord);
 	    if (save!=new_coord)
-	      CERR << " fft mult error poly1" << a << "*" << b << ";" << (env && env->moduloon?env->modulo:zero) << endl;
+	      CERR << " fft mult error poly1" << a << "*" << b << ";" << (env && env->moduloon && is_zero(env->coeff)?env->modulo:zero) << endl;
 #endif
 	    return ;
 	  }
@@ -1606,7 +1606,7 @@ namespace giac {
       new_coord=modpoly(1,gensizeerr(gettext("Stopped by user interruption."))); 
       return;
     }
-    if (env && env->moduloon){
+    if (env && env->moduloon && is_zero(env->coeff)){
       mulmodpoly(a,b,env,new_coord);
       return ;
     }
@@ -1902,7 +1902,7 @@ namespace giac {
 	new_coord=th;
       return ;
     }
-    if (!env || !env->moduloon)
+    if (!env || !env->moduloon || !is_zero(env->coeff))
       divmodpoly(th,fact,new_coord);
     else {
       gen factinv(invmod(fact,env->modulo));
@@ -1973,7 +1973,7 @@ namespace giac {
 	}
       }
     }
-    if (env && env->moduloon){
+    if (!invother && env && env->moduloon){
       invcoeff=invmod(coeff,env->modulo);
       invother=true;
     }
@@ -2018,13 +2018,13 @@ namespace giac {
       }
       quo.push_back(q);
       --tmpend;
-      bool fast=(env && (env->complexe || !env->moduloon) )?false:(q.type==_INT_) || (q.type==_ZINT);
+      bool fast=(env && is_zero(env->coeff) && (env->complexe || !env->moduloon) )?false:(q.type==_INT_) || (q.type==_ZINT);
       if (!is_zero(q)) {
 	// tmp <- tmp - q *B.shifted
 	tmpptr=tmpend;
 	modpoly::const_iterator itq=B_beg;
 	++itq; // first elements cancel
-	if (env && (env->moduloon && !env->complexe) && (env->modulo.type==_INT_) && (env->modulo.val<smallint)){
+	if (env && (env->moduloon && !env->complexe && is_zero(env->coeff)) && (env->modulo.type==_INT_) && (env->modulo.val<smallint)){
 	  for (;itq!=B_end;--tmpptr,++itq){ // no mod here to save comput. time
 	    tmpptr->val -= q.val*itq->val ;
 	  }	  
@@ -2808,13 +2808,13 @@ namespace giac {
       return false;
     }
 #ifndef EMCC
-    if (env->moduloon && !env->complexe && env->modulo.type==_INT_ && env->modulo.val < (1 << 15) ){
+    if (env->moduloon && is_zero(env->coeff) && !env->complexe && env->modulo.type==_INT_ && env->modulo.val < (1 << 15) ){
       gcdsmallmodpoly(p,q,env->modulo.val,a);
       return true;
     }
 #endif
 #if 0
-    if (env->moduloon && !env->complexe && env->modulo.type==_INT_ && env->modulo.val < (1 << 26) ){
+    if (env->moduloon && is_zero(env->coeff) && !env->complexe && env->modulo.type==_INT_ && env->modulo.val < (1 << 26) ){
       if (gcddoublemodpoly(p,q,env->modulo.val,a))
 	return true;
     }
@@ -3055,7 +3055,7 @@ namespace giac {
   static bool divmod(polynome & p,const vecteur & v,environment * env){
     if (v.size()==1){
       if (!is_one(v.front())){
-	if (!env || !env->moduloon)
+	if (!env || !env->moduloon || !is_zero(env->coeff))
 	  return false; // setsizeerr();
 	p=invmod(v.front(),env->modulo)*p;
       }
@@ -3888,7 +3888,7 @@ namespace giac {
   }
 
   modpoly gcd(const modpoly & p,const modpoly &q,environment * env){
-    if (!env || !env->moduloon){
+    if (!env || !env->moduloon || !is_zero(env->coeff)){
       polynome r,s;
       int dim=giacmax(inner_POLYdim(p),inner_POLYdim(q));
       poly12polynome(p,1,r,dim);
@@ -3921,7 +3921,7 @@ namespace giac {
 
   // p1*u+p2*v=d
   void egcd(const modpoly &p1, const modpoly & p2, environment * env,modpoly & u,modpoly & v,modpoly & d){
-    if ( (!env || !env->moduloon)){
+    if ( (!env || !env->moduloon || !is_zero(env->coeff))){
       int dim=giacmax(inner_POLYdim(p1),inner_POLYdim(p2));
       polynome pp1(dim),pp2(dim),pu(dim),pv(dim),pd(dim);
       gen den1(1),den2(1);
@@ -4132,7 +4132,7 @@ namespace giac {
 	break;
       }
       int deg1=int(r1.size())-1,ddeg=deg1-deg2;
-      if (!env || !env->moduloon){
+      if (!env || !env->moduloon || !is_zero(env->coeff)){
 	r20=r2.front();
 	r2pow=pow(r2.front(),ddeg+1);
 	DivRem(r2pow*r1,r2,env,q,r);
@@ -4146,7 +4146,7 @@ namespace giac {
 	v=operator_div(v,tmp,env);
       }
       else {
-	if (!env || !env->moduloon){
+	if (!env || !env->moduloon || !is_zero(env->coeff)){
 	  hpow=pow(h,ddeg);
 	  r=operator_div(r,hpow*g,env);
 	  v=operator_div(v,hpow*g,env);
@@ -4977,7 +4977,7 @@ namespace giac {
       else
 	return p.front()*x+p.back();
     }
-    if ( (!env || !env->moduloon) && x.type==_FRAC)
+    if ( (!env || !env->moduloon || !is_zero(env->coeff)) && x.type==_FRAC)
       return horner(p,*x._FRACptr,simp);
 #if defined HAVE_LIBMPFI && !defined NO_RTTI
     if (x.type==_REAL){
@@ -5183,7 +5183,7 @@ namespace giac {
   modpoly taylor(const modpoly & p,const gen & x,environment * env){
     if (p.empty())
       return p;
-    if ( (!env || !env->moduloon) && x.type==_FRAC) // use derivatives of p
+    if ( (!env || !env->moduloon || !is_zero(env->coeff)) && x.type==_FRAC) // use derivatives of p
       return taylordiff(p,x);
     modpoly res,a,b;
     a=p;

@@ -103,6 +103,18 @@ namespace giac {
   vecteur find_irreducible_primitive(int p,int m,bool primitive,GIAC_CONTEXT);
   gen _galois_field(const gen & args,GIAC_CONTEXT);
 
+  struct gen_context_t {
+    gen g;
+    context * ptr ;
+  };
+  // All Galois field in a map[p^m]=generator of GF(p,m)
+  // the generator might be replaced by some polynomial of a GF(p,m*m2)
+  // if a binary operation on two elements of different GF(p,.) happens
+  typedef std::map<gen,gen_context_t,comparegen > gfmap; 
+  gfmap & gf_list();
+  int gfsize(const gen & P);
+  bool has_gf_coeff(const gen & e,gen & p, gen & pmin);
+
 #endif // NO_RTTI
 
 #ifndef NO_NAMESPACE_GIAC

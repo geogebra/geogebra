@@ -5498,7 +5498,7 @@ namespace giac {
     if (debug_infolevel>2)
       CERR << "gcd begin " << CLOCK() << endl;
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
-    if (ckmatrix(args) && itend-it==2)
+    if (ckmatrix(args) && itend-it==2 && it->subtype!=_POLY1__VECT && (it+1)->subtype!=_POLY1__VECT)
       return apply(*it,*(it+1),contextptr,gcd);
     gen res(0);
     for (;it!=itend;++it)
@@ -5517,7 +5517,7 @@ namespace giac {
     vecteur::const_iterator it=args._VECTptr->begin(),itend=args._VECTptr->end();
     if (itend==it)
       return 1;
-    if (ckmatrix(args) && itend-it==2)
+    if (ckmatrix(args) && itend-it==2 && it->subtype!=_POLY1__VECT && (it+1)->subtype!=_POLY1__VECT)
       return apply(*it,*(it+1),lcm);
     gen res(*it);
     for (++it;it!=itend;++it)
