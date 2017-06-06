@@ -228,6 +228,8 @@ public enum Feature {
 	/** MOB-1216 */
 	WEB_ZSPACE,
 	
-	EXPORT_SCAD
+	EXPORT_SCAD,
+
+	INPUT_BAR_SOLVE
 
 }

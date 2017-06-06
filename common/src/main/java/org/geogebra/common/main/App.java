@@ -4300,6 +4300,9 @@ public abstract class App implements UpdateSelection {
 		case EXPORT_SCAD:
 			return prerelease;
 
+		case INPUT_BAR_SOLVE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

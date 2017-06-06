@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.debug.Log;
@@ -606,7 +607,6 @@ public abstract class CommandDispatcher {
 			case MixedNumber:
 			case Rationalize:
 			case Solutions:
-			case Solve:
 			case Substitute:
 			case ToExponential:
 				return new CAScmdProcessor(kernel);
@@ -756,6 +756,11 @@ public abstract class CommandDispatcher {
 			case ShortestDistance:
 				return getDiscreteDispatcher().dispatch(command, kernel);
 
+			case Solve:
+				if (app.has(Feature.INPUT_BAR_SOLVE)) {
+					return getCASDispatcher().dispatch(command, kernel);
+				}
+				return new CAScmdProcessor(kernel);
 			case LocusEquation:
 			case Envelope:
 			case Expand:
