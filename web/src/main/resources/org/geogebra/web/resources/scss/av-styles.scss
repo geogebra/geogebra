@@ -159,9 +159,18 @@
 			/*width: 48px;*/
 		}
 	
-		.marblePanel.error, 
+		.marblePanel.error.gwt-ToggleButton.gwt-ToggleButton-up {
+			width: 22px !important;
+			height: 22px;
+		}
+		
+		.marblePanel.error { 
+			padding-left: 16px;
+			padding-right: 16px;
+		}
+		
 		.marblePanel.help {
-			width: 49px;
+			width: 48px !important;
 		}
 		
 		
@@ -178,7 +187,7 @@
 		.marblePanel.plus {
 			padding-top: 0px;
 			padding-left: 4px;
-			padding-right: 3px;
+			padding-right: 4px;
 			/*width: 62px; */
 			img {
 				opacity: 0.54;
@@ -239,7 +248,7 @@
 		.playOnly {
 				position: absolute;
 				top: 42px;
-	    		right: 2px;
+	    		right: 3px;
 			}
 		
 		.NewRadioButtonTreeItemParent .scrollableTextBox,
