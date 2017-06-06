@@ -240,6 +240,9 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		return newf;
 	}
 
+	/**
+	 * @return coefficients
+	 */
 	public MyDouble[] getCoeffs() {
 		return mydoubles;
 	}
