@@ -1,11 +1,11 @@
 package org.geogebra.common.gui.toolcategorization;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
-
-import java.util.ArrayList;
-import java.util.TreeSet;
 
 public class ToolCategorization {
 
@@ -13,16 +13,38 @@ public class ToolCategorization {
 
     public enum Category {
         // from Geometry & Graphing Calculator
-        SIMPLE("ToolCategory.Simple"), EDIT("ToolCategory.Edit"), LINES("ToolCategory.Lines"),
+		SIMPLE("ToolCategory.Simple"),
+
+		EDIT("ToolCategory.Edit"),
+
+		LINES("ToolCategory.Lines"),
+
         POINTS("ToolCategory.Points"),
-        CIRCLES("ToolCategory.Circles"), ANGLES_AND_MEASURING("ToolCategory.AnglesAndMeasuring"),
-        POLYGONS("ToolCategory.Polygons"), MEDIA("ToolCategory.Media"),
+
+		CIRCLES("ToolCategory.Circles"),
+
+		ANGLES_AND_MEASURING("ToolCategory.AnglesAndMeasuring"),
+
+		POLYGONS("ToolCategory.Polygons"),
+
+		MEDIA("ToolCategory.Media"),
+
         TRANSFORMATIONS("ToolCategory.Transformations"),
+
         SPECIAL_LINES("ToolCategory.SpecialLines"),
-        CURVES("ToolCategory.Curves"), OTHERS("ToolCategory.Others"),
+
+		CURVES("ToolCategory.Curves"),
+
+		OTHERS("ToolCategory.Others"),
+
         // specific to 3D Grapher
-        LINES_AND_POLYGONS("ToolCategory.LinesAndPolygons"), SOLIDS("ToolCategory.Solids"),
-        PLANES("ToolCategory.Planes"), SELECT_AND_FORMAT("ToolCategory.SelectAndFormat");
+		LINES_AND_POLYGONS("ToolCategory.LinesAndPolygons"),
+
+		SOLIDS("ToolCategory.Solids"),
+
+		PLANES("ToolCategory.Planes"),
+
+		SELECT_AND_FORMAT("ToolCategory.SelectAndFormat");
 
         private final String header;
 
