@@ -286,7 +286,29 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Compute the flattened coefficient matrix as it is directly used when
 		 * the algebraic curve is plotted as an implicit poly. Used publicly.
 		 */
-		IMPLICIT_CURVE_COEFFS("implicitCurveCoeffs", "implicitCurveCoeffs(aa):=begin local bb; bb:=factorsqrfree(aa); return [coeffMatrix(bb),coeffMatrices(bb)]; end");
+		IMPLICIT_CURVE_COEFFS("implicitCurveCoeffs", "implicitCurveCoeffs(aa):=begin local bb; bb:=factorsqrfree(aa); return [coeffMatrix(bb),coeffMatrices(bb)]; end"),
+		/**
+		 * Decide if a poly is irreducible.
+		 */
+		IRRED("irred", "irred(p,x):=begin local f; f:=factors(primpart(p,x)); return (size(f)==2 && f[1]==1); end"),
+		/**
+		 * Absolute factorization of a poly in 2 vars: create the algebraic
+		 * number to extend Q. We assume that the poly is irreducible over Q.
+		 */
+		AFACTOR_ALG_NUM("afactorAlgNum", "afactorAlgNum(p):=begin local k,l,j,d,extdeg,xx,lv,px,lc,lv2,py,fy,lfy,yy,fydeg,deg,pm,pdeg; l:=lname(p); if (!irred(p,l[0])) return \"Not irreducible\"; if (size(l)<2) return p; d:=[]; for j in l do d:=append(d,degree(p,j)); od; extdeg:=lgcd(d); if (extdeg==1) return \"Absolutely irreducible\"; xx:=head(l); pdeg:=degree(p,xx); l:=tail(l); for j from 1 to 1000 do lv:=ranv(size(l),j); px:=primpart(subst(p,l,lv),xx); if (degree(px,xx)!=pdeg) continue; if (irred(px,xx)) break; od; lc:=lcoeff(px,xx); if (lc!=1) px:=primpart(subst(px,xx,xx/lc),xx); for j from j to 1000 do lv2:=ranv(size(l),extdeg+j); if (lv2==lv) continue; py:=primpart(subst(p,l,lv2),xx); if (degree(py,xx)!=pdeg || !irred(py,xx)) continue; fy:=factors(py,rootof(px)); fydeg:=map(fy,yy->degree(yy,xx)); deg:=gcd(fydeg); deg:=d[0]/deg; if (deg==extdeg && degree(px)==extdeg) break; extdeg:=gcd(deg,extdeg); if (extdeg==1) return \"Absolutely irreducible\"; if (deg>extdeg) continue; for k from 0 to size(fydeg)-1 do if (fydeg[k]*extdeg==d[0]) break; od; if (k==size(fydeg)) continue; lfy:=coeff(fy[k],xx); for k from 0 to size(lfy)-1 do pm:=pmin(lfy[k]); if (degree(pm)==extdeg) begin px:=pm; break; end; od; od; return px; end"),
+		/**
+		 * Absolute factorization of a poly in 2 vars: return the factorization
+		 * over the extension. We assume that the poly is irreducible over Q.
+		 */
+		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); print(algnum,type(algnum)); if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end");
+		/**
+		 * Examples: absfact(y^4 +2*y^2*x+14*y^2-7*x^2 +6*x+47) should return
+		 * -7*(x+(-2*sqrt(2)-1)/7*y^2+(-13*sqrt(2)-3)/7)*(x+(2*sqrt(2)-1)/7*y^2+(13*sqrt(2)-3)/7).
+		 * absfact(16x^4+16y^4-16x^2*y^2-72x^2-72y^2+81) should return
+		 * 16*(x^2+(-sqrt(3))*x*y+y^2-9/4)*(x^2+sqrt(3)*x*y+y^2-9/4).
+		 * absfact(x^2*y^2-2) should return (x*y-sqrt(2))*(x*y+sqrt(2)).
+		 * absfact(x^2*y^2-2) should return (x*y+i*sqrt(2))*(x*y-i*sqrt(2)).
+		 */
 		/** function name */
 		final public String functionName;
 		/** definition string */
@@ -328,6 +350,8 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(ENVELOPE_EQU, GEOM_JACOBI_DET);
 			setDependency(GEOM_JACOBI_DET, JACOBI_PREPARE);
 			setDependency(GEOM_JACOBI_DET, JACOBI_DET);
+			setDependency(AFACTOR_ALG_NUM, IRRED);
+			setDependency(ABSFACT, AFACTOR_ALG_NUM);
 		}
 
 		/**
