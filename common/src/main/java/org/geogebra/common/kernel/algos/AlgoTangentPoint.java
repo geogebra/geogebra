@@ -173,10 +173,6 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 				PVariable[] vPoint = point.getBotanaVars(point);
 				PVariable[] vcircle = circle.getBotanaVars(circle);
 
-				PPolynomial pointDistCircle = PPolynomial.equidistant(vPoint[0],
-						vPoint[1], vcircle[0], vcircle[1], vcircle[2],
-						vcircle[3]);
-
 				// is tangent point on circle?
 				if (isIntersectionPointIncident()) {
 					if (botanaVars == null) {
@@ -189,19 +185,18 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 						botanaVars[3] = new PVariable(kernel);
 					}
 
-					botanaPolynomials = new PPolynomial[3];
-					botanaPolynomials[0] = pointDistCircle;
+				botanaPolynomials = new PPolynomial[2];
 					// rotating the center of vcircle
 					// around vpoint by 90 degrees
 					// to get a point on the tangent line
-					botanaPolynomials[1] = new PPolynomial(botanaVars[1])
-							.subtract(new PPolynomial(vcircle[1]))
-							.subtract(new PPolynomial(botanaVars[2]))
-							.add(new PPolynomial(botanaVars[0]));
-					botanaPolynomials[2] = new PPolynomial(vcircle[0])
-							.subtract(new PPolynomial(botanaVars[0]))
-							.subtract(new PPolynomial(botanaVars[3]))
-							.add(new PPolynomial(botanaVars[1]));
+				botanaPolynomials[0] = new PPolynomial(botanaVars[1])
+						.subtract(new PPolynomial(vcircle[1]))
+						.subtract(new PPolynomial(botanaVars[2]))
+						.add(new PPolynomial(botanaVars[0]));
+				botanaPolynomials[1] = new PPolynomial(vcircle[0])
+						.subtract(new PPolynomial(botanaVars[0]))
+						.subtract(new PPolynomial(botanaVars[3]))
+						.add(new PPolynomial(botanaVars[1]));
 					return botanaPolynomials;
 
 				}
@@ -244,8 +239,6 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 						botanaVars[1], vcircle[0], vcircle[1], vcircle[2],
 						vcircle[3]);
 				return botanaPolynomials;
-
-
 		}
 
 		if (c.isParabola()) {
