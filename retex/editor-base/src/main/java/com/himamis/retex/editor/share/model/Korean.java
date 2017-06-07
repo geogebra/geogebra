@@ -579,8 +579,78 @@ public class Korean {
 		for (int i = 0; i < str.length() - 1; i++) {
 			int offset = 1;
 			switch (c = str.charAt(i)) {
+			
+			case '\u11ab':
+			case '\u1102':
+				switch (str.charAt(i + 1)) {
+				case '\u110c':
+				case '\u11bd':
+					sb.append('\u11ac');
+					i++;
+					break;
+				case '\u1112':
+				case '\u11c2':
+					sb.append('\u11ad');
+					i++;
+					break;
+				default:
+					sb.append(c);
+						
+				}
+				break;
+			
+			case '\u1105':
+			case '\u11af':
+				switch (str.charAt(i + 1)) {
+				case '\u3131':
+				case '\u1100':
+				case '\u11a8':
+					sb.append('\u11b0');
+					i++;
+					break;
+				case '\u3141':
+				case '\u1106':
+				case '\u11b7':
+					sb.append('\u11b1');
+					i++;
+					break;
+				case '\u3142':
+				case '\u11b8':
+				case '\u1107':
+					sb.append('\u11b2');
+					i++;
+					break;
+				case '\u3145':
+				case '\u1109':
+				case '\u11ba':
+					sb.append('\u11b3');
+					i++;
+					break;
+				case '\u314c':
+				case '\u1110':
+				case '\u11c0':
+					sb.append('\u11b4');
+					i++;
+					break;
+				case '\u314d':
+				case '\u1111':
+				case '\u11c1':
+					sb.append('\u11b5');
+					i++;
+					break;
+				case '\u314e':
+				case '\u1112':
+				case '\u11c2':
+					sb.append('\u11b6');
+					i++;
+					break;
+				default:
+					sb.append(c);
+				}
+				break;
+
 			case '\u1161': // these character are "doubled" by adding 2 to their
-							// Unicode value
+				// Unicode value
 			case '\u1162':
 			case '\u1165':
 			case '\u1166':
@@ -619,30 +689,31 @@ public class Korean {
 					sb.append(c);
 				}
 				break;
-			case '\u1105':
-				c2 = str.charAt(i + 1);
-				if (c2 == '\u1100') {
-					sb.append('\u11b0'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u1106') {
-					sb.append('\u11b1'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u1107') {
-					sb.append('\u11b2'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u1109') {
-					sb.append('\u11b3'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u1110') {
-					sb.append('\u11b4'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u1112') {
-					sb.append('\u11b6'); // eg \u1101 ie doubled char
-					i++;
-				} else {
-					sb.append(c);
-				}
-				break;
+			// case '\u1105':
+			// case '\u11af':
+			// c2 = str.charAt(i + 1);
+			// if (c2 == '\u1100') {
+			// sb.append('\u11b0'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1106') {
+			// sb.append('\u11b1'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1107') {
+			// sb.append('\u11b2'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1109') {
+			// sb.append('\u11b3'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1110') {
+			// sb.append('\u11b4'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1112') {
+			// sb.append('\u11b6'); // eg \u1101 ie doubled char
+			// i++;
+			// } else {
+			// sb.append(c);
+			// }
+			// break;
 			case '\u116e':
 				c2 = str.charAt(i + 1);
 				if (c2 == '\u1165') {
@@ -682,18 +753,18 @@ public class Korean {
 					sb.append(c);
 				}
 				break;
-			case '\u1102':
-				c2 = str.charAt(i + 1);
-				if (c2 == '\u110c') {
-					sb.append('\u11ac'); // eg \u1101 ie doubled char
-					i++;
-				} else if (c2 == '\u1112') {
-					sb.append('\u11ad'); // eg \u1101 ie doubled char
-					i++;
-				} else {
-					sb.append(c);
-				}
-				break;
+//			case '\u1102':
+//				c2 = str.charAt(i + 1);
+//				if (c2 == '\u110c') {
+//					sb.append('\u11ac'); // eg \u1101 ie doubled char
+//					i++;
+//				} else if (c2 == '\u1112') {
+//					sb.append('\u11ad'); // eg \u1101 ie doubled char
+//					i++;
+//				} else {
+//					sb.append(c);
+//				}
+//				break;
 			case '\u1111':
 				c2 = str.charAt(i + 1);
 				if (c2 == '\u1111') {
@@ -883,7 +954,7 @@ public class Korean {
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanTailChar(newChar, true)) {
 
-			// System.err.println("case 5");
+			System.err.println("case 5");
 
 			// System.err.println("case 5");
 
@@ -895,8 +966,11 @@ public class Korean {
 			String doubleCheck = Korean
 					.mergeDoubleCharacters(lastChar2 + "" + newChar);
 
+			System.err.println("doubleCheck = " + doubleCheck + " "
+					+ doubleCheck.length());
+
 			if (doubleCheck.length() == 1) {
-				// System.err.println("merge check passed");
+				System.err.println("merge check passed");
 
 				newChar = Korean
 						.unflattenKorean(

@@ -225,6 +225,10 @@ public class SerializeLaTeX {
 		// type with explicit double
 		// strictly should probably be \uD558\uC30D
 		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD56B\uC0C1");
+		
+		testEditor("\u3134\u3153\u3139\u3142\u3147\u3163", "\uB113\uC774");
+		testEditor("\u3147\u314F\u3134\u314E\u3137\u314F", "\uC54A\uB2E4");
+		testEditor("\u3131\u314F\u3142\u3145\u3147\u3161\u3134", "\uAC12\uC740");
 
 		testEditor("\u3131\u314F\u3142\u3145\u3145\u314F\u3134",
 				"\uAC12\uC0B0");
