@@ -428,6 +428,9 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	/**
+	 * @return whether errors were produced by parsing last file
+	 */
 	public boolean hasErrors() {
 		return !errors.isEmpty();
 	}
@@ -3352,6 +3355,8 @@ public class MyXMLHandler implements DocHandler {
 									: Kernel.COORD_CARTESIAN);
 				} else if (geo instanceof GeoPolyLine) {
 					((GeoPolyLine) geo).setVisibleInView3D(false);
+				} else if (geo instanceof GeoFunction) {
+					geo.setFixed(false);
 				}
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);

@@ -93,12 +93,17 @@ public class Perspective {
 	final private static String[] perspectiveSlugs = new String[] { "graphing",
 			"geometry", "spreadsheet", "cas", "3d", "probability",
 			"whiteboard" };
-
+	/** graphing calculator */
 	public static final int GRAPHING = 1;
+	/** geometry calculator */
 	public static final int GEOMETRY = 2;
+	/** spreadsheet calc */
 	public static final int SPREADSHEET = 3;
+	/** CAS calculator */
 	public static final int CAS = 4;
+	/** 3D calculator */
 	public static final int GRAPHER_3D = 5;
+	/** probability calculator */
 	public static final int PROBABILITY = 6;
 
 	/**
