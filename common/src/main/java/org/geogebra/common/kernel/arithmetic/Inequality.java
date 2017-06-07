@@ -257,7 +257,7 @@ public class Inequality {
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 		// funBorder for inequality f(x)>g(x) is function f(x)-g(x)
-		funBorder = new GeoFunction(cons);
+		funBorder = new GeoFunction(cons, false);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));
 		zeros = RootMultiple(funBorder);
 
