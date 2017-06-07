@@ -296,7 +296,9 @@ public class TabbedKeyboard extends FlowPanel {
 		StringBuilder sb = new StringBuilder(11);
 		for (int i = 0; i < keys.length(); i += 2) {
 			sb.append(keys.charAt(i));
-			upperKeys.put(keys.charAt(i) + "", keys.charAt(i + 1) + "");
+			if (keys.length() > i + 1) {
+				upperKeys.put(keys.charAt(i) + "", keys.charAt(i + 1) + "");
+			}
 		}
 		// TODO remove the replace once ggbtrans is fixed
 		return sb.toString().replace("'", "");
