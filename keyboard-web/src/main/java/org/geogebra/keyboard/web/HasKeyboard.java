@@ -15,4 +15,7 @@ public interface HasKeyboard {
 	boolean hasKeyboardInProbCalculator();
 
 	void updateCenterPanelAndViews();
+
+	// used only for feature check
+	boolean ggbtransFeature();
 }

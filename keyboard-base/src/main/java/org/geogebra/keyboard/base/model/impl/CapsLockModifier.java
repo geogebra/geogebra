@@ -46,9 +46,9 @@ public class CapsLockModifier implements KeyModifier {
     public String modifyActionName(String actionName, ActionType actionType) {
         if (actionType == ActionType.INPUT && actionName.length() == 1) {
             if (capsLock) {
-				//if (upperKeys != null) {
-				//	return getUpperCase(actionName);
-				//}
+				if (upperKeys != null) {
+					return getUpperCase(actionName);
+				}
 				return actionName.toUpperCase();
             }
         }

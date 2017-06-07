@@ -230,6 +230,9 @@ public enum Feature {
 	
 	EXPORT_SCAD,
 
-	INPUT_BAR_SOLVE
+	INPUT_BAR_SOLVE,
+
+	/** GGB-1832 */
+	GGBTRANS_KEYS
 
 }

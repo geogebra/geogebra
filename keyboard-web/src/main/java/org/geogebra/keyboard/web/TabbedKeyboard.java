@@ -33,7 +33,7 @@ public class TabbedKeyboard extends FlowPanel {
 	private static final int TAB_ALPHA = 3;
 	private static final int TAB_SPECIAL = 4;
 	
-	private HashMap<String, String> upperKeys = new HashMap<String, String>();
+	private HashMap<String, String> upperKeys;
 	
 	
 	/**
@@ -256,6 +256,10 @@ public class TabbedKeyboard extends FlowPanel {
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, "f(x)");
+
+		if (app.ggbtransFeature()) {
+			upperKeys = new HashMap<String, String>();
+		}
 
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
