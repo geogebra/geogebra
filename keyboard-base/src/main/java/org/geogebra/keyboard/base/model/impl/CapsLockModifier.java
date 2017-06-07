@@ -39,7 +39,11 @@ public class CapsLockModifier implements KeyModifier {
     }
 
 	private String getUpperCase(String resourceName) {
-		return upperKeys.get(resourceName);
+		String ret = upperKeys.get(resourceName);
+		if (ret == null) {
+			return resourceName;
+		}
+		return ret;
 	}
 
 	@Override
