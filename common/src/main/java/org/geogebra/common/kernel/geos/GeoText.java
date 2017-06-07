@@ -1449,10 +1449,17 @@ public class GeoText extends GeoElement
 		}
 
 		String ret = getAlgebraDescription(StringTemplate.editorTemplate)
-				.replace('"', ' ').split("=")[1];
+				.replace("\"", "").split(" = ")[1];
 
 		return ret;
 	}
+
+	/**
+	 * 
+	 * @param builder
+	 *            .
+	 * @return the editable text itself, without label and ""-s.
+	 */
 	final public String getDescriptionForAV(
 			IndexHTMLBuilder builder) {
 		String txt = getDefinitionForEditor();
