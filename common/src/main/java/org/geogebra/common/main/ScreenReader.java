@@ -21,14 +21,12 @@ public class ScreenReader {
 
 	}
 
-	public static void sliderChanged(GeoNumeric geo0) {
-		// App app = geo0.getKernel().getApplication();
-
-		// readText(geo0, app);
-
+	public static void sliderChanged(final GeoNumeric geo0) {
+		final App app = geo0.getKernel().getApplication();
+		readText(geo0, app);
 	}
 
-	private static void readText(GeoElement geo0, App app) {
+	static void readText(GeoElement geo0, App app) {
 		String text = geo0.getCaptionSimple();
 		if (text == null || "".equals(text)) {
 			text = geo0.getAlgebraDescriptionDefault();

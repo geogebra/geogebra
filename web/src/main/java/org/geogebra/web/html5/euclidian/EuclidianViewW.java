@@ -1314,8 +1314,11 @@ public class EuclidianViewW extends EuclidianView implements
 	public void readText(final String text) {
 		Log.debug("read text: " + text);
 		dummyDiv.getElement().setInnerText(text);
+
+		int scrolltop = Window.getScrollTop();
 		dummyDiv.getElement().focus();
 		g2p.getCanvas().getCanvasElement().focus();
+		Window.scrollTo(Window.getScrollLeft(), scrolltop);
 	}
 
 	public static native void printFocusedElement()/*-{
