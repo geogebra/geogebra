@@ -4308,6 +4308,9 @@ public abstract class App implements UpdateSelection {
 		case INPUT_BAR_SOLVE:
 			return prerelease;
 
+		case AND_SNACKBAR:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
