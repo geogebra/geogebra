@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -13,13 +12,21 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
+/**
+ * Use Solve cas command from AV
+ */
 public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	private GeoList solutions;
 	private GeoElement equations;
-	private EquationValue equation;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
+	/**
+	 * @param c
+	 *            construction
+	 * @param eq
+	 *            equation or list thereof
+	 */
 	public AlgoSolve(Construction c, GeoElement eq) {
 		super(c);
 		this.equations = eq;
@@ -67,7 +74,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	}
 
-	private void makeImplicit(GeoList equationsList) {
+	private static void makeImplicit(GeoList equationsList) {
 		for (int i = 0; i < equationsList.size(); i++) {
 			if (equationsList.get(i) instanceof GeoConic
 					&& !equationsList.get(i).isLabelSet()) {
