@@ -92,7 +92,7 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 			setSelectedIndex(pointStyleMap.get(euclidian3D ? 0 : geo0
 			        .getPointStyle()));
 
-			this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+			this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 		}
 		return this;
 	}

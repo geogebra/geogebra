@@ -174,7 +174,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		selectAnotherMenu = new MenuBar(true);
 		MenuItem selectAnotherMenuItem;
 		Localization l10n = app.getLocalization();
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			selectAnotherMenuItem = new MenuItem(l10n.getMenu("SelectAnother"),
 			        selectAnotherMenu);
 		} else {

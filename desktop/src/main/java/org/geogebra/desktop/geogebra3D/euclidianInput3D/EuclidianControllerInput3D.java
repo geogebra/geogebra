@@ -217,7 +217,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
-		if (mode == EuclidianConstants.MODE_MOVE && !input3D.hasMouseDirection()
+		if (EuclidianConstants.isMoveOrSelectionMode(mode) && !input3D.hasMouseDirection()
 				&& !input3D.currentlyUseMouse2D()) {
 			return false;
 		}

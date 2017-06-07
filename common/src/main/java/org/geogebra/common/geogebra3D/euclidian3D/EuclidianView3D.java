@@ -2470,7 +2470,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void updateCursor3D(Hits hits1) {
 		if (hasMouse()) {
 			getEuclidianController().updateNewPoint(true, hits1, true, true,
-					getMode() != EuclidianConstants.MODE_MOVE, // TODO
+					!EuclidianConstants.isMoveOrSelectionMode(getMode()), // TODO
 																// doSingleHighlighting
 																// = false ?
 					false, false);

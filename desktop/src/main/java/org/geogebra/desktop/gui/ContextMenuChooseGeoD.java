@@ -113,7 +113,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 	private void createSelectAnotherMenu(int mode) {
 		Localization localization = app.getLocalization();
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			selectAnotherMenu = new JMenu(
 					localization.getMenu("SelectAnother"));
 		} else {
@@ -227,7 +227,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 			public void actionPerformed(ActionEvent e) {
 
 				if (selectedGeos.size() < 2) {
-					if (view.getMode() == EuclidianConstants.MODE_MOVE) { // change
+					if (EuclidianConstants.isMoveOrSelectionMode(view.getMode())) { // change
 																			// selection
 																			// to
 																			// geo

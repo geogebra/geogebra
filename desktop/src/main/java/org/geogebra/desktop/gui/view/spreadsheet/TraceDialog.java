@@ -927,7 +927,7 @@ public class TraceDialog extends javax.swing.JDialog
 	 */
 	public void toolbarModeChanged(int euclidianMode) {
 		// System.out.println(euclidianMode);
-		if (euclidianMode != EuclidianConstants.MODE_MOVE
+		if (!EuclidianConstants.isMoveOrSelectionMode(euclidianMode)
 				&& euclidianMode != EuclidianConstants.MODE_SELECTION_LISTENER
 				&& (mode == MODE_ADD || mode == MODE_LOCATE)) {
 			setMode(MODE_NORMAL);

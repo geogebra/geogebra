@@ -303,7 +303,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
 		// -----------------------------------------------------
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			SelectionManager selection = ev.getApplication()
 					.getSelectionManager();
 			boolean hasGeosInThisView = false;
@@ -694,8 +694,7 @@ public class EuclidianStyleBarD extends JToolBar
 								.get(((GeoElement) geos[0]).getLineType()));
 						addThisActionListenerTo(this);
 
-						this.setKeepVisible(
-								mode == EuclidianConstants.MODE_MOVE);
+						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -780,8 +779,7 @@ public class EuclidianStyleBarD extends JToolBar
 							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
 						}
 						selectPointStyle(pointStyleMap.get(pointStyle));
-						this.setKeepVisible(
-								mode == EuclidianConstants.MODE_MOVE);
+						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -1092,8 +1090,7 @@ public class EuclidianStyleBarD extends JToolBar
 						setSelectedIndex(index);
 						setDefaultColor(alpha < 0 ? 0 : alpha, geoColor);
 
-						this.setKeepVisible(
-								mode == EuclidianConstants.MODE_MOVE);
+						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -1548,7 +1545,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
 		targetGeos.addAll(ec.getJustCreatedGeos());
-		if (mode != EuclidianConstants.MODE_MOVE) {
+		if (!EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			targetGeos.addAll(defaultGeos);
 			Previewable p = ev.getPreviewDrawable();
 			if (p != null) {

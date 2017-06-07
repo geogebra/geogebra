@@ -1599,7 +1599,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				// if (!movedGeoPointDragged){
 				if (!draggingOccured && !rightClick
 						&& movedGeoPoint.isIndependent()) {
-					if (mode == EuclidianConstants.MODE_MOVE
+					if (EuclidianConstants.isMoveOrSelectionMode(mode)
 							&& !movedGeoPoint.isGeoElement3D()) {
 						// 2D point will be replaced by 3D point (only for move
 						// mode)
@@ -3404,6 +3404,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private static boolean isModeForMovingPoint(int mode) {
 		switch (mode) {
 		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_ATTACH_DETACH:
 			return true;
 		default:
@@ -3452,6 +3453,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			switch (mode) {
 			// modes in which the result could be a dependent point
 			case EuclidianConstants.MODE_MOVE:
+			case EuclidianConstants.MODE_SELECT:
 			case EuclidianConstants.MODE_POINT:
 				return true;
 			default:

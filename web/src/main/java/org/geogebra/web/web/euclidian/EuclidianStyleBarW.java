@@ -257,7 +257,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
 		// -----------------------------------------------------
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 
 			boolean hasGeosInThisView = false;
 			SelectionManager selection = ev.getApplication()
@@ -399,7 +399,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				geos = new Object[0];
 			} else if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianView3D)
-					&& (app.getMode() != EuclidianConstants.MODE_MOVE)
+					&& (!EuclidianConstants.isMoveOrSelectionMode(app.getMode()))
 					&& (app.getMode() != EuclidianConstants.MODE_PEN)
 					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
 				// show the object stylebar in 3D view, when the user selects a
@@ -1034,7 +1034,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							setDefaultColor(alpha, geoColor);
 						}
 
-						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
+						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -1135,8 +1135,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							setDefaultColor(alpha, geoColor);
 						}
 
-						this.setKeepVisible(
-								mode == EuclidianConstants.MODE_MOVE);
+						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -1418,7 +1417,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
 		targetGeos.addAll(ec.getJustCreatedGeos());
-		if (mode != EuclidianConstants.MODE_MOVE) {
+		if (!EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			targetGeos.addAll(defaultGeos);
 			Previewable p = ev.getPreviewDrawable();
 			if (p != null) {

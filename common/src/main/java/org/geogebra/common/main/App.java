@@ -2448,7 +2448,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		// if showMenuBar is false, we can still update the style bars
-		if (getActiveEuclidianView().getMode() == EuclidianConstants.MODE_MOVE
+		if (EuclidianConstants.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
 				|| getActiveEuclidianView()
 						.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
 			updateStyleBars();
@@ -4309,6 +4309,9 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_SNACKBAR:
+			return prerelease;
+			
+		case MOB_SELECT_TOOL:
 			return prerelease;
 
 		default:

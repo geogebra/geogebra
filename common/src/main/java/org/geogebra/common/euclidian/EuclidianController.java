@@ -884,6 +884,7 @@ public abstract class EuclidianController {
 
 		switch (mode) {
 		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_TEXT:
 		case EuclidianConstants.MODE_DELETE:
 		case EuclidianConstants.MODE_RELATION:
@@ -1404,7 +1405,7 @@ public abstract class EuclidianController {
 	}
 
 	private boolean mayHighlight(GeoElement geo) {
-		return mode == EuclidianConstants.MODE_MOVE ? !geo.isLocked()
+		return EuclidianConstants.isMoveOrSelectionMode(mode) ? !geo.isLocked()
 				: !geo.isProtected(EventType.UPDATE);
 	}
 
@@ -5478,6 +5479,7 @@ public abstract class EuclidianController {
 		switch (mode) {
 		// case EuclidianConstants.MODE_VISUAL_STYLE:
 		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECT:
 			// highlight and select hits
 			if (selectionPreview) {
 				getSelectables(hits.getTopHits(), selectionPreview);
@@ -6585,6 +6587,7 @@ public abstract class EuclidianController {
 			// case EuclidianView.MODE_INTERSECTION_CURVE:
 			break;
 		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECT:
 			hits.removePolygonsIfSidePresent();
 			break;
 		default:
@@ -6646,6 +6649,7 @@ public abstract class EuclidianController {
 			}
 			break;
 		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECT:
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			// handle selection click
 			setViewHits(type);
@@ -6724,7 +6728,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean moveMode(int evMode) {
-		if ((evMode == EuclidianConstants.MODE_MOVE)) {
+		if (EuclidianConstants.isMoveOrSelectionMode(evMode)) {
 			return true;
 		}
 		return false;
@@ -8219,6 +8223,9 @@ public abstract class EuclidianController {
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
 			return moveMode == MOVE_NONE;
+			
+		case EuclidianConstants.MODE_SELECT:
+			return true;
 
 		// move rotate objects
 		case EuclidianConstants.MODE_MOVE_ROTATE:
@@ -9239,6 +9246,7 @@ public abstract class EuclidianController {
 
 		// move an object
 		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_SELECT:
 			// case EuclidianConstants.MODE_VISUAL_STYLE:
 			handleMousePressedForMoveMode(e, false);
 			break;
@@ -9355,7 +9363,7 @@ public abstract class EuclidianController {
 		}
 		
 		Drawable d = view.getBoundingBoxHandlerHit(new GPoint(event.getX(), event.getY()), event.getType());
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			// for now allow only corner handlers
 			if (d != null && view
 					.getHitHandler() != EuclidianBoundingBoxHandler.UNDEFINED) {
@@ -9997,14 +10005,14 @@ public abstract class EuclidianController {
 		}
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (mode == EuclidianConstants.MODE_MOVE && !draggingOccured) {
+			if (EuclidianConstants.isMoveOrSelectionMode(mode) && !draggingOccured) {
 				addDynamicStylebar();
 			}
 		}
 
 		// after finished drag switch back mode
 		// also ignore drag start point
-		if (mode == EuclidianConstants.MODE_MOVE && shapeDragged) {
+		if (EuclidianConstants.isMoveOrSelectionMode(mode) && shapeDragged) {
 			shapeDragged = false;
 			mode = oldShapeMode;
 			getShapeMode().setDragStartPointSet(false);
@@ -10433,7 +10441,7 @@ public abstract class EuclidianController {
 				// checkBoxOrButtonJustHitted = false;
 				// else
 				app.getGuiManager().mouseReleasedForPropertiesView(
-						mode != EuclidianConstants.MODE_MOVE
+						!EuclidianConstants.isMoveOrSelectionMode(mode)
 								&& mode != EuclidianConstants.MODE_MOVE_ROTATE);
 			}
 		}
@@ -10511,7 +10519,7 @@ public abstract class EuclidianController {
 			// there are hits
 			if (selection.selectedGeosSize() > 0) {
 
-				if (mode == EuclidianConstants.MODE_MOVE) { // only for move
+				if (EuclidianConstants.isMoveOrSelectionMode(mode)) { // only for move
 					// mode
 
 					// right click on already selected geos -> show menu for
@@ -11705,7 +11713,7 @@ public abstract class EuclidianController {
 		// store undo info and state if we use the tool once again
 		int m = temporaryMode ? oldMode : mode;
 		app.storeUndoInfoAndStateForModeStarting(
-				m != EuclidianConstants.MODE_MOVE);
+				!EuclidianConstants.isMoveOrSelectionMode(m));
 	}
 
 	protected GeoElement[] extremum(Hits hits, boolean selPreview) {

@@ -236,6 +236,9 @@ public enum Feature {
 	GGBTRANS_KEYS,
 
 	/** AND-343 */
-	AND_SNACKBAR
+	AND_SNACKBAR,
+	
+	/** MOB-1227 */
+	MOB_SELECT_TOOL
 
 }

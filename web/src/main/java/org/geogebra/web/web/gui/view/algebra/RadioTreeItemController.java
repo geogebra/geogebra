@@ -463,7 +463,7 @@ public class RadioTreeItemController
 		}
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		int mode = ev.getMode();
-		if (mode != EuclidianConstants.MODE_MOVE
+		if (!EuclidianConstants.isMoveOrSelectionMode(mode)
 				&& mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
 			ev.clickedGeo(geo, app.isControlDown(event));

@@ -220,7 +220,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	@Override
 	protected void highlight(EuclidianViewInterfaceCommon ev, GeoElement geo) {
-		if (ev.getMode() == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())) {
 			super.highlight(ev, geo);
 		} else {
 			ev.mouseMovedOver(geo);
@@ -230,7 +230,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 	@Override
 	protected void highlight(EuclidianViewInterfaceCommon ev,
 			ArrayList<GeoElement> geos) {
-		if (ev.getMode() == EuclidianConstants.MODE_MOVE) {
+		if (EuclidianConstants.isMoveOrSelectionMode(ev.getMode())) {
 			super.highlight(ev, geos);
 		} else {
 			ev.mouseMovedOverList(geos);
@@ -242,6 +242,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 		int mode = app.getActiveEuclidianView().getMode();
 		if ((mode == EuclidianConstants.MODE_MOVE
+				|| mode == EuclidianConstants.MODE_SELECT
 				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER
 				|| geo == null) && !AppD.isControlDown(e) && !e.isShiftDown()) {
 			if (!setSelectedGeo(geo)) {
@@ -255,6 +256,6 @@ public class AlgebraControllerD extends AlgebraTreeController
 
 	@Override
 	protected boolean isSelectionModeForClick(int mode) {
-		return mode == EuclidianConstants.MODE_MOVE;
+		return mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECT;
 	}
 }

@@ -233,6 +233,9 @@ public final class EuclidianConstants {
 
 	/** Roots */
 	public static final int MODE_ROOTS = 76;
+	
+	/** Select multiple objects */
+	public static final int MODE_SELECT = 77;
 
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
@@ -846,11 +849,18 @@ public final class EuclidianConstants {
 			return "Audio";
 		case EuclidianConstants.MODE_GEOGEBRA:
 			return "GeoGebra";
+			
+		case EuclidianConstants.MODE_SELECT:
+			return "Select";
 
 		default:
 			Log.error("Unknown mode " + mode);
 			return "";
 		}
+	}
+	
+	final static public boolean isMoveOrSelectionMode(int mode) {
+		return mode == MODE_MOVE || mode == MODE_SELECT;
 	}
 
 	// prevent instantiation
