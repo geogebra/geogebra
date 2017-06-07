@@ -213,17 +213,17 @@
 			top: 50%;
 			height: 18px;
 			width: 18px;
-			background-color: #6161FF;
-			border: 1px solid #000000;
+			background-color: $toolbar-header;
+			border: 1px solid $black;
 			border-radius: 24px;
 		
 		}
 		.marble.elemHidden {
-			background-color: #FFFFFF;
+			background-color: $white;
 		}
 		.marble.elemShown {
-			background-color: #6161FF;
-			border: 1px solid #CCCCFF;
+			background-color: $toolbar-header;
+			border: 1px solid $marble-border;
 		}
 		
 		.scrollableTextBox,
@@ -255,8 +255,8 @@
 		.NewRadioButtonTreeItemParent .scrollableTextBox,
 		.NewRadioButtonTreeItemParent .inputBorder
 		{
-			border-top: #6161FF solid 1px;
-			border-bottom:	#6161FF solid 1px;
+			border-top: $toolbar-header solid 1px;
+			border-bottom: $toolbar-header solid 1px;
 			min-height: 48px;
 			overflow: hidden;
 		}
