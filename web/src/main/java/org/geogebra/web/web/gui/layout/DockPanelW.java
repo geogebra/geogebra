@@ -437,7 +437,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		
 		titleBarPanelContent = new FlowPanel();
 		titleBarPanelContent.setStyleName("TitleBarPanelContent");
-		titleBarPanel.add(titleBarPanelContent);
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			titleBarPanel.add(titleBarPanelContent);
+		}
 
 		dragPanel = new FlowPanel();
 		dragPanel.setStyleName("dragPanel");
