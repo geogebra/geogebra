@@ -45,7 +45,7 @@ public class AlgebraStyleTest extends Assert {
 	
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 		// make sure x=y is a line, not plane
@@ -198,7 +198,9 @@ public class AlgebraStyleTest extends Assert {
 
 	@Test
 	public void shortLHSshouldBeDisplayedInLaTeX(){
-		t("f:y=x^3");
+		t("a = 7");
+		t("f: y = x^3");
+		t("g: y = x^3 + a");
 		assertEquals(CommandsTest.unicode("f: \\,y = x^3"),
 				getGeo("f").getLaTeXAlgebraDescription(false,
 						StringTemplate.defaultTemplate));
@@ -207,6 +209,16 @@ public class AlgebraStyleTest extends Assert {
 				StringTemplate.defaultTemplate));
 		assertEquals(CommandsTest.unicode("f: y = x^3"),
 				getGeo("f").getDefinitionForEditor());
+		assertEquals(CommandsTest.unicode("g: \\,y = x^3 + a"),
+				getGeo("g").getLaTeXAlgebraDescription(false,
+						StringTemplate.defaultTemplate));
+		// TODO missing y =
+		assertEquals(CommandsTest.unicode("g: x^3 + a"),
+				getGeo("g").getDefinitionForEditor());
+
+		t("in:x>a");
+		assertEquals(CommandsTest.unicode("in: x > a"),
+				getGeo("in").getDefinitionForEditor());
 	}
 
 	@Test

@@ -1374,9 +1374,11 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public String getAssignmentLHS(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
-		sbToString.append(tpl.leftBracket());
-		sbToString.append(getVarString(tpl));
-		sbToString.append(tpl.rightBracket());
+		if (this.getLabelDelimiter() != ':') {
+			sbToString.append(tpl.leftBracket());
+			sbToString.append(getVarString(tpl));
+			sbToString.append(tpl.rightBracket());
+		}
 		return sbToString.toString();
 	}
 

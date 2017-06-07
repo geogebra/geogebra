@@ -93,8 +93,15 @@ public interface FunctionalNVar extends Evaluate2Var {
 	 */
 	public void setDefined(boolean b);
 
+	/**
+	 * @return is lhs just y= (or z=)
+	 */
 	public boolean isShortLHS();
 
+	/**
+	 * @param shortLHS
+	 *            whether lhs should be just y= (or z=)
+	 */
 	public void setShortLHS(boolean shortLHS);
 
 }
