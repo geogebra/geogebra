@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.scripting.CmdCenterView;
 import org.geogebra.common.kernel.scripting.CmdCheckbox;
 import org.geogebra.common.kernel.scripting.CmdDelete;
 import org.geogebra.common.kernel.scripting.CmdExecute;
-import org.geogebra.common.kernel.scripting.CmdLineStyle;
+import org.geogebra.common.kernel.scripting.CmdSetLineStyle;
 import org.geogebra.common.kernel.scripting.CmdPan;
 import org.geogebra.common.kernel.scripting.CmdParseToFunction;
 import org.geogebra.common.kernel.scripting.CmdParseToNumber;
@@ -93,7 +93,7 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 		case SetLineThickness:
 			return new CmdSetLineThickness(kernel);
 		case SetLineStyle:
-			return new CmdLineStyle(kernel);
+			return new CmdSetLineStyle(kernel);
 		case SetPointStyle:
 			return new CmdSetPointStyle(kernel);
 		case SetPointSize:

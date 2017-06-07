@@ -11,7 +11,7 @@ import org.geogebra.common.main.MyError;
 /**
  * LineStyle
  */
-public class CmdLineStyle extends CmdScripting {
+public class CmdSetLineStyle extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -19,7 +19,7 @@ public class CmdLineStyle extends CmdScripting {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdLineStyle(Kernel kernel) {
+	public CmdSetLineStyle(Kernel kernel) {
 		super(kernel);
 	}
 
