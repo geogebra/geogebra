@@ -282,13 +282,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		addMarble();
 
-		if (geo.isSimple()) {
-			getPlainTextItem().addStyleName("avDefinitionSimple");
-		}
-
 		getPlainTextItem().addStyleName("sqrtFontFix");
-		getPlainTextItem().addStyleName("avPlainTextItem");
-
 		getElement().getStyle().setColor("black");
 
 		updateFont(getPlainTextItem());
@@ -336,7 +330,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void addControls() {
-		if (controls != null) { 
+		if (controls != null) {
 			return;
 		}
 		createControls();
@@ -734,7 +728,8 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 	}
-	private void updateFont(Widget w) {
+
+	protected void updateFont(Widget w) {
 		int size = app.getFontSizeWeb() + 2;
 		w.getElement().getStyle().setFontSize(size, Unit.PX);
 
