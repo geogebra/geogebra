@@ -185,4 +185,8 @@ public class MathFieldController {
 		graphics.reset();
 		icon.paintIcon(null, graphics, 0, 0);
 	}
+
+	public double getFontSize() {
+		return size;
+	}
 }

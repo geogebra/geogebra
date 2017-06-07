@@ -67,6 +67,7 @@ import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -187,7 +188,7 @@ public class MathFieldW implements MathField, IsWidget {
 	public void setTeXIcon(TeXIcon icon) {
 		this.lastIcon = icon;
 
-		double height = roundUp(icon.getIconHeight() + bottomOffset);
+		double height = computeHeight(icon);
 		ctx.getCanvas().getStyle().setHeight(height,
 				Unit.PX);
 
@@ -420,7 +421,7 @@ public class MathFieldW implements MathField, IsWidget {
 		if (!active(wrap.getElement()) && this.enabled) {
 			wrap.getElement().focus();
 		}
-		final double height = roundUp(lastIcon.getIconHeight() + bottomOffset);
+		final double height = computeHeight(lastIcon);
 		final double width = roundUp(lastIcon.getIconWidth() + 30);
 		ctx.getCanvas().setHeight(((int) Math.ceil(height * ratio)));
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
@@ -428,7 +429,25 @@ public class MathFieldW implements MathField, IsWidget {
 		ctx.setFillStyle("rgb(255,255,255)");
 		((JLMContext2d) ctx).scale2(ratio, ratio);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
-		JlmLib.draw(lastIcon, ctx, 0, 0, "#000000", "#FFFFFF", null);
+		FactoryProvider.getInstance().debug(
+				mathFieldInternal.getMathFieldController().getFontSize()
+						+ " vs " + (lastIcon.getTrueIconHeight()
+								- lastIcon.getTrueIconDepth()));
+
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), "#000000", "#FFFFFF",
+				null);
+	}
+
+	private double computeHeight(TeXIcon lastIcon2) {
+		// TODO Auto-generated method stub
+		int margin = getMargin(lastIcon2);
+		return roundUp(lastIcon2.getIconHeight() + margin + bottomOffset);
+	}
+
+	private int getMargin(TeXIcon lastIcon2) {
+		return (int) Math.max(0, roundUp(-lastIcon2.getTrueIconHeight()
+				+ lastIcon2.getTrueIconDepth()
+				+ mathFieldInternal.getMathFieldController().getFontSize()));
 	}
 
 	private native boolean active(Element element) /*-{
@@ -440,7 +459,7 @@ public class MathFieldW implements MathField, IsWidget {
 	 * for ratio 1.5 and w=5 CSS width we would get 7.5 coord space width; round
 	 * up to 8
 	 */
-	private double roundUp(int w) {
+	private double roundUp(double w) {
 
 		return Math.ceil(w * ratio) / ratio;
 	}

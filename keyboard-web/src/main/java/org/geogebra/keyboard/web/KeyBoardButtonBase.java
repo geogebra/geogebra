@@ -64,7 +64,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				// do nothing
+				handler.onClick(KeyBoardButtonBase.this, type);
 			}
 		});
 
@@ -72,7 +72,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 		ClickEndHandler.init(this, new ClickEndHandler(true, true) {
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
-				handler.onClick(KeyBoardButtonBase.this, type);
+				// do nothing
 			}
 		});
 		addStyleName("KeyBoardButton");
