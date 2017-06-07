@@ -201,8 +201,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 
 								return;
 							}
-							// getBtnHelpToggle()
-							// .setDown(!getBtnHelpToggle().isDown());
+							getBtnHelpToggle()
+									.setDown(!getBtnHelpToggle().isDown());
 							if (getBtnHelpToggle().isDown()) {
 								item.app.hideKeyboard();
 								Scheduler.get().scheduleDeferred(
