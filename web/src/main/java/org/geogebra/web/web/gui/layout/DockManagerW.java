@@ -1881,7 +1881,7 @@ public class DockManagerW extends DockManager {
 			ToolbarPanel toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = kbHeight + toolbar.getMinVHeight();
 		}else{
-			appHeight  += GLookAndFeel.TOOLBAR_OFFSET;
+			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
 
 		double portraitDivider = (avHeight)
