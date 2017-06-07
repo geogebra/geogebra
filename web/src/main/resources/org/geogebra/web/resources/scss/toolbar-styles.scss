@@ -60,11 +60,6 @@
 			height: 56px;
 			width: 100%;
 			
-			.close {
-				float: right;
-				margin-right: 10px;
-			}
-			
 			.menu {
 				margin-right: 10px;
 				margin-left: 10px;
@@ -76,6 +71,24 @@
 				top: 0px;
 			}
 			
+		}
+		
+		.header-open-portrait {
+			.close {
+				float: left;
+				margin-left: 10px;
+			}	
+		
+			.center {
+				left: -40px;
+			}	
+		}
+	
+		.header-open-landscape {
+			.close {
+				float: right;
+				margin-right: 10px;
+			}
 		}
 		
 		.header-close-landscape {
@@ -109,6 +122,15 @@
 		@extend .header-open-landscape;
 		position: absolute;
 		bottom: 0px;
+		
+		.close {
+			float: left;
+			margin-left: 10px;
+		}	
+		
+		.center {
+			left: -40px;
+		}	
 	}	
 	
 	.toolsPanel {
