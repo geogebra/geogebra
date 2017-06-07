@@ -25,7 +25,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.TreeItem;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Slider item for Algebra View.
@@ -71,12 +70,25 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	 *            the existing GeoElement to display/edit
 	 */
 	public SliderTreeItemRetex(final GeoElement geo0) {
-		super(geo0);
+		super(geo0.getKernel());
+		geo = geo0;
 		num = (GeoNumeric) geo;
+
+		addMarble();
+
+		getElement().getStyle().setColor("black");
+
+		content.add(getPlainTextItem());
+
+		updateFonts();
 		createSliderGUI();
 		addControls();
+		styleContentPanel();
+		doUpdate();
 		deferredResize();
+
 	}
+
 
 	@Override
 	protected RadioTreeItemController createController() {
@@ -106,20 +118,24 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 			getSlider().addValueChangeHandler(getSliderController());
 
-
-			sliderPanel = new FlowPanel();
-			sliderPanel.add(getSlider());
-
 			createMinMaxPanel();
 
 			createSliderContent();
-			styleContentPanel();
 
-			addAVEXWidget(content);
-
-			sliderContent.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
 			main.add(sliderContent);
 		}
+
+	}
+
+	@Override
+	protected void createSliderContent() {
+		super.createSliderContent();
+
+		sliderPanel = new FlowPanel();
+		sliderPanel.add(getSlider());
+		sliderContent.add(content);
+
+		sliderContent.add(LayoutUtilW.panelRow(sliderPanel, minMaxPanel));
 
 	}
 
@@ -158,8 +174,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	@Override
 	protected void styleContentPanel() {
-
-		sliderContent.removeStyleName("elemPanel");
 		sliderContent.addStyleName("avItemContent");
 		content.addStyleName("avSliderValue");
 
@@ -200,23 +214,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		}
 		updateTextItems();
 		updateColor();
-	}
-
-	//
-	// static boolean isWidgetHit(Widget w, MouseEvent<?> evt) {
-	// return isWidgetHit(w, evt.getClientX(), evt.getClientY());
-	//
-	// }
-
-
-	@Override
-	protected void addAVEXWidget(Widget w) {
-		if (sliderPanel == null) {
-			return;
-		}
-		sliderPanel.remove(getSlider());
-		sliderContent.add(w);
-		sliderPanel.add(getSlider());
 	}
 
 
