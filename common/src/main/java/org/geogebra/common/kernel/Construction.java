@@ -1642,7 +1642,7 @@ public class Construction {
 
 		SelectionManager selection = kernel.getApplication()
 				.getSelectionManager();
-		boolean moveMode = app.getMode() == EuclidianConstants.MODE_MOVE
+		boolean moveMode = EuclidianConstants.isMoveOrSelectionMode(app.getMode())
 				&& selection.getSelectedGeos().size() > 0;
 		String oldSelection = null;
 		if (moveMode) {
