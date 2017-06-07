@@ -211,11 +211,20 @@ public class SerializeLaTeX {
 				"\uD55C\uC30D");
 		
 		// tricky
-		// testEditor("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0B0");
+		// tail doubled char needs to be undoubled and split across 2 chars
+		testEditor("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0C1");
+
+		// small steps
+		testEditor("\u314E\u314F", "\uD558");
+		testEditor("\u314E\u314F\u3145", "\uD56B");
+		testEditor("\u314E\u314F\u3145\u3145", "\uD56C");
+		testEditor("\u314E\u314F\u3145\u3145\u314F", "\uD56B\uC0AC");
 
 		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
 
-		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD558\uC30D");
+		// type with explicit double
+		// strictly should probably be \uD558\uC30D
+		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD56B\uC0C1");
 
 		testEditor("\u3131\u314F\u3142\u3145\u3145\u314F\u3134",
 				"\uAC12\uC0B0");

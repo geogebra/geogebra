@@ -471,6 +471,80 @@ public class Korean {
 		}
 	}
 
+	public static String unmergeDoubleCharacterToLeadTail(char c) {
+
+		switch (c) {
+
+		case '\u3149':
+		case '\u110d':
+			return "\u11bd\u110c";
+
+		case '\u3143':
+		case '\u1108':
+			return "\u11b8\u1107";
+
+		case '\u3132':
+		case '\u1101':
+		case '\u11a9':
+			return "\u11a8\u1101";
+
+		case '\u3133':
+		case '\u11aa':
+			return "\u11a8\u1109";
+
+		case '\u3135':
+		case '\u11ac':
+			return "\u11ab\u110c";
+
+		case '\u3136':
+		case '\u11ad':
+			return "\u11ab\u1112";
+
+		case '\u313a':
+		case '\u11b0':
+			return "\u11af\u1100";
+
+		case '\u313b':
+		case '\u11b1':
+			return "\u11af\u1106";
+
+		case '\u313c':
+		case '\u11b2':
+			return "\u11af\u1107";
+
+		case '\u313d':
+		case '\u11b3':
+			return "\u11af\u1109";
+
+		case '\u313e':
+		case '\u11b4':
+			return "\u11af\u1110";
+
+		case '\u313f':
+		case '\u11b5':
+			return "\u11af\u1111";
+
+		case '\u3140':
+		case '\u11b6':
+			return "\u11af\u1112";
+
+		case '\u3144':
+		case '\u1121':
+		case '\u11b9':
+			return "\u11b8\u1109";
+
+		case '\u110A':
+		case '\u11BB':
+		case '\u3145':
+			// tail + lead
+			return "\u11ba\u1109";
+
+		}
+
+		return c + "";
+	}
+
+
 	// static {
 	// String s = "\ub450";
 	// s = flattenKorean(s);
@@ -760,12 +834,41 @@ public class Korean {
 			// newChar = Korean.convertFromCompatibilityJamo(newChar,
 			// false);
 
+			char lastCharFlat2 = lastCharFlat.charAt(2);
+			System.err.println("lastCharFlat2 = " + lastCharFlat2);
+
 			char newLastChar = Korean
 					.unflattenKorean(lastCharFlat.substring(0, 2)).charAt(0);
 
 			char newNewChar = Korean.unflattenKorean(
 					Korean.tailToLead(lastCharFlat.charAt(2)) + "" + newChar)
 					.charAt(0);
+
+			String unmergedChar2 = isKoreanVowelChar(newChar, true)
+					? unmergeDoubleCharacterToLeadTail(lastCharFlat2) : "";
+
+			// case 4a
+			// tail doubled char needs to be undoubled and split across 2 chars
+			// testEditor("\u314E\u314F\u3145\u3145\u314F\u3147",
+			// "\uD56B\uC0C1");
+
+			if (unmergedChar2.length() == 2) {
+
+				char ch1 = unmergedChar2.charAt(0);
+				char ch2 = unmergedChar2.charAt(1);
+
+				System.err.println("trying to undouble " + lastCharFlat2
+						+ " as " + ch1 + " " + ch2);
+
+				newLastChar = Korean
+						.unflattenKorean(lastCharFlat.substring(0, 2) + ch1)
+						.charAt(0);
+
+				newNewChar = Korean
+						.unflattenKorean(ch2 + "" + newChar)
+						.charAt(0);
+
+			}
 
 			ret[0] = newLastChar;
 			ret[1] = newNewChar;
