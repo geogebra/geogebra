@@ -782,9 +782,9 @@ public class Korean {
 
 			// System.err.println("case 5");
 
-			// not needed, useful for debugging
-			// newChar = Korean.convertFromCompatibilityJamo(newChar,
-			// false);
+			// System.err.println("case 5");
+
+			newChar = Korean.convertFromCompatibilityJamo(newChar, false);
 
 			char lastChar2 = lastCharFlat.charAt(2);
 

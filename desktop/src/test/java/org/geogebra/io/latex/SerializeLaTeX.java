@@ -204,7 +204,22 @@ public class SerializeLaTeX {
 				"\uBBF8\uBD84");
 		testEditor("\u3145\u3145", "\u110A");
 		testEditor("\u3147\u315C\u3163", "\uC704");
-		testEditor("\u3131\u314F\u3142\u3145", "\uAC13");
+
+		testEditor("\u3131\u314F\u3142\u3145", "\uAC12");
+
+		testEditor("\u314E\u314F\u3134\u3145\u3145\u314F\u3147",
+				"\uD55C\uC30D");
+		
+		// tricky
+		// testEditor("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0B0");
+
+		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
+
+		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD558\uC30D");
+
+		testEditor("\u3131\u314F\u3142\u3145\u3145\u314F\u3134",
+				"\uAC12\uC0B0");
+
 		testEditor(Korean.flattenKorean("\uB098"), "\uB098");
 		testEditor(Korean.flattenKorean("\uB108"), "\uB108");
 		testEditor(Korean.flattenKorean("\uC6B0\uB9AC"),
