@@ -6,6 +6,7 @@ import java.util.TreeSet;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 public class ToolCategorization {
 
@@ -310,6 +311,9 @@ public class ToolCategorization {
 
         category = Category.EDIT;
         tools = new ArrayList<Integer>();
+        if (app.has(Feature.MOB_SELECT_TOOL)) {
+            addToList(tools, EuclidianConstants.MODE_SELECT);
+        }
         addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
         addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
         addToList(tools, EuclidianConstants.MODE_DELETE);
