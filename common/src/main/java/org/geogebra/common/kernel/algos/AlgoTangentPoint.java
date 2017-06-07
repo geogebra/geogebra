@@ -353,9 +353,59 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 
 					return botanaPolynomials;
 				}
+			/**
+			 * If not, we compute a tangent line. Note that this is usually
+			 * resource heavy and results in a much wider set of curves, see
+			 * tangents-ellipse-hyperbola2 in the art-plotter benchmark. TODO:
+			 * check the equations, maybe there is some hope to improve this.
+			 */
+			if (botanaVars == null) {
+				botanaVars = new PVariable[6];
+				// M - the other tangent point
+				botanaVars[0] = new PVariable(kernel);
+				botanaVars[1] = new PVariable(kernel);
+				// P - this point on the tangent
+				botanaVars[2] = vPoint[0];
+				botanaVars[3] = vPoint[1];
+				// D
+				botanaVars[4] = new PVariable(kernel);
+				botanaVars[5] = new PVariable(kernel);
+				// T is inherited from vellipse[0] and vellipse[1]
+			}
 
+			botanaPolynomials = new PPolynomial[5];
 
-			throw new NoSymbolicParametersException();
+			PPolynomial m1 = new PPolynomial(botanaVars[0]);
+			PPolynomial m2 = new PPolynomial(botanaVars[1]);
+			// coordinates of second focus point of ellipse/hyperbola
+			PPolynomial f21 = new PPolynomial(vellipse[8]);
+			PPolynomial f22 = new PPolynomial(vellipse[9]);
+			// coordinates of D
+			PPolynomial d1 = new PPolynomial(botanaVars[4]);
+			PPolynomial d2 = new PPolynomial(botanaVars[5]);
+
+			// F_1,T,D collinear
+			botanaPolynomials[0] = PPolynomial.collinear(vellipse[6],
+					vellipse[7], vellipse[0], vellipse[1], botanaVars[4],
+					botanaVars[5]);
+
+			// F_2T = TD
+			botanaPolynomials[1] = PPolynomial.equidistant(vellipse[8],
+					vellipse[9], vellipse[0], vellipse[1], botanaVars[4],
+					botanaVars[5]);
+
+			// M midpoint of F_2D
+			botanaPolynomials[2] = new PPolynomial(2).multiply(m1).subtract(f21)
+					.subtract(d1);
+			botanaPolynomials[3] = new PPolynomial(2).multiply(m2).subtract(f22)
+					.subtract(d2);
+
+			// T,M,P collinear
+			botanaPolynomials[4] = PPolynomial.collinear(vellipse[0],
+					vellipse[1], botanaVars[0], botanaVars[1], botanaVars[2],
+					botanaVars[3]);
+
+			return botanaPolynomials;
 
 		}
 		throw new NoSymbolicParametersException();
