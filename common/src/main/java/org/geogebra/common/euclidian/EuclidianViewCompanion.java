@@ -444,7 +444,7 @@ public class EuclidianViewCompanion {
 	 *            geo
 	 * @return new drawable for given geo
 	 */
-	public DrawableND newDrawable(GeoElement geo) {
+	public DrawableND newDrawable(GeoElementND geo) {
 		return EuclidianDraw.newDrawable(view, geo);
 	}
 

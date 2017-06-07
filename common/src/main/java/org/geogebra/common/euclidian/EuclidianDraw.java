@@ -50,7 +50,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -67,6 +66,7 @@ import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
@@ -74,7 +74,6 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Factory class for drawables
@@ -91,12 +90,11 @@ public class EuclidianDraw {
 	 *            GeoElement to be added
 	 * @return drawable for given GeoElement
 	 */
-	public static DrawableND newDrawable(EuclidianView ev, GeoElement geo) {
+	public static DrawableND newDrawable(EuclidianView ev, GeoElementND geo) {
 
 		Drawable d = null;
 		switch (geo.getGeoClassType()) {
 		default:
-			Log.debug("missing type " + geo.getGeoClassType());
 			break;
 		case BOOLEAN:
 			d = new DrawBoolean(ev, (GeoBoolean) geo);

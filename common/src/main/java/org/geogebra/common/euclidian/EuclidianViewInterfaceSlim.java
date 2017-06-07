@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.settings.EuclidianSettings;
 
@@ -143,7 +144,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 *            geo
 	 * @return new drawable for given geo
 	 */
-	DrawableND newDrawable(GeoElement geo);
+	DrawableND newDrawable(GeoElementND geo);
 
 	/**
 	 * Zooms w.r.t P with given zoom factor

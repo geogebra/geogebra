@@ -679,4 +679,8 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isAlgebraViewEditable();
 
+	boolean isColorSet();
+
+	boolean hasDrawable3D();
+
 }

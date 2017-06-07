@@ -100,6 +100,7 @@ import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
@@ -570,7 +571,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	public Drawable3D newDrawable(GeoElement geo) {
+	public Drawable3D newDrawable(GeoElementND geo) {
 
 		Drawable3D d = null;
 		if (geo.hasDrawable3D()) {
@@ -619,7 +620,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			case PENSTROKE:
 			case POLYLINE:
 			case POLYLINE3D:
-				d = new DrawPolyLine3D(this, geo);
+				d = new DrawPolyLine3D(this, (GeoElement) geo);
 				break;
 
 			case LINE:
@@ -665,7 +666,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			case LOCUS:
 				d = new DrawLocus3D(this,
-						((GeoLocusNDInterface) geo).getLocus(), geo,
+						((GeoLocusNDInterface) geo).getLocus(),
+						(GeoElement) geo,
 						CoordSys.XOY);
 				break;
 			case IMPLICIT_POLY:

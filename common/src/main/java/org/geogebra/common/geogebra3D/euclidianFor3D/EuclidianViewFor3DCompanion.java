@@ -9,8 +9,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
@@ -33,7 +33,7 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 
 	@Override
-	public DrawableND newDrawable(GeoElement geo) {
+	public DrawableND newDrawable(GeoElementND geo) {
 		// first try super method
 		DrawableND d = super.newDrawable(geo);
 		if (d != null) {

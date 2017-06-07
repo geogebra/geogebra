@@ -2304,7 +2304,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return new drawable for the geo
 	 */
 	@Override
-	public DrawableND newDrawable(GeoElement geo) {
+	public DrawableND newDrawable(GeoElementND geo) {
 		return companion.newDrawable(geo);
 	}
 

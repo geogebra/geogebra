@@ -120,13 +120,20 @@ public class CommandsTest extends Assert{
 	
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), false);
-		app.setLanguage(Locale.US);
+		app = createApp();
 		ap = app.getKernel().getAlgebraProcessor();
+	}
+
+	public static AppDNoGui createApp() {
+		AppDNoGui app2 = new AppDNoGui(new LocalizationD(3), false);
+		app2.setLanguage(Locale.US);
+
 		// make sure x=y is a line, not plane
-		app.getGgbApi().setPerspective("1");
+		app2.getGgbApi().setPerspective("1");
 	    // Setting the general timeout to 11 seconds. Feel free to change this.
-		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
+		app2.getKernel().getApplication().getSettings().getCasSettings()
+				.setTimeoutMilliseconds(11000);
+		return app2;
 	}
 
 	@Test

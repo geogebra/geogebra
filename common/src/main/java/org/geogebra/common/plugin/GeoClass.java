@@ -81,9 +81,6 @@ public enum GeoClass {
 	/** PENSTROKE */
 	PENSTROKE("PenStroke", 15, false),
 
-	/** SPLINE */
-	SPLINE("CurveCartesian", 90, false),
-
 	/** TURTLE */
 	TURTLE("Turtle", 140, false),
 
@@ -150,9 +147,6 @@ public enum GeoClass {
 
 	/** IMPLICIT_SURFACE_ */
 	IMPLICIT_SURFACE_3D("ImplicitSurface", "ImplicitSurface3D", 160, true),
-
-	/** TRIANGULATED_SURFACE_ */
-	TRIANGULATED_SURFACE_3D("TriangulatedSurface", "TriangulatedSurface3D", 160, true),
 
 	/** CLIPPINGCUBE */
 	CLIPPINGCUBE3D("ClippingCube3D", 160, true),
