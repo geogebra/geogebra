@@ -11,7 +11,9 @@ import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -240,6 +242,11 @@ public class EuclidianViewNoGui extends EuclidianView {
 	protected void addDynamicStylebarToEV(EuclidianStyleBar dynamicStylebar) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	protected EuclidianViewCompanion newEuclidianViewCompanion() {
+		return new EuclidianViewFor3DCompanion(this);
 	}
 
 }

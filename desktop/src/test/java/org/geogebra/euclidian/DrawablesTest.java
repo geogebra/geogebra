@@ -67,13 +67,11 @@ public class DrawablesTest {
 	private boolean ignore(GeoClass type) {
 		switch (type) {
 		case NET:
-		case ANGLE3D:
 		case POLYHEDRON:
 		case PLANE3D:
 		case QUADRIC:
 		case QUADRIC_PART:
 		case QUADRIC_LIMITED:
-		case CURVE_CARTESIAN3D:
 		case SURFACECARTESIAN3D:
 		case IMPLICIT_SURFACE_3D:
 		case AXIS:

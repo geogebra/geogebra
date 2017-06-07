@@ -67,7 +67,6 @@ import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -429,10 +428,6 @@ public class MathFieldW implements MathField, IsWidget {
 		ctx.setFillStyle("rgb(255,255,255)");
 		((JLMContext2d) ctx).scale2(ratio, ratio);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
-		FactoryProvider.getInstance().debug(
-				mathFieldInternal.getMathFieldController().getFontSize()
-						+ " vs " + (lastIcon.getTrueIconHeight()
-								- lastIcon.getTrueIconDepth()));
 
 		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), "#000000", "#FFFFFF",
 				null);
