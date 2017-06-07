@@ -8325,9 +8325,8 @@ namespace giac {
 	while (smod(env->modulo,4)==1)
 	  env->modulo=nextprime(env->modulo+2);
       }
-      if (is_zero(smod(
-		       qq.front()//gcdfirstcoeff
-		       ,env->modulo))){
+      // IMPROVE test on gcdfirstcoeff should be sufficient
+      if (is_zero(smod(qq.front(),env->modulo)) || is_zero(smod(pp.front(),env->modulo)) ){
 	env->modulo=nextprime(env->modulo+1);
 	continue;
       }
