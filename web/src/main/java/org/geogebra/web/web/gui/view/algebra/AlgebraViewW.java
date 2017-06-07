@@ -198,7 +198,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		if (getInputTreeItem() != null) {
-			getInputTreeItem().setItemWidth(maxItemWidth);
+			getInputTreeItem().setItemWidth(getFullWidth());
 		}
 	}
 	private void initGUI(AlgebraControllerW algCtrl) {
@@ -1176,7 +1176,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// setActiveTreeItem(node);
 			// }
 
-			RadioTreeItem.as(node).setItemWidth(getMaxItemWidth());
+			RadioTreeItem.as(node).setItemWidth(getFullWidth());
 
 			boolean wasEmpty = isNodeTableEmpty();
 			nodeTable.put(geo, node);
@@ -1258,6 +1258,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			inputPanelLatex.setText("");
 		}
 		showAlgebraInput(false);
+		maxItemWidth = 0;
 
 	}
 
@@ -2043,13 +2044,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 
 			int resizedWidth = getOffsetWidth();
-			if (maxItemWidth == 0) {
-				maxItemWidth = resizedWidth;
-			}
-			if (resizedWidth > maxItemWidth) {
-				maxItemWidth = resizedWidth;
-
-			}
 
 			setWidths(resizedWidth);
 
@@ -2095,7 +2089,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (width > maxItemWidth) {
 			maxItemWidth = width;
 		}
-		setWidths(maxItemWidth);
+		setWidths(getFullWidth());
 	}
 
 	private void setWidths(int width) {
@@ -2288,11 +2282,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	/**
-	 * The maximum width of the items. Relevant for scrolling horizontally.
+	 * The full width of this view: either the widest item or current offset
+	 * width
 	 * 
 	 * @return the max item width.
 	 */
-	public int getMaxItemWidth() {
+	public int getFullWidth() {
 		int avWidth = app.has(Feature.NEW_TOOLBAR)
 				? getToolbarDockPanel().getOffsetWidth()
 				:getAlgebraDockPanel().getOffsetWidth();

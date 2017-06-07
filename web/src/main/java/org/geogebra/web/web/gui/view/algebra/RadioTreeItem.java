@@ -2116,7 +2116,7 @@ public class RadioTreeItem extends AVTreeItem
 				}
 			} else {
 				if (isInputTreeItem()) {
-					setItemWidth(getAV().getMaxItemWidth());
+					setItemWidth(getAV().getFullWidth());
 				} else {
 					content.removeStyleName("scrollableTextBox");
 				}

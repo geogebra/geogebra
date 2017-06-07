@@ -199,7 +199,7 @@ public final class ToolTipManagerW {
 	 * Open current help URL in browser / webview
 	 */
 	void openHelp() {
-		if (helpURL != null && app != null) {
+		if (!StringUtil.empty(helpURL) && app != null) {
 			app.getFileManager().open(helpURL);
 			hideAllToolTips();
 		}
@@ -231,31 +231,31 @@ public final class ToolTipManagerW {
 	 *            String
 	 * @param link
 	 *            {@link ToolTipLinkType}
-	 * @param app
+	 * @param appw
 	 *            app for positioning
 	 * @param kb
 	 *            whether keyboard is open
 	 */
 	public void showBottomInfoToolTip(String text, final String helpLinkURL,
-			ToolTipLinkType link, AppW app, boolean kb) {
-		if (blockToolTip || app == null) {
+			ToolTipLinkType link, AppW appw, boolean kb) {
+		if (blockToolTip || appw == null) {
 			return;
 		}
 		
-		this.app = app;
+		this.app = appw;
 		
 		bottomInfoTipPanel.removeFromParent();
-		app.getPanel().add(bottomInfoTipPanel);
+		appw.getPanel().add(bottomInfoTipPanel);
 		bottomInfoTipHTML.setHTML(text);
 
 		if (helpLabel != null) {
 			bottomInfoTipPanel.remove(helpLabel);
 		}
 
-		boolean online = app.getNetworkOperation() == null
-				|| app.getNetworkOperation().isOnline();
+		boolean online = appw.getNetworkOperation() == null
+				|| appw.getNetworkOperation().isOnline();
 		this.helpURL = helpLinkURL;
-		if (app.isExam() && app.getExam().getStart() >= 0) {
+		if (appw.isExam() && appw.getExam().getStart() >= 0) {
 			this.helpURL = null;
 		}
 		if (helpURL != null && helpURL.length() > 0 && link != null
@@ -278,7 +278,7 @@ public final class ToolTipManagerW {
 			/*
 			 * In "exam" mode the question mark is not shown
 			 */
-			if (!(app.isExam() && app.getExam().getStart() >= 0)) {
+			if (!(appw.isExam() && appw.getExam().getStart() >= 0)) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
 		}
@@ -291,21 +291,21 @@ public final class ToolTipManagerW {
 		Style style = bottomInfoTipPanel.getElement().getStyle();
 		style.setLeft(0, Unit.PX);
 
-		double left = (app.getWidth() - bottomInfoTipPanel.getOffsetWidth()) / 2;
+		double left = (appw.getWidth() - bottomInfoTipPanel.getOffsetWidth()) / 2;
 		if (left < 0) {
 			left = 0;
 		}
 			// Toolbar on bottom - tooltip needs to be positioned higher so it
 			// doesn't overlap with the toolbar
-		if (app.getToolbarPosition() == SwingConstants.SOUTH) {
+		if (appw.getToolbarPosition() == SwingConstants.SOUTH) {
 			style.setLeft(left * 1.5, Unit.PX);
 			style.setTop(
-					(app.getHeight() - (kb ? 250 : 70) - 50) - 20 * lines(text),
+					(appw.getHeight() - (kb ? 250 : 70) - 50) - 20 * lines(text),
 					Unit.PX);
 			// Toolbar on top
 		} else {
 			style.setLeft(left, Unit.PX);
-			style.setTop((app.getHeight() - (kb ? 250 : 70)) - 20 * lines(text),
+			style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(text),
 					Unit.PX);
 		}
 
@@ -333,16 +333,16 @@ public final class ToolTipManagerW {
 	 * @param closeAutomatic
 	 *            whether the message should be closed automatically after
 	 *            dismissDelay milliseconds
-	 * @param app
+	 * @param appw
 	 *            application
 	 */
-	public void showBottomMessage(String text, boolean closeAutomatic, AppW app) {
+	public void showBottomMessage(String text, boolean closeAutomatic, AppW appw) {
 		if (text == null || "".equals(text)) {
 			hideBottomInfoToolTip();
 			return;
 		}
 		blockToolTip = false;
-		showBottomInfoToolTip(StringUtil.toHTMLString(text), "", null, app, app
+		showBottomInfoToolTip(StringUtil.toHTMLString(text), "", null, appw, appw
 				.getAppletFrame()
 				.isKeyboardShowing());
 
