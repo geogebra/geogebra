@@ -25,12 +25,6 @@ public class TextTreeItem extends RadioTreeItem {
 	}
 
 	@Override
-	protected void addControls() {
-		createControls();
-		// no add this time
-	}
-
-	@Override
 	protected void doUpdate() {
 		if (text == null) {
 			return; // called from super constructor
