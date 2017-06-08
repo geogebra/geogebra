@@ -4522,6 +4522,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract GTimer newTimer(GTimerListener listener, int delay);
 
+	public void readLater(GeoNumeric geo) {
+		// implemented in AppW
+	}
+
 	/**
 	 * possible positions for the inputBar (respective inputBox)
 	 */

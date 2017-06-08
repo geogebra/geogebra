@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.AlgoCubicSwitchInterface;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
@@ -52,6 +53,7 @@ import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -3335,6 +3337,30 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public GTimer newTimer(GTimerListener listener, int delay) {
 		return new GTimerW(listener, delay);
+	}
+
+	private class ReaderTimer extends Timer {
+
+		GeoNumeric geo;
+
+		@Override
+		public void run() {
+			ScreenReader.readText(geo, AppW.this);
+
+		}
+
+		public void setGeo(GeoNumeric geo0) {
+			geo = geo0;
+		}
+
+	}
+	
+	ReaderTimer readerTimer = new ReaderTimer();
+
+	@Override
+	public void readLater(GeoNumeric geo) {
+		readerTimer.setGeo(geo);
+		readerTimer.schedule(700);
 	}
 
 	public void updateMaterialURL(int i, String object) {
