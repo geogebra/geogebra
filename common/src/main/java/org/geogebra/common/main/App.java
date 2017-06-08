@@ -3980,7 +3980,7 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
-		boolean keyboard = prerelease;
+		boolean keyboard = true;
 		switch (f) {
 
 		// leave as prerelease
