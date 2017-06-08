@@ -1290,7 +1290,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * @return whether it should be painted in LaTeX
 	 */
 	static boolean needsLatex(GeoElement geoItem) {
-		return geoItem instanceof FunctionalNVar
+		return geoItem instanceof FunctionalNVar || geoItem.isGeoImage()
 				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
 	}
 
