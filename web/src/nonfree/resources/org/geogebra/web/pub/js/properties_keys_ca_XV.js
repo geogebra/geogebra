@@ -2811,7 +2811,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Tool.SelectObjects": "Seleccioneu els objectes a la zona gr\xe0fica o trieu-los de la llista",
     "ToolCategory.AnglesAndMeasuring": "Angles and Measuring",
     "ToolCategory.Circles": "Circles",
-    "ToolCategory.Curves": "Curves",
+    "ToolCategory.Curves": "Corbes",
     "ToolCategory.Edit": "Edit",
     "ToolCategory.Lines": "Lines",
     "ToolCategory.LinesAndPolygons": "Lines and Polygons",
