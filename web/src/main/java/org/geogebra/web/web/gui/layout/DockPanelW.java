@@ -24,6 +24,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASStylebarW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
@@ -543,11 +544,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 				@Override
 				public void onClick(Widget source) {
-					if (app.getGuiManager() != null) {
-						app.getGuiManager().showDrawingPadPopup(
-								app.getEuclidianView1(),
-								new GPoint(source.getAbsoluteLeft(), 4));
-					}
+					ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
+							app, source.getAbsoluteLeft(), 8);
+					contextMenu.show(new GPoint(source.getAbsoluteLeft(), 8));
 				}
 
 			};
