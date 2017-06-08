@@ -200,4 +200,8 @@ public class AlgebraDockPanelW extends DockPanelW
 			// algebrap.setVerticalScrollPosition(savedScrollPosition);
 		}
 	}
+
+	public int getInnerWidth() {
+		return simplep.getOffsetWidth();
+	}
 }
