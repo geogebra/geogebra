@@ -115,4 +115,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	void setActivePanelAndToolbar(int viewID);
 
 	public void updateKeyboardLanguage();
+
+	public boolean getKeyboardShouldBeShownFlag();
 }

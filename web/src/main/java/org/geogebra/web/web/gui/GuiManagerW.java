@@ -2127,6 +2127,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
+	public boolean getKeyboardShouldBeShownFlag() {
+		return onScreenKeyboard != null && onScreenKeyboard.shouldBeShown();
+
+	}
 	public VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
