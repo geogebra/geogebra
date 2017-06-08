@@ -33,13 +33,12 @@ public class ParserTest {
 		try {
 			
 			long l = System.currentTimeMillis();
-			app.getKernel().getParser().
-parseGeoGebraExpression(
-							"{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
-			app.getKernel().getParser().
-			parseGeoGebraExpression("(((((((((((((((((((((((1)))))))))))))))))))))))");
-			app.getKernel().getParser().
-			parseGeoGebraExpression("If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42" +
+
+			parseExpression(
+					"{{{{{{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}}}}}}}}");
+
+			parseExpression("(((((((((((((((((((((((1)))))))))))))))))))))))");
+			parseExpression("If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,If[x>1,If[x>2,If[x>3,If[x>4,42" +
 					"]]]]]]]]]]]]]]]]]]]]]]]]");
 			l = System.currentTimeMillis() -l;
 			Log.debug("TIME" + l);
@@ -80,8 +79,7 @@ parseGeoGebraExpression(
 	private void checkSameStructure(String string, String string2) {
 		Throwable p = null;
 		try {
-			ValidExpression v1 = app.getKernel().getParser()
-					.parseGeoGebraExpression(string);
+			ValidExpression v1 = parseExpression(string);
 			ValidExpression v2 = app.getKernel().getParser()
 					.parseGeoGebraExpression(string);
 			Assert.assertEquals(v1.toString(StringTemplate.maxPrecision),
@@ -96,8 +94,7 @@ parseGeoGebraExpression(
 	private void shouldBeExcption(String string, String exceptionClass) {
 		Throwable p = null;
 		try{
-			app.getKernel().getParser().
-			parseGeoGebraExpression(string);
+			parseExpression(string);
 		} catch (Throwable e) {
 			p = e;
 		}
@@ -113,7 +110,7 @@ parseGeoGebraExpression(
 		try {
 
 
-			app.getKernel().getParser().parseGeoGebraExpression(
+			parseExpression(
 					"x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/(x/()))))))))))))))))))))");
 
 		} catch (ParseException e) {
@@ -131,23 +128,25 @@ parseGeoGebraExpression(
 	@Test
 	public void testAbsValue(){
 
-			try {
-				app.getKernel().getParser().
-				parseGeoGebraExpression("|1|");
-				app.getKernel().getParser().
-				parseGeoGebraExpression("(1|1|1)");
-				app.getKernel().getParser().
-				parseGeoGebraExpression("(a||b)");
-			} catch (ParseException e) {
-				assertNull(e);
-			}
-			try {
-				app.getKernel().getParser().
-				parseGeoGebraExpression("|1|2|3|");
-			} catch (ParseException e) {
-				assertNotNull(e);
-			}
+		try {
+			parseExpression("|1|");
+			parseExpression("(1|1|1)");
+			parseExpression("(a||b)");
+		} catch (ParseException e) {
+			assertNull(e);
+		}
+		try {
+			parseExpression("|1|2|3|");
+		} catch (ParseException e) {
+			assertNotNull(e);
+		}
 			
+
+	}
+
+	private static ValidExpression parseExpression(String string)
+			throws ParseException {
+		return app.getKernel().getParser().parseGeoGebraExpression(string);
 
 	}
 }
