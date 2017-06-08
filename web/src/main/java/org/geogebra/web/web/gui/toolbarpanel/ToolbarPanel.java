@@ -40,7 +40,7 @@ public class ToolbarPanel extends FlowPanel {
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
 	private static final int OPEN_HEIGHT = 56;
 	private static final int HEIGHT_CLOSED = 57;
-	private static final int WIDTH_AUTO_CLOSE = 86;
+	private static final int WIDTH_AUTO_CLOSE = 56;
 	private static final int HEIGHT_AUTO_CLOSE = 86;
 
 	/** Application */
