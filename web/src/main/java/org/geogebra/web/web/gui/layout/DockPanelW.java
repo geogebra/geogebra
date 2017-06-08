@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -22,6 +23,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.cas.view.CASStylebarW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
@@ -372,6 +374,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	private VerticalPanel componentPanel;
 	/** button to collapse / expand stylebar */
 	protected StandardButton toggleStyleBarButton;
+	/**
+	 * button to open graphics context menu
+	 */
+	protected StandardButton graphicsContextMenuBtn;
 
 	private ResourcePrototype viewImage;
 	private ImageResource downImage;
@@ -436,10 +442,12 @@ public abstract class DockPanelW extends ResizeComposite implements
 //		kbButtonSpace = new SimplePanel();
 		
 		titleBarPanelContent = new FlowPanel();
-		titleBarPanelContent.setStyleName("TitleBarPanelContent");
-		if (!app.has(Feature.NEW_TOOLBAR)) {
-			titleBarPanel.add(titleBarPanelContent);
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			titleBarPanelContent.setStyleName("MatTitleBarPanelContent");
+		} else {
+			titleBarPanelContent.setStyleName("TitleBarPanelContent");
 		}
+		titleBarPanel.add(titleBarPanelContent);
 
 		dragPanel = new FlowPanel();
 		dragPanel.setStyleName("dragPanel");
@@ -528,13 +536,34 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 			downImage = (ImageResource) getResources().back_right();
 
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			graphicsContextMenuBtn = new StandardButton(
+					MaterialDesignResources.INSTANCE.more_vert_black());
+			FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
+
+				@Override
+				public void onClick(Widget source) {
+					if (app.getGuiManager() != null) {
+						app.getGuiManager().showDrawingPadPopup(
+								app.getEuclidianView1(),
+								new GPoint(source.getAbsoluteLeft(), 4));
+					}
+				}
+
+			};
+			graphicsContextMenuBtn
+					.addFastClickHandler(graphicsContextMenuHandler);
+			graphicsContextMenuBtn.addStyleName("flatButton");
+			graphicsContextMenuBtn.addStyleName("graphicsContextMenuBtn");
+			titleBarPanelContent.add(graphicsContextMenuBtn);
+			return;
 		} else {
 			toggleStyleBarButton = new StandardButton(getToggleImage(false), null, 32);
 			toggleStyleBarButton.addStyleName("toggleStyleBar");
 		}
 
 
-		if(!showStyleBar && viewImage != null){
+		if (!showStyleBar && viewImage != null) {
 			toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
 		}
 

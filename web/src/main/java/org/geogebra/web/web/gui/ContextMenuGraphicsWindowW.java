@@ -106,7 +106,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 			mi.addStyleName("mi_no_image_new");
 
-			wrappedPopup.addItem(mi);
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				wrappedPopup.addItem(mi);
+			}
 
 			if (!ev.isZoomable()) {
 				yaxisMenu.setEnabled(false);
@@ -123,10 +125,14 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			miStandardView.setEnabled(false);
 		}
 
-		addZoomMenu();
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addZoomMenu();
+		}
 
 		wrappedPopup.addItem(miShowAllObjectsView);
-		wrappedPopup.addItem(miStandardView);
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			wrappedPopup.addItem(miStandardView);
+		}
 		addMiProperties("DrawingPad", ot);
 
 	}
@@ -248,6 +254,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (!isWhiteboard()) {
 			zoomMenuItem.addStyleName("mi_with_image");
 		}
+
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
 
@@ -350,6 +357,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	protected void addNavigationBar() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		// Show construction protocol navigation bar checkbox item
 		Command showConstructionStepCommand = new Command() {
 			@Override

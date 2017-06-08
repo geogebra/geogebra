@@ -1,1 +1,26 @@
+.GeoGebraFrame {
+	
+	.MatTitleBarPanelContent {
+		box-shadow:none;	
+	}
+	
+	.button.flatButton.graphicsContextMenuBtn.button-up {
+		margin-top: 10px;
+		margin-right: 5px;	
+		position: absolute;
+    	right: 0px;
+			
+		img {
+			opacity: 0.54;
+		}
+	}
+		
+	.button.flatButton.graphicsContextMenuBtn.button-up-hovering {
+		@extend .button-up;
+				
+		img {
+			opacity: 0.8;	
+		}
+	}
 
+}
