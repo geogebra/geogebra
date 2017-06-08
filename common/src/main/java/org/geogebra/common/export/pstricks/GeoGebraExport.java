@@ -945,9 +945,7 @@ public abstract class GeoGebraExport {
 		// tick spacing and length.
 		double tickSpacing = 2.5 + geo.getLineThickness() / 2d;
 		double tickLength = tickSpacing + 1;
-		// Michael Borcherds 20071006 start
 		double arrowlength = 1.5;
-		// Michael Borcherds 20071006 end
 		double vx, vy, factor, x1, x2, y1, y2;
 		switch (deco) {
 		default:
@@ -1008,7 +1006,6 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(midY - vy + ny);
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		// Michael Borcherds 20071006 start
 		case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / (nLength);
@@ -1126,7 +1123,6 @@ public abstract class GeoGebraExport {
 					midY - 3 * arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
 			break;
-		// Michael Borcherds 20071006 end
 		}
 	}
 

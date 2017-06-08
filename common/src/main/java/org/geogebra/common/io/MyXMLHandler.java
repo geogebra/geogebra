@@ -1348,9 +1348,7 @@ public class MyXMLHandler implements DocHandler {
 			ev.showGrid(parseBoolean(attrs.get("grid")));
 
 			try {
-				ev.setGridIsBold(parseBoolean(attrs.get("gridIsBold"))); // Michael
-																			// Borcherds
-				// 2008-04-11
+				ev.setGridIsBold(parseBoolean(attrs.get("gridIsBold")));
 			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
@@ -1365,9 +1363,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			try {
-				ev.setGridType(Integer.parseInt(attrs.get("gridType"))); // Michael
-																			// Borcherds
-				// 2008-04-30
+				ev.setGridType(Integer.parseInt(attrs.get("gridType")));
 			} catch (RuntimeException e) {
 				// not a number: ignore
 			}
@@ -2384,9 +2380,7 @@ public class MyXMLHandler implements DocHandler {
 			// files
 			tmp_showAlgebra = parseBoolean(attrs.get("algebraView"));
 
-			// Michael Borcherds 2008-04-25
 			tmp_showSpreadsheet = parseBoolean(attrs.get("spreadsheetView"));
-			// }
 
 			String str = attrs.get("auxiliaryObjects");
 			boolean auxiliaryObjects = (str != null && "true".equals(str));
@@ -3775,9 +3769,7 @@ public class MyXMLHandler implements DocHandler {
 				} else if ("font".equals(eName)) {
 					ok = handleTextFont(attrs);
 					break;
-				}
-				// Michael Borcherds 2007-11-19
-				else if ("forceReflexAngle".equals(eName)) {
+				} else if ("forceReflexAngle".equals(eName)) {
 					ok = handleForceReflexAngle(attrs);
 					break;
 				}
@@ -5055,8 +5047,6 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-
-	// Michael Borcherds 2007-11-19
 
 	private boolean handleOutlyingIntersections(
 			LinkedHashMap<String, String> attrs) {

@@ -117,14 +117,12 @@ public class MyMath2 {
 			return Double.NaN; // negative integers
 		}
 
-		// Michael Borcherds 2007-10-15 BEGIN added case for x<0 otherwise no
-		// results in 3rd quadrant
+		// added case for x<0 otherwise no results in 3rd quadrant
 		if (x >= 0) {
 			return Math.exp(Gamma.logGamma(x));
 		}
 		return -Math.PI
 				/ (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
-		// Michael Borcherds 2007-10-15 END
 	}
 
 	final private static int CANTOR_MAX_ITERATIONS = 1000;

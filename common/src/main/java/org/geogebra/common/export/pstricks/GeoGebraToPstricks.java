@@ -583,12 +583,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			firstVec[1] = 0;
 
 		}
-		tempPoint.remove(); // Michael Borcherds 2008-08-20
+		tempPoint.remove();
 
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
 
-		// Michael Borcherds 2007-10-21 BEGIN
-		// double angExt = geo.getValue();
 		double angExt = geo.getRawAngle();
 		if (angExt > Math.PI * 2) {
 			angExt -= Math.PI * 2;
@@ -612,11 +610,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				angExt = 2.0 * Math.PI - angExt;
 			}
 		}
-
-		// if (geo.changedReflexAngle()) {
-		// angSt = angSt - angExt;
-		// }
-		// Michael Borcherds 2007-10-21 END
 
 		angExt += angSt;
 		double r = arcSize / euclidianView.getXscale();
@@ -861,7 +854,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		drawGeoPoint(geoPoint);
 		drawLabel(geoPoint, drawPoint);
 
-		geoPoint.remove(); // Michael Borcherds 2008-08-20
+		geoPoint.remove();
 		startBeamer(code);
 		// draw Line for Slider
 		code.append("\\psline");

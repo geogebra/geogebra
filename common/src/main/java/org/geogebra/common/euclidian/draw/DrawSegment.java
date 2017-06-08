@@ -225,7 +225,7 @@ public class DrawSegment extends Drawable implements Previewable {
 				&& nLength > 0) {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
-				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
+				decoTicks = new GLine2D[6];
 				// changed from 3 to 6
 				for (int i = 0; i < decoTicks.length; i++) {
 					decoTicks[i] = AwtFactory.getPrototype().newLine2D();
@@ -235,9 +235,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			// tick spacing and length.
 			double tickSpacing = 2.5 + geo.getLineThickness() / 2d;
 			double tickLength = tickSpacing + 1;
-			// Michael Borcherds 20071006 start
 			double arrowlength = 1.5;
-			// Michael Borcherds 20071006 end
 			double vx, vy, factor;
 
 			switch (geo.getDecorationType()) {
@@ -449,7 +447,6 @@ public class DrawSegment extends Drawable implements Previewable {
 					g2.draw(decoTicks[1]);
 					g2.draw(decoTicks[2]);
 					break;
-				// Michael Borcherds 20071006 start
 				case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
 					g2.draw(decoTicks[0]);
 					g2.draw(decoTicks[1]);
@@ -470,7 +467,6 @@ public class DrawSegment extends Drawable implements Previewable {
 					g2.draw(decoTicks[4]);
 					g2.draw(decoTicks[5]);
 					break;
-				// Michael Borcherds 20071006 end
 				}
 			}
 			// END

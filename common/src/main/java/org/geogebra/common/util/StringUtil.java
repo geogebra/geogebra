@@ -599,38 +599,6 @@ public class StringUtil {
 
 	}
 
-	/**
-	 * Removes spaces from the start and end Not the same as trim - it removes
-	 * ASCII control chars eg tab Michael Borcherds 2007-11-23
-	 * 
-	 * @param str
-	 */
-	public static String trimSpaces(String str) {
-
-		int len = str.length();
-
-		if (len == 0) {
-			return "";
-		}
-
-		int start = 0;
-		while (str.charAt(start) == ' ' && start < len - 1) {
-			start++;
-		}
-
-		int end = len;
-		while (str.charAt(end - 1) == ' ' && end > start) {
-			end--;
-		}
-
-		if (start == end) {
-			return "";
-		}
-
-		return str.substring(start, end);
-
-	}
-
 	private static StringBuilder sbReplaceExp = new StringBuilder(200);
 
 	public static StringBuilder resetStringBuilder(StringBuilder high) {

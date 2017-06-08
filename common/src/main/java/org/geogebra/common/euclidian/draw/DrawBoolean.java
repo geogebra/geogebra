@@ -232,16 +232,6 @@ public final class DrawBoolean extends Drawable {
 	 */
 	public static class CheckBoxIcon {
 
-		// Michael Borcherds 2008-05-11
-		// used this as an outline only:
-		// http://www.java2s.com/Open-Source/Java-Document/6.0-JDK-Modules-com.sun.java/swing/com/sun/java/swing/plaf/windows/WindowsIconFactory.java.htm
-		// references to XPStyle removed
-		// option for double-size added
-		// replaced UIManager.getColor() with numbers from:
-		// http://www.java2s.com/Tutorial/Java/0240__Swing/ListingUIDefaultProperties.htm
-
-		// int csize = 13;
-
 		private EuclidianView ev;
 
 		/** background color when highlighted */
@@ -262,7 +252,10 @@ public final class DrawBoolean extends Drawable {
 		private static GBasicStroke stroke26 = null;
 
 		/**
-		 * Draws the checkbox on graphics
+		 * Draws the checkbox on graphics. Based on
+		 * http://www.java2s.com/Open-Source/Java-Document/6.0-JDK-Modules-com.
+		 * sun.java/swing/com/sun/java/swing/plaf/windows/WindowsIconFactory.
+		 * java.htm
 		 * 
 		 * @param checked
 		 *            true if checked

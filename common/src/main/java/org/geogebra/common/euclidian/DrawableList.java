@@ -55,7 +55,6 @@ public class DrawableList {
 			tail = head;
 		} else {
 
-			// Michael Borcherds 2008-02-29 BEGIN
 			// add in the list according to when we want it drawn
 			GeoElement priority = d.getGeoElement();
 			Link cur = head;
@@ -103,7 +102,6 @@ public class DrawableList {
 				temp.next = last.next;
 				last.next = temp;
 			}
-			// Michael Borcherds 2008-02-29 END
 
 		}
 		size++;

@@ -737,8 +737,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
 
-		// Michael Borcherds 2007-10-21 BEGIN
-		// double angExt = geo.getValue();
 		double angExt = geo.getRawAngle();
 		if (angExt > Math.PI * 2) {
 			angExt -= Math.PI * 2;
@@ -758,7 +756,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			}
 		}
 
-		// Michael Borcherds 2007-10-21 END
 		angExt += angSt;
 		double r = arcSize / euclidianView.getXscale();
 		// if angle=90 and decoration=little square

@@ -789,11 +789,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				return GeoFunction.applyNumberSymb(Operation.DIVIDE,
 						(GeoFunction) lt, right, true);
 			}
-			/*
-			 * // number * 3D vector else if (lt.isVector3DValue()) { Geo3DVec
-			 * vec3D = ((Vector3DValue)lt).get3DVec(); Geo3DVec.div(vec3D,
-			 * ((NumberValue)rt).getDouble(), vec3D); return vec3D; }
-			 */
 			else {
 				str = new String[] { "IllegalDivision",
 						lt.toString(errorTemplate), "/",
@@ -803,14 +798,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		}
 		// polynomial / polynomial
 
-		// vector / vector (complex division Michael Borcherds 2007-12-09)
+		// vector / vector (complex division)
 		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
 			GeoVec2D.complexDivide(vec, ((VectorValue) rt).getVector(), vec);
 			return vec;
 
 		}
-		// number / vector (complex division Michael Borcherds 2007-12-09)
+		// number / vector (complex division)
 		else if (lt instanceof NumberValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) rt).getVector(); // just to
 													// initialise

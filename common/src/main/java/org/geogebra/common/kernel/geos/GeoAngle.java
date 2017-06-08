@@ -48,7 +48,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	// this angle
 	private boolean emphasizeRightAngle = true;
 
-	// Michael Borcherds 2007-10-20
 	private double rawValue;
 	/** Default minimum value when displayed as slider */
 	final public static double DEFAULT_SLIDER_MIN_ANGLE = 0;
@@ -290,7 +289,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		}
 	}
 
-	// Michael Borcherds 2007-10-21 BEGIN
 	/**
 	 * Sets the value of this angle. Every value is limited between 0 and 2pi.
 	 * Under some conditions a value > pi will be changed to (2pi - value).

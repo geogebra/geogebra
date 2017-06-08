@@ -52,9 +52,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private GArc2D drawArc = AwtFactory.getPrototype().newArc2D();
-	private GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath(); // Michael
-																				// Borcherds
-	// 2007-11-19
+	private GGeneralPath polygon = AwtFactory.getPrototype().newGeneralPath();
 	private GEllipse2DDouble dot90degree;
 	private GShape shape;
 	private double m[] = new double[2];
@@ -210,26 +208,14 @@ public class DrawAngle extends Drawable implements Previewable {
 			setNotVisible();
 			return;
 		}
-		// Michael Borcherds 2007-11-19 BEGIN
-		// double angExt = angle.getValue();
 		double angExt = angle.getRawAngle();
 		angSt = getAngleStart(angSt, angExt);
 
-		// if this angle was not allowed to become a reflex angle
-		// (i.e. greater than pi) we got (2pi - angleValue) for angExt
-		// if (angle.changedReflexAngle()) {
-		// angSt = angSt - angExt;
-		// }
 
 		switch (angle.getAngleStyle()) {
 		case UNBOUNDED:
 			Log.error("Unbounded angle shouldn't be drawable");
 			break;
-
-		// case GeoAngle.ANGLE_ISCLOCKWISE:
-		// angSt += angExt;
-		// angExt = 2.0 * Math.PI - angExt;
-		// break;
 
 		case NOTREFLEX:
 			if (angExt > Math.PI) {
@@ -245,7 +231,6 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 			break;
 		}
-		// Michael Borcherds 2007-11-19 END
 
 		double as = Math.toDegrees(angSt);
 		double ae = Math.toDegrees(angExt);
@@ -428,7 +413,6 @@ public class DrawAngle extends Drawable implements Previewable {
 				angleTick[0] = -angSt - angExt / 2;
 				updateTick(angleTick[0], arcSize, 2);
 				break;
-			// Michael Borcherds 2007-11-19 START
 			case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 			case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
 				double n2[] = new double[2]; // actual angle for arrow point
@@ -490,7 +474,6 @@ public class DrawAngle extends Drawable implements Previewable {
 				polygon.closePath();
 
 				break;
-			// Michael Borcherds 2007-11-19 END
 
 			}
 			// END
@@ -591,13 +574,11 @@ public class DrawAngle extends Drawable implements Previewable {
 					g2.draw(tick[1]);
 					g2.draw(tick[2]);
 					break;
-				// Michael Borcherds 2007-11-19 START
 				case GeoElement.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
 				case GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE:
 					g2.setStroke(decoStroke);
 					g2.fill(polygon);
 					break;
-				// Michael Borcherds 2007-11-19
 				}
 			}
 

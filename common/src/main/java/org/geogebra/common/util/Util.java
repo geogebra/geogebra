@@ -17,8 +17,9 @@ import org.geogebra.common.util.debug.Log;
 public class Util {
 
 	/**
-	 * Removes < > " * / ? | \ and replaces them with underscore (_) Michael
-	 * Borcherds 2007-11-23
+	 * Removes &lt; > " * / ? | \ and replaces them with underscore (_)
+	 * 
+	 * @author Michael Borcherds
 	 */
 	public static String processFilename(String name) {
 		int length = name != null ? name.length() : 0;
@@ -26,15 +27,10 @@ public class Util {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < length; i++) {
 			char c = name.charAt(i);
+			// u00a3 seems to turn into ? inside zips
 			if (c == '<' || c == '>' || c == '"' || c == ':' || c == '*'
-					|| c == '/' || c == '\\' || c == '?' || c == '\u00a3' || // seems
-																				// to
-																				// turn
-																				// into
-																				// ?
-																				// inside
-																				// zips
-					c == '|') {
+					|| c == '/' || c == '\\' || c == '?' || c == '\u00a3'
+					|| c == '|') {
 				sb.append("_");
 			} else {
 				sb.append(c);
