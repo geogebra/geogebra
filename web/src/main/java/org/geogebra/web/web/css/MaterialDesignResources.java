@@ -89,11 +89,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	// @Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/content_copy_black.png")
 	// ImageResource copy_content_black();
 
-	// AV icon resources
-
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/text_black.png")
-	ImageResource text_black();
-
 	// plus menu icon resources
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/add_black.png")
@@ -112,16 +107,17 @@ public interface MaterialDesignResources extends ClientBundle {
 	ImageResource insert_photo_black();
 
 	// Toolbar resoures
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/open_portrait_white.png")
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_up_white.png")
 	ImageResource toolbar_open_portrait_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_portrait_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_down_white.png")
 	ImageResource toolbar_close_portrait_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/open_landscape_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_right_white.png")
 	ImageResource toolbar_open_landscape_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/close_landscape_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_left_white.png")
 	ImageResource toolbar_close_landscape_white();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/menu_white.png")
@@ -130,7 +126,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/menu_black.png")
 	ImageResource toolbar_menu_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/av_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/av_tab_white.png")
 	ImageResource toolbar_algebra();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/tools_white.png")

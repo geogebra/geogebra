@@ -37,7 +37,8 @@ public class Marble extends SimplePanel
 	public Marble(final RadioTreeItem gc) {
 		this.gc = gc;
 		if (gc.isTextItem()) {
-			imgText = new Image(MaterialDesignResources.INSTANCE.text_black());
+			imgText = new Image(
+					MaterialDesignResources.INSTANCE.icon_quote_black());
 			imgText.addStyleName("textOverMarble");
 			add(imgText);
 		}
