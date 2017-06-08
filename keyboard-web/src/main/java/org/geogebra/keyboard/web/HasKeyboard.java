@@ -16,6 +16,4 @@ public interface HasKeyboard {
 
 	void updateCenterPanelAndViews();
 
-	// used only for feature check
-	boolean ggbtransFeature();
 }

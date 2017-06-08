@@ -64,9 +64,4 @@ public class KeyboardContext implements HasKeyboard {
 
 	}
 
-	@Override
-	public boolean ggbtransFeature() {
-		return false;
-	}
-
 }

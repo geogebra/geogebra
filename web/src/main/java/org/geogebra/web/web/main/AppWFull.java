@@ -926,14 +926,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	public abstract void updateMenuHeight();
 
 	@Override
-	public boolean ggbtransFeature() {
-		if (has(Feature.GGBTRANS_KEYS)) {
-			return true;
-		}
-		return false;
-	}
-
-	@Override
 	public boolean isWhiteboardActive() {
 		return activePerspective == 6
 				|| "7".equals(getArticleElement().getDataParamPerspective());

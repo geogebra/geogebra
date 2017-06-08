@@ -4167,9 +4167,6 @@ public abstract class App implements UpdateSelection {
 		case TABBED_KEYBOARD:
 			return keyboard;
 
-		/** GGB-1832 */
-		case GGBTRANS_KEYS:
-			return prerelease;
 
 		// **********************************************************************
 		// KEYBOARD END

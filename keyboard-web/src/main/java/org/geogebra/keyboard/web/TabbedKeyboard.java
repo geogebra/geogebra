@@ -257,9 +257,7 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, "f(x)");
 
-		if (app.ggbtransFeature()) {
-			upperKeys = new HashMap<String, String>();
-		}
+		upperKeys = new HashMap<String, String>();
 
 		keyboard = buildPanel(
 				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),

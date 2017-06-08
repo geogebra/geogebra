@@ -232,8 +232,6 @@ public enum Feature {
 
 	INPUT_BAR_SOLVE,
 
-	/** GGB-1832 */
-	GGBTRANS_KEYS,
 
 	/** AND-343 */
 	AND_SNACKBAR,
