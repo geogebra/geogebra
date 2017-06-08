@@ -3359,8 +3359,10 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void readLater(GeoNumeric geo) {
-		readerTimer.setGeo(geo);
-		readerTimer.schedule(700);
+		if (has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
+			readerTimer.setGeo(geo);
+			readerTimer.schedule(700);
+		}
 	}
 
 	public void updateMaterialURL(int i, String object) {
