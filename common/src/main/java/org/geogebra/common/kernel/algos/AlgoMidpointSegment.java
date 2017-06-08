@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -167,10 +168,11 @@ public class AlgoMidpointSegment extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
-			int[] degreeP = P.getDegrees();
-			int[] degreeQ = Q.getDegrees();
+			int[] degreeP = P.getDegrees(a);
+			int[] degreeQ = Q.getDegrees(a);
 
 			int[] result = new int[3];
 			result[0] = Math.max(degreeP[0] + degreeQ[2],

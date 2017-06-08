@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -202,11 +203,12 @@ public class AlgoVector extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (P != null && Q != null && P instanceof SymbolicParametersAlgo
 				&& Q instanceof SymbolicParametersAlgo) {
-			int[] degree1 = ((SymbolicParametersAlgo) P).getDegrees();
-			int[] degree2 = ((SymbolicParametersAlgo) Q).getDegrees();
+			int[] degree1 = ((SymbolicParametersAlgo) P).getDegrees(a);
+			int[] degree2 = ((SymbolicParametersAlgo) Q).getDegrees(a);
 			int[] result = new int[3];
 			result[0] = Math.max(degree1[0] + degree2[2],
 					degree2[0] + degree1[2]);

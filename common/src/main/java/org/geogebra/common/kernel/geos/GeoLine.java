@@ -54,6 +54,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -1750,9 +1751,10 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getDegrees();
+			return ((SymbolicParametersAlgo) algoParent).getDegrees(a);
 		}
 		throw new NoSymbolicParametersException();
 	}

@@ -135,16 +135,17 @@ public class AlgoAreConcurrent extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if ((inputLine1 instanceof GeoSegment)
 				|| (inputLine2 instanceof GeoSegment)
 				|| (inputLine3 instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (inputLine1 != null && inputLine2 != null && inputLine3 != null) {
-			int[] degree1 = inputLine1.getDegrees();
-			int[] degree2 = inputLine2.getDegrees();
-			int[] degree3 = inputLine3.getDegrees();
+			int[] degree1 = inputLine1.getDegrees(a);
+			int[] degree2 = inputLine2.getDegrees(a);
+			int[] degree3 = inputLine3.getDegrees(a);
 			int[] result = new int[1];
 			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2], Math.max(
 					degree2[0] + degree3[1] + degree1[2],

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -42,7 +43,8 @@ public interface SymbolicParametersAlgo {
 	 * @throws NoSymbolicParametersException
 	 *             thrown if no symbolic parameters are available.
 	 */
-	public int[] getDegrees() throws NoSymbolicParametersException;
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException;
 
 	/**
 	 * Returns which methods might be able to verify the statement

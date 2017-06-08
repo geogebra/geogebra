@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -198,13 +199,14 @@ public class AlgoPointOnPath extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (input[0] instanceof GeoSegment) {
 			throw new NoSymbolicParametersException();
 		}
 		if (input[0] instanceof GeoLine) {
 			int[] degreesLine = ((SymbolicParametersAlgo) input[0])
-					.getDegrees();
+					.getDegrees(a);
 
 			int[] result = new int[3];
 			result[0] = degreesLine[2] + 1;

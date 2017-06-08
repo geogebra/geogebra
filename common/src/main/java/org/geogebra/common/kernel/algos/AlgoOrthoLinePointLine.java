@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -152,10 +153,11 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (P != null && l != null) {
-			int[] degreeP = P.getDegrees();
-			int[] degreeL = l.getDegrees();
+			int[] degreeP = P.getDegrees(a);
+			int[] degreeL = l.getDegrees(a);
 
 			int[] result = new int[3];
 			result[0] = degreeL[1] + degreeP[2];

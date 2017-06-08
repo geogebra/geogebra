@@ -110,12 +110,13 @@ public class AlgoAreCollinear extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (getInputPoint1() != null && getInputPoint2() != null
 				&& getInputPoint3() != null) {
-			int[] degree1 = getInputPoint1().getDegrees();
-			int[] degree2 = getInputPoint2().getDegrees();
-			int[] degree3 = getInputPoint3().getDegrees();
+			int[] degree1 = getInputPoint1().getDegrees(a);
+			int[] degree2 = getInputPoint2().getDegrees(a);
+			int[] degree3 = getInputPoint3().getDegrees(a);
 			int[] result = new int[1];
 			result[0] = Math.max(degree1[0] + degree2[1] + degree3[2], Math.max(
 					degree2[0] + degree3[1] + degree1[2],

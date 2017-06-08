@@ -33,7 +33,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public abstract class AbstractProverReciosMethod {
 
-	private static GeoElement[] fixedPoints;
+	private GeoElement[] fixedPoints;
 
 	/**
 	 * The prover which tries to prove the statement with the help of Tomas
@@ -199,7 +199,7 @@ public abstract class AbstractProverReciosMethod {
 
 		int[] degs;
 		try {
-			degs = s.getDegrees();
+			degs = s.getDegrees(this);
 		} catch (NoSymbolicParametersException e) {
 			return ProofResult.UNKNOWN;
 		}
@@ -384,7 +384,7 @@ public abstract class AbstractProverReciosMethod {
 	 * 
 	 * @return the fixed elements
 	 */
-	public static GeoElement[] getFixedPoints() {
+	public GeoElement[] getFixedPoints() {
 		return fixedPoints;
 	}
 

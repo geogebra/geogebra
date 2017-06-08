@@ -124,10 +124,11 @@ public class AlgoArePerpendicular extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
-			int[] degree1 = inputLine1.getDegrees();
-			int[] degree2 = inputLine2.getDegrees();
+			int[] degree1 = inputLine1.getDegrees(a);
+			int[] degree2 = inputLine2.getDegrees(a);
 			int[] degree = new int[1];
 			degree[0] = Math.max(degree1[0] + degree2[0],
 					degree1[1] + degree2[1]);

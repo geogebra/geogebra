@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -37,8 +38,9 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException
 	 *             if no symbolic parameters can be obtained
 	 */
-	public int[] getDegrees() throws NoSymbolicParametersException {
-		return spa.getDegrees();
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
+		return spa.getDegrees(a);
 	}
 
 	/**

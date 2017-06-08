@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -189,10 +190,11 @@ public class AlgoTranslate extends AlgoTransformation
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
-			int[] degree1 = ((SymbolicParametersAlgo) inGeo).getDegrees();
-			int[] degree2 = ((SymbolicParametersAlgo) v).getDegrees();
+			int[] degree1 = ((SymbolicParametersAlgo) inGeo).getDegrees(a);
+			int[] degree2 = ((SymbolicParametersAlgo) v).getDegrees(a);
 			int[] result = new int[3];
 
 			result[0] = Math.max(degree1[0] + degree2[2],

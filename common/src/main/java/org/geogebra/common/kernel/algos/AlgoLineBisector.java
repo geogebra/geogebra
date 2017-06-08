@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
@@ -130,10 +131,11 @@ public class AlgoLineBisector extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (A != null && B != null) {
-			int[] degree1 = A.getDegrees();
-			int[] degree2 = B.getDegrees();
+			int[] degree1 = A.getDegrees(a);
+			int[] degree2 = B.getDegrees(a);
 			int[] result = new int[3];
 			result[0] = Math.max(degree1[0] + degree1[2] + 2 * degree2[2],
 					2 * degree1[2] + degree2[0] + degree2[2]);

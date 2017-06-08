@@ -2670,10 +2670,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (algoParent == null) {
-			GeoElement[] fixedElements = AbstractProverReciosMethod
-					.getFixedPoints();
+			GeoElement[] fixedElements = a.getFixedPoints();
 			if (fixedElements != null) {
 				boolean isContained = false;
 				for (GeoElement ge : fixedElements) {
@@ -2691,7 +2691,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			return result;
 		}
 		if (algoParent instanceof SymbolicParametersAlgo) {
-			return ((SymbolicParametersAlgo) algoParent).getDegrees();
+			return ((SymbolicParametersAlgo) algoParent).getDegrees(a);
 		}
 		throw new NoSymbolicParametersException();
 	}

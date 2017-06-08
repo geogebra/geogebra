@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.AlgoAreCongruent;
 import org.geogebra.common.kernel.prover.AlgoAreEqual;
 import org.geogebra.common.kernel.prover.AlgoAreParallel;
@@ -162,10 +163,11 @@ public class AlgoDependentBoolean extends AlgoElement implements
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		SymbolicParametersAlgo algo = getRootAlgo();
 		if (algo != null) {
-			int[] ret = algo.getDegrees();
+			int[] ret = algo.getDegrees(a);
 			algo.remove();
 			return ret;
 		}

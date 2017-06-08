@@ -140,13 +140,14 @@ public class AlgoAreConcyclic extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if (inputPoint1 != null && inputPoint2 != null && inputPoint3 != null
 				&& inputPoint4 != null) {
-			int[] degree1 = inputPoint1.getDegrees();
-			int[] degree2 = inputPoint2.getDegrees();
-			int[] degree3 = inputPoint3.getDegrees();
-			int[] degree4 = inputPoint4.getDegrees();
+			int[] degree1 = inputPoint1.getDegrees(a);
+			int[] degree2 = inputPoint2.getDegrees(a);
+			int[] degree3 = inputPoint3.getDegrees(a);
+			int[] degree4 = inputPoint4.getDegrees(a);
 
 			int[] degree = new int[1];
 

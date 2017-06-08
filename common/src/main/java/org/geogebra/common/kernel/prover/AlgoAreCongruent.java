@@ -148,7 +148,8 @@ public class AlgoAreCongruent extends AlgoElement
 	}
 
 	@Override
-	public int[] getDegrees() throws NoSymbolicParametersException {
+	public int[] getDegrees(AbstractProverReciosMethod a)
+			throws NoSymbolicParametersException {
 		if ((inputElement1 instanceof GeoSegment)
 				|| (inputElement2 instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
@@ -161,9 +162,9 @@ public class AlgoAreCongruent extends AlgoElement
 					|| ((inputElement1 instanceof GeoVector)
 							&& (inputElement2 instanceof GeoVector))) {
 				int[] degrees1 = ((SymbolicParametersAlgo) inputElement1)
-						.getDegrees();
+						.getDegrees(a);
 				int[] degrees2 = ((SymbolicParametersAlgo) inputElement2)
-						.getDegrees();
+						.getDegrees(a);
 				int[] degrees = new int[1];
 				degrees[0] = Math.max(
 						Math.max(degrees1[0] + degrees2[2],
