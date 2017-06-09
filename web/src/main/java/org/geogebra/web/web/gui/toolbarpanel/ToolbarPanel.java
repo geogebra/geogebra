@@ -102,6 +102,7 @@ public class ToolbarPanel extends FlowPanel {
 		PresistablePanel undoRedoPanel;
 		private ToggleButton btnUndo;
 		private ToggleButton btnRedo;
+		private ContextMenuAlgebra cmAlgebra = null;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
@@ -205,7 +206,7 @@ public class ToolbarPanel extends FlowPanel {
 
 				@Override
 				public void onClick(Widget source) {
-
+					openContextMenu();
 				}
 			};
 
@@ -216,6 +217,20 @@ public class ToolbarPanel extends FlowPanel {
 			rightSide.addStyleName("rightSide");
 			contents.add(rightSide);
 
+		}
+
+		protected void openContextMenu() {
+			int x = btnContextMenu.getAbsoluteLeft();
+			int y = btnContextMenu.getAbsoluteTop() + 6;
+
+			if (isAlgebraViewActive()) {
+				if (cmAlgebra == null) {
+					cmAlgebra = new ContextMenuAlgebra((AppW) app);
+				}
+				cmAlgebra.show(x, y);
+			} else {
+
+			}
 		}
 
 		private void updateButtonImages() {
