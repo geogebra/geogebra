@@ -282,7 +282,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		addMarble();
 
-		getPlainTextItem().addStyleName("sqrtFontFix");
+		getPlainTextItem().addStyleName("avPlainText");
 		getElement().getStyle().setColor("black");
 
 		updateFont(getPlainTextItem());

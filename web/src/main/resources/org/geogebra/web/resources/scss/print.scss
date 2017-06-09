@@ -12,36 +12,36 @@
 	}
 }
 
-.printPanel{
+.printPanel {
 	position: absolute;
 	max-width: 10000px !important;
 }
 
-.pagebreakbefore{
+.pagebreakbefore {
 	display: block;
 	page-break-before: always;	
 }
 
 @media print {
 	
-	.sqrtFontFix{
+	.avPlainText {
 		width: 100vw;
 		white-space: normal;	
 	}
 	
-	.GeoGebraFrame{
+	.GeoGebraFrame {
 		/*display: none; */
 		visibility: hidden;
 	}
 	
-	.printableView{
+	.printableView {
 		visibility: visible;
 		position: absolute;
 		top: 0px;
 		left: 0px;
 	}
 	
-	.GeoGebraPopup{
+	.GeoGebraPopup {
 		width: 95%;
 		height: 95%;
 		position: absolute;

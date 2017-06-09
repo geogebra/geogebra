@@ -84,7 +84,7 @@ public class ResourceAvailability {
 			}
 
 		}
-		Assert.assertEquals(missing.toString(), missing.length(), 0);
+		Assert.assertEquals(missing.toString(), missing.toString(), "");
 	}
 
 	private static boolean hasFlag(Country country) {
