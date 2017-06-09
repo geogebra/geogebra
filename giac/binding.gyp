@@ -79,8 +79,7 @@
               'HAVE_NO_SYS_RESOURCE_WAIT_H',
               'HAVE_NO_CWD',
               'MS_SMART',
-              'NO_STDEXCEPT',
-              'NO_RTTI' # node-gyp implicitly adds /GR-, so we don't have RTTI by default
+              'NO_STDEXCEPT'
             ],
             'link_settings': {
               'libraries': [
@@ -91,6 +90,7 @@
                 "Release": {
                     "msvs_settings": {
                       'VCCLCompilerTool': {
+                            'RuntimeTypeInfo': 'true',
                             'ExceptionHandling': 1, # /EHsc # seems to have no effect
                         },
                       "VCLinkerTool": {
@@ -103,6 +103,7 @@
                 "Debug": {
                     "msvs_settings": {
                       'VCCLCompilerTool': {
+                            'RuntimeTypeInfo': 'true',
                             'ExceptionHandling': 1, # /EHsc # seems to have no effect
                         },
                         "VCLinkerTool": {
