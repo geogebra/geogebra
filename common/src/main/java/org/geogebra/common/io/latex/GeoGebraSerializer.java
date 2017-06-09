@@ -131,13 +131,26 @@ public class GeoGebraSerializer implements Serializer {
 			serialize(mathFunction.getArgument(0), stringBuilder);
 			serializeArgs(mathFunction, stringBuilder, 1);
 			break;
+		case ABS:
+			// empty abs() is just ||
+			if (mathFunction.getArgument(0).size() == 0) {
+				stringBuilder.append("||");
+			} else {
+				generalFunction(mathFunction, stringBuilder);
+			}
+			break;
 		default:
-			// some general function
-			maybeInsertTimes(mathFunction, stringBuilder);
-			stringBuilder.append(mathFunction.getName().getFunction());
-			serializeArgs(mathFunction, stringBuilder, 0);
-
+			generalFunction(mathFunction, stringBuilder);
 		}
+
+	}
+
+	private static void generalFunction(MathFunction mathFunction,
+			StringBuilder stringBuilder) {
+		maybeInsertTimes(mathFunction, stringBuilder);
+		stringBuilder.append(mathFunction.getName().getFunction());
+		serializeArgs(mathFunction, stringBuilder, 0);
+
 	}
 
 	private static void serializeArgs(MathFunction mathFunction,
