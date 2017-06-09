@@ -48,7 +48,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	private static final int PORTRAIT_AV_HEADER = 57;
 	private static final int DEFAULT_KEYBOARD_HEIGHT = 228;
 	AppW app;
 	private LayoutW layout;
@@ -1343,7 +1342,6 @@ public class DockManagerW extends DockManager {
 		
 		if(focusedDockPanel != null) {
 			focusedDockPanel.setFocus(true, updatePropertiesView);
-			Log.debug("FOCUSCHANGE: " + focusedDockPanel.getViewId());
 		}
 		
 		app.getGuiManager().updateMenubarSelection();
@@ -1857,13 +1855,11 @@ public class DockManagerW extends DockManager {
 
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
-			Log.debug("[WGT] No AV panel to flip.");
 			return;
 		}
 
 		DockSplitPaneW split = avPanel.getParentSplitPane();
 		if (split == null || split != getRoot()) {
-			Log.debug("[WGT] No opposite");
 			return;
 		}
 
