@@ -471,7 +471,8 @@ public class DrawLine extends Drawable implements Previewable {
 	 * @return 0 sized rectangle with top-left corner close to the center of the
 	 *         visible part of the line
 	 */
-	public GRectangle getPreferredStylebarPosition() {
+	@Override
+	public GRectangle getBoundsForStylebarPosition() {
 		GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);
 		rect.setBounds((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50, 0,
 				0);

@@ -283,6 +283,7 @@ public class DrawSlider extends Drawable {
 		return line.getBounds();
 	}
 
+	@Override
 	final public GRectangle getBoundsForStylebarPosition() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;

@@ -230,6 +230,8 @@ public class DrawAngle extends Drawable implements Previewable {
 				angExt = 2.0 * Math.PI - angExt;
 			}
 			break;
+		default:
+			// all good
 		}
 
 		double as = Math.toDegrees(angSt);

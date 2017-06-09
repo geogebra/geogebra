@@ -28,6 +28,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -803,6 +804,13 @@ public abstract class Drawable extends DrawableND {
 		return AwtFactory.getPrototype().newTextLayout(text, font,
 				g2.getFontRenderContext());
 
+	}
+
+	/**
+	 * @return bounds of the drawn path
+	 */
+	public GRectangle2D getBoundsForStylebarPosition() {
+		return getBounds();
 	}
 
 }

@@ -1,14 +1,11 @@
 package org.geogebra.web.web.euclidian;
 
-import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
-import org.geogebra.common.euclidian.draw.DrawLocus;
-import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -140,18 +137,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (!(dr instanceof Drawable)) {
 			return;
 		}
-		
-		if (dr instanceof DrawLine) {
-			GRectangle rect = ((DrawLine) dr).getPreferredStylebarPosition();
-			setPosition(rect, false);
-		} else if (dr instanceof DrawLocus) {
-			setPosition(((DrawLocus) dr).getGpBounds(), true);
-		} else if (dr instanceof DrawSlider) {
-			setPosition(((DrawSlider) dr).getBoundsForStylebarPosition(), true);
-		} else {
-			setPosition(((Drawable) dr).getBounds(), true);
-		}
 
+		setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
+				!(dr instanceof DrawLine));
 	}
 
 	@Override
