@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -13,6 +14,7 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
@@ -88,6 +90,7 @@ public class ToolbarPanel extends FlowPanel {
 		private ToggleButton btnAlgebra;
 		private ToggleButton btnTools;
 		private ToggleButton btnClose;
+		private StandardButton btnContextMenu;
 		private boolean open = true;
 		private Image imgClose;
 		private Image imgOpen;
@@ -95,6 +98,7 @@ public class ToolbarPanel extends FlowPanel {
 		private Image imgMenu;
 		private FlowPanel contents;
 		private FlowPanel center;
+		private FlowPanel rightSide;
 		PresistablePanel undoRedoPanel;
 		private ToggleButton btnUndo;
 		private ToggleButton btnRedo;
@@ -104,7 +108,7 @@ public class ToolbarPanel extends FlowPanel {
 			add(contents);
 
 			createMenuButton();
-			createCloseButton();
+			createRightSide();
 			createCenter();
 			addUndoRedoButtons();
 
@@ -160,7 +164,7 @@ public class ToolbarPanel extends FlowPanel {
 			setSelectedTab(TabIds.TOOLS);
 		}
 
-		private void createCloseButton() {
+		private void createRightSide() {
 			imgClose = new Image();
 			imgOpen = new Image();
 			imgMenu = new Image();
@@ -168,7 +172,6 @@ public class ToolbarPanel extends FlowPanel {
 			btnClose = new ToggleButton();
 			btnClose.addStyleName("flatButton");
 			btnClose.addStyleName("close");
-			contents.add(btnClose);
 
 			ClickStartHandler.init(btnClose, new ClickStartHandler() {
 
@@ -192,6 +195,27 @@ public class ToolbarPanel extends FlowPanel {
 
 				}
 			});
+			
+			btnContextMenu = new StandardButton(MaterialDesignResources.INSTANCE
+					.more_vert_white());
+			btnContextMenu.addStyleName("flatButton");
+			btnContextMenu.addStyleName("contextMenu");
+			
+			FastClickHandler handler = new FastClickHandler() {
+
+				@Override
+				public void onClick(Widget source) {
+
+				}
+			};
+
+			btnContextMenu.addFastClickHandler(handler);
+			rightSide = new FlowPanel();
+			rightSide.add(btnClose);
+			rightSide.add(btnContextMenu);
+			rightSide.addStyleName("rightSide");
+			contents.add(rightSide);
+
 		}
 
 		private void updateButtonImages() {

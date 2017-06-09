@@ -45,13 +45,20 @@
 					height: 24px;
 				}
 				
-				.gwt-ToggleButton {
-					
-				}
 			}
 			
 			.center >* {
 				display: inline-block;
+			}
+		
+			.rightSide {
+				float: right;		
+				
+				.contextMenu {
+					img {
+						opacity: 1;
+					}	
+				}			
 			}
 			
 		}
@@ -79,9 +86,14 @@
 		
 		.header-open-portrait {
 			.close {
-				float: left;
+				position: absolute;
+				left: 0px;
 				margin-left: 10px;
 			}	
+		
+			.contextMenu {
+				margin-right: 10px;	
+			}
 		
 			.center {
 				left: -40px;
@@ -90,8 +102,14 @@
 	
 		.header-open-landscape {
 			.close {
+				float: left;
+				margin-right: 6px;
+			}
+		
+			.contextMenu {
 				float: right;
 				margin-right: 10px;
+				margin-left: 0px;
 			}
 		}
 		
@@ -114,6 +132,10 @@
 				bottom: 0px;
 			}
 		
+			.contextMenu {
+				display: none;
+			}
+		
 		 	.center {
 		 		top: 0px;
 				display: table-cell;
@@ -128,9 +150,14 @@
 		bottom: 0px;
 		
 		.close {
-			float: left;
+			position: absolute;
+			left: 0px;
 			margin-left: 10px;
 		}	
+	
+		.contextMenu {
+			display: none;
+		}
 		
 		.center {
 			left: -40px;
