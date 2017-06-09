@@ -2528,7 +2528,7 @@ __GGB__keysVar.fr.menu = {
     "SegmentFixed": "Segment de longueur donn\xe9e",
     "SegmentFixed.Help": "Point[cr\xe9\xe9 ou non] puis longueur du segment",
     "Select": "S\xe9lectionner un objet",
-    "Select.Help": "Cliquer sur l'objet[cr\xe9\xe9] pour le s\xe9lectionner",
+    "Select.Help": "Cliquer sur l'objet[cr\xe9\xe9] pour le s\xe9lectionner, ou draguer un rectangle de s\xe9lection pour plusieurs",
     "SelectACurve": "S\xe9lectionner une courbe",
     "SelectAll": "Tout s\xe9lectionner",
     "SelectAnObjectToTrace": "S\xe9lectionner l'objet \xe0 pister",

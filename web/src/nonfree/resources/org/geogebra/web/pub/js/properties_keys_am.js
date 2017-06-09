@@ -2528,7 +2528,7 @@ __GGB__keysVar.am.menu = {
     "SegmentFixed": "Segment with Given Length",
     "SegmentFixed.Help": "\u1290\u1325\u1265 \u121d\u1228\u1325 \u12a5\u1293 \u12e8\u12ad\u134b\u12ed \u122d\u12dd\u1218\u1275 \u12a0\u1235\u1308\u1263",
     "Select": "\u12a6\u1265\u1300\u12ad\u1275 \u121d\u1228\u1325",
-    "Select.Help": "Click on object to select it",
+    "Select.Help": "Click on object to select it or drag a rectangle to select multiple objects",
     "SelectACurve": "Select a curve",
     "SelectAll": "\u1201\u1209\u1295\u121d \u121d\u1228\u1325",
     "SelectAnObjectToTrace": "\u1208\u1218\u12a8\u1273\u1270\u120d \u12a6\u1265\u1300\u12ad\u1275 \u121d\u1228\u1325",

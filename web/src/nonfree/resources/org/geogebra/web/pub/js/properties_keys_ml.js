@@ -2528,7 +2528,7 @@ __GGB__keysVar.ml.menu = {
     "SegmentFixed": "Segment with Given Length \u0d28\u0d3f\u0d7c\u0d26\u0d3f\u0d37\u0d4d\u0d1f \u0d05\u0d33\u0d35\u0d3f\u0d32\u0d41\u0d33\u0d4d\u0d33 \u0d30\u0d47\u0d16\u0d3e\u0d15\u0d23\u0d4d\u0d21\u0d02",
     "SegmentFixed.Help": "Select point and enter segment length",
     "Select": "\u0d35\u0d38\u0d4d\u0d24\u0d41 \u0d24\u0d3f\u0d30\u0d1e\u0d4d\u0d1e\u0d46\u0d1f\u0d41\u0d15\u0d4d\u0d15\u0d41\u0d15",
-    "Select.Help": "Click on object to select it",
+    "Select.Help": "Click on object to select it or drag a rectangle to select multiple objects",
     "SelectACurve": "Select a curve",
     "SelectAll": "Select All",
     "SelectAnObjectToTrace": "Select an object to trace",

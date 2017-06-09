@@ -2528,7 +2528,7 @@ __GGB__keysVar.kn.menu = {
     "SegmentFixed": "Segment with Given Length",
     "SegmentFixed.Help": "Select point and enter segment length",
     "Select": "\u0cb5\u0cb8\u0ccd\u0ca4\u0cc1\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cc1",
-    "Select.Help": "Click on object to select it",
+    "Select.Help": "Click on object to select it or drag a rectangle to select multiple objects",
     "SelectACurve": "\u0cb5\u0c95\u0ccd\u0cb0\u0cb0\u0cc7\u0c96\u0cc6\u0caf\u0cca\u0c82\u0ca6\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cc1",
     "SelectAll": "\u0c8e\u0cb2\u0ccd\u0cb2\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cc1",
     "SelectAnObjectToTrace": "Select an object to trace",

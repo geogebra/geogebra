@@ -2528,7 +2528,7 @@ __GGB__keysVar.tg.menu = {
     "SegmentFixed": "Segment with Given Length",
     "SegmentFixed.Help": "Select point and enter segment length",
     "Select": "Select Object",
-    "Select.Help": "Click on object to select it",
+    "Select.Help": "Click on object to select it or drag a rectangle to select multiple objects",
     "SelectACurve": "Select a curve",
     "SelectAll": "Select All",
     "SelectAnObjectToTrace": "Select an object to trace",

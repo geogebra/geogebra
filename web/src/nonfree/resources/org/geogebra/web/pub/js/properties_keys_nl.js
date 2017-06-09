@@ -2821,7 +2821,7 @@ __GGB__keysVar.nl.menu = {
     "ToolCategory.Points": "Punten",
     "ToolCategory.Polygons": "Veelhoeken",
     "ToolCategory.SelectAndFormat": "Selecteren en aanpassen",
-    "ToolCategory.Simple": "Simple",
+    "ToolCategory.Simple": "Basis",
     "ToolCategory.Solids": "Lichamen",
     "ToolCategory.SpecialLines": "Bijzondere lijnen",
     "ToolCategory.Transformations": "Transformaties",
