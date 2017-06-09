@@ -202,6 +202,9 @@ public class AlgebraDockPanelW extends DockPanelW
 	}
 
 	public int getInnerWidth() {
+		if (simplep == null) {
+			return super.getOffsetWidth();
+		}
 		return simplep.getOffsetWidth();
 	}
 }
