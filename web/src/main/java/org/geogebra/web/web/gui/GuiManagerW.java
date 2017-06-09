@@ -707,6 +707,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				AwtFactory.getPrototype().newDimension(width, height));
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
+			@Override
 			public void execute() {
 				((AppW) app).centerAndResizePopups();
 				resizeKeyboard();
@@ -1958,6 +1959,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return new DynamicStyleBar(ev);
 	}
 
+	@Override
 	public void addStylebar(EuclidianView ev,
 			EuclidianStyleBar dynamicStylebar) {
 		DockPanelW dp = getLayout().getDockManager().getPanel(ev.getViewID());
@@ -2005,10 +2007,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 					/ ((AppW) app).getArticleElement().getScaleX();
 			double panelRightToAppRight = panelLeftToAppRight
 					- panel.getOffsetWidth();
-			if (panel.isVisible()) {
-				Log.debug("PANEL" + panelRightToAppRight + ","
-					+ panelLeftToAppRight + "," + panel.getViewId());
-			}
 			if (menuOpen && panel.isVisible()
 					&& panelRightToAppRight < GLookAndFeel.MENUBAR_WIDTH) {
 				if (panelLeftToAppRight > GLookAndFeel.MENUBAR_WIDTH) {
@@ -2127,6 +2125,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
 
+	@Override
 	public boolean getKeyboardShouldBeShownFlag() {
 		return onScreenKeyboard != null && onScreenKeyboard.shouldBeShown();
 
@@ -2154,6 +2153,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return onScreenKeyboard;
 	}
 
+	@Override
 	public void updateKeyboardLanguage() {
 		onScreenKeyboard.checkLanguage();
 	}

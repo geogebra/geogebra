@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
@@ -205,8 +204,6 @@ public class RadioTreeItemController
 			return;
 		}
 
-		Log.debug("[xx] mouseDown");
-
 		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			app.getGuiManager().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_ALGEBRA);
@@ -240,7 +237,6 @@ public class RadioTreeItemController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		Log.debug("[xx] mouseUp");
 		SliderWJquery.stopSliders();
 		event.stopPropagation();
 		if (isEditing()) {
@@ -285,7 +281,6 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		event.stopPropagation();
-		Log.debug("[xx] touchEnd");
 		if (item.isInputTreeItem()) {
 			showKeyboard();
 			setFocusDeferred();
@@ -339,7 +334,6 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
-		Log.debug("[xx] touchMove");
 		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
 			markForEdit = false;
 		}
@@ -360,7 +354,6 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.stopPropagation();
-		Log.debug("[xx] touchStart");
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
 			getAV().resetItems(false);
@@ -581,7 +574,6 @@ public class RadioTreeItemController
 
 			longTouchManager.cancelTimer();
 			if (!shift && !ctrl) {
-				Log.debug("[AVTAP] single tap edit begins");
 				startEdit(false);
 			}
 			updateSelection(ctrl, shift);
