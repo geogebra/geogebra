@@ -956,7 +956,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		controller.setEditing(true);
-
+		insertHelpToggle();
 
 		if (!onEditStart()) {
 			return false;
@@ -1990,6 +1990,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 
+	@Override
 	public void setError(String error) {
 		this.errorMessage = error;
 
@@ -2000,6 +2001,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
+	@Override
 	public void setCommandError(String command) {
 		this.commandError = command;
 		if (marblePanel != null) {
