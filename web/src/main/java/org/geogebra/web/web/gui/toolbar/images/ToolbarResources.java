@@ -5,6 +5,8 @@ import com.google.gwt.resources.client.ResourcePrototype;
 @SuppressWarnings("javadoc")
 public interface ToolbarResources {
 	
+	ResourcePrototype mode_selection_32();
+
 	ResourcePrototype mode_angle_32();
 
 	
@@ -417,6 +419,7 @@ public interface ToolbarResources {
 	ResourcePrototype pen_panel_active_32();
 
 	ResourcePrototype mode_pen_white_32();
+
 		
 	// ResourcePrototype mode_highlighter_32();
 

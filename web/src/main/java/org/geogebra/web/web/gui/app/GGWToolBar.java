@@ -906,6 +906,9 @@ pr.menu_header_undo(), null, 32);
 
 		case EuclidianConstants.MODE_MOVE:
 			return myIconResourceBundle.mode_move_32();
+			
+		case EuclidianConstants.MODE_SELECT:
+			return myIconResourceBundle.mode_selection_32();
 
 		case EuclidianConstants.MODE_MOVE_ROTATE:
 			return myIconResourceBundle.mode_moverotate_32();
@@ -1010,6 +1013,7 @@ pr.menu_header_undo(), null, 32);
 			return myIconResourceBundle.mode_text_32();
 
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
+			
 			return myIconResourceBundle.mode_textfieldaction_32();
 
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -1035,6 +1039,8 @@ pr.menu_header_undo(), null, 32);
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
 			return myIconResourceBundle.mode_zoomout_32();
+			
+			
 			
 			
 			
