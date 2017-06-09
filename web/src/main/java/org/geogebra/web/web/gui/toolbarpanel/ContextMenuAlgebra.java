@@ -1,7 +1,10 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AlgebraSettings;
@@ -64,6 +67,36 @@ public class ContextMenuAlgebra implements SetLabels {
 
 	}
 
+	private class SortSubMenu extends SubMenu {
+		private ArrayList<SortMode> supportedModes = null;
+
+		public SortSubMenu() {
+		}
+
+		@Override
+		protected void initActions() {
+			if (supportedModes == null) {
+				supportedModes = new ArrayList<SortMode>();
+			}
+
+			supportedModes.clear();
+			supportedModes.add(SortMode.DEPENDENCY);
+			supportedModes.add(SortMode.TYPE);
+			supportedModes.add(SortMode.ORDER);
+			supportedModes.add(SortMode.LAYER);
+			for (int i = 0; i < supportedModes.size(); i++) {
+				final SortMode sortMode = supportedModes.get(i);
+				String sortTitle = loc.getMenu(sortMode.toString());
+				addItem(sortTitle, new Command() {
+
+					public void execute() {
+						app.getSettings().getAlgebra().setTreeMode(sortMode);
+
+					}
+				});
+			}
+		}
+	}
 	/**
 	 * Creates new context menu
 	 * 
@@ -81,6 +114,7 @@ public class ContextMenuAlgebra implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addDescriptionItem();
+		addSortItem();
 		addPropertiesItem();
 	}
 	
@@ -94,11 +128,20 @@ public class ContextMenuAlgebra implements SetLabels {
 
 	private void addDescriptionItem() {
 		
-		MenuItem mi = new MenuItem(loc.getMenu("Description"),
+		MenuItem mi = new MenuItem(loc.getPlain("AlgebraDescriptions"),
 				new DescriptionSubMenu());
 
 		wrappedPopup.addItem(mi);
 	}
+
+	private void addSortItem() {
+
+		MenuItem mi = new MenuItem(loc.getPlain("SortBy"),
+				new SortSubMenu());
+
+		wrappedPopup.addItem(mi);
+	}
+
 	private void addPropertiesItem() {
 		String img = MaterialDesignResources.INSTANCE.settings_black()
 				.getSafeUri()
