@@ -3,8 +3,7 @@
 This document describes the Node port of
 [Giac](http://www-fourier.ujf-grenoble.fr/~parisse/giac.html). It offers
 direct use of Giac in JavaScript programs including
-[Electron](https://electron.atom.io/) applications. (See the
-[giac-electron-example](https://github.com/kovzol/giac-electron-example)
+[Electron](https://electron.atom.io/) applications. (See the [giac-electron-example](https://github.com/kovzol/giac-electron-example)
 project for a minimal example with Electron.)
 
 ## Example usage ##
@@ -114,10 +113,6 @@ you need to copy the external .DLL files into this folder.)
 
 To play with Giac, modify the
 file **nodegiac.js** and run `npm test` again.
-
-## Roadmap ##
-* Windows 32 bit test
-* MPFR fix for Windows 64 bit Release mode
 
 ## Authors ##
 
