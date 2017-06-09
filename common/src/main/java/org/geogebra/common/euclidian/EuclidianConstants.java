@@ -851,7 +851,7 @@ public final class EuclidianConstants {
 			return "GeoGebra";
 			
 		case EuclidianConstants.MODE_SELECT:
-			return "Selection";
+			return "Select";
 
 		default:
 			Log.error("Unknown mode " + mode);
