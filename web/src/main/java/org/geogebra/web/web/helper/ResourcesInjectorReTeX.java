@@ -23,7 +23,13 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
 	}
 
+	/**
+	 * Runs JQ in noconflict mode; note that when running injectResourcesGUI
+	 * twice jQuery is undefined on the second run
+	 */
 	private native void jQueryNoConflict() /*-{
-		$wnd.$ggbQuery = $wnd.jQuery.noConflict(true);
+		if ($wnd.jQuery && $wnd.jQuery.noConflict) {
+			$wnd.$ggbQuery = $wnd.jQuery.noConflict(true);
+		}
 	}-*/;
 }
