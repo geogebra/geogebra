@@ -325,7 +325,8 @@ public class ToolbarPanel extends FlowPanel {
 			}
 			
 
-			showKeyboardButtonDeferred(isOpen());
+			showKeyboardButtonDeferred(
+					isOpen() && getSelectedTab() != TabIds.TOOLS);
 
 		}
 
