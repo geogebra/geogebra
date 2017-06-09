@@ -3,12 +3,14 @@ package org.geogebra.web.html5.js;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
 /**
@@ -131,5 +133,26 @@ public class ResourcesInjector {
 			scripts.getItem(i).removeFromParent();
 		}
 	}
+
+	/**
+	 * @param handler
+	 *            if script loaded, calls the callback that implements interface
+	 *            ScriptLoadHandler
+	 */
+	public static native void addLoadHandler(ScriptElement el,
+			ScriptLoadCallback handler) /*-{
+		el
+				.addEventListener(
+						"load",
+						function() {
+							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onLoad()();
+						}, false);
+		el
+				.addEventListener(
+						"error",
+						function() {
+							handler.@org.geogebra.web.html5.util.ScriptLoadCallback::onError()();
+						}, false);
+	}-*/;
 
 }

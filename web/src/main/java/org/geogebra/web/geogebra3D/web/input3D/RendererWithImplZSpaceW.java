@@ -3,13 +3,14 @@ package org.geogebra.web.geogebra3D.web.input3D;
 import org.geogebra.common.main.App;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
-import org.geogebra.web.html5.util.DynamicScriptElement;
+import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 
@@ -25,9 +26,8 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	public RendererWithImplZSpaceW(final EuclidianViewInput3DW view) {
 		super(view);
 
-		DynamicScriptElement script = (DynamicScriptElement) Document.get()
-				.createScriptElement();
-		script.setSrc(GWT.getModuleBaseURL() + "js/gl-matrix-min.js");
+		ScriptElement matrixScript = Document.get().createScriptElement();
+		matrixScript.setSrc(GWT.getModuleBaseURL() + "js/gl-matrix-min.js");
 		ScriptLoadCallback scriptCallback = new ScriptLoadCallback() {
 			private boolean canceled = false;
 			@Override
@@ -35,9 +35,8 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 				if (canceled) {
 					return;
 				}
-				DynamicScriptElement script = (DynamicScriptElement) Document.get()
-						.createScriptElement();
-				script.setSrc(GWT.getModuleBaseURL() + "js/zSpace.js");
+				ScriptElement zSpaceScript = Document.get().createScriptElement();
+				zSpaceScript.setSrc(GWT.getModuleBaseURL() + "js/zSpace.js");
 				ScriptLoadCallback scriptCallback = new ScriptLoadCallback() {
 					private boolean canceled = false;
 					@Override
@@ -63,8 +62,8 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 					}
 
 				};
-				script.addLoadHandler(scriptCallback);
-				Document.get().getBody().appendChild(script);
+				ResourcesInjector.addLoadHandler(zSpaceScript, scriptCallback);
+				Document.get().getBody().appendChild(zSpaceScript);
 			}
 
 			@Override
@@ -80,8 +79,8 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			}
 
 		};
-		script.addLoadHandler(scriptCallback);
-		Document.get().getBody().appendChild(script);
+		ResourcesInjector.addLoadHandler(matrixScript, scriptCallback);
+		Document.get().getBody().appendChild(matrixScript);
 
 	}
 

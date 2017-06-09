@@ -107,6 +107,7 @@ import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.io.ConstructionException;
 import org.geogebra.web.html5.io.MyXMLioW;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
+import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.kernel.GeoElementGraphicsAdapterW;
 import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
@@ -114,7 +115,6 @@ import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
@@ -134,6 +134,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
@@ -494,7 +495,7 @@ public abstract class AppW extends App implements SetLabels {
 			doSetLanguage(lang);
 		} else {
 			// load keys (into a JavaScript <script> tag)
-			DynamicScriptElement script = (DynamicScriptElement) Document.get()
+			ScriptElement script = Document.get()
 			        .createScriptElement();
 			script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
 			        + ".js");
@@ -533,7 +534,7 @@ public abstract class AppW extends App implements SetLabels {
 				}
 
 			};
-			script.addLoadHandler(scriptCallback);
+			ResourcesInjector.addLoadHandler(script, scriptCallback);
 			Document.get().getBody().appendChild(script);
 
 		}

@@ -10,7 +10,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
-import org.geogebra.web.html5.util.DynamicScriptElement;
 import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.move.googledrive.events.GoogleDriveLoadedEvent;
@@ -23,6 +22,7 @@ import org.geogebra.web.web.util.SaveCallback.SaveState;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.user.client.Window.Location;
 
 /**
@@ -97,8 +97,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	private static void fetchScript() {
-		DynamicScriptElement script = (DynamicScriptElement) Document.get()
-		        .createScriptElement();
+		ScriptElement script = Document.get().createScriptElement();
 		script.setSrc(GoogleApiJavaScriptSrc);
 		Document.get().getBody().appendChild(script);
 	}
