@@ -770,11 +770,11 @@ public class AlgebraProcessor {
 			while (it.hasNext()) {
 				String label = it.next();
 				if (kernel.lookupLabel(label) == null) {
-					Log.debug("not found" + label);
+					// Log.debug("not found: " + label);
 					sb.append(label);
 					sb.append(", ");
 				} else {
-					Log.debug("found" + label);
+					// Log.debug("found: " + label);
 				}
 			}
 
