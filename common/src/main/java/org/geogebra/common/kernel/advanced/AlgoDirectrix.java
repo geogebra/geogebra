@@ -94,6 +94,12 @@ public class AlgoDirectrix extends AlgoElement {
 	// calc axes
 	@Override
 	public final void compute() {
+
+		if (!c.isDefined()) {
+			directrix.setUndefined();
+			directrix2.setUndefined();
+			return;
+		}
 		// only parabola has directrix
 		if (c.type == GeoConicNDConstants.CONIC_PARABOLA) {
 			// directrix has direction of second eigenvector
