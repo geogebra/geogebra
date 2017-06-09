@@ -491,10 +491,7 @@ public class ToolbarPanel extends FlowPanel {
 
 		@Override
 		public void onResize() {
-			int tabHeight = ToolbarPanel.this.getOffsetHeight()
-					- header.getOffsetHeight();
-			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
-					tabHeight);
+			setWidth(ToolbarPanel.this.getOffsetWidth() + "px");
 
 			if (aview != null) {
 				aview.resize();
@@ -787,6 +784,7 @@ public class ToolbarPanel extends FlowPanel {
 			open();
 		}
 		main.clear();
+		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
 		main.add(tab);
 		resize();
 	}

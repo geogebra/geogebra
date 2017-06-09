@@ -125,27 +125,27 @@
 
 	.matDesign  {
 	
-	.AlgebraViewObjectStylebar.smallStylebar {
-		padding: 8px 2px 0px 0px;
-		box-shadow: none;
+		.AlgebraViewObjectStylebar.smallStylebar {
+			padding: 8px 2px 0px 0px;
+			box-shadow: none;
+			
+			.gwt-ToggleButton.XButton.shown.gwt-ToggleButton-up-hovering {
+				opacity: 1;
+			}
+			
+			.XButton{			
+				opacity: 0.54;
+			}
 		
-		.gwt-ToggleButton.XButton.shown.gwt-ToggleButton-up-hovering {
-			opacity: 1;
 		}
-		
-		.XButton{			
-			opacity: 0.54;
-		}
-		
-	}
 	
-	.textOverMarble {
-		height: 20px;
-   		width: 20px;
-		position: absolute;
-    	margin-left: -1px !important;
-    	opacity: 0.54;
-	}	
+		.textOverMarble {
+			height: 20px;
+   			width: 20px;
+			position: absolute;
+    		margin-left: -1px !important;
+    		opacity: 0.54;
+		}	
 	
 		.marblePanel.error, 
 		.marblePanel.help,
@@ -155,7 +155,7 @@
 			padding-top: 0px;
 			padding-bottom: 0px;
 			padding-left: 18px;
-    		padding-right: 18px;
+			padding-right: 18px;
 			/*width: 48px;*/
 		}
 	
@@ -247,10 +247,10 @@
 		}
 		
 		.playOnly {
-				position: absolute;
-				top: 42px;
-	    		right: 3px;
-			}
+			position: absolute;
+			top: 42px;
+			right: 3px;
+		}
 		
 		.NewRadioButtonTreeItemParent .scrollableTextBox,
 		.NewRadioButtonTreeItemParent .inputBorder
@@ -264,6 +264,6 @@
 		.gwt-Tree .gwt-TreeItem .elem {
 			min-height: 48px;
 			position: relative;
-		}
+		}		
 	}
 }
