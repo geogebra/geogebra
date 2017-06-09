@@ -64,6 +64,14 @@
         ],
         ['OS=="win"',
           {
+            'conditions': [
+              ['target_arch=="x64"', {
+                'defines+': [
+                  'x86_64'
+                  ]
+                }
+              ]
+            ],
             'defines+': [
               '__VISUALC__',
               'HAVE_NO_SYS_TIMES_H',
@@ -72,7 +80,7 @@
               'HAVE_NO_CWD',
               'MS_SMART',
               'NO_STDEXCEPT',
-              'x86_64'
+              'NO_RTTI' # node-gyp implicitly adds /GR-, so we don't have RTTI by default
             ],
             'link_settings': {
               'libraries': [
