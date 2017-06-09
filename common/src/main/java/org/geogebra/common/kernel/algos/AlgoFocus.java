@@ -106,6 +106,13 @@ public class AlgoFocus extends AlgoElement {
 
 	@Override
 	public final void compute() {
+
+		if (!c.isDefined()) {
+			focus[0].setUndefined();
+			focus[1].setUndefined();
+			return;
+		}
+
 		switch (c.type) {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			setCoords(0, b.getX(), b.getY());
