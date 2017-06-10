@@ -1264,15 +1264,10 @@ public abstract class AlgoElement extends ConstructionElement
 		String cmd = geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
 			String vectorCommand = "Vector[";
-			if (tpl.isPrintLocalizedCommandNames())
-			 {
-				vectorCommand = getLoc().getCommand("Vector") + "["; // want it
+			if (tpl.isPrintLocalizedCommandNames()) {
+				// want it translated eg for redefine dialog
+				vectorCommand = getLoc().getCommand("Vector") + "[";
 			}
-																		// translated
-																		// eg
-																		// for
-																		// redefine
-																		// dialog
 			boolean needsWrapping = !geo.isLabelSet()
 					&& !cmd.startsWith(vectorCommand);
 

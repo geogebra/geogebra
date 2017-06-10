@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -34,6 +33,18 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
 
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            focus
+	 * @param B
+	 *            focus
+	 * @param a
+	 *            major halfaxis
+	 */
 	public AlgoEllipseFociLength(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoNumberValue a) {
 		super(cons, label, A, B, a);
@@ -67,19 +78,4 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 	public GeoElementND getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-
-		return getLoc().getPlain(
-				conic.isHyperbola() ? "HyperbolaWithFociABandFirstAxisLengthC"
-						: "EllipseWithFociABandFirstAxisLengthC",
-				A.getLabel(tpl), B.getLabel(tpl),
-				a.toGeoElement().getLabel(tpl));
-	}
-
-
-
-
-
 }

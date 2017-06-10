@@ -39,11 +39,27 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 
-	protected GeoPointND A, B, C; // input
+	private GeoPointND A, B, C; // input
 	protected GeoConicND conic; // output
 
 	final protected int type; // ellipse or hyperbola
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            focus
+	 * @param B
+	 *            focus
+	 * @param C
+	 *            point on conic
+	 * @param orientation
+	 *            orientation of the plane ofthe conic
+	 * @param type
+	 *            conic type
+	 */
 	public AlgoEllipseHyperbolaFociPointND(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C,
 			GeoDirectionND orientation, final int type) {
@@ -51,6 +67,20 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 		conic.setLabel(label);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            focus
+	 * @param B
+	 *            focus
+	 * @param C
+	 *            point on conic
+	 * @param type
+	 *            conic type
+	 * @param orientation
+	 *            orientation of the plane ofthe conic
+	 */
 	public AlgoEllipseHyperbolaFociPointND(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation,
 			final int type) {
@@ -90,11 +120,11 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
 	 *            construction
 	 * @return new conic
 	 */
-	abstract protected GeoConicND newGeoConic(Construction cons);
+	abstract protected GeoConicND newGeoConic(Construction cons1);
 
 	/**
 	 * @author Tam
@@ -146,6 +176,9 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting conic
+	 */
 	public GeoConicND getConic() {
 		return conic;
 	}
@@ -158,6 +191,11 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
 	public GeoPointND getFocus2() {
 		// Public for LocusEqu
 		return B;
+	}
+
+	public GeoPointND getConicPoint() {
+		// Public for LocusEqu
+		return C;
 	}
 
 	/**

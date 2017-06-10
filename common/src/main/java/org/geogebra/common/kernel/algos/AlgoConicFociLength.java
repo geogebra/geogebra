@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -88,5 +89,16 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 			botanaParams = new BotanaEllipseHyperbolaLength();
 		}
 		return botanaParams.getBotanaPolynomials(getFocus1(), getFocus2(), a);
+	}
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+
+		return getLoc().getPlain(
+				conic.isEllipse() || conic.isCircle()
+						? "EllipseWithFociABandFirstAxisLengthC"
+						: "HyperbolaWithFociABandFirstAxisLengthC",
+				A.getLabel(tpl), B.getLabel(tpl),
+				a.toGeoElement().getLabel(tpl));
 	}
 }

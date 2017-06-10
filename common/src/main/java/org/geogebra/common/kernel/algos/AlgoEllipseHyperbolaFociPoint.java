@@ -44,11 +44,37 @@ public class AlgoEllipseHyperbolaFociPoint
 	private PPolynomial[] botanaPolynomials;
 	private PVariable[] botanaVars;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param A
+	 *            focus
+	 * @param B
+	 *            focus
+	 * @param C
+	 *            point on conic
+	 * @param type
+	 *            conic type
+	 */
 	public AlgoEllipseHyperbolaFociPoint(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C, final int type) {
 		super(cons, label, A, B, C, null, type);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            focus
+	 * @param B
+	 *            focus
+	 * @param C
+	 *            point on conic
+	 * @param type
+	 *            conic type
+	 */
 	public AlgoEllipseHyperbolaFociPoint(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, final int type) {
 
@@ -57,23 +83,23 @@ public class AlgoEllipseHyperbolaFociPoint
 	}
 
 	@Override
-	protected GeoConicND newGeoConic(Construction cons) {
-		return new GeoConic(cons);
+	protected GeoConicND newGeoConic(Construction cons1) {
+		return new GeoConic(cons1);
 	}
 
 	@Override
 	protected GeoPoint getA2d() {
-		return (GeoPoint) A;
+		return (GeoPoint) getFocus1();
 	}
 
 	@Override
 	protected GeoPoint getB2d() {
-		return (GeoPoint) B;
+		return (GeoPoint) getFocus2();
 	}
 
 	@Override
 	protected GeoPoint getC2d() {
-		return (GeoPoint) C;
+		return (GeoPoint) getConicPoint();
 	}
 
 	// ///////////////////////////////
