@@ -120,11 +120,11 @@ public class LayoutW extends Layout implements SettingListener {
 		for (DockPanelData dp : perspective.getDockPanelData()) {
 			
 			if(app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
-				if (dp.isVisible()) {
-//						&& (dp.getViewId() == App.VIEW_ALGEBRA
-//								|| dp.getViewId() == App.VIEW_CAS || 
-//								dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
-//												|| dp.getViewId() == App.VIEW_SPREADSHEET)) {
+				if (dp.isVisible()
+						&& (dp.getViewId() == App.VIEW_ALGEBRA
+								|| dp.getViewId() == App.VIEW_CAS || 
+								dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
+												|| dp.getViewId() == App.VIEW_SPREADSHEET)) {
 					app.setKeyboardNeeded(true);
 				}
 			} else if (dp.isVisible() && (dp.getViewId() == App.VIEW_ALGEBRA
@@ -142,15 +142,18 @@ public class LayoutW extends Layout implements SettingListener {
 
 
 		app.setMacroViewIds(toolbar3D);
-
+		boolean linearInput = app.showAlgebraInput()
+				&& app.getInputPosition() != InputPosition.algebraView;
+		if (linearInput) {
+			app.setKeyboardNeeded(true);
+		}
 		if (!app.isIniting()) {
 			app.updateToolBar();
 			app.updateMenubar();
 			app.updateContentPane();
 			app.getGuiManager().refreshCustomToolsInToolBar();
 			app.updateToolBar();
-		} else if (app.showAlgebraInput()
-		        && app.getInputPosition() != InputPosition.algebraView) {
+		} else if (linearInput) {
 			app.updateContentPane();
 		}
 
