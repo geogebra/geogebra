@@ -1556,7 +1556,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (algebraView == null) {
 			return false;
 		}
-		if (!algebraView.isShowing()) {
+		// get from model, not DOM because it may be hidden by tool panel
+		if (!showView(App.VIEW_ALGEBRA)) {
 			return false;
 		}
 		return true;
