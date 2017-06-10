@@ -7,6 +7,8 @@ console.log(giac.evaluate("[1]"));
 console.log(giac.evaluate("caseval(\"init geogebra\")"));
 console.log(giac.evaluate("[1]"));
 console.log(giac.evaluate("evalf(7,15)"));
+console.log(giac.evaluate("caseval(\"close geogebra\")"));
+console.log(giac.evaluate("normal(sqrt(1+i))"));
 
 /* The expected output is:
  *
@@ -17,5 +19,7 @@ console.log(giac.evaluate("evalf(7,15)"));
  * "geogebra mode on"
  * {1}
  * 7.00000000000000
+ * "geogebra mode off"
+ * (sqrt(2)*sqrt(sqrt(2)+1)+(1+i)*sqrt(sqrt(2)+1))/(sqrt(2)+2)
  *
  */

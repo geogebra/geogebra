@@ -78,8 +78,7 @@
               'HAVE_NO_PWD_H',
               'HAVE_NO_SYS_RESOURCE_WAIT_H',
               'HAVE_NO_CWD',
-              'MS_SMART',
-              'NO_STDEXCEPT'
+              'MS_SMART'
             ],
             'link_settings': {
               'libraries': [
