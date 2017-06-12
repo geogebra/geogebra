@@ -52,7 +52,11 @@ public class ToolbarPanel extends FlowPanel {
 	 * Tab ids.
 	 */
 	enum TabIds {
-		ALGEBRA, TOOLS
+		/** tab one */
+		ALGEBRA,
+
+		/** tab two */
+		TOOLS
 	}
 
 	/** Header of the panel with buttons and tabs */

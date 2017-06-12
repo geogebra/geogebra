@@ -7,11 +7,17 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.dialog.ToolCreationDialogW;
+import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
+import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Algebra tab 3-dot menu.
@@ -20,9 +26,11 @@ import com.google.gwt.user.client.Command;
  *
  */
 public class ContextMenuTools implements SetLabels {
-	protected GPopupMenuW wrappedPopup;
-	protected Localization loc;
+	private GPopupMenuW wrappedPopup;
+	private Localization loc;
 	private List<GCheckmarkMenuItem> checkmarkItems;
+
+	/** The application */
 	AppW app;
 
 	private enum ToolType {
@@ -50,6 +58,7 @@ public class ContextMenuTools implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addToolItems();
+		addToolManageItems();
 		setToolType(ToolType.STANDARD);
 	}
 
@@ -82,7 +91,7 @@ public class ContextMenuTools implements SetLabels {
 	private void updateToolItems() {
 		for (int i = 0; i < checkmarkItems.size(); i++) {
 			GCheckmarkMenuItem cm = checkmarkItems.get(i);
-			cm.setSelected(ToolType.values()[i] == getToolType());
+			cm.setChecked(ToolType.values()[i] == getToolType());
 		}
 	}
 	/**
@@ -98,17 +107,79 @@ public class ContextMenuTools implements SetLabels {
 	public void addCheckmarkItem(String text, boolean selected,
 			Command command) {
 		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text, checkmarkUrl,
-				selected, command, app);
+				selected, command);
 		wrappedPopup.addItem(cm.getMenuItem());
 		checkmarkItems.add(cm);
 
 	}
 
+	private void addItem(String text, ScheduledCommand cmd) {
+		MenuItem mi = new MenuItem(text, true, cmd);
+		wrappedPopup.addItem(mi);
+	}
+	private void addToolManageItems() {
+		if (!app.isExam()) {
+			addItem(MainMenu.getMenuBarHtml(
+					GuiResources.INSTANCE.menu_icon_tools_customize()
+							.getSafeUri().asString(),
+					loc.getMenu("Toolbar.Customize"), true),
+					new Command() {
+
+						@Override
+						public void execute() {
+							app.showCustomizeToolbarGUI();
+						}
+					});
+		}
+
+		addItem(MainMenu.getMenuBarHtml(
+				GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri()
+						.asString(),
+				loc.getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
+						: "Tool.CreateNew"),
+				true), new Command() {
+
+					@Override
+					public void execute() {
+						ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(
+								app);
+						toolCreationDialog.center();
+					}
+				});
+
+		addItem(MainMenu.getMenuBarHtml(
+				GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(),
+				loc.getMenu("Tool.Manage"), true), new Command() {
+
+					@Override
+					public void execute() {
+						ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(
+								app);
+						toolManageDialog.center();
+					}
+				});
+
+	}
+
+	/**
+	 * Show Tools Context menu
+	 * 
+	 * @param p
+	 *            point to show the menu.
+	 */
 	public void show(GPoint p) {
 
 		wrappedPopup.show(p);
 	}
 
+	/**
+	 * Show Tools Context menu
+	 * 
+	 * @param x
+	 *            x coordinate to show the menu.
+	 * @param y
+	 *            y coordinate to show the menu.
+	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
 	}
@@ -118,10 +189,19 @@ public class ContextMenuTools implements SetLabels {
 		buildGUI();
 	}
 
+	/**
+	 * 
+	 * @return Tool type selected.
+	 */
 	public ToolType getToolType() {
 		return toolType;
 	}
 
+	/**
+	 * 
+	 * @param toolType
+	 *            to set.
+	 */
 	public void setToolType(ToolType toolType) {
 		this.toolType = toolType;
 		updateToolItems();

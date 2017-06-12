@@ -26,8 +26,12 @@ import com.google.gwt.user.client.ui.MenuItem;
  *
  */
 public class ContextMenuAlgebra implements SetLabels {
-	protected GPopupMenuW wrappedPopup;
-	protected Localization loc;
+	private GPopupMenuW wrappedPopup;
+
+	/** Localization */
+	Localization loc;
+
+	/** Application */
 	AppW app;
 	private DescriptionSubMenu subDescription;
 	private SortSubMenu subSort;
@@ -58,7 +62,7 @@ public class ContextMenuAlgebra implements SetLabels {
 		 */
 		public void addItem(String text, boolean selected, Command command) {
 			GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text, checkmarkUrl,
-					selected, command, app);
+					selected, command);
 			addItem(cm.getMenuItem());
 			items.add(cm);
 
@@ -108,7 +112,7 @@ public class ContextMenuAlgebra implements SetLabels {
 			int selectedMode = app.getKernel().getAlgebraStyle();
 			for (int i = 0; i < itemCount(); i++) {
 				GCheckmarkMenuItem item = itemAt(i);
-				item.setSelected(
+				item.setChecked(
 						selectedMode == AlgebraSettings.getStyleModeAt(i));
 			}
 		}
@@ -167,7 +171,7 @@ public class ContextMenuAlgebra implements SetLabels {
 					.getTreeMode();
 			for (int i = 0; i < itemCount(); i++) {
 				GCheckmarkMenuItem item = itemAt(i);
-				item.setSelected(selectedMode == sortModeAt(i));
+				item.setChecked(selectedMode == sortModeAt(i));
 			}
 		}
 	}
@@ -192,11 +196,25 @@ public class ContextMenuAlgebra implements SetLabels {
 		addPropertiesItem();
 	}
 	
+	/**
+	 * Shows Algebra Context menu
+	 * 
+	 * @param p
+	 *            point to show the menu.
+	 */
 	public void show(GPoint p) {
 
 		wrappedPopup.show(p);
 	}
 
+	/**
+	 * Shows Algebra Context menu
+	 * 
+	 * @param x
+	 *            x coordinate to show the menu.
+	 * @param y
+	 *            y coordinate to show the menu.
+	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
 	}
