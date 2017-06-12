@@ -118,7 +118,7 @@ public class ToolbarPanel extends FlowPanel {
 		private void createCenter() {
 			btnAlgebra = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_algebra()));
-			btnAlgebra.addStyleName("flatButton");
+			btnAlgebra.addStyleName("tabButton");
 
 			ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -132,7 +132,7 @@ public class ToolbarPanel extends FlowPanel {
 
 			btnTools = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_tools()));
-			btnTools.addStyleName("flatButton");
+			btnTools.addStyleName("tabButton");
 			ClickStartHandler.init(btnTools,
 					new ClickStartHandler(false, true) {
 

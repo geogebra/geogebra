@@ -32,7 +32,9 @@
 	}
 	
 	.menu:hover {
-			background-color: $white-30;
+		img {
+			opacity: 1.0;
+		}
 	}
 	
 	.flatButton {
@@ -41,8 +43,30 @@
 		width: 24px;
 		height: 24px;
 		cursor: pointer;
+		
+		img {
+			opacity: 0.85;
+		}
 	}
-	
+
+	.tabButton {
+		margin: 6px;
+		padding: 6px;
+		width: 24px;
+		height: 24px;
+		cursor: pointer;
+		img {
+			opacity: 0.85;
+		}
+	}
+
+	.tabButton:hover {
+		
+		img {
+			opacity: 1.0 !important;	
+		}
+	}
+
 	.undoRedoPanel {
 		padding-top: 4px;
 		position: absolute;

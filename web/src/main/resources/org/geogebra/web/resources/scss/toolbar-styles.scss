@@ -16,10 +16,16 @@
 	.header {
 			background-color: $toolbar-header;
 			
-			.selected,
+			.selected { 
+				border-bottom: solid 2px $white;
+			}
+		
 			.flatButton:hover {
 				cursor: hand;
-				background-color: $white-30;
+		
+				img { 
+					opacity: 1;
+				}
 			}
 			
 			.contents {
@@ -43,6 +49,7 @@
 				.gwt-Image {
 					width: 24px;
 					height: 24px;
+					opacity: 0.85;
 				}
 				
 			}
@@ -56,8 +63,14 @@
 				
 				.contextMenu {
 					img {
-						opacity: 1;
+						opacity: 0.85;
 					}	
+				}	
+			
+				.contextMenu:hover {
+					img {
+						opacity: 1;	
+					}
 				}			
 			}
 			
@@ -141,6 +154,10 @@
 				display: table-cell;
 				vertical-align: middle;
 			}
+		
+			.selected { 
+				border-bottom: none;
+			}
  
 		}
 
@@ -162,6 +179,10 @@
 		.center {
 			left: -40px;
 		}	
+	
+		.selected { 
+				border-bottom: none;
+			}
 	}	
 	
 	.toolsPanel {
