@@ -34,6 +34,7 @@ import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
@@ -701,7 +702,8 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			highPoint.setEuclidianVisible(false);
 			fldLow.setVisible(true);
 			fldHigh.setVisible(false);
-			lblBetween.setText(loc.getMenu("LessThanOrEqualToX"));
+			lblBetween
+					.setText(SpreadsheetViewInterface.LESS_THAN_OR_EQUAL_TO_X);
 
 			if (oldProbMode == PROB_LEFT) {
 				setLow(getHigh());

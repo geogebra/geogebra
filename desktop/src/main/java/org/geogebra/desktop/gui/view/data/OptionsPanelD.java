@@ -31,6 +31,7 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.gui.view.data.StatPanelSettings;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.Feature;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -568,8 +569,8 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		ckShowHistogram.setText(loc.getMenu("Histogram"));
 
 		lblClassRule.setText(loc.getMenu("ClassRule") + ":");
-		rbRightRule.setText(loc.getMenu("RightClassRule"));
-		rbLeftRule.setText(loc.getMenu("LeftClassRule"));
+		rbRightRule.setText(SpreadsheetViewInterface.RIGHT_CLASS_RULE);
+		rbLeftRule.setText(SpreadsheetViewInterface.LEFT_CLASS_RULE);
 
 		// bar chart
 		lblBarWidth.setText(loc.getMenu("Width"));
