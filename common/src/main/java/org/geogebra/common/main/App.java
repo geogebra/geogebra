@@ -4400,6 +4400,23 @@ public abstract class App implements UpdateSelection {
 						.getDrawableFor(geo);
 				((DrawDropDownList) d).toggleOptions();
 
+			} else if (geo.isGeoNumeric()) {
+
+				// <Space> -> toggle slider animation off/on
+				GeoNumeric num = (GeoNumeric) geo;
+				if (num.isSlider() && num.isAnimatable()) {
+					num.setAnimating(!num.isAnimating());
+
+					storeUndoInfo();
+					// update play/pause icon at bottom left
+					getActiveEuclidianView().repaint();
+
+					if (num.isAnimating()) {
+						num.getKernel().getAnimatonManager().startAnimation();
+					}
+
+				}
+
 			} else {
 
 				geo.runClickScripts(null);
