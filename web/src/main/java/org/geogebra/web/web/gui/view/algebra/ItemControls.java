@@ -281,9 +281,6 @@ public class ItemControls extends FlowPanel {
 			super.setVisible(true);
 			return;
 		}
-			if (!radioTreeItem.app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			return;
-		}
 
 		boolean b = value || getController().isEditing();
 

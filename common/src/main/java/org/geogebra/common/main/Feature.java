@@ -31,9 +31,6 @@ public enum Feature {
 
 	TOOLBAR_ON_SMALL_SCREENS,
 
-	/** GGB-790 */
-	AV_INPUT_BUTTON_COVER,
-
 	ACRA,
 
 	ANALYTICS,

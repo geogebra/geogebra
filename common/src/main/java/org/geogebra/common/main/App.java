@@ -4106,10 +4106,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_AV_EDITOR:
 			return prerelease;
 
-		// GGB-790
-		case AV_INPUT_BUTTON_COVER:
-			return true;
-
 		// MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;

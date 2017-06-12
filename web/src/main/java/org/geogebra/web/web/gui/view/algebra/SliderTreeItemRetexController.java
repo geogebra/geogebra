@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -171,7 +170,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 	@Override
 	public void onValueChange(ValueChangeEvent<Double> event) {
 		slider.expandSize(slider.getWidthForEdit());
-		if (getApp().has(Feature.AV_SINGLE_TAP_EDIT) && isEditing()) {
+		if (isEditing()) {
 			stopEdit();
 		}
 

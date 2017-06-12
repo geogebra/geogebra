@@ -421,11 +421,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& app.getInputPosition() == InputPosition.algebraView) {
 			AlgebraDockPanelW dp = (AlgebraDockPanelW) (app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
-			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
+
 			dp.scrollToActiveItem();
-			} else {
-				dp.scrollToBottom();
-			}
 		}
 	}
 
@@ -437,9 +434,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& app.getInputPosition() == InputPosition.algebraView) {
 			ToolbarDockPanelW dp = (ToolbarDockPanelW) (app.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
-			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-				dp.getToolbar().scrollToActiveItem();
-			}
+
+			dp.getToolbar().scrollToActiveItem();
+
 		}
 	}
 	@Override

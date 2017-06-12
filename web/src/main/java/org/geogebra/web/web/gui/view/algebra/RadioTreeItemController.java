@@ -142,22 +142,7 @@ public class RadioTreeItemController
 	public void onDoubleClick(DoubleClickEvent evt) {
 		evt.stopPropagation();
 
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			return;
-		}
-
-		if (isMarbleHit(evt)) {
-			return;
-		}
-
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
-		if (checkEditing()) {
-			return;
-		}
-
-		startEdit(evt.isControlKeyDown());
+		// single click starts edit => nothing to do
 	}
 
 	private boolean checkEditing() {
@@ -243,7 +228,7 @@ public class RadioTreeItemController
 			return;
 		}
 
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && canEditStart(event)) {
+		if (canEditStart(event)) {
 			editOnTap(isEditing(), event);
 			// MOW-85 move to the very left
 			item.adjustCaret(event.getClientX(), event.getClientY());
@@ -269,7 +254,7 @@ public class RadioTreeItemController
 			return;
 		}
 
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && Browser.isTabletBrowser()) {
+		if (Browser.isTabletBrowser()) {
 			// scroll cancels edit request.
 			markForEdit = false;
 		}
@@ -334,9 +319,8 @@ public class RadioTreeItemController
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			markForEdit = false;
-		}
+
+		markForEdit = false;
 
 		if (item.isInputTreeItem() || item.isSliderItem()) {
 			event.preventDefault();
@@ -513,11 +497,6 @@ public class RadioTreeItemController
 			setEditHeigth(item.getOffsetHeight());
 			getAV().startEditItem(geo);
 
-			if (app.has(Feature.AV_INPUT_BUTTON_COVER)
-					&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-				item.hideControls();
-			}
-
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
 				public void execute() {
@@ -552,7 +531,7 @@ public class RadioTreeItemController
 	}
 
 	protected boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
-		if (!(app.has(Feature.AV_SINGLE_TAP_EDIT) && markForEdit)) {
+		if (!markForEdit) {
 			return false;
 		}
 
@@ -592,25 +571,20 @@ public class RadioTreeItemController
 	}
 
 	private boolean markForEdit() {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			if (markForEdit) {
 
-				return true;
-			}
-			markForEdit = true;
+		if (markForEdit) {
+
 			return true;
 		}
-
-		return false;
+		markForEdit = true;
+		return true;
 
 	}
 
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			getAV().resetItems(false);
-		}
+		getAV().resetItems(false);
 		
 		if (app.has(Feature.AV_CONTEXT_MENU)) {
 			onRightClick(x, y);
@@ -690,11 +664,6 @@ public class RadioTreeItemController
 	 *            wheher rght click was used
 	 */
 	protected boolean handleAVItem(int x, int y, boolean rightClick) {
-
-		if (!selectionCtrl.isSelectHandled()
-				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			item.selectItem(true);
-		}
 
 		return false;
 

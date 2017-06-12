@@ -1688,13 +1688,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		stopCurrentEditor();
 
-		if ((this.activeItem != null)
-				&& (!this.activeItem.commonEditingCheck())
-				&& !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			// removeCloseButton() on this would cause infinite recursion
-			activeItem.removeCloseButton();
-		}
-
 		if (activeItem != null 
 				&& !selectionCtrl.isMultiSelect()) {
 			selectRow(activeItem.getGeo(), false);
@@ -1710,13 +1703,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
-			if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-				getActiveTreeItem().onEnter(false);
-			} else if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-				getActiveTreeItem().stopEditing(null, null);
-			} else {
-				getActiveTreeItem().onEnter(false);
-			}
+
+			getActiveTreeItem().onEnter(false);
+
 		}
 
 	}
@@ -2037,19 +2026,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * Update items for new window size / pixel ratio
 	 */
 	public void resize() {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			// setOriginalWidth(null);
+		int resizedWidth = getOffsetWidth();
+
+		setWidths(resizedWidth);
+
+		if (activeItem != null) {
+			activeItem.updateButtonPanelPosition();
 		}
-		
-
-
-			int resizedWidth = getOffsetWidth();
-
-			setWidths(resizedWidth);
-
-			if (activeItem != null) {
-				activeItem.updateButtonPanelPosition();
-			}
 
 	}
 
@@ -2189,15 +2172,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void resetItems(boolean unselectAll) {
 		MinMaxPanel.closeMinMaxPanel();
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			cancelEditItem();
-			stopCurrentEditor();
-			restoreWidth(false);
 
-			return;
-		}
+		cancelEditItem();
+		stopCurrentEditor();
+		restoreWidth(false);
 
-		updateSelection();
 
 	}
 
@@ -2301,11 +2280,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            The width to expand.
 	 */
 	public void expandWidth(int width) {
-		if (!app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			return;
-		}
-
-
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			return;
 		}

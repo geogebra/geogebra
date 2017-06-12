@@ -780,12 +780,11 @@ public class RadioTreeItem extends AVTreeItem
 	 * @return whether it was successful
 	 */
 	public boolean enterEditMode(boolean substituteNumbers) {
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			content.addStyleName("scrollableTextBox");
-			if (isInputTreeItem()) {
-				setItemWidth(getAV().getOffsetWidth());
-			}
+		content.addStyleName("scrollableTextBox");
+		if (isInputTreeItem()) {
+			setItemWidth(getAV().getOffsetWidth());
 		}
+
 
 		if (controller.isEditing()) {
 			return true;
@@ -832,12 +831,8 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void styleEditor() {
-		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			return;
-		}
-		if (isInputTreeItem()) {
-			// setItemWidth(getAV().getMaxItemWidth());
-		} else {
+
+		if (!isInputTreeItem()) {
 			content.removeStyleName("scrollableTextBox");
 		}
 
@@ -872,14 +867,8 @@ public class RadioTreeItem extends AVTreeItem
 		av.cancelEditItem();
 		getAV().setLaTeXLoaded();
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (btnClearInput != null && !app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-				content.remove(btnClearInput);
-				btnClearInput = null;
-			}
-			if (controls != null) {
-				controls.setVisible(true);
-			}
+		if (controls != null) {
+			controls.setVisible(true);
 		}
 
 		if (newValue0 != null) {
@@ -1173,27 +1162,19 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected int getWidthForEdit() {
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()
-					&& definitionPanel != null
-					&& definitionPanel.getWidget(0) != null) {
-				return marblePanel.getOffsetWidth()
-						+ definitionPanel.getWidget(0).getOffsetWidth()
-						+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
-						+ MARGIN_RESIZE;
-			}
 
-			return marblePanel.getOffsetWidth() + content.getOffsetWidth()
+		if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()
+				&& definitionPanel != null
+				&& definitionPanel.getWidget(0) != null) {
+			return marblePanel.getOffsetWidth()
+					+ definitionPanel.getWidget(0).getOffsetWidth()
+					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
 		}
-		int appWidth = (int) app.getWidth();
-		if (appWidth < 1) {// for case app is not part of DOM
-			appWidth = 600;
-		}
 
-		int maxToExpand = Math.min(content.getOffsetWidth() + 70,
-				getAV().getOffsetWidth() * 2);
-		return Math.min(maxToExpand, appWidth);
+		return marblePanel.getOffsetWidth() + content.getOffsetWidth()
+				+ MARGIN_RESIZE;
+
 	}
 
 
@@ -1360,11 +1341,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onResize() {
-		if (!app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (first && isSelected()) {
-				controls.update(true);
-			}
-		}
 		updateButtonPanelPosition();
 	}
 
@@ -1408,14 +1384,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void selectItem(boolean selected) {
 		// Log.printStacktrace("[RTI] selectItem: " + selected);
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-			if (controls != null) {
-				controls.show(
-						!controller.hasMultiGeosSelected() && selected);
-			}
-		} else {
-			toggleControls();
+
+		if (controls != null) {
+			controls.show(!controller.hasMultiGeosSelected() && selected);
 		}
+
 
 		if (selectedItem == selected) {
 			return;
@@ -1615,17 +1588,14 @@ public class RadioTreeItem extends AVTreeItem
 		removeOutput();
 		// }
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (btnClearInput != null) {
-				btnClearInput.removeFromParent();
-				btnClearInput = null;
-			}
-			if (controls != null) {
-				controls.setVisible(true);
-			}
-			setLatexItemVisible(false);
+		if (btnClearInput != null) {
+			btnClearInput.removeFromParent();
+			btnClearInput = null;
 		}
-
+		if (controls != null) {
+			controls.setVisible(true);
+		}
+		setLatexItemVisible(false);
 	}
 
 	private void setLatexItemVisible(boolean b) {
@@ -1643,21 +1613,19 @@ public class RadioTreeItem extends AVTreeItem
 			canvas.setVisible(true);
 		}
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (!app.has(Feature.AV_SINGLE_TAP_EDIT) || isInputTreeItem()) {
+		if (isInputTreeItem()) {
 
-				boolean hasMoreMenu = app.has(Feature.AV_MORE_MENU);
-				if (!hasMoreMenu) {
-					content.insert(getClearInputButton(), 0);
-				}
-				
-				if (controls != null) {
-					controls.setVisible(hasMoreMenu);
-				}
-				adjustStyleBar();
+			boolean hasMoreMenu = app.has(Feature.AV_MORE_MENU);
+			if (!hasMoreMenu) {
+				content.insert(getClearInputButton(), 0);
 			}
-			setLatexItemVisible(true);
+
+			if (controls != null) {
+				controls.setVisible(hasMoreMenu);
+			}
+			adjustStyleBar();
 		}
+		setLatexItemVisible(true);
 
 	}
 
@@ -1678,11 +1646,11 @@ public class RadioTreeItem extends AVTreeItem
 
 		// update style bar icon look
 		if (!app.has(Feature.NEW_TOOLBAR)) {
-		if (emptyCase) {
-			getAlgebraDockPanel().showStyleBarPanel(blurtrue);
-		} else {
-			getAlgebraDockPanel().showStyleBarPanel(true);
-		}
+			if (emptyCase) {
+				getAlgebraDockPanel().showStyleBarPanel(blurtrue);
+			} else {
+				getAlgebraDockPanel().showStyleBarPanel(true);
+			}
 		}
 
 		// After changing the stylebar visibility, maybe the small stylebar's
@@ -1799,10 +1767,6 @@ public class RadioTreeItem extends AVTreeItem
 			}
 		}
 
-		if (!app.has(Feature.AV_SINGLE_TAP_EDIT) && controls != null) {
-			controls.removeAnimPanel();
-		}
-
 	}
 
 	public void showControls() {
@@ -1867,8 +1831,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		content.clear();
 
-		if (app.has(Feature.AV_SINGLE_TAP_EDIT) && !(latexItem == null
-				|| isInputTreeItem() || isSliderItem())) {
+		if (!(latexItem == null || isInputTreeItem() || isSliderItem())) {
 			latexItem.getElement().getStyle().setProperty("minHeight",
 					getController().getEditHeigth() + "px");
 		}
@@ -1928,26 +1891,23 @@ public class RadioTreeItem extends AVTreeItem
 			removeDummy();
 		}
 
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			if (focus) {
-				content.addStyleName("scrollableTextBox");
-				if (isInputTreeItem()) {
-					MinMaxPanel.closeMinMaxPanel();
-					if (app.has(Feature.AV_SINGLE_TAP_EDIT)) {
-						getAV().restoreWidth(true);
-					} else {
-						setItemWidth(getAV().getOffsetWidth());
-					}
-				}
-			} else {
-				if (isInputTreeItem()) {
-					setItemWidth(getAV().getFullWidth());
-				} else {
-					content.removeStyleName("scrollableTextBox");
-				}
-				// this.getAV().setActiveTreeItem(null);
+		if (focus) {
+			content.addStyleName("scrollableTextBox");
+			if (isInputTreeItem()) {
+				MinMaxPanel.closeMinMaxPanel();
+
+				getAV().restoreWidth(true);
+
 			}
+				} else {
+			if (isInputTreeItem()) {
+				setItemWidth(getAV().getFullWidth());
+			} else {
+				content.removeStyleName("scrollableTextBox");
+			}
+			// this.getAV().setActiveTreeItem(null);
 		}
+
 
 		if (ensureCanvas()) {
 			main.clear();
@@ -2325,12 +2285,12 @@ public class RadioTreeItem extends AVTreeItem
 
 	public RadioTreeItem initInput() {
 		this.insertHelpToggle();
-		if (app.has(Feature.AV_INPUT_BUTTON_COVER)) {
-			content.addStyleName("scrollableTextBox");
-			if (isInputTreeItem()) {
-				content.addStyleName("inputBorder");
-			}
+
+		content.addStyleName("scrollableTextBox");
+		if (isInputTreeItem()) {
+			content.addStyleName("inputBorder");
 		}
+
 		getWidget().addStyleName("latexEditor");
 		content.addStyleName("noPreview");
 		renderLatex("", false);
