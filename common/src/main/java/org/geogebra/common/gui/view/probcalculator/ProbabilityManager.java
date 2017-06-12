@@ -178,9 +178,9 @@ public class ProbabilityManager {
 				.ordinal()][1] = loc.getMenu("StandardDeviation.short");
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA
-				.ordinal()][0] = loc.getMenu("Alpha.short");
+				.ordinal()][0] = Unicode.alpha + "";
 		parameterLabels[ProbabilityCalculatorSettings.DIST.GAMMA
-				.ordinal()][1] = loc.getMenu("Beta.short");
+				.ordinal()][1] = Unicode.beta + "";
 
 		parameterLabels[ProbabilityCalculatorSettings.DIST.BINOMIAL
 				.ordinal()][0] = loc.getMenu("Binomial.number");
