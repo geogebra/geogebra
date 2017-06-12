@@ -122,18 +122,27 @@
 		}
 		
 	}
-	
-	.suggestionButton {
+
+	.suggestionBar {
 		position: absolute;
-		top:32px;
+		bottom:0px;
 		right:0;
+	}
+
+	.suggestionButton {		
 		padding: 4px;
+		margin: 4px;
 		backgreound-color:$white;
+	}
+	
+	.algebraView .panelRow .withSuggestions{
+		margin-bottom:40px;
 	}
 
 	.matDesign  {
 	
 		.AlgebraViewObjectStylebar.smallStylebar {
+			bottom:0;
 			padding: 8px 2px 0px 0px;
 			box-shadow: none;
 			

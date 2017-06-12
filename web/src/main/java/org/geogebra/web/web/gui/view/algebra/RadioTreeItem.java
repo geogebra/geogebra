@@ -468,6 +468,11 @@ public class RadioTreeItem extends AVTreeItem
 				buildItemWithSingleRow();
 			}
 			controls.updateSuggestions();
+			if (AlgebraItem.needsSuggestions(geo)) {
+				content.addStyleName("withSuggestions");
+			} else {
+				content.removeStyleName("withSuggestions");
+			}
 		} else {
 			buildPlainTextItem();
 		}

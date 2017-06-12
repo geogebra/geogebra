@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -650,5 +651,20 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	@Override
 	public Equation getEquation() {
 		return kernel.getAlgebraProcessor().parseEquation(this);
+	}
+
+	public String[] getEquationVariables() {
+		ArrayList<String> vars = new ArrayList<String>();
+		if (!MyDouble.exactEqual(matrix[0], 0)
+				|| !MyDouble.exactEqual(matrix[3], 0)
+				|| !MyDouble.exactEqual(matrix[4], 0)) {
+			vars.add("x");
+		}
+		if (!MyDouble.exactEqual(matrix[1], 0)
+				|| !MyDouble.exactEqual(matrix[3], 0)
+				|| !MyDouble.exactEqual(matrix[5], 0)) {
+			vars.add("y");
+		}
+		return vars.toArray(new String[0]);
 	}
 }

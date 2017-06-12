@@ -11,4 +11,6 @@ public interface EquationValue {
 	 * @return equation
 	 */
 	public Equation getEquation();
+
+	public String[] getEquationVariables();
 }

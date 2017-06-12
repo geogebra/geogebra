@@ -10,6 +10,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SuggestionBar extends FlowPanel {
 	public SuggestionBar(final GeoElement geo, Localization loc) {
+		addStyleName("suggestionBar");
 		StandardButton solve = new StandardButton(loc.getCommand("Solve"));
 		solve.addStyleName("suggestionButton");
 		add(solve);

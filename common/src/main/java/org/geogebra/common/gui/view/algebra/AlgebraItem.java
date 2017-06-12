@@ -3,9 +3,11 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.util.lang.Unicode;
 
 public class AlgebraItem {
 	public static boolean toggleSymbolic(GeoElement geo) {
@@ -21,6 +23,22 @@ public class AlgebraItem {
 
 		}
 		return false;
+	}
+
+	public static String getOutputPrefix(GeoElement geo) {
+		if (geo instanceof HasSymbolicMode
+				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
+			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
+					|| ((AlgoSolve) geo.getParentAlgorithm())
+							.getClassName() == Commands.NSolve) {
+				return Unicode.CAS_OUTPUT_NUMERIC;	
+			}
+			
+		}
+		if (geo.getKernel().getLocalization().rightToLeftReadingOrder) {
+			return Unicode.CAS_OUTPUT_PREFIX_RTL;
+		}
+		return Unicode.CAS_OUTPUT_PREFIX;
 	}
 
 	public static boolean isSymbolicDiffers(GeoElement geo) {
@@ -56,6 +74,7 @@ public class AlgebraItem {
 
 	public static boolean needsSuggestions(GeoElement geo) {
 		// TODO Auto-generated method stub
-		return geo instanceof EquationValue;
+		return geo instanceof EquationValue
+				&& ((EquationValue) geo).getEquationVariables().length == 1;
 	}
 }

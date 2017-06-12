@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.lang.Unicode;
@@ -50,10 +49,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 				GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
 				GuiResourcesSimple.INSTANCE.modeToggleNumeric());
 		btnSymbolic.addStyleName("symbolicButton");
-		if (getOutputPrefix(geo) == Unicode.CAS_OUTPUT_NUMERIC) {
+		if (AlgebraItem.getOutputPrefix(geo) == Unicode.CAS_OUTPUT_NUMERIC) {
 			btnSymbolic.setSelected(true);
 		}
-		if (getOutputPrefix(geo) == Unicode.CAS_OUTPUT_PREFIX) {
+		if (AlgebraItem.getOutputPrefix(geo) != Unicode.CAS_OUTPUT_NUMERIC) {
 			btnSymbolic.setSelected(false);
 			btnSymbolic.addStyleName("btn-prefix");
 		}
@@ -68,16 +67,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	}
 
-	private static String getOutputPrefix(GeoElement geo) {
-		if (geo instanceof HasSymbolicMode
-				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
-			return Unicode.CAS_OUTPUT_NUMERIC;
-		}
-		if (geo.getKernel().getLocalization().rightToLeftReadingOrder) {
-			return Unicode.CAS_OUTPUT_PREFIX_RTL;
-		}
-		return Unicode.CAS_OUTPUT_PREFIX;
-	}
+
 
 	boolean updateValuePanel(GeoElement geo1, String text,
 			boolean latex, int fontSize) {

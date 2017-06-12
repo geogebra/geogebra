@@ -836,4 +836,9 @@ public class Equation extends ValidExpression implements EquationValue {
 
 	}
 
+	public String[] getEquationVariables() {
+		// TODO Auto-generated method stub
+		return new String[0];
+	}
+
 } // end of class Equation

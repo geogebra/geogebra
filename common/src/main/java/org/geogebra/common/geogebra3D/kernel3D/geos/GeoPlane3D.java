@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
@@ -12,6 +14,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -911,6 +914,21 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean isRegion3D() {
 		return true;
+	}
+
+	public String[] getEquationVariables() {
+		// TODO Auto-generated method stub
+		ArrayList<String> usedVars = new ArrayList<String>();
+		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getX(), 0)) {
+			usedVars.add("x");
+		}
+		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getY(), 0)) {
+			usedVars.add("y");
+		}
+		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getZ(), 0)) {
+			usedVars.add("z");
+		}
+		return usedVars.toArray(new String[0]);
 	}
 
 }

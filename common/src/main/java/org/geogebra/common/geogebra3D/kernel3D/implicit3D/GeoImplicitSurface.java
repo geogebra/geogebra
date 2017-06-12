@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoTriangulatedSurface3D;
 import org.geogebra.common.kernel.Construction;
@@ -1035,5 +1037,15 @@ public class GeoImplicitSurface extends GeoElement3D
 	@Override
 	public Equation getEquation() {
 		return kernel.getAlgebraProcessor().parseEquation(this);
+	}
+
+	public String[] getEquationVariables() {
+		ArrayList<String> vars = new ArrayList<String>();
+		for (FunctionVariable var : expression.getFunctionVariables()) {
+			if (expression.getFunctionExpression().contains(var)) {
+				vars.add(var.toString(StringTemplate.defaultTemplate));
+			}
+		}
+		return vars.toArray(new String[0]);
 	}
 }

@@ -1979,4 +1979,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public boolean isLaTeXDrawableGeo() {
 		return toStringMode == GeoLine.EQUATION_USER && getDefinition() != null;
 	}
+
+	public String[] getEquationVariables() {
+		ArrayList<String> usedVars = new ArrayList<String>();
+		if (!MyDouble.exactEqual(x, 0)) {
+			usedVars.add("x");
+		}
+		if (!MyDouble.exactEqual(y, 0)) {
+			usedVars.add("y");
+		}
+		return usedVars.toArray(new String[0]);
+	}
+
 }

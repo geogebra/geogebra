@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
@@ -15,6 +17,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -3518,5 +3521,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 */
 	public void setLimits(double min, double max) {
 		// implemented in GeoQuadric3DPart
+	}
+
+	public String[] getEquationVariables() {
+		ArrayList<String> vars = new ArrayList<String>();
+		if (!MyDouble.exactEqual(matrix[0], 0)
+				|| !MyDouble.exactEqual(matrix[3], 0)
+				|| !MyDouble.exactEqual(matrix[4], 0)) {
+			vars.add("x");
+		}
+		if (!MyDouble.exactEqual(matrix[1], 0)
+				|| !MyDouble.exactEqual(matrix[3], 0)
+				|| !MyDouble.exactEqual(matrix[5], 0)) {
+			vars.add("y");
+		}
+		return vars.toArray(new String[0]);
 	}
 }
