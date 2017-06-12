@@ -278,6 +278,17 @@ public class SerializeLaTeX {
 		testEditor("12345", "12345");
 		testEditor("1/2/3/4", "1/2/3/4");
 		testEditor("Segment[(1,2),(3,4)]", "Segment[(1,2),(3,4)]");
+
+		// typing second | starts another abs() clause
+		testEditor("3|x", "3*abs(x)");
+		testEditor("3 |x", "3 *abs(x)");
+		testEditor("3*|x", "3*abs(x)");
+		testEditor("x|xx", "x*abs(xx)");
+		testEditor("x |x x", "x *abs(x x)");
+		testEditor("x*|x*x", "x*abs(x*x)");
+		testEditor("x sqrt(x)", "x sqrt(x)");
+		testEditor("x" + Unicode.SQUARE_ROOT + "x+1", "x*sqrt(x+1)");
+
 	}
 
 	public void testEditor(String input, String output) {
