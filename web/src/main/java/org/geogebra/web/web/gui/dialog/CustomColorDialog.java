@@ -222,9 +222,9 @@ public class CustomColorDialog extends DialogBoxW {
 	public void setLabels() {
 		setTitle(loc.getPlain("ChooseColor"));
 		this.getCaption().setText(loc.getPlain("ChooseColor"));
-		red.setTitle(loc.getMenu("Red"));
-		green.setTitle(loc.getMenu("Green"));
-		blue.setTitle(loc.getMenu("Blue"));
+		red.setTitle(loc.getColor("Red"));
+		green.setTitle(loc.getColor("Green"));
+		blue.setTitle(loc.getColor("Blue"));
 		preview.setTitle(loc.getMenu("Preview"));
 		btnOk.setText(loc.getPlain("OK"));
 		btnCancel.setText(loc.getMenu("Cancel"));

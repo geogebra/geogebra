@@ -410,9 +410,9 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	 */
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		redLabel.setText(loc.getMenu("Red"));
-		greenLabel.setText(loc.getMenu("Green"));
-		blueLabel.setText(loc.getMenu("Blue"));
+		redLabel.setText(loc.getColor("Red"));
+		greenLabel.setText(loc.getColor("Green"));
+		blueLabel.setText(loc.getColor("Blue"));
 	}
 
 	/**
