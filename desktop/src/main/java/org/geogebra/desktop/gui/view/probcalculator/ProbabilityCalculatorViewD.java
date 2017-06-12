@@ -667,7 +667,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			highPoint.setEuclidianVisible(showProbGeos);
 			fldLow.setVisible(true);
 			fldHigh.setVisible(true);
-			lblBetween.setText(loc.getMenu("XBetween"));
+			lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN);
 
 			setLow(plotSettings.xMin
 					+ 0.4 * (plotSettings.xMax - plotSettings.xMin));
@@ -834,7 +834,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		setProbabilityComboBoxMenu();
 
-		lblBetween.setText(loc.getMenu("XBetween")); // <= X <=
+		lblBetween.setText(SpreadsheetViewInterface.X_BETWEEN); // <= X <=
 		lblEndProbOf.setText(loc.getMenu("EndProbabilityOf") + " = ");
 		lblProbOf.setText(loc.getMenu("ProbabilityOf"));
 

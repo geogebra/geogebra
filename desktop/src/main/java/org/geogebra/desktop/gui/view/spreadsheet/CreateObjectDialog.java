@@ -31,6 +31,7 @@ import javax.swing.event.ListSelectionListener;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -259,8 +260,8 @@ public class CreateObjectDialog extends InputDialogD
 		cbScanOrder.addItem(loc.getMenu("ColumnOrder"));
 
 		cbLeftRightOrder.removeAllItems();
-		cbLeftRightOrder.addItem(loc.getMenu("X->Y"));
-		cbLeftRightOrder.addItem(loc.getMenu("Y<-X"));
+		cbLeftRightOrder.addItem(SpreadsheetViewInterface.X_TO_Y);
+		cbLeftRightOrder.addItem(SpreadsheetViewInterface.Y_FROM_X);
 
 		model.clear();
 		for (String item : coModel.getObjectTypeNames()) {

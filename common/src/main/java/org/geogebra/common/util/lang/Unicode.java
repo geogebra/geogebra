@@ -183,7 +183,8 @@ public class Unicode {
 	public static final String FORTY_FIVE_DEGREES = "45" + DEGREE_CHAR;
 
 	public static final String IMPLIES = "\u2192";
-	public static final String CAS_OUTPUT_PREFIX = "\u2192";
+	public static final String IMPLIED_FROM = "\u2190";
+	public static final String CAS_OUTPUT_PREFIX = IMPLIES;
 	public static final String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static final String CAS_OUTPUT_KEEPINPUT = "\u2713";
 	public static final String CAS_OUTPUT_NUMERIC = "\u2248";

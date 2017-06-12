@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
@@ -300,8 +301,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 		cbScanOrder.addItem(loc.getMenu("ColumnOrder"));
 
 		cbLeftRightOrder.clear();
-		cbLeftRightOrder.addItem(loc.getMenu("X->Y"));
-		cbLeftRightOrder.addItem(loc.getMenu("Y<-X"));
+		cbLeftRightOrder.addItem(SpreadsheetViewInterface.X_TO_Y);
+		cbLeftRightOrder.addItem(SpreadsheetViewInterface.Y_FROM_X);
 
 		typeList.clear();
 		for (String item : coModel.getObjectTypeNames()) {
