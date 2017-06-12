@@ -2082,7 +2082,8 @@ public class GeoList extends GeoElement
 			GeoClass geoClass = ((GeoList) get(0)).getElementType();
 			return geoClass.equals(GeoClass.NUMERIC)
 					|| geoClass.equals(GeoClass.FUNCTION)
-					|| geoClass.equals(GeoClass.NUMERIC);
+					|| (!geoClass.equals(GeoClass.LIST)
+							&& get(0).isLaTeXDrawableGeo());
 		}
 
 		// don't check getGeoElementForPropertiesDialog

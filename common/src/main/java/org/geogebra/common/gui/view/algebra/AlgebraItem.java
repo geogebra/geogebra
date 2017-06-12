@@ -3,7 +3,6 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
@@ -13,9 +12,7 @@ public class AlgebraItem {
 
 		if (geo instanceof HasSymbolicMode) {
 			if (geo.getParentAlgorithm() instanceof AlgoSolve) {
-				((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
-				return ((AlgoSolve) geo.getParentAlgorithm())
-						.getClassName() == Commands.Solve;
+				return !((AlgoSolve) geo.getParentAlgorithm()).toggleNumeric();
 			}
 			((HasSymbolicMode) geo).setSymbolicMode(
 					!((HasSymbolicMode) geo).isSymbolicMode(), true);

@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.lang.Unicode;
@@ -228,6 +229,16 @@ public class AlgebraStyleTest extends Assert {
 				.unicode("f(x) = If[3 < x " + Unicode.LESS_EQUAL + " 5, x^2]"),
 
 				getGeo("f").getDefinitionForEditor());
+	}
+
+	@Test
+	public void listShouldKeepDefinition() {
+		t("list1 = {x+x=y}");
+		assertEquals("{x + x = y}", getGeo("list1").getDefinitionForEditor());
+		assertEquals("x + x = y",
+				((GeoList) getGeo("list1")).get(0)
+						.getDefinition(StringTemplate.editTemplate));
+		
 	}
 
 	private void t(String def) {

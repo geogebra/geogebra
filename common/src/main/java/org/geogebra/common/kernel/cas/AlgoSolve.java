@@ -6,11 +6,9 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
  * Use Solve cas command from AV
@@ -52,25 +50,24 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	public void compute() {
 		StringBuilder sb = new StringBuilder(numeric ? "NSolve[" : "Solve[");
 		if (equations instanceof GeoList) {
-			makeImplicit((GeoList) equations);
-		} else if (equations instanceof GeoConic) {
-			((GeoConic) equations)
-					.setToStringMode(GeoConicND.EQUATION_IMPLICIT);
+			sb.append("{");
+			for (int i = 0; i < ((GeoList) equations).size(); i++) {
+				if (i != 0) {
+					sb.append(',');
+				}
+				printCAS(((GeoList) equations).get(i), sb);
+			}
+			sb.append("}");
+		} else {
+			printCAS(equations, sb);
 		}
-
-		sb.append(equations.toValueString(StringTemplate.prefixedDefault));
 		sb.append("]");
 		try {
 			String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
 					arbconst);
 			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
 			solutions.set(raw);
-			for (int i = 0; i < solutions.size(); i++) {
-				if (solutions.get(i) instanceof GeoLine) {
-					((GeoLine) solutions.get(i))
-							.setMode(GeoLine.EQUATION_USER);
-				}
-			}
+			showUserForm(solutions);
 		} catch (Throwable e) {
 			solutions.setUndefined();
 			e.printStackTrace();
@@ -78,15 +75,25 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	}
 
-	private static void makeImplicit(GeoList equationsList) {
-		for (int i = 0; i < equationsList.size(); i++) {
-			if (equationsList.get(i) instanceof GeoConic
-					&& !equationsList.get(i).isLabelSet()) {
-				((GeoConic) equationsList.get(i))
-						.setToStringMode(GeoConicND.EQUATION_IMPLICIT);
+	private void showUserForm(GeoList solutions2) {
+		for (int i = 0; i < solutions2.size(); i++) {
+			if (solutions2.get(i) instanceof GeoLine) {
+				((GeoLine) solutions2.get(i)).setMode(GeoLine.EQUATION_USER);
+			}
+			if (solutions2.get(i) instanceof GeoList) {
+				showUserForm((GeoList) solutions2.get(i));
 			}
 		}
 
+	}
+
+	private static void printCAS(GeoElement equations2, StringBuilder sb) {
+		if (equations2.getDefinition() != null) {
+			sb.append(equations2.getDefinition()
+					.toValueString(StringTemplate.prefixedDefault));
+		} else {
+			sb.append(equations2.toValueString(StringTemplate.prefixedDefault));
+		}
 	}
 
 	@Override
@@ -94,10 +101,16 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return numeric ? Commands.NSolve : Commands.Solve;
 	}
 
-	public void toggleNumeric() {
+	/**
+	 * Switch between Solve and NSolve and run the update cascade
+	 * 
+	 * @return whether this is numeric after the toggle
+	 */
+	public boolean toggleNumeric() {
 		numeric = !numeric;
 		compute();
 		solutions.updateCascade();
+		return numeric;
 	}
 
 }
