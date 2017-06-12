@@ -954,9 +954,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			switch (colorSpace) {
 			default:
 			case GeoElement.COLORSPACE_RGB:
-				nameLabelR.setText(StringUtil.capitalize(loc.getColor("red") + ":");
-				nameLabelG.setText(StringUtil.capitalize(loc.getColor("green") + ":");
-				nameLabelB.setText(StringUtil.capitalize(loc.getColor("blue") + ":");
+				nameLabelR.setText(
+						StringUtil.capitalize(loc.getColor("red") + ":"));
+				nameLabelG.setText(
+						StringUtil.capitalize(loc.getColor("green") + ":"));
+				nameLabelB.setText(
+						StringUtil.capitalize(loc.getColor("blue") + ":"));
 				break;
 			case GeoElement.COLORSPACE_HSB:
 				nameLabelR.setText(loc.getMenu("Hue") + ":");
