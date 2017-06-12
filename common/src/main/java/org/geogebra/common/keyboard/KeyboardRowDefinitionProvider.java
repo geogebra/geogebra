@@ -4,6 +4,10 @@ import org.geogebra.common.main.Localization;
 
 public class KeyboardRowDefinitionProvider {
 
+    private static final String DEFAULT_TOP_ROW = "qwertyuiop";
+    private static final String DEFAULT_MIDDLE_ROW = "asdfghjkl";
+    private static final String DEFAULT_BOTTOM_ROW = "zxcvbnm";
+
     private Localization localization;
 
     public KeyboardRowDefinitionProvider(Localization localization) {
@@ -32,6 +36,21 @@ public class KeyboardRowDefinitionProvider {
         return new String[][]{
                 new String[]{topRowSmall, middleRowSmall, bottomRowSmall},
                 new String[]{topRowCapital, middleRowCapital, bottomRowCapital}
+        };
+    }
+
+    /**
+     * Queries the keyboard row definitions for the default locale.
+     *
+     * @return an array of two with corresponding for small and capital letters
+     * each containing an array of three corresponding to top, middle and bottom rows.
+     */
+    public String[][] getDefaultKeyboardDefinition() {
+        return new String[][]{
+                new String[]{DEFAULT_TOP_ROW, DEFAULT_MIDDLE_ROW, DEFAULT_BOTTOM_ROW},
+                new String[]{DEFAULT_TOP_ROW.toUpperCase(),
+                        DEFAULT_MIDDLE_ROW.toUpperCase(),
+                        DEFAULT_BOTTOM_ROW.toUpperCase()}
         };
     }
 }
