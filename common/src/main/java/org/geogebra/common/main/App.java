@@ -4180,7 +4180,7 @@ public abstract class App implements UpdateSelection {
 		case EXAM_ANDROID_CHECK_SCREEN_STATE:
 			return true;
 
-		/* GGB-1374 */
+		/* GGB-1374, GGB-1849 */
 		case READ_OBJECT_NAME_AT_SELECTING:
 			return prerelease;
 

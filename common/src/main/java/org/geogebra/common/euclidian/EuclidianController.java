@@ -128,7 +128,6 @@ import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.ScreenReader;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -6471,7 +6470,6 @@ public abstract class EuclidianController {
 		// else
 		// movedGeoNumeric.updateCascade();
 
-		ScreenReader.sliderChanged(movedGeoNumeric);
 	}
 
 	protected final void moveSlider(boolean repaint) {

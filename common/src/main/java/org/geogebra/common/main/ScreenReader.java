@@ -1,7 +1,6 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class ScreenReader {
 
@@ -19,11 +18,6 @@ public class ScreenReader {
 			}
 		}
 
-	}
-
-	public static void sliderChanged(final GeoNumeric geo0) {
-		final App app = geo0.getKernel().getApplication();
-		// app.readLater(geo0);
 	}
 
 
