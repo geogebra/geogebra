@@ -20,15 +20,19 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	private GeoList solutions;
 	private GeoElement equations;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	private boolean numeric;
 
 	/**
 	 * @param c
 	 *            construction
 	 * @param eq
 	 *            equation or list thereof
+	 * @param numeric
+	 *            whether to use NSolve
 	 */
-	public AlgoSolve(Construction c, GeoElement eq) {
+	public AlgoSolve(Construction c, GeoElement eq, boolean numeric) {
 		super(c);
+		this.numeric = numeric;
 		this.equations = eq;
 		this.solutions = new GeoList(cons);
 		setInputOutput();
@@ -46,7 +50,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	@Override
 	public void compute() {
-		StringBuilder sb = new StringBuilder("Solve[");
+		StringBuilder sb = new StringBuilder(numeric ? "NSolve[" : "Solve[");
 		if (equations instanceof GeoList) {
 			makeImplicit((GeoList) equations);
 		} else if (equations instanceof GeoConic) {
@@ -87,7 +91,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	@Override
 	public GetCommand getClassName() {
-		return Commands.Solve;
+		return numeric ? Commands.NSolve : Commands.Solve;
 	}
 
 }

@@ -6,11 +6,24 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.geos.GeoElement;
 
+/**
+ * Allows use of CAS commands Solve and NSolve in input bar
+ * 
+ * @author Zbynek
+ */
 public class CmdSolve extends CommandProcessor {
 
-	public CmdSolve(Kernel kernel) {
+	private boolean numeric;
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @param numeric
+	 *            whether to use NSolve
+	 */
+	public CmdSolve(Kernel kernel, boolean numeric) {
 		super(kernel);
-		// TODO Auto-generated constructor stub
+		this.numeric = numeric;
 	}
 
 	@Override
@@ -20,7 +33,7 @@ public class CmdSolve extends CommandProcessor {
 		case 1:
 			if (args[0].isGeoList() || args[0] instanceof EquationValue
 					|| args[0].isGeoFunction()) {
-				AlgoSolve solve = new AlgoSolve(cons, args[0]);
+				AlgoSolve solve = new AlgoSolve(cons, args[0], numeric);
 				if (info.isLabelOutput()) {
 					solve.getOutput(0).setLabel(c.getLabel());
 				}

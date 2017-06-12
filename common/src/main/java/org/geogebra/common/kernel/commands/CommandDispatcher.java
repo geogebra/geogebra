@@ -601,7 +601,6 @@ public abstract class CommandDispatcher {
 			case GroebnerLex:
 			case GroebnerDegRevLex:
 			case GroebnerLexDeg:
-			case NSolve:
 			case NSolutions:
 			case Numeric:
 			case MixedNumber:
@@ -755,7 +754,7 @@ public abstract class CommandDispatcher {
 			case TravelingSalesman:
 			case ShortestDistance:
 				return getDiscreteDispatcher().dispatch(command, kernel);
-
+			case NSolve:
 			case Solve:
 				if (app.has(Feature.INPUT_BAR_SOLVE)) {
 					return getCASDispatcher().dispatch(command, kernel);
