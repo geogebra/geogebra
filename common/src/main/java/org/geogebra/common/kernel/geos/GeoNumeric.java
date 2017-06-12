@@ -613,6 +613,11 @@ public class GeoNumeric extends GeoElement
 		if (changeAnimationValue) {
 			animationValue = value;
 		}
+
+		if (kernel.getApplication()
+				.has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
+			kernel.getApplication().readLater(this);
+		}
 	}
 
 	/**
