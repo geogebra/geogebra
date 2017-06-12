@@ -3986,6 +3986,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	public int getProjection() {
 		return projection;
 	}
+	
+	public boolean hasParallelProjection() {
+		return getProjection() == PROJECTION_ORTHOGRAPHIC || getProjection() == PROJECTION_OBLIQUE;
+	}
 
 	@Override
 	public void setProjection(int projection) {

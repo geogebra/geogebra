@@ -653,6 +653,13 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void setLightPosition(float[] values) {
 		glUniform3fv(lightPositionLocation, values);
 		view3D.getEyePosition().get4ForGL(eyeOrDirection);
+		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			if (!view3D.hasParallelProjection()) {
+				eyeOrDirection[0] *= view3D.getXscale();
+				eyeOrDirection[1] *= view3D.getYscale();
+				eyeOrDirection[2] *= view3D.getZscale();
+			}
+		}
 		glUniform4fv(eyePositionLocation, eyeOrDirection);
 	}
 
