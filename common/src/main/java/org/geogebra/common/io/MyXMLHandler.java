@@ -547,19 +547,9 @@ public class MyXMLHandler implements DocHandler {
 
 				ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
 
-				// Allow unbounded angles when loading new files,
-				// not saved automatically eg. for slider min #4108
 				if (ggbFileFormat > FORMAT) {
-					Log.debug(loc.getError("FileFormatNewer") + ": "
-							+ ggbFileFormat); // Michael
-					// Borcherds
+					Log.warn("Newer file format: " + ggbFileFormat);
 				}
-
-				// removed - doesn't work over an undo
-				// fileFormat dependent settings for downward compatibility
-				// if (ggbFileFormat < 2.6) {
-				// kernel.arcusFunctionCreatesAngle = true;
-				// }
 
 				if (ggbFileFormat < 3.0) {
 					// before V3.0 the kernel had continuity always on
