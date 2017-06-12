@@ -77,7 +77,6 @@ import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
@@ -404,15 +403,6 @@ public class RadioTreeItem extends AVTreeItem
 			outputPanel = new AlgebraOutputPanel();
 			outputPanel.addStyleName("avOutput");
 		}
-
-		
-
-
-	}
-
-	protected boolean isGeoFraction() {
-		return geo instanceof GeoNumeric && geo.getDefinition() != null
-				&& geo.getDefinition().isFraction();
 	}
 
 	private boolean isLatexTrivial() {
@@ -434,7 +424,7 @@ public class RadioTreeItem extends AVTreeItem
 	private boolean updateDefinitionPanel() {
 		if (lastInput != null) {
 			definitionFromTeX(lastTeX);
-		} else if (latex || isGeoFraction()) {
+		} else if (latex || AlgebraItem.isGeoFraction(geo)) {
 			String text = getTextForEditing(false,
 					StringTemplate.latexTemplate);
 			definitionFromTeX(text);
@@ -459,48 +449,9 @@ public class RadioTreeItem extends AVTreeItem
 		definitionPanel.add(canvas);
 	}
 
-
-
 	protected boolean updateValuePanel(String text) {
-		return updateValuePanel(geo, text);
+		return outputPanel.updateValuePanel(geo, text, latex, getFontSize());
 	}
-
-	private boolean updateValuePanel(GeoElement geo1, String text) {
-		if (geo1 == null || !geo1.needToShowBothRowsInAV()) {
-			return false;
-		}
-
-		outputPanel.clear();
-		if (AlgebraItem.isSymbolicDiffers(geo)) {
-			outputPanel.createSymbolicButton(geo);
-		} else {
-			outputPanel.addPrefixLabel(
-					kernel.getLocalization().rightToLeftReadingOrder
-							? Unicode.CAS_OUTPUT_PREFIX_RTL
-							: Unicode.CAS_OUTPUT_PREFIX,
-					latex);
-		}
-
-		outputPanel.valuePanel.clear();
-
-		if (latex && geo != null
-				&& (geo.isLaTeXDrawableGeo() || isGeoFraction())) {
-			outputPanel.valCanvas = DrawEquationW.paintOnCanvas(geo1, text,
-					outputPanel.valCanvas,
-					getFontSize());
-			outputPanel.valCanvas.addStyleName("canvasVal");
-			outputPanel.valuePanel.clear();
-			outputPanel.valuePanel.add(outputPanel.valCanvas);
-		} else {
-			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-			geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
-			outputPanel.valuePanel.add(new HTML(sb.toString()));
-		}
-
-		return true;
-	}
-
-
 
 	private void buildItemContent() {
 		if (isDefinitionAndValue()) {
@@ -556,8 +507,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (outputPanel == null) {
 			return;
 		}
-		outputPanel.valuePanel.clear();
-		outputPanel.clear();
+
+		outputPanel.reset();
 	}
 
 	public void previewValue(GeoElement previewGeo) {
@@ -579,9 +530,8 @@ public class RadioTreeItem extends AVTreeItem
 		content.addStyleName("avPreview");
 		plainTextItem.clear();
 		plainTextItem.add(outputPanel);
-		outputPanel.clear();
+		outputPanel.reset();
 
-		outputPanel.valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		String plain = sb.toString();
@@ -594,13 +544,7 @@ public class RadioTreeItem extends AVTreeItem
 			text = text.substring(1);
 		}
 		if (!plain.equals(text) || forceLatex) {
-			// LaTeX
-			outputPanel.valCanvas = DrawEquationW.paintOnCanvas(previewGeo,
-					text, outputPanel.valCanvas,
-					getFontSize());
-			outputPanel.valCanvas.addStyleName("canvasVal");
-			outputPanel.valuePanel.clear();
-			outputPanel.valuePanel.add(outputPanel.valCanvas);
+			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 		}
 		outputPanel
 				.addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
@@ -648,17 +592,10 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-
-
-
 	protected void updateFont(Widget w) {
 		int size = app.getFontSizeWeb() + 2;
 		w.getElement().getStyle().setFontSize(size, Unit.PX);
-
 	}
-
-
-
 
 	protected void styleContentPanel() {
 		controls.updateAnimPanel();
@@ -820,10 +757,6 @@ public class RadioTreeItem extends AVTreeItem
 		LayoutUtilW.replace(content, canvas, old);
 	}
 
-
-
-
-
 	/**
 	 * @return size for JLM texts. Due to different fonts we need a bit more
 	 *         than app.getFontSize(), but +3 looked a bit too big
@@ -831,9 +764,6 @@ public class RadioTreeItem extends AVTreeItem
 	protected int getFontSize() {
 		return app.getFontSizeWeb() + 1;
 	}
-
-
-
 
 	protected void updateColor(Widget w) {
 		if (geo != null) {
@@ -909,7 +839,6 @@ public class RadioTreeItem extends AVTreeItem
 			// setItemWidth(getAV().getMaxItemWidth());
 		} else {
 			content.removeStyleName("scrollableTextBox");
-
 		}
 
 	}

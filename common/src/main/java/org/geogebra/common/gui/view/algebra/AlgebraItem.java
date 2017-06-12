@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 
 public class AlgebraItem {
@@ -48,5 +49,10 @@ public class AlgebraItem {
 
 		return !text1.equals(text2);
 
+	}
+
+	public static boolean isGeoFraction(GeoElement geo) {
+		return geo instanceof GeoNumeric && geo.getDefinition() != null
+				&& geo.getDefinition().isFraction();
 	}
 }

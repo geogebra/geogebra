@@ -1,21 +1,26 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 
 public class AlgebraOutputPanel extends FlowPanel {
-	FlowPanel valuePanel;
-	Canvas valCanvas;
+	private FlowPanel valuePanel;
+	private Canvas valCanvas;
 
 	public AlgebraOutputPanel() {
 
@@ -72,5 +77,55 @@ public class AlgebraOutputPanel extends FlowPanel {
 			return Unicode.CAS_OUTPUT_PREFIX_RTL;
 		}
 		return Unicode.CAS_OUTPUT_PREFIX;
+	}
+
+	boolean updateValuePanel(GeoElement geo1, String text,
+			boolean latex, int fontSize) {
+		if (geo1 == null || !geo1.needToShowBothRowsInAV()) {
+			return false;
+		}
+		Kernel kernel = geo1.getKernel();
+		clear();
+		if (AlgebraItem.isSymbolicDiffers(geo1)) {
+			createSymbolicButton(geo1);
+		} else {
+			addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
+					? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX,
+					latex);
+		}
+
+		valuePanel.clear();
+
+		if (latex 
+				&& (geo1.isLaTeXDrawableGeo()
+						|| AlgebraItem.isGeoFraction(geo1))) {
+			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
+					fontSize);
+			valCanvas.addStyleName("canvasVal");
+			valuePanel.clear();
+			valuePanel.add(valCanvas);
+		} else {
+			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+			geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
+			valuePanel.add(new HTML(sb.toString()));
+		}
+
+		return true;
+	}
+
+	public void showLaTeXPreview(String text, GeoElementND previewGeo,
+			int fontSize) {
+		// LaTeX
+		valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text, valCanvas,
+				fontSize);
+		valCanvas.addStyleName("canvasVal");
+		valuePanel.clear();
+		valuePanel.add(valCanvas);
+
+	}
+
+	public void reset() {
+		valuePanel.clear();
+		clear();
 	}
 }
