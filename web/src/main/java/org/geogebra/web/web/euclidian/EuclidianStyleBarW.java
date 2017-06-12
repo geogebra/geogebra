@@ -571,7 +571,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// that uses the same icon (3 dots) as ViewButton but instead opens the
 	// context menu
 	protected void addContextMenuButton() {
-		if (!isBackground() && app.isWhiteboardActive()) {
+		if (!isBackground()
+				&& (app.isWhiteboardActive() || app.has(Feature.SWITCH_FLAG))) {
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}

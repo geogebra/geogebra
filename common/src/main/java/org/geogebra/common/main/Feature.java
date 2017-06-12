@@ -224,6 +224,9 @@ public enum Feature {
 	AND_SNACKBAR,
 	
 	/** MOB-1227 */
-	MOB_SELECT_TOOL
+	MOB_SELECT_TOOL,
+
+	/** GGB-1844 */
+	SWITCH_FLAG
 
 }

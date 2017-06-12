@@ -4194,7 +4194,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case DYNAMIC_STYLEBAR:
-			return prerelease && whiteboard;
+			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));
 
 		/** MOW-55 */
 		case BOUNDING_BOXES:
@@ -4219,7 +4219,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case CLEAR_VIEW_STYLEBAR:
-			return prerelease && whiteboard;
+			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));
 
 		case COLORPOPUP_IMPROVEMENTS:
 			return prerelease;
@@ -4292,6 +4292,9 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 			
 		case MOB_SELECT_TOOL:
+			return prerelease;
+
+		case SWITCH_FLAG:
 			return prerelease;
 
 		default:
