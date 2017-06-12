@@ -462,10 +462,11 @@ public class AlgebraProcessor {
 
 				@Override
 				public void callback(GeoElementND[] obj) {
-					if (listeners) {
-						geo.updateCascade();
-					}
 					if (obj != null) {
+						app.getScriptManager().enableListeners();
+						if (listeners && obj.length > 0) {
+							obj[0].updateCascade();
+						}
 						app.getCompanion().recallViewCreators();
 						if (storeUndoInfo) {
 							app.storeUndoInfo();
@@ -477,11 +478,11 @@ public class AlgebraProcessor {
 
 				}
 			};
-			app.getScriptManager().enableListeners();
 
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
 					changeCallback, info.withSliders(true));
-
+			// make sure listeneres are enabled if redefinition failed
+			app.getScriptManager().enableListeners();
 			cons.registerFunctionVariable(null);
 			return;
 		} else if (cons.isFreeLabel(newLabel)) {
