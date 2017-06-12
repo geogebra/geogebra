@@ -197,6 +197,8 @@ public abstract class AppW extends App implements SetLabels {
 	// we shall set it to true in each of those cases, e.g. AV input bar too !!!
 	private static boolean anyAppHasFocus = true;
 
+	private ReaderTimer readerTimer;
+
 	/**
 	 * @param ae
 	 *            {@link ArticleElement}
@@ -3344,10 +3346,13 @@ public abstract class AppW extends App implements SetLabels {
 
 		GeoNumeric geo;
 
+		public ReaderTimer() {
+			// TODO Auto-generated constructor stub
+		}
+
 		@Override
 		public void run() {
 			ScreenReader.readText(geo, AppW.this);
-
 		}
 
 		public void setGeo(GeoNumeric geo0) {
@@ -3355,12 +3360,13 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 	}
-	
-	ReaderTimer readerTimer = new ReaderTimer();
 
 	@Override
 	public void readLater(GeoNumeric geo) {
 		if (has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
+			if (readerTimer == null) {
+				readerTimer = new ReaderTimer();
+			}
 			readerTimer.setGeo(geo);
 			readerTimer.schedule(700);
 		}
