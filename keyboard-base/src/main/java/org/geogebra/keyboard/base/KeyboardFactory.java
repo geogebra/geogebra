@@ -66,7 +66,7 @@ public class KeyboardFactory {
         AccentModifier accentModifier = new AccentModifier();
         CapsLockModifier capsLockModifier = new CapsLockModifier();
         ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
-        KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
+        KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow, shouldHaveLatinExtension(middleRow));
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
 
@@ -76,6 +76,11 @@ public class KeyboardFactory {
 		keyboard.setUpperKeys(uKeys);
 		return keyboard;
 	}
+
+	private boolean shouldHaveLatinExtension(String middleRow) {
+        int first = middleRow.codePointAt(0);
+        return false; //first < 0 || first > 0x00FF;
+    }
 
     /**
      * Creates a special symbols keyboard with symbols control buttons,

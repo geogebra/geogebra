@@ -35,11 +35,11 @@ public class KeyboardModelFactory {
         return functionKeyboardFactory.createFunctionKeyboard(buttonFactory);
     }
 
-    public KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow) {
+    public KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow, String bottomRow, boolean withLatin) {
         if (letterKeyboardFactory == null) {
             letterKeyboardFactory = new LetterKeyboardFactory();
         }
-        return letterKeyboardFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
+        return letterKeyboardFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow, true, withLatin);
     }
 
     public KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
