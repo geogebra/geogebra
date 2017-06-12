@@ -43,6 +43,8 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	 */
 	private SliderPanelW slider;
 
+	private FlowPanel sliderContent;
+
 	/**
 	 * panel to correctly display an extended slider entry
 	 */
@@ -127,9 +129,12 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	}
 
-	@Override
-	protected void createSliderContent() {
-		super.createSliderContent();
+	private void createSliderContent() {
+		if (sliderContent == null) {
+			sliderContent = new FlowPanel();
+		} else {
+			sliderContent.clear();
+		}
 
 		sliderPanel = new FlowPanel();
 		sliderPanel.add(getSlider());

@@ -18,6 +18,7 @@ import java.util.List;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
@@ -27,7 +28,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
-import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -40,7 +40,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.editor.MathFieldProcessing;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -62,7 +61,6 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.Resizer;
 import org.geogebra.web.web.main.AppWFull;
 
@@ -72,8 +70,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -141,7 +137,6 @@ public class RadioTreeItem extends AVTreeItem
 	protected ItemControls controls;
 
 	protected Canvas canvas;
-	private Canvas valCanvas;
 
 	String commandError;
 
@@ -169,15 +164,13 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	protected MarblePanel marblePanel;
 
-	protected FlowPanel sliderContent;
-
 	protected boolean definitionAndValue;
 
-	protected FlowPanel valuePanel;
+
 
 	protected FlowPanel definitionPanel;
 
-	protected FlowPanel outputPanel;
+	protected AlgebraOutputPanel outputPanel;
 
 	protected Localization loc;
 
@@ -408,14 +401,11 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (outputPanel == null) {
-			outputPanel = new FlowPanel();
+			outputPanel = new AlgebraOutputPanel();
 			outputPanel.addStyleName("avOutput");
 		}
 
-		if (valuePanel == null) {
-			valuePanel = new FlowPanel();
-			valuePanel.addStyleName("avValue");
-		}
+		
 
 
 	}
@@ -467,42 +457,9 @@ public class RadioTreeItem extends AVTreeItem
 			Log.debug("CANVAS to DEF");
 		}
 		definitionPanel.add(canvas);
-
-	}
-
-	private boolean isSymbolicDiffers() {
-		if (!(geo instanceof HasSymbolicMode)) {
-			return false;
-		}
-
-		HasSymbolicMode sm = (HasSymbolicMode) geo;
-		boolean orig = sm.isSymbolicMode();
-		String text1 = geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-		sm.setSymbolicMode(!orig, false);
-		String text2 = geo.getLaTeXAlgebraDescription(true,
-				StringTemplate.latexTemplate);
-
-		sm.setSymbolicMode(orig, false);
-		if (text1 == null) {
-			return true;
-		}
-
-		return !text1.equals(text2);
-
 	}
 
 
-
-	private void addPrefixLabel(String text) {
-		final Label label = new Label(text);
-		if (!latex) {
-			label.addStyleName("prefix");
-		} else {
-			label.addStyleName("prefixLatex");
-		}
-		outputPanel.add(label);
-	}
 
 	protected boolean updateValuePanel(String text) {
 		return updateValuePanel(geo, text);
@@ -514,46 +471,30 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		outputPanel.clear();
-		if (isSymbolicDiffers()) {
-			final MyToggleButtonW btnSymbolic = new MyToggleButtonW(
-					GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
-					GuiResourcesSimple.INSTANCE.modeToggleNumeric());
-			btnSymbolic.addStyleName("symbolicButton");
-			if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
-				btnSymbolic.setSelected(true);
-			}
-			if (getOutputPrefix() == Unicode.CAS_OUTPUT_PREFIX) {
-				btnSymbolic.setSelected(false);
-				btnSymbolic.addStyleName("btn-prefix");
-			}
-			btnSymbolic.addClickHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					toggleSymbolic(btnSymbolic);
-				}
-			});
-			outputPanel.add(btnSymbolic);
+		if (AlgebraItem.isSymbolicDiffers(geo)) {
+			outputPanel.createSymbolicButton(geo);
 		} else {
-			addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder ? Unicode.CAS_OUTPUT_PREFIX_RTL
-					: Unicode.CAS_OUTPUT_PREFIX);
+			outputPanel.addPrefixLabel(
+					kernel.getLocalization().rightToLeftReadingOrder
+							? Unicode.CAS_OUTPUT_PREFIX_RTL
+							: Unicode.CAS_OUTPUT_PREFIX,
+					latex);
 		}
 
-
-
-		valuePanel.clear();
+		outputPanel.valuePanel.clear();
 
 		if (latex && geo != null
 				&& (geo.isLaTeXDrawableGeo() || isGeoFraction())) {
-			valCanvas = DrawEquationW.paintOnCanvas(geo1, text, valCanvas,
+			outputPanel.valCanvas = DrawEquationW.paintOnCanvas(geo1, text,
+					outputPanel.valCanvas,
 					getFontSize());
-			valCanvas.addStyleName("canvasVal");
-			valuePanel.clear();
-			valuePanel.add(valCanvas);
+			outputPanel.valCanvas.addStyleName("canvasVal");
+			outputPanel.valuePanel.clear();
+			outputPanel.valuePanel.add(outputPanel.valCanvas);
 		} else {
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 			geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
-			valuePanel.add(new HTML(sb.toString()));
+			outputPanel.valuePanel.add(new HTML(sb.toString()));
 		}
 
 		return true;
@@ -601,7 +542,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (updateValuePanel(geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate))) {
-			outputPanel.add(valuePanel);
+			outputPanel.addValuePanel();
 			plainTextItem.add(outputPanel);
 		}
 
@@ -612,10 +553,10 @@ public class RadioTreeItem extends AVTreeItem
 	public void clearPreview() {
 		content.removeStyleName("avPreview");
 		content.addStyleName("noPreview");
-		if (valuePanel == null) {
+		if (outputPanel == null) {
 			return;
 		}
-		valuePanel.clear();
+		outputPanel.valuePanel.clear();
 		outputPanel.clear();
 	}
 
@@ -640,7 +581,7 @@ public class RadioTreeItem extends AVTreeItem
 		plainTextItem.add(outputPanel);
 		outputPanel.clear();
 
-		valuePanel.clear();
+		outputPanel.valuePanel.clear();
 		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
 		String plain = sb.toString();
@@ -654,19 +595,19 @@ public class RadioTreeItem extends AVTreeItem
 		}
 		if (!plain.equals(text) || forceLatex) {
 			// LaTeX
-			valCanvas = DrawEquationW.paintOnCanvas(previewGeo, text,
-					valCanvas,
+			outputPanel.valCanvas = DrawEquationW.paintOnCanvas(previewGeo,
+					text, outputPanel.valCanvas,
 					getFontSize());
-			valCanvas.addStyleName("canvasVal");
-			valuePanel.clear();
-			valuePanel.add(valCanvas);
+			outputPanel.valCanvas.addStyleName("canvasVal");
+			outputPanel.valuePanel.clear();
+			outputPanel.valuePanel.add(outputPanel.valCanvas);
 		}
-		addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
-				? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX);
+		outputPanel
+				.addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
+						? Unicode.CAS_OUTPUT_PREFIX_RTL
+						: Unicode.CAS_OUTPUT_PREFIX, latex);
 
-		if (outputPanel.getWidgetIndex(valuePanel) == -1) {
-			outputPanel.add(valuePanel);
-		}
+		outputPanel.addValuePanel();
 
 		if (content.getWidgetIndex(plainTextItem) == -1) {
 			content.add(plainTextItem);
@@ -708,26 +649,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 
-	/**
-	 * 
-	 * @param button
-	 * @return true if output is numeric, false otherwise
-	 */
-	void toggleSymbolic(MyToggleButtonW button) {
-		if (geo instanceof HasSymbolicMode) {
-			((HasSymbolicMode) geo)
-					.setSymbolicMode(!((HasSymbolicMode) geo).isSymbolicMode(),
-							true);
 
-			if (getOutputPrefix() == Unicode.CAS_OUTPUT_NUMERIC) {
-				button.setSelected(true);
-			} else {
-				button.setSelected(false);
-			}
-			geo.updateRepaint();
-		}
-
-	}
 
 	protected void updateFont(Widget w) {
 		int size = app.getFontSizeWeb() + 2;
@@ -736,20 +658,10 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 
-	protected void createSliderContent() {
-		if (sliderContent == null) {
-			sliderContent = new FlowPanel();
-		} else {
-			sliderContent.clear();
-		}
 
-	}
 
 	protected void styleContentPanel() {
-		sliderContent.addStyleName("elemPanel");
-		sliderContent.removeStyleName("avItemContent");
 		controls.updateAnimPanel();
-
 	}
 
 	protected boolean first = false;
@@ -1649,8 +1561,6 @@ public class RadioTreeItem extends AVTreeItem
 		this.needsUpdate = needsUpdate;
 	}
 
-
-
 	protected boolean hasAnimPanel() {
 		return controls.animPanel != null;
 	}
@@ -1658,19 +1568,6 @@ public class RadioTreeItem extends AVTreeItem
 	protected boolean hasMarblePanel() {
 		return marblePanel != null;
 	}
-
-	private String getOutputPrefix() {
-		if (geo instanceof HasSymbolicMode
-				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
-			return Unicode.CAS_OUTPUT_NUMERIC;
-		}
-		if (kernel.getLocalization().rightToLeftReadingOrder) {
-			return Unicode.CAS_OUTPUT_PREFIX_RTL;
-		}
-		return Unicode.CAS_OUTPUT_PREFIX;
-	}
-
-
 
 	/**
 	 * Remove the main panel from parent
@@ -1693,13 +1590,10 @@ public class RadioTreeItem extends AVTreeItem
 		return this.marblePanel;
 	}
 
-
-
 	private void updateIcons(boolean warning) {
 		if (this.marblePanel != null) {
 			marblePanel.updateIcons(warning);
 		}
-
 	}
 
 	protected void updateHelpPosition(final InputBarHelpPanelW helpPanel) {

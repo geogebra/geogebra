@@ -94,4 +94,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return numeric ? Commands.NSolve : Commands.Solve;
 	}
 
+	public void toggleNumeric() {
+		numeric = !numeric;
+		compute();
+		solutions.updateCascade();
+	}
+
 }
