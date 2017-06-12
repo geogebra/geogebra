@@ -268,8 +268,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 				loc.getMenu("Transparent"), transparent);
 		final JCheckBox cbBraille = new JCheckBox(loc.getMenu("Braille"),
 				braille);
-		final JCheckBox cbEMFPlus = new JCheckBox(loc.getMenu("EMFPlus"),
-				EMFPlus);
+		final JCheckBox cbEMFPlus = new JCheckBox("EMF+", EMFPlus);
 
 		final JCheckBox textAsShapesCB = new JCheckBox(
 				loc.getMenu("ExportTextAsShapes"), textAsShapes);
