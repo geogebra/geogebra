@@ -2659,32 +2659,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	/**
-	 * Returns text "Created with <ApplicationName>" and link to application
-	 * homepage in html.
+	 * Returns text "Created with GeoGebra" and link to application homepage in
+	 * html.
 	 */
 	public String getCreatedWithHTML() {
-		String plain;
-		plain = StringUtil
-				.toHTMLString(getLocalization().getMenu("CreatedWithGeoGebra"));
 
-		if (StringUtil.toLowerCase(plain).indexOf("geogebr") == -1) {
-			plain = "Created with GeoGebra";
-		}
-
-		String[] words = plain.split(" ");
-
-		StringBuilder ret = new StringBuilder();
-
-		for (int i = 0; i < words.length; i++) {
-			// deliberate 'a' missing
-			if (StringUtil.toLowerCase(words[i]).startsWith("geogebr")) {
-				// wrap translation of GeoGebra to make a link
-				words[i] = wrapLink(words[i]);
-			}
-			ret.append(words[i] + ((i == words.length - 1) ? "" : " "));
-		}
-
-		return ret.toString();
+		return "Created with " + wrapLink("GeoGebra");
 	}
 
 	private static String wrapLink(String string) {
