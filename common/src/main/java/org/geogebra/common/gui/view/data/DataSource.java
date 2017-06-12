@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
@@ -639,9 +638,6 @@ public class DataSource {
 	 * @return if frequency data comes from column.
 	 */
 	public boolean isFrequencyFromColumn() {
-		if (!app.has(Feature.ONE_VAR_FREQUENCY_TABLE)) {
-			return false;
-		}
 		return frequencyFromColumn;
 	}
 

@@ -91,8 +91,6 @@ public enum Feature {
 
 	MOBILE_CACHE_FEATURED,
 
-	/** GGB-1357 */
-	AV_SINGLE_TAP_EDIT,
 
 	/** GGB-1349 */
 	FIX_KEYBOARD_POSITION,
@@ -187,16 +185,8 @@ public enum Feature {
 	/** GGB-1662 */
 	AV_PLUS,
 
-	/** GGB-1710 */
-	NINVERT,
-
 	/** AND-247 */
 	AND_KILL_TOOLBAR,
-
-	/** GGB-1499 */
-	ONE_VAR_FREQUENCY_TABLE,
-
-	EQUATION_LIST,
 
 	/** GGB-1697 */
 	AV_MORE_MENU,

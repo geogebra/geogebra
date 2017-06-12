@@ -895,6 +895,7 @@ public class RadioTreeItem extends AVTreeItem
 
 							@Override
 							public void callback(GeoElementND geo2) {
+								Log.debug("callback");
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
 									lastTeX = null;
@@ -910,12 +911,12 @@ public class RadioTreeItem extends AVTreeItem
 
 							}
 						});
-				if (app.has(Feature.AV_SINGLE_TAP_EDIT)
-						&& !geo.isIndependent()) {
+				// make sure edting ends: run callback even if not successful
+				// TODO maybe prevent running this twice?
+				if (!geo.isIndependent()) {
 					if (callback != null) {
 						callback.callback(geo);
 					}
-
 				}
 
 				return;

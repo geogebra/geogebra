@@ -140,10 +140,9 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 		
-		if (app.has(Feature.ONE_VAR_FREQUENCY_TABLE)) {
-			dataSource.setFrequencyFromColumn(true);
-		}
 		
+		dataSource.setFrequencyFromColumn(true);
+
 		dataSource.setDataListFromSelection(mode);
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);

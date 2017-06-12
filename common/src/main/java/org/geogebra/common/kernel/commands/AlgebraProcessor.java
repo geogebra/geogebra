@@ -97,7 +97,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -2467,8 +2466,7 @@ public class AlgebraProcessor {
 		// check no terms in z
 		checkNoTermsInZ(equ);
 		checkNoTheta(equ);
-		if (app.has(Feature.EQUATION_LIST) && (equ.getLHS().evaluatesToList()
-				|| equ.getRHS().evaluatesToList())) {
+		if (equ.getLHS().evaluatesToList() || equ.getRHS().evaluatesToList()) {
 			AlgoDependentEquationList algo = new AlgoDependentEquationList(cons,
 					equ);
 			GeoList list = algo.getList();

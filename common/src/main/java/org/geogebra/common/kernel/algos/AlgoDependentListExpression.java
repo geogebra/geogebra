@@ -44,8 +44,6 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.MyParseError;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -180,14 +178,6 @@ public class AlgoDependentListExpression extends AlgoElement
 				Function fx = isFunction(((MyVecNode) element).getX(), cons);
 				Function fy = isFunction(((MyVecNode) element).getY(), cons);
 				if (fx != null || fy != null) {
-					if (!cons.getKernel().getApplication()
-							.has(Feature.EQUATION_LIST)) {
-						String[] str = { "NumberExpected",
-								element.toString(
-										StringTemplate.defaultTemplate) };
-						throw new MyParseError(cons.getKernel().getApplication()
-								.getLocalization(), str);
-					}
 					if (fx == null) {
 						fx = new Function(((MyVecNode) element).getX().wrap(),
 								fy.getFunctionVariable()
@@ -200,7 +190,7 @@ public class AlgoDependentListExpression extends AlgoElement
 					}
 					fx.initFunction();
 					fy.initFunction();
-
+					// TODO use parametric processor to allow lines, conics
 					GeoCurveCartesian curve = new GeoCurveCartesian(cons,
 							fx, fy,
 							null);

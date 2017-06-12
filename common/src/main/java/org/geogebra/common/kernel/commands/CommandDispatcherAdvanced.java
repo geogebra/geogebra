@@ -202,9 +202,6 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case ApplyMatrix:
 			return new CmdApplyMatrix(kernel);
 		case NInvert:
-			if (!kernel.getApplication().has(Feature.NINVERT)) {
-				return null;
-			}
 			return new CmdInvert(kernel, true);
 		case Invert:
 			return new CmdInvert(kernel, !kernel.getApplication().getSettings()

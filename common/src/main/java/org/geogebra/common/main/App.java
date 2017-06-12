@@ -4065,10 +4065,6 @@ public abstract class App implements UpdateSelection {
 			}
 			return true;
 
-		// GGB-1357
-		case AV_SINGLE_TAP_EDIT:
-			return true;
-
 		case DATA_COLLECTION:
 			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
 				return true;
@@ -4262,17 +4258,8 @@ public abstract class App implements UpdateSelection {
 
 		case AV_PLUS:
 			return prerelease;
-
-		/** GGB-1710 */
-		case NINVERT:
-			return true;
-
 		/** GGB-1499 */
-		case ONE_VAR_FREQUENCY_TABLE:
-			return true;
 
-		case EQUATION_LIST:
-			return true;
 
 		case AND_KILL_TOOLBAR:
 			return prerelease;
