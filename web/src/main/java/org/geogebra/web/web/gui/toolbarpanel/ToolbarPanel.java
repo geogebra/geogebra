@@ -103,6 +103,7 @@ public class ToolbarPanel extends FlowPanel {
 		private ToggleButton btnUndo;
 		private ToggleButton btnRedo;
 		private ContextMenuAlgebra cmAlgebra = null;
+		private ContextMenuTools cmTools;
 		public Header() {
 			contents = new FlowPanel();
 			contents.addStyleName("contents");
@@ -229,7 +230,10 @@ public class ToolbarPanel extends FlowPanel {
 				}
 				cmAlgebra.show(x, y);
 			} else {
-
+				if (cmTools == null) {
+					cmTools = new ContextMenuTools((AppW) app);
+				}
+				cmTools.show(x, y);
 			}
 		}
 
