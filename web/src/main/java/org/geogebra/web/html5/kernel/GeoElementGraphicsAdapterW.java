@@ -117,7 +117,7 @@ public class GeoElementGraphicsAdapterW extends
 		FileExtensions ext = StringUtil.getFileExtension(imageFileName);
 
 		if (ext.isAllowedImage()) {
-			Log.warn("Invalid image:" + oldFn);
+			// allowed already, nothing to do
 			return;
 		}
 
@@ -129,6 +129,7 @@ public class GeoElementGraphicsAdapterW extends
 		Log.debug("Converted:" + oldFn + "->" + imageFileName);
 	}
 
+	@Override
 	public String toLaTeXStringBase64() {
 		return image.toLaTeXStringBase64();
 	}

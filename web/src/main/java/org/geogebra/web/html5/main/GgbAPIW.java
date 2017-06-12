@@ -849,11 +849,9 @@ public class GgbAPIW extends GgbAPI {
 		int index = svgAsXML.indexOf(',');
 		svgAsXML = svgAsXML.substring(index + 1);
 
-		Log.debug("svgAsXML = " + svgAsXML);
-
 		svgAsXML = Browser.decodeBase64(svgAsXML);
 
-		Log.debug("svgAsXML (decoded) = " + svgAsXML);
+		Log.debug("svgAsXML (decoded): " + svgAsXML.length() + "bytes");
 
 		archive.put(fileName, svgAsXML);
 	}
