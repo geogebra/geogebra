@@ -57,8 +57,8 @@ public class KeyboardRowDefinitionProvider {
      *
      * @return a map which associates lower keys with upper keys
      */
-    public Map<Character, Character> getUpperKeys() {
-        Map<Character, Character> map = new HashMap<Character, Character>();
+    public Map<String, String> getUpperKeys() {
+        Map<String, String> map = new HashMap<String, String>();
         String[][] keyboardDefinition = getKeyboardDefinition();
         for (int i = 0; i < 2; i++) {
             associateKeys(keyboardDefinition[0][i], keyboardDefinition[1][i], map);
@@ -66,9 +66,9 @@ public class KeyboardRowDefinitionProvider {
         return map;
     }
 
-    private void associateKeys(String lowerKeys, String upperKeys, Map<Character, Character> map) {
+    private void associateKeys(String lowerKeys, String upperKeys, Map<String, String> map) {
         for (int i = 0; i < lowerKeys.length() && i < upperKeys.length(); i++) {
-            map.put(lowerKeys.charAt(i), upperKeys.charAt(i));
+            map.put(lowerKeys.substring(i, i + 1), upperKeys.substring(i, i + 1));
         }
     }
 
