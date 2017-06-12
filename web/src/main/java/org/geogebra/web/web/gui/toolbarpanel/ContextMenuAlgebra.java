@@ -30,6 +30,7 @@ public class ContextMenuAlgebra implements SetLabels {
 	protected Localization loc;
 	AppW app;
 	private DescriptionSubMenu subDescription;
+	private SortSubMenu subSort;
 
 	private abstract class SubMenu extends GMenuBar {
 		private List<GCheckmarkMenuItem> items;
@@ -93,7 +94,7 @@ public class ContextMenuAlgebra implements SetLabels {
 
 						if (app.getGuiManager().hasPropertiesView()) {
 							app.getGuiManager().getPropertiesView()
-									.repaintView();
+											.repaintView();
 						}
 						app.getKernel().updateConstruction();
 								update();
@@ -118,6 +119,7 @@ public class ContextMenuAlgebra implements SetLabels {
 		private ArrayList<SortMode> supportedModes = null;
 
 		public SortSubMenu() {
+			super();
 		}
 
 		@Override
@@ -134,20 +136,39 @@ public class ContextMenuAlgebra implements SetLabels {
 			for (int i = 0; i < supportedModes.size(); i++) {
 				final SortMode sortMode = supportedModes.get(i);
 				String sortTitle = loc.getMenu(sortMode.toString());
-				addItem(sortTitle, new Command() {
+				addItem(sortTitle, false, new Command() {
 
 					public void execute() {
 						app.getSettings().getAlgebra().setTreeMode(sortMode);
-
+						update();
 					}
 				});
 			}
 		}
 
+		private SortMode sortModeAt(int idx) {
+			switch (idx) {
+			case 0:
+				return SortMode.DEPENDENCY;
+			case 1:
+				return SortMode.TYPE;
+			case 2:
+				return SortMode.ORDER;
+			case 3:
+				return SortMode.LAYER;
+			default:
+				return SortMode.ORDER;
+			}
+		}
+
 		@Override
 		public void update() {
-			// TODO Auto-generated method stub
-
+			SortMode selectedMode = app.getSettings().getAlgebra()
+					.getTreeMode();
+			for (int i = 0; i < itemCount(); i++) {
+				GCheckmarkMenuItem item = itemAt(i);
+				item.setSelected(selectedMode == sortModeAt(i));
+			}
 		}
 	}
 	/**
@@ -189,10 +210,10 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addSortItem() {
-
+		subSort = new SortSubMenu();
 		MenuItem mi = new MenuItem(loc.getPlain("SortBy"),
-				new SortSubMenu());
-
+				subSort);
+		subSort.update();
 		wrappedPopup.addItem(mi);
 	}
 
