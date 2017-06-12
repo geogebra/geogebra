@@ -2,6 +2,9 @@ package org.geogebra.common.keyboard;
 
 import org.geogebra.common.main.Localization;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class KeyboardRowDefinitionProvider {
 
     private static final String DEFAULT_TOP_ROW = "qwertyuiop";
@@ -20,6 +23,7 @@ public class KeyboardRowDefinitionProvider {
      * @return an array of two with corresponding for small and capital letters
      * each containing an array of three corresponding to top, middle and bottom rows.
      */
+    @Deprecated
     public String[][] getKeyboardDefinition() {
         String topRow = localization.getKeyboardRow(1);
         String middleRow = localization.getKeyboardRow(2);
@@ -37,6 +41,35 @@ public class KeyboardRowDefinitionProvider {
                 new String[]{topRowSmall, middleRowSmall, bottomRowSmall},
                 new String[]{topRowCapital, middleRowCapital, bottomRowCapital}
         };
+    }
+
+    /**
+     * Queries the lower keys for the current locale.
+     *
+     * @return an array of three corresponding to top, middle and bottom rows
+     */
+    public String[] getLowerKeys() {
+        return getKeyboardDefinition()[0];
+    }
+
+    /**
+     * Queries a map, which associates lower keys with upper keys.
+     *
+     * @return a map which associates lower keys with upper keys
+     */
+    public Map<Character, Character> getUpperKeys() {
+        Map<Character, Character> map = new HashMap<Character, Character>();
+        String[][] keyboardDefinition = getKeyboardDefinition();
+        for (int i = 0; i < 2; i++) {
+            associateKeys(keyboardDefinition[0][i], keyboardDefinition[1][i], map);
+        }
+        return map;
+    }
+
+    private void associateKeys(String lowerKeys, String upperKeys, Map<Character, Character> map) {
+        for (int i = 0; i < lowerKeys.length() && i < upperKeys.length(); i++) {
+            map.put(lowerKeys.charAt(i), upperKeys.charAt(i));
+        }
     }
 
     /**
