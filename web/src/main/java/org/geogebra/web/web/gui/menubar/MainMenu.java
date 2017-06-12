@@ -422,6 +422,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				+ text;
     }
 
+	public static String getMenuBarHtmlImgLast(String str, String url) {
+		String text = str.replace("\"", "'");
+		return text + "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\""
+				+ text + "\" src=\"" + url + "\" draggable=\"false\">";
+	}
 	public static void setMenuSelected(MenuItem m, boolean visible) {
 		if (visible) {
 			m.addStyleName("checked");

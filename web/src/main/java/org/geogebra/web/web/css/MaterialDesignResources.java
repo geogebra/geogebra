@@ -86,6 +86,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/arrow_drop_left_black.png")
 	ImageResource arrow_drop_left_black();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/check_black.png")
+	ImageResource check_black();
+
 	// @Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/content_copy_black.png")
 	// ImageResource copy_content_black();
 

@@ -92,10 +92,22 @@
 	}
 	
 	.dotSubMenu {
-		padding-left: 16px;
+		padding-left: 8px;
 		z-index: 99999;
 	}
+
+	.checkMarkMenuItem {
+		height: 32px;
 	
+		img  {
+			position: absolute;
+			right: 8px;
+		}
+	}
+	.checkMarkMenuItem >* {
+		padding: 8px;
+		display: inline-block;
+	}	
   }
   
  

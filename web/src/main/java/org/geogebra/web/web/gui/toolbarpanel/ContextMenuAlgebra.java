@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
@@ -10,11 +11,12 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.menubar.GMenuBar;
 import org.geogebra.web.web.gui.menubar.MainMenu;
+import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
@@ -27,15 +29,49 @@ public class ContextMenuAlgebra implements SetLabels {
 	protected GPopupMenuW wrappedPopup;
 	protected Localization loc;
 	AppW app;
+	private DescriptionSubMenu subDescription;
 
-	private abstract class SubMenu extends MenuBar {
+	private abstract class SubMenu extends GMenuBar {
+		private List<GCheckmarkMenuItem> items;
+		private String checkmarkUrl;
 		public SubMenu() {
-			super(true);
+			super(true, "", app);
+			checkmarkUrl = MaterialDesignResources.INSTANCE.check_black()
+					.getSafeUri().asString();
 			addStyleName("GeoGebraMenuBar");
 			addStyleName("floating-Popup");
+			addStyleName("dotSubMenu");
+			items = new ArrayList<GCheckmarkMenuItem>();
 			initActions();
 		}
 
+		/**
+		 * Adds a menu item with checkmark
+		 * 
+		 * @param text
+		 *            of the item
+		 * @param selected
+		 *            if checkmark should be shown or not
+		 * @param command
+		 *            to execute when selected.
+		 */
+		public void addItem(String text, boolean selected, Command command) {
+			GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text, checkmarkUrl,
+					selected, command, app);
+			addItem(cm.getMenuItem());
+			items.add(cm);
+
+		}
+
+		public int itemCount() {
+			return items.size();
+		}
+
+		public GCheckmarkMenuItem itemAt(int idx) {
+			return items.get(idx);
+		}
+
+		public abstract void update();
 		protected abstract void initActions();
 	}
 
@@ -47,10 +83,11 @@ public class ContextMenuAlgebra implements SetLabels {
 		@Override
 		protected void initActions() {
 			String avModes[] = AlgebraSettings.getDescriptionModes(app);
-
 			for (int i = 0; i < avModes.length; i++) {
 				final int avMode = AlgebraSettings.getStyleModeAt(i);
-				addItem(avModes[i], new Command() {
+				addItem(avModes[i],
+						false,
+						new Command() {
 					public void execute() {
 						app.getKernel().setAlgebraStyle(avMode);
 
@@ -59,9 +96,19 @@ public class ContextMenuAlgebra implements SetLabels {
 									.repaintView();
 						}
 						app.getKernel().updateConstruction();
-
+								update();
 					}
-				});
+						});
+			}
+		}
+
+		@Override
+		public void update() {
+			int selectedMode = app.getKernel().getAlgebraStyle();
+			for (int i = 0; i < itemCount(); i++) {
+				GCheckmarkMenuItem item = itemAt(i);
+				item.setSelected(
+						selectedMode == AlgebraSettings.getStyleModeAt(i));
 			}
 		}
 
@@ -96,6 +143,12 @@ public class ContextMenuAlgebra implements SetLabels {
 				});
 			}
 		}
+
+		@Override
+		public void update() {
+			// TODO Auto-generated method stub
+
+		}
 	}
 	/**
 	 * Creates new context menu
@@ -119,6 +172,7 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 	
 	public void show(GPoint p) {
+
 		wrappedPopup.show(p);
 	}
 
@@ -127,10 +181,10 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addDescriptionItem() {
-		
+		subDescription = new DescriptionSubMenu();
 		MenuItem mi = new MenuItem(loc.getPlain("AlgebraDescriptions"),
-				new DescriptionSubMenu());
-
+				subDescription);
+		subDescription.update();
 		wrappedPopup.addItem(mi);
 	}
 
