@@ -28,12 +28,6 @@ class LetterKeyboardFactory {
 
     KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow,
                                        String bottomRow, boolean withSpecialSymbols) {
-        return createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow, withSpecialSymbols, false);
-    }
-
-    KeyboardModel createLetterKeyboard(ButtonFactory buttonFactory, String topRow, String middleRow,
-                                       String bottomRow, boolean withSpecialSymbols,
-                                       boolean withLatinCharacters) {
         int topRowLength = topRow.length();
         int middleRowLength = middleRow.length();
         int bottomRowLength = bottomRow.length();
@@ -86,10 +80,6 @@ class LetterKeyboardFactory {
             builder.append(AMPERSAND);
             builder.append(NOT_SIGN);
             addCustomButton(controlRow, buttonFactory, builder.toString(), Action.SWITCH_TO_SPECIAL_SYMBOLS);
-            spaceSize -= 1;
-        }
-        if (withLatinCharacters) {
-            addConstantCustomButton(controlRow, buttonFactory, Resource.LANGUAGE, Action.SWITCH_TO_LATIN_CHARACTERS);
             spaceSize -= 1;
         }
         addInputButton(controlRow, buttonFactory, ",");
