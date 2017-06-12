@@ -59,6 +59,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -410,9 +411,9 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	 */
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		redLabel.setText(loc.getColor("Red"));
-		greenLabel.setText(loc.getColor("Green"));
-		blueLabel.setText(loc.getColor("Blue"));
+		redLabel.setText(StringUtil.capitalize(loc.getColor("red")));
+		greenLabel.setText(StringUtil.capitalize(loc.getColor("green")));
+		blueLabel.setText(StringUtil.capitalize(loc.getColor("blue")));
 	}
 
 	/**

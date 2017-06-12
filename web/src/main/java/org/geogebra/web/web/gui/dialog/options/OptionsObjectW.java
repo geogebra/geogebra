@@ -67,6 +67,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -953,9 +954,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			switch (colorSpace) {
 			default:
 			case GeoElement.COLORSPACE_RGB:
-				nameLabelR.setText(loc.getColor("Red") + ":");
-				nameLabelG.setText(loc.getColor("Green") + ":");
-				nameLabelB.setText(loc.getColor("Blue") + ":");
+				nameLabelR.setText(StringUtil.capitalize(loc.getColor("red") + ":");
+				nameLabelG.setText(StringUtil.capitalize(loc.getColor("green") + ":");
+				nameLabelB.setText(StringUtil.capitalize(loc.getColor("blue") + ":");
 				break;
 			case GeoElement.COLORSPACE_HSB:
 				nameLabelR.setText(loc.getMenu("Hue") + ":");

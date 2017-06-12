@@ -1605,4 +1605,16 @@ public class StringUtil {
 		return s.replaceAll("\n", "\\\\cr ");
 	}
 
+	/**
+	 * 
+	 * @param color
+	 *            color name
+	 * @return "red" changed to "Red"
+	 */
+	public static String capitalize(String color) {
+		// use localized version of toUpperCase(), not toUpperCase(Locale.US)
+		return (color.charAt(0) + "").toUpperCase()
+				+ color.substring(1, color.length() - 1);
+	}
+
 }
