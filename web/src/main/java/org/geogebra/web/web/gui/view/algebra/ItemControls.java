@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -17,6 +18,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Item action bar
@@ -40,6 +42,7 @@ public class ItemControls extends FlowPanel {
 	protected AnimPanel animPanel = null;
 
 	private ContextMenuMore cmMore = null;
+	private Widget suggestionBar;
 
 
 	/**
@@ -214,6 +217,8 @@ public class ItemControls extends FlowPanel {
 				add(animPanel);
 			}
 
+			updateSuggestions();
+
 			if (radioTreeItem.getPButton() != null) {
 				add(radioTreeItem.getPButton());
 			}
@@ -235,6 +240,18 @@ public class ItemControls extends FlowPanel {
 
 		updateAnimPanel();
 		return ret;
+	}
+
+	void updateSuggestions() {
+		if (AlgebraItem.needsSuggestions(radioTreeItem.geo) && radioTreeItem.geo
+				.getKernel().getApplication().has(Feature.INPUT_BAR_SOLVE)) {
+			if (suggestionBar == null) {
+				suggestionBar = new SuggestionBar(radioTreeItem.geo,
+						radioTreeItem.loc);
+			}
+			add(suggestionBar);
+		}
+
 	}
 
 	/**

@@ -179,6 +179,8 @@ public class RadioTreeItem extends AVTreeItem
 	private MathFieldW mf;
 
 
+
+
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
 	}
@@ -465,6 +467,7 @@ public class RadioTreeItem extends AVTreeItem
 			} else {
 				buildItemWithSingleRow();
 			}
+			controls.updateSuggestions();
 		} else {
 			buildPlainTextItem();
 		}
@@ -496,7 +499,6 @@ public class RadioTreeItem extends AVTreeItem
 			outputPanel.addValuePanel();
 			plainTextItem.add(outputPanel);
 		}
-
 		// updateFont(plainTextItem);
 		content.add(plainTextItem);
 	}

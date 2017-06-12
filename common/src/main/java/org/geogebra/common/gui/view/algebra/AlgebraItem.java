@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -54,5 +55,10 @@ public class AlgebraItem {
 	public static boolean isGeoFraction(GeoElement geo) {
 		return geo instanceof GeoNumeric && geo.getDefinition() != null
 				&& geo.getDefinition().isFraction();
+	}
+
+	public static boolean needsSuggestions(GeoElement geo) {
+		// TODO Auto-generated method stub
+		return geo instanceof EquationValue;
 	}
 }
