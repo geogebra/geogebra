@@ -712,8 +712,9 @@ public class GgbAPIW extends GgbAPI {
 		for (int i = 0; i < macros.size(); i++) {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
-			// writeConstructionImages(macro.getMacroConstruction(), filePath,
-			// archive);
+			// macro may contain images GGB-1865
+			writeConstructionImages(macro.getMacroConstruction(), "",
+					archive);
 			String fileName = macro.getIconFileName();
 			if (fileName != null && !fileName.isEmpty()) {
 				String url = ((ImageManagerW) app.getImageManager())
