@@ -1,6 +1,6 @@
 package org.geogebra.keyboard.base;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.keyboard.base.impl.KeyboardImpl;
 import org.geogebra.keyboard.base.model.KeyModifier;
@@ -60,21 +60,23 @@ public class KeyboardFactory {
      * @param topRow    a list of characters that will be the buttons of the top row
      * @param middleRow a list of characters that will the buttons of the middle row
      * @param bottomRow a list of characters that will be the buttons of the last row
+     * @param upperKeys a map relating each character from the rows to an uppercase character.
      * @return letter keyboard
      */
-    public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
+    public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow, Map<String, String> upperKeys) {
         AccentModifier accentModifier = new AccentModifier();
-        CapsLockModifier capsLockModifier = new CapsLockModifier();
+        CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
         ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
         KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
 
-	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow,
-			HashMap<String, String> uKeys) {
-		Keyboard keyboard = createLettersKeyboard(topRow, middleRow, bottomRow);
-		keyboard.setUpperKeys(uKeys);
-		return keyboard;
+    /**
+     * Calls {@link #createLettersKeyboard(String, String, String, Map)} with a null
+     * upper keys. In this case {@link Character#toUpperCase(char) is used.
+     */
+	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
+		return createLettersKeyboard(topRow, middleRow, bottomRow, null);
 	}
 
     /**

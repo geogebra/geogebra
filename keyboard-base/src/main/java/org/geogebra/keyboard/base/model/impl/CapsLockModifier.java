@@ -1,6 +1,6 @@
 package org.geogebra.keyboard.base.model.impl;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.ActionType;
@@ -12,7 +12,15 @@ import org.geogebra.keyboard.base.model.KeyModifier;
 public class CapsLockModifier implements KeyModifier {
 
     private boolean capsLock = false;
-    private HashMap<String, String> upperKeys;
+    private Map<String, String> upperKeys;
+
+    public CapsLockModifier() {
+        this(null);
+    }
+
+    public CapsLockModifier(Map<String, String> upperKeys) {
+        this.upperKeys = upperKeys;
+    }
 
     public void toggleCapsLock() {
         capsLock = !capsLock;
@@ -28,7 +36,7 @@ public class CapsLockModifier implements KeyModifier {
     public String modifyResourceName(String resourceName, ResourceType resourceType) {
         if (resourceType == ResourceType.TEXT && resourceName.length() == 1) {
             if (capsLock) {
-                return resourceName.toUpperCase();
+                return getUpperCase(resourceName);
             }
         } else if (resourceType == ResourceType.DEFINED_CONSTANT && resourceName.equals(Resource.CAPS_LOCK.name())) {
             if (capsLock) {
@@ -38,25 +46,25 @@ public class CapsLockModifier implements KeyModifier {
         return resourceName;
     }
 
-	private String getUpperCase(String resourceName) {
-		String ret = upperKeys.get(resourceName);
-		if (ret == null) {
-			return resourceName;
-		}
-		return ret;
-	}
-
 	@Override
     public String modifyActionName(String actionName, ActionType actionType) {
         if (actionType == ActionType.INPUT && actionName.length() == 1) {
             if (capsLock) {
-				if (upperKeys != null) {
-					return getUpperCase(actionName);
-				}
-				return actionName.toUpperCase();
+                return getUpperCase(actionName);
             }
         }
         return actionName;
+    }
+
+    private String getUpperCase(String name) {
+        if (upperKeys != null) {
+            String upper = upperKeys.get(name);
+            if (upper != null) {
+                return upper;
+            }
+        }
+
+        return name.toUpperCase();
     }
 
     @Override
@@ -68,8 +76,4 @@ public class CapsLockModifier implements KeyModifier {
         }
         return background;
     }
-
-	public void setUpperKeys(HashMap<String, String> uKeys) {
-		upperKeys = uKeys;
-	}
 }

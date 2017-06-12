@@ -1,7 +1,6 @@
 package org.geogebra.keyboard.base.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.keyboard.base.Keyboard;
@@ -57,11 +56,6 @@ public class KeyboardImpl implements Keyboard {
             fireKeyboardModelChanged();
         }
     }
-
-	@Override
-	public void setUpperKeys(HashMap<String, String> uKeys) {
-		capsLockModifier.setUpperKeys(uKeys);
-	}
 
     @Override
     public void disableCapsLock() {

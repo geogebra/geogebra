@@ -41,6 +41,4 @@ public interface Keyboard {
      * Toggle the caps lock on/off.
      */
     void toggleCapsLock();
-
-	void setUpperKeys(HashMap<String, String> uKeys);
 }
