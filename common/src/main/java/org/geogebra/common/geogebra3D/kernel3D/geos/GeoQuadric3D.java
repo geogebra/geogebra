@@ -2545,7 +2545,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		tmpCoords6.setMul3(willingDirection, t1);
 		tmpCoords6.setAdd3(tmpCoords6, willingCoords);
-		tmpCoords6.setW(0);
+		tmpCoords6.setW(1);
 		return getNormalProjection(tmpCoords6);
 	}
 
