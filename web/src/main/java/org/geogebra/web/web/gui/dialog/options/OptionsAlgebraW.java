@@ -62,14 +62,14 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		lblDescriptionMode.addStyleName("panelTitle");
 		sortMode = new ListBox();
 		description = new AlgebraStyleListBox(app);
-		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			lblCoordStyle = new Label(
-					app.getLocalization().getMenu("Coordinates") + ":");
-			coordStyle = new ListBox();
-			lblAngleUnit = new Label(
-					app.getLocalization().getMenu("AngleUnit") + ":");
-			angleUnit = new ListBox();
-		}
+
+		lblCoordStyle = new Label(
+				app.getLocalization().getMenu("Coordinates") + ":");
+		coordStyle = new ListBox();
+		lblAngleUnit = new Label(
+				app.getLocalization().getMenu("AngleUnit") + ":");
+		angleUnit = new ListBox();
+
 
 		optionsPanel.add(lblShow);
 		optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
@@ -77,14 +77,12 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		optionsPanel.add(LayoutUtilW.panelRowIndent(sortMode));
 		optionsPanel.add(lblDescriptionMode);
 		optionsPanel.add(LayoutUtilW.panelRowIndent(description));
-		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			optionsPanel
-					.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
-			coordStyle.addChangeHandler(this);
-			optionsPanel
-					.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
-			angleUnit.addChangeHandler(this);
-		}
+
+		optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
+		coordStyle.addChangeHandler(this);
+		optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
+		angleUnit.addChangeHandler(this);
+
 		sortMode.addChangeHandler(this);
 		description.addChangeHandler(new ChangeHandler() {
 
@@ -92,8 +90,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			public void onChange(ChangeEvent event) {
 				int idx = description.getSelectedIndex();
 				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-					app.getKernel()
-.setAlgebraStyle(
+					app.getKernel().setAlgebraStyle(
 							AlgebraSettings.getStyleModeAt(idx));
 				} else {
 					app.getKernel().setAlgebraStyle(idx);
@@ -118,31 +115,29 @@ public class OptionsAlgebraW extends OptionsAdvanced
 	}
 
 	private void updateCoordStyle() {
-		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			lblCoordStyle.setText(
-					app.getLocalization().getMenu("Coordinates") + ":");
-			coordStyle.clear();
-			coordStyle.addItem(app.getLocalization().getMenu("A = (x, y)"));
-			coordStyle.addItem(app.getLocalization().getMenu("A(x | y)"));
-			coordStyle.addItem(app.getLocalization().getMenu("A: (x, y)"));
-			coordStyle.setSelectedIndex(app.getKernel().getCoordStyle());
-			app.getKernel().updateConstruction();
-		}
+
+		lblCoordStyle
+				.setText(app.getLocalization().getMenu("Coordinates") + ":");
+		coordStyle.clear();
+		coordStyle.addItem(app.getLocalization().getMenu("A = (x, y)"));
+		coordStyle.addItem(app.getLocalization().getMenu("A(x | y)"));
+		coordStyle.addItem(app.getLocalization().getMenu("A: (x, y)"));
+		coordStyle.setSelectedIndex(app.getKernel().getCoordStyle());
+		app.getKernel().updateConstruction();
+
 	}
 
 	private void updateAngleUnit() {
-		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			lblAngleUnit
-					.setText(app.getLocalization().getMenu("AngleUnit") + ":");
-			angleUnit.clear();
-			angleUnit.addItem(app.getLocalization().getMenu("Degree"));
-			angleUnit.addItem(app.getLocalization().getMenu("Radiant"));
-			angleUnit.setSelectedIndex(
-					app.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT ? 1
-							: 0);
-			app.getKernel().updateConstruction();
-			app.setUnsaved();
-		}
+
+		lblAngleUnit.setText(app.getLocalization().getMenu("AngleUnit") + ":");
+		angleUnit.clear();
+		angleUnit.addItem(app.getLocalization().getMenu("Degree"));
+		angleUnit.addItem(app.getLocalization().getMenu("Radiant"));
+		angleUnit.setSelectedIndex(
+				app.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT ? 1 : 0);
+		app.getKernel().updateConstruction();
+		app.setUnsaved();
+
 	}
 
 	@Override
@@ -150,10 +145,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		showAuxiliaryObjects.setValue(app.showAuxiliaryObjects);
 		updateSortMode();
 		description.update();
-		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			updateCoordStyle();
-			updateAngleUnit();
-		}
+		updateCoordStyle();
+		updateAngleUnit();
 	}
 
 	@Override
@@ -186,10 +179,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 				"AlgebraDescriptions"));
 		updateSortMode();
 		description.update();
-		if (app.has(Feature.ADVANCED_OPTIONS)) {
-			updateCoordStyle();
-			updateAngleUnit();
-		}
+		updateCoordStyle();
+		updateAngleUnit();
 	}
 
 	@Override
@@ -197,22 +188,20 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		Object source = event.getSource();
 		if (source == sortMode) {
 			int i = sortMode.getSelectedIndex();
-			app.getSettings().getAlgebra()
-.setTreeMode(supportedModes.get(i));
+			app.getSettings().getAlgebra().setTreeMode(supportedModes.get(i));
 
-		} else if (app.has(Feature.ADVANCED_OPTIONS)) {
-			if (source == coordStyle) {
-				int i = coordStyle.getSelectedIndex();
-				app.getKernel().setCoordStyle(i);
-				app.getKernel().updateConstruction();
-			} else if (source == angleUnit) {
-				int i = angleUnit.getSelectedIndex();
-				app.getKernel().setAngleUnit(
-						i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
-				app.getKernel().updateConstruction();
-				app.setUnsaved();
-			}
+		} else if (source == coordStyle) {
+			int i = coordStyle.getSelectedIndex();
+			app.getKernel().setCoordStyle(i);
+			app.getKernel().updateConstruction();
+		} else if (source == angleUnit) {
+			int i = angleUnit.getSelectedIndex();
+			app.getKernel().setAngleUnit(
+					i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
+			app.getKernel().updateConstruction();
+			app.setUnsaved();
 		}
+
 	}
 
 	@Override

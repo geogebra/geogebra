@@ -15,7 +15,6 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.IEucli
 import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel.MinMaxType;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
@@ -556,12 +555,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lbTooltips = new ListBox();
 			model.fillTooltipCombo();
 			
-			if (app.has(Feature.ADVANCED_OPTIONS)) {
-				rightAngleStyleLabel = new Label(
-						loc.getMenu("RightAngleStyle") + ":");
-				rightAngleStyleListBox = new ListBox();
-				model.fillRightAngleCombo();
-			}
+			rightAngleStyleLabel = new Label(
+					loc.getMenu("RightAngleStyle") + ":");
+			rightAngleStyleListBox = new ListBox();
+			model.fillRightAngleCombo();
 
 			miscPanel = new FlowPanel();
 			add(miscTitle);
@@ -632,28 +629,22 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	                model.applyTooltipMode(lbTooltips.getSelectedIndex());
                 }});
 			
-			if (app.has(Feature.ADVANCED_OPTIONS)) {
-				rightAngleStyleListBox.addChangeHandler(new ChangeHandler() {
+			rightAngleStyleListBox.addChangeHandler(new ChangeHandler() {
 
-					public void onChange(ChangeEvent event) {
-						model.applyRightAngleStyle(
-								rightAngleStyleListBox.getSelectedIndex());
-					}
-				});
-			}
-
+				public void onChange(ChangeEvent event) {
+					model.applyRightAngleStyle(
+							rightAngleStyleListBox.getSelectedIndex());
+				}
+			});
 		}
-		
-		
-		
+
 		protected void fillMiscPanel(){
 			miscPanel.add(LayoutUtilW.panelRow(backgroundColorLabel, btBackgroundColor));
 			miscPanel.add(LayoutUtilW.panelRow(tooltips, lbTooltips));
 			miscPanel.add(LayoutUtilW.panelRow(cbShowMouseCoords));
-			if (app.has(Feature.ADVANCED_OPTIONS)) {
-				miscPanel.add(LayoutUtilW.panelRow(rightAngleStyleLabel,
+			miscPanel.add(LayoutUtilW.panelRow(rightAngleStyleLabel,
 						rightAngleStyleListBox));
-			}
+
 		}
 
 
@@ -681,13 +672,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			model.fillTooltipCombo();
 			lbTooltips.setSelectedIndex(index);
 			cbShowMouseCoords.setText(loc.getMenu("ShowMouseCoordinates"));
-			if (app.has(Feature.ADVANCED_OPTIONS)) {
-				index = rightAngleStyleListBox.getSelectedIndex();
-				rightAngleStyleListBox.clear();
-				model.fillRightAngleCombo();
-				rightAngleStyleListBox.setSelectedIndex(index);
-			}
 			
+			index = rightAngleStyleListBox.getSelectedIndex();
+			rightAngleStyleListBox.clear();
+			model.fillRightAngleCombo();
+			rightAngleStyleListBox.setSelectedIndex(index);
+
 			consProtocolTitle
 					.setText(loc.getMenu("ConstructionProtocolNavigation"));
 			

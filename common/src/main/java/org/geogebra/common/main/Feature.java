@@ -168,9 +168,6 @@ public enum Feature {
 	/** AND-278 */
 	AND_GEOMETRY_IN_MATH_APPS_MENU,
 
-	/** GGB-1679 */
-	ADVANCED_OPTIONS,
-
 	/** MOW-88 */
 	DIRECT_FORMULA_CONVERSION,
 
