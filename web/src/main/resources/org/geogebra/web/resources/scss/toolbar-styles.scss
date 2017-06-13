@@ -54,7 +54,7 @@
 			
 			    .indicator {
 			    	width: 36px;
-    				height: 2px;
+    				height: 3px;
     				background-color: white;
     				vertical-align: bottom;
     				position: relative;
@@ -63,6 +63,7 @@
     				top: 40px;	
     				transition: all 0.3s ease;
     				left: calc(50% + 10px);
+    				opacity: 0.85;
 			    }
 				
 			}
@@ -118,7 +119,7 @@
 	
 		 	.center {
 				margin: auto;
-				left: 10px;
+				left: -4px;
 				top: 0px;
 			}
 			
@@ -136,7 +137,7 @@
 			}
 		
 			.center {
-				left: -40px;
+				left: -26px;
 			}	
 		}
 	
@@ -198,7 +199,7 @@
 		bottom: 0px;
 		
 		.center {
-			left: -40px;
+			left: -52px;
 			
 			.indicator {
 				display: none;
