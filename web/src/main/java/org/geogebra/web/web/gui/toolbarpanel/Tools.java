@@ -156,6 +156,7 @@ public class Tools extends FlowPanel {
 							ToolTipLinkType.Help, app,
 							app.getAppletFrame().isKeyboardShowing());
 					ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+					app.updateDynamicStyleBars();
 				}
 
 			});
