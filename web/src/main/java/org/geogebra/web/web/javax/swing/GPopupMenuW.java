@@ -234,8 +234,14 @@ public class GPopupMenuW implements AttachedToDOM {
 	// }
 
 	public void addItem(final MenuItem item) {
+		addItem(item, true);
+	}
+
+	public void addItem(final MenuItem item, boolean autoHide) {
 		final MenuBar subMenu = item.getSubMenu();
-		addHideCommandFor(item);
+		if (autoHide) {
+			addHideCommandFor(item);
+		}
 		if (subMenu == null) {
 			popupMenu.addItem(item);
 		} else {

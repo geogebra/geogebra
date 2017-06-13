@@ -11,7 +11,6 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.menubar.GMenuBar;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -36,16 +35,17 @@ public class ContextMenuAlgebra implements SetLabels {
 	private DescriptionSubMenu subDescription;
 	private SortSubMenu subSort;
 
-	private abstract class SubMenu extends GMenuBar {
+	private abstract class SubMenu {
 		private List<GCheckmarkMenuItem> items;
 		private String checkmarkUrl;
+		private boolean expanded = true;
 		public SubMenu() {
-			super(true, "", app);
+			// super(true, "", app);
 			checkmarkUrl = MaterialDesignResources.INSTANCE.check_black()
 					.getSafeUri().asString();
-			addStyleName("GeoGebraMenuBar");
-			addStyleName("floating-Popup");
-			addStyleName("dotSubMenu");
+			// addStyleName("GeoGebraMenuBar");
+			// addStyleName("floating-Popup");
+			// addStyleName("dotSubMenu");
 			items = new ArrayList<GCheckmarkMenuItem>();
 			initActions();
 		}
@@ -64,7 +64,7 @@ public class ContextMenuAlgebra implements SetLabels {
 			GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text,
 					checkmarkUrl,
 					selected, command);
-			addItem(cm.getMenuItem());
+			wrappedPopup.addItem(cm.getMenuItem());
 			items.add(cm);
 
 		}
@@ -77,6 +77,40 @@ public class ContextMenuAlgebra implements SetLabels {
 			return items.get(idx);
 		}
 
+		/**
+		 * Collapse submenu
+		 */
+		public void collapse() {
+			expanded = false;
+			for (GCheckmarkMenuItem cm : items) {
+				cm.getMenuItem().removeStyleName("expanded");
+				cm.getMenuItem().addStyleName("collapsed");
+
+			}
+		}
+
+		/**
+		 * Expand submenu
+		 */
+		public void expand() {
+			expanded = true;
+			for (GCheckmarkMenuItem cm : items) {
+				cm.getMenuItem().addStyleName("expanded");
+				cm.getMenuItem().removeStyleName("collapsed");
+
+			}
+		}
+
+		/**
+		 * Toggle submenu
+		 */
+		public void toggle() {
+			if (expanded) {
+				collapse();
+			} else {
+				expand();
+			}
+		}
 		public abstract void update();
 		protected abstract void initActions();
 	}
@@ -223,19 +257,29 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addDescriptionItem() {
-		subDescription = new DescriptionSubMenu();
 		MenuItem mi = new MenuItem(loc.getPlain("AlgebraDescriptions"),
-				subDescription);
+				new Command() {
+
+					public void execute() {
+						subDescription.toggle();
+					}
+				});
+		wrappedPopup.addItem(mi, false);
+
+		subDescription = new DescriptionSubMenu();
 		subDescription.update();
-		wrappedPopup.addItem(mi);
 	}
 
 	private void addSortItem() {
+		MenuItem mi = new MenuItem(loc.getPlain("SortBy"), new Command() {
+
+			public void execute() {
+				subSort.toggle();
+			}
+		});
+		wrappedPopup.addItem(mi, false);
 		subSort = new SortSubMenu();
-		MenuItem mi = new MenuItem(loc.getPlain("SortBy"),
-				subSort);
 		subSort.update();
-		wrappedPopup.addItem(mi);
 	}
 
 	private void addPropertiesItem() {
