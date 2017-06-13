@@ -1212,8 +1212,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			});
 		}
-
-
+		updateSelection();
 	}
 
 

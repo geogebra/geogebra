@@ -225,6 +225,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 				item.setText("");
 				item.removeOutput();
+				item.runSuggestionCallbacks(geos[0]);
 
 			}
 

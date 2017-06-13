@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.Suggestion;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -150,7 +151,7 @@ public class ItemControls extends FlowPanel {
 	}
 	
 	private void buildAnimPanel() {
-		if (radioTreeItem.geo.isAnimatable()) {
+		if (radioTreeItem.geo != null && radioTreeItem.geo.isAnimatable()) {
 			if (animPanel == null) {
 				createAnimPanel();
 			}
@@ -218,7 +219,7 @@ public class ItemControls extends FlowPanel {
 				add(animPanel);
 			}
 
-			updateSuggestions();
+			updateSuggestions(radioTreeItem.geo);
 
 			if (radioTreeItem.getPButton() != null) {
 				add(radioTreeItem.getPButton());
@@ -246,19 +247,21 @@ public class ItemControls extends FlowPanel {
 	/**
 	 * Add or remove suggestion bar
 	 */
-	void updateSuggestions() {
-		Suggestion sug = radioTreeItem.needsSuggestions();
-		if (sug != null) {
+	void updateSuggestions(GeoElement geo) {
+		Suggestion sug = radioTreeItem.needsSuggestions(geo);
+		if (sug != null && geo != null) {
 			if (suggestionBar == null) {
-				suggestionBar = new SuggestionBar(radioTreeItem.geo.getKernel(),
-						radioTreeItem.loc);
+				suggestionBar = new SuggestionBar(geo.getKernel(),
+						radioTreeItem.loc, radioTreeItem);
 			}
 			suggestionBar.setSuggestion(sug);
 			add(suggestionBar);
 			radioTreeItem.getApplication().getKernel().getGeoGebraCAS()
 					.initCurrentCAS();
+			radioTreeItem.toggleSuggestionStyle(true);
 		} else if (suggestionBar != null) {
 			remove(suggestionBar);
+			radioTreeItem.toggleSuggestionStyle(false);
 		}
 
 	}

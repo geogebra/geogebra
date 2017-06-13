@@ -468,12 +468,8 @@ public class RadioTreeItem extends AVTreeItem
 			} else {
 				buildItemWithSingleRow();
 			}
-			controls.updateSuggestions();
-			if (needsSuggestions() != null) {
-				content.addStyleName("withSuggestions");
-			} else {
-				content.removeStyleName("withSuggestions");
-			}
+			controls.updateSuggestions(geo);
+
 		} else {
 			buildPlainTextItem();
 		}
@@ -483,9 +479,10 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 
-	Suggestion needsSuggestions() {
+	Suggestion needsSuggestions(GeoElement geo1) {
 		return app.has(Feature.AV_CONTEXT_MENU)
-				? AlgebraItem.getSuggestions(geo) : null;
+				&& (geo1 != null && geo1.isSelected() || controller.isEditing())
+						? AlgebraItem.getSuggestions(geo1) : null;
 	}
 
 	private void buildItemWithTwoRows() {
@@ -525,7 +522,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void previewValue(GeoElement previewGeo) {
-		if (!previewGeo.needToShowBothRowsInAV() || getController().isInputAsText()) {
+		if ((!previewGeo.needToShowBothRowsInAV()
+				|| getController().isInputAsText())
+				&& needsSuggestions(previewGeo) == null) {
 			clearPreview();
 			return;
 		}
@@ -569,6 +568,11 @@ public class RadioTreeItem extends AVTreeItem
 		if (content.getWidgetIndex(plainTextItem) == -1) {
 			content.add(plainTextItem);
 		}
+		addControls();
+		if (!controls.isAttached()) {
+			main.add(controls);
+		}
+		controls.updateSuggestions(previewGeo);
 	}
 
 	protected void buildItemWithSingleRow() {
@@ -1255,6 +1259,7 @@ public class RadioTreeItem extends AVTreeItem
 	// controls must appear on select or not
 	private boolean forceControls = false;
 
+	private AsyncOperation<GeoElementND> suggestionCallback;
 
 	/**
 	 * This method shall only be called when we are not doing editing, so this
@@ -1368,6 +1373,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (controls != null) {
 			controls.show(!controller.hasMultiGeosSelected() && selected);
+			controls.updateSuggestions(geo);
 		}
 
 
@@ -2036,6 +2042,7 @@ public class RadioTreeItem extends AVTreeItem
 		String text = getText();
 		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(text,
 				AlgebraInputW.getWarningHandler(this, app));
+
 	}
 
 	public RadioTreeItem copy() {
@@ -2276,6 +2283,35 @@ public class RadioTreeItem extends AVTreeItem
 		content.addStyleName("noPreview");
 		renderLatex("", false);
 		return this;
+	}
+
+	public void toggleSuggestionStyle(boolean b) {
+		if (b) {
+			content.addStyleName("withSuggestions");
+		} else {
+			content.removeStyleName("withSuggestions");
+		}
+
+	}
+
+	public void runSuggestionCallbacks(GeoElementND nGeo) {
+		if (controls != null) {
+			controls.updateSuggestions(geo);// old geo
+		}
+		if (suggestionCallback != null && nGeo != null) {
+			suggestionCallback.callback(nGeo);
+			suggestionCallback = null;
+		}
+
+	}
+
+	public void runAfterGeoCreated(AsyncOperation<GeoElementND> run) {
+		if (geo != null) {
+			run.callback(geo);
+		} else {
+			this.suggestionCallback = run;
+		}
+
 	}
 }
 

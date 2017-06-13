@@ -165,11 +165,11 @@ public abstract class FastButton extends CustomButton {
 		case Event.ONMOUSEUP: {
 			Log.debug("touch up");
 			// because Event.ONCLICK always came twice on desktop browsers oO
-			onClick(event);
 			event.stopPropagation();
 			break;
 		}
 		case Event.ONMOUSEDOWN: {
+			onClick(event);
 			event.stopPropagation();
 			break;
 		}
