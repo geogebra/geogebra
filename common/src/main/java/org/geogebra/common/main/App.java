@@ -4290,8 +4290,12 @@ public abstract class App implements UpdateSelection {
 		case MOB_SELECT_TOOL:
 			return prerelease;
 
+		/*
+		 * Used for: dynamic stylebar will be added for version which use the
+		 * new toolbar
+		 */
 		case SWITCH_FLAG:
-			return prerelease;
+			return prerelease && has(Feature.NEW_TOOLBAR);
 
 		default:
 			Log.debug("missing case in Feature: " + f);
