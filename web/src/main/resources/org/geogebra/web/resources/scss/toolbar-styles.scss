@@ -17,7 +17,7 @@
 			background-color: $toolbar-header;
 			
 			.selected { 
-				border-bottom: solid 2px $white;
+				/*border-bottom: solid 2px $white;*/
 			}
 		
 			.flatButton:hover {
@@ -51,7 +51,34 @@
 					height: 24px;
 					opacity: 0.85;
 				}
+			
+			    .indicator {
+			    	width: 36px;
+    				height: 2px;
+    				background-color: white;
+    				vertical-align: bottom;
+    				position: relative;
+   					bottom: 10px;
+    				display: inline-table !important;
+    				top: 40px;	
+    				transition: all 0.3s ease;
+    				left: calc(50% + 10px);
+			    }
 				
+			}
+		
+			.center.indicatorLeft {
+				.indicator {
+					transform: translate(calc(50% - 18px),0);
+				/*	left: calc(50% + 10px) !important;*/
+				}	
+			}
+		
+			.center.indicatorRight {
+				.indicator {
+					transform: translate(calc(50% + 30px),0);
+				/*	left: calc(50% + 57px) !important;*/
+				}	
 			}
 			
 			.center >* {
@@ -133,6 +160,16 @@
 			min-width: 56px;
 			height: 100%;
 			
+			.center {
+		 		top: 0px;
+				display: table-cell;
+				vertical-align: middle;
+				
+				.indicator {
+					display: none;
+					visibility: hidden;
+				}
+			}			
 			
 			.flatButton, .menu {
 				margin-left: 10px;
@@ -149,12 +186,6 @@
 				display: none;
 			}
 		
-		 	.center {
-		 		top: 0px;
-				display: table-cell;
-				vertical-align: middle;
-			}
-		
 			.selected { 
 				border-bottom: none;
 			}
@@ -166,6 +197,15 @@
 		position: absolute;
 		bottom: 0px;
 		
+		.center {
+			left: -40px;
+			
+			.indicator {
+				display: none;
+				visibility: hidden;
+			}
+		}	
+	
 		.close {
 			position: absolute;
 			left: 0px;
@@ -175,14 +215,6 @@
 		.contextMenu {
 			display: none;
 		}
-		
-		.center {
-			left: -40px;
-		}	
-	
-		.selected { 
-				border-bottom: none;
-			}
 	}	
 	
 	.toolsPanel {

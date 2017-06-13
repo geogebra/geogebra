@@ -124,11 +124,12 @@ public class ToolbarPanel extends FlowPanel {
 			btnAlgebra = new ToggleButton(new Image(
 					MaterialDesignResources.INSTANCE.toolbar_algebra()));
 			btnAlgebra.addStyleName("tabButton");
-
 			ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
+					center.removeStyleName("indicatorRight");
+					center.addStyleName("indicatorLeft");
 					openAlgebra();
 					setMoveMode();
 					getFrame().showKeyboardButton(true);
@@ -144,6 +145,8 @@ public class ToolbarPanel extends FlowPanel {
 						@Override
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
+							center.removeStyleName("indicatorLeft");
+							center.addStyleName("indicatorRight");
 							getFrame().keyBoardNeeded(false, null);
 							getFrame().showKeyboardButton(false);
 							openTools();
@@ -152,10 +155,12 @@ public class ToolbarPanel extends FlowPanel {
 
 			center = new FlowPanel();
 			center.addStyleName("center");
+			center.addStyleName("indicatorLeft");
+			center.getElement().setInnerHTML(center.getElement().getInnerHTML()
+					+ "<div class=\"indicator\"></div>");
 			center.add(btnAlgebra);
 			center.add(btnTools);
 			contents.add(center);
-
 		}
 
 		void selectAlgebra() {
@@ -189,11 +194,11 @@ public class ToolbarPanel extends FlowPanel {
 									app.getActiveEuclidianView().getHeight());
 						} else {
 							setLastOpenWidth(getOffsetWidth());
-							setClosedByUser(true);
+
 						}
+						setClosedByUser(true);
 					} else {
 						setClosedByUser(false);
-
 					}
 
 					setOpen(!isOpen());
