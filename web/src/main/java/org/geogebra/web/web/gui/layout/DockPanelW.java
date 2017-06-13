@@ -531,7 +531,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private void addToggleButton() {
 		// always show the view-icon; otherwise use showStylebar as parameter
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+		if (app.isWhiteboardActive()) {
 			toggleStyleBarButton = new StandardButton(getToggleImage(false), null, 24);
 			toggleStyleBarButton.addStyleName("toggleStyleBarNew");
 
