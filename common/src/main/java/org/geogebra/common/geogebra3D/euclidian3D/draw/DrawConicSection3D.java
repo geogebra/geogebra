@@ -33,12 +33,7 @@ public class DrawConicSection3D extends DrawConic3D {
 
 	@Override
 	protected boolean updateForItSelf() {
-		if (points[0] == null) {
-			for (int i = 0; i < 4; i++) {
-				points[i] = new Coords(4);
-			}
-		}
-
+		createPointsIfNeeded();
 		return super.updateForItSelf();
 	}
 

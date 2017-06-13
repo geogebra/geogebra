@@ -127,6 +127,15 @@ public class DrawConic3D extends Drawable3DCurves
 	protected GeoConicND conic;
 	protected Coords ev1, ev2;
 	protected double e1, e2;
+	
+	private Coords tmpCoords1, tmpCoords2;
+	
+	private void createTmpCoordsIfNeeded() {
+		if (tmpCoords1 == null) {
+			tmpCoords1 = new Coords(3);
+			tmpCoords2 = new Coords(3);
+		}
+	}
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -181,8 +190,9 @@ public class DrawConic3D extends Drawable3DCurves
 					updateParabola(brush);
 					break;
 				case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-					brush.segment(m.add(d.mul(minmax[0])),
-							m.add(d.mul(minmax[1])));
+					createTmpCoordsIfNeeded();
+					brush.segment(tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])),
+							tmpCoords2.setAdd3(m, tmpCoords2.setMul3(d, minmax[1])));
 					break;
 				case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
 				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
@@ -240,6 +250,14 @@ public class DrawConic3D extends Drawable3DCurves
 		return getView3D().getIntervalClippedLarge(new double[] {
 				Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY }, m, d);
 	}
+	
+	protected void createPointsIfNeeded() {
+		if (points[0] == null) {
+			for (int i = 0; i < 4; i++) {
+				points[i] = new Coords(3);
+			}
+		}
+	}
 
 	/**
 	 * update outline for parallel lines
@@ -249,28 +267,34 @@ public class DrawConic3D extends Drawable3DCurves
 	 */
 	protected void updateLines(PlotterBrush brush) {
 
+		createPointsIfNeeded();
+		
 		m = conic.getOrigin3D(0);
 		d = conic.getDirection3D(0);
 		if (d.isDefined()) {
 			minmax = getLineMinMax(0);
-			points[0] = m.add(d.mul(minmax[0]));
-			points[1] = m.add(d.mul(minmax[1]));
+			Coords p = points[0];
+			p.setAdd3(m, p.setMul3(d, minmax[0]));
+			p = points[1];
+			p.setAdd3(m, p.setMul3(d, minmax[1]));
 
 			brush.segment(points[0], points[1]);
 		} else { // tells the surface that second line is infinite
-			points[0] = null;
+			points[0].setUndefined();
 		}
 
 		m = conic.getOrigin3D(1);
 		d = conic.getDirection3D(1);
 		if (d.isDefined()) {
 			minmax = getLineMinMax(1);
-			points[3] = m.add(d.mul(minmax[0]));
-			points[2] = m.add(d.mul(minmax[1]));
+			Coords p = points[3];
+			p.setAdd3(m, p.setMul3(d, minmax[0]));
+			p = points[2];
+			p.setAdd3(m, p.setMul3(d, minmax[1]));
 
 			brush.segment(points[2], points[3]);
 		} else { // tells the surface that second line is infinite
-			points[0] = null;
+			points[0].setUndefined();
 		}
 
 	}
@@ -282,7 +306,7 @@ public class DrawConic3D extends Drawable3DCurves
 	 *            surface plotter
 	 */
 	protected void updateParallelLines(PlotterSurface surface) {
-		if (points[0] != null) { // in case second line is infinite
+		if (points[0].isDefined()) { // in case second line is infinite
 			surface.drawQuad(points[0], points[1], points[2], points[3]);
 		}
 	}
