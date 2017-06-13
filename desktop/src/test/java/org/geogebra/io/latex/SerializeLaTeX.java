@@ -268,6 +268,12 @@ public class SerializeLaTeX {
 		testEditor("\u3145\u3145\u1161\u11BC", "\uC30D");
 		testEditor("\u110A\u1161\u11BC", "\uC30D");
 		
+		
+		testEditor("\u3142\u315C", "\uBD80");
+		testEditor("\u3142\u315C\u3154", "\uBDB8");
+		testEditor("\u3142\u315C\u3154\u3139", "\uBDC0");
+		testEditor("\u3142\u315C\u3154\u3139\u3131","\uBDC1");
+		
 	}
 
 	@Test
