@@ -286,14 +286,27 @@ public class MyArbitraryConstant {
 		return position;
 	}
 
-	public void setBlocking(boolean blocking) {
-		this.blocking = blocking;
+	/**
+	 * Switch to blocking mode where no arb constants are produced and and only
+	 * reported (see {@link MyArbitraryConstant#hasBlocked()} )
+	 */
+	public void startBlocking() {
+		this.blocking = true;
 		this.blocked = false;
 	}
 
+	/**
+	 * @return whether a forbidden op was encountered since last setBlocking
+	 */
 	public boolean hasBlocked() {
 		return blocked;
 	}
+
+	/**
+	 * @param op
+	 *            operation
+	 * @return whether this operation was blocked
+	 */
 	public boolean isBlocking(Operation op) {
 		if (op == Operation.ARBINT || op == Operation.ARBCONST
 				|| op == Operation.ARBCOMPLEX) {

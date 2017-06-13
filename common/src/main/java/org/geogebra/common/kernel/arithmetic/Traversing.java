@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Traversing objects are allowed to traverse through an Equation, MyList,
@@ -850,7 +849,6 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			Log.debug(ev);
 			if (!ev.isExpressionNode()) {
 				return ev;
 			}

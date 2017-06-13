@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -66,10 +65,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		}
 		sb.append("]");
 		try {
-			arbconst.setBlocking(true);
+			arbconst.startBlocking();
 			String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
 					arbconst);
-			Log.debug("BLOCKED" + arbconst.hasBlocked());
 			if (arbconst.hasBlocked()) {
 				solutions.clear();
 				solutions.setUndefined();

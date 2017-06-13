@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -319,7 +318,6 @@ public class ItemControls extends FlowPanel {
 
 		if (value) {
 			buildGUI();
-			Log.debug("Control repositionig. width: " + getOffsetWidth());
 		}
 	}
 
