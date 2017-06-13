@@ -3,7 +3,7 @@ package com.himamis.retex.editor.share.model;
 import java.util.HashMap;
 
 /**
- * @author Michael
+ * @author Michael Borcherds
  * 
  *         Various methods for converting between Korean Unicode formats
  * 
@@ -925,7 +925,7 @@ public class Korean {
 			// false);
 
 			char lastCharFlat2 = lastCharFlat.charAt(2);
-			System.err.println("lastCharFlat2 = " + lastCharFlat2);
+			// System.err.println("lastCharFlat2 = " + lastCharFlat2);
 
 			char newLastChar = Korean
 					.unflattenKorean(lastCharFlat.substring(0, 2)).charAt(0);
@@ -947,8 +947,8 @@ public class Korean {
 				char ch1 = unmergedChar2.charAt(0);
 				char ch2 = unmergedChar2.charAt(1);
 
-				System.err.println("trying to undouble " + lastCharFlat2
-						+ " as " + ch1 + " " + ch2);
+				// System.err.println("trying to undouble " + lastCharFlat2
+				// + " as " + ch1 + " " + ch2);
 
 				newLastChar = Korean
 						.unflattenKorean(lastCharFlat.substring(0, 2) + ch1)
@@ -973,7 +973,7 @@ public class Korean {
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanTailChar(newChar, true)) {
 
-			System.err.println("case 5");
+			// System.err.println("case 5");
 
 			// System.err.println("case 5");
 
@@ -985,11 +985,11 @@ public class Korean {
 			String doubleCheck = Korean
 					.mergeDoubleCharacters(lastChar2 + "" + newChar);
 
-			System.err.println("doubleCheck = " + doubleCheck + " "
-					+ doubleCheck.length());
+			// System.err.println("doubleCheck = " + doubleCheck + " "
+			// + doubleCheck.length());
 
 			if (doubleCheck.length() == 1) {
-				System.err.println("merge check passed");
+				// System.err.println("merge check passed");
 
 				newChar = Korean
 						.unflattenKorean(
