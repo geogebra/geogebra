@@ -4034,8 +4034,9 @@ public abstract class App implements UpdateSelection {
 		case CONVEX_HULL_3D:
 			return canary;
 
+		/** MOB-637 */
 		case DIFFERENT_AXIS_RATIO_3D:
-			return prerelease;
+			return true;
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
