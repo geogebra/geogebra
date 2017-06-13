@@ -247,6 +247,27 @@
 			border: 2px solid $toolbar-header;
 		}
 	}
+	
+	.main  {
+		position: absolute;
+	}
+	
+	.algebra {
+		position: absolute;
+		left: 0px;
+		transition: all 0.3s ease;
+    		
+	}
 		
+	.tools {
+		position: absolute;
+		left: -100%;
+		transition: all 0.3s ease;
+    	}
+	
+	.main >* {
+	
+		display: inline-block;
+	}		
  }
  
