@@ -92,12 +92,13 @@
 	}
 	
 	.dotSubMenu {
-		padding-left: 8px;
+		/*padding-left: 8px;*/
 		z-index: 99999;
 	}
 
 	.checkMarkMenuItem {
 		height: 32px;
+		padding-left: 24px;
 	
 		img  {
 			position: absolute;

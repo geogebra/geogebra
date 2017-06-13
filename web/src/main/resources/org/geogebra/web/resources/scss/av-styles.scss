@@ -89,7 +89,14 @@
 			padding-left: 0px;
 			padding-top: 0px;
 			padding-bottom: 0px;
-			padding-rigth: 16px;
+			padding-right: 40px;
+			
+			img {
+				width: 24px !important;
+				height: 24px !important;
+				opacity: 0.54;
+				padding: 6px;	
+			}
 		}
 		
 		 span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
@@ -109,6 +116,10 @@
 		.gwt-MenuItem:hover {
 			background-color: $selected-menuitem-background;
 			color: $black;
+			
+			img {
+				opacity: 0.87;
+			}
 			
 			span.gwt-RadioButton.RadioButtonMenuItem.GeoGebraFrame { 
 	 	       background-color: $selected-menuitem-background; 
