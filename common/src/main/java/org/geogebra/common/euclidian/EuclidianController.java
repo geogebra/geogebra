@@ -8421,6 +8421,9 @@ public abstract class EuclidianController {
 		// Floating stylebar not supported
 	}
 
+	public void cancelDrag() {
+		moveMode = MOVE_NONE;
+	}
 
 	protected boolean shouldCancelDrag() {
 		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY
