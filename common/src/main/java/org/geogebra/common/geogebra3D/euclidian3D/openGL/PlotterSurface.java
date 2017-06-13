@@ -161,9 +161,9 @@ public class PlotterSurface {
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 
-		manager.vertex(p1);
-		manager.vertex(p3);
-		manager.vertex(p2);
+		manager.vertexToScale(p1);
+		manager.vertexToScale(p3);
+		manager.vertexToScale(p2);
 		manager.endGeometry();
 	}
 
@@ -187,10 +187,10 @@ public class PlotterSurface {
 		float vT = getTextureCoord(1, vNb, vMinFadeNb, vMaxFadeNb);
 		manager.texture(uT, vT);
 
-		manager.vertex(p1);
-		manager.vertex(p2);
-		manager.vertex(p4);
-		manager.vertex(p3);
+		manager.vertexToScale(p1);
+		manager.vertexToScale(p2);
+		manager.vertexToScale(p4);
+		manager.vertexToScale(p3);
 		manager.endGeometry();
 	}
 
