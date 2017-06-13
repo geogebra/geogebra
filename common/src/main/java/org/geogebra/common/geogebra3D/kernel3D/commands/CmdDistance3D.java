@@ -37,28 +37,28 @@ public class CmdDistance3D extends CmdDistance {
 				if (arg[0].isGeoLine() && arg[1].isGeoLine()) {
 
 					return new GeoElement[] {
-							kernelA.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().Distance(c.getLabel(),
 									(GeoLineND) arg[0], (GeoLineND) arg[1]) };
 				}
 
 				if (arg[0].isGeoPoint() && arg[1].isGeoPlane()) {
 
 					return new GeoElement[] {
-							kernelA.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().Distance(c.getLabel(),
 									(GeoPointND) arg[0], (GeoPlaneND) arg[1]) };
 				}
 
 				if (arg[1].isGeoPoint() && arg[0].isGeoPlane()) {
 
 					return new GeoElement[] {
-							kernelA.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().Distance(c.getLabel(),
 									(GeoPointND) arg[1], (GeoPlaneND) arg[0]) };
 				}
 
 				if (arg[1].isGeoPlane() && arg[0].isGeoPlane()) {
 
 					return new GeoElement[] {
-							kernelA.getManager3D().Distance(c.getLabel(),
+							kernel.getManager3D().Distance(c.getLabel(),
 									(GeoPlaneND) arg[1], (GeoPlaneND) arg[0]) };
 				}
 			}
@@ -67,7 +67,7 @@ public class CmdDistance3D extends CmdDistance {
 
 		default:
 			// return super.process(c);
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

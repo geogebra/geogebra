@@ -35,7 +35,7 @@ public class CmdSlider extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n < 2 || n > 9) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		for (int i = 0; i < Math.min(n, 5); i++) {
 			if (!(arg[i] instanceof GeoNumberValue)) {
@@ -62,11 +62,11 @@ public class CmdSlider extends CommandProcessor {
 				|| arg[0] instanceof GeoAngle || arg[1] instanceof GeoAngle) {
 
 			if (slider == null || !slider.isAngle()) {
-				slider = new GeoAngle(kernelA.getConstruction());
+				slider = new GeoAngle(kernel.getConstruction());
 			}
 		} else {
 			if (slider == null || slider.isAngle()) {
-				slider = new GeoNumeric(kernelA.getConstruction());
+				slider = new GeoNumeric(kernel.getConstruction());
 			}
 		}
 

@@ -51,7 +51,7 @@ public class CmdFunction extends CommandProcessor {
 		FunctionVariable fv;
 		switch (n) {
 		case 0:
-			return CmdDataFunction.emptyFunction(kernelA, c.getLabel());
+			return CmdDataFunction.emptyFunction(kernel, c.getLabel());
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -73,13 +73,13 @@ public class CmdFunction extends CommandProcessor {
 			// file might be saved with old Function[sin(x),1,2]
 			if (!cons.isFileLoading()) {
 				fv = null;
-				if (varName != null || kernelA.getConstruction()
+				if (varName != null || kernel.getConstruction()
 						.getRegisteredFunctionVariable() != null) {
 					if (varName == null) {
-						varName = kernelA.getConstruction()
+						varName = kernel.getConstruction()
 								.getRegisteredFunctionVariable();
 					}
-					fv = new FunctionVariable(kernelA, varName);
+					fv = new FunctionVariable(kernel, varName);
 					int r = c.getArgument(0).replaceVariables(varName, fv);
 					c.getArgument(0).replaceVariables(varName, fv);
 					if (r > 0) {
@@ -101,15 +101,15 @@ public class CmdFunction extends CommandProcessor {
 					GeoNumberValue high = (GeoNumberValue) arg[2];
 
 					if (fv == null) {
-						fv = new FunctionVariable(kernelA);
+						fv = new FunctionVariable(kernel);
 					}
 
 					// construct the equivalent of parsing a<=x<=b
-					ExpressionNode left = new ExpressionNode(kernelA, low,
+					ExpressionNode left = new ExpressionNode(kernel, low,
 							Operation.LESS_EQUAL, fv);
-					ExpressionNode right = new ExpressionNode(kernelA, fv,
+					ExpressionNode right = new ExpressionNode(kernel, fv,
 							Operation.LESS_EQUAL, high);
-					ExpressionNode interval = new ExpressionNode(kernelA, left,
+					ExpressionNode interval = new ExpressionNode(kernel, left,
 							Operation.AND_INTERVAL, right);
 					Function intervalFun = new Function(interval, fv);
 					AlgoDependentFunction intervalAlgo = new AlgoDependentFunction(
@@ -122,7 +122,7 @@ public class CmdFunction extends CommandProcessor {
 
 					// copied from CmdIf from here
 
-					expr = new ExpressionNode(kernelA,
+					expr = new ExpressionNode(kernel,
 							wrap(conditions.get(0), fv, mayUseIndependent),
 							Operation.IF, wrap(geoFun, fv, mayUseIndependent));
 
@@ -147,39 +147,39 @@ public class CmdFunction extends CommandProcessor {
 
 			// old code, just for when file loading
 
-			if (varName != null || kernelA.getConstruction()
+			if (varName != null || kernel.getConstruction()
 					.getRegisteredFunctionVariable() != null) {
 				if (varName == null) {
-					varName = kernelA.getConstruction()
+					varName = kernel.getConstruction()
 							.getRegisteredFunctionVariable();
 				}
-				fv = new FunctionVariable(kernelA, varName);
+				fv = new FunctionVariable(kernel, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);
 				if (r > 0) {
-					boolean oldFlag = kernelA.getConstruction()
+					boolean oldFlag = kernel.getConstruction()
 							.isSuppressLabelsActive();
-					kernelA.getConstruction().setSuppressLabelCreation(true);
+					kernel.getConstruction().setSuppressLabelCreation(true);
 
 					c.getArgument(1).resolveVariables(argInfo);
 					c.getArgument(2).resolveVariables(argInfo);
 					EvalInfo silent = new EvalInfo(false);
 					GeoFunction condFun;
 					if (c.getArgument(0).unwrap() instanceof Command) {
-						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
+						condFun = (GeoFunction) kernel.getAlgebraProcessor()
 								.processCommand(
 										(Command) c.getArgument(0).unwrap(),
 										silent)[0];
 					} else {
 						c.getArgument(0).resolveVariables(argInfo);
-						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
+						condFun = (GeoFunction) kernel.getAlgebraProcessor()
 								.processFunction(
 										new Function(c.getArgument(0), fv),
 										silent)[0];
 					}
-					GeoElement low = kernelA.getAlgebraProcessor()
+					GeoElement low = kernel.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(1), silent)[0];
-					GeoElement high = kernelA.getAlgebraProcessor()
+					GeoElement high = kernel.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(2), silent)[0];
 					if (!(low instanceof NumberValue)) {
 						throw argErr(app, c, low);
@@ -190,7 +190,7 @@ public class CmdFunction extends CommandProcessor {
 					c.getArgument(1).replaceVariables(varName, fv);
 					c.getArgument(0).resolveVariables(argInfo);
 
-					kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
+					kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 					return new GeoElement[] { Function(c.getLabel(), condFun,
 							(GeoNumberValue) low, (GeoNumberValue) high) };
 				}
@@ -207,16 +207,16 @@ public class CmdFunction extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
 	private ExpressionNode wrap(GeoFunction boolFun, FunctionVariable fv,
 			boolean mayUseIndependent) {
 		if (!mayUseIndependent) {
-			return new ExpressionNode(kernelA, boolFun, Operation.FUNCTION, fv);
+			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION, fv);
 		}
-		return boolFun.getFunctionExpression().deepCopy(kernelA)
+		return boolFun.getFunctionExpression().deepCopy(kernel)
 				.traverse(VariablePolyReplacer.getReplacer(fv)).wrap();
 	}
 

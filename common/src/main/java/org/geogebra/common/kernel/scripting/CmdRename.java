@@ -64,7 +64,7 @@ public class CmdRename extends CmdScripting {
 				GeoElement geo = arg[0];
 				String checked;
 				try {
-					checked = kernelA.getAlgebraProcessor()
+					checked = kernel.getAlgebraProcessor()
 							.parseLabel(((GeoText) arg[1]).getTextString());
 
 					if (LabelManager.checkName(geo, checked)) {
@@ -82,7 +82,7 @@ public class CmdRename extends CmdScripting {
 			throw argErr(app, c, arg[1]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

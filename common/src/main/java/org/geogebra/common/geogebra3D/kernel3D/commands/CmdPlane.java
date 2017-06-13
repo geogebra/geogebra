@@ -39,7 +39,7 @@ public class CmdPlane extends CommandProcessor {
 			}
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoCoordSys2D) {
-				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
+				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.Plane3D(c.getLabel(), (GeoCoordSys2D) arg[0]) };
 				return ret;
 			}
@@ -49,19 +49,19 @@ public class CmdPlane extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoLineND))) {
-				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
+				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.Plane3D(c.getLabel(), (GeoPointND) arg[0],
 								(GeoLineND) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoCoordSys2D))) {
-				GeoElement[] ret = { (GeoElement) kernelA.getManager3D()
+				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
 						.Plane3D(c.getLabel(), (GeoPointND) arg[0],
 								(GeoCoordSys2D) arg[1]) };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { kernelA.getManager3D().Plane3D(
+				GeoElement[] ret = { kernel.getManager3D().Plane3D(
 						c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]) };
 				return ret;
 
@@ -77,7 +77,7 @@ public class CmdPlane extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernelA.getManager3D().Plane3D(
+				GeoElement[] ret = { kernel.getManager3D().Plane3D(
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2]) };
 				return ret;
@@ -89,13 +89,13 @@ public class CmdPlane extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoVector()))
 					&& (ok[2] = (arg[2].isGeoVector()))) {
-				ExpressionNode cross = new ExpressionNode(kernelA, arg[1],
+				ExpressionNode cross = new ExpressionNode(kernel, arg[1],
 						Operation.VECTORPRODUCT, arg[2]);
 
 				AlgoDependentVector3D algo = new AlgoDependentVector3D(cons,
 						cross);
 
-				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
+				return new GeoElement[] { (GeoElement) kernel.getManager3D()
 						.OrthogonalPlane3D(c.getLabel(), (GeoPointND) arg[0],
 								algo.getVector3D()) };
 			}
@@ -109,7 +109,7 @@ public class CmdPlane extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 	}

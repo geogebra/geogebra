@@ -50,7 +50,7 @@ public class CmdRotate extends CommandProcessor {
 			return process3(c, arg, ok);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -105,7 +105,7 @@ public class CmdRotate extends CommandProcessor {
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
 			if (arg[0] instanceof GeoText) {
 				c.setName("RotateText");
-				return kernelA.getAlgebraProcessor().processCommand(c,
+				return kernel.getAlgebraProcessor().processCommand(c,
 						new EvalInfo(false));
 			}
 			GeoNumberValue phi = (GeoNumberValue) arg[1];

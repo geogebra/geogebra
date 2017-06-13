@@ -60,13 +60,13 @@ public class CmdPolynomial extends CommandProcessor {
 		default:
 			// Markus Hohenwarter 2008-01-26 BEGIN
 			// try to create list of points
-			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { PolynomialFunction(c.getLabel(), list) };
 				return ret;
 			}
 			// Markus Hohenwarter 2008-01-26 END
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

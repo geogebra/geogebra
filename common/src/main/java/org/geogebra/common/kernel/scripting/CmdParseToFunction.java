@@ -53,15 +53,15 @@ public class CmdParseToFunction extends CommandProcessor {
 
 				try {
 					GeoElement parsed = arg[0].isGeoFunction()
-							? kernelA.getAlgebraProcessor()
+							? kernel.getAlgebraProcessor()
 									.evaluateToFunction(str, true)
-							: kernelA.getAlgebraProcessor()
+							: kernel.getAlgebraProcessor()
 									.evaluateToFunctionNVar(str, true);
 					fun.set(parsed);
 					fun.updateCascade();
 				} catch (Exception e) {
 					// eg ParseToFunction[f, "hello"]
-					fun.set(kernelA.getAlgebraProcessor()
+					fun.set(kernel.getAlgebraProcessor()
 							.evaluateToFunction("?", true));
 					fun.updateCascade();
 				}
@@ -75,7 +75,7 @@ public class CmdParseToFunction extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

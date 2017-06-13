@@ -47,7 +47,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 				// listItems.add((GeoElement) arg2[4]); // no opacity
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems,
 						false);
-				kernelA.getConstruction().removeFromConstructionList(algo);
+				kernel.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
@@ -79,7 +79,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 				listItems.add(arg2[4]); // opacity
 				AlgoDependentList algo = new AlgoDependentList(cons, listItems,
 						false);
-				kernelA.getConstruction().removeFromConstructionList(algo);
+				kernel.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
@@ -98,7 +98,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

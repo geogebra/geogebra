@@ -30,7 +30,7 @@ public class CmdLineBisector3D extends CmdLineBisector {
 		if ((ok[0] = (arg[0].isGeoSegment()))
 				&& (ok[1] = (arg[1] instanceof GeoDirectionND))) {
 			GeoElement[] ret = {
-					kernelA.getManager3D().LineBisector3D(c.getLabel(),
+					kernel.getManager3D().LineBisector3D(c.getLabel(),
 							(GeoSegmentND) arg[0], (GeoDirectionND) arg[1]) };
 			return ret;
 		}
@@ -42,17 +42,17 @@ public class CmdLineBisector3D extends CmdLineBisector {
 	protected GeoElement lineBisector(String label, GeoSegmentND segment) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernelA, app);
+				.getCurrentViewOrientation(kernel, app);
 		if (orientation == null) {
 			if (segment.isGeoElement3D()) {
-				orientation = kernelA.getXOYPlane();
+				orientation = kernel.getXOYPlane();
 			} else {
 				// use 2D algo
 				return super.lineBisector(label, segment);
 			}
 		}
 
-		return kernelA.getManager3D().LineBisector3D(label, segment,
+		return kernel.getManager3D().LineBisector3D(label, segment,
 				orientation);
 
 	}
@@ -62,17 +62,17 @@ public class CmdLineBisector3D extends CmdLineBisector {
 			GeoPointND b) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernelA, app);
+				.getCurrentViewOrientation(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
-				orientation = kernelA.getXOYPlane();
+				orientation = kernel.getXOYPlane();
 			} else {
 				// use 2D algo
 				return super.lineBisector(label, a, b);
 			}
 		}
 
-		return kernelA.getManager3D().LineBisector3D(label, a, b, orientation);
+		return kernel.getManager3D().LineBisector3D(label, a, b, orientation);
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class CmdLineBisector3D extends CmdLineBisector {
 		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoDirectionND))) {
 
-			GeoElement[] ret = { kernelA.getManager3D().LineBisector3D(
+			GeoElement[] ret = { kernel.getManager3D().LineBisector3D(
 					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 					(GeoDirectionND) arg[2]) };
 			return ret;

@@ -75,7 +75,7 @@ public class CmdTriangular extends CommandProcessor {
 					!ok ? arg[0] : (ok2 ? arg[2] : arg[0]));
 
 		default:
-			throw argNumErr(app, c2, n);
+			throw argNumErr(c2);
 		}
 	}
 

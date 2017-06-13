@@ -51,7 +51,7 @@ public class CmdComplexRoot extends CommandProcessor {
 			throw argErr(app, c, arg[0]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

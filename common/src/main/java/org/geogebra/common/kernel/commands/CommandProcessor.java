@@ -53,7 +53,7 @@ public abstract class CommandProcessor {
 	/** localization */
 	protected Localization loc;
 	/** kernel */
-	protected Kernel kernelA;
+	protected Kernel kernel;
 	/** construction */
 	protected Construction cons;
 	private AlgebraProcessor algProcessor;
@@ -65,7 +65,7 @@ public abstract class CommandProcessor {
 	 *            kernel
 	 */
 	public CommandProcessor(Kernel kernel) {
-		this.kernelA = kernel;
+		this.kernel = kernel;
 		cons = kernel.getConstruction();
 		app = kernel.getApplication();
 		loc = app.getLocalization();
@@ -199,7 +199,7 @@ public abstract class CommandProcessor {
 					.getFreeLabel(subst);
 			Variable newVar = new Variable(cons.getKernel(), newXVarStr);
 			GeoNumeric gn = new GeoNumeric(cons);
-			kernelA.getConstruction().addLocalVariable(newXVarStr, gn);
+			kernel.getConstruction().addLocalVariable(newXVarStr, gn);
 			GeoDummyReplacer replacer = GeoDummyReplacer.getReplacer(var,
 					newVar, true);
 			// replace "x" in expressions
@@ -301,18 +301,18 @@ public abstract class CommandProcessor {
 			// replace all imaginary unit objects in command arguments by a
 			// variable "i"object
 			localVarName = "i";
-			Variable localVar = new Variable(kernelA, localVarName);
+			Variable localVar = new Variable(kernel, localVarName);
 			c.traverse(
-					Replacer.getReplacer(kernelA.getImaginaryUnit(), localVar));
+					Replacer.getReplacer(kernel.getImaginaryUnit(), localVar));
 		}
 		// Euler constant as local variable name
 		else if (localVarName.equals(Unicode.EULER_STRING)) {
 			// replace all imaginary unit objects in command arguments by a
 			// variable "i"object
 			localVarName = "e";
-			Variable localVar = new Variable(kernelA, localVarName);
+			Variable localVar = new Variable(kernel, localVarName);
 			c.traverse(
-					Replacer.getReplacer(kernelA.getEulerNumber(), localVar));
+					Replacer.getReplacer(kernel.getEulerNumber(), localVar));
 		}
 
 		// add local variable name to construction
@@ -348,7 +348,7 @@ public abstract class CommandProcessor {
 			// parse again to undo z*z -> Function
 			try {
 				for (int i = 0; i < argsToReplace; i++) {
-					c.setArgument(i, kernelA.getParser()
+					c.setArgument(i, kernel.getParser()
 							.parseGeoGebraExpression(c.getArgument(i)
 									.toString(StringTemplate.xmlTemplate))
 							.wrap());
@@ -424,7 +424,7 @@ public abstract class CommandProcessor {
 
 		}
 		ExpressionNode def = c.getArgument(0)
-				.traverse(CommandReplacer.getReplacer(kernelA, false)).wrap();
+				.traverse(CommandReplacer.getReplacer(kernel, false)).wrap();
 		GeoElement[] arg = resArg(def, argInfo);
 
 		return arg[0];
@@ -460,7 +460,7 @@ public abstract class CommandProcessor {
 			num = new GeoNumeric(cons);
 		} else if (gl.size() == 0) {
 			if (gl.getTypeStringForXML() != null) {
-				num = kernelA.createGeoElement(cons, gl.getTypeStringForXML());
+				num = kernel.createGeoElement(cons, gl.getTypeStringForXML());
 			} else {
 				// guess
 				num = new GeoNumeric(cons);
@@ -558,8 +558,8 @@ public abstract class CommandProcessor {
 				// replace all imaginary unit objects in command arguments by a
 				// variable "i"object
 				localVarName[i] = "i";
-				Variable localVar = new Variable(kernelA, localVarName[i]);
-				c.traverse(Replacer.getReplacer(kernelA.getImaginaryUnit(),
+				Variable localVar = new Variable(kernel, localVarName[i]);
+				c.traverse(Replacer.getReplacer(kernel.getImaginaryUnit(),
 						localVar));
 			}
 			// Euler constant as local variable name
@@ -567,8 +567,8 @@ public abstract class CommandProcessor {
 				// replace all imaginary unit objects in command arguments by a
 				// variable "i"object
 				localVarName[i] = "e";
-				Variable localVar = new Variable(kernelA, localVarName[i]);
-				c.traverse(Replacer.getReplacer(kernelA.getEulerNumber(),
+				Variable localVar = new Variable(kernel, localVarName[i]);
+				c.traverse(Replacer.getReplacer(kernel.getEulerNumber(),
 						localVar));
 			}
 		}
@@ -689,7 +689,7 @@ public abstract class CommandProcessor {
 	 * @return wrong parameter count error
 	 */
 
-	protected final MyError argNumErr(App app1, Command cmd, int argNumber) {
+	private final MyError argNumErr(App app1, Command cmd, int argNumber) {
 		if (sb == null) {
 			sb = new StringBuilder();
 		} else {
@@ -878,7 +878,7 @@ public abstract class CommandProcessor {
 	protected void checkDependency(GeoElement[] arg, Command c, int i,
 			int j) {
 		if (arg[i].isChildOrEqual(arg[j])) {
-			if (kernelA.getConstruction().isFileLoading()) {
+			if (kernel.getConstruction().isFileLoading()) {
 				// make sure old files can be loaded (and fixed)
 				Log.warn("wrong dependency in " + c.getName());
 			} else {
@@ -892,7 +892,7 @@ public abstract class CommandProcessor {
 	 * @return algo dispatcher
 	 */
 	protected AlgoDispatcher getAlgoDispatcher() {
-		return kernelA.getAlgoDispatcher();
+		return kernel.getAlgoDispatcher();
 	}
 
 	/**
@@ -918,14 +918,12 @@ public abstract class CommandProcessor {
 	}
 
 	/**
-	 * @param n
-	 *            argument number
 	 * @param c
 	 *            command
 	 * @return throws error
 	 */
-	protected final MyError argNumErr(int n, Command c) {
-		return argNumErr(app, c, n);
+	protected final MyError argNumErr(Command c) {
+		return argNumErr(app, c, c.getArgumentNumber());
 	}
 
 }

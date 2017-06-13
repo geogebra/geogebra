@@ -57,11 +57,11 @@ public class CmdStemPlot extends CommandProcessor {
 			return ret;
 
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 
 		default:
 
-			GeoList list = wrapInList(kernelA, arg, arg.length,
+			GeoList list = wrapInList(kernel, arg, arg.length,
 					GeoClass.DEFAULT);
 			if (list != null) {
 				GeoElement[] ret2 = { StemPlot(c.getLabel(), list, null) };

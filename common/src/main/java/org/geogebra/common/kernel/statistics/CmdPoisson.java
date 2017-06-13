@@ -92,7 +92,7 @@ public class CmdPoisson extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

@@ -38,7 +38,7 @@ public class CmdProduct extends CommandProcessor {
 
 		// needed for Sum[]
 		if (c.getArgumentNumber() == 0) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		if (c.getArgumentNumber() == 4) {
 			GeoElement[] res = CmdSum.processSymb(this, c, Operation.MULTIPLY);
@@ -84,7 +84,7 @@ public class CmdProduct extends CommandProcessor {
 			throw argErr(app, c, arg[1]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

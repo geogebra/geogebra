@@ -75,7 +75,7 @@ public class CmdLogNormal extends CommandProcessor {
 			throw argErr(app, c, ok ? arg[1] : arg[0]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

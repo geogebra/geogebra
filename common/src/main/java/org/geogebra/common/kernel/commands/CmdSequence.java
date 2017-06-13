@@ -32,7 +32,7 @@ public class CmdSequence extends CommandProcessor {
 		// "Command Sequence not known eg
 		// Sequence[If[Element[list1,i]=="b",0,1]]
 		if (n < 1 || n > 5) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 		boolean[] ok = new boolean[n];
@@ -115,7 +115,7 @@ public class CmdSequence extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

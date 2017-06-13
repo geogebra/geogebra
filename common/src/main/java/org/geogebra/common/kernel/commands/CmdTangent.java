@@ -129,7 +129,7 @@ public class CmdTangent extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -144,7 +144,7 @@ public class CmdTangent extends CommandProcessor {
 	 */
 	protected GeoElement tangentToCurve(String label, GeoPointND point,
 			GeoCurveCartesianND curve) {
-		return kernelA.tangent(label, point, (GeoCurveCartesian) curve);
+		return kernel.tangent(label, point, (GeoCurveCartesian) curve);
 	}
 
 	/**

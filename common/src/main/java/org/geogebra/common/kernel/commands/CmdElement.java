@@ -34,7 +34,7 @@ public class CmdElement extends CommandProcessor {
 		switch (n) {
 		case 0:
 		case 1:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 2:
 			arg = resArgs(c);
 			// list

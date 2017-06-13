@@ -45,7 +45,7 @@ public class CmdRunClickScript extends CmdScripting {
 			return args;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 	}

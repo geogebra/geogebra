@@ -54,7 +54,7 @@ public class CmdFactors extends CommandProcessor {
 
 			// more than one argument
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

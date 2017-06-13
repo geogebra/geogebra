@@ -56,7 +56,7 @@ public class CmdLimit extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 			// more than one argument
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

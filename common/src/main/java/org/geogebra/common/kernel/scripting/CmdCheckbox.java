@@ -63,7 +63,7 @@ public class CmdCheckbox extends CommandProcessor {
 			break;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 		String label = c.getLabel();

@@ -42,7 +42,7 @@ public class CmdIntegral extends CommandProcessor {
 	final public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		if (c.getArgumentNumber() < 3
 				&& !app.getSettings().getCasSettings().isEnabled()) {
-			throw new MyError(kernelA.getLocalization(), "UnknownCommand");
+			throw new MyError(kernel.getLocalization(), "UnknownCommand");
 		}
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -148,7 +148,7 @@ public class CmdIntegral extends CommandProcessor {
 			}
 			throw argErr(app, c, getBadArg(ok, arg));
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

@@ -88,7 +88,7 @@ public class CmdShowAxes extends CmdScripting {
 			break;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		return arg;
 	}

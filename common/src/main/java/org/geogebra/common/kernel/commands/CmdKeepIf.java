@@ -44,13 +44,13 @@ public class CmdKeepIf extends CommandProcessor {
 			// eg KeepIf[x(A)<3, A+B, {1,2,3}]
 			arg1Str = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			try {
-				if (!arg1Str.equals(kernelA.getParser().parseLabel(arg1Str))) {
+				if (!arg1Str.equals(kernel.getParser().parseLabel(arg1Str))) {
 					throw argErr(app, c,
-							new MyStringBuffer(kernelA, arg1Str));
+							new MyStringBuffer(kernel, arg1Str));
 				}
 			} catch (ParseException e) {
 				throw argErr(app, c,
-						new MyStringBuffer(kernelA, arg1Str));
+						new MyStringBuffer(kernel, arg1Str));
 			}
 
 			GeoElement[] vars = new GeoElement[1];
@@ -94,7 +94,7 @@ public class CmdKeepIf extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, args));
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

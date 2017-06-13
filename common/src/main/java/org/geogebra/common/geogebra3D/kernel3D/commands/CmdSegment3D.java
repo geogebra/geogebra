@@ -21,7 +21,7 @@ public class CmdSegment3D extends CmdSegment {
 	@Override
 	protected GeoElement segment(String label, GeoPointND a, GeoPointND b) {
 		if (a.isGeoElement3D() || b.isGeoElement3D()) {
-			return (GeoElement) kernelA.getManager3D().Segment3D(label, a, b);
+			return (GeoElement) kernel.getManager3D().Segment3D(label, a, b);
 		}
 
 		return super.segment(label, a, b);

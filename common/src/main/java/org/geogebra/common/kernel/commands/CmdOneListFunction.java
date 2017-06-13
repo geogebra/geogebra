@@ -38,7 +38,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 1:
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
@@ -52,7 +52,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 
 				if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 
-					GeoList list = wrapFreehandFunctionArgInList(kernelA,
+					GeoList list = wrapFreehandFunctionArgInList(kernel,
 							(AlgoFunctionFreehand) fun.getParentAlgorithm());
 
 					if (list != null) {
@@ -85,7 +85,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 
 			else if (arg[0] instanceof GeoNumberValue) {
 				// try to create list of numbers
-				GeoList list = wrapInList(kernelA, arg, arg.length,
+				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
@@ -93,7 +93,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 				}
 			} else if (arg[0] instanceof VectorValue) {
 				// try to create list of points (eg FitExp[])
-				GeoList list = wrapInList(kernelA, arg, arg.length,
+				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.POINT);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
@@ -101,7 +101,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 				}
 
 			}
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -131,7 +131,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	 */
 	protected GeoElement doCommand(String label, Command c, GeoList list,
 			GeoList list2) {
-		throw argNumErr(app, c, 2);
+		throw argNumErr(c);
 	}
 
 	/**
@@ -152,7 +152,7 @@ public abstract class CmdOneListFunction extends CommandProcessor {
 	 */
 	protected GeoElement doCommand(String label, Command c, GeoList list,
 			GeoList list2, GeoBoolean flag) {
-		throw argNumErr(app, c, 3);
+		throw argNumErr(c);
 	}
 
 }

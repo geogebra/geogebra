@@ -54,10 +54,10 @@ public class CmdAttachCopyToView extends CommandProcessor {
 				}
 				if (n == 2) {
 
-					corner1 = new GeoPoint(kernelA.getConstruction());
-					corner3 = new GeoPoint(kernelA.getConstruction());
-					screenCorner1 = new GeoPoint(kernelA.getConstruction());
-					screenCorner3 = new GeoPoint(kernelA.getConstruction());
+					corner1 = new GeoPoint(kernel.getConstruction());
+					corner3 = new GeoPoint(kernel.getConstruction());
+					screenCorner1 = new GeoPoint(kernel.getConstruction());
+					screenCorner3 = new GeoPoint(kernel.getConstruction());
 					if (ev != null) {
 						corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 						corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
@@ -111,7 +111,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 			throw argErr(app, c, arg[0]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

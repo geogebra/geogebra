@@ -36,14 +36,14 @@ public class CmdImplicitSurface extends CommandProcessor {
 			if (arg[0] instanceof GeoFunctionNVar) {
 				ExpressionNode lhs = ((GeoFunctionNVar) arg[0])
 						.getFunctionExpression();
-				ExpressionNode rhs = new ExpressionNode(kernelA, 0.0);
-				Equation e = new Equation(kernelA, lhs, rhs);
+				ExpressionNode rhs = new ExpressionNode(kernel, 0.0);
+				Equation e = new Equation(kernel, lhs, rhs);
 				GeoImplicitSurface surf = new GeoImplicitSurface(cons, e);
 				surf.setLabel(c.getLabel());
 				return new GeoElement[] { surf };
 			}
 			throw argErr(app, c, arg[0]);
 		}
-		throw argNumErr(app, c, n);
+		throw argNumErr(c);
 	}
 }

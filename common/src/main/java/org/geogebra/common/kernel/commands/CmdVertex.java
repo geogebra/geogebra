@@ -55,7 +55,7 @@ public class CmdVertex extends CommandProcessor {
 			}
 			if (arg[0] instanceof GeoPoly) {
 
-				AlgoVertexPolygon algo = kernelA.getAlgoDispatcher()
+				AlgoVertexPolygon algo = kernel.getAlgoDispatcher()
 						.newAlgoVertexPolygon(cons, c.getLabels(),
 								(GeoPoly) arg[0]);
 
@@ -139,7 +139,7 @@ public class CmdVertex extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

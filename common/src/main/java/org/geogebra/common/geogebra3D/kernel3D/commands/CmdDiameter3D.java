@@ -24,11 +24,11 @@ public class CmdDiameter3D extends CmdDiameter {
 	@Override
 	protected GeoElement diameter(String label, GeoLineND l, GeoConicND c) {
 
-		return kernelA.getManager3D().DiameterLine3D(label, l, c);
+		return kernel.getManager3D().DiameterLine3D(label, l, c);
 	}
 
 	@Override
 	protected GeoElement diameter(String label, GeoVectorND v, GeoConicND c) {
-		return kernelA.getManager3D().DiameterLine3D(label, v, c);
+		return kernel.getManager3D().DiameterLine3D(label, v, c);
 	}
 }

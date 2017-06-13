@@ -62,7 +62,7 @@ public class CmdDifference extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
-			throw argNumErr(app, c, argumentNo);
+			throw argNumErr(c);
 		}
 
 	}
@@ -96,7 +96,7 @@ public class CmdDifference extends CommandProcessor {
 	 */
 	protected GeoElement[] difference3D(String[] labels, GeoPolygon3D poly1,
 			GeoPolygon3D poly2) {
-		return kernelA.getManager3D().DifferencePolygons(labels, poly1, poly2);
+		return kernel.getManager3D().DifferencePolygons(labels, poly1, poly2);
 	}
 
 	/**
@@ -134,7 +134,7 @@ public class CmdDifference extends CommandProcessor {
 	 */
 	protected GeoElement[] difference3D(String[] labels, GeoPolygon3D poly1,
 			GeoPolygon3D poly2, GeoBoolean exclusive) {
-		return kernelA.getManager3D().DifferencePolygons(labels, poly1, poly2,
+		return kernel.getManager3D().DifferencePolygons(labels, poly1, poly2,
 				exclusive);
 	}
 

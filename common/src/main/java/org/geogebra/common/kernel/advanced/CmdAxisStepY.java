@@ -34,7 +34,7 @@ public class CmdAxisStepY extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

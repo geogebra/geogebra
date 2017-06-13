@@ -69,7 +69,7 @@ public class CmdDensityPlot extends CommandProcessor {
 			ret[0] = algo.getResult();
 			return ret;
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

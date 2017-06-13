@@ -56,7 +56,7 @@ public class CmdLineBisector extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class CmdLineBisector extends CommandProcessor {
 	 */
 	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
-		throw argNumErr(app, c, 3);
+		throw argNumErr(c);
 	}
 
 	/**

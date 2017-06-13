@@ -49,7 +49,7 @@ public class CmdSetValue extends CmdScripting {
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
 					&& arg[1] instanceof NumberValue) {
 
-				boolean success = setValue3(kernelA, (GeoList) arg[0],
+				boolean success = setValue3(kernel, (GeoList) arg[0],
 						(int) ((NumberValue) arg[1]).getDouble(), arg[2]);
 
 				if (!success) {
@@ -63,7 +63,7 @@ public class CmdSetValue extends CmdScripting {
 			return arg;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

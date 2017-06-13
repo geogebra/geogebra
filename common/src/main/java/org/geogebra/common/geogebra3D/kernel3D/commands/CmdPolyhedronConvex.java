@@ -25,7 +25,7 @@ public class CmdPolyhedronConvex extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		if (n < 4) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 		GeoElement[] arg;
@@ -38,7 +38,7 @@ public class CmdPolyhedronConvex extends CommandProcessor {
 			}
 		}
 
-		return kernelA.getManager3D().PolyhedronConvex(c.getLabels(), arg);
+		return kernel.getManager3D().PolyhedronConvex(c.getLabels(), arg);
 
 	}
 

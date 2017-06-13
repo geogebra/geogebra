@@ -28,13 +28,13 @@ public class CmdIdentity extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n != 1) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		if (!(arg[0] instanceof GeoNumberValue)) {
 			throw argErr(app, c, arg[0]);
 		}
 
-		AlgoIdentity algo = new AlgoIdentity(kernelA.getConstruction(),
+		AlgoIdentity algo = new AlgoIdentity(kernel.getConstruction(),
 				c.getLabel(), (GeoNumberValue) arg[0]);
 		return new GeoElement[] { algo.getResult() };
 

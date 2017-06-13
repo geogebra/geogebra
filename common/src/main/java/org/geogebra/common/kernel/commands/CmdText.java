@@ -84,7 +84,7 @@ public class CmdText extends CommandProcessor {
 					ok ? (ok1 ? arg[3] : arg[2]) : arg[1]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

@@ -61,7 +61,7 @@ public class CmdExtremum extends CommandProcessor {
 
 			throw argErr(app, c, getBadArg(ok, arg));
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -90,7 +90,7 @@ public class CmdExtremum extends CommandProcessor {
 		// return null;
 
 		if (!f.isPolynomialFunction(true)) {
-			EuclidianViewInterfaceCommon view = this.kernelA.getApplication()
+			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 					.getActiveEuclidianView();
 			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, null, f, view);
 			return algo.getExtremumPoints();

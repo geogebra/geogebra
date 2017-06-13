@@ -64,7 +64,7 @@ public class CmdFit extends CommandProcessor {
 			throw argErr(app, c, arg[1]);
 		}
 
-		throw argNumErr(app, c, n);
+		throw argNumErr(c);
 
 	}
 }

@@ -37,13 +37,13 @@ public class CmdDataFunction extends CommandProcessor {
 		case 0:
 		case 2:
 		case 3:
-			FunctionVariable fv = new FunctionVariable(kernelA);
+			FunctionVariable fv = new FunctionVariable(kernel);
 			ExpressionValue en = simplify(c, fv);
 			GeoFunction geo = new GeoFunction(en.wrap(), fv);
 			geo.setLabel(c.getLabel());
 			return new GeoElement[] { geo };
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -80,7 +80,7 @@ public class CmdDataFunction extends CommandProcessor {
 
 	@Override
 	public ExpressionValue simplify(Command c) {
-		return simplify(c, new FunctionVariable(kernelA));
+		return simplify(c, new FunctionVariable(kernel));
 	}
 
 	private ExpressionValue simplify(Command c, FunctionVariable fv) {
@@ -88,13 +88,13 @@ public class CmdDataFunction extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			return getDataFunction(kernelA, c.getLabel(), new MyList(kernelA),
-					new MyList(kernelA), null, fv);
+			return getDataFunction(kernel, c.getLabel(), new MyList(kernel),
+					new MyList(kernel), null, fv);
 		case 2:
-			return getDataFunction(kernelA, c.getLabel(), toList(c, 0),
+			return getDataFunction(kernel, c.getLabel(), toList(c, 0),
 					toList(c, 1), null, fv);
 		case 3:
-			return getDataFunction(kernelA, c.getLabel(), toList(c, 0),
+			return getDataFunction(kernel, c.getLabel(), toList(c, 0),
 					toList(c, 1), c.getArgument(2), fv);
 		}
 		return null;
@@ -103,7 +103,7 @@ public class CmdDataFunction extends CommandProcessor {
 	private ListValue toList(Command c, int argIndex) {
 		ExpressionValue ev = c.getArgument(argIndex).unwrap();
 		if (ev instanceof Variable) {
-			ev = kernelA
+			ev = kernel
 					.lookupLabel(ev.toString(StringTemplate.noLocalDefault));
 		}
 		if (ev instanceof ListValue) {

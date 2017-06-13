@@ -33,7 +33,7 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -59,14 +59,14 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 
 			if (arg[0] instanceof VectorValue) {
 				// try to create list of points (eg FitExp[])
-				GeoList list = wrapInList(kernelA, arg, arg.length,
+				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.POINT);
 				if (list != null) {
 					GeoElement[] ret = { doCommand(c.getLabel(), list) };
 					return ret;
 				}
 			}
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

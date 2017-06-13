@@ -97,15 +97,15 @@ public class CmdIf extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		if (n < 2) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
-		if (kernelA.getConstruction().getRegisteredFunctionVariable() != null) {
-			String[] varName = kernelA.getConstruction()
+		if (kernel.getConstruction().getRegisteredFunctionVariable() != null) {
+			String[] varName = kernel.getConstruction()
 					.getRegisteredFunctionVariables();
 			FunctionVariable[] fv = new FunctionVariable[varName.length];
 
-			int r = kernelA.getAlgebraProcessor()
+			int r = kernel.getAlgebraProcessor()
 					.replaceVariables(c.getArgument(0), varName, fv);
 			if (r > 0) {
 				return specialFunction(c, varName, fv, info);
@@ -190,15 +190,15 @@ public class CmdIf extends CommandProcessor {
 	private GeoElement[] specialFunction(Command c, String[] varName,
 			FunctionVariable[] fv, EvalInfo info) {
 		EvalInfo argInfo = info.withLabels(false);
-		boolean oldFlag = kernelA.getConstruction().isSuppressLabelsActive();
-		kernelA.getConstruction().setSuppressLabelCreation(true);
+		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
+		kernel.getConstruction().setSuppressLabelCreation(true);
 		ArrayList<FunctionalNVar> conditions = new ArrayList<FunctionalNVar>();
 		ArrayList<FunctionalNVar> functions = new ArrayList<FunctionalNVar>();
 
 		int n = c.getArgumentNumber();
 		int vars = varName.length;
 		for (int i = 0; i < n - 1; i += 2) {
-			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(i),
+			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i),
 					varName, fv);
 			FunctionalNVar current = resolveFunction(c, i, fv, vars, argInfo);
 			if (current.isBooleanFunction()) {
@@ -206,20 +206,20 @@ public class CmdIf extends CommandProcessor {
 			} else {
 				throw argErr(app, c, current);
 			}
-			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1),
+			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(i + 1),
 					varName, fv);
 			vars = checkAdd(c, functions,
 					(GeoElement) resolveFunction(c, i + 1, fv, vars, argInfo),
 					vars);
 		}
 		if (MyDouble.isOdd(n)) {
-			kernelA.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1),
+			kernel.getAlgebraProcessor().replaceVariables(c.getArgument(n - 1),
 					varName, fv);
 			vars = checkAdd(c, functions,
 					(GeoElement) resolveFunction(c, n - 1, fv, vars, argInfo),
 					vars);
 		}
-		kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
+		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 		return new GeoElement[] {
 				If(c.getLabel(), conditions, functions, vars) };
 	}
@@ -235,10 +235,10 @@ public class CmdIf extends CommandProcessor {
 		}
 		EvalInfo info = new EvalInfo(false);
 		if (vars < 2) {
-			return (GeoFunction) kernelA.getAlgebraProcessor()
+			return (GeoFunction) kernel.getAlgebraProcessor()
 					.processFunction(new Function(arg, fv[0]), info)[0];
 		}
-		return (GeoFunctionNVar) kernelA.getAlgebraProcessor()
+		return (GeoFunctionNVar) kernel.getAlgebraProcessor()
 				.processFunctionNVar(new FunctionNVar(arg, fv), info)[0];
 	}
 
@@ -255,13 +255,13 @@ public class CmdIf extends CommandProcessor {
 			int regVars = cons.getRegisteredFunctionVariables().length;
 			fv = new FunctionVariable[regVars];
 			for (int i = 0; i < fv.length; i++) {
-				fv[i] = new FunctionVariable(kernelA,
+				fv[i] = new FunctionVariable(kernel,
 						cons.getRegisteredFunctionVariables()[i]);
 			}
 		} else {
 			fv = new FunctionVariable[vars];
 			for (int i = 0; i < fv.length; i++) {
-				fv[i] = new FunctionVariable(kernelA, ((char) ('x' + i)) + "");
+				fv[i] = new FunctionVariable(kernel, ((char) ('x' + i)) + "");
 			}
 		}
 
@@ -278,26 +278,26 @@ public class CmdIf extends CommandProcessor {
 		}
 
 		if (functions.size() == 1) {
-			expr = new ExpressionNode(kernelA,
+			expr = new ExpressionNode(kernel,
 					wrap(conditions.get(0), fv, mayUseIndependent),
 					Operation.IF,
 					wrap(functions.get(0), fv, mayUseIndependent));
 		} else if (functions.size() == 2 && conditions.size() == 1) {
-			expr = new ExpressionNode(kernelA,
-					new MyNumberPair(kernelA,
+			expr = new ExpressionNode(kernel,
+					new MyNumberPair(kernel,
 							wrap(conditions.get(0), fv, mayUseIndependent),
 							wrap(functions.get(0), fv, mayUseIndependent)),
 					Operation.IF_ELSE,
 					wrap(functions.get(1), fv, mayUseIndependent));
 		} else {
-			MyList cond = new MyList(kernelA), funs = new MyList(kernelA);
+			MyList cond = new MyList(kernel), funs = new MyList(kernel);
 			for (FunctionalNVar f : conditions) {
 				cond.addListElement(wrap(f, fv, mayUseIndependent));
 			}
 			for (FunctionalNVar f : functions) {
 				funs.addListElement(wrap(f, fv, mayUseIndependent));
 			}
-			expr = new ExpressionNode(kernelA, cond, Operation.IF_LIST, funs);
+			expr = new ExpressionNode(kernel, cond, Operation.IF_LIST, funs);
 		}
 		if (vars < 2) {
 			Function fun = new Function(expr, fv[0]);
@@ -333,17 +333,17 @@ public class CmdIf extends CommandProcessor {
 			boolean mayUseIndependent) {
 		if (!mayUseIndependent) {
 			if (fv.length == 1) {
-				return new ExpressionNode(kernelA, boolFun, Operation.FUNCTION,
+				return new ExpressionNode(kernel, boolFun, Operation.FUNCTION,
 						fv[0]);
 			}
-			MyList arg = new MyList(kernelA);
+			MyList arg = new MyList(kernel);
 			for (int i = 0; i < fv.length; i++) {
 				arg.addListElement(fv[i]);
 			}
-			return new ExpressionNode(kernelA, boolFun, Operation.FUNCTION_NVAR,
+			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION_NVAR,
 					arg);
 		}
-		ExpressionValue exp = boolFun.getFunctionExpression().deepCopy(kernelA);
+		ExpressionValue exp = boolFun.getFunctionExpression().deepCopy(kernel);
 		for (int i = 0; i < fv.length; i++) {
 			exp = exp.traverse(VariablePolyReplacer.getReplacer(fv[i]));
 		}

@@ -38,14 +38,14 @@ public class CmdIntersectConic extends CommandProcessor {
 					|| arg[0] instanceof GeoQuadric3DLimited))
 					&& (ok[1] = (arg[1] instanceof GeoQuadric3D
 							|| arg[1] instanceof GeoQuadric3DLimited))) {
-				GeoElement[] ret = kernelA.getManager3D().IntersectAsCircle(
+				GeoElement[] ret = kernel.getManager3D().IntersectAsCircle(
 						c.getLabels(), (GeoQuadricND) arg[0],
 						(GeoQuadricND) arg[1]);
 				return ret;
 			}
 
 			// intersection plane/quadric
-			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernelA, c,
+			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernel, c,
 					arg, ok);
 			if (ret != null) {
 				return new GeoElement[] { ret };
@@ -54,7 +54,7 @@ public class CmdIntersectConic extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

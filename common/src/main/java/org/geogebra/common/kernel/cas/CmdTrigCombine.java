@@ -36,7 +36,7 @@ public class CmdTrigCombine extends CommandProcessor {
 		case 1:
 			if ((arg[0].isCasEvaluableObject())) {
 				AlgoTrigCombine algo = new AlgoTrigCombine(
-						kernelA.getConstruction(), c.getLabel(),
+						kernel.getConstruction(), c.getLabel(),
 						(CasEvaluableFunction) arg[0], null, info);
 				return new GeoElement[] { algo.getResult() };
 			}
@@ -44,7 +44,7 @@ public class CmdTrigCombine extends CommandProcessor {
 			if ((arg[0].isCasEvaluableObject())
 					&& (arg[1] instanceof GeoFunction)) {
 				AlgoTrigCombine algo = new AlgoTrigCombine(
-						kernelA.getConstruction(), c.getLabel(),
+						kernel.getConstruction(), c.getLabel(),
 						(CasEvaluableFunction) arg[0], (GeoFunction) arg[1],
 						info);
 				return new GeoElement[] { algo.getResult() };
@@ -53,7 +53,7 @@ public class CmdTrigCombine extends CommandProcessor {
 
 			// more than one argument
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

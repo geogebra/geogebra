@@ -88,7 +88,7 @@ public class CmdShowGrid extends CmdScripting {
 			break;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		return arg;
 	}

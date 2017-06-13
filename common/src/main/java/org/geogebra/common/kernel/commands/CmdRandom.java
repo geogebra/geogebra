@@ -43,7 +43,7 @@ public class CmdRandom extends CommandProcessor {
 			cons.addRandomGeo(num);
 			num.setValue(app.getRandomNumber());
 			AlgoDependentNumber adn = new AlgoDependentNumber(cons,
-					new ExpressionNode(kernelA, num,
+					new ExpressionNode(kernel, num,
 							Operation.RANDOM, null),
 					false);
 			adn.getOutput(0).setLabel(c.getLabel());
@@ -87,7 +87,7 @@ public class CmdRandom extends CommandProcessor {
 					arg[0] instanceof GeoNumberValue ? arg[1] : arg[0]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

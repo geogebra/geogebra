@@ -53,7 +53,7 @@ public class CmdPolygon extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 			// G.Sturr 2010-3-14
 		case 1:
 			GeoList l = null;
@@ -121,7 +121,7 @@ public class CmdPolygon extends CommandProcessor {
 	 */
 	protected GeoElement[] polygon(String[] labels, GeoPointND[] points,
 			boolean is3D) {
-		return kernelA.polygon(labels, points);
+		return kernel.polygon(labels, points);
 	}
 
 	/**

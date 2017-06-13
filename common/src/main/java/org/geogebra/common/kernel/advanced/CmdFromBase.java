@@ -55,7 +55,7 @@ public class CmdFromBase extends CommandProcessor {
 				// do nothing
 			}
 			if (!(arg[0] instanceof GeoText)) {
-				arg[0] = new GeoText(kernelA.getConstruction(), str);
+				arg[0] = new GeoText(kernel.getConstruction(), str);
 			}
 
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -67,7 +67,7 @@ public class CmdFromBase extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

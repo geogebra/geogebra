@@ -66,7 +66,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 
 		// more than one argument
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 		}
 
 		try {
-			GeoElementND[] ret = kernelA.getAlgebraProcessor()
+			GeoElementND[] ret = kernel.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(command.toString(),
 							true);
 			ret[0].setVisualStyle(geoElement);

@@ -31,7 +31,7 @@ public class CmdVertex3D extends CmdVertex {
 
 		// Corner[ev, n] : if ev==3, check if loading - then do as <5.0 version
 		// (with 2D points)
-		if (!kernelA.getLoadingMode() && ev != null
+		if (!kernel.getLoadingMode() && ev != null
 				&& AlgoDrawingPadCorner3D.is3D(ev)) {
 			return cornerOfDrawingPad3D(label, number, ev);
 		}

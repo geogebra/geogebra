@@ -43,7 +43,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
-				ExpressionNode exp = kernelA
+				ExpressionNode exp = kernel
 						.convertNumberValueToExpressionNode(arg[0]);
 				int dim = ((VectorNDValue) arg[0]).getDimension();
 				GeoNumberValue[] coords = new GeoNumberValue[dim];
@@ -92,7 +92,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

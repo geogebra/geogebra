@@ -37,16 +37,16 @@ public class CmdCAStoOperation extends CommandProcessor {
 		switch (op) {
 		case YCOORD:
 		case XCOORD:
-			en = new ExpressionNode(kernelA, args[0], op, null);
+			en = new ExpressionNode(kernel, args[0], op, null);
 			break;
 		case MULTIPLY:
 		case VECTORPRODUCT:
-			en = new ExpressionNode(kernelA, args[0], op, args[1]);
+			en = new ExpressionNode(kernel, args[0], op, args[1]);
 			break;
 		default:
 			throw new Error("Unhandled operation " + op);
 		}
-		return kernelA.getAlgebraProcessor().processExpressionNode(en, info);
+		return kernel.getAlgebraProcessor().processExpressionNode(en, info);
 	}
 
 }

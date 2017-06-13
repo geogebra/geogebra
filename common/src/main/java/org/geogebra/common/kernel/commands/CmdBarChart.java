@@ -126,7 +126,7 @@ public class CmdBarChart extends CommandProcessor {
 			throw argErr(app, c, null);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

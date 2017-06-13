@@ -92,6 +92,6 @@ public class MacroProcessor extends CommandProcessor {
 		}
 
 		// if we get here we have the right arguments for our macro
-		return kernelA.useMacro(c.getLabels(), macro, arg);
+		return kernel.useMacro(c.getLabels(), macro, arg);
 	}
 }

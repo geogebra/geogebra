@@ -32,13 +32,13 @@ public class CmdClosestPointRegion extends CommandProcessor {
 			arg = resArgs(c);
 
 			if ((ok[0] = arg[0].isRegion()) && (ok[1] = arg[1].isGeoPoint())) {
-				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
+				return new GeoElement[] { (GeoElement) kernel.getManager3D()
 						.ClosestPoint(c.getLabel(), (Region) arg[0],
 								(GeoPointND) arg[1]) };
 			}
 
 			if ((ok[1] = arg[1].isRegion()) && (ok[0] = arg[0].isGeoPoint())) {
-				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
+				return new GeoElement[] { (GeoElement) kernel.getManager3D()
 						.ClosestPoint(c.getLabel(), (Region) arg[1],
 								(GeoPointND) arg[0]) };
 			}
@@ -50,7 +50,7 @@ public class CmdClosestPointRegion extends CommandProcessor {
 
 		default:
 			// return super.process(c);
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

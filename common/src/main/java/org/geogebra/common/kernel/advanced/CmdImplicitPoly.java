@@ -48,7 +48,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 1:
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
@@ -73,7 +73,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 			// more than one argument
 		default:
 			if ((int) Math.sqrt(9 + (8 * n)) != Math.sqrt(9 + (8 * n))) {
-				throw argNumErr(app, c, n);
+				throw argNumErr(c);
 			}
 
 			for (int i = 0; i < n; i++) {
@@ -82,7 +82,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 				}
 			}
 
-			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { doCommand(c.getLabel(), list) };
 				return ret;

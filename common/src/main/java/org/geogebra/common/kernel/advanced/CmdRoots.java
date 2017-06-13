@@ -36,7 +36,7 @@ public class CmdRoots extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				EuclidianViewInterfaceCommon view = this.kernelA
+				EuclidianViewInterfaceCommon view = this.kernel
 						.getApplication().getActiveEuclidianView();
 
 				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
@@ -61,7 +61,7 @@ public class CmdRoots extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}// switch
 	}// process(command)
 }// class CmdRoots

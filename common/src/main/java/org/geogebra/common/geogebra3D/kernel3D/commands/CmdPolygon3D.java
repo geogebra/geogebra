@@ -60,7 +60,7 @@ public class CmdPolygon3D extends CmdPolygon {
 
 		// if one point is 3D, use 3D algo
 		if (is3D) {
-			return kernelA.getManager3D().Polygon3D(labels, points);
+			return kernel.getManager3D().Polygon3D(labels, points);
 		}
 
 		// else use 2D algo
@@ -72,7 +72,7 @@ public class CmdPolygon3D extends CmdPolygon {
 			GeoPointND B, GeoNumberValue n) {
 
 		if (A.isGeoElement3D() || B.isGeoElement3D()) {
-			return regularPolygon(labels, A, B, n, kernelA.getXOYPlane());
+			return regularPolygon(labels, A, B, n, kernel.getXOYPlane());
 		}
 
 		return super.regularPolygon(labels, A, B, n);
@@ -81,7 +81,7 @@ public class CmdPolygon3D extends CmdPolygon {
 	private GeoElement[] regularPolygon(String[] labels, GeoPointND A,
 			GeoPointND B, GeoNumberValue n, GeoDirectionND direction) {
 
-		return kernelA.getManager3D().RegularPolygon(labels, A, B, n,
+		return kernel.getManager3D().RegularPolygon(labels, A, B, n,
 				direction);
 
 	}

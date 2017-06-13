@@ -36,12 +36,12 @@ public class CmdRunUpdateScript extends CmdScripting {
 				return args;
 			}
 
-			kernelA.getApplication()
+			kernel.getApplication()
 					.dispatchEvent(new Event(EventType.UPDATE, args[0], true));
 			return args;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 	}

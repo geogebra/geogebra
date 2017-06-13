@@ -33,7 +33,7 @@ public class CmdToComplexPolar extends CommandProcessor {
 	public GeoElement[] process(Command c)
 			throws MyError, CircularDefinitionException {
 		if (c.getArgumentNumber() != 1) {
-			throw argNumErr(app, c, c.getArgumentNumber());
+			throw argNumErr(c);
 		}
 		GeoElement[] arg = resArgs(c);
 		AlgoToComplexPolar algo = null;

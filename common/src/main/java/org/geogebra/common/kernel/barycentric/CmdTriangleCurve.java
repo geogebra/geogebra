@@ -56,7 +56,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 			// need to allow constants as A+B=C does not include x
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			arg[3] = kernelA.getAlgebraProcessor().processEquation(
+			arg[3] = kernel.getAlgebraProcessor().processEquation(
 					(Equation) c.getArgument(3).unwrap(), c.getArgument(3),
 					true)[0];
 			cons.setSuppressLabelCreation(oldMacroMode);
@@ -80,7 +80,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 
 		default:
 			clearLocal();
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

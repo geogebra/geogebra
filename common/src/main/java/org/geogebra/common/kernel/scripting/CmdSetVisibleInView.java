@@ -98,7 +98,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 			throw argErr(app, c, arg[2]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

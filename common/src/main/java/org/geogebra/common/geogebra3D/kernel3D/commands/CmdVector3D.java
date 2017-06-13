@@ -21,7 +21,7 @@ public class CmdVector3D extends CmdVector {
 	@Override
 	protected GeoElement vector(String label, GeoPointND p0, GeoPointND p1) {
 		if (p0.isGeoElement3D() || p1.isGeoElement3D()) {
-			return kernelA.getManager3D().Vector3D(label, p0, p1);
+			return kernel.getManager3D().Vector3D(label, p0, p1);
 		}
 
 		return super.vector(label, p0, p1);

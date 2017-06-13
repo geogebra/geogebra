@@ -39,7 +39,7 @@ public class CmdImplicitCurve extends CommandProcessor {
 			}
 			throw argErr(app, c, arg[0]);
 		}
-		throw argNumErr(app, c, n);
+		throw argNumErr(c);
 	}
 
 }

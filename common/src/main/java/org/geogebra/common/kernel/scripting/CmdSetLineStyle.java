@@ -50,7 +50,7 @@ public class CmdSetLineStyle extends CmdScripting {
 			throw argErr(app, c, arg[1]);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

@@ -49,7 +49,7 @@ public class CmdSetPointStyle extends CmdScripting {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

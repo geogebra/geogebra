@@ -31,7 +31,7 @@ public class CmdNormalize extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -47,13 +47,13 @@ public class CmdNormalize extends CommandProcessor {
 		default:
 
 			// try to create list of points (eg FitExp[])
-			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { Normalize(c.getLabel(), list) };
 				return ret;
 			}
 
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

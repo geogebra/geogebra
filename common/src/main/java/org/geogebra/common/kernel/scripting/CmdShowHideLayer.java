@@ -43,7 +43,7 @@ public class CmdShowHideLayer extends CmdScripting {
 				if (layer < 0 || layer > EuclidianStyleConstants.MAX_LAYERS) {
 					return arg;
 				}
-				Iterator<GeoElement> it = kernelA.getConstruction()
+				Iterator<GeoElement> it = kernel.getConstruction()
 						.getGeoSetLabelOrder().iterator();
 				while (it.hasNext()) {
 					GeoElement geo = it.next();
@@ -52,14 +52,14 @@ public class CmdShowHideLayer extends CmdScripting {
 						geo.updateCascade();
 					}
 				}
-				kernelA.notifyRepaint();
+				kernel.notifyRepaint();
 				return arg;
 
 			}
 			throw argErr(app, c, null);
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

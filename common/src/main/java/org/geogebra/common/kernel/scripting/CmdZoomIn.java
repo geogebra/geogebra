@@ -78,7 +78,7 @@ public class CmdZoomIn extends CmdScripting {
 			return new GeoElement[0];
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

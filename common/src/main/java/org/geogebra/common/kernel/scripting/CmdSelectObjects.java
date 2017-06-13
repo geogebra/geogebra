@@ -36,14 +36,14 @@ public class CmdSelectObjects extends CmdScripting {
 				}
 			}
 
-			kernelA.notifyRepaint();
+			kernel.notifyRepaint();
 			return arg;
 
 		} else {
 			app.getActiveEuclidianView().getEuclidianController().cancelDrag();
 		}
 
-		kernelA.notifyRepaint();
+		kernel.notifyRepaint();
 		app.updateSelection(false);
 		return new GeoElement[0];
 	}

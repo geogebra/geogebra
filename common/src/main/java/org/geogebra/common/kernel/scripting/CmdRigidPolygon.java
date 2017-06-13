@@ -35,12 +35,12 @@ public class CmdRigidPolygon extends CommandProcessor {
 		case 1:
 			if (arg[0].isGeoPolygon()) {
 
-				EuclidianViewInterfaceCommon view = kernelA.getApplication()
+				EuclidianViewInterfaceCommon view = kernel.getApplication()
 						.getActiveEuclidianView();
 
 				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
 
-				GeoElement[] ret = kernelA.rigidPolygon((GeoPolygon) arg[0],
+				GeoElement[] ret = kernel.rigidPolygon((GeoPolygon) arg[0],
 						offset, -offset);
 
 				return ret;
@@ -50,13 +50,13 @@ public class CmdRigidPolygon extends CommandProcessor {
 
 		case 0:
 		case 2:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 
 		case 3:
 			if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue
 					&& arg[2] instanceof GeoNumberValue) {
 
-				GeoElement[] ret = kernelA.rigidPolygon((GeoPolygon) arg[0],
+				GeoElement[] ret = kernel.rigidPolygon((GeoPolygon) arg[0],
 						((GeoNumberValue) arg[1]).getDouble(),
 						((GeoNumberValue) arg[2]).getDouble());
 
@@ -77,7 +77,7 @@ public class CmdRigidPolygon extends CommandProcessor {
 			}
 
 			// everything ok
-			return kernelA.rigidPolygon(c.getLabels(), points);
+			return kernel.rigidPolygon(c.getLabels(), points);
 		}
 	}
 }

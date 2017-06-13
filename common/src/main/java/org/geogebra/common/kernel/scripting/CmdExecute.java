@@ -30,7 +30,7 @@ public class CmdExecute extends CmdScripting {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n > 10) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0
 				|| !arg[0].isDefined()) {
@@ -45,8 +45,8 @@ public class CmdExecute extends CmdScripting {
 		// this is new in GeoGebra 4.2 and it will stop some files working
 		// but causes problems if the files are opened and edited
 		// and in the web project
-		boolean oldVal = kernelA.isUsingInternalCommandNames();
-		kernelA.setUseInternalCommandNames(true);
+		boolean oldVal = kernel.isUsingInternalCommandNames();
+		kernel.setUseInternalCommandNames(true);
 
 		for (int i = 0; i < list.size(); i++) {
 			try {
@@ -55,7 +55,7 @@ public class CmdExecute extends CmdScripting {
 					cmdText = cmdText.replace("%" + k,
 							arg[k].getLabel(StringTemplate.maxDecimals));
 				}
-				kernelA.getAlgebraProcessor()
+				kernel.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(cmdText,
 								false, app.getErrorHandler(), false, null);
 			} catch (MyError e) {
@@ -68,7 +68,7 @@ public class CmdExecute extends CmdScripting {
 			}
 		}
 
-		kernelA.setUseInternalCommandNames(oldVal);
+		kernel.setUseInternalCommandNames(oldVal);
 
 		app.storeUndoInfo();
 		return arg;

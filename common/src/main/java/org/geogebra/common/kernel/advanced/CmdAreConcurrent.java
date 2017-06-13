@@ -59,7 +59,7 @@ public class CmdAreConcurrent extends CommandProcessor {
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
-		throw argNumErr(app, c, n);
+		throw argNumErr(c);
 
 	}
 

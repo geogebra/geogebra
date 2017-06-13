@@ -66,7 +66,7 @@ public class CmdFitPoly extends CommandProcessor {
 
 		default:
 			// try to create list of points
-			GeoList list = wrapInList(kernelA, arg, arg.length - 1,
+			GeoList list = wrapInList(kernel, arg, arg.length - 1,
 					GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = {
@@ -74,7 +74,7 @@ public class CmdFitPoly extends CommandProcessor {
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -82,7 +82,7 @@ public class CmdFitPoly extends CommandProcessor {
 		GeoFunction fun = (GeoFunction) arg[0];
 		if (fun.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 
-			GeoList list = wrapFreehandFunctionArgInList(kernelA,
+			GeoList list = wrapFreehandFunctionArgInList(kernel,
 					(AlgoFunctionFreehand) fun.getParentAlgorithm());
 
 			if (list != null) {

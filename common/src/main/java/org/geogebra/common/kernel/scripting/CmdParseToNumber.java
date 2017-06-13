@@ -43,7 +43,7 @@ public class CmdParseToNumber extends CommandProcessor {
 				String str = ((GeoText) arg[1]).getTextString();
 
 				try {
-					kernelA.getAlgebraProcessor().evaluateToDouble(str, true,
+					kernel.getAlgebraProcessor().evaluateToDouble(str, true,
 							num);
 					num.updateCascade();
 				} catch (Exception e) {
@@ -60,7 +60,7 @@ public class CmdParseToNumber extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

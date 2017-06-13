@@ -34,7 +34,7 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 			GeoPointND c) {
 
 		if (a.isGeoElement3D() || b.isGeoElement3D() || c.isGeoElement3D()) {
-			return kernelA.getManager3D().EllipseHyperbola3D(label, a, b, c,
+			return kernel.getManager3D().EllipseHyperbola3D(label, a, b, c,
 					type);
 		}
 
@@ -49,7 +49,7 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 				&& (ok[2] = (arg[2].isGeoPoint()))
 				&& (ok[3] = (arg[3] instanceof GeoDirectionND))) {
 
-			GeoElement[] ret = { kernelA.getManager3D().EllipseHyperbola3D(
+			GeoElement[] ret = { kernel.getManager3D().EllipseHyperbola3D(
 					c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 					(GeoPointND) arg[2], (GeoDirectionND) arg[3], type) };
 			return ret;
@@ -73,17 +73,17 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 
 		// check if all 2D
 		if (!a.isGeoElement3D() && !b.isGeoElement3D()
-				&& orientation == kernelA.getXOYPlane()) {
+				&& orientation == kernel.getXOYPlane()) {
 			return super.ellipseHyperbola(label, a, b, v);
 		}
 
 		// use 3D algo with orientation
 		AlgoConicFociLength3D algo;
 		if (type == GeoConicNDConstants.CONIC_HYPERBOLA) {
-			algo = new AlgoHyperbolaFociLength3D(kernelA.getConstruction(),
+			algo = new AlgoHyperbolaFociLength3D(kernel.getConstruction(),
 					label, a, b, v, orientation);
 		} else { // ellipse
-			algo = new AlgoEllipseFociLength3D(kernelA.getConstruction(), label,
+			algo = new AlgoEllipseFociLength3D(kernel.getConstruction(), label,
 					a, b, v, orientation);
 		}
 		return algo.getConic();
@@ -94,10 +94,10 @@ public class CmdEllipseHyperbola3D extends CmdEllipseHyperbola {
 			GeoPointND b, GeoNumberValue v) {
 
 		GeoDirectionND orientation = CommandProcessor3D
-				.getCurrentViewOrientation(kernelA, app);
+				.getCurrentViewOrientation(kernel, app);
 		if (orientation == null) {
 			if (a.isGeoElement3D() || b.isGeoElement3D()) {
-				orientation = kernelA.getXOYPlane();
+				orientation = kernel.getXOYPlane();
 			} else {
 				// use 2D algo
 				return super.ellipseHyperbola(label, a, b, v);

@@ -29,7 +29,7 @@ public class CmdIsInRegion extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		if (n != 2) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		if (!arg[0].isGeoPoint()) {
 			throw argErr(app, c, arg[0]);

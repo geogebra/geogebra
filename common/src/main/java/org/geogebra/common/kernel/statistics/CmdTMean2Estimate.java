@@ -92,7 +92,7 @@ public class CmdTMean2Estimate extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

@@ -105,10 +105,10 @@ public class CmdFillCells extends CommandProcessor {
 
 							MyPoint p = al.get(i);
 
-							kernelA.getGeoElementSpreadsheet()
+							kernel.getGeoElementSpreadsheet()
 									.setSpreadsheetCell(app, row, minCol,
 											new GeoNumeric(cons, p.x));
-							kernelA.getGeoElementSpreadsheet()
+							kernel.getGeoElementSpreadsheet()
 									.setSpreadsheetCell(app, row, minCol + 1,
 											new GeoNumeric(cons, p.y));
 						} catch (Exception e) {
@@ -138,7 +138,7 @@ public class CmdFillCells extends CommandProcessor {
 								// change to eg A2+1, A3+1, A4+1 etc
 								// FillCells[B1:B7,A1] doesn't change A1
 								// use FillCells[B1:B7,A1+0] for that
-								RelativeCopy.doCopyNoStoringUndoInfo0(kernelA,
+								RelativeCopy.doCopyNoStoringUndoInfo0(kernel,
 										app, geo, null, col - minCol,
 										row - minRow, minRow, minCol);
 
@@ -173,7 +173,7 @@ public class CmdFillCells extends CommandProcessor {
 								removePossibleGeo(GeoElementSpreadsheet
 										.getSpreadsheetCellName(col, row));
 
-								kernelA.getGeoElementSpreadsheet()
+								kernel.getGeoElementSpreadsheet()
 										.setSpreadsheetCell(app, row, col,
 												rowList.get(countY
 														% rowList.size()));
@@ -199,7 +199,7 @@ public class CmdFillCells extends CommandProcessor {
 								removePossibleGeo(GeoElementSpreadsheet
 										.getSpreadsheetCellName(col, row));
 
-								kernelA.getGeoElementSpreadsheet()
+								kernel.getGeoElementSpreadsheet()
 										.setSpreadsheetCell(app, row, col,
 												list.get(count % list.size()));
 								count++;
@@ -257,7 +257,7 @@ public class CmdFillCells extends CommandProcessor {
 						for (int r = 0; r < rows; r++) {
 							GeoList rowList = (GeoList) list.get(r);
 							for (int c1 = 0; c1 < cols; c1++) {
-								kernelA.getGeoElementSpreadsheet()
+								kernel.getGeoElementSpreadsheet()
 										.setSpreadsheetCell(app, row + r,
 												column + c1,
 												rowList.get(c1).copy());
@@ -280,7 +280,7 @@ public class CmdFillCells extends CommandProcessor {
 						try {
 							// Application.debug("setting "+row+" "+(column+i)+"
 							// to "+list.get(i).toString());
-							kernelA.getGeoElementSpreadsheet()
+							kernel.getGeoElementSpreadsheet()
 									.setSpreadsheetCell(app, row, column + i,
 											list.get(i).copy());
 						} catch (Exception e) {
@@ -303,12 +303,12 @@ public class CmdFillCells extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
 	private void removePossibleGeo(String label) {
-		GeoElement geo = kernelA.lookupLabel(label);
+		GeoElement geo = kernel.lookupLabel(label);
 		if (geo != null) {
 			geo.remove();
 		}

@@ -58,7 +58,7 @@ public class CmdCircleArcSector extends CommandProcessor {
 			return ret;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -95,7 +95,7 @@ public class CmdCircleArcSector extends CommandProcessor {
 	 */
 	protected GeoElement[] process4(Command c, GeoElement[] arg, boolean[] ok)
 			throws MyError {
-		throw argNumErr(app, c, 4);
+		throw argNumErr(c);
 	}
 
 }

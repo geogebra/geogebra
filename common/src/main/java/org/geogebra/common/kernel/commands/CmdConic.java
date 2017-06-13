@@ -45,14 +45,14 @@ public class CmdConic extends CommandProcessor {
 		default:
 			if (n > 0 && arg[0] instanceof GeoNumberValue) {
 				// try to create list of numbers
-				GeoList list = wrapInList(kernelA, arg, arg.length,
+				GeoList list = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (list != null) {
 					ret = conic(c.getLabel(), list);
 					return ret;
 				}
 			}
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

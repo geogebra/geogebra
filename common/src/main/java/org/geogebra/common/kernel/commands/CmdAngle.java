@@ -153,7 +153,7 @@ public class CmdAngle extends CommandProcessor {
 			throw argErr(app, c, getBadArg(ok, arg));
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 
@@ -174,11 +174,11 @@ public class CmdAngle extends CommandProcessor {
 		GeoElement arg1 = arg[1];
 
 		if (arg0.isGeoPoint()) {
-			arg0 = kernelA.wrapInVector((GeoPointND) arg0);
+			arg0 = kernel.wrapInVector((GeoPointND) arg0);
 		}
 
 		if (arg1.isGeoPoint()) {
-			arg1 = kernelA.wrapInVector((GeoPointND) arg1);
+			arg1 = kernel.wrapInVector((GeoPointND) arg1);
 		}
 
 		// angle between vectors

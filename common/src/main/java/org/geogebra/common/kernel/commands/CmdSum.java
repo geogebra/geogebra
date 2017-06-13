@@ -43,7 +43,7 @@ public class CmdSum extends CommandProcessor {
 
 		// needed for Sum[]
 		if (c.getArgumentNumber() == 0) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		if (c.getArgumentNumber() == 4) {
 			GeoElement[] res = processSymb(this, c, Operation.PLUS);
@@ -108,7 +108,7 @@ public class CmdSum extends CommandProcessor {
 		default:
 			// try to create list of numbers
 			if (arg[0] instanceof GeoNumberValue) {
-				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (wrapList != null) {
 					GeoElement[] ret = { Sum(c.getLabel(), wrapList) };
@@ -116,7 +116,7 @@ public class CmdSum extends CommandProcessor {
 				}
 			} else if (arg[0] instanceof VectorValue) {
 				// try to create list of points
-				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.POINT);
 				if (wrapList != null) {
 					GeoElement[] ret = {
@@ -126,7 +126,7 @@ public class CmdSum extends CommandProcessor {
 				}
 			} else if (arg[0].isGeoFunction()) {
 				// try to create list of functions
-				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.FUNCTION);
 				if (wrapList != null) {
 					GeoElement[] ret = {
@@ -136,7 +136,7 @@ public class CmdSum extends CommandProcessor {
 				}
 			} else if (arg[0].isGeoFunction()) {
 				// try to create list of functions
-				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.FUNCTION_NVAR);
 				if (wrapList != null) {
 					GeoElement[] ret = {
@@ -146,7 +146,7 @@ public class CmdSum extends CommandProcessor {
 				}
 			} else if (arg[0].isGeoText()) {
 				// try to create list of functions
-				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.TEXT);
 				if (wrapList != null) {
 					GeoElement[] ret = {
@@ -156,7 +156,7 @@ public class CmdSum extends CommandProcessor {
 				}
 			} else if (arg[0].isGeoList()) {
 				// try to create list of functions
-				GeoList wrapList = wrapInList(kernelA, arg, arg.length,
+				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.LIST);
 				if (wrapList != null) {
 					GeoElement[] ret = {
@@ -165,7 +165,7 @@ public class CmdSum extends CommandProcessor {
 					return ret;
 				}
 			}
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

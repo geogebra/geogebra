@@ -50,7 +50,7 @@ public class CmdTTestPaired extends CommandProcessor {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

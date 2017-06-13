@@ -33,7 +33,7 @@ public class CmdConic3D extends CmdConic {
 		}
 
 		if (is3D) {
-			return kernelA.getManager3D().Conic3D(label, points);
+			return kernel.getManager3D().Conic3D(label, points);
 		}
 
 		return super.conic(label, arg);

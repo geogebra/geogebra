@@ -27,7 +27,7 @@ public class CmdFlatten extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		if (n != 1) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 		GeoElement arg;

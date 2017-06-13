@@ -47,7 +47,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	protected final double getNumArg(Command c, GeoElement[] args)
 			throws MyError {
 		if (args.length != 2) {
-			throw argNumErr(app, c, args.length);
+			throw argNumErr(c);
 		}
 		if (!(args[1] instanceof NumberValue)) {
 			throw argErr(app, c, args[1]);
@@ -72,7 +72,7 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 	public final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		if (n < 1) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 		GeoElement[] args = resArgs(c);
 		if (!args[0].isGeoTurtle()) {

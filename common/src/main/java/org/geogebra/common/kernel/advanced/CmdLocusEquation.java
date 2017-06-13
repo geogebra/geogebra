@@ -75,7 +75,7 @@ public class CmdLocusEquation extends CommandProcessor {
 			break;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 		return new GeoElement[] {

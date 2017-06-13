@@ -69,7 +69,7 @@ public class CmdPan extends CmdScripting {
 			}
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 }

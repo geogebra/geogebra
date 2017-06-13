@@ -38,7 +38,7 @@ public class CmdSpline extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
@@ -82,13 +82,13 @@ public class CmdSpline extends CommandProcessor {
 			}
 			throw argErr(app, c, arg[0]);
 		default:
-			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { Spline(c.getLabel(), list) };
 				return ret;
 			}
 
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

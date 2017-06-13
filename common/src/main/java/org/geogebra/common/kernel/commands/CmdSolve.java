@@ -41,7 +41,7 @@ public class CmdSolve extends CommandProcessor {
 			}
 			throw argErr(args[0], c);
 		}
-		throw argNumErr(args.length, c);
+		throw argNumErr(c);
 	}
 
 }

@@ -28,7 +28,7 @@ public class CmdRepeat extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		if (n < 2) {
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 
 		GeoElement[] arg = resArgs(c);

@@ -48,7 +48,7 @@ public class CmdSetConstructionStep extends CmdScripting {
 			return arg;
 
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

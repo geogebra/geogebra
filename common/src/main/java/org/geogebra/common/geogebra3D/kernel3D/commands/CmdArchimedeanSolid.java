@@ -49,7 +49,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 				// kernelA.getXOYPlane(),
 				// name) ;
 
-				GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(
+				GeoElement[] ret = kernel.getManager3D().ArchimedeanSolid(
 						c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1],
 						name);
 				return ret;
@@ -68,7 +68,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 
 				if (arg[2] instanceof GeoDirectionND) {
 
-					GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(
+					GeoElement[] ret = kernel.getManager3D().ArchimedeanSolid(
 							c.getLabels(), (GeoPointND) arg[0],
 							(GeoPointND) arg[1], (GeoDirectionND) arg[2], name);
 					return ret;
@@ -77,7 +77,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 
 				if (arg[2] instanceof GeoPointND) {
 
-					GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(
+					GeoElement[] ret = kernel.getManager3D().ArchimedeanSolid(
 							c.getLabels(), (GeoPointND) arg[0],
 							(GeoPointND) arg[1], (GeoPointND) arg[2], name);
 					return ret;
@@ -95,7 +95,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 			break;
 		}
 
-		throw argNumErr(app, c, n);
+		throw argNumErr(c);
 
 	}
 

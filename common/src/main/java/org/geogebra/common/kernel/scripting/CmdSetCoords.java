@@ -57,7 +57,7 @@ public class CmdSetCoords extends CmdScripting {
 			}
 			return arg;
 		default:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		}
 	}
 

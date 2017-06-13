@@ -50,7 +50,7 @@ public class CmdANOVA extends CommandProcessor {
 			}
 
 		default:
-			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.LIST);
+			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
 				GeoElement[] ret = { ANOVATest(c.getLabel(), list) };
 				return ret;

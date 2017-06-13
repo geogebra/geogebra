@@ -31,7 +31,7 @@ public class CmdPolyLine extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 		case 0:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 1:
 			if (arg[0].isGeoList()) {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
@@ -127,7 +127,7 @@ public class CmdPolyLine extends CommandProcessor {
 	 */
 	protected GeoElement[] polyLine(String label, GeoPointND[] points,
 			boolean penStroke, boolean is3D) {
-		return kernelA.polyLine(label, points, penStroke);
+		return kernel.polyLine(label, points, penStroke);
 	}
 
 }

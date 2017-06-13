@@ -39,7 +39,7 @@ public class CmdIterationList extends CommandProcessor {
 		case 0:
 		case 1:
 		case 2:
-			throw argNumErr(app, c, n);
+			throw argNumErr(c);
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoFunction())
