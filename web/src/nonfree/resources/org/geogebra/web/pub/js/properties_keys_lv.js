@@ -1110,8 +1110,6 @@ __GGB__keysVar.lv.command = {
  ***********************************************/
 
 __GGB__keysVar.lv.error = {
-    "AssignmentDependentToFree": "Br\u012bvos objektus nevar aizst\u0101t ar atkar\u012bgajiem objektiem",
-    "AssignmentToDependent": "Atkar\u012bgos objektus nevar p\u0101rrakst\u012bt",
     "AssignmentToFixed": "Fiks\u0113tos objektus nevar izmain\u012bt",
     "CAS.GeneralErrorMessage": "Atvainojiet, kaot kas neizdev\u0101s. L\u016bdzu p\u0101rbaudiet savienojumu",
     "CAS.InvalidReferenceError": "Viena vai vair\u0101kas atsauces nav der\u012bgas",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.lv.error = {
     "IllegalAssignment": "Neat\u013cauts uzdevums",
     "IllegalBoolean": "Neat\u013cauta B\u016bla oper\u0101cija",
     "IllegalComparison": "Neat\u013cauts sal\u012bdzin\u0101jums",
-    "IllegalComplexMultiplication": "Neat\u013cauts kompleksais reizin\u0101t\u0101js",
     "IllegalDivision": "Neat\u013cauts dal\u012bt\u0101js",
     "IllegalExponent": "Neat\u013cauts k\u0101pin\u0101t\u0101js",
     "IllegalListOperation": "Neder\u012bga oper\u0101cija",
     "IllegalMultiplication": "Neat\u013cauta reizin\u0101\u0161ana",
     "IllegalSubtraction": "Neat\u013cauta at\u0146em\u0161ana",
-    "IllegalVariable": "Neat\u013cauts main\u012bgais",
     "IncompleteEquation": "Nepiln\u012bgs vien\u0101dojums:\nL\u016bdzu ievadiet abas vien\u0101dojuma puses",
     "InvalidEquation": "Neder\u012bgs vien\u0101dojums:\nL\u016bdzu izmantojiet main\u012bgos x un y",
     "InvalidFunction": "Neder\u012bga funkcija:\nL\u016bdzu ievadiet prec\u012bzu funkciju izmantojot main\u012bgo x",
-    "InvalidInequality": "Neder\u012bga nevien\u0101d\u012bba:\nL\u016bdzu ievadiet nevien\u0101d\u012bbu, izmantojot  main\u012bgos x un y",
     "InvalidInput": "Atvainojiet, kaot kas neizdev\u0101s. L\u016bdzu p\u0101rbaudiet savienojumu",
     "LoadFileFailed": "Neizdev\u0101s atv\u0113rt failu",
     "NameUsed": "\u0160is nosaukums jau tiek izmantots",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.lv.error = {
     "Tool.DeleteUsed": "Sekojo\u0161ie objekti tika izmantoti, lai izveidotu iez\u012bm\u0113tos objektus, un nevar tikt izdz\u0113sti:",
     "Tool.InputNotNeeded": "Iavad\u012btais objekts netiek pras\u012bts",
     "Tool.OutputNotDependent": "Izejas objekts nav atkar\u012bgs no ievad\u012bt\u0101 objekta",
-    "URLnotFound": "URL atv\u0113r\u0161ana neizdev\u0101s",
     "UnbalancedBrackets": "Nav vien\u0101ds skaits atv\u0113rto un aizv\u0113rto iekavu",
     "UndefinedVariable": "Main\u012bgais nav defin\u0113ts",
     "UnknownCommand": "Nezin\u0101ms uzdevums",
-    "UnsupportedLAF": "Izv\u0113l\u0113tais izskats nav iesp\u0113jams uz j\u016bsu datora",
     "VectorExpected": "Tiek pras\u012bts punkts vai vektors",
 };
 

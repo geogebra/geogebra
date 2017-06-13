@@ -1110,8 +1110,6 @@ __GGB__keysVar.fi.command = {
  ***********************************************/
 
 __GGB__keysVar.fi.error = {
-    "AssignmentDependentToFree": "Riippuvaa objektia ei saa kirjoittaa vapaan p\xe4\xe4lle",
-    "AssignmentToDependent": "Riippuvien objektien p\xe4\xe4lle ei saa kirjoittaa",
     "AssignmentToFixed": "Kiinteit\xe4 objekteja ei voi muuttaa",
     "CAS.GeneralErrorMessage": "Valitettavasti jokin meni vikaan. Tarkista sy\xf6te",
     "CAS.InvalidReferenceError": "Yksi tai useampi kelvoton viite",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.fi.error = {
     "IllegalAssignment": "Kelvoton ilmoitus",
     "IllegalBoolean": "Kelvoton looginen operaatio",
     "IllegalComparison": "Kelvoton vertailu",
-    "IllegalComplexMultiplication": "Kelvoton kompleksikertolasku",
     "IllegalDivision": "Kelvoton jakolasku",
     "IllegalExponent": "Kelvoton eksponentti",
     "IllegalListOperation": "Kelvoton listaoperaatio",
     "IllegalMultiplication": "Kelvoton kertolasku",
     "IllegalSubtraction": "Kelvoton v\xe4hennyslasku",
-    "IllegalVariable": "Kelvoton muuttuja",
     "IncompleteEquation": "Ep\xe4t\xe4ydellinen yht\xe4l\xf6: \nKirjoita yht\xe4l\xf6n molemmat puolet",
     "InvalidEquation": "Kelvoton yht\xe4l\xf6:\nSy\xf6t\xe4 polynomiyht\xe4l\xf6 x:n ja y:n avulla.",
     "InvalidFunction": "Kelvoton funktio:\nSy\xf6t\xe4 x:n funktio ratkaistuna y:n suhteen.",
-    "InvalidInequality": "Kelvoton ep\xe4yht\xe4l\xf6:\nSy\xf6t\xe4 1. asteen ep\xe4yht\xe4l\xf6 x:n ja y:n avulla.",
     "InvalidInput": "Tarkista sy\xf6te",
     "LoadFileFailed": "Tiedoston avaaminen ep\xe4onnistui",
     "NameUsed": "T\xe4m\xe4 nimi on jo k\xe4yt\xf6ss\xe4",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.fi.error = {
     "Tool.DeleteUsed": "Seuraavia ty\xf6kaluja on k\xe4ytetty valittujen objektien luomisessa eik\xe4 niit\xe4 voida poistaa:",
     "Tool.InputNotNeeded": "L\xe4ht\xf6objektia ei tarvita",
     "Tool.OutputNotDependent": "Tulosobjekti ei riipu l\xe4ht\xf6objekteista",
-    "URLnotFound": "URL-osoitteen avaaminen ep\xe4onnistui",
     "UnbalancedBrackets": "Sulkumerkki puuttuu",
     "UndefinedVariable": "M\xe4\xe4rittelem\xe4t\xf6n muuttuja",
     "UnknownCommand": "Tuntematon komento",
-    "UnsupportedLAF": "Valittua ulkoasua ei ole saatavissa tietokoneellasi",
     "VectorExpected": "Pistett\xe4 tai vektoria odotetaan",
 };
 

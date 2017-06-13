@@ -1110,8 +1110,6 @@ __GGB__keysVar.cs.command = {
  ***********************************************/
 
 __GGB__keysVar.cs.error = {
-    "AssignmentDependentToFree": "Voln\xe9 objekty nesm\xed b\xfdt p\u0159episov\xe1ny z\xe1visl\xfdmi",
-    "AssignmentToDependent": "Z\xe1visl\xe9 objekty nesm\xed b\xfdt p\u0159episov\xe1ny",
     "AssignmentToFixed": "Upevn\u011bn\xe9 objekty nelze m\u011bnit",
     "CAS.GeneralErrorMessage": "Lituji, vstup nen\xed akceptovateln\xfd",
     "CAS.InvalidReferenceError": "Jeden \u010di v\xedce odkaz\u016f je neplatn\xfdch.",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.cs.error = {
     "IllegalAssignment": "Nep\u0159\xedpustn\xe9 p\u0159i\u0159azen\xed",
     "IllegalBoolean": "Nep\u0159\xedpustn\xe1 booleovsk\xe1 operace",
     "IllegalComparison": "Nep\u0159\xedpustn\xe9 porovn\xe1v\xe1n\xed",
-    "IllegalComplexMultiplication": "Nepovolen\xe9 n\xe1soben\xed komplexn\xedch \u010d\xedsel",
     "IllegalDivision": "Nep\u0159\xedpustn\xe9 d\u011blen\xed",
     "IllegalExponent": "Nep\u0159\xedpustn\xfd exponent",
     "IllegalListOperation": "Nep\u0159\xedpustn\xfd seznam operac\xed",
     "IllegalMultiplication": "Nep\u0159\xedpustn\xe9 n\xe1soben\xed",
     "IllegalSubtraction": "Nep\u0159\xedpustn\xe9 d\u011blen\xed",
-    "IllegalVariable": "Nep\u0159\xedpustn\xe1 prom\u011bnn\xe1",
     "IncompleteEquation": "Ne\xfapln\xe1 rovnice:\nZadejte pros\xedm druhou stranu.",
     "InvalidEquation": "Neplatn\xe1 rovnice:\nZadejte pros\xedm line\xe1rn\xed nebo kvadratickou rovnici pomoc\xed x a y.",
     "InvalidFunction": "Neplatn\xe1 funkce:\nZadejte pros\xedm explicitn\xed funkci prom\u011bnn\xe9 x.",
-    "InvalidInequality": "Neplatn\xe1 nerovnost:\nPros\xedm zadejte line\xe1rn\xed nerovnost pomoc\xed x a y.",
     "InvalidInput": "Zkontrolujte pros\xedm vstup",
     "LoadFileFailed": "Nelze otev\u0159\xedt soubor.",
     "NameUsed": "Toto jm\xe9no je ji\u017e u\u017e\xedv\xe1no.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.cs.error = {
     "Tool.DeleteUsed": "N\xe1stroj je pou\u017eit v konstrukci a nem\u016f\u017ee b\xfdt odstran\u011bn:",
     "Tool.InputNotNeeded": "Vstupn\xed objekt nen\xed po\u017eadov\xe1n.",
     "Tool.OutputNotDependent": "V\xfdstupn\xed objekt nen\xed z\xe1visl\xfd na vstupn\xedch objektech.",
-    "URLnotFound": "Adresa URL nenalezena",
     "UnbalancedBrackets": "Nesymetrick\xe9 z\xe1vorky",
     "UndefinedVariable": "Nedefinovan\xe1 prom\u011bnn\xe1",
     "UnknownCommand": "Nezn\xe1m\xfd p\u0159\xedkaz",
-    "UnsupportedLAF": "Zvolen\xfd vzhled nen\xed na tomto po\u010d\xedta\u010di k dispozici.",
     "VectorExpected": "O\u010dek\xe1v\xe1n bod nebo vektor",
 };
 

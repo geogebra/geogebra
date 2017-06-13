@@ -1110,8 +1110,6 @@ __GGB__keysVar.sk.command = {
  ***********************************************/
 
 __GGB__keysVar.sk.error = {
-    "AssignmentDependentToFree": "Vo\u013en\xe9 objekty nie je mo\u017en\xe9 prep\xedsa\u0165 z\xe1visl\xfdmi",
-    "AssignmentToDependent": "Z\xe1visl\xe9 objekty nie je mo\u017en\xe9 prep\xedsa\u0165",
     "AssignmentToFixed": "Fixovan\xe9 objekty nie je mo\u017en\xe9 zmeni\u0165",
     "CAS.GeneralErrorMessage": "Prep\xe1\u010dte, vstupn\xe9 \xfadaje nie s\xfa akceptovate\u013en\xe9!",
     "CAS.InvalidReferenceError": "Jeden alebo viac odkazov nie je platn\xfdch",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.sk.error = {
     "IllegalAssignment": "Nepr\xedpustn\xe9 priradenie",
     "IllegalBoolean": "Nepr\xedpustn\xe1 boolovsk\xe1 oper\xe1cia",
     "IllegalComparison": "Nepr\xedpustn\xe9 porovnanie",
-    "IllegalComplexMultiplication": "Illeg\xe1lne komplexn\xe9 n\xe1sobenie",
     "IllegalDivision": "Nepr\xedstupn\xe9 delenie",
     "IllegalExponent": "Nepr\xedstupn\xfd mocnite\u013e",
     "IllegalListOperation": "Nepr\xedpustn\xfd zoznam \xfakonov",
     "IllegalMultiplication": "Nepr\xedstupn\xe9 n\xe1sobenie",
     "IllegalSubtraction": "Nepr\xedstupn\xe9 od\u010d\xedtanie",
-    "IllegalVariable": "Nepr\xedstupn\xe1 premenn\xe1",
     "IncompleteEquation": "Ne\xfapln\xe1 rovnica:\nZadajte, pros\xedm, obe strany rovnice",
     "InvalidEquation": "Neplatn\xe1 rovnica:\nZadajte, pros\xedm, racion\xe1lnu rovnicu pomocou x a y",
     "InvalidFunction": "Neplatn\xe1 funkcia:\nZadajte, pros\xedm, explicitn\xfa funkciu premennej x",
-    "InvalidInequality": "Neplatn\xe1 nerovnica: \nZadajte line\xe1rnu nerovnicu premenn\xfdch x a y.",
     "InvalidInput": "Prep\xe1\u010dte, vstupn\xe9 \xfadaje nie s\xfa akceptovate\u013en\xe9",
     "LoadFileFailed": "Otvorenie s\xfaboru zlyhalo",
     "NameUsed": "Toto ozna\u010denie sa u\u017e pou\u017e\xedva",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.sk.error = {
     "Tool.DeleteUsed": "N\xe1stroj je pou\u017e\xedvan\xfd v kon\u0161trukci\xed a nie je mo\u017en\xe9 ho zmaza\u0165",
     "Tool.InputNotNeeded": "Vstupn\xe9 objekty nie s\xfa posta\u010duj\xface",
     "Tool.OutputNotDependent": "V\xfdsledn\xfd objekt nez\xe1vis\xed od vstupn\xfdch objektov",
-    "URLnotFound": "Adresa URL nen\xe1jden\xe1",
     "UnbalancedBrackets": "Nevyrovnan\xe9 z\xe1tvorky",
     "UndefinedVariable": "Nedefinovan\xe1 premenn\xe1",
     "UnknownCommand": "Nezn\xe1my pr\xedkaz",
-    "UnsupportedLAF": "Zvolen\xfd vzh\u013ead na tomto po\u010d\xedta\u010di nie je k dispoz\xedcii",
     "VectorExpected": "O\u010dak\xe1vam bod alebo vektor",
 };
 

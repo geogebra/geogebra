@@ -1110,8 +1110,6 @@ __GGB__keysVar.bs.command = {
  ***********************************************/
 
 __GGB__keysVar.bs.error = {
-    "AssignmentDependentToFree": "Nezavisne figure nije mogu\u0107e zamijeniti zavisnim figurama.",
-    "AssignmentToDependent": "Zavisne figure nije mogu\u0107e zamijeniti.",
     "AssignmentToFixed": "Fiksirane figure nije mogu\u0107e mijenjati.",
     "CAS.GeneralErrorMessage": "\u017dao nam je, ne\u0161to nije u redu. Molimo provjerite Va\u0161 unos.",
     "CAS.InvalidReferenceError": "Jedna ili vi\u0161e referenci su pogre\u0161ne",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.bs.error = {
     "IllegalAssignment": "Nedozvoljeno pridru\u017eivanje",
     "IllegalBoolean": "Nedozvoljene logi\u010dke operacije",
     "IllegalComparison": "Nedozvoljeno pore\u0111enje",
-    "IllegalComplexMultiplication": "Nedozvoljeno mno\u017eenje kompleksnih brojeva",
     "IllegalDivision": "Nedozvoljeno dijeljenje",
     "IllegalExponent": "Nedozvoljen eksponent",
     "IllegalListOperation": "Nedozvoljena operacija s listom",
     "IllegalMultiplication": "Nedozvoljeno mno\u017eenje",
     "IllegalSubtraction": "Nedozvoljeno oduzimanje",
-    "IllegalVariable": "Nedozvoljena promjenljiva",
     "IncompleteEquation": "Nepotpuna jedna\u010dina/jednad\u017eba:\nMolimo upi\u0161ite obje strane jedna\u010dine/jednad\u017ebe.",
     "InvalidEquation": "Pogre\u0161an unos:\nMolimo upi\u0161ite polinomnu jedna\u010dinu/jednad\u017ebu s x i y .",
     "InvalidFunction": "Pogre\u0161an unos:\n\nMolimo upi\u0161ite eksplicitno zadanu funkciju po x.",
-    "InvalidInequality": "Nedozvoljena nejednakost:\n\nMolimo upi\u0161ite linearne nejedna\u010dine/nejednad\u017ebe s x i y.",
     "InvalidInput": "Molimo provjerite Va\u0161 unos",
     "LoadFileFailed": "Otvaranje datoteke nije uspjelo.",
     "NameUsed": "Ova oznaka se ve\u0107 koristi .",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.bs.error = {
     "Tool.DeleteUsed": "Alat je kori\u0161ten u konstrukciji i ne mo\u017ee biti obrisan.",
     "Tool.InputNotNeeded": "Ulazna figura nije neophodna.",
     "Tool.OutputNotDependent": "Izlazna figura ne zavisi od ulaznih figura.",
-    "URLnotFound": "Otvaranje URL-a nije uspjelo.",
     "UnbalancedBrackets": "Nebalansirane zagrade",
     "UndefinedVariable": "Nedefinirana promjenljiva",
     "UnknownCommand": "Nepoznata naredba",
-    "UnsupportedLAF": "Izabrani izgled na Va\u0161em kompjuteru nije mogu\u0107.",
     "VectorExpected": "Unesite ta\u010dku ili vektor",
 };
 

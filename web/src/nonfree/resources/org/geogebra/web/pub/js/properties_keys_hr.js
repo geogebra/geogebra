@@ -1110,8 +1110,6 @@ __GGB__keysVar.hr.command = {
  ***********************************************/
 
 __GGB__keysVar.hr.error = {
-    "AssignmentDependentToFree": "Nezavisne objekte ne smijete zamijeniti zavisnima",
-    "AssignmentToDependent": "Zavisne objekte nije mogu\u0107e zamijeniti",
     "AssignmentToFixed": "Nepomi\u010dni objekti ne mogu se mijenjati",
     "CAS.GeneralErrorMessage": "Na\u017ealost, unos nije prihvatljiv. Provjerite va\u0161 unos.",
     "CAS.InvalidReferenceError": "Jedna ili vi\u0161e referenci je pogre\u0161na",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.hr.error = {
     "IllegalAssignment": "Nedozvoljeno pridru\u017eivanje",
     "IllegalBoolean": "Nedozvoljena logi\u010dka operacija",
     "IllegalComparison": "Nedozvoljena usporedba",
-    "IllegalComplexMultiplication": "Nepropisno mno\u017eenje kompleksnih brojeva.",
     "IllegalDivision": "Nedozvoljeno dijeljenje",
     "IllegalExponent": "Nedozvoljeni eksponent",
     "IllegalListOperation": "Nedozvoljena operacija s listom",
     "IllegalMultiplication": "Nedozvoljeno mno\u017eenje",
     "IllegalSubtraction": "Nedozvoljeno oduzimanje",
-    "IllegalVariable": "Nedozvoljena varijabla",
     "IncompleteEquation": "Nepotpuna jednad\u017eba:\nmolim upi\u0161ite obje strane jednad\u017ebe",
     "InvalidEquation": "Nevaljana jednad\u017eba:\nmolim upi\u0161ite polinomnu jednad\u017ebu s x-om i y-om",
     "InvalidFunction": "Nevaljana funkcija:\nmolim upi\u0161ite eksplicitno zadanu funkciju po x",
-    "InvalidInequality": "Nevaljana nejednakost:\nmolim upi\u0161ite linearnu nejednakost s x-om i y-om",
     "InvalidInput": "Provjerite va\u0161 unos",
     "LoadFileFailed": "Otvaranje nije uspjelo",
     "NameUsed": "Oznaka je ve\u0107 upotrijebljena",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.hr.error = {
     "Tool.DeleteUsed": "Sljede\u0107i alati su kori\u0161teni u konstrukciji i ne mogu biti obrisani:",
     "Tool.InputNotNeeded": "Ulazni objekt nije neophodan",
     "Tool.OutputNotDependent": "Izlazni objekt nije zavisan o ulaznim objektima",
-    "URLnotFound": "Otvaranje URL-a nije uspjelo",
     "UnbalancedBrackets": "Neuravnote\u017eene zagrade",
     "UndefinedVariable": "Nedefinirana varijabla",
     "UnknownCommand": "Nepoznata naredba",
-    "UnsupportedLAF": "Izabrani izgled na va\u0161em ra\u010dunalu nije mogu\u0107",
     "VectorExpected": "Treba unijeti to\u010dku ili vektor",
 };
 

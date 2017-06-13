@@ -1110,8 +1110,6 @@ __GGB__keysVar.kn.command = {
  ***********************************************/
 
 __GGB__keysVar.kn.error = {
-    "AssignmentDependentToFree": "Free objects may not be overwritten by dependent objects",
-    "AssignmentToDependent": "Dependent objects may not be overwritten",
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "\u0c92\u0c82\u0ca6\u0cc1 \u0c85\u0ca5\u0ccd\u0cb5 \u0cae\u0cc7\u0cb2\u0cc6 \u0cb5\u0cbf\u0c9a\u0cbe\u0cb0\u0ca3\u0cbe\u0cb5\u0ccd\u0caf\u0cbe\u0caa\u0ccd\u0ca4\u0cbf\u0c97\u0cb3\u0cc1 \u0c85\u0cb8\u0cae\u0cb0\u0ccd\u0ca5\u0cb5\u0cbe\u0c97\u0cbf\u0ca7\u0cc6",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.kn.error = {
     "IllegalAssignment": "Illegal assignment",
     "IllegalBoolean": "Illegal Boolean operation",
     "IllegalComparison": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0cb9\u0ccb\u0cb2\u0cbf\u0c95\u0cc6",
-    "IllegalComplexMultiplication": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0cb8\u0c82\u0c95\u0cc0\u0cb0\u0ccd\u0ca3 \u0c97\u0cc1\u0ca3\u0cbe\u0c95\u0cbe\u0cb0",
     "IllegalDivision": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0cad\u0cbe\u0c97\u0cbe\u0c95\u0cbe\u0cb0",
     "IllegalExponent": "Illegal exponent",
     "IllegalListOperation": "Illegal list operation",
     "IllegalMultiplication": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0c97\u0cc1\u0ca3\u0cbe\u0c95\u0cbe\u0cb0",
     "IllegalSubtraction": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0cb5\u0ccd\u0caf\u0cb5\u0c95\u0cb2\u0ca8",
-    "IllegalVariable": "\u0c85\u0c95\u0ccd\u0cb0\u0cae \u0cb5\u0ccd\u0caf\u0ca4\u0ccd\u0caf\u0caf",
     "IncompleteEquation": "\u0c85\u0caa\u0cc2\u0cb0\u0ccd\u0ca3 \u0cb8\u0cae\u0cc0\u0c95\u0cb0\u0ca3:\n\u0ca6\u0caf \u0cae\u0cbe\u0ca1\u0cbf \u0cb8\u0cae\u0cc0\u0c95\u0cb0\u0ca3\u0ca6 \u0c8e\u0cb0\u0ca1\u0cc2 \u0cac\u0ca6\u0cbf\u0c97\u0cb3\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca6\u0cbe\u0c96\u0cb2\u0cbf\u0cb8\u0cbf",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",
-    "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
     "InvalidInput": "Please check your input",
     "LoadFileFailed": "\u0c95\u0ca1\u0ca4\u0cb5\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca4\u0cc6\u0cb0\u0cc6\u0caf\u0cc1\u0cb5\u0cb2\u0ccd\u0cb2\u0cbf \u0cb5\u0cbf\u0cab\u0cb2\u0cb5\u0cbe\u0c97\u0cbf\u0ca6\u0cc6",
     "NameUsed": "\u0c88 \u0c97\u0cc1\u0cb0\u0cc1\u0ca4\u0cc1 \u0caa\u0c9f\u0ccd\u0c9f\u0cbf\u0caf\u0cc1 \u0c88\u0c97\u0cbe\u0c97\u0cb2\u0cc7 \u0cac\u0cb3\u0c95\u0cc6\u0caf\u0cb2\u0ccd\u0cb2\u0cbf\u0ca6\u0cc6",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.kn.error = {
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",
     "Tool.InputNotNeeded": "Input object is not needed",
     "Tool.OutputNotDependent": "Output object does not depend on input objects",
-    "URLnotFound": "URL\u0c85\u0ca8\u0ccd\u0ca8\u0cc1 \u0ca4\u0cc6\u0cb0\u0cc6\u0caf\u0cc1\u0cb5\u0cb2\u0ccd\u0cb2\u0cbf \u0cb5\u0cbf\u0cab\u0cb2\u0cb5\u0cbe\u0c97\u0cbf\u0ca6\u0cc6",
     "UnbalancedBrackets": "\u0c85\u0cb8\u0cae\u0ca4\u0cc6\u0cc2\u0cd5\u0cb2\u0cbf\u0ca4 \u0c86\u0cb5\u0cb0\u0ca3\u0c97\u0cb3\u0cc1",
     "UndefinedVariable": "\u0ca8\u0cbf\u0cb0\u0cc2\u0caa\u0cbf\u0cb8\u0ca6 \u0cb5\u0ccd\u0caf\u0ca4\u0ccd\u0caf\u0caf",
     "UnknownCommand": "\u0ca4\u0cbf\u0cb3\u0cbf\u0caf\u0ca6 \u0c86\u0c9c\u0ccd\u0c9e\u0cc6",
-    "UnsupportedLAF": "The chosen look and feel is not available on your computer",
     "VectorExpected": "Point or vector expected",
 };
 
@@ -1916,7 +1909,7 @@ __GGB__keysVar.kn.menu = {
     "InflectionPointofA": "Inflection point of %0",
     "InputField": "Input Bar",
     "InputField.Help": "Select object to copy its name to input bar",
-    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>&#8593;</td><td>Previous input</td></tr><tr><td>&#8595;</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
+    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>\u2191</td><td>Previous input</td></tr><tr><td>\u2193</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first three letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
     "InputForm": "Input form",
     "InputHelp": "Input Help",
     "InputLabel": "Input",

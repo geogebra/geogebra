@@ -1110,8 +1110,6 @@ __GGB__keysVar.da.command = {
  ***********************************************/
 
 __GGB__keysVar.da.error = {
-    "AssignmentDependentToFree": "Frie objekter kan ikke overskrives af afh\xe6ngige objekter",
-    "AssignmentToDependent": "Afh\xe6ngige objekter kan ikke overskrives",
     "AssignmentToFixed": "Faste objekter kan ikke forandres",
     "CAS.GeneralErrorMessage": "Trist, men dette input kan ikke bruges",
     "CAS.InvalidReferenceError": "En eller flere referencer er ugyldige",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.da.error = {
     "IllegalAssignment": "Ulovlig tildeling",
     "IllegalBoolean": "Ulovlig boolesk operation",
     "IllegalComparison": "Ulovlig sammenligning",
-    "IllegalComplexMultiplication": "Ulovlig kompleks multiplikation",
     "IllegalDivision": "Ulovlig division",
     "IllegalExponent": "Ulovlig eksponent",
     "IllegalListOperation": "Ulovlig handling p\xe5 en liste",
     "IllegalMultiplication": "Ulovlig multiplikation",
     "IllegalSubtraction": "Ulovlig subtraktion",
-    "IllegalVariable": "Ulovlig variabel",
     "IncompleteEquation": "Ufuldst\xe6ndig ligning:\nIndtast den anden side",
     "InvalidEquation": "Ufuldst\xe6ndig ligning:\nSkriv en line\xe6r eller kvadratisk ligning i x og y",
     "InvalidFunction": "Ugyldig funktion:\nSkriv en funktion i x",
-    "InvalidInequality": "Ugyldig ulighed\nV\xe6lg en line\xe6r ulighed i x og y.",
     "InvalidInput": "Trist, men dette input kan ikke bruges",
     "LoadFileFailed": "Filen kunne ikke \xe5bnes",
     "NameUsed": "Dette navn er allerede brugt",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.da.error = {
     "Tool.DeleteUsed": "V\xe6rkt\xf8jet er brugt i konstruktionen og kan ikke slettes",
     "Tool.InputNotNeeded": "Input objekt er overfl\xf8digt",
     "Tool.OutputNotDependent": "Output objekt afh\xe6nger ikke af input objekter",
-    "URLnotFound": "Det lykkedes ikke at \xe5bne URLen",
     "UnbalancedBrackets": "Der er ikke lige mange parenteser af hver slags.",
     "UndefinedVariable": "Udefineret variabel",
     "UnknownCommand": "Ukendt kommando",
-    "UnsupportedLAF": "Det valgte udseende er ikke tilr\xe5dighed p\xe5 din maskine.",
     "VectorExpected": "Punkt eller vektor forventet",
 };
 

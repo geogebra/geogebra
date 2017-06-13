@@ -1110,8 +1110,6 @@ __GGB__keysVar.de_AT.command = {
  ***********************************************/
 
 __GGB__keysVar.de_AT.error = {
-    "AssignmentDependentToFree": "Freie Objekte d\xfcrfen nicht von abh\xe4ngigen \xfcberschrieben werden.",
-    "AssignmentToDependent": "Abh\xe4ngige Objekte d\xfcrfen nicht \xfcberschrieben werden.",
     "AssignmentToFixed": "Fixierte Objekte k\xf6nnen nicht ver\xe4ndert werden.",
     "CAS.GeneralErrorMessage": "\xdcberpr\xfcfen Sie bitte Ihre Eingabe",
     "CAS.InvalidReferenceError": "Eine oder mehrere Referenzen sind ung\xfcltig",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.de_AT.error = {
     "IllegalAssignment": "Unzul\xe4ssige Zuweisung",
     "IllegalBoolean": "Unzul\xe4ssige Boolesche Operation",
     "IllegalComparison": "Unzul\xe4ssiger Vergleich",
-    "IllegalComplexMultiplication": "Unzul\xe4ssige Multiplikation mit komplexen Zahlen",
     "IllegalDivision": "Unzul\xe4ssige Division",
     "IllegalExponent": "Unzul\xe4ssiger Exponent",
     "IllegalListOperation": "Unzul\xe4ssige Listenoperation",
     "IllegalMultiplication": "Unzul\xe4ssige Multiplikation",
     "IllegalSubtraction": "Unzul\xe4ssige Subtraktion",
-    "IllegalVariable": "Unzul\xe4ssige Variable",
     "IncompleteEquation": "Unvollst\xe4ndige Gleichung:\nBitte geben Sie beide Seiten der Gleichung an.",
     "InvalidEquation": "Ung\xfcltige Gleichung: \nBitte geben Sie eine lineare oder quadratische Gleichungen in x und y ein.",
     "InvalidFunction": "Ung\xfcltige Funktion:\nBitte geben Sie eine explizite Funktion in x ein.",
-    "InvalidInequality": "Ung\xfcltige Ungleichung:\nBitte geben Sie eine lineare Ungleichung in x und y ein.",
     "InvalidInput": "\xdcberpr\xfcfen Sie bitte Ihre Eingabe",
     "LoadFileFailed": "\xd6ffnen der Datei fehlgeschlagen",
     "NameUsed": "Dieser Name ist bereits vergeben.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.de_AT.error = {
     "Tool.DeleteUsed": "Dieses Werkzeug wird in der Konstruktion verwendet und kann nicht gel\xf6scht werden.",
     "Tool.InputNotNeeded": "Dieses Objekt wird f\xfcr die Eingabe nicht ben\xf6tigt.",
     "Tool.OutputNotDependent": "Dieses Ausgabe Objekt h\xe4ngt nicht von den Eingabe Objekten ab.",
-    "URLnotFound": "\xd6ffnen der URL fehlgeschlagen.",
     "UnbalancedBrackets": "Unausgeglichene Klammersetzung",
     "UndefinedVariable": "Undefinierte Variable",
     "UnknownCommand": "Unbekannter Befehl",
-    "UnsupportedLAF": "Das gew\xe4hlte Look and Feel ist auf Ihrem Computer leider nicht verf\xfcgbar.",
     "VectorExpected": "Punkt oder Vektor erwartet",
 };
 

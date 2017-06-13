@@ -1110,8 +1110,6 @@ __GGB__keysVar.ms.command = {
  ***********************************************/
 
 __GGB__keysVar.ms.error = {
-    "AssignmentDependentToFree": "Objek-objek bebas tidak boleh ditulis ganti oleh objek-objek bersandar.",
-    "AssignmentToDependent": "Objek-objek bersandar tidak boleh ditulis ganti.",
     "AssignmentToFixed": "Objek-objek tetap tidak boleh ditukar.",
     "CAS.GeneralErrorMessage": "Maaf, input tidak boleh diterima.",
     "CAS.InvalidReferenceError": "Satu atau lebih rujukan adalah tidak sah",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.ms.error = {
     "IllegalAssignment": "Tugasan haram",
     "IllegalBoolean": "Operasi Boolean haram",
     "IllegalComparison": "Perbandingan haram",
-    "IllegalComplexMultiplication": "Pendaraban kompleks haram",
     "IllegalDivision": "Pembahagian haram",
     "IllegalExponent": "Eksponen haram",
     "IllegalListOperation": "Operasi Senarai haram",
     "IllegalMultiplication": "Pendaraban haram",
     "IllegalSubtraction": "Penolakan haram",
-    "IllegalVariable": "Pembolehubah haram",
     "IncompleteEquation": "Persamaan tidak lengkap:\nSila masukkan input pada kedua-dua bahagian persamaan.",
     "InvalidEquation": "Persamaan tidak sah:\nSila masukkan satu persamaan linear atau kuadratik dalam x dan y.",
     "InvalidFunction": "Fungsi tidak sah:\nSila masukkan satu fungsi tak tersirat dalam x.",
-    "InvalidInequality": "Ketaksaman tidak sah:\nSila masukkan ketaksamaan linear dalam x dan y",
     "InvalidInput": "Maaf, input tidak boleh diterima",
     "LoadFileFailed": "Pembukaan fail gagal.",
     "NameUsed": "Label ini telah pun dalam penggunaan.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.ms.error = {
     "Tool.DeleteUsed": "Alat sedang digunakan dalam pembinaan dan tidak boleh dihapuskan.",
     "Tool.InputNotNeeded": "Objek input tidak diperlukan.",
     "Tool.OutputNotDependent": "Objek output tidak bergantung pada objek-objek input .",
-    "URLnotFound": "Pembukaan URL gagal",
     "UnbalancedBrackets": "Kurungan-kurungan tak seimbang",
     "UndefinedVariable": "Pembolehubah tak tertakrif",
     "UnknownCommand": "Perintah yang tidak dikenali",
-    "UnsupportedLAF": "Paparan dan rasa yang terpilih tidak didapati pada komputer anda.",
     "VectorExpected": "Titik atau vektor dijangka",
 };
 

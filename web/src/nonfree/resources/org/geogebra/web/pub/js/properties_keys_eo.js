@@ -1110,8 +1110,6 @@ __GGB__keysVar.eo.command = {
  ***********************************************/
 
 __GGB__keysVar.eo.error = {
-    "AssignmentDependentToFree": "Free objects may not be overwritten by dependent objects",
-    "AssignmentToDependent": "Dependent objects may not be overwritten",
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.eo.error = {
     "IllegalAssignment": "Nepermesa valorizo",
     "IllegalBoolean": "Malpermesita bulea operacio",
     "IllegalComparison": "Malpermesita komparado",
-    "IllegalComplexMultiplication": "Malpermesita kompleksa multipliko",
     "IllegalDivision": "Malpermesita divido",
     "IllegalExponent": "Malpermesita eksponento",
     "IllegalListOperation": "Malpermesita lista operacio",
     "IllegalMultiplication": "Malpermesita multipliko",
     "IllegalSubtraction": "Malpermesita subtraho",
-    "IllegalVariable": "Malpermesita variablo",
     "IncompleteEquation": "Incomplete equation:\nPlease enter both sides of the equation",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",
-    "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
     "InvalidInput": "Please check your input",
     "LoadFileFailed": "Opening file failed",
     "NameUsed": "This label is already in use",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.eo.error = {
     "Tool.DeleteUsed": "Following tools were used to create selected objects and cannot be deleted:",
     "Tool.InputNotNeeded": "Input object is not needed",
     "Tool.OutputNotDependent": "Output object does not depend on input objects",
-    "URLnotFound": "Opening URL failed",
     "UnbalancedBrackets": "Problemaj krampoj",
     "UndefinedVariable": "Nedifinita variablo",
     "UnknownCommand": "Nekonata komando",
-    "UnsupportedLAF": "The chosen look and feel is not available on your computer",
     "VectorExpected": "Point or vector expected",
 };
 
@@ -1916,7 +1909,7 @@ __GGB__keysVar.eo.menu = {
     "InflectionPointofA": "Trafleksa punkto de %0",
     "InputField": "Eniga breto",
     "InputField.Help": "Elekti objekton por kopii \u011dian nomon al eniga breto",
-    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>&#8593;</td><td>Previous input</td></tr><tr><td>&#8595;</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
+    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>\u2191</td><td>Previous input</td></tr><tr><td>\u2193</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first three letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
     "InputForm": "Enigo",
     "InputHelp": "Helpo pri enigo",
     "InputLabel": "Enigo",

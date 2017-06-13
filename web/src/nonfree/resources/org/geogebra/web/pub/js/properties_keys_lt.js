@@ -1110,8 +1110,6 @@ __GGB__keysVar.lt.command = {
  ***********************************************/
 
 __GGB__keysVar.lt.error = {
-    "AssignmentDependentToFree": "Laisvi objektai negali b\u016bti kei\u010diami priklausomais.",
-    "AssignmentToDependent": "Priklausomi objektai negali b\u016bti pakeisti.",
     "AssignmentToFixed": "Priri\u0161ti objektai negali b\u016bti pakeisti.",
     "CAS.GeneralErrorMessage": "Atsipra\u0161au, \u012fvestis nepriimtina.",
     "CAS.InvalidReferenceError": "Viena ar daugiau nuorod\u0173 neveikia",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.lt.error = {
     "IllegalAssignment": "Neleistinas priskyrimas",
     "IllegalBoolean": "Neleistina login\u0117 operacija",
     "IllegalComparison": "Neleistinas palyginimas",
-    "IllegalComplexMultiplication": "Neleistina kompleksin\u0117 daugyba",
     "IllegalDivision": "Neleistina dalyba",
     "IllegalExponent": "Neleistinas laipsnio rodiklis",
     "IllegalListOperation": "Neleistinas veiksmas su s\u0105ra\u0161u",
     "IllegalMultiplication": "Neleistina daugyba",
     "IllegalSubtraction": "Neleistina atimtis",
-    "IllegalVariable": "Neleistinas kintamasis",
     "IncompleteEquation": "Nepilna lygtis:\n\u012eveskite abi lygties puses.",
     "InvalidEquation": "Neleistina lygtis:\n\u012eveskite tiesin\u0119 ar kvadratin\u0119 lygt\u012f su x bei y.",
     "InvalidFunction": "Neteisinga funkcija:\n\u012eveskite tiksli\u0105 funkcij\u0105 priklausan\u010di\u0105 nuo x.",
-    "InvalidInequality": "Netinkama nelygyb\u0117:\n\u012eveskite tiesin\u0119 nelygyb\u0119 panaudodami x bei y.",
     "InvalidInput": "Atsipra\u0161au, \u012fvestis nepriimtina",
     "LoadFileFailed": "Dokumento atverti nepavyko.",
     "NameUsed": "\u0160is pavadinimas jau naudojamas.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.lt.error = {
     "Tool.DeleteUsed": "\u012erankis panaudotas ir d\u0117l to negali b\u016bti pa\u0161alintas.",
     "Tool.InputNotNeeded": "Ivestas objektas nereikalingas.",
     "Tool.OutputNotDependent": "I\u0161vestis nepriklauso nuo \u012fvest\u0173 objekt\u0173.",
-    "URLnotFound": "Nepavyko atverti URL.",
     "UnbalancedBrackets": "Nesutampa skliaust\u0173 skai\u010dius",
     "UndefinedVariable": "Neapibr\u0117\u017etas kintamasis",
     "UnknownCommand": "Ne\u017einoma komanda",
-    "UnsupportedLAF": "Pasirinktas stilius negali b\u016bti paleistas \u0161iame kompiuteryje.",
     "VectorExpected": "Reikalingas ta\u0161kas ar vektorius",
 };
 

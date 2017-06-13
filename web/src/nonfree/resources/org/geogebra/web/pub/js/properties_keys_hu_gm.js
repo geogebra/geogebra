@@ -1110,8 +1110,6 @@ __GGB__keysVar.hu_gm.command = {
  ***********************************************/
 
 __GGB__keysVar.hu_gm.error = {
-    "AssignmentDependentToFree": "Szabad alakzat nem \xedrhat\xf3 fel\xfcl f\xfcgg\u0151 alakzattal",
-    "AssignmentToDependent": "F\xfcgg\u0151 alakzatok nem \xedrhat\xf3k \xe1t",
     "AssignmentToFixed": "Fix alakzatok nem v\xe1ltoztathat\xf3k meg",
     "CAS.GeneralErrorMessage": "Sajnos valami hiba t\xf6rt\xe9nt. Ellen\u0151rizd a bemeneti adatokat",
     "CAS.InvalidReferenceError": "Egy vagy t\xf6bb hivatkoz\xe1s \xe9rv\xe9nytelen.",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.hu_gm.error = {
     "IllegalAssignment": "Helytelen \xe9rt\xe9kad\xe1s",
     "IllegalBoolean": "Helytelen logikai m\u0171velet",
     "IllegalComparison": "Helytelen \xf6sszehasonl\xedt\xe1s",
-    "IllegalComplexMultiplication": "Helytelen komplex szorz\xe1s",
     "IllegalDivision": "Helytelen oszt\xe1s",
     "IllegalExponent": "Helytelen kitev\u0151",
     "IllegalListOperation": "Helytelen lista m\u0171velet",
     "IllegalMultiplication": "Helytelen szorz\xe1s",
     "IllegalSubtraction": "Helytelen kivon\xe1s",
-    "IllegalVariable": "Helytelen v\xe1ltoz\xf3",
     "IncompleteEquation": "Befejezetlen egyenlet:\nAdd meg az egyenlet mindk\xe9t oldal\xe1t",
     "InvalidEquation": "\xc9rv\xe9nytelen egyenlet:\nAdj meg egy polinomegyenletet x-re \xe9s y-ra",
     "InvalidFunction": "\xc9rv\xe9nytelen f\xfcggv\xe9ny:\nAdj meg egy explicit f\xfcggv\xe9nyt x-re",
-    "InvalidInequality": "\xc9rv\xe9nytelen egyenl\u0151tlens\xe9g:\nAdj meg egy line\xe1ris egyenl\u0151tlens\xe9get x-re \xe9s y-ra",
     "InvalidInput": "Ellen\u0151rizd a bemeneti adatokat",
     "LoadFileFailed": "F\xe1jl megnyit\xe1sa sikertelen",
     "NameUsed": "Ez a c\xedmke m\xe1r haszn\xe1latban van",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.hu_gm.error = {
     "Tool.DeleteUsed": "A k\xf6vetkez\u0151 eszk\xf6z\xf6k nem t\xf6r\xf6lhet\u0151k, mert a kijel\xf6lt alakzatok l\xe9trehoz\xe1sakor fel lettek haszn\xe1lva:",
     "Tool.InputNotNeeded": "Beviteli objektum nem sz\xfcks\xe9ges",
     "Tool.OutputNotDependent": "Az eredm\xe9nyobjektum nem f\xfcgg a beviteli objektumokt\xf3l",
-    "URLnotFound": "URL megnyit\xe1sa sikertelen",
     "UnbalancedBrackets": "Z\xe1r\xf3jel p\xe1r n\xe9lk\xfcl",
     "UndefinedVariable": "Nem defini\xe1lt v\xe1ltoz\xf3",
     "UnknownCommand": "Ismeretlen parancs",
-    "UnsupportedLAF": "A v\xe1lasztott kin\xe9zet nem \xe9rhet\u0151 el a sz\xe1m\xedt\xf3g\xe9peden",
     "VectorExpected": "Pontot vagy vektort kell megadni",
 };
 

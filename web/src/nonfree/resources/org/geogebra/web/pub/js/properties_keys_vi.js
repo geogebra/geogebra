@@ -1110,8 +1110,6 @@ __GGB__keysVar.vi.command = {
  ***********************************************/
 
 __GGB__keysVar.vi.error = {
-    "AssignmentDependentToFree": "C\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng t\u1ef1 do kh\xf4ng th\u1ec3 ghi \u0111\xe8 l\xean",
-    "AssignmentToDependent": "C\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng ph\u1ee5 thu\u1ed9c kh\xf4ng th\u1ec3 ghi \u0111\xe8 l\xean",
     "AssignmentToFixed": "Kh\xf4ng th\u1ec3 thay \u0111\u1ed5i c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng c\u1ed1 \u0111\u1ecbnh",
     "CAS.GeneralErrorMessage": "Gi\xe1 tr\u1ecb nh\u1eadp v\xe0o kh\xf4ng h\u1ee3p l\u1ec7",
     "CAS.InvalidReferenceError": "M\u1ed9t ho\u1eb7c nhi\u1ec1u tham chi\u1ebfu kh\xf4ng \u0111\xfang",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.vi.error = {
     "IllegalAssignment": "Ch\u1eef s\u1ed1 kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalBoolean": "To\xe1n t\u1eed l\xf4g\xedc kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalComparison": "Ph\xe9p so s\xe1nh kh\xf4ng h\u1ee3p l\u1ec7",
-    "IllegalComplexMultiplication": "Ph\xe9p t\xednh kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalDivision": "Ph\xe9p chia kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalExponent": "S\u1ed1 m\u0169 kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalListOperation": "Danh s\xe1ch c\xe1c ph\xe9p to\xe1n kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalMultiplication": "Ph\xe9p nh\xe2n kh\xf4ng h\u1ee3p l\u1ec7",
     "IllegalSubtraction": "Ph\xe9p tr\u1eeb kh\xf4ng h\u1ee3p l\u1ec7",
-    "IllegalVariable": "Bi\u1ebfn s\u1ed1 kh\xf4ng h\u1ee3p l\u1ec7",
     "IncompleteEquation": "Kh\xf4ng hi\u1ec3n th\u1ecb \u0111\u1ee7 ph\u01b0\u01a1ng tr\xecnh: Vui l\xf2ng nh\u1ea5n ENTER \u0111\u1ec3 xem ti\u1ebfp ph\xeda sau",
     "InvalidEquation": "Ph\u01b0\u01a1ng tr\xecnh kh\xf4ng h\u1ee3p l\u1ec7: Vui l\xf2ng nh\u1eadp v\xe0o ph\u01b0\u01a1ng tr\xecnh tuy\u1ebfn t\xednh ho\u1eb7c ph\u01b0\u01a1ng tr\xecnh b\u1eadc hai theo ' x ' v\xe0 ' y '",
     "InvalidFunction": "H\xe0m s\u1ed1 kh\xf4ng h\u1ee3p l\u1ec7: Vui l\xf2ng nh\u1eadp v\xe0o h\xe0m s\u1ed1 theo x",
-    "InvalidInequality": "B\u1ea5t \u0111\u1eb3ng th\u1ee9c kh\xf4ng \u0111\xfang: H\xe3y nh\u1eadp b\u1ea5t \u0111\u1eb3ng th\u1ee9c b\u1eadc nh\u1ea5t v\u1edbi x v\xe0 y",
     "InvalidInput": "Gi\xe1 tr\u1ecb nh\u1eadp v\xe0o kh\xf4ng h\u1ee3p l\u1ec7",
     "LoadFileFailed": "L\u1ed7i khi m\u1edf t\u1eadp tin",
     "NameUsed": "T\xean n\xe0y \u0111\xe3 \u0111\u01b0\u1ee3c s\u1eed d\u1ee5ng",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.vi.error = {
     "Tool.DeleteUsed": "C\xf4ng c\u1ee5 \u0111ang \u0111\u01b0\u1ee3c s\u1eed d\u1ee5ng trong vi\u1ec7c d\u1ef1ng h\xecnh v\xe0 kh\xf4ng th\u1ec3 x\xf3a \u0111\u01b0\u1ee3c",
     "Tool.InputNotNeeded": "\u0110\u1ed1i t\u01b0\u1ee3ng nh\u1eadp v\xe0o kh\xf4ng c\u1ea7n thi\u1ebft",
     "Tool.OutputNotDependent": "\u0110\u1ed1i t\u01b0\u1ee3ng xu\u1ea5t ra kh\xf4ng ph\u1ee5 thu\u1ed9c \u0111\u1ed1i t\u01b0\u1ee3ng nh\u1eadp v\xe0o",
-    "URLnotFound": "M\u1edf \u0111\u01b0\u1eddng d\u1eabn URL kh\xf4ng th\xe0nh c\xf4ng",
     "UnbalancedBrackets": "D\u1ea5u ngo\u1eb7c ch\u01b0a t\u01b0\u01a1ng \u1ee9ng",
     "UndefinedVariable": "Bi\u1ebfn s\u1ed1 ch\u01b0a \u0111\u1ecbnh ngh\u0129a",
     "UnknownCommand": "C\xe2u l\u1ec7nh ch\u01b0a \u0111\u1ecbnh ngh\u0129a",
-    "UnsupportedLAF": "M\xe1y t\xednh c\u1ee7a b\u1ea1n kh\xf4ng h\u1ed7 tr\u1ee3 giao di\u1ec7n \u0111\u01b0\u1ee3c ch\u1ecdn",
     "VectorExpected": "\u0110i\u1ec3m ho\u1eb7c v\xe9ct\u01a1 th\u1ecfa m\xe3n",
 };
 

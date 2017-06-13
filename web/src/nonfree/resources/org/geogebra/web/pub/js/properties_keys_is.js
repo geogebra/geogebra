@@ -1110,8 +1110,6 @@ __GGB__keysVar.is.command = {
  ***********************************************/
 
 __GGB__keysVar.is.error = {
-    "AssignmentDependentToFree": "Ekki h\xe6gt a\xf0 skrifa h\xe1\xf0a hluti yfir frj\xe1lsa",
-    "AssignmentToDependent": "Ekki h\xe6gt a\xf0 skrifa yfir h\xe1\xf0a hluti",
     "AssignmentToFixed": "Ekki h\xe6gt a\xf0 breyta f\xf6stum hlutum",
     "CAS.GeneralErrorMessage": "\xdev\xed mi\xf0ur gengur \xfeetta inntak ekki.",
     "CAS.InvalidReferenceError": "\xd3gild tilv\xedsun",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.is.error = {
     "IllegalAssignment": "\xd3leyfileg gilding",
     "IllegalBoolean": "\xd3leyfileg Boole-a\xf0ger\xf0",
     "IllegalComparison": "\xd3leyfilegur samanbur\xf0ur",
-    "IllegalComplexMultiplication": "\xd3leyfileg tvinnt\xf6lumargf\xf6ldun",
     "IllegalDivision": "\xd3leyfileg deiling",
     "IllegalExponent": "\xd3leyfilegur veldisv\xedsir",
     "IllegalListOperation": "\xd3leyfileg a\xf0ger\xf0 me\xf0 lista",
     "IllegalMultiplication": "\xd3leyfileg margf\xf6ldun",
     "IllegalSubtraction": "\xd3leyfilegur fr\xe1dr\xe1ttur",
-    "IllegalVariable": "\xd3leyfileg breyta",
     "IncompleteEquation": "\xd3fullger\xf0 jafna:\nVinsamlegast setji\xf0 inn b\xe1\xf0ar hli\xf0ar j\xf6fnunnar",
     "InvalidEquation": "\xd3gild jafna:\nSetji\xf0 inn l\xednulega e\xf0a annars stigs j\xf6fnu \xed x og y",
     "InvalidFunction": "\xd3gilt fallt:\nSetji\xf0 inn fall af x",
-    "InvalidInequality": "\xd3gild \xf3jafna\nSetji\xf0 inn l\xednulega \xf3j\xf6fnu \xed x og y",
     "InvalidInput": "\xdev\xed mi\xf0ur gengur \xfeetta inntak ekki",
     "LoadFileFailed": "T\xf3kst ekki a\xf0 opna skr\xe1",
     "NameUsed": "\xdeetta merki er \xfeegar \xed notkun",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.is.error = {
     "Tool.DeleteUsed": "Verkf\xe6ri er \xed notkun \xed myndsm\xed\xf0 og \xfev\xed ekki h\xe6gt a\xf0 ey\xf0a \xfev\xed",
     "Tool.InputNotNeeded": "Ekki \xfe\xf6rf \xe1 inntakshlut",
     "Tool.OutputNotDependent": "\xdattakshlutur er ekki h\xe1\xf0ur inntakshlut",
-    "URLnotFound": "T\xf3kst ekki a\xf0 opna URL",
     "UnbalancedBrackets": "Vantar sviga",
     "UndefinedVariable": "\xd3skilgreind breyta",
     "UnknownCommand": "\xd3\xfeekkt skipun",
-    "UnsupportedLAF": "Vali\xf0 \xfatlit er ekki \xed bo\xf0i \xe1 t\xf6lvunni \xfeinni",
     "VectorExpected": "B\xfaist var vi\xf0 punkti e\xf0a vigur",
 };
 

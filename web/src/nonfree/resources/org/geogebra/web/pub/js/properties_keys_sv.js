@@ -1110,8 +1110,6 @@ __GGB__keysVar.sv.command = {
  ***********************************************/
 
 __GGB__keysVar.sv.error = {
-    "AssignmentDependentToFree": "Fria objekt kan inte skrivas \xf6ver av beroende objekt",
-    "AssignmentToDependent": "Beroende objekt kan inte skrivas \xf6ver",
     "AssignmentToFixed": "Fixerat objekt kan inte \xe4ndras",
     "CAS.GeneralErrorMessage": "Beklagar, men inmatningen \xe4r inte godk\xe4nd",
     "CAS.InvalidReferenceError": "En eller flera referenser \xe4r ogiltiga",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.sv.error = {
     "IllegalAssignment": "Otill\xe5ten tilldelning",
     "IllegalBoolean": "Otill\xe5tet logiskt (booleskt) uttryck",
     "IllegalComparison": "Otill\xe5ten j\xe4mf\xf6relse",
-    "IllegalComplexMultiplication": "Otill\xe5ten komplex multiplikation",
     "IllegalDivision": "Otill\xe5ten division",
     "IllegalExponent": "Otill\xe5ten exponent",
     "IllegalListOperation": "Otill\xe5ten operation f\xf6r listor",
     "IllegalMultiplication": "Otill\xe5ten multiplikation",
     "IllegalSubtraction": "Otill\xe5ten subtraktion",
-    "IllegalVariable": "Otill\xe5ten variabel",
     "IncompleteEquation": "Ekvationen \xe4r inte fullst\xe4ndig:\nVar god och ange b\xe5da sidorna av ekvationen",
     "InvalidEquation": "Ogiltig ekvation:\nVar god och ange en linj\xe4r eller kvadratisk ekvation i x och y",
     "InvalidFunction": "Ogiltig funktion:\nVar god och ange en explicit funktion av x",
-    "InvalidInequality": "Otill\xe5ten olikhet:\nMata in en linj\xe4r olikhet uttryckt i x och y",
     "InvalidInput": "V\xe4nligen kontrollera din inmatning",
     "LoadFileFailed": "Kunde inte \xf6ppna filen",
     "NameUsed": "Denna etikett anv\xe4nds redan",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.sv.error = {
     "Tool.DeleteUsed": "Verktyget anv\xe4nds i konstruktionen och kan inte raderas",
     "Tool.InputNotNeeded": "Input-objektet beh\xf6vs inte",
     "Tool.OutputNotDependent": "Output-objekten beror inte av Input-objekten",
-    "URLnotFound": "Kunde inte \xf6ppna URL",
     "UnbalancedBrackets": "Parenteserna \xe4r ej korrekt matchade",
     "UndefinedVariable": "Odefinierad variabel",
     "UnknownCommand": "Ok\xe4nt kommando",
-    "UnsupportedLAF": "Den valda utformningen finns inte p\xe5 din dator",
     "VectorExpected": "Punkt eller vektor f\xf6rv\xe4ntades",
 };
 

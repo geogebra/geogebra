@@ -1110,8 +1110,6 @@ __GGB__keysVar.ca.command = {
  ***********************************************/
 
 __GGB__keysVar.ca.error = {
-    "AssignmentDependentToFree": "Els objectes lliures no es poden sobreescriure pels dependents",
-    "AssignmentToDependent": "Els objectes dependents no es poden sobreescriure",
     "AssignmentToFixed": "Els objectes fixos no es poden modificar",
     "CAS.GeneralErrorMessage": "Ho sento, l'entrada no \xe9s correcta",
     "CAS.InvalidReferenceError": "Una o m\xe9s refer\xe8ncies no s\xf3n v\xe0lides",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.ca.error = {
     "IllegalAssignment": "Assignaci\xf3 il\xb7legal",
     "IllegalBoolean": "Operaci\xf3 booleana incorrecta",
     "IllegalComparison": "Comparaci\xf3 incorrecta",
-    "IllegalComplexMultiplication": "No \xe9s possible fer la multiplicaci\xf3 complexa",
     "IllegalDivision": "Divisi\xf3 il\xb7legal",
     "IllegalExponent": "Exponent il\xb7legal",
     "IllegalListOperation": "Operaci\xf3 no disponible amb llistes",
     "IllegalMultiplication": "Multiplicaci\xf3 il\xb7legal",
     "IllegalSubtraction": "Substracci\xf3 il\xb7legal",
-    "IllegalVariable": "Variable il\xb7legal",
     "IncompleteEquation": "Equaci\xf3 il\xb7legal:\nEntreu el segon membre",
     "InvalidEquation": "Equaci\xf3 il\xb7legal:\nEntreu una equaci\xf3 lineal o quadr\xe0tica",
     "InvalidFunction": "Equaci\xf3 il\xb7legal:\nEntreu una funci\xf3 expl\xedcita en x",
-    "InvalidInequality": "Desigualtat no v\xe0lida:\nsi us plau, entreu una desigualtat lineal en x i y",
     "InvalidInput": "Ho sento, l'entrada no \xe9s correcta",
     "LoadFileFailed": "Error en obrir el fitxer",
     "NameUsed": "Aquesta etiqueta est\xe0 en \xfas",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.ca.error = {
     "Tool.DeleteUsed": "S'est\xe0 fent servir l'eina i no pot ser eliminada",
     "Tool.InputNotNeeded": "No cal introduir cap objecte d'entrada",
     "Tool.OutputNotDependent": "L'objecte de sortida no dep\xe8n dels objectes d'entrada",
-    "URLnotFound": "Error a l'accedir a la URL",
     "UnbalancedBrackets": "Par\xe8ntesis oberts i tancats no coincideixen",
     "UndefinedVariable": "Variable no definida",
     "UnknownCommand": "Comandament desconegut",
-    "UnsupportedLAF": "Aquesta aparen\xe7a no est\xe0 disponible en aquest ordinador",
     "VectorExpected": "S'esperava un punt o un vector",
 };
 

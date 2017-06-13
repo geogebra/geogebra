@@ -1110,8 +1110,6 @@ __GGB__keysVar.tr.command = {
  ***********************************************/
 
 __GGB__keysVar.tr.error = {
-    "AssignmentDependentToFree": "Serbest nesneler ba\u011f\u0131ml\u0131 ile de\u011fi\u015ftirilemez",
-    "AssignmentToDependent": "Ba\u011f\u0131ml\u0131 nesneler de\u011fi\u015ftirilemez",
     "AssignmentToFixed": "Sabit nesneler de\u011fi\u015ftirilemez",
     "CAS.GeneralErrorMessage": "Maalesef girdi ge\xe7erli de\u011fil.",
     "CAS.InvalidReferenceError": "Bir veya daha fazla referans ge\xe7ersiz",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.tr.error = {
     "IllegalAssignment": "Ge\xe7ersiz atama",
     "IllegalBoolean": "Ge\xe7ersiz s\u0131nama i\u015flemi",
     "IllegalComparison": "Ge\xe7ersiz kar\u015f\u0131la\u015ft\u0131rma",
-    "IllegalComplexMultiplication": "Ge\xe7ersiz karma\u015f\u0131k \xe7arp\u0131m",
     "IllegalDivision": "Ge\xe7ersiz b\xf6l\xfcm",
     "IllegalExponent": "Ge\xe7ersiz \xfcst",
     "IllegalListOperation": "Ge\xe7ersiz liste i\u015flemi",
     "IllegalMultiplication": "Ge\xe7ersiz \xe7arp\u0131m",
     "IllegalSubtraction": "Ge\xe7ersiz \xe7\u0131karma",
-    "IllegalVariable": "Ge\xe7ersiz de\u011fi\u015fken",
     "IncompleteEquation": "Eksik denklem:\nL\xfctfen ikinci k\u0131sm\u0131 giriniz",
     "InvalidEquation": "Ge\xe7ersiz denklem:\nL\xfctfen x ve y cinsinden bir polinom denklem giriniz",
     "InvalidFunction": "Ge\xe7ersiz i\u015flev:\nL\xfctfen x cinsinden a\xe7\u0131k bir i\u015flev giriniz",
-    "InvalidInequality": "Ge\xe7ersiz e\u015fitsizlik:\nL\xfctfen x ve y cinsinden bir do\u011frusal e\u015fitsizlik giriniz",
     "InvalidInput": "Maalesef girdi ge\xe7erli de\u011fil",
     "LoadFileFailed": "Dosyay\u0131 a\xe7mak ba\u015far\u0131s\u0131z oldu",
     "NameUsed": "Bu etiket hali haz\u0131rda kullan\u0131lmaktad\u0131r",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.tr.error = {
     "Tool.DeleteUsed": "A\u015fa\u011f\u0131daki ara\xe7lar, se\xe7ilen nesnelerin olu\u015fturulmas\u0131nda kullan\u0131lm\u0131\u015ft\u0131r ve silinemezler:",
     "Tool.InputNotNeeded": "Giri\u015f nesnesi gerekmez",
     "Tool.OutputNotDependent": "\xc7\u0131k\u0131\u015f nesneleri giri\u015f nesnelerine ba\u011f\u0131ml\u0131 de\u011fildir",
-    "URLnotFound": "URL a\xe7mak ba\u015far\u0131s\u0131z oldu",
     "UnbalancedBrackets": "Parantez A\xe7ma Kapama Say\u0131s\u0131 Farkl\u0131",
     "UndefinedVariable": "Tan\u0131ms\u0131z de\u011fi\u015fken",
     "UnknownCommand": "Bilinmeyen komut",
-    "UnsupportedLAF": "Se\xe7ilen g\xf6r\xfcn\xfcm tipi bilgisayar\u0131n\u0131zda y\xfckl\xfc de\u011fil.",
     "VectorExpected": "Nokta veya vekt\xf6r beklenmektedir",
 };
 

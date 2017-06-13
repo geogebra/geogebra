@@ -1110,8 +1110,6 @@ __GGB__keysVar.az.command = {
  ***********************************************/
 
 __GGB__keysVar.az.error = {
-    "AssignmentDependentToFree": "Free objects may not be overwritten by dependent objects",
-    "AssignmentToDependent": "Dependent objects may not be overwritten",
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Ba\u011f\u0131\u015flay\u0131n, x\u0259ta ba\u015f verdi. L\xfctf\u0259n daxil olunan m\u0259lumat\u0131 yoxlay\u0131n",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.az.error = {
     "IllegalAssignment": "Illegal assignment",
     "IllegalBoolean": "Illegal Boolean operation",
     "IllegalComparison": "Illegal comparison",
-    "IllegalComplexMultiplication": "Illegal complex multiplication",
     "IllegalDivision": "Illegal division",
     "IllegalExponent": "Illegal exponent",
     "IllegalListOperation": "Illegal list operation",
     "IllegalMultiplication": "Illegal multiplication",
     "IllegalSubtraction": "Illegal subtraction",
-    "IllegalVariable": "Illegal variable",
     "IncompleteEquation": "Natamam b\u0259rab\u0259rlik:\nL\xfctf\u0259n b\u0259rab\u0259rliyin h\u0259r iki yan\u0131n\u0131 daxil edin",
     "InvalidEquation": "Invalid equation:\nPlease enter a polynomial equation in x and y",
     "InvalidFunction": "Invalid function:\nPlease enter an explicit function in x",
-    "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
     "InvalidInput": "Ba\u011f\u0131\u015flay\u0131n, x\u0259ta ba\u015f verdi. L\xfctf\u0259n daxil olunan m\u0259lumat\u0131 yoxlay\u0131n",
     "LoadFileFailed": "Opening file failed",
     "NameUsed": "This label is already in use",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.az.error = {
     "Tool.DeleteUsed": "Se\xe7ilmi\u015f obyektl\u0259ri yaratmaq \xfc\xe7\xfcn a\u015fa\u011f\u0131dak\u0131 al\u0259tl\u0259rd\u0259n istifad\u0259 olunmu\u015fdur v\u0259 onlar\u0131 silm\u0259k m\xfcmk\xfcn deyil:",
     "Tool.InputNotNeeded": "Input object is not needed",
     "Tool.OutputNotDependent": "Output object does not depend on input objects",
-    "URLnotFound": "Opening URL failed",
     "UnbalancedBrackets": "Unbalanced brackets",
     "UndefinedVariable": "Undefined variable",
     "UnknownCommand": "Nam\u0259lum komanda",
-    "UnsupportedLAF": "The chosen look and feel is not available on your computer",
     "VectorExpected": "Point or vector expected",
 };
 
@@ -1916,7 +1909,7 @@ __GGB__keysVar.az.menu = {
     "InflectionPointofA": "Inflection point of %0",
     "InputField": "Input Bar",
     "InputField.Help": "Select object to copy its name to input bar",
-    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>&#8593;</td><td>Previous input</td></tr><tr><td>&#8595;</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first two letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
+    "InputFieldHelp": "<html><body><p><b>Using the Input Bar</b></p><table border=\"1\"><tr><td>Enter </td><td>Execute input</td></tr><tr><td>Escape</td><td>Clear input bar</td></tr><tr><td>\u2191</td><td>Previous input</td></tr><tr><td>\u2193</td><td>Next input</td></tr><tr><td>F1</td><td>Help for current command</td></tr><tr><td>TAB</td><td>Show next matching command</td></tr></table><p><br><b>Auto-Completion of Commands</b><br>After typing the first three letters of a command<br>GeoGebra will complete the command for you.</p><table border=\"1\"><tr><td>Enter </td><td>Accept proposed command</td></tr><tr><td>Another letter</td><td>Adapts proposed command</td></tr></table></body></html>",
     "InputForm": "Input form",
     "InputHelp": "Input Help",
     "InputLabel": "Input",

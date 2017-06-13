@@ -1110,8 +1110,6 @@ __GGB__keysVar.ro.command = {
  ***********************************************/
 
 __GGB__keysVar.ro.error = {
-    "AssignmentDependentToFree": "Obiectele libere nu pot fi suprascrise cu obiecte dependente",
-    "AssignmentToDependent": "Obiectele dependente nu pot fi suprascrise",
     "AssignmentToFixed": "Obiectele fixate nu pot fi modificate",
     "CAS.GeneralErrorMessage": "Ceva nu func\u0163ioneaz\u0103 corect. Verifica\u0163i intrarea.",
     "CAS.InvalidReferenceError": "Una sau mai multe referin\u021be sunt invalide",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.ro.error = {
     "IllegalAssignment": "Atribuire incorect\u0103",
     "IllegalBoolean": "Opera\u0163ie boolean\u0103 incorect\u0103",
     "IllegalComparison": "Compara\u0163ie incorect\u0103",
-    "IllegalComplexMultiplication": "Multiplicare complex\u0103 incorect\u0103",
     "IllegalDivision": "\xcemp\u0103r\u0163ire incorect\u0103",
     "IllegalExponent": "Exponent incorect",
     "IllegalListOperation": "Opera\u0163ie cu liste ilegal\u0103",
     "IllegalMultiplication": "Multiplicare incorect\u0103",
     "IllegalSubtraction": "Sc\u0103dere incorect\u0103",
-    "IllegalVariable": "Variabil\u0103 incorect\u0103",
     "IncompleteEquation": "Ecua\u0163ie incomplet\u0103:\nIntroduce\u0163i ambele p\u0103r\u0163i ale ecua\u0163iei.",
     "InvalidEquation": "Ecua\u0163ie invalid\u0103:\nIntroduce\u0163i o ecua\u0163ie polinom \xeen x \u015fi y.",
     "InvalidFunction": "Func\u0163ie invalid\u0103:\nIntroduce\u0163i o func\u0163ie explicit\u0103 \xeen x.",
-    "InvalidInequality": "Inegalitate invalid\u0103:\nIntroduce\u0163i o inegalitate liniar\u0103 \xeen x \u015fi y",
     "InvalidInput": "Ceva nu func\u0163ioneaz\u0103 corect. Verifica\u0163i intrarea",
     "LoadFileFailed": "Deschiderea fi\u015fierului a e\u015fuat",
     "NameUsed": "Aceast\u0103 etichet\u0103 este deja \xeen uz",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.ro.error = {
     "Tool.DeleteUsed": "Urm\u0103toarele instrumente sunt utilizate \xeen construc\u0163ie \u015fi nu pot fi \u015fterse",
     "Tool.InputNotNeeded": "Obiectul de intrare nu este necesar",
     "Tool.OutputNotDependent": "Obiectul de ie\u015fire nu depinde de obiectele de intrare",
-    "URLnotFound": "Deschiderea URL-ului a e\u015fuat",
     "UnbalancedBrackets": "Paranteze \xeen neconcordan\u021b\u0103",
     "UndefinedVariable": "Variabil\u0103 nedefinit\u0103",
     "UnknownCommand": "Comand\u0103 necunoscut\u0103",
-    "UnsupportedLAF": "Aspectul \u015fi textura aleas\u0103 nu sunt disponibile pe computerul Dvs.",
     "VectorExpected": "Se a\u015fteapt\u0103 un punct sau un vector",
 };
 

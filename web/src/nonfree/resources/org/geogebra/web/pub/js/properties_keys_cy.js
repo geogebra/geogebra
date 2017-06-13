@@ -1110,8 +1110,6 @@ __GGB__keysVar.cy.command = {
  ***********************************************/
 
 __GGB__keysVar.cy.error = {
-    "AssignmentDependentToFree": "Ni ellir trosysgrifennu gwrthrychau rhydd gyda gwrthrychau dibynnol.",
-    "AssignmentToDependent": "Ni ellir trosysgrifennu gwrthrychau dibynnol.",
     "AssignmentToFixed": "Ni ellir newid gwrthrychau sefydlog.",
     "CAS.GeneralErrorMessage": "Mae'r mewnbwn yn annerbyniol.",
     "CAS.InvalidReferenceError": "Mae un neu fwy o'r cyfeirnodau yn annilys",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.cy.error = {
     "IllegalAssignment": "Trosglwyddiant anghyfreithlon",
     "IllegalBoolean": "Gweithrediad Boole anghyfreithlon",
     "IllegalComparison": "Cymhariaeth anghyfreithlon",
-    "IllegalComplexMultiplication": "Lluosiad cymhlyg anghyfreithlon",
     "IllegalDivision": "Rhaniad anghyfreithlon",
     "IllegalExponent": "Esbonydd anghyfreithlon",
     "IllegalListOperation": "Gweithrediad rhestr annilys",
     "IllegalMultiplication": "Lluosiad anghyfreithlon",
     "IllegalSubtraction": "Tyniad anghyfreithlon",
-    "IllegalVariable": "Newidyn anghyfreithlon",
     "IncompleteEquation": "Hafaliad anghyflawn:\nRhowch ddwy ochr i'r hafaliad.",
     "InvalidEquation": "Hafaliad annilys:\nRhowch hafaliad llinol neu hafaliad cwadratig yn x ac y.",
     "InvalidFunction": "Ffwythiant annilys:\nRhowch ffwythiant echblyg yn x.",
-    "InvalidInequality": "Anhafaledd annilys:\nMewnbynnwch mynegiad yn nhermau x ac y",
     "InvalidInput": "Mae'r mewnbwn yn annerbyniol",
     "LoadFileFailed": "Wedi methu agor y ffeil.",
     "NameUsed": "Defnyddir y label hon eisoes.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.cy.error = {
     "Tool.DeleteUsed": "Mae'r offeryn yn cael ei ddefnyddio i lunio ac ni ellir ei ddileu.",
     "Tool.InputNotNeeded": "Nid oes angen y gwrthrych mewnbwn.",
     "Tool.OutputNotDependent": "Nid yw'r gwrthrych allbwn yn ddibynnol ar wrthrychau mewnbwn.",
-    "URLnotFound": "Wedi methu agor yr URL",
     "UnbalancedBrackets": "Bracedi'n anghytbwys",
     "UndefinedVariable": "Newidyn anniffiniedig",
     "UnknownCommand": "Gorchymyn anhysbys",
-    "UnsupportedLAF": "Nid yw'r edrychiad a'r naws a ddewiswyd ar gael ar eich cyfrifiadur.",
     "VectorExpected": "Disgwylir pwynt neu fector",
 };
 

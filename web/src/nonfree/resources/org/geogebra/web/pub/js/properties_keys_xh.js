@@ -1110,8 +1110,6 @@ __GGB__keysVar.xh.command = {
  ***********************************************/
 
 __GGB__keysVar.xh.error = {
-    "AssignmentDependentToFree": "Iifree objects akufuneki zicinywe kufakwe ezinye phezu kwazo",
-    "AssignmentToDependent": "Izinto ezixhomekeke kwezinye mazingasuswa kufakwe ezinye phezu kwazo",
     "AssignmentToFixed": "Iizinto ezizinzileyo azinakutshintshwa",
     "CAS.GeneralErrorMessage": "Uxolo, ikhona into erongo eyenzekileyo. Phinda ujonge lento uyifakileyo.",
     "CAS.InvalidReferenceError": "Enye okanye ezinye zeereferensi zakho azivumelekanga",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.xh.error = {
     "IllegalAssignment": "Umsebenzi ongekhomthethweni",
     "IllegalBoolean": "Isenzo seBoolean esingekho mthethweni",
     "IllegalComparison": "Uthelekiso olungekhomthethweni",
-    "IllegalComplexMultiplication": "Uphindaphindo Olukumgangatho ophezulu olungekhomthethweni",
     "IllegalDivision": "Ulwahlulo olungekhomthethweni",
     "IllegalExponent": "Ieksponenti engekhomthethweni",
     "IllegalListOperation": "Uluhlu lwezenzo olungekho mthethweni",
     "IllegalMultiplication": "Uphindaphindo olungekho mthethweni",
     "IllegalSubtraction": "Uthabatho olungekho mthethweni",
-    "IllegalVariable": "Isimelinani esingekho mthethweni",
     "IncompleteEquation": "Iikhweyjini engaphelelanga:\nNceda ufakele omabini amacala eikhweyjini.",
     "InvalidEquation": "Iikhweyjini eNgekhoMthethweni:\nNceda ufakele iikhweyjini eyipholinomiyali eno x no y",
     "InvalidFunction": "Ifankshini engalunganga:\nNceda ufake ifankshini ecacileyo eno x",
-    "InvalidInequality": "Iinikhwaliti engalunganga:\nNceda ufakele iinikhwaliti yeliniya eno x no y",
     "InvalidInput": "Uxolo, ikhona into erongo eyenzekileyo. Phinda ujonge lento uyifakileyo",
     "LoadFileFailed": "Uvulu lwefayile aluphumelelanga",
     "NameUsed": "Le leyibheli seleisetyenziswa",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.xh.error = {
     "Tool.DeleteUsed": "Kusetyenziswe ezizixhobo ukwakha izinto ezikhethiweyo kwaye azikwazikucinywa:",
     "Tool.InputNotNeeded": "Into yokufaka amagama ayidingeki",
     "Tool.OutputNotDependent": "Into ekhupha amagama ayixhomekekanga kwizinto zokufaka amagama",
-    "URLnotFound": "Uvulo lweURL luwephantsi",
     "UnbalancedBrackets": "Izibiyeli zakho azimanga kakuhle",
     "UndefinedVariable": "Isimelimanani esingachazwanga",
     "UnknownCommand": "Umyalelo Ongaziwayo",
-    "UnsupportedLAF": "Lembonakalo nesimo asifumaneki kweyakho ikhompyutha",
     "VectorExpected": "Kulindeleke ichaphaza okanye ivektha",
 };
 

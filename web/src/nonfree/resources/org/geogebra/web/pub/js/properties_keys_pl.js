@@ -1110,8 +1110,6 @@ __GGB__keysVar.pl.command = {
  ***********************************************/
 
 __GGB__keysVar.pl.error = {
-    "AssignmentDependentToFree": "Obiekty swobodne nie mog\u0105 by\u0107 zast\u0105pione przez obiekty zale\u017cne",
-    "AssignmentToDependent": "Obiekty zale\u017cne nie mog\u0105 zosta\u0107 nadpisane",
     "AssignmentToFixed": "Obiekty sta\u0142e nie mog\u0105 by\u0107 zmienione",
     "CAS.GeneralErrorMessage": "Przepraszam, wej\u015bcie jest niedopuszczalne",
     "CAS.InvalidReferenceError": "Jedno lub wi\u0119cej odwo\u0142a\u0144 jest nieprawid\u0142owe",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.pl.error = {
     "IllegalAssignment": "Nieprawid\u0142owe przypisanie",
     "IllegalBoolean": "Nieprawid\u0142owa operacja boolowska",
     "IllegalComparison": "Nieprawid\u0142owe por\xf3wnanie",
-    "IllegalComplexMultiplication": "Nieprawid\u0142owe mno\u017cenie zespolone",
     "IllegalDivision": "Nieprawid\u0142owe dzielenie",
     "IllegalExponent": "Nieprawid\u0142owy wyk\u0142adnik",
     "IllegalListOperation": "Nieprawid\u0142owa operacja na li\u015bcie",
     "IllegalMultiplication": "Nieprawid\u0142owe mno\u017cenie",
     "IllegalSubtraction": "Nieprawid\u0142owe odejmowanie",
-    "IllegalVariable": "Nieprawid\u0142owa zmienna",
     "IncompleteEquation": "R\xf3wnanie niekompletne:\nWprowad\u017a obie strony r\xf3wnania",
     "InvalidEquation": "R\xf3wnanie b\u0142\u0119dne:\nWprowad\u017a r\xf3wnanie liniowe lub kwadratowe z u\u017cyciem x i y",
     "InvalidFunction": "Nieprawid\u0142owa funkcja:\nWprowad\u017a fukcj\u0119 zmiennej x.",
-    "InvalidInequality": "Nieprawid\u0142owa nier\xf3wno\u015b\u0107: \nWprowad\u017a nier\xf3wno\u015b\u0107 liniow\u0105 z u\u017cyciem x i y.",
     "InvalidInput": "Przepraszam, wej\u015bcie jest niedopuszczalne",
     "LoadFileFailed": "B\u0142\u0105d otwarcia pliku",
     "NameUsed": "Ta nazwa jest aktualnie w u\u017cyciu",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.pl.error = {
     "Tool.DeleteUsed": "Narz\u0119dzie u\u017cyte w konstrukcji nie mo\u017ce by\u0107 usuni\u0119te",
     "Tool.InputNotNeeded": "Wprowadzony obiekt nie jest potrzebny",
     "Tool.OutputNotDependent": "Wyprowadzony obiekt jest niezale\u017cny od obiekt\xf3w wej\u015bcia",
-    "URLnotFound": "Otwarcie URL nie powiod\u0142o si\u0119",
     "UnbalancedBrackets": "Niesymetryczne nawiasy",
     "UndefinedVariable": "Niezdefiniowana zmienna",
     "UnknownCommand": "Nieznane polecenie",
-    "UnsupportedLAF": "Wybrany widok nie jest dost\u0119pny na twoim komputerze.",
     "VectorExpected": "Oczekiwany jest punkt lub wektor",
 };
 

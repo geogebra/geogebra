@@ -1110,8 +1110,6 @@ __GGB__keysVar.no_NB.command = {
  ***********************************************/
 
 __GGB__keysVar.no_NB.error = {
-    "AssignmentDependentToFree": "Frie objekt kan ikke overskrives av avhengige objekt.",
-    "AssignmentToDependent": "Avhengige objekt kan ikke overskrives.",
     "AssignmentToFixed": "L\xe5ste objekt kan ikke forandres.",
     "CAS.GeneralErrorMessage": "Det du satte inn ble ikke akseptert.",
     "CAS.InvalidReferenceError": "En eller flere referanser er ugyldig(e)",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.no_NB.error = {
     "IllegalAssignment": "Ulovlig tildeling.",
     "IllegalBoolean": "Ulovlig Boolsk operasjon.",
     "IllegalComparison": "Ulovlig sammenligning.",
-    "IllegalComplexMultiplication": "Ulovlig kompleks multiplikasjon.",
     "IllegalDivision": "Ulovlig divisjon.",
     "IllegalExponent": "Ulovlig eksponent.",
     "IllegalListOperation": "Ulovlig listeoperasjon.",
     "IllegalMultiplication": "Ulovlig multiplikasjon.",
     "IllegalSubtraction": "Ulovlig subtraksjon.",
-    "IllegalVariable": "Ulovlig variabel.",
     "IncompleteEquation": "Ufullstendig likning:\nTast inn begge sider av likningen.",
     "InvalidEquation": "Ufullstendig likning:\nSkriv en polynomlikning med x og y.",
     "InvalidFunction": "Ugyldig funksjon:\nSkriv en eksplisitt funksjon med x.",
-    "InvalidInequality": "Ugyldig ulikhet:\nSkriv inn en line\xe6r ulikhet med x og y.",
     "InvalidInput": "Det du satte inn ble ikke akseptert",
     "LoadFileFailed": "Fila kunne ikke \xe5pnes.",
     "NameUsed": "Dette navnet er alt brukt.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.no_NB.error = {
     "Tool.DeleteUsed": "Disse verkt\xf8yene er brukte i figuren, og kan ikke slettes:",
     "Tool.InputNotNeeded": "Startobjektet er un\xf8dvendig.",
     "Tool.OutputNotDependent": "Sluttobjektet er uavhengig av startobjektene.",
-    "URLnotFound": "Det lykkes ikke \xe5 \xe5pne nettsiden.",
     "UnbalancedBrackets": "Feil i parentessetting",
     "UndefinedVariable": "Udefinert variabel.",
     "UnknownCommand": "Ukjent kommando.",
-    "UnsupportedLAF": "Den valgte utformingen er ikke tilgjengelig for din maskin.",
     "VectorExpected": "Her var det ventet et punkt eller en vektor.",
 };
 

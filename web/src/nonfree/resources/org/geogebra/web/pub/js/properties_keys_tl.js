@@ -1110,8 +1110,6 @@ __GGB__keysVar.tl.command = {
  ***********************************************/
 
 __GGB__keysVar.tl.error = {
-    "AssignmentDependentToFree": "Ang free objects ay hindi pwedeng i-overwrite ng dependent objects.",
-    "AssignmentToDependent": "Ang dependent objects ay hindi pwedeng i-overwrite.",
     "AssignmentToFixed": "Hindi pwedeng baguhin ang fixed objects",
     "CAS.GeneralErrorMessage": "Paumanhin, may nangyaring mali. Mangyaring suriin ang iyong input",
     "CAS.InvalidReferenceError": "Isa o higit na references ay invalid",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.tl.error = {
     "IllegalAssignment": "Ilegal na assignment",
     "IllegalBoolean": "Ilegal na Boolean operation",
     "IllegalComparison": "Ilegal na pagkukumpara",
-    "IllegalComplexMultiplication": "Ilegal na complex multiplication",
     "IllegalDivision": "Ilegal na division",
     "IllegalExponent": "Ilegal na exponent",
     "IllegalListOperation": "Ilegal na list operation",
     "IllegalMultiplication": "Ilegal na multiplication",
     "IllegalSubtraction": "Ilegal na subtraction",
-    "IllegalVariable": "Ilegal na variable",
     "IncompleteEquation": "Hindi kumpletong equation:\nPaki-enter ang parehong sides ng equation",
     "InvalidEquation": "Maling equation:\nPaki-enter ang polynomial equation sa x at y",
     "InvalidFunction": "Maling function:\nPaki-enter ang explicit function sa x",
-    "InvalidInequality": "Maling inequality:\nPaki-enter ang linear inequality sa x and y",
     "InvalidInput": "Paumanhin, may nangyaring mali. Mangyaring suriin ang iyong input",
     "LoadFileFailed": "Hindi mabuksan ang file",
     "NameUsed": "Ang label na ito ay ginagamit na",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.tl.error = {
     "Tool.DeleteUsed": "Ang sumusunod na tools ay ginamit upang lumikha ng mga napiling objects at hindi maaaring tanggalin:",
     "Tool.InputNotNeeded": "Ang input object ay hindi kailangan",
     "Tool.OutputNotDependent": "Ang output object ay hindi nagdidepende sa input objects",
-    "URLnotFound": "Hindi maopen ang URL",
     "UnbalancedBrackets": "Hindi pareho ang bilang ng brackets",
     "UndefinedVariable": "Ito ay hindi nadefine bilang variable",
     "UnknownCommand": "Ito ay hindi kilalang command",
-    "UnsupportedLAF": "Ang napiling hitsura ay hindi available sa iyong computer",
     "VectorExpected": "Ang point o vector ang inaasahan",
 };
 

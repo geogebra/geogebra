@@ -1110,8 +1110,6 @@ __GGB__keysVar.es_ES.command = {
  ***********************************************/
 
 __GGB__keysVar.es_ES.error = {
-    "AssignmentDependentToFree": "Un objeto libre no puede ser rescrito por uno dependiente.",
-    "AssignmentToDependent": "Un objeto dependiente no puede ser rescrito.",
     "AssignmentToFixed": "Los objetos fijos no pueden modificarse.",
     "CAS.GeneralErrorMessage": "Algo no est\xe1 bien. Por favor, revisa tu entrada.",
     "CAS.InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias.",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.es_ES.error = {
     "IllegalAssignment": "Asignaci\xf3n ilegal.",
     "IllegalBoolean": "Operaci\xf3n L\xf3gica ilegal.",
     "IllegalComparison": "Comparaci\xf3n ilegal.",
-    "IllegalComplexMultiplication": "Producto de complejos ilegal.",
     "IllegalDivision": "Divisi\xf3n ilegal.",
     "IllegalExponent": "Exponente ilegal.",
     "IllegalListOperation": "Operaci\xf3n sobre listas no v\xe1lida.",
     "IllegalMultiplication": "Multiplicaci\xf3n ilegal.",
     "IllegalSubtraction": "Resta ilegal.",
-    "IllegalVariable": "Variable ilegal.",
     "IncompleteEquation": "Ecuaci\xf3n incompleta:\npor favor, escribe los dos miembros de la ecuaci\xf3n.",
     "InvalidEquation": "Ecuaci\xf3n no v\xe1lida:\npor favor, escribe una ecuaci\xf3n lineal o cuadr\xe1tica en x e y.",
     "InvalidFunction": "Funci\xf3n no v\xe1lida:\nPor favor, escribe una funci\xf3n expl\xedcita en x.",
-    "InvalidInequality": "Inecuaci\xf3n no v\xe1lida:\nPor favor, escribe una inecuaci\xf3n lineal en x e y.",
     "InvalidInput": "Algo no est\xe1 bien. Por favor, revisa tu entrada",
     "LoadFileFailed": "Error al abrir el archivo.",
     "NameUsed": "Esta etiqueta ya est\xe1 usada.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.es_ES.error = {
     "Tool.DeleteUsed": "Las siguientes herramientas fueron usadas al crear los objetos seleccionados y no pueden ser eliminadas:",
     "Tool.InputNotNeeded": "No es necesario un objeto de entrada.",
     "Tool.OutputNotDependent": "El objeto de salida no depende de los de entrada.",
-    "URLnotFound": "Error al abrir la URL.",
     "UnbalancedBrackets": "Par\xe9ntesis no balanceados.",
     "UndefinedVariable": "Variable no definida.",
     "UnknownCommand": "Comando desconocido.",
-    "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible en tu ordenador.",
     "VectorExpected": "Se esperaba un punto o un vector.",
 };
 

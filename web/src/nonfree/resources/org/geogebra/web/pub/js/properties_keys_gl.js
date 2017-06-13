@@ -1110,8 +1110,6 @@ __GGB__keysVar.gl.command = {
  ***********************************************/
 
 __GGB__keysVar.gl.error = {
-    "AssignmentDependentToFree": "Os obxectos libres non poden ser sobrescritos polos obxectos dependentes",
-    "AssignmentToDependent": "Os obxectos dependentes non poden ser sobrescritos",
     "AssignmentToFixed": "Os obxectos fixos non poder ser modificados",
     "CAS.GeneralErrorMessage": "S\xedntoo, a entrada non \xe9 v\xe1lida",
     "CAS.InvalidReferenceError": "Unha ou m\xe1s referencias son inv\xe1lidas",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.gl.error = {
     "IllegalAssignment": "Asignaci\xf3n non admisible",
     "IllegalBoolean": "Operacion booleana non admisible",
     "IllegalComparison": "Comparaci\xf3n non admisible",
-    "IllegalComplexMultiplication": "Multiplicaci\xf3n de complexos non admisible",
     "IllegalDivision": "Divisi\xf3n non admisible",
     "IllegalExponent": "Expo\xf1ente non admisible",
     "IllegalListOperation": "Operaci\xf3n con lista non admisible",
     "IllegalMultiplication": "Multiplicaci\xf3n non admisible",
     "IllegalSubtraction": "Substracci\xf3n non admisible",
-    "IllegalVariable": "Variable non admisible",
     "IncompleteEquation": "Ecuaci\xf3n incompleta:\nPor favor, introduza ambos termos da ecuaci\xf3n",
     "InvalidEquation": "Ecuaci\xf3n non v\xe1lida:\nPor favor, introduza unha ecuaci\xf3n polinomial en x e y.",
     "InvalidFunction": "Funci\xf3n non v\xe1lida:\nPor favor, introduza unha funci\xf3n expl\xedcita en x",
-    "InvalidInequality": "Desigualdade non v\xe1lida:\nPor favor, introduza unha desigualdade lineal en x e y",
     "InvalidInput": "S\xedntoo, a entrada non \xe9 v\xe1lida",
     "LoadFileFailed": "Erro ao abrir o ficheiro",
     "NameUsed": "A etiqueta xa est\xe1 a ser usada",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.gl.error = {
     "Tool.DeleteUsed": "A ferramenta est\xe1 a ser empregrada na construci\xf3n e non se pode eliminar",
     "Tool.InputNotNeeded": "O obxecto de entrada non \xe9 necesario",
     "Tool.OutputNotDependent": "O obxecto de sa\xedda non depende dos obxectos de entrada",
-    "URLnotFound": "Erro ao abrir a URL",
     "UnbalancedBrackets": "Par\xe9nteses desequilibrados",
     "UndefinedVariable": "Variable non definida",
     "UnknownCommand": "Comando desco\xf1ecido",
-    "UnsupportedLAF": "A aparencia escollida non est\xe1 dispo\xf1ible no seu ordenador",
     "VectorExpected": "Agard\xe1base un punto ou un vector",
 };
 

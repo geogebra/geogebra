@@ -1110,8 +1110,6 @@ __GGB__keysVar.sq.command = {
  ***********************************************/
 
 __GGB__keysVar.sq.error = {
-    "AssignmentDependentToFree": "Objektet e pavarura mund te mos mbishkruhen nga ato te varura",
-    "AssignmentToDependent": "Objektet e varur mund te mos mbishkruhen",
     "AssignmentToFixed": "Objektet fikse mund te mos ndryshohen",
     "CAS.GeneralErrorMessage": "Na vjen keq, inputi(cfare futet) nuk pranohet",
     "CAS.InvalidReferenceError": "Nje ose me shume referenca jane jo te vlefshme",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.sq.error = {
     "IllegalAssignment": "Caktim(detyre) i paligjshem",
     "IllegalBoolean": "Operator Bulean i paligjshem",
     "IllegalComparison": "Krahasim i paligjshem",
-    "IllegalComplexMultiplication": "Shumezim kompleks i paligjshem",
     "IllegalDivision": "Pjestim i paligjshem(pamundur)",
     "IllegalExponent": "Eksponent i paligjshem",
     "IllegalListOperation": "Operacion liste ilegal",
     "IllegalMultiplication": "Shumezim i paligjshem",
     "IllegalSubtraction": "Zbritje e paligjshme",
-    "IllegalVariable": "Variabel i paligjshem",
     "IncompleteEquation": "Ekuacion jo i plote: Ju lutem, shto ne te dy anet e ekuacionit",
     "InvalidEquation": "Ekuacion i pavlefshem:\nJu lutem, futni ekuacion linear ose kuadratik lidhur me x dhe y.",
     "InvalidFunction": "Funksion i pavlefshem:\nJu lutem, futni nje funksion eksplicit lidhur me x.",
-    "InvalidInequality": "Inekuacion jo i vertete:\nJu lutem futni inekuacion linear me x dhe y",
     "InvalidInput": "Na vjen keq, inputi(cfare futet) nuk pranohet",
     "LoadFileFailed": "Hapja e dokumentit deshtoi",
     "NameUsed": "Kjo etikete tashme eshte ne perdorim.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.sq.error = {
     "Tool.DeleteUsed": "Mjeti eshte perdorur ne ndertim dhe nuk mund te fshihej.",
     "Tool.InputNotNeeded": "Objekti futes nuk nevojitet.",
     "Tool.OutputNotDependent": "Objekti output(dales) nuk varet nga objektet futes.",
-    "URLnotFound": "Hapja e URL deshtoi",
     "UnbalancedBrackets": "Kllapa jo te balancuara",
     "UndefinedVariable": "Variabel i papercaktuar",
     "UnknownCommand": "Komande e panjohur",
-    "UnsupportedLAF": "Pamja dhe ndjesia te zgjedhura nuk jane ne dispozicion ne kompjuterin tuaj.",
     "VectorExpected": "Pika apo vektori i pritur",
 };
 

@@ -1110,8 +1110,6 @@ __GGB__keysVar.sr.command = {
  ***********************************************/
 
 __GGB__keysVar.sr.error = {
-    "AssignmentDependentToFree": "Nezavisni objekti se ne smeju zamenjivati zavisnim",
-    "AssignmentToDependent": "Zavisni objekti se ne mogu zameniti",
     "AssignmentToFixed": "Nepomi\u010dni objekti se ne mogu menjati",
     "CAS.GeneralErrorMessage": "Na\u017ealost, unos nije prihvatljiv",
     "CAS.InvalidReferenceError": "Jedna ili vi\u0161e referenci su neispravne",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.sr.error = {
     "IllegalAssignment": "Nedozvoljena dodela",
     "IllegalBoolean": "Nedozvoljena logi\u010dka operacija",
     "IllegalComparison": "Nedozvoljeno pore\u0111enje",
-    "IllegalComplexMultiplication": "Nedozvoljeno kompleksno mno\u017eenje",
     "IllegalDivision": "Nedozvoljeno deljenje",
     "IllegalExponent": "Nedozvoljen eksponent",
     "IllegalListOperation": "Nedozvoljena operacija nad listom",
     "IllegalMultiplication": "Nedozvoljeno mno\u017eenje",
     "IllegalSubtraction": "Nedozvoljeno oduzimanje",
-    "IllegalVariable": "Nedozvoljena promenljiva",
     "IncompleteEquation": "Nepotpuna jedna\u010dina:\nUnesite desnu stranu",
     "InvalidEquation": "Neispravna jedna\u010dina:\nUnesite linearnu ili kvadratnu jedna\u010dinu po x i y",
     "InvalidFunction": "Neispravna funkcija:\nUnesite eksplicitnu funkciju po x",
-    "InvalidInequality": "Neispravna nejedna\u010dina:\nMolim unesite linearnu nejedna\u010dinu po x i y.",
     "InvalidInput": "Na\u017ealost, unos nije prihvatljiv",
     "LoadFileFailed": "Otvaranje datoteke nije uspelo",
     "NameUsed": "Oznaka je ve\u0107 upotrebljena",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.sr.error = {
     "Tool.DeleteUsed": "Alat se koristi u konstrukciji i ne mo\u017ee da se obri\u0161e",
     "Tool.InputNotNeeded": "Ulazni objekat nije potreban",
     "Tool.OutputNotDependent": "Izlazni objekat ne zavisi od ulaznih objekata",
-    "URLnotFound": "Otvaranje URL nije uspelo",
     "UnbalancedBrackets": "Nebalansirane zagrade",
     "UndefinedVariable": "Nedefinisana promenljiva",
     "UnknownCommand": "Nepoznata naredba",
-    "UnsupportedLAF": "Izabrani izgled nije mogu\u0107 na va\u0161em ra\u010dunaru.",
     "VectorExpected": "Treba uneti ta\u010dku ili vektor",
 };
 

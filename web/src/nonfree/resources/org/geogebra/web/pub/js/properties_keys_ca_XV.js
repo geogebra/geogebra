@@ -1110,8 +1110,6 @@ __GGB__keysVar.ca_XV.command = {
  ***********************************************/
 
 __GGB__keysVar.ca_XV.error = {
-    "AssignmentDependentToFree": "Els objectes dependents no poden sobreescriure els objectes lliures",
-    "AssignmentToDependent": "Els objectes dependents no es poden sobreescriure.",
     "AssignmentToFixed": "Els objectes fixos no es poden modificar.",
     "CAS.GeneralErrorMessage": "L'entrada no \xe9s correcta",
     "CAS.InvalidReferenceError": "Una o m\xe9s refer\xe8ncies no s\xf3n v\xe0lides.",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.ca_XV.error = {
     "IllegalAssignment": "L'assignaci\xf3 \xe9s incorrecta",
     "IllegalBoolean": "L'operaci\xf3 booleana \xe9s incorrecta",
     "IllegalComparison": "La comparaci\xf3 \xe9s incorrecta",
-    "IllegalComplexMultiplication": "No \xe9s possible fer la multiplicaci\xf3 complexa.",
     "IllegalDivision": "La divisi\xf3 \xe9s incorrecta",
     "IllegalExponent": "L'exponent \xe9s incorrecte",
     "IllegalListOperation": "L'operaci\xf3 no est\xe0 disponible amb llistes",
     "IllegalMultiplication": "La multiplicaci\xf3 \xe9s incorrecta",
     "IllegalSubtraction": "La subtracci\xf3 \xe9s incorrecta",
-    "IllegalVariable": "La variable \xe9s incorrecta",
     "IncompleteEquation": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu el segon membre",
     "InvalidEquation": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu una equaci\xf3 lineal o quadr\xe0tica",
     "InvalidFunction": "L'equaci\xf3 \xe9s incorrecta:\nIntrodu\xefu una funci\xf3 expl\xedcita en x",
-    "InvalidInequality": "La desigualtat no \xe9s v\xe0lida:\nIntrodu\xefu una desigualtat lineal en x i y",
     "InvalidInput": "L'entrada no \xe9s correcta",
     "LoadFileFailed": "S'ha produ\xeft un error en obrir el fitxer",
     "NameUsed": "Esta etiqueta est\xe0 en \xfas",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.ca_XV.error = {
     "Tool.DeleteUsed": "S'est\xe0 fent servir la ferramenta i no pot ser eliminada",
     "Tool.InputNotNeeded": "No cal introduir cap objecte d'entrada.",
     "Tool.OutputNotDependent": "L'objecte d'eixida no dep\xe9n dels objectes d'entrada",
-    "URLnotFound": "S'ha produ\xeft un error en accedir a l'URL",
     "UnbalancedBrackets": "Falta el claud\xe0tor d'obertura o de tancament.",
     "UndefinedVariable": "No s'ha definit la variable",
     "UnknownCommand": "L'orde \xe9s desconeguda",
-    "UnsupportedLAF": "Esta aparen\xe7a no est\xe0 disponible en este ordinador",
     "VectorExpected": "S'esperava un punt o un vector.",
 };
 

@@ -1110,8 +1110,6 @@ __GGB__keysVar.es_UY.command = {
  ***********************************************/
 
 __GGB__keysVar.es_UY.error = {
-    "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
-    "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito.",
     "AssignmentToFixed": "Los objetos fijos no pueden modificarse",
     "CAS.GeneralErrorMessage": "Algo est\xe1 fallando.  Se sugiere revisar la entrada.",
     "CAS.InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.es_UY.error = {
     "IllegalAssignment": "Asignaci\xf3n ilegal.",
     "IllegalBoolean": "Operaci\xf3n l\xf3gica ilegal.",
     "IllegalComparison": "Comparaci\xf3n ilegal.",
-    "IllegalComplexMultiplication": "Producto de complejos ilegal.",
     "IllegalDivision": "Divisi\xf3n ilegal.",
     "IllegalExponent": "Exponente ilegal",
     "IllegalListOperation": "Operaci\xf3n sobre listas no v\xe1lida.",
     "IllegalMultiplication": "Multiplicaci\xf3n ilegal.",
     "IllegalSubtraction": "Resta ilegal.",
-    "IllegalVariable": "Variable ilegal.",
     "IncompleteEquation": "Ecuaci\xf3n incompleta:\ndeben ingresarse ambos miembros de la igualdad",
     "InvalidEquation": "Ecuaci\xf3n no v\xe1lida:\ndebe ingresarse una ecuaci\xf3n polin\xf3mica en x e y",
     "InvalidFunction": "Funci\xf3n no v\xe1lida:\ndebe ingresarse una expl\xedcita en x",
-    "InvalidInequality": "Inecuaci\xf3n no v\xe1lida:\ndebe ingresarse una inecuaci\xf3n lineal en x e y",
     "InvalidInput": "Algo est\xe1 fallando.  Se sugiere revisar la entrada",
     "LoadFileFailed": "Error al abrir el archivo",
     "NameUsed": "Esta etiqueta ya est\xe1 en uso",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.es_UY.error = {
     "Tool.DeleteUsed": "Estas herramientas se usaron en la creaci\xf3n de los objetos seleccionados y no pueden borrarse:",
     "Tool.InputNotNeeded": "No es necesario un objeto de entrada.",
     "Tool.OutputNotDependent": "El objeto de salida no depende de los de entrada.",
-    "URLnotFound": "Error al abrir la URL.",
     "UnbalancedBrackets": "Par\xe9ntesis no balanceados.",
     "UndefinedVariable": "Variable no definida.",
     "UnknownCommand": "Comando desconocido.",
-    "UnsupportedLAF": "La apariencia elegida no est\xe1 disponible",
     "VectorExpected": "Se esperaba un punto o un vector.",
 };
 

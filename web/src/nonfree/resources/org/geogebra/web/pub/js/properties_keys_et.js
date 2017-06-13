@@ -1110,8 +1110,6 @@ __GGB__keysVar.et.command = {
  ***********************************************/
 
 __GGB__keysVar.et.error = {
-    "AssignmentDependentToFree": "Vabasid objekte ei saa \xfcle kirjutada s\xf5ltuvate objektidega.",
-    "AssignmentToDependent": "S\xf5ltuvaid objekte ei saa \xfcle kirjutada.",
     "AssignmentToFixed": "Fikseeritud objekte ei saa muuta.",
     "CAS.GeneralErrorMessage": "Kahjuks l\xe4ks midagi valesti! Kontrollige sisendit!",
     "CAS.InvalidReferenceError": "\xdcks v\xf5i enam viidet on vigased.",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.et.error = {
     "IllegalAssignment": "Sobimatu \xfclesanne",
     "IllegalBoolean": "Sobimatu loogiline tehe",
     "IllegalComparison": "Sobimatu v\xf5rdlus",
-    "IllegalComplexMultiplication": "Sobimatu kompleksarvude korrutamine",
     "IllegalDivision": "Sobimatu jagamine",
     "IllegalExponent": "Sobimatu aste",
     "IllegalListOperation": "Sobimatu loendi operatsioon",
     "IllegalMultiplication": "Sobimatu korrutamine",
     "IllegalSubtraction": "Sobimatu lahutamine",
-    "IllegalVariable": "Sobimatu muutuja",
     "IncompleteEquation": "Poolik v\xf5rrand:\nPalun sisestage v\xf5rrandi m\xf5lemad pooled.",
     "InvalidEquation": "Sobimatu v\xf5rrand:\nPalun sisestage pol\xfcnoom x ja y kaudu.",
     "InvalidFunction": "Sobimatu funktsioon:\nPalun sisestage x-i suhtes ilmutatud funktsioon.",
-    "InvalidInequality": "Sobimatu v\xf5rratus:\nPalun sisestage lineaarv\xf5rratus x ja y kaudu.",
     "InvalidInput": "Kahjuks l\xe4ks midagi valesti! Kontrollige sisendit",
     "LoadFileFailed": "Faili avamine eba\xf5nnestus.",
     "NameUsed": "See t\xe4his on juba kasutusel.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.et.error = {
     "Tool.DeleteUsed": "J\xe4rgnevaid t\xf6\xf6riistu kasutati valitud objektide loomisel ja neid ei saa kustutada:",
     "Tool.InputNotNeeded": "Sisendobjekti pole tarvis.",
     "Tool.OutputNotDependent": "V\xe4ljundobjekt ei s\xf5ltu sisendobjektidest.",
-    "URLnotFound": "URLi avamine eba\xf5nnestus",
     "UnbalancedBrackets": "Vale sulgude arv",
     "UndefinedVariable": "Defineerimata muutuja",
     "UnknownCommand": "Tundmatu k\xe4sk",
-    "UnsupportedLAF": "Valitud t\xf6\xf6ilme pole selles arvutis k\xe4ttesaadav.",
     "VectorExpected": "Sisestage punkt v\xf5i vektor.",
 };
 

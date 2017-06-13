@@ -1110,8 +1110,6 @@ __GGB__keysVar.pt.command = {
  ***********************************************/
 
 __GGB__keysVar.pt.error = {
-    "AssignmentDependentToFree": "Objetos livres n\xe3o podem ser modificados por objetos dependentes.",
-    "AssignmentToDependent": "Objetos dependentes n\xe3o podem ser modificados.",
     "AssignmentToFixed": "Objetos fixos n\xe3o podem ser modificados.",
     "CAS.GeneralErrorMessage": "Entrada inv\xe1lida! Por favor, verifique a estrutura do seu comando!",
     "CAS.InvalidReferenceError": "Uma ou mais refer\xeancias s\xe3o inv\xe1lidas",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.pt.error = {
     "IllegalAssignment": "Atribui\xe7\xe3o inv\xe1lida",
     "IllegalBoolean": "Opera\xe7\xe3o booleana inv\xe1lida",
     "IllegalComparison": "Compara\xe7\xe3o inv\xe1lida",
-    "IllegalComplexMultiplication": "Multiplica\xe7\xe3o de n\xfameros complexos inv\xe1lida",
     "IllegalDivision": "Divis\xe3o inv\xe1lida",
     "IllegalExponent": "Expoente inv\xe1lido",
     "IllegalListOperation": "Opera\xe7\xe3o com listas inv\xe1lida",
     "IllegalMultiplication": "Multiplica\xe7\xe3o inv\xe1lida",
     "IllegalSubtraction": "Subtra\xe7\xe3o inv\xe1lida",
-    "IllegalVariable": "Vari\xe1vel inv\xe1lida",
     "IncompleteEquation": "Equa\xe7\xe3o incompleta:\npor favor, especifique os dois lados da equa\xe7\xe3o.",
     "InvalidEquation": "Equa\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o polinomial em x e y.",
     "InvalidFunction": "Fun\xe7\xe3o inv\xe1lida:\npor favor, especifique uma fun\xe7\xe3o expl\xedcita em x.",
-    "InvalidInequality": "Desigualdade inv\xe1lida:\npor favor, especifique uma desigualdade afim em x e y.",
     "InvalidInput": "Por favor, verifique a estrutura do seu comando",
     "LoadFileFailed": "N\xe3o foi poss\xedvel abrir o arquivo.",
     "NameUsed": "Este r\xf3tulo j\xe1 est\xe1 sendo usado.",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.pt.error = {
     "Tool.DeleteUsed": "A ferramenta est\xe1 sendo utilizada na constru\xe7\xe3o e n\xe3o pode ser removida.",
     "Tool.InputNotNeeded": "O objeto de entrada n\xe3o \xe9 necess\xe1rio.",
     "Tool.OutputNotDependent": "O objeto de sa\xedda n\xe3o depende do(s) objeto(s) de entrada.",
-    "URLnotFound": "N\xe3o foi poss\xedvel abrir este endere\xe7o",
     "UnbalancedBrackets": "Erro com os par\xeantesis na express\xe3o",
     "UndefinedVariable": "Vari\xe1vel indefinida",
     "UnknownCommand": "Comando desconhecido",
-    "UnsupportedLAF": "Esta configura\xe7\xe3o n\xe3o est\xe1 dispon\xedvel no seu computador.",
     "VectorExpected": "Entre com um ponto ou vetor",
 };
 

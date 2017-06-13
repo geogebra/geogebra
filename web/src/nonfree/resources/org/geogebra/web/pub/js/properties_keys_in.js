@@ -1110,8 +1110,6 @@ __GGB__keysVar.in.command = {
  ***********************************************/
 
 __GGB__keysVar.in.error = {
-    "AssignmentDependentToFree": "Objek bebas tidak boleh ditimpah dengan objek terikat.",
-    "AssignmentToDependent": "Objek terikat tidak dapat ditimpah.",
     "AssignmentToFixed": "Objek tetap tidak dapat diubah.",
     "CAS.GeneralErrorMessage": "Maaf, masukannya tidak dapat diterima.",
     "CAS.InvalidReferenceError": "Satu atau lebih dari satu referensi tidak valid",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.in.error = {
     "IllegalAssignment": "Pemasukan ilegal",
     "IllegalBoolean": "Operasi Boolean ilegal",
     "IllegalComparison": "Perbandingan ilegal",
-    "IllegalComplexMultiplication": "Perkalian kompleks ilegal",
     "IllegalDivision": "Pembagian ilegal",
     "IllegalExponent": "Eksponen ilegal",
     "IllegalListOperation": "Illegal list operation",
     "IllegalMultiplication": "Perkalian ilegal",
     "IllegalSubtraction": "Pengurangan ilegal",
-    "IllegalVariable": "Peubah ilegal",
     "IncompleteEquation": "Persamaan tidak lengkap:\nSilahkan masukan kedua sisi persamaan.",
     "InvalidEquation": "Persamaan tidak valid:\nSilahkan masukan suatu persamaan linier atau kuadrat dalam x dan y.",
     "InvalidFunction": "Fungsi yang tidak valid:\nSilahkan masukan suatu fungsi eksplisit dalam x.",
-    "InvalidInequality": "Invalid inequality:\nPlease enter a linear inequality in x and y",
     "InvalidInput": "Maaf, masukannya tidak dapat diterima",
     "LoadFileFailed": "Pembukaan berkas gagal.",
     "NameUsed": "Label ini telah digunakan",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.in.error = {
     "Tool.DeleteUsed": "Alat digunakan dalam konstruksi dan tidak dapat dihapus.",
     "Tool.InputNotNeeded": "Diperlukan objek masukan.",
     "Tool.OutputNotDependent": "Objek keluaran tidak bergantung pada objek masukan.",
-    "URLnotFound": "Pembukaan URL gagal",
     "UnbalancedBrackets": "Tanda Kurung tidak lengkap",
     "UndefinedVariable": "Peubah tidak terdefinisi",
     "UnknownCommand": "Perintah tidak dikenal",
-    "UnsupportedLAF": "Tampilan yang dipilih tidak tersedia pada komputer Anda.",
     "VectorExpected": "Diharapkan titik atau vektor",
 };
 

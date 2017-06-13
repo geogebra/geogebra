@@ -1110,8 +1110,6 @@ __GGB__keysVar.eu.command = {
  ***********************************************/
 
 __GGB__keysVar.eu.error = {
-    "AssignmentDependentToFree": "Objektu libreak ezin dira berridatzi mendekoekin.",
-    "AssignmentToDependent": "Mendeko objektuak ezin dira berridatzi.",
     "AssignmentToFixed": "Objektu finkoak ezin dira aldatu.",
     "CAS.GeneralErrorMessage": "Zoritxarrez, sarrera ezin da onartu.",
     "CAS.InvalidReferenceError": "Baliogabeko erreferentzia bat edo gehiago",
@@ -1131,17 +1129,14 @@ __GGB__keysVar.eu.error = {
     "IllegalAssignment": "Esleipen debekatua",
     "IllegalBoolean": "Eragiketa boolear debekatua",
     "IllegalComparison": "Konparazio debekatua",
-    "IllegalComplexMultiplication": "Biderketa konplexu debekatua",
     "IllegalDivision": "Zatiketa debekatua",
     "IllegalExponent": "Berretzaile debekatua",
     "IllegalListOperation": "Eragiketa-zerrenda debekatua",
     "IllegalMultiplication": "Biderketa debekatua",
     "IllegalSubtraction": "Kenketa debekatua",
-    "IllegalVariable": "Aldagai debekatua",
     "IncompleteEquation": "Ekuazio osatugabea:\nSartu ekuazioaren bi atalak.",
     "InvalidEquation": "Ekuazio baliogabea:\nSartu x eta y-dun ekuazio polinomikoa.",
     "InvalidFunction": "Funtzio baliogabea:\nSartu x-dun funtzio esplizitua.",
-    "InvalidInequality": "Inekuazio baliogabea:\nSartu x eta y-dun inekuazio lineala.",
     "InvalidInput": "Idatzitakoa berrikusi, mesedez",
     "LoadFileFailed": "Errorea fitxategia irekitzean",
     "NameUsed": "Izena edo etiketa erabilita jadanik",
@@ -1155,11 +1150,9 @@ __GGB__keysVar.eu.error = {
     "Tool.DeleteUsed": "Tresna hauek hautatutako objektuak eraikitzeko erabili dira eta ezin dira ezabatu:",
     "Tool.InputNotNeeded": "Sartutako objektua ez da behar.",
     "Tool.OutputNotDependent": "Irteerako objektua ez da sarrerako objektuen mendekoa.",
-    "URLnotFound": "Errorea URL irekitzean",
     "UnbalancedBrackets": "Parentesi desorekatuak",
     "UndefinedVariable": "Definitu gabeko aldagaia",
     "UnknownCommand": "Komando ezezaguna",
-    "UnsupportedLAF": "Aukeratutako itxura ezin da erabili ordenagailu honetan.",
     "VectorExpected": "Puntu edo bektore baten zain...",
 };
 
