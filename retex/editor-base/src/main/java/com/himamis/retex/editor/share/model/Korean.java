@@ -2,6 +2,17 @@ package com.himamis.retex.editor.share.model;
 
 import java.util.HashMap;
 
+/**
+ * @author Michael
+ * 
+ *         Various methods for converting between Korean Unicode formats
+ * 
+ *         http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
+ * 
+ *         https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
+ * 
+ *
+ */
 public class Korean {
 
 	static StringBuilder sb;
@@ -557,12 +568,16 @@ public class Korean {
 	// s = unflattenKorean(s).toString();
 	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
 	// }
+	
+	public static String mergeDoubleCharacters(String str) {
+		return mergeDoubleCharacters(str, true);
+	}
 
 	/*
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 */
-	public static String mergeDoubleCharacters(String str) {
+	public static String mergeDoubleCharacters(String str, boolean lead) {
 
 		if (str.length() < 2) {
 			return str;
@@ -744,7 +759,9 @@ public class Korean {
 			case '\u1100':
 				c2 = str.charAt(i + 1);
 				if (c2 == '\u1100') {
-					sb.append('\u11a9'); // eg \u1101 ie doubled char
+					// assume we want lead \u1101 not tail \u11a9
+					// eg \u3131 + \u3131 + \u314F -> \uAE4C
+					sb.append('\u1101'); // eg \u1101 ie doubled char
 					i++;
 				} else if (c2 == '\u1109') {
 					sb.append('\u11aa'); // eg \u1101 ie doubled char

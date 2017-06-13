@@ -274,6 +274,9 @@ public class SerializeLaTeX {
 		testEditor("\u3142\u315C\u3154\u3139", "\uBDC0");
 		testEditor("\u3142\u315C\u3154\u3139\u3131","\uBDC1");
 		
+		testEditor("\u3131\u3131", "\u1101");
+		testEditor("\u3131\u3131\u314F", "\uAE4C");
+
 	}
 
 	@Test
