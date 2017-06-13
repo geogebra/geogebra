@@ -569,9 +569,7 @@ public class RadioTreeItem extends AVTreeItem
 			content.add(plainTextItem);
 		}
 		addControls();
-		if (!controls.isAttached()) {
-			main.add(controls);
-		}
+		controls.reposition();
 		controls.updateSuggestions(previewGeo);
 	}
 
@@ -2312,6 +2310,10 @@ public class RadioTreeItem extends AVTreeItem
 			this.suggestionCallback = run;
 		}
 
+	}
+
+	public int getItemWidth() {
+		return geo == null ? main.getOffsetWidth() : getOffsetWidth();
 	}
 }
 

@@ -29,20 +29,17 @@ public class ItemControls extends FlowPanel {
 	 */
 	final RadioTreeItem radioTreeItem;
 
-
 	/** Deletes the whole item */
 	protected PushButton btnDelete;
 
 	/** opens context menu */
 	protected ToggleButton btnMore;
 
-
 	/** animation controls */
 	protected AnimPanel animPanel = null;
 
 	private ContextMenuMore cmMore = null;
 	private SuggestionBar suggestionBar;
-
 
 	/**
 	 * @param radioTreeItem
@@ -56,14 +53,14 @@ public class ItemControls extends FlowPanel {
 			addStyleName("withContextMenu");
 		}
 		buildGUI();
-		if (hasMoreMenu()) {
+		if (hasMoreMenu() && radioTreeItem.geo != null) {
 			add(getMoreButton());
 		}
 	}
 
 	/**
-	 * Gets (and creates if there is not yet) the delete button which geo
-	 * item can be removed with from AV.
+	 * Gets (and creates if there is not yet) the delete button which geo item
+	 * can be removed with from AV.
 	 * 
 	 * @return The "X" button.
 	 */
@@ -71,15 +68,14 @@ public class ItemControls extends FlowPanel {
 		if (btnDelete == null) {
 			btnDelete = new PushButton(
 					new Image(GuiResources.INSTANCE.algebra_delete()));
-			btnDelete.getUpHoveringFace().setImage(new Image(
-					GuiResources.INSTANCE.algebra_delete_hover()));
+			btnDelete.getUpHoveringFace().setImage(
+					new Image(GuiResources.INSTANCE.algebra_delete_hover()));
 			btnDelete.addStyleName("XButton");
 			btnDelete.addStyleName("shown");
 			btnDelete.addMouseDownHandler(new MouseDownHandler() {
 				@Override
 				public void onMouseDown(MouseDownEvent event) {
-					if (event
-							.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+					if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
 						return;
 					}
 					event.stopPropagation();
@@ -97,20 +93,19 @@ public class ItemControls extends FlowPanel {
 	 */
 	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new ToggleButton(
-					new Image(MaterialDesignResources.INSTANCE
-							.more_vert_black()));
+			btnMore = new ToggleButton(new Image(
+					MaterialDesignResources.INSTANCE.more_vert_black()));
 			btnMore.getUpHoveringFace().setImage(new Image(
 					MaterialDesignResources.INSTANCE.more_vert_purple()));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			ClickStartHandler.init(btnMore, new ClickStartHandler() {
-			
+
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					showMoreContexMenu();
 				}
-				
+
 			});
 		}
 		return btnMore;
@@ -143,19 +138,18 @@ public class ItemControls extends FlowPanel {
 		radioTreeItem.setFirst(radioTreeItem.first);
 		clear();
 		buildAnimPanel();
-		
 
 		if (!hasMoreMenu()) {
 			add(getDeleteButton());
 		}
 	}
-	
+
 	private void buildAnimPanel() {
 		if (radioTreeItem.geo != null && radioTreeItem.geo.isAnimatable()) {
 			if (animPanel == null) {
 				createAnimPanel();
 			}
-			
+
 			add(animPanel);
 			reset();
 			updateAnimPanel();
@@ -163,8 +157,9 @@ public class ItemControls extends FlowPanel {
 		} else {
 			showAnimPanel(false);
 		}
-		
+
 	}
+
 	private boolean hasMoreMenu() {
 		return radioTreeItem.app.has(Feature.AV_MORE_MENU);
 	}
@@ -174,8 +169,7 @@ public class ItemControls extends FlowPanel {
 	 */
 	protected void createAnimPanel() {
 		animPanel = radioTreeItem.geo.isAnimatable()
-				? new AnimPanel(radioTreeItem)
-				: null;
+				? new AnimPanel(radioTreeItem) : null;
 
 	}
 
@@ -225,7 +219,7 @@ public class ItemControls extends FlowPanel {
 				add(radioTreeItem.getPButton());
 			}
 			if (showX) {
-				add(hasMoreMenu() ? getMoreButton(): getDeleteButton());
+				add(hasMoreMenu() ? getMoreButton() : getDeleteButton());
 			}
 
 			setVisible(true);
@@ -246,6 +240,9 @@ public class ItemControls extends FlowPanel {
 
 	/**
 	 * Add or remove suggestion bar
+	 * 
+	 * @param geo
+	 *            geo element (either from AV item or from preview)
 	 */
 	void updateSuggestions(GeoElement geo) {
 		Suggestion sug = radioTreeItem.needsSuggestions(geo);
@@ -347,7 +344,7 @@ public class ItemControls extends FlowPanel {
 				// ? sw : 0;
 
 				int right = 0;
-				int itemWidth = radioTreeItem.getOffsetWidth();
+				int itemWidth = radioTreeItem.getItemWidth();
 				int avWidth = radioTreeItem.getAV().getOffsetWidth();
 				if (avWidth < itemWidth) {
 					right = itemWidth - avWidth;
@@ -357,8 +354,6 @@ public class ItemControls extends FlowPanel {
 			}
 		});
 	}
-	
-
 
 	/**
 	 * @return controller
