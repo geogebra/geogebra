@@ -11,6 +11,12 @@ import java.util.HashMap;
  * 
  *         https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
  * 
+ *         https://en.wikipedia.org/wiki/Hangul_Syllables
+ * 
+ *         https://en.wikipedia.org/wiki/Korean_language_and_computers#Example
+ * 
+ *         https://en.wikipedia.org/wiki/Hangul_Jamo_(Unicode_block)
+ * 
  *
  */
 public class Korean {
@@ -219,6 +225,10 @@ public class Korean {
 	}
 
 	/*
+	 * 
+	 * Does the same as Normalizer.normalize(s, Normalizer.Form.NFKC) but GWT
+	 * compatible
+	 * 
 	 * convert eg \u1103\u116e\u11af to \uB458
 	 * 
 	 * also converts 2 chars eg \u1103\u116E to \uB450

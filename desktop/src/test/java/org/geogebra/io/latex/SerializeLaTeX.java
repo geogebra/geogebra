@@ -286,10 +286,34 @@ public class SerializeLaTeX {
 		
 		testKorean("\uD4DB");
 
+		// Hangul syllables range
+		// https://en.wikipedia.org/wiki/Hangul_Syllables
 		for (char ch = '\uac00'; ch < '\ud7a3'; ch++) {
 			testKorean(ch + "");
 		}
 
+		testKorean2(Korean.flattenKorean(
+				"\uD56D\uC131\uC740 \uD56D\uC0C1 \uD63C\uC790 \uC788\uB294 \uAC83\uC774 \uC544\uB2C8\uB77C, \uB450 \uAC1C \uC774\uC0C1\uC758"));
+
+		for (char lead = '\u1100'; lead <= '\u1112'; lead++) {
+			for (char vowel = '\u1161'; vowel <= '\u1175'; vowel++) {
+				for (char tail = '\u11a8'; tail <= '\u11c2'; tail++) {
+					// System.err.println(lead + " " + vowel + " " + tail);
+					testKorean2(lead + "" + vowel + "" + tail);
+				}
+
+			}
+
+		}
+
+	}
+
+	private void testKorean2(String s) {
+
+		String s1 = Normalizer.normalize(s, Normalizer.Form.NFKC);
+		String s2 = Korean.unflattenKorean(s).toString();
+
+		Assert.assertEquals(s1, s2);
 	}
 
 	private void testKorean(String s) {
