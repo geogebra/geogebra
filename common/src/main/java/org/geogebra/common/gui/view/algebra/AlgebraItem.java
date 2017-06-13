@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Unicode;
 
 public class AlgebraItem {
@@ -75,6 +76,8 @@ public class AlgebraItem {
 	public static boolean needsSuggestions(GeoElement geo) {
 		// TODO Auto-generated method stub
 		return geo instanceof EquationValue
-				&& ((EquationValue) geo).getEquationVariables().length == 1;
+				&& ((EquationValue) geo).getEquationVariables().length == 1
+				&& geo.getKernel().getApplication()
+						.has(Feature.INPUT_BAR_SOLVE);
 	}
 }

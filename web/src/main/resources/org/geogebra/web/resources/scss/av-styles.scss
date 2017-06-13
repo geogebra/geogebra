@@ -139,22 +139,22 @@
 		margin-bottom:40px;
 	}
 
-	.matDesign  {
-	
-		.AlgebraViewObjectStylebar.smallStylebar {
+	.AlgebraViewObjectStylebar.withContextMenu {
 			bottom:0;
 			padding: 8px 2px 0px 0px;
 			box-shadow: none;
-			
+			background-color: $transparent;
 			.gwt-ToggleButton.XButton.shown.gwt-ToggleButton-up-hovering {
 				opacity: 1;
 			}
 			
-			.XButton{			
+			.XButton{
+				background-color: $white;
 				opacity: 0.54;
 			}
 		
-		}
+	}
+	.matDesign  {
 	
 		.textOverMarble {
 			height: 20px;

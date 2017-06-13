@@ -36,6 +36,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		setInputOutput();
 		compute();
 		solutions.setEuclidianVisible(false);
+		solutions.setDrawable(false);
 	}
 
 	@Override
@@ -72,7 +73,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			solutions.setUndefined();
 			e.printStackTrace();
 		}
-
+		solutions.setDrawable(false);
 	}
 
 	private void showUserForm(GeoList solutions2) {

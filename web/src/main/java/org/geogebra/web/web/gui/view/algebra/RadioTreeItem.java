@@ -468,7 +468,7 @@ public class RadioTreeItem extends AVTreeItem
 				buildItemWithSingleRow();
 			}
 			controls.updateSuggestions();
-			if (AlgebraItem.needsSuggestions(geo)) {
+			if (needsSuggestions()) {
 				content.addStyleName("withSuggestions");
 			} else {
 				content.removeStyleName("withSuggestions");
@@ -481,6 +481,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+
+	boolean needsSuggestions() {
+		return AlgebraItem.needsSuggestions(geo)
+				&& app.has(Feature.AV_CONTEXT_MENU);
+	}
 
 	private void buildItemWithTwoRows() {
 		createDVPanels();
@@ -1354,39 +1359,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	public boolean isItemSelected() {
 		return selectedItem;
-	}
-
-	private void toggleControls() {
-		// GGB-986 Don't show controls if geo is only highlighted
-		// but no selected.
-
-		if (controls == null) {
-			return;
-		}
-
-		if (isForceControls()) {
-			setForceControls(false);
-			controls.setVisible(true);
-			return;
-			
-		}
-
-		showControlsInSelection();
-	}
-
-	private void showControlsInSelection() {
-		boolean geoInSelection = app.getSelectionManager()
-
-				.containsSelectedGeo(geo);
-
-		if (!controls.isVisible() && geoInSelection) {
-			if (controls.update(true)) {
-				// don't show controls for multiselect
-				controls.setVisible(true);
-			}
-		} else if (controls.isVisible() && !geoInSelection) {
-			controls.setVisible(false);
-		}
 	}
 
 

@@ -165,4 +165,9 @@ public interface GeoGebraCasInterface {
 	 */
 	public String translateCommandSignature(String string);
 
+	/**
+	 * Make sure CAS is initialized
+	 */
+	public void initCurrentCAS();
+
 }

@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -53,6 +52,9 @@ public class ItemControls extends FlowPanel {
 		this.radioTreeItem = radioTreeItem;
 		addStyleName("AlgebraViewObjectStylebar");
 		addStyleName("smallStylebar");
+		if (radioTreeItem.getApplication().has(Feature.AV_CONTEXT_MENU)) {
+			addStyleName("withContextMenu");
+		}
 		buildGUI();
 		if (hasMoreMenu()) {
 			add(getMoreButton());
@@ -242,14 +244,20 @@ public class ItemControls extends FlowPanel {
 		return ret;
 	}
 
+	/**
+	 * Add or remove suggestion bar
+	 */
 	void updateSuggestions() {
-		if (AlgebraItem.needsSuggestions(radioTreeItem.geo) && radioTreeItem.geo
-				.getKernel().getApplication().has(Feature.INPUT_BAR_SOLVE)) {
+		if (radioTreeItem.needsSuggestions()) {
 			if (suggestionBar == null) {
 				suggestionBar = new SuggestionBar(radioTreeItem.geo,
 						radioTreeItem.loc);
 			}
 			add(suggestionBar);
+			radioTreeItem.getApplication().getKernel().getGeoGebraCAS()
+					.initCurrentCAS();
+		} else if (suggestionBar != null) {
+			remove(suggestionBar);
 		}
 
 	}

@@ -3202,4 +3202,8 @@ public class GeoList extends GeoElement
 		return totalHeight;
 	}
 
+	public void setDrawable(boolean b) {
+		isDrawable = false;
+	}
+
 }
