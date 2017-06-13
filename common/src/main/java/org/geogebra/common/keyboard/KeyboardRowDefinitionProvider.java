@@ -66,24 +66,18 @@ public class KeyboardRowDefinitionProvider {
         return map;
     }
 
+    /**
+     * Queries the lower keys for a default latin ABC keyboard.
+     *
+     * @return an array of three corresponding to top, middle and bottom rows
+     */
+    public String[] getDefaultLowerKeys() {
+        return new String[]{DEFAULT_TOP_ROW, DEFAULT_MIDDLE_ROW, DEFAULT_BOTTOM_ROW};
+    }
+
     private void associateKeys(String lowerKeys, String upperKeys, Map<String, String> map) {
         for (int i = 0; i < lowerKeys.length() && i < upperKeys.length(); i++) {
             map.put(lowerKeys.substring(i, i + 1), upperKeys.substring(i, i + 1));
         }
-    }
-
-    /**
-     * Queries the keyboard row definitions for the default locale.
-     *
-     * @return an array of two with corresponding for small and capital letters
-     * each containing an array of three corresponding to top, middle and bottom rows.
-     */
-    public String[][] getDefaultKeyboardDefinition() {
-        return new String[][]{
-                new String[]{DEFAULT_TOP_ROW, DEFAULT_MIDDLE_ROW, DEFAULT_BOTTOM_ROW},
-                new String[]{DEFAULT_TOP_ROW.toUpperCase(),
-                        DEFAULT_MIDDLE_ROW.toUpperCase(),
-                        DEFAULT_BOTTOM_ROW.toUpperCase()}
-        };
     }
 }
