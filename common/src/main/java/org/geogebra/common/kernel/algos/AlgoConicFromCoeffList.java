@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * @since 4.0
@@ -81,16 +80,26 @@ public class AlgoConicFromCoeffList extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (L.size() != 6) {
-			conic.setUndefined();
+		if (L.size() == 3) {
+			conic.setCoeffs(getCoeff(0, 0),
+					(getCoeff(0, 1) + getCoeff(1, 0)), getCoeff(1, 1),
+					(getCoeff(0, 2) + getCoeff(2, 0)),
+					(getCoeff(1, 2) + getCoeff(2, 1)), getCoeff(2, 2));
+		} else if (L.size() == 6) {
+			conic.setCoeffs(getCoeff(0), getCoeff(3), getCoeff(1), getCoeff(4),
+					getCoeff(5), getCoeff(2));
 		} else {
-			conic.setCoeffs(((GeoNumeric) L.get(0)).getDouble(),
-					((GeoNumeric) L.get(3)).getDouble(),
-					((GeoNumeric) L.get(1)).getDouble(),
-					((GeoNumeric) L.get(4)).getDouble(),
-					((GeoNumeric) L.get(5)).getDouble(),
-					((GeoNumeric) L.get(2)).getDouble());
+			conic.setUndefined();
 		}
+	}
+
+	private double getCoeff(int i, int j) {
+		return L.get(i).isGeoList()
+				? ((GeoList) L.get(i)).get(j).evaluateDouble() : Double.NaN;
+	}
+
+	private double getCoeff(int i) {
+		return L.get(i).evaluateDouble();
 	}
 
 	@Override
