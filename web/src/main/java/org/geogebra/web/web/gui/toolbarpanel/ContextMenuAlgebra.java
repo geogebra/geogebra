@@ -13,6 +13,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
+import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
@@ -141,6 +142,7 @@ public class ContextMenuAlgebra implements SetLabels {
 					}
 						});
 			}
+			collapse();
 		}
 
 		@Override
@@ -185,6 +187,7 @@ public class ContextMenuAlgebra implements SetLabels {
 					}
 				});
 			}
+			collapse();
 		}
 
 		private SortMode sortModeAt(int idx) {
@@ -257,27 +260,37 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addDescriptionItem() {
-		MenuItem mi = new MenuItem(loc.getPlain("AlgebraDescriptions"),
-				new Command() {
+		final GCollapseMenuItem ci = new GCollapseMenuItem(
+				loc.getPlain("AlgebraDescriptions"),
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString(),
+				false, new Command() {
 
 					public void execute() {
 						subDescription.toggle();
 					}
 				});
-		wrappedPopup.addItem(mi, false);
+		wrappedPopup.addItem(ci.getMenuItem(), false);
 
 		subDescription = new DescriptionSubMenu();
 		subDescription.update();
 	}
 
 	private void addSortItem() {
-		MenuItem mi = new MenuItem(loc.getPlain("SortBy"), new Command() {
-
-			public void execute() {
-				subSort.toggle();
+		final GCollapseMenuItem ci = new GCollapseMenuItem(
+				loc.getPlain("SortBy"),
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString(),
+				false, new Command() {
+					public void execute() {
+						subSort.toggle();
 			}
 		});
-		wrappedPopup.addItem(mi, false);
+		wrappedPopup.addItem(ci.getMenuItem(), false);
 		subSort = new SortSubMenu();
 		subSort.update();
 	}

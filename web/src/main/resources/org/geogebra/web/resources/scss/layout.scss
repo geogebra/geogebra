@@ -96,6 +96,7 @@
 		z-index: 99999;
 	}
 
+	.collapseMenuItem,
 	.checkMarkMenuItem {
 		height: 32px;
 		padding-left: 24px;
@@ -113,13 +114,18 @@
 			right: 8px;
 		}
 	}
+	
+	.collapseMenuItem >*,
 	.checkMarkMenuItem >* {
 		padding: 8px;
 		display: inline-block;
 	}	
 	
+	
 	.expanded {
-		display: block;
+		margin-left: 24px;
+		display: inline-block;
+	
 	}
 	
 	.collapsed {
