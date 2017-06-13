@@ -3610,4 +3610,12 @@ public class Construction {
 		return companion.is3D();
 	}
 
+	public ConstructionElement getPrevious(ConstructionElement ce) {
+		int idx = ceList.indexOf(ce);
+		if (idx >= 1) {
+			return ceList.get(idx - 1);
+		}
+		return null;
+	}
+
 }

@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
@@ -468,7 +469,7 @@ public class RadioTreeItem extends AVTreeItem
 				buildItemWithSingleRow();
 			}
 			controls.updateSuggestions();
-			if (needsSuggestions()) {
+			if (needsSuggestions() != null) {
 				content.addStyleName("withSuggestions");
 			} else {
 				content.removeStyleName("withSuggestions");
@@ -482,9 +483,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 
-	boolean needsSuggestions() {
-		return AlgebraItem.needsSuggestions(geo)
-				&& app.has(Feature.AV_CONTEXT_MENU);
+	Suggestion needsSuggestions() {
+		return app.has(Feature.AV_CONTEXT_MENU)
+				? AlgebraItem.getSuggestions(geo) : null;
 	}
 
 	private void buildItemWithTwoRows() {

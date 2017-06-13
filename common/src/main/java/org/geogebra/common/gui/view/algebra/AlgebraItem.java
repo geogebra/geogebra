@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
@@ -73,11 +74,44 @@ public class AlgebraItem {
 				&& geo.getDefinition().isFraction();
 	}
 
-	public static boolean needsSuggestions(GeoElement geo) {
-		// TODO Auto-generated method stub
-		return geo instanceof EquationValue
-				&& ((EquationValue) geo).getEquationVariables().length == 1
-				&& geo.getKernel().getApplication()
-						.has(Feature.INPUT_BAR_SOLVE);
+	public static Suggestion getSuggestions(GeoElement geo) {
+		 if(geo instanceof EquationValue && geo.getKernel().getApplication()
+					.has(Feature.INPUT_BAR_SOLVE)){
+			String[] vars = ((EquationValue) geo).getEquationVariables();
+			if (vars.length == 1) {
+				return new Suggestion(geo.getLabelSimple());
+			}
+			if (vars.length == 2) {
+				ConstructionElement prev = geo;
+				do {
+					prev = geo.getConstruction().getPrevious(prev);
+					if (prev instanceof EquationValue && subset(
+							((EquationValue) prev).getEquationVariables(),
+							vars)) {
+						return new Suggestion(
+								((GeoElement) prev).getLabelSimple(),
+								geo.getLabelSimple());
+					}
+				} while (prev != null);
+			}
+		 }
+		return null;
+	}
+
+	public static boolean subset(String[] testSet,
+			String[] superset) {
+		if (testSet.length < 1) {
+			return false;
+		}
+		for (String check : testSet) {
+			boolean found = false;
+			for (String compare : superset) {
+				found |= compare.equals(check);
+			}
+			if (!found) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

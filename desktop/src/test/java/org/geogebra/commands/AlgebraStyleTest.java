@@ -3,6 +3,7 @@ package org.geogebra.commands;
 import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -239,6 +240,18 @@ public class AlgebraStyleTest extends Assert {
 				((GeoList) getGeo("list1")).get(0)
 						.getDefinition(StringTemplate.editTemplate));
 		
+	}
+
+	@Test
+	public void singleVarEquationShouldHaveSuggestion() {
+		t("p: z=0");
+		assertEquals("z", String.join(",",
+				((EquationValue) getGeo("p")).getEquationVariables()));
+		t("p: x^2+z^2=0");
+		assertEquals("x,z", String.join(",",
+				((EquationValue) getGeo("p")).getEquationVariables()));
+
+
 	}
 
 	private void t(String def) {

@@ -35,6 +35,10 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 
 
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoVec4D(Construction c) {
 		super(c);
 		v = new Coords(4);

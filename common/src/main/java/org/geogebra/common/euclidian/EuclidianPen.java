@@ -1333,7 +1333,7 @@ public class EuclidianPen implements GTimerListener {
 		
 
 		GeoConic circle = (GeoConic) algo.getCircle();
-		Equation equ = getEquationOfConic(circle.getMatrix());
+		Equation equ = getEquationOfConic(circle.getFlatMatrix());
 		equ.initEquation();
 		GeoElement[] geos = view.getKernel().getAlgebraProcessor()
 				.processConic(equ, equ.wrap());

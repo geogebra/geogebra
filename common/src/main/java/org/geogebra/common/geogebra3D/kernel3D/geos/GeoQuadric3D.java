@@ -3524,16 +3524,25 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	}
 
 	public String[] getEquationVariables() {
+		Log.debug(matrix);
 		ArrayList<String> vars = new ArrayList<String>();
 		if (!MyDouble.exactEqual(matrix[0], 0)
-				|| !MyDouble.exactEqual(matrix[3], 0)
-				|| !MyDouble.exactEqual(matrix[4], 0)) {
+				|| !MyDouble.exactEqual(matrix[4], 0)
+				|| !MyDouble.exactEqual(matrix[5], 0)
+				|| !MyDouble.exactEqual(matrix[7], 0)) {
 			vars.add("x");
 		}
 		if (!MyDouble.exactEqual(matrix[1], 0)
-				|| !MyDouble.exactEqual(matrix[3], 0)
-				|| !MyDouble.exactEqual(matrix[5], 0)) {
+				|| !MyDouble.exactEqual(matrix[4], 0)
+				|| !MyDouble.exactEqual(matrix[6], 0)
+				|| !MyDouble.exactEqual(matrix[8], 0)) {
 			vars.add("y");
+		}
+		if (!MyDouble.exactEqual(matrix[2], 0)
+				|| !MyDouble.exactEqual(matrix[5], 0)
+				|| !MyDouble.exactEqual(matrix[6], 0)
+				|| !MyDouble.exactEqual(matrix[9], 0)) {
+			vars.add("z");
 		}
 		return vars.toArray(new String[0]);
 	}

@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -37,6 +38,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		compute();
 		solutions.setEuclidianVisible(false);
 		solutions.setDrawable(false);
+
 	}
 
 	@Override
@@ -64,10 +66,24 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		}
 		sb.append("]");
 		try {
+			arbconst.setBlocking(true);
 			String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
 					arbconst);
+			Log.debug("BLOCKED" + arbconst.hasBlocked());
+			if (arbconst.hasBlocked()) {
+				solutions.clear();
+				solutions.setUndefined();
+				return;
+			}
 			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
-			solutions.set(raw);
+
+			if (equations.isGeoList() && raw.size() > 1
+					&& raw.get(0).isGeoLine()) {
+				solutions.clear();
+				solutions.add(raw);
+			} else {
+				solutions.set(raw);
+			}
 			showUserForm(solutions);
 		} catch (Throwable e) {
 			solutions.setUndefined();

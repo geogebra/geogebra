@@ -48,7 +48,7 @@ public class TextTreeItem extends RadioTreeItem {
 	 */
 	public static boolean match(GeoElement geo) {
 		return geo.getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)
-				&& geo instanceof GeoText;
+				&& geo instanceof GeoText && !((GeoText) geo).isLaTeX();
 	}
 
 	public static TextTreeItem as(TreeItem ti) {

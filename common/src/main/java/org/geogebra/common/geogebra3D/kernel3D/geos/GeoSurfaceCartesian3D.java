@@ -161,10 +161,15 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	 * set the jacobian matrix for bivariate newton method
 	 * 
 	 * @param uv
+	 *            parameter values
 	 * @param vx
+	 *            direction x
 	 * @param vy
+	 *            direction y
 	 * @param vz
+	 *            direction z
 	 * @param matrix
+	 *            output matrix
 	 */
 	public void setJacobianForBivariate(double[] uv, double vx, double vy,
 			double vz, CoordMatrix matrix) {
@@ -1334,14 +1339,20 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
-
-
-	public void setStartParameter(double[] ds) {
-		this.startParam = ds;
+	/**
+	 * @param startParam
+	 *            start parameters
+	 */
+	public void setStartParameter(double[] startParam) {
+		this.startParam = startParam;
 	}
 
-	public void setEndParameter(double[] ds) {
-		this.endParam = ds;
+	/**
+	 * @param endParam
+	 *            end parameters
+	 */
+	public void setEndParameter(double[] endParam) {
+		this.endParam = endParam;
 	}
 
 }

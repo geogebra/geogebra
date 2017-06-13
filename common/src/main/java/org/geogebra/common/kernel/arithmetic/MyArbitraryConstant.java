@@ -10,6 +10,8 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Arbitrary constant comming from native CAS
@@ -42,6 +44,8 @@ public class MyArbitraryConstant {
 	}
 
 	private int position = 0;
+	private boolean blocking;
+	private boolean blocked;
 
 	/**
 	 * @param myDouble
@@ -94,6 +98,7 @@ public class MyArbitraryConstant {
 	 */
 	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, double index) {
+		Log.printStacktrace("x" + this.blocking);
 		Integer indexInt = Integer.valueOf((int) Math.round(index));
 		GeoNumeric found = map.get(indexInt);
 		if (found != null) {
@@ -279,5 +284,23 @@ public class MyArbitraryConstant {
 	 */
 	public int getPosition() {
 		return position;
+	}
+
+	public void setBlocking(boolean blocking) {
+		this.blocking = blocking;
+		this.blocked = false;
+	}
+
+	public boolean hasBlocked() {
+		return blocked;
+	}
+	public boolean isBlocking(Operation op) {
+		if (op == Operation.ARBINT || op == Operation.ARBCONST
+				|| op == Operation.ARBCOMPLEX) {
+			blocked = true;
+			return blocking;
+		}
+		return false;
+
 	}
 }
