@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.StringUtil;
 
 public class Suggestion {
 	private String[] labels;
@@ -14,6 +15,6 @@ public class Suggestion {
 			labels[labels.length - 1] = geo.getLabelSimple();
 		}
 		return labels.length == 1 ? labels[0]
-				: "{" + String.join(", ", labels) + "}";
+				: "{" + StringUtil.join(", ", labels) + "}";
 	}
 }

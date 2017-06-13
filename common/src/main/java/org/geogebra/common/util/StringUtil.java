@@ -1617,4 +1617,15 @@ public class StringUtil {
 				+ color.substring(1, color.length() - 1);
 	}
 
+	public static String join(String string, Object[] objects) {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < objects.length; i++) {
+			if(i!=0){
+				sb.append(string);
+			}
+			sb.append(objects[i]);
+		}
+		return sb.toString();
+	}
+
 }
