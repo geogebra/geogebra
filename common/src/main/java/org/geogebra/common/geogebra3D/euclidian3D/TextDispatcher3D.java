@@ -36,24 +36,24 @@ public class TextDispatcher3D extends TextDispatcher {
 	}
 
 	@Override
-	protected GeoPointND getPointForDynamicText(Region object, GPoint loc) {
+	protected GeoPointND getPointForDynamicText(Region object, GPoint loc0) {
 
 		Coords coords = view3D.getCursor3D().getCoords();
 
 		return view3D.getEuclidianController().createNewPoint(
-				removeUnderscoresAndBraces(l10n.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getPlain("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, coords.getX(), coords.getY(), coords.getZ(),
 				false, false);
 	}
 
 	@Override
-	protected GeoPointND getPointForDynamicText(Path object, GPoint loc) {
+	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {
 
 		Coords coords = view3D.getCursor3D().getCoords();
 
 		return view3D.getEuclidianController().getCompanion().createNewPoint(
-				removeUnderscoresAndBraces(l10n.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getPlain("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, coords.getX(), coords.getY(), coords.getZ(),
 				false, false);
@@ -92,19 +92,19 @@ public class TextDispatcher3D extends TextDispatcher {
 	 * @param loc
 	 *            text location
 	 */
-	public void createVolumeText(GeoElement hasVolume, GPoint loc) {
+	public void createVolumeText(GeoElement hasVolume, GPoint loc0) {
 		GeoNumeric volume = kernel.getManager3D().Volume(null,
 				(HasVolume) hasVolume);
 
 		// text
 		GeoText text = createDynamicTextForMouseLoc("VolumeOfA", hasVolume,
-				volume, loc);
+				volume, loc0);
 		if (hasVolume.isLabelSet()) {
 			volume.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(l10n.getCommand("Volume"))
+					StringUtil.toLowerCase(loc.getCommand("Volume"))
 							+ hasVolume.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text") + hasVolume.getLabelSimple()));
+					loc.getPlain("Text") + hasVolume.getLabelSimple()));
 		}
 
 	}

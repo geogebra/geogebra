@@ -40,8 +40,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param kernel
 	 *            kernel
 	 */
-	public ExpressionNodeEvaluator(Localization l10n, Kernel kernel) {
-		this.loc = l10n;
+	public ExpressionNodeEvaluator(Localization loc0, Kernel kernel) {
+		this.loc = loc0;
 		this.kernel = kernel;
 	}
 

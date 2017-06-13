@@ -27,14 +27,14 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
 public class TextDispatcher {
-	protected Localization l10n;
+	protected Localization loc;
 	protected Kernel kernel;
 	private EuclidianView view;
 
 	public TextDispatcher(Kernel kernel, EuclidianView view) {
 		this.kernel = kernel;
 		this.view = view;
-		this.l10n = kernel.getLocalization();
+		this.loc = kernel.getLocalization();
 	}
 
 	protected static String removeUnderscoresAndBraces(String label) {
@@ -49,18 +49,18 @@ public class TextDispatcher {
 	}
 
 	public GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area,
-			GPoint loc) {
+			GPoint loc0) {
 		// text
 		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area,
-				loc);
+				loc0);
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
 				area.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(l10n.getCommand("Area"))
+						StringUtil.toLowerCase(loc.getCommand("Area"))
 								+ conic.getLabelSimple()));
 			}
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text") + conic.getLabelSimple()));
+					loc.getPlain("Text") + conic.getLabelSimple()));
 		}
 		return new GeoElement[] { text };
 	}
@@ -96,17 +96,17 @@ public class TextDispatcher {
 					points[i].updateRepaint();
 				}
 			} else {
-				return l10n.getPlain(type,
+				return loc.getPlain(type,
 						"\" + Name["
 								+ poly.getLabel(StringTemplate.defaultTemplate)
 								+ "] + \"");
 			}
 		} else {
-			return l10n.getPlain(type, "\" + Name["
+			return loc.getPlain(type, "\" + Name["
 					+ poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 		}
 
-		return l10n.getPlain(type, descText.toString());
+		return loc.getPlain(type, descText.toString());
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class TextDispatcher {
 			if (object.isGeoPolygon()) {
 				descText = descriptionPoints(type, (GeoPolygon) object);
 			} else {
-				descText = l10n.getPlain(type,
+				descText = loc.getPlain(type,
 						"\" + Name["
 								+ object.getLabel(
 										StringTemplate.defaultTemplate)
@@ -187,11 +187,11 @@ public class TextDispatcher {
 
 	}
 
-	protected GeoPointND getPointForDynamicText(Region object, GPoint loc) {
+	protected GeoPointND getPointForDynamicText(Region object, GPoint loc0) {
 		double rwx = 0, rwy = 0;
 		if (loc != null) {
-			rwx = view.toRealWorldCoordX(loc.x);
-			rwy = view.toRealWorldCoordY(loc.y);
+			rwx = view.toRealWorldCoordX(loc0.x);
+			rwy = view.toRealWorldCoordY(loc0.y);
 		} else if (object instanceof GeoPolygon) {
 			GeoPointND[] pts = ((GeoPolygon) object).getPointsND();
 			for (GeoPointND pt : pts) {
@@ -205,18 +205,18 @@ public class TextDispatcher {
 			rwy = ((GeoConicND) object).getTranslationVector().getY();
 		}
 		return view.getEuclidianController().createNewPoint(
-				removeUnderscoresAndBraces(l10n.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getPlain("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, rwx, rwy, 0, false, false);
 	}
 
-	protected GeoPointND getPointForDynamicText(Path object, GPoint loc) {
+	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {
 
 		return view.getEuclidianController().getCompanion().createNewPoint(
-				removeUnderscoresAndBraces(l10n.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getPlain("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
-				false, object, view.toRealWorldCoordX(loc.x),
-				view.toRealWorldCoordY(loc.y), 0, false, false);
+				false, object, view.toRealWorldCoordX(loc0.x),
+				view.toRealWorldCoordY(loc0.y), 0, false, false);
 	}
 
 	protected GeoPointND getPointForDynamicText(GPoint loc) {
@@ -237,7 +237,7 @@ public class TextDispatcher {
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
 				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(l10n.getCommand("Distance"))
+						StringUtil.toLowerCase(loc.getCommand("Distance"))
 								// .toLowerCase(Locale.US)
 								+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 				// strText = "\"\\overline{\" + Name["+ geoA.getLabel()
@@ -257,7 +257,7 @@ public class TextDispatcher {
 				geoB.updateRepaint();
 			} else {
 				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(l10n.getCommand("Distance"))));
+						StringUtil.toLowerCase(loc.getCommand("Distance"))));
 				// .toLowerCase(Locale.US)));
 				strText = "\"\"" + length.getLabel(tpl);
 			}
@@ -268,7 +268,7 @@ public class TextDispatcher {
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
 					true, true);
 			if (useLabels) {
-				text.setLabel(removeUnderscoresAndBraces(l10n.getPlain("Text")
+				text.setLabel(removeUnderscoresAndBraces(loc.getPlain("Text")
 						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 			}
 
@@ -297,7 +297,7 @@ public class TextDispatcher {
 		}
 	}
 
-	public GeoElement[] createCircumferenceText(GeoConicND conic, GPoint loc) {
+	public GeoElement[] createCircumferenceText(GeoConicND conic, GPoint loc0) {
 		if (conic.isGeoConicPart()) {
 
 			Construction cons = kernel.getConstruction();
@@ -307,9 +307,9 @@ public class TextDispatcher {
 			GeoNumeric arcLength = algo.getArcLength();
 
 			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA", conic,
-					arcLength, loc);
+					arcLength, loc0);
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text") + conic.getLabelSimple()));
+					loc.getPlain("Text") + conic.getLabelSimple()));
 			GeoElement[] ret = { text };
 			return ret;
 
@@ -323,12 +323,12 @@ public class TextDispatcher {
 
 		// text
 		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA", conic,
-				circumFerence, loc);
+				circumFerence, loc0);
 		if (conic.isLabelSet()) {
 			circumFerence.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(l10n.getCommand("Circumference"))
+					StringUtil.toLowerCase(loc.getCommand("Circumference"))
 							+ conic.getLabel(StringTemplate.defaultTemplate)));
-			text.setLabel(removeUnderscoresAndBraces(l10n.getPlain("Text")
+			text.setLabel(removeUnderscoresAndBraces(loc.getPlain("Text")
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
 		}
 		GeoElement[] ret = { text };
@@ -344,10 +344,10 @@ public class TextDispatcher {
 
 		if (poly.isLabelSet()) {
 			perimeter.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(l10n.getCommand("Perimeter"))
+					StringUtil.toLowerCase(loc.getCommand("Perimeter"))
 							+ poly.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text") + poly.getLabelSimple()));
+					loc.getPlain("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };
@@ -361,7 +361,7 @@ public class TextDispatcher {
 
 		if (poly.isLabelSet()) {
 			text.setLabel(removeUnderscoresAndBraces(
-					l10n.getPlain("Text") + poly.getLabelSimple()));
+					loc.getPlain("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };
@@ -376,7 +376,7 @@ public class TextDispatcher {
 		 * else { slope = kernel.Slope("m", line); }
 		 */
 
-		String label = l10n.getPlain("ExplicitLineGradient");
+		String label = loc.getPlain("ExplicitLineGradient");
 
 		// make sure automatic naming goes m, m_1, m_2, ..., m_{10}, m_{11}
 		// etc

@@ -173,12 +173,12 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private void addSelectAnotherMenu(int mode) {
 		selectAnotherMenu = new MenuBar(true);
 		MenuItem selectAnotherMenuItem;
-		Localization l10n = app.getLocalization();
+		Localization loc = app.getLocalization();
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
-			selectAnotherMenuItem = new MenuItem(l10n.getMenu("SelectAnother"),
+			selectAnotherMenuItem = new MenuItem(loc.getMenu("SelectAnother"),
 			        selectAnotherMenu);
 		} else {
-			selectAnotherMenuItem = new MenuItem(l10n.getMenu("PerformToolOn"),
+			selectAnotherMenuItem = new MenuItem(loc.getMenu("PerformToolOn"),
 			        selectAnotherMenu);
 		}
 		if (!app.has(Feature.NEW_TOOLBAR)) {
