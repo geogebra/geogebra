@@ -127,6 +127,7 @@ public class ContextMenuTools implements SetLabels {
 
 						@Override
 						public void execute() {
+							wrappedPopup.hide();
 							app.showCustomizeToolbarGUI();
 						}
 					});
@@ -169,7 +170,7 @@ public class ContextMenuTools implements SetLabels {
 	 */
 	public void show(GPoint p) {
 
-		wrappedPopup.show(p);
+		wrappedPopup.showAtPoint(p);
 	}
 
 	/**
@@ -181,7 +182,7 @@ public class ContextMenuTools implements SetLabels {
 	 *            y coordinate to show the menu.
 	 */
 	public void show(int x, int y) {
-		wrappedPopup.show(new GPoint(x, y));
+		wrappedPopup.showAtPoint(new GPoint(x, y));
 	}
 
 	@Override
