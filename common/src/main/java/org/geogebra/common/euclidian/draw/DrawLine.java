@@ -808,5 +808,9 @@ public class DrawLine extends Drawable implements Previewable {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public boolean isVisible() {
+		return isVisible;
+	}
 
 }

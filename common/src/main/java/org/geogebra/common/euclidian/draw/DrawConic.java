@@ -586,19 +586,23 @@ public class DrawConic extends Drawable implements Previewable {
 				|| conic.type == GeoConicNDConstants.CONIC_INTERSECTING_LINES
 				|| conic.type == GeoConicNDConstants.CONIC_LINE) {
 
-			shape = drawLines[0].getShape(true);
-			if (conic.type != GeoConicNDConstants.CONIC_LINE)
-			 {
-				((GArea) shape).exclusiveOr(drawLines[1].getShape(true));
-			// FIXME: buggy when conic(RW(0),RW(0))=0
-			}
+			if (drawLines[0].isVisible()) {
+				shape = drawLines[0].getShape(true);
+				if (conic.type != GeoConicNDConstants.CONIC_LINE)
+				{
+					((GArea) shape).exclusiveOr(drawLines[1].getShape(true));
+					// FIXME: buggy when conic(RW(0),RW(0))=0
+				}
 
-			if (negativeColored()) {
-				GArea complement = AwtFactory.getPrototype()
-						.newArea(view.getBoundingPath());
-				complement.subtract((GArea) shape);
-				shape = complement;
+				if (negativeColored()) {
+					GArea complement = AwtFactory.getPrototype()
+							.newArea(view.getBoundingPath());
+					complement.subtract((GArea) shape);
+					shape = complement;
 
+				}
+			} else {
+				shape = null;
 			}
 
 		}
