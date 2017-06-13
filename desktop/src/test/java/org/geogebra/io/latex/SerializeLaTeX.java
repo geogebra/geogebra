@@ -1,5 +1,7 @@
 package org.geogebra.io.latex;
 
+import java.text.Normalizer;
+
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
@@ -276,6 +278,23 @@ public class SerializeLaTeX {
 		
 		testEditor("\u3131\u3131", "\u1101");
 		testEditor("\u3131\u3131\u314F", "\uAE4C");
+
+	}
+
+	@Test
+	public void testKoreanNormalization() {
+		
+		testKorean("\uD4DB");
+
+		for (char ch = '\uac00'; ch < '\ud7a3'; ch++) {
+			testKorean(ch + "");
+		}
+
+	}
+
+	private void testKorean(String s) {
+		Assert.assertEquals(Normalizer.normalize(s, Normalizer.Form.NFD),
+				Korean.flattenKorean(s));
 
 	}
 
