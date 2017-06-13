@@ -13,6 +13,7 @@ import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.menubar.RadioButtonMenuBarW;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
+import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -328,14 +329,27 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		String htmlString = MainMenu.getMenuBarHtml(img, loc.getMenu("Axes"));
-		GCheckBoxMenuItem cbShowAxes = new GCheckBoxMenuItem(htmlString,
-				((AppW) app).getGuiManager().getShowAxesAction(), true, app);
 
-		cbShowAxes.setSelected(app.getActiveEuclidianView().getShowXaxis()
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			GCheckBoxMenuItem cbMenuItem = new GCheckBoxMenuItem(htmlString,
+					((AppW) app).getGuiManager().getShowAxesAction(), true,
+					app);
+			cbMenuItem.setSelected(app.getActiveEuclidianView().getShowXaxis()
+					&& (app.getActiveEuclidianView().getShowYaxis()));
+			wrappedPopup.addItem(cbMenuItem);
+		} else {
+			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
+				htmlString,
+				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+						.asString(),
+				true, ((AppW) app).getGuiManager().getShowAxesAction());
+
+			checkmarkMenuItem
+					.setChecked(app.getActiveEuclidianView().getShowXaxis()
 		        && (app.getActiveEuclidianView().getShowYaxis()));
 
-		wrappedPopup.addItem(cbShowAxes);
-
+			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
+		}
 		// MenuItem cbShowGrid =
 		// addAction(((AppW)app).getGuiManager().getShowGridAction(),
 		// MainMenu.getMenuBarHtml(AppResources.INSTANCE.grid().getSafeUri().asString(),
@@ -349,10 +363,22 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		htmlString = MainMenu.getMenuBarHtml(img2, loc.getMenu("Grid"));
-		GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowGridAction(), true, app);
-		cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
-		wrappedPopup.addItem(cbShowGrid);
+			cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
+			wrappedPopup.addItem(cbShowGrid);
+		} else {
+			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
+					htmlString,
+					MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+							.asString(),
+					true, ((AppW) app).getGuiManager().getShowGridAction());
+
+			checkmarkMenuItem
+					.setChecked(app.getActiveEuclidianView().getShowGrid());
+			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
+		}
 
 	}
 

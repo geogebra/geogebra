@@ -99,6 +99,14 @@
 	.checkMarkMenuItem {
 		height: 32px;
 		padding-left: 24px;
+		
+		.gwt-HTML {
+			margin-left: -30px;
+			
+			img {
+				left: 64px;	
+			}    	
+		}
 	
 		img  {
 			position: absolute;

@@ -68,6 +68,7 @@ public class ContextMenuTools implements SetLabels {
 
 		addCheckmarkItem(loc.getPlain("Basic.Tools"), false, new Command() {
 
+			@Override
 			public void execute() {
 				setToolType(ToolType.BASIC);
 			}
@@ -75,12 +76,14 @@ public class ContextMenuTools implements SetLabels {
 
 		addCheckmarkItem(loc.getPlain("Standard.Tools"), false, new Command() {
 
+			@Override
 			public void execute() {
 				setToolType(ToolType.STANDARD);
 			}
 		});
 
 		addCheckmarkItem(loc.getPlain("All.Tools"), false, new Command() {
+			@Override
 			public void execute() {
 				setToolType(ToolType.ALL);
 			}
@@ -106,7 +109,8 @@ public class ContextMenuTools implements SetLabels {
 	 */
 	public void addCheckmarkItem(String text, boolean selected,
 			Command command) {
-		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text, checkmarkUrl,
+		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text,
+				checkmarkUrl,
 				selected, command);
 		wrappedPopup.addItem(cm.getMenuItem());
 		checkmarkItems.add(cm);

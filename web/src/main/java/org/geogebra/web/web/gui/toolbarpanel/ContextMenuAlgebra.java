@@ -61,7 +61,8 @@ public class ContextMenuAlgebra implements SetLabels {
 		 *            to execute when selected.
 		 */
 		public void addItem(String text, boolean selected, Command command) {
-			GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text, checkmarkUrl,
+			GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text,
+					checkmarkUrl,
 					selected, command);
 			addItem(cm.getMenuItem());
 			items.add(cm);
@@ -93,6 +94,7 @@ public class ContextMenuAlgebra implements SetLabels {
 				addItem(avModes[i],
 						false,
 						new Command() {
+					@Override
 					public void execute() {
 						app.getKernel().setAlgebraStyle(avMode);
 
@@ -142,6 +144,7 @@ public class ContextMenuAlgebra implements SetLabels {
 				String sortTitle = loc.getMenu(sortMode.toString());
 				addItem(sortTitle, false, new Command() {
 
+					@Override
 					public void execute() {
 						app.getSettings().getAlgebra().setTreeMode(sortMode);
 						update();

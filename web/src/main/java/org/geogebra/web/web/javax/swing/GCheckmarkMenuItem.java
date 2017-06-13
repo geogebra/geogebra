@@ -20,23 +20,23 @@ public class GCheckmarkMenuItem {
 	private FlowPanel itemPanel;
 	private boolean checked;
 	private String text;
-	private Image img;
+	private Image checkImg;
 
 	/**
-	 * 
 	 * @param text
 	 *            Title
-	 * @param url
-	 *            Chekmark url
+	 * @param checkUrl
+	 *            image of check mark
 	 * @param checked
 	 *            initial value.
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCheckmarkMenuItem(String text, String url, boolean checked,
+	public GCheckmarkMenuItem(String text, String checkUrl,
+			boolean checked,
 			final ScheduledCommand cmd) {
 		this.text = text;
-		img = new NoDragImage(url);
+		checkImg = new NoDragImage(checkUrl);
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("checkMarkMenuItem");
 		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
@@ -54,7 +54,7 @@ public class GCheckmarkMenuItem {
 		itemPanel.clear();
 		itemPanel.add(new HTML(text));
 		if (checked) {
-			itemPanel.add(img);
+			itemPanel.add(checkImg);
 		}
 		menuItem.setHTML(itemPanel.toString());
 	}
