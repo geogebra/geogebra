@@ -700,7 +700,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		setCollapsedNodes(algebraSettings.getCollapsedNodes());
 
 		settingsChanged = true;
-
+		resetItems(false);
 	}
 
 	/** whether it's attached to kernel */
@@ -824,7 +824,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			// set the root
 			clear();
-			// addItem(rootLayer);
+			if (isAlgebraInputVisible()) {
+				// why is this here and not in case of DEPENDENCY, LAYER
+				super.addItem(inputPanelTreeItem);
+			} // addItem(rootLayer);
 			break;
 		}
 
