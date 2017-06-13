@@ -634,7 +634,7 @@ public class ToolbarPanel extends FlowPanel {
 	/**
 	 * Opens the toolbar.
 	 */
-	public void open() {
+	public void doOpen() {
 		if (header.isOpen()) {
 			return;
 		}
@@ -792,7 +792,7 @@ public class ToolbarPanel extends FlowPanel {
 	 */
 	void openAlgebra() {
 		header.selectAlgebra();
-		open(tabAlgebra);
+		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
 
@@ -805,16 +805,16 @@ public class ToolbarPanel extends FlowPanel {
 
 		header.selectTools();
 
-		open(tabTools);
+		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
 
 	}
 
-	private void open(ToolbarTab tab) {
+	private void open() {
 
 		if (!isOpen()) {
-			open();
+			doOpen();
 		}
 		// main.clear();
 		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
@@ -841,14 +841,14 @@ public class ToolbarPanel extends FlowPanel {
 				if (h < HEIGHT_AUTO_CLOSE) {
 					close();
 				} else {
-					open();
+					doOpen();
 				}
 			}
 		} else {
 			if (getOffsetWidth() < WIDTH_AUTO_CLOSE) {
 				close();
 			} else if (!isClosedByUser()) {
-				open();
+				doOpen();
 			}
 		}
 	}

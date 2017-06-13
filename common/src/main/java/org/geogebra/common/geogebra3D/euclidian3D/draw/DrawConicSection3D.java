@@ -5,7 +5,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
-import org.geogebra.common.kernel.Matrix.Coords;
 
 public class DrawConicSection3D extends DrawConic3D {
 
