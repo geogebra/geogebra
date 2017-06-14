@@ -4,6 +4,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -44,26 +45,37 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 	}
 
-	public void createSymbolicButton(final GeoElement geo) {
-		final MyToggleButtonW btnSymbolic = new MyToggleButtonW(
+	public static void createSymbolicButton(FlowPanel parent,
+			final GeoElement geo, boolean swap) {
+		MyToggleButtonW btnSymbolic = null;
+		for (int i = 0; i < parent.getWidgetCount(); i++) {
+			if(parent.getWidget(i).getStyleName().contains("symbolicButton")){
+				btnSymbolic = (MyToggleButtonW) parent.getWidget(i);
+			}
+		}
+		if (btnSymbolic == null) {
+			btnSymbolic = new MyToggleButtonW(
 				GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
 				GuiResourcesSimple.INSTANCE.modeToggleNumeric());
+			final MyToggleButtonW btn = btnSymbolic;
+			btnSymbolic.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					btn.setSelected(AlgebraItem.toggleSymbolic(geo));
+				}
+			});
+		}
 		btnSymbolic.addStyleName("symbolicButton");
 		if (AlgebraItem.getOutputPrefix(geo) == Unicode.CAS_OUTPUT_NUMERIC) {
-			btnSymbolic.setSelected(true);
+			btnSymbolic.setSelected(!swap);
 		}
 		if (AlgebraItem.getOutputPrefix(geo) != Unicode.CAS_OUTPUT_NUMERIC) {
-			btnSymbolic.setSelected(false);
+			btnSymbolic.setSelected(swap);
 			btnSymbolic.addStyleName("btn-prefix");
 		}
-		btnSymbolic.addClickHandler(new ClickHandler() {
 
-			@Override
-			public void onClick(ClickEvent event) {
-				btnSymbolic.setSelected(AlgebraItem.toggleSymbolic(geo));
-			}
-		});
-		add(btnSymbolic);
+		parent.add(btnSymbolic);
 
 	}
 
@@ -77,10 +89,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 		Kernel kernel = geo1.getKernel();
 		clear();
 		if (AlgebraItem.isSymbolicDiffers(geo1)) {
-			createSymbolicButton(geo1);
+			if (!kernel.getApplication().has(Feature.AV_ITEM_DESIGN)) {
+				createSymbolicButton(this, geo1, false);
+			} else {
+				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
+			}
 		} else {
-			addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
-					? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX,
+			addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel),
 					latex);
 		}
 

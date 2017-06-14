@@ -448,7 +448,14 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected boolean updateValuePanel(String text) {
-		return outputPanel.updateValuePanel(geo, text, latex, getFontSize());
+		boolean ret = outputPanel.updateValuePanel(geo, text, latex,
+				getFontSize());
+		if (app.has(Feature.AV_ITEM_DESIGN) && geo != null
+				&& AlgebraItem.isSymbolicDiffers(geo)) {
+			addControls();
+			AlgebraOutputPanel.createSymbolicButton(controls, geo, true);
+		}
+		return ret;
 	}
 
 	private void buildItemContent() {
@@ -554,9 +561,7 @@ public class RadioTreeItem extends AVTreeItem
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 		}
 		outputPanel
-				.addPrefixLabel(kernel.getLocalization().rightToLeftReadingOrder
-						? Unicode.CAS_OUTPUT_PREFIX_RTL
-						: Unicode.CAS_OUTPUT_PREFIX, latex);
+				.addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel), latex);
 
 		outputPanel.addValuePanel();
 

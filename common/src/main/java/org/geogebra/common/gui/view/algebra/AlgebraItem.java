@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -37,10 +38,8 @@ public class AlgebraItem {
 			}
 			
 		}
-		if (geo.getKernel().getLocalization().rightToLeftReadingOrder) {
-			return Unicode.CAS_OUTPUT_PREFIX_RTL;
-		}
-		return Unicode.CAS_OUTPUT_PREFIX;
+
+		return getSymbolicPrefix(geo.getKernel());
 	}
 
 	public static boolean isSymbolicDiffers(GeoElement geo) {
@@ -114,5 +113,10 @@ public class AlgebraItem {
 			}
 		}
 		return true;
+	}
+
+	public static String getSymbolicPrefix(Kernel kernel) {
+		return kernel.getLocalization().rightToLeftReadingOrder
+				? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX;
 	}
 }
