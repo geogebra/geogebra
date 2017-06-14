@@ -4617,7 +4617,7 @@ public abstract class App implements UpdateSelection {
 		// not needed in basic implementation
 	}
 
-	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 500;
+	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
 
 	public String getURLforID(String id) {
 		String url;
