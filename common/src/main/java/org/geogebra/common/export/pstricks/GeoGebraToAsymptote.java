@@ -2934,13 +2934,14 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		Info info = new Info(geo);
 
 		boolean noPlus = true;
-		if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS) {
-			// first parameter
-			noPlus = false;
-			sb.append("linewidth(");
-			sb.append(format(linethickness / 2.0 * 0.8));
-			sb.append(")");
-		}
+		// if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS)
+		// {
+		// first parameter
+		noPlus = false;
+		sb.append("linewidth(");
+		sb.append(format(linethickness / 2.0 * 0.8));
+		sb.append(")");
+
 		if (linestyle != EuclidianStyleConstants.DEFAULT_LINE_TYPE) {
 			if (!noPlus) {
 				packSpace(sb, "+");

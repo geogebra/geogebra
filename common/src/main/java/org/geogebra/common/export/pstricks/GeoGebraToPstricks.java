@@ -2045,15 +2045,17 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 		boolean coma = false;
 		boolean bracket = false;
-		if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS) {
-			// coma needed
-			coma = true;
-			// bracket needed
-			bracket = true;
-			sb.append("[linewidth=");
-			sb.append(format(linethickness / 2.0 * 0.8));
-			sb.append("pt");
-		}
+
+		// if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS)
+		// {
+		// coma needed
+		coma = true;
+		// bracket needed
+		bracket = true;
+		sb.append("[linewidth=");
+		sb.append(format(linethickness / 2.0 * 0.8));
+		sb.append("pt");
+
 		if (linestyle != EuclidianStyleConstants.DEFAULT_LINE_TYPE) {
 			if (coma) {
 				sb.append(",");
