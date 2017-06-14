@@ -491,7 +491,8 @@ public class AppWapplet extends AppWFull {
 	}
 
 	private View focusedView;
-	private FloatingMenuPanel floatingMenuPanel = null;
+	/** floating menu */
+	FloatingMenuPanel floatingMenuPanel = null;
 
 	@Override
 	public void focusLost(View v, Element el) {
@@ -706,7 +707,7 @@ public class AppWapplet extends AppWFull {
 
 	}-*/;
 
-	public void remove(final Runnable runnable) {
+	private void remove(final Runnable runnable) {
 		this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateOut");
 		runOnAnimateOut(new Runnable() {
@@ -719,7 +720,7 @@ public class AppWapplet extends AppWFull {
 
 	}
 
-	public void add(final Runnable runnable) {
+	private void add(final Runnable runnable) {
 		this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateIn");
 		runOnAnimateIn(new Runnable() {
@@ -866,7 +867,9 @@ public class AppWapplet extends AppWFull {
 		}
 
 		this.spHeight = newHeight;
-		oldSplitLayoutPanel.setHeight(spHeight + "px");
+		if (oldSplitLayoutPanel != null) {
+			oldSplitLayoutPanel.setHeight(spHeight + "px");
+		}
 	}
 
 	@Override
