@@ -7,7 +7,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.OptionsAdvanced;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
@@ -89,13 +88,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = description.getSelectedIndex();
-				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-					app.getKernel().setAlgebraStyle(
+				app.getKernel().setAlgebraStyle(
 							AlgebraSettings.getStyleModeAt(idx));
-				} else {
-					app.getKernel().setAlgebraStyle(idx);
-
-				}
 				app.getKernel().updateConstruction();
 			}
 		});

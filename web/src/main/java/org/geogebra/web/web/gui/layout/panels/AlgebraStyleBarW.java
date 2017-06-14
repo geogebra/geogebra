@@ -223,13 +223,11 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				@Override
 				public void onClick(ClickEvent event) {
 					int selectedMode = app.getKernel().getAlgebraStyle();
-					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-						descriptionButton.setSelectedIndex(
+
+					descriptionButton.setSelectedIndex(
 								AlgebraSettings.indexOfStyleMode(selectedMode));
 
-					} else {
-						descriptionButton.setSelectedIndex(selectedMode);
-					}
+
 				}
 			});
 
@@ -238,15 +236,10 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					// called if a object of the popup is clicked
 					int i = descriptionButton.getSelectedIndex();
-					if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-						app.getKernel()
-.setAlgebraStyle(
+
+					app.getKernel().setAlgebraStyle(
 								AlgebraSettings.getStyleModeAt(i));
 
-					} else {
-						app.getKernel().setAlgebraStyle(i);
-
-					}
 
 					if (app.getGuiManager().hasPropertiesView()) {
 						app.getGuiManager().getPropertiesView().repaintView();

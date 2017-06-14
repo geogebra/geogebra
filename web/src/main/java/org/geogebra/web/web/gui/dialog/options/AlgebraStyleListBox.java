@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.dialog.options;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
 
@@ -24,13 +23,9 @@ public class AlgebraStyleListBox extends ListBox {
 			@Override
 			public void onChange(ChangeEvent event) {
 				int idx = getSelectedIndex();
-				if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-					app.getKernel().setAlgebraStyle(
-							AlgebraSettings.getStyleModeAt(idx));
-				} else {
-					app.getKernel().setAlgebraStyle(idx);
 
-				}
+				app.getKernel()
+						.setAlgebraStyle(AlgebraSettings.getStyleModeAt(idx));
 
 				app.getKernel().updateConstruction();
 			}
@@ -51,11 +46,7 @@ public class AlgebraStyleListBox extends ListBox {
 		}
 
 		int descMode = app.getKernel().getAlgebraStyle();
-		if (app.has(Feature.AV_DEFINITION_AND_VALUE)) {
-			setSelectedIndex(AlgebraSettings.indexOfStyleMode(descMode));
-		} else {
-			setSelectedIndex(descMode);
-		}
+		setSelectedIndex(AlgebraSettings.indexOfStyleMode(descMode));
 
 	}
 }

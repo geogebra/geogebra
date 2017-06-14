@@ -164,10 +164,6 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	protected MarblePanel marblePanel;
 
-	protected boolean definitionAndValue;
-
-
-
 	protected FlowPanel definitionPanel;
 
 	protected AlgebraOutputPanel outputPanel;
@@ -253,7 +249,6 @@ public class RadioTreeItem extends AVTreeItem
 		app = (AppWFull) kernel.getApplication();
 		loc = app.getLocalization();
 		av = app.getAlgebraView();
-		definitionAndValue = app.has(Feature.AV_DEFINITION_AND_VALUE);
 		main = new FlowPanel();
 		content = new FlowPanel();
 		plainTextItem = new FlowPanel();
@@ -568,9 +563,12 @@ public class RadioTreeItem extends AVTreeItem
 		if (content.getWidgetIndex(plainTextItem) == -1) {
 			content.add(plainTextItem);
 		}
-		addControls();
-		controls.reposition();
-		controls.updateSuggestions(previewGeo);
+		if (app.has(Feature.AV_ITEM_DESIGN)) {
+			addControls();
+			controls.reposition();
+			controls.updateSuggestions(previewGeo);
+		}
+
 	}
 
 	protected void buildItemWithSingleRow() {
@@ -836,7 +834,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected boolean isDefinitionAndValue() {
-		return definitionAndValue && kernel
+		return kernel
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
 	}
 
@@ -1600,7 +1598,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		if (isInputTreeItem()) {
 
-			boolean hasMoreMenu = app.has(Feature.AV_MORE_MENU);
+			boolean hasMoreMenu = app.has(Feature.AV_ITEM_DESIGN);
 			if (!hasMoreMenu) {
 				content.insert(getClearInputButton(), 0);
 			}
