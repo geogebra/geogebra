@@ -44,7 +44,9 @@ public class GCollapseMenuItem {
 			final ScheduledCommand cmd) {
 		this.text = text;
 		imgExpand = new NoDragImage(expandUrl);
+		imgExpand.addStyleName("expandImg");
 		imgCollapse = new NoDragImage(collapseUrl);
+		imgCollapse.addStyleName("collapseImg");
 
 		items = new ArrayList<MenuItem>();
 		itemPanel = new FlowPanel();
@@ -73,7 +75,7 @@ public class GCollapseMenuItem {
 		expanded = value;
 		itemPanel.clear();
 		itemPanel.add(new HTML(text));
-		itemPanel.add(expanded ? imgExpand : imgCollapse);
+		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
 		if (expanded) {
 			expand();

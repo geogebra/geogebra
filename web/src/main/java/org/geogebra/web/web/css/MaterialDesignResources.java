@@ -123,16 +123,16 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/more_vert_white.png")
 	ImageResource more_vert_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_up_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_up_white.png")
 	ImageResource toolbar_open_portrait_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_down_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_down_white.png")
 	ImageResource toolbar_close_portrait_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_right_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_right_white.png")
 	ImageResource toolbar_open_landscape_white();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/double_arrow_left_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_left_white.png")
 	ImageResource toolbar_close_landscape_white();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/menu_white.png")

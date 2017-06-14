@@ -123,9 +123,15 @@
 	
 	
 	.expanded {
-		margin-left: 24px;
-		display: inline-block;
-	
+		display: inline-block;	
+		
+		.checkMarkMenuItem {
+			
+			.gwt-HTML {
+    			position: relative;
+    			left: -24px;
+			}	
+		}
 	}
 	
 	.collapsed {
