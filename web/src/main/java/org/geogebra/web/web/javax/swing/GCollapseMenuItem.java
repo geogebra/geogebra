@@ -1,5 +1,8 @@
 package org.geogebra.web.web.javax.swing;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -17,6 +20,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class GCollapseMenuItem {
 
 	private MenuItem menuItem;
+	private List<MenuItem> items;
 	private FlowPanel itemPanel;
 	private boolean expanded;
 	private String text;
@@ -42,6 +46,7 @@ public class GCollapseMenuItem {
 		imgExpand = new NoDragImage(expandUrl);
 		imgCollapse = new NoDragImage(collapseUrl);
 
+		items = new ArrayList<MenuItem>();
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
 		menuItem = new MenuItem(itemPanel.toString(), true,
@@ -49,7 +54,9 @@ public class GCollapseMenuItem {
 
 					public void execute() {
 						toggle();
-						cmd.execute();
+						if (cmd != null) {
+							cmd.execute();
+						}
 					}
 				});
 		setExpanded(expanded);
@@ -67,6 +74,11 @@ public class GCollapseMenuItem {
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgExpand : imgCollapse);
 		menuItem.setHTML(itemPanel.toString());
+		if (expanded) {
+			expand();
+		} else {
+			collapse();
+		}
 	}
 
 
@@ -94,5 +106,34 @@ public class GCollapseMenuItem {
 		setExpanded(!expanded);
 	}
 
+	/**
+	 * Collapse submenu
+	 */
+	public void collapse() {
+		expanded = false;
+		for (MenuItem mi : items) {
+			mi.addStyleName("collapsed");
+			mi.removeStyleName("expanded");
+		}
+	}
 
+	/**
+	 * Expand submenu
+	 */
+	public void expand() {
+		expanded = true;
+		for (MenuItem mi : items) {
+			mi.addStyleName("expanded");
+			mi.removeStyleName("collapsed");
+		}
+	}
+
+	/**
+	 * 
+	 * @param item
+	 *            to add.
+	 */
+	public void addItem(MenuItem item) {
+		items.add(item);
+	}
 }

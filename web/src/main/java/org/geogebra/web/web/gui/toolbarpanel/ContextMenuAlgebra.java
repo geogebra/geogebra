@@ -40,7 +40,10 @@ public class ContextMenuAlgebra implements SetLabels {
 		private List<GCheckmarkMenuItem> items;
 		private String checkmarkUrl;
 		private boolean expanded = true;
-		public SubMenu() {
+		protected GCollapseMenuItem parentMenu;
+
+		public SubMenu(GCollapseMenuItem parentMenu) {
+			this.parentMenu = parentMenu;
 			// super(true, "", app);
 			checkmarkUrl = MaterialDesignResources.INSTANCE.check_black()
 					.getSafeUri().asString();
@@ -49,6 +52,7 @@ public class ContextMenuAlgebra implements SetLabels {
 			// addStyleName("dotSubMenu");
 			items = new ArrayList<GCheckmarkMenuItem>();
 			initActions();
+			parentMenu.collapse();
 		}
 
 		/**
@@ -67,7 +71,7 @@ public class ContextMenuAlgebra implements SetLabels {
 					selected, command);
 			wrappedPopup.addItem(cm.getMenuItem());
 			items.add(cm);
-
+			parentMenu.addItem(cm.getMenuItem());
 		}
 
 		public int itemCount() {
@@ -78,47 +82,13 @@ public class ContextMenuAlgebra implements SetLabels {
 			return items.get(idx);
 		}
 
-		/**
-		 * Collapse submenu
-		 */
-		public void collapse() {
-			expanded = false;
-			for (GCheckmarkMenuItem cm : items) {
-				cm.getMenuItem().removeStyleName("expanded");
-				cm.getMenuItem().addStyleName("collapsed");
-
-			}
-		}
-
-		/**
-		 * Expand submenu
-		 */
-		public void expand() {
-			expanded = true;
-			for (GCheckmarkMenuItem cm : items) {
-				cm.getMenuItem().addStyleName("expanded");
-				cm.getMenuItem().removeStyleName("collapsed");
-
-			}
-		}
-
-		/**
-		 * Toggle submenu
-		 */
-		public void toggle() {
-			if (expanded) {
-				collapse();
-			} else {
-				expand();
-			}
-		}
 		public abstract void update();
 		protected abstract void initActions();
 	}
 
 	private class DescriptionSubMenu extends SubMenu {
-		public DescriptionSubMenu() {
-
+		public DescriptionSubMenu(GCollapseMenuItem parentMenu) {
+			super(parentMenu);
 		}
 
 		@Override
@@ -142,7 +112,6 @@ public class ContextMenuAlgebra implements SetLabels {
 					}
 						});
 			}
-			collapse();
 		}
 
 		@Override
@@ -160,8 +129,8 @@ public class ContextMenuAlgebra implements SetLabels {
 	private class SortSubMenu extends SubMenu {
 		private ArrayList<SortMode> supportedModes = null;
 
-		public SortSubMenu() {
-			super();
+		public SortSubMenu(GCollapseMenuItem parentMenu) {
+			super(parentMenu);
 		}
 
 		@Override
@@ -187,7 +156,6 @@ public class ContextMenuAlgebra implements SetLabels {
 					}
 				});
 			}
-			collapse();
 		}
 
 		private SortMode sortModeAt(int idx) {
@@ -262,36 +230,28 @@ public class ContextMenuAlgebra implements SetLabels {
 	private void addDescriptionItem() {
 		final GCollapseMenuItem ci = new GCollapseMenuItem(
 				loc.getPlain("AlgebraDescriptions"),
-				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
-						.asString(),
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
-				false, new Command() {
-
-					public void execute() {
-						subDescription.toggle();
-					}
-				});
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				false, null);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 
-		subDescription = new DescriptionSubMenu();
+		subDescription = new DescriptionSubMenu(ci);
 		subDescription.update();
+
 	}
 
 	private void addSortItem() {
 		final GCollapseMenuItem ci = new GCollapseMenuItem(
 				loc.getPlain("SortBy"),
-				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
-						.asString(),
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
-				false, new Command() {
-					public void execute() {
-						subSort.toggle();
-			}
-		});
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				false, null);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
-		subSort = new SortSubMenu();
+		subSort = new SortSubMenu(ci);
 		subSort.update();
 	}
 
