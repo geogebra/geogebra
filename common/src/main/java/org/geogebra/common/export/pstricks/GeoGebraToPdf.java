@@ -2969,14 +2969,16 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		Info info = new Info(geo);
 
 		boolean coma = false;
-		if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS) {
-			// coma needed
-			coma = true;
-			// bracket needed
-			sb.append("line width=");
-			sb.append(format(linethickness / 2.0 * 0.8));
-			sb.append("pt");
-		}
+		// removed: default is different in GeoGebra vs Tikz
+		// if (linethickness != EuclidianStyleConstants.DEFAULT_LINE_THICKNESS)
+		// {
+		// coma needed
+		coma = true;
+		// bracket needed
+		sb.append("line width=");
+		sb.append(format(linethickness / 2.0 * 0.8));
+		sb.append("pt");
+
 		if (linestyle != EuclidianStyleConstants.DEFAULT_LINE_TYPE) {
 			if (coma) {
 				sb.append(",");
