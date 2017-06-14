@@ -189,7 +189,7 @@ public class TextDispatcher {
 
 	protected GeoPointND getPointForDynamicText(Region object, GPoint loc0) {
 		double rwx = 0, rwy = 0;
-		if (loc != null) {
+		if (loc0 != null) {
 			rwx = view.toRealWorldCoordX(loc0.x);
 			rwy = view.toRealWorldCoordY(loc0.y);
 		} else if (object instanceof GeoPolygon) {
