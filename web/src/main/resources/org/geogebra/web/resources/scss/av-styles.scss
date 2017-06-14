@@ -43,7 +43,7 @@
 			}
 			color: $black;
 		}
-		
+
 		.gwt-MenuItem-disabled,
 		.gwt-MenuItem-disabled:hover {
 			img {
@@ -52,7 +52,7 @@
 			color: $black;
 			opacity: 0.38;
 		}
-		
+
 		img {
 			width: 24px !important;
 			height: 24px !important;
@@ -64,15 +64,15 @@
 		
 		.subMenuIcon {
 			padding-right: 0px;
-		}
-		
-		.subMenuIcon img {
-			margin-right: 0px !important;
-			margin-top: -12px !important;
-		}
-		
-		.subMenuIcon:hover {
-			opacity: 0.87;
+
+			img {
+				margin-right: 0px !important;
+				margin-top: -12px !important;
+			}
+
+			&:hover {
+				opacity: 0.87;
+			}
 		}
 	}
 	
@@ -279,14 +279,12 @@
 			top: 42px;
 			right: 3px;
 		}
-		
-		.NewRadioButtonTreeItemParent .scrollableTextBox,
-		.NewRadioButtonTreeItemParent .inputBorder
-		{
-			border-top: $toolbar-header solid 1px;
-			border-bottom: $toolbar-header solid 1px;
-			min-height: 48px;
-			overflow: hidden;
+
+		.NewRadioButtonTreeItemParent {
+			.scrollableTextBox, .inputBorder {
+				min-height: 48px;
+				overflow: hidden;
+			}
 		}
 		
 		.gwt-Tree .gwt-TreeItem .elem {
