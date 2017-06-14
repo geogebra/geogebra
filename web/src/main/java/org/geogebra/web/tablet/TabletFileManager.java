@@ -69,7 +69,6 @@ public class TabletFileManager extends FileManagerT {
 		final int callbackParent = addNewCallback(new MyCallback() {
 			public void onSuccess(Object result){
 				int length = (Integer) result;
-				debug("catchListLocalFiles: "+length);
 				for (int i = 0; i < length; i++){
 					int callback = addNewCallback(new MyCallback() {
 						public void onSuccess(Object result){
@@ -90,7 +89,6 @@ public class TabletFileManager extends FileManagerT {
 
 								if (filter.check(mat)) {
 									addMaterial(mat);
-									debug("add material: "+name+", id: "+mat.getLocalID());
 								}
 							} catch (JSONException e) {
 								e.printStackTrace();
@@ -98,7 +96,6 @@ public class TabletFileManager extends FileManagerT {
 						}
 						public void onFailure(Object result){
 							// not needed
-							debug("on failure");
 						}
 					});
 					getMetaDataNative(i, callback, getId());
@@ -106,7 +103,6 @@ public class TabletFileManager extends FileManagerT {
 			}
 			public void onFailure(Object result){
 				// not needed
-				debug("parent -- on failure");
 			}
 		});
 		listLocalFilesNative(callbackParent);
@@ -149,7 +145,6 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
-		debug("openMaterial: "+fileName+", id: "+material.getLocalID());
 		int callback = addNewCallback(new MyCallback() {
 			public void onSuccess(Object result){
 				material.setBase64((String) result);
@@ -215,11 +210,9 @@ public class TabletFileManager extends FileManagerT {
 
 	@Override
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
-		debug("uploadUsersMaterials");			
 		final int callbackParent = addNewCallback(new MyCallback() {
 			public void onSuccess(Object result){
 				int length = (Integer) result;
-				debug("catchListLocalFiles: "+length);
 				setNotSyncedFileCount(length, events);
 				for (int i = 0; i < length; i++){
 					int callback = addNewCallback(new MyCallback() {
@@ -228,7 +221,6 @@ public class TabletFileManager extends FileManagerT {
 								String[] resultStrings = (String[]) result;										
 								String name = resultStrings[0];
 								String data = resultStrings[1];
-								debug("sync "+name);
 								Material mat = JSONParserGGT.prototype.toMaterial(new JSONObject(data));
 								mat.setLocalID(MaterialsManager.getIDFromKey(name));
 								sync(mat, events);
@@ -239,7 +231,6 @@ public class TabletFileManager extends FileManagerT {
 						}
 						public void onFailure(Object result){
 							// not needed
-							debug("on failure: ignoreNotSyncedFile");
 							ignoreNotSyncedFile(events);
 						}
 					});
@@ -248,7 +239,6 @@ public class TabletFileManager extends FileManagerT {
 			}
 			public void onFailure(Object result){
 				// not needed
-				debug("parent -- on failure");
 			}
 		});
 		listLocalFilesNative(callbackParent);
@@ -273,10 +263,8 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	protected void updateFile(final String key, final long modified,
 			final Material material) {	
-		debug("update file: "+material.getTitle());
 		material.setModified(modified);
 		if (key == null){
-			debug("key is null");
 			// save as a new local file
 			String base64 = material.getBase64();
 			material.setBase64("");
@@ -286,7 +274,6 @@ public class TabletFileManager extends FileManagerT {
 			material.setLocalID(MaterialsManager.getIDFromKey(key));
 			String newKey = MaterialsManager.createKeyString(material.getLocalID(), material.getTitle());
 			if (key.equals(newKey)) {
-				debug("key == newKey");
 				// re-save file and meta data
 				String base64 = material.getBase64();
 				material.setBase64("");
@@ -295,9 +282,7 @@ public class TabletFileManager extends FileManagerT {
 				String newTitle = material.getTitle();
 				material.setTitle(MaterialsManager.getTitleFromKey(key));
 				material.setSyncStamp(material.getModified());
-				debug("key != newKey");
 				// save and rename
-				debug("rename: "+newTitle);
 				rename(newTitle, material);
 			}
 		}
@@ -348,7 +333,6 @@ public class TabletFileManager extends FileManagerT {
 			@Override
 			public void onSuccess(Object result) {
 				if (callback != null){
-					debug("rename callback");
 					callback.run();
 				}					
 			}			
@@ -387,13 +371,11 @@ public class TabletFileManager extends FileManagerT {
 
 		int callback = addNewCallback(new MyCallback() {
 			public void onSuccess(Object result){
-				debug("delete, onSuccess");
 				removeFile(mat);
 				onSuccess.run();
 			}
 			public void onFailure(Object result){
 				// not needed
-				debug("delete, onFailure");
 			}
 		});
 		deleteNative(getFileKey(mat), callback);
