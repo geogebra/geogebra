@@ -1818,6 +1818,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return mode;
 		}
 
+		if (app.has(Feature.SELECT_TOOL)) {
+			((AppWapplet) app).getKernel().notifyModeChanged(mode, m);
+			return mode;
+		}
+
 		final int ret = toolbarPanel.setMode(mode, m);
 		if (this.updateToolBar != null) {
 			this.updateToolBar.buildGui();

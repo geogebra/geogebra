@@ -4276,6 +4276,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_SELECT_TOOL:
 			return prerelease;
 
+		/** GGB-1868 */
+		case SELECT_TOOL:
+			return prerelease;
+
 		/*
 		 * Used for: dynamic stylebar will be added for version which use the
 		 * new toolbar
