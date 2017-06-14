@@ -1494,7 +1494,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return textField.getValueBox();
 	}
 
-	@Override
+	/**
+	 * @param toggled
+	 *            whether the button should be down
+	 */
 	public void toggleSymbolButton(boolean toggled) {
 		if (showSymbolButton == null) {
 			return;

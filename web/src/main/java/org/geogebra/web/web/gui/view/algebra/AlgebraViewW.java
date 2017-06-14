@@ -1526,8 +1526,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		inputPanelTreeItem.addStyleName("avInputItem");
 		inputPanelLatex.getWidget().getElement().getParentElement()
 		.addClassName("NewRadioButtonTreeItemParent");
-		inputPanelLatex.replaceXButtonDOM();
-		
 		
 		unselect(getSelectionCtrl().getSelectedGeo());
 		unselect(getSelectionCtrl().getLastSelectedGeo());
@@ -1601,8 +1599,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		inputPanelLatex.getWidget().getElement().getParentElement()
 				.addClassName("NewRadioButtonTreeItemParent");
 
-
-		inputPanelLatex.replaceXButtonDOM();
 		if (inputJustCreated) {
 			if (isNodeTableEmpty()) {
 				inputPanelLatex.updateGUIfocus(inputPanelLatex, false);
@@ -1615,10 +1611,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				&& app.showView(App.VIEW_ALGEBRA)) {
 			if (forceKeyboard) {
 				doShowKeyboard();
-			}else if(suggestKeyboard){
+			} else if (suggestKeyboard) {
 				app.getAppletFrame().showKeyboardOnFocus();
 			}
-			}
+		}
 		if (inputWidth != null) {
 			inputPanelLatex.setItemWidth(inputWidth);
 		}

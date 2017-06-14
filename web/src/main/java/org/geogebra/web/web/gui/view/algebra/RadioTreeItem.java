@@ -1333,11 +1333,6 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	@Override
-	public final void toggleSymbolButton(boolean toggled) {
-		// Just for compatibility with AutoCompleteTextFieldW
-	}
-
-	@Override
 	public ArrayList<String> getHistory() {
 		// TODO Auto-generated method stub
 		return null;
@@ -1346,7 +1341,6 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public void requestFocus() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -1463,11 +1457,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	public final boolean hasHelpPopup() {
 		return this.helpPopup != null;
-	}
-
-	public void replaceXButtonDOM() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -2017,7 +2006,6 @@ public class RadioTreeItem extends AVTreeItem
 				+ 10) {
 			latexItem.getElement().setScrollLeft((int) CursorBox.startX - 10);
 		}
-
 	}
 
 	public boolean popupSuggestions() {
@@ -2038,7 +2026,6 @@ public class RadioTreeItem extends AVTreeItem
 		String text = getText();
 		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(text,
 				AlgebraInputW.getWarningHandler(this, app));
-
 	}
 
 	public RadioTreeItem copy() {
@@ -2048,12 +2035,10 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public void insertString(String text) {
 		new MathFieldProcessing(mf).autocomplete(text);
-
 	}
 
 	public void cancelEditing() {
 		this.stopEditing(null, null);
-
 	}
 
 	protected void blurEditor() {
@@ -2068,12 +2053,10 @@ public class RadioTreeItem extends AVTreeItem
 		} else {
 			replaceToCanvas(text0, w);
 		}
-
 	}
 
 	protected void clearInput() {
 		setText("");
-
 	}
 
 	/**
@@ -2118,7 +2101,6 @@ public class RadioTreeItem extends AVTreeItem
 			mf.setPixelRatio(pixelRatio);
 			mf.repaint();
 		}
-
 	}
 
 	protected void updateAfterRedefine(boolean success) {
@@ -2133,9 +2115,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * @return if the item is the input or not.
 	 */
 	public boolean isInputTreeItem() {
-
 		return getAV().getInputTreeItem() == this;
-
 	}
 
 	/**
@@ -2170,14 +2150,12 @@ public class RadioTreeItem extends AVTreeItem
 		});
 
 		return true;
-
 	}
 
 	public void adjustCaret(int x, int y) {
 		if (mf != null) {
 			mf.adjustCaret(x, y);
 		}
-
 	}
 
 	public void updateFonts() {
@@ -2218,7 +2196,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void preventBlur() {
 		((LatexTreeItemController) getController()).preventBlur();
-
 	}
 
 	protected boolean showSliderDialog(final String string,
@@ -2246,7 +2223,6 @@ public class RadioTreeItem extends AVTreeItem
 			r.run();
 		}
 		return false;
-
 	}
 
 	/**
@@ -2264,7 +2240,6 @@ public class RadioTreeItem extends AVTreeItem
 	 */
 	protected void setInputAsText(boolean value) {
 		mf.setPlainTextMode(value);
-
 	}
 
 	public RadioTreeItem initInput() {
@@ -2287,7 +2262,6 @@ public class RadioTreeItem extends AVTreeItem
 		} else {
 			content.removeStyleName("withSuggestions");
 		}
-
 	}
 
 	public void runSuggestionCallbacks(GeoElementND nGeo) {
@@ -2298,7 +2272,6 @@ public class RadioTreeItem extends AVTreeItem
 			suggestionCallback.callback(nGeo);
 			suggestionCallback = null;
 		}
-
 	}
 
 	public void runAfterGeoCreated(AsyncOperation<GeoElementND> run) {
@@ -2307,12 +2280,10 @@ public class RadioTreeItem extends AVTreeItem
 		} else {
 			this.suggestionCallback = run;
 		}
-
 	}
 
 	public int getItemWidth() {
 		return geo == null ? main.getOffsetWidth() : getOffsetWidth();
 	}
 }
-
 

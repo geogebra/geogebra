@@ -16,8 +16,6 @@ public interface AutoCompleteW {
 
 	public void insertString(String text);
 
-	public void toggleSymbolButton(boolean toggled);
-
 	public ArrayList<String> getHistory();
 
 	public String getText();

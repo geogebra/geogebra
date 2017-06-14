@@ -284,12 +284,6 @@ public class CASLaTeXEditor extends FlowPanel
 	}
 
 	@Override
-	public void toggleSymbolButton(boolean toggled) {
-		// only for linear input
-
-	}
-
-	@Override
 	public ArrayList<String> getHistory() {
 		// TODO Auto-generated method stub
 		return null;
