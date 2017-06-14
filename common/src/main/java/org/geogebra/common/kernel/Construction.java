@@ -1550,6 +1550,7 @@ public class Construction {
 
 			// set properties first, set label later. See #933
 			newGeo.setAllVisualProperties(oldGeo, false);
+			newGeo.setScripting(oldGeo);
 
 			if (newGeo.isIndependent()) {
 				addToConstructionList(newGeo, true);
