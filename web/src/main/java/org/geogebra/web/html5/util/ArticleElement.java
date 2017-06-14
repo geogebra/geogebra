@@ -473,7 +473,7 @@ public final class ArticleElement extends Element {
 	 * @return wheter focus prevented (use in multiple applets)
 	 */
 	public boolean preventFocus() {
-		return this.getAttribute("data-param-preventFocus") != null;
+		return "true".equals(this.getAttribute("data-param-preventFocus"));
 	}
 
 	public String getDataClientID() {

@@ -582,7 +582,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			}
 		} else {
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
-				if (!app.isStartedWithFile()) {
+				if (!app.isStartedWithFile()
+						&& !app.getArticleElement().preventFocus()) {
 					setKeyboardShowing(true);
 					app.invokeLater(new Runnable() {
 

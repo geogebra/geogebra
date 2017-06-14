@@ -2305,6 +2305,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	public static boolean mayForceKeyboard(AppW app) {
 		return !app.isStartedWithFile()
+				&& !app.getArticleElement().preventFocus()
 				&& (app.getExam() == null || app.getExam().getStart() > 0);
 	}
 
