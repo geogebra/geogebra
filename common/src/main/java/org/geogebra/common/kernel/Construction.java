@@ -3611,10 +3611,10 @@ public class Construction {
 		return companion.is3D();
 	}
 
-	public GeoElementND getPrevious(ConstructionElement ce1) {
-		ConstructionElement ce = ce1.isGeoElement()
-				&& !ce1.isInConstructionList()
-				? ((GeoElement) ce1).getParentAlgorithm() : ce1;
+	public GeoElementND getPrevious(GeoElementND ce1) {
+		ConstructionElement ce = ce1.getParentAlgorithm() != null
+				? ce1.getParentAlgorithm()
+				: ce1.toGeoElement();
 
 		int idx = ceList.indexOf(ce);
 		if (idx >= 1) {

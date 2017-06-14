@@ -2,13 +2,15 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.ConstructionElement;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Unicode;
 
@@ -75,27 +77,39 @@ public class AlgebraItem {
 
 	public static Suggestion getSuggestions(GeoElement geo) {
 		 if(geo instanceof EquationValue && geo.getKernel().getApplication()
-					.has(Feature.INPUT_BAR_SOLVE)){
+				.has(Feature.INPUT_BAR_SOLVE)
+				&& !hasDependentAlgo(geo)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars.length == 1) {
 				return new Suggestion(geo.getLabelSimple());
 			}
 			if (vars.length == 2) {
-				ConstructionElement prev = geo;
+				GeoElementND prev = geo;
 				do {
-					prev = (ConstructionElement) geo.getConstruction()
+					prev = geo.getConstruction()
 							.getPrevious(prev);
 					if (prev instanceof EquationValue && subset(
 							((EquationValue) prev).getEquationVariables(),
 							vars)) {
 						return new Suggestion(
-								((GeoElement) prev).getLabelSimple(),
+								prev.getLabelSimple(),
 								geo.getLabelSimple());
 					}
 				} while (prev != null);
 			}
 		 }
 		return null;
+	}
+
+	private static boolean hasDependentAlgo(GeoElement geo) {
+		AlgorithmSet set = geo.getAlgoUpdateSet();
+		for (AlgoElement algo : set) {
+			if (algo != null && (algo.getClassName() == Commands.Solve
+					|| algo.getClassName() == Commands.NSolve)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean subset(String[] testSet,

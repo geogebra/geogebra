@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 /**
  * Set to store AlgoElement objects for updating.
  */
-public class AlgorithmSet {
+public class AlgorithmSet implements Iterable<AlgoElement> {
 
 	private HashMap<AlgoElement, AlgoElement> hashMap;
 
@@ -405,5 +405,9 @@ public class AlgorithmSet {
 			cur = cur.next;
 			return ret;
 		}
+	}
+
+	public Iterator<AlgoElement> iterator() {
+		return getIterator();
 	}
 }
