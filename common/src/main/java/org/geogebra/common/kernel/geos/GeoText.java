@@ -39,6 +39,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
@@ -1361,12 +1362,12 @@ public class GeoText extends GeoElement
 	protected boolean isVisibleInView3DNotSet() {
 		if (isVisibleInView(App.VIEW_EUCLIDIAN) && !hasAbsoluteLocation()) {
 			// visible: we set it
-			visibleInView3D = VisibleInView.TRUE;
+			visibleInView3D = ExtendedBoolean.TRUE;
 			return true;
 		}
 
 		// not visible: we set it
-		visibleInView3D = VisibleInView.FALSE;
+		visibleInView3D = ExtendedBoolean.FALSE;
 		return false;
 	}
 

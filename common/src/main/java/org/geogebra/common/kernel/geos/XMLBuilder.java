@@ -52,7 +52,7 @@ public class XMLBuilder {
 				case FALSE:
 					EVs += 8; // we have to store it to distinguish from not set
 					break;
-				case NOT_SET:
+				case UNKNOWN:
 					break;
 				}
 
@@ -64,7 +64,7 @@ public class XMLBuilder {
 					EVs += 32; // we have to store it to distinguish from not
 								// set
 					break;
-				case NOT_SET:
+				case UNKNOWN:
 					break;
 				}
 			}
