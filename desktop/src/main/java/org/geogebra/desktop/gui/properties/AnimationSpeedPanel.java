@@ -44,6 +44,7 @@ public class AnimationSpeedPanel extends JPanel
 	private LocalizationD loc;
 
 	public AnimationSpeedPanel(AppD app) {
+
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
@@ -125,8 +126,21 @@ public class AnimationSpeedPanel extends JPanel
 	}
 
 	private void doActionPerformed() {
-		GeoNumberValue animSpeed = kernel.getAlgebraProcessor()
-				.evaluateToNumeric(tfAnimSpeed.getText(), false);
+
+		GeoNumberValue animSpeed;
+
+		// if a label is entered, no need to parse
+		// hopefully avoids bug where label is replaced with definition
+		// sometimes
+		GeoElement geo = kernel.lookupLabel(tfAnimSpeed.getText());
+
+		if (geo instanceof GeoNumberValue) {
+			animSpeed = (GeoNumberValue) geo;
+		} else {
+			animSpeed = kernel.getAlgebraProcessor()
+					.evaluateToNumeric(tfAnimSpeed.getText(), false);
+		}
+
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);
 		}
