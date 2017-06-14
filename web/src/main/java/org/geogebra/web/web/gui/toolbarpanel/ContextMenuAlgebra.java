@@ -37,6 +37,15 @@ public class ContextMenuAlgebra implements SetLabels {
 	private DescriptionSubMenu subDescription;
 	private SortSubMenu subSort;
 
+	private int x;
+
+	private int y;
+
+	private Command cmdReposition = new Command() {
+		public void execute() {
+			reposition();
+		}
+	};
 	private abstract class SubMenu {
 		private List<GCheckmarkMenuItem> items;
 		private String checkmarkUrl;
@@ -224,6 +233,17 @@ public class ContextMenuAlgebra implements SetLabels {
 	 *            y coordinate to show the menu.
 	 */
 	public void show(int x, int y) {
+		this.x = x;
+		this.y = y;
+		wrappedPopup.show(new GPoint(x, y));
+	}
+
+	private void reposition() {
+		if (x + wrappedPopup.getPopupPanel().getOffsetWidth() > app
+				.getWidth()) {
+			x = (int) (app.getWidth()
+					- wrappedPopup.getPopupPanel().getOffsetWidth());
+		}
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
@@ -238,9 +258,8 @@ public class ContextMenuAlgebra implements SetLabels {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, null);
+				false, cmdReposition);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
-
 		subDescription = new DescriptionSubMenu(ci);
 		subDescription.update();
 
@@ -257,7 +276,7 @@ public class ContextMenuAlgebra implements SetLabels {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, null);
+				false, cmdReposition);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		subSort = new SortSubMenu(ci);
 		subSort.update();
