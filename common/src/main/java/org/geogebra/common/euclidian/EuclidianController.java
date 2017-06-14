@@ -9223,6 +9223,9 @@ public abstract class EuclidianController {
 			// hits = view.getTopHits(mouseLoc);
 			setViewHits(type);
 			hits = view.getHits().getTopHits();
+
+			hits.removeImages();
+
 			// check if we got a polygon
 			if (hits.isEmpty()) {
 				createNewPoint(hits, false, false, true);
