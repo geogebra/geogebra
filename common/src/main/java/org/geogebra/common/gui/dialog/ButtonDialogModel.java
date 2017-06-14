@@ -66,8 +66,14 @@ public class ButtonDialogModel {
 		button.setAbsoluteScreenLoc(x, y);
 
 		button.setLabel(null);
+
+		ScriptType scriptType = ScriptType.GGBSCRIPT;
+		if (scriptText.indexOf("ggbApplet.") > -1) {
+			scriptType = ScriptType.JAVASCRIPT;
+		}
+
 		// XXX See Remark 1 above
-		Script script = app.createScript(ScriptType.GGBSCRIPT, scriptText,
+		Script script = app.createScript(scriptType, scriptText,
 				true);
 		button.setClickScript(script);
 
