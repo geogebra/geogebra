@@ -13,6 +13,7 @@
 }
 
 .toolbar {
+	
 	.header {
 			background-color: $toolbar-header;
 			
@@ -71,14 +72,12 @@
 			.center.indicatorLeft {
 				.indicator {
 					transform: translate(calc(50% - 18px),0);
-				/*	left: calc(50% + 10px) !important;*/
 				}	
 			}
 		
 			.center.indicatorRight {
 				.indicator {
 					transform: translate(calc(50% + 30px),0);
-				/*	left: calc(50% + 57px) !important;*/
 				}	
 			}
 			
@@ -265,9 +264,10 @@
 		transition: all 0.3s ease;
     	}
 	
-	.main >* {
-	
+	.main >* {	
 		display: inline-block;
 	}		
  }
+
+
  

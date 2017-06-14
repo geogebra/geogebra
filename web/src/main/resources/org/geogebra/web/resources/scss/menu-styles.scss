@@ -45,6 +45,22 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 						position: absolute;
 						margin-left: -40px;	
 					}
+				
+					.gwt-HTML {
+						padding-top: 6px;
+   						padding-left: 8px;
+					
+						.menuImg {
+							margin-left: -32px;
+							opacity: 1;
+						}
+					}
+					
+					.checkImg {
+						margin-right: 4px;
+						padding: 4px;
+						opacity: 0.54;	
+					}
 					
 					span.gwt-CheckBox.matCheckBox {
 					    padding-left: 16px;
@@ -59,6 +75,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					background-color: $selected-menuitem-background;
 					img {
 						opacity: 1;
+					}
+				
+					.checkImg {
+						opacity: 0.87;	
 					}
 					color: $black-87; 
 				}

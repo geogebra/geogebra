@@ -1,6 +1,7 @@
 package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.web.gui.menubar.MenuCommand;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -37,6 +38,7 @@ public class GCheckmarkMenuItem {
 			final ScheduledCommand cmd) {
 		this.text = text;
 		checkImg = new NoDragImage(checkUrl);
+		checkImg.addStyleName("checkImg");
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("checkMarkMenuItem");
 		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
@@ -76,4 +78,7 @@ public class GCheckmarkMenuItem {
 		return menuItem;
 	}
 
+	public void setCommand(MenuCommand cmd) {
+		menuItem.setCommand(cmd);
+	}
 }
