@@ -4173,14 +4173,6 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_CACHE_FEATURED:
 			return true;
 
-		// MOB-961, MOB-962
-		case BIND_ANDROID_TO_EXAM_APP:
-			return true;
-
-			//EXAM-10
-		case EXAM_ANDROID_CHECK_SCREEN_STATE:
-			return true;
-
 		/* GGB-1374, GGB-1849 */
 		case READ_OBJECT_NAME_AT_SELECTING:
 			return prerelease;
@@ -4255,8 +4247,6 @@ public abstract class App implements UpdateSelection {
 
 		case AV_PLUS:
 			return prerelease;
-		/** GGB-1499 */
-
 
 		case AND_KILL_TOOLBAR:
 			return prerelease;
@@ -4271,14 +4261,9 @@ public abstract class App implements UpdateSelection {
 		case STORE_IMAGES_ON_APPS_PICKER:
 			return true;
 
-
 		case NEW_TOOLBAR:
 			return canary;
-			
-		// MOB-1216 5.0.358.0
-		case WEB_ZSPACE:
-			return true;
-			
+
 		case EXPORT_SCAD:
 			return prerelease;
 

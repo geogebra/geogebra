@@ -2,7 +2,6 @@ package org.geogebra.web.html5.main;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
@@ -46,9 +45,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 wasTaskLocked = true;
                 watchTaskLock();
             }
-            if (app.has(Feature.EXAM_ANDROID_CHECK_SCREEN_STATE)){
-                watchScreenState();
-            }
+
+			watchScreenState();
+
         }
     }
 
@@ -310,7 +309,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
 
     @Override
 	public boolean isCheating() {
-        if (app.has(Feature.EXAM_ANDROID_CHECK_SCREEN_STATE) && app.getVersion().isAndroidWebview()) {
+		if (app.getVersion().isAndroidWebview()) {
             return isCheating;
         }
 

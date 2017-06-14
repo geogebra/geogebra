@@ -159,7 +159,7 @@ public class ExamDialog {
 		}
 
 
-		if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP) && runsOnAndroid()) {
+		if (runsOnAndroid()) {
 			startExamForAndroidWebview(mainWidget);
 		} else {
 			// start exam button

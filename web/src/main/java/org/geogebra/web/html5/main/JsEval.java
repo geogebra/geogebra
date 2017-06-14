@@ -33,4 +33,11 @@ public class JsEval {
 			$wnd[funcname](arg0, arg1);
 		}
 	}-*/;
+
+	public static native void runCallback(JavaScriptObject onLoadCallback,
+			JavaScriptObject ref) /*-{
+		if (typeof onLoadCallback === "function") {
+			onLoadCallback(ref);
+		}
+	}-*/;
 }

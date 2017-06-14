@@ -96,8 +96,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		AsyncOperation<String[]> handler = null;
 
 		if (examFile) {
-			if (app.has(Feature.BIND_ANDROID_TO_EXAM_APP)
-					&& app.getVersion().isAndroidWebview()) {
+			if (app.getVersion().isAndroidWebview()) {
 				handler = new AsyncOperation<String[]>() {
 					@Override
 					public void callback(String[] dialogResult) {

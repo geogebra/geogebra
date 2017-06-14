@@ -3342,11 +3342,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		// projection
 		sb.append("\t<projection type=\"");
-		if (app.has(Feature.WEB_ZSPACE)) {
-			sb.append(this.getSettings().getProjection());
-		} else {
-			sb.append(getProjection());
-		}
+
+		sb.append(getSettings().getProjection());
+
 		getXMLForStereo(sb);
 		if (!Kernel.isEqual(projectionObliqueAngle,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
@@ -3993,11 +3991,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setProjection(int projection) {
-		if (app.has(Feature.WEB_ZSPACE)) {
-			if (getCompanion().useOnlyProjectionGlasses()) {
-				setProjectionGlasses();
-				return;
-			}
+		if (getCompanion().useOnlyProjectionGlasses()) {
+			setProjectionGlasses();
+			return;
 		}
 
 		switch (projection) {

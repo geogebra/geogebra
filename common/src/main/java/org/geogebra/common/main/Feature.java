@@ -83,22 +83,11 @@ public enum Feature {
 	/** MOW */
 	WHITEBOARD_APP,
 
-
-	/**
-	 * MOB-961, MOB-962
-	 */
-	BIND_ANDROID_TO_EXAM_APP,
-
 	MOBILE_CACHE_FEATURED,
 
 
 	/** GGB-1349 */
 	FIX_KEYBOARD_POSITION,
-
-	/**
-	 * EXAM-10
-	 */
-	EXAM_ANDROID_CHECK_SCREEN_STATE,
 
 	/**
 	 * GGB-1374
@@ -209,9 +198,6 @@ public enum Feature {
 	/** GGB-1773 */
 	NEW_TOOLBAR,
 
-	/** MOB-1216 */
-	WEB_ZSPACE,
-	
 	EXPORT_SCAD,
 
 	INPUT_BAR_SOLVE,

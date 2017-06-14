@@ -79,7 +79,8 @@ public class ScriptManagerW extends ScriptManager {
 		}
 		if (((AppW) app).getAppletFrame() != null
 		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
-			runCallback(((AppW) app).getAppletFrame().getOnLoadCallback());
+			JsEval.runCallback(
+					((AppW) app).getAppletFrame().getOnLoadCallback(), api);
 		}
 	}
 

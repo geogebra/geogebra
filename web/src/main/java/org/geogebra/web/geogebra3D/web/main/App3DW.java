@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
@@ -88,14 +87,14 @@ public class App3DW {
 	static final public EuclidianController3DW newEuclidianController3DW(
 	        Kernel kernel) {
 		if (Browser.supportsWebGL()) {
-			if (kernel.getApplication().has(Feature.WEB_ZSPACE)) {
-				useZSpace = ZSpaceGwt.zspaceIsAvailable();
-				Log.debug("useZSpace: "+useZSpace);
-				if (useZSpace) {
-					Input3D input = new InputZSpace3DW();
-					return new EuclidianControllerInput3DW(kernel, input);
-				}
+
+			useZSpace = ZSpaceGwt.zspaceIsAvailable();
+			Log.debug("useZSpace: " + useZSpace);
+			if (useZSpace) {
+				Input3D input = new InputZSpace3DW();
+				return new EuclidianControllerInput3DW(kernel, input);
 			}
+
 			return new EuclidianController3DW(kernel);
 		}
 
@@ -113,11 +112,10 @@ public class App3DW {
 	static final public EuclidianView3DW newEuclidianView3DW(
 	        EuclidianController3DW ec, EuclidianSettings settings) {
 		if (Browser.supportsWebGL()) {
-			if (ec.getApplication().has(Feature.WEB_ZSPACE)) {
-				if (useZSpace) {
-					return new EuclidianViewInput3DW(ec, settings);
-				}
-			}	
+			if (useZSpace) {
+				return new EuclidianViewInput3DW(ec, settings);
+			}
+
 			return new EuclidianView3DW(ec, settings);
 		}
 
