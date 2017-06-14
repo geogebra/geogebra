@@ -3616,6 +3616,9 @@ public class Construction {
 		if (idx >= 1) {
 			return ceList.get(idx - 1);
 		}
+		if (idx < 0) {
+			return getLastGeoElement();
+		}
 		return null;
 	}
 
