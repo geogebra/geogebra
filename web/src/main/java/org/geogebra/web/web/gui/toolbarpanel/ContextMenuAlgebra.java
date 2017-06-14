@@ -11,6 +11,7 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
@@ -39,7 +40,6 @@ public class ContextMenuAlgebra implements SetLabels {
 	private abstract class SubMenu {
 		private List<GCheckmarkMenuItem> items;
 		private String checkmarkUrl;
-		private boolean expanded = true;
 		protected GCollapseMenuItem parentMenu;
 
 		public SubMenu(GCollapseMenuItem parentMenu) {
@@ -228,8 +228,12 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addDescriptionItem() {
-		final GCollapseMenuItem ci = new GCollapseMenuItem(
-				loc.getPlain("AlgebraDescriptions"),
+		String htmlString = MainMenu
+				.getMenuBarHtml(
+						StyleBarResources.INSTANCE.description().getSafeUri()
+								.asString(),
+						loc.getPlain("AlgebraDescriptions"));
+		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
@@ -243,8 +247,12 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addSortItem() {
-		final GCollapseMenuItem ci = new GCollapseMenuItem(
-				loc.getPlain("SortBy"),
+		String htmlString = MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.sort_black()
+								.getSafeUri().asString(),
+						loc.getPlain("SortBy"));
+		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()

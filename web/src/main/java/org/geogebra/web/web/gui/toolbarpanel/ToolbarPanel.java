@@ -190,14 +190,22 @@ public class ToolbarPanel extends FlowPanel {
 				public void onClickStart(int x, int y, PointerEventType type) {
 					if (isOpen()) {
 						if (isPortrait()) {
+							header.getParent().getParent().getParent()
+									.addStyleName("closePortrait");
 							setLastOpenHeight(
 									app.getActiveEuclidianView().getHeight());
 						} else {
+							header.getParent().getParent().getParent()
+									.addStyleName("closeLandscape");
 							setLastOpenWidth(getOffsetWidth());
 
 						}
 						setClosedByUser(true);
 					} else {
+						header.getParent().getParent().getParent()
+								.removeStyleName("closePortrait");
+						header.getParent().getParent().getParent()
+								.removeStyleName("closeLandscape");
 						setClosedByUser(false);
 					}
 

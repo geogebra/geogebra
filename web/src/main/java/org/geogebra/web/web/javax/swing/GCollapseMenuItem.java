@@ -26,7 +26,6 @@ public class GCollapseMenuItem {
 	private String text;
 	private Image imgExpand;
 	private Image imgCollapse;
-
 	/**
 	 * @param text
 	 *            Title
@@ -39,7 +38,8 @@ public class GCollapseMenuItem {
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCollapseMenuItem(String text, String expandUrl, String collapseUrl,
+	public GCollapseMenuItem(String text, String expandUrl,
+			String collapseUrl,
 			boolean expanded,
 			final ScheduledCommand cmd) {
 		this.text = text;
@@ -52,6 +52,7 @@ public class GCollapseMenuItem {
 		menuItem = new MenuItem(itemPanel.toString(), true,
 				new ScheduledCommand() {
 
+					@Override
 					public void execute() {
 						toggle();
 						if (cmd != null) {
