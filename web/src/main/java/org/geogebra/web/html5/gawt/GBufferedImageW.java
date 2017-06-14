@@ -185,4 +185,8 @@ public class GBufferedImageW implements GBufferedImage {
 		// nothing to flush
 	}
 
+	public String getBase64() {
+		return img.getSrc();
+	}
+
 }

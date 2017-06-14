@@ -14,4 +14,11 @@ public interface GBufferedImage {
 
 	void flush();
 
+	/**
+	 * 
+	 * @return image as base64 PNG with "data:image/png;base64," prefix (or can
+	 *         be null)
+	 */
+	String getBase64();
+
 }

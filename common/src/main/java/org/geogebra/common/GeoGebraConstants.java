@@ -188,6 +188,9 @@ public interface GeoGebraConstants {
 	public static final String uploadURL = "https://www.geogebra.org/upload";
 	public static final String uploadURLBeta = "https://beta.geogebra.org/upload";
 
+	public static final String GEOGEBRA_LOADING_PNG = "https://www.geogebra.org/images/GeoGebra_loading.png";
+	public static final String APPLET_PLAY_PNG = "https://www.geogebra.org/images/applet_play.png";
+
 	// //////////////////////////////////////////////////////////////////////////
 	// AUTHENTICATING WITH GOOGLE
 	// ///////////////////////////////////////////////
