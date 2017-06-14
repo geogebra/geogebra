@@ -1370,7 +1370,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return layer of this geo (0 to 9)
 	 */
 	@Override
-	public int getLayer() {
+	public final int getLayer() {
 		return layer;
 	}
 
@@ -1866,7 +1866,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if this is allowed to be drawn in EV
 	 */
 	@Override
-	public boolean isSetEuclidianVisible() {
+	public final boolean isSetEuclidianVisible() {
 		return euclidianVisible;
 	}
 
@@ -5873,187 +5873,10 @@ public abstract class GeoElement extends ConstructionElement
 	 *            string builder
 	 */
 	protected void getXMLvisualTags(final StringBuilder sb) {
-		getXMLvisualTags(sb, true);
+		XMLBuilder.getXMLvisualTags(this, sb, true);
 	}
 
-	/**
-	 * Appends visual tags to string builder
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param withLabelOffset
-	 *            true to include label offsets
-	 */
-	protected void getXMLvisualTags(final StringBuilder sb,
-			final boolean withLabelOffset) {
-		final boolean isDrawable = isDrawable();
 
-		// show object and/or label in EuclidianView
-		// don't save this for simple dependent numbers (e.g. in spreadsheet)
-		if (isDrawable) {
-			sb.append("\t<show");
-			sb.append(" object=\"");
-			sb.append(euclidianVisible);
-			sb.append("\"");
-			sb.append(" label=\"");
-			sb.append(labelVisible);
-			sb.append("\"");
-
-			// default:
-			// showing in EV1
-			// hidden in EV2
-			int EVs = 0;
-
-			if (!isVisibleInView(App.VIEW_EUCLIDIAN)) {
-				// bit 0 is opposite to bit 1
-				// 0 = showing
-				// 1 = hidden
-				EVs += 1; // bit 0
-			}
-
-			if (isVisibleInView(App.VIEW_EUCLIDIAN2)) {
-				// 0 = hidden
-				// 2 = showing
-				EVs += 2; // bit 1
-			}
-
-			if (hasDrawable3D()) {
-				switch (visibleInView3D) {
-				case TRUE:
-					EVs += 4;
-					break;
-				case FALSE:
-					EVs += 8; // we have to store it to distinguish from not set
-					break;
-				case NOT_SET:
-					break;
-				}
-
-				switch (visibleInViewForPlane) {
-				case TRUE:
-					EVs += 16;
-					break;
-				case FALSE:
-					EVs += 32; // we have to store it to distinguish from not
-								// set
-					break;
-				case NOT_SET:
-					break;
-				}
-			}
-
-			if (EVs != 0) {
-				sb.append(" ev=\"");
-				sb.append(EVs);
-				sb.append("\"");
-			}
-
-			sb.append("/>\n");
-		}
-
-		if (getShowTrimmedIntersectionLines()) {
-			sb.append("\t<showTrimmed val=\"true\"/>\n");
-		}
-
-		// conditional visibility
-		sb.append(getShowObjectConditionXML());
-
-		// if (isDrawable) removed - want to be able to color objects in
-		// AlgebraView, Spreadsheet
-		{
-			appendObjectColorXML(sb);
-		}
-
-		if (bgColor != null) {
-			sb.append("\t<bgColor");
-			sb.append(" r=\"");
-			sb.append(bgColor.getRed());
-			sb.append("\"");
-			sb.append(" g=\"");
-			sb.append(bgColor.getGreen());
-			sb.append("\"");
-			sb.append(" b=\"");
-			sb.append(bgColor.getBlue());
-			sb.append("\"");
-			sb.append(" alpha=\"");
-			sb.append(bgColor.getAlpha());
-			sb.append("\"/>\n");
-		}
-
-		// don't remove layer 0 information
-		// we always need it in case an earlier element has higher layer eg 1
-		if (isDrawable) {
-			sb.append("\t<layer ");
-			sb.append("val=\"" + layer + "\"");
-			sb.append("/>\n");
-		}
-
-		if (isDefaultGeo()) {
-			sb.append("\t<autocolor ");
-			sb.append("val=\"" + isAutoColor() + "\"");
-			sb.append("/>\n");
-		}
-
-		if (withLabelOffset && ((labelOffsetX != 0) || (labelOffsetY != 0))) {
-			sb.append("\t<labelOffset");
-			sb.append(" x=\"");
-			sb.append(labelOffsetX);
-			sb.append("\"");
-			sb.append(" y=\"");
-			sb.append(labelOffsetY);
-			sb.append("\"");
-			sb.append("/>\n");
-		}
-
-		if (isDrawable()) {
-			sb.append("\t<labelMode");
-			sb.append(" val=\"");
-			sb.append(labelMode);
-			sb.append("\"");
-			sb.append("/>\n");
-
-			if (tooltipMode != TOOLTIP_ALGEBRAVIEW_SHOWING) {
-				sb.append("\t<tooltipMode");
-				sb.append(" val=\"");
-				sb.append(tooltipMode);
-				sb.append("\"");
-				sb.append("/>\n");
-			}
-		}
-
-		// trace on or off
-		if (isTraceable()) {
-			final Traceable t = (Traceable) this;
-			if (t.getTrace()) {
-				sb.append("\t<trace val=\"true\"/>\n");
-			}
-		}
-
-		// G.Sturr 2010-5-29
-		// Get spreadsheet trace XML from the trace manager
-
-		// trace to spreadsheet
-		if (kernel.getApplication().isUsingFullGui() && isSpreadsheetTraceable()
-				&& getSpreadsheetTrace()) {
-			sb.append(kernel.getApplication().getTraceXML(this));// sb.append(null)?
-		}
-
-		/*
-		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
-		 * GeoPoint2 p = (GeoPoint2) this; if (p.getSpreadsheetTrace()) {
-		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
-		 */
-		// END G.Sturr
-
-		// decoration type
-		if (decorationType != DECORATION_NONE) {
-			sb.append("\t<decoration");
-			sb.append(" type=\"");
-			sb.append(decorationType);
-			sb.append("\"/>\n");
-		}
-
-	}
 
 	/**
 	 * @param sb
@@ -6299,16 +6122,19 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	private String getShowObjectConditionXML() {
+	/**
+	 * Append show condition tag
+	 * 
+	 * @param sb
+	 *            string builder for XML
+	 */
+	void getShowObjectConditionXML(StringBuilder sb) {
 		if (condShowObject != null && kernel.getSaveScriptsToXML()) {
-			final StringBuilder sb = new StringBuilder();
 			sb.append("\t<condition showObject=\"");
 			StringUtil.encodeXML(sb,
 					condShowObject.getLabel(StringTemplate.xmlTemplate));
 			sb.append("\"/>\n");
-			return sb.toString();
 		}
-		return "";
 	}
 
 	@Override
@@ -7850,6 +7676,12 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
+	/**
+	 * @return whether this is visible in plane
+	 */
+	public VisibleInView getVisibleInViewForPlane() {
+		return visibleInViewForPlane;
+	}
 	/**
 	 * 
 	 * @return true if visible in view for plane

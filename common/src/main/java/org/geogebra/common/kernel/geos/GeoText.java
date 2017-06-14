@@ -619,7 +619,7 @@ public class GeoText extends GeoElement
 	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-		getXMLvisualTags(sb, false);
+		XMLBuilder.getXMLvisualTags(this, sb, false);
 
 		getXMLfixedTag(sb);
 

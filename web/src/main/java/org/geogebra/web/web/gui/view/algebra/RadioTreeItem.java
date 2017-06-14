@@ -566,7 +566,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (app.has(Feature.AV_ITEM_DESIGN)) {
 			addControls();
 			controls.reposition();
-			controls.updateSuggestions(previewGeo);
+			controls.updateSuggestions(geo == null ? previewGeo : geo);
 		}
 
 	}

@@ -261,7 +261,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		sb.append(value);
 		sb.append("\"/>\n");
 
-		getXMLvisualTags(sb, isIndependent());
+		XMLBuilder.getXMLvisualTags(this, sb, isIndependent());
 		getXMLfixedTag(sb);
 		getAuxiliaryXML(sb);
 		getBreakpointXML(sb);

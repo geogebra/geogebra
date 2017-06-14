@@ -1,0 +1,185 @@
+package org.geogebra.common.kernel.geos;
+
+import org.geogebra.common.main.App;
+
+public class XMLBuilder {
+	/**
+	 * Appends visual tags to string builder
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param withLabelOffset
+	 *            true to include label offsets
+	 */
+	protected static final void getXMLvisualTags(GeoElement geo,
+			final StringBuilder sb, final boolean withLabelOffset) {
+		final boolean isDrawable = geo.isDrawable();
+
+		// show object and/or label in EuclidianView
+		// don't save this for simple dependent numbers (e.g. in spreadsheet)
+		if (isDrawable) {
+			sb.append("\t<show");
+			sb.append(" object=\"");
+			sb.append(geo.isSetEuclidianVisible());
+			sb.append("\"");
+			sb.append(" label=\"");
+			sb.append(geo.getLabelVisible());
+			sb.append("\"");
+
+			// default:
+			// showing in EV1
+			// hidden in EV2
+			int EVs = 0;
+
+			if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN)) {
+				// bit 0 is opposite to bit 1
+				// 0 = showing
+				// 1 = hidden
+				EVs += 1; // bit 0
+			}
+
+			if (geo.isVisibleInView(App.VIEW_EUCLIDIAN2)) {
+				// 0 = hidden
+				// 2 = showing
+				EVs += 2; // bit 1
+			}
+
+			if (geo.hasDrawable3D()) {
+				switch (geo.visibleInView3D) {
+				case TRUE:
+					EVs += 4;
+					break;
+				case FALSE:
+					EVs += 8; // we have to store it to distinguish from not set
+					break;
+				case NOT_SET:
+					break;
+				}
+
+				switch (geo.getVisibleInViewForPlane()) {
+				case TRUE:
+					EVs += 16;
+					break;
+				case FALSE:
+					EVs += 32; // we have to store it to distinguish from not
+								// set
+					break;
+				case NOT_SET:
+					break;
+				}
+			}
+
+			if (EVs != 0) {
+				sb.append(" ev=\"");
+				sb.append(EVs);
+				sb.append("\"");
+			}
+
+			sb.append("/>\n");
+		}
+
+		if (geo.getShowTrimmedIntersectionLines()) {
+			sb.append("\t<showTrimmed val=\"true\"/>\n");
+		}
+
+		// conditional visibility
+		geo.getShowObjectConditionXML(sb);
+
+		// if (isDrawable) removed - want to be able to color objects in
+		// AlgebraView, Spreadsheet
+
+		geo.appendObjectColorXML(sb);
+
+		if (geo.bgColor != null) {
+			sb.append("\t<bgColor");
+			sb.append(" r=\"");
+			sb.append(geo.bgColor.getRed());
+			sb.append("\"");
+			sb.append(" g=\"");
+			sb.append(geo.bgColor.getGreen());
+			sb.append("\"");
+			sb.append(" b=\"");
+			sb.append(geo.bgColor.getBlue());
+			sb.append("\"");
+			sb.append(" alpha=\"");
+			sb.append(geo.bgColor.getAlpha());
+			sb.append("\"/>\n");
+		}
+
+		// don't remove layer 0 information
+		// we always need it in case an earlier element has higher layer eg 1
+		if (isDrawable) {
+			sb.append("\t<layer ");
+			sb.append("val=\"" + geo.getLayer() + "\"");
+			sb.append("/>\n");
+		}
+
+		if (geo.isDefaultGeo()) {
+			sb.append("\t<autocolor ");
+			sb.append("val=\"" + geo.isAutoColor() + "\"");
+			sb.append("/>\n");
+		}
+
+		if (withLabelOffset
+				&& ((geo.labelOffsetX != 0) || (geo.labelOffsetY != 0))) {
+			sb.append("\t<labelOffset");
+			sb.append(" x=\"");
+			sb.append(geo.labelOffsetX);
+			sb.append("\"");
+			sb.append(" y=\"");
+			sb.append(geo.labelOffsetY);
+			sb.append("\"");
+			sb.append("/>\n");
+		}
+
+		if (geo.isDrawable()) {
+			sb.append("\t<labelMode");
+			sb.append(" val=\"");
+			sb.append(geo.labelMode);
+			sb.append("\"");
+			sb.append("/>\n");
+
+			if (geo.getTooltipMode() != GeoElement.TOOLTIP_ALGEBRAVIEW_SHOWING) {
+				sb.append("\t<tooltipMode");
+				sb.append(" val=\"");
+				sb.append(geo.getTooltipMode());
+				sb.append("\"");
+				sb.append("/>\n");
+			}
+		}
+
+		// trace on or off
+		if (geo.isTraceable()) {
+			final Traceable t = (Traceable) geo;
+			if (t.getTrace()) {
+				sb.append("\t<trace val=\"true\"/>\n");
+			}
+		}
+
+		// G.Sturr 2010-5-29
+		// Get spreadsheet trace XML from the trace manager
+
+		// trace to spreadsheet
+		if (geo.getKernel().getApplication().isUsingFullGui()
+				&& geo.isSpreadsheetTraceable()
+				&& geo.getSpreadsheetTrace()) {
+			sb.append(geo.getKernel().getApplication().getTraceXML(geo));// sb.append(null)?
+		}
+
+		/*
+		 * --- old version // trace to spreadsheet on or off if (isGeoPoint()) {
+		 * GeoPoint2 p = (GeoPoint2) this; if (p.getSpreadsheetTrace()) {
+		 * sb.append("\t<spreadsheetTrace val=\"true\"/>\n"); } }
+		 */
+		// END G.Sturr
+
+		// decoration type
+		if (geo.getDecorationType() != GeoElement.DECORATION_NONE) {
+			sb.append("\t<decoration");
+			sb.append(" type=\"");
+			sb.append(geo.getDecorationType());
+			sb.append("\"/>\n");
+		}
+
+	}
+}

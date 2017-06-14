@@ -3611,12 +3611,16 @@ public class Construction {
 		return companion.is3D();
 	}
 
-	public ConstructionElement getPrevious(ConstructionElement ce) {
+	public GeoElementND getPrevious(ConstructionElement ce1) {
+		ConstructionElement ce = ce1.isGeoElement()
+				&& !ce1.isInConstructionList()
+				? ((GeoElement) ce1).getParentAlgorithm() : ce1;
+
 		int idx = ceList.indexOf(ce);
 		if (idx >= 1) {
-			return ceList.get(idx - 1);
+			return ceList.get(idx - 1).getGeoElements()[0];
 		}
-		if (idx < 0) {
+		if (idx < 0 && ce != null && ce != getLastGeoElement()) {
 			return getLastGeoElement();
 		}
 		return null;

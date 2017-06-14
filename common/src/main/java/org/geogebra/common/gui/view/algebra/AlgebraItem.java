@@ -84,7 +84,8 @@ public class AlgebraItem {
 			if (vars.length == 2) {
 				ConstructionElement prev = geo;
 				do {
-					prev = geo.getConstruction().getPrevious(prev);
+					prev = (ConstructionElement) geo.getConstruction()
+							.getPrevious(prev);
 					if (prev instanceof EquationValue && subset(
 							((EquationValue) prev).getEquationVariables(),
 							vars)) {
