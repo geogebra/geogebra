@@ -598,7 +598,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return !app.has(Feature.DYNAMIC_STYLEBAR)
 				|| (!isDynamicStylebar()
 						&& !(this.getView() instanceof EuclidianView3D))
-				|| !app.isWhiteboardActive();
+				|| !app.isWhiteboardActive() && !app.has(Feature.SWITCH_FLAG);
 	}
 	
 	protected boolean isDynamicStylebar(){
