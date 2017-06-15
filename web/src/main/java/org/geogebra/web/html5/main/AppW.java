@@ -1844,9 +1844,6 @@ public abstract class AppW extends App implements SetLabels {
 		// reset mode and focus
 		set1rstMode();
 
-		if (euclidianView.isShowing()) {
-			requestFocusInWindow();
-		}
 	}
 
 	/**
@@ -1854,12 +1851,6 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void updateContentPane() {
 		updateContentPane(true);
-	}
-
-	protected void requestFocusInWindow() {
-		if (!articleElement.preventFocus()) {
-			euclidianView.requestFocusInWindow();
-		}
 	}
 
 	/**

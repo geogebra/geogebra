@@ -113,9 +113,7 @@ public class AppWsimple extends AppW {
 		if (frame.splash != null) {
 			frame.splash.canNowHide();
 		}
-		if (!articleElement.preventFocus()) {
-			requestFocusInWindow();
-		}
+
 		setDefaultCursor();
 		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);
 		GeoGebraProfiler.getInstance().profileEnd();

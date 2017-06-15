@@ -430,9 +430,6 @@ public class AppWapplet extends AppWFull {
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
 		frame.splash.canNowHide();
-		if (!articleElement.preventFocus()) {
-			requestFocusInWindow();
-		}
 
 		if (isUsingFullGui()) {
 			if (needsSpreadsheetTableModel()) {
