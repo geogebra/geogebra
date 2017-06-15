@@ -521,7 +521,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		if (!app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar()
-				|| !app.isWhiteboardActive()) {
+				|| !app.isWhiteboardActive() && !app.has(Feature.SWITCH_FLAG)) {
 			addMenuButton();
 		}
 
