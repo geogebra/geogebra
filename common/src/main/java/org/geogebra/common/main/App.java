@@ -4318,6 +4318,9 @@ public abstract class App implements UpdateSelection {
 		case SELECT_TOOL:
 			return prerelease;
 
+		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
+			return prerelease;
+
 		/*
 		 * Used for: dynamic stylebar will be added for version which use the
 		 * new toolbar

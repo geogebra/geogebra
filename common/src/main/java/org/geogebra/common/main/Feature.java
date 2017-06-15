@@ -213,6 +213,9 @@ public enum Feature {
 	SWITCH_FLAG,
 
 	/** GGB-1868 */
-	SELECT_TOOL
+	SELECT_TOOL,
+
+	/** AND-174 */
+	AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION
 
 }

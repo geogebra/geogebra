@@ -77,8 +77,16 @@ public abstract class AuthenticationModel extends BaseModel {
 	public void onLoginError(GeoGebraTubeUser user) {
 		this.stayLoggedOut = false;
 		if (getLoginToken() != null) {
-			clearLoginToken();
+			clearLoginTokenForLogginError();
 		}
+	}
+
+
+	/**
+	 * override this method if another behaviour needed
+	 */
+	public void clearLoginTokenForLogginError() {
+		clearLoginToken();
 	}
 
 	/**
