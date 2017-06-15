@@ -304,7 +304,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		Iterator<GeoElement> it = Qin.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isChangeable()) {
+			if (geo.isPointerChangeable()) {
 				inSet.add(geo);
 			}
 		}
