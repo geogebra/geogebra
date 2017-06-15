@@ -1732,6 +1732,14 @@ public class ExpressionNode extends ValidExpression
 		case IMPLICATION:
 			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<implies/>", leftStr, rightStr);
+			} else if (stringType.equals(StringType.GIAC)) {
+				// (not A) || B
+				sb.append("((!(");
+				sb.append(leftStr);
+				sb.append("))||(");
+				sb.append(rightStr);
+				sb.append("))");
+
 			} else {
 
 				tpl.append(sb, leftStr, left, operation);
