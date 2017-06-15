@@ -237,7 +237,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_DIGITS T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,$3);}
 	| T_DIGITS T_BEGIN_PAR T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen(vecteur(0),_SEQ__VECT));}
 	| exp TI_STO T_DIGITS	{$$ = symbolic(*$3._FUNCptr,$1);}
-	| exp T_TEST_EQUAL exp	{$$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
+	| exp T_TEST_EQUAL exp	{if (is_inequation($1)){ $$ = symb_and($1,symbolic(*$2._FUNCptr,gen(makevecteur($1._SYMBptr->feuille[1],$3),_SEQ__VECT)));} else $$ = symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT));}
 	| exp T_TEST_EQUAL symbol T_TEST_EQUAL exp	{$$ = symb_and(symbolic(*$2._FUNCptr,gen(makevecteur($1,$3),_SEQ__VECT)),symbolic(*$4._FUNCptr,gen(makevecteur($3,$5),_SEQ__VECT)));}
 	| exp T_EQUAL exp	        {$$ = symbolic(*$2._FUNCptr,makesequence($1,$3)); }
 	| T_EQUAL exp %prec T_BIDON { 

@@ -38,7 +38,8 @@ namespace giac {
   std::string gen2mathml(const gen & e,GIAC_CONTEXT);
   std::string gen2mathml(const gen & e, std::string &svg,GIAC_CONTEXT);
   std::string gen2svg(const gen &e,GIAC_CONTEXT);
-  std::string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT);
+  //std::string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT);
+  std::string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT);
   std::string svg_preamble(double width_cm, double height_cm,bool xml=true);
   std::string svg_preamble(double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml);
   std::string svg_grid();

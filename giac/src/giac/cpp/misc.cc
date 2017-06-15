@@ -7474,6 +7474,18 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       gen periode; vecteur asym,parab,crit,inflex;
       periodic=step_func(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,false,exactlegende,contextptr,do_inflex);
     }
+    // round floats in tvi
+    for (int i=0;i<int(tvi.size());++i){
+      gen tmp=tvi[i];
+      if (tmp.type==_VECT){
+	vecteur v=*tmp._VECTptr;
+	for (int j=0;j<int(v.size());++j){
+	  if (v[j].type==_DOUBLE_)
+	    v[j]=_round(makesequence(v[j],3),contextptr);
+	}
+	tvi[i]=gen(v,tmp.subtype);
+      }
+    }
     if (periodic==0)
       return undef;
     if (return_tabvar)

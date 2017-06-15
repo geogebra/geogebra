@@ -7935,6 +7935,14 @@ namespace giac {
 	  return symbolic(ae?at_superieur_strict:at_superieur_egal,makesequence(f._VECTptr->back(),f._VECTptr->front()));
 	}
       }
+      if (a.is_symb_of_sommet(at_and)){
+	gen f=_not(a._SYMBptr->feuille,context0);
+	return symbolic(at_ou,f);
+      }
+      if (a.is_symb_of_sommet(at_ou)){
+	gen f=_not(a._SYMBptr->feuille,context0);
+	return symbolic(at_and,f);
+      }
       return symb_not(a);
     }
   }
@@ -15208,14 +15216,17 @@ namespace giac {
 	  window_ymin=yc-gratio*xscale/2;
 	  window_ymax=yc+gratio*xscale/2;
 	}
+	ratio=gratio;
 	ortho=false;
       }
       overwrite_viewbox(g,window_xmin,window_xmax,window_ymin,window_ymax,window_zmin,window_zmax);
+      xscale=window_xmax-window_xmin;yscale=window_ymax-window_ymin;
+      ratio=yscale/xscale;
       //COUT << window_xmin << " " << window_xmax << " " << window_ymin << " " << window_ymax << endl;
       //g=_symetrie(makesequence(_droite(makesequence(0,1),&C),g),&C);
       //S='"'+svg_preamble(7,7,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,ortho,false)+gen2svg(g,&C)+svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax)+"</svg>\"";
       S='"'+svg_preamble(gwidth,gwidth*gratio,window_xmin,window_xmax,window_ymin,window_ymax,ortho,false);
-      S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,&C)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
+      S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,ratio/gratio,&C)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
       return S.c_str();
     }
 #endif // EMCC

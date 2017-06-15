@@ -2269,6 +2269,8 @@ namespace giac {
 
   vecteur solvepreprocess(const gen & args,bool complexmode,GIAC_CONTEXT){
     gen g(args);
+    if (g.is_symb_of_sommet(at_and) && g._SYMBptr->feuille.type==_VECT)
+      g=makesequence(*g._SYMBptr->feuille._VECTptr,vx_var);
     if (g.type==_VECT && !g._VECTptr->empty() && g._VECTptr->front().is_symb_of_sommet(at_and)){
       vecteur v(*g._VECTptr);
       v.front()=remove_and(v.front(),at_and);

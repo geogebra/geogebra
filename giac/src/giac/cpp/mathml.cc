@@ -66,6 +66,7 @@ namespace giac {
   const double svg_epaisseur1=200; // thickness=(xmax-xmin)/svg_epaisseur1
 
   struct svg_attribut {
+    double ysurx;
     int color;
     int width;
     int epaisseur_point;
@@ -865,7 +866,42 @@ namespace giac {
       + im(A,contextptr).print(contextptr)+"\" x2=\""
       + re(B,contextptr).print(contextptr)+"\" y2=\""
       + im(B,contextptr).print(contextptr)+"\"/>\n";
+    //CERR << s << endl;
     s = s+svg_text(B,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    return s;
+  }
+
+  static string svg_vecteur(gen A, gen B, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    string s;
+    // gen thickness((xmax+ymax-xmin-ymin)/svg_epaisseur1);
+    s = svg_segment(A,B,attr,legende,xmin,xmax,ymin,ymax,contextptr);
+    gen Ax,Ay,Bx,By;
+    reim(A,Ax,Ay,contextptr);
+    reim(B,Bx,By,contextptr); 
+    Ax=evalf_double(Ax,1,contextptr); Bx=evalf_double(Bx,1,contextptr);
+    Ay=evalf_double(Ay,1,contextptr); By=evalf_double(By,1,contextptr);
+    if (Ax.type==_DOUBLE_ && Bx.type==_DOUBLE_ && Ay.type==_DOUBLE_ && By.type==_DOUBLE_){
+      double dx=Ax._DOUBLE_val-Bx._DOUBLE_val,dy=Ay._DOUBLE_val-By._DOUBLE_val;
+      double dxy=std::sqrt(dx*dx+dy/attr.ysurx*dy/attr.ysurx);
+      if (dxy){
+	dxy =dxy/(std::min(5.0,dxy/10.0)+std::max(1.0,double(attr.width)));
+	dx = dx/dxy;
+	dy = dy/dxy;
+	dxy = std::min(xmax-xmin,ymax-ymin)/70.0;
+	dx = dx*dxy;
+	dy = dy*dxy;
+	double dxp=-dy/attr.ysurx,dyp=dx*attr.ysurx; // apparent perpendicular
+	dx = dx*std::sqrt(3.0);
+	dy = dy*std::sqrt(3.0);
+	//CERR << "step3 " << dx << " " << dxp << " " << dx+dxp << " " << dy << endl;
+	double dx1=dx+dxp,dx2=dx-dxp,dy1=dy+dyp,dy2=dy-dyp;
+	gen C=B+gen(dx1,dy1);
+	gen D=B+gen(dx2,dy2);
+	//CERR << C << " " << D << endl;
+	s += svg_segment(B,C,attr,"",xmin,xmax,ymin,ymax,contextptr);
+	s += svg_segment(B,D,attr,"",xmin,xmax,ymin,ymax,contextptr);
+      }
+    }
     return s;
   }
 
@@ -999,7 +1035,7 @@ namespace giac {
   }
 
 
-  static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT);
+  static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT);
 
   //fonction appelee ssi v est un vecteur
   static string vect2svg(gen v, svg_attribut attr, string name,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
@@ -1010,12 +1046,12 @@ namespace giac {
 	return vect2svg(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr);
       }
       if (v[0].type==_SYMB)
-	return symbolic2svg(*v[0]._SYMBptr,xmin,xmax,ymin,ymax,contextptr);
+	return symbolic2svg(*v[0]._SYMBptr,xmin,xmax,ymin,ymax,attr.ysurx,contextptr);
     }
     if (v.subtype==_GROUP__VECT || v._VECTptr->size()>2)
       return svg_polyline(v, attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_VECTOR__VECT)
-      return svg_segment(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
+      return svg_vecteur(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_LINE__VECT)
       return svg_line(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
     if (v.subtype==_HALFLINE__VECT)
@@ -1027,7 +1063,7 @@ namespace giac {
 #include <emscripten.h>
 #endif
 
-  static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
+  static string symbolic2svg(const symbolic & mys,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT){ 
     int color=default_color(contextptr);
     string name="";
     if (mys.sommet==at_pnt){ 
@@ -1067,7 +1103,7 @@ namespace giac {
 	    return 0;
 	});
 #endif
-      svg_attribut attr={color,width+1,epaisseur_point,type_line,type_point,fill_polygon,hidden_name,ie};
+      svg_attribut attr={ysurx,color,width+1,epaisseur_point,type_line,type_point,fill_polygon,hidden_name,ie};
       if(v.size()==3)
 	name=v[2].print(contextptr);
       if (v[0].type==_VECT){
@@ -1078,11 +1114,18 @@ namespace giac {
       if (v[0].type==_SYMB){ 
 	symbolic figure=*v[0]._SYMBptr; 
 	if (figure.sommet == at_curve){
-	  gen curve=figure.feuille;
-	  return svg_bezier_curve(curve[1],attr,name,xmin,xmax,ymin,ymax,contextptr);
+	  //CERR << attr.ysurx << endl;
+	  gen curve=figure.feuille[1];
+	  string s;
+	  if (curve.type==_VECT && curve._VECTptr->size()>2){
+	    vecteur & v = *curve._VECTptr;
+	    s=svg_vecteur(v[v.size()/2],v[v.size()/2+1],attr,"",xmin,xmax,ymin,ymax,contextptr);
+	  }
+	  s=s+svg_bezier_curve(curve,attr,name,xmin,xmax,ymin,ymax,contextptr);
+	  return s;
 	}
 	if (figure.sommet == at_pnt)
-	  return symbolic2svg(figure,xmin,xmax,ymin,ymax,contextptr);
+	  return symbolic2svg(figure,xmin,xmax,ymin,ymax,attr.ysurx,contextptr);
 	if (figure.sommet==at_segment || figure.sommet==at_vector){
 	  gen segment=figure.feuille;
 	  return svg_segment(segment[0],segment[1], attr, name,xmin,xmax,ymin,ymax,contextptr); 
@@ -1115,9 +1158,9 @@ namespace giac {
   }
 
 
-  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT){
     if (e.type== _SYMB)
-      return symbolic2svg(*e._SYMBptr,xmin,xmax,ymin,ymax,contextptr);
+      return symbolic2svg(*e._SYMBptr,xmin,xmax,ymin,ymax,ysurx,contextptr);
     if (e.type==_VECT){
       string s;
       vecteur v=*e._VECTptr;
@@ -1125,18 +1168,21 @@ namespace giac {
 	if (v[i].type==_SYMB){
 	  symbolic sym=*v[i]._SYMBptr; 
 	  if (sym.sommet==at_pnt)
-	    s=s+symbolic2svg(sym,xmin,xmax,ymin,ymax,contextptr);
+	    s=s+symbolic2svg(sym,xmin,xmax,ymin,ymax,ysurx,contextptr);
 	}
 	if (v[i].type==_VECT){
-	  s=s+gen2svg(v[i],xmin,xmax,ymin,ymax,contextptr);
+	  s=s+gen2svg(v[i],xmin,xmax,ymin,ymax,ysurx,contextptr);
 	}
       }
       return s;
     }
     return "error";
   }
+  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    return gen2svg(e,xmin,xmax,ymin,ymax,1.0,contextptr);
+  }
   string gen2svg(const gen &e,GIAC_CONTEXT){
-    return gen2svg(e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,contextptr);
+    return gen2svg(e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,1.0,contextptr);
   }
   gen _svg(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1160,7 +1206,7 @@ namespace giac {
     if (opstring!="/" && (mys.sommet.ptr()->texprint || mys.sommet==at_different))  
       return mathml_print(mys,contextptr);
     if (mys.sommet==at_pnt) { 
-      svg=svg+symbolic2svg(mys,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,contextptr);
+      svg=svg+symbolic2svg(mys,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,1.0,contextptr);
       return "<mtext>"+mys.print(contextptr)+"</mtext>";
     }
     gen tmp,value;
