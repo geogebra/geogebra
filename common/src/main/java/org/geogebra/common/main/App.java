@@ -4222,7 +4222,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case CONTEXT_MENU:
-			return prerelease && whiteboard;
+			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));
 
 		case DYNAMIC_STYLEBAR:
 			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));

@@ -103,7 +103,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			title = loc.getMenu("Selection");
 		}
 		setTitle(title);
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if ((isWhiteboard() && !app.has(Feature.NEW_TOOLBAR))
+				|| app.has(Feature.SWITCH_FLAG)) {
 			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
 		} else if (app.has(Feature.NEW_TOOLBAR)) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
