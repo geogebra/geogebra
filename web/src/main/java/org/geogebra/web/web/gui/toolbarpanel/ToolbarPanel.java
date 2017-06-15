@@ -209,8 +209,8 @@ public class ToolbarPanel extends FlowPanel {
 						setClosedByUser(false);
 					}
 
-					setOpen(!isOpen());
 					getFrame().showKeyBoard(false, null, true);
+					setOpen(!isOpen());
 
 				}
 			});
