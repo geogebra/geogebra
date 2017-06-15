@@ -1974,6 +1974,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append("neg ");
 				break;
 
+			case GIAC:
+				sb.append("!");
+				sb.append(leftBracket());
+				sb.append(leftStr);
+				sb.append(rightBracket());
+				return sb.toString();
+
 			default:
 				sb.append(strNOT);
 			}
