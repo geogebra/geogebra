@@ -480,8 +480,7 @@ public class ToolbarPanel extends FlowPanel {
 		@Override
 		public void onResize() {
 			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
-					ToolbarPanel.this.getOffsetHeight()
-							- header.getOffsetHeight());
+					ToolbarPanel.this.getOffsetHeight());
 		}
 	}
 
@@ -527,8 +526,7 @@ public class ToolbarPanel extends FlowPanel {
 
 		@Override
 		public void onResize() {
-			setWidth(ToolbarPanel.this.getOffsetWidth() + "px");
-
+			super.onResize();
 			if (aview != null) {
 				aview.resize();
 			}
@@ -825,8 +823,8 @@ public class ToolbarPanel extends FlowPanel {
 			doOpen();
 		}
 		// main.clear();
-		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
 		resize();
+		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
 	}
 
 	/**
