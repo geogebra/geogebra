@@ -250,6 +250,8 @@ public class TabbedKeyboard extends FlowPanel {
 
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), bh);
 		tabs.add(keyboard);
+		// more butto must be first because of float (Firefox)
+		switcher.addMoreButton();
 		switcher.addSwitch(keyboard, "123");
 
 		keyboard = buildPanel(kbf.createFunctionsKeyboard(), bh);
@@ -271,7 +273,7 @@ public class TabbedKeyboard extends FlowPanel {
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		
-		switcher.addMoreButton();
+
 
 		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
 		switcher.setSelected(0, true);
