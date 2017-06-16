@@ -685,6 +685,7 @@ public class ToolbarPanel extends FlowPanel {
 				dockParent.addStyleName("hide-HDragger");
 				opposite.addStyleName("hiddenHDraggerRightPanel");
 			}
+			dockParent.animate(500);
 			dockPanel.deferredOnResize();
 		}
 
