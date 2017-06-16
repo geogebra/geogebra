@@ -246,4 +246,8 @@ public enum KeyCodes {
 
 	}
 
+	public int getJavaKeyCode() {
+		return javaKey;
+	}
+
 }

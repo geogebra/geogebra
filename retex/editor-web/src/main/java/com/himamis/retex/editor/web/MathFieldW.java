@@ -64,6 +64,7 @@ import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -251,7 +252,7 @@ public class MathFieldW implements MathField, IsWidget {
 					event.preventDefault();
 					return;
 				}
-				int code = fixCode(event.getNativeEvent());
+				int code = convertToGWTKeyCode(event.getNativeEvent());
 				keyListener.onKeyReleased(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -273,7 +274,7 @@ public class MathFieldW implements MathField, IsWidget {
 					leftAltDown = true;
 				}
 
-				int code = fixCode(event.getNativeEvent());
+				int code = convertToGWTKeyCode(event.getNativeEvent());
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
@@ -348,29 +349,11 @@ public class MathFieldW implements MathField, IsWidget {
 		return checkCode(nativeEvent, "AltLeft");
 	}
 
-	protected int fixCode(NativeEvent evt) {
-		if (evt.getKeyCode() == 46) {
-			return JavaKeyCodes.VK_DELETE;
-		}
-		if (evt.getKeyCode() == 44) {
-			return JavaKeyCodes.VK_DELETE;
-		}
-		if (checkNativeKey(evt, "[")) {
-			return JavaKeyCodes.VK_OPEN_BRACKET;
-		}
-		if (checkNativeKey(evt, "{")) {
-			return JavaKeyCodes.VK_OPEN_BRACKET;
-		}
-		// KeyEvent.VK_OPEN_PAREN was set to the code for "9"
-		// so removed
-		// if (checkNativeKey(evt, "(")) {
-		// return KeyEvent.VK_OPEN_PAREN;
-		// }
+	private int convertToGWTKeyCode(NativeEvent evt) {
 
+		KeyCodes keyCode = KeyCodes.translateGWTcode(evt.getKeyCode());
 
-
-		return evt.getKeyCode();
-
+		return keyCode.getJavaKeyCode();
 	}
 
 	protected int getModifiers(
