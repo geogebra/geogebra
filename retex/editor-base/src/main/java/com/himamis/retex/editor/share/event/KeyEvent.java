@@ -119,6 +119,17 @@ public class KeyEvent {
 	public static final int VK_Y = 0x59;
 	public static final int VK_Z = 0x5A;
 
+	public static final int VK_NUMPAD0 = 0x60;
+	public static final int VK_NUMPAD1 = 0x61;
+	public static final int VK_NUMPAD2 = 0x62;
+	public static final int VK_NUMPAD3 = 0x63;
+	public static final int VK_NUMPAD4 = 0x64;
+	public static final int VK_NUMPAD5 = 0x65;
+	public static final int VK_NUMPAD6 = 0x66;
+	public static final int VK_NUMPAD7 = 0x67;
+	public static final int VK_NUMPAD8 = 0x68;
+	public static final int VK_NUMPAD9 = 0x69;
+
 	/**
 	 * Constant for the open bracket key, "["
 	 */

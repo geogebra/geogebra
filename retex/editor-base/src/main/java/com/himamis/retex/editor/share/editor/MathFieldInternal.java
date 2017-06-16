@@ -228,7 +228,16 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		boolean alt = (keyEvent.getKeyModifiers() & KeyEvent.ALT_MASK) > 0
 				&& (keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) == 0;
 		if (alt) {
-			String str = listener.alt(keyEvent.getKeyCode(),
+
+			int keyCode = keyEvent.getKeyCode();
+
+			// eg Alt-94 for ^ with NumLock On
+			if (keyCode >= KeyEvent.VK_NUMPAD0
+					&& keyCode <= KeyEvent.VK_NUMPAD9) {
+				return false;
+			}
+
+			String str = listener.alt(keyCode,
 					(keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
 			for (int i = 0; str != null && i < str.length(); i++) {
 				keyListener.onKeyTyped(str.charAt(i));
