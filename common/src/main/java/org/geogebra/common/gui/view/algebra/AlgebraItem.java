@@ -2,16 +2,12 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.algos.AlgorithmSet;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
-import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Unicode;
 
@@ -77,27 +73,10 @@ public class AlgebraItem {
 	}
 
 	public static Suggestion getSuggestions(GeoElement geo) {
-		if (geo.getKernel().getApplication().has(Feature.INPUT_BAR_SOLVE) && !hasDependentAlgo(geo)) {
-			if (geo instanceof EquationValue) {
-				String[] vars = ((EquationValue) geo).getEquationVariables();
-				if (vars.length == 1) {
-					return new SuggestionSolve(geo.getLabelSimple());
-				}
-				if (vars.length == 2) {
-					GeoElementND prev = geo;
-					do {
-						prev = geo.getConstruction()
-								.getPrevious(prev);
-						if (prev instanceof EquationValue && subset(
-								((EquationValue) prev).getEquationVariables(),
-								vars)) {
-							return new SuggestionSolve(
-									prev.getLabelSimple(),
-									geo.getLabelSimple());
-						}
-					} while (prev != null);
-				}
-				return null;
+		if (geo.getKernel().getApplication().has(Feature.INPUT_BAR_SOLVE)) {
+			Suggestion sug = SuggestionSolve.get(geo);
+			if (sug != null) {
+				return sug;
 			}
 
 			if (geo instanceof GeoFunction) {
@@ -112,33 +91,9 @@ public class AlgebraItem {
 		return null;
 	}
 
-	private static boolean hasDependentAlgo(GeoElement geo) {
-		AlgorithmSet set = geo.getAlgoUpdateSet();
-		for (AlgoElement algo : set) {
-			if (algo != null && (algo.getClassName() == Commands.Solve
-					|| algo.getClassName() == Commands.NSolve)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
-	public static boolean subset(String[] testSet,
-			String[] superset) {
-		if (testSet.length < 1) {
-			return false;
-		}
-		for (String check : testSet) {
-			boolean found = false;
-			for (String compare : superset) {
-				found |= compare.equals(check);
-			}
-			if (!found) {
-				return false;
-			}
-		}
-		return true;
-	}
+
+
 
 	public static String getSymbolicPrefix(Kernel kernel) {
 		return kernel.getLocalization().rightToLeftReadingOrder
