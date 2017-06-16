@@ -56,17 +56,17 @@ public class KeyListenerAdapter implements View.OnKeyListener {
     private static int getKeyCode(int nativeKeyCode) {
         switch (nativeKeyCode) {
             case KeyEvent.KEYCODE_DEL:
-                return com.himamis.retex.editor.share.event.KeyEvent.VK_BACK_SPACE;
+                return com.himamis.retex.editor.share.util.JavaKeyCodes.VK_BACK_SPACE;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                return com.himamis.retex.editor.share.event.KeyEvent.VK_LEFT;
+                return com.himamis.retex.editor.share.util.JavaKeyCodes.VK_LEFT;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                return com.himamis.retex.editor.share.event.KeyEvent.VK_RIGHT;
+                return com.himamis.retex.editor.share.util.JavaKeyCodes.VK_RIGHT;
             case KeyEvent.KEYCODE_DPAD_UP:
-                return com.himamis.retex.editor.share.event.KeyEvent.VK_UP;
+                return com.himamis.retex.editor.share.util.JavaKeyCodes.VK_UP;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                return com.himamis.retex.editor.share.event.KeyEvent.VK_DOWN;
+                return com.himamis.retex.editor.share.util.JavaKeyCodes.VK_DOWN;
             case KeyEvent.KEYCODE_ENTER:
-                return com.himamis.retex.editor.share.event.KeyEvent.VK_ENTER;
+                return com.himamis.retex.editor.share.util.JavaKeyCodes.VK_ENTER;
         }
         return 0;
     }
