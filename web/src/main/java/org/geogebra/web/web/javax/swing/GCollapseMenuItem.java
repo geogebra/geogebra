@@ -115,6 +115,7 @@ public class GCollapseMenuItem {
 	public void collapse() {
 		expanded = false;
 		for (MenuItem mi : items) {
+			mi.removeStyleName("gwt-MenuItem");
 			mi.addStyleName("collapsed");
 			mi.removeStyleName("expanded");
 		}
@@ -126,6 +127,7 @@ public class GCollapseMenuItem {
 	public void expand() {
 		expanded = true;
 		for (MenuItem mi : items) {
+			mi.addStyleName("gwt-MenuItem");
 			mi.addStyleName("expanded");
 			mi.removeStyleName("collapsed");
 		}

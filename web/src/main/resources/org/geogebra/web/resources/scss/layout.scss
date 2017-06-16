@@ -121,22 +121,51 @@
 		display: inline-block;
 	}	
 	
-	
+$collapse-trans: max-height 0.3s ease;
+
 	.expanded {
-		display: inline-block;	
-		
-		.checkMarkMenuItem {
-			
+		max-height: 32px;
+		height: 32px;		
+		transition: $collapse-trans; 
+			.checkMarkMenuItem {
+				max-height: 32px;
+				transition: $collapse-trans;
 			.gwt-HTML {
     			position: relative;
     			left: -24px;
 			}	
 		}
+		
+	}
+
+	.expanded >* {
+		max-height: 32px;
+		height: 32px;
+		transition: $collapse-trans; 
 	}
 	
 	.collapsed {
-		display: none;
+		padding: 0px 16px 0px 64px;
+		max-height: 0px;
+		height: 0px;
+		overflow: hidden;
+		transition: $collapse-trans;
+	
+			.checkMarkMenuItem {
+			transition: $collapse-trans;
+			overflow: hidden;
+			max-height: 0px;
+			img  {
+				max-height: 0px;
+		}	
 	}
-  }
+	
+	}
+	.collapsed >*{
+		max-height: 0px;
+		overflow: hidden;
+		transition: $collapse-trans;
+	} 
+ }
   
  
