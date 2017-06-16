@@ -406,6 +406,28 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void testBoolean() {
+		t("true" + Unicode.XOR + "true", "false");
+		t("true" + Unicode.XOR + "false", "true");
+		t("false" + Unicode.XOR + "true", "true");
+		t("false" + Unicode.XOR + "false", "false");
+		t("true" + Unicode.IMPLIES + "true", "true");
+		t("true" + Unicode.IMPLIES + "false", "false");
+		t("false" + Unicode.IMPLIES + "true", "true");
+		t("false" + Unicode.IMPLIES + "false", "true");
+		t("true" + Unicode.OR + "true", "true");
+		t("true" + Unicode.OR + "false", "true");
+		t("false" + Unicode.OR + "true", "true");
+		t("false" + Unicode.OR + "false", "false");
+		t("true" + Unicode.AND + "true", "true");
+		t("true" + Unicode.AND + "false", "false");
+		t("false" + Unicode.AND + "true", "false");
+		t("false" + Unicode.AND + "false", "false");
+		t(Unicode.NOT + "true", "false");
+		t(Unicode.NOT + "false", "true");
+	}
+
+	@Test
 	public void cmdSequence() {
 		t("Sequence[ 4 ]", "{1, 2, 3, 4}");
 		t("Sequence[ 3.2, 7.999 ]", "{3, 4, 5, 6, 7, 8}");

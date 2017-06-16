@@ -51,11 +51,11 @@ public class ParserTest {
 
 	@Test
 	public void testExceptions() {
-		shouldBeExcption("1.2.3", "MyError");
-		shouldBeExcption("1+", "ParseException");
-		shouldBeExcption("-", "ParseException");
-		shouldBeExcption("(", "BracketsError");
-		shouldBeExcption("{-", "BracketsError");
+		shouldBeException("1.2.3", "MyError");
+		shouldBeException("1+", "ParseException");
+		shouldBeException("-", "ParseException");
+		shouldBeException("(", "BracketsError");
+		shouldBeException("{-", "BracketsError");
 	}
 
 	@Test
@@ -91,7 +91,7 @@ public class ParserTest {
 
 	}
 
-	private void shouldBeExcption(String string, String exceptionClass) {
+	private void shouldBeException(String string, String exceptionClass) {
 		Throwable p = null;
 		try{
 			parseExpression(string);
