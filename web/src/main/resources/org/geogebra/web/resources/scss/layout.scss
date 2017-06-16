@@ -121,7 +121,7 @@
 		display: inline-block;
 	}	
 	
-$collapse-trans: max-height 0.3s ease;
+$collapse-trans: all 0.3s ease;
 
 	.expanded {
 		max-height: 32px;
