@@ -60,9 +60,11 @@ import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.algos.TableAlgo;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -8660,6 +8662,13 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public boolean needToShowBothRowsInAV() {
+		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
+				&& this instanceof EquationValue
+				&& (this.getParentAlgorithm() == null
+						|| this.getParentAlgorithm()
+								.getClassName() == Algos.Expression)) {
+			return false;
+		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ("".equals(def0)) {
 			return false;

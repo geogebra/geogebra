@@ -348,8 +348,7 @@ public class RadioTreeItem extends AVTreeItem
 				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
-
-		String text = geo1.getLaTeXAlgebraDescription(true,
+		String text = geo1.getLaTeXAlgebraDescription(singleRowIsValue(),
 				StringTemplate.latexTemplate);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {
@@ -361,6 +360,11 @@ public class RadioTreeItem extends AVTreeItem
 
 
 
+
+	private boolean singleRowIsValue() {
+		return kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
+				|| !app.has(Feature.AV_ITEM_DESIGN);
+	}
 
 	private void buildPlainTextItem() {
 		if (geo.isIndependent() && geo.getDefinition() == null) {
@@ -525,53 +529,57 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void previewValue(GeoElement previewGeo) {
 		if ((!previewGeo.needToShowBothRowsInAV()
-				|| getController().isInputAsText())
-				&& needsSuggestions(previewGeo) == null) {
+				|| getController().isInputAsText())) {
 			clearPreview();
-			return;
-		}
-		content.removeStyleName("noPreview");
-		content.addStyleName("avPreview");
-		boolean forceLatex = false;
-		if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
-				|| previewGeo.isGeoFunctionBoolean()) {
-			forceLatex = true;
-		}
 
-		InputHelper.updateSymbolicMode(previewGeo);
+		} else {
+			content.removeStyleName("noPreview");
+			content.addStyleName("avPreview");
+			boolean forceLatex = false;
+			if (previewGeo.isGeoFunction() || previewGeo.isGeoFunctionNVar()
+					|| previewGeo.isGeoFunctionBoolean()) {
+				forceLatex = true;
+			}
 
-		createDVPanels();
-		content.addStyleName("avPreview");
-		plainTextItem.clear();
-		plainTextItem.add(outputPanel);
-		outputPanel.reset();
+			InputHelper.updateSymbolicMode(previewGeo);
 
-		IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-		previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
-		String plain = sb.toString();
+			createDVPanels();
+			content.addStyleName("avPreview");
+			plainTextItem.clear();
+			plainTextItem.add(outputPanel);
+			outputPanel.reset();
 
-		String text = previewGeo
-				.getAlgebraDescription(StringTemplate.latexTemplate)
-				.replace("undefined", "").trim();
-		if (!StringUtil.empty(text)
-				&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
-			text = text.substring(1);
-		}
-		if (!plain.equals(text) || forceLatex) {
-			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
-		}
-		outputPanel
-				.addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel), latex);
+			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+			previewGeo.getAlgebraDescriptionTextOrHTMLDefault(sb);
+			String plain = sb.toString();
 
-		outputPanel.addValuePanel();
+			String text = previewGeo
+					.getAlgebraDescription(StringTemplate.latexTemplate)
+					.replace("undefined", "").trim();
+			if (!StringUtil.empty(text)
+					&& (text.charAt(0) == ':' || text.charAt(0) == '=')) {
+				text = text.substring(1);
+			}
+			if (!plain.equals(text) || forceLatex) {
+				outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
+			}
+			outputPanel.addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel),
+					latex);
 
-		if (content.getWidgetIndex(plainTextItem) == -1) {
-			content.add(plainTextItem);
+			outputPanel.addValuePanel();
+
+			if (content.getWidgetIndex(plainTextItem) == -1) {
+				content.add(plainTextItem);
+			}
 		}
 		if (app.has(Feature.AV_ITEM_DESIGN)) {
-			addControls();
-			controls.reposition();
-			controls.updateSuggestions(geo == null ? previewGeo : geo);
+			if (needsSuggestions(previewGeo) != null) {
+				addControls();
+				controls.reposition();
+				controls.updateSuggestions(geo == null ? previewGeo : geo);
+			} else if (controls != null) {
+				controls.updateSuggestions(geo == null ? previewGeo : geo);
+			}
 		}
 
 	}
@@ -580,7 +588,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
-				true);
+				singleRowIsValue());
 		latex = text != null;
 
 
