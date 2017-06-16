@@ -68,8 +68,8 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("{{1}}", 1);
 		checkRows("{{a}}", 2);
 		checkRows("{{a}}+{{1}}", 2);
-		checkRows("{x=y}", 2);
-		checkRows("x=y", 2);
+		checkRows("{x=y}", 1);
+		checkRows("x=y", 1);
 		checkRows("{y=x}", 1);
 		checkRows("Sequence[100]", 2);
 
