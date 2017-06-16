@@ -4328,6 +4328,9 @@ public abstract class App implements UpdateSelection {
 		case SWITCH_FLAG:
 			return prerelease && has(Feature.NEW_TOOLBAR);
 
+		case MOB_INPUT_BAR_SOLVE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
