@@ -2,8 +2,7 @@ package org.geogebra.common.io.latex;
 
 import java.util.HashMap;
 
-import org.geogebra.common.util.lang.Unicode;
-
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;

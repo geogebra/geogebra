@@ -36,7 +36,8 @@ import org.geogebra.common.util.Prover.NDGCondition;
 import org.geogebra.common.util.Prover.ProofResult;
 import org.geogebra.common.util.Prover.ProverEngine;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Algo for the ProveDetails command.

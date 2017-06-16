@@ -6,7 +6,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Arrays of special strings and unicode symbols used when building tables and

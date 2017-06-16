@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.inputfield.FieldHandler;
@@ -21,6 +20,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.TextArea;
 import com.himamis.retex.editor.share.util.AltKeys;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /** Class for future syntax highlighting, line numbering and so on. */
 public class ScriptArea extends TextArea

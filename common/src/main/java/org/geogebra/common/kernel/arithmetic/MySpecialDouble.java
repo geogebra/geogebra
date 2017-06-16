@@ -18,7 +18,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * MyDouble that returns a certain string in toString(). This is used for

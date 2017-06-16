@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.inputfield.FieldHandler;
@@ -15,6 +14,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.himamis.retex.editor.share.util.Unicode;
 
 // Later this shall inherit from MyTextField instead of TextBox
 

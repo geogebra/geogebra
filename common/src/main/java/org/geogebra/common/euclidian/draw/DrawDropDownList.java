@@ -40,9 +40,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.lang.Unicode;
 
 import com.google.j2objc.annotations.WeakOuter;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Draw a GeoList containing drawable objects

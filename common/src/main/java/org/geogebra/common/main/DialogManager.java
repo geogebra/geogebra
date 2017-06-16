@@ -41,7 +41,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public abstract class DialogManager {

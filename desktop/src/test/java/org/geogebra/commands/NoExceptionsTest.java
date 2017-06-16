@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.io.XmlTest;
@@ -20,6 +19,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class NoExceptionsTest {
 	static AppDNoGui app;

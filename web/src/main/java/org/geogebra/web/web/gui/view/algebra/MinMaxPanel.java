@@ -8,8 +8,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GWTKeycodes;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
 import org.geogebra.web.web.gui.view.algebra.SliderTreeItemInterface.CancelListener;
@@ -28,6 +26,8 @@ import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.Label;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Min/max setting for slider

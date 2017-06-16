@@ -48,12 +48,13 @@ import org.geogebra.common.main.settings.KeyboardSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.main.MyResourceBundle;
 import org.geogebra.desktop.util.GuiResourcesD;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author Michael Borcherds (based loosely on

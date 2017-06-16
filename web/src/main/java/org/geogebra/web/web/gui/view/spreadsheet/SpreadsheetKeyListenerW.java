@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -17,6 +16,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

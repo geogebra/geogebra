@@ -7,7 +7,6 @@ import org.geogebra.common.gui.inputfield.DynamicTextElement.DynamicTextType;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GFontW;
@@ -36,6 +35,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Extension of RichTextArea for editing GeoText strings with dynamic references

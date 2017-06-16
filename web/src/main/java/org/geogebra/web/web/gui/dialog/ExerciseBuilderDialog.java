@@ -14,7 +14,6 @@ import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.BoolAssignment;
 import org.geogebra.common.util.Exercise;
@@ -42,6 +41,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Dialog for editing an {@link Exercise}

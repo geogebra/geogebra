@@ -44,7 +44,8 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Class to handle probability calculations and to maintain the fields

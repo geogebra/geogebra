@@ -3,7 +3,6 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -15,6 +14,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web implementation of the Relation Tool information window.

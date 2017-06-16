@@ -1,8 +1,9 @@
 package org.geogebra.io;
 
 import org.geogebra.common.io.MathMLParser;
-import org.geogebra.common.util.lang.Unicode;
 import org.junit.Test;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class MathMLTest {
 	private static String[] mathmlTest = {

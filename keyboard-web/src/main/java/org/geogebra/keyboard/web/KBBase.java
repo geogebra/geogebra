@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -17,6 +16,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * on screen keyboard containing mathematical symbols and formulas

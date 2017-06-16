@@ -31,7 +31,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.MyMathExact.MyDecimal;
 import org.geogebra.common.util.MyMathExact.MyDecimalMatrix;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author Tam

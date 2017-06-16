@@ -13,7 +13,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -26,6 +25,7 @@ import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
 
 import com.google.gwt.user.client.ui.MenuItem;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web implementation of FileMenu

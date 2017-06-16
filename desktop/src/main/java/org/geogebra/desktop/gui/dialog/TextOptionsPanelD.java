@@ -29,9 +29,10 @@ import org.geogebra.common.gui.inputfield.DynamicTextElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD.TextEditPanel;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * panel to select the size of a GeoText

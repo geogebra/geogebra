@@ -27,10 +27,11 @@ import javax.swing.JScrollPane;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.gui.menubar.LanguageActionListener;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Dialog to select language

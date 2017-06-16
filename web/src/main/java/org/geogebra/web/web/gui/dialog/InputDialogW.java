@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GDialogBox;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -34,6 +33,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class InputDialogW extends InputDialog implements ClickHandler,
 		SetLabels, KeyUpHandler, KeyPressHandler {

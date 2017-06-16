@@ -28,6 +28,8 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.KeyCodes;
+
 /**
  * Handles keyboard events. This class only dispatches
  */

@@ -1,4 +1,4 @@
-package org.geogebra.common.main;
+package com.himamis.retex.editor.share.util;
 
 @SuppressWarnings("javadoc")
 public class JavaKeyCodes {

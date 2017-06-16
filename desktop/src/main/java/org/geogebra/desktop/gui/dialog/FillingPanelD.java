@@ -46,7 +46,6 @@ import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
@@ -57,6 +56,8 @@ import org.geogebra.desktop.gui.view.spreadsheet.MyTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * panel to select the filling of a polygon or conic section

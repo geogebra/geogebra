@@ -1,7 +1,6 @@
 package org.geogebra.common.io.latex;
 
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.lang.Unicode;
 
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
@@ -11,6 +10,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.Serializer;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Serializes internal formulas representation into GeoGebra string

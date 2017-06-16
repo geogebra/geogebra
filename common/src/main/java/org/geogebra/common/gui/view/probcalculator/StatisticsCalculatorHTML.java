@@ -2,7 +2,8 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * @author G. Sturr

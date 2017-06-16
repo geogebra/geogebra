@@ -1,6 +1,6 @@
 package org.geogebra.keyboard.web;
 
-import org.geogebra.common.util.lang.Unicode;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Contains Strings which are used for the {@link KeyBoardButtonBase buttons} of

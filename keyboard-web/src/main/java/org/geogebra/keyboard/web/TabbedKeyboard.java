@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.keyboard.base.Keyboard;
@@ -25,6 +24,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class TabbedKeyboard extends FlowPanel {
 	private static final int TAB_NUMBERS = 0;

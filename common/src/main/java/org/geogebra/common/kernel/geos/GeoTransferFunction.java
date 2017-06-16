@@ -18,8 +18,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.common.util.mathIT.Complex;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Class for transfer function (see linear time-invariant system) not for all

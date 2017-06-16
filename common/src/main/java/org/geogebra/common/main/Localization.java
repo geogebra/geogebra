@@ -9,7 +9,8 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class Localization {
 

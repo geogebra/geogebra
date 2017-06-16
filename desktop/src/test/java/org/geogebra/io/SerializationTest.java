@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -17,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.gwt.regexp.shared.RegExp;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class SerializationTest {
 	static AppDNoGui app;

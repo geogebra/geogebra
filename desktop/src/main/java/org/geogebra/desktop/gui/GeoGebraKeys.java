@@ -7,10 +7,10 @@ import javax.swing.text.JTextComponent;
 
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.editor.share.util.AltKeys;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /*
  * Michael Borcherds

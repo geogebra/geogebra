@@ -79,7 +79,6 @@ import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialog;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -91,6 +90,8 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.util.GuiResourcesD;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {

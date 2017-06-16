@@ -3,7 +3,8 @@ package org.geogebra.common.gui.view.spreadsheet;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.lang.Unicode;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 public interface SpreadsheetViewInterface extends View {
 

@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.util.lang.Unicode;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * String constants + String types

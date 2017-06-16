@@ -2,7 +2,6 @@ package org.geogebra.web.html5.gui.inputfield;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.main.GWTKeycodes;
 import org.geogebra.web.html5.gui.GPopupPanel;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
@@ -13,6 +12,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Panel;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 public class HistoryPopupW extends GPopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {

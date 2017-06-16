@@ -5,7 +5,7 @@ package org.geogebra.common.io;
 
 import java.util.HashMap;
 
-import org.geogebra.common.util.lang.Unicode;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Apache 2.0 Licence

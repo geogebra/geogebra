@@ -20,7 +20,6 @@ import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.SensorLogger.Types;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -50,6 +49,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  *

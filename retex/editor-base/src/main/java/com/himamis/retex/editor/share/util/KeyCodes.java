@@ -1,6 +1,4 @@
-package org.geogebra.common.main;
-
-import org.geogebra.common.util.debug.Log;
+package com.himamis.retex.editor.share.util;
 
 @SuppressWarnings("javadoc")
 public enum KeyCodes {
@@ -231,7 +229,7 @@ public enum KeyCodes {
 			// Log.debug(gwtKeyCode);
 		}
 
-		Log.warn("GWT keycode not found:" + gwtKeyCode);
+		// Log.warn("GWT keycode not found:" + gwtKeyCode);
 		return UNKNOWN;
 
 	}
@@ -243,7 +241,7 @@ public enum KeyCodes {
 			}
 		}
 
-		Log.warn("Java keycode not found:" + javaKeyCode);
+		// Log.warn("Java keycode not found:" + javaKeyCode);
 		return UNKNOWN;
 
 	}

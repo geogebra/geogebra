@@ -28,11 +28,12 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
-import org.geogebra.common.util.lang.Unicode;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * The "Options" menu.
