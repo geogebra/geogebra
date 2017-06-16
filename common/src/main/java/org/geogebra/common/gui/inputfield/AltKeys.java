@@ -2,7 +2,6 @@ package org.geogebra.common.gui.inputfield;
 
 import java.util.HashMap;
 
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.util.lang.Unicode;
 
 public class AltKeys {
@@ -56,11 +55,11 @@ public class AltKeys {
 		lookupLower.put('6', Unicode.Superscript_6 + "");
 		lookupLower.put('7', Unicode.Superscript_7 + "");
 		lookupLower.put('8', Unicode.Superscript_8 + "");
-		lookupUpper.put('8', ExpressionNodeConstants.strVECTORPRODUCT);
+		lookupUpper.put('8', Unicode.VECTOR_PRODUCT + "");
 		lookupLower.put('9', Unicode.Superscript_9 + "");
 
-		lookupUpper.put('*', ExpressionNodeConstants.strVECTORPRODUCT);
-		lookupLower.put('*', ExpressionNodeConstants.strVECTORPRODUCT);
+		lookupUpper.put('*', Unicode.VECTOR_PRODUCT + "");
+		lookupLower.put('*', Unicode.VECTOR_PRODUCT + "");
 
 		lookupUpper.put('+', Unicode.XOR);
 		lookupLower.put('+', Unicode.XOR);
@@ -96,9 +95,9 @@ public class AltKeys {
 
 			// on Chrome 18 (Win 7), Alt-Keypad* gives character 106
 			lookupUpper.put((char) 106,
-					ExpressionNodeConstants.strVECTORPRODUCT);
+					Unicode.VECTOR_PRODUCT + "");
 			lookupLower.put((char) 106,
-					ExpressionNodeConstants.strVECTORPRODUCT);
+					Unicode.VECTOR_PRODUCT + "");
 
 			// on Chrome, Alt-Keypad+ gives character 107
 			lookupUpper.put((char) 107, Unicode.PLUSMINUS);
