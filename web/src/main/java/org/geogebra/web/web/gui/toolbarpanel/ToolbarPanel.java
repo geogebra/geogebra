@@ -25,6 +25,9 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.layout.client.Layout;
+import com.google.gwt.layout.client.Layout.AnimationCallback;
+import com.google.gwt.layout.client.Layout.Layer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -670,22 +673,34 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
-		DockSplitPaneW dockParent = dockPanel != null ? dockPanel.getParentSplitPane() : null;
+		final DockSplitPaneW dockParent = dockPanel != null
+				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && getLastOpenWidth() != null) {
-			Widget opposite = dockParent.getOpposite(dockPanel);
+			final Widget opposite = dockParent.getOpposite(dockPanel);
+			AnimationCallback animCallback = null;
 			if (header.isOpen()) {
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
 				dockParent.removeStyleName("hide-HDragger");
 				opposite.removeStyleName("hiddenHDraggerRightPanel");
 			} else {
-
 				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
-				dockParent.addStyleName("hide-HDragger");
-				opposite.addStyleName("hiddenHDraggerRightPanel");
+				animCallback = new Layout.AnimationCallback() {
+
+					public void onLayout(Layer layer, double progress) {
+						// TODO Auto-generated method stub
+
+					}
+
+					public void onAnimationComplete() {
+						dockParent.addStyleName("hide-HDragger");
+						opposite.addStyleName("hiddenHDraggerRightPanel");
+					}
+				};
+
 			}
-			dockParent.animate(500);
+			dockParent.animate(500, animCallback);
 			dockPanel.deferredOnResize();
 		}
 
