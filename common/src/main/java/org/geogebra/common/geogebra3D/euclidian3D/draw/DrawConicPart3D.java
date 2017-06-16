@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
@@ -43,6 +44,16 @@ public class DrawConicPart3D extends DrawConic3D {
 
 		updateSectorSegments(brush, start, start + extent);
 	}
+	
+	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
+	
+	private void createTmpCoordsIfNeeded() {
+		if (tmpCoords1 == null) {
+			tmpCoords1 = new Coords(3);
+			tmpCoords2 = new Coords(3);
+			tmpCoords3 = new Coords(3);
+		}
+	}
 
 	private void updateSectorSegments(PlotterBrush brush, double start,
 			double end) {
@@ -51,10 +62,15 @@ public class DrawConicPart3D extends DrawConic3D {
 		if (((GeoConicPartND) getGeoElement())
 				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
 			brush.setAffineTexture(0.5f, 0.25f);
-			brush.segment(m, m.add(ev1.mul(e1 * Math.cos(start)))
-					.add(ev2.mul(e2 * Math.sin(start))));
-			brush.segment(m, m.add(ev1.mul(e1 * Math.cos(end)))
-					.add(ev2.mul(e2 * Math.sin(end))));
+			createTmpCoordsIfNeeded();
+			brush.segment(m, tmpCoords1.setAdd3(
+					m, tmpCoords1.setAdd3(
+							tmpCoords2.setMul3(ev1, e1 * Math.cos(start)),
+							tmpCoords3.setMul3(ev2, e2 * Math.sin(start)))));
+			brush.segment(m, tmpCoords1.setAdd3(
+					m, tmpCoords1.setAdd3(
+							tmpCoords2.setMul3(ev1, e1 * Math.cos(end)),
+							tmpCoords3.setMul3(ev2, e2 * Math.sin(end)))));
 		}
 	}
 
@@ -66,13 +82,12 @@ public class DrawConicPart3D extends DrawConic3D {
 					((GeoConicPartND) conic).getSegmentEnd3D());
 		} else {
 			m = conic.getOrigin3D(0);
-			d = ((GeoConicPartND) conic).getSegmentEnd3D().sub(m);
+			createTmpCoordsIfNeeded();
+			d = tmpCoords2.setSub(((GeoConicPartND) conic).getSegmentEnd3D(), m);
 			minmax = getLineMinMax(0); // get min/max with current (m,d)
-
-			brush.segment(m, m.add(d.mul(minmax[0])));
-			brush.segment(((GeoConicPartND) conic).getSegmentEnd3D(),
-					m.add(d.mul(minmax[1])));
-
+			
+			brush.segment(m, tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])));
+			brush.segment(((GeoConicPartND) conic).getSegmentEnd3D(), tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[1])));
 		}
 	}
 

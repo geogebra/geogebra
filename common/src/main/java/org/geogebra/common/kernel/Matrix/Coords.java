@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.util.MyMath;
 
 /**
  * 
@@ -927,6 +928,7 @@ public class Coords {
 	}
 
 	/**
+	 * deprecated use distance3 instead
 	 * returns the distance between this and v
 	 * 
 	 * @param v
@@ -936,6 +938,18 @@ public class Coords {
 	public double distance(Coords v) {
 
 		return this.sub(v).norm();
+	}
+	
+	/**
+	 * returns the distance between this and v
+	 * 
+	 * @param v
+	 *            second vector
+	 * @return (this-v).norm()
+	 */
+	public double distance3(Coords v) {
+
+		return MyMath.length(val[0] - v.val[0], val[1] - v.val[1], val[2] - v.val[2]);
 	}
 
 	/**

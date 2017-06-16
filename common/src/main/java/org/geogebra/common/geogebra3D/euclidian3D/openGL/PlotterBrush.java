@@ -364,9 +364,9 @@ public class PlotterBrush implements PathPlotter {
 				.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			tmpCoords.setSub(p2, p1);
 			length = getNormInScreenCoords(tmpCoords);
-			lengthInScene = (float) p1.distance(p2);
+			lengthInScene = (float) p1.distance3(p2);
 		} else {
-			length = (float) p1.distance(p2);
+			length = (float) p1.distance3(p2);
 			lengthInScene = length;
 		}
 
