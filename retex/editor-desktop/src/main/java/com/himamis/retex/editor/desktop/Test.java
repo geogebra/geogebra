@@ -36,7 +36,6 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -76,7 +75,7 @@ public class Test  {
 
 			@Override
 			public String alt(int unicodeKeyChar, boolean shift) {
-				return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
+				return null;//AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
 			}
 
 			@Override
