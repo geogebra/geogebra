@@ -480,7 +480,7 @@ public class ToolbarPanel extends FlowPanel {
 		@Override
 		public void onResize() {
 			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
-					ToolbarPanel.this.getOffsetHeight());
+					ToolbarPanel.this.getOffsetHeight() - 56);
 		}
 	}
 
