@@ -73,7 +73,8 @@ public class AlgebraItem {
 	}
 
 	public static Suggestion getSuggestions(GeoElement geo) {
-		if (geo.getKernel().getApplication().has(Feature.INPUT_BAR_SOLVE)) {
+		if (geo != null && geo.getKernel().getApplication()
+				.has(Feature.INPUT_BAR_SOLVE)) {
 			Suggestion sug = SuggestionSolve.get(geo);
 			if (sug != null) {
 				return sug;

@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 
 public class SuggestionSolve extends Suggestion {
 	
@@ -22,7 +21,6 @@ public class SuggestionSolve extends Suggestion {
 	
 	@Override
 	public void execute(GeoElementND geo) {
-		Log.printStacktrace(geo.getLabelSimple());
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 				"Solve[" + getLabels(geo) + "]", true);
 	}
