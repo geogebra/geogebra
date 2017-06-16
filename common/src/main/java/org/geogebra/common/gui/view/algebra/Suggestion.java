@@ -1,9 +1,10 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
-public class Suggestion {
+abstract public class Suggestion {
 	private String[] labels;
 
 	public Suggestion(String... labels) {
@@ -17,4 +18,9 @@ public class Suggestion {
 		return labels.length == 1 ? labels[0]
 				: "{" + StringUtil.join(", ", labels) + "}";
 	}
+	
+	abstract public String getCommand(Localization loc);
+	
+	abstract public void execute(GeoElementND geo);
+	
 }

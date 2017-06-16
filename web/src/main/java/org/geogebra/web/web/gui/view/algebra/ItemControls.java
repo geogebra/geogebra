@@ -248,10 +248,9 @@ public class ItemControls extends FlowPanel {
 		Suggestion sug = radioTreeItem.needsSuggestions(geo);
 		if (sug != null && geo != null) {
 			if (suggestionBar == null) {
-				suggestionBar = new SuggestionBar(
-						radioTreeItem.loc, radioTreeItem);
+				suggestionBar = new SuggestionBar(radioTreeItem);
 			}
-			suggestionBar.setSuggestion(sug);
+			suggestionBar.setSuggestion(sug, radioTreeItem.loc);
 			add(suggestionBar);
 			radioTreeItem.getApplication().getKernel().getGeoGebraCAS()
 					.initCurrentCAS();

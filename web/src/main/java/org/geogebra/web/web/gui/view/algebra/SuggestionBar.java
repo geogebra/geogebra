@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class SuggestionBar extends FlowPanel {
 	private Suggestion suggestion;
+	private Label label;
 
 	/**
 	 * @param loc
@@ -24,20 +25,19 @@ public class SuggestionBar extends FlowPanel {
 	 * @param parentItem
 	 *            parent tree item
 	 */
-	public SuggestionBar(Localization loc,
-			final RadioTreeItem parentItem) {
+	public SuggestionBar(final RadioTreeItem parentItem) {
 		addStyleName("suggestionBar");
-		Label solve = new Label(loc.getCommand("Solve"));
-		solve.addStyleName("suggestionButton");
-		add(solve);
-		ClickStartHandler.init(solve, new ClickStartHandler() {
+		label = new Label();
+		label.addStyleName("suggestionButton");
+		add(label);
+		ClickStartHandler.init(label, new ClickStartHandler() {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				AsyncOperation<GeoElementND> run = new AsyncOperation<GeoElementND>() {
 					@Override
 					public void callback(GeoElementND geo) {
-						executeSuggestion(geo);
+						suggestion.execute(geo);
 					}
 				};
 				parentItem.runAfterGeoCreated(run);
@@ -49,23 +49,12 @@ public class SuggestionBar extends FlowPanel {
 	}
 
 	/**
-	 * Run this suggestion
-	 * 
-	 * @param geo
-	 *            newly created geo
-	 */
-	void executeSuggestion(GeoElementND geo) {
-		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				"Solve[" + suggestion.getLabels(geo) + "]", true);
-
-	}
-
-	/**
 	 * @param suggestion
 	 *            suggestion
 	 */
-	public void setSuggestion(Suggestion suggestion) {
+	public void setSuggestion(Suggestion suggestion, Localization loc) {
 		this.suggestion = suggestion;
+		label.setText(suggestion.getCommand(loc));
 	}
 
 }

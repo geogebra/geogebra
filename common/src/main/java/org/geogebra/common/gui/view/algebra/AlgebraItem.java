@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -76,28 +77,38 @@ public class AlgebraItem {
 	}
 
 	public static Suggestion getSuggestions(GeoElement geo) {
-		 if(geo instanceof EquationValue && geo.getKernel().getApplication()
-				.has(Feature.INPUT_BAR_SOLVE)
-				&& !hasDependentAlgo(geo)) {
-			String[] vars = ((EquationValue) geo).getEquationVariables();
-			if (vars.length == 1) {
-				return new Suggestion(geo.getLabelSimple());
+		if (geo.getKernel().getApplication().has(Feature.INPUT_BAR_SOLVE) && !hasDependentAlgo(geo)) {
+			if (geo instanceof EquationValue) {
+				String[] vars = ((EquationValue) geo).getEquationVariables();
+				if (vars.length == 1) {
+					return new SuggestionSolve(geo.getLabelSimple());
+				}
+				if (vars.length == 2) {
+					GeoElementND prev = geo;
+					do {
+						prev = geo.getConstruction()
+								.getPrevious(prev);
+						if (prev instanceof EquationValue && subset(
+								((EquationValue) prev).getEquationVariables(),
+								vars)) {
+							return new SuggestionSolve(
+									prev.getLabelSimple(),
+									geo.getLabelSimple());
+						}
+					} while (prev != null);
+				}
+				return null;
 			}
-			if (vars.length == 2) {
-				GeoElementND prev = geo;
-				do {
-					prev = geo.getConstruction()
-							.getPrevious(prev);
-					if (prev instanceof EquationValue && subset(
-							((EquationValue) prev).getEquationVariables(),
-							vars)) {
-						return new Suggestion(
-								prev.getLabelSimple(),
-								geo.getLabelSimple());
-					}
-				} while (prev != null);
+
+			if (geo instanceof GeoFunction) {
+				GeoFunction geoFun = (GeoFunction) geo;
+				if (!geoFun.isBooleanFunction()) {
+					return new SuggestionRootExtremum(geo.getLabelSimple());
+				}
+				return null;
 			}
-		 }
+		}
+
 		return null;
 	}
 
