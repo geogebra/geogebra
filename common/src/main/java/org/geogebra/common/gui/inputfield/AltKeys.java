@@ -62,8 +62,8 @@ public class AltKeys {
 		lookupUpper.put('*', ExpressionNodeConstants.strVECTORPRODUCT);
 		lookupLower.put('*', ExpressionNodeConstants.strVECTORPRODUCT);
 
-		lookupUpper.put('+', Unicode.PLUSMINUS);
-		lookupLower.put('+', Unicode.PLUSMINUS);
+		lookupUpper.put('+', Unicode.XOR);
+		lookupLower.put('+', Unicode.XOR);
 
 		lookupUpper.put(Unicode.eGrave, "{"); // Italian keyboards
 		lookupLower.put(Unicode.eGrave, "["); // Italian keyboards
@@ -71,8 +71,8 @@ public class AltKeys {
 		lookupUpper.put(Unicode.eAcute, "{"); // Italian keyboards
 		lookupLower.put(Unicode.eAcute, "["); // Italian keyboards
 
-		lookupUpper.put('=', Unicode.NOTEQUAL);
-		lookupLower.put('=', Unicode.NOTEQUAL);
+		lookupUpper.put('=', Unicode.XOR);
+		lookupLower.put('=', Unicode.XOR);
 
 		lookupUpper.put('-', Unicode.Superscript_Minus + "");
 		lookupLower.put('-', Unicode.Superscript_Minus + "");

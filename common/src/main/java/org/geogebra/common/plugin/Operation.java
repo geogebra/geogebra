@@ -150,6 +150,28 @@ public enum Operation {
 					ExpressionNodeConstants.strOR);
 		}
 	},
+	XOR {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
+
+				BooleanValue a = ((BooleanValue) lt);
+				BooleanValue b = ((BooleanValue) rt);
+				boolean defined = a.isDefined() && b.isDefined();
+
+				MyBoolean bool = a.getMyBoolean();
+
+				bool.setValue(a.getBoolean() ^ b.getBoolean());
+				bool.setDefined(defined);
+
+				return bool;
+			}
+			return ev.illegalBinary(lt, rt, "IllegalBoolean",
+					ExpressionNodeConstants.strOR);
+		}
+	},
 	AND {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,

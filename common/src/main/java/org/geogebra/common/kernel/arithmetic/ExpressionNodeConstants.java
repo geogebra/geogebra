@@ -52,6 +52,8 @@ public interface ExpressionNodeConstants {
 	public static final String strIMPLIES = Unicode.IMPLIES;
 	/** or */
 	public static final String strOR = Unicode.OR;
+	/** or */
+	public static final String strXOR = Unicode.XOR;
 	/** less equal */
 	public static final String strLESS_EQUAL = Unicode.LESS_EQUAL + "";
 	/** greater equal */

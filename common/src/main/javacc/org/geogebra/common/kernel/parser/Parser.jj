@@ -233,6 +233,7 @@ TOKEN :  {
   | < OR:    ("||" | "\u2228" ) >
   | < AND:    ("&&" | "\u2227" ) >
   | < IMPLICATION:    ("->" | "\u2192") >
+  | < XOR:    ("\u22bb" | "\u2295") >
   | < SEQUENCE_OPERATOR:    ("\u2026") >
   | < EQUAL_BOOLEAN: ("==" | "\u225f" ) >
   | < NOT_EQUAL: ("!=" | "\u2260" | "<>" ) >
@@ -933,6 +934,12 @@ ExpressionValue COMPAREterm():
          }
        )   
      |  
+       (<XOR>  right = listopnode()
+       {            
+           result = new ExpressionNode(kernel, left, Operation.XOR, right);  
+         }
+       )   
+     |   
        (<IS_SUBSET_OF>  right = listopnode()
        {            
            result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF, right);  

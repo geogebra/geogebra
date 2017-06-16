@@ -2063,6 +2063,57 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 
+	/**
+	 * @param left
+	 *            left expression
+	 * @param right
+	 *            right expression
+	 * @param leftStr
+	 *            left string
+	 * @param rightStr
+	 *            right string
+	 * @return leftStr || rightStr for this string type
+	 */
+	public String xorString(ExpressionValue left, ExpressionValue right,
+			String leftStr, String rightStr) {
+		StringBuilder sb = new StringBuilder();
+
+		if (stringType.equals(StringType.CONTENT_MATHML)) {
+			MathmlTemplate.mathml(sb, "<xor/>", leftStr, rightStr);
+		} else if (stringType.equals(StringType.GIAC)) {
+			// !! to convert number -> boolean
+			// !!a != !!b
+			sb.append("(!!(");
+			sb.append(leftStr);
+			sb.append(")!=!!(");
+			sb.append(rightStr);
+			sb.append("))");
+		} else {
+			append(sb, leftStr, left, Operation.XOR);
+			sb.append(' ');
+
+			switch (stringType) {
+			case LATEX:
+				if (isInsertLineBreaks()) {
+					sb.append("\\-");
+				}
+				sb.append("\\vee");
+				break;
+			case LIBRE_OFFICE:
+				sb.append("xor");
+				break;
+
+			default:
+				sb.append(strXOR);
+			}
+
+			sb.append(' ');
+			append(sb, rightStr, right, Operation.XOR);
+			// sb.append(rightStr);
+		}
+		return sb.toString();
+	}
+
 	public String geqSign() {
 		switch (getStringType()) {
 		case LATEX:

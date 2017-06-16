@@ -112,6 +112,10 @@ public class Unicode {
 	public static final String NOT = "\u00ac";
 	public static final String AND = "\u2227";
 	public static final String OR = "\u2228";
+
+	/** circled plus, could also use \u22bb */
+	public static final String XOR = "\u2295";
+
 	public static final String PARALLEL = "\u2225";
 	public static final char PERPENDICULAR = '\u22a5';
 	public static final char IS_ELEMENT_OF = '\u2208';

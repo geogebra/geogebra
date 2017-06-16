@@ -1722,6 +1722,8 @@ public class ExpressionNode extends ValidExpression
 
 		case OR:
 			return tpl.orString(left, right, leftStr, rightStr);
+		case XOR:
+			return tpl.xorString(left, right, leftStr, rightStr);
 		case AND_INTERVAL:
 			return tpl.andIntervalString(left, right, leftStr, rightStr,
 					valueForm);
