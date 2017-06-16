@@ -368,6 +368,10 @@ public class MathFieldW implements MathField, IsWidget {
 		if (MathFieldW.checkCode(nativeEvent, "NumpadDecimal")) {
 			return '.';
 		}
+		// eg European keyboards, want . not ,
+		if (MathFieldW.checkCode(nativeEvent, "NumpadComma")) {
+			return '.';
+		}
 		return (char) nativeEvent.getCharCode();
 	}
 
