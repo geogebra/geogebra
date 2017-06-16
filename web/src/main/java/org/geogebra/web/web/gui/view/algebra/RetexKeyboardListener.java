@@ -1,10 +1,10 @@
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.gui.inputfield.AltKeys;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.user.client.ui.UIObject;
+import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.web.MathFieldW;
 
 /**
