@@ -6,6 +6,7 @@ import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.FunctionGroup;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
 
@@ -33,21 +34,22 @@ public class MathFieldProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_ENTER));
-		mf.getKeyListener().onKeyReleased(new KeyEvent(KeyEvent.VK_ENTER));
+		mf.getKeyListener().onKeyPressed(new KeyEvent(JavaKeyCodes.VK_ENTER));
+		mf.getKeyListener().onKeyReleased(new KeyEvent(JavaKeyCodes.VK_ENTER));
 
 	}
 
 	@Override
 	public void onBackSpace() {
-		mf.getKeyListener().onKeyPressed(new KeyEvent(KeyEvent.VK_BACK_SPACE));
+		mf.getKeyListener()
+				.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_BACK_SPACE));
 
 	}
 
 	@Override
 	public void onArrow(ArrowType type) {
-		int arrowType = type == ArrowType.left ? KeyEvent.VK_LEFT
-				: KeyEvent.VK_RIGHT;
+		int arrowType = type == ArrowType.left ? JavaKeyCodes.VK_LEFT
+				: JavaKeyCodes.VK_RIGHT;
 
 		mf.getKeyListener().onKeyPressed(new KeyEvent(arrowType));
 
@@ -61,7 +63,7 @@ public class MathFieldProcessing implements KeyboardListener {
 			mf.insertFunction("^");
 			type("2");
 			mf.getKeyListener().onKeyPressed(
-					new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
+					new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
 		} else if (Unicode.DIVIDE.equals(text)) {
 			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
@@ -78,12 +80,12 @@ public class MathFieldProcessing implements KeyboardListener {
 		} else if ("log_".equals(text)) {
 			type("log_");
 			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(KeyEvent.VK_RIGHT, 0, '\0'));
+					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
 			type("(");
 			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0, '\0'));
+					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
 			mf.getKeyListener()
-					.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0, '\0'));
+					.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0, '\0'));
 
 		} else {
 			if (text.contains("/") || text.contains("^")) {

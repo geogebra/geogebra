@@ -63,6 +63,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
@@ -255,7 +256,8 @@ public class MathFieldW implements MathField, IsWidget {
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
 				updateAltForKeyUp(event);
-				if (code == KeyEvent.VK_DELETE || code == KeyEvent.VK_ESCAPE) {
+				if (code == JavaKeyCodes.VK_DELETE
+						|| code == JavaKeyCodes.VK_ESCAPE) {
 					event.preventDefault();
 				}
 			}
@@ -280,7 +282,8 @@ public class MathFieldW implements MathField, IsWidget {
 				// also need killing.
 				// also kill events while left alt down: alt+e, alt+d working in
 				// browser
-				if (code == KeyEvent.VK_DELETE || code == KeyEvent.VK_ESCAPE
+				if (code == JavaKeyCodes.VK_DELETE
+						|| code == JavaKeyCodes.VK_ESCAPE
 						|| handled
 						|| leftAltDown) {
 					event.preventDefault();
@@ -347,20 +350,22 @@ public class MathFieldW implements MathField, IsWidget {
 
 	protected int fixCode(NativeEvent evt) {
 		if (evt.getKeyCode() == 46) {
-			return KeyEvent.VK_DELETE;
+			return JavaKeyCodes.VK_DELETE;
 		}
 		if (evt.getKeyCode() == 44) {
-			return KeyEvent.VK_DELETE;
+			return JavaKeyCodes.VK_DELETE;
 		}
 		if (checkNativeKey(evt, "[")) {
-			return KeyEvent.VK_OPEN_BRACKET;
+			return JavaKeyCodes.VK_OPEN_BRACKET;
 		}
 		if (checkNativeKey(evt, "{")) {
-			return KeyEvent.VK_OPEN_BRACKET;
+			return JavaKeyCodes.VK_OPEN_BRACKET;
 		}
-		if (checkNativeKey(evt, "(")) {
-			return KeyEvent.VK_OPEN_PAREN;
-		}
+		// KeyEvent.VK_OPEN_PAREN was set to the code for "9"
+		// so removed
+		// if (checkNativeKey(evt, "(")) {
+		// return KeyEvent.VK_OPEN_PAREN;
+		// }
 
 
 

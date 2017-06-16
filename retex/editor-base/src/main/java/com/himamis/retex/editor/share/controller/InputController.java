@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.editor.MathField;
-import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;
@@ -17,6 +16,7 @@ import com.himamis.retex.editor.share.model.MathComponent;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
 @SuppressWarnings("javadoc")
 public class InputController {
@@ -957,8 +957,8 @@ public class InputController {
 		boolean handled = false;
 		boolean allowFrac = createFrac && !editorState.isInsideQuotes();
 		// backspace, delete and escape are handled for key down
-		if (ch == KeyEvent.VK_BACK_SPACE || ch == KeyEvent.VK_DELETE
-				|| ch == KeyEvent.VK_ESCAPE) {
+		if (ch == JavaKeyCodes.VK_BACK_SPACE || ch == JavaKeyCodes.VK_DELETE
+				|| ch == JavaKeyCodes.VK_ESCAPE) {
 			return true;
 		}
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'

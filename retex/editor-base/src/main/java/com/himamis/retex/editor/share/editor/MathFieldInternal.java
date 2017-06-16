@@ -47,6 +47,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 
@@ -189,17 +190,17 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			arrow = true;
 			if (listener != null) {
 				listener.onCursorMove();
-				if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
+				if (keyEvent.getKeyCode() == JavaKeyCodes.VK_UP) {
 					listener.onUpKeyPressed();
-				} else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+				} else if (keyEvent.getKeyCode() == JavaKeyCodes.VK_DOWN) {
 					listener.onDownKeyPressed();
 				}
 			}
 		}
-		if (keyEvent.getKeyCode() == KeyEvent.VK_CONTROL) {
+		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_CONTROL) {
 			return false;
 		}
-		if (keyEvent.getKeyCode() == KeyEvent.VK_ESCAPE) {
+		if (keyEvent.getKeyCode() == JavaKeyCodes.VK_ESCAPE) {
 			if (listener != null && listener.onEscape()) {
 				return true;
 			}
@@ -232,8 +233,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			int keyCode = keyEvent.getKeyCode();
 
 			// eg Alt-94 for ^ with NumLock On
-			if (keyCode >= KeyEvent.VK_NUMPAD0
-					&& keyCode <= KeyEvent.VK_NUMPAD9) {
+			if (keyCode >= JavaKeyCodes.VK_NUMPAD0
+					&& keyCode <= JavaKeyCodes.VK_NUMPAD9) {
 				return false;
 			}
 

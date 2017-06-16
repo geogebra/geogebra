@@ -40,6 +40,7 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.AltKeys;
+import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -125,7 +126,7 @@ public class Test {
 			// insertString(mathField, "Plane[<7>,<7>]");
 			for (int i = 0; i < 1; i++) {
 				mathField.getInternal()
-						.onKeyPressed(new KeyEvent(KeyEvent.VK_LEFT, 0));
+						.onKeyPressed(new KeyEvent(JavaKeyCodes.VK_LEFT, 0));
 			}
 			mathField.getInternal().update();
 			/*
