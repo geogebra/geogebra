@@ -1,13 +1,51 @@
 package com.himamis.retex.editor.share.meta;
 
 public enum Tag {
-	CEIL("ceil"), FLOOR(
-			"floor"), SQUARE, REGULAR, CURLY, APOSTROPHES, LINE, MATRIX, CHAR,
+	CEIL("ceil"),
 
-	SUPERSCRIPT("^"), SUBSCRIPT("_"), FRAC("frac"), SQRT("sqrt"), NROOT(
-			"nroot"), PROD("prod"), INT("int"), LIM("lim"), APPLY, LOG2(
-					"log2"), LOG10(
-							"log10"), ABS("abs"), SUM("sum"), APPLY_SQUARE;
+	FLOOR("floor"),
+
+	SQUARE,
+
+	REGULAR,
+
+	CURLY,
+
+	APOSTROPHES,
+
+	LINE,
+
+	MATRIX,
+
+	CHAR,
+
+	SUPERSCRIPT("^"),
+
+	SUBSCRIPT("_"),
+
+	FRAC("frac"),
+
+	SQRT("sqrt"),
+
+	NROOT("nroot"),
+
+	PROD("prod"),
+
+	INT("int"),
+
+	LIM("lim"),
+
+	APPLY,
+
+	LOG2("log2"),
+
+	LOG10("log10"),
+
+	ABS("abs"),
+
+	SUM("sum"),
+
+	APPLY_SQUARE;
 
 	private final String key;
 
@@ -30,7 +68,7 @@ public enum Tag {
 		for (Tag tag : Tag.values())
 			if (casName.equals(tag.key)) {
 				return tag;
-		}
+			}
 
 		return null;
 	}
