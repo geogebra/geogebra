@@ -20,6 +20,10 @@ public class Character {
         return (character + "").matches("\\p{" + category + "}");
     }
 
+	/**
+	 * Character.isLetter() doesn't work in GWT, see
+	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
+	 */
     public static boolean isLetter(char c) {
         return (c >= '\u0041' && c <= '\u005a') || // upper case (A-Z)
                 (c >= '\u0061' && c <= '\u007a') || // lower case (a-z)
@@ -42,6 +46,10 @@ public class Character {
                 (c >= '\uffa1' && c <= '\uffdc');
     }
 
+	/**
+	 * Character.isLetterOrDigit() doesn't work in GWT, see
+	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
+	 */
     public static boolean isLetterOrDigit(char c) {
         return java.lang.Character.isDigit(c) || isLetter(c);
     }

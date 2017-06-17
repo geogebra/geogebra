@@ -18,7 +18,7 @@ import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class StringUtil {
+public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
 	 * @param data
@@ -677,18 +677,6 @@ public class StringUtil {
 		return ret.toString();
 	}
 
-	/**
-	 * Character.isLetterOrDigit() doesn't work in GWT, see
-	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
-	 */
-	public static boolean isLetterOrDigit(char c) {
-		if (isDigit(c)) {
-			return true;
-		}
-
-		return isLetter(c);
-	}
-
 	public static boolean isLetterOrDigitOrUnderscore(final char character) {
 		switch (character) {
 		case '_': // allow underscore as a valid letter in an autocompletion
@@ -753,39 +741,6 @@ public class StringUtil {
 			return true;
 		}
 
-		return false;
-	}
-
-	/**
-	 * Character.isLetter() doesn't work in GWT, see
-	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
-	 */
-	public static boolean isLetter(char c) {
-		// From Parser.jj, compatibility with internationalized Unicode
-		// characters
-		// TODO: Maybe this could be more efficient
-		if ((c >= '\u0041' && c <= '\u005a') || // upper case (A-Z)
-				(c >= '\u0061' && c <= '\u007a') || // lower case (a-z)
-				(c == '\u00b7') || // middle dot (for Catalan)
-				(c >= '\u00c0' && c <= '\u00d6') || // accentuated letters
-				(c >= '\u00d8' && c <= '\u00f6') || // accentuated letters
-				(c >= '\u00f8' && c <= '\u01bf') || // accentuated letters
-				(c >= '\u01c4' && c <= '\u02a8') || // accentuated letters
-				(c >= '\u0391' && c <= '\u03f3') || // Greek
-				(c >= '\u0401' && c <= '\u0481') || // Cyrillic
-				(c >= '\u0490' && c <= '\u04f9') || // Cyrillic
-				(c >= '\u0531' && c <= '\u1ffc') || // a lot of signs (Arabic,
-													// accentuated, ...)
-				(c >= '\u3041' && c <= '\u3357') || // Asian letters
-				(c >= '\u4e00' && c <= '\ud7a3') || // Asian letters
-				(c >= '\uf71d' && c <= '\ufa2d') || // Asian letters
-				(c >= '\ufb13' && c <= '\ufdfb') || // Armenian, Hebrew, Arabic
-				(c >= '\ufe80' && c <= '\ufefc') || // Arabic
-				(c >= '\uff66' && c <= '\uff9d') || // Katakana
-				(c >= '\uffa1' && c <= '\uffdc') // Hangul
-		) {
-			return true;
-		}
 		return false;
 	}
 
