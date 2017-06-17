@@ -3202,7 +3202,10 @@ public class GeoList extends GeoElement
 		return totalHeight;
 	}
 
-	public void setDrawable(boolean b) {
+	/**
+	 * Make sure this list can't be drawn
+	 */
+	public void setNotDrawable() {
 		isDrawable = false;
 	}
 

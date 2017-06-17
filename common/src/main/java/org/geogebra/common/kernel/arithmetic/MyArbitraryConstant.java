@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Arbitrary constant comming from native CAS
@@ -98,7 +97,6 @@ public class MyArbitraryConstant {
 	 */
 	protected GeoNumeric nextConst(ArrayList<GeoNumeric> consts2,
 			Map<Integer, GeoNumeric> map, String prefix, double index) {
-		Log.printStacktrace("x" + this.blocking);
 		Integer indexInt = Integer.valueOf((int) Math.round(index));
 		GeoNumeric found = map.get(indexInt);
 		if (found != null) {

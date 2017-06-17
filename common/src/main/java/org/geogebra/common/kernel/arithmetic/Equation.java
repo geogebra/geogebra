@@ -842,4 +842,21 @@ public class Equation extends ValidExpression implements EquationValue {
 		return new String[0];
 	}
 
+	/**
+	 * @param ve
+	 *            expression
+	 * @return whether expression is an equation in the form y=f(x) or z=f(x,y)
+	 */
+	public static boolean isFunctionEquation(ValidExpression ve) {
+		if (ve != null && ve.unwrap() instanceof Equation) {
+			Equation eq = (Equation) ve.unwrap();
+			return ("y".equals(eq.lhs.toString(StringTemplate.defaultTemplate))
+					&& !eq.rhs.containsFreeFunctionVariable("y"))
+					|| ("z".equals(
+							eq.lhs.toString(StringTemplate.defaultTemplate))
+							&& !eq.rhs.containsFreeFunctionVariable("z"));
+		}
+		return false;
+	}
+
 } // end of class Equation

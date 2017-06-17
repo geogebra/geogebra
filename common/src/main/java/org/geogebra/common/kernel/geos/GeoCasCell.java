@@ -2069,7 +2069,8 @@ public class GeoCasCell extends GeoElement
 			GeoElement ret = (GeoElement) ((ExpressionNode) outputVE).getLeft();
 			return ret;
 		}
-		boolean wasFunction = outputVE instanceof FunctionNVar;
+		boolean wasFunction = outputVE instanceof FunctionNVar
+				|| Equation.isFunctionEquation(outputVE);
 		boolean wasCurve = twinGeo == null || twinGeo.isParametric();
 
 		// replace variables x and y with a FunctionVariable object
