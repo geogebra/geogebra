@@ -63,6 +63,7 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.editor.share.util.KeyCodes;
 import com.himamis.retex.renderer.share.CursorBox;
@@ -351,7 +352,18 @@ public class MathFieldW implements MathField, IsWidget {
 
 	private int convertToGWTKeyCode(NativeEvent evt) {
 
-		KeyCodes keyCode = KeyCodes.translateGWTcode(evt.getKeyCode());
+		int keyCodeGWT = evt.getKeyCode();
+
+		// most keycodes are the same between Java and GWT
+		// so don't check the common ones that are the same
+		if ((keyCodeGWT >= GWTKeycodes.KEY_A && keyCodeGWT <= GWTKeycodes.KEY_Z)
+				|| (keyCodeGWT >= GWTKeycodes.KEY_ZERO
+						&& keyCodeGWT <= GWTKeycodes.KEY_NINE)) {
+			return keyCodeGWT;
+		}
+
+		// eg Delete has a different code
+		KeyCodes keyCode = KeyCodes.translateGWTcode(keyCodeGWT);
 
 		return keyCode.getJavaKeyCode();
 	}
