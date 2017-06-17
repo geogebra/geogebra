@@ -8,6 +8,8 @@ import static com.himamis.retex.editor.share.meta.MetaArray.ROW;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class MetaModelArrays {
 
 	private static MetaCharacter createArrayComponent(String name, char cas,
@@ -21,11 +23,6 @@ public class MetaModelArrays {
 	private static MetaCharacter createArrayComponent(String name, char cas) {
         return createArrayComponent(name, cas, null);
     }
-
-	public static final char LCEIL = '\u2308';
-	public static final char RCEIL = '\u2309';
-	public static final char LFLOOR = '\u230a';
-	public static final char RFLOOR = '\u230b';
 
 	ListMetaGroup createArraysGroup() {
         List<MetaComponent> components = new ArrayList<MetaComponent>();
@@ -65,16 +62,20 @@ public class MetaModelArrays {
 		components.add(line);
 
 		MetaArray ceil = new MetaArray(1, Tag.CEIL);
-		ceil.setOpen(createArrayComponent(OPEN, LCEIL, "\\left\\lceil "));
-		ceil.setClose(createArrayComponent(CLOSE, RCEIL, "\\right\\rceil "));
+		ceil.setOpen(
+				createArrayComponent(OPEN, Unicode.LCEIL, "\\left\\lceil "));
+		ceil.setClose(
+				createArrayComponent(CLOSE, Unicode.RCEIL, "\\right\\rceil "));
 		ceil.setField(createArrayComponent(FIELD, ','));
 		ceil.setRow(createArrayComponent(ROW, ';'));
 		components.add(ceil);
 
 		MetaArray floor = new MetaArray(1, Tag.FLOOR);
-		floor.setOpen(createArrayComponent(OPEN, LFLOOR, "\\left\\lfloor "));
+		floor.setOpen(
+				createArrayComponent(OPEN, Unicode.LFLOOR, "\\left\\lfloor "));
 		floor.setClose(
-				createArrayComponent(CLOSE, RFLOOR, "\\right\\rfloor "));
+				createArrayComponent(CLOSE, Unicode.RFLOOR,
+						"\\right\\rfloor "));
 		floor.setField(createArrayComponent(FIELD, ','));
 		floor.setRow(createArrayComponent(ROW, ';'));
 		components.add(floor);

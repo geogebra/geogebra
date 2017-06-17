@@ -8,7 +8,6 @@ import com.himamis.retex.editor.share.meta.MetaArray;
 import com.himamis.retex.editor.share.meta.MetaCharacter;
 import com.himamis.retex.editor.share.meta.MetaFunction;
 import com.himamis.retex.editor.share.meta.MetaModel;
-import com.himamis.retex.editor.share.meta.MetaModelArrays;
 import com.himamis.retex.editor.share.meta.Tag;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
@@ -17,6 +16,7 @@ import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
+import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public class InputController {
@@ -962,8 +962,7 @@ public class InputController {
 			return true;
 		}
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
-				&& ch != MetaModelArrays.LFLOOR
-				&& ch != MetaModelArrays.LCEIL) {
+				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL) {
 			deleteSelection(editorState);
 		}
 		MetaModel meta = editorState.getMetaModel();
@@ -979,26 +978,20 @@ public class InputController {
 		} else if (allowFrac && ch == '_') {
 			newScript(editorState, "_");
 			handled = true;
-		} else if (allowFrac && ch == '/') { // slash used in android ggb
-												// keyboard
+		} else if (allowFrac && ch == '/') {
 			newFunction(editorState, "frac", 1, false);
 			handled = true;
-		} else if (allowFrac && ch == 47) { // simple / char
-			newFunction(editorState, "frac", 1, false);
-			handled = true;
-		} else if (ch == 8730) { // square root char
+		} else if (ch == Unicode.SQUARE_ROOT) {
 			newFunction(editorState, "sqrt", 0, false);
 			handled = true;
 		} else if (meta.isArrayOpenKey(ch)) {
 			newArray(editorState, 1, ch);
 			handled = true;
-		} else if (ch == 8226) { // big dot char
+		} else if (ch == Unicode.MULTIPLY || ch == Unicode.CENTER_DOT
+				|| ch == Unicode.BULLET) {
 			newOperator(editorState, '*');
 			handled = true;
-		} else if (ch == 215) { // multiplication cross char
-			newOperator(editorState, '*');
-			handled = true;
-		} else if (ch == ',' && allowFrac) { // multiplication cross char
+		} else if (ch == ',' && allowFrac) {
 			comma(editorState);
 			handled = true;
 		} else if (meta.isOperator("" + ch)) {

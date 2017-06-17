@@ -202,6 +202,8 @@ public class Unicode {
 	public static final char HASHTAG = '\u0023';
 	public static final char AMPERSAND = '\u0026';
 	public static final char NOT_SIGN = '\u00AC';
+	public static final char CENTER_DOT = '\u00b7';
+	public static final char BULLET = '\u2022';
 
 	/**
 	 * converts an integer to a unicode superscript string (including minus
