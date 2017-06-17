@@ -966,43 +966,57 @@ public class InputController {
 			deleteSelection(editorState);
 		}
 		MetaModel meta = editorState.getMetaModel();
-		if (meta.isArrayCloseKey(ch)) {
-			endField(editorState, ch);
-			handled = true;
-		} else if (meta.isFunctionOpenKey(ch)) {
-			newBraces(editorState, ch);
-			handled = true;
-		} else if (allowFrac && ch == '^') {
-			newScript(editorState, "^");
-			handled = true;
-		} else if (allowFrac && ch == '_') {
-			newScript(editorState, "_");
-			handled = true;
-		} else if (allowFrac && ch == '/') {
-			newFunction(editorState, "frac", 1, false);
-			handled = true;
-		} else if (ch == Unicode.SQUARE_ROOT) {
-			newFunction(editorState, "sqrt", 0, false);
-			handled = true;
-		} else if (meta.isArrayOpenKey(ch)) {
-			newArray(editorState, 1, ch);
-			handled = true;
-		} else if (ch == Unicode.MULTIPLY || ch == Unicode.CENTER_DOT
-				|| ch == Unicode.BULLET) {
-			newOperator(editorState, '*');
-			handled = true;
-		} else if (ch == ',' && allowFrac) {
-			comma(editorState);
-			handled = true;
-		} else if (meta.isOperator("" + ch)) {
-			newOperator(editorState, ch);
-			handled = true;
-		} else if (meta.isSymbol("" + ch)) {
-			newSymbol(editorState, ch);
-			handled = true;
-		} else if (meta.isCharacter("" + ch)) {
-			newCharacter(editorState, ch);
-			handled = true;
+
+		// special case: '|' to end abs() block
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (parent instanceof MathArray) {
+
+			if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
+				endField(editorState, ch);
+				handled = true;
+			}
+
+		}
+
+		if (!handled) {
+			if (meta.isArrayCloseKey(ch)) {
+				endField(editorState, ch);
+				handled = true;
+			} else if (meta.isFunctionOpenKey(ch)) {
+				newBraces(editorState, ch);
+				handled = true;
+			} else if (allowFrac && ch == '^') {
+				newScript(editorState, "^");
+				handled = true;
+			} else if (allowFrac && ch == '_') {
+				newScript(editorState, "_");
+				handled = true;
+			} else if (allowFrac && ch == '/') {
+				newFunction(editorState, "frac", 1, false);
+				handled = true;
+			} else if (ch == Unicode.SQUARE_ROOT) {
+				newFunction(editorState, "sqrt", 0, false);
+				handled = true;
+			} else if (meta.isArrayOpenKey(ch)) {
+				newArray(editorState, 1, ch);
+				handled = true;
+			} else if (ch == Unicode.MULTIPLY || ch == Unicode.CENTER_DOT
+					|| ch == Unicode.BULLET) {
+				newOperator(editorState, '*');
+				handled = true;
+			} else if (ch == ',' && allowFrac) {
+				comma(editorState);
+				handled = true;
+			} else if (meta.isOperator("" + ch)) {
+				newOperator(editorState, ch);
+				handled = true;
+			} else if (meta.isSymbol("" + ch)) {
+				newSymbol(editorState, ch);
+				handled = true;
+			} else if (meta.isCharacter("" + ch)) {
+				newCharacter(editorState, ch);
+				handled = true;
+			}
 		}
 		return handled;
 	}
