@@ -1818,7 +1818,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return mode;
 		}
 
-		if (app.has(Feature.SELECT_TOOL)) {
+		if (app.has(Feature.NEW_TOOLBAR)) {
 			((AppWapplet) app).getKernel().notifyModeChanged(mode, m);
 			return mode;
 		}
