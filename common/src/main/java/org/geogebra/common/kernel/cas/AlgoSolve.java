@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 
 /**
  * Use Solve cas command from AV
@@ -75,7 +76,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
 
 			if (equations.isGeoList() && raw.size() > 1
-					&& raw.get(0).isGeoLine()) {
+					&& (raw.get(0).isGeoLine() || raw.get(0).isGeoPlane())) {
 				solutions.clear();
 				solutions.add(raw);
 			} else {
@@ -93,6 +94,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		for (int i = 0; i < solutions2.size(); i++) {
 			if (solutions2.get(i) instanceof GeoLine) {
 				((GeoLine) solutions2.get(i)).setMode(GeoLine.EQUATION_USER);
+			}
+			if (solutions2.get(i) instanceof GeoPlaneND) {
+				((GeoPlaneND) solutions2.get(i)).setMode(GeoLine.EQUATION_USER);
 			}
 			if (solutions2.get(i) instanceof GeoList) {
 				showUserForm((GeoList) solutions2.get(i));

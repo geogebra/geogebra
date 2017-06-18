@@ -333,7 +333,8 @@ public class Browser {
 
 	public static void changeUrl(String string) {
 		if (Location.getHost() != null
-				&& Location.getHost().contains("geogebra.org")) {
+				&& Location.getHost().contains("geogebra.org")
+				&& !Location.getHost().contains("autotest")) {
 			nativeChangeUrl(string);
 		}
 

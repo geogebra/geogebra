@@ -517,7 +517,7 @@ public class RadioTreeItem extends AVTreeItem
 		content.add(plainTextItem);
 	}
 
-	public void clearPreview() {
+	private void clearPreview() {
 		content.removeStyleName("avPreview");
 		content.addStyleName("noPreview");
 		if (outputPanel == null) {
@@ -525,6 +525,13 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		outputPanel.reset();
+	}
+
+	public void clearPreviewAndSuggestions() {
+		clearPreview();
+		if (controls != null) {
+			controls.updateSuggestions(null);
+		}
 	}
 
 	public void previewValue(GeoElement previewGeo) {
@@ -1601,9 +1608,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (isInputTreeItem()) {
 
 			boolean hasMoreMenu = app.has(Feature.AV_ITEM_DESIGN);
-			if (!hasMoreMenu) {
-				content.insert(getClearInputButton(), 0);
-			}
+
+			content.insert(getClearInputButton(), 0);
 
 			if (controls != null) {
 				controls.setVisible(hasMoreMenu);

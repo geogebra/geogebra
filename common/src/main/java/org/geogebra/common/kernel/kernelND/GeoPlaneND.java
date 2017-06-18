@@ -45,4 +45,6 @@ public interface GeoPlaneND extends GeoCoordSys2D {
 	 */
 	public double distanceWithSign(GeoPlaneND h3d);
 
+	public void setMode(int equationUser);
+
 }

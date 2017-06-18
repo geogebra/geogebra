@@ -5,7 +5,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.Feature;
@@ -48,7 +49,7 @@ public class AlgebraItem {
 		}
 
 		if (geo.getParentAlgorithm() instanceof AlgoSolve) {
-			return true;
+			return !allRHSareIntegers((GeoList) geo);
 		}
 
 		HasSymbolicMode sm = (HasSymbolicMode) geo;
@@ -68,6 +69,20 @@ public class AlgebraItem {
 
 	}
 
+	private static boolean allRHSareIntegers(GeoList geo) {
+		for (int i = 0; i < geo.size(); i++) {
+			if (geo.get(i) instanceof GeoLine
+					&& !Kernel.isInteger(((GeoLine) geo.get(i)).getZ())) {
+				return false;
+			}
+			if (geo.get(i) instanceof GeoList
+					&& !allRHSareIntegers(((GeoList) geo.get(i)))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public static boolean isGeoFraction(GeoElement geo) {
 		return geo instanceof GeoNumeric && geo.getDefinition() != null
 				&& geo.getDefinition().isFraction();
@@ -81,11 +96,8 @@ public class AlgebraItem {
 				return sug;
 			}
 
-			if (geo instanceof GeoFunction) {
-				GeoFunction geoFun = (GeoFunction) geo;
-				if (!geoFun.isBooleanFunction()) {
-					return new SuggestionRootExtremum(geo.getLabelSimple());
-				}
+			sug = SuggestionRootExtremum.get(geo);
+			if (sug != null) {
 				return null;
 			}
 		}

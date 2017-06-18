@@ -475,9 +475,12 @@ public class GeoPlane3D extends GeoElement3D
 
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		StringBuilder ret = buildValueString(tpl, kernel,
+		if (toStringMode == GeoLine.EQUATION_USER && getDefinition() != null) {
+			return new StringBuilder(getDefinition().toValueString(tpl));
+		} else {
+			return buildValueString(tpl, kernel,
 				getCoordSys().getEquationVector(), !isLabelSet());
-
+		}
 		// fix for GGB-1116
 		// we don't need this since equation is already
 		// wrapped in Ggb2giac
@@ -490,7 +493,7 @@ public class GeoPlane3D extends GeoElement3D
 		// return sbTemp;
 		// }
 
-		return ret;
+
 
 	}
 
@@ -929,6 +932,10 @@ public class GeoPlane3D extends GeoElement3D
 			usedVars.add("z");
 		}
 		return usedVars.toArray(new String[0]);
+	}
+
+	public void setMode(int stringMode) {
+		this.toStringMode = stringMode;
 	}
 
 }
