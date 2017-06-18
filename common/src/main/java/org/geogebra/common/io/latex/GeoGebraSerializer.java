@@ -58,13 +58,22 @@ public class GeoGebraSerializer implements Serializer {
 		if (mathCharacter.getUnicode() == Unicode.ZERO_WIDTH_SPACE) {
 
 			if (parent != null && index + 1 < parent.size()) {
-				if (parent.getArgument(index + 1) instanceof MathArray) {
+				if (needsSpace(parent.getArgument(index + 1))) {
 					stringBuilder.append(" ");
 				}
 			}
 			return;
 		}
 		stringBuilder.append(mathCharacter.getUnicode());
+	}
+
+	private static boolean needsSpace(MathComponent argument) {
+		// TODO Auto-generated method stub
+		return argument instanceof MathArray
+				|| (argument instanceof MathFunction
+						&& ((MathFunction) argument).getName() != Tag.SUBSCRIPT
+						&& ((MathFunction) argument)
+								.getName() != Tag.SUPERSCRIPT);
 	}
 
 	private static void serialize(MathFunction mathFunction,

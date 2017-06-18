@@ -55,9 +55,10 @@ public class SerializeLaTeX {
 	@Test
 	public void testSqrt() {
 		checkCannon("sqrt(x + 1)", "sqrt(x+1)");
-		checkCannon("f(x) = sqrt(x)", "f(x)=sqrt(x)");
+		checkCannon("x sqrt(x + 1)", "x sqrt(x+1)");
+		checkCannon("f(x) = sqrt(x)", "f(x)= sqrt(x)");
 		checkCannon("nroot(x + 1,3)", "nroot(x+1,3)");
-		checkCannon("f(x) = nroot(x,3)", "f(x)=nroot(x,3)");
+		checkCannon("f(x) = nroot(x,3)", "f(x)= nroot(x,3)");
 
 	}
 
@@ -197,6 +198,17 @@ public class SerializeLaTeX {
 				new BracketsAdapter());
 		checkLaTeX("a=\\left[0.8,1.2,...,4\\right]",
 				"a=Sequence[0.8,4,1.2-(0.8)]", new BracketsAdapter());
+	}
+
+	@Test
+	public void testBinaryOp() {
+		for (char op : new char[] { Unicode.LESS_EQUAL,
+				Unicode.GREATER_EQUAL, Unicode.IS_SUBSET_OF,
+				Unicode.IS_ELEMENT_OF, Unicode.IS_SUBSET_OF_STRICT }) {
+			checkCannon("5 " + op + " 3", "5" + op + "3");
+			checkCannon("5 " + op + " (2/3*x+5/3)",
+					"5" + op + " ((2)/(3)*x+(5)/(3))");
+		}
 	}
 
 	@Test
