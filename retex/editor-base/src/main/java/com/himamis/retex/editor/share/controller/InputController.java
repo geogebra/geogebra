@@ -969,7 +969,8 @@ public class InputController {
 
 		// special case: '|' to end abs() block
 		MathContainer parent = editorState.getCurrentField().getParent();
-		if (parent instanceof MathArray) {
+		if (parent instanceof MathArray
+				&& editorState.getSelectionStart() == null) {
 
 			if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
 				endField(editorState, ch);
