@@ -14,7 +14,6 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.user.client.Window;
 
 /**
  * Web implementation of FileMenu
@@ -138,7 +137,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1
 				&& app.getArticleElement().getDataParamApp()) {
-			Window.setTitle(app.getLocalization()
+			changeMetaTitle(app.getLocalization()
 					.getMenu(Layout.getDefaultPerspectives(index).getId()));
 			Browser.changeUrl(Perspective.getPerspectiveSlug(index));
 
@@ -147,6 +146,10 @@ public class PerspectivesMenuW extends GMenuBar {
 			app.storeUndoInfo();
 		}
 	}
+
+	private static native void changeMetaTitle(String title) /*-{
+		$wnd.changeMetaTitle && $wnd.changeMetaTitle(title);
+	}-*/;
 	
 
 

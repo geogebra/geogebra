@@ -32,7 +32,15 @@ var analyticsVersion = 'V'+latestVersion;
 			e("ggw").setAttribute("data-param-"+paramName,getURLparam(paramName));
 		}
 	}
-	
+	function changeMetaTitle(title){
+		var tags = document.head.getElementsByTagName("meta");
+		for(k in tags){
+			if(tags[k].getAttribute && tags[k].getAttribute("property")=="og:title"){
+				tags[k].setAttribute("content",title);
+			}
+		}
+		document.title = title;
+	}
 	function perspective(id, name){		
 		if(e("ggw")){
 			e("ggw").className="geogebraweb";
@@ -126,7 +134,7 @@ var analyticsVersion = 'V'+latestVersion;
 	}
 	function button(id, perspectiveId, caption){
 		if(getPerspective()==id){
-			document.title = caption;
+			changeMetaTitle(caption);
 		}
 		var ret = e(id);
 		var parent = parentTable(ret);
@@ -140,7 +148,7 @@ var analyticsVersion = 'V'+latestVersion;
 				if(e("ggw")){
 					e("ggw").setAttribute("data-param-showAppsPicker","false");
 				}
-				document.title = ret.innerText;
+				changeMetaTitle(ret.innerText);
 				perspective(perspectiveId,id.replace("perspective",""));
 			});
 			parent.getElementsByTagName("TD")[2].addEventListener("click",function(e){
