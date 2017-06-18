@@ -55,7 +55,7 @@ public class GeoGebraSerializer implements Serializer {
 	private static void serialize(MathCharacter mathCharacter,
 			MathSequence parent, int index,
 			StringBuilder stringBuilder) {
-		if (mathCharacter.getUnicode() == MathCharacter.ZERO_SPACE) {
+		if (mathCharacter.getUnicode() == Unicode.ZERO_WIDTH_SPACE) {
 
 			if (parent != null && index + 1 < parent.size()) {
 				if (parent.getArgument(index + 1) instanceof MathArray) {
@@ -186,7 +186,7 @@ public class GeoGebraSerializer implements Serializer {
 			if (mathComponent instanceof MathCharacter) {
 				MathCharacter mathCharacter = (MathCharacter) mathComponent;
 				if (mathCharacter.isCharacter() && mathCharacter
-						.getUnicode() != MathCharacter.ZERO_SPACE) {
+						.getUnicode() != Unicode.ZERO_WIDTH_SPACE) {
 					stringBuilder.append("*");
 				}
 			}

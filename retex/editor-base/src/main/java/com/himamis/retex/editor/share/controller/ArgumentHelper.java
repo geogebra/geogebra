@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathContainer;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class ArgumentHelper {
 
@@ -14,8 +15,8 @@ public class ArgumentHelper {
         // get pass to argument
         MathSequence field = (MathSequence) container.getArgument(container.getInsertIndex());
 		if (currentField.getArgument(currentOffset - 1) instanceof MathCharacter
-				&& "\u200b".equals(currentField.getArgument(currentOffset - 1)
-						.toString())) {
+				&& (Unicode.ZERO_WIDTH_SPACE + "").equals(currentField
+						.getArgument(currentOffset - 1).toString())) {
 			currentField.delArgument(currentOffset - 1);
 			currentOffset--;
 		}

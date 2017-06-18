@@ -5,6 +5,7 @@ import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
+import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.renderer.share.util.LaTeXUtil;
 
 /**
@@ -31,7 +32,7 @@ public class TeXSerializer extends SerializerAdapter {
 
     @Override
     public void serialize(MathCharacter mathCharacter, StringBuilder stringBuilder) {
-		if (mathCharacter.getUnicode() == '\u200b') {
+		if (mathCharacter.getUnicode() == Unicode.ZERO_WIDTH_SPACE) {
 			return;
 		}
         // jmathtex v0.7: incompatibility

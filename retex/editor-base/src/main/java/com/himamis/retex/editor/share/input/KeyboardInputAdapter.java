@@ -1,5 +1,8 @@
 package com.himamis.retex.editor.share.input;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.controller.EditorState;
 import com.himamis.retex.editor.share.controller.InputController;
@@ -9,16 +12,14 @@ import com.himamis.retex.editor.share.input.adapter.FunctionsAdapter;
 import com.himamis.retex.editor.share.input.adapter.KeyboardAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringCharAdapter;
 import com.himamis.retex.editor.share.input.adapter.StringInput;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class KeyboardInputAdapter {
 
-    private static final char e = '\u212f';
-    private static final char divide = '\u00F7';
-    private static final char times = '\u00D7';
-    private static final char minus = '\u2212';
+	private static final char e = Unicode.eulerChar;
+	private static final char divide = Unicode.DIVIDE.charAt(0);
+	private static final char times = Unicode.MULTIPLY;
+	private static final char minus = Unicode.MINUS;
     private static final List<KeyboardAdapter> adapters;
     private static final KeyboardAdapter commandAdapter;
     private static final String[] allowedCharacterCategories = {
@@ -47,7 +48,7 @@ public class KeyboardInputAdapter {
         adapters.add(new FunctionAdapter("log_{10}", "log10"));
         adapters.add(new FunctionAdapter("random"));
         adapters.add(new FunctionAdapter("nroot"));
-        adapters.add(new StringInput("\u00B2") {
+		adapters.add(new StringInput(Unicode.Superscript_2 + "") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
                 typeCharacter(mfi, '^');
@@ -55,7 +56,7 @@ public class KeyboardInputAdapter {
                 CursorController.nextCharacter(mfi.getEditorState());
             }
         });
-        adapters.add(new StringInput("\u221A") {
+		adapters.add(new StringInput(Unicode.SQUARE_ROOT + "") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
                 commitFunction(mfi, "sqrt");
