@@ -1,6 +1,7 @@
 package org.geogebra.desktop.main;
 
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import javax.swing.SwingUtilities;
@@ -39,6 +40,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
 import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.GuiManagerInterface;
@@ -72,6 +74,7 @@ import org.geogebra.desktop.util.GTimerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
+
 
 /**
  * App for testing: does not use Swing
@@ -772,6 +775,35 @@ public class AppDNoGui extends App {
 
 	public boolean is3D() {
 		return true;
+	}
+
+	public void testFeatures() {
+		boolean pre = prerelease;
+		ArrayList<Feature> stable = new ArrayList<Feature>();
+		ArrayList<Feature> beta = new ArrayList<Feature>();
+		ArrayList<Feature> dead = new ArrayList<Feature>();
+
+		for(Feature f:Feature.values()){
+
+			this.prerelease = false;
+			if (has(f)) {
+				stable.add(f);
+			} else {
+				this.prerelease = true;
+				if (has(f)) {
+					beta.add(f);
+				} else {
+					dead.add(f);
+				}
+			}
+
+
+		}
+		Log.debug(stable.size() + StringUtil.join("\n", stable));
+		Log.debug(beta.size() + StringUtil.join("\n", beta));
+		Log.debug(dead.size() + StringUtil.join("\n", dead));
+
+		prerelease = pre;
 	}
 
 }
