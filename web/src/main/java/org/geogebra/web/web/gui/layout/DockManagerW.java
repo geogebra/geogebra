@@ -21,7 +21,6 @@ import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
-import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
@@ -1865,7 +1864,7 @@ public class DockManagerW extends DockManager {
 
 		Widget opposite = split.getOpposite(avPanel);
 
-		if (!(opposite instanceof EuclidianPanelWAbstract)) {
+		if (!(opposite instanceof EuclidianDockPanelWAbstract)) {
 			return;
 		}
 
