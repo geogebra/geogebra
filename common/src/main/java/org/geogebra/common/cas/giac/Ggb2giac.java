@@ -828,8 +828,8 @@ public class Ggb2giac {
 		p("Mod.2",
 				"[[[ggbmodarg0:=%0],[ggbmodarg1:=%1]],if type(ggbmodarg0)==DOM_INT && type(ggbmodarg1)==DOM_INT then irem(ggbmodarg0,ggbmodarg1) else rem(ggbmodarg0,ggbmodarg1,x) fi][1]");
 		p("NextPrime.1", "nextprime(%0)");
-		p("NIntegral.3", "romberg(%%0,%%1,%%2)");
-		p("NIntegral.4", "romberg(%%0,%%1,%%2,%%3)");
+		p("NIntegral.3", "gaussquad(%%0,%%1,%%2)");
+		p("NIntegral.4", "gaussquad(%%0,%%1,%%2,%%3)");
 		p("Normal.3", "normald_cdf(%0,%1,%2)");
 		p("Normal.4",
 				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2]],if %3==true then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) else (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2) / (2*((ggbnormarg1)^2))) fi][1]");
