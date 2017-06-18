@@ -107,7 +107,7 @@ public class Unicode {
 	public static final char Omega = '\u03A9';
 
 	public static final char SQUARE_ROOT = '\u221a';
-	public static final String PLUSMINUS = "\u00b1";
+	public static final char PLUSMINUS = '\u00b1';
 	public static final String NOTEQUAL = "\u2260";
 	public static final String NOT = "\u00ac";
 	public static final String AND = "\u2227";

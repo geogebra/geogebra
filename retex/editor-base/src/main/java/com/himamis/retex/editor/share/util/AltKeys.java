@@ -96,8 +96,8 @@ public class AltKeys {
 			lookupLower.put((char) 106, Unicode.VECTOR_PRODUCT + "");
 
 			// on Chrome, Alt-Keypad+ gives character 107
-			lookupUpper.put((char) 107, Unicode.PLUSMINUS);
-			lookupLower.put((char) 107, Unicode.PLUSMINUS);
+			lookupUpper.put((char) 107, Unicode.XOR);
+			lookupLower.put((char) 107, Unicode.XOR);
 
 			// on Chrome, Alt-Keypad- gives character 109
 			lookupUpper.put((char) 109, Unicode.Superscript_Minus + "");

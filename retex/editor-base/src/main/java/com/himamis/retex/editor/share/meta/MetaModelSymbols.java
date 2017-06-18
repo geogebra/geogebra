@@ -122,7 +122,7 @@ class MetaModelSymbols {
 				createOperator("in", "NaN", "\\in", Unicode.IS_ELEMENT_OF));
 		operators.add(createOperator("empty", "NaN", "\\emptyset", '\u2205'));
 
-		operators.add(createOperator("pm", "NaN", "\\pm", '\u00b1'));
+		operators.add(createOperator("pm", "NaN", "\\pm", Unicode.PLUSMINUS));
 		operators.add(createOperator("prime", "NaN", "\\prime", '\u2032'));
 		operators.add(createOperator("circ", "NaN", "\\circ", '\u2218'));
 		operators.add(createOperator("partial", "NaN", "\\partial", '\u2202'));
