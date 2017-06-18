@@ -27,6 +27,9 @@ import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class TabbedKeyboard extends FlowPanel {
+	public static final int SMALL_HEIGHT = 131;
+	public static final int BIG_HEIGHT = 186;
+
 	private static final int TAB_NUMBERS = 0;
 	private static final int TAB_FX = 1;
 	private static final int TAB_ABC = 2;

@@ -4,7 +4,7 @@ import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.keyboard.web.UpdateKeyBoardListener;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.resources.StyleInjector;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -44,8 +44,8 @@ public class Editor implements EntryPoint, MathFieldListener {
 		el.appendChild(canvas.getCanvasElement());
 		MathFieldW fld = new MathFieldW(parentWidget, canvas,
 				this, false);
-		final OnScreenKeyBoard kb = new OnScreenKeyBoard(new KeyboardContext(),
-				false);
+		final OnscreenTabbedKeyboard kb = new OnscreenTabbedKeyboard(
+				new KeyboardContext());
 		kb.setListener(new UpdateKeyBoardListener() {
 
 			@Override

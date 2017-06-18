@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
-import org.geogebra.keyboard.web.KBBase;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -711,11 +711,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private int estimateKeyboardHeight() {
-		int newHeight = app.needsSmallKeyboard() ? KBBase.SMALL_HEIGHT
-				: KBBase.BIG_HEIGHT;
-		if (app.has(Feature.TABBED_KEYBOARD)) {
-			newHeight += 40;
-		}
+		int newHeight = app.needsSmallKeyboard() ? TabbedKeyboard.SMALL_HEIGHT
+				: TabbedKeyboard.BIG_HEIGHT;
+		// add switcher height
+		newHeight += 40;
+
 		return newHeight;
 	}
 

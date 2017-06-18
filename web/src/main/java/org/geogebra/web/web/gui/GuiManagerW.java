@@ -63,7 +63,6 @@ import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
-import org.geogebra.web.keyboard.OnScreenKeyBoard;
 import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.web.cas.view.CASTableW;
 import org.geogebra.web.web.cas.view.CASViewW;
@@ -2141,14 +2140,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
 
-			boolean korean = app.has(Feature.KOREAN_KEYBOARD);
-			if (app.has(Feature.TABBED_KEYBOARD)) {
-				onScreenKeyboard = new OnscreenTabbedKeyboard(
-						(HasKeyboard) app);
-			} else {
-				onScreenKeyboard = new OnScreenKeyBoard((HasKeyboard) app,
-						korean);
-			}
+			onScreenKeyboard = new OnscreenTabbedKeyboard((HasKeyboard) app);
+
 		}
 
 		if (textField != null) {

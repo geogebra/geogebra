@@ -8,7 +8,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.keyboard.OnScreenKeyBoard;
+import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A PopupPanel in the bottom left corner of the application which represents a
- * button to open the {@link OnScreenKeyBoard}
+ * button to open the {@link OnscreenTabbedKeyboard}
  */
 public class ShowKeyboardButton extends SimplePanel {
 	
