@@ -530,6 +530,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void previewValue(GeoElement previewGeo) {
+		if (getAV().getActiveTreeItem() != this) {
+			return;
+		}
 		if ((previewGeo
 				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText())) {
@@ -848,6 +851,10 @@ public class RadioTreeItem extends AVTreeItem
 
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
+		if (geo.getParentAlgorithm() != null
+				&& geo.getParentAlgorithm().getOutput().length > 1) {
+			return geo.getLaTeXDescriptionRHS(substituteNumbers, tpl);
+		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
 						substituteNumbers
 								|| (geo instanceof GeoNumeric
