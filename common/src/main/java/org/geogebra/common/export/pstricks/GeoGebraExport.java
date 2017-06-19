@@ -1,7 +1,6 @@
 package org.geogebra.common.export.pstricks;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
@@ -18,7 +17,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -56,7 +54,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -417,8 +414,6 @@ public abstract class GeoGebraExport {
 				// Image --> export to eps is better and easier!
 			} else if (g instanceof GeoLocus) {
 				drawLocus((GeoLocus) g);
-			} else if (g instanceof GeoTransferFunction) {
-				drawNyquist((GeoTransferFunction) g);
 			} else {
 				Log.debug("Export: unsupported GeoElement "
 						+ g.getGeoClassType());
@@ -812,16 +807,7 @@ public abstract class GeoGebraExport {
 
 	}
 
-	/**
-	 * Export as PSTricks or PGF/TikZ or Asympote, Nyquist diagram
-	 * 
-	 * @param g
-	 *            Transfer function
-	 * 
-	 *
-	 */
 
-	protected abstract void drawNyquist(GeoTransferFunction g);
 
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
@@ -1417,54 +1403,6 @@ public abstract class GeoGebraExport {
 			}
 			yprec = y;
 			xprec = x;
-		}
-		return lineBuilder;
-	}
-
-	protected StringBuilder drawNyquistDiagram(GeoTransferFunction geo,
-			String template, String arrowMark, String arrowCommand,
-			String reverseArrowCommand) {
-		String t = template;
-		String sub;
-		boolean flag = true;
-		StringBuilder lineBuilder = new StringBuilder();
-		List<Coords> coordsList = geo.getCoordsList();
-		Coords p = coordsList.get(0);
-		double xprec = p.getX();
-		double yprec = p.getY();
-		double x;
-		double y;
-		for (int i = 1; i < coordsList.size() - 10; i += 10) {
-			p = coordsList.get(i);
-			x = p.getX();
-			y = p.getY();
-			if (flag && i > coordsList.size() / 2.3) {
-				sub = t.replaceAll(arrowMark, arrowCommand);
-				flag = false;
-			} else {
-				sub = t.replaceAll(arrowMark, "");
-			}
-			lineBuilder.append(StringUtil.format(sub, xprec, yprec, x, y));
-			xprec = x;
-			yprec = y;
-		}
-		flag = true;
-		p = coordsList.get(0);
-		xprec = p.getX();
-		yprec = -p.getY();
-		for (int i = 1; i < coordsList.size(); i += 4) {
-			p = coordsList.get(i);
-			x = p.getX();
-			y = -p.getY();
-			if (flag && i > coordsList.size() / 2.3) {
-				sub = t.replaceAll(arrowMark, reverseArrowCommand);
-				flag = false;
-			} else {
-				sub = t.replaceAll(arrowMark, "");
-			}
-			lineBuilder.append(StringUtil.format(sub, xprec, yprec, x, y));
-			xprec = x;
-			yprec = y;
 		}
 		return lineBuilder;
 	}

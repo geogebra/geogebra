@@ -55,7 +55,6 @@ public class DrawablesTest {
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "",
 					types.contains(type)
-							|| GeoClass.CURVE_POLAR == type
 							|| GeoClass.CAS_CELL == type
 							|| GeoClass.SPACE == type
 							|| GeoClass.DEFAULT == type

@@ -66,9 +66,6 @@ public enum GeoClass {
 	/** CURVE_CARTESIAN */
 	CURVE_CARTESIAN("CurveCartesian", 90, false),
 
-	/** CURVE_POLAR */
-	CURVE_POLAR("CurvePolar", 90, false),
-
 	/** IMPLICIT_POLY */
 	IMPLICIT_POLY("ImplicitPoly", 60, false),
 

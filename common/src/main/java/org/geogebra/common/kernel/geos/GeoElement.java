@@ -2461,8 +2461,6 @@ public abstract class GeoElement extends ConstructionElement
 			break;
 		case CURVE_CARTESIAN3D:
 			break;
-		case CURVE_POLAR:
-			break;
 		case DEFAULT:
 			break;
 		case FUNCTION:
@@ -3290,7 +3288,8 @@ public abstract class GeoElement extends ConstructionElement
 
 	private void updateSpreadsheetCoordinates() {
 		if (isLabelSet() && (label.length() > 0)
-				&& StringUtil.isLetter(label.charAt(0)) // starts with letter
+				&& com.himamis.retex.editor.share.input.Character
+						.isLetter(label.charAt(0)) // starts with letter
 				&& StringUtil.isDigit(label.charAt(label.length() - 1))) // ends
 																			// with
 																			// digit
@@ -5392,7 +5391,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return string used to render a LaTeX form of the geo's algebra
 	 *         description.
 	 */
-	public String getLaTeXAlgebraDescription(final boolean substituteNumbers,
+	public final String getLaTeXAlgebraDescription(
+			final boolean substituteNumbers,
 			StringTemplate tpl) {
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl);
 	}

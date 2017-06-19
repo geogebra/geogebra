@@ -23,6 +23,10 @@ public class Character {
 	/**
 	 * Character.isLetter() doesn't work in GWT, see
 	 * http://code.google.com/p/google-web-toolkit/issues/detail?id=1983
+	 * 
+	 * @param c
+	 *            character
+	 * @return whether it's a letter
 	 */
     public static boolean isLetter(char c) {
         return (c >= '\u0041' && c <= '\u005a') || // upper case (A-Z)

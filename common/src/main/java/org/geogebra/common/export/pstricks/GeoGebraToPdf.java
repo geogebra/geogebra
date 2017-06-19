@@ -52,7 +52,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -3311,22 +3310,6 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		}
 		endBeamer(codeFilledObject);
 
-	}
-
-	@Override
-	protected void drawNyquist(GeoTransferFunction g) {
-		String la = "<-";
-		String ra = "->";
-		String s = lineOptionCode(g, true);
-		if (s.length() != 0) {
-			la = ",<-";
-			ra = ",->";
-		}
-		String template = "\\draw[" + s + Unicode.SECTION_SIGN + "arrows"
-				+ Unicode.SECTION_SIGN + "] (%0,%1) -- (%2,%3);\n";
-		StringBuilder lineBuilder = drawNyquistDiagram(g, template,
-				Unicode.SECTION_SIGN + "arrows" + Unicode.SECTION_SIGN, la, ra);
-		code.append(lineBuilder.toString() + ";\n");
 	}
 
 	@Override

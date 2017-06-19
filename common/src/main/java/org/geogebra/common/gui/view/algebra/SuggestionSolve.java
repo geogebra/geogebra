@@ -43,7 +43,8 @@ public class SuggestionSolve extends Suggestion {
 		do {
 			prev = geo.getConstruction().getPrevious(prev);
 			if (prev instanceof EquationValue && subset(
-					((EquationValue) prev).getEquationVariables(), vars)) {
+					((EquationValue) prev).getEquationVariables(), vars)
+					&& !hasDependentAlgo(prev)) {
 				return new SuggestionSolve(prev.getLabelSimple(),
 						geo.getLabelSimple());
 			}
@@ -51,7 +52,7 @@ public class SuggestionSolve extends Suggestion {
 		return null;
 	}
 
-	private static boolean hasDependentAlgo(GeoElement geo) {
+	private static boolean hasDependentAlgo(GeoElementND geo) {
 		AlgorithmSet set = geo.getAlgoUpdateSet();
 		for (AlgoElement algo : set) {
 			if (algo != null && (algo.getClassName() == Commands.Solve

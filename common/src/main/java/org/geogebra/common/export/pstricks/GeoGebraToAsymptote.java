@@ -59,7 +59,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -3850,19 +3849,6 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				&& !s.toLowerCase().contains("coth(")
 				&& !s.toLowerCase().contains("sech(")
 				&& !s.toLowerCase().contains("if");
-	}
-
-	@Override
-	protected void drawNyquist(GeoTransferFunction g) {
-		StringBuilder sb = new StringBuilder();
-		colorCode(g.getObjectColor(), sb);
-		String template = "draw( (%0,%1) -- (%2,%3)," + sb + "+linewidth(1)"
-				+ Unicode.SECTION_SIGN + ",arrows" + Unicode.SECTION_SIGN
-				+ ");\n";
-		StringBuilder lineBuilder = drawNyquistDiagram(g, template,
-				Unicode.SECTION_SIGN + ",arrows" + Unicode.SECTION_SIGN,
-				",BeginArrow", ",EndArrow");
-		code.append(lineBuilder.toString() + ";\n");
 	}
 
 	@Override

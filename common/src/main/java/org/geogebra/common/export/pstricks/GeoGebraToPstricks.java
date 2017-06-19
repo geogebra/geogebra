@@ -56,7 +56,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -2525,19 +2524,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			}
 		}
 		endBeamer(codeFilledObject);
-	}
-
-	@Override
-	protected void drawNyquist(GeoTransferFunction g) {
-		startBeamer(code);
-		String liopco = lineOptionCode(g, true);
-		String template = "\\psline" + liopco + "" + Unicode.SECTION_SIGN
-				+ "arrows" + Unicode.SECTION_SIGN + "(%0,%1)(%2,%3)\n";
-		StringBuilder lineBuilder = drawNyquistDiagram(g, template, ""
-				+ Unicode.SECTION_SIGN + "arrows" + Unicode.SECTION_SIGN + "",
-				"{<-}", "{->}");
-		code.append(lineBuilder.toString());
-		endBeamer(code);
 	}
 
 	/**

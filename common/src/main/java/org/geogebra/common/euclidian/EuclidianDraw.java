@@ -18,7 +18,6 @@ import org.geogebra.common.euclidian.draw.DrawIntegralFunctions;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawList;
 import org.geogebra.common.euclidian.draw.DrawLocus;
-import org.geogebra.common.euclidian.draw.DrawNyquist;
 import org.geogebra.common.euclidian.draw.DrawParametricCurve;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPointPlot;
@@ -40,7 +39,6 @@ import org.geogebra.common.kernel.algos.AlgoBoxPlot;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import org.geogebra.common.kernel.algos.AlgoSlope;
-import org.geogebra.common.kernel.algos.AlgoTransferFunction;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -60,7 +58,6 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.kernel.geos.GeoTransferFunction;
 import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
@@ -304,11 +301,7 @@ public class EuclidianDraw {
 		case CURVE_CARTESIAN:
 			d = new DrawParametricCurve(ev, (GeoCurveCartesian) geo);
 			break;
-		case CURVE_POLAR:
-			if (geo.getParentAlgorithm() instanceof AlgoTransferFunction) {
-				d = new DrawNyquist(ev, (GeoTransferFunction) geo);
-			}
-			break;
+
 		case LIST:
 			algo = geo.getParentAlgorithm();
 			if (algo instanceof AlgoDotPlot) {
