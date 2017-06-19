@@ -2484,6 +2484,7 @@ public class AlgebraProcessor {
 		// check not equation of eg plane
 		switch (deg) {
 		// linear equation -> LINE
+		case 0:
 		case 1:
 
 			return processLine(equ, def);
@@ -2492,10 +2493,7 @@ public class AlgebraProcessor {
 		case 2:
 			return processConic(equ, def);
 		// pi = 3 is not an equation, #1391
-		case 0:
-			if (!allowConstant) {
-				throw new MyError(app.getLocalization(), "InvalidEquation");
-			}
+
 			// if constants are allowed, build implicit poly
 		default:
 			// test for "y= <rhs>" here as well
@@ -2559,6 +2557,7 @@ public class AlgebraProcessor {
 	 * @return resulting line
 	 */
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
+		Log.printStacktrace("");
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		String label = equ.getLabel();

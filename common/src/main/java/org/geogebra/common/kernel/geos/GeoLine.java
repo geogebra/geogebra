@@ -640,8 +640,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isDefined() {
-		return (!(Double.isNaN(x) || Double.isNaN(y) || Double.isNaN(z))
-				&& !(Kernel.isZero(x) && Kernel.isZero(y)));
+		return coefficientsDefined()
+				&& !(Kernel.isZero(x) && Kernel.isZero(y));
+	}
+
+	private boolean coefficientsDefined() {
+		return !Double.isNaN(x) && !Double.isNaN(y) && !Double.isNaN(z);
 	}
 
 	@Override
@@ -1032,7 +1036,8 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		double[] g = new double[3];
 		char op = '=';
 
-		if (!isDefined()) {
+		if (!coefficientsDefined() || (Kernel.isZero(x) && Kernel.isZero(y)
+				&& toStringMode != EQUATION_USER)) {
 			return new StringBuilder(
 					(toStringMode == PARAMETRIC) ? "X = (?, ?)" : "y = ?");
 		}

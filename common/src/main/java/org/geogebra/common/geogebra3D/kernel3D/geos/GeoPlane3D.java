@@ -477,21 +477,9 @@ public class GeoPlane3D extends GeoElement3D
 		// as a plane
 		if (toStringMode == GeoLine.EQUATION_USER && getDefinition() != null) {
 			return new StringBuilder(getDefinition().toValueString(tpl));
-		} else {
-			return buildValueString(tpl, kernel,
-				getCoordSys().getEquationVector(), !isLabelSet());
 		}
-		// fix for GGB-1116
-		// we don't need this since equation is already
-		// wrapped in Ggb2giac
-		// if (tpl.hasCASType()) {
-		// StringBuilder sbTemp = new StringBuilder();
-		// Giac
-		// sbTemp.append("plane(");
-		// sbTemp.append(ret);
-		// sbTemp.append(")");
-		// return sbTemp;
-		// }
+		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
+				!isLabelSet());
 
 
 

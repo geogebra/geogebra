@@ -120,6 +120,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 		if (equ.containsZ()) {
 			switch (equ.degree()) {
+			case 0:
 			case 1:
 				equ.setForcePlane();
 				break;
