@@ -10,6 +10,7 @@ targetCompatibility = 1.6
 dependencies {
 	compile project(':common')
 	compile project(':giac-jni')
+    compile project(':editor-base')
 }
 
 findbugs{
