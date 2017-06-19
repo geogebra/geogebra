@@ -124,6 +124,7 @@
 $collapse-trans: all 0.3s ease;
 
 	.expanded {
+		padding: 0px 16px 0px 64px;
 		max-height: 32px;
 		height: 32px;		
 		transition: $collapse-trans; 
@@ -153,8 +154,11 @@ $collapse-trans: all 0.3s ease;
 	
 			.checkMarkMenuItem {
 			transition: $collapse-trans;
-			overflow: hidden;
 			max-height: 0px;
+			.gwt-HTML {
+    			position: relative;
+    			left: -24px;
+			}	
 			img  {
 				max-height: 0px;
 		}	
@@ -163,7 +167,6 @@ $collapse-trans: all 0.3s ease;
 	}
 	.collapsed >*{
 		max-height: 0px;
-		overflow: hidden;
 		transition: $collapse-trans;
 	} 
  }
