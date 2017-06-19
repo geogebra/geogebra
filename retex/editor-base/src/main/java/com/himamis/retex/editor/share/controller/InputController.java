@@ -968,16 +968,16 @@ public class InputController {
 		MetaModel meta = editorState.getMetaModel();
 
 		// special case: '|' to end abs() block
-		MathContainer parent = editorState.getCurrentField().getParent();
-		if (parent instanceof MathArray
-				&& editorState.getSelectionStart() == null) {
-
-			if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
-				endField(editorState, ch);
-				handled = true;
-			}
-
-		}
+		// MathContainer parent = editorState.getCurrentField().getParent();
+		// if (parent instanceof MathArray
+		// && editorState.getSelectionStart() == null) {
+		//
+		// if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
+		// endField(editorState, ch);
+		// handled = true;
+		// }
+		//
+		// }
 
 		if (!handled) {
 			if (meta.isArrayCloseKey(ch)) {
