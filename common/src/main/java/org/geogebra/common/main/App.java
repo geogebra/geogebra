@@ -4180,7 +4180,7 @@ public abstract class App implements UpdateSelection {
 		 * GGB-1398 + GGB-1529
 		 */
 		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
-			return prerelease;
+			return keyboard;
 
 		/** GGB-1694 */
 		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
