@@ -143,11 +143,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	public String alt(int unicodeKeyChar, boolean shift) {
-		return getRetexListener().alt(unicodeKeyChar, shift);
-	}
-
-	@Override
 	public String serialize(MathSequence selectionText) {
 		return GeoGebraSerializer.serialize(selectionText);
 	}

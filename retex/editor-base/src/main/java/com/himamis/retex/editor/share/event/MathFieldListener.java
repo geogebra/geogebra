@@ -13,8 +13,6 @@ public interface MathFieldListener {
 	
 	public void onDownKeyPressed();
 	
-	public String alt(int unicodeKeyChar, boolean shift);
-
 	public String serialize(MathSequence selectionText);
 
 	public void onInsertString();

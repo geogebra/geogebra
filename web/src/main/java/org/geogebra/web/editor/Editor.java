@@ -102,11 +102,6 @@ public class Editor implements EntryPoint, MathFieldListener {
 	}
 
 	@Override
-	public String alt(int unicodeKeyChar, boolean shift) {
-		return unicodeKeyChar + "";
-	}
-
-	@Override
 	public void onDownKeyPressed() {
 		// TODO Auto-generated method stub
 

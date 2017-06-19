@@ -75,11 +75,6 @@ public class Test  {
 			}
 
 			@Override
-			public String alt(int unicodeKeyChar, boolean shift) {
-				return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
-			}
-
-			@Override
 			public void onDownKeyPressed() {
 				// TODO Auto-generated method stub
 

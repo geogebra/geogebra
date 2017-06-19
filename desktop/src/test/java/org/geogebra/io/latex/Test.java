@@ -39,7 +39,6 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
-import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
@@ -75,11 +74,6 @@ public class Test {
 			public void onCursorMove() {
 				// TODO Auto-generated method stub
 
-			}
-
-			@Override
-			public String alt(int unicodeKeyChar, boolean shift) {
-				return AltKeys.getAltSymbols(unicodeKeyChar, shift, true);
 			}
 
 			@Override

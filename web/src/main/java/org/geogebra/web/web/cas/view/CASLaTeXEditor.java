@@ -362,11 +362,6 @@ public class CASLaTeXEditor extends FlowPanel
 	}
 
 	@Override
-	public String alt(int unicodeKeyChar, boolean shift) {
-		return retexListener.alt(unicodeKeyChar, shift);
-	}
-
-	@Override
 	public void onUpKeyPressed() {
 		if (isSuggesting()) {
 			sug.onKeyUp();
