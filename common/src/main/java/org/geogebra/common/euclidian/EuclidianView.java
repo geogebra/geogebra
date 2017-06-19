@@ -5214,7 +5214,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			yzero = YZERO_STANDARD;
 		}
 
-		if (getScaleRatio() != 1.0) {
+		if (needsZoomerForStandardRatio()) {
 			// set axes ratio back to 1
 			if (axesRatioZoomer == null) {
 				axesRatioZoomer = newZoomer();
@@ -5228,6 +5228,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (storeUndo) {
 			getApplication().storeUndoInfo();
 		}
+	}
+
+	protected boolean needsZoomerForStandardRatio() {
+		return getScaleRatio() != 1.0;
 	}
 
 	/**

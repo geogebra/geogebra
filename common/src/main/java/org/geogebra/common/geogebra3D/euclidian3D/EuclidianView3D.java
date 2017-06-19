@@ -4975,5 +4975,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	protected boolean needsZoomerForStandardRatio() {
+		return false; // not needed in 3D
+	}
 
 }
