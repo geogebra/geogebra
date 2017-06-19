@@ -3182,9 +3182,9 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
+	public DescriptionMode needToShowBothRowsInAV() {
 		if (hideDefinitionInAlgebra(getFunctionExpression())) {
-			return false;
+			return DescriptionMode.VALUE;
 		}
 
 		return super.needToShowBothRowsInAV();

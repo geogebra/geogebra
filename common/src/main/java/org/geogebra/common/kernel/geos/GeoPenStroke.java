@@ -71,8 +71,8 @@ public class GeoPenStroke extends GeoPolyLine {
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
-		return false;
+	public DescriptionMode needToShowBothRowsInAV() {
+		return DescriptionMode.VALUE;
 	}
 
 	@Override

@@ -3041,21 +3041,21 @@ public class GeoList extends GeoElement
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
+	public DescriptionMode needToShowBothRowsInAV() {
 		if (isMatrix() && isIndependent()) {
-			return false;
+			return DescriptionMode.VALUE;
 		}
 		if (!isIndependent()) {
-			return true;
+			return DescriptionMode.DEFINITION_VALUE;
 		}
 
 		for (GeoElement geo : geoList) {
-			if (geo.needToShowBothRowsInAV()) {
-				return true;
+			if (geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE) {
+				return DescriptionMode.DEFINITION_VALUE;
 			}
 		}
 
-		return false;
+		return DescriptionMode.VALUE;
 	}
 
 	/**

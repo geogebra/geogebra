@@ -1395,8 +1395,8 @@ public class GeoText extends GeoElement
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
-		return false;
+	public DescriptionMode needToShowBothRowsInAV() {
+		return DescriptionMode.VALUE;
 	}
 
 	@Override

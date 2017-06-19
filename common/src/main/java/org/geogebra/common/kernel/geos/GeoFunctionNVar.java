@@ -1414,9 +1414,9 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
+	public DescriptionMode needToShowBothRowsInAV() {
 		if (GeoFunction.hideDefinitionInAlgebra(getFunctionExpression())) {
-			return false;
+			return DescriptionMode.VALUE;
 		}
 
 		return super.needToShowBothRowsInAV();

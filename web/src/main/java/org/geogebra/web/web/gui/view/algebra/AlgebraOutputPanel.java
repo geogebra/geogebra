@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
@@ -83,7 +84,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	boolean updateValuePanel(GeoElement geo1, String text,
 			boolean latex, int fontSize) {
-		if (geo1 == null || !geo1.needToShowBothRowsInAV()) {
+		if (geo1 == null || geo1
+				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE) {
 			return false;
 		}
 		Kernel kernel = geo1.getKernel();

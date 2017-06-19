@@ -57,8 +57,8 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
-		return false;
+	public DescriptionMode needToShowBothRowsInAV() {
+		return DescriptionMode.VALUE;
 	}
 
 	@Override

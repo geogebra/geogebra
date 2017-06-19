@@ -5,6 +5,7 @@ import java.util.Locale;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -29,7 +30,8 @@ public class AlgebraStyleTest extends Assert {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false,
 				TestErrorHandler.INSTANCE, false, null);
-		assertEquals(rows, el[0].needToShowBothRowsInAV() ? 2 : 1);
+		assertEquals(DescriptionMode.values()[rows],
+				el[0].needToShowBothRowsInAV());
 	}
 
 	private static void checkEquation(String def, int mode, String check) {
@@ -70,7 +72,7 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("{{a}}", 2);
 		checkRows("{{a}}+{{1}}", 2);
 		checkRows("{x=y}", 1);
-		checkRows("x=y", 1);
+		checkRows("x=y", 0);
 		checkRows("{y=x}", 1);
 		checkRows("Sequence[100]", 2);
 

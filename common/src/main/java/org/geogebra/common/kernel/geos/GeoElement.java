@@ -8701,21 +8701,27 @@ public abstract class GeoElement extends ConstructionElement
 	 *         style.
 	 */
 	@Override
-	public boolean needToShowBothRowsInAV() {
+	public DescriptionMode needToShowBothRowsInAV() {
 		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& Equation.isAlgebraEquation(this)) {
-			return false;
+			return DescriptionMode.DEFINITION;
 		}
 		String def0 = getDefinition(StringTemplate.defaultTemplate);
 		if ("".equals(def0)) {
-			return false;
+			return DescriptionMode.VALUE;
+		}
+		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
+				&& getParentAlgorithm() != null
+				&& getParentAlgorithm().getOutput(0) != this) {
+			return DescriptionMode.VALUE;
 		}
 		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);
 		IndexHTMLBuilder sbVal = new IndexHTMLBuilder(false);
 		addLabelTextOrHTML(def0, sbDef);
 		String def = sbDef.toString();
 		String val = getAlgebraDescriptionTextOrHTMLDefault(sbVal);
-		return !def.equals(val);
+		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
+				: DescriptionMode.VALUE;
 	}
 
 	/**

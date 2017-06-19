@@ -26,6 +26,7 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasExtendedAV;
@@ -348,7 +349,8 @@ public class RadioTreeItem extends AVTreeItem
 				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}
-		String text = geo1.getLaTeXAlgebraDescription(singleRowIsValue(),
+		String text = geo1.getLaTeXAlgebraDescription(
+				geo1.needToShowBothRowsInAV() != DescriptionMode.DEFINITION,
 				StringTemplate.latexTemplate);
 
 		if ((text != null) && (limit == null || (text.length() < limit))) {
@@ -356,14 +358,6 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		return null;
-	}
-
-
-
-
-	private boolean singleRowIsValue() {
-		return kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
-				|| !app.has(Feature.AV_ITEM_DESIGN);
 	}
 
 	private void buildPlainTextItem() {
@@ -467,7 +461,8 @@ public class RadioTreeItem extends AVTreeItem
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-			if ((geo.needToShowBothRowsInAV() && !isLatexTrivial())
+			if ((geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+					&& !isLatexTrivial())
 					|| lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
@@ -535,7 +530,8 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void previewValue(GeoElement previewGeo) {
-		if ((!previewGeo.needToShowBothRowsInAV()
+		if ((previewGeo
+				.needToShowBothRowsInAV() != DescriptionMode.DEFINITION_VALUE
 				|| getController().isInputAsText())) {
 			clearPreview();
 
@@ -595,7 +591,7 @@ public class RadioTreeItem extends AVTreeItem
 
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
-				singleRowIsValue());
+				geo.needToShowBothRowsInAV() != DescriptionMode.DEFINITION);
 		latex = text != null;
 
 
@@ -1197,7 +1193,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	protected int getWidthForEdit() {
 
-		if (isDefinitionAndValue() && geo.needToShowBothRowsInAV()
+		if (isDefinitionAndValue()
+				&& geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 				&& definitionPanel != null
 				&& definitionPanel.getWidget(0) != null) {
 			return marblePanel.getOffsetWidth()

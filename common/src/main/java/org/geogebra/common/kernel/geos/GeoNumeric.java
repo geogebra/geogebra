@@ -1891,9 +1891,11 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public boolean needToShowBothRowsInAV() {
-		return super.needToShowBothRowsInAV()
-				|| (getDefinition() != null && getDefinition().isFraction());
+	public DescriptionMode needToShowBothRowsInAV() {
+		if (getDefinition() != null && getDefinition().isFraction()) {
+			return DescriptionMode.DEFINITION_VALUE;
+		}
+		return super.needToShowBothRowsInAV();
 	}
 
 	/**

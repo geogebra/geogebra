@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -600,7 +601,7 @@ public interface GeoElementND extends ExpressionValue {
 
 	public void resetDefinition();
 
-	boolean needToShowBothRowsInAV();
+	DescriptionMode needToShowBothRowsInAV();
 
 	boolean isGeoFunctionable();
 

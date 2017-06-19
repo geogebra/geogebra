@@ -161,7 +161,6 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							&& expr(coefY[i]).isConstant()
 							&& expr(coefZ[i]).isConstant();
 				}
-				Log.printStacktrace("parabola" + constant);
 				if (constant) {
 					GeoConic3D conic = new GeoConic3D(kernel.getConstruction());
 					updateParabola(conic, coefX, coefY, coefZ);
