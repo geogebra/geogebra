@@ -2485,8 +2485,11 @@ public class AlgebraProcessor {
 		switch (deg) {
 		// linear equation -> LINE
 		case 0:
+			if (allowConstant) {
+				return functionOrImplicitPoly(equ, def);
+			}
+			return processLine(equ, def);
 		case 1:
-
 			return processLine(equ, def);
 
 		// quadratic equation -> CONIC
@@ -2497,37 +2500,42 @@ public class AlgebraProcessor {
 			// if constants are allowed, build implicit poly
 		default:
 			// test for "y= <rhs>" here as well
-			String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
-					.trim();
-
-			if ("y".equals(lhsStr)
-					&& !equ.getRHS().containsFreeFunctionVariable("y")) {
-
-				Function fun = new Function(equ.getRHS());
-				// try to use label of equation
-				fun.setLabel(equ.getLabel());
-				fun.setShortLHS(true);
-				GeoElement[] ret = processFunction(fun,
-						new EvalInfo(!cons.isSuppressLabelsActive()));
-				return ret;
-			}
-			if ("z".equals(lhsStr)
-					&& !equ.getRHS().containsFreeFunctionVariable("z")
-					&& kernel.lookupLabel("z") == null) {
-				FunctionVariable x = new FunctionVariable(kernel, "x");
-				FunctionVariable y = new FunctionVariable(kernel, "y");
-				FunctionNVar fun = new FunctionNVar(equ.getRHS(),
-						new FunctionVariable[] { x, y });
-				// try to use label of equation
-				fun.setLabel(equ.getLabel());
-				fun.setShortLHS(true);
-				GeoElement[] ret = processFunctionNVar(fun,
-						new EvalInfo(!cons.isSuppressLabelsActive()));
-				return ret;
-			}
-			return processImplicitPoly(equ, def);
+			return functionOrImplicitPoly(equ, def);
 		}
 
+	}
+
+	private GeoElement[] functionOrImplicitPoly(Equation equ,
+			ExpressionNode def) {
+		String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
+				.trim();
+
+		if ("y".equals(lhsStr)
+				&& !equ.getRHS().containsFreeFunctionVariable("y")) {
+
+			Function fun = new Function(equ.getRHS());
+			// try to use label of equation
+			fun.setLabel(equ.getLabel());
+			fun.setShortLHS(true);
+			GeoElement[] ret = processFunction(fun,
+					new EvalInfo(!cons.isSuppressLabelsActive()));
+			return ret;
+		}
+		if ("z".equals(lhsStr)
+				&& !equ.getRHS().containsFreeFunctionVariable("z")
+				&& kernel.lookupLabel("z") == null) {
+			FunctionVariable x = new FunctionVariable(kernel, "x");
+			FunctionVariable y = new FunctionVariable(kernel, "y");
+			FunctionNVar fun = new FunctionNVar(equ.getRHS(),
+					new FunctionVariable[] { x, y });
+			// try to use label of equation
+			fun.setLabel(equ.getLabel());
+			fun.setShortLHS(true);
+			GeoElement[] ret = processFunctionNVar(fun,
+					new EvalInfo(!cons.isSuppressLabelsActive()));
+			return ret;
+		}
+		return processImplicitPoly(equ, def);
 	}
 
 	private void checkNoTheta(Equation equ) {
