@@ -19,9 +19,11 @@ import java.util.Set;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -857,6 +859,16 @@ public class Equation extends ValidExpression implements EquationValue {
 							&& !eq.rhs.containsFreeFunctionVariable("z"));
 		}
 		return false;
+	}
+
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether element was defined using equation
+	 */
+	public static boolean isAlgebraEquation(GeoElementND geo) {
+		return geo instanceof EquationValue && (geo.getParentAlgorithm() == null
+				|| geo.getParentAlgorithm().getClassName() == Algos.Expression);
 	}
 
 } // end of class Equation

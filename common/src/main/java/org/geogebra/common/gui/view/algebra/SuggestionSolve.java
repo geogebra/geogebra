@@ -2,6 +2,7 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,7 +27,7 @@ public class SuggestionSolve extends Suggestion {
 	}
 
 	public static Suggestion get(GeoElement geo) {
-		if (geo instanceof EquationValue && !hasDependentAlgo(geo)) {
+		if (Equation.isAlgebraEquation(geo) && !hasDependentAlgo(geo)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars.length == 1) {
 				return new SuggestionSolve(geo.getLabelSimple());
@@ -42,7 +43,8 @@ public class SuggestionSolve extends Suggestion {
 		GeoElementND prev = geo;
 		do {
 			prev = geo.getConstruction().getPrevious(prev);
-			if (prev instanceof EquationValue && subset(
+			if (Equation.isAlgebraEquation(prev)
+					&& subset(
 					((EquationValue) prev).getEquationVariables(), vars)
 					&& !hasDependentAlgo(prev)) {
 				return new SuggestionSolve(prev.getLabelSimple(),
