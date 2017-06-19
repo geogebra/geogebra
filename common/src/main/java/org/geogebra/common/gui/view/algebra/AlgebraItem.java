@@ -98,7 +98,7 @@ public class AlgebraItem {
 
 			sug = SuggestionRootExtremum.get(geo);
 			if (sug != null) {
-				return null;
+				return sug;
 			}
 		}
 
