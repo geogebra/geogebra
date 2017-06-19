@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.Suggestion;
+import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -250,10 +251,15 @@ public class ItemControls extends FlowPanel {
 			if (suggestionBar == null) {
 				suggestionBar = new SuggestionBar(radioTreeItem);
 			}
+			// suggestionBar.addStyleName("add");
 			suggestionBar.setSuggestion(sug, radioTreeItem.loc);
-			add(suggestionBar);
-			radioTreeItem.getApplication().getKernel().getGeoGebraCAS()
+			if (!suggestionBar.isAttached()) {
+				add(suggestionBar);
+			}
+			if (sug instanceof SuggestionSolve) {
+				radioTreeItem.getApplication().getKernel().getGeoGebraCAS()
 					.initCurrentCAS();
+			}
 			radioTreeItem.toggleSuggestionStyle(true);
 		} else if (suggestionBar != null) {
 			remove(suggestionBar);

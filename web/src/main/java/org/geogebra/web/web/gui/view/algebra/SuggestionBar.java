@@ -27,6 +27,7 @@ public class SuggestionBar extends FlowPanel {
 	 */
 	public SuggestionBar(final RadioTreeItem parentItem) {
 		addStyleName("suggestionBar");
+		addStyleName("animating");
 		label = new Label();
 		label.addStyleName("suggestionButton");
 		add(label);

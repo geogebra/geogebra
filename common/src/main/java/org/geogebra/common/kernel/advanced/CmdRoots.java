@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.advanced;
 
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.commands.CmdRoot;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
@@ -36,12 +36,7 @@ public class CmdRoots extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				EuclidianViewInterfaceCommon view = this.kernel
-						.getApplication().getActiveEuclidianView();
-
-				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
-						((GeoFunctionable) arg[0]).getGeoFunction(), view);
-				return algo.getRootPoints();
+				return CmdRoot.nonPolyRoots(c, kernel, arg[0]);
 			}
 			throw argErr(app, c, arg[0]);
 

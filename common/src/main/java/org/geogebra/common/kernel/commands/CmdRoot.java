@@ -1,8 +1,10 @@
 package org.geogebra.common.kernel.commands;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoRootInterval;
 import org.geogebra.common.kernel.algos.AlgoRootNewton;
+import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomialInterval;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -104,13 +106,24 @@ public class CmdRoot extends CommandProcessor {
 		// allow functions that can be simplified to factors of polynomials
 		if (!f.getConstruction().isFileLoading()
 				&& !f.isPolynomialFunction(true) && f.isDefined()) {
-			throw argErr(app, c, f);
+			return nonPolyRoots(c, kernel, f);
 		}
 
 		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(),
 				f);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
+	}
+
+	public static GeoPoint[] nonPolyRoots(Command c, Kernel kernel,
+			GeoElement geoElement) {
+		EuclidianViewInterfaceCommon view = kernel.getApplication()
+				.getActiveEuclidianView();
+
+		AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), c.getLabels(),
+				((GeoFunctionable) geoElement).getGeoFunction(), view);
+		return algo.getRootPoints();
+
 	}
 
 }

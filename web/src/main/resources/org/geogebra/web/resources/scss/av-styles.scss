@@ -164,7 +164,13 @@
 		position: absolute;
 		bottom:0px;
 		right:0;
+		overflow-y:hidden;
+		&.animating{
+			animation-name:addSuggestions;
+			animation-duration:0.2s;
+		}
 	}
+	
 
 	.suggestionButton {	
 		border-radius: 2px;
@@ -187,7 +193,9 @@
 	}
 	
 	.algebraView .panelRow .withSuggestions{
-		margin-bottom:40px;
+		margin-bottom: 40px;
+		animation-name: addSuggestionsParent;
+		animation-duration: 0.2s;
 	}
 
 	.AlgebraViewObjectStylebar.withContextMenu {
@@ -349,4 +357,19 @@
 			position: relative;
 		}		
 	}
+}
+
+@keyframes addSuggestions {
+	0% {max-height: 10px;}
+	100% {max-height: 50px;}
+}
+
+@keyframes addSuggestionsParent {
+	0% {margin-bottom: 0;}
+	100% {margin-bottom: 40px;}
+}
+	
+@keyframes removeSuggestions {
+	0% {max-height: 60px;}
+	100% {max-height: 20;}
 }
