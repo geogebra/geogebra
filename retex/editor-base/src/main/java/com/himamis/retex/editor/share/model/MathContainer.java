@@ -335,7 +335,9 @@ abstract public class MathContainer extends MathComponent {
 	}
 
 	public void delArgument(int i) {
-		arguments.remove(i);
+		if (i >= 0 && i < arguments.size()) {
+			arguments.remove(i);
+		}
 	}
 
 	@Override
