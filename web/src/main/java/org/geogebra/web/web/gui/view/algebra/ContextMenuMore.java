@@ -113,7 +113,8 @@ public class ContextMenuMore implements SetLabels {
 					public void execute() {
 						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 						list.add(item.geo);
-						app.getDialogManager().showPropertiesDialog(OptionType.ALGEBRA,
+						app.getDialogManager()
+								.showPropertiesDialog(OptionType.OBJECTS,
 								list);
 					}
 				});
