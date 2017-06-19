@@ -410,8 +410,10 @@ public class AppWapplet extends AppWFull {
 					p2.setInputPosition(InputPosition.bottom);
 				}
 			}
-			getGuiManager().getLayout()
+			if (!has(Feature.NEW_TOOLBAR)) {
+				getGuiManager().getLayout()
 					.setPerspectives(getTmpPerspectives(), p);
+			}
 		}
 
 		getScriptManager().ggbOnInit(); // put this here from Application
@@ -461,6 +463,7 @@ public class AppWapplet extends AppWFull {
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
+
 		adjustViews(false);
 		kernel.notifyScreenChanged();
 		resetPenTool();
