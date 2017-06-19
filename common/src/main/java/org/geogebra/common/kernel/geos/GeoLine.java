@@ -640,12 +640,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public boolean isDefined() {
-		return coefficientsDefined()
-				&& !(Kernel.isZero(x) && Kernel.isZero(y));
+		return coefficientsDefined() && !(Kernel.isZero(x) && Kernel.isZero(y));
 	}
 
 	private boolean coefficientsDefined() {
 		return !Double.isNaN(x) && !Double.isNaN(y) && !Double.isNaN(z);
+	}
+
+	@Override
+	public boolean isDefinitionValid() {
+		return coefficientsDefined();
 	}
 
 	@Override
@@ -1993,7 +1997,28 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		if (!MyDouble.exactEqual(y, 0)) {
 			usedVars.add("y");
 		}
+		addUsedVars(usedVars, getDefinition());
 		return usedVars.toArray(new String[0]);
+	}
+
+	public static void addUsedVars(ArrayList<String> usedVars,
+			ExpressionNode definition) {
+		if (usedVars.isEmpty() && definition != null
+				&& definition.unwrap() instanceof Equation) {
+			if (((Equation) definition.unwrap())
+					.containsFreeFunctionVariable("x")) {
+				usedVars.add("x");
+			}
+			if (((Equation) definition.unwrap())
+					.containsFreeFunctionVariable("y")) {
+				usedVars.add("y");
+			}
+			if (((Equation) definition.unwrap())
+					.containsFreeFunctionVariable("z")) {
+				usedVars.add("z");
+			}
+		}
+
 	}
 
 }

@@ -344,7 +344,7 @@ public class RadioTreeItem extends AVTreeItem
 	private String getLatexString(GeoElement geo1, 
 			Integer limit, boolean output) {
 		if ((kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_VALUE
-				&& !isDefinitionAndValue()) || !geo1.isDefined()
+				&& !isDefinitionAndValue()) || !geo1.isDefinitionValid()
 				|| (output && !geo1.isLaTeXDrawableGeo())) {
 			return null;
 		}

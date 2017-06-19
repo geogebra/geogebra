@@ -2557,7 +2557,6 @@ public class AlgebraProcessor {
 	 * @return resulting line
 	 */
 	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
-		Log.printStacktrace("");
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		String label = equ.getLabel();

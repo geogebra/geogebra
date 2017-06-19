@@ -372,9 +372,7 @@ public class GeoPlane3D extends GeoElement3D
 	public GeoPlane3D copy() {
 		GeoPlane3D p = new GeoPlane3D(cons);
 
-		// TODO move this elsewhere
-		CoordSys cs = p.getCoordSys();
-		cs.set(this.getCoordSys());
+		p.set(this);
 
 		return p;
 	}
@@ -544,6 +542,11 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean isDefined() {
 		return coordsys.isDefined();
+	}
+
+	@Override
+	public boolean isDefinitionValid() {
+		return isDefined() || getDefinition() != null;
 	}
 
 	@Override
@@ -908,7 +911,6 @@ public class GeoPlane3D extends GeoElement3D
 	}
 
 	public String[] getEquationVariables() {
-		// TODO Auto-generated method stub
 		ArrayList<String> usedVars = new ArrayList<String>();
 		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getX(), 0)) {
 			usedVars.add("x");
@@ -919,11 +921,17 @@ public class GeoPlane3D extends GeoElement3D
 		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getZ(), 0)) {
 			usedVars.add("z");
 		}
+		GeoLine.addUsedVars(usedVars, getDefinition());
 		return usedVars.toArray(new String[0]);
 	}
 
 	public void setMode(int stringMode) {
 		this.toStringMode = stringMode;
+	}
+
+	@Override
+	public boolean isLaTeXDrawableGeo() {
+		return toStringMode == GeoLine.EQUATION_USER;
 	}
 
 }

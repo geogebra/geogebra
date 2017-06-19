@@ -5250,7 +5250,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	final public String getAlgebraDescription(StringTemplate tpl) {
 
-		if (isDefined()) {
+		if (isDefinitionValid()) {
 			return toString(tpl);
 		}
 		final StringBuilder sbAlgebraDesc = new StringBuilder();
@@ -5434,8 +5434,9 @@ public abstract class GeoElement extends ConstructionElement
 				&& ((GeoList) geo).getElementType().equals(GeoClass.TEXT)) {
 			return null;
 		}
+		Log.debug(algebraDesc);
 		// handle undefined
-		if (!geo.isDefined()) {
+		if (!geo.isDefinitionValid()) {
 			// we need to keep the string simple (no \mbox) so that
 			// isLatexNeeded may return true
 			if (includeLHS) {
@@ -5516,6 +5517,10 @@ public abstract class GeoElement extends ConstructionElement
 	 * all special characters in str to HTML examples: "a_1" becomes
 	 * "a<sub>1</sub>" "s_{AB}" becomes "s<sub>AB</sub>"
 	 */
+
+	public boolean isDefinitionValid() {
+		return isDefined();
+	}
 
 	/**
 	 * @param str
