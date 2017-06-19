@@ -113,8 +113,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 			valuePanel.add(valCanvas);
 		} else {
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-			geo1.getAlgebraDescriptionTextOrHTMLRHS(sb);
-			valuePanel.add(new HTML(sb.toString()));
+			if (geo1.getParentAlgorithm() != null
+					&& geo1.getParentAlgorithm().getOutput().length > 1) {
+				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
+				valuePanel.add(new HTML(sb.toString()));
+			}else{
+				geo1.getAlgebraDescriptionTextOrHTMLRHS(sb);
+				valuePanel.add(new HTML(sb.toString()));
+			}
 		}
 
 		return true;
