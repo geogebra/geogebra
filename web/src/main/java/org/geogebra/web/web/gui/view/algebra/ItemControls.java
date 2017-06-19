@@ -259,7 +259,6 @@ public class ItemControls extends FlowPanel {
 			remove(suggestionBar);
 			radioTreeItem.toggleSuggestionStyle(false);
 		}
-
 	}
 
 	/**

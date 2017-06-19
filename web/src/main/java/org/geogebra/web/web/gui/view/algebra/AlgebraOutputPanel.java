@@ -6,8 +6,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.DrawEquationW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -55,8 +55,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 		if (btnSymbolic == null) {
 			btnSymbolic = new MyToggleButtonW(
-				GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
-				GuiResourcesSimple.INSTANCE.modeToggleNumeric());
+					MaterialDesignResources.INSTANCE.modeToggleSymbolic(),
+					MaterialDesignResources.INSTANCE.modeToggleNumeric());
 			final MyToggleButtonW btn = btnSymbolic;
 			btnSymbolic.addClickHandler(new ClickHandler() {
 
