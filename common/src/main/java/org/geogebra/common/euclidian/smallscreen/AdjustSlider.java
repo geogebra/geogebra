@@ -119,7 +119,7 @@ public class AdjustSlider extends AdjustWidget {
 		if (y > maxY) {
 			y = maxY;
 		}
-		Log.debug("[AS] slider " + number.getAlgebraDescriptionDefault()
+		Log.debug("[AS] slider " + number.getLabelSimple()
 				+ " y: " + y + " maxY: " + maxY);
 	}
 

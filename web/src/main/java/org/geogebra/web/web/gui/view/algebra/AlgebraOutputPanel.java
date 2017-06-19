@@ -111,7 +111,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			valuePanel.add(valCanvas);
 		} else {
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-			geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
+			geo1.getAlgebraDescriptionTextOrHTMLRHS(sb);
 			valuePanel.add(new HTML(sb.toString()));
 		}
 

@@ -1011,11 +1011,11 @@ public abstract class GeoElement extends ConstructionElement
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a
 			final char delimiter = getLabelDelimiter();
-			if (inputBarStr.indexOf(delimiter) < 0) {
-				inputBarStr = getAssignmentLHS(stringTemplate)
+
+			inputBarStr = getAssignmentLHS(stringTemplate)
 						+ (delimiter == '=' ? " =" : delimiter) + " "
 						+ inputBarStr;
-			}
+
 		} else {
 			inputBarStr = getAlgebraDescription(stringTemplate);
 		}
@@ -5178,6 +5178,21 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @param builder
+	 *            index builder
+	 * @return right hand side
+	 */
+	final public String getAlgebraDescriptionTextOrHTMLRHS(
+			IndexHTMLBuilder builder) {
+
+		String algDesc = toValueString(StringTemplate.defaultTemplate);
+		// convertion to html is only needed if indices are found
+		indicesToHTML(algDesc, builder);
+		return algDesc;
+
+	}
+
+	/**
 	 * @return algebra description
 	 */
 	final public String getAlgebraDescriptionHTMLDefault() {
@@ -5364,10 +5379,9 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		if (ret != null && ret.length() > 0) {
 			final char delimiter = getLabelDelimiter();
-			if (ret.indexOf(delimiter) < 0) {
-				ret = getAssignmentLHS(StringTemplate.editTemplate)
-						+ (delimiter == '=' ? " =" : delimiter) + " " + ret;
-			}
+
+			ret = getAssignmentLHS(StringTemplate.editTemplate)
+					+ (delimiter == '=' ? " =" : delimiter) + " " + ret;
 
 			return ret;
 		}
@@ -5394,11 +5408,24 @@ public abstract class GeoElement extends ConstructionElement
 	public final String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
-		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl);
+		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, true);
+	}
+
+	/**
+	 * @param substituteNumbers
+	 *            whether to use numbers rather than variable nmes
+	 * @param tpl
+	 *            template
+	 * @return LaTeX description without LHS
+	 */
+	public final String getLaTeXDescriptionRHS(final boolean substituteNumbers,
+			StringTemplate tpl) {
+		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, false);
 	}
 
 	private String getLaTeXAlgebraDescription(final GeoElement geo,
-			final boolean substituteNumbers, StringTemplate tpl) {
+			final boolean substituteNumbers, StringTemplate tpl,
+			boolean includeLHS) {
 
 		final String algebraDesc = geo.getAlgebraDescription(tpl);
 		final StringBuilder sb = new StringBuilder();
@@ -5411,8 +5438,11 @@ public abstract class GeoElement extends ConstructionElement
 		if (!geo.isDefined()) {
 			// we need to keep the string simple (no \mbox) so that
 			// isLatexNeeded may return true
-			sb.append(label);
-			sb.append("\\, \\text{");
+			if (includeLHS) {
+				sb.append(label);
+				sb.append("\\, ");
+			}
+			sb.append("\\text{");
 			sb.append(getLoc().getPlain("Undefined"));
 			sb.append("} ");
 
@@ -5424,18 +5454,24 @@ public abstract class GeoElement extends ConstructionElement
 
 		// now handle non-GeoText prefixed with "="
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
-			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
+			if (includeLHS) {
+				sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
+			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		} else if (geo.isGeoVector()) {
-			sb.append(label);
-			sb.append("\\, = \\,");
+			if (includeLHS) {
+				sb.append(label);
+				sb.append("\\, = \\,");
+			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
 		else if (geo.isGeoText() && ((GeoText) geo).isLaTeX()) {
-			sb.append(algebraDesc.split("=")[0]);
-			sb.append("\\, = \\,");
+			if (includeLHS) {
+				sb.append(algebraDesc.split("=")[0]);
+				sb.append("\\, = \\,");
+			}
 			if (geo.getParentAlgorithm() instanceof TableAlgo) {
 				sb.append(((GeoText) geo).getTextString());
 			} else {

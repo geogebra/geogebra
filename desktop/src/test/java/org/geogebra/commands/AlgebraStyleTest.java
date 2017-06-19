@@ -236,10 +236,14 @@ public class AlgebraStyleTest extends Assert {
 	@Test
 	public void listShouldKeepDefinition() {
 		t("list1 = {x+x=y}");
-		assertEquals("{x + x = y}", getGeo("list1").getDefinitionForEditor());
+		assertEquals("list1 = {x + x = y}",
+				getGeo("list1").getDefinitionForEditor());
 		assertEquals("x + x = y",
 				((GeoList) getGeo("list1")).get(0)
 						.getDefinition(StringTemplate.editTemplate));
+		t("list2 = Flatten[{x=y}]");
+		assertEquals("list2 = Flatten[{x = y}]",
+				((GeoList) getGeo("list2")).getDefinitionForEditor());
 		
 	}
 
