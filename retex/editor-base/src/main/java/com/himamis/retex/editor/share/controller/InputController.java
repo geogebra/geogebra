@@ -968,16 +968,32 @@ public class InputController {
 		MetaModel meta = editorState.getMetaModel();
 
 		// special case: '|' to end abs() block
-		// MathContainer parent = editorState.getCurrentField().getParent();
-		// if (parent instanceof MathArray
-		// && editorState.getSelectionStart() == null) {
-		//
-		// if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
-		// endField(editorState, ch);
-		// handled = true;
-		// }
-		//
-		// }
+		MathContainer parent = editorState.getCurrentField().getParent();
+		if (parent instanceof MathArray
+				&& editorState.getSelectionStart() == null) {
+
+			if (ch == '|' && ((MathArray) parent).getCloseKey() == '|') {
+
+				MathSequence currentField = editorState.getCurrentField();
+
+				int offset = editorState.getCurrentOffset();
+
+				MathComponent nextArg = currentField.getArgument(offset);
+				MathComponent prevArg = currentField.getArgument(offset - 1);
+				
+				// check for eg * + -
+				boolean isOperation = mathField.getMetaModel()
+						.isOperator(prevArg + "");
+
+				// make sure | acts as closing | only at end of block
+				// but not after eg plus eg |x+|
+				if (nextArg == null && !isOperation) {
+					endField(editorState, ch);
+					handled = true;
+				}
+			}
+
+		}
 
 		if (!handled) {
 			if (meta.isArrayCloseKey(ch)) {
