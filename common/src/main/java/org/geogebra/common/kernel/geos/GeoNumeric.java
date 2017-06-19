@@ -614,10 +614,11 @@ public class GeoNumeric extends GeoElement
 			animationValue = value;
 		}
 
-		// if (kernel.getApplication()
-		// .has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
-		// kernel.getApplication().readLater(this);
-		// }
+		if (kernel.getApplication()
+				.has(Feature.READ_OBJECT_NAME_AT_SELECTING)
+				&& isLabelSet() && this.isSliderable()) {
+			kernel.getApplication().readLater(this);
+		}
 	}
 
 	/**
