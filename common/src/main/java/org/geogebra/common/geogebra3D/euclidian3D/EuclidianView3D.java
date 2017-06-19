@@ -236,7 +236,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * direction of view
 	 */
-	private Coords viewDirection = Coords.VZ.copyVector();
+	private Coords viewDirection;
 	private Coords eyePosition = new Coords(4);
 	// axis and xOy plane
 	private GeoPlane3DConstant xOyPlane;
@@ -281,7 +281,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			.Identity();
 	private CoordMatrix4x4 undoTranslationMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix rotationMatrix;
-	private Coords viewDirectionPersp = new Coords(4);
+	private Coords viewDirectionPersp;
 	private Coords tmpCoordsLength3 = new Coords(3);
 	private int intersectionThickness;
 	private GeoPointND intersectionPoint;
@@ -328,6 +328,9 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		startPos = new Coords(4);
 		startPos.setW(1);
+		
+		viewDirectionPersp = new Coords(4);
+		viewDirection = Coords.VZ.copyVector();
 
 		start();
 
