@@ -166,10 +166,24 @@
 		right:0;
 	}
 
-	.suggestionButton {		
+	.suggestionButton {	
+		border-radius: 2px;
+   		padding-bottom: 0px;	
 		padding: 4px;
-		margin: 4px;
-		backgreound-color:$white;
+		margin: 8px !important;
+		background-color: $toolbar-header-light5;
+    	/*border: 1px solid $toolbar-header-light5-dark10;*/
+		color: $white;
+		box-shadow: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+		min-width: 44px;
+    	height: 18px;
+    	text-align: center;
+    	cursor: pointer;
+    	
+    	&:hover {
+    		background-color: $toolbar-header;
+    		/*border: 1px solid $toolbar-header-dark10;*/
+    	}
 	}
 	
 	.algebraView .panelRow .withSuggestions{
