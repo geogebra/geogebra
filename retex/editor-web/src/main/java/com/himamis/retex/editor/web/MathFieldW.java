@@ -50,7 +50,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
@@ -627,7 +626,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 
-	private TextArea wrap;
+	private MyTextArea wrap;
 	private SimplePanel clip;
 
 	private Element getHiddenTextArea() {
@@ -635,7 +634,21 @@ public class MathFieldW implements MathField, IsWidget {
 			clip = new SimplePanel();
 			Element el = getHiddenTextAreaNative(counter++,
 					clip.getElement());
-			wrap = TextArea.wrap(el);
+			wrap = MyTextArea.wrap(el);
+
+			wrap.addCompositionUpdateHandler(new CompositionHandler() {
+
+				@Override
+				public void onCompositionUpdate(CompositionEvent event) {
+					// this works fine for Korean as the editor has support for
+					// combining Korean characters
+					// but for eg Japanese probably will need to hook into
+					// compositionstart & compositionend events as well
+					insertString(event.getData() + "");
+					// logNative("onCompositionUpdate" + event.getData());
+
+				}
+			});
 
 			wrap.addFocusHandler(new FocusHandler() {
 
@@ -645,6 +658,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 				}
 			});
+
 			wrap.addBlurHandler(new BlurHandler() {
 
 				@Override
@@ -665,6 +679,10 @@ public class MathFieldW implements MathField, IsWidget {
 
 		return wrap.getElement();
 	}
+
+	// private native void logNative(String s) /*-{
+	// $wnd.console.log(s);
+	// }-*/;
 
 	public void setOnBlur(BlurHandler run) {
 		this.onTextfieldBlur = run;
