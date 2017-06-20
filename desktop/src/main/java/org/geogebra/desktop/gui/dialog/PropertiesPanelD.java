@@ -4271,6 +4271,7 @@ class GraphicsViewLocationPanel extends JPanel
 		switch (index) {
 		default:
 			Log.error("missing case");
+			break;
 		case 0:
 			cbGraphicsView.setSelected(isSelected);
 			break;
