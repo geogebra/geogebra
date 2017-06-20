@@ -126,7 +126,7 @@ public class ExamEnvironment {
 
 		// Deactivated Views
 		boolean supportsCAS = settings.getCasSettings().isEnabled();
-		boolean supports3D = settings.getEuclidian(-1).isEnabled();
+		boolean supports3D = settings.supports3D();
 
 		if (!hasGraph) {
 			if (!supportsCAS || !supports3D) {

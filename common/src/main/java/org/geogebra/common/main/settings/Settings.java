@@ -213,6 +213,13 @@ public class Settings {
 	public final EuclidianSettings getEuclidian(int number) {
 		return euclidianSettings[number == -1 ? 2 : number - 1];
 	}
+	
+	public final boolean supports3D() {
+		if (euclidianSettings.length <= 2) {
+			return false;
+		}
+		return getEuclidian(-1).isEnabled();
+	}
 
 	/**
 	 * 
