@@ -2140,8 +2140,14 @@ public abstract class GeoElement extends ConstructionElement
 		case TOOLTIP_ON:
 
 			getLoc().setTooltipFlag();
-			final String ret = getLongDescriptionHTML(colored, false); // old
-																		// behaviour
+			// old behaviour
+
+			String ret = getLongDescriptionHTML(colored, false);
+			if (!isIndependent() && isGeoPoint()) {
+				ret = this.toValueString(StringTemplate.defaultTemplate)
+						+ "<br>" + ret;
+			}
+
 			getLoc().clearTooltipFlag();
 
 			return ret;
@@ -5438,7 +5444,6 @@ public abstract class GeoElement extends ConstructionElement
 				&& ((GeoList) geo).getElementType().equals(GeoClass.TEXT)) {
 			return null;
 		}
-		Log.debug(algebraDesc);
 		// handle undefined
 		if (!geo.isDefinitionValid()) {
 			// we need to keep the string simple (no \mbox) so that

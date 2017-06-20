@@ -160,12 +160,7 @@ public class RadioTreeItemController
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		if (item.geo == null) {
-			return;
-		}
 
-		ToolTipManagerW.sharedInstance()
-				.showToolTip(item.geo.getLongDescriptionHTML(true, true));
 
 	}
 

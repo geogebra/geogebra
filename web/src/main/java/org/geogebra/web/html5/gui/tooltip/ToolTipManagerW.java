@@ -509,17 +509,17 @@ public final class ToolTipManagerW {
 	 * @param toolTipText
 	 *            text to be displayed
 	 */
-	public void showToolTip(Element element, String toolTipText) {
-		if (!enabled) {
-			return;
-		}
-		tipElement = element;
-		if (tipElement == null) {
-			hideToolTip();
-			return;
-		}
-		showToolTipWithDelay(toolTipText);
-	}
+	// public void showToolTip(Element element, String toolTipText) {
+	// if (!enabled) {
+	// return;
+	// }
+	// tipElement = element;
+	// if (tipElement == null) {
+	// hideToolTip();
+	// return;
+	// }
+	// showToolTipWithDelay(toolTipText);
+	// }
 
 	/**
 	 * Show toolTip using mouse coordinates.
