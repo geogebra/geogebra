@@ -536,7 +536,8 @@ public class DrawInequality extends Drawable {
 			setShape(AwtFactory.getPrototype().newArea(view.getBoundingPath()));
 			left.getShape().exclusiveOr(right.getShape());
 			getShape().subtract(left.getShape());
-		} else if (operation.equals(Operation.NOT_EQUAL)) {
+		} else if (operation.equals(Operation.NOT_EQUAL)
+				|| operation.equals(Operation.XOR)) {
 			setShape(left.getShape());
 			getShape().exclusiveOr(right.getShape());
 		} else if (operation.equals(Operation.NOT)) {

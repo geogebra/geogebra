@@ -776,7 +776,7 @@ public class FunctionNVar extends ValidExpression
 			return newIneq.getType() != IneqType.INEQUALITY_INVALID;
 		} else if (op.equals(Operation.AND) || op.equals(Operation.AND_INTERVAL)
 				|| op.equals(Operation.OR) || op.equals(Operation.EQUAL_BOOLEAN)
-				|| op.equals(Operation.NOT_EQUAL)) {
+				|| op.equals(Operation.NOT_EQUAL) || op.equals(Operation.XOR)) {
 			tree.setOperation(adjustOp(op, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());

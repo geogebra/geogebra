@@ -234,6 +234,7 @@ public enum ValueType {
 			return ValueType.LIST.check(left, ValueType.BOOLEAN);
 		case OR:
 		case AND:
+		case XOR:
 		case IMPLICATION:
 		case AND_INTERVAL:
 		case PARALLEL:
