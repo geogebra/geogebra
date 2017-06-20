@@ -2674,7 +2674,7 @@ __GGB__keysVar.zh_CN.menu = {
     "SubstituteForAinB": "\u4ee3\u5165 %1 \u4e2d\u7684 %0",
     "SubstituteSimplify": "\u4ee3\u5165\u5e76\u5316\u7b80",
     "Successes": "\u6210\u529f",
-    "Suggestion.SpecialPoints": "Special Points",
+    "Suggestion.SpecialPoints": "\u7279\u6b8a\u70b9",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\u6c42\u548c",
