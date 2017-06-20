@@ -2674,6 +2674,7 @@ __GGB__keysVar.is.menu = {
     "SubstituteForAinB": "Innsetning fyrir %0 \xed %1",
     "SubstituteSimplify": "Innsetning og einf\xf6ldun",
     "Successes": "H\xf6pp",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Leggur saman gildi \xed v\xf6ldum reitum",

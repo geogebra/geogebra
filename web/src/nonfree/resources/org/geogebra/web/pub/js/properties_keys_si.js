@@ -2674,6 +2674,7 @@ __GGB__keysVar.si.menu = {
     "SubstituteForAinB": "%0 \u0d86\u0daf\u0dda\u0dc1\u0d9a\u0dba\u0d9a\u0dca %1",
     "SubstituteSimplify": "\u0d86\u0daf\u0dda\u0dc1 \u0dc3\u0dc4 \u0dbd\u0dd2\u0dc4\u0dd2\u0dbd\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Sum",

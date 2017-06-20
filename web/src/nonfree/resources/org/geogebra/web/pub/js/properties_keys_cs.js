@@ -2674,6 +2674,7 @@ __GGB__keysVar.cs.menu = {
     "SubstituteForAinB": "Nahradit %0 za %1",
     "SubstituteSimplify": "Nahradit & Zjednodu\u0161it",
     "Successes": "\xdasp\u011b\u0161n\xe9",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "P\u0159idat hodnoty v souboru bun\u011bk",

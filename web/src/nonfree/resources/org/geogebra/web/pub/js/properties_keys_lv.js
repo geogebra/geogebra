@@ -2674,6 +2674,7 @@ __GGB__keysVar.lv.menu = {
     "SubstituteForAinB": "Aizvietot priek\u0161 %0 iek\u0161 %1",
     "SubstituteSimplify": "Aizvietot & Vienk\u0101r\u0161ot",
     "Successes": "Izdev\u0101s",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Summa",

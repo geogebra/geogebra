@@ -2674,6 +2674,7 @@ __GGB__keysVar.am.menu = {
     "SubstituteForAinB": "\u1208%0 %1 \u12c9\u1235\u1325 \u1270\u12ab",
     "SubstituteSimplify": "Teka ena akal",
     "Successes": "\u1235\u12ac\u1276\u127d",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\u12f5\u121d\u122d",

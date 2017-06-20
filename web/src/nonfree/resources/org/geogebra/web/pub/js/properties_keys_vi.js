@@ -2674,6 +2674,7 @@ __GGB__keysVar.vi.menu = {
     "SubstituteForAinB": "Thay th\u1ebf %0 b\u1edfi %1",
     "SubstituteSimplify": "Thay th\u1ebf & r\xfat g\u1ecdn",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "T\u1ed5ng",

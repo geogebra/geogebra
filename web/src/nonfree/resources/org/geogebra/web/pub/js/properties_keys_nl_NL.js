@@ -2674,6 +2674,7 @@ __GGB__keysVar.nl_NL.menu = {
     "SubstituteForAinB": "Vervang %0 in %1",
     "SubstituteSimplify": "Vervang & vereenvoudig",
     "Successes": "Successen",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Som",

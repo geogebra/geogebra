@@ -2674,6 +2674,7 @@ __GGB__keysVar.fi.menu = {
     "SubstituteForAinB": "Korvaa objekti %0 objektilla %1",
     "SubstituteSimplify": "Sijoita ja sievenn\xe4",
     "Successes": "Onnistumiset",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Summa",

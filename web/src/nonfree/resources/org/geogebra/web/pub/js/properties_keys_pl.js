@@ -2674,6 +2674,7 @@ __GGB__keysVar.pl.menu = {
     "SubstituteForAinB": "Zamie\u0144 %0 na %1",
     "SubstituteSimplify": "Zamie\u0144 i Upro\u015b\u0107",
     "Successes": "Sukcesy",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Dodaj warto\u015bci w zbiorze kom\xf3rek",

@@ -2674,6 +2674,7 @@ __GGB__keysVar.tr.menu = {
     "SubstituteForAinB": "%1' deki %0 i\xe7in yedek",
     "SubstituteSimplify": "Yerine Kullan & Sadele\u015ftir",
     "Successes": "Ba\u015farmalar",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Bir h\xfccre k\xfcmesindeki de\u011ferleri topla",

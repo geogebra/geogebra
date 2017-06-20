@@ -2674,6 +2674,7 @@ __GGB__keysVar.cy.menu = {
     "SubstituteForAinB": "Amnewid %0 yn %1",
     "SubstituteSimplify": "Amnewid a symleiddio",
     "Successes": "Llwyddianau",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Adio cynnwys set o gelloedd",

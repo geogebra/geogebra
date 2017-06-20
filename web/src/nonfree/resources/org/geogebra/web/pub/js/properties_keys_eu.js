@@ -2674,6 +2674,7 @@ __GGB__keysVar.eu.menu = {
     "SubstituteForAinB": "Ordezkatu %0-(r)ekin %1-(e)n",
     "SubstituteSimplify": "Ordezkatu eta sinplifikatu",
     "Successes": "Arrakastak",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Batura",

@@ -2674,6 +2674,7 @@ __GGB__keysVar.eo.menu = {
     "SubstituteForAinB": "Anstata\u016digi per %0 en %1",
     "SubstituteSimplify": "Substitute & Simplify",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Sumo",

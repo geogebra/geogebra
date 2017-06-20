@@ -2674,6 +2674,7 @@ __GGB__keysVar.no_NN.menu = {
     "SubstituteForAinB": "Set inn for %0 n %1",
     "SubstituteSimplify": "Set inn & forenkle",
     "Successes": "Treff",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Sum",

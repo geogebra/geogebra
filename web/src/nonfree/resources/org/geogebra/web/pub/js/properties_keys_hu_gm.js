@@ -2674,6 +2674,7 @@ __GGB__keysVar.hu_gm.menu = {
     "SubstituteForAinB": "%0-t behelyettes\xedti %1-be",
     "SubstituteSimplify": "Behelyettes\xedt & egyszer\u0171s\xedt",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\xd6sszeg",

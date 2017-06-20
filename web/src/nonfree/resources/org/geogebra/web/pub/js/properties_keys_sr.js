@@ -2674,6 +2674,7 @@ __GGB__keysVar.sr.menu = {
     "SubstituteForAinB": "Zameni za %0 u %1",
     "SubstituteSimplify": "Zameni i pojednostavi",
     "Successes": "Uspesi",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Sabira vrednosti u skupu \u0107elija",

@@ -2674,6 +2674,7 @@ __GGB__keysVar.ja.menu = {
     "SubstituteForAinB": "%1 \u306b\u304a\u3044\u3066 %0 \u3092\u4ee3\u5165\u3059\u308b",
     "SubstituteSimplify": "\u4ee3\u5165 & \u5358\u7d14\u5316",
     "Successes": "\u6210\u529f",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\u7dcf\u548c",

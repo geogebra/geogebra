@@ -2674,6 +2674,7 @@ __GGB__keysVar.da.menu = {
     "SubstituteForAinB": "S\xe6t ind for %0 i %1",
     "SubstituteSimplify": "Erstat & enkel",
     "Successes": "Successer",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Summer v\xe6rdierne fra et udvalg af celler",

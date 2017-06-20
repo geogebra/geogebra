@@ -2674,6 +2674,7 @@ __GGB__keysVar.ro.menu = {
     "SubstituteForAinB": "Substitut pentru %0 \xeen %1",
     "SubstituteSimplify": "Substituie \u015fi simplific\u0103",
     "Successes": "Succese",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Sum\u0103",

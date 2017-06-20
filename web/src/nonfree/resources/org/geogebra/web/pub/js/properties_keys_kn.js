@@ -2674,6 +2674,7 @@ __GGB__keysVar.kn.menu = {
     "SubstituteForAinB": "Substitute for %0 in %1",
     "SubstituteSimplify": "Substitute & Simplify",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\u0cae\u0cca\u0ca4\u0ccd\u0ca4",

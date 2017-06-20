@@ -2674,6 +2674,7 @@ __GGB__keysVar.ko.menu = {
     "SubstituteForAinB": "%1 \uc5d0\uc11c %0 \uc5d0 \uce58\ud658",
     "SubstituteSimplify": "\uce58\ud658 \ubc0f \uc815\ub9ac",
     "Successes": "\uc131\uacf5\ud69f\uc218",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\ud569\uacc4",

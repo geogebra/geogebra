@@ -2674,6 +2674,7 @@ __GGB__keysVar.sv.menu = {
     "SubstituteForAinB": "Substituera f\xf6r %0 i %1",
     "SubstituteSimplify": "Substituera och f\xf6renkla",
     "Successes": "Lyckade utfall",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Summera",

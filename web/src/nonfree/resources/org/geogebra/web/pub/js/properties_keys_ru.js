@@ -2674,6 +2674,7 @@ __GGB__keysVar.ru.menu = {
     "SubstituteForAinB": "\u041f\u043e\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u044c %0 \u0432 %1",
     "SubstituteSimplify": "\u041f\u043e\u0434\u0441\u0442\u0430\u043d\u043e\u0432\u043a\u0430 \u0438 \u0443\u043f\u0440\u043e\u0449\u0435\u043d\u0438\u0435",
     "Successes": "\u0423\u0441\u043f\u0435\u0445\u043e\u0432",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "\u0421\u0443\u043c\u043c\u0430",

@@ -2674,6 +2674,7 @@ __GGB__keysVar.gl.menu = {
     "SubstituteForAinB": "Substitu\xedr %0 por %1",
     "SubstituteSimplify": "Substitu\xedr e simplificar",
     "Successes": "\xc9xitos",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",

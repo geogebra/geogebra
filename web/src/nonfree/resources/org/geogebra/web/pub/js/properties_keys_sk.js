@@ -2674,6 +2674,7 @@ __GGB__keysVar.sk.menu = {
     "SubstituteForAinB": "Substit\xfacia %0 v %1",
     "SubstituteSimplify": "Substit\xfacia a zjednodu\u0161enie",
     "Successes": "\xdaspechy",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "S\u010d\xedtanie hodn\xf4t vyzna\u010denej oblasti buniek",

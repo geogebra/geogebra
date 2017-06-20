@@ -2674,6 +2674,7 @@ __GGB__keysVar.et.menu = {
     "SubstituteForAinB": "%0 asendus objektis %1",
     "SubstituteSimplify": "Asenda ja lihtsusta",
     "Successes": "Edukad",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Liida lahtrite hulga v\xe4\xe4rtused",

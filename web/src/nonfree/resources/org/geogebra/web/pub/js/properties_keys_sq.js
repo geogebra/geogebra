@@ -2674,6 +2674,7 @@ __GGB__keysVar.sq.menu = {
     "SubstituteForAinB": "Zevendeso per %0 ne %1",
     "SubstituteSimplify": "Zevendeso dhe Thjeshto",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Shume",

@@ -2674,6 +2674,7 @@ __GGB__keysVar.tl.menu = {
     "SubstituteForAinB": "Pamalit para sa %0 sa %1",
     "SubstituteSimplify": "Palitan at Pasimplehin",
     "Successes": "Successes",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Sum",

@@ -2674,6 +2674,7 @@ __GGB__keysVar.xh.menu = {
     "SubstituteForAinB": "FakelaEndaweni ka %0 ku %1",
     "SubstituteSimplify": "Fakela & uBale",
     "Successes": "iimpumelelo",
+    "Suggestion.SpecialPoints": "Special Points",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "iNdibaniso",
