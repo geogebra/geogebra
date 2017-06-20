@@ -273,11 +273,19 @@ public class ItemControls extends FlowPanel {
 			CSSAnimation.runOnAnimation(new Runnable() {
 
 				public void run() {
-					remove(suggestionBar);
+					removeSuggestions();
 				}
 			}, radioTreeItem.getContentElement(), "noSuggestions");
 
 		}
+	}
+
+	/**
+	 * Removes the suggestion bar
+	 */
+	protected void removeSuggestions() {
+		remove(suggestionBar);
+
 	}
 
 	/**

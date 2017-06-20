@@ -52,8 +52,6 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -76,7 +74,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class RadioTreeItemController
 		implements ClickHandler, DoubleClickHandler, MouseDownHandler,
 		MouseUpHandler,
-		MouseOverHandler,
 		MouseMoveHandler,
 		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler,
 		LongTouchHandler {
@@ -155,20 +152,12 @@ public class RadioTreeItemController
 
 	protected void setEditing(boolean value) {
 		editing = value;
-
-	}
-
-	@Override
-	public void onMouseOver(MouseOverEvent event) {
-
-
 	}
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}
-
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
@@ -463,7 +452,6 @@ public class RadioTreeItemController
 	protected void addDomHandlers(FlowPanel panel) {
 		panel.addDomHandler(this, DoubleClickEvent.getType());
 		panel.addDomHandler(this, ClickEvent.getType());
-		panel.addDomHandler(this, MouseOverEvent.getType());
 		panel.addDomHandler(this, MouseOutEvent.getType());
 		panel.addDomHandler(this, MouseMoveEvent.getType());
 		panel.addDomHandler(this, MouseDownEvent.getType());
@@ -471,7 +459,6 @@ public class RadioTreeItemController
 		panel.addDomHandler(this, TouchStartEvent.getType());
 		panel.addDomHandler(this, TouchMoveEvent.getType());
 		panel.addDomHandler(this, TouchEndEvent.getType());
-
 	}
 
 	/**
@@ -502,7 +489,6 @@ public class RadioTreeItemController
 
 			showKeyboard();
 		}
-
 	}
 
 	public void stopEdit() {
