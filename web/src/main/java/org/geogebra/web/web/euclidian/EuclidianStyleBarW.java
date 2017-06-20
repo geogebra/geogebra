@@ -576,7 +576,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
-			btnContextMenu.addStyleName("dynStyleContextButton");
+			if (!app.has(Feature.NEW_TOOLBAR)) {
+				btnContextMenu.addStyleName("dynStyleContextButton");
+			} else {
+				btnContextMenu.addStyleName("matDynStyleContextButton");
+			}
 			add(btnContextMenu);
 		} else if (!isBackground()) {
 				if (getViewButton() == null) {
@@ -1807,6 +1811,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		EuclidianStyleBarW.currentPopup = currentPopup;
 	}
 
+	@Override
 	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
 		//used only in DynamicStyleBar class
 	}

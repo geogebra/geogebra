@@ -27,7 +27,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
-		addStyleName("DynamicStyleBar");
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			addStyleName("DynamicStyleBar");
+		} else {
+			addStyleName("matDynStyleBar");
+		}
 
 		app.getSelectionManager()
 				.addSelectionListener(new GeoElementSelectionListener() {

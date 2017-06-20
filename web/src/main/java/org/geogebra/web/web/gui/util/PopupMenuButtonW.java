@@ -201,6 +201,9 @@ public class PopupMenuButtonW extends MyCJButton
 				}
 			}
 		};
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			myPopup.addStyleName("matPopupPanel");
+		}
 		myPopup.setAutoHideEnabled(true);
     }
 
@@ -212,13 +215,16 @@ public class PopupMenuButtonW extends MyCJButton
 		if (EuclidianStyleBarW.getCurrentPopup() != myPopup) {
 			if (EuclidianStyleBarW.getCurrentPopup() != null) {
 				EuclidianStyleBarW.getCurrentPopup().hide();
+				/* getWidget().removeStyleName("active"); */
 			}
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
 
 			app.registerPopup(myPopup);
+			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());
 			myPopup.getFocusPanel().getElement().focus();
 		} else {
+			/* getWidget().removeStyleName("active"); */
 			myPopup.setVisible(false);
 			EuclidianStyleBarW.setCurrentPopup(null);
 		}
@@ -240,6 +246,9 @@ public class PopupMenuButtonW extends MyCJButton
 
 		myTable = new SelectionTableW(newData, rows, columns, mode,
 		        multiselectionEnabled);
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			myTable.addStyleName("matSelectionTable");
+		}
 		if (!multiselectionEnabled) {
 			setSelectedIndex(0);
 		} else {

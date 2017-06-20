@@ -45,7 +45,6 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnLineStyle.getMySlider().setMaximum(13);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
-
 		btnLineStyle.addPopupHandler(this);
 	}
 
@@ -172,11 +171,13 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 
 		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
 
+			@Override
 			public void onForegroundSelected() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void onColorChange(GColor color) {
 				if (background) {
 					if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
@@ -189,21 +190,25 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 						geo0.getAlphaValue(), app);
 			}
 
+			@Override
 			public void onClearBackground() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void onBarSelected() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void onBackgroundSelected() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void onAlphaChange() {
 				// TODO Auto-generated method stub
 

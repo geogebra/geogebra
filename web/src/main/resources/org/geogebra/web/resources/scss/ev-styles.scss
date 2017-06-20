@@ -1,3 +1,5 @@
+@import 'colors';
+	
 .GeoGebraFrame {
 	
 	.MatTitleBarPanelContent {
@@ -23,5 +25,82 @@
 			opacity: 0.8;	
 		}
 	}
+
+	
+	.matDynStyleBar {
+		position: absolute;
+	    border-radius: 2px;
+	    padding: 8px 4px 8px 16px;
+	    background-color: $white;
+	    box-shadow: 0 0 2px 1px rgba(102,102,102,0.3);
+	    
+	    .MyCanvasButton {
+			text-align: center;
+			border-radius: 2px;
+			border: $tool-border solid 1px;
+			background-color: $white;
+			width: 24px;
+			height: 24px;
+			margin-left: 0px;
+			margin-right: 8px;
+			cursor: pointer;
+			
+			&:hover {
+    			border: $toolbar-header-54 solid 1px;
+			}
+		
+			&.active {
+				border: $toolbar-header solid 1px;
+			}
+		}
+	    
+	    .matDynStyleContextButton { 
+			margin-right: 0px !important;
+			margin-left: 0px !important;
+			border: none !important;
+			opacity: 0.54;
+			
+			&.noOpacity, &.noOpacity:hover {
+				opacity: 1;	
+			}
+		
+			&:hover {
+				opacity: 1;		
+			}
+		
+		}
+	}
+
+	.matPopupPanel {
+		border-radius: 2px;
+    	padding: 8px 0px 8px 16px;
+    	background-color: $white-90;
+    	box-shadow: 0 0 2px 1px $tool-border;
+    	z-index: 500;	
+    	
+    	.ButtonPopupMenu .panelRow2 { 
+    		padding-bottom: 16px;
+    		padding-top: 16px;
+    	}
+	}
+
+	.matSelectionTable {
+    		
+    		td {
+    			padding: 0px 8px 8px 0px;
+    		}	
+    	
+    		.gwt-Label.border {
+    			border-radius: 2px;
+    			
+    			&:hover {
+    				border: 1px solid $toolbar-header-54;
+    			}
+    		}
+    	
+    		.gwt-Label.border.selected:hover {
+    			border: 1px solid $toolbar-header;
+    		}
+	}	
 
 }
