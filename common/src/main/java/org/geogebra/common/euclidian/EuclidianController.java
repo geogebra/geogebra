@@ -871,7 +871,7 @@ public abstract class EuclidianController {
 
 		} else {
 			boolean clear = !EuclidianConstants.isMoveOrSelectionMode(mode)
-					&& !EuclidianConstants.isMoveOrSelectionMode(newMode);
+					|| !EuclidianConstants.isMoveOrSelectionMode(newMode);
 			if (!temporaryMode && clear) {
 				selection.clearSelectedGeos(false);
 				resetMovedGeoPoint();
