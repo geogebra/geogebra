@@ -117,13 +117,12 @@ public class ExamEnvironment {
 		return CmdGetTime.buildLocalizedDate("\\D, \\j \\F \\Y", new Date(time),
 				loc);
 	}
-
-	/**
-	 * NEW LOG DIALOG
-	 */
-	public String getLog(Localization loc, Settings settings) {
-		StringBuilder sb = new StringBuilder();
-
+	
+	protected String lineBreak() {
+		return "<br>";
+	}
+	
+	protected void appendSettings(Localization loc, Settings settings, StringBuilder sb) {
 		// Deactivated Views
 		boolean supportsCAS = settings.getCasSettings().isEnabled();
 		boolean supports3D = settings.supports3D();
@@ -142,45 +141,47 @@ public class ExamEnvironment {
 			if (!supports3D) {
 				sb.append(loc.getMenu("Perspective.3DGraphics"));
 			}
-			sb.append("<br>");
+			sb.append(lineBreak());
 		}
 
+	}
+	
+	private void appendStartEnd(Localization loc, StringBuilder sb) {
 		// Exam Start Date
 		sb.append(loc.getMenu("exam_start_date"));
 		sb.append(": ");
 		sb.append(getLocalizedDateOnly(loc, examStartTime));
-		sb.append("<br>");
+		sb.append(lineBreak());
 
 		// Exam Start Time
 		sb.append(loc.getMenu("exam_start_time"));
 		sb.append(": ");
 		sb.append(getLocalizedTimeOnly(loc, examStartTime));
-		sb.append("<br>");
+		sb.append(lineBreak());
 
 		// Exam End Time
 		if (closed > 0) {
 			sb.append(loc.getMenu("exam_end_time"));
 			sb.append(": ");
 			sb.append(getLocalizedTimeOnly(loc, closed));
-			sb.append("<br>");
+			sb.append(lineBreak());
 		}
-
-		sb.append("<hr>");
-		sb.append("<br>");
-
+	}
+	
+	private void appendLogTimes(Localization loc, StringBuilder sb) {
 		// Log times
 
 		sb.append("0:00");
 		sb.append(' ');
 		sb.append(loc.getMenu("exam_started"));
-		sb.append("<br>");
+		sb.append(lineBreak());
 
 		if (cheatingTimes != null) {
 			for (int i = 0; i < cheatingTimes.size(); i++) {
 				sb.append(timeToString(cheatingTimes.get(i)));
 				sb.append(' ');
 				sb.append(getCheatingString(cheatingEvents.get(i), loc));
-				sb.append("<br>");
+				sb.append(lineBreak());
 			}
 		}
 		if (closed > 0) {
@@ -188,6 +189,35 @@ public class ExamEnvironment {
 			sb.append(' ');
 			sb.append(loc.getMenu("exam_ended"));
 		}
+	}
+
+	/**
+	 * NEW LOG DIALOG
+	 */
+	public String getLog(Localization loc, Settings settings) {
+		StringBuilder sb = new StringBuilder();
+
+		appendSettings(loc, settings, sb);
+		
+		appendStartEnd(loc, sb);
+
+		sb.append("<hr>");
+		sb.append(lineBreak());
+
+		appendLogTimes(loc, sb);
+		
+		return sb.toString();
+	}
+	
+	public String getLogStartEnd(Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		appendStartEnd(loc, sb);
+		return sb.toString();
+	}
+	
+	public String getLogTimes(Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		appendLogTimes(loc, sb);		
 		return sb.toString();
 	}
 
