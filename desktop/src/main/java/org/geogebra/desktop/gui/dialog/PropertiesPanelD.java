@@ -4270,6 +4270,7 @@ class GraphicsViewLocationPanel extends JPanel
 	public void selectView(int index, boolean isSelected) {
 		switch (index) {
 		default:
+			Log.error("missing case");
 		case 0:
 			cbGraphicsView.setSelected(isSelected);
 			break;
@@ -4281,6 +4282,10 @@ class GraphicsViewLocationPanel extends JPanel
 			break;
 		case 3:
 			cbGraphicsViewForPlane.setSelected(isSelected);
+			break;
+		case 4:
+			// cbAlgebraView.setValue(isSelected);
+			Log.error("cbAlgebraView not implemented in desktop");
 			break;
 
 		}
