@@ -1107,11 +1107,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void addRadioTreeItem(TreeItem parent, RadioTreeItem node) {
 		// add node to model (alphabetically ordered)
 		int pos = getInsertPosition(parent, node.geo, treeMode);
+
 		if (pos == 0 && parent == rootOrder) {
 			node.setFirst(true);
 		}
 
-		if (pos >= parent.getChildCount()) {
+		if (pos >= count(parent)) {
 			if (treeMode == SortMode.LAYER) {
 				if (isAlgebraInputVisible()) {
 					removeItem(inputPanelTreeItem);
@@ -1122,26 +1123,39 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 
 			} else {
-				parent.addItem(node);
+
 				if (parent.equals(rootOrder)) {
 					addItem(node);
+				} else {
+					parent.addItem(node);
 				}
 			}
 
 		} else {
 			try {
-				parent.insertItem(pos, node);
+
 				if (parent.equals(rootOrder)) {
 					insertItem(pos, node);
+				} else {
+					parent.insertItem(pos, node);
 				}
 			} catch (IndexOutOfBoundsException e) {
-				parent.addItem(node);
+				Log.printStacktrace("plain add");
+
 				if (parent.equals(rootOrder)) {
 					addItem(node);
+				} else {
+					parent.addItem(node);
 				}
 			}
 		}
 
+
+	}
+
+	private int count(TreeItem parent) {
+		return parent == this.rootOrder ? getItemCount()
+				: parent.getChildCount();
 	}
 
 	/**
@@ -1298,21 +1312,18 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// standard case: binary search
 		int left = 0;
-		int right = parent == rootOrder ? getItemCount() : parent
-				.getChildCount();
+		int right = count(parent);
 		if (right == 0) {
 			return right;
 		}
 		// bigger then last?
-		TreeItem node = parent == rootOrder ? getItem(right - 1) : parent
-				.getChild(right - 1);
+		TreeItem node = getItem(parent, right - 1);
 		// String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 		if (node.getUserObject() == null) {
 			if (right == 1) {
 				return 0;
 			}
-			node = parent == rootOrder ? getItem(right - 2) : parent
-					.getChild(right - 2);
+			node = getItem(parent, right - 2);
 			right--;
 		}
 		GeoElement geo2 = ((GeoElement) node.getUserObject());
@@ -1323,8 +1334,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// binary search
 		while (right > left) {
 			int middle = (left + right) / 2;
-			node = parent == rootOrder ? getItem(middle) : parent
-					.getChild(middle);
+			node = getItem(parent, middle);
 			// nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 			geo2 = ((GeoElement) node.getUserObject());
 
@@ -1337,6 +1347,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// insert at correct position
 		return right;
+	}
+
+	private TreeItem getItem(TreeItem parent, int i) {
+		return parent == rootOrder ? getItem(i) : parent.getChild(i);
 	}
 
 	/**
@@ -1416,7 +1430,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		case ORDER:
 
-			return geo1.getConstructionIndex() > geo2.getConstructionIndex();
+			return geo1.getConstructionIndex() >= geo2.getConstructionIndex();
 
 		default: // alphabetical
 

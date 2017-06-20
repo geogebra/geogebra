@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.AnimationManager;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
@@ -5521,6 +5522,10 @@ public abstract class GeoElement extends ConstructionElement
 	 * "a<sub>1</sub>" "s_{AB}" becomes "s<sub>AB</sub>"
 	 */
 
+	/**
+	 * @return whether definition is valid (like isDefined with exception of
+	 *         x=x)
+	 */
 	public boolean isDefinitionValid() {
 		return isDefined();
 	}
@@ -8716,7 +8721,9 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& getParentAlgorithm() != null
-				&& getParentAlgorithm().getOutput(0) != this) {
+				&& getParentAlgorithm().getOutput(0) != this
+				&& kernel.getApplication().getSettings().getAlgebra()
+						.getTreeMode() == SortMode.ORDER) {
 			return DescriptionMode.VALUE;
 		}
 		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);

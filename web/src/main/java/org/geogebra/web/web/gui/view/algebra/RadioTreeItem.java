@@ -851,8 +851,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	protected String getTextForEditing(boolean substituteNumbers,
 			StringTemplate tpl) {
-		if (geo.getParentAlgorithm() != null
-				&& geo.getParentAlgorithm().getOutput().length > 1) {
+		if (AlgebraItem.needsPacking(geo)) {
 			return geo.getLaTeXDescriptionRHS(substituteNumbers, tpl);
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(

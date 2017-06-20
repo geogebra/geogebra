@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -112,5 +113,12 @@ public class AlgebraItem {
 	public static String getSymbolicPrefix(Kernel kernel) {
 		return kernel.getLocalization().rightToLeftReadingOrder
 				? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX;
+	}
+
+	public static boolean needsPacking(GeoElement geo) {
+		return geo.getParentAlgorithm() != null
+				&& geo.getParentAlgorithm().getOutput().length > 1
+				&& geo.getKernel().getApplication().getSettings().getAlgebra()
+						.getTreeMode() == SortMode.ORDER;
 	}
 }
