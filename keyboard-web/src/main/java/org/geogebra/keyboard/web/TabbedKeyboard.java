@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -82,11 +84,9 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					for (int i = 0; i <= switches.size(); i++) {
-						((FlowPanel) keyboard.getParent()).getWidget(i)
-								.setVisible(false);
-						setSelected(i, false);
-					}
+					hideTabs();
+					selectAll(false);
+
 					currentKeyboard = keyboard;
 					keyboard.setVisible(true);
 					setSelected(ret, true);
@@ -95,6 +95,19 @@ public class TabbedKeyboard extends FlowPanel {
 			return ret;
 		}
 		
+		/**
+		 * Select/unselect all tabs.
+		 * 
+		 * @param value
+		 *            to set.
+		 */
+		void selectAll(boolean value) {
+			for (int i = 0; i < switches.size(); i++) {
+				setSelected(i, value);
+			}
+
+		}
+
 		private void setSelected(Button btn, boolean value) {
 			if (value) {
 				btn.addStyleName("selected");
@@ -264,18 +277,18 @@ public class TabbedKeyboard extends FlowPanel {
 
 		upperKeys = new HashMap<String, String>();
 
-		keyboard = buildPanel(
-				kbf.createLettersKeyboard(filter(locale.getKeyboardRow(1).replace("'", "")),
-						filter(locale.getKeyboardRow(2)),
-						filter(locale.getKeyboardRow(3)), upperKeys),
-				bh);
+		String middleRow = locale.getKeyboardRow(2);
+
+		keyboard = buildPanel(kbf.createLettersKeyboard(
+				filter(locale.getKeyboardRow(1).replace("'", "")),
+				filter(middleRow),
+				filter(locale.getKeyboardRow(3)), upperKeys), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
 		switcher.addSwitch(keyboard, "ABC");
 		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		
 
 
 		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
@@ -286,7 +299,17 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 		tabs.add(keyboard);
 
-		
+		if (shouldHaveLatinExtension(middleRow)) {
+			KeyboardRowDefinitionProvider latinProvider = new KeyboardRowDefinitionProvider(
+					(Localization) locale);
+			String[] rows = latinProvider.getDefaultLowerKeys();
+			keyboard = buildPanel(kbf.createLettersKeyboard(rows[0], rows[1],
+					rows[2], latinProvider.getUpperKeys()), bh);
+			tabs.add(keyboard);
+			keyboard.setVisible(false);
+			switcher.addSwitch(keyboard, "Latin");
+		}
+
 		add(switcher);
 		add(tabs);
 		addStyleName("KeyBoard");
@@ -306,7 +329,6 @@ public class TabbedKeyboard extends FlowPanel {
 		// TODO remove the replace once ggbtrans is fixed
 		return sb.toString().replace("'", "");
 	}
-
 
 	private KeyPanelBase buildPanel(Keyboard layout, final ButtonHandler bh) {
 		final KeyPanelBase keyboard = new KeyPanelBase(layout);
@@ -701,4 +723,17 @@ public class TabbedKeyboard extends FlowPanel {
 		this.keyboardWanted = true;
 	}
 
+	/**
+	 * Hide all keyboard panels.
+	 */
+	void hideTabs() {
+		for (int i = 0; i < tabs.getWidgetCount(); i++) {
+			tabs.getWidget(i).setVisible(false);
+		}
+	}
+
+	private boolean shouldHaveLatinExtension(String middleRow) {
+		int first = middleRow.codePointAt(0);
+		return first < 0 || first > 0x00FF;
+	}
 }
