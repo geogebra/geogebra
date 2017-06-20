@@ -1608,7 +1608,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		if ((!app.getLocalization().getLanguage().equals("ko") || app
 				.has(Feature.KOREAN_KEYBOARD))
-				&& app.showView(App.VIEW_ALGEBRA)) {
+				&& app.showView(App.VIEW_ALGEBRA)
+				&& !isToolMode()) {
 			if (forceKeyboard) {
 				doShowKeyboard();
 			} else if (suggestKeyboard) {
@@ -1619,6 +1620,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			inputPanelLatex.setItemWidth(inputWidth);
 		}
 		updateFonts();
+	}
+
+	private boolean isToolMode() {
+		return app.has(Feature.NEW_TOOLBAR)
+				&& this.getToolbarDockPanel().isToolMode();
 	}
 
 	private void doShowKeyboard() {

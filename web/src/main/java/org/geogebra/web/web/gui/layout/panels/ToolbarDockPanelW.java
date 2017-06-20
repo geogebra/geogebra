@@ -103,4 +103,8 @@ public class ToolbarDockPanelW extends DockPanelW {
 		this.toolMode = toolMode;
 	}
 
+	public boolean isToolMode() {
+		return toolMode;
+	}
+
 }
