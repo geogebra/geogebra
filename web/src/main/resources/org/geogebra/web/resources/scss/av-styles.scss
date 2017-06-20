@@ -1,4 +1,5 @@
 @import 'colors';
+$duration: 0.2s;
 
 .GeoGebraFrame {	
 
@@ -166,9 +167,13 @@
 		bottom:0px;
 		right:0;
 		overflow-y:hidden;
-		&.animating{
+		&.animating {
 			animation-name:addSuggestions;
-			animation-duration:0.2s;
+			animation-duration: $duration;
+		}
+		&.removing {
+			animation-name:removeSuggestions;
+			animation-duration:$duration;
 		}
 	}
 	
@@ -196,7 +201,11 @@
 	.algebraView .panelRow .withSuggestions{
 		margin-bottom: 40px;
 		animation-name: addSuggestionsParent;
-		animation-duration: 0.2s;
+		animation-duration: $duration;
+	}
+	.algebraView .panelRow .noSuggestions{	
+		animation-name: removeSuggestionsParent;
+		animation-duration: $duration;
 	}
 
 	.AlgebraViewObjectStylebar.withContextMenu {
@@ -362,6 +371,10 @@
 		}		
 	}
 }
+@keyframes removeSuggestions {
+	0% {max-height: 50px;}
+	100% {max-height: 10px;}
+}
 
 @keyframes addSuggestions {
 	0% {max-height: 10px;}
@@ -372,8 +385,10 @@
 	0% {margin-bottom: 0;}
 	100% {margin-bottom: 40px;}
 }
+
+@keyframes removeSuggestionsParent {
+	0% {margin-bottom: 40px;}
+	100% {margin-bottom: 0;}
 	
-@keyframes removeSuggestions {
-	0% {max-height: 60px;}
-	100% {max-height: 20;}
 }
+	

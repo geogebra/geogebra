@@ -13,12 +13,12 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.CSSAnimation;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 
@@ -220,24 +220,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	@Override
 	public void afterShown(final Runnable runnable) {
-		runOnAnimation(runnable, getElement());
+		CSSAnimation.runOnAnimation(runnable, getElement(), "animating");
 	}
-
-	private native void runOnAnimation(Runnable runnable,
-			Element root) /*-{
-		var callback = function() {
-			root.className = root.className.replace(/animating/, "");
-			runnable.@java.lang.Runnable::run()();
-		};
-		if ((root.style.animation || root.style.animation === "")
-				&& root.className.match(/animating/)) {
-
-			root.addEventListener("animationend", callback);
-			return;
-		}
-		window.setTimeout(callback, 0);
-
-	}-*/;
 
 	@Override
 	public void prepareShow(boolean animated) {
@@ -252,13 +236,13 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	public void remove(final Runnable runnable) {
 		app.updateCenterPanelAndViews();
 		this.addStyleName("animatingOut");
-		runOnAnimation(new Runnable() {
+		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
 				removeFromParent();
 				runnable.run();
 			}
-		}, getElement());
+		}, getElement(), "animating");
 
 	}
 

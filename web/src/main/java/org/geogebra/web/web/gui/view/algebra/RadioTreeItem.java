@@ -2288,7 +2288,11 @@ public class RadioTreeItem extends AVTreeItem
 	public void toggleSuggestionStyle(boolean b) {
 		if (b) {
 			content.addStyleName("withSuggestions");
+			content.removeStyleName("noSuggestions");
 		} else {
+			if (content.getStyleName().contains("withSuggestions")) {
+				content.addStyleName("noSuggestions");
+			}
 			content.removeStyleName("withSuggestions");
 		}
 	}
@@ -2313,6 +2317,10 @@ public class RadioTreeItem extends AVTreeItem
 
 	public int getItemWidth() {
 		return geo == null ? main.getOffsetWidth() : getOffsetWidth();
+	}
+
+	public Element getContentElement() {
+		return content.getElement();
 	}
 }
 

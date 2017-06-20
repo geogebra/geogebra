@@ -8,6 +8,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.CSSAnimation;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -251,6 +252,10 @@ public class ItemControls extends FlowPanel {
 			if (suggestionBar == null) {
 				suggestionBar = new SuggestionBar(radioTreeItem);
 			}
+			if (!suggestionBar.getStyleName().contains("animating")) {
+				suggestionBar.removeStyleName("removing");
+				suggestionBar.addStyleName("animating");
+			}
 			// suggestionBar.addStyleName("add");
 			suggestionBar.setSuggestion(sug, radioTreeItem.loc);
 			if (!suggestionBar.isAttached()) {
@@ -262,8 +267,16 @@ public class ItemControls extends FlowPanel {
 			}
 			radioTreeItem.toggleSuggestionStyle(true);
 		} else if (suggestionBar != null) {
-			remove(suggestionBar);
 			radioTreeItem.toggleSuggestionStyle(false);
+			suggestionBar.addStyleName("removing");
+			suggestionBar.removeStyleName("animating");
+			CSSAnimation.runOnAnimation(new Runnable() {
+
+				public void run() {
+					remove(suggestionBar);
+				}
+			}, radioTreeItem.getContentElement(), "noSuggestions");
+
 		}
 	}
 

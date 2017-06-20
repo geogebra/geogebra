@@ -23,6 +23,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.gui.CSSAnimation;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.Presistable;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
@@ -691,62 +692,34 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
-	private native void runOnAnimateOut(Runnable runnable,
-			Element root) /*-{
-		var callback = function() {
-			root.className = root.className.replace(/animateOut/, "");
-			runnable.@java.lang.Runnable::run()();
-		};
-		if ((root.style.animation || root.style.animation === "")
-				&& root.className.match(/animateOut/)) {
 
-			root.addEventListener("animationend", callback);
-			return;
-		}
-		window.setTimeout(callback, 0);
-
-	}-*/;
 
 	private void remove(final Runnable runnable) {
 		this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateOut");
-		runOnAnimateOut(new Runnable() {
+		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
 				floatingMenuPanel.setVisible(false);
 				runnable.run();
 			}
-		}, floatingMenuPanel.getElement());
+		}, floatingMenuPanel.getElement(), "animateOut");
 
 	}
 
 	private void add(final Runnable runnable) {
 		this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateIn");
-		runOnAnimateIn(new Runnable() {
+		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
 				runnable.run();
 			}
-		}, floatingMenuPanel.getElement());
+		}, floatingMenuPanel.getElement(), "animateIn");
 
 	}
 
-	private native void runOnAnimateIn(Runnable runnable,
-			Element root) /*-{
-		var callback = function() {
-			root.className = root.className.replace(/animateIn/, "");
-			runnable.@java.lang.Runnable::run()();
-		};
-		if ((root.style.animation || root.style.animation === "")
-				&& root.className.match(/animateIn/)) {
 
-			root.addEventListener("animationend", callback);
-			return;
-		}
-		window.setTimeout(callback, 0);
-
-	}-*/;
 
 	private void toggleFloatingMenu(boolean needsUpdate) {
 		if (!has(Feature.NEW_TOOLBAR)) {
