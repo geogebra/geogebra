@@ -19,6 +19,7 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
@@ -449,6 +450,14 @@ public class DrawParametricCurve extends Drawable {
 	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !curve.isClosedPath()
 				|| !geo.isEuclidianVisible()) {
+			return null;
+		}
+		return AwtFactory.getPrototype().newRectangle(gp.getBounds());
+	}
+
+	@Override
+	public GRectangle2D getBoundsForStylebarPosition() {
+		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
 		return AwtFactory.getPrototype().newRectangle(gp.getBounds());
