@@ -456,6 +456,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 		
 		if (app.has(Feature.NEW_TOOLBAR) && !app.isWhiteboardActive()
+				&& ((GuiManagerW) app.getGuiManager())
+						.getToolbarPanelV2() != null
 				&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
 						.isOpen()) {
 			return;

@@ -15,7 +15,7 @@ public class SuggestionRootExtremum extends Suggestion {
 
 	@Override
 	public String getCommand(Localization loc) {
-		return loc.getCommand("Suggestion.SpecialPoints");
+		return loc.getMenu("Suggestion.SpecialPoints");
 	}
 	
 	@Override

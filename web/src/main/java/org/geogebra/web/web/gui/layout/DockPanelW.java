@@ -1591,5 +1591,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 
 	}
+
+	public void setToolMode(boolean toolMode) {
+		// do nothing by default
+	}
 	
 }

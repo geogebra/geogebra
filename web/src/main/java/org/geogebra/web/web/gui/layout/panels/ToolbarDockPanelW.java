@@ -15,6 +15,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 
 	private ToolbarPanel toolbar;
+	private boolean toolMode;
 
 	/**
 	 * 
@@ -33,14 +34,16 @@ public class ToolbarDockPanelW extends DockPanelW {
 	@Override
 	protected Widget loadComponent() {
 		toolbar = new ToolbarPanel(app);
+		setToolMode(toolMode);
 		return toolbar;
 	}
 
 
 	@Override
 	public void onResize() {
-		toolbar.resize();
-
+		if (toolbar != null) {
+			toolbar.resize();
+		}
 	}
 
 	@Override
@@ -86,6 +89,18 @@ public class ToolbarDockPanelW extends DockPanelW {
 	 */
 	public void scrollAVToBottom() {
 		toolbar.scrollAVToBottom();
+	}
+
+	@Override
+	public void setToolMode(boolean toolMode) {
+		if (toolbar != null) {
+			if (toolMode) {
+				toolbar.openTools();
+			} else {
+				toolbar.openAlgebra();
+			}
+		}
+		this.toolMode = toolMode;
 	}
 
 }

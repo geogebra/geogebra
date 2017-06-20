@@ -3588,6 +3588,12 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void updateSplitPanelHeight() {
 		// implemented in subclass
+	}
+
+	@Override
+	public boolean isUnbundled() {
+		return "1".equals(getArticleElement().getDataParamPerspective())
+				|| "2".equals(getArticleElement().getDataParamPerspective());
 
 	}
 }

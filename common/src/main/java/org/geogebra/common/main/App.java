@@ -4297,7 +4297,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case NEW_TOOLBAR:
-			return canary;
+			return prerelease && isUnbundled();
 
 		case EXPORT_SCAD:
 			return prerelease;
@@ -4333,6 +4333,10 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		}
+	}
+
+	public boolean isUnbundled() {
+		return false;
 	}
 
 	public boolean isWhiteboardActive() {
@@ -4556,6 +4560,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract GTimer newTimer(GTimerListener listener, int delay);
 
+	/**
+	 * @param geo
+	 *            slider to be read by screen reader
+	 */
 	public void readLater(GeoNumeric geo) {
 		// implemented in AppW
 	}

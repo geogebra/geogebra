@@ -23,6 +23,7 @@ final public class DockPanelData {
 	private String toolbarString;
 	private int embeddedSize;
 	private String plane;
+	private boolean toolMode;
 
 	/**
 	 * @param viewId
@@ -331,5 +332,14 @@ final public class DockPanelData {
 	public void setLocation(String s) {
 		this.embeddedDef = s;
 
+	}
+
+	public DockPanelData setToolMode(boolean toolMode) {
+		this.toolMode = toolMode;
+		return this;
+	}
+
+	public boolean isToolMode() {
+		return toolMode;
 	}
 }

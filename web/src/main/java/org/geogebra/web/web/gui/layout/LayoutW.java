@@ -121,10 +121,7 @@ public class LayoutW extends Layout implements SettingListener {
 			
 			if(app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
 				if (dp.isVisible()
-						&& (dp.getViewId() == App.VIEW_ALGEBRA
-								|| dp.getViewId() == App.VIEW_CAS || 
-								dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
-												|| dp.getViewId() == App.VIEW_SPREADSHEET)) {
+						&& mayHaveKeyboard(dp)) {
 					app.setKeyboardNeeded(true);
 				}
 			} else if (dp.isVisible() && (dp.getViewId() == App.VIEW_ALGEBRA
@@ -166,6 +163,13 @@ public class LayoutW extends Layout implements SettingListener {
 	}
 
 	
+	private static boolean mayHaveKeyboard(DockPanelData dp) {
+		return (dp.getViewId() == App.VIEW_ALGEBRA
+				|| dp.getViewId() == App.VIEW_CAS
+				|| dp.getViewId() == App.VIEW_PROBABILITY_CALCULATOR
+				|| dp.getViewId() == App.VIEW_SPREADSHEET) && !dp.isToolMode();
+	}
+
 	/**
 	 * Apply a new perspective using its id. 
 	 * 

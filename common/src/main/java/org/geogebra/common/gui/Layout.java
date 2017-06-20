@@ -110,10 +110,11 @@ public abstract class Layout implements SettingListener {
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
 				500);
-		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, false, false,
+		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, app.isUnbundled(),
+				false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
-				200);
+				200).setToolMode(app.isUnbundled());
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),

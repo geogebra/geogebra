@@ -812,7 +812,7 @@ public class ToolbarPanel extends FlowPanel {
 	/**
 	 * Opens algebra tab.
 	 */
-	void openAlgebra() {
+	public void openAlgebra() {
 		header.selectAlgebra();
 		open();
 		main.addStyleName("algebra");
@@ -823,7 +823,7 @@ public class ToolbarPanel extends FlowPanel {
 	/**
 	 * Opens tools tab.
 	 */
-	void openTools() {
+	public void openTools() {
 
 		header.selectTools();
 

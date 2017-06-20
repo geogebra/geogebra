@@ -163,6 +163,7 @@ public class DockManagerW extends DockManager {
 					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
 					panel.setShowStyleBar(dpData[i].showStyleBar());
 					panel.setOpenInFrame(dpData[i].isOpenInFrame());
+					panel.setToolMode(dpData[i].isToolMode());
 					
 					// detach views which were visible, but are not in the new perspective
 					if(panel.isVisible() && (!dpData[i].isVisible() || dpData[i].isOpenInFrame())) {

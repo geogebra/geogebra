@@ -331,9 +331,10 @@ var app = document.createElement("script");
 			return getURLparam("perspective");			
 		}
 		if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
-		&& location.pathname != '/apps/' && !location.pathname.match(/app.html/))){
+		&& location.pathname != '/apps/' && !location.pathname.match(/\.html$/))){
 			return location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
 		}
+		return window.appID;
 	}
 	function checkLogin(){
 		installWorker();

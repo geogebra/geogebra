@@ -121,6 +121,8 @@ task copyHtml {
 	doLast {
 	    String html = file("war/app-release.html").text;
 	    file("war/app.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
+	    file("war/calculator.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"graphing\";</script>");
+	    file("war/geometry.html").text = html.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"geometry\";</script>");
     }
 }
 
