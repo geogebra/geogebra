@@ -2265,9 +2265,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return the max item width.
 	 */
 	public int getFullWidth() {
-		int avWidth = app.has(Feature.NEW_TOOLBAR)
-				? getToolbarDockPanel().getOffsetWidth()
-				: getAlgebraDockPanel().getInnerWidth();
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return getToolbarDockPanel().getOffsetWidth();
+		}
+		int avWidth = getAlgebraDockPanel().getInnerWidth();
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
 
