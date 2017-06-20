@@ -1541,7 +1541,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		inputPanelLatex.getWidget().getElement().getParentElement()
 		.addClassName("NewRadioButtonTreeItemParent");
 		
-		unselect(getSelectionCtrl().getSelectedGeo());
 		unselect(getSelectionCtrl().getLastSelectedGeo());
 
 		if (inputJustCreated) {
@@ -1943,14 +1942,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 
-		getSelectionCtrl().setSelectedGeo(null);
-	}
-
-	/**
-	 * @return selected geo
-	 */
-	public GeoElement getSelectedGeoElement() {
-		return getSelectionCtrl().getSelectedGeo();
 	}
 
 	/**

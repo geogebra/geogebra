@@ -482,7 +482,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	Suggestion needsSuggestions(GeoElement geo1) {
 		return app.has(Feature.AV_CONTEXT_MENU)
-				&& (geo1 != null && geo1.isSelected() || controller.isEditing())
+				&& controller.isEditing()
 						? AlgebraItem.getSuggestions(geo1) : null;
 	}
 

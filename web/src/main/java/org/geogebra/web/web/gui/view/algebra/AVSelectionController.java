@@ -29,7 +29,6 @@ public class AVSelectionController {
 		None
 	}
 
-	private GeoElement selectedGeo;
 	private GeoElement lastSelectedGeo;
 	private App app;
 	private SelectionManager selection;
@@ -222,21 +221,6 @@ public class AVSelectionController {
 	 */
 	public void setLastSelectedGeo(GeoElement lastSelectedGeo) {
 		this.lastSelectedGeo = lastSelectedGeo;
-	}
-
-	/**
-	 * @return currently selected geo
-	 */
-	public GeoElement getSelectedGeo() {
-		return selectedGeo;
-	}
-
-	/**
-	 * @param selectedGeo
-	 *            currently selected geo
-	 */
-	public void setSelectedGeo(GeoElement selectedGeo) {
-		this.selectedGeo = selectedGeo;
 	}
 
 	/**
