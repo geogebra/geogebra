@@ -61,6 +61,7 @@ import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.input.KeyboardInputAdapter;
 import com.himamis.retex.editor.share.meta.MetaModel;
+import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
@@ -644,7 +645,16 @@ public class MathFieldW implements MathField, IsWidget {
 					// combining Korean characters
 					// but for eg Japanese probably will need to hook into
 					// compositionstart & compositionend events as well
-					insertString(event.getData() + "");
+
+					// in Chrome typing fast gives \u3137\uB450
+					// instead of \u3137\u315C
+					// so flatten the result and send just the last character
+					String data = Korean.flattenKorean(event.getData());
+
+					// also convert to compatibility Jamo
+					// as that's what the editor expects
+					insertString("" + Korean.convertToCompatibilityJamo(
+							data.charAt(data.length() - 1)));
 					// logNative("onCompositionUpdate" + event.getData());
 
 				}

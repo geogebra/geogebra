@@ -476,6 +476,190 @@ public class Korean {
 		return ch;
 	}
 
+	/**
+	 * https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
+	 * 
+	 * @param ch
+	 * @param lead
+	 * @return
+	 */
+	public static char convertToCompatibilityJamo(char ch) {
+		switch (ch) {
+		case '\u1100':
+		case '\u11a8':
+		return '\u3131';
+
+		case '\u1101':
+		case '\u11a9':
+		return '\u3132';
+
+		case '\u11aa':
+		return '\u3133';
+
+		case '\u1102':
+		case '\u11ab':
+		return '\u3134';
+
+		case '\u11ac':
+		return '\u3135';
+
+		case '\u11ad':
+		return '\u3136';
+
+		case '\u1103':
+		case '\u11ae':
+		return '\u3137';
+
+		case '\u1104':
+		return '\u3138';
+
+		case '\u1105':
+		case '\u11af':
+		return '\u3139';
+
+		case '\u11b0':
+		return '\u313a';
+
+		case '\u11b1':
+		return '\u313b';
+
+		case '\u11b2':
+		return '\u313c';
+
+		case '\u11b3':
+		return '\u313d';
+
+		case '\u11b4':
+		return '\u313e';
+
+		case '\u11b5':
+		return '\u313f';
+
+		case '\u11b6':
+		return '\u3140';
+
+		case '\u1106':
+		case '\u11b7':
+		return '\u3141';
+
+		case '\u1107':
+		case '\u11b8':
+		return '\u3142';
+
+		case '\u1108':
+		return '\u3143';
+
+		case '\u1121':
+		case '\u11b9':
+		return '\u3144';
+
+		case '\u1109':
+		case '\u11ba':
+		return '\u3145';
+
+		case '\u110a':
+		case '\u11bb':
+		return '\u3146';
+
+		case '\u110b':
+		case '\u11bc':
+		return '\u3147';
+
+		case '\u110c':
+		case '\u11bd':
+		return '\u3148';
+
+		case '\u110d':
+		return '\u3149';
+
+		case '\u110e':
+		case '\u11be':
+		return '\u314a';
+
+		case '\u110f':
+		case '\u11bf':
+		return '\u314b';
+
+		case '\u1110':
+		case '\u11c0':
+		return '\u314c';
+
+		case '\u1111':
+		case '\u11c1':
+		return '\u314d';
+
+		case '\u1112':
+		case '\u11c2':
+		return '\u314e';
+
+		case '\u1161':
+		return '\u314f';
+
+		case '\u1162':
+		return '\u3150';
+
+		case '\u1163':
+		return '\u3151';
+
+		case '\u1164':
+		return '\u3152';
+
+		case '\u1165':
+		return '\u3153';
+
+		case '\u1166':
+		return '\u3154';
+
+		case '\u1167':
+		return '\u3155';
+
+		case '\u1168':
+		return '\u3156';
+
+		case '\u1169':
+		return '\u3157';
+
+		case '\u116a':
+		return '\u3158';
+
+		case '\u116b':
+		return '\u3159';
+
+		case '\u116c':
+		return '\u315a';
+
+		case '\u116d':
+		return '\u315b';
+
+		case '\u116e':
+		return '\u315c';
+
+		case '\u116f':
+		return '\u315d';
+
+		case '\u1170':
+		return '\u315e';
+
+		case '\u1171':
+		return '\u315f';
+
+		case '\u1172':
+		return '\u3160';
+
+		case '\u1173':
+		return '\u3161';
+
+		case '\u1174':
+		return '\u3162';
+
+		case '\u1175':
+		return '\u3163';
+
+		}
+
+		return ch;
+	}
+
 	/*
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 * http://gernot-katzers-spice-pages.com/var/korean_hangul_unicode.html
