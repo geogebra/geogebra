@@ -60,7 +60,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		lblDescriptionMode = new Label();
 		lblDescriptionMode.addStyleName("panelTitle");
 		sortMode = new ListBox();
-		description = new AlgebraStyleListBox(app);
+		description = new AlgebraStyleListBox(app, false);
 
 		lblCoordStyle = new Label(
 				app.getLocalization().getMenu("Coordinates") + ":");

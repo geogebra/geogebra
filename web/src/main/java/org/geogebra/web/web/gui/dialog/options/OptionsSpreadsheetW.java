@@ -78,7 +78,7 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 
 		// spacer
 		// layoutOptions.add(Box.createVerticalStrut(16));
-		description = new AlgebraStyleListBox(app);
+		description = new AlgebraStyleListBox(app, true);
 		descriptionLabel = new Label();
 		HorizontalPanel descriptionPanel = new HorizontalPanel();
 		descriptionPanel.add(descriptionLabel);
