@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -4491,6 +4492,11 @@ public abstract class App implements UpdateSelection {
 
 	public void setNewExam() {
 		setExam(new ExamEnvironment());
+	}
+	
+	public void startNewExam() {
+		setNewExam();
+		getExam().setStart((new Date()).getTime());
 	}
 
 	/**
