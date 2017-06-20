@@ -870,11 +870,13 @@ public abstract class EuclidianController {
 			}
 
 		} else {
-			if (!temporaryMode) {
+			boolean clear = !EuclidianConstants.isMoveOrSelectionMode(mode)
+					&& !EuclidianConstants.isMoveOrSelectionMode(newMode);
+			if (!temporaryMode && clear) {
 				selection.clearSelectedGeos(false);
 				resetMovedGeoPoint();
 			}
-			initNewMode(newMode);
+			initNewMode(newMode, clear);
 		}
 
 		kernel.notifyRepaint();
