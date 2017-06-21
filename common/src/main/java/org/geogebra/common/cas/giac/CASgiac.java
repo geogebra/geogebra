@@ -218,7 +218,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
-		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(jacobiPrepare(polys,[]),revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
 		/**
 		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -261,7 +261,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * elimvars with given precision for the curve variables x and y. Used
 		 * publicly.
 		 */
-		LOCUS_EQU("locusEqu", "locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(polys,elimvars,precision),[curvevarx=x,curvevary=y]))"),
+		LOCUS_EQU("locusEqu", "locusEqu(polys,elimvars,precision,curvevarx,curvevary):=implicitCurveCoeffs(subst(geomElim(jacobiPrepare(polys,[curvevarx,curvevary]),elimvars,precision),[curvevarx=x,curvevary=y]))"),
 		/**
 		 * Compute coefficient matrix of the input polynomial. The output is a
 		 * flattened variant of the matrix: the elements are returned row by
@@ -340,10 +340,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(GEOM_ELIM, PRIM_POLY);
 			setDependency(LOCUS_EQU, IMPLICIT_CURVE_COEFFS);
 			setDependency(LOCUS_EQU, GEOM_ELIM);
+			setDependency(LOCUS_EQU, JACOBI_PREPARE);
 			setDependency(ENVELOPE_EQU, LOCUS_EQU);
 			setDependency(ENVELOPE_EQU, GEOM_JACOBI_DET);
 			setDependency(GEOM_JACOBI_DET, JACOBI_PREPARE);
-			setDependency(GEOM_ELIM, JACOBI_PREPARE);
 			setDependency(GEOM_JACOBI_DET, JACOBI_DET);
 			setDependency(AFACTOR_ALG_NUM, IRRED);
 			setDependency(ABSFACT, AFACTOR_ALG_NUM);
