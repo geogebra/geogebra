@@ -751,7 +751,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 */
 	public static boolean isNotEqual(String str) {
 		return "!=".equals(str) || "<>".equals(str)
-				|| Unicode.NOTEQUAL.equals(str);
+				|| (Unicode.NOTEQUAL + "").equals(str);
 	}
 
 	/**
@@ -1489,7 +1489,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			}
 		}
 
-		return (inputText + Unicode.DEGREE);
+		return (inputText + Unicode.DEGREE_STRING);
 	}
 
 	public static String getGrayString(char c, Localization loc) {

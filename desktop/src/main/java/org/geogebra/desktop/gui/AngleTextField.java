@@ -60,7 +60,7 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 			// do nothing
 			break;
 		case 'o':
-			insertString = Unicode.DEGREE;
+			insertString = Unicode.DEGREE_STRING;
 			break;
 		case 'p':
 			insertString = Unicode.PI_STRING;

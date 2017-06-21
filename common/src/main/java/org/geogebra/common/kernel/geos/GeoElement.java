@@ -7303,7 +7303,7 @@ public abstract class GeoElement extends ConstructionElement
 				ret = "?";
 			} else if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
-			} else if ((Unicode.MINUS_INFINITY + "").equals(ret)) {
+			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
 				ret = "-\\infty";
 			}
 		}

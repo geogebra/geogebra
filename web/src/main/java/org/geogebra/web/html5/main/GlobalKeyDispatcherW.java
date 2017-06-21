@@ -606,7 +606,7 @@ public class GlobalKeyDispatcherW extends
 		switch (keyCode) {
 
 		case GWTKeycodes.KEY_O:
-			return Unicode.DEGREE;
+			return Unicode.DEGREE_STRING;
 
 		case GWTKeycodes.KEY_P:
 			if (shiftDown) {

@@ -74,18 +74,18 @@ class MetaModelSymbols {
         operators.add(createOperator("times", "\\times", '*'));
         operators.add(createOperator("div", "\\div", '/'));
 		operators.add(
-				createOperator("ne", "!=", "\\ne", Unicode.NOTEQUAL.charAt(0)));
+				createOperator("ne", "!=", "\\ne", Unicode.NOTEQUAL));
 		operators.add(createOperator("equal", "==", Unicode.QUESTEQ,
 				Unicode.QUESTEQ.charAt(0)));
         operators.add(createOperator("equiv", "NaN", "\\equiv", '\u2261'));
 
         operators.add(createOperator("neg", "!", "\\neg", '!'));
 		operators
-				.add(createOperator("vee", "|", "\\vee", Unicode.OR.charAt(0)));
+				.add(createOperator("vee", "|", "\\vee", Unicode.OR));
 		operators.add(
-				createOperator("wedge", "&", "\\wedge", Unicode.AND.charAt(0)));
+				createOperator("wedge", "&", "\\wedge", Unicode.AND));
 		operators.add(createOperator("implication", "->", "\\implies",
-				Unicode.IMPLIES.charAt(0)));
+				Unicode.IMPLIES));
 
         operators.add(createOperator("<"));
         operators.add(createOperator(">"));

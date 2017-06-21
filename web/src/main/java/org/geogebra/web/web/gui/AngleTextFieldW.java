@@ -54,7 +54,7 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 			// do nothing
 			break;
 		case 'o':
-			insertString = Unicode.DEGREE;
+			insertString = Unicode.DEGREE_STRING;
 			break;
 		case 'p':
 			insertString = Unicode.PI_STRING;

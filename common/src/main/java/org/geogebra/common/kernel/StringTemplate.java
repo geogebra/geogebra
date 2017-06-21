@@ -1561,12 +1561,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 									&& rightStr.charAt(0) == loc.unicodeZero
 											+ 1)))
 
-					|| rightStr.equals(Unicode.DEGREE)) {
+					|| rightStr.equals(Unicode.DEGREE_STRING)) {
 
 				boolean rtl = loc.isRightToLeftDigits(this);
 
 				if (rtl) {
-					sb.append(Unicode.DEGREE);
+					sb.append(Unicode.DEGREE_STRING);
 				}
 
 				if (!left.isLeaf()) {
@@ -1578,7 +1578,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 
 				if (!rtl) {
-					sb.append(Unicode.DEGREE);
+					sb.append(Unicode.DEGREE_STRING);
 				}
 
 				break;
@@ -1656,7 +1656,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 												|| rightStr
 														.startsWith("\\frac"));
 						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble
-								&& Unicode.DEGREE.equals(
+								&& Unicode.DEGREE_STRING.equals(
 										right.toString(defaultTemplate)));
 						break;
 

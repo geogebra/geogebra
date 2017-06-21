@@ -157,15 +157,15 @@ public abstract class DialogManager {
 		// convert to degrees (angle only)
 		String minStr = isAngle
 				? kernel.format(Math.toDegrees(slider.getIntervalMin()), tmpl)
-						+ Unicode.DEGREE
+						+ Unicode.DEGREE_STRING
 				: kernel.format(slider.getIntervalMin(), tmpl);
 		String maxStr = isAngle
 				? kernel.format(Math.toDegrees(slider.getIntervalMax()), tmpl)
-						+ Unicode.DEGREE
+						+ Unicode.DEGREE_STRING
 				: kernel.format(slider.getIntervalMax(), tmpl);
 		String incStr = isAngle
 				? kernel.format(Math.toDegrees(slider.getAnimationStep()), tmpl)
-						+ Unicode.DEGREE
+						+ Unicode.DEGREE_STRING
 				: kernel.format(slider.getAnimationStep(), tmpl);
 
 		// get input from user
@@ -326,7 +326,7 @@ public abstract class DialogManager {
 							GeoNumberValue num = (GeoNumberValue) result[0];
 							// keep angle entered if it ends with
 							// 'degrees'
-							if (angleText.endsWith(Unicode.DEGREE)) {
+							if (angleText.endsWith(Unicode.DEGREE_STRING)) {
 								defaultRotateAngle = angleText;
 							}
 

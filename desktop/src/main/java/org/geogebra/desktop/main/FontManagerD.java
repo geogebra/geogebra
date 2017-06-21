@@ -122,7 +122,7 @@ public class FontManagerD extends FontManager {
 
 		// make sure we use a font that can display the Euler character
 		// add at end -> lowest priority
-		testCharacters.append(Unicode.eulerChar);
+		testCharacters.append(Unicode.EULER_CHAR);
 
 		// get fonts that can display all test characters
 		fontNameSansSerif = getFontCanDisplay(tryFontsSansSerif,

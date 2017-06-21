@@ -95,7 +95,7 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 						if (ok) {
 							String angleText = getText();
 							// keep angle entered if it ends with 'degrees'
-							if (angleText.endsWith(Unicode.DEGREE)) {
+							if (angleText.endsWith(Unicode.DEGREE_STRING)) {
 								defaultRotateAngle = angleText;
 							} else {
 								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;

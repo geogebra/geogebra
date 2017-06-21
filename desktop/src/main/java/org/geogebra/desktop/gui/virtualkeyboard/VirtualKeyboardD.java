@@ -1067,7 +1067,7 @@ public class VirtualKeyboardD extends JFrame
 			return Unicode.MULTIPLY + "";
 		}
 		if ("<divide>".equals(text)) {
-			return Unicode.DIVIDE;
+			return Unicode.DIVIDE + "";
 		}
 		if ("<minus>".equals(text)) {
 			return Unicode.MINUS + "";

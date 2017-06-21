@@ -122,7 +122,7 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 
 		int caretPos = tc.getCaretPosition();
 
-		tc.setText(tc.getText() + Unicode.DEGREE);
+		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
 
 		tc.setCaretPosition(caretPos);
 	}

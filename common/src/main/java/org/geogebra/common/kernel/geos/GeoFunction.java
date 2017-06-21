@@ -2571,7 +2571,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				ret = "?";
 			} else if ((Unicode.INFINITY + "").equals(ret)) {
 				ret = "\\infty";
-			} else if ((Unicode.MINUS_INFINITY + "").equals(ret)) {
+			} else if ((Unicode.MINUS_INFINITY_STRING).equals(ret)) {
 				ret = "-\\infty";
 			}
 		}

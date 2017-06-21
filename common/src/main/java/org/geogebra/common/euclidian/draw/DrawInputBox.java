@@ -200,7 +200,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 					// add degree symbol to end if it's (a) a GeoText and (b)
 					// just digits
-					tf.setText(text + Unicode.DEGREE);
+					tf.setText(text + Unicode.DEGREE_STRING);
 
 					tf.setCaretPosition(caretPos);
 				}

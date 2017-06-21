@@ -2461,9 +2461,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					name = "$" + StringUtil.toLaTeXString(
 							geo.getLabelDescription(), true) + "$";
 				}
-				if (name.indexOf(Unicode.DEGREE) != -1) {
+				if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
 					if (format == GeoGebraToPgf.FORMAT_LATEX) {
-						name = name.replaceAll(Unicode.DEGREE,
+						name = name.replaceAll(Unicode.DEGREE_STRING,
 								"\\\\textrm{\\\\degre}");
 						if (codePreamble.indexOf("\\degre") == -1) {
 							codePreamble.append(
@@ -2471,7 +2471,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 						}
 					} else if (format == GeoGebraToPgf.FORMAT_CONTEXT
 							|| format == GeoGebraToPgf.FORMAT_PLAIN_TEX) {
-						name = name.replaceAll(Unicode.DEGREE, "{}^{\\\\circ}");
+						name = name.replaceAll(Unicode.DEGREE_STRING, "{}^{\\\\circ}");
 					}
 				}
 				if (null == drawGeo) {

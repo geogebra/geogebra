@@ -4331,7 +4331,7 @@ public abstract class App implements UpdateSelection {
 
 		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
 		case NON_CAS_POLYNOMIAL_DIVISION:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

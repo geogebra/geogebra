@@ -29,8 +29,8 @@ public class AltKeys {
 		lookupUpper.put('L', Unicode.Lambda + "");
 		lookupLower.put('M', Unicode.mu + "");
 		lookupUpper.put('M', Unicode.Mu + "");
-		lookupLower.put('O', Unicode.DEGREE);
-		lookupUpper.put('O', Unicode.DEGREE);
+		lookupLower.put('O', Unicode.DEGREE_STRING);
+		lookupUpper.put('O', Unicode.DEGREE_STRING);
 		lookupLower.put('P', " " + Unicode.pi + " ");
 		lookupUpper.put('P', Unicode.Pi + "");
 		lookupLower.put('R', Unicode.SQUARE_ROOT + "");
@@ -59,8 +59,8 @@ public class AltKeys {
 		lookupUpper.put('*', Unicode.VECTOR_PRODUCT + "");
 		lookupLower.put('*', Unicode.VECTOR_PRODUCT + "");
 
-		lookupUpper.put('+', Unicode.XOR);
-		lookupLower.put('+', Unicode.XOR);
+		lookupUpper.put('+', Unicode.XOR + "");
+		lookupLower.put('+', Unicode.XOR + "");
 
 		lookupUpper.put(Unicode.eGrave, "{"); // Italian keyboards
 		lookupLower.put(Unicode.eGrave, "["); // Italian keyboards
@@ -68,8 +68,8 @@ public class AltKeys {
 		lookupUpper.put(Unicode.eAcute, "{"); // Italian keyboards
 		lookupLower.put(Unicode.eAcute, "["); // Italian keyboards
 
-		lookupUpper.put('=', Unicode.XOR);
-		lookupLower.put('=', Unicode.XOR);
+		lookupUpper.put('=', Unicode.XOR + "");
+		lookupLower.put('=', Unicode.XOR + "");
 
 		lookupUpper.put('-', Unicode.Superscript_Minus + "");
 		lookupLower.put('-', Unicode.Superscript_Minus + "");
@@ -96,8 +96,8 @@ public class AltKeys {
 			lookupLower.put((char) 106, Unicode.VECTOR_PRODUCT + "");
 
 			// on Chrome, Alt-Keypad+ gives character 107
-			lookupUpper.put((char) 107, Unicode.XOR);
-			lookupLower.put((char) 107, Unicode.XOR);
+			lookupUpper.put((char) 107, Unicode.XOR + "");
+			lookupLower.put((char) 107, Unicode.XOR + "");
 
 			// on Chrome, Alt-Keypad- gives character 109
 			lookupUpper.put((char) 109, Unicode.Superscript_Minus + "");

@@ -132,7 +132,7 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 
 		int caretPos = tc.getCaretPosition();
 
-		tc.setText(tc.getText() + Unicode.DEGREE);
+		tc.setText(tc.getText() + Unicode.DEGREE_STRING);
 
 		tc.setCaretPosition(caretPos);
 	}

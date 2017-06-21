@@ -166,7 +166,7 @@ public class MySpecialDouble extends MyDouble {
 				return "pi";
 			case Unicode.DEGREE_CHAR:
 				return "pi/180";
-			case Unicode.eulerChar:
+			case Unicode.EULER_CHAR:
 				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
 					return "euler\\_gamma";
 				}
@@ -181,7 +181,7 @@ public class MySpecialDouble extends MyDouble {
 				return "\\pi ";
 			case Unicode.DEGREE_CHAR:
 				return "^{\\circ}";
-			case Unicode.eulerChar:
+			case Unicode.EULER_CHAR:
 				if (strToString.equals(Unicode.EULER_GAMMA_STRING)) {
 					// approx value
 					return "\\mathit{e_{\\gamma}}";

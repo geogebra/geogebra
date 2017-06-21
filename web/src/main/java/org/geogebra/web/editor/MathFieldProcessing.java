@@ -64,7 +64,7 @@ public class MathFieldProcessing implements KeyboardListener {
 			type("2");
 			mf.getKeyListener().onKeyPressed(
 					new KeyEvent(JavaKeyCodes.VK_RIGHT, 0, '\0'));
-		} else if (Unicode.DIVIDE.equals(text)) {
+		} else if ((Unicode.DIVIDE + "").equals(text)) {
 			mf.insertFunction("frac");
 		} else if (text.charAt(0) == Unicode.SQUARE_ROOT) {
 			mf.insertFunction("sqrt");
@@ -73,9 +73,9 @@ public class MathFieldProcessing implements KeyboardListener {
 		} else if ("10^".equals(text)) {
 			type("10");
 			mf.insertFunction("^");
-		} else if (text.equals(Unicode.eulerChar + "^")) {
+		} else if (text.equals(Unicode.EULER_CHAR + "^")) {
 			mf.getKeyListener()
-					.onKeyTyped(new KeyEvent(0, 0, Unicode.eulerChar));
+					.onKeyTyped(new KeyEvent(0, 0, Unicode.EULER_CHAR));
 			mf.insertFunction("^");
 		} else if ("log_".equals(text)) {
 			type("log_");

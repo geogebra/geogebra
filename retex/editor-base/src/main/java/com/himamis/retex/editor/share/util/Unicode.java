@@ -3,19 +3,13 @@ package com.himamis.retex.editor.share.util;
 @SuppressWarnings("javadoc")
 public class Unicode {
 
-	// used by Giac for polar separator instead of ;
-	// eg (2;3)
-	// space needed to avoid encoding problem (probably with $wnd.Module.cwrap,
-	// see CASGiacW)
-	final public static char MEASURED_ANGLE = '\u2221';
-	final public static String MEASURED_ANGLE_SPACE = MEASURED_ANGLE + " ";
 	public static final char MULTIPLY = '\u00d7';
-	public static final String DIVIDE = "\u00f7";
+	public static final char DIVIDE = '\u00f7';
 	final public static char MINUS = '\u2212';
 	final public static char LESS_EQUAL = '\u2264';
 	final public static char GREATER_EQUAL = '\u2265';
 	final public static char INFINITY = '\u221e';
-	final public static String MINUS_INFINITY = "-\u221e";
+	final public static String MINUS_INFINITY_STRING = "-\u221e";
 	final public static char Superscript_Minus = '\u207b';
 	final public static char Superscript_0 = '\u2070';
 	final public static char Superscript_1 = '\u00b9';
@@ -33,14 +27,14 @@ public class Unicode {
 	final public static char LeftToRightMark = '\u200e';
 	final public static String superscriptMinusOneBracket = "\u207b\u00b9(";
 	final public static char DEGREE_CHAR = '\u00b0';
-	final public static String DEGREE = Character.toString(DEGREE_CHAR);
+	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
 
 	final public static char eGrave = '\u00E8';
 	final public static char eAcute = '\u00E9';
 
 	/** Unicode symbol for e */
-	final public static char eulerChar = '\u212f';
-	final public static String EULER_STRING = eulerChar + "";
+	final public static char EULER_CHAR = '\u212f';
+	final public static String EULER_STRING = EULER_CHAR + "";
 	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
 
 	public static final String alphaBetaGamma = "\u03b1\u03b2\u03b3";
@@ -108,13 +102,17 @@ public class Unicode {
 
 	public static final char SQUARE_ROOT = '\u221a';
 	public static final char PLUSMINUS = '\u00b1';
-	public static final String NOTEQUAL = "\u2260";
-	public static final String NOT = "\u00ac";
-	public static final String AND = "\u2227";
-	public static final String OR = "\u2228";
+	public static final char NOTEQUAL = '\u2260';
+	public static final char NOT = '\u00ac';
+	public static final char AND = '\u2227';
+	public static final char OR = '\u2228';
 
 	/** circled plus, could also use \u22bb */
-	public static final String XOR = "\u2295";
+	public static final char XOR = '\u2295';
+
+	// used by Giac for polar separator instead of ;
+	// eg (2;3)
+	final public static char MEASURED_ANGLE = '\u2221';
 
 	public static final String PARALLEL = "\u2225";
 	public static final char PERPENDICULAR = '\u22a5';
@@ -186,9 +184,9 @@ public class Unicode {
 	public static final String CURRENCY_INDIAN_RUPEE = "\u20b9";
 	public static final String FORTY_FIVE_DEGREES = "45" + DEGREE_CHAR;
 
-	public static final String IMPLIES = "\u2192";
+	public static final char IMPLIES = '\u2192';
 	public static final String IMPLIED_FROM = "\u2190";
-	public static final String CAS_OUTPUT_PREFIX = IMPLIES;
+	public static final String CAS_OUTPUT_PREFIX = IMPLIES + "";
 	public static final String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static final String CAS_OUTPUT_KEEPINPUT = "\u2713";
 	public static final String CAS_OUTPUT_NUMERIC = "\u2248";
@@ -199,9 +197,6 @@ public class Unicode {
 	public static final char LFLOOR = '\u230a';
 	public static final char RFLOOR = '\u230b';
 
-	public static final char HASHTAG = '\u0023';
-	public static final char AMPERSAND = '\u0026';
-	public static final char NOT_SIGN = '\u00AC';
 	public static final char CENTER_DOT = '\u00b7';
 	public static final char BULLET = '\u2022';
 

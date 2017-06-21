@@ -541,7 +541,7 @@ public class CommandsTest extends Assert{
 		t("pix", "(" + Unicode.PI_STRING + " * x)");
 		t("sinx", "sin(x)");
 		t("x" + Unicode.PI_STRING, "(" + Unicode.PI_STRING + " * x)");
-		t("sinxdeg", "sin((1*" + Unicode.DEGREE + " * x))");
+		t("sinxdeg", "sin((1*" + Unicode.DEGREE_STRING + " * x))");
 
 
 	}
@@ -1119,6 +1119,6 @@ public class CommandsTest extends Assert{
 
 	static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
-				Unicode.Superscript_3 + "").replace("deg", Unicode.DEGREE);
+				Unicode.Superscript_3 + "").replace("deg", Unicode.DEGREE_STRING);
 	}
 }

@@ -13,7 +13,7 @@ public class KeyboardConstants {
 	/** a to the power of x */
 	public static final String A_POWER_X = "a^x";
 	/** hashtag and not*/
-	public static final String SWITCH_TO_SPECIAL_SYMBOLS = "" + Unicode.HASHTAG + Unicode.AMPERSAND + Unicode.NOT;
+	public static final String SWITCH_TO_SPECIAL_SYMBOLS = "#&" + Unicode.NOT;
 	/** left floor x right floor */
 	public static final String FLOOR = "" + Unicode.LFLOOR + "x" + Unicode.RFLOOR;
 	/** left ceil x right ceil */

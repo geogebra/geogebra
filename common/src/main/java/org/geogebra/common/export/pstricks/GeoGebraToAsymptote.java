@@ -2326,8 +2326,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 							geo.getLabelDescription(), true) + "$";
 					name = convertUnicodeToLatex(name);
 				}
-				if (name.indexOf(Unicode.DEGREE) != -1) {
-					name = name.replace(Unicode.DEGREE, "^\\\\circ");
+				if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
+					name = name.replace(Unicode.DEGREE_STRING, "^\\\\circ");
 				}
 				DrawableND drawGeo = drawGeo0;
 				if (drawGeo == null) {
@@ -2631,7 +2631,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					// unit label is pi
 					if (units[0].equals(Unicode.PI_STRING)) {
 						packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
-					} else if (units[0].equals(Unicode.DEGREE)) {
+					} else if (units[0].equals(Unicode.DEGREE_STRING)) {
 						packSpaceBetween(codeBeginPic, "string(x)", "+",
 								"\"^\\circ");
 					} else {
@@ -2689,7 +2689,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					// unit label is pi
 					if (units[1].equals(Unicode.PI_STRING)) {
 						packSpaceBetween(codeBeginPic, "s", "+", "\"\\pi/2");
-					} else if (units[1].equals(Unicode.DEGREE)) {
+					} else if (units[1].equals(Unicode.DEGREE_STRING)) {
 						packSpaceBetween(codeBeginPic, "string(x)", "+",
 								"\"^\\circ");
 					} else {
@@ -3622,7 +3622,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			char skey = it.next();
 			s1 = s1.replace(skey + "", UnicodeTeX.getMap().get(skey) + " ");
 		}
-		return s1.replace(Unicode.DEGREE, "o ")
+		return s1.replace(Unicode.DEGREE_STRING, "o ")
 				// degree symbol
 				.replace("\u212f", "e ").replace("\u00b2", "2 ")
 				.replace("\u00b3", "3 ").replace("pi \\)", "pi\\)"); // eliminate
@@ -3676,7 +3676,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 		s1 = sb.toString();
 
-		return s1.replace(Unicode.DEGREE, "^\\\\circ").replace("\u212f", " e")
+		return s1.replace(Unicode.DEGREE_STRING, "^\\\\circ").replace("\u212f", " e")
 				.replace("\u00b2", "^2").replace("\u00b3", "^3")
 				.replace("\\\\questeq", "\\\\stackrel{?}{=}");
 	}
