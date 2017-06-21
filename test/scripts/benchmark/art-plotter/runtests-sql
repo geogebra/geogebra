@@ -238,6 +238,13 @@ for i in `find tests -name '*.ggb' | sort`; do
     TIME=""
     touch $REGRESSIONFILE
     }
+   # Maybe the computation was incomplete (due to out of memory error, for example):
+   LOOPS=`grep Equ\( $MYDIR/tmp/.test.stdout | wc -l`
+   if ((LOOPS < 2)); then
+    RESULT=""
+    TIME=""
+    touch $REGRESSIONFILE
+    fi
   # Web
 
   # Desktop*
