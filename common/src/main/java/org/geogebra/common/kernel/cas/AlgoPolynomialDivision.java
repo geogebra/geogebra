@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.cas;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -202,7 +203,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 		// Log.debug(divisor[i]);
 		// }
 
-		double[] result = dividend.clone();
+		double[] result = Cloner.clone(dividend);
 		double lead = divisor[n - 1];
 
 		// special case
