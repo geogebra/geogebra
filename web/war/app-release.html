@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
- 	<meta charset="utf-8" />
-    <title>GeoGebra Math Calculators</title>	
+	<meta charset="utf-8" />
+	<title>GeoGebra Math Calculators</title>
 	<link rel="shortcut icon" href="//app.geogebra.org/static/img/favicon.ico" type="image/x-icon">
 	<link rel="icon" href="//app.geogebra.org/static/img/favicon.ico" type="image/x-icon">
 	<meta property="og:title" content="GeoGebra Math Calculators" />
@@ -21,7 +21,7 @@ var startDelay = 0;
 var analyticsVersion = 'V'+latestVersion;
 </script>
 <!--PLATFORM SPECIFIC CODE-->
-<script>			
+<script>
 	function e(id){
 		return document.getElementById(id);
 	}
@@ -330,9 +330,10 @@ var app = document.createElement("script");
 		if(getURLparam("perspective")){
 			return getURLparam("perspective");			
 		}
-		if(location.hash.length || (location.pathname != '/apps' && location.pathname != '/chromeapp/'
-		&& location.pathname != '/apps/' && !location.pathname.match(/\.html$/))){
-			return location.hash.length ? location.hash.replace('#','') : location.pathname.replace(/\//g,'');
+		var parts = location.pathname.split("/");
+		var path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
+		if(location.hash.length || (path != '/apps' && path != '/apps/' && !path.match(/\.html$/))){
+			return location.hash.length ? location.hash.replace('#','') : path.replace(/\//g,'');
 		}
 		return window.appID;
 	}
