@@ -680,7 +680,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			sb.append(' ');
 			sb.append(pixelHeight);
 			sb.append(" pixels");
-			sb.append(Unicode.Superscript_2);
+			sb.append(Unicode.SUPERSCRIPT_2);
 		}
 
 		sizeLabel.setText(sb.toString());

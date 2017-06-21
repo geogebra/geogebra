@@ -92,20 +92,20 @@ public class MyDouble extends ValidExpression
 	}
 
 	/**
-	 * called from the parser power must be a string of unicode superscript
+	 * called from the parser power must be a string of unicode SUPERSCRIPT
 	 * digits
 	 * 
 	 * @param kernel
 	 *            kernel
 	 * @param power
-	 *            superscript power
+	 *            SUPERSCRIPT power
 	 */
 	public MyDouble(Kernel kernel, String power) {
 		this.kernel = kernel;
 
 		int sign = 1;
 		int start = 0;
-		if (power.charAt(0) == Unicode.Superscript_Minus) {
+		if (power.charAt(0) == Unicode.SUPERSCRIPT_MINUS) {
 			start = 1;
 			sign = -1;
 		}
@@ -113,34 +113,34 @@ public class MyDouble extends ValidExpression
 		val = 0;
 		for (int i = 0; i < power.length() - start; i++) {
 			switch (power.charAt(power.length() - 1 - i)) {
-			case Unicode.Superscript_0:
+			case Unicode.SUPERSCRIPT_0:
 				// val+= 0;
 				break;
-			case Unicode.Superscript_1:
+			case Unicode.SUPERSCRIPT_1:
 				val += Math.pow(10, i);
 				break;
-			case Unicode.Superscript_2:
+			case Unicode.SUPERSCRIPT_2:
 				val += Math.pow(10, i) * 2;
 				break;
-			case Unicode.Superscript_3:
+			case Unicode.SUPERSCRIPT_3:
 				val += Math.pow(10, i) * 3;
 				break;
-			case Unicode.Superscript_4:
+			case Unicode.SUPERSCRIPT_4:
 				val += Math.pow(10, i) * 4;
 				break;
-			case Unicode.Superscript_5:
+			case Unicode.SUPERSCRIPT_5:
 				val += Math.pow(10, i) * 5;
 				break;
-			case Unicode.Superscript_6:
+			case Unicode.SUPERSCRIPT_6:
 				val += Math.pow(10, i) * 6;
 				break;
-			case Unicode.Superscript_7:
+			case Unicode.SUPERSCRIPT_7:
 				val += Math.pow(10, i) * 7;
 				break;
-			case Unicode.Superscript_8:
+			case Unicode.SUPERSCRIPT_8:
 				val += Math.pow(10, i) * 8;
 				break;
-			case Unicode.Superscript_9:
+			case Unicode.SUPERSCRIPT_9:
 				val += Math.pow(10, i) * 9;
 				break;
 			default: // unexpected character

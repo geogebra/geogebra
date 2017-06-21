@@ -38,7 +38,7 @@ public class AlgebraStyleTest extends Assert {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false, TestErrorHandler.INSTANCE, false, null);
 		((GeoConicND) el[0]).setToStringMode(mode);
-		assertEquals(check.replace("^2", Unicode.Superscript_2 + ""),
+		assertEquals(check.replace("^2", Unicode.SUPERSCRIPT_2 + ""),
 				el[0].toValueString(StringTemplate.defaultTemplate));
 	}
 

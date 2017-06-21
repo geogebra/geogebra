@@ -69,7 +69,7 @@ public class StatisticsCalculatorHTML {
 		strInterval = loc.getMenu("Interval");
 		strPooled = loc.getMenu("Pooled");
 
-		strChiSq = Unicode.Chi + "" + Unicode.Superscript_2;
+		strChiSq = Unicode.Chi + "" + Unicode.SUPERSCRIPT_2;
 
 	}
 

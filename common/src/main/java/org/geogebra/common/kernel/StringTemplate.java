@@ -473,7 +473,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		case GEOGEBRA_XML:
 			printFormPI = "pi";
-			printFormImaginary = Unicode.IMAGINARY;
+			printFormImaginary = Unicode.IMAGINARY + "";
 			break;
 
 		case LATEX:
@@ -490,7 +490,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// #5129
 			// #5130
 			printFormPI = Unicode.PI_STRING;
-			printFormImaginary = Unicode.IMAGINARY;
+			printFormImaginary = Unicode.IMAGINARY + "";
 		}
 
 	}

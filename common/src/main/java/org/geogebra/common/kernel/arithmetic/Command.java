@@ -163,7 +163,7 @@ public class Command extends ValidExpression
 			}
 		} else if (ev instanceof GeoVec2D) {
 			if (((GeoVec2D) ev).isImaginaryUnit()) {
-				return Unicode.IMAGINARY;
+				return Unicode.IMAGINARY + "";
 			}
 		} else if (ev instanceof MySpecialDouble) {
 			if (((MySpecialDouble) ev).isEulerConstant()) {

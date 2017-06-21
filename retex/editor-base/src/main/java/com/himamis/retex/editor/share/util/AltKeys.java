@@ -44,17 +44,17 @@ public class AltKeys {
 		lookupLower.put('W', Unicode.omega + "");
 		lookupUpper.put('W', Unicode.Omega + "");
 
-		lookupLower.put('0', Unicode.Superscript_0 + "");
-		lookupLower.put('1', Unicode.Superscript_1 + "");
-		lookupLower.put('2', Unicode.Superscript_2 + "");
-		lookupLower.put('3', Unicode.Superscript_3 + "");
-		lookupLower.put('4', Unicode.Superscript_4 + "");
-		lookupLower.put('5', Unicode.Superscript_5 + "");
-		lookupLower.put('6', Unicode.Superscript_6 + "");
-		lookupLower.put('7', Unicode.Superscript_7 + "");
-		lookupLower.put('8', Unicode.Superscript_8 + "");
+		lookupLower.put('0', Unicode.SUPERSCRIPT_0 + "");
+		lookupLower.put('1', Unicode.SUPERSCRIPT_1 + "");
+		lookupLower.put('2', Unicode.SUPERSCRIPT_2 + "");
+		lookupLower.put('3', Unicode.SUPERSCRIPT_3 + "");
+		lookupLower.put('4', Unicode.SUPERSCRIPT_4 + "");
+		lookupLower.put('5', Unicode.SUPERSCRIPT_5 + "");
+		lookupLower.put('6', Unicode.SUPERSCRIPT_6 + "");
+		lookupLower.put('7', Unicode.SUPERSCRIPT_7 + "");
+		lookupLower.put('8', Unicode.SUPERSCRIPT_8 + "");
 		lookupUpper.put('8', Unicode.VECTOR_PRODUCT + "");
-		lookupLower.put('9', Unicode.Superscript_9 + "");
+		lookupLower.put('9', Unicode.SUPERSCRIPT_9 + "");
 
 		lookupUpper.put('*', Unicode.VECTOR_PRODUCT + "");
 		lookupLower.put('*', Unicode.VECTOR_PRODUCT + "");
@@ -71,8 +71,8 @@ public class AltKeys {
 		lookupUpper.put('=', Unicode.XOR + "");
 		lookupLower.put('=', Unicode.XOR + "");
 
-		lookupUpper.put('-', Unicode.Superscript_Minus + "");
-		lookupLower.put('-', Unicode.Superscript_Minus + "");
+		lookupUpper.put('-', Unicode.SUPERSCRIPT_MINUS + "");
+		lookupLower.put('-', Unicode.SUPERSCRIPT_MINUS + "");
 
 		lookupUpper.put(',', Unicode.LESS_EQUAL + "");
 		lookupLower.put(',', Unicode.LESS_EQUAL + "");
@@ -100,8 +100,8 @@ public class AltKeys {
 			lookupLower.put((char) 107, Unicode.XOR + "");
 
 			// on Chrome, Alt-Keypad- gives character 109
-			lookupUpper.put((char) 109, Unicode.Superscript_Minus + "");
-			lookupLower.put((char) 109, Unicode.Superscript_Minus + "");
+			lookupUpper.put((char) 109, Unicode.SUPERSCRIPT_MINUS + "");
+			lookupLower.put((char) 109, Unicode.SUPERSCRIPT_MINUS + "");
 
 			// on Chrome, Alt-= gives character 187 (>>)
 			lookupUpper.put((char) 187, Unicode.NOTEQUAL + "");
@@ -112,8 +112,8 @@ public class AltKeys {
 			lookupLower.put((char) 188, Unicode.LESS_EQUAL + "");
 
 			// on Chrome, Alt-- gives character 189 (1/2)
-			lookupUpper.put((char) 189, Unicode.Superscript_Minus + "");
-			lookupLower.put((char) 189, Unicode.Superscript_Minus + "");
+			lookupUpper.put((char) 189, Unicode.SUPERSCRIPT_MINUS + "");
+			lookupLower.put((char) 189, Unicode.SUPERSCRIPT_MINUS + "");
 
 			// on Chrome, Alt-. gives character 190 (3/4)
 			lookupUpper.put((char) 190, Unicode.GREATER_EQUAL + "");

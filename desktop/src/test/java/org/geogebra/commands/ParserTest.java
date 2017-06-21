@@ -65,7 +65,7 @@ public class ParserTest {
 		checkSameStructure(Unicode.SQUARE_ROOT + "x(x+1)", "sqrt(x)*(x+1)");
 		checkSameStructure("x(x+1)!", "x*(x+1)!");
 		checkSameStructure("cos^2(x)", "cos(x)^2");
-		checkSameStructure("sin" + Unicode.Superscript_2 + "(x)", "sin(x)^2");
+		checkSameStructure("sin" + Unicode.SUPERSCRIPT_2 + "(x)", "sin(x)^2");
 
 	}
 

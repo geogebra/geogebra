@@ -10,22 +10,22 @@ public class Unicode {
 	final public static char GREATER_EQUAL = '\u2265';
 	final public static char INFINITY = '\u221e';
 	final public static String MINUS_INFINITY_STRING = "-\u221e";
-	final public static char Superscript_Minus = '\u207b';
-	final public static char Superscript_0 = '\u2070';
-	final public static char Superscript_1 = '\u00b9';
-	final public static char Superscript_2 = '\u00b2';
-	final public static char Superscript_3 = '\u00b3';
-	final public static char Superscript_4 = '\u2074';
-	final public static char Superscript_5 = '\u2075';
-	final public static char Superscript_6 = '\u2076';
-	final public static char Superscript_7 = '\u2077';
-	final public static char Superscript_8 = '\u2078';
-	final public static char Superscript_9 = '\u2079';
+	final public static char SUPERSCRIPT_MINUS = '\u207b';
+	final public static char SUPERSCRIPT_0 = '\u2070';
+	final public static char SUPERSCRIPT_1 = '\u00b9';
+	final public static char SUPERSCRIPT_2 = '\u00b2';
+	final public static char SUPERSCRIPT_3 = '\u00b3';
+	final public static char SUPERSCRIPT_4 = '\u2074';
+	final public static char SUPERSCRIPT_5 = '\u2075';
+	final public static char SUPERSCRIPT_6 = '\u2076';
+	final public static char SUPERSCRIPT_7 = '\u2077';
+	final public static char SUPERSCRIPT_8 = '\u2078';
+	final public static char SUPERSCRIPT_9 = '\u2079';
 	final public static char ZERO_WIDTH_SPACE = '\u200b';
 	final public static char RightToLeftMark = '\u200f';
 	final public static String RightToLeftUnaryMinusSign = "\u200f-\u200f";
 	final public static char LeftToRightMark = '\u200e';
-	final public static String superscriptMinusOneBracket = "\u207b\u00b9(";
+	final public static String SUPERSCRIPTMinusOneBracket = "\u207b\u00b9(";
 	final public static char DEGREE_CHAR = '\u00b0';
 	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
 
@@ -114,24 +114,23 @@ public class Unicode {
 	// eg (2;3)
 	final public static char MEASURED_ANGLE = '\u2221';
 
-	public static final String PARALLEL = "\u2225";
+	public static final char PARALLEL = '\u2225';
 	public static final char PERPENDICULAR = '\u22a5';
 	public static final char IS_ELEMENT_OF = '\u2208';
 	public static final char IS_SUBSET_OF = '\u2286';
 	public static final char IS_SUBSET_OF_STRICT = '\u2282';
-	public static final String COLON_EQUALS = "\u2254";
-	public static final String SPACE = " ";
-	public static final String ANGLE = "\u2220";
-	public static final String ACCENT_ACUTE = "\u00b4";
-	public static final String ACCENT_GRAVE = "\u0060";
-	public static final String ACCENT_CARON = "\u02c7";
-	public static final String ACCENT_CIRCUMFLEX = "\u005e";
-	public static final String QUESTEQ = "\u225f";
+	// public static final String COLON_EQUALS = "\u2254";
+	// public static final String ANGLE = "\u2220";
+	// public static final String ACCENT_ACUTE = "\u00b4";
+	// public static final String ACCENT_GRAVE = "\u0060";
+	// public static final String ACCENT_CARON = "\u02c7";
+	// public static final String ACCENT_CIRCUMFLEX = "\u005e";
+	public static final char QUESTEQ = '\u225f';
 
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
 
 	// GREEK SMALL LETTER IOTA WITH TONOS
-	final public static String IMAGINARY = "\u03af";
+	final public static char IMAGINARY = '\u03af';
 
 	// non-breaking (hard) space
 	public static final String NBSP = "\u00a0";
@@ -201,7 +200,7 @@ public class Unicode {
 	public static final char BULLET = '\u2022';
 
 	/**
-	 * converts an integer to a unicode superscript string (including minus
+	 * converts an integer to a unicode SUPERSCRIPT string (including minus
 	 * sign) eg for use as a power
 	 * 
 	 * @author Michael
@@ -216,40 +215,40 @@ public class Unicode {
 		}
 
 		if (i == 0) {
-			sb.append(Superscript_0); // zero
+			sb.append(SUPERSCRIPT_0); // zero
 		} else {
 			while (i > 0) {
 				switch (i % 10) {
 				default:
 				case 0:
-					sb.insert(0, Superscript_0);
+					sb.insert(0, SUPERSCRIPT_0);
 					break;
 				case 1:
-					sb.insert(0, Superscript_1);
+					sb.insert(0, SUPERSCRIPT_1);
 					break;
 				case 2:
-					sb.insert(0, Superscript_2);
+					sb.insert(0, SUPERSCRIPT_2);
 					break;
 				case 3:
-					sb.insert(0, Superscript_3);
+					sb.insert(0, SUPERSCRIPT_3);
 					break;
 				case 4:
-					sb.insert(0, Superscript_4);
+					sb.insert(0, SUPERSCRIPT_4);
 					break;
 				case 5:
-					sb.insert(0, Superscript_5);
+					sb.insert(0, SUPERSCRIPT_5);
 					break;
 				case 6:
-					sb.insert(0, Superscript_6);
+					sb.insert(0, SUPERSCRIPT_6);
 					break;
 				case 7:
-					sb.insert(0, Superscript_7);
+					sb.insert(0, SUPERSCRIPT_7);
 					break;
 				case 8:
-					sb.insert(0, Superscript_8);
+					sb.insert(0, SUPERSCRIPT_8);
 					break;
 				case 9:
-					sb.insert(0, Superscript_9);
+					sb.insert(0, SUPERSCRIPT_9);
 					break;
 
 				}
@@ -258,16 +257,16 @@ public class Unicode {
 		}
 
 		if (negative) {
-			sb.insert(0, Superscript_Minus);
+			sb.insert(0, SUPERSCRIPT_MINUS);
 		}
 
 		return sb.toString();
 	}
 
 	final public static boolean isSuperscriptDigit(final char c) {
-		return ((c >= Superscript_0) && (c <= Superscript_9))
-				|| (c == Superscript_1) || (c == Superscript_2)
-				|| (c == Superscript_3);
+		return ((c >= SUPERSCRIPT_0) && (c <= SUPERSCRIPT_9))
+				|| (c == SUPERSCRIPT_1) || (c == SUPERSCRIPT_2)
+				|| (c == SUPERSCRIPT_3);
 	}
 
 	public static String[] getSetOfSymbols(int symbolsStartValue,

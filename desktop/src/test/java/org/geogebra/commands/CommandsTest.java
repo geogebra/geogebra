@@ -139,10 +139,10 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void testQuadricExpr() {
-		t("-y^2=z-1", "-y" + Unicode.Superscript_2 + " + 0z"
-				+ Unicode.Superscript_2 + " - z = -1");
-		t("y^2=1-z", "y" + Unicode.Superscript_2 + " + 0z"
-				+ Unicode.Superscript_2 + " + z = 1");
+		t("-y^2=z-1", "-y" + Unicode.SUPERSCRIPT_2 + " + 0z"
+				+ Unicode.SUPERSCRIPT_2 + " - z = -1");
+		t("y^2=1-z", "y" + Unicode.SUPERSCRIPT_2 + " + 0z"
+				+ Unicode.SUPERSCRIPT_2 + " + z = 1");
 	}
 
 	@Test
@@ -510,8 +510,9 @@ public class CommandsTest extends Assert{
 	}
 
 	private static void ti(String in, String out) {
-		testSyntax(in.replace("i", Unicode.IMAGINARY),
-				new String[] { out.replace("i", Unicode.IMAGINARY) }, app, ap,
+		testSyntax(in.replace("i", Unicode.IMAGINARY + ""),
+				new String[] { out.replace("i", Unicode.IMAGINARY + "") }, app,
+				ap,
 				StringTemplate.xmlTemplate);
 
 	}
@@ -773,7 +774,7 @@ public class CommandsTest extends Assert{
 	}
 
 	private static String indices(String string) {
-		return string.replace("^2", Unicode.Superscript_2 + "");
+		return string.replace("^2", Unicode.SUPERSCRIPT_2 + "");
 	}
 
 	private static String eval(String string) {
@@ -1118,7 +1119,8 @@ public class CommandsTest extends Assert{
 
 
 	static String unicode(String theSpline) {
-		return theSpline.replace("^2", Unicode.Superscript_2 + "").replace("^3",
-				Unicode.Superscript_3 + "").replace("deg", Unicode.DEGREE_STRING);
+		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
+				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
+				.replace("deg", Unicode.DEGREE_STRING);
 	}
 }

@@ -48,7 +48,7 @@ public class KeyboardInputAdapter {
         adapters.add(new FunctionAdapter("log_{10}", "log10"));
         adapters.add(new FunctionAdapter("random"));
         adapters.add(new FunctionAdapter("nroot"));
-		adapters.add(new StringInput(Unicode.Superscript_2 + "") {
+		adapters.add(new StringInput(Unicode.SUPERSCRIPT_2 + "") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
                 typeCharacter(mfi, '^');

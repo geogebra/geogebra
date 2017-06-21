@@ -2333,7 +2333,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Numerator_0 () {
-    t("Numerator[(3x"+Unicode.Superscript_2+" + 1) / (2x - 1)]", "3 * x^(2) + 1");
+		t("Numerator[(3x" + Unicode.SUPERSCRIPT_2 + " + 1) / (2x - 1)]",
+				"3 * x^(2) + 1");
   }
 
   @Test
@@ -4649,7 +4650,10 @@ public class GeoGebraCasIntegrationTest {
     f.setInput("f(x) := a * x^3 + b * x^2 + c * x + d");
     f.computeOutput();
 
-    Assert.assertEquals("f(x):=a x"+Unicode.Superscript_3+" + b x"+Unicode.Superscript_2+" + c x + d", f.getOutput(StringTemplate.defaultTemplate));
+		Assert.assertEquals(
+				"f(x):=a x" + Unicode.SUPERSCRIPT_3 + " + b x"
+						+ Unicode.SUPERSCRIPT_2 + " + c x + d",
+				f.getOutput(StringTemplate.defaultTemplate));
   }
 
 	/* Test for GGB-1636 */

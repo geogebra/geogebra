@@ -298,7 +298,7 @@ public abstract class CommandProcessor {
 			throw argErr(app, c, c.getArgument(varPos));
 		}
 		// imaginary unit as local variable name
-		else if (localVarName.equals(Unicode.IMAGINARY)) {
+		else if (localVarName.equals(Unicode.IMAGINARY + "")) {
 			// replace all imaginary unit objects in command arguments by a
 			// variable "i"object
 			localVarName = "i";
@@ -555,7 +555,7 @@ public abstract class CommandProcessor {
 				throw argErr(app, c, c.getArgument(varPos[i]));
 			}
 			// imaginary unit as local variable name
-			else if (localVarName[i].equals(Unicode.IMAGINARY)) {
+			else if (localVarName[i].equals(Unicode.IMAGINARY + "")) {
 				// replace all imaginary unit objects in command arguments by a
 				// variable "i"object
 				localVarName[i] = "i";

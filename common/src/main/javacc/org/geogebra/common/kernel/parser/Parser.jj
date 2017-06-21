@@ -1698,7 +1698,7 @@ ExpressionNode numberFunction():
            {
              int pos = c.image.length()-2;
              while(pos >=0 && (Unicode.isSuperscriptDigit(c.image.charAt(pos))||
-             Unicode.Superscript_Minus==c.image.charAt(pos))){
+             Unicode.SUPERSCRIPT_MINUS==c.image.charAt(pos))){
                pos--;
              }
              ExpressionNode ret = kernel.handleTrigPower(c.image, en, c.image.substring(0,pos+1));

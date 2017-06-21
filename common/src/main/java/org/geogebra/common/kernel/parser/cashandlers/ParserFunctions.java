@@ -304,7 +304,7 @@ public class ParserFunctions {
 
 		put(1, "vectorize", Operation.MATRIXTOVECTOR, null);
 
-		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY);
+		RESERVED_FUNCTION_NAMES.add(Unicode.IMAGINARY + "");
 		RESERVED_FUNCTION_NAMES.add("freehand");
 		RESERVED_FUNCTION_NAMES.add("deg");
 

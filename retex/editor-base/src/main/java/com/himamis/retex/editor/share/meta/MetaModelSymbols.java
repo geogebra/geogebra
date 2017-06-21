@@ -75,8 +75,8 @@ class MetaModelSymbols {
         operators.add(createOperator("div", "\\div", '/'));
 		operators.add(
 				createOperator("ne", "!=", "\\ne", Unicode.NOTEQUAL));
-		operators.add(createOperator("equal", "==", Unicode.QUESTEQ,
-				Unicode.QUESTEQ.charAt(0)));
+		operators.add(createOperator("equal", "==", Unicode.QUESTEQ + "",
+				Unicode.QUESTEQ));
         operators.add(createOperator("equiv", "NaN", "\\equiv", '\u2261'));
 
         operators.add(createOperator("neg", "!", "\\neg", '!'));
@@ -107,7 +107,8 @@ class MetaModelSymbols {
 				Unicode.PERPENDICULAR));
 		operators.add(createOperator("\u27c2"));
 		operators.add(
-				createOperator("parallel", "\\parallel", Unicode.PARALLEL));
+				createOperator("parallel", "\\parallel",
+						Unicode.PARALLEL + ""));
 
 		operators.add(createOperator("subset", "NaN", "\\subset",
 				Unicode.IS_SUBSET_OF_STRICT));

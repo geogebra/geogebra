@@ -600,7 +600,7 @@ public class GlobalKeyDispatcherW extends
 	/**
 	 * @param keyCode
 	 *            GWT / JavaScript keycode
-	 * @return ug superscript 2 for Alt-2
+	 * @return ug SUPERSCRIPT 2 for Alt-2
 	 */
 	public static String processAltCode(int keyCode) {
 		switch (keyCode) {
@@ -615,7 +615,7 @@ public class GlobalKeyDispatcherW extends
 			return Unicode.pi + "";
 
 		case GWTKeycodes.KEY_I:
-			return Unicode.IMAGINARY;
+			return Unicode.IMAGINARY + "";
 
 		case GWTKeycodes.KEY_A:
 			if (shiftDown) {
@@ -669,37 +669,37 @@ public class GlobalKeyDispatcherW extends
 			return Unicode.SQUARE_ROOT + "";
 
 		case GWTKeycodes.KEY_ONE:
-			return Unicode.Superscript_1 + "";
+			return Unicode.SUPERSCRIPT_1 + "";
 
 		case GWTKeycodes.KEY_TWO:
-			return Unicode.Superscript_2 + "";
+			return Unicode.SUPERSCRIPT_2 + "";
 
 		case GWTKeycodes.KEY_THREE:
-			return Unicode.Superscript_3 + "";
+			return Unicode.SUPERSCRIPT_3 + "";
 
 		case GWTKeycodes.KEY_FOUR:
-			return Unicode.Superscript_4 + "";
+			return Unicode.SUPERSCRIPT_4 + "";
 
 		case GWTKeycodes.KEY_FIVE:
-			return Unicode.Superscript_5 + "";
+			return Unicode.SUPERSCRIPT_5 + "";
 
 		case GWTKeycodes.KEY_SIX:
-			return Unicode.Superscript_6 + "";
+			return Unicode.SUPERSCRIPT_6 + "";
 
 		case GWTKeycodes.KEY_SEVEN:
-			return Unicode.Superscript_7 + "";
+			return Unicode.SUPERSCRIPT_7 + "";
 
 		case GWTKeycodes.KEY_EIGHT:
-			return Unicode.Superscript_8 + "";
+			return Unicode.SUPERSCRIPT_8 + "";
 
 		case GWTKeycodes.KEY_NINE:
-			return Unicode.Superscript_9 + "";
+			return Unicode.SUPERSCRIPT_9 + "";
 
 		case GWTKeycodes.KEY_ZERO:
-			return Unicode.Superscript_0 + "";
+			return Unicode.SUPERSCRIPT_0 + "";
 
 		case GWTKeycodes.KEY_MINUS:
-			return Unicode.Superscript_Minus + "";
+			return Unicode.SUPERSCRIPT_MINUS + "";
 
 		case GWTKeycodes.KEY_X:
 			return "^x";

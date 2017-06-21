@@ -1174,7 +1174,7 @@ final public class GeoVec2D extends ValidExpression
 				// case GEOGEBRA:
 				// case GEOGEBRA_XML:
 				// case LATEX:
-				return Unicode.IMAGINARY;
+				return Unicode.IMAGINARY + "";
 			}
 		} else if (mode == Kernel.COORD_COMPLEX) {
 			initStringBuilder();

@@ -904,12 +904,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				sbFix = new StringBuilder();
 				splitters = new TreeSet<Character>(
 						Arrays.asList(new Character[] { '*', '/', '^', '=',
-								Unicode.Superscript_0, Unicode.Superscript_1,
-								Unicode.Superscript_2, Unicode.Superscript_3,
-								Unicode.Superscript_4, Unicode.Superscript_5,
-								Unicode.Superscript_6, Unicode.Superscript_7,
-								Unicode.Superscript_8, Unicode.Superscript_9,
-								Unicode.Superscript_Minus }));
+								Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
+								Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
+								Unicode.SUPERSCRIPT_4, Unicode.SUPERSCRIPT_5,
+								Unicode.SUPERSCRIPT_6, Unicode.SUPERSCRIPT_7,
+								Unicode.SUPERSCRIPT_8, Unicode.SUPERSCRIPT_9,
+								Unicode.SUPERSCRIPT_MINUS }));
 			}
 
 			int len = ignoredIndices.length();

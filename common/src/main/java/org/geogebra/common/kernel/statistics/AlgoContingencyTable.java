@@ -448,7 +448,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		String split = "&";
 
 		String rowHeader = getLoc().getMenu("DegreesOfFreedom.short") + split
-				+ Unicode.chi + Unicode.Superscript_2 + split
+				+ Unicode.chi + Unicode.SUPERSCRIPT_2 + split
 				+ getLoc().getMenu("PValue");
 		String degFreedom = kernel.format(
 				(rowValues.length - 1) * (colValues.length - 1),

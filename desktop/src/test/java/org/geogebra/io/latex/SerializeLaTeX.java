@@ -82,8 +82,8 @@ public class SerializeLaTeX {
 				+ "^(-30)");
 		checkCannon(Unicode.EULER_STRING + "^-30+1", Unicode.EULER_STRING
 				+ "^(-30)+1");
-		checkCannon(Unicode.EULER_STRING + Unicode.Superscript_Minus
-				+ Unicode.Superscript_1 + Unicode.Superscript_0,
+		checkCannon(Unicode.EULER_STRING + Unicode.SUPERSCRIPT_MINUS
+				+ Unicode.SUPERSCRIPT_1 + Unicode.SUPERSCRIPT_0,
 				Unicode.EULER_STRING + "^(-10)");
 
 	}
@@ -101,12 +101,12 @@ public class SerializeLaTeX {
 	public void testPower() {
 		checkCannon("x ^ 2", "x^(2)");
 		checkCannon("x ^ 2 + 1", "x^(2)+1");
-		checkCannon("x" + Unicode.Superscript_2 + Unicode.Superscript_3,
+		checkCannon("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
 				"x^(23)");
-		checkCannon("x" + Unicode.Superscript_Minus + Unicode.Superscript_2
-				+ Unicode.Superscript_3, "x^(-23)");
-		checkCannon("1 + x" + Unicode.Superscript_Minus + Unicode.Superscript_2
-				+ Unicode.Superscript_3, "1+x^(-23)");
+		checkCannon("x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
+				+ Unicode.SUPERSCRIPT_3, "x^(-23)");
+		checkCannon("1 + x" + Unicode.SUPERSCRIPT_MINUS + Unicode.SUPERSCRIPT_2
+				+ Unicode.SUPERSCRIPT_3, "1+x^(-23)");
 		checkCannon("e^x*sin(x)", "e^(x)*sin(x)");
 		checkCannon("e^(-10/x)*sin(x)", "e^(-(10)/(x))*sin(x)");
 

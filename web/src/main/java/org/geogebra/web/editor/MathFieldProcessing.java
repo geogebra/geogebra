@@ -59,7 +59,7 @@ public class MathFieldProcessing implements KeyboardListener {
 	public void insertString(String text) {
 		if (text.equals(KeyboardConstants.A_POWER_X)) {
 			mf.insertFunction("^");
-		} else if (text.equals(Unicode.Superscript_2 + "")) {
+		} else if (text.equals(Unicode.SUPERSCRIPT_2 + "")) {
 			mf.insertFunction("^");
 			type("2");
 			mf.getKeyListener().onKeyPressed(

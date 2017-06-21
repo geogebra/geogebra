@@ -4422,11 +4422,11 @@ public class Kernel {
 
 		// sin^(-1)(x) -> ArcSin(x)
 		// sin^(-1)(x) -> ArcSin(x)
-		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
-			// String check = ""+Unicode.Superscript_Minus +
+		if (image.indexOf(Unicode.SUPERSCRIPT_MINUS) > -1) {
+			// String check = ""+Unicode.SUPERSCRIPT_Minus +
 			// Unicode.Superscript_1 + '(';
 
-			int index = image.indexOf(Unicode.superscriptMinusOneBracket);
+			int index = image.indexOf(Unicode.SUPERSCRIPTMinusOneBracket);
 
 			// sin^-1 -> index = 3
 			// sinh^-1 -> index =4

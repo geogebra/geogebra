@@ -132,10 +132,10 @@ public class TableSymbols {
 						app.getMenu("Symbol.StrictSubset") },
 				// { "\u2220" , app.getMenu("Symbol.Angle" )},
 				{ "\u2221", app.getMenu("Symbol.AngleMeasure") },
-				{ Unicode.Superscript_2 + "", app.getMenu("Symbol.Square") }, // exponents^2
-				{ Unicode.Superscript_3 + "", app.getMenu("Symbol.Cube") }, // exponents^3
+				{ Unicode.SUPERSCRIPT_2 + "", app.getMenu("Symbol.Square") }, // exponents^2
+				{ Unicode.SUPERSCRIPT_3 + "", app.getMenu("Symbol.Cube") }, // exponents^3
 				{ Unicode.DEGREE_STRING, app.getMenu("Symbol.Degree") }, // degree
-				{ " " + Unicode.IMAGINARY + " ", Unicode.IMAGINARY }, // sqrt(-1)
+				{ " " + Unicode.IMAGINARY + " ", Unicode.IMAGINARY + "" }, // sqrt(-1)
 				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
 				{ " " + Unicode.EULER_STRING + " ", Unicode.EULER_STRING }, // e
 				{ Unicode.NBSP, app.getMenu("Symbol.NBSP") }, // non-breaking
@@ -360,7 +360,7 @@ public class TableSymbols {
 			"\u2203", // THERE EXISTS
 			"\u2204", // THERE DOES NOT EXIST
 
-			Unicode.QUESTEQ, // Boolean identity \\questeq
+			Unicode.QUESTEQ + "", // Boolean identity \\questeq
 			"\u2261", // IDENTICAL TO
 			"\u2262", // NOT IDENTICAL TO
 
