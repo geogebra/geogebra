@@ -215,6 +215,22 @@ public class ExamEnvironment {
 		return sb.toString();
 	}
 	
+	public String getLogStartAndCurrentTime(Localization loc) {
+		StringBuilder sb = new StringBuilder();
+		// Exam Start Date
+		sb.append(loc.getMenu("exam_start_date"));
+		sb.append(": ");
+		sb.append(getLocalizedDateOnly(loc, examStartTime));
+		sb.append(lineBreak());
+
+		// Exam Start Time
+		sb.append(loc.getMenu("exam_current_time"));
+		sb.append(": ");
+		sb.append(timeToString(System.currentTimeMillis()));
+		
+		return sb.toString();
+	}
+	
 	public String getLogTimes(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		appendLogTimes(loc, sb);		
