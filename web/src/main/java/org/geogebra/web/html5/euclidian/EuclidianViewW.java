@@ -1315,11 +1315,21 @@ public class EuclidianViewW extends EuclidianView implements
 		Log.debug("read text: " + text);
 		dummyDiv.getElement().setInnerText(text);
 
-		int scrolltop = Window.getScrollTop();
+		int scrolltop = getScrollTop();
 		dummyDiv.getElement().focus();
 		g2p.getCanvas().getCanvasElement().focus();
-		Window.scrollTo(Window.getScrollLeft(), scrolltop);
+		setScrollTop(scrolltop);
 	}
+
+	private static native int getScrollTop()/*-{
+		var mainwindow = ($wnd.parent == $wnd) ? $wnd : $wnd.parent;
+		return mainwindow.document.body.scrollTop;
+	}-*/;
+
+	private static native void setScrollTop(int st)/*-{
+		var mainwindow = ($wnd.parent == $wnd) ? $wnd : $wnd.parent;
+		mainwindow.document.body.scrollTop = st;
+	}-*/;
 
 	public static native void printFocusedElement()/*-{
 		$wnd.console.log($doc.activeElement);
