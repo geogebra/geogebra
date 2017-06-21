@@ -36,6 +36,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.color.MOWColorButton;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -494,7 +495,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		// add text decoration buttons
-		if (btnBold.isVisible()) {
+		if (btnBold.isVisible() && !app.has(Feature.NEW_TOOLBAR)) {
 			addSeparator();
 		}
 
@@ -1261,22 +1262,41 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextBoldBtn() {
-		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			btnBold = new MyToggleButtonW(
+					MaterialDesignResources.INSTANCE.text_bold_black()) {
+				@Override
+				public void update(Object[] geos) {
 
-			@Override
-			public void update(Object[] geos) {
-
-				boolean geosOK = checkGeoText(geos)
-				        && !((GeoElement) geos[0]).isGeoInputBox();
-				super.setVisible(geosOK);
-				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
-					        .getGeoElementForPropertiesDialog();
-					int style = ((TextProperties) geo).getFontStyle();
-					btnBold.setValue((style & GFont.BOLD) != 0);
+					boolean geosOK = checkGeoText(geos)
+							&& !((GeoElement) geos[0]).isGeoInputBox();
+					super.setVisible(geosOK);
+					if (geosOK) {
+						GeoElement geo = ((GeoElement) geos[0])
+								.getGeoElementForPropertiesDialog();
+						int style = ((TextProperties) geo).getFontStyle();
+						btnBold.setValue((style & GFont.BOLD) != 0);
+					}
 				}
-			}
-		};
+			};
+		} else {
+			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short")) {
+
+				@Override
+				public void update(Object[] geos) {
+
+					boolean geosOK = checkGeoText(geos)
+				        && !((GeoElement) geos[0]).isGeoInputBox();
+					super.setVisible(geosOK);
+					if (geosOK) {
+						GeoElement geo = ((GeoElement) geos[0])
+					        .getGeoElementForPropertiesDialog();
+						int style = ((TextProperties) geo).getFontStyle();
+						btnBold.setValue((style & GFont.BOLD) != 0);
+					}
+				}
+			};
+		}
 		btnBold.addStyleName("btnBold");
 		btnBold.addValueChangeHandler(this);
 	}
@@ -1323,24 +1343,45 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextItalicBtn() {
-		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			btnItalic = new MyToggleButtonW(
+					MaterialDesignResources.INSTANCE.text_italic_black()) {
 
-			@Override
-			public void update(Object[] geos) {
+				@Override
+				public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos)
-				        && !((GeoElement) geos[0]).isGeoInputBox();
-				super.setVisible(geosOK);
-				if (geosOK) {
-					GeoElement geo = ((GeoElement) geos[0])
-					        .getGeoElementForPropertiesDialog();
-					int style = ((TextProperties) geo).getFontStyle();
-					btnItalic
-							.setValue((style & GFont.ITALIC) != 0);
+					boolean geosOK = checkGeoText(geos)
+							&& !((GeoElement) geos[0]).isGeoInputBox();
+					super.setVisible(geosOK);
+					if (geosOK) {
+						GeoElement geo = ((GeoElement) geos[0])
+								.getGeoElementForPropertiesDialog();
+						int style = ((TextProperties) geo).getFontStyle();
+						btnItalic.setValue((style & GFont.ITALIC) != 0);
+					}
 				}
-			}
 
-		};
+			};
+		} else {
+			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short")) {
+
+				@Override
+				public void update(Object[] geos) {
+
+					boolean geosOK = checkGeoText(geos)
+				        && !((GeoElement) geos[0]).isGeoInputBox();
+					super.setVisible(geosOK);
+					if (geosOK) {
+						GeoElement geo = ((GeoElement) geos[0])
+					        .getGeoElementForPropertiesDialog();
+						int style = ((TextProperties) geo).getFontStyle();
+						btnItalic
+							.setValue((style & GFont.ITALIC) != 0);
+					}
+				}
+
+			};
+		}
 		btnItalic.addStyleName("btnItalic");
 		btnItalic.addValueChangeHandler(this);
 	}
@@ -1376,9 +1417,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(new ImageOrText(StyleBarResources.INSTANCE
+		btnTextSize.setIcon(new ImageOrText(app.has(Feature.NEW_TOOLBAR)
+				? MaterialDesignResources.INSTANCE.text_size_black()
+				: StyleBarResources.INSTANCE
 		                        .font_size()));
-
+		btnTextSize.addStyleName("withIcon");
+		btnTextSize.getMyPopup().removeStyleName("matPopupPanel");
+		btnTextSize.getMyPopup().addStyleName("textSizePopupPanel");
 	}
 
 	// =====================================================

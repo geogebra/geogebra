@@ -10,6 +10,16 @@ public interface MaterialDesignResources extends ClientBundle {
 	MaterialDesignResources INSTANCE = GWT.create(MaterialDesignResources.class);
 	/** NEW MATERIAL DESIGN ICONS */
 
+	// dynamic stylebar
+	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/text_size_black.png")
+	ImageResource text_size_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/text_bold_black.png")
+	ImageResource text_bold_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/text_italic_black.png")
+	ImageResource text_italic_black();
+
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/more_vert_black.png")
 	ImageResource more_vert_black();

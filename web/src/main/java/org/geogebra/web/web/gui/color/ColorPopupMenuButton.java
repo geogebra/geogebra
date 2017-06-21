@@ -167,7 +167,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		} else {
 			this.setIcon(GeoGebraIconW.createNullSymbolIcon());
 			this.getElement().getStyle()
-					.setBorderColor(GColor.BLACK.toString());
+					.setBorderColor(this.app.has(Feature.NEW_TOOLBAR)
+							? GColor.newColor(220, 220, 220, 255).toString()
+							: GColor.BLACK.toString());
 		}
 	}
 

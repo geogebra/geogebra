@@ -53,6 +53,32 @@
 			&.active {
 				border: $toolbar-header solid 1px;
 			}
+		
+			&.withIcon {
+				border: $tool-border solid 1px;
+				
+				.buttonContent {
+					opacity: 0.54;	
+				}
+			
+				&:hover {
+					border: $toolbar-header-54 solid 1px;;	
+				}
+			}
+		}
+	
+		.btnBold,.btnItalic {
+			border-radius: 2px;
+			margin-left: 0px;
+   	 		margin-right: 8px;
+   	 		
+			img {
+				opacity: 0.54;
+			}	
+		
+			&:hover {
+				border: $toolbar-header-54 solid 1px;
+			}
 		}
 	    
 	    .matDynStyleContextButton { 
@@ -70,6 +96,40 @@
 			}
 		
 		}
+	}
+
+	/* text size popup */
+	.textSizePopupPanel {
+		border-radius: 2px;
+		padding: 8px 0px 8px 0px;
+		margin: 0px;
+		
+		.matSelectionTable {
+    		border-collapse: separate;
+			border-spacing: 0px 0px;
+    			
+    		.gwt-Label {
+    			padding: 0px 16px 0px 16px;
+    			height: 24px;
+    			line-height: 24px;
+    			
+    			&:hover {
+    				background-color: $selected-menuitem-background;
+    				color: $black;
+    				/*background-color: $white-90;*/
+    				/*color: $toolbar-header-54;	*/
+    			}
+    		
+    			&.selected {
+    				color: $toolbar-header;
+    				
+    				&:hover {
+    					color: $toolbar-header !important;
+    				}
+    			}
+    		}
+    	}
+    
 	}
 
 	/*dyn stylebar popup panel*/
