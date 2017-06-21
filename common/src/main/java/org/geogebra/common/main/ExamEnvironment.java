@@ -146,7 +146,7 @@ public class ExamEnvironment {
 
 	}
 	
-	private void appendStartEnd(Localization loc, StringBuilder sb) {
+	private void appendStartEnd(Localization loc, StringBuilder sb, boolean showEndTime) {
 		// Exam Start Date
 		sb.append(loc.getMenu("exam_start_date"));
 		sb.append(": ");
@@ -160,7 +160,7 @@ public class ExamEnvironment {
 		sb.append(lineBreak());
 
 		// Exam End Time
-		if (closed > 0) {
+		if (showEndTime && closed > 0) {
 			sb.append(loc.getMenu("exam_end_time"));
 			sb.append(": ");
 			sb.append(getLocalizedTimeOnly(loc, closed));
@@ -168,7 +168,7 @@ public class ExamEnvironment {
 		}
 	}
 	
-	private void appendLogTimes(Localization loc, StringBuilder sb) {
+	private void appendLogTimes(Localization loc, StringBuilder sb, boolean showEndTime) {
 		// Log times
 
 		sb.append("0:00");
@@ -184,7 +184,7 @@ public class ExamEnvironment {
 				sb.append(lineBreak());
 			}
 		}
-		if (closed > 0) {
+		if (showEndTime && closed > 0) {
 			sb.append(timeToString(closed)); // get exit timestamp
 			sb.append(' ');
 			sb.append(loc.getMenu("exam_ended"));
@@ -199,31 +199,32 @@ public class ExamEnvironment {
 
 		appendSettings(loc, settings, sb);
 		
-		appendStartEnd(loc, sb);
+		appendStartEnd(loc, sb, true);
 
 		sb.append("<hr>");
 		sb.append(lineBreak());
 
-		appendLogTimes(loc, sb);
+		appendLogTimes(loc, sb, true);
 		
 		return sb.toString();
 	}
 	
 	public String getLogStartEnd(Localization loc) {
+		return getLogStartEnd(loc, true);
+	}
+	
+	public String getLogStartEnd(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
-		appendStartEnd(loc, sb);
+		appendStartEnd(loc, sb, showEndTime);
 		return sb.toString();
 	}
 	
 	public String getLogStartAndCurrentTime(Localization loc) {
 		StringBuilder sb = new StringBuilder();
-		// Exam Start Date
-		sb.append(loc.getMenu("exam_start_date"));
-		sb.append(": ");
-		sb.append(getLocalizedDateOnly(loc, examStartTime));
-		sb.append(lineBreak());
 
-		// Exam Start Time
+		appendStartEnd(loc, sb, false);
+		
+		// Exam Current Time
 		sb.append(loc.getMenu("exam_current_time"));
 		sb.append(": ");
 		sb.append(timeToString(System.currentTimeMillis()));
@@ -232,8 +233,12 @@ public class ExamEnvironment {
 	}
 	
 	public String getLogTimes(Localization loc) {
+		return getLogTimes(loc, true);
+	}
+
+	public String getLogTimes(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
-		appendLogTimes(loc, sb);		
+		appendLogTimes(loc, sb, showEndTime);		
 		return sb.toString();
 	}
 
