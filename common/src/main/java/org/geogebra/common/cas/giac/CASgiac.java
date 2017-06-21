@@ -214,17 +214,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
 		/**
-		 * Remove zeroes or linear dependencies from a list (workaround for
-		 * buggy eliminate). Probably obsolete and can be removed and
-		 * substituted by eliminate().
-		 */
-		ELIMINATE2("eliminate2", "eliminate2(x,y):=eliminate(eliminate(x,y),y);"),
-		/**
 		 * Eliminate variables from a polynomial ideal. If the result is a set
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
-		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(jacobiPrepare(polys,[]),revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
 		/**
 		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -349,6 +343,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(ENVELOPE_EQU, LOCUS_EQU);
 			setDependency(ENVELOPE_EQU, GEOM_JACOBI_DET);
 			setDependency(GEOM_JACOBI_DET, JACOBI_PREPARE);
+			setDependency(GEOM_ELIM, JACOBI_PREPARE);
 			setDependency(GEOM_JACOBI_DET, JACOBI_DET);
 			setDependency(AFACTOR_ALG_NUM, IRRED);
 			setDependency(ABSFACT, AFACTOR_ALG_NUM);
@@ -812,7 +807,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * .toString();
 		 */
 
-		String eliminateCommand = CustomFunctions.ELIMINATE2 + "([" + polys
+		String eliminateCommand = "eliminate([" + polys
 				+ "],revlist(["
 				+ elimVars + "]))";
 
@@ -847,8 +842,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	public String createEliminateScript(String polys, String elimVars,
 			boolean oneCurve, Long precision) {
 		if (!oneCurve) {
-			return CustomFunctions.PRIM_POLY + "(" + CustomFunctions.ELIMINATE2
-					+ "([" + polys
+			return CustomFunctions.PRIM_POLY + "(eliminate([" + polys
 					+ "],revlist([" + elimVars + "])))";
 		}
 
@@ -874,8 +868,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * approximation. TODO: Check how giac implements fsolve and use a
 		 * different method if needed (and available).
 		 */
-		retval = CustomFunctions.PRIM_POLY + "([[ee:="
-				+ CustomFunctions.ELIMINATE2 + "([" + polys
+		retval = CustomFunctions.PRIM_POLY + "([[ee:=eliminate([" + polys
 				+ "],revlist([" + elimVars
 				+ "]))],[ll:=lvar(ee)],[if(size(ee)>1) begin ff:=round(fsolve(ee,ll)*"
 				+ PRECISION + ")/" + PRECISION + ";"
