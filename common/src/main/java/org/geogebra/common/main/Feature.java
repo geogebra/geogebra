@@ -216,6 +216,9 @@ public enum Feature {
 	AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION,
 
 	/** MOB-1241 */
-	MOB_INPUT_BAR_SOLVE
+	MOB_INPUT_BAR_SOLVE,
+
+	/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
+	NON_CAS_POLYNOMIAL_DIVISION
 
 }

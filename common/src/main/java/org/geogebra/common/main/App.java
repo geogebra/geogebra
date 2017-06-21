@@ -4329,6 +4329,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_INPUT_BAR_SOLVE:
 			return false;
 
+		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
+		case NON_CAS_POLYNOMIAL_DIVISION:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

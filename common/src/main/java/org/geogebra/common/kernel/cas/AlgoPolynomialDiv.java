@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.main.Feature;
 
 /**
  * Polynomial division
@@ -84,6 +85,14 @@ public class AlgoPolynomialDiv extends AlgoElement {
 		if (!f1.isDefined() || !f2.isDefined()) {
 			g.setUndefined();
 			return;
+		}
+
+		if (kernel.getApplication().has(Feature.NON_CAS_POLYNOMIAL_DIVISION)) {
+
+			AlgoPolynomialDivision.nonCASDivision(kernel, f1, f2, g, null);
+
+			return;
+
 		}
 
 		try {
