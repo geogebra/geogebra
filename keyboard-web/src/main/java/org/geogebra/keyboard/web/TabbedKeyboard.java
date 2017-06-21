@@ -85,8 +85,8 @@ public class TabbedKeyboard extends FlowPanel {
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
 					hideTabs();
-					selectAll(false);
-
+					// selectAll(false);
+					unselectAll();
 					currentKeyboard = keyboard;
 					keyboard.setVisible(true);
 					setSelected(ret, true);
@@ -285,7 +285,7 @@ public class TabbedKeyboard extends FlowPanel {
 				filter(locale.getKeyboardRow(3)), upperKeys), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
-		switcher.addSwitch(keyboard, "ABC");
+		switcher.addSwitch(keyboard, locale.getMenu("Keyboard.ABC"));
 		keyboard = buildPanel(kbf.createGreekKeyboard(), bh);
 		tabs.add(keyboard);
 		keyboard.setVisible(false);
@@ -307,7 +307,7 @@ public class TabbedKeyboard extends FlowPanel {
 					rows[2], latinProvider.getUpperKeys()), bh);
 			tabs.add(keyboard);
 			keyboard.setVisible(false);
-			switcher.addSwitch(keyboard, "Latin");
+			switcher.addSwitch(keyboard, "ABC");
 		}
 
 		add(switcher);
