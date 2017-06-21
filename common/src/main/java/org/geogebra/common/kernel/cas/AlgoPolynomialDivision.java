@@ -245,8 +245,9 @@ public class AlgoPolynomialDivision extends AlgoElement {
 
 			double coeff = result[m - 1 - i];
 			if (coeff != 0) {
-				for (int j = 1; j < n; j++)
+				for (int j = 1; j < n; j++) {
 					result[m - 1 - (i + j)] += -divisor[n - 1 - j] * coeff;
+				}
 			}
 		}
 
