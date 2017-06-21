@@ -8,7 +8,7 @@ MY_VERSION=2.2
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 DBDEBUG=0
-TIMEOUT=20
+TIMEOUT=60
 PROVERS="DesktopInternal DesktopGrobcov Web"
 #PROVERS="Web"
 TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
