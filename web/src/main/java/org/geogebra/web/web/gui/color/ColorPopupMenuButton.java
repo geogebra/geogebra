@@ -7,6 +7,7 @@ import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
@@ -83,6 +84,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
+		if (!hasSlider && app.has(Feature.NEW_TOOLBAR)) {
+			getMyPopup().setHeight("88px");
+		}
+		if (hasSlider && app.has(Feature.NEW_TOOLBAR)) {
+			getMyPopup().setHeight("118px");
+		}
 		if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
 			if (!hasSlider && app.isWhiteboardActive()) {
 				getMyPopup().setHeight("38px");
@@ -94,8 +101,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	 * Update the table
 	 */
 	protected void updateColorTable() {
-		getMyTable().populateModel(getColorSwatchIcons(colorSet,
-				getSliderValue() / 100f));
+		getMyTable().populateModel(
+				getColorSwatchIcons(colorSet, getSliderValue() / 100f));
 	}
 
 	@Override
@@ -172,7 +179,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 				a[i] = GeoGebraIconW.createColorSwatchIcon(alpha, colorArray[i],
 						null);
 			} else {
-					a[i] = new ImageOrText("+");
+				a[i] = new ImageOrText(
+						MaterialDesignResources.INSTANCE.add_black());
+				// a[i] = new ImageOrText("+");
 				// a[i] = new ImageOrText(AppResources.INSTANCE.more());
 			}
 		}
@@ -222,6 +231,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);
+		if (!enableTable && app.has(Feature.NEW_TOOLBAR)) {
+			getMyPopup().setHeight("30px");
+		}
 	}
 
 	public GColor[] getColorSet() {

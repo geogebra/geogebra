@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Label;
@@ -68,6 +69,9 @@ public class ImageOrText {
 			}
 			if (text != null) {
 				button.addStyleName("textIconButton");
+			} else if (getUrl().equals(MaterialDesignResources.INSTANCE.add_black().getSafeUri().asString())) {
+				button.getElement().addClassName("borderButton");
+				button.getElement().addClassName("plusButton");
 			} else {
 				button.addStyleName("stylebarButton");
 			}

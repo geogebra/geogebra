@@ -55,8 +55,10 @@ public class LineStyleModel extends OptionsModel {
 				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT),
 				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_DOTTED),
 				Integer.valueOf(
-						EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED),
-				Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_POINTWISE) };
+						EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED)
+				/*
+				 * Integer.valueOf(EuclidianStyleConstants.LINE_TYPE_POINTWISE)
+				 */ };
 		return ret;
 	}
 
