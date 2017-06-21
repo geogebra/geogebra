@@ -2143,10 +2143,6 @@ public abstract class GeoElement extends ConstructionElement
 			// old behaviour
 
 			String ret = getLongDescriptionHTML(colored, false);
-			if (!isIndependent() && isGeoPoint()) {
-				ret = this.toValueString(StringTemplate.defaultTemplate)
-						+ "<br>" + ret;
-			}
 
 			getLoc().clearTooltipFlag();
 
