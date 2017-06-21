@@ -360,8 +360,8 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 				+ mat.getTimestamp());
 		final String format = getApp().getLocalization()
 				.isRightToLeftReadingOrder()
-				? "\\Y " + Unicode.LeftToRightMark + "\\F"
-						+ Unicode.LeftToRightMark + " \\j"
+				? "\\Y " + Unicode.LEFT_TO_RIGHT_MARK + "\\F"
+						+ Unicode.LEFT_TO_RIGHT_MARK + " \\j"
 				: "\\j \\F \\Y";
 		String newTitle = mat.getTitle();
 

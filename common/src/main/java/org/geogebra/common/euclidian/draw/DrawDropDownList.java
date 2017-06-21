@@ -1051,7 +1051,7 @@ public final class DrawDropDownList extends CanvasDrawable
 		}
 
 		// make sure there's something to drag
-		return Unicode.NBSP + Unicode.NBSP + Unicode.NBSP;
+		return Unicode.NBSP + "" + Unicode.NBSP + "" + Unicode.NBSP;
 
 	}
 

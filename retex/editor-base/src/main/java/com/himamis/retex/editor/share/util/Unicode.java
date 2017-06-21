@@ -22,10 +22,10 @@ public class Unicode {
 	final public static char SUPERSCRIPT_8 = '\u2078';
 	final public static char SUPERSCRIPT_9 = '\u2079';
 	final public static char ZERO_WIDTH_SPACE = '\u200b';
-	final public static char RightToLeftMark = '\u200f';
-	final public static String RightToLeftUnaryMinusSign = "\u200f-\u200f";
-	final public static char LeftToRightMark = '\u200e';
-	final public static String SUPERSCRIPTMinusOneBracket = "\u207b\u00b9(";
+	final public static char RIGHT_TO_LEFT_MARK = '\u200f';
+	final public static String RIGHT_TO_LEFT_UNARY_MINUS_SIGN = "\u200f-\u200f";
+	final public static char LEFT_TO_RIGHT_MARK = '\u200e';
+	final public static String SUPERSCRIPT_MINUS_ONE_BRACKET_STRING = "\u207b\u00b9(";
 	final public static char DEGREE_CHAR = '\u00b0';
 	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
 
@@ -34,10 +34,7 @@ public class Unicode {
 
 	/** Unicode symbol for e */
 	final public static char EULER_CHAR = '\u212f';
-	final public static String EULER_STRING = EULER_CHAR + "";
-	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
 
-	public static final String alphaBetaGamma = "\u03b1\u03b2\u03b3";
 	// lower case Greek
 	public static final char alpha = '\u03B1';
 	public static final char beta = '\u03B2';
@@ -71,6 +68,11 @@ public class Unicode {
 	public static final char chi = '\u03C7';
 	public static final char psi = '\u03C8';
 	public static final char omega = '\u03C9';
+
+	final public static String EULER_STRING = EULER_CHAR + "";
+	final public static String EULER_GAMMA_STRING = "\u212F_\u03B3";
+	public static final String ALPHA_BETA_GAMMA = alpha + "" + beta + ""
+			+ gamma;
 	final public static String PI_STRING = Character.toString(pi);
 
 	// UPPER CASE Greek
@@ -133,7 +135,7 @@ public class Unicode {
 	final public static char IMAGINARY = '\u03af';
 
 	// non-breaking (hard) space
-	public static final String NBSP = "\u00a0";
+	public static final char NBSP = '\u00a0';
 
 	/* helper Unicode strings for fixing Hungarian translations */
 	// These endings will get -re, -nek, -hez:

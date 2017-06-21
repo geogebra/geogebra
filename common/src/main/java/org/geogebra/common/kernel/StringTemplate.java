@@ -1175,7 +1175,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}
 					sb.append(rightStr.substring(1));
 				} else if (rightStr
-						.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
+						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN)) { // Arabic
 					// convert
 					// +
 					// -
@@ -1477,7 +1477,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}
 					sb.append(rightStr.substring(1));
 				} else if (rightStr
-						.startsWith(Unicode.RightToLeftUnaryMinusSign)) { // Arabic
+						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN)) { // Arabic
 					// convert
 					// -
 					// -
@@ -1606,13 +1606,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 					nounary = false;
 					sb.append('-');
 				} else {
-					if (leftStr.startsWith(Unicode.RightToLeftUnaryMinusSign)) {
+					if (leftStr.startsWith(
+							Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN)) {
 						// brackets needed for eg Arabic digits
-						sb.append(Unicode.RightToLeftMark);
+						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 						sb.append(leftBracket());
 						sb.append(leftStr);
 						sb.append(rightBracket());
-						sb.append(Unicode.RightToLeftMark);
+						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					} else {
 						sb.append(leftStr);
 					}
@@ -1706,7 +1707,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				boolean rtlMinus;
 				// show parentheses around these cases
 				if (((rtlMinus = rightStr
-						.startsWith(Unicode.RightToLeftUnaryMinusSign))
+						.startsWith(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN))
 						|| (rightStr.charAt(0) == '-')) // 2 (-5) or -(-5)
 						|| (!nounary && !right.isLeaf()
 								&& (opIDright <= Operation.DIVIDE.ordinal() // -(x
@@ -1720,13 +1721,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 																											// (5)
 				{
 					if (rtlMinus) {
-						sb.append(Unicode.RightToLeftMark);
+						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
 					sb.append(leftBracket());
 					sb.append(rightStr);
 					sb.append(rightBracket());
 					if (rtlMinus) {
-						sb.append(Unicode.RightToLeftMark);
+						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					}
 				} else {
 					// -1.0 * 5 becomes "-5"

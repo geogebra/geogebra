@@ -3015,8 +3015,8 @@ public abstract class GeoElement extends ConstructionElement
 		// workaround for unintended feature of old Input Boxes
 		// &nbsp and &nbsp; both used to work
 		if (caption2.indexOf("&nbsp") > -1) {
-			caption2 = caption2.replaceAll("&nbsp;", Unicode.NBSP);
-			caption2 = caption2.replaceAll("&nbsp", Unicode.NBSP);
+			caption2 = caption2.replaceAll("&nbsp;", Unicode.NBSP + "");
+			caption2 = caption2.replaceAll("&nbsp", Unicode.NBSP + "");
 		}
 
 		caption2 = caption2.trim();
@@ -5012,10 +5012,10 @@ public abstract class GeoElement extends ConstructionElement
 			final boolean rightToLeft = getLoc().isRightToLeftReadingOrder();
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e\u200f: \u200e");
-				sbLongDescHTML.append(Unicode.LeftToRightMark);
-				sbLongDescHTML.append(Unicode.RightToLeftMark);
+				sbLongDescHTML.append(Unicode.LEFT_TO_RIGHT_MARK);
+				sbLongDescHTML.append(Unicode.RIGHT_TO_LEFT_MARK);
 				sbLongDescHTML.append(": ");
-				sbLongDescHTML.append(Unicode.LeftToRightMark);
+				sbLongDescHTML.append(Unicode.LEFT_TO_RIGHT_MARK);
 			} else {
 				sbLongDescHTML.append(": ");
 			}
@@ -5024,7 +5024,7 @@ public abstract class GeoElement extends ConstructionElement
 					false));
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e");
-				sbLongDescHTML.append(Unicode.LeftToRightMark);
+				sbLongDescHTML.append(Unicode.LEFT_TO_RIGHT_MARK);
 			}
 		}
 		if (addHTMLtag) {

@@ -58,15 +58,15 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 			if (text != null) {
 
 				char ch = text.toUpperCase().charAt(0);
-				if (ch == Unicode.LeftToRightMark
-				        || ch == Unicode.RightToLeftMark) {
+				if (ch == Unicode.LEFT_TO_RIGHT_MARK
+				        || ch == Unicode.RIGHT_TO_LEFT_MARK) {
 					ch = text.charAt(1);
 				} else {
 					// make sure brackets are correct in Arabic, ie not )US)
 					sb.setLength(0);
-					sb.append(Unicode.LeftToRightMark);
+					sb.append(Unicode.LEFT_TO_RIGHT_MARK);
 					sb.append(text);
-					sb.append(Unicode.LeftToRightMark);
+					sb.append(Unicode.LEFT_TO_RIGHT_MARK);
 					text = sb.toString();
 				}
 

@@ -291,7 +291,7 @@ public class TabbedKeyboard extends FlowPanel {
 		keyboard.setVisible(false);
 
 
-		switcher.addSwitch(keyboard, Unicode.alphaBetaGamma);
+		switcher.addSwitch(keyboard, Unicode.ALPHA_BETA_GAMMA);
 		switcher.setSelected(0, true);
 		
 		// add special char tab

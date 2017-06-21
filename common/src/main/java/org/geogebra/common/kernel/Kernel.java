@@ -1391,9 +1391,9 @@ public class Kernel {
 		boolean RTL = getLocalization().isRightToLeftDigits(tpl);
 
 		if (RTL) {
-			formatSB.append(Unicode.RightToLeftMark);
+			formatSB.append(Unicode.RIGHT_TO_LEFT_MARK);
 			if (negative) {
-				formatSB.append(Unicode.RightToLeftUnaryMinusSign);
+				formatSB.append(Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN);
 				start = 1;
 			}
 		}
@@ -1414,7 +1414,7 @@ public class Kernel {
 		}
 
 		if (RTL) {
-			formatSB.append(Unicode.RightToLeftMark);
+			formatSB.append(Unicode.RIGHT_TO_LEFT_MARK);
 		}
 
 		return formatSB.toString();
@@ -4426,7 +4426,8 @@ public class Kernel {
 			// String check = ""+Unicode.SUPERSCRIPT_Minus +
 			// Unicode.Superscript_1 + '(';
 
-			int index = image.indexOf(Unicode.SUPERSCRIPTMinusOneBracket);
+			int index = image
+					.indexOf(Unicode.SUPERSCRIPT_MINUS_ONE_BRACKET_STRING);
 
 			// sin^-1 -> index = 3
 			// sinh^-1 -> index =4

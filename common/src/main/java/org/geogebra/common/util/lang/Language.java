@@ -30,11 +30,11 @@ public enum Language {
 					Country.Ethiopia), Arabic(
 							EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 							null, null, true, "ar", "ar",
-							Unicode.LeftToRightMark + "Arabic"
-									+ Unicode.LeftToRightMark + " / "
-									+ Unicode.RightToLeftMark
+							Unicode.LEFT_TO_RIGHT_MARK + "Arabic"
+									+ Unicode.LEFT_TO_RIGHT_MARK + " / "
+									+ Unicode.RIGHT_TO_LEFT_MARK
 									+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
-									+ Unicode.RightToLeftMark,
+									+ Unicode.RIGHT_TO_LEFT_MARK,
 							Country.Egypt, Country.Algeria, Country.Bahrain,
 							Country.Chad, Country.Comoros, Country.Djibouti,
 							Country.Eritrea, Country.Iraq, Country.Jordan,
@@ -47,18 +47,18 @@ public enum Language {
 
 	Arabic_Morocco(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arMA", "ar_MA", "ar",
-			Unicode.LeftToRightMark + "Arabic (Morocco)"
-					+ Unicode.LeftToRightMark + " / " + Unicode.RightToLeftMark
+			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Morocco)"
+					+ Unicode.LEFT_TO_RIGHT_MARK + " / " + Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628)"
-					+ Unicode.RightToLeftMark,
+					+ Unicode.RIGHT_TO_LEFT_MARK,
 			null, Country.Morocco),
 
 	Arabic_Tunisia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arTN", "ar_TN", "ar",
-			Unicode.LeftToRightMark + "Arabic (Tunisia)"
-					+ Unicode.LeftToRightMark + " / " + Unicode.RightToLeftMark
+			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Tunisia)"
+					+ Unicode.LEFT_TO_RIGHT_MARK + " / " + Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"
-					+ Unicode.RightToLeftMark,
+					+ Unicode.RIGHT_TO_LEFT_MARK,
 			null, Country.Tunisia),
 
 	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",

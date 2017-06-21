@@ -163,8 +163,8 @@ public class TitlePanel extends JPanel {
 			// in form 23 September 2012 (some languages don't want eg 25e, 25a
 			// so omit "th" for all)
 			String format = app.getLocalization().isRightToLeftReadingOrder()
-					? "\\Y " + Unicode.LeftToRightMark + "\\F"
-							+ Unicode.LeftToRightMark + " \\j"
+					? "\\Y " + Unicode.LEFT_TO_RIGHT_MARK + "\\F"
+							+ Unicode.LEFT_TO_RIGHT_MARK + " \\j"
 					: "\\j \\F \\Y";
 
 			return CmdGetTime.buildLocalizedDate(format, new Date(),

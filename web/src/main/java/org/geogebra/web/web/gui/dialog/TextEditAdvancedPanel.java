@@ -82,7 +82,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		add(new ScrollPanel(getPreviewer().getPanel()),
  previewLabel);
 		add(new ScrollPanel(geoPanel), geoTabImage);
-		add(new ScrollPanel(symbolPanel), Unicode.alphaBetaGamma + "");
+		add(new ScrollPanel(symbolPanel), Unicode.ALPHA_BETA_GAMMA);
 		latexLabel = new Label(loc.getMenu("LaTeXFormula"));
 		add(new ScrollPanel(latexPanel), latexLabel);
 
