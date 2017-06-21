@@ -33,6 +33,7 @@ public class ExamEnvironment {
 
 	public void setStart(long time) {
 		examStartTime = time;
+		closed = -1;
 		lastCheatingEventWindowWasLeft = false;
 	}
 
