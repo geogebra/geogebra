@@ -238,7 +238,10 @@ public class EditMenuW extends GMenuBar {
 		// Delete menu
 		if (layer != -1 || justCreated) {
 			addSeparator();
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			addItem(MainMenu.getMenuBarHtml(
+					app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.delete_black().getSafeUri().asString()
+							: GuiResources.INSTANCE
 			        .menu_icon_edit_delete().getSafeUri().asString(),
 					loc.getMenu("Delete"), true), true, new MenuCommand(app) {
 

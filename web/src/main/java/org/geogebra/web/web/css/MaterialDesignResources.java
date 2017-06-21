@@ -205,4 +205,25 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/manual_black.png")
 	ImageResource manual_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/tools_black.png")
+	ImageResource tools_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/tools_customize_black.png")
+	ImageResource tools_customize_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/tools_create_black.png")
+	ImageResource tools_create_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/new_exercise_black.png")
+	ImageResource new_exercise_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/signin_black.png")
+	ImageResource signin_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/signout_black.png")
+	ImageResource signout_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/person_black.png")
+	ImageResource person_black();
 }

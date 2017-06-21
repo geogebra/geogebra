@@ -4,6 +4,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.ExerciseBuilderDialog;
 import org.geogebra.web.web.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
@@ -40,7 +41,10 @@ public class ToolsMenuW extends GMenuBar {
 	protected void initActions() {
 		Localization loc = app.getLocalization();
 		if (!app.isExam()) {
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
+			addItem(MainMenu.getMenuBarHtml(
+					app.has(Feature.NEW_TOOLBAR)
+							? MaterialDesignResources.INSTANCE.tools_customize_black().getSafeUri().asString()
+							: GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
 					loc.getMenu("Toolbar.Customize"), true), true,
 					new MenuCommand(app) {
 
@@ -51,7 +55,10 @@ public class ToolsMenuW extends GMenuBar {
 		});
 		}
 
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		addItem(MainMenu.getMenuBarHtml(
+				app.has(Feature.NEW_TOOLBAR)
+						? MaterialDesignResources.INSTANCE.tools_create_black().getSafeUri().asString()
+						: GuiResources.INSTANCE
 				.menu_icon_tools_new().getSafeUri().asString(),
 				loc.getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
 			                : "Tool.CreateNew"),
@@ -65,7 +72,8 @@ public class ToolsMenuW extends GMenuBar {
 			});
 
 		addItem(MainMenu.getMenuBarHtml(
-				GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(),
+				app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.tools_black().getSafeUri().asString()
+						: GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(),
 				loc.getMenu("Tool.Manage"),
 					true), true, new MenuCommand(app) {
 
@@ -78,7 +86,10 @@ public class ToolsMenuW extends GMenuBar {
 
 		if (!app.isExam()) {
 		if (app.has(Feature.EXERCISES)) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+				addItem(MainMenu.getMenuBarHtml(
+						app.has(Feature.NEW_TOOLBAR)
+								? MaterialDesignResources.INSTANCE.new_exercise_black().getSafeUri().asString()
+								: GuiResources.INSTANCE
 					.menu_create_exercise().getSafeUri().asString(),
 						loc.getMenu("Exercise.CreateNew"), true), true,
 			        new MenuCommand(app) {

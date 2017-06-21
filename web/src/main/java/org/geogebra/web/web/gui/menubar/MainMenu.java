@@ -276,7 +276,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 								: "Options"),
 				true);
 		if (!app.getLAF().isSmart() && enableGraph) {
-			this.menuPanel.add(toolsMenu, getHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+			this.menuPanel.add(toolsMenu,
+					getHTML(app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.tools_black()
+							: GuiResources.INSTANCE.menu_icon_tools(), "Tools"),
+					true);
 		}
 		if (!exam) {
 			this.menuPanel.add(helpMenu,
@@ -325,10 +328,16 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void createUserMenu() {
 		this.userMenu = new GMenuBar(true, "user", app);
-	    this.userMenu.addStyleName("GeoGebraMenuBar");
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			this.userMenu.addStyleName("matStackPanel");
+		} else {
+			this.userMenu.addStyleName("GeoGebraMenuBar");
+		}
 		this.userMenu.addItem(
 				getMenuBarHtml(
-						GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
+						app.has(Feature.NEW_TOOLBAR)
+								? MaterialDesignResources.INSTANCE.signout_black().getSafeUri().asString()
+								: GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
 								.asString(),
 						app.getLocalization().getMenu("SignOut"), true),
 				true, new MenuCommand(app) {
@@ -499,13 +508,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
     private void addSignInMenu() {
 		this.menuPanel.add(this.signInMenu,
-				getHTML(GuiResources.INSTANCE.menu_icon_sign_in(),
+				getHTML(app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.signin_black()
+						: GuiResources.INSTANCE.menu_icon_sign_in(),
 						app.getLocalization().getMenu("SignIn")),
 				true);
     }
 
     private void addUserMenu() {
-	    this.menuPanel.add(this.userMenu, getHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()), true);
+		this.menuPanel
+				.add(this.userMenu,
+						getHTML(app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.person_black()
+								: GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()),
+						true);
     }
 
 	/**
