@@ -245,6 +245,12 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 *            if the computation will be done for an implicit locus
 	 */
 	public void computeExplicitImplicit(boolean implicit) {
+		if (!implicit) {
+			if (!kernel.validLocus(locusPoint, movingPoint)) {
+				this.geoPoly.setUndefined();
+				return;
+			}
+		}
 		double startTime = cons.getApplication().getMillisecondTime();
 		String result = null;
 		try {

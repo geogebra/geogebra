@@ -443,7 +443,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (!movingPoint.isDefined() || macroCons == null
-				|| !isPathIterable(path.toGeoElement())) {
+				|| !isPathIterable(path.toGeoElement())
+				|| !kernel.validLocus(locusPoint, movingPoint)) {
 			locus.setUndefined();
 			return;
 		}

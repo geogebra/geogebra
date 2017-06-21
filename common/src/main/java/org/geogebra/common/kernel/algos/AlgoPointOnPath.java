@@ -412,8 +412,4 @@ public class AlgoPointOnPath extends AlgoElement
 		return botanaVars;
 	}
 
-	public boolean isLocusEquable() {
-		return true;
-	}
-
 }
