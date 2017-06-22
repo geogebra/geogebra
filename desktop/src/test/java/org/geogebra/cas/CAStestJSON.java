@@ -39,10 +39,10 @@ import org.junit.Test;
 
 public class CAStestJSON {
 
-	  static GeoGebraCasInterface cas;
-	  static Kernel kernel;
+	static GeoGebraCasInterface cas;
+	static Kernel kernel;
 	static AppDNoGui app;
-	  static CASTestLogger logger;
+	static CASTestLogger logger;
 
 	static class CasTest {
 		public CasTest(String input, String output, String rounding) {
@@ -50,6 +50,7 @@ public class CAStestJSON {
 			this.output = output;
 			this.rounding = rounding;
 		}
+
 		protected String input;
 		protected String output;
 		protected String rounding;
@@ -57,18 +58,17 @@ public class CAStestJSON {
 
 	static HashMap<String, ArrayList<CasTest>> testcases = new HashMap<String, ArrayList<CasTest>>();
 
-	  private static String readFileAsString(String filePath) throws IOException {
-	        StringBuffer fileData = new StringBuffer();
-	        BufferedReader reader = new BufferedReader(
-				new InputStreamReader(new FileInputStream(filePath),
-						Charsets.UTF_8));
-	        char[] buf = new char[1024];
-	        int numRead=0;
-	        while((numRead=reader.read(buf)) != -1){
+	private static String readFileAsString(String filePath) throws IOException {
+		StringBuffer fileData = new StringBuffer();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(
+				new FileInputStream(filePath), Charsets.UTF_8));
+		char[] buf = new char[1024];
+		int numRead = 0;
+		while ((numRead = reader.read(buf)) != -1) {
 			String readData = String.valueOf(buf, 0, numRead);
-	            fileData.append(readData);
-	        }
-	        reader.close();
+			fileData.append(readData);
+		}
+		reader.close();
 		String[] parts = fileData.toString().split("\n");
 		StringBuffer noComments = new StringBuffer();
 		for (int i = 0; i < parts.length; i++) {
@@ -78,19 +78,21 @@ public class CAStestJSON {
 		}
 		return noComments.toString();
 	}
-	
-	@BeforeClass
-	  public static void setupCas () {
-		app = new AppDNoGui(new LocalizationD(3), false);
-	    // Set language to something else than English to test automatic translation.
-	    app.setLanguage(Locale.GERMANY);
-	    // app.fillCasCommandDict();
 
-	    kernel = app.getKernel();
-	    cas = kernel.getGeoGebraCAS();
-	    logger = new CASTestLogger();
-	    // Setting the general timeout to 13 seconds. Feel free to change this.
-	    kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(13000);
+	@BeforeClass
+	public static void setupCas() {
+		app = new AppDNoGui(new LocalizationD(3), false);
+		// Set language to something else than English to test automatic
+		// translation.
+		app.setLanguage(Locale.GERMANY);
+		// app.fillCasCommandDict();
+
+		kernel = app.getKernel();
+		cas = kernel.getGeoGebraCAS();
+		logger = new CASTestLogger();
+		// Setting the general timeout to 13 seconds. Feel free to change this.
+		kernel.getApplication().getSettings().getCasSettings()
+				.setTimeoutMilliseconds(13000);
 		try {
 			Log.debug("CAS: loading testcases");
 			String json = readFileAsString("../web/war/__giac.js");
@@ -100,102 +102,101 @@ public class CAStestJSON {
 					json.substring("var __giac = ".length()));
 			Assert.assertNotSame(0, testsJSON.length());
 			int i = 1;
+
 			while (i < testsJSON.length()) {
 				Object testVal = testsJSON.opt(i);
-				
+
 				i++;
 				if (!(testVal instanceof JSONObject)) {
 					System.err.println("Invalid JSON:" + testVal);
 					continue;
 				}
 				JSONObject test = (JSONObject) testVal;
-			String cat = "general";
-			if(test.has("cat")){
-				cat = test.getString("cat");
+				String cat = "general";
+				if (test.has("cat")) {
+					cat = test.getString("cat");
 				}
-			if(!testcases.containsKey(cat)){
-
-				/*System.out.println("@Test");
-				System.out.println("public void test"+cat+"(){");
-				System.out.println("	testCat(\""+cat+"\");");
-				System.out.println("}\n");*/
-				
+				if (!testcases.containsKey(cat)) {
 					testcases.put(cat, new ArrayList<CasTest>());
-			}
+				}
 				if (test.has("round")) {
 					testcases.get(cat).add(new CasTest(test.getString("cmd"),
 							test.getString("round"), null));
 				} else {
-					testcases.get(cat).add(new CasTest(test.getString("cmd"),
-							test.getString("result"),
-							test.optString("rounding")));
-			}
+					testcases.get(cat)
+							.add(new CasTest(test.getString("cmd"),
+									test.getString("result"),
+									test.optString("rounding")));
+				}
 			}
 		} catch (Throwable e) {
-			e.printStackTrace();
+			Assert.fail(e.getMessage());
 		}
-		
+
+
 
 	}
-	
+
 	private static void ta(boolean tkiontki, String input,
 			String[] expectedResult, String... validResults) {
-	    String result;
+		String result;
 
-	    try {
-	      GeoCasCell f = new GeoCasCell(kernel.getConstruction());
-	      kernel.getConstruction().addToConstructionList(f, false);
+		try {
+			GeoCasCell f = new GeoCasCell(kernel.getConstruction());
+			kernel.getConstruction().addToConstructionList(f, false);
 
-	      f.setInput(input);
+			f.setInput(input);
 
-	      if (tkiontki) {
-	        f.setEvalCommand("KeepInput");
-	      }
+			if (tkiontki) {
+				f.setEvalCommand("KeepInput");
+			}
 
-	      f.computeOutput();
+			f.computeOutput();
 
-	      boolean includesNumericCommand = false;
-	      HashSet<Command> commands = new HashSet<Command>();
-	      if(f.getInputVE() == null){
+			boolean includesNumericCommand = false;
+			HashSet<Command> commands = new HashSet<Command>();
+			if (f.getInputVE() == null) {
 				Assert.assertEquals("Input should be parsed", "GEOGEBRAERROR",
 						expectedResult[0]);
 				return;
-	      }
-	      f.getInputVE().traverse(CommandCollector.getCollector(commands));
+			}
+			f.getInputVE().traverse(CommandCollector.getCollector(commands));
 
-	      if (!commands.isEmpty()) {
-	        for (Command cmd : commands) {
-	          String cmdName = cmd.getName();
-	          // Numeric used
-	          includesNumericCommand = includesNumericCommand || ("Numeric".equals(cmdName) && cmd.getArgumentNumber() > 1);
-	        }
-	      }
+			if (!commands.isEmpty()) {
+				for (Command cmd : commands) {
+					String cmdName = cmd.getName();
+					// Numeric used
+					includesNumericCommand = includesNumericCommand
+							|| ("Numeric".equals(cmdName)
+									&& cmd.getArgumentNumber() > 1);
+				}
+			}
 			if (f.getOutputValidExpression() == null) {
 				result = f.getOutput(StringTemplate.testTemplate);
 			} else if (f.getOutputValidExpression()
 					.unwrap() instanceof GeoElement) {
-				result = f.getOutputValidExpression().toValueString(
-						StringTemplate.testTemplateJSON);
+				result = f.getOutputValidExpression()
+						.toValueString(StringTemplate.testTemplateJSON);
 			} else {
-				result = f
-						.getOutputValidExpression()
+				result = f.getOutputValidExpression()
 						.traverse(getGGBVectAdder())
-						.toString(
-								includesNumericCommand
-										? StringTemplate.testNumeric
-										: StringTemplate.testTemplateJSON);
+						.toString(includesNumericCommand
+								? StringTemplate.testNumeric
+								: StringTemplate.testTemplateJSON);
 			}
-	    } catch (Throwable t) {
-	      String sts = "";
-	      StackTraceElement[] st = t.getStackTrace();
+		} catch (Throwable t) {
+			String sts = "";
+			StackTraceElement[] st = t.getStackTrace();
 
-	      for (int i = 0; i < 10 && i < st.length; i++) {
-	        StackTraceElement stElement = st[i];
-	        sts += stElement.getClassName() + ":" + stElement.getMethodName() + stElement.getLineNumber() + "\n";
-	      }
+			for (int i = 0; i < 10 && i < st.length; i++) {
+				StackTraceElement stElement = st[i];
+				sts += stElement.getClassName() + ":"
+						+ stElement.getMethodName() + stElement.getLineNumber()
+						+ "\n";
+			}
 
-	      result = t.getClass().getName() + ":" + t.getMessage() + sts;
-	    }
+			result = t.getClass().getName() + ":" + t.getMessage() + sts;
+		}
 		for (int i = 0; i < expectedResult.length; i++) {
 			if ("RANDOM".equals(expectedResult[i])) {
 				return;
@@ -206,11 +207,9 @@ public class CAStestJSON {
 						.replaceAll("c_\\{[0-9]+\\}", "c_0")
 						.replaceAll("k_\\{[0-9]+\\}", "k_0")
 						.replace("arccos", "acos").replace("arctan", "atan")
-						.replace("Wenn[", "If[")
-						.replace("arcsin", "asin")
+						.replace("Wenn[", "If[").replace("arcsin", "asin")
 						.replace("NteWurzel", "nroot");
-				assertThat(
-						result,
+				assertThat(result,
 						equalToIgnoreWhitespaces(logger, input,
 								expectedResult[i].replaceAll("c_[0-9]+", "c_0")
 										.replaceAll("n_[0-9]+", "k_0"),
@@ -218,20 +217,19 @@ public class CAStestJSON {
 				return;
 			} catch (Throwable t) {
 				// if (!(t instanceof AssertionError)) {
-					t.printStackTrace();
+				t.printStackTrace();
 				// }
 				if (i == expectedResult.length - 1) {
 					Assert.assertEquals(
 							(expectedResult[0] == null ? "null"
 									: expectedResult[0].replaceAll("c_[0-9]+",
 											"c_0"))
-									+ " input:"
-									+ input,
+									+ " input:" + input,
 							result);
 				}
 			}
-	    }
-	  }
+		}
+	}
 
 	private static Traversing getGGBVectAdder() {
 		return new Traversing() {
@@ -239,8 +237,8 @@ public class CAStestJSON {
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev.unwrap() instanceof MyVecNDNode
 						&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
-					return new Variable(kernel, "ggbvect").wrap().apply(
-							Operation.FUNCTION, ev);
+					return new Variable(kernel, "ggbvect").wrap()
+							.apply(Operation.FUNCTION, ev);
 
 				}
 
@@ -249,12 +247,13 @@ public class CAStestJSON {
 		};
 
 	}
-	private static void t (String input, String expectedResult) {
+
+	private static void t(String input, String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
 		ta(false, input, validResults, validResults);
 	}
-	
-	private static void testCat(String name){
+
+	private static void testCat(String name) {
 		kernel.clearConstruction(true);
 		if (testcases.get(name) == null) {
 			return;
@@ -272,7 +271,6 @@ public class CAStestJSON {
 			t(cmd.input, cmd.output);
 		}
 
-
 	}
 
 	@AfterClass
@@ -282,266 +280,266 @@ public class CAStestJSON {
 			sb.append(cat);
 			sb.append(',');
 		}
-		Assert.assertEquals(sb.toString(), "SLOW,");
+		Assert.assertEquals("SLOW,", sb.toString());
 	}
-	
+
 	@Test
-	public void testgeneral(){
+	public void testgeneral() {
 		testCat("general");
 	}
 
 	@Test
-	public void testIntegral(){
+	public void testIntegral() {
 		testCat("Integral");
 	}
 
 	@Test
-	public void testFactor(){
+	public void testFactor() {
 		testCat("Factor");
 	}
 
 	@Test
-	public void testCoefficients(){
+	public void testCoefficients() {
 		testCat("Coefficients");
 	}
 
 	@Test
-	public void testAppend(){
+	public void testAppend() {
 		testCat("Append");
 	}
 
 	@Test
-	public void testBinomialCoefficient(){
+	public void testBinomialCoefficient() {
 		testCat("BinomialCoefficient");
 	}
 
 	@Test
-	public void testBinomialDist(){
+	public void testBinomialDist() {
 		testCat("BinomialDist");
 	}
 
 	@Test
-	public void testCauchy(){
+	public void testCauchy() {
 		testCat("Cauchy");
 	}
 
 	@Test
-	public void testCFactor(){
+	public void testCFactor() {
 		testCat("CFactor");
 	}
 
 	@Test
-	public void testNumeric(){
+	public void testNumeric() {
 		testCat("Numeric");
 	}
 
 	@Test
-	public void testCompleteSquare(){
+	public void testCompleteSquare() {
 		testCat("CompleteSquare");
 	}
 
 	@Test
-	public void testCommonDenominator(){
+	public void testCommonDenominator() {
 		testCat("CommonDenominator");
 	}
 
 	@Test
-	public void testCovariance(){
+	public void testCovariance() {
 		testCat("Covariance");
 	}
 
 	@Test
-	public void testCross(){
+	public void testCross() {
 		testCat("Cross");
 	}
 
 	@Test
-	public void testComplexRoot(){
+	public void testComplexRoot() {
 		testCat("ComplexRoot");
 	}
 
 	@Test
-	public void testCSolutions(){
+	public void testCSolutions() {
 		testCat("CSolutions");
 	}
 
 	@Test
-	public void testCSolve(){
+	public void testCSolve() {
 		testCat("CSolve");
 	}
 
 	@Test
-	public void testDegree(){
+	public void testDegree() {
 		testCat("Degree");
 	}
 
 	@Test
-	public void testDenominator(){
+	public void testDenominator() {
 		testCat("Denominator");
 	}
 
 	@Test
-	public void testDerivative(){
+	public void testDerivative() {
 		testCat("Derivative");
 	}
 
 	@Test
-	public void testDeterminant(){
+	public void testDeterminant() {
 		testCat("Determinant");
 	}
 
 	@Test
-	public void testDimension(){
+	public void testDimension() {
 		testCat("Dimension");
 	}
 
 	@Test
-	public void testDiv(){
+	public void testDiv() {
 		testCat("Div");
 	}
 
 	@Test
-	public void testDivision(){
+	public void testDivision() {
 		testCat("Division");
 	}
 
 	@Test
-	public void testDivisors(){
+	public void testDivisors() {
 		testCat("Divisors");
 	}
 
 	@Test
-	public void testDivisorsList(){
+	public void testDivisorsList() {
 		testCat("DivisorsList");
 	}
 
 	@Test
-	public void testDivisorsSum(){
+	public void testDivisorsSum() {
 		testCat("DivisorsSum");
 	}
 
 	@Test
-	public void testDot(){
+	public void testDot() {
 		testCat("Dot");
 	}
 
 	@Test
-	public void testElement(){
+	public void testElement() {
 		testCat("Element");
 	}
 
 	@Test
-	public void testExpand(){
+	public void testExpand() {
 		testCat("Expand");
 	}
 
 	@Test
-	public void testExponential(){
+	public void testExponential() {
 		testCat("Exponential");
 	}
 
 	@Test
-	public void testFactors(){
+	public void testFactors() {
 		testCat("Factors");
 	}
 
 	@Test
-	public void testFDistribution(){
+	public void testFDistribution() {
 		testCat("FDistribution");
 	}
 
 	@Test
-	public void testFlatten(){
+	public void testFlatten() {
 		testCat("Flatten");
 	}
 
 	@Test
-	public void testFirst(){
+	public void testFirst() {
 		testCat("First");
 	}
 
 	@Test
-	public void testFitExp(){
+	public void testFitExp() {
 		testCat("FitExp");
 	}
 
 	@Test
-	public void testFitLog(){
+	public void testFitLog() {
 		testCat("FitLog");
 	}
 
 	@Test
-	public void testFitPoly(){
+	public void testFitPoly() {
 		testCat("FitPoly");
 	}
 
 	@Test
-	public void testFitPow(){
+	public void testFitPow() {
 		testCat("FitPow");
 	}
 
 	@Test
-	public void testGamma(){
+	public void testGamma() {
 		testCat("Gamma");
 	}
 
 	@Test
-	public void testGCD(){
+	public void testGCD() {
 		testCat("GCD");
 	}
 
 	@Test
-	public void testHyperGeometric(){
+	public void testHyperGeometric() {
 		testCat("HyperGeometric");
 	}
 
 	@Test
-	public void testIdentity(){
+	public void testIdentity() {
 		testCat("Identity");
 	}
 
 	@Test
-	public void testIf(){
+	public void testIf() {
 		testCat("If");
 	}
 
 	@Test
-	public void testImplicitDerivative(){
+	public void testImplicitDerivative() {
 		testCat("ImplicitDerivative");
 	}
 
 	@Test
-	public void testIntegralBetween(){
+	public void testIntegralBetween() {
 		testCat("IntegralBetween");
 	}
 
 	@Test
-	public void testIntersect(){
+	public void testIntersect() {
 		testCat("Intersect");
 	}
 
 	@Test
-	public void testIteration(){
+	public void testIteration() {
 		testCat("Iteration");
 	}
 
 	@Test
-	public void testIterationList(){
+	public void testIterationList() {
 		testCat("IterationList");
 	}
 
 	@Test
-	public void testPointList(){
+	public void testPointList() {
 		testCat("PointList");
 	}
 
 	@Test
-	public void testRootList(){
+	public void testRootList() {
 		testCat("RootList");
 	}
 
 	@Test
-	public void testInvert(){
+	public void testInvert() {
 		testCat("Invert");
 	}
 
@@ -551,117 +549,117 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testIsPrime(){
+	public void testIsPrime() {
 		testCat("IsPrime");
 	}
 
 	@Test
-	public void testJoin(){
+	public void testJoin() {
 		testCat("Join");
 	}
 
 	@Test
-	public void testLine(){
+	public void testLine() {
 		testCat("Line");
 	}
 
 	@Test
-	public void testLast(){
+	public void testLast() {
 		testCat("Last");
 	}
 
 	@Test
-	public void testLCM(){
+	public void testLCM() {
 		testCat("LCM");
 	}
 
 	@Test
-	public void testLeftSide(){
+	public void testLeftSide() {
 		testCat("LeftSide");
 	}
 
 	@Test
-	public void testLength(){
+	public void testLength() {
 		testCat("Length");
 	}
 
 	@Test
-	public void testLimit(){
+	public void testLimit() {
 		testCat("Limit");
 	}
 
 	@Test
-	public void testLimitBelow(){
+	public void testLimitBelow() {
 		testCat("LimitBelow");
 	}
 
 	@Test
-	public void testLimitAbove(){
+	public void testLimitAbove() {
 		testCat("LimitAbove");
 	}
 
 	@Test
-	public void testMax(){
+	public void testMax() {
 		testCat("Max");
 	}
 
 	@Test
-	public void testMatrixRank(){
+	public void testMatrixRank() {
 		testCat("MatrixRank");
 	}
 
 	@Test
-	public void testMean(){
+	public void testMean() {
 		testCat("Mean");
 	}
 
 	@Test
-	public void testMedian(){
+	public void testMedian() {
 		testCat("Median");
 	}
 
 	@Test
-	public void testMin(){
+	public void testMin() {
 		testCat("Min");
 	}
 
 	@Test
-	public void testMidpoint(){
+	public void testMidpoint() {
 		testCat("Midpoint");
 	}
 
 	@Test
-	public void testMod(){
+	public void testMod() {
 		testCat("Mod");
 	}
 
 	@Test
-	public void testNextPrime(){
+	public void testNextPrime() {
 		testCat("NextPrime");
 	}
 
 	@Test
-	public void testNIntegral(){
+	public void testNIntegral() {
 		testCat("NIntegral");
 	}
 
 	@Test
-	public void testNormal(){
+	public void testNormal() {
 		testCat("Normal");
 	}
 
 	@Test
-	public void testnPr(){
+	public void testnPr() {
 		testCat("nPr");
 	}
 
 	@Test
-	public void testNSolutions(){
+	public void testNSolutions() {
 		testCat("NSolutions");
 	}
 
 	@Test
-	public void testNSolve(){
+	public void testNSolve() {
 		testCat("NSolve");
 	}
 
@@ -671,17 +669,17 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testNumerator(){
+	public void testNumerator() {
 		testCat("Numerator");
 	}
 
 	@Test
-	public void testPartialFractions(){
+	public void testPartialFractions() {
 		testCat("PartialFractions");
 	}
 
 	@Test
-	public void testPerpendicularVector(){
+	public void testPerpendicularVector() {
 		testCat("PerpendicularVector");
 	}
 
@@ -705,134 +703,133 @@ public class CAStestJSON {
 		testCat("SolveODE2");
 	}
 
-
 	@Test
-	public void testOrthogonalVector(){
+	public void testOrthogonalVector() {
 		testCat("OrthogonalVector");
 	}
 
 	@Test
-	public void testPascal(){
+	public void testPascal() {
 		testCat("Pascal");
 	}
 
 	@Test
-	public void testPoisson(){
+	public void testPoisson() {
 		testCat("Poisson");
 	}
 
 	@Test
-	public void testPreviousPrime(){
+	public void testPreviousPrime() {
 		testCat("PreviousPrime");
 	}
 
 	@Test
-	public void testPrimeFactors(){
+	public void testPrimeFactors() {
 		testCat("PrimeFactors");
 	}
 
 	@Test
-	public void testProduct(){
+	public void testProduct() {
 		testCat("Product");
 	}
 
 	@Test
-	public void testMixedNumber(){
+	public void testMixedNumber() {
 		testCat("MixedNumber");
 	}
 
 	@Test
-	public void testRandomBetween(){
+	public void testRandomBetween() {
 		testCat("RandomBetween");
 	}
 
 	@Test
-	public void testRandomBinomial(){
+	public void testRandomBinomial() {
 		testCat("RandomBinomial");
 	}
 
 	@Test
-	public void testRandomElement(){
+	public void testRandomElement() {
 		testCat("RandomElement");
 	}
 
 	@Test
-	public void testRandomPoisson(){
+	public void testRandomPoisson() {
 		testCat("RandomPoisson");
 	}
 
 	@Test
-	public void testRandomNormal(){
+	public void testRandomNormal() {
 		testCat("RandomNormal");
 	}
 
 	@Test
-	public void testRandomPolynomial(){
+	public void testRandomPolynomial() {
 		testCat("RandomPolynomial");
 	}
 
 	@Test
-	public void testRationalize(){
+	public void testRationalize() {
 		testCat("Rationalize");
 	}
 
 	@Test
-	public void testReverse(){
+	public void testReverse() {
 		testCat("Reverse");
 	}
 
 	@Test
-	public void testRightSide(){
+	public void testRightSide() {
 		testCat("RightSide");
 	}
 
 	@Test
-	public void testRoot(){
+	public void testRoot() {
 		testCat("Root");
 	}
 
 	@Test
-	public void testReducedRowEchelonForm(){
+	public void testReducedRowEchelonForm() {
 		testCat("ReducedRowEchelonForm");
 	}
 
 	@Test
-	public void testSample(){
+	public void testSample() {
 		testCat("Sample");
 	}
 
 	@Test
-	public void testSort(){
+	public void testSort() {
 		testCat("Sort");
 	}
 
 	@Test
-	public void testSampleVariance(){
+	public void testSampleVariance() {
 		testCat("SampleVariance");
 	}
 
 	@Test
-	public void testSampleSD(){
+	public void testSampleSD() {
 		testCat("SampleSD");
 	}
 
 	@Test
-	public void testSequence(){
+	public void testSequence() {
 		testCat("Sequence");
 	}
 
 	@Test
-	public void testSD(){
+	public void testSD() {
 		testCat("SD");
 	}
 
 	@Test
-	public void testShuffle(){
+	public void testShuffle() {
 		testCat("Shuffle");// TODO
 	}
 
 	@Test
-	public void testSimplify(){
+	public void testSimplify() {
 		testCat("Simplify");
 	}
 
@@ -872,132 +869,132 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testTrigCombine(){
+	public void testTrigCombine() {
 		testCat("TrigCombine");
 	}
 
 	@Test
-	public void testSolutions(){
+	public void testSolutions() {
 		testCat("Solutions");
 	}
 
 	@Test
-	public void testSolve(){
+	public void testSolve() {
 		testCat("Solve");
 	}
 
 	@Test
-	public void testSolveODE(){
+	public void testSolveODE() {
 		testCat("SolveODE");
 	}
 
 	@Test
-	public void testSubstitute(){
+	public void testSubstitute() {
 		testCat("Substitute");
 	}
 
 	@Test
-	public void testSum(){
+	public void testSum() {
 		testCat("Sum");
 	}
 
 	@Test
-	public void testTangent(){
+	public void testTangent() {
 		testCat("Tangent");
 	}
 
 	@Test
-	public void testTake(){
+	public void testTake() {
 		testCat("Take");
 	}
 
 	@Test
-	public void testTaylorPolynomial(){
+	public void testTaylorPolynomial() {
 		testCat("TaylorPolynomial");
 	}
 
 	@Test
-	public void testTDistribution(){
+	public void testTDistribution() {
 		testCat("TDistribution");
 	}
 
 	@Test
-	public void testToComplex(){
+	public void testToComplex() {
 		testCat("ToComplex");
 	}
 
 	@Test
-	public void testToExponential(){
+	public void testToExponential() {
 		testCat("ToExponential");
 	}
 
 	@Test
-	public void testToPolar(){
+	public void testToPolar() {
 		testCat("ToPolar");
 	}
 
 	@Test
-	public void testToPoint(){
+	public void testToPoint() {
 		testCat("ToPoint");
 	}
 
 	@Test
-	public void testTranspose(){
+	public void testTranspose() {
 		testCat("Transpose");
 	}
 
 	@Test
-	public void testTrigExpand(){
+	public void testTrigExpand() {
 		testCat("TrigExpand");
 	}
 
 	@Test
-	public void testTrigSimplify(){
+	public void testTrigSimplify() {
 		testCat("TrigSimplify");
 	}
 
 	@Test
-	public void testUnique(){
+	public void testUnique() {
 		testCat("Unique");
 	}
 
 	@Test
-	public void testUnitPerpendicularVector(){
+	public void testUnitPerpendicularVector() {
 		testCat("UnitPerpendicularVector");
 	}
 
 	@Test
-	public void testUnitVector(){
+	public void testUnitVector() {
 		testCat("UnitVector");
 	}
 
 	@Test
-	public void testVariance(){
+	public void testVariance() {
 		testCat("Variance");
 	}
 
 	@Test
-	public void testWeibull(){
+	public void testWeibull() {
 		testCat("Weibull");
 	}
 
 	@Test
-	public void testZipf(){
+	public void testZipf() {
 		testCat("Zipf");
 	}
 
 	@Test
-	public void testsin(){
+	public void testsin() {
 		testCat("sin");
 	}
 
 	@Test
-	public void testassignment(){
+	public void testassignment() {
 		testCat("assignment");
 	}
 
 	@Test
-	public void testEvaluate(){
+	public void testEvaluate() {
 		testCat("Evaluate");
 	}
 
@@ -1007,232 +1004,232 @@ public class CAStestJSON {
 	}
 
 	@Test
-	public void testAbs(){
+	public void testAbs() {
 		testCat("Abs");
 	}
 
 	@Test
-	public void testvecExpr(){
+	public void testvecExpr() {
 		testCat("vec expr");
 	}
 
 	@Test
-	public void testChiSquared(){
+	public void testChiSquared() {
 		testCat("ChiSquared");
 	}
 
 	@Test
-	public void testxx(){
+	public void testxx() {
 		testCat("xx");
 	}
 
 	@Test
-	public void testFractionalPart(){
+	public void testFractionalPart() {
 		testCat("FractionalPart");
 	}
 
 	@Test
-	public void testDelete(){
+	public void testDelete() {
 		testCat("Delete");
 	}
 
 	@Test
-	public void testImaginary(){
+	public void testImaginary() {
 		testCat("Imaginary");
 	}
 
 	@Test
-	public void testNRoot(){
+	public void testNRoot() {
 		testCat("NRoot");
 	}
 
 	@Test
-	public void testReal(){
+	public void testReal() {
 		testCat("Real");
 	}
 
 	@Test
-	public void testRound(){
+	public void testRound() {
 		testCat("Round");
 	}
 
 	@Test
-	public void testFloor(){
+	public void testFloor() {
 		testCat("Floor");
 	}
 
 	@Test
-	public void testCeil(){
+	public void testCeil() {
 		testCat("Ceil");
 	}
 
 	@Test
-	public void testlistExpr(){
+	public void testlistExpr() {
 		testCat("list expr");
 	}
 
 	@Test
-	public void testexpr(){
+	public void testexpr() {
 		testCat("expr");
 	}
 
 	@Test
-	public void testtan(){
+	public void testtan() {
 		testCat("tan");
 	}
 
 	@Test
-	public void testcot(){
+	public void testcot() {
 		testCat("cot");
 	}
 
 	@Test
-	public void testAsymptote(){
+	public void testAsymptote() {
 		testCat("Asymptote");
 	}
 
 	@Test
-	public void testconjugate(){
+	public void testconjugate() {
 		testCat("conjugate");
 	}
 
 	@Test
-	public void testtrig(){
+	public void testtrig() {
 		testCat("Trig");
 	}
 
 	@Test
-	public void testarg(){
+	public void testarg() {
 		testCat("arg");
 	}
 
 	@Test
-	public void testln(){
+	public void testln() {
 		testCat("ln");
 	}
 
 	@Test
-	public void testXXSolve(){
+	public void testXXSolve() {
 		testCat("XXSolve");
 	}
 
 	@Test
-	public void testXXCFactor(){
+	public void testXXCFactor() {
 		testCat("XXCFactor");
 	}
 
 	@Test
-	public void testCIFactor(){
+	public void testCIFactor() {
 		testCat("CIFactor");
 	}
 
 	@Test
-	public void testIFactor(){
+	public void testIFactor() {
 		testCat("IFactor");
 	}
 
 	@Test
-	public void testCurve(){
+	public void testCurve() {
 		testCat("Curve");
 	}
 
 	@Test
-	public void testRadius(){
+	public void testRadius() {
 		testCat("Radius");
 	}
 
 	@Test
-	public void testCenter(){
+	public void testCenter() {
 		testCat("Center");
 	}
 
 	@Test
-	public void testCircumference(){
+	public void testCircumference() {
 		testCat("Circumference");
 	}
 
 	@Test
-	public void testDistance(){
+	public void testDistance() {
 		testCat("Distance");
 	}
 
 	@Test
-	public void testAngle(){
+	public void testAngle() {
 		testCat("Angle");
 	}
 
 	@Test
-	public void testCircle(){
+	public void testCircle() {
 		testCat("Circle");
 	}
 
 	@Test
-	public void testAngularBisector(){
+	public void testAngularBisector() {
 		testCat("AngularBisector");
 	}
 
 	@Test
-	public void testLineBisector(){
+	public void testLineBisector() {
 		testCat("LineBisector");
 	}
 
 	@Test
-	public void testEllipse(){
+	public void testEllipse() {
 		testCat("Ellipse");
 	}
 
 	@Test
-	public void testConic(){
+	public void testConic() {
 		testCat("Conic");
 	}
 
 	@Test
-	public void testHyperbola(){
+	public void testHyperbola() {
 		testCat("Hyperbola");
 	}
 
 	@Test
-	public void testIntersection(){
+	public void testIntersection() {
 		testCat("Intersection");
 	}
 
 	@Test
-	public void testUnion(){
+	public void testUnion() {
 		testCat("Union");
 	}
 
 	@Test
-	public void testsqrt(){
+	public void testsqrt() {
 		testCat("sqrt");
 	}
 
 	@Test
-	public void testexp(){
+	public void testexp() {
 		testCat("exp");
 	}
 
 	@Test
-	public void testPolynomial(){
+	public void testPolynomial() {
 		testCat("Polynomial");
 	}
 
 	@Test
-	public void testXXXXNSolve(){
+	public void testXXXXNSolve() {
 		testCat("XXXXNSolve");
 	}
 
 	@Test
-	public void testabs(){
+	public void testabs() {
 		testCat("abs");
 	}
 
 	@Test
-	public void testlength(){
+	public void testlength() {
 		testCat("length");
 	}
 
 	@Test
-	public void testXXEvaluate(){
+	public void testXXEvaluate() {
 		testCat("XXEvaluate");
 	}
 
@@ -1271,5 +1268,4 @@ public class CAStestJSON {
 		testCat("Translate");
 	}
 
-	
 }
