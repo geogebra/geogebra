@@ -41,7 +41,7 @@ public class ContextMenuTools implements SetLabels {
 	/** The application */
 	AppW app;
 
-	private ToolsetLevel toolsetLevel = ToolsetLevel.EMPTY;
+	private ToolsetLevel toolsetLevel = ToolsetLevel.ADVANCED;
 	private String checkmarkUrl;
 
 	/**
