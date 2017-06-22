@@ -155,6 +155,12 @@ public class CommandDispatcherGiac {
 		laplace(Operation.NO_OPERATION),
 
 		/** if returned from Giac -> error */
+		det(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
+		det_minor(Operation.NO_OPERATION),
+
+		/** if returned from Giac -> error */
 		ilaplace(Operation.NO_OPERATION),
 
 		/** if returned from Giac -> error */
