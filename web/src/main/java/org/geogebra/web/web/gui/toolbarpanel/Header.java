@@ -26,7 +26,7 @@ class Header extends FlowPanel {
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
 
-	private class PresistableToggleButton extends ToggleButton
+	private static class PresistableToggleButton extends ToggleButton
 			implements Presistable {
 
 		public PresistableToggleButton(Image image) {
@@ -35,7 +35,7 @@ class Header extends FlowPanel {
 
 	}
 
-	private class PresistablePanel extends FlowPanel
+	private static class PresistablePanel extends FlowPanel
 			implements Presistable {
 
 		public PresistablePanel() {
@@ -115,6 +115,9 @@ class Header extends FlowPanel {
 		contents.add(center);
 	}
 
+	/**
+	 * Switch to algebra panel
+	 */
 	void selectAlgebra() {
 		center.removeStyleName("indicatorRight");
 		center.addStyleName("indicatorLeft");
@@ -123,6 +126,9 @@ class Header extends FlowPanel {
 		this.toolbarPanel.setSelectedTab(TabIds.ALGEBRA);
 	}
 
+	/**
+	 * Switch to tools panel
+	 */
 	void selectTools() {
 		center.removeStyleName("indicatorLeft");
 		center.addStyleName("indicatorRight");

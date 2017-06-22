@@ -8,7 +8,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -125,7 +124,6 @@ public final class ToolTipManagerW {
 	 * HTML element associated with the toolTip. The toolTip will be positioned
 	 * relative to this element.
 	 */
-	private Element tipElement;
 	private static boolean enabled = true;
 	private String helpURL;
 
@@ -468,15 +466,11 @@ public final class ToolTipManagerW {
 
 		// get initial position from associated tip element or,
 		// if this is null, from mouse coordinates
-		if (tipElement == null) {
-			left = Window.getScrollLeft() + mouseX;
-			topAbove = top = Window.getScrollTop() + mouseY + 18;
 
-		} else {
-			left = tipElement.getAbsoluteLeft();
-			top = tipElement.getAbsoluteBottom();
-			topAbove = tipElement.getAbsoluteTop();
-		}
+		left = Window.getScrollLeft() + mouseX;
+		topAbove = top = Window.getScrollTop() + mouseY + 18;
+
+
 
 		// handle toolTip overflow at left and bottom edge
 		int w = tipPanel.getOffsetWidth();
@@ -531,7 +525,6 @@ public final class ToolTipManagerW {
 		if (!enabled) {
 			return;
 		}
-		tipElement = null;
 		showToolTipWithDelay(toolTipText);
 	}
 

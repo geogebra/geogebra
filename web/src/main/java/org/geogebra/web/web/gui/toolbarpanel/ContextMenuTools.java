@@ -42,7 +42,7 @@ public class ContextMenuTools implements SetLabels {
 	AppW app;
 
 	private ToolsetLevel toolsetLevel = ToolsetLevel.ADVANCED;
-	private String checkmarkUrl;
+	private String checkmarkUrl = null;
 
 	/**
 	 * Creates new context menu
@@ -74,7 +74,8 @@ public class ContextMenuTools implements SetLabels {
 		}
 	};
 
-	private void reposition() {
+	/** update position */
+	void reposition() {
 		if (x + wrappedPopup.getPopupPanel().getOffsetWidth() > app
 				.getWidth()) {
 			x = (int) (app.getWidth()
@@ -117,8 +118,6 @@ public class ContextMenuTools implements SetLabels {
 
 		@Override
 		public void update() {
-			app.getSettings().getAlgebra()
-					.getTreeMode();
 			for (int i = 0; i < itemCount(); i++) {
 				GCheckmarkMenuItem cm = itemAt(i);
 				cm.setChecked(ToolsetLevel.values()[i] == getToolType());
