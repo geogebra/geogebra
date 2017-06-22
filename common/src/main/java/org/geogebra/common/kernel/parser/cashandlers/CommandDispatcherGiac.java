@@ -591,6 +591,8 @@ public class CommandDispatcherGiac {
 			case normald_cdf:
 			case student_cdf:
 			case chisquare_cdf:
+			case det:
+			case det_minor:
 			case laplace:
 			case ilaplace:
 			case invlaplace:
