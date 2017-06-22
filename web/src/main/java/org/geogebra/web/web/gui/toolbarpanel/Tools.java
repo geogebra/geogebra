@@ -83,6 +83,8 @@ public class Tools extends FlowPanel {
 		int activePerspective = app.getActivePerspective();
 
 		AppType type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
+		ToolsetLevel level = app.getSettings().getToolbarSettings()
+				.getToolsetLevel();
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
 			type = ToolCategorization.AppType.GRAPHER_3D;
 		}
@@ -91,7 +93,7 @@ public class Tools extends FlowPanel {
 		}
 
 		mToolCategorization = new ToolCategorization(app,
-				type, ToolsetLevel.ADVANCED, false);
+				type, level, false);
 		mToolCategorization.resetTools();
 		ArrayList<ToolCategorization.Category> categories = mToolCategorization
 				.getCategories();

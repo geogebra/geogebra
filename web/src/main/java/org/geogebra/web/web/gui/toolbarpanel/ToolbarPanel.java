@@ -173,7 +173,7 @@ public class ToolbarPanel extends FlowPanel {
 
 	}
 
-	private class ToolsTab extends ToolbarTab {
+	class ToolsTab extends ToolbarTab {
 	
 		private Tools toolsPanel;
 
@@ -182,6 +182,12 @@ public class ToolbarPanel extends FlowPanel {
 		}
 
 		private void createContents() {
+			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
+			add(toolsPanel);
+		}
+		
+		public void updateContent() {
+			toolsPanel.removeFromParent();
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
 			add(toolsPanel);
 		}
@@ -303,11 +309,13 @@ public class ToolbarPanel extends FlowPanel {
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				animCallback = new Layout.AnimationCallback() {
 
+					@Override
 					public void onLayout(Layer layer, double progress) {
 						// TODO Auto-generated method stub
 
 					}
 
+					@Override
 					public void onAnimationComplete() {
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
@@ -446,6 +454,10 @@ public class ToolbarPanel extends FlowPanel {
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
 
+	}
+
+	public ToolsTab getTabTools() {
+		return tabTools;
 	}
 
 	private void open() {

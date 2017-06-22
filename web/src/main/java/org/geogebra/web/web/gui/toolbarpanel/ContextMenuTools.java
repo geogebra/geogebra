@@ -7,6 +7,8 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.settings.AbstractSettings;
+import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -34,6 +36,7 @@ public class ContextMenuTools implements SetLabels {
 	private Localization loc;
 	private List<GCheckmarkMenuItem> checkmarkItems;
 	private ToolFilterSubMenu subToolFilter;
+	private ToolbarPanel toolbarPanel;
 	private int x;
 
 	private int y;
@@ -49,9 +52,12 @@ public class ContextMenuTools implements SetLabels {
 	 * 
 	 * @param app
 	 *            application
+	 * @param toolbarPanel
+	 *            toolbar panel
 	 */
-	ContextMenuTools(AppW app) {
+	ContextMenuTools(AppW app, ToolbarPanel toolbarPanel) {
 		this.app = app;
+		this.toolbarPanel = toolbarPanel;
 		loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
@@ -84,11 +90,13 @@ public class ContextMenuTools implements SetLabels {
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
-	private class ToolFilterSubMenu extends CheckMarkSubMenu {
+	private class ToolFilterSubMenu extends CheckMarkSubMenu
+			implements SettingListener {
 		private ArrayList<ToolsetLevel> supportedLevels = null;
 
 		public ToolFilterSubMenu(GCollapseMenuItem parentMenu) {
 			super(wrappedPopup, parentMenu);
+			app.getSettings().getToolbarSettings().addListener(this);
 		}
 
 		@Override
@@ -103,13 +111,16 @@ public class ContextMenuTools implements SetLabels {
 			supportedLevels.add(ToolsetLevel.ADVANCED);
 			for (int i = 0; i < supportedLevels.size(); i++) {
 				final ToolsetLevel level = supportedLevels.get(i);
-				String sortTitle = app.getLocalization()
+				String levelTitle = app.getLocalization()
 						.getMenu(level.toString());
-				addItem(sortTitle, false, new Command() {
+				addItem(levelTitle, false, new Command() {
 
 					@Override
 					public void execute() {
-						//app.getSettings().getAlgebra().setTreeMode(sortMode);
+						setToolsetLevel(level);
+						app.getSettings().getToolbarSettings()
+								.setToolsetLevel(level);
+						toolbarPanel.getTabTools().updateContent();
 						update();
 					}
 				});
@@ -122,6 +133,11 @@ public class ContextMenuTools implements SetLabels {
 				GCheckmarkMenuItem cm = itemAt(i);
 				cm.setChecked(ToolsetLevel.values()[i] == getToolType());
 			}
+		}
+
+		@Override
+		public void settingsChanged(AbstractSettings settings) {
+
 		}
 	}
 
@@ -140,6 +156,7 @@ public class ContextMenuTools implements SetLabels {
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		subToolFilter = new ToolFilterSubMenu(ci);
 		subToolFilter.update();
+
 	}
 
 	/**

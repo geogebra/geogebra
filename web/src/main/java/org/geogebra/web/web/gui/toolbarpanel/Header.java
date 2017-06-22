@@ -210,7 +210,8 @@ class Header extends FlowPanel {
 			cmAlgebra.show(x, y);
 		} else {
 			if (cmTools == null) {
-				cmTools = new ContextMenuTools((AppW) this.toolbarPanel.app);
+				cmTools = new ContextMenuTools((AppW) this.toolbarPanel.app,
+						this.toolbarPanel);
 			}
 			cmTools.show(x, y);
 		}
