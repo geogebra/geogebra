@@ -2465,7 +2465,8 @@ public abstract class AppW extends App implements SetLabels {
 		        && getInputPosition() != InputPosition.algebraView) {
 			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
 		}
-		if (showToolBar() && !isWhiteboardActive()) {
+		if (showToolBar() && !isWhiteboardActive()
+				&& !has(Feature.NEW_TOOLBAR)) {
 			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
 		}
 		// menubar height is always 0
