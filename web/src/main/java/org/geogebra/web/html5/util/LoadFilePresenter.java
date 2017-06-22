@@ -218,6 +218,9 @@ public class LoadFilePresenter {
 	 *            perspective
 	 */
 	void finishEmptyLoading(AppW app, Perspective p) {
+		if (p != null) {
+			app.setActivePerspective(p.getDefaultID() - 1);
+		}
 		app.setPreferredSize(
 				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
 		app.loadPreferences(p);
@@ -232,9 +235,6 @@ public class LoadFilePresenter {
 		app.focusLost(null, null);
 		app.setUndoActive(true);
 		if (p != null) {
-			if (!app.getArticleElement().getDataParamShowAppsPicker()) {
-				app.showStartTooltip(p.getDefaultID());
-			}
 			app.setActivePerspective(p.getDefaultID() - 1);
 		}
 

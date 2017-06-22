@@ -86,6 +86,9 @@ public class Tools extends FlowPanel {
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
 			type = ToolCategorization.AppType.GRAPHER_3D;
 		}
+		if (activePerspective == Perspective.GEOMETRY - 1) {
+			type = ToolCategorization.AppType.GEOMETRY_CALC;
+		}
 
 		mToolCategorization = new ToolCategorization(app,
 				type, ToolsetLevel.ADVANCED, false);
