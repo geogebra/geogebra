@@ -394,6 +394,11 @@ public class AppWapplet extends AppWFull {
 		frame.setApplication(this);
 		if (!isUsingFullGui()) {
 			buildSingleApplicationPanel();
+			Perspective current = getTmpPerspective(null);
+			if (current != null && current.getToolbarDefinition() != null) {
+				getGuiManager().setGeneralToolBarDefinition(
+						current.getToolbarDefinition());
+			}
 		} else {
 			((DockManagerW) getGuiManager().getLayout().getDockManager())
 					.init(frame);
