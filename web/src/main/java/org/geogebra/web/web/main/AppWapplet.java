@@ -857,6 +857,6 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public double getInnerWidth() {
-		return getWidth() - getArticleElement().getBorderThickness();
+		return getWidth();
 	}
 }

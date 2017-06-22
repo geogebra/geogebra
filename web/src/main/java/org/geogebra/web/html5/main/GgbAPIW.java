@@ -882,7 +882,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            setst the applet width
 	 */
 	public void setWidth(int width) {
-
+		setArticleParam("width", width);
 		((AppW) app).getAppletFrame().setWidth(width);
 	}
 
@@ -891,6 +891,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            sets the applet height
 	 */
 	public void setHeight(int height) {
+		setArticleParam("height", height);
 		((AppW) app).getAppletFrame().setHeight(height);
 	}
 
@@ -903,10 +904,18 @@ public class GgbAPIW extends GgbAPI {
 	 *            Sets the size of the applet
 	 */
 	public void setSize(int width, int height) {
+		setArticleParam("width", width);
+		setArticleParam("height", height);
 		((AppW) app).getAppletFrame().setSize(width, height);
 	}
 
 
+
+	private void setArticleParam(String name, int value) {
+		((AppW) app).getArticleElement().setAttribute("data-param-" + name,
+				value + "");
+		
+	}
 
 	/**
 	 * @param show
