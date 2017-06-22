@@ -1312,6 +1312,11 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void readText(final String text) {
+
+		if (hasParentWindow()) {
+			return;
+		}
+
 		Log.debug("read text: " + text);
 		dummyDiv.getElement().setInnerText(text);
 
@@ -1320,6 +1325,10 @@ public class EuclidianViewW extends EuclidianView implements
 		g2p.getCanvas().getCanvasElement().focus();
 		setScrollTop(scrolltop);
 	}
+
+	private static native boolean hasParentWindow()/*-{
+		return $wnd.parent != $wnd;
+	}-*/;
 
 	private static native int getScrollTop()/*-{
 		var mainwindow = ($wnd.parent == $wnd) ? $wnd : $wnd.parent;
