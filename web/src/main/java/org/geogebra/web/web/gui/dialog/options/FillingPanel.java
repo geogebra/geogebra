@@ -602,7 +602,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ellipsis);
+		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
 	}
 
 	@Override

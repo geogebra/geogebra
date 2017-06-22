@@ -264,7 +264,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							.getSafeUri().asString()
 					: GuiResources.INSTANCE
 							.menu_icons_file_export().getSafeUri().asString(),
-					loc.getMenu("DownloadAs") + Unicode.ellipsis, true),
+					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true),
 					true, new ExportMenuW(app), !app.isWhiteboardActive());
 
 		}

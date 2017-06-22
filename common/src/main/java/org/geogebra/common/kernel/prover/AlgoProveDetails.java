@@ -275,7 +275,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 										s.append(ndgc.getGeos()[i]
 												.getLabelSimple());
 									} else {
-										s.append(Unicode.ellipsis);
+										s.append(Unicode.ELLIPSIS);
 									}
 								}
 								s.append("]");
@@ -300,7 +300,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 
 				if (unreadable) {
 					GeoText ndgConditionText = new GeoText(cons);
-					String cond = Unicode.ellipsis + "";
+					String cond = Unicode.ELLIPSIS + "";
 					ndgConditionText.setTextString(cond);
 					ndgConditionText.setLabelVisible(false);
 					ndgConditionText.setEuclidianVisible(false);

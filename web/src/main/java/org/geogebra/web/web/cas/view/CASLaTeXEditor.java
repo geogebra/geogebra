@@ -77,7 +77,7 @@ public class CASLaTeXEditor extends FlowPanel
 		mf.setOnBlur(this);
 		add(mf);
 		dummy = new Label(
-				app.getLocalization().getMenu("InputLabel") + Unicode.ellipsis);
+				app.getLocalization().getMenu("InputLabel") + Unicode.ELLIPSIS);
 		dummy.getElement().getStyle().setMarginLeft(5, Unit.PX);
 
 	}

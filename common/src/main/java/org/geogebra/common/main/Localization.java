@@ -809,7 +809,7 @@ public abstract class Localization {
 		if (isUsingLocalizedDigits()) {
 			if (lang.startsWith("ar")) { // Arabic
 				unicodeZero = '\u0660'; // Arabic-Indic digit 0
-				unicodeDecimalPoint = Unicode.ArabicComma; // Arabic-Indic
+				unicodeDecimalPoint = Unicode.ARABIC_COMMA; // Arabic-Indic
 															// decimal point
 				unicodeComma = '\u060c'; // Arabic comma
 				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
@@ -817,7 +817,7 @@ public abstract class Localization {
 			} else if (lang.startsWith("fa")) { // Persian
 				unicodeZero = '\u06f0'; // Persian digit 0 (Extended
 				// Arabic-Indic)
-				unicodeDecimalPoint = Unicode.ArabicComma; // Arabic comma
+				unicodeDecimalPoint = Unicode.ARABIC_COMMA; // Arabic comma
 				unicodeComma = '\u060c'; // Arabic-Indic decimal point
 				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
 				// separators

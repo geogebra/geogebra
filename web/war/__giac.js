@@ -2020,7 +2020,7 @@ var __giac = [ {},
 { cat:"Evaluate", cmd:"true\u2295false", result:"true" },
 { cat:"Evaluate", cmd:"false\u2295true", result:"true" },
 { cat:"Evaluate", cmd:"false\u2295false", result:"false" },
-{ cat:"NIntegral", cmd: "NIntegral[sqrt((2*(cos(2*x)))^2+(3*(cos(3*x)))^2),x,0,2*pi]", result:"",round:"15.29", notes:"doesn't work with romberg(), OK with gaussquad()" },
+{ cat:"NIntegral", cmd:"NIntegral[sqrt((2*(cos(2*x)))^2+(3*(cos(3*x)))^2),x,0,2*pi]", result:"", round:"15.29", notes:"doesn't work with romberg(), OK with gaussquad()" },
 // JSONEND
 // not working in giac.js yet
 // { cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },

@@ -4607,7 +4607,7 @@ public abstract class App implements UpdateSelection {
 				return '-';
 
 			default:
-				return Unicode.nDash;
+				return Unicode.N_DASH;
 			}
 		}
 	}

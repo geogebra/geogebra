@@ -25,7 +25,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class InputDialogAngleFixedD extends AngleInputDialogD
 		implements KeyListener {
 
-	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 	GeoSegmentND[] segments;
 	GeoPointND[] points;
@@ -98,7 +98,7 @@ public class InputDialogAngleFixedD extends AngleInputDialogD
 							if (angleText.endsWith(Unicode.DEGREE_STRING)) {
 								defaultRotateAngle = angleText;
 							} else {
-								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+								defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 							}
 							DialogManager.doAngleFixed(kernel, segments, points,
 

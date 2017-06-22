@@ -36,7 +36,7 @@ public class AlgebraItem {
 			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
 					|| ((AlgoSolve) geo.getParentAlgorithm())
 							.getClassName() == Commands.NSolve) {
-				return Unicode.CAS_OUTPUT_NUMERIC;	
+				return Unicode.CAS_OUTPUT_NUMERIC + "";
 			}
 			
 		}
@@ -112,7 +112,8 @@ public class AlgebraItem {
 
 	public static String getSymbolicPrefix(Kernel kernel) {
 		return kernel.getLocalization().rightToLeftReadingOrder
-				? Unicode.CAS_OUTPUT_PREFIX_RTL : Unicode.CAS_OUTPUT_PREFIX;
+				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
+				: Unicode.CAS_OUTPUT_PREFIX + "";
 	}
 
 	public static boolean needsPacking(GeoElement geo) {

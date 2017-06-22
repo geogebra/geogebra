@@ -383,7 +383,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		};
 
 		printPreviewAction = new AbstractAction(
-				loc.getMenu("Print") + Unicode.ellipsis,
+				loc.getMenu("Print") + Unicode.ELLIPSIS,
 				((AppD) app)
 						.getScaledIcon(GuiResourcesD.DOCUMENT_PRINT_PREVIEW)) {
 			private static final long serialVersionUID = 1L;

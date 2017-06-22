@@ -339,7 +339,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		btOK.setText(loc.getPlain("OK"));
 		btApply.setText(loc.getPlain("Apply"));
 		btCancel.setText(loc.getPlain("Cancel"));
-		btProperties.setText(loc.getPlain("Properties") + Unicode.ellipsis);
+		btProperties.setText(loc.getPlain("Properties") + Unicode.ELLIPSIS);
 	}
 
 	@Override

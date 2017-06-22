@@ -341,7 +341,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	private void addMagneticField() {
 		this.magField = new MagFieldSetting(this.app, this, "MagneticField",
-				Unicode.micro + "T");
+				Unicode.MICRO + "T");
 		this.sensors.add(this.magField);
 		this.sensorSettings.add(this.magField);
 	}

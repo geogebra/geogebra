@@ -150,7 +150,7 @@ class FillingPanelD extends JPanel
 		Hashtable<Integer, JLabel> labelHash = new Hashtable<Integer, JLabel>();
 		labelHash.put(Integer.valueOf(0), new JLabel("0" + Unicode.DEGREE_STRING));
 		labelHash.put(Integer.valueOf(45),
-				new JLabel(Unicode.FORTY_FIVE_DEGREES));
+				new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
 		labelHash.put(Integer.valueOf(90), new JLabel("90" + Unicode.DEGREE_STRING));
 		labelHash.put(Integer.valueOf(135), new JLabel("135" + Unicode.DEGREE_STRING));
 		labelHash.put(Integer.valueOf(180), new JLabel("180" + Unicode.DEGREE_STRING));
@@ -283,7 +283,7 @@ class FillingPanelD extends JPanel
 		imagePanel.setBorder(
 				BorderFactory.createTitledBorder(loc.getMenu("Images")));
 
-		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ellipsis);
+		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
 
 		// fill type combobox
 		lblFillType.setText(loc.getMenu("Filling") + ":");

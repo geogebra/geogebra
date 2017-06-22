@@ -3459,9 +3459,9 @@ public class GeoCasCell extends GeoElement
 		} else if ("".equals(evalCmd)) {
 			return getOutputPrefix();
 		} else if ("Numeric".equals(evalCmd)) {
-			return Unicode.CAS_OUTPUT_NUMERIC;
+			return Unicode.CAS_OUTPUT_NUMERIC + "";
 		} else if ("KeepInput".equals(evalCmd)) {
-			return Unicode.CAS_OUTPUT_KEEPINPUT;
+			return Unicode.CAS_OUTPUT_KEEPINPUT + "";
 		} else {
 			evalCmdLocal.append(getLoc().getCommand(evalCmd));
 		}
@@ -3485,9 +3485,9 @@ public class GeoCasCell extends GeoElement
 
 	private String getOutputPrefix() {
 		if (kernel.getLocalization().rightToLeftReadingOrder) {
-			return Unicode.CAS_OUTPUT_PREFIX_RTL;
+			return Unicode.CAS_OUTPUT_PREFIX_RTL + "";
 		}
-		return Unicode.CAS_OUTPUT_PREFIX;
+		return Unicode.CAS_OUTPUT_PREFIX + "";
 	}
 
 	/**

@@ -436,7 +436,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	 */
 	AbstractAction exportGraphicAction = new AbstractAction(
 			getApplication().getLocalization().getMenu("ExportAsPicture")
-					+ Unicode.ellipsis,
+					+ Unicode.ELLIPSIS,
 			getApplication().getScaledIcon(GuiResourcesD.IMAGE_X_GENERIC)) {
 		private static final long serialVersionUID = 1L;
 

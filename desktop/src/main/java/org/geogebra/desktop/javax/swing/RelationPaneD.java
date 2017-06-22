@@ -113,7 +113,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			if (areCallbacks) {
 				if (relations[i].getCallback() != null) {
 					data[i][1] = app.getLocalization().getMenu("More")
-							+ Unicode.ellipsis;
+							+ Unicode.ELLIPSIS;
 				} else {
 					data[i][1] = "";
 				}

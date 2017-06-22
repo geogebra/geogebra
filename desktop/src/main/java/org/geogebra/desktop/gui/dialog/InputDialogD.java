@@ -353,7 +353,7 @@ public class InputDialogD extends InputDialog
 		btOK.setText(loc.getMenu("OK"));
 		btCancel.setText(loc.getMenu("Cancel"));
 		btApply.setText(loc.getMenu("Apply"));
-		btProperties.setText(loc.getMenu("Properties") + Unicode.ellipsis);
+		btProperties.setText(loc.getMenu("Properties") + Unicode.ELLIPSIS);
 	}
 
 	// ===================================================

@@ -252,7 +252,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		saveAsAction = new AbstractAction(
-				loc.getMenu("SaveAs") + Unicode.ellipsis,
+				loc.getMenu("SaveAs") + Unicode.ELLIPSIS,
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
@@ -263,7 +263,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 
 		shareAction = new AbstractAction(
-				loc.getMenu("Share") + Unicode.ellipsis,
+				loc.getMenu("Share") + Unicode.ELLIPSIS,
 				app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 

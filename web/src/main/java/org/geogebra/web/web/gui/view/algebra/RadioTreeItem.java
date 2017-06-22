@@ -1573,7 +1573,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected void addDummyLabel() {
 		if (dummyLabel == null) {
 			dummyLabel = new Label(
-					loc.getMenu("InputLabel") + Unicode.ellipsis);
+					loc.getMenu("InputLabel") + Unicode.ELLIPSIS);
 			dummyLabel.addStyleName("avDummyLabel");
 		}
 		updateFont(dummyLabel);
@@ -1989,7 +1989,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void setLabels() {
 		if (dummyLabel != null) {
-			dummyLabel.setText(loc.getPlain("InputLabel") + Unicode.ellipsis);
+			dummyLabel.setText(loc.getPlain("InputLabel") + Unicode.ELLIPSIS);
 
 		}
 		if (hasMarblePanel()) {

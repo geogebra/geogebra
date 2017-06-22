@@ -303,7 +303,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 			lbSize.addItem(fontSizes[i]);
 		}
 
-		lbSize.addItem(loc.getMenu("Custom") + Unicode.ellipsis);
+		lbSize.addItem(loc.getMenu("Custom") + Unicode.ELLIPSIS);
 
 		lbSize.setSelectedIndex(selectedIndex);
 

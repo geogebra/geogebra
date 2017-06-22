@@ -47,7 +47,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 @SuppressWarnings("javadoc")
 public abstract class DialogManager {
 
-	protected String defaultAngle = Unicode.FORTY_FIVE_DEGREES;
+	protected String defaultAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 	protected App app;
 	protected Localization loc;
@@ -318,7 +318,7 @@ public abstract class DialogManager {
 					@Override
 					public void callback(GeoElementND[] result) {
 						cons.setSuppressLabelCreation(oldVal);
-						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 						boolean success = result != null && result.length > 0
 								&& result[0] instanceof GeoNumberValue;
 

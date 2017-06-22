@@ -68,10 +68,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 			});
 		}
 		btnSymbolic.addStyleName("symbolicButton");
-		if (AlgebraItem.getOutputPrefix(geo) == Unicode.CAS_OUTPUT_NUMERIC) {
+		if ((Unicode.CAS_OUTPUT_NUMERIC + "")
+				.equals(AlgebraItem.getOutputPrefix(geo))) {
 			btnSymbolic.setSelected(!swap);
-		}
-		if (AlgebraItem.getOutputPrefix(geo) != Unicode.CAS_OUTPUT_NUMERIC) {
+		} else {
 			btnSymbolic.setSelected(swap);
 			btnSymbolic.addStyleName("btn-prefix");
 		}

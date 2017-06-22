@@ -199,7 +199,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 	}
 
 	private void updateLabelField(GeoElement geo, boolean isInteger) {
-		String def = geo.isAngle() ? " = " + Unicode.FORTY_FIVE_DEGREES
+		String def = geo.isAngle() ? " = " + Unicode.FORTY_FIVE_DEGREES_STRING
 				: " = 1";
 		tfLabel.setText(geo.getDefaultLabel(isInteger) + def); // =45degrees
     }

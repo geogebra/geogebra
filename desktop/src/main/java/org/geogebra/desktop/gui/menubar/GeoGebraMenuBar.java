@@ -329,7 +329,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			// Show a login success message
 			if (!automatic) {
 				Object[] options = {
-						loc.getMenu("OpenFromGeoGebraTube") + Unicode.ellipsis,
+						loc.getMenu("OpenFromGeoGebraTube") + Unicode.ELLIPSIS,
 						loc.getMenu("OK") };
 				int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 						loc.getMenu("ThanksForSigningIn"),

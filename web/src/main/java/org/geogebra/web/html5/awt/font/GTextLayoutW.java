@@ -25,7 +25,7 @@ public class GTextLayoutW implements GTextLayout {
 
 		if (str.length() > 0) {
 			for (int i = 0; i < str.length(); i++) {
-				if (Unicode.charactersWithDescenders.indexOf(str.charAt(i)) > -1) {
+				if (Unicode.CHARACTERS_WITH_DESCENDERS_STRING.indexOf(str.charAt(i)) > -1) {
 					containsLowerCase = true;
 					break;
 				}

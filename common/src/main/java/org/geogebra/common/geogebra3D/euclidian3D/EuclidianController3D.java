@@ -4199,7 +4199,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 					@Override
 					public void callback(GeoElementND[] result) {
-						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 						cons.setSuppressLabelCreation(oldVal);
 

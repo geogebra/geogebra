@@ -150,48 +150,48 @@ public class Unicode {
 
 	// fractions
 
-	final public static String fraction1_8 = "\u215b";
-	final public static String fraction1_4 = "\u00bc";
-	final public static String fraction3_8 = "\u215c";
-	final public static String fraction1_2 = "\u00bd";
-	final public static String fraction5_8 = "\u215d";
-	final public static String fraction3_4 = "\u00be";
-	final public static String fraction7_8 = "\u215e";
+	final public static char FRACTION1_8 = '\u215b';
+	final public static char FRACTION1_4 = '\u00bc';
+	final public static char FRACTION3_8 = '\u215c';
+	final public static char FRACTION1_2 = '\u00bd';
+	final public static char FRACTION5_8 = '\u215d';
+	final public static char FRACTION3_4 = '\u00be';
+	final public static char FRACTION7_8 = '\u215e';
 
 	// various characters which hang down below the line
 	// gjy with/without accents
 	// characters with cedillas
 	// some Greek, Russian, Malayalam, Arabic
-	public static final String charactersWithDescenders = "\u00B5\u1EF3\u0177\u0135\u0157\u0163\u0137\u015F\u0137\u013C\u00E7\u0146\u1EF9\u011F\u011D\u0123\u00FDgjy\u03BE\u03B2\u03C8\u03B3\u03B7\u03C2\u0444\u0449\u0446\u0D71\u0D6C\u0D6B\u0D33\u0D67\u0630\u0648\u0635\u0628\u0631\u064D\u0633\u062E\u064A\u064D";
-	public static final char nDash = '\u2013';
-	public static final char ArabicComma = '\u066b';
-	public static final char ellipsis = '\u2026';
+	public static final String CHARACTERS_WITH_DESCENDERS_STRING = "\u00B5\u1EF3\u0177\u0135\u0157\u0163\u0137\u015F\u0137\u013C\u00E7\u0146\u1EF9\u011F\u011D\u0123\u00FDgjy\u03BE\u03B2\u03C8\u03B3\u03B7\u03C2\u0444\u0449\u0446\u0D71\u0D6C\u0D6B\u0D33\u0D67\u0630\u0648\u0635\u0628\u0631\u064D\u0633\u062E\u064A\u064D";
+	public static final char N_DASH = '\u2013';
+	public static final char ARABIC_COMMA = '\u066b';
+	public static final char ELLIPSIS = '\u2026';
 	public static final char SECTION_SIGN = '\u00a7';
 	public static final char VECTOR_PRODUCT = '\u2297';
 	public static final char OPEN_DOUBLE_QUOTE = '\u201C';
 	public static final char CLOSE_DOUBLE_QUOTE = '\u201D';
 
 	// http://www.xe.com/symbols.php
-	public static final String CURRENCY_POUND = "\u00a3";
-	public static final String CURRENCY_EURO = "\u20ac";
-	public static final String CURRENCY_DOLLAR = "$";
-	public static final String CURRENCY_YEN = "\u00a5";
-	public static final String CURRENCY_WON = "\u20a9";
-	public static final String CURRENCY_BAHT = "\u03ef";
-	public static final String CURRENCY_DONG = "\u20ab";
-	public static final String CURRENCY_SHEKEL = "\u20aa";
-	public static final String CURRENCY_TUGHRIK = "\u20ae";
-	public static final String CURRENCY_RUPEE = "\u20a8";
-	public static final String CURRENCY_INDIAN_RUPEE = "\u20b9";
-	public static final String FORTY_FIVE_DEGREES = "45" + DEGREE_CHAR;
+	public static final char CURRENCY_POUND = '\u00a3';
+	public static final char CURRENCY_EURO = '\u20ac';
+	public static final char CURRENCY_DOLLAR = '$';
+	public static final char CURRENCY_YEN = '\u00a5';
+	public static final char CURRENCY_WON = '\u20a9';
+	public static final char CURRENCY_BAHT = '\u03ef';
+	public static final char CURRENCY_DONG = '\u20ab';
+	public static final char CURRENCY_SHEKEL = '\u20aa';
+	public static final char CURRENCY_TUGHRIK = '\u20ae';
+	public static final char CURRENCY_RUPEE = '\u20a8';
+	public static final char CURRENCY_INDIAN_RUPEE = '\u20b9';
+	public static final String FORTY_FIVE_DEGREES_STRING = "45" + DEGREE_CHAR;
 
 	public static final char IMPLIES = '\u2192';
-	public static final String IMPLIED_FROM = "\u2190";
-	public static final String CAS_OUTPUT_PREFIX = IMPLIES + "";
-	public static final String CAS_OUTPUT_PREFIX_RTL = "\u2190";
-	public static final String CAS_OUTPUT_KEEPINPUT = "\u2713";
-	public static final String CAS_OUTPUT_NUMERIC = "\u2248";
-	public static final char micro = '\u00b5';
+	public static final char IMPLIED_FROM = '\u2190';
+	public static final char CAS_OUTPUT_PREFIX = IMPLIES;
+	public static final char CAS_OUTPUT_PREFIX_RTL = '\u2190';
+	public static final char CAS_OUTPUT_KEEPINPUT = '\u2713';
+	public static final char CAS_OUTPUT_NUMERIC = '\u2248';
+	public static final char MICRO = '\u00b5';
 
 	public static final char LCEIL = '\u2308';
 	public static final char RCEIL = '\u2309';

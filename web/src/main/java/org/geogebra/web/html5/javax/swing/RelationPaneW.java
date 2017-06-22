@@ -65,7 +65,7 @@ public class RelationPaneW extends DialogBox
 				btnCallbacks[i] = new Button();
 				btnCallbacks[i]
 						.setText(app.getLocalization().getMenu("More")
-								+ Unicode.ellipsis);
+								+ Unicode.ELLIPSIS);
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}

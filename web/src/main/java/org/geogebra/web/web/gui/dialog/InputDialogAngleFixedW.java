@@ -23,7 +23,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Web dialog for angle
  */
 public class InputDialogAngleFixedW extends AngleInputDialogW{
-	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 	private GeoSegmentND[] segments;
 	private GeoPointND[] points;
@@ -119,7 +119,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 		if (angleText.endsWith(Unicode.DEGREE_STRING)) {
 			defaultRotateAngle = angleText;
 		} else {
-			defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+			defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 		}
 
 		DialogManager.doAngleFixed(kernel, segments, points,

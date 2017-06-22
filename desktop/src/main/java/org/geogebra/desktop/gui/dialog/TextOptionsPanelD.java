@@ -125,7 +125,7 @@ class TextOptionsPanelD extends JPanel
 			cbSize.addItem(fontSizes[i]);
 		}
 
-		cbSize.addItem(loc.getMenu("Custom") + Unicode.ellipsis);
+		cbSize.addItem(loc.getMenu("Custom") + Unicode.ELLIPSIS);
 
 		cbSize.setSelectedIndex(selectedIndex);
 		cbSize.addActionListener(this);

@@ -5440,7 +5440,7 @@ public abstract class EuclidianController {
 			else if (macroInput[index].equals(Test.GEOANGLE)) {
 				app.getDialogManager().showAngleInputDialog(
 						macro.getToolOrCommandName(), loc.getPlain("Angle"),
-						Unicode.FORTY_FIVE_DEGREES, callback3);
+						Unicode.FORTY_FIVE_DEGREES_STRING, callback3);
 
 			}
 		}

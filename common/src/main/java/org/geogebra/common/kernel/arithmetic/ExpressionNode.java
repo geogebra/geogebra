@@ -3686,7 +3686,7 @@ public class ExpressionNode extends ValidExpression
 					sb.append(tpl.rightBracket());
 				}
 
-				sb.append(Unicode.ellipsis);
+				sb.append(Unicode.ELLIPSIS);
 
 				if (!right.isLeaf()) {
 					sb.append(tpl.leftBracket());

@@ -490,7 +490,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				String hint = assignment.getHint();
 				if (hint != null && hint.length() > 30) {
 					hint = hint.substring(0, hint.indexOf(" ", 25))
-							+ Unicode.ellipsis;
+							+ Unicode.ELLIPSIS;
 				}
 				checkAssignmentsTable.setWidget(i, k++, new Label(hint));
 				checkAssignmentsTable.setWidget(

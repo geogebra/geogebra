@@ -26,7 +26,7 @@ public abstract class InputDialogRotateD extends AngleInputDialogD
 	protected EuclidianController ec; // we need to know which controller called
 										// for rotate
 
-	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES;
+	private static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 	public InputDialogRotateD(AppD app, String title, InputHandler handler,
 			GeoPolygon[] polys, GeoElement[] selGeos, EuclidianController ec) {
