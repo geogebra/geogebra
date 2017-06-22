@@ -305,7 +305,7 @@ for i in `find tests -name '*.ggb' | sort`; do
 result = [$RESULT]
 for i in range (result[0]*result[1]):
     result[i+2] *= -1
-print result" | python | sed s/'\['// | sed s/'\]'// | sed s/" "/""/g`
+print result" | python | sed s/'\['// | sed s/'\]'// | sed s/" "/""/g | sed s/L//g`
    RESULT_NEGATIVE_APOSTROPHED="'$RESULT_NEGATIVE'"
 
    CORRECT=`sqlite3 $MYDIR/sqlite3db "select count(*) from testcases where name=$TEST_APOSTROPHED\
