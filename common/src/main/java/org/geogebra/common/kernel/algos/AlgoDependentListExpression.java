@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -112,6 +113,12 @@ public class AlgoDependentListExpression extends AlgoElement
 	// evaluate the current value of the arithmetic tree
 	@Override
 	public final void compute() {
+
+		// https://help.geogebra.org/topic/cannot-open-file-1
+		if (list.getParentAlgorithm() instanceof AlgoDependentCasCell) {
+			return;
+		}
+
 		// get resulting list of ExpressionNodes
 		ExpressionValue evlist = list.getDefinition()
 				.evaluate(StringTemplate.defaultTemplate);
