@@ -1308,7 +1308,6 @@ public class EuclidianViewW extends EuclidianView implements
 		dummyDiv.getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
 
-	boolean temp = true;
 
 	@Override
 	public void readText(final String text) {
