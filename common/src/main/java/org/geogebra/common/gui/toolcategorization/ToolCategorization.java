@@ -10,6 +10,10 @@ import org.geogebra.common.main.Feature;
 
 public class ToolCategorization {
 
+	public enum ToolsetLevel {
+		EMPTY, STANDARD, ADVANCED
+	}
+
     public enum Type {GEOMETRY_CALC, GRAPHING_CALCULATOR, GRAPHER_3D}
 
     public enum Category {
@@ -67,12 +71,16 @@ public class ToolCategorization {
     private App app;
 
     /**
-     * Creates a tool categorization for the give type
-     *
-     * @param app  App (for localization)
-     * @param type categorization type
-     * @param isPhoneApp app calling is phone app (some tools are not supported yet)
-     */
+	 * Creates a tool categorization for the give type
+	 *
+	 * @param app
+	 *            App (for localization)
+	 * 
+	 * @param type
+	 *            categorization type
+	 * @param isPhoneApp
+	 *            app calling is phone app (some tools are not supported yet)
+	 */
     public ToolCategorization(App app, Type type, boolean isPhoneApp) {
         this.app = app;
         toolsLists = new ArrayList<ArrayList<Integer>>();

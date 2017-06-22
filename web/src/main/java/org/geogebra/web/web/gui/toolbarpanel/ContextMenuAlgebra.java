@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
@@ -13,6 +12,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
+import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -27,7 +27,10 @@ import com.google.gwt.user.client.ui.MenuItem;
  *
  */
 public class ContextMenuAlgebra implements SetLabels {
-	private GPopupMenuW wrappedPopup;
+	/**
+	 * popup menu
+	 */
+	GPopupMenuW wrappedPopup;
 
 	/** Localization */
 	Localization loc;
@@ -42,62 +45,15 @@ public class ContextMenuAlgebra implements SetLabels {
 	private int y;
 
 	private Command cmdReposition = new Command() {
+		@Override
 		public void execute() {
 			reposition();
 		}
 	};
-	private abstract class SubMenu {
-		private List<GCheckmarkMenuItem> items;
-		private String checkmarkUrl;
-		protected GCollapseMenuItem parentMenu;
-
-		public SubMenu(GCollapseMenuItem parentMenu) {
-			this.parentMenu = parentMenu;
-			// super(true, "", app);
-			checkmarkUrl = MaterialDesignResources.INSTANCE.check_black()
-					.getSafeUri().asString();
-			// addStyleName("GeoGebraMenuBar");
-			// addStyleName("floating-Popup");
-			// addStyleName("dotSubMenu");
-			items = new ArrayList<GCheckmarkMenuItem>();
-			initActions();
-			parentMenu.collapse();
-		}
-
-		/**
-		 * Adds a menu item with checkmark
-		 * 
-		 * @param text
-		 *            of the item
-		 * @param selected
-		 *            if checkmark should be shown or not
-		 * @param command
-		 *            to execute when selected.
-		 */
-		public void addItem(String text, boolean selected, Command command) {
-			GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text,
-					checkmarkUrl,
-					selected, command);
-			wrappedPopup.addItem(cm.getMenuItem());
-			items.add(cm);
-			parentMenu.addItem(cm.getMenuItem());
-		}
-
-		public int itemCount() {
-			return items.size();
-		}
-
-		public GCheckmarkMenuItem itemAt(int idx) {
-			return items.get(idx);
-		}
-
-		public abstract void update();
-		protected abstract void initActions();
-	}
-
-	private class DescriptionSubMenu extends SubMenu {
+	
+	private class DescriptionSubMenu extends CheckMarkSubMenu {
 		public DescriptionSubMenu(GCollapseMenuItem parentMenu) {
-			super(parentMenu);
+			super(wrappedPopup, parentMenu);
 		}
 
 		@Override
@@ -135,11 +91,11 @@ public class ContextMenuAlgebra implements SetLabels {
 
 	}
 
-	private class SortSubMenu extends SubMenu {
+	private class SortSubMenu extends CheckMarkSubMenu {
 		private ArrayList<SortMode> supportedModes = null;
 
 		public SortSubMenu(GCollapseMenuItem parentMenu) {
-			super(parentMenu);
+			super(wrappedPopup, parentMenu);
 		}
 
 		@Override
