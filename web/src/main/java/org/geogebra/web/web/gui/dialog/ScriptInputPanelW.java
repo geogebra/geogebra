@@ -17,8 +17,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.util.ScriptArea;
+import org.geogebra.web.web.main.AppWFull;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,7 +45,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	private FlowPanel inputPanel;
 	private ScriptArea textArea;
 	private FlowPanel btPanel;
-	
+	private AppW app;
 	/**
 	 * Input Dialog for a GeoButton object
 	 * 
@@ -61,17 +65,26 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 */
 	public ScriptInputPanelW(AppW app, GeoElement geo, boolean updateScript,
 			boolean forceJavaScript) {
-
+		this.app = app;
 		model = new ScriptInputModel(app, this, updateScript);
 
 		inputPanel = new FlowPanel();
 		textArea = new ScriptArea();
-			textArea.addKeyUpHandler(new KeyUpHandler() {
+
+		textArea.addKeyUpHandler(new KeyUpHandler() {
 				@Override
 				public void onKeyUp(KeyUpEvent event) {
 					applyScript();
 				}
 			});
+
+		textArea.addBlurHandler(new BlurHandler() {
+
+			public void onBlur(BlurEvent event) {
+				applyScript();
+			}
+		});
+
 		inputPanel.add(textArea);
 		// init dialog using text
 
@@ -101,7 +114,8 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 			@Override
 			public void onClick(ClickEvent event) {
-	            applyScript();
+				showKeyboard();
+				applyScript();
             }});
 		
 		languageSelector.addChangeHandler(new ChangeHandler(){
@@ -118,6 +132,15 @@ public class ScriptInputPanelW extends FlowPanel implements
 		add(btPanel);
 	}
 
+
+	/**
+	 * Shows the keyboard.
+	 */
+	protected void showKeyboard() {
+		((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame())
+				.doShowKeyBoard(true, textArea);
+
+	}
 
 	/**
 	 * Returns the inputPanel and sets its preferred size from the given row and
