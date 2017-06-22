@@ -20,7 +20,7 @@ public class ToolCategorization {
 		/**
 		 * for empty construction
 		 */
-		EMPTY,
+		EMPTY_CONSTRUCTION,
 		/**
 		 * non-empty construction
 		 */

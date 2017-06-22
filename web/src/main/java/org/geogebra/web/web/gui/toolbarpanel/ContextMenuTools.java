@@ -64,7 +64,7 @@ public class ContextMenuTools implements SetLabels {
 		// addToolItems();
 		addToolFilterItem();
 		addToolManageItems();
-		setToolsetLevel(ToolsetLevel.EMPTY);
+		setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 	}
 
 	private Command cmdReposition = new Command() {
@@ -97,7 +97,7 @@ public class ContextMenuTools implements SetLabels {
 			}
 
 			supportedLevels.clear();
-			supportedLevels.add(ToolsetLevel.EMPTY);
+			supportedLevels.add(ToolsetLevel.EMPTY_CONSTRUCTION);
 			supportedLevels.add(ToolsetLevel.STANDARD);
 			supportedLevels.add(ToolsetLevel.ADVANCED);
 			for (int i = 0; i < supportedLevels.size(); i++) {
