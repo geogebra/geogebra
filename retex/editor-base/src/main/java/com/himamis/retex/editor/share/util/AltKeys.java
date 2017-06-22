@@ -62,11 +62,11 @@ public class AltKeys {
 		lookupUpper.put('+', Unicode.XOR + "");
 		lookupLower.put('+', Unicode.XOR + "");
 
-		lookupUpper.put(Unicode.eGrave, "{"); // Italian keyboards
-		lookupLower.put(Unicode.eGrave, "["); // Italian keyboards
+		lookupUpper.put(Unicode.e_GRAVE, "{"); // Italian keyboards
+		lookupLower.put(Unicode.e_GRAVE, "["); // Italian keyboards
 
-		lookupUpper.put(Unicode.eAcute, "{"); // Italian keyboards
-		lookupLower.put(Unicode.eAcute, "["); // Italian keyboards
+		lookupUpper.put(Unicode.e_ACUTE, "{"); // Italian keyboards
+		lookupLower.put(Unicode.e_ACUTE, "["); // Italian keyboards
 
 		lookupUpper.put('=', Unicode.XOR + "");
 		lookupLower.put('=', Unicode.XOR + "");

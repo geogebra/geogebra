@@ -116,18 +116,18 @@ public abstract class Localization {
 					// Affix found. Get the previous character.
 					String prevChars = translationFixPronouncedPrevChars(text,
 							match, 1);
-					if (Unicode.translationFixHu_endE1
+					if (Unicode.TRANSLATION_FIX_HU_END_E1_STRING
 							.indexOf(prevChars) > -1) {
 						text = translationFixHuAffixChange(text, match, affix,
 								"e", prevChars);
-					} else if (Unicode.translationFixHu_endO1
+					} else if (Unicode.TRANSLATION_FIX_HU_END_O1_STRING
 							.indexOf(prevChars) > -1) {
 						text = translationFixHuAffixChange(text, match, affix,
 								"o", prevChars);
-					} else if (Unicode.translationFixHu_endOE1
+					} else if (Unicode.TRANSLATION_FIX_HU_END_OE1_STRING
 							.indexOf(prevChars) > -1) {
 						text = translationFixHuAffixChange(text, match, affix,
-								Unicode.translationFixHu_oe, prevChars);
+								Unicode.TRANSLATION_FIX_HU_OE_STRING, prevChars);
 					} else if (match > 1) {
 						// Append the previous character.
 						// TODO: This could be quicker: to add only the second
@@ -284,7 +284,7 @@ public abstract class Localization {
 			} else if ("e".equals(affixForm)) {
 				replace = "hez";
 			} else {
-				replace = Unicode.translationFixHu_hoez;
+				replace = Unicode.TRANSLATION_FIX_HU_HOEZ_STRING;
 			}
 		} else if ("-val/-vel".equals(affixes)) {
 			if ("a".equals(affixForm) || "o".equals(affixForm)) {

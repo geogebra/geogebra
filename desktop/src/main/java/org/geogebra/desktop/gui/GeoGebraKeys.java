@@ -176,8 +176,8 @@ public class GeoGebraKeys implements KeyListener {
 				// two
 				// French keyboard, keyString= eg "2" (so we need to leave it
 				// for Alt-2 to work)
-			case Unicode.eGrave:
-			case Unicode.eAcute:
+			case Unicode.e_GRAVE:
+			case Unicode.e_ACUTE:
 				if (keyString.length() > 1) {
 					keyString = e.getKeyChar() + "";
 				}

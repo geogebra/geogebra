@@ -29,8 +29,8 @@ public class Unicode {
 	final public static char DEGREE_CHAR = '\u00b0';
 	final public static String DEGREE_STRING = Character.toString(DEGREE_CHAR);
 
-	final public static char eGrave = '\u00E8';
-	final public static char eAcute = '\u00E9';
+	final public static char e_GRAVE = '\u00E8';
+	final public static char e_ACUTE = '\u00E9';
 
 	/** Unicode symbol for e */
 	final public static char EULER_CHAR = '\u212f';
@@ -139,14 +139,14 @@ public class Unicode {
 
 	/* helper Unicode strings for fixing Hungarian translations */
 	// These endings will get -re, -nek, -hez:
-	final public static String translationFixHu_endE1 = "bcde\u00E9fgi\u00EDjlmnprstvwxz1479'";
+	final public static String TRANSLATION_FIX_HU_END_E1_STRING = "bcde\u00E9fgi\u00EDjlmnprstvwxz1479'";
 	// These endings will get -ra, -nak, -ban, -ba, -hoz:
-	final public static String translationFixHu_endO1 = "ahko\u00F3qu\u00FAy368";
+	final public static String TRANSLATION_FIX_HU_END_O1_STRING = "ahko\u00F3qu\u00FAy368";
 	// These endings will get -re, -nek, -ben, -be, -ho(umlaut)z:
-	final public static String translationFixHu_endOE1 = "\u00F6\u0151\u00FC\u017125";
+	final public static String TRANSLATION_FIX_HU_END_OE1_STRING = "\u00F6\u0151\u00FC\u017125";
 	// "-ho(umlaut)z":
-	final public static String translationFixHu_oe = "\u00F6";
-	final public static String translationFixHu_hoez = "h\u00F6z";
+	final public static String TRANSLATION_FIX_HU_OE_STRING = "\u00F6";
+	final public static String TRANSLATION_FIX_HU_HOEZ_STRING = "h\u00F6z";
 
 	// fractions
 
