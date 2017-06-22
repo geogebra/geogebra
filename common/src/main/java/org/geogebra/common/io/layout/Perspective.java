@@ -499,8 +499,10 @@ public class Perspective {
 		// main toolbar
 		sb.append("\t<toolbar show=\"");
 		sb.append(getShowToolBar());
-		sb.append("\" items=\"");
-		sb.append(getToolbarDefinition());
+		if (getToolbarDefinition() != null) {
+			sb.append("\" items=\"");
+			sb.append(getToolbarDefinition());
+		}
 		sb.append("\" position=\"");
 		sb.append(getToolBarPosition());
 		sb.append("\" help=\"");

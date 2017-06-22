@@ -283,7 +283,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 */
 	@Override
 	public Perspective createPerspective(String id) {
-		if(app == null || dockManager.getRoot() == null) {
+		if (app == null) {
 			return null;
 		}
 		
@@ -292,46 +292,57 @@ public class LayoutW extends Layout implements SettingListener {
 		EuclidianView ev = app.getEuclidianView1();
 		Perspective perspective = new Perspective(id);
 
-		// get the information about the split panes
-		DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(
-				app);
-		perspective.setSplitPaneData(spTreeReader.getInfo(dockManager.getRoot()));
+		if (dockManager.getRoot() != null) {
+			// get the information about the split panes
+			DockSplitPaneW.TreeReader spTreeReader = new DockSplitPaneW.TreeReader(
+					app);
+			perspective.setSplitPaneData(
+					spTreeReader.getInfo(dockManager.getRoot()));
 
-		// get the information about the dock panels
-		DockPanelW[] panels = dockManager.getPanels();
-		DockPanelData[] dockPanelInfo = new DockPanelData[panels.length];
+			// get the information about the dock panels
+			DockPanelW[] panels = dockManager.getPanels();
+			DockPanelData[] dockPanelInfo = new DockPanelData[panels.length];
 
-		for (int i = 0; i < panels.length; ++i) {
-			// just the width of the panels isn't updated every time the panel
-			// is updated, so we have to take care of this by ourself
-			if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
-				DockSplitPaneW parent = panels[i].getParentSplitPane();
-				if (parent.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
-					panels[i].setEmbeddedSize(panels[i].getWidth());
-				} else {
-					panels[i].setEmbeddedSize(panels[i].getHeight());
+			for (int i = 0; i < panels.length; ++i) {
+				// just the width of the panels isn't updated every time the
+				// panel
+				// is updated, so we have to take care of this by ourself
+				if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
+					DockSplitPaneW parent = panels[i].getParentSplitPane();
+					if (parent
+							.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
+						panels[i].setEmbeddedSize(panels[i].getWidth());
+					} else {
+						panels[i].setEmbeddedSize(panels[i].getHeight());
+					}
+					panels[i].setEmbeddedDef(panels[i].calculateEmbeddedDef());
 				}
-				panels[i].setEmbeddedDef(panels[i].calculateEmbeddedDef());
+				dockPanelInfo[i] = panels[i].createInfo();
 			}
-			dockPanelInfo[i] = panels[i].createInfo();
+
+			// Sort the dock panels as the entries with the smallest amount of
+			// definition should
+			// be read first by the loading algorithm.
+			Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
+				@Override
+				public int compare(DockPanelData o1, DockPanelData o2) {
+					int diff = o2.getEmbeddedDef().length()
+							- o1.getEmbeddedDef().length();
+					return diff;
+				}
+			});
+
+			perspective.setDockPanelData(dockPanelInfo);
+		} else {
+			perspective.setSplitPaneData(
+					Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1)
+							.getSplitPaneData());
+			perspective.setDockPanelData(
+					Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1)
+							.getDockPanelData());
 		}
-
-		// Sort the dock panels as the entries with the smallest amount of
-		// definition should
-		// be read first by the loading algorithm.
-		Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
-			@Override
-			public int compare(DockPanelData o1, DockPanelData o2) {
-				int diff = o2.getEmbeddedDef().length()
-						- o1.getEmbeddedDef().length();
-				return diff;
-			}
-		});
-		
-		perspective.setDockPanelData(dockPanelInfo);
-
 		perspective.setToolbarDefinition(((GuiManagerW) app.getGuiManager())
-		        .getGeneralToolbarDefinition());
+				.getGeneralToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());
