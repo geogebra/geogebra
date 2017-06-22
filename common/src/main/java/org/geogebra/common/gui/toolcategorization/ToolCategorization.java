@@ -10,15 +10,32 @@ import org.geogebra.common.main.Feature;
 
 public class ToolCategorization {
 
+	/**
+	 * levels of toolset
+	 * 
+	 * @author csilla
+	 *
+	 */
 	public enum ToolsetLevel {
-		EMPTY, STANDARD, ADVANCED
+		/**
+		 * for empty construction
+		 */
+		EMPTY,
+		/**
+		 * non-empty construction
+		 */
+		STANDARD,
+		/**
+		 * full list of tools
+		 */
+		ADVANCED
 	}
 
     public enum Type {GEOMETRY_CALC, GRAPHING_CALCULATOR, GRAPHER_3D}
 
     public enum Category {
         // from Geometry & Graphing Calculator
-		SIMPLE("ToolCategory.Simple"),
+		BASIC("ToolCategory.Basic"),
 
 		EDIT("ToolCategory.Edit"),
 
@@ -26,7 +43,7 @@ public class ToolCategorization {
 
 		CONSTRUCT("ToolCategory.Construct"),
 
-		ANGLES_AND_MEASURING("ToolCategory.AnglesAndMeasuring"),
+		MEASURE("ToolCategory.Measure"),
 
 		POINTS("ToolCategory.Points"),
 
@@ -40,7 +57,7 @@ public class ToolCategorization {
 
 		CONICS("ToolCategory.Conics"),
 
-        TRANSFORMATIONS("ToolCategory.Transformations"),
+		TRANSFORM("ToolCategory.Transform"),
 
         SPECIAL_LINES("ToolCategory.SpecialLines"),
 
@@ -156,7 +173,7 @@ public class ToolCategorization {
         ArrayList<Integer> tools;
         switch (type) {
             case GEOMETRY_CALC:
-                category = Category.SIMPLE;
+			category = Category.BASIC;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MOVE);
                 addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
@@ -173,7 +190,7 @@ public class ToolCategorization {
 
             case GRAPHING_CALCULATOR:
             default:
-                category = Category.SIMPLE;
+			category = Category.BASIC;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MOVE);
                 addToList(tools, EuclidianConstants.MODE_POINT);
@@ -191,7 +208,7 @@ public class ToolCategorization {
                 break;
 
             case GRAPHER_3D:
-                category = Category.SIMPLE;
+			category = Category.BASIC;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MOVE);
                 addToList(tools, EuclidianConstants.MODE_POINT);
@@ -278,7 +295,7 @@ public class ToolCategorization {
                 addToList(tools, EuclidianConstants.MODE_INTERSECTION_CURVE);
                 storeIfNotEmpty(category, tools);
 
-                category = Category.TRANSFORMATIONS;
+			category = Category.TRANSFORM;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_MIRROR_AT_PLANE);
                 addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
@@ -288,7 +305,7 @@ public class ToolCategorization {
                 addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
                 storeIfNotEmpty(category, tools);
 
-                category = Category.ANGLES_AND_MEASURING;
+			category = Category.MEASURE;
                 tools = new ArrayList<Integer>();
                 addToList(tools, EuclidianConstants.MODE_ANGLE);
                 addToList(tools, EuclidianConstants.MODE_DISTANCE);
@@ -321,6 +338,78 @@ public class ToolCategorization {
     }
 
 	private void buildGraphingCalculatorCommonTools() {
+		if (level.equals(ToolsetLevel.ADVANCED)) {
+			buildGraphingAdvancedCommonTools();
+		} else {
+			buildGraphingStandardCommonTools();
+		}
+
+	}
+
+	private void buildGraphingStandardCommonTools() {
+		Category category;
+		ArrayList<Integer> tools;
+
+		category = Category.EDIT;
+		tools = new ArrayList<Integer>();
+		if (app.has(Feature.MOB_SELECT_TOOL)) {
+			addToList(tools, EuclidianConstants.MODE_SELECT);
+		}
+		addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
+		addToList(tools, EuclidianConstants.MODE_DELETE);
+		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
+		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+		storeIfNotEmpty(category, tools);
+
+		if (!isPhoneApp) {
+			category = Category.MEDIA;
+			tools = new ArrayList<Integer>();
+			addToList(tools, EuclidianConstants.MODE_IMAGE);
+			addToList(tools, EuclidianConstants.MODE_TEXT);
+			storeIfNotEmpty(category, tools);
+		}
+
+		category = Category.MEASURE;
+		tools = new ArrayList<Integer>();
+		addToList(tools, EuclidianConstants.MODE_ANGLE);
+		addToList(tools, EuclidianConstants.MODE_DISTANCE);
+		addToList(tools, EuclidianConstants.MODE_AREA);
+		storeIfNotEmpty(category, tools);
+
+		category = Category.TRANSFORM;
+		tools = new ArrayList<Integer>();
+		addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
+		addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
+		addToList(tools, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR);
+		storeIfNotEmpty(category, tools);
+
+		category = Category.CONSTRUCT;
+		tools = new ArrayList<Integer>();
+		addToList(tools, EuclidianConstants.MODE_MIDPOINT);
+		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
+		addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
+		addToList(tools, EuclidianConstants.MODE_PARALLEL);
+		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
+		addToList(tools, EuclidianConstants.MODE_TANGENTS);
+		storeIfNotEmpty(category, tools);
+
+		category = Category.LINES;
+		tools = new ArrayList<Integer>();
+		addToList(tools, EuclidianConstants.MODE_SEGMENT);
+		addToList(tools, EuclidianConstants.MODE_JOIN);
+		addToList(tools, EuclidianConstants.MODE_RAY);
+		addToList(tools, EuclidianConstants.MODE_VECTOR);
+		storeIfNotEmpty(category, tools);
+
+		category = Category.CIRCLES;
+		tools = new ArrayList<Integer>();
+		addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
+		addToList(tools, EuclidianConstants.MODE_COMPASSES);
+		addToList(tools, EuclidianConstants.MODE_SEMICIRCLE);
+		storeIfNotEmpty(category, tools);
+	}
+
+	private void buildGraphingAdvancedCommonTools() {
         Category category;
         ArrayList<Integer> tools;
 
@@ -344,18 +433,7 @@ public class ToolCategorization {
 			storeIfNotEmpty(category, tools);
 		}
 
-		category = Category.CONSTRUCT;
-		tools = new ArrayList<Integer>();
-		addToList(tools, EuclidianConstants.MODE_MIDPOINT);
-		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
-		addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
-		addToList(tools, EuclidianConstants.MODE_PARALLEL);
-		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
-		addToList(tools, EuclidianConstants.MODE_TANGENTS);
-		addToList(tools, EuclidianConstants.MODE_LOCUS);
-		storeIfNotEmpty(category, tools);
-
-		category = Category.ANGLES_AND_MEASURING;
+		category = Category.MEASURE;
 		tools = new ArrayList<Integer>();
 		addToList(tools, EuclidianConstants.MODE_ANGLE);
 		addToList(tools, EuclidianConstants.MODE_DISTANCE);
@@ -373,6 +451,17 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_EXTREMUM);
 		addToList(tools, EuclidianConstants.MODE_ROOTS);
 		addToList(tools, EuclidianConstants.MODE_COMPLEX_NUMBER);
+		storeIfNotEmpty(category, tools);
+
+		category = Category.CONSTRUCT;
+		tools = new ArrayList<Integer>();
+		addToList(tools, EuclidianConstants.MODE_MIDPOINT);
+		addToList(tools, EuclidianConstants.MODE_ORTHOGONAL);
+		addToList(tools, EuclidianConstants.MODE_LINE_BISECTOR);
+		addToList(tools, EuclidianConstants.MODE_PARALLEL);
+		addToList(tools, EuclidianConstants.MODE_ANGULAR_BISECTOR);
+		addToList(tools, EuclidianConstants.MODE_TANGENTS);
+		addToList(tools, EuclidianConstants.MODE_LOCUS);
 		storeIfNotEmpty(category, tools);
 
         category = Category.LINES;
@@ -417,7 +506,7 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS);
 		storeIfNotEmpty(category, tools);
 
-        category = Category.TRANSFORMATIONS;
+		category = Category.TRANSFORM;
         tools = new ArrayList<Integer>();
         addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
         addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
@@ -496,7 +585,7 @@ public class ToolCategorization {
 				EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
 		storeIfNotEmpty(category, tools);
 
-		category = Category.ANGLES_AND_MEASURING;
+		category = Category.MEASURE;
 		tools = new ArrayList<Integer>();
 		addToList(tools, EuclidianConstants.MODE_ANGLE);
 		addToList(tools, EuclidianConstants.MODE_ANGLE_FIXED);
@@ -521,7 +610,7 @@ public class ToolCategorization {
 			storeIfNotEmpty(category, tools);
 		}
 
-		category = Category.TRANSFORMATIONS;
+		category = Category.TRANSFORM;
 		tools = new ArrayList<Integer>();
 		addToList(tools, EuclidianConstants.MODE_MIRROR_AT_LINE);
 		addToList(tools, EuclidianConstants.MODE_MIRROR_AT_POINT);
