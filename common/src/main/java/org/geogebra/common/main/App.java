@@ -4997,25 +4997,25 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public ToolCategorization createToolCategorization() {
-		ToolCategorization.Type type;
+		ToolCategorization.AppType type;
 		boolean isPhoneApp;
 		switch (getVersion()) {
 			case ANDROID_NATIVE_GRAPHING:
 			case IOS_NATIVE:
-				type = ToolCategorization.Type.GRAPHING_CALCULATOR;
+			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
 				isPhoneApp = true;
 				break;
 			case ANDROID_GEOMETRY:
 			case IOS_GEOMETRY:
-				type = ToolCategorization.Type.GEOMETRY_CALC;
+			type = ToolCategorization.AppType.GEOMETRY_CALC;
 				isPhoneApp = true;
 				break;
 			case ANDROID_NATIVE_3D:
-				type = ToolCategorization.Type.GRAPHER_3D;
+			type = ToolCategorization.AppType.GRAPHER_3D;
 				isPhoneApp = true;
 				break;
 			default:
-				type = ToolCategorization.Type.GRAPHING_CALCULATOR;
+			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
 				isPhoneApp = false;
 				break;
 		}

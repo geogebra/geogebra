@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.Type;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -82,9 +82,9 @@ public class Tools extends FlowPanel {
 
 		int activePerspective = app.getActivePerspective();
 
-		Type type = ToolCategorization.Type.GRAPHING_CALCULATOR;
+		AppType type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
-			type = ToolCategorization.Type.GRAPHER_3D;
+			type = ToolCategorization.AppType.GRAPHER_3D;
 		}
 
 		mToolCategorization = new ToolCategorization(app,
