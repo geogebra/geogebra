@@ -496,22 +496,7 @@ public abstract class Layout implements SettingListener {
 	 */
 	public final void getXml(StringBuilder sb, boolean asPreference) {
 
-		sb.append("\t<perspectives>\n");
-
-		// save the current perspective
-		getCurrentPerspectiveXML(sb);
-
-		// save all custom perspectives as well
-		for (Perspective perspective : perspectives) {
-			// skip old temporary perspectives
-			if (perspective.getId().equals("tmp")) {
-				continue;
-			}
-
-			sb.append(perspective.getXml());
-		}
-
-		sb.append("\t</perspectives>\n");
+		getPerspectiveXML(sb, createPerspective("tmp"), perspectives);
 
 		/**
 		 * Certain user elements should be just saved as preferences and not if
@@ -527,6 +512,37 @@ public abstract class Layout implements SettingListener {
 			sb.append(settings.isAllowingStyleBar());
 			sb.append("\" />\n");
 		}
+
+	}
+
+	/**
+	 * @param sb
+	 *            string builder
+	 * @param tmpPerspective
+	 *            current perspective
+	 * @param perspectives2
+	 *            additional perspectives
+	 */
+	public static void getPerspectiveXML(StringBuilder sb,
+			Perspective tmpPerspective, ArrayList<Perspective> perspectives2) {
+		sb.append("\t<perspectives>\n");
+
+		// save the current perspective
+		if (tmpPerspective != null) {
+			sb.append(tmpPerspective.getXml());
+		}
+
+		// save all custom perspectives as well
+		for (Perspective perspective : perspectives2) {
+			// skip old temporary perspectives
+			if (perspective.getId().equals("tmp")) {
+				continue;
+			}
+
+			sb.append(perspective.getXml());
+		}
+
+		sb.append("\t</perspectives>\n");
 
 	}
 

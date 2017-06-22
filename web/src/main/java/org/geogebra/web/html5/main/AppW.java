@@ -21,6 +21,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.UtilFactory;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
@@ -2204,6 +2205,12 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		if (getGuiManager() != null) {
 			getGuiManager().getLayout().getXml(sb, asPreference);
+		} else {
+			Perspective perspective = new Perspective("tmp");
+			// TODO
+			// perspective.setToolbarDefinition(getSettings().getToolbarSettings().getToolbarDefinition());
+			Layout.getPerspectiveXML(sb, perspective,
+					new ArrayList<Perspective>());
 		}
 	}
 
