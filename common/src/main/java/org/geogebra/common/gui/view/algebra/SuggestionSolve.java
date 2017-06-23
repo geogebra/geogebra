@@ -6,18 +6,28 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 
 public class SuggestionSolve extends Suggestion {
 	
+	private String[] labels;
+
 	public SuggestionSolve(String... labels) {
-		super(labels);
+		this.labels = labels;
 	}
 
 	@Override
 	public String getCommand(Localization loc) {
 		return loc.getCommand("Solve");
 	}
-	
+
+	public String getLabels(GeoElementND geo) {
+		if (labels == null || labels.length < 1) {
+			return geo.getLabelSimple();
+		}
+		return "{" + StringUtil.join(", ", labels) + "," + geo.getLabelSimple()
+				+ "}";
+	}
 	@Override
 	public void execute(GeoElementND geo) {
 		geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
@@ -29,7 +39,7 @@ public class SuggestionSolve extends Suggestion {
 				&& !hasDependentAlgo(geo, Commands.Solve, Commands.NSolve)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars.length == 1) {
-				return new SuggestionSolve(geo.getLabelSimple());
+				return new SuggestionSolve();
 			}
 			if (vars.length == 2) {
 				return getMulti(geo, vars);
@@ -47,8 +57,7 @@ public class SuggestionSolve extends Suggestion {
 					((EquationValue) prev).getEquationVariables(), vars)
 					&& !hasDependentAlgo(prev, Commands.Solve,
 							Commands.NSolve)) {
-				return new SuggestionSolve(prev.getLabelSimple(),
-						geo.getLabelSimple());
+				return new SuggestionSolve(prev.getLabelSimple());
 			}
 		} while (prev != null);
 		return null;

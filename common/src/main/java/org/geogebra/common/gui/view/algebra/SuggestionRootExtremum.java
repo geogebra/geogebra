@@ -9,10 +9,6 @@ import org.geogebra.common.main.Localization;
 
 public class SuggestionRootExtremum extends Suggestion {
 	
-	public SuggestionRootExtremum(String... labels) {
-		super(labels);
-	}
-
 	@Override
 	public String getCommand(Localization loc) {
 		return loc.getMenu("Suggestion.SpecialPoints");
@@ -25,14 +21,15 @@ public class SuggestionRootExtremum extends Suggestion {
 				((GeoFunction) geo).getFunctionExpression(), false, true);
 		if (poly == null || poly.getDegree() > 0) {
 			geo.getKernel().getAlgebraProcessor()
-				.processAlgebraCommand("Root[" + getLabels(geo) + "]", true);
+					.processAlgebraCommand("Root[" + geo.getLabelSimple() + "]",
+							true);
 		}
 		if (poly == null || poly.getDegree() > 1) {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-				"Extremum[" + getLabels(geo) + "]", true);
+					"Extremum[" + geo.getLabelSimple() + "]", true);
 		} else {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Intersect[" + getLabels(geo) + ",yAxis]", true);
+					"Intersect[" + geo.getLabelSimple() + ",yAxis]", true);
 		}
 	}
 
@@ -41,7 +38,7 @@ public class SuggestionRootExtremum extends Suggestion {
 				&& !hasDependentAlgo(geo, Commands.Root, Commands.Extremum)) {
 			GeoFunction geoFun = (GeoFunction) geo;
 			if (!geoFun.isBooleanFunction()) {
-				return new SuggestionRootExtremum(geo.getLabelSimple());
+				return new SuggestionRootExtremum();
 			}
 		}
 		return null;

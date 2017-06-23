@@ -70,6 +70,8 @@ import com.himamis.retex.renderer.share.CursorBox;
 import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
@@ -110,6 +112,9 @@ public class MathFieldW implements MathField, IsWidget {
 	 */
 	public MathFieldW(Panel parent, Canvas canvas,
 			MathFieldListener listener, boolean directFormulaBuilder) {
+		if (FactoryProvider.getInstance() == null) {
+			FactoryProvider.setInstance(new FactoryProviderGWT());
+		}
 		html = canvas;
 		bottomOffset = 10;
 		this.parent = parent;

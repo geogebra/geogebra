@@ -5,22 +5,13 @@ import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.StringUtil;
 
 abstract public class Suggestion {
-	private String[] labels;
 
-	public Suggestion(String... labels) {
-		this.labels = labels;
+	public Suggestion() {
 	}
 
-	public String getLabels(GeoElementND geo) {
-		if (labels[labels.length - 1] == null) {
-			labels[labels.length - 1] = geo.getLabelSimple();
-		}
-		return labels.length == 1 ? labels[0]
-				: "{" + StringUtil.join(", ", labels) + "}";
-	}
+	
 	
 	static boolean hasDependentAlgo(GeoElementND geo, Commands test1,
 			Commands test2) {
