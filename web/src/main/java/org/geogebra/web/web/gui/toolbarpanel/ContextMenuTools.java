@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -70,7 +71,8 @@ public class ContextMenuTools implements SetLabels {
 		// addToolItems();
 		addToolFilterItem();
 		addToolManageItems();
-		setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
+		setToolsetLevel(app.getSettings().getToolbarSettings().getType() == AppType.GEOMETRY_CALC? 
+				ToolsetLevel.EMPTY_CONSTRUCTION:ToolsetLevel.STANDARD);
 	}
 
 	private Command cmdReposition = new Command() {
@@ -108,7 +110,9 @@ public class ContextMenuTools implements SetLabels {
 			supportedLevels.clear();
 			supportedLevels.add(ToolsetLevel.ADVANCED);
 			supportedLevels.add(ToolsetLevel.STANDARD);
-			supportedLevels.add(ToolsetLevel.EMPTY_CONSTRUCTION);
+			if (app.getSettings().getToolbarSettings().getType() == AppType.GEOMETRY_CALC) {
+				supportedLevels.add(ToolsetLevel.EMPTY_CONSTRUCTION);
+			}
 			for (int i = 0; i <supportedLevels.size() ; i++) {
 				final ToolsetLevel level = supportedLevels.get(i);
 				String levelTitle = app.getLocalization()

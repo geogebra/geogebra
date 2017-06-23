@@ -2,6 +2,7 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 
 /**
@@ -13,6 +14,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 public class ToolbarSettings extends AbstractSettings {
 
 	private static ToolsetLevel toolsetLevel = ToolsetLevel.EMPTY_CONSTRUCTION;
+	private static AppType type = AppType.GRAPHING_CALCULATOR;
 
 	/**
 	 * @param listeners
@@ -43,6 +45,14 @@ public class ToolbarSettings extends AbstractSettings {
 	 */
 	public ToolsetLevel getToolsetLevel() {
 		return toolsetLevel;
+	}
+	
+	public AppType getType() {
+		return type;
+	}
+
+	public void setType(AppType type) {
+		ToolbarSettings.type = type;
 	}
 
 }

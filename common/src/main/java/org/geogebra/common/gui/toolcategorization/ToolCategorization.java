@@ -110,6 +110,7 @@ public class ToolCategorization {
 	public ToolCategorization(App app, AppType type, ToolsetLevel level,
 			boolean isPhoneApp) {
         this.app = app;
+        app.getSettings().getToolbarSettings().setType(type);
         toolsLists = new ArrayList<ArrayList<Integer>>();
         customizedCategories = new ArrayList<Category>();
         this.type = type;
