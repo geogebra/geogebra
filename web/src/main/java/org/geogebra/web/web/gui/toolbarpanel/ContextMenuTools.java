@@ -106,10 +106,10 @@ public class ContextMenuTools implements SetLabels {
 			}
 
 			supportedLevels.clear();
-			supportedLevels.add(ToolsetLevel.EMPTY_CONSTRUCTION);
-			supportedLevels.add(ToolsetLevel.STANDARD);
 			supportedLevels.add(ToolsetLevel.ADVANCED);
-			for (int i = 0; i < supportedLevels.size(); i++) {
+			supportedLevels.add(ToolsetLevel.STANDARD);
+			supportedLevels.add(ToolsetLevel.EMPTY_CONSTRUCTION);
+			for (int i = 0; i <supportedLevels.size() ; i++) {
 				final ToolsetLevel level = supportedLevels.get(i);
 				String levelTitle = app.getLocalization()
 						.getMenu(level.toString());

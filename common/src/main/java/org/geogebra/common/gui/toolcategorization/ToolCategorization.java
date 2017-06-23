@@ -18,17 +18,17 @@ public class ToolCategorization {
 	 */
 	public enum ToolsetLevel {
 		/**
-		 * for empty construction
+		 * full list of tools
 		 */
-		EMPTY_CONSTRUCTION,
+		ADVANCED,
 		/**
 		 * non-empty construction
 		 */
 		STANDARD,
 		/**
-		 * full list of tools
+		 * for empty construction
 		 */
-		ADVANCED
+		EMPTY_CONSTRUCTION	
 	}
 
 	public enum AppType {
