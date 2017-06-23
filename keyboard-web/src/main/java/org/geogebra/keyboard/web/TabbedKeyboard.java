@@ -498,9 +498,6 @@ public class TabbedKeyboard extends FlowPanel {
 			if (wb.getActionName().equals("" + Unicode.LCEIL)) {
 				return new KeyBoardButtonBase(KeyboardConstants.CEIL, wb.getActionName(), bh);
 			}
-			if (wb.getActionName().equals("(")) {
-				return new KeyBoardButtonBase("(", "()", b);
-			}
 			return new KeyBoardButtonBase(wb.getActionName(),
 					wb.getActionName(), b);
 		}
