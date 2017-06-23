@@ -13,8 +13,8 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
  */
 public class ToolbarSettings extends AbstractSettings {
 
-	private static ToolsetLevel toolsetLevel = ToolsetLevel.STANDARD;
-	private static AppType type = AppType.GRAPHING_CALCULATOR;
+	private ToolsetLevel toolsetLevel = ToolsetLevel.STANDARD;
+	private AppType type = AppType.GRAPHING_CALCULATOR;
 
 	/**
 	 * @param listeners
@@ -52,7 +52,7 @@ public class ToolbarSettings extends AbstractSettings {
 	}
 
 	public void setType(AppType type) {
-		ToolbarSettings.type = type;
+		this.type = type;
 	}
 
 }

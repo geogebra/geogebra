@@ -46,7 +46,6 @@ public class ContextMenuTools implements SetLabels {
 	AppW app;
 
 	private ToolsetLevel toolsetLevel = ToolsetLevel.ADVANCED;
-	private String checkmarkUrl = null;
 
 	/**
 	 * Creates new context menu
@@ -160,26 +159,6 @@ public class ContextMenuTools implements SetLabels {
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		subToolFilter = new ToolFilterSubMenu(ci);
 		subToolFilter.update();
-
-	}
-
-	/**
-	 * Adds a menu item with checkmark
-	 * 
-	 * @param text
-	 *            of the item
-	 * @param selected
-	 *            if checkmark should be shown or not
-	 * @param command
-	 *            to execute when selected.
-	 */
-	public void addCheckmarkItem(String text, boolean selected,
-			Command command) {
-		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text,
-				checkmarkUrl,
-				selected, command);
-		wrappedPopup.addItem(cm.getMenuItem());
-		checkmarkItems.add(cm);
 
 	}
 
