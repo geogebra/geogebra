@@ -2773,6 +2773,7 @@ __GGB__keysVar.sk.menu = {
     "Tool.Replace": "Vymeni\u0165",
     "Tool.ReplaceQuestion": "Chcete naozaj vymeni\u0165 existuj\xfaci n\xe1stroj \"%0\"?",
     "Tool.SelectObjects": "Vyber objekty v kon\u0161trukcii alebo zo zoznamu",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

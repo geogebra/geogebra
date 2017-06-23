@@ -2773,6 +2773,7 @@ __GGB__keysVar.ro.menu = {
     "Tool.Replace": "\xcenlocuie\u015fte",
     "Tool.ReplaceQuestion": "Vre\u021bi \xeentr-adev\u0103r s\u0103 \xeenlocuiasc\u0103 instrumentul existent \"%0\"?",
     "Tool.SelectObjects": "Selecta\u0163i obiectele din construc\u0163ie sau alege\u0163i din list\u0103",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

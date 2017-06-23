@@ -2773,6 +2773,7 @@ __GGB__keysVar.is.menu = {
     "Tool.Replace": "Skipta \xfat",
     "Tool.ReplaceQuestion": "Ertu viss um a\xf0 \xfe\xfa viljir skipta \xfat \"%0\" sem til er?",
     "Tool.SelectObjects": "Velji\xf0 hlut \xfar myndsm\xed\xf0 e\xf0a \xfar lista",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Hringar",
     "ToolCategory.Conics": "Einf\xf6ld s\xfdn",
     "ToolCategory.Construct": "Construct",

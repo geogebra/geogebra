@@ -2773,6 +2773,7 @@ __GGB__keysVar.ko.menu = {
     "Tool.Replace": "\uad50\uccb4",
     "Tool.ReplaceQuestion": "\uae30\uc874\uc758 \"%0\" \ub3c4\uad6c\ub97c \uad50\uccb4\ud558\uae30 \uc6d0\ud558\uc2ed\ub2c8\uae4c?",
     "Tool.SelectObjects": "\uad6c\uc131\uc5d0\uc11c \ub300\uc0c1\uc744 \uc120\ud0dd\ud558\uac70\ub098, \ub9ac\uc2a4\ud2b8\ub85c\ubd80\ud130 \uc120\ud0dd\ud558\uc138\uc694",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "\uc6d0",
     "ToolCategory.Conics": "\uc6d0\ubfd4(\uc774\ucc28)\uace1\uc120",
     "ToolCategory.Construct": "\uad6c\uc131",

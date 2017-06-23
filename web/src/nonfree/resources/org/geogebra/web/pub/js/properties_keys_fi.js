@@ -2773,6 +2773,7 @@ __GGB__keysVar.fi.menu = {
     "Tool.Replace": "Korvaa",
     "Tool.ReplaceQuestion": "Haluatko varmasti korvata olemassaolevan ty\xf6kalun \"%0\"?",
     "Tool.SelectObjects": "Valitse objektit piirroksesta tai listalta",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Ympyr\xe4t",
     "ToolCategory.Conics": "Perus",
     "ToolCategory.Construct": "Construct",

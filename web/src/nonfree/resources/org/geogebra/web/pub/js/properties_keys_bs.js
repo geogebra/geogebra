@@ -2773,6 +2773,7 @@ __GGB__keysVar.bs.menu = {
     "Tool.Replace": "Zamijeni",
     "Tool.ReplaceQuestion": "Da li stvarno \u017eelite zamijeniti postoje\u0107i alat \"%0\"?",
     "Tool.SelectObjects": "Ozna\u010dite figure u konstrukciji ili izaberite s liste",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

@@ -2773,6 +2773,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Tool.Replace": "Csere",
     "Tool.ReplaceQuestion": "Val\xf3ban ki akarja cser\xe9lni a l\xe9tez\u0151 \"%0\" eszk\xf6zt?",
     "Tool.SelectObjects": "Alakzatok kiv\xe1laszt\xe1sa a rajzlapr\xf3l vagy a list\xe1b\xf3l",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

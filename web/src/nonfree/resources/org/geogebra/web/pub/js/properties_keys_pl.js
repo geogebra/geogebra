@@ -2773,6 +2773,7 @@ __GGB__keysVar.pl.menu = {
     "Tool.Replace": "Zast\u0105p",
     "Tool.ReplaceQuestion": "Czy na pewno chcesz zast\u0105pi\u0107 istniej\u0105ce narz\u0119dzie \"%0\"?",
     "Tool.SelectObjects": "Wybierz obiekty w konstrukcji lub wybierz z listy",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

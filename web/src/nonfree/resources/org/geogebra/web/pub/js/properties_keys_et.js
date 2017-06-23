@@ -2773,6 +2773,7 @@ __GGB__keysVar.et.menu = {
     "Tool.Replace": "Asenda",
     "Tool.ReplaceQuestion": "Kas oled kindel, et soovid asendada t\xf6\xf6riista \"%0\"?",
     "Tool.SelectObjects": "Valige objektid konstruktsioonist v\xf5i loendist",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

@@ -2773,6 +2773,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Tool.Replace": "\u8986\u84cb",
     "Tool.ReplaceQuestion": "\u4f60\u771f\u7684\u8981\u8986\u84cb %0 \u5de5\u5177\u6a94\u55ce\uff1f",
     "Tool.SelectObjects": "\u8acb\u5728\u300c\u7e6a\u5716\u5340\u300d\u6216\u300c\u4ee3\u6578\u5340\u300d\u9078\u53d6\u60a8\u8981\u7684\u7269\u4ef6",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

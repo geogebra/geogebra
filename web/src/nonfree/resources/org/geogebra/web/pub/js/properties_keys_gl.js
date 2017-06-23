@@ -2773,6 +2773,7 @@ __GGB__keysVar.gl.menu = {
     "Tool.Replace": "Substitu\xedr, cambiar",
     "Tool.ReplaceQuestion": "Realmente queres substitu\xedr a ferramenta existente \"%0\"?",
     "Tool.SelectObjects": "Escoller obxectos da construci\xf3n ou dunha lista",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

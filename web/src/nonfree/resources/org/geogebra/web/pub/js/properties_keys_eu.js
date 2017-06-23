@@ -2773,6 +2773,7 @@ __GGB__keysVar.eu.menu = {
     "Tool.Replace": "Ordezkatu",
     "Tool.ReplaceQuestion": "Existitzen den tresna benetan ordezkatu nahi al duzu \"%0\"?",
     "Tool.SelectObjects": "Hautatu eraikuntzaren objektuak edo zerrendatik",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

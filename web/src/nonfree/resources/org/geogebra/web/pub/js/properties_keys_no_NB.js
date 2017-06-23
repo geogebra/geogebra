@@ -2773,6 +2773,7 @@ __GGB__keysVar.no_NB.menu = {
     "Tool.Replace": "Erstatt",
     "Tool.ReplaceQuestion": "\xd8nsker du virkelig \xe5 erstatte det eksisterende verkt\xf8yet \"%0\"?",
     "Tool.SelectObjects": "Velg objekt i figuren eller fra liste",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

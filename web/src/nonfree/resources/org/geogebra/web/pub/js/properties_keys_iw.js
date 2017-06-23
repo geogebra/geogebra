@@ -2773,6 +2773,7 @@ __GGB__keysVar.iw.menu = {
     "Tool.Replace": "\u05d4\u05d7\u05dc\u05e4\u05d4",
     "Tool.ReplaceQuestion": "\u05d4\u05d0\u05dd \u05d0\u05ea \u05d1\u05d0\u05de\u05ea \u05e8\u05d5\u05e6\u05d4 \u05dc\u05d4\u05d7\u05dc\u05d9\u05e3 \u05d0\u05ea \u05d4\u05db\u05dc\u05d9 \u05d4\u05e7\u05d9\u05d9\u05dd \"\u200f\u200e%0\u200e\u200f\"?\u200f",
     "Tool.SelectObjects": "\u05d1\u05d7\u05e8 \u05e2\u05e6\u05de\u05d9\u05dd \u05d1\u05d1\u05e0\u05d9\u05d9\u05d4 \u05d0\u05d5 \u05d1\u05d7\u05e8 \u05de\u05d4\u05e8\u05e9\u05d9\u05de\u05d4",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

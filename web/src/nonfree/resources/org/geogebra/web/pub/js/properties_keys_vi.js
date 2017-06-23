@@ -2773,6 +2773,7 @@ __GGB__keysVar.vi.menu = {
     "Tool.Replace": "Replace",
     "Tool.ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "Tool.SelectObjects": "Ch\u1ecdn c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng trong c\xe1ch d\u1ef1ng h\xecnh ho\u1eb7c ch\u1ecdn trong danh s\xe1ch",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

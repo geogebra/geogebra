@@ -2773,6 +2773,7 @@ __GGB__keysVar.ca.menu = {
     "Tool.Replace": "Reempla\xe7a l'eina",
     "Tool.ReplaceQuestion": "Realment voleu reempla\xe7ar l\'eina existent amb el nom \"%0\"?",
     "Tool.SelectObjects": "Seleccioneu els objectes a la finestra gr\xe0fica o escolliu-los de la llista",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

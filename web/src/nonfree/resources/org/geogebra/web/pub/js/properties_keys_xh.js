@@ -2773,6 +2773,7 @@ __GGB__keysVar.xh.menu = {
     "Tool.Replace": "Faka eNdaweni yento eBikhona",
     "Tool.ReplaceQuestion": "Ingab uyafuna nyhani ukusitshintsha esisiXhobo singu\"%0\"?",
     "Tool.SelectObjects": "Khetha iziXhobo ezikwiSakhiwo okanye khetha kuluhlu olunikiweyo",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Lula",
     "ToolCategory.Construct": "Construct",

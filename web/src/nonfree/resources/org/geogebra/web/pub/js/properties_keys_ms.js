@@ -2773,6 +2773,7 @@ __GGB__keysVar.ms.menu = {
     "Tool.Replace": "Ganti",
     "Tool.ReplaceQuestion": "Adakah anda ingin menggantikan alatan sedia ada \"%0\"?",
     "Tool.SelectObjects": "Pilih objek-objek dalam pembinaan atau pilih daripada senarai",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

@@ -2773,6 +2773,7 @@ __GGB__keysVar.lt.menu = {
     "Tool.Replace": "Pakeisti",
     "Tool.ReplaceQuestion": "Ar tikrai norite pakeisti \"%0\" \u012frank\u012f?",
     "Tool.SelectObjects": "Pasirinkite objektus lange ar pasirinkite i\u0161 lentel\u0117s",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

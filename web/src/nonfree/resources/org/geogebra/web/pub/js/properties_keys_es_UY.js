@@ -2773,6 +2773,7 @@ __GGB__keysVar.es_UY.menu = {
     "Tool.Replace": "Reemplazar",
     "Tool.ReplaceQuestion": "\xbfEfectivamente va a reemplazarse la herramienta existente \"%0\"?",
     "Tool.SelectObjects": "Objetos (a seleccionar en la construcci\xf3n o de la lista desplegable)",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

@@ -2773,6 +2773,7 @@ __GGB__keysVar.eo.menu = {
     "Tool.Replace": "Anstata\u016digi",
     "Tool.ReplaceQuestion": "\u0108u vi certe volas anstata\u016digi la ekzistantan ilon \u201c%0\u201d?",
     "Tool.SelectObjects": "Select objects in construction or choose from list",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

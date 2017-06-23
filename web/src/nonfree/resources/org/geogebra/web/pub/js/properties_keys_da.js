@@ -2773,6 +2773,7 @@ __GGB__keysVar.da.menu = {
     "Tool.Replace": "Erstat",
     "Tool.ReplaceQuestion": "Er du helt sikker p\xe5 at du vil erstatte det eksisterende v\xe6rkt\xf8j \"%0\"?",
     "Tool.SelectObjects": "V\xe6lg objekter i kontruktionen eller fra listen",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

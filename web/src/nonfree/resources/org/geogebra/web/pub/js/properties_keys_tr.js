@@ -2773,6 +2773,7 @@ __GGB__keysVar.tr.menu = {
     "Tool.Replace": "De\u011fi\u015ftir",
     "Tool.ReplaceQuestion": "Mevcut arac\u0131 \"%0\" ger\xe7ekten de\u011fi\u015ftirmek istiyor musunuz ?",
     "Tool.SelectObjects": "Yap\u0131m a\u015famas\u0131ndaki nesneleri se\xe7in veya listeden se\xe7in",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

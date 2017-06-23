@@ -2773,6 +2773,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Tool.Replace": "Reempla\xe7a la ferramenta",
     "Tool.ReplaceQuestion": "Esteu regur que voleu reempla\xe7ar la ferramenta existent \"%0\"?",
     "Tool.SelectObjects": "Seleccioneu els objectes a la zona gr\xe0fica o trieu-los de la llista",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

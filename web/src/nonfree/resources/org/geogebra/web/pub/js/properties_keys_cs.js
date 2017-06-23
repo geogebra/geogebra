@@ -2773,6 +2773,7 @@ __GGB__keysVar.cs.menu = {
     "Tool.Replace": "Nahradit",
     "Tool.ReplaceQuestion": "Opravdu chcete nahradit st\xe1vaj\xedc\xed n\xe1stroj \"%0\"?",
     "Tool.SelectObjects": "Vybrat objekty v konstrukci nebo ze seznamu",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

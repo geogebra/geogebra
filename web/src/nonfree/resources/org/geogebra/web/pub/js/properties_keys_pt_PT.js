@@ -2773,6 +2773,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Tool.Replace": "Substitua",
     "Tool.ReplaceQuestion": "Deseja realmente substituir a fun\xe7\xe3o \"%0\" j\xe1 existente?",
     "Tool.SelectObjects": "Selecione os objetos na constru\xe7\xe3o ou escolha-os na lista",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circunfer\xeancias",
     "ToolCategory.Conics": "Simple",
     "ToolCategory.Construct": "Construct",

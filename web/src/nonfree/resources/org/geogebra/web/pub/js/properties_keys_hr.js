@@ -2773,6 +2773,7 @@ __GGB__keysVar.hr.menu = {
     "Tool.Replace": "Zamijeni",
     "Tool.ReplaceQuestion": "\u017delite li zamijeniti postoje\u0107i alat \"%0\"?",
     "Tool.SelectObjects": "Odaberite objekte u konstrukciji ili s liste",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Kru\u017enica",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

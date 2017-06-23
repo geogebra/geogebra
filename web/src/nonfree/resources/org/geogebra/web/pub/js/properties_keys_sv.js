@@ -2773,6 +2773,7 @@ __GGB__keysVar.sv.menu = {
     "Tool.Replace": "Byt ut verktyget",
     "Tool.ReplaceQuestion": "Vill du verkligen byta ut det existerande verktyget \"%0\"?",
     "Tool.SelectObjects": "V\xe4lj objekt i konstruktionen eller fr\xe5n listan",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

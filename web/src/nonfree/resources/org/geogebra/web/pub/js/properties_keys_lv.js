@@ -2773,6 +2773,7 @@ __GGB__keysVar.lv.menu = {
     "Tool.Replace": "Replace",
     "Tool.ReplaceQuestion": "Do you really want to replace the existing tool \"%0\"?",
     "Tool.SelectObjects": "Izv\u0113lies objektus konstru\u0113\u0161anai vai atrod tos sarakst\u0101",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

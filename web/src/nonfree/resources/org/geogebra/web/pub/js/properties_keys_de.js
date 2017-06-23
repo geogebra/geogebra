@@ -2773,6 +2773,7 @@ __GGB__keysVar.de.menu = {
     "Tool.Replace": "Ersetzen",
     "Tool.ReplaceQuestion": "M\xf6chten Sie das bereits vorhandene Werkzeug \"%0\" ersetzen?",
     "Tool.SelectObjects": "Objekte in der Konstruktion oder aus der Liste ausw\xe4hlen",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

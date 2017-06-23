@@ -2773,6 +2773,7 @@ __GGB__keysVar.am.menu = {
     "Tool.Replace": "\u1218\u1270\u12ab\u1275",
     "Tool.ReplaceQuestion": "\u1218\u1223\u122a\u12eb\u12cd\u1295 \u1260\u12a5\u122d\u130d\u1325 \u1218\u1270\u12ab\u1275 \u12ed\u1348\u120d\u130b\u1209 \"%0\"?",
     "Tool.SelectObjects": "\u1290\u1308\u122e\u127d \u130e\u1275\u1275 \u12c8\u12ed\u121d \u121d\u1228\u1325 in construction or choose from list",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",

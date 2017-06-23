@@ -2773,6 +2773,7 @@ __GGB__keysVar.ja.menu = {
     "Tool.Replace": "\u7f6e\u304d\u63db\u3048\u308b",
     "Tool.ReplaceQuestion": "\u65e2\u5b58\u306e\u30c4\u30fc\u30eb \"%0\" \u3092\u672c\u5f53\u306b\u4e0a\u66f8\u304d\u3057\u3066\u3082\u3088\u308d\u3057\u3044\u3067\u3059\u304b?",
     "Tool.SelectObjects": "\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306e\u9078\u629e",
+    "ToolCategory.BasicTools": "Basic Tools",
     "ToolCategory.Circles": "Circles",
     "ToolCategory.Conics": "Conics",
     "ToolCategory.Construct": "Construct",
