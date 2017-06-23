@@ -80,17 +80,6 @@ public class Tools extends FlowPanel {
 	public void buildGui() {
 		this.clear();
 
-		int activePerspective = app.getActivePerspective();
-
-		if (activePerspective == Perspective.GRAPHER_3D - 1) {
-			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GRAPHER_3D);
-			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
-		}
-		if (activePerspective == Perspective.GEOMETRY - 1) {
-			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GEOMETRY_CALC);
-			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-		}
-
 		mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(), app.getSettings().getToolbarSettings().getToolsetLevel(), false);
 		mToolCategorization.resetTools();

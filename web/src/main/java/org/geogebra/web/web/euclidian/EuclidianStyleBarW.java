@@ -1040,7 +1040,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							setDefaultColor(alpha, geoColor);
 						}
 
-						this.setKeepVisible(app.has(Feature.NEW_TOOLBAR) ? false : EuclidianConstants.isMoveOrSelectionMode(mode));
+						this.setKeepVisible(!app.has(Feature.NEW_TOOLBAR) && EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}

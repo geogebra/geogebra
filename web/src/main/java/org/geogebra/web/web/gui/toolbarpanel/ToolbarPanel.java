@@ -1,8 +1,10 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -204,7 +206,12 @@ public class ToolbarPanel extends FlowPanel {
 				
 				@Override
 				public void onClick(Widget source) {
-					app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
+					ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
+					if (level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) { 
+						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
+					} else if (level.equals(ToolsetLevel.STANDARD)) {
+						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
+					}
 					updateContent();
 				}
 			});
@@ -212,7 +219,15 @@ public class ToolbarPanel extends FlowPanel {
 				
 				@Override
 				public void onClick(Widget source) {
-					app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
+					ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
+					AppType type = app.getSettings().getToolbarSettings().getType();
+					if (level.equals(ToolsetLevel.ADVANCED)) { 
+						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
+					} else if (level.equals(ToolsetLevel.STANDARD) && type.equals(AppType.GEOMETRY_CALC)) {
+						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
+					} else {
+						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
+					}
 					updateContent();
 				}
 			});
@@ -238,11 +253,11 @@ public class ToolbarPanel extends FlowPanel {
 				switch (level) {
 				case EMPTY_CONSTRUCTION:
 				case STANDARD:
-					add(moreBtn);
+					toolsPanel.add(moreBtn);
 					break;
 					
 				case ADVANCED:
-					add(lessBtn);
+					toolsPanel.add(lessBtn);
 				
 				default:
 					break;
