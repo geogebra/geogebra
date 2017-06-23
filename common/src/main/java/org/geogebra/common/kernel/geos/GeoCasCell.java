@@ -3415,8 +3415,8 @@ public class GeoCasCell extends GeoElement
 		}
 		if (tooltip == null && outputVE != null) {
 			tooltip = getOutput(StringTemplate.defaultTemplate);
-			tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
-			tooltip = tooltip.replace("gGbInTeGrAl(", "\u222b(");
+			tooltip = tooltip.replace("gGbSuM(", Unicode.Sigma + "(");
+			tooltip = tooltip.replace("gGbInTeGrAl(", Unicode.INTEGRAL + "(");
 
 			if (tooltip.length() > SCREEN_WIDTH && tooltip.indexOf('{') > -1) {
 				int listStart = tooltip.indexOf('{');

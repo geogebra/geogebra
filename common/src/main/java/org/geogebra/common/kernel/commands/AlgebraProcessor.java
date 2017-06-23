@@ -1963,9 +1963,9 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processFunction(Function fun, EvalInfo info) {
 		String varName = fun.getVarString(StringTemplate.defaultTemplate);
-		if (varName.equals(Unicode.thetaStr)
+		if (varName.equals(Unicode.theta_STRING)
 				&& !kernel.getConstruction()
-						.isRegistredFunctionVariable(Unicode.thetaStr)
+						.isRegistredFunctionVariable(Unicode.theta_STRING)
 				&& fun.getExpression().evaluatesToNumber(true)) {
 			String label = fun.getLabel();
 			ValidExpression ve = new MyVecNode(kernel, fun.getExpression(),
@@ -2539,8 +2539,9 @@ public class AlgebraProcessor {
 	}
 
 	private void checkNoTheta(Equation equ) {
-		if (equ.getRHS().containsFreeFunctionVariable(Unicode.thetaStr) || equ
-				.getRHS().containsFreeFunctionVariable(Unicode.thetaStr)) {
+		if (equ.getRHS().containsFreeFunctionVariable(Unicode.theta_STRING)
+				|| equ.getRHS()
+						.containsFreeFunctionVariable(Unicode.theta_STRING)) {
 			String[] errors = { "InvalidEquation" };
 			throw new MyError(loc, errors);
 		}

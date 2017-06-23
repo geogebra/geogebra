@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Allows checking whether at least one part of structured expression value has
  * certain property.
@@ -120,7 +122,7 @@ public interface Inspecting {
 								.getRight() instanceof MyVec3DNode) {
 					String str = ((ExpressionNode) v).getLeft()
 							.toString(StringTemplate.defaultTemplate);
-					if ("\u03BB".equals(str)) {
+					if ((Unicode.lambda + "").equals(str)) {
 						nrOfPoints++;
 					}
 				}
@@ -131,7 +133,8 @@ public interface Inspecting {
 					if (!"x".equals(varString) && !"y".equals(varString)
 							&& !"X".equals(varString)
 							&& (dim < 3 || !"z".equals(varString))) {
-						if ("\u03BB".equals(varString) && !isOtherVar
+						if ((Unicode.lambda + "").equals(varString)
+								&& !isOtherVar
 								&& nrOfPoints == 2) {
 							return false;
 						}

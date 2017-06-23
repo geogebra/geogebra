@@ -44,11 +44,11 @@ public class Unicode {
 	public static final char zeta = '\u03B6';
 	public static final char eta = '\u03B7';
 	public static final char theta = '\u03B8';
-	public static final String thetaStr = "\u03B8";
+	public static final String theta_STRING = theta + "";
 	public static final char iota = '\u03B9';
 	public static final char kappa = '\u03BA';
 	public static final char lambda = '\u03BB';
-	public static final String lambdaStr = "\u03BB";
+	public static final String lambda_STRING = lambda + "";
 	public static final char mu = '\u03BC';
 	public static final char nu = '\u03BD';
 	public static final char xi = '\u03BE';
@@ -102,6 +102,7 @@ public class Unicode {
 	public static final char Psi = '\u03A8';
 	public static final char Omega = '\u03A9';
 
+	public static final char INTEGRAL = '\u222b';
 	public static final char SQUARE_ROOT = '\u221a';
 	public static final char PLUSMINUS = '\u00b1';
 	public static final char NOTEQUAL = '\u2260';

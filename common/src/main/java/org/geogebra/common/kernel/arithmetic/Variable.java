@@ -300,7 +300,7 @@ public class Variable extends ValidExpression {
 						new FunctionVariable(kernel, "z"))
 								.power(new MyDouble(kernel, exponents[2])))
 				.multiplyR(new ExpressionNode(kernel,
-						new FunctionVariable(kernel, Unicode.thetaStr))
+						new FunctionVariable(kernel, Unicode.theta_STRING))
 								.power(new MyDouble(kernel, exponents[3])));
 	}
 

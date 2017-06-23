@@ -167,8 +167,8 @@ public class ParametricProcessor {
 		if (undefinedVariables.contains("t")) {
 			return "t";
 		}
-		if (undefinedVariables.contains(Unicode.thetaStr)) {
-			return Unicode.thetaStr;
+		if (undefinedVariables.contains(Unicode.theta_STRING)) {
+			return Unicode.theta_STRING;
 		}
 		Iterator<String> t = undefinedVariables.iterator();
 
@@ -179,7 +179,7 @@ public class ParametricProcessor {
 			}
 			return "t";
 		} else if ("y".equals(varName)) {
-			return Unicode.lambdaStr;
+			return Unicode.lambda_STRING;
 		}
 		return varName;
 	}

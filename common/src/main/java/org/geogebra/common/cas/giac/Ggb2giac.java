@@ -6,6 +6,8 @@ import java.util.TreeMap;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ] is
  * translated to factor( 2*(x+3) ) ###
@@ -416,7 +418,7 @@ public class Ggb2giac {
 						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
 						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][0]),"
 						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][0])),"
-						+ "\"+\u03BB*\","
+						+ "\"+" + Unicode.lambda + "*\","
 						+ "point(xcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
 						+ "ycoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0]),"
 						+ "zcoord((line_inter(ggbinarg0,ggbinarg1))[1][1]-(line_inter(ggbinarg0,ggbinarg1))[1][0])))))),"
@@ -426,18 +428,25 @@ public class Ggb2giac {
 						+ "line( point((ggbinarg1)[2][1][0][1],"
 						+ "(ggbinarg1)[2][1][1][1],"
 						+ "(ggbinarg1)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][0][1],"
-						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][1][1],"
-						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][2][1]) ))[0] ,"
+						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][0][1],"
+						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][1][1],"
+						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda
+						+ ",1) + (ggbinarg1)[2][1][2][1]) ))[0] ,"
 						// Intersect[Plane, Cmd3dLine]
 						+ "when (xcoord(ggbinarg1) == string(X) ,"
 						+ "line_inter(ggbinarg0 ,"
 						+ "line( point(expr(ggbinarg1)[0][2][1] , "
 						+ "expr(ggbinarg1)[1][2][1],"
 						+ "expr(ggbinarg1)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
-						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
-						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) ), "
+						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[2][2][1]) ) ), "
 						// Intersect[Plane, 3dLine]
 						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) ,"
 						+ "line_inter(ggbinarg0,"
@@ -465,46 +474,65 @@ public class Ggb2giac {
 						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
-						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
-						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[2][2][1]) ),"
 						+ "ggbinarg1),"
 						// Intersect[Cmd3dLine, Cas3dLine]
 						+ "when ((ggbinarg1)[0] == '=' && (ggbinarg1)[1] == 'ggbtmpvarX',"
 						+ "inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
-						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
-						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ),"
+						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[2][2][1]) ),"
 						+ "line( point((ggbinarg1)[2][1][0][1],"
 						+ "(ggbinarg1)[2][1][1][1],"
 						+ "(ggbinarg1)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][0][1],"
-						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][1][1],"
-						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][2][1]) ))[0] ,"
+						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][0][1],"
+						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][1][1],"
+						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda
+						+ ",1) + (ggbinarg1)[2][1][2][1]) ))[0] ,"
 						// Intersect[Cmd3dLine, Cmd3dLine]
 						+ "when (xcoord(ggbinarg1) == string(X) ,"
 						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
-						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
-						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ), "
+						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[2][2][1]) ), "
 						+ "line( point(expr(ggbinarg1)[0][2][1] , "
 						+ "expr(ggbinarg1)[1][2][1],"
 						+ "expr(ggbinarg1)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
-						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
-						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) )) ,"
+						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[2][2][1]) )) ,"
 						// Intersect[Cmd3dLine, 3dLine]
 						+ "when ( (xcoord(ggbinarg1))[0] == '=' && string((xcoord(ggbinarg1))[1]) == string(X) , "
 						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
-						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
-						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ) ,"
+						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[2][2][1]) ) ,"
 						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
 						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
 						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
@@ -515,9 +543,12 @@ public class Ggb2giac {
 						+ "line_inter(line( point(expr(ggbinarg0)[0][2][1] , "
 						+ "expr(ggbinarg0)[1][2][1],"
 						+ "expr(ggbinarg0)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg0)[0][2],\u03BB,1) + expr(ggbinarg0)[0][2][1], "
-						+ "coeff(expr(ggbinarg0)[1][2],\u03BB,1) + expr(ggbinarg0)[1][2][1] , "
-						+ "coeff(expr(ggbinarg0)[2][2],\u03BB,1) + expr(ggbinarg0)[2][2][1]) ) ,"
+						+ "point(coeff(expr(ggbinarg0)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[0][2][1], "
+						+ "coeff(expr(ggbinarg0)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[1][2][1] , "
+						+ "coeff(expr(ggbinarg0)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg0)[2][2][1]) ) ,"
 						+ "line(point(re(subst(parameq(line(ggbinarg1),u),u=1)),"
 						+ "im(subst(parameq(line(ggbinarg1),u),u=1)),0),"
 						+ "point(re(subst(parameq(line(ggbinarg1),u),u=2)),"
@@ -540,9 +571,13 @@ public class Ggb2giac {
 						+ "line( point((ggbinarg1)[2][1][0][1],"
 						+ "(ggbinarg1)[2][1][1][1],"
 						+ "(ggbinarg1)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][0][1],"
-						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][1][1],"
-						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][2][1]) ))[0] , "
+						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][0][1],"
+						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][1][1],"
+						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda
+						+ ",1) + (ggbinarg1)[2][1][2][1]) ))[0] , "
 						// Intersect[3dLine, Cmd3dLine]
 						+ "when (xcoord(ggbinarg1) == string(X),"
 						+ "line_inter( line( point( (ggbinarg0)[0][2] , (ggbinarg0)[1][2] , (ggbinarg0)[2][2][1] ) ,"
@@ -552,9 +587,12 @@ public class Ggb2giac {
 						+ "line( point(expr(ggbinarg1)[0][2][1] , "
 						+ "expr(ggbinarg1)[1][2][1],"
 						+ "expr(ggbinarg1)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
-						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
-						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) )),"
+						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[2][2][1]) )),"
 						// Intersect[3dLine, 2dLine]
 						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT) "
 						// Intersect[3dLine, Cmd2dLine]
@@ -583,44 +621,64 @@ public class Ggb2giac {
 						+ "inter( line( point((ggbinarg0)[2][1][0][1],"
 						+ "(ggbinarg0)[2][1][1][1],"
 						+ "(ggbinarg0)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][0][1],"
-						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][1][1],"
-						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][2][1]) ),"
+						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][0][1],"
+						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][1][1],"
+						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][2][1]) ),"
 						+ "line( point((ggbinarg1)[2][1][0][1],"
 						+ "(ggbinarg1)[2][1][1][1],"
 						+ "(ggbinarg1)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][0][1],"
-						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][1][1],"
-						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg1)[2][1][2][1]) ))[0] ,"
+						+ "point(coeffs((ggbinarg1)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][0][1],"
+						+ "coeffs((ggbinarg1)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg1)[2][1][1][1],"
+						+ "coeffs((ggbinarg1)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda
+						+ ",1) + (ggbinarg1)[2][1][2][1]) ))[0] ,"
 						// Intersect[Cas3dLine, Plane]
 						+ "when ((ggbinarg1)[0] == 'pnt' && (ggbinarg1)[1][0] == 'hyperplan',"
 						+ "inter( line( point((ggbinarg0)[2][1][0][1],"
 						+ "(ggbinarg0)[2][1][1][1],"
 						+ "(ggbinarg0)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][0][1],"
-						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][1][1],"
-						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][2][1]) ),ggbinarg1)[0],"
+						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][0][1],"
+						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][1][1],"
+						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda
+						+ ",1) + (ggbinarg0)[2][1][2][1]) ),ggbinarg1)[0],"
 						// Intersect[Cas3dLine, Cmd3dLine]
 						+ "when (xcoord(ggbinarg1) == string(X),"
 						+ "inter( line( point((ggbinarg0)[2][1][0][1],"
 						+ "(ggbinarg0)[2][1][1][1],"
 						+ "(ggbinarg0)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][0][1],"
-						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][1][1],"
-						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][2][1]) ),"
+						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][0][1],"
+						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][1][1],"
+						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][2][1]) ),"
 						+ "line( point(expr(ggbinarg1)[0][2][1] , "
 						+ "expr(ggbinarg1)[1][2][1],"
 						+ "expr(ggbinarg1)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
-						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
-						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) )[0] ,"
+						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[2][2][1]) ) )[0] ,"
 						// Intersect[Cas3dLine, 3dLine]
 						+ "inter( line( point((ggbinarg0)[2][1][0][1],"
 						+ "(ggbinarg0)[2][1][1][1],"
 						+ "(ggbinarg0)[2][1][2][1]),"
-						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][0][1],"
-						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][1][1],"
-						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar\u03BB,1) + (ggbinarg0)[2][1][2][1]) ),"
+						+ "point(coeffs((ggbinarg0)[2][1][0], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][0][1],"
+						+ "coeffs((ggbinarg0)[2][1][1], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][1][1],"
+						+ "coeffs((ggbinarg0)[2][1][2], ggbtmpvar"
+						+ Unicode.lambda + ",1) + (ggbinarg0)[2][1][2][1]) ),"
 						+ "line( point( (ggbinarg1)[0][2] , (ggbinarg1)[1][2] , (ggbinarg1)[2][2][1] ) ,"
 						+ "point( (ggbinarg1[2][2][2])[2][0] + (ggbinarg1)[0][2], "
 						+ "(ggbinarg1[2][2][2])[2][1] +  (ggbinarg1)[1][2] ,"
@@ -649,9 +707,12 @@ public class Ggb2giac {
 						+ "line( point(expr(ggbinarg1)[0][2][1] , "
 						+ "expr(ggbinarg1)[1][2][1],"
 						+ "expr(ggbinarg1)[2][2][1] ),"
-						+ "point(coeff(expr(ggbinarg1)[0][2],\u03BB,1) + expr(ggbinarg1)[0][2][1], "
-						+ "coeff(expr(ggbinarg1)[1][2],\u03BB,1) + expr(ggbinarg1)[1][2][1] , "
-						+ "coeff(expr(ggbinarg1)[2][2],\u03BB,1) + expr(ggbinarg1)[2][2][1]) ) ) , "
+						+ "point(coeff(expr(ggbinarg1)[0][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[0][2][1], "
+						+ "coeff(expr(ggbinarg1)[1][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[1][2][1] , "
+						+ "coeff(expr(ggbinarg1)[2][2]," + Unicode.lambda
+						+ ",1) + expr(ggbinarg1)[2][2][1]) ) ) , "
 						// Intersect[2dLine, 2dLine]
 						+ "when ( (type(xcoord(ggbinarg1)) == DOM_INT && type(grad(ggbinarg1,x)[1]) == DOM_INT)"
 						// Intersect[2dLine, Cmd2dLine]
@@ -1411,7 +1472,10 @@ public class Ggb2giac {
 				// command
 				+ "when ( xcoord(ggbangarg0) == string(X) && string(xcoord(ggbangarg1[1])) == string(hyperplan) ,"
 				+ "normal(regroup(angle(point(0,0,0),"
-				+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
+				+ "point( coeff(expr(ggbangarg0)[0][2]," + Unicode.lambda
+				+ ",1) , coeff(expr(ggbangarg0)[1][2]," + Unicode.lambda
+				+ ",1) , coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
+				+ ",1) ),"
 				+ "point( ggbangarg1[1][1][0] , ggbangarg1[1][1][1] , ggbangarg1[1][1][2]) ))) ,"
 				// line defined from inputBar and plane defined with
 				// command
@@ -1447,8 +1511,13 @@ public class Ggb2giac {
 				// case 3D lines defined in this command
 				+ "when ( xcoord(ggbangarg0) == string(X) && xcoord(ggbangarg1) == string(X) ,"
 				+ "normal(regroup(angle(point(0,0,0),"
-				+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
-				+ "point( coeff(expr(ggbangarg1)[0][2],\u03BB,1) , coeff(expr(ggbangarg1)[1][2],\u03BB,1) , coeff(expr(ggbangarg1)[2][2],\u03BB,1) ) ))) ,"
+				+ "point( coeff(expr(ggbangarg0)[0][2]," + Unicode.lambda
+				+ ",1) , coeff(expr(ggbangarg0)[1][2]," + Unicode.lambda
+				+ ",1) , coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
+				+ ",1) )," + "point( coeff(expr(ggbangarg1)[0][2],"
+				+ Unicode.lambda + ",1) , coeff(expr(ggbangarg1)[1][2],"
+				+ Unicode.lambda + ",1) , coeff(expr(ggbangarg1)[2][2],"
+				+ Unicode.lambda + ",1) ) ))) ,"
 				// case 3D lines defined from inputBar
 				+ "when( (xcoord(ggbangarg0))[0] == '=' && string((xcoord(ggbangarg0))[1]) == string(X) && (xcoord(ggbangarg1))[0] == '=' && string((xcoord(ggbangarg1))[1]) == string(X),"
 				+ "normal(regroup(angle(point(0,0,0),"
@@ -1458,7 +1527,10 @@ public class Ggb2giac {
 				// equation
 				+ " when ( xcoord(ggbangarg0) == string(X) && type(xcoord(ggbangarg1)) == DOM_INT,"
 				+ "normal(regroup(angle(point(0,0,0),"
-				+ "point( coeff(expr(ggbangarg0)[0][2],\u03BB,1) , coeff(expr(ggbangarg0)[1][2],\u03BB,1) , coeff(expr(ggbangarg0)[2][2],\u03BB,1) ),"
+				+ "point( coeff(expr(ggbangarg0)[0][2]," + Unicode.lambda
+				+ ",1) , coeff(expr(ggbangarg0)[1][2]," + Unicode.lambda
+				+ ",1) , coeff(expr(ggbangarg0)[2][2]," + Unicode.lambda
+				+ ",1) ),"
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) , "
 				// case 3D line from inputBar and plane with linear
 				// equation
@@ -1501,14 +1573,16 @@ public class Ggb2giac {
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b
 		// don't want normal(), eg Line[(a,b),(c,d)]
-		// X=point(xcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),ycoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)),zcoord(ggblinearg0+\u03BB*(ggblinearg1-ggblinearg0)))
+		// X=point(xcoord(ggblinearg0+"+Unicode.lambda+"*(ggblinearg1-ggblinearg0)),ycoord(ggblinearg0+"+Unicode.lambda+"*(ggblinearg1-ggblinearg0)),zcoord(ggblinearg0+"+Unicode.lambda+"*(ggblinearg1-ggblinearg0)))
 		String line2def = "[[ggblinearg0:=%0],[ggblinearg1:=%1],"
 				+ "when(is_3dpoint(ggblinearg0),"
 				+ "when(ggblinearg1[0]=='pnt',"
 				// case Line[3dPoint,3dPoint]
-				+ "regroup(equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
+				+ "regroup(equation(cat(\"X=\",ggblinearg0,\"+" + Unicode.lambda
+				+ "*\",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),"
 				// case Line[3dPoint,Vect]
-				+ "equation(cat(\"X=\",ggblinearg0,\"+\u03BB*\",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),"
+				+ "equation(cat(\"X=\",ggblinearg0,\"+" + Unicode.lambda
+				+ "*\",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),"
 				// case Line[2dPoint,2dPoint] or Line[2dPoint,Vector]
 				+ "regroup(equation(line(ggblinearg0,ggblinearg1))))][2]";
 

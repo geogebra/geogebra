@@ -63,6 +63,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Geometrical representation of line
  * 
@@ -89,7 +91,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public static final int EQUATION_USER = 5;
 	private boolean showUndefinedInAlgebraView = false;
 
-	private String parameter = "\u03bb";
+	private String parameter = Unicode.lambda + "";
 	/** start point */
 	public GeoPoint startPoint;
 	/** end point */

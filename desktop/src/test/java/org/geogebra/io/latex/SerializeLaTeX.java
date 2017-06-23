@@ -187,7 +187,8 @@ public class SerializeLaTeX {
 				"(x^(2))/(m^(2))+(y^(2))/(n^(2))>=2");
 		checkLaTeX("a\\leq b", "a<=b");
 		checkLaTeX("f\\left(x\\right)=\\sin\\left(x\\right)", "f(x)=sin(x)");
-		checkLaTeX("r\\ =\\ g^{\\theta}", "r = g^(" + Unicode.thetaStr + ")");
+		checkLaTeX("r\\ =\\ g^{\\theta}",
+				"r = g^(" + Unicode.theta_STRING + ")");
 		checkLaTeX("7\\cdot 6", "7*6");
 		checkLaTeX("7\\times 6", "7*6");
 	}

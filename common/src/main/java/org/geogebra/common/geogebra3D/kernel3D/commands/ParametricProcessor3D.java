@@ -145,7 +145,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 							coefX, coefY, coefZ);
 
 				}
-				line.setToParametric(Unicode.lambdaStr);
+				line.setToParametric(Unicode.lambda_STRING);
 				return new GeoElement[] { line };
 
 			}

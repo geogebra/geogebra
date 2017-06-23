@@ -145,6 +145,6 @@ public class TeXAtomSerializer {
 		mappings.put("gt",">");
 		mappings.put("cdot", "*");
 		mappings.put("times", "*");
-		mappings.put("theta", Unicode.thetaStr);
+		mappings.put("theta", Unicode.theta_STRING);
 	}
 }
