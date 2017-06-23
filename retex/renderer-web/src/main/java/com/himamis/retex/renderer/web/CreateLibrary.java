@@ -62,10 +62,10 @@ public class CreateLibrary implements EntryPoint {
 
 	public static native void exportLibrary(JlmLib library,
 			Opentype opentype) /*-{
-		if ($wnd.jlmlib) {
-			$wnd.console.log("JLM already installed");
-			return;
-		}
+		//		if ($wnd.jlmlib) {
+		//			$wnd.console.log("JLM already installed");
+		//			return;
+		//		}
 		$wnd.jlmlib = {};
 
 		$wnd.jlmlib.initWith = $entry(function(str) {
