@@ -2776,7 +2776,7 @@ __GGB__keysVar.it.menu = {
     "ToolCategory.BasicTools": "Strumenti di base",
     "ToolCategory.Circles": "Circonferenze",
     "ToolCategory.Conics": "Coniche",
-    "ToolCategory.Construct": "Construct",
+    "ToolCategory.Construct": "Costruzioni",
     "ToolCategory.Curves": "Curve",
     "ToolCategory.Edit": "Modifica",
     "ToolCategory.Lines": "Rette",
