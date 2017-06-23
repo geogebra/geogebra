@@ -1040,7 +1040,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							setDefaultColor(alpha, geoColor);
 						}
 
-						this.setKeepVisible(EuclidianConstants.isMoveOrSelectionMode(mode));
+						this.setKeepVisible(app.has(Feature.NEW_TOOLBAR) ? false : EuclidianConstants.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -1211,7 +1211,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 
 		btnBgColor.setEnableTable(true);
-		btnBgColor.setKeepVisible(true);
+		btnBgColor.setKeepVisible(app.has(Feature.NEW_TOOLBAR) ? false:true);
 		btnBgColor.addPopupHandler(this);
 	}
 

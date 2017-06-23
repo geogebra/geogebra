@@ -137,7 +137,7 @@ public class ContextMenuTools implements SetLabels {
 
 		@Override
 		public void settingsChanged(AbstractSettings settings) {
-
+			toolbarPanel.getTabTools().updateContent();
 		}
 	}
 
