@@ -1,8 +1,11 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -10,6 +13,7 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
@@ -23,6 +27,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.ibm.icu.text.MessagePattern.ApostropheMode;
 
 /**
  * 
@@ -174,10 +179,77 @@ public class ToolbarPanel extends FlowPanel {
 	
 		private Tools toolsPanel;
 
+		StandardButton moreBtn;
+		
+		StandardButton lessBtn;
+
 		public ToolsTab() {
 			createContents();
+			handleMoreLessButtons();
+		}
+		
+		private void handleMoreLessButtons() {
+			createMoreLessButtons();
+			addMoreLessButtons();
+		}
+		
+		private void createMoreLessButtons() {
+			moreBtn = new StandardButton("More Tools");
+			moreBtn.addStyleName("moreLessBtn");
+			moreBtn.removeStyleName("button");
+			lessBtn = new StandardButton("Less Tools");	
+			lessBtn.addStyleName("moreLessBtn");
+			lessBtn.removeStyleName("button");
+			moreBtn.addFastClickHandler(new FastClickHandler() {
+				
+				@Override
+				public void onClick(Widget source) {
+					app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
+					updateContent();
+				}
+			});
+			lessBtn.addFastClickHandler(new FastClickHandler() {
+				
+				@Override
+				public void onClick(Widget source) {
+					app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
+					updateContent();
+				}
+			});
 		}
 
+		public void addMoreLessButtons() {
+			AppType type = app.getSettings().getToolbarSettings().getType();
+			ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
+			
+			if (type.equals(AppType.GRAPHING_CALCULATOR)) {
+				switch (level) {
+				case STANDARD:
+					toolsPanel.add(moreBtn);
+					break;
+					
+				case ADVANCED:
+					toolsPanel.add(lessBtn);
+				
+				default:
+					break;
+				}
+			} else if (type.equals(AppType.GEOMETRY_CALC)) {
+				switch (level) {
+				case EMPTY_CONSTRUCTION:
+				case STANDARD:
+					add(moreBtn);
+					break;
+					
+				case ADVANCED:
+					add(lessBtn);
+				
+				default:
+					break;
+				}
+			}
+		}
+		
 		private void createContents() {
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
 			add(toolsPanel);
@@ -187,6 +259,7 @@ public class ToolbarPanel extends FlowPanel {
 			toolsPanel.removeFromParent();
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
 			add(toolsPanel);
+			handleMoreLessButtons();
 		}
 
 		/**

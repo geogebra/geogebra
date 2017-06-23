@@ -82,18 +82,17 @@ public class Tools extends FlowPanel {
 
 		int activePerspective = app.getActivePerspective();
 
-		AppType type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-		ToolsetLevel level = app.getSettings().getToolbarSettings()
-				.getToolsetLevel();
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
-			type = ToolCategorization.AppType.GRAPHER_3D;
+			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GRAPHER_3D);
+			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
 		}
 		if (activePerspective == Perspective.GEOMETRY - 1) {
-			type = ToolCategorization.AppType.GEOMETRY_CALC;
+			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GEOMETRY_CALC);
+			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
 		}
 
 		mToolCategorization = new ToolCategorization(app,
-				type, level, false);
+				app.getSettings().getToolbarSettings().getType(), app.getSettings().getToolbarSettings().getToolsetLevel(), false);
 		mToolCategorization.resetTools();
 		ArrayList<ToolCategorization.Category> categories = mToolCategorization
 				.getCategories();
@@ -101,7 +100,7 @@ public class Tools extends FlowPanel {
 		for (int i = 0; i < categories.size(); i++) {
 			add(new CategoryPanel(categories.get(i)));
 		}
-
+		
 		setMoveMode();
 	}
 
@@ -130,9 +129,7 @@ public class Tools extends FlowPanel {
 					moveButton = btn;
 				}
 			}
-
 			add(toolsPanel);
-
 		}
 
 		FlowPanel getToolsPanel() {
