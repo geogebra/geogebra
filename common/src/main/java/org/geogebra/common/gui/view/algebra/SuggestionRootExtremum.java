@@ -8,12 +8,12 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 
 public class SuggestionRootExtremum extends Suggestion {
-	
+
 	@Override
 	public String getCommand(Localization loc) {
 		return loc.getMenu("Suggestion.SpecialPoints");
 	}
-	
+
 	@Override
 	public void execute(GeoElementND geo) {
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
@@ -22,7 +22,7 @@ public class SuggestionRootExtremum extends Suggestion {
 		if (poly == null || poly.getDegree() > 0) {
 			geo.getKernel().getAlgebraProcessor()
 					.processAlgebraCommand("Root[" + geo.getLabelSimple() + "]",
-							true);
+							false);
 		}
 		if (poly == null || poly.getDegree() > 1) {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
