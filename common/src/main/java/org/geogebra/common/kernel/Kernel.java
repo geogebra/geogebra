@@ -4494,7 +4494,7 @@ public class Kernel {
 	final public MyDouble convertIndexToNumber(String str) {
 		int i = 0;
 		while ((i < str.length())
-				&& !Unicode.isSuperscriptDigit(str.charAt(i))) {
+				&& !StringUtil.isSuperscriptDigit(str.charAt(i))) {
 			i++;
 		}
 

@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -671,23 +672,23 @@ class FillingPanelD extends JPanel
 		JMenu menu = new JMenu(loc.getMenu("Properties.Basic"));
 
 		// Suits and music
-		String[] fancy = Unicode.getSetOfSymbols(0x2660, 16);
+		String[] fancy = StringUtil.getSetOfSymbols(0x2660, 16);
 		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
 
 		// Chess
-		fancy = Unicode.getSetOfSymbols(0x2654, 12);
+		fancy = StringUtil.getSetOfSymbols(0x2654, 12);
 		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
 
 		// Stars
-		fancy = Unicode.getSetOfSymbols(0x2725, 3);
-		String[] fancy2 = Unicode.getSetOfSymbols(0x2729, 23);
+		fancy = StringUtil.getSetOfSymbols(0x2725, 3);
+		String[] fancy2 = StringUtil.getSetOfSymbols(0x2729, 23);
 		String[] union = new String[26];
 		System.arraycopy(fancy, 0, union, 0, 3);
 		System.arraycopy(fancy2, 0, union, 3, 23);
 		btInsertUnicode.addPopupMenuItem(createMenuItem(union, -1, 4));
 
 		// Squares
-		fancy = Unicode.getSetOfSymbols(0x2b12, 8);
+		fancy = StringUtil.getSetOfSymbols(0x2b12, 8);
 		btInsertUnicode.addPopupMenuItem(createMenuItem(fancy, -1, 4));
 		app.setComponentOrientation(menu);
 

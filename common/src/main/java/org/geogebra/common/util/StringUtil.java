@@ -1612,4 +1612,83 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sb.toString();
 	}
 
+	/**
+	 * converts an integer to a unicode SUPERSCRIPT string (including minus
+	 * sign) eg for use as a power
+	 * 
+	 * @author Michael
+	 */
+	final public static String numberToIndex(int i0) {
+		int i = i0;
+		final StringBuilder sb = new StringBuilder();
+		boolean negative = false;
+		if (i < 0) {
+			negative = true;
+			i = -i;
+		}
+
+		if (i == 0) {
+			sb.append(Unicode.SUPERSCRIPT_0); // zero
+		} else {
+			while (i > 0) {
+				switch (i % 10) {
+				default:
+				case 0:
+					sb.insert(0, Unicode.SUPERSCRIPT_0);
+					break;
+				case 1:
+					sb.insert(0, Unicode.SUPERSCRIPT_1);
+					break;
+				case 2:
+					sb.insert(0, Unicode.SUPERSCRIPT_2);
+					break;
+				case 3:
+					sb.insert(0, Unicode.SUPERSCRIPT_3);
+					break;
+				case 4:
+					sb.insert(0, Unicode.SUPERSCRIPT_4);
+					break;
+				case 5:
+					sb.insert(0, Unicode.SUPERSCRIPT_5);
+					break;
+				case 6:
+					sb.insert(0, Unicode.SUPERSCRIPT_6);
+					break;
+				case 7:
+					sb.insert(0, Unicode.SUPERSCRIPT_7);
+					break;
+				case 8:
+					sb.insert(0, Unicode.SUPERSCRIPT_8);
+					break;
+				case 9:
+					sb.insert(0, Unicode.SUPERSCRIPT_9);
+					break;
+
+				}
+				i = i / 10;
+			}
+		}
+
+		if (negative) {
+			sb.insert(0, Unicode.SUPERSCRIPT_MINUS);
+		}
+
+		return sb.toString();
+	}
+
+	final public static boolean isSuperscriptDigit(final char c) {
+		return ((c >= Unicode.SUPERSCRIPT_0) && (c <= Unicode.SUPERSCRIPT_9))
+				|| (c == Unicode.SUPERSCRIPT_1) || (c == Unicode.SUPERSCRIPT_2)
+				|| (c == Unicode.SUPERSCRIPT_3);
+	}
+
+	public static String[] getSetOfSymbols(int symbolsStartValue,
+			int symbolsNumber) {
+		String[] symbols = new String[symbolsNumber];
+		for (int i = 0; i < symbolsNumber; i++) {
+			symbols[i] = "" + (char) (symbolsStartValue + i);
+		}
+		return symbols;
+	}
+
 }
