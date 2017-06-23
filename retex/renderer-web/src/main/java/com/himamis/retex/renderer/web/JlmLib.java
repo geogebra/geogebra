@@ -55,6 +55,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import com.himamis.retex.renderer.web.graphics.Graphics2DW;
+import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class JlmLib {
 
@@ -84,12 +85,26 @@ public class JlmLib {
 		return draw(icon, ctx, x, y, fgColorString, bgColorString, callback);
 	}
 
+	public static native double getPixelRatio() /*-{
+		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
+				.getContext("2d");
+		devicePixelRatio = $wnd.devicePixelRatio || 1;
+		backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio
+				|| testCtx.mozBackingStorePixelRatio
+				|| testCtx.msBackingStorePixelRatio
+				|| testCtx.oBackingStorePixelRatio
+				|| testCtx.backingStorePixelRatio || 1;
+		return devicePixelRatio / backingStorePixelRatio;
+	}-*/;
+
 	public static JavaScriptObject draw(TeXIcon icon, Context2d ctx,
 			final int x,
 			final int y, final String fgColorString, final String bgColorString,
 			final JavaScriptObject callback) {
 		Graphics2DW g2 = new Graphics2DW(ctx);
-
+		double ratio = getPixelRatio();
+		((JLMContext2d) ctx).setDevicePixelRatio(ratio);
+		ctx.scale(ratio, ratio);
 		// fill the background color
 		if (bgColorString != null && !bgColorString.equals("")) {
 			final Color bgColor = ColorUtil.decode(bgColorString);
@@ -116,7 +131,7 @@ public class JlmLib {
 		g2.maybeNotifyDrawingFinishedCallback();
 
 		// return {width, height}
-		return createReturnValue(icon);
+		return createReturnValue(icon, ratio);
 	}
 
 	private static native void callJavascriptCallback(JavaScriptObject cb) /*-{
@@ -134,11 +149,13 @@ public class JlmLib {
 		return icon;
 	}
 	
-	private static JavaScriptObject createReturnValue(TeXIcon icon) {
+	private static JavaScriptObject createReturnValue(TeXIcon icon,
+			double ratio) {
 		JSONObject object = new JSONObject();
 		object.put("width", new JSONNumber(icon.getIconWidth()));
 		object.put("height", new JSONNumber(icon.getIconHeight()));
 		object.put("baseline", new JSONNumber(icon.getBaseLine()));
+		object.put("pixelRatio", new JSONNumber(ratio));
 		return object.getJavaScriptObject();
 	}
 

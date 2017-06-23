@@ -13,10 +13,14 @@ import com.google.gwt.user.client.ui.Panel;
  */
 public class MyEuclidianViewPanel extends AbsolutePanel implements
         EuclidianPanelWAbstract {
-
+	/** canvas */
 	protected Canvas canvas;
 	private EuclidianView ev;
 
+	/**
+	 * @param ev
+	 *            view wrapped in this panel
+	 */
 	public MyEuclidianViewPanel(EuclidianView ev) {
 		super();
 		this.ev = ev;

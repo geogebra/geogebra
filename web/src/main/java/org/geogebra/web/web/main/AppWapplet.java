@@ -73,23 +73,6 @@ public class AppWapplet extends AppWFull {
 	private GeoGebraFrameBoth frame;
 
 	/******************************************************
-	 * Constructs AppW for applets with undo enabled
-	 * 
-	 * @param ae
-	 *            article element
-	 * @param gf
-	 *            frame
-	 * @param dimension
-	 *            3 for 3d, 2 otherwise
-	 * @param laf
-	 *            look and feel
-	 */
-	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
-			GLookAndFeel laf) {
-		this(ae, gf, dimension, laf, null);
-	}
-
-	/******************************************************
 	 * Constructs AppW for applets
 	 * 
 	 * @param ae
