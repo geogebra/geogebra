@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;

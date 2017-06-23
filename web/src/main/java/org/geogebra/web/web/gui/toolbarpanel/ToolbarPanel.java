@@ -1,10 +1,8 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
-import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -29,7 +27,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.ibm.icu.text.MessagePattern.ApostropheMode;
 
 /**
  * 
