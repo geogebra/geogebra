@@ -44,7 +44,7 @@ public class LineStylePopup extends PopupMenuButtonW  {
 		HashMap<Integer, Integer> lineStyleMap0 = createLineStyleMap();
 
 		LineStylePopup ret = new LineStylePopup(app, lineStyleIcons0, -1,
-				6, SelectionTable.MODE_ICON,
+				LineStyleModel.getStyleCount(), SelectionTable.MODE_ICON,
 				true, hasSlider, lineStyleMap0);
 		return ret;
 	}
