@@ -42,7 +42,7 @@ public class JLMContext2d extends Context2d {
 		this.m11_ = 1;
 		this.m02_ = 0;
 		this.m12_ = 0;
-		this.setTransform(1, 0, 0, 1, 0, 0);
+
 		this.ggbTransformCache = [];
 
 	}-*/;
