@@ -4328,7 +4328,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && has(Feature.NEW_TOOLBAR);
 
 		case MOB_INPUT_BAR_SOLVE:
-			return false;
+			return prerelease;
 
 		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
 		case NON_CAS_POLYNOMIAL_DIVISION:
