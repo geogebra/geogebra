@@ -71,8 +71,10 @@ import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
+import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
+import com.himamis.retex.renderer.web.graphics.ColorW;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class MathFieldW implements MathField, IsWidget {
@@ -435,11 +437,10 @@ public class MathFieldW implements MathField, IsWidget {
 		ctx.getCanvas().setWidth((int) Math.ceil(width * ratio));
 
 		ctx.setFillStyle("rgb(255,255,255)");
-		((JLMContext2d) ctx).scale2(ratio, ratio);
 		ctx.fillRect(0, 0, ctx.getCanvas().getWidth(), height);
 
-		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), "#000000", "#FFFFFF",
-				null);
+		JlmLib.draw(lastIcon, ctx, 0, getMargin(lastIcon), new ColorW(0,0,0), "#FFFFFF",
+				null, ratio);
 	}
 
 	private double computeHeight(TeXIcon lastIcon2) {
