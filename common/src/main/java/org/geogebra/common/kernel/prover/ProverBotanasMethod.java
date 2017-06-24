@@ -587,8 +587,8 @@ public class ProverBotanasMethod {
 			AlgoElement numAlgo;
 			if (movingPoint != null
 					&& (numAlgo = movingPoint.getParentAlgorithm()) != null
-					&& !(geoProver
-							.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
+					&& (geoProver
+							.getProverEngine() != ProverEngine.LOCUS_IMPLICIT)) {
 				numerical = (GeoElement) numAlgo.getInput(0);
 
 				/*
