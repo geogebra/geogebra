@@ -579,11 +579,16 @@ public class ProverBotanasMethod {
 			 * existing equations and those will be symbolic in all cases, that
 			 * is, it would be better to compute all numerical equations first
 			 * or (even better) during the symbolic process.
+			 * 
+			 * We don't use numerical formula for implicit locus to avoid
+			 * contradiction.
 			 */
 			GeoElement numerical = null;
 			AlgoElement numAlgo;
 			if (movingPoint != null
-					&& (numAlgo = movingPoint.getParentAlgorithm()) != null) {
+					&& (numAlgo = movingPoint.getParentAlgorithm()) != null
+					&& !(geoProver
+							.getProverEngine() == ProverEngine.LOCUS_IMPLICIT)) {
 				numerical = (GeoElement) numAlgo.getInput(0);
 
 				/*
@@ -1828,35 +1833,49 @@ public class ProverBotanasMethod {
 				 * important to be kept as a symbolic object for consistency.
 				 * Let's do that if the path is linear.
 				 */
-				if (ae instanceof AlgoPointOnPath
-						&& ae.input[0] instanceof GeoLine) {
-					PPolynomial[] symPolys;
-					try {
-						symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
-								.getBotanaPolynomials(freePoint);
-					} catch (NoSymbolicParametersException e) {
-						Log.debug(
-								"An error occured during obtaining symbolic parameters");
-						return null;
-					}
-					int i = 1;
-					for (PPolynomial symPoly : symPolys) {
-						as.addPolynomial(symPoly);
-						Log.debug("Extra symbolic poly " + i + " for "
-								+ freePoint.getLabelSimple() + ": " + symPoly);
-					}
-					double[] dir = new double[2];
-					((GeoLine) ae.input[0]).getDirection(dir);
-					if (dir[0] == 0.0) {
-						/* vertical */
-						as.freeVariables.remove(vars[0]);
-						as.freeVariables.add(vars[1]);
-						createX = false;
+				if (ae instanceof AlgoPointOnPath) {
+					if (ae.input[0] instanceof GeoLine) {
+						PPolynomial[] symPolys;
+						try {
+							symPolys = ((SymbolicParametersBotanaAlgo) freePoint)
+									.getBotanaPolynomials(freePoint);
+						} catch (NoSymbolicParametersException e) {
+							Log.debug(
+									"An error occured during obtaining symbolic parameters");
+							return null;
+						}
+						int i = 1;
+						for (PPolynomial symPoly : symPolys) {
+							as.addPolynomial(symPoly);
+							Log.debug("Extra symbolic poly " + i + " for "
+									+ freePoint.getLabelSimple() + ": " + symPoly);
+						}
+						double[] dir = new double[2];
+						((GeoLine) ae.input[0]).getDirection(dir);
+						if (dir[0] == 0.0) {
+							/* vertical */
+							as.freeVariables.remove(vars[0]);
+							as.freeVariables.add(vars[1]);
+							createX = false;
+						} else {
+							/* horizontal */
+							as.freeVariables.add(vars[0]);
+							as.freeVariables.remove(vars[1]);
+							createY = false;
+						}
 					} else {
-						/* horizontal */
-						as.freeVariables.add(vars[0]);
-						as.freeVariables.remove(vars[1]);
-						createY = false;
+						// non-linear path
+						if (implicit) {
+							/*
+							 * If the path is not linear, but we are computing implicit
+							 * locus then the condition may need to have the symbolic object
+							 * for consistency.
+							 */
+							// ad hoc selection:
+							as.freeVariables.remove(vars[0]);
+							as.freeVariables.add(vars[1]);
+							createX = false;
+						}
 					}
 				}
 				if (createX && createY) {
