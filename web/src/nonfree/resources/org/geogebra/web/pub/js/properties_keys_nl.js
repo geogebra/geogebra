@@ -2773,7 +2773,7 @@ __GGB__keysVar.nl.menu = {
     "Tool.Replace": "Vervang",
     "Tool.ReplaceQuestion": "Wil jij de bestaande knop \"%0\"  vervangenl?",
     "Tool.SelectObjects": "Selecteer objecten in de constructie of kies uit de lijst",
-    "ToolCategory.BasicTools": "Basic Tools",
+    "ToolCategory.BasicTools": "Basisknoppen",
     "ToolCategory.Circles": "Cirkels",
     "ToolCategory.Conics": "Kegelsneden",
     "ToolCategory.Construct": "Constructies",

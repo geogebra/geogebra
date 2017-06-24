@@ -2773,7 +2773,7 @@ __GGB__keysVar.nl_NL.menu = {
     "Tool.Replace": "Vervangen",
     "Tool.ReplaceQuestion": "Wil jij de bestaande macro vervangen \"%0\"?",
     "Tool.SelectObjects": "Selecteer objecten in de constructie of kies uit de lijst",
-    "ToolCategory.BasicTools": "Basic Tools",
+    "ToolCategory.BasicTools": "Basisknoppen",
     "ToolCategory.Circles": "Cirkels",
     "ToolCategory.Conics": "Kegelsneden",
     "ToolCategory.Construct": "Constructies",
