@@ -23,6 +23,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * A term is a pair of coefficient and variables in a Polynomial, e.g. {4, "x"},
  * {a, "xy"}
@@ -488,10 +490,10 @@ public class Term implements Comparable<Object> {
 		case 2:
 
 			if ("xx".equals(str)) {
-				return "x\u00b2";
+				return "x" + Unicode.SUPERSCRIPT_2;
 			}
 			if ("yy".equals(str)) {
-				return "y\u00b2";
+				return "y" + Unicode.SUPERSCRIPT_2;
 			}
 			if ("xy".equals(str)) {
 				return "xy";

@@ -53,6 +53,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * GeoElement representing an implicit curve.
  * 
@@ -2297,16 +2299,16 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					int c = i % 10;
 					switch (c) {
 					case 1:
-						p = '\u00b9' + p;
+						p = Unicode.SUPERSCRIPT_1 + p;
 						break;
 					case 2:
-						p = '\u00b2' + p;
+						p = Unicode.SUPERSCRIPT_2 + p;
 						break;
 					case 3:
-						p = '\u00b3' + p;
+						p = Unicode.SUPERSCRIPT_3 + p;
 						break;
 					default:
-						p = (char) ('\u2070' + c) + p;
+						p = (char) (Unicode.SUPERSCRIPT_0 + c) + p;
 					}
 					i = i / 10;
 				}
