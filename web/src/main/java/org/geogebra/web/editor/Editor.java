@@ -26,7 +26,9 @@ public class Editor implements EntryPoint, MathFieldListener {
 	private Opentype opentype;
 	@Override
 	public void onModuleLoad() {
-		FactoryProvider.setInstance(new FactoryProviderGWT());
+		if (FactoryProvider.getInstance() == null) {
+			FactoryProvider.setInstance(new FactoryProviderGWT());
+		}
 		library = new JlmEditorLib();
 		opentype = Opentype.INSTANCE;
 		CreateLibrary.exportLibrary(library, opentype);

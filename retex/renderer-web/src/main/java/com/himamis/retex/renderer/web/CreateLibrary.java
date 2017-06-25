@@ -54,7 +54,9 @@ public class CreateLibrary implements EntryPoint {
 
 	@Override
 	public void onModuleLoad() {
-		FactoryProvider.setInstance(new FactoryProviderGWT());
+		if (FactoryProvider.getInstance() == null) {
+			FactoryProvider.setInstance(new FactoryProviderGWT());
+		}
 		library = new JlmLib();
 		opentype = Opentype.INSTANCE;
 		exportLibrary(library, opentype);

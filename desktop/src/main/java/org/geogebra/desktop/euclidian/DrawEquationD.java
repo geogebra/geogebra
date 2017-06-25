@@ -48,7 +48,9 @@ public class DrawEquationD extends DrawEquation {
 			if (initJLaTeXMath == null) {
 
 				StringBuilder initJLM = getJLMCommands();
-				FactoryProvider.setInstance(new FactoryProviderDesktop());
+				if (FactoryProvider.getInstance() == null) {
+					FactoryProvider.setInstance(new FactoryProviderDesktop());
+				}
 				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
