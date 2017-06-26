@@ -1,6 +1,7 @@
 package org.geogebra.web.keyboard;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.keyboard.web.KeyBoardButtonBase;
@@ -173,7 +174,7 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		} else {
 
 			String text = btn.getFeedback();
-			if (isAccent(text)) {
+			if (Accents.isAccent(text)) {
 				processAccent(text);
 			} else {
 				processField

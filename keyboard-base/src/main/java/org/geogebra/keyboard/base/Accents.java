@@ -192,4 +192,10 @@ public class Accents {
 	public String getCircumflexLetter(String letter) {
 		return getCircumflexLetters().get(letter);
 	}
+
+	public static boolean isAccent(String txt) {
+		return ACCENT_GRAVE.equals(txt) || ACCENT_ACUTE.equals(txt)
+				|| ACCENT_CIRCUMFLEX.equals(txt) || ACCENT_CARON.equals(txt);
+	}
+
 }

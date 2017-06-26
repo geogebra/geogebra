@@ -508,12 +508,6 @@ public class TabbedKeyboard extends FlowPanel {
 
 	}
 
-	protected boolean isAccent(String txt) {
-		return Accents.ACCENT_GRAVE.equals(txt)
-				|| Accents.ACCENT_ACUTE.equals(txt)
-				|| Accents.ACCENT_CIRCUMFLEX.equals(txt)
-				|| Accents.ACCENT_CARON.equals(txt);
-	}
 	private KeyBoardButtonBase accentButton(String accent, ButtonHandler b) {
 		return new KeyBoardButtonBase(accent, accent, b);
 	}
