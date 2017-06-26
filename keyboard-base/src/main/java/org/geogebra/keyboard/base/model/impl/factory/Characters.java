@@ -58,13 +58,13 @@ class Characters {
     static final char RIGHT_FLOOR = '\u230B';
     static final char LEFT_CEILING = '\u2308';
     static final char RIGHT_CEILING = '\u2309';
-    static final char AMPERSAND = '\u0026';
-    static final char AT = '\u0040';
-    static final char HASHTAG = '\u0023';
-    static final char LEFT_SQUARE_BRACKET = '\u005B';
-    static final char RIGHT_SQUARE_BRACKET = '\u005D';
-    static final char COLON = '\u003A';
-    static final char QUOTATION_MARK = '\u0022';
+	static final char AMPERSAND = '&';
+	static final char AT = '@';
+	static final char HASHTAG = '#';
+	static final char LEFT_SQUARE_BRACKET = '[';
+	static final char RIGHT_SQUARE_BRACKET = ']';
+	static final char COLON = ':';
+	static final char QUOTATION_MARK = '\"';
     static final char LEFT_GUILLEMET = '\u00AB';
     static final char RIGHT_GUILLEMET = '\u00BB';
 }
