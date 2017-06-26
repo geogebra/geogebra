@@ -461,52 +461,49 @@ public class TabbedKeyboard extends FlowPanel {
 			return functionButton(wb, b);
 		case TEXT:
 		default:
-			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
+			
+			String name = wb.getActionName();
+			
+			if (name.equals(Action.TOGGLE_ACCENT_ACUTE.name())) {
 				return accentButton(Accents.ACCENT_ACUTE, b);
 			}
-			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_CARON.name())) {
+			if (name.equals(Action.TOGGLE_ACCENT_CARON.name())) {
 				return accentButton(Accents.ACCENT_CARON, b);
 			}
-			if (wb.getActionName()
-					.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
+			if (name.equals(Action.TOGGLE_ACCENT_CIRCUMFLEX.name())) {
 				return accentButton(Accents.ACCENT_CIRCUMFLEX, b);
 			}
-			if (wb.getActionName().equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
+			if (name.equals(Action.TOGGLE_ACCENT_GRAVE.name())) {
 				return accentButton(Accents.ACCENT_GRAVE, b);
 			}
-			if (wb.getActionName().equals("*")) {
-				return new KeyBoardButtonBase(Unicode.MULTIPLY + "", "*", b);
+			if (name.equals("*")) {
+				return new KeyBoardButtonBase(Unicode.MULTIPLY + "", b);
 			}
-			if (wb.getActionName().equals("/")) {
-				return new KeyBoardButtonBase(Unicode.DIVIDE + "",
-						Unicode.DIVIDE + "", b);
+			if (name.equals("/")) {
+				return new KeyBoardButtonBase(Unicode.DIVIDE + "", b);
 			}
-			if (wb.getActionName().equals("|")) {
+			if (name.equals("|")) {
 				return new KeyBoardButtonBase("|a|", "abs", b);
 			}
-			if (wb.getActionName().equals("-")) {
-				return new KeyBoardButtonBase(Unicode.MINUS + "", "-", b);
+			if (name.equals("-")) {
+				return new KeyBoardButtonBase(Unicode.MINUS + "", b);
 			}
-			if (wb.getActionName().equals(Unicode.EULER_STRING)) {
+			if (name.equals(Unicode.EULER_STRING)) {
 				return new KeyBoardButtonBase("e", Unicode.EULER_STRING, b);
 			}
-			if (wb.getActionName().equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name())) {
+			if (name.equals(Action.SWITCH_TO_SPECIAL_SYMBOLS.name()) || name.equals(Action.SWITCH_TO_ABC.name())) {
 				return functionButton(wb, bh);
 			}
-			if (wb.getActionName().equals(Action.SWITCH_TO_ABC.name())) {
-				return functionButton(wb, bh);
+			if (name.equals("" + Unicode.LFLOOR)) {
+				return new KeyBoardButtonBase(KeyboardConstants.FLOOR,name,bh);
 			}
-			if (wb.getActionName().equals("" + Unicode.LFLOOR)) {
-				return new KeyBoardButtonBase(KeyboardConstants.FLOOR,wb.getActionName(),bh);
+			if (name.equals("" + Unicode.LCEIL)) {
+				return new KeyBoardButtonBase(KeyboardConstants.CEIL, name, bh);
 			}
-			if (wb.getActionName().equals("" + Unicode.LCEIL)) {
-				return new KeyBoardButtonBase(KeyboardConstants.CEIL, wb.getActionName(), bh);
-			}
-			if (doubleBrackets && wb.getActionName().equals("(")) {
+			if (doubleBrackets && name.equals("(")) {
 				return new KeyBoardButtonBase("(", "()", b);
 			}
-			return new KeyBoardButtonBase(wb.getActionName(),
-					wb.getActionName(), b);
+			return new KeyBoardButtonBase(name, b);
 		}
 
 	}

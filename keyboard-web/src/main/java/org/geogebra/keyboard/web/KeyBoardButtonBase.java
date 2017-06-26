@@ -45,6 +45,16 @@ public class KeyBoardButtonBase extends SimplePanel {
 		this.feedback = feedback;
 	}
 
+	/**
+	 * @param caption
+	 *            text of the button and feedback (same)
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public KeyBoardButtonBase(String caption, ButtonHandler handler) {
+		this(caption, caption, handler);
+	}
+
 	private native void addWave(Element element) /*-{
 		$wnd.Waves.initialized || $wnd.Waves.displayEffect({
 			"duration" : 100
