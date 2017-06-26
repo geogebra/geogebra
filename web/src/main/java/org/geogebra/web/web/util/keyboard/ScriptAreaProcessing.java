@@ -45,7 +45,7 @@ public class ScriptAreaProcessing implements KeyboardListener {
 			start--;
 		}
 
-		if (start > 0) {
+		if (start > -1) {
 			// cursor not at the beginning of text -> delete something
 			String oldText = field.getText();
 			String newText = oldText.substring(0, start)
