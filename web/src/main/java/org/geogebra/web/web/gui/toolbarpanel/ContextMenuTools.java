@@ -35,7 +35,6 @@ public class ContextMenuTools implements SetLabels {
 	/** popup menu by clicking on 3dot button */
 	public GPopupMenuW wrappedPopup;
 	private Localization loc;
-	private List<GCheckmarkMenuItem> checkmarkItems;
 	private ToolFilterSubMenu subToolFilter;
 	private ToolbarPanel toolbarPanel;
 	private int x;
@@ -61,7 +60,6 @@ public class ContextMenuTools implements SetLabels {
 		loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		checkmarkItems = new ArrayList<GCheckmarkMenuItem>();
 		buildGUI();
 		}
 
