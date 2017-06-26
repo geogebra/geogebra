@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
