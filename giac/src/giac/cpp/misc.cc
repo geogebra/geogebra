@@ -413,6 +413,25 @@ namespace giac {
     if (args.type!=_VECT)
       return symbolic(at_suppress,args);
     vecteur & v=*args._VECTptr;
+    if (v.size()==3 && v[1].type==_INT_ && v[2].type==_INT_){
+      int i1=v[1].val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      int i2=v[2].val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      if (i1 >i2 || i1<0 || i2 < 0)
+	return gendimerr(contextptr);
+      if (v[0].type==_VECT){
+	vecteur w=*v[0]._VECTptr;
+	if (i1>=int(w.size()) || i2>=int(w.size()))
+	  return gendimerr(contextptr);
+	return gen(mergevecteur(vecteur(w.begin(),w.begin()+i1),vecteur(w.begin()+i2+1,w.end())),v[0].subtype);
+      }
+      if (v[0].type==_STRNG){
+	string s=*v[0]._STRNGptr;
+	if (i1>=int(s.size()) || i2>=int(s.size()))
+	  return gendimerr(contextptr);
+	return string2gen(s.substr(0,i1)+s.substr(i2+1,s.size()-i2-1),false);
+      }
+      return gensizeerr(contextptr);
+    }
     if (v.size()!=2)
       return gentypeerr(contextptr);
     gen l=v.front(),i=v.back();
@@ -460,6 +479,38 @@ namespace giac {
   static const char _suppress_s []="suppress";
   static define_unary_function_eval (__suppress,&_suppress,_suppress_s);
   define_unary_function_ptr5( at_suppress ,alias_at_suppress,&__suppress,0,true);
+
+  gen _insert(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur & v=*args._VECTptr;
+    if (v.size()!=3)
+      return gensizeerr(contextptr);
+    gen i=v[1];
+    if (!is_integral(i) || i.type!=_INT_) 
+      return gensizeerr(contextptr);
+    int ii=i.val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+    if (v[0].type==_VECT){
+      vecteur w=*v[0]._VECTptr;
+      if (ii<0 || ii>int(w.size()))
+	return gendimerr(contextptr);
+      w.insert(w.begin()+ii,v[2]);
+      return gen(w,v[0].subtype);
+    }
+    if (v[0].type==_STRNG){
+      string s=*v[0]._STRNGptr;
+      if (ii<0 || ii>int(s.size()))
+	return gendimerr(contextptr);
+      string add=(v[2].type==_STRNG)?*v[2]._STRNGptr:v[2].print(contextptr);
+      s=s.substr(0,ii)+add+s.substr(ii,s.size()-ii);
+      return string2gen(s,false);
+    }
+    return gensizeerr(contextptr);
+  }    
+  static const char _insert_s []="insert";
+  static define_unary_function_eval (__insert,&_insert,_insert_s);
+  define_unary_function_ptr5( at_insert ,alias_at_insert,&__insert,0,true);
 
   static int valuation(const polynome & p){
     if (p.coord.empty())
@@ -6188,7 +6239,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       int pos=0;
       for (;;++pos){
 	pos=int(s.find(*a._STRNGptr,pos));
-	if (pos<0 || pos>=s.size())
+	if (pos<0 || pos>=int(s.size()))
 	  break;
 	res.push_back(pos+shift);
       }
@@ -6548,9 +6599,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
     else
       *logptr(contextptr) << "Unable to find inflection points" << endl;
-    for (int i=0;i<infl.size();++i)
+    for (int i=0;i<int(infl.size());++i)
       infl[i]=ratnormal(infl[i],contextptr);
-    for (int i=0;i<c.size();++i)
+    for (int i=0;i<int(c.size());++i)
       c[i]=ratnormal(c[i],contextptr);
     comprim(c);
     if (!lidnt(evalf(c,1,contextptr)).empty()){
@@ -6734,9 +6785,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	continue;
       }
     }
-    for (int i=0;i<sing.size();++i)
+    for (int i=0;i<int(sing.size());++i)
       sing[i]=ratnormal(sing[i],contextptr);
-    for (int i=0;i<crit.size();++i)
+    for (int i=0;i<int(crit.size());++i)
       crit[i]=ratnormal(crit[i],contextptr);
     vecteur tvx=mergevecteur(sing,crit);
     if (in_domain(df,t,tmin0,contextptr))
@@ -7202,9 +7253,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
     }
     // merge sing and crit, add xmin0, xmax0, build variation matrix
-    for (int i=0;i<sing.size();++i)
+    for (int i=0;i<int(sing.size());++i)
       sing[i]=ratnormal(sing[i],contextptr);
-    for (int i=0;i<crit.size();++i)
+    for (int i=0;i<int(crit.size());++i)
       crit[i]=ratnormal(crit[i],contextptr);
     vecteur tvx=mergevecteur(sing,crit);
     if (in_domain(df,x,xmin0,contextptr))

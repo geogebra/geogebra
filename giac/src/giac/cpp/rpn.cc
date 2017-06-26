@@ -756,6 +756,7 @@ namespace giac {
   gen _VARS(const gen & args,const context * contextptr) {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     bool val=is_one(args);
+    bool valsto=is_minus_one(args);
     vecteur res;
     if (contextptr){
       if (contextptr->globalcontextptr && contextptr->globalcontextptr->tabptr){
@@ -764,10 +765,10 @@ namespace giac {
 	for (;it!=itend;++it){
 	  gen g=identificateur(it->first);
 	  if (!equalposcomp(*keywordsptr,g)){
-	    if (val){
+	    if (val)
 	      g=symbolic(at_equal,makesequence(g,it->second));
-	      //g=symb_sto(it->second,g);
-	    }
+	    if (valsto)
+	      g=symb_sto(it->second,g);
 	    res.push_back(g);
 	  }
 	}

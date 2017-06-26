@@ -1348,6 +1348,20 @@ namespace giac {
   static define_unary_function_eval_quoted (__exp2list,&_exp2list,_exp2list_s);
   define_unary_function_ptr5( at_exp2list ,alias_at_exp2list,&__exp2list,_QUOTE_ARGUMENTS,true);
 
+  gen _list2exp(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type!=_VECT || g.subtype!=_SEQ__VECT || g._VECTptr->size()!=2 )
+      return gensizeerr(contextptr);
+    int x=xcas_mode(contextptr);
+    xcas_mode(3,contextptr);
+    gen res=solvepostprocess(g._VECTptr->front(),g._VECTptr->back(),contextptr);
+    xcas_mode(x,contextptr);
+    return res;
+  }
+  static const char _list2exp_s[]="list2exp";
+  static define_unary_function_eval (__list2exp,&_list2exp,_list2exp_s);
+  define_unary_function_ptr5( at_list2exp ,alias_at_list2exp,&__list2exp,0,true);
+
   gen _list2mat(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)

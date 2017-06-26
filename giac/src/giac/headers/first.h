@@ -24,7 +24,7 @@
 //#include <stdint.h>
 
 #ifdef __x86_64__
-#define x86_64
+#define x86_64 1
 #endif
 
 // Thanks to Jason Papadopoulos, author of msieve

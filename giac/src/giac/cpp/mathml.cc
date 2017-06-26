@@ -922,8 +922,8 @@ namespace giac {
       return svg_segment(center-dx-i*dy,center+dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center+dx-i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center-dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
     case _POINT_TRIANGLE:
       return svg_segment(center-dx-i*dy,center-dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx-i*dy,center+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
-    case _POINT_POINT:
-      return svg_segment(center,center,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    case _POINT_POINT: // must make a small segment otherwise nothing visible
+      return svg_segment(center-dx/2,center+dx/2,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
     }
     return svg_segment(center-dx-i*dy,center+dx+i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_segment(center-dx+i*dy,center+dx-i*dy,attr,"",xmin,xmax,ymin,ymax,contextptr)+svg_text(center,legende,attr,xmin,xmax,ymin,ymax,contextptr);
   }
@@ -1117,7 +1117,7 @@ namespace giac {
 	  //CERR << attr.ysurx << endl;
 	  gen curve=figure.feuille[1];
 	  string s;
-	  if (curve.type==_VECT && curve._VECTptr->size()>2){
+	  if (type_line>4 && curve.type==_VECT && curve._VECTptr->size()>2){
 	    vecteur & v = *curve._VECTptr;
 	    s=svg_vecteur(v[v.size()/2],v[v.size()/2+1],attr,"",xmin,xmax,ymin,ymax,contextptr);
 	  }

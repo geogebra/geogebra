@@ -2705,7 +2705,7 @@ namespace giac {
 	  convert(qcopy,vars,newvars);
 	  if (debug_infolevel>1)
 	    CERR << CLOCK() << " compress monomials done" <<std::endl;
-	  if (!threadmult(bcopy,qcopy,bq,vars.front(),reduce,a.size()))
+	  if (!threadmult(bcopy,qcopy,bq,newvars.front(),reduce,a.size()))
 	    smallmult(bcopy,qcopy,bq,reduce,as);
 	  smallsub(acopy,bq,r);
 	  if (debug_infolevel>1)

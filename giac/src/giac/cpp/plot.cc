@@ -11068,7 +11068,12 @@ namespace giac {
   define_unary_function_ptr5( at_unarchive ,alias_at_unarchive,&__unarchive,0,true);
 #endif // NSPIRE
 
-  bool geo_setup(const vecteur & w,GIAC_CONTEXT){
+  bool geo_setup(const vecteur & w_,GIAC_CONTEXT){
+    vecteur w(w_);
+    for (size_t i=0;i<w.size();++i){
+      if (w[i].type==_VECT && w[i]._VECTptr->size()==2)
+	w[i]=w[i]._VECTptr->back();
+    }
     if (w.size()<12)
       return false; // setsizeerr(contextptr);
     if (w.size()>12) {
@@ -11144,7 +11149,20 @@ namespace giac {
       return interactive_op_tab[8](args,contextptr);
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT || args._VECTptr->size()<4)
-      return gensizeerr(contextptr);
+      return makevecteur(
+			 makevecteur(string2gen("x-",false),gnuplot_xmin),
+			 makevecteur(string2gen("x+",false),gnuplot_xmax),
+			 makevecteur(string2gen("y-",false),gnuplot_ymin),
+			 makevecteur(string2gen("y+",false),gnuplot_ymax),
+			 makevecteur(string2gen("z-",false),gnuplot_zmin),
+			 makevecteur(string2gen("z+",false),gnuplot_zmax),
+			 makevecteur(string2gen("t-",false),gnuplot_tmin),
+			 makevecteur(string2gen("t+",false),gnuplot_tmax),
+			 makevecteur(string2gen("wx-",false),global_window_xmin),
+			 makevecteur(string2gen("wx+",false),global_window_xmax),
+			 makevecteur(string2gen("wy-",false),global_window_ymin),
+			 makevecteur(string2gen("wy+",false),global_window_ymax)
+			 ); //gensizeerr(contextptr);
     vecteur w=*args._VECTptr;
     int s = int(w.size());
     if (s<12){

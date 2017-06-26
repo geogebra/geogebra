@@ -5437,6 +5437,11 @@ namespace giac {
 
   bool cas_setup(const vecteur & v_orig,GIAC_CONTEXT){
     vecteur v(v_orig);
+    for (size_t i=0;i<v.size();++i){
+      gen g=v[i];
+      if (g.type==_VECT && g._VECTptr->size()==2 && g._VECTptr->front().type==_STRNG)
+	v[i]=g._VECTptr->back();
+    }
     if (v.size()<7)
       return false;
     if (logptr(contextptr) && debug_infolevel) 
@@ -5580,8 +5585,22 @@ namespace giac {
     if (args.type!=_VECT)
       return gensizeerr(contextptr);
     vecteur & w=*args._VECTptr;
-    if (w.empty())
-      return cas_setup(contextptr);
+    if (w.empty()){
+      vecteur v=cas_setup(contextptr);
+      v[0]=makevecteur(string2gen("~",false),v[0]);
+      v[1]=makevecteur(string2gen("var C",false),v[1]);
+      v[2]=makevecteur(string2gen("C",false),v[2]);
+      v[3]=makevecteur(string2gen("0:deg/1:rad/2:grad",false),v[3]);
+      v[4]=makevecteur(string2gen("format",false),v[4]);
+      v[5]=makevecteur(string2gen("[epsilon,proba_epsilon]",false),v[5]);
+      v[6]=makevecteur(string2gen("digits",false),v[6]);
+      v[7]=makevecteur(string2gen("[thread,recursion,debug,eval]",false),v[7]);
+      v[8]=makevecteur(string2gen("increasing power",false),v[8]);      
+      v[9]=makevecteur(string2gen("sqrt",false),v[9]);
+      v[10]=makevecteur(string2gen("trig. solutions",false),v[10]);
+      v[11]=makevecteur(string2gen("integer",false),v[11]);
+      return v;
+    }
     if (!cas_setup(w,contextptr))
       return gendimerr(contextptr);
 #ifdef HAVE_SIGNAL_H_OLD
