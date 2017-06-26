@@ -482,7 +482,8 @@ public class DrawAxis {
 
 			// small tick
 			smallTickPix = (pix + tickStep) - smallTickOffset;
-			if (drawMinorTicks[1]) {
+			if (drawMinorTicks[1] && !view.getApplication()
+					.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
 						smallTickPix);
