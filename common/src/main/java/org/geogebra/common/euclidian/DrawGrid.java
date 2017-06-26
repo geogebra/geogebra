@@ -90,7 +90,9 @@ public class DrawGrid {
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
 				if (view.axesLabelsPositionsY.contains(
-						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
+						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))
+						&& !view.getApplication()
+								.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 
 					// hits axis label, draw in 2 sections
 					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix,
@@ -243,7 +245,8 @@ public class DrawGrid {
 	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
 			double x2, double y2, double xCrossPix) {
 
-		if (xCrossPix > x1 && xCrossPix < x2) {
+		if ((xCrossPix > x1 && xCrossPix < x2) && !view.getApplication()
+				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 			// split in 2
 			g2.drawStraightLine(x1, y1,
 					xCrossPix - (view.toRealWorldCoordY(y1) > 0

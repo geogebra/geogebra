@@ -4337,6 +4337,9 @@ public abstract class App implements UpdateSelection {
 		case MOB_INPUT_BAR_SOLVE:
 			return prerelease;
 
+		case AXES_NUMBERS_WHITE_BACKGROUND:
+			return prerelease;
+
 		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
 		case NON_CAS_POLYNOMIAL_DIVISION:
 			return true;
