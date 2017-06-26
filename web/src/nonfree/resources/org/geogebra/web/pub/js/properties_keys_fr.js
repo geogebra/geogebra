@@ -2773,7 +2773,7 @@ __GGB__keysVar.fr.menu = {
     "Tool.Replace": "Remplacer",
     "Tool.ReplaceQuestion": "Remplacer vraiment  l\'outil existant \"%0\" ?",
     "Tool.SelectObjects": "S\xe9lectionner les objets dans la construction ou choisir dans la liste",
-    "ToolCategory.BasicTools": "Basic Tools",
+    "ToolCategory.BasicTools": "Basiques",
     "ToolCategory.Circles": "Cercles",
     "ToolCategory.Conics": "Coniques",
     "ToolCategory.Construct": "Constructions",
