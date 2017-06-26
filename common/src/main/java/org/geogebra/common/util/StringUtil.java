@@ -1303,10 +1303,10 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return emulation of Character.isWhiteSpace
 	 */
 	public static boolean isWhitespace(char c) {
-		return c == ' ' || c == '\u0009' || /* , HORIZONTAL TABULATION. */
+		return c == ' ' || c == '\t' || /* , HORIZONTAL TABULATION. */
 				c == '\n' || /* LINE FEED. */
 				c == '\u000B' || /* VERTICAL TABULATION. */
-				c == '\u000C' || /* FORM FEED. */
+				c == '\f' || /* FORM FEED. */
 				c == '\r' || /* CARRIAGE RETURN. */
 				c == '\u001C' || /* FILE SEPARATOR. */
 				c == '\u001D' || /* GROUP SEPARATOR. */
