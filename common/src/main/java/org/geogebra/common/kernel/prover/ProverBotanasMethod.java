@@ -1871,10 +1871,39 @@ public class ProverBotanasMethod {
 							 * locus then the condition may need to have the symbolic object
 							 * for consistency.
 							 */
-							// ad hoc selection:
-							as.freeVariables.remove(vars[0]);
-							as.freeVariables.add(vars[1]);
-							createX = false;
+							GeoElement input = ae.input[0];
+							/*
+							 * In some cases it is useful do something similar
+							 * for more complicated curves, for example, for
+							 * circles. Other cases might be also implemented
+							 * (e.g. other types of conics).
+							 */
+							if (input instanceof GeoConic
+									&& ((GeoConic) input).isCircle()) {
+								GeoConic gc = (GeoConic) input;
+								Coords co = gc.getMidpoint();
+								Coords cp = ((GeoPoint) freePoint).getCoords();
+								if (co.get(2) == 1.0 && cp.get(2) == 1.0) {
+									if (Kernel.isEqual(co.get(0), cp.get(0))) {
+										/*
+										 * first coordinates equal, so the
+										 * radius is vertical
+										 */
+										as.freeVariables.remove(vars[1]);
+										as.freeVariables.add(vars[0]);
+										createX = true;
+									}
+									/*
+									 * the horizontal case will be handled below
+									 */
+								}
+								// Log.debug(co + " " + cp);
+							} else {
+								/* ad hoc selection (here horizontal) */
+								as.freeVariables.remove(vars[0]);
+								as.freeVariables.add(vars[1]);
+								createX = false;
+							}
 						}
 					}
 				}
