@@ -4307,6 +4307,9 @@ public abstract class App implements UpdateSelection {
 		case INPUT_BAR_SOLVE:
 			return prerelease;
 
+		case INPUT_BAR_ADD_SLIDER:
+			return prerelease;
+
 		case AND_SNACKBAR:
 			return prerelease;
 			
@@ -4318,6 +4321,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
+			return prerelease;
+
+		/** GGB-1876 */
+		case DOUBLE_ROUND_BRACKETS:
 			return prerelease;
 
 		/*

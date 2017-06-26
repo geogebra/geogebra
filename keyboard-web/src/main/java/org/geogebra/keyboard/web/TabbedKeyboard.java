@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
@@ -241,6 +243,7 @@ public class TabbedKeyboard extends FlowPanel {
 	private KeyboardSwitcher switcher;
 	protected KeyPanelBase currentKeyboard=null;
 	protected boolean keyboardWanted = false;
+	private boolean doubleBrackets;
 
 	public TabbedKeyboard() {
 
@@ -260,6 +263,7 @@ public class TabbedKeyboard extends FlowPanel {
 		switcher = new KeyboardSwitcher();
 		this.app = app;
 		this.bh = bh;
+		this.doubleBrackets = ((App) app).has(Feature.DOUBLE_ROUND_BRACKETS);
 		this.locale = app.getLocalization();
 		this.keyboardLocale = locale.getLocaleStr();
 
@@ -497,6 +501,9 @@ public class TabbedKeyboard extends FlowPanel {
 			}
 			if (wb.getActionName().equals("" + Unicode.LCEIL)) {
 				return new KeyBoardButtonBase(KeyboardConstants.CEIL, wb.getActionName(), bh);
+			}
+			if (doubleBrackets && wb.getActionName().equals("(")) {
+				return new KeyBoardButtonBase("(", "()", b);
 			}
 			return new KeyBoardButtonBase(wb.getActionName(),
 					wb.getActionName(), b);
