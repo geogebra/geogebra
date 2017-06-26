@@ -367,7 +367,8 @@ public class DrawAxis {
 
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			// big tick
-			if (drawMajorTicks[1]) {
+			if (drawMajorTicks[1] && !view.getApplication()
+					.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 			}
@@ -469,12 +470,16 @@ public class DrawAxis {
 								.valueOf((int) (pix + Kernel.MIN_PRECISION)));
 					}
 				}
-				if (drawMajorTicks[1] && (!view.showAxes[0]
-						|| !Kernel.isEqual(rw, view.axisCross[0]))) {
+				if ((drawMajorTicks[1] && (!view.showAxes[0]
+						|| !Kernel.isEqual(rw, view.axisCross[0])))
+						&& !view.getApplication()
+								.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
-			} else if (drawMajorTicks[1] && !drawTopArrow) {
+			} else if (drawMajorTicks[1] && !drawTopArrow
+					&& !view.getApplication()
+							.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 				// draw last tick if there is no arrow
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xBig, pix, xZeroTick, pix);
