@@ -17,6 +17,19 @@ import com.himamis.retex.editor.web.MathFieldW;
 public class MathFieldProcessing implements KeyboardListener {
 
 	private MathFieldW mf;
+	private boolean doubleBrakets = false;
+	
+	/**
+	 * @param mf
+	 *            math input field
+	 * @param doubleBrakets
+	 *            does keyboard send "()" for "("
+	 * 
+	 */
+	public MathFieldProcessing(MathFieldW mf, boolean doubleBrakets) {
+		this.mf = mf;
+		this.doubleBrakets = doubleBrakets;
+	}
 
 	/**
 	 * @param mf
@@ -24,8 +37,8 @@ public class MathFieldProcessing implements KeyboardListener {
 	 */
 	public MathFieldProcessing(MathFieldW mf) {
 		this.mf = mf;
+		this.doubleBrakets = false;
 	}
-
 	@Override
 	public void setFocus(boolean focus) {
 		mf.setFocus(focus);
@@ -105,6 +118,10 @@ public class MathFieldProcessing implements KeyboardListener {
 		for (int i = 0; i < text.length(); i++) {
 			mf.getKeyListener().onKeyTyped(new KeyEvent(0, 0, text.charAt(i)),
 					i == text.length() - 1);
+
+		}
+		if ("()".equals(text) && doubleBrakets) {
+			onArrow(ArrowType.left);
 		}
 
 	}

@@ -469,6 +469,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				|| (app.getGuiManager() != null
 						&& app.getGuiManager().getKeyboardShouldBeShownFlag())) {
 			doShowKeyBoard(show, textField);
+
 		} else {
 			showKeyboardButton(textField);
 		}

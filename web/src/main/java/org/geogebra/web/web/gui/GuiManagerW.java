@@ -2145,7 +2145,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 
 		if (textField != null) {
-				onScreenKeyboard.setProcessing(makeKeyboardListener(textField));
+			onScreenKeyboard
+					.setProcessing(makeKeyboardListener(textField, app));
 		}
 
 		onScreenKeyboard.setListener(listener);
@@ -2158,14 +2159,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public static KeyboardListener makeKeyboardListener(
-			MathKeyboardListener textField) {
+			MathKeyboardListener textField, App app) {
 		if (textField instanceof RetexKeyboardListener) {
 			return new MathFieldProcessing(
-					((RetexKeyboardListener) textField).getMathField());
+					((RetexKeyboardListener) textField).getMathField(),
+					app.has(Feature.DOUBLE_ROUND_BRACKETS));
 		}
 		if (textField instanceof RadioTreeItem) {
 			return new MathFieldProcessing(
-					((RadioTreeItem) textField).getMathField());
+					((RadioTreeItem) textField).getMathField(),
+					app.has(Feature.DOUBLE_ROUND_BRACKETS));
 		}
 		if (textField instanceof KeyboardListener) {
 			return (KeyboardListener) textField;
@@ -2189,7 +2192,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void setOnScreenKeyboardTextField(MathKeyboardListener textField) {
 		if (onScreenKeyboard != null) {
-			onScreenKeyboard.setProcessing(makeKeyboardListener(textField));
+			onScreenKeyboard
+					.setProcessing(makeKeyboardListener(textField, app));
 		}
 	}
 
