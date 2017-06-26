@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
@@ -701,6 +702,12 @@ public class DrawAxis {
 	 */
 	void drawString(GGraphics2D g2, String text, double x, double y) {
 
+		if (view.getApplication().has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+			g2.setColor(GColor.WHITE);
+			g2.setStrokeLineWidth(5);
+			g2.drawStringStroke(text, x, y);
+		}
+		
 		g2.setColor(view.axesColor);
 		g2.drawString(text, (int) (x), (int) y);
 

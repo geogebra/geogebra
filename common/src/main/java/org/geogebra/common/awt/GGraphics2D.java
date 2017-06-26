@@ -82,6 +82,10 @@ public interface GGraphics2D {
 	 */
 	public abstract void drawString(String str, double x, double y);
 
+	public abstract void drawStringStroke(String str, double x, double y);
+
+	public abstract void setStrokeLineWidth(double w);
+
 	/**
 	 * Fills the interior of a <code>Shape</code> using the settings of the
 	 * <code>Graphics2D</code> context. The rendering attributes applied include

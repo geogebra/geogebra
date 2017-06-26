@@ -236,6 +236,16 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	@Override
+	public void drawStringStroke(String str, double x, double y) {
+		context.strokeText(str, x, y);
+	}
+
+	@Override
+	public void setStrokeLineWidth(double w) {
+		context.setLineWidth(w);
+	}
+
+	@Override
 	public void setComposite(GComposite comp) {
 		context.setGlobalAlpha(((GAlphaCompositeW) comp).getAlpha());
 
