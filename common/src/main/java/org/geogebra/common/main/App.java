@@ -4344,6 +4344,9 @@ public abstract class App implements UpdateSelection {
 		case NON_CAS_POLYNOMIAL_DIVISION:
 			return true;
 
+		case AND_FOCUS_ON_BIND:
+			return true;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
