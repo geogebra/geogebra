@@ -35,6 +35,7 @@ public class Unicode {
 	/** Unicode symbol for e */
 	final public static char EULER_CHAR = '\u212f';
 
+
 	// lower case Greek
 	public static final char alpha = '\u03B1';
 	public static final char beta = '\u03B2';

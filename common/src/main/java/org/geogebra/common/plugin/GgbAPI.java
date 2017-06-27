@@ -1091,6 +1091,25 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		evalCommand(new TeXAtomSerializer(ad).serialize(tf.root));
 	}
 
+	 // eg ggbApplet.evalMathML("<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>");
+	/**
+	 * 
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public boolean evalMathML(String input) {
+		try {
+			GeoElementND[] ret = kernel.getAlgebraProcessor().parseMathml(input,
+					false, null, false, null);
+		} catch (RuntimeException e) {
+			Log.error(e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	 * Returns the command of the object with the given name as a string.
 	 */

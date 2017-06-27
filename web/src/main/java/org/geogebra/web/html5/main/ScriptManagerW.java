@@ -949,6 +949,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalLaTeX(Ljava/lang/String;I)(text+"",mode);
 		};
 
+		api.evalMathML = function(text) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalMathML(Ljava/lang/String;)(text+"");
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 

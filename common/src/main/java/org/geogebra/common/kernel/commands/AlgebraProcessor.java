@@ -1013,7 +1013,7 @@ public class AlgebraProcessor {
 	 * @param autoCreateSliders
 	 *            whether sliders should be autocreated
 	 */
-	private GeoElementND[] parseMathml(String cmd, final boolean storeUndo,
+	public GeoElementND[] parseMathml(String cmd, final boolean storeUndo,
 			ErrorHandler handler, boolean autoCreateSliders,
 			final AsyncOperation<GeoElementND[]> callback0) {
 		if (mathmlParserGGB == null) {
