@@ -2,6 +2,8 @@ package org.geogebra.common.export;
 
 import java.util.HashMap;
 
+import com.himamis.retex.editor.share.util.Greek;
+
 public class UnicodeTeX {
 
 	private static HashMap<Character, String> unicode2tex = null;
@@ -119,45 +121,20 @@ public class UnicodeTeX {
 		p('\u030c', "check");
 		p('\u0338', "not");
 		p('\u0360', "widehat");
-		p('\u0393', "Gamma");
-		p('\u0394', "Delta");
-		p('\u0398', "Theta");
-		p('\u039b', "Lambda");
-		p('\u039e', "Xi");
-		p('\u03a0', "Pi");
-		p('\u03a3', "Sigma");
-		p('\u03a6', "Phi");
-		p('\u03a8', "Psi");
-		p('\u03a9', "Omega");
-		p('\u03b1', "alpha");
-		p('\u03b2', "beta");
-		p('\u03b3', "gamma");
-		p('\u03b4', "delta");
-		p('\u03b5', "varepsilon");
-		p('\u03b6', "zeta");
-		p('\u03b7', "eta");
-		p('\u03b8', "theta");
-		p('\u03b9', "iota");
-		p('\u03ba', "kappa");
-		p('\u03bb', "lambda");
-		p('\u03bc', "mu");
-		p('\u03bd', "nu");
-		p('\u03be', "xi");
-		p('\u03C0', "pi");
-		p('\u03c1', "rho");
-		p('\u03c2', "varsigma");
-		p('\u03c3', "sigma");
-		p('\u03c4', "tau");
-		p('\u03c5', "upsilon");
-		p('\u03c6', "phi");
-		p('\u03c7', "chi");
-		p('\u03c8', "psi");
-		p('\u03c9', "omega");
+
+		// Greek upper and lower case
+		for (Greek greek : Greek.values()) {
+			p(greek.unicode, greek.getLaTeX());
+		}
+
 		p('\u03d2', "Upsilon");
-		p('\u03d5', "varphi");
+
+		p('\u03c2', "varsigma");
+		p('\u03d5', "phi");
 		p('\u03d6', "varpi");
 		p('\u03f0', "varkappa");
 		p('\u03f1', "varrho");
+
 		p('\u2003', "quad");
 		p('\u2005', "thickspace");
 		p('\u2009', "thinspace");
@@ -166,8 +143,6 @@ public class UnicodeTeX {
 		p('\u2018', "lq");
 		p('\u2019', "rq");
 		p('\u2020', "dagger");
-		p('\u2020', "dagger");
-		p('\u2021', "ddagger");
 		p('\u2021', "ddagger");
 		p('\u2026', "dots");
 		p('\u2032', "prime");

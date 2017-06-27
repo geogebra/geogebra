@@ -72,6 +72,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /*
@@ -3751,56 +3752,19 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// for exponential in new Geogebra version.
 		renameFunc(sb, Unicode.EULER_STRING, "2.718"); /* 2.718281828 */
 
-		// temporary code: may be redundant, fail-safe
-		// upper letter greek symbols
-		renameFunc(sb, "\u0393", "Gamma");
-		renameFunc(sb, "\u0394", "Delta");
-		renameFunc(sb, "\u0398", "Theta");
-		renameFunc(sb, "\u039b", "Lambda");
-		renameFunc(sb, "\u039e", "Xi");
-		renameFunc(sb, "\u03a0", "Pi");
-		renameFunc(sb, "\u03a3", "Sigma");
-		renameFunc(sb, "\u03a6", "Phi");
-		renameFunc(sb, "\u03a8", "Psi");
-		renameFunc(sb, "\u03a9", "Omega");
+		for (Greek greek : Greek.values()) {
 
-		// lower letter greek symbols
-		renameFunc(sb, "\u03b1", "alpha");
-		renameFunc(sb, "\u03b2", "beta");
-		renameFunc(sb, "\u03b3", "gamma");
-		renameFunc(sb, "\u03b4", "delta");
-		renameFunc(sb, "\u03b5", "epsilon");
-		renameFunc(sb, "\u03b6", "zeta");
-		renameFunc(sb, "\u03b7", "eta");
-		renameFunc(sb, "\u03b8", "theta");
-		renameFunc(sb, "\u03b9", "iota");
-		renameFunc(sb, "\u03ba", "kappa");
-		renameFunc(sb, "\u03bb", "lambda");
-		renameFunc(sb, "\u03bc", "mu");
-		renameFunc(sb, "\u03be", "xi");
-		renameFunc(sb, Unicode.PI_STRING, "pi");
-		renameFunc(sb, "\u03c1", "rho");
-		renameFunc(sb, "\u03c2", "varsigma");
-		renameFunc(sb, "\u03c3", "sigma");
-		renameFunc(sb, "\u03c4", "tau");
-		renameFunc(sb, "\u03c5", "upsilon");
-		renameFunc(sb, "\u03c6", "varphi");
-		renameFunc(sb, "\u03c7", "chi");
-		renameFunc(sb, "\u03c8", "psi");
-		renameFunc(sb, "\u03c9", "omega");
+			String latexNameNoBackslash = greek.getLaTeX();
+			String latexName = "\\" + latexNameNoBackslash;
 
-		// remove greek letter escapes
-		String greekalpha[] = { "alpha", "beta", "gamma", "delta", "epsilon",
-				"zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "xi",
-				"pi", "rho", "varsigma", "sigma", "tau", "upsilon", "varphi",
-				"chi", "psi", "omega" };
-		for (int i = 0; i < greekalpha.length; i++) {
-			renameFunc(sb, "\\" + greekalpha[i], greekalpha[i]); // lower case
-			String temps = Character
-					.toString(Character.toUpperCase(greekalpha[i].charAt(0)))
-					+ greekalpha[i].substring(1);
-			renameFunc(sb, "\\" + temps, temps); // upper case
+			// temporary code: may be redundant, fail-safe
+			renameFunc(sb, greek.unicode + "", latexNameNoBackslash);
+
+			renameFunc(sb, latexName, latexNameNoBackslash);
+
+
 		}
+
 
 		return sb.toString();
 	}

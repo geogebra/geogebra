@@ -103,6 +103,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 
 import com.google.j2objc.annotations.Weak;
+import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -3575,25 +3576,6 @@ public abstract class GeoElement extends ConstructionElement
 		return getDefaultLabel(null, false);
 	}
 
-	/*
-	 * all 24 Greek UPPER CASE
-	 */
-	private static final char[] greekUpperCase = { '\u0391', '\u0392', '\u0393',
-			'\u0394', '\u0395', '\u0396', '\u0397', '\u0398', '\u0399',
-			'\u039a', '\u039b', '\u039c', '\u039d', '\u039e', '\u039f',
-			'\u03a0', '\u03a1', '\u03a3', '\u03a4', '\u03a5', '\u03a6',
-			'\u03a7', '\u03a8', '\u03a9' };
-
-	/*
-	 * Greek lower case pi NOT included, also sigmaf \u03c2 omitted \u03d5 in
-	 * place of \u03c6
-	 */
-	private static final char[] greekLowerCaseNoPi = { '\u03b1', '\u03b2',
-			'\u03b3', '\u03b4', '\u03b5', '\u03b6', '\u03b7', '\u03b8',
-			'\u03b9', '\u03ba', '\u03bb', '\u03bc', '\u03bd', '\u03be',
-			'\u03bf', '\u03c1', '\u03c3', '\u03c4', '\u03c5', '\u03d5',
-			'\u03c7', '\u03c8', '\u03c9' };
-
 	/**
 	 * appends all upper case Greek letters to list
 	 * 
@@ -3601,9 +3583,13 @@ public abstract class GeoElement extends ConstructionElement
 	 *            list to append Greek Upper case letters to
 	 */
 	public static void addAddAllGreekUpperCase(ArrayList<String> list) {
-		for (int i = 0; i < greekUpperCase.length; i++) {
-			list.add(greekUpperCase[i] + "");
+
+		for (Greek greek : Greek.values()) {
+			if (greek.upperCase) {
+				list.add(greek.unicode + "");
+			}
 		}
+
 	}
 
 	/**
@@ -3613,8 +3599,16 @@ public abstract class GeoElement extends ConstructionElement
 	 *            list to append Greek Upper case letters to
 	 */
 	public static void addAddAllGreekLowerCaseNoPi(ArrayList<String> list) {
-		for (int i = 0; i < greekLowerCaseNoPi.length; i++) {
-			list.add(greekLowerCaseNoPi[i] + "");
+		for (Greek greek : Greek.values()) {
+			if (!greek.upperCase && greek.unicode != Unicode.pi) {
+
+				// \u03d5 in place of \u03c6
+				if (greek.unicode == Unicode.phi) {
+					list.add(Unicode.phi_symbol + "");
+				} else {
+					list.add(greek.unicode + "");
+				}
+			}
 		}
 	}
 
@@ -3626,9 +3620,19 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public static void addAddAllGreekLowerCaseNoPi(
 			IAxisModelListener listener) {
-		for (int i = 0; i < greekLowerCaseNoPi.length; i++) {
-			listener.addAxisLabelItem(greekLowerCaseNoPi[i] + "");
+
+		for (Greek greek : Greek.values()) {
+			if (!greek.upperCase && greek.unicode != Unicode.pi) {
+
+				// \u03d5 in place of \u03c6
+				if (greek.unicode == Unicode.phi) {
+					listener.addAxisLabelItem(Unicode.phi_symbol + "");
+				} else {
+					listener.addAxisLabelItem(greek.unicode + "");
+				}
+			}
 		}
+
 	}
 
 	/**
@@ -3647,7 +3651,7 @@ public abstract class GeoElement extends ConstructionElement
 				// (el)
 				if (getLoc().isUsingLocalizedLabels()) {
 					if (getLoc().languageIs(Language.Greek.locale)) {
-						chars = greekUpperCase;
+						chars = Greek.getGreekUpperCase();
 					} else if (getLoc().languageIs(Language.Arabic.locale)) {
 						// Arabic / Arabic (Morocco)
 						chars = arabic;
@@ -3704,7 +3708,7 @@ public abstract class GeoElement extends ConstructionElement
 			} else if (isGeoVector() || evaluatesTo3DVector()) {
 				chars = vectorLabels;
 			} else if (isGeoAngle()) {
-				chars = greekLowerCaseNoPi;
+				chars = Greek.getGreekLowerCaseNoPi();
 			} else if (isGeoText()) {
 				return defaultNumberedLabel("text"); // Name.text
 			} else if (isGeoImage()) {
@@ -3784,6 +3788,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		return sbDefaultLabel.toString();
 	}
+
 
 	private String defaultNumberedLabel(final String plainKey) {
 		int counter = 0;

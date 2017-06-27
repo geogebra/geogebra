@@ -35,6 +35,8 @@ public enum Greek {
 
 	rho('\u03C1', false),
 
+	// don't want \u03C2 \varsigma here
+
 	sigma('\u03C3', false),
 
 	tau('\u03C4', false),
@@ -110,11 +112,11 @@ public enum Greek {
 
 	public String getLaTeX() {
 
-		if (this.equals(epsilon) || this.equals(phi)) {
-			return "\\var" + name();
+		if (this.equals(phi)) {
+			return "var" + name();
 		}
 
-		return "\\" + name();
+		return name();
 	}
 
 	public String getHTML() {
@@ -134,6 +136,50 @@ public enum Greek {
 		}
 
 		return null;
+	}
+
+	private static char[] greekLowerCaseNoPi;
+	private static char[] greekUpperCase;
+
+	public static char[] getGreekLowerCaseNoPi() {
+
+		if (greekLowerCaseNoPi == null) {
+			greekLowerCaseNoPi = new char[23];
+		}
+
+		int i = 0;
+		for (Greek greek : Greek.values()) {
+			if (!greek.upperCase && greek.unicode != Unicode.pi) {
+
+				// \u03d5 in place of \u03c6
+				if (greek.unicode == Unicode.phi) {
+					greekLowerCaseNoPi[i++] = Unicode.phi_symbol;
+				} else {
+					greekLowerCaseNoPi[i++] = greek.unicode;
+				}
+			}
+		}
+
+		return greekLowerCaseNoPi;
+
+	}
+
+	public static char[] getGreekUpperCase() {
+
+		if (greekUpperCase == null) {
+			greekUpperCase = new char[24];
+		}
+
+		int i = 0;
+		for (Greek greek : Greek.values()) {
+			if (greek.upperCase) {
+
+				greekUpperCase[i++] = greek.unicode;
+			}
+		}
+
+		return greekUpperCase;
+
 	}
 
 }
