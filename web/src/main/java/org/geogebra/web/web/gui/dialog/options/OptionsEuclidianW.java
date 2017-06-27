@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.Unicode;
 
 public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	IEuclidianOptionsListener {
@@ -919,7 +920,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// grid labels
 			gridLabel1 = new Label("x:");
 			gridLabel2 = new Label("y:");
-			gridLabel3 = new Label("\u03B8" + ":"); // Theta
+			gridLabel3 = new Label(Unicode.theta + ":");
 			
 			FlowPanel ncbGridTickXPanel = new FlowPanel();
 			FlowPanel ncbGridTickYPanel = new FlowPanel();

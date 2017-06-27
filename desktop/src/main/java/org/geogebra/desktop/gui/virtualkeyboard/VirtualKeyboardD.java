@@ -624,7 +624,7 @@ public class VirtualKeyboardD extends JFrame
 	JToggleButton getGreekButton() {
 		if (GreekButton == null) {
 
-			GreekButton = new JToggleButton("\u03b1");
+			GreekButton = new JToggleButton(Unicode.alpha + "");
 			updateGreekButton();
 			GreekButton.setMargin(new Insets(0, 0, 0, 0));
 			GreekButton.setToolTipText(loc.getMenu("Keyboard.Greek"));

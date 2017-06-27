@@ -66,6 +66,8 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Panel with options for the euclidian view. TODO: optimization: updateGUI()
  * called too often (F.S.)
@@ -467,7 +469,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		gridLabel1.setLabelFor(ncbGridTickX);
 		gridLabel2 = new JLabel("y:");
 		gridLabel2.setLabelFor(ncbGridTickY);
-		gridLabel3 = new JLabel("\u03B8" + ":"); // Theta
+		gridLabel3 = new JLabel(Unicode.theta + ":");
 		gridLabel3.setLabelFor(cbGridTickAngle);
 
 		typePanel = new JPanel();
