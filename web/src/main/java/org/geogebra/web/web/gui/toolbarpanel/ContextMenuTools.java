@@ -10,7 +10,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
@@ -166,7 +165,7 @@ public class ContextMenuTools implements SetLabels {
 	private void addToolManageItems() {
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					GuiResources.INSTANCE.menu_icon_tools_customize()
+					MaterialDesignResources.INSTANCE.tools_customize_black()
 							.getSafeUri().asString(),
 					loc.getMenu("Toolbar.Customize"), true),
 					new Command() {
@@ -180,7 +179,7 @@ public class ContextMenuTools implements SetLabels {
 		}
 
 		addItem(MainMenu.getMenuBarHtml(
-				GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri()
+				MaterialDesignResources.INSTANCE.tools_create_black().getSafeUri()
 						.asString(),
 				loc.getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
 						: "Tool.CreateNew"),
@@ -195,7 +194,7 @@ public class ContextMenuTools implements SetLabels {
 				});
 
 		addItem(MainMenu.getMenuBarHtml(
-				GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(),
+				MaterialDesignResources.INSTANCE.tools_black().getSafeUri().asString(),
 				loc.getMenu("Tool.Manage"), true), new Command() {
 
 					@Override

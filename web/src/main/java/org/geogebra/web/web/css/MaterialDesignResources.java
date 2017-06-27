@@ -161,7 +161,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/av_tab_white.png")
 	ImageResource toolbar_algebra();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/tools_white.png")
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/tools_tab_white.png")
 	ImageResource toolbar_tools();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/filter_list_black.png")
