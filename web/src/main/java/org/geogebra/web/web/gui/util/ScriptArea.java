@@ -200,8 +200,7 @@ public class ScriptArea extends TextArea
 
 	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
-		// TODO Auto-generated method stub
-
+		setFocus(focus);
 	}
 
 	@Override
