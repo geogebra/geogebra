@@ -357,7 +357,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 						// range eg sigmaf
 						String greekLaTeX = Greek.getLaTeX(c);
 						if (greekLaTeX != null) {
-							sbReplaceExp.append("\\" + greekLaTeX);
+							sbReplaceExp.append("\\");
+							sbReplaceExp.append(greekLaTeX);
 						} else {
 
 							if (c == Unicode.phi_symbol) {
