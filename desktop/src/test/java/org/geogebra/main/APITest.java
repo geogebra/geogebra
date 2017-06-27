@@ -28,6 +28,21 @@ public class APITest {
 	}
 
 	@Test
+	public void testEvalMathML() {
+		api.evalMathML(
+				"<mrow><mi> x</mi><mo> +</mo><mrow><mi> 1</mi><mo>/</mo><mi> 2</mi></mrow></mrow>");
+		Assert.assertEquals(api.getLaTeXString("f"), "x + \\frac{1}{2}");
+		Assert.assertEquals(api.getValueString("f"), "f(x) = x + 1 / 2");
+	}
+
+	@Test
+	public void testEvalLaTeX() {
+		api.evalLaTeX("latex(x)=\\sqrt{x}", 0);
+		Assert.assertEquals(api.getLaTeXString("latex"), "\\sqrt{x}");
+		Assert.assertEquals(api.getValueString("latex"), "latex(x) = sqrt(x)");
+	}
+
+	@Test
 	public void testLabelStyle() {
 		api.evalCommand("a=7");
 		api.setLabelStyle("a", 1);
