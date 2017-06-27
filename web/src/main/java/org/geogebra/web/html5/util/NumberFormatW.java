@@ -2,7 +2,6 @@ package org.geogebra.web.html5.util;
 
 import org.geogebra.common.util.NumberFormatAdapter;
 
-import com.google.gwt.i18n.client.NumberFormat;
 
 /**
  * @author gabor@geogebra.org
@@ -25,13 +24,13 @@ public class NumberFormatW extends Format implements NumberFormatAdapter {
 	public NumberFormatW(String s, int digits) {
 		maximumFractionDigits = digits;
 
-		Boolean forcedLatinDigits = NumberFormat.forcedLatinDigits();
+		Boolean forcedLatinDigits = MyNumberFormat.forcedLatinDigits();
 		if (!forcedLatinDigits) {
-			NumberFormat.setForcedLatinDigits(true);
+			MyNumberFormat.setForcedLatinDigits(true);
 		}
-		this.nf = NumberFormat.getFormat(s);
+		this.nf = MyNumberFormat.getFormat(s);
 		if (!forcedLatinDigits) {
-			NumberFormat.setForcedLatinDigits(false);
+			MyNumberFormat.setForcedLatinDigits(false);
 		}
 		nf.overrideFractionDigits(0, maximumFractionDigits);
 	}

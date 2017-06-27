@@ -22,19 +22,19 @@ import java.text.ParseException;
 
 public class NumberFormat implements Serializable
 {
-    private com.google.gwt.i18n.client.NumberFormat format;
+    private org.geogebra.web.html5.util.MyNumberFormat format;
 
     protected NumberFormat()
     {
 
     }
 
-    protected NumberFormat( com.google.gwt.i18n.client.NumberFormat format )
+    protected NumberFormat( org.geogebra.web.html5.util.MyNumberFormat format )
     {
         applyFormat( format );
     }
 
-    protected void applyFormat( com.google.gwt.i18n.client.NumberFormat format )
+    protected void applyFormat( org.geogebra.web.html5.util.MyNumberFormat format )
     {
         this.format = format;
     }
@@ -61,7 +61,7 @@ public class NumberFormat implements Serializable
 //
     public final static NumberFormat getPercentInstance()
     {
-        return new NumberFormat( com.google.gwt.i18n.client.NumberFormat.getPercentFormat() );
+        return new NumberFormat( org.geogebra.web.html5.util.MyNumberFormat.getPercentFormat() );
     }
 
     public final String format( double number )

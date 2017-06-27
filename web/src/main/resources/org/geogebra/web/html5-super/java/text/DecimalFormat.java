@@ -33,7 +33,7 @@ public class DecimalFormat
 
     public void applyPattern( String pattern )
     {
-        applyFormat( com.google.gwt.i18n.client.NumberFormat.getFormat( pattern ) );
+        applyFormat( org.geogebra.web.html5.util.MyNumberFormat.getFormat( pattern ) );
     }
 
 }
