@@ -2187,7 +2187,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	public void updateFonts() {
+	public final void updateFonts() {
 		if (mf != null) {
 			mf.setFontSize(getFontSize());
 		}

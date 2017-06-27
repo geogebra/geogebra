@@ -82,7 +82,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 		content.add(getPlainTextItem());
 
-		updateFonts();
+		updateFont(getPlainTextItem());
 		createSliderGUI();
 		addControls();
 		styleContentPanel();
