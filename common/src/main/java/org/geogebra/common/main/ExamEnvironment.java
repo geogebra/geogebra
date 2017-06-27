@@ -8,8 +8,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 
-//import com.google.gwt.i18n.client.DateTimeFormat;
-
 public class ExamEnvironment {
 	long examStartTime = -1;
 	protected LinkedList<Long> cheatingTimes = null;
