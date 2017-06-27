@@ -6,7 +6,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.util.ArticleElement;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.Window;
 
 /**
@@ -46,7 +45,8 @@ public class LoggerW extends Log {
 	@Override
 	protected String getTimeInfoImpl() {
 		Date date = new Date();
-		return DateTimeFormat.getFormat("HH:mm:ss.SSS").format(date);
+		return date.getHours() + ":" + date.getMinutes() + ":"
+				+ date.getSeconds();
 	}
 
 	@Override
@@ -61,7 +61,7 @@ public class LoggerW extends Log {
 		if (getLogDestination() == LogDestination.FILE) {
 			setLogDestination(LogDestination.CONSOLE);
 			log(WARN,
-			        "FILE logging is not supported in desktop, falling back to use CONSOLES instead",
+					"FILE logging is not supported in web, falling back to use CONSOLES instead",
 			        1);
 			print(logEntry, level);
 			return;
