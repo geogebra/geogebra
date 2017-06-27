@@ -22,650 +22,667 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class MathMLParser {
 
-	private static HashMap<String, String> geogebraMap = new HashMap<String, String>();
+	private static HashMap<String, String> geogebraMap;
 
-	static {
+	static HashMap<String, String> getGeogebraMap() {
 
-		// Tags:
-		geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
-		geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
-		geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");// TODO _{1} -> _1 at
-															// the end of
-															// parsing
-		geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
-		geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
-		geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial coefficient,
-													// FIXME
-		geogebraMap.put("<mfenced open=\"|\" close=\"|\">", "abs(%BLOCK1%)");// abs.
-																				// value
-		geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)");// ignored
+		if (geogebraMap == null) {
+			geogebraMap = new HashMap<String, String>();
+
+			// Tags:
+			geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
+			geogebraMap.put("<msup>", "((%BLOCK1%)^(%BLOCK2%))");
+			geogebraMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");// TODO _{1} -> _1
+																// at
+																// the end of
+																// parsing
+			geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
+			geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
+			geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial
+														// coefficient,
+														// FIXME
+			geogebraMap.put("<mfenced open=\"|\" close=\"|\">",
+					"abs(%BLOCK1%)");// abs.
+										// value
+			geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)");// ignored
+																				// for
+																				// now,
+																				// FIXME
+																				// (subscripted
+																				// variable
+																				// powered)
+			geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,");// ignored
 																			// for
 																			// now,
 																			// FIXME
 																			// (subscripted
 																			// variable
 																			// powered)
-		geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,");// ignored
-																		// for
-																		// now,
-																		// FIXME
-																		// (subscripted
-																		// variable
-																		// powered)
-		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
-		geogebraMap.put("<mtable>", "{%BLOCKS%}");
-		geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
-		geogebraMap.put("<mtd>", "%BLOCK1%, ");
+			geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
+			geogebraMap.put("<mtable>", "{%BLOCKS%}");
+			geogebraMap.put("<mtr>", "{%BLOCKS%}, ");
+			geogebraMap.put("<mtd>", "%BLOCK1%, ");
 
-		geogebraMap.put("&#x222B;", "ggbMathmlIntegral");
-		geogebraMap.put("&#x2211;", "ggbMathmlSum");
-		// Entities
-		geogebraMap.put("&dot;", "* ");
-		geogebraMap.put("&sdot;", "* ");
-		geogebraMap.put("&middot;", "* ");
-		geogebraMap.put("&times;", "* ");
-		geogebraMap.put("&equals;", " = ");
-		geogebraMap.put("&forall;", "# ");
-		geogebraMap.put("&exist;", "# ");
-		geogebraMap.put("&#x220d;", "# ");
-		geogebraMap.put("&lowast;", "* ");
-		geogebraMap.put("&minus;", "- ");
-		geogebraMap.put("&frasl;", "/ ");
-		geogebraMap.put("&ratio;", ": ");
-		geogebraMap.put("&lt;", "< ");
-		geogebraMap.put("&gt;", "> ");
-		geogebraMap.put("&cong;", "# ");
-		geogebraMap.put("&InvisibleTimes;", " ");
+			geogebraMap.put("&#x222B;", "ggbMathmlIntegral");
+			geogebraMap.put("&#x2211;", "ggbMathmlSum");
+			// Entities
+			geogebraMap.put("&dot;", "* ");
+			geogebraMap.put("&sdot;", "* ");
+			geogebraMap.put("&middot;", "* ");
+			geogebraMap.put("&times;", "* ");
+			geogebraMap.put("&equals;", " = ");
+			geogebraMap.put("&forall;", "# ");
+			geogebraMap.put("&exist;", "# ");
+			geogebraMap.put("&#x220d;", "# ");
+			geogebraMap.put("&lowast;", "* ");
+			geogebraMap.put("&minus;", "- ");
+			geogebraMap.put("&frasl;", "/ ");
+			geogebraMap.put("&ratio;", ": ");
+			geogebraMap.put("&lt;", "< ");
+			geogebraMap.put("&gt;", "> ");
+			geogebraMap.put("&cong;", "# ");
+			geogebraMap.put("&InvisibleTimes;", " ");
 
-		// Pfeile
-		geogebraMap.put("&harr;", "# ");
-		geogebraMap.put("&larr;", "# ");
-		geogebraMap.put("&rarr;", "# ");
-		geogebraMap.put("&hArr;", "# ");
-		geogebraMap.put("&lArr;", "# ");
-		geogebraMap.put("&rArr;", "# ");
+			// Pfeile
+			geogebraMap.put("&harr;", "# ");
+			geogebraMap.put("&larr;", "# ");
+			geogebraMap.put("&rarr;", "# ");
+			geogebraMap.put("&hArr;", "# ");
+			geogebraMap.put("&lArr;", "# ");
+			geogebraMap.put("&rArr;", "# ");
 
-		// dynamische Zeichen
-		geogebraMap.put("&sum;", "# ");
-		geogebraMap.put("&prod;", "# ");
-		geogebraMap.put("&Integral;", "# ");
-		geogebraMap.put("&dd;", "d ");
+			// dynamische Zeichen
+			geogebraMap.put("&sum;", "# ");
+			geogebraMap.put("&prod;", "# ");
+			geogebraMap.put("&Integral;", "# ");
+			geogebraMap.put("&dd;", "d ");
 
-		for (Greek ch : Greek.values()) {
-			geogebraMap.put(ch.getHTML(), ch.unicode + "");
+			for (Greek ch : Greek.values()) {
+				geogebraMap.put(ch.getHTML(), ch.unicode + "");
+			}
+
+			// griechisches Alphabet ... may be implemented by Java unicode
+			// codes.
+			// geogebraMap.put("&alpha;", Unicode.alpha + "");
+			// geogebraMap.put("&beta;", Unicode.beta + "");
+			// geogebraMap.put("&gamma;", Unicode.gamma + "");
+			// geogebraMap.put("&delta;", Unicode.delta + "");
+			// geogebraMap.put("&epsi;", Unicode.epsilon + "");
+			// geogebraMap.put("&eta;", Unicode.eta + "");
+			// geogebraMap.put("&iota;", Unicode.iota + "");
+			// geogebraMap.put("&kappa;", Unicode.kappa + "");
+			// geogebraMap.put("&lambda;", Unicode.lambda + "");
+			// geogebraMap.put("&mu;", Unicode.mu + "");
+			// geogebraMap.put("&nu;", Unicode.nu + "");
+			// geogebraMap.put("&omicron;", Unicode.omicron + "");
+			// geogebraMap.put("&pi;", Unicode.pi + "");
+			// geogebraMap.put("&theta;", Unicode.theta + "");
+			// geogebraMap.put("&rho;", Unicode.rho + "");
+			// geogebraMap.put("&sigma;", Unicode.sigma + "");
+			// geogebraMap.put("&tau;", Unicode.tau + "");
+			// geogebraMap.put("&upsilon;", Unicode.upsilon + "");
+			// geogebraMap.put("&phi;", Unicode.phi + "");// \\varphi
+			// geogebraMap.put("&chi;", Unicode.chi + "");
+			// geogebraMap.put("&omega;", Unicode.omega + "");
+			// geogebraMap.put("&xi;", Unicode.xi + "");
+			// geogebraMap.put("&psi;", Unicode.psi + "");
+			// geogebraMap.put("&zeta;", Unicode.zeta + "");
+
+			geogebraMap.put("&ohgr;", Unicode.omega + "");
+			geogebraMap.put("&mgr;", Unicode.mu + "");
+			geogebraMap.put("&piv;", Unicode.pi + "");// \\varpi
+			geogebraMap.put("&phiv;", Unicode.phi + "");
+			geogebraMap.put("&pgr;", Unicode.pi + "");
+			geogebraMap.put("&rgr;", Unicode.rho + "");
+			geogebraMap.put("&tgr;", Unicode.tau + "");
+			geogebraMap.put("&sigmaf;", Unicode.sigmaf + "");// \\varsigma
+
+			// geogebraMap.put("&Delta;", Unicode.Delta + "");
+			// geogebraMap.put("&Phi;", Unicode.Phi + "");
+			// geogebraMap.put("&Gamma;", Unicode.Gamma + "");
+			// geogebraMap.put("&Lambda;", Unicode.Lambda + "");
+			// geogebraMap.put("&Pi;", Unicode.Pi + "");
+			// geogebraMap.put("&Theta;", Unicode.Theta + "");
+			// geogebraMap.put("&Sigma;", Unicode.Sigma + "");
+			// geogebraMap.put("&Upsilon;", Unicode.Upsilon + "");
+			// geogebraMap.put("&Omega;", Unicode.Omega + "");
+			// geogebraMap.put("&Xi;", Unicode.Xi + "");
+			// geogebraMap.put("&Psi;", Unicode.Psi + "");
+
+			geogebraMap.put("&epsiv;", Unicode.epsilon + "");
+			geogebraMap.put("&phgr;", Unicode.phi + "");
+			geogebraMap.put("&ggr;", Unicode.gamma + "");
+			geogebraMap.put("&eegr;", Unicode.eta + "");
+			geogebraMap.put("&igr;", Unicode.iota + "");
+			geogebraMap.put("&phgr;", Unicode.phi + "");
+			geogebraMap.put("&kgr;", Unicode.kappa + "");
+			geogebraMap.put("&lgr;", Unicode.lambda + "");
+			geogebraMap.put("&ngr;", Unicode.nu + "");
+			geogebraMap.put("&ogr;", Unicode.omega + "");
+			geogebraMap.put("&thgr;", Unicode.theta + "");
+			geogebraMap.put("&sgr;", Unicode.sigma + "");
+			geogebraMap.put("&ugr;", Unicode.upsilon + "");
+			geogebraMap.put("&zgr;", Unicode.zeta + "");
+			geogebraMap.put("&Agr;", Unicode.Alpha + "");
+			geogebraMap.put("&Bgr;", Unicode.Beta + "");
+			geogebraMap.put("&KHgr;", Unicode.Chi + "");
+			geogebraMap.put("&Egr;", Unicode.Epsilon + "");
+			geogebraMap.put("&PHgr;", Unicode.Phi + "");
+			geogebraMap.put("&Ggr;", Unicode.Gamma + "");
+			geogebraMap.put("&EEgr;", Unicode.Eta + "");
+			geogebraMap.put("&Igr;", Unicode.Iota + "");
+			geogebraMap.put("&THgr;", Unicode.Theta + "");
+			geogebraMap.put("&Kgr;", Unicode.Kappa + "");
+			geogebraMap.put("&Lgr;", Unicode.Lambda + "");
+			geogebraMap.put("&Mgr;", Unicode.Mu + "");
+			geogebraMap.put("&Ngr;", Unicode.Nu + "");
+			geogebraMap.put("&Ogr;", Unicode.Omicron + "");
+			geogebraMap.put("&Pgr;", Unicode.Pi + "");
+			geogebraMap.put("&Rgr;", Unicode.Rho + "");
+			geogebraMap.put("&Sgr;", Unicode.Sigma + "");
+			geogebraMap.put("&Tgr;", Unicode.Tau + "");
+			geogebraMap.put("&Ugr;", Unicode.Upsilon + "");
+			geogebraMap.put("&OHgr;", Unicode.Omega + "");
+			geogebraMap.put("&Zgr;", Unicode.Zeta + "");
+
+			// Pfeile und andere Operatoren
+			geogebraMap.put("&#x2212;", "-");
+			geogebraMap.put("&perp;", "# ");
+			geogebraMap.put("&sim;", "~ ");
+			geogebraMap.put("&prime;", "# ");
+			geogebraMap.put("&le;", Unicode.LESS_EQUAL + "");
+			geogebraMap.put("&ge;", Unicode.GREATER_EQUAL + "");
+			geogebraMap.put("&infin;", Unicode.INFINITY + "");
+			geogebraMap.put("&clubs;", "# ");
+			geogebraMap.put("&diams;", "# ");
+			geogebraMap.put("&hearts;", "# ");
+			geogebraMap.put("&spades;", "# ");
+			geogebraMap.put("&PlusMinus;", Unicode.PLUSMINUS + "");
+			geogebraMap.put("&Prime;", "# ");
+			geogebraMap.put("&prop;", "# ");
+			geogebraMap.put("&part;", "# ");
+			geogebraMap.put("&bull;", "# ");
+			geogebraMap.put("&ne;", Unicode.NOTEQUAL + "");
+			geogebraMap.put("&equiv;", "# ");
+			geogebraMap.put("&asymp;", "# ");
+			geogebraMap.put("&hellip;", "... ");
+			geogebraMap.put("&VerticalBar;", "# ");
+			geogebraMap.put("&crarr;", "# ");
+			geogebraMap.put("&alefsym;", "# ");
+			geogebraMap.put("&image;", "# ");// ???
+			geogebraMap.put("&real;", "# ");// ???
+			geogebraMap.put("&weierp;", "# ");
+			geogebraMap.put("&otimes;", "# ");
+			geogebraMap.put("&oplus;", "# ");
+			geogebraMap.put("&empty;", "# ");
+			geogebraMap.put("&cap;", "# ");
+			geogebraMap.put("&cup;", "# ");
+			geogebraMap.put("&sup;", "# ");
+			geogebraMap.put("&supe;", "# ");
+			geogebraMap.put("&nsub;", "# ");
+			geogebraMap.put("&sub;", "# ");
+			geogebraMap.put("&sube;", "# ");
+			geogebraMap.put("&isin;", "# ");
+			geogebraMap.put("&notin;", "# ");
+			geogebraMap.put("&ang;", "# ");
+			geogebraMap.put("&nabla;", "# ");
+			geogebraMap.put("&radic;", "# ");
+			geogebraMap.put("&and;", "# ");
+			geogebraMap.put("&or;", "# ");
+			geogebraMap.put("&and;", "# ");
+			geogebraMap.put("&ang;", "# ");
+			geogebraMap.put("&angle;", "# ");
+			geogebraMap.put("&ap;", "# ");
+			geogebraMap.put("&approx;", "# ");
+			geogebraMap.put("&bigoplus;", "# ");
+			geogebraMap.put("&bigotimes;", "# ");
+			geogebraMap.put("&bot;", "# ");
+			geogebraMap.put("&bottom;", "# ");
+			geogebraMap.put("&cap;", "# ");
+			geogebraMap.put("&CirclePlus;", "# ");
+			geogebraMap.put("&CircleTimes;", "# ");
+			geogebraMap.put("&cong;", "# ");
+			geogebraMap.put("&Congruent;", "# ");
+			geogebraMap.put("&cup;", "# ");
+			geogebraMap.put("&darr;", "# ");
+			geogebraMap.put("&dArr;", "# ");
+			geogebraMap.put("&Del;", "# ");
+			geogebraMap.put("&Del;", "# ");
+			geogebraMap.put("&DifferentialD;", "\u2146 ");
+			geogebraMap.put("&DoubleLeftArrow;", "# ");
+			geogebraMap.put("&DoubleLeftRightArrow;", "# ");
+			geogebraMap.put("&DoubleRightArrow;", "# ");
+			geogebraMap.put("&DoubleUpArrow;", "# ");
+			geogebraMap.put("&downarrow;", "# ");
+			geogebraMap.put("&Downarrow;", "# ");
+			geogebraMap.put("&DownArrow;", "# ");
+			geogebraMap.put("&Element;", "# ");
+			geogebraMap.put("&emptyv;", "# ");
+			geogebraMap.put("&equiv;", "# ");
+			geogebraMap.put("&exist;", "# ");
+			geogebraMap.put("&Exist;", "# ");
+			geogebraMap.put("&exponentiale;", "\u2147 ");
+			geogebraMap.put("&forall;", "# ");
+			geogebraMap.put("&ForAll;", "# ");
+			geogebraMap.put("&geq;", Unicode.GREATER_EQUAL + "");
+			geogebraMap.put("&GreaterEqual;", Unicode.GREATER_EQUAL + "");
+			geogebraMap.put("&harr;", "# ");
+			geogebraMap.put("&hArr;", "# ");
+			geogebraMap.put("&iff;", "# ");
+			geogebraMap.put("&Implies;", "# ");
+			geogebraMap.put("&in;", "# ");
+			geogebraMap.put("&int;", "# ");
+			geogebraMap.put("&Integral;", "# ");
+			geogebraMap.put("&isin;", "# ");
+			geogebraMap.put("&isinv;", "# ");
+			geogebraMap.put("&diam;", "# ");
+			geogebraMap.put("&diamond;", "# ");
+			geogebraMap.put("&lang;", "# ");
+			geogebraMap.put("&langle;", "# ");
+			geogebraMap.put("&larr;", "# ");
+			geogebraMap.put("&lArr;", "# ");
+			geogebraMap.put("&LeftAngleBracket;", "# ");
+			geogebraMap.put("&Leftarrow;", "# ");
+			geogebraMap.put("&LeftArrow;", "# ");
+			geogebraMap.put("&leftrightarrow;", "# ");
+			geogebraMap.put("&Leftrightarrow;", "# ");
+			geogebraMap.put("&LeftRightArrow;", "# ");
+			geogebraMap.put("&leq;", Unicode.LESS_EQUAL + "");
+			geogebraMap.put("&leq;", Unicode.LESS_EQUAL + "");
+			geogebraMap.put("&Longleftrightarrow;", "# ");
+			geogebraMap.put("&minus;", "- ");
+			geogebraMap.put("&nabla;", "# ");
+			geogebraMap.put("&NotElement;", "# ");
+			geogebraMap.put("&NotEqual;", Unicode.NOTEQUAL + "");// ??? is this
+																	// good
+																	// in LaTeX?
+			geogebraMap.put("&notin;", "# ");
+			geogebraMap.put("&oplus;", "# ");
+			geogebraMap.put("&or;", "# ");
+			geogebraMap.put("&otimes;", "# ");
+			geogebraMap.put("&part;", "# ");
+			geogebraMap.put("&partialD;", "# ");
+			geogebraMap.put("&perp;", "# ");
+			geogebraMap.put("&prod;", "# ");
+			geogebraMap.put("&Product;", "# ");
+			geogebraMap.put("&rang;", "# ");
+			geogebraMap.put("&rangle;", "# ");
+			geogebraMap.put("&rarr;", "# ");
+			geogebraMap.put("&rArr;", "# ");
+			geogebraMap.put("&RightAngleBracket;", "# ");
+			geogebraMap.put("&rightarrow;", "# ");
+			geogebraMap.put("&Rightarrow;", "# ");
+			geogebraMap.put("&RightArrow;", "# ");
+			geogebraMap.put("&sdot;", "* ");
+			geogebraMap.put("&sim;", "# ");
+			geogebraMap.put("&prop;", "# ");
+			geogebraMap.put("&Proportional;", "# ");
+			geogebraMap.put("&propto;", "# ");
+			geogebraMap.put("&sub;", "# ");
+			geogebraMap.put("&sube;", "# ");
+			geogebraMap.put("&subE;", "# ");
+			geogebraMap.put("&subset;", "# ");
+			geogebraMap.put("&subseteq;", "# ");
+			geogebraMap.put("&subseteqq;", "# ");
+			geogebraMap.put("&SubsetEqual;", "# ");
+			geogebraMap.put("&sum;", "# ");
+			geogebraMap.put("&Sum;", "# ");
+			geogebraMap.put("&sup;", "# ");
+			geogebraMap.put("&supe;", "# ");
+			geogebraMap.put("&supE;", "# ");
+			geogebraMap.put("&Superset;", "# ");
+			geogebraMap.put("&SupersetEqual;", "# ");
+			geogebraMap.put("&supset;", "# ");
+			geogebraMap.put("&supseteq;", "# ");
+			geogebraMap.put("&supseteqq;", "# ");
+			geogebraMap.put("&Tilde;", "# ");
+			geogebraMap.put("&TildeFullEqual;", "# ");
+			geogebraMap.put("&TildeTilde;", "# ");
+			geogebraMap.put("&tprime;", "\u2034 ");
+			geogebraMap.put("&uarr;", "# ");
+			geogebraMap.put("&uArr;", "# ");
+			geogebraMap.put("&uparrow;", "# ");
+			geogebraMap.put("&Uparrow;", "# ");
+			geogebraMap.put("&UpArrow;", "# ");
+			geogebraMap.put("&UpTee;", "# ");
+			geogebraMap.put("&varnothing;", "# ");
+			geogebraMap.put("&varpropto;", "# ");
+			geogebraMap.put("&vee;", "# ");
+			geogebraMap.put("&vprop;", "# ");
+			geogebraMap.put("&wedge;", "# ");
+			geogebraMap.put("&xoplus;", "# ");
+			geogebraMap.put("&xotime;", "# ");
+			geogebraMap.put("&Space;", " ");
+			geogebraMap.put("&colon;", ":");
+			geogebraMap.put("&ApplyFunction;", " ");
+			geogebraMap.put("&squ;", " ");
+			geogebraMap.put("&#x2212;", "- ");
+			geogebraMap.put("&#x2192;", "# ");
+			geogebraMap.put("&#x222b;", "# ");
+			geogebraMap.put("&#x2061;", "");
 		}
 
-		// griechisches Alphabet ... may be implemented by Java unicode codes.
-		// geogebraMap.put("&alpha;", Unicode.alpha + "");
-		// geogebraMap.put("&beta;", Unicode.beta + "");
-		// geogebraMap.put("&gamma;", Unicode.gamma + "");
-		// geogebraMap.put("&delta;", Unicode.delta + "");
-		// geogebraMap.put("&epsi;", Unicode.epsilon + "");
-		// geogebraMap.put("&eta;", Unicode.eta + "");
-		// geogebraMap.put("&iota;", Unicode.iota + "");
-		// geogebraMap.put("&kappa;", Unicode.kappa + "");
-		// geogebraMap.put("&lambda;", Unicode.lambda + "");
-		// geogebraMap.put("&mu;", Unicode.mu + "");
-		// geogebraMap.put("&nu;", Unicode.nu + "");
-		// geogebraMap.put("&omicron;", Unicode.omicron + "");
-		// geogebraMap.put("&pi;", Unicode.pi + "");
-		// geogebraMap.put("&theta;", Unicode.theta + "");
-		// geogebraMap.put("&rho;", Unicode.rho + "");
-		// geogebraMap.put("&sigma;", Unicode.sigma + "");
-		// geogebraMap.put("&tau;", Unicode.tau + "");
-		// geogebraMap.put("&upsilon;", Unicode.upsilon + "");
-		// geogebraMap.put("&phi;", Unicode.phi + "");// \\varphi
-		// geogebraMap.put("&chi;", Unicode.chi + "");
-		// geogebraMap.put("&omega;", Unicode.omega + "");
-		// geogebraMap.put("&xi;", Unicode.xi + "");
-		// geogebraMap.put("&psi;", Unicode.psi + "");
-		// geogebraMap.put("&zeta;", Unicode.zeta + "");
-
-		geogebraMap.put("&ohgr;", Unicode.omega + "");
-		geogebraMap.put("&mgr;", Unicode.mu + "");
-		geogebraMap.put("&piv;", Unicode.pi + "");// \\varpi
-		geogebraMap.put("&phiv;", Unicode.phi + "");
-		geogebraMap.put("&pgr;", Unicode.pi + "");
-		geogebraMap.put("&rgr;", Unicode.rho + "");
-		geogebraMap.put("&tgr;", Unicode.tau + "");
-		geogebraMap.put("&sigmaf;", Unicode.sigmaf + "");// \\varsigma
-
-		// geogebraMap.put("&Delta;", Unicode.Delta + "");
-		// geogebraMap.put("&Phi;", Unicode.Phi + "");
-		// geogebraMap.put("&Gamma;", Unicode.Gamma + "");
-		// geogebraMap.put("&Lambda;", Unicode.Lambda + "");
-		// geogebraMap.put("&Pi;", Unicode.Pi + "");
-		// geogebraMap.put("&Theta;", Unicode.Theta + "");
-		// geogebraMap.put("&Sigma;", Unicode.Sigma + "");
-		// geogebraMap.put("&Upsilon;", Unicode.Upsilon + "");
-		// geogebraMap.put("&Omega;", Unicode.Omega + "");
-		// geogebraMap.put("&Xi;", Unicode.Xi + "");
-		// geogebraMap.put("&Psi;", Unicode.Psi + "");
-
-		geogebraMap.put("&epsiv;", Unicode.epsilon + "");
-		geogebraMap.put("&phgr;", Unicode.phi + "");
-		geogebraMap.put("&ggr;", Unicode.gamma + "");
-		geogebraMap.put("&eegr;", Unicode.eta + "");
-		geogebraMap.put("&igr;", Unicode.iota + "");
-		geogebraMap.put("&phgr;", Unicode.phi + "");
-		geogebraMap.put("&kgr;", Unicode.kappa + "");
-		geogebraMap.put("&lgr;", Unicode.lambda + "");
-		geogebraMap.put("&ngr;", Unicode.nu + "");
-		geogebraMap.put("&ogr;", Unicode.omega + "");
-		geogebraMap.put("&thgr;", Unicode.theta + "");
-		geogebraMap.put("&sgr;", Unicode.sigma + "");
-		geogebraMap.put("&ugr;", Unicode.upsilon + "");
-		geogebraMap.put("&zgr;", Unicode.zeta + "");
-		geogebraMap.put("&Agr;", Unicode.Alpha + "");
-		geogebraMap.put("&Bgr;", Unicode.Beta + "");
-		geogebraMap.put("&KHgr;", Unicode.Chi + "");
-		geogebraMap.put("&Egr;", Unicode.Epsilon + "");
-		geogebraMap.put("&PHgr;", Unicode.Phi + "");
-		geogebraMap.put("&Ggr;", Unicode.Gamma + "");
-		geogebraMap.put("&EEgr;", Unicode.Eta + "");
-		geogebraMap.put("&Igr;", Unicode.Iota + "");
-		geogebraMap.put("&THgr;", Unicode.Theta + "");
-		geogebraMap.put("&Kgr;", Unicode.Kappa + "");
-		geogebraMap.put("&Lgr;", Unicode.Lambda + "");
-		geogebraMap.put("&Mgr;", Unicode.Mu + "");
-		geogebraMap.put("&Ngr;", Unicode.Nu + "");
-		geogebraMap.put("&Ogr;", Unicode.Omicron + "");
-		geogebraMap.put("&Pgr;", Unicode.Pi + "");
-		geogebraMap.put("&Rgr;", Unicode.Rho + "");
-		geogebraMap.put("&Sgr;", Unicode.Sigma + "");
-		geogebraMap.put("&Tgr;", Unicode.Tau + "");
-		geogebraMap.put("&Ugr;", Unicode.Upsilon + "");
-		geogebraMap.put("&OHgr;", Unicode.Omega + "");
-		geogebraMap.put("&Zgr;", Unicode.Zeta + "");
-
-		// Pfeile und andere Operatoren
-		geogebraMap.put("&#x2212;", "-");
-		geogebraMap.put("&perp;", "# ");
-		geogebraMap.put("&sim;", "~ ");
-		geogebraMap.put("&prime;", "# ");
-		geogebraMap.put("&le;", Unicode.LESS_EQUAL + "");
-		geogebraMap.put("&ge;", Unicode.GREATER_EQUAL + "");
-		geogebraMap.put("&infin;", Unicode.INFINITY + "");
-		geogebraMap.put("&clubs;", "# ");
-		geogebraMap.put("&diams;", "# ");
-		geogebraMap.put("&hearts;", "# ");
-		geogebraMap.put("&spades;", "# ");
-		geogebraMap.put("&PlusMinus;", Unicode.PLUSMINUS + "");
-		geogebraMap.put("&Prime;", "# ");
-		geogebraMap.put("&prop;", "# ");
-		geogebraMap.put("&part;", "# ");
-		geogebraMap.put("&bull;", "# ");
-		geogebraMap.put("&ne;", Unicode.NOTEQUAL + "");
-		geogebraMap.put("&equiv;", "# ");
-		geogebraMap.put("&asymp;", "# ");
-		geogebraMap.put("&hellip;", "... ");
-		geogebraMap.put("&VerticalBar;", "# ");
-		geogebraMap.put("&crarr;", "# ");
-		geogebraMap.put("&alefsym;", "# ");
-		geogebraMap.put("&image;", "# ");// ???
-		geogebraMap.put("&real;", "# ");// ???
-		geogebraMap.put("&weierp;", "# ");
-		geogebraMap.put("&otimes;", "# ");
-		geogebraMap.put("&oplus;", "# ");
-		geogebraMap.put("&empty;", "# ");
-		geogebraMap.put("&cap;", "# ");
-		geogebraMap.put("&cup;", "# ");
-		geogebraMap.put("&sup;", "# ");
-		geogebraMap.put("&supe;", "# ");
-		geogebraMap.put("&nsub;", "# ");
-		geogebraMap.put("&sub;", "# ");
-		geogebraMap.put("&sube;", "# ");
-		geogebraMap.put("&isin;", "# ");
-		geogebraMap.put("&notin;", "# ");
-		geogebraMap.put("&ang;", "# ");
-		geogebraMap.put("&nabla;", "# ");
-		geogebraMap.put("&radic;", "# ");
-		geogebraMap.put("&and;", "# ");
-		geogebraMap.put("&or;", "# ");
-		geogebraMap.put("&and;", "# ");
-		geogebraMap.put("&ang;", "# ");
-		geogebraMap.put("&angle;", "# ");
-		geogebraMap.put("&ap;", "# ");
-		geogebraMap.put("&approx;", "# ");
-		geogebraMap.put("&bigoplus;", "# ");
-		geogebraMap.put("&bigotimes;", "# ");
-		geogebraMap.put("&bot;", "# ");
-		geogebraMap.put("&bottom;", "# ");
-		geogebraMap.put("&cap;", "# ");
-		geogebraMap.put("&CirclePlus;", "# ");
-		geogebraMap.put("&CircleTimes;", "# ");
-		geogebraMap.put("&cong;", "# ");
-		geogebraMap.put("&Congruent;", "# ");
-		geogebraMap.put("&cup;", "# ");
-		geogebraMap.put("&darr;", "# ");
-		geogebraMap.put("&dArr;", "# ");
-		geogebraMap.put("&Del;", "# ");
-		geogebraMap.put("&Del;", "# ");
-		geogebraMap.put("&DifferentialD;", "\u2146 ");
-		geogebraMap.put("&DoubleLeftArrow;", "# ");
-		geogebraMap.put("&DoubleLeftRightArrow;", "# ");
-		geogebraMap.put("&DoubleRightArrow;", "# ");
-		geogebraMap.put("&DoubleUpArrow;", "# ");
-		geogebraMap.put("&downarrow;", "# ");
-		geogebraMap.put("&Downarrow;", "# ");
-		geogebraMap.put("&DownArrow;", "# ");
-		geogebraMap.put("&Element;", "# ");
-		geogebraMap.put("&emptyv;", "# ");
-		geogebraMap.put("&equiv;", "# ");
-		geogebraMap.put("&exist;", "# ");
-		geogebraMap.put("&Exist;", "# ");
-		geogebraMap.put("&exponentiale;", "\u2147 ");
-		geogebraMap.put("&forall;", "# ");
-		geogebraMap.put("&ForAll;", "# ");
-		geogebraMap.put("&geq;", Unicode.GREATER_EQUAL + "");
-		geogebraMap.put("&GreaterEqual;", Unicode.GREATER_EQUAL + "");
-		geogebraMap.put("&harr;", "# ");
-		geogebraMap.put("&hArr;", "# ");
-		geogebraMap.put("&iff;", "# ");
-		geogebraMap.put("&Implies;", "# ");
-		geogebraMap.put("&in;", "# ");
-		geogebraMap.put("&int;", "# ");
-		geogebraMap.put("&Integral;", "# ");
-		geogebraMap.put("&isin;", "# ");
-		geogebraMap.put("&isinv;", "# ");
-		geogebraMap.put("&diam;", "# ");
-		geogebraMap.put("&diamond;", "# ");
-		geogebraMap.put("&lang;", "# ");
-		geogebraMap.put("&langle;", "# ");
-		geogebraMap.put("&larr;", "# ");
-		geogebraMap.put("&lArr;", "# ");
-		geogebraMap.put("&LeftAngleBracket;", "# ");
-		geogebraMap.put("&Leftarrow;", "# ");
-		geogebraMap.put("&LeftArrow;", "# ");
-		geogebraMap.put("&leftrightarrow;", "# ");
-		geogebraMap.put("&Leftrightarrow;", "# ");
-		geogebraMap.put("&LeftRightArrow;", "# ");
-		geogebraMap.put("&leq;", Unicode.LESS_EQUAL + "");
-		geogebraMap.put("&leq;", Unicode.LESS_EQUAL + "");
-		geogebraMap.put("&Longleftrightarrow;", "# ");
-		geogebraMap.put("&minus;", "- ");
-		geogebraMap.put("&nabla;", "# ");
-		geogebraMap.put("&NotElement;", "# ");
-		geogebraMap.put("&NotEqual;", Unicode.NOTEQUAL + "");// ??? is this good
-																// in LaTeX?
-		geogebraMap.put("&notin;", "# ");
-		geogebraMap.put("&oplus;", "# ");
-		geogebraMap.put("&or;", "# ");
-		geogebraMap.put("&otimes;", "# ");
-		geogebraMap.put("&part;", "# ");
-		geogebraMap.put("&partialD;", "# ");
-		geogebraMap.put("&perp;", "# ");
-		geogebraMap.put("&prod;", "# ");
-		geogebraMap.put("&Product;", "# ");
-		geogebraMap.put("&rang;", "# ");
-		geogebraMap.put("&rangle;", "# ");
-		geogebraMap.put("&rarr;", "# ");
-		geogebraMap.put("&rArr;", "# ");
-		geogebraMap.put("&RightAngleBracket;", "# ");
-		geogebraMap.put("&rightarrow;", "# ");
-		geogebraMap.put("&Rightarrow;", "# ");
-		geogebraMap.put("&RightArrow;", "# ");
-		geogebraMap.put("&sdot;", "* ");
-		geogebraMap.put("&sim;", "# ");
-		geogebraMap.put("&prop;", "# ");
-		geogebraMap.put("&Proportional;", "# ");
-		geogebraMap.put("&propto;", "# ");
-		geogebraMap.put("&sub;", "# ");
-		geogebraMap.put("&sube;", "# ");
-		geogebraMap.put("&subE;", "# ");
-		geogebraMap.put("&subset;", "# ");
-		geogebraMap.put("&subseteq;", "# ");
-		geogebraMap.put("&subseteqq;", "# ");
-		geogebraMap.put("&SubsetEqual;", "# ");
-		geogebraMap.put("&sum;", "# ");
-		geogebraMap.put("&Sum;", "# ");
-		geogebraMap.put("&sup;", "# ");
-		geogebraMap.put("&supe;", "# ");
-		geogebraMap.put("&supE;", "# ");
-		geogebraMap.put("&Superset;", "# ");
-		geogebraMap.put("&SupersetEqual;", "# ");
-		geogebraMap.put("&supset;", "# ");
-		geogebraMap.put("&supseteq;", "# ");
-		geogebraMap.put("&supseteqq;", "# ");
-		geogebraMap.put("&Tilde;", "# ");
-		geogebraMap.put("&TildeFullEqual;", "# ");
-		geogebraMap.put("&TildeTilde;", "# ");
-		geogebraMap.put("&tprime;", "\u2034 ");
-		geogebraMap.put("&uarr;", "# ");
-		geogebraMap.put("&uArr;", "# ");
-		geogebraMap.put("&uparrow;", "# ");
-		geogebraMap.put("&Uparrow;", "# ");
-		geogebraMap.put("&UpArrow;", "# ");
-		geogebraMap.put("&UpTee;", "# ");
-		geogebraMap.put("&varnothing;", "# ");
-		geogebraMap.put("&varpropto;", "# ");
-		geogebraMap.put("&vee;", "# ");
-		geogebraMap.put("&vprop;", "# ");
-		geogebraMap.put("&wedge;", "# ");
-		geogebraMap.put("&xoplus;", "# ");
-		geogebraMap.put("&xotime;", "# ");
-		geogebraMap.put("&Space;", " ");
-		geogebraMap.put("&colon;", ":");
-		geogebraMap.put("&ApplyFunction;", " ");
-		geogebraMap.put("&squ;", " ");
-		geogebraMap.put("&#x2212;", "- ");
-		geogebraMap.put("&#x2192;", "# ");
-		geogebraMap.put("&#x222b;", "# ");
-		geogebraMap.put("&#x2061;", "");
+		return geogebraMap;
 	}
 
-	private static HashMap<String, String> latexMap = new HashMap<String, String>();
+	private static HashMap<String, String> latexMap;
 
-	static {
+	private static HashMap<String, String> getLatexMap() {
 
-		// Tags:
-		latexMap.put("<mfrac>", "\\frac{%BLOCK1%}{%BLOCK2%}");
-		latexMap.put("<msup>", "%BLOCK1%^{%BLOCK2%}");
-		latexMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");
-		latexMap.put("<msqrt>", "\\sqrt{%BLOCK1%}");
-		latexMap.put("<mroot>", "\\sqrt[%BLOCK2%]{%BLOCK1%}");
-		latexMap.put("<mfenced>", "\\left(%BLOCK1%\\right)");
-		latexMap.put("<msubsup>", "%BLOCK1%_{%BLOCK2%}^{%BLOCK3%}");
-		latexMap.put("<munderover>", "%BLOCK1%_{%BLOCK2%}^{%BLOCK3%}");
-		latexMap.put("<munder>", "%BLOCK1%_{%BLOCK2%}");
-		latexMap.put("<mtable>", "\\matrix{%BLOCKS%}");
-		latexMap.put("<mtr>", "%BLOCKS%\\cr");
-		latexMap.put("<mtd>", "%BLOCK1%&");
+		if (latexMap == null) {
+			latexMap = new HashMap<String, String>();
 
-		// Entities
-		latexMap.put("&dot;", "\\cdot ");
-		latexMap.put("&sdot;", "\\cdot ");
-		latexMap.put("&middot;", "\\cdot ");
-		latexMap.put("&times;", "\\times ");
-		latexMap.put("&equals;", "\\Relbar ");
-		latexMap.put("&forall;", "\\forall ");
-		latexMap.put("&exist;", "\\exists ");
-		latexMap.put("&#x220d;", "\\ni ");
-		latexMap.put("&lowast;", "* ");
-		latexMap.put("&minus;", "- ");
-		latexMap.put("&frasl;", "/ ");
-		latexMap.put("&ratio;", ": ");
-		latexMap.put("&lt;", "< ");
-		latexMap.put("&gt;", "> ");
-		latexMap.put("&cong;", "\\cong ");
-		latexMap.put("&InvisibleTimes;", " ");
+			// Tags:
+			latexMap.put("<mfrac>", "\\frac{%BLOCK1%}{%BLOCK2%}");
+			latexMap.put("<msup>", "%BLOCK1%^{%BLOCK2%}");
+			latexMap.put("<msub>", "%BLOCK1%_{%BLOCK2%}");
+			latexMap.put("<msqrt>", "\\sqrt{%BLOCK1%}");
+			latexMap.put("<mroot>", "\\sqrt[%BLOCK2%]{%BLOCK1%}");
+			latexMap.put("<mfenced>", "\\left(%BLOCK1%\\right)");
+			latexMap.put("<msubsup>", "%BLOCK1%_{%BLOCK2%}^{%BLOCK3%}");
+			latexMap.put("<munderover>", "%BLOCK1%_{%BLOCK2%}^{%BLOCK3%}");
+			latexMap.put("<munder>", "%BLOCK1%_{%BLOCK2%}");
+			latexMap.put("<mtable>", "\\matrix{%BLOCKS%}");
+			latexMap.put("<mtr>", "%BLOCKS%\\cr");
+			latexMap.put("<mtd>", "%BLOCK1%&");
 
-		// Pfeile
-		latexMap.put("&harr;", "\\leftrightarrow ");
-		latexMap.put("&larr;", "\\leftarrow ");
-		latexMap.put("&rarr;", "\\rightarrow ");
-		latexMap.put("&hArr;", "\\Leftrightarrow ");
-		latexMap.put("&lArr;", "\\Leftarrow ");
-		latexMap.put("&rArr;", "\\Rightarrow ");
+			// Entities
+			latexMap.put("&dot;", "\\cdot ");
+			latexMap.put("&sdot;", "\\cdot ");
+			latexMap.put("&middot;", "\\cdot ");
+			latexMap.put("&times;", "\\times ");
+			latexMap.put("&equals;", "\\Relbar ");
+			latexMap.put("&forall;", "\\forall ");
+			latexMap.put("&exist;", "\\exists ");
+			latexMap.put("&#x220d;", "\\ni ");
+			latexMap.put("&lowast;", "* ");
+			latexMap.put("&minus;", "- ");
+			latexMap.put("&frasl;", "/ ");
+			latexMap.put("&ratio;", ": ");
+			latexMap.put("&lt;", "< ");
+			latexMap.put("&gt;", "> ");
+			latexMap.put("&cong;", "\\cong ");
+			latexMap.put("&InvisibleTimes;", " ");
 
-		// dynamische Zeichen
-		latexMap.put("&sum;", "\\sum ");
-		latexMap.put("&prod;", "\\prod ");
-		latexMap.put("&Integral;", "\\int ");
-		latexMap.put("&dd;", "d ");
+			// Pfeile
+			latexMap.put("&harr;", "\\leftrightarrow ");
+			latexMap.put("&larr;", "\\leftarrow ");
+			latexMap.put("&rarr;", "\\rightarrow ");
+			latexMap.put("&hArr;", "\\Leftrightarrow ");
+			latexMap.put("&lArr;", "\\Leftarrow ");
+			latexMap.put("&rArr;", "\\Rightarrow ");
 
-		// griechisches Alphabet
-		latexMap.put("&rgr;", "\\rho ");
-		latexMap.put("&mgr;", "\\mu ");
-		latexMap.put("&tgr;", "\\tau ");
-		latexMap.put("&sigmaf;", "\\varsigma ");
-		latexMap.put("&piv;", "\\varpi ");
-		latexMap.put("&phiv;", "\\phi");
-		latexMap.put("&pgr;", "\\pi ");
-		latexMap.put("&ohgr;", "\\omega ");
+			// dynamische Zeichen
+			latexMap.put("&sum;", "\\sum ");
+			latexMap.put("&prod;", "\\prod ");
+			latexMap.put("&Integral;", "\\int ");
+			latexMap.put("&dd;", "d ");
 
-		for (Greek ch : Greek.values()) {
-			geogebraMap.put(ch.getHTML(), "\\" + ch.getLaTeX());
+			// griechisches Alphabet
+			latexMap.put("&rgr;", "\\rho ");
+			latexMap.put("&mgr;", "\\mu ");
+			latexMap.put("&tgr;", "\\tau ");
+			latexMap.put("&sigmaf;", "\\varsigma ");
+			latexMap.put("&piv;", "\\varpi ");
+			latexMap.put("&phiv;", "\\phi");
+			latexMap.put("&pgr;", "\\pi ");
+			latexMap.put("&ohgr;", "\\omega ");
+
+			for (Greek ch : Greek.values()) {
+				latexMap.put(ch.getHTML(), "\\" + ch.getLaTeX());
+			}
+
+			// latexMap.put("&alpha;", "\\alpha");
+			// latexMap.put("&beta;", "\\beta");
+			// latexMap.put("&gamma;", "\\gamma ");
+			// latexMap.put("&delta;", "\\delta ");
+			// latexMap.put("&epsi;", "\\epsilon ");
+			// latexMap.put("&eta;", "\\eta ");
+			// latexMap.put("&iota;", "\\iota ");
+			// latexMap.put("&kappa;", "\\kappa ");
+			// latexMap.put("&lambda;", "\\lambda ");
+			// latexMap.put("&mu;", "\\mu ");
+			// latexMap.put("&nu;", "\\nu ");
+			// latexMap.put("&omicron;", "o ");
+			// latexMap.put("&pi;", "\\pi ");
+			// latexMap.put("&theta;", "\\theta ");
+			// latexMap.put("&rho;", "\\rho ");
+			// latexMap.put("&sigma;", "\\sigma ");
+			// latexMap.put("&tau;", "\\tau ");
+			// latexMap.put("&upsilon;", "\\upsilon ");
+			// latexMap.put("&phi;", "\\varphi");
+			// latexMap.put("&chi;", "\\chi ");
+			// latexMap.put("&omega;", "\\omega ");
+			// latexMap.put("&xi;", "\\xi ");
+			// latexMap.put("&psi;", "\\psi ");
+			// latexMap.put("&zeta;", "\\zeta ");
+			// latexMap.put("&Delta;", "\\Delta ");
+			// latexMap.put("&Phi;", "\\Phi ");
+			// latexMap.put("&Gamma;", "\\Gamma ");
+			// latexMap.put("&Lambda;", "\\Lambda ");
+			// latexMap.put("&Pi;", "\\Pi ");
+			// latexMap.put("&Theta;", "\\Theta ");
+			// latexMap.put("&Sigma;", "\\Sigma ");
+			// latexMap.put("&Upsilon;", "\\Upsilon ");
+			// latexMap.put("&Omega;", "\\Omega ");
+			// latexMap.put("&Xi;", "\\Xi ");
+			// latexMap.put("&Psi;", "\\Psi ");
+
+			latexMap.put("&epsiv;", "\\epsilon ");
+			latexMap.put("&phgr;", "\\phi ");
+			latexMap.put("&ggr;", "\\gamma ");
+			latexMap.put("&eegr;", "\\eta ");
+			latexMap.put("&igr;", "\\iota ");
+			latexMap.put("&phgr;", "\\phi ");
+			latexMap.put("&kgr;", "\\kappa ");
+			latexMap.put("&lgr;", "\\lambda ");
+			latexMap.put("&ngr;", "\\nu ");
+			latexMap.put("&ogr;", "o ");
+			latexMap.put("&thgr;", "\\theta ");
+			latexMap.put("&sgr;", "\\sigma ");
+			latexMap.put("&ugr;", "\\upsilon ");
+			latexMap.put("&zgr;", "\\zeta ");
+			latexMap.put("&Agr;", "A ");
+			latexMap.put("&Bgr;", "B ");
+			latexMap.put("&KHgr;", "X ");
+			latexMap.put("&Egr;", "E ");
+			latexMap.put("&PHgr;", "\\Phi ");
+			latexMap.put("&Ggr;", "\\Gamma ");
+			latexMap.put("&EEgr;", "H ");
+			latexMap.put("&Igr;", "I ");
+			latexMap.put("&THgr;", "\\Theta ");
+			latexMap.put("&Kgr;", "K ");
+			latexMap.put("&Lgr;", "\\Lambda ");
+			latexMap.put("&Mgr;", "M ");
+			latexMap.put("&Ngr;", "N ");
+			latexMap.put("&Ogr;", "O ");
+			latexMap.put("&Pgr;", "\\Pi ");
+			latexMap.put("&Rgr;", "P ");
+			latexMap.put("&Sgr;", "\\Sigma ");
+			latexMap.put("&Tgr;", "T ");
+			latexMap.put("&Ugr;", "\\Upsilon ");
+			latexMap.put("&OHgr;", "\\Omega ");
+			latexMap.put("&Zgr;", "Z ");
+
+			// Pfeile und andere Operatoren
+			latexMap.put("&#x2212;", "-");
+			latexMap.put("&perp;", "\\bot ");
+			latexMap.put("&sim;", "~ ");
+			latexMap.put("&prime;", "\\prime ");
+			latexMap.put("&le;", "\\le ");
+			latexMap.put("&ge;", "\\ge ");
+			latexMap.put("&infin;", "\\infty ");
+			latexMap.put("&clubs;", "\\clubsuit ");
+			latexMap.put("&diams;", "\\diamondsuit ");
+			latexMap.put("&hearts;", "\\heartsuit ");
+			latexMap.put("&spades;", "\\spadesuit ");
+			latexMap.put("&PlusMinus;", "\\pm ");
+			latexMap.put("&Prime;", "\\prime\\prime ");
+			latexMap.put("&prop;", "\\propto ");
+			latexMap.put("&part;", "\\partial ");
+			latexMap.put("&bull;", "\\bullet ");
+			latexMap.put("&ne;", "\\neq ");
+			latexMap.put("&equiv;", "\\equiv ");
+			latexMap.put("&asymp;", "\\approx ");
+			latexMap.put("&hellip;", "... ");
+			latexMap.put("&VerticalBar;", "\\mid ");
+			latexMap.put("&crarr;", "\\P ");
+			latexMap.put("&alefsym;", "\\aleph ");
+			latexMap.put("&image;", "\\Im ");
+			latexMap.put("&real;", "\\Re ");
+			latexMap.put("&weierp;", "\\wp ");
+			latexMap.put("&otimes;", "\\otimes ");
+			latexMap.put("&oplus;", "\\oplus ");
+			latexMap.put("&empty;", "\\emtyset ");
+			latexMap.put("&cap;", "\\cap ");
+			latexMap.put("&cup;", "\\cup ");
+			latexMap.put("&sup;", "\\supset ");
+			latexMap.put("&supe;", "\\seupseteq ");
+			latexMap.put("&nsub;", "\\not\\subset ");
+			latexMap.put("&sub;", "\\subset ");
+			latexMap.put("&sube;", "\\subseteq ");
+			latexMap.put("&isin;", "\\in ");
+			latexMap.put("&notin;", "\\notin ");
+			latexMap.put("&ang;", "\\angle ");
+			latexMap.put("&nabla;", "\\nabla ");
+			latexMap.put("&radic;", "\\surd ");
+			latexMap.put("&and;", "\\wedge ");
+			latexMap.put("&or;", "\\vee ");
+			latexMap.put("&and;", "\\wedge ");
+			latexMap.put("&ang;", "\\angle ");
+			latexMap.put("&angle;", "\\angle ");
+			latexMap.put("&ap;", "\\approx ");
+			latexMap.put("&approx;", "\\approx ");
+			latexMap.put("&bigoplus;", "\\oplus ");
+			latexMap.put("&bigotimes;", "\\otimes ");
+			latexMap.put("&bot;", "\\bot ");
+			latexMap.put("&bottom;", "\\bot ");
+			latexMap.put("&cap;", "\\cap ");
+			latexMap.put("&CirclePlus;", "\\oplus ");
+			latexMap.put("&CircleTimes;", "\\otimes ");
+			latexMap.put("&cong;", "\\cong ");
+			latexMap.put("&Congruent;", "\\equiv ");
+			latexMap.put("&cup;", "\\cup ");
+			latexMap.put("&darr;", "\\downarrow ");
+			latexMap.put("&dArr;", "\\Downarrow ");
+			latexMap.put("&Del;", "\\nabla ");
+			latexMap.put("&Del;", "\\nabla ");
+			latexMap.put("&DifferentialD;", "\u2146 ");
+			latexMap.put("&DoubleLeftArrow;", "\\Leftarrow ");
+			latexMap.put("&DoubleLeftRightArrow;", "\\Leftrightarrow ");
+			latexMap.put("&DoubleRightArrow;", "\\Rightarrow ");
+			latexMap.put("&DoubleUpArrow;", "\\Uparrow ");
+			latexMap.put("&downarrow;", "\\downarrow ");
+			latexMap.put("&Downarrow;", "\\Downarrow ");
+			latexMap.put("&DownArrow;", "\\Downarrow ");
+			latexMap.put("&Element;", "\\in ");
+			latexMap.put("&emptyv;", "\\oslash ");
+			latexMap.put("&equiv;", "\\equiv ");
+			latexMap.put("&exist;", "\\exists ");
+			latexMap.put("&Exist;", "\\exists ");
+			latexMap.put("&exponentiale;", "\u2147 ");
+			latexMap.put("&forall;", "\\forall ");
+			latexMap.put("&ForAll;", "\\forall ");
+			latexMap.put("&ge;", "\\geq ");
+			latexMap.put("&geq;", "\\geq ");
+			latexMap.put("&GreaterEqual;", "\\geq ");
+			latexMap.put("&harr;", "\\leftrightarrow ");
+			latexMap.put("&hArr;", "\\Leftrightarrow ");
+			latexMap.put("&iff;", "\\Leftrightarrow ");
+			latexMap.put("&Implies;", "\\Rightarrow ");
+			latexMap.put("&in;", "\\in ");
+			latexMap.put("&infin;", "\\infty ");
+			latexMap.put("&int;", "\\int ");
+			latexMap.put("&Integral;", "\\int ");
+			latexMap.put("&isin;", "\\in ");
+			latexMap.put("&isinv;", "\\in ");
+			latexMap.put("&diam;", "\\diamond ");
+			latexMap.put("&diamond;", "\\diamond ");
+			latexMap.put("&lang;", "\\left\\langle ");
+			latexMap.put("&langle;", "\\left\\langle ");
+			latexMap.put("&larr;", "\\leftarrow ");
+			latexMap.put("&lArr;", "\\Leftarrow ");
+			latexMap.put("&le;", "\\leq ");
+			latexMap.put("&LeftAngleBracket;", "\\left\\langle ");
+			latexMap.put("&Leftarrow;", "\\Leftarrow ");
+			latexMap.put("&LeftArrow;", "\\leftarrow ");
+			latexMap.put("&leftrightarrow;", "\\leftrightarrow ");
+			latexMap.put("&Leftrightarrow;", "\\Leftrightarrow ");
+			latexMap.put("&LeftRightArrow;", "\\leftrightarrow ");
+			latexMap.put("&leq;", "\\leq ");
+			latexMap.put("&leq;", "\\leq ");
+			latexMap.put("&Longleftrightarrow;", "\\Longleftrightarrow ");
+			latexMap.put("&minus;", "- ");
+			latexMap.put("&nabla;", "\\nabla ");
+			latexMap.put("&NotElement;", "\\notin ");
+			latexMap.put("&NotEqual;", "\\notin ");
+			latexMap.put("&notin;", "\\notin ");
+			latexMap.put("&oplus;", "\\oplus ");
+			latexMap.put("&or;", "\\vee ");
+			latexMap.put("&otimes;", "\\otimes ");
+			latexMap.put("&part;", "\\partial ");
+			latexMap.put("&partialD;", "\\partial ");
+			latexMap.put("&perp;", "\\bot ");
+			latexMap.put("&prod;", "\\Pi ");
+			latexMap.put("&Product;", "\\Pi ");
+			latexMap.put("&rang;", "\\right\\rangle ");
+			latexMap.put("&rangle;", "\\right\\rangle ");
+			latexMap.put("&rarr;", "\\rightarrow ");
+			latexMap.put("&rArr;", "\\Rightarrow ");
+			latexMap.put("&RightAngleBracket;", "\\right\\rangle ");
+			latexMap.put("&rightarrow;", "\\rightarrow ");
+			latexMap.put("&Rightarrow;", "\\Rightarrow ");
+			latexMap.put("&RightArrow;", "\\rightarrow ");
+			latexMap.put("&sdot;", "\\cdot ");
+			latexMap.put("&sim;", "\\sim ");
+			latexMap.put("&prop;", "\\propto ");
+			latexMap.put("&Proportional;", "\\propto ");
+			latexMap.put("&propto;", "\\propto ");
+			latexMap.put("&sub;", "\\subset ");
+			latexMap.put("&sube;", "\\subseteq ");
+			latexMap.put("&subE;", "\\subseteq ");
+			latexMap.put("&subset;", "\\subset ");
+			latexMap.put("&subseteq;", "\\subseteq ");
+			latexMap.put("&subseteqq;", "\\subseteq ");
+			latexMap.put("&SubsetEqual;", "\\subseteq ");
+			latexMap.put("&sum;", "\\Sigma ");
+			latexMap.put("&Sum;", "\\Sigma ");
+			latexMap.put("&sup;", "\\supset ");
+			latexMap.put("&supe;", "\\supseteq ");
+			latexMap.put("&supE;", "\\supseteq ");
+			latexMap.put("&Superset;", "\\supset");
+			latexMap.put("&SupersetEqual;", "\\supseteq ");
+			latexMap.put("&supset;", "\\supset ");
+			latexMap.put("&supseteq;", "\\supseteq ");
+			latexMap.put("&supseteqq;", "\\supseteq ");
+			latexMap.put("&Tilde;", "\\sim ");
+			latexMap.put("&TildeFullEqual;", "\\cong ");
+			latexMap.put("&TildeTilde;", "\\approx ");
+			latexMap.put("&tprime;", "\u2034 ");
+			latexMap.put("&uarr;", "\\uparrow ");
+			latexMap.put("&uArr;", "\\Uparrow ");
+			latexMap.put("&uparrow;", "\\uparrow ");
+			latexMap.put("&Uparrow;", "\\Uparrow ");
+			latexMap.put("&UpArrow;", "\\uparrow ");
+			latexMap.put("&UpTee;", "\\bot ");
+			latexMap.put("&varnothing;", "\\oslash ");
+			latexMap.put("&varpropto;", "\\propto ");
+			latexMap.put("&vee;", "\\vee ");
+			latexMap.put("&vprop;", "\\propto ");
+			latexMap.put("&wedge;", "\\wedge ");
+			latexMap.put("&xoplus;", "\\oplus ");
+			latexMap.put("&xotime;", "\\otimes ");
+			latexMap.put("&Space;", " ");
+			latexMap.put("&colon;", ":");
+			latexMap.put("&ApplyFunction;", " ");
+			latexMap.put("&squ;", " ");
+			latexMap.put("&#x2212;", "- ");
+			latexMap.put("&#x2192;", "\\to ");
+			latexMap.put("&#x222b;", "\\int ");
+			latexMap.put("&#x2061;", "");
 		}
 
-		// latexMap.put("&alpha;", "\\alpha");
-		// latexMap.put("&beta;", "\\beta");
-		// latexMap.put("&gamma;", "\\gamma ");
-		// latexMap.put("&delta;", "\\delta ");
-		// latexMap.put("&epsi;", "\\epsilon ");
-		// latexMap.put("&eta;", "\\eta ");
-		// latexMap.put("&iota;", "\\iota ");
-		// latexMap.put("&kappa;", "\\kappa ");
-		// latexMap.put("&lambda;", "\\lambda ");
-		// latexMap.put("&mu;", "\\mu ");
-		// latexMap.put("&nu;", "\\nu ");
-		// latexMap.put("&omicron;", "o ");
-		// latexMap.put("&pi;", "\\pi ");
-		// latexMap.put("&theta;", "\\theta ");
-		// latexMap.put("&rho;", "\\rho ");
-		// latexMap.put("&sigma;", "\\sigma ");
-		// latexMap.put("&tau;", "\\tau ");
-		// latexMap.put("&upsilon;", "\\upsilon ");
-		// latexMap.put("&phi;", "\\varphi");
-		// latexMap.put("&chi;", "\\chi ");
-		// latexMap.put("&omega;", "\\omega ");
-		// latexMap.put("&xi;", "\\xi ");
-		// latexMap.put("&psi;", "\\psi ");
-		// latexMap.put("&zeta;", "\\zeta ");
-		// latexMap.put("&Delta;", "\\Delta ");
-		// latexMap.put("&Phi;", "\\Phi ");
-		// latexMap.put("&Gamma;", "\\Gamma ");
-		// latexMap.put("&Lambda;", "\\Lambda ");
-		// latexMap.put("&Pi;", "\\Pi ");
-		// latexMap.put("&Theta;", "\\Theta ");
-		// latexMap.put("&Sigma;", "\\Sigma ");
-		// latexMap.put("&Upsilon;", "\\Upsilon ");
-		// latexMap.put("&Omega;", "\\Omega ");
-		// latexMap.put("&Xi;", "\\Xi ");
-		// latexMap.put("&Psi;", "\\Psi ");
-
-		latexMap.put("&epsiv;", "\\epsilon ");
-		latexMap.put("&phgr;", "\\phi ");
-		latexMap.put("&ggr;", "\\gamma ");
-		latexMap.put("&eegr;", "\\eta ");
-		latexMap.put("&igr;", "\\iota ");
-		latexMap.put("&phgr;", "\\phi ");
-		latexMap.put("&kgr;", "\\kappa ");
-		latexMap.put("&lgr;", "\\lambda ");
-		latexMap.put("&ngr;", "\\nu ");
-		latexMap.put("&ogr;", "o ");
-		latexMap.put("&thgr;", "\\theta ");
-		latexMap.put("&sgr;", "\\sigma ");
-		latexMap.put("&ugr;", "\\upsilon ");
-		latexMap.put("&zgr;", "\\zeta ");
-		latexMap.put("&Agr;", "A ");
-		latexMap.put("&Bgr;", "B ");
-		latexMap.put("&KHgr;", "X ");
-		latexMap.put("&Egr;", "E ");
-		latexMap.put("&PHgr;", "\\Phi ");
-		latexMap.put("&Ggr;", "\\Gamma ");
-		latexMap.put("&EEgr;", "H ");
-		latexMap.put("&Igr;", "I ");
-		latexMap.put("&THgr;", "\\Theta ");
-		latexMap.put("&Kgr;", "K ");
-		latexMap.put("&Lgr;", "\\Lambda ");
-		latexMap.put("&Mgr;", "M ");
-		latexMap.put("&Ngr;", "N ");
-		latexMap.put("&Ogr;", "O ");
-		latexMap.put("&Pgr;", "\\Pi ");
-		latexMap.put("&Rgr;", "P ");
-		latexMap.put("&Sgr;", "\\Sigma ");
-		latexMap.put("&Tgr;", "T ");
-		latexMap.put("&Ugr;", "\\Upsilon ");
-		latexMap.put("&OHgr;", "\\Omega ");
-		latexMap.put("&Zgr;", "Z ");
-
-		// Pfeile und andere Operatoren
-		latexMap.put("&#x2212;", "-");
-		latexMap.put("&perp;", "\\bot ");
-		latexMap.put("&sim;", "~ ");
-		latexMap.put("&prime;", "\\prime ");
-		latexMap.put("&le;", "\\le ");
-		latexMap.put("&ge;", "\\ge ");
-		latexMap.put("&infin;", "\\infty ");
-		latexMap.put("&clubs;", "\\clubsuit ");
-		latexMap.put("&diams;", "\\diamondsuit ");
-		latexMap.put("&hearts;", "\\heartsuit ");
-		latexMap.put("&spades;", "\\spadesuit ");
-		latexMap.put("&PlusMinus;", "\\pm ");
-		latexMap.put("&Prime;", "\\prime\\prime ");
-		latexMap.put("&prop;", "\\propto ");
-		latexMap.put("&part;", "\\partial ");
-		latexMap.put("&bull;", "\\bullet ");
-		latexMap.put("&ne;", "\\neq ");
-		latexMap.put("&equiv;", "\\equiv ");
-		latexMap.put("&asymp;", "\\approx ");
-		latexMap.put("&hellip;", "... ");
-		latexMap.put("&VerticalBar;", "\\mid ");
-		latexMap.put("&crarr;", "\\P ");
-		latexMap.put("&alefsym;", "\\aleph ");
-		latexMap.put("&image;", "\\Im ");
-		latexMap.put("&real;", "\\Re ");
-		latexMap.put("&weierp;", "\\wp ");
-		latexMap.put("&otimes;", "\\otimes ");
-		latexMap.put("&oplus;", "\\oplus ");
-		latexMap.put("&empty;", "\\emtyset ");
-		latexMap.put("&cap;", "\\cap ");
-		latexMap.put("&cup;", "\\cup ");
-		latexMap.put("&sup;", "\\supset ");
-		latexMap.put("&supe;", "\\seupseteq ");
-		latexMap.put("&nsub;", "\\not\\subset ");
-		latexMap.put("&sub;", "\\subset ");
-		latexMap.put("&sube;", "\\subseteq ");
-		latexMap.put("&isin;", "\\in ");
-		latexMap.put("&notin;", "\\notin ");
-		latexMap.put("&ang;", "\\angle ");
-		latexMap.put("&nabla;", "\\nabla ");
-		latexMap.put("&radic;", "\\surd ");
-		latexMap.put("&and;", "\\wedge ");
-		latexMap.put("&or;", "\\vee ");
-		latexMap.put("&and;", "\\wedge ");
-		latexMap.put("&ang;", "\\angle ");
-		latexMap.put("&angle;", "\\angle ");
-		latexMap.put("&ap;", "\\approx ");
-		latexMap.put("&approx;", "\\approx ");
-		latexMap.put("&bigoplus;", "\\oplus ");
-		latexMap.put("&bigotimes;", "\\otimes ");
-		latexMap.put("&bot;", "\\bot ");
-		latexMap.put("&bottom;", "\\bot ");
-		latexMap.put("&cap;", "\\cap ");
-		latexMap.put("&CirclePlus;", "\\oplus ");
-		latexMap.put("&CircleTimes;", "\\otimes ");
-		latexMap.put("&cong;", "\\cong ");
-		latexMap.put("&Congruent;", "\\equiv ");
-		latexMap.put("&cup;", "\\cup ");
-		latexMap.put("&darr;", "\\downarrow ");
-		latexMap.put("&dArr;", "\\Downarrow ");
-		latexMap.put("&Del;", "\\nabla ");
-		latexMap.put("&Del;", "\\nabla ");
-		latexMap.put("&DifferentialD;", "\u2146 ");
-		latexMap.put("&DoubleLeftArrow;", "\\Leftarrow ");
-		latexMap.put("&DoubleLeftRightArrow;", "\\Leftrightarrow ");
-		latexMap.put("&DoubleRightArrow;", "\\Rightarrow ");
-		latexMap.put("&DoubleUpArrow;", "\\Uparrow ");
-		latexMap.put("&downarrow;", "\\downarrow ");
-		latexMap.put("&Downarrow;", "\\Downarrow ");
-		latexMap.put("&DownArrow;", "\\Downarrow ");
-		latexMap.put("&Element;", "\\in ");
-		latexMap.put("&emptyv;", "\\oslash ");
-		latexMap.put("&equiv;", "\\equiv ");
-		latexMap.put("&exist;", "\\exists ");
-		latexMap.put("&Exist;", "\\exists ");
-		latexMap.put("&exponentiale;", "\u2147 ");
-		latexMap.put("&forall;", "\\forall ");
-		latexMap.put("&ForAll;", "\\forall ");
-		latexMap.put("&ge;", "\\geq ");
-		latexMap.put("&geq;", "\\geq ");
-		latexMap.put("&GreaterEqual;", "\\geq ");
-		latexMap.put("&harr;", "\\leftrightarrow ");
-		latexMap.put("&hArr;", "\\Leftrightarrow ");
-		latexMap.put("&iff;", "\\Leftrightarrow ");
-		latexMap.put("&Implies;", "\\Rightarrow ");
-		latexMap.put("&in;", "\\in ");
-		latexMap.put("&infin;", "\\infty ");
-		latexMap.put("&int;", "\\int ");
-		latexMap.put("&Integral;", "\\int ");
-		latexMap.put("&isin;", "\\in ");
-		latexMap.put("&isinv;", "\\in ");
-		latexMap.put("&diam;", "\\diamond ");
-		latexMap.put("&diamond;", "\\diamond ");
-		latexMap.put("&lang;", "\\left\\langle ");
-		latexMap.put("&langle;", "\\left\\langle ");
-		latexMap.put("&larr;", "\\leftarrow ");
-		latexMap.put("&lArr;", "\\Leftarrow ");
-		latexMap.put("&le;", "\\leq ");
-		latexMap.put("&LeftAngleBracket;", "\\left\\langle ");
-		latexMap.put("&Leftarrow;", "\\Leftarrow ");
-		latexMap.put("&LeftArrow;", "\\leftarrow ");
-		latexMap.put("&leftrightarrow;", "\\leftrightarrow ");
-		latexMap.put("&Leftrightarrow;", "\\Leftrightarrow ");
-		latexMap.put("&LeftRightArrow;", "\\leftrightarrow ");
-		latexMap.put("&leq;", "\\leq ");
-		latexMap.put("&leq;", "\\leq ");
-		latexMap.put("&Longleftrightarrow;", "\\Longleftrightarrow ");
-		latexMap.put("&minus;", "- ");
-		latexMap.put("&nabla;", "\\nabla ");
-		latexMap.put("&NotElement;", "\\notin ");
-		latexMap.put("&NotEqual;", "\\notin ");
-		latexMap.put("&notin;", "\\notin ");
-		latexMap.put("&oplus;", "\\oplus ");
-		latexMap.put("&or;", "\\vee ");
-		latexMap.put("&otimes;", "\\otimes ");
-		latexMap.put("&part;", "\\partial ");
-		latexMap.put("&partialD;", "\\partial ");
-		latexMap.put("&perp;", "\\bot ");
-		latexMap.put("&prod;", "\\Pi ");
-		latexMap.put("&Product;", "\\Pi ");
-		latexMap.put("&rang;", "\\right\\rangle ");
-		latexMap.put("&rangle;", "\\right\\rangle ");
-		latexMap.put("&rarr;", "\\rightarrow ");
-		latexMap.put("&rArr;", "\\Rightarrow ");
-		latexMap.put("&RightAngleBracket;", "\\right\\rangle ");
-		latexMap.put("&rightarrow;", "\\rightarrow ");
-		latexMap.put("&Rightarrow;", "\\Rightarrow ");
-		latexMap.put("&RightArrow;", "\\rightarrow ");
-		latexMap.put("&sdot;", "\\cdot ");
-		latexMap.put("&sim;", "\\sim ");
-		latexMap.put("&prop;", "\\propto ");
-		latexMap.put("&Proportional;", "\\propto ");
-		latexMap.put("&propto;", "\\propto ");
-		latexMap.put("&sub;", "\\subset ");
-		latexMap.put("&sube;", "\\subseteq ");
-		latexMap.put("&subE;", "\\subseteq ");
-		latexMap.put("&subset;", "\\subset ");
-		latexMap.put("&subseteq;", "\\subseteq ");
-		latexMap.put("&subseteqq;", "\\subseteq ");
-		latexMap.put("&SubsetEqual;", "\\subseteq ");
-		latexMap.put("&sum;", "\\Sigma ");
-		latexMap.put("&Sum;", "\\Sigma ");
-		latexMap.put("&sup;", "\\supset ");
-		latexMap.put("&supe;", "\\supseteq ");
-		latexMap.put("&supE;", "\\supseteq ");
-		latexMap.put("&Superset;", "\\supset");
-		latexMap.put("&SupersetEqual;", "\\supseteq ");
-		latexMap.put("&supset;", "\\supset ");
-		latexMap.put("&supseteq;", "\\supseteq ");
-		latexMap.put("&supseteqq;", "\\supseteq ");
-		latexMap.put("&Tilde;", "\\sim ");
-		latexMap.put("&TildeFullEqual;", "\\cong ");
-		latexMap.put("&TildeTilde;", "\\approx ");
-		latexMap.put("&tprime;", "\u2034 ");
-		latexMap.put("&uarr;", "\\uparrow ");
-		latexMap.put("&uArr;", "\\Uparrow ");
-		latexMap.put("&uparrow;", "\\uparrow ");
-		latexMap.put("&Uparrow;", "\\Uparrow ");
-		latexMap.put("&UpArrow;", "\\uparrow ");
-		latexMap.put("&UpTee;", "\\bot ");
-		latexMap.put("&varnothing;", "\\oslash ");
-		latexMap.put("&varpropto;", "\\propto ");
-		latexMap.put("&vee;", "\\vee ");
-		latexMap.put("&vprop;", "\\propto ");
-		latexMap.put("&wedge;", "\\wedge ");
-		latexMap.put("&xoplus;", "\\oplus ");
-		latexMap.put("&xotime;", "\\otimes ");
-		latexMap.put("&Space;", " ");
-		latexMap.put("&colon;", ":");
-		latexMap.put("&ApplyFunction;", " ");
-		latexMap.put("&squ;", " ");
-		latexMap.put("&#x2212;", "- ");
-		latexMap.put("&#x2192;", "\\to ");
-		latexMap.put("&#x222b;", "\\int ");
-		latexMap.put("&#x2061;", "");
+		return latexMap;
 	}
 
 	/**
@@ -711,9 +728,9 @@ public class MathMLParser {
 	public MathMLParser(boolean geogebraSyntax1) {
 		this.geogebraSyntax = geogebraSyntax1;
 		if (geogebraSyntax1) {
-			substitutions = geogebraMap;
+			substitutions = getGeogebraMap();
 		} else {
-			substitutions = latexMap;
+			substitutions = getLatexMap();
 		}
 	}
 
