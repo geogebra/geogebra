@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.inputfield;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 //import org.geogebra.web.cas.latex.EquationEditor;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
@@ -22,8 +23,9 @@ public final class ScrollableSuggestionDisplay extends
 	public final static int lineWidth = 29;
 	private HasSuggestions editor;
 
-	public ScrollableSuggestionDisplay(HasSuggestions ed, Panel panel) {
-		super(panel);
+	public ScrollableSuggestionDisplay(HasSuggestions ed, Panel panel,
+			App app) {
+		super(panel, app);
 		this.editor = ed;
 	}
 
@@ -48,8 +50,8 @@ public final class ScrollableSuggestionDisplay extends
 	}
 
 	@Override
-	protected GPopupPanel createPopup(Panel panel) {
-		GPopupPanel su = super.createPopup(panel);
+	protected GPopupPanel createPopup(Panel panel, App app) {
+		GPopupPanel su = super.createPopup(panel, app);
 		su.addStyleName("ggb-AlgebraViewSuggestionPopup");
 		return su;
 	}

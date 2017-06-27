@@ -46,7 +46,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private Localization loc;
 
 	public ShareDialogW(final AppW app) {
-		super(app.getPanel());
+		super(app.getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
 			setOverlapFeature(true);
 		}

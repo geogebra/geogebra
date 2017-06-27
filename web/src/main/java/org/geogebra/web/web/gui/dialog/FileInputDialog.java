@@ -20,7 +20,7 @@ public class FileInputDialog extends GPopupPanel implements ClickHandler {
 	protected Button btCancel;
 
 	public FileInputDialog(AppW app, GeoPoint location) {
-		super(false, true, app.getPanel());
+		super(false, true, app.getPanel(), app);
 		this.app = app;
 		this.location = location;
 		// createGUI();

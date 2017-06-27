@@ -59,8 +59,8 @@ public class GOptionPaneW extends GDialogBox
 
 	private static FocusWidget caller;
 
-	public GOptionPaneW(Panel root) {
-		super(false, true, root);
+	public GOptionPaneW(Panel root, App app) {
+		super(false, true, root, app);
 		createGUI();
 	}
 

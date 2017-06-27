@@ -397,4 +397,8 @@ public class CASLaTeXEditor extends FlowPanel
 		return mf.hasFocus();
 	}
 
+	public App getApplication() {
+		return app;
+	}
+
 }

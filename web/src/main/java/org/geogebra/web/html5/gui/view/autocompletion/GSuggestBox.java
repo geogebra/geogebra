@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.view.autocompletion;
 import java.util.Collection;
 import java.util.List;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GDecoratedPopupPanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
@@ -352,9 +353,9 @@ public class GSuggestBox extends Composite
 		/**
 		 * Construct a new {@link DefaultSuggestionDisplay}.
 		 */
-		public DefaultSuggestionDisplay(Panel panel) {
+		public DefaultSuggestionDisplay(Panel panel, App app) {
 			suggestionMenu = new SuggestionMenu(true);
-			suggestionPopup = createPopup(panel);
+			suggestionPopup = createPopup(panel, app);
 			suggestionPopup.setWidget(decorateSuggestionList(suggestionMenu));
 		}
 
@@ -425,9 +426,9 @@ public class GSuggestBox extends Composite
 		 *
 		 * @return the popup panel
 		 */
-		protected GPopupPanel createPopup(Panel panel) {
+		protected GPopupPanel createPopup(Panel panel, App app) {
 			GPopupPanel p = new GDecoratedPopupPanel(true, false,
-					panel);
+					panel, app);
 			p.addStyleName("suggestPopup");
 			p.setStyleName("gwt-SuggestBoxPopup");
 			p.setPreviewingAllNativeEvents(true);
@@ -722,12 +723,12 @@ public class GSuggestBox extends Composite
 	 *            the element to be wrapped
 	 */
 	public static GSuggestBox wrap(SuggestOracle oracle, Element element,
-			Panel panel) {
+			Panel panel, App app) {
 		// Assert that the element is attached.
 		assert Document.get().getBody().isOrHasChild(element);
 
 		GTextBox textBox = new GTextBox(element);
-		GSuggestBox suggestBox = new GSuggestBox(oracle, textBox, panel);
+		GSuggestBox suggestBox = new GSuggestBox(oracle, textBox, panel, app);
 
 		// Mark it attached and remember it for cleanup.
 		suggestBox.onAttach();
@@ -768,8 +769,8 @@ public class GSuggestBox extends Composite
 	 * {@link MultiWordSuggestOracle} and {@link TextBox} to use with this
 	 * {@link SuggestBox}.
 	 */
-	public GSuggestBox(Panel panel) {
-		this(new MultiWordSuggestOracle(), panel);
+	public GSuggestBox(Panel panel, App app) {
+		this(new MultiWordSuggestOracle(), panel, app);
 	}
 
 	/**
@@ -779,8 +780,8 @@ public class GSuggestBox extends Composite
 	 * @param oracle
 	 *            the oracle for this <code>SuggestBox</code>
 	 */
-	public GSuggestBox(SuggestOracle oracle, Panel panel) {
-		this(oracle, new TextBox(), panel);
+	public GSuggestBox(SuggestOracle oracle, Panel panel, App app) {
+		this(oracle, new TextBox(), panel, app);
 	}
 
 	/**
@@ -794,8 +795,8 @@ public class GSuggestBox extends Composite
 	 *            the text widget
 	 */
 	public GSuggestBox(SuggestOracle oracle, ValueBoxBase<String> box,
-			Panel panel) {
-		this(oracle, box, new DefaultSuggestionDisplay(panel));
+			Panel panel, App app) {
+		this(oracle, box, new DefaultSuggestionDisplay(panel, app));
 	}
 
 	/**

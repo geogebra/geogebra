@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -36,8 +37,8 @@ public class DialogBoxW extends GDialogBox {
 	 * @param modal {@code true}  if keyboard and mouse events for widgets not contained by the dialog should be ignored
 	 */
 	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh,
-			Panel root) {
-		super(autoHide, modal, root);
+			Panel root, App app) {
+		super(autoHide, modal, root, app);
 		addResizeHandler();
 		this.addStyleName("DialogBox");
 		this.addStyleName("GeoGebraFrame");
@@ -48,8 +49,8 @@ public class DialogBoxW extends GDialogBox {
 	/**
 	 * creates a {@link DialogBox} with {@code autoHide = false} and {@code modal = true}.
 	 */
-	public DialogBoxW(Panel root) {
-		this(false, true, null, root);
+	public DialogBoxW(Panel root, App app) {
+		this(false, true, null, root, app);
 	}
 
 	/**

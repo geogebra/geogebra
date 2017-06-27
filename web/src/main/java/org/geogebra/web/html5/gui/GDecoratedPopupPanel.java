@@ -18,9 +18,12 @@ package org.geogebra.web.html5.gui;
 
 import java.util.Iterator;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -91,9 +94,9 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 * Creates an empty decorated popup panel. A child widget must be added to
 	 * it before it is shown.
 	 */
-	public GDecoratedPopupPanel(Panel root) {
-		this(false, root);
-	}
+	// public GDecoratedPopupPanel(Panel root, App app) {
+	// this(false, app);
+	// }
 
 	/**
 	 * Creates an empty decorated popup panel, specifying its "auto-hide"
@@ -103,8 +106,8 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 *            <code>true</code> if the popup should be automatically hidden
 	 *            when the user clicks outside of it
 	 */
-	public GDecoratedPopupPanel(boolean autoHide, Panel root) {
-		this(autoHide, false, root);
+	public GDecoratedPopupPanel(boolean autoHide, Panel root, App app) {
+		this(autoHide, false, root, app);
 	}
 
 	/**
@@ -118,8 +121,9 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 *            <code>true</code> if keyboard or mouse events that do not
 	 *            target the PopupPanel or its children should be ignored
 	 */
-	public GDecoratedPopupPanel(boolean autoHide, boolean modal, Panel root) {
-		this(autoHide, modal, "popup", root);
+	public GDecoratedPopupPanel(boolean autoHide, boolean modal, Panel root,
+			App app) {
+		this(autoHide, modal, "popup", root, app);
 	}
 
 	/**
@@ -135,11 +139,11 @@ public class GDecoratedPopupPanel extends GPopupPanel {
 	 *            the prefix applied to child style names
 	 */
 	GDecoratedPopupPanel(boolean autoHide, boolean modal, String prefix,
-			Panel root) {
-		super(autoHide, modal, root);
+			Panel root, App app) {
+		super(autoHide, modal, root, app);
 		String[] rowStyles = new String[] { prefix + "Top", prefix + "Middle",
 				prefix + "Bottom" };
-		decPanel = new GDecoratorPanel(rowStyles, 1);
+		decPanel = new GDecoratorPanel(rowStyles, 1, app);
 		decPanel.setStyleName("");
 		setStylePrimaryName(DEFAULT_STYLENAME);
 		super.setWidget(decPanel);

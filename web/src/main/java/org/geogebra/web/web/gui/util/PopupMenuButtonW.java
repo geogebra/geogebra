@@ -183,7 +183,7 @@ public class PopupMenuButtonW extends MyCJButton
 	 * creates a new {@link ButtonPopupMenu}
 	 */
 	private void createPopup() {
-		myPopup = new ButtonPopupMenu(app.getPanel()) {
+		myPopup = new ButtonPopupMenu(app.getPanel(), app) {
 			@Override
 			public void setVisible(boolean visible) {
 				super.setVisible(visible);

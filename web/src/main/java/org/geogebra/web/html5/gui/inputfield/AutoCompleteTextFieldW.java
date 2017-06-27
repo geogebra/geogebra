@@ -174,7 +174,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// allow dynamic width with columns = -1
 		CompletionsPopup completionsPopup = new CompletionsPopup();
 		textField = new ScrollableSuggestBox(completionsPopup, this,
-				app.getPanel()) {
+				app.getPanel(), app) {
 			@Override
 			public void setText(String s) {
 				String oldText = super.getText();
@@ -1910,6 +1910,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	public static void setShowSymbolButtonFocused(boolean showSymbolButtonFocused) {
 		AutoCompleteTextFieldW.showSymbolButtonFocused = showSymbolButtonFocused;
+	}
+
+	public App getApplication() {
+		return app;
 	}
 
 }

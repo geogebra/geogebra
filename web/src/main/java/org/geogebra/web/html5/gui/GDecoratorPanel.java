@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui;
 
+import org.geogebra.common.main.App;
+
 /*
  * Copyright 2008 Google Inc.
  * 
@@ -17,7 +19,6 @@ package org.geogebra.web.html5.gui;
  */
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.DecoratorPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -109,10 +110,10 @@ public class GDecoratorPanel extends SimplePanel {
 	 *            the style name
 	 * @return the new row {@link Element}
 	 */
-	static Element createTR(String styleName) {
+	static Element createTR(String styleName, boolean RTL) {
 		Element trElem = DOM.createTR();
 		setStyleName(trElem, styleName);
-		if (LocaleInfo.getCurrentLocale().isRTL()) {
+		if (RTL) {
 			DOM.appendChild(trElem, createTD(styleName + "Right"));
 			DOM.appendChild(trElem, createTD(styleName + "Center"));
 			DOM.appendChild(trElem, createTD(styleName + "Left"));
@@ -153,8 +154,8 @@ public class GDecoratorPanel extends SimplePanel {
 	/**
 	 * Create a new {@link DecoratorPanel}.
 	 */
-	public GDecoratorPanel() {
-		this(DEFAULT_ROW_STYLENAMES, 1);
+	public GDecoratorPanel(App app) {
+		this(DEFAULT_ROW_STYLENAMES, 1, app);
 	}
 
 	/**
@@ -167,7 +168,7 @@ public class GDecoratorPanel extends SimplePanel {
 	 * @param containerIndex
 	 *            the index of the container row
 	 */
-	GDecoratorPanel(String[] rowStyles, int containerIndex) {
+	GDecoratorPanel(String[] rowStyles, int containerIndex, App app) {
 		super(DOM.createTable());
 
 		// Add a tbody
@@ -179,7 +180,8 @@ public class GDecoratorPanel extends SimplePanel {
 
 		// Add each row
 		for (int i = 0; i < rowStyles.length; i++) {
-			Element row = createTR(rowStyles[i]);
+			Element row = createTR(rowStyles[i],
+					app.getLocalization().isRightToLeftReadingOrder());
 			DOM.appendChild(tbody, row);
 			if (i == containerIndex) {
 				containerElem = DOM.getFirstChild(DOM.getChild(row, 1));

@@ -18,6 +18,8 @@ package org.geogebra.web.html5.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -36,7 +38,6 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -138,7 +139,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	/**
 	 * An {@link Animation} used to enlarge the popup into view.
 	 */
-	static class ResizeAnimation extends Animation {
+	class ResizeAnimation extends Animation {
 		/**
 		 * The {@link PopupPanel} being affected.
 		 */
@@ -311,7 +312,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 				bottom = top + height;
 				break;
 			case ONE_WAY_CORNER:
-				if (LocaleInfo.getCurrentLocale().isRTL()) {
+				if (app.getLocalization().isRightToLeftReadingOrder()) {
 					left = offsetWidth - width;
 				}
 				right = left + width;
@@ -326,7 +327,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		/**
 		 * Returns a rect string.
 		 */
-		private static String getRectString(int top, int right, int bottom,
+		private String getRectString(int top, int right, int bottom,
 				int left) {
 			return "rect(" + top + "px, " + right + "px, " + bottom + "px, "
 					+ left + "px)";
@@ -471,13 +472,16 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	//temporary variable for checking feature flag
 	public boolean hasOverlapFeature = false;
 
+	protected App app;
+
 	/**
 	 * Creates an empty popup panel. A child widget must be added to it before
 	 * it is shown.
 	 */
-	public GPopupPanel(Panel root) {
+	public GPopupPanel(Panel root, App app) {
 		super();
 		this.root = root;
+		this.app = app;
 		resizeAnimation = new ResizeAnimation(this, root);
 		super.getContainerElement().appendChild(impl.createElement());
 
@@ -507,8 +511,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            when the user clicks outside of it or the history token
 	 *            changes.
 	 */
-	public GPopupPanel(boolean autoHide, Panel root) {
-		this(root);
+	public GPopupPanel(boolean autoHide, Panel root, App app) {
+		this(root, app);
 		this.autoHide = autoHide;
 		this.autoHideOnHistoryEvents = autoHide;
 	}
@@ -525,8 +529,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            <code>true</code> if keyboard or mouse events that do not
 	 *            target the PopupPanel or its children should be ignored
 	 */
-	public GPopupPanel(boolean autoHide, boolean modal, Panel root) {
-		this(autoHide, root);
+	public GPopupPanel(boolean autoHide, boolean modal, Panel root, App app) {
+		this(autoHide, root, app);
 		this.modal = modal;
 	}
 	
@@ -1354,7 +1358,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 		int left;
 
-		if (LocaleInfo.getCurrentLocale().isRTL()) { // RTL case
+		if (app.getLocalization().isRightToLeftReadingOrder()) { // RTL case
 
 			int textBoxAbsoluteLeft = (relativeObject.getAbsoluteLeft() - root
 					.getAbsoluteLeft()) / getScale(root.getElement(), "x");

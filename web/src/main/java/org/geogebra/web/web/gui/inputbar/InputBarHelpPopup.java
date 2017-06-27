@@ -26,7 +26,7 @@ public class InputBarHelpPopup extends GPopupPanel {
 	 *            CSS class
 	 */
 	public InputBarHelpPopup(AppW app, AutoCompleteW field, String className) {
-		super(app.getPanel());
+		super(app.getPanel(), app);
 		this.addStyleName(className);
 		this.setAutoHideEnabled(true);
 		((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel()).setInputField(field);

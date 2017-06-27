@@ -1731,7 +1731,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public GOptionPaneW getOptionPane() {
 		if (optionPane == null) {
-			optionPane = new GOptionPaneW(((AppW) app).getPanel());
+			optionPane = new GOptionPaneW(((AppW) app).getPanel(), app);
 		}
 		return optionPane;
 	}

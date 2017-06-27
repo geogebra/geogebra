@@ -37,7 +37,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	private Localization loc;
 	
 	public ButtonDialogW(final AppW app, int x, int y, boolean textField) {
-		super(false, true, null, app.getPanel());
+		super(false, true, null, app.getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}

@@ -41,7 +41,7 @@ public class PerspectivesPopup {
 	 */
 	public PerspectivesPopup(final AppWFull app) {
 		this.app = app;
-		box = new DialogBoxW(true, false, null, app.getPanel()){
+		box = new DialogBoxW(true, false, null, app.getPanel(), app) {
 			@Override
 			public void setPopupPosition(int left, int top) {
 				super.setPopupPosition(left,

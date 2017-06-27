@@ -3,6 +3,8 @@ package org.geogebra.web.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.user.client.ui.Widget;
 
 public interface AutoCompleteW {
@@ -39,4 +41,6 @@ public interface AutoCompleteW {
 	public boolean isForCAS();
 
 	public String getCommand();
+
+	public App getApplication();
 }

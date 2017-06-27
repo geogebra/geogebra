@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -14,8 +15,8 @@ public class ButtonPopupMenu extends GPopupPanel {
 	FocusPanel container = null;
 	VerticalPanel panel = null;
 	
-	public ButtonPopupMenu(Panel root) {
-		super(root);
+	public ButtonPopupMenu(Panel root, App app) {
+		super(root, app);
 		container = new FocusPanel();
 		panel = new VerticalPanel();
 		container.add(panel);

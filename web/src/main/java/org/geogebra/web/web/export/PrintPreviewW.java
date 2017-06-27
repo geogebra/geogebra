@@ -69,7 +69,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	 *            application
 	 */
 	public PrintPreviewW(AppW appl) {
-		super(appl.getPanel());
+		super(appl.getPanel(), appl);
 		if (appl.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}

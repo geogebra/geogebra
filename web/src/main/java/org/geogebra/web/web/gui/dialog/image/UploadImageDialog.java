@@ -33,7 +33,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	int previewWidth;
 
 	public UploadImageDialog(AppW app, int previewWidth, int previewHeight) {
-		super(app.getPanel());
+		super(app.getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}

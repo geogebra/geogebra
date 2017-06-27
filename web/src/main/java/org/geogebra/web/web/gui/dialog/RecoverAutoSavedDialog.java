@@ -32,7 +32,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 *            {@link AppW}
 	 */
 	public RecoverAutoSavedDialog(AppWFull app) {
-		super(app.getPanel());
+		super(app.getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}

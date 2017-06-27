@@ -124,7 +124,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 *            Implementation of a Singleton... ->Refactor?
 	 */
 	public SaveDialogW(final AppW app) {
-		super(app.getPanel());
+		super(app.getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}

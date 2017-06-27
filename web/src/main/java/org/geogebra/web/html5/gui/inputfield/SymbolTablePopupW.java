@@ -22,7 +22,7 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 	public SymbolTablePopupW(AppW app,
 			AutoCompleteTextFieldW autoCompleteTextField,
 	        Widget invoker) {
-		super(true, app.getPanel());
+		super(true, app.getPanel(), app);
 		this.app = app;
 		this.textField = autoCompleteTextField;
 		createSymbolTable();

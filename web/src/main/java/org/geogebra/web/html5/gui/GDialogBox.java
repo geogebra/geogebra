@@ -15,6 +15,8 @@
  */
 package org.geogebra.web.html5.gui;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
@@ -227,8 +229,8 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * Creates an empty dialog box. It should not be shown until its child
 	 * widget has been added using {@link #add(Widget)}.
 	 */
-	public GDialogBox(Panel root) {
-		this(false, root);
+	public GDialogBox(Panel root, App app) {
+		this(false, root, app);
 	}
 
 	/**
@@ -240,8 +242,8 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 *            <code>true</code> if the dialog should be automatically hidden
 	 *            when the user clicks outside of it
 	 */
-	public GDialogBox(boolean autoHide, Panel root) {
-		this(autoHide, true, root);
+	public GDialogBox(boolean autoHide, Panel root, App app) {
+		this(autoHide, true, root, app);
 	}
 
 	/**
@@ -252,8 +254,8 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 * @param captionWidget
 	 *            the widget that is the DialogBox's header.
 	 */
-	public GDialogBox(Caption captionWidget, Panel root) {
-		this(false, true, captionWidget, root);
+	public GDialogBox(Caption captionWidget, Panel root, App app) {
+		this(false, true, captionWidget, root, app);
 	}
 
 	/**
@@ -268,8 +270,8 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 *            <code>true</code> if keyboard and mouse events for widgets not
 	 *            contained by the dialog should be ignored
 	 */
-	public GDialogBox(boolean autoHide, boolean modal, Panel root) {
-		this(autoHide, modal, new CaptionImpl(), root);
+	public GDialogBox(boolean autoHide, boolean modal, Panel root, App app) {
+		this(autoHide, modal, new CaptionImpl(), root, app);
 	}
 
 	/**
@@ -289,8 +291,8 @@ public class GDialogBox extends GDecoratedPopupPanel
 	 *            the widget that is the DialogBox's header.
 	 */
 	public GDialogBox(boolean autoHide, boolean modal, Caption captionWidget,
-			Panel root) {
-		super(autoHide, modal, "dialog", root);
+			Panel root, App app) {
+		super(autoHide, modal, "dialog", root, app);
 
 		assert captionWidget != null : "The caption must not be null";
 		captionWidget.asWidget().removeFromParent();

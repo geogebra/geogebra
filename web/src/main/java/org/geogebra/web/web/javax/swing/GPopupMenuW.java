@@ -16,7 +16,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
@@ -52,7 +51,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public GPopupMenuW(AppW app) {
 		this.app = app;
-		popupPanel = new GPopupPanel(app.getPanel());
+		popupPanel = new GPopupPanel(app.getPanel(), app);
 		Browser.scale(popupPanel.getElement(), app.getArticleElement()
 		        .getScaleX(), 0, 0);
 		popupMenu = new PopupMenuBar(true);
@@ -81,7 +80,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            menu
 	 */
 	public GPopupMenuW(MenuBar mb, AppW app) {
-		popupPanel = new GPopupPanel(app.getPanel());
+		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			popupPanel.addStyleName("matSubMenu");
@@ -265,7 +264,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					subPopup.setVisible(true);
 					int xPercent = 0;
 					// Calculate the position of the "submenu", and show it
-					if (LocaleInfo.getCurrentLocale().isRTL()) {
+					if (app.getLocalization().isRightToLeftReadingOrder()) {
 						xCord = getLeftSubPopupXCord();
 						if (xCord < 0) {
 							xCord = getRightSubPopupXCord();
@@ -295,8 +294,9 @@ public class GPopupMenuW implements AttachedToDOM {
 			Element td = DOM.createTD();
 			DOM.setElementProperty(td, "vAlign", "middle");
 			td.addClassName("subMenuIcon");
-			ImageResource imgRes = getSubMenuIcon(LocaleInfo.getCurrentLocale()
-					.isRTL(), app.has(Feature.NEW_TOOLBAR));
+			ImageResource imgRes = getSubMenuIcon(
+					app.getLocalization().isRightToLeftReadingOrder(),
+					app.has(Feature.NEW_TOOLBAR));
 			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes)
 			        .getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");

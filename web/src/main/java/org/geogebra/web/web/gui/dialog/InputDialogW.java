@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.InputDialog;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
@@ -62,9 +63,11 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		this.app = app;
 		this.loc = app.getLocalization();
 		if (hasKeyboard){
-			wrappedPopup = new DialogBoxKbW(false, modal, this, app.getPanel());	
+			wrappedPopup = new DialogBoxKbW(false, modal, this, app.getPanel(),
+					app);
 		} else {
-			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel());
+			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel(),
+					app);
 		}
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			wrappedPopup.setOverlapFeature(true);
@@ -112,8 +115,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	public static class DialogBoxKbW extends DialogBoxW
 			implements HasKeyboardPopup {
 
-		public DialogBoxKbW(boolean b, boolean modal, InputDialogW inputDialogW, Panel panel) {
-			super(b, modal, inputDialogW, panel);
+		public DialogBoxKbW(boolean b, boolean modal, InputDialogW inputDialogW,
+				Panel panel, App app) {
+			super(b, modal, inputDialogW, panel, app);
 		}
 		
 	}

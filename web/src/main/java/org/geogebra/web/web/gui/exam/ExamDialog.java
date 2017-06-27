@@ -58,7 +58,7 @@ public class ExamDialog {
 		ensureExamStyle();
 		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
-		box = new DialogBoxKbW(false, true, null, app.getPanel());
+		box = new DialogBoxKbW(false, true, null, app.getPanel(), app);
 		
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			box.setOverlapFeature(true);

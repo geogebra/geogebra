@@ -23,7 +23,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	private String originalTextEditorContent;
 
 	public HistoryPopupW(AutoCompleteW autoCompleteTextField, Panel root) {
-		super(root);
+		super(root, autoCompleteTextField.getApplication());
 		this.textField = autoCompleteTextField;
 
 		historyList = new ListBox();

@@ -54,7 +54,7 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public AssignmentEditDialog(App app, Assignment assignment,
 			ExerciseBuilderDialog exerciseBuilderDialog) {
-		super(false, false, null, ((AppW) app).getPanel());
+		super(false, false, null, ((AppW) app).getPanel(), app);
 
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);

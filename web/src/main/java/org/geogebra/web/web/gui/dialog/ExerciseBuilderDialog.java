@@ -74,7 +74,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            application
 	 */
 	public ExerciseBuilderDialog(App app) {
-		super(false, false, null, ((AppW) app).getPanel());
+		super(false, false, null, ((AppW) app).getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}

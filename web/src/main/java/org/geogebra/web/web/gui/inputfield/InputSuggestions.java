@@ -36,7 +36,7 @@ public class InputSuggestions implements HasSuggestions {
 		curWord = new StringBuilder();
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
-		sug = new ScrollableSuggestionDisplay(this, app.getPanel());
+		sug = new ScrollableSuggestionDisplay(this, app.getPanel(), app);
 
 	}
 

@@ -1627,7 +1627,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	protected GOptionPaneW getOptionPane() {
 		return getGuiManager() != null ? getGuiManager().getOptionPane()
-				: new GOptionPaneW(getPanel());
+				: new GOptionPaneW(getPanel(), this);
 	}
 
 	@Override

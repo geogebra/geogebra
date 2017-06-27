@@ -105,7 +105,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	 *            Application
 	 */
 	public AnimationExportDialogW(AppW app) {
-		super(app.getPanel());
+		super(app.getPanel(), app);
 		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
 			setOverlapFeature(true);
 		}
