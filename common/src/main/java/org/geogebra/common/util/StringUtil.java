@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class StringUtil extends com.himamis.retex.editor.share.input.Character {
@@ -348,208 +349,25 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				if (!convertGreekLetters) {
 					sbReplaceExp.append(c);
 				} else {
-					switch (c) {
-					// greek letters
-					case Unicode.alpha:
-						sbReplaceExp.append("\\alpha");
-						break;
 
-					case Unicode.beta:
-						sbReplaceExp.append("\\beta");
-						break;
+					if ((c >= Unicode.alpha && c <= Unicode.omega)
+							|| (c >= Unicode.Alpha && c <= Unicode.Omega)) {
 
-					case Unicode.gamma:
-						sbReplaceExp.append("\\gamma");
-						break;
+						// might be null, there are more than 24*2 characters in
+						// range eg sigmaf
+						String greekLaTeX = Greek.getLaTeX(c);
+						if (greekLaTeX != null) {
+							sbReplaceExp.append(greekLaTeX);
+						} else {
 
-					case Unicode.delta:
-						sbReplaceExp.append("\\delta");
-						break;
-
-					case Unicode.epsilon:
-						sbReplaceExp.append("\\varepsilon");
-						break;
-
-					case Unicode.zeta:
-						sbReplaceExp.append("\\zeta");
-						break;
-
-					case Unicode.eta:
-						sbReplaceExp.append("\\eta");
-						break;
-
-					case Unicode.theta:
-						sbReplaceExp.append("\\theta");
-						break;
-
-					case Unicode.iota:
-						sbReplaceExp.append("\\iota");
-						break;
-
-					case Unicode.kappa:
-						sbReplaceExp.append("\\kappa");
-						break;
-
-					case Unicode.lambda:
-						sbReplaceExp.append("\\lambda");
-						break;
-
-					case Unicode.mu:
-						sbReplaceExp.append("\\mu");
-						break;
-
-					case Unicode.nu:
-						sbReplaceExp.append("\\nu");
-						break;
-
-					case Unicode.xi:
-						sbReplaceExp.append("\\xi");
-						break;
-
-					case Unicode.omicron:
-						sbReplaceExp.append("\\omicron");
-						break;
-
-					case Unicode.pi:
-						sbReplaceExp.append("\\pi");
-						break;
-
-					case Unicode.rho:
-						sbReplaceExp.append("\\rho");
-						break;
-
-					case Unicode.sigma:
-						sbReplaceExp.append("\\sigma");
-						break;
-
-					case Unicode.tau:
-						sbReplaceExp.append("\\tau");
-						break;
-
-					case Unicode.upsilon:
-						sbReplaceExp.append("\\upsilon");
-						break;
-
-					case Unicode.phi_symbol:
-						sbReplaceExp.append("\\phi");
-						break;
-
-					case Unicode.phi:
-						sbReplaceExp.append("\\varphi");
-						break;
-
-					case Unicode.chi:
-						sbReplaceExp.append("\\chi");
-						break;
-
-					case Unicode.psi:
-						sbReplaceExp.append("\\psi");
-						break;
-
-					case Unicode.omega:
-						sbReplaceExp.append("\\omega");
-						break;
-
-					// GREEK upper case letters
-
-					case Unicode.Alpha:
-						sbReplaceExp.append("\\Alpha");
-						break;
-
-					case Unicode.Beta:
-						sbReplaceExp.append("\\Beta");
-						break;
-
-					case Unicode.Gamma:
-						sbReplaceExp.append("\\Gamma");
-						break;
-
-					case Unicode.Delta:
-						sbReplaceExp.append("\\Delta");
-						break;
-
-					case Unicode.Epsilon:
-						sbReplaceExp.append("\\Epsilon");
-						break;
-
-					case Unicode.Zeta:
-						sbReplaceExp.append("\\Zeta");
-						break;
-
-					case Unicode.Eta:
-						sbReplaceExp.append("\\Eta");
-						break;
-
-					case Unicode.Theta:
-						sbReplaceExp.append("\\Theta");
-						break;
-
-					case Unicode.Iota:
-						sbReplaceExp.append("\\Iota");
-						break;
-
-					case Unicode.Kappa:
-						sbReplaceExp.append("\\Kappa");
-						break;
-
-					case Unicode.Lambda:
-						sbReplaceExp.append("\\Lambda");
-						break;
-
-					case Unicode.Mu:
-						sbReplaceExp.append("\\Mu");
-						break;
-
-					case Unicode.Nu:
-						sbReplaceExp.append("\\Nu");
-						break;
-
-					case Unicode.Xi:
-						sbReplaceExp.append("\\Xi");
-						break;
-
-					case Unicode.Omicron:
-						sbReplaceExp.append("\\Omicron");
-						break;
-
-					case Unicode.Pi:
-						sbReplaceExp.append("\\Pi");
-						break;
-
-					case Unicode.Rho:
-						sbReplaceExp.append("\\Rho");
-						break;
-
-					case Unicode.Sigma:
-						sbReplaceExp.append("\\Sigma");
-						break;
-
-					case Unicode.Tau:
-						sbReplaceExp.append("\\Tau");
-						break;
-
-					case Unicode.Upsilon:
-						sbReplaceExp.append("\\Upsilon");
-						break;
-
-					case Unicode.Phi:
-						sbReplaceExp.append("\\Phi");
-						break;
-
-					case Unicode.Chi:
-						sbReplaceExp.append("\\Chi");
-						break;
-
-					case Unicode.Psi:
-						sbReplaceExp.append("\\Psi");
-						break;
-
-					case Unicode.Omega:
-						sbReplaceExp.append("\\Omega");
-						break;
-					default:
-						sbReplaceExp.append(c);
+							if (c == Unicode.phi_symbol) {
+								sbReplaceExp.append("\\phi");
+							} else {
+								sbReplaceExp.append(c);
+							}
+						}
 					}
+
 
 				}
 			}

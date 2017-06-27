@@ -41,6 +41,17 @@ public enum Greek {
 
 	upsilon('\u03C5', false),
 
+	// \\varphi, curly
+	phi('\u03C6', false),
+	// \\phi "straight"
+	// public static final char phi_symbol = '\u03D5';
+
+	chi('\u03C7', false),
+
+	psi('\u03C8', false),
+
+	omega('\u03C9', false),
+
 	Alpha('\u0391', true),
 
 	Beta('\u0392', true),
@@ -98,11 +109,31 @@ public enum Greek {
 	}
 
 	public String getLaTeX() {
+
+		if (this.equals(epsilon) || this.equals(phi)) {
+			return "\\var" + name();
+		}
+
 		return "\\" + name();
 	}
 
 	public String getHTML() {
 		return "&" + name() + ";";
+	}
+
+	/**
+	 * 
+	 * @param ch
+	 * @return latex form eg \alpha (or null if it's not a Greek char)
+	 */
+	public static String getLaTeX(char ch) {
+		for (Greek greek : Greek.values()) {
+			if (greek.unicode == ch) {
+				return greek.getLaTeX();
+			}
+		}
+
+		return null;
 	}
 
 }
