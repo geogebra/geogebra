@@ -11,11 +11,14 @@ the Free Software Foundation.
  */
 package org.geogebra.web.web.gui.dialog;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel;
 import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInputListener;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.util.ScriptArea;
@@ -25,8 +28,6 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -107,17 +108,24 @@ public class ScriptInputPanelW extends FlowPanel implements
 
 		btPanel.add(languageSelector);
 
-
-
-
-		textArea.addClickHandler(new ClickHandler(){
-
+		ClickStartHandler.init(textArea, new ClickStartHandler() {
 			@Override
-			public void onClick(ClickEvent event) {
+			public void onClickStart(int x, int y, PointerEventType type) {
 				showKeyboard();
 				applyScript();
-            }});
-		
+			}
+		});
+
+
+		//
+		// textArea.addClickHandler(new ClickHandler(){
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// showKeyboard();
+		// applyScript();
+		// }});
+		//
 		languageSelector.addChangeHandler(new ChangeHandler(){
 
 			@Override
@@ -137,8 +145,10 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 * Shows the keyboard.
 	 */
 	protected void showKeyboard() {
+		ScriptInputPanelW.this.app.updateKeyBoardField(textArea);
 		((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame())
-				.doShowKeyBoard(true, textArea);
+				.showKeyBoard(true, textArea, false);
+		CancelEventTimer.keyboardSetVisible();
 
 	}
 
