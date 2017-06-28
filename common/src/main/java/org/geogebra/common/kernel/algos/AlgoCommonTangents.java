@@ -72,9 +72,11 @@ public class AlgoCommonTangents extends AlgoElement {
 	 */
 	@Override
 	public void initForNearToRelationship() {
-		if (this.algoIntersect != null) {
-			this.algoIntersect.initForNearToRelationship();
+		for (int i = 0; i < tangents.length; i++) {
+			c.polarPoint(tangents[i], (GeoPoint) algoIntersect.getOutput(i));
 		}
+		algoIntersect.initForNearToRelationship();
+
 	}
 
 	@Override
