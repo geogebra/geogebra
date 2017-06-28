@@ -706,7 +706,7 @@ public class DrawAxis {
 		if (view.getShowGrid() && view.getApplication()
 				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 			g2.setColor(view.getBackgroundCommon());
-			g2.setStrokeLineWidth(5);
+			g2.setStrokeLineWidth(view.getFontAxes().getSize() / 3);
 			g2.drawStringStroke(text, x, y);
 		}
 		
