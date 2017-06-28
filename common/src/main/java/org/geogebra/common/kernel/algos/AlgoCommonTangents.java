@@ -18,63 +18,51 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.geos.GeoVec3D;
-import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoCommonTangents extends AlgoCommonTangentsND {
+public class AlgoCommonTangents extends AlgoElement {
 
+	private GeoLine[] tangents;
+	// private GeoPoint[] tangentPoints;
+	private GeoConic tg;
+	private GeoConicND c;
+	private GeoConicND d;
+	private AlgoIntersectConics algoIntersect;
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param c
+	 *            first conic
+	 * @param d
+	 *            second conic
+	 */
 	public AlgoCommonTangents(Construction cons, String[] labels, GeoConicND c,
-			GeoConicND c2) {
-		super(cons, labels, c, c2);
-	}
+			GeoConicND d) {
+		super(cons);
+		this.c = c;
+		this.d = d;
 
-	@Override
-	protected void createPoints(Construction cons1) {
-		P = new GeoPoint[2];
-		P[0] = new GeoPoint(cons1);
-		P[1] = new GeoPoint(cons1);
-	}
+		tg = new GeoConic(cons);
+		tangents = new GeoLine[4];
+		for (int i = 0; i < 4; i++) {
+			tangents[i] = new GeoLine(cons);
+		}
+		setInputOutput();
+		compute();
+		GeoElement.setLabels(labels, getOutput());
 
-	@Override
-	protected void setCoordsAsPoint(int index, double x, double y) {
-		((GeoPoint) P[index]).setCoords(x, y, 1);
-	}
-
-	@Override
-	protected void setCoordsAsVector(int index, double x, double y) {
-		((GeoPoint) P[index]).setCoords(x, y, 0);
-	}
-
-	@Override
-	protected void initTangents() {
-
-		tangents = new GeoLine[2 + 2];
-		tangents[0] = new GeoLine(cons);
-		tangents[1] = new GeoLine(cons);
-		((GeoLine) tangents[0]).setStartPoint((GeoPoint) P[0]);
-		((GeoLine) tangents[1]).setStartPoint((GeoPoint) P[0]);
-
-		tangents[0 + 2] = new GeoLine(cons);
-		tangents[1 + 2] = new GeoLine(cons);
-		((GeoLine) tangents[0 + 2]).setStartPoint((GeoPoint) P[1]);
-		((GeoLine) tangents[1 + 2]).setStartPoint((GeoPoint) P[1]);
-
-	}
-
-	@Override
-	protected AlgoIntersectND createAlgo(Construction cons1, GeoPointND p,
-			GeoLine line, GeoConicND conic) {
-		conic.polarLine((GeoPoint) p, line);
-		return new AlgoIntersectLineConic(cons1, line, (GeoConic) conic);
 	}
 
 	/**
@@ -84,46 +72,42 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 	 */
 	@Override
 	public void initForNearToRelationship() {
-		AlgoTangentPoint.initForNearToRelationship(tangentPoints, tangents[0],
-				algoIntersect);
-		AlgoTangentPoint.initForNearToRelationship(tangentPoints2, tangents[2],
-				algoIntersect2);
+		if (this.algoIntersect != null) {
+			this.algoIntersect.initForNearToRelationship();
+		}
 	}
 
 	@Override
-	protected void updatePolarLines() {
-		c[0].polarLine((GeoPoint) P[0], polar);
-		c[1].polarLine((GeoPoint) P[1], polar2);
+	protected void setInputOutput() {
+		input = new GeoElement[] { c.toGeoElement(), d.toGeoElement() };
+		setOutputLength(4);
+		for (int i = 0; i < 4; i++) {
+			setOutput(i, tangents[i]);
+		}
+		setDependencies();
+
 	}
 
 	@Override
-	protected boolean isIntersectionPointIncident(int index, GeoConicND conic) {
-		return conic.isIntersectionPointIncident((GeoPoint) P[index],
-				Kernel.MIN_PRECISION);
+	public void compute() {
+		CoordMatrix nm = c.getSymetricMatrix()
+				.mul(d.getSymetricMatrix().inverse())
+				.mul(c.getSymetricMatrix());
+		tg.setMatrix(nm);
+		tg.update();
+		if (algoIntersect == null) {
+			algoIntersect = new AlgoIntersectConics(cons, tg, (GeoConic) c);
+		}
+		algoIntersect.compute();
+		for (int i = 0; i < 4; i++) {
+			c.polarLine((GeoPoint) algoIntersect.getOutput(i), tangents[i]);
+		}
+
 	}
 
 	@Override
-	protected void updateTangents(GeoPointND[] tangentPts, int index) {
-		// calc tangents through tangentPoints
-		GeoVec3D.lineThroughPoints((GeoPoint) P[index],
-				(GeoPoint) tangentPts[0], (GeoLine) tangents[0 + 2 * index]);
-		GeoVec3D.lineThroughPoints((GeoPoint) P[index],
-				(GeoPoint) tangentPts[1], (GeoLine) tangents[1 + 2 * index]);
-	}
-
-	@Override
-	protected void setTangentFromPolar(int i, GeoLine line) {
-		((GeoLine) tangents[i]).setCoords(line);
-	}
-
-	@Override
-	protected double getMidpointX(int csIndex, int mpIndex) {
-		return c[mpIndex].b.getX();
-	}
-
-	@Override
-	protected double getMidpointY(int csIndex, int mpIndex) {
-		return c[mpIndex].b.getY();
+	public GetCommand getClassName() {
+		return Commands.Tangent;
 	}
 
 }
