@@ -21,7 +21,7 @@ public class SliderDessertBar extends FlowPanel {
 	 * @param parentItem
 	 *            parent tree item
 	 */
-	public SliderDessertBar(final RadioTreeItem parentItem) {
+	public SliderDessertBar() {
 		addStyleName("sliderDessertBar");
 		label = new Label();
 		label.addStyleName("sliderDessertButton");
