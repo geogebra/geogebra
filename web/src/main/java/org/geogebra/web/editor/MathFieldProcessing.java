@@ -120,7 +120,8 @@ public class MathFieldProcessing implements KeyboardListener {
 					i == text.length() - 1);
 
 		}
-		if ("()".equals(text) && doubleBrakets) {
+		if (doubleBrakets && ("()".equals(text) || "{}".equals(text)
+				|| "[]".equals(text))) {
 			onArrow(ArrowType.left);
 		}
 

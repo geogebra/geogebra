@@ -76,7 +76,8 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	@Override
 	public void insertString(String text) {
 		field.insertString(text);
-		if (text.startsWith("(")) {
+		if (text.startsWith("(") || text.startsWith("{")
+				|| text.startsWith("[")) {
 			// moves inside the brackets
 			onArrow(ArrowType.left);
 		} else if (text.equals(KeyboardConstants.A_POWER_X)) {
