@@ -719,10 +719,17 @@ public class DrawAxis {
 			char minusSign, boolean drawRightArrow, int fontsize,
 			double xAxisStart) {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
-		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
-				view.axesTickStyles[1] <= 1 };
-		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
-				view.axesTickStyles[1] == 0 };
+
+		boolean enableTicks = !view.getApplication()
+				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)
+				|| (view.getApplication()
+						.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)
+						&& !view.getShowGrid());
+		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1 && enableTicks,
+				view.axesTickStyles[1] <= 1 && enableTicks };
+		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0 && enableTicks,
+				view.axesTickStyles[1] == 0 && enableTicks };
+
 		double rw = view.getXmin()
 				- (view.getXmin() % view.axesNumberingDistances[0]);
 		long labelno = Math.round(rw / view.axesNumberingDistances[0]);
