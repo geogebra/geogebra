@@ -19,6 +19,7 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -36,6 +37,7 @@ public class AlgoCommonTangents extends AlgoElement {
 	private GeoConic tg;
 	private GeoConicND c;
 	private GeoConicND d;
+	private GeoLine currentTangent;
 	private AlgoIntersectConics algoIntersect;
 
 	/**
@@ -55,6 +57,7 @@ public class AlgoCommonTangents extends AlgoElement {
 		this.d = d;
 
 		tg = new GeoConic(cons);
+		currentTangent = new GeoLine(cons);
 		tangents = new GeoLine[4];
 		for (int i = 0; i < 4; i++) {
 			tangents[i] = new GeoLine(cons);
@@ -101,10 +104,30 @@ public class AlgoCommonTangents extends AlgoElement {
 			algoIntersect = new AlgoIntersectConics(cons, tg, (GeoConic) c);
 		}
 		algoIntersect.compute();
+		int inner = 0;
+		int outer = 0;
 		for (int i = 0; i < 4; i++) {
-			c.polarLine((GeoPoint) algoIntersect.getOutput(i), tangents[i]);
+			tangents[i].setUndefined();
+		}
+		for (int i = 0; i < 4; i++) {
+			c.polarLine((GeoPoint) algoIntersect.getOutput(i), currentTangent);
+			if (isInner(currentTangent)) {
+				tangents[inner].set(currentTangent);
+				inner++;
+			} else if (outer < 2) {
+				tangents[2 + outer].set(currentTangent);
+				outer++;
+			}
 		}
 
+	}
+
+	private boolean isInner(GeoLine currentTangent2) {
+		Coords c0 = currentTangent2.getCoords();
+		double sgnC = c.getMidpoint().inner(c0);
+		double sgnD = d.getMidpoint().inner(c0);
+
+		return sgnC * sgnD < 0;
 	}
 
 	@Override
