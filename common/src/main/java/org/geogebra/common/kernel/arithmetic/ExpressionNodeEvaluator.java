@@ -1136,9 +1136,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			if (lt instanceof Evaluatable) {
 				VectorNDValue pt = (VectorNDValue) rt;
 				if (lt instanceof GeoFunction) {
-					FunctionNVar fun = ((GeoFunction) lt).getFunction();
+					Function fun = ((GeoFunction) lt).getFunction();
 					if (fun.isBooleanFunction()) {
 						return new MyBoolean(kernel, fun.evaluate(pt) > 0);
+					}
+					if (pt.getMode() == Kernel.COORD_COMPLEX
+							&& rt instanceof VectorValue) {
+						return fun.evalComplex(((VectorValue) rt).getVector());
 					}
 					return new MyDouble(kernel, fun.evaluate(pt));
 				} else if (lt instanceof GeoFunctionable) {

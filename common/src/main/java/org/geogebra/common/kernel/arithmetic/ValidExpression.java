@@ -312,16 +312,6 @@ public abstract class ValidExpression
 		return Double.NaN;
 	}
 
-	/**
-	 * Evaluates like function, a complex expression
-	 * 
-	 * @return function
-	 */
-	public Function evaluateComplex() {
-		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
-		return (Function) ev;
-	}
-
 	@SuppressWarnings("deprecation")
 	@Deprecated
 	@Override

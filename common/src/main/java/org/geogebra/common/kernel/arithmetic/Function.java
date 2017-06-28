@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
@@ -1170,6 +1171,12 @@ public class Function extends FunctionNVar
 		return isConstantFunction() || (symbolic
 				? getSymbolicPolynomialFactors(forRootFinding, false)
 				: getPolynomialFactors(forRootFinding, false)) != null;
+	}
+
+	public ExpressionValue evalComplex(GeoVec2D complex) {
+
+		return expression.deepCopy(kernel).replace(getFunctionVariable(),
+				complex).evaluate(StringTemplate.defaultTemplate);
 	}
 
 }
