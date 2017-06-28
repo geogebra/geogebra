@@ -2682,4 +2682,9 @@ public class Coords {
 		val[2] = 1.0;
 	}
 
+	public double inner(Coords c) {
+		return val[0] * c.val[0] + val[1] * c.val[1] + val[2] * c.val[2];
+
+	}
+
 }
