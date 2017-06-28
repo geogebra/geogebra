@@ -18,7 +18,6 @@ package org.geogebra.web.html5.util;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import com.google.gwt.i18n.client.LocaleInfo;
 import com.google.gwt.i18n.client.constants.NumberConstants;
 
 /**
@@ -313,16 +312,10 @@ import com.google.gwt.i18n.client.constants.NumberConstants;
  */
 public class MyNumberFormat {
 
-	// Sets of constants as defined for the current locale from CLDR.
-	protected static final NumberConstants localizedNumberConstants = LocaleInfo
-			.getCurrentLocale().getNumberConstants();
-
 	/**
 	 * Current NumberConstants interface to use, see
 	 * {@link #setForcedLatinDigits(boolean)} for changing it.
 	 */
-	protected static NumberConstants defaultNumberConstants = localizedNumberConstants;
-
 	// Cached instances of standard formatters.
 	private static MyNumberFormat cachedCurrencyFormat;
 	private static MyNumberFormat cachedDecimalFormat;
@@ -333,7 +326,7 @@ public class MyNumberFormat {
 	// private static final char CURRENCY_SIGN = '\u00A4';
 
 	// Number constants mapped to use latin digits/separators.
-	private static NumberConstants latinNumberConstants = null;
+	// private static NumberConstants latinNumberConstants = null;
 	// Localized characters for dot and comma in number patterns, used to
 	// produce
 	// the latin mapping for arbitrary locales. Any separator not in either of
@@ -358,7 +351,7 @@ public class MyNumberFormat {
 	 * and related characters rather than the localized ones.
 	 */
 	public static boolean forcedLatinDigits() {
-		return defaultNumberConstants != localizedNumberConstants;
+		return true;// defaultNumberConstants != localizedNumberConstants;
 	}
 
 	/**
@@ -370,7 +363,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getDecimalFormat() {
 		if (cachedDecimalFormat == null) {
 			cachedDecimalFormat = new MyNumberFormat(
-					defaultNumberConstants.decimalPattern());
+					numberConstants.decimalPattern());
 		}
 		return cachedDecimalFormat;
 	}
@@ -398,7 +391,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getPercentFormat() {
 		if (cachedPercentFormat == null) {
 			cachedPercentFormat = new MyNumberFormat(
-					defaultNumberConstants.percentPattern());
+					numberConstants.percentPattern());
 		}
 		return cachedPercentFormat;
 	}
@@ -412,7 +405,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getScientificFormat() {
 		if (cachedScientificFormat == null) {
 			cachedScientificFormat = new MyNumberFormat(
-					defaultNumberConstants.scientificPattern());
+					numberConstants.scientificPattern());
 		}
 		return cachedScientificFormat;
 	}
@@ -426,24 +419,24 @@ public class MyNumberFormat {
 	 *            true if latin digits/etc should be used, false if localized
 	 *            digits/etc should be used.
 	 */
-	public static void setForcedLatinDigits(boolean useLatinDigits) {
-		// Invalidate cached formats if changing
-		if (useLatinDigits != forcedLatinDigits()) {
-			cachedCurrencyFormat = null;
-			cachedDecimalFormat = null;
-			cachedPercentFormat = null;
-			cachedScientificFormat = null;
-		}
-		if (useLatinDigits) {
-			if (latinNumberConstants == null) {
-				latinNumberConstants = createLatinNumberConstants(
-						localizedNumberConstants);
-			}
-			defaultNumberConstants = latinNumberConstants;
-		} else {
-			defaultNumberConstants = localizedNumberConstants;
-		}
-	}
+	// public static void setForcedLatinDigits(boolean useLatinDigits) {
+	// // Invalidate cached formats if changing
+	// if (useLatinDigits != forcedLatinDigits()) {
+	// cachedCurrencyFormat = null;
+	// cachedDecimalFormat = null;
+	// cachedPercentFormat = null;
+	// cachedScientificFormat = null;
+	// }
+	// if (useLatinDigits) {
+	// if (latinNumberConstants == null) {
+	// latinNumberConstants = createLatinNumberConstants(
+	// localizedNumberConstants);
+	// }
+	// defaultNumberConstants = latinNumberConstants;
+	// } else {
+	// defaultNumberConstants = localizedNumberConstants;
+	// }
+	// }
 
 	/**
 	 * Create a delocalized NumberConstants instance from a localized one.
@@ -677,7 +670,7 @@ public class MyNumberFormat {
 	private String negativeSuffix = "";
 
 	// Locale specific symbol collection.
-	private final NumberConstants numberConstants;
+	private static final NumberConstants numberConstants = new MyNumberConstants();
 
 	// The pattern to use for formatting and parsing.
 	private final String pattern;
@@ -705,24 +698,10 @@ public class MyNumberFormat {
 	 * @param userSuppliedPattern
 	 *            true if the pattern was supplied by the user
 	 */
-	protected MyNumberFormat(NumberConstants numberConstants, String pattern) {
-		this.numberConstants = numberConstants;
+	protected MyNumberFormat(String pattern) {
 		this.pattern = pattern;
 
 		parsePattern(this.pattern);
-	}
-
-	/**
-	 * Constructs a format object for the default locale based on the specified
-	 * settings.
-	 *
-	 * @param pattern
-	 *            pattern that specify how number should be formatted
-	 * @param userSuppliedPattern
-	 *            true if the pattern was supplied by the user
-	 */
-	protected MyNumberFormat(String pattern) {
-		this(defaultNumberConstants, pattern);
 	}
 
 	/**

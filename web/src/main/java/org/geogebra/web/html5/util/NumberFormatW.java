@@ -24,14 +24,14 @@ public class NumberFormatW extends Format implements NumberFormatAdapter {
 	public NumberFormatW(String s, int digits) {
 		maximumFractionDigits = digits;
 
-		Boolean forcedLatinDigits = MyNumberFormat.forcedLatinDigits();
-		if (!forcedLatinDigits) {
-			MyNumberFormat.setForcedLatinDigits(true);
-		}
+		// Boolean forcedLatinDigits = MyNumberFormat.forcedLatinDigits();
+		// if (!forcedLatinDigits) {
+		// MyNumberFormat.setForcedLatinDigits(true);
+		// }
 		this.nf = MyNumberFormat.getFormat(s);
-		if (!forcedLatinDigits) {
-			MyNumberFormat.setForcedLatinDigits(false);
-		}
+		// if (!forcedLatinDigits) {
+		// MyNumberFormat.setForcedLatinDigits(false);
+		// }
 		nf.overrideFractionDigits(0, maximumFractionDigits);
 	}
 
@@ -52,7 +52,8 @@ public class NumberFormatW extends Format implements NumberFormatAdapter {
 
 		// GWT uses the locale to decide . or , as decimal separator
 		// we must always have .
-		return ret.replace(',', '.');
+		// not needed as Locale removed from MyNumberFormat
+		return ret;// .replace(',', '.');
 
 	}
 
