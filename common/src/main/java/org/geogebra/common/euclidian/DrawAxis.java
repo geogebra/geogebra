@@ -2,7 +2,6 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
 import org.geogebra.common.awt.GGeneralPath;
@@ -324,10 +323,18 @@ public class DrawAxis {
 			double yCrossPix, double yAxisEnd) {
 		double xoffset = -4 - (fontsize / 4);
 		double yoffset = (fontsize / 2) - 1;
-		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1,
-				view.axesTickStyles[1] <= 1 };
-		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0,
-				view.axesTickStyles[1] == 0 };
+		
+		boolean enableTicks = !view.getApplication()
+				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND) || (view.getApplication()
+				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND) && !view.getShowGrid());
+		
+		boolean[] drawMajorTicks = {
+				view.axesTickStyles[0] <= 1 && enableTicks,
+				view.axesTickStyles[1] <= 1 && enableTicks };
+		boolean[] drawMinorTicks = {
+				view.axesTickStyles[0] == 0 && enableTicks,
+				view.axesTickStyles[1] == 0 && enableTicks };
+
 		double xSmall1 = xCrossPix - 0;
 		double xSmall2 = xCrossPix - 2;
 		double xBig = xCrossPix - 3;
@@ -368,8 +375,7 @@ public class DrawAxis {
 
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			// big tick
-			if (drawMajorTicks[1] && !view.getApplication()
-					.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+			if (drawMajorTicks[1]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 			}
@@ -471,16 +477,12 @@ public class DrawAxis {
 								.valueOf((int) (pix + Kernel.MIN_PRECISION)));
 					}
 				}
-				if ((drawMajorTicks[1] && (!view.showAxes[0]
-						|| !Kernel.isEqual(rw, view.axisCross[0])))
-						&& !view.getApplication()
-								.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+				if (drawMajorTicks[1] && (!view.showAxes[0]
+						|| !Kernel.isEqual(rw, view.axisCross[0]))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
-			} else if (drawMajorTicks[1] && !drawTopArrow
-					&& !view.getApplication()
-							.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+			} else if (drawMajorTicks[1] && !drawTopArrow) {
 				// draw last tick if there is no arrow
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xBig, pix, xZeroTick, pix);
@@ -488,8 +490,7 @@ public class DrawAxis {
 
 			// small tick
 			smallTickPix = (pix + tickStep) - smallTickOffset;
-			if (drawMinorTicks[1] && !view.getApplication()
-					.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+			if (drawMinorTicks[1]) {
 				g2.setStroke(view.tickStroke);
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
 						smallTickPix);
