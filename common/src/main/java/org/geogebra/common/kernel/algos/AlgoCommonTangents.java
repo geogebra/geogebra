@@ -26,11 +26,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoCommonTangents extends AlgoElement {
+public class AlgoCommonTangents extends AlgoElement implements TangentAlgo {
 
 	private GeoLine[] tangents;
 	// private GeoPoint[] tangentPoints;
@@ -113,9 +114,13 @@ public class AlgoCommonTangents extends AlgoElement {
 			c.polarLine((GeoPoint) algoIntersect.getOutput(i), currentTangent);
 			if (isInner(currentTangent)) {
 				tangents[inner].set(currentTangent);
+				tangents[inner]
+						.setStartPoint((GeoPoint) algoIntersect.getOutput(i));
 				inner++;
 			} else if (outer < 2) {
 				tangents[2 + outer].set(currentTangent);
+				tangents[2 + outer]
+						.setStartPoint((GeoPoint) algoIntersect.getOutput(i));
 				outer++;
 			}
 		}
@@ -135,11 +140,13 @@ public class AlgoCommonTangents extends AlgoElement {
 		return Commands.Tangent;
 	}
 
-}
+	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo == c) {
+			return line.getStartPoint();
+		}
+		GeoPoint ret = new GeoPoint(cons);
+		d.polarPoint(line, ret);
+		return ret;
+	}
 
-// Local Variables:
-// indent-tabs-mode: nil
-// c-basic-offset: 4
-// tab-width: 4
-// End:
-// vim: set expandtab shiftwidth=4 softtabstop=4 tabstop=4
+}
