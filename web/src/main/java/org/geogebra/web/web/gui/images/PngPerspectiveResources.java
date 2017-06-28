@@ -81,6 +81,10 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	ImageResource menu_icon_construction_protocol();
 
 	@Override
+	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_construction_protocol.png")
+	ImageResource menu_icon_construction_protocol24();
+
+	@Override
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu_view_probability.png")
 	ImageResource menu_icon_probability();
 	

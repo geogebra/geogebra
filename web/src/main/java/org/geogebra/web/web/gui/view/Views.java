@@ -20,42 +20,42 @@ public class Views {
 		 * 
 		 */
 		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", PerspectiveResources.INSTANCE
-				.menu_icon_algebra()),
+				.menu_icon_algebra24()),
 		/**
 		 * 
 		 */
 		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", PerspectiveResources.INSTANCE
-				.menu_icon_graphics()),
+				.menu_icon_graphics24()),
 		/**
 		 * 
 		 */
 		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", PerspectiveResources.INSTANCE
-				.menu_icon_graphics2()),
+				.menu_icon_graphics224()),
 		/**
 		 * 
 		 */
 		GRAPHICS_3D(App.VIEW_EUCLIDIAN3D, "GraphicsView3D",
-				PerspectiveResources.INSTANCE.menu_icon_graphics3D()),
+				PerspectiveResources.INSTANCE.menu_icon_graphics3D24()),
 		/**
 		 * 
 		 */
 		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", PerspectiveResources.INSTANCE
-				.menu_icon_spreadsheet()),
+				.menu_icon_spreadsheet24()),
 		/**
 		 * 
 		 */
-		CAS(App.VIEW_CAS, "CAS", PerspectiveResources.INSTANCE.menu_icon_cas()),
+		CAS(App.VIEW_CAS, "CAS", PerspectiveResources.INSTANCE.menu_icon_cas24()),
 		/**
 		 * 
 		 */
 		PROBABILITY(App.VIEW_PROBABILITY_CALCULATOR, "ProbabilityCalculator",
-				PerspectiveResources.INSTANCE.menu_icon_probability()),
+				PerspectiveResources.INSTANCE.menu_icon_probability24()),
 		/**
 		 * 
 		 */
 		CONSTRUCTION_PROTOCOL(App.VIEW_CONSTRUCTION_PROTOCOL,
 				"ConstructionProtocol", PerspectiveResources.INSTANCE
-						.menu_icon_construction_protocol());
+						.menu_icon_construction_protocol24());
 
 		private int id;
 		private String key;

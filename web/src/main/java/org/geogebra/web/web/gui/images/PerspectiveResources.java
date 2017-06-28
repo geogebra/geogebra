@@ -47,6 +47,8 @@ public interface PerspectiveResources {
 	
 	ResourcePrototype menu_icon_construction_protocol();
 	
+	ResourcePrototype menu_icon_construction_protocol24();
+
 	ResourcePrototype menu_icon_probability();
 
 	ResourcePrototype menu_icon_probability24();
@@ -97,5 +99,6 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_header_open_menu_hover();
 
 	ResourcePrototype menu_header_back();
+
 
 }

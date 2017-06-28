@@ -48,21 +48,21 @@ public class PerspectivesMenuW extends GMenuBar {
 
 	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 
-		addPerspective(0, pr.menu_icon_algebra());
-		addPerspective(3, pr.menu_icon_cas());
-		addPerspective(1, pr.menu_icon_geometry());
-		addPerspective(4, pr.menu_icon_graphics3D());
-		addPerspective(2, pr.menu_icon_spreadsheet());
-		addPerspective(5, pr.menu_icon_probability());
+		addPerspective(0, pr.menu_icon_algebra24());
+		addPerspective(3, pr.menu_icon_cas24());
+		addPerspective(1, pr.menu_icon_geometry24());
+		addPerspective(4, pr.menu_icon_graphics3D24());
+		addPerspective(2, pr.menu_icon_spreadsheet24());
+		addPerspective(5, pr.menu_icon_probability24());
 		if (app.has(Feature.WHITEBOARD_APP)) {
-			addPerspective(6, pr.menu_icon_whiteboard());
+			addPerspective(6, pr.menu_icon_whiteboard24());
 		}
 
 
 		if (!app.isExam()) {
 
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
-				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_exam().getSafeUri().asString(),
+				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_exam24().getSafeUri().asString(),
 						app.getLocalization().getMenu("exam_menu_entry"), true), // "Exam
 																					// Mode"
 						true, new MenuCommand(app) {
