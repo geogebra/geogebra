@@ -702,8 +702,9 @@ public class DrawAxis {
 	 */
 	void drawString(GGraphics2D g2, String text, double x, double y) {
 
-		if (view.getApplication().has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
-			g2.setColor(GColor.WHITE);
+		if (view.getShowGrid() && view.getApplication()
+				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+			g2.setColor(view.getBackgroundCommon());
 			g2.setStrokeLineWidth(5);
 			g2.drawStringStroke(text, x, y);
 		}
