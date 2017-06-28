@@ -42,7 +42,6 @@ public class ContextMenuTools implements SetLabels {
 	/** The application */
 	AppW app;
 
-	private ToolsetLevel toolsetLevel = ToolsetLevel.ADVANCED;
 
 	/**
 	 * Creates new context menu
@@ -66,8 +65,7 @@ public class ContextMenuTools implements SetLabels {
 		// addToolItems();
 		addToolFilterItem();
 		addToolManageItems();
-		setToolsetLevel(app.getSettings().getToolbarSettings().getType() == AppType.GEOMETRY_CALC? 
-				ToolsetLevel.EMPTY_CONSTRUCTION:ToolsetLevel.STANDARD);
+		setToolsetLevel(app.getSettings().getToolbarSettings().getToolsetLevel());
 	}
 
 	private Command cmdReposition = new Command() {
@@ -87,7 +85,7 @@ public class ContextMenuTools implements SetLabels {
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
-	private class ToolFilterSubMenu extends CheckMarkSubMenu
+	public class ToolFilterSubMenu extends CheckMarkSubMenu
 			implements SettingListener {
 		private ArrayList<ToolsetLevel> supportedLevels = null;
 
@@ -112,7 +110,8 @@ public class ContextMenuTools implements SetLabels {
 				final ToolsetLevel level = supportedLevels.get(i);
 				String levelTitle = app.getLocalization()
 						.getMenu(level.toString());
-				addItem(levelTitle, false, new Command() {
+				boolean isSelected = app.getSettings().getToolbarSettings().getToolsetLevel().equals(level);
+				addItem(levelTitle, isSelected, new Command() {
 
 					@Override
 					public void execute() {
@@ -242,7 +241,11 @@ public class ContextMenuTools implements SetLabels {
 	 * @return Tool type selected.
 	 */
 	public ToolsetLevel getToolType() {
-		return toolsetLevel;
+		return app.getSettings().getToolbarSettings().getToolsetLevel();
+	}
+
+	public ToolFilterSubMenu getSubToolFilter() {
+		return subToolFilter;
 	}
 
 	/**
@@ -251,7 +254,7 @@ public class ContextMenuTools implements SetLabels {
 	 *            to set.
 	 */
 	public void setToolsetLevel(ToolsetLevel toolsetLevel) {
-		this.toolsetLevel = toolsetLevel;
+		app.getSettings().getToolbarSettings().setToolsetLevel(toolsetLevel);
 		subToolFilter.update();
 	}
 	

@@ -213,6 +213,7 @@ class Header extends FlowPanel {
 				cmTools = new ContextMenuTools((AppW) this.toolbarPanel.app,
 						this.toolbarPanel);
 			}
+			cmTools.getSubToolFilter().update();
 			cmTools.show(x, y);
 		}
 	}
