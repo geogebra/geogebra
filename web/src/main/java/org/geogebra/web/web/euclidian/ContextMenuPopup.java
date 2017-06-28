@@ -159,7 +159,8 @@ public class ContextMenuPopup extends MyCJButton
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		hideMenu();
+		// make context menu btn toggle button
+		//hideMenu();
 	}
 	
 	public boolean isMenuShown() {
