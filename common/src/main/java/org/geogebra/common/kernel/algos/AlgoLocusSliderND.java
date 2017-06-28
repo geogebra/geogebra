@@ -17,6 +17,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
@@ -788,17 +789,29 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	private void updateScreenBorders(int v) {
 
-		if (v == 0) {
+		switch (v) {
+		default:
+		case 0:
 			xmax[v] = kernel.getXmax(true, false);
 			xmin[v] = kernel.getXmin(true, false);
 			ymax[v] = kernel.getYmax(true, false);
 			ymin[v] = kernel.getYmin(true, false);
-		} else {
-			// TODO: differenciate 3D view!
+			break;
+		case 1:
 			xmax[v] = kernel.getXmax(false, true);
 			xmin[v] = kernel.getXmin(false, true);
 			ymax[v] = kernel.getYmax(false, true);
 			ymin[v] = kernel.getYmin(false, true);
+			break;
+		case 2:
+			EuclidianView3DInterface view3D = kernel.getApplication()
+					.getEuclidianView3D();
+
+			xmax[v] = view3D.getXmax();
+			xmin[v] = view3D.getXmin();
+			ymax[v] = view3D.getYmax();
+			ymin[v] = view3D.getYmin();
+			break;
 		}
 
 		setMaxDistances(v);
