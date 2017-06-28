@@ -370,7 +370,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getDecimalFormat() {
 		if (cachedDecimalFormat == null) {
 			cachedDecimalFormat = new MyNumberFormat(
-					defaultNumberConstants.decimalPattern(), false);
+					defaultNumberConstants.decimalPattern());
 		}
 		return cachedDecimalFormat;
 	}
@@ -386,7 +386,7 @@ public class MyNumberFormat {
 	 *             if the specified pattern is invalid
 	 */
 	public static MyNumberFormat getFormat(String pattern) {
-		return new MyNumberFormat(pattern, true);
+		return new MyNumberFormat(pattern);
 	}
 
 	/**
@@ -398,7 +398,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getPercentFormat() {
 		if (cachedPercentFormat == null) {
 			cachedPercentFormat = new MyNumberFormat(
-					defaultNumberConstants.percentPattern(), false);
+					defaultNumberConstants.percentPattern());
 		}
 		return cachedPercentFormat;
 	}
@@ -412,7 +412,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getScientificFormat() {
 		if (cachedScientificFormat == null) {
 			cachedScientificFormat = new MyNumberFormat(
-					defaultNumberConstants.scientificPattern(), false);
+					defaultNumberConstants.scientificPattern());
 		}
 		return cachedScientificFormat;
 	}
@@ -705,8 +705,7 @@ public class MyNumberFormat {
 	 * @param userSuppliedPattern
 	 *            true if the pattern was supplied by the user
 	 */
-	protected MyNumberFormat(NumberConstants numberConstants, String pattern,
-			boolean userSuppliedPattern) {
+	protected MyNumberFormat(NumberConstants numberConstants, String pattern) {
 		this.numberConstants = numberConstants;
 		this.pattern = pattern;
 
@@ -722,25 +721,28 @@ public class MyNumberFormat {
 	 * @param userSuppliedPattern
 	 *            true if the pattern was supplied by the user
 	 */
-	protected MyNumberFormat(String pattern, boolean userSuppliedPattern) {
-		this(defaultNumberConstants, pattern, userSuppliedPattern);
+	protected MyNumberFormat(String pattern) {
+		this(defaultNumberConstants, pattern);
 	}
 
 	/**
 	 * This method formats a double to produce a string.
 	 *
-	 * @param number
+	 * @param number0
 	 *            The double to format
 	 * @return the formatted number string
 	 */
-	public String format(double number) {
-		if (Double.isNaN(number)) {
+	public String format(double number0) {
+		if (Double.isNaN(number0)) {
 			return numberConstants.notANumber();
 		}
-		boolean isNegative = ((number < 0.0)
-				|| (number == 0.0 && 1 / number < 0.0));
+		boolean isNegative = ((number0 < 0.0)
+				|| (number0 == 0.0 && 1 / number0 < 0.0));
+		double number;
 		if (isNegative) {
-			number = -number;
+			number = -number0;
+		}else{
+			number = number0;
 		}
 		StringBuilder buf = new StringBuilder();
 		if (Double.isInfinite(number)) {
@@ -1080,10 +1082,13 @@ public class MyNumberFormat {
 	 *            fractional digits
 	 * @return formatted value
 	 */
-	protected String format(long value, int scale) {
-		boolean isNegative = value < 0;
+	protected String format(long value0, int scale) {
+		boolean isNegative = value0 < 0;
+		double value;
 		if (isNegative) {
-			value = -value;
+			value = -value0;
+		}else{
+			value = value0;
 		}
 		value *= multiplier;
 		StringBuilder buf = new StringBuilder();
@@ -1708,11 +1713,12 @@ public class MyNumberFormat {
 	 * Propagate a carry from incrementing the {@code i+1}'th digit.
 	 *
 	 * @param digits
-	 * @param i
+	 * @param k
 	 *            digit to start incrementing
 	 */
-	private void propagateCarry(StringBuilder digits, int i) {
+	private void propagateCarry(StringBuilder digits, final int k) {
 		boolean carry = true;
+		int i = k;
 		while (carry && i >= 0) {
 			char digit = digits.charAt(i);
 			if (digit == '9') {
