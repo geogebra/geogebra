@@ -382,6 +382,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
 	private StandardButton zoomOutBtn;
+	/**
+	 * enter/exit fullscreen mode
+	 */
+	StandardButton fullscreenBtn;
+	/**
+	 * is in fullscreen mode
+	 */
+	boolean isFullScreen = false;
 
 	private PushButton closeButton;
 	private FlowPanel dragPanel;
@@ -583,6 +591,29 @@ public abstract class DockPanelW extends ResizeComposite implements
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
 		zoomPanel.add(zoomOutBtn);
+
+		// add fullscreen button
+		fullscreenBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.fullscreen_white18());
+		fullscreenBtn.getDownFace().setImage(new Image(MaterialDesignResources.INSTANCE.fullscreen_exit_white18()));
+		fullscreenBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerFullscreen = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				if (isFullScreen) {
+					isFullScreen = false;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_white18());
+				} else {
+					isFullScreen = true;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_exit_white18());
+				}
+			}
+		};
+		fullscreenBtn.addFastClickHandler(handlerFullscreen);
+		zoomPanel.add(fullscreenBtn);
 	}
 	
 	/**
