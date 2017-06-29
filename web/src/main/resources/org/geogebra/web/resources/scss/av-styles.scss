@@ -225,10 +225,10 @@ $duration: 0.2s;
 			}
 			
 			.symbolicButton{
-				display: block;
+				display: inline-block;
     			padding: 2px;
-    			margin-top: 90%;
-    			margin-right: 4px;
+    			top: 50%;
+    			right: -18px;
     			width: 22px;
     			height: 22px;
     			background-color: #6e6eff;
