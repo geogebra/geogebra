@@ -215,12 +215,13 @@
 		top: auto !important;
     	left: auto !important;
     	z-index: 11;
+    	bottom: 8px !important;
     	
     	.zoomPanelBtn {
     		width: 36px;
     		height: 36px;
     		margin-right: 16px;
-    		margin-bottom: 16px;
+    		margin-bottom: 8px;
     		background-color: $zoomBtnBckg;
     		border-radius: 50%;
     		box-shadow: 0 1px 3px 0 $black-2, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
