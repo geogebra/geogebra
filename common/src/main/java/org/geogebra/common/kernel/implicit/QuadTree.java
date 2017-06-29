@@ -264,7 +264,7 @@ abstract class QuadTree {
 	}
 
 	private double minAbs(double a, double b) {
-		return Math.min(Math.abs(1), Math.abs(b));
+		return Math.min(Math.abs(a), Math.abs(b));
 	}
 
 	/**
