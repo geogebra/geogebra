@@ -246,6 +246,14 @@
 			border: 2px solid $toolbar-header;
 		}
 		
+		.button[selected=false] {
+			border: 1px solid $tool-border;
+			
+			&:hover {
+				border: 1px solid $toolbar-header;
+	 		}
+		}
+		
 		.moreLessBtn {
 			border-radius: 2px;
   			height: 24px;
