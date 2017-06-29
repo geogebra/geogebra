@@ -195,8 +195,8 @@ abstract class QuadTree {
 					y1), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2),
 					y2, SegmentType.LINE_TO);
-			q1 = Math.min(Math.abs(bl), Math.abs(tl));
-			q2 = Math.min(Math.abs(bl), Math.abs(br));
+			q1 = minAbs(bl, tl);
+			q2 = minAbs(bl, br);
 			break;
 
 		case T0010:
@@ -205,8 +205,8 @@ abstract class QuadTree {
 					y1), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(br, bl, x2, x1),
 					y2, SegmentType.LINE_TO);
-			q1 = Math.min(Math.abs(br), Math.abs(tr));
-			q2 = Math.min(Math.abs(br), Math.abs(bl));
+			q1 = minAbs(br, tr);
+			q2 = minAbs(br, bl);
 			break;
 
 		case T0100:
@@ -215,8 +215,8 @@ abstract class QuadTree {
 					y2), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tr, tl, x2, x1),
 					y1, SegmentType.LINE_TO);
-			q1 = Math.min(Math.abs(tr), Math.abs(br));
-			q2 = Math.min(Math.abs(tr), Math.abs(tl));
+			q1 = minAbs(tr, br);
+			q2 = minAbs(tr, tl);
 			break;
 
 		case T0111:
@@ -225,8 +225,8 @@ abstract class QuadTree {
 					y2), SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(tl, tr, x1, x2),
 					y1, SegmentType.LINE_TO);
-			q1 = Math.min(Math.abs(bl), Math.abs(tl));
-			q2 = Math.min(Math.abs(tl), Math.abs(tr));
+			q1 = minAbs(bl, tl);
+			q2 = minAbs(tl, tr);
 			break;
 
 		// two consecutive corners are inside / outside
@@ -237,8 +237,8 @@ abstract class QuadTree {
 			pts[1] = new MyPoint(x2,
  GeoImplicitCurve.interpolate(tr, br, y1,
 					y2), SegmentType.LINE_TO);
-			q1 = Math.min(Math.abs(tl), Math.abs(bl));
-			q2 = Math.min(Math.abs(tr), Math.abs(br));
+			q1 = minAbs(tl, bl);
+			q2 = minAbs(tr, br);
 			break;
 
 		case T0110:
@@ -246,8 +246,8 @@ abstract class QuadTree {
 					y1, SegmentType.MOVE_TO);
 			pts[1] = new MyPoint(GeoImplicitCurve.interpolate(bl, br, x1, x2),
 					y2, SegmentType.LINE_TO);
-			q1 = Math.min(Math.abs(tl), Math.abs(tr));
-			q2 = Math.min(Math.abs(bl), Math.abs(br));
+			q1 = minAbs(tl, tr);
+			q2 = minAbs(bl, br);
 			break;
 		default:
 			return EMPTY;
@@ -261,6 +261,10 @@ abstract class QuadTree {
 			return VALID;
 		}
 		return EMPTY;
+	}
+
+	private double minAbs(double a, double b) {
+		return Math.min(Math.abs(1), Math.abs(b));
 	}
 
 	/**
