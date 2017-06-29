@@ -123,6 +123,10 @@ public class AlgebraController {
 		}
 	}
 
+	public boolean onTextEntered(String input, ErrorHandler errorHandler) {
+		return onTextEntered(input, errorHandler, null);
+	}
+
 	/**
 	 * Evaluate the text entered in input. Used in Android and iOS.
 	 * 
@@ -132,13 +136,17 @@ public class AlgebraController {
 	 *            interface to handle errors from evaluating the input
 	 * @return evaluation was successful
 	 */
-	public boolean onTextEntered(String input, ErrorHandler errorHandler) {
+	public boolean onTextEntered(String input, ErrorHandler errorHandler,
+								 final AsyncOperation<GeoElementND[]> cb) {
 		GeoElementND[] geos;
 		try {
 
-			AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
+			final AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
 				@Override
 				public void callback(GeoElementND[] newGeos) {
+					if (cb != null) {
+						cb.callback(newGeos);
+					}
 					checkGeoTexts(newGeos);
 				}
 			};
