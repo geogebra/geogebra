@@ -48,7 +48,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	// https://codepoints.net/search?gc=Mn
 	// these Thai characters need a placeholder added to display nicely
 	private String checkThai(String str) {
-		if ("\u0E31\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D"
+		if ("\u0E31\u0E33\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D"
 				.indexOf(str) > -1) {
 			return "\u25CC" + str;
 		}
