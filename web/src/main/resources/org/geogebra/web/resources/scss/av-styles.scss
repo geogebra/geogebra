@@ -191,6 +191,7 @@ $duration: 0.2s;
     	height: 18px;
     	text-align: center;
     	cursor: pointer;
+    	transition: background-color 150ms ease 0ms;
     	
     	&:hover {
     		background-color: $toolbar-header;
@@ -234,6 +235,7 @@ $duration: 0.2s;
     			border-radius: 2px;
     			border: none;
     			box-shadow: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+    			transition: background-color 150ms ease 0ms;
     			
     			&:hover {
     				background-color: $toolbar-header;
