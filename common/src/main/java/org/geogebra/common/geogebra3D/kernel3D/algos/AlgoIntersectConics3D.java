@@ -256,9 +256,23 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 
 	private void intersectSamePlane(GeoConicND A, GeoConicND B,
 			GeoPoint3D[] P) {
+		transformConics(A, B, A2d, B2d);
+		// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
+		algo2d.intersectConics(A2d, B2d, points2d);
+		setPointsUndefined(P);
+		for (int i = 0; i < 4; i++) {
+			P[i].setCoords(
+					A.getCoordSys().getPoint(points2d[i].x, points2d[i].y),
+					false);
+		}
+
+	}
+
+	public static void transformConics(GeoConicND A, GeoConicND B, GeoConic A2d,
+			GeoConic B2d) {
 		CoordSys csA = A.getCoordSys();
 		CoordSys csB = B.getCoordSys();
-		setPointsUndefined(P);
+
 
 		CoordMatrix BtoA = REDUCE_DIM.mul(csB.getMatrixOrthonormal().inverse()
 				.mul(csA.getMatrixOrthonormal())).mul(AUGMENT_DIM);
@@ -270,12 +284,6 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 
 		A2d.setMatrix(A.getMatrix());
 		B2d.setMatrix(sBinA);
-		// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
-		algo2d.intersectConics(A2d, B2d, points2d);
-
-		for (int i = 0; i < 4; i++) {
-			P[i].setCoords(csA.getPoint(points2d[i].x, points2d[i].y), false);
-		}
 
 	}
 

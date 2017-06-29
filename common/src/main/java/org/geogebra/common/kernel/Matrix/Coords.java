@@ -2549,11 +2549,11 @@ public class Coords {
 
 	@Override
 	public String toString() {
-		StringBuilder s = new StringBuilder();
+		StringBuilder s = new StringBuilder("(");
 
 		for (int i = 0; i < val.length; i++) {
 			s.append(val[i]);
-			s.append('\n');
+			s.append(i == val.length - 1 ? ')' : ',');
 		}
 
 		return s.toString();
