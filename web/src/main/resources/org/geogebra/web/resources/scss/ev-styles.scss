@@ -216,15 +216,17 @@
     	left: auto !important;
     	z-index: 11;
     	bottom: 8px !important;
+    	right: 16px !important;
+    	cursor: crosshair;
     	
     	.zoomPanelBtn {
     		width: 36px;
     		height: 36px;
-    		margin-right: 16px;
     		margin-bottom: 8px;
     		background-color: $zoomBtnBckg;
     		border-radius: 50%;
     		box-shadow: 0 1px 3px 0 $black-2, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
+    		cursor: pointer;
     		transition: background-color 150ms ease 0ms;
     		
     		img {
