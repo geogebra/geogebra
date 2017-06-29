@@ -19,6 +19,7 @@ public class PropertiesDockPanelW extends DockPanelW {
 			"Properties", 					// view title phrase 
 			null,	// toolbar string
 			true,					// style bar?
+				false, // zoom panel
 			7,						// menu order
 			'E' // ctrl-shift-E
 		);

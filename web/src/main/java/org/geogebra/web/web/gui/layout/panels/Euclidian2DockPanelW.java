@@ -34,6 +34,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 				//ToolBar.getAllToolsNoMacros(true),  // toolbar string... TODO: ToolBarW.getAllTools(app);
 				null,
 				stylebar,					// style bar?
+				false, // zoom panel
 				6,							// menu order
 				'2' // ctrl-shift-1
 			);

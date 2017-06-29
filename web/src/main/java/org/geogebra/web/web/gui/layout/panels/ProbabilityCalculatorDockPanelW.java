@@ -30,6 +30,7 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 				"ProbabilityCalculator", // view title phrase
 				"0", // toolbar string - move tool only, force!
 				true, // style bar?
+				false, // zoom panel
 				-1, // menu order
 				'P' // menu shortcut
 		);

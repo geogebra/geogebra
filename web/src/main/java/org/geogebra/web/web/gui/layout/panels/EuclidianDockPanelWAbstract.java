@@ -42,8 +42,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *            letter for Ctrl+Shift+letter shortcut
 	 */
 	public EuclidianDockPanelWAbstract(int id, String title, String toolbar,
-			boolean hasStyleBar, int menuOrder, char shortcut) {
-		super(id, title, toolbar, hasStyleBar, menuOrder, shortcut);
+			boolean hasStyleBar, boolean hasZoomPanel, int menuOrder,
+			char shortcut) {
+		super(id, title, toolbar, hasStyleBar, hasZoomPanel, menuOrder,
+				shortcut);
 	}
 
 	/**

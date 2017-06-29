@@ -135,6 +135,13 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/mode_toggle_symbolic_white.png")
 	ImageResource modeToggleSymbolic();
 
+	// ev icons
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white18.png")
+	ImageResource home_white18();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white.png")
+	ImageResource home_white();
+
 	// Toolbar resoures
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/more_vert_white.png")

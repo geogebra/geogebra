@@ -37,6 +37,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		        "GraphicsView3D", // view title
 		        ToolBar.getAllToolsNoMacros3D(), // toolbar string
 		        true, // style bar?
+				false, // zoom panel
 		        4, // menu order
 		        '3' // ctrl-shift-3
 		);

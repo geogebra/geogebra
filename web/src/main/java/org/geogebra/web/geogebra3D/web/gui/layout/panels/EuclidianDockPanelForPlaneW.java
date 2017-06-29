@@ -53,6 +53,7 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		        "GraphicsViewForPlaneA", // view title
 		        ToolBar.getAllToolsNoMacrosForPlane(), // toolbar string
 		        true, // style bar?
+				false, // zoom panel
 		        -1, // menu order
 		        'p');
 

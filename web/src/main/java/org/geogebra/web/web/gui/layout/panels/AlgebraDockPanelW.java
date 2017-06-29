@@ -32,7 +32,8 @@ public class AlgebraDockPanelW extends DockPanelW
 				App.VIEW_ALGEBRA,	// view id 
 				"AlgebraWindow", 			// view title phrase
 				null,						// toolbar string
-				true,						// style bar?
+				true, // style bar?
+				false, // zoom panel?
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
@@ -179,6 +180,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	/**
 	 * Saves the current scroll position of the dock panel.
 	 */
+	@Override
 	public void saveScrollPosition() {
 		savedScrollPosition = algebrap.getVerticalScrollPosition();
 	}

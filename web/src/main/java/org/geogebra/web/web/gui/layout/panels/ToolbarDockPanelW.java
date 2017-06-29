@@ -5,7 +5,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 
@@ -30,6 +29,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 				"ToolbarWindow", 			// view title phrase
 				null,						// toolbar string
 				false,						// style bar?
+				false, // zoom panel
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
@@ -37,7 +37,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		int activePerspective = ((AppW) this.app).getActivePerspective();
+		int activePerspective = this.app.getActivePerspective();
 
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
 			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GRAPHER_3D);

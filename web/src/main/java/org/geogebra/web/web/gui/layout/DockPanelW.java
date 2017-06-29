@@ -118,6 +118,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * If there is a style bar associated with this panel.
 	 */
 	private boolean hasStyleBar = false;
+	
+	private boolean hasZoomPanel = false;
 
 	/**
 	 * Style bar component.
@@ -249,13 +251,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            The default toolbar string (or null if this view has none)
 	 * @param hasStyleBar
 	 *            If a style bar exists
+	 * @param hasZoomPanel if zoompanel should be added
 	 * @param menuOrder
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
 	 */
 	public DockPanelW(int id, String title, String toolbar,
-	        boolean hasStyleBar, int menuOrder) {
-		this(id, title, toolbar, hasStyleBar, menuOrder, '\u0000');
+	        boolean hasStyleBar,boolean hasZoomPanel, int menuOrder) {
+		this(id, title, toolbar, hasStyleBar, hasZoomPanel, menuOrder, '\u0000');
 	}
 
 	/**
@@ -270,6 +273,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            The default toolbar string (or null if this view has none)
 	 * @param hasStyleBar
 	 *            If a style bar exists
+	 * @param hasZoomPanel is has zoomPanel
 	 * @param menuOrder
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
@@ -278,7 +282,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            visible
 	 */
 	public DockPanelW(int id, String title, String toolbar,
-	        boolean hasStyleBar, int menuOrder, char menuShortcut) {
+			boolean hasStyleBar, boolean hasZoomPanel, int menuOrder,
+			char menuShortcut) {
 		this.id = id;
 		this.title = title;
 		this.defaultToolbarString = toolbar;
@@ -289,6 +294,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.menuOrder = menuOrder;
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
+		this.hasZoomPanel = hasZoomPanel;
 		this.isAlone = false;
 	}
 
@@ -367,6 +373,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/** the main panel of this stylebar */
 	FlowPanel titleBarPanel;
 	private FlowPanel titleBarPanelContent;
+	
+	FlowPanel zoomPanel;
+	private StandardButton zoomBtn;
 
 	private PushButton closeButton;
 	private FlowPanel dragPanel;
@@ -507,6 +516,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (this.isStyleBarEmpty()) {
 			titleBarPanel.add(closeButtonPanel);
 		}
+		
+		if (app.has(Feature.NEW_TOOLBAR) && hasZoomPanel) {
+			buildZoomPanel();
+		}
 
 		if (app.getGuiManager().isDraggingViews()) {
 			enableDragging(true);
@@ -517,6 +530,25 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	}
 
+	private void buildZoomPanel() {
+		zoomPanel = new FlowPanel();
+		zoomPanel.setStyleName("zoomPanel");
+
+		// add home button
+		zoomBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.home_white18());
+		zoomBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerHome = new FastClickHandler() {
+			
+			@Override
+			public void onClick(Widget source) {
+				app.getEuclidianView1().setStandardView(true);
+			}
+		};
+		zoomBtn.addFastClickHandler(handlerHome);
+		zoomPanel.add(zoomBtn);
+	}
+	
 	/**
 	 * Switch panel to drag mode
 	 */
@@ -626,6 +658,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 				((StyleBarW) styleBar).setOpen(showStyleBar);
 			}
 			updateStyleBarVisibility();
+		}
+
+		if (app.has(Feature.NEW_TOOLBAR) && hasZoomPanel) {
+			dockPanel.addSouth(zoomPanel, 0);
 		}
 
 		if (!app.allowStylebar() && needsResetIcon()) {

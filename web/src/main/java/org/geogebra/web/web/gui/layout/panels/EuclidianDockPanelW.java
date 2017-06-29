@@ -19,8 +19,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 	Canvas eview1 = null;// static foreground
 
-	
-
 	/**
 	 * This constructor is used by the Application
 	 * and by the other constructor
@@ -33,7 +31,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 				"DrawingPad", 				// view title
 				//ToolBar.getAllToolsNoMacros(true),  // toolbar string... TODO: ToolBarW.getAllTools(app);
 				null,
-				stylebar,					// style bar?
+				stylebar,	
+				true, // style bar?
 				5,							// menu order
 				'1' // ctrl-shift-1
 			);
@@ -93,10 +92,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 		return euclidianpanel;
 	}
-	
-	
-	
-
 
 	public void reset() {
 		if (euclidianpanel != null) {
