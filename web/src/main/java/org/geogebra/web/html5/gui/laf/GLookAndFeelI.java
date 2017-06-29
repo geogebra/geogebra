@@ -51,8 +51,7 @@ public interface GLookAndFeelI {
 
 	public Versions getVersion(int dim, boolean app);
 
-
-	void storeLanguage(String s);
+	void storeLanguage(String language);
 
 	String getFrameStyleName();
 

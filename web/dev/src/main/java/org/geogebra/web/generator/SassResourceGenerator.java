@@ -38,6 +38,7 @@ import com.google.gwt.user.rebind.StringSourceWriter;
 import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Options;
 import io.bit3.jsass.Output;
+import io.bit3.jsass.OutputStyle;
 
 /**
  * Provides implementations of SVGResource.
@@ -70,14 +71,16 @@ public class SassResourceGenerator extends AbstractResourceGenerator {
 		URI outputFile = new File("stylesheet.css").toURI();
 
 		Options options = new Options();
+		options.setOutputStyle(OutputStyle.COMPRESSED);
 
 		try {
 			Output output = new io.bit3.jsass.Compiler().compileString(css,
 					inputFile, outputFile,
 					options);
 
-			System.out.println("Compiled successfully");
+			
 			css = output.getCss();
+			System.out.println("Compiled successfully: "+method.getName()+" ("+css.length()+")");
 		
 		} catch (CompilationException e) {
 			logger.log(Type.ERROR, "Error processing " + method.getName(), null);
