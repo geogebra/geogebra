@@ -82,8 +82,26 @@ public interface GGraphics2D {
 	 */
 	public abstract void drawString(String str, double x, double y);
 
+	/**
+	 * Draws a stroke for a string.
+	 * 
+	 * @param str
+	 *            the <code>String</code> to be rendered
+	 * @param x
+	 *            the x coordinate of the location where the <code>String</code>
+	 *            should be rendered
+	 * @param y
+	 *            the y coordinate of the location where the <code>String</code>
+	 *            should be rendered
+	 */
 	public abstract void drawStringStroke(String str, double x, double y);
 
+	/**
+	 * Sets stroke width
+	 * 
+	 * @param w
+	 *            stroke width
+	 */
 	public abstract void setStrokeLineWidth(double w);
 
 	/**
