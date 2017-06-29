@@ -2322,5 +2322,9 @@ public class RadioTreeItem extends AVTreeItem
 	public Element getContentElement() {
 		return content.getElement();
 	}
+
+	public void setUndefinedVariables(String vars) {
+		AlgebraItem.setUndefinedValiables(vars);
+	}
 }
 

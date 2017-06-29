@@ -34,4 +34,10 @@ public interface HasHelpButton {
 	 */
 	void setCommandError(String command);
 
+	/**
+	 * Sets a comma separated list of undefined variables.
+	 * 
+	 * @param vars
+	 */
+	void setUndefinedVariables(String vars);
 }

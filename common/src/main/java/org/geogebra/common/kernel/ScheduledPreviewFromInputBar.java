@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -132,7 +133,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
 							.processAlgebraCommandNoExceptionHandling(ve, false,
-									validation, null, info.withSliders(false));
+									validation, null,
+									info.withSliders(kernel.getApplication()
+											.has(Feature.INPUT_BAR_ADD_SLIDER)));
 					previewGeos = null;
 					if (inputGeos != null) {
 						InputHelper.updateProperties(previewGeos, kernel

@@ -11,10 +11,12 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraItem {
+	private static String undefinedValiables;
 	public static boolean toggleSymbolic(GeoElement geo) {
 
 		if (geo instanceof HasSymbolicMode) {
@@ -102,7 +104,9 @@ public class AlgebraItem {
 				return sug;
 			}
 		}
-
+		if (undefinedValiables != null) {
+			Log.debug("UNDEF VARS for suggestion: " + undefinedValiables);
+		}
 		return null;
 	}
 
@@ -121,5 +125,15 @@ public class AlgebraItem {
 				&& geo.getParentAlgorithm().getOutput().length > 1
 				&& geo.getKernel().getApplication().getSettings().getAlgebra()
 						.getTreeMode() == SortMode.ORDER;
+	}
+
+	public static String getUndefinedValiables() {
+		return undefinedValiables;
+	}
+
+	public static void setUndefinedValiables(String undefinedValiables) {
+		AlgebraItem.undefinedValiables = undefinedValiables;
+		Log.debug("SET UNDEF VARS: " + undefinedValiables);
+
 	}
 }

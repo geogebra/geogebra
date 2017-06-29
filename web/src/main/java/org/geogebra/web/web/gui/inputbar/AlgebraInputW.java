@@ -389,6 +389,9 @@ public class AlgebraInputW extends FlowPanel
 			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
+				if (app2.has(Feature.INPUT_BAR_ADD_SLIDER)) {
+					input.setUndefinedVariables(string);
+				}
 				return false;
 			}
 
@@ -570,6 +573,11 @@ public class AlgebraInputW extends FlowPanel
 
 	public void setCommandError(String command) {
 		updateIcons(true);
+	}
+
+	public void setUndefinedVariables(String vars) {
+		// TODO Auto-generated method stub
+
 	}
 
 }
