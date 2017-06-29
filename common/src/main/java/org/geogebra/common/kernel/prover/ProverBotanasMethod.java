@@ -1867,39 +1867,49 @@ public class ProverBotanasMethod {
 						// non-linear path
 						if (implicit) {
 							/*
-							 * If the path is not linear, but we are computing implicit
-							 * locus then the condition may need to have the symbolic object
-							 * for consistency.
+							 * If the path is not linear, but we are computing
+							 * implicit locus then the condition may need to
+							 * have the symbolic object for consistency.
 							 */
 							GeoElement input = ae.input[0];
 							/*
 							 * In some cases it is useful do something similar
-							 * for more complicated curves, for example, for
-							 * circles. Other cases might be also implemented
-							 * (e.g. other types of conics).
+							 * like for linear path for the more complicated
+							 * curves also, for example, for circles. (Other
+							 * cases might also be implemented, e.g. other types
+							 * of conics.) That is, we keep the symbolic
+							 * equation, but fix one of the coordinates of the
+							 * point on the path. Sometimes it is useful to
+							 * carefully decide which coordinate should be
+							 * fixed.
 							 */
 							if (input instanceof GeoConic
 									&& ((GeoConic) input).isCircle()) {
 								GeoConic gc = (GeoConic) input;
 								Coords co = gc.getMidpoint();
 								Coords cp = ((GeoPoint) freePoint).getCoords();
-								if (co.get(2) == 1.0 && cp.get(2) == 1.0) {
-									if (Kernel.isEqual(co.get(0), cp.get(0))) {
-										/*
-										 * first coordinates equal, so the
-										 * radius is vertical
-										 */
-										as.freeVariables.remove(vars[1]);
-										as.freeVariables.add(vars[0]);
-										createX = true;
-									}
+								if (co.get(3) == 1.0 && cp.get(3) == 1.0
+										&& Kernel.isEqual(co.get(1),
+												cp.get(1))) {
 									/*
-									 * the horizontal case will be handled below
+									 * first coordinates are equal, so the
+									 * radius is vertical
 									 */
+									as.freeVariables.remove(vars[0]);
+									as.freeVariables.add(vars[1]);
+									createX = false;
+								} else {
+									/*
+									 * use the other coordinate for other
+									 * circles
+									 */
+									as.freeVariables.remove(vars[1]);
+									as.freeVariables.add(vars[0]);
+									createY = false;
 								}
 								// Log.debug(co + " " + cp);
 							} else {
-								/* ad hoc selection (here horizontal) */
+								/* ad hoc selection for non-circle conics */
 								as.freeVariables.remove(vars[0]);
 								as.freeVariables.add(vars[1]);
 								createX = false;
