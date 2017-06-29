@@ -139,6 +139,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white18.png")
 	ImageResource home_white18();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/remove_white18.png")
+	ImageResource remove_white18();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/add_white18.png")
+	ImageResource add_white18();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white.png")
 	ImageResource home_white();
 

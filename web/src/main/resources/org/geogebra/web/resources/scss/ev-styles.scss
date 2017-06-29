@@ -200,7 +200,7 @@
     			}
     			
     			&.plusButton {
-    				border: rgba(0,0,0,0.3) solid 1px;
+    				border: $black-3 solid 1px;
     				opacity: 0.54;	
     				
     				&:hover {
@@ -219,9 +219,11 @@
     	.zoomPanelBtn {
     		width: 36px;
     		height: 36px;
-    		background-color: #525659;
+    		margin-right: 16px;
+    		margin-bottom: 16px;
+    		background-color: $zoomBtnBckg;
     		border-radius: 50%;
-    		box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
+    		box-shadow: 0 1px 3px 0 $black-2, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
     		transition: background-color 150ms ease 0ms;
     		
     		img {

@@ -251,7 +251,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            The default toolbar string (or null if this view has none)
 	 * @param hasStyleBar
 	 *            If a style bar exists
-	 * @param hasZoomPanel if zoompanel should be added
+	 * @param hasZoomPanel
+	 *            If zoom panel should be added
 	 * @param menuOrder
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
@@ -374,8 +375,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 	FlowPanel titleBarPanel;
 	private FlowPanel titleBarPanelContent;
 	
+	/**
+	 * panel with home,+,-,fullscreen btns
+	 */
 	FlowPanel zoomPanel;
-	private StandardButton zoomBtn;
+	private StandardButton homeBtn;
+	private StandardButton zoomInBtn;
+	private StandardButton zoomOutBtn;
 
 	private PushButton closeButton;
 	private FlowPanel dragPanel;
@@ -535,9 +541,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		zoomPanel.setStyleName("zoomPanel");
 
 		// add home button
-		zoomBtn = new StandardButton(
+		homeBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.home_white18());
-		zoomBtn.setStyleName("zoomPanelBtn");
+		homeBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerHome = new FastClickHandler() {
 			
 			@Override
@@ -545,8 +551,38 @@ public abstract class DockPanelW extends ResizeComposite implements
 				app.getEuclidianView1().setStandardView(true);
 			}
 		};
-		zoomBtn.addFastClickHandler(handlerHome);
-		zoomPanel.add(zoomBtn);
+		homeBtn.addFastClickHandler(handlerHome);
+		zoomPanel.add(homeBtn);
+
+		// add zoom in button
+		zoomInBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.add_white18());
+		zoomInBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerZoomIn = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				app.getEuclidianView1().getEuclidianController()
+						.zoomInOut(false, false);
+			}
+		};
+		zoomInBtn.addFastClickHandler(handlerZoomIn);
+		zoomPanel.add(zoomInBtn);
+
+		// add zoom out button
+		zoomOutBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.remove_white18());
+		zoomOutBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerZoomOut = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				app.getEuclidianView1().getEuclidianController()
+						.zoomInOut(false, true);
+			}
+		};
+		zoomOutBtn.addFastClickHandler(handlerZoomOut);
+		zoomPanel.add(zoomOutBtn);
 	}
 	
 	/**
