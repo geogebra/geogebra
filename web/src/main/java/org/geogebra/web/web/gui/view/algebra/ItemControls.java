@@ -260,7 +260,12 @@ public class ItemControls extends FlowPanel {
 				suggestionBar.addStyleName("animating");
 			}
 			// suggestionBar.addStyleName("add");
-			suggestionBar.setSuggestion(sug, radioTreeItem.loc);
+			if (sug.hasMode()) {
+				suggestionBar.setSuggestion(sug, radioTreeItem.app);
+
+			} else {
+				suggestionBar.setSuggestion(sug, radioTreeItem.loc);
+			}
 			if (!suggestionBar.isAttached()) {
 				add(suggestionBar);
 			}

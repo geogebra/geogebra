@@ -8,6 +8,8 @@ import org.geogebra.common.main.Localization;
 
 abstract public class Suggestion {
 
+	private static final int MODE_NONE = -1;
+
 	public Suggestion() {
 	}
 
@@ -32,5 +34,20 @@ abstract public class Suggestion {
 	public boolean isAutoSlider() {
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return tool mode to use.
+	 */
+	public int getMode() {
+		return MODE_NONE;
+	}
 	
+	/**
+	 * 
+	 * @return if the suggestion has associated with
+	 */
+	public boolean hasMode() {
+		return getMode() != MODE_NONE;
+	}
 }

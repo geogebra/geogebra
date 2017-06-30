@@ -6,7 +6,11 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.app.GGWToolBar;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -29,7 +33,6 @@ public class SuggestionBar extends FlowPanel {
 		addStyleName("suggestionBar");
 		addStyleName("animating");
 		label = new Label();
-		label.addStyleName("suggestionButton");
 		add(label);
 		ClickStartHandler.init(label, new ClickStartHandler() {
 
@@ -56,7 +59,24 @@ public class SuggestionBar extends FlowPanel {
 	 */
 	public void setSuggestion(Suggestion suggestion, Localization loc) {
 		this.suggestion = suggestion;
+		label.getElement().removeAllChildren();
 		label.setText(suggestion.getCommand(loc));
+		label.addStyleName("suggestionButton");
+		label.removeStyleName("suggestionButtonIcon");
+
 	}
 
+	/**
+	 * @param suggestion
+	 *            suggestion
+	 */
+	public void setSuggestion(Suggestion suggestion, AppW app) {
+		this.suggestion = suggestion;
+		NoDragImage im = new NoDragImage(
+				GGWToolBar.getImageURL(suggestion.getMode(), app));
+		label.getElement().removeAllChildren();
+		DOM.appendChild(label.getElement(), im.getElement());
+		label.removeStyleName("suggestionButton");
+		label.addStyleName("suggestionButtonIcon");
+	}
 }
