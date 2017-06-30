@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -1783,7 +1784,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				inputPanelLatex.previewValue(geo);
 			}
 		} else {
-			inputPanelLatex.clearPreviewAndSuggestions();
+			if (AlgebraItem.getUndefinedValiables() != null) {
+				inputPanelLatex.buildSuggestions(null);
+			} else {
+				inputPanelLatex.clearPreviewAndSuggestions();
+			}
 		}
 	}
 

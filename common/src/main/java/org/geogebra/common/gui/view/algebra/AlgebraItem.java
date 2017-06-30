@@ -16,7 +16,7 @@ import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraItem {
-	private static String undefinedValiables;
+	private static String undefinedVariables;
 	public static boolean toggleSymbolic(GeoElement geo) {
 
 		if (geo instanceof HasSymbolicMode) {
@@ -104,8 +104,12 @@ public class AlgebraItem {
 				return sug;
 			}
 		}
-		if (undefinedValiables != null) {
-			Log.debug("UNDEF VARS for suggestion: " + undefinedValiables);
+		if (undefinedVariables != null) {
+			Log.debug("UNDEF VARS for suggestion: " + undefinedVariables);
+			Suggestion sug = SuggestionSlider.get();
+			if (sug != null) {
+				return sug;
+			}
 		}
 		return null;
 	}
@@ -128,11 +132,11 @@ public class AlgebraItem {
 	}
 
 	public static String getUndefinedValiables() {
-		return undefinedValiables;
+		return undefinedVariables;
 	}
 
 	public static void setUndefinedValiables(String undefinedValiables) {
-		AlgebraItem.undefinedValiables = undefinedValiables;
+		AlgebraItem.undefinedVariables = undefinedValiables;
 		Log.debug("SET UNDEF VARS: " + undefinedValiables);
 
 	}

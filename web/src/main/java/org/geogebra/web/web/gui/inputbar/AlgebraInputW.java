@@ -391,6 +391,7 @@ public class AlgebraInputW extends FlowPanel
 					AsyncOperation<String[]> callback) {
 				if (app2.has(Feature.INPUT_BAR_ADD_SLIDER)) {
 					input.setUndefinedVariables(string);
+
 				}
 				return false;
 			}

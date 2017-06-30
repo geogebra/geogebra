@@ -175,7 +175,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	String lastTeX;
 	private MathFieldW mf;
-
+	private boolean autoSliders = false;
 
 
 
@@ -524,6 +524,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void clearPreviewAndSuggestions() {
 		clearPreview();
+		AlgebraItem.setUndefinedValiables(null);
 		if (controls != null) {
 			controls.updateSuggestions(null);
 		}
@@ -578,6 +579,10 @@ public class RadioTreeItem extends AVTreeItem
 				content.add(plainTextItem);
 			}
 		}
+		buildSuggestions(previewGeo);
+	}
+
+	public void buildSuggestions(GeoElement previewGeo) {
 		if (app.has(Feature.AV_ITEM_DESIGN)) {
 			if (needsSuggestions(previewGeo) != null) {
 				addControls();
@@ -586,10 +591,10 @@ public class RadioTreeItem extends AVTreeItem
 			} else if (controls != null) {
 				controls.updateSuggestions(geo == null ? previewGeo : geo);
 			}
+			clearUndefinedVariables();
 		}
 
 	}
-
 	protected void buildItemWithSingleRow() {
 
 		// LaTeX
@@ -1028,14 +1033,21 @@ public class RadioTreeItem extends AVTreeItem
 		commandError = null;
 		errorMessage = null;
 	}
+
+	protected final ErrorHandler getErrorHandler(final boolean valid,
+			final boolean allowSliders) {
+		return getErrorHandler(valid, allowSliders, false);
+	}
+
 	/**
 	 * @param valid
 	 *            whether this is for valid string (false = last valid substring
 	 *            used)
+	 * @param withSliders
 	 * @return error handler
 	 */
 	protected final ErrorHandler getErrorHandler(final boolean valid,
-			final boolean allowSliders) {
+			final boolean allowSliders, final boolean withSliders) {
 
 
 		clearErrorLabel();
@@ -1061,8 +1073,14 @@ public class RadioTreeItem extends AVTreeItem
 			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback) {
+				if (withSliders) {
+					return true;
+				}
+
 				if (allowSliders && valid) {
-					return showSliderDialog(string, callback);
+					if (!app.has(Feature.INPUT_BAR_ADD_SLIDER)) {
+						showSliderDialog(string, callback);
+					}
 				} else if (app.getLocalization()
 						.getReverseCommand(getCurrentCommand()) != null) {
 					showCommandError(app.getLocalization()
@@ -1577,6 +1595,7 @@ public class RadioTreeItem extends AVTreeItem
 					loc.getMenu("InputLabel") + Unicode.ELLIPSIS);
 			dummyLabel.addStyleName("avDummyLabel");
 		}
+		clearUndefinedVariables();
 		updateFont(dummyLabel);
 		if (canvas != null) {
 			canvas.setVisible(false);
@@ -2327,6 +2346,22 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public void setUndefinedVariables(String vars) {
 		AlgebraItem.setUndefinedValiables(vars);
+	}
+
+	public void clearUndefinedVariables() {
+		AlgebraItem.setUndefinedValiables(null);
+	}
+
+	public boolean hasUndefinedVariables() {
+		return (AlgebraItem.getUndefinedValiables() != null);
+	}
+
+	public boolean isAutoSliders() {
+		return autoSliders;
+	}
+
+	public void setAutoSliders(boolean autoSliders) {
+		this.autoSliders = autoSliders;
 	}
 }
 

@@ -74,19 +74,19 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 *            whether focus should stay
 	 */
 	public void onEnter(final boolean keepFocus) {
-		if (item.isInputTreeItem()
-				&& item.isEmpty()) {
+		if (item.isInputTreeItem() && item.isEmpty()) {
 			item.styleEditor();
 			item.addDummyLabel();
 			return;
 		}
 		item.setShowInputHelpPanel(false);
+
 		if (item.geo == null) {
 			if (StringUtil.empty(item.getText())) {
 				return;
 			}
 			item.getAV().setLaTeXLoaded();
-			createGeoFromInput(keepFocus);
+			createGeoFromInput(keepFocus, item.isAutoSliders());
 			return;
 		}
 		if (!isEditing()) {
@@ -160,8 +160,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public boolean isSuggesting() {
 		return sug != null && sug.isSuggesting();
 	}
+	public void createGeoFromInput(final boolean keepFocus) {
+		createGeoFromInput(keepFocus, false);
+	}
 
-	private void createGeoFromInput(final boolean keepFocus) {
+	public void createGeoFromInput(final boolean keepFocus,
+			boolean withSliders) {
 		String newValue = item.getText();
 		final String rawInput = app.getKernel().getInputPreviewHelper()
 				.getInput(newValue);
@@ -230,7 +234,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		ErrorHandler err = null;
 		if (!textInput) {
 			Log.debug("GETTING HANDLER " + valid + ", " + keepFocus);
-			err = item.getErrorHandler(valid, keepFocus);
+			err = item.getErrorHandler(valid, keepFocus, withSliders);
 			err.resetError();
 		}
 		EvalInfo info = new EvalInfo(true, true).withSliders(true)

@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.Suggestion;
+import org.geogebra.common.gui.view.algebra.SuggestionSlider;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
@@ -248,7 +249,9 @@ public class ItemControls extends FlowPanel {
 	 */
 	void updateSuggestions(GeoElement geo) {
 		Suggestion sug = radioTreeItem.needsSuggestions(geo);
-		if (sug != null && geo != null) {
+		boolean slider = sug instanceof SuggestionSlider;
+
+		if ((sug != null && geo != null) || slider) {
 			if (suggestionBar == null) {
 				suggestionBar = new SuggestionBar(radioTreeItem);
 			}

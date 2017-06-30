@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.Suggestion;
+import org.geogebra.common.gui.view.algebra.SuggestionSlider;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
@@ -41,6 +42,13 @@ public class SuggestionBar extends FlowPanel {
 						suggestion.execute(geo);
 					}
 				};
+				if (suggestion instanceof SuggestionSlider) {
+					run.callback(null);
+					parentItem.setAutoSliders(true);
+					parentItem.onEnter(true);
+					parentItem.setAutoSliders(false);
+					return;
+				}
 				parentItem.runAfterGeoCreated(run);
 				parentItem.onEnter(true);
 
