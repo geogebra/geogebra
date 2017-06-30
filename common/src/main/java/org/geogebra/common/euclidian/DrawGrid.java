@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Feature;
@@ -69,6 +70,16 @@ public class DrawGrid {
 
 	}
 
+	/**
+	 * @return brighter color
+	 */
+	private static GColor getBrighterColor(GColor orig) {
+		double factor = 0.8;
+		return GColor.newColor(Math.min((int) (orig.getRed() / factor), 255),
+				Math.min((int) (orig.getGreen() / factor), 255),
+				Math.min((int) (orig.getBlue() / factor), 255));
+	}
+
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
 			double yCrossPix1) {
 
@@ -77,6 +88,11 @@ public class DrawGrid {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		double pix = start;
+		int n = 1;
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+			// number of subgrids
+			n = getNumberOfSubgrids();
+		}
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			pix -= tickStepY;
@@ -105,6 +121,14 @@ public class DrawGrid {
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		for (int j = 0; pix <= yAxisEnd; j++) {
+			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+				if ((j - 1) % n == 0) {
+					g2.setColor(view.getGridColor());
+				} else {
+					g2.setColor(getBrighterColor(view.getGridColor()));
+				}
+			}
+
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
@@ -125,8 +149,6 @@ public class DrawGrid {
 			}
 
 			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				// number of subgrids
-				int n = getNumberOfSubgrids();
 				pix = start + (j * tickStepY / n);
 			} else {
 				pix = start + (j * tickStepY);
