@@ -51,12 +51,13 @@ install gmp mpfr` will install GMP and MPFR as well.
 It will be silently assumed that GMP and MPFR have been installed in /opt/local/lib.
 If this is not the case, set the environment variable LIBDIR to the correct path.
 
-Mac OS X 10.11.6 with Xcode 8.2.1, GMP 6.1.0 and MPFR 3.1.3 is known to
+Mac OS X 10.11.6 with Xcode 8.2.1, GMP 6.1.0 and MPFR 3.1.3 are known to
 work correctly.
 
 ### Windows ###
 
-At the moment only the 64 bit version was tested.
+At the moment only the 32 bit version works correctly. The 64 bit version may fail
+for some computations.
 
 First you need to have a working **node-gyp** installation. Please take the time
 to check it by following
@@ -74,8 +75,8 @@ folder, or set the LIBDIR environment variable to the correct path.
 
 After compilation you will also need the dynamic libraries (the .DLL files). Put them
 in the current folder (that is, both MPIR.DLL and MPFR.DLL) before testing/running Giac.
-
-Note that some computations which require the MPFR subsystem may fail in Release mode builds.
+You may also decide to put the .DLL files in the same folder where the **giac.node**
+(the artifact .DLL) file takes place.
 
 ## Compilation ##
 
@@ -109,7 +110,8 @@ node ./
 ## Testing ##
 
 Go to your **node_modules** folder, enter `cd giac` and `npm test`. (If you are under Windows,
-you need to copy the external .DLL files into this folder.)
+you need to copy the external .DLL files into this folder, or directly into the **build**
+subfolder.)
 
 To play with Giac, modify the
 file **nodegiac.js** and run `npm test` again.
