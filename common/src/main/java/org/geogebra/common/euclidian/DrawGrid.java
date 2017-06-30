@@ -50,16 +50,16 @@ public class DrawGrid {
 
 	}
 
-	private int getNumberOfSubgrids() {
+	private int getNumberOfSubgrids(int axis) {
 		int lastSignificantDigit;
 
 		// get last significant digit
 		String temp;
-		if (view.axesNumberingDistances[0] > 1) {
-			temp = String.valueOf((int) view.axesNumberingDistances[0]);
+		if (view.axesNumberingDistances[axis] > 1) {
+			temp = String.valueOf((int) view.axesNumberingDistances[axis]);
 			temp = temp.replaceAll("0", "");
 		} else {
-			temp = String.valueOf(view.axesNumberingDistances[0]);
+			temp = String.valueOf(view.axesNumberingDistances[axis]);
 		}
 		lastSignificantDigit = temp.charAt(temp.length() - 1) - '0';
 
@@ -94,7 +94,7 @@ public class DrawGrid {
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 			// number of subgrids
-			n = getNumberOfSubgrids();
+			n = getNumberOfSubgrids(1);
 		}
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
