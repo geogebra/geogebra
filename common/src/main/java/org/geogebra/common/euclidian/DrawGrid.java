@@ -49,7 +49,7 @@ public class DrawGrid {
 
 	}
 
-	private int getNumberOfSubgrids(int axis) {
+	private int getNumberOfSubgrids() {
 		int lastSignificantDigit;
 
 		// get last significant digit
@@ -126,7 +126,7 @@ public class DrawGrid {
 
 			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 				// number of subgrids
-				int n = getNumberOfSubgrids(0);
+				int n = getNumberOfSubgrids();
 				pix = start + (j * tickStepY / n);
 			} else {
 				pix = start + (j * tickStepY);
