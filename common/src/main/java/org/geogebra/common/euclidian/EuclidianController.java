@@ -10953,7 +10953,10 @@ public abstract class EuclidianController {
 		double factor = minusPressed
 				? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
-
+		if (app.isUnbundled()) {
+			factor = minusPressed ? 1d / EuclidianView.MODE_ZOOM_FACTOR
+					: EuclidianView.MODE_ZOOM_FACTOR;
+		}
 		// accelerated zoom
 		if (altPressed) {
 			factor *= minusPressed ? 2d / 3d : 1.5;
