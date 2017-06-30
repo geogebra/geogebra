@@ -114,6 +114,14 @@
 			right: 8px;
 		}
 	}
+
+	/*.collapseMenuItem {
+		
+		img.expandImg.animeExpand {
+			transition:  0.6s ease-out;
+			transform: rotateZ(180deg);	
+		}		
+	}*/
 	
 	.collapseMenuItem >*,
 	.checkMarkMenuItem >* {
@@ -121,22 +129,23 @@
 		display: inline-block;
 	}	
 	
-$collapse-trans: all 0.3s ease;
+$collapse-trans: all 0.2s ease;
 
 	.expanded {
 		padding: 0px 16px 0px 64px;
 		max-height: 32px;
 		height: 32px;		
 		transition: $collapse-trans; 
-			.checkMarkMenuItem {
-				max-height: 32px;
-				transition: $collapse-trans;
+		
+		.checkMarkMenuItem {
+			max-height: 32px;
+			transition: $collapse-trans;
+					
 			.gwt-HTML {
     			position: relative;
     			left: -24px;
 			}	
 		}
-		
 	}
 
 	.expanded >* {

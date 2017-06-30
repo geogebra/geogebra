@@ -217,13 +217,14 @@
     	z-index: 11;
     	bottom: 8px !important;
     	right: 16px !important;
-    	cursor: crosshair;
+    	cursor: default;
     	
     	.zoomPanelBtn {
     		width: 36px;
     		height: 36px;
     		margin-bottom: 8px;
     		background-color: $zoomBtnBckg;
+    		/*background-color: #888;*/
     		border-radius: 50%;
     		box-shadow: 0 1px 3px 0 $black-2, 0 1px 1px 0 $black-14, 0 2px 1px -1px $black-12;
     		cursor: pointer;
@@ -235,6 +236,7 @@
     		}	
     	
     		&:hover {
+    			/*background-color: #666;*/
     			background-color: $black;
     		}
     	}

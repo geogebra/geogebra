@@ -876,7 +876,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	protected void initCursor() {
-		setDefaultCursor();
+		setHitCursor();
 	}
 
 	@Override
@@ -1245,7 +1245,7 @@ public class EuclidianViewW extends EuclidianView implements
 			setMoveCursor();
 			return;
 		case DEFAULT:
-			setDefaultCursor();
+			setHitCursor();
 			return;
 		case RESIZE_X:
 			setResizeXAxisCursor();

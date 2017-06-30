@@ -44,7 +44,7 @@ public class GCollapseMenuItem {
 			final ScheduledCommand cmd) {
 		this.text = text;
 		imgExpand = new NoDragImage(expandUrl);
-		imgExpand.addStyleName("expandImg");
+		imgExpand.setStyleName("expandImg");
 		imgCollapse = new NoDragImage(collapseUrl);
 		imgCollapse.addStyleName("collapseImg");
 
@@ -125,6 +125,7 @@ public class GCollapseMenuItem {
 	 * Expand submenu
 	 */
 	public void expand() {
+
 		expanded = true;
 		for (MenuItem mi : items) {
 			mi.addStyleName("gwt-MenuItem");

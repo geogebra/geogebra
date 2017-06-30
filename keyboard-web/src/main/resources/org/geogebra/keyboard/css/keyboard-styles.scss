@@ -31,7 +31,6 @@ $tab123-width: 644px;
 		background-color: $switcher-background;
 		border-radius: 0;
 		cursor: pointer;
-		cursor: hand;
 		border: 1px solid $new-functional-button;
 		box-shadow: 0 0 1px 0 rgba(102, 102, 102, 0.3);
 		text-align: center;
@@ -44,7 +43,6 @@ $tab123-width: 644px;
 		width: 30px;
 		height: 30px;
 		cursor: pointer;
-		cursor: hand;
 		text-align: center;
 		background-color: $old-keyboard-background;
 		border-top-left-radius: 5px;
@@ -69,6 +67,7 @@ $tab123-width: 644px;
     	margin-right: 4px;
     	margin-left: 5px;
     	right: 0px;
+    	cursor: pointer !important;
 	}
 
 	/* special css for Springboard */
@@ -425,6 +424,7 @@ $tab123-width: 644px;
     	margin-bottom: 4px;
     	margin-right: 0px;
     	margin-left: 4px;
+    	cursor: pointer !important;
 	}
 
 	.scale .KeyboardSwitcher .switcherContents .moreKeyboardButton {
