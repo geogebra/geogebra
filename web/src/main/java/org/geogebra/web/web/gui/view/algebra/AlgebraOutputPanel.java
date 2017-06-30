@@ -5,8 +5,10 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
@@ -20,14 +22,17 @@ import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraOutputPanel extends FlowPanel {
+	private static boolean isUnbundled;
 	private FlowPanel valuePanel;
 	private Canvas valCanvas;
 
-	public AlgebraOutputPanel() {
-
+	public AlgebraOutputPanel(App app) {
 		valuePanel = new FlowPanel();
 		valuePanel.addStyleName("avValue");
 
+		if (app.isUnbundled()) {
+			setUnbundled(true);
+		}
 	}
 
 	void addPrefixLabel(String text, boolean isLaTeX) {
@@ -55,9 +60,15 @@ public class AlgebraOutputPanel extends FlowPanel {
 			}
 		}
 		if (btnSymbolic == null) {
-			btnSymbolic = new MyToggleButtonW(
+			if (isUnbundled()) {
+				btnSymbolic = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic(),
 					MaterialDesignResources.INSTANCE.modeToggleNumeric());
+			} else {
+				btnSymbolic = new MyToggleButtonW(
+						GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
+						GuiResourcesSimple.INSTANCE.modeToggleNumeric());
+			}
 			final MyToggleButtonW btn = btnSymbolic;
 			btnSymbolic.addClickHandler(new ClickHandler() {
 
@@ -139,5 +150,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 	public void reset() {
 		valuePanel.clear();
 		clear();
+	}
+
+	public static boolean isUnbundled() {
+		return isUnbundled;
+	}
+
+	public void setUnbundled(boolean isUnbundled) {
+		this.isUnbundled = isUnbundled;
 	}
 }

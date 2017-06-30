@@ -396,7 +396,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (outputPanel == null) {
-			outputPanel = new AlgebraOutputPanel();
+			outputPanel = new AlgebraOutputPanel(app);
 			outputPanel.addStyleName("avOutput");
 		}
 	}
@@ -1346,6 +1346,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	// @Override
+	@Override
 	public AppW getApplication() {
 		return app;
 	}
@@ -2323,6 +2324,7 @@ public class RadioTreeItem extends AVTreeItem
 		return content.getElement();
 	}
 
+	@Override
 	public void setUndefinedVariables(String vars) {
 		AlgebraItem.setUndefinedValiables(vars);
 	}
