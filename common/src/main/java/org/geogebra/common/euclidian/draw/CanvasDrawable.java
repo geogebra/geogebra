@@ -27,7 +27,8 @@ public abstract class CanvasDrawable extends Drawable {
 	int boxHeight;
 
 	public static boolean isLatexString(String text) {
-		return text.startsWith("$") && text.trim().endsWith("$");
+		return text.length() > 1 && text.startsWith("$")
+				&& text.trim().endsWith("$");
 	}
 
 	protected GDimension measureLatex(GGraphics2D g2, GeoElement geo0,
