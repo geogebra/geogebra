@@ -47,7 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	private static final int MIN_TOOLBAR_WIDTH = 354;
+	private static final int MIN_TOOLBAR_WIDTH = 382;
 	private static final int DEFAULT_KEYBOARD_HEIGHT = 228;
 	AppW app;
 	private LayoutW layout;
