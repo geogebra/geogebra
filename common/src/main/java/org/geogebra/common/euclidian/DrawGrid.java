@@ -68,14 +68,19 @@ public class DrawGrid {
 
 	}
 
+	private static int brighterComponent(int comp) {
+		double factor = 0.3;
+		return (int) (255 - ((255 - comp) * factor));
+
+	}
+
 	/**
 	 * @return brighter color
 	 */
 	private static GColor getBrighterColor(GColor orig) {
-		double factor = 0.8;
-		return GColor.newColor(Math.min((int) (orig.getRed() / factor), 255),
-				Math.min((int) (orig.getGreen() / factor), 255),
-				Math.min((int) (orig.getBlue() / factor), 255));
+		return GColor.newColor(brighterComponent(orig.getRed()),
+				brighterComponent(orig.getGreen()),
+				brighterComponent(orig.getBlue()));
 	}
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
