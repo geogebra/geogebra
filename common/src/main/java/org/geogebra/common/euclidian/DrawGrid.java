@@ -90,12 +90,23 @@ public class DrawGrid {
 		double yCrossPix = yCrossPix1;
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
-		double pix = start;
+ 		double smallStep;
+		int topSubGrids = 0;
+
+		// number of subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-			// number of subgrids
 			n = getNumberOfSubgrids(1);
+			smallStep = tickStepY / n;
+			//start of subgrids
+			start = view.getYZero() % smallStep;
+			//start of grids
+			double start2 = view.getYZero() % tickStepY;		
+			// number of subgrids at the top, above the highest main grid
+			topSubGrids = Math.round((float) ((start2 - start) / smallStep));
 		}
+
+		double pix = start;
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			pix -= tickStepY;
@@ -125,7 +136,7 @@ public class DrawGrid {
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		for (int j = 0; pix <= yAxisEnd; j++) {
 			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				if ((j - 1) % n == 0) {
+				if ((j - topSubGrids - 1) % n == 0) {
 					g2.setColor(view.getGridColor());
 				} else {
 					g2.setColor(getBrighterColor(view.getGridColor()));
