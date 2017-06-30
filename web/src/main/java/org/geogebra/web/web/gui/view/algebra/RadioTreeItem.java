@@ -1975,7 +1975,11 @@ public class RadioTreeItem extends AVTreeItem
 
 	@Override
 	public void onEnter(final boolean keepFocus) {
-		getLatexController().onEnter(keepFocus);
+		getLatexController().onEnter(keepFocus, false);
+	}
+
+	public void onEnterWithSliders() {
+		getLatexController().onEnter(true, true);
 	}
 
 	@Override
@@ -2327,10 +2331,15 @@ public class RadioTreeItem extends AVTreeItem
 		}
 	}
 
-	public void runAfterGeoCreated(AsyncOperation<GeoElementND> run) {
+	public void runAfterGeoCreated(AsyncOperation<GeoElementND> run,
+			boolean autoSliders) {
 		if (geo != null) {
 			run.callback(geo);
 		} else {
+			if (autoSliders) {
+				onEnterWithSliders();
+				return;
+			}
 			this.suggestionCallback = run;
 		}
 	}
@@ -2356,12 +2365,5 @@ public class RadioTreeItem extends AVTreeItem
 		return (AlgebraItem.getUndefinedValiables() != null);
 	}
 
-	public boolean isAutoSliders() {
-		return autoSliders;
-	}
-
-	public void setAutoSliders(boolean autoSliders) {
-		this.autoSliders = autoSliders;
-	}
 }
 

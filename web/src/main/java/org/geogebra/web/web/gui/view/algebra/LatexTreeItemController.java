@@ -72,8 +72,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 	/**
 	 * @param keepFocus
 	 *            whether focus should stay
+	 * @param b
 	 */
-	public void onEnter(final boolean keepFocus) {
+	public void onEnter(final boolean keepFocus, boolean createSliders) {
 		if (item.isInputTreeItem() && item.isEmpty()) {
 			item.styleEditor();
 			item.addDummyLabel();
@@ -86,7 +87,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				return;
 			}
 			item.getAV().setLaTeXLoaded();
-			createGeoFromInput(keepFocus, item.isAutoSliders());
+			createGeoFromInput(keepFocus, createSliders);
 			return;
 		}
 		if (!isEditing()) {
@@ -112,7 +113,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			sug.needsEnterForSuggestion();
 			return;
 		}
-		onEnter(true);
+		onEnter(true, false);
 		item.getAV().clearActiveItem();
 	}
 

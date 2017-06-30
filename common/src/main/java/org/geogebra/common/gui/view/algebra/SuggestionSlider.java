@@ -20,4 +20,8 @@ public class SuggestionSlider extends Suggestion {
 		return new SuggestionSlider();
 	}
 
+	public boolean isAutoSlider() {
+		return true;
+	}
+
 }

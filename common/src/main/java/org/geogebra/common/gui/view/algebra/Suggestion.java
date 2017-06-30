@@ -28,5 +28,9 @@ abstract public class Suggestion {
 	abstract public String getCommand(Localization loc);
 	
 	abstract public void execute(GeoElementND geo);
+
+	public boolean isAutoSlider() {
+		return false;
+	}
 	
 }
