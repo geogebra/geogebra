@@ -74,8 +74,6 @@ public class DrawGrid {
 		double tickStepY = view.getYscale() * view.gridDistances[1];
 		double start = view.getYZero() % tickStepY;
 		double pix = start;
-		// number of subgrids
-		int n = getNumberOfSubgrids(0);
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
 		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			pix -= tickStepY;
@@ -124,6 +122,8 @@ public class DrawGrid {
 			}
 
 			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+				// number of subgrids
+				int n = getNumberOfSubgrids(0);
 				pix = start + (j * tickStepY / n);
 			} else {
 				pix = start + (j * tickStepY);
