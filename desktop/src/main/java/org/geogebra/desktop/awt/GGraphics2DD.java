@@ -2,14 +2,12 @@ package org.geogebra.desktop.awt;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
-import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.RenderingHints;
 import java.awt.RenderingHints.Key;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GBasicStroke;
@@ -61,13 +59,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void drawStringStroke(String str, double x, double y) {
-		int boundary = 3;
-		impl.setColor(Color.white);
-		FontMetrics fm = impl.getFontMetrics();
-		Rectangle2D rect = fm.getStringBounds(str, impl);
-		impl.fillRect((int) x - boundary, (int) y - boundary - fm.getAscent(),
-				(int) rect.getWidth() + 2 * boundary,
-				(int) rect.getHeight() + 2 * boundary);
+		// implemented on web
 	}
 
 	@Override
