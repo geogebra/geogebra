@@ -1400,6 +1400,12 @@ public abstract class EuclidianController {
 		while (it.hasNext()) {
 			geo = it.next();
 
+			if (geo instanceof GeoPoint) {
+				if (highlight && geo.isIndependent()) {
+					getView().setCursor(EuclidianCursor.DRAG);
+					continue;
+				}
+			}
 			if (!highlight || mayHighlight(geo)) {
 				geo.setHighlighted(highlight);
 			}
