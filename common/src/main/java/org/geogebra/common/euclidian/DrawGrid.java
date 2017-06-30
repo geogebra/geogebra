@@ -61,9 +61,7 @@ public class DrawGrid {
 		} else {
 			temp = String.valueOf(view.axesNumberingDistances[0]);
 		}
-		lastSignificantDigit = Integer
-				.parseInt(temp.charAt(temp.length() - 1) + "");
-
+		lastSignificantDigit = temp.charAt(temp.length() - 1) - '0';
 
 		return lastSignificantDigit % 2 == 0 && lastSignificantDigit % 5 != 0
 				? 4 : 5;
