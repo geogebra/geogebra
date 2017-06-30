@@ -1,5 +1,6 @@
 .gradle
 .npmignore
+.svn
 ANDROID_README
 build
 build.gradle
