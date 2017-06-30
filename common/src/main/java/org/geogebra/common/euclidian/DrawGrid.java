@@ -53,9 +53,12 @@ public class DrawGrid {
 		int lastSignificantDigit;
 
 		// get last significant digit
-		String temp = String.valueOf(view.axesNumberingDistances[0]);
-		if (view.axesNumberingDistances[0] > 0) {
+		String temp;
+		if (view.axesNumberingDistances[0] > 1) {
+			temp = String.valueOf((int) view.axesNumberingDistances[0]);
 			temp = temp.replaceAll("0", "");
+		} else {
+			temp = String.valueOf(view.axesNumberingDistances[0]);
 		}
 		lastSignificantDigit = Integer
 				.parseInt(temp.charAt(temp.length() - 1) + "");
