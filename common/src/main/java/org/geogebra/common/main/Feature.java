@@ -230,6 +230,9 @@ public enum Feature {
 	/** GGB-1880 */
 	AXES_NUMBERS_WHITE_BACKGROUND,
 
+	/** GGB-1881 */
+	MINOR_GRIDLINES,
+
 	AND_FOCUS_ON_BIND
 
 }

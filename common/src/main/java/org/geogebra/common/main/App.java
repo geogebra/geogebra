@@ -4347,6 +4347,9 @@ public abstract class App implements UpdateSelection {
 		case AND_FOCUS_ON_BIND:
 			return true;
 
+		case MINOR_GRIDLINES:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
