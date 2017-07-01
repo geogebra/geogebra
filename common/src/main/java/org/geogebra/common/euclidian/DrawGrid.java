@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Feature;
@@ -67,20 +68,22 @@ public class DrawGrid {
 
 	}
 
-	private static int brighterComponent(int comp) {
-		double factor = 0.3;
-		return (int) (255 - ((255 - comp) * factor));
-
-	}
+	// private static int brighterComponent(int comp) {
+	// double factor = 0.3;
+	// return (int) (255 - ((255 - comp) * factor));
+	//
+	// }
 
 	/**
 	 * @return brighter color
 	 */
-	// private static GColor getBrighterColor(GColor orig) {
-	// return GColor.newColor(brighterComponent(orig.getRed()),
-	// brighterComponent(orig.getGreen()),
-	// brighterComponent(orig.getBlue()));
-	// }
+	private static GColor getBrighterColor(GColor orig) {
+		// return GColor.newColor(brighterComponent(orig.getRed()),
+		// brighterComponent(orig.getGreen()),
+		// brighterComponent(orig.getBlue()));
+		return GColor.newColor(orig.getRed(), orig.getGreen(), orig.getBlue(),
+				0.5);
+	}
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
 			double yCrossPix1) {
@@ -140,9 +143,12 @@ public class DrawGrid {
 
 				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 					if ((j - topSubGrids - 1) % n == 0) {
-						g2.setStrokeLineWidth(1);
+						// g2.setStrokeLineWidth(1);
+						g2.setColor(view.getGridColor());
+
 					} else {
-						g2.setStrokeLineWidth(0.4);
+						// g2.setStrokeLineWidth(0.4);
+						g2.setColor(getBrighterColor(view.getGridColor()));
 					}
 				}
 
@@ -265,10 +271,12 @@ public class DrawGrid {
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 					if ((i - leftSubGrids - 1) % n == 0) {
-						g2.setStrokeLineWidth(1);
-					} else {
-						g2.setStrokeLineWidth(0.4);
+						// g2.setStrokeLineWidth(1);
+						g2.setColor(view.getGridColor());
 
+					} else {
+						// g2.setStrokeLineWidth(0.4);
+						g2.setColor(getBrighterColor(view.getGridColor()));
 					}
 				}
 
