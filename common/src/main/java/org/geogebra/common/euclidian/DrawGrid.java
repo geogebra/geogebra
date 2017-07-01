@@ -234,13 +234,20 @@ public class DrawGrid {
 				: (view.getXZero() % tickStepX);
 
 		double smallStep;
-		int topSubGrids = 0;
+		int leftSubGrids = 0;
 
 		// number of subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 			n = getNumberOfSubgrids(0);
 			smallStep = tickStepX / n;
+			// start of subgrids
+			xAxisStart = view.getXZero() % smallStep;
+			// start of grids
+			double start2 = view.getXZero() % tickStepX;
+			// number of subgrids on the left
+			leftSubGrids = Math
+					.round((float) ((start2 - xAxisStart) / smallStep));
 		}
 
 		final double yAxisEnd = (view.positiveAxes[1]
@@ -258,7 +265,7 @@ public class DrawGrid {
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-					if ((i - 1) % n == 0) {
+					if ((i - leftSubGrids - 1) % n == 0) {
 						g2.setColor(view.getGridColor());
 					} else {
 						g2.setColor(getBrighterColor(view.getGridColor()));
