@@ -82,7 +82,7 @@ public class DrawGrid {
 		// brighterComponent(orig.getGreen()),
 		// brighterComponent(orig.getBlue()));
 		return GColor.newColor(orig.getRed(), orig.getGreen(), orig.getBlue(),
-				0.5);
+				100);
 	}
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
