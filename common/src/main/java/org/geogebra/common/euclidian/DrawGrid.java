@@ -135,17 +135,17 @@ public class DrawGrid {
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		for (int j = 0; pix <= yAxisEnd; j++) {
-			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				if ((j - topSubGrids - 1) % n == 0) {
-					g2.setColor(view.getGridColor());
-				} else {
-					g2.setColor(getBrighterColor(view.getGridColor()));
-				}
-			}
-
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
+
+				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+					if ((j - topSubGrids - 1) % n == 0) {
+						g2.setColor(view.getGridColor());
+					} else {
+						g2.setColor(getBrighterColor(view.getGridColor()));
+					}
+				}
 
 				if (view.axesLabelsPositionsY.contains(
 						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))
