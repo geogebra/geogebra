@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.Feature;
@@ -77,11 +76,11 @@ public class DrawGrid {
 	/**
 	 * @return brighter color
 	 */
-	private static GColor getBrighterColor(GColor orig) {
-		return GColor.newColor(brighterComponent(orig.getRed()),
-				brighterComponent(orig.getGreen()),
-				brighterComponent(orig.getBlue()));
-	}
+	// private static GColor getBrighterColor(GColor orig) {
+	// return GColor.newColor(brighterComponent(orig.getRed()),
+	// brighterComponent(orig.getGreen()),
+	// brighterComponent(orig.getBlue()));
+	// }
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
 			double yCrossPix1) {
