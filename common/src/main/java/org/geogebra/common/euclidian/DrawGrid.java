@@ -141,9 +141,9 @@ public class DrawGrid {
 
 				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 					if ((j - topSubGrids - 1) % n == 0) {
-						g2.setColor(view.getGridColor());
+						g2.setStrokeLineWidth(1);
 					} else {
-						g2.setColor(getBrighterColor(view.getGridColor()));
+						g2.setStrokeLineWidth(0.4);
 					}
 				}
 
@@ -266,9 +266,10 @@ public class DrawGrid {
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
 				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
 					if ((i - leftSubGrids - 1) % n == 0) {
-						g2.setColor(view.getGridColor());
+						g2.setStrokeLineWidth(1);
 					} else {
-						g2.setColor(getBrighterColor(view.getGridColor()));
+						g2.setStrokeLineWidth(0.4);
+
 					}
 				}
 
