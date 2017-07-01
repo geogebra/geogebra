@@ -228,10 +228,20 @@ public class DrawGrid {
 
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
-		final double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
+		double xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
 				? xCrossPix + (((view.getXZero() - xCrossPix) % tickStepX)
 						+ tickStepX) % tickStepX
 				: (view.getXZero() % tickStepX);
+
+		double smallStep;
+		int topSubGrids = 0;
+
+		// number of subgrids
+		int n = 1;
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+			n = getNumberOfSubgrids(0);
+			smallStep = tickStepX / n;
+		}
 
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
@@ -247,6 +257,14 @@ public class DrawGrid {
 			// or if it's too close (eg sticky axes)
 
 			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
+				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+					if ((i - 1) % n == 0) {
+						g2.setColor(view.getGridColor());
+					} else {
+						g2.setColor(getBrighterColor(view.getGridColor()));
+					}
+				}
+
 				if (view.axesLabelsPositionsX.contains(
 						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
@@ -260,7 +278,12 @@ public class DrawGrid {
 
 			}
 
-			pix = xAxisStart + (i * tickStepX);
+			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+				pix = xAxisStart + (i * tickStepX / n);
+			} else {
+				pix = xAxisStart + (i * tickStepX);
+			}
+
 		}
 
 	}
