@@ -971,7 +971,7 @@ __GGB__keysVar.fr.command = {
     "Take.Syntax": "[ <Liste>, <D\xe9but> ]\n[ <Texte>, <D\xe9but> ]\n[ <Liste>, <D\xe9but>, <Fin> ]\n[ <Texte>, <D\xe9but>, <Fin> ]",
     "Take.SyntaxCAS": "[ <Liste>, <Position D\xe9but> ]\n[ <Liste>, <Position D\xe9but>, <Position Fin> ]",
     "Tangent": "Tangente",
-    "Tangent.Syntax": "[ <Point>, <Conique> ]\n[ <Point>, <Fonction> ]\n[ <Point>, <Courbe> ]\n[ <Abscisse>, <Fonction> ]\n[ <Droite>, <Conique> ]\n[ <Segment>, <Conique> ]\n[ <Cercle>, <Cercle> ]",
+    "Tangent.Syntax": "[ <Point>, <Conique> ]\n[ <Point>, <Fonction> ]\n[ <Point>, <Courbe> ]\n[ <Abscisse>, <Fonction> ]\n[ <Ligne>, <Conique> ]\n[ <Conique>, <Conique> ]",
     "TaylorSeries": "Polyn\xf4meTaylor",
     "TaylorSeries.Syntax": "[ <Fonction>, <Valeur x>, <Ordre> ]",
     "TaylorSeries.SyntaxCAS": "[ <Expression>, <Valeur x>, <Ordre> ]\n[ <Expression>, <Variable>, <Valeur x>, <Ordre> ]",
