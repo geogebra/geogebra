@@ -1056,7 +1056,7 @@ public class AlgebraProcessor {
 	 *            processing information
 	 * @return processed expression
 	 */
-	public GeoElement[] processValidExpression(boolean storeUndo,
+	public synchronized GeoElement[] processValidExpression(boolean storeUndo,
 			ErrorHandler handler, ValidExpression ve, EvalInfo info) {
 		GeoElement[] geoElements = null;
 		try {
