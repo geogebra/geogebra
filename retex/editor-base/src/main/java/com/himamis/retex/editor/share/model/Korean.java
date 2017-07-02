@@ -693,7 +693,7 @@ public class Korean {
 		case '\u3132':
 		case '\u1101':
 		case '\u11a9':
-			return "\u11a8\u1101";
+			return "\u11a8\u1100";
 
 		case '\u3133':
 		case '\u11aa':
@@ -1036,6 +1036,7 @@ public class Korean {
 
 		// case 1
 		// we already have Jamo lead + vowel as single unicode
+		// System.err.println("case 1 " + lastChar + " " + newChar);
 
 		if (Korean.isKoreanLeadPlusVowelChar(lastChar)
 				&& Korean.isKoreanTailChar(newChar, true)) {
@@ -1071,6 +1072,7 @@ public class Korean {
 			// System.err.println("need to replace " + lastChar + " "
 			// + toHexString(lastChar) + " with " + replaceChar + " "
 			// + toHexString(replaceChar));
+			// System.err.println("case 2 " + lastChar + " " + newChar);
 
 			char c = replaceChar.charAt(0);
 
@@ -1089,6 +1091,7 @@ public class Korean {
 		// lastChar + "" + newChar + " " + merged + " " + merged.length());
 
 		if (merged.length() == 1) {
+			// System.err.println("case 3 " + lastChar + " " + newChar);
 
 			char c = merged.charAt(0);
 
@@ -1112,7 +1115,7 @@ public class Korean {
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanVowelChar(newChar, true)) {
 
-			// System.err.println("case 4");
+			// System.err.println("case 4 " + lastChar + " " + newChar);
 
 			// not needed, useful for debugging
 			// newChar = Korean.convertFromCompatibilityJamo(newChar,
@@ -1130,6 +1133,9 @@ public class Korean {
 
 			String unmergedChar2 = isKoreanVowelChar(newChar, true)
 					? unmergeDoubleCharacterToLeadTail(lastCharFlat2) : "";
+
+			// System.err.println("lastCharFlat2 = " + lastCharFlat2 + " "
+			// + toJavaString("" + lastCharFlat2));
 
 			// case 4a
 			// tail doubled char needs to be undoubled and split across 2 chars
@@ -1166,14 +1172,15 @@ public class Korean {
 
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanTailChar(newChar, true)) {
+			// System.err.println("case 5 " + lastChar + " " + newChar);
 
-			// System.err.println("case 5");
-
-			// System.err.println("case 5");
 
 			newChar = Korean.convertFromCompatibilityJamo(newChar, false);
 
+			// System.err.println("newChar = " + newChar);
+
 			char lastChar2 = lastCharFlat.charAt(2);
+			// System.err.println("lastChar2 = " + lastChar2);
 
 			// if this is length 1, merge succeeded
 			String doubleCheck = Korean
@@ -1211,6 +1218,8 @@ public class Korean {
 		if (Korean.isKoreanLeadPlusVowelChar(lastChar)
 				&& Korean.isKoreanVowelChar(newChar, true)) {
 
+			// System.err.println("case 6 " + lastChar + " " + newChar);
+
 			char lastChar1 = lastCharFlat.charAt(1);
 
 			// if this is length 1, merge succeeded
@@ -1237,6 +1246,79 @@ public class Korean {
 
 		return ret;
 
+	}
+
+	final public static String toJavaString(String str) {
+		if (str == null) {
+			return null;
+		}
+
+		StringBuilder sb = new StringBuilder();
+
+		// convert every single character and append it to sb
+		int len = str.length();
+		for (int i = 0; i < len; i++) {
+			char c = str.charAt(i);
+			int code = c;
+
+			// standard characters have code 32 to 126
+			if ((code >= 32 && code <= 126)) {
+				switch (code) {
+				case '"':
+					// replace " with \"
+					sb.append("\\\"");
+					break;
+				case '\'':
+					// replace ' with \'
+					sb.append("\\'");
+					break;
+				case '\\':
+					// replace \ with \\
+					sb.append("\\\\");
+					break;
+
+				default:
+					// do not convert
+					sb.append(c);
+				}
+			}
+			// special characters
+			else {
+				switch (code) {
+				case 10: // CR
+					sb.append("\\n");
+					break;
+				case 13: // LF
+					sb.append("\\r");
+					break;
+
+				case 9: // replace TAB
+					sb.append("\\t"); // space
+					break;
+
+				default:
+					// convert special character to \u0123 format
+					sb.append(toHexString(c));
+				}
+			}
+		}
+		return sb.toString();
+	}
+
+	// table to convert a nibble to a hex char.
+	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
+			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+	final public static String toHexString(char c) {
+		int i = c + 0;
+
+		StringBuilder hexSB = new StringBuilder(8);
+		hexSB.append("\\u");
+		hexSB.append(hexChar[(i & 0xf000) >>> 12]);
+		hexSB.append(hexChar[(i & 0x0f00) >> 8]); // look up low nibble char
+		hexSB.append(hexChar[(i & 0xf0) >>> 4]);
+		hexSB.append(hexChar[i & 0x0f]); // look up low nibble char
+		return hexSB.toString();
 	}
 
 	public static boolean isCompatibilityChar(char ch) {
