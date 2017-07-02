@@ -5618,11 +5618,14 @@ public class ExpressionNode extends ValidExpression
 		case FUNCTION:
 			if (expandPlus && left instanceof Functional) {
 				Function fn = ((Functional) left).getFunction();
-				if (fn != null) {
+				ExpressionValue at = denR == null ? numR
+						: numR.wrap().divide(denR);
+				if (fn != null && at instanceof NumberValue) {
 					ExpressionNode expCopy = fn.getExpression()
 							.deepCopy(kernel);
+
 					expCopy.replace(fn.getFunctionVariables()[0],
-							denR == null ? numR : numR.wrap().divide(denR));
+							at);
 					expCopy.getFraction(parts, expandPlus);
 					return;
 				}
