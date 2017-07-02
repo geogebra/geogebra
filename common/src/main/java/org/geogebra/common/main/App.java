@@ -3113,7 +3113,7 @@ public abstract class App implements UpdateSelection {
 
 		} else {
 			sb.append(
-					"<script src=\"https://www.geogebra.org/scripts/deployggb.js\"></script>\n\n");
+					"<script src=\"https://cdn.geogebra.org/apps/deployggb.js\"></script>\n\n");
 
 		}
 		sb.append("</head>\n");
