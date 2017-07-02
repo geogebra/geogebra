@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -41,6 +42,12 @@ public class CmdCoefficients extends CommandProcessor {
 
 				AlgoConicCoefficients algo = new AlgoConicCoefficients(cons,
 						c.getLabel(), (GeoConicND) arg[0]);
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			} else if ((arg[0].isGeoQuadric())) {
+
+				AlgoQuadricCoefficients algo = new AlgoQuadricCoefficients(cons,
+						c.getLabel(), (GeoQuadricND) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else {

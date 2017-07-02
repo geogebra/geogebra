@@ -13,23 +13,17 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
- * Algorithm for coefficients of a conic
+ * Algorithm for coefficients of a quadric
  * 
  * @author Michael Borcherds
  */
-public class AlgoConicCoefficients extends AlgoElement {
+public class AlgoQuadricCoefficients extends AlgoConicCoefficients {
 
-	protected GeoQuadricND c; // input
-	protected GeoList g; // output
 
 	/**
 	 * @param cons
@@ -37,56 +31,40 @@ public class AlgoConicCoefficients extends AlgoElement {
 	 * @param label
 	 *            label for output
 	 * @param c
-	 *            conic
+	 *            quadric
 	 */
-	public AlgoConicCoefficients(Construction cons, String label,
-			GeoConicND c) {
+	public AlgoQuadricCoefficients(Construction cons, String label,
+			GeoQuadricND c) {
 		super(cons);
 		this.c = c;
+
+		// matrux =
+		// ( A[0] A[4] A[5] A[7])
+		// ( A[4] A[1] A[6] A[8])
+		// ( A[5] A[6] A[2] A[9])
+		// ( A[7] A[8] A[9] A[3])
 
 		g = new GeoList(cons);
 		double[] matrix = c.getFlatMatrix();
 		g.add(new GeoNumeric(cons, matrix[0]));
 		g.add(new GeoNumeric(cons, matrix[1]));
 		g.add(new GeoNumeric(cons, matrix[2]));
-		g.add(new GeoNumeric(cons, matrix[3] * 2));
+		g.add(new GeoNumeric(cons, matrix[3]));
 		g.add(new GeoNumeric(cons, matrix[4] * 2));
 		g.add(new GeoNumeric(cons, matrix[5] * 2));
+		g.add(new GeoNumeric(cons, matrix[6] * 2));
+		g.add(new GeoNumeric(cons, matrix[7] * 2));
+		g.add(new GeoNumeric(cons, matrix[8] * 2));
+		g.add(new GeoNumeric(cons, matrix[9] * 2));
 
 		setInputOutput(); // for AlgoElement
 		// compute();
 		g.setLabel(label);
 	}
 
-	public AlgoConicCoefficients(Construction cons) {
-		super(cons);
-	}
 
 	@Override
-	public Commands getClassName() {
-		return Commands.Coefficients;
-	}
-
-	// for AlgoElement
-	@Override
-	protected void setInputOutput() {
-		input = new GeoElement[1];
-		input[0] = c;
-
-		super.setOutputLength(1);
-		super.setOutput(0, g);
-		setDependencies(); // done by AlgoElement
-	}
-
-	/**
-	 * @return resulting list of coefficients
-	 */
-	public GeoList getResult() {
-		return g;
-	}
-
-	@Override
-	public void compute() {
+	public final void compute() {
 		if (!c.isDefined()) {
 			g.setUndefined();
 			return;
@@ -97,9 +75,13 @@ public class AlgoConicCoefficients extends AlgoElement {
 		((GeoNumeric) g.get(0)).setValue(matrix[0]);
 		((GeoNumeric) g.get(1)).setValue(matrix[1]);
 		((GeoNumeric) g.get(2)).setValue(matrix[2]);
-		((GeoNumeric) g.get(3)).setValue(matrix[3] * 2);
+		((GeoNumeric) g.get(3)).setValue(matrix[3]);
 		((GeoNumeric) g.get(4)).setValue(matrix[4] * 2);
 		((GeoNumeric) g.get(5)).setValue(matrix[5] * 2);
+		((GeoNumeric) g.get(6)).setValue(matrix[6] * 2);
+		((GeoNumeric) g.get(7)).setValue(matrix[7] * 2);
+		((GeoNumeric) g.get(8)).setValue(matrix[8] * 2);
+		((GeoNumeric) g.get(9)).setValue(matrix[9] * 2);
 
 	}
 
