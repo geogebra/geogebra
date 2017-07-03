@@ -1856,4 +1856,8 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
+	public void resetLabels(String oldGeoLabel) {
+		GeoElement.setLabels(oldGeoLabel, getOutput());
+	}
+
 }

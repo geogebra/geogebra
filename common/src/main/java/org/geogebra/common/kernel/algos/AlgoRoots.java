@@ -50,13 +50,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 	private static final int TYPE_ROOTS = 0;
 	private static final int TYPE_INTERSECTIONS = 1;
-	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
-															// adjustments
-	private static final int MAX_SAMPLES = 400; // -"- (covers a screen up to
-												// 2000 pxs if 5-pix-convention)
-	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
-												// pxs interval if
-												// 5-pix-convention)
+
 
 	// Input-Output
 	// private GeoFunctionable function; // input
@@ -367,29 +361,6 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		return root;
 	}// calcSingleRoot(f,l,r)
-
-	public final int findNumberOfSamples(double l, double r) {
-		// Find visible area of graphic screen: xmin,xmax,ymin,ymax
-		// pixels_in_visible_interval=...
-		// n=pixels_in_visible_interval/PIXELS_BETWEEN_SAMPLES;
-
-		// EuclidianView ev = app.getEuclidianView();
-		double visiblemax = kernel.getViewsXMax(points[0]);
-		double visiblemin = kernel.getViewsXMin(points[0]);
-		double visiblepixs = kernel.getApplication().countPixels(visiblemin,
-				visiblemax);
-		// debug("Visible pixels: "+visiblepixs);
-		double pixsininterval = visiblepixs * (r - l)
-				/ (visiblemax - visiblemin);
-		// debug("Pixels in interval: "+pixsininterval);
-		int n = (int) Math.round(Math.max(
-				Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES, MAX_SAMPLES),
-				MIN_SAMPLES));
-
-		// debug("Samples: "+n);
-		return n;
-
-	}// findNumberOfSamples()
 
 	private static final boolean signChanged(GeoFunction f, double x) {
 		double delta = Kernel.MIN_PRECISION * 10; // Used in AlgoRootsPolynomial

@@ -58,12 +58,6 @@ import org.geogebra.common.util.debug.Log;
 
 public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
-	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
-															// adjustments
-	private static final int MAX_SAMPLES = 400; // -"- (covers a screen up to
-												// 2000 pxs...)
-	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
-												// pxs interval...) ;
 
 	// Input-Output
 	private GeoFunction f1;
@@ -255,29 +249,6 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	// / --- Private methods --- ///
 	// Make all private after testing...
 
-	public final int findNumberOfSamples(double l, double r) {
-		// Find visible area of graphic screen: xmin,xmax,ymin,ymax
-		// pixels_in_visible_interval=...
-		// n=pixels_in_visible_interval/PIXELS_BETWEEN_SAMPLES;
-
-		double visiblemax = kernel.getViewsXMax(points[0]);
-		double visiblemin = kernel.getViewsXMin(points[0]);
-		double visiblepixs = kernel.getApplication().countPixels(visiblemin,
-				visiblemax);
-		// debug("Visible pixels: "+visiblepixs);
-		double pixsininterval = visiblepixs * (r - l)
-				/ (visiblemax - visiblemin);
-		// debug("Pixels in interval: "+pixsininterval);
-		int n = Math
-				.max(Math.min(
-						(int) Math
-								.round(pixsininterval / PIXELS_BETWEEN_SAMPLES),
-						MAX_SAMPLES), MIN_SAMPLES);
-
-		// debug("Samples: "+n);
-		return n;
-
-	}// findNumberOfSamples()
 
 	private final static boolean gradientChangesSign(UnivariateFunction rrf,
 			double x, double l, double r) {

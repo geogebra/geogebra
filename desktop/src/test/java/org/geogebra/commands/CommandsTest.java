@@ -1135,8 +1135,7 @@ public class CommandsTest extends Assert{
 		t("A = Roots[sin(x),-1,4.2]", new String[] { "(0, 0)", "(3.14159, 0)" },
 				StringTemplate.editTemplate);
 		t("A", "(0, 0)", StringTemplate.editTemplate);
-		// TODO
-		// t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
+		t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
 
 	}
 

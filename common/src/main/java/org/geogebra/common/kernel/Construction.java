@@ -1558,7 +1558,8 @@ public class Construction {
 				AlgoElement parentAlgo = newGeo.getParentAlgorithm();
 				addToConstructionList(parentAlgo, true);
 				// make sure all output objects get labels, see #218
-				GeoElement.setLabels(oldGeoLabel, parentAlgo.getOutput());
+				parentAlgo.resetLabels(oldGeoLabel);
+
 			}
 
 			// copy label of oldGeo to newGeo

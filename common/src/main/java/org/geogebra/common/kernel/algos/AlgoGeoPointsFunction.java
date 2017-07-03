@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Abstract class with all the label methods needed to update labels of commands
@@ -34,7 +33,16 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public abstract class AlgoGeoPointsFunction extends AlgoElement {
-
+	private static final int PIXELS_BETWEEN_SAMPLES = 5; // Open for empirical
+	// adjustments
+	/**
+	 * Max number of samples; (covers a screen up to // 2000 pxs if
+	 * 5-pix-convention)
+	 **/
+	protected static final int MAX_SAMPLES = 400;
+	private static final int MIN_SAMPLES = 50; // -"- (covers up to 50 in a 250
+	// pxs interval if
+	// 5-pix-convention)
 	protected GeoFunction f; // For calculation of y-values
 
 	protected GeoPoint[] points; // output in subcclass
@@ -43,15 +51,24 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	private boolean initLabels;
 	protected final boolean setLabels;
 
-	// remove? double[] curXValues = new double[30]; // current x-values
-
-	protected GeoNumberValue left; // input
-	protected GeoNumberValue right; // input
-
+	/** left interval bound */
+	protected GeoNumberValue left;
+	/** right interval bound */
+	protected GeoNumberValue right;
+	/** whether min and max should be synced with EV */
 	protected boolean intervalDefinedByEV = false;
 
 	/**
 	 * Computes all roots of f
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param setLabels
+	 *            whether to set labels
+	 * @param f
+	 *            function
 	 */
 	public AlgoGeoPointsFunction(Construction cons, String[] labels,
 			boolean setLabels, GeoFunction f) {
@@ -172,7 +189,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 					// use user specified label if we have one
 					String newLabel = (labels != null && i < labels.length)
 							? labels[i] : null;
-					Log.printStacktrace(i + ":" + newLabel);
 					points[i].setLabel(newLabel);
 				}
 			}
@@ -265,6 +281,34 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			return 1;
 		}
 		return super.getInputLengthForXML();
+	}
+
+	@Override
+	public void resetLabels(String oldGeoLabel) {
+		updateLabels(getOutputLength());
+	}
+
+	public final int findNumberOfSamples(double l, double r) {
+		// Find visible area of graphic screen: xmin,xmax,ymin,ymax
+		// pixels_in_visible_interval=...
+		// n=pixels_in_visible_interval/PIXELS_BETWEEN_SAMPLES;
+
+		// EuclidianView ev = app.getEuclidianView();
+		double visiblemax = kernel.getViewsXMax(points[0]);
+		double visiblemin = kernel.getViewsXMin(points[0]);
+		double visiblepixs = kernel.getApplication().countPixels(visiblemin,
+				visiblemax);
+		// debug("Visible pixels: "+visiblepixs);
+		double pixsininterval = visiblepixs * (r - l)
+				/ (visiblemax - visiblemin);
+		// debug("Pixels in interval: "+pixsininterval);
+		int n = (int) Math.round(Math.max(
+				Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES, MAX_SAMPLES),
+				MIN_SAMPLES));
+
+		// debug("Samples: "+n);
+		return n;
+
 	}
 
 }// class AlgoGeoPontsFunction
