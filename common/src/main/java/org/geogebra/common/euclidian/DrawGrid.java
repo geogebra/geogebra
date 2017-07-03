@@ -110,7 +110,9 @@ public class DrawGrid {
 
 		double pix = start;
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
-		if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+			pix = start - tickStepY / n;
+		} else if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
 			pix -= tickStepY;
 		}
 		
