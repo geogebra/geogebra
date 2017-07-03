@@ -90,7 +90,7 @@ public final class ToolTipManagerW {
 	 * 
 	 * Java default = 1750, // maybe we use a quicker 1000?
 	 */
-	private int initialDelay = 1750;
+	private int initialDelay = 500;
 
 	/**
 	 * Time, in milliseconds, to allow the toolTip to remain visible.
