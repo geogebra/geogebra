@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -140,13 +141,15 @@ public class Tools extends FlowPanel {
 					app.setMode(mode);
 					clearSelectionStyle();
 					btn.getElement().setAttribute("selected", "true");
-					ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					if (!Browser.isMobile()) {
+						ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+						ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 							app.getToolTooltipHTML(mode),
 							app.getGuiManager().getTooltipURL(mode),
 							ToolTipLinkType.Help, app,
 							app.getAppletFrame().isKeyboardShowing());
-					ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+						ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+					}
 					app.updateDynamicStyleBars();
 				}
 
