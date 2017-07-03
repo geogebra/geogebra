@@ -155,7 +155,8 @@ class MetaModelSymbols {
 		//symbols.add(createSymbol("varrho", "\\varrho", Unicode.varrho));
 
 		for (Greek ch : Greek.values()) {
-			symbols.add(createSymbol(ch.name(), ch.getHTML(), ch.unicode));
+			symbols.add(
+					createSymbol(ch.name(), "\\" + ch.getLaTeX(), ch.unicode));
 		}
 
         symbols.add(createSymbol("varsigma", "\\varsigma", '\u03c2'));
