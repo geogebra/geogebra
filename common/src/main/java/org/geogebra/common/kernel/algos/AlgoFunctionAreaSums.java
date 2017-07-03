@@ -1041,11 +1041,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 						// make sure we don't get an overflow
 						// eg sqrt(1-1.00000000000001)
-						double xVal = Math.min(bd, leftBorder[i] + dd * STEP);
+						double rightBorder = Math.max(ad, bd);
+						double xVal = Math.min(rightBorder,
+								leftBorder[i] + dd * STEP);
 
 						yval[i] = fun.value(xVal); // divider
 														// into
 														// step-interval
+
 					} else {
 						sum.setUndefined();
 						return;
