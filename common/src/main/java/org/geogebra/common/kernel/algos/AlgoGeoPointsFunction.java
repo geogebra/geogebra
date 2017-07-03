@@ -101,7 +101,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 					this.labels[i] = old.getParentAlgorithm().getOutput(i)
 							.getLabelSimple();
 				}
-				initLabels = false;
 			}
 		}
 
@@ -285,6 +284,13 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	@Override
 	public void resetLabels(String oldGeoLabel) {
+		for (int i = 0; i < labels.length; i++) {
+			if (oldGeoLabel.equals(labels[i])) {
+				String swap = labels[i];
+				labels[i] = labels[0];
+				labels[0] = swap;
+			}
+		}
 		updateLabels(getOutputLength());
 	}
 

@@ -942,7 +942,6 @@ public class RadioTreeItem extends AVTreeItem
 
 							@Override
 							public void callback(GeoElementND geo2) {
-								Log.debug("callback");
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
 									lastTeX = null;
@@ -1234,17 +1233,8 @@ public class RadioTreeItem extends AVTreeItem
 					+ controls.getOffsetWidth() + DEFINITION_ROW_EDIT_MARGIN
 					+ MARGIN_RESIZE;
 		}
-
 		return marblePanel.getOffsetWidth() + content.getOffsetWidth()
 				+ MARGIN_RESIZE;
-
-	}
-
-
-
-
-	public void update() {
-		// marblePanel.setBackground();
 	}
 
 	protected void updateButtonPanelPosition() {
