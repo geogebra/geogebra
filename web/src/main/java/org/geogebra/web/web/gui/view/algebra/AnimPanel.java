@@ -354,8 +354,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 */
 	public void reset() {
 		if (playOnly) {
-			speedPanel.addStyleName("speedPanel-hidden");
-			speedPanel.removeStyleName("speedPanel");
+			// speedPanel.addStyleName("speedPanel-hidden");
+			// speedPanel.removeStyleName("speedPanel");
 			return;
 		}
 		showSpeedButtons(false);

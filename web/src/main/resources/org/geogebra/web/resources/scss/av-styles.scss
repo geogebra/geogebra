@@ -367,7 +367,7 @@ $duration: 0.2s;
 			right: 3px;		
 			opacity: 1;
 			transition: 0.3s ease;
-	
+			z-index: 99999;
 			.flatButton {
 				margin: 0px;
 				padding: 0px;
@@ -396,6 +396,7 @@ $duration: 0.2s;
 			@extend .speedPanel;
 			opacity: 0;
 			transition: 0.3s ease;
+			z-index: -1;
 		}
 
 		.speedPanel-hidden >*,
