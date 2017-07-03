@@ -12,6 +12,8 @@ import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -130,7 +132,14 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		btnSpeedUp.addClickHandler(this);
 		lblSpeedValue = new Label("");
 		lblSpeedValue.addStyleName("value");
-		// btnSpeedValue.addClickHandler(this);
+		lblSpeedValue.addClickHandler(this);
+		lblSpeedValue.addMouseUpHandler(new MouseUpHandler() {
+
+			public void onMouseUp(MouseUpEvent event) {
+				event.stopPropagation();
+			}
+		});
+
 		setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
 		speedPanel.add(btnSpeedDown);
 		speedPanel.add(lblSpeedValue);
@@ -310,6 +319,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 			// this.radioTreeItem.selectItem(true);
 		} else if (!playOnly && source == btnSpeedValue) {
 			showSpeedButtons(!speedButtons);
+		} else if (source == lblSpeedValue) {
+			event.stopPropagation();
 		}
 	}
 

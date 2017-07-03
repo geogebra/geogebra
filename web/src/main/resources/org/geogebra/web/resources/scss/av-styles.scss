@@ -388,6 +388,7 @@ $duration: 0.2s;
 			outline: none;
 			overflow: hidden;
 			height: 19px;
+			margin-right: 0px;
 		}
 	
 	}
@@ -399,7 +400,10 @@ $duration: 0.2s;
 			z-index: -1;
 		}
 
-		.speedPanel-hidden >*,
+		.speedPanel-hidden >* {
+			display: none;
+		}
+
 		.speedPanel >* {
 			display: inline-block;
 		}
