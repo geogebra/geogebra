@@ -193,10 +193,10 @@ public class ToolbarPanel extends FlowPanel {
 		}
 		
 		private void createMoreLessButtons() {
-			moreBtn = new StandardButton("More Tools");
+			moreBtn = new StandardButton("More");
 			moreBtn.addStyleName("moreLessBtn");
 			moreBtn.removeStyleName("button");
-			lessBtn = new StandardButton("Less Tools");	
+			lessBtn = new StandardButton("Less");
 			lessBtn.addStyleName("moreLessBtn");
 			lessBtn.removeStyleName("button");
 			moreBtn.addFastClickHandler(new FastClickHandler() {

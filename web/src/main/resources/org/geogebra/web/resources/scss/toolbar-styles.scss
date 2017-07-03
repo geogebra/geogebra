@@ -260,9 +260,9 @@
   			height: 24px;
     		font-size: 14px;
    			width: 72px;
-   			color: $white;
-   			background-color: $toolbar-header-light5;
-			box-shadow: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+   			color: $accent-color;
+    		text-transform: uppercase;
+    		text-align: center;
 			float: right;
 			margin: 16px 0px 16px 0px;
 			padding: 8px;
@@ -275,7 +275,7 @@
 			}
 			
 			&:hover {
-				background-color: $toolbar-header;
+				background-color: $black-10;
 			}
 		}
 	}
