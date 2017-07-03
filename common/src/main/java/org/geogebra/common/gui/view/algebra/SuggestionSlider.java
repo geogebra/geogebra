@@ -15,7 +15,7 @@ public class SuggestionSlider extends Suggestion {
 
 	@Override
 	public String getCommand(Localization loc) {
-		return loc.getCommand("Slider");
+		return loc.getCommand("Suggestion.CreateSlider");
 	}
 
 	@Override
