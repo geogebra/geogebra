@@ -1,5 +1,4 @@
 /* 
-GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
 
 This file is part of GeoGebra.
@@ -298,7 +297,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		low = StringUtil.resetStringBuilder(low);
 		low.append("\\text{");
-		low.append(getLoc().getPlain("StemPlot.low"));
+		low.append(getLoc().getMenuDefault("StemPlot.low", "low"));
 		low.append(": ");
 		for (int i = 0; i < outlierIndex[0]; i++) {
 			low.append((i < outlierIndex[0] - 1) ? data[i] + "," : data[i]);
@@ -307,7 +306,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		high = StringUtil.resetStringBuilder(high);
 		high.append(getLoc().getPlain("\\text{"));
-		high.append(getLoc().getPlain("StemPlot.high"));
+		high.append(getLoc().getMenuDefault("StemPlot.high", "high"));
 		high.append(": ");
 		for (int i = outlierIndex[1]; i < data.length; i++) {
 			high.append((i < data.length - 1) ? data[i] + "," : data[i]);
@@ -386,7 +385,16 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		// calculate the key string, avoid eg 31.0
 		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit
 				: "" + 31.0 * multUnit;
-		key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
+
+		// key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
+
+		// more robust in case properties are missing
+		String stemplotKey = getLoc().getMenuDefault("StemPlot.KeyAMeansB",
+				"Key: %0 means %1");
+		stemplotKey = stemplotKey.replace("%0", "3|1");
+		stemplotKey = stemplotKey.replace("%1", keyCode);
+		key.append(stemplotKey);
+
 		key.append("}}");
 		key.append(" \\\\ "); // newline in LaTeX ie \\
 

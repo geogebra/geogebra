@@ -1240,4 +1240,21 @@ public abstract class Localization {
 		return internalName;
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @param default0
+	 *            return this if lookup failed
+	 * @return translation of key
+	 */
+	public String getMenuDefault(String key, String default0) {
+		String ret = getMenu(key);
+
+		if (ret == null || ret.equals(key)) {
+			return default0;
+		}
+
+		return ret;
+	}
+
 }
