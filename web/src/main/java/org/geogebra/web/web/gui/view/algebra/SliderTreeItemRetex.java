@@ -180,6 +180,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	@Override
 	protected void styleContentPanel() {
 		sliderContent.addStyleName("avItemContent");
+		sliderContent.addStyleName("avSlider");
 		content.addStyleName("avSliderValue");
 
 		sliderPanel.setVisible(true);
@@ -350,7 +351,16 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		if (minMaxPanel.isVisible()) {
 			return false;
 		}
+		sliderContent.addStyleName("avEditSlider");
+		sliderContent.removeStyleName("avSlider");
 		return super.onEditStart();
+	}
+
+	@Override
+	public void onStopEdit() {
+		sliderContent.addStyleName("avSlider");
+		sliderContent.removeStyleName("avEditSlider");
+
 	}
 
 }

@@ -354,7 +354,20 @@ $duration: 0.2s;
 				padding-top: 8px;
 			}
 		}
-		
+	
+		.avEditSlider {
+			padding-top: 0px;
+			
+			.panelRow {
+				padding-top: 0px;
+			}
+		}
+	
+		.avSlider {
+			.panelRow {
+				padding-top: 14px;
+			}
+		}		
 		.playOnly {
 			position: absolute;
 			top: 42px;

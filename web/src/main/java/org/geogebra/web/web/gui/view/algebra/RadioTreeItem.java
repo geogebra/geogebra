@@ -2356,5 +2356,10 @@ public class RadioTreeItem extends AVTreeItem
 		return (AlgebraItem.getUndefinedValiables() != null);
 	}
 
+	public void onStopEdit() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
 
