@@ -364,28 +364,35 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		if (showRowPercent) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getPlain("RowPercent")), "blank",
+					handleSpecialChar(
+							getLoc().getMenuDefault("RowPercent", "Row %")),
+					"blank",
 					lastRow == 1);
 		}
 		if (showColPercent) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getPlain("ColumnPercent")),
+					handleSpecialChar(getLoc().getMenuDefault("ColumnPercent",
+							"Column %")),
 					"blank", lastRow == 2);
 		}
 		if (showTotalPercent) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getPlain("TotalPercent")),
+					handleSpecialChar(
+							getLoc().getMenuDefault("TotalPercent", "Total %")),
 					"blank", lastRow == 3);
 		}
 		if (showExpected) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getPlain("ExpectedCount")),
+					handleSpecialChar(getLoc().getMenuDefault("ExpectedCount",
+							"Expected Count")),
 					"blank", lastRow == 4);
 		}
 		if (showChi) {
 			addTableRow(tableSb, 0,
 					handleSpecialChar(
-							getLoc().getPlain("ChiSquaredContribution")),
+							getLoc().getMenuDefault("ChiSquaredContribution",
+									Unicode.Chi + "" + Unicode.SUPERSCRIPT_2
+											+ " Contribution")),
 					"blank", lastRow == 5);
 		}
 
@@ -447,9 +454,9 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		String split = "&";
 
-		String rowHeader = getLoc().getMenu("DegreesOfFreedom.short") + split
-				+ Unicode.chi + Unicode.SUPERSCRIPT_2 + split
-				+ getLoc().getMenu("PValue");
+		String rowHeader = getLoc().getMenuDefault("DegreesOfFreedom.short",
+				"df") + split + Unicode.chi + "" + Unicode.SUPERSCRIPT_2 + split
+				+ getLoc().getMenuDefault("PValue", "P");
 		String degFreedom = kernel.format(
 				(rowValues.length - 1) * (colValues.length - 1),
 				StringTemplate.numericDefault);
@@ -459,7 +466,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 				+ result.get(0).toValueString(StringTemplate.numericDefault);
 
 		sb.append("\\\\ \\text{");
-		sb.append(getLoc().getMenu("ChiSquaredTest"));
+		sb.append(getLoc().getMenuDefault("ChiSquaredTest", "ChiSquared Test"));
 		sb.append("}\\\\");
 
 		sb.append("\\begin{array}{|l|l|l|l|}");
