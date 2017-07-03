@@ -78,6 +78,10 @@ public class GCheckmarkMenuItem {
 		return menuItem;
 	}
 
+	/**
+	 * @param cmd
+	 *            - command to execute
+	 */
 	public void setCommand(MenuCommand cmd) {
 		menuItem.setCommand(cmd);
 	}
