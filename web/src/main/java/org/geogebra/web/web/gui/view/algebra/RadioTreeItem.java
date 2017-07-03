@@ -1227,6 +1227,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (isDefinitionAndValue()
 				&& geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 				&& definitionPanel != null
+				&& definitionPanel.getWidgetCount() > 0
 				&& definitionPanel.getWidget(0) != null) {
 			return marblePanel.getOffsetWidth()
 					+ definitionPanel.getWidget(0).getOffsetWidth()

@@ -131,12 +131,7 @@ public class MetaModel {
      * Operator.
      */
     public boolean isOperator(String name) {
-        try {
-            getOperator(name);
-            return true;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return false;
-        }
+		return operatorGroup.getComponent(name) != null;
     }
 
     /**
@@ -150,12 +145,7 @@ public class MetaModel {
      * Symbol.
      */
     public boolean isSymbol(String name) {
-        try {
-            getSymbol(name);
-            return true;
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return false;
-        }
+		return symbolGroup.getComponent(name) != null;
     }
 
     /**
@@ -200,17 +190,18 @@ public class MetaModel {
      */
 	public MetaComponent getComponent(String name, ListMetaGroup group) {
 
-		MetaComponent meta = group.getComponent(name);
-		if (meta != null) {
-			return meta;
-		}
-
-
-		throw new ArrayIndexOutOfBoundsException(
-				"Component Not found " + group + "/" + name);
+		return group.getComponent(name);
 	}
 
-	public MetaComponent getComponent(Tag name, ListMetaGroup group) {
+	/**
+	 * @param name
+	 * @param group
+	 * @return
+	 * @throws ArrayIndexOutOfBoundsException
+	 *             when tag unknown in this group
+	 */
+	public MetaComponent getComponent(Tag name, ListMetaGroup group)
+			throws ArrayIndexOutOfBoundsException {
 
 		MetaComponent meta = group.getComponent(name);
 		if (meta != null) {

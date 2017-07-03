@@ -1,5 +1,9 @@
 package org.geogebra.web.html5.main;
 
+/**
+ * Helper class for exam
+ *
+ */
 public class ExamUtil {
 	/**
 	 * @param full
