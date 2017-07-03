@@ -6,6 +6,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -13,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -21,6 +23,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class AnimPanel extends FlowPanel implements ClickHandler {
+	public interface AnimPanelListener {
+		void onPlay(boolean show);
+	}
 	/**
 	 * Animation speeds
 	 */
@@ -35,13 +40,26 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private boolean play = false;
 	private int speedIndex = 6;
 	private boolean playOnly;
+	private FlowPanel speedPanel;
+	private AnimPanelListener listener = null;
+	private Label lblSpeedValue;
+
 	/**
 	 * @param radioTreeItem
 	 *            parent item
 	 */
 	public AnimPanel(RadioTreeItem radioTreeItem) {
+		this(radioTreeItem, null);
+	}
+
+	/**
+	 * @param radioTreeItem
+	 *            parent item
+	 */
+	public AnimPanel(RadioTreeItem radioTreeItem, AnimPanelListener listener) {
 		super();
 		this.radioTreeItem = radioTreeItem;
+		this.listener = listener;
 		addStyleName("elemRow");
 		playOnly = radioTreeItem.app.has(Feature.AV_PLAY_ONLY);
 		
@@ -55,7 +73,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private void buildPlayOnly() {
 		createPlayButton();
 		btnPlay.addStyleName("playOnly");
+		buildSpeedPanel();
+		add(speedPanel);
 		add(btnPlay);	
+
 	}
 
 	private void buildPlayWithSpeedButtons() {
@@ -90,6 +111,32 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		add(btnPlay);
 		showSpeedValue(false);
 		
+	}
+
+	private void buildSpeedPanel() {
+		speedPanel = new FlowPanel();
+		speedPanel.addStyleName("speedPanel-hidden");
+		btnSpeedDown = new MyToggleButtonW(
+				MaterialDesignResources.INSTANCE.speed_down_black());
+
+		btnSpeedDown.setStyleName("flatButton");
+
+		btnSpeedUp = new MyToggleButtonW(
+				MaterialDesignResources.INSTANCE.speed_up_black());
+
+		btnSpeedUp.setStyleName("flatButton");
+
+		btnSpeedDown.addClickHandler(this);
+		btnSpeedUp.addClickHandler(this);
+		lblSpeedValue = new Label("");
+		lblSpeedValue.addStyleName("value");
+		// btnSpeedValue.addClickHandler(this);
+		setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
+		speedPanel.add(btnSpeedDown);
+		speedPanel.add(lblSpeedValue);
+		speedPanel.add(btnSpeedUp);
+		showSpeedValue(false);
+
 	}
 
 	private void createPlayButton() {
@@ -165,6 +212,18 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	void setPlay(boolean value) {
 		play = value;
 		if (playOnly) {
+			if (play) {
+				speedPanel.addStyleName("speedPanel");
+				speedPanel.removeStyleName("speedPanel-hidden");
+			} else {
+				speedPanel.addStyleName("speedPanel-hidden");
+				speedPanel.removeStyleName("speedPanel");
+
+			}
+
+			if (listener != null) {
+				listener.onPlay(play);
+			}
 			return;
 		}
 		
@@ -217,21 +276,18 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void setSpeed() {
-		if (playOnly) {
-			return;
-		}
-		
 		double speed = animSpeeds[this.speedIndex];
 		this.radioTreeItem.geo.setAnimationSpeed(speed);
 		setSpeedText(speed);
 	}
 
 	private void setSpeedText(double speed) {
+		String speedStr = speed + " " + Unicode.MULTIPLY;
 		if (playOnly) {
+			lblSpeedValue.setText(speedStr);
 			return;
 		}
-		
-		String speedStr = speed + " " + Unicode.MULTIPLY;
+
 		btnSpeedValue.getUpFace().setText(speedStr);
 		btnSpeedValue.getUpHoveringFace().setText(speedStr);
 		btnSpeedValue.getDownFace().setText(speedStr);
@@ -248,11 +304,11 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		Object source = event.getSource();
 		if (source == btnSpeedDown) {
 			speedDown();
-			this.radioTreeItem.selectItem(true);
+			// this.radioTreeItem.selectItem(true);
 		} else if (source == btnSpeedUp) {
 			speedUp();
-			this.radioTreeItem.selectItem(true);
-		} else if (source == btnSpeedValue) {
+			// this.radioTreeItem.selectItem(true);
+		} else if (!playOnly && source == btnSpeedValue) {
 			showSpeedButtons(!speedButtons);
 		}
 	}
@@ -298,6 +354,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 */
 	public void reset() {
 		if (playOnly) {
+			speedPanel.addStyleName("speedPanel-hidden");
+			speedPanel.removeStyleName("speedPanel");
 			return;
 		}
 		showSpeedButtons(false);
@@ -307,4 +365,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	MyToggleButtonW getPlayButton() {
 		return btnPlay;
 	}
+
+
 }

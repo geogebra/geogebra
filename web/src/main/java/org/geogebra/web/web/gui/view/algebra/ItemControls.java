@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.web.gui.view.algebra.AnimPanel.AnimPanelListener;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -26,7 +27,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Item action bar
  *
  */
-public class ItemControls extends FlowPanel {
+public class ItemControls extends FlowPanel implements AnimPanelListener {
 	/**
 	 * 
 	 */
@@ -102,6 +103,8 @@ public class ItemControls extends FlowPanel {
 					MaterialDesignResources.INSTANCE.more_vert_purple()));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
+			btnMore.addStyleName("more");
+
 			ClickStartHandler.init(btnMore, new ClickStartHandler() {
 
 				@Override
@@ -121,6 +124,7 @@ public class ItemControls extends FlowPanel {
 	protected void showMoreContexMenu() {
 		if (cmMore == null) {
 			cmMore = new ContextMenuMore(radioTreeItem);
+
 		}
 		radioTreeItem.cancelEditing();
 		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
@@ -171,8 +175,13 @@ public class ItemControls extends FlowPanel {
 	 * 
 	 */
 	protected void createAnimPanel() {
-		animPanel = radioTreeItem.geo.isAnimatable()
-				? new AnimPanel(radioTreeItem) : null;
+		if (radioTreeItem.geo.isAnimatable()) {
+			animPanel = radioTreeItem.app.has(Feature.AV_PLAY_ONLY)
+					? new AnimPanel(radioTreeItem, this)
+					: new AnimPanel(radioTreeItem);
+		} else {
+			animPanel = null;
+		}
 
 	}
 
@@ -394,5 +403,17 @@ public class ItemControls extends FlowPanel {
 	 */
 	RadioTreeItemController getController() {
 		return this.radioTreeItem.getController();
+	}
+
+	public void onPlay(boolean show) {
+		if (show) {
+			btnMore.removeStyleName("more");
+			btnMore.addStyleName("more-hidden");
+		} else {
+			btnMore.removeStyleName("more-hidden");
+			btnMore.addStyleName("more");
+
+		}
+
 	}
 }

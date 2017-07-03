@@ -360,7 +360,59 @@ $duration: 0.2s;
 			top: 42px;
 			right: 3px;
 		}
+	
+		.speedPanel {
+			position: absolute;
+			top: 4px;
+			right: 3px;		
+			opacity: 1;
+			transition: 0.3s ease;
+	
+			.flatButton {
+				margin: 0px;
+				padding: 0px;
+				width: 24px;
+				height: 24px;
+				cursor: pointer;
+				img {
+					opacity: 0.85;
+				}
+			}
 
+		.value {
+			display: inline-block;
+			width: 40px;
+			font-size: 0.8em;
+			text-align: center;
+			border: none;
+			outline: none;
+			overflow: hidden;
+			height: 19px;
+		}
+	
+	}
+
+		.speedPanel-hidden {
+			@extend .speedPanel;
+			opacity: 0;
+			transition: 0.3s ease;
+		}
+
+		.speedPanel-hidden >*,
+		.speedPanel >* {
+			display: inline-block;
+		}
+
+		.more {
+			opacity: 1 !important;
+			transition: 0.3s ease;
+		}
+	
+		.more-hidden {
+			opacity: 0 !important;
+			transition: 0.3s ease;
+		}
+	
 		.NewRadioButtonTreeItemParent {
 			.scrollableTextBox, .inputBorder {
 				min-height: 48px;
