@@ -896,7 +896,6 @@ public class ConstructionDefaults {
 
 		this.pointSize = Math.max(pointSizeDraggable, 1);
 		this.dependentPointSize = Math.max(pointSizeDependent, 1);
-
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();

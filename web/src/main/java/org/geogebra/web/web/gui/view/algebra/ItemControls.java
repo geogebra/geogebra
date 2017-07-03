@@ -260,12 +260,12 @@ public class ItemControls extends FlowPanel {
 				suggestionBar.addStyleName("animating");
 			}
 			// suggestionBar.addStyleName("add");
-			if (sug.hasMode()) {
-				suggestionBar.setSuggestion(sug, radioTreeItem.app);
+			// if (sug.hasMode()) {
+			// suggestionBar.setSuggestion(sug, radioTreeItem.app);
 
-			} else {
+			// } else {
 				suggestionBar.setSuggestion(sug, radioTreeItem.loc);
-			}
+			// }
 			if (!suggestionBar.isAttached()) {
 				add(suggestionBar);
 			}
@@ -280,6 +280,7 @@ public class ItemControls extends FlowPanel {
 			suggestionBar.removeStyleName("animating");
 			CSSAnimation.runOnAnimation(new Runnable() {
 
+				@Override
 				public void run() {
 					removeSuggestions();
 				}
