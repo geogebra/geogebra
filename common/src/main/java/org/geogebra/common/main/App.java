@@ -4351,6 +4351,9 @@ public abstract class App implements UpdateSelection {
 		case MINOR_GRIDLINES:
 			return prerelease;
 
+		case AND_SPEED_UP_AV:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

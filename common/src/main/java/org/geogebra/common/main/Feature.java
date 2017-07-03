@@ -233,6 +233,9 @@ public enum Feature {
 	/** GGB-1881 */
 	MINOR_GRIDLINES,
 
-	AND_FOCUS_ON_BIND
+	AND_FOCUS_ON_BIND,
+
+	/** AND-423 */
+	AND_SPEED_UP_AV
 
 }
