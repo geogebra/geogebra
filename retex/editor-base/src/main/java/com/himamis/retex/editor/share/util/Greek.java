@@ -110,6 +110,10 @@ public enum Greek {
 		this.upperCase = upper;
 	}
 
+	/**
+	 * 
+	 * @return the LaTeX name WITHOUT the leading \
+	 */
 	public String getLaTeX() {
 
 		if (this.equals(phi)) {
@@ -126,7 +130,8 @@ public enum Greek {
 	/**
 	 * 
 	 * @param ch
-	 * @return latex form eg \alpha (or null if it's not a Greek char)
+	 * @return LaTeX form WITHOUT leading \ eg "alpha" (or null if it's not a
+	 *         Greek char)
 	 */
 	public static String getLaTeX(char ch) {
 		for (Greek greek : Greek.values()) {

@@ -38,7 +38,7 @@ public class AlgoQuadricCoefficients extends AlgoConicCoefficients {
 		super(cons);
 		this.c = c;
 
-		// matrux =
+		// matrix =
 		// ( A[0] A[4] A[5] A[7])
 		// ( A[4] A[1] A[6] A[8])
 		// ( A[5] A[6] A[2] A[9])
