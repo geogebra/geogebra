@@ -1431,7 +1431,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		case ORDER:
 
-			return geo1.getConstructionIndex() >= geo2.getConstructionIndex();
+			return geo1.getConstructionIndex() > geo2.getConstructionIndex()
+					|| (geo1.getConstructionIndex() == geo2
+							.getConstructionIndex()
+							&& geo1.getParentAlgorithm() != null
+							&& geo1.getParentAlgorithm().isBefore(geo1, geo2));
 
 		default: // alphabetical
 

@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Abstract class with all the label methods needed to update labels of commands
@@ -40,7 +41,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 
 	private String[] labels;
 	private boolean initLabels;
-	protected boolean setLabels = false;
+	protected final boolean setLabels;
 
 	// remove? double[] curXValues = new double[30]; // current x-values
 
@@ -56,23 +57,43 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 			boolean setLabels, GeoFunction f) {
 		super(cons);
 		this.labels = labels;
+		initLabels = true;
+		updateLabelsFromOld();
+
 		this.setLabels = setLabels; // In subclass:
 									// !cons.isSuppressLabelsActive();
 		this.f = f;
 
 		// make sure root points is not null
-		int number = labels == null ? 1 : Math.max(1, labels.length);
+		int number = this.labels == null ? 1 : Math.max(1, this.labels.length);
 		points = new GeoPoint[0];
 		initPoints(number);
-		initLabels = true;
+
 		// setInputOutput, compute(), show at least one point: must be done in
 		// subclass.
-	}// Constructor
+	}
+
+	private void updateLabelsFromOld() {
+		if (labels != null && labels.length == 1) {
+			GeoElement old = kernel.lookupLabel(labels[0]);
+			if (old != null && old
+					.getParentAlgorithm() instanceof AlgoGeoPointsFunction) {
+				this.labels = new String[old.getParentAlgorithm()
+						.getOutputLength()];
+				for (int i = 0; i < this.labels.length; i++) {
+					this.labels[i] = old.getParentAlgorithm().getOutput(i)
+							.getLabelSimple();
+				}
+				initLabels = false;
+			}
+		}
+
+	}
 
 	public AlgoGeoPointsFunction(Construction cons, GeoFunction f) {
 		super(cons);
 		this.f = f;
-
+		setLabels = false;
 		// make sure root points is not null
 		int number = 1;
 		points = new GeoPoint[0];
@@ -81,21 +102,6 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		// subclass.
 	}// Constructor
 
-	/**
-	 * The given labels will be used for the resulting points.
-	 */
-	public void setLabels(String[] labels) {
-		this.labels = labels;
-		setLabels = true;
-
-		// make sure that there are at least as many
-		// points as labels
-		if (labels != null) {
-			initPoints(labels.length);
-		}
-
-		update();
-	}// setLabels(String[])
 
 	public GeoPoint[] getPoints() {
 		return points;
@@ -166,16 +172,17 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 					// use user specified label if we have one
 					String newLabel = (labels != null && i < labels.length)
 							? labels[i] : null;
+					Log.printStacktrace(i + ":" + newLabel);
 					points[i].setLabel(newLabel);
-				} // if
-			} // for
-		} // if
+				}
+			}
+		}
 
 		// all other roots are undefined
 		for (int i = number; i < points.length; i++) {
 			points[i].setUndefined(); // Points[i].setAlgebraVisible(false);
-		} // for
-	}// updateLabels(n)
+		}
+	}
 
 	protected void noUndefinedPointsInAlgebraView(GeoPoint[] gpts) {
 		for (int i = 1; i < gpts.length; i++) {

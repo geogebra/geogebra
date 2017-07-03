@@ -1844,4 +1844,16 @@ public abstract class AlgoElement extends ConstructionElement
 		return protectedInput;
 	}
 
+	public boolean isBefore(GeoElement geo1, GeoElement geo2) {
+		for (int i = 0; i < getOutputLength(); i++) {
+			if (getOutput(i) == geo1) {
+				return false;
+			}
+			if (getOutput(i) == geo2) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

@@ -59,7 +59,10 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void drawStringStroke(String str, double x, double y) {
-		// implemented on web
+		impl.drawString(str, (float) x + 1, (float) y + 1);
+		impl.drawString(str, (float) x - 1, (float) y - 1);
+		impl.drawString(str, (float) x + 1, (float) y - 1);
+		impl.drawString(str, (float) x - 1, (float) y + 1);
 	}
 
 	@Override

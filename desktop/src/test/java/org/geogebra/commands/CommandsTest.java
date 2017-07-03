@@ -1116,7 +1116,29 @@ public class CommandsTest extends Assert{
 		t("Envelope[ tgt, P ]", "?");
 	}
 
+	@Test
+	public void testComplexFunctions() {
+		t("f(x)=x^2", "x^(2)");
+		t("f(i)", "-1 + 0" + Unicode.IMAGINARY,
+				StringTemplate.editTemplate);
+		t("f((3,4))", "9");
+		t("g: x > 1", "x > 1");
+		t("g((3,4))", "true");
+	}
 
+	@Test
+	public void testRootsRedefine() {
+		t("Roots[sin(x),-1,4]", new String[] { "(0, 0)", "(3.14159, 0)" },
+				StringTemplate.editTemplate);
+		t("A", "(0, 0)", StringTemplate.editTemplate);
+		t("B", "(3.14159, 0)", StringTemplate.editTemplate);
+		t("A = Roots[sin(x),-1,4.2]", new String[] { "(0, 0)", "(3.14159, 0)" },
+				StringTemplate.editTemplate);
+		t("A", "(0, 0)", StringTemplate.editTemplate);
+		// TODO
+		// t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
+
+	}
 
 	static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
