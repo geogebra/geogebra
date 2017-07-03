@@ -4308,7 +4308,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case INPUT_BAR_ADD_SLIDER:
-			return prerelease;
+			return prerelease
+					&& Versions.WEB_APP_FOR_BROWSER_3D.equals(getVersion());
 
 		case AND_SNACKBAR:
 			return prerelease;
