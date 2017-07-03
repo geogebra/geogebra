@@ -18,6 +18,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * header of toolbar
+ *
+ */
 class Header extends FlowPanel {
 
 	/**
@@ -56,11 +60,19 @@ class Header extends FlowPanel {
 	private FlowPanel contents;
 	private FlowPanel center;
 	private FlowPanel rightSide;
+	/**
+	 * panel containing undo and redo
+	 */
 	PresistablePanel undoRedoPanel;
 	private ToggleButton btnUndo;
 	private ToggleButton btnRedo;
 	private ContextMenuAlgebra cmAlgebra = null;
 	private ContextMenuTools cmTools;
+
+	/**
+	 * @param toolbarPanel
+	 *            - panel containing the toolbar
+	 */
 	public Header(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
 		contents = new FlowPanel();
@@ -199,6 +211,9 @@ class Header extends FlowPanel {
 
 	}
 
+	/**
+	 * context menu button handler
+	 */
 	protected void openContextMenu() {
 		int x = btnContextMenu.getAbsoluteLeft();
 		int y = btnContextMenu.getAbsoluteTop() + 6;
@@ -261,6 +276,9 @@ class Header extends FlowPanel {
 		this.toolbarPanel.getFrame().add(undoRedoPanel);
 	}
 
+	/**
+	 * update position of undo+redo panel
+	 */
 	public void updateUndoRedoPosition() {
 		final EuclidianView ev = ((AppW) this.toolbarPanel.app).getEuclidianView1();
 		if (ev != null) {
@@ -276,6 +294,9 @@ class Header extends FlowPanel {
 		}
 	}
 
+	/**
+	 * update style of undo+redo buttons
+	 */
 	public void updateUndoRedoActions() {
 		if (this.toolbarPanel.app.getKernel().undoPossible()) {
 			btnUndo.addStyleName("buttonActive");
@@ -325,10 +346,17 @@ class Header extends FlowPanel {
 		panel.add(btnRedo);
 	}
 	
+	/**
+	 * @return - true if toolbar is open
+	 */
 	public boolean isOpen() {
 		return open;
 	}
 
+	/**
+	 * @param value
+	 *            - true if toolbar should be open
+	 */
 	public void setOpen(boolean value) {
 		this.open = value;
 		updateStyle();
@@ -354,6 +382,9 @@ class Header extends FlowPanel {
 
 	}
 
+	/**
+	 * update style of toolbar
+	 */
 	void updateStyle() {
 		this.toolbarPanel.updateStyle();
 		removeStyleName("header-open-portrait");
@@ -388,6 +419,9 @@ class Header extends FlowPanel {
 
 	}
 
+	/**
+	 * update center posiotion by resize
+	 */
 	void updateCenterSize() {
 		int h = 0;
 		if (open) {
@@ -404,6 +438,9 @@ class Header extends FlowPanel {
 
 	}
 
+	/**
+	 * handle resize of toolbar
+	 */
 	public void resize() {
 		updateCenterSize();
 		updateStyle();
