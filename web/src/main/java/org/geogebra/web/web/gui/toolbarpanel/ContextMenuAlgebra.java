@@ -183,14 +183,14 @@ public class ContextMenuAlgebra implements SetLabels {
 	/**
 	 * Shows Algebra Context menu
 	 * 
-	 * @param x
+	 * @param x1
 	 *            x coordinate to show the menu.
-	 * @param y
+	 * @param y1
 	 *            y coordinate to show the menu.
 	 */
-	public void show(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public void show(int x1, int y1) {
+		this.x = x1;
+		this.y = y1;
 		wrappedPopup.show(new GPoint(x, y));
 	}
 

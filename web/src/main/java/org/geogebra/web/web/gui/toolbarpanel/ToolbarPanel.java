@@ -36,6 +36,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolbarPanel extends FlowPanel {
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
+	/**
+	 * height in open state
+	 */
 	static final int OPEN_HEIGHT = 56;
 	private static final int HEIGHT_CLOSED = 57;
 	private static final int WIDTH_AUTO_CLOSE = 56;
@@ -174,14 +177,26 @@ public class ToolbarPanel extends FlowPanel {
 
 	}
 
+	/**
+	 * tab of tools
+	 */
 	class ToolsTab extends ToolbarTab {
 	
 		private Tools toolsPanel;
 
+		/**
+		 * button to get more tools
+		 */
 		StandardButton moreBtn;
 		
+		/**
+		 * button to get less tools
+		 */
 		StandardButton lessBtn;
 
+		/**
+		 * tab containing the tools
+		 */
 		public ToolsTab() {
 			createContents();
 			handleMoreLessButtons();
@@ -232,6 +247,9 @@ public class ToolbarPanel extends FlowPanel {
 			});
 		}
 
+		/**
+		 * add more or less button to tool panel
+		 */
 		public void addMoreLessButtons() {
 			AppType type = app.getSettings().getToolbarSettings().getType();
 			ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
@@ -269,6 +287,9 @@ public class ToolbarPanel extends FlowPanel {
 			add(toolsPanel);
 		}
 		
+		/**
+		 * update the content of tool panel
+		 */
 		public void updateContent() {
 			toolsPanel.removeFromParent();
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
@@ -543,6 +564,9 @@ public class ToolbarPanel extends FlowPanel {
 
 	}
 
+	/**
+	 * @return tool tab
+	 */
 	public ToolsTab getTabTools() {
 		return tabTools;
 	}

@@ -34,7 +34,10 @@ public class ContextMenuTools implements SetLabels {
 	public GPopupMenuW wrappedPopup;
 	private Localization loc;
 	private ToolFilterSubMenu subToolFilter;
-	private ToolbarPanel toolbarPanel;
+	/**
+	 * tool panel
+	 */
+	ToolbarPanel toolbarPanel;
 	private int x;
 
 	private int y;
@@ -85,10 +88,18 @@ public class ContextMenuTools implements SetLabels {
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
+	/**
+	 * @author csilla
+	 *
+	 */
 	public class ToolFilterSubMenu extends CheckMarkSubMenu
 			implements SettingListener {
 		private ArrayList<ToolsetLevel> supportedLevels = null;
 
+		/**
+		 * @param parentMenu
+		 *            - parent menu item
+		 */
 		public ToolFilterSubMenu(GCollapseMenuItem parentMenu) {
 			super(wrappedPopup, parentMenu);
 			app.getSettings().getToolbarSettings().addListener(this);
@@ -220,14 +231,14 @@ public class ContextMenuTools implements SetLabels {
 	/**
 	 * Show Tools Context menu
 	 * 
-	 * @param x
+	 * @param x1
 	 *            x coordinate to show the menu.
-	 * @param y
+	 * @param y1
 	 *            y coordinate to show the menu.
 	 */
-	public void show(int x, int y) {
-		this.x = x;
-		this.y = y;
+	public void show(int x1, int y1) {
+		this.x = x1;
+		this.y = y1;
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
@@ -244,6 +255,9 @@ public class ContextMenuTools implements SetLabels {
 		return app.getSettings().getToolbarSettings().getToolsetLevel();
 	}
 
+	/**
+	 * @return collapse/expand check mark submenu to filter tools
+	 */
 	public ToolFilterSubMenu getSubToolFilter() {
 		return subToolFilter;
 	}
