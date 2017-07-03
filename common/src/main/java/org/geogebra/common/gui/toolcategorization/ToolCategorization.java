@@ -20,15 +20,28 @@ public class ToolCategorization {
 		/**
 		 * full list of tools
 		 */
-		ADVANCED,
+		ADVANCED("ToolsetLevel.Advanced"),
 		/**
 		 * non-empty construction
 		 */
-		STANDARD,
+		STANDARD("ToolsetLevel.Standard"),
 		/**
 		 * for empty construction
 		 */
-		EMPTY_CONSTRUCTION	
+		EMPTY_CONSTRUCTION("ToolsetLevel.Empty");
+
+		private final String level;
+
+		ToolsetLevel(String level) {
+			this.level = level;
+		}
+
+		/**
+		 * @return level
+		 */
+		public String getLevel() {
+			return level;
+		}
 	}
 
 	public enum AppType {

@@ -109,7 +109,7 @@ public class ContextMenuTools implements SetLabels {
 			for (int i = 0; i <supportedLevels.size() ; i++) {
 				final ToolsetLevel level = supportedLevels.get(i);
 				String levelTitle = app.getLocalization()
-						.getMenu(level.toString());
+						.getMenu(level.getLevel());
 				boolean isSelected = app.getSettings().getToolbarSettings().getToolsetLevel().equals(level);
 				addItem(levelTitle, isSelected, new Command() {
 
@@ -144,7 +144,7 @@ public class ContextMenuTools implements SetLabels {
 				.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.filter_list_black()
 								.getSafeUri().asString(),
-						loc.getPlain("ToolFilter"));
+						loc.getPlain("Tool.Filter"));
 		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
