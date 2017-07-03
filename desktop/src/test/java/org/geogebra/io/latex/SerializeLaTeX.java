@@ -237,6 +237,14 @@ public class SerializeLaTeX {
 		testEditor("\u314E\u314F\u3145\u3145", "\uD56C");
 		testEditor("\u314E\u314F\u3145\u3145\u314F", "\uD56B\uC0AC");
 
+		testEditor("\u3131\u3161", "\uADF8");
+		testEditor("\u3131\u3161\u3131", "\uADF9");
+		testEditor("\u3131\u3161\u3131\u3131", "\uADFA");
+		testEditor("\u3131\u3161\u3131\u3131\u314F", "\uADF9\uAC00");
+		testEditor("\u3131\u3161\u3131\u3131\u314F\u3142", "\uADF9\uAC11");
+		testEditor("\u3131\u3161\u3131\u3131\u314F\u3142\u3145",
+				"\uADF9\uAC12");
+
 		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
 
 		// type with explicit double
