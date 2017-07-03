@@ -261,9 +261,12 @@ public class DrawGrid {
 				: view.getHeight();
 		double pix = xAxisStart;
 
-		if (pix < EuclidianView.SCREEN_BORDER) {
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+			pix = xAxisStart - tickStepX / n;
+		} else if (pix < EuclidianView.SCREEN_BORDER) {
 			pix += tickStepX;
 		}
+
 		for (int i = 0; pix <= view.getWidth(); i++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
