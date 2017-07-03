@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -10,7 +11,9 @@ import org.geogebra.common.util.StringUtil;
 
 public class SuggestionSolve extends Suggestion {
 	
+	private static Suggestion SINGLE_SOLVE = new SuggestionSolve();
 	private String[] labels;
+
 
 	public SuggestionSolve(String... labels) {
 		this.labels = labels;
@@ -36,10 +39,10 @@ public class SuggestionSolve extends Suggestion {
 
 	public static Suggestion get(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)
-				&& !hasDependentAlgo(geo, Commands.Solve, Commands.NSolve)) {
+				&& !hasDependentAlgo(geo, SINGLE_SOLVE)) {
 			String[] vars = ((EquationValue) geo).getEquationVariables();
 			if (vars.length == 1) {
-				return new SuggestionSolve();
+				return SINGLE_SOLVE;
 			}
 			if (vars.length == 2) {
 				return getMulti(geo, vars);
@@ -55,8 +58,7 @@ public class SuggestionSolve extends Suggestion {
 			if (Equation.isAlgebraEquation(prev)
 					&& subset(
 					((EquationValue) prev).getEquationVariables(), vars)
-					&& !hasDependentAlgo(prev, Commands.Solve,
-							Commands.NSolve)) {
+					&& !hasDependentAlgo(prev, SINGLE_SOLVE)) {
 				return new SuggestionSolve(prev.getLabelSimple());
 			}
 		} while (prev != null);
@@ -79,5 +81,10 @@ public class SuggestionSolve extends Suggestion {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	protected boolean sameAlgoType(GetCommand className, GeoElement[] input) {
+		return className == Commands.Solve || className == Commands.NSolve;
 	}
 }

@@ -1,7 +1,9 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -9,6 +11,7 @@ import org.geogebra.common.main.Localization;
 
 public class SuggestionRootExtremum extends Suggestion {
 
+	private static Suggestion INSTANCE = new SuggestionRootExtremum();
 	@Override
 	public String getCommand(Localization loc) {
 		return loc.getMenu("Suggestion.SpecialPoints");
@@ -35,12 +38,20 @@ public class SuggestionRootExtremum extends Suggestion {
 
 	public static Suggestion get(GeoElement geo) {
 		if (geo instanceof GeoFunction
-				&& !hasDependentAlgo(geo, Commands.Root, Commands.Extremum)) {
+				&& !hasDependentAlgo(geo, INSTANCE)) {
 			GeoFunction geoFun = (GeoFunction) geo;
 			if (!geoFun.isBooleanFunction()) {
-				return new SuggestionRootExtremum();
+				return INSTANCE;
 			}
 		}
 		return null;
+	}
+
+	@Override
+	protected boolean sameAlgoType(GetCommand className, GeoElement[] input) {
+		// TODO Auto-generated method stub
+		return className == Commands.Roots || className == Commands.Extremum
+				|| (className == Commands.Intersect
+						&& input[1] instanceof GeoAxis);
 	}
 }

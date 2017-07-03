@@ -2,7 +2,8 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
-import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 
@@ -13,19 +14,19 @@ abstract public class Suggestion {
 	public Suggestion() {
 	}
 
-	
-	
-	static boolean hasDependentAlgo(GeoElementND geo, Commands test1,
-			Commands test2) {
+	static boolean hasDependentAlgo(GeoElementND geo, Suggestion sug) {
 		AlgorithmSet set = geo.getAlgoUpdateSet();
 		for (AlgoElement algo : set) {
-			if (algo != null && (algo.getClassName() == test1
-					|| algo.getClassName() == test2)) {
+			if (algo != null
+					&& sug.sameAlgoType(algo.getClassName(), algo.getInput())) {
 				return true;
 			}
 		}
 		return false;
 	}
+
+	protected abstract boolean sameAlgoType(GetCommand className,
+			GeoElement[] input);
 
 	abstract public String getCommand(Localization loc);
 	

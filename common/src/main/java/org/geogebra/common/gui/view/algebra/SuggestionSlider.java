@@ -1,6 +1,8 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -39,6 +41,11 @@ public class SuggestionSlider extends Suggestion {
 	@Override
 	public int getMode() {
 		return EuclidianConstants.MODE_SLIDER;
+	}
+
+	@Override
+	protected boolean sameAlgoType(GetCommand className, GeoElement[] input) {
+		return false;
 	}
 
 }
