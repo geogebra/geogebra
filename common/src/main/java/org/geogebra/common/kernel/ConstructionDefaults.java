@@ -314,6 +314,7 @@ public class ConstructionDefaults {
 		// line.setLocalVariableLabel(app.getPlain("Line"));
 		line.setLocalVariableLabel("Line");
 		line.setObjColor(colLine);
+		// line.setLineThickness(getDefaultLineThickness());
 		line.setDefaultGeoType(DEFAULT_LINE);
 		line.setMode(GeoLine.EQUATION_IMPLICIT);
 		defaultGeoElements.put(DEFAULT_LINE, line);
@@ -748,6 +749,13 @@ public class ConstructionDefaults {
 			} else {
 				geo.setAllVisualProperties(defaultGeo, isReset);
 			}
+
+			if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+				geo.setLineThickness(getDefaultLineThickness());
+				geo.setAlphaValue(
+						EuclidianStyleConstants.OBJSTYLE_DEFAULT_ALPHA);
+			}
+
 			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
 			}
@@ -823,7 +831,9 @@ public class ConstructionDefaults {
 	 * Reset construction defaults
 	 */
 	public void resetDefaults() {
-		lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+		lineThickness = cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)
+				? EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS
+				: EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 		dependentPointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 		angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
@@ -840,7 +850,9 @@ public class ConstructionDefaults {
 	 * @return current default line thickness
 	 */
 	public int getDefaultLineThickness() {
-		return lineThickness;
+		return cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES) 
+				? EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS
+				: lineThickness;
 	}
 
 	/**

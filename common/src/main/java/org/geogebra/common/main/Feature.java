@@ -228,6 +228,9 @@ public enum Feature {
 	AND_FOCUS_ON_BIND,
 
 	/** AND-423 */
-	AND_SPEED_UP_AV
+	AND_SPEED_UP_AV,
+
+	/** GGB-1916 */
+	DEFAULT_OBJECT_STYLES
 
 }
