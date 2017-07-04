@@ -1,9 +1,9 @@
 package org.geogebra.common.keyboard;
 
-import org.geogebra.common.main.Localization;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.geogebra.common.main.Localization;
 
 public class KeyboardRowDefinitionProvider {
 
@@ -60,7 +60,7 @@ public class KeyboardRowDefinitionProvider {
     public Map<String, String> getUpperKeys() {
         Map<String, String> map = new HashMap<String, String>();
         String[][] keyboardDefinition = getKeyboardDefinition();
-        for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 3; i++) {
             associateKeys(keyboardDefinition[0][i], keyboardDefinition[1][i], map);
         }
         return map;
