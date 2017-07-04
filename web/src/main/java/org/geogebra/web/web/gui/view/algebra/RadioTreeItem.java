@@ -393,7 +393,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (outputPanel == null) {
-			outputPanel = new AlgebraOutputPanel(app);
+			outputPanel = new AlgebraOutputPanel();
 			outputPanel.addStyleName("avOutput");
 		}
 	}

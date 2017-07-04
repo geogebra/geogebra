@@ -196,7 +196,8 @@ public class GLookAndFeel implements GLookAndFeelI{
 
 	@Override
 	public void toggleFullscreen(boolean full) {
-		ExamUtil.toggleFullscreen(full, true);
+		ExamUtil.toggleFullscreen(full);
+		Browser.toggleFullscreen(full, null);
 	}
 
 	@Override

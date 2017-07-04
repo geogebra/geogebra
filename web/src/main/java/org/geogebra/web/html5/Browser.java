@@ -1,8 +1,10 @@
 package org.geogebra.web.html5;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.web.html5.main.StringHandler;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
 
@@ -481,6 +483,54 @@ public class Browser {
 
 	public static native boolean isEdge() /*-{
 		return $wnd.navigator.userAgent.indexOf("Edge") > -1;
+	}-*/;
+
+	public static native void toggleFullscreen(boolean full,
+			JavaScriptObject element)/*-{
+		var el = element || $doc.documentElement;
+		if (full) { // current working methods
+			if (el.requestFullscreen) {
+				el.requestFullscreen();
+			} else if (document.documentElement.msRequestFullscreen) {
+				el.msRequestFullscreen();
+			} else if (document.documentElement.mozRequestFullScreen) {
+				el.mozRequestFullScreen();
+			} else if (document.documentElement.webkitRequestFullscreen) {
+				el.style.setProperty("width", "100%", "important");
+				el.style.setProperty("height", "100%", "important");
+				el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+			}
+		} else {
+			if ($doc.exitFullscreen) {
+				$doc.exitFullscreen();
+			} else if (document.msExitFullscreen) {
+				$doc.msExitFullscreen();
+			} else if (document.mozCancelFullScreen) {
+				$doc.mozCancelFullScreen();
+			} else if (document.webkitExitFullscreen) {
+				$doc.webkitExitFullscreen();
+			}
+		}
+	}-*/;
+
+	public static native void addFullscreenListener(
+			StringHandler callback) /*-{
+		var prefixes = [ "webkit", "ms", "moz" ];
+		for ( var i in prefixes) {
+			var prefix = prefixes[i];
+			$doc
+					.addEventListener(
+							prefix + "fullscreenchange",
+							(function(pfx) {
+								return function(e) {
+									$wnd.console.log(e, pfx
+											+ "FullScreenElement", $doc,
+											$doc[pfx + "FullscreenElement"]);
+									callback.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(($doc[pfx+"FullscreenElement"] || $doc.mozFullScreen) ?  "true" : "false");
+								}
+							})(prefix));
+		}
+
 	}-*/;
 
 }

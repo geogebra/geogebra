@@ -20,7 +20,7 @@ public class TabletWinLookAndFeel extends TabletLookAndFeel {
 
 	@Override
 	public void toggleFullscreen(boolean full) {
-		ExamUtil.toggleFullscreen(full, false);
+		ExamUtil.toggleFullscreen(full);
 	}
 
 	@Override

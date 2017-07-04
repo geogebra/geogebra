@@ -14,6 +14,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -21,6 +22,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.cas.view.CASStylebarW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -601,18 +603,27 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 			@Override
 			public void onClick(Widget source) {
-				if (isFullScreen) {
-					isFullScreen = false;
-					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_white18());
-				} else {
-					isFullScreen = true;
-					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_exit_white18());
-				}
+				Browser.toggleFullscreen(!isFullScreen, null);
 			}
 		};
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
+		Browser.addFullscreenListener(new StringHandler() {
+
+			@Override
+			public void handle(String obj) {
+				Log.debug(obj);
+				if ("true".equals(obj)) {
+					isFullScreen = true;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_white18());
+				} else {
+					isFullScreen = false;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_exit_white18());
+				}
+
+			}
+		});
 		zoomPanel.add(fullscreenBtn);
 	}
 	

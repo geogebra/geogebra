@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
@@ -25,7 +24,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 	private FlowPanel valuePanel;
 	private Canvas valCanvas;
 
-	public AlgebraOutputPanel(App app) {
+	public AlgebraOutputPanel() {
 		valuePanel = new FlowPanel();
 		valuePanel.addStyleName("avValue");
 	}
