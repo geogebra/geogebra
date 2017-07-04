@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 
@@ -650,18 +649,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
     }
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
-		if (app.has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
-			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
-				@Override
-				public void onInsert(String text) {
-					field.removeDummyCursor();
-					doTextFieldActionPerformed();
-					if (Browser.isAndroid() || Browser.isIPad()) {
-						field.addDummyCursor(field.getCaretPosition());
-					}
+		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+			@Override
+			public void onInsert(String text) {
+				field.removeDummyCursor();
+				doTextFieldActionPerformed();
+				if (Browser.isAndroid() || Browser.isIPad()) {
+					field.addDummyCursor(field.getCaretPosition());
 				}
-			});
-		}
+			}
+		});
 	}
 
 	@Override

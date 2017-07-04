@@ -9,7 +9,6 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -1010,19 +1009,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
-		if (getApp().has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC)) {
-			field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
-				@Override
-				public void onInsert(String text) {
-					int cursorPos = field.removeDummyCursor();
-					doTextFieldActionPerformed((TextBox) field.getTextBox(),
-							false);
-					if (Browser.isAndroid() || Browser.isIPad()) {
-						field.addDummyCursor(cursorPos);
-					}
+
+		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
+			@Override
+			public void onInsert(String text) {
+				int cursorPos = field.removeDummyCursor();
+				doTextFieldActionPerformed((TextBox) field.getTextBox(), false);
+				if (Browser.isAndroid() || Browser.isIPad()) {
+					field.addDummyCursor(cursorPos);
 				}
-			});
-		}
+			}
+		});
+
 	}
 
 	@Override

@@ -1662,27 +1662,27 @@ public class MyTableW implements /* FocusListener, */MyTable {
 						.getTableCellEditorWidget(this, ob, false,
 				        row, col);
 				// w.getElement().setAttribute("display", "none");
-				if (app.has(Feature.ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS)) {
-					if (view.isKeyboardEnabled()) {
-						app.showKeyboard(w, true);
-						final GRectangle rect = getCellRect(row, col, true);
-						Scheduler.get().scheduleDeferred(new ScheduledCommand(){
-							@Override
-							public void execute() {
-										scrollRectToVisible(rect);
-							}
-						});
 
-						if (Browser.isAndroid() || Browser.isIPad()) {
-							w.setEnabled(false);
-							w.addDummyCursor(w.getCaretPosition());
+				if (view.isKeyboardEnabled()) {
+					app.showKeyboard(w, true);
+					final GRectangle rect = getCellRect(row, col, true);
+					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+						@Override
+						public void execute() {
+							scrollRectToVisible(rect);
 						}
-					} else if (app.has(Feature.KEYBOARD_BEHAVIOUR)){
-						//if keyboard doesn't enabled, inserts openkeyboard button if there is no in the SV yet
-						app.showKeyboard(w,false);
+					});
+
+					if (Browser.isAndroid() || Browser.isIPad()) {
+						w.setEnabled(false);
+						w.addDummyCursor(w.getCaretPosition());
 					}
-						
+				} else if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+					// if keyboard doesn't enabled, inserts openkeyboard button
+					// if there is no in the SV yet
+					app.showKeyboard(w, false);
 				}
+
 
 				// set height and position of the editor
 				int editorHeight = ssGrid.getCellFormatter()

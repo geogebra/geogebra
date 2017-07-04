@@ -1890,6 +1890,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 		int editedWidth = ri.getWidthForEdit();
+		Log.debug("EDIT:" + editedWidth);
 		int expanded = editedWidth;
 		if (editedWidth < userWidth) {
 			expanded = userWidth;

@@ -68,11 +68,6 @@ public enum Feature {
 	/** GGB-1288 */
 	ADJUST_VIEWS,
 
-	/** GGB-1244 */
-	ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS,
-
-	/** GGB-1245 */
-	ONSCREEN_KEYBOARD_AT_PROBCALC,
 
 	/** GGB-1263 */
 	AUTOSCROLLING_SPREADSHEET,
@@ -85,9 +80,6 @@ public enum Feature {
 
 	MOBILE_CACHE_FEATURED,
 
-
-	/** GGB-1349 */
-	FIX_KEYBOARD_POSITION,
 
 	/**
 	 * GGB-1374

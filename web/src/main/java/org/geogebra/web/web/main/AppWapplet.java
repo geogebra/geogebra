@@ -330,7 +330,7 @@ public class AppWapplet extends AppWFull {
 			Browser.removeDefaultContextMenu(
 					getSplitLayoutPanel().getElement());
 
-			if (has(Feature.FIX_KEYBOARD_POSITION) && !oldSLPanelChanged) {
+			if (!oldSLPanelChanged) {
 				return;
 			}
 
@@ -838,10 +838,6 @@ public class AppWapplet extends AppWFull {
 		return frame;
 	}
 
-	@Override
-	public boolean hasKeyboardInProbCalculator() {
-		return has(Feature.ONSCREEN_KEYBOARD_AT_PROBCALC);
-	}
 
 	@Override
 	public double getInnerWidth() {

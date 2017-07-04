@@ -111,16 +111,7 @@ public abstract class App implements UpdateSelection {
 	public static final String WIKI_TUTORIAL = "Tutorial:Main Page";
 	/** Url for Intel RealSense tutorials */
 	public static final String REALSENSE_TUTORIAL = "https://www.geogebra.org/b/OaGmb7LE";
-	/**
-	 * Url for wiki article about exporting to HTML changed to GeoGebra
-	 * Materials upload from ggb44
-	 */
-	public static final String WIKI_EXPORT_WORKSHEET = "Upload_to_GeoGebra_Materials";
-	/**
-	 * Url for wiki article about advanced features (layers, cond. visibility
-	 * etc.)
-	 */
-	public static final String WIKI_ADVANCED = "Advanced Features";
+
 	/** Url for wiki article about functions */
 	public static final String WIKI_TEXT_TOOL = "Text Tool";
 	/** id for dummy view */
@@ -4021,7 +4012,7 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
-		boolean keyboard = true;
+		// boolean keyboard = true;
 		switch (f) {
 
 		// leave as prerelease
@@ -4163,30 +4154,21 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		// GGB-1349
-		case FIX_KEYBOARD_POSITION:
-			return keyboard;
 
-		/** GGB-1244 */
-		case ONSCREEN_KEYBOARD_AT_EDIT_SV_CELLS:
-			return keyboard;
-
-		/** GGB-1245 */
-		case ONSCREEN_KEYBOARD_AT_PROBCALC:
-			return keyboard;
 
 		// GGB-1252
 		case KEYBOARD_BEHAVIOUR:
-			return keyboard;
+			return true;
 
 		/**
 		 * GGB-1398 + GGB-1529
 		 */
 		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
-			return keyboard;
+			return true;
 
 		/** GGB-1694 */
 		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
-			return keyboard;
+			return true;
 
 		/** GGB-1633 */
 		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:

@@ -264,7 +264,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
-		if (app.has(Feature.FIX_KEYBOARD_POSITION) && (keyboardVisibilityChanging)) {
+		if (keyboardVisibilityChanging) {
 			return;
 		}
 
@@ -451,7 +451,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	@Override
 	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
-		if (app.has(Feature.FIX_KEYBOARD_POSITION) && this.keyboardVisibilityChanging) {
+		if (this.keyboardVisibilityChanging) {
 			return;
 		}
 		

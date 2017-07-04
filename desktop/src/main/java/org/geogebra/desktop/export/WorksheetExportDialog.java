@@ -29,7 +29,6 @@ import javax.swing.JPanel;
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.TitlePanel;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.HelpAction;
@@ -47,6 +46,12 @@ import org.geogebra.desktop.util.UtilD;
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
 public class WorksheetExportDialog extends JDialog {
+
+	/**
+	 * Url for wiki article about exporting to HTML changed to GeoGebra
+	 * Materials upload from ggb44
+	 */
+	public static final String WIKI_EXPORT_WORKSHEET = "Upload_to_GeoGebra_Materials";
 
 	private static final long serialVersionUID = 1L;
 
@@ -101,7 +106,7 @@ public class WorksheetExportDialog extends JDialog {
 		JButton helpButton = new JButton(loc.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app,
 				app.getScaledIcon(GuiResourcesD.HELP), loc.getMenu("Help"),
-				App.WIKI_EXPORT_WORKSHEET);
+				WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
 		uploadButton = new JButton(loc.getMenu("Upload"));
