@@ -45,9 +45,6 @@
 
 package com.himamis.retex.renderer.share;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import com.himamis.retex.renderer.share.character.Character;
 import com.himamis.retex.renderer.share.exception.FormulaNotFoundException;
 import com.himamis.retex.renderer.share.exception.ParseException;
@@ -127,16 +124,6 @@ public class TeXParser {
 
 	protected static boolean isLoading = false;
 
-	private static final Set<String> unparsedContents = new HashSet<String>(6);
-
-	// static {
-	// // unparsedContents.add("jlmDynamic");
-	// unparsedContents.add("jlmText");
-	// unparsedContents.add("jlmTextit");
-	// unparsedContents.add("jlmTextbf");
-	// unparsedContents.add("jlmTextitbf");
-	// unparsedContents.add("jlmExternalFont");
-	// }
 
 	/**
 	 * Create a new TeXParser
@@ -558,8 +545,6 @@ public class TeXParser {
 						atIsLetter++;
 					} else if ("makeatother".equals(com)) {
 						atIsLetter--;
-					} else if (unparsedContents.contains(com)) {
-						getOptsArgs(1, 0);
 					}
 					break;
 				case PERCENT:
