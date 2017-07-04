@@ -78,7 +78,7 @@ var analyticsVersion = 'V'+latestVersion;
 			parentTable(label).className += " perspectiveHighlighted";
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
-				location.href.indexOf("?") < 0 && !isLocalhost()){
+				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
@@ -333,7 +333,7 @@ var app = document.createElement("script");
 		var parts = location.pathname.split("/");
 		var path = parts.length == 1 || parts[parts.length-1].length? parts[parts.length-1] : parts[parts.length-2] ;
 		if(location.hash.length || (path != '/apps' && path != '/apps/' && !path.match(/\.html$/))){
-			return location.hash.length ? location.hash.replace('#','') : path.replace(/\//g,'');
+			return location.hash.length ? location.hash.replace('#','') : path.replace(/calculator/,'graphing');;
 		}
 		return window.appID;
 	}
