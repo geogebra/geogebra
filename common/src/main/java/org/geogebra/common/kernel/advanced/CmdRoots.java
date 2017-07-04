@@ -36,7 +36,8 @@ public class CmdRoots extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				return CmdRoot.nonPolyRoots(c, kernel, arg[0]);
+				return CmdRoot.nonPolyRoots(c, kernel,
+						(GeoFunctionable) arg[0]);
 			}
 			throw argErr(app, c, arg[0]);
 

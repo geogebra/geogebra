@@ -2,9 +2,16 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.main.App;
 
+/**
+ * Helper class for XML export
+ *
+ */
 public class XMLBuilder {
 	/**
 	 * Appends visual tags to string builder
+	 * 
+	 * @param geo
+	 *            geo
 	 * 
 	 * @param sb
 	 *            string builder

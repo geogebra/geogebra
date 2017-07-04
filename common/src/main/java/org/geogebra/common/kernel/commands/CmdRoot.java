@@ -115,13 +115,22 @@ public class CmdRoot extends CommandProcessor {
 		return g;
 	}
 
+	/**
+	 * @param c
+	 *            command
+	 * @param kernel
+	 *            kernel
+	 * @param geoElement
+	 *            function
+	 * @return root points
+	 */
 	public static GeoPoint[] nonPolyRoots(Command c, Kernel kernel,
-			GeoElement geoElement) {
+			GeoFunctionable geoElement) {
 		EuclidianViewInterfaceCommon view = kernel.getApplication()
 				.getActiveEuclidianView();
 
 		AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), c.getLabels(),
-				((GeoFunctionable) geoElement).getGeoFunction(), view);
+				geoElement.getGeoFunction(), view);
 		return algo.getRootPoints();
 
 	}

@@ -334,11 +334,19 @@ final public class DockPanelData {
 
 	}
 
+	/**
+	 * @param toolMode
+	 *            whether this should be open as toolbar
+	 * @return this
+	 */
 	public DockPanelData setToolMode(boolean toolMode) {
 		this.toolMode = toolMode;
 		return this;
 	}
 
+	/**
+	 * @return whether this is open as toolbar
+	 */
 	public boolean isToolMode() {
 		return toolMode;
 	}

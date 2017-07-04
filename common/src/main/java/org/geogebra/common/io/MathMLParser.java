@@ -24,6 +24,9 @@ public class MathMLParser {
 
 	private static HashMap<String, String> geogebraMap;
 
+	/**
+	 * @return tag->geogebra syntax map
+	 */
 	static HashMap<String, String> getGeogebraMap() {
 
 		if (geogebraMap == null) {

@@ -2003,6 +2003,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return usedVars.toArray(new String[0]);
 	}
 
+	/**
+	 * @param usedVars
+	 *            output list of vars
+	 * @param definition
+	 *            (wrapped) equation
+	 */
 	public static void addUsedVars(ArrayList<String> usedVars,
 			ExpressionNode definition) {
 		if (usedVars.isEmpty() && definition != null

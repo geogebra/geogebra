@@ -1010,8 +1010,18 @@ public class AlgebraProcessor {
 	/**
 	 * TODO figure out how to handle sliders here
 	 * 
+	 * @param cmd
+	 *            command in presentation MathML
+	 * @param storeUndo
+	 *            whether to create an undo point
+	 * @param handler
+	 *            error handler
+	 * 
 	 * @param autoCreateSliders
 	 *            whether sliders should be autocreated
+	 * @param callback0
+	 *            callback
+	 * @return resulting elements
 	 */
 	public GeoElementND[] parseMathml(String cmd, final boolean storeUndo,
 			ErrorHandler handler, boolean autoCreateSliders,
