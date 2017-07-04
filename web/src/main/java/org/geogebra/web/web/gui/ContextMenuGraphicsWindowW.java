@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
@@ -12,8 +13,10 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.menubar.RadioButtonMenuBarW;
+import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
+import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -51,6 +54,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			addAxesMenuItem();
+			addGridMenuItem();
 		}
 
 		String img;
@@ -139,15 +143,35 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	}
 
+	private void addGridMenuItem() {
+		String htmlString = MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE.grid_black()
+								.getSafeUri().asString(),
+						loc.getPlain("ShowGrid"));
+		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
+				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString(),
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				false, null);
+		wrappedPopup.addItem(ci.getMenuItem(), false);
+		GridSubmenu gridSubMenu = new GridSubmenu(ci);
+		gridSubMenu.update();
+
+	}
+
 	private void addAxesMenuItem() {
-		String img = MaterialDesignResources.INSTANCE.show_all_objects_black()
+		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
 
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
-						app.getActiveEuclidianView().getShowXaxis(), new Command() {
+				app.getActiveEuclidianView().getShowXaxis()
+						&& (app.getActiveEuclidianView().getShowYaxis()),
+				new Command() {
 
 					@Override
 					public void execute() {
@@ -161,8 +185,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			public void execute() {
 				boolean axisShown = app.getActiveEuclidianView().getShowXaxis();
 				app.getActiveEuclidianView().setShowAxis(!axisShown);
-				showAxes.setChecked(
-						app.getActiveEuclidianView().getShowXaxis());
+				showAxes.setChecked(app.getActiveEuclidianView().getShowXaxis()
+						&& (app.getActiveEuclidianView().getShowYaxis()));
 				app.getActiveEuclidianView().repaintView();
 			}
 		});
@@ -451,6 +475,73 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		updatePasteItem();
+	}
+
+	/**
+	 * @author csilla expand/collapse submenu for major and minor grid setting
+	 *
+	 */
+	public class GridSubmenu extends CheckMarkSubMenu {
+
+		/**
+		 * @param parentMenu
+		 *            - parent menu item
+		 */
+		public GridSubmenu(GCollapseMenuItem parentMenu) {
+			super(wrappedPopup, parentMenu);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		protected void initActions() {
+			addNoGridItem();
+			addMajorGridlines();
+		}
+
+		private void addMajorGridlines() {
+			String text = app.getLocalization().getMenu("Grid.Major");
+			boolean isSelected = app.getSettings().getEuclidian(1)
+					.getGridType() == EuclidianView.GRID_CARTESIAN
+					&& app.getSettings().getEuclidian(1).getShowGrid();
+			addItem(text, isSelected, new Command() {
+
+				@Override
+				public void execute() {
+					app.getSettings().getEuclidian(1).setShowGridSetting(true);
+					app.getSettings().getEuclidian(1)
+							.setGridType(EuclidianView.GRID_CARTESIAN);
+					app.getActiveEuclidianView()
+							.setGridType(EuclidianView.GRID_CARTESIAN);
+					app.getActiveEuclidianView().repaintView();
+				}
+			});
+		}
+
+		private void addNoGridItem() {
+			String text = app.getLocalization().getMenu("Grid.No");
+			boolean isSelected = !app.getSettings().getEuclidian(1)
+					.getShowGrid();
+			addItem(text, isSelected, new Command() {
+
+				@Override
+				public void execute() {
+					app.getSettings().getEuclidian(1)
+							.setGridType(EuclidianView.GRID_NOT_SHOWN);
+					app.getActiveEuclidianView()
+							.setGridType(EuclidianView.GRID_NOT_SHOWN);
+					app.getSettings().getEuclidian(1).setShowGridSetting(false);
+					app.getActiveEuclidianView().repaintView();
+
+				}
+			});
+		}
+
+
+		@Override
+		public void update() {
+			// do nothing now
+		}
+
 	}
 
 }

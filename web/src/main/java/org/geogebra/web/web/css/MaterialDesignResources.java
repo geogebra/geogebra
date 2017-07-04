@@ -142,6 +142,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	ImageResource speed_down_black();
 
 	// ev icons
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/grid_black.png")
+	ImageResource grid_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/axes_black.png")
+	ImageResource axes_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white18.png")
 	ImageResource home_white18();
 
