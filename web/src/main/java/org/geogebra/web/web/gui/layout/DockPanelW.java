@@ -533,7 +533,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			titleBarPanel.add(closeButtonPanel);
 		}
 		
-		if (app.has(Feature.NEW_TOOLBAR) && hasZoomPanel) {
+		if (allowZoomPanel()) {
 			buildZoomPanel();
 		}
 
@@ -544,6 +544,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (setlayout) {
 			setLayout(false);
 		}
+	}
+
+	private boolean allowZoomPanel() {
+		return hasZoomPanel
+				&& (app.getArticleElement().getDataParamShowZoomControls()
+						|| app.getArticleElement().getDataParamApp()
+								&& app.has(Feature.ZOOM_PANEL));
 	}
 
 	private void buildZoomPanel() {
@@ -603,7 +610,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 			@Override
 			public void onClick(Widget source) {
-				Browser.toggleFullscreen(!isFullScreen, null);
+				Browser.toggleFullscreen(!isFullScreen,
+						app.getArticleElement().getDataParamFitToScreen() ? null
+								: app.getFrameElement());
 			}
 		};
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
@@ -738,7 +747,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			updateStyleBarVisibility();
 		}
 
-		if (app.has(Feature.NEW_TOOLBAR) && hasZoomPanel) {
+		if (allowZoomPanel()) {
 			dockPanel.addSouth(zoomPanel, 0);
 		}
 

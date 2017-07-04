@@ -15,6 +15,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -97,9 +98,11 @@ public class GlobalKeyDispatcherW extends
 
 			@Override
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
-
-				Element targetElement = Element.as(event.getNativeEvent()
-						.getEventTarget());
+				EventTarget node = event.getNativeEvent().getEventTarget();
+				if (!Element.is(node)) {
+					return;
+				}
+				Element targetElement = Element.as(node);
 				ArticleElement targetArticle = getGGBArticle(targetElement);
 				if (targetArticle == null) {
 					return;

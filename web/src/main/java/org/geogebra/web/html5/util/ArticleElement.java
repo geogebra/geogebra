@@ -613,4 +613,8 @@ public final class ArticleElement extends Element {
 		return getDataParamFitToScreen() ? 0 : 2;
 	}
 
+	public boolean getDataParamShowZoomControls() {
+		return this.getBoolParam("data-param-showZoomControls", false);
+	}
+
 }
