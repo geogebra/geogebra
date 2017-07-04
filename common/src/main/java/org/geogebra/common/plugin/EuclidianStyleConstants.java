@@ -37,6 +37,10 @@ public class EuclidianStyleConstants {
 
 	public static final double OBJSTYLE_DEFAULT_ALPHA = 0.7;
 
+	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY = (int) Math
+			.round(OBJSTYLE_DEFAULT_ALPHA * 255);
+
+
 	public static final int DEFAULT_ANGLE_SIZE = 30;
 
 	public static final int DEFAULT_LINE_TYPE = LINE_TYPE_FULL;

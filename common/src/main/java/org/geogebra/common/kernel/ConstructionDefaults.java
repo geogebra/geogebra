@@ -131,6 +131,10 @@ public class ConstructionDefaults {
 	/** default color for points */
 	public static final GColor colPoint = GColor.BLUE;
 
+	/** default color for points with alpha GGB-1916 */
+	public static final GColor colPointAlpha = GColor.newColor(77, 77, 255,
+			EuclidianStyleConstants.OBJSTYLE_DEFAULT_ALPHA);
+
 	/** default color for dependent points */
 	public static final GColor colDepPoint = GColor.DARK_GRAY;
 
@@ -264,7 +268,7 @@ public class ConstructionDefaults {
 		// freePoint.setLocalVariableLabel(app.getPlain("Point") + strFree);
 		freePoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		freePoint.setLocalVariableLabel("Point" + strFree);
-		freePoint.setObjColor(colPoint);
+		freePoint.setObjColor(getPointColor());
 		freePoint.setPointSize(pointSize);
 		freePoint.setDefaultGeoType(DEFAULT_POINT_FREE);
 		defaultGeoElements.put(DEFAULT_POINT_FREE, freePoint);
@@ -515,6 +519,13 @@ public class ConstructionDefaults {
 		defaultGeoElements.put(DEFAULT_LIST, list);
 	}
 
+	private GColor getPointColor() {
+		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+			return colPointAlpha;
+		}
+		return colPoint;
+	}
+
 	/**
 	 * Returns a default GeoElement of this construction.
 	 * 
@@ -752,8 +763,10 @@ public class ConstructionDefaults {
 
 			if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
 				geo.setLineThickness(getDefaultLineThickness());
-				geo.setAlphaValue(
-						EuclidianStyleConstants.OBJSTYLE_DEFAULT_ALPHA);
+				if (geo.hasLineOpacity()) {
+					geo.setLineOpacity(
+							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+				}
 			}
 
 			if (geo instanceof GeoFunction) {
