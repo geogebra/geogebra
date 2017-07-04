@@ -470,7 +470,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		sb.append("}\\\\");
 
 		sb.append("\\begin{array}{|l|l|l|l|}");
-		sb.append(" \\\\ \\hline ");
+		sb.append(" \\hline ");
 		sb.append(rowHeader);
 		sb.append("\\\\");
 		sb.append("\\hline ");
@@ -487,7 +487,6 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			tableSb.append("|l");
 		}
 		tableSb.append("|l||l|}"); // extra column for margin
-		tableSb.append(" \\\\ ");
 
 	}
 
