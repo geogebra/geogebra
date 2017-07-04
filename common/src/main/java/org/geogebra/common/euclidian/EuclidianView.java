@@ -323,6 +323,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static final int GRID_ISOMETRIC = 1;
 	/** polar grid */
 	public static final int GRID_POLAR = 2;
+	/** cartesian grid with minor gridlines */
+	public static final int GRID_CARTESIAN_WITH_SUBGRID = 3;
 
 	private int gridType = GRID_CARTESIAN;
 
