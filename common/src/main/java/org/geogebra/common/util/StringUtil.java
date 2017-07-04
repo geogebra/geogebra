@@ -444,11 +444,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return true;
 	}
 
-	// TODO: remove
-	public static String toLowerCase(String s) {
-		return toLowerCaseUS(s);
-	}
-
 	/**
 	 * important to use this rather than String.toLowerCase() so that it uses
 	 * String.toLowerCase(Locale.US) so that the behaviour is well defined
