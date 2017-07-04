@@ -570,157 +570,157 @@ public class TeXParser {
 					pos++;
 					break;
 				case SUPTWO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{2}");
+					parseString.replace(pos, pos + 1, cumsup(2));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPTHREE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{3}");
+					parseString.replace(pos, pos + 1, cumsup(3));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPONE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{1}");
+					parseString.replace(pos, pos + 1, cumsup(1));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPZERO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{0}");
+					parseString.replace(pos, pos + 1, cumsup(0));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPFOUR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{4}");
+					parseString.replace(pos, pos + 1, cumsup(4));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPFIVE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{5}");
+					parseString.replace(pos, pos + 1, cumsup(5));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPSIX:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{6}");
+					parseString.replace(pos, pos + 1, cumsup(6));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPSEVEN:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{7}");
+					parseString.replace(pos, pos + 1, cumsup(7));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPEIGHT:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{8}");
+					parseString.replace(pos, pos + 1, cumsup(8));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPNINE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{9}");
+					parseString.replace(pos, pos + 1, cumsup(9));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPPLUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{+}");
+					parseString.replace(pos, pos + 1, cumsup("+"));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPMINUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{-}");
+					parseString.replace(pos, pos + 1, cumsup("-"));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPEQUAL:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{=}");
+					parseString.replace(pos, pos + 1, cumsup("="));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPLPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{(}");
+					parseString.replace(pos, pos + 1, cumsup("("));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPRPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{)}");
+					parseString.replace(pos, pos + 1, cumsup(")"));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUPN:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsup{n}");
+					parseString.replace(pos, pos + 1, cumsup("n"));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBTWO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{2}");
+					parseString.replace(pos, pos + 1, cumsub(2));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBTHREE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{3}");
+					parseString.replace(pos, pos + 1, cumsub(3));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBONE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{1}");
+					parseString.replace(pos, pos + 1, cumsub(1));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBZERO:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{0}");
+					parseString.replace(pos, pos + 1, cumsub(0));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBFOUR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{4}");
+					parseString.replace(pos, pos + 1, cumsub(4));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBFIVE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{5}");
+					parseString.replace(pos, pos + 1, cumsub(5));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBSIX:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{6}");
+					parseString.replace(pos, pos + 1, cumsub(6));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBSEVEN:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{7}");
+					parseString.replace(pos, pos + 1, cumsub(7));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBEIGHT:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{8}");
+					parseString.replace(pos, pos + 1, cumsub(8));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBNINE:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{9}");
+					parseString.replace(pos, pos + 1, cumsub(9));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBPLUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{+}");
+					parseString.replace(pos, pos + 1, cumsub("+"));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBMINUS:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{-}");
+					parseString.replace(pos, pos + 1, cumsub("-"));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBEQUAL:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{=}");
+					parseString.replace(pos, pos + 1, cumsub("="));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBLPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{(}");
+					parseString.replace(pos, pos + 1, cumsub("("));
 					len = parseString.length();
 					pos++;
 					break;
 				case SUBRPAR:
-					parseString.replace(pos, pos + 1, "\\jlatexmathcumsub{)}");
+					parseString.replace(pos, pos + 1, cumsub(")"));
 					len = parseString.length();
 					pos++;
 					break;
@@ -732,6 +732,22 @@ public class TeXParser {
 			pos = 0;
 			len = parseString.length();
 		}
+	}
+
+	private String cumsup(int i) {
+		return cumsup(i + "");
+	}
+
+	private String cumsup(String s) {
+		return "\\jlatexmathcumsup{" + s + "}";
+	}
+
+	private String cumsub(int i) {
+		return cumsub(i + "");
+	}
+
+	private String cumsub(String s) {
+		return "\\jlatexmathcumsub{" + s + "}";
 	}
 
 	/**
