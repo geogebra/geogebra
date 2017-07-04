@@ -900,6 +900,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	protected void addPasteItem() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 
 		String img;
 		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
@@ -927,7 +930,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	protected void updatePasteItem() {
-		mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
+		if (!app.has(Feature.NEW_TOOLBAR)) {
+			mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
+		}
 	}
 
 	protected void updateEditItems() {
