@@ -47,7 +47,7 @@ public class WebCamInputPanel extends VerticalPanel {
 
 		var ihtml = "<span style='position:absolute;width:213px;height:160px;text-align:center;'><br><br>"
 				+ message + "</span>\n";
-		ihtml += "<video width='213' height='160' autoplay><br><br>"
+		ihtml += "<video width='213' height='160' autoplay style='width:213px;height:160px;'><br><br>"
 				+ errorMessage + "</video>";
 		el.innerHTML = ihtml;
 		var video = el.lastChild;
