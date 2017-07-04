@@ -39,9 +39,9 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.input.Character;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -158,7 +158,7 @@ public class Command extends ValidExpression
 			return ((FunctionVariable) ev).getSetVarString();
 		} else if (ev instanceof Function) {
 			String str = ev.toString(StringTemplate.defaultTemplate);
-			if (str.length() == 1 && StringUtil.isLetter(str.charAt(0))) {
+			if (str.length() == 1 && Character.isLetter(str.charAt(0))) {
 				return str;
 			}
 		} else if (ev instanceof GeoVec2D) {

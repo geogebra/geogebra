@@ -35,7 +35,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	/**
 	 * Creates new expression node evaluator
 	 * 
-	 * @param l10n
+	 * @param loc0
 	 *            localization for errors
 	 * @param kernel
 	 *            kernel

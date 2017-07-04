@@ -1173,8 +1173,12 @@ public class Function extends FunctionNVar
 				: getPolynomialFactors(forRootFinding, false)) != null;
 	}
 
+	/**
+	 * @param complex
+	 *            complex number
+	 * @return value of this function (as complex function) at given point
+	 */
 	public ExpressionValue evalComplex(GeoVec2D complex) {
-
 		return expression.deepCopy(kernel).replace(getFunctionVariable(),
 				complex).evaluate(StringTemplate.defaultTemplate);
 	}

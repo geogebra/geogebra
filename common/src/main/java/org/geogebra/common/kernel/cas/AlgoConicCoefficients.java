@@ -27,9 +27,10 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  * @author Michael Borcherds
  */
 public class AlgoConicCoefficients extends AlgoElement {
-
-	protected GeoQuadricND c; // input
-	protected GeoList g; // output
+	/** input */
+	protected GeoQuadricND c;
+	/** output */
+	protected GeoList g;
 
 	/**
 	 * @param cons
@@ -58,6 +59,12 @@ public class AlgoConicCoefficients extends AlgoElement {
 		g.setLabel(label);
 	}
 
+	/**
+	 * Constructor for extending algos
+	 * 
+	 * @param cons
+	 *            construction
+	 */
 	public AlgoConicCoefficients(Construction cons) {
 		super(cons);
 	}

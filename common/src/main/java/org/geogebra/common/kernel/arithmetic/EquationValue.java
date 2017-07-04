@@ -12,5 +12,8 @@ public interface EquationValue {
 	 */
 	public Equation getEquation();
 
+	/**
+	 * @return array of variables with nonzero cofficients
+	 */
 	public String[] getEquationVariables();
 }

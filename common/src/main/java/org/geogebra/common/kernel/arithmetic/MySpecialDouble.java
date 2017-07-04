@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.util.StringUtil;
 
+import com.himamis.retex.editor.share.input.Character;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -55,7 +56,7 @@ public class MySpecialDouble extends MyDouble {
 
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
-		isLetterConstant = StringUtil.isLetter(firstChar)
+		isLetterConstant = Character.isLetter(firstChar)
 				|| firstChar == Unicode.DEGREE_CHAR
 				|| strToString.equals(Unicode.EULER_GAMMA_STRING)
 				|| "euler_gamma".equals(strToString);

@@ -160,10 +160,15 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	 * divide f1 by f2 and return result in g = div, h = mod
 	 * 
 	 * @param kernel
+	 *            kernel
 	 * @param f1
+	 *            firs polynomial
 	 * @param f2
+	 *            second polynomial
 	 * @param g
+	 *            div result (or null)
 	 * @param h
+	 *            mod result (or null)
 	 */
 	public static void nonCASDivision(Kernel kernel, GeoFunction f1,
 			GeoFunction f2, GeoFunction g, GeoFunction h) {
