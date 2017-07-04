@@ -377,10 +377,12 @@ $duration: 0.2s;
 		.speedPanel {
 			position: absolute;
 			top: 4px;
-			right: 3px;		
+			right: 0px;		
 			opacity: 1;
 			transition: 0.3s ease;
 			z-index: 99999;
+			cursor: default;
+			
 			.flatButton {
 				margin: 0px;
 				padding: 0px;
@@ -388,7 +390,13 @@ $duration: 0.2s;
 				height: 24px;
 				cursor: pointer;
 				img {
-					opacity: 0.85;
+					opacity: 0.54;
+				}
+			
+				&:hover {
+					img {
+						opacity: 0.84;
+					}
 				}
 			}
 
@@ -397,11 +405,13 @@ $duration: 0.2s;
 			width: 40px;
 			font-size: 0.8em;
 			text-align: center;
+			vertical-align: top;
 			border: none;
 			outline: none;
 			overflow: hidden;
 			height: 19px;
 			margin-right: 0px;
+			line-height: 200%;
 		}
 	
 	}
@@ -409,7 +419,7 @@ $duration: 0.2s;
 		.speedPanel-hidden {
 			@extend .speedPanel;
 			opacity: 0;
-			transition: 0.3s ease;
+			transition: 0.2s ease;
 			z-index: -1;
 		}
 
@@ -422,8 +432,12 @@ $duration: 0.2s;
 		}
 
 		.more {
-			opacity: 1 !important;
+			opacity: 0.54 !important;
 			transition: 0.3s ease;
+			
+			&:hover {
+				opacity: 1 !important;	
+			}
 		}
 	
 		.more-hidden {
