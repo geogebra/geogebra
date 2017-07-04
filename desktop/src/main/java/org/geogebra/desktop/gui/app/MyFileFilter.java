@@ -169,7 +169,7 @@ public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 			String filename = f.getName();
 			int i = filename.lastIndexOf('.');
 			if (i > 0 && i < filename.length() - 1) {
-				return StringUtil.toLowerCase(filename.substring(i + 1));
+				return StringUtil.toLowerCaseUS(filename.substring(i + 1));
 			}
 		}
 		return null;

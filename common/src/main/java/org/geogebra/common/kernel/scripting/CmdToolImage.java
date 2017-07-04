@@ -61,7 +61,7 @@ public class CmdToolImage extends CommandProcessor {
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
 				String modeStr = StringUtil
-						.toLowerCase(EuclidianConstants.getModeText(mode));
+						.toLowerCaseUS(EuclidianConstants.getModeText(mode));
 
 				if ("".equals(modeStr)) {
 					throw argErr(app, c, arg[0]);

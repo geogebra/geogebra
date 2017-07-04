@@ -181,7 +181,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// preferred font not found, check for any that contain "braille"
 		for (Font f : fonts) {
-			if (StringUtil.toLowerCase(f.getFontName())
+			if (StringUtil.toLowerCaseUS(f.getFontName())
 					.indexOf("braille") > -1) {
 				Log.debug("found Braille font: " + f.getFontName());
 				brailleFont = f;

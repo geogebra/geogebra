@@ -902,7 +902,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	@Override
 	public synchronized String getObjectType(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
-		return (geo == null) ? "" : StringUtil.toLowerCase(geo.getTypeString());
+		return (geo == null) ? "" : StringUtil.toLowerCaseUS(geo.getTypeString());
 	}
 
 	/**

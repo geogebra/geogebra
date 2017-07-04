@@ -664,6 +664,8 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 	 */
 	private static String getDefaultPreferences(App app) {
 
+		Log.debug(GeoGebraPreferencesXML.getXML(app));
+
 		return GeoGebraPreferencesXML.getXML(app);
 	}
 

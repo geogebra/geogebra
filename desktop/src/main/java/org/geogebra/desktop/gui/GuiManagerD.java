@@ -3337,7 +3337,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public String getToolImageURL(int mode, GeoImage gi) {
 		String modeStr = StringUtil
-				.toLowerCase(EuclidianConstants.getModeTextSimple(mode));
+				.toLowerCaseUS(EuclidianConstants.getModeTextSimple(mode));
 		return ((AppD) app).getImageManager().createImage(((AppD) app)
 				.getImageManager().getToolImageResource(modeStr), app);
 	}

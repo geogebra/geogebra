@@ -293,7 +293,7 @@ public abstract class LocalizationJre extends Localization {
 		}
 
 		if ((key.length() == 5)
-				&& StringUtil.toLowerCase(key).startsWith("gray")) {
+				&& StringUtil.toLowerCaseUS(key).startsWith("gray")) {
 			return StringUtil.getGrayString(key.charAt(4), this);
 		}
 
@@ -302,7 +302,7 @@ public abstract class LocalizationJre extends Localization {
 		}
 
 		try {
-			return rbcolors.getString(StringUtil.toLowerCase(key));
+			return rbcolors.getString(StringUtil.toLowerCaseUS(key));
 		} catch (Exception e) {
 			return key;
 		}
@@ -310,7 +310,7 @@ public abstract class LocalizationJre extends Localization {
 
 	@Override
 	final public String reverseGetColor(String locColor) {
-		String str = StringUtil.removeSpaces(StringUtil.toLowerCase(locColor));
+		String str = StringUtil.removeSpaces(StringUtil.toLowerCaseUS(locColor));
 		if (rbcolors == null) {
 			initColorsResourceBundle();
 		}
@@ -321,7 +321,7 @@ public abstract class LocalizationJre extends Localization {
 			while (enumer.hasMoreElements()) {
 				String key = enumer.nextElement();
 				if (str.equals(StringUtil.removeSpaces(
-						StringUtil.toLowerCase(rbcolors.getString(key))))) {
+						StringUtil.toLowerCaseUS(rbcolors.getString(key))))) {
 					return key;
 				}
 			}

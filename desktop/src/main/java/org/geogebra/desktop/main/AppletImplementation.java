@@ -618,7 +618,7 @@ public class AppletImplementation implements AppletImplementationInterface {
 				app.setWaitCursor();
 				try {
 					String myStrURL = strURL;
-					String lowerCase = StringUtil.toLowerCase(strURL);
+					String lowerCase = StringUtil.toLowerCaseUS(strURL);
 					if (!(lowerCase.startsWith("http")
 							|| lowerCase.startsWith("file"))) {
 						myStrURL = applet.getCodeBase() + myStrURL;

@@ -587,7 +587,7 @@ public abstract class AppW extends App implements SetLabels {
 	final public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCase(cmd);
+		String cmdLower = StringUtil.toLowerCaseUS(cmd);
 		Commands[] values = Commands.values();
 		if (revTranslateCommandTable.isEmpty()) {// we should clear this cache
 												 // on language change!
@@ -596,7 +596,7 @@ public abstract class AppW extends App implements SetLabels {
 
 				// make sure that when si[] is typed in script, it's changed to
 				// Si[] etc
-				String lowerCaseCmd = StringUtil.toLowerCase(getLocalization()
+				String lowerCaseCmd = StringUtil.toLowerCaseUS(getLocalization()
 				        .getCommand(s));
 				revTranslateCommandTable.put(lowerCaseCmd, s);
 			}

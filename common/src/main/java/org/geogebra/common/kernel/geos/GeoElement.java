@@ -4902,7 +4902,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public String getXMLtypeString() {
 		// don't use getTypeString() as it's overridden
-		return StringUtil.toLowerCase(getGeoClassType().xmlName);
+		return StringUtil.toLowerCaseUS(getGeoClassType().xmlName);
 	}
 
 	/**

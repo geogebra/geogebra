@@ -2265,7 +2265,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			return true; // undefined/NaN
 		}
 		// if (str.indexOf("%i") > -1 ) return true; // complex answer
-		str1 = StringUtil.toLowerCase(str1);
+		str1 = StringUtil.toLowerCaseUS(str1);
 		if (str1.charAt(0) == '\'')
 		 {
 			return true; // maxima error eg 'diff(

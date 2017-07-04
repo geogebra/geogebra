@@ -361,7 +361,7 @@ public class ImageManagerD extends ImageManager {
 	}
 
 	public ImageResourceD getToolImageResource(String modeText) {
-		String filename = "mode_" + StringUtil.toLowerCase(modeText) + ".png";
+		String filename = "mode_" + StringUtil.toLowerCaseUS(modeText) + ".png";
 		String path = getToolbarIconPath() + filename;
 		return new ImageResourceDImpl(path);
 	}

@@ -1093,7 +1093,7 @@ public abstract class Localization {
 		if (command == null) {
 			return null;
 		}
-		String key = StringUtil.toLowerCase(command);
+		String key = StringUtil.toLowerCaseUS(command);
 
 		String ret = translateCommandTable == null ? key
 				: translateCommandTable.get(key);
@@ -1102,7 +1102,7 @@ public abstract class Localization {
 		}
 		// if that fails check internal commands
 		for (Commands c : Commands.values()) {
-			if (StringUtil.toLowerCase(c.name()).equals(key)) {
+			if (StringUtil.toLowerCaseUS(c.name()).equals(key)) {
 				return Commands.englishToInternal(c).name();
 			}
 		}

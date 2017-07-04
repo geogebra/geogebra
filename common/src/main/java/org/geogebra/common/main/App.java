@@ -731,7 +731,7 @@ public abstract class App implements UpdateSelection {
 				local = local.trim();
 				// case is ignored in translating local command names to
 				// internal names!
-				translateCommandTable.put(StringUtil.toLowerCase(local),
+				translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 						internal);
 
 				commandDict.addEntry(local);
@@ -756,8 +756,8 @@ public abstract class App implements UpdateSelection {
 		HashMap<String, String> translateCommandTable = getLocalization()
 				.getTranslateCommandTable();
 		if (!translateCommandTable
-				.containsKey(StringUtil.toLowerCase(internal))) {
-			translateCommandTable.put(StringUtil.toLowerCase(internal),
+				.containsKey(StringUtil.toLowerCaseUS(internal))) {
+			translateCommandTable.put(StringUtil.toLowerCaseUS(internal),
 					Commands.englishToInternal(comm).name());
 		}
 		if (comm.getTable() == CommandsConstants.TABLE_ENGLISH) {
@@ -765,7 +765,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		if (local != null) {
-			translateCommandTable.put(StringUtil.toLowerCase(local),
+			translateCommandTable.put(StringUtil.toLowerCaseUS(local),
 					Commands.englishToInternal(comm).name());
 		}
 
@@ -956,14 +956,14 @@ public abstract class App implements UpdateSelection {
 	public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
 		String s;
-		String cmdLower = StringUtil.toLowerCase(cmd);
+		String cmdLower = StringUtil.toLowerCaseUS(cmd);
 		Commands[] values = Commands.values();
 		for (Commands c : values) {
 			s = Commands.englishToInternal(c).name();
 
 			// make sure that when si[] is typed in script, it's changed to
 			// Si[] etc
-			if (StringUtil.toLowerCase(getLocalization().getCommand(s))
+			if (StringUtil.toLowerCaseUS(getLocalization().getCommand(s))
 					.equals(cmdLower)) {
 				return s;
 			}

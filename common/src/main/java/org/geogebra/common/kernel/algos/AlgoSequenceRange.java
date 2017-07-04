@@ -127,7 +127,7 @@ public class AlgoSequenceRange extends AlgoElement {
 
 
 		}
-		list.setTypeStringForXML(StringUtil.toLowerCase(var_to
+		list.setTypeStringForXML(StringUtil.toLowerCaseUS(var_to
 				.getGeoClassType().xmlName));
 		setOutputLength(1);
 		setOutput(0, list);

@@ -267,7 +267,7 @@ public class GeoGebraColorConstants {
 
 		getGeoGebraColors();
 
-		GColor ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
+		GColor ret = geogebraColor.get(StringUtil.toLowerCaseUS(colorName));
 
 		if (ret == null) {
 			ret = geogebraColor

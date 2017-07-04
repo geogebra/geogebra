@@ -138,7 +138,7 @@ public class GgbAPID extends GgbAPIJre {
 	@Override
 	public synchronized void openFile(String strURL) {
 		try {
-			String lowerCase = StringUtil.toLowerCase(strURL);
+			String lowerCase = StringUtil.toLowerCaseUS(strURL);
 			URL url = new URL(strURL);
 			((AppD) app).loadXML(url, lowerCase
 					.endsWith(FileExtensions.GEOGEBRA_TOOL.toString()));

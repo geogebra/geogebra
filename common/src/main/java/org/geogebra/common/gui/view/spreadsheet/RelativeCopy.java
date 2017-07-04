@@ -906,7 +906,7 @@ public class RelativeCopy {
 			// check if text was the label of an existing geo
 			// toUpperCase() added to fix bug A1=1, enter just 'a1' or 'A1' into
 			// cell B1 -> A1 disappears
-			if (StringUtil.toLowerCase(text)
+			if (StringUtil.toLowerCaseUS(text)
 					.equals(newValues[0]
 							.getLabel(StringTemplate.defaultTemplate))
 					// also need eg =a to work

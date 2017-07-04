@@ -35,7 +35,7 @@ public class NormalizerMinimal {
 	 * @return the string to lower case and without accents
 	 */
 	public static String transformStatic(String s, boolean lowerCase) {
-		String sCorrectCase = lowerCase ? StringUtil.toLowerCase(s) : s;
+		String sCorrectCase = lowerCase ? StringUtil.toLowerCaseUS(s) : s;
 		StringBuilder sb = new StringBuilder(s.length());
 
 		for (int i = 0; i < sCorrectCase.length(); i++) {

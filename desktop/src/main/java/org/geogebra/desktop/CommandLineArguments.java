@@ -50,11 +50,11 @@ public class CommandLineArguments {
 
 				if (equalSignIndex != -1) {
 					args.put(
-							StringUtil.toLowerCase(
+							StringUtil.toLowerCaseUS(
 									cmdArgs[i].substring(2, equalSignIndex)),
 							cmdArgs[i].substring(equalSignIndex + 1));
 				} else {
-					args.put(StringUtil.toLowerCase(cmdArgs[i].substring(2)),
+					args.put(StringUtil.toLowerCaseUS(cmdArgs[i].substring(2)),
 							"");
 				}
 			} else if (!cmdArgs[i].startsWith("-")) { // make sure we don't
@@ -108,7 +108,7 @@ public class CommandLineArguments {
 	 * @return The string value of the specified argument (or empty string)
 	 */
 	public String getStringValue(String name) {
-		String strValue = args.get(StringUtil.toLowerCase(name));
+		String strValue = args.get(StringUtil.toLowerCaseUS(name));
 		return (strValue == null ? "" : strValue);
 	}
 
@@ -123,7 +123,7 @@ public class CommandLineArguments {
 	 *         or has an invalid format.
 	 */
 	public boolean getBooleanValue(String name, boolean defaultValue) {
-		String strValue = args.get(StringUtil.toLowerCase(name));
+		String strValue = args.get(StringUtil.toLowerCaseUS(name));
 
 		if (strValue == null || !isBoolean(name)) {
 			return defaultValue;
@@ -140,7 +140,7 @@ public class CommandLineArguments {
 	 * @return true for valid booleans
 	 */
 	public boolean isBoolean(String name) {
-		String strValue = args.get(StringUtil.toLowerCase(name));
+		String strValue = args.get(StringUtil.toLowerCaseUS(name));
 
 		if (strValue == null) {
 			return false;
@@ -157,7 +157,7 @@ public class CommandLineArguments {
 	 * @return whether the args contain the key
 	 */
 	public boolean containsArg(String name) {
-		return args.containsKey(StringUtil.toLowerCase(name));
+		return args.containsKey(StringUtil.toLowerCaseUS(name));
 	}
 
 	/**

@@ -444,9 +444,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return true;
 	}
 
+	// TODO: remove
+	public static String toLowerCase(String s) {
+		return toLowerCaseUS(s);
+	}
+
 	/**
-	 * important to use this rather than String.toLowerCase() as this is
-	 * overridden in desktop.Application so that it uses
+	 * important to use this rather than String.toLowerCase() so that it uses
 	 * String.toLowerCase(Locale.US) so that the behaviour is well defined
 	 * whatever language we are running in NB does cause problems eg in Turkish
 	 * 
@@ -455,7 +459,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return the <code>String</code>, converted to lowercase.
 	 * @see java.lang.String#toUpperCase(Locale)
 	 */
-	public static String toLowerCase(String s) {
+	public static String toLowerCaseUS(String s) {
 		return s.toLowerCase(Locale.US);
 	}
 
@@ -470,7 +474,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return the <code>String</code>, converted to lowercase.
 	 * @see java.lang.String#toUpperCase(Locale)
 	 */
-	public static String toUpperCase(String s) {
+	public static String toUpperCaseUS(String s) {
 		return s.toUpperCase(Locale.US);
 	}
 
@@ -1243,7 +1247,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		if ((dotPos <= 0) || (dotPos == (fileName.length() - 1))) {
 			return "";
 		}
-		return toLowerCase(fileName.substring(dotPos + 1));
+		return toLowerCaseUS(fileName.substring(dotPos + 1));
 	}
 
 	public static FileExtensions getFileExtension(String fileName) {

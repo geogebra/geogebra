@@ -218,7 +218,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		if (filename != null) {
 			int i = filename.lastIndexOf('.');
 			if (i > 0 && i < filename.length() - 1) {
-				return StringUtil.toLowerCase(filename.substring(i + 1));
+				return StringUtil.toLowerCaseUS(filename.substring(i + 1));
 			}
 		}
 		return null;

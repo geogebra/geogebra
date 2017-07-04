@@ -184,7 +184,7 @@ public final class LocalizationW extends Localization
 
 	@Override
 	public String reverseGetColor(String locColor) {
-		String str = StringUtil.removeSpaces(StringUtil.toLowerCase(locColor));
+		String str = StringUtil.removeSpaces(StringUtil.toLowerCaseUS(locColor));
 
 		try {
 
@@ -198,7 +198,7 @@ public final class LocalizationW extends Localization
 				String key = colorKeysIterator.next();
 				if (key != null
 				        && str.equals(StringUtil.removeSpaces(StringUtil
-				                .toLowerCase(this.getColor(key))))) {
+				                .toLowerCaseUS(this.getColor(key))))) {
 					return key;
 				}
 			}
@@ -217,7 +217,7 @@ public final class LocalizationW extends Localization
 		}
 
 		if ((key.length() == 5)
-		        && StringUtil.toLowerCase(key).startsWith("gray")) {
+		        && StringUtil.toLowerCaseUS(key).startsWith("gray")) {
 
 			return StringUtil.getGrayString(key.charAt(4), this);
 

@@ -104,7 +104,7 @@ public class MyXMLioD extends MyXMLioJre {
 				// load JavaScript
 				kernel.setLibraryJavaScript(UtilD.loadIntoString(zip));
 				javaScriptFound = true;
-			} else if (StringUtil.toLowerCase(name).endsWith("svg")) {
+			} else if (StringUtil.toLowerCaseUS(name).endsWith("svg")) {
 				String svg = UtilD.loadIntoString(zip);
 
 				MyImageD img = new MyImageD(svg, name);

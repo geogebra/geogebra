@@ -27,12 +27,12 @@ public abstract class MaterialFilter {
 			public boolean check(Material m) {
 				boolean ret = false;
 				if (m.getTitle() != null) {
-					ret |= StringUtil.toLowerCase(m.getTitle())
-							.contains(StringUtil.toLowerCase(query));
+					ret |= StringUtil.toLowerCaseUS(m.getTitle())
+							.contains(StringUtil.toLowerCaseUS(query));
 				}
 				if (m.getDescription() != null) {
-					ret |= StringUtil.toLowerCase(m.getDescription())
-							.contains(StringUtil.toLowerCase(query));
+					ret |= StringUtil.toLowerCaseUS(m.getDescription())
+							.contains(StringUtil.toLowerCaseUS(query));
 				}
 				return ret;
 			}

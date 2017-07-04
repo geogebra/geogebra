@@ -1497,7 +1497,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			return false;
 		}
 		String fileArgument = args.getStringValue("file0");
-		String lowerCase = StringUtil.toLowerCase(fileArgument);
+		String lowerCase = StringUtil.toLowerCaseUS(fileArgument);
 		return lowerCase.endsWith(FileExtensions.GEOGEBRA_TOOL.toString());
 	}
 
@@ -1531,7 +1531,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 				try {
 					boolean success;
-					String lowerCase = StringUtil.toLowerCase(fileArgument);
+					String lowerCase = StringUtil.toLowerCaseUS(fileArgument);
 					FileExtensions ext = StringUtil.getFileExtension(lowerCase);
 
 					boolean isMacroFile = ext
@@ -1660,7 +1660,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		page = page.replaceAll("\\s+", " "); // Normalize white spaces
 		page = page.replace('"', '\''); // Replace double quotes (") with single
 		// quotes (')
-		String lowerCasedPage = StringUtil.toLowerCase(page); // We must
+		String lowerCasedPage = StringUtil.toLowerCaseUS(page); // We must
 																// preserve
 		// casing for
 		// base64
@@ -2037,7 +2037,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
 		// http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
 
-		country = StringUtil.toLowerCase(country);
+		country = StringUtil.toLowerCaseUS(country);
 
 		String flag = country + ".png";
 
@@ -4687,7 +4687,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * Windows Vista Windows XP
 	 */
 	private static final String OS = StringUtil
-			.toLowerCase(System.getProperty("os.name"));
+			.toLowerCaseUS(System.getProperty("os.name"));
 
 	public static final boolean MAC_OS = OS.startsWith("mac");
 	public static final boolean WINDOWS = OS.startsWith("windows");

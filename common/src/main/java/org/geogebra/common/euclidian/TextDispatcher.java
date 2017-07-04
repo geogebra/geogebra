@@ -56,7 +56,7 @@ public class TextDispatcher {
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
 				area.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(loc.getCommand("Area"))
+						StringUtil.toLowerCaseUS(loc.getCommand("Area"))
 								+ conic.getLabelSimple()));
 			}
 			text.setLabel(removeUnderscoresAndBraces(
@@ -237,7 +237,7 @@ public class TextDispatcher {
 			boolean useLabels = geoA.isLabelSet() && geoB.isLabelSet();
 			if (useLabels) {
 				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(loc.getCommand("Distance"))
+						StringUtil.toLowerCaseUS(loc.getCommand("Distance"))
 								// .toLowerCase(Locale.US)
 								+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 				// strText = "\"\\overline{\" + Name["+ geoA.getLabel()
@@ -257,7 +257,7 @@ public class TextDispatcher {
 				geoB.updateRepaint();
 			} else {
 				length.setLabel(removeUnderscoresAndBraces(
-						StringUtil.toLowerCase(loc.getCommand("Distance"))));
+						StringUtil.toLowerCaseUS(loc.getCommand("Distance"))));
 				// .toLowerCase(Locale.US)));
 				strText = "\"\"" + length.getLabel(tpl);
 			}
@@ -326,7 +326,7 @@ public class TextDispatcher {
 				circumFerence, loc0);
 		if (conic.isLabelSet()) {
 			circumFerence.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(loc.getCommand("Circumference"))
+					StringUtil.toLowerCaseUS(loc.getCommand("Circumference"))
 							+ conic.getLabel(StringTemplate.defaultTemplate)));
 			text.setLabel(removeUnderscoresAndBraces(loc.getPlain("Text")
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
@@ -344,7 +344,7 @@ public class TextDispatcher {
 
 		if (poly.isLabelSet()) {
 			perimeter.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(loc.getCommand("Perimeter"))
+					StringUtil.toLowerCaseUS(loc.getCommand("Perimeter"))
 							+ poly.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getPlain("Text") + poly.getLabelSimple()));

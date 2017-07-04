@@ -55,8 +55,8 @@ public class AlgoFromBase extends AlgoElement {
 
 		String in = number.getTextString();
 		int pos = in.indexOf('.');
-		String s = pos > -1 ? StringUtil.toLowerCase(in.substring(0, pos))
-				: StringUtil.toLowerCase(in);
+		String s = pos > -1 ? StringUtil.toLowerCaseUS(in.substring(0, pos))
+				: StringUtil.toLowerCaseUS(in);
 		for (int i = 0; i < s.length(); i++) {
 			int last = s.charAt(i) - 0x30;
 			if (last > 9) {
@@ -69,7 +69,7 @@ public class AlgoFromBase extends AlgoElement {
 			val = val * b + last;
 		}
 		if (pos > -1) {
-			s = StringUtil.toLowerCase(in.substring(pos + 1));
+			s = StringUtil.toLowerCaseUS(in.substring(pos + 1));
 			double power = 1;
 			for (int i = 0; i < s.length(); i++) {
 				int last = s.charAt(i) - 0x30;

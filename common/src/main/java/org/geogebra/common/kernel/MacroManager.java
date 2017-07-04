@@ -41,7 +41,7 @@ public class MacroManager {
 	 *            macro to be added
 	 */
 	public void addMacro(Macro macro) {
-		macroMap.put(StringUtil.toLowerCase(macro.getCommandName()), macro);
+		macroMap.put(StringUtil.toLowerCaseUS(macro.getCommandName()), macro);
 		macroList.add(macro);
 	}
 
@@ -53,7 +53,7 @@ public class MacroManager {
 	 * @return macro
 	 */
 	public Macro getMacro(String name) {
-		return macroMap.get(StringUtil.toLowerCase(name));
+		return macroMap.get(StringUtil.toLowerCaseUS(name));
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class MacroManager {
 	 *            macro for removal
 	 */
 	public void removeMacro(Macro macro) {
-		macroMap.remove(StringUtil.toLowerCase(macro.getCommandName()));
+		macroMap.remove(StringUtil.toLowerCaseUS(macro.getCommandName()));
 		macroList.remove(macro);
 	}
 
@@ -84,9 +84,9 @@ public class MacroManager {
 	 *            command name
 	 */
 	public void setMacroCommandName(Macro macro, String cmdName) {
-		macroMap.remove(StringUtil.toLowerCase(macro.getCommandName()));
+		macroMap.remove(StringUtil.toLowerCaseUS(macro.getCommandName()));
 		macro.setCommandName(cmdName);
-		macroMap.put(StringUtil.toLowerCase(macro.getCommandName()), macro);
+		macroMap.put(StringUtil.toLowerCaseUS(macro.getCommandName()), macro);
 	}
 
 	/**

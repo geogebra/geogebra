@@ -75,7 +75,7 @@ public class AlgoToBase extends AlgoElement {
 		double in = number.getDouble();
 		in = in + 1 / power > Math.ceil(in) ? Math.ceil(in) : in;
 		BigInteger bi = BigInteger.valueOf((long) in);
-		String intPart = StringUtil.toUpperCase(bi.toString(b));
+		String intPart = StringUtil.toUpperCaseUS(bi.toString(b));
 		if (Kernel.isInteger(in)) {
 			result.setTextString(intPart);
 		} else {
@@ -83,7 +83,7 @@ public class AlgoToBase extends AlgoElement {
 			double decimal = Math.round(power
 					* (number.getDouble() - Math.floor(number.getDouble())));
 			bi = BigInteger.valueOf((long) decimal);
-			String decimalPart = StringUtil.toUpperCase(bi.toString(b));
+			String decimalPart = StringUtil.toUpperCaseUS(bi.toString(b));
 			StringBuilder sb = new StringBuilder(digits);
 			sb.append(intPart);
 			sb.append('.');

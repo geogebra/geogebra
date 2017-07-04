@@ -28,7 +28,7 @@ public class LabelManager {
 			return false;
 		}
 
-		name = StringUtil.toLowerCase(name);
+		name = StringUtil.toLowerCaseUS(name);
 		if (geo.isGeoFunction()) {
 			if (geo.getKernel().getApplication().getParserFunctions()
 					.isReserved(name)) {

@@ -101,7 +101,7 @@ public class TextDispatcher3D extends TextDispatcher {
 				volume, loc0);
 		if (hasVolume.isLabelSet()) {
 			volume.setLabel(removeUnderscoresAndBraces(
-					StringUtil.toLowerCase(loc.getCommand("Volume"))
+					StringUtil.toLowerCaseUS(loc.getCommand("Volume"))
 							+ hasVolume.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getPlain("Text") + hasVolume.getLabelSimple()));

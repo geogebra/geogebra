@@ -1141,7 +1141,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					parent.insertItem(pos, node);
 				}
 			} catch (IndexOutOfBoundsException e) {
-				Log.printStacktrace("plain add");
 
 				if (parent.equals(rootOrder)) {
 					addItem(node);

@@ -201,7 +201,7 @@ public abstract class GeoGebraExport {
 	 * @return The resulting String
 	 */
 	protected String sci2dec(double d) {
-		String s = StringUtil.toLowerCase(String.valueOf(d));
+		String s = StringUtil.toLowerCaseUS(String.valueOf(d));
 		// StringTokenizer st = new StringTokenizer(s, "e");
 		StringBuilder number;
 		int posE = s.indexOf("e");

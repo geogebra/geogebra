@@ -119,7 +119,7 @@ public class MyImageD implements MyImageJre {
 
 	public void load(File imageFile) throws IOException {
 
-		if (StringUtil.toLowerCase(imageFile.getName()).endsWith(".svg")) {
+		if (StringUtil.toLowerCaseUS(imageFile.getName()).endsWith(".svg")) {
 
 			svg = new StringBuilder((int) imageFile.length());
 			BufferedReader reader = null;
