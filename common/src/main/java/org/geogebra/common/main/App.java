@@ -4339,6 +4339,9 @@ public abstract class App implements UpdateSelection {
 		case DEFAULT_OBJECT_STYLES:
 			return prerelease;
 
+		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
