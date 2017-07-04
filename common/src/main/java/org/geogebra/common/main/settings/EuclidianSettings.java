@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -108,7 +109,9 @@ public class EuclidianSettings extends AbstractSettings {
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.LIGHT_GRAY);
 		setBackground(GColor.WHITE);
-		setGridType(EuclidianView.GRID_CARTESIAN);
+		setGridType(app.has(Feature.MINOR_GRIDLINES)
+				? EuclidianView.GRID_CARTESIAN_WITH_SUBGRID
+				: EuclidianView.GRID_CARTESIAN);
 
 		pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 

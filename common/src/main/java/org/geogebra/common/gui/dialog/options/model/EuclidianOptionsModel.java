@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -643,11 +644,16 @@ public class EuclidianOptionsModel {
 	}
 
 	public void fillGridTypeCombo() {
-		String[] gridTypes = new String[3];
+		String[] gridTypes = new String[app.has(Feature.MINOR_GRIDLINES) ? 4
+				: 3];
 		Localization loc = app.getLocalization();
 		gridTypes[EuclidianView.GRID_CARTESIAN] = loc.getMenu("Cartesian");
 		gridTypes[EuclidianView.GRID_ISOMETRIC] = loc.getMenu("Isometric");
 		gridTypes[EuclidianView.GRID_POLAR] = loc.getMenu("Polar");
+		if (app.has(Feature.MINOR_GRIDLINES)) {
+			gridTypes[EuclidianView.GRID_CARTESIAN_WITH_SUBGRID] = loc
+					.getMenu("Grid.MajorAndMinor");
+		}
 		for (String item : gridTypes) {
 			listener.addGridTypeItem(item);
 		}

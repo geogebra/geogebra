@@ -34,18 +34,18 @@ public class DrawGrid {
 	 *            y crossing pixel
 	 */
 	protected void drawCartesianGrid(GGraphics2D g2, double xCrossPix,
-			double yCrossPix) {
+			double yCrossPix, boolean subGrid) {
 		if (view.getXaxisLog()) {
 			drawVerticalGridLog(g2, xCrossPix, yCrossPix);
 		} else {
-			drawVerticalGridLinear(g2, xCrossPix, yCrossPix);
+			drawVerticalGridLinear(g2, xCrossPix, yCrossPix, subGrid);
 		}
 
 		// horizontal grid lines
 		if (view.getYaxisLog()) {
 			drawHorizontalGridLog(g2, xCrossPix, yCrossPix);
 		} else {
-			drawHorizontalGridLinear(g2, xCrossPix, yCrossPix);
+			drawHorizontalGridLinear(g2, xCrossPix, yCrossPix, subGrid);
 		}
 
 	}
@@ -86,7 +86,7 @@ public class DrawGrid {
 	}
 
 	private void drawHorizontalGridLinear(GGraphics2D g2, double xCrossPix1,
-			double yCrossPix1) {
+			double yCrossPix1, boolean subGrid) {
 
 		double xCrossPix = xCrossPix1;
 		double yCrossPix = yCrossPix1;
@@ -97,7 +97,7 @@ public class DrawGrid {
 
 		// number of subgrids
 		int n = 1;
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
 			n = getNumberOfSubgrids(1);
 			smallStep = tickStepY / n;
 			//start of subgrids
@@ -215,7 +215,7 @@ public class DrawGrid {
 	}
 
 	private void drawVerticalGridLinear(GGraphics2D g2, double xCrossPix,
-			double yCrossPix1) {
+			double yCrossPix1, boolean subGrid) {
 
 		double yCrossPix = yCrossPix1;
 
@@ -245,7 +245,7 @@ public class DrawGrid {
 
 		// number of subgrids
 		int n = 1;
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
 			n = getNumberOfSubgrids(0);
 			smallStep = tickStepX / n;
 			// start of subgrids

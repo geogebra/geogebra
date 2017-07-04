@@ -2772,7 +2772,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void setSelectionRectangle(GRectangle selectionRectangle) {
-		// Application.printStacktrace("");
 		this.selectionRectangle = selectionRectangle;
 	}
 
@@ -3869,7 +3868,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		case GRID_CARTESIAN:
 
-			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix);
+			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, false);
+
+			break;
+		case GRID_CARTESIAN_WITH_SUBGRID:
+
+			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, true);
 
 			break;
 
