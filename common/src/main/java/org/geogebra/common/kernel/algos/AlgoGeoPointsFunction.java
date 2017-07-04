@@ -308,12 +308,12 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 		double pixsininterval = visiblepixs * (r - l)
 				/ (visiblemax - visiblemin);
 		// debug("Pixels in interval: "+pixsininterval);
-		int n = (int) Math.round(Math.max(
-				Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES, MAX_SAMPLES),
-				MIN_SAMPLES));
-
-		// debug("Samples: "+n);
-		return n;
+		double screenSamples = Math.min(pixsininterval / PIXELS_BETWEEN_SAMPLES,
+				MAX_SAMPLES);
+		if (Double.isNaN(screenSamples)) {
+			return MIN_SAMPLES;
+		}
+		return (int) Math.round(Math.max(screenSamples, MIN_SAMPLES));
 
 	}
 
