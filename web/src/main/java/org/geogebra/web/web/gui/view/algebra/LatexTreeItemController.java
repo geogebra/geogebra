@@ -81,7 +81,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 		item.setShowInputHelpPanel(false);
-		item.onStopEdit();
 		if (item.geo == null) {
 			if (StringUtil.empty(item.getText())) {
 				return;

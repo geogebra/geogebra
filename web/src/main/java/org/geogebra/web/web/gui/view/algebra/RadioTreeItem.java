@@ -899,7 +899,7 @@ public class RadioTreeItem extends AVTreeItem
 			boolean allowSliderDialog) {
 		lastTeX = null;
 		lastInput = null;
-
+		onStopEdit();
 		styleEditor();
 
 		if (!app.has(Feature.NEW_TOOLBAR) && stylebarShown != null) {
