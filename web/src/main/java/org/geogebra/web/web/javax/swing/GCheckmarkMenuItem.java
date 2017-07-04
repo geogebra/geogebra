@@ -4,6 +4,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.gui.menubar.MenuCommand;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -84,5 +85,9 @@ public class GCheckmarkMenuItem {
 	 */
 	public void setCommand(MenuCommand cmd) {
 		menuItem.setCommand(cmd);
+	}
+
+	public void setCommand(Command command) {
+		menuItem.setCommand(command);
 	}
 }

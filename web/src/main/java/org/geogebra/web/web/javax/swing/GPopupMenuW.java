@@ -236,6 +236,11 @@ public class GPopupMenuW implements AttachedToDOM {
 		addItem(item, true);
 	}
 
+
+	public void addItem(GCheckmarkMenuItem item) {
+		addItem(item.getMenuItem());
+	}
+
 	public void addItem(final MenuItem item, boolean autoHide) {
 		final MenuBar subMenu = item.getSubMenu();
 		if (autoHide) {
@@ -371,6 +376,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		addItem(item.getMenuItem());
 
 	}
+
 
 	public void addItem(String s, ScheduledCommand c) {
 		addItem(new MenuItem(s, c));

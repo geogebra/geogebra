@@ -49,8 +49,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			setTitle(loc.getMenu("DrawingPad"));
 		}
 
-
-
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			addAxesMenuItem();
+		}
 
 		String img;
 		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
@@ -136,6 +137,36 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 		addMiProperties("DrawingPad", ot);
 
+	}
+
+	private void addAxesMenuItem() {
+		String img = MaterialDesignResources.INSTANCE.show_all_objects_black()
+					.getSafeUri().asString();
+
+		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
+				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+						.asString(),
+						app.getActiveEuclidianView().getShowXaxis(), new Command() {
+
+					@Override
+					public void execute() {
+						// fill later
+					}
+
+				});
+		showAxes.setCommand(new Command() {
+
+			@Override
+			public void execute() {
+				boolean axisShown = app.getActiveEuclidianView().getShowXaxis();
+				app.getActiveEuclidianView().setShowAxis(!axisShown);
+				showAxes.setChecked(
+						app.getActiveEuclidianView().getShowXaxis());
+				app.getActiveEuclidianView().repaintView();
+			}
+		});
+		wrappedPopup.addItem(showAxes);
 	}
 
 	void toggleShowConstructionProtocolNavigation() {
