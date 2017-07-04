@@ -8748,6 +8748,9 @@ public abstract class GeoElement extends ConstructionElement
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;
 		}
+		Log.debug(getParentAlgorithm() != null
+				? (this + "PARENT" + getParentAlgorithm().getOutput(0))
+				: "no parent");
 		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& getParentAlgorithm() != null
 				&& getParentAlgorithm().getOutput(0) != this

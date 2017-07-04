@@ -22,17 +22,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class AlgebraOutputPanel extends FlowPanel {
-	private static boolean isUnbundled;
 	private FlowPanel valuePanel;
 	private Canvas valCanvas;
 
 	public AlgebraOutputPanel(App app) {
 		valuePanel = new FlowPanel();
 		valuePanel.addStyleName("avValue");
-
-		if (app.isUnbundled()) {
-			setUnbundled(true);
-		}
 	}
 
 	void addPrefixLabel(String text, boolean isLaTeX) {
@@ -60,7 +55,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			}
 		}
 		if (btnSymbolic == null) {
-			if (isUnbundled()) {
+			if (swap) {
 				btnSymbolic = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.modeToggleSymbolic(),
 					MaterialDesignResources.INSTANCE.modeToggleNumeric());
@@ -90,8 +85,6 @@ public class AlgebraOutputPanel extends FlowPanel {
 		parent.add(btnSymbolic);
 
 	}
-
-
 
 	boolean updateValuePanel(GeoElement geo1, String text,
 			boolean latex, int fontSize) {
@@ -150,13 +143,5 @@ public class AlgebraOutputPanel extends FlowPanel {
 	public void reset() {
 		valuePanel.clear();
 		clear();
-	}
-
-	public static boolean isUnbundled() {
-		return isUnbundled;
-	}
-
-	public void setUnbundled(boolean isUnbundled) {
-		this.isUnbundled = isUnbundled;
 	}
 }

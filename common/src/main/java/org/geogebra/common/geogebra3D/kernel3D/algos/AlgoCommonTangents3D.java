@@ -22,11 +22,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoCommonTangentsND;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
-import org.geogebra.common.kernel.algos.GetCommand;
-import org.geogebra.common.kernel.algos.TangentAlgo;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -37,13 +34,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoCommonTangents3D extends AlgoElement implements TangentAlgo {
+public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 
 	private GeoLine3D[] tangents;
 	// private GeoPoint[] tangentPoints;
 	private GeoConic tg;
-	private GeoConicND c;
-	private GeoConicND d;
 	private GeoConic c2d;
 	private GeoConic d2d;
 	private GeoLine3D currentTangent;
@@ -164,11 +159,6 @@ public class AlgoCommonTangents3D extends AlgoElement implements TangentAlgo {
 		double sgnD = d2d.getMidpoint().inner(c0);
 
 		return sgnC * sgnD < 0;
-	}
-
-	@Override
-	public GetCommand getClassName() {
-		return Commands.Tangent;
 	}
 
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {

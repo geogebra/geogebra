@@ -19,6 +19,7 @@ import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.editor.share.util.Unicode;
 
+@SuppressWarnings("javadoc")
 public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	/**
@@ -350,7 +351,9 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 					sbReplaceExp.append(c);
 				} else {
 
-					if ((c >= Unicode.alpha && c <= Unicode.omega)
+					if (c == Unicode.phi_symbol) {
+						sbReplaceExp.append("\\phi");
+					} else if ((c >= Unicode.alpha && c <= Unicode.omega)
 							|| (c >= Unicode.Alpha && c <= Unicode.Omega)) {
 
 						// might be null, there are more than 24*2 characters in
@@ -360,12 +363,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 							sbReplaceExp.append("\\");
 							sbReplaceExp.append(greekLaTeX);
 						} else {
-
-							if (c == Unicode.phi_symbol) {
-								sbReplaceExp.append("\\phi");
-							} else {
-								sbReplaceExp.append(c);
-							}
+							sbReplaceExp.append(c);
 						}
 					}
 

@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -31,13 +30,12 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Two tangents through point P to conic section c
  */
-public class AlgoCommonTangents extends AlgoElement implements TangentAlgo {
+public class AlgoCommonTangents extends AlgoCommonTangentsND {
 
 	private GeoLine[] tangents;
 	// private GeoPoint[] tangentPoints;
 	private GeoConic tg;
-	private GeoConicND c;
-	private GeoConicND d;
+
 	private GeoLine currentTangent;
 	private AlgoIntersectConics algoIntersect;
 
@@ -133,11 +131,6 @@ public class AlgoCommonTangents extends AlgoElement implements TangentAlgo {
 		double sgnD = d.getMidpoint().inner(c0);
 
 		return sgnC * sgnD < 0;
-	}
-
-	@Override
-	public GetCommand getClassName() {
-		return Commands.Tangent;
 	}
 
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {

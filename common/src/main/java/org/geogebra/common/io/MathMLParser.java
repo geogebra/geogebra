@@ -27,7 +27,7 @@ public class MathMLParser {
 	/**
 	 * @return tag->geogebra syntax map
 	 */
-	static HashMap<String, String> getGeogebraMap() {
+	static synchronized HashMap<String, String> getGeogebraMap() {
 
 		if (geogebraMap == null) {
 			geogebraMap = new HashMap<String, String>();
@@ -370,7 +370,7 @@ public class MathMLParser {
 
 	private static HashMap<String, String> latexMap;
 
-	private static HashMap<String, String> getLatexMap() {
+	private static synchronized HashMap<String, String> getLatexMap() {
 
 		if (latexMap == null) {
 			latexMap = new HashMap<String, String>();

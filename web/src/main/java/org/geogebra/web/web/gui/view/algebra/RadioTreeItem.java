@@ -175,9 +175,6 @@ public class RadioTreeItem extends AVTreeItem
 
 	String lastTeX;
 	private MathFieldW mf;
-	private boolean autoSliders = false;
-
-
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -623,17 +620,22 @@ public class RadioTreeItem extends AVTreeItem
 						getBuilder(getPlainTextItem()));
 			updateItemColor();
 			// updateFont(getPlainTextItem());
-			content.clear();
-			content.add(getPlainTextItem());
-			adjustToPanel(plainTextItem);
-			if (geo.getParentAlgorithm() != null
-					&& geo.getParentAlgorithm().getOutput(0) != geo) {
-				Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
-				content.addStyleName("additionalRow");
-				prefix.addStyleName("prefix");
-				content.insert(prefix, 0);
-			}
+			rebuildPlaintextContent();
 		}
+	}
+
+	private void rebuildPlaintextContent() {
+		content.clear();
+		content.add(getPlainTextItem());
+		adjustToPanel(plainTextItem);
+		if (geo.getParentAlgorithm() != null
+				&& geo.getParentAlgorithm().getOutput(0) != geo) {
+			Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
+			content.addStyleName("additionalRow");
+			prefix.addStyleName("prefix");
+			content.insert(prefix, 0);
+		}
+
 	}
 
 	protected void updateFont(Widget w) {
@@ -685,8 +687,7 @@ public class RadioTreeItem extends AVTreeItem
 	protected void doUpdateEnsureNoEditor() {
 		doUpdate();
 		if (!latex) {
-			content.clear();
-			content.add(getPlainTextItem());
+			rebuildPlaintextContent();
 		}
 	}
 
