@@ -14,7 +14,7 @@ public class TimerSystemW {
 	 */
 	final public static int EUCLIDIAN_LOOPS = 1;
 
-	final public static int ALGEBRA_LOOPS = 20;
+	final public static int ALGEBRA_LOOPS = 10;
 
 	final public static int SPREADSHEET_LOOPS = ALGEBRA_LOOPS;
 
