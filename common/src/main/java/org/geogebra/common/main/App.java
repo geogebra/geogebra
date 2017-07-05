@@ -4172,7 +4172,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1633 */
 		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
-			return prerelease;
+			return true;
 
 		/** GGB- 1501 */
 		case DIALOGS_OVERLAP_KEYBOARD:
