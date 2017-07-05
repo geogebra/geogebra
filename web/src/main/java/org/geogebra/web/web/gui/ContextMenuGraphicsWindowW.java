@@ -496,6 +496,66 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		protected void initActions() {
 			addNoGridItem();
 			addMajorGridlines();
+			addMajorMinorGridlines();
+			addPolar();
+			addIsometric();
+		}
+
+		private void addIsometric() {
+			String text = app.getLocalization().getMenu("Isometric");
+			boolean isSelected = app.getSettings().getEuclidian(1)
+					.getGridType() == EuclidianView.GRID_ISOMETRIC
+					&& app.getSettings().getEuclidian(1).getShowGrid();
+			addItem(text, isSelected, new Command() {
+
+				@Override
+				public void execute() {
+					app.getSettings().getEuclidian(1).setShowGridSetting(true);
+					app.getSettings().getEuclidian(1)
+							.setGridType(EuclidianView.GRID_ISOMETRIC);
+					app.getActiveEuclidianView()
+							.setGridType(EuclidianView.GRID_ISOMETRIC);
+					app.getActiveEuclidianView().repaintView();
+				}
+			});
+		}
+
+		private void addPolar() {
+			String text = app.getLocalization().getMenu("Polar");
+			boolean isSelected = app.getSettings().getEuclidian(1)
+					.getGridType() == EuclidianView.GRID_POLAR
+					&& app.getSettings().getEuclidian(1).getShowGrid();
+			addItem(text, isSelected, new Command() {
+
+				@Override
+				public void execute() {
+					app.getSettings().getEuclidian(1).setShowGridSetting(true);
+					app.getSettings().getEuclidian(1)
+							.setGridType(EuclidianView.GRID_POLAR);
+					app.getActiveEuclidianView()
+							.setGridType(EuclidianView.GRID_POLAR);
+					app.getActiveEuclidianView().repaintView();
+				}
+			});
+		}
+
+		private void addMajorMinorGridlines() {
+			String text = app.getLocalization().getMenu("Grid.MajorAndMinor");
+			boolean isSelected = app.getSettings().getEuclidian(1)
+					.getGridType() == EuclidianView.GRID_CARTESIAN_WITH_SUBGRID
+					&& app.getSettings().getEuclidian(1).getShowGrid();
+			addItem(text, isSelected, new Command() {
+
+				@Override
+				public void execute() {
+					app.getSettings().getEuclidian(1).setShowGridSetting(true);
+					app.getSettings().getEuclidian(1)
+							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+					app.getActiveEuclidianView()
+							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+					app.getActiveEuclidianView().repaintView();
+				}
+			});
 		}
 
 		private void addMajorGridlines() {
