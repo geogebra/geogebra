@@ -7,6 +7,8 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -53,6 +55,13 @@ implements ITextFieldListener {
 				}
 
 			}});
+
+		tfAnimStep.addBlurHandler(new BlurHandler() {
+			
+			public void onBlur(BlurEvent event) {
+				doActionPerformed();
+			}
+		});
 
 		tfAnimStep.enableGGBKeyboard();
 
