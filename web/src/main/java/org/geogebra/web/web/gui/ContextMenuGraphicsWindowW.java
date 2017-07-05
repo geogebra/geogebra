@@ -169,8 +169,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
-				app.getActiveEuclidianView().getShowXaxis()
-						&& (app.getActiveEuclidianView().getShowYaxis()),
+				app.getSettings().getEuclidian(1).getShowAxis(0)
+						&& app.getSettings().getEuclidian(1).getShowAxis(1),
 				new Command() {
 
 					@Override
@@ -183,10 +183,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 			@Override
 			public void execute() {
-				boolean axisShown = app.getActiveEuclidianView().getShowXaxis();
+				boolean axisShown = app.getSettings().getEuclidian(1)
+						.getShowAxis(0)
+						&& app.getSettings().getEuclidian(1).getShowAxis(1);
+				app.getSettings().getEuclidian(1).setShowAxes(!axisShown);
 				app.getActiveEuclidianView().setShowAxis(!axisShown);
-				showAxes.setChecked(app.getActiveEuclidianView().getShowXaxis()
-						&& (app.getActiveEuclidianView().getShowYaxis()));
+				showAxes.setChecked(!axisShown);
 				app.getActiveEuclidianView().repaintView();
 			}
 		});
@@ -551,6 +553,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getSettings().getEuclidian(1).setShowGridSetting(true);
 					app.getSettings().getEuclidian(1)
 							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+					app.getActiveEuclidianView().showGrid(true);
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 					app.getActiveEuclidianView().repaintView();
