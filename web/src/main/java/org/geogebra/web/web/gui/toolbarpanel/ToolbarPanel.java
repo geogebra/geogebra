@@ -356,7 +356,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (dockPanel != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			// AnimationCallback animCallback = null;
-			dockParent.addStyleName("hide-HDragger");
+			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 		}
 	}
@@ -417,7 +417,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (dockPanel != null && getLastOpenWidth() != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			// AnimationCallback animCallback = null;
-			dockParent.addStyleName("hide-HDragger");
+			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 			if (header.isOpen()) {
 				dockParent.setWidgetSize(dockPanel,
@@ -480,14 +480,14 @@ public class ToolbarPanel extends FlowPanel {
 			Widget opposite = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
 				dockParent.setWidgetSize(opposite, getLastOpenHeight());
-				dockParent.removeStyleName("hide-VDragger");
+				// dockParent.removeStyleName("hide-VDragger");
 			} else {
 				int h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT
 						+ 8;
 				if (h > 0) {
 					dockParent.setWidgetSize(opposite,
 							opposite.getOffsetHeight() + h);
-					dockParent.addStyleName("hide-VDragger");
+					// dockParent.addStyleName("hide-VDragger");
 
 				}
 

@@ -1,29 +1,34 @@
 @import 'colors';
 
 .GeoGebraFrame {
-	.hide-HDragger {
+	.hide-Dragger {
 		
 		.gwt-SplitLayoutPanel-HDragger {
+			cursor: default;
 			border-left: 1px solid #ccc;
 			z-index: 1;
     		box-shadow: 2px 0px 6px rgba(0,0,0,0.4);
     		/* display: none; */
     		width: 0px !important;
 		}
+	
+		.gwt-SplitLayoutPanel-VDragger {
+			border: none;
+    		box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.4);
+    		height: 0px !important;
+    		top: 9px !important;
+		}
+	}
+	
+	.hiddenHDraggerBottomPanel {
+		top: 9px !important;
 	}
 	
 	.hiddenHDraggerRightPanel {
 		left: -8px !important;
+		top: 9px !important;
 	}
 	
-	
-	.hide-VDragger {
-		
-		.gwt-SplitLayoutPanel-VDragger {
-			display: none;
-		}
-	}
-
 	.hidden {
 	 	display: none;
 	 }				
