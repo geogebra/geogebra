@@ -4177,7 +4177,7 @@ public abstract class App implements UpdateSelection {
 		/** GGB- 1501 */
 		case DIALOGS_OVERLAP_KEYBOARD:
 			// see comment at GPopupPanel.setOverlapFeature
-			return prerelease;
+			return true;
 
 
 		// **********************************************************************
