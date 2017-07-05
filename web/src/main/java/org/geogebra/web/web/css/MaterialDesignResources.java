@@ -148,20 +148,20 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/axes_black.png")
 	ImageResource axes_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white18.png")
-	ImageResource home_white18();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_zoom_black18.png")
+	ImageResource home_zoom_black18();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/remove_white18.png")
-	ImageResource remove_white18();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/remove_black18.png")
+	ImageResource remove_black18();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/add_white18.png")
-	ImageResource add_white18();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/add_black18.png")
+	ImageResource add_black18();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/fullscreen_white18.png")
-	ImageResource fullscreen_white18();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/fullscreen_black18.png")
+	ImageResource fullscreen_black18();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/fullscreen_exit_white18.png")
-	ImageResource fullscreen_exit_white18();
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/fullscreen_exit_black18.png")
+	ImageResource fullscreen_exit_black18();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/home_white.png")
 	ImageResource home_white();

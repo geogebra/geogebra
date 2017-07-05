@@ -559,7 +559,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		// add home button
 		homeBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.home_white18());
+				MaterialDesignResources.INSTANCE.home_zoom_black18());
 		homeBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerHome = new FastClickHandler() {
 			
@@ -573,7 +573,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		// add zoom in button
 		zoomInBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.add_white18());
+				MaterialDesignResources.INSTANCE.add_black18());
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 
@@ -588,7 +588,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		// add zoom out button
 		zoomOutBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.remove_white18());
+				MaterialDesignResources.INSTANCE.remove_black18());
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 
@@ -603,8 +603,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		// add fullscreen button
 		fullscreenBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.fullscreen_white18());
-		fullscreenBtn.getDownFace().setImage(new Image(MaterialDesignResources.INSTANCE.fullscreen_exit_white18()));
+				MaterialDesignResources.INSTANCE.fullscreen_black18());
+		fullscreenBtn.getDownFace().setImage(new Image(MaterialDesignResources.INSTANCE.fullscreen_exit_black18()));
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerFullscreen = new FastClickHandler() {
 
@@ -624,11 +624,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 				if ("true".equals(obj)) {
 					isFullScreen = true;
 					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_white18());
+							.fullscreen_black18());
 				} else {
 					isFullScreen = false;
 					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_exit_white18());
+							.fullscreen_exit_black18());
 				}
 
 			}
