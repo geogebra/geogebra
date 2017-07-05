@@ -17,7 +17,7 @@ public class AdjustViews {
 
 	public void apply() {
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().getLayout().getDockManager().adjustViews();
+			app.getGuiManager().getLayout().getDockManager().adjustViews(false);
 		}
 	}
 

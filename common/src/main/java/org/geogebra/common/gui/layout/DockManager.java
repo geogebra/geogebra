@@ -29,9 +29,10 @@ public abstract class DockManager implements SetLabels {
 	/**
 	 * Puts AV bellow to EV if app height is bigger than width (portrait), or EV
 	 * next to AV otherwise (landscape).
+	 * @param force TODO
 	 * 
 	 */
-	public void adjustViews() {
+	public void adjustViews(boolean force) {
 		// overridden in Web
 	}
 }
