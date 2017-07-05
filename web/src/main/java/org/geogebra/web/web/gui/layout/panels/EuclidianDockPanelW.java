@@ -31,8 +31,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 				"DrawingPad", 				// view title
 				//ToolBar.getAllToolsNoMacros(true),  // toolbar string... TODO: ToolBarW.getAllTools(app);
 				null,
-				stylebar,	
-				true, // style bar?
+				stylebar, // style bar?
+				true, // zoom panel?
 				5,							// menu order
 				'1' // ctrl-shift-1
 			);

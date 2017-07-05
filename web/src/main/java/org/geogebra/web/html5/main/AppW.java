@@ -530,6 +530,7 @@ public abstract class AppW extends App implements SetLabels {
 					doSetLanguage(lang);
 				}
 
+				@Override
 				public void cancel() {
 					canceled = true;
 

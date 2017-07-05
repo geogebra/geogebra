@@ -550,7 +550,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return hasZoomPanel
 				&& (app.getArticleElement().getDataParamShowZoomControls()
 						|| app.getArticleElement().getDataParamApp()
-								&& app.has(Feature.ZOOM_PANEL));
+								&& app.has(Feature.ZOOM_PANEL))
+				&& !Browser.isMobile();
 	}
 
 	private void buildZoomPanel() {
