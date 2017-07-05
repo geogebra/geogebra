@@ -48,8 +48,10 @@ public class MetaModelArrays {
 		components.add(square);
 
 		MetaArray apostrophes = new MetaArray(1, Tag.APOSTROPHES);
-		apostrophes.setOpen(createArrayComponent(OPEN, '\"', " \\text{\""));
-		apostrophes.setClose(createArrayComponent(CLOSE, '\"', "\"} "));
+		apostrophes.setOpen(createArrayComponent(OPEN, '\"',
+				" \\text{" + Unicode.OPEN_DOUBLE_QUOTE));
+		apostrophes.setClose(createArrayComponent(CLOSE, '\"',
+				Unicode.CLOSE_DOUBLE_QUOTE + "} "));
 		apostrophes.setField(createArrayComponent(FIELD, '\0'));
 		apostrophes.setRow(createArrayComponent(ROW, '\0'));
 		components.add(apostrophes);
