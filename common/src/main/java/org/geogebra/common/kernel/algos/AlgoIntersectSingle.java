@@ -274,10 +274,12 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (refPoint == null) {
-			return getLoc().getPlain("IntersectionPointOfAB",
+			return getLoc().getPlainDefault("IntersectionOfAandB",
+					"Intersection of %0, %1",
 					input[0].getLabel(tpl), input[1].getLabel(tpl));
 		}
-		return getLoc().getPlain("IntersectionPointOfABNearC",
+		return getLoc().getPlainDefault("IntersectionPointOfABNearC",
+				"Intersection point of %0, %1 near %2",
 				input[0].getLabel(tpl), input[1].getLabel(tpl),
 				input[2].getLabel(tpl));
 	}

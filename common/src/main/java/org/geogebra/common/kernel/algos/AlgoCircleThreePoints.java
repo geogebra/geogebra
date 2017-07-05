@@ -306,7 +306,8 @@ public class AlgoCircleThreePoints extends AlgoElement
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("CircleThroughABC", A.getLabel(tpl),
+		return getLoc().getPlainDefault("CircleThroughABC",
+				"Circle through %0, %1, %2", A.getLabel(tpl),
 				B.getLabel(tpl), C.getLabel(tpl));
 	}
 

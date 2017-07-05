@@ -97,7 +97,8 @@ public abstract class AlgoPolarPointND extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PoleOfLineARelativeToB", line.getLabel(tpl),
+		return getLoc().getPlainDefault("PoleOfLineARelativeToB",
+				"Pole of line %0 relative to %1", line.getLabel(tpl),
 				c.getLabel(tpl));
 
 	}

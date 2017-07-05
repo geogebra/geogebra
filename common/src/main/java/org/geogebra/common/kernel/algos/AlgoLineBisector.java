@@ -273,7 +273,8 @@ public class AlgoLineBisector extends AlgoElement
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("LineBisectorOfA",
+		return getLoc().getPlainDefault("LineBisectorOfA",
+				"Perpendicular Bisector of %0",
 				A.getLabel(tpl) + B.getLabel(tpl));
 	}
 }

@@ -97,7 +97,8 @@ public abstract class AlgoDiameterVectorND extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("DiameterOfAConjugateToB", c.getLabel(tpl),
+		return getLoc().getPlainDefault("DiameterOfAConjugateToB",
+				"Diamater of %0 conjugate to %1", c.getLabel(tpl),
 				v.getLabel(tpl));
 	}
 

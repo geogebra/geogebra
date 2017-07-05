@@ -207,10 +207,12 @@ public class AlgoJoinPointsSegment extends AlgoElement
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (poly != null) {
-			return getLoc().getPlain("SegmentABofC", P.getLabel(tpl),
+			return getLoc().getPlainDefault("SegmentABofC",
+					"Segment [%0, %1] of %2", P.getLabel(tpl),
 					Q.getLabel(tpl), poly.getNameDescription());
 		}
-		return getLoc().getPlain("SegmentAB", P.getLabel(tpl), Q.getLabel(tpl));
+		return getLoc().getPlainDefault("SegmentAB", "Segment [%0, %1]",
+				P.getLabel(tpl), Q.getLabel(tpl));
 	}
 
 	@Override

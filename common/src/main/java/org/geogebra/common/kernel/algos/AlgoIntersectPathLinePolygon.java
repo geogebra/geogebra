@@ -438,7 +438,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("IntersectionOfAandB",
+		return getLoc().getPlainDefault("IntersectionOfAandB",
+				"Intersection of %0 and %1",
 				getFirstInput().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
 

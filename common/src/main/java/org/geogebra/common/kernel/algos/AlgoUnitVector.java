@@ -98,9 +98,11 @@ public abstract class AlgoUnitVector extends AlgoElement {
 	@Override
 	final public String toString(StringTemplate tpl) {
 		if (!normalize) {
-			return getLoc().getPlain("DirectionOfA", inputGeo.getLabel(tpl));
+			return getLoc().getPlainDefault("DirectionOfA", "Direction of %0",
+					inputGeo.getLabel(tpl));
 		}
-		return getLoc().getPlain("UnitVectorOfA", inputGeo.getLabel(tpl));
+		return getLoc().getPlainDefault("UnitVectorOfA", "Unit vector of %0",
+				inputGeo.getLabel(tpl));
 	}
 
 }

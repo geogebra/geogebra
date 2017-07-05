@@ -122,8 +122,8 @@ public class AlgoRotateVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("ARotatedByAngleB", A.getLabel(tpl),
-				angle.getLabel(tpl));
+		return getLoc().getPlainDefault("ARotatedByAngleB",
+				"%0 rotated by angle %1", A.getLabel(tpl), angle.getLabel(tpl));
 	}
 
 }

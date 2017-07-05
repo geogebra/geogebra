@@ -94,11 +94,19 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain(
-				conic.isEllipse() || conic.isCircle()
-						? "EllipseWithFociABandFirstAxisLengthC"
-						: "HyperbolaWithFociABandFirstAxisLengthC",
+		if (conic.isEllipse() || conic.isCircle()) {
+			return getLoc().getPlainDefault(
+					"EllipseWithFociABandFirstAxisLengthC",
+					"Ellipse with foci %0, %1 and first axis' length %2",
+					A.getLabel(tpl), B.getLabel(tpl),
+					a.toGeoElement().getLabel(tpl));
+		}
+
+		return getLoc().getPlainDefault(
+				"HyperbolaWithFociABandFirstAxisLengthC",
+				"Hyperbola with foci %0, %1 and first axis' length %2",
 				A.getLabel(tpl), B.getLabel(tpl),
 				a.toGeoElement().getLabel(tpl));
+
 	}
 }

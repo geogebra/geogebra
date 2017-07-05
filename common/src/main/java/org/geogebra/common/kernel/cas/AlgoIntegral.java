@@ -154,7 +154,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		} else {
 			// Michael Borcherds 2008-03-30
 			// simplified to allow better Chinese translation
-			sb.append(getLoc().getPlain("IntegralOfA",
+			sb.append(getLoc().getPlainDefault("IntegralOfA", "Integral of %0",
 					f.toGeoElement().getLabel(tpl)));
 		}
 

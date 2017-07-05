@@ -76,7 +76,8 @@ public abstract class AlgoPointVectorND extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlain("PointAplusB", input[0].getLabel(tpl),
+		return getLoc().getPlainDefault("PointAplusB", "Point %0 + %1",
+				input[0].getLabel(tpl),
 				input[1].getLabel(tpl));
 
 	}

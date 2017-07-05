@@ -110,7 +110,8 @@ public class AlgoAxisSecond extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("SecondAxisOfA", c.getLabel(tpl));
+		return getLoc().getPlainDefault("SecondAxisOfA", "Minor axis of %0",
+				c.getLabel(tpl));
 	}
 
 }

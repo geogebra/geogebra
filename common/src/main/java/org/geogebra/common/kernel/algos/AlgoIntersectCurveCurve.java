@@ -435,7 +435,8 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("IntersectionPointOfAB",
+		return getLoc().getPlainDefault("IntersectionOfAandB",
+				"Intersection of %0 and %1",
 				((GeoElement) curve).getLabel(tpl),
 				((GeoElement) curve2).getLabel(tpl));
 	}

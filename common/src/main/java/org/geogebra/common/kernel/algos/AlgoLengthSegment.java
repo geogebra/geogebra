@@ -76,7 +76,8 @@ public class AlgoLengthSegment extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LengthOfA", ((GeoElement) seg).getLabel(tpl));
+		return getLoc().getPlainDefault("LengthOfA", "Length of %0",
+				((GeoElement) seg).getLabel(tpl));
 
 	}
 

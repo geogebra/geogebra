@@ -168,7 +168,8 @@ public class AlgoPointOnPath extends AlgoElement
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("PointOnA", input[0].getLabel(tpl));
+		return getLoc().getPlainDefault("PointOnA", "Point on %0",
+				input[0].getLabel(tpl));
 	}
 
 	@Override

@@ -97,7 +97,8 @@ public class TextDispatcher3D extends TextDispatcher {
 				(HasVolume) hasVolume);
 
 		// text
-		GeoText text = createDynamicTextForMouseLoc("VolumeOfA", hasVolume,
+		GeoText text = createDynamicTextForMouseLoc("VolumeOfA", "Volume of %0",
+				hasVolume,
 				volume, loc0);
 		if (hasVolume.isLabelSet()) {
 			volume.setLabel(removeUnderscoresAndBraces(

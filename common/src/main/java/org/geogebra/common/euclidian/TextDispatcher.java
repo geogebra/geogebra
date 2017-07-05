@@ -51,7 +51,8 @@ public class TextDispatcher {
 	public GeoElement[] getAreaText(GeoElement conic, GeoNumberValue area,
 			GPoint loc0) {
 		// text
-		GeoText text = createDynamicTextForMouseLoc("AreaOfA", conic, area,
+		GeoText text = createDynamicTextForMouseLoc("AreaOfA", "Area of %0",
+				conic, area,
 				loc0);
 		if (conic.isLabelSet()) {
 			if (!area.isLabelSet()) {
@@ -65,7 +66,8 @@ public class TextDispatcher {
 		return new GeoElement[] { text };
 	}
 
-	private String descriptionPoints(String type, GeoPolygon poly) {
+	private String descriptionPoints(String type, String default0,
+			GeoPolygon poly) {
 		// build description text including point labels
 		StringBuilder descText = new StringBuilder();
 
@@ -96,23 +98,24 @@ public class TextDispatcher {
 					points[i].updateRepaint();
 				}
 			} else {
-				return loc.getPlain(type,
+				return loc.getPlainDefault(type, default0,
 						"\" + Name["
 								+ poly.getLabel(StringTemplate.defaultTemplate)
 								+ "] + \"");
 			}
 		} else {
-			return loc.getPlain(type, "\" + Name["
+			return loc.getPlainDefault(type, default0, "\" + Name["
 					+ poly.getLabel(StringTemplate.defaultTemplate) + "] + \"");
 		}
 
-		return loc.getPlain(type, descText.toString());
+		return loc.getPlainDefault(type, default0, descText.toString());
 	}
 
 	/**
 	 * Creates a text that shows a number value of geo.
 	 */
-	private GeoText createDynamicText(String type, GeoElement object,
+	private GeoText createDynamicText(String type, String default0,
+			GeoElement object,
 			GeoElementND value) {
 		// create text that shows length
 		try {
@@ -122,9 +125,10 @@ public class TextDispatcher {
 			String descText;
 
 			if (object.isGeoPolygon()) {
-				descText = descriptionPoints(type, (GeoPolygon) object);
+				descText = descriptionPoints(type, default0,
+						(GeoPolygon) object);
 			} else {
-				descText = loc.getPlain(type,
+				descText = loc.getPlainDefault(type, default0,
 						"\" + Name["
 								+ object.getLabel(
 										StringTemplate.defaultTemplate)
@@ -150,10 +154,10 @@ public class TextDispatcher {
 	 * Creates a text that shows a number value of geo at the current mouse
 	 * position.
 	 */
-	protected GeoText createDynamicTextForMouseLoc(String type,
+	protected GeoText createDynamicTextForMouseLoc(String type, String default0,
 			GeoElement object, GeoElementND value, GPoint loc) {
 
-		GeoText text = createDynamicText(type, object, value);
+		GeoText text = createDynamicText(type, default0, object, value);
 		if (text != null) {
 			GeoPointND P = null;
 			if (object.isRegion()) {
@@ -306,7 +310,8 @@ public class TextDispatcher {
 			// cons.removeFromConstructionList(algo);
 			GeoNumeric arcLength = algo.getArcLength();
 
-			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA", conic,
+			GeoText text = createDynamicTextForMouseLoc("ArcLengthOfA",
+					"Arc length of %0", conic,
 					arcLength, loc0);
 			text.setLabel(removeUnderscoresAndBraces(
 					loc.getPlain("Text") + conic.getLabelSimple()));
@@ -322,7 +327,8 @@ public class TextDispatcher {
 				.Circumference(null, conic);
 
 		// text
-		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA", conic,
+		GeoText text = createDynamicTextForMouseLoc("CircumferenceOfA",
+				"Circumference of %0", conic,
 				circumFerence, loc0);
 		if (conic.isLabelSet()) {
 			circumFerence.setLabel(removeUnderscoresAndBraces(
@@ -339,7 +345,8 @@ public class TextDispatcher {
 		GeoNumeric perimeter = kernel.getAlgoDispatcher().Perimeter(null, poly);
 
 		// text
-		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly,
+		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
+				"Perimeter of %0", poly,
 				perimeter, mouseLoc);
 
 		if (poly.isLabelSet()) {
@@ -356,7 +363,8 @@ public class TextDispatcher {
 
 	public GeoElement[] createPerimeterText(GeoPolyLine poly, GPoint mouseLoc) {
 		// text
-		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA", poly, poly,
+		GeoText text = createDynamicTextForMouseLoc("PerimeterOfA",
+				"Perimeter of %0", poly, poly,
 				mouseLoc);
 
 		if (poly.isLabelSet()) {
@@ -376,7 +384,7 @@ public class TextDispatcher {
 		 * else { slope = kernel.Slope("m", line); }
 		 */
 
-		String label = loc.getPlain("ExplicitLineGradient");
+		String label = loc.getPlainDefault("ExplicitLineGradient", "m");
 
 		// make sure automatic naming goes m, m_1, m_2, ..., m_{10}, m_{11}
 		// etc

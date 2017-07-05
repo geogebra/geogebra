@@ -259,10 +259,12 @@ public class AlgoDerivative extends AlgoCasBase {
 					orderStr = getLoc().getPlain("Ath", orderStr);
 				}
 
-				sb.append(getLoc().getPlain("ADerivativeOfB", orderStr,
+				sb.append(getLoc().getPlainDefault("ADerivativeOfB",
+						"% Derivative of %1", orderStr,
 						f.toGeoElement().getLabel(tpl)));
 			} else {
-				sb.append(getLoc().getPlain("DerivativeOfA",
+				sb.append(getLoc().getPlainDefault("DerivativeOfA",
+						"Derivative of %0",
 						f.toGeoElement().getLabel(tpl)));
 			}
 		}

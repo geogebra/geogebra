@@ -159,8 +159,9 @@ public class AlgoTranslate extends AlgoTransformation
 	final public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-24 simplified code!
-		return getLoc().getPlain("TranslationOfAbyB", inGeo.getLabel(tpl),
-				v.getLabel(tpl));
+		return getLoc().getPlainDefault("TranslationOfAbyB",
+				"Translation of %0 by %1",
+				inGeo.getLabel(tpl), v.getLabel(tpl));
 	}
 
 	@Override

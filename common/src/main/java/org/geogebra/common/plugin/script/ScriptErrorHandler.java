@@ -25,8 +25,10 @@ public class ScriptErrorHandler implements ErrorHandler {
 			app.setBlockUpdateScripts(true);
 		}
 		app.getDefaultErrorHandler()
-				.showError(app.getLocalization().getPlain(
-						"ErrorInScriptAtLineAFromObjectB", (line + 1) + "",
+				.showError(app.getLocalization().getPlainDefault(
+						"ErrorInScriptAtLineAFromObjectB",
+						"Error in script at line %0 from object %1",
+						(line + 1) + "",
 						evt.target.getLabel(StringTemplate.defaultTemplate))
 						+ "\n" + msg);
 
@@ -49,8 +51,10 @@ public class ScriptErrorHandler implements ErrorHandler {
 			app.setBlockUpdateScripts(true);
 		}
 		app.getDefaultErrorHandler().showCommandError(command,
-				message + "\n\n" + app.getLocalization().getPlain(
-						"ErrorInScriptAtLineAFromObjectB", (line + 1)
+				message + "\n\n" + app.getLocalization().getPlainDefault(
+						"ErrorInScriptAtLineAFromObjectB",
+						"Error in script at line %0 from object %1",
+						(line + 1)
 								+ "",
 						evt.target.getLabel(StringTemplate.defaultTemplate)));
 

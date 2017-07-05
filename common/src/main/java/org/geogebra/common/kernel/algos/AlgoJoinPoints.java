@@ -130,8 +130,8 @@ public class AlgoJoinPoints extends AlgoElement
 
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlain("LineThroughAB", P.getLabel(tpl),
-				Q.getLabel(tpl));
+		return getLoc().getPlainDefault("LineThroughAB", "Line through %0, %1",
+				P.getLabel(tpl), Q.getLabel(tpl));
 
 	}
 

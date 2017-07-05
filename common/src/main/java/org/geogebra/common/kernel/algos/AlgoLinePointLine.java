@@ -125,7 +125,8 @@ public class AlgoLinePointLine extends AlgoElement
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("LineThroughAParallelToB", P.getLabel(tpl),
+		return getLoc().getPlainDefault("LineThroughAParallelToB",
+				"Line through %0 parallel to %1", P.getLabel(tpl),
 				l.getLabel(tpl));
 
 	}

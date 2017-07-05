@@ -83,7 +83,8 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("CircleWithCenterAandRadiusB",
+		return getLoc().getPlainDefault("CircleWithCenterAandRadiusB",
+				"Circle with center %0 and radius %1",
 				getM().getLabel(tpl), getRGeo().getLabel(tpl));
 	}
 

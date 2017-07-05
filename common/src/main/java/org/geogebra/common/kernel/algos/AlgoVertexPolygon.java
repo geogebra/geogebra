@@ -229,7 +229,8 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	@Override
 	public final String toString(StringTemplate tpl) {
-		return getLoc().getPlain("VertexOfA", ((GeoElement) p).getLabel(tpl));
+		return getLoc().getPlainDefault("VertexOfA", "Vertex of %0",
+				((GeoElement) p).getLabel(tpl));
 
 	}
 

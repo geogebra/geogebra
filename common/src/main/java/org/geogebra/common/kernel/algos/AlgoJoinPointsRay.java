@@ -118,8 +118,8 @@ public class AlgoJoinPointsRay extends AlgoElement
 
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlain("RayThroughAB", P.getLabel(tpl),
-				Q.getLabel(tpl));
+		return getLoc().getPlainDefault("RayThroughAB", "Ray through %0, %1",
+				P.getLabel(tpl), Q.getLabel(tpl));
 
 	}
 

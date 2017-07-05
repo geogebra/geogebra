@@ -117,7 +117,8 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("CircleThroughAwithCenterB",
+		return getLoc().getPlainDefault("CircleThroughAwithCenterB",
+				"Circle through %0 with center %1",
 				((GeoElement) getP()).getLabel(tpl),
 				((GeoElement) getM()).getLabel(tpl));
 	}

@@ -125,7 +125,8 @@ public class AlgoClosestPoint extends AlgoElement
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("PointOnAClosestToB", input[0].getLabel(tpl),
+		return getLoc().getPlainDefault("PointOnAClosestToB",
+				"Point on %0 closest to %1", input[0].getLabel(tpl),
 				input[1].getLabel(tpl));
 	}
 

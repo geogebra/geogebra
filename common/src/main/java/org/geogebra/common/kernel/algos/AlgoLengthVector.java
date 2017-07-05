@@ -84,7 +84,8 @@ public class AlgoLengthVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("LengthOfA", v.getLabel(tpl));
+		return getLoc().getPlainDefault("LengthOfA", "Length of %0",
+				v.getLabel(tpl));
 
 	}
 

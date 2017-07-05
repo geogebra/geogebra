@@ -146,7 +146,8 @@ public class AlgoAsymptote extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AsymptoteToA", c.getLabel(tpl));
+		return getLoc().getPlainDefault("AsymptoteToA", "Asymptote to %0",
+				c.getLabel(tpl));
 	}
 
 }

@@ -99,7 +99,8 @@ public abstract class AlgoPolarLineND extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("PolarLineOfARelativeToB", P.getLabel(tpl),
+		return getLoc().getPlainDefault("PolarLineOfARelativeToB",
+				"Polar line of %0 relative to %1", P.getLabel(tpl),
 				c.getLabel(tpl));
 
 	}

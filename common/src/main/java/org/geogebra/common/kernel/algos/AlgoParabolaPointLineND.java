@@ -96,7 +96,8 @@ public abstract class AlgoParabolaPointLineND extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("ParabolaWithFocusAandDirectrixB",
+		return getLoc().getPlainDefault("ParabolaWithFocusAandDirectrixB",
+				"Parabola with focus %0 and directrix %1",
 				F.getLabel(tpl), line.getLabel(tpl));
 
 	}

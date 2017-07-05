@@ -122,7 +122,8 @@ public class AlgoFunctionInterval extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("FunctionAonIntervalBC", f.getLabel(tpl),
+		return getLoc().getPlainDefault("FunctionAonIntervalBC",
+				"Function %0 on interval [%1, %2]", f.getLabel(tpl),
 				ageo.getLabel(tpl), bgeo.getLabel(tpl));
 
 	}

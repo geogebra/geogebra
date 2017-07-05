@@ -153,7 +153,8 @@ public class AlgoIntersectPathPoint extends AlgoElement
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("IntersectionOfAandB", input[0].getLabel(tpl),
+		return getLoc().getPlainDefault("IntersectionOfAandB",
+				"Intersection of %0 and %1", input[0].getLabel(tpl),
 				input[1].getLabel(tpl));
 	}
 

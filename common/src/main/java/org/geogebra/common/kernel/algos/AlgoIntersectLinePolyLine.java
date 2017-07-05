@@ -199,7 +199,8 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("IntersectionPointOfAB",
+		return getLoc().getPlainDefault("IntersectionOfAandB",
+				"Intersection of %0 and %1",
 				((GeoElement) g).getLabel(tpl),
 				((GeoElement) pi).getLabel(tpl));
 	}

@@ -36,7 +36,8 @@ public abstract class AlgoCommonTangentsND extends AlgoElement
 	@Override
 	public final String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("CommonTangentOfCirclesAandB",
+		return getLoc().getPlainDefault("CommonTangentOfCirclesAandB",
+				"Common tangent of conics %0 and %1",
 				c.getLabel(tpl), d.getLabel(tpl));
 	}
 

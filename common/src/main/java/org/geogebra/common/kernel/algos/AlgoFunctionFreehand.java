@@ -106,7 +106,8 @@ public class AlgoFunctionFreehand extends AlgoElement {
 				|| !inputList.getElementType().equals(GeoClass.NUMERIC)) {
 			return "?";
 		}
-		return getLoc().getPlain("FreehandFunctionOnIntervalAB",
+		return getLoc().getPlainDefault("FreehandFunctionOnIntervalAB",
+				"Freehand function on [%0, %1]",
 				kernel.format(((GeoNumeric) inputList.get(0)).getDouble(), tpl),
 				kernel.format(((GeoNumeric) inputList.get(1)).getDouble(),
 						tpl));

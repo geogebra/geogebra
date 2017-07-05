@@ -42,7 +42,7 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 						c.getLabel(), (GeoPoint) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getPoint() };
+				GeoElement[] ret = { algo.getPoint().toGeoElement() };
 				return ret;
 			} else if (!ok[0]) {
 				throw argErr(app, c, arg[0]);

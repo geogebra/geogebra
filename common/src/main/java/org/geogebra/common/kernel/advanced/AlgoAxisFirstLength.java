@@ -89,7 +89,8 @@ public class AlgoAxisFirstLength extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("FirstAxisLengthOfA", c.getLabel(tpl));
+		return getLoc().getPlainDefault("FirstAxisLengthOfA",
+				"Length of %0's semi-major axis", c.getLabel(tpl));
 
 	}
 

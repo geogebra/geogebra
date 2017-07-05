@@ -275,7 +275,8 @@ public class AlgoOrthoLinePointLine extends AlgoElement
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("LineThroughAPerpendicularToB",
+		return getLoc().getPlainDefault("LineThroughAPerpendicularToB",
+				"Line through %0 perpendicular to %1",
 				P.getLabel(tpl), l.getLabel(tpl));
 	}
 

@@ -98,7 +98,8 @@ public class AlgoOrthoVectorVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("VectorPerpendicularToA", v.getLabel(tpl));
+		return getLoc().getPlainDefault("VectorPerpendicularToA",
+				"Vector perpendicular to %0", v.getLabel(tpl));
 	}
 
 }

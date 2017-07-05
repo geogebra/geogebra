@@ -164,7 +164,9 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlain("IntersectionPointOfABWithInitialValueC",
+		return getLoc().getPlainDefault(
+				"IntersectionPointOfABWithInitialValueC",
+				"Intersection of %0 and %1 with initial value %2",
 				input[0].getLabel(tpl), input[1].getLabel(tpl),
 				startPoint.getLabel(tpl));
 

@@ -114,7 +114,8 @@ public class AlgoLinePointVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("LineThroughAwithDirectionB", P.getLabel(tpl),
+		return getLoc().getPlainDefault("LineThroughAwithDirectionB",
+				"Line through %0 with direction %1", P.getLabel(tpl),
 				v.getLabel(tpl));
 	}
 

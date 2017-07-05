@@ -90,7 +90,8 @@ public class AlgoParametricDerivative extends AlgoElement implements UsesCAS {
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("ParametricDerivativeOfA",
+		return getLoc().getPlainDefault("ParametricDerivativeOfA",
+				"Parametric Derivative of %0",
 				curve.toGeoElement().getLabel(tpl));
 	}
 }

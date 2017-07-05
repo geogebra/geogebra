@@ -242,7 +242,8 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AngleBisectorOfABC", A.getLabel(tpl),
+		return getLoc().getPlainDefault("AngleBisectorOfABC",
+				"Angle bisector of %0, %1, %2", A.getLabel(tpl),
 				B.getLabel(tpl), C.getLabel(tpl));
 
 	}

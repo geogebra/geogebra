@@ -130,8 +130,9 @@ public class AlgoRotate extends AlgoTransformation {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("ARotatedByAngleB", inGeo.getLabel(tpl),
-				angleGeo.getLabel(tpl));
+		return getLoc().getPlainDefault("ARotatedByAngleB",
+				"%0 rotated by angle %1",
+				inGeo.getLabel(tpl), angleGeo.getLabel(tpl));
 	}
 
 	@Override

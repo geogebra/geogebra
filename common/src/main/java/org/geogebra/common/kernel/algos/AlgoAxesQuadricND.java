@@ -112,7 +112,8 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AxisOfA", c.getLabel(tpl));
+		return getLoc().getPlainDefault("AxisOfA", "Axis of %0",
+				c.getLabel(tpl));
 	}
 
 }

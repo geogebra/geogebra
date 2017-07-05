@@ -187,7 +187,8 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("TangentToAParallelToB", c.getLabel(tpl),
+		return getLoc().getPlainDefault("TangentToAParallelToB",
+				"Tangent to %0 parallel to %1", c.getLabel(tpl),
 				g.getLabel(tpl));
 	}
 

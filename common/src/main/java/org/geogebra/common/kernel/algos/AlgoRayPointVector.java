@@ -120,7 +120,8 @@ public class AlgoRayPointVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("RayThroughAWithDirectionB", P.getLabel(tpl),
+		return getLoc().getPlainDefault("RayThroughAWithDirectionB",
+				"Ray through %0 with direction %1", P.getLabel(tpl),
 				v.getLabel(tpl));
 	}
 

@@ -322,7 +322,8 @@ public class AlgoMirror extends AlgoTransformation implements
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
-		return getLoc().getPlain("AMirroredAtB", inGeo.getLabel(tpl),
+		return getLoc().getPlainDefault("AMirroredAtB", "%0 Mirrored at %1",
+				inGeo.getLabel(tpl),
 				mirror.getLabel(tpl));
 
 	}

@@ -144,8 +144,9 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	@Override
 	public final String toString(StringTemplate tpl) {
 		if (line != null || g != null) {
-			return getLoc().getPlain("IntersectionPointOfAB",
-					input[0].getLabel(tpl), input[1].getLabel(tpl));
+			return getLoc().getPlainDefault("IntersectionPointOfAB",
+					"Intersection point of %0, %1", input[0].getLabel(tpl),
+					input[1].getLabel(tpl));
 		}
 		// Root of ...
 		return super.toString(tpl);

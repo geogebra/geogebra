@@ -147,7 +147,8 @@ public class AlgoMidpointSegment extends AlgoElement
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("MidpointOfA", segment.getLabel(tpl));
+		return getLoc().getPlainDefault("MidpointOfA", "Midpoint of %0",
+				segment.getLabel(tpl));
 
 	}
 

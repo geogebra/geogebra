@@ -578,7 +578,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("RootOfA", f.getLabel(tpl));
+		return getLoc().getPlainDefault("RootOfA", "Root of %0",
+				f.getLabel(tpl));
 	}
 
 }

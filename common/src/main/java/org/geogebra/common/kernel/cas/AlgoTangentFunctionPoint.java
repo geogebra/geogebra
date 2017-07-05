@@ -260,7 +260,8 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("TangentToAatB", f.getLabel(tpl),
+		return getLoc().getPlainDefault("TangentToAatB", "Tangent to %0 at %1",
+				f.getLabel(tpl),
 				"x = x(" + P.getLabel(tpl) + ")");
 
 	}

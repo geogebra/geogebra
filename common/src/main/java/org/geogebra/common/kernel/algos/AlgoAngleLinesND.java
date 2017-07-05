@@ -168,7 +168,9 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("AngleBetweenAB", g.getLabel(tpl),
+		return getLoc().getPlainDefault("AngleBetweenAB",
+				"Angle between %0, %1",
+				g.getLabel(tpl),
 				h.getLabel(tpl));
 
 	}
