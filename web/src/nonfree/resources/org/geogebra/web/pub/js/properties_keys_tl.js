@@ -2493,7 +2493,7 @@ __GGB__keysVar.tl.menu = {
     "SegmentABofC": "Segment [%0, %1] ng %2",
     "SegmentFixed": "Segment with Given Length",
     "SegmentFixed.Help": "Pumili ng point at i-enter ang length ng segment",
-    "Select": "Select Object",
+    "Select": "Select Objects",
     "Select.Help": "I-click ang object para piliin ito",
     "SelectACurve": "Select a curve",
     "SelectAll": "Select All",

@@ -1422,7 +1422,7 @@ __GGB__keysVar.eo.menu = {
     "Comma": "Komo",
     "Command": "Komando",
     "CommandName": "Nomo de komando",
-    "CommonTangentOfCirclesAandB": "Common tangent of circles %0 and %1",
+    "CommonTangentOfCirclesAandB": "Common tangent of conics %0 and %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Cirkelo",
     "Compasses.Help": "Elektu strekon a\u016d du punktojn (radiuso) kaj poste punkton (centro)",
