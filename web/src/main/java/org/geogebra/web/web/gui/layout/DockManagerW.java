@@ -1812,7 +1812,6 @@ public class DockManagerW extends DockManager {
 		return app;
 	}
 	
-	@Override
 	public void adjustViews(boolean force) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel != null) {
