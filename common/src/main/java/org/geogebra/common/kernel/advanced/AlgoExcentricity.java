@@ -93,7 +93,7 @@ public class AlgoExcentricity extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("LinearEccentricityOfA",
+		return getLoc().getPlainDefault("LinearEccentricityOfA",
 				"Linear eccentricity of %0", c.getLabel(tpl));
 	}
 

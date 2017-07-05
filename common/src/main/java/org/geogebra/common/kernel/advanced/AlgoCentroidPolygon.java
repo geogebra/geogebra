@@ -72,7 +72,7 @@ public class AlgoCentroidPolygon extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("CentroidOfA", "Centroid of %0",
+		return getLoc().getPlainDefault("CentroidOfA", "Centroid of %0",
 				p.getLabel(tpl));
 	}
 
