@@ -257,7 +257,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		}
 		if (!this.getAppletFrame().isHeaderPanelOpen()) {
-			adjustViews(true);
+			adjustViews(true, false);
 		}
 	}
 
@@ -1024,7 +1024,7 @@ public abstract class AppW extends App implements SetLabels {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 
-		adjustViews(false);
+		adjustViews(false, false);
 	}
 
 	/**

@@ -1952,7 +1952,7 @@ public class RadioTreeItem extends AVTreeItem
 				? getToolbarDockPanel().getOffsetHeight()
 				: getAlgebraDockPanel().getOffsetHeight();
 		if (h < kH) {
-			app.adjustViews(true);
+			app.adjustViews(true, false);
 		}
 	}
 

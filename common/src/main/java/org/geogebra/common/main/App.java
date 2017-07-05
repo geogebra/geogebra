@@ -4797,10 +4797,11 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
+	 * @param force TODO
 	 * 
 	 * @return if screen became portrait or not.
 	 */
-	public boolean adjustViews(boolean reset) {
+	public boolean adjustViews(boolean reset, boolean force) {
 		if (!has(Feature.ADJUST_VIEWS)) {
 			return false;
 		}
@@ -4809,7 +4810,7 @@ public abstract class App implements UpdateSelection {
 			adjustViews = new AdjustViews(this);
 		}
 
-		adjustViews.apply();
+		adjustViews.apply(force);
 		adjustScreen(reset);
 
 		return adjustViews.isPortait();
