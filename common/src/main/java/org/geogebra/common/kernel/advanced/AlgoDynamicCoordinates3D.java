@@ -14,10 +14,7 @@ package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -26,12 +23,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  *
  * @author Michael
  */
-public class AlgoDynamicCoordinates3D extends AlgoElement
+public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates
 		implements AlgoDynamicCoordinatesInterface {
 
-	private GeoNumberValue x, y, z; // input
-	private GeoPointND P; // input
-	private GeoPoint3D M; // output
+	private GeoNumberValue z; // input
 
 	public AlgoDynamicCoordinates3D(Construction cons, String label,
 			GeoPointND arg, GeoNumberValue x, GeoNumberValue y,
@@ -49,11 +44,6 @@ public class AlgoDynamicCoordinates3D extends AlgoElement
 		M.setLabel(label);
 	}
 
-	@Override
-	public Commands getClassName() {
-		return Commands.DynamicCoordinates;
-	}
-
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
@@ -64,7 +54,7 @@ public class AlgoDynamicCoordinates3D extends AlgoElement
 		input[3] = z.toGeoElement();
 
 		super.setOutputLength(1);
-		super.setOutput(0, M);
+		super.setOutput(0, M.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -72,12 +62,6 @@ public class AlgoDynamicCoordinates3D extends AlgoElement
 		return M;
 	}
 
-	@Override
-	public GeoPointND getParentPoint() {
-		return P;
-	}
-
-	// calc midpoint
 	@Override
 	public final void compute() {
 
@@ -95,14 +79,5 @@ public class AlgoDynamicCoordinates3D extends AlgoElement
 		M.setCoords(xCoord, yCoord, zCoord, 1.0);
 	}
 
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("DynamicCoordinatesOfA", P.getLabel(tpl));
-	}
-
-	@Override
-	public boolean isChangeable(GeoElement out) {
-		return true;
-	}
 
 }

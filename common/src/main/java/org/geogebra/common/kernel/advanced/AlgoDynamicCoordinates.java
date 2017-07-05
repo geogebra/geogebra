@@ -35,9 +35,9 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		implements AlgoDynamicCoordinatesInterface,
 		SymbolicParametersBotanaAlgo {
 
-	private GeoNumberValue x, y; // input
-	private GeoPoint P; // input
-	private GeoPoint M; // output
+	protected GeoNumberValue x, y; // input
+	protected GeoPointND P; // input
+	protected GeoPointND M; // output
 	private PVariable[] botanaVars;
 
 	public AlgoDynamicCoordinates(Construction cons, String label, GeoPoint P,
@@ -54,6 +54,10 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		M.setLabel(label);
 	}
 
+	public AlgoDynamicCoordinates(Construction cons) {
+		super(cons);
+	}
+
 	@Override
 	public Commands getClassName() {
 		return Commands.DynamicCoordinates;
@@ -63,16 +67,16 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[3];
-		input[0] = P;
+		input[0] = P.toGeoElement();
 		input[1] = x.toGeoElement();
 		input[2] = y.toGeoElement();
 
 		super.setOutputLength(1);
-		super.setOutput(0, M);
+		super.setOutput(0, M.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
 
-	public GeoPoint getPoint() {
+	public GeoPointND getPoint() {
 		return M;
 	}
 
@@ -81,9 +85,8 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return P;
 	}
 
-	// calc midpoint
 	@Override
-	public final void compute() {
+	public void compute() {
 
 		double xCoord = x.getDouble();
 		double yCoord = y.getDouble();
@@ -101,7 +104,8 @@ public class AlgoDynamicCoordinates extends AlgoElement
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("DynamicCoordinatesOfA", P.getLabel(tpl));
+		return getLoc().getPlain("DynamicCoordinatesOfA",
+				"Dynamic coordinates of %0", P.getLabel(tpl));
 	}
 
 	@Override
