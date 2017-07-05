@@ -83,7 +83,7 @@ public class FontInfo {
 
 		@Override
 		public int hashCode() {
-			return (left + right) % 128;
+			return left + (right << 16);
 		}
 	}
 
