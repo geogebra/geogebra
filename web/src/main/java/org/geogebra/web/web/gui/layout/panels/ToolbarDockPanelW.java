@@ -33,8 +33,9 @@ public class ToolbarDockPanelW extends DockPanelW {
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
+		
 	}
-
+	
 	@Override
 	protected Widget loadComponent() {
 		int activePerspective = this.app.getActivePerspective();
