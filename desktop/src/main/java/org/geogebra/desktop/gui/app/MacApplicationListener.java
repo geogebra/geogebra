@@ -6,6 +6,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class MacApplicationListener
 		implements com.apple.eawt.ApplicationListener {
 
@@ -20,6 +22,7 @@ public class MacApplicationListener
 	 * 
 	 * @return
 	 */
+	@SuppressFBWarnings({ "SWL_SLEEP_WITH_LOCK_HELD", "" })
 	private synchronized static GeoGebraFrame getGGBInstance() {
 		GeoGebraFrame wnd = null;
 		while (wnd == null) {
