@@ -386,14 +386,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		String keyCode = (multUnit >= 1) ? "" + 31 * (int) multUnit
 				: "" + 31.0 * multUnit;
 
-		// key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
-
-		// more robust in case properties are missing
-		String stemplotKey = getLoc().getMenuDefault("StemPlot.KeyAMeansB",
-				"Key: %0 means %1");
-		stemplotKey = stemplotKey.replace("%0", "3|1");
-		stemplotKey = stemplotKey.replace("%1", keyCode);
-		key.append(stemplotKey);
+		key.append(getLoc().getPlainDefault("StemPlot.KeyAMeansB",
+				"%0 means %1", "3|1", keyCode));
 
 		key.append("}}");
 		key.append(" \\\\ "); // newline in LaTeX ie \\

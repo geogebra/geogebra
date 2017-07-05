@@ -424,8 +424,15 @@ public abstract class Localization {
 	 *            arguments for replacement
 	 * @return translated key with replaced %*s
 	 */
-	final public String getPlainArray(String key, String[] args) {
+	final public String getPlainArray(String key, String default0,
+			String[] args) {
 		String str = getPlain(key);
+
+		if (default0 != null && key.equals(str)) {
+			// lookup failed, use default
+			str = default0;
+		}
+
 		StringBuilder sbPlain = new StringBuilder();
 		sbPlain.setLength(0);
 		boolean found = false;
@@ -496,7 +503,13 @@ public abstract class Localization {
 
 	/** replace "%0" by arg0 */
 	final public String getPlain(String key, String... arg0) {
-		return getPlainArray(key, arg0);
+		return getPlainArray(key, null, arg0);
+	}
+
+	/** replace "%0" by arg0 */
+	final public String getPlainDefault(String key, String default0,
+			String... arg0) {
+		return getPlainArray(key, default0, arg0);
 	}
 
 	/**
