@@ -56,6 +56,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean questionMarkForNaN = true;
 
 	private boolean numeric = true;
+
+	private boolean niceQuotes = false;
 	/**
 	 * Default template, but do not localize commands
 	 */
@@ -105,6 +107,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 			"realTemplate");
 	static {
 		realTemplate.useRealLabels = true;
+	}
+
+	/**
+	 * Template which prints original construction's labels
+	 */
+	public static final StringTemplate algebraTemplate = new StringTemplate(
+			"algebraTemplate");
+	static {
+		algebraTemplate.niceQuotes = true;
 	}
 
 	/**
@@ -2977,6 +2988,24 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	private static String wrapInPhantom(String s, String prefix) {
 		return prefix + "\\phantom{\\texttt{" + s + "}}";
+	}
+
+	public boolean niceQuotes() {
+		return niceQuotes;
+	}
+
+	public char getOpenQuote() {
+		if (niceQuotes || stringType.equals(StringType.LATEX)) {
+			return Unicode.OPEN_DOUBLE_QUOTE;
+		}
+		return '\"';
+	}
+
+	public char getCloseQuote() {
+		if (niceQuotes || stringType.equals(StringType.LATEX)) {
+			return Unicode.CLOSE_DOUBLE_QUOTE;
+		}
+		return '\"';
 	}
 
 }

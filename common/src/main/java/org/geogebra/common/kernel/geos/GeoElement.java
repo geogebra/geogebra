@@ -5299,7 +5299,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
 				strAlgebraDescription = toString(
-						StringTemplate.defaultTemplate);
+						StringTemplate.algebraTemplate);
 				kernel.getAlgebraProcessor().setDisableGcd(false);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
@@ -5421,6 +5421,7 @@ public abstract class GeoElement extends ConstructionElement
 	public final String getLaTeXAlgebraDescription(
 			final boolean substituteNumbers,
 			StringTemplate tpl) {
+
 		return getLaTeXAlgebraDescription(this, substituteNumbers, tpl, true);
 	}
 

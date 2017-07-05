@@ -400,7 +400,7 @@ public class GeoText extends GeoElement
 			sbToString.append(Unicode.OPEN_DOUBLE_QUOTE);
 
 		} else {
-			sbToString.append('\"');
+			sbToString.append(tpl1.getOpenQuote());
 		}
 
 		if (str != null) {
@@ -413,7 +413,7 @@ public class GeoText extends GeoElement
 				sbToString.append("}");
 			}
 		} else {
-			sbToString.append('\"');
+			sbToString.append(tpl1.getCloseQuote());
 		}
 		return sbToString.toString();
 	}
@@ -426,13 +426,11 @@ public class GeoText extends GeoElement
 			sbToString.append(" = ");
 		}
 
-		boolean latex = tpl.getStringType().equals(StringType.LATEX);
-
-		sbToString.append(latex ? Unicode.OPEN_DOUBLE_QUOTE : "\"");
+		sbToString.append(tpl1.getOpenQuote());
 		if (str != null) {
 			sbToString.append(tpl1.escapeString(str));
 		}
-		sbToString.append(latex ? Unicode.CLOSE_DOUBLE_QUOTE : "\"");
+		sbToString.append(tpl1.getCloseQuote());
 
 		return sbToString.toString();
 	}
