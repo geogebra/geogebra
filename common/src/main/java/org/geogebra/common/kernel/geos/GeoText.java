@@ -426,11 +426,13 @@ public class GeoText extends GeoElement
 			sbToString.append(" = ");
 		}
 
-		sbToString.append('\"');
+		boolean latex = tpl.getStringType().equals(StringType.LATEX);
+
+		sbToString.append(latex ? Unicode.OPEN_DOUBLE_QUOTE : "\"");
 		if (str != null) {
 			sbToString.append(tpl1.escapeString(str));
 		}
-		sbToString.append('\"');
+		sbToString.append(latex ? Unicode.CLOSE_DOUBLE_QUOTE : "\"");
 
 		return sbToString.toString();
 	}
@@ -1451,7 +1453,8 @@ public class GeoText extends GeoElement
 		}
 
 		String ret = getAlgebraDescription(StringTemplate.editorTemplate)
-				.replace("\"", "").split(" = ")[1];
+				.replace("\"", "").replace(Unicode.OPEN_DOUBLE_QUOTE + "", "")
+				.replace(Unicode.CLOSE_DOUBLE_QUOTE + "", "").split(" = ")[1];
 
 		return ret;
 	}
