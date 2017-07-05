@@ -1813,7 +1813,7 @@ public class DockManagerW extends DockManager {
 	}
 	
 	@Override
-	public void adjustViews() {
+	public void adjustViews(boolean force) {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel != null) {
 			avPanel.onResize();
@@ -1826,7 +1826,7 @@ public class DockManagerW extends DockManager {
 		ExtendedBoolean old = portrait;
 		portrait = ExtendedBoolean
 				.newExtendedBoolean(app.getWidth() < app.getHeight());
-		if (old != portrait) {
+		if (force || old != portrait) {
 			// run only if oreintation has changed;
 			final double landscape = app.has(Feature.NEW_TOOLBAR)
 					? MIN_TOOLBAR_WIDTH / app.getWidth()
