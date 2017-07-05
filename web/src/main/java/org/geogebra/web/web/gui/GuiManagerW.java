@@ -895,6 +895,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			if (getToolbarPanel() != null) {
 				getToolbarPanel().updateToolbarPanel();
 			}
+			
 		}
 	}
 

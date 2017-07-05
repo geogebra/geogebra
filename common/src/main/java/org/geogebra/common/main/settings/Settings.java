@@ -47,6 +47,9 @@ public class Settings {
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
 	 * 
+	 * @param app
+	 *            - app
+	 * 
 	 * @param euclidianLength
 	 *            2 or 3 euclidian views
 	 */
@@ -58,7 +61,7 @@ public class Settings {
 		resetSettings(app);
 	}
 
-	private EuclidianSettings createEuclidanSettings(App app, int i) {
+	private static EuclidianSettings createEuclidanSettings(App app, int i) {
 		if (i == 2) { // 3D view
 			return new EuclidianSettings3D(app);
 		}
@@ -66,6 +69,12 @@ public class Settings {
 		return new EuclidianSettings(app);
 	}
 
+	/**
+	 * clear settings
+	 * 
+	 * @param app
+	 *            - app
+	 */
 	public void resetSettings(App app) {
 		for (int i = 0; i < euclidianSettings.length; ++i) {
 			if (euclidianSettings[i] == null) {
@@ -225,6 +234,9 @@ public class Settings {
 		return euclidianSettings[number == -1 ? 2 : number - 1];
 	}
 	
+	/**
+	 * @return - if support 3d
+	 */
 	public final boolean supports3D() {
 		if (euclidianSettings.length <= 2) {
 			return false;
@@ -342,6 +354,13 @@ public class Settings {
 		return toolbarSettings;
 	}
 
+	/**
+	 * @param ev
+	 *            - euclidian view
+	 * @param app
+	 *            - app
+	 * @return -
+	 */
 	public EuclidianSettings getEuclidianForView(
 			EuclidianViewInterfaceCommon ev, App app) {
 		if (app.getEuclidianView1() == ev) {

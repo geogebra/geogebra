@@ -374,6 +374,11 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
+
+		// do not show axes for geometry
+		if (getGuiManager() instanceof GuiManagerW && isUnbundled() && getSettings().getToolbarSettings().isGeometry()) {
+			getSettings().getEuclidian(1).setShowAxes(false);
+		}
 		resetPenTool();
 
 	}

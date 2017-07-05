@@ -35,6 +35,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *            toolbar string
 	 * @param hasStyleBar
 	 *            whether to show stylebar
+	 * @param hasZoomPanel
+	 *            - true if it has zoom panel
 	 * @param menuOrder
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all

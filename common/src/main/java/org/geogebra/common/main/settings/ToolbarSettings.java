@@ -47,12 +47,28 @@ public class ToolbarSettings extends AbstractSettings {
 		return toolsetLevel;
 	}
 	
+	/**
+	 * see AppType
+	 * 
+	 * @return type of app
+	 */
 	public AppType getType() {
 		return type;
 	}
 
+	/**
+	 * @param type
+	 *            - type of the app
+	 */
 	public void setType(AppType type) {
 		this.type = type;
 	}
 
+	/**
+	 * @return - if app is geometry app
+	 * 
+	 */
+	public boolean isGeometry() {
+		return this.type == AppType.GEOMETRY_CALC;
+	}
 }
