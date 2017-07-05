@@ -4343,6 +4343,9 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case ZOOM_PANEL:
 			return prerelease;
+		case MOB_TOOLSET_LEVELS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
