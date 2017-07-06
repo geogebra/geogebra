@@ -1,6 +1,10 @@
 @import 'colors';
 
 .GeoGebraFrame {
+	
+	.gwt-SplitLayoutPanel>div {
+		overflow: visible !important;
+	}
 	.hide-Dragger {
 		
 		.gwt-SplitLayoutPanel-HDragger {
