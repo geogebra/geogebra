@@ -713,7 +713,7 @@ public class AppWapplet extends AppWFull {
 		if (!has(Feature.NEW_TOOLBAR)) {
 			return;
 		}
-
+		persistWidthAndHeight();
 		if (floatingMenuPanel == null) {
 			floatingMenuPanel = new FloatingMenuPanel();
 			frame.add(floatingMenuPanel);
