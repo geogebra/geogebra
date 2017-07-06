@@ -511,9 +511,9 @@ public abstract class AppW extends App implements SetLabels {
 					}
 					// force reload
 					doSetLanguage(lang);
-					if (has(Feature.SWITCH_BETWEEN_KEYBOARD_LANGUAGE)) {
-						updateKeyboardLanguage();
-					}
+
+					updateKeyboardLanguage();
+
 					if (Browser.supportsSessionStorage()) {
 						LocalizationW.savePropertiesToStorage(lang,
 								GeoGebraConstants.VERSION_STRING);

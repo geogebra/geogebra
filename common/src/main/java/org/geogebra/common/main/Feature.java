@@ -166,9 +166,6 @@ public enum Feature {
 	/** GGB-1697 */
 	AV_ITEM_DESIGN,
 
-	/** GGB-1633 */
-	SWITCH_BETWEEN_KEYBOARD_LANGUAGE,
-
 	/** Dynamic stylebar added for locked geos too */
 	LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR,
 

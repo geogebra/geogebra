@@ -4170,10 +4170,6 @@ public abstract class App implements UpdateSelection {
 		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
 			return true;
 
-		/** GGB-1633 */
-		case SWITCH_BETWEEN_KEYBOARD_LANGUAGE:
-			return true;
-
 		/** GGB- 1501 */
 		case DIALOGS_OVERLAP_KEYBOARD:
 			// see comment at GPopupPanel.setOverlapFeature
