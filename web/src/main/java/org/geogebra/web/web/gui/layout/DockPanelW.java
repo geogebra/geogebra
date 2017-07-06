@@ -258,8 +258,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            should not appear at all
 	 */
 	public DockPanelW(int id, String title, String toolbar,
-	        boolean hasStyleBar,boolean hasZoomPanel, int menuOrder) {
-		this(id, title, toolbar, hasStyleBar, hasZoomPanel, menuOrder, '\u0000');
+			boolean hasStyleBar, int menuOrder) {
+		this(id, title, toolbar, hasStyleBar, menuOrder, '\u0000');
 	}
 
 	/**
@@ -283,7 +283,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            visible
 	 */
 	public DockPanelW(int id, String title, String toolbar,
-			boolean hasStyleBar, boolean hasZoomPanel, int menuOrder,
+			boolean hasStyleBar, int menuOrder,
 			char menuShortcut) {
 		this.id = id;
 		this.title = title;

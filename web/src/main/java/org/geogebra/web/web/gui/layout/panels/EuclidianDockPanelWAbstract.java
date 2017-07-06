@@ -76,7 +76,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public EuclidianDockPanelWAbstract(int id, String title, String toolbar,
 			boolean hasStyleBar, boolean hasZoomPanel, int menuOrder,
 			char shortcut) {
-		super(id, title, toolbar, hasStyleBar, hasZoomPanel, menuOrder,
+		super(id, title, toolbar, hasStyleBar, menuOrder,
 				shortcut);
 		this.hasZoomPanel = hasZoomPanel;
 	}

@@ -13,7 +13,7 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 	private InnerPanel innerPanel;
 	public NavigableDockPanelW(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder, char menuShortcut) {
-		super(id, title, toolbar, hasStyleBar, false, menuOrder, menuShortcut);
+		super(id, title, toolbar, hasStyleBar, menuOrder, menuShortcut);
 	}
 
 

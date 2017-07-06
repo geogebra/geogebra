@@ -33,7 +33,6 @@ public class AlgebraDockPanelW extends DockPanelW
 				"AlgebraWindow", 			// view title phrase
 				null,						// toolbar string
 				true, // style bar?
-				false, // zoom panel?
 				2, 							// menu order
 				'A'							// menu shortcut
 			);

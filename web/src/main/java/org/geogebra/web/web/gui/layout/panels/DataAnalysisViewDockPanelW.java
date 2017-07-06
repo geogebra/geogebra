@@ -35,7 +35,6 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 				"DataAnalysis", // view title phrase
 				getDefaultToolbar(), // toolbar string
 				true, // style bar?
-				false, // zoom panel
 				-1, // menu order
 				'-' // menu shortcut
 				);

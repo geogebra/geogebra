@@ -29,7 +29,6 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 				"FunctionInspector", // view title phrase
 				null, // toolbar string
 				true, // style bar?
-				false, // zoom panel
 				-1, // menu order
 				'F' // menu shortcut
 		);

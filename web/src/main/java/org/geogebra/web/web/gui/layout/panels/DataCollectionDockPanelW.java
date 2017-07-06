@@ -15,7 +15,6 @@ public class DataCollectionDockPanelW extends DockPanelW {
 				"DataCollection", // view title phrase
 				null, // toolbar string
 				false, // style bar?
-				false, // zoom panel
 				-1 // menu order
 		);
 		this.setEmbeddedSize(450);

@@ -29,7 +29,6 @@ public class ToolbarDockPanelW extends DockPanelW {
 				"ToolbarWindow", 			// view title phrase
 				null,						// toolbar string
 				false,						// style bar?
-				false, // zoom panel
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
