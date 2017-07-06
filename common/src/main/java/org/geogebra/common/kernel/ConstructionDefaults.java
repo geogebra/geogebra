@@ -133,9 +133,7 @@ public class ConstructionDefaults {
 
 	/** default color for points with alpha GGB-1916 */
 	public static final GColor colPointAlpha = GColor.newColor(
-			77 * EuclidianStyleConstants.OBJSTYLE_DEFAULT_ALPHA,
-			77 * EuclidianStyleConstants.OBJSTYLE_DEFAULT_ALPHA,
-			255 * EuclidianStyleConstants.OBJSTYLE_DEFAULT_ALPHA);
+			77, 77, 255);
 
 	/** default color for dependent points */
 	public static final GColor colDepPoint = GColor.DARK_GRAY;
