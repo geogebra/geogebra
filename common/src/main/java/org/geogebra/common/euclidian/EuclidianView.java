@@ -5249,6 +5249,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * 
+	 * @return true if view is not zoomed;
+	 */
+	public boolean isStandardView() {
+		return zoomer.isStandardZoom();
+	}
+
+	/**
 	 * Sets coord system of this view to standard. Just like setCoordSystem but
 	 * with previous animation.
 	 * 

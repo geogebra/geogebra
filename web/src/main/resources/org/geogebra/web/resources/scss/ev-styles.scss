@@ -244,6 +244,32 @@
     			}
     		}
     	}
+    
+		.zoomPanelHomeIn {
+			@extend .zoomPanelBtn;
+			opacity: 1;	 
+			transition: opacity 0.2s ease;
+			}
+	
+		.zoomPanelHomeOut {
+			@extend .zoomPanelBtn;
+			opacity: 0;	
+			transition: opacity 0.2s ease;
+	
+			img {
+    			opacity: 0;
+    		}	
+    	
+    		&:hover {
+    			/*background-color: #666;*/
+    			background-color: $selected-menuitem-background;
+    			
+    			img {
+    				opacity: 0;	
+    			}
+    		}
+    	
+		}
 	}
 
 }

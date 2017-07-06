@@ -222,7 +222,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	protected final MyZoomer newZoomer() {
-		return new MyZoomerW(this);
+		return new MyZoomerW(this,
+				getEuclidianController().getZoomerListener());
 	}
 
 	@Override

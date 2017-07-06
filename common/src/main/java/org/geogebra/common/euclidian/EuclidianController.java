@@ -8135,6 +8135,7 @@ public abstract class EuclidianController {
 
 	protected double newZero, newScale;
 	private boolean objectMenuActive;
+	private MyZoomerListener zoomerListener = null;
 
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {
@@ -10949,7 +10950,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void zoomInOut(boolean altPressed, boolean minusPressed) {
+	public void zoomInOut(boolean altPressed, boolean minusPressed, MyZoomerListener listener) {
 		double factor = minusPressed
 				? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
@@ -10962,6 +10963,7 @@ public abstract class EuclidianController {
 			factor *= minusPressed ? 2d / 3d : 1.5;
 		}
 
+		this.setZoomerListener(listener);
 		zoomInOut(factor, 4);
 
 	}
@@ -12043,6 +12045,14 @@ public abstract class EuclidianController {
 
 	public void setObjectMenuActive(boolean objectMenuActive) {
 		this.objectMenuActive = objectMenuActive;
+	}
+
+	public MyZoomerListener getZoomerListener() {
+		return zoomerListener;
+	}
+
+	public void setZoomerListener(MyZoomerListener zoomerListener) {
+		this.zoomerListener = zoomerListener;
 	}
 
 }

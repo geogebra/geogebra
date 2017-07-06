@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
  *
  */
 public abstract class MyZoomer {
+
 	private enum ZoomerMode {
 		ZOOM, ZOOM_RW, AXES, MOVE
 	}
@@ -38,14 +39,29 @@ public abstract class MyZoomer {
 
 	private boolean storeUndo;
 
+	private MyZoomerListener listener;
+
 	/**
 	 * Creates new zoomer
 	 * 
 	 * @param view
 	 *            view
+	 * @param listener
+	 *            listener
+	 */
+	public MyZoomer(EuclidianView view, MyZoomerListener listener) {
+		this.view = view;
+		this.setListener(listener);
+	}
+
+	/**
+	 * Creates new zoomer with null listener
+	 * 
+	 * @param view
+	 *            view
 	 */
 	public MyZoomer(EuclidianView view) {
-		this.view = view;
+		this(view, null);
 	}
 
 	/**
@@ -178,6 +194,10 @@ public abstract class MyZoomer {
 						view.getXscale(), view.getYscale());
 			}
 		}
+
+		if (getListener() != null) {
+			getListener().onZoomStep();
+		}
 	}
 
 	private synchronized void stopAnimation() {
@@ -207,6 +227,9 @@ public abstract class MyZoomer {
 		}
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();
+		}
+		if (getListener() != null) {
+			getListener().onZoomEnd();
 		}
 	}
 
@@ -260,6 +283,9 @@ public abstract class MyZoomer {
 
 		startTime = System.currentTimeMillis();
 		startTimer();
+		if (getListener() != null) {
+			getListener().onZoomEnd();
+		}
 	}
 
 	/** stop timer */
@@ -271,4 +297,18 @@ public abstract class MyZoomer {
 	/** @return true if timer is defined */
 	protected abstract boolean hasTimer();
 
+	public MyZoomerListener getListener() {
+		return listener;
+	}
+
+	public void setListener(MyZoomerListener listener) {
+		this.listener = listener;
+	}
+
+	/**
+	 * @return true if there is a standard (i.e. no) zoom.
+	 */
+	public boolean isStandardZoom() {
+		return Kernel.checkInteger(newScale) == EuclidianView.SCALE_STANDARD;
+	}
 }

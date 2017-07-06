@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
+import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -34,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  *         {@link #getComponent()} does not return the euclidian view directly
  */
 public abstract class EuclidianDockPanelWAbstract extends DockPanelW
-		implements GetViewId {
+		implements GetViewId, MyZoomerListener {
 	private ConstructionProtocolNavigationW consProtNav;
 	private boolean hasEuclidianFocus;
 	private boolean hasZoomPanel = false;
@@ -353,6 +354,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		homeBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.home_zoom_black18());
 		homeBtn.setStyleName("zoomPanelBtn");
+		hideHomeButton();
 		FastClickHandler handlerHome = new FastClickHandler() {
 
 			@Override
@@ -372,7 +374,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			@Override
 			public void onClick(Widget source) {
 				getEuclidianView().getEuclidianController()
-						.zoomInOut(false, false);
+						.zoomInOut(false, false,
+								EuclidianDockPanelWAbstract.this);
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
@@ -387,7 +390,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			@Override
 			public void onClick(Widget source) {
 				getEuclidianView().getEuclidianController()
-						.zoomInOut(false, true);
+						.zoomInOut(false, true,
+								EuclidianDockPanelWAbstract.this);
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
@@ -439,6 +443,44 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 		app.getArticleElement().resetScale();
 		app.recalculateEnvironments();
+
+	}
+
+	/**
+	 * Shows home button.
+	 */
+	void showHomeButton() {
+		homeBtn.addStyleName("zoomPanelHomeIn");
+		homeBtn.removeStyleName("zoomPanelHomeOut");
+	}
+
+	/**
+	 * Hides home button.
+	 */
+	void hideHomeButton() {
+		homeBtn.addStyleName("zoomPanelHomeOut");
+		homeBtn.removeStyleName("zoomPanelHomeIn");
+	}
+
+	@Override
+	public void onZoomStart() {
+		Log.debug("[zoom] start");
+
+	}
+
+	@Override
+	public void onZoomStep() {
+		Log.debug("[zoom] step");
+	}
+
+	@Override
+	public void onZoomEnd() {
+		boolean zoomed = !app.getEuclidianView1().isStandardView();
+		if (zoomed) {
+			showHomeButton();
+		} else {
+			hideHomeButton();
+		}
 
 	}
 

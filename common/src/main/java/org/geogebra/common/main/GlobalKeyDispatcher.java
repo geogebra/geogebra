@@ -702,7 +702,7 @@ public abstract class GlobalKeyDispatcher {
 					if (!spanish || (fromEuclidianView)) {
 						(app.getActiveEuclidianView()).getEuclidianController()
 								.zoomInOut(isAltDown, key.equals(KeyCodes.MINUS)
-										|| key.equals(KeyCodes.SUBTRACT));
+										|| key.equals(KeyCodes.SUBTRACT), null);
 						app.setUnsaved();
 						consumed = true;
 					}
