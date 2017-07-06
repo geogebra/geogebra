@@ -48,7 +48,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 */
 	StackPanel menuPanel;
 	private ViewMenuW viewMenu;
-	private ViewMenuW2 viewMenu2;
 	private FileMenuW fileMenu;
 	private HelpMenuW helpMenu;
 	private OptionsMenuW optionsMenu;
@@ -107,7 +106,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			if(!app.enableFileFeatures()){
 				if (app.has(Feature.NEW_TOOLBAR)) {
 					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
-							viewMenu2, optionsMenu, toolsMenu, helpMenu };
+							optionsMenu, toolsMenu, helpMenu };
 				} else {
 					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
 							viewMenu, optionsMenu, toolsMenu, helpMenu };
@@ -115,7 +114,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			}else{
 				if (app.has(Feature.NEW_TOOLBAR)) {
 					this.menus = new GMenuBar[] { fileMenu, editMenu,
-							perspectivesMenu, viewMenu2, optionsMenu, toolsMenu,
+							perspectivesMenu, optionsMenu, toolsMenu,
 							helpMenu };
 				} else {
 					this.menus = new GMenuBar[] { fileMenu, editMenu,
@@ -251,14 +250,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									: GuiResources.INSTANCE
 									.menu_icon_perspectives(), "math_apps"),
 							true);
-			if (app.has(Feature.NEW_TOOLBAR)) {
-				this.menuPanel.add(viewMenu2,
-						getHTML(app.has(Feature.NEW_TOOLBAR)
-								? MaterialDesignResources.INSTANCE.home_black()
-								: GuiResources.INSTANCE.menu_icon_view(),
-								"View"),
-						true);
-			} else {
+			if (!app.has(Feature.NEW_TOOLBAR)) {
 				this.menuPanel.add(viewMenu,
 					getHTML(app.has(Feature.NEW_TOOLBAR)
 							? MaterialDesignResources.INSTANCE.home_black()
@@ -301,8 +293,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 * @return whether dragging views should be enabled for this menu
 	 */
 	protected boolean isViewDraggingMenu(GMenuBar menu) {
-		return menu == perspectivesMenu || menu == viewMenu
-				|| menu == viewMenu2;
+		return menu == perspectivesMenu || menu == viewMenu;
 	}
 
 	@Override
@@ -369,9 +360,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 	
 	private void createViewMenu() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
-			viewMenu2 = new ViewMenuW2(app);
-		} else {
+		if (!app.has(Feature.NEW_TOOLBAR)) {
 			viewMenu = new ViewMenuW(app);
 		}
 	}
@@ -403,9 +392,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(viewMenu != null){
 			viewMenu.update();
 		}
-		if (viewMenu2 != null) {
-			viewMenu2.update();
-		}
+
 		if (this.getEditMenu() != null) {
 			getEditMenu().update();
 		}
