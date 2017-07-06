@@ -285,6 +285,8 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
 		if (allowZoomPanel()) {
+			dockPanel.getElement().getStyle().setProperty("minHeight",
+					app.isShiftDragZoomEnabled() ? "200px" : "100px");
 			dockPanel.addSouth(zoomPanel, 0);
 		}
 	}
@@ -299,6 +301,53 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	private void buildZoomPanel() {
 		zoomPanel = new FlowPanel();
 		zoomPanel.setStyleName("zoomPanel");
+		if (app.isShiftDragZoomEnabled()) {
+			addZoomButtons();
+		}
+		// add fullscreen button
+		fullscreenBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.fullscreen_black18());
+		fullscreenBtn.getDownFace().setImage(new Image(
+				MaterialDesignResources.INSTANCE.fullscreen_exit_black18()));
+		fullscreenBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerFullscreen = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				toggleFullscreen();
+			}
+		};
+		fullscreenBtn.addFastClickHandler(handlerFullscreen);
+		Browser.addFullscreenListener(new StringHandler() {
+
+			@Override
+			public void handle(String obj) {
+				Log.debug(obj);
+				if ("true".equals(obj)) {
+					isFullScreen = true;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_exit_black18());
+				} else {
+					isFullScreen = false;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_black18());
+					if (!getApp().getArticleElement()
+							.getDataParamFitToScreen()) {
+
+						final Element scaler = app.getArticleElement()
+								.getParentElement();
+						scaler.getStyle().setMarginLeft(0, Unit.PX);
+						scaler.getStyle().setMarginTop(0, Unit.PX);
+					}
+					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
+				}
+
+			}
+		});
+		zoomPanel.add(fullscreenBtn);
+	}
+
+	private void addZoomButtons() {
 
 		// add home button
 		homeBtn = new StandardButton(
@@ -344,47 +393,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
 		zoomPanel.add(zoomOutBtn);
 
-		// add fullscreen button
-		fullscreenBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.fullscreen_black18());
-		fullscreenBtn.getDownFace().setImage(new Image(
-				MaterialDesignResources.INSTANCE.fullscreen_exit_black18()));
-		fullscreenBtn.setStyleName("zoomPanelBtn");
-		FastClickHandler handlerFullscreen = new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				toggleFullscreen();
-			}
-		};
-		fullscreenBtn.addFastClickHandler(handlerFullscreen);
-		Browser.addFullscreenListener(new StringHandler() {
-
-			@Override
-			public void handle(String obj) {
-				Log.debug(obj);
-				if ("true".equals(obj)) {
-					isFullScreen = true;
-					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_exit_black18());
-				} else {
-					isFullScreen = false;
-					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_black18());
-					if (!getApp().getArticleElement()
-							.getDataParamFitToScreen()) {
-
-						final Element scaler = app.getArticleElement()
-								.getParentElement();
-						scaler.getStyle().setMarginLeft(0, Unit.PX);
-						scaler.getStyle().setMarginTop(0, Unit.PX);
-					}
-					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
-				}
-
-			}
-		});
-		zoomPanel.add(fullscreenBtn);
 	}
 
 	protected void toggleFullscreen() {
