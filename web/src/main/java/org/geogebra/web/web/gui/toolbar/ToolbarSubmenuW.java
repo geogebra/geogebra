@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.toolbar;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ListItem;
@@ -116,7 +117,11 @@ public class ToolbarSubmenuW extends FlowPanel {
 	protected Image createImage(int mode) {
 		Image img = new NoDragImage(((GGWToolBar) app.getToolbar()).getImageURL(mode), 32);
 		// temporary opacity fix until all the icons will be renewed
-		if (mode == 26 || mode == 61 || mode == 62 || mode == 73 || mode == 110) {
+		if (mode == EuclidianConstants.MODE_IMAGE
+				|| mode == EuclidianConstants.MODE_TEXTFIELD_ACTION
+				|| mode == EuclidianConstants.MODE_PEN
+				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
+				|| mode == EuclidianConstants.MODE_ERASER) {
 			img.addStyleName("mowPanelButton");
 		}
 		return img;
