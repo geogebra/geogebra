@@ -4330,8 +4330,9 @@ public abstract class App implements UpdateSelection {
 		case AND_FOCUS_ON_BIND:
 			return true;
 
+		/** GGB-1881 */
 		case MINOR_GRIDLINES:
-			return prerelease;
+			return true;
 
 		case AND_SPEED_UP_AV:
 			return prerelease;
