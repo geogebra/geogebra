@@ -1,0 +1,59 @@
+@import 'colors';
+
+.snackbar {
+		display: block;
+		min-width: 288px;
+		max-width: 568px;
+		height: 80px; /* 48px for single line */
+		border-radius: 2px;
+		z-index: 1000;
+		position: absolute;
+		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
+		background-color: $snackbar-background;
+		color: $white;
+		
+		td {
+		vertical-align: middle !important;
+		}
+	
+	.infoText {
+		padding-left: 24px;
+		display: inline-block;
+		cursor: default;
+		color: $white;
+	}
+	
+	.manualLink {
+		padding-left: 48px;
+		padding-right: 24px;
+		padding-top: 30px;
+		padding-bottom: 30px;
+		cursor: pointer;
+		color: $accent-color;
+	}
+	.warning{
+		padding-top: 40px;
+		padding-bottom: 40px;
+	}
+	
+}
+.animateShow { 
+	    animation-name: animShow;
+	    animation-duration: 0.4s;
+	    bottom: 0px;
+	} 
+.animateHide { 
+	    animation-name: animHide;
+	    animation-duration: 0.4s;
+	    bottom: -80px;
+	} 
+	
+@keyframes animShow {
+		0% {bottom: -80px;}
+		100% {bottom: 0px;}
+	}
+@keyframes animHide {
+		0% {bottom: 0px;}
+		100% {bottom: -80px;}
+	}
+

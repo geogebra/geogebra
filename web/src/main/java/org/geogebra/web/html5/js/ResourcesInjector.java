@@ -112,6 +112,7 @@ public class ResourcesInjector {
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.perspectivesPopupScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.snackbarScss());
 	}
 
 	/**

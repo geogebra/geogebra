@@ -1,7 +1,10 @@
 package org.geogebra.web.html5.gui.tooltip;
 
+import java.util.Locale;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -84,6 +87,8 @@ public final class ToolTipManagerW {
 
 	private Timer timer;
 	private boolean blockToolTip = true;
+	private boolean keyboardVisible;
+	// private boolean lastTipVisible = false;
 
 	/**
 	 * Time, in milliseconds, to delay showing a toolTip.
@@ -179,7 +184,9 @@ public final class ToolTipManagerW {
 				.asString();
 
 		bottomInfoTipPanel = new TooltipPanel();
+
 		bottomInfoTipPanel.setStyleName("infoTooltip");
+
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
 
 		bottomInfoTipPanel.setVisible(false);
@@ -241,7 +248,14 @@ public final class ToolTipManagerW {
 		}
 		
 		this.app = appw;
+		keyboardVisible = kb;
 		
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			bottomInfoTipPanel.setStyleName("snackbar");
+		} else {
+			bottomInfoTipPanel.setStyleName("infoTooltip");
+		}
+
 		bottomInfoTipPanel.removeFromParent();
 		appw.getPanel().add(bottomInfoTipPanel);
 		bottomInfoTipHTML.setHTML(text);
@@ -262,8 +276,13 @@ public final class ToolTipManagerW {
 			helpLabel = new Label();
 
 			if (link.equals(ToolTipLinkType.Help)) {
-				helpLabel.getElement().getStyle()
-						.setBackgroundImage("url(" + this.questionMark + ")");
+				if (app.has(Feature.NEW_TOOLBAR)) {
+					helpLabel.setText(app.getLocalization().getMenu("Help").toUpperCase(Locale.ROOT));
+
+				} else {
+					helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.questionMark + ")");
+				}
+
 			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
 				helpLabel.getElement().getStyle()
 						.setBackgroundImage("url(" + this.viewSavedFile + ")");
@@ -279,6 +298,10 @@ public final class ToolTipManagerW {
 			if (!(appw.isExam() && appw.getExam().getStart() >= 0)) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
+		} else if (app.has(Feature.NEW_TOOLBAR)) {
+			helpLabel = new Label();
+			helpLabel.addStyleName("warning");
+			bottomInfoTipPanel.add(helpLabel);
 		}
 
 		bottomInfoTipPanel.setVisible(true);
@@ -303,13 +326,28 @@ public final class ToolTipManagerW {
 			// Toolbar on top
 		} else {
 			style.setLeft(left, Unit.PX);
-			style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(text),
-					Unit.PX);
+
+			if (app.has(Feature.NEW_TOOLBAR)) {
+				if (kb) {
+					style.setTop((appw.getHeight() - 310), Unit.PX);
+				} else {
+					// if (!lastTipVisible) {
+					bottomInfoTipPanel.addStyleName("animateShow");
+					/*
+					 * } else {
+					 * bottomInfoTipPanel.getElement().getStyle().setBottom(0,
+					 * Unit.PX); } lastTipVisible = true;
+					 */
+				}
+
+			} else {
+				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(text), Unit.PX);
+			}
 		}
 
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
-			scheduleHideBottom();
+				scheduleHideBottom();
 		}
 	}
 
@@ -364,13 +402,30 @@ public final class ToolTipManagerW {
 	}
 
 
+
 	/**
 	 * Hide the bottom tooltip
 	 */
 	public void hideBottomInfoToolTip() {
-		cancelTimer();
-		bottomInfoTipPanel.removeFromParent();
+
+		if (app != null && app.has(Feature.NEW_TOOLBAR) && !keyboardVisible) {
+			bottomInfoTipPanel.addStyleName("animateHide");
+			// lastTipVisible = false;
+			timer = new Timer() {
+				@Override
+				public void run() {
+					cancelTimer();
+					bottomInfoTipPanel.removeFromParent();
+				}
+			};
+
+			timer.schedule(400);
+		} else {
+			cancelTimer();
+			bottomInfoTipPanel.removeFromParent();
+		}
 	}
+
 
 	// =====================================
 	// Getters/Setters

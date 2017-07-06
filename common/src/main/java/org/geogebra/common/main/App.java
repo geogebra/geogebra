@@ -3512,7 +3512,11 @@ public abstract class App implements UpdateSelection {
 		StringBuilder sbTooltip = new StringBuilder();
 		sbTooltip.append("<html><b>");
 		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
-		sbTooltip.append("</b><br>");
+		if (has(Feature.NEW_TOOLBAR)) {
+			sbTooltip.append("</b>&nbsp;-&nbsp;");
+		} else {
+			sbTooltip.append("</b><br>");
+		}
 		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
 		sbTooltip.append("</html>");
 		return sbTooltip.toString();
