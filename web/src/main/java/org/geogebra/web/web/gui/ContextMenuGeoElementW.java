@@ -740,7 +740,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		Command cmd = null;
-		String label = loc.getMenu("LockObject");
+		// change back to old name-> Fix instead of Lock
+		String label = loc.getMenu("FixObject");
 		if (fixable) {
 			cmd = new Command() {
 
@@ -783,7 +784,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					|| app.has(Feature.NEW_TOOLBAR)) {
 				GCheckBoxMenuItem mi = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
-						loc.getMenu("UnlockObject"), loc.getMenu("LockObject"),
+						loc.getMenu("UnlockObject"), loc.getMenu("FixObject"),
 						cmd, true, app);
 				mi.setSelected(getGeo().isLocked());
 				wrappedPopup.addItem(mi);
@@ -1080,6 +1081,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addUserInputItem() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		if (getGeo() instanceof GeoImplicit) {
 			final GeoImplicit inputElement = (GeoImplicit) getGeo();
 			if (inputElement.isValidInputForm()) {
@@ -1114,6 +1118,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addConicItems() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		if (getGeo().getClass() != GeoConic.class) {
 			return;
 		}
@@ -1212,6 +1219,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addLineItems() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		if (!(getGeo() instanceof GeoLine)) {
 			return;
 		}
@@ -1284,6 +1294,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addCoordsModeItems() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 
 		if (!(getGeo() instanceof CoordStyle) || getGeo() instanceof GeoLine) {
 			return;
