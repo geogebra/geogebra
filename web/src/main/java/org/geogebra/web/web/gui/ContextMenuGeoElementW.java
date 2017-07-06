@@ -797,6 +797,32 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addEditItems() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+
+			String img3;
+			if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+				img3 = AppResources.INSTANCE.duplicate20().getSafeUri()
+						.asString();
+			} else if (app.has(Feature.NEW_TOOLBAR)) {
+				img3 = MaterialDesignResources.INSTANCE.duplicate_black()
+						.getSafeUri().asString();
+			} else {
+				img3 = AppResources.INSTANCE.empty().getSafeUri().asString();
+			}
+			addAction(new Command() {
+
+				@Override
+				public void execute() {
+					app.setWaitCursor();
+					duplicateCmd();
+					app.setDefaultCursor();
+
+				}
+			}, MainMenu.getMenuBarHtml(img3, loc.getMenu("Duplicate"), true),
+					loc.getMenu("Duplicate"));
+			return;
+		}
+
 		if (!isWhiteboard()) {
 			return;
 		}
@@ -936,6 +962,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	protected void updateEditItems() {
+		if (app.has(Feature.NEW_TOOLBAR)) {
+			return;
+		}
 		if (!isWhiteboard()) {
 			return;
 		}
