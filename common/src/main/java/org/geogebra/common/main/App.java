@@ -4346,6 +4346,8 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 		case MOB_TOOLSET_LEVELS:
 			return prerelease;
+		case SHOW_STEPS:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

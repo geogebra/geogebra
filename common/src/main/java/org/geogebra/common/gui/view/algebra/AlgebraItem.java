@@ -92,9 +92,10 @@ public class AlgebraItem {
 	}
 
 	public static Suggestion getSuggestions(GeoElement geo) {
+		Suggestion sug = null;
 		if (geo != null && geo.getKernel().getApplication()
 				.has(Feature.INPUT_BAR_SOLVE)) {
-			Suggestion sug = SuggestionSolve.get(geo);
+			sug = SuggestionSolve.get(geo);
 			if (sug != null) {
 				return sug;
 			}
@@ -104,9 +105,17 @@ public class AlgebraItem {
 				return sug;
 			}
 		}
+		if (geo != null
+				&& geo.getKernel().getApplication().has(Feature.SHOW_STEPS)) {
+			sug = SuggestionSteps.get(geo);
+
+			if (sug != null) {
+				return sug;
+			}
+		}
 		if (undefinedVariables != null) {
 			Log.debug("UNDEF VARS for suggestion: " + undefinedVariables);
-			Suggestion sug = SuggestionSlider.get();
+			sug = SuggestionSlider.get();
 			if (sug != null) {
 				return sug;
 			}

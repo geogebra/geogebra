@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.cas;
 
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -129,6 +130,13 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		compute();
 		solutions.updateCascade();
 		return numeric;
+	}
+
+	public void getSteps(StepGuiBuilder builder) {
+		builder.addLatexRow(equations.getLaTeXdescription());
+		builder.addPlainRow("Magic!");
+		builder.addLatexRow(solutions.getLaTeXdescription());
+
 	}
 
 }

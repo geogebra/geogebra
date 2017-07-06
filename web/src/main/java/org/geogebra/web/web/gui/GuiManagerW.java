@@ -18,6 +18,7 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.properties.PropertiesView;
@@ -27,6 +28,7 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -62,6 +64,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.browser.BrowseViewI;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.keyboard.OnscreenTabbedKeyboard;
 import org.geogebra.web.web.cas.view.CASTableW;
@@ -72,6 +75,7 @@ import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
+import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.ColorPanel;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
@@ -133,6 +137,8 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
@@ -2377,6 +2383,35 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		((EuclidianDockPanelWAbstract) layout.getDockManager()
 				.getPanel(App.VIEW_EUCLIDIAN)).updateFullscreen();
 		
+	}
+
+	public StepGuiBuilder getStepGuiBuilder() {
+		final VerticalPanel ui = new VerticalPanel();
+		final GeoNumeric gn = new GeoNumeric(kernel.getConstruction());
+		
+		return new StepGuiBuilder() {
+
+			public void addLatexRow(String equations) {
+				Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
+						app.getFontSizeWeb());
+				ui.add(c);
+			}
+
+			public void addPlainRow(String equations) {
+				ui.add(new Label(equations));
+			}
+
+			public void show() {
+				DialogBoxW box = new DialogBoxW(true, false, null,
+						getApp().getPanel(), app);
+				box.getCaption().setText("Steps");
+				box.add(ui);
+				box.addCancelButton();
+				box.center();
+			}
+
+		};
+
 	}
 }
 

@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.IDataAnalysisListener;
@@ -985,6 +986,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 		app.setMoveMode();
 		app.getActiveEuclidianView().resetMode();
 
+	}
+
+	public StepGuiBuilder getStepGuiBuilder() {
+		return null;
 	}
 
 }

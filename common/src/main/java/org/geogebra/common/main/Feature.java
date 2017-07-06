@@ -235,6 +235,6 @@ public enum Feature {
 
 	ZOOM_PANEL,
 
-	MOB_TOOLSET_LEVELS
+	MOB_TOOLSET_LEVELS, SHOW_STEPS
 
 }

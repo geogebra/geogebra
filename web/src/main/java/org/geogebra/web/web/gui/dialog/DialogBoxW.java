@@ -105,7 +105,7 @@ public class DialogBoxW extends GDialogBox {
 	 * 
 	 * Pulled up from SaveDialogW
 	 */
-	protected void addCancelButton() {
+	public void addCancelButton() {
 		if (getWidget() instanceof Panel) {
 			SimplePanel cancel = new SimplePanel();
 			this.cancelButton = new StandardButton(

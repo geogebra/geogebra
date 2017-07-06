@@ -20,6 +20,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.Layout;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -355,4 +356,6 @@ public interface GuiManagerInterface {
 	public void getExtraViewsXML(StringBuilder sb);
 
 	public String getHelpURL(Help type, String pageName);
+
+	public StepGuiBuilder getStepGuiBuilder();
 }
