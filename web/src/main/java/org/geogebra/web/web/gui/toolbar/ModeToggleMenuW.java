@@ -309,6 +309,9 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		Image buttonImage = new NoDragImage(((GGWToolBar) app.getToolbar())
 				.getImageURL(Integer.parseInt(miMode)), 32);
 		buttonImage.addStyleName("toolbar_icon");
+		if (Integer.parseInt(miMode) == EuclidianConstants.MODE_DELETE) {
+			buttonImage.addStyleName("plusPadding");
+		}
 		tbutton.add(buttonImage);
 
 		toolbar.update();

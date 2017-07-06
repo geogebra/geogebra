@@ -128,6 +128,10 @@ public class Tools extends FlowPanel {
 		private StandardButton getButton(final int mode) {
 			NoDragImage im = new NoDragImage(GGWToolBar
 					.getImageURL(mode, app));
+			if (mode == EuclidianConstants.MODE_DELETE
+					|| mode == EuclidianConstants.MODE_IMAGE) {
+				im.addStyleName("plusPadding");
+			}
 			final StandardButton btn = new StandardButton(null, "", 32);
 			btn.setTitle(app.getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));

@@ -124,6 +124,10 @@ public class ToolbarSubmenuW extends FlowPanel {
 				|| mode == EuclidianConstants.MODE_ERASER) {
 			img.addStyleName("mowPanelButton");
 		}
+		if (mode == EuclidianConstants.MODE_IMAGE
+				|| mode == EuclidianConstants.MODE_DELETE) {
+			img.addStyleName("plusPadding");
+		}
 		return img;
 	}
 
