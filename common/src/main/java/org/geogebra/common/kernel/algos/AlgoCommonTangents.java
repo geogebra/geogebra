@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Two tangents through point P to conic section c
@@ -60,6 +61,7 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		tangents = new GeoLine[4];
 		for (int i = 0; i < 4; i++) {
 			tangents[i] = new GeoLine(cons);
+			tangents[i].setStandardStartPoint();
 		}
 		setInputOutput();
 		compute();
@@ -110,18 +112,19 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		}
 		for (int i = 0; i < 4; i++) {
 			c.polarLine((GeoPoint) algoIntersect.getOutput(i), currentTangent);
+			Log.debug(currentTangent);
 			if (isInner(currentTangent)) {
 				tangents[inner].set(currentTangent);
-				tangents[inner]
-						.setStartPoint((GeoPoint) algoIntersect.getOutput(i));
+				tangents[inner].getStartPoint().set(algoIntersect.getOutput(i));
 				inner++;
 			} else if (outer < 2) {
 				tangents[2 + outer].set(currentTangent);
-				tangents[2 + outer]
-						.setStartPoint((GeoPoint) algoIntersect.getOutput(i));
+				tangents[2 + outer].getStartPoint()
+						.set(algoIntersect.getOutput(i));
 				outer++;
 			}
 		}
+
 
 	}
 
@@ -130,16 +133,14 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		double sgnC = c.getMidpoint().inner(c0);
 		double sgnD = d.getMidpoint().inner(c0);
 
-		return sgnC * sgnD < 0;
+		return sgnC * sgnD < 0 || !currentTangent2.isDefined();
 	}
 
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == c) {
 			return line.getStartPoint();
 		}
-		GeoPoint ret = new GeoPoint(cons);
-		d.polarPoint(line, ret);
-		return ret;
+		return null;
 	}
 
 }

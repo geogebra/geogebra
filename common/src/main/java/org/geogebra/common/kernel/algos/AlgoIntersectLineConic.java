@@ -108,7 +108,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (g.getParentAlgorithm() instanceof TangentAlgo) {
 			TangentAlgo algo = (TangentAlgo) g.getParentAlgorithm();
 			tangentPoint = algo.getTangentPoint(c, g);
-			isDefinedAsTangent = (tangentPoint != null);
+			isDefinedAsTangent = (tangentPoint != null)
+					|| (g.getParentAlgorithm().getInput().length == 2
+							&& g.getParentAlgorithm().getInput(1) == c);
 		}
 
 		initElements();
@@ -229,7 +231,11 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		// g is defined as tangent of c
 		if (isDefinedAsTangent) {
-			P[0].setCoordsFromPoint(tangentPoint);
+			if (tangentPoint != null) {
+				P[0].setCoordsFromPoint(tangentPoint);
+			} else {
+				c.polarPoint(g, P[0]);
+			}
 			return;
 		}
 
