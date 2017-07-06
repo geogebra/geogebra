@@ -517,9 +517,13 @@ public final class ArticleElement extends Element {
 			parent = parent.getParentElement();
 		}
 		Browser.scale(parent, externalScale, 0, 0);
+		resetScale();
+
+	}
+
+	public void resetScale() {
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
-
 	}
 
 	public String getDataParamPrerelease() {

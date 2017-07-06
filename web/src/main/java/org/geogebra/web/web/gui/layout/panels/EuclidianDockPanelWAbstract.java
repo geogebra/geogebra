@@ -7,14 +7,19 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
-import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -260,7 +265,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	protected abstract EuclidianPanel getEuclidianPanel();
 
-	public Object getApp() {
+	public AppW getApp() {
 		return app;
 	}
 
@@ -349,7 +354,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 			@Override
 			public void onClick(Widget source) {
-				Browser.toggleFullscreen(!isFullScreen, getFullscreenElement());
+				toggleFullscreen();
 			}
 		};
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
@@ -361,11 +366,20 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				if ("true".equals(obj)) {
 					isFullScreen = true;
 					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_black18());
+							.fullscreen_exit_black18());
 				} else {
 					isFullScreen = false;
 					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_exit_black18());
+							.fullscreen_black18());
+					if (!getApp().getArticleElement()
+							.getDataParamFitToScreen()) {
+
+						final Element scaler = app.getArticleElement()
+								.getParentElement();
+						scaler.getStyle().setMarginLeft(0, Unit.PX);
+						scaler.getStyle().setMarginTop(0, Unit.PX);
+					}
+					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
 				}
 
 			}
@@ -373,9 +387,51 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		zoomPanel.add(fullscreenBtn);
 	}
 
-	protected JavaScriptObject getFullscreenElement() {
-		return app.getArticleElement().getDataParamFitToScreen() ? null
-				: app.getFrameElement();
+	protected void toggleFullscreen() {
+		final Element container;
+		if (app.getArticleElement().getDataParamFitToScreen()) {
+			container = null;
+		} else {
+			final Element scaler = app.getArticleElement().getParentElement();
+			container = scaler.getParentElement();
+			if (!isFullScreen) {
+				Timer t = new Timer() {
+
+					@Override
+					public void run() {
+						scaleApplet(scaler, container);
+
+					}
+				};
+				t.schedule(100);
+
+			}
+		}
+		Browser.toggleFullscreen(!isFullScreen, container);
+	}
+
+	protected void scaleApplet(Element scaler, Element container) {
+		double xscale = Window.getClientWidth() / app.getWidth();
+		double yscale = Window.getClientHeight() / app.getHeight();
+		double scale = Math.max(1d, Math.min(xscale, yscale));
+		Browser.scale(scaler, scale, 0, 0);
+		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
+		container.getStyle().setWidth(100, Unit.PCT);
+		container.getStyle().setHeight(100, Unit.PCT);
+		container.getStyle().setPosition(Position.ABSOLUTE);
+		if (xscale > yscale) {
+			scaler.getStyle().setMarginLeft(
+					(Window.getClientWidth() - app.getWidth() * scale) / 2,
+					Unit.PX);
+		} else {
+			Log.debug(Window.getClientHeight() / yscale);
+			scaler.getStyle().setMarginTop(
+					(Window.getClientHeight() - app.getHeight() * scale) / 2,
+					Unit.PX);
+		}
+		app.getArticleElement().resetScale();
+		app.recalculateEnvironments();
+
 	}
 
 	public abstract void calculateEnvironment();
