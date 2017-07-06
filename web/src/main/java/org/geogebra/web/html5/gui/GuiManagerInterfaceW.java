@@ -117,4 +117,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void updateKeyboardLanguage();
 
 	public boolean getKeyboardShouldBeShownFlag();
+
+	public void updateFullscreen();
 }

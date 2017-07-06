@@ -2372,6 +2372,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		
 		return null;
 	}
+
+	public void updateFullscreen() {
+		((EuclidianDockPanelWAbstract) layout.getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN)).updateFullscreen();
+		
+	}
 }
 
 

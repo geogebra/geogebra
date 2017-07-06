@@ -10,6 +10,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
+import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.StandardButton;
@@ -323,7 +324,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 			@Override
 			public void handle(String obj) {
-				Log.debug(obj);
 				if ("true".equals(obj)) {
 					isFullScreen = true;
 					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
@@ -337,8 +337,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 						final Element scaler = app.getArticleElement()
 								.getParentElement();
+
+						scaler.removeClassName("fullscreen");
 						scaler.getStyle().setMarginLeft(0, Unit.PX);
 						scaler.getStyle().setMarginTop(0, Unit.PX);
+						dispatchResize();
 					}
 					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
 				}
@@ -347,6 +350,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		});
 		zoomPanel.add(fullscreenBtn);
 	}
+
+	protected native void dispatchResize() /*-{
+		$wnd.dispatchEvent(new Event("resize"));
+
+	}-*/;
 
 	private void addZoomButtons() {
 
@@ -407,6 +415,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			final Element scaler = app.getArticleElement().getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreen) {
+				scaler.addClassName("fullscreen");
 				Timer t = new Timer() {
 
 					@Override
@@ -415,14 +424,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 					}
 				};
-				t.schedule(100);
-
+				// delay scaling to make sure scrollbars disappear
+				t.schedule(50);
 			}
 		}
 		Browser.toggleFullscreen(!isFullScreen, container);
 	}
 
 	protected void scaleApplet(Element scaler, Element container) {
+		Log.debug(app.getWidth());
 		double xscale = Window.getClientWidth() / app.getWidth();
 		double yscale = Window.getClientHeight() / app.getHeight();
 		double scale = Math.max(1d, Math.min(xscale, yscale));
@@ -487,5 +497,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public abstract void calculateEnvironment();
 
 	public abstract void resizeView(int width, int height);
+
+	public void updateFullscreen() {
+		ArticleElement ae = app.getArticleElement();
+		if (!ae.getDataParamApp() && isFullScreen) {
+			scaleApplet(ae.getParentElement(),
+					ae.getParentElement().getParentElement());
+		}
+
+	}
 	
 }
