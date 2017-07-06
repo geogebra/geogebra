@@ -2,13 +2,22 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.main.StringHandler;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -23,6 +32,22 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
 	private ConstructionProtocolNavigationW consProtNav;
 	private boolean hasEuclidianFocus;
+	private boolean hasZoomPanel = false;
+	/**
+	 * panel with home,+,-,fullscreen btns
+	 */
+	FlowPanel zoomPanel;
+	private StandardButton homeBtn;
+	private StandardButton zoomInBtn;
+	private StandardButton zoomOutBtn;
+	/**
+	 * enter/exit fullscreen mode
+	 */
+	StandardButton fullscreenBtn;
+	/**
+	 * is in fullscreen mode
+	 */
+	boolean isFullScreen = false;
 
 	/**
 	 * default constructor
@@ -48,6 +73,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			char shortcut) {
 		super(id, title, toolbar, hasStyleBar, hasZoomPanel, menuOrder,
 				shortcut);
+		this.hasZoomPanel = hasZoomPanel;
 	}
 
 	/**
@@ -241,6 +267,115 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public final AbsolutePanel getAbsolutePanel() {
 		return getEuclidianPanel() == null ? null : getEuclidianPanel()
 				.getAbsolutePanel();
+	}
+
+	private boolean allowZoomPanel() {
+		return hasZoomPanel
+				&& (app.getArticleElement().getDataParamShowZoomControls()
+						|| app.getArticleElement().getDataParamApp()
+								&& app.has(Feature.ZOOM_PANEL))
+				&& !Browser.isMobile();
+	}
+
+	@Override
+	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
+		if (allowZoomPanel()) {
+			dockPanel.addSouth(zoomPanel, 0);
+		}
+	}
+
+	@Override
+	protected void tryBuildZoomPanel() {
+		if (allowZoomPanel()) {
+			buildZoomPanel();
+		}
+	}
+
+	private void buildZoomPanel() {
+		zoomPanel = new FlowPanel();
+		zoomPanel.setStyleName("zoomPanel");
+
+		// add home button
+		homeBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.home_zoom_black18());
+		homeBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerHome = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				app.getEuclidianView1().setStandardView(true);
+			}
+		};
+		homeBtn.addFastClickHandler(handlerHome);
+		zoomPanel.add(homeBtn);
+
+		// add zoom in button
+		zoomInBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.add_black18());
+		zoomInBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerZoomIn = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				getEuclidianView().getEuclidianController()
+						.zoomInOut(false, false);
+			}
+		};
+		zoomInBtn.addFastClickHandler(handlerZoomIn);
+		zoomPanel.add(zoomInBtn);
+
+		// add zoom out button
+		zoomOutBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.remove_black18());
+		zoomOutBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerZoomOut = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				getEuclidianView().getEuclidianController()
+						.zoomInOut(false, true);
+			}
+		};
+		zoomOutBtn.addFastClickHandler(handlerZoomOut);
+		zoomPanel.add(zoomOutBtn);
+
+		// add fullscreen button
+		fullscreenBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.fullscreen_black18());
+		fullscreenBtn.getDownFace().setImage(new Image(
+				MaterialDesignResources.INSTANCE.fullscreen_exit_black18()));
+		fullscreenBtn.setStyleName("zoomPanelBtn");
+		FastClickHandler handlerFullscreen = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				Browser.toggleFullscreen(!isFullScreen, getFullscreenElement());
+			}
+		};
+		fullscreenBtn.addFastClickHandler(handlerFullscreen);
+		Browser.addFullscreenListener(new StringHandler() {
+
+			@Override
+			public void handle(String obj) {
+				Log.debug(obj);
+				if ("true".equals(obj)) {
+					isFullScreen = true;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_black18());
+				} else {
+					isFullScreen = false;
+					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
+							.fullscreen_exit_black18());
+				}
+
+			}
+		});
+		zoomPanel.add(fullscreenBtn);
+	}
+
+	protected JavaScriptObject getFullscreenElement() {
+		return app.getArticleElement().getDataParamFitToScreen() ? null
+				: app.getFrameElement();
 	}
 
 	public abstract void calculateEnvironment();

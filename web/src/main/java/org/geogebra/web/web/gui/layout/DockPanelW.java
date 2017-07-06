@@ -14,7 +14,6 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -22,7 +21,6 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.web.cas.view.CASStylebarW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -121,7 +119,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	private boolean hasStyleBar = false;
 	
-	private boolean hasZoomPanel = false;
+
 
 	/**
 	 * Style bar component.
@@ -297,7 +295,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.menuOrder = menuOrder;
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
-		this.hasZoomPanel = hasZoomPanel;
 		this.isAlone = false;
 	}
 
@@ -377,21 +374,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	FlowPanel titleBarPanel;
 	private FlowPanel titleBarPanelContent;
 	
-	/**
-	 * panel with home,+,-,fullscreen btns
-	 */
-	FlowPanel zoomPanel;
-	private StandardButton homeBtn;
-	private StandardButton zoomInBtn;
-	private StandardButton zoomOutBtn;
-	/**
-	 * enter/exit fullscreen mode
-	 */
-	StandardButton fullscreenBtn;
-	/**
-	 * is in fullscreen mode
-	 */
-	boolean isFullScreen = false;
+
+
 
 	private PushButton closeButton;
 	private FlowPanel dragPanel;
@@ -533,9 +517,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			titleBarPanel.add(closeButtonPanel);
 		}
 		
-		if (allowZoomPanel()) {
-			buildZoomPanel();
-		}
+		tryBuildZoomPanel();
 
 		if (app.getGuiManager().isDraggingViews()) {
 			enableDragging(true);
@@ -546,97 +528,14 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	}
 
-	private boolean allowZoomPanel() {
-		return hasZoomPanel
-				&& (app.getArticleElement().getDataParamShowZoomControls()
-						|| app.getArticleElement().getDataParamApp()
-								&& app.has(Feature.ZOOM_PANEL))
-				&& !Browser.isMobile();
+
+
+	protected void tryBuildZoomPanel() {
+		// overridden in EV
 	}
 
-	private void buildZoomPanel() {
-		zoomPanel = new FlowPanel();
-		zoomPanel.setStyleName("zoomPanel");
-
-		// add home button
-		homeBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.home_zoom_black18());
-		homeBtn.setStyleName("zoomPanelBtn");
-		FastClickHandler handlerHome = new FastClickHandler() {
-			
-			@Override
-			public void onClick(Widget source) {
-				app.getEuclidianView1().setStandardView(true);
-			}
-		};
-		homeBtn.addFastClickHandler(handlerHome);
-		zoomPanel.add(homeBtn);
-
-		// add zoom in button
-		zoomInBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.add_black18());
-		zoomInBtn.setStyleName("zoomPanelBtn");
-		FastClickHandler handlerZoomIn = new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				app.getEuclidianView1().getEuclidianController()
-						.zoomInOut(false, false);
-			}
-		};
-		zoomInBtn.addFastClickHandler(handlerZoomIn);
-		zoomPanel.add(zoomInBtn);
-
-		// add zoom out button
-		zoomOutBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.remove_black18());
-		zoomOutBtn.setStyleName("zoomPanelBtn");
-		FastClickHandler handlerZoomOut = new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				app.getEuclidianView1().getEuclidianController()
-						.zoomInOut(false, true);
-			}
-		};
-		zoomOutBtn.addFastClickHandler(handlerZoomOut);
-		zoomPanel.add(zoomOutBtn);
-
-		// add fullscreen button
-		fullscreenBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.fullscreen_black18());
-		fullscreenBtn.getDownFace().setImage(new Image(MaterialDesignResources.INSTANCE.fullscreen_exit_black18()));
-		fullscreenBtn.setStyleName("zoomPanelBtn");
-		FastClickHandler handlerFullscreen = new FastClickHandler() {
-
-			@Override
-			public void onClick(Widget source) {
-				Browser.toggleFullscreen(!isFullScreen,
-						app.getArticleElement().getDataParamFitToScreen() ? null
-								: app.getFrameElement());
-			}
-		};
-		fullscreenBtn.addFastClickHandler(handlerFullscreen);
-		Browser.addFullscreenListener(new StringHandler() {
-
-			@Override
-			public void handle(String obj) {
-				Log.debug(obj);
-				if ("true".equals(obj)) {
-					isFullScreen = true;
-					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_black18());
-				} else {
-					isFullScreen = false;
-					fullscreenBtn.setIcon(MaterialDesignResources.INSTANCE
-							.fullscreen_exit_black18());
-				}
-
-			}
-		});
-		zoomPanel.add(fullscreenBtn);
-	}
 	
+
 	/**
 	 * Switch panel to drag mode
 	 */
@@ -728,7 +627,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		buildGUIIfNecessary(false);
 
 		dockPanel.clear();
-		Log.debug(app.allowStylebar());
 		if (hasStyleBar()) {
 
 			if (app.getSettings().getLayout().showTitleBar()
@@ -748,9 +646,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			updateStyleBarVisibility();
 		}
 
-		if (allowZoomPanel()) {
-			dockPanel.addSouth(zoomPanel, 0);
-		}
+		addZoomPanel(dockPanel);
 
 		if (!app.allowStylebar() && needsResetIcon()) {
 			showResetIcon();
@@ -768,6 +664,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 		} else {
 			onResize();
 		}
+	}
+
+	protected void addZoomPanel(MyDockLayoutPanel dockPanel2) {
+		// TODO Auto-generated method stub
+
 	}
 
 	private boolean forceCloseButton() {
