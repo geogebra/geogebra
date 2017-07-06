@@ -3138,6 +3138,8 @@ public abstract class App implements UpdateSelection {
 		sb.append("\"errorDialogsActive\":false,\n");
 		sb.append("\"useBrowserForJS\":false,\n");
 		sb.append("\"preventFocus\":false,\n");
+		sb.append("\"showZoomControls\":true,\n");
+		sb.append("\"showFullscreenButton\":true,\n");
 		sb.append("\"scale\":1,\n");
 		sb.append("\"disableAutoScale\":false,\n");
 		sb.append("\"clickToLoad\":false,\n");
