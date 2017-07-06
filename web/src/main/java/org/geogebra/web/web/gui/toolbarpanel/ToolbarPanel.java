@@ -72,7 +72,7 @@ public class ToolbarPanel extends FlowPanel {
 	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
 	 * this.
 	 */
-	void setMoveMode() {
+	public void setMoveMode() {
 		tabTools.setMoveMode();
 	}
 
@@ -182,7 +182,10 @@ public class ToolbarPanel extends FlowPanel {
 	 */
 	class ToolsTab extends ToolbarTab {
 	
-		private Tools toolsPanel;
+		/**
+		 * panel containing the tools
+		 */
+		Tools toolsPanel;
 
 		/**
 		 * button to get more tools

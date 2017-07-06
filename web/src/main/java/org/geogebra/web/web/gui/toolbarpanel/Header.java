@@ -172,8 +172,8 @@ class Header extends FlowPanel {
 						Header.this.toolbarPanel.header.getParent().getParent().getParent()
 								.addStyleName("closeLandscape");
 						Header.this.toolbarPanel.setLastOpenWidth(getOffsetWidth());
-
 					}
+					Header.this.toolbarPanel.setMoveMode();
 					Header.this.toolbarPanel.setClosedByUser(true);
 				} else {
 					Header.this.toolbarPanel.header.getParent().getParent().getParent()
