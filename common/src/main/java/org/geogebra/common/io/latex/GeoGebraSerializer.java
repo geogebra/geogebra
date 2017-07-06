@@ -132,7 +132,7 @@ public class GeoGebraSerializer implements Serializer {
 		case LIM:
 			stringBuilder.append("Limit");
 			serializeArgs(mathFunction, stringBuilder,
-					new int[] { 2, 3, 0, 1 });
+					new int[] { 2, 0, 1 });
 			break;
 		case APPLY:
 		case APPLY_SQUARE:
