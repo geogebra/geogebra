@@ -8769,6 +8769,19 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * if AV update fails (e.g. if row not visible), we can set this to true to force update later
+	 */
+	private boolean descriptionNeedsUpdateInAV = true;
+
+	public void setDescriptionNeedsUpdateInAV(boolean flag) {
+		descriptionNeedsUpdateInAV = flag;
+	}
+
+	public boolean descriptionNeedsUpdateInAV() {
+		return descriptionNeedsUpdateInAV;
+	}
+
+	/**
 	 * 
 	 * @return true if this can be listed as input for a macro
 	 */
