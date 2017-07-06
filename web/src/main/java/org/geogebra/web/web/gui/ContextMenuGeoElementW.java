@@ -204,7 +204,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					} else {
 						if (app.has(Feature.NEW_TOOLBAR)) {
 							img = MaterialDesignResources.INSTANCE
-									.trace_off_black().getSafeUri().asString();
+									.trace_black().getSafeUri().asString();
 						} else {
 							img = AppResources.INSTANCE.trace_off20()
 									.getSafeUri()
