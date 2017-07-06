@@ -34,6 +34,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -49,6 +50,7 @@ import org.geogebra.web.web.gui.util.MyCJButton;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PointStylePopup;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
+import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -117,7 +119,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 	private Localization loc;
 	private ContextMenuPopup btnContextMenu = null;
-
+	private StandardButton btnDelete;
 
 
 
@@ -534,6 +536,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		}
 
+		if (app.has(Feature.SWITCH_FLAG)) {
+			addDeleteButton();
+		}
+
 		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()) {
 			addContextMenuButton();
 		}
@@ -566,6 +572,27 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// }
 		// }
 		// });
+	}
+
+	/**
+	 * add delete button to dynamic stylebar
+	 */
+	protected void addDeleteButton() {
+		btnDelete = new StandardButton(
+				MaterialDesignResources.INSTANCE.delete_black());
+		btnDelete.setStyleName("MyCanvasButton");
+		FastClickHandler btnDelHandler = new FastClickHandler() {
+			
+			@Override
+			public void onClick(Widget source) {
+				for (GeoElement geo : activeGeoList) {
+					geo.removeOrSetUndefinedIfHasFixedDescendent();
+				}
+				app.storeUndoInfo();
+			}
+		};
+		btnDelete.addFastClickHandler(btnDelHandler);
+		add(btnDelete);
 	}
 
 	// TODO instead of addViewButton() we need a new function addContextMenu()
