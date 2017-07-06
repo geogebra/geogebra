@@ -205,7 +205,8 @@ class Header extends FlowPanel {
 		btnContextMenu.addFastClickHandler(handler);
 		rightSide = new FlowPanel();
 		rightSide.add(btnClose);
-		rightSide.add(btnContextMenu);
+		// remove context menu
+		// rightSide.add(btnContextMenu);
 		rightSide.addStyleName("rightSide");
 		contents.add(rightSide);
 
