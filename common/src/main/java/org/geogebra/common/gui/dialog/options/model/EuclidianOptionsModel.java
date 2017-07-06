@@ -647,7 +647,9 @@ public class EuclidianOptionsModel {
 		String[] gridTypes = new String[app.has(Feature.MINOR_GRIDLINES) ? 4
 				: 3];
 		Localization loc = app.getLocalization();
-		gridTypes[EuclidianView.GRID_CARTESIAN] = loc.getMenu("Cartesian");
+		gridTypes[EuclidianView.GRID_CARTESIAN] = loc
+					.getMenu(app.has(Feature.MINOR_GRIDLINES) ? "Grid.Major"
+							: "Cartesian");
 		gridTypes[EuclidianView.GRID_ISOMETRIC] = loc.getMenu("Isometric");
 		gridTypes[EuclidianView.GRID_POLAR] = loc.getMenu("Polar");
 		if (app.has(Feature.MINOR_GRIDLINES)) {
