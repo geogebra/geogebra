@@ -55,8 +55,31 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			addAxesMenuItem();
 			addGridMenuItem();
+			addClearTraceMenuItem();
 		}
 
+		addShowAllObjAndStandView();
+
+		addMiProperties("DrawingPad", ot);
+
+	}
+
+	private void addClearTraceMenuItem() {
+		String imgClearTrace = MaterialDesignResources.INSTANCE.refresh_black()
+				.getSafeUri().asString();
+		MenuItem miClearTrace = new MenuItem(MainMenu.getMenuBarHtml(imgClearTrace, loc.getMenu("ClearTrace")), true,
+				new Command() {
+
+			        @Override
+					public void execute() {
+						app.refreshViews();
+			        }
+
+		        });
+		wrappedPopup.addItem(miClearTrace);
+	}
+
+	private void addShowAllObjAndStandView() {
 		String img;
 		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri().asString();
@@ -103,7 +126,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 			addNavigationBar();
 
-			RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(app, false);
+			RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(
+					(AppW) this.app, false);
 			addAxesRatioItems(yaxisMenu);
 
 			MenuItem mi = new MenuItem(
@@ -116,17 +140,17 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				wrappedPopup.addItem(mi);
 			}
 
-			if (!ev.isZoomable()) {
+			if (!app.getActiveEuclidianView().isZoomable()) {
 				yaxisMenu.setEnabled(false);
 			}
 
-			if (ev.isLockedAxesRatio()) {
+			if (app.getActiveEuclidianView().isLockedAxesRatio()) {
 				yaxisMenu.setEnabled(false);
 			}
 
 		}
 
-		if (!ev.isZoomable()) {
+		if (!app.getActiveEuclidianView().isZoomable()) {
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
 		}
@@ -139,8 +163,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (!app.has(Feature.NEW_TOOLBAR)) {
 			wrappedPopup.addItem(miStandardView);
 		}
-		addMiProperties("DrawingPad", ot);
-
 	}
 
 	private void addGridMenuItem() {
