@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -387,7 +388,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private boolean axesLabelsSerif = false;
 
-	private Boolean enabled = null;
+	private ExtendedBoolean enabledEB = ExtendedBoolean.UNKNOWN;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -1110,8 +1111,9 @@ public class EuclidianSettings extends AbstractSettings {
 	 *            whether this view is enabled (for 3D only)
 	 */
 	public void setEnabled(boolean enable) {
-		if (enabled == null || enabled != enable) {
-			this.enabled = enable;
+		if (enabledEB == ExtendedBoolean.UNKNOWN
+				|| enabledEB.boolVal() != enable) {
+			this.enabledEB = ExtendedBoolean.newExtendedBoolean(enable);
 			settingChanged();
 		}
 	}
@@ -1120,21 +1122,22 @@ public class EuclidianSettings extends AbstractSettings {
 	 * reset 3d enable (needed for exam mode)
 	 */
 	public void resetEnabled() {
-		enabled = null;
+		enabledEB = ExtendedBoolean.UNKNOWN;
 	}
 
 	/**
 	 * @return whether this view is enabled
 	 */
 	public boolean isEnabled() {
-		return enabled == null || enabled;
+		// UNKNOWN / TRUE -> true
+		return enabledEB != ExtendedBoolean.FALSE;
 	}
 
 	/**
 	 * @return whether this view was explicitly disabled
 	 */
 	public boolean isEnabledSet() {
-		return enabled != null;
+		return enabledEB != ExtendedBoolean.UNKNOWN;
 	}
 
 }
