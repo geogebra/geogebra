@@ -7,6 +7,8 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Presistable;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.StandardButton;
 
@@ -360,6 +362,7 @@ class Header extends FlowPanel {
 	 */
 	public void setOpen(boolean value) {
 		this.open = value;
+		updateDraggerStyle(value);
 		updateStyle();
 		
 		if (this.toolbarPanel.isPortrait()) {
@@ -381,6 +384,21 @@ class Header extends FlowPanel {
 		this.toolbarPanel.showKeyboardButtonDeferred(
 				isOpen() && this.toolbarPanel.getSelectedTab() != TabIds.TOOLS);
 
+	}
+
+	private void updateDraggerStyle(boolean close) {
+		ToolbarDockPanelW dockPanel = toolbarPanel.getToolbarDockPanel();
+		final DockSplitPaneW dockParent = dockPanel != null
+				? dockPanel.getParentSplitPane() : null;
+		if (dockPanel != null) {
+			if (toolbarPanel.isPortrait() && !close) {
+				dockParent.removeStyleName("hide-Dragger");
+				dockParent.addStyleName("moveUpDragger");
+			} else {
+				dockParent.removeStyleName("moveUpDragger");
+				dockParent.addStyleName("hide-Dragger");
+			}
+		}
 	}
 
 	/**

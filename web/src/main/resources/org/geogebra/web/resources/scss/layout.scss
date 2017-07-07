@@ -3,7 +3,7 @@
 .GeoGebraFrame {
 	
 	.gwt-SplitLayoutPanel>div {
-		overflow: hidden !important;
+		/*overflow: hidden !important;*/
 	}
 	.hide-Dragger {
 		
@@ -23,9 +23,19 @@
     		top: 9px !important;
 		}
 	}
+
+	.moveUpDragger {
+		
+		div {
+			overflow: visible !important;
+		}
 	
-	.hiddenHDraggerBottomPanel {
-		top: 9px !important;
+		.gwt-SplitLayoutPanel-VDragger {
+			border: none;
+    		box-shadow: 2px -1px 8px 4px rgba(0,0,0,0.4);
+    		height: 0px !important;
+    		top: 0px !important;
+		}
 	}
 	
 	.hiddenHDraggerRightPanel {

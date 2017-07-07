@@ -402,7 +402,7 @@ public class ToolbarPanel extends FlowPanel {
 		if (!header.isOpen()) {
 			return;
 		}
-		
+
 		header.setOpen(false);
 	}
 
