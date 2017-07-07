@@ -1325,32 +1325,28 @@ public class EuclidianViewW extends EuclidianView implements
 
 		Log.debug("read text: " + text);
 		dummyDiv.getElement().setInnerText(text);
-		JavaScriptObject scrollMode = JavaScriptObject.createObject();
-		int scrolltop = getScrollTop(scrollMode);
+		JavaScriptObject scrollState = JavaScriptObject.createObject();
+		int scrolltop = getScrollTop(scrollState);
 		dummyDiv.getElement().focus();
 		g2p.getCanvas().getCanvasElement().focus();
-		setScrollTop(scrolltop, scrollMode);
+		setScrollTop(scrolltop, scrollState);
 	}
 
 	private static native boolean hasParentWindow()/*-{
 		return $wnd.parent != $wnd;
 	}-*/;
 
-	private static native int getScrollTop(JavaScriptObject scrollMode)/*-{
-		if ($wnd.scrollY && !$wnd.document.body.scrollTop) {
-			scrollMode.topLevel = true;
-			return $wnd.scrollY;
+	private static native int getScrollTop(JavaScriptObject scrollState)/*-{
+		scrollState.element = $doc.body;
+		if ($doc.documentElement.scrollTop && !$doc.body.scrollTop) {
+			scrollState.element = $doc.documentElement;
 		}
-		return $wnd.document.body.scrollTop;
+		return scrollState.element.scrollTop;
 	}-*/;
 
 	private static native void setScrollTop(int st,
-			JavaScriptObject scrollMode)/*-{
-		if (scrollMode.topLevel) {
-			$wnd.scrollTo($wnd.scrollY, st);
-		} else {
-			$wnd.document.body.scrollTop = st;
-		}
+			JavaScriptObject scrollState)/*-{
+		scrollState.element.scrollTop = st;
 	}-*/;
 
 	public static native void printFocusedElement()/*-{
