@@ -453,16 +453,16 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		container.getStyle().setWidth(100, Unit.PCT);
 		container.getStyle().setHeight(100, Unit.PCT);
 		container.getStyle().setPosition(Position.ABSOLUTE);
+		double marginLeft = 0;
+		double marginTop = 0;
 		if (xscale > yscale) {
-			scaler.getStyle().setMarginLeft(
-					(Window.getClientWidth() - app.getWidth() * scale) / 2,
-					Unit.PX);
+			marginLeft = (Window.getClientWidth() - app.getWidth() * scale) / 2;
 		} else {
-			Log.debug(Window.getClientHeight() / yscale);
-			scaler.getStyle().setMarginTop(
-					(Window.getClientHeight() - app.getHeight() * scale) / 2,
-					Unit.PX);
+			marginTop = (Window.getClientHeight() - app.getHeight() * scale)
+					/ 2;
 		}
+		scaler.getStyle().setMarginLeft(marginLeft, Unit.PX);
+		scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		app.getArticleElement().resetScale();
 		app.recalculateEnvironments();
 
