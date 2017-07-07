@@ -153,6 +153,7 @@ import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.HTML5Export;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.main.SingularWSSettings;
@@ -2342,7 +2343,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void copyFullHTML5ExportToClipboard() {
 
-		copyTextToSystemClipboard(getFullHTML5ExportString());
+		copyTextToSystemClipboard(HTML5Export.getFullString(this));
 	}
 
 	public void copyGraphicsViewToClipboard(final EuclidianView copyView) {
