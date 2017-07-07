@@ -5,8 +5,10 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -375,12 +377,28 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 		resetAllToolbars();
 
-		// do not show axes for geometry
-		if (getGuiManager() instanceof GuiManagerW && isUnbundled() && getSettings().getToolbarSettings().isGeometry()) {
-			getSettings().getEuclidian(1).setShowAxes(false);
-		}
+		resetGeometryApp();
+		resetGraphingApp();
+
 		resetPenTool();
 
+	}
+
+	private void resetGraphingApp() {
+		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
+				.getType() == AppType.GRAPHING_CALCULATOR) {
+			getSettings().getEuclidian(1)
+					.showGrid(true);
+			getSettings().getEuclidian(1)
+					.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+		}
+	}
+
+	private void resetGeometryApp() {
+		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
+				.getType() == AppType.GEOMETRY_CALC) {
+			getSettings().getEuclidian(1).setShowAxes(false);
+		}
 	}
 
 	private void resetAllToolbars() {
