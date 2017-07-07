@@ -1179,6 +1179,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
 	}
 
+
 	/**
 	 * @param xZero
 	 *            new x coord of origin
@@ -1202,6 +1203,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
+
+		getEuclidianController().onCoordSystemChanged();
 
 		this.xZero = xZero;
 		this.yZero = yZero;
@@ -5255,8 +5258,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if view is not zoomed;
 	 */
 	public boolean isStandardView() {
-		return (zoomer == null || zoomer.isStandardZoom())
-				&& Kernel.isEqual(this.xZero, EuclidianView.XZERO_STANDARD);
+		boolean standardOrigin = Kernel
+				.checkInteger(getXZero()) == XZERO_STANDARD
+				&& Kernel.checkInteger(getYZero()) == YZERO_STANDARD;
+		Log.debug("STANDARD origin: " + standardOrigin);
+		return standardOrigin && (zoomer == null || zoomer.isStandardZoom());
 	}
 
 	/**

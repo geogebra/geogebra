@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.MyZoomerListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -161,10 +160,14 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	protected EuclidianViewInterfaceSlim getEuclidianView() {
 		return view;
 	}
+
 	/**
 	 * Shows home button.
 	 */
 	void showHomeButton() {
+		if (homeBtn == null) {
+			return;
+		}
 		homeBtn.addStyleName("zoomPanelHomeIn");
 		homeBtn.removeStyleName("zoomPanelHomeOut");
 	}
@@ -173,31 +176,38 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	 * Hides home button.
 	 */
 	void hideHomeButton() {
+		if (homeBtn == null) {
+			return;
+		}
+
 		homeBtn.addStyleName("zoomPanelHomeOut");
 		homeBtn.removeStyleName("zoomPanelHomeIn");
 	}
 
+	private void updateHomeButton() {
+		if (app.getEuclidianView1().isStandardView()) {
+			hideHomeButton();
+		} else {
+			showHomeButton();
+		}
+	}
+
 	@Override
 	public void onZoomStart() {
-		Log.debug("[zoom] start");
-
 	}
 
 	@Override
 	public void onZoomStep() {
-		Log.debug("[zoom] step");
 	}
 
 	@Override
 	public void onZoomEnd() {
-		Log.debug("zpp");
-		boolean zoomed = !view.isStandardView();
-		if (zoomed) {
-			showHomeButton();
-		} else {
-			hideHomeButton();
-		}
+		updateHomeButton();
+	}
 
+	@Override
+	public void onCoordSystemChanged() {
+		updateHomeButton();
 	}
 
 	protected native void dispatchResize() /*-{

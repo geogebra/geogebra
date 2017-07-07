@@ -12058,4 +12058,10 @@ public abstract class EuclidianController {
 		this.zoomerListener = zoomerListener;
 	}
 
+	public void onCoordSystemChanged() {
+		if (zoomerListener != null) {
+			zoomerListener.onCoordSystemChanged();
+		}
+	}
+
 }

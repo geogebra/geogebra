@@ -15,4 +15,7 @@ public interface MyZoomerListener {
 
 	/** invoke when zoom ends */
 	void onZoomEnd();
+
+	/** invoke when coordinate system has changed. */
+	void onCoordSystemChanged();
 }
