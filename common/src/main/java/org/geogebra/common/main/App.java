@@ -5039,7 +5039,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		//Needed temporary, until the toolset levels are not implemented on iOS too
-		if (has(Feature.MOB_TOOLSET_LEVELS) && (getVersion() == Versions.ANDROID_NATIVE_GRAPHING || getVersion() == Versions.ANDROID_NATIVE_3D || getVersion() == Versions.ANDROID_GEOMETRY)) {
+		if (has(Feature.MOB_TOOLSET_LEVELS)) {
 			getSettings().getToolbarSettings().setType(type);
 			return new ToolCategorization(this, type, getSettings().getToolbarSettings().getToolsetLevel(),
 					isPhoneApp);
