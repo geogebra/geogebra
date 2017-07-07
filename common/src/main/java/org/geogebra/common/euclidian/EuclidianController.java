@@ -10253,6 +10253,9 @@ public abstract class EuclidianController {
 					return;
 				}
 			}
+			if (this.zoomerListener != null) {
+				this.zoomerListener.onZoomEnd();
+			}
 		} else {
 			movedGeoElement = null;
 			// no hits: release mouse button creates a point

@@ -46,22 +46,9 @@ public abstract class MyZoomer {
 	 * 
 	 * @param view
 	 *            view
-	 * @param listener
-	 *            listener
-	 */
-	public MyZoomer(EuclidianView view, MyZoomerListener listener) {
-		this.view = view;
-		this.setListener(listener);
-	}
-
-	/**
-	 * Creates new zoomer with null listener
-	 * 
-	 * @param view
-	 *            view
 	 */
 	public MyZoomer(EuclidianView view) {
-		this(view, null);
+		this.view = view;
 	}
 
 	/**
@@ -254,10 +241,11 @@ public abstract class MyZoomer {
 	/**
 	 * Starts the animation
 	 */
-	public synchronized void startAnimation() {
+	public synchronized void startAnimation(MyZoomerListener listener) {
 		if (!hasTimer()) {
 			return;
 		}
+		this.listener = listener;
 		switch (mode) {
 		case AXES:
 			add = (newScale - oldScale) / steps;
@@ -299,10 +287,6 @@ public abstract class MyZoomer {
 
 	public MyZoomerListener getListener() {
 		return listener;
-	}
-
-	public void setListener(MyZoomerListener listener) {
-		this.listener = listener;
 	}
 
 	/**

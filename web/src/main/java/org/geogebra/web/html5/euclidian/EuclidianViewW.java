@@ -10,7 +10,6 @@ import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyZoomer;
-import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
@@ -223,13 +222,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	protected final MyZoomer newZoomer() {
-		MyZoomerListener listener = getEuclidianController()
-				.getZoomerListener();
-		if (listener == null) {
-			listener = (MyZoomerListener) app.getGuiManager().getLayout()
-					.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-		}
-		return new MyZoomerW(this, listener);
+		return new MyZoomerW(this);
 	}
 
 	@Override
