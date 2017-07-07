@@ -450,9 +450,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public double getPixelRatio() {
-		if (((AppW) app).getArticleElement().disableHiRes3D()) {
-			return 1;
-		}
 		return ((AppW) app).getPixelRatio();
 	}
 
@@ -661,9 +658,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void setPixelRatio(double pixelRatio) {
-		if (((AppW) app).getArticleElement().disableHiRes3D()) {
-			return;
-		}
 		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
 			return;
 		}

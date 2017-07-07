@@ -278,7 +278,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	private boolean allowZoomPanel() {
 		return hasZoomPanel
-				&& (app.getArticleElement().getDataParamShowZoomControls()
+				&& (app.getArticleElement().getDataParamShowZoomButtons()
 						|| app.getArticleElement().getDataParamApp()
 								&& app.has(Feature.ZOOM_PANEL))
 				&& !Browser.isMobile();

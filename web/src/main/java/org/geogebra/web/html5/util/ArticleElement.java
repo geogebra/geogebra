@@ -96,27 +96,13 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * Determines if the "data-param-guiOff" article attribute is set to true If
-	 * it is set to true, the GuiManager should never be created, and only a
-	 * single Graphics View should show in web applets, regardless of what is
-	 * there in the ggb file's construction. This is for speedup, but its
-	 * drawback is that it should be decided before the AppW is created.
-	 * 
-	 * @return the data-param-guiOff (default: false)
-	 */
-	public boolean getDataParamGuiOff() {
-		return ("true".equals(this.getAttribute("data-param-guiOff")));
-	}
-
-	/**
 	 * Determines if the "data-param-enableLabelDrags" article attribute is set
 	 * to true
 	 * 
 	 * @return the data-param-enableLabelDrags (default: true)
 	 */
 	public boolean getDataParamEnableLabelDrags() {
-		return (!"false".equals(this
-		        .getAttribute("data-param-enableLabelDrags")));
+		return getBoolDataParam("enableLabelDrags", true);
 	}
 
 	/**
@@ -126,8 +112,7 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-enableUndoRedo (default: true)
 	 */
 	public boolean getDataParamEnableUndoRedo() {
-		return (!"false"
-				.equals(this.getAttribute("data-param-enableUndoRedo")));
+		return getBoolDataParam("enableUndoRedo", true);
 	}
 
 	/**
@@ -137,20 +122,19 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-enableRightClick (default: true)
 	 */
 	public boolean getDataParamEnableRightClick() {
-		return (!"false".equals(this
-		        .getAttribute("data-param-enableRightClick")));
+		return getBoolDataParam("enableRightClick", true);
 	}
 	
 	public boolean getDataParamEnableCAS(boolean def) {
-		return getBoolParam("data-param-enableCAS", def);
+		return getBoolDataParam("enableCAS", def);
 	}
 
 	public boolean getDataParamEnable3D(boolean def) {
-		return getBoolParam("data-param-enable3D", def);
+		return getBoolDataParam("enable3D", def);
 	}
 
 	public boolean getDataParamEnableGraphing(boolean def) {
-		return getBoolParam("data-param-enableGraphing", def);
+		return getBoolDataParam("enableGraphing", def);
 	}
 
 	/*
@@ -178,15 +162,14 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showMenuBar (default: false)
 	 */
 	public boolean getDataParamShowMenuBar(boolean def) {
-		return getBoolParam("data-param-showMenuBar",
-				def) || getDataParamApp();
+		return getBoolDataParam("showMenuBar", def) || getDataParamApp();
 	}
 
 	public boolean getDataParamShowMenuBar2(boolean def) {
-		return getBoolParam("data-param-showMenuBar", def);
+		return getBoolDataParam("showMenuBar", def);
 	}
 	public boolean getDataParamAllowStyleBar(boolean def) {
-		return getBoolParam("data-param-allowStyleBar", def);
+		return getBoolDataParam("allowStyleBar", def);
 	}
 
 	/**
@@ -196,14 +179,14 @@ public final class ArticleElement extends Element {
 		if (getDataParamShowMenuBar(false) || getDataParamApp()) {
 			return true;
 		}
-		return getBoolParam("data-param-showToolBar", def);
+		return getBoolDataParam("showToolBar", def);
 	}
 
 	public boolean getDataParamShowToolBarHelp(boolean def) {
 		if (!getDataParamShowToolBar(false) && !getDataParamApp()) {
 			return false;
 		}
-		return getBoolParam("data-param-showToolBarHelp", def);
+		return getBoolDataParam("showToolBarHelp", def);
 	}
 
 	/**
@@ -218,7 +201,7 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showAlgebraInput (default: true)
 	 */
 	public boolean getDataParamShowAlgebraInput(boolean def) {
-		return getBoolParam("data-param-showAlgebraInput", def);
+		return getBoolDataParam("showAlgebraInput", def);
 	}
 	
 	public InputPosition getAlgebraPosition(InputPosition def) {
@@ -235,24 +218,18 @@ public final class ArticleElement extends Element {
 		return def;
 	}
 
-	private boolean getBoolParam(String attr, boolean def) {
-		return (def && !"false".equals(this.getAttribute(attr)))
-		        || "true".equals(this.getAttribute(attr));
-	}
-
 	/**
 	 * @return the data-param-showResetIcon (default: false)
 	 */
 	public boolean getDataParamShowResetIcon() {
-		return ("true".equals(this.getAttribute("data-param-showResetIcon")));
+		return getBoolDataParam("showResetIcon", false);
 	}
 
 	/**
 	 * @return the data-param-showAnimationButton (default: true)
 	 */
 	public boolean getDataParamShowAnimationButton() {
-		return (!"false".equals(this
-		        .getAttribute("data-param-showAnimationButton")));
+		return getBoolDataParam("showAnimationButton", true);
 	}
 
 	public int getDataParamCapturingThreshold() {
@@ -294,16 +271,14 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-allowJSscripting (default: true)
 	 */
 	public boolean getDataParamUseBrowserForJS() {
-		return (!"false"
-		        .equals(this.getAttribute("data-param-useBrowserForJS")));
+		return getBoolDataParam("useBrowserForJS", true);
 	}
 
 	/**
 	 * @return the data-param-enableShiftDragZoom (default: true)
 	 */
 	public boolean getDataParamShiftDragZoomEnabled() {
-		return (!"false".equals(this
-		        .getAttribute("data-param-enableShiftDragZoom")));
+		return getBoolDataParam("enableShiftDragZoom", true);
 	}
 
 	/**
@@ -338,8 +313,7 @@ public final class ArticleElement extends Element {
 	 * @return wheter the applet should fit to screen
 	 */
 	public boolean getDataParamFitToScreen() {
-		return "true".equals(this.getAttribute("data-param-fittoscreen"))
-				|| getDataParamApp();
+		return getBoolDataParam("fittoscreen", false) || getDataParamApp();
 	}
 
 	public String getDataParamBorder() {
@@ -350,16 +324,15 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showLogging (default: false)
 	 */
 	public boolean getDataParamShowLogging() {
-		return ("true".equals(this.getAttribute("data-param-showLogging")) || Location
-				.getParameter("GeoGebraDebug") != null);
+		return getBoolDataParam("showLogging", false)
+				|| (Location.getParameter("GeoGebraDebug") != null);
 	}
 
 	/**
 	 * @return the data-param-allowSymbolTable (default: true)
 	 */
 	public boolean getDataParamAllowSymbolTable() {
-		return (!"false".equals(this
-		        .getAttribute("data-param-allowSymbolTable")));
+		return getBoolDataParam("allowSymbolTable", true);
 	}
 
 	/**
@@ -453,16 +426,15 @@ public final class ArticleElement extends Element {
 	 * @return default false
 	 */
 	public boolean getDataParamAllowStyleBar() {
-		return "true".equals(getAttribute("data-param-allowStyleBar"));
+		return getBoolDataParam("allowStyleBar", false);
 	}
 
 	public boolean getDataParamApp() {
-		return "true".equals(this.getAttribute("data-param-app"));
+		return getBoolDataParam("app", false);
 	}
 
 	public boolean getDataParamScreenshotGenerator() {
-		return "true".equals(this
-		        .getAttribute("data-param-screenshotGenerator"));
+		return getBoolDataParam("screenshotGenerator", false);
 	}
 
 	public String getDataParamLAF() {
@@ -473,7 +445,7 @@ public final class ArticleElement extends Element {
 	 * @return wheter focus prevented (use in multiple applets)
 	 */
 	public boolean preventFocus() {
-		return "true".equals(this.getAttribute("data-param-preventFocus"));
+		return getBoolDataParam("preventFocus", false);
 	}
 
 	public String getDataClientID() {
@@ -533,24 +505,15 @@ public final class ArticleElement extends Element {
 	public String getDataParamTubeID() {
 		return getAttribute("data-param-tubeid");
 	}
-
-	/*
-	 * public boolean getDataParamNo3D() { return
-	 * "true".equals(getAttribute("data-param-no3d")); }
-	 * 
-	 * public boolean getDataParamNoCAS() { return
-	 * "true".equals(getAttribute("data-param-nocas")); }
-	 */
-
 	public boolean getDataParamShowStartTooltip(boolean def) {
-		return getBoolParam("data-param-showTutorialLink", def);
+		return getBoolDataParam("showTutorialLink", def);
 	}
 
 	/**
 	 * @return whether to enable file menu
 	 */
 	public boolean getDataParamEnableFileFeatures() {
-		return !"false".equals(getAttribute("data-param-enableFileFeatures"));
+		return getBoolDataParam("enableFileFeatures", true);
 	}
 
 	public static ArrayList<ArticleElement> getGeoGebraMobileTags() {
@@ -584,17 +547,8 @@ public final class ArticleElement extends Element {
 
 	}
 
-	public boolean disableHiRes3D() {
-		return "true".equals(getAttribute("data-param-disablehires3d"));
-	}
-
 	public boolean getDataParamErrorDialogsActive() {
-		return !"false"
-				.equals(this.getAttribute("data-param-errorDialogsActive"));
-	}
-
-	public String getApiKey() {
-		return this.getAttribute("data-param-apiKey");
+		return getBoolDataParam("errorDialogsActive", true);
 	}
 
 	public static boolean isEnableUsageStats() {
@@ -610,15 +564,25 @@ public final class ArticleElement extends Element {
 	}
 
 	public boolean getDataParamShowAppsPicker() {
-		return this.getBoolParam("data-param-showAppsPicker", false);
+		return getBoolDataParam("showAppsPicker", false);
 	}
 
 	public int getBorderThickness() {
 		return getDataParamFitToScreen() ? 0 : 2;
 	}
 
-	public boolean getDataParamShowZoomControls() {
-		return this.getBoolParam("data-param-showZoomControls", false);
+	public boolean getDataParamShowZoomButtons() {
+		return getBoolDataParam("showZoomButtons", false);
+	}
+
+	public boolean getDataParamShowFullscreenButton() {
+		return getBoolDataParam("showFullscreenButton", false);
+	}
+
+	private boolean getBoolDataParam(String string, boolean def) {
+		String attr = "data-param-" + string;
+		return (def && !"false".equals(this.getAttribute(attr)))
+				|| "true".equals(this.getAttribute(attr));
 	}
 
 }
