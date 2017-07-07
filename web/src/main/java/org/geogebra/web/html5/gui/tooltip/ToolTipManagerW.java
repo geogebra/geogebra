@@ -328,11 +328,12 @@ public final class ToolTipManagerW {
 			style.setLeft(left, Unit.PX);
 
 			if (app.has(Feature.NEW_TOOLBAR)) {
-				if (kb) {
+				if (appw.getAppletFrame().isKeyboardShowing()) {
 					style.setTop((appw.getHeight() - 310), Unit.PX);
 				} else {
+					bottomInfoTipPanel.getElement().getStyle().clearTop();
+
 					if (!lastTipVisible) {
-						bottomInfoTipPanel.removeStyleName("animateHide");
 						bottomInfoTipPanel.addStyleName("animateShow");
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
@@ -343,10 +344,9 @@ public final class ToolTipManagerW {
 				style.setTop((appw.getHeight() - (kb ? 250 : 70)) - 20 * lines(text), Unit.PX);
 			}
 		}
-
+		lastTipVisible = true;
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
-			lastTipVisible = true;
 				scheduleHideBottom();
 		}
 	}
@@ -410,7 +410,6 @@ public final class ToolTipManagerW {
 	public void hideBottomInfoToolTip() {
 
 		if (app != null && app.has(Feature.NEW_TOOLBAR) && !keyboardVisible) {
-			bottomInfoTipPanel.removeStyleName("animateShow");
 			bottomInfoTipPanel.addStyleName("animateHide");
 			bottomInfoTipPanel.getElement().getStyle().clearBottom();
 			timer = new Timer() {
@@ -418,7 +417,7 @@ public final class ToolTipManagerW {
 				public void run() {
 					cancelTimer();
 					bottomInfoTipPanel.removeFromParent();
-					lastTipVisible = false;
+
 				}
 			};
 			timer.schedule(400);
@@ -426,6 +425,7 @@ public final class ToolTipManagerW {
 			cancelTimer();
 			bottomInfoTipPanel.removeFromParent();
 		}
+		lastTipVisible = false;
 	}
 
 
