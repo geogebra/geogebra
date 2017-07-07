@@ -248,6 +248,11 @@ public interface GeoElementND extends ExpressionValue {
 	AlgorithmSet getAlgoUpdateSet();
 
 	/**
+	 * @return list of directly dependent algos
+	 */
+	ArrayList<AlgoElement> getAlgorithmList();
+
+	/**
 	 * @return whether the update set
 	 */
 	boolean hasAlgoUpdateSet();

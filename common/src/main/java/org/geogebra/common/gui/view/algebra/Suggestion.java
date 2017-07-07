@@ -15,8 +15,7 @@ abstract public class Suggestion {
 	}
 
 	static boolean hasDependentAlgo(GeoElementND geo, Suggestion sug) {
-		AlgorithmSet set = geo.getAlgoUpdateSet();
-		for (AlgoElement algo : set) {
+		for (AlgoElement algo : geo.getAlgorithmList()) {
 			if (algo != null
 					&& sug.sameAlgoType(algo.getClassName(), algo.getInput())) {
 				return true;
