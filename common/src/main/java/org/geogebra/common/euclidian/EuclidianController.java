@@ -10964,7 +10964,7 @@ public abstract class EuclidianController {
 		}
 
 		this.setZoomerListener(listener);
-		zoomInOut(factor, 4);
+		zoomInOut(factor, 15);
 
 	}
 
