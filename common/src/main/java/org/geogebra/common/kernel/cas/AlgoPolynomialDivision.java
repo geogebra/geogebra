@@ -179,34 +179,23 @@ public class AlgoPolynomialDivision extends AlgoElement {
 				fun1.getFunctionExpression(), false, true);
 		PolyFunction poly2 = fun2.expandToPolyFunction(
 				fun2.getFunctionExpression(), false, true);
-
+		if (poly1 == null || poly2 == null) {
+			setUndefined(g, h);
+			return;
+		}
 		double[] dividend = poly1.getCoeffs();
 		int m = dividend.length;
 		double[] divisor = poly2.getCoeffs();
 		int n = divisor.length;
 
 		if (m < n) {
+			setFunction(g, new double[] { 0 });
 
-			if (g != null) {
-				double[] z = { 0 };
-				Function zero = AlgoPolynomialFromCoordinates
-						.buildPolyFunctionExpression(kernel, z);
-
-				g.setFunction(zero);
-			}
 			if (h != null) {
 				h.set(f1);
 			}
 			return;
 		}
-
-		// for (int i = 0; i < dividend.length; i++) {
-		// Log.debug(dividend[i]);
-		// }
-		//
-		// for (int i = 0; i < divisor.length; i++) {
-		// Log.debug(divisor[i]);
-		// }
 
 		double[] result = Cloner.clone(dividend);
 		double lead = divisor[n - 1];
@@ -223,12 +212,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 
 			// polynomial has all coeffs zero
 			if (n2 == -1) {
-				if (g != null) {
-					g.setUndefined();
-				}
-				if (h != null) {
-					h.setUndefined();
-				}
+				setUndefined(g, h);
 				return;
 			}
 
@@ -266,33 +250,28 @@ public class AlgoPolynomialDivision extends AlgoElement {
 			mod[mod.length - 1 - i + divLen] = result[m - 1 - i];
 		}
 
-		// for (int i = 0; i < div.length; i++) {
-		// Log.debug("div = " + div[i]);
-		// }
-		//
-		// for (int i = 0; i < mod.length; i++) {
-		// Log.debug("mod = " + mod[i]);
-		// }
+		setFunction(g, div);
+		setFunction(h, mod);
+	}
 
-		Function divPolyFun = AlgoPolynomialFromCoordinates
-				.buildPolyFunctionExpression(kernel, div);
-		Function modPolyFun = AlgoPolynomialFromCoordinates
-				.buildPolyFunctionExpression(kernel, mod);
-
-		// Log.debug("divPolyFun = "
-		// + divPolyFun.toString(StringTemplate.defaultTemplate));
-		// Log.debug("modPolyFun = "
-		// + modPolyFun.toString(StringTemplate.defaultTemplate));
-
-		if (g != null) {
-			g.setDefined(true);
-			g.setFunction(divPolyFun);
+	private static void setUndefined(GeoFunction g2, GeoFunction h2) {
+		if (g2 != null) {
+			g2.setUndefined();
+		}
+		if (h2 != null) {
+			h2.setUndefined();
 		}
 
-		if (h != null) {
-			h.setDefined(true);
-			h.setFunction(modPolyFun);
+	}
+
+	private static void setFunction(GeoFunction g2, double[] div) {
+		if (g2 != null) {
+			Function divPolyFun = AlgoPolynomialFromCoordinates
+					.buildPolyFunctionExpression(g2.getKernel(), div);
+			g2.setDefined(true);
+			g2.setFunction(divPolyFun);
 		}
+
 	}
 
 }
