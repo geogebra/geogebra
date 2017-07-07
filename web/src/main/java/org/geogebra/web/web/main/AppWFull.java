@@ -385,8 +385,9 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	private void resetGraphingApp() {
-		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
-				.getType() == AppType.GRAPHING_CALCULATOR) {
+		if ((has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
+				.getType() == AppType.GRAPHING_CALCULATOR)
+				|| has(Feature.MINOR_GRIDLINES)) {
 			getSettings().getEuclidian(1)
 					.showGrid(true);
 			getSettings().getEuclidian(1)
