@@ -219,7 +219,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				}
 
 				if (app.has(Feature.IMPROVE_CONTEXT_MENU)
-						|| app.has(Feature.NEW_TOOLBAR)) {
+						&& !app.has(Feature.NEW_TOOLBAR)) {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img, "", true),
 							loc.getMenu("HideTrace"), loc.getMenu("ShowTrace"),
@@ -231,6 +231,30 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								}
 							}, true, app);
 					cbItem.setSelected(isTracing());
+					wrappedPopup.addItem(cbItem);
+				} else if (app.has(Feature.NEW_TOOLBAR)) {
+					final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+							MainMenu.getMenuBarHtml(img,
+									loc.getMenu("ShowTrace")),
+							MaterialDesignResources.INSTANCE.check_black()
+									.getSafeUri().asString(),
+							isTracing(), new Command() {
+
+								@Override
+								public void execute() {
+									// fill later
+								}
+							});
+					Command cmdTrace = new Command() {
+
+						@Override
+						public void execute() {
+							traceCmd();
+							cmItem.setChecked(isTracing());
+						}
+					};
+					cmItem.setCommand(cmdTrace);
+					wrappedPopup.addItem(cmItem);
 				} else {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img,
@@ -243,8 +267,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								}
 							}, true, app);
 					cbItem.setSelected(((Traceable) getGeo()).getTrace());
+					wrappedPopup.addItem(cbItem);
 				}
-				wrappedPopup.addItem(cbItem);
 			}
 
 			if (getGeo().isSpreadsheetTraceable()
