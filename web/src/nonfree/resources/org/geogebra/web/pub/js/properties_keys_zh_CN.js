@@ -1598,7 +1598,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Distance": "\u8ddd\u79bb / \u957f\u5ea6",
     "Distance.Help": "\u9009\u62e9\u4e24\u70b9\u3001\u7ebf\u6bb5\u3001\u5706\u3001\u5706\u5f27\u3001\u6247\u5f62\u3001\u692d\u5706\u3001\u591a\u8fb9\u5f62\u7b49, \u5ea6\u91cf\u51fa\u8ddd\u79bb\u3001\u957f\u5ea6\u6216\u8005\u5468\u957f",
     "DistanceAB.LaTeX": "\"\\overline{\" + %0 + %1 + \"} \\, = \\, \" + %2",
-    "DistanceOfAandB": "%0 \u4e0e %1 \u95f4\u7684\u8ddd\u79bb",
+    "DistanceOfAandB": "%0 \u548c %1 \u4e4b\u95f4\u7684\u8ddd\u79bb",
     "Distribution": "\u5206\u5e03",
     "Distribution.Binomial": "\u4e8c\u9879\u5206\u5e03",
     "Distribution.Cauchy": "\u67ef\u897f\u5206\u5e03",
