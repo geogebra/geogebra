@@ -88,7 +88,7 @@ public final class ToolTipManagerW {
 	private Timer timer;
 	private boolean blockToolTip = true;
 	private boolean keyboardVisible;
-	// private boolean lastTipVisible = false;
+	private boolean lastTipVisible = false;
 
 	/**
 	 * Time, in milliseconds, to delay showing a toolTip.
@@ -331,13 +331,12 @@ public final class ToolTipManagerW {
 				if (kb) {
 					style.setTop((appw.getHeight() - 310), Unit.PX);
 				} else {
-					// if (!lastTipVisible) {
-					bottomInfoTipPanel.addStyleName("animateShow");
-					/*
-					 * } else {
-					 * bottomInfoTipPanel.getElement().getStyle().setBottom(0,
-					 * Unit.PX); } lastTipVisible = true;
-					 */
+					if (!lastTipVisible) {
+						bottomInfoTipPanel.removeStyleName("animateHide");
+						bottomInfoTipPanel.addStyleName("animateShow");
+					} else {
+						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
+					}
 				}
 
 			} else {
@@ -347,6 +346,7 @@ public final class ToolTipManagerW {
 
 		if (link == ToolTipLinkType.Help && helpURL != null
 				&& helpURL.length() > 0) {
+			lastTipVisible = true;
 				scheduleHideBottom();
 		}
 	}
@@ -394,6 +394,7 @@ public final class ToolTipManagerW {
 			@Override
 			public void run() {
 				hideBottomInfoToolTip();
+
 			}
 		};
 
@@ -409,16 +410,17 @@ public final class ToolTipManagerW {
 	public void hideBottomInfoToolTip() {
 
 		if (app != null && app.has(Feature.NEW_TOOLBAR) && !keyboardVisible) {
+			bottomInfoTipPanel.removeStyleName("animateShow");
 			bottomInfoTipPanel.addStyleName("animateHide");
-			// lastTipVisible = false;
+			bottomInfoTipPanel.getElement().getStyle().clearBottom();
 			timer = new Timer() {
 				@Override
 				public void run() {
 					cancelTimer();
 					bottomInfoTipPanel.removeFromParent();
+					lastTipVisible = false;
 				}
 			};
-
 			timer.schedule(400);
 		} else {
 			cancelTimer();

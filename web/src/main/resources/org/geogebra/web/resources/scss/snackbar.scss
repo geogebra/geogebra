@@ -1,24 +1,20 @@
 @import 'colors';
 
 .snackbar {
-		display: block;
 		min-width: 288px;
 		max-width: 568px;
 		height: 80px; /* 48px for single line */
 		border-radius: 2px;
 		z-index: 1000;
 		position: absolute;
-		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 		background-color: $snackbar-background;
-		color: $white;
 		
 		td {
-		vertical-align: middle !important;
+			vertical-align: middle !important;
 		}
 	
 	.infoText {
 		padding-left: 24px;
-		display: inline-block;
 		cursor: default;
 		color: $white;
 	}
