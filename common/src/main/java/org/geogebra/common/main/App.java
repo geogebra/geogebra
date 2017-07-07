@@ -3934,7 +3934,7 @@ public abstract class App implements UpdateSelection {
 
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
-			return prerelease;
+			return true;
 
 		// MOW-29
 		case MOW_TOOLBAR:
