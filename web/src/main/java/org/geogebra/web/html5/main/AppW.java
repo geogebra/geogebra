@@ -122,7 +122,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -1755,8 +1754,12 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		if (getArticleElement().getDataParamEnable3D(false)
 				|| !getArticleElement().getDataParamEnable3D(true)) {
-			getSettings().getEuclidian(-1).setEnabled(
-					getArticleElement().getDataParamEnable3D(false));
+
+			if (getSettings().supports3D()) {
+
+				getSettings().getEuclidian(-1).setEnabled(
+						getArticleElement().getDataParamEnable3D(false));
+			}
 		}
 
 		if (getArticleElement().getDataParamEnableGraphing(false)
@@ -2538,8 +2541,8 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void setShowToolBar(boolean toolbar, boolean help) {
 		if (toolbar) {
-			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
-			        .propertiesKeysJS());
+			// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
+			// .propertiesKeysJS());
 		}
 		super.setShowToolBar(toolbar, help);
 	}
