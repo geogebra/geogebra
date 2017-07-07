@@ -36,6 +36,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
+import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -703,7 +704,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					}
 				} else {
 					if (app.has(Feature.NEW_TOOLBAR)) {
-						img = MaterialDesignResources.INSTANCE.unpin_black().getSafeUri().asString();
+						img = MaterialDesignResources.INSTANCE.pin_black().getSafeUri().asString();
 					} else {
 						img = AppResources.INSTANCE.unpin20().getSafeUri()
 							.asString();
@@ -714,7 +715,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 
 			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
-					|| app.has(Feature.NEW_TOOLBAR)) {
+					&& !app.has(Feature.NEW_TOOLBAR)) {
 				GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnpinFromScreen"),
@@ -727,6 +728,30 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}, true, app);
 				cbItem.setSelected(pinned);
 				wrappedPopup.addItem(cbItem);
+			} else if (app.has(Feature.NEW_TOOLBAR)) {
+				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+						MainMenu.getMenuBarHtml(img,
+								loc.getMenu("PinToScreen")),
+						MaterialDesignResources.INSTANCE.check_black()
+								.getSafeUri().asString(),
+						pinned, new Command() {
+
+							@Override
+							public void execute() {
+								// TODO Auto-generated method stub
+
+							}
+						});
+				Command cmdPin = new Command() {
+					
+					@Override
+					public void execute() {
+						pinCmd(pinned);
+						cmItem.setChecked(pinned);
+					}
+				};
+				cmItem.setCommand(cmdPin);
+				wrappedPopup.addItem(cmItem);
 			} else {
 				addAction(new Command() {
 
@@ -757,11 +782,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		if (cmd != null) {
 
-			String img;
-			if (isWhiteboard()) {
+			String img = "";
+			if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
 				if (geo.isLocked()) {
 					if (app.has(Feature.NEW_TOOLBAR)) {
-						img = MaterialDesignResources.INSTANCE.unlock_black().getSafeUri().asString();
+						img = MaterialDesignResources.INSTANCE.lock_black()
+								.getSafeUri().asString();
 					} else {
 						img = AppResources.INSTANCE.unlock20().getSafeUri()
 							.asString();
@@ -775,20 +801,46 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					}
 
 				}
+			} else if (app.has(Feature.NEW_TOOLBAR)) {
+				img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri()
+						.asString();
+				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
+						MainMenu.getMenuBarHtml(img, loc.getMenu("FixObject")),
+						MaterialDesignResources.INSTANCE.check_black()
+								.getSafeUri().asString(),
+						geo.isLocked(), new Command() {
+					
+					@Override
+					public void execute() {
+								// fill later
+					}
+				});
+				Command cmdLock = new Command() {
+
+					@Override
+					public void execute() {
+						ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
+						geoArray.add(geo);
+						EuclidianStyleBarStatic.applyFixObject(geoArray,
+								!geo.isLocked(), app.getActiveEuclidianView());
+						cmItem.setChecked(geo.isLocked());
+					}
+				};
+				cmItem.setCommand(cmdLock);
+				wrappedPopup.addItem(cmItem);
 			} else {
 				img = AppResources.INSTANCE.objectFixed().getSafeUri()
 						.asString();
 			}
 
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
-					|| app.has(Feature.NEW_TOOLBAR)) {
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
 				GCheckBoxMenuItem mi = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
-						loc.getMenu("UnlockObject"), loc.getMenu("FixObject"),
+						loc.getMenu("UnfixObject"), loc.getMenu("FixObject"),
 						cmd, true, app);
 				mi.setSelected(getGeo().isLocked());
 				wrappedPopup.addItem(mi);
-			} else {
+			} else if (!app.has(Feature.NEW_TOOLBAR)) {
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
 			}
 		}
