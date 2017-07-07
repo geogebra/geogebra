@@ -166,6 +166,10 @@
 				display: table-cell;
 				vertical-align: middle;
 				
+				.tabButton {
+					margin-left: 10px !important;	
+				}
+				
 				.indicator {
 					display: none;
 					visibility: hidden;
