@@ -24,7 +24,7 @@ public class EuclidianStyleConstants {
 	/**
 	 * size for draggable points ie free points and point on path/region
 	 */
-	public static final int DEFAULT_POINT_SIZE = 5;
+	public static final int DEFAULT_POINT_SIZE = 4;
 
 	/**
 	 * size for non-draggable points eg intersections
