@@ -136,6 +136,9 @@ public class DrawList3D extends Drawable3D {
 			Drawable3D d = (Drawable3D) drawables.get(i);
 			if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
 				d.updateForView();
+				if (d.waitForUpdate()) {
+					setWaitForUpdate();
+				}
 			}
 		}
 	}
