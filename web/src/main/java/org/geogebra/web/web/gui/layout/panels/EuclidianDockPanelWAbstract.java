@@ -278,17 +278,26 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	private boolean allowZoomPanel() {
 		return hasZoomPanel
-				&& (app.getArticleElement().getDataParamShowZoomButtons()
-						|| app.getArticleElement().getDataParamApp()
-								&& app.has(Feature.ZOOM_PANEL))
-				&& !Browser.isMobile();
+				&& (needsZoomButtons() || needsFullscreenButton())
+				&& app.has(Feature.ZOOM_PANEL);
+	}
+
+	private boolean needsFullscreenButton() {
+		return app.getArticleElement().getDataParamShowFullscreenButton()
+				|| app.getArticleElement().getDataParamApp();
+	}
+
+	private boolean needsZoomButtons() {
+		return (app.getArticleElement().getDataParamShowZoomButtons()
+				|| app.getArticleElement().getDataParamApp())
+				&& !Browser.isMobile() && app.isShiftDragZoomEnabled();
 	}
 
 	@Override
 	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
 		if (allowZoomPanel()) {
 			dockPanel.getElement().getStyle().setProperty("minHeight",
-					app.isShiftDragZoomEnabled() ? "200px" : "100px");
+					needsZoomButtons() ? "200px" : "100px");
 			dockPanel.addSouth(zoomPanel, 0);
 		}
 	}
@@ -296,16 +305,18 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	protected void tryBuildZoomPanel() {
 		if (allowZoomPanel()) {
-			buildZoomPanel();
+			zoomPanel = new FlowPanel();
+			zoomPanel.setStyleName("zoomPanel");
+			if (needsZoomButtons()) {
+				addZoomButtons();
+			}
+			if (needsFullscreenButton()) {
+				addFullscreenBUtton();
+			}
 		}
 	}
 
-	private void buildZoomPanel() {
-		zoomPanel = new FlowPanel();
-		zoomPanel.setStyleName("zoomPanel");
-		if (app.isShiftDragZoomEnabled()) {
-			addZoomButtons();
-		}
+	private void addFullscreenBUtton() {
 		// add fullscreen button
 		fullscreenBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.fullscreen_black18());
@@ -349,6 +360,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			}
 		});
 		zoomPanel.add(fullscreenBtn);
+
 	}
 
 	protected native void dispatchResize() /*-{
