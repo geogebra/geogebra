@@ -1665,7 +1665,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				evs.setGridType(EuclidianView.GRID_ISOMETRIC);
 				break;
 			default:
-				evs.setGridType(EuclidianView.GRID_CARTESIAN);
+				evs.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 			}
 			evs.endBatch();
 		}
