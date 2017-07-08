@@ -54,12 +54,15 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 	 * Creates new AlgoLineBisector
 	 * 
 	 * @param cons
-	 * @param label
+	 *            construction
 	 * @param A
+	 *            leg
 	 * @param B
+	 *            vertex
 	 * @param C
+	 *            leg
 	 */
-	public AlgoAngularBisectorPoints(Construction cons, String label,
+	public AlgoAngularBisectorPoints(Construction cons,
 			GeoPoint A, GeoPoint B, GeoPoint C) {
 		super(cons);
 		this.A = A;
@@ -76,7 +79,6 @@ public class AlgoAngularBisectorPoints extends AlgoElement
 
 		// compute bisector of angle(A, B, C)
 		compute();
-		bisector.setLabel(label);
 	}
 
 	@Override

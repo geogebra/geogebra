@@ -249,8 +249,9 @@ public class AlgoDispatcher {
 	final public GeoLine AngularBisector(String label, GeoPoint A, GeoPoint B,
 			GeoPoint C) {
 		AlgoAngularBisectorPoints algo = new AlgoAngularBisectorPoints(cons,
-				label, A, B, C);
+				A, B, C);
 		GeoLine g = algo.getLine();
+		g.setLabel(label);
 		return g;
 	}
 
@@ -269,10 +270,10 @@ public class AlgoDispatcher {
 	 * Vector named label from Point P to Q
 	 */
 	final public GeoVector Vector(String label, GeoPoint P, GeoPoint Q) {
-		AlgoVector algo = new AlgoVector(cons, label, P, Q);
+		AlgoVector algo = new AlgoVector(cons, P, Q);
 		GeoVector v = (GeoVector) algo.getVector();
 		v.setEuclidianVisible(true);
-		v.update();
+		v.setLabel(label);
 		// notifyUpdate(v);
 		return v;
 	}
@@ -485,8 +486,9 @@ public class AlgoDispatcher {
 	 */
 	final public GeoAngle Angle(String label, GeoPoint A, GeoPoint B,
 			GeoPoint C) {
-		AlgoAnglePoints algo = new AlgoAnglePoints(cons, label, A, B, C);
+		AlgoAnglePoints algo = new AlgoAnglePoints(cons, A, B, C);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 

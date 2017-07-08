@@ -23,9 +23,9 @@ public class AlgoVector3D extends AlgoVector {
 	 * @param P
 	 * @param Q
 	 */
-	public AlgoVector3D(Construction cons, String label, GeoPointND P,
+	public AlgoVector3D(Construction cons, GeoPointND P,
 			GeoPointND Q) {
-		super(cons, label, P, Q);
+		super(cons, P, Q);
 	}
 
 	@Override

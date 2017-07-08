@@ -31,29 +31,34 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoAnglePoints extends AlgoAnglePointsND {
 
-	public AlgoAnglePoints(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C) {
-		this(cons, label, A, B, C, null);
-	}
-
-	public AlgoAnglePoints(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
-		this(cons, A, B, C, orientation);
-		angle.setLabel(label);
-	}
-
-	AlgoAnglePoints(Construction cons, AlgoAnglePolygon algoAnglePoly,
-			GeoPointND A, GeoPointND B, GeoPointND C) {
-		this(cons, A, B, C, null);
-		this.algoAnglePoly = algoAnglePoly;
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 */
 	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 
 		this(cons, A, B, C, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 * @param orientation
+	 *            direction for 3D case
+	 */
 	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation) {
 		super(cons);
@@ -74,6 +79,14 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 		super(cons);
 	}
 
+	/**
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 */
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(A.toGeoElement().cons, false);
 		this.leg1N = A;

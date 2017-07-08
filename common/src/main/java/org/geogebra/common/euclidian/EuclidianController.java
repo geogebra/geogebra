@@ -8854,7 +8854,7 @@ public abstract class EuclidianController {
 				GeoElement[] pp = getAlgoDispatcher().Translate(null, p, vec);
 				GeoElement[] qq = getAlgoDispatcher().Translate(null, q, vec);
 				AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(),
-						null, (GeoPointND) pp[0], (GeoPointND) qq[0]);
+						(GeoPointND) pp[0], (GeoPointND) qq[0]);
 				setTranslateStart(topHit, vec);
 
 				// make sure vector looks the same when translated
@@ -8864,7 +8864,7 @@ public abstract class EuclidianController {
 				qq[0].update();
 				newVecAlgo.getGeoElements()[0]
 						.setVisualStyleForTransformations(topHit);
-
+				newVecAlgo.getGeoElements()[0].setLabel(null);
 				app.setMode(EuclidianConstants.MODE_MOVE);
 				movedGeoVector = vec;
 				moveMode = MOVE_VECTOR_NO_GRID;
@@ -8877,7 +8877,7 @@ public abstract class EuclidianController {
 			GeoPoint p = (GeoPoint) algoTP.getGeoElements()[0];
 
 			AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(),
-					null, movedGeoPoint, p);
+					movedGeoPoint, p);
 
 			// make sure vector looks the same when translated
 			movedGeoPoint.setEuclidianVisible(false);
@@ -8886,7 +8886,7 @@ public abstract class EuclidianController {
 			p.update();
 			newVecAlgo.getGeoElements()[0]
 					.setVisualStyleForTransformations(topHit);
-
+			newVecAlgo.getGeoElements()[0].setLabel(null);
 			moveMode = MOVE_POINT;
 		}
 

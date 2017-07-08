@@ -37,8 +37,6 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	protected GeoPointND leg1N, vertexN, leg2N; // input
 	protected GeoAngle angle; // output
 
-	protected AlgoAnglePolygon algoAnglePoly;
-
 	transient protected double bx, by, vx, vy, wx, wy;
 
 	public AlgoAnglePointsND(Construction cons, String label, GeoPointND A,
@@ -123,10 +121,6 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		super(c, addToConstructionList);
 	}
 
-	void setAlgoAnglePolygon(AlgoAnglePolygon algo) {
-		algoAnglePoly = algo;
-	}
-
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
@@ -138,26 +132,6 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		setOutputLength(1);
 		setOutput(0, angle);
 		setDependencies(); // done by AlgoElement
-	}
-
-	@Override
-	public void remove() {
-		if (removed) {
-			return;
-		}
-		if (algoAnglePoly != null) {
-			algoAnglePoly.remove();
-		} else {
-			super.remove();
-		}
-	}
-
-	@Override
-	public int getConstructionIndex() {
-		if (algoAnglePoly != null) {
-			return algoAnglePoly.getConstructionIndex();
-		}
-		return super.getConstructionIndex();
 	}
 
 	public GeoAngle getAngle() {
@@ -181,12 +155,12 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		if (algoAnglePoly != null) {
-			return getLoc().getPlainDefault("AngleBetweenABCofD",
-					"Angle between %0, %1, %2 of %3", leg1N.getLabel(tpl),
-					vertexN.getLabel(tpl), leg2N.getLabel(tpl),
-					algoAnglePoly.getPolygon().getNameDescription());
-		}
+		// if (algoAnglePoly != null) {
+		// return getLoc().getPlainDefault("AngleBetweenABCofD",
+		// "Angle between %0, %1, %2 of %3", leg1N.getLabel(tpl),
+		// vertexN.getLabel(tpl), leg2N.getLabel(tpl),
+		// algoAnglePoly.getPolygon().getNameDescription());
+		// }
 		return getLoc().getPlainDefault("AngleBetweenABC",
 				"Angle between %0, %1, %2", leg1N.getLabel(tpl),
 				vertexN.getLabel(tpl), leg2N.getLabel(tpl));

@@ -34,12 +34,28 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	protected GeoQuadricND c; // input
 	protected GeoLineND[] axes; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            quadric / conic
+	 */
 	protected AlgoAxesQuadricND(Construction cons, String label,
 			GeoQuadricND c) {
 		this(cons, c);
 		GeoElement.setLabels(label, axes);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param c
+	 *            quadric / conic
+	 */
 	protected AlgoAxesQuadricND(Construction cons, String[] labels,
 			GeoQuadricND c) {
 		this(cons, c);
@@ -82,12 +98,11 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting axes
+	 */
 	public GeoLineND[] getAxes() {
 		return axes;
-	}
-
-	GeoQuadricND getConic() {
-		return c;
 	}
 
 	// calc axes

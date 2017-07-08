@@ -1191,7 +1191,23 @@ public class GeoList extends GeoElement
 			}
 		}
 
-		// Application.debug("GeoList.setLineType");
+	}
+
+	@Override
+	public void setLineTypeHidden(final int type) {
+
+		super.setLineType(type);
+
+		if ((geoList == null) || (geoList.size() == 0)) {
+			return;
+		}
+
+		for (int i = 0; i < geoList.size(); i++) {
+			final GeoElement geo = geoList.get(i);
+			if (!geo.isLabelSet()) {
+				geo.setLineTypeHidden(type);
+			}
+		}
 
 	}
 

@@ -168,10 +168,10 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoVector3D Vector3D(String label, GeoPointND P,
 			GeoPointND Q) {
-		AlgoVector3D algo = new AlgoVector3D(cons, label, P, Q);
+		AlgoVector3D algo = new AlgoVector3D(cons, P, Q);
 		GeoVector3D v = (GeoVector3D) algo.getVector();
 		v.setEuclidianVisible(true);
-		v.update();
+		v.setLabel(label);
 		kernel.notifyUpdate(v);
 		return v;
 	}

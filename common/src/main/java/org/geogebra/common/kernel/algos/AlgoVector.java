@@ -57,14 +57,12 @@ public class AlgoVector extends AlgoElement
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param label
-	 *            label for output
 	 * @param P
 	 *            start point
 	 * @param Q
 	 *            end point
 	 */
-	public AlgoVector(Construction cons, String label, GeoPointND P,
+	public AlgoVector(Construction cons, GeoPointND P,
 			GeoPointND Q) {
 		super(cons);
 		this.P = P;
@@ -95,7 +93,6 @@ public class AlgoVector extends AlgoElement
 
 		// compute vector PQ
 		compute();
-		v.setLabel(label);
 	}
 
 	/**

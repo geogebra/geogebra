@@ -8768,15 +8768,22 @@ public abstract class GeoElement extends ConstructionElement
 				: DescriptionMode.VALUE;
 	}
 
-	/**
-	 * if AV update fails (e.g. if row not visible), we can set this to true to force update later
-	 */
 	private boolean descriptionNeedsUpdateInAV = true;
-
+	
+	/**
+	 * if AV update fails (e.g. if row not visible), we can set this to true to
+	 * force update later
+	 * 
+	 * @param flag
+	 *            whether update is needed
+	 */
 	public void setDescriptionNeedsUpdateInAV(boolean flag) {
 		descriptionNeedsUpdateInAV = flag;
 	}
 
+	/**
+	 * @return whether AV update is needed
+	 */
 	public boolean descriptionNeedsUpdateInAV() {
 		return descriptionNeedsUpdateInAV;
 	}

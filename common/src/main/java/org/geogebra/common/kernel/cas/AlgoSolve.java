@@ -132,6 +132,12 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return numeric;
 	}
 
+	/**
+	 * Send solution steps to the builder
+	 * 
+	 * @param builder
+	 *            GUI builder
+	 */
 	public void getSteps(StepGuiBuilder builder) {
 		builder.addLatexRow(equations.getLaTeXdescription());
 		builder.addPlainRow("Magic!");
