@@ -25,6 +25,7 @@ import org.geogebra.common.util.StringUtil;
 
 import com.google.gwt.regexp.shared.MatchResult;
 import com.google.gwt.regexp.shared.RegExp;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Algo for TableText[matrix], TableText[matrix,args]
@@ -51,9 +52,31 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			horizontalLinesArray = null;
 	private boolean verticalLinesJustEdges, horizontalLinesJustEdges;
 	private String justification, openBracket, closeBracket, openString,
-			closeString;
+			closeString, currencyStart, currencyEnd;
 	private int columns;
 	private int rows;
+
+	private static String currencyList = Unicode.CURRENCY_BAHT + "" +
+
+			Unicode.CURRENCY_DOLLAR + "" +
+
+			Unicode.CURRENCY_DONG + "" +
+
+			Unicode.CURRENCY_EURO + "" +
+
+			Unicode.CURRENCY_INDIAN_RUPEE + "" +
+
+			Unicode.CURRENCY_POUND + "" +
+
+			Unicode.CURRENCY_RUPEE + "" +
+
+			Unicode.CURRENCY_SHEKEL + "" +
+
+			Unicode.CURRENCY_TUGHRIK + "" +
+
+			Unicode.CURRENCY_WON + "" +
+
+			Unicode.CURRENCY_YEN + "";
 
 	// getters for style variables (used by EuclidianStyleBar)
 
@@ -189,6 +212,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		horizontalLines = false;
 		justification = "l";
 		decimalComma = false;
+		currencyStart = "";
+		currencyEnd = "";
 		// need an open & close together, so can't use ""
 		openBracket = "\\left.";
 		closeBracket = "\\right.";
@@ -197,6 +222,15 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			String optionsStr = args.getTextString();
 			if (optionsStr.indexOf("v") > -1) {
 				alignment = Alignment.VERTICAL; // vertical table
+			}
+
+			if (currencyList.indexOf(optionsStr.charAt(0)) > -1) {
+				currencyStart = (optionsStr.charAt(0) + "").replace("$",
+						"\\dollar ");
+			} else if (currencyList
+					.indexOf(optionsStr.charAt(optionsStr.length() - 1)) > -1) {
+				currencyEnd = (optionsStr.charAt(optionsStr.length() - 1) + "")
+						.replace("$", "\\dollar ");
 			}
 
 			if (optionsStr.indexOf(",") > -1) {
@@ -588,6 +622,12 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			if (" ".equals(text1) || "".equals(text1)) {
 				text1 = "\\;"; // problem with JLaTeXMath, was "\u00a0";
+			}
+
+			if (!"".equals(currencyStart)) {
+				text1 = currencyStart + text1;
+			} else if (!"".equals(currencyEnd)) {
+				text1 = text1 + currencyEnd;
 			}
 
 			// make sure latex isn't wrapped in \text{}
