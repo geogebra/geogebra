@@ -46,7 +46,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 	// style variables
 	private Alignment alignment;
-	private boolean verticalLines, horizontalLines;
+	private boolean verticalLines, horizontalLines, decimalComma;
 	private StringBuilder verticalLinesArray = null,
 			horizontalLinesArray = null;
 	private boolean verticalLinesJustEdges, horizontalLinesJustEdges;
@@ -188,6 +188,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		verticalLines = false;
 		horizontalLines = false;
 		justification = "l";
+		decimalComma = false;
 		// need an open & close together, so can't use ""
 		openBracket = "\\left.";
 		closeBracket = "\\right.";
@@ -196,6 +197,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			String optionsStr = args.getTextString();
 			if (optionsStr.indexOf("v") > -1) {
 				alignment = Alignment.VERTICAL; // vertical table
+			}
+
+			if (optionsStr.indexOf(",") > -1) {
+				decimalComma = true;
 			}
 
 			int pos;
@@ -545,6 +550,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 				text1 = text1.replace("$", "\\dollar");
 
 			}
+
 			switch (justification1) {
 			default:
 				// do nothing
@@ -574,6 +580,10 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 							"%");
 				}
 
+			}
+
+			if (decimalComma) {
+				text1 = text1.replace('.', ',');
 			}
 
 			if (" ".equals(text1) || "".equals(text1)) {
