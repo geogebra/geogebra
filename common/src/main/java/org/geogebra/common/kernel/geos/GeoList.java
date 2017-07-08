@@ -1196,7 +1196,7 @@ public class GeoList extends GeoElement
 	@Override
 	public void setLineTypeHidden(final int type) {
 
-		super.setLineType(type);
+		super.setLineTypeHidden(type);
 
 		if ((geoList == null) || (geoList.size() == 0)) {
 			return;

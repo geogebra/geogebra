@@ -54,8 +54,8 @@ public abstract class CanvasDrawable extends Drawable {
 
 	public static GDimension measureLatex(App app,
 			GeoElement geo0, GFont font, String text) {
-		return app.getDrawEquation().measureEquation(app, geo0,
-				Integer.MIN_VALUE, Integer.MIN_VALUE, text, font, false);
+		return app.getDrawEquation().measureEquation(app, geo0, text, font,
+				false);
 	}
 
 	protected boolean measureLabel(GGraphics2D g2, GeoElement geo0,

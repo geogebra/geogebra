@@ -268,7 +268,8 @@ public abstract class DrawEquation {
 	public abstract Color convertColor(GColor color);
 
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
-			int minValue, int minValue2, String text, GFont font, boolean b);
+			String text, GFont font,
+			boolean serif);
 
 	final public GDimension measureEquationJLaTeXMath(final App app,
 			final GeoElement geo, final int x, final int y, final String text,
