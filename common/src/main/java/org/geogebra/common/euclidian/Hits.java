@@ -787,6 +787,10 @@ public class Hits extends ArrayList<GeoElement> {
 
 		// point in there?
 		Hits topHitsList = new Hits();
+		if (containsComboBox(topHitsList)) {
+			getHits(Test.GEOLIST_AS_COMBO, false, topHitsList);
+			return topHitsList;
+		}
 		if (containsGeoPoint(topHitsList)) {
 			// Hits topHitsList = new Hits();
 			getHits(Test.GEOPOINTND, false, topHitsList);
@@ -794,10 +798,6 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 		if (containsGeoTextfield(topHitsList)) {
 			getHits(Test.GEOTEXTFIELD, false, topHitsList);
-			return topHitsList;
-		}
-		if (containsComboBox(topHitsList)) {
-			getHits(Test.GEOLIST_AS_COMBO, false, topHitsList);
 			return topHitsList;
 		}
 		// text in there?
