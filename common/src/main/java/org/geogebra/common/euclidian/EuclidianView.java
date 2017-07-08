@@ -1981,7 +1981,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 								+ getTextField().getText());
 
 					}
-					focusTextField((GeoInputBox) geo);
+					if (geo instanceof GeoInputBox) {
+						focusTextField((GeoInputBox) geo);
+					}
 					((CanvasDrawable) d).setWidgetVisible(true);
 					return true;
 				}
