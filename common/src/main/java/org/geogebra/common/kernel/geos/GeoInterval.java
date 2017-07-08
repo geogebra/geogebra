@@ -31,6 +31,10 @@ public class GeoInterval extends GeoFunction {
 	 */
 	public GeoInterval(Construction c, Function f) {
 		super(c, f);
+
+		interval = true;
+		updateBoundaries();
+
 	}
 
 	/**
@@ -41,6 +45,7 @@ public class GeoInterval extends GeoFunction {
 	 */
 	public GeoInterval(GeoInterval geoInterval) {
 		super(geoInterval.cons);
+		interval = true;
 		set(geoInterval);
 	}
 
@@ -195,6 +200,11 @@ public class GeoInterval extends GeoFunction {
 
 		updateBoundaries(fun.getExpression(), leftRightBoundsField,
 				leftRightStrField, leftRightInequalityField);
+
+		// update the GeoFunction boundaries
+		intervalMin = leftRightBoundsField[0];
+		intervalMax = leftRightBoundsField[1];
+
 	}
 
 	@Override
