@@ -50,9 +50,10 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ExpressionValue ev, FunctionVariable[] fv, String label,
 			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
+
 		if (ev instanceof Vector3DValue) {
 			if (fv.length == 2) {
-				return processSurface(exp, fv, label);
+				return processSurface(exp, fv, label, 3);
 			}
 			GeoNumeric loc = getLocalVar(exp, fv[0]);
 			if (exp.getOperation() == Operation.IF) {
@@ -343,23 +344,20 @@ public class ParametricProcessor3D extends ParametricProcessor {
 	}
 
 	private GeoElement[] processSurface(ExpressionNode exp,
-			FunctionVariable[] fv, String label) {
+			FunctionVariable[] fv, String label, int dim) {
 		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
 		GeoNumeric loc1 = getLocalVar(exp, fv[1]);
 		Construction cons = kernel.getConstruction();
-		ExpressionNode cx = VectorArithmetic.computeCoord(exp, 0);
-		ExpressionNode cy = VectorArithmetic.computeCoord(exp, 1);
-		ExpressionNode cz = VectorArithmetic.computeCoord(exp, 2);
-		AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
-		cons.removeFromConstructionList(nx);
-		AlgoDependentNumber ny = new AlgoDependentNumber(cons, cy, false);
-		cons.removeFromConstructionList(ny);
-		AlgoDependentNumber nz = new AlgoDependentNumber(cons, cz, false);
-		cons.removeFromConstructionList(nz);
+		GeoNumberValue[] coords = new GeoNumberValue[dim];
+		for (int i = 0; i < dim; i++) {
+			ExpressionNode cx = VectorArithmetic.computeCoord(exp, i);
+			AlgoDependentNumber nx = new AlgoDependentNumber(cons, cx, false);
+			cons.removeFromConstructionList(nx);
+			coords[i] = nx.getNumber();
+		}
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
 				exp,
-				new GeoNumberValue[] { nx.getNumber(), ny.getNumber(),
-						nz.getNumber() },
+				coords,
 				new GeoNumeric[] { loc0, loc1 },
 				new GeoNumberValue[] { num(-10), num(-10) },
 				new GeoNumberValue[] { num(10), num(10) });

@@ -194,10 +194,12 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	@Override
 	public void onZoomStart() {
+		// only zoom end important
 	}
 
 	@Override
 	public void onZoomStep() {
+		// only zoom end important
 	}
 
 	@Override
