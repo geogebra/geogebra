@@ -1080,9 +1080,10 @@ namespace giac {
   static void zoom(double &m,double & M,double d){
     double x_center=(M+m)/2;
     double dx=(M-m);
-    if (dx==0){
-      dx=std::abs(M);
-      if (dx==0)
+    double s=std::abs(m)+std::abs(M);
+    if (dx<=1e-5*s){
+      dx=s;
+      if (dx<=1e-5)
 	dx=1;
     }
     dx *= d/2;

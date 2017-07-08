@@ -792,11 +792,19 @@ namespace giac {
     if (legende[0]=='\"')
       legende=legende.substr(1,end-1);
     gen x=re(A,contextptr); // should take care of legend position
-    gen y(ymax+ymin-im(A,contextptr));
+    if (x.type!=_DOUBLE_){
+      x=evalf(x,1,contextptr);
+      x=evalf_double(x,1,contextptr);
+    }
     if (is_greater(x,xmax,contextptr))
       x=xmax-x_scale;
     if (is_greater(xmin,x,contextptr))
       x=xmin+x_scale;    
+    gen y(ymax+ymin-im(A,contextptr));
+    if (y.type!=_DOUBLE_){
+      y=evalf(y,1,contextptr);
+      y=evalf_double(y,1,contextptr);
+    }
     if (is_greater(y,ymax,contextptr))
       y=ymax-y_scale;
     if (is_greater(ymin,y,contextptr))

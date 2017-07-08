@@ -674,6 +674,7 @@ namespace giac {
   multimap<string,string> html_mtt,html_mall;
   std::vector<std::string> html_vtt,html_vall;
 
+  // WARNING rebuilding caches works with old version of hevea (1.10) but not with hevea 2.29
   // find index nodes in file file
   static bool find_index(const std::string & current_dir,const std::string & file,multimap<std::string,std::string>&mtt,multimap<std::string,std::string>&mall,bool is_index=false,bool warn=false){
     if (access(file.c_str(),R_OK))

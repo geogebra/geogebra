@@ -343,7 +343,7 @@ namespace giac {
   }
 
   gen surd(const gen & c,int n,GIAC_CONTEXT){
-    if (is_zero(c))
+    if (is_exactly_zero(c))
       return c;
     if (n%2 && is_positive(-c,contextptr)){
       if (c.type==_FLOAT_)
