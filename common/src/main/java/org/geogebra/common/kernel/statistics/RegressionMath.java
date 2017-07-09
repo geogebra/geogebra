@@ -47,6 +47,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *          <b>--- Interface: ---</b>
  *          <li>RegressionMath(GeoList)
  *          <li>det33(...), det44(...) determinants. (Faster than Gauss for n<5)
+ *          <li>but det55 removed to keep code size down (web)
  *          <li>doLinReg(),doQuadReg(),doCubicReg(),doQuartRet()
  *          <li>doExpReg(),doLogReg(),doPowReg()
  *          <li>getSigmaX(),getSigmaX2(),[getSigmaX3()..getSigmaX5()
@@ -54,15 +55,15 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *          (),getSigmaX4Y()]
  *          <li>getP1(),getP2(),getP3(),getP4(),getP5() //Parameters for
  *          regression function
- *          <li>getR() //regression coeffisient. (When users get regression,
+ *          <li>getR() //regression coefficient. (When users get regression,
  *          they will certainly ask for this...)
  *          </ul>
  */
 
 public final class RegressionMath {
 
-	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, QUART = 4, EXP = 5,
-			LOG = 6, POW = 7;
+	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, /* QUART = 4, */
+			EXP = 5, LOG = 6, POW = 7;
 
 	// / --- Properties --- ///
 	private boolean error = false;
@@ -254,50 +255,6 @@ public final class RegressionMath {
 		return true;
 	}// doCubic(Geolist)
 
-	public final boolean doQuart(GeoList gl) {
-		error = false;
-		geolist = gl;
-		size = geolist.size();
-		getPoints(); // getPoints from geolist
-		if (error) {
-			return false;
-		}
-		doSums(QUART); // calculate neccessary sigmas
-		if (error) {
-			return false;
-		}
-
-		double n = det55(1.0d * size, sigmax, sigmax2, sigmax3, sigmax4, sigmax,
-				sigmax2, sigmax3, sigmax4, sigmax5, sigmax2, sigmax3, sigmax4,
-				sigmax5, sigmax6, sigmax3, sigmax4, sigmax5, sigmax6, sigmax7,
-				sigmax4, sigmax5, sigmax6, sigmax7, sigmax8);
-		if (Math.abs(n - 0.0d) < 1.0E-15d) {
-			return false;
-		}
-		p1 = det55(sigmay, sigmax, sigmax2, sigmax3, sigmax4, sigmaxy, sigmax2,
-				sigmax3, sigmax4, sigmax5, sigmax2y, sigmax3, sigmax4, sigmax5,
-				sigmax6, sigmax3y, sigmax4, sigmax5, sigmax6, sigmax7, sigmax4y,
-				sigmax5, sigmax6, sigmax7, sigmax8) / n;
-		p2 = det55(1.0d * size, sigmay, sigmax2, sigmax3, sigmax4, sigmax,
-				sigmaxy, sigmax3, sigmax4, sigmax5, sigmax2, sigmax2y, sigmax4,
-				sigmax5, sigmax6, sigmax3, sigmax3y, sigmax5, sigmax6, sigmax7,
-				sigmax4, sigmax4y, sigmax6, sigmax7, sigmax8) / n;
-		p3 = det55(1.0d * size, sigmax, sigmay, sigmax3, sigmax4, sigmax,
-				sigmax2, sigmaxy, sigmax4, sigmax5, sigmax2, sigmax3, sigmax2y,
-				sigmax5, sigmax6, sigmax3, sigmax4, sigmax3y, sigmax6, sigmax7,
-				sigmax4, sigmax5, sigmax4y, sigmax7, sigmax8) / n;
-		p4 = det55(1.0d * size, sigmax, sigmax2, sigmay, sigmax4, sigmax,
-				sigmax2, sigmax3, sigmaxy, sigmax5, sigmax2, sigmax3, sigmax4,
-				sigmax2y, sigmax6, sigmax3, sigmax4, sigmax5, sigmax3y, sigmax7,
-				sigmax4, sigmax5, sigmax6, sigmax4y, sigmax8) / n;
-		p5 = det55(1.0d * size, sigmax, sigmax2, sigmax3, sigmay, sigmax,
-				sigmax2, sigmax3, sigmax4, sigmaxy, sigmax2, sigmax3, sigmax4,
-				sigmax5, sigmax2y, sigmax3, sigmax4, sigmax5, sigmax6, sigmax3y,
-				sigmax4, sigmax5, sigmax6, sigmax7, sigmax4y) / n;
-		// r=0.0d; // Not useful
-		return true;
-	}// doQuart(Geolist)
-
 	public final boolean doExp(GeoList gl) {
 		error = false;
 		geolist = gl;
@@ -319,7 +276,7 @@ public final class RegressionMath {
 			}
 			ylist[i] = Math.log(y);
 		} // for all y
-		doSums(LINEAR); // calculate neccessary sigmas
+		doSums(LINEAR); // calculate necessary sigmas
 		if (error) {
 			return false;
 		}
@@ -442,75 +399,6 @@ public final class RegressionMath {
 				+ a22 * a31 * a14 * a43 - a22 * a14 * a41 * a33
 				- a31 * a14 * a23 * a42 + a14 * a23 * a32 * a41;
 	}// det44()
-
-	public final static double det55(
-			// 15.11.08: public for FitSin and FitLogisticc
-			double a11, double a12, double a13, double a14, double a15,
-			double a21, double a22, double a23, double a24, double a25,
-			double a31, double a32, double a33, double a34, double a35,
-			double a41, double a42, double a43, double a44, double a45,
-			double a51, double a52, double a53, double a54, double a55) {
-		return a11 * a22 * a33 * a44 * a55 - a11 * a22 * a33 * a45 * a54
-				- a11 * a22 * a34 * a43 * a55 + a11 * a22 * a34 * a53 * a45
-				+ a11 * a22 * a43 * a35 * a54 - a11 * a22 * a35 * a44 * a53
-				- a11 * a23 * a32 * a44 * a55 + a11 * a23 * a32 * a45 * a54
-				+ a11 * a23 * a42 * a34 * a55 - a11 * a23 * a42 * a35 * a54
-				- a11 * a23 * a34 * a52 * a45 + a11 * a23 * a52 * a35 * a44
-				+ a11 * a32 * a24 * a43 * a55 - a11 * a32 * a24 * a53 * a45
-				- a11 * a32 * a25 * a43 * a54 + a11 * a32 * a25 * a44 * a53
-				- a11 * a24 * a33 * a42 * a55 + a11 * a24 * a33 * a52 * a45
-				+ a11 * a24 * a42 * a35 * a53 - a11 * a24 * a43 * a52 * a35
-				+ a11 * a33 * a42 * a25 * a54 - a11 * a33 * a25 * a52 * a44
-				- a11 * a42 * a25 * a34 * a53 + a11 * a25 * a34 * a43 * a52
-				- a12 * a21 * a33 * a44 * a55 + a12 * a21 * a33 * a45 * a54
-				+ a12 * a21 * a34 * a43 * a55 - a12 * a21 * a34 * a53 * a45
-				- a12 * a21 * a43 * a35 * a54 + a12 * a21 * a35 * a44 * a53
-				+ a12 * a31 * a23 * a44 * a55 - a12 * a31 * a23 * a45 * a54
-				- a12 * a31 * a24 * a43 * a55 + a12 * a31 * a24 * a53 * a45
-				+ a12 * a31 * a25 * a43 * a54 - a12 * a31 * a25 * a44 * a53
-				- a12 * a23 * a41 * a34 * a55 + a12 * a23 * a41 * a35 * a54
-				+ a12 * a23 * a51 * a34 * a45 - a12 * a23 * a51 * a35 * a44
-				+ a12 * a41 * a24 * a33 * a55 - a12 * a41 * a24 * a35 * a53
-				- a12 * a41 * a33 * a25 * a54 + a12 * a41 * a25 * a34 * a53
-				- a12 * a24 * a33 * a51 * a45 + a12 * a24 * a51 * a43 * a35
-				+ a12 * a33 * a51 * a25 * a44 - a12 * a51 * a25 * a34 * a43
-				+ a21 * a13 * a32 * a44 * a55 - a21 * a13 * a32 * a45 * a54
-				- a21 * a13 * a42 * a34 * a55 + a21 * a13 * a42 * a35 * a54
-				+ a21 * a13 * a34 * a52 * a45 - a21 * a13 * a52 * a35 * a44
-				- a21 * a14 * a32 * a43 * a55 + a21 * a14 * a32 * a53 * a45
-				+ a21 * a14 * a33 * a42 * a55 - a21 * a14 * a33 * a52 * a45
-				- a21 * a14 * a42 * a35 * a53 + a21 * a14 * a43 * a52 * a35
-				+ a21 * a32 * a15 * a43 * a54 - a21 * a32 * a15 * a44 * a53
-				- a21 * a15 * a33 * a42 * a54 + a21 * a15 * a33 * a52 * a44
-				+ a21 * a15 * a42 * a34 * a53 - a21 * a15 * a34 * a43 * a52
-				- a13 * a22 * a31 * a44 * a55 + a13 * a22 * a31 * a45 * a54
-				+ a13 * a22 * a41 * a34 * a55 - a13 * a22 * a41 * a35 * a54
-				- a13 * a22 * a51 * a34 * a45 + a13 * a22 * a51 * a35 * a44
-				+ a13 * a31 * a24 * a42 * a55 - a13 * a31 * a24 * a52 * a45
-				- a13 * a31 * a42 * a25 * a54 + a13 * a31 * a25 * a52 * a44
-				- a13 * a32 * a41 * a24 * a55 + a13 * a32 * a41 * a25 * a54
-				+ a13 * a32 * a24 * a51 * a45 - a13 * a32 * a51 * a25 * a44
-				+ a13 * a41 * a24 * a52 * a35 - a13 * a41 * a25 * a34 * a52
-				- a13 * a24 * a42 * a51 * a35 + a13 * a42 * a51 * a25 * a34
-				+ a22 * a31 * a14 * a43 * a55 - a22 * a31 * a14 * a53 * a45
-				- a22 * a31 * a15 * a43 * a54 + a22 * a31 * a15 * a44 * a53
-				- a22 * a14 * a41 * a33 * a55 + a22 * a14 * a41 * a35 * a53
-				+ a22 * a14 * a33 * a51 * a45 - a22 * a14 * a51 * a43 * a35
-				+ a22 * a41 * a15 * a33 * a54 - a22 * a41 * a15 * a34 * a53
-				- a22 * a15 * a33 * a51 * a44 + a22 * a15 * a51 * a34 * a43
-				- a31 * a14 * a23 * a42 * a55 + a31 * a14 * a23 * a52 * a45
-				+ a31 * a14 * a42 * a25 * a53 - a31 * a14 * a25 * a43 * a52
-				+ a31 * a23 * a15 * a42 * a54 - a31 * a23 * a15 * a52 * a44
-				- a31 * a15 * a24 * a42 * a53 + a31 * a15 * a24 * a43 * a52
-				+ a14 * a23 * a32 * a41 * a55 - a14 * a23 * a32 * a51 * a45
-				- a14 * a23 * a41 * a52 * a35 + a14 * a23 * a42 * a51 * a35
-				- a14 * a32 * a41 * a25 * a53 + a14 * a32 * a51 * a25 * a43
-				+ a14 * a41 * a33 * a25 * a52 - a14 * a33 * a42 * a51 * a25
-				- a23 * a32 * a41 * a15 * a54 + a23 * a32 * a15 * a51 * a44
-				+ a23 * a41 * a15 * a34 * a52 - a23 * a15 * a42 * a51 * a34
-				+ a32 * a41 * a15 * a24 * a53 - a32 * a15 * a24 * a51 * a43
-				- a41 * a15 * a24 * a33 * a52 + a15 * a24 * a33 * a42 * a51;
-	}// det55
 
 	// / --- Private --- ///
 

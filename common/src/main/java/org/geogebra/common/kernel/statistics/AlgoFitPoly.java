@@ -122,19 +122,8 @@ public class AlgoFitPoly extends AlgoElement {
 				cof[3] = regMath.getP4();
 			} // else: ->
 			break;
-		case RegressionMath.QUART:
-			regok = regMath.doQuart(geolist);
-			if (regok) {
-				cof = new double[5];
-				cof[0] = regMath.getP1();
-				cof[1] = regMath.getP2();
-				cof[2] = regMath.getP3();
-				cof[3] = regMath.getP4();
-				cof[4] = regMath.getP5();
-			} // else: ->
-			break;
 		default:
-			if ((par > 4) && (par < 300)) { // ToDo: test speed for max limit!
+			if (par < 300) { // ToDo: test speed for max limit!
 				regok = regMath.doPolyN(geolist, par);
 				if (regok) {
 					cof = new double[par + 1];
