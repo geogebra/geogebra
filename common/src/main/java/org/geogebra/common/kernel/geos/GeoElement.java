@@ -6220,7 +6220,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	@Override
-	final public int getLineThickness() {
+	public int getLineThickness() {
 		return lineThickness;
 	}
 
