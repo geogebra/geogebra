@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 
 /**
@@ -176,5 +177,10 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		}
 
 		return true;
+	}
+	
+	@Override
+	public int getLineThickness() {
+		return EuclidianStyleConstants.AXES_THICKNESS;
 	}
 }
