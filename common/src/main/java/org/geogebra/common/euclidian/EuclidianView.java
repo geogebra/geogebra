@@ -5207,6 +5207,25 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private MyZoomer axesRatioZoomer;
 
+	private boolean isZeroStandard() {
+		return (Kernel.checkInteger(xZero) == XZERO_STANDARD
+				&& Kernel.checkInteger(yZero) == YZERO_STANDARD)
+				|| isZeroStandardForSmallScreen();
+	}
+
+	private boolean isZeroStandardForSmallScreen() {
+		if (getWidth() < (XZERO_STANDARD * 3)
+				|| getHeight() < YZERO_STANDARD * 1.6) {
+			Log.debug("[std] xZero: " + xZero + " w/3.0: " + getWidth() / 3.0);
+			Log.debug("[std] yZero: " + yZero + " h/1.6: " + getHeight() / 1.6);
+
+			return Kernel.checkInteger(xZero) == Kernel
+					.checkInteger(getWidth() / 3.0)
+					|| Kernel.checkInteger(yZero) == Kernel
+							.checkInteger(getHeight() / 1.6);
+		}
+		return false;
+	}
 	/**
 	 * Restores standard zoom + origin position
 	 * 
@@ -5260,11 +5279,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if view is not zoomed;
 	 */
 	public boolean isStandardView() {
-		boolean standardOrigin = Kernel
-				.checkInteger(getXZero()) == XZERO_STANDARD
-				&& Kernel.checkInteger(getYZero()) == YZERO_STANDARD;
-		Log.debug("STANDARD origin: " + standardOrigin);
-		return standardOrigin && (zoomer == null || zoomer.isStandardZoom());
+		return isZeroStandard() && (zoomer == null || zoomer.isStandardZoom());
 	}
 
 	/**
