@@ -375,7 +375,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private String getHTMLwithLink(ImageResource img, String s){
 		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
 		String imgHTML = getHTML(img, s);
-		return "<a href=\"https://www.geogebra.org/download\" target=\"_blank\">"+imgHTML+"</a>";
+		return "<a href=\"https://www.geogebra.org\" target=\"_blank\">"
+				+ imgHTML + "</a>";
 	}
 	
 	private void createFileMenu() {
