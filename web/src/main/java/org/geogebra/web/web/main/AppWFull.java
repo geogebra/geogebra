@@ -61,6 +61,7 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
+import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -399,6 +400,12 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GEOMETRY_CALC) {
 			getSettings().getEuclidian(1).setShowAxes(false);
+			if (getGuiManager() != null
+					&& getGuiManager() instanceof GuiManagerW) {
+				((ToolbarDockPanelW) (getGuiManager().getLayout()
+						.getDockManager().getPanel(App.VIEW_ALGEBRA)))
+								.setToolMode(true);
+			}
 		}
 	}
 
