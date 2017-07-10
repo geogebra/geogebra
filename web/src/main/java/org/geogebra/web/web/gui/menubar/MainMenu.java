@@ -191,6 +191,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						((SignInButton)app.getLAF().getSignInButton(app)).login();
 						app.toggleMenu();
 						return;
+					} else if (index >= 0
+							&& this.getWidget(index) == logoMenu) {
+						app.toggleMenu();
+						return;
 					}
 
 					if (index != -1) {
@@ -235,14 +239,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!app.has(Feature.NEW_TOOLBAR)) {
 			this.menuPanel.addStyleName("menuPanel");
 		} else {
-
 			logoMenu = new GMenuBar(true,
 					getHTML(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
 							""),
 					app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu,
-					getHTML(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
+					getHTMLwithLink(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
 							""),
 					true);
 		}
@@ -367,6 +370,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		return "<img src=\"" + img.getSafeUri().asString()
 				+ "\" draggable=\"false\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>";
+	}
+	
+	private String getHTMLwithLink(ImageResource img, String s){
+		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
+		String imgHTML = getHTML(img, s);
+		return "<a href=\"https://www.geogebra.org/download\" target=\"_blank\">"+imgHTML+"</a>";
 	}
 	
 	private void createFileMenu() {
@@ -537,7 +546,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public void dispatchOpenEvent() {
 		if (menuPanel != null) {
 			int index = menuPanel.getSelectedIndex();
-			if (index == 0 || index == -1) {
+			if (index == -1) {
 				index = 1;
 			}
 			app.dispatchEvent(new org.geogebra.common.plugin.Event(
