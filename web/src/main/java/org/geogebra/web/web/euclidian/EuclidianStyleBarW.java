@@ -120,6 +120,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private Localization loc;
 	private ContextMenuPopup btnContextMenu = null;
 	private StandardButton btnDelete;
+	private LabelSettingsPopup btnLabel;
 
 
 
@@ -536,9 +537,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		}
 
+		if (app.has(Feature.LABEL_SETTING_ON_STYLEBAR)) {
+			addLabelButton();
+		}
+
 		if (app.has(Feature.SWITCH_FLAG)) {
 			addDeleteButton();
 		}
+
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()) {
 			addContextMenuButton();
@@ -593,6 +599,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
 		add(btnDelete);
+	}
+
+	/**
+	 * add label settings button to dynamic stylebar
+	 */
+	protected void addLabelButton() {
+		btnLabel = new LabelSettingsPopup(app);
+		add(btnLabel);
 	}
 
 	// TODO instead of addViewButton() we need a new function addContextMenu()

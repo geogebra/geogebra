@@ -1832,7 +1832,7 @@ public class DockManagerW extends DockManager {
 					? MIN_TOOLBAR_WIDTH / app.getWidth()
 					: PerspectiveDecoder
 					.landscapeRatio(app.getWidth());
-
+			Log.debug("landscape: " + landscape);
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 				@Override
