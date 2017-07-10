@@ -396,7 +396,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
-	private void resetGeometryApp() {
+	protected void resetGeometryApp() {
 		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GEOMETRY_CALC) {
 			getSettings().getEuclidian(1).setShowAxes(false);

@@ -240,9 +240,10 @@ public class ConstructionDefaults {
 	 */
 	public ConstructionDefaults(Construction cons2) {
 		this.cons = cons2;
-		if (cons2.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
-			lineThickness = EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS;
-		}
+		// if (cons2.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+		// lineThickness =
+		// EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS;
+		// }
 		createDefaultGeoElements();
 	}
 
@@ -260,6 +261,16 @@ public class ConstructionDefaults {
 	/** suffix for default dependent point name */
 	protected String strDependent = " (dependent)";
 
+	private void setDefaultLineStyle(GeoElement geo) {
+		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+			geo.setLineThickness(10);
+			if (geo.hasLineOpacity()) {
+				geo.setLineOpacity(
+						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
+			}
+		}
+
+	}
 	/**
 	 * Fills the list of default geos
 	 */
@@ -324,6 +335,7 @@ public class ConstructionDefaults {
 		// line.setLineThickness(getDefaultLineThickness());
 		line.setDefaultGeoType(DEFAULT_LINE);
 		line.setMode(GeoLine.EQUATION_IMPLICIT);
+		setDefaultLineStyle(line);
 		defaultGeoElements.put(DEFAULT_LINE, line);
 
 		// segment
@@ -331,6 +343,7 @@ public class ConstructionDefaults {
 		seg.setLocalVariableLabel("Segment");
 		seg.setObjColor(colLine);
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
+		setDefaultLineStyle(seg);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
 
 		// segment
@@ -338,6 +351,7 @@ public class ConstructionDefaults {
 		ray.setLocalVariableLabel("Segment");
 		ray.setObjColor(colLine);
 		ray.setDefaultGeoType(DEFAULT_RAY);
+		setDefaultLineStyle(ray);
 		defaultGeoElements.put(DEFAULT_RAY, ray);
 
 		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);
@@ -364,6 +378,7 @@ public class ConstructionDefaults {
 		vector.setLocalVariableLabel("Vector");
 		vector.setObjColor(colLine);
 		vector.setDefaultGeoType(DEFAULT_VECTOR);
+		setDefaultLineStyle(vector);
 		defaultGeoElements.put(DEFAULT_VECTOR, vector);
 
 		// polygon
@@ -371,6 +386,7 @@ public class ConstructionDefaults {
 		// polygon.setLocalVariableLabel(app.getPlain("Polygon"));
 		polygon.setLocalVariableLabel("Polygon");
 		polygon.setObjColor(colPolygon);
+		setDefaultLineStyle(polygon);
 		polygon.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		polygon.setDefaultGeoType(DEFAULT_POLYGON);
 		defaultGeoElements.put(DEFAULT_POLYGON, polygon);
@@ -379,6 +395,7 @@ public class ConstructionDefaults {
 		GeoPolyLine polyline = new GeoPolyLine(cons);
 		polyline.setLocalVariableLabel("Polyline");
 		polyline.setObjColor(colLine);
+		setDefaultLineStyle(polyline);
 		polyline.setDefaultGeoType(DEFAULT_POLYLINE);
 		defaultGeoElements.put(DEFAULT_POLYLINE, polyline);
 
@@ -387,6 +404,7 @@ public class ConstructionDefaults {
 		// conic.setLocalVariableLabel(app.getPlain("Conic"));
 		conic.setLocalVariableLabel("Conic");
 		conic.setObjColor(colConic);
+		setDefaultLineStyle(conic);
 		conic.setAlphaValue(DEFAULT_CONIC_ALPHA);
 		conic.setDefaultGeoType(DEFAULT_CONIC);
 		defaultGeoElements.put(DEFAULT_CONIC, conic);
@@ -397,6 +415,7 @@ public class ConstructionDefaults {
 		// conicSector.setLocalVariableLabel(app.getPlain("Sector"));
 		conicSector.setLocalVariableLabel("Sector");
 		conicSector.setObjColor(colPolygon);
+		setDefaultLineStyle(conicSector);
 		conicSector.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		conicSector.setDefaultGeoType(DEFAULT_CONIC_SECTOR);
 		defaultGeoElements.put(DEFAULT_CONIC_SECTOR, conicSector);
@@ -430,6 +449,7 @@ public class ConstructionDefaults {
 		angle.setLocalVariableLabel("Angle");
 		angle.setSliderFixed(true);
 		angle.setObjColor(colAngle());
+		setDefaultLineStyle(angle);
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
 		angle.setDrawable(true, false);
 		angle.setDrawable(true, false);
@@ -458,7 +478,7 @@ public class ConstructionDefaults {
 		function.setLocalVariableLabel("Function");
 		function.setObjColor(colFunction);
 		function.setDefaultGeoType(DEFAULT_FUNCTION);
-		function.setLineThickness(3);
+		setDefaultLineStyle(function);
 		function.remove();
 		function.setAutoColor(true);
 		if (cons.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)) {
@@ -473,6 +493,7 @@ public class ConstructionDefaults {
 		locus.setLocalVariableLabel("Locus");
 		locus.setObjColor(colLocus);
 		locus.setLabelVisible(false);
+		setDefaultLineStyle(locus);
 		locus.setDefaultGeoType(DEFAULT_LOCUS);
 		defaultGeoElements.put(DEFAULT_LOCUS, locus);
 
@@ -764,12 +785,6 @@ public class ConstructionDefaults {
 				geo.setAllVisualProperties(defaultGeo, isReset);
 			}
 
-			if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
-				if (geo.hasLineOpacity()) {
-					geo.setLineOpacity(
-							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
-				}
-			}
 
 			if (geo instanceof GeoFunction) {
 				geo.setAlphaValue(defaultGeo.getAlphaValue());
@@ -846,9 +861,7 @@ public class ConstructionDefaults {
 	 * Reset construction defaults
 	 */
 	public void resetDefaults() {
-		lineThickness = cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)
-				? EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS
-				: EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+		lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
 		dependentPointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
 		angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
