@@ -994,12 +994,14 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @param tpl
+	 *            template
 	 * @return definition for LaTeX editor, no label
 	 */
-	public String getDefinitionForEditorNoLabel() {
-		String ret = getDefinition(StringTemplate.editorTemplate);
+	public String getDefinitionNoLabel(StringTemplate tpl) {
+		String ret = getDefinition(tpl);
 		if ("".equals(ret)) {
-			ret = getAlgebraDescription(StringTemplate.editorTemplate);
+			ret = getAlgebraDescription(tpl);
 		}
 		return ret;
 	}
