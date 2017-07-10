@@ -65,6 +65,9 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	public static final int DEFAULT_PLANE3D_GRID_THICKNESS = 0;
 	/** default fading for 3D planes */
 	public static final float DEFAULT_PLANE3D_FADING = 0.10f;
+	
+	/** default grid thickness for surfaces */
+	public static final int DEFAULT_SURFACE_GRID_THICKNESS = 1;
 
 	// polyhedrons
 	/** default color for polyhedrons */
@@ -165,7 +168,7 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 		surface.setLocalVariableLabel("surface");
 		surface.setObjColor(colQuadric);
 		surface.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
-		surface.setLineThickness(1);
+		surface.setLineThickness(DEFAULT_SURFACE_GRID_THICKNESS);
 		surface.setDefaultGeoType(DEFAULT_SURFACECARTESIAN3D);
 		surface.setAutoColor(true);
 		defaultGeoElements.put(DEFAULT_SURFACECARTESIAN3D, surface);
