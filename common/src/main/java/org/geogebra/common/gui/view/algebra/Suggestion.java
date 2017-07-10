@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.view.algebra;
 
+import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -17,6 +18,10 @@ abstract public class Suggestion {
 		for (AlgoElement algo : geo.getAlgorithmList()) {
 			if (algo != null
 					&& sug.sameAlgoType(algo.getClassName(), algo.getInput())) {
+				return true;
+			}
+			if (algo instanceof AlgoDependentList
+					&& hasDependentAlgo(algo.getOutput(0), sug)) {
 				return true;
 			}
 		}
