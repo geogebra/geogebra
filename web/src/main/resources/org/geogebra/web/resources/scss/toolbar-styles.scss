@@ -297,8 +297,8 @@
 		
 		.moveFloatingBtn {
 			position: relative;
-    		bottom: 72px;
-    		left: calc(100% - 72px);
+    		bottom: 112px;
+    		left: calc(100% - 104px);
     		/*border: 1px solid #039999;*/
     		border-radius: 50%;
     		width: 40px;
@@ -306,6 +306,7 @@
     		background: #00a8a8;
     		box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
     		/*box-shadow: 2px 2px 3px 0 rgba(0,0,0,0.2), 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12);*/
+    		transition: background-color 150ms ease 0ms;
     		
     		img {
     			padding: 8px;

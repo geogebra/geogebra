@@ -350,12 +350,24 @@ public class ToolbarPanel extends FlowPanel {
 		tabTools = new ToolsTab();
 		main.add(tabAlgebra);
 		main.add(tabTools);
+		addMoveBtn();
+		add(main);
+		hideDragger();
+	}
+
+	private void addMoveBtn() {
 		moveBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.mode_move());
 		moveBtn.setStyleName("moveFloatingBtn");
 		main.add(moveBtn);
-		add(main);
-		hideDragger();
+		FastClickHandler moveBtnHandler = new FastClickHandler() {
+			
+			@Override
+			public void onClick(Widget source) {
+				setMoveMode();
+			}
+		};
+		moveBtn.addFastClickHandler(moveBtnHandler);
 	}
 
 	private void hideDragger() {
