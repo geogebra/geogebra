@@ -20,12 +20,24 @@ package org.geogebra.common.kernel.roots;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 
+/**
+ * Utility class for root finding
+ *
+ */
 public class RealRootUtil {
 
 	private static int ITER_MAX = 100; // maximum number of iterations allowed
 
 	/**
 	 * Returns an interval within [a, b] where f(x) is defined.
+	 * 
+	 * @param f
+	 *            function
+	 * @param a
+	 *            interval min
+	 * @param b
+	 *            interval max
+	 * @return [defined interval min, defined interval max]
 	 * 
 	 * @see #getDefinitionBorder(UnivariateFunction, double, double)
 	 */
@@ -77,8 +89,16 @@ public class RealRootUtil {
 	 * undefined on (x0, b]. If f(a) is undefined and f(b) is defined, f(x) is
 	 * (likely to be) undefined on [a, x0) and defined on [x0, b]. If both f(a)
 	 * and f(b) are defined resp. undefined Double.NaN is returned.
+	 * 
+	 * @param f
+	 *            function
+	 * @param a
+	 *            interval min
+	 * @param b
+	 *            inteval max
+	 * @return border between defined an undefined
 	 */
-	private static double getDefinitionBorder(UnivariateFunction f, double a,
+	static double getDefinitionBorder(UnivariateFunction f, double a,
 			double b) {
 		double left = a, right = b;
 		boolean leftDef = false, rightDef;

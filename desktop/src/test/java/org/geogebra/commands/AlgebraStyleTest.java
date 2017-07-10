@@ -261,6 +261,13 @@ public class AlgebraStyleTest extends Assert {
 
 	}
 
+	@Test
+	public void tooltipsShouldHaveDefaultPrecision() {
+		t("P=(0,1/3)");
+		assertEquals("Point P(0, 0.33)",
+				getGeo("P").getTooltipText(false, true));
+	}
+
 	private void t(String def) {
 		ap.processAlgebraCommandNoExceptionHandling(def, false,
 				TestErrorHandler.INSTANCE, false, null);

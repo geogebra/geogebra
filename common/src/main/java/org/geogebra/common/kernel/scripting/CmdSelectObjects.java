@@ -39,9 +39,8 @@ public class CmdSelectObjects extends CmdScripting {
 			kernel.notifyRepaint();
 			return arg;
 
-		} else {
-			app.getActiveEuclidianView().getEuclidianController().cancelDrag();
 		}
+		app.getActiveEuclidianView().getEuclidianController().cancelDrag();
 
 		kernel.notifyRepaint();
 		app.updateSelection(false);

@@ -28,7 +28,6 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
 
-import org.apache.commons.math3.util.Precision;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
@@ -37,7 +36,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.factories.LaTeXFactory;
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.AnimationManager;
@@ -2149,7 +2147,6 @@ public abstract class GeoElement extends ConstructionElement
 			// old behaviour
 
 			String ret = getLongDescriptionHTML(colored, false);
-
 			getLoc().clearTooltipFlag();
 
 			return ret;
@@ -5706,24 +5703,9 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
 
-		if (this instanceof GeoPoint) {
-			sbNameDescriptionHTML.append("(");
-			sbNameDescriptionHTML.append(((GeoPoint) this).getX());
-			sbNameDescriptionHTML.append(",");
-			sbNameDescriptionHTML.append(((GeoPoint) this).getY());
-			sbNameDescriptionHTML.append(")");
-		} else if (this instanceof GeoPoint3D) {
-			sbNameDescriptionHTML.append("(");
-			sbNameDescriptionHTML.append(Precision
-					.round(((GeoPoint3D) this).getCoordsInD3().getX(), 2));
-			sbNameDescriptionHTML.append(",");
+		if (this instanceof GeoPointND) {
 			sbNameDescriptionHTML
-					.append(Precision.round(
-							((GeoPoint3D) this).getCoordsInD3().getY(), 2));
-			sbNameDescriptionHTML.append(",");
-			sbNameDescriptionHTML
-					.append(((GeoPoint3D) this).getCoordsInD3().getZ());
-			sbNameDescriptionHTML.append(")");
+					.append(toValueString(StringTemplate.defaultTemplate));
 		}
 
 		if (colored) {

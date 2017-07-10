@@ -206,12 +206,18 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		this.newf = new Function(enf, fvar); // System.out.println("new
 												// function: "+newf.toString());
 
-	}// setFunction(Function)
+	}
 
+	/**
+	 * @return number of parameters
+	 */
 	public final int getNumberOfParameters() {
 		return numberOfParameters;
-	} // Needed by AlgoFitNL
+	}
 
+	/**
+	 * @return initial value of all parameters
+	 */
 	public final double[] getStartValues() {
 		double[] startvalues = new double[numberOfParameters];
 		for (int i = 0; i < numberOfParameters; i++) {
@@ -221,21 +227,20 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 																		// mydoubles[i].getDouble();
 		} // for all parameters
 		return startvalues;
-	}// getStartValues()
-
-	/** For other uses later? */
-	public final double evaluate(double x, double[] pars) {
-		return value(x, pars);
 	}
 
-	public final double evaluate() {
-		return lastvalue;
-	}
-
+	/**
+	 * @param x
+	 *            argument value
+	 * @return f(x)
+	 */
 	public final double value(double x) {
 		return newf.value(x);
 	}// evaluate(x);
 
+	/**
+	 * @return wrapped function
+	 */
 	public final Function getFunction() {
 		return newf;
 	}
@@ -247,6 +252,9 @@ public class FitRealFunction implements ParametricUnivariateFunction {
 		return mydoubles;
 	}
 
+	/**
+	 * @return whether parameters are OK
+	 */
 	public boolean isParametersOK() {
 		return parametersOK;
 	}
