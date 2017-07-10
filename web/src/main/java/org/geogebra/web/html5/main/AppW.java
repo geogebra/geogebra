@@ -2106,7 +2106,8 @@ public abstract class AppW extends App implements SetLabels {
 	 * language
 	 */
 	public String getLanguageFromCookie() {
-		String lCookieValue = Location.getParameter("GeoGebraLangUI");
+		String lCookieValue = articleElement.getDataParamApp()
+				? Location.getParameter("lang") : "";
 		if (StringUtil.empty(lCookieValue)) {
 			lCookieValue = Cookies.getCookie("GeoGebraLangUI");
 		}

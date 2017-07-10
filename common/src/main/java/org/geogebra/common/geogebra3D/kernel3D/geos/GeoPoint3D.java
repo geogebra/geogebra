@@ -1869,7 +1869,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// lines: line by two point, intersect lines, line/conic, point on line
 	// TODO: parallel line, perpenticular line
 	private ArrayList<GeoElement> incidenceList;
-	private ArrayList<GeoElement> nonIncidenceList;
 
 	/**
 	 * @return list of objects incident by construction
@@ -1877,13 +1876,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	public ArrayList<GeoElement> getIncidenceList() {
 		return incidenceList;
-	}
-
-	/**
-	 * @return list of objects NOT incident by construction
-	 */
-	public ArrayList<GeoElement> getNonIncidenceList() {
-		return nonIncidenceList;
 	}
 
 	/**
@@ -1903,13 +1895,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	public void createIncidenceList() {
 		incidenceList = new ArrayList<GeoElement>();
-	}
-
-	/**
-	 * Resets the list of object that are not incident by construction
-	 */
-	public void createNonIncidenceList() {
-		nonIncidenceList = new ArrayList<GeoElement>();
 	}
 
 	/**
@@ -1934,21 +1919,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
 		} else if (geo.isGeoLine() && !isStartPoint) {
 			((GeoLineND) geo).addPointOnLine(this);
-		}
-	}
-
-	/**
-	 * Add non-incident object
-	 * 
-	 * @param geo
-	 *            object thatisnot incident by construction
-	 */
-	public void addNonIncidence(GeoElement geo) {
-		if (nonIncidenceList == null) {
-			createNonIncidenceList();
-		}
-		if (!nonIncidenceList.contains(geo)) {
-			nonIncidenceList.add(geo);
 		}
 	}
 

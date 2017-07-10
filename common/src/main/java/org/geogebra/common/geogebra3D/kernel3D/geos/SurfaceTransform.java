@@ -12,7 +12,14 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class SurfaceTransform {
-
+	/**
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * @param m
+	 *            transform matrix
+	 */
 	public static void transform(FunctionNVar[] fun, Kernel kernel,
 			CoordMatrix4x4 m) {
 		// current expressions
@@ -37,6 +44,14 @@ public class SurfaceTransform {
 
 	}
 
+	/**
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * @param plane
+	 *            mirroring plane
+	 */
 	public static void mirror(FunctionNVar[] fun, Kernel kernel,
 			GeoCoordSys2D plane) {
 		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
@@ -45,6 +60,14 @@ public class SurfaceTransform {
 
 	}
 
+	/**
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * @param line
+	 *            mirroring line
+	 */
 	public static void mirror(FunctionNVar[] fun, Kernel kernel,
 			GeoLineND line) {
 		transform(fun, kernel,
@@ -62,6 +85,19 @@ public class SurfaceTransform {
 
 	}
 
+	/**
+	 * Rotates around z-axis
+	 * 
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * 
+	 * @param r
+	 *            angle
+	 * @param tmpMatrix4x4
+	 *            temp matrix
+	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			CoordMatrix4x4 tmpMatrix4x4) {
 		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
@@ -78,6 +114,19 @@ public class SurfaceTransform {
 
 	}
 
+	/**
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * 
+	 * @param r
+	 *            angle
+	 * @param line
+	 *            axis
+	 * @param tmpMatrix4x4
+	 *            temp matrix
+	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			GeoLineND line, CoordMatrix4x4 tmpMatrix4x4) {
 		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(),
