@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.algos;
 
 import java.util.Arrays;
 
-import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -80,7 +79,7 @@ public class AlgoSpline extends AlgoElement {
 		parameters = new double[dimension][];
 		doublePoints = new double[inputList.size()][dimension];
 		if (dimension == 3) {
-			spline = new GeoCurveCartesian3D(cons);
+			spline = kernel.getGeoFactory().newCurve(3, cons);
 		} else {
 			spline = new GeoCurveCartesian(cons);
 		}
@@ -222,7 +221,7 @@ public class AlgoSpline extends AlgoElement {
 			for (i = 0; i < dimension; i++) {
 				alt[i].addListElement(nodes[i]);
 			}
-			if (t < this.parameterIntervalLimits.length) {
+			if (t < this.parameterIntervalLimits.length - 1) {
 				cond.addListElement(
 						fv.wrap().lessThan(this.parameterIntervalLimits[t++]));
 			}
