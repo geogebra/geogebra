@@ -523,6 +523,9 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public GeoElement(final Construction c) {
 		super(c);
+		if (c.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+			lineThickness = EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS;
+		}
 		c.addUsedType(this.getGeoClassType());
 		graphicsadapter = kernel.getApplication()
 				.newGeoElementGraphicsAdapter();

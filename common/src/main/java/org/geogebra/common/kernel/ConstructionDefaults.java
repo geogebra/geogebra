@@ -240,6 +240,9 @@ public class ConstructionDefaults {
 	 */
 	public ConstructionDefaults(Construction cons2) {
 		this.cons = cons2;
+		if (cons2.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+			lineThickness = EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS;
+		}
 		createDefaultGeoElements();
 	}
 
@@ -762,7 +765,6 @@ public class ConstructionDefaults {
 			}
 
 			if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
-				geo.setLineThickness(getDefaultLineThickness());
 				if (geo.hasLineOpacity()) {
 					geo.setLineOpacity(
 							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
@@ -863,9 +865,7 @@ public class ConstructionDefaults {
 	 * @return current default line thickness
 	 */
 	public int getDefaultLineThickness() {
-		return cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES) 
-				? EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS
-				: lineThickness;
+		return lineThickness;
 	}
 
 	/**
