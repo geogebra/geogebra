@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -62,6 +63,7 @@ public class ToolbarPanel extends FlowPanel {
 	Header header;
 
 	private FlowPanel main;
+	private StandardButton moveBtn;
 	private Integer lastOpenWidth = null;
 	private Integer lastOpenHeight = null;
 	private AlgebraTab tabAlgebra = null;
@@ -348,6 +350,10 @@ public class ToolbarPanel extends FlowPanel {
 		tabTools = new ToolsTab();
 		main.add(tabAlgebra);
 		main.add(tabTools);
+		moveBtn = new StandardButton(
+				MaterialDesignResources.INSTANCE.mode_move());
+		moveBtn.setStyleName("moveFloatingBtn");
+		main.add(moveBtn);
 		add(main);
 		hideDragger();
 	}

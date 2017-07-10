@@ -201,6 +201,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/filter_list_black.png")
 	ImageResource filter_list_black();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/mode_move.png")
+	ImageResource mode_move();
+
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geogebra_logo_transparent.png")
 	ImageResource geogebra_logo_transparent();
