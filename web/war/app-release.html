@@ -13,7 +13,7 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-var latestVersion="5.0.359.0";
+var latestVersion="5.0.374.0";
 var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
@@ -64,7 +64,10 @@ var analyticsVersion = 'V'+latestVersion;
 			}
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
-			
+			if(location.href.match(/lti/)){
+				e("ggw").setAttribute("data-param-showAppsPicker","false");
+				e("appsPicker").style.display = "none";
+			}
 			if(window.ggbRerun){
 				ggbRerun();
 			}
@@ -773,7 +776,7 @@ border:1px solid #dcdcdc
 
 .whiteboard .startScreen.splitter,
 .whiteboard .startScreen.gwt-TreeItem,
-.whiteboard #appPicker {
+.whiteboard #appsPicker {
     display: none;
 }
 .cas .toolBPanel.cas, .exam-cas .toolBPanel.cas{
@@ -941,7 +944,7 @@ div.SymbolTablePopup{
         </div>
     </div>
     
-    <div class="ggbPageContent GeoGebraFrame startScreen" id="appPicker">
+    <div class="ggbPageContent GeoGebraFrame startScreen" id="appsPicker">
 	<div class="gwt-DialogBox DialogBox GeoGebraFrame perspectivesBox" id="perspectivesBox" style="right: 0px; top: 101px; position: absolute; overflow: visible;">
     	<div class=""><table  class=""><tbody>
 <tr class="dialogTop"><td class="dialogTopLeft"><div class="dialogTopLeftInner"></div></td><td class="dialogTopCenter"><div class="dialogTopCenterInner">
