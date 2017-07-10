@@ -2679,7 +2679,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	final public void updateBackground() {
+	public void updateBackground() {
 		// make sure axis number formats are up to date
 		setAxesIntervals(getXscale(), 0);
 		setAxesIntervals(getYscale(), 1);
@@ -2692,7 +2692,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/**
 	 * @param fontForGraphics
 	 *            font
-	 * @return graphics correnspondin to given font
+	 * @return graphics corresponding to given font
 	 */
 	public abstract GGraphics2D getTempGraphics2D(GFont fontForGraphics);
 

@@ -4979,4 +4979,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		return false; // not needed in 3D
 	}
 
+	@Override
+	public void updateBackground() {
+		// make sure axis number formats are up to date
+		setAxesIntervals(getZscale(), 2);
+
+		super.updateBackground();
+	}
+
 }
