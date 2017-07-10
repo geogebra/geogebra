@@ -63,6 +63,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private GMenuBar userMenu;
 	/** sign in menu */
 	final GMenuBar signInMenu;
+	GMenuBar logoMenu;
 
 	/**
 	 * Constructs the menubar
@@ -160,10 +161,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.menuPanel = new StackPanel() {
 			@Override
 			public void showStack(int index) {
-				super.showStack(index);
+				if (index == 0) {
+					super.showStack(1);
+				} else {
+					super.showStack(index);
+				}
 				dispatchOpenEvent();
-				app.getGuiManager().setDraggingViews(
-						isViewDraggingMenu(menus[index]), false);
+				if (index == 0) {
+					app.getGuiManager().setDraggingViews(
+							isViewDraggingMenu(menus[1]), false);
+				} else {
+					app.getGuiManager().setDraggingViews(
+							isViewDraggingMenu(menus[index]), false);
+				}
 			}
 
 			@Override
@@ -224,7 +234,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		};
 		if (!app.has(Feature.NEW_TOOLBAR)) {
 			this.menuPanel.addStyleName("menuPanel");
+		} else {
+
+			logoMenu = new GMenuBar(true,
+					getHTML(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
+							""),
+					app);
+			logoMenu.setStyleName("logoMenu");
+			this.menuPanel.add(logoMenu,
+					getHTML(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
+							""),
+					true);
 		}
+
 		if(app.enableFileFeatures()){	
 			this.menuPanel.add(
 					fileMenu, getHTML(
@@ -515,6 +537,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public void dispatchOpenEvent() {
 		if (menuPanel != null) {
 			int index = menuPanel.getSelectedIndex();
+			if (index == 0 || index == -1) {
+				index = 1;
+			}
 			app.dispatchEvent(new org.geogebra.common.plugin.Event(
 					EventType.OPEN_MENU, null, menus[index].getMenuTitle()));
 		}

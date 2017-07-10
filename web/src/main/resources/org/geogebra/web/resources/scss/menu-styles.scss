@@ -139,6 +139,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					margin-left: -56px;	
 					opacity: 0.54;
 				}
+			
+				// GeoGebra logo
+				&.gwt-StackPanelItem-first {
+					height: 84px !important;
+					
+					img {
+						opacity: 1;
+						top: 0px;
+    					height: initial !important;
+    					width: 292px !important;	
+    					margin: 0px;
+    					left: 4%;
+					}
+				}
 			}
 			
 			.gwt-StackPanel .gwt-StackPanelItem:hover, .gwt-StackPanel .gwt-StackPanelItem-selected  {
