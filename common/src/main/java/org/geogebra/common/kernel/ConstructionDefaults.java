@@ -263,7 +263,8 @@ public class ConstructionDefaults {
 
 	private void setDefaultLineStyle(GeoElement geo) {
 		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
-			geo.setLineThickness(10);
+			geo.setLineThickness(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
 			if (geo.hasLineOpacity()) {
 				geo.setLineOpacity(
 						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
