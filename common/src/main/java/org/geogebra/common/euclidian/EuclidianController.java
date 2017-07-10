@@ -10079,6 +10079,11 @@ public abstract class EuclidianController {
 			setResizedShape(null);
 		}
 
+		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
+				&& mode == EuclidianConstants.MODE_SELECT) {
+			addDynamicStylebar();
+		}
+
 	}
 
 	private boolean isDragTool() {
