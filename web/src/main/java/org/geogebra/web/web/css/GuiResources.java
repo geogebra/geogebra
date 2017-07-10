@@ -8,6 +8,7 @@ import org.geogebra.web.resources.SassResource;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.TextResource;
 
 public interface GuiResources extends ClientBundle {
 
@@ -455,4 +456,7 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/print.scss")
 	SassResource printStyle();
+
+	@Source("org/geogebra/web/pub/js/properties_keys_en.js")
+	TextResource propertiesKeysJS();
 }

@@ -36,10 +36,6 @@ public class ResourcesInjector {
 		}
 		resourcesInjected = true;
 		// always need English properties available, eg Function.sin
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
-		        .propertiesKeysJS());
-
-
 
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());

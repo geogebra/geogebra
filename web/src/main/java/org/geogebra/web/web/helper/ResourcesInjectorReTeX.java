@@ -10,6 +10,7 @@ import org.geogebra.web.web.css.GuiResources;
 public class ResourcesInjectorReTeX extends ResourcesInjector {
 	@Override
 	protected void injectResourcesGUI() {
+		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
 		jQueryNoConflict();
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());

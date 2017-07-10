@@ -28,11 +28,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/common/icons_play/p24/nav_pause_circle_hover.png")
 	ImageResource icons_play_pause_circle_hover();
 
-
-
-	@Source("org/geogebra/web/pub/js/properties_keys_en.js")
-	TextResource propertiesKeysJS();
-
 	@Source("org/geogebra/web/resources/js/jquery-1.7.2.min.js")
 	TextResource jQueryJs();
 
