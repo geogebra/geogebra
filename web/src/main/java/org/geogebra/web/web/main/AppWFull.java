@@ -400,8 +400,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GEOMETRY_CALC) {
 			getSettings().getEuclidian(1).setShowAxes(false);
-			if (getGuiManager() != null
-					&& getGuiManager() instanceof GuiManagerW) {
+			if (getGuiManager() instanceof GuiManagerW) {
 				((ToolbarDockPanelW) (getGuiManager().getLayout()
 						.getDockManager().getPanel(App.VIEW_ALGEBRA)))
 								.setToolMode(true);
