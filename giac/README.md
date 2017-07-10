@@ -40,8 +40,13 @@ the python2.7 executable (preferably as **/usr/local/bin/python**).
 On a Debian based system GMP and MPFR can be installed by running `sudo apt install
 libgmp-dev libmpfr-dev`.
 
-Ubuntu 16.04 and 16.10 should work. Currently the *amd64*, *i386* and
+Ubuntu 16.04 and above should work. Currently the *amd64*, *i386* and
 *armhf* processors have been tested with success.
+
+You can also compile Giac for a Raspberry Pi 3 under Raspbian Jessie. You may need at least 2 GB RAM by
+[adding some swap space](https://raspberrypi.stackexchange.com/a/1605). A newer GCC will
+also be required, [install GCC-6](https://solarianprogrammer.com/2016/06/24/raspberry-pi-raspbian-install-gcc-compile-cpp-14-and-cpp-17-programs/)
+and then [make it default](https://askubuntu.com/a/781977/358453).
 
 ### Mac OS X ###
 
