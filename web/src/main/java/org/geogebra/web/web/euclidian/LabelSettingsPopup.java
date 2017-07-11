@@ -5,6 +5,9 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
+import org.geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -26,6 +29,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -33,10 +37,11 @@ import com.google.gwt.user.client.ui.Label;
  * label settings popup
  */
 public class LabelSettingsPopup extends PopupMenuButtonW
-		implements CloseHandler<GPopupPanel>, MouseOverHandler, SetLabels {
+		implements CloseHandler<GPopupPanel>, MouseOverHandler, SetLabels,
+		IShowLabelListener {
 
 	private EuclidianController ec;
-	private AppW app;
+
 	/**
 	 * popup menu
 	 */
@@ -46,9 +51,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private Label lblName;
 	private AutoCompleteTextFieldW tfName;
 
-	private GCheckMarkLabel cmLabel;
+	private GCheckMarkLabel cmName;
 	private GCheckMarkLabel cmValue;
-
+	private ShowLabelModel model;
 	/**
 	 * label related popup
 	 * 
@@ -67,7 +72,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		ec = app.getActiveEuclidianView().getEuclidianController();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
-
+		model = new ShowLabelModel(app, this);
 	}
 
 	private void createPopup() {
@@ -118,16 +123,22 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			}
 		});
 
-		cmLabel = new GCheckMarkLabel("", MaterialDesignResources.INSTANCE
-				.check_black().getSafeUri().asString(), true, null);
+		Command nameValueCmd = new Command() {
+
+			public void execute() {
+				applyCheckboxes();
+			}
+		};
+		cmName = new GCheckMarkLabel("", MaterialDesignResources.INSTANCE
+				.check_black().getSafeUri().asString(), true, nameValueCmd);
 
 		cmValue = new GCheckMarkLabel("",
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
-				true, null);
+				true, nameValueCmd);
 
 		main.add(LayoutUtilW.panelRow(lblName, tfName));
-		main.add(cmLabel.getPanel());
+		main.add(cmName.getPanel());
 		main.add(cmValue.getPanel());
 		getMyPopup().setWidget(main);
 		setLabels();
@@ -149,8 +160,46 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	public void setLabels() {
 		lblName.setText(loc.getPlain("Name") + ":");
-		cmLabel.setText(loc.getPlain("ShowLabel"));
+		cmName.setText(loc.getPlain("ShowLabel"));
 		cmValue.setText(loc.getPlain("ShowValue"));
 	}
 
+	/**
+	 * Apply settings to seleted geo(s).
+	 */
+	void applyCheckboxes() {
+		boolean name = cmName.isChecked();
+		boolean value = cmValue.isChecked();
+		int mode = -1;
+		if (name && !value) {
+			Log.debug("CHECK - name only");
+			mode = 0;
+		} else if (name && value) {
+			Log.debug("CHECK - name and value");
+			mode = 1;
+		} else if (!name && value) {
+			Log.debug("CHECK - value only");
+			mode = 2;
+		} else if (!name && !value) {
+			Log.debug("CHECK - none");
+		}
+
+		if (mode == -1) {
+
+		} else {
+			model.setGeos(
+					app.getSelectionManager().getSelectedGeos().toArray());
+			model.applyModeChanges(mode, true);
+		}
+	}
+
+	public Object updatePanel(Object[] geos2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void update(boolean isEqualVal, boolean isEqualMode) {
+		// TODO Auto-generated method stub
+
+	}
 }
