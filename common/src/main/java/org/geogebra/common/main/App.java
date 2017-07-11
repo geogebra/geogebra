@@ -4162,7 +4162,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
-			return prerelease;
+			return true; // 5.0.376
 
 		/** GGB-1876 */
 		case DOUBLE_ROUND_BRACKETS:
