@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
@@ -42,7 +41,7 @@ public class StepByStepHelper {
 	}
 
 	public ExpressionValue getExpressionTree(String s) {
-		if (s.equals("")) {
+		if (s.isEmpty()) {
 			return null;
 		}
 
@@ -65,9 +64,9 @@ public class StepByStepHelper {
 			String toReturnLeft = getDenominator(en.getLeft());
 			String toReturnRight = getDenominator(en.getRight());
 
-			if (toReturnLeft != "" && toReturnRight != "") {
+			if (!toReturnLeft.isEmpty() && !toReturnRight.isEmpty()) {
 				return LCM("(" + toReturnLeft + "), (" + toReturnRight + ")");
-			} else if (toReturnLeft != "") {
+			} else if (!toReturnLeft.isEmpty()) {
 				return toReturnLeft;
 			} else {
 				return toReturnRight;
@@ -96,12 +95,12 @@ public class StepByStepHelper {
 			if (en.getOperation() == Operation.PLUS
 					|| en.getOperation() == Operation.MINUS) {
 				String toReturn = getSQRoots(en.getLeft());
-				if (toReturn != "") {
+				if (!toReturn.isEmpty()) {
 					return toReturn;
 				}
 
 				toReturn = getSQRoots(en.getRight());
-				if (toReturn != "" && en.getOperation() == Operation.MINUS) {
+				if (!toReturn.isEmpty() && en.getOperation() == Operation.MINUS) {
 					return "-" + toReturn;
 				}
 				return toReturn;
@@ -132,12 +131,12 @@ public class StepByStepHelper {
 
 			if (en.getOperation() == Operation.PLUS || en.getOperation() == Operation.MINUS) {
 				String toReturn = findVariable(en.getLeft(), variable);
-				if (toReturn != "") {
+				if (!toReturn.isEmpty()) {
 					return toReturn;
 				}
 
 				toReturn = findVariable(en.getRight(), variable);
-				if (toReturn != "" && en.getOperation() == Operation.MINUS) {
+				if (!toReturn.isEmpty() && en.getOperation() == Operation.MINUS) {
 					return "-" + toReturn;
 				}
 				return toReturn;
@@ -148,7 +147,7 @@ public class StepByStepHelper {
 	}
 
 	private boolean isZero(String s) {
-		return stripSpaces(s).equals("") || stripSpaces(s).equals("0");
+		return stripSpaces(s).isEmpty() || stripSpaces(s).equals("0");
 	}
 
 	private boolean isEqual(String a, String b) {
@@ -167,12 +166,12 @@ public class StepByStepHelper {
 				String toReturn;
 
 				toReturn = findConstant(en.getLeft());
-				if (toReturn != "0") {
+				if (!isZero(toReturn)) {
 					return toReturn;
 				}
 
 				toReturn = findConstant(en.getRight());
-				if (toReturn != "0" && en.getOperation() == Operation.MINUS) {
+				if (!isZero(toReturn) && en.getOperation() == Operation.MINUS) {
 					return "-" + toReturn;
 				}
 
@@ -214,13 +213,12 @@ public class StepByStepHelper {
 			if (en.getOperation() == Operation.PLUS
 					|| en.getOperation() == Operation.MINUS) {
 				String toReturn = findCoefficient(en.getLeft(), variable);
-				if (!toReturn.equals("")) {
+				if (!isZero(toReturn)) {
 					return toReturn;
 				}
 
 				toReturn = findCoefficient(en.getRight(), variable);
-				if (!toReturn.equals("")
-						&& en.getOperation() == Operation.MINUS) {
+				if (!isZero(toReturn) && en.getOperation() == Operation.MINUS) {
 					return "-" + toReturn;
 				}
 				return toReturn;
@@ -275,7 +273,7 @@ public class StepByStepHelper {
 	}
 
 	public boolean containsLinear(ExpressionValue ev, String variable) {
-		return stripSpaces(findCoefficient(ev, variable)) != "";
+		return !stripSpaces(findCoefficient(ev, variable)).isEmpty();
 	}
 
 	public boolean isProduct(ExpressionValue ev) {
@@ -337,9 +335,9 @@ public class StepByStepHelper {
 	private boolean isNegative(String x, String a, String b) {
 		String evaluateAt;
 
-		if (a.equals("-inf")) {
+		if ("-inf".equals(a)) {
 			evaluateAt = simplify(b + "-10");
-		} else if (b.equals("+inf")) {
+		} else if ("+inf".equals(b)) {
 			evaluateAt = simplify(a + "+10");
 		} else {
 			evaluateAt = simplify("(" + a + "+" + b + ") / 2");
@@ -350,13 +348,13 @@ public class StepByStepHelper {
 	}
 
 	public double getValue(String s) {
-		if (s == "") {
+		if (s.isEmpty()) {
 			return 0;
 		}
 
-		if (s.equals("-inf")) {
+		if ("-inf".equals(s)) {
 			return Double.NEGATIVE_INFINITY;
-		} else if (s.equals("+inf")) {
+		} else if ("+inf".equals(s)) {
 			return Double.POSITIVE_INFINITY;
 		}
 

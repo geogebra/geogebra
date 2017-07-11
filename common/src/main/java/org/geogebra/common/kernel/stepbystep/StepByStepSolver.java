@@ -8,11 +8,10 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class StepByStepSolver {
 	private Kernel kernel;
@@ -379,10 +378,6 @@ public class StepByStepSolver {
 		}
 	}
 
-	private boolean equals(String a, String b) {
-		return helper.stripSpaces(a).equals(helper.stripSpaces(b));
-	}
-
 	private void simplify() {
 		// TODO: proper checking of simplification
 		if (helper.stripSpaces(helper.regroup(LHS)).length() < helper.stripSpaces(LHS).length() || 
@@ -410,7 +405,7 @@ public class StepByStepSolver {
 	}
 
 	private String LaTeX(String toLaTeX) {
-		if(toLaTeX == "") {
+		if(toLaTeX.isEmpty()) {
 			return "";
 		}
 
