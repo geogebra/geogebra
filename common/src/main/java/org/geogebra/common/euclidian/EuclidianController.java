@@ -823,7 +823,7 @@ public abstract class EuclidianController {
 	}
 
 	public void setMode(int newMode, ModeSetter ms) {		
-		if (getModeChangeListener() != null) {
+		if (getModeChangeListener() != null && !temporaryMode) {
 			getModeChangeListener().onModeChange(newMode);
 		}
 		if (pen != null) {
