@@ -537,7 +537,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		}
 
-		if (app.has(Feature.LABEL_SETTING_ON_STYLEBAR)) {
+		if (app.has(Feature.LABEL_SETTING_ON_STYLEBAR) && isDynamicStylebar()) {
 			addLabelButton();
 		}
 
