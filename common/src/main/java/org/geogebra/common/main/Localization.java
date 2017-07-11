@@ -568,12 +568,13 @@ public abstract class Localization {
 		return getPlainArray(key, null, arg0);
 	}
 
-	final public String getMenuLaTeX(String key, String... arg0) {
-		return getLaTeXArray(key, null, arg0);
+	final public String getMenuLaTeX(String key, String default0,
+			String... arg0) {
+		return getLaTeXArray(key, default0, arg0);
 	}
 
-	final public String getMenuLaTeX(String key) {
-		return "\\text{" + getPlain(key) + "}";
+	final public String getMenuLaTeX(String key, String default0) {
+		return "\\text{" + getMenuDefault(key, default0) + "}";
 	}
 
 	/** replace "%0" by arg0 */

@@ -139,7 +139,7 @@ public class StepByStepSolver {
 		int degreeRHS = helper.degree(RHS);
 
 		if (degreeLHS == -1 || degreeRHS == -1) {
-			steps.add(loc.getMenuLaTeX("CannotSolve"));
+			steps.add(loc.getMenuLaTeX("CannotSolve", "Can't solve"));
 			return steps;
 		}
 
@@ -156,7 +156,7 @@ public class StepByStepSolver {
 					solutions.add("all");
 					return checkSolutions();
 				}
-				steps.add(loc.getMenuLaTeX("NoSolutions"));
+				steps.add(loc.getMenuLaTeX("NoSolutions", "No Solutions"));
 				return steps;
 			}
 			regenerateTrees();
@@ -178,7 +178,7 @@ public class StepByStepSolver {
 					if (isZero(LHS)) {
 						solutions.add("all");
 					} else if (LHS.equals(c)) {
-						steps.add(loc.getMenuLaTeX("NoSolutions"));
+						steps.add(loc.getMenuLaTeX("NoSolutions", "No solutions"));
 						return steps;
 					} else {
 						solveLinear();
@@ -187,7 +187,7 @@ public class StepByStepSolver {
 				}
 
 				if (isZero(c)) {
-					steps.add(loc.getMenuLaTeX("FactorEquation"));
+					steps.add(loc.getMenuLaTeX("FactorEquation", "Factor equation"));
 					LHS = helper.factor(LHS);
 					addStep();
 
@@ -197,7 +197,9 @@ public class StepByStepSolver {
 					return checkSolutions();
 				}
 
-				steps.add(loc.getMenuLaTeX("UseQuadraticFormulaWithABC", a, b, c));
+				steps.add(loc.getMenuLaTeX("UseQuadraticFormulaWithABC",
+						"Use quadratic formula with a = %0, b = %1, c = %1", a,
+						b, c));
 
 				String discriminant = "(" + b + ")^2-4(" + a + ")(" + c + ")";
 
@@ -207,16 +209,16 @@ public class StepByStepSolver {
 				steps.add("\\Delta = " + helper.simplify(discriminant));
 
 				if (discriminantValue < 0) {
-					steps.add(loc.getMenuLaTeX("DeltaLessThanZero"));
+					steps.add(loc.getMenuLaTeX("DeltaLessThanZero", "Discriminant less than zero"));
 				} else if (discriminantValue == 0) {
-					steps.add(loc.getMenuLaTeX("DeltaZero"));
+					steps.add(loc.getMenuLaTeX("DeltaZero", "Discriminant zero"));
 
 					String formula = "-(" + b + ")/(2(" + a + "))";
 					steps.add("x = " + formula);
 					steps.add("x = " + helper.simplify(formula));
 					solutions.add(helper.simplify(formula));
 				} else {
-					steps.add(loc.getMenuLaTeX("DeltaGreaterThanZero"));
+					steps.add(loc.getMenuLaTeX("DeltaGreaterThanZero", "Discriminant greater than zero"));
 
 					String formula = "(-(" + b + ")+-sqrt(" + discriminant
 							+ "))/(2(" + a + "))";
@@ -227,7 +229,7 @@ public class StepByStepSolver {
 
 					steps.add("x = " + formula);
 					steps.add("x = " + x1);
-					steps.add(loc.getMenu("Or"));
+					steps.add(loc.getMenu("or"));
 					steps.add("x = " + x2);
 
 					solutions.add(x1);
@@ -246,7 +248,7 @@ public class StepByStepSolver {
 
 				double RHSvalue = helper.getValue(RHS);
 				if (RHSvalue < 0) {
-					steps.add(loc.getMenuLaTeX("NoRealSolutions"));
+					steps.add(loc.getMenuLaTeX("NoRealSolutions", "No real solutions"));
 					return steps;
 				} else if (RHSvalue == 0) {
 					steps.add("x = 0");
@@ -269,11 +271,12 @@ public class StepByStepSolver {
 		int degree = helper.degree(LHS);
 
 		if (degree == 3) {
-			steps.add(loc.getMenuLaTeX("UseCubicFormula"));
+			steps.add(loc.getMenuLaTeX("UseCubicFormula", "Use Cubic Formula"));
 		} else if (degree == 4) {
-			steps.add(loc.getMenuLaTeX("UseQuarticFormula"));
+			steps.add(loc.getMenuLaTeX("UseQuarticFormula",
+					"Use Quartic Formula"));
 		} else {
-			steps.add(loc.getMenuLaTeX("NumericalSolutions"));
+			steps.add(loc.getMenuLaTeX("NumericalSolutions", "Numerical Solutions"));
 		}
 
 		String[] CASSolutions = helper.getCASSolutions(LHS, "0");
@@ -282,7 +285,7 @@ public class StepByStepSolver {
 		}
 
 		if (CASSolutions.length == 0) {
-			steps.add(loc.getMenuLaTeX("NoRealSolutions"));
+			steps.add(loc.getMenuLaTeX("NoRealSolutions", "No real solutions"));
 		}
 
 		solutions.addAll(Arrays.asList(CASSolutions));
@@ -313,14 +316,17 @@ public class StepByStepSolver {
 			return steps;
 		}
 
-		steps.add(loc.getMenuLaTeX("CheckValidityOfSolutions"));
+		steps.add(loc.getMenuLaTeX("CheckingValidityOfSolutions",
+				"Checking validity of solutions"));
 
 		for (int i = 0; i < solutions.size(); i++) {
 			if (helper.isValidSolution(origLHS, origRHS, solutions.get(i))) {
-				steps.add(loc.getMenuLaTeX("ValidSolution", "x", solutions.get(i)));
+				steps.add(loc.getMenuLaTeX("ValidSolution", "Valid Solution",
+						"x", solutions.get(i)));
 			} else {
 				steps.add(
-						loc.getMenuLaTeX("InvalidSolution", "x", solutions.get(i)));
+						loc.getMenuLaTeX("InvalidSolution", "Invalid Solution",
+								"x", solutions.get(i)));
 				solutions.remove(solutions.get(i));
 				i--;
 			}
@@ -385,7 +391,8 @@ public class StepByStepSolver {
 			LHS = helper.regroup(LHS);
 			RHS = helper.regroup(RHS);
 
-			steps.add(loc.getMenuLaTeX("SimplifyExpression"));
+			steps.add(loc.getMenuLaTeX("SimplifyExpression",
+					"Simplify Expression"));
 			addStep();
 			regenerateTrees();
 		}
@@ -397,7 +404,8 @@ public class StepByStepSolver {
 			LHS = helper.expand(LHS);
 			RHS = helper.expand(RHS);
 
-			steps.add(loc.getMenuLaTeX("ExpandParantheses"));
+			steps.add(loc.getMenuLaTeX("ExpandParentheses",
+					"Expand Parentheses"));
 			addStep();
 
 			regenerateTrees();
@@ -418,7 +426,8 @@ public class StepByStepSolver {
 			LHS = LHS + "+(" + toAdd + ")";
 			RHS = RHS + "+(" + toAdd + ")";
 
-			steps.add(loc.getMenuLaTeX("AddAToBothSides", LaTeX(toAdd)));
+			steps.add(loc.getMenuLaTeX("AddAToBothSides",
+					"Add %0 to both sides", LaTeX(toAdd)));
 			addStep();
 
 			LHS = helper.regroup(LHS);
@@ -434,7 +443,8 @@ public class StepByStepSolver {
 			LHS = LHS + "-(" + toSubtract + ")";
 			RHS = RHS + "-(" + toSubtract + ")";
 
-			steps.add(loc.getMenuLaTeX("SubtractAFromBothSides", LaTeX(toSubtract)));
+			steps.add(loc.getMenuLaTeX("SubtractAFromBothSides",
+					"Subtract %0 from both sides", LaTeX(toSubtract)));
 			addStep();
 
 			LHS = helper.regroup(LHS);
@@ -459,7 +469,8 @@ public class StepByStepSolver {
 			LHS = "(" + LHS + ")(" + toMultiply + ")";
 			RHS = "(" + RHS + ")(" + toMultiply + ")";
 
-			steps.add(loc.getMenuLaTeX("MultiplyBothSidesByA", LaTeX(toMultiply)));
+			steps.add(loc.getMenuLaTeX("MultiplyBothSidesByA",
+					"Multiply both sides by %0", LaTeX(toMultiply)));
 			addStep();
 
 			LHS = helper.simplify(LHS);
@@ -475,7 +486,8 @@ public class StepByStepSolver {
 			LHS = "(" + LHS + ")/(" + toDivide + ")";
 			RHS = "(" + RHS + ")/(" + toDivide + ")";
 
-			steps.add(loc.getMenuLaTeX("DivideBothSidesByA", LaTeX(toDivide)));
+			steps.add(loc.getMenuLaTeX("DivideBothSidesByA",
+					"Divide both sides by %0", LaTeX(toDivide)));
 			addStep();
 
 			LHS = helper.regroup(LHS);
@@ -490,7 +502,7 @@ public class StepByStepSolver {
 		LHS = "(" + LHS + ")^2";
 		RHS = "(" + RHS + ")^2";
 
-		steps.add(loc.getMenuLaTeX("SquareBothSides"));
+		steps.add(loc.getMenuLaTeX("SquareBothSides", "Square both sides"));
 		addStep();
 
 		LHS = helper.simplify(LHS);
@@ -505,7 +517,7 @@ public class StepByStepSolver {
 		ArrayList<String> equations = new ArrayList<String>();
 		helper.getParts(equations, product);
 
-		steps.add(loc.getMenuLaTeX("ProductIsZero"));
+		steps.add(loc.getMenuLaTeX("ProductIsZero", "Product is zero"));
 
 		for (int i = 0; i < equations.size(); i++) {
 			StepByStepSolver sbss = new StepByStepSolver(kernel,
@@ -516,7 +528,8 @@ public class StepByStepSolver {
 	}
 
 	private void solveAbsoulteValueEquation(String a, String b) {
-		steps.add(loc.getMenuLaTeX("SolvingBetween", LHS, RHS, a, b));
+		steps.add(loc.getMenuLaTeX("SolvingBetween",
+				"Solving between %0 %1 %2 %3 (TODO)", LHS, RHS, a, b));
 
 		String LHSevaluated = helper.evaluateAbsoluteValue(LHS, a, b);
 		String RHSevaluated = helper.evaluateAbsoluteValue(RHS, a, b);
@@ -532,16 +545,19 @@ public class StepByStepSolver {
 		for (int i = 0; i < partialSolutions.size(); i++) {
 
 			if (partialSolutions.get(i).equals("all")) {
-				steps.add(loc.getMenuLaTeX("AllNumbersBetween", a, b));
+				steps.add(loc.getMenuLaTeX("AllNumbersBetween",
+						"All numbers between %0 and %1", a, b));
 				solutions.add("(" + a + ", " + b + ")");
 			} else {
 				double xVal = helper.getValue(partialSolutions.get(i));
 
 				if (aVal <= xVal && xVal <= bVal) {
-					steps.add(loc.getMenuLaTeX("ValidSolutionAbs", "x",
+					steps.add(loc.getMenuLaTeX("ValidSolutionAbs",
+							"ValidSolutionAbs (TODO)", "x",
 							partialSolutions.get(i), a, b));
 				} else {
-					steps.add(loc.getMenuLaTeX("InvalidSolutionAbs", "x",
+					steps.add(loc.getMenuLaTeX("InvalidSolutionAbs",
+							"InvalidSolutionAbs (TODO)", "x",
 							partialSolutions.get(i), a, b));
 				}
 			}
