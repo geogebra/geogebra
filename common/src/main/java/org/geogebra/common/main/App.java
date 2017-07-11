@@ -3872,6 +3872,10 @@ public abstract class App implements UpdateSelection {
 
 	public abstract boolean isSelectionRectangleAllowed();
 
+	protected boolean isNativeMobileAppWithNewUI() {
+		return false;
+	}
+
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
 		// boolean keyboard = true;
@@ -3995,7 +3999,7 @@ public abstract class App implements UpdateSelection {
 
 		//AND-217
 		case MOBILE_AV_EDITOR:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		// MOB-788
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
@@ -4114,7 +4118,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AV_ITEM_DESIGN:
-			return prerelease;
+			return prerelease || isNativeMobileAppWithNewUI();
 
 		case AV_PLAY_ONLY:
 			return prerelease;
@@ -4126,7 +4130,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_KILL_TOOLBAR:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return prerelease;
@@ -4145,21 +4149,21 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case INPUT_BAR_SOLVE:
-			return prerelease;
+			return prerelease || isNativeMobileAppWithNewUI();
 
 		case INPUT_BAR_ADD_SLIDER:
 			return prerelease
 					&& Versions.WEB_APP_FOR_BROWSER_3D.equals(getVersion());
 
 		case AND_SNACKBAR:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 			
 		case MOB_SELECT_TOOL:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		/** GGB-1868 */
 		case SELECT_TOOL:
-			return prerelease;
+			return prerelease || isNativeMobileAppWithNewUI();
 
 		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
 			return true; // 5.0.376
@@ -4176,34 +4180,34 @@ public abstract class App implements UpdateSelection {
 			return prerelease && has(Feature.NEW_TOOLBAR);
 
 		case MOB_INPUT_BAR_SOLVE:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		case AXES_NUMBERS_WHITE_BACKGROUND:
-			return prerelease;
+			return prerelease || isNativeMobileAppWithNewUI();
 
 		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
 		case NON_CAS_POLYNOMIAL_DIVISION:
 			return true;
 
 		case AND_FOCUS_ON_BIND:
-			return true;
+			return isNativeMobileAppWithNewUI();
 
 		/** GGB-1881 */
 		case MINOR_GRIDLINES:
 			return true;
 
 		case AND_SPEED_UP_AV:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		case DEFAULT_OBJECT_STYLES:
-			return prerelease;
+			return prerelease || isNativeMobileAppWithNewUI();
 
 		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 		case ZOOM_PANEL:
 			return prerelease;
 		case MOB_TOOLSET_LEVELS:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 		case SHOW_STEPS:
 			return prerelease;
 		case LABEL_SETTING_ON_STYLEBAR:
