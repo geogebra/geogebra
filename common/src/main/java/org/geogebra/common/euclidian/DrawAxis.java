@@ -488,7 +488,8 @@ public class DrawAxis {
 						// if the label is at the axis cross point is "0" on
 						// both axes draw only one "0"
 						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								&& zero && "0".equals(strNum)) {
+								&& zero && "0".equals(strNum)
+								&& view.showAxes[0] && !view.positiveAxes[0]) {
 							y = (int) (yCrossPix + view.getYOffsetForXAxis(fontsize));
 						}					
 						// if the label is at the axis cross point then draw
