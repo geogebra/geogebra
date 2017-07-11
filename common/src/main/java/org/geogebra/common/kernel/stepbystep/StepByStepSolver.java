@@ -13,6 +13,8 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 public class StepByStepSolver {
 	private Kernel kernel;
 	private Localization loc;
@@ -256,7 +258,7 @@ public class StepByStepSolver {
 				} else {
 					String solution = helper.simplify("sqrt(" + RHS + ")");
 					steps.add("x = " + solution);
-					steps.add(loc.getMenu("Or"));
+					steps.add(loc.getMenu("or"));
 					steps.add("x = -" + solution);
 					solutions.add(solution);
 					solutions.add("-" + solution);
@@ -321,11 +323,14 @@ public class StepByStepSolver {
 
 		for (int i = 0; i < solutions.size(); i++) {
 			if (helper.isValidSolution(origLHS, origRHS, solutions.get(i))) {
-				steps.add(loc.getMenuLaTeX("ValidSolution", "Valid Solution",
+				steps.add(loc.getMenuLaTeX("ValidSolution",
+						"Valid Solution: %0 = %1",
 						"x", solutions.get(i)));
 			} else {
 				steps.add(
-						loc.getMenuLaTeX("InvalidSolution", "Invalid Solution",
+						loc.getMenuLaTeX(
+								"InvalidSolution", "Invalid Solution: %0 "
+										+ Unicode.NOTEQUAL + " %1",
 								"x", solutions.get(i)));
 				solutions.remove(solutions.get(i));
 				i--;
