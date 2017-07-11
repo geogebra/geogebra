@@ -542,7 +542,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	private void updateMoveButton(int mode) {
-		if (mode == EuclidianConstants.MODE_MOVE) {
+		if (mode == EuclidianConstants.MODE_MOVE
+				|| mode == EuclidianConstants.MODE_TRANSLATEVIEW) {
 			hideMoveFloatingButton();
 		} else {
 			showMoveFloatingButton();
