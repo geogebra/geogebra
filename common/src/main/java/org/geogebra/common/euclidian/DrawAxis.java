@@ -485,18 +485,19 @@ public class DrawAxis {
 						// flag for handling label at axis cross point
 						boolean zero = strNum.equals(crossAtStr);
 
-						// if the label is at the axis cross point is "0" on
-						// both axes draw only one "0"
-						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								&& zero && "0".equals(strNum)
-								&& view.showAxes[0] && !view.positiveAxes[0]) {
-							y = (int) (yCrossPix + view.getYOffsetForXAxis(fontsize));
-						}					
 						// if the label is at the axis cross point then draw
 						// it 2 pixels above
-						else if (zero && view.showAxes[0]
+						if (zero && view.showAxes[0]
 								&& !view.positiveAxes[0]) {
-							y = (int) (yCrossPix - 2);
+							// if the label is at the axis cross point is "0" on
+							// both axes draw only one "0"
+							if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
+									&& "0".equals(strNum)) {
+								y = (int) (yCrossPix
+										+ view.getYOffsetForXAxis(fontsize));
+							} else {
+								y = (int) (yCrossPix - 2);
+							}
 						} else {
 							y = (int) (pix + yoffset);
 						}
