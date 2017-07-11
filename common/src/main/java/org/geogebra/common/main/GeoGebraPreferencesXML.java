@@ -1,6 +1,7 @@
 package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.kernel.Kernel;
 
 /**
@@ -40,7 +41,15 @@ public class GeoGebraPreferencesXML {
 
 				+ "\" />"
 				+ "<settings ignoreDocument=\"false\" showTitleBar=\"true\" />"
-				+ "<labelingStyle  val=\"0\"/>" + "<font  size=\""
+				+ "<labelingStyle val=\""
+
+				+ (app.has(Feature.NEW_TOOLBAR)
+						? (app.getSettings().getToolbarSettings()
+												.getType() == AppType.GRAPHING_CALCULATOR
+										? 1 : 0)
+						: 0)
+				+ "\"/>"
+				+ "<font  size=\""
 
 				// dynamic bit!
 				+ defaultFontSize

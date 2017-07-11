@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.layout.panels;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -46,6 +47,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 		if (activePerspective == Perspective.GEOMETRY - 1) {
 			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GEOMETRY_CALC);
 			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
+			app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 		}	
 		toolbar = new ToolbarPanel(app);
 		setToolMode(toolMode);
