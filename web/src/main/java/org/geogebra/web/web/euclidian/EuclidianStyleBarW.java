@@ -605,6 +605,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * add label settings button to dynamic stylebar
 	 */
 	protected void addLabelButton() {
+		createLabelPopup();
 		add(btnLabel);
 	}
 
@@ -769,7 +770,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createLabelPopup() {
-		btnLabel = new LabelSettingsPopup(app);
+		if (btnLabel == null) {
+			btnLabel = new LabelSettingsPopup(app);
+		}
 
 	}
 
