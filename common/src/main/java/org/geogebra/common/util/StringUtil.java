@@ -365,6 +365,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 						} else {
 							sbReplaceExp.append(c);
 						}
+					} else {
+						sbReplaceExp.append(c);
 					}
 
 
