@@ -472,6 +472,68 @@ public abstract class Localization {
 		return translationFix(sbPlain.toString());
 	}
 
+	final public String getLaTeXArray(String key, String default0,
+			String[] args) {
+		String str = getPlain(key);
+
+		if (default0 != null && key.equals(str)) {
+			// lookup failed, use default
+			str = default0;
+		}	
+
+		StringBuilder sbPlain = new StringBuilder();
+		sbPlain.setLength(0);
+		boolean found = false;
+		boolean opened = false;
+		for (int i = 0; i < str.length(); i++) {
+			char ch = str.charAt(i);
+			if(!opened && ch != '%') {
+				sbPlain.append("\\text{");
+				opened = true;
+			}
+			if (ch == '%') {
+				if(opened) {
+					sbPlain.append("}");
+					opened = false;
+				}
+				// get number after %
+				i++;
+				int pos = str.charAt(i) - '0';
+				if ((pos >= 0) && (pos < args.length)) {
+					// success
+					sbPlain.append(args[pos]);
+					found = true;
+				} else {
+					// failed
+					sbPlain.append(ch);
+				}
+			} else {
+				sbPlain.append(ch);
+			}
+		}
+
+		if(opened) {
+			sbPlain.append("}");
+		}
+
+		if (!found) {
+			/*
+			 * If no parameters were found in key, this key is missing for some
+			 * reason (maybe it is not added to the ggbtrans database yet). In
+			 * this case all parameters are appended to the displayed string to
+			 * help the developers.
+			 */
+			for (String arg : args) {
+				sbPlain.append(" ");
+				sbPlain.append(arg);
+			}
+		}
+
+		// In some languages we may need some final fixes:
+		return translationFix(sbPlain.toString());
+	}
+
+
 	/**
 	 * 
 	 * 
@@ -504,6 +566,14 @@ public abstract class Localization {
 	/** replace "%0" by arg0 */
 	final public String getPlain(String key, String... arg0) {
 		return getPlainArray(key, null, arg0);
+	}
+
+	final public String getMenuLaTeX(String key, String... arg0) {
+		return getLaTeXArray(key, null, arg0);
+	}
+
+	final public String getMenuLaTeX(String key) {
+		return "\\text{" + getPlain(key) + "}";
 	}
 
 	/** replace "%0" by arg0 */

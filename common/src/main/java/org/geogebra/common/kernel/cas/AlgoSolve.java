@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.cas;
 
+import java.util.List;
+
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -11,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.kernel.stepbystep.StepByStepSolver;
 
 /**
  * Use Solve cas command from AV
@@ -132,17 +135,14 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return numeric;
 	}
 
-	/**
-	 * Send solution steps to the builder
-	 * 
-	 * @param builder
-	 *            GUI builder
-	 */
 	public void getSteps(StepGuiBuilder builder) {
-		builder.addLatexRow(equations.getLaTeXdescription());
-		builder.addPlainRow("Magic!");
-		builder.addLatexRow(solutions.getLaTeXdescription());
+		String[] equation = equations.getDefinitionNoLabel(StringTemplate.defaultTemplate).split("=");	
 
+		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1]);
+
+		List<String> steps = sbss.getSteps();
+		for(int i = 0; i < steps.size(); i++) {
+			builder.addLatexRow(steps.get(i));
+		}
 	}
-
 }
