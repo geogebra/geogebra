@@ -605,9 +605,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * add label settings button to dynamic stylebar
 	 */
 	protected void addLabelButton() {
-		btnLabel = new LabelSettingsPopup(app);
 		add(btnLabel);
 	}
+
 
 	// TODO instead of addViewButton() we need a new function addContextMenu()
 	// that uses the same icon (3 dots) as ViewButton but instead opens the
@@ -765,6 +765,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			createCloseViewBtn();
 		}
+		createLabelPopup();
+	}
+
+	private void createLabelPopup() {
+		btnLabel = new LabelSettingsPopup(app);
+
 	}
 
 	protected class ProjectionPopup extends PopupMenuButtonW {
