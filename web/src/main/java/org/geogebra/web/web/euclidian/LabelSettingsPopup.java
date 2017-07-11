@@ -20,13 +20,12 @@ import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
-import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
+import org.geogebra.web.web.javax.swing.GCheckMarkLabel;
 
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -44,13 +43,11 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	ContextMenuGeoElementW popup;
 	private FlowPanel main;
 	private LocalizationW loc;
-	private AutoCompleteTextFieldW tfName;
 	private Label lblName;
-	private Label lblLabel;
-	private Label lblValue;
-	private CheckBox cbLabel;
-	private CheckBox cbValue;
-	private GCheckmarkMenuItem cmLabel;
+	private AutoCompleteTextFieldW tfName;
+
+	private GCheckMarkLabel cmLabel;
+	private GCheckMarkLabel cmValue;
 
 	/**
 	 * label related popup
@@ -121,19 +118,17 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			}
 		});
 
-		lblLabel = new Label();
-		cbLabel = new CheckBox();
+		cmLabel = new GCheckMarkLabel("", MaterialDesignResources.INSTANCE
+				.check_black().getSafeUri().asString(), true, null);
 
-		lblValue = new Label();
-		cbValue = new CheckBox();
-		cmLabel = new GCheckmarkMenuItem("dddddddd",
+		cmValue = new GCheckMarkLabel("",
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
 				true, null);
 
 		main.add(LayoutUtilW.panelRow(lblName, tfName));
 		main.add(cmLabel.getPanel());
-		main.add(LayoutUtilW.panelRow(lblValue, cbValue));
+		main.add(cmValue.getPanel());
 		getMyPopup().setWidget(main);
 		setLabels();
 	}
@@ -154,8 +149,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	public void setLabels() {
 		lblName.setText(loc.getPlain("Name") + ":");
-		cmLabel.setText(loc.getPlain("ShowLabel") + ":");
-		lblValue.setText(loc.getPlain("ShowValue") + ":");
+		cmLabel.setText(loc.getPlain("ShowLabel"));
+		cmValue.setText(loc.getPlain("ShowValue"));
 	}
 
 }
