@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -472,9 +473,6 @@ public abstract class AlgoElement extends ConstructionElement
 		 * @return content of this OutputHandler as array
 		 */
 		public T[] getOutput(T[] a) {
-			// Application.debug("getOutput:
-			// "+Arrays.deepToString(outputList.toArray())+"
-			// length:"+outputList.toArray().length);
 			return outputList.toArray(a);
 		}
 
@@ -1241,8 +1239,11 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		int length = getInputLengthForCommandDescription();
-
-		sbAE.append(tpl.leftSquareBracket());
+		if (tpl.hasType(StringType.GEOGEBRA_XML)) {
+			sbAE.append(tpl.leftSquareBracket());
+		} else {
+			sbAE.append(tpl.leftBracket());
+		}
 		// input legth is 0 for ConstructionStep[]
 		if (length > 0) {
 			sbAE.append(getInput(0).getLabel(tpl));
@@ -1251,7 +1252,11 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(", ");
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
-		sbAE.append(tpl.rightSquareBracket());
+		if (tpl.hasType(StringType.GEOGEBRA_XML)) {
+			sbAE.append(tpl.rightSquareBracket());
+		} else {
+			sbAE.append(tpl.rightBracket());
+		}
 		return sbAE.toString();
 
 	}
@@ -1266,7 +1271,7 @@ public abstract class AlgoElement extends ConstructionElement
 			String vectorCommand = "Vector[";
 			if (tpl.isPrintLocalizedCommandNames()) {
 				// want it translated eg for redefine dialog
-				vectorCommand = getLoc().getCommand("Vector") + "[";
+				vectorCommand = getLoc().getCommand("Vector") + "(";
 			}
 			boolean needsWrapping = !geo.isLabelSet()
 					&& !cmd.startsWith(vectorCommand);
@@ -1276,7 +1281,7 @@ public abstract class AlgoElement extends ConstructionElement
 			}
 			sb.append(cmd);
 			if (needsWrapping) {
-				sb.append(']');
+				sb.append(tpl.isPrintLocalizedCommandNames() ? ')' : ']');
 			}
 		} else {
 			sb.append(cmd);
@@ -1844,6 +1849,13 @@ public abstract class AlgoElement extends ConstructionElement
 		return protectedInput;
 	}
 
+	/**
+	 * @param geo1
+	 *            output
+	 * @param geo2
+	 *            second output
+	 * @return whether geo1 appears in output array before geo2
+	 */
 	public boolean isBefore(GeoElement geo1, GeoElement geo2) {
 		for (int i = 0; i < getOutputLength(); i++) {
 			if (getOutput(i) == geo1) {
@@ -1856,6 +1868,12 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
+	/**
+	 * Resets output labels after redefinition
+	 * 
+	 * @param oldGeoLabel
+	 *            old label
+	 */
 	public void resetLabels(String oldGeoLabel) {
 		GeoElement.setLabels(oldGeoLabel, getOutput());
 	}

@@ -377,7 +377,7 @@ public class Command extends ValidExpression
 			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\left");
 			}
-			sbToString.append('[');
+			sbToString.append('(');
 			int size = args.size();
 			for (int i = 0; i < size; i++) {
 				sbToString.append(toString(args.get(i), symbolic, LaTeX, tpl));
@@ -406,7 +406,7 @@ public class Command extends ValidExpression
 			if (LaTeX || tpl.hasType(StringType.LATEX)) {
 				sbToString.append(" \\right");
 			}
-			sbToString.append(']');
+			sbToString.append(')');
 
 			return sbToString.toString();
 		}

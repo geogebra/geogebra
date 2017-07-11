@@ -951,7 +951,8 @@ public abstract class Localization {
 			String key3D = key + Localization.syntax3D;
 			String cmdSyntax3D = getCommand(key3D);
 			if (!cmdSyntax3D.equals(key3D)) {
-				cmdSyntax3D = cmdSyntax3D.replace("[", command + '[');
+				cmdSyntax3D = cmdSyntax3D.replace("[", command + '(')
+						.replace(']', ')');
 				return cmdSyntax3D;
 			}
 		}
@@ -964,7 +965,7 @@ public abstract class Localization {
 
 			syntax = getCommand(key + syntaxString);
 
-			syntax = syntax.replace("[", command + '[');
+			syntax = syntax.replace("[", command + '(').replace(']', ')');
 		}
 
 		return syntax;
