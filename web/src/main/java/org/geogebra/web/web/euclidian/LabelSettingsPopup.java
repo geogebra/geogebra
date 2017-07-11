@@ -13,12 +13,14 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ContextMenuGeoElementW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
+import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
@@ -48,6 +50,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private Label lblValue;
 	private CheckBox cbLabel;
 	private CheckBox cbValue;
+	private GCheckmarkMenuItem cmLabel;
 
 	/**
 	 * label related popup
@@ -104,6 +107,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
+				// TODO: implement
 			}
 		});
 
@@ -112,6 +116,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
+					// TODO: implement
 				}
 			}
 		});
@@ -121,9 +126,13 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 		lblValue = new Label();
 		cbValue = new CheckBox();
+		cmLabel = new GCheckmarkMenuItem("dddddddd",
+				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+						.asString(),
+				true, null);
 
 		main.add(LayoutUtilW.panelRow(lblName, tfName));
-		main.add(LayoutUtilW.panelRow(lblLabel, cbLabel));
+		main.add(cmLabel.getPanel());
 		main.add(LayoutUtilW.panelRow(lblValue, cbValue));
 		getMyPopup().setWidget(main);
 		setLabels();
@@ -145,7 +154,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	public void setLabels() {
 		lblName.setText(loc.getPlain("Name") + ":");
-		lblLabel.setText(loc.getPlain("ShowLabel") + ":");
+		cmLabel.setText(loc.getPlain("ShowLabel") + ":");
 		lblValue.setText(loc.getPlain("ShowValue") + ":");
 	}
 

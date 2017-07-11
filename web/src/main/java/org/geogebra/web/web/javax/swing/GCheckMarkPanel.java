@@ -62,12 +62,20 @@ public abstract class GCheckMarkPanel {
 	 */
 	public void setChecked(boolean value) {
 		checked = value;
+		updateGUI();
+		updateContents();
+	}
+
+	private void updateGUI() {
+		if (itemPanel == null) {
+			return;
+		}
+
 		itemPanel.clear();
 		itemPanel.add(new HTML(getText()));
 		if (checked) {
 			itemPanel.add(checkImg);
 		}
-		updateContents();
 	}
 
 	/**
@@ -92,6 +100,10 @@ public abstract class GCheckMarkPanel {
 
 	public void setText(String text) {
 		this.text = text;
+		updateGUI();
 	}
 
+	public FlowPanel getPanel() {
+		return itemPanel;
+	}
 }
