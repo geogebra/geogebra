@@ -52,7 +52,7 @@ public abstract class Layout implements SettingListener {
 	 */
 	public static void initializeDefaultPerspectives(App app,
 			double AVpercent) {
-		int n = 7;
+		final int n = 8;
 
 		defaultPerspectives = new Perspective[n];
 
@@ -344,13 +344,54 @@ public abstract class Layout implements SettingListener {
 			// String wbToolbar = "0 | 62 73 6 110 | 2 16 51 10 55 | 102 103 104
 			// 105 106 107 108 109 101| 17 26";
 			String wbToolbar = ToolBar.getWBToolBarDefString();
-			Perspective whiteboard = new Perspective(7, spData, dpData,
+			Perspective whiteboard = new Perspective(Perspective.WHITEBOARD,
+					spData, dpData,
 					wbToolbar, true, false, false, false, true,
 					InputPosition.algebraView);
 			whiteboard.setToolBarPosition(SwingConstants.SOUTH);
 			// whiteboard
 			defaultPerspectives[++i] = whiteboard;
 		}
+
+		dpData = new DockPanelData[6];
+		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, false, false,
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "3",
+				500);
+		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false,
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "1",
+				200);
+		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"1,1", 300);
+		dpData[3] = new DockPanelData(App.VIEW_CAS, null, false, false, false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"1,3", 300);
+		dpData[4] = new DockPanelData(App.VIEW_PROPERTIES, null, false, true,
+				true,
+				AwtFactory.getPrototype().newRectangle(100, 100, 700, 550),
+				"1,1,1,1", 400);
+		dpData[5] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, false, false,
+				false,
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				"1,1,1", 500);
+		// dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false, false,
+		// false, AwtFactory.getPrototype().newRectangle(100, 100, 600, 600),
+		// "1,1",
+		// 500);
+
+		spData = new DockSplitPaneData[1];
+		spData[0] = new DockSplitPaneData("", AVpercent,
+				SwingConstants.HORIZONTAL_SPLIT);
+
+		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
+				app.isExam(), app);
+
+		defaultPerspectives[7] = new Perspective(Perspective.SCIENTIFIC,
+				spData, dpData, defToolbar, true, true, true, true, true,
+				InputPosition.algebraView);
 
 	}
 
@@ -430,7 +471,7 @@ public abstract class Layout implements SettingListener {
 	protected boolean setEVsettingsFromPerspective(App app,
 			Perspective perspective) {
 		boolean changed = false;
-		if (!perspective.getId().equals("tmp")) {
+		if (!"tmp".equals(perspective.getId())) {
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			if (app.getEuclidianView1() == ev) {
 				changed |= app.getSettings().getEuclidian(1).setShowAxes(

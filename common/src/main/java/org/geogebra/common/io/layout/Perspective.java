@@ -88,7 +88,7 @@ public class Perspective {
 			"GraphingCalculator", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
 			"GeoGebra3DGrapher.short", "Perspective.Probability",
-			"Whiteboard" };
+			"Whiteboard", "Scientific" };
 	/** slugs for web app url / tutorials url */
 	final private static String[] perspectiveSlugs = new String[] { "graphing",
 			"geometry", "spreadsheet", "cas", "3d", "probability",
@@ -105,6 +105,10 @@ public class Perspective {
 	public static final int GRAPHER_3D = 5;
 	/** probability calculator */
 	public static final int PROBABILITY = 6;
+	/** Whiteboard */
+	public static final int WHITEBOARD = 7;
+	/** Scientific calc */
+	public static final int SCIENTIFIC = 8;
 
 	/**
 	 * 14.7.2016 when the feature flag "NEW_START_SCREEN" is removed, the
