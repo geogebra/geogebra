@@ -1647,6 +1647,8 @@ namespace giac {
   static vecteur solve_cleaned(const gen & e,const gen & e_check,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     gen expr(e),a,b;
     if (is_linear_wrt(e,x,a,b,contextptr)){
+      if (contains(a,x)) 
+	a=ratnormal(a,contextptr);
       if (is_exactly_zero(a)){
 	if (is_exactly_zero(b))
 	  return vecteur(1,x);

@@ -8728,7 +8728,7 @@ namespace giac {
     vecteur vf=*f._VECTptr->front()._VECTptr;
     gen m,tmin,tmax;
     double T=1e300;
-    if (vf.size()>5){
+    if (vf.size()>5 && !is_undef(vf[5])){
       // use parametric equation for circle or line
       gen carteq=vf[5];
       gen intervart("intervart",contextptr);

@@ -1301,7 +1301,7 @@ namespace giac {
   define_unary_function_ptr5( at_program ,alias_at_program,&__program,_QUOTE_ARGUMENTS,0);
 
   static string printasbloc(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if ( (feuille.type!=_VECT) )
+    if ( feuille.type!=_VECT || feuille._VECTptr->empty() )
       return "{"+feuille.print(contextptr)+";}";
     const_iterateur it=feuille._VECTptr->begin(),itend=feuille._VECTptr->end();
     string res("{");

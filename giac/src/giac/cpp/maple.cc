@@ -690,6 +690,44 @@ namespace giac {
   static define_unary_function_eval (___count,&_count,_count_s);
   define_unary_function_ptr5( at_count ,alias_at_count,&___count,0,true);
 
+  static longlong count_eq0(const gen & f,const gen & v,GIAC_CONTEXT){
+    if (v.type!=_VECT)
+      return v==f;
+    const_iterateur it=v._VECTptr->begin(),itend=v._VECTptr->end();
+    longlong res=0;
+    for (;it!=itend;++it){
+      if (it->type!=_VECT){
+	if (*it==f)
+	  ++res;
+      }
+      else
+	res += count_eq0(f,*it,contextptr);
+    }
+    return res;
+  }
+
+  static gen count_eq1(const gen & f,const gen & v,GIAC_CONTEXT){
+    if (v.type!=_VECT)
+      return is_strictly_greater(v,f,contextptr);
+    const_iterateur it=v._VECTptr->begin(),itend=v._VECTptr->end();
+    gen res;
+    for (;it!=itend;++it){
+      res=res+count_eq1(f,*it,contextptr);
+    }
+    return res;
+  }
+
+  static gen count_eq2(const gen & f,const gen & v,GIAC_CONTEXT){
+    if (v.type!=_VECT)
+      return is_strictly_greater(f,v,contextptr);
+    const_iterateur it=v._VECTptr->begin(),itend=v._VECTptr->end();
+    gen res;
+    for (;it!=itend;++it){
+      res=res+count_eq2(f,*it,contextptr);
+    }
+    return res;
+  }
+
   static gen count_eq(const gen & f,const gen & v,GIAC_CONTEXT,int type,const gen & rowcol){
     if (rowcol==at_row || rowcol==at_col){
       if (!ckmatrix(v))
@@ -705,6 +743,14 @@ namespace giac {
       if (rowcol==at_col)
 	return count_eq(f,mtran(*v._VECTptr),contextptr,type,at_row);
     }
+    if (type==0)
+      return count_eq0(f,v,contextptr);
+    if (type==1)
+      return count_eq1(f,v,contextptr);
+    if (type==2)
+      return count_eq2(f,v,contextptr);
+    return gentypeerr();
+#if 0
     if (v.type!=_VECT){
       switch (type){
       case 0:
@@ -723,6 +769,7 @@ namespace giac {
       res=res+count_eq(f,*it,contextptr,type,0);
     }
     return res;
+#endif
   }
 
   gen _count_eq(const gen & args,const context * contextptr){
