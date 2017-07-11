@@ -9,6 +9,10 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
 
+/**
+ * @author Mathieu
+ *
+ */
 public class SuggestionRootExtremum extends Suggestion {
 
 	private static Suggestion INSTANCE = new SuggestionRootExtremum();
@@ -32,10 +36,18 @@ public class SuggestionRootExtremum extends Suggestion {
 					"Extremum[" + geo.getLabelSimple() + "]", true);
 		} else {
 			geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Intersect[" + geo.getLabelSimple() + ",yAxis]", true);
+					"Intersect[" + geo.getLabelSimple() + ","
+							+ geo.getKernel().getLocalization().getMenu("yAxis")
+							+ "]",
+					true);
 		}
 	}
 
+	/**
+	 * @param geo
+	 *            construction element
+	 * @return solve suggestion if applicable
+	 */
 	public static Suggestion get(GeoElement geo) {
 		if (geo instanceof GeoFunction
 				&& !hasDependentAlgo(geo, INSTANCE)) {
