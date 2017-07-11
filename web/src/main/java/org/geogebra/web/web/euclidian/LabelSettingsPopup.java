@@ -1,22 +1,30 @@
 package org.geogebra.web.web.euclidian;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.event.KeyEvent;
+import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
+import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.gui.ContextMenuGeoElementW;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
+import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
@@ -24,16 +32,22 @@ import com.google.gwt.user.client.ui.Label;
  * label settings popup
  */
 public class LabelSettingsPopup extends PopupMenuButtonW
-		implements CloseHandler<GPopupPanel>, MouseOverHandler {
+		implements CloseHandler<GPopupPanel>, MouseOverHandler, SetLabels {
 
 	private EuclidianController ec;
-	private GPoint location;
-	private AppW app1;
+	private AppW app;
 	/**
 	 * popup menu
 	 */
 	ContextMenuGeoElementW popup;
 	private FlowPanel main;
+	private LocalizationW loc;
+	private AutoCompleteTextFieldW tfName;
+	private Label lblName;
+	private Label lblLabel;
+	private Label lblValue;
+	private CheckBox cbLabel;
+	private CheckBox cbValue;
 
 	/**
 	 * label related popup
@@ -43,26 +57,21 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	 */
 	public LabelSettingsPopup(AppW app) {
 		super(app, null, -1, -1, null, false, false, null);
-		this.app1 = app;
+		this.app = app;
+		loc = app.getLocalization();
 		ImgResourceHelper
-				.setIcon(MaterialDesignResources.INSTANCE.label_black(), this);
+				.setIcon(
+						GGWToolBar.getMyIconResourceBundle()
+								.mode_showhidelabel_32(),
+						this);
 		ec = app.getActiveEuclidianView().getEuclidianController();
-		location = new GPoint();
-		updateLocation();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
 
 	}
 
-
-	private void updateLocation() {
-		int x = getAbsoluteLeft();
-		int y = getAbsoluteTop() + getOffsetHeight();
-		location.setLocation(x, y);
-	}
-
 	private void createPopup() {
-		popup = ((GuiManagerW) app1.getGuiManager())
+		popup = ((GuiManagerW) app.getGuiManager())
 				.getPopupMenu(ec.getAppSelectedGeos());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
 		// addClickHandler(this);
@@ -81,11 +90,45 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 			}
 		});
+		createDialog();
+
+	}
+
+	private void createDialog() {
 
 		main = new FlowPanel();
-		main.add(new Label(" contents "));
+		lblName = new Label();
+		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		tfName = input.getTextComponent();
+		tfName.setAutoComplete(false);
+		tfName.addFocusListener(new FocusListenerW(this) {
+			@Override
+			protected void wrapFocusLost() {
+			}
+		});
+
+		tfName.addKeyHandler(new KeyHandler() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+				}
+			}
+		});
+
+		lblLabel = new Label();
+		cbLabel = new CheckBox();
+
+		lblValue = new Label();
+		cbValue = new CheckBox();
+
+		main.add(LayoutUtilW.panelRow(lblName, tfName));
+		main.add(LayoutUtilW.panelRow(lblLabel, cbLabel));
+		main.add(LayoutUtilW.panelRow(lblValue, cbValue));
 		getMyPopup().setWidget(main);
+		setLabels();
 	}
+
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
@@ -98,6 +141,12 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	public void onMouseOver(MouseOverEvent event) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setLabels() {
+		lblName.setText(loc.getPlain("Name") + ":");
+		lblLabel.setText(loc.getPlain("ShowLabel") + ":");
+		lblValue.setText(loc.getPlain("ShowValue") + ":");
 	}
 
 }
