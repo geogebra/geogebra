@@ -20,17 +20,30 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * label settings popup
+ */
 public class LabelSettingsPopup extends PopupMenuButtonW
 		implements CloseHandler<GPopupPanel>, MouseOverHandler {
 
 	private EuclidianController ec;
 	private GPoint location;
-	private AppW app;
+	private AppW app1;
+	/**
+	 * popup menu
+	 */
 	ContextMenuGeoElementW popup;
 	private FlowPanel main;
+
+	/**
+	 * label related popup
+	 * 
+	 * @param app
+	 *            - application
+	 */
 	public LabelSettingsPopup(AppW app) {
 		super(app, null, -1, -1, null, false, false, null);
-		this.app = app;
+		this.app1 = app;
 		ImgResourceHelper
 				.setIcon(MaterialDesignResources.INSTANCE.label_black(), this);
 		ec = app.getActiveEuclidianView().getEuclidianController();
@@ -49,7 +62,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	}
 
 	private void createPopup() {
-		popup = ((GuiManagerW) app.getGuiManager())
+		popup = ((GuiManagerW) app1.getGuiManager())
 				.getPopupMenu(ec.getAppSelectedGeos());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
 		// addClickHandler(this);
@@ -57,7 +70,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-
+				// handle click
 			}
 		});
 		ClickEndHandler.init(this, new ClickEndHandler(false, true) {
@@ -76,10 +89,12 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
+		// handle close
 	}
 	
 
 
+	@Override
 	public void onMouseOver(MouseOverEvent event) {
 		// TODO Auto-generated method stub
 
