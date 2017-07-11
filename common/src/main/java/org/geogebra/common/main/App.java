@@ -4216,6 +4216,10 @@ public abstract class App implements UpdateSelection {
 		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
 			return prerelease;
 
+		/** GGB-1958 */
+		case ONLY_ONE_ZERO:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

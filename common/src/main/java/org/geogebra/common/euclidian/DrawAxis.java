@@ -485,9 +485,16 @@ public class DrawAxis {
 						// flag for handling label at axis cross point
 						boolean zero = strNum.equals(crossAtStr);
 
+						// if the label is at the axis cross point is "0" on
+						// both axes draw only one "0"
+						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
+								&& zero && "0".equals(strNum)) {
+							y = (int) (yCrossPix + view.getYOffsetForXAxis(fontsize));
+						}					
 						// if the label is at the axis cross point then draw
 						// it 2 pixels above
-						if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
+						else if (zero && view.showAxes[0]
+								&& !view.positiveAxes[0]) {
 							y = (int) (yCrossPix - 2);
 						} else {
 							y = (int) (pix + yoffset);
@@ -880,7 +887,10 @@ public class DrawAxis {
 							}
 						}
 
-						drawString(g2, sb.toString(), x, y);
+						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
+								|| (!zero && !"0".equals(strNum))) {
+							drawString(g2, sb.toString(), x, y);
+						}
 
 						// store position of number, so grid line can avoid
 						// it
