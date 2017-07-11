@@ -135,6 +135,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		lblSpeedValue.addClickHandler(this);
 		lblSpeedValue.addMouseUpHandler(new MouseUpHandler() {
 
+			@Override
 			public void onMouseUp(MouseUpEvent event) {
 				event.stopPropagation();
 			}
@@ -149,15 +150,25 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void createPlayButton() {
-		btnPlay = new MyToggleButtonW(
+		if (playOnly) {
+			btnPlay = new MyToggleButtonW(
+					MaterialDesignResources.INSTANCE.play_black(),
+					MaterialDesignResources.INSTANCE.pause_black());
+			btnPlay.getUpHoveringFace().setImage(
+					new Image(MaterialDesignResources.INSTANCE.play_purple()));
+			btnPlay.getDownHoveringFace().setImage(
+					new Image(MaterialDesignResources.INSTANCE.pause_purple()));
+		} else {
+			btnPlay = new MyToggleButtonW(
 				GuiResourcesSimple.INSTANCE.icons_play_circle(),
 				GuiResourcesSimple.INSTANCE.icons_play_pause_circle());
-		btnPlay.getUpHoveringFace().setImage(
+			btnPlay.getUpHoveringFace().setImage(
 				new Image(GuiResourcesSimple.INSTANCE
 						.icons_play_circle_hover()));
-		btnPlay.getDownHoveringFace()
+			btnPlay.getDownHoveringFace()
 				.setImage(new Image(GuiResourcesSimple.INSTANCE
 						.icons_play_pause_circle_hover()));
+		}
 		btnPlay.setStyleName("avPlayButton");
 
 		ClickStartHandler.init(btnPlay, new ClickStartHandler() {

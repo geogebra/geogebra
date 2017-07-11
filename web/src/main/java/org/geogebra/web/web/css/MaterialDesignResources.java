@@ -75,6 +75,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/play_black.png")
 	ImageResource play_black();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/play_purple.png")
+	ImageResource play_purple();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/record_to_spreadsheet_black.png")
 	ImageResource record_to_spreadsheet_black();
 
@@ -140,6 +143,12 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/speed_down_black.png")
 	ImageResource speed_down_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/av/pause_black.png")
+	ImageResource pause_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/av/pause_purple.png")
+	ImageResource pause_purple();
 
 	// ev icons
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/refresh_black.png")
