@@ -19,6 +19,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
@@ -723,7 +724,8 @@ public class RadioTreeItemController
 	public boolean isInputAsText()   {
 		return inputAsText
 				|| (app.has(Feature.AV_TEXT_ITEM) && item.geo != null
-						&& item.geo.isGeoText());
+						&& item.geo.isGeoText()
+						&& !((GeoText) item.geo).isTextCommand());
 	}
 }
 
