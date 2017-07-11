@@ -49,7 +49,6 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -223,12 +222,12 @@ public class DefaultTeXFontParser {
 		charChildParsers.put("Extension", new ExtensionParser());
 	}
 
-	public FontInfo[] parseFontDescriptions(FontInfo[] fi, Object file, String name)
+	public ArrayList<FontInfo> parseFontDescriptions(ArrayList<FontInfo> res,
+			Object file, String name)
 			throws ResourceParseException {
 		if (file == null) {
-			return fi;
+			return res;
 		}
-		ArrayList<FontInfo> res = new ArrayList<FontInfo>(Arrays.asList(fi));
 		Element font;
 		try {
 			font = parserAdapter.createParserAndParseFile(file);
@@ -312,12 +311,11 @@ public class DefaultTeXFontParser {
 		}
 
 		parsedTextStyles = parseStyleMappings();
-		return res.toArray(fi);
+		return res;
 	}
 
-	public FontInfo[] parseFontDescriptions(FontInfo[] fontInfo)
+	public ArrayList<FontInfo> parseFontDescriptions(ArrayList<FontInfo> fi)
 			throws ResourceParseException {
-		FontInfo[] fi = fontInfo;
 		Element fontDescriptions = root.getElementsByTagName("FontDescriptions").item(0).castToElement();
 		if (!fontDescriptions.isNull()) { // element present
 			NodeList list = fontDescriptions.getElementsByTagName("Metrics");

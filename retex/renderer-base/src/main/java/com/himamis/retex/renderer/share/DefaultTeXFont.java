@@ -85,7 +85,7 @@ public class DefaultTeXFont implements TeXFont {
 
 	private static Map<String, CharFont[]> textStyleMappings;
 	private static Map<String, CharFont> symbolMappings;
-	private static FontInfo[] fontInfo = new FontInfo[0];
+	private static ArrayList<FontInfo> fontInfo = new ArrayList<FontInfo>();
 	private static Map<String, Double> parameters;
 	private static Map<String, Number> generalSettings;
 
@@ -126,7 +126,8 @@ public class DefaultTeXFont implements TeXFont {
 
 		// check if mufontid exists
 		int muFontId = generalSettings.get(DefaultTeXFontParser.MUFONTID_ATTR).intValue();
-		if (muFontId < 0 || muFontId >= fontInfo.length || fontInfo[muFontId] == null) {
+		if (muFontId < 0 || muFontId >= fontInfo.size()
+				|| fontInfo.get(muFontId) == null) {
 			throw new XMLResourceParseException(DefaultTeXFontParser.RESOURCE_NAME,
 					DefaultTeXFontParser.GEN_SET_EL, DefaultTeXFontParser.MUFONTID_ATTR,
 					"contains an unknown font id!");
@@ -136,7 +137,7 @@ public class DefaultTeXFont implements TeXFont {
 	private final double size; // standard size
 	
 	public static Font getFont(int fontId) {
-		FontInfo info = fontInfo[fontId];
+		FontInfo info = fontInfo.get(fontId);
 		Font font = info.getFont();
 		return font;
 	}
@@ -332,31 +333,31 @@ public class DefaultTeXFont implements TeXFont {
 	public Char getChar(CharFont cf0, int style) {
 		double fsize = getSizeFactor(style);
 		int id = isBold ? cf0.boldFontId : cf0.fontId;
-		FontInfo info = fontInfo[id];
+		FontInfo info = fontInfo.get(id);
 		CharFont cf = cf0;
 		if (isBold && cf.fontId == cf.boldFontId) {
 			id = info.getBoldId();
-			info = fontInfo[id];
+			info = fontInfo.get(id);
 			cf = new CharFont(cf.c, id, style);
 		}
 		if (isRoman) {
 			id = info.getRomanId();
-			info = fontInfo[id];
+			info = fontInfo.get(id);
 			cf = new CharFont(cf.c, id, style);
 		}
 		if (isSs) {
 			id = info.getSsId();
-			info = fontInfo[id];
+			info = fontInfo.get(id);
 			cf = new CharFont(cf.c, id, style);
 		}
 		if (isTt) {
 			id = info.getTtId();
-			info = fontInfo[id];
+			info = fontInfo.get(id);
 			cf = new CharFont(cf.c, id, style);
 		}
 		if (isIt) {
 			id = info.getItId();
-			info = fontInfo[id];
+			info = fontInfo.get(id);
 			cf = new CharFont(cf.c, id, style);
 		}
 		Font font = info.getFont();
@@ -410,7 +411,7 @@ public class DefaultTeXFont implements TeXFont {
 		double s = getSizeFactor(style);
 
 		// construct Char for every part
-		FontInfo info = fontInfo[fc];
+		FontInfo info = fontInfo.get(fc);
 		int[] ext = info.getExtension(c.getChar());
 		Char[] parts = new Char[ext.length];
 		for (int i = 0; i < ext.length; i++) {
@@ -427,7 +428,7 @@ public class DefaultTeXFont implements TeXFont {
 	@Override
 	public double getKern(CharFont left, CharFont right, int style) {
 		if (left.fontId == right.fontId) {
-			FontInfo info = fontInfo[left.fontId];
+			FontInfo info = fontInfo.get(left.fontId);
 			return info.getKern(left.c, right.c, getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 		}
 		return 0;
@@ -436,14 +437,14 @@ public class DefaultTeXFont implements TeXFont {
 	@Override
 	public CharFont getLigature(CharFont left, CharFont right) {
 		if (left.fontId == right.fontId) {
-			FontInfo info = fontInfo[left.fontId];
+			FontInfo info = fontInfo.get(left.fontId);
 			return info.getLigature(left.c, right.c);
 		}
 		return null;
 	}
 
 	private static Metrics getMetrics(CharFont cf, double size) {
-		FontInfo info = fontInfo[cf.fontId];
+		FontInfo info = fontInfo.get(cf.fontId);
 		double[] m = info.getMetrics(cf.c);
 		if (m == null) {
 			return new Metrics(1, 1, 0, 0, size * TeXFormula.PIXELS_PER_POINT,
@@ -459,9 +460,9 @@ public class DefaultTeXFont implements TeXFont {
 
 	@Override
 	public Char getNextLarger(Char c, int style) {
-		FontInfo info = fontInfo[c.getFontCode()];
+		FontInfo info = fontInfo.get(c.getFontCode());
 		CharFont ch = info.getNextLarger(c.getChar());
-		FontInfo newInfo = fontInfo[ch.fontId];
+		FontInfo newInfo = fontInfo.get(ch.fontId);
 		return new Char(ch.c, newInfo.getFont(), ch.fontId, getMetrics(ch, getSizeFactor(style)));
 	}
 
@@ -482,7 +483,7 @@ public class DefaultTeXFont implements TeXFont {
 
 	@Override
 	public double getQuad(int style, int fontCode) {
-		FontInfo info = fontInfo[fontCode];
+		FontInfo info = fontInfo.get(fontCode);
 		return info.getQuad(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
@@ -493,7 +494,7 @@ public class DefaultTeXFont implements TeXFont {
 
 	@Override
 	public double getSkew(CharFont cf, int style) {
-		FontInfo info = fontInfo[cf.fontId];
+		FontInfo info = fontInfo.get(cf.fontId);
 		char skew = info.getSkewChar();
 		if (skew == -1) {
 			return 0;
@@ -504,7 +505,7 @@ public class DefaultTeXFont implements TeXFont {
 	@Override
 	public double getSpace(int style) {
 		int spaceFontId = generalSettings.get(DefaultTeXFontParser.SPACEFONTID_ATTR).intValue();
-		FontInfo info = fontInfo[spaceFontId];
+		FontInfo info = fontInfo.get(spaceFontId);
 		return info.getSpace(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
@@ -545,7 +546,7 @@ public class DefaultTeXFont implements TeXFont {
 
 	@Override
 	public double getXHeight(int style, int fontCode) {
-		FontInfo info = fontInfo[fontCode];
+		FontInfo info = fontInfo.get(fontCode);
 		return info.getXHeight(getSizeFactor(style) * TeXFormula.PIXELS_PER_POINT);
 	}
 
@@ -556,7 +557,7 @@ public class DefaultTeXFont implements TeXFont {
 
 	@Override
 	public boolean hasNextLarger(Char c) {
-		FontInfo info = fontInfo[c.getFontCode()];
+		FontInfo info = fontInfo.get(c.getFontCode());
 		return (info.getNextLarger(c.getChar()) != null);
 	}
 
@@ -612,13 +613,13 @@ public class DefaultTeXFont implements TeXFont {
 
 	@Override
 	public boolean hasSpace(int font) {
-		FontInfo info = fontInfo[font];
+		FontInfo info = fontInfo.get(font);
 		return info.hasSpace();
 	}
 
 	@Override
 	public boolean isExtensionChar(Char c) {
-		FontInfo info = fontInfo[c.getFontCode()];
+		FontInfo info = fontInfo.get(c.getFontCode());
 		return info.getExtension(c.getChar()) != null;
 	}
 
