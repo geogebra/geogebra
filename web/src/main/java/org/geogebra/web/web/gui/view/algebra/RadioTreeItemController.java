@@ -722,9 +722,9 @@ public class RadioTreeItemController
 	 * @return if input should be treated as text item.
 	 */
 	public boolean isInputAsText()   {
-		return inputAsText
+		return (inputAsText
 				|| (app.has(Feature.AV_TEXT_ITEM) && item.geo != null
-						&& item.geo.isGeoText()
+						&& item.geo.isGeoText())
 						&& !((GeoText) item.geo).isTextCommand());
 	}
 }
