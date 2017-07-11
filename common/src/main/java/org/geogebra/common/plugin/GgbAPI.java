@@ -1563,6 +1563,20 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
+	 * Undo without forced repaint
+	 */
+	public void undo() {
+		undo(false);
+	}
+
+	/**
+	 * Redo without forced repaint
+	 */
+	public void redo() {
+		redo(false);
+	}
+
+	/**
 	 * Cast redo
 	 * 
 	 * @param repaint
