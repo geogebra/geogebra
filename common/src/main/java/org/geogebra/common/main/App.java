@@ -4103,7 +4103,7 @@ public abstract class App implements UpdateSelection {
 			return true; // 5.0.356
 
 		case AND_GEOMETRY_IN_MATH_APPS_MENU:
-			return prerelease;
+			return true; // 5.0.376
 
 		case DIRECT_FORMULA_CONVERSION:
 			return false;
