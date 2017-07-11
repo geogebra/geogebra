@@ -889,8 +889,11 @@ public class DrawAxis {
 							}
 						}
 
+
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| (!zero && !"0".equals(strNum))) {
+								|| !zero && !"0".equals(strNum)
+								|| !view.showAxes[1] || view.positiveAxes[1]
+								|| !view.showAxesNumbers[1]) {
 							drawString(g2, sb.toString(), x, y);
 						}
 
