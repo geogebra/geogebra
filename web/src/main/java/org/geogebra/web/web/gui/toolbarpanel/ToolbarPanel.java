@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
@@ -34,7 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class ToolbarPanel extends FlowPanel {
+public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
 	/**
@@ -318,6 +320,8 @@ public class ToolbarPanel extends FlowPanel {
 	 */
 	public ToolbarPanel(App app) {
 		this.app = app;
+		app.getActiveEuclidianView().getEuclidianController()
+				.setModeChangeListener(this);
 		initGUI();
 
 		initClickStartHandler();
@@ -523,6 +527,49 @@ public class ToolbarPanel extends FlowPanel {
 	 */
 	ToolbarDockPanelW getToolbarDockPanel() {
 		return (ToolbarDockPanelW) app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA);
+	}
+
+	/**
+	 * @return mode floating action button
+	 */
+	public StandardButton getMoveBtn() {
+		return moveBtn;
+	}
+
+	@Override
+	public void onModeChange(int mode) {
+		updateMoveButton(mode);
+	}
+
+	private void updateMoveButton(int mode) {
+		if (mode == EuclidianConstants.MODE_MOVE) {
+			hideMoveFloatingButton();
+		} else {
+			showMoveFloatingButton();
+		}
+	}
+
+	/**
+	 * Show move floating action button
+	 */
+	void showMoveFloatingButton() {
+		if (moveBtn == null) {
+			return;
+		}
+		moveBtn.addStyleName("showMoveBtn");
+		moveBtn.removeStyleName("hideMoveBtn");
+	}
+
+	/**
+	 * Hide move floating action button
+	 */
+	void hideMoveFloatingButton() {
+		if (moveBtn == null) {
+			return;
+		}
+
+		moveBtn.addStyleName("hideMoveBtn");
+		moveBtn.removeStyleName("showMoveBtn");
 	}
 
 	/**
@@ -801,5 +848,4 @@ public class ToolbarPanel extends FlowPanel {
 	void setClosedByUser(boolean value) {
 		this.closedByUser = value;
 	}
-
 }

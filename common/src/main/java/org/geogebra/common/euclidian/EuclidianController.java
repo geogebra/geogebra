@@ -822,7 +822,10 @@ public abstract class EuclidianController {
 		return mode;
 	}
 
-	public void setMode(int newMode, ModeSetter ms) {
+	public void setMode(int newMode, ModeSetter ms) {		
+		if (getModeChangeListener() != null) {
+			getModeChangeListener().onModeChange(newMode);
+		}
 		if (pen != null) {
 			pen.resetPenOffsets();
 		}
@@ -8136,6 +8139,7 @@ public abstract class EuclidianController {
 	protected double newZero, newScale;
 	private boolean objectMenuActive;
 	private MyZoomerListener zoomerListener = null;
+	private MyModeChangedListener modeChangeListener = null;
 
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {
@@ -8620,6 +8624,7 @@ public abstract class EuclidianController {
 					if (view.getHits().size() != 1) {
 						filterHits(new Inspecting() {
 
+							@Override
 							public boolean check(ExpressionValue v) {
 								return v instanceof GeoNumeric
 										&& ((GeoNumeric) v).isSlider();
@@ -8638,6 +8643,7 @@ public abstract class EuclidianController {
 					if (view.getHits().size() != 1) {
 						filterHits(new Inspecting() {
 
+							@Override
 							public boolean check(ExpressionValue v) {
 								return v instanceof GeoButton;
 							}
@@ -8653,6 +8659,7 @@ public abstract class EuclidianController {
 					if (view.getHits().size() != 1) {
 						filterHits(new Inspecting() {
 
+							@Override
 							public boolean check(ExpressionValue v) {
 								return v instanceof GeoBoolean;
 							}
@@ -12067,6 +12074,14 @@ public abstract class EuclidianController {
 		if (zoomerListener != null) {
 			zoomerListener.onCoordSystemChanged();
 		}
+	}
+
+	public MyModeChangedListener getModeChangeListener() {
+		return modeChangeListener;
+	}
+
+	public void setModeChangeListener(MyModeChangedListener modeChangeListener) {
+		this.modeChangeListener = modeChangeListener;
 	}
 
 }
