@@ -1646,7 +1646,7 @@ public class GeoCasCell extends GeoElement
 						.evaluatesTo3DVector()) {
 			isLine = true;
 		}
-		if (!isAssignmentVariableDefined()) {
+		if (!isAssignmentVariableDefined() || outputVE == null) {
 			return;
 		}
 		if (isNative() && (getInputVE() instanceof Function)

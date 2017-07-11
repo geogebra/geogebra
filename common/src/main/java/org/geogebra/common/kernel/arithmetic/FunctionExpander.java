@@ -230,9 +230,11 @@ public class FunctionExpander implements Traversing {
 			// expanding the cell here is necessary #4126
 			if (((GeoCasCell) ev).isKeepInputUsed()) {
 				return expand((GeoCasCell) ev);
-					}
-			return ((GeoCasCell) ev).getOutputValidExpression().wrap()
+			}
+			if (((GeoCasCell) ev).getOutputValidExpression() != null) {
+				return ((GeoCasCell) ev).getOutputValidExpression().wrap()
 					.getCopy(((GeoCasCell) ev).getKernel());
+			}
 		} else if (ev instanceof FunctionNVar) {
 			variables = ((FunctionNVar) ev).fVars;
 				}
