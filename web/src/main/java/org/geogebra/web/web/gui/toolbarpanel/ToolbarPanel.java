@@ -276,7 +276,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			} else if (type.equals(AppType.GEOMETRY_CALC)) {
 				switch (level) {
 				case EMPTY_CONSTRUCTION:
+					toolsPanel.add(moreBtn);
+					break;
 				case STANDARD:
+					toolsPanel.add(lessBtn);
 					toolsPanel.add(moreBtn);
 					break;
 					
