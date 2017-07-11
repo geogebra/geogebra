@@ -51,7 +51,7 @@
 			}
 		
 			&.active {
-				border: $toolbar-header solid 1px;
+				border: $purple-default solid 1px;
 			}
 		
 			&.withIcon {
@@ -121,10 +121,10 @@
     			}
     		
     			&.selected {
-    				color: $toolbar-header;
+    				color: $purple-default;
     				
     				&:hover {
-    					color: $toolbar-header !important;
+    					color: $purple-default !important;
     				}
     			}
     		}
@@ -186,7 +186,7 @@
     		}
     	
     		.gwt-Label.border.selected:hover {
-    			border: 1px solid $toolbar-header;
+    			border: 1px solid $purple-default;
     		}
     	
     		 .gwt-Label.borderButton {
@@ -204,7 +204,7 @@
     				opacity: 0.54;	
     				
     				&:hover {
-    					border: 1px solid $toolbar-header;
+    					border: 1px solid $purple-default;
     					background-color: $white-90;
     				}
     			}

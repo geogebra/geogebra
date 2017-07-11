@@ -194,7 +194,7 @@ $duration: 0.2s;
     	transition: background-color 150ms ease 0ms;
     	
     	&:hover {
-    		background-color: $toolbar-header;
+    		background-color: $purple-default;
     		/*border: 1px solid $toolbar-header-dark10;*/
     	}
 	}
@@ -239,7 +239,7 @@ $duration: 0.2s;
     			transition: background-color 150ms ease 0ms;
     			
     			&:hover {
-    				background-color: $toolbar-header;
+    				background-color: $purple-default;
     			}
 			}
 	}
@@ -319,7 +319,7 @@ $duration: 0.2s;
 			top: 50%;
 			height: 18px;
 			width: 18px;
-			background-color: $toolbar-header;
+			background-color: $purple-default;
 			border: 1px solid $black;
 			border-radius: 24px;
 		
@@ -328,7 +328,7 @@ $duration: 0.2s;
 			background-color: $white;
 		}
 		.marble.elemShown {
-			background-color: $toolbar-header;
+			background-color: $purple-default;
 			border: 1px solid $marble-border;
 		}
 		
@@ -372,6 +372,16 @@ $duration: 0.2s;
 			position: absolute;
 			top: 42px;
 			right: 3px;
+			
+			img {
+				opacity: 0.54;	
+			}
+		
+			&:hover {
+				img {
+					opacity: 1;
+				}	
+			}
 		}
 	
 		.speedPanel {
