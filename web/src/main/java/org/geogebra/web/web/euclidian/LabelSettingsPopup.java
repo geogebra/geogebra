@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -178,16 +177,13 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		boolean value = cmValue.isChecked();
 		int mode = -1;
 		if (name && !value) {
-			Log.debug("CHECK - name only");
 			mode = LABEL_MODE_NAME_ONLY;
 		} else if (name && value) {
-			Log.debug("CHECK - name and value");
 			mode = LABEL_MODE_NAME_AND_VALUE;
 		} else if (!name && value) {
-			Log.debug("CHECK - value only");
 			mode = LABEL_MODE_VALUE_ONLY;
 		} else if (!name && !value) {
-			Log.debug("CHECK - none");
+			// hide, nothing to do.
 		}
 		model.applyModeChanges(mode, mode != -1);
 	}

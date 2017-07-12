@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 
@@ -16,7 +17,7 @@ public class NameValueModel extends ShowLabelModel {
 		// concat two interfaces.
 	}
 	private ObjectNameModel nameModel;
-
+	private boolean forceCaption = false;
 	/**
 	 * 
 	 * @param app
@@ -33,6 +34,9 @@ public class NameValueModel extends ShowLabelModel {
 	public void setGeos(Object[] geos) {
 		super.setGeos(geos);
 		nameModel.setGeos(geos);
+		forceCaption = ""
+				.equals(getGeoAt(0).getCaption(StringTemplate.defaultTemplate));
+
 	}
 
 	@Override
@@ -51,9 +55,11 @@ public class NameValueModel extends ShowLabelModel {
 	 * 
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
-		if (kernel.lookupLabel(name) != null) {
+
+		if (forceCaption || kernel.lookupLabel(name) != null) {
 			applyModeChanges(MODE_CAPTION, true);
 			nameModel.applyCaptionChange(name);
+			forceCaption = true;
 		} else {
 			nameModel.applyNameChange(name, handler);
 		}
