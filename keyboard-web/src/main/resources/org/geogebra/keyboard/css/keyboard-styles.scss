@@ -11,13 +11,15 @@ $active-switcher: #6666ff;
 $black: #000000;
 $tab123-width: 644px;
 
+$purple-default: #6557D2;
+
 .GeoGebraFrame{
 	.openKeyboardButton:active {
 		box-shadow: inset 0 0 1px 0 #cdcdcd;
 	}
 
 	.openKeyboardButton:hover {
-		border: 1px solid #9999ff;
+		border: 1px solid $purple-default;
 	}
 
 	.openKeyboardButton {
@@ -431,7 +433,7 @@ $tab123-width: 644px;
 	}
 	
 	.KeyboardSwitcher .switcherContents .gwt-Button.selected {
-		color: $active-switcher;
+		color: $purple-default;
 	}
 	
 	.KeyboardSwitcher .switcherContents > :first-child {
@@ -441,7 +443,7 @@ $tab123-width: 644px;
 	}
 	
 	.KeyboardSwitcher .gwt-Button:hover {
-    	color: $active-switcher;
+    	color: $purple-default;
    	 	background-color: $switcher-background;
 	}
 
