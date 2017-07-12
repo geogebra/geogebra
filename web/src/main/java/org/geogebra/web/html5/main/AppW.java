@@ -544,7 +544,9 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	void updateKeyboardLanguage() {
-		getGuiManager().updateKeyboardLanguage();
+		if (getGuiManager() != null) {
+			getGuiManager().updateKeyboardLanguage();
+		}
 	}
 
 

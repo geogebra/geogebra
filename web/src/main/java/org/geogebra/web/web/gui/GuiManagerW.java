@@ -2165,7 +2165,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void updateKeyboardLanguage() {
-		onScreenKeyboard.checkLanguage();
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.checkLanguage();
+		}
 	}
 
 	public static KeyboardListener makeKeyboardListener(
@@ -2385,6 +2387,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		
 	}
 
+	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
 		final VerticalPanel ui = new VerticalPanel();
 		final GeoNumeric gn = new GeoNumeric(kernel.getConstruction());
