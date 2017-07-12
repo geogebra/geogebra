@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -1239,7 +1238,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		int length = getInputLengthForCommandDescription();
-		if (tpl.hasType(StringType.GEOGEBRA_XML)) {
+		if (!tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(tpl.leftSquareBracket());
 		} else {
 			sbAE.append(tpl.leftBracket());
@@ -1252,7 +1251,7 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(", ");
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
-		if (tpl.hasType(StringType.GEOGEBRA_XML)) {
+		if (!tpl.isPrintLocalizedCommandNames()) {
 			sbAE.append(tpl.rightSquareBracket());
 		} else {
 			sbAE.append(tpl.rightBracket());

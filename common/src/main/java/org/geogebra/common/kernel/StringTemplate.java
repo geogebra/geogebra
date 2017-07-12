@@ -3008,4 +3008,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return '\"';
 	}
 
+	public Object rightCommandBracket() {
+		return isPrintLocalizedCommandNames() ? rightBracket()
+				: rightSquareBracket();
+	}
+
 }

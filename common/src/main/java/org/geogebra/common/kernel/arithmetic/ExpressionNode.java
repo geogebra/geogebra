@@ -3601,16 +3601,11 @@ public class ExpressionNode extends ValidExpression
 				sb.append(rightStr);
 				sb.append(",undef)");
 			} else {
-				if (tpl.isPrintLocalizedCommandNames()) {
-					sb.append(loc.getCommand("If"));
-				} else {
-					sb.append("If");
-				}
-				sb.append(tpl.leftSquareBracket());
+				appendIfCommand(sb, tpl, loc);
 				sb.append(leftStr);
 				sb.append(", ");
 				sb.append(rightStr);
-				sb.append(tpl.rightSquareBracket());
+				sb.append(tpl.rightCommandBracket());
 			}
 			break;
 		case IF_ELSE:
@@ -3621,28 +3616,19 @@ public class ExpressionNode extends ValidExpression
 				sb.append(rightStr);
 				sb.append(")");
 			} else {
-				if (tpl.isPrintLocalizedCommandNames()) {
-					sb.append(loc.getCommand("If"));
-				} else {
-					sb.append("If");
-				}
-				sb.append(tpl.leftSquareBracket());
+				appendIfCommand(sb, tpl, loc);
 				sb.append(leftStr);
 				sb.append(", ");
 				sb.append(rightStr);
-				sb.append(tpl.rightSquareBracket());
+				sb.append(tpl.rightCommandBracket());
 			}
 			break;
 
 		case IF_LIST:
 			if (stringType.isGiac()) {
 				sb.append(loc.getCommand("piecewise("));
-			} else if (tpl.isPrintLocalizedCommandNames()) {
-				sb.append(loc.getCommand("If"));
-				sb.append(tpl.leftSquareBracket());
 			} else {
-				sb.append("If");
-				sb.append(tpl.leftSquareBracket());
+				appendIfCommand(sb, tpl, loc);
 			}
 
 			MyList cond = (MyList) left;
@@ -3664,7 +3650,7 @@ public class ExpressionNode extends ValidExpression
 						: fn.getListElement(fn.size() - 1).toString(tpl));
 			}
 
-			sb.append(stringType.isGiac() ? ")" : tpl.rightSquareBracket());
+			sb.append(stringType.isGiac() ? ")" : tpl.rightCommandBracket());
 
 			break;
 		case SEQUENCE:
@@ -3705,6 +3691,19 @@ public class ExpressionNode extends ValidExpression
 			sb.append(operation);
 		}
 		return sb.toString();
+	}
+
+	private static void appendIfCommand(StringBuilder sb, StringTemplate tpl,
+			Localization loc) {
+		if (tpl.isPrintLocalizedCommandNames()) {
+			sb.append(loc.getCommand("If"));
+			sb.append(tpl.leftBracket());
+		} else {
+			sb.append("If");
+			sb.append(tpl.leftSquareBracket());
+		}
+
+
 	}
 
 	private static void appendUserFunction(StringBuilder sb, String leftStr,
