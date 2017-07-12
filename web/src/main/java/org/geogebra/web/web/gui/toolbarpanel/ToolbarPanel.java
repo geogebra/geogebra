@@ -652,6 +652,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	}
 
+	public void selectTools() {
+		header.selectTools();
+		main.removeStyleName("algebra");
+		main.addStyleName("tools");
+	}
+
 	/**
 	 * @return tool tab
 	 */

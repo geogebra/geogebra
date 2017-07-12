@@ -388,7 +388,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	private void resetGraphingApp() {
 		if ((has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GRAPHING_CALCULATOR)
-				|| has(Feature.MINOR_GRIDLINES)) {
+				&& has(Feature.MINOR_GRIDLINES)) {
 			getSettings().getEuclidian(1)
 					.showGrid(true);
 			getSettings().getEuclidian(1)
@@ -400,11 +400,13 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GEOMETRY_CALC) {
 			getSettings().getEuclidian(1).setShowAxes(false);
+			getSettings().getEuclidian(1).showGrid(false);
 			if (getGuiManager() instanceof GuiManagerW) {
 				((ToolbarDockPanelW) (getGuiManager().getLayout()
 						.getDockManager().getPanel(App.VIEW_ALGEBRA)))
-								.setToolMode(true);
+								.getToolbar().selectTools();
 			}
+
 		}
 	}
 
