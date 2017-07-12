@@ -142,8 +142,15 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			return;
 		}
 
-		setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
-				!(dr instanceof DrawLine));
+
+		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
+				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
+			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
+					true);
+		} else {
+			setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
+					!(dr instanceof DrawLine));
+		}
 	}
 
 	@Override
