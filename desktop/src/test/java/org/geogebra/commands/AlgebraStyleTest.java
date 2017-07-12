@@ -268,6 +268,16 @@ public class AlgebraStyleTest extends Assert {
 				getGeo("P").getTooltipText(false, true));
 	}
 
+	@Test
+	public void definitionShouldContainCommand() {
+		t("text1=TableText[{{1}}]");
+		assertEquals("text1 = TableText({{1}})",
+				getGeo("text1").getDefinitionForEditor());
+		t("text2=FormulaText[sqrt(x)]");
+		assertEquals("text2 = FormulaText(sqrt(x))",
+				getGeo("text2").getDefinitionForEditor());
+	}
+
 	private void t(String def) {
 		ap.processAlgebraCommandNoExceptionHandling(def, false,
 				TestErrorHandler.INSTANCE, false, null);

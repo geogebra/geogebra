@@ -1446,7 +1446,8 @@ public class GeoText extends GeoElement
 
 	@Override
 	public String getDefinitionForEditor() {
-		if (!getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)) {
+		if (!getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)
+				|| !this.isIndependent()) {
 			return super.getDefinitionForEditor();
 		}
 
