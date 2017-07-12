@@ -53,13 +53,18 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	}
 
-	void addFullscreenBUtton() {
+	/**
+	 * add fullscreen button
+	 */
+	void addFullscreenButton() {
 		// add fullscreen button
 		fullscreenBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.fullscreen_black18());
 		fullscreenBtn.getDownFace().setImage(new Image(
 				MaterialDesignResources.INSTANCE.fullscreen_exit_black18()));
+		fullscreenBtn.setTitle(app.getLocalization().getMenu("Fullscreen"));
 		fullscreenBtn.setStyleName("zoomPanelBtn");
+
 		FastClickHandler handlerFullscreen = new FastClickHandler() {
 
 			@Override
@@ -105,6 +110,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		// add home button
 		homeBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.home_zoom_black18());
+		homeBtn.setTitle(app.getLocalization().getMenu("Home"));
 		homeBtn.setStyleName("zoomPanelBtn");
 		hideHomeButton();
 		FastClickHandler handlerHome = new FastClickHandler() {
@@ -128,6 +134,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.remove_black18());
+		zoomOutBtn.setTitle(app.getLocalization().getMenu("ZoomOut.Tool"));
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 
@@ -144,6 +151,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.add_black18());
+		zoomInBtn.setTitle(app.getLocalization().getMenu("ZoomIn.Tool"));
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 

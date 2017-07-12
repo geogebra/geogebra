@@ -289,7 +289,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 				zoomPanel.addZoomButtons();
 			}
 			if (needsFullscreenButton()) {
-				zoomPanel.addFullscreenBUtton();
+				zoomPanel.addFullscreenButton();
 			}
 		}
 	}
