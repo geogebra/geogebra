@@ -55,6 +55,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
@@ -1137,9 +1138,15 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (errorMessage != null) {
-
+			if (app.has(Feature.NEW_TOOLBAR)
+					// only show the error message when AV panel is visible
+					&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
+							.isAlgebraViewActive()) {
+				return false;
+			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
 					true, app);
+			Log.debug("error message");
 			return true;
 
 		}

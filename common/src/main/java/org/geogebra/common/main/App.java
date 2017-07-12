@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Vector;
@@ -3369,7 +3370,8 @@ public abstract class App implements UpdateSelection {
 	public String getToolTooltipHTML(int mode) {
 		StringBuilder sbTooltip = new StringBuilder();
 		sbTooltip.append("<html><b>");
-		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
+		sbTooltip.append(StringUtil.toHTMLString(getToolName(mode))
+				.toUpperCase(Locale.ROOT));
 		if (has(Feature.NEW_TOOLBAR)) {
 			sbTooltip.append("</b>&nbsp;-&nbsp;");
 		} else {

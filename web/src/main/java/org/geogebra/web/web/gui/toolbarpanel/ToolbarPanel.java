@@ -8,6 +8,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
@@ -643,12 +644,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * Opens tools tab.
 	 */
 	public void openTools() {
-
+		ToolTipManagerW.sharedInstance().hideAllToolTips();
 		header.selectTools();
 
 		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
+
 
 	}
 

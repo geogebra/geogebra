@@ -284,6 +284,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			keyboardVisibilityChanging = true;
 			app.hideMenu();
 			app.persistWidthAndHeight();
+			ToolTipManagerW.sharedInstance().hideAllToolTips();
 			addKeyboard(textField, true);
 		} else {
 			keyboardVisibilityChanging = true;

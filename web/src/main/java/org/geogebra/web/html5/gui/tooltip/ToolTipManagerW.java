@@ -89,6 +89,7 @@ public final class ToolTipManagerW {
 	private boolean blockToolTip = true;
 	private boolean keyboardVisible;
 	private boolean lastTipVisible = false;
+	private ToolTipLinkType linkType;
 
 	/**
 	 * Time, in milliseconds, to delay showing a toolTip.
@@ -249,6 +250,7 @@ public final class ToolTipManagerW {
 		
 		this.app = appw;
 		keyboardVisible = kb;
+		linkType = link;
 		
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			bottomInfoTipPanel.setStyleName("snackbar");
@@ -333,7 +335,8 @@ public final class ToolTipManagerW {
 				} else {
 					bottomInfoTipPanel.getElement().getStyle().clearTop();
 
-					if (!lastTipVisible) {
+					if (!lastTipVisible
+							&& link != null) {
 						bottomInfoTipPanel.addStyleName("animateShow");
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
@@ -409,7 +412,8 @@ public final class ToolTipManagerW {
 	 */
 	public void hideBottomInfoToolTip() {
 
-		if (app != null && app.has(Feature.NEW_TOOLBAR) && !keyboardVisible) {
+		if (app != null && app.has(Feature.NEW_TOOLBAR) && !keyboardVisible
+				&& linkType != null) {
 			bottomInfoTipPanel.addStyleName("animateHide");
 			bottomInfoTipPanel.getElement().getStyle().clearBottom();
 			timer = new Timer() {
