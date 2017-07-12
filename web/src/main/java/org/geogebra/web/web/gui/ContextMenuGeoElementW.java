@@ -146,6 +146,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addObjectPropertiesMenu();
 			addPinAndFixObject();
 		}
+
+		if (getGeo() == null) {
+			return;
+		}
 		// SHOW, HIDE
 
 		// G.Sturr 2010-5-14: allow menu to show spreadsheet trace for
@@ -1197,7 +1201,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			return;
 		}
-		if (getGeo().getClass() != GeoConic.class) {
+		if (!(getGeo() instanceof GeoConic)) {
 			return;
 		}
 		GeoConic conic = (GeoConic) getGeo();
