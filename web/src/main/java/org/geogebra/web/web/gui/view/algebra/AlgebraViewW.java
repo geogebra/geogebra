@@ -1015,39 +1015,18 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * @param ob
 	 *            geo element
-	 * @param forceRetex
-	 *            whether ReTeX editor should be used
 	 * @return AV item
 	 */
-	public final static RadioTreeItem createAVItem(final GeoElement ob,
-			boolean forceRetex) {
+	public final static RadioTreeItem createAVItem(final GeoElement ob) {
 		RadioTreeItem ti = null;
 		if (SliderTreeItemRetex.match(ob)) {
-			if (forceRetex) {
-				ti = new SliderTreeItemRetex(ob);
-			} else {
-				ti = new ReTeXHelper()
-						.getSliderItem(ob);
-			}
+			ti = new SliderTreeItemRetex(ob);
 		} else if (CheckboxTreeItem.match(ob)) {
-			if (forceRetex) {
-				ti = new CheckboxTreeItem(ob);
-			} else {
-				ti = new ReTeXHelper()
-						.getCheckboxItem(ob);
-
-			}
+			ti = new CheckboxTreeItem(ob);
 		} else if (TextTreeItem.match(ob)) {
-			if (forceRetex) {
-				ti = new TextTreeItem(ob);
-			} else {
-				ti = new ReTeXHelper().getTextItem(ob);
-
-			}
-		} else if (forceRetex) {
-			ti = new RadioTreeItem(ob);
+			ti = new TextTreeItem(ob);
 		} else {
-			ti = new ReTeXHelper().getAVItem(ob);
+			ti = new RadioTreeItem(ob);
 		}
 		ti.setUserObject(ob);
 		ti.addStyleName("avItem");
@@ -1184,8 +1163,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			TreeItem parent = getParentNode(geo, forceLayer);
-			RadioTreeItem node = createAVItem(geo,
-					true);
+			RadioTreeItem node = createAVItem(geo);
 
 			addRadioTreeItem(parent, node);
 
