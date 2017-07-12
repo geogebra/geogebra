@@ -591,10 +591,16 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			
 			@Override
 			public void onClick(Widget source) {
-				Log.debug("activeGeoList size: " + activeGeoList.size());
-				for (int i = activeGeoList.size() - 1; i >= 0; i--) {
-					activeGeoList.get(i)
-							.removeOrSetUndefinedIfHasFixedDescendent();
+				if (app.has(Feature.DELETE_BUTTON_BEHAVIOR_FIX)) {
+					Log.debug("activeGeoList size: " + activeGeoList.size());
+					for (int i = activeGeoList.size() - 1; i >= 0; i--) {
+						activeGeoList.get(i)
+								.removeOrSetUndefinedIfHasFixedDescendent();
+					}
+				} else {
+					for (GeoElement geo : activeGeoList) {
+						geo.removeOrSetUndefinedIfHasFixedDescendent();
+					}
 				}
 				app.storeUndoInfo();
 			}
