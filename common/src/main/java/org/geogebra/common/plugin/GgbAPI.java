@@ -3,6 +3,7 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -17,6 +18,8 @@ import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
+import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
 import org.geogebra.common.io.layout.Perspective;
@@ -49,6 +52,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
+import org.geogebra.common.kernel.stepbystep.StepByStepSolver;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -2184,5 +2188,22 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		GeoElement geo = kernel.lookupLabel(objName);
 		return geo != null && geo.getTrace();
 	}
+
+	public String stepByStep(String eq) {
+		String[] equation = eq.split("=");	
+
+		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1]);
+
+		
+		StepGuiBuilder builder = new StepGuiBuilderJson();
+		List<String> steps = sbss.getSteps();
+		for(int i = 0; i < steps.size(); i++) {
+			builder.addLatexRow(steps.get(i));
+		}
+
+
+	return builder.toString();
+
+}
 
 }
