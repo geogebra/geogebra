@@ -3505,6 +3505,10 @@ namespace giac {
     alg_lvar(e,l);
     if (!l.empty() && l.front().type==_VECT && l.front()._VECTptr->empty())
       return e_;
+    if (l.size()==1 && contains(l.front(),vx_var)){ // x first
+      l=vecteur(1,vecteur(1,vx_var));
+      alg_lvar(e,l);
+    }
     return partfrac(e,l,with_sqrt,contextptr);
   }
 
@@ -3656,13 +3660,14 @@ namespace giac {
   symbolic symb_partfrac(const gen & args){
     return symbolic(at_partfrac,args);
   }
-  gen _partfrac(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG && args.subtype==-1) return  args;
-    gen var,res;
+  gen _partfrac(const gen & args_,GIAC_CONTEXT){
+    if (args_.type==_STRNG && args_.subtype==-1) return  args_;
+    gen args(args_),var,res;
     if (is_algebraic_program(args,var,res))
       return symbolic(at_program,makesequence(var,0,_partfrac(res,contextptr)));
     if (is_equal(args))
       return apply_to_equal(args,_partfrac,contextptr);
+    args=exact(args,contextptr);
     if (args.type!=_VECT)
       return partfrac(args,withsqrt(contextptr),contextptr);
     if (args._VECTptr->size()>2)

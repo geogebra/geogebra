@@ -1471,6 +1471,11 @@ namespace giac {
       return gensizeerr(contextptr);
     expr=v[0];
     var=v[1];
+    // avoid inf recursion like g0(x):=ln(abs(ln(x)));
+    // g1(x,xp):=x/(ln(x))^(xp);g0(g1(x,.3));
+    gen varev=eval(var,1,contextptr); 
+    if (varev!=var && contains(varev,var))
+      return undef;
     if (expr.type==_SYMB){
       unary_function_ptr & u=expr._SYMBptr->sommet;
       if (u==at_exp || u==at_ln || u==at_atan || u==at_abs){

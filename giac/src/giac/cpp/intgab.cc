@@ -1782,6 +1782,8 @@ namespace giac {
 	    res = P*(-Qa/Ra)+1;
 	    if (!is_zero(res))
 	      res=simplify(pow(res,truen,contextptr)*limit(g,*x._IDNTptr,truea,0,contextptr),contextptr);
+	    if (absint(diffb.val)>100 || absint(diffa.val)>100) 
+	      return false;
 	    if (diffb.val>0){ // b>trueb: add sum(g,x,trueb+1,b-1)
 	      for (int i=0;i<diffb.val;++i)
 		res += simplify(limit(g,*x._IDNTptr,trueb+1+i,0,contextptr),contextptr);
