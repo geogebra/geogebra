@@ -189,10 +189,7 @@ public class Unicode {
 
 	public static final char IMPLIES = '\u2192';
 	public static final char IMPLIED_FROM = '\u2190';
-
-	/** shorter arran than "IMPLIES" */
-	public static final char CAS_OUTPUT_PREFIX = '\u279E';
-
+	public static final char CAS_OUTPUT_PREFIX = IMPLIES;
 	public static final char CAS_OUTPUT_PREFIX_RTL = '\u2190';
 	public static final char CAS_OUTPUT_KEEPINPUT = '\u2713';
 	public static final char CAS_OUTPUT_NUMERIC = '\u2248';
