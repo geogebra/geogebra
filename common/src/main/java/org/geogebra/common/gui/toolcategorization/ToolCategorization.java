@@ -371,7 +371,7 @@ public class ToolCategorization {
 
 		category = Category.EDIT;
 		tools = new ArrayList<Integer>();
-		if (app.has(Feature.MOB_SELECT_TOOL)) {
+		if (app.has(Feature.MOB_SELECT_TOOL) || app.has(Feature.SELECT_TOOL)) {
 			addToList(tools, EuclidianConstants.MODE_SELECT);
 		}
 		addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
@@ -434,7 +434,7 @@ public class ToolCategorization {
 
         category = Category.EDIT;
         tools = new ArrayList<Integer>();
-        if (app.has(Feature.MOB_SELECT_TOOL)) {
+		if (app.has(Feature.MOB_SELECT_TOOL) || app.has(Feature.SELECT_TOOL)) {
             addToList(tools, EuclidianConstants.MODE_SELECT);
         }
 		addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
@@ -564,7 +564,7 @@ public class ToolCategorization {
 
 		category = Category.EDIT;
 		tools = new ArrayList<Integer>();
-		if (app.has(Feature.MOB_SELECT_TOOL)) {
+		if (app.has(Feature.MOB_SELECT_TOOL) || app.has(Feature.SELECT_TOOL)) {
 			addToList(tools, EuclidianConstants.MODE_SELECT);
 		}
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
@@ -638,7 +638,7 @@ public class ToolCategorization {
 
 		category = Category.EDIT;
 		tools = new ArrayList<Integer>();
-		if (app.has(Feature.MOB_SELECT_TOOL)) {
+		if (app.has(Feature.MOB_SELECT_TOOL) || app.has(Feature.SELECT_TOOL)) {
 			addToList(tools, EuclidianConstants.MODE_SELECT);
 		}
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
