@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -114,7 +113,6 @@ public class AlgebraItem {
 			}
 		}
 		if (undefinedVariables != null) {
-			Log.debug("UNDEF VARS for suggestion: " + undefinedVariables);
 			sug = SuggestionSlider.get();
 			if (sug != null) {
 				return sug;
@@ -146,7 +144,5 @@ public class AlgebraItem {
 
 	public static void setUndefinedValiables(String undefinedValiables) {
 		AlgebraItem.undefinedVariables = undefinedValiables;
-		Log.debug("SET UNDEF VARS: " + undefinedValiables);
-
 	}
 }

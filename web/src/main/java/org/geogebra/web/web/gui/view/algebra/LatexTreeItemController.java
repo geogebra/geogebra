@@ -233,7 +233,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		// dialog
 		ErrorHandler err = null;
 		if (!textInput) {
-			Log.debug("GETTING HANDLER " + valid + ", " + keepFocus);
 			err = item.getErrorHandler(valid, keepFocus, withSliders);
 			err.resetError();
 		}

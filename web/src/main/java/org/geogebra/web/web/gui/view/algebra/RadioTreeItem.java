@@ -1146,7 +1146,6 @@ public class RadioTreeItem extends AVTreeItem
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(errorMessage,
 					true, app);
-			Log.debug("error message");
 			return true;
 
 		}

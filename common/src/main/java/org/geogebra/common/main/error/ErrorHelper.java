@@ -25,7 +25,6 @@ public class ErrorHelper {
 		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
 			handleCommandError(loc, handler.getCurrentCommand(), handler);
 		} else {
-			Log.debug("NO COMMAND FOR ERROR" + handler.getCurrentCommand());
 			handler.showError(loc.getError("InvalidInput"));
 		}
 
