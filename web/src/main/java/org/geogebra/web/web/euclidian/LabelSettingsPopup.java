@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
+import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
@@ -100,16 +101,15 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 		main = new FlowPanel();
 		lblName = new Label();
-		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
-		tfName = input.getTextComponent();
+		tfName = InputPanelW.newTextComponent(app);
 		tfName.setAutoComplete(false);
 
-		// tfName.addFocusListener(new FocusListenerW(this) {
-		// @Override
-		// protected void wrapFocusLost() {
-		// model.applyNameChange(tfName.getText(), app.getErrorHandler());
-		// }
-		// });
+		tfName.addFocusListener(new FocusListenerW(this) {
+			@Override
+			protected void wrapFocusLost() {
+				model.applyNameChange(tfName.getText(), app.getErrorHandler());
+			}
+		});
 
 		tfName.addKeyHandler(new KeyHandler() {
 
