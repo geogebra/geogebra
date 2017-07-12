@@ -2,9 +2,13 @@ package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.util.StringUtil;
 
+/**
+ * Makes a JSON object with a list of steps
+ *
+ */
 public class StepGuiBuilderJson implements StepGuiBuilder {
 
-	StringBuilder sb = new StringBuilder();
+	private StringBuilder sb = new StringBuilder();
 	
 	public void addPlainRow(String s) {
 
@@ -33,6 +37,7 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 		// not needed
 	}
 
+	@Override
 	public String toString() {
 		return "[" + sb.toString() + "]";
 	}
