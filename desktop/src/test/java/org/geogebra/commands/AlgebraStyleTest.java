@@ -244,7 +244,7 @@ public class AlgebraStyleTest extends Assert {
 				((GeoList) getGeo("list1")).get(0)
 						.getDefinition(StringTemplate.editTemplate));
 		t("list2 = Flatten[{x=y}]");
-		assertEquals("list2 = Flatten[{x = y}]",
+		assertEquals("list2 = Flatten({x = y})",
 				((GeoList) getGeo("list2")).getDefinitionForEditor());
 		
 	}

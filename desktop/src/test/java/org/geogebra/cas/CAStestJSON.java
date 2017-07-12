@@ -207,7 +207,7 @@ public class CAStestJSON {
 						.replaceAll("c_\\{[0-9]+\\}", "c_0")
 						.replaceAll("k_\\{[0-9]+\\}", "k_0")
 						.replace("arccos", "acos").replace("arctan", "atan")
-						.replace("Wenn[", "If[").replace("arcsin", "asin")
+						.replace("Wenn(", "If(").replace("arcsin", "asin")
 						.replace("NteWurzel", "nroot");
 				assertThat(result,
 						equalToIgnoreWhitespaces(logger, input,
