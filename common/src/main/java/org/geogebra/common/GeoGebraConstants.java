@@ -8,7 +8,7 @@ public interface GeoGebraConstants {
 	// GeoGebra version
 	// DO NOT CHANGE the format of VERSION_STRING (or add commented out version)
 	// as it is read by the build system
-	// update lines below when this is updated
+	// and updated automatically by the "Version Bump" task
 	/** last build date */
 	public static final String BUILD_DATE = "12 July 2017";
 	/** complete version string */
