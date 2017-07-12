@@ -600,7 +600,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addRename() {
-		if (!(getGeos().size() == 1 && app.letRename()
+		if (getGeos() == null || !(getGeos().size() == 1 && app.letRename()
 				&& getGeo().isRenameable())) {
 			return;
 		}
