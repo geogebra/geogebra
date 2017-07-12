@@ -16,8 +16,6 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
 	private static final int CANVAS_WIDTH = 30;
 	private static final int CANVAS_HEIGHT = 30;
-	private static final int STYLE_PREVIEW_MARGIN_X = 2;
-	private static final int STYLE_PREVIEW_MARGIN_Y = CANVAS_HEIGHT / 2 - 1;
 	private LineStylePreview preview;
 	/**
 	 * Constructor
@@ -26,7 +24,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	 *            GGB app.
 	 */
 	public MOWLineStyleButton(AppW app) {
-		super(app, -1, 6, SelectionTable.MODE_ICON, true, true);
+		super(app, -1, 5, SelectionTable.MODE_ICON, true, true);
 
 
 		// Rearranging content.
