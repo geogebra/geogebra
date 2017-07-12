@@ -179,16 +179,23 @@ $duration: 0.2s;
 	
 
 	.suggestionButton {	
-		border-radius: 2px;
-   		padding-bottom: 0px;	
-		padding: 4px;
 		margin: 8px !important;
 		background-color: $purple-default;
     	border: 1px solid $purple-default;
+    	border-radius: 2px;
 		color: $white;
 		box-shadow: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
 		min-width: 44px;
-    	height: 18px;
+    	height: 28px;
+    	vertical-align: middle;
+    	padding-bottom: 0px;
+   		padding-top: 0px;
+    	line-height: 200%;
+    	text-align: center;
+   		padding-left: 16px;
+    	padding-right: 16px;
+    	text-transform: uppercase;
+    	font-size: 12pt;
     	text-align: center;
     	cursor: pointer;
     	transition: background-color 150ms ease 0ms;
@@ -233,14 +240,14 @@ $duration: 0.2s;
     			right: -18px;
     			width: 22px;
     			height: 22px;
-    			background-color: #6e6eff;
+    			background-color: $purple-default;
     			border-radius: 2px;
     			border: none;
     			box-shadow: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
     			transition: background-color 150ms ease 0ms;
     			
     			&:hover {
-    				background-color: $purple-default;
+    				background-color: $purple-dark;
     			}
 			}
 	}
