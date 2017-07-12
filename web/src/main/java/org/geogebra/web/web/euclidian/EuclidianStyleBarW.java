@@ -770,10 +770,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createLabelPopup() {
-		if (btnLabel == null) {
-			btnLabel = new LabelSettingsPopup(app);
-		}
-
+		btnLabel = new LabelSettingsPopup(app);
 	}
 
 	protected class ProjectionPopup extends PopupMenuButtonW {

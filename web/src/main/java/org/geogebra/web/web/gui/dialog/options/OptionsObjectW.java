@@ -185,7 +185,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 
 		@Override
-		public void update(boolean isEqualVal, boolean isEqualMode) {
+		public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
 			// change "Show Label:" to "Show Label" if there's no menu
 
 			updateShowLabel();

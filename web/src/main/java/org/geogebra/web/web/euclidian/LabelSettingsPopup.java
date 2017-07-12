@@ -5,8 +5,8 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
-import org.geogebra.common.gui.dialog.options.model.ShowLabelModel.IShowLabelListener;
+import org.geogebra.common.gui.dialog.options.model.NameValueModel;
+import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -38,7 +38,11 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class LabelSettingsPopup extends PopupMenuButtonW
 		implements CloseHandler<GPopupPanel>, MouseOverHandler, SetLabels,
-		IShowLabelListener {
+		INameValueListener {
+
+	private static final int LABEL_MODE_NAME_ONLY = 0;
+	private static final int LABEL_MODE_NAME_AND_VALUE = 1;
+	private static final int LABEL_MODE_VALUE_ONLY = 2;
 
 	private EuclidianController ec;
 
@@ -53,7 +57,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	private GCheckMarkLabel cmName;
 	private GCheckMarkLabel cmValue;
-	private ShowLabelModel model;
+	private NameValueModel model;
 	/**
 	 * label related popup
 	 * 
@@ -72,7 +76,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		ec = app.getActiveEuclidianView().getEuclidianController();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
-		model = new ShowLabelModel(app, this);
+		model = new NameValueModel(app, this);
 	}
 
 	private void createPopup() {
@@ -109,7 +113,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
-				// TODO: implement
+				model.applyNameChange(tfName.getText(), app.getErrorHandler());
 			}
 		});
 
@@ -118,7 +122,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					// TODO: implement
+					model.applyNameChange(tfName.getText(),
+							app.getErrorHandler());
+
 				}
 			}
 		});
@@ -173,33 +179,66 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		int mode = -1;
 		if (name && !value) {
 			Log.debug("CHECK - name only");
-			mode = 0;
+			mode = LABEL_MODE_NAME_ONLY;
 		} else if (name && value) {
 			Log.debug("CHECK - name and value");
-			mode = 1;
+			mode = LABEL_MODE_NAME_AND_VALUE;
 		} else if (!name && value) {
 			Log.debug("CHECK - value only");
-			mode = 2;
+			mode = LABEL_MODE_VALUE_ONLY;
 		} else if (!name && !value) {
 			Log.debug("CHECK - none");
 		}
-
-		if (mode == -1) {
-
-		} else {
-			model.setGeos(
-					app.getSelectionManager().getSelectedGeos().toArray());
-			model.applyModeChanges(mode, true);
-		}
+		model.applyModeChanges(mode, mode != -1);
 	}
 
 	public Object updatePanel(Object[] geos2) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void update(boolean isEqualVal, boolean isEqualMode) {
+	public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
+		cmName.setChecked(mode == LABEL_MODE_NAME_ONLY
+				|| mode == LABEL_MODE_NAME_AND_VALUE);
+		cmValue.setChecked(mode == LABEL_MODE_VALUE_ONLY
+				|| mode == LABEL_MODE_NAME_AND_VALUE);
+		// tfName.setText(model.getGeoAt(0).getDefaultLabel());
+	}
+
+	@Override
+	protected void onClickAction() {
+		model.setGeos(app.getSelectionManager().getSelectedGeos().toArray());
+		model.updateProperties();
+		tfName.requestFocus();
+	}
+
+	public void setNameText(String text) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setDefinitionText(String text) {
+		// not used here.
+	}
+
+	public void setCaptionText(String text) {
+		// not used here.
+	}
+
+	public void updateGUI(boolean showDefinition, boolean showCaption) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void updateDefLabel() {
+		// not used here.
+	}
+
+	public void updateCaption() {
+		// not used here.
+
+	}
+
+	public void updateName(String text) {
+		tfName.setText(text);
 	}
 }

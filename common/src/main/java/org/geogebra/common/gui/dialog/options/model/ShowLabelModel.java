@@ -8,11 +8,11 @@ import org.geogebra.common.main.App;
 
 public class ShowLabelModel extends OptionsModel {
 	public interface IShowLabelListener extends PropertyListener {
-		void update(boolean isEqualVal, boolean isEqualMode);
+		void update(boolean isEqualVal, boolean isEqualMode, int mode);
 
 	}
 
-	private Kernel kernel;
+	protected Kernel kernel;
 
 	private boolean showNameValue;
 	private IShowLabelListener listener;
@@ -51,7 +51,7 @@ public class ShowLabelModel extends OptionsModel {
 		// change "Show Label:" to "Show Label" if there's no menu
 		// Michael Borcherds 2008-02-18
 		if (listener != null) {
-			listener.update(equalLabelVal, equalLabelMode);
+			listener.update(equalLabelVal, equalLabelMode, geo0.getLabelMode());
 		}
 	}
 

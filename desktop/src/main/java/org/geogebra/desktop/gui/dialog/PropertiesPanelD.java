@@ -1341,7 +1341,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		@Override
-		public void update(boolean isEqualVal, boolean isEqualMode) {
+		public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
 			// change "Show Label:" to "Show Label" if there's no menu
 			updateShowLabel();
 
@@ -4713,7 +4713,7 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 					PropertiesPanelD propPanel = ((OptionsObjectD) op)
 							.getPropPanel();
 					if (propPanel != null) {
-						propPanel.getLabelPanel().update(true, true);
+						propPanel.getLabelPanel().update(true, true, 0);
 					}
 				}
 
