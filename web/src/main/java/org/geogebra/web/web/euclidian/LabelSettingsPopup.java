@@ -119,6 +119,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		});
 
 		tfName.enableGGBKeyboard();
+		tfName.setDeferredFocus(true);
 
 		Command nameValueCmd = new Command() {
 
