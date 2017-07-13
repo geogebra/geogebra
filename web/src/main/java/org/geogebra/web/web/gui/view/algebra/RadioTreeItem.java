@@ -634,6 +634,7 @@ public class RadioTreeItem extends AVTreeItem
 			Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
 			content.addStyleName("additionalRow");
 			prefix.addStyleName("prefix");
+			updateFont(content);
 			content.insert(prefix, 0);
 		}
 
