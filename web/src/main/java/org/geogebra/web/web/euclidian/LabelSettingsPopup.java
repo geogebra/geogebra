@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
+import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -16,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ContextMenuGeoElementW;
+import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -97,6 +99,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		lblName = new Label();
 		tfName = InputPanelW.newTextComponent(app);
 		tfName.setAutoComplete(false);
+		tfName.enableGGBKeyboard();
+		tfName.setDeferredFocus(true);
 
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
@@ -116,8 +120,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			}
 		});
 
-		tfName.enableGGBKeyboard();
-		tfName.setDeferredFocus(true);
 
 		Command nameValueCmd = new Command() {
 
@@ -208,6 +210,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	protected void onClickAction() {
 		model.setGeos(app.getSelectionManager().getSelectedGeos().toArray());
 		model.updateProperties();
+		TabbedKeyboard kbd = (TabbedKeyboard) ((GuiManagerW) app
+				.getGuiManager()).getOnScreenKeyboard(tfName, null);
+		kbd.selectAbc();
 		tfName.requestFocus();
 	}
 
@@ -248,4 +253,5 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	public void updateName(String text) {
 		tfName.setText(text);
 	}
+
 }
