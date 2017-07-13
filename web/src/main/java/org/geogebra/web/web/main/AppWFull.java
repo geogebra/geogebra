@@ -383,6 +383,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 		resetPenTool();
 
+
 	}
 
 	private void resetGraphingApp() {

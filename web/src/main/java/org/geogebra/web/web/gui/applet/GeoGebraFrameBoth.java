@@ -931,4 +931,5 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private void setKeyboardShowing(boolean keyboardShowing) {
 		this.keyboardShowing = keyboardShowing;
 	}
+
 }

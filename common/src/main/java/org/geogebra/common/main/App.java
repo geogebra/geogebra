@@ -4226,6 +4226,9 @@ public abstract class App implements UpdateSelection {
 		case ONLY_ONE_ZERO:
 			return prerelease;
 
+		case CENTER_STANDARD_VIEW:
+			return prerelease;
+
 		case DELETE_BUTTON_BEHAVIOR_FIX:
 			return prerelease;
 

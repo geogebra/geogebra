@@ -140,6 +140,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
 	/** background image */
 	protected GBufferedImage bgImage;
+
+	private double xZeroStandard;
+	private double yZeroStandard;
+
 	/**
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
@@ -523,7 +527,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            whether to repaint afterwards
 	 */
 	protected void setStandardCoordSystem(boolean repaint) {
-		setCoordSystem(XZERO_STANDARD, YZERO_STANDARD, SCALE_STANDARD,
+		setCoordSystem(getXZeroStandard(), getYZeroStandard(), SCALE_STANDARD,
 				SCALE_STANDARD, repaint);
 	}
 
@@ -4207,6 +4211,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
+	/**
+	 * 
+	 * @return centered feature is exists or not.
+	 */
+	public boolean isStandardViewCentered() {
+		return app.has(Feature.CENTER_STANDARD_VIEW);
+	}
 	@Override
 	public EuclidianSettings getSettings() {
 		return this.settings;
@@ -5208,14 +5219,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private MyZoomer axesRatioZoomer;
 
 	private boolean isZeroStandard() {
-		return (Kernel.checkInteger(xZero) == XZERO_STANDARD
-				&& Kernel.checkInteger(yZero) == YZERO_STANDARD)
-				|| isZeroStandardForSmallScreen();
+		return (Kernel.checkInteger(xZero) == getXZeroStandard()
+				&& Kernel.checkInteger(yZero) == getYZeroStandard())
+				|| (isZeroStandardForSmallScreen()
+						&& !app.has(Feature.CENTER_STANDARD_VIEW));
 	}
 
 	private boolean isZeroStandardForSmallScreen() {
-		if (getWidth() < (XZERO_STANDARD * 3)
-				|| getHeight() < YZERO_STANDARD * 1.6) {
+		if (getWidth() < (getXZeroStandard() * 3)
+				|| getHeight() < getYZeroStandard() * 1.6) {
 			Log.debug("[std] xZero: " + xZero + " w/3.0: " + getWidth() / 3.0);
 			Log.debug("[std] yZero: " + yZero + " h/1.6: " + getHeight() / 1.6);
 
@@ -5241,16 +5253,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		// check if the window is so small that we need custom
 		// positions.
-		if (getWidth() < (XZERO_STANDARD * 3)) {
+		if (getWidth() < (getXZeroStandard() * 3)
+				&& !app.has(Feature.CENTER_STANDARD_VIEW)) {
 			xzero = getWidth() / 3.0;
 		} else {
-			xzero = XZERO_STANDARD;
+			xzero = getXZeroStandard();
 		}
 
-		if (getHeight() < (YZERO_STANDARD * 1.6)) {
+		if (getHeight() < (getYZeroStandard() * 1.6)
+				&& !app.has(Feature.CENTER_STANDARD_VIEW)) {
 			yzero = getHeight() / 1.6;
 		} else {
-			yzero = YZERO_STANDARD;
+			yzero = getYZeroStandard();
 		}
 
 		if (needsZoomerForStandardRatio()) {
@@ -6051,5 +6065,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public NumberFormatAdapter getAxisNumberFormat(int i) {
 		return axesNumberFormat[i];
+	}
+
+	public double getXZeroStandard() {
+		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewWidth() / 2
+				: XZERO_STANDARD;
+	}
+
+	public void setXZeroStandard(double xZeroStandard) {
+		this.xZeroStandard = xZeroStandard;
+	}
+
+	public double getYZeroStandard() {
+		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2
+				: YZERO_STANDARD;
+	}
+
+	public void setYZeroStandard(double yZeroStandard) {
+		this.yZeroStandard = yZeroStandard;
 	}
 }
