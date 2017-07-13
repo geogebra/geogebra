@@ -230,7 +230,7 @@ public class AlgebraStyleTest extends Assert {
 	public void operatorsShouldHaveOneSpace() {
 		t("f(x)=If[3 < x <= 5,x^(2)]");
 		assertEquals(CommandsTest
-				.unicode("f(x) = If[3 < x " + Unicode.LESS_EQUAL + " 5, x^2]"),
+				.unicode("f(x) = If(3 < x " + Unicode.LESS_EQUAL + " 5, x^2)"),
 
 				getGeo("f").getDefinitionForEditor());
 	}

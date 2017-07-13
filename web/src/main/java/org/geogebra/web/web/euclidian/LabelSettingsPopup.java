@@ -16,7 +16,6 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.ContextMenuGeoElementW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
@@ -45,7 +44,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	/**
 	 * popup menu
 	 */
-	ContextMenuGeoElementW popup;
 	private FlowPanel main;
 	private LocalizationW loc;
 	private Label lblName;
