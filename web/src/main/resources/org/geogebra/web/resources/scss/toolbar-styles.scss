@@ -271,21 +271,25 @@
 		
 		.moreLessBtn {
 			border-radius: 2px;
-  			height: 24px;
     		font-size: 14px;
-   			min-width: 72px;
+   			min-width: 64px;
    			color: $teal-default;
     		text-transform: uppercase;
     		text-align: center;
 			float: left;
 			margin: 16px 0px 16px 0px;
-			padding: 8px;
+			padding: 0px 16px 0px 16px;
 			cursor: pointer;
-			transition: background-color 150ms ease 0ms;
+			transition: background-color 0.3s ease-out;
 		
 			.html-face {
-				line-height: 24px;
-				align-content: center;
+				line-height: 36px;
+    			height: 36px;
+    			min-width: 64px;
+    			align-content: center;
+    			font-family: Roboto,sans-serif;
+    			font-weight: 400;
+    			letter-spacing: .5px;
 			}
 			
 			&:hover {
@@ -309,7 +313,8 @@
     		transition: background-color 150ms ease 0ms;
     		
     		img {
-    			padding: 8px;	
+    			width: 28px !important;
+    			padding: 10px;	
     		}
     	
     		&:hover {
