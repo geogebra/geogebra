@@ -590,6 +590,37 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.removeStyleName("showMoveBtn");
 	}
 
+	public void moveMoveFloatingButtonUpWithTooltip(int ttLeft, int width,
+			boolean isSmall) {
+		if (moveBtn != null) {
+
+			int mLeft = moveBtn.getAbsoluteLeft();
+			int mRight = mLeft + 48;
+			int ttRight = ttLeft + width;
+			if ((ttLeft < mRight && ttRight > mRight)
+					|| (ttRight > mLeft && ttLeft < mLeft)) {
+				if (isSmall) {
+					moveBtn.removeStyleName("moveMoveBtnDownSmall");
+					moveBtn.addStyleName("moveMoveBtnUpSmall");
+				} else {
+					moveBtn.removeStyleName("moveMoveBtnDown");
+					moveBtn.addStyleName("moveMoveBtnUp");
+				}
+			}
+		}
+	}
+
+	public void moveMoveFloatingButtonDownWithTooltip(boolean isSmall) {
+		if (moveBtn != null) {
+			if (isSmall) {
+				moveBtn.addStyleName("moveMoveBtnDownSmall");
+				moveBtn.removeStyleName("moveMoveBtnUpSmall");
+			} else {
+				moveBtn.addStyleName("moveMoveBtnDown");
+				moveBtn.removeStyleName("moveMoveBtnUp");
+			}
+		}
+	}
 	/**
 	 * @return if toolbar is open or not.
 	 */

@@ -3372,12 +3372,16 @@ public abstract class App implements UpdateSelection {
 			sbTooltip.append("<html><p>");
 			sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
 			sbTooltip.append("</p>");
+			if (getWidth() >= 400) {
+				sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
+			}
 		} else {
 			sbTooltip.append("<html><b>");
 			sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
 			sbTooltip.append("</b><br>");
+			sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
 		}
-		sbTooltip.append(StringUtil.toHTMLString(getToolHelp(mode)));
+
 		sbTooltip.append("</html>");
 		return sbTooltip.toString();
 	}

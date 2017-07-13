@@ -347,6 +347,42 @@
     			}
     		}
 		}
+		.moveMoveBtnUp {
+			animation-name: moveUp;
+	   		animation-duration: 0.4s;
+	   	 	bottom: calc(68px + 80px);
+		}
+		.moveMoveBtnDown {
+			animation-name: moveDown;
+	   		animation-duration: 0.4s;
+	   	 	bottom: 68px;
+		}
+		@keyframes moveUp {
+		0% {bottom: 68px;}
+		100% {bottom: calc(68px + 80px);}
+	}
+		@keyframes moveDown {
+		0% {bottom: calc(68px + 80px);}
+		100% {bottom: 68px;}
+	}
+		.moveMoveBtnUpSmall {
+			animation-name: moveUpSmall;
+	   		animation-duration: 0.4s;
+	   	 	bottom: calc(68px + 48px);
+		}
+		.moveMoveBtnDownSmall {
+			animation-name: moveDownSmall;
+	   		animation-duration: 0.4s;
+	   	 	bottom: 68px;
+		}
+		@keyframes moveUpSmall {
+		0% {bottom: 68px;}
+		100% {bottom: calc(68px + 48px);}
+	}
+		@keyframes moveDownSmall {
+		0% {bottom: calc(68px + 48px);}
+		100% {bottom: 68px;}
+	}
 	}
 	
 	.algebra {

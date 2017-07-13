@@ -19,7 +19,7 @@
 		font-size: 14px;
 		color: $white-70;
 		p {
-		color: $white;
+			color: $white;
 		}
 	}
 	
@@ -28,6 +28,7 @@
 		padding-right: 24px;
 		padding-top: 30px;
 		padding-bottom: 30px;
+		float: right;
 		cursor: pointer;
 		font-size: 14px;
 		color: $teal-default;
@@ -35,9 +36,25 @@
 	.warning{
 		padding-top: 40px;
 		padding-bottom: 40px;
+		float: right;
 	}
 	
 }
+.small{
+		width: 100%;
+		height: 48px;
+		border-radius: 0px;
+		.manualLink {
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+		.warning{
+			padding-top: 0px;
+			padding-bottom: 0px;
+			float: right;
+	}
+	}
+		
 .animateShow { 
 	    animation-name: animShow;
 	    animation-duration: 0.4s;

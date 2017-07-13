@@ -10,6 +10,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -89,6 +90,7 @@ public final class ToolTipManagerW {
 	private boolean blockToolTip = true;
 	private boolean keyboardVisible;
 	private boolean lastTipVisible = false;
+	private boolean isSmall = false;
 	private ToolTipLinkType linkType;
 
 	/**
@@ -251,9 +253,13 @@ public final class ToolTipManagerW {
 		this.app = appw;
 		keyboardVisible = kb;
 		linkType = link;
-		
+		isSmall = false;
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			bottomInfoTipPanel.setStyleName("snackbar");
+			if (appw.getWidth() < 400) {
+				bottomInfoTipPanel.addStyleName("small");
+				isSmall = true;
+			}
 		} else {
 			bottomInfoTipPanel.setStyleName("infoTooltip");
 		}
@@ -338,9 +344,14 @@ public final class ToolTipManagerW {
 					if (!lastTipVisible
 							&& link != null) {
 						bottomInfoTipPanel.addStyleName("animateShow");
+
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
 					}
+					((GuiManagerW) appw.getGuiManager()).getToolbarPanelV2()
+							.moveMoveFloatingButtonUpWithTooltip((int) left,
+									bottomInfoTipPanel.getOffsetWidth(),
+									isSmall);
 				}
 
 			} else {
@@ -428,6 +439,10 @@ public final class ToolTipManagerW {
 		} else {
 			cancelTimer();
 			bottomInfoTipPanel.removeFromParent();
+		}
+		if (app != null && app.has(Feature.NEW_TOOLBAR)) {
+			((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
+					.moveMoveFloatingButtonDownWithTooltip(isSmall);
 		}
 		lastTipVisible = false;
 	}
