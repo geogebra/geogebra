@@ -1839,7 +1839,7 @@ namespace giac {
 	    int128_t maxp1,maxp2;
 	    vector< T_unsigned<int128_t,unsigned> > aD,bD,qD,rD;
 	    if (debug_infolevel>1)
-	      CERR << "hashdivrem1 int128 int begin " << CLOCK() << " maxp1=" << double(maxp1) << " maxp2=" << double(maxp2) << " ddeg=" << ddeg << std::endl;
+	      CERR << "hashdivrem1 int128 int begin " << CLOCK()  << " ddeg=" << ddeg << std::endl;
 	    if (convert_int(a,d,aD,maxp1) && convert_int(b,d,bD,maxp2) && (hashdivremres=hashdivrem<int128_t,unsigned>(aD,bD,qD,rD,vars,0,1.7e38/double(maxp2)/p2.size(),false,exactquo))>=1){
 	      if (debug_infolevel>1)
 		CERR << "hashdivrem1 int128 int success " << CLOCK() << " maxp1=" << double(maxp1) << " maxp2=" << double(maxp2) << " ddeg=" << ddeg << std::endl;

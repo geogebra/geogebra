@@ -220,7 +220,7 @@ namespace giac {
     double d=2*M_PI/ arg_d;
     // find rational approx of d
     int num,den;
-    if (!is_rational(d,num,den,eps))
+    if (!is_rational(d,num,den,eps) || num>100)
       return 0;
     if (p==cyclotomic(num))
       return num;

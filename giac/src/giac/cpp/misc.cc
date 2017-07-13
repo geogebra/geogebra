@@ -6582,7 +6582,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     giac_assume(symb_and(symb_superieur_egal(t,tmin),symb_inferieur_egal(t,tmax)),contextptr);
     int cm=calc_mode(contextptr);
     calc_mode(-38,contextptr); // avoid rootof
-    gen cx=recursive_normal(solve(f1,t,periode==0?2:0,contextptr),contextptr),cy=recursive_normal(solve(g1,t,periode==0?2:0,contextptr),contextptr),cc=recursive_normal(solve(conv,t,periode==0?2:0,contextptr),contextptr);
+    gen cx=recursive_normal(solve(f1,t,periode==0?2:0,contextptr),contextptr);
+    gen cy=recursive_normal(solve(g1,t,periode==0?2:0,contextptr),contextptr);
+    gen cc=recursive_normal(solve(conv,t,periode==0?2:0,contextptr),contextptr);
     calc_mode(cm,contextptr); // avoid rootof
     if (t!=tval)
       sto(tval,t,contextptr);
