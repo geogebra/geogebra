@@ -144,7 +144,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			return getLoc().getPlain(label);
+			return getLoc().getMenu(label);
 		}
 		return label;
 

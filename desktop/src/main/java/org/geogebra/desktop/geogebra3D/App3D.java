@@ -206,7 +206,7 @@ public class App3D extends AppD {
 	void showRealSenseNotUpToDate(String version) {
 		showInput3DMessage(
 				getLocalization().getPlain("RealSense.NotUpToDate", version),
-				getLocalization().getPlain("RealSense.DownloadUpdate"),
+				getLocalization().getMenu("RealSense.DownloadUpdate"),
 				"https://software.intel.com/intel-realsense-sdk/download");
 	}
 

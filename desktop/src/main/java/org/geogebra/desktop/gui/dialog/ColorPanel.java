@@ -382,7 +382,7 @@ class ColorPanel extends JPanel
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 			barsPanel.setBorder(new TitledBorder(
-					this.propertiesPanelD.loc.getPlain("SelectedBar")));
+					this.propertiesPanelD.loc.getMenu("SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
 						this.propertiesPanelD.loc.getPlain("BarA", i + ""));
@@ -403,7 +403,7 @@ class ColorPanel extends JPanel
 				group.add(selectionBarButtons[i]);
 			}
 			selectionBarButtons[0]
-					.setText(this.propertiesPanelD.loc.getPlain("AllBars"));
+					.setText(this.propertiesPanelD.loc.getMenu("AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
 			add(barsPanel, this.propertiesPanelD.loc.borderEast());
 		}

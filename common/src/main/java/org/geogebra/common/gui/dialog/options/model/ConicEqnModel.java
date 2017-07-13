@@ -90,21 +90,21 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			specificIndex = ++counter;
 		}
 		if (explicitPossible) {
-			getListener().addItem(loc.getPlain("ExplicitConicEquation"));
+			getListener().addItem(loc.getMenu("ExplicitConicEquation"));
 			explicitIndex = ++counter;
 		}
 		if (userPossible) {
-			getListener().addItem(loc.getPlain("InputForm"));
+			getListener().addItem(loc.getMenu("InputForm"));
 			userIndex = ++counter;
 		}
 		implicitIndex = ++counter;
-		getListener().addItem(loc.getPlain("ImplicitConicEquation"));
+		getListener().addItem(loc.getMenu("ImplicitConicEquation"));
 		if (vertexformPossible) {
-			getListener().addItem(loc.getPlain("ParabolaVertexForm"));
+			getListener().addItem(loc.getMenu("ParabolaVertexForm"));
 			vertexformIndex = ++counter;
 		}
 		if (conicformPossible) {
-			getListener().addItem(loc.getPlain("ParabolaConicForm"));
+			getListener().addItem(loc.getMenu("ParabolaConicForm"));
 			conicformIndex = ++counter;
 		}
 

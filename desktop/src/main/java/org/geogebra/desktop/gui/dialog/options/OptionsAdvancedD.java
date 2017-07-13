@@ -735,7 +735,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	@Override
 	public void setLabels() {
 		virtualKeyboardPanel.setBorder(
-				LayoutUtil.titleBorder(loc.getPlain("VirtualKeyboard")));
+				LayoutUtil.titleBorder(loc.getMenu("VirtualKeyboard")));
 		keyboardLanguageLabel
 				.setText(loc.getMenu("VirtualKeyboardLanguage") + ":");
 		widthLabel.setText(loc.getMenu("Width") + ":");
@@ -780,7 +780,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		rightAngleRadio4.setFont(app.getFontCanDisplayAwt("\u2335"));
 
 		coordinatesPanel
-				.setBorder(LayoutUtil.titleBorder(loc.getPlain("Coordinates")));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Coordinates")));
 		coordinatesRadio1.setText(loc.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(loc.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(loc.getMenu("A: (x, y)"));
@@ -812,7 +812,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	private void setLabelsKeyboardLanguage() {
 		String[] languages = new String[KeyboardSettings.getLocaleCount()
 				+ 1];
-		languages[0] = loc.getPlain("Default");
+		languages[0] = loc.getMenu("Default");
 
 		for (int i = 0; i < KeyboardSettings.getLocaleCount(); i++) {
 			Locale loc1 = new Locale(KeyboardSettings.getLocale(i));
@@ -856,7 +856,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		// "28 pt", "32 pt" };
 
 		String[] fontSizesStr = new String[Util.menuFontSizesLength() + 1];
-		fontSizesStr[0] = loc.getPlain("Default");
+		fontSizesStr[0] = loc.getMenu("Default");
 
 		for (int i = 0; i < Util.menuFontSizesLength(); i++) {
 			fontSizesStr[i + 1] = loc.getPlain("Apt",
@@ -880,7 +880,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	private void setLabelsTooltipLanguages() {
 		ArrayList<Locale> locales = getSupportedLocales();
 		String[] languages = new String[locales.size() + 1];
-		languages[0] = loc.getPlain("Default");
+		languages[0] = loc.getMenu("Default");
 		String ggbLangCode;
 
 		for (int i = 0; i < locales.size(); i++) {
@@ -912,7 +912,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	 * @see #setLabelsKeyboardLanguage()
 	 */
 	private void setLabelsTooltipTimeouts() {
-		tooltipTimeouts[tooltipTimeouts.length - 1] = loc.getPlain("off");
+		tooltipTimeouts[tooltipTimeouts.length - 1] = loc.getMenu("off");
 
 		int selectedIndex = cbTooltipTimeout.getSelectedIndex();
 

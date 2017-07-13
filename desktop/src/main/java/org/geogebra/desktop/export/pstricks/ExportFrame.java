@@ -117,19 +117,19 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		textYmax.addKeyListener(listenKey);
 
 		panel = new JPanel();
-		button = new JButton(loc.getPlain(action));
-		button_copy = new JButton(loc.getPlain("CopyToClipboard"));
-		labelXUnit = new JLabel(loc.getPlain("XUnits"));
-		labelYUnit = new JLabel(loc.getPlain("YUnits"));
-		labelwidth = new JLabel(loc.getPlain("PictureWidth"));
-		labelheight = new JLabel(loc.getPlain("PictureHeight"));
-		labelFontSize = new JLabel(loc.getPlain("LatexFontSize"));
-		labelXmin = new JLabel(loc.getPlain("xmin"));
-		labelXmax = new JLabel(loc.getPlain("xmax"));
-		labelYmin = new JLabel(loc.getPlain("ymin"));
-		labelYmax = new JLabel(loc.getPlain("ymax"));
-		jcbPointSymbol = new JCheckBox(loc.getPlain("DisplayPointSymbol"));
-		jcbGrayscale = new JCheckBox(loc.getPlain("PGFExport.Grayscale"));
+		button = new JButton(loc.getMenu(action));
+		button_copy = new JButton(loc.getMenu("CopyToClipboard"));
+		labelXUnit = new JLabel(loc.getMenu("XUnits"));
+		labelYUnit = new JLabel(loc.getMenu("YUnits"));
+		labelwidth = new JLabel(loc.getMenu("PictureWidth"));
+		labelheight = new JLabel(loc.getMenu("PictureHeight"));
+		labelFontSize = new JLabel(loc.getMenu("LatexFontSize"));
+		labelXmin = new JLabel(loc.getMenu("xmin"));
+		labelXmax = new JLabel(loc.getMenu("xmax"));
+		labelYmin = new JLabel(loc.getMenu("ymin"));
+		labelYmax = new JLabel(loc.getMenu("ymax"));
+		jcbPointSymbol = new JCheckBox(loc.getMenu("DisplayPointSymbol"));
+		jcbGrayscale = new JCheckBox(loc.getMenu("PGFExport.Grayscale"));
 		// Andy Zhu: for use in Asymptote frame
 		jcbShowAxes = new JCheckBox(loc.getMenu("ShowAxesGrid"));
 		jcbAsyCompact = new JCheckBox(loc.getMenu("ConciseCode"));

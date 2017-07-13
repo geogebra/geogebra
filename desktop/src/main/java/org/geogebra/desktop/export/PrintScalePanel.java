@@ -116,9 +116,9 @@ public class PrintScalePanel extends JPanel {
 
 		// new variables added (3 rows) - are used as items in the combo box
 		// exportMode
-		jcbItemScaleInCentimeter = loc.getPlain("ScaleInCentimeter") + ":";
-		jcbItemFixedSize = loc.getPlain("FixedSize") + ":";
-		jcbItemSizeInPixels = loc.getPlain("SizeInPixels") + ":";
+		jcbItemScaleInCentimeter = loc.getMenu("ScaleInCentimeter") + ":";
+		jcbItemFixedSize = loc.getMenu("FixedSize") + ":";
+		jcbItemSizeInPixels = loc.getMenu("SizeInPixels") + ":";
 
 		exportMode = new JComboBox();
 
@@ -148,7 +148,7 @@ public class PrintScalePanel extends JPanel {
 		cmModePanel = new JPanel();
 		cmModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		cmModePanel.add(tfScale1);
-		cmModePanel.add(new JLabel(" " + loc.getPlain("units") + " = "));
+		cmModePanel.add(new JLabel(" " + loc.getMenu("units") + " = "));
 		cmModePanel.add(tfScale2);
 		cmModePanel.add(new JLabel(" cm"));
 

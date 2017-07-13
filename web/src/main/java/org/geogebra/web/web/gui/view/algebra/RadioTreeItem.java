@@ -2011,7 +2011,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void setLabels() {
 		if (dummyLabel != null) {
-			dummyLabel.setText(loc.getPlain("InputLabel") + Unicode.ELLIPSIS);
+			dummyLabel.setText(loc.getMenu("InputLabel") + Unicode.ELLIPSIS);
 
 		}
 		if (hasMarblePanel()) {

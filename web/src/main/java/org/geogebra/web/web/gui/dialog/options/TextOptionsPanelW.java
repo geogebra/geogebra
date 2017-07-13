@@ -112,7 +112,8 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 							.showInputDialog(
 									app,
 									app
-							.getLocalization().getPlain("EnterPercentage"),
+											.getLocalization()
+											.getMenu("EnterPercentage"),
 									currentSize, null,
 									new AsyncOperation<String[]>() {
 
@@ -312,7 +313,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		btnBold.setText(loc.getMenu("Bold.Short"));
 		btnItalic.setText(loc.getMenu("Italic.Short"));
 
-		btnLatex.setText(loc.getPlain("LaTeXFormula"));
+		btnLatex.setText(loc.getMenu("LaTeXFormula"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 

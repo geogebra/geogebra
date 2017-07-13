@@ -463,7 +463,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		// clipping tab
 		clippingOptionsPanel
-				.setBorder(LayoutUtil.titleBorder(loc.getPlain("Clipping")));
+				.setBorder(LayoutUtil.titleBorder(loc.getMenu("Clipping")));
 		cbUseClipping.setText(loc.getMenu("UseClipping"));
 		cbShowClipping.setText(loc.getMenu("ShowClipping"));
 

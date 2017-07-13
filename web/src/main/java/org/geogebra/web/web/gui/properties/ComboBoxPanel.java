@@ -55,7 +55,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	protected abstract void onComboBoxChange();
 	@Override
     public void setLabels() {
-		getLabel().setText(loc.getPlain(getTitle()) + ":");
+		getLabel().setText(loc.getMenu(getTitle()) + ":");
 
 		String text = comboBox.getValue();
 		comboBox.getModel().clear();

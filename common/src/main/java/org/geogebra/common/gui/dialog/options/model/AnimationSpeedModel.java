@@ -92,10 +92,10 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoiches(Localization loc) {
-		return Arrays.asList("\u21d4 " + loc.getPlain("Oscillating"), // index 0
-				"\u21d2 " + loc.getPlain("Increasing"), // index 1
-				"\u21d0 " + loc.getPlain("Decreasing"), // index 2
-				"\u21d2 " + loc.getPlain("IncreasingOnce")); // index 3);
+		return Arrays.asList("\u21d4 " + loc.getMenu("Oscillating"), // index 0
+				"\u21d2 " + loc.getMenu("Increasing"), // index 1
+				"\u21d0 " + loc.getMenu("Decreasing"), // index 2
+				"\u21d2 " + loc.getMenu("IncreasingOnce")); // index 3);
 	}
 
 	public void applyTypeChanges(int value) {

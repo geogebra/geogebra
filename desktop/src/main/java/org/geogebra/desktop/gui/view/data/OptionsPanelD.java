@@ -549,7 +549,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 		freqPanel.setBorder(
 				BorderFactory.createTitledBorder(loc.getMenu("FrequencyType")));
 		dimPanel.setBorder(
-				BorderFactory.createTitledBorder(loc.getPlain("Dimensions")));
+				BorderFactory.createTitledBorder(loc.getMenu("Dimensions")));
 		coordPanel.setBorder(BorderFactory
 				.createTitledBorder(loc.getMenu("Coordinate Mode")));
 

@@ -178,7 +178,7 @@ public class DialogManagerMinimal extends DialogManager {
 	public void showNumberInputDialogRegularPolygon(String menu,
 			EuclidianController ec, GeoPointND geoPoint1,
 			GeoPointND geoPoint2) {
-		String inputString = prompt(menu + " " + loc.getPlain("Points"), "4");
+		String inputString = prompt(menu + " " + loc.getMenu("Points"), "4");
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
 				app.getErrorHandler(), new AsyncOperation<Boolean>() {

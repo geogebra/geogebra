@@ -431,7 +431,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
 				app
-				.getLocalization().getPlain("ShowOnlyBreakpoints"),
+						.getLocalization().getMenu("ShowOnlyBreakpoints"),
 				new ScheduledCommand() {
 
 					@Override

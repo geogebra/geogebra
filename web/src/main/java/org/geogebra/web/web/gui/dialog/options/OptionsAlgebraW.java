@@ -164,11 +164,11 @@ public class OptionsAlgebraW extends OptionsAdvanced
 
 	@Override
 	public void setLabels() {
-		lblShow.setText(app.getLocalization().getPlain("Show"));
+		lblShow.setText(app.getLocalization().getMenu("Show"));
 		showAuxiliaryObjects
-				.setText(app.getLocalization().getPlain("AuxiliaryObjects"));
+				.setText(app.getLocalization().getMenu("AuxiliaryObjects"));
 
-		lblSortMode.setText(app.getLocalization().getPlain("SortBy"));
+		lblSortMode.setText(app.getLocalization().getMenu("SortBy"));
 		lblDescriptionMode.setText(app.getLocalization().getMenu(
 				"AlgebraDescriptions"));
 		updateSortMode();

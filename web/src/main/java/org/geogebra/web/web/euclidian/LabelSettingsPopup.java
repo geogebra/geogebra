@@ -166,9 +166,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void setLabels() {
-		lblName.setText(loc.getPlain("Label") + ":");
-		cmName.setText(loc.getPlain("ShowLabel"));
-		cmValue.setText(loc.getPlain("ShowValue"));
+		lblName.setText(loc.getMenu("Label") + ":");
+		cmName.setText(loc.getMenu("ShowLabel"));
+		cmValue.setText(loc.getMenu("ShowValue"));
 	}
 
 	/**

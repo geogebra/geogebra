@@ -378,7 +378,7 @@ public abstract class ProbabilityCalculatorView
 
 		// create low point
 
-		GeoAxis path = (GeoAxis) kernel.lookupLabel(loc.getPlain("xAxis"));
+		GeoAxis path = (GeoAxis) kernel.lookupLabel(loc.getMenu("xAxis"));
 
 		AlgoPointOnPath algoLow = new AlgoPointOnPath(cons, path, 0d, 0d);
 		cons.removeFromConstructionList(algoLow);
@@ -1218,7 +1218,7 @@ public abstract class ProbabilityCalculatorView
 			// some commented out code removed 2012-3-1
 
 			// create low point
-			expr = "Point[" + loc.getPlain("xAxis") + "]";
+			expr = "Point[" + loc.getMenu("xAxis") + "]";
 			GeoPoint lowPointCopy = (GeoPoint) createGeoFromString(expr, false);
 			lowPointCopy.setVisualStyle(lowPoint);
 			lowPointCopy.setLabelVisible(false);

@@ -125,13 +125,13 @@ public class ToolbarConfigPanel extends JPanel
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 		buttonPanel.add(Box.createVerticalGlue());
 
-		insertButton = new JButton("< " + loc.getPlain("Insert"));
+		insertButton = new JButton("< " + loc.getMenu("Insert"));
 		insertButton.addActionListener(this);
 		insertButton.setAlignmentX(CENTER_ALIGNMENT);
 		buttonPanel.add(insertButton);
 		buttonPanel.add(Box.createVerticalStrut(10));
 
-		deleteButton = new JButton(loc.getPlain("Remove") + " >");
+		deleteButton = new JButton(loc.getMenu("Remove") + " >");
 		deleteButton.addActionListener(this);
 		deleteButton.setAlignmentX(CENTER_ALIGNMENT);
 		buttonPanel.add(deleteButton);
@@ -141,11 +141,11 @@ public class ToolbarConfigPanel extends JPanel
 
 		//
 		JPanel upDownPanel = new JPanel();
-		moveUpButton = new JButton("\u25b2 " + loc.getPlain("Up"));
+		moveUpButton = new JButton("\u25b2 " + loc.getMenu("Up"));
 		moveUpButton.addActionListener(this);
 		upDownPanel.add(moveUpButton);
 		//
-		moveDownButton = new JButton("\u25bc " + loc.getPlain("Down"));
+		moveDownButton = new JButton("\u25bc " + loc.getMenu("Down"));
 		moveDownButton.addActionListener(this);
 		upDownPanel.add(moveDownButton);
 

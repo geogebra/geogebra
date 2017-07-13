@@ -231,7 +231,7 @@ public class ConstructionProtocolNavigationD
 	@Override
 	public void setLabels() {
 		if (btPlay != null) {
-			btPlay.setText(loc.getPlain("Play"));
+			btPlay.setText(loc.getMenu("Play"));
 		}
 		if (btOpenWindow != null) {
 			btOpenWindow.setToolTipText(
@@ -319,13 +319,13 @@ public class ConstructionProtocolNavigationD
 	@Override
 	public void setButtonPlay() {
 		btPlay.setIcon(new ImageIcon(app.getPlayImage()));
-		btPlay.setText(loc.getPlain("Play"));
+		btPlay.setText(loc.getMenu("Play"));
 	}
 
 	@Override
 	public void setButtonPause() {
 		btPlay.setIcon(new ImageIcon(app.getPauseImage()));
-		btPlay.setText(loc.getPlain("Pause"));
+		btPlay.setText(loc.getMenu("Pause"));
 	}
 
 	/**

@@ -24,7 +24,7 @@ public class BarList extends ListBox {
 
 		int idx = getSelectedIndex();
 		clear();
-		addItem(loc.getPlain("AllBars"));
+		addItem(loc.getMenu("AllBars"));
 		for (int i = 1; i < getBarCount() + 1; i++) {
 			addItem(app.getLocalization().getPlain("BarA", i + ""));
 		}

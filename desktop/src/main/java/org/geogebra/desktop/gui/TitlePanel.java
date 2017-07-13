@@ -77,18 +77,18 @@ public class TitlePanel extends JPanel {
 		updateData();
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(loc.getPlain("Title") + ": "), loc.borderWest());
+		p.add(new JLabel(loc.getMenu("Title") + ": "), loc.borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		add(p, BorderLayout.NORTH);
 
 		p = new JPanel(new BorderLayout(5, 5));
 		JPanel p1 = new JPanel(new BorderLayout());
-		p1.add(new JLabel(loc.getPlain("Author") + ": "), loc.borderWest());
+		p1.add(new JLabel(loc.getMenu("Author") + ": "), loc.borderWest());
 		p1.add(authorField, BorderLayout.CENTER);
 		p.add(p1, BorderLayout.CENTER);
 
 		p1 = new JPanel(new BorderLayout());
-		p1.add(new JLabel(loc.getPlain("Date") + ": "), loc.borderWest());
+		p1.add(new JLabel(loc.getMenu("Date") + ": "), loc.borderWest());
 		p1.add(dateField, BorderLayout.CENTER);
 
 		p.add(p1, loc.borderEast());

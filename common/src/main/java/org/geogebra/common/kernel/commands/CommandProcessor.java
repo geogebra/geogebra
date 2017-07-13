@@ -672,7 +672,7 @@ public abstract class CommandProcessor {
 			sb.append(arg.toString(StringTemplate.defaultTemplate));
 		}
 		sb.append("\n\n");
-		sb.append(app1.getPlain("Syntax"));
+		sb.append(app1.getMenu("Syntax"));
 		sb.append(":\n");
 		sb.append(app1.getCommandSyntax(cmd));
 		return new MyError(app1, sb.toString(), cmd, null);
@@ -736,7 +736,7 @@ public abstract class CommandProcessor {
 			sb.append(argNumber);
 		}
 		sb.append("\n\n");
-		sb.append(app.getPlain("Syntax"));
+		sb.append(app.getMenu("Syntax"));
 		sb.append(":\n");
 		sb.append(app.getCommandSyntax(cmd));
 

@@ -423,7 +423,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	private void initConfirmDeletePanel() {
-		this.confirm = new StandardButton(this.loc.getPlain("Delete"));
+		this.confirm = new StandardButton(this.loc.getMenu("Delete"));
 		this.confirm.addStyleName("gwt-Button");
 		this.confirm.addStyleName("deleteButton");
 		this.confirm.addFastClickHandler(new FastClickHandler() {
@@ -433,7 +433,7 @@ public class MaterialListElement extends FlowPanel
 				onConfirmDelete();
 			}
 		});
-		this.cancel = new StandardButton(this.loc.getPlain("Cancel"));
+		this.cancel = new StandardButton(this.loc.getMenu("Cancel"));
 		this.cancel.addStyleName("cancelButton");
 		this.cancel.addStyleName("gwt-Button");
 		this.cancel.addStyleName("minor");
@@ -689,13 +689,13 @@ public class MaterialListElement extends FlowPanel
 	 */
 	public void setLabels() {
 		if (this.deleteButton != null) {
-			this.deleteButton.setText(loc.getPlain("Delete"));
+			this.deleteButton.setText(loc.getMenu("Delete"));
 		}
 		if (this.cancel != null) {
-			this.cancel.setText(this.loc.getPlain("Cancel"));
+			this.cancel.setText(this.loc.getMenu("Cancel"));
 		}
 		if (this.confirm != null) {
-			this.confirm.setText(this.loc.getPlain("Delete"));
+			this.confirm.setText(this.loc.getMenu("Delete"));
 		}
 		if (this.editButton != null) {
 			this.editButton.setText(loc.getMenu("Edit"));

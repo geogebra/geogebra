@@ -125,7 +125,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 		Localization loc = app.getLocalization();
 		this.getCaption().setText(loc.getMenu("RecoverUnsaved"));
 		this.infoText.setText(loc.getMenu("UnsavedChangesFound"));
-		this.deleteButton.setText(this.app.getLocalization().getPlain("Delete"));
+		this.deleteButton.setText(loc.getMenu("Delete"));
 		this.recoverButton.setText(loc.getMenu("Recover"));
 	}
 	

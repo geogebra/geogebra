@@ -2806,8 +2806,8 @@ public abstract class AppW extends App implements SetLabels {
 				String title = GeoGebraConstants.APPLICATION_NAME + " - "
 						+ getLocalization().getError("Error");
 
-				String[] optionNames = { getLocalization().getPlain("OK"),
-						getLocalization().getPlain("ShowOnlineHelp") };
+				String[] optionNames = { getLocalization().getMenu("OK"),
+						getLocalization().getMenu("ShowOnlineHelp") };
 				getOptionPane().showOptionDialog(AppW.this, message, title, 0,
 						GOptionPane.ERROR_MESSAGE,
 						null, optionNames, new AsyncOperation<String[]>() {

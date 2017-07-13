@@ -104,7 +104,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						ExamDialog.exitApp();
 					}
 				};
-				buttonText = loc.getPlain("Exit");
+				buttonText = loc.getMenu("Exit");
 			} else {
 				handler = new AsyncOperation<String[]>() {
 					@Override
@@ -113,7 +113,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 						ExamDialog.startExam(null, app);
 					}
 				};
-				buttonText = loc.getPlain("Restart");
+				buttonText = loc.getMenu("Restart");
 			}
 			exam.setHasGraph(true);
 			boolean supportsCAS = app.getSettings().getCasSettings()

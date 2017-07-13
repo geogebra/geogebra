@@ -41,7 +41,7 @@ public class TextDispatcher3D extends TextDispatcher {
 		Coords coords = view3D.getCursor3D().getCoords();
 
 		return view3D.getEuclidianController().createNewPoint(
-				removeUnderscoresAndBraces(loc.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getMenu("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, coords.getX(), coords.getY(), coords.getZ(),
 				false, false);
@@ -53,7 +53,7 @@ public class TextDispatcher3D extends TextDispatcher {
 		Coords coords = view3D.getCursor3D().getCoords();
 
 		return view3D.getEuclidianController().getCompanion().createNewPoint(
-				removeUnderscoresAndBraces(loc.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getMenu("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, coords.getX(), coords.getY(), coords.getZ(),
 				false, false);
@@ -105,7 +105,7 @@ public class TextDispatcher3D extends TextDispatcher {
 					StringUtil.toLowerCaseUS(loc.getCommand("Volume"))
 							+ hasVolume.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
-					loc.getPlain("Text") + hasVolume.getLabelSimple()));
+					loc.getMenu("Text") + hasVolume.getLabelSimple()));
 		}
 
 	}

@@ -93,7 +93,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		Localization loc = app.getLocalization();
 		getCaption().setText(loc.getMenu("Image"));
 		upload.setText(loc.getMenu("File"));
-		insertBtn.setText(loc.getPlain("OK"));
+		insertBtn.setText(loc.getMenu("OK"));
 		cancelBtn.setText(loc.getMenu("Cancel"));
 	}
 

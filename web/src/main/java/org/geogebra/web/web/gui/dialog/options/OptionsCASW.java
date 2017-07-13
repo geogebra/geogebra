@@ -61,7 +61,7 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 	 */
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		showRoots.setText(loc.getPlain("CASShowRationalExponentsAsRoots"));
+		showRoots.setText(loc.getMenu("CASShowRationalExponentsAsRoots"));
 		showNavigation.setText(loc.getMenu("NavigationBar"));
 
 	}

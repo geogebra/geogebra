@@ -92,8 +92,8 @@ public class AnimationSpeedPanelW extends ListBoxPanel implements IAnimationSpee
 	public void setLabels() {
 		super.setLabels();
 		Localization loc = app.getLocalization();
-		getLabel().setText(loc.getPlain("AnimationSpeed") + ":");
-		modeLabel.setText(loc.getPlain("Repeat") + ": ");
+		getLabel().setText(loc.getMenu("AnimationSpeed") + ":");
+		modeLabel.setText(loc.getMenu("Repeat") + ": ");
 	}
 
 	@Override

@@ -88,7 +88,7 @@ public class ConstructionProtocolStyleBarW extends StyleBarW implements
 						.getColumn(tableColumns[selIndex]);
 				Localization loc = app.getLocalization();
 				cpView.getTable().insertColumn(colIndex, col,
-						loc.getPlain(tableColumns[selIndex]));
+						loc.getMenu(tableColumns[selIndex]));
 				cpView.getData().columns[selIndex + 1].setVisible(true);
 				
 			} else { // removing a column from the table

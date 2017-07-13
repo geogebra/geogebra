@@ -71,7 +71,7 @@ public class ScriptInputDialog extends InputDialogD
 
 		languageSelector = new JComboBox();
 		for (ScriptType type : ScriptType.values()) {
-			languageSelector.addItem(loc.getPlain(type.getName()));
+			languageSelector.addItem(loc.getMenu(type.getName()));
 		}
 		languageSelector.addActionListener(this);
 

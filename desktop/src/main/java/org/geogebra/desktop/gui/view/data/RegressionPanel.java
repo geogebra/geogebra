@@ -258,7 +258,7 @@ public class RegressionPanel extends JPanel
 
 		catch (Exception e) {
 			e.printStackTrace();
-			eqn = "\\text{" + loc.getPlain("NotAvailable") + "}";
+			eqn = "\\text{" + loc.getMenu("NotAvailable") + "}";
 
 		}
 

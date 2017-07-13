@@ -340,10 +340,10 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	@Override
 	public void setLabels() {
 		wrappedPopup.setText(title);
-		btOK.setText(loc.getPlain("OK"));
-		btApply.setText(loc.getPlain("Apply"));
-		btCancel.setText(loc.getPlain("Cancel"));
-		btProperties.setText(loc.getPlain("Properties") + Unicode.ELLIPSIS);
+		btOK.setText(loc.getMenu("OK"));
+		btApply.setText(loc.getMenu("Apply"));
+		btCancel.setText(loc.getMenu("Cancel"));
+		btProperties.setText(loc.getMenu("Properties") + Unicode.ELLIPSIS);
 	}
 
 	@Override

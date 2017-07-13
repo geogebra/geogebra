@@ -1121,7 +1121,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
 			MenuItem miAsPicture = new MenuItem(
-					loc.getPlain("ExportAsPicture"), new Command() {
+					loc.getMenu("ExportAsPicture"), new Command() {
 
 						@Override
 						public void execute() {

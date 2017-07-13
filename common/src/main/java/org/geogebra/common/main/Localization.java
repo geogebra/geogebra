@@ -39,10 +39,10 @@ public abstract class Localization {
 	 */
 	public String[] getFontSizeStrings() {
 		if (fontSizeStrings == null) {
-			fontSizeStrings = new String[] { getPlain("ExtraSmall"),
-					getPlain("VerySmall"), getPlain("Small"),
-					getPlain("Medium"), getPlain("Large"),
-					getPlain("VeryLarge"), getPlain("ExtraLarge") };
+			fontSizeStrings = new String[] { getMenu("ExtraSmall"),
+					getMenu("VerySmall"), getMenu("Small"), getMenu("Medium"),
+					getMenu("Large"), getMenu("VeryLarge"),
+					getMenu("ExtraLarge") };
 		}
 
 		return fontSizeStrings;
@@ -361,8 +361,9 @@ public abstract class Localization {
 	 * @param key
 	 *            key
 	 * @return translation of given key
+	 * @deprecated use getMenu directly
 	 */
-
+	@Deprecated
 	public final String getPlain(String key) {
 		return getMenu(key);
 	}
@@ -426,7 +427,7 @@ public abstract class Localization {
 	 */
 	final public String getPlainArray(String key, String default0,
 			String[] args) {
-		String str = getPlain(key);
+		String str = getMenu(key);
 
 		if (default0 != null && key.equals(str)) {
 			// lookup failed, use default
@@ -474,7 +475,7 @@ public abstract class Localization {
 
 	final public String getLaTeXArray(String key, String default0,
 			String[] args) {
-		String str = getPlain(key);
+		String str = getMenu(key);
 
 		if (default0 != null && key.equals(str)) {
 			// lookup failed, use default
@@ -546,7 +547,7 @@ public abstract class Localization {
 	 */
 	final public String getPlainLabel(String key) {
 
-		String ret = getPlain("Name." + key);
+		String ret = getMenu("Name." + key);
 
 		for (int i = ret.length() - 1; i >= 0; i--) {
 			if (!StringUtil.isLetterOrDigitOrUnderscore(ret.charAt(i))) {
@@ -1149,7 +1150,7 @@ public abstract class Localization {
 	 * 
 	 */
 	public String getFunction(String key) {
-		String ret = getPlain("Function." + key);
+		String ret = getMenu("Function." + key);
 
 		// make sure we don't get strange function names if the properties
 		// aren't loaded
@@ -1207,7 +1208,7 @@ public abstract class Localization {
 	}
 
 	public String getKeyboardRow(int row) {
-		return getPlain("Keyboard.row" + row);
+		return getMenu("Keyboard.row" + row);
 	}
 
 	abstract protected ArrayList<Locale> getSupportedLocales();

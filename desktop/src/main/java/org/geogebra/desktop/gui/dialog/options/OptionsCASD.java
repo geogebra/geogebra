@@ -137,8 +137,8 @@ public class OptionsCASD extends OptionsCAS
 	@Override
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		timeoutLabel.setText(loc.getPlain("CasTimeout"));
-		cbShowRoots.setText(loc.getPlain("CASShowRationalExponentsAsRoots"));
+		timeoutLabel.setText(loc.getMenu("CasTimeout"));
+		cbShowRoots.setText(loc.getMenu("CASShowRationalExponentsAsRoots"));
 		cbShowNavigation.setText(loc.getMenu("NavigationBar"));
 	}
 

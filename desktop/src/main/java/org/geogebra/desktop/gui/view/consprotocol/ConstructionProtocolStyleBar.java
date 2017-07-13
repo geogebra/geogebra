@@ -137,7 +137,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 				.setIcon(app.getScaledIcon(GuiResourcesD.DOCUMENT_PROPERTIES));
 
 		miShowOnlyBreakpoints = new JCheckBoxMenuItem(
-				loc.getPlain("ShowOnlyBreakpoints"));
+				loc.getMenu("ShowOnlyBreakpoints"));
 		miShowOnlyBreakpoints.setSelected(
 				app.getKernel().getConstruction().showOnlyBreakpoints());
 		miShowOnlyBreakpoints.addActionListener(new ActionListener() {
@@ -149,7 +149,7 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		btnOptions.addPopupMenuItem(miShowOnlyBreakpoints);
 
 		miColorfulConstructionProtocol = new JCheckBoxMenuItem(
-				loc.getPlain("ColorfulConstructionProtocol"));
+				loc.getMenu("ColorfulConstructionProtocol"));
 		miColorfulConstructionProtocol.setSelected(cpView.getUseColors());
 		miColorfulConstructionProtocol.addActionListener(new ActionListener() {
 			@Override
@@ -210,9 +210,9 @@ public class ConstructionProtocolStyleBar extends JToolBar
 		btnExport.setToolTipText(loc.getPlainTooltip("ExportAsWebpage"));
 		btnPrint.setToolTipText(loc.getMenuTooltip("Print"));
 		btnHelp.setToolTipText(loc.getMenuTooltip("FastHelp"));
-		miShowOnlyBreakpoints.setText(loc.getPlain("ShowOnlyBreakpoints"));
+		miShowOnlyBreakpoints.setText(loc.getMenu("ShowOnlyBreakpoints"));
 		miColorfulConstructionProtocol
-				.setText(loc.getPlain("ColorfulConstructionProtocol"));
+				.setText(loc.getMenu("ColorfulConstructionProtocol"));
 	}
 
 	/** reset actions and buttons */

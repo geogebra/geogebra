@@ -49,11 +49,11 @@ public class CoordsModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoiches(Localization loc) {
-		return Arrays.asList(loc.getPlain("CartesianCoords"), // index 0
-				loc.getPlain("PolarCoords"), // index 1
-				loc.getPlain("ComplexNumber"), // index 2
-				loc.getPlain("CartesianCoords3D"), // index 3
-				loc.getPlain("Spherical")); // index 4
+		return Arrays.asList(loc.getMenu("CartesianCoords"), // index 0
+				loc.getMenu("PolarCoords"), // index 1
+				loc.getMenu("ComplexNumber"), // index 2
+				loc.getMenu("CartesianCoords3D"), // index 3
+				loc.getMenu("Spherical")); // index 4
 	}
 
 	@Override

@@ -86,7 +86,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 
 	@Override
 	public String translatedTypeString() {
-		return this.getLoc().getPlain("Curve");
+		return this.getLoc().getMenu("Curve");
 	}
 
 	@Override

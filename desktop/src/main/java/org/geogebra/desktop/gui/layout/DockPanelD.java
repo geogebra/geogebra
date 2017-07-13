@@ -417,7 +417,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * @return the focus panel
 	 */
 	protected JComponent createFocusPanel() {
-		titleLabel = new JLabel(loc.getPlain(title));
+		titleLabel = new JLabel(loc.getMenu(title));
 		titleLabel.setFont(app.getPlainFont());
 		titleLabel.setForeground(Color.darkGray);
 
@@ -602,7 +602,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	 * @return title in plain style
 	 */
 	protected String getPlainTitle() {
-		return loc.getPlain(title);
+		return loc.getMenu(title);
 	}
 
 	/**

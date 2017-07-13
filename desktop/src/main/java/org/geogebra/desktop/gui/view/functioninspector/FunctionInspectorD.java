@@ -334,12 +334,12 @@ public class FunctionInspectorD extends FunctionInspector
 
 		modelInterval.setColumnIdentifiers(getModel().getIntervalColumnNames());
 
-		tabPanel.setTitleAt(1, loc.getPlain("fncInspector.Points"));
-		tabPanel.setTitleAt(0, loc.getPlain("fncInspector.Interval"));
+		tabPanel.setTitleAt(1, loc.getMenu("fncInspector.Points"));
+		tabPanel.setTitleAt(0, loc.getMenu("fncInspector.Interval"));
 		lblGeoName.setText(getModel().getTitleString());
 
 		// tool tips
-		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
+		btnHelp.setToolTipText(loc.getMenu("ShowOnlineHelp"));
 		btnOscCircle.setToolTipText(
 				loc.getPlainTooltip("fncInspector.showOscCircle"));
 		btnXYSegments.setToolTipText(

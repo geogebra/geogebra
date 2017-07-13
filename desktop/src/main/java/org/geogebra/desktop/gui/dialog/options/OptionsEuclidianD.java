@@ -693,7 +693,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		// construction protocol panel
 		consProtocolPanel.setBorder(LayoutUtil
-				.titleBorder(loc.getPlain("ConstructionProtocolNavigation")));
+				.titleBorder(loc.getMenu("ConstructionProtocolNavigation")));
 		ckShowNavbar.setText(loc.getMenu("Show"));
 		ckNavPlay.setText(loc.getMenu("PlayButton"));
 		ckOpenConsProtocol.setText(loc.getMenu("ConstructionProtocolButton"));
@@ -732,7 +732,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		dimPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Dimensions")));
 		axesOptionsPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Axes")));
 		miscPanel.setBorder(
-				LayoutUtil.titleBorder(loc.getPlain("Miscellaneous")));
+				LayoutUtil.titleBorder(loc.getMenu("Miscellaneous")));
 
 		cbShowAxes.setText(loc.getMenu("ShowAxes"));
 		cbBoldAxes.setText(loc.getMenu("Bold"));

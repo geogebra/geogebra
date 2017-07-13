@@ -268,8 +268,8 @@ public class FormulaBar extends JToolBar
 
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		btnAcceptFormula.setToolTipText(loc.getPlain("Apply"));
-		btnCancelFormula.setToolTipText(loc.getPlain("Cancel"));
+		btnAcceptFormula.setToolTipText(loc.getMenu("Apply"));
+		btnCancelFormula.setToolTipText(loc.getMenu("Cancel"));
 
 	}
 

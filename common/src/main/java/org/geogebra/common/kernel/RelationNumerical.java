@@ -239,7 +239,7 @@ public class RelationNumerical {
 			return relation((GeoLine) a, (GeoLine) b, (GeoLine) c);
 		}
 
-		register(null, null, loc.getPlain("ComparisonNotPossible"));
+		register(null, null, loc.getMenu("ComparisonNotPossible"));
 		return reports;
 	}
 
@@ -292,7 +292,7 @@ public class RelationNumerical {
 			return relation((GeoPoint) a, (GeoPoint) b, (GeoPoint) c,
 					(GeoPoint) d);
 		}
-		register(null, null, loc.getPlain("ComparisonNotPossible"));
+		register(null, null, loc.getMenu("ComparisonNotPossible"));
 		return reports;
 
 	}

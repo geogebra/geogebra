@@ -151,11 +151,11 @@ public class SliderPanel extends JPanel
 		} else { // no tabs
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			intervalPanel.setBorder(
-					BorderFactory.createTitledBorder(loc.getPlain("Interval")));
+					BorderFactory.createTitledBorder(loc.getMenu("Interval")));
 			sliderPanel.setBorder(
-					BorderFactory.createTitledBorder(loc.getPlain("Slider")));
+					BorderFactory.createTitledBorder(loc.getMenu("Slider")));
 			animationPanel.setBorder(BorderFactory
-					.createTitledBorder(loc.getPlain("Animation")));
+					.createTitledBorder(loc.getMenu("Animation")));
 			add(intervalPanel);
 			add(Box.createVerticalStrut(5));
 			add(sliderPanel);

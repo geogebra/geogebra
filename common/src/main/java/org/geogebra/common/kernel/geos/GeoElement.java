@@ -4927,7 +4927,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return localized type string
 	 */
 	public String translatedTypeString() {
-		return getLoc().getPlain(getTypeString());
+		return getLoc().getMenu(getTypeString());
 	}
 
 	/**
@@ -4936,7 +4936,7 @@ public abstract class GeoElement extends ConstructionElement
 	public String translatedTypeStringForAlgebraView() {
 		// Log.debug(getTypeStringForAlgebraView());
 		// Log.debug(app.getPlain(getTypeStringForAlgebraView()));
-		return getLoc().getPlain(getTypeStringForAlgebraView());
+		return getLoc().getMenu(getTypeStringForAlgebraView());
 	}
 
 	/**
@@ -5304,7 +5304,7 @@ public abstract class GeoElement extends ConstructionElement
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);
 				sbAlgebraDesc.append(' ');
-				sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
+				sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -5456,7 +5456,7 @@ public abstract class GeoElement extends ConstructionElement
 				sb.append("\\, ");
 			}
 			sb.append("\\text{");
-			sb.append(getLoc().getPlain("Undefined"));
+			sb.append(getLoc().getMenu("Undefined"));
 			sb.append("} ");
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"

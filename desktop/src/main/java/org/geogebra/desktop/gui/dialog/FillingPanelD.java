@@ -636,7 +636,7 @@ class FillingPanelD extends JPanel
 			selectionBarButtons = new JToggleButton[numBar + 1];
 			ButtonGroup group = new ButtonGroup();
 			barsPanel = new JPanel(new GridLayout(0, 5, 5, 5));
-			barsPanel.setBorder(new TitledBorder(loc.getPlain("SelectedBar")));
+			barsPanel.setBorder(new TitledBorder(loc.getMenu("SelectedBar")));
 			for (int i = 0; i < numBar + 1; i++) {
 				selectionBarButtons[i] = new JToggleButton(
 						loc.getPlain("BarA", i + ""));
@@ -656,7 +656,7 @@ class FillingPanelD extends JPanel
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);
 			}
-			selectionBarButtons[0].setText(loc.getPlain("AllBars"));
+			selectionBarButtons[0].setText(loc.getMenu("AllBars"));
 			selectionBarButtons[selectedBarButton].setSelected(true);
 			add(barsPanel);
 		}

@@ -22,7 +22,7 @@ public class BundleLookAndFeel extends GLookAndFeel {
 	@Override
 	public void addWindowClosingHandler(final AppW app) {
 		Localization loc = app.getLocalization();
-		addNativeHandler(loc.getPlain("CloseApplicationLoseUnsavedData"),
+		addNativeHandler(loc.getMenu("CloseApplicationLoseUnsavedData"),
 				loc.getMenu("Save"), loc.getMenu("DontSave"),
 				loc.getMenu("Cancel"));
 	}

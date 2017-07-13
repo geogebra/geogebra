@@ -521,8 +521,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 		@Override
 		public void setLabels() {
-			nameLabel.setText(loc.getPlain("Name") + ":");
-			defLabel.setText(loc.getPlain("Definition") + ":");
+			nameLabel.setText(loc.getMenu("Name") + ":");
+			defLabel.setText(loc.getMenu("Definition") + ":");
 			captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 		}
 

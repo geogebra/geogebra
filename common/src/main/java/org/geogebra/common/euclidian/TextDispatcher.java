@@ -61,7 +61,7 @@ public class TextDispatcher {
 								+ conic.getLabelSimple()));
 			}
 			text.setLabel(removeUnderscoresAndBraces(
-					loc.getPlain("Text") + conic.getLabelSimple()));
+					loc.getMenu("Text") + conic.getLabelSimple()));
 		}
 		return new GeoElement[] { text };
 	}
@@ -209,7 +209,7 @@ public class TextDispatcher {
 			rwy = ((GeoConicND) object).getTranslationVector().getY();
 		}
 		return view.getEuclidianController().createNewPoint(
-				removeUnderscoresAndBraces(loc.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getMenu("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, rwx, rwy, 0, false, false);
 	}
@@ -217,7 +217,7 @@ public class TextDispatcher {
 	protected GeoPointND getPointForDynamicText(Path object, GPoint loc0) {
 
 		return view.getEuclidianController().getCompanion().createNewPoint(
-				removeUnderscoresAndBraces(loc.getPlain("Point")
+				removeUnderscoresAndBraces(loc.getMenu("Point")
 						+ object.getLabel(StringTemplate.defaultTemplate)),
 				false, object, view.toRealWorldCoordX(loc0.x),
 				view.toRealWorldCoordY(loc0.y), 0, false, false);
@@ -272,7 +272,7 @@ public class TextDispatcher {
 			GeoText text = kernel.getAlgebraProcessor().evaluateToText(strText,
 					true, true);
 			if (useLabels) {
-				text.setLabel(removeUnderscoresAndBraces(loc.getPlain("Text")
+				text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text")
 						+ geoA.getLabel(tpl) + geoB.getLabel(tpl)));
 			}
 
@@ -314,7 +314,7 @@ public class TextDispatcher {
 					"Arc length of %0", conic,
 					arcLength, loc0);
 			text.setLabel(removeUnderscoresAndBraces(
-					loc.getPlain("Text") + conic.getLabelSimple()));
+					loc.getMenu("Text") + conic.getLabelSimple()));
 			GeoElement[] ret = { text };
 			return ret;
 
@@ -334,7 +334,7 @@ public class TextDispatcher {
 			circumFerence.setLabel(removeUnderscoresAndBraces(
 					StringUtil.toLowerCaseUS(loc.getCommand("Circumference"))
 							+ conic.getLabel(StringTemplate.defaultTemplate)));
-			text.setLabel(removeUnderscoresAndBraces(loc.getPlain("Text")
+			text.setLabel(removeUnderscoresAndBraces(loc.getMenu("Text")
 					+ conic.getLabel(StringTemplate.defaultTemplate)));
 		}
 		GeoElement[] ret = { text };
@@ -354,7 +354,7 @@ public class TextDispatcher {
 					StringUtil.toLowerCaseUS(loc.getCommand("Perimeter"))
 							+ poly.getLabelSimple()));
 			text.setLabel(removeUnderscoresAndBraces(
-					loc.getPlain("Text") + poly.getLabelSimple()));
+					loc.getMenu("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };
@@ -369,7 +369,7 @@ public class TextDispatcher {
 
 		if (poly.isLabelSet()) {
 			text.setLabel(removeUnderscoresAndBraces(
-					loc.getPlain("Text") + poly.getLabelSimple()));
+					loc.getMenu("Text") + poly.getLabelSimple()));
 		}
 		text.checkVisibleIn3DViewNeeded();
 		GeoElement[] ret = { text };

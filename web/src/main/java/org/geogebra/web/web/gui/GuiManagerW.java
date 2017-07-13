@@ -1718,7 +1718,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return false;
 		}
 		final String[] options = { loc.getMenu("Cancel"),
-				loc.getPlain("CreateSliders") };
+				loc.getMenu("CreateSliders") };
 
 		final Image icon = new NoDragImage(
 				ImgResourceHelper.safeURI(
@@ -1730,7 +1730,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		getOptionPane().showOptionDialog(app,
 		        loc.getPlain("CreateSlidersForA", s),
-				loc.getPlain("CreateSliders"),
+				loc.getMenu("CreateSliders"),
 				Integer.parseInt(AlgebraProcessor.CREATE_SLIDER),
 		        GOptionPane.INFORMATION_MESSAGE, icon, options, callback);
 

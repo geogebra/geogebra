@@ -1331,7 +1331,7 @@ public class VirtualKeyboardD extends JFrame
 		setFonts();
 
 		setTitle((app == null) ? "Virtual Keyboard"
-				: loc.getPlain("VirtualKeyboard"));
+				: loc.getMenu("VirtualKeyboard"));
 
 		readConf(app, null, false);
 		doSetLabels();

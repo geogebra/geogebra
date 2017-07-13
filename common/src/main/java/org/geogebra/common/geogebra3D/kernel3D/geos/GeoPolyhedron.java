@@ -711,7 +711,7 @@ public class GeoPolyhedron extends GeoElement3D
 			if (labelUsability < 2) {
 
 				sb.setLength(0);
-				sb.append(getLoc().getPlain("Name.face"));
+				sb.append(getLoc().getMenu("Name.face"));
 
 				// sets the direction to the next first name
 				int indexSecondPointPlus = indexFirstPointName + 1;
@@ -772,7 +772,7 @@ public class GeoPolyhedron extends GeoElement3D
 			if (labelUsability < 2) {
 
 				sb.setLength(0);
-				sb.append(getLoc().getPlain("Name.edge"));
+				sb.append(getLoc().getMenu("Name.edge"));
 				// sets the points names in order
 				if (points[0].compareToIgnoreCase(points[1]) < 0) {
 					sb.append(points[0]);

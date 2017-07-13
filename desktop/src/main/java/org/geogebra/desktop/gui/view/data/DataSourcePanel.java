@@ -249,8 +249,8 @@ public class DataSourcePanel extends JPanel
 
 		btnOptions.setToolTipText(loc.getMenu("Options"));
 		btnClear.setToolTipText(loc.getMenu("ClearColumns"));
-		btnDelete.setToolTipText(loc.getPlain("fncInspector.removeColumn"));
-		btnAdd.setToolTipText(loc.getPlain("fncInspector.addColumn"));
+		btnDelete.setToolTipText(loc.getMenu("fncInspector.removeColumn"));
+		btnAdd.setToolTipText(loc.getMenu("fncInspector.addColumn"));
 
 	}
 

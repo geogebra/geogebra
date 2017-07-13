@@ -310,7 +310,7 @@ public class ToolCreationDialogD extends javax.swing.JDialog
 		} else {
 			Log.debug("not compatible");
 			JOptionPane.showMessageDialog(this,
-					app.getLocalization().getPlain("Tool.NotCompatible") + ":\n"
+					app.getLocalization().getMenu("Tool.NotCompatible") + ":\n"
 							+ macro.toString());
 		}
 	}

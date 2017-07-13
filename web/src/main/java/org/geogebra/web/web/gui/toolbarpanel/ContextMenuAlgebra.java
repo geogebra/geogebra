@@ -208,7 +208,7 @@ public class ContextMenuAlgebra implements SetLabels {
 				.getMenuBarHtml(
 						StyleBarResources.INSTANCE.description().getSafeUri()
 								.asString(),
-						loc.getPlain("AlgebraDescriptions"));
+						loc.getMenu("AlgebraDescriptions"));
 		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
@@ -226,7 +226,7 @@ public class ContextMenuAlgebra implements SetLabels {
 				.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.sort_black()
 								.getSafeUri().asString(),
-						loc.getPlain("SortBy"));
+						loc.getMenu("SortBy"));
 		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),

@@ -106,7 +106,7 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 		Object[] options = { loc.getMenu("DeleteTool"),
 				loc.getMenu("DontDeleteTool") };
 		int returnVal = JOptionPane.showOptionDialog(this,
-				loc.getMenu("Tool.DeleteQuestion"), loc.getPlain("Question"),
+				loc.getMenu("Tool.DeleteQuestion"), loc.getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[1]);
 		if (returnVal == 1) {
@@ -158,11 +158,11 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 
 			final JButton btDelete = new JButton();
 			toolButtonPanel.add(btDelete);
-			btDelete.setText(loc.getPlain("Delete"));
+			btDelete.setText(loc.getMenu("Delete"));
 
 			final JButton btOpen = new JButton();
 			toolButtonPanel.add(btOpen);
-			btOpen.setText(loc.getPlain("Open"));
+			btOpen.setText(loc.getMenu("Open"));
 
 			final JButton btSave = new JButton();
 			toolButtonPanel.add(btSave);

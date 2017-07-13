@@ -171,24 +171,24 @@ public abstract class PropertiesView implements View {
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("Defaults"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
 		case SPREADSHEET:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("Spreadsheet"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
 		case EUCLIDIAN:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
 		case EUCLIDIAN2:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("DrawingPad2"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad2"));
 		case EUCLIDIAN_FOR_PLANE:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("ExtraViews"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("ExtraViews"));
 		case EUCLIDIAN3D:
 			return loc.getPlain("PreferencesOfA",
-					loc.getPlain("GraphicsView3D"));
+					loc.getMenu("GraphicsView3D"));
 		case CAS:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("CAS"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
 		case ADVANCED:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
 		case ALGEBRA:
-			return loc.getPlain("PreferencesOfA", loc.getPlain("Algebra"));
+			return loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
 		case OBJECTS:
 			return objectPanel == null ? loc.getMenu("Objects") : objectPanel
 					.getSelectionDescription(loc);
@@ -207,15 +207,15 @@ public abstract class PropertiesView implements View {
 			OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return loc.getPlain("Defaults");
+			return loc.getMenu("Defaults");
 		case SPREADSHEET:
-			return loc.getPlain("Spreadsheet");
+			return loc.getMenu("Spreadsheet");
 		case EUCLIDIAN:
-			return loc.getPlain("DrawingPad");
+			return loc.getMenu("DrawingPad");
 		case EUCLIDIAN2:
-			return loc.getPlain("DrawingPad2");
+			return loc.getMenu("DrawingPad2");
 		case CAS:
-			return loc.getPlain("CAS");
+			return loc.getMenu("CAS");
 		case ADVANCED:
 			return loc.getMenu("Advanced");
 		case OBJECTS:
@@ -224,11 +224,11 @@ public abstract class PropertiesView implements View {
 		case LAYOUT:
 			return loc.getMenu("Layout");
 		case EUCLIDIAN3D:
-			return loc.getPlain("GraphicsView3D");
+			return loc.getMenu("GraphicsView3D");
 		case EUCLIDIAN_FOR_PLANE:
-			return loc.getPlain("ExtraViews");
+			return loc.getMenu("ExtraViews");
 		case ALGEBRA:
-			return loc.getPlain("Algebra");
+			return loc.getMenu("Algebra");
 		default:
 			Log.error("missing case in getTypeStringSimple():" + type);
 			return null;

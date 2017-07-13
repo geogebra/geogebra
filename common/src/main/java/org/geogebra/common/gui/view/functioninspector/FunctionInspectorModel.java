@@ -175,10 +175,10 @@ public class FunctionInspectorModel {
 	}
 
 	public void setColumnNames() {
-		columnNames[COL_DERIVATIVE] = loc.getPlain("fncInspector.Derivative");
-		columnNames[COL_DERIVATIVE2] = loc.getPlain("fncInspector.Derivative2");
-		columnNames[COL_CURVATURE] = loc.getPlain("fncInspector.Curvature");
-		columnNames[COL_DIFFERENCE] = loc.getPlain("fncInspector.Difference");
+		columnNames[COL_DERIVATIVE] = loc.getMenu("fncInspector.Derivative");
+		columnNames[COL_DERIVATIVE2] = loc.getMenu("fncInspector.Derivative2");
+		columnNames[COL_CURVATURE] = loc.getMenu("fncInspector.Curvature");
+		columnNames[COL_DIFFERENCE] = loc.getMenu("fncInspector.Difference");
 	}
 
 	public String getColumnName(int col) {
@@ -366,7 +366,7 @@ public class FunctionInspectorModel {
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (count) {
 		case 0:
-			value.add(loc.getPlain("fncInspector.NoRoots"));
+			value.add(loc.getMenu("fncInspector.NoRoots"));
 			value2.add(null);
 			break;
 		case 1:
@@ -375,7 +375,7 @@ public class FunctionInspectorModel {
 			value2.add(r);
 			break;
 		default:
-			value.add(loc.getPlain("fncInspector.MultipleRoots"));
+			value.add(loc.getMenu("fncInspector.MultipleRoots"));
 			value2.add(null);
 
 		}
@@ -1086,8 +1086,8 @@ public class FunctionInspectorModel {
 	}
 
 	public String[] getIntervalColumnNames() {
-		String[] names = { loc.getPlain("fncInspector.Property"),
-				loc.getPlain("fncInspector.Value") };
+		String[] names = { loc.getMenu("fncInspector.Property"),
+				loc.getMenu("fncInspector.Value") };
 		return names;
 	}
 

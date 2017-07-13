@@ -76,7 +76,8 @@ public class GLookAndFeel implements GLookAndFeelI{
         this.windowClosingHandler = Window.addWindowClosingHandler(new Window.ClosingHandler() {
             @Override
 			public void onWindowClosing(ClosingEvent event) {
-            	event.setMessage(app.getLocalization().getPlain("CloseApplicationLoseUnsavedData"));
+						event.setMessage(app.getLocalization()
+								.getMenu("CloseApplicationLoseUnsavedData"));
             }
         });
         

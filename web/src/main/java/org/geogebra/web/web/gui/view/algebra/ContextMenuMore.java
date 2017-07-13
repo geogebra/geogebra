@@ -91,7 +91,7 @@ public class ContextMenuMore implements SetLabels {
 				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getPlain("Delete"), true), true,
+				loc.getMenu("Delete"), true), true,
 				new Command() {
 					
 					@Override

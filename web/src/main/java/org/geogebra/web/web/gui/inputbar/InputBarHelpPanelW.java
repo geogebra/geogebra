@@ -231,7 +231,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		// show Mathematical Functions tree item initially
 		indexTree.setSelectedItem(itmFunction);
 		updateDetailPanel();
-		btnOnlineHelp.setText(app.getLocalization().getPlain("ShowOnlineHelp"));
+		btnOnlineHelp.setText(app.getLocalization().getMenu("ShowOnlineHelp"));
 	}
 
 	/**

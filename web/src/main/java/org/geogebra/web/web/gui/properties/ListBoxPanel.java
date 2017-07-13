@@ -67,7 +67,7 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
     }
 
 	public String getTitle() {
-		String ret = loc.getPlain(title);
+		String ret = loc.getMenu(title);
 		if (ret.equals(title)) {
 			// needed for eg Tooltip
 			ret = loc.getMenu(title);

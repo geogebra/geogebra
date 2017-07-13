@@ -115,7 +115,7 @@ public class AlgoTurtle extends AlgoElement {
 			sb.setLength(0);
 		}
 
-		sb.append(getLoc().getPlain("Turtle"));
+		sb.append(getLoc().getMenu("Turtle"));
 
 		return sb.toString();
 	}

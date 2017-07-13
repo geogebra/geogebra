@@ -45,7 +45,7 @@ public class CheckboxPanel extends OptionPanel implements
 
 	@Override
 	public void setLabels() {
-		getCheckbox().setText(loc.getPlain(titleId));
+		getCheckbox().setText(loc.getMenu(titleId));
 	}
 
 	public CheckBox getCheckbox() {

@@ -147,7 +147,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		String data = createGifResponsePage(app.getLocalization());
 		final JavaScriptObject gifWnd = app.getLAF().isTablet() ? null : WindowW.openFromData(data);
 		WindowW.postMessage(gifWnd,
-		        StringUtil.toHTMLString(app.getLocalization().getPlain(
+				StringUtil.toHTMLString(app.getLocalization()
+						.getMenu(
 		                "AnimatedGIF.Processing")));
 
 		RequestCallback cb = new RequestCallback() {
@@ -205,7 +206,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						app.getFileManager().exportImage(downloadUrl,
 								"ggbanim.gif", "gif");
 						WindowW.postMessage(gifWnd, StringUtil.toHTMLString(app
-						        .getLocalization().getPlain(
+								.getLocalization()
+								.getMenu(
 						                "AnimatedGIF.Success")));
 					} catch (Throwable t) {
 						Log.debug(t.getMessage());
@@ -247,7 +249,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 	sb.append("  <head>\n");
 	    sb.append("    <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n");
 		sb.append("    <title>"
-		        + StringUtil.toHTMLString(loc.getPlain("AnimatedGIFExport"))
+				+ StringUtil.toHTMLString(loc.getMenu("AnimatedGIFExport"))
 		        + "</title>\n");
 	    sb.append("    <script>\n");
 	    sb.append("	window.addEventListener('message',function(event) {\n");
@@ -263,11 +265,12 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	    sb.append("  <body>\n");
 	    sb.append("    <iframe src=\"javascript:''\" id=\"__gwt_historyFrame\" tabIndex='-1' style=\"position:absolute;width:0;height:0;border:0\"></iframe>\n");
 		sb.append("	<h1>"
-		        + StringUtil.toHTMLString(loc.getPlain("CreatingAnimatedGIF"))
+				+ StringUtil.toHTMLString(loc.getMenu("CreatingAnimatedGIF"))
 		        + "</h1>\n");
 		sb.append("	<p id=\"result\">"
 		        + StringUtil.toHTMLString(loc
-		                .getPlain("AnimatedGIF.Calculating")) + "</p>\n");
+						.getMenu("AnimatedGIF.Calculating"))
+				+ "</p>\n");
 	    sb.append("	<button type=\"button\" id=\"close\" onclick=\"window.close();\" style=\"display: none;\">Close</button>\n");
 	    sb.append("   </body>\n");
 	    sb.append("</html>\n");

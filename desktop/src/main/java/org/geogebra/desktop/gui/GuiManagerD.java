@@ -2000,9 +2000,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							loc.getMenu("DontOverwrite") };
 					int n = JOptionPane.showOptionDialog(
 							((AppD) app).getMainComponent(),
-							getLocalization().getPlain("OverwriteFile") + "\n"
+							getLocalization().getMenu("OverwriteFile") + "\n"
 									+ file.getName(),
-							getLocalization().getPlain("Question"),
+							getLocalization().getMenu("Question"),
 							JOptionPane.DEFAULT_OPTION,
 							JOptionPane.WARNING_MESSAGE, null, options,
 							options[1]);

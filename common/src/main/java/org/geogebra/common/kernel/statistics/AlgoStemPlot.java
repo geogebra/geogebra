@@ -305,7 +305,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		low.append("} \\\\ "); // newline in LaTeX ie \\
 
 		high = StringUtil.resetStringBuilder(high);
-		high.append(getLoc().getPlain("\\text{"));
+		high.append("\\text{");
 		high.append(getLoc().getMenuDefault("StemPlot.high", "high"));
 		high.append(": ");
 		for (int i = outlierIndex[1]; i < data.length; i++) {

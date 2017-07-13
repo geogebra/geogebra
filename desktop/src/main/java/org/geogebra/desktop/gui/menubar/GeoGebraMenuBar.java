@@ -600,7 +600,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		// copy system information to clipboard
 
 		systemInfoPanel.add(new JButton(
-				new AbstractAction(loc.getPlain("SystemInformation")) {
+				new AbstractAction(loc.getMenu("SystemInformation")) {
 
 					private static final long serialVersionUID = 1L;
 
@@ -610,7 +610,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						copyDebugInfoToClipboard(app);
 
 						app.showMessage(
-								loc.getPlain("SystemInformationMessage"));
+								loc.getMenu("SystemInformationMessage"));
 					}
 				}), loc.borderEast());
 

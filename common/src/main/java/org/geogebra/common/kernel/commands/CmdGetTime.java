@@ -136,8 +136,8 @@ public class CmdGetTime extends CommandProcessor {
 		int mins = cal.getMinutes();
 		int secs = cal.getSeconds();
 		int yearday = 0;
-		String dayStr = loc == null ? "" : loc.getPlain("Day." + d);
-		String monthStr = loc == null ? "" : loc.getPlain("Month." + m);
+		String dayStr = loc == null ? "" : loc.getMenu("Day." + d);
+		String monthStr = loc == null ? "" : loc.getMenu("Month." + m);
 
 		switch (c) {
 

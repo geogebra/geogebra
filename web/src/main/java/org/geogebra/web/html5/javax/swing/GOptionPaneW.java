@@ -219,8 +219,8 @@ public class GOptionPaneW extends GDialogBox
 	}
 
 	private void setLabels() {
-		btnOK.setText(okLabel == null ? loc.getPlain("OK") : okLabel);
-		btnCancel.setText(loc.getPlain("Cancel"));
+		btnOK.setText(okLabel == null ? loc.getMenu("OK") : okLabel);
+		btnCancel.setText(loc.getMenu("Cancel"));
 	}
 
 	private void updateInputField() {

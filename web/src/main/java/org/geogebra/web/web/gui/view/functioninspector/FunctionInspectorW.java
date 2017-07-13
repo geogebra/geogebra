@@ -659,13 +659,13 @@ public class FunctionInspectorW extends FunctionInspector {
 		// // header text
 		//
 		TabBar tabBar = tabPanel.getTabBar();
-		tabBar.setTabText(0, loc.getPlain("fncInspector.Interval"));
-		tabBar.setTabText(1, loc.getPlain("fncInspector.Points"));
+		tabBar.setTabText(0, loc.getMenu("fncInspector.Interval"));
+		tabBar.setTabText(1, loc.getMenu("fncInspector.Points"));
 
 		lblGeoName.setText(getModel().getTitleString());
 		//
 		// // tool tips
-		btnHelp.setTitle(loc.getPlain("ShowOnlineHelp"));
+		btnHelp.setTitle(loc.getMenu("ShowOnlineHelp"));
 		btnOscCircle.setToolTipText(loc
 		        .getPlainTooltip("fncInspector.showOscCircle"));
 		btnXYSegments.setToolTipText(loc

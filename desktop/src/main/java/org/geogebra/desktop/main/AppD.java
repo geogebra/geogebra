@@ -4278,8 +4278,8 @@ public class AppD extends App implements KeyEventDispatcher {
 					// make sure splash screen not showing (will be in front)
 					GeoGebra.hideSplash();
 
-					Object[] options = { getLocalization().getPlain("OK"),
-							getLocalization().getPlain("ShowOnlineHelp") };
+					Object[] options = { getLocalization().getMenu("OK"),
+							getLocalization().getMenu("ShowOnlineHelp") };
 					int n = JOptionPane.showOptionDialog(mainComp, message,
 							GeoGebraConstants.APPLICATION_NAME + " - "
 									+ getLocalization().getError("Error"),

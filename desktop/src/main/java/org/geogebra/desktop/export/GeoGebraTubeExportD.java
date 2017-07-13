@@ -274,7 +274,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 	protected void showDialog() {
 		// initialize components
 		progressBar = new JProgressBar();
-		statusLabel = new JLabel(getLoc().getPlain("UploadPrepare") + " ...");
+		statusLabel = new JLabel(getLoc().getMenu("UploadPrepare") + " ...");
 
 		// setup buttons
 		abortButton = new JButton(getLoc().getMenu("Close"));

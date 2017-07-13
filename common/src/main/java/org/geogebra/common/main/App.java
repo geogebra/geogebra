@@ -4709,15 +4709,15 @@ public abstract class App implements UpdateSelection {
 	final public static String getLabelStyleName(App app, int id) {
 		switch (id) {
 		case (-1):
-			return app.getLocalization().getPlain("Hidden");
+			return app.getLocalization().getMenu("Hidden");
 		case (GeoElement.LABEL_NAME):
-			return app.getLocalization().getPlain("Name");
+			return app.getLocalization().getMenu("Name");
 		case (GeoElement.LABEL_NAME_VALUE):
-			return app.getLocalization().getPlain("NameAndValue");
+			return app.getLocalization().getMenu("NameAndValue");
 		case (GeoElement.LABEL_VALUE):
-			return app.getLocalization().getPlain("Value");
+			return app.getLocalization().getMenu("Value");
 		case (GeoElement.LABEL_CAPTION):
-			return app.getLocalization().getPlain("Caption");
+			return app.getLocalization().getMenu("Caption");
 		default:
 			return "";
 		}

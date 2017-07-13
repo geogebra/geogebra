@@ -890,7 +890,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		lblUsedTools.setText(loc.getMenu("Toolbar"));
 		lblAllTools.setText(loc.getMenu("Tools"));
 		btDefalutToolbar.setText(loc.getMenu("Toolbar.ResetDefault"));
-		btApply.setText(loc.getPlain("Apply"));
+		btApply.setText(loc.getMenu("Apply"));
 	}
 
 	/**

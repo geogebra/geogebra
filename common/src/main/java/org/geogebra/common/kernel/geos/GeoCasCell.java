@@ -3009,7 +3009,7 @@ public class GeoCasCell extends GeoElement
 		final StringBuilder sbAlgebraDesc = new StringBuilder();
 		sbAlgebraDesc.append(label);
 		sbAlgebraDesc.append(' ');
-		sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
+		sbAlgebraDesc.append(getLoc().getMenu("Undefined"));
 		return sbAlgebraDesc.toString();
 
 	}

@@ -57,11 +57,11 @@ public class LineEqnModel extends MultipleOptionsModel {
 	@Override
 	public List<String> getChoiches(Localization loc) {
 
-		return Arrays.asList(loc.getPlain("ImplicitLineEquation"), // index 0
-				loc.getPlain("ExplicitLineEquation"), // index 1
-				loc.getPlain("ParametricForm"), // index 2
-				loc.getPlain("GeneralLineEquation"), // index 3
-				loc.getPlain("InputForm"));
+		return Arrays.asList(loc.getMenu("ImplicitLineEquation"), // index 0
+				loc.getMenu("ExplicitLineEquation"), // index 1
+				loc.getMenu("ParametricForm"), // index 2
+				loc.getMenu("GeneralLineEquation"), // index 3
+				loc.getMenu("InputForm"));
 
 	}
 

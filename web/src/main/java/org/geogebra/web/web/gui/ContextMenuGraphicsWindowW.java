@@ -170,7 +170,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.grid_black()
 								.getSafeUri().asString(),
-						loc.getPlain("ShowGrid"));
+						loc.getMenu("ShowGrid"));
 		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),

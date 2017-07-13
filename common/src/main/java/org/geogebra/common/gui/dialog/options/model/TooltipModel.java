@@ -17,8 +17,8 @@ public class TooltipModel extends MultipleOptionsModel {
 		return Arrays.asList(loc.getMenu("Labeling.automatic"), // index 0
 				loc.getMenu("on"), // index 1
 				loc.getMenu("off"), // index 2
-				loc.getPlain("Caption"), // index 3
-				loc.getPlain("NextCell") // index 4
+				loc.getMenu("Caption"), // index 3
+				loc.getMenu("NextCell") // index 4
 		);
 
 	}

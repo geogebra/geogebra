@@ -857,12 +857,12 @@ public class EuclidianStyleBarD extends JToolBar
 		// ========================================
 		// caption style button
 
-		String[] captionArray = new String[] { loc.getPlain("stylebar.Hidden"), // index
+		String[] captionArray = new String[] { loc.getMenu("stylebar.Hidden"), // index
 																				// 4
-				loc.getPlain("Name"), // index 0
-				loc.getPlain("NameAndValue"), // index 1
-				loc.getPlain("Value"), // index 2
-				loc.getPlain("Caption") // index 3
+				loc.getMenu("Name"), // index 0
+				loc.getMenu("NameAndValue"), // index 1
+				loc.getMenu("Value"), // index 2
+				loc.getMenu("Caption") // index 3
 		};
 
 		btnLabelStyle = new PopupMenuButtonD(app, captionArray, -1, 1,
@@ -1076,9 +1076,9 @@ public class EuclidianStyleBarD extends JToolBar
 
 						if (hasFillable) {
 							setToolTipText(
-									loc.getPlain("stylebar.ColorTransparency"));
+									loc.getMenu("stylebar.ColorTransparency"));
 						} else {
-							setToolTipText(loc.getPlain("stylebar.Color"));
+							setToolTipText(loc.getMenu("stylebar.Color"));
 						}
 
 						setSliderValue((int) Math.round(alpha * 100));
@@ -1253,7 +1253,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// ========================================
 		// bold text button
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
-				loc.getPlain("Bold").substring(0, 1), app.getPlainFont(), true,
+				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
 		btnBold = new MyToggleButtonD(boldIcon, iconHeight) {
 
@@ -1284,7 +1284,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// ========================================
 		// italic text button
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
-				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButtonD(italicIcon, iconHeight) {
 

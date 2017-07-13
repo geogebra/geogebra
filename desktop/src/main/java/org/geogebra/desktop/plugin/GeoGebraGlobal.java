@@ -120,7 +120,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		sb.append(": ");
 		sb.append(argNumber);
 		sb.append("\n\n");
-		sb.append(loc.getPlain("Syntax"));
+		sb.append(loc.getMenu("Syntax"));
 		sb.append(":\n");
 		sb.append(syntax);
 		return sb.toString();

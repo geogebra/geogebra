@@ -468,8 +468,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 					}
 				}
 				if (!commandFound) {
-					Object[] options = { loc.getPlain("OK"),
-							loc.getPlain("ShowOnlineHelp") };
+					Object[] options = { loc.getMenu("OK"),
+							loc.getMenu("ShowOnlineHelp") };
 					int n = JOptionPane.showOptionDialog(app.getMainComponent(),
 							loc.getMenu(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
@@ -977,7 +977,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// show help if available
 		if (help != null) {
 			app.showError(new MyError(loc,
-					loc.getPlain("Syntax") + ":\n" + help, cmd, null));
+					loc.getMenu("Syntax") + ":\n" + help, cmd, null));
 		} else {
 			app.getGuiManager().openCommandHelp(null);
 		}

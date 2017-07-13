@@ -3682,32 +3682,32 @@ public abstract class GeoConicND extends GeoQuadricND
 			// do nothing
 			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
-			ret = getLoc().getPlain("CircleEquation");
+			ret = getLoc().getMenu("CircleEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			ret = getLoc().getPlain("EllipseEquation");
+			ret = getLoc().getMenu("EllipseEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			ret = getLoc().getPlain("HyperbolaEquation");
+			ret = getLoc().getMenu("HyperbolaEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			ret = getLoc().getPlain("ParabolaEquation");
+			ret = getLoc().getMenu("ParabolaEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			ret = getLoc().getPlain("DoubleLineEquation");
+			ret = getLoc().getMenu("DoubleLineEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			ret = getLoc().getPlain("ConicLinesEquation");
+			ret = getLoc().getMenu("ConicLinesEquation");
 			break;
 
 		case GeoConicNDConstants.CONIC_LINE:
-			ret = getLoc().getPlain("DoubleLineEquation");
+			ret = getLoc().getMenu("DoubleLineEquation");
 			break;
 
 		}

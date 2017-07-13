@@ -4334,12 +4334,12 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 		model = new ButtonSizeModel(app);
 		model.setListener(this);
 
-		labelWidth = new JLabel(loc.getPlain("Width"));
-		labelHeight = new JLabel(loc.getPlain("Height"));
+		labelWidth = new JLabel(loc.getMenu("Width"));
+		labelHeight = new JLabel(loc.getMenu("Height"));
 		labelPixelW = new JLabel(loc.getMenu("Pixels.short"));
 		labelPixelH = new JLabel(loc.getMenu("Pixels.short"));
 		setLayout(new FlowLayout(FlowLayout.LEFT));
-		cbUseFixedSize = new JCheckBox(loc.getPlain("fixed"));
+		cbUseFixedSize = new JCheckBox(loc.getMenu("fixed"));
 		tfButtonWidth = new MyTextFieldD(app, 3);
 		tfButtonHeight = new MyTextFieldD(app, 3);
 		tfButtonHeight.setInputVerifier(new SizeVerify());
@@ -4365,12 +4365,12 @@ class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,
 
 	@Override
 	public void setLabels() {
-		setBorder(BorderFactory.createTitledBorder(loc.getPlain("ButtonSize")));
-		labelWidth.setText(loc.getPlain("Width"));
-		labelHeight.setText(loc.getPlain("Height"));
+		setBorder(BorderFactory.createTitledBorder(loc.getMenu("ButtonSize")));
+		labelWidth.setText(loc.getMenu("Width"));
+		labelHeight.setText(loc.getMenu("Height"));
 		labelPixelW.setText(loc.getMenu("Pixels.short"));
 		labelPixelH.setText(loc.getMenu("Pixels.short"));
-		cbUseFixedSize.setText(loc.getPlain("fixed"));
+		cbUseFixedSize.setText(loc.getMenu("fixed"));
 
 	}
 
@@ -4518,8 +4518,8 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 
 	@Override
 	public void setLabels() {
-		nameLabel.setText(loc.getPlain("Name") + ":");
-		defLabel.setText(loc.getPlain("Definition") + ":");
+		nameLabel.setText(loc.getMenu("Name") + ":");
+		defLabel.setText(loc.getMenu("Definition") + ":");
 		captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 	}
 

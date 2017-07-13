@@ -79,7 +79,7 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			return getLoc().getPlain(label);
+			return getLoc().getMenu(label);
 		}
 		return label;
 

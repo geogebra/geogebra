@@ -73,8 +73,8 @@ public class GeoGebraColorChooser extends JColorChooser {
 
 	public void setLabels() {
 		Localization loc = app.getLocalization();
-		UIManager.put("ColorChooser.okText", loc.getPlain("OK"));
-		UIManager.put("ColorChooser.cancelText", loc.getPlain("Cancel"));
+		UIManager.put("ColorChooser.okText", loc.getMenu("OK"));
+		UIManager.put("ColorChooser.cancelText", loc.getMenu("Cancel"));
 		UIManager.put("ColorChooser.resetText", loc.getMenu("Reset"));
 
 		AbstractColorChooserPanel[] panels = getChooserPanels();

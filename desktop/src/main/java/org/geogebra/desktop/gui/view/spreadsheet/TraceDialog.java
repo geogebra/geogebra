@@ -332,7 +332,7 @@ public class TraceDialog extends javax.swing.JDialog
 		locationPanel.setMinimumSize(new Dimension(200, 30));
 
 		locationTitle = BorderFactory
-				.createTitledBorder(loc.getPlain("Location"));
+				.createTitledBorder(loc.getMenu("Location"));
 		locationPanel
 				.setBorder(BorderFactory.createTitledBorder(locationTitle));
 
@@ -348,12 +348,12 @@ public class TraceDialog extends javax.swing.JDialog
 		JPanel pane = new JPanel();
 		pane.setLayout(new BoxLayout(pane, BoxLayout.Y_AXIS));
 		traceModeTitle = BorderFactory
-				.createTitledBorder(loc.getPlain("TraceMode"));
+				.createTitledBorder(loc.getMenu("TraceMode"));
 		pane.setBorder(BorderFactory.createTitledBorder(traceModeTitle));
 
-		traceModeValues = new JRadioButton(loc.getPlain(""));
+		traceModeValues = new JRadioButton(loc.getMenu(""));
 		traceModeValues.addActionListener(this);
-		traceModeCopy = new JRadioButton(loc.getPlain(""));
+		traceModeCopy = new JRadioButton(loc.getMenu(""));
 		traceModeCopy.addActionListener(this);
 		ButtonGroup group = new ButtonGroup();
 		group.add(traceModeValues);
@@ -373,10 +373,10 @@ public class TraceDialog extends javax.swing.JDialog
 		// optionsPanel.setBorder(BorderFactory.createEmptyBorder(0,5,5,5));
 
 		optionsTitle = BorderFactory
-				.createTitledBorder(loc.getPlain("Options"));
+				.createTitledBorder(loc.getMenu("Options"));
 		optionsPanel.setBorder(BorderFactory.createTitledBorder(optionsTitle));
 
-		cbShowLabel = new JCheckBox(loc.getPlain("ShowLabel"));
+		cbShowLabel = new JCheckBox(loc.getMenu("ShowLabel"));
 		cbShowLabel.addActionListener(this);
 		optionsPanel.add(cbShowLabel);
 
@@ -415,7 +415,7 @@ public class TraceDialog extends javax.swing.JDialog
 		btClose = new JButton(loc.getMenu("Close"));
 		btClose.addActionListener(this);
 
-		btCancel = new JButton(loc.getPlain("Cancel"));
+		btCancel = new JButton(loc.getMenu("Cancel"));
 		btCancel.addActionListener(this);
 		JPanel closeCancelPanel = new JPanel();
 		closeCancelPanel.add(btCancel);
@@ -446,18 +446,18 @@ public class TraceDialog extends javax.swing.JDialog
 
 		lblStartRow.setText(loc.getMenu("StartRow") + ": ");
 		cbRowLimit.setText(loc.getMenu("RowLimit") + ": ");
-		cbShowLabel.setText(loc.getPlain("ShowLabel"));
+		cbShowLabel.setText(loc.getMenu("ShowLabel"));
 		cbTraceList.setText(loc.getMenu("TraceToList"));
 
-		traceModeTitle.setTitle(loc.getPlain("TraceMode"));
+		traceModeTitle.setTitle(loc.getMenu("TraceMode"));
 		setTraceModeLabels();
 
 		cbResetColumns.setText(loc.getMenu("ColumnReset"));
 		btClose.setText(loc.getMenu("Close"));
-		btCancel.setText(loc.getPlain("Cancel"));
+		btCancel.setText(loc.getMenu("Cancel"));
 		prompt.setText(loc.getMenu("SelectAnObjectToTrace"));
 
-		btRemove.setText(loc.getPlain("Remove"));
+		btRemove.setText(loc.getMenu("Remove"));
 		btAdd.setToolTipText(loc.getMenuTooltip("AddTrace"));
 		btErase.setText(loc.getMenuTooltip("ClearTrace"));
 

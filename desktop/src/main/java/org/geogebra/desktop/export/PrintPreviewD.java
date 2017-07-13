@@ -442,11 +442,11 @@ public class PrintPreviewD extends JDialog {
 
 			@Override
 			public void run(int viewID, String viewName) {
-				list.add(loc.getPlain(viewName));
+				list.add(loc.getMenu(viewName));
 
 			}
 		});
-		list.add(loc.getPlain("AllViews"));
+		list.add(loc.getMenu("AllViews"));
 
 		String[] s = new String[list.size()];
 		list.toArray(s);

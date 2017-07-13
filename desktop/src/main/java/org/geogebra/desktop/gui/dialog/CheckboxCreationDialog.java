@@ -155,10 +155,10 @@ public class CheckboxCreationDialog extends JDialog implements
 				listModel, comboModel, false, false, null);
 
 		// buttons
-		btApply = new JButton(loc.getPlain("Apply"));
+		btApply = new JButton(loc.getMenu("Apply"));
 		btApply.setActionCommand("Apply");
 		btApply.addActionListener(this);
-		btCancel = new JButton(loc.getPlain("Cancel"));
+		btCancel = new JButton(loc.getMenu("Cancel"));
 		btCancel.setActionCommand("Cancel");
 		btCancel.addActionListener(this);
 		btPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));

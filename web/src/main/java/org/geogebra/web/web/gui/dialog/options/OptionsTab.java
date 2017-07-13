@@ -1206,11 +1206,11 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			labelWidth.setText(loc.getPlain("Width"));
-			labelHeight.setText(loc.getPlain("Height"));
+			labelWidth.setText(loc.getMenu("Width"));
+			labelHeight.setText(loc.getMenu("Height"));
 			labelPixelW.setText(loc.getMenu("Pixels.short"));
 			labelPixelH.setText(loc.getMenu("Pixels.short"));
-			cbUseFixedSize.setText(loc.getPlain("fixed"));
+			cbUseFixedSize.setText(loc.getMenu("fixed"));
 
 		}
 
@@ -1316,7 +1316,7 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			super.setLabels();
-			String strLabelStart = localization.getPlain("CornerPoint");
+			String strLabelStart = localization.getMenu("CornerPoint");
 			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
 		}
 
@@ -1446,7 +1446,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			getLabel().setText(loc.getPlain(getTitle()) + ":");
+			getLabel().setText(loc.getMenu(getTitle()) + ":");
 		}
 	} // StartPointPanel
 
@@ -1478,7 +1478,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			setTitle(loc.getPlain(getTitle()));
+			setTitle(loc.getMenu(getTitle()));
 			ListBox lb = getListBox();
 			if (getModel().hasGeos() && getModel().checkGeos()) {
 				int selectedIndex = lb.getSelectedIndex();

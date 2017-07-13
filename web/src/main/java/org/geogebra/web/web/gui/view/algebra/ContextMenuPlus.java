@@ -56,7 +56,7 @@ public class ContextMenuPlus implements SetLabels {
 		String img = StyleBarResources.INSTANCE.description().getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
-				loc.getPlain("Expression"), true), true,
+				loc.getMenu("Expression"), true), true,
 				new Command() {
 					
 					@Override
@@ -75,7 +75,7 @@ public class ContextMenuPlus implements SetLabels {
 				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getPlain("Text"), true), true,
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Text"), true), true,
 				new Command() {
 					
 					@Override
@@ -94,7 +94,7 @@ public class ContextMenuPlus implements SetLabels {
 				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(
-				MainMenu.getMenuBarHtml(img, loc.getPlain("Image"), true), true,
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Image"), true), true,
 				new Command() {
 					
 					@Override

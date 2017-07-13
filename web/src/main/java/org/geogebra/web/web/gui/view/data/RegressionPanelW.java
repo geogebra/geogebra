@@ -290,7 +290,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 		catch (Exception e) {
 			e.printStackTrace();
-			eqn = "\\text{" + loc.getPlain("NotAvailable") + "}";
+			eqn = "\\text{" + loc.getMenu("NotAvailable") + "}";
 
 		}
 		DrawEquationW.paintOnCanvas(sample, eqn, latexCanvas,

@@ -594,7 +594,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	public void setLabels() {
 		Localization loc = app.getLocalization();
 		fillTypeTitle.setText(loc.getMenu("Filling") + ":");
-		cbFillInverse.setText(loc.getPlain("InverseFilling"));
+		cbFillInverse.setText(loc.getMenu("InverseFilling"));
 		int idx = lbFillType.getSelectedIndex();
 		lbFillType.clear();
 		model.fillModes(loc);

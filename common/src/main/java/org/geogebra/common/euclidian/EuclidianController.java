@@ -5440,7 +5440,7 @@ public abstract class EuclidianController {
 			// maybe we need a number
 			if (macroInput[index].equals(Test.GEONUMERIC)) {
 				app.getDialogManager().showNumberInputDialog(
-						macro.getToolOrCommandName(), loc.getPlain("Numeric"),
+						macro.getToolOrCommandName(), loc.getMenu("Numeric"),
 						null, callback3);
 
 			}
@@ -5448,7 +5448,7 @@ public abstract class EuclidianController {
 			// maybe we need an angle
 			else if (macroInput[index].equals(Test.GEOANGLE)) {
 				app.getDialogManager().showAngleInputDialog(
-						macro.getToolOrCommandName(), loc.getPlain("Angle"),
+						macro.getToolOrCommandName(), loc.getMenu("Angle"),
 						Unicode.FORTY_FIVE_DEGREES_STRING, callback3);
 
 			}

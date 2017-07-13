@@ -186,7 +186,7 @@ public class OptionsAlgebraD extends OptionsAlgebra
 
 	@Override
 	public void setLabels() {
-		auxiliary.setText(loc.getPlain("AuxiliaryObjects"));
+		auxiliary.setText(loc.getMenu("AuxiliaryObjects"));
 		descriptionLabel.setText(loc.getMenu("AlgebraDescriptions"));
 		sortLabel.setText(loc.getMenu("SortBy") + ":");
 		updateDescription();

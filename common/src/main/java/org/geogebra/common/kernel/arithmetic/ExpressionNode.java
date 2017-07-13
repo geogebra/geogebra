@@ -3491,7 +3491,7 @@ public class ExpressionNode extends ValidExpression
 		case FREEHAND:
 			// need to output eg freehand(ggbtmpvarx) so that Derivative fails
 			// rather than giving zero
-			sb.append(loc.getPlain("Function.freehand"));
+			sb.append(loc.getMenu("Function.freehand"));
 			sb.append('(');
 			sb.append(leftStr);
 			sb.append(')');

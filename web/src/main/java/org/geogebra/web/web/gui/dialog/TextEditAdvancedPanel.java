@@ -127,7 +127,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 	public void setLabels() {
 		previewLabel.setText(loc.getMenu("Preview"));
-		latexLabel.setText(loc.getPlain("LaTeXFormula"));
+		latexLabel.setText(loc.getMenu("LaTeXFormula"));
 	}
 
 	// =====================================================

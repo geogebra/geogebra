@@ -101,14 +101,14 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnFormulaBar.addActionListener(this);
 
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
-				loc.getPlain("Bold").substring(0, 1), app.getPlainFont(), true,
+				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
 		btnBold = new MyToggleButtonD(boldIcon, iconHeight);
 		btnBold.addActionListener(this);
 		btnBold.setPreferredSize(iconDimension);
 
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
-				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic = new MyToggleButtonD(italicIcon, iconHeight);
 		btnItalic.addActionListener(this);
@@ -180,12 +180,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 				.setToolTipText(loc.getPlainTooltip("stylebar.AlignRight"));
 
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
-				loc.getPlain("Bold").substring(0, 1), app.getPlainFont(), true,
+				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
 				false, true, iconDimension, Color.black, null);
 		btnBold.setIcon(boldIcon);
 
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
-				loc.getPlain("Italic").substring(0, 1), app.getPlainFont(),
+				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
 				false, true, true, iconDimension, Color.black, null);
 		btnItalic.setIcon(italicIcon);
 

@@ -242,7 +242,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			}
 		});
 		// buttons
-		btOK = new Button(loc.getPlain("OK"));
+		btOK = new Button(loc.getMenu("OK"));
 		btOK.addClickHandler(new ClickHandler() {
 			
 			@Override
@@ -251,7 +251,7 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			}
 		});
 		
-		btCancel = new Button(loc.getPlain("Cancel"));
+		btCancel = new Button(loc.getMenu("Cancel"));
 		btCancel.addStyleName("cancelBtn");
 		btCancel.addClickHandler(new ClickHandler() {
 			

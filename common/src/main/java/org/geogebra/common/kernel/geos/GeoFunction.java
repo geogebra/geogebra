@@ -2696,7 +2696,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 						sbLaTeX.append("& : ");
 						if (i == cases.size() - 1 && complete) {
 							sbLaTeX.append("\\text{");
-							sbLaTeX.append(getLoc().getPlain("otherwise"));
+							sbLaTeX.append(getLoc().getMenu("otherwise"));
 							sbLaTeX.append("}");
 						} else {
 

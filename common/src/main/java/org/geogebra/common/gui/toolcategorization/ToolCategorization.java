@@ -149,7 +149,7 @@ public class ToolCategorization {
      * @return localized header for this category
      */
     public String getLocalizedHeader(Category category) {
-        return app.getLocalization().getPlain(category.getHeader());
+		return app.getLocalization().getMenu(category.getHeader());
     }
 
     /**

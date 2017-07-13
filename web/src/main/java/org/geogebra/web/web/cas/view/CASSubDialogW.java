@@ -78,7 +78,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	private void createGUI() {
 		Caption caption = new CaptionImpl();
 		Localization loc = app.getLocalization();
-		caption.setText(loc.getPlain("Substitute") + " - "
+		caption.setText(loc.getMenu("Substitute") + " - "
 		        + loc.getCommand("Row") + " " + (editRow + 1));
 		dialog = new DialogBox(true, false, caption);
 		dialog.addStyleName("CAS_subDialog");
@@ -109,7 +109,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		btNumeric.setTitle(loc.getMenuTooltip("Numeric"));
 		btNumeric.addClickHandler(this);
 
-		btSub = new Button(loc.getPlain(SUB_SYM));
+		btSub = new Button(loc.getMenu(SUB_SYM));
 		btSub.setTitle(loc.getMenuTooltip("Substitute"));
 		btSub.addClickHandler(this);
 
@@ -159,7 +159,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 			}
 		};
 		Localization loc = app.getLocalization();
-		table.addColumn(oldVal, loc.getPlain("OldExpression"));
+		table.addColumn(oldVal, loc.getMenu("OldExpression"));
 		table.setColumnWidth(oldVal, 40, Unit.PX);
 		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			@Override
@@ -188,7 +188,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 				return object.getValue();
 			}
 		};
-		table.addColumn(newVal, loc.getPlain("NewExpression"));
+		table.addColumn(newVal, loc.getMenu("NewExpression"));
 		table.setColumnWidth(newVal, 40, Unit.PX);
 		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			@Override

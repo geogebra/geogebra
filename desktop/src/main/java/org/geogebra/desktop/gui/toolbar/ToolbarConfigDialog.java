@@ -71,7 +71,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 			if (panel.canCustomizeToolbar()) {
 				int viewId = panel.getViewId();
 				switcher.addItem(new KeyValue(viewId,
-						loc.getPlain(panel.getViewTitle())));
+						loc.getMenu(panel.getViewTitle())));
 				if (viewId == toolbarId) {
 					selIdx = switcher.getItemCount() - 1;
 				}

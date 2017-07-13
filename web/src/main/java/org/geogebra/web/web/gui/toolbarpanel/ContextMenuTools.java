@@ -155,7 +155,7 @@ public class ContextMenuTools implements SetLabels {
 				.getMenuBarHtml(
 						MaterialDesignResources.INSTANCE.filter_list_black()
 								.getSafeUri().asString(),
-						loc.getPlain("Tool.Filter"));
+						loc.getMenu("Tool.Filter"));
 		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),

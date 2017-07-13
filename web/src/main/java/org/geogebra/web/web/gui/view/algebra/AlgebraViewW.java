@@ -866,9 +866,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		TreeItem node;
 		switch (getTreeMode()) {
 		case DEPENDENCY:
-			setUserObject(indNode, loc.getPlain("FreeObjects"), "1");
-			setUserObject(depNode, loc.getPlain("DependentObjects"), "2");
-			setUserObject(auxiliaryNode, loc.getPlain("AuxiliaryObjects"), "3");
+			setUserObject(indNode, loc.getMenu("FreeObjects"), "1");
+			setUserObject(depNode, loc.getMenu("DependentObjects"), "2");
+			setUserObject(auxiliaryNode, loc.getMenu("AuxiliaryObjects"), "3");
 			break;
 		case TYPE:
 			for (Entry<String, TreeItem> entry : typeNodesMap.entrySet()) {

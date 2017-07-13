@@ -78,7 +78,7 @@ public class MacroProcessor extends CommandProcessor {
 		for (int i = 0; i < macroInputTypes.length; i++) {
 			if (!macroInputTypes[i].check(arg[i])) {
 				StringBuilder sb = new StringBuilder();
-				sb.append(loc.getPlain("Macro"));
+				sb.append(loc.getMenu("Macro"));
 				sb.append(" ");
 				sb.append(macro.getCommandName());
 				sb.append(":\n");

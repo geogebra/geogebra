@@ -280,7 +280,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 								}
 								s.append("]");
 								if (relTool) {
-									s.insert(0, getLoc().getPlain("not") + " ");
+									s.insert(0, getLoc().getMenu("not") + " ");
 								}
 							}
 						}

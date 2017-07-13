@@ -60,7 +60,7 @@ public class GroupOptionsPanel implements IOptionPanel {
 		String ret = loc.getMenu(titleId);
 		if (ret.equals(titleId)) {
 			// needed for eg Miscellaneous
-			ret = loc.getPlain(titleId);
+			ret = loc.getMenu(titleId);
 		}
 		return ret;
     }

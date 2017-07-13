@@ -92,7 +92,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 						.getDockManager().getPanel(App.VIEW_CAS).getFrame());
 		dialog.setModal(false);
 		Localization loc = getApp().getLocalization();
-		dialog.setTitle(loc.getPlain("Substitute") + " - "
+		dialog.setTitle(loc.getMenu("Substitute") + " - "
 				+ loc.getCommand("Row") + " " + (editRow + 1));
 		dialog.setResizable(true);
 
@@ -101,8 +101,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		initData(cell);
 
 		Vector<String> header = new Vector<String>();
-		header.add(loc.getPlain("OldExpression"));
-		header.add(loc.getPlain("NewExpression"));
+		header.add(loc.getMenu("OldExpression"));
+		header.add(loc.getMenu("NewExpression"));
 		replaceTable = new JTable(data, header);
 		replaceTable.setDefaultEditor(Object.class, new MathTextCellEditor());
 		replaceTable.getTableHeader().setReorderingAllowed(false);
@@ -152,7 +152,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 		btNumeric.setActionCommand(ACTION_NUMERIC);
 		btNumeric.addActionListener(this);
 
-		btSub = new JButton(loc.getPlain(SUB_SYM));
+		btSub = new JButton(loc.getMenu(SUB_SYM));
 		btSub.setToolTipText(loc.getMenuTooltip("Substitute"));
 		btSub.setActionCommand(ACTION_SUBSTITUTE);
 		btSub.addActionListener(this);

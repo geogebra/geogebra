@@ -469,7 +469,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		if(app.getLAF().copyToClipboardSupported()){
 			MenuItem miAsPicture = new MenuItem(
-					loc.getPlain("ExportAsPicture"),
+					loc.getMenu("ExportAsPicture"),
 			        new Command() {
 
 				        @Override
