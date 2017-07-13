@@ -54,6 +54,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private GCheckMarkLabel cmName;
 	private GCheckMarkLabel cmValue;
 	private NameValueModel model;
+	private TabbedKeyboard kbd;
 	/**
 	 * label related popup
 	 * 
@@ -141,7 +142,11 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		main.add(cmValue.getPanel());
 		main.setStyleName("labelPopupPanel");
 		getMyPopup().setWidget(main);
+		kbd = (TabbedKeyboard) ((GuiManagerW) app.getGuiManager())
+				.getOnScreenKeyboard(tfName, null);
+		getMyPopup().addAutoHidePartner(kbd.getElement());
 		setLabels();
+
 	}
 
 
@@ -210,8 +215,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	protected void onClickAction() {
 		model.setGeos(app.getSelectionManager().getSelectedGeos().toArray());
 		model.updateProperties();
-		TabbedKeyboard kbd = (TabbedKeyboard) ((GuiManagerW) app
-				.getGuiManager()).getOnScreenKeyboard(tfName, null);
 		kbd.selectAbc();
 		tfName.requestFocus();
 	}
