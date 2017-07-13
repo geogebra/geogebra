@@ -70,6 +70,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 						MaterialDesignResources.INSTANCE.label_settings(),
 						this);
 		createPopup();
+
 		addStyleName("MyCanvasButton-borderless");
 		model = new NameValueModel(app, this);
 	}
@@ -90,6 +91,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 			}
 		});
+
+		getMyPopup().addCloseHandler(this);
+
 		createDialog();
 
 	}
@@ -160,7 +164,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		// handle close
+		onEnter();
 	}
 	
 
