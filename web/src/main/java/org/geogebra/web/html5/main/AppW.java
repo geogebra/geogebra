@@ -1146,11 +1146,17 @@ public abstract class AppW extends App implements SetLabels {
 
 	public boolean openFile(JavaScriptObject fileToHandle,
 			JavaScriptObject callback) {
+		resetPerspectiveParam();
+		return doOpenFile(fileToHandle, callback);
+	}
+
+	public void resetPerspectiveParam() {
 		if (getArticleElement() != null) {
 			getArticleElement().setAttribute("data-param-perspective", "");
 		}
-		return doOpenFile(fileToHandle, callback);
+
 	}
+
 	/**
 	 * Opens the ggb or ggt file
 	 * 

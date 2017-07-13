@@ -73,11 +73,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private void resetPerspective() {
-		if (((AppW) app).getArticleElement() != null) {
-			((AppW) app).getArticleElement().setAttribute(
-					"data-param-perspective", "");
-		}
-
+		((AppW) app).resetPerspectiveParam();
 	}
 
 	public void setBase64(String base64, final JavaScriptObject callback) {
