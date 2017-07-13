@@ -1,6 +1,5 @@
 package org.geogebra.web.web.euclidian;
 
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -42,8 +41,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private static final int LABEL_MODE_NAME_AND_VALUE = 1;
 	private static final int LABEL_MODE_VALUE_ONLY = 2;
 
-	private EuclidianController ec;
-
 	/**
 	 * popup menu
 	 */
@@ -71,7 +68,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 						GGWToolBar.getMyIconResourceBundle()
 								.mode_showhidelabel_32(),
 						this);
-		ec = app.getActiveEuclidianView().getEuclidianController();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
 		model = new NameValueModel(app, this);
@@ -107,7 +103,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
-				model.applyNameChange(tfName.getText(), app.getErrorHandler());
+				onEnter();
 			}
 		});
 
@@ -116,8 +112,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					model.applyNameChange(tfName.getText(),
-							app.getErrorHandler());
+					onEnter();
 
 				}
 			}
@@ -146,6 +141,14 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		setLabels();
 	}
 
+
+	/**
+	 * Submit the change
+	 */
+	protected void onEnter() {
+		model.applyNameChange(tfName.getText(), app.getErrorHandler());
+
+	}
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
