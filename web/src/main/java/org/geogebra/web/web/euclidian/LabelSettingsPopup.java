@@ -16,7 +16,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ContextMenuGeoElementW;
-import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -65,8 +64,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		loc = app.getLocalization();
 		ImgResourceHelper
 				.setIcon(
-						GGWToolBar.getMyIconResourceBundle()
-								.mode_showhidelabel_32(),
+						MaterialDesignResources.INSTANCE.label_settings(),
 						this);
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
