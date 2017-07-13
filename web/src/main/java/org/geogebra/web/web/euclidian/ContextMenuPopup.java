@@ -23,6 +23,9 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
+/**
+ * context menu
+ */
 public class ContextMenuPopup extends MyCJButton
 		implements CloseHandler<GPopupPanel>, MouseOverHandler {
 
@@ -30,7 +33,15 @@ public class ContextMenuPopup extends MyCJButton
 	private GPoint location;
 	private boolean menuShown = false;
 	private AppW app;
+	/**
+	 * context menu
+	 */
 	ContextMenuGeoElementW popup;
+
+	/**
+	 * @param app
+	 *            - application
+	 */
 	public ContextMenuPopup(AppW app) {
 		super();
 		this.app = app;
@@ -137,6 +148,9 @@ public class ContextMenuPopup extends MyCJButton
 		return addDomHandler(handler, MouseOverEvent.getType());
 	}
 
+	/**
+	 * show the menu
+	 */
 	public void showMenu() {
 		updateLocation();
 		popup.update();
@@ -149,6 +163,9 @@ public class ContextMenuPopup extends MyCJButton
 
 	}
 
+	/**
+	 * hide the menu
+	 */
 	public void hideMenu() {
 		menuShown = false;
 		ImgResourceHelper.setIcon(app.has(Feature.NEW_TOOLBAR)
@@ -163,13 +180,19 @@ public class ContextMenuPopup extends MyCJButton
 		//hideMenu();
 	}
 	
+	/**
+	 * @return in the menu open
+	 */
 	public boolean isMenuShown() {
 		return menuShown;
 	}
 
+	/**
+	 * close popup
+	 */
 	public void close() {
 		popup.getWrappedPopup().hide();
-
+		hideMenu();
 	}
 
 	@Override
