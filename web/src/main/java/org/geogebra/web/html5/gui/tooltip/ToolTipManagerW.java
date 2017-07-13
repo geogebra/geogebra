@@ -10,7 +10,6 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -348,10 +347,8 @@ public final class ToolTipManagerW {
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
 					}
-					((GuiManagerW) appw.getGuiManager()).getToolbarPanelV2()
-							.moveMoveFloatingButtonUpWithTooltip((int) left,
-									bottomInfoTipPanel.getOffsetWidth(),
-									isSmall);
+					appw.getGuiManager().moveMoveFloatingButtonUp((int) left,
+							bottomInfoTipPanel.getOffsetWidth(), isSmall);
 				}
 
 			} else {
@@ -441,8 +438,9 @@ public final class ToolTipManagerW {
 			bottomInfoTipPanel.removeFromParent();
 		}
 		if (app != null && app.has(Feature.NEW_TOOLBAR)) {
-			((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
-					.moveMoveFloatingButtonDownWithTooltip(isSmall);
+			app.getGuiManager().moveMoveFloatingButtonDown(isSmall);
+			// ((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
+			// .moveMoveFloatingButtonDownWithTooltip(isSmall);
 		}
 		lastTipVisible = false;
 	}

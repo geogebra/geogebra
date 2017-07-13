@@ -28,6 +28,10 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public String getToolbarDefinition(Integer viewId);
 
+	void moveMoveFloatingButtonUp(int left, int width, boolean isSmall);
+
+	void moveMoveFloatingButtonDown(boolean isSmall);
+
 	public void removeFromToolbarDefinition(int mode);
 
 	public String getCustomToolbarDefinition();
@@ -119,4 +123,5 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public boolean getKeyboardShouldBeShownFlag();
 
 	public void updateFullscreen();
+
 }
