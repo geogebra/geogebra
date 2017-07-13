@@ -4225,6 +4225,9 @@ public abstract class App implements UpdateSelection {
 		case DELETE_BUTTON_BEHAVIOR_FIX:
 			return prerelease;
 
+		case AND_TRANSPARENT_STATUSBAR:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
