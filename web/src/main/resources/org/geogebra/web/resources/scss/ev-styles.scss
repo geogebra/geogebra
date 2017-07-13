@@ -166,6 +166,46 @@
     			cursor: pointer;
     		}
     	}
+    
+    	.labelPopupPanel {
+    		padding: 8px 8px;
+    		width: 192px;
+    		
+    		.panelRow {
+    			height: 32px !important;
+    			
+    			.gwt-Label {
+    				line-height: 30px;
+    				cursor: default;
+				}
+    			
+    			.AutoCompleteTextFieldW {
+    				width: 134px;
+    				margin: 0px !important;
+    				border-radius: 2px;	
+    				
+    				.TextField {
+    					padding: 0px;
+   						padding-left: 8px;
+   						margin-bottom: 2px;
+    					border: none;
+    					border-bottom: 1px solid #dcdcdc;
+    					background: transparent;
+    					box-shadow: none;
+    					border-radius: 0px !important;
+    				}
+    			}
+    		}
+    		
+    		.checkMarkMenuItem {
+    			cursor: pointer;
+    		
+    			img {
+    				opacity: 0.54;
+    				margin-top: -2px;
+    			}	    				
+    		}
+    	}
 	}
 
 	/*point/line style table*/

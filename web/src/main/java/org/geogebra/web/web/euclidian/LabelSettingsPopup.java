@@ -123,6 +123,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 		Command nameValueCmd = new Command() {
 
+			@Override
 			public void execute() {
 				applyCheckboxes();
 			}
@@ -138,6 +139,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		main.add(LayoutUtilW.panelRow(lblName, tfName));
 		main.add(cmName.getPanel());
 		main.add(cmValue.getPanel());
+		main.setStyleName("labelPopupPanel");
 		getMyPopup().setWidget(main);
 		setLabels();
 	}
@@ -164,8 +166,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	}
 
+	@Override
 	public void setLabels() {
-		lblName.setText(loc.getPlain("Name") + ":");
+		lblName.setText(loc.getPlain("Label") + ":");
 		cmName.setText(loc.getPlain("ShowLabel"));
 		cmValue.setText(loc.getPlain("ShowValue"));
 	}
@@ -189,10 +192,12 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		model.applyModeChanges(mode, mode != -1);
 	}
 
+	@Override
 	public Object updatePanel(Object[] geos2) {
 		return null;
 	}
 
+	@Override
 	public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
 		cmName.setChecked(mode == LABEL_MODE_NAME_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE);
@@ -208,33 +213,40 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		tfName.requestFocus();
 	}
 
+	@Override
 	public void setNameText(String text) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setDefinitionText(String text) {
 		// not used here.
 	}
 
+	@Override
 	public void setCaptionText(String text) {
 		// not used here.
 	}
 
+	@Override
 	public void updateGUI(boolean showDefinition, boolean showCaption) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void updateDefLabel() {
 		// not used here.
 	}
 
+	@Override
 	public void updateCaption() {
 		// not used here.
 
 	}
 
+	@Override
 	public void updateName(String text) {
 		tfName.setText(text);
 	}
