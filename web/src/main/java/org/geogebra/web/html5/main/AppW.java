@@ -3334,7 +3334,9 @@ public abstract class AppW extends App implements SetLabels {
 		return getArticleElement().getDataParamFileName().length() > 0
 				|| getArticleElement().getDataParamBase64String().length() > 0
 				|| getArticleElement().getDataParamTubeID().length() > 0
-				|| this.getArticleElement().getDataParamJSON().length() > 0;
+				|| this.getArticleElement().getDataParamJSON().length() > 0
+				|| (getArticleElement().getDataParamApp()
+						&& Location.getParameter("state") != null);
 	}
 
 	@Override

@@ -284,41 +284,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		}
 	}
 
-	public native void initFileNameItems(GoogleDriveFileHandler fh) /*-{
-	                                                                var fileChooser = this;
-	                                                                fh.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveFileHandler::clearMaterials()();
-	                                                                function retrieveAllFiles(callback) {
-	                                                                var retrievePageOfFiles = function(request, result) {
-	                                                                request.execute(function(resp) {
-	                                                                result = result.concat(resp.items);
-	                                                                var nextPageToken = resp.nextPageToken;
-	                                                                if (nextPageToken) {
-	                                                                request = $wnd.gapi.client.drive.files.list({
-	                                                                'pageToken': nextPageToken
-	                                                                });
-	                                                                retrievePageOfFiles(request, result);
-	                                                                } else {
-	                                                                callback(result);
-	                                                                }
-	                                                                });
-	                                                                }
-	                                                                var initialRequest = $wnd.gapi.client.drive.files.list();
-	                                                                retrievePageOfFiles(initialRequest, []);
-	                                                                }
-	                                                                retrieveAllFiles(function(resp) {
-	                                                                resp.forEach(function(value, index, array) {
-	                                                                if (value.mimeType === "application/vnd.geogebra.file" ||
-	                                                                value.fileExtension === "ggb" ||
-	                                                                (value.title.lastIndexOf(".ggb") > -1)) {
-	                                                                fh.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveFileHandler::show(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)
-	                                                                (value.title,value.lastModifyingUserName,new Date(value.modifiedDate).getTime()+"", value.downloadUrl, value.description, value.id, value.thumbnailLink);
-	                                                                }
-	                                                                
-	                                                                });
-	                                                                fh.@org.geogebra.web.web.move.googledrive.operations.GoogleDriveFileHandler::done()();
-	                                                                });
-	                                                                }-*/;
-
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			openFileFromGoogleDrive(googleDriveURL);
@@ -327,9 +292,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private native void openFileFromGoogleDrive(JavaScriptObject descriptors) /*-{
 		var id = descriptors["ids"] ? descriptors["ids"][0] : undefined, _this = this;
-		request;
 		if (id !== undefined) {
-			request = $wnd.gapi.client.drive.files.get({
+			var request = $wnd.gapi.client.drive.files.get({
 				fileId : id
 			});
 			request
