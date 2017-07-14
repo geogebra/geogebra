@@ -10,21 +10,35 @@ import org.geogebra.common.cas.giac.binding.Gen;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Giac connector using C++ or JNI binding
+ */
 public abstract class CASgiacB extends CASgiac {
 
     /**
      * Giac's context.
      */
     private Context context;
+	/** result from thread */
     protected String threadResult;
 
+	/**
+	 * @param casParser
+	 *            parser
+	 */
     public CASgiacB(CASparser casParser) {
         super(casParser);
         createContext();
     }
 
+	/**
+	 * @return binding
+	 */
     protected abstract CASGiacBinding createBinding();
 
+	/**
+	 * Create context instance
+	 */
     protected void createContext() {
         try {
             CASGiacBinding binding = createBinding();
@@ -152,6 +166,12 @@ public abstract class CASgiacB extends CASgiac {
         return ret;
     }
 
+	/**
+	 * @param evaluateFunction
+	 *            function
+	 * @throws Throwable
+	 *             exception
+	 */
     protected abstract void callEvaluateFunction(Runnable evaluateFunction) throws Throwable;
 
     public boolean externalCAS() {

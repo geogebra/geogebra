@@ -367,6 +367,9 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	boolean isGeoVector();
 
+	/**
+	 * @return geo type
+	 */
 	GeoClass getGeoClassType();
 
 	/**
@@ -375,9 +378,17 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	void setAuxiliaryObject(boolean auxilliary);
 
+	/**
+	 * @param fix
+	 *            whether this should be prevented from moving
+	 */
 	void setFixed(boolean fix);
 
-	void setLabelWanted(boolean b);
+	/**
+	 * @param wanted
+	 *            whether label is needed
+	 */
+	void setLabelWanted(boolean wanted);
 
 	/**
 	 * @param colorSpace
@@ -402,11 +413,27 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	String getXMLtypeString();
 
-	void setVisibleInView3D(GeoElement geoList);
+	/**
+	 * Copy 3D visibility from other element
+	 * 
+	 * @param geo
+	 *            other element
+	 */
+	void setVisibleInView3D(GeoElement geo);
 
+	/**
+	 * @param viewSet
+	 *            set of views where this may appear
+	 */
 	void setViewFlags(List<Integer> viewSet);
 
-	void setVisibleInViewForPlane(GeoElement geoList);
+	/**
+	 * Copy plane visibility from other element
+	 * 
+	 * @param geo
+	 *            other element
+	 */
+	void setVisibleInViewForPlane(GeoElement geo);
 
 	boolean isDrawable();
 
@@ -415,6 +442,10 @@ public interface GeoElementND extends ExpressionValue {
 	 */
 	ExpressionNode getDefinition();
 
+	/**
+	 * @param def
+	 *            defining expression
+	 */
 	void setDefinition(ExpressionNode def);
 
 	/**

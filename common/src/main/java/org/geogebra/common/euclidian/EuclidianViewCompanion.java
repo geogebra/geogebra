@@ -332,6 +332,7 @@ public class EuclidianViewCompanion {
 				}
 				// Log.debug(">> x0:" + x0 + ", y0:" + y0);
 			}
+
 			view.setCoordSystem(x0, y0, evs.getXscale(), evs.getYscale(), true);
 			evs.setXminObject(view.xminObject, false);
 			evs.setXmaxObject(view.xmaxObject, false);

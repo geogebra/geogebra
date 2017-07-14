@@ -135,6 +135,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		return numeric;
 	}
 
+	/**
+	 * @param builder
+	 *            step UI builder
+	 */
 	public void getSteps(StepGuiBuilder builder) {
 		String[] equation = equations.getDefinitionNoLabel(StringTemplate.defaultTemplate).split("=");	
 

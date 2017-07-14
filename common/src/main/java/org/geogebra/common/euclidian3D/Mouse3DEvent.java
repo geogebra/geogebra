@@ -4,6 +4,10 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 
+/**
+ * 3D mouse event
+ *
+ */
 public class Mouse3DEvent extends AbstractEvent {
 
 	private GPoint point;
