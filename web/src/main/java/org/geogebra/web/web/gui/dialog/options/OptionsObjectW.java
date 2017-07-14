@@ -611,8 +611,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 
 		@Override
-		public void updateCaption() {
-			tfCaption.setText(model.getCurrentGeo().getRawCaption());
+		public void updateCaption(String text) {
+			tfCaption.setText(text);
 
 		}
 

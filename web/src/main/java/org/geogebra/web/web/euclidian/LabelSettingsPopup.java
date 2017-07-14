@@ -168,7 +168,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		onEnter();
 	}
 	
 
@@ -255,13 +254,18 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	}
 
 	@Override
-	public void updateCaption() {
-		// not used here.
-
+	public void updateCaption(String text) {
+		if (!model.isForceCaption()) {
+			return;
+		}
+		tfName.setText(text);
 	}
 
 	@Override
 	public void updateName(String text) {
+		if (model.isForceCaption()) {
+			return;
+		}
 		tfName.setText(text);
 	}
 

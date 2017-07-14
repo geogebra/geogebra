@@ -34,8 +34,8 @@ public class NameValueModel extends ShowLabelModel {
 	public void setGeos(Object[] geos) {
 		super.setGeos(geos);
 		nameModel.setGeos(geos);
-		forceCaption = ""
-				.equals(getGeoAt(0).getCaption(StringTemplate.defaultTemplate));
+		setForceCaption(!getGeoAt(0).getLabel(StringTemplate.defaultTemplate)
+				.equals(getGeoAt(0).getCaption(StringTemplate.defaultTemplate)));
 
 	}
 
@@ -56,13 +56,21 @@ public class NameValueModel extends ShowLabelModel {
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
 
-		if (forceCaption || kernel.lookupLabel(name) != null) {
+		if (isForceCaption() || kernel.lookupLabel(name) != null) {
 			applyModeChanges(MODE_CAPTION, true);
 			nameModel.applyCaptionChange(name);
-			forceCaption = true;
+			setForceCaption(true);
 		} else {
 			nameModel.applyNameChange(name, handler);
 		}
+	}
+
+	public boolean isForceCaption() {
+		return forceCaption;
+	}
+
+	public void setForceCaption(boolean forceCaption) {
+		this.forceCaption = forceCaption;
 	}
 
 }

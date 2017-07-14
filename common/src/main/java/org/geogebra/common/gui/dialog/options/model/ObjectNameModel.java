@@ -24,7 +24,7 @@ public class ObjectNameModel extends OptionsModel {
 
 		void updateDefLabel();
 
-		void updateCaption();
+		void updateCaption(final String text);
 
 		void updateName(final String text);
 	}
@@ -104,7 +104,7 @@ public class ObjectNameModel extends OptionsModel {
 																		// was
 		// currentGeo.isGeoBoolean();
 		if (showCaption) {
-			listener.updateCaption();
+			listener.updateCaption(getCurrentGeo().getRawCaption());
 		}
 		// captionLabel.setVisible(showCaption);
 		// inputPanelCap.setVisible(showCaption);
