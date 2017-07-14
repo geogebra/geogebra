@@ -59,6 +59,33 @@ public class Tools extends FlowPanel {
 	}
 
 	/**
+	 * Changes visual settings of selected mode.
+	 * 
+	 * @param mode
+	 *            the mode will be selected
+	 */
+	public void setMode(int mode) {
+		for (int i = 0; i < getWidgetCount(); i++) {
+			Widget w = getWidget(i);
+			if (w instanceof CategoryPanel) {
+				FlowPanel panelTools = ((CategoryPanel) w).getToolsPanel();
+				for (int j = 0; j < panelTools.getWidgetCount(); j++) {
+					if ((mode + "").equals(panelTools.getWidget(j).getElement()
+							.getAttribute("mode"))) {
+						panelTools.getWidget(j).getElement()
+								.setAttribute("selected", "true");
+
+					} else {
+						panelTools.getWidget(j).getElement()
+								.setAttribute("selected", "false");
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
 	 * Clears visual selection of all tools.
 	 */
 	public void clearSelectionStyle() {
@@ -137,14 +164,14 @@ public class Tools extends FlowPanel {
 					.getMenu(EuclidianConstants.getModeText(mode)));
 
 			btn.getUpFace().setImage(im);
+			btn.getElement().setAttribute("mode", mode + "");
 
 			btn.addFastClickHandler(new FastClickHandler() {
 
 				@Override
 				public void onClick(Widget source) {
 					app.setMode(mode);
-					clearSelectionStyle();
-					btn.getElement().setAttribute("selected", "true");
+					//btn.getElement().setAttribute("selected", "true");
 					if (!Browser.isMobile()) {
 						ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 						ToolTipManagerW.sharedInstance().showBottomInfoToolTip(

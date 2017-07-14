@@ -85,6 +85,16 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	/**
+	 * Changes visual settings of selected mode.
+	 * 
+	 * @param mode
+	 *            the mode will be selected
+	 */
+	public void setMode(int mode) {
+		tabTools.setMode(mode);
+	}
+
+	/**
 	 * Updates the style of undo and redo buttons accordingly of they are active
 	 * or inactive
 	 */
@@ -317,6 +327,16 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		 */
 		void setMoveMode() {
 			toolsPanel.setMoveMode();
+		}
+
+		/**
+		 * Changes visual settings of selected mode..
+		 * 
+		 * @param mode
+		 *            the mode will be selected
+		 */
+		void setMode(int mode) {
+			toolsPanel.setMode(mode);
 		}
 
 	}
