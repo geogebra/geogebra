@@ -969,19 +969,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void ensureStandardView() {
-		new Timer() {
-
-			@Override
-			public void run() {
-				if (has(Feature.CENTER_STANDARD_VIEW)) {
-					getActiveEuclidianView().setCoordSystem(
-							getActiveEuclidianView().getWidth() * 0.5,
-							getActiveEuclidianView().getHeight() * 0.5,
-							EuclidianView.SCALE_STANDARD,
-							EuclidianView.SCALE_STANDARD);
-				}
-			}
-
-		}.schedule(600);
+		getActiveEuclidianView()
+				.setKeepCenter(has(Feature.CENTER_STANDARD_VIEW));
 	}
 }
