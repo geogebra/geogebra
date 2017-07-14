@@ -168,6 +168,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
+		// TODO
 	}
 	
 

@@ -3614,4 +3614,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	public void ensureStandardView() {
+		// only with GUI
+	}
+
 }
