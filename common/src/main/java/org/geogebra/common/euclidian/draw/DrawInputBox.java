@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -167,10 +166,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			if (!isSelectedForInput()) {
-				Log.debug("[DF] keyReleased NOT " + "for " + labelDesc);
 				return;
 			}
-			Log.debug("[DF] keyReleased for " + labelDesc);
 
 			AutoCompleteTextField tf = getTextField();
 
@@ -431,7 +428,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	 *            input string
 	 */
 	public void setFocus(final String str) {
-		Log.debug("[DrawTextFied] setFocus: " + str);
 		if (str != null && !"\t".equals(str)) {
 			getTextField().wrapSetText(str);
 		}
@@ -455,10 +451,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	protected void showWidget() {
 		GeoElement last = view.getTextField().getDrawTextField()
 				.getGeoElement();
-		if (last != null) {
-			Log.debug("LAST: " + last);
 
-		}
 		view.cancelBlur();
 		getBox().revalidate();
 		getBox().setVisible(true);

@@ -4,6 +4,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -32,7 +33,13 @@ public class CmdSelectObjects extends CmdScripting {
 			for (int i = 0; i < n; i++) {
 				if ((arg[i].isGeoElement())) {
 					GeoElement geo = arg[i];
-					app.getSelectionManager().addSelectedGeo(geo, false, false);
+					if (geo instanceof GeoInputBox) {
+						((GeoInputBox) geo)
+								.setFocus(app.getActiveEuclidianView());
+					} else {
+						app.getSelectionManager().addSelectedGeo(geo, false,
+								false);
+					}
 				}
 			}
 

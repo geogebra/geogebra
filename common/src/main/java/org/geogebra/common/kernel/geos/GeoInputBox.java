@@ -279,7 +279,6 @@ public class GeoInputBox extends GeoButton {
 					&& parsed != null && parsed.isConstant()) {
 				// can be a calculation eg 1/2+3
 				// so use full GeoGebra parser
-				Log.debug("Simple update");
 				kernel.getAlgebraProcessor().evaluateToDouble(defineText, false,
 						(GeoNumeric) linkedGeo);
 
@@ -491,6 +490,14 @@ public class GeoInputBox extends GeoButton {
 			return ((DrawInputBox) draw).getTotalSize().getHeight();
 		}
 		return getHeight();
+	}
+
+	public void setFocus(EuclidianViewInterfaceCommon ev) {
+		DrawableND draw = ev.getDrawableFor(this);
+		if (draw instanceof DrawInputBox) {
+			((DrawInputBox) draw).setFocus(null);
+		}
+
 	}
 
 }
