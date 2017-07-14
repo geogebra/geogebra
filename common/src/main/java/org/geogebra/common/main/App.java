@@ -4235,6 +4235,9 @@ public abstract class App implements UpdateSelection {
 		case AND_TRANSPARENT_STATUSBAR:
 			return prerelease;
 
+		case AND_MOVE_FAB:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
