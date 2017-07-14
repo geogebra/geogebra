@@ -249,7 +249,10 @@ public class DrawGrid {
 			n = getNumberOfSubgrids(0);
 			smallStep = tickStepX / n;
 			// start of subgrids
-			xAxisStart = view.getXZero() % smallStep;
+			xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
+					? xCrossPix + (((view.getXZero() - xCrossPix) % smallStep)
+							+ smallStep) % smallStep
+					: (view.getXZero() % smallStep);
 			// start of grids
 			double start2 = view.getXZero() % tickStepX;
 			// number of subgrids on the left
@@ -264,7 +267,7 @@ public class DrawGrid {
 		double pix = xAxisStart;
 
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-			pix = xAxisStart - tickStepX / n;
+			pix = xAxisStart;
 		} else if (pix < EuclidianView.SCREEN_BORDER) {
 			pix += tickStepX;
 		}
