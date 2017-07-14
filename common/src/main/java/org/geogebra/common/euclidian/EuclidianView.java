@@ -6065,12 +6065,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public double getXZeroStandard() {
-		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewWidth() / 2
+		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewWidth() / 2.0
 				: XZERO_STANDARD;
 	}
 
 	public double getYZeroStandard() {
-		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2
+		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2.0
 				: YZERO_STANDARD;
 	}
 
