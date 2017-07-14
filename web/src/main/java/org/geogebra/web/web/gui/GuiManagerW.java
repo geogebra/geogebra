@@ -1844,6 +1844,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		if (app.has(Feature.NEW_TOOLBAR)) {
 			this.getToolbarPanelV2().setMode(mode);
+
+			// close dynamic stylebar at changing mode
+			if (app.has(Feature.SELECT_TOOL)) {
+				if (this.getActiveEuclidianView().hasDynamicStyleBar()) {
+					this.getActiveEuclidianView().getDynamicStyleBar()
+							.setVisible(false);
+				}
+			}
 			return mode;
 		}
 
