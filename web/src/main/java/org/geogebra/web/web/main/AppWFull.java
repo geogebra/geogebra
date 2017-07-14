@@ -397,6 +397,9 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
+	/**
+	 * Reset defaults for geometry app
+	 */
 	protected void resetGeometryApp() {
 		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GEOMETRY_CALC) {
@@ -971,7 +974,11 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 			@Override
 			public void run() {
 				if (has(Feature.CENTER_STANDARD_VIEW)) {
-					setStandardView();
+					getActiveEuclidianView().setCoordSystem(
+							getActiveEuclidianView().getWidth() * 0.5,
+							getActiveEuclidianView().getHeight() * 0.5,
+							EuclidianView.SCALE_STANDARD,
+							EuclidianView.SCALE_STANDARD);
 				}
 			}
 
