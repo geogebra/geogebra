@@ -5114,7 +5114,8 @@ public abstract class GeoElement extends ConstructionElement
 	public String getLabelDescription() {
 		switch (labelMode) {
 		case LABEL_NAME_VALUE:
-			return getAlgebraDescriptionDefault();
+			return getKernel().getApplication().has(Feature.LABEL_NAME_CAPTION)
+					? getCaptionAndValue() : getAlgebraDescriptionDefault();
 
 		case LABEL_VALUE:
 			return toDefinedValueString(StringTemplate.defaultTemplate);
@@ -5127,6 +5128,22 @@ public abstract class GeoElement extends ConstructionElement
 			// Mathieu Blossier - 2009-06-30
 			return getLabel(StringTemplate.defaultTemplate);
 		}
+	}
+
+	/**
+	 * 
+	 * @return Caption + Value if defined, Name + Value otherwise.
+	 */
+	public String getCaptionAndValue() {
+		if ("".equals(getRawCaption())) {
+			return getAlgebraDescriptionDefault(); 
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(getRawCaption());
+		sb.append(":");
+		sb.append(toValueString(StringTemplate.defaultTemplate));
+		return sb.toString();
 	}
 
 	/**

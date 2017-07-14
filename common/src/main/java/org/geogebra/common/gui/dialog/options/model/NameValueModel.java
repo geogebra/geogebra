@@ -57,7 +57,6 @@ public class NameValueModel extends ShowLabelModel {
 	public void applyNameChange(final String name, ErrorHandler handler) {
 
 		if (isForceCaption() || kernel.lookupLabel(name) != null) {
-			applyModeChanges(MODE_CAPTION, true);
 			nameModel.applyCaptionChange(name);
 			setForceCaption(true);
 		} else {
@@ -65,12 +64,30 @@ public class NameValueModel extends ShowLabelModel {
 		}
 	}
 
+	/**
+	 * 
+	 * @return caption should be changed or not.
+	 */
+
 	public boolean isForceCaption() {
 		return forceCaption;
 	}
 
+	/**
+	 * 
+	 * @param forceCaption
+	 *            caption should be changed or not.
+	 */
 	public void setForceCaption(boolean forceCaption) {
 		this.forceCaption = forceCaption;
+	}
+
+	/**
+	 * 
+	 * @return if label is visible at all.
+	 */
+	public boolean isLabelVisible() {
+		return getGeoAt(0).isLabelVisible();
 	}
 
 }

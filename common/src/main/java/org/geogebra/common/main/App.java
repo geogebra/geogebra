@@ -4219,6 +4219,9 @@ public abstract class App implements UpdateSelection {
 		case LABEL_SETTING_ON_STYLEBAR:
 			return prerelease;
 
+		case LABEL_NAME_CAPTION:
+			return prerelease;
+
 		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
 			return prerelease;
 

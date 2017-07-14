@@ -254,6 +254,8 @@ public enum Feature {
 
 	CENTER_STANDARD_VIEW,
 
-	AND_MOVE_FAB
+	AND_MOVE_FAB,
+
+	LABEL_NAME_CAPTION
 
 }

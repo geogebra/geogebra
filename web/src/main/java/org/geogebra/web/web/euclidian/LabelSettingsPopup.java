@@ -41,6 +41,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private static final int LABEL_MODE_NAME_ONLY = 0;
 	private static final int LABEL_MODE_NAME_AND_VALUE = 1;
 	private static final int LABEL_MODE_VALUE_ONLY = 2;
+	private static final int LABEL_MODE_CAPTION = 3;
 
 	/**
 	 * popup menu
@@ -163,7 +164,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	 */
 	protected void onEnter() {
 		model.applyNameChange(tfName.getText(), app.getErrorHandler());
-
+		applyCheckboxes();
 	}
 
 	@Override
@@ -194,7 +195,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		boolean value = cmValue.isChecked();
 		int mode = -1;
 		if (name && !value) {
-			mode = LABEL_MODE_NAME_ONLY;
+			mode = model.isForceCaption() ? LABEL_MODE_CAPTION
+					: LABEL_MODE_NAME_ONLY;
 		} else if (name && value) {
 			mode = LABEL_MODE_NAME_AND_VALUE;
 		} else if (!name && value) {
@@ -212,11 +214,16 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
+		if (!model.isLabelVisible()) {
+			cmName.setChecked(false);
+			cmValue.setChecked(false);
+			return;
+		}
 		cmName.setChecked(mode == LABEL_MODE_NAME_ONLY
-				|| mode == LABEL_MODE_NAME_AND_VALUE);
+				|| mode == LABEL_MODE_NAME_AND_VALUE
+				|| mode == LABEL_MODE_CAPTION);
 		cmValue.setChecked(mode == LABEL_MODE_VALUE_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE);
-		// tfName.setText(model.getGeoAt(0).getDefaultLabel());
 	}
 
 	@Override
@@ -229,8 +236,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void setNameText(String text) {
-		// TODO Auto-generated method stub
-
+		// not used here.
 	}
 
 	@Override
@@ -245,8 +251,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void updateGUI(boolean showDefinition, boolean showCaption) {
-		// TODO Auto-generated method stub
-
+		// not used here.
 	}
 
 	@Override
