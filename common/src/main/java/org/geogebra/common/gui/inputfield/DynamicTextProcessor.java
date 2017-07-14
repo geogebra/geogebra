@@ -176,9 +176,9 @@ public class DynamicTextProcessor {
 		DynamicTextType type = DynamicTextType.VALUE;
 		String prefix;
 
-		if (contentString.endsWith("]")) {
+		if (contentString.endsWith(")")) {
 			if (contentString.startsWith(
-					prefix = app.getLocalization().getCommand("LaTeX") + "[")) {
+					prefix = app.getLocalization().getCommand("LaTeX") + "(")) {
 
 				// strip off outer command
 				contentString = contentString.substring(prefix.length(),
@@ -188,9 +188,9 @@ public class DynamicTextProcessor {
 				int commaIndex = contentString.lastIndexOf(',');
 				int bracketCount = 0;
 				for (int i = commaIndex + 1; i < contentString.length(); i++) {
-					if (contentString.charAt(i) == '[') {
+					if (contentString.charAt(i) == '(') {
 						bracketCount++;
-					} else if (contentString.charAt(i) == ']') {
+					} else if (contentString.charAt(i) == ')') {
 						bracketCount--;
 					}
 				}
@@ -200,7 +200,7 @@ public class DynamicTextProcessor {
 				}
 
 			} else if (contentString.startsWith(
-					prefix = app.getLocalization().getCommand("Name") + "[")) {
+					prefix = app.getLocalization().getCommand("Name") + "(")) {
 
 				// strip off outer command
 				contentString = contentString.substring(prefix.length(),

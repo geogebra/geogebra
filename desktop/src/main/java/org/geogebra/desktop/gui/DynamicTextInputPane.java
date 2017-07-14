@@ -143,9 +143,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		int mode = DynamicTextField.MODE_VALUE;
 		String s;
 
-		if (text.endsWith("]")) {
+		if (text.endsWith(")")) {
 			if (text.startsWith(
-					s = app.getLocalization().getCommand("LaTeX") + "[")) {
+					s = app.getLocalization().getCommand("LaTeX") + "(")) {
 
 				// strip off outer command
 				String temp = text.substring(s.length(), text.length() - 1);
@@ -154,9 +154,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				int commaIndex = temp.lastIndexOf(',');
 				int bracketCount = 0;
 				for (int i = commaIndex + 1; i < temp.length(); i++) {
-					if (temp.charAt(i) == '[') {
+					if (temp.charAt(i) == '(') {
 						bracketCount++;
-					} else if (temp.charAt(i) == ']') {
+					} else if (temp.charAt(i) == ')') {
 						bracketCount--;
 					}
 				}
@@ -167,7 +167,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				}
 
 			} else if (text.startsWith(
-					s = app.getLocalization().getCommand("Name") + "[")) {
+					s = app.getLocalization().getCommand("Name") + "(")) {
 
 				// strip off outer command
 				text = text.substring(s.length(), text.length() - 1);
