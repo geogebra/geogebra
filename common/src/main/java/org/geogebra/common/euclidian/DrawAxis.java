@@ -516,8 +516,7 @@ public class DrawAxis {
 
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
 								|| !bothNull || view.positiveAxes[0]
-								|| (!view.positiveAxes[1]
-										&& !view.positiveAxes[1])
+								|| !view.positiveAxes[1]
 								|| !view.showAxesNumbers[0]) {
 							if (view.getApplication()
 									.has(Feature.TICK_NUMBERS_AT_EDGE)) {
