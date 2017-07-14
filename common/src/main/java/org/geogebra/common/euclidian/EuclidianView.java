@@ -141,9 +141,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** background image */
 	protected GBufferedImage bgImage;
 
-	private double xZeroStandard;
-	private double yZeroStandard;
-
 	/**
 	 * g2d of bgImage: used for axis, grid, background images and object traces
 	 */
@@ -6072,16 +6069,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				: XZERO_STANDARD;
 	}
 
-	public void setXZeroStandard(double xZeroStandard) {
-		this.xZeroStandard = xZeroStandard;
-	}
-
 	public double getYZeroStandard() {
 		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2
 				: YZERO_STANDARD;
 	}
 
-	public void setYZeroStandard(double yZeroStandard) {
-		this.yZeroStandard = yZeroStandard;
-	}
 }
