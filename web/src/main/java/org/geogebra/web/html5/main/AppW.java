@@ -3613,4 +3613,5 @@ public abstract class AppW extends App implements SetLabels {
 				|| "2".equals(getArticleElement().getDataParamPerspective());
 
 	}
+
 }

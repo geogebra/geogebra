@@ -963,4 +963,18 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		return activePerspective == 6
 				|| "7".equals(getArticleElement().getDataParamPerspective());
 	}
+
+	@Override
+	public void ensureStandardView() {
+		new Timer() {
+
+			@Override
+			public void run() {
+				if (has(Feature.CENTER_STANDARD_VIEW)) {
+					setStandardView();
+				}
+			}
+
+		}.schedule(600);
+	}
 }

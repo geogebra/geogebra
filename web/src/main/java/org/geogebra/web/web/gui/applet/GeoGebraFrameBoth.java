@@ -646,6 +646,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 					AlgebraViewW av = (AlgebraViewW) app.getAlgebraView();
 					// av.clearActiveItem();
 					av.setDefaultUserWidth();
+
 				}
 
 				ensureKeyboardEditing();

@@ -4,6 +4,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -224,6 +225,12 @@ public class LoadFilePresenter {
 		app.setPreferredSize(
 				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
 		app.loadPreferences(p);
+
+		if (app.has(Feature.CENTER_STANDARD_VIEW)) {
+
+			app.ensureStandardView();
+		}
+
 		// default layout doesn't have a Graphics View 2
 		app.getEuclidianViewpanel().deferredOnResize();
 

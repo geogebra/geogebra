@@ -3106,6 +3106,9 @@ public abstract class App implements UpdateSelection {
 		getActiveEuclidianView().setStandardView(true);
 	}
 
+	public void ensureStandardView() {
+	}
+
 	public abstract void exitAll();
 
 	// protected abstract Object getMainComponent();
