@@ -449,8 +449,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 	@Override
 	protected void showWidget() {
-		GeoElement last = view.getTextField().getDrawTextField()
-				.getGeoElement();
 
 		view.cancelBlur();
 		getBox().revalidate();
