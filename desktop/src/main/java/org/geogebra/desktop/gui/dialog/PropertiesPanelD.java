@@ -4802,9 +4802,9 @@ class NamePanel extends JPanel implements ActionListener, FocusListener,
 	}
 
 	@Override
-	public void updateCaption() {
+	public void updateCaption(String text) {
 		tfCaption.removeActionListener(this);
-		tfCaption.setText(model.getCurrentGeo().getRawCaption());
+		tfCaption.setText(text);
 		tfCaption.addActionListener(this);
 
 	}
