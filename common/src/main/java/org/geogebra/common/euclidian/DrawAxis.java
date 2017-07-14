@@ -478,38 +478,65 @@ public class DrawAxis {
 										g2.getFontRenderContext());
 
 						double width = layout.getAdvance();
-
+						
 						int x = (int) ((xCrossPix + xoffset) - width);
-						int y;
-
+						
 						// flag for handling label at axis cross point
 						boolean zero = strNum.equals(crossAtStr);
+						
+						
+//						
+//						if (zero //&& view.showAxes[0]
+//								&& view.positiveAxes[1] && !view.positiveAxes[0]) {
+//							x = (int) (xCrossPix-2);
+//						}
+						int y;
 
-						// if the label is at the axis cross point then draw
-						// it 2 pixels above
-						if (zero && view.showAxes[0]
-								&& !view.positiveAxes[0]) {
-							// if the label is at the axis cross point is "0" on
-							// both axes draw only one "0"
-							if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
-									&& "0".equals(strNum)) {
+						boolean bothNull = zero && "0".equals(strNum);
+						
+						// if the label is at the axis cross point is "0" on
+						// both axes draw only one "0"
+						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)) {
+							// if the label is at the axis cross point then draw
+							// it 2 pixels above
+							if (bothNull
+							// && view.showAxesNumbers[0]
+									&& (!view.positiveAxes[0]
+											|| view.positiveAxes[1])) {
+
 								y = (int) (yCrossPix
 										+ view.getYOffsetForXAxis(fontsize));
+
 							} else {
-								y = (int) (yCrossPix - 2);
+								y = (int) (pix + yoffset);
 							}
 						} else {
-							y = (int) (pix + yoffset);
+							// if the label is at the axis cross point then draw
+							// it 2 pixels above
+							if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
+								y = (int) (yCrossPix - 2);
+							} else {
+								y = (int) (pix + yoffset);
+							}
 						}
 
-						if (view.getApplication()
-								.has(Feature.TICK_NUMBERS_AT_EDGE)) {
-							numbers.add(new TickNumber(g2, sb.toString(), x, y,
-									xCrossPix, xoffset, width));
-						} else {
-							// draw number
-							drawString(g2, sb.toString(), x, y);
+
+						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
+								|| !bothNull
+								|| (!view.positiveAxes[1]
+										&& !view.positiveAxes[1])) {
+							if (view.getApplication()
+									.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+								numbers.add(new TickNumber(g2, sb.toString(), x, y,
+										xCrossPix, xoffset, width));
+							} else {
+								// draw number
+								drawString(g2, sb.toString(), x, y);
+							}							
+							
 						}
+						
+
 
 
 						// measure width, so grid line can avoid it
@@ -888,7 +915,6 @@ public class DrawAxis {
 								y = (int) yoffset;
 							}
 						}
-
 
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
 								|| !zero && !"0".equals(strNum)
