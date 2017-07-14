@@ -403,6 +403,9 @@ public enum Language {
 			"cy", "cy", "cy", "Welsh / Cymraeg", "wales"),
 	// fudge to get right flag
 
+	Xhosa(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"xh", "xh", "Xhosa / isiXhosa", Country.SouthAfrica),
+
 	Yiddish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9\u05b4", true, "ji", "ji",
 			"yi",
