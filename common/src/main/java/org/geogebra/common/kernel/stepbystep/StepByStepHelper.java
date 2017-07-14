@@ -19,13 +19,15 @@ public class StepByStepHelper {
 	private Kernel kernel;
 	private GeoGebraCasInterface cas;
 	private Parser parser;
+	private StringTemplate tpl;
 
 	public StepByStepHelper(Kernel kernel) {
 		this.kernel = kernel;
 		cas = kernel.getGeoGebraCAS();
 		parser = kernel.getParser();
+		tpl = StringTemplate.defaultTemplate;
 	}
-
+	
 	public void inorder(ExpressionValue ev) {
 		if (ev != null) {
 			if (ev.isExpressionNode()) {
@@ -34,7 +36,7 @@ public class StepByStepHelper {
 				Log.error(en.getOperation().toString());
 				inorder(en.getRight());
 			} else {
-				Log.error(ev.toString(StringTemplate.defaultTemplate));
+				Log.error(ev.toString(tpl));
 			}
 		}
 		Log.error("null");
@@ -49,16 +51,25 @@ public class StepByStepHelper {
 			return parser.parseGeoGebraExpression(s);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return new ExpressionNode();
+			return null;
 		}
 	}
 
+	/**
+	 * Returns the lowest common denominator of the expression tree
+	 * 
+	 * @param ev
+	 * 			expression tree to parse
+	 * 
+	 * @return lowest common denominator as a string
+	 */
+	
 	public String getDenominator(ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 
 			if (en.getOperation() == Operation.DIVIDE) {
-				return en.getRight().toString(StringTemplate.defaultTemplate);
+				return en.getRight().toString(tpl);
 			}
 
 			String toReturnLeft = getDenominator(en.getLeft());
@@ -80,30 +91,67 @@ public class StepByStepHelper {
 			ExpressionNode en = (ExpressionNode) ev;
 
 			if (en.getOperation() == Operation.SQRT) {
-				return en.toString(StringTemplate.defaultTemplate);
+				return en.toString(tpl);
 			}
 
-			if (en.getOperation() == Operation.MULTIPLY
-					|| en.getOperation() == Operation.DIVIDE) {
-				if (countOperation(en.getLeft(), Operation.SQRT) > 0) {
-					return en.toString(StringTemplate.defaultTemplate);
-				} else if (countOperation(en.getRight(), Operation.SQRT) > 0) {
-					return en.toString(StringTemplate.defaultTemplate);
+			if (en.getOperation() == Operation.MULTIPLY || en.getOperation() == Operation.DIVIDE) {
+				if (countOperation(en.getLeft(), Operation.SQRT) > 0 || 
+						countOperation(en.getRight(), Operation.SQRT) > 0) {
+					return en.toString(tpl);
 				}
 			}
 
 			if (en.getOperation() == Operation.PLUS
 					|| en.getOperation() == Operation.MINUS) {
-				String toReturn = getSQRoots(en.getLeft());
-				if (!toReturn.isEmpty()) {
-					return toReturn;
+				
+				String toReturnLeft = getSQRoots(en.getLeft());
+				String toReturnRight = getSQRoots(en.getRight());
+				
+				if (!toReturnRight.isEmpty()) {
+					if(en.getOperation() == Operation.PLUS) {
+						return toReturnLeft + " + " + toReturnRight;
+					}
+					return toReturnLeft + " - (" + toReturnRight + ")";
 				}
+				return toReturnLeft;
+			}
 
-				toReturn = getSQRoots(en.getRight());
-				if (!toReturn.isEmpty() && en.getOperation() == Operation.MINUS) {
-					return "-" + toReturn;
+		}
+		return "";
+	}
+	
+	public String getNonIrrational(ExpressionValue ev) {
+		return regroup(ev.toString(tpl) + " - (" + getSQRoots(ev) + ")");
+	}
+	
+	public String getOneSquareRoot(ExpressionValue ev) {
+		if (ev != null && ev.isExpressionNode()) {
+			ExpressionNode en = (ExpressionNode) ev;
+
+			if (en.getOperation() == Operation.SQRT) {
+				return en.toString(tpl);
+			}
+
+			if (en.getOperation() == Operation.MULTIPLY || en.getOperation() == Operation.DIVIDE) {
+				if (countOperation(en.getLeft(), Operation.SQRT) > 0 || 
+						countOperation(en.getRight(), Operation.SQRT) > 0) {
+					return en.toString(tpl);
 				}
-				return toReturn;
+			}
+
+			if (en.getOperation() == Operation.PLUS
+					|| en.getOperation() == Operation.MINUS) {
+				
+				String toReturnLeft = getSQRoots(en.getLeft());
+				String toReturnRight = getSQRoots(en.getRight());
+				
+				if (!toReturnLeft.isEmpty()) {
+					return toReturnLeft;
+				}
+				if (en.getOperation() == Operation.PLUS) {
+					return toReturnRight;
+				}
+				return " - (" + toReturnRight + ")";
 			}
 
 		}
@@ -111,21 +159,20 @@ public class StepByStepHelper {
 	}
 
 	public String findVariable(ExpressionValue ev, String variable) {
-		if (ev != null && isEqual(ev.toString(StringTemplate.defaultTemplate), variable)) {
-			return ev.toString(StringTemplate.defaultTemplate);
+		if (ev != null && isEqual(ev.toString(tpl), variable)) {
+			return ev.toString(tpl);
 		}
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 
-			if (isEqual(en.toString(StringTemplate.defaultTemplate), variable)) {
-				return en.toString(StringTemplate.defaultTemplate);
+			if (isEqual(en.toString(tpl), variable)) {
+				return en.toString(tpl);
 			}
 
 			if (en.getOperation() == Operation.MULTIPLY || en.getOperation() == Operation.DIVIDE) {
-				if (isEqual(en.getLeft().toString(StringTemplate.defaultTemplate), variable)) {
-					return en.toString(StringTemplate.defaultTemplate);
-				} else if (isEqual(en.getRight().toString(StringTemplate.defaultTemplate), variable)) {
-					return en.toString(StringTemplate.defaultTemplate);
+				if (isEqual(en.getLeft().toString(tpl), variable) ||
+						isEqual(en.getRight().toString(tpl), variable)) {
+					return en.toString(tpl);
 				}
 			}
 
@@ -137,7 +184,7 @@ public class StepByStepHelper {
 
 				toReturn = findVariable(en.getRight(), variable);
 				if (!toReturn.isEmpty() && en.getOperation() == Operation.MINUS) {
-					return "-" + toReturn;
+					return "- (" + toReturn + ")";
 				}
 				return toReturn;
 			}
@@ -145,18 +192,45 @@ public class StepByStepHelper {
 		}
 		return "";
 	}
+	
+	public String findCoefficient(ExpressionValue ev, String variable) {
+		if (ev != null && ev.toString(tpl).equals(variable)) {
+			return "1";
+		}
+		if (ev != null && ev.isExpressionNode()) {
+			ExpressionNode en = (ExpressionNode) ev;
 
-	private boolean isZero(String s) {
-		return stripSpaces(s).isEmpty() || stripSpaces(s).equals("0");
+			if (isEqual(en.toString(tpl), variable)) {
+				return "1";
+			}
+
+			if (en.getOperation() == Operation.MULTIPLY || en.getOperation() == Operation.DIVIDE) {
+				if (isEqual(en.getLeft().toString(tpl), variable)) {
+					return en.getRight().toString(tpl);
+				} else if (isEqual(en.getRight().toString(tpl), variable)) {
+					return en.getLeft().toString(tpl);
+				}
+			}
+
+			if (en.getOperation() == Operation.PLUS || en.getOperation() == Operation.MINUS) {
+				String toReturn = findCoefficient(en.getLeft(), variable);
+				if (!isZero(toReturn)) {
+					return toReturn;
+				}
+
+				toReturn = findCoefficient(en.getRight(), variable);
+				if (!isZero(toReturn) && en.getOperation() == Operation.MINUS) {
+					return "- (" + toReturn + ")";
+				}
+				return toReturn;
+			}
+		}
+		return "";
 	}
-
-	private boolean isEqual(String a, String b) {
-		return isZero(simplify(a + " - (" + b + ")"));
-	}
-
+	
 	public String findConstant(ExpressionValue ev) {
 		if (ev != null && !containsVariable(ev)) {
-			return ev.toString(StringTemplate.defaultTemplate);
+			return ev.toString(tpl);
 		}
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
@@ -172,7 +246,7 @@ public class StepByStepHelper {
 
 				toReturn = findConstant(en.getRight());
 				if (!isZero(toReturn) && en.getOperation() == Operation.MINUS) {
-					return "-" + toReturn;
+					return "-(" + toReturn + ")";
 				}
 
 				return toReturn;
@@ -180,52 +254,6 @@ public class StepByStepHelper {
 		}
 
 		return "0";
-	}
-
-	public String findCoefficient(ExpressionValue ev, String variable) {
-		if (ev != null && ev.toString(StringTemplate.defaultTemplate)
-				.equals(variable)) {
-			return "1";
-		}
-		if (ev != null && ev.isExpressionNode()) {
-			ExpressionNode en = (ExpressionNode) ev;
-
-			if (stripSpaces(simplify(en.toString(StringTemplate.defaultTemplate)
-					+ "-" + variable)).equals("0")) {
-				return "1";
-			}
-
-			if (en.getOperation() == Operation.MULTIPLY
-					|| en.getOperation() == Operation.DIVIDE) {
-				if (stripSpaces(simplify(
-						en.getLeft().toString(StringTemplate.defaultTemplate)
-								+ "-" + variable)).equals("0")) {
-					return en.getRight()
-							.toString(StringTemplate.defaultTemplate);
-				} else if (stripSpaces(simplify(
-						en.getRight().toString(StringTemplate.defaultTemplate)
-								+ "-" + variable)).equals("0")) {
-					return en.getLeft()
-							.toString(StringTemplate.defaultTemplate);
-				}
-			}
-
-			if (en.getOperation() == Operation.PLUS
-					|| en.getOperation() == Operation.MINUS) {
-				String toReturn = findCoefficient(en.getLeft(), variable);
-				if (!isZero(toReturn)) {
-					return toReturn;
-				}
-
-				toReturn = findCoefficient(en.getRight(), variable);
-				if (!isZero(toReturn) && en.getOperation() == Operation.MINUS) {
-					return "-" + toReturn;
-				}
-				return toReturn;
-			}
-
-		}
-		return "";
 	}
 
 	public void getParts(ArrayList<String> parts, ExpressionValue ev) {
@@ -236,21 +264,19 @@ public class StepByStepHelper {
 				getParts(parts, en.getLeft());
 				getParts(parts, en.getRight());
 			} else {
-				parts.add(en.toString(StringTemplate.defaultTemplate));
+				parts.add(en.toString(tpl));
 			}
 		} else if (ev != null && !ev.isConstant()) {
-			parts.add(ev.toString(StringTemplate.defaultTemplate));
+			parts.add(ev.toString(tpl));
 		}
 	}
 
-	public static void getAbsoluteValues(ArrayList<String> absoluteValues,
-			ExpressionValue ev) {
+	public void getAbsoluteValues(ArrayList<String> absoluteValues, ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 
 			if (en.getOperation() == Operation.ABS) {
-				absoluteValues.add(
-						en.getLeft().toString(StringTemplate.defaultTemplate));
+				absoluteValues.add(en.getLeft().toString(tpl));
 			} else {
 				getAbsoluteValues(absoluteValues, en.getLeft());
 				getAbsoluteValues(absoluteValues, en.getRight());
@@ -273,28 +299,34 @@ public class StepByStepHelper {
 	}
 
 	public boolean containsLinear(ExpressionValue ev, String variable) {
-		return !stripSpaces(findCoefficient(ev, variable)).isEmpty();
+		return !isZero(findCoefficient(ev, variable));
 	}
 
 	public boolean isProduct(ExpressionValue ev) {
 		if (ev == null || !ev.isExpressionNode()) {
 			return false;
-		} else {
-			return ((ExpressionNode) ev).getOperation() == Operation.MULTIPLY;
 		}
+		return ((ExpressionNode) ev).getOperation() == Operation.MULTIPLY;
 	}
 
+	public boolean isTrivial(String LHS, String RHS) {
+		ExpressionValue ev = getExpressionTree(regroup(LHS + " - " + RHS));
+		return countOperation(ev, Operation.PLUS) + countOperation(ev, Operation.MINUS) == 1 && 
+				getValue(findConstant(ev)) != 0;
+	}
+	
 	public int countOperation(ExpressionValue ev, Operation op) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 
+			int found = 0;
+			
 			if (en.getOperation() == op) {
-				return 1;
+				found ++;
 			}
 
-			int found;
-			found = countOperation(en.getLeft(), op);
-			found = found + countOperation(en.getRight(), op);
+			found += countOperation(en.getLeft(), op);
+			found += countOperation(en.getRight(), op);
 
 			return found;
 		}
@@ -304,17 +336,14 @@ public class StepByStepHelper {
 
 	public String evaluateAbsoluteValue(String eq, String a, String b) {
 		ExpressionValue ev = getExpressionTree(eq);
-		return swapAbsInTree(ev, a, b).toString(StringTemplate.defaultTemplate);
+		return swapAbsInTree(ev, a, b).toString(tpl);
 	}
 
-	private ExpressionValue swapAbsInTree(ExpressionValue ev, String a,
-			String b) {
+	private ExpressionValue swapAbsInTree(ExpressionValue ev, String a, String b) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 			if (en.getOperation() == Operation.ABS) {
-				if (isNegative(
-						en.getLeft().toString(StringTemplate.defaultTemplate),
-						a, b)) {
+				if (isNegative(en.getLeft().toString(tpl),a, b)) {
 					en.setOperation(Operation.MULTIPLY);
 					en.setRight(en.getLeft());
 					en.setLeft(new MyDouble(kernel, -1));
@@ -374,8 +403,7 @@ public class StepByStepHelper {
 			ExpressionNode en = (ExpressionNode) ev;
 
 			if (en.getOperation() == Operation.SQRT) {
-				roots.add(
-						en.getLeft().toString(StringTemplate.defaultTemplate));
+				roots.add(en.getLeft().toString(tpl));
 			} else {
 				getRootsForValidation(roots, en.getLeft());
 				getRootsForValidation(roots, en.getRight());
@@ -394,20 +422,10 @@ public class StepByStepHelper {
 			}
 		}
 
-		List<String> roots = new ArrayList<String>();
-		getRootsForValidation(roots, bothSides);
-
-		for (int i = 0; i < roots.size(); i++) {
-			String evaluatedRoot = evaluateAt(roots.get(i), solution);
-			if (getValue(evaluatedRoot) < 0) {
-				return false;
-			}
-		}
-
 		String evaluatedLHS = evaluateAt(LHS, solution);
 		String evaluatedRHS = evaluateAt(RHS, solution);
 
-		if(getValue(evaluatedLHS) != getValue(evaluatedRHS)) {
+		if(!isEqual(evaluatedLHS, evaluatedRHS)) {
 			return false;
 		}
 
@@ -418,20 +436,20 @@ public class StepByStepHelper {
 		return simplify(expression.replace("x", "(" + value + ")"));
 	}
 
-	public String[] getCASSolutions(String LHS, String RHS) {
-		String s = callCAS(LHS + " = " + RHS, "Solutions");
-		return s.replaceAll("[ {}]", "").split(",");
-	}
-
 	public double getCoefficientValue(ExpressionValue ev, String s) {
 		return getValue(findCoefficient(ev, s));
 	}
 
-	public String callCAS(String s, String cmd) {
-		String ret = cas.evaluateGeoGebraCAS(cmd + "[" + s + "]", null,
-				StringTemplate.defaultTemplate, kernel);
+	private boolean isZero(String s) {
+		return stripSpaces(s).isEmpty() || stripSpaces(s).equals("0");
+	}
 
-		return ret;
+	private boolean isEqual(String a, String b) {
+		return isZero(simplify(a + " - (" + b + ")"));
+	}
+	
+	public String callCAS(String s, String cmd) {
+		return cas.evaluateGeoGebraCAS(cmd + "[" + s + "]", null, tpl, kernel);
 	}
 
 	public int degree(String s) {
@@ -442,6 +460,11 @@ public class StepByStepHelper {
 		return Integer.parseInt(d);
 	}
 
+	public String[] getCASSolutions(String LHS, String RHS) {
+		String s = callCAS(LHS + " = " + RHS, "Solutions");
+		return s.replaceAll("[ {}]", "").split(",");
+	}
+	
 	public String stripSpaces(String s) {
 		return s.replaceAll(" ", "");
 	}
