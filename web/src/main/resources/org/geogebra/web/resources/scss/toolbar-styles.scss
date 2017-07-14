@@ -308,7 +308,7 @@
     		border-radius: 50%;
     		width: 48px;
    			height: 48px;
-    		background: $teal-default;
+    		background: $purple-default;
     		box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
     		transition: background-color 150ms ease 0ms;
     		
@@ -318,7 +318,7 @@
     		}
     	
     		&:hover {
-    			background: $teal-dark;
+    			background: $purple-dark;
     		}
 		}
 	
