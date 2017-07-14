@@ -10028,7 +10028,8 @@ public abstract class EuclidianController {
 		}
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (EuclidianConstants.isMoveOrSelectionMode(mode) && !draggingOccured) {
+			if (EuclidianConstants.isMoveOrSelectionMode(mode)
+					&& !draggingOccured) {
 				addDynamicStylebar();
 			}
 		}
@@ -10079,6 +10080,15 @@ public abstract class EuclidianController {
 			}
 		} else {
 			wrapMouseReleasedND(event, true);
+		}
+
+		// Quick fix for GeoFunctions.
+		// TODO: call it once in the method.
+		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
+			if (EuclidianConstants.isMoveOrSelectionMode(mode)
+					&& !draggingOccured) {
+				addDynamicStylebar();
+			}
 		}
 
 		if (getResizedShape() != null) {
