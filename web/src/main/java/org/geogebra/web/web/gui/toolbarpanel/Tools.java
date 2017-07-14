@@ -171,7 +171,6 @@ public class Tools extends FlowPanel {
 				@Override
 				public void onClick(Widget source) {
 					app.setMode(mode);
-					//btn.getElement().setAttribute("selected", "true");
 					if (!Browser.isMobile()) {
 						ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 						ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
