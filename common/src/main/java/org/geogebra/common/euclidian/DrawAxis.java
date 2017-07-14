@@ -484,25 +484,18 @@ public class DrawAxis {
 						// flag for handling label at axis cross point
 						boolean zero = strNum.equals(crossAtStr);
 						
-						
-//						
-//						if (zero //&& view.showAxes[0]
-//								&& view.positiveAxes[1] && !view.positiveAxes[0]) {
-//							x = (int) (xCrossPix-2);
-//						}
 						int y;
 
-						boolean bothNull = zero && "0".equals(strNum);
+						boolean bothNull = zero && view.axisCross[0] == 0
+								&& view.axisCross[1] == 0;
 						
 						// if the label is at the axis cross point is "0" on
 						// both axes draw only one "0"
-						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)) {
+						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
+								&& bothNull) {
 							// if the label is at the axis cross point then draw
 							// it 2 pixels above
-							if (bothNull
-							// && view.showAxesNumbers[0]
-									&& (!view.positiveAxes[0]
-											|| view.positiveAxes[1])) {
+							if (!view.positiveAxes[0] || view.positiveAxes[1]) {
 
 								y = (int) (yCrossPix
 										+ view.getYOffsetForXAxis(fontsize));
@@ -522,9 +515,10 @@ public class DrawAxis {
 
 
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| !bothNull
+								|| !bothNull || view.positiveAxes[0]
 								|| (!view.positiveAxes[1]
-										&& !view.positiveAxes[1])) {
+										&& !view.positiveAxes[1])
+								|| !view.showAxesNumbers[0]) {
 							if (view.getApplication()
 									.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 								numbers.add(new TickNumber(g2, sb.toString(), x, y,
@@ -916,9 +910,13 @@ public class DrawAxis {
 							}
 						}
 
+						boolean bothNull = zero && view.axisCross[0] == 0
+								&& view.axisCross[1] == 0;
+						
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| !zero && !"0".equals(strNum)
-								|| !view.showAxes[1] || view.positiveAxes[1]
+								|| !bothNull
+								|| !view.showAxes[1]
+								|| !view.positiveAxes[0] && view.positiveAxes[1]
 								|| !view.showAxesNumbers[1]) {
 							drawString(g2, sb.toString(), x, y);
 						}
