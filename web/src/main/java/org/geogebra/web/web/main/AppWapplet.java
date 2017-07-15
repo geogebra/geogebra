@@ -280,9 +280,7 @@ public class AppWapplet extends AppWFull {
 		inputbar.attachApp(this);
 		frame.add(inputbar);
 
-		if (has(Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
-			updateSplitPanelHeight();
-		}
+		updateSplitPanelHeight();
 
 		this.getGuiManager().getAlgebraInput()
 				.setInputFieldWidth(this.appletWidth);

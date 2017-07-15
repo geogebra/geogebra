@@ -4038,10 +4038,6 @@ public abstract class App implements UpdateSelection {
 		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
 			return true;
 
-		/** GGB-1694 */
-		case KEYBOARD_MESSED_WITH_OLD_INPUTBAR:
-			return true;
-
 		/** GGB- 1501 */
 		case DIALOGS_OVERLAP_KEYBOARD:
 			// see comment at GPopupPanel.setOverlapFeature

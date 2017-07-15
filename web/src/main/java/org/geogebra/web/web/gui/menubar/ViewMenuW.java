@@ -7,7 +7,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
@@ -112,25 +111,15 @@ public class ViewMenuW extends GMenuBar {
 						app.persistWidthAndHeight();
 						app.getArticleElement().setAttribute(
 								"data-param-showAlgebraInput", "true");
-						boolean visibleBelow = app
-								.getInputPosition() == InputPosition.algebraView
-								|| !app.showAlgebraInput();
-						if (!app.has(
-								Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
-							app.addToHeight(visibleBelow
-									? -GLookAndFeelI.COMMAND_LINE_HEIGHT
-									: GLookAndFeelI.COMMAND_LINE_HEIGHT);
-						}
+
 						app.setShowAlgebraInput(true, false);
 						app.setInputPosition(
 								app.getInputPosition() == InputPosition.algebraView
 										? InputPosition.bottom
 										: InputPosition.algebraView,
 								true);
-						if (app.has(
-								Feature.KEYBOARD_MESSED_WITH_OLD_INPUTBAR)) {
-							app.updateSplitPanelHeight();
-						}
+						app.updateSplitPanelHeight();
+
 						app.updateCenterPanelAndViews();
 						if (app.getGuiManager() != null
 								&& app.getGuiManager().getLayout() != null) {
