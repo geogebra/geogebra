@@ -50,7 +50,10 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			scaleApplet(ae.getParentElement(),
 					ae.getParentElement().getParentElement());
 		}
-
+		if (ae.getDataParamApp() && fullscreenBtn != null) {
+			fullscreenBtn.setVisible(
+					isFullScreen || !Browser.isCoveringWholeScreen());
+		}
 	}
 
 	/**
@@ -246,7 +249,8 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 				t.schedule(50);
 			}
 		}
-		Browser.toggleFullscreen(!isFullScreen, container);
+		isFullScreen = !isFullScreen;
+		Browser.toggleFullscreen(isFullScreen, container);
 	}
 
 	protected void scaleApplet(Element scaler, Element container) {

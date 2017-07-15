@@ -533,4 +533,17 @@ public class Browser {
 
 	}-*/;
 
+	public static native boolean isCoveringWholeScreen()/*-{
+		var height = $wnd.innerHeight;
+		var width = $wnd.innerWidth;
+
+		var screenHeight = screen.height - 5;
+		var screenWidth = screen.width - 5;
+
+		//$wnd.console.log("height: " + height, screenHeight);
+		//$wnd.console.log("width: " + width, screenWidth);
+
+		return height >= screenHeight && width >= screenWidth;
+	}-*/;
+
 }

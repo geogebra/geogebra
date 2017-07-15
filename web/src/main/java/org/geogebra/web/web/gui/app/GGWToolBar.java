@@ -454,35 +454,24 @@ pr.menu_header_undo(), null, 32);
 			};
 			$wnd.onfocus = function(event) {
 				//$wnd.console.log("6");
-				if (fullscreen == true) {
+				if (fullscreen) {
 					stopCheating();
 					//	focus = true;
 					//	console.log("focus 3 " + focus);
 				}
 			}
 			// window resize has 2 cases: full screen and not full screen
-			$wnd.addEventListener("resize", function() {
-				//$wnd.console.log("7");
-				var height = $wnd.innerHeight;
-				var width = $wnd.innerWidth;
-
-				var screenHeight = screen.height - 5;
-				var screenWidth = screen.width - 5;
-
-				//$wnd.console.log("height: " + height, screenHeight);
-				//$wnd.console.log("width: " + width, screenWidth);
-
-				if (height < screenHeight || width < screenWidth) {
-					startCheating();
-					fullscreen = false;
-
-				}
-				if (height >= screenHeight && width >= screenWidth) {
-					stopCheating();
-					fullscreen = true;
-
-				}
-			});
+			$wnd
+					.addEventListener(
+							"resize",
+							function() {
+								fullscreen = @org.geogebra.web.html5.Browser::isCoveringWholeScreen()();
+								if (!fullscreen) {
+									startCheating();
+								} else {
+									stopCheating();
+								}
+							});
 		}
 	}-*/ ;
 
