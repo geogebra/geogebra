@@ -9,6 +9,12 @@
 	<meta name="description" content="Discover math on geogebra.org, the home of our free online graphing calculator, geometry calculator, 3D calculator, spreadsheet, CAS, probability calculator and classroom activities" />
 
 <script type="text/javascript">
+if(window.applet && applet.inject){
+        applet.inject =	function(){};
+        applet.getAppletObject = function(){return {setWidth:function(){},setHeight:function(){}};};
+
+}
+
 // for IE9
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
