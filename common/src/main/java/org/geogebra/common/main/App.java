@@ -2449,7 +2449,8 @@ public abstract class App implements UpdateSelection {
 		}
 
 		if (has(Feature.DYNAMIC_STYLEBAR)) {
-			updateDynamicStyleBars();
+			// TODO update only dynamic stylebar
+			updateStyleBars();
 		}
 
 		if (updatePropertiesView && propertiesView != null && showMenuBar) {
