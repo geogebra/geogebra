@@ -1976,13 +1976,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdSum() {
-		t("Sum[ list1 , list1]");
-		t("Sum[ list1 ]");
-		t("Sum[ list1 , n1 ]");
-	}
-
-	@Test
 	public void cmdSumSquaredErrors() {
 		t("SumSquaredErrors[ ptlist1, f1 ]");
 
