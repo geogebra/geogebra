@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
+import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -74,7 +75,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 * corner of bounding box of drawable
 	 */
 	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint) {
 
 		if (gRectangle2D == null) {
 			return;
@@ -84,34 +85,48 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 				- this.getAbsoluteLeft();
 		int height = this.getOffsetHeight();
 
-		double left, top;
-		if (hasBoundingBox) {
-			left = gRectangle2D.getMaxX() - move;
-			top = gRectangle2D.getMinY() - height - 10;
+		double left, top = -1;
 
-		} else { // line has no bounding box
-			left = gRectangle2D.getMaxX() - height / 2.0;
-			top = gRectangle2D.getMinY();
+		if (!isPoint) {
+			if (hasBoundingBox) {
+				top = gRectangle2D.getMinY() - height - 10;
+			} else { // line has no bounding box
+				top = gRectangle2D.getMinY();
+			}
 		}
 
 		// if there is no enough place on the top of bounding box, dynamic
-		// stylebar will be visible at the bottom of bounding box.
+		// stylebar will be visible at the bottom of bounding box,
+		// stylebar of points will be bottom of point if possible.
 		if (top < 0) {
 			top = gRectangle2D.getMaxY() + 10;
 		}
 
 		int maxtop = app.getActiveEuclidianView().getHeight() - height - 5;
 		if (top > maxtop) {
-			top = maxtop;
+			if (isPoint) {
+				// if there is no enough place under the point
+				// put the dyn. stylebar above the point
+				top = gRectangle2D.getMinY() - height - 10;
+			} else {
+				top = maxtop;
+			}
 		}
 
+
+		// get left position
+		if (hasBoundingBox) {
+			left = gRectangle2D.getMaxX() - move;
+		} else { // line has no bounding box
+			left = gRectangle2D.getMaxX() - height / 2.0;
+		}
 		if (left < 0) {
 			left = 0;
 		}
-
 		if (left + this.getOffsetWidth() > app.getActiveEuclidianView().getWidth()) {
 			left = app.getActiveEuclidianView().getWidth() - this.getOffsetWidth();
 		}
+
 
 		this.getElement().getStyle().setLeft(left, Unit.PX);
 		this.getElement().getStyle().setTop(top, Unit.PX);
@@ -146,10 +161,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
-					true);
+					true, false);
 		} else {
 			setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
-					!(dr instanceof DrawLine));
+					!(dr instanceof DrawLine), dr instanceof DrawPoint);
 		}
 	}
 
