@@ -159,11 +159,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 
-		if (activeGeoList.get(0) instanceof GeoFunction) {
+		if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
+				&& activeGeoList.get(0) instanceof GeoFunction) {
 			setPositionForFunction((Drawable) dr,
 					(GeoFunction) activeGeoList.get(0));
-		} else
-		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
+		} else if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
 					true, false);
