@@ -1908,7 +1908,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox) {
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint) {
 		//used only in DynamicStyleBar class
 	}
 

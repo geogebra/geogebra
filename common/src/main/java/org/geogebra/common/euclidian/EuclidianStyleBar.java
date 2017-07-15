@@ -66,7 +66,7 @@ public interface EuclidianStyleBar {
 
 	void reinit();
 
-	void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox);
+	void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint);
 
 	void setVisible(boolean b);
 
