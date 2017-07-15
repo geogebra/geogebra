@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
+import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
@@ -24,6 +25,7 @@ import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
@@ -50,7 +52,12 @@ public class ParametricProcessor3D extends ParametricProcessor {
 			ExpressionValue ev, FunctionVariable[] fv, String label,
 			EvalInfo info) {
 		Construction cons = kernel.getConstruction();
-
+		if (ev instanceof VectorValue
+				&& exp.getKernel().getApplication().has(Feature.SURFACE_2D)) {
+			if (fv.length == 2) {
+				return processSurface(exp, fv, label, 2);
+			}
+		}
 		if (ev instanceof Vector3DValue) {
 			if (fv.length == 2) {
 				return processSurface(exp, fv, label, 3);

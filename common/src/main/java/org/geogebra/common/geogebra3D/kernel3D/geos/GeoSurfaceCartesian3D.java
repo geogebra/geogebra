@@ -20,14 +20,11 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
-import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
-import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -38,7 +35,6 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * Class for cartesian curves in 3D
@@ -48,7 +44,7 @@ import org.geogebra.common.plugin.Operation;
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		implements Functional2Var, Traceable, CasEvaluableFunction, Region,
-		MirrorableAtPlane, Translateable, Dilateable, RotateableND {
+		MirrorableAtPlane, RotateableND {
 	private boolean isSurfaceOfRevolutionAroundOx = false;
 	private CoordMatrix4x4 tmpMatrix4x4;
 	/**
@@ -153,9 +149,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
-	private double fun1evaluate(int i, int j, double[] d) {
-		return fun1[i][j].evaluate(d);
-	}
+
 
 	/**
 	 * set the jacobian matrix for bivariate newton method
@@ -560,246 +554,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
-	private double[] xyz, xyzDu, xyzDv, xyzDuu, xyzDuv, xyzDvv, xyzDvu, uv;
 
-	private Coords bivariateVector, bivariateDelta;
-
-	private CoordMatrix jacobian;
-
-	private void getClosestParameters(double x0, double y0, double z0,
-			double[] xzyzuvOut) {
-
-		// set derivatives if needed
-		setSecondDerivatives();
-
-		// create fields if needed
-		if (xyz == null) {
-			xyz = new double[3];
-		}
-
-		if (xyzDu == null) {
-			xyzDu = new double[3];
-			xyzDv = new double[3];
-			xyzDuu = new double[3];
-			xyzDuv = new double[3];
-			xyzDvu = new double[3];
-			xyzDvv = new double[3];
-			uv = new double[2];
-		}
-
-		if (jacobian == null) {
-			jacobian = new CoordMatrix(2, 2);
-			bivariateVector = new Coords(3);
-			bivariateDelta = new Coords(2);
-		}
-
-		// init to no solution
-		double dist = Double.POSITIVE_INFINITY;
-		xzyzuvOut[0] = Double.NaN;
-
-		// make several tries
-		double uMin = getMinParameter(0);
-		double uMax = getMaxParameter(0);
-		double vMin = getMinParameter(1);
-		double vMax = getMaxParameter(1);
-		double du = (uMax - uMin) / BIVARIATE_SAMPLES;
-		double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
-		for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
-			uv[0] = uMin + ui * du;
-			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
-				uv[1] = vMin + vi * dv;
-				double error = findBivariateNormalZero(x0, y0, z0, uv);
-				if (!Double.isNaN(error)) {
-					// check if the hit point is the closest
-					double dx = (xyz[0] - x0);
-					double dy = (xyz[1] - y0);
-					double dz = (xyz[2] - z0);
-					double d = dx * dx + dy * dy + dz * dz;
-
-					if (d < dist) {
-						dist = d;
-						xzyzuvOut[0] = xyz[0];
-						xzyzuvOut[1] = xyz[1];
-						xzyzuvOut[2] = xyz[2];
-						xzyzuvOut[3] = uv[0];
-						xzyzuvOut[4] = uv[1];
-					}
-
-				}
-
-			}
-
-		}
-	}
-
-	private static final int BIVARIATE_JUMPS = 10;
-	private static final int BIVARIATE_SAMPLES = 8;
-
-	private double findBivariateNormalZero(double x0, double y0, double z0,
-			double[] uvOut) {
-
-		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
-			// compare point to current f(u,v) point
-			xyz[0] = fun[0].evaluate(uvOut);
-			xyz[1] = fun[1].evaluate(uvOut);
-			xyz[2] = fun[2].evaluate(uvOut);
-
-			double dx = xyz[0] - x0;
-			double dy = xyz[1] - y0;
-			double dz = xyz[2] - z0;
-
-			// calculate derivatives values
-			xyzDu[0] = fun1evaluate(0, 0, uvOut);
-			xyzDu[1] = fun1evaluate(0, 1, uvOut);
-			xyzDu[2] = fun1evaluate(0, 2, uvOut);
-
-			xyzDv[0] = fun1evaluate(1, 0, uvOut);
-			xyzDv[1] = fun1evaluate(1, 1, uvOut);
-			xyzDv[2] = fun1evaluate(1, 2, uvOut);
-
-			xyzDuu[0] = fun2evaluate(0, 0, 0, uvOut);
-			xyzDuu[1] = fun2evaluate(0, 0, 1, uvOut);
-			xyzDuu[2] = fun2evaluate(0, 0, 2, uvOut);
-
-			xyzDuv[0] = fun2evaluate(1, 0, 0, uvOut);
-			xyzDuv[1] = fun2evaluate(1, 0, 1, uvOut);
-			xyzDuv[2] = fun2evaluate(1, 0, 2, uvOut);
-
-			xyzDvu[0] = fun2evaluate(0, 1, 0, uvOut);
-			xyzDvu[1] = fun2evaluate(0, 1, 1, uvOut);
-			xyzDvu[2] = fun2evaluate(0, 1, 2, uvOut);
-
-			xyzDvv[0] = fun2evaluate(1, 1, 0, uvOut);
-			xyzDvv[1] = fun2evaluate(1, 1, 1, uvOut);
-			xyzDvv[2] = fun2evaluate(1, 1, 2, uvOut);
-
-			// set bivariate vector
-			bivariateVector.setX(dx * xyzDu[0] + dy * xyzDu[1] + dz * xyzDu[2]);
-			bivariateVector.setY(dx * xyzDv[0] + dy * xyzDv[1] + dz * xyzDv[2]);
-
-			// if bivariate vector is small enough: point found
-			double error = bivariateVector.calcSquareNorm();
-			if (Kernel.isZero(error)) {
-				return error;
-			}
-
-			// set jacobian matrix
-			double xyzDuDv = xyzDu[0] * xyzDv[0] + xyzDu[1] * xyzDv[1]
-					+ xyzDu[2] * xyzDv[2];
-			jacobian.set(1, 1,
-					xyzDu[0] * xyzDu[0] + xyzDu[1] * xyzDu[1]
-							+ xyzDu[2] * xyzDu[2] + dx * xyzDuu[0]
-							+ dy * xyzDuu[1] + dz * xyzDuu[2]);
-			jacobian.set(1, 2,
-					xyzDuDv + dx * xyzDuv[0] + dy * xyzDuv[1] + dz * xyzDuv[2]);
-
-			jacobian.set(2, 1,
-					xyzDuDv + dx * xyzDvu[0] + dy * xyzDvu[1] + dz * xyzDvu[2]);
-			jacobian.set(2, 2,
-					xyzDv[0] * xyzDv[0] + xyzDv[1] * xyzDv[1]
-							+ xyzDv[2] * xyzDv[2] + dx * xyzDvv[0]
-							+ dy * xyzDvv[1] + dz * xyzDvv[2]);
-
-			// solve jacobian
-			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
-
-			// if no solution, dismiss
-			if (!bivariateDelta.isDefined()) {
-				return Double.NaN;
-			}
-
-			// calc new parameters
-			uvOut[0] -= bivariateDelta.getX();
-			uvOut[1] -= bivariateDelta.getY();
-
-			// check bounds
-			randomBackInIntervalsIfNeeded(uvOut);
-
-		}
-
-		return Double.NaN;
-
-	}
-
-	// /**
-	// * calc closest point to line (x0,y0,z0) (vx,vy,vz)
-	// *
-	// * @param x0
-	// * @param y0
-	// * @param z0
-	// * @param vx
-	// * @param vy
-	// * @param vz
-	// * @param xyzuv
-	// */
-	// private void getClosestParameters(double x0, double y0, double z0,
-	// double vx, double vy, double vz, double[] xyzuv) {
-	//
-	// // set derivatives if needed
-	// setSecondDerivatives();
-	//
-	// // create fields if needed
-	// if (xyz == null) {
-	// xyz = new double[3];
-	// }
-	//
-	// if (xyzDu == null) {
-	// xyzDu = new double[3];
-	// xyzDv = new double[3];
-	// xyzDuu = new double[3];
-	// xyzDuv = new double[3];
-	// xyzDvu = new double[3];
-	// xyzDvv = new double[3];
-	// uv = new double[2];
-	// }
-	//
-	// // init to no solution
-	// double dist = Double.POSITIVE_INFINITY;
-	// xyzuv[0] = Double.NaN;
-	//
-	// // make several tries
-	// double uMin = getMinParameter(0);
-	// double uMax = getMaxParameter(0);
-	// double vMin = getMinParameter(1);
-	// double vMax = getMaxParameter(1);
-	// double du = (uMax - uMin) / GRADIENT_SAMPLES;
-	// double dv = (vMax - vMin) / GRADIENT_SAMPLES;
-	// for (int ui = 0; ui <= GRADIENT_SAMPLES; ui++) {
-	// uv[0] = uMin + ui * du;
-	// for (int vi = 0; vi <= GRADIENT_SAMPLES; vi++) {
-	// uv[1] = vMin + vi * dv;
-	// boolean found = findMinimumDistanceGradient(x0, y0,
-	// z0, vx, vy, vz,
-	// uv);
-	// if (found) {
-	// // check if the hit point is the closest
-	// double dx = (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
-	// double dy = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
-	// double dz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
-	// double d = dx * dx + dy * dy + dz * dz;
-	// Log.debug(xyz[0] + "," + xyz[1] + "," + xyz[2] + "," + d);
-	// if (d < dist) {
-	// dist = d;
-	// xyzuv[0] = xyz[0];
-	// xyzuv[1] = xyz[1];
-	// xyzuv[2] = xyz[2];
-	// xyzuv[3] = uv[0];
-	// xyzuv[4] = uv[1];
-	// }
-	//
-	// }
-	//
-	// }
-	//
-	// }
-	//
-	// Log.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2] + ","
-	// + dist);
-	// }
-
-	private double fun2evaluate(int i, int j, int k, double[] d) {
-		return fun2[i][j][k].evaluate(d);
-	}
 
 	/**
 	 * calc closest point to line (x0,y0,z0) (vx,vy,vz) with (uold, vold) start
@@ -1126,30 +881,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		return Double.NaN;
 	}
 
-	/**
-	 * check if parameters u, v are between min/max parameters; if not, replace
-	 * by a random number in interval
-	 * 
-	 * @param uvInOut
-	 *            u,v parameters
-	 */
-	public void randomBackInIntervalsIfNeeded(double[] uvInOut) {
-		if (uvInOut[0] > getMaxParameter(0)
-				|| uvInOut[0] < getMinParameter(0)) {
-			uvInOut[0] = getRandomBetween(getMinParameter(0),
-					getMaxParameter(0));
-		}
 
-		if (uvInOut[1] > getMaxParameter(1)
-				|| uvInOut[1] < getMinParameter(1)) {
-			uvInOut[1] = getRandomBetween(getMinParameter(1),
-					getMaxParameter(1));
-		}
-	}
-
-	private double getRandomBetween(double a, double b) {
-		return a + (b - a) * cons.getApplication().getRandomNumber();
-	}
 
 	@Override
 	public void regionChanged(GeoPointND P) {
@@ -1201,6 +933,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	 * 
 	 * @return true if surface of revolution around Ox by definition
 	 */
+	@Override
 	public boolean isSurfaceOfRevolutionAroundOx() {
 		return isSurfaceOfRevolutionAroundOx;
 	}
@@ -1253,32 +986,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		this.fun = fun;
 		this.fun1 = null;
 		this.fun2 = null;
-
-	}
-
-	public void mirror(Coords Q) {
-		dilate(new MyDouble(kernel, -1.0), Q);
-	}
-
-	public void dilate(NumberValue ratio, Coords P) {
-		translate(P.mul(-1));
-		for (int i = 0; i < 3; i++) {
-			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
-			fun[i].setExpression(new ExpressionNode(kernel, ratio,
-					Operation.MULTIPLY, expr));
-		}
-		translate(P);
-
-	}
-
-	public void translate(Coords v) {
-
-		// current expressions
-		for (int i = 0; i < 3; i++) {
-			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
-			ExpressionNode trans = expr.plus(v.get(i + 1));
-			fun[i].setExpression(trans);
-		}
 
 	}
 
@@ -1337,22 +1044,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 		SurfaceTransform.rotate(fun, kernel, r, line, tmpMatrix4x4);
 
-	}
-
-	/**
-	 * @param startParam
-	 *            start parameters
-	 */
-	public void setStartParameter(double[] startParam) {
-		this.startParam = startParam;
-	}
-
-	/**
-	 * @param endParam
-	 *            end parameters
-	 */
-	public void setEndParameter(double[] endParam) {
-		this.endParam = endParam;
 	}
 
 }

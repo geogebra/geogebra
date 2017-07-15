@@ -115,6 +115,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 */
 	protected GeoSurfaceCartesianND createCurve(Construction cons,
 			ExpressionNode point, FunctionNVar[] fun) {
+		// if (fun.length == 2) {
+		// return new GeoSurfaceCartesian2D(cons, point, fun);
+		// }
 		return new GeoSurfaceCartesian3D(cons, point, fun);
 	}
 
@@ -173,7 +176,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 		// take care to set the surface undefined
 		// if its predecessors are undefined
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < coords.length; i++) {
 			AlgoElement algo = null;
 			if (coords[i].toGeoElement() != null) {
 				algo = (coords[i].toGeoElement()).getParentAlgorithm();

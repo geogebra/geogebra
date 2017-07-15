@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.Feature;
@@ -309,7 +310,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				// wireframe follows the grid
 				uStep = getView3D().getAxisNumberingDistance(0);
 				vStep = getView3D().getAxisNumberingDistance(1);
-			} else if (((GeoSurfaceCartesian3D) surfaceGeo)
+			} else if (((GeoSurfaceCartesianND) surfaceGeo)
 					.isSurfaceOfRevolutionAroundOx()) {
 				// cartesian surface of revolution
 				uBorderMin = getView3D().getXmin();

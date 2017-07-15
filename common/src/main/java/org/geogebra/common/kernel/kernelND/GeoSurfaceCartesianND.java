@@ -1,14 +1,22 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
+import org.geogebra.common.kernel.Matrix.CoordMatrix;
+import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Abstract class for cartesian curves in any dimension
@@ -17,8 +25,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public abstract class GeoSurfaceCartesianND extends GeoElement
-		implements SurfaceEvaluable, VarString {
-
+		implements SurfaceEvaluable, VarString, Translateable, Dilateable {
+	protected static final int BIVARIATE_SAMPLES = 8;
+	protected static final int BIVARIATE_JUMPS = 10;
 	/** coordinates functions */
 	protected FunctionNVar[] fun;
 	/** derivative functions */
@@ -33,6 +42,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	/** flag for isDefined() */
 	protected boolean isDefined = true;
 	private ExpressionNode point;
+	protected double[] xyz, xyzDu, xyzDv, xyzDuu, xyzDuv, xyzDvv, xyzDvu, uv;
+
+	protected Coords bivariateVector, bivariateDelta;
+
+	protected CoordMatrix jacobian;
 
 	/**
 	 * common constructor
@@ -354,6 +368,240 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	public ExpressionValue evaluateSurface(double u, double v) {
 		// override this in the 3D version
 		return null;
+	}
+
+	/**
+	 * @return whether this is a rotational surface; overridden in 3D
+	 */
+	public boolean isSurfaceOfRevolutionAroundOx() {
+		return false;
+	}
+
+	/**
+	 * @param startParam
+	 *            start parameters
+	 */
+	public void setStartParameter(double[] startParam) {
+		this.startParam = startParam;
+	}
+
+	/**
+	 * @param endParam
+	 *            end parameters
+	 */
+	public void setEndParameter(double[] endParam) {
+		this.endParam = endParam;
+	}
+
+	protected void getClosestParameters(double x0, double y0, double z0,
+			double[] xzyzuvOut) {
+
+		// set derivatives if needed
+		setSecondDerivatives();
+
+		// create fields if needed
+		if (xyz == null) {
+			xyz = new double[3];
+		}
+
+		if (xyzDu == null) {
+			xyzDu = new double[3];
+			xyzDv = new double[3];
+			xyzDuu = new double[3];
+			xyzDuv = new double[3];
+			xyzDvu = new double[3];
+			xyzDvv = new double[3];
+			uv = new double[2];
+		}
+
+		if (jacobian == null) {
+			jacobian = new CoordMatrix(2, 2);
+			bivariateVector = new Coords(3);
+			bivariateDelta = new Coords(2);
+		}
+
+		// init to no solution
+		double dist = Double.POSITIVE_INFINITY;
+		xzyzuvOut[0] = Double.NaN;
+
+		// make several tries
+		double uMin = getMinParameter(0);
+		double uMax = getMaxParameter(0);
+		double vMin = getMinParameter(1);
+		double vMax = getMaxParameter(1);
+		double du = (uMax - uMin) / BIVARIATE_SAMPLES;
+		double dv = (vMax - vMin) / BIVARIATE_SAMPLES;
+		for (int ui = 0; ui <= BIVARIATE_SAMPLES; ui++) {
+			uv[0] = uMin + ui * du;
+			for (int vi = 0; vi <= BIVARIATE_SAMPLES; vi++) {
+				uv[1] = vMin + vi * dv;
+				double error = findBivariateNormalZero(x0, y0, z0, uv);
+				if (!Double.isNaN(error)) {
+					// check if the hit point is the closest
+					double dx = (xyz[0] - x0);
+					double dy = (xyz[1] - y0);
+					double dz = (xyz[2] - z0);
+					double d = dx * dx + dy * dy + dz * dz;
+
+					if (d < dist) {
+						dist = d;
+						xzyzuvOut[0] = xyz[0];
+						xzyzuvOut[1] = xyz[1];
+						xzyzuvOut[2] = xyz[2];
+						xzyzuvOut[3] = uv[0];
+						xzyzuvOut[4] = uv[1];
+					}
+
+				}
+
+			}
+
+		}
+	}
+
+	private double findBivariateNormalZero(double x0, double y0, double z0,
+			double[] uvOut) {
+
+		for (int i = 0; i < BIVARIATE_JUMPS; i++) {
+			// compare point to current f(u,v) point
+			xyz[0] = fun[0].evaluate(uvOut);
+			xyz[1] = fun[1].evaluate(uvOut);
+			xyz[2] = fun[2].evaluate(uvOut);
+
+			double dx = xyz[0] - x0;
+			double dy = xyz[1] - y0;
+			double dz = xyz[2] - z0;
+
+			// calculate derivatives values
+			xyzDu[0] = fun1evaluate(0, 0, uvOut);
+			xyzDu[1] = fun1evaluate(0, 1, uvOut);
+			xyzDu[2] = fun1evaluate(0, 2, uvOut);
+
+			xyzDv[0] = fun1evaluate(1, 0, uvOut);
+			xyzDv[1] = fun1evaluate(1, 1, uvOut);
+			xyzDv[2] = fun1evaluate(1, 2, uvOut);
+
+			xyzDuu[0] = fun2evaluate(0, 0, 0, uvOut);
+			xyzDuu[1] = fun2evaluate(0, 0, 1, uvOut);
+			xyzDuu[2] = fun2evaluate(0, 0, 2, uvOut);
+
+			xyzDuv[0] = fun2evaluate(1, 0, 0, uvOut);
+			xyzDuv[1] = fun2evaluate(1, 0, 1, uvOut);
+			xyzDuv[2] = fun2evaluate(1, 0, 2, uvOut);
+
+			xyzDvu[0] = fun2evaluate(0, 1, 0, uvOut);
+			xyzDvu[1] = fun2evaluate(0, 1, 1, uvOut);
+			xyzDvu[2] = fun2evaluate(0, 1, 2, uvOut);
+
+			xyzDvv[0] = fun2evaluate(1, 1, 0, uvOut);
+			xyzDvv[1] = fun2evaluate(1, 1, 1, uvOut);
+			xyzDvv[2] = fun2evaluate(1, 1, 2, uvOut);
+
+			// set bivariate vector
+			bivariateVector.setX(dx * xyzDu[0] + dy * xyzDu[1] + dz * xyzDu[2]);
+			bivariateVector.setY(dx * xyzDv[0] + dy * xyzDv[1] + dz * xyzDv[2]);
+
+			// if bivariate vector is small enough: point found
+			double error = bivariateVector.calcSquareNorm();
+			if (Kernel.isZero(error)) {
+				return error;
+			}
+
+			// set jacobian matrix
+			double xyzDuDv = xyzDu[0] * xyzDv[0] + xyzDu[1] * xyzDv[1]
+					+ xyzDu[2] * xyzDv[2];
+			jacobian.set(1, 1,
+					xyzDu[0] * xyzDu[0] + xyzDu[1] * xyzDu[1]
+							+ xyzDu[2] * xyzDu[2] + dx * xyzDuu[0]
+							+ dy * xyzDuu[1] + dz * xyzDuu[2]);
+			jacobian.set(1, 2,
+					xyzDuDv + dx * xyzDuv[0] + dy * xyzDuv[1] + dz * xyzDuv[2]);
+
+			jacobian.set(2, 1,
+					xyzDuDv + dx * xyzDvu[0] + dy * xyzDvu[1] + dz * xyzDvu[2]);
+			jacobian.set(2, 2,
+					xyzDv[0] * xyzDv[0] + xyzDv[1] * xyzDv[1]
+							+ xyzDv[2] * xyzDv[2] + dx * xyzDvv[0]
+							+ dy * xyzDvv[1] + dz * xyzDvv[2]);
+
+			// solve jacobian
+			jacobian.pivotDegenerate(bivariateDelta, bivariateVector);
+
+			// if no solution, dismiss
+			if (!bivariateDelta.isDefined()) {
+				return Double.NaN;
+			}
+
+			// calc new parameters
+			uvOut[0] -= bivariateDelta.getX();
+			uvOut[1] -= bivariateDelta.getY();
+
+			// check bounds
+			randomBackInIntervalsIfNeeded(uvOut);
+
+		}
+
+		return Double.NaN;
+
+	}
+
+	/**
+	 * check if parameters u, v are between min/max parameters; if not, replace
+	 * by a random number in interval
+	 * 
+	 * @param uvInOut
+	 *            u,v parameters
+	 */
+	public void randomBackInIntervalsIfNeeded(double[] uvInOut) {
+		if (uvInOut[0] > getMaxParameter(0)
+				|| uvInOut[0] < getMinParameter(0)) {
+			uvInOut[0] = getRandomBetween(getMinParameter(0),
+					getMaxParameter(0));
+		}
+
+		if (uvInOut[1] > getMaxParameter(1)
+				|| uvInOut[1] < getMinParameter(1)) {
+			uvInOut[1] = getRandomBetween(getMinParameter(1),
+					getMaxParameter(1));
+		}
+	}
+
+	private double getRandomBetween(double a, double b) {
+		return a + (b - a) * cons.getApplication().getRandomNumber();
+	}
+
+	protected double fun2evaluate(int i, int j, int k, double[] d) {
+		return fun2[i][j][k].evaluate(d);
+	}
+
+	protected double fun1evaluate(int i, int j, double[] d) {
+		return fun1[i][j].evaluate(d);
+	}
+
+	public void mirror(Coords Q) {
+		dilate(new MyDouble(kernel, -1.0), Q);
+	}
+
+	public void dilate(NumberValue ratio, Coords P) {
+		translate(P.mul(-1));
+		for (int i = 0; i < 3; i++) {
+			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
+			fun[i].setExpression(new ExpressionNode(kernel, ratio,
+					Operation.MULTIPLY, expr));
+		}
+		translate(P);
+
+	}
+
+	public void translate(Coords v) {
+
+		// current expressions
+		for (int i = 0; i < 3; i++) {
+			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
+			ExpressionNode trans = expr.plus(v.get(i + 1));
+			fun[i].setExpression(trans);
+		}
+
 	}
 
 }

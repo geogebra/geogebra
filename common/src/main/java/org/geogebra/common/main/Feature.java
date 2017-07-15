@@ -256,6 +256,6 @@ public enum Feature {
 
 	AND_MOVE_FAB,
 
-	LABEL_NAME_CAPTION
+	LABEL_NAME_CAPTION, SURFACE_2D
 
 }
