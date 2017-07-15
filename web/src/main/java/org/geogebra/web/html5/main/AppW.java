@@ -197,6 +197,7 @@ public abstract class AppW extends App implements SetLabels {
 	private static boolean anyAppHasFocus = true;
 
 	private ReaderTimer readerTimer;
+	private String initialPerspective;
 
 	/**
 	 * @param ae
@@ -208,6 +209,7 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(getVersion(ae, dimension, laf));
+		this.initialPerspective = ae.getDataParamPerspective();
 		setPrerelease(ae.getDataParamPrerelease());
 
 		// laf = null in webSimple
@@ -3609,8 +3611,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean isUnbundled() {
-		return "1".equals(getArticleElement().getDataParamPerspective())
-				|| "2".equals(getArticleElement().getDataParamPerspective());
+		return "1".equals(initialPerspective) || "2".equals(initialPerspective);
 
 	}
 
