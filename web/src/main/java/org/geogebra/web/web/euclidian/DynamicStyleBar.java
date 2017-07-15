@@ -185,6 +185,24 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		double yPosReal = geo.getFunction().value(xPosReal);
 		double yPos = app.getActiveEuclidianView().toScreenCoordY(yPosReal);
 
+		// Keep dynamic stylebar on the screen
+		if (yPos < 5) {
+			yPos = 5;
+		}
+		int maxtop = app.getActiveEuclidianView().getHeight()
+				- getOffsetHeight() - 5;
+		if (yPos > maxtop) {
+			yPos = maxtop;
+		}
+		if (xPos < 0) {
+			xPos = 0;
+		}
+		if (xPos + this.getOffsetWidth() > app.getActiveEuclidianView()
+				.getWidth()) {
+			xPos = app.getActiveEuclidianView().getWidth()
+					- this.getOffsetWidth();
+		}
+
 		this.getElement().getStyle().setLeft(xPos, Unit.PX);
 		this.getElement().getStyle().setTop(yPos, Unit.PX);
 	}
