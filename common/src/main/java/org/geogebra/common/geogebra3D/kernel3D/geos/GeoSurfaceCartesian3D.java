@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -17,12 +16,9 @@ import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValueType;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
@@ -43,10 +39,12 @@ import org.geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
-		implements Functional2Var, Traceable, CasEvaluableFunction, Region,
+		implements Functional2Var, Traceable, Region,
 		MirrorableAtPlane, RotateableND {
 	private boolean isSurfaceOfRevolutionAroundOx = false;
 	private CoordMatrix4x4 tmpMatrix4x4;
+	private double[] xyzuv;
+	private double lastHitU, lastHitV;
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
 	 * 
@@ -408,37 +406,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
-			boolean symbolic, MyArbitraryConstant arbconst) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getVarString(StringTemplate tpl) {
-		return fun[0].getVarString(tpl);
-	}
-
-	@Override
-	public FunctionVariable[] getFunctionVariables() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void clearCasEvalMap(String string) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/**
-	 * @return cartesian coords as functions
-	 */
-	public FunctionNVar[] getFunctions() {
-		return fun;
-	}
-
-	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
@@ -477,7 +444,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 				.has(Feature.PARAMETRIC_SURFACE_IS_REGION);
 	}
 
-	private double[] xyzuv;
 
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
@@ -556,192 +522,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 
 
-	/**
-	 * calc closest point to line (x0,y0,z0) (vx,vy,vz) with (uold, vold) start
-	 * parameters
-	 * 
-	 * @param x0
-	 * @param y0
-	 * @param z0
-	 * @param vx
-	 * @param vy
-	 * @param vz
-	 * @param xyzuv1
-	 * 
-	 * @return true if found
-	 */
-	private boolean getClosestParameters(double uold, double vold, double x0,
-			double y0, double z0, double vx, double vy, double vz,
-			double[] xyzuv1) {
 
-		// check (uold,vold) are correct starting parameters
-		if (Double.isNaN(uold) || Double.isNaN(vold)) {
-			return false;
-		}
-
-		// set derivatives if needed
-		setSecondDerivatives();
-
-		// create fields if needed
-		if (xyz == null) {
-			xyz = new double[3];
-		}
-
-		if (xyzDu == null) {
-			xyzDu = new double[3];
-			xyzDv = new double[3];
-			xyzDuu = new double[3];
-			xyzDuv = new double[3];
-			xyzDvu = new double[3];
-			xyzDvv = new double[3];
-			uv = new double[2];
-		}
-
-		// init to no solution
-		xyzuv1[0] = Double.NaN;
-
-		// make several tries
-		uv[0] = uold;
-		uv[1] = vold;
-		if (findMinimumDistanceGradient(x0, y0, z0, vx, vy, vz, uv)) {
-			xyzuv1[0] = xyz[0];
-			xyzuv1[1] = xyz[1];
-			xyzuv1[2] = xyz[2];
-			xyzuv1[3] = uv[0];
-			xyzuv1[4] = uv[1];
-			// Log.debug(">>> " + xyzuv[0] + "," + xyzuv[1] + "," + xyzuv[2]);
-			return true;
-		}
-
-		return false;
-
-	}
-
-	private static final int GRADIENT_JUMPS = 100;
-
-	// private static final int GRADIENT_SAMPLES = 8;
-
-	private boolean findMinimumDistanceGradient(double x0, double y0, double z0,
-			double vx, double vy, double vz, double[] uvOut) {
-
-		for (int i = 0; i < GRADIENT_JUMPS; i++) {
-			// calc current f(u,v) point
-			xyz[0] = fun[0].evaluate(uvOut);
-			xyz[1] = fun[1].evaluate(uvOut);
-			xyz[2] = fun[2].evaluate(uvOut);
-
-			// calculate derivatives values
-			xyzDu[0] = fun1evaluate(0, 0, uvOut);
-			xyzDu[1] = fun1evaluate(0, 1, uvOut);
-			xyzDu[2] = fun1evaluate(0, 2, uvOut);
-
-			xyzDv[0] = fun1evaluate(1, 0, uvOut);
-			xyzDv[1] = fun1evaluate(1, 1, uvOut);
-			xyzDv[2] = fun1evaluate(1, 2, uvOut);
-
-			xyzDuu[0] = fun2evaluate(0, 0, 0, uvOut);
-			xyzDuu[1] = fun2evaluate(0, 0, 1, uvOut);
-			xyzDuu[2] = fun2evaluate(0, 0, 2, uvOut);
-
-			xyzDuv[0] = fun2evaluate(1, 0, 0, uvOut);
-			xyzDuv[1] = fun2evaluate(1, 0, 1, uvOut);
-			xyzDuv[2] = fun2evaluate(1, 0, 2, uvOut);
-
-			xyzDvu[0] = fun2evaluate(0, 1, 0, uvOut);
-			xyzDvu[1] = fun2evaluate(0, 1, 1, uvOut);
-			xyzDvu[2] = fun2evaluate(0, 1, 2, uvOut);
-
-			xyzDvv[0] = fun2evaluate(1, 1, 0, uvOut);
-			xyzDvv[1] = fun2evaluate(1, 1, 1, uvOut);
-			xyzDvv[2] = fun2evaluate(1, 1, 2, uvOut);
-
-			// we want to minimize (x,y,z)-to-line distance,
-			// i.e. norm of vector:
-			// (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
-			// (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
-			// (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
-
-			// help values
-			double nx = (xyz[2] - z0) * vx - (xyz[0] - x0) * vz;
-			double ny = (xyz[0] - x0) * vy - (xyz[1] - y0) * vx;
-			double nz = (xyz[1] - y0) * vz - (xyz[2] - z0) * vy;
-			double nxDu = xyzDu[2] * vx - xyzDu[0] * vz;
-			double nyDu = xyzDu[0] * vy - xyzDu[1] * vx;
-			double nzDu = xyzDu[1] * vz - xyzDu[2] * vy;
-			double nxDv = xyzDv[2] * vx - xyzDv[0] * vz;
-			double nyDv = xyzDv[0] * vy - xyzDv[1] * vx;
-			double nzDv = xyzDv[1] * vz - xyzDv[2] * vy;
-
-			// calc gradient /2
-			double gu = nxDu * nx // nx
-					+ nyDu * ny // ny
-					+ nzDu * nz; // nz
-			double gv = nxDv * nx // nx
-					+ nyDv * ny // ny
-					+ nzDv * nz; // nz
-
-			// calc Hessien /2
-			double huu = (xyzDuu[2] * vx - xyzDuu[0] * vz) * nx // nx
-					+ (xyzDuu[0] * vy - xyzDuu[1] * vx) * ny // ny
-					+ (xyzDuu[1] * vz - xyzDuu[2] * vy) * nz // nz
-					+ nxDu * nxDu // nx
-					+ nyDu * nyDu // ny
-					+ nzDu * nzDu; // nz
-			double huv = (xyzDuv[2] * vx - xyzDuv[0] * vz) * nx // nx
-					+ (xyzDuv[0] * vy - xyzDuv[1] * vx) * ny // ny
-					+ (xyzDuv[1] * vz - xyzDuv[2] * vy) * nz // nz
-					+ nxDu * nxDv // nx
-					+ nyDu * nyDv // ny
-					+ nzDu * nzDv; // nz
-			double hvv = (xyzDvv[2] * vx - xyzDvv[0] * vz) * nx // nx
-					+ (xyzDvv[0] * vy - xyzDvv[1] * vx) * ny // ny
-					+ (xyzDvv[1] * vz - xyzDvv[2] * vy) * nz // nz
-					+ nxDv * nxDv // nx
-					+ nxDv * nyDv // ny
-					+ nxDv * nzDv; // nz
-			double hvu = (xyzDvu[2] * vx - xyzDvu[0] * vz) * nx // nx
-					+ (xyzDvu[0] * vy - xyzDvu[1] * vx) * ny // ny
-					+ (xyzDvu[1] * vz - xyzDvu[2] * vy) * nz // nz
-					+ nxDu * nxDv // nx
-					+ nyDu * nyDv // ny
-					+ nzDu * nzDv; // nz
-
-			// Hessien * gradient
-			double Hgu = huu * gu + hvu * gv;
-			double Hgv = huv * gu + hvv * gv;
-
-			// best step: gradient*gradient/(gradient * (Hessien * gradient))
-			double gnorm = gu * gu + gv * gv;
-			double d = gnorm / (2 * (gu * Hgu + gv * Hgv));
-
-			// new u,v
-			double du = d * gu;
-			double dv = d * gv;
-			uvOut[0] -= du;
-			uvOut[1] -= dv;
-
-			// back to interval if needed
-			if (uvOut[0] < getMinParameter(0)) {
-				uvOut[0] = getMinParameter(0);
-			} else if (uvOut[0] > getMaxParameter(0)) {
-				uvOut[0] = getMaxParameter(0);
-			}
-			if (uvOut[1] < getMinParameter(1)) {
-				uvOut[1] = getMinParameter(1);
-			} else if (uvOut[1] > getMaxParameter(1)) {
-				uvOut[1] = getMaxParameter(1);
-			}
-
-			if (Kernel.isZero(gnorm)) {
-				return true;
-			}
-
-		}
-
-		return false;
-
-	}
-
+	
 	/**
 	 * find best point on surface colinear to (x0,y0,z0) point in (vx,vy,vz)
 	 * direction
@@ -912,8 +694,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private boolean hasLastHitParameters() {
 		return hasLastHitParameters;
 	}
-
-	private double lastHitU, lastHitV;
 
 	/**
 	 * set last hit u,v parameters
