@@ -2449,8 +2449,7 @@ public abstract class App implements UpdateSelection {
 		}
 
 		if (has(Feature.DYNAMIC_STYLEBAR)) {
-			// TODO update only dynamic stylebar
-			updateStyleBars();
+			updateDynamicStyleBars();
 		}
 
 		if (updatePropertiesView && propertiesView != null && showMenuBar) {
@@ -4231,6 +4230,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case DELETE_BUTTON_BEHAVIOR_FIX:
+			return prerelease;
+
+		/** GGB-1966 */
+		case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
 			return prerelease;
 
 		case AND_TRANSPARENT_STATUSBAR:

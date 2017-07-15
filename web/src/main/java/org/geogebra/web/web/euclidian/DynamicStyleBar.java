@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 
@@ -158,6 +159,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 
+		if (activeGeoList.get(0) instanceof GeoFunction) {
+			setPositionForFunction((Drawable) dr,
+					(GeoFunction) activeGeoList.get(0));
+		} else
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
@@ -166,6 +171,22 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
 					!(dr instanceof DrawLine), dr instanceof DrawPoint);
 		}
+	}
+
+	private void setPositionForFunction(Drawable dr, GeoFunction geo) {
+		GRectangle2D boundingBox = dr.getBoundsForStylebarPosition();
+
+		if (boundingBox == null) {
+			return;
+		}
+
+		double xPos = (boundingBox.getMinX() + boundingBox.getMaxX()) / 2;
+		double xPosReal = app.getActiveEuclidianView().toRealWorldCoordX(xPos);
+		double yPosReal = geo.getFunction().value(xPosReal);
+		double yPos = app.getActiveEuclidianView().toScreenCoordY(yPosReal);
+
+		this.getElement().getStyle().setLeft(xPos, Unit.PX);
+		this.getElement().getStyle().setTop(yPos, Unit.PX);
 	}
 
 	@Override
