@@ -310,14 +310,7 @@ public class StepByStepSolver {
 	}
 
 	private void solveQuadratic() {
-		ExpressionValue diff = helper
-				.getExpressionTree(helper.regroup(LHS + " - (" + RHS + ")"));
-		
-		if(isZero(helper.findVariable(diff, "x^2"))) {
-			subtract(RHS);
-			solveLinear();
-			return;
-		}
+		ExpressionValue diff = helper.getExpressionTree(helper.regroup(LHS + " - (" + RHS + ")"));
 		
 		if(isZero(helper.findVariable(diff, "x"))) {
 			String quadratic = helper.findVariable(evRHS, "x^2");
@@ -348,10 +341,78 @@ public class StepByStepSolver {
 			
 			return;
 		}
+
+		subtract(RHS);
 		
-		if(isZero(helper.findConstant(diff))) {
-			subtract(RHS);
+		String a = helper.findCoefficient(evLHS, "x^2");
+		String b = helper.findCoefficient(evLHS, "x");
+		String c = helper.findConstant(evLHS);
+		
+		if (isZero(a)) {
+			solveLinear();
+			return;
+		}
+
+		if(isZero(c)) {
+			steps.add(loc.getMenuLaTeX("FactorEquation", "Factor equation"));
+			LHS = helper.factor(LHS);
+			addStep();
+
+			evLHS = helper.getExpressionTree(LHS);
+
+			solveProduct(evLHS);
+			return;
+		}
+
+		if (isOne(a) && isEven(helper.getValue(b))) {
+			String toAdd = helper.regroup("((" + b + ")/2)^2 - " + c);
 			
+			steps.add(loc.getMenuLaTeX("CompleteSquare", "Complete the square"));
+			
+			add(toAdd);
+			LHS = helper.factor(LHS);
+			addStep();
+
+			if (helper.getValue(toAdd) < 0) {
+				steps.add(loc.getMenuLaTeX("NoRealSolutions", "No Real Solutions"));
+				return;
+			}
+
+			regenerateTrees();
+			 
+			steps.add(loc.getMenuLaTeX("TakeSquareRoot", "Take square root"));
+			LHS = ((ExpressionNode) evLHS).getLeft().toString(StringTemplate.defaultTemplate);
+			RHS = helper.simplify("sqrt(" + RHS + ")");
+
+			if (isZero(RHS)) {
+				steps.add(LaTeX(LHS) + " = " + LaTeX(RHS));
+
+				evLHS = helper.getExpressionTree(LHS);
+
+				String constant = helper.findConstant(evLHS);
+				addOrSubtract(constant, constant);
+			} else {
+				steps.add(LaTeX(LHS) + " = " + LaTeX(RHS) + " or " + LaTeX(LHS) + " = -(" + LaTeX(RHS) + ")");
+
+				evLHS = helper.getExpressionTree(LHS);
+
+				String toSubtract = helper.findConstant(evLHS);
+				steps.add(loc.getMenuLaTeX("SubtractAFromBothSides", "Subtract %0 from both sides", toSubtract));
+
+				LHS = helper.simplify(LHS + " - (" + toSubtract + ")");
+
+				steps.add(LaTeX(LHS) + " = " + LaTeX(RHS + " -(" + toSubtract + ")") + " or " + LaTeX(LHS) + " = "
+						+ LaTeX("- (" + RHS + ") - (" + toSubtract + ")"));
+				steps.add(LaTeX(LHS) + " = " + LaTeX(helper.regroup(RHS + " -(" + toSubtract + ")")) + " or " + 
+						LaTeX(LHS) + " = " + LaTeX(helper.regroup("- (" + RHS + ") - (" + toSubtract + ")")));
+			}
+			return;
+		}
+		
+		String discriminant = "(" + b + ")^2-4(" + a + ")(" + c + ")";
+		double discriminantValue = helper.getValue(discriminant);
+		
+		if(isSquare(discriminantValue)) {
 			steps.add(loc.getMenuLaTeX("FactorEquation", "Factor equation"));
 			LHS = helper.factor(LHS);
 			addStep();
@@ -362,27 +423,17 @@ public class StepByStepSolver {
 			return;
 		}
 		
-		// TODO: factorizing if delta is perfect square and 
-		// TODO: completing the square, if a = 1 and b is even 
 		
 		// Case: default
 		{
-			subtract(RHS);
-			
-			String a = helper.findCoefficient(evLHS, "x^2");
-			String b = helper.findCoefficient(evLHS, "x");
-			String c = helper.findConstant(evLHS);
-
 			steps.add(loc.getMenuLaTeX("UseQuadraticFormulaWithABC",
 					"Use quadratic formula with a = %0, b = %1, c = %1", a, b, c));
 
 			steps.add("x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}");
 			
-			String discriminant = "(" + b + ")^2-4(" + a + ")(" + c + ")";
-
-			double discriminantValue = helper.getValue(discriminant);
-
 			if (discriminantValue < 0) {
+				String formula = "(-(" + b + ") \\pm sqrt(" + discriminant + "))/(2(" + a + "))";
+				steps.add("x_{1,2} = " + formula);
 				steps.add(loc.getMenuLaTeX("DeltaLessThanZero", "No real solutions"));
 			} else if (discriminantValue == 0) {
 				String formula = "-(" + b + ")/(2(" + a + "))";
@@ -581,5 +632,13 @@ public class StepByStepSolver {
 
 	private boolean isOne(String s) {
 		return helper.stripSpaces(s).equals("") || helper.stripSpaces(s).equals("1");
+	}
+
+	private boolean isEven(Double d) {
+		return Math.floor(d / 2) * 2 == d;
+	}
+
+	private boolean isSquare(Double d) {
+		return Math.floor(Math.sqrt(d)) * Math.floor(Math.sqrt(d)) == d;
 	}
 }
