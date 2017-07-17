@@ -279,7 +279,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 
 		// this.mainPanel.clear();
-
+		app.getEuclidianView1().setKeepCenter(false);
 		if (show) {
 			keyboardVisibilityChanging = true;
 			app.hideMenu();
