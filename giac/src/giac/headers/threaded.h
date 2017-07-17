@@ -72,6 +72,14 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
+  template<class U>
+  inline unsigned sizeinbase2(U n){
+    unsigned i=0;
+    for (;n;++i){
+      n >>= 1;
+    }
+    return i;
+  }
   std::vector<int> operator % (const std::vector<int> & a,int modulo);
   std::vector<int> operator / (const std::vector<int> & v,const std::vector<int> & b);
   std::vector<int> operator % (const std::vector<int> & v,const std::vector<int> & b);
@@ -1069,7 +1077,7 @@ namespace giac {
   }
 
   template<class T>
-  void in_out_heap(T * tab,unsigned size,T value){
+  void in_out_heap(T * tab,size_t size,T value){
     unsigned childindex=2,holeindex=0;
     while (childindex<size){
       // find largest child until end of tab
@@ -2255,6 +2263,26 @@ namespace giac {
   inline bool hashdivrem_finish_later(const mpz_class & a){return true;}
 #endif
 
+  template<class U>
+  inline bool one_index_smaller(U u,U v,const std::vector<int> & varsshift){
+    if (u<v) 
+      return true;
+    return false;
+    // the code below is too slow
+    std::vector<int>::const_iterator it=varsshift.begin(),itend=varsshift.end();
+    for (;it!=itend;++it){
+      int shift=*it;
+      U u1=(u>>shift);
+      U v1=(v>>shift);
+      if (u1<v1) 
+	return true;
+      u -= (u1 << shift);
+      v -= (v1 << shift);
+    }
+    return false;
+  }
+
+  // #define HEAP_STATS
   // note that U may be of type vector of int or an int
   // + is used to multiply monomials and - to divide
   // / should return the quotient of the main variable exponent
@@ -2333,7 +2361,7 @@ namespace giac {
 	&& heap_mult>=0 && a.front().u < 512e6/sizeof(T)){
       U umax=a.front().u,u;
       if (debug_infolevel>1)
-	CERR << "array division, a size " << a.size() << " b size " << b.size() << " u " << umax << std::endl;
+	CERR << CLOCK()*1e-6 << " array division, a size " << a.size() << " b size " << b.size() << " u " << umax << std::endl;
       // array division
       T * rem = new T[unsigned(umax+1)];
       for (u=0;u<=umax;++u)
@@ -2438,7 +2466,7 @@ namespace giac {
       }
       delete [] rem;
       return 1;
-    }
+    } // end array division
     bool use_heap=false && 
       (heap_mult>0 
        && v1v2>=heap_mult
@@ -2448,11 +2476,21 @@ namespace giac {
 	(quo_only && quo_only<3)){
 	  // quo_only<3){
       bool norem=quo_only==2 || quo_only==-2;
+      norem=false; // currently disabled, it's not clear it wins something
+      std::vector<int> varsshift; // vars=2^varsshift
+      if (norem){
+	for (size_t i=0;i<vars.size();++i){
+	  int j=sizeinbase2(vars[i])-1;
+	  if (vars[i]!=(U(1)<<j))
+	    norem=false;
+	  varsshift.push_back(j);
+	}
+      }
 #ifdef HEAP_STATS
-      unsigned chain=0,nochain=0,typeopreduce=0;
+      unsigned chain=0,nochain=0,typeopreduce=0,nullq=0;
 #endif
       if (debug_infolevel>1)
-	CERR << "heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
+	CERR << CLOCK()*1e-6 << " heap division, a size " << a.size() << " b size " << b.size() << " vars " << vars << std::endl;
       // heap division:
       // ita an iterator on a, initial value a.begin()
       // a heap with the current state of q*b, initialized to empty heap
@@ -2497,7 +2535,7 @@ namespace giac {
 	      std::vector< std::pair<unsigned,unsigned> >::iterator it,itend;
 	      nouveau.clear();
 	      while (heapend!=heapbeg && heapu==heapbeg->u){
-		nouveau.clear();
+		//nouveau.clear();
 		// add all elements of the top chain	
 		std::vector< std::pair<unsigned,unsigned> > & V=vindex[heapbeg->v];
 		it=V.begin();
@@ -2512,8 +2550,9 @@ namespace giac {
 		  type_operator_plus_times_reduce((itbbeg+it->first)->g,(qbeg+its)->g,g,reduce);
 		  // increment 2nd poly index of the elements of the top chain
 		  ++its;
-		  if (its<qsize)
+		  if (its<qsize){
 		    nouveau.push_back(*it);
+		  }
 		  else // wait for computation of a new term of a before adding to the heap 
 		    qnouveau.push_back(*it);
 		}
@@ -2525,12 +2564,14 @@ namespace giac {
 #endif
 		// std::pop_heap(heapbeg,heapend);
 		--heapend;
+	      } // while heapend!=heapbeg && heapu==
+	      {
 		// push each element of the incremented top chain 
 		it=nouveau.begin();
 		itend=nouveau.end();
 		for (;it!=itend;++it) {
 		  u=(itbbeg+it->first)->u+(qbeg+it->second)->u;
-		  // if (norem && u<bu) continue;
+		  if (norem && one_index_smaller(u,bu,varsshift)) continue;
 		  // check if u is in the path to the root of the heap
 		  unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 		  if (holeindex && u==heapbeg->u){
@@ -2583,8 +2624,12 @@ namespace giac {
 	      }
 	      else
 		g=-g;
-	      if (is_zero(g))
+	      if (is_zero(g)){
+#ifdef HEAP_STATS
+		++nullq;
+#endif
 		continue;
+	      }
 	    } // end if (heapu>=bu)
 	  } // end else ita->u>heapu
 	} // if heap non empty
@@ -2620,8 +2665,7 @@ namespace giac {
 	  if (!it->first) // leading term of b already taken in account
 	    continue;
 	  u=(itbbeg+it->first)->u+(q.begin()+it->second)->u;
-	  // if we compute quotient only check that u is smaller than bu 
-	  //if (norem && u<bu) continue;
+	  if (norem && one_index_smaller(u,bu,varsshift)) continue;
 	  // check if u is in the path to the root of the heap
 	  unsigned holeindex=unsigned(heapend-heapbeg),parentindex;
 	  if (holeindex && u==heapbeg->u){
@@ -2669,11 +2713,11 @@ namespace giac {
       } // for (;;)
 #ifdef HEAP_STATS
       if (debug_infolevel)
-	CERR << "chain " << chain << ", nochain " << nochain << ", type_op_reduce " << typeopreduce << std::endl;
+	CERR << "chain " << chain << ", nochain " << nochain << ", type_op_reduce " << typeopreduce << " null quotients" << nullq << std::endl;
 #endif
       // r still empty
       if (debug_infolevel>2)
-	CERR << "Finished computing quotient, size " << q.size() << " " << CLOCK() << std::endl ;
+	CERR << CLOCK()*1e-6 << " Finished computing quotient, size " << q.size() << std::endl ;
       if (quo_only==2 || quo_only==-2){
 	delete [] heap;
 	return 1;
@@ -2683,7 +2727,7 @@ namespace giac {
 	double qb=double(q.size())*b.size();
 	qb /= a.size();
 	if (debug_infolevel>1)
-	  CERR << CLOCK() << " qb=" << qb << std::endl;
+	  CERR << CLOCK()*1e-6 << " qb=" << qb << std::endl;
 	if (qb>100){
 	  // the coefficients might be not optimal (mpz_class instead of int)
 	  if (hashdivrem_finish_later(a.front().g)){
@@ -2704,15 +2748,15 @@ namespace giac {
 	  convert(bcopy,vars,newvars);
 	  convert(qcopy,vars,newvars);
 	  if (debug_infolevel>1)
-	    CERR << CLOCK() << " compress monomials done" <<std::endl;
+	    CERR << CLOCK()*1e-6 << " compress monomials done" <<std::endl;
 	  if (!threadmult(bcopy,qcopy,bq,newvars.front(),reduce,a.size()))
 	    smallmult(bcopy,qcopy,bq,reduce,as);
 	  smallsub(acopy,bq,r);
 	  if (debug_infolevel>1)
-	    CERR << CLOCK() << " uncompress monomials" <<std::endl;
+	    CERR << CLOCK()*1e-6 << " uncompress monomials" <<std::endl;
 	  convert(r,newvars,vars);
 	  if (debug_infolevel>1)
-	    CERR << CLOCK() << " uncompress monomials end"<< std::endl;
+	    CERR << CLOCK()*1e-6 << " uncompress monomials end"<< std::endl;
 	  delete [] heap;
 	  return 1;
 	}

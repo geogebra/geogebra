@@ -7685,17 +7685,42 @@ namespace giac {
       if (a._SYMBptr->sommet==at_abs || (a._SYMBptr->sommet==at_exp && is_real(a._SYMBptr->feuille,contextptr)))
 	return 1;
     }
-    if (a.type==_SYMB && a.is_symb_of_sommet(at_pow)){
-      gen & f =a._SYMBptr->feuille;
-      if (f.type==_VECT && f._VECTptr->size()==2){
-	gen & ex = f._VECTptr->back();
-	if (ex.type==_INT_){
-	  if (ex.val%2==0)
-	    return 1;
-	  return fastsign(f._VECTptr->front(),contextptr);
+    if (a.type==_SYMB){
+      bool aplus=a.is_symb_of_sommet(at_plus);
+      if (aplus || a.is_symb_of_sommet(at_prod)){
+	gen f=a._SYMBptr->feuille;
+	if (f.type==_VECT){
+	  vecteur & v=*f._VECTptr;
+	  int i=0,fs=v.size(),curs=0;
+	  for (;i<fs;++i){
+	    int news=fastsign(v[i],contextptr);
+	    if (news==0) 
+	      break;
+	    if (i==0) { 
+	      curs=news; 
+	      continue; 
+	    }
+	    if (aplus && curs!=news) 
+	      break;
+	    if (!aplus) 
+	      curs=curs*news;
+	  }
+	  if (i==fs)
+	    return curs;
 	}
-	if (ex.type==_FRAC && ex._FRACptr->den.type==_INT_ && ex._FRACptr->den.val % 2 ==0 ) 
-	  return 1;
+     }
+     if (a.is_symb_of_sommet(at_pow)){
+	gen & f =a._SYMBptr->feuille;
+	if (f.type==_VECT && f._VECTptr->size()==2){
+	  gen & ex = f._VECTptr->back();
+	  if (ex.type==_INT_){
+	    if (ex.val%2==0)
+	      return 1;
+	    return fastsign(f._VECTptr->front(),contextptr);
+	  }
+	  if (ex.type==_FRAC && ex._FRACptr->den.type==_INT_ && ex._FRACptr->den.val % 2 ==0 ) 
+	    return 1;
+	}
       }
     }
     if (is_inf(a)){

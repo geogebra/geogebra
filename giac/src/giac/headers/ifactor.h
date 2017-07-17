@@ -28,13 +28,6 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
-  inline unsigned sizeinbase2(unsigned n){
-    unsigned i=0;
-    for (;n;++i){
-      n >>= 1;
-    }
-    return i;
-  }
 
   extern const short int giac_primes[];
   gen _ithprime(const gen & args,GIAC_CONTEXT);

@@ -1833,7 +1833,11 @@ namespace giac {
 	if (lvarx(tmp,x).size()==1)
 	  expr=tmp;
 	else {
-	  tmp=halftan(tmp,contextptr);
+	  gen tmp1=_trigtan(tmp,contextptr);
+	  if (lvarx(tmp1,x).size()==1)
+	    tmp=tmp1;
+	  else
+	    tmp=halftan(tmp,contextptr);
 	  // change made on 6 dec 2014 for solve(-e^x*(-cos(x)+sin(x)),x);
 	  int tmps=int(lvarx(tmp,x).size());
 	  if (tmps==1)

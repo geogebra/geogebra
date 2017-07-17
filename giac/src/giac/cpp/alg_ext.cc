@@ -1805,6 +1805,8 @@ namespace giac {
   }
 
   int sturmsign(const gen & g0,bool strict,GIAC_CONTEXT){
+    int fs=fastsign(g0,contextptr);
+    if (fs) return fs;
     gen g=simplifier(g0,contextptr);
     // first check some operators inv, *, exp, sqrt
     int tmp;
