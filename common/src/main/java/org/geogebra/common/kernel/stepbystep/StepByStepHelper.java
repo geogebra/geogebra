@@ -256,6 +256,28 @@ public class StepByStepHelper {
 		return "0";
 	}
 
+	public String getPower(ExpressionValue ev, String variable) {
+		if (ev != null && ev.isExpressionNode()) {
+			ExpressionNode en = (ExpressionNode) ev;
+
+			if (en.getOperation() == Operation.POWER && containsVariable(en.getLeft())) {
+				return en.getRight().toString(tpl);
+			}
+
+			String toReturn;
+
+			toReturn = getPower(en.getLeft(), variable);
+			if (!isZero(toReturn)) {
+				return toReturn;
+			}
+
+			toReturn = getPower(en.getRight(), variable);
+			return toReturn;
+		}
+
+		return "";
+	}
+
 	public void getParts(ArrayList<String> parts, ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
@@ -310,9 +332,8 @@ public class StepByStepHelper {
 	}
 
 	public boolean isTrivial(String LHS, String RHS) {
-		ExpressionValue ev = getExpressionTree(regroup(LHS + " - " + RHS));
-		return countOperation(ev, Operation.PLUS) + countOperation(ev, Operation.MINUS) == 1 && 
-				getValue(findConstant(ev)) != 0;
+		ExpressionValue ev = getExpressionTree(regroup(LHS + " - (" + RHS + ")"));
+		return countOperation(ev, Operation.PLUS) + countOperation(ev, Operation.MINUS) <= 1;
 	}
 	
 	public int countOperation(ExpressionValue ev, Operation op) {

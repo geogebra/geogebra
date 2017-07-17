@@ -364,7 +364,7 @@ public class StepByStepSolver {
 			return;
 		}
 
-		if (isOne(a) && isEven(helper.getValue(b))) {
+		if (isOne(a) && isEven(b)) {
 			String toAdd = helper.regroup("((" + b + ")/2)^2 - " + c);
 			
 			steps.add(loc.getMenuLaTeX("CompleteSquare", "Complete the square"));
@@ -454,7 +454,34 @@ public class StepByStepSolver {
 	}
 
 	private void solveTrivial() {
-		// TODO
+		String LHSconstant = helper.findConstant(evLHS);
+		String RHSconstant = helper.findConstant(evRHS);
+		
+		subtract(helper.regroup(RHS + "- (" + RHSconstant + ")"));
+		addOrSubtract(LHSconstant, LHSconstant);
+		
+		String root = helper.getPower(evLHS, "x");
+		
+		String toDivide = helper.findCoefficient(evLHS, "x^(" + root + ")");
+		divide(toDivide);
+		
+		if (isEven(root) && helper.getValue(RHS) < 0) {
+			steps.add(loc.getMenuLaTeX("NoRealSolutions", "No Real Solutions"));
+			return;
+		}
+
+		steps.add(loc.getMenuLaTeX("TakeNthRoot", "Take %0th root", root));
+
+		LHS = helper.simplify("(" + LHS + ")^(1/(" + root + "))");
+		RHS = helper.simplify("(" + RHS + ")^(1/(" + root + "))");
+
+		if (isEven(root) && !isZero(RHS)) {
+			LHS = ((ExpressionNode) evLHS).getLeft().toString(StringTemplate.defaultTemplate);
+
+			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS) + " or " + LaTeX(LHS) + " = " + LaTeX("-(" + RHS + ")"));
+		} else {
+			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS));
+		}
 	}
 	
 	private void numericSolutions() {
@@ -632,6 +659,10 @@ public class StepByStepSolver {
 
 	private boolean isOne(String s) {
 		return helper.stripSpaces(s).equals("") || helper.stripSpaces(s).equals("1");
+	}
+
+	private boolean isEven(String s) {
+		return isEven(helper.getValue(s));
 	}
 
 	private boolean isEven(Double d) {
