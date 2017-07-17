@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
@@ -370,14 +371,21 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		// remove all Macros before loading preferences
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
-		Perspective p = null;
+		Perspective p = null;		
 		if (getGuiManager() != null) {
 			p = getGuiManager().getLayout().createPerspective("tmp");
+		}
+		if (isUnbundled() && "2".equals(this.initialPerspective)) {
+			p = Layout.getDefaultPerspectives(Perspective.GEOMETRY - 1);
+		}
+		if (isUnbundled() && "1".equals(this.initialPerspective)) {
+			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
 		}
 		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
 
+		// TODO those two are not needed anymore; remove after the live demo ;)
 		resetGeometryApp();
 		resetGraphingApp();
 
@@ -390,8 +398,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		if ((has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
 				.getType() == AppType.GRAPHING_CALCULATOR)
 				&& has(Feature.MINOR_GRIDLINES)) {
-			getSettings().getEuclidian(1)
-					.showGrid(true);
+			getSettings().getEuclidian(1).showGrid(true);
 			getSettings().getEuclidian(1)
 					.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 		}
