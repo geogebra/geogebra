@@ -1392,7 +1392,7 @@ __GGB__keysVar.da.menu = {
     "ClearRow": "Rens r\xe6kke",
     "ClearRows": "Rens r\xe6kker",
     "ClearSelection": "Rens valgte",
-    "ClearTrace": "Rens alle spor",
+    "ClearTrace": "Slet alle spor",
     "ClickHereToGetHelp": "Klik her for hj\xe6lp",
     "Clipboard": "Udklipsholder",
     "Clipboard.Blackboard": "Klippeord: Tavle",
