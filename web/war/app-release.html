@@ -22,7 +22,7 @@ if (!window.console.log) window.console.log = function () { };
 var latestVersion="5.0.374.0";
 var module = "web3d";
 var lookAndFeel = "";
-var prerelease = false;
+var prerelease = true;
 var startDelay = 0;
 var analyticsVersion = 'V'+latestVersion;
 </script>
@@ -331,6 +331,7 @@ var app = document.createElement("script");
 		window.GGBT_offlineRequestHandler.initServiceWorker();
 	}
 	function setPrerelease(prereleaseParam){
+		document.body.className += "prerelease";
 		e("ggw").setAttribute("data-param-prerelease",prereleaseParam);
 		e("ggw").setAttribute("data-param-showlogging",true);
 	}
@@ -506,6 +507,10 @@ body {
 }
 .application #ggbPage{
  display:none;
+}
+
+.prerelease .startScreen {
+	display:none;
 }
 .startScreen{
     line-height: 120%;
@@ -818,7 +823,16 @@ border:1px solid #dcdcdc
   top:0px;
   width:100%;
 }
-    
+.prerelease #ggbPage{
+  background-image:url("http://static.geogebra.org/images/geogebra-logo-name-1024.png");
+  background-repeat:no-repeat;
+  background-position:50% 50%;
+  transform:-webkit-scale(0.5);
+  transform:-ms-scale(0.5);
+  transform:-moz-scale(0.5);
+  transform:scale(0.5);
+
+}   
 div.SymbolTablePopup{
   z-index:501;
 }
