@@ -71,7 +71,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 						this);
 		createPopup();
 
-		addStyleName("MyCanvasButton-borderless");
+		addStyleName("MyCanvasButton");
 		model = new NameValueModel(app, this);
 	}
 

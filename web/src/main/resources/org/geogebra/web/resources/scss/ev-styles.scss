@@ -28,7 +28,8 @@
 
 	/*dyn stylebar*/
 	.matDynStyleBar {
-		z-index: 999;
+		// popup has 500
+		z-index: 499;
 		position: absolute;
 	    border-radius: 2px;
 	    padding: 8px 4px 8px 16px;
