@@ -597,8 +597,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					for (GeoElement geo : activeGeoList) {
 						geo.removeOrSetUndefinedIfHasFixedDescendent();
 					}
+					app.storeUndoInfo();
 				}
-				app.storeUndoInfo();
 			}
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
