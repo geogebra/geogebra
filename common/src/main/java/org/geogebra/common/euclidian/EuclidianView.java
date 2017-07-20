@@ -3378,14 +3378,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected void updateSizeKeepCenter() {
 		int w = getWidth();
 		int h = getHeight();
-		Log.debug(w + "x" + h);
-		Log.debug("xZero: " + xZero + ", yZero: " + yZero);
 		if (getSettings() != null) {
 			int sw = getSettings().getWidth();
 			int sh = getSettings().getHeight();
 			double x0 = getSettings().getXZero();
 			double y0 = getSettings().getYZero();
-			Log.debug("settings: " + sw + "x" + sh + "," + x0 + "," + y0);
 			if (sw == 0) {
 				// no dimension from file: center the view
 				sw = (int) Math.round(x0 * 2);
@@ -3395,7 +3392,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			int dy = (h - sh) / 2;
 			xZero = getSettings().getXZero() + dx;
 			yZero = getSettings().getYZero() + dy;
-			Log.debug(">> xZero: " + xZero + ", yZero: " + yZero);
 			getSettings().setSize(w, h);
 			getSettings().setOriginNoUpdate(xZero, yZero);
 		} else {
