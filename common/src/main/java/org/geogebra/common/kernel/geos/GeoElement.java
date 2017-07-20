@@ -1110,6 +1110,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if color was explicitly set
 	 */
+	@Override
 	public boolean isColorSet() {
 		return isColorSet;
 	}
@@ -1491,6 +1492,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for limited paths
 	 */
+	@Override
 	public boolean isLimitedPath() {
 		return false;
 	}
@@ -1512,6 +1514,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for GeoLists
 	 */
+	@Override
 	public boolean isGeoList() {
 		return false;
 	}
@@ -2229,6 +2232,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true if this can be edited in AV directly
 	 */
+	@Override
 	public boolean isAlgebraViewEditable() {
 		return true;
 	}
@@ -2288,6 +2292,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return list of directly dependent algos
 	 */
+	@Override
 	final public ArrayList<AlgoElement> getAlgorithmList() {
 		if (algorithmList == null) {
 			algorithmList = new ArrayList<AlgoElement>();
@@ -2307,6 +2312,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return whether this geo can be changed directly
 	 */
+	@Override
 	public boolean isChangeable() {
 		return !isProtected(EventType.UPDATE) && isIndependent();
 	}
@@ -2380,6 +2386,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            view
 	 * @return true if moveable in the view
 	 */
+	@Override
 	public boolean isMoveable(final EuclidianViewInterfaceSlim view) {
 		return view.isMoveable(this);
 	}
@@ -2392,6 +2399,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            view
 	 * @return whether this geo has only moveable input points
 	 */
+	@Override
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 			"missing break is deliberate" })
 	public boolean hasMoveableInputPoints(
@@ -2519,6 +2527,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            view
 	 * @return all free parent points of this GeoElement.
 	 */
+	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
 		if (algoParent == null) {
@@ -2569,6 +2578,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this object's class implements the interface
 	 *         Translateable.
 	 */
+	@Override
 	public boolean isTranslateable() {
 		return false;
 	}
@@ -3821,6 +3831,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for textfields (=Input Boxes)
 	 */
+	@Override
 	public boolean isGeoInputBox() {
 		return false;
 	}
@@ -5674,6 +5685,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return whether the label contains any indices (i.e. '_' chars).
 	 */
+	@Override
 	final public boolean hasIndexLabel() {
 		return ((label == null) || (label.indexOf('_') > -1));
 
@@ -6337,6 +6349,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if the geo is drawable in 3D view
 	 */
+	@Override
 	public boolean hasDrawable3D() {
 		return isGeoElement3D();
 	}
@@ -6359,6 +6372,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for booleans
 	 */
+	@Override
 	public boolean isGeoBoolean() {
 		return false;
 	}
@@ -6388,6 +6402,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for implicit curve
 	 */
+	@Override
 	public boolean isGeoImplicitCurve() {
 		return false;
 	}
@@ -6471,6 +6486,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for planes
 	 */
+	@Override
 	public boolean isGeoPlane() {
 		return false;
 	}
@@ -7125,6 +7141,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true if has changeable coord parent numbers (e.g. point defined
 	 *         by sliders)
 	 */
+	@Override
 	public boolean hasChangeableCoordParentNumbers() {
 		return false;
 	}
@@ -7135,6 +7152,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param view
 	 *            TODO
 	 */
+	@Override
 	public void recordChangeableCoordParentNumbers(EuclidianView view) {
 		// do nothing
 	}
@@ -7633,6 +7651,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            view id
 	 * @return whether this geo is visible in given view
 	 */
+	@Override
 	public boolean isVisibleInView(final int viewId) {
 		if (viewFlags == null) {
 			return viewId == App.VIEW_EUCLIDIAN;
@@ -7769,6 +7788,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * 
 	 * @return true if visible in view for plane
 	 */
+	@Override
 	public boolean isVisibleInViewForPlane() {
 		switch (visibleInViewForPlane) {
 		case UNKNOWN:
@@ -7996,6 +8016,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         "standard" view (for 3D). E.g. orthogonal to a plane, along a
 	 *         line, ...
 	 */
+	@Override
 	public Coords getMainDirection() {
 		return Coords.VZ;
 	}
@@ -8750,9 +8771,6 @@ public abstract class GeoElement extends ConstructionElement
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;
 		}
-		Log.debug(getParentAlgorithm() != null
-				? (this + "PARENT" + getParentAlgorithm().getOutput(0))
-				: "no parent");
 		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& getParentAlgorithm() != null
 				&& getParentAlgorithm().getOutput(0) != this
