@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -62,7 +60,6 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -385,40 +382,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 		resetAllToolbars();
 
-		// TODO those two are not needed anymore; remove after the live demo ;)
-		resetGeometryApp();
-		resetGraphingApp();
-
 		resetPenTool();
-
-
-	}
-
-	private void resetGraphingApp() {
-		if ((has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
-				.getType() == AppType.GRAPHING_CALCULATOR)
-				&& has(Feature.MINOR_GRIDLINES)) {
-			getSettings().getEuclidian(1).showGrid(true);
-			getSettings().getEuclidian(1)
-					.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
-		}
-	}
-
-	/**
-	 * Reset defaults for geometry app
-	 */
-	protected void resetGeometryApp() {
-		if (has(Feature.NEW_TOOLBAR) && getSettings().getToolbarSettings()
-				.getType() == AppType.GEOMETRY_CALC) {
-			getSettings().getEuclidian(1).setShowAxes(false);
-			getSettings().getEuclidian(1).showGrid(false);
-			if (getGuiManager() instanceof GuiManagerW) {
-				((ToolbarDockPanelW) (getGuiManager().getLayout()
-						.getDockManager().getPanel(App.VIEW_ALGEBRA)))
-								.getToolbar().selectTools();
-			}
-
-		}
 	}
 
 	private void resetAllToolbars() {

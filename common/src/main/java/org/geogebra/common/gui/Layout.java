@@ -10,6 +10,7 @@ import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.javax.swing.SwingConstants;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -499,6 +500,10 @@ public abstract class Layout implements SettingListener {
 						.showGrid(perspective.getShowGrid());
 			} else {
 				changed |= ev.showGrid(perspective.getShowGrid());
+			}
+			
+			if (app.isUnbundled() && perspective.getDefaultID() == Perspective.GEOMETRY && app.getEuclidianView1() == ev) {
+				app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF);
 			}
 
 			// ev.setUnitAxesRatio(perspective.isUnitAxesRatio());
