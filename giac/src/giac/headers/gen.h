@@ -685,7 +685,7 @@ namespace giac {
       // Copy before deleting because the target might be embedded in a
       // with a ptr_val.ref_count of a equals to 1
       // short int type_save=type; // short int subtype_save=subtype; 
-      * ((longlong *) this) = al;
+      * ((ulonglong *) this) = al;
       if (atype>_DOUBLE_ && atype!=_FLOAT_ 
 	  && (al >> 16)	){
 	ref_count_t * rc=(ref_count_t *)& ((ref_mpz_t *)(al>>16) )->ref_count;
@@ -721,7 +721,7 @@ namespace giac {
       _DOUBLE_val = a._DOUBLE_val;
       subtype=a.subtype;
 #else
-      * ((longlong *) this) = *((longlong * ) &a);
+      * ((ulonglong *) this) = *((ulonglong * ) &a);
 #endif
       __ZINTptr=a.__ZINTptr;
       type=a.type;

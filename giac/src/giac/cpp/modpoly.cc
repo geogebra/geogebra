@@ -2037,7 +2037,7 @@ namespace giac {
 #ifndef SMARTPTR64
 		(tmpptr->__ZINTptr->ref_count==1) && 
 #else
-		((ref_mpz_t *) (* (longlong *) tmpptr >> 16))->ref_count==1 &&
+		((ref_mpz_t *) (* (ulonglong *) tmpptr >> 16))->ref_count==1 &&
 #endif
 		( (itq->type==_ZINT) || (itq->type==_INT_) ) )
 	      sub_mul(tmpptr->_ZINTptr,prod,q,*itq);

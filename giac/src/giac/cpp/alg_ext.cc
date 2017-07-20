@@ -226,7 +226,7 @@ namespace giac {
     }
     gen res;
 #ifdef SMARTPTR64
-    * ((longlong * ) &res) = longlong(new ref_algext) << 16;
+    * ((ulonglong * ) &res) = ulonglong(new ref_algext) << 16;
 #else
     res.__EXTptr=new ref_algext;
 #endif

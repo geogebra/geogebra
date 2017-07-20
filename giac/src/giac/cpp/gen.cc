@@ -570,7 +570,7 @@ namespace giac {
     }
     else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t(64)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(64)) << 16;
 #else
       __ZINTptr = new ref_mpz_t(64);
 #endif
@@ -602,7 +602,7 @@ namespace giac {
     }
     else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t(64)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(64)) << 16;
 #else
       __ZINTptr = new ref_mpz_t(64);
 #endif
@@ -654,7 +654,7 @@ namespace giac {
     }
     else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t(nbits)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(nbits)) << 16;
 #else
       __ZINTptr = new ref_mpz_t(nbits);
 #endif
@@ -696,7 +696,7 @@ namespace giac {
       unsigned int i1= i;
       i = i>>32;
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t(128)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(128)) << 16;
 #else
       __ZINTptr = new ref_mpz_t(128);
 #endif
@@ -730,7 +730,7 @@ namespace giac {
     control_c();
 #endif
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t(m)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(m)) << 16;
 #else
     __ZINTptr= new ref_mpz_t(m);
 #endif
@@ -749,7 +749,7 @@ namespace giac {
 #ifdef SMARTPTR64
       ref_mpz_t * ptr=new ref_mpz_t;
       mpz_set(ptr->z,m.get_mpz_t());
-      * ((longlong * ) this) = longlong(ptr) << 16;
+      * ((ulonglong * ) this) = ulonglong(ptr) << 16;
 #else
       __ZINTptr= new ref_mpz_t();
       mpz_set(__ZINTptr->z,m.get_mpz_t());
@@ -765,7 +765,7 @@ namespace giac {
     control_c();
 #endif
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(new ref_identificateur(s)) << 16;
+    * ((ulonglong * ) this) = ulonglong(new ref_identificateur(s)) << 16;
 #else
     __IDNTptr= new ref_identificateur(s);
 #endif
@@ -796,7 +796,7 @@ namespace giac {
   gen::gen(const vecteur & v,short int s)
   {
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(new ref_vecteur(v)) << 16;
+    * ((ulonglong * ) this) = ulonglong(new ref_vecteur(v)) << 16;
 #else
     __VECTptr= new_ref_vecteur(v);
 #endif
@@ -806,7 +806,7 @@ namespace giac {
 
   gen::gen(ref_vecteur * vptr,short int s){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(vptr) << 16;
+    * ((ulonglong * ) this) = ulonglong(vptr) << 16;
 #else
     __VECTptr= vptr;
 #endif
@@ -834,7 +834,7 @@ namespace giac {
     control_c();
 #endif
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(new_ref_symbolic(s)) << 16;
+    * ((ulonglong * ) this) = ulonglong(new_ref_symbolic(s)) << 16;
 #else
     __SYMBptr = new_ref_symbolic(s) ;
 #endif
@@ -844,7 +844,7 @@ namespace giac {
 
   gen::gen(ref_symbolic * sptr){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(sptr) << 16;
+    * ((ulonglong * ) this) = ulonglong(sptr) << 16;
 #else
     __SYMBptr = sptr;
 #endif
@@ -854,7 +854,7 @@ namespace giac {
 
   gen::gen(ref_identificateur * sptr){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(sptr) << 16;
+    * ((ulonglong * ) this) = ulonglong(sptr) << 16;
 #else
     __IDNTptr = sptr;
 #endif
@@ -864,7 +864,7 @@ namespace giac {
 
   gen::gen(const gen_user & g){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(new ref_gen_user(g)) << 16;
+    * ((ulonglong * ) this) = ulonglong(new ref_gen_user(g)) << 16;
 #else
     __USERptr = new ref_gen_user(g) ;
 #endif
@@ -874,7 +874,7 @@ namespace giac {
 
   gen::gen(ref_gen_user * sptr){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(sptr) << 16;
+    * ((ulonglong * ) this) = ulonglong(sptr) << 16;
 #else
     __USERptr = sptr;
 #endif
@@ -884,7 +884,7 @@ namespace giac {
 
   gen::gen(const eqwdata & g){
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_eqwdata(g)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_eqwdata(g)) << 16;
 #else
     __EQWptr = new ref_eqwdata(g);
 #endif
@@ -894,7 +894,7 @@ namespace giac {
 
   gen::gen(const grob & g){
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_grob(g)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_grob(g)) << 16;
 #else
     __GROBptr = new ref_grob(g);
 #endif
@@ -905,7 +905,7 @@ namespace giac {
   gen makemap(){ 
     gen g;
 #ifdef SMARTPTR64
-      * ((longlong * ) &g) = longlong(new ref_gen_map) << 16;
+      * ((ulonglong * ) &g) = ulonglong(new ref_gen_map) << 16;
 #else
 #if 1 // def NSPIRE
       g.__MAPptr = new ref_gen_map;
@@ -920,7 +920,7 @@ namespace giac {
 
   gen::gen(const gen_map & s){
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_gen_map(s)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_gen_map(s)) << 16;
 #else
     __MAPptr = new ref_gen_map(s) ;
 #endif
@@ -941,7 +941,7 @@ namespace giac {
       }
       else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new Tref_tensor<gen>(p)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new Tref_tensor<gen>(p)) << 16;
 #else
 	__POLYptr = new Tref_tensor<gen>(p) ;
 #endif
@@ -980,7 +980,7 @@ namespace giac {
     }
     else {              
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new Tref_fraction<gen>(p)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new Tref_fraction<gen>(p)) << 16;
 #else
       __FRACptr = new Tref_fraction<gen>(p) ;
 #endif
@@ -990,7 +990,7 @@ namespace giac {
 
   gen::gen(Tref_tensor<gen> * pptr){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(pptr) << 16;
+    * ((ulonglong * ) this) = ulonglong(pptr) << 16;
 #else
     __POLYptr = pptr ;
 #endif
@@ -1017,7 +1017,7 @@ namespace giac {
 	return;
       }
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(mptr) << 16;
+      * ((ulonglong * ) this) = ulonglong(mptr) << 16;
 #else
       __ZINTptr = mptr;
 #endif
@@ -1050,7 +1050,7 @@ namespace giac {
 	return false;
       }
 #ifdef SMARTPTR64
-      * ((longlong * ) &g) = longlong(mptr) << 16;
+      * ((ulonglong * ) &g) = ulonglong(mptr) << 16;
 #else
       g.__ZINTptr = mptr;
 #endif
@@ -1073,7 +1073,7 @@ namespace giac {
 	return;
       }
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t(z.ptr)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(z.ptr)) << 16;
 #else
       __ZINTptr = new ref_mpz_t(z.ptr);
 #endif
@@ -1090,7 +1090,7 @@ namespace giac {
 	) {
       if (
 #ifdef SMARTPTR64
-	  (*((longlong *) &e) >> 16)
+	  (*((ulonglong *) &e) >> 16)
 #else
 	  e.__ZINTptr
 #endif
@@ -1135,7 +1135,7 @@ namespace giac {
     }
     else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_complex(a,b)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_complex(a,b)) << 16;
 #else
       __CPLXptr = new_ref_complex(a,b);
 #endif
@@ -1163,7 +1163,7 @@ namespace giac {
     }
     else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_complex(a,b)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_complex(a,b)) << 16;
 #else
       __CPLXptr = new_ref_complex(a,b);
 #endif
@@ -1200,7 +1200,7 @@ namespace giac {
 	  break; 
 	case _ZINT: 
 #ifdef SMARTPTR64
-	  * ((longlong * ) this) = longlong(new ref_mpz_t(*a._ZINTptr)) << 16;
+	  * ((ulonglong * ) this) = ulonglong(new ref_mpz_t(*a._ZINTptr)) << 16;
 #else
 	  __ZINTptr=new ref_mpz_t(a.__ZINTptr->z); // a is a _ZINT
 #endif
@@ -1212,12 +1212,12 @@ namespace giac {
 #ifdef SMARTPTR64
 #ifndef NO_RTTI
 	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._REALptr)){
-	    * ((longlong * ) this) = longlong(new ref_real_interval(*ptr)) << 16;
+	    * ((ulonglong * ) this) = ulonglong(new ref_real_interval(*ptr)) << 16;
 	    subtype=1;
 	  }
 	  else
 #endif
-	    * ((longlong * ) this) = longlong(new ref_real_object(*a._REALptr)) << 16;
+	    * ((ulonglong * ) this) = ulonglong(new ref_real_object(*a._REALptr)) << 16;
 #else
 #ifndef NO_RTTI
 	  if (real_interval * ptr=dynamic_cast<real_interval *>(a._REALptr)){
@@ -1238,7 +1238,7 @@ namespace giac {
     }
     else {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_complex(a,b)) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_complex(a,b)) << 16;
 #else
       __CPLXptr = new_ref_complex(a,b);
 #endif
@@ -1249,7 +1249,7 @@ namespace giac {
   
   gen::gen(const complex<double> & c) {
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_complex(real(c),imag(c))) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_complex(real(c),imag(c))) << 16;
 #else
       __CPLXptr = new_ref_complex(real(c),imag(c));
 #endif
@@ -1331,7 +1331,7 @@ namespace giac {
       }
       else {
 #ifdef SMARTPTR64
-	* ((longlong * ) this) = longlong(new ref_sparse_poly1(p)) << 16;
+	* ((ulonglong * ) this) = ulonglong(new ref_sparse_poly1(p)) << 16;
 #else
 	__SPOL1ptr= new ref_sparse_poly1(p);
 #endif
@@ -1343,7 +1343,7 @@ namespace giac {
 
   gen::gen(const unary_function_ptr * f,int nargs){
 #if defined SMARTPTR64 
-    * ((longlong * ) this) = longlong(new ref_unary_function_ptr(*f)) << 16;
+    * ((ulonglong * ) this) = ulonglong(new ref_unary_function_ptr(*f)) << 16;
 #else
     _FUNC_ = (size_t) (* (size_t*) f);
     // __FUNCptr= new ref_unary_function_ptr(f);
@@ -1354,7 +1354,7 @@ namespace giac {
 
   gen::gen(const unary_function_ptr & f,int nargs){
 #ifdef SMARTPTR64
-    * ((longlong * ) this) = longlong(new ref_unary_function_ptr(f)) << 16;
+    * ((ulonglong * ) this) = ulonglong(new ref_unary_function_ptr(f)) << 16;
 #else
     _FUNC_ = (size_t)(* (size_t *) &f);
     // __FUNCptr= new ref_unary_function_ptr(f);
@@ -1392,10 +1392,10 @@ namespace giac {
     switch (type) {
 #ifdef SMARTPTR64
     case _ZINT: 
-      delete (ref_mpz_t *) (* ((longlong * ) this) >> 16);
+      delete (ref_mpz_t *) (* ((ulonglong * ) this) >> 16);
       break; 
     case _REAL:  {
-      ref_real_object * ptr=(ref_real_object *) (* ((longlong * ) this) >> 16);
+      ref_real_object * ptr=(ref_real_object *) (* ((ulonglong * ) this) >> 16);
 #ifndef NO_RTTI
       if (dynamic_cast<real_interval *>(&ptr->r))
 	delete (ref_real_interval *) ptr;
@@ -1405,54 +1405,54 @@ namespace giac {
       break; 
     }
     case _CPLX: 
-      delete (ref_complex *) (* ((longlong * ) this) >> 16);
+      delete (ref_complex *) (* ((ulonglong * ) this) >> 16);
       break; 
     case _IDNT: 
-      delete (ref_identificateur *) (* ((longlong * ) this) >> 16);
+      delete (ref_identificateur *) (* ((ulonglong * ) this) >> 16);
       break;
     case _VECT: 
-      delete (ref_vecteur *) (* ((longlong * ) this) >> 16);
+      delete (ref_vecteur *) (* ((ulonglong * ) this) >> 16);
       break;
     case _SYMB: 
-      delete (ref_symbolic *) (* ((longlong * ) this) >> 16);
+      delete (ref_symbolic *) (* ((ulonglong * ) this) >> 16);
       break;
     case _USER:
-      delete (ref_gen_user *) (* ((longlong * ) this) >> 16);
+      delete (ref_gen_user *) (* ((ulonglong * ) this) >> 16);
       break;
     case _EXT: 
-      delete (ref_algext *) (* ((longlong * ) this) >> 16);
+      delete (ref_algext *) (* ((ulonglong * ) this) >> 16);
       break;
     case _MOD: 
-      delete (ref_modulo *) (* ((longlong * ) this) >> 16);
+      delete (ref_modulo *) (* ((ulonglong * ) this) >> 16);
       break;
     case _POLY:
-      delete (ref_polynome *) (* ((longlong * ) this) >> 16);
+      delete (ref_polynome *) (* ((ulonglong * ) this) >> 16);
       break;
     case _FRAC:
-      delete (ref_fraction *) (* ((longlong * ) this) >> 16);
+      delete (ref_fraction *) (* ((ulonglong * ) this) >> 16);
       break;
     case _SPOL1:
-      delete (ref_sparse_poly1 *) (* ((longlong * ) this) >> 16);
+      delete (ref_sparse_poly1 *) (* ((ulonglong * ) this) >> 16);
       break;
     case _STRNG:
-      delete (ref_string *) (* ((longlong * ) this) >> 16);
+      delete (ref_string *) (* ((ulonglong * ) this) >> 16);
       break;
     case _FUNC:
-      delete (ref_unary_function_ptr *) (* ((longlong * ) this) >> 16);
+      delete (ref_unary_function_ptr *) (* ((ulonglong * ) this) >> 16);
       break;
     case _MAP:
-      delete (ref_gen_map *) (* ((longlong * ) this) >> 16);
+      delete (ref_gen_map *) (* ((ulonglong * ) this) >> 16);
       break;
     case _EQW:
-      delete (ref_eqwdata *) (* ((longlong * ) this) >> 16);
+      delete (ref_eqwdata *) (* ((ulonglong * ) this) >> 16);
       break;
     case _GROB:
-      delete (ref_grob *) (* ((longlong * ) this) >> 16);
+      delete (ref_grob *) (* ((ulonglong * ) this) >> 16);
       break;
     case _POINTER_:
       if (subtype==_FL_WIDGET_POINTER && fl_widget_delete_function)
 	fl_widget_delete_function(_POINTER_val);
-      delete (ref_void_pointer *) (* ((longlong * ) this) >> 16);
+      delete (ref_void_pointer *) (* ((ulonglong * ) this) >> 16);
       break;
 #else // SMARTPTR64
     case _ZINT: 
@@ -1659,7 +1659,7 @@ namespace giac {
     if (type==_INT_){
       int tmp =val;
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_mpz_t) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_mpz_t) << 16;
 #else
       __ZINTptr = new ref_mpz_t;
 #endif
@@ -4095,7 +4095,7 @@ namespace giac {
   gen makemodquoted(const gen & a,const gen & b){
     gen res;
 #ifdef SMARTPTR64
-    * ((longlong * ) &res) = longlong(new ref_modulo(a,b)) << 16;
+    * ((ulonglong * ) &res) = ulonglong(new ref_modulo(a,b)) << 16;
 #else
     res.__MODptr=new ref_modulo(a,b);
 #endif
@@ -4360,7 +4360,7 @@ namespace giac {
       return addpoly(*b._POLYptr,a);
     case _MOD__MOD:
 #ifdef SMARTPTR64
-      return modadd( (ref_modulo *) (* ((longlong * ) &a) >> 16),(ref_modulo *) (* ((longlong * ) &b) >> 16));
+      return modadd( (ref_modulo *) (* ((ulonglong * ) &a) >> 16),(ref_modulo *) (* ((ulonglong * ) &b) >> 16));
 #else
       return modadd(a.__MODptr,b.__MODptr);
 #endif
@@ -5120,7 +5120,7 @@ namespace giac {
       return subpoly(a,*b._POLYptr);        
     case _MOD__MOD:
 #ifdef SMARTPTR64
-      return modsub( (ref_modulo *) (* ((longlong * ) &a) >> 16), (ref_modulo *) (* ((longlong * ) &b) >> 16) );
+      return modsub( (ref_modulo *) (* ((ulonglong * ) &a) >> 16), (ref_modulo *) (* ((ulonglong * ) &b) >> 16) );
 #else
       return modsub(a.__MODptr,b.__MODptr);
 #endif
@@ -6041,7 +6041,7 @@ namespace giac {
       return a * (*b._POLYptr);        
     case _MOD__MOD:
 #ifdef SMARTPTR64
-      return modmul( (ref_modulo *) (* ((longlong * ) &a) >> 16),(ref_modulo *) (* ((longlong * ) &b) >> 16) );
+      return modmul( (ref_modulo *) (* ((ulonglong * ) &a) >> 16),(ref_modulo *) (* ((ulonglong * ) &b) >> 16) );
 #else
       return modmul(a.__MODptr,b.__MODptr);
 #endif
@@ -7208,7 +7208,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -7218,7 +7218,7 @@ namespace giac {
     }
     if (b.type!=_INT_)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &b) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &b) >> 16);
 #else
       bptr=b.__ZINTptr;
 #endif
@@ -10215,7 +10215,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10225,7 +10225,7 @@ namespace giac {
     }
     if (b.type!=_INT_)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &b) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &b) >> 16);
 #else
       bptr=b.__ZINTptr;
 #endif
@@ -10269,7 +10269,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10279,7 +10279,7 @@ namespace giac {
     }
     if (b.type!=_INT_)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &b) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &b) >> 16);
 #else
       bptr=b.__ZINTptr;
 #endif
@@ -10336,7 +10336,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10346,7 +10346,7 @@ namespace giac {
     }
     if (b.type!=_INT_)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &b) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &b) >> 16);
 #else
       bptr=b.__ZINTptr;
 #endif
@@ -10471,7 +10471,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr = a.__ZINTptr;
 #endif
@@ -10481,7 +10481,7 @@ namespace giac {
     }
     if (modulo.type)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &modulo) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &modulo) >> 16);
 #else
       bptr = modulo.__ZINTptr;
 #endif
@@ -10671,7 +10671,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (base.type)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &base) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &base) >> 16);
 #else
       aptr=base.__ZINTptr;
 #endif
@@ -10681,7 +10681,7 @@ namespace giac {
     }
     if (modulo.type)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &modulo) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &modulo) >> 16);
 #else
       bptr=modulo.__ZINTptr;
 #endif
@@ -10760,7 +10760,7 @@ namespace giac {
     ref_mpz_t *aptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10781,7 +10781,7 @@ namespace giac {
     ref_mpz_t *aptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10816,7 +10816,7 @@ namespace giac {
     ref_mpz_t *aptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10879,7 +10879,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr = a.__ZINTptr;
 #endif
@@ -10889,7 +10889,7 @@ namespace giac {
     }
     if (b.type!=_INT_)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &b) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &b) >> 16);
 #else
       bptr=b.__ZINTptr;
 #endif
@@ -10915,7 +10915,7 @@ namespace giac {
     ref_mpz_t *aptr,*bptr;
     if (a.type!=_INT_)
 #ifdef SMARTPTR64
-      aptr= (ref_mpz_t *) (* ((longlong * ) &a) >> 16);
+      aptr= (ref_mpz_t *) (* ((ulonglong * ) &a) >> 16);
 #else
       aptr=a.__ZINTptr;
 #endif
@@ -10925,7 +10925,7 @@ namespace giac {
     }
     if (b.type!=_INT_)
 #ifdef SMARTPTR64
-      bptr= (ref_mpz_t *) (* ((longlong * ) &b) >> 16);
+      bptr= (ref_mpz_t *) (* ((ulonglong * ) &b) >> 16);
 #else
       bptr=b.__ZINTptr;
 #endif
@@ -11196,7 +11196,7 @@ namespace giac {
   gen string2gen(const string & ss,bool remove_ss_quotes){
     gen res;
 #ifdef SMARTPTR64
-    * ((longlong * ) &res) = longlong(new ref_string(remove_ss_quotes?ss.substr(1,ss.size()-2):ss)) << 16;
+    * ((ulonglong * ) &res) = ulonglong(new ref_string(remove_ss_quotes?ss.substr(1,ss.size()-2):ss)) << 16;
 #else
     res.__STRNGptr = new ref_string(remove_ss_quotes?ss.substr(1,ss.size()-2):ss);
 #endif
@@ -11432,7 +11432,7 @@ namespace giac {
       if ((ss.size()==1) || (ss[ss.size()-1]!='"'))
 	ss += '"';
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_string(ss.substr(1,ss.size()-2))) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_string(ss.substr(1,ss.size()-2))) << 16;
       subtype=0;
 #else
       __STRNGptr = new ref_string(ss.substr(1,ss.size()-2));
@@ -11457,7 +11457,7 @@ namespace giac {
       if ((ss.size()==1) || (ss[ss.size()-1]!='"'))
 	ss += '"';
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_string(ss.substr(1,ss.size()-2))) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_string(ss.substr(1,ss.size()-2))) << 16;
 #else
       __STRNGptr = new ref_string(ss.substr(1,ss.size()-2));
 #endif
@@ -11505,7 +11505,7 @@ namespace giac {
       if ((ss.size()==1) || (ss[ss.size()-1]!='"'))
 	ss += '"';
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_string(ss.substr(1,ss.size()-2))) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_string(ss.substr(1,ss.size()-2))) << 16;
       subtype=0;
 #else
       __STRNGptr = new ref_string(ss.substr(1,ss.size()-2));
@@ -13960,7 +13960,7 @@ namespace giac {
 
   gen::gen(const real_object & g){
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_real_object) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_real_object) << 16;
 #else
     __REALptr = new ref_real_object;
 #endif
@@ -13976,7 +13976,7 @@ namespace giac {
 
   gen::gen(const real_interval & g){
 #ifdef SMARTPTR64
-      * ((longlong * ) this) = longlong(new ref_real_interval) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_real_interval) << 16;
 #else
       __REALptr = (ref_real_object *) new ref_real_interval;
 #endif

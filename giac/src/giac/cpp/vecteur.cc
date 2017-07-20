@@ -1072,7 +1072,7 @@ namespace giac {
       ref_vecteur * vptr=0;
       for (int x0=x;x0<=X;++x0){
 #ifdef SMARTPTR64
-	vptr=((ref_vecteur*)(* (longlong *) &(*mptr)[x0] >> 16));
+	vptr=((ref_vecteur*)(* (ulonglong *) &(*mptr)[x0] >> 16));
 #else
 	vptr=(*mptr)[x0].__VECTptr;
 #endif
@@ -3509,7 +3509,7 @@ namespace giac {
     if (g.type==_INT_){
       int tmp =g.val;
 #ifdef SMARTPTR64
-      * ((longlong * ) &g) = longlong(new ref_mpz_t(prealloc)) << 16;
+      * ((ulonglong * ) &g) = ulonglong(new ref_mpz_t(prealloc)) << 16;
 #else
       g.__ZINTptr = new ref_mpz_t(prealloc);
 #endif

@@ -6212,6 +6212,30 @@ namespace giac {
     gen g=v.front();
     if (g.type==_VECT && v[1].type==_VECT)
       return gen(*g._VECTptr,v[1].subtype);
+    if (f==at_cell && ckmatrix(g)){
+      matrice m=makefreematrice(*g._VECTptr);
+      int lignes,colonnes; mdims(m,lignes,colonnes);
+      makespreadsheetmatrice(m,contextptr);
+      if (s>=5){ // convert(matrix,cell,command,row,col)
+	// command==copy down, copy right, insert/delete row, insert/delete col
+	gen CMD=v[2],R=v[3],C=v[4];
+	if (CMD.type!=_STRNG || !is_integer(R) || !is_integer(C))
+	  return gensizeerr(contextptr);
+	string cmd=*CMD._STRNGptr;
+	int r=R.val,c=C.val;
+	if (r<0 || r>=lignes || c<0 || c>=colonnes)
+	  return gendimerr(contextptr);
+	if (cmd=="copy down"){
+	  gen cellule=m[r][c];
+	  for (int i=r+1;i<lignes;++i){
+	    vecteur & v=*m[i]._VECTptr;
+	    v[c]=freecopy(cellule);
+	  }
+	}
+	spread_eval(m,contextptr);
+      }
+      return gen(m,_SPREAD__VECT);
+    }
     if (f.is_symb_of_sommet(at_unit)){
       if (f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2)
 	f=symbolic(at_unit,makesequence(1,f._SYMBptr->feuille._VECTptr->back()));
