@@ -2533,6 +2533,9 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public void updateToolBar() {
+		if (isUnbundled()) {
+			return;
+		}
 		if (!showToolBar || isIniting()) {
 			return;
 		}
