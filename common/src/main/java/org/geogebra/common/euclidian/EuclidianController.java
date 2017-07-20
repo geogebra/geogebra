@@ -10001,7 +10001,9 @@ public abstract class EuclidianController {
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(event);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
-			addDynamicStylebar();
+			if (!draggingOccured) {
+				addDynamicStylebar();
+			}
 			storeUndoInfo();
 			setResizedShape(null);
 			view.setHitHandler(EuclidianBoundingBoxHandler.UNDEFINED);
@@ -10018,7 +10020,9 @@ public abstract class EuclidianController {
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
-					addDynamicStylebar();
+					if (!draggingOccured) {
+						addDynamicStylebar();
+					}
 				}
 
 			}
@@ -10087,7 +10091,7 @@ public abstract class EuclidianController {
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
 					&& !draggingOccured) {
-				addDynamicStylebar();
+			//	addDynamicStylebar();
 			}
 		}
 
@@ -10097,7 +10101,7 @@ public abstract class EuclidianController {
 		}
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
-				&& mode == EuclidianConstants.MODE_SELECT) {
+				&& mode == EuclidianConstants.MODE_SELECT && !draggingOccured) {
 			addDynamicStylebar();
 		}
 
