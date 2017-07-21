@@ -90,6 +90,7 @@ public final class ToolTipManagerW {
 	private boolean keyboardVisible;
 	private boolean lastTipVisible = false;
 	private boolean isSmall = false;
+	private boolean moveBtnMoved = false;
 	private ToolTipLinkType linkType;
 
 	/**
@@ -347,7 +348,8 @@ public final class ToolTipManagerW {
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
 					}
-					appw.getGuiManager().moveMoveFloatingButtonUp((int) left,
+					moveBtnMoved = appw.getGuiManager()
+							.moveMoveFloatingButtonUp((int) left,
 							bottomInfoTipPanel.getOffsetWidth(), isSmall);
 				}
 
@@ -438,9 +440,9 @@ public final class ToolTipManagerW {
 			bottomInfoTipPanel.removeFromParent();
 		}
 		if (app != null && app.has(Feature.NEW_TOOLBAR)) {
-			app.getGuiManager().moveMoveFloatingButtonDown(isSmall);
-			// ((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
-			// .moveMoveFloatingButtonDownWithTooltip(isSmall);
+			app.getGuiManager().moveMoveFloatingButtonDown(isSmall,
+					moveBtnMoved);
+			moveBtnMoved = false;
 		}
 		lastTipVisible = false;
 	}

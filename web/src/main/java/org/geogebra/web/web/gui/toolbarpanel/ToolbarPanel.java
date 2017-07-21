@@ -610,7 +610,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.removeStyleName("showMoveBtn");
 	}
 
-	public void moveMoveFloatingButtonUpWithTooltip(int ttLeft, int width,
+	public boolean moveMoveFloatingButtonUpWithTooltip(int ttLeft, int width,
 			boolean isSmall) {
 		if (moveBtn != null) {
 
@@ -626,12 +626,16 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 					moveBtn.removeStyleName("moveMoveBtnDown");
 					moveBtn.addStyleName("moveMoveBtnUp");
 				}
+				return true; // button was moved
 			}
 		}
+		return false; // button was not moved
 	}
 
-	public void moveMoveFloatingButtonDownWithTooltip(boolean isSmall) {
-		if (moveBtn != null) {
+	public void moveMoveFloatingButtonDownWithTooltip(boolean isSmall,
+			boolean wasMoved) {
+		if (moveBtn != null && wasMoved) {
+
 			if (isSmall) {
 				moveBtn.addStyleName("moveMoveBtnDownSmall");
 				moveBtn.removeStyleName("moveMoveBtnUpSmall");

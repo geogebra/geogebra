@@ -744,14 +744,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public void moveMoveFloatingButtonUp(int left, int width, boolean isSmall) {
-		getToolbarPanelV2().moveMoveFloatingButtonUpWithTooltip(left, width,
+	public boolean moveMoveFloatingButtonUp(int left, int width,
+			boolean isSmall) {
+		return getToolbarPanelV2().moveMoveFloatingButtonUpWithTooltip(left,
+				width,
 				isSmall);
 	}
 
 	@Override
-	public void moveMoveFloatingButtonDown(boolean isSmall) {
-		getToolbarPanelV2().moveMoveFloatingButtonDownWithTooltip(isSmall);
+	public void moveMoveFloatingButtonDown(boolean isSmall, boolean wasMoved) {
+		getToolbarPanelV2().moveMoveFloatingButtonDownWithTooltip(isSmall,
+				wasMoved);
 	}
 
 	@Override

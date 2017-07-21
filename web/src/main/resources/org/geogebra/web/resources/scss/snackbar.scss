@@ -7,6 +7,7 @@
 		border-radius: 2px;
 		z-index: 1000;
 		position: absolute;
+		bottom: -80px;
 		background-color: $snackbar-background;
 		
 		td {
@@ -43,6 +44,7 @@
 .small{
 		width: 100%;
 		height: 48px;
+		bottom: -48px;
 		border-radius: 0px;
 		.manualLink {
 			padding-top: 0px;
@@ -56,22 +58,12 @@
 	}
 		
 .animateShow { 
-	    animation-name: animShow;
-	    animation-duration: 0.4s;
 	    bottom: 0px;
+	    transition: bottom 0.4s ease;
 	} 
 .animateHide { 
-	    animation-name: animHide;
-	    animation-duration: 0.4s;
 	    bottom: -80px;
+	    transition: bottom 0.4s ease;
 	} 
-	
-@keyframes animShow {
-		0% {bottom: -80px;}
-		100% {bottom: 0px;}
-	}
-@keyframes animHide {
-		0% {bottom: 0px;}
-		100% {bottom: -80px;}
-	}
+
 
