@@ -169,7 +169,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
-		// TODO
+		model.applyNameChange(tfName.getText(), app.getErrorHandler());
+		applyCheckboxes();
 	}
 	
 
