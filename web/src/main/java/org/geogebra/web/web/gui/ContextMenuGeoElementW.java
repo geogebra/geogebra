@@ -601,7 +601,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addRename() {
 		if (getGeos() == null || !(getGeos().size() == 1 && app.letRename()
-				&& getGeo().isRenameable())) {
+				&& getGeo().isRenameable()) || app.has(Feature.NEW_TOOLBAR)) {
 			return;
 		}
 
@@ -667,7 +667,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		wrappedPopup.addSeparator();
 
 		// Label
-		if (showLabel) {
+		if (showLabel && !app.has(Feature.NEW_TOOLBAR)) {
 
 			String img;
 			if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
