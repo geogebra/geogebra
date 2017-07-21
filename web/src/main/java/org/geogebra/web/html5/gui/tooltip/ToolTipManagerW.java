@@ -194,13 +194,7 @@ public final class ToolTipManagerW {
 
 		bottomInfoTipPanel.setVisible(false);
 		RootPanel.get().add(bottomInfoTipPanel);
-		ClickEndHandler.init(bottomInfoTipPanel, new ClickEndHandler() {
 
-			@Override
-			public void onClickEnd(int x, int y, PointerEventType type) {
-				openHelp();
-			}
-		});
 	}
 
 	/**
@@ -313,7 +307,16 @@ public final class ToolTipManagerW {
 		}
 
 		bottomInfoTipPanel.setVisible(true);
+		if (helpLabel != null) {
+			ClickEndHandler.init(helpLabel, new ClickEndHandler() {
 
+				@Override
+				public void onClickEnd(int x, int y, PointerEventType type) {
+					openHelp();
+				}
+			});
+
+		}
 
 			// Helps to align the InfoTooltip in the center of the screen:
 
