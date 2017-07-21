@@ -1,5 +1,6 @@
 package org.geogebra.web.web.euclidian;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
@@ -161,8 +162,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
 				&& activeGeoList.get(0) instanceof GeoFunction) {
-			setPositionForFunction((Drawable) dr,
-					(GeoFunction) activeGeoList.get(0));
+			setPositionForFunction();
 		} else if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
@@ -173,17 +173,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 	}
 
-	private void setPositionForFunction(Drawable dr, GeoFunction geo) {
-		GRectangle2D boundingBox = dr.getBoundsForStylebarPosition();
-
-		if (boundingBox == null) {
-			return;
-		}
-
-		double xPos = (boundingBox.getMinX() + boundingBox.getMaxX()) / 2;
-		double xPosReal = app.getActiveEuclidianView().toRealWorldCoordX(xPos);
-		double yPosReal = geo.getFunction().value(xPosReal);
-		double yPos = app.getActiveEuclidianView().toScreenCoordY(yPosReal);
+	private void setPositionForFunction() {
+		GPoint lastMouseLoc = this.getView().getEuclidianController()
+				.getMouseLoc();
+		int xPos = lastMouseLoc.x + 10;
+		int yPos = lastMouseLoc.y + 10;
 
 		// Keep dynamic stylebar on the screen
 		if (yPos < 5) {
