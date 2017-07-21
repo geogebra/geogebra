@@ -1609,10 +1609,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			getLayout().getDockManager().setFocusedPanel(viewID);
 		}
 
-		if (this.getLayout().getDockManager().getPanel(viewID).hasToolbar()
-				|| !app.has(Feature.SELECT_TOOL)) {
-			setActiveToolbarId(viewID);
-		}
+		setActiveToolbarId(viewID);
 	}
 
 	@Override
