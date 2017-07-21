@@ -142,8 +142,8 @@ public class StepByStepHelper {
 			if (en.getOperation() == Operation.PLUS
 					|| en.getOperation() == Operation.MINUS) {
 				
-				String toReturnLeft = getSQRoots(en.getLeft());
-				String toReturnRight = getSQRoots(en.getRight());
+				String toReturnLeft = getOneSquareRoot(en.getLeft());
+				String toReturnRight = getOneSquareRoot(en.getRight());
 				
 				if (!toReturnLeft.isEmpty()) {
 					return toReturnLeft;

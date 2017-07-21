@@ -183,7 +183,8 @@ public class StepByStepSolver {
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < solutions.size(); i++) {
-			sb.append("x = " + LaTeX(solutions.get(i)));
+			sb.append("x = ");
+			sb.append(LaTeX(solutions.get(i)));
 			if(i < solutions.size() - 1) {
 				sb.append(", ");
 			}
@@ -199,7 +200,7 @@ public class StepByStepSolver {
 			swapSides();
 		}
 		
-		if(sqrtNum > 2) {
+		if (sqrtNum > 3) {
 			return;
 		}
 		
@@ -231,6 +232,26 @@ public class StepByStepSolver {
 				square();
 				solveIrrational();
 			}
+		}
+
+		if (sqrtNum == 3) {
+			String nonIrrational = helper.getNonIrrational(evLHS);
+			subtract(nonIrrational);
+
+			while (helper.countOperation(evRHS, Operation.SQRT) > 1) {
+				String oneRoot = helper.getOneSquareRoot(evRHS);
+				String rootCoeff = helper.findCoefficient(evRHS, oneRoot);
+				addOrSubtract(rootCoeff, oneRoot);
+			}
+
+			if (helper.countOperation(evLHS, Operation.SQRT) == 3) {
+				String oneRoot = helper.getOneSquareRoot(evLHS);
+				String rootCoeff = helper.findCoefficient(evLHS, oneRoot);
+				addOrSubtract(rootCoeff, oneRoot);
+			}
+
+			square();
+			solveIrrational();
 		}
 	}
 	
@@ -445,7 +466,6 @@ public class StepByStepSolver {
 			solveProduct(evLHS);
 			return;
 		}
-		
 		
 		// Case: default
 		{
