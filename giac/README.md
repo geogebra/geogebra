@@ -109,6 +109,7 @@ npm pack giac@latest
 tar xzf giac*tgz
 cd package
 node-gyp rebuild
+npm install bindings
 node ./
 ```
 
@@ -129,6 +130,6 @@ by Zoltán Kovács <zoltan@geogebra.org>.
 
 ## Acknowledgments ##
 
-The Node port of Giac is dedicated to Gábor Ancsin, one of the most
+The Node port of Giac is dedicated to [Gábor Ancsin](https://www.geogebra.org/gabor), one of the most
 prominent JavaScript heroes of the [GeoGebra](http://www.geogebra.org)
 [Team](http://www.geogebra.org/team).
