@@ -122,8 +122,10 @@ public class StepByStepSolver {
 			return checkSolutions();
 		}
 
-		// X. step: finding rational solutions and factoring them out
-		// TODO: IMPLEMENT IT!!
+		// if (helper.integerCoefficients(RHS, LHS)) {
+		// factorRationalRoots();
+		// return checkSolutions();
+		// }
 		
 		// XI. step: numeric solutions
 		numericSolutions();
@@ -181,6 +183,16 @@ public class StepByStepSolver {
 			steps.addAll(sbss.getSteps());
 			solutions.addAll(sbss.getSolutions());
 		}
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < solutions.size(); i++) {
+			sb.append("x = " + LaTeX(solutions.get(i)));
+			if(i < solutions.size() - 1) {
+				sb.append(", ");
+			}
+		}
+
+		steps.add(sb.toString());
 	}
 	
 	private void solveIrrational() {
@@ -365,15 +377,15 @@ public class StepByStepSolver {
 		}
 
 		if (isOne(a) && isEven(b)) {
-			String toAdd = helper.regroup("((" + b + ")/2)^2 - " + c);
+			String toComplete = helper.regroup(c + " - ((" + b + ")/2)^2");
 			
 			steps.add(loc.getMenuLaTeX("CompleteSquare", "Complete the square"));
 			
-			add(toAdd);
+			addOrSubtract(toComplete, toComplete);
 			LHS = helper.factor(LHS);
 			addStep();
 
-			if (helper.getValue(toAdd) < 0) {
+			if (helper.getValue(RHS) < 0) {
 				steps.add(loc.getMenuLaTeX("NoRealSolutions", "No Real Solutions"));
 				return;
 			}
@@ -396,15 +408,29 @@ public class StepByStepSolver {
 
 				evLHS = helper.getExpressionTree(LHS);
 
-				String toSubtract = helper.findConstant(evLHS);
-				steps.add(loc.getMenuLaTeX("SubtractAFromBothSides", "Subtract %0 from both sides", toSubtract));
+				String constant = helper.findConstant(evLHS);
 
-				LHS = helper.simplify(LHS + " - (" + toSubtract + ")");
+				if (helper.getValue(constant) < 0) {
+					constant = helper.simplify("-(" + constant + ")");
+					
+					steps.add(loc.getMenuLaTeX("AddAToBothSides", "Add %0 to both sides", constant));
 
-				steps.add(LaTeX(LHS) + " = " + LaTeX(RHS + " -(" + toSubtract + ")") + " or " + LaTeX(LHS) + " = "
-						+ LaTeX("- (" + RHS + ") - (" + toSubtract + ")"));
-				steps.add(LaTeX(LHS) + " = " + LaTeX(helper.regroup(RHS + " -(" + toSubtract + ")")) + " or " + 
-						LaTeX(LHS) + " = " + LaTeX(helper.regroup("- (" + RHS + ") - (" + toSubtract + ")")));
+					LHS = helper.simplify(LHS + " + (" + constant + ")");
+
+					steps.add(LaTeX(LHS) + " = " + LaTeX(RHS + " +(" + constant + ")") + " or " + LaTeX(LHS) + " = "
+							+ LaTeX("- (" + RHS + ") + (" + constant + ")"));
+					steps.add(LaTeX(LHS) + " = " + LaTeX(helper.regroup(RHS + " +(" + constant + ")")) + " or " + LaTeX(LHS) + " = "
+							+ LaTeX(helper.regroup("- (" + RHS + ") + (" + constant + ")")));
+				} else {
+					steps.add(loc.getMenuLaTeX("SubtractAFromBothSides", "Subtract %0 from both sides", constant));
+
+					LHS = helper.simplify(LHS + " - (" + constant + ")");
+
+					steps.add(LaTeX(LHS) + " = " + LaTeX(RHS + " -(" + constant + ")") + "\text{ or }" + LaTeX(LHS) + " = "
+							+ LaTeX("- (" + RHS + ") - (" + constant + ")"));
+					steps.add(LaTeX(LHS) + " = " + LaTeX(helper.regroup(RHS + " -(" + constant + ")")) + "\text{ or }" + LaTeX(LHS) + " = "
+							+ LaTeX(helper.regroup("- (" + RHS + ") - (" + constant + ")")));
+				}
 			}
 			return;
 		}
@@ -432,20 +458,20 @@ public class StepByStepSolver {
 			steps.add("x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}");
 			
 			if (discriminantValue < 0) {
-				String formula = "(-(" + b + ") \\pm sqrt(" + discriminant + "))/(2(" + a + "))";
+				String formula = "\\frac{-(" + b + ") \\pm \\sqrt{" + discriminant + "}}{2(" + a + ")}";
 				steps.add("x_{1,2} = " + formula);
 				steps.add(loc.getMenuLaTeX("DeltaLessThanZero", "No real solutions"));
 			} else if (discriminantValue == 0) {
 				String formula = "-(" + b + ")/(2(" + a + "))";
-				steps.add("x = " + helper.simplify(formula));
+				steps.add(LaTeX("x = " + helper.simplify(formula)));
 				solutions.add(helper.simplify(formula));
 			} else {
-				String formula = "(-(" + b + ") \\pm sqrt(" + discriminant + "))/(2(" + a + "))";
+				String formula = "\\frac{-(" + b + ") \\pm \\sqrt{" + discriminant + "}}{2(" + a + ")}";
 				String x1 = helper.simplify("(-(" + b + ")+sqrt(" + discriminant + "))/(2(" + a + "))");
 				String x2 = helper.simplify("(-(" + b + ")-sqrt(" + discriminant + "))/(2(" + a + "))");
 
 				steps.add("x_{1,2} = " + formula);
-				steps.add("x_1 = " + x1 + ", x_2 = " + x2);
+				steps.add("x_1 = " + LaTeX(x1) + ", x_2 = " + LaTeX(x2));
 
 				solutions.add(x1);
 				solutions.add(x2);
@@ -484,6 +510,11 @@ public class StepByStepSolver {
 		}
 	}
 	
+	private void factorRationalSolutions() {
+		subtract(RHS);
+
+	}
+
 	private void numericSolutions() {
 		subtract(RHS);
 
