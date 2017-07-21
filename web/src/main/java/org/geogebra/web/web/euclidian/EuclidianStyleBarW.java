@@ -1924,9 +1924,15 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	@Override
 	public void setVisible(boolean visible) {
+		this.visible = visible;
 		super.setVisible(visible);
 		if (btnContextMenu != null) {
 			btnContextMenu.close();
 		}
+	}
+
+	@Override
+	public boolean isVisible() {
+		return visible;
 	}
 }

@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -209,6 +210,12 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			boolean selectInitText) {
 		if (!app.isRightClickEnabled()) {
 			return;
+		}
+
+		if (app.isUnbundled() && app.has(Feature.SWITCH_FLAG)) {
+			if (app.getActiveEuclidianView().getDynamicStyleBar().isVisible()) {
+				return;
+			}
 		}
 		geo.setLabelVisible(true);
 		geo.updateRepaint();
