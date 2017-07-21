@@ -17,7 +17,6 @@
   "scripts": {
     "test": "node nodegiac.js"
   },
-  "gypfile": true,
   "dependencies": {
     "bindings": "~1.2.1"
   },

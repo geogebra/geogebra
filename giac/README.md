@@ -108,9 +108,8 @@ and fine tune the compilation settings. This can be done as follows:
 npm pack giac@latest
 tar xzf giac*tgz
 cd package
-node-gyp rebuild
-npm install bindings
-node ./
+JOBS=4 npm install
+npm test
 ```
 
 ## Testing ##
