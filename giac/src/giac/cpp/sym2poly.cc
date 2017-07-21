@@ -406,8 +406,8 @@ namespace giac {
 #ifndef SMARTPTR64
 	  n.__POLYptr->ref_count==1 && d.__POLYptr->ref_count==1
 #else
-	  ((ref_polynome*)(* (longlong *) &n >> 16))->ref_count ==1 &&
-	  ((ref_polynome*)(* (longlong *) &d >> 16))->ref_count ==1	  
+	  ((ref_polynome*)(* (ulonglong *) &n >> 16))->ref_count ==1 &&
+	  ((ref_polynome*)(* (ulonglong *) &d >> 16))->ref_count ==1	  
 #endif
 	  ){
 	simplify(*n._POLYptr,*d._POLYptr,pptr->t);

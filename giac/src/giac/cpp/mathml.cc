@@ -954,19 +954,22 @@ namespace giac {
 
   static string svg_half_line(gen A, gen B, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     gen i=cst_i, C,D;
-    A=evalf(A,1,contextptr); B=evalf(B,1,contextptr);
-    // recherche de l'??quation de la droite
-    if (is_zero(eval(re(A,contextptr)-re(B,contextptr),eval_level(contextptr),contextptr))){
-      gen x=re(A,contextptr);
-      if (is_positive(eval(im(B,contextptr)-im(A,contextptr),eval_level(contextptr),contextptr),contextptr))
+    A=evalf(eval(A,1,contextptr),1,contextptr); B=evalf(eval(B,1,contextptr),1,contextptr);
+    gen reA,imA,reB,imB;
+    reim(A,reA,imA,contextptr);
+    reim(B,reB,imB,contextptr);
+    // recherche de l'equation de la droite
+    if (is_zero(reA-reB)){
+      gen x=reA;
+      if (is_positive(imB-imA,contextptr))
 	C=x+i*ymax;
       else
 	C=x+i*ymin;
     } 
     else {
-      gen a=eval((im(A,contextptr)-im(B,contextptr))/(re(A,contextptr)-re(B,contextptr)),eval_level(contextptr),contextptr);
-      gen b=eval(im(A,contextptr)-a*re(A,contextptr),eval_level(contextptr),contextptr);
-      if (is_positive(eval(im(B,contextptr)-im(A,contextptr),eval_level(contextptr),contextptr),contextptr))
+      gen a=(imB-imA)/(reB-reA);
+      gen b=imA-a*reA;
+      if (is_positive(reB-reA,contextptr))
 	C=xmax+i*(a*xmax+b);
       else
 	C=xmin+i*(a*xmin+b); 

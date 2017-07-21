@@ -9866,14 +9866,14 @@ namespace giac {
   const gen & grad2rad_g=grad2rad_g_;
 #else
     // Warning this does not work on ia64 with -O2
-  const define_alias_gen(alias_rad2deg_g,_DOUBLE_, (*(longlong *)&rad2deg_d) >> 8,(*(longlong *)&rad2deg_d)>>16);
+  const define_alias_gen(alias_rad2deg_g,_DOUBLE_, (*(ulonglong *)&rad2deg_d) >> 8,(*(ulonglong *)&rad2deg_d)>>16);
   const gen & rad2deg_g = *(const gen*) & alias_rad2deg_g;
-  const define_alias_gen(alias_deg2rad_g,_DOUBLE_, (*(longlong *)&deg2rad_d) >> 8,(*(longlong *)&deg2rad_d)>>16);
+  const define_alias_gen(alias_deg2rad_g,_DOUBLE_, (*(ulonglong *)&deg2rad_d) >> 8,(*(ulonglong *)&deg2rad_d)>>16);
   const gen & deg2rad_g = *(const gen*) & alias_deg2rad_g;
   //grad
-  const define_alias_gen(alias_rad2grad_g,_DOUBLE_, (*(longlong *)&rad2grad_d) >> 8,(*(longlong *)&rad2grad_d)>>16);
+  const define_alias_gen(alias_rad2grad_g,_DOUBLE_, (*(ulonglong *)&rad2grad_d) >> 8,(*(ulonglong *)&rad2grad_d)>>16);
   const gen & rad2grad_g = *(const gen*) & alias_rad2grad_g;
-  const define_alias_gen(alias_grad2rad_g, _DOUBLE_, (*(longlong *)&grad2rad_d) >> 8, (*(longlong *)&grad2rad_d) >> 16);
+  const define_alias_gen(alias_grad2rad_g, _DOUBLE_, (*(ulonglong *)&grad2rad_d) >> 8, (*(ulonglong *)&grad2rad_d) >> 16);
   const gen & grad2rad_g = *(const gen*)& alias_grad2rad_g;
 #endif
 
