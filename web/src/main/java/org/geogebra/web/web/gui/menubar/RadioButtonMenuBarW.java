@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -42,12 +41,13 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		radioButtons = new ArrayList<RadioButton>();
 		app = application;
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("floating-Popup");
 		}
 
 		if (arrow) {
-			MainMenu.addSubmenuArrow(this, app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR));
+			MainMenu.addSubmenuArrow(this,
+					app.isWhiteboardActive() || app.isUnbundled());
 		}
 
 	}

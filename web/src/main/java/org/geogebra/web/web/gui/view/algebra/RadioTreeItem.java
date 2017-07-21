@@ -905,7 +905,7 @@ public class RadioTreeItem extends AVTreeItem
 		onStopEdit();
 		styleEditor();
 
-		if (!app.has(Feature.NEW_TOOLBAR) && stylebarShown != null) {
+		if (!app.isUnbundled() && stylebarShown != null) {
 			getAlgebraDockPanel().showStyleBarPanel(stylebarShown);
 			stylebarShown = null;
 		}
@@ -1139,7 +1139,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 
 		if (errorMessage != null) {
-			if (app.has(Feature.NEW_TOOLBAR)
+			if (app.isUnbundled()
 					// only show the error message when AV panel is visible
 					&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
 							.isAlgebraViewActive()) {
@@ -1218,7 +1218,7 @@ public class RadioTreeItem extends AVTreeItem
 
 
 	boolean styleBarCanHide() {
-		if (app.has(Feature.NEW_TOOLBAR)
+		if (app.isUnbundled()
 				|| !getAlgebraDockPanel().isStyleBarPanelShown()) {
 			return false;
 		}
@@ -1651,7 +1651,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	protected void updateEditorFocus(Object source, boolean blurtrue) {
 		// deselects current selection
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			if (controls != null) {
 				updateButtonPanelPosition();
 			}
@@ -1665,7 +1665,7 @@ public class RadioTreeItem extends AVTreeItem
 				&& !this.getAlgebraDockPanel().hasLongStyleBar();
 
 		// update style bar icon look
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			if (emptyCase) {
 				getAlgebraDockPanel().showStyleBarPanel(blurtrue);
 			} else {
@@ -1775,7 +1775,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	void adjustStyleBar() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return;
 		}
 		// expandSize(getWidthForEdit());
@@ -1955,7 +1955,7 @@ public class RadioTreeItem extends AVTreeItem
 		mf.setFocus(focus);
 
 		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
-		int h = app.has(Feature.NEW_TOOLBAR)
+		int h = app.isUnbundled()
 				? getToolbarDockPanel().getOffsetHeight()
 				: getAlgebraDockPanel().getOffsetHeight();
 		if (h < kH) {

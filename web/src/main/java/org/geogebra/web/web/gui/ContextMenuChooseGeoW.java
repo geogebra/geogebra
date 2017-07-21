@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -148,7 +147,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
 
 		selectAnotherMenu.addItem(mi);
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			mi.addStyleName("no-image");
 		}
 		metas.add(geo);
@@ -181,7 +180,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			selectAnotherMenuItem = new MenuItem(loc.getMenu("PerformToolOn"),
 			        selectAnotherMenu);
 		}
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			selectAnotherMenuItem.addStyleName("mi_no_image");
 		} 
 		wrappedPopup.addItem(selectAnotherMenuItem);

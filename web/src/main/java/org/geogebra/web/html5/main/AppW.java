@@ -2382,7 +2382,8 @@ public abstract class AppW extends App implements SetLabels {
 		closePopupsNoTooltips();
 		ToolTipManagerW.hideAllToolTips();
 
-		if (!has(Feature.NEW_TOOLBAR) && getGuiManager() != null && getGuiManager().hasAlgebraView()) {
+		if (!isUnbundled() && getGuiManager() != null
+				&& getGuiManager().hasAlgebraView()) {
 			getAlgebraView().resetItems(false);
 
 		}
@@ -2482,7 +2483,7 @@ public abstract class AppW extends App implements SetLabels {
 			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
 		}
 		if (showToolBar() && !isWhiteboardActive()
-				&& !has(Feature.NEW_TOOLBAR)) {
+				&& !isUnbundled()) {
 			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
 		}
 		// menubar height is always 0
@@ -3617,7 +3618,9 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean isUnbundled() {
-		return "1".equals(initialPerspective) || "2".equals(initialPerspective);
+		return ("1".equals(initialPerspective)
+				|| "2".equals(initialPerspective))
+				&& has(Feature.UNBUNDLING);
 
 	}
 

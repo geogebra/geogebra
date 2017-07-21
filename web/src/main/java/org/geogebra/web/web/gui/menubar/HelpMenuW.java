@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.web.html5.main.AppW;
@@ -25,7 +24,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	public HelpMenuW(final App app)  {
 
 		super(true, "help", app);
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -41,7 +40,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    //});
 	 // Tutorials
 		tutorials = addItem(
-				MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+				MainMenu.getMenuBarHtml(app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.tutorial_black()
 								.getSafeUri().asString()
 						: AppResources.INSTANCE.empty().getSafeUri().asString(),
@@ -56,7 +55,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    
 	    // Help
 		manual = addItem(
-				MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+				MainMenu.getMenuBarHtml(app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.manual_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_help().getSafeUri()
@@ -73,7 +72,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    
 		forum = addItem(MainMenu
 				.getMenuBarHtml(
-						app.has(Feature.NEW_TOOLBAR)
+						app.isUnbundled()
 								? MaterialDesignResources.INSTANCE.forum_black()
 										.getSafeUri().asString()
 								: AppResources.INSTANCE.empty().getSafeUri()
@@ -88,13 +87,13 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
             }
 	    });
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 	    
 	    // Report Bug
 		bug = addItem(
-				MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+				MainMenu.getMenuBarHtml(app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.bug_report_black()
 								.getSafeUri().asString()
 						: AppResources.INSTANCE.empty().getSafeUri().asString(),
@@ -107,13 +106,13 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
             }
 	    });
 	    
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 
 		about = addItem(
 				MainMenu.getMenuBarHtml(
-						app.has(Feature.NEW_TOOLBAR)
+						app.isUnbundled()
 								? MaterialDesignResources.INSTANCE.info_black()
 										.getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_icon_help_about()

@@ -61,7 +61,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			}
 		};
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -184,7 +184,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		// this is enabled always
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.add_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -201,7 +201,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// open menu is always visible in menu
 		
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.search_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -217,7 +217,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		
 		if(app.getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.has(Feature.NEW_TOOLBAR)
+					app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.save_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE
@@ -231,12 +231,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});			
 		}
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 
 		shareItem = addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.share_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -259,7 +259,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 
 		if (app.getLAF().exportSupported()) {
-			addItem(MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+			addItem(MainMenu.getMenuBarHtml(app.isUnbundled()
 					? MaterialDesignResources.INSTANCE.file_download_black()
 							.getSafeUri().asString()
 					: GuiResources.INSTANCE
@@ -272,7 +272,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 		if (app.getLAF().printSupported()) {
 			printItem = new MenuItem(
-					MainMenu.getMenuBarHtml(app.has(Feature.NEW_TOOLBAR)
+					MainMenu.getMenuBarHtml(app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.print_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE

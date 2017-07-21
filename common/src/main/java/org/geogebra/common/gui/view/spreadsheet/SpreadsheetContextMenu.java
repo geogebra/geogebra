@@ -158,7 +158,7 @@ public class SpreadsheetContextMenu {
 
 			addSeparator();
 
-			subMenu = addSubMenu(app.has(Feature.NEW_TOOLBAR)
+			subMenu = addSubMenu(app.isUnbundled()
 					? loc.getMenu("Insert") : loc.getMenu("Insert") + " ...",
 					null);
 
@@ -318,7 +318,7 @@ public class SpreadsheetContextMenu {
 			addSeparator();
 
 			cmdString = MenuCommand.SpreadsheetOptions.toString();
-			addMenuItem(cmdString, app.has(Feature.NEW_TOOLBAR)
+			addMenuItem(cmdString, app.isUnbundled()
 					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
 					true);
 		}
@@ -332,7 +332,7 @@ public class SpreadsheetContextMenu {
 			addSeparator();
 
 			cmdString = MenuCommand.Properties.toString();
-			addMenuItem(cmdString, app.has(Feature.NEW_TOOLBAR)
+			addMenuItem(cmdString, app.isUnbundled()
 					? loc.getMenu("Settings") : loc.getMenu(cmdString) + " ...",
 					true);
 		}

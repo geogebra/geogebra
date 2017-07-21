@@ -321,7 +321,7 @@ public class GeoNumeric extends GeoElement
 	private void initScreenLocation() {
 		int count = countSliders();
 		if (getConstruction().getKernel().getApplication()
-				.has(Feature.NEW_TOOLBAR)) {
+				.isUnbundled()) {
 			count++;
 		}
 		sliderPos = new SliderPosition();

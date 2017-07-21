@@ -452,7 +452,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 //		kbButtonSpace = new SimplePanel();
 		
 		titleBarPanelContent = new FlowPanel();
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			titleBarPanelContent.setStyleName("MatTitleBarPanelContent");
 		} else {
 			titleBarPanelContent.setStyleName("TitleBarPanelContent");
@@ -556,7 +556,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 			downImage = (ImageResource) getResources().back_right();
 
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			graphicsContextMenuBtn = new StandardButton(
 					MaterialDesignResources.INSTANCE.more_vert_black());
 			FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {

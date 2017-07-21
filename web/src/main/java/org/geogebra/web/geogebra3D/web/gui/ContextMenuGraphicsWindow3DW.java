@@ -1,7 +1,6 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
@@ -52,10 +51,10 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		addZoomMenu();
 
 		String img;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri()
 					.asString();
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
 					.getSafeUri().asString();
 		} else {
@@ -77,10 +76,10 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		wrappedPopup.addItem(miShowAllObjectsView);
 
 		String img2;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			img2 = AppResources.INSTANCE.standard_view20().getSafeUri()
 					.asString();
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri()
 					.asString();
 		} else {

@@ -27,7 +27,7 @@ public class ToolsMenuW extends GMenuBar {
 
 		super(true, "tools", application);
 		this.app = application;
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -42,7 +42,7 @@ public class ToolsMenuW extends GMenuBar {
 		Localization loc = app.getLocalization();
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.has(Feature.NEW_TOOLBAR)
+					app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.tools_customize_black().getSafeUri().asString()
 							: GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
 					loc.getMenu("Toolbar.Customize"), true), true,
@@ -56,7 +56,7 @@ public class ToolsMenuW extends GMenuBar {
 		}
 
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.tools_create_black().getSafeUri().asString()
 						: GuiResources.INSTANCE
 				.menu_icon_tools_new().getSafeUri().asString(),
@@ -72,7 +72,8 @@ public class ToolsMenuW extends GMenuBar {
 			});
 
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.tools_black().getSafeUri().asString()
+				app.isUnbundled() ? MaterialDesignResources.INSTANCE
+						.tools_black().getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(),
 				loc.getMenu("Tool.Manage"),
 					true), true, new MenuCommand(app) {
@@ -87,7 +88,7 @@ public class ToolsMenuW extends GMenuBar {
 		if (!app.isExam()) {
 		if (app.has(Feature.EXERCISES)) {
 				addItem(MainMenu.getMenuBarHtml(
-						app.has(Feature.NEW_TOOLBAR)
+						app.isUnbundled()
 								? MaterialDesignResources.INSTANCE.new_exercise_black().getSafeUri().asString()
 								: GuiResources.INSTANCE
 					.menu_create_exercise().getSafeUri().asString(),

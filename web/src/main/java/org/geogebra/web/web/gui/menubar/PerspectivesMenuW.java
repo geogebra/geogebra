@@ -30,7 +30,7 @@ public class PerspectivesMenuW extends GMenuBar {
 	public PerspectivesMenuW(AppW app) {
 		super(true, "apps", app);
 	    this.app = app;
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanelNoOpacity");
 		} else {
 			addStyleName("GeoGebraMenuBar");

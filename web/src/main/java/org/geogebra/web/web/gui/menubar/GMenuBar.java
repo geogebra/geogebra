@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -92,7 +91,7 @@ public class GMenuBar extends MenuBar{
 
 						}
 
-						if (app.has(Feature.NEW_TOOLBAR)) {
+						if (app.isUnbundled()) {
 							pp.addStyleName("floatingSubMenu");
 						}
 						pp.add(submenupopup);

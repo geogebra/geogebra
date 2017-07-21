@@ -4,7 +4,6 @@ import java.util.Locale;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -248,7 +247,7 @@ public final class ToolTipManagerW {
 		keyboardVisible = kb;
 		linkType = link;
 		isSmall = false;
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			bottomInfoTipPanel.setStyleName("snackbar");
 			if (appw.getWidth() < 400) {
 				bottomInfoTipPanel.addStyleName("small");
@@ -278,7 +277,7 @@ public final class ToolTipManagerW {
 			helpLabel = new Label();
 
 			if (link.equals(ToolTipLinkType.Help)) {
-				if (app.has(Feature.NEW_TOOLBAR)) {
+				if (app.isUnbundled()) {
 					helpLabel.setText(app.getLocalization().getMenu("Help").toUpperCase(Locale.ROOT));
 
 				} else {
@@ -300,7 +299,7 @@ public final class ToolTipManagerW {
 			if (!(appw.isExam() && appw.getExam().getStart() >= 0)) {
 				bottomInfoTipPanel.add(helpLabel);
 			}
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			helpLabel = new Label();
 			helpLabel.addStyleName("warning");
 			bottomInfoTipPanel.add(helpLabel);
@@ -338,7 +337,7 @@ public final class ToolTipManagerW {
 		} else {
 			style.setLeft(left, Unit.PX);
 
-			if (app.has(Feature.NEW_TOOLBAR)) {
+			if (app.isUnbundled()) {
 				if (appw.getAppletFrame().isKeyboardShowing()) {
 					style.setTop((appw.getHeight() - 310), Unit.PX);
 				} else {
@@ -425,7 +424,7 @@ public final class ToolTipManagerW {
 	 */
 	public void hideBottomInfoToolTip() {
 
-		if (app != null && app.has(Feature.NEW_TOOLBAR) && !keyboardVisible
+		if (app != null && app.isUnbundled() && !keyboardVisible
 				&& linkType != null) {
 			bottomInfoTipPanel.addStyleName("animateHide");
 			bottomInfoTipPanel.getElement().getStyle().clearBottom();
@@ -442,7 +441,7 @@ public final class ToolTipManagerW {
 			cancelTimer();
 			bottomInfoTipPanel.removeFromParent();
 		}
-		if (app != null && app.has(Feature.NEW_TOOLBAR)) {
+		if (app != null && app.isUnbundled()) {
 			app.getGuiManager().moveMoveFloatingButtonDown(isSmall,
 					moveBtnMoved);
 			moveBtnMoved = false;

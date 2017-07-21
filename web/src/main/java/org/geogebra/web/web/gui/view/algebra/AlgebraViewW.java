@@ -1196,7 +1196,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				public void execute() {
 
 					inputPanelLatex.updateButtonPanelPosition();
-					if (app.has(Feature.NEW_TOOLBAR)) {
+					if (app.isUnbundled()) {
 						getToolbarDockPanel().scrollAVToBottom();
 					} else {
 						getAlgebraDockPanel().scrollToBottom();
@@ -1618,7 +1618,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	private boolean isToolMode() {
-		return app.has(Feature.NEW_TOOLBAR)
+		return app.isUnbundled()
 				&& this.getToolbarDockPanel().isToolMode();
 	}
 
@@ -1810,7 +1810,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			getToolbarDockPanel().saveAVScrollPosition();
 		} else {
 			getAlgebraDockPanel().saveScrollPosition();
@@ -1863,7 +1863,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            edited item
 	 */
 	void expandAVToItem(RadioTreeItem ri) {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return;
 		}
 		int editedWidth = ri.getWidthForEdit();
@@ -2263,7 +2263,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return the max item width.
 	 */
 	public int getFullWidth() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return getToolbarDockPanel().getOffsetWidth();
 		}
 		int avWidth = getAlgebraDockPanel().getInnerWidth();
@@ -2277,7 +2277,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 *            The width to expand.
 	 */
 	public void expandWidth(int width) {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return;
 		}
 
@@ -2307,7 +2307,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return;
 		}
 		int w = userWidth;

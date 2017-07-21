@@ -112,7 +112,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			this.add(kbButtonSpace);
 		}
 		
-		if (app != null && app.has(Feature.NEW_TOOLBAR)) {
+		if (app != null && app.isUnbundled()) {
 			addStyleName("newToolbar");
 		}
 
@@ -301,7 +301,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			public void run() {
 				// onResize();
 				// dockPanel.onResize();
-				if (app.has(Feature.NEW_TOOLBAR)) {
+				if (app.isUnbundled()) {
 					scrollToInputFieldInToolbar();
 				} else {
 					scrollToInputField();
@@ -455,7 +455,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 		
-		if (app.has(Feature.NEW_TOOLBAR) && !app.isWhiteboardActive()
+		if (app.isUnbundled() && !app.isWhiteboardActive()
 				&& ((GuiManagerW) app.getGuiManager())
 						.getToolbarPanelV2() != null
 				&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
@@ -752,7 +752,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			return;
 		}
 
-		if (app1.has(Feature.NEW_TOOLBAR)) {
+		if (app1.isUnbundled()) {
 			// do not attach old toolbar
 			return;
 		}
@@ -832,7 +832,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& !Dom.eventTargetsElement(event,
 						getToolbar().getOpenMenuButtonElement())
 				&& !getGlassPane().isDragInProgress()
-				&& !app.has(Feature.NEW_TOOLBAR)
+				&& !app.isUnbundled()
 		) {
 			app.toggleMenu();
 		}

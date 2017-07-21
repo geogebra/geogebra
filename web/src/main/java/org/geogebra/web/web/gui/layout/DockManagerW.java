@@ -1828,7 +1828,7 @@ public class DockManagerW extends DockManager {
 				.newExtendedBoolean(app.getWidth() < app.getHeight());
 		if (force || old != portrait) {
 			// run only if oreintation has changed;
-			final double landscape = app.has(Feature.NEW_TOOLBAR)
+			final double landscape = app.isUnbundled()
 					? MIN_TOOLBAR_WIDTH / app.getWidth()
 					: PerspectiveDecoder
 					.landscapeRatio(app.getWidth());
@@ -1877,7 +1877,7 @@ public class DockManagerW extends DockManager {
 		avHeight += Math.max(av.getInputTreeItem().getOffsetHeight(), 80);
 		double appHeight = app.getHeight();
 		ToolbarPanel toolbar = null;
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
 			avHeight = kbHeight + toolbar.getMinVHeight();
 		}else{

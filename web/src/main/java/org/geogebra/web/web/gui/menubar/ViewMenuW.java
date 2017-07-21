@@ -46,7 +46,7 @@ public class ViewMenuW extends GMenuBar {
 
 		super(true, "view", application);
 		this.app = application;
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanelNoOpacity");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -92,7 +92,7 @@ public class ViewMenuW extends GMenuBar {
 			}
 			addToMenu(e);
 		}
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 		for (final ViewType e : Views.getViewExtensions()) {
@@ -189,7 +189,7 @@ public class ViewMenuW extends GMenuBar {
 			}
 		}
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 

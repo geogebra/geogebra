@@ -273,7 +273,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	@Override
 	public void selectItem(boolean selected) {
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			AlgebraDockPanelW dp = getAlgebraDockPanel();
 			if (first && !dp.hasLongStyleBar()) {
 				dp.showStyleBarPanel(!selected);

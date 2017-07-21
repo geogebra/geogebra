@@ -208,8 +208,9 @@ public class AppWapplet extends AppWFull {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
-					|| (has(Feature.NEW_TOOLBAR) && frame.getWidget(i) instanceof FloatingMenuPanel)
-					|| (has(Feature.NEW_TOOLBAR)
+					|| (isUnbundled()
+							&& frame.getWidget(i) instanceof FloatingMenuPanel)
+					|| (isUnbundled()
 							&& frame.getWidget(i) instanceof Presistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
@@ -313,7 +314,8 @@ public class AppWapplet extends AppWFull {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
-			if (!has(Feature.NEW_TOOLBAR) && getArticleElement().getDataParamShowMenuBar(false)) {
+			if (!isUnbundled()
+					&& getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
 				// TODO
 				splitPanelWrapper.add(oldSplitLayoutPanel);
@@ -397,7 +399,7 @@ public class AppWapplet extends AppWFull {
 					p2.setInputPosition(InputPosition.bottom);
 				}
 			}
-			if (!has(Feature.NEW_TOOLBAR)) {
+			if (!isUnbundled()) {
 				getGuiManager().getLayout()
 					.setPerspectives(getTmpPerspectives(), p);
 			}
@@ -581,7 +583,8 @@ public class AppWapplet extends AppWFull {
 		// hidden
 		this.oldSplitLayoutPanel.getElement().getStyle()
 				.setPosition(Position.RELATIVE);
-		if (!has(Feature.NEW_TOOLBAR) && getGuiManager().hasAlgebraView() && showView(App.VIEW_ALGEBRA)) {
+		if (!isUnbundled() && getGuiManager().hasAlgebraView()
+				&& showView(App.VIEW_ALGEBRA)) {
 			((AlgebraViewW) getAlgebraView())
 					.setShowAlgebraInput(showAlgebraInput()
 							&& getInputPosition() == InputPosition.algebraView);
@@ -638,7 +641,7 @@ public class AppWapplet extends AppWFull {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
-			if (has(Feature.NEW_TOOLBAR)) {
+			if (isUnbundled()) {
 				toggleFloatingMenu(needsUpdate);
 				return;
 			}
@@ -663,7 +666,7 @@ public class AppWapplet extends AppWFull {
 			getGuiManager().updateStyleBarPositions(true);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
-			if (has(Feature.NEW_TOOLBAR)) {
+			if (isUnbundled()) {
 				menuShowing = false;
 				this.remove(new Runnable() {
 					@Override
@@ -707,7 +710,7 @@ public class AppWapplet extends AppWFull {
 
 
 	private void toggleFloatingMenu(boolean needsUpdate) {
-		if (!has(Feature.NEW_TOOLBAR)) {
+		if (!isUnbundled()) {
 			return;
 		}
 		persistWidthAndHeight();
@@ -718,7 +721,7 @@ public class AppWapplet extends AppWFull {
 		if (needsUpdate) {
 			frame.getMenuBar(this).getMenubar().updateMenubar();
 		}
-		if (has(Feature.NEW_TOOLBAR) && menuShowing) {
+		if (isUnbundled() && menuShowing) {
 			this.add(new Runnable() {
 
 				@Override
@@ -751,7 +754,7 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 
-		if (this.has(Feature.NEW_TOOLBAR)) {
+		if (this.isUnbundled()) {
 			this.toggleMenu();
 		} else {
 
@@ -796,7 +799,7 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void closePopups() {
 		super.closePopups();
-		if (has(Feature.NEW_TOOLBAR) && !isWhiteboardActive()) {
+		if (isUnbundled() && !isWhiteboardActive()) {
 			hideMenu();
 		}
 	}

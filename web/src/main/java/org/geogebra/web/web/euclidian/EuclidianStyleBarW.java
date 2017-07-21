@@ -508,7 +508,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		// add text decoration buttons
-		if (btnBold.isVisible() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (btnBold.isVisible() && !app.isUnbundled()) {
 			addSeparator();
 		}
 
@@ -633,7 +633,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
-			if (!app.has(Feature.NEW_TOOLBAR)) {
+			if (!app.isUnbundled()) {
 				btnContextMenu.addStyleName("dynStyleContextButton");
 			} else {
 				btnContextMenu.addStyleName("matDynStyleContextButton");
@@ -1101,7 +1101,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							setDefaultColor(alpha, geoColor);
 						}
 
-						this.setKeepVisible(!app.has(Feature.NEW_TOOLBAR) && EuclidianConstants.isMoveOrSelectionMode(mode));
+						this.setKeepVisible(
+								!app.isUnbundled() && EuclidianConstants
+										.isMoveOrSelectionMode(mode));
 					}
 				}
 			}
@@ -1272,7 +1274,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 
 		btnBgColor.setEnableTable(true);
-		btnBgColor.setKeepVisible(app.has(Feature.NEW_TOOLBAR) ? false:true);
+		btnBgColor.setKeepVisible(app.isUnbundled() ? false : true);
 		btnBgColor.addPopupHandler(this);
 	}
 
@@ -1323,7 +1325,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextBoldBtn() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			btnBold = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.text_bold_black()) {
 				@Override
@@ -1404,7 +1406,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextItalicBtn() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			btnItalic = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.text_italic_black()) {
 
@@ -1478,7 +1480,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(new ImageOrText(app.has(Feature.NEW_TOOLBAR)
+		btnTextSize.setIcon(new ImageOrText(app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.text_size_black()
 				: StyleBarResources.INSTANCE
 		                        .font_size()));

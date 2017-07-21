@@ -3,7 +3,6 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -45,7 +44,7 @@ public class ContextMenuPopup extends MyCJButton
 	public ContextMenuPopup(AppW app) {
 		super();
 		this.app = app;
-		ImgResourceHelper.setIcon(app.has(Feature.NEW_TOOLBAR)
+		ImgResourceHelper.setIcon(app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				:AppResources.INSTANCE.dots(), this);
 		ec = app.getActiveEuclidianView().getEuclidianController();
@@ -117,13 +116,13 @@ public class ContextMenuPopup extends MyCJButton
 		if (isActive) {
 			ImgResourceHelper
 					.setIcon(
-							app.has(Feature.NEW_TOOLBAR)
+							app.isUnbundled()
 									? MaterialDesignResources.INSTANCE
 											.more_vert_purple()
 									: AppResources.INSTANCE.dots_active(),
 							this);
 		} else {
-			ImgResourceHelper.setIcon(app.has(Feature.NEW_TOOLBAR)
+			ImgResourceHelper.setIcon(app.isUnbundled()
 					? MaterialDesignResources.INSTANCE.more_vert_black()
 					: AppResources.INSTANCE.dots(), this);
 		}
@@ -155,7 +154,7 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		popup.update();
 		popup.show(location);
-		ImgResourceHelper.setIcon(app.has(Feature.NEW_TOOLBAR)
+		ImgResourceHelper.setIcon(app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
 				: AppResources.INSTANCE.dots_active(), this);
 		this.addStyleName("noOpacity");
@@ -168,7 +167,7 @@ public class ContextMenuPopup extends MyCJButton
 	 */
 	public void hideMenu() {
 		menuShown = false;
-		ImgResourceHelper.setIcon(app.has(Feature.NEW_TOOLBAR)
+		ImgResourceHelper.setIcon(app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				: AppResources.INSTANCE.dots(), this);
 		this.removeStyleName("noOpacity");
@@ -197,7 +196,7 @@ public class ContextMenuPopup extends MyCJButton
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		ImgResourceHelper.setIcon(app.has(Feature.NEW_TOOLBAR)
+		ImgResourceHelper.setIcon(app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
 				: AppResources.INSTANCE.dots_active(), this);
 	}

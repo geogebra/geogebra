@@ -2,7 +2,6 @@ package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -82,7 +81,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	public GPopupMenuW(MenuBar mb, AppW app) {
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			popupPanel.addStyleName("matSubMenu");
 		}
 	}
@@ -173,7 +172,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	public void addSeparator() {
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			popupMenu.addSeparator();
 		}
 	}
@@ -301,7 +300,7 @@ public class GPopupMenuW implements AttachedToDOM {
 			td.addClassName("subMenuIcon");
 			ImageResource imgRes = getSubMenuIcon(
 					app.getLocalization().isRightToLeftReadingOrder(),
-					app.has(Feature.NEW_TOOLBAR));
+					app.isUnbundled());
 			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes)
 			        .getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");

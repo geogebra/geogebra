@@ -3368,7 +3368,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	public String getToolTooltipHTML(int mode) {
 		StringBuilder sbTooltip = new StringBuilder();
-		if (has(Feature.NEW_TOOLBAR)) {
+		if (isUnbundled()) {
 			sbTooltip.append("<html><p>");
 			sbTooltip.append(StringUtil.toHTMLString(getToolName(mode)));
 			sbTooltip.append("</p>");
@@ -4144,8 +4144,8 @@ public abstract class App implements UpdateSelection {
 		case STORE_IMAGES_ON_APPS_PICKER:
 			return true;
 
-		case NEW_TOOLBAR:
-			return prerelease && isUnbundled();
+		case UNBUNDLING:
+			return prerelease;
 
 		case EXPORT_SCAD:
 			return prerelease;
@@ -4179,7 +4179,7 @@ public abstract class App implements UpdateSelection {
 		 * new toolbar
 		 */
 		case SWITCH_FLAG:
-			return prerelease && has(Feature.NEW_TOOLBAR);
+			return prerelease && isUnbundled();
 
 		case MOB_INPUT_BAR_SOLVE:
 			return isNativeMobileAppWithNewUI();

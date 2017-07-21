@@ -843,7 +843,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(app));
 
-		if (app.has(Feature.NEW_TOOLBAR) && !app.has(Feature.MOW_TOOLBAR)) {
+		if (app.isUnbundled() && !app.has(Feature.MOW_TOOLBAR)) {
 			// register toolbar panel
 			layout.registerPanel(new ToolbarDockPanelW());
 		}
@@ -916,7 +916,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			if (getToolbarPanel() != null) {
 				getToolbarPanel().updateToolbarPanel();
 			}
-			if (app.has(Feature.NEW_TOOLBAR)) {
+			if (app.isUnbundled()) {
 				getLayout().getDockManager().adjustViews(true);
 			}
 		}
@@ -1843,7 +1843,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return mode;
 		}
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			this.getToolbarPanelV2().setMode(mode);
 
 			// close dynamic stylebar at changing mode
@@ -2397,7 +2397,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public ToolbarPanel getToolbarPanelV2() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return ((ToolbarDockPanelW)(getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)))
 					.getToolbar();
 		}

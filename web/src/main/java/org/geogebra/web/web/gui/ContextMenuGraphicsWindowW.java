@@ -5,7 +5,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -30,9 +29,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	protected ContextMenuGraphicsWindowW(AppW app) {
 		super(app);
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
@@ -52,7 +51,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			setTitle(loc.getMenu("DrawingPad"));
 		}
 
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addAxesMenuItem();
 			addGridMenuItem();
 			addClearTraceMenuItem();
@@ -81,9 +80,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	private void addShowAllObjAndStandView() {
 		String img;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri().asString();
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
 					.getSafeUri().asString();
 		} else {
@@ -101,9 +100,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		        });
 
 		String img2;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			img2 = AppResources.INSTANCE.standard_view20().getSafeUri().asString();
-		} else if (app.has(Feature.NEW_TOOLBAR)){
+		} else if (app.isUnbundled()) {
 			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri().asString();
 		} else {
 			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
@@ -136,7 +135,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 			mi.addStyleName("mi_no_image_new");
 
-			if (!app.has(Feature.NEW_TOOLBAR)) {
+			if (!app.isUnbundled()) {
 				wrappedPopup.addItem(mi);
 			}
 
@@ -155,12 +154,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			miStandardView.setEnabled(false);
 		}
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addZoomMenu();
 		}
 
 		wrappedPopup.addItem(miShowAllObjectsView);
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			wrappedPopup.addItem(miStandardView);
 		}
 	}
@@ -225,9 +224,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addMiProperties(String name, final OptionType type) {
 
 		String img;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			img = AppResources.INSTANCE.properties20().getSafeUri().asString();
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			img = MaterialDesignResources.INSTANCE.settings_black().getSafeUri()
 					.asString();
 		} else {
@@ -235,7 +234,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(img,
-				app.has(Feature.NEW_TOOLBAR) ? loc.getMenu("Settings")
+				app.isUnbundled() ? loc.getMenu("Settings")
 						: loc.getMenu(name) + " ..."),
 				true,
 		        new Command() {
@@ -319,9 +318,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		MenuBar zoomMenu = new MenuBar(true);
 
 		String img;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			img = AppResources.INSTANCE.zoom20().getSafeUri().asString();
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
 					.asString();
 		} else {
@@ -356,7 +355,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			sb.setLength(0);
 
 			if ((perc <= 100) && (!separatorAdded)) {
-				if (!app.has(Feature.NEW_TOOLBAR)) {
+				if (!app.isUnbundled()) {
 					menu.addSeparator();
 				}
 				separatorAdded = true;
@@ -376,7 +375,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				}
 			});
 			menu.addItem(mi);
-			if (app.has(Feature.NEW_TOOLBAR)) {
+			if (app.isUnbundled()) {
 				mi.addStyleName("no-image");
 			}
 		}
@@ -409,7 +408,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		String htmlString = MainMenu.getMenuBarHtml(img, loc.getMenu("Axes"));
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			GCheckBoxMenuItem cbMenuItem = new GCheckBoxMenuItem(htmlString,
 					((AppW) app).getGuiManager().getShowAxesAction(), true,
 					app);
@@ -442,7 +441,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 
 		htmlString = MainMenu.getMenuBarHtml(img2, loc.getMenu("Grid"));
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowGridAction(), true, app);
 			cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
@@ -462,7 +461,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	}
 
 	protected void addNavigationBar() {
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			return;
 		}
 		// Show construction protocol navigation bar checkbox item

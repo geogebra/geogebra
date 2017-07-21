@@ -84,10 +84,10 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
-		if (!hasSlider && app.has(Feature.NEW_TOOLBAR)) {
+		if (!hasSlider && app.isUnbundled()) {
 			getMyPopup().setHeight("88px");
 		}
-		if (hasSlider && app.has(Feature.NEW_TOOLBAR)) {
+		if (hasSlider && app.isUnbundled()) {
 			getMyPopup().setHeight("118px");
 		}
 		if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
@@ -167,7 +167,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		} else {
 			this.setIcon(GeoGebraIconW.createNullSymbolIcon());
 			this.getElement().getStyle()
-					.setBorderColor(this.app.has(Feature.NEW_TOOLBAR)
+					.setBorderColor(this.app.isUnbundled()
 							? GColor.newColor(220, 220, 220, 255).toString()
 							: GColor.BLACK.toString());
 		}
@@ -233,7 +233,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setEnableTable(boolean enableTable) {
 		this.enableTable = enableTable;
 		getMyTable().setVisible(enableTable);
-		if (!enableTable && app.has(Feature.NEW_TOOLBAR)) {
+		if (!enableTable && app.isUnbundled()) {
 			getMyPopup().setHeight("30px");
 		}
 	}

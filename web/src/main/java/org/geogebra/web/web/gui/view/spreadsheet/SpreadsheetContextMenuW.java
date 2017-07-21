@@ -46,9 +46,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup = new GPopupMenuW((AppW) app);
 		popup.getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
 		initMenu();
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			popup.getPopupPanel().addStyleName("contextMenu");
-		} else if (app.has(Feature.NEW_TOOLBAR)) {
+		} else if (app.isUnbundled()) {
 			popup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
@@ -64,7 +64,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 				        popup.setVisible(false);
 			        }
 		        });
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			title.addStyleName("no-hover");
 		} else {
 			title.addStyleName("menuTitle");
@@ -105,11 +105,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 		String html;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
-					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), text);
+					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
 		MenuItem mi;
@@ -129,12 +129,12 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString, isSelected),
 					"");
 		} else {
 			html = MainMenu.getMenuBarHtml(
-					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), "");
+					getIconUrl(cmdString, app.isUnbundled()), "");
 		}
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html, selected,
@@ -149,11 +149,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        boolean isSelected) {
 
 		String html;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
-					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), text);
+					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
@@ -166,18 +166,18 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public MenuItem addSubMenu(String text, String cmdString) {
 
 		String html;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
-					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)), text);
+					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
 		MenuBar subMenu = new MenuBar(true);
 		MenuItem menuItem = new MenuItem(html, true, subMenu);
 
 		popup.addItem(menuItem);
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 
 		}
 		return menuItem;
@@ -188,11 +188,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        String text, boolean enabled) {
 
 		String html;
-		if (isWhiteboard() && !app.has(Feature.NEW_TOOLBAR)) {
+		if (isWhiteboard() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
-					getIconUrl(cmdString, app.has(Feature.NEW_TOOLBAR)),
+					getIconUrl(cmdString, app.isUnbundled()),
 					text);
 		}
 
@@ -206,7 +206,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 	@Override
 	public void addSeparator() {
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			popup.addSeparator();
 		}
 	}

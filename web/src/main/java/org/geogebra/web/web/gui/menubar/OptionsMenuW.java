@@ -5,7 +5,6 @@ import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -29,7 +28,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	public OptionsMenuW(AppW app) {
 		super(true, "options", new MenuResources(), app);
 	    this.app = app;
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -54,18 +53,18 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			return;
 		}
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 		getOptionsMenu().addLabelingMenu(this);
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 		getOptionsMenu().addFontSizeMenu(this);
 		//language menu
 		addLanguageMenu();
 		if (!getApp().isApplet() && getApp().enableFileFeatures()) {
-			if (!app.has(Feature.NEW_TOOLBAR)) {
+			if (!app.isUnbundled()) {
 				addSeparator();
 			}
 			addSaveSettingsMenu();
@@ -83,7 +82,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.has(Feature.NEW_TOOLBAR)
+					app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.language_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE
@@ -156,7 +155,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void addSaveSettingsMenu(){
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.has(Feature.NEW_TOOLBAR)
+					app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.save_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE
@@ -196,7 +195,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 					MenuInterface subMenu) {
 
 				if (subMenu instanceof MenuBar) {
-					if (app.has(Feature.NEW_TOOLBAR)) {
+					if (app.isUnbundled()) {
 						((MenuBar) subMenu).addStyleName("matMenuBar");
 					} else {
 						((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
@@ -205,12 +204,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				ImageResource imgRes = AppResources.INSTANCE.empty();
 
 				if ("Labeling".equals(key)) {
-					imgRes = app.has(Feature.NEW_TOOLBAR)
+					imgRes = app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.label_black()
 							: AppResources.INSTANCE.mode_showhidelabel_16();
 				}
 				if ("FontSize".equals(key)) {
-					imgRes = app.has(Feature.NEW_TOOLBAR)
+					imgRes = app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.font_size_black()
 							: GuiResources.INSTANCE
 							.menu_icon_options_font_size();

@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -72,12 +71,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 *            application
 	 */
 	public MainMenu(AppW app) {
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			this.addStyleName("menubarSMART");
 		}
 		signInMenu = new GMenuBar(true, "signin", app);
-		leftSide = app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR);
-		if (leftSide && !app.has(Feature.NEW_TOOLBAR)) {
+		leftSide = app.isWhiteboardActive() || app.isUnbundled();
+		if (leftSide && !app.isUnbundled()) {
 			addStyleName("mowMenubar");
 		}
 		this.app = app;
@@ -105,7 +104,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.createHelpMenu();
 			this.createUserMenu();
 			if(!app.enableFileFeatures()){
-				if (app.has(Feature.NEW_TOOLBAR)) {
+				if (app.isUnbundled()) {
 					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
 							optionsMenu, toolsMenu, helpMenu };
 				} else {
@@ -113,7 +112,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							viewMenu, optionsMenu, toolsMenu, helpMenu };
 				}
 			}else{
-				if (app.has(Feature.NEW_TOOLBAR)) {
+				if (app.isUnbundled()) {
 					this.menus = new GMenuBar[] { fileMenu, editMenu,
 							perspectivesMenu, optionsMenu, toolsMenu,
 							helpMenu };
@@ -236,7 +235,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				  }
 
 		};
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			this.menuPanel.addStyleName("menuPanel");
 		} else {
 			logoMenu = new GMenuBar(true,
@@ -253,7 +252,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(app.enableFileFeatures()){	
 			this.menuPanel.add(
 					fileMenu, getHTML(
-							app.has(Feature.NEW_TOOLBAR)
+							app.isUnbundled()
 									? MaterialDesignResources.INSTANCE
 											.insert_file_black()
 									: GuiResources.INSTANCE.menu_icon_file(),
@@ -262,22 +261,22 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 		if (enableGraph) {
 			this.menuPanel.add(editMenu,
-					getHTML(app.has(Feature.NEW_TOOLBAR)
+					getHTML(app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.edit_black()
 							: GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
 					true);
 
 			this.menuPanel
 					.add(perspectivesMenu,
-							getHTML(app.has(Feature.NEW_TOOLBAR)
+							getHTML(app.isUnbundled()
 									? MaterialDesignResources.INSTANCE
 											.geogebra_black()
 									: GuiResources.INSTANCE
 									.menu_icon_perspectives(), "math_apps"),
 							true);
-			if (!app.has(Feature.NEW_TOOLBAR)) {
+			if (!app.isUnbundled()) {
 				this.menuPanel.add(viewMenu,
-					getHTML(app.has(Feature.NEW_TOOLBAR)
+						getHTML(app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.home_black()
 							: GuiResources.INSTANCE.menu_icon_view(), "View"),
 					true);
@@ -285,22 +284,23 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 		}
 		this.menuPanel.add(optionsMenu,
-				getHTML(app.has(Feature.NEW_TOOLBAR)
+				getHTML(app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.settings_black()
 						: GuiResources.INSTANCE.menu_icon_options(),
-						app.has(Feature.NEW_TOOLBAR)
+						app.isUnbundled()
 								? app.getLocalization().getMenu("Settings")
 								: "Options"),
 				true);
 		if (!app.getLAF().isSmart() && enableGraph) {
 			this.menuPanel.add(toolsMenu,
-					getHTML(app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.tools_black()
+					getHTML(app.isUnbundled()
+							? MaterialDesignResources.INSTANCE.tools_black()
 							: GuiResources.INSTANCE.menu_icon_tools(), "Tools"),
 					true);
 		}
 		if (!exam) {
 			this.menuPanel.add(helpMenu,
-					getHTML(app.has(Feature.NEW_TOOLBAR)
+					getHTML(app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.icon_help_black()
 							: GuiResources.INSTANCE.menu_icon_help(), "Help"),
 					true);
@@ -344,14 +344,14 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void createUserMenu() {
 		this.userMenu = new GMenuBar(true, "user", app);
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			this.userMenu.addStyleName("matStackPanel");
 		} else {
 			this.userMenu.addStyleName("GeoGebraMenuBar");
 		}
 		this.userMenu.addItem(
 				getMenuBarHtml(
-						app.has(Feature.NEW_TOOLBAR)
+						app.isUnbundled()
 								? MaterialDesignResources.INSTANCE.signout_black().getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
 								.asString(),
@@ -392,7 +392,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 	
 	private void createViewMenu() {
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			viewMenu = new ViewMenuW(app);
 		}
 	}
@@ -527,7 +527,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
     private void addSignInMenu() {
 		this.menuPanel.add(this.signInMenu,
-				getHTML(app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.signin_black()
+				getHTML(app.isUnbundled()
+						? MaterialDesignResources.INSTANCE.signin_black()
 						: GuiResources.INSTANCE.menu_icon_sign_in(),
 						app.getLocalization().getMenu("SignIn")),
 				true);
@@ -536,7 +537,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     private void addUserMenu() {
 		this.menuPanel
 				.add(this.userMenu,
-						getHTML(app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE.person_black()
+						getHTML(app.isUnbundled()
+								? MaterialDesignResources.INSTANCE
+										.person_black()
 								: GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()),
 						true);
     }

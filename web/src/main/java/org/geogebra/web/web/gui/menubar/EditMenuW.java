@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
@@ -36,7 +35,7 @@ public class EditMenuW extends GMenuBar {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.selection = app.getSelectionManager();
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -63,7 +62,7 @@ public class EditMenuW extends GMenuBar {
 
 		if (app.isUndoRedoEnabled()) {
 			addUndoRedo();
-			if (!app.has(Feature.NEW_TOOLBAR)) {
+			if (!app.isUnbundled()) {
 				// separator
 				addSeparator();
 			}
@@ -71,7 +70,7 @@ public class EditMenuW extends GMenuBar {
 
 		// copy menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.copy_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -93,7 +92,7 @@ public class EditMenuW extends GMenuBar {
 
 		// paste menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.paste_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -111,19 +110,19 @@ public class EditMenuW extends GMenuBar {
 			}
 		});
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 
 		// object properties menu
 
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE
+				app.isUnbundled() ? MaterialDesignResources.INSTANCE
 						.settings_black().getSafeUri().asString() :
 				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 								.asString(),
 				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
-						: app.has(Feature.NEW_TOOLBAR) ? loc.getMenu("Settings")
+						: app.isUnbundled() ? loc.getMenu("Settings")
 								: loc
 						.getMenu("Options") + " ...", true), true,
 				new MenuCommand(app) {
@@ -135,13 +134,13 @@ public class EditMenuW extends GMenuBar {
 					}
 				});
 
-		if (!app.has(Feature.NEW_TOOLBAR)) {
+		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 
 		// select all menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR) ? MaterialDesignResources.INSTANCE
+				app.isUnbundled() ? MaterialDesignResources.INSTANCE
 						.select_all_black().getSafeUri().asString() : noIcon,
 				loc.getMenu("SelectAll"), true),
 		        true, new MenuCommand(app) {
@@ -239,7 +238,7 @@ public class EditMenuW extends GMenuBar {
 		if (layer != -1 || justCreated) {
 			addSeparator();
 			addItem(MainMenu.getMenuBarHtml(
-					app.has(Feature.NEW_TOOLBAR)
+					app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.delete_black().getSafeUri().asString()
 							: GuiResources.INSTANCE
 			        .menu_icon_edit_delete().getSafeUri().asString(),
@@ -259,7 +258,7 @@ public class EditMenuW extends GMenuBar {
 
 		// undo menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.undo_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -276,7 +275,7 @@ public class EditMenuW extends GMenuBar {
 
 		// redo menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.has(Feature.NEW_TOOLBAR)
+				app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.redo_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE

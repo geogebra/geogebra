@@ -179,7 +179,7 @@ public enum Feature {
 	AV_TEXT_ITEM,
 
 	/** GGB-1773 */
-	NEW_TOOLBAR,
+	UNBUNDLING,
 
 	EXPORT_SCAD,
 
@@ -256,6 +256,6 @@ public enum Feature {
 
 	AND_MOVE_FAB,
 
-	LABEL_NAME_CAPTION, SURFACE_2D
+	LABEL_NAME_CAPTION, SURFACE_2D,
 
 }

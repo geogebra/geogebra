@@ -43,7 +43,7 @@ public class GeoGebraPreferencesXML {
 				+ "<settings ignoreDocument=\"false\" showTitleBar=\"true\" />"
 				+ "<labelingStyle val=\""
 
-				+ (app.has(Feature.NEW_TOOLBAR)
+				+ (app.isUnbundled()
 						? (app.getSettings().getToolbarSettings()
 												.getType() == AppType.GRAPHING_CALCULATOR
 										? 1 : 0)

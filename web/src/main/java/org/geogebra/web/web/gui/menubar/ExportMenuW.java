@@ -30,8 +30,9 @@ public class ExportMenuW extends MenuBar {
 
 		this.app = app;
 		addStyleName("GeoGebraMenuBar");
-		MainMenu.addSubmenuArrow(this, app.isWhiteboardActive() || app.has(Feature.NEW_TOOLBAR));
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		MainMenu.addSubmenuArrow(this,
+				app.isWhiteboardActive() || app.isUnbundled());
+		if (app.isUnbundled()) {
 			addStyleName("floating-Popup");
 		}
 

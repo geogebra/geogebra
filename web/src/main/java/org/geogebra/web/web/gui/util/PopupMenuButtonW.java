@@ -201,7 +201,7 @@ public class PopupMenuButtonW extends MyCJButton
 				}
 			}
 		};
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			myPopup.addStyleName("matPopupPanel");
 		}
 		myPopup.setAutoHideEnabled(true);
@@ -246,7 +246,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 		myTable = new SelectionTableW(newData, rows, columns, mode,
 		        multiselectionEnabled);
-		if (app.has(Feature.NEW_TOOLBAR)) {
+		if (app.isUnbundled()) {
 			myTable.addStyleName("matSelectionTable");
 		}
 		if (!multiselectionEnabled) {

@@ -112,7 +112,7 @@ public abstract class Layout implements SettingListener {
 				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
 				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null,
-				app.has(Feature.NEW_TOOLBAR),
+				app.isUnbundled(),
 				false,
 				false,
 				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
