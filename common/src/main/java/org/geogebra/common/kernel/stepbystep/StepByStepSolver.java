@@ -122,10 +122,7 @@ public class StepByStepSolver {
 			return checkSolutions();
 		}
 
-		// if (helper.integerCoefficients(RHS, LHS)) {
-		// factorRationalRoots();
-		// return checkSolutions();
-		// }
+		// TODO: X. step: finding and factoring rational roots
 		
 		// XI. step: numeric solutions
 		numericSolutions();
@@ -508,11 +505,6 @@ public class StepByStepSolver {
 		} else {
 			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS));
 		}
-	}
-	
-	private void factorRationalSolutions() {
-		subtract(RHS);
-
 	}
 
 	private void numericSolutions() {
