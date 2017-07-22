@@ -670,7 +670,7 @@ public class StepByStepSolver {
 		}
 
 		ExpressionValue ev = helper.getExpressionTree(toLaTeX);
-		return ev.isExpressionNode() ? ((ExpressionNode) ev).toLaTeXString(false, StringTemplate.latexTemplate) : ev.toString(StringTemplate.defaultTemplate);
+		return ev.toLaTeXString(false, StringTemplate.latexTemplate);
 	}
 	
 	private void swapSides() {
