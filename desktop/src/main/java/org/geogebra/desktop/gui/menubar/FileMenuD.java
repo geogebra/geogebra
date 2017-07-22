@@ -579,7 +579,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		
 		if (app.has(Feature.EXPORT_SCAD)) {
 			exportSCADaction = new AbstractAction(
-					loc.getMenu("ExportToOpenSCAD") + " ...",
+					"OpenSCAD" + Unicode.ELLIPSIS,
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
