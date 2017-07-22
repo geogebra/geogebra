@@ -578,9 +578,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		
 		
 		if (app.has(Feature.EXPORT_SCAD)) {
-			// added by Hoszu Henrietta, animated pdf export
 			exportSCADaction = new AbstractAction(
-					loc.getMenu("Export to Solid CAD") + " ...",
+					loc.getMenu("ExportToOpenSCAD") + " ...",
 					app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
@@ -589,7 +588,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 					try {
 						app.setFlagForSCADexport();
 					} catch (Exception ex) {
-						Log.debug("Export to Solid CAD not available");
+						Log.debug("Export to OpenSCAD not available");
 					}
 				}
 			};

@@ -159,7 +159,7 @@ public class ExportMenuW extends MenuBar {
 		if (app.has(Feature.EXPORT_SCAD)) {
 			addItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
-					"Export to Solid CAD", true), true,
+					"ExportToOpenSCAD", true), true,
 					new MenuCommand(app) {
 						@Override
 						public void doExecute() {
