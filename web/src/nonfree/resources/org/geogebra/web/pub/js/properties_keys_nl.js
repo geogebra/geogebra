@@ -821,7 +821,7 @@ __GGB__keysVar.nl.command = {
     "Semicircle": "Halfcirkel",
     "Semicircle.Syntax": "[ <Punt>, <Punt> ]",
     "Sequence": "Rij",
-    "Sequence.Syntax": "[ <Uitdrukking>, <Variabele>, <van>, <tot> ]\n[ <Uitdrukking>, <Variabele>, <van>, <tot>, <toename> ]",
+    "Sequence.Syntax": "[ <tot> ]\n[ <van>, <tot> ]\n[ <van>, <tot>, <toename> ]\n[ <Uitdrukking>, <Variabele>, <van>, <tot> ]\n[ <Uitdrukking>, <Variabele>, <van>, <tot>, <toename> ]",
     "SetActiveView": "SetActiveView",
     "SetActiveView.Syntax": "[ <Venster> ]\n[ <Vlak> ]",
     "SetAxesRatio": "SetAxesRatio",
