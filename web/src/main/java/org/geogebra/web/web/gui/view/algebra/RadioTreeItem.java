@@ -1902,6 +1902,7 @@ public class RadioTreeItem extends AVTreeItem
 				app.has(Feature.DIRECT_FORMULA_CONVERSION));
 		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
+		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
 	}
 
@@ -2151,6 +2152,7 @@ public class RadioTreeItem extends AVTreeItem
 	public void setPixelRatio(double pixelRatio) {
 		if (mf != null) {
 			mf.setPixelRatio(pixelRatio);
+			mf.setScale(app.getArticleElement().getScaleX());
 			mf.repaint();
 		}
 	}

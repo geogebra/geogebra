@@ -44,7 +44,8 @@ public class ClickAdapterW
 			return;
 		}
 		SelectionBox.touchSelection = false;
-		handler.onPointerDown(event.getX(), event.getY());
+		handler.onPointerDown(field.mouseX(event.getX()),
+				field.mouseY(event.getY()));
 		Event.setCapture(widget.getElement());
 		this.pointerIsDown = true;
 	}
@@ -85,7 +86,8 @@ public class ClickAdapterW
 		}
 		Event.releaseCapture(widget.getElement());
 		this.pointerIsDown = false;
-		handler.onPointerUp(event.getX(), event.getY());
+		handler.onPointerUp(field.mouseX(event.getX()),
+				field.mouseY(event.getY()));
 
 	}
 	@Override

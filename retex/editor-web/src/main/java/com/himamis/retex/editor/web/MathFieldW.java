@@ -71,11 +71,9 @@ import com.himamis.retex.renderer.share.SelectionBox;
 import com.himamis.retex.renderer.share.TeXFormula;
 import com.himamis.retex.renderer.share.TeXIcon;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
-import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
-import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
 public class MathFieldW implements MathField, IsWidget {
 
@@ -98,6 +96,10 @@ public class MathFieldW implements MathField, IsWidget {
 	private boolean pasteInstalled = false;
 
 	private int bottomOffset;
+	private MyTextArea wrap;
+	private SimplePanel clip;
+
+	private double scale = 1.0;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -633,8 +635,7 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 
-	private MyTextArea wrap;
-	private SimplePanel clip;
+
 
 	private Element getHiddenTextArea() {
 		if (clip == null) {
@@ -771,8 +772,8 @@ public class MathFieldW implements MathField, IsWidget {
 		if (SelectionBox.touchSelection) {
 			return;
 		}
-		int x = absX - asWidget().getAbsoluteLeft();
-		int y = absY - asWidget().getAbsoluteTop();
+		int x = mouseX(absX - asWidget().getAbsoluteLeft());
+		int y = mouseY(absY - asWidget().getAbsoluteTop());
 		if (x > asWidget().getOffsetWidth()) {
 
 			CursorController.lastField(mathFieldInternal.getEditorState());
@@ -807,6 +808,18 @@ public class MathFieldW implements MathField, IsWidget {
 			this.onTextfieldBlur.onBlur(null);
 		}
 
+	}
+
+	public int mouseX(int x) {
+		return (int) (x / scale);
+	}
+
+	public int mouseY(int y) {
+		return (int) (y / scale);
+	}
+
+	public void setScale(double scaleX) {
+		this.scale = scaleX;
 	}
 
 }

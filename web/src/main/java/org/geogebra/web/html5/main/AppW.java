@@ -3173,9 +3173,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public void setKeyboardNeeded(boolean b) {
-		if (b) {
-			Log.printStacktrace("NEEDED");
-		}
 		this.keyboardNeeded = b;
 	}
 
