@@ -1,6 +1,7 @@
 package org.geogebra.web.web.cas.view;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.user.client.Event;
@@ -33,14 +34,17 @@ public class CASComponentW extends ScrollPanel implements ScrollHandler,
 
 	@Override
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
-		Element element = Element.as(event.getNativeEvent().getEventTarget());
-		if (this.getElement().isOrHasChild(element)) {
-			if (event.getTypeInt() == Event.ONTOUCHEND) {
-				if (scrollHappened) {
+		EventTarget target = event.getNativeEvent().getEventTarget();
+		if (!Element.is(target)) {
+			return;
+		}
+		Element element = Element.as(target);
+		if (this.getElement().isOrHasChild(element)
+				&& event.getTypeInt() == Event.ONTOUCHEND && scrollHappened) {
 					event.cancel();
 					scrollHappened = false;
-				}
-			}
+
+
 		}
 	}
 
