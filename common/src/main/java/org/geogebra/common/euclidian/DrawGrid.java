@@ -68,12 +68,6 @@ public class DrawGrid {
 
 	}
 
-	private static int getNumberOfSubgrids(double majorTick) {
-		// distance of minor grids should be at least 7px
-		double k = majorTick / 7;
-		return (k >= 10 ? 10 : (k >= 5 ? 5 : 2));
-	}
-
 	// private static int brighterComponent(int comp) {
 	// double factor = 0.3;
 	// return (int) (255 - ((255 - comp) * factor));
@@ -101,11 +95,11 @@ public class DrawGrid {
  		double smallStep;
 		int topSubGrids = 0;
 
-		// number of subgrids
+		// number of parts splitted by subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
 			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-					? getNumberOfSubgrids(tickStepY)
+					? 5
 					: getNumberOfSubgrids_old(1);
 			smallStep = tickStepY / n;
 			//start of subgrids
@@ -251,11 +245,11 @@ public class DrawGrid {
 		double smallStep;
 		int leftSubGrids = 0;
 
-		// number of subgrids
+		// number of parts splitted by subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
 			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-					? getNumberOfSubgrids(tickStepX)
+					? 5
 					: getNumberOfSubgrids_old(0);
 			smallStep = tickStepX / n;
 			// start of subgrids
