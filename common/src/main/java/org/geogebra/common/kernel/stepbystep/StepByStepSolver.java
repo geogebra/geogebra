@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -124,7 +125,11 @@ public class StepByStepSolver {
 
 		// TODO: X. step: solving equations that can be reduced to a quadratic (ax^(2n) + bx^n + c = 0)
 
-		// TODO: XI. step: completing the cube
+		// XI. step: completing the cube
+		if (helper.canCompleteCube(LHS, RHS)) {
+			completeCube();
+			return checkSolutions();
+		}
 
 		// TODO: XII. step: finding and factoring rational roots
 		
@@ -378,9 +383,14 @@ public class StepByStepSolver {
 				steps.add(loc.getMenuLaTeX("NoRealSolutions", "No real solutions"));
 				return;
 			} else if (RHSvalue == 0) {
-				solutions.add("0");
+				nthroot("2");
+
+				solutions.add(RHS);
 			} else {
 				nthroot("2");
+				
+				solutions.add(RHS);
+				solutions.add(helper.regroup(" - (" + RHS + ")"));
 			}
 			
 			return;
@@ -424,20 +434,14 @@ public class StepByStepSolver {
 
 			regenerateTrees();
 			 
-			steps.add(loc.getMenuLaTeX("TakeSquareRoot", "Take square root"));
-			LHS = ((ExpressionNode) evLHS).getLeft().toString(StringTemplate.defaultTemplate);
-			RHS = helper.simplify("sqrt(" + RHS + ")");
+			nthroot("2");
 
 			if (isZero(RHS)) {
-				steps.add(LaTeX(LHS) + " = " + LaTeX(RHS));
-
-				evLHS = helper.getExpressionTree(LHS);
-
-				String constant = helper.findConstant(evLHS);
-				addOrSubtract(constant, constant);
+				solveLinear();
+				Log.error("Solving Linear");
+				Log.error(LHS);
+				Log.error(RHS);
 			} else {
-				steps.add(loc.getMenuLaTeX("AOrB", "%0 or %1", LaTeX(LHS + " = " + RHS), LaTeX(LHS + " = -(" + RHS + ")")));
-
 				evLHS = helper.getExpressionTree(LHS);
 
 				String constant = helper.findConstant(evLHS);
@@ -459,7 +463,7 @@ public class StepByStepSolver {
 
 					LHS = helper.simplify(LHS + " - (" + constant + ")");
 
-					steps.add(loc.getMenuLaTeX("AOrB", "%0 or %1", LaTeX(LHS + " = " + RHS + " + (" + constant + ")"),
+					steps.add(loc.getMenuLaTeX("AOrB", "%0 or %1", LaTeX(LHS + " = " + RHS + " - (" + constant + ")"),
 							LaTeX(LHS + " = - (" + RHS + ") - (" + constant + ")")));
 
 					solutions.add(helper.regroup(RHS + " - (" + constant + ")"));
@@ -530,6 +534,32 @@ public class StepByStepSolver {
 		}
 
 		nthroot(root);
+
+		solutions.add(RHS);
+		if (isEven(root)) {
+			solutions.add(helper.regroup(" - (" + RHS + ")"));
+		}
+	}
+
+	private void completeCube() {
+		subtract(RHS);
+		
+		String constant = helper.findConstant(evLHS);
+		String quadratic = helper.findCoefficient(evLHS, "x^2");
+		
+		String toComplete = helper.regroup(constant + " - ((" + quadratic + ")/3)^3");
+
+		steps.add(loc.getMenuLaTeX("CompleteCube", "Complete the cube"));
+
+		addOrSubtract(toComplete, toComplete);
+		LHS = helper.factor(LHS);
+		addStep();
+
+		regenerateTrees();
+
+		nthroot("3");
+
+		solveLinear();
 	}
 
 	private void numericSolutions() {
@@ -668,18 +698,31 @@ public class StepByStepSolver {
 			steps.add(loc.getMenuLaTeX("TakeNthRoot", "Take %0th root", root));
 		}
 
-		LHS = helper.simplify("(" + LHS + ")^(1/(" + root + "))");
-		RHS = helper.simplify("(" + RHS + ")^(1/(" + root + "))");
+		LHS = "nroot(" + LHS + ", " + root + ")";
+		RHS = "nroot(" + RHS + ", " + root + ")";
+
+		regenerateTrees();
 
 		if (isEven(root) && !isZero(RHS)) {
-			LHS = ((ExpressionNode) evLHS).getLeft().toString(StringTemplate.defaultTemplate);
-
 			steps.add(LaTeX(LHS) + " =  \\pm (" + LaTeX(RHS) + ")");
-
-			solutions.add(RHS);
-			solutions.add("- (" + RHS + ")");
 		} else {
-			solutions.add(RHS);
+			addStep();
+		}
+
+		LHS = helper.simplify(LHS);
+		RHS = helper.simplify(RHS);
+
+		regenerateTrees();
+
+		if (isEven(root)) {
+			evLHS = ((ExpressionNode) evLHS).getLeft();
+			LHS = evLHS.toString(StringTemplate.defaultTemplate);
+		}
+
+		if (isEven(root) && !isZero(RHS)) {
+			steps.add(LaTeX(LHS) + " =  \\pm (" + LaTeX(RHS) + ")");
+		} else {
+			addStep();
 		}
 	}
 

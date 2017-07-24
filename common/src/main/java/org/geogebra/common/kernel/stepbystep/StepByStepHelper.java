@@ -336,6 +336,30 @@ public class StepByStepHelper {
 		return countOperation(ev, Operation.PLUS) + countOperation(ev, Operation.MINUS) <= 1;
 	}
 	
+	public boolean canCompleteCube(String LHS, String RHS) {
+		String diff = regroup(LHS + " - (" + RHS + ")");
+
+		if(degree(diff) != 3) {
+			return false;
+		}
+		
+		ExpressionValue diffTree = getExpressionTree(diff);
+		
+		String cubic = findCoefficient(diffTree, "x^3");
+		String quadratic = findCoefficient(diffTree, "x^2");
+		String linear = findCoefficient(diffTree, "x");
+
+		if (!isOne(cubic)) {
+			return false;
+		}
+		
+		if (isEqual("(" + quadratic + ")^2", "3*(" + linear + ")")) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public int countOperation(ExpressionValue ev, Operation op) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
@@ -463,6 +487,10 @@ public class StepByStepHelper {
 
 	private boolean isZero(String s) {
 		return stripSpaces(s).isEmpty() || stripSpaces(s).equals("0");
+	}
+
+	private boolean isOne(String s) {
+		return stripSpaces(s).isEmpty() || stripSpaces(s).equals("1");
 	}
 
 	private boolean isEqual(String a, String b) {
