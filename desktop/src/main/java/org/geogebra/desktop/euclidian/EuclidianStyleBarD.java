@@ -1793,7 +1793,7 @@ public class EuclidianStyleBarD extends JToolBar
 	}
 
 	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint) {
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
 		// TODO Auto-generated method stub
 		
 	}
