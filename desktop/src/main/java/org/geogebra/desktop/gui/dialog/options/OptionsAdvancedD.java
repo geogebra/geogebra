@@ -656,7 +656,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
 				app.getEuclidianView2(1).updateAllDrawables(true);
 			}
-			if (app.hasEuclidianView3D()) {
+			if (app.isEuclidianView3Dinited()) {
 				app.getEuclidianView3D().updateAllDrawables();
 			}
 		}
