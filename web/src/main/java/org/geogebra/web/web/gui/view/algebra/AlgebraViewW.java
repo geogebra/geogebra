@@ -1761,8 +1761,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (geos != null) {
-			for (GeoElement geo : geos) {
-				inputPanelLatex.previewValue(geo);
+			if (geos.length > 0) {
+				inputPanelLatex.previewValue(geos[0]);
 			}
 		} else {
 			if (AlgebraItem.getUndefinedValiables() != null) {
