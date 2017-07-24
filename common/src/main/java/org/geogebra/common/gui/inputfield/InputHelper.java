@@ -138,14 +138,12 @@ public class InputHelper {
 		}
 	}
 
-	private static boolean isOpenBracket(char c, boolean onlySquare) {
-		return c == '[' || (!onlySquare && c == '{')
-				|| (!onlySquare && c == '(');
+	private static boolean isOpenBracket(char c, boolean onlySquareOrRound) {
+		return c == '[' || (!onlySquareOrRound && c == '{') || c == '(';
 	}
 
-	private static boolean isCloseBracket(char c, boolean onlySquare) {
-		return c == ']' || (!onlySquare && c == '}')
-				|| (!onlySquare && c == ')');
+	private static boolean isCloseBracket(char c, boolean onlySquareOrRound) {
+		return c == ']' || (!onlySquareOrRound && c == '}') || c == ')';
 	}
 
 	/**
