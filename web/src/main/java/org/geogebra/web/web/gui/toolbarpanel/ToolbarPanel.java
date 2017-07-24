@@ -118,8 +118,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		@Override
 		public void onResize() {
-			setPixelSize(ToolbarPanel.this.getOffsetWidth(),
-					ToolbarPanel.this.getOffsetHeight() - 56);
+			setWidth(ToolbarPanel.this.getOffsetWidth()+"px");
+			setHeight("100%");
 		}
 	}
 
@@ -713,7 +713,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * Opens tools tab.
 	 */
 	public void openTools() {
-		ToolTipManagerW.sharedInstance().hideAllToolTips();
+		ToolTipManagerW.hideAllToolTips();
 		header.selectTools();
 
 		open();
