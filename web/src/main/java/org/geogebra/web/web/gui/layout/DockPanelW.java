@@ -558,7 +558,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		} else if (app.isUnbundled()) {
 			graphicsContextMenuBtn = new StandardButton(
-					MaterialDesignResources.INSTANCE.more_vert_black());
+					MaterialDesignResources.INSTANCE.more_border());
 			FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
 
 				@Override
