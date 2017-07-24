@@ -47,7 +47,7 @@ public class CmdCurvature extends CommandProcessor {
 
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
+					&& (ok[1] = (arg[1] instanceof GeoCurveCartesianND))) {
 
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
 						c.getLabel(), (GeoPointND) arg[0],

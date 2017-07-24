@@ -38,7 +38,7 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 	private GeoConic3D gc;
 
 	public AlgoCurvatureVectorCurve3D(Construction cons, String label,
-			GeoPoint3D arg, GeoCurveCartesian3D arg2) {
+			GeoPointND arg, GeoCurveCartesian3D arg2) {
 		this(cons, arg, arg2);
 
 		if (label != null) {
