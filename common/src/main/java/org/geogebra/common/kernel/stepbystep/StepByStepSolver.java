@@ -88,43 +88,47 @@ public class StepByStepSolver {
 			return checkSolutions();
 		}
 
+		int degreeDiff = helper.degree(helper.regroup(LHS + " - (" + RHS + ")"));
 		int degreeLHS = helper.degree(LHS);
 		int degreeRHS = helper.degree(RHS);
 
 		// Checking if it's in polynomial form.
-		if (degreeLHS == -1 || degreeRHS == -1) {
+		if (degreeDiff == -1) {
 			steps.add(loc.getMenuLaTeX("CannotSolve", "Can't solve"));
 			return steps;
 		}
 
 		// Swapping sides, if necessary
-		if (degreeRHS > degreeLHS || (degreeRHS == degreeLHS
-				&& helper.getCoefficientValue(evRHS, "x^" + degreeRHS) > helper
-						.getCoefficientValue(evLHS, "x^" + degreeLHS))) {
+		if (degreeRHS > degreeLHS || (degreeRHS == degreeLHS && helper.getCoefficientValue(evRHS, "x^" + degreeRHS) 
+				> helper.getCoefficientValue(evLHS, "x^" + degreeLHS))) {
 			swapSides();
 		}
 
 		// VII. step: solving linear equations
-		if (degreeLHS <= 1 && degreeRHS <= 1) {
+		if (degreeDiff <= 1) {
 			solveLinear();
 			return checkSolutions();
 		}
 
 		// VIII. step: solving quadratic equations
-		if (degreeLHS <= 2 && degreeRHS <= 2) {
+		if (degreeDiff <= 2) {
 			solveQuadratic();
 			return checkSolutions();
 		}
 		
-		// XI. step: solving trivial (ax^n = b) equations
+		// XI. step: solving equations that can be reduced to a linear (ax^n = b)
 		if(helper.isTrivial(RHS, LHS)) {
 			solveTrivial();
 			return checkSolutions();
 		}
 
-		// TODO: X. step: finding and factoring rational roots
+		// TODO: X. step: solving equations that can be reduced to a quadratic (ax^(2n) + bx^n + c = 0)
+
+		// TODO: XI. step: completing the cube
+
+		// TODO: XII. step: finding and factoring rational roots
 		
-		// XI. step: numeric solutions
+		// XIII. step: numeric solutions
 		numericSolutions();
 		return checkSolutions();
 	}
@@ -139,6 +143,21 @@ public class StepByStepSolver {
 	
 	// TODO: something else :-?
 	private List<String> checkSolutions() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < solutions.size(); i++) {
+			sb.append("x = ");
+			sb.append(LaTeX(solutions.get(i)));
+			if (i < solutions.size() - 1) {
+				sb.append(", ");
+			}
+		}
+
+		if (solutions.size() == 1) {
+			steps.add(loc.getMenuLaTeX("Solution", "Solution: ", sb.toString()));
+		} else if (solutions.size() > 1) {
+			steps.add(loc.getMenuLaTeX("Solutions", "Solutions: ", sb.toString()));
+		}
+
 		ExpressionValue bothSides = helper.getExpressionTree(origLHS + "+" + origRHS);
 
 		String denominators = helper.getDenominator(bothSides);
@@ -180,17 +199,6 @@ public class StepByStepSolver {
 			steps.addAll(sbss.getSteps());
 			solutions.addAll(sbss.getSolutions());
 		}
-
-		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < solutions.size(); i++) {
-			sb.append("x = ");
-			sb.append(LaTeX(solutions.get(i)));
-			if(i < solutions.size() - 1) {
-				sb.append(", ");
-			}
-		}
-
-		steps.add(sb.toString());
 	}
 	
 	private void solveIrrational() {
@@ -279,8 +287,7 @@ public class StepByStepSolver {
 	}
 	
 	private void solveAbsoulteValueEquation(String a, String b) {
-		steps.add(loc.getMenuLaTeX("SolvingBetween",
-				"Solving %0 = %1 between %2 and %3", LHS, RHS, a, b));
+		steps.add(loc.getMenuLaTeX("SolvingBetween", "Solving %0 = %1 between %2 and %3", LHS, RHS, a, b));
 
 		String LHSevaluated = helper.evaluateAbsoluteValue(LHS, a, b);
 		String RHSevaluated = helper.evaluateAbsoluteValue(RHS, a, b);
@@ -312,6 +319,23 @@ public class StepByStepSolver {
 	}	
 	
 	private void solveLinear() {
+		regroup();
+
+		String RHSlinear = helper.findVariable(evRHS, "x");
+		String RHSconstant = helper.findConstant(evRHS);
+		
+		String nonLinear = helper.regroup(RHS + " - (" + RHSlinear + ") - (" + RHSconstant + ")");
+		subtract(nonLinear);
+		
+		String coefficient = helper.findCoefficient(evRHS, "x");
+		addOrSubtract(coefficient, RHSlinear);
+
+		String constant = helper.findConstant(evLHS);
+		addOrSubtract(constant, constant);
+
+		String toDivide = helper.findCoefficient(evLHS, "x");
+		divide(toDivide);
+
 		int degreeLHS = helper.degree(LHS);
 		int degreeRHS = helper.degree(RHS);
 		
@@ -323,23 +347,19 @@ public class StepByStepSolver {
 			steps.add(loc.getMenuLaTeX("NoSolutions", "No Solutions"));
 			return;
 		}
-	
-		regroup();
-
-		String linear = helper.findVariable(evRHS, "x");
-		String coefficient = helper.findCoefficient(evRHS, "x");
-		addOrSubtract(coefficient, linear);
-
-		String constant = helper.findConstant(evLHS);
-		addOrSubtract(constant, constant);
-
-		String toDivide = helper.findCoefficient(evLHS, "x");
-		divide(toDivide);
 
 		solutions.add(RHS);
 	}
 
 	private void solveQuadratic() {
+		String RHSconstant = helper.findConstant(evRHS);
+		String RHSlinear = helper.findVariable(evRHS, "x");
+		String RHSquadratic = helper.findVariable(evRHS, "x^2");
+
+		String nonQuadratic = helper.regroup(RHS + " - (" + RHSconstant + ") - (" + RHSlinear + ") - (" + RHSquadratic + ")");
+
+		subtract(nonQuadratic);
+
 		ExpressionValue diff = helper.getExpressionTree(helper.regroup(LHS + " - (" + RHS + ")"));
 		
 		if(isZero(helper.findVariable(diff, "x"))) {
@@ -358,15 +378,9 @@ public class StepByStepSolver {
 				steps.add(loc.getMenuLaTeX("NoRealSolutions", "No real solutions"));
 				return;
 			} else if (RHSvalue == 0) {
-				steps.add("x = 0");
 				solutions.add("0");
 			} else {
-				String solution = helper.simplify("sqrt(" + RHS + ")");
-				steps.add("x = " + solution);
-				steps.add(loc.getMenu("or"));
-				steps.add("x = -" + solution);
-				solutions.add(solution);
-				solutions.add("-" + solution);
+				nthroot("2");
 			}
 			
 			return;
@@ -422,38 +436,40 @@ public class StepByStepSolver {
 				String constant = helper.findConstant(evLHS);
 				addOrSubtract(constant, constant);
 			} else {
-				steps.add(LaTeX(LHS) + " = " + LaTeX(RHS) + " or " + LaTeX(LHS) + " = -(" + LaTeX(RHS) + ")");
+				steps.add(loc.getMenuLaTeX("AOrB", "%0 or %1", LaTeX(LHS + " = " + RHS), LaTeX(LHS + " = -(" + RHS + ")")));
 
 				evLHS = helper.getExpressionTree(LHS);
 
 				String constant = helper.findConstant(evLHS);
 
 				if (helper.getValue(constant) < 0) {
-					constant = helper.simplify("-(" + constant + ")");
+					constant = helper.simplify("- (" + constant + ")");
 					
 					steps.add(loc.getMenuLaTeX("AddAToBothSides", "Add %0 to both sides", constant));
 
 					LHS = helper.simplify(LHS + " + (" + constant + ")");
 
-					steps.add(LaTeX(LHS) + " = " + LaTeX(RHS + " +(" + constant + ")") + " or " + LaTeX(LHS) + " = "
-							+ LaTeX("- (" + RHS + ") + (" + constant + ")"));
-					steps.add(LaTeX(LHS) + " = " + LaTeX(helper.regroup(RHS + " +(" + constant + ")")) + " or " + LaTeX(LHS) + " = "
-							+ LaTeX(helper.regroup("- (" + RHS + ") + (" + constant + ")")));
+					steps.add(loc.getMenuLaTeX("AOrB", "%0 or %1", LaTeX(LHS + " = " + RHS + " + (" + constant + ")"),
+							LaTeX(LHS + " = - (" + RHS + ") + (" + constant + ")")));
+					
+					solutions.add(helper.regroup(RHS + " + (" + constant + ")"));
+					solutions.add(helper.regroup("- (" + RHS + ") + (" + constant + ")"));
 				} else {
 					steps.add(loc.getMenuLaTeX("SubtractAFromBothSides", "Subtract %0 from both sides", constant));
 
 					LHS = helper.simplify(LHS + " - (" + constant + ")");
 
-					steps.add(LaTeX(LHS) + " = " + LaTeX(RHS + " -(" + constant + ")") + "\text{ or }" + LaTeX(LHS) + " = "
-							+ LaTeX("- (" + RHS + ") - (" + constant + ")"));
-					steps.add(LaTeX(LHS) + " = " + LaTeX(helper.regroup(RHS + " -(" + constant + ")")) + "\text{ or }" + LaTeX(LHS) + " = "
-							+ LaTeX(helper.regroup("- (" + RHS + ") - (" + constant + ")")));
+					steps.add(loc.getMenuLaTeX("AOrB", "%0 or %1", LaTeX(LHS + " = " + RHS + " + (" + constant + ")"),
+							LaTeX(LHS + " = - (" + RHS + ") - (" + constant + ")")));
+
+					solutions.add(helper.regroup(RHS + " - (" + constant + ")"));
+					solutions.add(helper.regroup("- (" + RHS + ") - (" + constant + ")"));
 				}
 			}
 			return;
 		}
 		
-		String discriminant = "(" + b + ")^2-4(" + a + ")(" + c + ")";
+		String discriminant = "(" + b + ")^2-4*(" + a + ")*(" + c + ")";
 		double discriminantValue = helper.getValue(discriminant);
 		
 		if(isSquare(discriminantValue)) {
@@ -474,24 +490,24 @@ public class StepByStepSolver {
 
 			steps.add("x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}");
 			
+			String formula = "\\frac{" + LaTeX("-(" + b + ")") + "\\pm \\sqrt{" + LaTeX(discriminant) + "}}{" + LaTeX("2 * (" + a + ")") + "}";
+			steps.add("x_{1,2} = " + formula);
+			String simplifiedFormula = "\\frac{" + LaTeX(helper.regroup("-(" + b + ")")) + "\\pm \\sqrt{" + LaTeX(helper.regroup(discriminant)) + "}}{" + LaTeX(
+					helper.regroup("2 * (" + a + ")")) + "}";
+			steps.add("x_{1,2} = " + simplifiedFormula);
+
 			if (discriminantValue < 0) {
-				String formula = "\\frac{-(" + b + ") \\pm \\sqrt{" + discriminant + "}}{2(" + a + ")}";
-				steps.add("x_{1,2} = " + formula);
-				steps.add(loc.getMenuLaTeX("DeltaLessThanZero", "No real solutions"));
+				steps.add(loc.getMenuLaTeX("NoRealSolutions", "No real solutions"));
 			} else if (discriminantValue == 0) {
-				String formula = "-(" + b + ")/(2(" + a + "))";
-				steps.add(LaTeX("x = " + helper.simplify(formula)));
-				solutions.add(helper.simplify(formula));
+				String solution = "-(" + b + ")/(2(" + a + "))";
+
+				solutions.add(helper.simplify(solution));
 			} else {
-				String formula = "\\frac{-(" + b + ") \\pm \\sqrt{" + discriminant + "}}{2(" + a + ")}";
-				String x1 = helper.simplify("(-(" + b + ")+sqrt(" + discriminant + "))/(2(" + a + "))");
-				String x2 = helper.simplify("(-(" + b + ")-sqrt(" + discriminant + "))/(2(" + a + "))");
+				String solution1 = helper.simplify("(-(" + b + ")+sqrt(" + discriminant + "))/(2(" + a + "))");
+				String solution2 = helper.simplify("(-(" + b + ")-sqrt(" + discriminant + "))/(2(" + a + "))");
 
-				steps.add("x_{1,2} = " + formula);
-				steps.add("x_1 = " + LaTeX(x1) + ", x_2 = " + LaTeX(x2));
-
-				solutions.add(x1);
-				solutions.add(x2);
+				solutions.add(solution1);
+				solutions.add(solution2);
 			}	
 		}
 	}
@@ -513,18 +529,7 @@ public class StepByStepSolver {
 			return;
 		}
 
-		steps.add(loc.getMenuLaTeX("TakeNthRoot", "Take %0th root", root));
-
-		LHS = helper.simplify("(" + LHS + ")^(1/(" + root + "))");
-		RHS = helper.simplify("(" + RHS + ")^(1/(" + root + "))");
-
-		if (isEven(root) && !isZero(RHS)) {
-			LHS = ((ExpressionNode) evLHS).getLeft().toString(StringTemplate.defaultTemplate);
-
-			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS) + " or " + LaTeX(LHS) + " = " + LaTeX("-(" + RHS + ")"));
-		} else {
-			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS));
-		}
+		nthroot(root);
 	}
 
 	private void numericSolutions() {
@@ -535,10 +540,7 @@ public class StepByStepSolver {
 		if (CASSolutions.length == 0) {
 			steps.add(loc.getMenuLaTeX("NoRealSolutions", "No real solutions"));
 		} else {
-			steps.add(loc.getMenuLaTeX("NumericSolutions", "Numeric Solutions: "));
-			for (int i = 0; i < CASSolutions.length; i++) {
-				steps.add("x_" + (i + 1) + " = " + CASSolutions[i]);
-			}
+			steps.add(loc.getMenuLaTeX("SolveNumerically", "Solve numerically: "));
 		}
 
 		solutions.addAll(Arrays.asList(CASSolutions));
@@ -546,13 +548,11 @@ public class StepByStepSolver {
 
 	private void regroup() {
 		// TODO: proper checking of simplification
-		if (helper.stripSpaces(helper.regroup(LHS)).length() < helper.stripSpaces(LHS).length() || 
-				helper.stripSpaces(helper.regroup(RHS)).length() < helper.stripSpaces(RHS).length()) {
+		if (stripSpaces(helper.regroup(LHS)).length() < stripSpaces(LHS).length() || stripSpaces(helper.regroup(RHS)).length() < stripSpaces(RHS).length()) {
 			LHS = helper.regroup(LHS);
 			RHS = helper.regroup(RHS);
 
-			steps.add(loc.getMenuLaTeX("SimplifyExpression",
-					"Simplify Expression"));
+			steps.add(loc.getMenuLaTeX("SimplifyExpression", "Simplify Expression"));
 			addStep();
 			regenerateTrees();
 		}
@@ -564,8 +564,7 @@ public class StepByStepSolver {
 			LHS = helper.expand(LHS);
 			RHS = helper.expand(RHS);
 
-			steps.add(loc.getMenuLaTeX("ExpandParentheses",
-					"Expand Parentheses"));
+			steps.add(loc.getMenuLaTeX("ExpandParentheses", "Expand Parentheses"));
 			addStep();
 
 			regenerateTrees();
@@ -577,8 +576,7 @@ public class StepByStepSolver {
 			LHS = LHS + "+(" + toAdd + ")";
 			RHS = RHS + "+(" + toAdd + ")";
 
-			steps.add(loc.getMenuLaTeX("AddAToBothSides",
-					"Add %0 to both sides", LaTeX(toAdd)));
+			steps.add(loc.getMenuLaTeX("AddAToBothSides", "Add %0 to both sides", LaTeX(toAdd)));
 			addStep();
 
 			LHS = helper.regroup(LHS);
@@ -594,8 +592,7 @@ public class StepByStepSolver {
 			LHS = LHS + "-(" + toSubtract + ")";
 			RHS = RHS + "-(" + toSubtract + ")";
 
-			steps.add(loc.getMenuLaTeX("SubtractAFromBothSides",
-					"Subtract %0 from both sides", LaTeX(toSubtract)));
+			steps.add(loc.getMenuLaTeX("SubtractAFromBothSides", "Subtract %0 from both sides", LaTeX(toSubtract)));
 			addStep();
 
 			LHS = helper.regroup(LHS);
@@ -620,8 +617,7 @@ public class StepByStepSolver {
 			LHS = "(" + LHS + ")(" + toMultiply + ")";
 			RHS = "(" + RHS + ")(" + toMultiply + ")";
 
-			steps.add(loc.getMenuLaTeX("MultiplyBothSidesByA",
-					"Multiply both sides by %0", LaTeX(toMultiply)));
+			steps.add(loc.getMenuLaTeX("MultiplyBothSidesByA", "Multiply both sides by %0", LaTeX(toMultiply)));
 			addStep();
 
 			LHS = helper.simplify(LHS);
@@ -637,8 +633,7 @@ public class StepByStepSolver {
 			LHS = "(" + LHS + ")/(" + toDivide + ")";
 			RHS = "(" + RHS + ")/(" + toDivide + ")";
 
-			steps.add(loc.getMenuLaTeX("DivideBothSidesByA",
-					"Divide both sides by %0", LaTeX(toDivide)));
+			steps.add(loc.getMenuLaTeX("DivideBothSidesByA", "Divide both sides by %0", LaTeX(toDivide)));
 			addStep();
 
 			LHS = helper.regroup(LHS);
@@ -663,7 +658,31 @@ public class StepByStepSolver {
 		regenerateTrees();
 
 	}
-	
+
+	private void nthroot(String root) {
+		if ("2".equals(root)) {
+			steps.add(loc.getMenuLaTeX("TakeSquareRoot", "Take square root"));
+		} else if ("3".equals(root)) {
+			steps.add(loc.getMenuLaTeX("TakeCubeRoot", "Take cube root"));
+		} else {
+			steps.add(loc.getMenuLaTeX("TakeNthRoot", "Take %0th root", root));
+		}
+
+		LHS = helper.simplify("(" + LHS + ")^(1/(" + root + "))");
+		RHS = helper.simplify("(" + RHS + ")^(1/(" + root + "))");
+
+		if (isEven(root) && !isZero(RHS)) {
+			LHS = ((ExpressionNode) evLHS).getLeft().toString(StringTemplate.defaultTemplate);
+
+			steps.add(LaTeX(LHS) + " =  \\pm (" + LaTeX(RHS) + ")");
+
+			solutions.add(RHS);
+			solutions.add("- (" + RHS + ")");
+		} else {
+			solutions.add(RHS);
+		}
+	}
+
 	private String LaTeX(String toLaTeX) {
 		if(toLaTeX.isEmpty()) {
 			return "";
@@ -685,9 +704,9 @@ public class StepByStepSolver {
 
 	private void addStep() {
 		if (inverted) {
-			steps.add(LaTeX(RHS) + " = " + LaTeX(LHS));
+			steps.add(LaTeX(RHS + " = " + LHS));
 		} else {
-			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS));
+			steps.add(LaTeX(LHS + " = " + RHS));
 		}
 	}	
 
@@ -696,23 +715,27 @@ public class StepByStepSolver {
 		evRHS = helper.getExpressionTree(RHS);
 	}
 	
-	private boolean isZero(String s) {
-		return helper.stripSpaces(s).equals("") || helper.stripSpaces(s).equals("0");
+	private static String stripSpaces(String s) {
+		return s.replaceAll(" ", "");
 	}
 
-	private boolean isOne(String s) {
-		return helper.stripSpaces(s).equals("") || helper.stripSpaces(s).equals("1");
+	private static boolean isZero(String s) {
+		return stripSpaces(s).equals("") || stripSpaces(s).equals("0");
+	}
+
+	private static boolean isOne(String s) {
+		return stripSpaces(s).equals("") || stripSpaces(s).equals("1");
 	}
 
 	private boolean isEven(String s) {
 		return isEven(helper.getValue(s));
 	}
 
-	private boolean isEven(Double d) {
+	private static boolean isEven(Double d) {
 		return Math.floor(d / 2) * 2 == d;
 	}
 
-	private boolean isSquare(Double d) {
+	private static boolean isSquare(Double d) {
 		return Math.floor(Math.sqrt(d)) * Math.floor(Math.sqrt(d)) == d;
 	}
 }

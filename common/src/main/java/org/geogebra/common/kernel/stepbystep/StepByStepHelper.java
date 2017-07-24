@@ -178,19 +178,19 @@ public class StepByStepHelper {
 
 			if (en.getOperation() == Operation.PLUS || en.getOperation() == Operation.MINUS) {
 				String toReturn = findVariable(en.getLeft(), variable);
-				if (!toReturn.isEmpty()) {
+				if (!isZero(toReturn)) {
 					return toReturn;
 				}
 
 				toReturn = findVariable(en.getRight(), variable);
-				if (!toReturn.isEmpty() && en.getOperation() == Operation.MINUS) {
+				if (!isZero(toReturn) && en.getOperation() == Operation.MINUS) {
 					return "- (" + toReturn + ")";
 				}
 				return toReturn;
 			}
 
 		}
-		return "";
+		return "0";
 	}
 	
 	public String findCoefficient(ExpressionValue ev, String variable) {
@@ -485,7 +485,7 @@ public class StepByStepHelper {
 		String s = callCAS(LHS + " = " + RHS, "Solutions");
 		return s.replaceAll("[ {}]", "").split(",");
 	}
-	
+
 	public String stripSpaces(String s) {
 		return s.replaceAll(" ", "");
 	}
