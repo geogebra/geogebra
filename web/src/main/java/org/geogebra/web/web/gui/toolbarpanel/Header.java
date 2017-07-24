@@ -243,7 +243,7 @@ class Header extends FlowPanel {
 			imgClose.setResource(MaterialDesignResources.INSTANCE
 					.toolbar_close_portrait_white());
 			imgMenu.setResource(
-					MaterialDesignResources.INSTANCE.toolbar_menu_black());
+					MaterialDesignResources.INSTANCE.menu_black_border());
 		} else {
 			imgOpen.setResource(MaterialDesignResources.INSTANCE
 					.toolbar_open_landscape_white());
@@ -318,7 +318,7 @@ class Header extends FlowPanel {
 
 	private void addUndoButton(final FlowPanel panel) {
 		btnUndo = new ToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.undo_black()));
+				new Image(MaterialDesignResources.INSTANCE.undo_border()));
 		btnUndo.addStyleName("flatButton");
 
 		ClickStartHandler.init(btnUndo, new ClickStartHandler() {
@@ -334,7 +334,7 @@ class Header extends FlowPanel {
 
 	private void addRedoButton(final FlowPanel panel) {
 		btnRedo = new ToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.redo_black()));
+				new Image(MaterialDesignResources.INSTANCE.redo_border()));
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
 

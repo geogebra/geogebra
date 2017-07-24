@@ -154,6 +154,15 @@ public interface MaterialDesignResources extends ClientBundle {
 	ImageResource pause_purple();
 
 	// ev icons
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/menu_black_border.png")
+	ImageResource menu_black_border();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/undo_border.png")
+	ImageResource undo_border();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/redo_border.png")
+	ImageResource redo_border();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/refresh_black.png")
 	ImageResource refresh_black();
 

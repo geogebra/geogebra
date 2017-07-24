@@ -321,4 +321,32 @@
 		}
 	}
 
+	.undoRedoPanel {
+		padding-top: 4px;
+		padding-left: 12px;
+		position: absolute;
+		z-index: 10;
+
+		.flatButton {
+			display: inline-block;
+		}
+		
+		.buttonActive {
+			opacity: 0.54;
+			
+			&:hover {
+				opacity: 0.84;	
+			}
+		}
+		
+		.buttonInactive {
+			cursor: default;
+			opacity: 0.26;
+		}
+		
+		.hideButton {
+			display: none;
+		}
+	}
+
 }
