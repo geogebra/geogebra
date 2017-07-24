@@ -338,6 +338,10 @@ $duration: 0.2s;
 		.marble.elemShown {
 			background-color: $purple-default;
 			border: 1px solid $marble-border;
+			
+			.textOverMarble {
+				opacity: 1;	
+			}
 		}
 		
 		.scrollableTextBox,
