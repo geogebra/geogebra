@@ -69,7 +69,9 @@ public class DrawGrid {
 	}
 
 	private static int getNumberOfSubgrids(double majorTick) {
-		return (majorTick / 60 > 1 ? 5 : 2);
+		// distance of minor grids should be at least 7px
+		double k = majorTick / 7;
+		return (k >= 10 ? 10 : (k >= 5 ? 5 : 2));
 	}
 
 	// private static int brighterComponent(int comp) {
