@@ -25,8 +25,17 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class AnimPanel extends FlowPanel implements ClickHandler {
+	/**
+	 * Callback for play button
+	 */
 	public interface AnimPanelListener {
-		void onPlay(boolean show);
+		/**
+		 * Run this when animation was started / stopped
+		 * 
+		 * @param play
+		 *            whether animation was started
+		 */
+		void onPlay(boolean play);
 	}
 	/**
 	 * Animation speeds
@@ -57,6 +66,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	/**
 	 * @param radioTreeItem
 	 *            parent item
+	 * @param listener
+	 *            listener
 	 */
 	public AnimPanel(RadioTreeItem radioTreeItem, AnimPanelListener listener) {
 		super();
@@ -384,6 +395,9 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		showSpeedValue(isGeoAnimating());
 	}
 	
+	/**
+	 * @return play button
+	 */
 	MyToggleButtonW getPlayButton() {
 		return btnPlay;
 	}

@@ -20,15 +20,27 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Output part of AV item
+ */
 public class AlgebraOutputPanel extends FlowPanel {
 	private FlowPanel valuePanel;
 	private Canvas valCanvas;
 
+	/**
+	 * Create new output panel
+	 */
 	public AlgebraOutputPanel() {
 		valuePanel = new FlowPanel();
 		valuePanel.addStyleName("avValue");
 	}
 
+	/**
+	 * @param text
+	 *            prefix
+	 * @param isLaTeX
+	 *            whether output is LaTeX
+	 */
 	void addPrefixLabel(String text, boolean isLaTeX) {
 		final Label label = new Label(text);
 		if (!isLaTeX) {
@@ -39,6 +51,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 		add(label);
 	}
 
+	/**
+	 * Add value panel to DOM
+	 */
 	public void addValuePanel() {
 		if (getWidgetIndex(valuePanel) == -1) {
 			add(valuePanel);

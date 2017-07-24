@@ -71,7 +71,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	/**
 	 * @param keepFocus
 	 *            whether focus should stay
-	 * @param b
+	 * @param createSliders
+	 *            whether to create sliders
 	 */
 	public void onEnter(final boolean keepFocus, boolean createSliders) {
 		if (item.isInputTreeItem() && item.isEmpty()) {
@@ -159,10 +160,21 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public boolean isSuggesting() {
 		return sug != null && sug.isSuggesting();
 	}
+
+	/**
+	 * @param keepFocus
+	 *            whether the focus should stay afterwards
+	 */
 	public void createGeoFromInput(final boolean keepFocus) {
 		createGeoFromInput(keepFocus, false);
 	}
 
+	/**
+	 * @param keepFocus
+	 *            whether the focus should stay afterwards
+	 * @param withSliders
+	 *            whether to create sliders
+	 */
 	public void createGeoFromInput(final boolean keepFocus,
 			boolean withSliders) {
 		String newValue = item.getText();
