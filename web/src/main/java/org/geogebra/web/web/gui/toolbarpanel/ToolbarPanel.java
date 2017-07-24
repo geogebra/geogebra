@@ -172,26 +172,45 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 
 		public void scrollToActiveItem() {
-			final RadioTreeItem item = aview.getActiveTreeItem();
 
-			int spH = getOffsetHeight();
+			final RadioTreeItem item = aview == null ? null
+					: aview.getActiveTreeItem();
+			if (item == null) {
+				return;
+			}
 
-			int top = header.getOffsetHeight()
-					+ item.getElement().getOffsetTop();
+			if (item.isInputTreeItem()) {
+				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
-			int relTop = top - savedScrollPosition;
+					@Override
+					public void execute() {
 
-			if (spH < relTop + item.getOffsetHeight()) {
-
-				int pos = top + item.getOffsetHeight() - spH;
-				setVerticalScrollPosition(pos);
-			} 
+						scrollToBottom();
+					}
+				});
+				return;
+			}
+			doScrollToActiveItem();
 		}
 
 		public void saveScrollPosition() {
 			savedScrollPosition = getVerticalScrollPosition();
 		}
 
+		private void doScrollToActiveItem() {
+			final RadioTreeItem item = aview.getActiveTreeItem();
+
+			int spH = getOffsetHeight();
+
+			int top = item.getElement().getOffsetTop();
+
+			int relTop = top - savedScrollPosition;
+
+			if (spH < relTop + item.getOffsetHeight()) {
+				int pos = top + item.getOffsetHeight() - spH;
+				setVerticalScrollPosition(pos);
+			}
+		}
 
 	}
 
