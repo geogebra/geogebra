@@ -1,6 +1,5 @@
 package org.geogebra.web.web.euclidian;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
@@ -77,9 +76,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 * corner of bounding box of drawable
 	 */
 	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint) {
+	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
 
-		if (gRectangle2D == null) {
+		if (gRectangle2D == null && !isFunction) {
 			return;
 		}
 
@@ -89,7 +88,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		double left, top = -1;
 
-		if (!isPoint) {
+		if (isFunction) {
+			top = this.getView().getEuclidianController().getMouseLoc().y + 10;
+		} else if (!isPoint) {
 			if (hasBoundingBox) {
 				top = gRectangle2D.getMinY() - height - 10;
 			} else { // line has no bounding box
@@ -106,7 +107,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		int maxtop = app.getActiveEuclidianView().getHeight() - height - 5;
 		if (top > maxtop) {
-			if (isPoint) {
+			if (isFunction) {
+				top = maxtop;
+			} else if (isPoint) {
 				// if there is no enough place under the point
 				// put the dyn. stylebar above the point
 				top = gRectangle2D.getMinY() - height - 10;
@@ -117,7 +120,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 
 		// get left position
-		if (hasBoundingBox) {
+		if (isFunction) {
+			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
+		} else if (hasBoundingBox) {
 			left = gRectangle2D.getMaxX() - move;
 		} else { // line has no bounding box
 			left = gRectangle2D.getMaxX() - height / 2.0;
@@ -162,43 +167,15 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
 				&& activeGeoList.get(0) instanceof GeoFunction) {
-			setPositionForFunction();
+			setPosition(null, true, false, true);
 		} else if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
-					true, false);
+					true, false, false);
 		} else {
 			setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
-					!(dr instanceof DrawLine), dr instanceof DrawPoint);
+					!(dr instanceof DrawLine), dr instanceof DrawPoint, false);
 		}
-	}
-
-	private void setPositionForFunction() {
-		GPoint lastMouseLoc = this.getView().getEuclidianController()
-				.getMouseLoc();
-		int xPos = lastMouseLoc.x + 10;
-		int yPos = lastMouseLoc.y + 10;
-
-		// Keep dynamic stylebar on the screen
-		if (yPos < 5) {
-			yPos = 5;
-		}
-		int maxtop = app.getActiveEuclidianView().getHeight()
-				- getOffsetHeight() - 5;
-		if (yPos > maxtop) {
-			yPos = maxtop;
-		}
-		if (xPos < 0) {
-			xPos = 0;
-		}
-		if (xPos + this.getOffsetWidth() > app.getActiveEuclidianView()
-				.getWidth()) {
-			xPos = app.getActiveEuclidianView().getWidth()
-					- this.getOffsetWidth();
-		}
-
-		this.getElement().getStyle().setLeft(xPos, Unit.PX);
-		this.getElement().getStyle().setTop(yPos, Unit.PX);
 	}
 
 	@Override
