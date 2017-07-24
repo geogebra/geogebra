@@ -46,7 +46,11 @@ public class Exercise {
 	 */
 	public void initStandardExercise() {
 		reset();
-		if (app.getKernel().hasMacros()) {
+		GeoElement correct = app.getKernel().lookupLabel("correct");
+		if (correct instanceof GeoBoolean) {
+			addAssignment((GeoBoolean) correct);
+		}
+		else if (app.getKernel().hasMacros()) {
 			ArrayList<Macro> macros = app.getKernel().getAllMacros();
 			for (Macro macro : macros) {
 				addAssignment(macro);
