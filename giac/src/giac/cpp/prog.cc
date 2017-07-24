@@ -90,6 +90,7 @@ namespace giac {
 #else
   const int rand_max2=RAND_MAX;
 #endif
+  const double inv_rand_max2_p1=1.0/(rand_max2+1.0);
 
 #ifdef HAVE_LIBDL
   modules_tab giac_modules_tab;
@@ -3275,15 +3276,27 @@ namespace giac {
 #endif
   }
   gen _rand(const gen & args,GIAC_CONTEXT){
-    if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    int argsval;
+    if (args.type==_INT_ && (argsval=args.val)){
+      global * ptr; int c;
+      if (argsval>0 && contextptr && (ptr=contextptr->globalptr) && ptr->_xcas_mode_!=3 && (c=ptr->_calc_mode_)!=-38 && c!=38) {
+	tinymt32_t * rs=&ptr->_rand_seed;
+	unsigned r;
+	for (;;){
+	  r=tinymt32_generate_uint32(rs) >> 1;
+	  if (!(r>>31))
+	    break;
+	}
+	return int(argsval*(r*inv_rand_max2_p1));
+      }
+      if (argsval<0)
+	return -(xcas_mode(contextptr)==3)+int(argsval*(giac_rand(contextptr)/(rand_max2+1.0)));
+      else
+	return (xcas_mode(contextptr)==3 || abs_calc_mode(contextptr)==38)+int(argsval*(giac_rand(contextptr)/(rand_max2+1.0)));
+    }
+    if (args.type==_STRNG &&  args.subtype==-1) return  args;
     if (is_zero(args) && args.type!=_VECT)
       return giac_rand(contextptr);
-    if (args.type==_INT_){
-      if (args.val<0)
-	return -(xcas_mode(contextptr)==3)+int(args.val*(giac_rand(contextptr)/(rand_max2+1.0)));
-      else
-	return (xcas_mode(contextptr)==3 || abs_calc_mode(contextptr)==38)+int(args.val*(giac_rand(contextptr)/(rand_max2+1.0)));
-    }
     if (args.type==_ZINT)
       return rand_integer_interval(zero,args,contextptr);
     if (args.type==_FRAC)
@@ -7349,15 +7362,16 @@ namespace giac {
       if ( (g.type!=_VECT) || (g._VECTptr->empty()) )
 	return gensizeerr(contextptr);
       if (u==at_equal || u==at_equal2){
-	gen tmp=g._VECTptr->front();
+	gen tmp=g._VECTptr->front(),tmp2=g._VECTptr->back();
 	if (tmp.type==_IDNT){
 	  gen tmp1(eval(tmp,eval_level(contextptr),contextptr));
 	  if (tmp1.type==_IDNT)
 	    tmp=tmp1;
 	  tmp.subtype=0; // otherwise if inside a folder sto will affect tmp!
 	  vars.push_back(tmp);
+	  tmp2=subst(tmp2,tmp,symb_quote(tmp),false,contextptr);
 	}
-	docond.push_back(symbolic(at_sto,gen(makevecteur(g._VECTptr->back(),tmp),_SEQ__VECT)));
+	docond.push_back(symbolic(at_sto,gen(makevecteur(tmp2,tmp),_SEQ__VECT)));
 	continue;
       }
       if (u==at_sto){

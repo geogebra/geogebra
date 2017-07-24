@@ -2163,8 +2163,10 @@ namespace giac {
       }
       return res;
     }
-    if (!g.is_symb_of_sommet(u))
+    if (!g.is_symb_of_sommet(u)){
+      // if (g.is_symb_of_sommet(at_and)) return g._SYMBptr->feuille;
       return g;
+    }
     return remove_and(g._SYMBptr->feuille,u);
   }
 
