@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -60,9 +59,11 @@ public class StepByStepSolver {
 		regroup();
 
 		// II. step: making denominators disappear
-		ExpressionValue bothSides = helper.getExpressionTree("(" + LHS + ")(" + RHS + ")");
-		String denominators = helper.getDenominator(bothSides);
-		multiply(denominators);
+		ExpressionValue bothSides = helper.getExpressionTree("(" + LHS + ")*(" + RHS + ")");
+		if (helper.shouldMultiply(bothSides) || helper.countOperation(bothSides, Operation.DIVIDE) > 1) {
+			String denominators = helper.getDenominator(bothSides);
+			multiply(denominators);
+		}
 		
 		// III. step: solving as a product
 		if (isZero(LHS) && helper.isProduct(evRHS)) {
@@ -123,15 +124,24 @@ public class StepByStepSolver {
 			return checkSolutions();
 		}
 
+		subtract(RHS);
+
 		// TODO: X. step: solving equations that can be reduced to a quadratic (ax^(2n) + bx^n + c = 0)
 
 		// XI. step: completing the cube
-		if (helper.canCompleteCube(LHS, RHS)) {
+		if (helper.canCompleteCube(LHS)) {
 			completeCube();
 			return checkSolutions();
 		}
 
-		// TODO: XII. step: finding and factoring rational roots
+		// XII. step: finding and factoring rational roots
+		if (helper.integerCoefficients(LHS)) {
+			findRationalRoots();
+
+			if (solutions.size() > 0) {
+				return checkSolutions();
+			}
+		}
 		
 		// XIII. step: numeric solutions
 		numericSolutions();
@@ -181,10 +191,10 @@ public class StepByStepSolver {
 
 		for (int i = 0; i < solutions.size(); i++) {
 			if (helper.isValidSolution(origLHS, origRHS, solutions.get(i))) {
-				steps.add(loc.getMenuLaTeX("ValidSolution","Valid Solution: %0 = %1","x", solutions.get(i)));
+				steps.add(loc.getMenuLaTeX("ValidSolution", "Valid Solution: %0 = %1", "x", LaTeX(solutions.get(i))));
 			} else {
 				steps.add(loc.getMenuLaTeX("InvalidSolution", "Invalid Solution: %0 "
-										+ Unicode.NOTEQUAL + " %1", "x", solutions.get(i)));
+						+ Unicode.NOTEQUAL + " %1", "x", LaTeX(solutions.get(i))));
 				solutions.remove(solutions.get(i));
 				i--;
 			}
@@ -438,9 +448,6 @@ public class StepByStepSolver {
 
 			if (isZero(RHS)) {
 				solveLinear();
-				Log.error("Solving Linear");
-				Log.error(LHS);
-				Log.error(RHS);
 			} else {
 				evLHS = helper.getExpressionTree(LHS);
 
@@ -542,8 +549,6 @@ public class StepByStepSolver {
 	}
 
 	private void completeCube() {
-		subtract(RHS);
-		
 		String constant = helper.findConstant(evLHS);
 		String quadratic = helper.findCoefficient(evLHS, "x^2");
 		
@@ -562,9 +567,46 @@ public class StepByStepSolver {
 		solveLinear();
 	}
 
-	private void numericSolutions() {
-		subtract(RHS);
+	private void findRationalRoots() {
+		int degree = helper.degree(LHS);
+		
+		int highestOrder = Math.abs((int) helper.getCoefficientValue(evLHS, "x^" + degree));
+		int constant = Math.abs((int) helper.getValue(helper.findConstant(evLHS)));
+		
+		String factored = "1";
 
+		for (int i = 1; i <= highestOrder; i++) {
+			for (int j = -constant; j <= constant; j++) {
+				String solution = "((" + j + ") / (" + i + "))";
+				String replaced = LHS.replace("x", solution);
+
+				if (helper.getValue(replaced) == 0) {
+					while (helper.getValue(replaced) == 0) {
+						factored = helper.regroup("(" + factored + ") * (x - " + solution + ")");
+						LHS = helper.simplify("(" + LHS + ") / (x - " + solution + ")");
+						
+						replaced = LHS.replace("x", solution);
+					}
+				}
+			}
+		}
+
+		if (!isOne(factored)) {
+			steps.add(loc.getMenuLaTeX("RationalRootTheorem",
+					"A polynomial equation with integer coefficients has all of its rational roots in the form p/q, where p divides the constant term and q divides the coefficient of the highest order term"));
+
+			steps.add(loc.getMenuLaTeX("TrialAndError", "Find the roots by trial and error, and factor them out"));
+
+			LHS = helper.regroup("(" + LHS + ")*(" + factored + ")");
+			addStep();
+
+			regenerateTrees();
+
+			solveProduct(evLHS);
+		}
+	}
+
+	private void numericSolutions() {
 		String[] CASSolutions = helper.getCASSolutions(LHS, "0");
 
 		if (CASSolutions.length == 0) {

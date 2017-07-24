@@ -336,18 +336,16 @@ public class StepByStepHelper {
 		return countOperation(ev, Operation.PLUS) + countOperation(ev, Operation.MINUS) <= 1;
 	}
 	
-	public boolean canCompleteCube(String LHS, String RHS) {
-		String diff = regroup(LHS + " - (" + RHS + ")");
-
-		if(degree(diff) != 3) {
+	public boolean canCompleteCube(String expression) {
+		if (degree(expression) != 3) {
 			return false;
 		}
 		
-		ExpressionValue diffTree = getExpressionTree(diff);
+		ExpressionValue ev = getExpressionTree(expression);
 		
-		String cubic = findCoefficient(diffTree, "x^3");
-		String quadratic = findCoefficient(diffTree, "x^2");
-		String linear = findCoefficient(diffTree, "x");
+		String cubic = findCoefficient(ev, "x^3");
+		String quadratic = findCoefficient(ev, "x^2");
+		String linear = findCoefficient(ev, "x");
 
 		if (!isOne(cubic)) {
 			return false;
@@ -355,6 +353,56 @@ public class StepByStepHelper {
 		
 		if (isEqual("(" + quadratic + ")^2", "3*(" + linear + ")")) {
 			return true;
+		}
+
+		return false;
+	}
+
+	public boolean integerCoefficients(String expression) {
+		int degree = degree(expression);
+		
+		ExpressionValue ev = getExpressionTree(expression);
+
+		double constant = getValue(findConstant(ev));
+		if(Math.floor(constant) != constant) {
+			return false;
+		}
+		
+		for (int i = 1; i <= degree; i++) {
+			double coeff = getCoefficientValue(ev, "x^" + i);
+			if (Math.floor(coeff) != coeff) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public boolean shouldMultiply(ExpressionValue ev) {
+		if (ev != null && ev.isExpressionNode()) {
+			ExpressionNode en = (ExpressionNode) ev;
+
+			if(en.getOperation() == Operation.DIVIDE) {
+				if(containsVariable(en.getLeft()) || containsVariable(en.getRight())) {
+					return true;
+				}
+			}
+			
+			if (en.getOperation() == Operation.MULTIPLY) {
+				if (containsVariable(en.getLeft()) && countOperation(en.getRight(), Operation.DIVIDE) > 0) {
+					return true;
+				}
+				if (containsVariable(en.getRight()) && countOperation(en.getLeft(), Operation.DIVIDE) > 0) {
+					return true;
+				}
+			}
+
+			boolean found = false;
+
+			found |= shouldMultiply(en.getLeft());
+			found |= shouldMultiply(en.getRight());
+
+			return found;
 		}
 
 		return false;
