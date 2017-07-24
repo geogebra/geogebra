@@ -360,6 +360,8 @@ public class RadioTreeItemController
 
 		if (!isMarbleHit(x, y, false)) {
 			getLongTouchManager().scheduleTimer(this, x, y);
+		} else {
+			getLongTouchManager().cancelTimer();
 		}
 
 		if (markForEdit() && !item.isInputTreeItem()) {
