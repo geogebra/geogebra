@@ -135,6 +135,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	ImageResource insert_photo_black();
 
 	// av icons
+	@Source("org/geogebra/common/icons/png/matDesignIcons/av/arrow_black.png")
+	ImageResource arrow_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/mode_toggle_numeric_white.png")
 	ImageResource modeToggleNumeric();
 

@@ -4242,6 +4242,9 @@ public abstract class App implements UpdateSelection {
 
 		case AND_MOVE_FAB:
 			return prerelease;
+			
+		case ARROW_OUTPUT_PREFIX:
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

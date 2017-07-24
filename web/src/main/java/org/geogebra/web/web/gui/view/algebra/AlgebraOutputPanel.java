@@ -11,6 +11,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
+import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -49,6 +50,12 @@ public class AlgebraOutputPanel extends FlowPanel {
 			label.addStyleName("prefixLatex");
 		}
 		add(label);
+	}
+
+	void addArrowPrefix() {
+		final StandardButton arrow = new StandardButton(MaterialDesignResources.INSTANCE.arrow_black());
+		arrow.setStyleName("arrowOutputBtn");
+		add(arrow);
 	}
 
 	/**
@@ -112,11 +119,20 @@ public class AlgebraOutputPanel extends FlowPanel {
 			if (!kernel.getApplication().has(Feature.AV_ITEM_DESIGN)) {
 				createSymbolicButton(this, geo1, false);
 			} else {
-				addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
+				if (kernel.getApplication()
+						.has(Feature.ARROW_OUTPUT_PREFIX)) {
+					addArrowPrefix();
+				} else {
+					addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
+				}
 			}
 		} else {
-			addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel),
+			if (kernel.getApplication().has(Feature.ARROW_OUTPUT_PREFIX)) {
+				addArrowPrefix();
+			} else {
+				addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel),
 					latex);
+			}
 		}
 
 		valuePanel.clear();

@@ -568,8 +568,14 @@ public class RadioTreeItem extends AVTreeItem
 			if (!plain.equals(text) || forceLatex) {
 				outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			}
-			outputPanel.addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel),
+			if (kernel.getApplication()
+					.has(Feature.ARROW_OUTPUT_PREFIX)) {
+				outputPanel.addArrowPrefix();
+			} else {
+				outputPanel.addPrefixLabel(
+						AlgebraItem.getSymbolicPrefix(kernel),
 					latex);
+			}
 
 			outputPanel.addValuePanel();
 

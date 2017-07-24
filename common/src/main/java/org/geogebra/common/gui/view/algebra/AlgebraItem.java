@@ -121,10 +121,6 @@ public class AlgebraItem {
 		return null;
 	}
 
-
-
-
-
 	public static String getSymbolicPrefix(Kernel kernel) {
 		return kernel.getLocalization().rightToLeftReadingOrder
 				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""

@@ -478,6 +478,12 @@ $duration: 0.2s;
 			position: relative;
 		}		
 	}
+
+	.arrowOutputBtn {
+		margin-right: 8px;
+    	opacity: 0.54;
+    }
+
 }
 @keyframes removeSuggestions {
 	0% {max-height: 50px;}
