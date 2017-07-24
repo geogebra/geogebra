@@ -105,7 +105,8 @@ public class DrawGrid {
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
 			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-					? getNumberOfSubgrids(tickStepY) : 1;
+					? getNumberOfSubgrids(tickStepY)
+					: getNumberOfSubgrids_old(1);
 			smallStep = tickStepY / n;
 			//start of subgrids
 			start = view.getYZero() % smallStep;
@@ -254,7 +255,8 @@ public class DrawGrid {
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
 			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-					? getNumberOfSubgrids(tickStepX) : getNumberOfSubgrids(0);
+					? getNumberOfSubgrids(tickStepX)
+					: getNumberOfSubgrids_old(0);
 			smallStep = tickStepX / n;
 			// start of subgrids
 			xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
