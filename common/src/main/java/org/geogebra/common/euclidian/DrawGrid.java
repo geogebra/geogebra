@@ -50,7 +50,7 @@ public class DrawGrid {
 
 	}
 
-	private int getNumberOfSubgrids(int axis) {
+	private int getNumberOfSubgrids_old(int axis) {
 		int lastSignificantDigit;
 
 		// get last significant digit
@@ -66,6 +66,10 @@ public class DrawGrid {
 		return lastSignificantDigit % 2 == 0 && lastSignificantDigit % 5 != 0
 				? 4 : 5;
 
+	}
+
+	private static int getNumberOfSubgrids(double majorTick) {
+		return (majorTick / 60 > 1 ? 5 : 2);
 	}
 
 	// private static int brighterComponent(int comp) {
@@ -98,7 +102,8 @@ public class DrawGrid {
 		// number of subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
-			n = getNumberOfSubgrids(1);
+			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
+					? getNumberOfSubgrids(tickStepY) : 1;
 			smallStep = tickStepY / n;
 			//start of subgrids
 			start = view.getYZero() % smallStep;
@@ -246,7 +251,8 @@ public class DrawGrid {
 		// number of subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
-			n = getNumberOfSubgrids(0);
+			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
+					? getNumberOfSubgrids(tickStepX) : getNumberOfSubgrids(0);
 			smallStep = tickStepX / n;
 			// start of subgrids
 			xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)

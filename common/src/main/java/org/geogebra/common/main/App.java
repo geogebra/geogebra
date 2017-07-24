@@ -2264,6 +2264,8 @@ public abstract class App implements UpdateSelection {
 		}
 		if (getGuiManager() != null) {
 			setModeFromGuiManager(mode, m);
+			this.updateDynamicStyleBars();
+
 		} else if (euclidianView != null) {
 			euclidianView.setMode(mode, m);
 		}
@@ -4245,6 +4247,10 @@ public abstract class App implements UpdateSelection {
 			
 		case ARROW_OUTPUT_PREFIX:
 			return true;
+
+		/** GGB-1948 */
+		case MINOR_GRIDLINES_FIXES:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
