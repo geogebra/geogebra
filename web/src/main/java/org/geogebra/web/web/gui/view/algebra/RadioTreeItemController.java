@@ -99,13 +99,23 @@ public class RadioTreeItemController
 	}
 
 	protected boolean isMarbleHit(MouseEvent<?> evt) {
-		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(evt,
-				ZeroOffset.instance);
-	
+		return isMarbleHit(
+				PointerEvent.wrapEventAbsolute(evt, ZeroOffset.instance));
+	}
+
+	protected boolean isMarbleHit(PointerEvent wrappedEvent) {
+		return isMarbleHit(wrappedEvent.getX(), wrappedEvent.getY(),
+				app.isRightClick(wrappedEvent));
+
+	}
+
+	protected boolean isMarbleHit(int x, int y, boolean rightClick) {
 		if (item.marblePanel != null
-				&& item.marblePanel.isHit(evt.getClientX(), evt.getClientY())) {
-			if (app.has(Feature.AV_CONTEXT_MENU) && app.isRightClick(wrappedEvent)) {
-				onRightClick(evt.getClientX(), evt.getClientY());
+				&& item.marblePanel.isHit(x, y)) {
+			if (app.has(Feature.AV_CONTEXT_MENU)
+					&& !Browser.isTabletBrowser() && rightClick) {
+
+				onRightClick(x, y);
 				return false;
 			}
 			return true;
@@ -264,10 +274,14 @@ public class RadioTreeItemController
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
 				ZeroOffset.instance);
+		if (isMarbleHit(wrappedEvent)) {
+			return;
+		}
+
 		if (isLongTouchHappened()) {
 			return;
 		}
-		
+
 		if (editOnTap(active, wrappedEvent)) {
 			onPointerUp(wrappedEvent);
 			CancelEventTimer.touchEventOccured();
@@ -333,6 +347,8 @@ public class RadioTreeItemController
 			}
 
 		}
+		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
+				ZeroOffset.instance);
 
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
@@ -342,7 +358,9 @@ public class RadioTreeItemController
 			return;
 		}
 
-		getLongTouchManager().scheduleTimer(this, x, y);
+		if (!isMarbleHit(x, y, false)) {
+			getLongTouchManager().scheduleTimer(this, x, y);
+		}
 
 		if (markForEdit() && !item.isInputTreeItem()) {
 			return;
@@ -353,8 +371,6 @@ public class RadioTreeItemController
 
 		handleAVItem(event);
 
-		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
-				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
