@@ -276,7 +276,8 @@ public class DrawGrid {
 			pix += tickStepX;
 		}
 
-		for (int i = 0; pix <= view.getWidth(); i++) {
+		for (int i = (view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
+				? 1 : 0); pix <= view.getWidth(); i++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
 
