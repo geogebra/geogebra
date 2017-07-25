@@ -2049,10 +2049,10 @@ namespace giac {
 	return false;
       { 
 	unary_function_ptr & Sommet=_SYMBptr->sommet;
-	if (Sommet==at_plus || Sommet==at_prod || Sommet==at_pow || Sommet==at_of || Sommet==at_local || Sommet==at_ifte || Sommet==at_bloc){
+	bool is_ifte=false,is_of_local_ifte_bloc=false;
+	if (Sommet==at_plus || Sommet==at_prod || Sommet==at_pow || (is_of_local_ifte_bloc=(Sommet==at_of || Sommet==at_local || (is_ifte=Sommet==at_ifte) || Sommet==at_bloc)) ){
 	  int & elevel=eval_level(contextptr);
 	  short int slevel=elevel;
-	  bool is_ifte=this->is_symb_of_sommet(at_ifte);
 	  // Check if we are not far from stack end
 #ifdef RTOS_THREADX
 	  if ((void *)&slevel<= (void *)&mainThreadStack[2048]){
@@ -2091,7 +2091,7 @@ namespace giac {
 	      }
 	    }
 #endif // rtos
-	  if (Sommet==at_of || Sommet==at_local || is_ifte || Sommet==at_bloc){
+	  if (is_of_local_ifte_bloc){
 	    elevel=level;
 	    evaled=_SYMBptr->feuille; // FIXME must also set eval_level to level
 	  }

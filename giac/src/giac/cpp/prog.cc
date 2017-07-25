@@ -1529,9 +1529,10 @@ namespace giac {
       return res;
     }
     test=args._VECTptr->front();
-    test=equaltosame(test.eval(eval_level(contextptr),contextptr)).eval(eval_level(contextptr),contextptr);
+    int evallevel=eval_level(contextptr);
+    test=equaltosame(test.eval(evallevel,contextptr)).eval(evallevel,contextptr);
     if (!is_integer(test)){
-      test=test.evalf_double(eval_level(contextptr),contextptr);
+      test=test.evalf_double(evallevel,contextptr);
       if ( (test.type!=_DOUBLE_) && (test.type!=_CPLX) ){
 	if (isifte){
 	  gensizeerr(gettext("Ifte: Unable to check test"),res); 
@@ -1542,24 +1543,26 @@ namespace giac {
       }
     }
     bool rt;
-    gen clause_vraie=equaltosto((*(args._VECTptr))[1],contextptr);
-    gen clause_fausse=equaltosto(args._VECTptr->back(),contextptr);
+    gen clause_vraie=(*(args._VECTptr))[1];
+    gen clause_fausse=args._VECTptr->back();
     // *logptr(contextptr) << "Ifte " << debug_ptr(contextptr)->current_instruction << endl ;
     if (is_zero(test)){ // test false, do the else part
       if (isifte){
 	increment_instruction(clause_vraie,contextptr);
 	// *logptr(contextptr) << "Else " << debug_ptr(contextptr)->current_instruction << endl ;
-	++debug_ptr(contextptr)->current_instruction;
-	if (debug_ptr(contextptr)->debug_mode){
+	debug_struct * dbgptr=debug_ptr(contextptr);
+	++dbgptr->current_instruction;
+	if (dbgptr->debug_mode){
 	  debug_loop(test,contextptr);
 	  if (is_undef(test)) return test;
 	}
       }
+      clause_fausse=equaltosto(clause_fausse,contextptr);
       rt=clause_fausse.is_symb_of_sommet(at_return);
       if (rt)
 	clause_fausse=clause_fausse._SYMBptr->feuille;
-      // res=clause_fausse.eval(eval_level(contextptr),contextptr);
-      if (!clause_fausse.in_eval(eval_level(contextptr),res,contextptr))
+      // res=clause_fausse.eval(evallevel,contextptr);
+      if (!clause_fausse.in_eval(evallevel,res,contextptr))
 	res=clause_fausse;
       if (rt && (res.type!=_SYMB || res._SYMBptr->sommet!=at_return))
 	res=symb_return(res);
@@ -1567,17 +1570,19 @@ namespace giac {
     }
     else { // test true, do the then part
       if (isifte){
-	++debug_ptr(contextptr)->current_instruction;
-	if (debug_ptr(contextptr)->debug_mode){
+	debug_struct * dbgptr=debug_ptr(contextptr);
+	++dbgptr->current_instruction;
+	if (dbgptr->debug_mode){
 	  debug_loop(test,contextptr);
 	  if (is_undef(test)) return test;
 	}
       }
+      clause_vraie=equaltosto(clause_vraie,contextptr);
       rt=clause_vraie.is_symb_of_sommet(at_return);
       if (rt)
 	clause_vraie=clause_vraie._SYMBptr->feuille;
-      // res=clause_vraie.eval(eval_level(contextptr),contextptr);
-      if (!clause_vraie.in_eval(eval_level(contextptr),res,contextptr))
+      // res=clause_vraie.eval(evallevel,contextptr);
+      if (!clause_vraie.in_eval(evallevel,res,contextptr))
 	res=clause_vraie;
       if (rt && (res.type!=_SYMB || res._SYMBptr->sommet!=at_return) )
 	res=symb_return(res);

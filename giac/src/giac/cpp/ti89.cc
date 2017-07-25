@@ -92,6 +92,7 @@ namespace giac {
       if (v.size()==2 && is_integral((g1=eval(v[1],eval_level(contextptr),contextptr))) && g1.val>=0){
 	vecteur res;
 	int s=g1.val,l=eval_level(contextptr);
+	res.reserve(s);
 	gen v0=v[0];
 	for (int i=0;i<s;++i)
 	  res.push_back(eval(v0,l,contextptr));

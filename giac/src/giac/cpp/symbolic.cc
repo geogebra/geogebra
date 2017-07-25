@@ -1366,7 +1366,8 @@ namespace giac {
       return *this;
     gen ans;
     // FIXME test should be removed later, it's here for tests. See global.cc DEFAULT_EVAL_LEVEL
-    if (eval_level(contextptr)==26)
+    int & elevel=eval_level(contextptr);
+    if (elevel==26)
       return nr_eval(*this,level,contextptr);
     std::vector<const char *> & last =last_evaled_function_name(contextptr);
     last.push_back(sommet.ptr()->s);
@@ -1396,7 +1397,6 @@ namespace giac {
 	}
       }
 #endif
-      int & elevel=eval_level(contextptr);
       int save_level=elevel;
       elevel=level;
 #ifdef NO_STDEXCEPT
