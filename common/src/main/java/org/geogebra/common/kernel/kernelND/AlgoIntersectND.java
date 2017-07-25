@@ -190,7 +190,7 @@ public abstract class AlgoIntersectND extends AlgoIntersectAbstract {
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("IntersectionPointOfAB",
+		return getLoc().getPlainDefault("IntersectionPointOfAB",
 				"Intersection point of %0, %1",
 				input[0].getLabel(tpl), input[1].getLabel(tpl));
 	}
