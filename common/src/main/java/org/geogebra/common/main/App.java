@@ -4254,7 +4254,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1948 */
 		case MINOR_GRIDLINES_FIXES:
-			return prerelease;
+			return true;
 
 		case AND_EXAM_MODE:
 			return prerelease;
