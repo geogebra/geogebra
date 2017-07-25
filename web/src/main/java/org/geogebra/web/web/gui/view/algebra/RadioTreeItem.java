@@ -55,6 +55,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
@@ -641,7 +642,14 @@ public class RadioTreeItem extends AVTreeItem
 			content.addStyleName("additionalRow");
 			prefix.addStyleName("prefix");
 			updateFont(content);
-			content.insert(prefix, 0);
+			if (app.has(Feature.ARROW_OUTPUT_PREFIX)) {
+				Image arrow = new Image(
+						MaterialDesignResources.INSTANCE.arrow_black());
+				arrow.setStyleName("arrowOutputImg");
+				content.insert(arrow, 0);
+			} else {
+				content.insert(prefix, 0);
+			}
 		}
 
 	}

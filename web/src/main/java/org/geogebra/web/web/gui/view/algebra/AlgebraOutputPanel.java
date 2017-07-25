@@ -11,13 +11,13 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
-import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -52,9 +52,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 		add(label);
 	}
 
+	/**
+	 * add arrow prefix for av output
+	 */
 	void addArrowPrefix() {
-		final StandardButton arrow = new StandardButton(MaterialDesignResources.INSTANCE.arrow_black());
-		arrow.setStyleName("arrowOutputBtn");
+		final Image arrow = new Image(
+				MaterialDesignResources.INSTANCE.arrow_black());
+		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}
 
