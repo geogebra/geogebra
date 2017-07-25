@@ -161,6 +161,10 @@ $purple-default: #6557D2;
 		}
 	}
 
+	.KeyBoard.TabbedKeyBoard .KeyBoardButton.latex {
+		padding: 4px;
+	}
+	
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
 		background-color: $new-functional-button;
 	}	

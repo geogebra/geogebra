@@ -340,19 +340,20 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 		Canvas c = Canvas.createIfSupported();
 
-		// TODO: eliminate hard-coded values
-
-		c.setCoordinateSpaceWidth(66);
-		c.setCoordinateSpaceHeight(40);
 		GGraphics2DW g2 = new GGraphics2DW(c);
 
 		GDimension d = drawLatex(g2, latex, fontSize, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
-		int x = d.getWidth() / 2;
-		int y = 0;
-		drawLatex(g2, latex, fontSize, x, y);
 
-		return new KeyBoardButtonFunctionalBase(c, fallback, handler);
+		c.setCoordinateSpaceWidth(d.getWidth());
+		c.setCoordinateSpaceHeight(d.getHeight());
+
+		drawLatex(g2, latex, fontSize, 0, 0);
+
+		KeyBoardButtonFunctionalBase btn = new KeyBoardButtonFunctionalBase(c,
+				fallback, handler);
+		btn.addStyleName("latex");
+		return btn;
 	}
 
 	private GDimension drawLatex(GGraphics2DW g2, String latex,

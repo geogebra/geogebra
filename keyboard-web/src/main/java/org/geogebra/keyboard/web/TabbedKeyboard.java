@@ -592,22 +592,32 @@ public class TabbedKeyboard extends FlowPanel {
 			return new KeyBoardButtonBase("a_n", "_", bh);
 		}
 		else if (resourceName.equals(Resource.N_ROOT.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return latex
+					? createLatexButton("\\sqrt[n]{a}", 16,
+							button.getActionName(), bh)
+					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.nroot(), button.getActionName(),
 					bh);
 		}
 		else if (resourceName.equals(Resource.INTEGRAL.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return latex
+					? createLatexButton("\\int{f}", 10,
+							button.getActionName(),
+							bh)
+					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.integral(),
 					button.getActionName(), bh);
 		} else if (resourceName.equals(Resource.DERIVATIVE.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return latex
+					? createLatexButton("\\frac{d}{dx}", 10,
+							button.getActionName(), bh)
+					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.derivative(),
 					button.getActionName(), bh);
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
 			return latex
-					? createLatexButton("\\sqrt{a}", 14, button.getActionName(),
+					? createLatexButton("\\sqrt{a}", 16, button.getActionName(),
 							bh)
 					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.sqrt(),
