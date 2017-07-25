@@ -601,7 +601,7 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		else if (resourceName.equals(Resource.INTEGRAL.name())) {
 			return latex
-					? createLatexButton("\\int{f}", 10,
+					? createLatexButton("\\int{}", 10,
 							button.getActionName(),
 							bh)
 					: new KeyBoardButtonFunctionalBase(
