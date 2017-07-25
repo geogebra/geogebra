@@ -1,6 +1,10 @@
 package org.geogebra.web.keyboard;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GDimension;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.App;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -9,6 +13,7 @@ import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
+import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -19,6 +24,7 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -325,6 +331,37 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		}
 		helpPanel.updateGUI(maxOffsetHeight, 1);
 		helpPopup.show();
+
+	}
+
+	@Override
+	public KeyBoardButtonBase createLatexButton(String latex, int fontSize,
+			String fallback, ButtonHandler handler) {
+
+		Canvas c = Canvas.createIfSupported();
+
+		// TODO: eliminate hard-coded values
+
+		c.setCoordinateSpaceWidth(66);
+		c.setCoordinateSpaceHeight(40);
+		GGraphics2DW g2 = new GGraphics2DW(c);
+
+		GDimension d = drawLatex(g2, latex, fontSize, Integer.MIN_VALUE,
+				Integer.MIN_VALUE);
+		int x = d.getWidth() / 2;
+		int y = 0;
+		drawLatex(g2, latex, fontSize, x, y);
+
+		return new KeyBoardButtonFunctionalBase(c, fallback, handler);
+	}
+
+	private GDimension drawLatex(GGraphics2DW g2, String latex,
+			int fontSize, int x, int y) {
+		App app = getApp();
+		boolean serif = false;
+		return app.getDrawEquation().drawEquation(app, null, g2, x, y, latex,
+				app.getFontCommon(serif, GFont.BOLD, fontSize), serif,
+				GColor.BLACK, GColor.WHITE, false, false, null);
 
 	}
 }

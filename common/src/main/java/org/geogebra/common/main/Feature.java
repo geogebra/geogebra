@@ -261,7 +261,9 @@ public enum Feature {
 	/** GGB-1970*/
 	ARROW_OUTPUT_PREFIX,
 
+	/** GGB-1935 */
+	LATEX_ON_KEYBOARD,
+
 	/** GGB-1948 */
 	MINOR_GRIDLINES_FIXES
-
 }

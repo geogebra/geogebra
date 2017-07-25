@@ -4210,6 +4210,7 @@ public abstract class App implements UpdateSelection {
 			return isNativeMobileAppWithNewUI();
 		case ZOOM_PANEL:
 			return prerelease;
+
 		case MOB_TOOLSET_LEVELS:
 			return isNativeMobileAppWithNewUI();
 		case SHOW_STEPS:
@@ -4247,6 +4248,9 @@ public abstract class App implements UpdateSelection {
 			
 		case ARROW_OUTPUT_PREFIX:
 			return true;
+
+		case LATEX_ON_KEYBOARD:
+			return prerelease;
 
 		/** GGB-1948 */
 		case MINOR_GRIDLINES_FIXES:

@@ -231,7 +231,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 	}
 
-	private static final int BASE_WIDTH = 70;
+	protected static final int BASE_WIDTH = 70;
 	private KeyboardLocale locale;
 	private boolean isSmallKeyboard;
 	protected HasKeyboard app;
@@ -544,6 +544,8 @@ public class TabbedKeyboard extends FlowPanel {
 
 	private KeyBoardButtonBase functionButton(WeightedButton button,
 			ButtonHandler bh) {
+		boolean latex = ((App) app).has(Feature.LATEX_ON_KEYBOARD);
+
 		String resourceName = button.getResourceName();
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
 			return new KeyBoardButtonFunctionalBase(
@@ -604,7 +606,10 @@ public class TabbedKeyboard extends FlowPanel {
 					button.getActionName(), bh);
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return latex
+					? createLatexButton("\\sqrt{a}", 14, button.getActionName(),
+							bh)
+					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.sqrt(),
 					button.getActionName(), bh);
 		}
@@ -745,5 +750,14 @@ public class TabbedKeyboard extends FlowPanel {
 	private boolean shouldHaveLatinExtension(String middleRow) {
 		int first = middleRow.codePointAt(0);
 		return first < 0 || first > 0x00FF;
+	}
+
+	public KeyBoardButtonBase createLatexButton(String latex, int fontSize,
+			String fallback, ButtonHandler handler) {
+		return null;
+	}
+
+	public App getApp() {
+		return (App) app;
 	}
 }

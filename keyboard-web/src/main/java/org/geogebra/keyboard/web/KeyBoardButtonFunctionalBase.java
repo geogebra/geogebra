@@ -2,6 +2,7 @@ package org.geogebra.keyboard.web;
 
 import org.geogebra.keyboard.base.Action;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Image;
@@ -51,6 +52,15 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.image = new Image(image);
 		this.feedback = feedback;
 		this.add(this.image);
+
+	}
+
+	public KeyBoardButtonFunctionalBase(Canvas c, String feedback,
+			ButtonHandler handler) {
+		super(handler);
+		this.image = null;
+		this.feedback = feedback;
+		this.add(c);
 
 	}
 
