@@ -205,6 +205,7 @@ public class Unicode {
 
 	public static final char CENTER_DOT = '\u00b7';
 	public static final char BULLET = '\u2022';
+	public static final char DOTTED_SQUARE = '\u2b1a';
 
 
 

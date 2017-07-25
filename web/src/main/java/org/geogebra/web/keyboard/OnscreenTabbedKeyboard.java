@@ -28,6 +28,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web implementation of onscreen keyboard
@@ -342,13 +343,14 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 		GGraphics2DW g2 = new GGraphics2DW(c);
 
-		GDimension d = drawLatex(g2, latex, font, Integer.MIN_VALUE,
+		String dottedText = latex.replace('w', Unicode.DOTTED_SQUARE);
+		GDimension d = drawLatex(g2, dottedText, font, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 
 		c.setCoordinateSpaceWidth(d.getWidth());
 		c.setCoordinateSpaceHeight(d.getHeight());
 
-		drawLatex(g2, latex, font, 0, 0);
+		drawLatex(g2, dottedText, font, 0, 0);
 
 		KeyBoardButtonFunctionalBase btn = new KeyBoardButtonFunctionalBase(c,
 				fallback, handler);

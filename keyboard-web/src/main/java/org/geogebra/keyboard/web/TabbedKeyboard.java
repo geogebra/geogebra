@@ -341,7 +341,7 @@ public class TabbedKeyboard extends FlowPanel {
 		final KeyPanelBase keyboard = new KeyPanelBase(layout);
 		layouts.add(layout);
 
-		latexFont = getApp().getFontCommon(false, GFont.PLAIN, 20);
+		latexFont = getApp().getFontCommon(false, GFont.PLAIN, 14);
 		latexFontSmall = getApp().getFontCommon(false, GFont.PLAIN, 11);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
@@ -491,7 +491,7 @@ public class TabbedKeyboard extends FlowPanel {
 			}
 			if (name.equals("|")) {
 				return latex
-						? createLatexButton("\\left|a\\right|", latexFont,
+						? createLatexButton("\\left|w\\right|", latexFont,
 						"abs", bh) : new KeyBoardButtonBase("|a|", "abs", b);
 			}
 			if (name.equals("-")) {
@@ -574,11 +574,11 @@ public class TabbedKeyboard extends FlowPanel {
 					Action.RIGHT_CURSOR);
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return latex
-					? createLatexButton("a^{2}", latexFont, "^2", bh)
-					: new KeyBoardButtonBase("a^2", "^2", bh);
+					? createLatexButton("w^{2}", latexFont, "^2", bh)
+					: new KeyBoardButtonBase("w^2", "^2", bh);
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return latex
-					? createLatexButton("a^{b}", latexFont, "a^x", bh)
+					? createLatexButton("w^{w}", latexFont, "a^x", bh)
 					: new KeyBoardButtonBase("a^b", "a^x", bh);
 		}
 		else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
@@ -591,28 +591,34 @@ public class TabbedKeyboard extends FlowPanel {
 					Action.CAPS_LOCK);
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return latex
-					? createLatexButton("10^{x}", latexFont, "10^", bh)
+					? createLatexButton("10^{w}", latexFont, "10^", bh)
 					: new KeyBoardButtonBase("10^x", "10^", bh);
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
 			return latex
-					? createLatexButton("e^{x}", latexFont,
+					? createLatexButton("e^{w}", latexFont,
 							Unicode.EULER_STRING + "^", bh)
 					: new KeyBoardButtonBase("e^x",
 					Unicode.EULER_STRING + "^", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_10.name())) {
-			return new KeyBoardButtonBase("log_10", "log10", bh);
+			return latex
+					? createLatexButton("log_{10}", latexFont,
+							Unicode.EULER_STRING + "^", bh)
+					: new KeyBoardButtonBase("log_10", "log10", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_B.name())) {
-			return new KeyBoardButtonBase("log_b", "log_", bh);
+			return latex
+					? createLatexButton("log_{w}", latexFont,
+							Unicode.EULER_STRING + "^", bh)
+					: new KeyBoardButtonBase("log_b", "log_", bh);
 		}
 		else if (resourceName.equals(Resource.A_N.name())) {
-			return latex ? createLatexButton("a_{n}", latexFont, "_", bh)
+			return latex ? createLatexButton("a_{w}", latexFont, "_", bh)
 					: new KeyBoardButtonBase("a_n", "_", bh);
 		}
 		else if (resourceName.equals(Resource.N_ROOT.name())) {
 			return latex
-					? createLatexButton("\\sqrt[n]{a}", latexFont,
+					? createLatexButton("\\sqrt[n]{w}", latexFont,
 							button.getActionName(), bh)
 					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.nroot(), button.getActionName(),
@@ -638,7 +644,7 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
 			return latex
-					? createLatexButton("\\sqrt{a}", latexFont,
+					? createLatexButton("\\sqrt{w}", latexFont,
 							button.getActionName(),
 							bh)
 					: new KeyBoardButtonFunctionalBase(
