@@ -492,12 +492,4 @@ public class GeoInputBox extends GeoButton {
 		return getHeight();
 	}
 
-	public void setFocus(EuclidianViewInterfaceCommon ev) {
-		DrawableND draw = ev.getDrawableFor(this);
-		if (draw instanceof DrawInputBox) {
-			((DrawInputBox) draw).setFocus(null);
-		}
-
-	}
-
 }
