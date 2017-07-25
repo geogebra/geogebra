@@ -629,6 +629,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.removeStyleName("showMoveBtn");
 	}
 
+	/**
+	 * @param ttLeft
+	 *            - tooltip left
+	 * @param width
+	 *            - width
+	 * @param isSmall
+	 *            - is small tooltip
+	 * @return true if was moved
+	 */
 	public boolean moveMoveFloatingButtonUpWithTooltip(int ttLeft, int width,
 			boolean isSmall) {
 		if (moveBtn != null) {
@@ -651,6 +660,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		return false; // button was not moved
 	}
 
+	/**
+	 * @param isSmall
+	 *            - is small tooltip
+	 * @param wasMoved
+	 *            - true if was moved
+	 */
 	public void moveMoveFloatingButtonDownWithTooltip(boolean isSmall,
 			boolean wasMoved) {
 		if (moveBtn != null && wasMoved) {
@@ -742,6 +757,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	}
 
+	/**
+	 * select tools tab
+	 */
 	public void selectTools() {
 		header.selectTools();
 		main.removeStyleName("algebra");
