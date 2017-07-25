@@ -323,7 +323,7 @@ public final class ToolTipManagerW {
 		style.setLeft(0, Unit.PX);
 
 		double left = (appw.getWidth() - bottomInfoTipPanel.getOffsetWidth()) / 2;
-		if (left < 0) {
+		if (left < 0 || app.isUnbundled()) {
 			left = 0;
 		}
 			// Toolbar on bottom - tooltip needs to be positioned higher so it

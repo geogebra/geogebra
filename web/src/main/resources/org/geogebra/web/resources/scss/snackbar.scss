@@ -1,8 +1,10 @@
 @import 'colors';
 
 .snackbar {
-		min-width: 288px;
-		max-width: 568px;
+		left: 0px;
+		/*min-width: 288px;*/
+		min-width: 382px;
+		max-width: 382px;
 		height: 80px; /* 48px for single line */
 		border-radius: 2px;
 		z-index: 1000;
@@ -59,11 +61,11 @@
 		
 .animateShow { 
 	    bottom: 0px;
-	    transition: bottom 0.4s ease;
+	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	} 
 .animateHide { 
 	    bottom: -80px;
-	    transition: bottom 0.4s ease;
+	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	} 
 
 
