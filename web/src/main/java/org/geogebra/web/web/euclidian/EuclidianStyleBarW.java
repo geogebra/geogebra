@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
@@ -602,7 +603,18 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			@Override
 			public void onClick(Widget source) {
 				if (app.has(Feature.DELETE_BUTTON_BEHAVIOR_FIX)) {
-					app.deleteSelectedObjects(false);
+					boolean deletePoints = true;
+					for (int i = activeGeoList.size() - 1; i >= 0; i--) {
+						if (!(activeGeoList.get(i) instanceof GeoPoint)) {
+							activeGeoList.get(i).remove();
+							deletePoints = false;
+						}
+					}
+					if (deletePoints) {
+						app.deleteSelectedObjects(false);
+					} else {
+						app.storeUndoInfo();
+					}
 				} else {
 					for (GeoElement geo : activeGeoList) {
 						geo.removeOrSetUndefinedIfHasFixedDescendent();
