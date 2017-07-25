@@ -342,7 +342,7 @@ public class TabbedKeyboard extends FlowPanel {
 		layouts.add(layout);
 
 		latexFont = getApp().getFontCommon(false, GFont.PLAIN, 20);
-		latexFontSmall = getApp().getFontCommon(false, GFont.PLAIN, 12);
+		latexFontSmall = getApp().getFontCommon(false, GFont.PLAIN, 11);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
 		updatePanel(keyboard, layout, bh);
