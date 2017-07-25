@@ -4245,7 +4245,7 @@ public abstract class App implements UpdateSelection {
 
 		case AND_MOVE_FAB:
 			return prerelease;
-			
+
 		case ARROW_OUTPUT_PREFIX:
 			return true;
 
@@ -4254,6 +4254,9 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1948 */
 		case MINOR_GRIDLINES_FIXES:
+			return prerelease;
+
+		case AND_EXAM_MODE:
 			return prerelease;
 
 		default:

@@ -257,9 +257,12 @@ public enum Feature {
 	AND_MOVE_FAB,
 
 	LABEL_NAME_CAPTION, SURFACE_2D,
-	
+
 	/** GGB-1970*/
 	ARROW_OUTPUT_PREFIX,
+
+	/** AND-479*/
+	AND_EXAM_MODE,
 
 	/** GGB-1935 */
 	LATEX_ON_KEYBOARD,
