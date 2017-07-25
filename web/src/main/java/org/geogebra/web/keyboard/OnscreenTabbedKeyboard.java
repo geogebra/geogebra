@@ -335,20 +335,20 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	@Override
-	public KeyBoardButtonBase createLatexButton(String latex, int fontSize,
+	public KeyBoardButtonBase createLatexButton(String latex, GFont font,
 			String fallback, ButtonHandler handler) {
 
 		Canvas c = Canvas.createIfSupported();
 
 		GGraphics2DW g2 = new GGraphics2DW(c);
 
-		GDimension d = drawLatex(g2, latex, fontSize, Integer.MIN_VALUE,
+		GDimension d = drawLatex(g2, latex, font, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 
 		c.setCoordinateSpaceWidth(d.getWidth());
 		c.setCoordinateSpaceHeight(d.getHeight());
 
-		drawLatex(g2, latex, fontSize, 0, 0);
+		drawLatex(g2, latex, font, 0, 0);
 
 		KeyBoardButtonFunctionalBase btn = new KeyBoardButtonFunctionalBase(c,
 				fallback, handler);
@@ -357,11 +357,10 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	}
 
 	private GDimension drawLatex(GGraphics2DW g2, String latex,
-			int fontSize, int x, int y) {
+			GFont font, int x, int y) {
 		App app = getApp();
-		boolean serif = false;
 		return app.getDrawEquation().drawEquation(app, null, g2, x, y, latex,
-				app.getFontCommon(serif, GFont.BOLD, fontSize), serif,
+				font, false,
 				GColor.BLACK, GColor.WHITE, false, false, null);
 
 	}
