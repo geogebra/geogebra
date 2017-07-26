@@ -269,7 +269,10 @@ public enum Feature {
 
 	/** GGB-1948 */
 	MINOR_GRIDLINES_FIXES,
-	
+
 	/** GGB-1917*/
-	OBJECT_HIGHLIGHT
+	OBJECT_HIGHLIGHT,
+
+	AND_AV_ITEM_MENU
+
 }

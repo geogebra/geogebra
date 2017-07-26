@@ -4262,6 +4262,8 @@ public abstract class App implements UpdateSelection {
 		case OBJECT_HIGHLIGHT:
 			return prerelease;
 
+		case AND_AV_ITEM_MENU:
+			return false;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
