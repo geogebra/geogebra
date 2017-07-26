@@ -2194,7 +2194,14 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean onEditStart() {
-		String text = geo == null ? "" : geo.getDefinitionForEditor();
+		String text = "";
+		if (AlgebraItem.needsPacking(geo)) {
+			text = geo.getLaTeXDescriptionRHS(false,
+					StringTemplate.defaultTemplate);
+		} else if (geo != null) {
+			text = geo.getDefinitionForEditor();
+		}
+
 		if (geo != null && !geo.isDefined() && lastInput != null) {
 			text = lastInput;
 		}
