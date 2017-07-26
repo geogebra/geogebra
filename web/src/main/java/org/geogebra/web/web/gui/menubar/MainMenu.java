@@ -244,7 +244,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu,
-					getHTMLwithLink(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
+					getHTML(MaterialDesignResources.INSTANCE
+							.geogebra_logo_transparent(),
 							""),
 					true);
 		}
@@ -370,13 +371,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		return "<img src=\"" + img.getSafeUri().asString()
 				+ "\" draggable=\"false\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>";
-	}
-	
-	private String getHTMLwithLink(ImageResource img, String s){
-		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
-		String imgHTML = getHTML(img, s);
-		return "<a href=\"https://www.geogebra.org\" target=\"_blank\">"
-				+ imgHTML + "</a>";
 	}
 	
 	private void createFileMenu() {
