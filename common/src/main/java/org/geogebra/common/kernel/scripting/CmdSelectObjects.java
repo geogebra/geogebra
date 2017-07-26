@@ -68,18 +68,15 @@ public class CmdSelectObjects extends CmdScripting {
 	 */
 	void deferredFocus(final GeoInputBox geo, final int reps) {
 		final App app1 = app;
+		app1.getActiveEuclidianView().focusAndShowTextField(geo);
 		final GTimer timer = app.newTimer(new GTimerListener() {
 
 			public void onRun() {
 				if (reps > 0) {
 					deferredFocus(geo, reps - 1);
 				}
-				if (reps > 2) {
-					app1.getActiveEuclidianView()
-						.focusAndShowTextField(geo);
-				} else {
-					app1.getActiveEuclidianView().refreshTextfieldFocus(geo);
-				}
+
+				app1.getActiveEuclidianView().refreshTextfieldFocus(geo);
 
 			}
 		}, 100);
