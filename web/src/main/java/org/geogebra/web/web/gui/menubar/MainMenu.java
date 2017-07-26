@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -207,7 +208,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							return;
 						}
 						if (this.getWidget(index) == settingsMenu) {
-
+							app.getDialogManager().showPropertiesDialog(
+									OptionType.EUCLIDIAN, null);
 							return;
 						}
 						if (this.getWidget(index) == languageMenu) {
