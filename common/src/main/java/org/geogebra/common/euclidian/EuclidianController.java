@@ -1404,7 +1404,6 @@ public abstract class EuclidianController {
 			geo = it.next();
 
 			if (app.has(Feature.OBJECT_HIGHLIGHT) && highlight) {
-				getView().setCursor(EuclidianCursor.DRAG);
 				continue;
 			}
 
@@ -6871,7 +6870,7 @@ public abstract class EuclidianController {
 					&& (hits.size() >= 1)) {
 				setCursorForTranslateView(hits);
 			} else {
-				setHitCursor();
+				setDragCursor();
 			}
 		}
 
@@ -10628,7 +10627,9 @@ public abstract class EuclidianController {
 	 */
 	public boolean setJustCreatedGeosSelected() {
 		if (justCreatedGeos != null && justCreatedGeos.size() > 0) {
-			setAppSelectedGeos(justCreatedGeos);
+			if (!app.has(Feature.OBJECT_HIGHLIGHT)) {	
+				setAppSelectedGeos(justCreatedGeos);
+			} 
 			return true;
 		}
 		return false;
