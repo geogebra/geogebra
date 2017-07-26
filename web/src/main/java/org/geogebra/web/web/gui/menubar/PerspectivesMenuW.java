@@ -16,7 +16,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
- * Web implementation of FileMenu
+ * Web implementation of PerspectivesMenu
  */
 public class PerspectivesMenuW extends GMenuBar {
 	
@@ -62,7 +62,9 @@ public class PerspectivesMenuW extends GMenuBar {
 		if (!app.isExam()) {
 
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
-				addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_exam24().getSafeUri().asString(),
+				addItem(MainMenu.getMenuBarHtml(
+						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
+								.asString(),
 						app.getLocalization().getMenu("exam_menu_entry"), true), // "Exam
 																					// Mode"
 						true, new MenuCommand(app) {

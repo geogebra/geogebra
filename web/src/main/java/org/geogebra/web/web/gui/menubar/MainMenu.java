@@ -55,6 +55,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private EditMenuW editMenu;
 
 	private PerspectivesMenuW perspectivesMenu;
+	private PerspectivesMenuUnbundledW perspectiveMenuUnbundled;
 	private boolean leftSide = false;
 	/**
 	 * Menus
@@ -286,7 +287,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							: GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
 					true);
 
-			this.menuPanel
+			if (app.isUnbundled()) {
+				this.menuPanel.add(
+						perspectiveMenuUnbundled, getHTML(
+								app.isUnbundled()
+										? MaterialDesignResources.INSTANCE
+												.geogebra_black()
+										: GuiResources.INSTANCE
+												.menu_icon_perspectives(),
+								"math_apps"),
+						true);
+			} else {
+				this.menuPanel
 					.add(perspectivesMenu,
 							getHTML(app.isUnbundled()
 									? MaterialDesignResources.INSTANCE
@@ -294,6 +306,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									: GuiResources.INSTANCE
 									.menu_icon_perspectives(), "math_apps"),
 							true);
+			}
+
 			if (!app.isUnbundled()) {
 				this.menuPanel.add(viewMenu,
 						getHTML(app.isUnbundled()
@@ -412,6 +426,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void createPerspectivesMenu() {
 		perspectivesMenu = new PerspectivesMenuW(app);
+		perspectiveMenuUnbundled = new PerspectivesMenuUnbundledW(app);
 	}
 
 	private void createEditMenu() {

@@ -265,6 +265,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geogebra_black.png")
 	ImageResource geogebra_black();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geogebra_color.png")
+	ImageResource geogebra_color();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/language_black.png")
 	ImageResource language_black();
 
