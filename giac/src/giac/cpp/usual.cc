@@ -4053,7 +4053,7 @@ namespace giac {
     if ( a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type!=_VECT)
       return increment(a,1,false,false,contextptr);
-    if (a.type!=_VECT || a._VECTptr->size()!=2)
+    if (a._VECTptr->size()!=2)
       return gentypeerr(contextptr);
     return increment(a._VECTptr->front(),a._VECTptr->back(),false,false,contextptr);
   }

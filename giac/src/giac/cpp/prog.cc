@@ -1090,9 +1090,9 @@ namespace giac {
     return symbolic(at_program,quotesubst(args,resvar,varsub,contextptr));
   }
   static bool is_return(const gen & g,gen & newres){
-    if ((g.type==_SYMB) && (g._SYMBptr->sommet==at_return) ){
-      gen tmp = g._SYMBptr->feuille;
-      is_return(tmp,newres);
+    if (g.type==_SYMB && g._SYMBptr->sommet==at_return){
+      // gen tmp = g._SYMBptr->feuille; is_return(tmp,newres);
+      is_return(g._SYMBptr->feuille,newres);
       return true;
     }
     if (g.type==_STRNG && g.subtype==-1){
@@ -1949,6 +1949,14 @@ namespace giac {
     }
     return !is_undef(res);
   }
+  inline bool for_test(const gen & test,gen & testf,int eval_lev,context * contextptr){
+    // ck_is_one( (testf=test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr)) )
+    testf=test.eval(eval_lev,contextptr);
+    if (testf.type==_INT_) 
+      return testf.val==1;
+    testf=testf.evalf(1,contextptr);
+    return ck_is_one(testf);
+  }
   gen _for(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     // for elem in list: for(elem,list), inert form
@@ -2034,9 +2042,9 @@ namespace giac {
 	index_name=test._SYMBptr->feuille._VECTptr->front();
       }
       for (equaltosto(initialisation,contextptr).eval(eval_lev,newcontextptr);
-	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):ck_is_one( (testf=test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr)) );
-	   ++counter,(test.val?increment.eval(eval_lev,newcontextptr):0)){
-	if (interrupted || is_undef(testf))
+	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr);
+	   ++counter,((test.val && increment.type)?increment.eval(eval_lev,newcontextptr):0)){
+	if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
 	  break;
 	dbgptr->current_instruction=save_current_instruction;
 	findlabel=false;
@@ -2052,7 +2060,11 @@ namespace giac {
 	    gensizeerr(gettext("Stopped by user interruption."),res);
 	    break;
 	  }
+#ifdef SMARTPTR64
+	  swapgen(oldres,res);
+#else
 	  oldres=res;
+#endif
 	  ++dbgptr->current_instruction;
 	  if (dbgptr->debug_mode){
 	    debug_loop(res,newcontextptr);
@@ -2065,6 +2077,8 @@ namespace giac {
 	  }
 	  if (!findlabel){
 	    res=it->eval(eval_lev,newcontextptr);
+	    if (res.type<=_POLY) 
+	      continue;
 	  }
 	  else
 	    res=*it;
@@ -2097,7 +2111,7 @@ namespace giac {
 	      findlabel=true;
 	      label=res._SYMBptr->feuille;
 	    }
-	  }
+	  } // end res.type==_SYMB
 	  if (findlabel && it+1==itend)
 	    it=itbeg-1;
 	} // end of loop of FOR bloc instructions
