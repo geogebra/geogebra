@@ -577,7 +577,13 @@ public class Function extends FunctionNVar
 					}
 				}
 				break;
-
+			case NROOT:
+				if (node.getRight().isConstant() && !ExpressionNode
+						.isConstantDouble(node.getRight(), 0)) {
+					return addPolynomialFactors(node.getLeft(), l, symbolic,
+						rootFindingSimplification, assumeFalseIfCASNeeded);
+				}
+				break;
 			case ABS:
 			case SGN:
 			case SQRT:
