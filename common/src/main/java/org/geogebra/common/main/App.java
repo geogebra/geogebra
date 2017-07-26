@@ -4258,6 +4258,9 @@ public abstract class App implements UpdateSelection {
 
 		case AND_EXAM_MODE:
 			return prerelease;
+			
+		case OBJECT_HIGHLIGHT:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -4417,7 +4420,6 @@ public abstract class App implements UpdateSelection {
 
 	public void setExam(ExamEnvironment exam) {
 		this.exam = exam;
-
 	}
 
 	public void setNewExam() {
