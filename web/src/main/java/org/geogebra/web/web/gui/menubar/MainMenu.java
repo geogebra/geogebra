@@ -294,6 +294,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 										? MaterialDesignResources.INSTANCE
 												.geogebra_black()
 										: GuiResources.INSTANCE
+
 												.menu_icon_perspectives(),
 								"math_apps"),
 						true);
@@ -304,7 +305,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									? MaterialDesignResources.INSTANCE
 											.geogebra_black()
 									: GuiResources.INSTANCE
-									.menu_icon_perspectives(), "math_apps"),
+												.menu_icon_perspectives(),
+										"Perspectives"),
 							true);
 			}
 
