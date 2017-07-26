@@ -62,7 +62,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private GMenuBar userMenu;
 	/** sign in menu */
 	final GMenuBar signInMenu;
+	/**
+	 * simple logo menu item
+	 */
 	GMenuBar logoMenu;
+	/**
+	 * simple settings menu item
+	 */
+	GMenuBar settingsMenu;
+	/**
+	 * simple language menu item
+	 */
+	GMenuBar languageMenu;
 
 	/**
 	 * Constructs the menubar
@@ -238,10 +249,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!app.isUnbundled()) {
 			this.menuPanel.addStyleName("menuPanel");
 		} else {
-			logoMenu = new GMenuBar(true,
-					getHTML(MaterialDesignResources.INSTANCE.geogebra_logo_transparent(),
-							""),
-					app);
+			logoMenu = new GMenuBar(true, "", app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu,
 					getHTML(MaterialDesignResources.INSTANCE
@@ -284,7 +292,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			}
 
 		}
-		this.menuPanel.add(optionsMenu,
+
+		if (!app.isUnbundled()) {
+			this.menuPanel.add(optionsMenu,
 				getHTML(app.isUnbundled()
 						? MaterialDesignResources.INSTANCE.settings_black()
 						: GuiResources.INSTANCE.menu_icon_options(),
@@ -292,6 +302,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 								? app.getLocalization().getMenu("Settings")
 								: "Options"),
 				true);
+		} else {
+			settingsMenu = new GMenuBar(true, "", app);
+			this.menuPanel.add(settingsMenu,
+					getHTML(MaterialDesignResources.INSTANCE.settings_black(),
+							app.getLocalization().getMenu("Settings")),
+					true);
+			languageMenu = new GMenuBar(true, "", app);
+			this.menuPanel.add(languageMenu,
+					getHTML(MaterialDesignResources.INSTANCE.language_black(),
+							app.getLocalization().getMenu("Language")),
+					true);
+		}
 		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundled()) {
 			this.menuPanel.add(toolsMenu,
 					getHTML(app.isUnbundled()
