@@ -201,10 +201,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						((SignInButton)app.getLAF().getSignInButton(app)).login();
 						app.toggleMenu();
 						return;
-					} else if (index >= 0
-							&& this.getWidget(index) == logoMenu) {
-						app.toggleMenu();
-						return;
+					} else if (index >= 0) {
+						if (this.getWidget(index) == logoMenu) {
+							app.toggleMenu();
+							return;
+						}
+						if (this.getWidget(index) == settingsMenu) {
+
+							return;
+						}
+						if (this.getWidget(index) == languageMenu) {
+							app.showLanguageGUI();
+							return;
+						}
 					}
 
 					if (index != -1) {
