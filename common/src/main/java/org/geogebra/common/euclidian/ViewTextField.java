@@ -63,15 +63,13 @@ public abstract class ViewTextField {
 	 */
 	public void focusTo(GeoInputBox inputBox) {
 
-		DrawInputBox d = (DrawInputBox) this.euclidianView
+		DrawableND d = this.euclidianView
 				.getDrawableFor(inputBox);
 		if (d == null) {
 			Log.debug("[TF] d is null!!!");
 			return;
 		}
-		Log.debug("[TF] focusTo " + inputBox.getLabelSimple() + " text: "
-				+ inputBox.getText());
-		d.attachTextField();
+		((DrawInputBox) d).attachTextField();
 	}
 
 	public GBox getBox() {

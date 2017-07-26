@@ -74,8 +74,12 @@ public class CmdSelectObjects extends CmdScripting {
 				if (reps > 0) {
 					deferredFocus(geo, reps - 1);
 				}
-				app1.getActiveEuclidianView()
+				if (reps > 2) {
+					app1.getActiveEuclidianView()
 						.focusAndShowTextField(geo);
+				} else {
+					app1.getActiveEuclidianView().refreshTextfieldFocus(geo);
+				}
 
 			}
 		}, 100);

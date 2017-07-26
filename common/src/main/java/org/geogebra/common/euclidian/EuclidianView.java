@@ -6045,8 +6045,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void focusAndShowTextField(GeoInputBox inputBox) {
 		requestFocus();
+		refreshTextfieldFocus(inputBox);
+	}
+
+	public void refreshTextfieldFocus(GeoInputBox inputBox) {
 		focusTextField(inputBox);
 		viewTextField.getTextField().getDrawTextField().setWidgetVisible(true);
+
 	}
 
 	public GBox getBoxForTextField() {
