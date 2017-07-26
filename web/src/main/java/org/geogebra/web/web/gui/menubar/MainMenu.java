@@ -292,7 +292,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 								? app.getLocalization().getMenu("Settings")
 								: "Options"),
 				true);
-		if (!app.getLAF().isSmart() && enableGraph) {
+		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundled()) {
 			this.menuPanel.add(toolsMenu,
 					getHTML(app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.tools_black()
