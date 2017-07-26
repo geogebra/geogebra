@@ -172,7 +172,8 @@ public class StepByStepSolver {
 	private List<String> checkSolutions() {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < solutions.size(); i++) {
-			sb.append(variable + " = ");
+			sb.append(variable);
+			sb.append(" = ");
 			sb.append(LaTeX(solutions.get(i)));
 			if (i < solutions.size() - 1) {
 				sb.append(", ");
