@@ -5731,7 +5731,7 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		sbNameDescriptionHTML.append(indicesToHTML(label1, false));
 
-		if (this instanceof GeoPointND) {
+		if (this instanceof GeoPointND && getKernel().getApplication().getSettings().getEuclidian(1).axisShown()) {
 			sbNameDescriptionHTML
 					.append(toValueString(StringTemplate.defaultTemplate));
 		}

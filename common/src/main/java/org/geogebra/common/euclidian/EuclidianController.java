@@ -6925,7 +6925,6 @@ public abstract class EuclidianController {
 			view.setToolTipText(text);
 		} else {
 			view.setToolTipText(null);
-			// }
 		}
 
 		// previewable will be updated in refreshHighlighting
