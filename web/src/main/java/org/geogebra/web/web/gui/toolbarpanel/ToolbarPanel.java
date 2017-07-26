@@ -30,6 +30,9 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.layout.client.Layout;
+import com.google.gwt.layout.client.Layout.AnimationCallback;
+import com.google.gwt.layout.client.Layout.Layer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -498,7 +501,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && getLastOpenWidth() != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
-			// AnimationCallback animCallback = null;
+			AnimationCallback animCallback = null;
 			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 			if (header.isOpen()) {
@@ -514,23 +517,24 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				// dockParent.addStyleName("hide-HDragger");
 				// opposite.addStyleName("hiddenHDraggerRightPanel");
 
-				// animCallback = new Layout.AnimationCallback() {
-				//
-				// @Override
-				// public void onLayout(Layer layer, double progress) {
-				// // TODO Auto-generated method stub
-				//
-				// }
-				//
-				// @Override
-				// public void onAnimationComplete() {
-				// dockParent.addStyleName("hide-HDragger");
-				// opposite.addStyleName("hiddenHDraggerRightPanel");
-				// }
-				// };
+				animCallback = new Layout.AnimationCallback() {
+
+					@Override
+					public void onLayout(Layer layer, double progress) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationComplete() {
+						dockParent.addStyleName("hide-HDragger");
+						opposite.addStyleName("hiddenHDraggerRightPanel");
+					}
+				};
 
 			}
-			// dockParent.animate(500, animCallback);
+
+			dockParent.animate(500, animCallback);
 			dockPanel.deferredOnResize();
 		}
 

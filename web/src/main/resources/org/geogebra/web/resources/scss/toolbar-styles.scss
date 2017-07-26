@@ -12,6 +12,7 @@
 	opacity: 0.8;
 }
 
+$open-close-transition: 0.7s all ease-in-out;
 .toolbar {
 	
 	.header {
@@ -142,6 +143,7 @@
 		}
 	
 		.header-open-landscape {
+			transition: $open-close-transition;
 			.close {
 				float: left;
 				margin-right: 6px;
@@ -156,6 +158,11 @@
 			.center {
 				left: -25px;	
 			}
+			
+			.tabButton {
+				transform: rotate(0deg);
+			}
+			
 		}
 		
 		.header-close-landscape {
@@ -164,7 +171,8 @@
 			width: 56px;
 			min-width: 56px;
 			height: 100%;
-			
+			transition: $open-close-transition;
+		
 			.center {
 		 		top: 0px;
 				display: table-cell;
@@ -172,6 +180,7 @@
 				
 				.tabButton {
 					margin-left: 10px !important;	
+					transform: rotate(-90deg);
 				}
 				
 				.indicator {
