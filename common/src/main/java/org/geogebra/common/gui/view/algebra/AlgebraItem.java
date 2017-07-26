@@ -128,7 +128,7 @@ public class AlgebraItem {
 	}
 
 	public static boolean needsPacking(GeoElement geo) {
-		return geo.getParentAlgorithm() != null
+		return geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput().length > 1
 				&& geo.getKernel().getApplication().getSettings().getAlgebra()
 						.getTreeMode() == SortMode.ORDER;
