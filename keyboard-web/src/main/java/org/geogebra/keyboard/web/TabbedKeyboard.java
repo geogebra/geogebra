@@ -341,7 +341,7 @@ public class TabbedKeyboard extends FlowPanel {
 		final KeyPanelBase keyboard = new KeyPanelBase(layout);
 		layouts.add(layout);
 
-		latexFont = getApp().getFontCommon(false, GFont.PLAIN, 14);
+		latexFont = getApp().getFontCommon(false, GFont.PLAIN, 15);
 		latexFontSmall = getApp().getFontCommon(false, GFont.PLAIN, 11);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
@@ -504,10 +504,18 @@ public class TabbedKeyboard extends FlowPanel {
 				return functionButton(wb, bh);
 			}
 			if (name.equals("" + Unicode.LFLOOR)) {
-				return new KeyBoardButtonBase(KeyboardConstants.FLOOR,name,bh);
+				return latex
+						? createLatexButton("\\left\\lfloor{w}\\right\\rfloor",
+								latexFontSmall, "lfloor", bh)
+						: new KeyBoardButtonBase(KeyboardConstants.FLOOR,
+								name, bh);
 			}
 			if (name.equals("" + Unicode.LCEIL)) {
-				return new KeyBoardButtonBase(KeyboardConstants.CEIL, name, bh);
+				return latex
+						? createLatexButton("\\left\\lceil{w}\\right\\rceil",
+								latexFontSmall, "lceil", bh)
+						: new KeyBoardButtonBase(KeyboardConstants.CEIL, name,
+								bh);
 			}
 			if (doubleBrackets) {
 				if (name.equals("(")) {
@@ -618,7 +626,7 @@ public class TabbedKeyboard extends FlowPanel {
 		}
 		else if (resourceName.equals(Resource.N_ROOT.name())) {
 			return latex
-					? createLatexButton("\\sqrt[n]{w}", latexFont,
+					? createLatexButton("\\sqrt[w]{w}", latexFont,
 							button.getActionName(), bh)
 					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.nroot(), button.getActionName(),
