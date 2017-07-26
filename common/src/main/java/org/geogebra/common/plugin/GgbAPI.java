@@ -56,7 +56,6 @@ import org.geogebra.common.kernel.stepbystep.StepByStepSolver;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -2192,7 +2191,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public String stepByStep(String eq) {
 		String[] equation = eq.split("=");	
 
-		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1]);
+		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1], "x");
 
 		
 		StepGuiBuilder builder = new StepGuiBuilderJson();

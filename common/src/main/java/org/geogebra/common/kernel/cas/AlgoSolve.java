@@ -142,7 +142,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	public void getSteps(StepGuiBuilder builder) {
 		String[] equation = equations.getDefinitionNoLabel(StringTemplate.defaultTemplate).split("=");	
 
-		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1]);
+		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1], "x");
 
 		List<String> steps = sbss.getSteps();
 		for(int i = 0; i < steps.size(); i++) {
