@@ -4263,7 +4263,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_AV_ITEM_MENU:
-			return false;
+			return prerelease;
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
