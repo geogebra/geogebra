@@ -85,9 +85,9 @@ public class Perspective {
 	private int defaultID;
 	/** translation keys for perspective names */
 	final private static String[] perspectiveNames = new String[] { "Custom",
-			"GraphingCalculator", "Perspective.Geometry",
+			"Graphing", "Perspective.Geometry",
 			"Perspective.Spreadsheet", "Perspective.CAS",
-			"GeoGebra3DGrapher.short", "Perspective.Probability",
+			"Perspective.3DGraphics", "Perspective.Probability",
 			"Whiteboard", "Scientific" };
 	/** slugs for web app url / tutorials url */
 	final private static String[] perspectiveSlugs = new String[] { "graphing",

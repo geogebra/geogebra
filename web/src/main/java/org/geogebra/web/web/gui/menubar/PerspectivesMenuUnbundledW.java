@@ -65,7 +65,8 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		}
 		addItem(getHTMLwithLink(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
-						.getMenu(Layout.getDefaultPerspectives(index).getId()),
+						.getMenu(index == 0 ? "GraphingCalculator"
+								: "GeometryCalculator"),
 				link.toString()),
 				true, new MenuCommand(app) {
 
@@ -79,7 +80,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	private void addClassic(String icon) {
 		StringBuilder link = new StringBuilder("https://www.geogebra.org/graphing");
 		addItem(getHTMLwithLink(icon,
-				"Classic",
+				app.getLocalization().getMenu("Classic"),
 				link.toString()),
 				true, new MenuCommand(app) {
 
