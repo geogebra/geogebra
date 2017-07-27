@@ -2076,7 +2076,9 @@ namespace giac {
 	    }
 	  }
 	  if (!findlabel){
-	    res=it->eval(eval_lev,newcontextptr);
+	    // res=it->eval(eval_lev,newcontextptr);
+	    if (!it->in_eval(eval_lev,res,newcontextptr))
+	      res=*it;
 	    if (res.type<=_POLY) 
 	      continue;
 	  }

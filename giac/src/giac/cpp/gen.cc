@@ -1876,25 +1876,17 @@ namespace giac {
     return false;
   }
 
+#if 0
   gen gen::eval(int level,const context * contextptr) const{
     // CERR << "eval " << *this << " " << level << endl;
     gen res;
-#ifdef TIMEOUT
-    control_c();
-#endif
-    if (ctrl_c || interrupted) { 
-      interrupted = true; ctrl_c=false;
-      gensizeerr(gettext("Stopped by user interruption."),res);
-      return res;
-    }
-    if (level==0)
-      return *this;
     // return in_eval(level,res,contextptr)?res:*this;
     if (in_eval(level,res,contextptr))
       return res;
     else
       return *this;
   }
+#endif
 
   static bool in_eval_mod(const gen & g,gen & evaled,int level,GIAC_CONTEXT){
     evaled=makemod(g._MODptr->eval(level,contextptr),(g._MODptr+1)->eval(level,contextptr));
@@ -2026,8 +2018,6 @@ namespace giac {
   }
 
   bool gen::in_eval(int level,gen & evaled,const context * contextptr) const{
-    if (!level)
-      return false;
 #ifdef TIMEOUT
     control_c();
 #endif
@@ -2037,6 +2027,8 @@ namespace giac {
       gensizeerr(gettext("Stopped by user interruption."),evaled);
       return true;
     }    
+    if (!level)
+      return false;
     switch (type) {
     case _INT_: case _DOUBLE_: case _FLOAT_: case _ZINT: case _REAL: case _CPLX: case _POLY: case _FRAC: case _SPOL1: case _EXT: case _STRNG: case _MAP: case _EQW: case _GROB: case _POINTER_:
       return false;

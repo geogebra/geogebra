@@ -670,7 +670,15 @@ namespace giac {
     }
 
     bool in_eval(int level,gen & evaled,const context * contextptr) const;
-    gen eval(int level,const context * contextptr) const;
+    inline gen eval(int level,const context * contextptr) const{
+      // CERR << "eval " << *this << " " << level << endl;
+      gen res;
+      // return in_eval(level,res,contextptr)?res:*this;
+      if (in_eval(level,res,contextptr))
+	return res;
+      else
+      return *this;
+    }
     // inline gen eval() const { return eval(DEFAULT_EVAL_LEVEL,context0); }
     bool in_evalf(int level,gen & evaled,const context * contextptr) const;
     gen evalf(int level,const context * contextptr) const;
