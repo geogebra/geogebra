@@ -212,6 +212,7 @@ $open-close-transition: 300ms all linear;
 		@extend .header-open-landscape;
 		position: absolute;
 		bottom: 0px;
+		transition: $open-close-transition;
 		
 		.center {
 			left: -52px;

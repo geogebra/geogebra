@@ -577,12 +577,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && getLastOpenHeight() != null) {
 			Widget opposite = dockParent.getOpposite(dockPanel);
+			int h = 0;
 			if (header.isOpen()) {
-				dockParent.setWidgetSize(opposite, getLastOpenHeight());
+				h = getLastOpenHeight();
+				dockParent.setWidgetSize(opposite, h);
 				// dockParent.removeStyleName("hide-VDragger");
 			} else {
-				int h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT
-						+ 8;
+				h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT + 8;
 				if (h > 0) {
 					dockParent.setWidgetSize(opposite,
 							opposite.getOffsetHeight() + h);
@@ -591,7 +592,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				}
 
 			}
-			// dockPanel.deferredOnResize();
+
+			if (h > 0) {
+				// dockParent.animate(OPEN_ANIM_TIME, null);
+				dockPanel.deferredOnResize();
+			}
 		}
 
 	}
