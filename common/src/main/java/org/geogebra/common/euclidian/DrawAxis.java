@@ -495,29 +495,14 @@ public class DrawAxis {
 
 						boolean bothNull = zero && view.axisCross[0] == 0
 								&& view.axisCross[1] == 0;
-						
-						// if the label is at the axis cross point is "0" on
-						// both axes draw only one "0"
-						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								&& bothNull) {
-							if (!view.positiveAxes[0] || view.positiveAxes[1]) {
 
-								y = (int) (yCrossPix
-										+ view.getYOffsetForXAxis(fontsize));
-
-							} else {
-								y = (int) (pix + yoffset);
-							}
+						// if the label is at the axis cross point then draw
+						// it 2 pixels above
+						if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
+							y = (int) (yCrossPix - 2);
 						} else {
-							// if the label is at the axis cross point then draw
-							// it 2 pixels above
-							if (zero && view.showAxes[0] && !view.positiveAxes[0]) {
-								y = (int) (yCrossPix - 2);
-							} else {
-								y = (int) (pix + yoffset);
-							}
+							y = (int) (pix + yoffset);
 						}
-
 
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
 								|| !bothNull){
