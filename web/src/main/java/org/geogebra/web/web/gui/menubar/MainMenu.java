@@ -14,6 +14,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.browser.SignInButton;
+import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -271,31 +272,37 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 
 		if(app.enableFileFeatures()){	
-			this.menuPanel.add(
-					fileMenu, getHTML(
-							app.isUnbundled()
-									? MaterialDesignResources.INSTANCE
-											.insert_file_black()
-									: GuiResources.INSTANCE.menu_icon_file(),
-							"File"),
-					true);
+			if (app.isUnbundled()) {
+				this.menuPanel.add(fileMenu, getExpandCollapseHTML(
+						MaterialDesignResources.INSTANCE.insert_file_black(),
+						"File"), true);
+			} else {
+				this.menuPanel.add(fileMenu,
+						getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"),
+						true);
+			}
 		}
 		if (enableGraph) {
-			this.menuPanel.add(editMenu,
-					getHTML(app.isUnbundled()
-							? MaterialDesignResources.INSTANCE.edit_black()
-							: GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
+			if (app.isUnbundled()) {
+				this.menuPanel.add(editMenu,
+						getExpandCollapseHTML(
+								MaterialDesignResources.INSTANCE.edit_black(),
+								"Edit"),
+						true);
+			} else {
+				this.menuPanel.add(editMenu,
+						getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
 					true);
+			}
 
 			if (app.isUnbundled()) {
-				this.menuPanel.add(
-						perspectiveMenuUnbundled, getHTML(
-								app.isUnbundled()
-										? MaterialDesignResources.INSTANCE
-												.geogebra_black()
-										: GuiResources.INSTANCE
+				this.menuPanel.add(perspectiveMenuUnbundled,
+						getExpandCollapseHTML(app.isUnbundled()
+								? MaterialDesignResources.INSTANCE
+										.geogebra_black()
+								: GuiResources.INSTANCE
 
-												.menu_icon_perspectives(),
+										.menu_icon_perspectives(),
 								"math_apps"),
 						true);
 			} else {
@@ -349,11 +356,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					true);
 		}
 		if (!exam) {
-			this.menuPanel.add(helpMenu,
-					getHTML(app.isUnbundled()
-							? MaterialDesignResources.INSTANCE.icon_help_black()
-							: GuiResources.INSTANCE.menu_icon_help(), "Help"),
+			if (app.isUnbundled()) {
+				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
+						MaterialDesignResources.INSTANCE.icon_help_black(),
+						"Help"), true);
+			} else {
+				this.menuPanel.add(helpMenu,
+						getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"),
 					true);
+			}
 			if(app.getNetworkOperation().isOnline()){
 				render(true);
 			}
@@ -422,6 +433,16 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				+ app.getLocalization().getMenu(s) + "</span>";
 	}
 	
+	private String getExpandCollapseHTML(ImageResource img, String s) {
+		GCollapseMenuItem expColMI = new GCollapseMenuItem(getHTML(img, s),
+				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString(),
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				false, null);
+		return expColMI.getMenuItem().getHTML();
+	}
+
 	private void createFileMenu() {
 		fileMenu = new FileMenuW(app);
 	}
@@ -579,13 +600,20 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     }
 
     private void addUserMenu() {
-		this.menuPanel
+		if (app.isUnbundled()) {
+			this.menuPanel.add(this.userMenu,
+					getExpandCollapseHTML(
+							MaterialDesignResources.INSTANCE.person_black(),
+							app.getLoginOperation().getUserName()),
+					true);
+		} else {
+			this.menuPanel
 				.add(this.userMenu,
-						getHTML(app.isUnbundled()
-								? MaterialDesignResources.INSTANCE
-										.person_black()
-								: GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()),
+							getHTML(GuiResources.INSTANCE
+									.menu_icon_signed_in_f(),
+									app.getLoginOperation().getUserName()),
 						true);
+		}
     }
 
 	/**
