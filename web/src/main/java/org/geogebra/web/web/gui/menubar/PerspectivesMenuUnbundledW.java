@@ -56,6 +56,8 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		}
 		StringBuilder link = new StringBuilder("https://beta.geogebra.org/");
 		switch (index) {
+		default:
+			break;
 		case 0:
 			link.append("graphing");
 			break;
