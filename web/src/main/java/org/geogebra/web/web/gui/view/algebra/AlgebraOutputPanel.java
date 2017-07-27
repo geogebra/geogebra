@@ -125,7 +125,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 			} else {
 				if (kernel.getApplication()
 						.has(Feature.ARROW_OUTPUT_PREFIX)) {
-					addArrowPrefix();
+					if (AlgebraItem.getOutputPrefix(geo1)
+							.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
+						addPrefixLabel(AlgebraItem.getOutputPrefix(geo1),
+								latex);
+					} else {
+						addArrowPrefix();
+					}
 				} else {
 					addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
 				}
