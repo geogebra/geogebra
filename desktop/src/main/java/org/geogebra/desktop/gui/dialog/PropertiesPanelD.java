@@ -44,7 +44,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
@@ -120,14 +119,12 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSegment;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
@@ -267,7 +264,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			layerPanel = new LayerPanel();
 			animatingPanel = new AnimatingPanel();
 			scriptEditPanel = new ScriptEditPanel();
-			textEditPanel = new TextEditPanel();
+			textEditPanel = new TextEditPanel(this);
 			startPointPanel = new StartPointPanel();
 			cornerPointsPanel = new CornerPointsPanel();
 			bgImagePanel = new BackgroundImagePanel();
@@ -1947,101 +1944,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			corner1.updatePanel(geos);
 			corner2.updatePanel(geos);
 			return this;
-		}
-
-		@Override
-		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
-
-		}
-	}
-
-	/**
-	 * panel for text editingA
-	 */
-	public class TextEditPanel extends JPanel implements ActionListener,
-			UpdateablePropertiesPanel, SetLabels, UpdateFonts {
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		/** text dialog */
-		TextInputDialogD td;
-		private JPanel editPanel;
-
-		/**
-		 * New text edit panel
-		 */
-		public TextEditPanel() {
-			td = new TextInputDialogD(app, loc.getMenu("Text"), null, null,
-					true, 30, 5, false);
-			setLayout(new BorderLayout());
-
-			editPanel = new JPanel(new BorderLayout(0, 0));
-			editPanel.add(td.getInputPanel(), BorderLayout.CENTER);
-			editPanel.add(td.getToolBar(), BorderLayout.SOUTH);
-			editPanel.setBorder(BorderFactory.createEtchedBorder());
-
-			JSplitPane sp = new JSplitPane(JSplitPane.VERTICAL_SPLIT, editPanel,
-					td.getPreviewPanel());
-			sp.setResizeWeight(0.5);
-			sp.setBorder(BorderFactory.createEmptyBorder());
-
-			add(sp, BorderLayout.CENTER);
-			// add(td.getPreviewPanel(), BorderLayout.NORTH);
-			add(td.getButtonPanel(), BorderLayout.SOUTH);
-
-		}
-
-		/**
-		 * apply edit modifications
-		 */
-		public void applyModifications() {
-			td.applyModifications();
-		}
-
-		@Override
-		public void setLabels() {
-			// editPanel.setBorder(BorderFactory.createTitledBorder(loc.getMenu("Edit")));
-			// td.getPreviewPanel().setBorder(BorderFactory.createTitledBorder(loc.getMenu("Preview")));
-			td.setLabels(loc.getMenu("Text"));
-		}
-
-		@Override
-		public JPanel updatePanel(Object[] geos) {
-			if (geos.length != 1 || !checkGeos(geos)) {
-				td.reset();
-				return null;
-			}
-
-			GeoText text = (GeoText) geos[0];
-			td.setGeoText(text);
-			td.updateRecentSymbolTable();
-
-			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			return geos.length == 1 && geos[0] instanceof GeoText
-					&& !((GeoText) geos[0]).isTextCommand()
-					&& !((GeoText) geos[0]).isProtected(EventType.UPDATE);
-		}
-
-		/**
-		 * handle textfield changes
-		 */
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// if (e.getSource() == btEdit)
-			// app.showTextDialog((GeoText) geos[0]);
-		}
-
-		@Override
-		public void updateFonts() {
-			Font font = app.getPlainFont();
-
-			editPanel.setFont(font);
-			td.updateFonts();
 		}
 
 		@Override

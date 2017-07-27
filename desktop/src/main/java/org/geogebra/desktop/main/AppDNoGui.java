@@ -527,7 +527,6 @@ public class AppDNoGui extends App {
 
 	@Override
 	public boolean isHTML5Applet() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
