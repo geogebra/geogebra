@@ -565,6 +565,26 @@ public class DrawAxis {
 
 	}
 
+	/**
+	 * 
+	 * @param xCrossPix
+	 * @param xoffset
+	 * @param width
+	 * @return if number should be fixed at the left or right edge, it returns
+	 *         the x position of number, otherwise returns null
+	 */
+	private Integer getXPositionAtEdge(double xCrossPix, double xoffset,
+			double width) {
+		double leftLimit = (view.yLabelMaxWidthNeg > 0 ? view.yLabelMaxWidthNeg
+				: view.yLabelMaxWidthPos) + 10;
+		if (xCrossPix < leftLimit) {
+			return (int) ((leftLimit + xoffset) - width);
+		} else if (xCrossPix > view.getWidth()) {
+			return (int) (view.getWidth() - width + xoffset);
+		}
+		return null;
+	}
+
 	private void drawZero(GGraphics2D g2, double xCrossPix, double yCrossPix,
 			int fontsize) {
 
@@ -575,16 +595,17 @@ public class DrawAxis {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
 		double yoffset2 = (fontsize / 2) - 1;
 
-		int x, y;
-
-		if (view.positiveAxes[1] || !view.showAxes[1]) {
-			x = (int) (xCrossPix
-					- (EuclidianView.estimateTextWidth("0", view.getFontAxes())
-							/ 2));
-		} else {
-			x = (int) ((xCrossPix + xoffset) - width); // left
+		Integer x = getXPositionAtEdge(xCrossPix, xoffset, width);
+		if (x == null) {
+			if (view.positiveAxes[1] || !view.showAxes[1]) {
+				x = (int) (xCrossPix - (EuclidianView.estimateTextWidth("0",
+						view.getFontAxes()) / 2));
+			} else {
+				x = (int) ((xCrossPix + xoffset) - width); // left
+			}
 		}
 
+		int y;
 		if (view.positiveAxes[0] || !view.showAxes[0]) {
 			y = (int) (yCrossPix + yoffset2);
 		} else {
