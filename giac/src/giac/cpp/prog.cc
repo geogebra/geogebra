@@ -1951,7 +1951,8 @@ namespace giac {
   }
   inline bool for_test(const gen & test,gen & testf,int eval_lev,context * contextptr){
     // ck_is_one( (testf=test.eval(eval_lev,newcontextptr).evalf(1,newcontextptr)) )
-    testf=test.eval(eval_lev,contextptr);
+    if (!test.in_eval(eval_lev,testf,contextptr)) testf=test;
+    //testf=test.eval(eval_lev,contextptr);
     if (testf.type==_INT_) 
       return testf.val==1;
     testf=testf.evalf(1,contextptr);
@@ -2043,7 +2044,7 @@ namespace giac {
       }
       for (equaltosto(initialisation,contextptr).eval(eval_lev,newcontextptr);
 	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr);
-	   ++counter,((test.val && increment.type)?increment.eval(eval_lev,newcontextptr):0)){
+	   ++counter,((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
 	if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
 	  break;
 	dbgptr->current_instruction=save_current_instruction;
@@ -2051,15 +2052,6 @@ namespace giac {
 	// add a test for boucle of type program/composite
 	// if that's the case call eval with test for break and continue
 	for (it=itbeg;!interrupted && it!=itend;++it){
-#ifdef TIMEOUT
-	  control_c();
-#endif
-	  if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
-	    interrupted = true; ctrl_c=false;
-	    *logptr(contextptr) << "Stopped in loop" << endl;
-	    gensizeerr(gettext("Stopped by user interruption."),res);
-	    break;
-	  }
 #ifdef SMARTPTR64
 	  swapgen(oldres,res);
 #else
@@ -2082,8 +2074,18 @@ namespace giac {
 	    if (res.type<=_POLY) 
 	      continue;
 	  }
-	  else
+	  else {
+#ifdef TIMEOUT
+	    control_c();
+#endif
+	    if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
+	      interrupted = true; ctrl_c=false;
+	      *logptr(contextptr) << "Stopped in loop" << endl;
+	      gensizeerr(gettext("Stopped by user interruption."),res);
+	      break;
+	    }
 	    res=*it;
+	  }
 	  if (is_return(res,newres)) {
 	    increment_instruction(it+1,itend,newcontextptr);
 	    if (bound)

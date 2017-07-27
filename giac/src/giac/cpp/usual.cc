@@ -4839,7 +4839,11 @@ namespace giac {
     if (args.type!=_VECT)
       return symb_inferieur_strict(args);
     gen res=inferieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
-    if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
+    if (res.type==_INT_ 
+#ifdef GIAC_HAS_STO_38
+	&& abs_calc_mode(contextptr)!=38
+#endif
+	)
       res.subtype=_INT_BOOLEAN;
     return res;
   }
