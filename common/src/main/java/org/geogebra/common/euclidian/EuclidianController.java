@@ -10106,10 +10106,20 @@ public abstract class EuclidianController {
 			addDynamicStylebar();
 		}
 		if (this.pointerUpCallback != null) {
-			app.invokeLater(pointerUpCallback);
+			runPointerCallback(pointerUpCallback);
 			this.pointerUpCallback = null;
 		}
 
+	}
+
+	/**
+	 * Needs to be synchronous in some environments and asynchronous in others
+	 * 
+	 * @param callback
+	 *            callback for pointer up
+	 */
+	protected void runPointerCallback(Runnable callback) {
+		callback.run();
 	}
 
 	private boolean isDragTool() {

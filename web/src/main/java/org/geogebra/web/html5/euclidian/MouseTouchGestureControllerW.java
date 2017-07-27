@@ -627,10 +627,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		return touchPool;
 	}
 
-	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
-		return ec.getView().textfieldClicked(x, y, type) || isComboboxFocused();
-	}
-
 	public boolean isComboboxFocused() {
 		return this.comboboxFocused;
 	}

@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -451,6 +452,15 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public MouseTouchGestureControllerW getOffsets() {
 		return mtg;
+	}
+
+	@Override
+	protected void runPointerCallback(Runnable pointerUpCallback) {
+		if (Browser.isIE10plus()) {
+			app.invokeLater(pointerUpCallback);
+		} else {
+			pointerUpCallback.run();
+		}
 	}
 }
 
