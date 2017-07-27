@@ -15,6 +15,7 @@ import org.geogebra.web.web.gui.util.StandardButton;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -70,7 +71,7 @@ class Header extends FlowPanel {
 	private ToggleButton btnRedo;
 	private ContextMenuAlgebra cmAlgebra = null;
 	private ContextMenuTools cmTools;
-
+	private boolean animating = false;
 	/**
 	 * @param toolbarPanel
 	 *            - panel containing the toolbar
@@ -363,7 +364,7 @@ class Header extends FlowPanel {
 	public void setOpen(boolean value) {
 		this.open = value;
 		updateDraggerStyle(value);
-		updateStyle();
+		// updateStyle();
 		
 		if (this.toolbarPanel.isPortrait()) {
 			this.toolbarPanel.updateHeight();
@@ -404,7 +405,10 @@ class Header extends FlowPanel {
 	/**
 	 * update style of toolbar
 	 */
-	void updateStyle() {
+	public void updateStyle() {
+		if (isAnimating()) {
+			return;
+		}
 		this.toolbarPanel.updateStyle();
 		removeStyleName("header-open-portrait");
 		removeStyleName("header-close-portrait");
@@ -464,5 +468,20 @@ class Header extends FlowPanel {
 		updateCenterSize();
 		updateStyle();
 
+	}
+
+	public boolean isAnimating() {
+		return animating;
+	}
+
+	public void setAnimating(boolean animating) {
+		this.animating = animating;
+	}
+
+	/**
+	 * @return a callback that prevents header to be resized during animation.
+	 */
+	public AnimationCallback newAnimationCallback() {
+		return new HeaderAnimationCallback(this);
 	}
 }

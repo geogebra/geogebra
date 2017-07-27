@@ -127,6 +127,7 @@ $open-close-transition: 300ms all linear;
 		}
 		
 		.header-open-portrait {
+		transition: $open-close-transition;
 			.close {
 				/*position: absolute;*/
 				/*left: 0px;*/

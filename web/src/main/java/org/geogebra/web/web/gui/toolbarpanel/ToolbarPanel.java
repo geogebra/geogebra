@@ -30,9 +30,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.layout.client.Layout;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
-import com.google.gwt.layout.client.Layout.Layer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -511,16 +509,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			if (header.isOpen()) {
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
-				animCallback = new Layout.AnimationCallback() {
-
-					@Override
-					public void onLayout(Layer layer, double progress) {
-						// TODO Auto-generated method stub
-
-					}
-
+				animCallback = new HeaderAnimationCallback(header) {
 					@Override
 					public void onAnimationComplete() {
+						super.onAnimationComplete();
 						onOpen();
 					}
 				};
@@ -529,16 +521,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 
-				animCallback = new Layout.AnimationCallback() {
-
-					@Override
-					public void onLayout(Layer layer, double progress) {
-						// TODO Auto-generated method stub
-
-					}
-
+				animCallback = new HeaderAnimationCallback(header) {
 					@Override
 					public void onAnimationComplete() {
+						super.onAnimationComplete();
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
 						updateUndoRedoPosition();
@@ -575,12 +561,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
+
+		AnimationCallback animationCallback = null;
 		if (dockPanel != null && getLastOpenHeight() != null) {
 			Widget opposite = dockParent.getOpposite(dockPanel);
 			int h = 0;
 			if (header.isOpen()) {
 				h = getLastOpenHeight();
 				dockParent.setWidgetSize(opposite, h);
+
 				// dockParent.removeStyleName("hide-VDragger");
 			} else {
 				h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT + 8;
@@ -588,13 +577,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 					dockParent.setWidgetSize(opposite,
 							opposite.getOffsetHeight() + h);
 					// dockParent.addStyleName("hide-VDragger");
-
+					animationCallback = header.newAnimationCallback();
 				}
 
 			}
 
 			if (h > 0) {
-				// dockParent.animate(OPEN_ANIM_TIME, null);
+				dockParent.animate(OPEN_ANIM_TIME, animationCallback);
 				dockPanel.deferredOnResize();
 			}
 		}
@@ -826,11 +815,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			tabTools.onResize();
 		}
 
-		if (isPortrait()) {
+		if (isPortrait() && !isClosedByUser()) {
 			int h = getOffsetHeight();
 			if (h > HEIGHT_CLOSED) {
 				if (h < HEIGHT_AUTO_CLOSE) {
-					close();
+					// close();
 				} else {
 					doOpen();
 				}
