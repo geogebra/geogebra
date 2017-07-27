@@ -89,7 +89,7 @@ public class TextDispatcher3D extends TextDispatcher {
 	/**
 	 * @param hasVolume
 	 *            element that has volume
-	 * @param loc
+	 * @param localization
 	 *            text location
 	 */
 	public void createVolumeText(GeoElement hasVolume, GPoint loc0) {

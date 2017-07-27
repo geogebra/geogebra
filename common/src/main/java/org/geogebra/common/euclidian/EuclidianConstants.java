@@ -859,6 +859,11 @@ public final class EuclidianConstants {
 		}
 	}
 	
+	/**
+	 * @param mode
+	 *            mode number
+	 * @return whether modeis MOVE or SELECT
+	 */
 	final static public boolean isMoveOrSelectionMode(int mode) {
 		return mode == MODE_MOVE || mode == MODE_SELECT;
 	}

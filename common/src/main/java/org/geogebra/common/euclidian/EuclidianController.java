@@ -207,7 +207,7 @@ public abstract class EuclidianController {
 	private static final int INCREASED_THRESHOLD_FACTOR = 2;
 	protected final App app;
 	protected final SelectionManager selection;
-	protected final Localization loc;
+	protected final Localization localization;
 	public double xRW;
 	public double yRW;
 	public GeoPointND movedGeoPoint;
@@ -377,7 +377,7 @@ public abstract class EuclidianController {
 	public EuclidianController(App app) {
 		this.app = app;
 		this.selection = app.getSelectionManager();
-		this.loc = app.getLocalization();
+		this.localization = app.getLocalization();
 		createCompanions();
 	}
 
@@ -3452,7 +3452,7 @@ public abstract class EuclidianController {
 		if (selPoints() == 1) {
 			// get length of segment
 			getDialogManager().showNumberInputDialogSegmentFixed(
-					loc.getMenu(EuclidianConstants.getModeText(mode)),
+					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0]);
 
 			return true;
@@ -3478,7 +3478,7 @@ public abstract class EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogAngleFixed(
-					loc.getMenu(EuclidianConstants.getModeText(mode)),
+					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedSegmentsND(), getSelectedPointsND(), selGeos,
 					this);
 
@@ -4219,7 +4219,7 @@ public abstract class EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogRotate(
-					loc.getMenu(EuclidianConstants.getModeText(mode)),
+					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedPointsND(), selGeos,
 					this);
 
@@ -4259,7 +4259,7 @@ public abstract class EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogDilate(
-					loc.getMenu(EuclidianConstants.getModeText(mode)),
+					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedPointsND(), selGeos,
 					this);
 
@@ -4645,7 +4645,7 @@ public abstract class EuclidianController {
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			getDialogManager().showNumberInputDialogRegularPolygon(
-					loc.getMenu(EuclidianConstants.getModeText(mode)), this,
+					localization.getMenu(EuclidianConstants.getModeText(mode)), this,
 					points[0], points[1]);
 			return true;
 		}
@@ -5048,7 +5048,7 @@ public abstract class EuclidianController {
 		// we got the center point
 		if (selPoints() == 1) {
 			getDialogManager().showNumberInputDialogCirclePointRadius(
-					loc.getMenu(EuclidianConstants.getModeText(mode)),
+					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPointsND()[0], view);
 			return true;
 		}
@@ -5442,7 +5442,7 @@ public abstract class EuclidianController {
 			// maybe we need a number
 			if (macroInput[index].equals(Test.GEONUMERIC)) {
 				app.getDialogManager().showNumberInputDialog(
-						macro.getToolOrCommandName(), loc.getMenu("Numeric"),
+						macro.getToolOrCommandName(), localization.getMenu("Numeric"),
 						null, callback3);
 
 			}
@@ -5450,7 +5450,7 @@ public abstract class EuclidianController {
 			// maybe we need an angle
 			else if (macroInput[index].equals(Test.GEOANGLE)) {
 				app.getDialogManager().showAngleInputDialog(
-						macro.getToolOrCommandName(), loc.getMenu("Angle"),
+						macro.getToolOrCommandName(), localization.getMenu("Angle"),
 						Unicode.FORTY_FIVE_DEGREES_STRING, callback3);
 
 			}
@@ -6761,7 +6761,7 @@ public abstract class EuclidianController {
 
 		// reset icon
 		if (hitResetIcon()) {
-			view.setToolTipText(loc.getPlainTooltip("resetConstruction"));
+			view.setToolTipText(localization.getPlainTooltip("resetConstruction"));
 			setHitCursor();
 			return;
 		}
@@ -6772,9 +6772,9 @@ public abstract class EuclidianController {
 		repaintNeeded = view.setAnimationButtonsHighlighted(hitAnimationButton);
 		if (hitAnimationButton) {
 			if (kernel.isAnimationPaused()) {
-				view.setToolTipText(loc.getPlainTooltip("Play"));
+				view.setToolTipText(localization.getPlainTooltip("Play"));
 			} else {
-				view.setToolTipText(loc.getPlainTooltip("Pause"));
+				view.setToolTipText(localization.getPlainTooltip("Pause"));
 			}
 
 			setHitCursor();

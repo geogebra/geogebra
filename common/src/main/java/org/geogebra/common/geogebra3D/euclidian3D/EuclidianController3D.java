@@ -3968,7 +3968,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoElement[] selGeos = getSelectedGeos();
 
 			getDialogManager().showNumberInputDialogRotate(
-					loc.getMenu(EuclidianConstants.getModeText(mode)),
+					localization.getMenu(EuclidianConstants.getModeText(mode)),
 					getSelectedPolygons(), getSelectedLinesND(), selGeos, this);
 
 			return null;

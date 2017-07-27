@@ -809,6 +809,9 @@ public class DrawLine extends Drawable implements Previewable {
 		
 	}
 	
+	/**
+	 * @return whether this is visible
+	 */
 	public boolean isVisible() {
 		return isVisible;
 	}

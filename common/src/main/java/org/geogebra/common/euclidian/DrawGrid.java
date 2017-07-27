@@ -32,6 +32,8 @@ public class DrawGrid {
 	 *            x crossing pixel
 	 * @param yCrossPix
 	 *            y crossing pixel
+	 * @param subGrid
+	 *            whether to draw subgrid
 	 */
 	protected void drawCartesianGrid(GGraphics2D g2, double xCrossPix,
 			double yCrossPix, boolean subGrid) {

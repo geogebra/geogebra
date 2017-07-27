@@ -792,11 +792,29 @@ public abstract class Drawable extends DrawableND {
 		// do nothing here
 	}
 
+	/**
+	 * @param text
+	 *            text
+	 * @param font
+	 *            font
+	 * @param g2
+	 *            graphics
+	 * @return width of text with given font
+	 */
 	public int measureTextWidth(String text, GFont font, GGraphics2D g2) {
 		GTextLayout layout = getTextLayout(text, font, g2);
 		return layout != null ? (int) layout.getAdvance() : 0;
 	}
 
+	/**
+	 * @param text
+	 *            text
+	 * @param font
+	 *            font
+	 * @param g2
+	 *            graphics
+	 * @return text layout
+	 */
 	public GTextLayout getTextLayout(String text, GFont font, GGraphics2D g2) {
 		if (text == null || text.isEmpty()) {
 			return null;
