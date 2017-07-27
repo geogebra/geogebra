@@ -235,7 +235,9 @@ public class DrawAxis {
 
 		if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
 				&& (!view.logAxes[0] || !view.logAxes[1])) {
-			drawZero(g2, xCrossPix, yCrossPix, fontsize);
+			if (view.axisCross[0] == 0 && view.axisCross[1] == 0) {
+				drawZero(g2, xCrossPix, yCrossPix, fontsize);
+			}
 		}
 
 	}
@@ -498,8 +500,6 @@ public class DrawAxis {
 						// both axes draw only one "0"
 						if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
 								&& bothNull) {
-							// if the label is at the axis cross point then draw
-							// it 2 pixels above
 							if (!view.positiveAxes[0] || view.positiveAxes[1]) {
 
 								y = (int) (yCrossPix
@@ -588,8 +588,23 @@ public class DrawAxis {
 		double width = layout.getAdvance();
 		double xoffset = -4 - (fontsize / 4);
 		double yoffset = view.getYOffsetForXAxis(fontsize);
-		int x = (int) ((xCrossPix + xoffset) - width);
-		int y = (int) (yCrossPix + yoffset);
+		double yoffset2 = (fontsize / 2) - 1;
+
+		int x, y;
+
+		if (view.positiveAxes[1] || !view.showAxes[1]) {
+			x = (int) (xCrossPix
+					- (EuclidianView.estimateTextWidth("0", view.getFontAxes())
+							/ 2));
+		} else {
+			x = (int) ((xCrossPix + xoffset) - width); // left
+		}
+
+		if (view.positiveAxes[0] || !view.showAxes[0]) {
+			y = (int) (yCrossPix + yoffset2);
+		} else {
+			y = (int) (yCrossPix + yoffset); // bottom
+		}
 
 		// improve y position at top and bottom edge
 		if (yCrossPix >= view.getHeight() - (view.xLabelHeights + 5)) {
