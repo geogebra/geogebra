@@ -233,6 +233,11 @@ public class DrawAxis {
 			}
 		}
 
+		if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
+				&& (!view.logAxes[0] || !view.logAxes[1])) {
+			drawZero(g2, xCrossPix, yCrossPix, fontsize);
+		}
+
 	}
 
 	private void drawAxisLabelY(GGraphics2D g2, int x, GFontRenderContext frc) {
@@ -515,9 +520,7 @@ public class DrawAxis {
 
 
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| !bothNull || view.positiveAxes[0]
-								|| !view.positiveAxes[1]
-								|| !view.showAxesNumbers[0]) {
+								|| !bothNull){
 							if (view.getApplication()
 									.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 								numbers.add(new TickNumber(g2, sb.toString(), x, y,
@@ -575,6 +578,27 @@ public class DrawAxis {
 			}
 		}
 
+	}
+
+	private void drawZero(GGraphics2D g2, double xCrossPix, double yCrossPix,
+			int fontsize) {
+
+		GTextLayout layout = AwtFactory.getPrototype().newTextLayout("0",
+				view.getFontAxes(), g2.getFontRenderContext());
+		double width = layout.getAdvance();
+		double xoffset = -4 - (fontsize / 4);
+		double yoffset = view.getYOffsetForXAxis(fontsize);
+		int x = (int) ((xCrossPix + xoffset) - width);
+		int y = (int) (yCrossPix + yoffset);
+
+		// improve y position at top and bottom edge
+		if (yCrossPix >= view.getHeight() - (view.xLabelHeights + 5)) {
+			y = (int) (view.getHeight() - view.xLabelHeights - 5 + yoffset);
+		} else if (yCrossPix <= 0) {
+			y = (int) yoffset;
+		}
+
+		drawString(g2, "0", x, y);
 	}
 
 	private class TickNumber {
@@ -913,10 +937,7 @@ public class DrawAxis {
 								&& view.axisCross[1] == 0;
 						
 						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| !bothNull
-								|| !view.showAxes[1]
-								|| !view.positiveAxes[0] && view.positiveAxes[1]
-								|| !view.showAxesNumbers[1]) {
+								|| !bothNull) {
 							drawString(g2, sb.toString(), x, y);
 						}
 
