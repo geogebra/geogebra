@@ -843,11 +843,12 @@ public class StepByStepSolver {
 		return isEven(helper.getValue(s));
 	}
 
-	private static boolean isEven(Double d) {
-		return Math.floor(d / 2) * 2 == d;
+	private static boolean isEven(double d) {
+		return MyDouble.exactEqual(Math.floor(d / 2) * 2, d);
 	}
 
-	private static boolean isSquare(Double d) {
-		return Math.floor(Math.sqrt(d)) * Math.floor(Math.sqrt(d)) == d;
+	private static boolean isSquare(double d) {
+		return MyDouble.exactEqual(
+				Math.floor(Math.sqrt(d)) * Math.floor(Math.sqrt(d)), d);
 	}
 }
