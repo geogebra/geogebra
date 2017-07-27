@@ -5861,6 +5861,14 @@ namespace giac {
   }
   */
 
+  /*
+  gen negdistrib(const gen & g,GIAC_CONTEXT){
+    if (!g.is_symb_of_sommet(at_plus))
+      return -g;
+    return _plus(-g._SYMBptr->feuille,contextptr);
+  }
+  */
+
   gen simplifier(const gen & g,GIAC_CONTEXT){
 #if 0 // def NSPIRE
     return g;
@@ -5906,6 +5914,10 @@ namespace giac {
     if (v!=w)
       g_=subst(g,v,w,false,contextptr);
     g_=aplatir_fois_plus(g_);
+    // distribute neg over +
+    //vector< gen_op_context > negdistrib_v(1,negdistrib);
+    //vector<const unary_function_ptr *> neg_v(1,at_neg);
+    //g_=subst(g_,neg_v,negdistrib_v,false,contextptr);
     return liste2symbolique(symbolique2liste(g_,contextptr));
   }
   gen _simplifier(const gen & g,GIAC_CONTEXT){

@@ -4426,7 +4426,9 @@ namespace giac {
 	  return chkmod(zero,a);
 	if (a.is_symb_of_sommet(at_neg) && b==a._SYMBptr->feuille)
 	  return chkmod(zero,b);
-	if (!b.is_symb_of_sommet(at_program))
+	if (!b.is_symb_of_sommet(at_program) 
+	    && !b.is_symb_of_sommet(at_plus)
+	    )
 	  return new_ref_symbolic(symbolic(at_plus,args));
       }
       if (idnt_symb_int(a) && plus_idnt_symb(b)){
@@ -4434,7 +4436,9 @@ namespace giac {
 	  return chkmod(zero,a);
 	if (a.is_symb_of_sommet(at_neg) && b==a._SYMBptr->feuille)
 	  return chkmod(zero,b);
-	if (!a.is_symb_of_sommet(at_program))
+	if (!a.is_symb_of_sommet(at_program) 
+	    && !a.is_symb_of_sommet(at_plus)
+	    )
 	  return new_ref_symbolic(symbolic(at_plus,args));
       }
       return operator_plus(a,b,contextptr);
