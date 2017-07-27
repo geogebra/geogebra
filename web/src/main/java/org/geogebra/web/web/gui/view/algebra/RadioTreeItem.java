@@ -2197,7 +2197,7 @@ public class RadioTreeItem extends AVTreeItem
 		String text = "";
 		if (AlgebraItem.needsPacking(geo)) {
 			text = geo.getLaTeXDescriptionRHS(false,
-					StringTemplate.defaultTemplate);
+					StringTemplate.editTemplate);
 		} else if (geo != null) {
 			text = geo.getDefinitionForEditor();
 		}
