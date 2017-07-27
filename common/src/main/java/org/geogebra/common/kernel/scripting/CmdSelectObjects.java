@@ -7,8 +7,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 
 /**
  * SelectObjects
@@ -68,19 +66,14 @@ public class CmdSelectObjects extends CmdScripting {
 	 */
 	void deferredFocus(final GeoInputBox geo, final int reps) {
 		final App app1 = app;
-		app1.getActiveEuclidianView().focusAndShowTextField(geo);
-		final GTimer timer = app.newTimer(new GTimerListener() {
-
-			public void onRun() {
-				if (reps > 0) {
-					deferredFocus(geo, reps - 1);
-				}
-
-				app1.getActiveEuclidianView().refreshTextfieldFocus(geo);
-
+		Runnable callback = new Runnable() {
+			public void run(){
+				app1.getActiveEuclidianView().focusAndShowTextField(geo);
 			}
-		}, 100);
-		timer.start();
+		};
+		callback.run();
+		app1.getActiveEuclidianView().getEuclidianController()
+				.addPointerUpCallback(callback);
 
 	}
 }

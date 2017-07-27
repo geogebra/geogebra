@@ -370,6 +370,10 @@ public abstract class EuclidianController {
 
 	private boolean altCopy;
 
+	private GeoNumeric circleRadius;
+	private PointerEventType oldEventType = PointerEventType.MOUSE;
+	private Runnable pointerUpCallback;
+
 	public EuclidianController(App app) {
 		this.app = app;
 		this.selection = app.getSelectionManager();
@@ -10101,6 +10105,10 @@ public abstract class EuclidianController {
 				&& mode == EuclidianConstants.MODE_SELECT && !draggingOccured) {
 			addDynamicStylebar();
 		}
+		if (this.pointerUpCallback != null) {
+			app.invokeLater(pointerUpCallback);
+			this.pointerUpCallback = null;
+		}
 
 	}
 
@@ -11234,8 +11242,7 @@ public abstract class EuclidianController {
 		return true;
 	}
 
-	private GeoNumeric circleRadius;
-	private PointerEventType oldEventType = PointerEventType.MOUSE;
+
 
 	final public void twoTouchStartPhone(double x1, double y1, double x2,
 			double y2) {
@@ -12095,6 +12102,11 @@ public abstract class EuclidianController {
 
 	public void setModeChangeListener(MyModeChangedListener modeChangeListener) {
 		this.modeChangeListener = modeChangeListener;
+	}
+
+	public void addPointerUpCallback(Runnable callback) {
+		this.pointerUpCallback = callback;
+
 	}
 
 }
