@@ -290,9 +290,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 		if(app.enableFileFeatures()){	
 			if (app.isUnbundled()) {
-				this.menuPanel.add(fileMenu, getExpandCollapseHTML(
+				this.menuPanel.add(fileMenu, getHTMLCollapse(
 						MaterialDesignResources.INSTANCE.insert_file_black(),
 						"File"), true);
+				menuTitles.add("File");
+				menuImgs.add(
+						MaterialDesignResources.INSTANCE.insert_file_black());
 			} else {
 				this.menuPanel.add(fileMenu,
 						getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"),
