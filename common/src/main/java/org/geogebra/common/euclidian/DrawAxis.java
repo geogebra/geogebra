@@ -573,7 +573,7 @@ public class DrawAxis {
 	 * @return if number should be fixed at the left or right edge, it returns
 	 *         the x position of number, otherwise returns null
 	 */
-	private Integer getXPositionAtEdge(double xCrossPix, double xoffset,
+	Integer getXPositionAtEdge(double xCrossPix, double xoffset,
 			double width) {
 		double leftLimit = (view.yLabelMaxWidthNeg > 0 ? view.yLabelMaxWidthNeg
 				: view.yLabelMaxWidthPos) + 10;
@@ -648,15 +648,22 @@ public class DrawAxis {
 			// at
 			// the border
 
-			double leftLimit = (view.yLabelMaxWidthNeg > 0
-					? view.yLabelMaxWidthNeg : view.yLabelMaxWidthPos) + 10;
+			if (view.getApplication().has(Feature.ONLY_ONE_ZERO)) {
+				Integer x2 = getXPositionAtEdge(xCrossPix, xoffset, width);
+				if (x2 != null) {
+					x = x2;
+				}
+			} else {
+				double leftLimit = (view.yLabelMaxWidthNeg > 0
+						? view.yLabelMaxWidthNeg : view.yLabelMaxWidthPos) + 10;
 
-			if (xCrossPix < leftLimit) {
-				x = (int) ((leftLimit + xoffset) - width);
-			} else if (xCrossPix > view.getWidth()) {
-				x = (int) (view.getWidth() - width + xoffset);
+				if (xCrossPix < leftLimit) {
+					x = (int) ((leftLimit + xoffset) - width);
+				} else if (xCrossPix > view.getWidth()) {
+					x = (int) (view.getWidth() - width + xoffset);
+				}
+
 			}
-
 			drawString(g2, text, x, y);
 		}
 
