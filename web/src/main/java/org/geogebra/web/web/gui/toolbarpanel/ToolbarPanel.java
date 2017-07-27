@@ -44,6 +44,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
+	// dock panel animation time in milliseconds.
+	// For timing, see $open-close-transition also in toolbar-styles.scss
+	private static final int OPEN_ANIM_TIME = 300;
+
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
 	/**
@@ -507,15 +511,23 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			if (header.isOpen()) {
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
-				// hide dragger for now
-				// dockParent.removeStyleName("hide-HDragger");
-				// opposite.removeStyleName("hiddenHDraggerRightPanel");
+				animCallback = new Layout.AnimationCallback() {
+
+					@Override
+					public void onLayout(Layer layer, double progress) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void onAnimationComplete() {
+						onOpen();
+					}
+				};
+
 			} else {
 				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
-				// hide dragger for now
-				// dockParent.addStyleName("hide-HDragger");
-				// opposite.addStyleName("hiddenHDraggerRightPanel");
 
 				animCallback = new Layout.AnimationCallback() {
 
@@ -529,12 +541,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 					public void onAnimationComplete() {
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
+						updateUndoRedoPosition();
 					}
 				};
 
 			}
 
-			dockParent.animate(500, animCallback);
+			dockParent.animate(OPEN_ANIM_TIME, animCallback);
 			dockPanel.deferredOnResize();
 		}
 
@@ -782,9 +795,16 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (!isOpen()) {
 			doOpen();
 		}
-		// main.clear();
+		onOpen();
+	}
+
+	/**
+	 * Called after open.
+	 */
+	protected void onOpen() {
 		resize();
 		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
+
 	}
 
 	/**
