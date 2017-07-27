@@ -21,10 +21,13 @@ public class HeaderAnimationCallback implements AnimationCallback {
 	}
 
 	public void onLayout(Layer layer, double progress) {
-		this.header.setAnimating(true);
+		if (progress == 0) {
+			this.header.setAnimating(true);
+		}
 	}
 
 	public void onAnimationComplete() {
+		this.header.removeAnimation();
 		this.header.setAnimating(false);
 		this.header.updateStyle();
 	}

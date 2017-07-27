@@ -105,7 +105,10 @@ $open-close-transition: 300ms all linear;
 			
 		}
 
-
+		.header-animation {
+			transition: $open-close-transition;
+		}
+	
 		.header-open-portrait,
 		.header-open-landscape {
 			@extend .header;
@@ -127,7 +130,7 @@ $open-close-transition: 300ms all linear;
 		}
 		
 		.header-open-portrait {
-		transition: $open-close-transition;
+		//transition: $open-close-transition;
 			.close {
 				/*position: absolute;*/
 				/*left: 0px;*/
@@ -144,7 +147,7 @@ $open-close-transition: 300ms all linear;
 		}
 	
 		.header-open-landscape {
-			transition: $open-close-transition;
+	//		transition: $open-close-transition;
 			.close {
 				float: left;
 				margin-right: 6px;
@@ -168,7 +171,7 @@ $open-close-transition: 300ms all linear;
 			width: 56px;
 			min-width: 56px;
 			height: 100%;
-			transition: $open-close-transition;
+		//	transition: $open-close-transition;
 		
 			.center {
 				top: 0px;
@@ -213,7 +216,6 @@ $open-close-transition: 300ms all linear;
 		@extend .header-open-landscape;
 		position: absolute;
 		bottom: 0px;
-		transition: $open-close-transition;
 		
 		.center {
 			left: -52px;

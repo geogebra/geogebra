@@ -152,6 +152,14 @@ class Header extends FlowPanel {
 		this.toolbarPanel.setSelectedTab(TabIds.TOOLS);
 	}
 
+	public void addAnimation() {
+		addStyleName("header-animation");
+	}
+
+	public void removeAnimation() {
+		removeStyleName("header-animation");
+	}
+
 	private void createRightSide() {
 		imgClose = new Image();
 		imgOpen = new Image();
@@ -165,6 +173,7 @@ class Header extends FlowPanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				addAnimation();
 				if (isOpen()) {
 					if (Header.this.toolbarPanel.isPortrait()) {
 						Header.this.toolbarPanel.header.getParent().getParent().getParent()
@@ -407,6 +416,7 @@ class Header extends FlowPanel {
 	 */
 	public void updateStyle() {
 		if (isAnimating()) {
+			
 			return;
 		}
 		this.toolbarPanel.updateStyle();
@@ -474,8 +484,9 @@ class Header extends FlowPanel {
 		return animating;
 	}
 
-	public void setAnimating(boolean animating) {
-		this.animating = animating;
+	public void setAnimating(boolean b) {
+		this.animating = b;
+
 	}
 
 	/**
