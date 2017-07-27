@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.menubar;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -14,7 +16,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.browser.SignInButton;
-import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -62,6 +63,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 * Menus
 	 */
 	GMenuBar[] menus;
+	ArrayList<String> menuTitles = new ArrayList<String>();
+	ArrayList<ImageResource> menuImgs = new ArrayList<ImageResource>();
 	private GMenuBar userMenu;
 	/** sign in menu */
 	final GMenuBar signInMenu;
@@ -139,6 +142,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		} else {
 			this.menus = new GMenuBar[] { fileMenu, optionsMenu };
 		}
+		menuTitles.clear();
+		menuImgs.clear();
 		
 		for(int i=0; i<menus.length; i++){
 			final int next = (i+1)%menus.length;
@@ -174,13 +179,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.menuPanel = new StackPanel() {
 			@Override
 			public void showStack(int index) {
-				if (index == 0) {
+				if (app.isUnbundled() && index == 0) {
 					super.showStack(1);
 				} else {
 					super.showStack(index);
+					if (app.isUnbundled()) {
+						setStackText(index,
+							getHTMLCollapse(menuImgs.get(index - 1),
+									menuTitles.get(index - 1)),
+							true);
+					}
 				}
 				dispatchOpenEvent();
-				if (index == 0) {
+				if (app.isUnbundled() && index == 0) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus[1]), false);
 				} else {
@@ -224,6 +235,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 						if (index == this.getSelectedIndex()) {
 							closeAll(this);
+							if (app.isUnbundled()) {
+								setStackText(index,
+									getHTMLExpand(menuImgs.get(index - 1),
+											menuTitles.get(index - 1)),
+									true);
+							}
 							return;
 						}
 						showStack(index);
@@ -342,11 +359,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					getHTML(MaterialDesignResources.INSTANCE.settings_black(),
 							app.getLocalization().getMenu("Settings")),
 					true);
+			menuTitles.add("Settings");
+			menuImgs.add(MaterialDesignResources.INSTANCE.settings_black());
 			languageMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(languageMenu,
 					getHTML(MaterialDesignResources.INSTANCE.language_black(),
 							app.getLocalization().getMenu("Language")),
 					true);
+			menuTitles.add("Language");
+			menuImgs.add(MaterialDesignResources.INSTANCE.language_black());
 		}
 		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundled()) {
 			this.menuPanel.add(toolsMenu,
@@ -433,14 +454,42 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				+ app.getLocalization().getMenu(s) + "</span>";
 	}
 	
+	/**
+	 * @param img
+	 *            - menu item img
+	 * @param s
+	 *            - menu item title
+	 * @return html code for menu item
+	 */
+	String getHTMLExpand(ImageResource img, String s) {
+		return "<img src=\"" + img.getSafeUri().asString()
+				+ "\" draggable=\"false\"><span>"
+				+ app.getLocalization().getMenu(s) + "</span>"
+				+ "<img src=\"" + MaterialDesignResources.INSTANCE
+						.expand_black().getSafeUri().asString()
+				+ "\" class=\"expandImg\" draggable=\"false\">";
+	}
+
+	/**
+	 * @param img
+	 *            - menu item img
+	 * @param s
+	 *            - menu item title
+	 * @return html code for menu item
+	 */
+	String getHTMLCollapse(ImageResource img, String s) {
+		return "<img src=\"" + img.getSafeUri().asString()
+				+ "\" draggable=\"false\"><span>"
+				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
+				+ MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString()
+				+ "\" class=\"collapseImg\" draggable=\"false\">";
+	}
+
 	private String getExpandCollapseHTML(ImageResource img, String s) {
-		GCollapseMenuItem expColMI = new GCollapseMenuItem(getHTML(img, s),
-				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
-						.asString(),
-				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
-						.asString(),
-				false, null);
-		return expColMI.getMenuItem().getHTML();
+		menuTitles.add(s);
+		menuImgs.add(img);
+		return getHTMLExpand(img, s);
 	}
 
 	private void createFileMenu() {
@@ -622,7 +671,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public void dispatchOpenEvent() {
 		if (menuPanel != null) {
 			int index = menuPanel.getSelectedIndex();
-			if (index == -1) {
+			if (app.isUnbundled() && index == -1) {
 				index = 1;
 			}
 			app.dispatchEvent(new org.geogebra.common.plugin.Event(

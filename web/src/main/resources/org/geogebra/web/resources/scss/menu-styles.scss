@@ -140,6 +140,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					opacity: 0.54;
 				}
 			
+				.expandImg, .collapseImg {
+					right: 16px;	
+					margin: 0px;
+				}
+			
 				// GeoGebra logo
 				&.gwt-StackPanelItem-first {
 					height: 84px !important;
