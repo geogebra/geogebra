@@ -439,13 +439,19 @@ public class DrawAxis {
 
 		// int maxY = height - view.SCREEN_BORDER;
 		int maxY = EuclidianView.SCREEN_BORDER;
-
-		ArrayList<TickNumber> numbers = new ArrayList<TickNumber>();
 		
 		// yAxisEnd
 
 		String crossAtStr = "" + view.kernel.formatPiE(view.axisCross[0],
 				view.axesNumberFormat[1], StringTemplate.defaultTemplate);
+
+		// value of yLabelMaxWidthNeg and view.yLabelMaxWidthPos will be
+		// changed at the next iteration, last value will be needed deciding if
+		// number should be fitted at the edge. So numbers will be draw after
+		// iteration only, and because of this, they will be saved in "numbers"
+		// arraylist
+		ArrayList<TickNumber> numbers = new ArrayList<TickNumber>();
+
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
@@ -645,9 +651,7 @@ public class DrawAxis {
 
 		public void draw() {
 			// At the left and right edge numbers will be stayed
-			// at
-			// the border
-
+			// at the border
 			if (view.getApplication().has(Feature.ONLY_ONE_ZERO)) {
 				Integer x2 = getXPositionAtEdge(xCrossPix, xoffset, width);
 				if (x2 != null) {
@@ -664,6 +668,7 @@ public class DrawAxis {
 				}
 
 			}
+
 			drawString(g2, text, x, y);
 		}
 
