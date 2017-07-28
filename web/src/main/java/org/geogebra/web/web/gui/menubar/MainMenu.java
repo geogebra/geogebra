@@ -243,6 +243,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							}
 							return;
 						}
+						if (app.isUnbundled() && this.getSelectedIndex() > 0) {
+							setStackText(this.getSelectedIndex(), getHTMLExpand(
+									menuImgs.get(this.getSelectedIndex() - 1),
+									menuTitles
+											.get(this.getSelectedIndex() - 1)),
+									true);
+						}
 						showStack(index);
 					}
 				}
