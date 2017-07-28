@@ -343,7 +343,7 @@ public class TabbedKeyboard extends FlowPanel {
 		layouts.add(layout);
 
 		latexFont = AwtFactory.getPrototype().newFont("geogebra-sans-serif",
-				GFont.PLAIN, 16);
+				GFont.PLAIN, 19);
 		latexFontSmall = AwtFactory.getPrototype()
 				.newFont("geogebra-sans-serif", GFont.PLAIN, 12);
 		// latexFont = getApp().getFontCommon(false, GFont.PLAIN, 15);
