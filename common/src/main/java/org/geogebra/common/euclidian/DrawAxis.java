@@ -26,6 +26,9 @@ public class DrawAxis {
 	EuclidianView view;
 	private GGeneralPath gp;
 
+	// used for deciding if there is a number to close for "0" on the x axis
+	private int beforeZeroX;
+
 	/**
 	 * @param euclidianView
 	 *            view
@@ -611,6 +614,11 @@ public class DrawAxis {
 			}
 		}
 
+		// Don't draw "0" if the number before zero is too close to "0".
+		if (x < this.beforeZeroX + fontsize / 2) {
+			return;
+		}
+
 		int y;
 		if (view.positiveAxes[0] || !view.showAxes[0]) {
 			y = (int) (yCrossPix + yoffset2);
@@ -951,6 +959,13 @@ public class DrawAxis {
 						} else {
 							x = (int) ((pix + 1)
 									- (EuclidianView.estimateTextWidth(
+											sb.toString(), view.getFontAxes())
+											/ 2));
+						}
+
+						if (labelno == -unitsPerLabelX) {
+							beforeZeroX = (int) ((pix + 1)
+									+ (EuclidianView.estimateTextWidth(
 											sb.toString(), view.getFontAxes())
 											/ 2));
 						}
