@@ -51,6 +51,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	StackPanel menuPanel;
 	private ViewMenuW viewMenu;
 	private FileMenuW fileMenu;
+	private DownloadMenuW downloadMenu;
 	private HelpMenuW helpMenu;
 	private OptionsMenuW optionsMenu;
 	private ToolsMenuW toolsMenu;
@@ -106,6 +107,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(app.enableFileFeatures()){
 			this.createFileMenu();
 		}
+		if (app.isUnbundled()) {
+			this.createDownloadAsMenu();
+		}
 		
 		boolean enableGraph = !exam || app.enableGraphing();
 		if (enableGraph){
@@ -122,7 +126,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.createUserMenu();
 			if(!app.enableFileFeatures()){
 				if (app.isUnbundled()) {
-					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
+					this.menus = new GMenuBar[] { editMenu, downloadMenu,
+							perspectivesMenu,
 							optionsMenu, toolsMenu, helpMenu };
 				} else {
 					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
@@ -131,6 +136,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			}else{
 				if (app.isUnbundled()) {
 					this.menus = new GMenuBar[] { fileMenu, editMenu,
+							downloadMenu,
 							perspectivesMenu, optionsMenu, toolsMenu,
 							helpMenu };
 				} else {
@@ -323,13 +329,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			}
 
 			if (app.isUnbundled()) {
+				this.menuPanel.add(downloadMenu, getExpandCollapseHTML(
+						MaterialDesignResources.INSTANCE.file_download_black(),
+						"DownloadAs"), true);
 				this.menuPanel.add(perspectiveMenuUnbundled,
-						getExpandCollapseHTML(app.isUnbundled()
-								? MaterialDesignResources.INSTANCE
-										.geogebra_black()
-								: GuiResources.INSTANCE
-
-										.menu_icon_perspectives(),
+						getExpandCollapseHTML(MaterialDesignResources.INSTANCE
+								.geogebra_black(),
 								"math_apps"),
 						true);
 			} else {
@@ -504,6 +509,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void createFileMenu() {
 		fileMenu = new FileMenuW(app);
+	}
+
+	private void createDownloadAsMenu() {
+		downloadMenu = new DownloadMenuW(app);
 	}
 
 	private void createPerspectivesMenu() {

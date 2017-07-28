@@ -258,7 +258,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 
 
-		if (app.getLAF().exportSupported()) {
+		if (app.getLAF().exportSupported() && !app.isUnbundled()) {
 			addItem(MainMenu.getMenuBarHtml(app.isUnbundled()
 					? MaterialDesignResources.INSTANCE.file_download_black()
 							.getSafeUri().asString()
