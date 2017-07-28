@@ -2595,7 +2595,7 @@ __GGB__keysVar.sq.menu = {
     "ShutDownGreen": "Omit Green Channel",
     "Shutter": "Shutter",
     "Sidebar": "Brez-anesor",
-    "SignIn": "Sign in\u2026",
+    "SignIn": "Sign in",
     "SignIn.Help": "Sign in to GeoGebra",
     "SignInError": "Sign in failed - Please try again",
     "SignInInProgress": "Signing in",

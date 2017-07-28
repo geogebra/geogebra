@@ -2595,7 +2595,7 @@ __GGB__keysVar.si.menu = {
     "ShutDownGreen": "\u0d9a\u0ddc\u0dc5 \u0db4\u0dcf\u0da7 \u0da0\u0dd0\u0db1\u0dbd\u0dba \u0d89\u0dc0\u0dad\u0dca \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "Shutter": "\u0db4\u0dd2\u0dba\u0db1",
     "Sidebar": "Sidebar",
-    "SignIn": "Sign in\u2026",
+    "SignIn": "Sign in",
     "SignIn.Help": "Sign in to GeoGebra",
     "SignInError": "Sign in failed - Please try again",
     "SignInInProgress": "\u0db4\u0dd2\u0dc0\u0dd2\u0dc3\u0dd9\u0db1\u0dc0\u0dcf",

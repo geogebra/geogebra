@@ -2595,7 +2595,7 @@ __GGB__keysVar.it.menu = {
     "ShutDownGreen": "Ometti il canale verde",
     "Shutter": "Shutter",
     "Sidebar": "Barra laterale",
-    "SignIn": "Accedi\u2026",
+    "SignIn": "Accedi",
     "SignIn.Help": "Accedi a GeoGebra",
     "SignInError": "Accesso non riuscito - Riprovare",
     "SignInInProgress": "Accesso in corso",

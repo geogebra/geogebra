@@ -2595,7 +2595,7 @@ __GGB__keysVar.ji.menu = {
     "ShutDownGreen": "Omit Green Channel",
     "Shutter": "Shutter",
     "Sidebar": "\u05d6\u05f2\u05b7\u05d8\u05e0\u05e4\u05bc\u05d0\u05b7\u05e1",
-    "SignIn": "Sign in\u2026",
+    "SignIn": "Sign in",
     "SignIn.Help": "Sign in to GeoGebra",
     "SignInError": "Sign in failed - Please try again",
     "SignInInProgress": "Signing in",

@@ -2595,7 +2595,7 @@ __GGB__keysVar.ta.menu = {
     "ShutDownGreen": "Omit Green Channel",
     "Shutter": "Shutter",
     "Sidebar": "Sidebar",
-    "SignIn": "Sign in\u2026",
+    "SignIn": "Sign in",
     "SignIn.Help": "\u0b9c\u0bbf\u0baf\u0bcb\u0b9c\u0bc0\u0baa\u0bcd\u0bb0\u0bbe \u0b9f\u0bbf\u0baf\u0bc2\u0baa\u0bbf\u0bb2\u0bcd \u0b89\u0bb3\u0bcd\u0ba8\u0bc1\u0bb4\u0bc8\u0b95.",
     "SignInError": "Sign in failed - Please try again",
     "SignInInProgress": "Signing in",

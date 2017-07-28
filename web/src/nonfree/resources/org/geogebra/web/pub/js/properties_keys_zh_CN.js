@@ -2595,7 +2595,7 @@ __GGB__keysVar.zh_CN.menu = {
     "ShutDownGreen": "\u5ffd\u7565\u7eff\u8272\u901a\u9053",
     "Shutter": "\u767e\u53f6\u7a97",
     "Sidebar": "\u4fa7\u8fb9\u680f",
-    "SignIn": "\u767b\u5f55\u2026",
+    "SignIn": "\u767b\u5f55",
     "SignIn.Help": "\u767b\u5f55 GeoGebra",
     "SignInError": "\u767b\u5f55\u5931\u8d25, \u8bf7\u91cd\u8bd5",
     "SignInInProgress": "\u6b63\u5728\u767b\u5f55",

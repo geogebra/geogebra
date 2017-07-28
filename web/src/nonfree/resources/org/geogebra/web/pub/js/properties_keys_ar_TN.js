@@ -2595,7 +2595,7 @@ __GGB__keysVar.ar_TN.menu = {
     "ShutDownGreen": "Omit Green Channel",
     "Shutter": "Shutter",
     "Sidebar": "\u0627\u0644\u0634\u0631\u064a\u0637 \u0627\u0644\u062c\u0627\u0646\u0628\u064a",
-    "SignIn": "Sign in\u2026",
+    "SignIn": "Sign in",
     "SignIn.Help": "\u062f\u062e\u0648\u0644 \u0627\u0644\u0649 \u062c\u064a\u0648 \u062c\u0628\u0631\u0627 \u062a\u064a\u0648\u0628",
     "SignInError": "Sign in failed - Please try again",
     "SignInInProgress": "Signing in",
