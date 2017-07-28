@@ -2195,8 +2195,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		
 		StepGuiBuilder builder = new StepGuiBuilderJson();
-		List<String> steps = sbss.getSteps();
-		for(int i = 0; i < steps.size(); i++) {
+		List<String> steps = sbss.getSteps().getListOfSteps();
+		for (int i = 0; i < steps.size(); i++) {
 			builder.addLatexRow(steps.get(i));
 		}
 

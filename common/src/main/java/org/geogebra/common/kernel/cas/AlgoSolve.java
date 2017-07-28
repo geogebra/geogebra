@@ -144,8 +144,8 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1], "x");
 
-		List<String> steps = sbss.getSteps();
-		for(int i = 0; i < steps.size(); i++) {
+		List<String> steps = sbss.getSteps().getListOfSteps();
+		for (int i = 0; i < steps.size(); i++) {
 			builder.addLatexRow(steps.get(i));
 		}
 	}
