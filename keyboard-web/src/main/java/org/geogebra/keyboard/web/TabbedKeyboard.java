@@ -588,7 +588,7 @@ public class TabbedKeyboard extends FlowPanel {
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return latex
 					? createLatexButton("w^{2}", latexFont, "^2", bh)
-					: new KeyBoardButtonBase("w^2", "^2", bh);
+					: new KeyBoardButtonBase("a^2", "^2", bh);
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return latex
 					? createLatexButton("x^{w}", latexFont, "a^x", bh)
