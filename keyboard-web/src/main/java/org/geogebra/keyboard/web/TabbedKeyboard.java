@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -341,8 +342,12 @@ public class TabbedKeyboard extends FlowPanel {
 		final KeyPanelBase keyboard = new KeyPanelBase(layout);
 		layouts.add(layout);
 
-		latexFont = getApp().getFontCommon(false, GFont.PLAIN, 15);
-		latexFontSmall = getApp().getFontCommon(false, GFont.PLAIN, 11);
+		latexFont = AwtFactory.getPrototype().newFont("geogebra-sans-serif",
+				GFont.PLAIN, 16);
+		latexFontSmall = AwtFactory.getPrototype()
+				.newFont("geogebra-sans-serif", GFont.PLAIN, 12);
+		// latexFont = getApp().getFontCommon(false, GFont.PLAIN, 15);
+		// latexFontSmall = getApp().getFontCommon(false, GFont.PLAIN, 11);
 		keyboard.addStyleName("KeyPanel");
 		keyboard.addStyleName("normal");
 		updatePanel(keyboard, layout, bh);
