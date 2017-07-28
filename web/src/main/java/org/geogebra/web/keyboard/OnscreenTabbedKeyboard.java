@@ -349,8 +349,9 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 		c.setCoordinateSpaceWidth(d.getWidth());
 		c.setCoordinateSpaceHeight(d.getHeight());
-
 		drawLatex(g2, dottedText, font, 0, 0);
+		// g2.setColor(GColor.RED);
+		// g2.drawRect(0, 0, d.getWidth(), d.getHeight());
 
 		KeyBoardButtonFunctionalBase btn = new KeyBoardButtonFunctionalBase(c,
 				fallback, handler);

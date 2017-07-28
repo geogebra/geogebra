@@ -165,6 +165,13 @@ $purple-default: #6557D2;
 		padding: 4px;
 	}
 	
+	.KeyBoard.TabbedKeyBoard .KeyBoardButton.latex canvas{
+		  position: absolute;
+  		  top: 50%;
+ 		  left: 50%;
+ 	      transform: translate(-50%, -50%);
+	}
+
 	.KeyBoard.TabbedKeyBoard .KeyBoardButton.colored{
 		background-color: $new-functional-button;
 	}	

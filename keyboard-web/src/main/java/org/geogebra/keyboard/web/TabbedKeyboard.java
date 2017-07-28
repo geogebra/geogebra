@@ -621,7 +621,7 @@ public class TabbedKeyboard extends FlowPanel {
 					: new KeyBoardButtonBase("log_b", "log_", bh);
 		}
 		else if (resourceName.equals(Resource.A_N.name())) {
-			return latex ? createLatexButton("x_{w}", latexFont, "_", bh)
+			return latex ? createLatexButton("a_{w}", latexFont, "_", bh)
 					: new KeyBoardButtonBase("a_n", "_", bh);
 		}
 		else if (resourceName.equals(Resource.N_ROOT.name())) {
