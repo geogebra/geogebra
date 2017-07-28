@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
-import org.geogebra.common.plugin.GeoClass;
-
 /**
  * OpenSCAD format
  */
@@ -24,7 +22,7 @@ public class FormatJscad implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, GeoClass type, String label) {
+	public void getObjectStart(StringBuilder sb, String type, String label) {
 		sb.append("\n    // ");
 		sb.append(type);
 		sb.append(": ");
@@ -91,6 +89,36 @@ public class FormatJscad implements Format {
 	@Override
 	public void getFacesEnd(StringBuilder sb) {
 		sb.append("\n        ]");
+	}
+
+	@Override
+	public void getListType(StringBuilder sb, int type) {
+		// not used
+	}
+
+	@Override
+	public void getNormalsStart(StringBuilder sb) {
+		// not used
+	}
+
+	@Override
+	public void getNormal(StringBuilder sb, double x, double y, double z) {
+		// not used
+	}
+
+	@Override
+	public void getNormalsSeparator(StringBuilder sb) {
+		// not used
+	}
+
+	@Override
+	public void getNormalsEnd(StringBuilder sb) {
+		// not used
+	}
+
+	@Override
+	public boolean handlesSurfaces() {
+		return false;
 	}
 
 }

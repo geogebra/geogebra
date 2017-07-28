@@ -5,6 +5,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -351,6 +352,15 @@ public class DrawList3D extends Drawable3D {
 	public void enlargeBounds(Coords min, Coords max) {
 		for (DrawableND d : drawables) {
 			((Drawable3D) d).enlargeBounds(min, max);
+		}
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		if (isVisible()) {
+			for (DrawableND d : drawables) {
+				((Drawable3D) d).exportToPrinter3D(exportToPrinter3D);
+			}
 		}
 	}
 

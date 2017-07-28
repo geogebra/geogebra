@@ -4,6 +4,8 @@ import org.geogebra.common.euclidian.draw.DrawConicSection;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
 
 public class DrawConicSection3D extends DrawConic3D {
@@ -190,5 +192,12 @@ public class DrawConicSection3D extends DrawConic3D {
 		super.updateParabola(brush);
 		brush.setAffineTexture(0.5f, 0.25f);
 		brush.segment(points[0], points[1]);
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		if (isVisible()) {
+			exportToPrinter3D.export(this, Type.CURVE);
+		}
 	}
 }

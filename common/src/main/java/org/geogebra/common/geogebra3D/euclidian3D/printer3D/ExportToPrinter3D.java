@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
@@ -43,7 +44,7 @@ public abstract class ExportToPrinter3D {
 	 */
 	public ExportToPrinter3D() {
 		format = new FormatJscad();
-		// format = new FormatScad();
+		// format = new FormatObj();
 		sb = new StringBuilder();
 	}
 
@@ -79,7 +80,7 @@ public abstract class ExportToPrinter3D {
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
 				GeoElement geo = d.getGeoElement();
-				format.getObjectStart(sb, geo.getGeoClassType(),
+				format.getObjectStart(sb, geo.getGeoClassType().toString(),
 						geo.getLabelSimple());
 
 				// object is a polyhedron
@@ -140,6 +141,87 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 
+	/**
+	 * export surface
+	 * 
+	 * @param d
+	 *            surface drawable
+	 */
+	public void export(DrawSurface3DElements d) {
+		if (format.handlesSurfaces()) {
+			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH");
+			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE");
+		}
+	}
+
+	private void export(GeoElement geo, int geometryIndex, String group) {
+
+		GeometriesSet currentGeometriesSet = manager
+				.getGeometrySet(geometryIndex);
+		if (currentGeometriesSet != null) {
+			sb.setLength(0);
+			for (Geometry g : currentGeometriesSet) {
+
+				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
+
+				format.getObjectStart(sb, group,
+						geo.getLabelSimple());
+
+				// object is a polyhedron
+				format.getPolyhedronStart(sb);
+
+				// vertices
+				boolean notFirst = false;
+				format.getVerticesStart(sb);
+				GLBuffer fb = geometry.getVertices();
+				for (int i = 0; i < geometry.getLength(); i++) {
+					double x = fb.get();
+					double y = fb.get();
+					double z = fb.get();
+					getVertex(notFirst, x, y, z);
+					notFirst = true;
+				}
+				format.getVerticesEnd(sb);
+				fb.rewind();
+
+				// normals
+				notFirst = false;
+				format.getNormalsStart(sb);
+				fb = geometry.getNormals();
+				for (int i = 0; i < geometry.getLength(); i++) {
+					double x = fb.get();
+					double y = fb.get();
+					double z = fb.get();
+					getNormal(notFirst, x, y, z);
+					notFirst = true;
+				}
+				format.getNormalsEnd(sb);
+				fb.rewind();
+
+				// faces
+				GLBufferIndices bi = geometry.getCurrentBufferI();
+				format.getFacesStart(sb);
+				notFirst = false;
+				for (int i = 0; i < geometry.getIndicesLength() / 3; i++) {
+					int v1 = bi.get();
+					int v2 = bi.get();
+					int v3 = bi.get();
+					getFace(notFirst, v1, v2, v3);
+					notFirst = true;
+				}
+				bi.rewind();
+
+				format.getFacesEnd(sb); // end of faces
+
+				// end of polyhedron
+				format.getPolyhedronEnd(sb);
+
+			}
+
+			printToFile(sb.toString());
+		}
+	}
+
 	public void export(GeoPolygon polygon, Coords[] vertices) {
 
 		sb.setLength(0);
@@ -167,7 +249,7 @@ public abstract class ExportToPrinter3D {
 			reverse = polygon.getReverseNormalForDrawing()
 					^ (convexity == Convexity.CLOCKWISE);
 
-			format.getObjectStart(sb, polygon.getGeoClassType(),
+			format.getObjectStart(sb, polygon.getGeoClassType().toString(),
 					polygon.getLabelSimple());
 
 			// object is a polyhedron
@@ -222,6 +304,7 @@ public abstract class ExportToPrinter3D {
 
 	}
 
+
 	/**
 	 * 
 	 * @return 3D printer format
@@ -264,6 +347,10 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 	
+	private void getNormal(boolean notFirst, double x, double y, double z) {
+		format.getNormal(sb, x, y, z);
+	}
+
 	private void getFace(boolean notFirst, int v1, int v2, int v3) {
 		if (notFirst) {
 			format.getFacesSeparator(sb);

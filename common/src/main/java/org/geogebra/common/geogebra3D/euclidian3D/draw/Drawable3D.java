@@ -498,7 +498,7 @@ public abstract class Drawable3D extends DrawableND {
 		surfaceIndex = index;
 	}
 
-	final protected int getSurfaceIndex() {
+	public final int getSurfaceIndex() {
 		return surfaceIndex;
 	}
 

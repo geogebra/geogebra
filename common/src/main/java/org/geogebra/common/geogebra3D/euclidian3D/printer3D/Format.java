@@ -1,7 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
-import org.geogebra.common.plugin.GeoClass;
-
 /**
  * 
  * Different formats for 3D printers
@@ -34,7 +32,7 @@ public interface Format {
 	 * @param label
 	 *            object label string when new object starts
 	 */
-	public void getObjectStart(StringBuilder sb, GeoClass type, String label);
+	public void getObjectStart(StringBuilder sb, String type, String label);
 
 	/**
 	 * 
@@ -79,6 +77,35 @@ public interface Format {
 
 	/**
 	 * 
+	 * start for new normals
+	 */
+	public void getNormalsStart(StringBuilder sb);
+
+	/**
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord normal description
+	 */
+	public void getNormal(StringBuilder sb, double x, double y, double z);
+
+	/**
+	 * 
+	 * separator for normals list
+	 */
+	public void getNormalsSeparator(StringBuilder sb);
+
+	/**
+	 * 
+	 * end for normals
+	 */
+	public void getNormalsEnd(StringBuilder sb);
+
+	/**
+	 * 
 	 * start for new face
 	 */
 	public void getFacesStart(StringBuilder sb);
@@ -105,5 +132,21 @@ public interface Format {
 	 * end for face
 	 */
 	public void getFacesEnd(StringBuilder sb);
+
+	/**
+	 * append list type
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param type
+	 *            list type
+	 */
+	public void getListType(StringBuilder sb, int type);
+
+	/**
+	 * 
+	 * @return true if this format can export surfaces
+	 */
+	public boolean handlesSurfaces();
 
 }

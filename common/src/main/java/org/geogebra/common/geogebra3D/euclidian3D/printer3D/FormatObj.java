@@ -3,16 +3,22 @@ package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 /**
  * OpenSCAD format
  */
-public class FormatScad implements Format {
+public class FormatObj implements Format {
+
+	private int vertexShift, vertexSize, normalShift, normalSize;
+	boolean hasNormals;
 
 	@Override
 	public void getExtension(StringBuilder sb) {
-		sb.append(".scad");
+		sb.append(".obj");
 	}
 
 	@Override
 	public void getScriptStart(StringBuilder sb) {
-		sb.append("// Created with GeoGebra www.geogebra.org");
+		vertexSize = 0;
+		normalSize = 0;
+		sb.append(
+				"# Created with GeoGebra www.geogebra.org");
 	}
 
 	@Override
@@ -22,87 +28,107 @@ public class FormatScad implements Format {
 
 	@Override
 	public void getObjectStart(StringBuilder sb, String type, String label) {
-		sb.append("\n///////////////////////\n// ");
-		sb.append(type);
-		sb.append(": ");
+		vertexShift = vertexSize + 1;
+		normalShift = normalSize + 1;
+		hasNormals = false;
+		sb.append("\n ######## ");
 		sb.append(label);
+		sb.append("\n g ");
+		sb.append(type);
 	}
 
 	@Override
 	public void getPolyhedronStart(StringBuilder sb) {
-		sb.append("\npolyhedron(");
+		// sb.append("");
 	}
 
 	@Override
 	public void getPolyhedronEnd(StringBuilder sb) {
-		sb.append("\nconvexity = 10);\n");
+		// sb.append("");
 	}
 
 	@Override
 	public void getVerticesStart(StringBuilder sb) {
-		sb.append("\n    points = [");
+		sb.append("\n        # vertices");
 	}
 
 	@Override
 	public void getVertices(StringBuilder sb, double x, double y, double z) {
-		sb.append("\n        [");
+		sb.append("\n            v ");
 		sb.append(x);
-		sb.append(",");
+		sb.append(" ");
 		sb.append(y);
-		sb.append(",");
+		sb.append(" ");
 		sb.append(z);
-		sb.append("]");
+		vertexSize++;
+		// sb.append("]");
 	}
 
 	@Override
 	public void getVerticesSeparator(StringBuilder sb) {
-		sb.append(",");
+		// sb.append("");
 	}
 
 	@Override
 	public void getVerticesEnd(StringBuilder sb) {
-		sb.append("\n    ],");
+		sb.append("\n");
 	}
 
 	@Override
 	public void getFacesStart(StringBuilder sb) {
-		sb.append("\n    faces = [");
+		sb.append("\n        # triangles:");
 	}
 
 	@Override
 	public void getFaces(StringBuilder sb, int v1, int v2, int v3) {
-		sb.append("\n        [");
-		sb.append(v1);
-		sb.append(",");
-		sb.append(v3);
-		sb.append(",");
-		sb.append(v2);
-		sb.append("]");
+		sb.append("\n            f ");
+		appendIndex(sb, v1);
+		sb.append(" ");
+		appendIndex(sb, v3);
+		sb.append(" ");
+		appendIndex(sb, v2);
+		// sb.append("");
+	}
+
+	private void appendIndex(StringBuilder sb, int index) {
+		sb.append(index + vertexShift);
+		if (hasNormals) {
+			sb.append("//");
+			sb.append(index + normalShift);
+		}
 	}
 
 	@Override
 	public void getFacesSeparator(StringBuilder sb) {
-		sb.append(",");
+		// sb.append("");
 	}
 
 	@Override
 	public void getFacesEnd(StringBuilder sb) {
-		sb.append("\n    ],");
+		sb.append("\n");
 	}
 
 	@Override
 	public void getListType(StringBuilder sb, int type) {
-		// not used
+		sb.append("\n  g ");
+		sb.append(type);
 	}
 
 	@Override
 	public void getNormalsStart(StringBuilder sb) {
-		// not used
+		hasNormals = true;
+		sb.append("\n        # normals");
 	}
 
 	@Override
 	public void getNormal(StringBuilder sb, double x, double y, double z) {
-		// not used
+		sb.append("\n            vn ");
+		sb.append(x);
+		sb.append(" ");
+		sb.append(y);
+		sb.append(" ");
+		sb.append(z);
+		normalSize++;
 	}
 
 	@Override
@@ -117,7 +143,7 @@ public class FormatScad implements Format {
 
 	@Override
 	public boolean handlesSurfaces() {
-		return false;
+		return true;
 	}
 
 }

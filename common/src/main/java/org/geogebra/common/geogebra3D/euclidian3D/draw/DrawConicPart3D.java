@@ -3,6 +3,8 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
@@ -106,6 +108,13 @@ public class DrawConicPart3D extends DrawConic3D {
 	protected boolean isSector() {
 		return ((GeoConicPartND) conic)
 				.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR;
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		if (isVisible()) {
+			exportToPrinter3D.export(this, Type.CURVE);
+		}
 	}
 
 }

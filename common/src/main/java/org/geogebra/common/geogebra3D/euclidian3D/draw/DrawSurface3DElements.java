@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurfaceElements;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 
@@ -118,6 +119,13 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		}
 
 		return false;
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		if (isVisible()) {
+			exportToPrinter3D.export(this);
+		}
 	}
 
 }
