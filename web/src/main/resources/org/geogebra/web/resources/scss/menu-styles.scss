@@ -89,6 +89,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			.gwt-StackPanel .matStackPanel {
 				min-width: 232px;
 				background-color: $white;
+				
 				img {
 					opacity: 0.54;
 				}
@@ -102,6 +103,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					height: 40px;
 					min-width: 232px;
 					color: $black-87;
+					font-size: 14px;
 					
 					img {
 						height: 24px !important;
@@ -158,18 +160,33 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					left: 4%;
 					}
 				}
+			
+				span {
+					font-size: 14px;	
+				}
+			
+				&.gwt-StackPanelItem-selected {
+					span {
+						color: $black;
+					}	
+				}
+			
+				&.gwt-StackPanelItem-below-selected { 
+					border-top: 1px solid $burger-menu-border;
+				}
 			}
 			
-			.gwt-StackPanel .gwt-StackPanelItem:hover, .gwt-StackPanel .gwt-StackPanelItem-selected  {
+			.gwt-StackPanel .gwt-StackPanelItem:hover {
+				background-color: $selected-menuitem-background;
+			}
+			
+			.gwt-StackPanel .gwt-StackPanelItem-selected { 
+				border-top: 1px solid $burger-menu-border;	
 				background-color: $selected-menuitem-background;
 				img {
 					opacity: 0.87;
 				}
 				color: $black-87; 
-			}
-			
-			.gwt-StackPanel .gwt-StackPanelItem-selected:hover {
-				background-color: $black-12;
 			}
 			
 	}
