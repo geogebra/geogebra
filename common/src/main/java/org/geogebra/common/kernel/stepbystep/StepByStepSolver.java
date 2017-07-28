@@ -315,8 +315,8 @@ public class StepByStepSolver {
 	}
 
 	private void solveAbsoulteValueEquation(String a, String b) {
-		steps.add(loc.getMenuLaTeX("SolvingBetween", "Solving %0 = %1 between %2 and %3", LaTeX(evLHS), LaTeX(evRHS), a
-				.equals("-inf") ? "-\\inf" : a, b.equals("inf") ? "\\inf" : b), StepTypes.INSTRUCTION);
+		steps.add(loc.getMenuLaTeX("SolvingBetween", "Solving %0 = %1 between %2 and %3", LaTeX(evLHS), LaTeX(evRHS),
+				"-inf".equals(a) ? "-\\infty" : a, "inf".equals(b) ? "\\infty" : b), StepTypes.INSTRUCTION);
 
 		String LHSevaluated = asString(helper.swapAbsInTree(evLHS, a, b, variable));
 		String RHSevaluated = asString(helper.swapAbsInTree(evRHS, a, b, variable));
