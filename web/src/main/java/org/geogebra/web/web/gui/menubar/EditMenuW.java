@@ -199,7 +199,9 @@ public class EditMenuW extends GMenuBar {
 		}
 
 		if (haveSelection) {
-			addSeparator();
+			if (!app.isUnbundled()) {
+				addSeparator();
+			}
 			// invert selection menu
 			addItem(MainMenu.getMenuBarHtml(noIcon,
 					loc.getMenu("InvertSelection"), true), true,
@@ -236,7 +238,9 @@ public class EditMenuW extends GMenuBar {
 
 		// Delete menu
 		if (layer != -1 || justCreated) {
-			addSeparator();
+			if (!app.isUnbundled()) {
+				addSeparator();
+			}
 			addItem(MainMenu.getMenuBarHtml(
 					app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.delete_black().getSafeUri().asString()
