@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
@@ -1137,6 +1138,14 @@ public class CommandsTest extends Assert{
 		t("A", "(0, 0)", StringTemplate.editTemplate);
 		t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
 
+	}
+
+	@Test
+	public void expandedFractionIsNotUsedForEvaluation() {
+		t("a=(1+1/143)^143", "2.708837868759473");
+		((GeoNumeric) app.getKernel().lookupLabel("a")).setSymbolicMode(true,
+				true);
+		t("a", "2.708837868759473");
 	}
 
 	static String unicode(String theSpline) {

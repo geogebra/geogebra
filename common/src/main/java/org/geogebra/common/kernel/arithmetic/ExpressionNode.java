@@ -5966,12 +5966,21 @@ public class ExpressionNode extends ValidExpression
 							new MyDouble(kernel, Math.PI))
 							: new ExpressionNode(kernel, lt)).divide(rt);
 				} else {
-					resolve = new ExpressionNode(kernel,
-							pi ? Math.PI * lt / rt : lt / rt);
+					double ratio = lt / rt;
+					numericResolve(pi, ratio);
 				}
 			} else {
 				resolve = evaluate(StringTemplate.defaultTemplate).wrap();
 			}
+		}
+
+	}
+
+	private void numericResolve(boolean pi, double ratio) {
+		if (Double.isInfinite(ratio)) {
+			resolve = new ExpressionNode(kernel, evaluateDouble());
+		} else {
+			resolve = new ExpressionNode(kernel, pi ? Math.PI * ratio : ratio);
 		}
 
 	}
