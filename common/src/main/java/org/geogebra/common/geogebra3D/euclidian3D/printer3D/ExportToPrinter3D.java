@@ -100,6 +100,9 @@ public abstract class ExportToPrinter3D {
 				format.getVerticesEnd(sb);
 				fb.rewind();
 
+				// normals
+				getNormals(geometry);
+
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
 				format.getFacesStart(sb);
@@ -113,17 +116,15 @@ public abstract class ExportToPrinter3D {
 				}
 				bi.rewind();
 
-				if (type == Type.CURVE) {
+				if (type == Type.CURVE && format.needsClosedObjects()) {
 					// face for start
 					for (int i = 1; i < 7; i++) {
 						getFace(notFirst, 0, i, i + 1);
 					}
-				}
 
-				// update index
-				int l = geometry.getLength();
+					// update index
+					int l = geometry.getLength();
 
-				if (type == Type.CURVE) {
 					// face for end
 					for (int i = 2; i < 8; i++) {
 						getFace(notFirst, l - 1, l - i, l - i - 1);
@@ -185,18 +186,7 @@ public abstract class ExportToPrinter3D {
 				fb.rewind();
 
 				// normals
-				notFirst = false;
-				format.getNormalsStart(sb);
-				fb = geometry.getNormals();
-				for (int i = 0; i < geometry.getLength(); i++) {
-					double x = fb.get();
-					double y = fb.get();
-					double z = fb.get();
-					getNormal(notFirst, x, y, z);
-					notFirst = true;
-				}
-				format.getNormalsEnd(sb);
-				fb.rewind();
+				getNormals(geometry);
 
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
@@ -219,6 +209,25 @@ public abstract class ExportToPrinter3D {
 			}
 
 			printToFile(sb.toString());
+		}
+	}
+
+	private void getNormals(GeometryElementsGlobalBuffer geometry) {
+		if (format.handlesNormals()) {
+			GLBuffer fb = geometry.getNormals();
+			if (fb != null && !fb.isEmpty() && fb.capacity() > 3) {
+				boolean notFirst = false;
+				format.getNormalsStart(sb);
+				for (int i = 0; i < geometry.getLength(); i++) {
+					double x = fb.get();
+					double y = fb.get();
+					double z = fb.get();
+					getNormal(notFirst, x, y, z);
+					notFirst = true;
+				}
+				format.getNormalsEnd(sb);
+				fb.rewind();
+			}
 		}
 	}
 

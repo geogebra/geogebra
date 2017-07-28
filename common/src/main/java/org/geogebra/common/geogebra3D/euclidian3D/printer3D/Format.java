@@ -149,4 +149,16 @@ public interface Format {
 	 */
 	public boolean handlesSurfaces();
 
+	/**
+	 * 
+	 * @return true if needs closed objects (for stl export)
+	 */
+	public boolean needsClosedObjects();
+
+	/**
+	 * 
+	 * @return true if it handles normals
+	 */
+	public boolean handlesNormals();
+
 }

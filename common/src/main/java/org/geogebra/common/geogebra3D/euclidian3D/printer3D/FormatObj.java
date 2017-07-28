@@ -146,4 +146,14 @@ public class FormatObj implements Format {
 		return true;
 	}
 
+	@Override
+	public boolean needsClosedObjects() {
+		return false;
+	}
+
+	@Override
+	public boolean handlesNormals() {
+		return true;
+	}
+
 }

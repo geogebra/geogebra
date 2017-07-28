@@ -121,4 +121,14 @@ public class FormatJscad implements Format {
 		return false;
 	}
 
+	@Override
+	public boolean needsClosedObjects() {
+		return true;
+	}
+
+	@Override
+	public boolean handlesNormals() {
+		return false;
+	}
+
 }
