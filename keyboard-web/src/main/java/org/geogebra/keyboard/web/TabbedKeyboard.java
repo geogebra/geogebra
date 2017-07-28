@@ -586,7 +586,7 @@ public class TabbedKeyboard extends FlowPanel {
 					: new KeyBoardButtonBase("w^2", "^2", bh);
 		} else if (resourceName.equals(Resource.POWAB.name())) {
 			return latex
-					? createLatexButton("w^{w}", latexFont, "a^x", bh)
+					? createLatexButton("x^{w}", latexFont, "a^x", bh)
 					: new KeyBoardButtonBase("a^b", "a^x", bh);
 		}
 		else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
@@ -621,7 +621,7 @@ public class TabbedKeyboard extends FlowPanel {
 					: new KeyBoardButtonBase("log_b", "log_", bh);
 		}
 		else if (resourceName.equals(Resource.A_N.name())) {
-			return latex ? createLatexButton("w_{w}", latexFont, "_", bh)
+			return latex ? createLatexButton("x_{w}", latexFont, "_", bh)
 					: new KeyBoardButtonBase("a_n", "_", bh);
 		}
 		else if (resourceName.equals(Resource.N_ROOT.name())) {
