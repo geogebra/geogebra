@@ -1528,11 +1528,30 @@ namespace giac {
       gensizeerr(gettext("Ifte must have 3 args"),res);
       return res;
     }
-    test=args._VECTptr->front();
     int evallevel=eval_level(contextptr);
-    test=equaltosame(test.eval(evallevel,contextptr)).eval(evallevel,contextptr);
+#if 1
+    res=args._VECTptr->front();
+    if (!res.in_eval(evallevel,test,contextptr))
+      test=res;
+    if (test.type!=_INT_){
+      test=equaltosame(test).eval(evallevel,contextptr);
+      if (!is_integer(test)){
+	test=test.evalf_double(evallevel,contextptr);
+	if ( (test.type!=_DOUBLE_) && (test.type!=_CPLX) ){
+	  if (isifte){
+	    gensizeerr(gettext("Ifte: Unable to check test"),res); 
+	    return res;
+	  }
+	  else
+	    return symb_when(eval(args,1,contextptr));
+	}
+      }
+    }
+#else
+    test=args._VECTptr->front();
+    test=equaltosame(test.eval(eval_level(contextptr),contextptr)).eval(eval_level(contextptr),contextptr);
     if (!is_integer(test)){
-      test=test.evalf_double(evallevel,contextptr);
+      test=test.evalf_double(eval_level(contextptr),contextptr);
       if ( (test.type!=_DOUBLE_) && (test.type!=_CPLX) ){
 	if (isifte){
 	  gensizeerr(gettext("Ifte: Unable to check test"),res); 
@@ -1542,6 +1561,7 @@ namespace giac {
 	  return symb_when(eval(args,1,contextptr));
       }
     }
+#endif
     bool rt;
     gen clause_vraie=(*(args._VECTptr))[1];
     gen clause_fausse=args._VECTptr->back();
