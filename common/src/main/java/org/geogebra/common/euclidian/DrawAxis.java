@@ -28,7 +28,8 @@ public class DrawAxis {
 
 	// used for deciding if there is a number to close for "0" on the x axis
 	private int beforeZeroX;
-
+	// used for deciding if there is a number to close for "0" on the y axis
+	private int beforeZeroY;
 	/**
 	 * @param euclidianView
 	 *            view
@@ -522,8 +523,11 @@ public class DrawAxis {
 							} else {
 								// draw number
 								drawString(g2, sb.toString(), x, y);
-							}							
+							}
 							
+							if (labelno == -unitsPerLabelY) {
+								beforeZeroY = y - fontsize;
+							}	
 						}
 						
 
@@ -614,7 +618,8 @@ public class DrawAxis {
 			}
 		}
 
-		// Don't draw "0" if the number before zero is too close to "0".
+		// Don't draw "0" if the number before zero on x axis is too close to
+		// "0".
 		if (x < this.beforeZeroX + fontsize / 2) {
 			return;
 		}
@@ -624,6 +629,12 @@ public class DrawAxis {
 			y = (int) (yCrossPix + yoffset2);
 		} else {
 			y = (int) (yCrossPix + yoffset); // bottom
+		}
+
+		// Don't draw "0" if the number before on y axis zero is too close to
+		// "0".
+		if (y > this.beforeZeroY) {
+			return;
 		}
 
 		// improve y position at top and bottom edge
