@@ -2477,7 +2477,7 @@ namespace giac {
 	    count+=int(lidnt(v2[i]).size());
 	}
 	if (count>1)
-	  return e;
+	  return quotesubst(e,vabs2,vabs,contextptr);
       }
     }
 #endif	
