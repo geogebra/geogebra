@@ -2595,7 +2595,7 @@ __GGB__keysVar.fr.menu = {
     "ShutDownGreen": "Omettre CanalVert",
     "Shutter": "Lunettes \xe0 obturateur",
     "Sidebar": "Volet lat\xe9ral",
-    "SignIn": "Se connecter \u2026",
+    "SignIn": "Se connecter",
     "SignIn.Help": "Se connecter \xe0 GeoGebra",
     "SignInError": "La connexion a \xe9chou\xe9 - Merci de r\xe9essayer.",
     "SignInInProgress": "Se connecter",
