@@ -113,13 +113,14 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		for (int i = 0; i < 4; i++) {
 			c.polarLine((GeoPoint) algoIntersect.getOutput(i), currentTangent);
 			Log.debug(currentTangent);
-			if (isInner(currentTangent)) {
-				tangents[inner].set(currentTangent);
-				tangents[inner].getStartPoint().set(algoIntersect.getOutput(i));
+			if (isInner(currentTangent) && inner < 2) {
+				tangents[2 + inner].set(currentTangent);
+				tangents[2 + inner].getStartPoint()
+						.set(algoIntersect.getOutput(i));
 				inner++;
 			} else if (outer < 2) {
-				tangents[2 + outer].set(currentTangent);
-				tangents[2 + outer].getStartPoint()
+				tangents[outer].set(currentTangent);
+				tangents[outer].getStartPoint()
 						.set(algoIntersect.getOutput(i));
 				outer++;
 			}
