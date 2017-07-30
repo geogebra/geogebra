@@ -222,7 +222,7 @@ public abstract class ExportToPrinter3D {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
-					getNormal(notFirst, x, y, z);
+					getNormal(x, y, z);
 					notFirst = true;
 				}
 				format.getNormalsEnd(sb);
@@ -356,7 +356,7 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 	
-	private void getNormal(boolean notFirst, double x, double y, double z) {
+	private void getNormal(double x, double y, double z) {
 		format.getNormal(sb, x, y, z);
 	}
 
