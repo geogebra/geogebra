@@ -216,14 +216,12 @@ public abstract class ExportToPrinter3D {
 		if (format.handlesNormals()) {
 			GLBuffer fb = geometry.getNormals();
 			if (fb != null && !fb.isEmpty() && fb.capacity() > 3) {
-				boolean notFirst = false;
 				format.getNormalsStart(sb);
 				for (int i = 0; i < geometry.getLength(); i++) {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
 					getNormal(x, y, z);
-					notFirst = true;
 				}
 				format.getNormalsEnd(sb);
 				fb.rewind();
