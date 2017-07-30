@@ -4619,7 +4619,7 @@ namespace giac {
   }
   gen _pow(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT)
+    if (args.type!=_VECT || is_undef(args))
       return args;
     vecteur & v = *args._VECTptr;
     if (v.size()!=2)
@@ -5308,7 +5308,7 @@ namespace giac {
   }
   gen _and(const gen & arg,GIAC_CONTEXT){
     if ( arg.type==_STRNG && arg.subtype==-1) return  arg;
-    if (arg.type==_VECT && arg.subtype==_SEQ__VECT && arg._VECTptr->size()==2)
+    if (arg.type==_VECT && arg.subtype==_SEQ__VECT && arg._VECTptr->size()==2 && arg._VECTptr->front().type==_VECT)
       return apply(equaltosame(arg._VECTptr->front()).eval(eval_level(contextptr),contextptr),equaltosame(arg._VECTptr->back()).eval(eval_level(contextptr),contextptr),and2);
     gen args=apply(arg,equaltosame);
     if (args.type!=_VECT || args._VECTptr->empty())
