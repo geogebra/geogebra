@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.IndexHTMLBuilder;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -152,5 +153,24 @@ public class AlgebraItem {
 		}
 
 		return duplicate;
+	}
+
+	public static String getOutputTextForGeoElement(GeoElement element) {
+		String outputText = "";
+		if (element.isLaTeXDrawableGeo()
+				|| AlgebraItem.isGeoFraction(element)) {
+			outputText = element.getLaTeXDescriptionRHS(true,
+					StringTemplate.latexTemplate);
+		} else {
+			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+			if (needsPacking(element)) {
+				element.getAlgebraDescriptionTextOrHTMLDefault(sb);
+			} else {
+				element.getAlgebraDescriptionTextOrHTMLRHS(sb);
+			}
+			outputText = sb.toString();
+		}
+
+		return outputText;
 	}
 }
