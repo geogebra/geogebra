@@ -601,6 +601,11 @@ public class DrawAxis {
 	private void drawZero(GGraphics2D g2, double xCrossPix, double yCrossPix,
 			int fontsize) {
 
+		if ((!view.showAxes[0] || !view.showAxesNumbers[0])
+				&& (!view.showAxes[1] || !view.showAxesNumbers[1])) {
+			return;
+		}
+
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout("0",
 				view.getFontAxes(), g2.getFontRenderContext());
 		double width = layout.getAdvance();
