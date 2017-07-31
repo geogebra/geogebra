@@ -1551,7 +1551,8 @@ public abstract class EuclidianController {
 		case 1:
 			ret = geos.get(0);
 
-			if (!includeFixed && ret.isLocked()) {
+			if (!app.has(Feature.OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS)
+					&& !includeFixed && ret.isLocked()) {
 				return null;
 			}
 
@@ -2290,6 +2291,7 @@ public abstract class EuclidianController {
 				&& (selPoints() > 0)) { // only want free points withput
 			// children for rigid polys (apart from
 			// first)
+			// testing needed - see GGB-1982
 			GeoElement geo = chooseGeo(hits, false);
 			if ((geo == null) || !geo.isGeoPoint() || !geo.isIndependent()
 					|| geo.hasChildren()) {
@@ -8373,6 +8375,7 @@ public abstract class EuclidianController {
 			geo = selGeos.get(0);
 		} else {
 			// choose out of hits
+			// testing needed - see GGB-1982
 			geo = chooseGeo(hits, false);
 
 			if (!selGeos.contains(geo)) {

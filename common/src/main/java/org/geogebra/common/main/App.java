@@ -4264,6 +4264,10 @@ public abstract class App implements UpdateSelection {
 
 		case AND_AV_ITEM_MENU:
 			return prerelease;
+
+		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
