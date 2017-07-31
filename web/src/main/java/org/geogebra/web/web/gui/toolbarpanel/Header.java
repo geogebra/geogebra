@@ -12,8 +12,6 @@ import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.StandardButton;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -153,11 +151,11 @@ class Header extends FlowPanel {
 	}
 
 	public void addAnimation() {
-		addStyleName("header-animation");
+		// addStyleName("header-animation");
 	}
 
 	public void removeAnimation() {
-		removeStyleName("header-animation");
+		// removeStyleName("header-animation");
 	}
 
 	private void createRightSide() {
@@ -174,6 +172,7 @@ class Header extends FlowPanel {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				addAnimation();
+				setAnimating(true);
 				if (isOpen()) {
 					if (Header.this.toolbarPanel.isPortrait()) {
 						Header.this.toolbarPanel.header.getParent().getParent().getParent()
@@ -181,8 +180,8 @@ class Header extends FlowPanel {
 						Header.this.toolbarPanel.setLastOpenHeight(
 								Header.this.toolbarPanel.app.getActiveEuclidianView().getHeight());
 					} else {
-						Header.this.toolbarPanel.header.getParent().getParent().getParent()
-								.addStyleName("closeLandscape");
+						Header.this.toolbarPanel.header.getParent().getParent()
+								.getParent().addStyleName("closeLandscape");
 						Header.this.toolbarPanel.setLastOpenWidth(getOffsetWidth());
 					}
 					Header.this.toolbarPanel.setMoveMode();
@@ -379,13 +378,13 @@ class Header extends FlowPanel {
 			this.toolbarPanel.updateHeight();
 		} else {
 
-			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-				@Override
-				public void execute() {
-					updateCenterSize();
-				}
-			});
+			// Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			//
+			// @Override
+			// public void execute() {
+			// updateCenterSize();
+			// }
+			// });
 			this.toolbarPanel.updateWidth();
 
 		}
@@ -494,5 +493,16 @@ class Header extends FlowPanel {
 	 */
 	public AnimationCallback newAnimationCallback() {
 		return new HeaderAnimationCallback(this);
+	}
+
+	/**
+	 * Shrinks header width by dx.
+	 * 
+	 * @param dx
+	 *            the step of shinking.
+	 */
+	public void expandWidth(double dx) {
+		// getElement().getStyle().setWidth(getOffsetWidth() + dx, Unit.PX);
+		getElement().getStyle().setWidth(dx, Unit.PX);
 	}
 }

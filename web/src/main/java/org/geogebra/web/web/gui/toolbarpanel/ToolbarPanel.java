@@ -507,9 +507,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 			if (header.isOpen()) {
+
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
-				animCallback = new HeaderAnimationCallback(header) {
+				animCallback = new HeaderAnimationCallback(header,
+						CLOSED_WIDTH_LANDSCAPE, getLastOpenWidth()) {
 					@Override
 					public void onAnimationComplete() {
 						super.onAnimationComplete();
@@ -518,10 +520,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				};
 
 			} else {
+				lastOpenWidth = getOffsetWidth();
 				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
-
-				animCallback = new HeaderAnimationCallback(header) {
+				animCallback = new HeaderAnimationCallback(header,
+						getLastOpenWidth(),
+						CLOSED_WIDTH_LANDSCAPE) {
 					@Override
 					public void onAnimationComplete() {
 						super.onAnimationComplete();
@@ -534,7 +538,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 
 			dockParent.animate(OPEN_ANIM_TIME, animCallback);
-			dockPanel.deferredOnResize();
+			// dockPanel.deferredOnResize();
 		}
 
 	}
