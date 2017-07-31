@@ -294,7 +294,7 @@ public class StepByStepHelper {
 			}
 		}
 
-		return ev.isConstant();
+		return ev != null && ev.isConstant();
 	}
 
 	public void getParts(ArrayList<String> parts, ExpressionValue ev) {
