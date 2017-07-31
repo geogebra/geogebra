@@ -356,8 +356,14 @@ $duration: 0.2s;
 		}
 		.avItem .elemText.additionalRow{
 			display: flex;
-			padding-top: 16px;
+			padding-top: 16px !important;
 		}
+		.avItem .elemText.avPlainText.avOutput {
+			line-height: 30px;
+		}
+		.avItem .elemText {
+			padding-top: 14px !important;
+		}	
 		
 		.avItemContent {
 			padding-top: 6px;
@@ -365,6 +371,10 @@ $duration: 0.2s;
 			
 			.panelRow {
 				padding-top: 8px;
+			}
+		
+			&.avSlider {
+				padding-top: 10px !important;	
 			}
 		}
 	
@@ -378,7 +388,7 @@ $duration: 0.2s;
 	
 		.avSlider {
 			.panelRow {
-				padding-top: 14px;
+				padding-top: 10px;
 			}
 		}		
 		.playOnly {
