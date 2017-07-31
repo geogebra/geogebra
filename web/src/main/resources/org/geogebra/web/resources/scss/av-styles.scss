@@ -363,6 +363,7 @@ $duration: 0.2s;
 		}
 		.avItem .elemText {
 			padding-top: 14px !important;
+			padding-bottom: 4px;
 		}	
 		
 		.avItemContent {
@@ -497,6 +498,8 @@ $duration: 0.2s;
 	.arrowOutputImg {
 		margin-right: 8px;
     	opacity: 0.54;
+    	width: 24px !important;
+    	height: 24px !important;
     }
 
 }
