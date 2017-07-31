@@ -194,6 +194,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							getHTMLCollapse(menuImgs.get(index - 1),
 									menuTitles.get(index - 1)),
 							true);
+						menus[index - 1].getElement()
+								.removeClassName("collapse");
+						menus[index - 1].getElement().addClassName("expand");
 					}
 				}
 				dispatchOpenEvent();
@@ -246,6 +249,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									getHTMLExpand(menuImgs.get(index - 1),
 											menuTitles.get(index - 1)),
 									true);
+								menus[index - 1].getElement()
+										.removeClassName("expand");
+								menus[index - 1].getElement()
+										.addClassName("collapse");
 							}
 							return;
 						}
@@ -255,6 +262,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									menuTitles
 											.get(this.getSelectedIndex() - 1)),
 									true);
+							menus[getSelectedIndex() - 1].getElement()
+									.removeClassName("expand");
+							menus[getSelectedIndex() - 1].getElement()
+									.addClassName("collapse");
 						}
 						showStack(index);
 					}
@@ -306,6 +317,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				this.menuPanel.add(fileMenu, getHTMLCollapse(
 						MaterialDesignResources.INSTANCE.insert_file_black(),
 						"File"), true);
+				// fileMenu.getElement().removeClassName("collapse");
+				// fileMenu.getElement().addClassName("expand");
 				menuTitles.add("File");
 				menuImgs.add(
 						MaterialDesignResources.INSTANCE.insert_file_black());
