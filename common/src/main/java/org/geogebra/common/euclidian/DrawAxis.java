@@ -27,9 +27,9 @@ public class DrawAxis {
 	private GGeneralPath gp;
 
 	// used for deciding if there is a number to close for "0" on the x axis
-	private int beforeZeroX;
+	private Integer beforeZeroX;
 	// used for deciding if there is a number to close for "0" on the y axis
-	private int beforeZeroY;
+	private Integer beforeZeroY;
 	/**
 	 * @param euclidianView
 	 *            view
@@ -456,6 +456,7 @@ public class DrawAxis {
 		// arraylist
 		ArrayList<TickNumber> numbers = new ArrayList<TickNumber>();
 
+		beforeZeroY = null;
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
@@ -626,7 +627,7 @@ public class DrawAxis {
 
 		// Don't draw "0" if the number before zero on x axis is too close to
 		// "0".
-		if (x < this.beforeZeroX + fontsize / 2) {
+		if (beforeZeroX != null && x < this.beforeZeroX + fontsize / 2) {
 			return;
 		}
 
@@ -640,7 +641,7 @@ public class DrawAxis {
 
 		// Don't draw "0" if the number before on y axis zero is too close to
 		// "0".
-		if (y > this.beforeZeroY) {
+		if (beforeZeroY != null && y > beforeZeroY) {
 			return;
 		}
 
@@ -943,6 +944,7 @@ public class DrawAxis {
 			pix += axesStep;
 			labelno += 1;
 		}
+		beforeZeroX = null;
 		for (; pix < view.getWidth(); pix += axesStep) {
 
 			// 285, 285.1, 285.2 -> rounding problems
