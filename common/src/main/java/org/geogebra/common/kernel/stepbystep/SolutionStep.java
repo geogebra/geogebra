@@ -36,11 +36,13 @@ public class SolutionStep {
 	}
 
 	public void addSubStep(SolutionStep s) {
-		if (substeps == null) {
-			substeps = new ArrayList<SolutionStep>();
-		}
+		if (s != null) {
+			if (substeps == null) {
+				substeps = new ArrayList<SolutionStep>();
+			}
 
-		substeps.add(s);
+			substeps.add(s);
+		}
 	}
 
 	public List<SolutionStep> getSubsteps() {

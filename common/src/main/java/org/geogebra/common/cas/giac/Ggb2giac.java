@@ -1080,7 +1080,7 @@ public class Ggb2giac {
 		p("Simplify.1", "normal(simplify(regroup(texpand(%0))))");
 
 		p("Regroup.1", "regroup(%0)");
-		p("ExpandOnly.1", "texpand(%0)");
+		p("ExpandOnly.1", "expand(%0)");
 
 		p("Solutions.1", "ggbsort(normal(zeros(%0,x)))");
 		p("Solutions.2", "ggbsort(normal(zeros(%0,%1)))");

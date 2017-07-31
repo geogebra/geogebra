@@ -281,6 +281,22 @@ public class StepByStepHelper {
 		return "";
 	}
 
+	public boolean isPower(ExpressionValue ev) {
+		if (ev != null && ev.isExpressionNode()) {
+			ExpressionNode en = (ExpressionNode) ev;
+
+			if (en.getOperation() == Operation.POWER && containsVariable(en.getLeft())) {
+				return true;
+			}
+
+			if (en.getOperation() == Operation.MULTIPLY || en.getOperation() == Operation.DIVIDE) {
+				return isPower(en.getLeft()) || isPower(en.getRight());
+			}
+		}
+
+		return ev.isConstant();
+	}
+
 	public void getParts(ArrayList<String> parts, ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
