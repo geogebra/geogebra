@@ -324,7 +324,14 @@ public final class ToolTipManagerW {
 
 		double left = (appw.getWidth() - bottomInfoTipPanel.getOffsetWidth()) / 2;
 		if (left < 0 || app.isUnbundled()) {
-			left = 0;
+			if (left < 0) {
+				left = 0;
+			} else if (app.isUnbundled()) {
+				// is landscape
+				if (appw.getWidth() >= appw.getHeight()) {
+					left = 0;
+				}
+			}
 		}
 			// Toolbar on bottom - tooltip needs to be positioned higher so it
 			// doesn't overlap with the toolbar
