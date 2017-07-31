@@ -217,7 +217,7 @@ public class ToolCategorization {
                 addToList(tools, EuclidianConstants.MODE_EXTREMUM);
                 addToList(tools, EuclidianConstants.MODE_ROOTS);
                 if (!isPhoneApp) {
-                    addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+                   // addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
                 }
                 storeIfNotEmpty(category, tools);
 
