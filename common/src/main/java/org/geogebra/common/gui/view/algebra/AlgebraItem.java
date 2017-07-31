@@ -141,4 +141,16 @@ public class AlgebraItem {
 	public static void setUndefinedValiables(String undefinedValiables) {
 		AlgebraItem.undefinedVariables = undefinedValiables;
 	}
+
+	public static String getDuplicateFormulaForGeoElement(GeoElement element) {
+		String duplicate = "";
+		if ("".equals(element.getDefinition(StringTemplate.defaultTemplate))) {
+			duplicate = element.getValueForInputBar();
+		} else {
+			duplicate = element.getDefinitionNoLabel(
+					StringTemplate.editorTemplate);
+		}
+
+		return duplicate;
+	}
 }
