@@ -198,7 +198,6 @@ public class ToolCategorization {
 			addToList(tools, EuclidianConstants.MODE_JOIN);
 			addToList(tools, EuclidianConstants.MODE_POLYGON);
 			addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
-			addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
 			storeIfNotEmpty(category, tools);
 
 			if (!level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) {
@@ -634,6 +633,7 @@ public class ToolCategorization {
 		category = Category.OTHERS;
 		tools = new ArrayList<Integer>();
 		addToList(tools, EuclidianConstants.MODE_PEN);
+		addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
 		addToList(tools, EuclidianConstants.MODE_RELATION);
 		if (!isPhoneApp) {
 			addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
