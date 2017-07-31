@@ -9406,8 +9406,13 @@ namespace giac {
 	    vtmp[i]=symbolic(at_pow,makesequence(f._VECTptr->front(),-f._VECTptr->back()));
 	}
       }
-      if (equalposcomp(vtmp,0))
+      if (equalposcomp(vtmp,undef))
+	return makevecteur(1,undef);
+      if (equalposcomp(vtmp,0)){
+	if (equalposcomp(vtmp,unsigned_inf))
+	  return makevecteur(1,undef);	  
 	return makevecteur(0,plus_one);
+      }
 #if 1 // def NSPIRE
       // COUT << "modified " << (int) modified_islesscomplexthanf << endl; wait_key_pressed() ;
       modified_compare m;
@@ -9500,7 +9505,12 @@ namespace giac {
     // recurse
     if (x._SYMBptr->sommet==at_pow)
       return makevecteur(plus_one,x._SYMBptr->sommet(collect(x._SYMBptr->feuille,contextptr),contextptr));
-    return makevecteur(plus_one,new_ref_symbolic(symbolic(x._SYMBptr->sommet,collect(x._SYMBptr->feuille,contextptr))));
+    tmp=collect(x._SYMBptr->feuille,contextptr);
+    if (x._SYMBptr->sommet==at_inv){
+      if (is_zero(tmp))
+	return makevecteur(1,unsigned_inf);
+    }
+    return makevecteur(plus_one,new_ref_symbolic(symbolic(x._SYMBptr->sommet,tmp)));
   }
 
   // assumes v is a sorted list, shrink it
