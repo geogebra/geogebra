@@ -5077,6 +5077,8 @@ static define_unary_function_eval (__hamdist,&_hamdist,_hamdist_s);
 	  return graph;
 	// extract polygon
 	gen graphe=remove_at_pnt(graph);
+	if (graphe.type==_VECT && graphe._VECTptr->size()==2)
+	  graphe=symbolic(at_curve,makesequence(v.front(),graphe));
 	if (graphe.is_symb_of_sommet(at_curve) && graphe._SYMBptr->feuille.type==_VECT){
 	  vecteur & graphev=*graphe._SYMBptr->feuille._VECTptr;
 	  if (graphev.size()>1){

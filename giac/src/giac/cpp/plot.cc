@@ -12433,8 +12433,8 @@ namespace giac {
     if (!s)
       return gensizeerr(contextptr);
     gen f=v[0];
-    double xmin=gnuplot_xmin,xmax=gnuplot_xmax; 
-    double ymin=gnuplot_ymin,ymax=gnuplot_ymax;
+    double xmin=gnuplot_xmin,xmax=gnuplot_xmax*(1+1e-6); // small shift 1e-6 for plotinequation(x^2+y^2<=4)
+    double ymin=gnuplot_ymin,ymax=gnuplot_ymax*(1+1e-6);
     double zmin=gnuplot_zmin,zmax=gnuplot_zmax;
     if (s>1){
       gen tmp(v[1]);

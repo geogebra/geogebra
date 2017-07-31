@@ -1485,41 +1485,46 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,cos(b,contextptr)),_SEQ__VECT));
     bool doit=false,est_multiple;
     if (angle_radian(contextptr)){
-      if (simplify_sincosexp_pi && contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr) && !is_zero(a)){
-	if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
-	  return sin(cst_pi/2-e,contextptr);
-	if (b==0 && a.type==_FRAC && a._FRACptr->den==5 && a._FRACptr->num.type==_INT_){
-	  int n=a._FRACptr->num.val % 10;
-	  if (n<0)
-	    n += 10;
-	  if (n>=5)
-	    n=10-n;
-	  gen sqrt5=sqrt(5,contextptr);
-	  gen cospi5=(sqrt5+1)/4;
-	  gen cos2pi5=(sqrt5-1)/4;
-	  if (n==1) return cospi5;
-	  if (n==2) return cos2pi5;
-	  if (n==3) return -cos2pi5;
-	  if (n==4) return -cospi5;
-	}
-	if (b==0 && a.type==_FRAC && a._FRACptr->den==8 && a._FRACptr->num.type==_INT_){
-	  int n=a._FRACptr->num.val % 16;
-	  if (n<0)
-	    n += 16;
-	  if (n>=8)
-	    n=16-n;
-	  if (n==1 || n==7){
-	    gen cospi8=sqrt(2+plus_sqrt2,contextptr)/2;
-	    if (n==1) return cospi8;
-	    if (n==7) return -cospi8;
+      if (simplify_sincosexp_pi && contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr)){
+	if (is_zero(a)){
+	  if (is_zero(b)) 
+	    return 1;
+	} else {
+	  if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
+	    return sin(cst_pi/2-e,contextptr);
+	  if (b==0 && a.type==_FRAC && a._FRACptr->den==5 && a._FRACptr->num.type==_INT_){
+	    int n=a._FRACptr->num.val % 10;
+	    if (n<0)
+	      n += 10;
+	    if (n>=5)
+	      n=10-n;
+	    gen sqrt5=sqrt(5,contextptr);
+	    gen cospi5=(sqrt5+1)/4;
+	    gen cos2pi5=(sqrt5-1)/4;
+	    if (n==1) return cospi5;
+	    if (n==2) return cos2pi5;
+	    if (n==3) return -cos2pi5;
+	    if (n==4) return -cospi5;
 	  }
-	  gen cos3pi8=sqrt(2-plus_sqrt2,contextptr)/2;
-	  if (n==3) return cos3pi8;
-	  if (n==5) return -cos3pi8;
+	  if (b==0 && a.type==_FRAC && a._FRACptr->den==8 && a._FRACptr->num.type==_INT_){
+	    int n=a._FRACptr->num.val % 16;
+	    if (n<0)
+	      n += 16;
+	    if (n>=8)
+	      n=16-n;
+	    if (n==1 || n==7){
+	      gen cospi8=sqrt(2+plus_sqrt2,contextptr)/2;
+	      if (n==1) return cospi8;
+	      if (n==7) return -cospi8;
+	    }
+	    gen cos3pi8=sqrt(2-plus_sqrt2,contextptr)/2;
+	    if (n==3) return cos3pi8;
+	    if (n==5) return -cos3pi8;
+	  }
+	  est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
+	  doit=true;
 	}
-	est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
-	doit=true;
-      }
+      } // if (simplify_sincosexp...)
     }
     else {
       est_multiple=is_multiple_of_pi_over_12(e,k,contextptr);
@@ -1722,35 +1727,40 @@ namespace giac {
       return symbolic(at_program,gen(makevecteur(a,0,sin(b,contextptr)),_SEQ__VECT));
     bool doit=false,est_multiple;
     if (angle_radian(contextptr)){
-      if (simplify_sincosexp_pi && contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr) && !is_zero(a)){
-	if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
-	  return cos(cst_pi/2-e,contextptr);
-	if (b==0 && a.type==_FRAC && a._FRACptr->den==5 && a._FRACptr->num.type==_INT_){
-	  int n=a._FRACptr->num.val % 10;
-	  if (n<0)
-	    n+=10;
-	  gen sqrt5=sqrt(5,contextptr);
-	  gen sinpi5=sqrt(-2*sqrt5+10,contextptr)/4;
-	  gen sin2pi5=sqrt(2*sqrt5+10,contextptr)/4;
-	  if (n==1 || n==4) return sinpi5;
-	  if (n==2 || n==3) return sin2pi5;
-	  if (n==6 || n==9) return -sinpi5;
-	  if (n==7 || n==8) return -sin2pi5;
-	}
-	if (b==0 && a.type==_FRAC && a._FRACptr->den==8 && a._FRACptr->num.type==_INT_){
-	  int n=a._FRACptr->num.val % 16;
-	  if (n<0)
+      if (simplify_sincosexp_pi && contains(e,cst_pi) && is_linear_wrt(e,cst_pi,a,b,contextptr)){
+	if (is_zero(a)){
+	  if (is_zero(b)) 
+	    return 0;
+	} else {
+	  if (b==0 && a.type==_FRAC && a._FRACptr->den==10 && a._FRACptr->num.type==_INT_)
+	    return cos(cst_pi/2-e,contextptr);
+	  if (b==0 && a.type==_FRAC && a._FRACptr->den==5 && a._FRACptr->num.type==_INT_){
+	    int n=a._FRACptr->num.val % 10;
+	    if (n<0)
+	      n+=10;
+	    gen sqrt5=sqrt(5,contextptr);
+	    gen sinpi5=sqrt(-2*sqrt5+10,contextptr)/4;
+	    gen sin2pi5=sqrt(2*sqrt5+10,contextptr)/4;
+	    if (n==1 || n==4) return sinpi5;
+	    if (n==2 || n==3) return sin2pi5;
+	    if (n==6 || n==9) return -sinpi5;
+	    if (n==7 || n==8) return -sin2pi5;
+	  }
+	  if (b==0 && a.type==_FRAC && a._FRACptr->den==8 && a._FRACptr->num.type==_INT_){
+	    int n=a._FRACptr->num.val % 16;
+	    if (n<0)
 	    n+=16;
-	  gen sinpi8=sqrt(2-plus_sqrt2,contextptr)/2;
-	  gen sin3pi8=sqrt(2+plus_sqrt2,contextptr)/2;
-	  if (n==1 || n==7) return sinpi8;
-	  if (n==3 || n==5) return sin3pi8;
-	  if (n==9 || n==15) return -sinpi8;
-	  if (n==11 || n==13) return -sin3pi8;
-	}
-	est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
-	doit=true;
-      }
+	    gen sinpi8=sqrt(2-plus_sqrt2,contextptr)/2;
+	    gen sin3pi8=sqrt(2+plus_sqrt2,contextptr)/2;
+	    if (n==1 || n==7) return sinpi8;
+	    if (n==3 || n==5) return sin3pi8;
+	    if (n==9 || n==15) return -sinpi8;
+	    if (n==11 || n==13) return -sin3pi8;
+	  }
+	  est_multiple=is_multiple_of_12(a*gen(trig_deno/2),k);
+	  doit=true;
+	} 
+      } // if (simplify_sincospexp...)
     }
     else {
       est_multiple=is_multiple_of_pi_over_12(e,k,contextptr);
@@ -5348,7 +5358,7 @@ namespace giac {
   }
   gen _ou(const gen & arg,GIAC_CONTEXT){
     if ( arg.type==_STRNG && arg.subtype==-1) return  arg;
-    if (arg.type==_VECT && arg.subtype==_SEQ__VECT && arg._VECTptr->size()==2)
+    if (arg.type==_VECT && arg.subtype==_SEQ__VECT && arg._VECTptr->size()==2 && arg._VECTptr->front().type==_VECT)
       return apply(equaltosame(arg._VECTptr->front()).eval(eval_level(contextptr),contextptr),equaltosame(arg._VECTptr->back()).eval(eval_level(contextptr),contextptr),ou2);
     gen args=apply(arg,equaltosame);
     if (args.type!=_VECT || args._VECTptr->empty())
