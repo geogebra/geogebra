@@ -607,6 +607,13 @@ public class DrawAxis {
 			return;
 		}
 
+		if (view.positiveAxes[0] && !view.positiveAxes[1]
+				&& !view.showAxesNumbers[1]
+				|| view.positiveAxes[1] && !view.positiveAxes[0]
+						&& !view.showAxesNumbers[0]) {
+			return;
+		}
+
 		GTextLayout layout = AwtFactory.getPrototype().newTextLayout("0",
 				view.getFontAxes(), g2.getFontRenderContext());
 		double width = layout.getAdvance();
