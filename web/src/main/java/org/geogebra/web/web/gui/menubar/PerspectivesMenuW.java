@@ -14,6 +14,7 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.user.client.Window.Location;
 
 /**
  * Web implementation of PerspectivesMenu
@@ -141,12 +142,28 @@ public class PerspectivesMenuW extends GMenuBar {
 				&& app.getArticleElement().getDataParamApp()) {
 			changeMetaTitle(app.getLocalization()
 					.getMenu(Layout.getDefaultPerspectives(index).getId()));
-			Browser.changeUrl(Perspective.getPerspectiveSlug(index));
-
+			updateURL(Perspective.getPerspectiveSlug(index));
 		}
 		if (changed) {
 			app.storeUndoInfo();
 		}
+	}
+
+	private static void updateURL(String slug) {
+		if (Location.getPath().indexOf("graphing") == -1
+				&& Location.getPath().indexOf("geometry") == -1) {
+			// default in future: we only get here from /classic URL
+			Browser.changeUrl("#" + slug);
+		} else {
+			// temporary: /graphing and /geometry in stable still point to
+			// classic; the URLs should be rewritten to eg /classic#3d and not
+			// changed when current perspective is selected
+			if (Location.getPath().replace("/", "").equals(slug)) {
+				return;
+			}
+			Browser.changeUrl("/classic#" + slug);
+		}
+
 	}
 
 	private static native void changeMetaTitle(String title) /*-{

@@ -3390,7 +3390,7 @@ public abstract class AppW extends App implements SetLabels {
 		setTubeId(i);
 
 		if (articleElement.getDataParamApp() && object !=null) {
-			Browser.changeUrl("o/" + object);
+			Browser.changeUrl("#m/" + object);
 		}
 
 	}

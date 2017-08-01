@@ -357,6 +357,9 @@ var app = document.createElement("script");
 		if(location.pathname.substring(0,3)==="/o/"){
 			tubeid = location.pathname.substring(3);
 		}
+		if(location.hash.substring(0,3)==="#m/"){
+			tubeid = location.hash.substring(3);
+		}
 		function resizeStart(){
 			if(e("perspectivesBox")){
 				if(window.innerHeight < 650 || window.innerWidth < 650){

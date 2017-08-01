@@ -333,9 +333,10 @@ public class Browser {
 	}-*/;
 
 	public static void changeUrl(String string) {
-		if (Location.getHost() != null
+		if ((Location.getHost() != null
 				&& Location.getHost().contains("geogebra.org")
-				&& !Location.getHost().contains("autotest")) {
+				&& !Location.getHost().contains("autotest"))
+				|| string.startsWith("#")) {
 			nativeChangeUrl(string);
 		}
 
@@ -344,9 +345,9 @@ public class Browser {
 	private static native void nativeChangeUrl(String name) /*-{
 		if (name && $wnd.history && $wnd.history.pushState) {
 			try {
-				$wnd.parent.history.pushState({}, "GeoGebra", "/" + name);
+				$wnd.parent.history.pushState({}, "GeoGebra", name);
 			} catch (e) {
-				$wnd.history.pushState({}, "GeoGebra", "/" + name);
+				$wnd.history.pushState({}, "GeoGebra", name);
 			}
 		}
 	}-*/;
