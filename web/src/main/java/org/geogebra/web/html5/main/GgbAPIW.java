@@ -928,7 +928,9 @@ public class GgbAPIW extends GgbAPI {
 	 *            wheter show the menubar in geogebra-web applets or not
 	 */
 	public void showMenuBar(boolean show) {
-		((AppW) app).getAppletFrame().showMenuBar(show);
+		if (app.getGuiManager() != null) {
+			((GuiManagerInterfaceW) app.getGuiManager()).showMenuBar(show);
+		}
 	}
 
 	/**

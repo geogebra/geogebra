@@ -45,14 +45,6 @@ public interface HasAppletProperties {
 	 *            wheter show the toolbar in geogebra-web applets or not
 	 */
 	public void showToolBar(boolean show);
-
-	/**
-	 * @param show
-	 * 
-	 *            wheter show the menubar in geogebra-web applets or not
-	 */
-	public void showMenuBar(boolean show);
-
 	/**
 	 * @param show
 	 * 

@@ -571,18 +571,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/**
 	 * @param show
 	 * 
-	 *            wheter show the menubar in geogebra-web applets or not
-	 */
-	@Override
-	public void showMenuBar(boolean show) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().showMenuBar(show);
-		}
-	}
-
-	/**
-	 * @param show
-	 * 
 	 *            wheter show the algebrainput in geogebra-web applets or not
 	 */
 	@Override

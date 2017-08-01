@@ -1784,8 +1784,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 */
 	@Override
 	public void showMenuBar(final boolean show) {
-		if (getObjectPool().getGgwMenubar() != null) {
-			getObjectPool().getGgwMenubar().setVisible(show);
+		((AppW) app).getArticleElement().setAttribute("data-param-showMenuBar",
+				show + "");
+		if (!show) {
+			if (((AppWapplet) app).getAppletFrame().getToolbar() != null) {
+			((AppWapplet) app).getAppletFrame().getToolbar()
+					.updateActionPanel();
+			}
 		} else {
 			((AppWapplet) app).getAppletFrame().attachMenubar((AppW) app);
 		}
