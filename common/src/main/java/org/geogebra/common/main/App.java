@@ -4187,7 +4187,7 @@ public abstract class App implements UpdateSelection {
 			return isNativeMobileAppWithNewUI();
 
 		case AXES_NUMBERS_WHITE_BACKGROUND:
-			return prerelease || isNativeMobileAppWithNewUI();
+			return true;
 
 		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
 		case NON_CAS_POLYNOMIAL_DIVISION:
@@ -4228,7 +4228,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1958 */
 		case ONLY_ONE_ZERO:
-			return prerelease;
+			return true;
 
 		case CENTER_STANDARD_VIEW:
 			return prerelease;
