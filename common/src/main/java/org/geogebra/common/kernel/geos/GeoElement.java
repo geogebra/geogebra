@@ -7073,6 +7073,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		else if (isTranslateable()
 				&& getParentAlgorithm() instanceof AlgoTranslate) {
+
 			AlgoElement algo = getParentAlgorithm();
 			GeoElement[] input = algo.getInput();
 			GeoElement in = input[1];
@@ -7099,12 +7100,29 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 		else {
-			ArrayList<GeoElement> tempMoveObjectList = kernel.getApplication()
-					.getSelectionManager().getTempMoveGeoList();
 
-			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
-					endPosition, viewDirection, updateGeos, tempMoveObjectList,
-					view);
+			ArrayList<GeoPointND> freeInputPoints = getFreeInputPoints(view);
+
+			// eg macro like Hexagon[G_8], if the hexagon is dragged then G_8
+			// needs updating
+			// handled for mouse drag in
+			// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
+			// needed here for moving with arrow keys
+			if (freeInputPoints.size() > 0) {
+				for (int i = 0; i < freeInputPoints.size(); i++) {
+					((GeoElement) freeInputPoints.get(i)).moveObject(rwTransVec,
+							endPosition, viewDirection, updateGeos, view);
+				}
+			} else {
+
+				ArrayList<GeoElement> tempMoveObjectList = kernel
+						.getApplication().getSelectionManager()
+						.getTempMoveGeoList();
+
+				movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
+						endPosition, viewDirection, updateGeos,
+						tempMoveObjectList, view);
+			}
 		}
 
 		return movedGeo;
