@@ -88,6 +88,9 @@ var analyticsVersion = 'V'+latestVersion;
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
+			if((name != "graphing" && name != "geometry") || location.pathname.indexOf("classic") > 0){
+				name = "classic#" + name;
+			}
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
 		return false;
@@ -509,9 +512,6 @@ body {
  display:none;
 }
 
-.prerelease .startScreen {
-	display:none;
-}
 .startScreen{
     line-height: 120%;
 }
@@ -823,16 +823,7 @@ border:1px solid #dcdcdc
   top:0px;
   width:100%;
 }
-.prerelease #ggbPage{
-  background-image:url("http://static.geogebra.org/images/geogebra-logo-name-1024.png");
-  background-repeat:no-repeat;
-  background-position:50% 50%;
-  transform:-webkit-scale(0.5);
-  transform:-ms-scale(0.5);
-  transform:-moz-scale(0.5);
-  transform:scale(0.5);
 
-}   
 div.SymbolTablePopup{
   z-index:501;
 }
