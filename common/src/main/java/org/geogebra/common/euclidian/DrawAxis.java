@@ -624,6 +624,8 @@ public class DrawAxis {
 		Integer x = getXPositionAtEdge(xCrossPix, xoffset, width);
 		if (x == null) {
 			if (view.positiveAxes[1] && !view.positiveAxes[0]
+					|| view.positiveAxes[0] && view.positiveAxes[1]
+							&& !view.showAxesNumbers[1]
 					|| !view.showAxes[1]) {
 				x = (int) (xCrossPix - (EuclidianView.estimateTextWidth("0",
 						view.getFontAxes()) / 2));
@@ -640,6 +642,8 @@ public class DrawAxis {
 
 		int y;
 		if (view.positiveAxes[0] && !view.positiveAxes[1]
+				|| view.positiveAxes[0] && view.positiveAxes[1]
+						&& !view.showAxesNumbers[0]
 				|| !view.showAxes[0]) {
 			y = (int) (yCrossPix + yoffset2);
 		} else {
