@@ -1387,7 +1387,7 @@ __GGB__keysVar.sv.menu = {
     "ClassRule": "Klassregel",
     "ClassWithFrequency": "Klass med frekvens",
     "Classes": "Klasser",
-    "Classic": "Classic",
+    "Classic": "GeoGebra Classic",
     "ClearColumn": "Rensa kolumn",
     "ClearColumns": "Rensa kolumnerna",
     "ClearRow": "Rensa rad",

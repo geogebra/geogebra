@@ -1387,7 +1387,7 @@ __GGB__keysVar.nl.menu = {
     "ClassRule": "Begrenzing",
     "ClassWithFrequency": "Klasse met frequentie",
     "Classes": "Klassengrenzen",
-    "Classic": "Klassiek",
+    "Classic": "GeoGebra Klassiek",
     "ClearColumn": "Verwijder kolom",
     "ClearColumns": "Verwijder kolommen",
     "ClearRow": "Verwijder rij",

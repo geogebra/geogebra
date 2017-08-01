@@ -1387,7 +1387,7 @@ __GGB__keysVar.no_NN.menu = {
     "ClassRule": "Regel for klassegrenser",
     "ClassWithFrequency": "Klasse og frekvens",
     "Classes": "Klasser",
-    "Classic": "Classic",
+    "Classic": "GeoGebra Classic",
     "ClearColumn": "T\xf8m kolonne",
     "ClearColumns": "T\xf8m kolonner",
     "ClearRow": "T\xf8m rad",

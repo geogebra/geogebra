@@ -1387,7 +1387,7 @@ __GGB__keysVar.tr.menu = {
     "ClassRule": "Aral\u0131k Kural\u0131",
     "ClassWithFrequency": "Frekansl\u0131 S\u0131n\u0131f",
     "Classes": "Aral\u0131klar",
-    "Classic": "Classic",
+    "Classic": "GeoGebra Classic",
     "ClearColumn": "S\xfctunu Temizle",
     "ClearColumns": "S\xfctunlar\u0131 Temizle",
     "ClearRow": "Sat\u0131r\u0131 Temizle",

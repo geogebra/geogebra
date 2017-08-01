@@ -1387,7 +1387,7 @@ __GGB__keysVar.ca_XV.menu = {
     "ClassRule": "Regles de la classe",
     "ClassWithFrequency": "Classes i freq\xfc\xe8ncies",
     "Classes": "Classes",
-    "Classic": "Classic",
+    "Classic": "GeoGebra Classic",
     "ClearColumn": "Esborra la columna",
     "ClearColumns": "Esborra les columnes",
     "ClearRow": "Esborra la fila",

@@ -1387,7 +1387,7 @@ __GGB__keysVar.da.menu = {
     "ClassRule": "Interval regel",
     "ClassWithFrequency": "Intervalopdelt data",
     "Classes": "Intervaller",
-    "Classic": "Classic",
+    "Classic": "GeoGebra Classic",
     "ClearColumn": "Rens s\xf8jle",
     "ClearColumns": "Rens s\xf8jler",
     "ClearRow": "Rens r\xe6kke",

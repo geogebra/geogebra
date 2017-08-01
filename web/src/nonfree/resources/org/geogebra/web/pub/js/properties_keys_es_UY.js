@@ -1387,7 +1387,7 @@ __GGB__keysVar.es_UY.menu = {
     "ClassRule": "Tipo de intervalo",
     "ClassWithFrequency": "Clase con frecuencia",
     "Classes": "Clases",
-    "Classic": "Cl\xe1sico",
+    "Classic": "GeoGebra Cl\xe1sico",
     "ClearColumn": "Limpia columna",
     "ClearColumns": "Limpia columnas",
     "ClearRow": "Limpia fila",

@@ -1387,7 +1387,7 @@ __GGB__keysVar.hr.menu = {
     "ClassRule": "Pravilo za razred",
     "ClassWithFrequency": "Klase s frekvencijama",
     "Classes": "Razredi",
-    "Classic": "Classic",
+    "Classic": "GeoGebra Classic",
     "ClearColumn": "O\u010disti stupac",
     "ClearColumns": "O\u010disti stupce",
     "ClearRow": "O\u010disti redak",
