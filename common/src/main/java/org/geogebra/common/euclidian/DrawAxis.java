@@ -664,7 +664,11 @@ public class DrawAxis {
 		}
 
 		// improve y position at top and bottom edge
-		if (yCrossPix >= view.getHeight() - (view.xLabelHeights + 5)) {
+		if (view.showAxes[1] && view.showAxesNumbers[1]) {
+			if (y < fontsize || y > view.getHeight()) {
+				return;
+			}
+		} else if (yCrossPix >= view.getHeight() - (view.xLabelHeights + 5)) {
 			y = (int) (view.getHeight() - view.xLabelHeights - 5 + yoffset);
 		} else if (yCrossPix <= 0) {
 			y = (int) yoffset;
