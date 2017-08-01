@@ -124,6 +124,9 @@ public class DrawAxis {
 
 		}
 
+		beforeZeroY = null;
+		beforeZeroX = null;
+
 		// ========================================
 		// X-AXIS
 		if (view.xAxisOnscreen()
@@ -456,7 +459,6 @@ public class DrawAxis {
 		// arraylist
 		ArrayList<TickNumber> numbers = new ArrayList<TickNumber>();
 
-		beforeZeroY = null;
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {
 				if (view.showAxesNumbers[1]
@@ -960,7 +962,7 @@ public class DrawAxis {
 			pix += axesStep;
 			labelno += 1;
 		}
-		beforeZeroX = null;
+
 		for (; pix < view.getWidth(); pix += axesStep) {
 
 			// 285, 285.1, 285.2 -> rounding problems
