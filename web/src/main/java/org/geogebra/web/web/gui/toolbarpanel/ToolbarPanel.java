@@ -498,7 +498,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			return;
 		}
 
-		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
+		final ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null && getLastOpenWidth() != null) {
@@ -510,28 +510,23 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
-				animCallback = new HeaderAnimationCallback(header,
-						CLOSED_WIDTH_LANDSCAPE, getLastOpenWidth()) {
-					@Override
-					public void onAnimationComplete() {
-						super.onAnimationComplete();
-						onOpen();
-					}
-				};
+				animCallback = new LandscapeAnimationCallback(header,
+						CLOSED_WIDTH_LANDSCAPE, getLastOpenWidth());
 
 			} else {
 				lastOpenWidth = getOffsetWidth();
 				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
 				dockParent.setWidgetSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
-				animCallback = new HeaderAnimationCallback(header,
+				animCallback = new LandscapeAnimationCallback(header,
 						getLastOpenWidth(),
 						CLOSED_WIDTH_LANDSCAPE) {
+
 					@Override
-					public void onAnimationComplete() {
-						super.onAnimationComplete();
+					public void onEnd() {
+						super.onEnd();
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
-						updateUndoRedoPosition();
+
 					}
 				};
 
@@ -581,7 +576,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 					dockParent.setWidgetSize(opposite,
 							opposite.getOffsetHeight() + h);
 					// dockParent.addStyleName("hide-VDragger");
-					animationCallback = header.newAnimationCallback();
+					// animationCallback = header.newAnimationCallback();
 				}
 
 			}

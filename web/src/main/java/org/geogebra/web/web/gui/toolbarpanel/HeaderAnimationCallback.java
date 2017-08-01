@@ -1,7 +1,5 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.layout.client.Layout.Layer;
 
@@ -10,14 +8,13 @@ import com.google.gwt.layout.client.Layout.Layer;
  * 
  * @author laszlo
  */
-public class HeaderAnimationCallback implements AnimationCallback {
+public abstract class HeaderAnimationCallback implements AnimationCallback {
 
-	private final Header header;
+	protected final Header header;
 	private int expandFrom;
 	private int expandTo;
 	private Double diff;
-	private int diffY;
-	private boolean forward;
+	private boolean closing;
 	
 	/**
 	 * @param header
@@ -35,35 +32,72 @@ public class HeaderAnimationCallback implements AnimationCallback {
 		this.expandFrom = expandFrom;
 		this.expandTo = expandTo;
 		diff = new Double(expandTo - expandFrom);
-		forward = expandFrom < expandTo;
+		closing = expandFrom > expandTo;
 	}
 
 	public void onLayout(Layer layer, double progress) {
 		if (diff == null) {
 			return;
 		}
-		double p = forward ? progress : 1 - progress;
-		double w = diff * p;
-		header.expandWidth(expandTo + Math.abs(w));
+		if (progress == 0) {
+			onStart();
+		}
+
+		tick(progress);
 	}
+
+	/**
+	 * Called when animation starts.
+	 */
+	protected abstract void onStart();
+
+	/**
+	 * Called when animation ends.
+	 */
+	protected abstract void onEnd();
+
+	/**
+	 * Called during animation.
+	 * 
+	 * @param progress
+	 *            the indicator in 0..1
+	 */
+	public abstract void tick(double progress);
 
 	public void onAnimationComplete() {
-		this.header.setAnimating(false);
-		this.header.updateStyle();
-		if (forward) {
-			header.expandWidth(expandTo);
-		} else {
-			header.expandWidth(expandFrom);
-
-		}
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				header.updateCenterSize();
-
-			}
-		});
-
-		// header.getElement().getStyle().setWidth(expandTo, Unit.PX);
+		header.setAnimating(false);
+		header.updateStyle();
+		onEnd();
 	}
+
+
+
+	public int getExpandFrom() {
+		return expandFrom;
+	}
+
+	public void setExpandFrom(int expandFrom) {
+		this.expandFrom = expandFrom;
+	}
+
+	public int getExpandTo() {
+		return expandTo;
+	}
+
+	public void setExpandTo(int expandTo) {
+		this.expandTo = expandTo;
+	}
+
+	public Double getDiff() {
+		return diff;
+	}
+
+	public void setDiff(Double diff) {
+		this.diff = diff;
+	}
+
+	public boolean isClosing() {
+		return closing;
+	}
+
 }

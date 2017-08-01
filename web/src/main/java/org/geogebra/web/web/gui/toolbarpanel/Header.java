@@ -13,7 +13,6 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.StandardButton;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -307,6 +306,20 @@ class Header extends FlowPanel {
 	}
 
 	/**
+	 * Show the undo/redo panel.
+	 */
+	public void showUndoRedoPanel() {
+		undoRedoPanel.removeStyleName("hidden");
+	}
+
+	/**
+	 * Hide the entire undo/redo panel (eg. during animation).
+	 */
+	public void hideUndoRedoPanel() {
+		undoRedoPanel.addStyleName("hidden");
+	}
+
+	/**
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
@@ -486,13 +499,6 @@ class Header extends FlowPanel {
 	public void setAnimating(boolean b) {
 		this.animating = b;
 
-	}
-
-	/**
-	 * @return a callback that prevents header to be resized during animation.
-	 */
-	public AnimationCallback newAnimationCallback() {
-		return new HeaderAnimationCallback(this);
 	}
 
 	/**
