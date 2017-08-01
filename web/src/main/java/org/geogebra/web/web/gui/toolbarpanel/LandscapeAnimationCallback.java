@@ -14,14 +14,14 @@ public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 	@Override
 	protected void onStart() {
 		header.hideUndoRedoPanel();
-		if (!isClosing()) {
+		if (header.isOpen()) {
 			header.setHeight(OPEN_HEIGHT + "px");
 		}
 	}
 
 	@Override
 	public void tick(double progress) {
-		double p = isClosing() ? 1 - progress : progress;
+		double p = header.isOpen() ? progress : 1 - progress;
 		double w = getDiff() * p;
 		header.expandWidth(getExpandTo() + Math.abs(w));
 
@@ -29,7 +29,7 @@ public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 
 	@Override
 	protected void onEnd() {
-		if (isClosing()) {
+		if (!header.isOpen()) {
 			header.expandWidth(getExpandFrom());
 			header.setHeight("100%");
 			header.toolbarPanel.updateUndoRedoPosition();

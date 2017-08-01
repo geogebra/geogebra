@@ -14,7 +14,6 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 	private int expandFrom;
 	private int expandTo;
 	private Double diff;
-	private boolean closing;
 	
 	/**
 	 * @param header
@@ -32,7 +31,6 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 		this.expandFrom = expandFrom;
 		this.expandTo = expandTo;
 		diff = new Double(expandTo - expandFrom);
-		closing = expandFrom > expandTo;
 	}
 
 	public void onLayout(Layer layer, double progress) {
@@ -94,10 +92,6 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 
 	public void setDiff(Double diff) {
 		this.diff = diff;
-	}
-
-	public boolean isClosing() {
-		return closing;
 	}
 
 }

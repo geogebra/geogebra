@@ -568,15 +568,17 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			if (header.isOpen()) {
 				h = getLastOpenHeight();
 				dockParent.setWidgetSize(opposite, h);
-
-				// dockParent.removeStyleName("hide-VDragger");
+				dockParent.removeStyleName("hide-VDragger");
+				animationCallback = new PortraitAnimationCallback(header, h + 1,
+						h);
 			} else {
 				h = dockPanel.getOffsetHeight() - CLOSED_HEIGHT_PORTRAIT + 8;
 				if (h > 0) {
 					dockParent.setWidgetSize(opposite,
 							opposite.getOffsetHeight() + h);
-					// dockParent.addStyleName("hide-VDragger");
-					// animationCallback = header.newAnimationCallback();
+					dockParent.addStyleName("hide-VDragger");
+					animationCallback = new PortraitAnimationCallback(header, h,
+							h + 1);
 				}
 
 			}
