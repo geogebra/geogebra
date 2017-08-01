@@ -62,7 +62,7 @@ public class CmdDataFunction extends CommandProcessor {
 	 *            variable
 	 * @return data function expression
 	 */
-	public static ExpressionNode getDataFunction(Kernel kernelA, String label,
+	public static ExpressionValue getDataFunction(Kernel kernelA, String label,
 			ListValue xlist, ListValue ylist, ExpressionNode arg0,
 			FunctionVariable fv) {
 
@@ -110,9 +110,11 @@ public class CmdDataFunction extends CommandProcessor {
 			return (ListValue) ev;
 		}
 
-		// eg DataFunction[A2:A10, B2:B10]
-		if (ev.evaluatesToList()) {
-			return (ListValue) ev.evaluate(StringTemplate.maxPrecision);
+		// eg DataFunction(x({A,B,C}), y({A,B,C}))
+		GeoElement[] res = this.resArg(c.getArgument(argIndex),
+				new EvalInfo(false));
+		if (res.length > 0 && res[0] instanceof ListValue) {
+			return (ListValue) res[0];
 		}
 
 		throw argErr(app, c, ev);
