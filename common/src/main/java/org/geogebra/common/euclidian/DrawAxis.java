@@ -622,7 +622,7 @@ public class DrawAxis {
 		double yoffset2 = (fontsize / 2) - 1;
 
 		Integer x = getXPositionAtEdge(xCrossPix, xoffset, width);
-		if (x == null) {
+		if (x == null || view.showAxes[0] && view.showAxesNumbers[0]) {
 			if (view.positiveAxes[1] && !view.positiveAxes[0]
 					|| view.positiveAxes[0] && view.positiveAxes[1]
 							&& !view.showAxesNumbers[1]
@@ -632,6 +632,11 @@ public class DrawAxis {
 			} else {
 				x = (int) ((xCrossPix + xoffset) - width); // left
 			}
+		}
+
+		// Don't draw zero, if it goes out of the screen
+		if (x < 0 || xCrossPix > view.getWidth()) {
+			return;
 		}
 
 		// Don't draw "0" if the number before zero on x axis is too close to
