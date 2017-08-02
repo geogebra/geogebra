@@ -410,6 +410,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		hideDragger();
 	}
 
+	/**
+	 * resets toolbar
+	 */
+	public void reset() {
+		lastOpenWidth = null;
+	}
+
 	private void addMoveBtn() {
 		moveBtn = new StandardButton(
 				MaterialDesignResources.INSTANCE.mode_move());
