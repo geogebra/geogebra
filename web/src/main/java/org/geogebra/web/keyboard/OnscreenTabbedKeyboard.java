@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -347,8 +348,11 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		GDimension d = drawLatex(g2, dottedText, font, Integer.MIN_VALUE,
 				Integer.MIN_VALUE);
 
-		c.setCoordinateSpaceWidth(d.getWidth());
-		c.setCoordinateSpaceHeight(d.getHeight());
+		int width = (int) MyMath.nextMultiple(d.getWidth(), 2);
+		int height = (int) MyMath.nextMultiple(d.getHeight(), 2);
+		c.setCoordinateSpaceWidth(width);
+		c.setCoordinateSpaceHeight(height);
+
 		drawLatex(g2, dottedText, font, 0, 0);
 		// g2.setColor(GColor.RED);
 		// g2.drawRect(0, 0, d.getWidth(), d.getHeight());
@@ -361,8 +365,8 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 
 	private GDimension drawLatex(GGraphics2DW g2, String latex,
 			GFont font, int x, int y) {
-		App app = getApp();
-		return app.getDrawEquation().drawEquation(app, null, g2, x, y, latex,
+		App app1 = getApp();
+		return app1.getDrawEquation().drawEquation(app1, null, g2, x, y, latex,
 				font, false,
 				GColor.BLACK, GColor.WHITE, false, false, null);
 
