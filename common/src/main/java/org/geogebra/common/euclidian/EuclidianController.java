@@ -9308,7 +9308,7 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMousePressed(AbstractEvent event) {
-		if (view.hasDynamicStyleBar()) {
+		if (view.hasDynamicStyleBar() && !event.isControlDown()) {
 			this.setDynamicStylebarVisible(false);
 		}
 
