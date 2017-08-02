@@ -656,8 +656,6 @@ public class PropertiesViewW extends PropertiesView
 
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
-		setFloatingAttached(false);
-		wrappedPanel.setVisible(false);
 	}
 
 	public boolean isFloatingAttached() {

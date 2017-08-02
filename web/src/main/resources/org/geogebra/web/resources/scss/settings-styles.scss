@@ -15,7 +15,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			/*border-radius: 2px;*/
 			z-index:  100000;;
 			height: 100%;
-			width: 33%;
+			width: 500px;
     		overflow-y: auto;	
     		
     		.closeButtonPanel { 
@@ -47,8 +47,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	}
 			
 	@keyframes settinsIn {
-		0% {right:-320px; top:0px;}
-		50% {right:-100; top:0px;}
+		0% {right:-500px; top:0px;}
+		50% {right:-250; top:0px;}
 		100% {right:0px; top:0px;}
 	}
 	
@@ -56,12 +56,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		animation-duration: 0.2s;
 		animation-name: settinsOut;
 		overflow-y: auto;
+		right: -500px;
 	}
 			
 	@keyframes settinsOut {
 		0% {right:0px; top:0px;}
-		50% {right:-220; top:0px;}
-		100% {right:-320px; top:0px;}
+		50% {right:-250; top:0px;}
+		100% {right:-500px; top:0px;}
 	}
 	
 }
