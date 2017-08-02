@@ -305,11 +305,26 @@ class Header extends FlowPanel {
 		undoRedoPanel.removeStyleName("hidden");
 	}
 
+
 	/**
 	 * Hide the entire undo/redo panel (eg. during animation).
 	 */
 	public void hideUndoRedoPanel() {
 		undoRedoPanel.addStyleName("hidden");
+	}
+
+	/**
+	 * Show center panel.
+	 */
+	public void showCenter() {
+		center.removeStyleName("hidden");
+	}
+
+	/**
+	 * Hide center buttons (eg. during animation).
+	 */
+	public void hideCenter() {
+		center.addStyleName("hidden");
 	}
 
 	/**

@@ -12,7 +12,6 @@
 	opacity: 0.8;
 }
 
-$open-close-transition: 300ms all linear;
 .toolbar {
 	
 	.header {
@@ -69,6 +68,8 @@ $open-close-transition: 300ms all linear;
     				opacity: 0.85;
 			    }
 				
+				
+				
 			}
 		
 			.center.indicatorLeft {
@@ -85,6 +86,10 @@ $open-close-transition: 300ms all linear;
 			
 			.center >* {
 				display: inline-block;
+			}
+
+			.hidden.center >* {
+				display: none !important;
 			}
 		
 			.rightSide {
@@ -103,10 +108,6 @@ $open-close-transition: 300ms all linear;
 				}			
 			}
 			
-		}
-
-		.header-animation {
-			transition: $open-close-transition;
 		}
 	
 		.header-open-portrait,
@@ -147,7 +148,6 @@ $open-close-transition: 300ms all linear;
 		}
 	
 		.header-open-landscape {
-	//		transition: $open-close-transition;
 			.close {
 				float: left;
 				margin-right: 6px;
@@ -171,7 +171,6 @@ $open-close-transition: 300ms all linear;
 			width: 56px;
 			min-width: 56px;
 			height: 100%;
-		//	transition: $open-close-transition;
 		
 			.center {
 				top: 0px;

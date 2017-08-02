@@ -44,7 +44,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	// dock panel animation time in milliseconds.
 	// For timing, see $open-close-transition also in toolbar-styles.scss
-	private static final int OPEN_ANIM_TIME = 300;
+	private static final int OPEN_ANIM_TIME = 200;
 
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
@@ -52,9 +52,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * height in open state
 	 */
 	static final int OPEN_HEIGHT = 56;
-	private static final int HEIGHT_CLOSED = 57;
-	private static final int WIDTH_AUTO_CLOSE = 56;
-	private static final int HEIGHT_AUTO_CLOSE = 86;
 
 	/** Application */
 	App app;
@@ -833,23 +830,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (tabTools != null) {
 			tabTools.onResize();
 		}
-
-		// if (isPortrait() && !isClosedByUser()) {
-		// int h = getOffsetHeight();
-		// if (h > HEIGHT_CLOSED) {
-		// if (h < HEIGHT_AUTO_CLOSE) {
-		// // close();
-		// } else {
-		// doOpen();
-		// }
-		// }
-		// } else {
-		// if (getOffsetWidth() < WIDTH_AUTO_CLOSE) {
-		// close();
-		// } else if (!isClosedByUser()) {
-		// doOpen();
-		// }
-		// }
 	}
 
 	/**
@@ -1012,6 +992,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		return header.isAnimating();
 	}
 
+	/**
+	 * Resize in a deferred way.
+	 */
 	public void deferredOnResize() {
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}

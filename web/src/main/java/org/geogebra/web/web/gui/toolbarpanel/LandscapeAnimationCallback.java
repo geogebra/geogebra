@@ -14,6 +14,7 @@ public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 	@Override
 	protected void onStart() {
 		header.hideUndoRedoPanel();
+		header.hideCenter();
 		if (header.isOpen()) {
 			header.setHeight(OPEN_HEIGHT + "px");
 		}
@@ -43,6 +44,7 @@ public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 				header.updateCenterSize();
 				header.showUndoRedoPanel();
 				header.updateUndoRedoPosition();
+				header.showCenter();
 			}
 		});
 
