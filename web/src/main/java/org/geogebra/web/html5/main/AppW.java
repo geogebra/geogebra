@@ -2534,9 +2534,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public void updateToolBar() {
-		if (isUnbundled()) {
-			return;
-		}
 		if (!showToolBar || isIniting()) {
 			return;
 		}
@@ -2545,6 +2542,9 @@ public abstract class AppW extends App implements SetLabels {
 			getGuiManager().updateToolbar();
 		}
 
+		if (isUnbundled()) {
+			return;
+		}
 		set1rstMode();
 	}
 
