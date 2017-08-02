@@ -84,9 +84,9 @@ public class FormatObj implements Format {
 		sb.append("\n            f ");
 		appendIndex(sb, v1);
 		sb.append(" ");
-		appendIndex(sb, v3);
-		sb.append(" ");
 		appendIndex(sb, v2);
+		sb.append(" ");
+		appendIndex(sb, v3);
 		// sb.append("");
 	}
 
