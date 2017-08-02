@@ -21,7 +21,11 @@ $slider-diameter:15px;
 		text-decoration: none;
 		box-sizing:content-box;
 	}
-	td, img, li, input, input[type="number"], input[type="text"], ul {
+	.gwt-Button {
+		height: initial;
+		text-shadow: initial;
+	}
+	td, img, li, input, button, input[type="number"], input[type="text"], ul {
 		margin: initial;
 		padding: initial;
 		border: initial;
@@ -31,6 +35,7 @@ $slider-diameter:15px;
 		max-width: initial;
 		background-color: initial;
 		box-sizing:initial;
+		text-shadow: initial;
 	}
 	div {
 	box-sizing:initial;
@@ -56,6 +61,7 @@ $slider-diameter:15px;
 		border-collapse: initial;
 		border-spacing: initial;
 		border-width: 0px;
+		background: initial;
 	}
 
 	.thumb {
