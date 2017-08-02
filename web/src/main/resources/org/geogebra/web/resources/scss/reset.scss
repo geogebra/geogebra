@@ -51,8 +51,11 @@ $slider-diameter:15px;
 		border-spacing: initial;
 		border-width: 0px;
 	}
-	td {
-		border:initial;
+	td, img, li {
+		border: initial;
+		margin: initial;
+		max-width: initial;
+		background-color: initial;
 	}
 	.thumb {
 		display: none;
