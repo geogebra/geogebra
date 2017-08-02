@@ -2418,24 +2418,31 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
 		final GeoNumeric gn = new GeoNumeric(kernel.getConstruction());
-		
+		final Tree tree = new Tree();
+		tree.addStyleName("stepTree");
 		return new StepGuiBuilder() {
-			private Tree tree = new Tree();
+
 			private TreeItem item;
-			private boolean top = true;
+			private TreeItem child = null;
 
 			public void addLatexRow(String equations) {
 				Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
 						app.getFontSizeWeb());
+				addWidget(c);
+			}
+
+			private void addWidget(Widget c) {
+				child = new TreeItem(c);
 				if (item != null) {
-					item.addItem(new TreeItem(c));
+					item.addItem(child);
 				} else {
-					tree.add(c);
+					tree.addItem(child);
 				}
+
 			}
 
 			public void addPlainRow(String equations) {
-				tree.add(new Label(equations));
+				addWidget(new Label(equations));
 			}
 
 			public void show() {
@@ -2448,18 +2455,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			}
 
 			public void startGroup() {
-				if (top) {
-					top = false;
+				if (child == null || tree.getItemCount() == 1) {
 					return;
 				}
-				TreeItem parent = item;
-				item = new TreeItem();
-				if (parent != null) {
-					parent.addItem(item);
-				} else {
-					tree.addItem(item);
-				}
-				parent = item;
+				item = child;
 			}
 
 			public void endGroup() {
