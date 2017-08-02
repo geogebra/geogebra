@@ -248,9 +248,12 @@ public abstract class ExportToPrinter3D {
 				delta = 3 * PlotterBrush.LINE3D_THICKNESS / view.getScale();
 			}
 			
-			double dx = n.getX() * delta;
-			double dy = n.getY() * delta;
-			double dz = n.getZ() * delta;
+			double dx = 0, dy = 0, dz = 0;
+			if (format.needsClosedObjects()) {
+				dx = n.getX() * delta;
+				dy = n.getY() * delta;
+				dz = n.getZ() * delta;
+			}
 			int length = polygon.getPointsLength();
 
 			reverse = polygon.getReverseNormalForDrawing()
@@ -277,25 +280,37 @@ public abstract class ExportToPrinter3D {
 					y = v.getY();
 					z = v.getZ();
 				}
-				getVertex(notFirst, x + dx, y + dy, z + dz);
-				notFirst = true;
-				getVertex(notFirst, x - dx, y - dy, z - dz);
+				if (format.needsClosedObjects()) {
+					getVertex(notFirst, x + dx, y + dy, z + dz);
+					notFirst = true;
+					getVertex(notFirst, x - dx, y - dy, z - dz);
+				} else {
+					getVertex(notFirst, x, y, z);
+					notFirst = true;
+				}
 			}
 			format.getVerticesEnd(sb);
 
 			// faces
 			format.getFacesStart(sb);
 			notFirst = false;
-			for (int i = 1; i < length - 1; i++) {
-				getFace(notFirst, 0, 2 * i, 2 * (i + 1)); // bottom
-				notFirst = true;
-				getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1); // bottom
-			}
+			if (format.needsClosedObjects()) {
+				for (int i = 1; i < length - 1; i++) {
+					getFace(notFirst, 0, 2 * i, 2 * (i + 1)); // bottom
+					notFirst = true;
+					getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1); // bottom
+				}
 
-			for (int i = 0; i < length; i++) { // side
-				getFace(notFirst, 2 * i, 2 * i + 1, (2 * i + 3) % (2 * length));
-				getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length),
-						(2 * i + 2) % (2 * length));
+				for (int i = 0; i < length; i++) { // side
+					getFace(notFirst, 2 * i, 2 * i + 1,
+							(2 * i + 3) % (2 * length));
+					getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length),
+							(2 * i + 2) % (2 * length));
+				}
+			} else {
+				for (int i = 1; i < length - 1; i++) {
+					getFace(notFirst, 0, i, i + 1);
+				}
 			}
 
 			format.getFacesEnd(sb); // end of faces
