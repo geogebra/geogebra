@@ -21,7 +21,7 @@ $slider-diameter:15px;
 		text-decoration: none;
 		box-sizing:content-box;
 	}
-	td, img, li, input, input[type="number"], input[type="text"] {
+	td, img, li, input, input[type="number"], input[type="text"], ul {
 		margin: initial;
 		padding: initial;
 		border: initial;
@@ -30,6 +30,7 @@ $slider-diameter:15px;
 		width: initial;
 		max-width: initial;
 		background-color: initial;
+		box-sizing:initial;
 	}
 	input[type="checkbox"] {
 		position: initial;
