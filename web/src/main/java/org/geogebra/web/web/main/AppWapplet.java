@@ -25,7 +25,7 @@ import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.CSSAnimation;
 import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.Presistable;
+import org.geogebra.web.web.gui.Persistable;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -211,7 +211,7 @@ public class AppWapplet extends AppWFull {
 					|| (isUnbundled()
 							&& frame.getWidget(i) instanceof FloatingMenuPanel)
 					|| (isUnbundled()
-							&& frame.getWidget(i) instanceof Presistable)
+							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
 			}

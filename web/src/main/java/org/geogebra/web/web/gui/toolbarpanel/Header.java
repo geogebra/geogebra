@@ -4,9 +4,10 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.PersistablePanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.Presistable;
+import org.geogebra.web.web.gui.Persistable;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
@@ -30,24 +31,16 @@ class Header extends FlowPanel {
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
 
-	private static class PresistableToggleButton extends ToggleButton
-			implements Presistable {
+	private static class PersistableToggleButton extends ToggleButton
+			implements Persistable {
 
-		public PresistableToggleButton(Image image) {
+		public PersistableToggleButton(Image image) {
 			super(image);
 		}
 
 	}
 
-	private static class PresistablePanel extends FlowPanel
-			implements Presistable {
-
-		public PresistablePanel() {
-			super();
-		}
-	}
-
-	private PresistableToggleButton btnMenu;
+	private PersistableToggleButton btnMenu;
 	private ToggleButton btnAlgebra;
 	private ToggleButton btnTools;
 	private ToggleButton btnClose;
@@ -63,7 +56,7 @@ class Header extends FlowPanel {
 	/**
 	 * panel containing undo and redo
 	 */
-	PresistablePanel undoRedoPanel;
+	PersistablePanel undoRedoPanel;
 	private ToggleButton btnUndo;
 	private ToggleButton btnRedo;
 	private ContextMenuAlgebra cmAlgebra = null;
@@ -263,7 +256,7 @@ class Header extends FlowPanel {
 	}
 
 	private void createMenuButton() {
-		btnMenu = new PresistableToggleButton(new Image(
+		btnMenu = new PersistableToggleButton(new Image(
 				MaterialDesignResources.INSTANCE.toolbar_menu_black()));
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
@@ -280,7 +273,7 @@ class Header extends FlowPanel {
 	}
 
 	private void addUndoRedoButtons() {
-		undoRedoPanel = new PresistablePanel();
+		undoRedoPanel = new PersistablePanel();
 		undoRedoPanel.addStyleName("undoRedoPanel");
 		addUndoButton(undoRedoPanel);
 		addRedoButton(undoRedoPanel);

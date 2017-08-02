@@ -6,6 +6,6 @@ package org.geogebra.web.web.gui;
  * @author latzg
  *
  */
-public interface Presistable {
+public interface Persistable {
 
 }

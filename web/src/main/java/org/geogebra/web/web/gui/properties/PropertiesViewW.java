@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.PersistablePanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
@@ -22,6 +23,7 @@ import org.geogebra.web.web.gui.dialog.options.OptionsGlobalW;
 import org.geogebra.web.web.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.web.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.web.gui.dialog.options.OptionsSpreadsheetW;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -36,7 +38,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class PropertiesViewW extends PropertiesView
 		implements RequiresResize, SetLabels {
-
 
 	private FlowPanel wrappedPanel;
 
@@ -56,6 +57,7 @@ public class PropertiesViewW extends PropertiesView
 
 	private FlowPanel contentsPanel;
 	private OptionType optionType;
+	private boolean floatingAttached = false;
 
 	// For autoopen AV feature
 	// private boolean wasAVShowing;
@@ -72,7 +74,12 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	public PropertiesViewW(AppW app, OptionType ot) {
 		super(app);
-		this.wrappedPanel = new FlowPanel();
+		if (app.has(Feature.FLOATING_SETTINGS)) {
+			this.wrappedPanel = new PersistablePanel();
+
+		} else {
+			this.wrappedPanel = new FlowPanel();
+		}
 		app.setPropertiesView(this);
 
 		app.setWaitCursor();   
@@ -591,5 +598,43 @@ public class PropertiesViewW extends PropertiesView
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
+	}
+
+	/**
+	 * Opens floating settings.
+	 */
+	public void open() {
+		if (!app.has(Feature.FLOATING_SETTINGS)) {
+			return;
+		}
+
+		if (!isFloatingAttached()) {
+			wrappedPanel.addStyleName("floatingSettings");
+			((AppWapplet) app).getAppletFrame().add(wrappedPanel);
+			setFloatingAttached(true);
+		}
+		wrappedPanel.removeStyleName("animateOut");
+		wrappedPanel.addStyleName("animateIn");
+	}
+
+	/**
+	 * Closess floating settings.
+	 */
+	public void close() {
+		if (!app.has(Feature.FLOATING_SETTINGS)) {
+			return;
+		}
+
+		wrappedPanel.removeStyleName("animateIn");
+		wrappedPanel.addStyleName("animateOut");
+		// setFloatingAttached(false);
+	}
+
+	public boolean isFloatingAttached() {
+		return floatingAttached;
+	}
+
+	public void setFloatingAttached(boolean floatingAttached) {
+		this.floatingAttached = floatingAttached;
 	}
 }

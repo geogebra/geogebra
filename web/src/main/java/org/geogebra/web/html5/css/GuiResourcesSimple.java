@@ -115,6 +115,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/menu-styles.scss")
 	SassResource menuStyleScss();
 
+	@Source("org/geogebra/web/resources/scss/settings-styles.scss")
+	SassResource settingsStyleScss();
+
 	@Source("org/geogebra/web/resources/scss/perspectives-popup.scss")
 	SassResource perspectivesPopupScss();
 

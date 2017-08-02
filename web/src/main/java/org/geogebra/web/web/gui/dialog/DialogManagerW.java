@@ -45,6 +45,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.export.AnimationExportDialogW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
+import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.functioninspector.FunctionInspectorW;
@@ -380,7 +381,13 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		}
 
 		// show the view
-		((GuiManagerW)app.getGuiManager()).setShowView(true, App.VIEW_PROPERTIES);
+		if (app.has(Feature.FLOATING_SETTINGS)) {
+			((PropertiesViewW) pv).open();
+		} else {
+			((GuiManagerW) app.getGuiManager()).setShowView(true,
+					App.VIEW_PROPERTIES);
+
+		}
 
 	}
 
