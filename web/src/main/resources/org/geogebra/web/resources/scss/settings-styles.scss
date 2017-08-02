@@ -18,6 +18,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: 33%;
     		overflow-y: auto;	
     		
+    		.closeButtonPanel { 
+    			float: right;
+    		}
+    		
     		.settingsBtn {
     			height: 24px;
     			width: 180px;

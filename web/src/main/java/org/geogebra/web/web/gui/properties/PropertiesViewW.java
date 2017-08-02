@@ -10,8 +10,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
@@ -23,6 +25,7 @@ import org.geogebra.web.web.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.web.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.web.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.web.gui.util.PersistablePanel;
+import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -59,6 +62,9 @@ public class PropertiesViewW extends PropertiesView
 	private OptionType optionType;
 	private boolean floatingAttached = false;
 
+	private StandardButton closeButton;
+	private FlowPanel closeButtonPanel;
+
 	// For autoopen AV feature
 	// private boolean wasAVShowing;
 	//
@@ -93,6 +99,7 @@ public class PropertiesViewW extends PropertiesView
 	private void initGUI() {
 
 		wrappedPanel.addStyleName("PropertiesViewW");
+		addCloseButton();
 		//		getStyleBar();
 
 		//mainPanel = new FlowPanel();
@@ -115,6 +122,25 @@ public class PropertiesViewW extends PropertiesView
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
 
+	}
+
+	private void addCloseButton() {
+		if (!app.has(Feature.FLOATING_SETTINGS)) {
+			return;
+		}
+		closeButton = new StandardButton(GuiResources.INSTANCE.dockbar_close());
+		closeButton.addFastClickHandler(new FastClickHandler() {
+			
+			@Override
+			public void onClick(Widget source) {
+				close();
+			}
+		});
+		closeButtonPanel = new FlowPanel();
+		closeButtonPanel.setStyleName("closeButtonPanel");
+		closeButtonPanel.setVisible(true);
+		closeButtonPanel.add(closeButton);
+		wrappedPanel.add(closeButtonPanel);
 	}
 
 	/**
@@ -611,6 +637,7 @@ public class PropertiesViewW extends PropertiesView
 		}
 
 		if (!isFloatingAttached()) {
+			wrappedPanel.setVisible(true);
 			wrappedPanel.addStyleName("floatingSettings");
 			((AppWapplet) app).getAppletFrame().add(wrappedPanel);
 			setFloatingAttached(true);
@@ -629,7 +656,8 @@ public class PropertiesViewW extends PropertiesView
 
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
-		// setFloatingAttached(false);
+		setFloatingAttached(false);
+		wrappedPanel.setVisible(false);
 	}
 
 	public boolean isFloatingAttached() {
