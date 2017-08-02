@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -17,6 +18,7 @@ import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
 import org.geogebra.web.web.gui.dialog.options.OptionsCASW;
 import org.geogebra.web.web.gui.dialog.options.OptionsDefaultsW;
 import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
+import org.geogebra.web.web.gui.dialog.options.OptionsGlobalW;
 import org.geogebra.web.web.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.web.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.web.gui.dialog.options.OptionsSpreadsheetW;
@@ -46,6 +48,7 @@ public class PropertiesViewW extends PropertiesView
 	private OptionsAdvancedW advancedPanel;
 	private OptionsLayoutW layoutPanel;
 	private OptionsAlgebraW algebraPanel;
+	private OptionsGlobalW globalPanel;
 	
 	private PropertiesStyleBarW styleBar;
 
@@ -140,6 +143,12 @@ public class PropertiesViewW extends PropertiesView
 			styleBar.updateGUI();
 		}	
 		switch (type) {
+		case GLOBAL:
+			if (globalPanel == null && app.has(Feature.GLOBAL_SETTINGS)) {
+				globalPanel = new OptionsGlobalW((AppW) app);
+				return globalPanel;
+			}
+
 		case DEFAULTS:
 			if (defaultsPanel == null) {
 				defaultsPanel = new OptionsDefaultsW();

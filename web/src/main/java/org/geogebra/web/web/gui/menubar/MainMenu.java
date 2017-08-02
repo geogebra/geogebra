@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -229,9 +230,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							app.toggleMenu();
 							return;
 						}
-						if (this.getWidget(index) == settingsMenu) {
+						if (this.getWidget(index) == settingsMenu
+								&& app.has(Feature.GLOBAL_SETTINGS)) {
 							app.getDialogManager().showPropertiesDialog(
-									OptionType.EUCLIDIAN, null);
+									OptionType.ALGEBRA, null);
 							return;
 						}
 						if (this.getWidget(index) == languageMenu) {

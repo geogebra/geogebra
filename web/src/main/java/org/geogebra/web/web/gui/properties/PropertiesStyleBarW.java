@@ -3,8 +3,10 @@ package org.geogebra.web.web.gui.properties;
 import java.util.HashMap;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.ImgResourceHelper;
@@ -30,7 +32,8 @@ public class PropertiesStyleBarW extends
 
 	private static OptionType OptionTypesImpl[] = {
 		// Implemented types of the web
-			OptionType.OBJECTS, OptionType.EUCLIDIAN, OptionType.EUCLIDIAN2,
+			OptionType.GLOBAL, OptionType.OBJECTS, OptionType.EUCLIDIAN,
+			OptionType.EUCLIDIAN2,
 			OptionType.EUCLIDIAN_FOR_PLANE, OptionType.EUCLIDIAN3D,
 			OptionType.SPREADSHEET, OptionType.CAS, OptionType.ALGEBRA
 	};
@@ -85,6 +88,8 @@ public class PropertiesStyleBarW extends
 	 * Show/hide the right buttons
 	 */
 	public void updateGUI() {
+
+		setButtonVisible(OptionType.GLOBAL, app.has(Feature.GLOBAL_SETTINGS));
 
 		setButtonVisible(OptionType.OBJECTS,
 				app.getSelectionManager().selectedGeosSize() > 0);
@@ -159,8 +164,6 @@ public class PropertiesStyleBarW extends
 				&& type != OptionType.EUCLIDIAN_FOR_PLANE;
 	}
 	
-	
-
 	/**
 	 * @param type
 	 *            option type
@@ -191,7 +194,9 @@ public class PropertiesStyleBarW extends
 	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
-		
+		case GLOBAL:
+			ImgResourceHelper.setIcon(
+					MaterialDesignResources.INSTANCE.settings_black(), btn);
 		case DEFAULTS:
 			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
 		case SPREADSHEET:
@@ -228,6 +233,9 @@ public class PropertiesStyleBarW extends
 	protected String getTypeIcon(OptionType type) {
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
+		case GLOBAL:
+			return MaterialDesignResources.INSTANCE.settings_black()
+					.getSafeUri().asString();
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
