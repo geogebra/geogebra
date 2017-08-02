@@ -279,6 +279,7 @@ public enum ValueType {
 		case XCOORD:
 		case YCOORD:
 		case ZCOORD:
+			return ValueType.LIST.check(left, ValueType.NUMBER);
 		case REAL:
 		case IMAGINARY:
 		case RANDOM:

@@ -3,7 +3,6 @@ package org.geogebra.common.plugin;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -18,7 +17,6 @@ import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.TeXAtomSerializer;
@@ -2193,15 +2191,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1], "x");
 
-		
-		StepGuiBuilder builder = new StepGuiBuilderJson();
-		List<String> steps = sbss.getSteps().getListOfSteps();
-		for (int i = 0; i < steps.size(); i++) {
-			builder.addLatexRow(steps.get(i));
-		}
-
-
-	return builder.toString();
+		StepGuiBuilderJson builder = new StepGuiBuilderJson();
+		sbss.getSteps().getListOfSteps(builder);
+		return builder.toString();
 
 }
 

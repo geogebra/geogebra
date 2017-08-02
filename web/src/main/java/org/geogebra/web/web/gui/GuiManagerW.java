@@ -138,7 +138,8 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
@@ -2415,28 +2416,55 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
-		final VerticalPanel ui = new VerticalPanel();
 		final GeoNumeric gn = new GeoNumeric(kernel.getConstruction());
 		
 		return new StepGuiBuilder() {
+			private Tree tree = new Tree();
+			private TreeItem item;
+			private boolean top = true;
 
 			public void addLatexRow(String equations) {
 				Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
 						app.getFontSizeWeb());
-				ui.add(c);
+				if (item != null) {
+					item.addItem(new TreeItem(c));
+				} else {
+					tree.add(c);
+				}
 			}
 
 			public void addPlainRow(String equations) {
-				ui.add(new Label(equations));
+				tree.add(new Label(equations));
 			}
 
 			public void show() {
 				DialogBoxW box = new DialogBoxW(true, false, null,
 						getApp().getPanel(), app);
 				box.getCaption().setText("Steps");
-				box.add(ui);
+				box.add(tree);
 				box.addCancelButton();
 				box.center();
+			}
+
+			public void startGroup() {
+				if (top) {
+					top = false;
+					return;
+				}
+				TreeItem parent = item;
+				item = new TreeItem();
+				if (parent != null) {
+					parent.addItem(item);
+				} else {
+					tree.addItem(item);
+				}
+				parent = item;
+			}
+
+			public void endGroup() {
+				if (item != null) {
+					item = item.getParentItem();
+				}
 			}
 
 		};

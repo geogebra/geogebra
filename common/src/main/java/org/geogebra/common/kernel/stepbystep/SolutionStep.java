@@ -3,6 +3,8 @@ package org.geogebra.common.kernel.stepbystep;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
+
 public class SolutionStep {
 	private String label;
 	private StepTypes type;
@@ -17,22 +19,17 @@ public class SolutionStep {
 		return label;
 	}
 
-	public List<String> getListOfSteps() {
-		List<String> steps = new ArrayList<String>();
-		addSteps(steps);
-		return steps;
-	}
-
-	private void addSteps(List<String> steps) {
-		steps.add(getLabel());
+	public void getListOfSteps(StepGuiBuilder builder) {
+		builder.addLatexRow(getLabel());
 
 		if (substeps == null) {
 			return;
 		}
-
+		builder.startGroup();
 		for (int i = 0; i < substeps.size(); i++) {
-			(substeps.get(i)).addSteps(steps);
+			(substeps.get(i)).getListOfSteps(builder);
 		}
+		builder.endGroup();
 	}
 
 	public void addSubStep(SolutionStep s) {

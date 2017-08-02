@@ -42,4 +42,14 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 		return "[" + sb.toString() + "]";
 	}
 
+	public void startGroup() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void endGroup() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
