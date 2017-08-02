@@ -49,6 +49,10 @@ $slider-diameter:15px;
 	table {
 		border-collapse: initial;
 		border-spacing: initial;
+		border-width: 0px;
+	}
+	td {
+		border:initial;
 	}
 	.thumb {
 		display: none;
