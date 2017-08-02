@@ -89,24 +89,25 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 				ImageIcon icon = PropertiesViewD.getTypeIcon(app, type);
 				if (icon == null) {
 					Log.error("No icon for" + type);
-				}
-				btn.setIcon(icon);
-				btn.setPreferredSize(new Dimension(icon.getIconWidth(),
-						icon.getIconHeight()));
-				btn.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						propertiesView.setOptionPanel(type);
+				} else {
+					btn.setIcon(icon);
+					btn.setPreferredSize(new Dimension(icon.getIconWidth(),
+							icon.getIconHeight()));
+					btn.addActionListener(new ActionListener() {
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							propertiesView.setOptionPanel(type);
+						}
+					});
+					btnGroup.add(btn);
+					toolbar.add(btn);
+					buttonMap.put(type, btn);
+					// mi.setSelected(type ==
+					// propertiesView.getSelectedOptionType());
+					if (type == OptionType.OBJECTS
+							|| type == OptionType.SPREADSHEET) {
+						toolbar.addSeparator();
 					}
-				});
-				btnGroup.add(btn);
-				toolbar.add(btn);
-				buttonMap.put(type, btn);
-				// mi.setSelected(type ==
-				// propertiesView.getSelectedOptionType());
-				if (type == OptionType.OBJECTS
-						|| type == OptionType.SPREADSHEET) {
-					toolbar.addSeparator();
 				}
 			}
 		}
