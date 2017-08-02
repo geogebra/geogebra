@@ -1828,6 +1828,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Geometry": "Geometria",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "\xd3culos",
+    "Global": "Global",
     "GlobalJavaScript": "Javascript Global",
     "GoToDownloadPage": "Ir para P\xe1gina de Download",
     "GoToPlayStore": "Ir \xe0 Play Srore",

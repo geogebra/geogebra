@@ -1828,6 +1828,7 @@ __GGB__keysVar.cs.menu = {
     "Geometry": "Geometrie",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Anaglyfick\xe9 br\xfdle",
+    "Global": "Global",
     "GlobalJavaScript": "Glob\xe1ln\xed JavaScript",
     "GoToDownloadPage": "Zobrazit str\xe1nku \"Ke sta\u017een\xed\"",
     "GoToPlayStore": "Zobrazit Play Store",

@@ -1828,6 +1828,7 @@ __GGB__keysVar.xh.menu = {
     "Geometry": "IzifundoZeGeometry",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "iiGlasi",
+    "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",
     "GoToDownloadPage": "Go to download page",
     "GoToPlayStore": "Yiya ku Play Store",

@@ -1828,6 +1828,7 @@ __GGB__keysVar.bg.menu = {
     "Geometry": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u044f",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "\u041e\u0447\u0438\u043b\u0430",
+    "Global": "Global",
     "GlobalJavaScript": "\u0413\u043b\u0430\u0431\u0430\u043b\u0435\u043d JavaScript",
     "GoToDownloadPage": "\u041a\u044a\u043c \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0430\u0442\u0430 \u0437\u0430 \u0441\u0432\u0430\u043b\u044f\u043d\u0435",
     "GoToPlayStore": "\u041a\u044a\u043c Play Store",

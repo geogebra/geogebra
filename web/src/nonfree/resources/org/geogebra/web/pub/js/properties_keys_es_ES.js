@@ -1828,6 +1828,7 @@ __GGB__keysVar.es_ES.menu = {
     "Geometry": "Geometr\xeda",
     "GeometryCalculator": "Calculadora Geom\xe1trica",
     "Glasses": "Gafas 3D",
+    "Global": "Global",
     "GlobalJavaScript": "JavaScript global",
     "GoToDownloadPage": "Ir a p\xe1gina de descarga",
     "GoToPlayStore": "Ir a Play Store",

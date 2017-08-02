@@ -1828,6 +1828,7 @@ __GGB__keysVar.iw.menu = {
     "Geometry": "\u05d2\u05d0\u05d5\u05de\u05d8\u05e8\u05d9\u05d4",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "\u05d6\u05db\u05d5\u05db\u05d9\u05d5\u05ea",
+    "Global": "Global",
     "GlobalJavaScript": "\u200fJavaScript\u200f \u05d2\u05dc\u05d5\u05d1\u05dc\u05d9",
     "GoToDownloadPage": "\u05e2\u05d1\u05d5\u05e8 \u05dc\u05d3\u05e3 \u05d4\u05d4\u05d5\u05e8\u05d3\u05d4",
     "GoToPlayStore": "\u05e2\u05d1\u05e8\u05d5 \u05dc-Play Store",

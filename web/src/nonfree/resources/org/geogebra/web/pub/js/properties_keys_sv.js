@@ -1828,6 +1828,7 @@ __GGB__keysVar.sv.menu = {
     "Geometry": "Geometri",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Glas\xf6gon",
+    "Global": "Global",
     "GlobalJavaScript": "Globalt JavaScript",
     "GoToDownloadPage": "G\xe5 till nedladdningssidan",
     "GoToPlayStore": "G\xe5 till Play Store",

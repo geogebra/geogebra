@@ -1828,6 +1828,7 @@ __GGB__keysVar.is.menu = {
     "Geometry": "R\xfamfr\xe6\xf0i",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Gleraugu",
+    "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",
     "GoToDownloadPage": "Fara \xe1 s\xed\xf0u fyrir ni\xf0urhal",
     "GoToPlayStore": "Fara \xed Play Store",

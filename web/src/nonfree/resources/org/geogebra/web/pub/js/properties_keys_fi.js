@@ -1828,6 +1828,7 @@ __GGB__keysVar.fi.menu = {
     "Geometry": "Geometria",
     "GeometryCalculator": "Geometrialaskin",
     "Glasses": "Lasit",
+    "Global": "Global",
     "GlobalJavaScript": "Globaali JavaScript",
     "GoToDownloadPage": "Lataussivulle",
     "GoToPlayStore": "Mene Play Storeen",

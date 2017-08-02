@@ -1828,6 +1828,7 @@ __GGB__keysVar.pl.menu = {
     "Geometry": "Geometria",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Okulary",
+    "Global": "Global",
     "GlobalJavaScript": "Globalnie JavaScript",
     "GoToDownloadPage": "Przejd\u017a do strony pobierania",
     "GoToPlayStore": "Go to Play Store",

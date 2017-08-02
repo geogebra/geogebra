@@ -1828,6 +1828,7 @@ __GGB__keysVar.eu.menu = {
     "Geometry": "Geometria",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Betaurrekoak",
+    "Global": "Global",
     "GlobalJavaScript": "JavaScript orokorra",
     "GoToDownloadPage": "Joan jaisteko orrialdera",
     "GoToPlayStore": "Joan Play Store-era",

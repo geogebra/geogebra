@@ -1828,6 +1828,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Geometry": "\u5e7e\u4f55",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "3D \u773c\u93e1",
+    "Global": "Global",
     "GlobalJavaScript": "\u5168\u57df JavaScript",
     "GoToDownloadPage": "\u5230\u4e0b\u8f09\u9801\u9762",
     "GoToPlayStore": "Go to Play Store",

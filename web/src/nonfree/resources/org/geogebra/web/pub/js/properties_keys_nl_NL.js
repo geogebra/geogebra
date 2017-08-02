@@ -1828,6 +1828,7 @@ __GGB__keysVar.nl_NL.menu = {
     "Geometry": "Meetkunde",
     "GeometryCalculator": "Meetkunde rekenmachine",
     "Glasses": "Brilglazen",
+    "Global": "Global",
     "GlobalJavaScript": "Globaal JavaScript",
     "GoToDownloadPage": "Ga naar download pagina",
     "GoToPlayStore": "Ga naar Play Store",

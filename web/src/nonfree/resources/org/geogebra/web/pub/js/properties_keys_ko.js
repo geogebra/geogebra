@@ -1828,6 +1828,7 @@ __GGB__keysVar.ko.menu = {
     "Geometry": "\uae30\ud558",
     "GeometryCalculator": "\uae30\ud558 \uacc4\uc0b0\uae30",
     "Glasses": "\uc548\uacbd",
+    "Global": "Global",
     "GlobalJavaScript": "\uc804\uc5ed \uc790\ubc14\uc2a4\ud06c\ub9bd\ud2b8",
     "GoToDownloadPage": "\ub2e4\uc6b4\ub85c\ub4dc \ud398\uc774\uc9c0\ub85c \uc774\ub3d9",
     "GoToPlayStore": "Play \uc2a4\ud1a0\uc5b4\ub85c \uc774\ub3d9",

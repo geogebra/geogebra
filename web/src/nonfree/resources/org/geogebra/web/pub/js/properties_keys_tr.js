@@ -1828,6 +1828,7 @@ __GGB__keysVar.tr.menu = {
     "Geometry": "Geometri",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Mercekler",
+    "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",
     "GoToDownloadPage": "\u0130ndirme sayfas\u0131na git",
     "GoToPlayStore": "Play Store'a Git",

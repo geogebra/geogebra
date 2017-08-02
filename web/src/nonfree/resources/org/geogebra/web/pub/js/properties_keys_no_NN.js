@@ -1828,6 +1828,7 @@ __GGB__keysVar.no_NN.menu = {
     "Geometry": "Geometri",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Briller",
+    "Global": "Global",
     "GlobalJavaScript": "Globalt JavaScript",
     "GoToDownloadPage": "G\xe5 til side for nedlasting",
     "GoToPlayStore": "G\xe5 til Play Store",

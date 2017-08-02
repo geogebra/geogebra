@@ -1828,6 +1828,7 @@ __GGB__keysVar.sl.menu = {
     "Geometry": "Geometrija",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "O\u010dala",
+    "Global": "Global",
     "GlobalJavaScript": "Globalno JavaScript",
     "GoToDownloadPage": "Na stran za prenose",
     "GoToPlayStore": "Pojdite v Play trgovino",

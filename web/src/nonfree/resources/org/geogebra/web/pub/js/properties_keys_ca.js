@@ -1828,6 +1828,7 @@ __GGB__keysVar.ca.menu = {
     "Geometry": "Geometria",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Ulleres",
+    "Global": "Global",
     "GlobalJavaScript": "Javascript Global",
     "GoToDownloadPage": "Ves a la p\xe0gina de desc\xe0rrega",
     "GoToPlayStore": "V\xe8s al Play Store",

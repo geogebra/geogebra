@@ -1828,6 +1828,7 @@ __GGB__keysVar.hr.menu = {
     "Geometry": "Geometrija",
     "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Nao\u010dale",
+    "Global": "Global",
     "GlobalJavaScript": "Globalni JavaScript",
     "GoToDownloadPage": "Idi na stranicu za preuzimanje",
     "GoToPlayStore": "Idi na Google Play",
