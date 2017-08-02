@@ -37,6 +37,8 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	private FlowPanel zoomPanel = this;
 	private AppW app;
 	private EuclidianView view;
+	/** after we leave fullscreen, we must reset container position */
+	private String containerPositionBefore;
 
 	public ZoomPanel(EuclidianView view) {
 		this.view = view;
@@ -250,6 +252,10 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			}
 		}
 		isFullScreen = !isFullScreen;
+		if (!isFullScreen && container != null) {
+			container.getStyle().setProperty("postion",
+					containerPositionBefore);
+		}
 		Browser.toggleFullscreen(isFullScreen, container);
 	}
 
@@ -261,6 +267,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
 		container.getStyle().setWidth(100, Unit.PCT);
 		container.getStyle().setHeight(100, Unit.PCT);
+		containerPositionBefore = container.getStyle().getPosition();
 		container.getStyle().setPosition(Position.ABSOLUTE);
 		double marginLeft = 0;
 		double marginTop = 0;
