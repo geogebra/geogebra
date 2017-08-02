@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPoints;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPrism;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramid;
@@ -449,6 +450,48 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		return currentDistance;
+	}
+
+	@Override
+	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		if (isVisible()) {
+			for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
+					.getPolygonsLinked()) {
+				exportToPrinter3D(exportToPrinter3D, p);
+			}
+			for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
+					.getPolygons()) {
+				exportToPrinter3D(exportToPrinter3D, p);
+			}
+		}
+	}
+
+	private void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D,
+			GeoPolygon polygon) {
+		// export only polygons that have no label
+		if (!polygon.isEuclidianVisible() || polygon.isLabelSet()) {
+			return;
+		}
+
+		int pointLength = polygon.getPointsLength();
+
+		if (pointLength < 3) { // no polygon
+			return;
+		}
+
+		if (vertices.length < pointLength) {
+			vertices = new Coords[pointLength];
+			for (int i = 0; i < pointLength; i++) {
+				vertices[i] = new Coords(3);
+			}
+		}
+
+		for (int i = 0; i < pointLength; i++) {
+			vertices[i].setValues(polygon.getPoint3D(i), 3);
+		}
+
+		exportToPrinter3D.export(polygon, vertices);
+
 	}
 
 }
