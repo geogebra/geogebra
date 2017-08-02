@@ -4208,8 +4208,10 @@ public abstract class App implements UpdateSelection {
 
 		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
 			return isNativeMobileAppWithNewUI();
+
+		/** GGB-1838 */
 		case ZOOM_PANEL:
-			return prerelease;
+			return true;
 
 		case MOB_TOOLSET_LEVELS:
 			return isNativeMobileAppWithNewUI();
