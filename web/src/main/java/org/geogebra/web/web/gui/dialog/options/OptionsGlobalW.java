@@ -23,6 +23,8 @@ public class OptionsGlobalW implements OptionPanelW {
 	private ListBox roundingList;
 	private Label lblLabeling;
 	private ListBox labelingList;
+	private Label lblFontSize;
+	private ListBox fontSizeList;
 
 
 	/**
@@ -50,12 +52,25 @@ public class OptionsGlobalW implements OptionPanelW {
 				app.getLocalization().getMenu("Labeling") + ":");
 		labelingList = new ListBox();
 		optionsPanel.add(LayoutUtilW.panelRowIndent(lblLabeling, labelingList));
+		lblFontSize = new Label(
+				app.getLocalization().getMenu("FontSize") + ":");
+		fontSizeList = new ListBox();
+		optionsPanel.add(LayoutUtilW.panelRowIndent(lblFontSize, fontSizeList));
 	}
 
 	@Override
 	public void updateGUI() {
 		updateRoundingList();
 		updateLabelingList();
+		updateFontSizeList();
+	}
+
+	private void updateFontSizeList() {
+		for (int i = 0; i < org.geogebra.common.util.Util
+				.menuFontSizesLength(); i++) {
+			fontSizeList.addItem(
+					org.geogebra.common.util.Util.menuFontSizes(i) + " pt");
+		}
 	}
 
 	private void updateLabelingList() {

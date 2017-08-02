@@ -154,6 +154,8 @@ public class PropertiesViewW extends PropertiesView
 			if (globalPanel == null && app.has(Feature.GLOBAL_SETTINGS)) {
 				globalPanel = new OptionsGlobalW((AppW) app);
 				return globalPanel;
+			} else if (globalPanel != null) {
+				return globalPanel;
 			}
 
 		case DEFAULTS:
