@@ -6286,18 +6286,32 @@ namespace giac {
       makespreadsheetmatrice(m,contextptr);
       if (s>=5){ // convert(matrix,cell,command,row,col)
 	// command==copy down, copy right, insert/delete row, insert/delete col
-	gen CMD=v[2],R=v[3],C=v[4];
-	if (CMD.type!=_STRNG || !is_integer(R) || !is_integer(C))
+	gen CMD=v[2],cmd,R=v[3],C=v[4];
+	if (!is_integer(R) || !is_integer(C))
 	  return gensizeerr(contextptr);
-	string cmd=*CMD._STRNGptr;
+	string scmd;
+	if (CMD.type-=_STRNG)
+	  scmd=*CMD._STRNGptr;
+	else 
+	  if (!is_integral(CMD)) return gensizeerr(contextptr);
+	if (scmd=="copy down")
+	  cmd=0;
+	if (scmd=="copy right")
+	  cmd=1;
 	int r=R.val,c=C.val;
 	if (r<0 || r>=lignes || c<0 || c>=colonnes)
 	  return gendimerr(contextptr);
-	if (cmd=="copy down"){
-	  gen cellule=m[r][c];
+	gen cellule=m[r][c];
+	if (cmd==0){
 	  for (int i=r+1;i<lignes;++i){
 	    vecteur & v=*m[i]._VECTptr;
 	    v[c]=freecopy(cellule);
+	  }
+	}
+	if (cmd==1){
+	  vecteur & v=*m[r]._VECTptr;
+	  for (int j=c+1;j<colonnes;++j){
+	    v[j]=freecopy(cellule);
 	  }
 	}
 	spread_eval(m,contextptr);

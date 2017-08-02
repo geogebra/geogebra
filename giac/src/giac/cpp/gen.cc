@@ -3825,6 +3825,8 @@ namespace giac {
     case _USER:
       return a._USERptr->abs(contextptr);
     case _FRAC:
+      if (is_integer(a._FRACptr->num) && is_integer(a._FRACptr->den))
+	return fraction(abs(a._FRACptr->num,contextptr),abs(a._FRACptr->den,contextptr));
       return rdiv(abs(a._FRACptr->num,contextptr),abs(a._FRACptr->den,contextptr),contextptr);
     default:
       return gentypeerr(gettext("Abs"));
@@ -4336,6 +4338,18 @@ namespace giac {
       return (*a._FRACptr)+(*b._FRACptr);
     case _FRAC__FLOAT_:
       return evalf2bcd(a,1,contextptr)+b;
+    case _INT___FRAC: case _ZINT__FRAC:
+      if (b.ref_count()==1){
+	b._FRACptr->num += a*(b._FRACptr->den);
+	return b;
+      }
+      return a+(*b._FRACptr);
+    case _FRAC__INT_: case _FRAC_ZINT:
+      if (a.ref_count()==1){
+	a._FRACptr->num += b*(a._FRACptr->den);
+	return a;
+      }
+      return (*a._FRACptr)+b;
     case _FRAC__DOUBLE_:
       return ck_evalf_double(a,contextptr)+b;
     case _SPOL1__SPOL1:
@@ -5786,6 +5800,10 @@ namespace giac {
       return double_times_frac(a,*b._FRACptr,contextptr);
     case _FRAC__FLOAT_: case _FRAC__DOUBLE_:
       return double_times_frac(b,*a._FRACptr,contextptr);
+    case _INT___FRAC: case _ZINT__FRAC:
+      return a*(*b._FRACptr);
+    case _FRAC__INT_: case _FRAC_ZINT:
+      return (*a._FRACptr)*b;
     case _DOUBLE___ZINT:
       return a._DOUBLE_val*mpz_get_d(*b._ZINTptr);
     case _DOUBLE___REAL:

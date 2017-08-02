@@ -185,6 +185,8 @@ namespace giac {
 
   extern const unary_function_ptr * const  at_weibulld ;
 
+  extern const unary_function_ptr * const  at_wilcoxont ;
+
   gen Beta(const gen & a,const gen& b,GIAC_CONTEXT);
   gen _Beta(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Beta ;
