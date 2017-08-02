@@ -1788,9 +1788,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		((AppW) app).getArticleElement().setAttribute("data-param-showMenuBar",
 				show + "");
 		if (!show) {
-			if (((AppWapplet) app).getAppletFrame().getToolbar() != null) {
-			((AppWapplet) app).getAppletFrame().getToolbar()
-					.updateActionPanel();
+			GGWToolBar tb = ((AppWapplet) app).getAppletFrame().getToolbar();
+			if (tb != null) {
+				tb.onResize();
+				tb.updateActionPanel();
 			}
 		} else {
 			((AppWapplet) app).getAppletFrame().attachMenubar((AppW) app);
