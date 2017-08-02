@@ -21,13 +21,15 @@ $slider-diameter:15px;
 		text-decoration: none;
 		box-sizing:content-box;
 	}
-	input {
+	td, img, li, input, input[type="number"], input[type="text"] {
 		margin: initial;
 		padding: initial;
 		border: initial;
 		outline: initial;
 		height: initial;
 		width: initial;
+		max-width: initial;
+		background-color: initial;
 	}
 	input[type="checkbox"] {
 		position: initial;
@@ -51,12 +53,7 @@ $slider-diameter:15px;
 		border-spacing: initial;
 		border-width: 0px;
 	}
-	td, img, li {
-		border: initial;
-		margin: initial;
-		max-width: initial;
-		background-color: initial;
-	}
+
 	.thumb {
 		display: none;
 	}
