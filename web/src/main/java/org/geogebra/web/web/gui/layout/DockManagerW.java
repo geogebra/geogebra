@@ -1900,6 +1900,8 @@ public class DockManagerW extends DockManager {
 			split.setLeftComponent(avPanel);
 			split.setRightComponent(opposite);
 		}
+
+
 	}
 
 	private void calculateKeyboardHeight() {

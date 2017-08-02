@@ -9,6 +9,8 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -56,9 +58,23 @@ public class ToolbarDockPanelW extends DockPanelW {
 	
 	@Override
 	public void onResize() {
-		if (toolbar != null) {
+		super.onResize();
+
+		if (toolbar != null // && toolbar.isAnimating()
+				) {
 			toolbar.resize();
 		}
+
+	}
+
+	@Override
+	public void deferredOnResize() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				toolbar.resize();
+			}
+		});
 	}
 
 	@Override

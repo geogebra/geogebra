@@ -81,6 +81,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private ToolsTab tabTools = null;
 	private TabIds selectedTab;
 	private boolean closedByUser = false;
+	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
+
+		public void execute() {
+			resize();
+		}
+	};
 	/**
 	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
 	 * this.
@@ -813,8 +819,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * Resize tabs.
 	 */
 	public void resize() {
+		int w = getOffsetWidth();
+		if (w == 0) {
+			return;
+		}
+
 		header.resize();
-		main.setWidth(getOffsetWidth() * 2 + "px");
+		main.setWidth(w * 2 + "px");
 		if (tabAlgebra != null) {
 			tabAlgebra.onResize();
 		}
@@ -823,22 +834,22 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			tabTools.onResize();
 		}
 
-		if (isPortrait() && !isClosedByUser()) {
-			int h = getOffsetHeight();
-			if (h > HEIGHT_CLOSED) {
-				if (h < HEIGHT_AUTO_CLOSE) {
-					// close();
-				} else {
-					doOpen();
-				}
-			}
-		} else {
-			if (getOffsetWidth() < WIDTH_AUTO_CLOSE) {
-				close();
-			} else if (!isClosedByUser()) {
-				doOpen();
-			}
-		}
+		// if (isPortrait() && !isClosedByUser()) {
+		// int h = getOffsetHeight();
+		// if (h > HEIGHT_CLOSED) {
+		// if (h < HEIGHT_AUTO_CLOSE) {
+		// // close();
+		// } else {
+		// doOpen();
+		// }
+		// }
+		// } else {
+		// if (getOffsetWidth() < WIDTH_AUTO_CLOSE) {
+		// close();
+		// } else if (!isClosedByUser()) {
+		// doOpen();
+		// }
+		// }
 	}
 
 	/**
@@ -870,6 +881,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	Integer getLastOpenHeight() {
 		return lastOpenHeight;
 	}
+
 
 	/**
 	 * Sets the last opened height in portrait mode.
@@ -990,5 +1002,17 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	void setClosedByUser(boolean value) {
 		this.closedByUser = value;
+	}
+
+	/**
+	 * 
+	 * @return if toolbar is animating or not.
+	 */
+	public boolean isAnimating() {
+		return header.isAnimating();
+	}
+
+	public void deferredOnResize() {
+		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 }
