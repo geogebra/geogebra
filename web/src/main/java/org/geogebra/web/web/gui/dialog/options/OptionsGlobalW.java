@@ -7,6 +7,8 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -19,13 +21,19 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class OptionsGlobalW implements OptionPanelW {
-	private AppW app;
+	/**
+	 * application
+	 */
+	AppW app;
 	private FlowPanel optionsPanel;
 	private Label lblGlobal;
 	private Label lblRounding;
 	private ListBox roundingList;
 	private Label lblLabeling;
-	private ListBox labelingList;
+	/**
+	 * labeling combo box
+	 */
+	ListBox labelingList;
 	private Label lblFontSize;
 	private ListBox fontSizeList;
 	private StandardButton saveSettingsBtn;
@@ -47,23 +55,36 @@ public class OptionsGlobalW implements OptionPanelW {
 	private void createGUI() {
 		optionsPanel = new FlowPanel();
 		optionsPanel.setStyleName("algebraOptions");
+		lblGlobal = new Label(app.getLocalization().getMenu("Global"));
+		lblGlobal.addStyleName("panelTitle");
+		optionsPanel.add(lblGlobal);
 		addLabelsWithComboBox();
 		addSaveSettingBtn();
 		addRestoreSettingsBtn();
 	}
 
-	private void addLabelsWithComboBox() {
-		lblGlobal = new Label(app.getLocalization().getMenu("Global"));
-		lblGlobal.addStyleName("panelTitle");
-		optionsPanel.add(lblGlobal);
-		lblRounding = new Label(
-				app.getLocalization().getMenu("Rounding") + ":");
-		roundingList = new ListBox();
-		optionsPanel.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
+	private void addLabelingItem() {
 		lblLabeling = new Label(
 				app.getLocalization().getMenu("Labeling") + ":");
 		labelingList = new ListBox();
 		optionsPanel.add(LayoutUtilW.panelRowIndent(lblLabeling, labelingList));
+		labelingList.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				int index = labelingList.getSelectedIndex();
+				app.setLabelingStyle(index);
+			}
+		});
+		labelingList.setSelectedIndex(app.getLabelingStyle());
+	}
+
+	private void addLabelsWithComboBox() {
+		lblRounding = new Label(
+				app.getLocalization().getMenu("Rounding") + ":");
+		roundingList = new ListBox();
+		optionsPanel.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
+		addLabelingItem();
 		lblFontSize = new Label(
 				app.getLocalization().getMenu("FontSize") + ":");
 		fontSizeList = new ListBox();
@@ -119,6 +140,7 @@ public class OptionsGlobalW implements OptionPanelW {
 		for (String str : labelingStrs) {
 			labelingList.addItem(app.getLocalization().getMenu(str));
 		}
+		labelingList.setSelectedIndex(app.getLabelingStyle());
 	}
 
 	private void updateRoundingList() {
