@@ -4243,7 +4243,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AND_TRANSPARENT_STATUSBAR:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		case AND_MOVE_FAB:
 			return prerelease;
