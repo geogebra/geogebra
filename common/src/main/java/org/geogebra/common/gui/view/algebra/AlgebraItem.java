@@ -173,4 +173,11 @@ public class AlgebraItem {
 
 		return outputText;
 	}
+
+	public static boolean isCompactItem(GeoElement element) {
+		return element != null && element.getParentAlgorithm() != null
+				&& element.getParentAlgorithm().getOutput(0) != element
+				&& element.getKernel().getApplication().getSettings().getAlgebra()
+				.getTreeMode() == SortMode.ORDER;
+	}
 }

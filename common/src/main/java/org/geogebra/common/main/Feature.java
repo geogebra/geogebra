@@ -280,8 +280,10 @@ public enum Feature {
 	
 	/** GGB-1985*/
 	FLOATING_SETTINGS,
-	
+
 	/** GGB-1989*/
-	GLOBAL_SETTINGS
+	GLOBAL_SETTINGS,
+
+	AND_COMPACT_AV_OUTPUT
 
 }

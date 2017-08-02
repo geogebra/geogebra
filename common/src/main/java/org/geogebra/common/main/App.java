@@ -4270,6 +4270,9 @@ public abstract class App implements UpdateSelection {
 	
 		case FLOATING_SETTINGS:
 			return prerelease;
+
+		case AND_COMPACT_AV_OUTPUT:
+			return prerelease;
 			
 		case GLOBAL_SETTINGS:
 			return prerelease;
