@@ -614,10 +614,7 @@ public class TabbedKeyboard extends FlowPanel {
 					Unicode.EULER_STRING + "^", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_10.name())) {
-			return latex
-					? createLatexButton("log_{10}", latexFont,
-							Unicode.EULER_STRING + "^", bh)
-					: new KeyBoardButtonBase("log_10", "log10", bh);
+			return new KeyBoardButtonBase("log_10", "log10", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_B.name())) {
 			return latex
