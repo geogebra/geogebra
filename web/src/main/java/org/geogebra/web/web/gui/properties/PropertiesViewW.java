@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.util.PersistablePanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
@@ -23,6 +22,7 @@ import org.geogebra.web.web.gui.dialog.options.OptionsGlobalW;
 import org.geogebra.web.web.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.web.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.web.gui.dialog.options.OptionsSpreadsheetW;
+import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.user.client.ui.FlowPanel;

@@ -1,4 +1,4 @@
-package org.geogebra.web.html5.gui.util;
+package org.geogebra.web.web.gui.util;
 
 import org.geogebra.web.web.gui.Persistable;
 
