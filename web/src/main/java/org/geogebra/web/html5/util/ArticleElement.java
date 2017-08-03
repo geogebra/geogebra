@@ -585,4 +585,25 @@ public final class ArticleElement extends Element {
 				|| "true".equals(this.getAttribute(attr));
 	}
 
+	public int getDataParamMarginTop() {
+		return this.getIntegerAttribute("data-param-marginTop", 0);
+	}
+
+	public int computeHeight() {
+		// do we have data-param-height?
+		int height = getDataParamHeight()
+				- getBorderThickness();
+		if (height > 0) {
+			return height;
+		}
+
+		// do we have fit to screen?
+
+		if (getDataParamFitToScreen()) {
+			height = getOffsetHeight() - getDataParamMarginTop();
+		}
+
+		return height;
+	}
+
 }

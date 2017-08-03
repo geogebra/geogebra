@@ -810,8 +810,7 @@ public class AppWapplet extends AppWFull {
 	 */
 	@Override
 	public void updateSplitPanelHeight() {
-		int newHeight = this.getAppletFrame().computeHeight()
-				- getArticleElement().getBorderThickness();
+		int newHeight = getArticleElement().computeHeight();
 		if (this.showAlgebraInput()
 				&& getInputPosition() != InputPosition.algebraView
 				&& getGuiManager().getAlgebraInput() != null) {

@@ -147,7 +147,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		preProcessFitToSceen();
 
 		int width = computeWidth();
-		int height = computeHeight();
+		int height = articleElement.computeHeight();
 
 		/*
 		 * if (ae.getDataParamShowMenuBar()) { // The menubar has extra height:
@@ -162,12 +162,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			splashWidth = width;
 			splashHeight = height;
 		}
-		int borderWidth = articleElement.getBorderThickness();
+
 		if (width > 0 && height > 0) {
-			setWidth((width - borderWidth) + "px"); // 2: border
+			setWidth(width + "px"); // 2: border
 			setComputedWidth(width);
 			setComputedHeight(height);
-			setHeight((height - borderWidth) + "px"); // 2: border
+			setHeight(height + "px"); // 2: border
 			// Styleshet not loaded yet, add CSS directly
 			splash.getElement().getStyle().setPosition(Position.RELATIVE);
 			splash.getElement().getStyle()
@@ -195,31 +195,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	}
 
-
-
-
-	public int computeHeight() {
-		// do we have data-param-height?
-		int height = ae.getDataParamHeight();
-		if (height > 0) {
-			return height;
-		}
-
-		// do we have fit to screen?
-
-		if (ae.getDataParamFitToScreen()) {
-			height = ae.getOffsetHeight();
-		}
-
-		return height;
-	}
-
 	private int computeWidth() {
 		// do we have data-param-width?
 		int width = ae.getDataParamWidth();
 
 		if (width > 0) {
-			return width;
+			return width - ae.getBorderThickness();
 		}
 
 		// do we have fit to screen?

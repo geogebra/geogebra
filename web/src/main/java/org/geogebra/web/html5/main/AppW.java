@@ -233,7 +233,7 @@ public abstract class AppW extends App implements SetLabels {
 			public void onResize(ResizeEvent event) {
 				if (getArticleElement().getDataParamFitToScreen()) {
 					AppW.this.getGgbApi().setSize(Window.getClientWidth(),
-							Window.getClientHeight());
+							getArticleElement().computeHeight());
 				}
 				windowResized();
 			}
