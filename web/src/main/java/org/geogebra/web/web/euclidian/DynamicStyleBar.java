@@ -171,13 +171,16 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		for (int i = 0; i < (isMultiSelection ? activeGeoList.size()
 				: 1); i++) {
+			GeoElement geo = activeGeoList.get(i);
 			if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
-					&& activeGeoList.get(0) instanceof GeoFunction) {
+					&& geo instanceof GeoFunction) {
 				nextPos = calculatePosition(null, true, false, true);
 			} else {
+				Drawable dr2 = (Drawable) ev.getDrawableND(geo);
 				nextPos = calculatePosition(
-						((Drawable) dr).getBoundsForStylebarPosition(),
-						!(dr instanceof DrawLine), dr instanceof DrawPoint,
+						dr2.getBoundsForStylebarPosition(),
+						!(dr2 instanceof DrawLine),
+						dr2 instanceof DrawPoint && activeGeoList.size() < 2,
 						false);
 			}
 
