@@ -3,7 +3,6 @@ package org.geogebra.web.web.euclidian;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
@@ -153,12 +152,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		
 		this.getElement().getStyle().setTop(-10000, Unit.PX);
 
-		DrawableND dr = ev.getDrawableND(activeGeoList.get(0));
-
-		if (!(dr instanceof Drawable)) {
-			return;
-		}
-
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
 			setPosition(calculatePosition(
@@ -177,11 +170,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 					&& geo instanceof GeoFunction) {
 				nextPos = calculatePosition(null, true, false, true);
 			} else {
-				Drawable dr2 = (Drawable) ev.getDrawableND(geo);
+				Drawable dr = (Drawable) ev.getDrawableND(geo);
 				nextPos = calculatePosition(
-						dr2.getBoundsForStylebarPosition(),
-						!(dr2 instanceof DrawLine),
-						dr2 instanceof DrawPoint && activeGeoList.size() < 2,
+						dr.getBoundsForStylebarPosition(),
+						!(dr instanceof DrawLine),
+						dr instanceof DrawPoint && activeGeoList.size() < 2,
 						false);
 			}
 
