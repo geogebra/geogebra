@@ -495,6 +495,9 @@ class Header extends FlowPanel {
 	 * handle resize of toolbar
 	 */
 	public void resize() {
+		if (isAnimating()) {
+			return;
+		}
 		updateCenterSize();
 		updateStyle();
 

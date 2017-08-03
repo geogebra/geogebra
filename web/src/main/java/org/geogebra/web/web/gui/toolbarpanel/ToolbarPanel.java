@@ -42,9 +42,13 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
+	private static final int HDRAGGER_WIDTH = 8;
+
+	private static final int TAB_COUNT = 2;
+
 	// dock panel animation time in milliseconds.
 	// For timing, see $open-close-transition also in toolbar-styles.scss
-	private static final int OPEN_ANIM_TIME = 200;
+	private static final int OPEN_ANIM_TIME = 2000;
 
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
@@ -126,7 +130,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		@Override
 		public void onResize() {
-			setWidth(ToolbarPanel.this.getOffsetWidth()+"px");
+			setWidth(ToolbarPanel.this.getTabWidth() + "px");
 			setHeight("100%");
 		}
 	}
@@ -379,6 +383,18 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		initGUI();
 
 		initClickStartHandler();
+	}
+
+	/**
+	 * 
+	 * @return width of one tab.
+	 */
+	public int getTabWidth() {
+		int w = header.getOffsetWidth();
+		if (isAnimating()) {
+			w -= HDRAGGER_WIDTH;
+		}
+		return w > 0 ? w : 0;
 	}
 
 	private void initClickStartHandler() {
@@ -807,7 +823,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * Called after open.
 	 */
 	protected void onOpen() {
-		resize();
+		resizeTabs();
 		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
 
 	}
@@ -822,7 +838,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 
 		header.resize();
-		main.setWidth(w * 2 + "px");
+		resizeTabs();
+
+	}
+
+	private void resizeTabs() {
+		main.setWidth(TAB_COUNT * getTabWidth() + "px");
+
 		if (tabAlgebra != null) {
 			tabAlgebra.onResize();
 		}
@@ -831,7 +853,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			tabTools.onResize();
 		}
 	}
-
 	/**
 	 * Shows/hides full toolbar.
 	 */

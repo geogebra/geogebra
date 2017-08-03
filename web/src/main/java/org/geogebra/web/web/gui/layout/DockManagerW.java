@@ -1830,9 +1830,7 @@ public class DockManagerW extends DockManager {
 			// run only if oreintation has changed;
 			final double landscape = app.isUnbundled()
 					? MIN_TOOLBAR_WIDTH / app.getWidth()
-					: PerspectiveDecoder
-					.landscapeRatio(app.getWidth());
-			Log.debug("landscape: " + landscape);
+					: PerspectiveDecoder.landscapeRatio(app.getWidth());
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 				@Override
@@ -1884,8 +1882,9 @@ public class DockManagerW extends DockManager {
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
 
-		double portraitDivider = (avHeight)
-				/ (appHeight);
+		double portraitDivider = (avHeight) / (appHeight);
+
+		Log.debug("landscape: portraitDivider " + portraitDivider);
 
 		split.clear();
 		setDividerLocation(split,

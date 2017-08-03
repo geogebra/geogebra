@@ -60,8 +60,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 	public void onResize() {
 		super.onResize();
 
-		if (toolbar != null // && toolbar.isAnimating()
-				) {
+		if (toolbar != null) {
 			toolbar.resize();
 		}
 
