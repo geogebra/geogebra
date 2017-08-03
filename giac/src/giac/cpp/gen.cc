@@ -1776,20 +1776,20 @@ namespace giac {
       return evalf(n,1,contextptr)/evalf(d,1,contextptr);
     if (is_zero(n))
       return evalf(n,0,contextptr);
-    bool neg=is_strictly_positive(-n*d,contextptr);
-    if (is_strictly_positive(-n,contextptr))
+    bool npos=is_positive(n,contextptr),dpos=is_positive(d,contextptr);
+    bool neg=npos?!dpos:dpos;
+    if (!npos)
       n=-n;
-    if (is_strictly_positive(-d,contextptr))
+    if (!dpos)
       d=-d;
-    gen a=iquo(n,d);
-    bool inf1=is_zero(a);
-    if (inf1)
-      a=iquo(d,n);
+    bool inf1=is_greater(d,n,contextptr);
+    gen a=inf1?iquo(d,n):iquo(n,d);
 #ifdef BCD
-    gen m=gen(longlong(100000000000000));
+    static gen m=gen(longlong(100000000000000));
 #else
-    gen m=gen(longlong(1)<<61);
+    static gen m=gen(longlong(1)<<61);
 #endif
+    static gen md=gen(1.0)/m;
     if (is_greater(a,m,contextptr)){
       gen res=evalf(a,1,contextptr);
       if (neg) res=-res;
@@ -1798,7 +1798,7 @@ namespace giac {
     a=inf1?iquo(d*m,n):iquo(n*m,d);
     gen res=evalf(a,1,contextptr);
     if (neg) res=-res;
-    res = res/m;
+    res = md*res;
     return inf1?inv(res,contextptr):res;
   }
 
