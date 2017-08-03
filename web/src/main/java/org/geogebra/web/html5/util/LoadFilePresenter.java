@@ -246,7 +246,10 @@ public class LoadFilePresenter {
 		}
 
 		// no Feature.ADJUST_VIEWS: returns false.
-		// app.adjustViews(false, false);
+		if (app.getHeight() > app.getWidth()) {
+			app.adjustViews(false, false);
+		}
+
 		boolean smallScreen = Window.getClientWidth() < MIN_SIZE_FOR_PICKER
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
 		if (app.getArticleElement().getDataParamShowAppsPicker()
