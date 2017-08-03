@@ -50,7 +50,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.scripting.CmdSetCoords;
 import org.geogebra.common.kernel.scripting.CmdSetValue;
-import org.geogebra.common.kernel.stepbystep.StepByStepSolver;
+import org.geogebra.common.kernel.stepbystep.EquationSteps;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -2189,12 +2189,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public String stepByStep(String eq) {
 		String[] equation = eq.split("=");	
 
-		StepByStepSolver sbss = new StepByStepSolver(kernel, equation[0], equation[1], "x");
+		EquationSteps sbss = new EquationSteps(kernel, equation[0], equation[1], "x");
 
 		StepGuiBuilderJson builder = new StepGuiBuilderJson();
 		sbss.getSteps().getListOfSteps(builder);
 		return builder.toString();
-
-}
+	}
 
 }

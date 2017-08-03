@@ -7,10 +7,10 @@ import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 
 public class SolutionStep {
 	private String label;
-	private StepTypes type;
+	private SolutionStepTypes type;
 	private List<SolutionStep> substeps;
 
-	public SolutionStep(String label, StepTypes type) {
+	public SolutionStep(String label, SolutionStepTypes type) {
 		this.label = label;
 		this.type = type;
 	}
@@ -47,18 +47,18 @@ public class SolutionStep {
 	}
 
 	public boolean isComment() {
-		return type == StepTypes.COMMENT;
+		return type == SolutionStepTypes.COMMENT;
 	}
 
 	public boolean isInstruction() {
-		return type == StepTypes.INSTRUCTION;
+		return type == SolutionStepTypes.INSTRUCTION;
 	}
 
 	public boolean isEquation() {
-		return type == StepTypes.EQUATION;
+		return type == SolutionStepTypes.EQUATION;
 	}
 
 	public boolean isSolution() {
-		return type == StepTypes.SOLUTION;
+		return type == SolutionStepTypes.SOLUTION;
 	}
 }

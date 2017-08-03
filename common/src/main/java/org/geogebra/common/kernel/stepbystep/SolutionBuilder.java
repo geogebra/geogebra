@@ -19,7 +19,7 @@ public class SolutionBuilder {
 		return currentStep;
 	}
 
-	public void add(String s, StepTypes type) {
+	public void add(String s, SolutionStepTypes type) {
 		SolutionStep newStep = new SolutionStep(s, type);
 
 		if (currentStep == null) {
