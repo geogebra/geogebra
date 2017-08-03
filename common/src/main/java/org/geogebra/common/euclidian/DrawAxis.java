@@ -262,8 +262,8 @@ public class DrawAxis {
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
 					x - 2, 10,
-					view.axesLabels[1], font, false, GColor.BLACK, null, true,
-					false, null);
+					view.axesLabels[1], font, serif(view.axesLabels[1]),
+					GColor.BLACK, null, true, false, null);
 			g2.restoreTransform();
 		} else if (!view.axesLabels[1].contains("_")) {
 			layout.draw(g2, x,
@@ -294,7 +294,8 @@ public class DrawAxis {
 					view.getApplication(), geo, g2,
 					view.getWidth() - 5 - dim.getWidth(),
 					y + 4 - dim.getHeight(),
-					view.axesLabels[0], font, false, GColor.BLACK, null, true,
+					view.axesLabels[0], font, serif(view.axesLabels[0]),
+					GColor.BLACK, null, true,
 					false, null);
 			g2.restoreTransform();
 		} else if (!view.axesLabels[0].contains("_")) {
@@ -310,6 +311,11 @@ public class DrawAxis {
 			g2.setFont(old);
 		}
 
+	}
+
+	private static boolean serif(String string) {
+		return string != null && string.length() > 6
+				&& string.startsWith("$\\math");
 	}
 
 	private static boolean isLaTeX(String string) {
