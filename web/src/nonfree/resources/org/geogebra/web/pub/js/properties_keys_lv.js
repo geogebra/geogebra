@@ -1819,7 +1819,7 @@ __GGB__keysVar.lv.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
     "GeoGebraForum": "GeoGebra Forums",
-    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
+    "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "GeoGebra \u012apa\u0161\u012bbas",

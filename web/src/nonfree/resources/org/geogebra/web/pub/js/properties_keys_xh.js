@@ -1819,7 +1819,7 @@ __GGB__keysVar.xh.menu = {
     "GeoGebra3DGrapher": "Isibalimanani esiveza amacal'amathathu eJiyo",
     "GeoGebra3DGrapher.short": "3D Calculator",
     "GeoGebraForum": "Iforam ye-Geogebra",
-    "GeoGebraGeometry": "iGeometry Calculator kaJiyo",
+    "GeoGebraGeometry": "iGeometry kaJiyo",
     "GeoGebraGraphingCalculator": "Isixhobo sokubala sokwenza igrafu",
     "GeoGebraMaterials": "Izixhobo zikaJiyo",
     "GeoGebraProperties": "IiMpawu zeJiyoJebra",

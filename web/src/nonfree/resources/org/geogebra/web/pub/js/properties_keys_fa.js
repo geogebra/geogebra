@@ -1819,7 +1819,7 @@ __GGB__keysVar.fa.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Graphing Calculator",
     "GeoGebra3DGrapher.short": "3D Calculator",
     "GeoGebraForum": "\u062a\u0627\u0644\u0627\u0631 \u06af\u0641\u062a\u06af\u0648 \u062c\u0626\u0648\u062c\u0628\u0631\u0627",
-    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
+    "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Graphing Calculator",
     "GeoGebraMaterials": "GeoGebra Materials",
     "GeoGebraProperties": "\u0648\u06cc\u0698\u06af\u06cc\u0647\u0627\u06cc \u062c\u0626\u0648\u062c\u0628\u0631\u0627",

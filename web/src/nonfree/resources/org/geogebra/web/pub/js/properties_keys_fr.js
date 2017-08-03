@@ -1819,7 +1819,7 @@ __GGB__keysVar.fr.menu = {
     "GeoGebra3DGrapher": "GeoGebra Calculatrice 3D",
     "GeoGebra3DGrapher.short": "Calculatrice 3D",
     "GeoGebraForum": "GeoGebra Forum",
-    "GeoGebraGeometry": "GeoGebra Calc G\xe9om\xe9trie",
+    "GeoGebraGeometry": "GeoGebra G\xe9om\xe9trie",
     "GeoGebraGraphingCalculator": "GeoGebra Calculette Graphique",
     "GeoGebraMaterials": "Ressources GeoGebra",
     "GeoGebraProperties": "GeoGebra Propri\xe9t\xe9s",

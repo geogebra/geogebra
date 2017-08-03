@@ -1819,7 +1819,7 @@ __GGB__keysVar.cs.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grafy",
     "GeoGebra3DGrapher.short": "3D Grafy",
     "GeoGebraForum": "Forum GeoGebra",
-    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
+    "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra grafick\xfd kalkul\xe1tor",
     "GeoGebraMaterials": "GeoGebra Materi\xe1ly",
     "GeoGebraProperties": "Vlastnosti GeoGebry",

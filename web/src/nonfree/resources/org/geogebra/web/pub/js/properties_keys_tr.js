@@ -1819,7 +1819,7 @@ __GGB__keysVar.tr.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D Grafik",
     "GeoGebra3DGrapher.short": "3D-Grafik",
     "GeoGebraForum": "GeoGebra Forum",
-    "GeoGebraGeometry": "GeoGebra Geometry Calculator",
+    "GeoGebraGeometry": "GeoGebra Geometry",
     "GeoGebraGraphingCalculator": "GeoGebra Grafik Hesap Makinesi",
     "GeoGebraMaterials": "GeoGebra Materyalleri",
     "GeoGebraProperties": "GeoGebra \xd6zellikleri",
