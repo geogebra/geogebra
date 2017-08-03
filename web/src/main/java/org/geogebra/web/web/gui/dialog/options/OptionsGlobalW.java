@@ -2,9 +2,9 @@ package org.geogebra.web.web.gui.dialog.options;
 
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
