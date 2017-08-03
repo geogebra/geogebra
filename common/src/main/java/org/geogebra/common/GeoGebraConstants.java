@@ -152,9 +152,9 @@ public interface GeoGebraConstants {
 	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "https://www.geogebra.org/";
 	/** 4.2 desktop bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://www.geogebra.org/bugs/?v=5.0";
+	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "https://help.geogebra.org/bugs/?v=5.0";
 	/** web bug reports */
-	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://www.geogebra.org/bugs/?v=web";
+	public final static String GEOGEBRA_REPORT_BUG_WEB = "https://help.geogebra.org/bugs/?v=web";
 	/** GeoGebraTube beta URL, used when Feature.TUBE_BETA == true */
 	public final static String GEOGEBRA_WEBSITE_BETA = "https://beta.geogebra.org/";
 
