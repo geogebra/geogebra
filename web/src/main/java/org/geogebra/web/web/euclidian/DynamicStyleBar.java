@@ -1,5 +1,6 @@
 package org.geogebra.web.web.euclidian;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.DrawableND;
@@ -50,7 +51,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 							// If we clicked on a locked geo, the activeGeoList will
 							// contain it, so in this case the dynamic stylebar will
 							// be visible yet.
-							DynamicStyleBar.this.updateStyleBar();
+							DynamicStyleBar.this.updateStyleBar(false);
 						} else {
 							DynamicStyleBar.this.setVisible(addToSelection);
 						}
@@ -71,15 +72,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	}-*/;
 
-	/**
-	 * Sets the position of dynamic style bar. newPos position of right top
-	 * corner of bounding box of drawable
-	 */
-	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
+	private GPoint calculatePosition(GRectangle2D gRectangle2D,
+			boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
 
 		if (gRectangle2D == null && !isFunction) {
-			return;
+			return null;
 		}
 
 		int move = this.getContextMenuButton().getAbsoluteLeft()
@@ -134,13 +131,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			left = app.getActiveEuclidianView().getWidth() - this.getOffsetWidth();
 		}
 
-
-		this.getElement().getStyle().setLeft(left, Unit.PX);
-		this.getElement().getStyle().setTop(top, Unit.PX);
+		return new GPoint((int) left, (int) top);
 	}
-	
+
 	@Override
-	public void updateStyleBar() {
+	public void updateStyleBar(boolean isMultiSelection) {
 		if (!isVisible()) {
 			return;
 		}
@@ -149,7 +144,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		setOpen(true);
 
 		setMode(EuclidianConstants.MODE_MOVE);
-		super.updateStyleBar();
+		super.updateStyleBar(isMultiSelection);
 
 		if (activeGeoList == null || activeGeoList.size() == 0) {
 			this.setVisible(false);
@@ -164,18 +159,48 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			return;
 		}
 
-
-		if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
-				&& activeGeoList.get(0) instanceof GeoFunction) {
-			setPosition(null, true, false, true);
-		} else if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
+		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
-			setPosition(app.getActiveEuclidianView().getSelectionRectangle(),
-					true, false, false);
-		} else {
-			setPosition(((Drawable) dr).getBoundsForStylebarPosition(),
-					!(dr instanceof DrawLine), dr instanceof DrawPoint, false);
+			setPosition(calculatePosition(
+					app.getActiveEuclidianView().getSelectionRectangle(), true,
+					false, false));
+			return;
 		}
+
+		GPoint newPos = new GPoint(), nextPos;
+
+		for (int i = 0; i < (isMultiSelection ? activeGeoList.size()
+				: 1); i++) {
+			if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
+					&& activeGeoList.get(0) instanceof GeoFunction) {
+				nextPos = calculatePosition(null, true, false, true);
+			} else {
+				nextPos = calculatePosition(
+						((Drawable) dr).getBoundsForStylebarPosition(),
+						!(dr instanceof DrawLine), dr instanceof DrawPoint,
+						false);
+			}
+
+			if (i == 0) {
+				newPos = nextPos;
+			} else {
+				newPos.x = Math.max(newPos.x, nextPos.x);
+				newPos.y = Math.min(newPos.y, nextPos.y);
+
+			}
+
+		}
+
+		setPosition(newPos);
+	}
+
+	/**
+	 * Sets the position of dynamic style bar. for newPos
+	 */
+	private void setPosition(GPoint newPos) {
+		this.getElement().getStyle().setLeft(newPos.x, Unit.PX);
+		this.getElement().getStyle().setTop(newPos.y, Unit.PX);
+
 	}
 
 	@Override
@@ -183,4 +208,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		return true;
 	}
 	
+	public void setVisible(boolean v) {
+		super.setVisible(v);
+	}
+
 }

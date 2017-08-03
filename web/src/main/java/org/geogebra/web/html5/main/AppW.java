@@ -2964,11 +2964,11 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		if (getEuclidianView1().hasStyleBar()) {
-			getEuclidianView1().getStyleBar().updateStyleBar();
+			getEuclidianView1().getStyleBar().updateStyleBar(false);
 		}
 
 		if (hasEuclidianView2(1) && getEuclidianView2(1).hasStyleBar()) {
-			getEuclidianView2(1).getStyleBar().updateStyleBar();
+			getEuclidianView2(1).getStyleBar().updateStyleBar(false);
 		}
 
 		if (has(Feature.DYNAMIC_STYLEBAR)) {
@@ -2980,12 +2980,12 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void updateDynamicStyleBars() {
 		if (getEuclidianView1().hasDynamicStyleBar()) {
-			getEuclidianView1().getDynamicStyleBar().updateStyleBar();
+			getEuclidianView1().getDynamicStyleBar().updateStyleBar(false);
 		}
 
 		if (hasEuclidianView2(1)
 				&& getEuclidianView2(1).hasDynamicStyleBar()) {
-			getEuclidianView2(1).getDynamicStyleBar().updateStyleBar();
+			getEuclidianView2(1).getDynamicStyleBar().updateStyleBar(false);
 		}
 	}
 

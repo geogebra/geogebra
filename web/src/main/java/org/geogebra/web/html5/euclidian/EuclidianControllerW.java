@@ -437,9 +437,9 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected void addDynamicStylebar() {
+	protected void addDynamicStylebar(boolean isMultiSelection) {
 		getView().getDynamicStyleBar().setVisible(true);
-		getView().getDynamicStyleBar().updateStyleBar();
+		getView().getDynamicStyleBar().updateStyleBar(isMultiSelection);
 	}
 
 	public void onPointerEventMove(PointerEvent event) {

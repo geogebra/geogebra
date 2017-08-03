@@ -5841,7 +5841,7 @@ public abstract class EuclidianController {
 				selectionPreview);
 	}
 
-	protected void addDynamicStylebar(){
+	protected void addDynamicStylebar(boolean isMultiSelection){
 		// implemented in EuclidianControllerW
 	}
 
@@ -10006,7 +10006,7 @@ public abstract class EuclidianController {
 			getResizedShape().updateGeo(event);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!draggingOccured) {
-				addDynamicStylebar();
+				addDynamicStylebar(false);
 			}
 			storeUndoInfo();
 			setResizedShape(null);
@@ -10025,7 +10025,7 @@ public abstract class EuclidianController {
 					view.repaintView();
 					selection.addSelectedGeo(geo);
 					if (!draggingOccured) {
-						addDynamicStylebar();
+						addDynamicStylebar(false);
 					}
 				}
 
@@ -10038,7 +10038,7 @@ public abstract class EuclidianController {
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
 					&& !draggingOccured) {
-				addDynamicStylebar();
+				addDynamicStylebar(event.isControlDown());
 			}
 		}
 
@@ -10106,7 +10106,7 @@ public abstract class EuclidianController {
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& mode == EuclidianConstants.MODE_SELECT && !draggingOccured) {
-			addDynamicStylebar();
+			addDynamicStylebar(false);
 		}
 		if (this.pointerUpCallback != null) {
 			runPointerCallback(pointerUpCallback);

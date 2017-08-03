@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -209,7 +208,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			getCurrentPopup().hide();
 		}
 
-		updateStyleBar();
+		updateStyleBar(false);
 
 	}
 
@@ -234,7 +233,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				// do nothing
 				break;
 			case UPDATE:
-				updateStyleBar();
+				updateStyleBar(false);
 				break;
 			case UPDATE_STYLE:
 				updateButtons();
@@ -248,7 +247,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
 	@Override
-	public void updateStyleBar() {
+	public void updateStyleBar(boolean isMultiSelection) {
 		if (!visible) {
 			this.waitingOperation = StyleBarMethod.UPDATE;
 			return;
@@ -1929,11 +1928,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	public static void setCurrentPopup(ButtonPopupMenu currentPopup) {
 		EuclidianStyleBarW.currentPopup = currentPopup;
-	}
-
-	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
-		//used only in DynamicStyleBar class
 	}
 
 	@Override

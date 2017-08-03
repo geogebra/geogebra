@@ -1,6 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -31,8 +30,9 @@ public interface EuclidianStyleBar {
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
+	 * @param isMultiSelection true if geos are selected with Ctrl + click on Graphich view
 	 */
-	void updateStyleBar();
+	void updateStyleBar(boolean isMultiSelection);
 
 	/**
 	 * Update capture button
@@ -65,8 +65,6 @@ public interface EuclidianStyleBar {
 	public void resetFirstPaint();
 
 	void reinit();
-
-	void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint, boolean isFunction);
 
 	void setVisible(boolean b);
 	

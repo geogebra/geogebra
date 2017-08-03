@@ -117,7 +117,7 @@ public class AppWapplet3D extends AppWapplet {
 	public void updateStyleBars() {
 		super.updateStyleBars();
 		if (showView(App.VIEW_EUCLIDIAN3D)) {
-			getEuclidianView3D().getStyleBar().updateStyleBar();
+			getEuclidianView3D().getStyleBar().updateStyleBar(false);
 		}
 	}
 

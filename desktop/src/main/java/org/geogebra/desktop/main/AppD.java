@@ -2957,11 +2957,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		if (getEuclidianView1().hasStyleBar()) {
-			getEuclidianView1().getStyleBar().updateStyleBar();
+			getEuclidianView1().getStyleBar().updateStyleBar(false);
 		}
 
 		if (hasEuclidianView2(1) && getEuclidianView2(1).hasStyleBar()) {
-			getEuclidianView2(1).getStyleBar().updateStyleBar();
+			getEuclidianView2(1).getStyleBar().updateStyleBar(false);
 		}
 	}
 

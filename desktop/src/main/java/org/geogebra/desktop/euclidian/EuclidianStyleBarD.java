@@ -16,7 +16,6 @@ import javax.swing.JToolBar;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -268,7 +267,7 @@ public class EuclidianStyleBarD extends JToolBar
 			return;
 		}
 
-		updateStyleBar();
+		updateStyleBar(false);
 
 	}
 
@@ -291,7 +290,7 @@ public class EuclidianStyleBarD extends JToolBar
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
 	@Override
-	public void updateStyleBar() {
+	public void updateStyleBar(boolean isMultiSelection) {
 
 		// -----------------------------------------------------
 		// Create activeGeoList, a list of geos the stylebar can adjust.
@@ -1719,7 +1718,7 @@ public class EuclidianStyleBarD extends JToolBar
 	public void setLabels() {
 
 		initGUI();
-		updateStyleBar();
+		updateStyleBar(false);
 
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
@@ -1790,12 +1789,6 @@ public class EuclidianStyleBarD extends JToolBar
 
 		addButtons();
 		setLabels();
-	}
-
-	@Override
-	public void setPosition(GRectangle2D gRectangle2D, boolean hasBoundingBox, boolean isPoint, boolean isFunction) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
