@@ -28,7 +28,10 @@ public class OptionsGlobalW implements OptionPanelW {
 	private FlowPanel optionsPanel;
 	private Label lblGlobal;
 	private Label lblRounding;
-	private ListBox roundingList;
+	/**
+	 * rounding combo box
+	 */
+	ListBox roundingList;
 	private Label lblLabeling;
 	/**
 	 * labeling combo box
@@ -67,12 +70,39 @@ public class OptionsGlobalW implements OptionPanelW {
 	}
 
 	private void addLabelsWithComboBox() {
+		addRoundingItem();
+		addLabelingItem();
+		addFontItem();
+	}
+
+	private void addRoundingItem() {
 		lblRounding = new Label(
 				app.getLocalization().getMenu("Rounding") + ":");
 		roundingList = new ListBox();
 		optionsPanel.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
-		addLabelingItem();
-		addFontItem();
+		roundingList.addChangeHandler(new ChangeHandler() {
+			
+			@Override
+			public void onChange(ChangeEvent event) {
+				try {
+					String decStr = roundingList.getValue(roundingList.getSelectedIndex()).substring(0, 2).trim();
+					int decimals = Integer.parseInt(decStr);
+					// Application.debug("decimals " + decimals);
+
+					app.getKernel().setPrintDecimals(decimals);
+					app.getKernel().updateConstruction();
+					app.refreshViews();
+
+					// see ticket 79
+					app.getKernel().updateConstruction();
+
+					app.setUnsaved();
+				} catch (Exception e) {
+					e.printStackTrace();
+					app.showError(e.toString());
+				}
+			}
+		});
 	}
 
 	private void addLabelingItem() {
@@ -89,7 +119,6 @@ public class OptionsGlobalW implements OptionPanelW {
 				app.setUnsaved();
 			}
 		});
-		setLabelingInComboBox();
 	}
 
 	private void addFontItem() {
@@ -134,6 +163,19 @@ public class OptionsGlobalW implements OptionPanelW {
 		labelingList.setSelectedIndex(app.getLabelingStyle());
 	}
 
+	/**
+	 * select decimal places stored in app
+	 */
+	void setRoundingInComboBox() {
+		int decimals = app.getKernel().getPrintDecimals();
+		for (int i = 0; i < roundingList.getItemCount(); i++) {
+			if (roundingList.getValue(i).startsWith(String.valueOf(decimals))) {
+				roundingList.setSelectedIndex(i);
+				return;
+			}
+		}
+	}
+
 	private void addRestoreSettingsBtn() {
 		restoreSettingsBtn = new StandardButton(
 				app.getLocalization().getMenu("Settings.ResetDefault"));
@@ -146,6 +188,7 @@ public class OptionsGlobalW implements OptionPanelW {
 				resetDefault();
 				setFontSizeInComboBox();
 				setLabelingInComboBox();
+				setRoundingInComboBox();
 			}
 		});
 		optionsPanel.add(LayoutUtilW.panelRowIndent(saveSettingsBtn,
@@ -170,7 +213,9 @@ public class OptionsGlobalW implements OptionPanelW {
 	@Override
 	public void updateGUI() {
 		updateRoundingList();
+		setRoundingInComboBox();
 		updateLabelingList();
+		setLabelingInComboBox();
 		updateFontSizeList();
 		setFontSizeInComboBox();
 	}
