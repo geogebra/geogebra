@@ -22,20 +22,24 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			float: right;
     		}
     		
-    		.settingsBtn {
-    			height: 24px;
-    			width: 180px;
+    		.MyCanvasButton.settingsBtn {
+    			height: 24px !important;
+    			width: 180px !important;
     			padding: 4px;
     			text-align: center;
     			border: 1px solid #dcdcdc;
     			margin-top: 8px;
-    			margin-left: 20px;
+    			margin-right: 16px;
     			border-radius: 5px;
     			line-height: 24px;
     			cursor: pointer;
     			
     			.html-face {
     				height: 24px;	
+    			}
+    		
+    			&:hover {
+    				border-color: #ccf;
     			}
     		}
     }

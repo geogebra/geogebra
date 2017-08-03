@@ -35,7 +35,10 @@ public class OptionsGlobalW implements OptionPanelW {
 	 */
 	ListBox labelingList;
 	private Label lblFontSize;
-	private ListBox fontSizeList;
+	/**
+	 * font size combo box
+	 */
+	ListBox fontSizeList;
 	private StandardButton saveSettingsBtn;
 	private StandardButton restoreSettingsBtn;
 	
@@ -63,6 +66,15 @@ public class OptionsGlobalW implements OptionPanelW {
 		addRestoreSettingsBtn();
 	}
 
+	private void addLabelsWithComboBox() {
+		lblRounding = new Label(
+				app.getLocalization().getMenu("Rounding") + ":");
+		roundingList = new ListBox();
+		optionsPanel.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
+		addLabelingItem();
+		addFontItem();
+	}
+
 	private void addLabelingItem() {
 		lblLabeling = new Label(
 				app.getLocalization().getMenu("Labeling") + ":");
@@ -74,41 +86,77 @@ public class OptionsGlobalW implements OptionPanelW {
 			public void onChange(ChangeEvent event) {
 				int index = labelingList.getSelectedIndex();
 				app.setLabelingStyle(index);
+				app.setUnsaved();
 			}
 		});
-		labelingList.setSelectedIndex(app.getLabelingStyle());
+		setLabelingInComboBox();
 	}
 
-	private void addLabelsWithComboBox() {
-		lblRounding = new Label(
-				app.getLocalization().getMenu("Rounding") + ":");
-		roundingList = new ListBox();
-		optionsPanel.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
-		addLabelingItem();
+	private void addFontItem() {
 		lblFontSize = new Label(
 				app.getLocalization().getMenu("FontSize") + ":");
 		fontSizeList = new ListBox();
 		optionsPanel.add(LayoutUtilW.panelRowIndent(lblFontSize, fontSizeList));
+		fontSizeList.addChangeHandler(new ChangeHandler() {
+
+			@Override
+			public void onChange(ChangeEvent event) {
+				String fontStr = fontSizeList
+						.getValue(fontSizeList.getSelectedIndex());
+				try {
+					app.setFontSize(Integer.parseInt(fontStr.substring(0, 2)),
+							true);
+					app.setUnsaved();
+				} catch (Exception e) {
+					app.showError(e.toString());
+				}
+			}
+		});
+	}
+	
+	/**
+	 * select the font size stored in app
+	 */
+	void setFontSizeInComboBox() {
+		int font = app.getFontSize();
+		for (int i = 0; i < fontSizeList.getItemCount(); i++) {
+			if (fontSizeList.getValue(i).startsWith(String.valueOf(font))) {
+				fontSizeList.setSelectedIndex(i);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * select labeling style stored in app
+	 */
+	void setLabelingInComboBox() {
+		labelingList.setSelectedIndex(app.getLabelingStyle());
 	}
 
 	private void addRestoreSettingsBtn() {
 		restoreSettingsBtn = new StandardButton(
 				app.getLocalization().getMenu("Settings.ResetDefault"));
-		restoreSettingsBtn.setStyleName("settingsBtn");
+		restoreSettingsBtn.setStyleName("MyCanvasButton");
+		restoreSettingsBtn.addStyleName("settingsBtn");
 		restoreSettingsBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
 			public void onClick(Widget source) {
 				resetDefault();
+				setFontSizeInComboBox();
+				setLabelingInComboBox();
 			}
 		});
-		optionsPanel.add(restoreSettingsBtn);
+		optionsPanel.add(LayoutUtilW.panelRowIndent(saveSettingsBtn,
+				restoreSettingsBtn));
 	}
 
 	private void addSaveSettingBtn() {
 		saveSettingsBtn = new StandardButton(
 				app.getLocalization().getMenu("Settings.Save"));
-		saveSettingsBtn.setStyleName("settingsBtn");
+		saveSettingsBtn.setStyleName("MyCanvasButton");
+		saveSettingsBtn.addStyleName("settingsBtn");
 		saveSettingsBtn.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -124,6 +172,7 @@ public class OptionsGlobalW implements OptionPanelW {
 		updateRoundingList();
 		updateLabelingList();
 		updateFontSizeList();
+		setFontSizeInComboBox();
 	}
 
 	private void updateFontSizeList() {
