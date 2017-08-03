@@ -261,7 +261,7 @@ public class DrawAxis {
 			g2.saveTransform();
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
-					x, 5,
+					x - 2, 10,
 					view.axesLabels[1], font, false, GColor.BLACK, null, true,
 					false, null);
 			g2.restoreTransform();
@@ -292,7 +292,8 @@ public class DrawAxis {
 			g2.saveTransform();
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
-					view.getWidth() - 10 - dim.getWidth(), y + 4,
+					view.getWidth() - 5 - dim.getWidth(),
+					y + 4 - dim.getHeight(),
 					view.axesLabels[0], font, false, GColor.BLACK, null, true,
 					false, null);
 			g2.restoreTransform();
