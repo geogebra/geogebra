@@ -267,7 +267,7 @@ public class EuclidianStyleBarD extends JToolBar
 			return;
 		}
 
-		updateStyleBar(false);
+		updateStyleBar();
 
 	}
 
@@ -290,7 +290,7 @@ public class EuclidianStyleBarD extends JToolBar
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
 	@Override
-	public void updateStyleBar(boolean isMultiSelection) {
+	public void updateStyleBar() {
 
 		// -----------------------------------------------------
 		// Create activeGeoList, a list of geos the stylebar can adjust.
@@ -1718,7 +1718,7 @@ public class EuclidianStyleBarD extends JToolBar
 	public void setLabels() {
 
 		initGUI();
-		updateStyleBar(false);
+		updateStyleBar();
 
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));

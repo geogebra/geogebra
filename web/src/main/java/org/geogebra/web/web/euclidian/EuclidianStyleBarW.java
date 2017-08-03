@@ -208,7 +208,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			getCurrentPopup().hide();
 		}
 
-		updateStyleBar(false);
+		updateStyleBar();
 
 	}
 
@@ -233,7 +233,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				// do nothing
 				break;
 			case UPDATE:
-				updateStyleBar(false);
+				updateStyleBar();
 				break;
 			case UPDATE_STYLE:
 				updateButtons();
@@ -247,7 +247,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
 	 */
 	@Override
-	public void updateStyleBar(boolean isMultiSelection) {
+	public void updateStyleBar() {
 		if (!visible) {
 			this.waitingOperation = StyleBarMethod.UPDATE;
 			return;

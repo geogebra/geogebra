@@ -51,7 +51,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 							// If we clicked on a locked geo, the activeGeoList will
 							// contain it, so in this case the dynamic stylebar will
 							// be visible yet.
-							DynamicStyleBar.this.updateStyleBar(false);
+							DynamicStyleBar.this.updateStyleBar();
 						} else {
 							DynamicStyleBar.this.setVisible(addToSelection);
 						}
@@ -135,7 +135,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	}
 
 	@Override
-	public void updateStyleBar(boolean isMultiSelection) {
+	public void updateStyleBar() {
 		if (!isVisible()) {
 			return;
 		}
@@ -144,7 +144,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		setOpen(true);
 
 		setMode(EuclidianConstants.MODE_MOVE);
-		super.updateStyleBar(isMultiSelection);
+		super.updateStyleBar();
 
 		if (activeGeoList == null || activeGeoList.size() == 0) {
 			this.setVisible(false);
@@ -169,8 +169,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		GPoint newPos = new GPoint(), nextPos;
 
-		for (int i = 0; i < (isMultiSelection ? activeGeoList.size()
-				: 1); i++) {
+		for (int i = 0; i < activeGeoList.size(); i++) {
 			GeoElement geo = activeGeoList.get(i);
 			if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
 					&& geo instanceof GeoFunction) {

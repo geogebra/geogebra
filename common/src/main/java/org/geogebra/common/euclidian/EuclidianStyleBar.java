@@ -30,9 +30,8 @@ public interface EuclidianStyleBar {
 
 	/**
 	 * Updates the state of the stylebar buttons and the defaultGeo field.
-	 * @param isMultiSelection true if geos are selected with Ctrl + click on Graphich view
 	 */
-	void updateStyleBar(boolean isMultiSelection);
+	void updateStyleBar();
 
 	/**
 	 * Update capture button

@@ -602,7 +602,7 @@ public class App3D extends AppD {
 	public void updateStyleBars() {
 		super.updateStyleBars();
 		if (showView(App.VIEW_EUCLIDIAN3D)) {
-			getEuclidianView3D().getStyleBar().updateStyleBar(false);
+			getEuclidianView3D().getStyleBar().updateStyleBar();
 		}
 	}
 
