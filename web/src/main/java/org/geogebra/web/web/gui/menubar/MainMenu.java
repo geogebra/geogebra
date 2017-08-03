@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
@@ -65,7 +66,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 * Menus
 	 */
 	GMenuBar[] menus;
+	/**
+	 * text list of menu items
+	 */
 	ArrayList<String> menuTitles = new ArrayList<String>();
+	/**
+	 * img list of menu items
+	 */
 	ArrayList<ImageResource> menuImgs = new ArrayList<ImageResource>();
 	private GMenuBar userMenu;
 	/** sign in menu */
@@ -306,12 +313,21 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!app.isUnbundled()) {
 			this.menuPanel.addStyleName("menuPanel");
 		} else {
+			ImageResource icon = app.getSettings()
+					.getToolbarSettings()
+					.getType().equals(AppType.GRAPHING_CALCULATOR)
+							? MaterialDesignResources.INSTANCE.graphing()
+							: MaterialDesignResources.INSTANCE.geometry();
 			logoMenu = new GMenuBar(true, "", app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu,
-					getHTML(MaterialDesignResources.INSTANCE
-							.geogebra_logo_transparent(),
-							""),
+					getHTML(icon,
+							app.getSettings().getToolbarSettings().getType()
+									.equals(AppType.GRAPHING_CALCULATOR)
+											? app.getLocalization().getMenu(
+													"GeoGebraGraphingCalculator")
+											: app.getLocalization().getMenu(
+													"GeoGebraGeometry")),
 					true);
 		}
 

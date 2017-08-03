@@ -127,7 +127,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					color: $black-87; 
 				}
 			}
-			
+				
 			/* burger menu items */
 			.gwt-StackPanel .gwt-StackPanelItem {
 				min-width: 232px;
@@ -147,6 +147,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					margin-left: -56px;	
 					opacity: 0.54;
 				}
+		
+				span {
+					font-size: 14px;	
+				}
 			
 				.expandImg, .collapseImg {
 					right: 16px;	
@@ -155,20 +159,25 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			
 				// GeoGebra logo
 				&.gwt-StackPanelItem-first {
-					height: 84px !important;
+					height: 56px !important;
+					background-color: $white !important;
 					
 					img {
 						opacity: 1;
-						top: 0px;
+						top: 10px;
     					height: initial !important;
-    					width: 292px !important;	
+    					width: initial !important;
     					margin: 0px;
-    					left: 4%;
+    					left: 6%;
 					}
-				}
-			
-				span {
-					font-size: 14px;	
+					
+					span {
+						font-size: 16px !important;
+					}
+				
+					&:hover {
+						background-color: $white !important;
+					}
 				}
 			
 				&.gwt-StackPanelItem-selected {
@@ -184,6 +193,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			
 			.gwt-StackPanel .gwt-StackPanelItem:hover {
 				background-color: $selected-menuitem-background;
+			}
+		
+			.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first:hover {
+ 			   background-color: white !important;
 			}
 			
 			.gwt-StackPanel .gwt-StackPanelItem-selected { 
