@@ -234,6 +234,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 								&& app.has(Feature.GLOBAL_SETTINGS)) {
 							app.getDialogManager().showPropertiesDialog(
 									OptionType.GLOBAL, null);
+							app.toggleMenu();
 							return;
 						}
 						if (this.getWidget(index) == languageMenu) {
