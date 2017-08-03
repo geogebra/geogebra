@@ -207,9 +207,5 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	protected boolean isDynamicStylebar(){
 		return true;
 	}
-	
-	public void setVisible(boolean v) {
-		super.setVisible(v);
-	}
 
 }
