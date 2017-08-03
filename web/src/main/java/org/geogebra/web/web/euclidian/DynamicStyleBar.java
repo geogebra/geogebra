@@ -169,7 +169,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		GPoint newPos = new GPoint(), nextPos;
 
-		for (int i = 0; i < activeGeoList.size(); i++) {
+		for (int i = 0; i < (app
+				.has(Feature.DYNAMIC_STYLEBAR_POSITION_MULTISELECT)
+						? activeGeoList.size() : 1); i++) {
 			GeoElement geo = activeGeoList.get(i);
 			if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
 					&& geo instanceof GeoFunction) {
@@ -209,5 +211,5 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	protected boolean isDynamicStylebar(){
 		return true;
 	}
-
+	
 }
