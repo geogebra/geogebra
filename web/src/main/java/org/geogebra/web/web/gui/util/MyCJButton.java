@@ -1,5 +1,8 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.web.html5.gui.util.HasSetIcon;
+import org.geogebra.web.html5.gui.util.ImageOrText;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;

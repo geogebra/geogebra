@@ -1,8 +1,7 @@
-package org.geogebra.web.web.gui.util;
+package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.web.gui.images.ImgResourceHelper;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;

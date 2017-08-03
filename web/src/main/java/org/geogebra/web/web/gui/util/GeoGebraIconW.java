@@ -5,6 +5,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.gui.util.BasicIcons;
+import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 

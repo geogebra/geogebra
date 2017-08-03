@@ -6,11 +6,11 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.Util;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.web.gui.images.ImgResourceHelper;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;

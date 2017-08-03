@@ -1,6 +1,7 @@
 package org.geogebra.web.tablet.main;
 
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.touch.WinFileManager;
 import org.geogebra.web.touch.gui.dialog.image.ImageInputDialogWin;
@@ -8,7 +9,6 @@ import org.geogebra.web.touch.main.TouchDevice;
 import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.main.FileManager;
 
 import com.google.gwt.user.client.ui.Widget;

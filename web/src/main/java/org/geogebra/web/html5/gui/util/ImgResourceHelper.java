@@ -1,8 +1,6 @@
-package org.geogebra.web.web.gui.images;
+package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.web.gui.util.HasSetIcon;
-import org.geogebra.web.web.gui.util.ImageOrText;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;

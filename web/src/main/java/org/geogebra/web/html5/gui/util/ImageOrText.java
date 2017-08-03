@@ -1,7 +1,6 @@
-package org.geogebra.web.web.gui.util;
+package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Label;
@@ -11,6 +10,7 @@ public class ImageOrText {
 	private String text = null;
 	private GColor bgColor = null, fgColor = null;
 	private int bgSize;
+	private String className;
 
 	public ImageOrText() {
 	    // TODO Auto-generated constructor stub
@@ -69,9 +69,9 @@ public class ImageOrText {
 			}
 			if (text != null) {
 				button.addStyleName("textIconButton");
-			} else if (getUrl().equals(MaterialDesignResources.INSTANCE.add_black().getSafeUri().asString())) {
+			} else if (className != null) {
 				button.getElement().addClassName("borderButton");
-				button.getElement().addClassName("plusButton");
+				button.getElement().addClassName(className);
 			} else {
 				button.addStyleName("stylebarButton");
 			}
@@ -152,5 +152,10 @@ public class ImageOrText {
 
 	public void setBgSize(int size) {
 		this.bgSize = size;
+	}
+
+	public ImageOrText setClass(String string) {
+		this.className = string;
+		return this;
 	}
 }

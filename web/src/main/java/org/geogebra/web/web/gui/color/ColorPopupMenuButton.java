@@ -6,10 +6,10 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
-import org.geogebra.web.web.gui.util.ImageOrText;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -182,7 +182,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 						null);
 			} else {
 				a[i] = new ImageOrText(
-						MaterialDesignResources.INSTANCE.add_black());
+						MaterialDesignResources.INSTANCE.add_black())
+								.setClass("plusButton");
 				// a[i] = new ImageOrText("+");
 				// a[i] = new ImageOrText(AppResources.INSTANCE.more());
 			}

@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
@@ -20,7 +21,6 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
-import org.geogebra.web.web.gui.util.StandardButton;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
@@ -951,7 +951,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public MathKeyboardListener updateKeyboardListener(
 			MathKeyboardListener ml) {
-		if (tabAlgebra.aview.getInputTreeItem() != ml) {
+		if (tabAlgebra.aview != null
+				&& tabAlgebra.aview.getInputTreeItem() != ml) {
 			return ml;
 		}
 

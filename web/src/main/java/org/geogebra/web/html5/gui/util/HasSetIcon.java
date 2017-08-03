@@ -1,6 +1,4 @@
-package org.geogebra.web.web.gui.util;
-
-
+package org.geogebra.web.html5.gui.util;
 
 public interface HasSetIcon {
 	
