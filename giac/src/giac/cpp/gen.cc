@@ -1783,19 +1783,19 @@ namespace giac {
     if (!dpos)
       d=-d;
     bool inf1=is_greater(d,n,contextptr);
-    gen a=inf1?iquo(d,n):iquo(n,d);
 #ifdef BCD
     static gen m=gen(longlong(100000000000000));
 #else
     static gen m=gen(longlong(1)<<61);
 #endif
     static gen md=gen(1.0)/m;
-    if (is_greater(a,m,contextptr)){
+    if (absint(sizeinbase2(n)-sizeinbase2(d))>=53){ 
+      gen a=inf1?iquo(d,n):iquo(n,d);
       gen res=evalf(a,1,contextptr);
       if (neg) res=-res;
       return inf1?inv(res,contextptr):res;
     }
-    a=inf1?iquo(d*m,n):iquo(n*m,d);
+    gen a=inf1?iquo(d*m,n):iquo(n*m,d);
     gen res=evalf(a,1,contextptr);
     if (neg) res=-res;
     res = md*res;
@@ -7043,7 +7043,10 @@ namespace giac {
     case _FRAC:
       if (a._FRACptr->num.type==_CPLX)
 	return fraction(a._FRACptr->den,a._FRACptr->num).normal();
-      return fraction(a._FRACptr->den,a._FRACptr->num);
+      if (is_positive(a._FRACptr->num,contextptr))
+	return fraction(a._FRACptr->den,a._FRACptr->num);
+      else
+	return fraction(-a._FRACptr->den,-a._FRACptr->num);
     default: 
       if (is_undef(a))
 	return a;
@@ -7468,6 +7471,10 @@ namespace giac {
       return divpoly(*a._POLYptr,b);
     case _INT___POLY: case _ZINT__POLY: case _CPLX__POLY:
       return divpoly(a,*b._POLYptr);
+    case _INT___FRAC: case _ZINT__FRAC:
+      if (is_positive(-b._FRACptr->num,contextptr))
+	return (-b._FRACptr->den*a)/(-b._FRACptr->num);
+      return (b._FRACptr->den*a)/b._FRACptr->num;
     case _INT___VECT: case _ZINT__VECT: case _CPLX__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _SYMB__VECT:
       if (b.subtype==_LIST__VECT)
 	return apply2nd(a,b,contextptr,rdiv);
