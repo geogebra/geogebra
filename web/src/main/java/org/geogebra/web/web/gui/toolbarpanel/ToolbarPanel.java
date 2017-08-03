@@ -48,7 +48,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	// dock panel animation time in milliseconds.
 	// For timing, see $open-close-transition also in toolbar-styles.scss
-	private static final int OPEN_ANIM_TIME = 2000;
+	private static final int OPEN_ANIM_TIME = 200;
 
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
