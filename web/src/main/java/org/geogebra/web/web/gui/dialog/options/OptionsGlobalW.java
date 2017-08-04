@@ -160,7 +160,24 @@ public class OptionsGlobalW implements OptionPanelW {
 	 * select labeling style stored in app
 	 */
 	void setLabelingInComboBox() {
-		labelingList.setSelectedIndex(app.getLabelingStyle());
+		int labeling = app.getLabelingStyle();
+		if (app.isUnbundledGraphing()) {
+			switch (labeling) {
+			case 1:
+				labelingList.setSelectedIndex(0);
+				break;
+			case 2: 
+				labelingList.setSelectedIndex(1);
+				break;
+			case 3:
+				labelingList.setSelectedIndex(2);
+				break;
+			default:
+				labelingList.setSelectedIndex(0);
+			}
+		} else {
+			labelingList.setSelectedIndex(labeling);
+		}
 	}
 
 	/**
@@ -232,9 +249,11 @@ public class OptionsGlobalW implements OptionPanelW {
 		String[] labelingStrs = { "Labeling.automatic", "Labeling.on",
 				"Labeling.off", "Labeling.pointsOnly" };
 		for (String str : labelingStrs) {
+			if (str.equals("Labeling.automatic") && app.isUnbundledGraphing()) {
+				continue;
+			}
 			labelingList.addItem(app.getLocalization().getMenu(str));
 		}
-		labelingList.setSelectedIndex(app.getLabelingStyle());
 	}
 
 	private void updateRoundingList() {
