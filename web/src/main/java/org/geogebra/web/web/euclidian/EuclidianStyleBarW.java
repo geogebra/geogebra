@@ -620,6 +620,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					}
 					app.storeUndoInfo();
 				}
+
+				if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)) {
+					app.getActiveEuclidianView().getEuclidianController()
+							.clearSelections();
+					app.getActiveEuclidianView().setSelectionRectangle(null);
+				}
 			}
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);

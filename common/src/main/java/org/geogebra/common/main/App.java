@@ -4273,6 +4273,9 @@ public abstract class App implements UpdateSelection {
 		/** GGB-1983 */
 		case DYNAMIC_STYLEBAR_POSITION_MULTISELECT:
 			return prerelease;
+		/** GGB-1983 */
+		case DYNAMIC_STYLEBAR_MULTISELECTION_BUGS:
+			return prerelease;
 	
 		case FLOATING_SETTINGS:
 			return prerelease;
@@ -4282,6 +4285,11 @@ public abstract class App implements UpdateSelection {
 			
 		case GLOBAL_SETTINGS:
 			return prerelease;
+
+		/** GGB-1975 */
+		case HIGHLIGT_IMPROVEMENTS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
