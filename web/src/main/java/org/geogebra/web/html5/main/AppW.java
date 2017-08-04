@@ -3621,6 +3621,11 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	@Override
+	public boolean isUnbundledGraphing() {
+		return ("1".equals(initialPerspective) && has(Feature.UNBUNDLING));
+	}
+
 	public void ensureStandardView() {
 		// only with GUI
 	}

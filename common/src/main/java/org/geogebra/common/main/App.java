@@ -4293,6 +4293,10 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	public boolean isUnbundledGraphing() {
+		return false;
+	}
+
 	public boolean isWhiteboardActive() {
 		return false;
 	}

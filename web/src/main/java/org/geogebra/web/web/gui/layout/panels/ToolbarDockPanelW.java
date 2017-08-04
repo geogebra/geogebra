@@ -49,7 +49,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 		if (activePerspective == Perspective.GEOMETRY - 1) {
 			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GEOMETRY_CALC);
 			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-		}	
+		}
 		app.setLabelingStyle(ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY);
 		toolbar = new ToolbarPanel(app);
 		setToolMode(toolMode);

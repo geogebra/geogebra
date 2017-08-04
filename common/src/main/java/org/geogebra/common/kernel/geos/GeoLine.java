@@ -112,6 +112,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	public GeoLine(Construction c) {
 		super(c);
 		setConstructionDefaults();
+		if (getConstruction().getApplication().isUnbundledGraphing()) {
+			setMode(EQUATION_EXPLICIT);
+		}
 	}
 
 	/**
