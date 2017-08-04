@@ -115,6 +115,9 @@ public class OptionsGlobalW implements OptionPanelW {
 			@Override
 			public void onChange(ChangeEvent event) {
 				int index = labelingList.getSelectedIndex();
+				if (app.isUnbundledGraphing()) {
+					index++;
+				}
 				app.setLabelingStyle(index);
 				app.setUnsaved();
 			}
