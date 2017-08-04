@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
+import org.geogebra.common.main.Feature;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -227,7 +228,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 				|| mode == LABEL_MODE_CAPTION);
 		cmValue.setChecked(mode == LABEL_MODE_VALUE_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE);
-		namePanel.setVisible(model.getGeosLength() == 1);
+		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)) {
+			namePanel.setVisible(model.getGeosLength() == 1);
+		}
+
 	}
 
 	@Override
