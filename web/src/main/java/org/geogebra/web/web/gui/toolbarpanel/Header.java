@@ -294,8 +294,8 @@ class Header extends FlowPanel {
 	public void updateUndoRedoPosition() {
 		final EuclidianView ev = ((AppW) this.toolbarPanel.app).getEuclidianView1();
 		if (ev != null) {
-			int evTop = ev.getAbsoluteTop();
-			int evLeft = ev.getAbsoluteLeft();
+			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
+			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
 			if ((evLeft == 0) && !this.toolbarPanel.isPortrait()) {
 				return;
 			}

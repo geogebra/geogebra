@@ -125,22 +125,23 @@ task copyHtml {
 	    String html = file(templateDir+"app-template.html").text;
 	    String classicHtml = html.replace("<!--SPLASH-->", file(templateDir+"classic-splash.html").text)
 	      .replace("<!--SPLASH STYLE-->", file(templateDir+"splash-style.css").text);
-	    String appHtml = html.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text);
+	    String appHtml = html.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text)
+	    .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text);
 	    
 	    file("war/app-release.html").text = classicHtml;
 	    
 	    file("war/app.html").text = classicHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
 	    
-	    file("war/calculator.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=21;appID=\"calculator\";</script>")
+	    file("war/calculator.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=29;appID=\"calculator\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Scientific Calculator");
 	    
-	    file("war/graphing.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=21; appID=\"graphing\";</script>")
+	    file("war/graphing.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=29; appID=\"graphing\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Graphing Calculator");
 	    
-	    file("war/geometry.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=21;appID=\"geometry\";</script>")
+	    file("war/geometry.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=29;appID=\"geometry\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Geometry");;
 	    
-	    file("war/3d.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=21;appID=\"3d\";</script>")
+	    file("war/3d.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=29;appID=\"3d\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra 3D Graphing Calculator");;
     }
 }

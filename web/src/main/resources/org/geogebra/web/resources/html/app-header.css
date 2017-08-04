@@ -1,0 +1,18 @@
+.GeoGebraHeader{
+	display: flex;
+    border-bottom: 1px solid #dcdcdc;
+	background-color: #6557D2;
+    color: rgba(255,255,255,0.7);
+    padding: 4px;
+}
+.GeoGebraHeader .appName{
+	padding-left: 12px;
+}
+.GeoGebraHeader a{
+	color: rgba(255,255,255,0.7);
+}
+.GeoGebraHeader .links {
+	position: absolute;
+	top: 4px;
+	right: 16px;
+}

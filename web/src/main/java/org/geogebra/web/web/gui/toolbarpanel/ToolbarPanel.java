@@ -826,7 +826,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	protected void onOpen() {
 		resizeTabs();
 		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
-
+		main.getElement().getStyle().setProperty("width",
+				(TAB_COUNT * 100) + "%");
 	}
 
 	/**
@@ -844,7 +845,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	private void resizeTabs() {
-		main.setWidth(TAB_COUNT * getTabWidth() + "px");
+		// main.setWidth(TAB_COUNT * getTabWidth() + "px");
 
 		if (tabAlgebra != null) {
 			tabAlgebra.onResize();
