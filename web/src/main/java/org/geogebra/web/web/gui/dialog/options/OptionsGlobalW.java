@@ -252,7 +252,7 @@ public class OptionsGlobalW implements OptionPanelW {
 		String[] labelingStrs = { "Labeling.automatic", "Labeling.on",
 				"Labeling.off", "Labeling.pointsOnly" };
 		for (String str : labelingStrs) {
-			if (str.equals("Labeling.automatic") && app.isUnbundledGraphing()) {
+			if ("Labeling.automatic".equals(str) && app.isUnbundledGraphing()) {
 				continue;
 			}
 			labelingList.addItem(app.getLocalization().getMenu(str));
