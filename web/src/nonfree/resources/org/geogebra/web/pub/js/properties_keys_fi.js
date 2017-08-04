@@ -2076,6 +2076,7 @@ __GGB__keysVar.fi.menu = {
     "MeasurementTools": "Mittausty\xf6kalut",
     "Median": "Mediaani",
     "Medium": "Keskikokoinen",
+    "Menu": "Main Menu",
     "Metal": "Metalli",
     "Midpoint": "Keskipiste",
     "Midpoint.Help": "Valitse kaksi pistett\xe4, jana, ympyr\xe4 tai kartioleikkaus",

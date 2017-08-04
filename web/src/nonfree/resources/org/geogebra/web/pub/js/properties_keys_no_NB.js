@@ -2076,6 +2076,7 @@ __GGB__keysVar.no_NB.menu = {
     "MeasurementTools": "Verkt\xf8y for m\xe5ling",
     "Median": "Median",
     "Medium": "Middels",
+    "Menu": "Main Menu",
     "Metal": "Metall",
     "Midpoint": "Midtpunkt",
     "Midpoint.Help": "Velg to punkt, et linjestykke, en sirkel eller et kjeglesnitt",

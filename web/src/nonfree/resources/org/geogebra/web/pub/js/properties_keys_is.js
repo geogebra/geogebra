@@ -2076,6 +2076,7 @@ __GGB__keysVar.is.menu = {
     "MeasurementTools": "M\xe6lit\xe6ki",
     "Median": "Mi\xf0gildi",
     "Medium": "Mi\xf0st\xe6r\xf0",
+    "Menu": "Main Menu",
     "Metal": "M\xe1lmur",
     "Midpoint": "Mi\xf0punktur",
     "Midpoint.Help": "Velji\xf0 tvo punkta, strik, hring e\xf0a keilusni\xf0",

@@ -2076,6 +2076,7 @@ __GGB__keysVar.cs.menu = {
     "MeasurementTools": "M\u011b\u0159en\xed",
     "Median": "Median",
     "Medium": "St\u0159edn\xed",
+    "Menu": "Main Menu",
     "Metal": "Kov",
     "Midpoint": "St\u0159ed",
     "Midpoint.Help": "Dva body, \xfase\u010dka, kru\u017enice nebo ku\u017eelose\u010dka",

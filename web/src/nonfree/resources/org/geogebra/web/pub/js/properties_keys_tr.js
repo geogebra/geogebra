@@ -2076,6 +2076,7 @@ __GGB__keysVar.tr.menu = {
     "MeasurementTools": "\xd6l\xe7me Ara\xe7lar\u0131",
     "Median": "Medyan",
     "Medium": "Medyum",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "orta nokta",
     "Midpoint.Help": "2 nokta, do\u011fru par\xe7as\u0131 veya konik",

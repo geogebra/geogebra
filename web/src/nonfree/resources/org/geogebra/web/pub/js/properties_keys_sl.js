@@ -2076,6 +2076,7 @@ __GGB__keysVar.sl.menu = {
     "MeasurementTools": "Orodja za merjenje",
     "Median": "Mediana",
     "Medium": "Srednje velika",
+    "Menu": "Main Menu",
     "Metal": "Kovina",
     "Midpoint": "Sredi\u0161\u010de",
     "Midpoint.Help": "Dve to\u010dki, daljica, kro\u017enica ali sto\u017enica",

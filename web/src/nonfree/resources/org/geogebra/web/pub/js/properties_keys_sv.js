@@ -2076,6 +2076,7 @@ __GGB__keysVar.sv.menu = {
     "MeasurementTools": "Verktyg f\xf6r m\xe4tning",
     "Median": "Median",
     "Medium": "Mellan",
+    "Menu": "Main Menu",
     "Metal": "Metall",
     "Midpoint": "Mittpunkt",
     "Midpoint.Help": "Tv\xe5 punkter, str\xe4cka, cirkel eller k\xe4gelsnitt",

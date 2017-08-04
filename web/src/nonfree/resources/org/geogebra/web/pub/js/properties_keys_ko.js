@@ -2076,6 +2076,7 @@ __GGB__keysVar.ko.menu = {
     "MeasurementTools": "\uce21\uc815 \ub3c4\uad6c",
     "Median": "\uc911\uc559\uac12",
     "Medium": "\uc911\uac04",
+    "Menu": "Main Menu",
     "Metal": "\uba54\ud0c8",
     "Midpoint": "\uc911\uc810",
     "Midpoint.Help": "\ub450 \uc810, \uc120\ubd84, \uc6d0, \uc6d0\ubfd4\uace1\uc120(\uc774\ucc28\uace1\uc120)\uc744 \uc120\ud0dd\ud558\uc138\uc694.",

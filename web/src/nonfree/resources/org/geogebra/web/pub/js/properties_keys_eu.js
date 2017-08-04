@@ -2076,6 +2076,7 @@ __GGB__keysVar.eu.menu = {
     "MeasurementTools": "Neurtzeko Tresnak",
     "Median": "Mediana",
     "Medium": "Ertaina",
+    "Menu": "Main Menu",
     "Metal": "Metala",
     "Midpoint": "Erdigunea",
     "Midpoint.Help": "Bi puntu, zuzenkia, zirkunferentzia edo konika",

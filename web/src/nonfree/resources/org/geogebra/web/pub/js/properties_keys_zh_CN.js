@@ -2076,6 +2076,7 @@ __GGB__keysVar.zh_CN.menu = {
     "MeasurementTools": "\u5ea6\u91cf",
     "Median": "\u4e2d\u4f4d\u6570",
     "Medium": "\u4e2d",
+    "Menu": "Main Menu",
     "Metal": "\u91d1\u5c5e",
     "Midpoint": "\u4e2d\u70b9",
     "Midpoint.Help": "\u9009\u62e9\u4e24\u70b9\u3001\u7ebf\u6bb5\u6216\u8005\u5706\u9525\u66f2\u7ebf",

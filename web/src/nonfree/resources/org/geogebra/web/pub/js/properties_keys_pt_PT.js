@@ -2076,6 +2076,7 @@ __GGB__keysVar.pt_PT.menu = {
     "MeasurementTools": "Ferramentas de Medida",
     "Median": "Mediana",
     "Medium": "M\xe9dio",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "Ponto M\xe9dio",
     "Midpoint.Help": "Selecione dois pontos, um segmento, uma circunfer\xeancia, ou c\xf3nica",

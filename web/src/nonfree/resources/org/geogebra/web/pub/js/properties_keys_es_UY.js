@@ -2076,6 +2076,7 @@ __GGB__keysVar.es_UY.menu = {
     "MeasurementTools": "Medici\xf3n",
     "Median": "Mediana",
     "Medium": "Mediano",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "Punto medio",
     "Midpoint.Help": "Dos puntos, segmento, circunferencia o c\xf3nica",

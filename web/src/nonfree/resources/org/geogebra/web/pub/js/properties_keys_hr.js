@@ -2076,6 +2076,7 @@ __GGB__keysVar.hr.menu = {
     "MeasurementTools": "Alati za mjerenje",
     "Median": "Medijan",
     "Medium": "Srednje",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "Polovi\u0161te",
     "Midpoint.Help": "Odaberite dvije to\u010dke, du\u017einu, kru\u017enicu ili koniku",

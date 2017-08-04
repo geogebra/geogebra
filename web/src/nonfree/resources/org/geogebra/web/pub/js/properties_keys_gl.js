@@ -2076,6 +2076,7 @@ __GGB__keysVar.gl.menu = {
     "MeasurementTools": "Ferramentas de medida",
     "Median": "Mediana",
     "Medium": "Mediano",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "Punto medio",
     "Midpoint.Help": "Escoller dous puntos, un segmento, circunferencia ou c\xf3nica",

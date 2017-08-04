@@ -2076,6 +2076,7 @@ __GGB__keysVar.xh.menu = {
     "MeasurementTools": "Izixhobo zokuLinganisa",
     "Median": "iMedian",
     "Medium": "Phakathi",
+    "Menu": "Main Menu",
     "Metal": "iMetal",
     "Midpoint": "IchaphazaLombindi",
     "Midpoint.Help": "Khetha amachaphaza ambini, inxalenye, isangqa, okanye iconic",

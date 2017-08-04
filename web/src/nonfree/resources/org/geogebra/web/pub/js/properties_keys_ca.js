@@ -2076,6 +2076,7 @@ __GGB__keysVar.ca.menu = {
     "MeasurementTools": "Eines de mesura",
     "Median": "Mediana",
     "Medium": "Mitj\xe0",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "Punt mitj\xe0",
     "Midpoint.Help": "Dos punts, un segment, una circumfer\xe8ncia o una c\xf2nica",

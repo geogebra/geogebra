@@ -2076,6 +2076,7 @@ __GGB__keysVar.da.menu = {
     "MeasurementTools": "M\xe5lev\xe6rkt\xf8jer",
     "Median": "Median",
     "Medium": "Mellem",
+    "Menu": "Main Menu",
     "Metal": "Metal",
     "Midpoint": "midtpunkt",
     "Midpoint.Help": "Klik p\xe5 to punkter, linjestykke, cirkel eller keglesnit",
