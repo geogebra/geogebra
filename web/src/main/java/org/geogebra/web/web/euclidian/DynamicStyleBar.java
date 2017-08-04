@@ -121,7 +121,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		} else if (hasBoundingBox) {
 			left = gRectangle2D.getMaxX() - move;
 		} else { // line has no bounding box
-			left = gRectangle2D.getMaxX() - height / 2.0;
+			left = gRectangle2D.getMaxX();
 		}
 		if (left < 0) {
 			left = 0;
