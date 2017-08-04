@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 class Header extends FlowPanel {
 
+	private AppW app;
 	/**
 	 * Parent tool panel
 	 */
@@ -62,11 +63,15 @@ class Header extends FlowPanel {
 	private ContextMenuAlgebra cmAlgebra = null;
 	private ContextMenuTools cmTools;
 	private boolean animating = false;
+	
 	/**
 	 * @param toolbarPanel
 	 *            - panel containing the toolbar
+	 * @param app
+	 *            - application
 	 */
-	public Header(ToolbarPanel toolbarPanel) {
+	public Header(ToolbarPanel toolbarPanel, AppW app) {
+		this.app = app;
 		this.toolbarPanel = toolbarPanel;
 		contents = new FlowPanel();
 		contents.addStyleName("contents");
@@ -82,6 +87,7 @@ class Header extends FlowPanel {
 	private void createCenter() {
 		btnAlgebra = new ToggleButton(new Image(
 				MaterialDesignResources.INSTANCE.toolbar_algebra()));
+		btnAlgebra.setTitle(app.getLocalization().getMenu("Algebra"));
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -96,6 +102,7 @@ class Header extends FlowPanel {
 
 		btnTools = new ToggleButton(new Image(
 				MaterialDesignResources.INSTANCE.toolbar_tools()));
+		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
 		btnTools.addStyleName("tabButton");
 		ClickStartHandler.init(btnTools,
 				new ClickStartHandler(false, true) {
@@ -258,6 +265,7 @@ class Header extends FlowPanel {
 	private void createMenuButton() {
 		btnMenu = new PersistableToggleButton(new Image(
 				MaterialDesignResources.INSTANCE.toolbar_menu_black()));
+		btnMenu.setTitle(app.getLocalization().getMenu("Menu"));
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
 
@@ -349,6 +357,7 @@ class Header extends FlowPanel {
 	private void addUndoButton(final FlowPanel panel) {
 		btnUndo = new ToggleButton(
 				new Image(MaterialDesignResources.INSTANCE.undo_border()));
+		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
 
 		ClickStartHandler.init(btnUndo, new ClickStartHandler() {
@@ -365,6 +374,7 @@ class Header extends FlowPanel {
 	private void addRedoButton(final FlowPanel panel) {
 		btnRedo = new ToggleButton(
 				new Image(MaterialDesignResources.INSTANCE.redo_border()));
+		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
 
@@ -449,10 +459,12 @@ class Header extends FlowPanel {
 		if (open) {
 			addStyleName("header-open-" + orientation);
 			btnClose.getUpFace().setImage(imgClose);
+			btnClose.setTitle(app.getLocalization().getMenu("Close"));
 			btnMenu.removeStyleName("landscapeMenuBtn");
 		} else {
 			addStyleName("header-close-" + orientation);
 			btnClose.getUpFace().setImage(imgOpen);
+			btnClose.setTitle(app.getLocalization().getMenu("Open"));
 			if (!this.toolbarPanel.isPortrait()) {
 				btnMenu.addStyleName("landscapeMenuBtn");
 			} else {

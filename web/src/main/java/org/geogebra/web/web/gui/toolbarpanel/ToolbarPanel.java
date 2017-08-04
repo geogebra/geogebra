@@ -416,7 +416,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private void initGUI() {
 		clear();
 		addStyleName("toolbar");
-		header = new Header(this);
+		header = new Header(this, (AppW) app);
 		add(header);
 		main = new FlowPanel();
 		main.addStyleName("main");
