@@ -1028,7 +1028,9 @@ public abstract class AppW extends App implements SetLabels {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 
-		adjustViews(false, false);
+		if (getHeight() > getWidth()) {
+			adjustViews(true, true);
+		}
 	}
 
 	/**
