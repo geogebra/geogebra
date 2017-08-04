@@ -434,6 +434,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void reset() {
 		lastOpenWidth = null;
+		hideDragger();
 	}
 
 	private void addMoveBtn() {
