@@ -325,8 +325,14 @@ public abstract class CommandProcessor {
 		if (initPos != varPos) {
 			boolean oldval = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
-			NumberValue initValue = (NumberValue) resArg(c.getArgument(initPos),
+			NumberValue initValue = null;
+			try {
+				initValue = (NumberValue) resArg(c.getArgument(initPos),
 					new EvalInfo(false))[0];
+			} catch (MyError e) {
+				cmdCons.removeLocalVariable(localVarName);
+				throw e;
+			}
 			cons.setSuppressLabelCreation(oldval);
 			num.setValue(initValue.getDouble());
 		}
