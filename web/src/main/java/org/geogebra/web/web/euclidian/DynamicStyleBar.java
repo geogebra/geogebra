@@ -195,6 +195,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 * Sets the position of dynamic style bar. for newPos
 	 */
 	private void setPosition(GPoint newPos) {
+		if (newPos == null) {
+			return;
+		}
 		this.getElement().getStyle().setLeft(newPos.x, Unit.PX);
 		this.getElement().getStyle().setTop(newPos.y, Unit.PX);
 
