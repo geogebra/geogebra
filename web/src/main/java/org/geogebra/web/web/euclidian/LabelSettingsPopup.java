@@ -55,6 +55,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private GCheckMarkLabel cmValue;
 	private NameValueModel model;
 	private TabbedKeyboard kbd;
+	private FlowPanel namePanel;
 	/**
 	 * label related popup
 	 * 
@@ -145,7 +146,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 				.getEuclidianController()
 				.getMode() == EuclidianConstants.MODE_SELECT;
 		if (!isSelectionMode) {
-			main.add(LayoutUtilW.panelRow(lblName, tfName));
+			namePanel = LayoutUtilW.panelRow(lblName, tfName);
+			main.add(namePanel);
 		}
 		main.add(cmName.getPanel());
 		main.add(cmValue.getPanel());
@@ -225,6 +227,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 				|| mode == LABEL_MODE_CAPTION);
 		cmValue.setChecked(mode == LABEL_MODE_VALUE_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE);
+		namePanel.setVisible(model.getGeosLength() == 1);
 	}
 
 	@Override
