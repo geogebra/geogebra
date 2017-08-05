@@ -9130,11 +9130,12 @@ namespace giac {
       vecteur v;
       gen pi(1);
       for (int i=0;i<=ordre;){
-	v.push_back(plus_one/pi);
+	v.push_back(plus_one/pi/(i+shift_coeff));
 	v.push_back(0);
 	i += 2;
 	pi = -(i*(i+1))*pi;
       }
+      v.push_back(undef);
       return v;
     }
     if (!is_inf(lim_point))

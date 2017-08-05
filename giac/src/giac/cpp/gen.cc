@@ -8393,6 +8393,18 @@ namespace giac {
       return (mpz_cmp(*a._ZINTptr,*b._ZINTptr)>0);
     case _DOUBLE___DOUBLE_:
       return a._DOUBLE_val>b._DOUBLE_val;
+    case _FRAC__FRAC:
+      if (is_positive(a._FRACptr->den,contextptr) && is_positive(b._FRACptr->den,contextptr))
+	return superieur_strict(a._FRACptr->num*b._FRACptr->den,a._FRACptr->den*b._FRACptr->num,contextptr);
+      break;
+    case _FRAC__INT_:
+      if (is_positive(a._FRACptr->den,contextptr))
+	return superieur_strict(a._FRACptr->num,a._FRACptr->den*b,contextptr);
+      break;
+    case _INT___FRAC:
+      if (is_positive(b._FRACptr->den,contextptr))
+	return superieur_strict(b._FRACptr->den*a,b._FRACptr->num,contextptr);
+      break;
     case _DOUBLE___INT_:
       return a._DOUBLE_val>b.val;
     case _INT___DOUBLE_:

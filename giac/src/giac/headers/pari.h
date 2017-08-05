@@ -4,11 +4,12 @@
 #include "first.h"
 #include <string>
 
+typedef long * GEN;
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
   class gen;
-  typedef long * GEN;
   // print e as a PARI parsable string, varnum is the # of the var for poly1
   // std::string pariprint(const gen & e,int varnum,GIAC_CONTEXT);
 
