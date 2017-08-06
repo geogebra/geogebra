@@ -68,7 +68,7 @@ public class CmdRename extends CmdScripting {
 							.parseLabel(((GeoText) arg[1]).getTextString());
 
 					if (LabelManager.checkName(geo, checked)) {
-						geo.rename(((GeoText) arg[1]).getTextString());
+						geo.rename(checked);
 						geo.updateRepaint();
 
 						return arg;
