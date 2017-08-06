@@ -181,7 +181,8 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 
 		if (isVisible) {
 			myButton.setSelected(geo.doHighlighting());
-			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier());
+			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier(),
+					true);
 			// setSelected doesn't seem to do anything in Windows XP
 			// if (!Application.MAC_OS) {
 			// // but looks ugly in MacOS, see #820

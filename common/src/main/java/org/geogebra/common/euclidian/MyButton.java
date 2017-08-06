@@ -71,7 +71,8 @@ public class MyButton implements Observer {
 	 * @param multiplier
 	 *            font size multiplier
 	 */
-	public void paintComponent(GGraphics2D g, double multiplier) {
+	public void paintComponent(GGraphics2D g, double multiplier,
+			boolean mayResize) {
 
 		boolean latex = CanvasDrawable.isLatexString(getCaption());
 
@@ -113,12 +114,12 @@ public class MyButton implements Observer {
 			}
 		}
 		// With fixed size the font are resized if is too big
-		if (geoButton.isFixedSize() && ((int) textHeight + imgGap
+		if (mayResize && (geoButton.isFixedSize() && ((int) textHeight + imgGap
 				+ (marginTopMultiplier + marginBottomMultiplier)
 						* margin > geoButton.getHeight()
 				|| (int) textWidth
 						+ (marginLeftMultiplier + marginRightMultiplier)
-								* margin > geoButton.getWidth())) {
+								* margin > geoButton.getWidth()))) {
 			resize(g, imgGap);
 			return;
 		}
@@ -353,6 +354,7 @@ public class MyButton implements Observer {
 			}
 		}
 		double ret = GeoText.getRelativeFontSize(i);
+		paintComponent(g, ret, false);
 
 	}
 
