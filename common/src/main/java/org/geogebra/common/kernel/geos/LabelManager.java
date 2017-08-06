@@ -36,6 +36,16 @@ public class LabelManager {
 			}
 		}
 
+		// first character can't be a digit
+		if (Character.isDigit(name.charAt(0))) {
+			return false;
+		}
+
+		if (!com.himamis.retex.editor.share.input.Character
+				.areLettersOrDigits(name)) {
+			return false;
+		}
+
 		return true;
 	}
 
