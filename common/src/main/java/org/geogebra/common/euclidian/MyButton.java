@@ -353,7 +353,6 @@ public class MyButton implements Observer {
 			}
 		}
 		double ret = GeoText.getRelativeFontSize(i);
-		paintComponent(g, ret);
 
 	}
 
