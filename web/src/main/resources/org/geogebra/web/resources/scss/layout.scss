@@ -2,6 +2,22 @@
 
 .GeoGebraFrame {
 	
+	div[data-title]:hover:after { 
+		content: attr(data-title);
+		font-size: 10px;
+		white-space: nowrap; 
+		position: absolute;
+    	height: 22px;
+    	line-height: 22px !important;
+    	padding-left: 8px !important;
+    	padding-right: 8px !important;
+    	vertical-align: middle;
+  		border-radius: 2px;
+  		background: #616161;
+  		color: white;
+  		opacity: 0.9;
+  	} 
+	
 	.gwt-SplitLayoutPanel>div {
 		/*overflow: hidden !important;*/
 	}
