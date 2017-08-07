@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.util;
 
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.HasSetIcon;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 
@@ -28,13 +30,16 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	private ImageOrText icon;
 	private Label buttonContent;
 	private boolean imageMode = false;
+	// used only for feature flag
+	private App app;
 	
 	/**
 	 * Creates a new button
+	 * @param appl TODO
 	 * 
 	 */
 	
-	public MyCJButton() {
+	public MyCJButton(App appl) {
 		button = new Label("");
 		buttonContent = new Label("");
 		buttonContent.setStyleName("buttonContent");
@@ -45,6 +50,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		initWidget(button);
 		setStyleName("MyCanvasButton");
 		isEnabled = true;
+		app = appl;
     }
 
 	/**
@@ -71,6 +77,9 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		}
 
 		setDownState(false);
+		if (app.has(Feature.OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS)) {
+			event.stopPropagation();
+		}
 	}
 
 	@Override
@@ -79,6 +88,10 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 			return;
 		}
 		setDownState(true);
+		if (app.has(Feature.OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS)) {
+			event.stopPropagation();
+		}
+
 	}
 	
 	private void setDownState(boolean downState) {

@@ -1008,7 +1008,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
     private void createStandardViewBtn() {
-		btnStandardView = new MyCJButton();
+		btnStandardView = new MyCJButton(app);
 		ImageOrText icon = new ImageOrText(
 				StyleBarResources.INSTANCE.standard_view());
 		btnStandardView.setIcon(icon);
@@ -1021,7 +1021,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
     }
 
 	private void createCloseViewBtn() {
-		btnCloseView = new MyCJButton();
+		btnCloseView = new MyCJButton(app);
 		ImageOrText icon = new ImageOrText(GuiResources.INSTANCE.dockbar_close());
 		btnCloseView.setIcon(icon);
 		btnCloseView.addStyleName("StylebarCloseViewButton");

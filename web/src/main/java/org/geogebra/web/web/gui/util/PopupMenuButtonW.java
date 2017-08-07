@@ -127,7 +127,7 @@ public class PopupMenuButtonW extends MyCJButton
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, boolean[] selected,
 			HashMap<Integer, Integer> lineStyleMap0) {
-		super();
+		super(app);
 		this.app = (AppW) app;
 		this.hasTable = hasTable;
 		this.lineStyleMap = lineStyleMap0;

@@ -306,7 +306,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// show axis label italic checkbox
 			cbAxisLabelItalic = new CheckBox(loc.getMenu("Italic"));
 
-			btAxesColor = new MyCJButton();
+			btAxesColor = new MyCJButton(app);
 			
 			btAxesColor.addClickHandler(new ClickHandler(){
 
@@ -546,7 +546,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			backgroundColorLabel = new Label(
 					loc.getMenu("BackgroundColor") + ":");
 	
-			btBackgroundColor = new MyCJButton();
+			btBackgroundColor = new MyCJButton(app);
 
 			// show mouse coords
 			cbShowMouseCoords = new CheckBox();
@@ -989,7 +989,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 			// color
 			lblColor = new Label();
-			btGridColor = new MyCJButton();
+			btGridColor = new MyCJButton(app);
 			btGridColor.addClickHandler(new ClickHandler() {
 				
 				@Override

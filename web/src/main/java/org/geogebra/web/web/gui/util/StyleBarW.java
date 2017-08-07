@@ -67,7 +67,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			return;
 		}
 		if(menuButton == null){
-			menuButton = new MyCJButton();
+			menuButton = new MyCJButton(app);
 	
 			ImageOrText icon;
 			if (app.has(Feature.DYNAMIC_STYLEBAR)) {

@@ -4267,6 +4267,9 @@ public abstract class App implements UpdateSelection {
 		case AND_AV_ITEM_MENU:
 			return prerelease;
 
+		/** GGB-1982 */
+		// TODO if there is no need for this feature flag more, remove "appl"
+		// parameter from MyCJButton.MyCJButton(App appl)
 		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
 			return prerelease;
 

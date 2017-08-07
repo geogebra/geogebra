@@ -130,7 +130,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		implPanel.add(leftPanel);
 		implPanel.add(playPanel);
 		
-		btOpenWindow = new MyCJButton();
+		btOpenWindow = new MyCJButton(app);
 		btOpenWindow.setIcon(new ImageOrText(GuiResources.INSTANCE
 				.icons_view_construction_protocol_p24()));
 		// getImageForIcon(
