@@ -332,16 +332,23 @@
 		}
 		
 		.buttonActive {
-			opacity: 0.54;
 			
+			img {
+				opacity: 0.54;
+			}
+				
 			&:hover {
-				opacity: 0.84;	
+				img {
+					opacity: 0.84;
+				}	
 			}
 		}
 		
 		.buttonInactive {
 			cursor: default;
-			opacity: 0.26;
+			img {
+				opacity: 0.26;
+			}
 		}
 		
 		.hideButton {

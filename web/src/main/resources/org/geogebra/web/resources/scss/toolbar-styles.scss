@@ -1,15 +1,19 @@
 @import 'colors';
 
 .gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
-		margin-left: 10px;
+	margin-left: 10px;
 }
 
 .gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
-	opacity: 0.54;
+	img {
+		opacity: 0.54;
+	}
 }
 
 .gwt-ToggleButton.flatButton.menu.portraitMenuBtn.gwt-ToggleButton-up-hovering {
-	opacity: 0.8;
+	img {
+		opacity: 0.8;
+	}
 }
 
 .toolbar {
