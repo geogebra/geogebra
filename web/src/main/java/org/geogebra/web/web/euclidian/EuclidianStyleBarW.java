@@ -640,6 +640,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		add(btnLabel);
 	}
 
+	protected void closeLabelPopup() {
+		if (btnLabel.getMyPopup().isShowing()) {
+			btnLabel.getMyPopup().hide();
+		}
+
+	}
 
 	// TODO instead of addViewButton() we need a new function addContextMenu()
 	// that uses the same icon (3 dots) as ViewButton but instead opens the

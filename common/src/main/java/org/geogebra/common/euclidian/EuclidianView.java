@@ -574,6 +574,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		getEuclidianController().setMode(mode, m);
 		if (clearRectangle(mode)) {
 			setSelectionRectangle(null);
+			if (hasDynamicStyleBar() && app
+					.has(Feature.CLOSE_LABEL_DIALOG_AT_ESC)) {
+				dynamicStyleBar.setVisible(false);
+			}
 		}
 		setStyleBarMode(mode);
 

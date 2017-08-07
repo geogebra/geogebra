@@ -4272,6 +4272,9 @@ public abstract class App implements UpdateSelection {
 		// parameter from MyCJButton.MyCJButton(App appl)
 		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
 			return prerelease;
+			/** GGB-1982 */
+		case CLOSE_LABEL_DIALOG_AT_ESC:
+			return prerelease;
 
 		/** GGB-1983 */
 		case DYNAMIC_STYLEBAR_POSITION_MULTISELECT:

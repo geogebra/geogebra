@@ -208,4 +208,13 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		return true;
 	}
 	
+	public void setVisible(boolean v) {
+		// Close label popup if opened when dynamic stylebar is closing
+		if (app.has(Feature.CLOSE_LABEL_DIALOG_AT_ESC) && isVisible() && !v) {
+			closeLabelPopup();
+		}
+		super.setVisible(v);
+
+	}
+
 }
