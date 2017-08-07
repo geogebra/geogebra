@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class EquationSteps {
 	private Kernel kernel;
@@ -98,15 +97,19 @@ public class EquationSteps {
 			if (degreeRHS == -1 && degreeLHS != -1) {
 				swapSides();
 			}
-		} else if (degreeRHS > degreeLHS
-				|| (degreeRHS == degreeLHS && StepHelper.getCoefficientValue(RHS, StepNode.power(variable, degreeRHS)) > StepHelper
-						.getCoefficientValue(LHS, StepNode.power(variable, degreeLHS)))) {
+		} else if(degreeRHS > degreeLHS) {
 			swapSides();
+		} else if (degreeRHS == degreeLHS) {
+			double coeffLHS = StepHelper.getCoefficientValue(LHS, degreeLHS == 1 ? variable : StepNode.power(variable, degreeLHS));
+			double coeffRHS = StepHelper.getCoefficientValue(RHS, degreeRHS == 1 ? variable : StepNode.power(variable, degreeRHS));
+			
+			if (coeffRHS > coeffLHS) {
+				swapSides();
+			}
 		}
 
 		// IX. step: taking roots, when necessary (ax^n = constant or ay^n = bz^n, where y and z are expressions in x)
 		if (StepHelper.shouldTakeRoot(RHS, LHS)) {
-			Log.error("ROOT");
 			takeRoot();
 			return checkSolutions();
 		}
@@ -376,9 +379,6 @@ public class EquationSteps {
 		StepNode RHSlinear = StepHelper.findVariable(RHS, variable);
 		StepNode RHSconstant = StepHelper.findConstant(RHS);
 
-		Log.error(StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)) + "");
-		Log.error(StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)).regroup() + "");
-
 		StepNode nonLinear = StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)).regroup();
 		addOrSubtract(nonLinear);
 
@@ -394,8 +394,6 @@ public class EquationSteps {
 	}
 
 	private void solveQuadratic() {
-		Log.error("QUAD");
-
 		StepNode RHSconstant = StepHelper.findConstant(RHS);
 		StepNode RHSlinear = StepHelper.findVariable(RHS, variable);
 		StepNode RHSquadratic = StepHelper.findVariable(RHS, StepNode.power(variable, 2));
@@ -430,10 +428,6 @@ public class EquationSteps {
 		StepNode b = StepHelper.findCoefficient(LHS, variable);
 		StepNode c = StepHelper.findConstant(LHS);
 
-		Log.error("a = " + a);
-		Log.error("b = " + b);
-		Log.error("c = " + c);
-
 		if (isZero(a)) {
 			solveLinear();
 			return;
@@ -450,9 +444,6 @@ public class EquationSteps {
 
 		if (isOne(a) && isEven(b.getValue())) {
 			StepNode toComplete = StepNode.subtract(c, StepNode.power(StepNode.divide(b, 2), 2)).regroup();
-
-			Log.error(StepNode.subtract(c, StepNode.power(StepNode.divide(b, 2), 2)) + " ");
-			Log.error(toComplete + " ");
 
 			steps.add(loc.getMenuLaTeX("CompleteSquare", "Complete the square"), SolutionStepTypes.COMMENT);
 
@@ -491,7 +482,7 @@ public class EquationSteps {
 			String formula = "\\frac{" + LaTeX("-(" + b + ")") + "\\pm \\sqrt{" + LaTeX(discriminant) + "}}{" + LaTeX("2(" + a + ")") + "}";
 			steps.add(variable + "_{1,2} = " + formula, SolutionStepTypes.EQUATION);
 			String simplifiedFormula = "\\frac{" + LaTeX(StepNode.minus(b).regroup()) + "\\pm \\sqrt{"
-					+ LaTeX(discriminant.regroup()) + "}}{" + LaTeX(StepNode.multiply(2, a).regroup()) + "}";
+					+ LaTeX(discriminant.deepCopy().regroup()) + "}}{" + LaTeX(StepNode.multiply(2, a).regroup()) + "}";
 			steps.add(variable + "_{1,2} = " + simplifiedFormula, SolutionStepTypes.EQUATION);
 
 			steps.levelUp();
@@ -501,13 +492,13 @@ public class EquationSteps {
 
 				solutions.add(solution.simplify());
 			} else if (discriminantValue > 0) {
-				StepNode solution1 = StepNode
-						.minus(StepNode.divide(StepNode.add(b, StepNode.root(discriminant, 2)), StepNode.multiply(2, a)));
-				StepNode solution2 = StepNode
-						.minus(StepNode.divide(StepNode.subtract(b, StepNode.root(discriminant, 2)), StepNode.multiply(2, a)));
+				StepNode solution1 = StepNode.divide(StepNode.add(StepNode.minus(b), StepNode.root(discriminant, 2)),
+						StepNode.multiply(2, a));
+				StepNode solution2 = StepNode.divide(StepNode.subtract(StepNode.minus(b), StepNode.root(discriminant, 2)),
+						StepNode.multiply(2, a));
 
-				solutions.add(solution1.simplify());
-				solutions.add(solution2.simplify());
+				solutions.add(solution1.regroup());
+				solutions.add(solution2.regroup());
 			}
 		}
 	}
@@ -870,11 +861,11 @@ public class EquationSteps {
 	}
 
 	private static boolean isZero(StepNode ev) {
-		return ev == null || isEqual(ev.getValue(), 0);
+		return ev == null || ev.isConstant() && isEqual(ev.getValue(), 0);
 	}
 
 	private static boolean isOne(StepNode ev) {
-		return ev == null || isEqual(ev.getValue(), 1);
+		return ev == null || ev.isConstant() && isEqual(ev.getValue(), 1);
 	}
 
 	private static boolean isEven(double d) {

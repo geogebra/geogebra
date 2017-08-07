@@ -77,7 +77,7 @@ public abstract class StepNode {
 		}
 	}
 
-	private static StepNode convertExpression(ExpressionValue ev) {
+	public static StepNode convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
 			if (((ExpressionNode) ev).getOperation() == Operation.NO_OPERATION) {
 				return convertExpression(((ExpressionNode) ev).getLeft());

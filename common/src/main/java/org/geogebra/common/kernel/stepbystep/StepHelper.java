@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class StepHelper {
 
@@ -24,7 +25,7 @@ public class StepHelper {
 			if (so.isOperation(Operation.DIVIDE)) {
 				return so.getSubTree(1);
 			} else if (so.isOperation(Operation.MINUS)) {
-				return StepNode.minus(so.getSubTree(0));
+				return StepNode.minus(getDenominator(so.getSubTree(0), kernel));
 			} else if (so.isOperation(Operation.PLUS) || so.isOperation(Operation.MULTIPLY)) {
 				StepNode denominator = new StepConstant(1);
 				for (int i = 0; i < so.noOfOperands(); i++) {
@@ -40,15 +41,11 @@ public class StepHelper {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(Operation.SQRT)) {
+			if (so.isOperation(Operation.NROOT)) {
 				return so;
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
-				if (countOperation(so, Operation.SQRT) > 0) {
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so.isOperation(Operation.MINUS)) {
+				if (countOperation(so, Operation.NROOT) > 0) {
 					return so;
-				}
-			} else if(so.isOperation(Operation.MINUS)) {
-				if (countOperation(so, Operation.SQRT) > 0) {
-					return StepNode.minus(so);
 				}
 			} else if (so.isOperation(Operation.PLUS)) {
 				StepNode roots = null;
@@ -69,21 +66,21 @@ public class StepHelper {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(Operation.SQRT)) {
+			if (so.isOperation(Operation.NROOT)) {
 				return so;
 			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
-				if (countOperation(so, Operation.SQRT) > 0) {
+				if (countOperation(so, Operation.NROOT) > 0) {
 					return so;
 				}
 			} else if (so.isOperation(Operation.MINUS)) {
-				if (countOperation(so, Operation.SQRT) > 0) {
+				if (countOperation(so, Operation.NROOT) > 0) {
 					return StepNode.minus(so);
 				}
 			} else if (so.isOperation(Operation.PLUS)) {
 				StepNode roots = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					roots = StepNode.add(roots, getSQRoots(so.getSubTree(i)));
-					if (countOperation(so.getSubTree(i), Operation.SQRT) > 0) {
+					if (countOperation(so.getSubTree(i), Operation.NROOT) > 0) {
 						return roots;
 					}
 				}
@@ -104,7 +101,6 @@ public class StepHelper {
 				return so;
 			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					Log.error(so.getSubTree(i) + " ");
 					if (so.getSubTree(i).equals(variable)) {
 						return so;
 					}
@@ -259,13 +255,13 @@ public class StepHelper {
 
 			if (so.isOperation(Operation.POWER) && !so.getSubTree(0).isConstant()) {
 				return true;
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
+			} else if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					boolean power = isPower(so.getSubTree(i));
-					if (!power) {
+					if (!isPower(so.getSubTree(i))) {
 						return false;
 					}
 				}
+				return true;
 			}
 		}
 
@@ -294,10 +290,11 @@ public class StepHelper {
 
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
-			
+
 			if (isPower(so)) {
 				return true;
-			} else if (getPower(so.getSubTree(0)) != 0 && getPower(so.getSubTree(0)) == getPower(so.getSubTree(1))) {
+			} else if (so.noOfOperands() == 2 && getPower(so.getSubTree(0)) != 0
+					&& getPower(so.getSubTree(0)) == getPower(so.getSubTree(1))) {
 				return true;
 			}
 		}
@@ -482,16 +479,17 @@ public class StepHelper {
 	public static StepNode[] getCASSolutions(String LHS, String RHS, String variable, Kernel kernel) {
 		String s = callCAS(LHS + " = " + RHS + ", " + variable, "Solutions", kernel);
 
-		String[] solutions = s.replaceAll("[ {}]", "").split(",");
-
-		if (solutions.length == 1 && "".equals(solutions[0])) {
-			return new StepNode[0];
+		MyList solutionList = null;
+		try {
+			solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+		} catch (ParseException e) {
+			e.printStackTrace();
 		}
 
-		StepNode[] sn = new StepNode[solutions.length];
+		StepNode[] sn = new StepNode[solutionList.getLength()];
 
-		for (int i = 0; i < solutions.length; i++) {
-			sn[i] = StepNode.getStepTree(solutions[i], kernel.getParser());
+		for (int i = 0; i < solutionList.getLength(); i++) {
+			sn[i] = StepNode.convertExpression(solutionList.getListElement(i));
 		}
 
 		return sn;
