@@ -821,15 +821,15 @@ public class AppWapplet extends AppWFull {
 			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
 		}
 
-		if (frame.isKeyboardShowing() && appletHeight < appletWidth) {
+		if (frame.isKeyboardShowing()) {
 			newHeight -= frame.getKeyboardHeight();
 
-			this.spHeight = newHeight;
-			if (oldSplitLayoutPanel != null) {
-				oldSplitLayoutPanel.setHeight(spHeight + "px");
-			}
 		}
 
+		this.spHeight = newHeight;
+		if (oldSplitLayoutPanel != null) {
+			oldSplitLayoutPanel.setHeight(spHeight + "px");
+		}
 	}
 
 	@Override
