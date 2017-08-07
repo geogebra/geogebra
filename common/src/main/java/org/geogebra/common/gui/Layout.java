@@ -66,11 +66,13 @@ public abstract class Layout implements SettingListener {
 		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
 				false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				app.isPortrait() ? "3" : "1",
 				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false,
 				false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				app.isPortrait() ? "1" : "3",
 				200);
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,
@@ -93,8 +95,14 @@ public abstract class Layout implements SettingListener {
 		// 500);
 
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", AVpercent,
+		if (app.isPortrait()) {
+			spData[0] = new DockSplitPaneData("", 0.1,
+					SwingConstants.VERTICAL_SPLIT);
+
+		} else {
+			spData[0] = new DockSplitPaneData("", AVpercent,
 				SwingConstants.HORIZONTAL_SPLIT);
+		}
 
 		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
 				app.isExam(), app);

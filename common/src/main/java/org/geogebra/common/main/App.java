@@ -4298,6 +4298,8 @@ public abstract class App implements UpdateSelection {
 
 		case TOOLTIP_DESIGN:
 			return isUnbundled() && prerelease;
+		case INITIAL_PORTRAIT:
+			return isUnbundled() && prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
@@ -5007,4 +5009,7 @@ public abstract class App implements UpdateSelection {
 		companion.setFlagForSCADexport();
 	}
 
+	public boolean isPortrait() {
+		return getHeight() > getWidth();
+	}
 }

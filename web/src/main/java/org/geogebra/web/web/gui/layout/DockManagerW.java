@@ -1831,6 +1831,7 @@ public class DockManagerW extends DockManager {
 			final double landscape = app.isUnbundled()
 					? MIN_TOOLBAR_WIDTH / app.getWidth()
 					: PerspectiveDecoder.landscapeRatio(app.getWidth());
+
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 				@Override
@@ -1886,9 +1887,13 @@ public class DockManagerW extends DockManager {
 
 		Log.debug("landscape: portraitDivider " + portraitDivider);
 
-		split.clear();
 		setDividerLocation(split,
 				isPortrait() ? 1 - portraitDivider : landscapeRatio);
+		if (app.has(Feature.INITIAL_PORTRAIT)) {
+			return;
+		}
+
+		split.clear();
 
 		split.setOrientation(isPortrait() ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT);
