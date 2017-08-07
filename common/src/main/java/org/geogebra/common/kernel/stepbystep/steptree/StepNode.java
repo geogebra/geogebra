@@ -13,6 +13,7 @@ public abstract class StepNode {
 	public abstract boolean equals(StepNode sn);
 
 	public abstract StepNode deepCopy();
+
 	/**
 	 * @return whether this node is an instance of StepByStepOperation
 	 */
@@ -47,10 +48,14 @@ public abstract class StepNode {
 
 	public abstract StepNode getVariable();
 
+	public abstract StepNode getConstantCoefficient();
+
 	/**
 	 * @return the tree, formatted in LaTeX
 	 */
 	public abstract String toLaTeXString();
+
+	public abstract StepNode constantRegroup();
 
 	public abstract StepNode regroup();
 
@@ -250,5 +255,7 @@ public abstract class StepNode {
 	public static StepNode root(StepNode a, int b) {
 		return root(a, new StepConstant(b));
 	}
+
+	public abstract StepNode divideAndSimplify(double x);
 
 }

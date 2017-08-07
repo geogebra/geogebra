@@ -110,7 +110,6 @@ public class EquationSteps {
 			takeRoot();
 			return checkSolutions();
 		}
-
 		// IV. step: expanding parentheses
 		expandParantheses();
 
@@ -125,9 +124,12 @@ public class EquationSteps {
 
 		// VII. step: solving linear equations
 		if (degreeDiff != -1 && degreeDiff <= 1) {
+
 			solveLinear();
 			return checkSolutions();
 		}
+
+
 
 		// VIII. step: solving quadratic equations
 		if (degreeDiff != -1 && degreeDiff <= 2) {
@@ -374,6 +376,9 @@ public class EquationSteps {
 		StepNode RHSlinear = StepHelper.findVariable(RHS, variable);
 		StepNode RHSconstant = StepHelper.findConstant(RHS);
 
+		Log.error(StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)) + "");
+		Log.error(StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)).regroup() + "");
+
 		StepNode nonLinear = StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)).regroup();
 		addOrSubtract(nonLinear);
 
@@ -446,6 +451,9 @@ public class EquationSteps {
 		if (isOne(a) && isEven(b.getValue())) {
 			StepNode toComplete = StepNode.subtract(c, StepNode.power(StepNode.divide(b, 2), 2)).regroup();
 
+			Log.error(StepNode.subtract(c, StepNode.power(StepNode.divide(b, 2), 2)) + " ");
+			Log.error(toComplete + " ");
+
 			steps.add(loc.getMenuLaTeX("CompleteSquare", "Complete the square"), SolutionStepTypes.COMMENT);
 
 			addOrSubtract(toComplete);
@@ -459,7 +467,6 @@ public class EquationSteps {
 			nthroot(2);
 			return;
 		}
-
 		StepNode discriminant = StepNode.subtract(StepNode.power(b, 2), StepNode.multiply(4, StepNode.multiply(a, c)));
 		double discriminantValue = discriminant.getValue();
 
@@ -769,7 +776,6 @@ public class EquationSteps {
 		} else {
 			addStep();
 		}
-
 		steps.levelUp();
 
 		LHS = LHS.regroup();
@@ -794,6 +800,7 @@ public class EquationSteps {
 				EquationSteps positiveBranch = new EquationSteps(kernel, LHS.toString(), RHS.toString(), variable.toString());
 				steps.addAll(positiveBranch.getSteps());
 				solutions.addAll(positiveBranch.getSolutions());
+
 
 				EquationSteps negativeBranch = new EquationSteps(kernel, LHS.toString(), StepNode.minus(RHS).toString(),
 						variable.toString());

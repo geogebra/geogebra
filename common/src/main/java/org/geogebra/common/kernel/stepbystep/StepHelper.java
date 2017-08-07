@@ -176,6 +176,10 @@ public class StepHelper {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
+			if (so.isOperation(Operation.POWER) || so.isOperation(Operation.NROOT)) {
+				return expr.equals(so);
+			}
+
 			for(int i = 0; i < so.noOfOperands(); i++) {
 				if(containsExpression(so.getSubTree(i), expr)) {
 					return true;
@@ -284,6 +288,7 @@ public class StepHelper {
 
 	public static boolean shouldTakeRoot(StepNode snRHS, StepNode snLHS) {
 		StepNode sn = StepNode.subtract(snRHS, snLHS).regroup();
+
 		StepNode constants = findConstant(sn);
 		sn = StepNode.subtract(sn, constants).regroup();
 

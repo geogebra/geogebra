@@ -83,4 +83,19 @@ public class StepConstant extends StepNode {
 	public StepNode simplify() {
 		return this;
 	}
+
+	@Override
+	public StepConstant getConstantCoefficient() {
+		return this;
+	}
+
+	@Override
+	public StepNode constantRegroup() {
+		return this;
+	}
+
+	@Override
+	public StepNode divideAndSimplify(double x) {
+		return new StepConstant(value / x);
+	}
 }
