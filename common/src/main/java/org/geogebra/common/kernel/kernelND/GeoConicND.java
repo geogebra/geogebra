@@ -520,13 +520,26 @@ public abstract class GeoConicND extends GeoQuadricND
 
 			// relation between the internal parameter t and the angle theta:
 			// t = atan(a/b tan(theta)) where tan(theta) = py / px
-			pp.setT(Math.atan2(halfAxes[0] * py, halfAxes[1] * px));
+			// avoid cos(atan(x)) for the vertices
+			if (MyDouble.exactEqual(1, px) || MyDouble.exactEqual(-1, px)) {
+				pp.setT(px > 0 ? 0 : Math.PI);
+				P.setX(px);
+				P.setY(0);
+			}
+			else if (MyDouble.exactEqual(1, py)
+					|| MyDouble.exactEqual(-1, py)) {
+				pp.setT(py > 0 ? Kernel.PI_HALF : -Kernel.PI_HALF);
+				P.setX(0);
+				P.setY(py);
+			} else {
+				pp.setT(Math.atan2(halfAxes[0] * py, halfAxes[1] * px));
 
-			// calc Point on conic using this parameter
-			P.setX(halfAxes[0] * Math.cos(pp.getT()));
-			P.setY(halfAxes[1] * Math.sin(pp.getT()));
+				// calc Point on conic using this parameter
+				P.setX(halfAxes[0] * Math.cos(pp.getT()));
+				P.setY(halfAxes[1] * Math.sin(pp.getT()));
+
+			}
 			P.setZ(1.0);
-
 			// transform back to real world coord system
 			coordsEVtoRW(P);
 			break;
