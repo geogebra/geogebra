@@ -209,9 +209,11 @@ public class EquationSteps {
 		if (solutions.size() == 0) {
 			steps.add(loc.getMenuLaTeX("NoRealSolutions", "No Real Solutions"), SolutionStepTypes.SOLUTION);
 		} else if (solutions.size() == 1) {
-			steps.add(loc.getMenuLaTeX("Solution", "Solution: %0", sb.toString()), SolutionStepTypes.SOLUTION);
+			steps.add(loc.getMenuLaTeX("SolutionA", "Solution: %0",
+					sb.toString()), SolutionStepTypes.SOLUTION);
 		} else if (solutions.size() > 1) {
-			steps.add(loc.getMenuLaTeX("Solutions", "Solutions: %0", sb.toString()), SolutionStepTypes.SOLUTION);
+			steps.add(loc.getMenuLaTeX("SolutionsA", "Solutions: %0",
+					sb.toString()), SolutionStepTypes.SOLUTION);
 		}
 
 		StepNode bothSides = StepNode.add(origLHS, origRHS);
