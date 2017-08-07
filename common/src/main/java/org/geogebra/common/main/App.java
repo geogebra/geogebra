@@ -4290,6 +4290,9 @@ public abstract class App implements UpdateSelection {
 		case HIGHLIGT_IMPROVEMENTS:
 			return prerelease;
 
+		case TOOLTIP_DESIGN:
+			return isUnbundled() && prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
