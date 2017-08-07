@@ -5977,7 +5977,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private void numericResolve(boolean pi, double ratio) {
-		if (Double.isInfinite(ratio)) {
+		if (!MyDouble.isFinite(ratio)) {
 			resolve = new ExpressionNode(kernel, evaluateDouble());
 		} else {
 			resolve = new ExpressionNode(kernel, pi ? Math.PI * ratio : ratio);

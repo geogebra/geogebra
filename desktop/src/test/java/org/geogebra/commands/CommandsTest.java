@@ -1146,6 +1146,11 @@ public class CommandsTest extends Assert{
 		((GeoNumeric) app.getKernel().lookupLabel("a")).setSymbolicMode(true,
 				true);
 		t("a", "2.708837868759473");
+
+		t("b=(1+1/400)^400", "2.7148917443812293");
+		((GeoNumeric) app.getKernel().lookupLabel("b")).setSymbolicMode(true,
+				true);
+		t("b", "2.7148917443812293");
 	}
 
 	static String unicode(String theSpline) {
