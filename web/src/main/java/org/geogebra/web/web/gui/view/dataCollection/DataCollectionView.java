@@ -161,7 +161,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		FlowPanel closeButtonPanel = new FlowPanel();
 		closeButtonPanel.setStyleName("closeButtonPanel");
 		StandardButton closeButton = new StandardButton(
-				GuiResources.INSTANCE.dockbar_close());
+				GuiResources.INSTANCE.dockbar_close(), app);
 		closeButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override

@@ -109,7 +109,7 @@ public class DialogBoxW extends GDialogBox {
 		if (getWidget() instanceof Panel) {
 			SimplePanel cancel = new SimplePanel();
 			this.cancelButton = new StandardButton(
-			        BrowseResources.INSTANCE.dialog_cancel());
+					BrowseResources.INSTANCE.dialog_cancel(), app);
 			this.cancelButton.addStyleName("cancelSaveButton");
 			this.cancelButton.addFastClickHandler(new FastClickHandler() {
 				@Override

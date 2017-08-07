@@ -198,7 +198,7 @@ public class OptionsGlobalW implements OptionPanelW {
 
 	private void addRestoreSettingsBtn() {
 		restoreSettingsBtn = new StandardButton(
-				app.getLocalization().getMenu("Settings.ResetDefault"));
+				app.getLocalization().getMenu("Settings.ResetDefault"), app);
 		restoreSettingsBtn.setStyleName("MyCanvasButton");
 		restoreSettingsBtn.addStyleName("settingsBtn");
 		restoreSettingsBtn.addFastClickHandler(new FastClickHandler() {
@@ -217,7 +217,7 @@ public class OptionsGlobalW implements OptionPanelW {
 
 	private void addSaveSettingBtn() {
 		saveSettingsBtn = new StandardButton(
-				app.getLocalization().getMenu("Settings.Save"));
+				app.getLocalization().getMenu("Settings.Save"), app);
 		saveSettingsBtn.setStyleName("MyCanvasButton");
 		saveSettingsBtn.addStyleName("settingsBtn");
 		saveSettingsBtn.addFastClickHandler(new FastClickHandler() {

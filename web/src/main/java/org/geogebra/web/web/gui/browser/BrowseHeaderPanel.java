@@ -152,7 +152,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			optionsPanelContent.setStyleName("profileOptionsContent");
 			optionsPanel.add(optionsPanelContent);
 			
-			logoutButton = new StandardButton(loc.getMenu("SignOut"));
+			logoutButton = new StandardButton(loc.getMenu("SignOut"), app);
 			logoutButton.addStyleName("logoutButton");
 			logoutButton.addStyleName("gwt-Button");
 			optionsPanelContent.add(logoutButton);

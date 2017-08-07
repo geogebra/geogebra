@@ -128,7 +128,8 @@ public class PropertiesViewW extends PropertiesView
 		if (!app.has(Feature.FLOATING_SETTINGS)) {
 			return;
 		}
-		closeButton = new StandardButton(GuiResources.INSTANCE.dockbar_close());
+		closeButton = new StandardButton(GuiResources.INSTANCE.dockbar_close(),
+				app);
 		closeButton.addFastClickHandler(new FastClickHandler() {
 			
 			@Override

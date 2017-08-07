@@ -31,7 +31,7 @@ public class TabletDeviceWin extends TouchDevice {
 	@Override
 	public BrowseGUI createBrowseView(AppW app) {
 		StandardButton button = new StandardButton(
-		        BrowseResources.INSTANCE.location_local());
+				BrowseResources.INSTANCE.location_local(), app);
 
 		final BrowseGUI bg = new BrowseGUI(app, button);
 		button.addFastClickHandler(new FastClickHandler() {

@@ -311,8 +311,10 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		buttonPanel.addStyleName("buttonPanel");
 
 		buttonPanel.add(
-				dontSaveButton = new StandardButton(loc.getMenu("DontSave")));
-		buttonPanel.add(saveButton = new StandardButton(loc.getMenu("Save")));
+				dontSaveButton = new StandardButton(loc.getMenu("DontSave"),
+						app));
+		buttonPanel
+				.add(saveButton = new StandardButton(loc.getMenu("Save"), app));
 
 		saveButton.addStyleName("saveButton");
 		dontSaveButton.addStyleName("cancelBtn");

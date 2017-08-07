@@ -150,7 +150,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.providerPanel = new FlowPanel();
 
 		locationTube = new StandardButton(
-		        BrowseResources.INSTANCE.location_tube());
+				BrowseResources.INSTANCE.location_tube(), app);
 		locationTube.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -167,7 +167,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		if (locationDrive == null) {
 			locationDrive = new StandardButton(
-			        BrowseResources.INSTANCE.location_drive());
+					BrowseResources.INSTANCE.location_drive(), app);
 			locationDrive.addFastClickHandler(new FastClickHandler() {
 
 				@Override
@@ -188,7 +188,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		if (this.locationSkyDrive == null) {
 			this.locationSkyDrive = new StandardButton(
-			        BrowseResources.INSTANCE.location_skydrive());
+					BrowseResources.INSTANCE.location_skydrive(), app);
 			this.locationSkyDrive.addFastClickHandler(new FastClickHandler() {
 
 				@Override

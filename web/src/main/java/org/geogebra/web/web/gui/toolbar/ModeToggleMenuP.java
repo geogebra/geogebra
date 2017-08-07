@@ -65,7 +65,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 	private void addBackButton() {
 		PerspectiveResources pr = ((ImageFactory) GWT
 				.create(ImageFactory.class)).getPerspectiveResources();
-		back = new StandardButton(pr.menu_header_back(), null, 32);
+		back = new StandardButton(pr.menu_header_back(), null, 32, app);
 		back.addStyleName("submenuBack");
 		back.addFastClickHandler(new FastClickHandler() {
 

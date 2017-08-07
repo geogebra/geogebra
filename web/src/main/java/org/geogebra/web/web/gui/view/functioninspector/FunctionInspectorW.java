@@ -275,7 +275,8 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void buildHelpPanel() {
-		btnHelp = new StandardButton(GuiResources.INSTANCE.menu_icon_help());
+		btnHelp = new StandardButton(GuiResources.INSTANCE.menu_icon_help(),
+				app);
 		btnHelp.addStyleName("MyCanvasButton");
 		btnHelp.addFastClickHandler(new FastClickHandler() {
 

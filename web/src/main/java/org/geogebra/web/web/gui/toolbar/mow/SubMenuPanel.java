@@ -180,7 +180,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (imageNeedsOpacity(mode)) {
 			im.addStyleName("opacityFixForOldIcons");
 		}
-		StandardButton button = new StandardButton(null, "", 32);
+		StandardButton button = new StandardButton(null, "", 32, app);
 		button.getUpFace().setImage(im);
 		button.addFastClickHandler(this);
 

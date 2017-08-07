@@ -261,11 +261,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		
 		private void createMoreLessButtons() {
 			moreBtn = new StandardButton(
-					app.getLocalization().getMenu("Tools.More"));
+					app.getLocalization().getMenu("Tools.More"), app);
 			moreBtn.addStyleName("moreLessBtn");
 			moreBtn.removeStyleName("button");
 			lessBtn = new StandardButton(
-					app.getLocalization().getMenu("Tools.Less"));
+					app.getLocalization().getMenu("Tools.Less"), app);
 			lessBtn.addStyleName("moreLessBtn");
 			lessBtn.removeStyleName("button");
 			moreBtn.addFastClickHandler(new FastClickHandler() {
@@ -439,7 +439,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	private void addMoveBtn() {
 		moveBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.mode_move());
+				MaterialDesignResources.INSTANCE.mode_move(), app);
 		moveBtn.setStyleName("moveFloatingBtn");
 		main.add(moveBtn);
 		FastClickHandler moveBtnHandler = new FastClickHandler() {

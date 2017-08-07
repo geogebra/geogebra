@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.util;
 
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastButton;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -9,22 +11,24 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
 
 public class StandardButton extends FastButton {
-
 	
-
+	private App app;
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
 
-	public StandardButton(final ImageResource icon) {
+	public StandardButton(final ImageResource icon, App app) {
+		this.app = app;
 		setIconAndLabel(icon, null, icon.getWidth());
 	}
 
-	public StandardButton(final String label) {
+	public StandardButton(final String label, App app) {
+		this.app = app;
 		setIconAndLabel(null, label, -1);
 	}
 
-	public StandardButton(final ResourcePrototype icon, final String label, int width) {
+	public StandardButton(final ResourcePrototype icon, final String label, int width, App app) {
+		this.app = app;
 		setIconAndLabel(icon, label, width);
 	}
 
@@ -106,5 +110,15 @@ public class StandardButton extends FastButton {
      */
 	public HandlerRegistration addClickHandler(ClickHandler c){
 		return null;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		if (app.has(Feature.TOOLTIP_DESIGN)) {
+			getElement().removeAttribute("title");
+			getElement().setAttribute("data-title", title);
+		} else {
+			super.setTitle(title);
+		}
 	}
 }

@@ -121,10 +121,10 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            The handler of the button.
 	 * @return the newly created button for the toolbar.
 	 */
-	public static StandardButton createButton(String url,
+	public StandardButton createButton(String url,
 			FastClickHandler handler) {
 		NoDragImage im = new NoDragImage(url);
-		StandardButton btn = new StandardButton(null, "", 32);
+		StandardButton btn = new StandardButton(null, "", 32, app);
 		btn.getUpFace().setImage(im);
 		btn.addFastClickHandler(handler);
 		return btn;
@@ -146,7 +146,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void createMoveButton() {
-		moveButton = new StandardButton("");
+		moveButton = new StandardButton("", app);
 		moveButton.getUpFace().setImage(getImage(pr.move_pointer_32(), 32));
 		rightPanel.add(moveButton);
 		moveButton.addFastClickHandler(this);
@@ -257,13 +257,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void createUndoRedo() {
-		redoButton = new StandardButton(pr.redo_32(), null, 32);
+		redoButton = new StandardButton(pr.redo_32(), null, 32, app);
 		redoButton.getUpHoveringFace()
 .setImage(getImage(pr.redo_32(), 32));
 		redoButton.addFastClickHandler(this);
 		redoButton.addStyleName("redoButton");
 
-		undoButton = new StandardButton(pr.undo_32(), null, 32);
+		undoButton = new StandardButton(pr.undo_32(), null, 32, app);
 		undoButton.getUpHoveringFace()
 .setImage(getImage(pr.undo_32(), 32));
 		undoButton.addFastClickHandler(this);

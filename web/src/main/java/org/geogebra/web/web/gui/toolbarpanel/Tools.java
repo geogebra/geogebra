@@ -159,7 +159,7 @@ public class Tools extends FlowPanel {
 					|| mode == EuclidianConstants.MODE_IMAGE) {
 				im.addStyleName("plusPadding");
 			}
-			final StandardButton btn = new StandardButton(null, "", 32);
+			final StandardButton btn = new StandardButton(null, "", 32, app);
 			btn.setTitle(app.getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
 

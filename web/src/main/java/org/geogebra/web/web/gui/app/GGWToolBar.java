@@ -202,7 +202,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 
 
-		redoButton = new StandardButton(pr.menu_header_redo(), null, 32);
+		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
 		redoButton.getUpHoveringFace().setImage(
 				getImage(pr.menu_header_redo_hover(), 32));
 
@@ -222,7 +222,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 
 		undoButton = new StandardButton(
-pr.menu_header_undo(), null, 32);
+				pr.menu_header_undo(), null, 32, app);
 		undoButton.getUpHoveringFace().setImage(
 				getImage(pr.menu_header_undo_hover(), 32));
 
@@ -542,7 +542,7 @@ pr.menu_header_undo(), null, 32);
 			// }
 
 			openMenuButton = new StandardButton(pr.menu_header_open_menu(),
-					null, 32);
+					null, 32, app);
 
 			openMenuButton.getUpHoveringFace().setImage(
 					getImage(pr.menu_header_open_menu_hover(), 32));
@@ -585,7 +585,7 @@ pr.menu_header_undo(), null, 32);
 			
 			
 				openSearchButton = new StandardButton(
-						pr.menu_header_open_search(), null, 32);
+						pr.menu_header_open_search(), null, 32, app);
 				openSearchButton.getUpFace().setImage(
 						getImage(pr.menu_header_open_search(), 32));
 				openSearchButton.getUpHoveringFace().setImage(

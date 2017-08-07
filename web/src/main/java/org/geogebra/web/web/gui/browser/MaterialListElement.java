@@ -195,7 +195,7 @@ public class MaterialListElement extends FlowPanel
 
 	private void addRenameButton() {
 		this.renameButton = new StandardButton(
-				BrowseResources.INSTANCE.document_rename(), "", 20);
+				BrowseResources.INSTANCE.document_rename(), "", 20, app);
 		this.infoPanel.add(this.renameButton);
 		this.renameButton.addFastClickHandler(new FastClickHandler() {
 
@@ -363,7 +363,7 @@ public class MaterialListElement extends FlowPanel
 
 	private void addDeleteButton() {
 		this.deleteButton = new StandardButton(
-				BrowseResources.INSTANCE.document_delete());
+				BrowseResources.INSTANCE.document_delete(), app);
 		this.infoPanel.add(this.deleteButton);
 		this.deleteButton.addFastClickHandler(new FastClickHandler() {
 
@@ -378,7 +378,8 @@ public class MaterialListElement extends FlowPanel
 	private void addFavoriteButton() {
 		this.favoriteButton = new StandardButton(
 				this.material.isFavorite() ? BrowseResources.INSTANCE.favorite()
-						: BrowseResources.INSTANCE.not_favorite());
+						: BrowseResources.INSTANCE.not_favorite(),
+				app);
 		this.favoriteButton.addStyleName("ggbFavorite");
 		this.background.add(this.favoriteButton);
 		this.favoriteButton.addFastClickHandler(new FastClickHandler() {
@@ -423,7 +424,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	private void initConfirmDeletePanel() {
-		this.confirm = new StandardButton(this.loc.getMenu("Delete"));
+		this.confirm = new StandardButton(this.loc.getMenu("Delete"), app);
 		this.confirm.addStyleName("gwt-Button");
 		this.confirm.addStyleName("deleteButton");
 		this.confirm.addFastClickHandler(new FastClickHandler() {
@@ -433,7 +434,7 @@ public class MaterialListElement extends FlowPanel
 				onConfirmDelete();
 			}
 		});
-		this.cancel = new StandardButton(this.loc.getMenu("Cancel"));
+		this.cancel = new StandardButton(this.loc.getMenu("Cancel"), app);
 		this.cancel.addStyleName("cancelButton");
 		this.cancel.addStyleName("gwt-Button");
 		this.cancel.addStyleName("minor");
@@ -517,7 +518,7 @@ public class MaterialListElement extends FlowPanel
 
 	protected void addEditButton() {
 		this.editButton = new StandardButton(
-				BrowseResources.INSTANCE.document_edit(), "", 20);
+				BrowseResources.INSTANCE.document_edit(), "", 20, app);
 		this.infoPanel.add(this.editButton);
 		this.editButton.addFastClickHandler(new FastClickHandler() {
 
@@ -638,7 +639,7 @@ public class MaterialListElement extends FlowPanel
 
 	protected void addViewButton() {
 		this.viewButton = new StandardButton(
-				BrowseResources.INSTANCE.document_view(), "", 20);
+				BrowseResources.INSTANCE.document_view(), "", 20, app);
 		this.viewButton.addStyleName("viewButton");
 		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(new FastClickHandler() {

@@ -87,7 +87,8 @@ class Header extends FlowPanel {
 	private void createCenter() {
 		btnAlgebra = new ToggleButton(new Image(
 				MaterialDesignResources.INSTANCE.toolbar_algebra()));
-		btnAlgebra.setTitle(app.getLocalization().getMenu("Algebra"));
+		btnAlgebra.setTitle(
+				app.getLocalization().getMenu("ConstructionProtocol"));
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -200,7 +201,7 @@ class Header extends FlowPanel {
 		});
 		
 		btnContextMenu = new StandardButton(MaterialDesignResources.INSTANCE
-				.more_vert_white());
+				.more_vert_white(), app);
 		btnContextMenu.addStyleName("flatButton");
 		btnContextMenu.addStyleName("contextMenu");
 		

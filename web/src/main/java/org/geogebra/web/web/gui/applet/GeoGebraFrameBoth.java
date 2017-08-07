@@ -869,7 +869,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				.create(ImageFactory.class)).getPerspectiveResources();
 
 		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
-				32);
+				32, app);
 
 		openMenuButton.getUpHoveringFace()
 				.setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(),

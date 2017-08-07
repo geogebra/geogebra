@@ -81,7 +81,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		});
 
 		StandardButton searchButton = new StandardButton(
-				BrowseResources.INSTANCE.search());
+				BrowseResources.INSTANCE.search(), app);
 		searchButton.addStyleName("searchButton");
 		searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -90,7 +90,8 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 			}
 		});
 
-		this.cancelButton = new StandardButton(BrowseResources.INSTANCE.dialog_cancel());
+		this.cancelButton = new StandardButton(
+				BrowseResources.INSTANCE.dialog_cancel(), app);
 		this.cancelButton.addStyleName("cancelButton");
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {
