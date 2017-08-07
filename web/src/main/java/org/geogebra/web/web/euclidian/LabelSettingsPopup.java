@@ -225,11 +225,17 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			cmValue.setChecked(false);
 			return;
 		}
-		cmName.setChecked(mode == LABEL_MODE_NAME_ONLY
+		cmName.setChecked(
+				(!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
+						|| isEqualVal)
+						&& (mode == LABEL_MODE_NAME_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE
-				|| mode == LABEL_MODE_CAPTION);
-		cmValue.setChecked(mode == LABEL_MODE_VALUE_ONLY
-				|| mode == LABEL_MODE_NAME_AND_VALUE);
+				|| mode == LABEL_MODE_CAPTION));
+		cmValue.setChecked(
+				(!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
+						|| isEqualMode)
+						&& (mode == LABEL_MODE_VALUE_ONLY
+				|| mode == LABEL_MODE_NAME_AND_VALUE));
 		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
 				&& namePanel != null) {
 			namePanel.setVisible(model.getGeosLength() == 1);
