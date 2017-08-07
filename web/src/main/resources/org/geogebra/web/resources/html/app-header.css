@@ -1,15 +1,16 @@
 .GeoGebraHeader{
 	display: flex;
     border-bottom: 1px solid #dcdcdc;
-	background-color: #6557D2;
-    color: rgba(255,255,255,0.7);
+	background-color: rgb(255,255,255);
     padding: 4px;
 }
 .GeoGebraHeader .appName{
 	padding-left: 12px;
+	font-size: 16px;
+	margin: 3px 0;
 }
 .GeoGebraHeader a{
-	color: rgba(255,255,255,0.7);
+	color: #6557D2;
 }
 .GeoGebraHeader .links {
 	position: absolute;
