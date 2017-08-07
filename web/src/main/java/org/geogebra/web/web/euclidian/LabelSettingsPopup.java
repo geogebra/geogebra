@@ -228,7 +228,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 				|| mode == LABEL_MODE_CAPTION);
 		cmValue.setChecked(mode == LABEL_MODE_VALUE_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE);
-		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)) {
+		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
+				&& namePanel != null) {
 			namePanel.setVisible(model.getGeosLength() == 1);
 		}
 
