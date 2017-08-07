@@ -817,19 +817,19 @@ public class AppWapplet extends AppWFull {
 			newHeight -= ((AlgebraInputW) getGuiManager().getAlgebraInput())
 					.getOffsetHeight();
 		}
-
 		if (getToolbar()!=null && getToolbar().isVisible()){
 			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
 		}
 
-		if (frame.isKeyboardShowing()) {
+		if (frame.isKeyboardShowing() && appletHeight < appletWidth) {
 			newHeight -= frame.getKeyboardHeight();
+
+			this.spHeight = newHeight;
+			if (oldSplitLayoutPanel != null) {
+				oldSplitLayoutPanel.setHeight(spHeight + "px");
+			}
 		}
 
-		this.spHeight = newHeight;
-		if (oldSplitLayoutPanel != null) {
-			oldSplitLayoutPanel.setHeight(spHeight + "px");
-		}
 	}
 
 	@Override
