@@ -1201,6 +1201,7 @@ __GGB__keysVar.ja.menu = {
     "AddColumn": "\u5217\u3092\u8ffd\u52a0",
     "AddCustomColor": "\u30ab\u30b9\u30bf\u30e0\u30ab\u30e9\u30fc\u306e\u8ffd\u52a0",
     "AddFavorite": "\u304a\u6c17\u306b\u5165\u308a\u306b\u8ffd\u52a0",
+    "AddItem": "Add Item",
     "AddRow": "\u884c\u306e\u8ffd\u52a0",
     "AddSelection": "\u9078\u629e\u7bc4\u56f2\u3092\u8ffd\u52a0",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

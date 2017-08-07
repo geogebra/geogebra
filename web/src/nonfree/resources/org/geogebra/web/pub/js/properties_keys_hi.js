@@ -1201,6 +1201,7 @@ __GGB__keysVar.hi.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "\u0915\u0938\u094d\u091f\u092e \u0930\u0902\u0917 \u091c\u094b\u0921\u093c\u0947\u0902",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "\u091a\u092f\u0928 \u091c\u094b\u0921\u093c\u0947\u0902",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

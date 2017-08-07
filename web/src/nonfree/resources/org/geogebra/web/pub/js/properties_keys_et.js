@@ -1201,6 +1201,7 @@ __GGB__keysVar.et.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Lisa kohandatud v\xe4rv",
     "AddFavorite": "Lisa lemmikutesse",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Lisa valik",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

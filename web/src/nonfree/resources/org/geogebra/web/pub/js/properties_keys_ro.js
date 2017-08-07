@@ -1201,6 +1201,7 @@ __GGB__keysVar.ro.menu = {
     "AddColumn": "Adaug\u0103 coloan\u0103",
     "AddCustomColor": "Adaug\u0103 o culoare personalizat\u0103",
     "AddFavorite": "Adaugare favorite",
+    "AddItem": "Add Item",
     "AddRow": "Adaug\u0103 linie",
     "AddSelection": "Adaug\u0103 selec\u021bie",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

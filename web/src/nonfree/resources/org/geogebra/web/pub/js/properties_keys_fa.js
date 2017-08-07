@@ -1201,6 +1201,7 @@ __GGB__keysVar.fa.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "\u0627\u0641\u0631\u0648\u062f\u0646 \u0631\u0646\u06af \u0633\u0641\u0627\u0631\u0634\u06cc",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "\u0627\u0636\u0627\u0641\u0647 \u06a9\u0631\u062f\u0646 \u0627\u0646\u062a\u062e\u0627\u0628",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

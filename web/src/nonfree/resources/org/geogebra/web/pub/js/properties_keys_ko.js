@@ -1201,6 +1201,7 @@ __GGB__keysVar.ko.menu = {
     "AddColumn": "\uc5f4 \ucd94\uac00",
     "AddCustomColor": "\uc0ac\uc6a9\uc790 \uc124\uc815 \uc0c9\uc0c1 \ucd94\uac00",
     "AddFavorite": "\uc990\uaca8\ucc3e\uae30 \ucd94\uac00",
+    "AddItem": "Add Item",
     "AddRow": "\ud589 \ucd94\uac00",
     "AddSelection": "\uc120\ud0dd \ucd94\uac00\ud558\uae30",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

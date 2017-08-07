@@ -1201,6 +1201,7 @@ __GGB__keysVar.cy.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Ychwanegu Lliw Arferol",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Ychwanegu Dewisiad",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

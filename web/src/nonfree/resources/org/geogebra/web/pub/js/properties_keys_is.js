@@ -1201,6 +1201,7 @@ __GGB__keysVar.is.menu = {
     "AddColumn": "B\xe6ta vi\xf0 d\xe1lki",
     "AddCustomColor": "B\xe6ta vi\xf0 eigin lit",
     "AddFavorite": "B\xe6ta vi\xf0 eftirl\xe6tis",
+    "AddItem": "Add Item",
     "AddRow": "B\xe6ta vi\xf0 l\xednu",
     "AddSelection": "B\xe6ta vi\xf0 vali",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

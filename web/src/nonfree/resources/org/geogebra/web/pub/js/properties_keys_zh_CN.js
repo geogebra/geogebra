@@ -1201,6 +1201,7 @@ __GGB__keysVar.zh_CN.menu = {
     "AddColumn": "\u6dfb\u52a0\u5217",
     "AddCustomColor": "\u6dfb\u52a0\u5b9a\u5236\u989c\u8272",
     "AddFavorite": "\u6dfb\u52a0\u6536\u85cf",
+    "AddItem": "Add Item",
     "AddRow": "\u6dfb\u52a0\u884c",
     "AddSelection": "\u589e\u52a0\u9009\u62e9",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

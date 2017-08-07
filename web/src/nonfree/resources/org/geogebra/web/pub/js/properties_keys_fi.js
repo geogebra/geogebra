@@ -1201,6 +1201,7 @@ __GGB__keysVar.fi.menu = {
     "AddColumn": "Lis\xe4\xe4 sarake",
     "AddCustomColor": "Lis\xe4\xe4 mukautettu v\xe4ri",
     "AddFavorite": "Lis\xe4\xe4 suosikki",
+    "AddItem": "Add Item",
     "AddRow": "Lis\xe4\xe4 rivi",
     "AddSelection": "Lis\xe4\xe4 valinta",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

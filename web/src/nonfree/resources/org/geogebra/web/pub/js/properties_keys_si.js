@@ -1201,6 +1201,7 @@ __GGB__keysVar.si.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "\u0dc0\u0dd2\u0dc1\u0dda\u0dc2\u0dd2\u0dad \u0dc0\u0dbb\u0dca\u0dab\u0dba \u0d91\u0d9a\u0dad\u0dd4 \u0d9a\u0dbb\u0db1\u0db1",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "\u0dad\u0ddd\u0dbb\u0dcf\u0d9c\u0dad\u0dca \u0daf\u0dda \u0d91\u0d9a\u0dad\u0dd4 \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

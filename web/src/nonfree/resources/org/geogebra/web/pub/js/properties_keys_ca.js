@@ -1201,6 +1201,7 @@ __GGB__keysVar.ca.menu = {
     "AddColumn": "Afegir Columna",
     "AddCustomColor": "Afegeix color personalitzat",
     "AddFavorite": "Afegeix a favorits",
+    "AddItem": "Add Item",
     "AddRow": "Afegeix fila",
     "AddSelection": "Amplia la selecci\xf3",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

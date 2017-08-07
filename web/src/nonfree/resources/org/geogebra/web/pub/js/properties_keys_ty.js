@@ -1201,6 +1201,7 @@ __GGB__keysVar.ty.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Add Custom Color",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Add Selection",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

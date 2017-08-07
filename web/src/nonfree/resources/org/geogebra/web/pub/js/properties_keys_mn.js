@@ -1201,6 +1201,7 @@ __GGB__keysVar.mn.menu = {
     "AddColumn": "\u0411\u0430\u0433\u0430\u043d\u0430 \u043d\u044d\u043c\u044d\u0445",
     "AddCustomColor": "\u0417\u0430\u0445\u0438\u0430\u043b\u0433\u0430\u0442 \u04e9\u043d\u0433\u04e9 \u043d\u044d\u043c\u044d\u0445",
     "AddFavorite": "\u0422\u0430\u0430\u043b\u0430\u0433\u0434\u0441\u0430\u043d",
+    "AddItem": "Add Item",
     "AddRow": "\u041c\u04e9\u0440 \u043d\u044d\u043c\u044d\u0445",
     "AddSelection": "\u0421\u043e\u043d\u0433\u043e\u043b\u0442 \u043d\u044d\u043c\u044d\u0445",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

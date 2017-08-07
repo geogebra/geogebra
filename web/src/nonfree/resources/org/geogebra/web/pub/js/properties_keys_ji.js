@@ -1201,6 +1201,7 @@ __GGB__keysVar.ji.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "\u05e6\u05d5\u05d2\u05e2\u05d1\u05df \u05d0\u05b7\u05df \u05d0\u05d9\u05d9\u05d2\u05e2\u05e0\u05e2 \u05e7\u05d0\u05b8\u05dc\u05d9\u05e8",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "\u05e6\u05d5\u05d2\u05e2\u05d1\u05df \u05d3\u05e2\u05dd \u05d0\u05d5\u05d9\u05e1\u05d8\u05d9\u05d9\u05dc",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

@@ -1201,6 +1201,7 @@ __GGB__keysVar.cs.menu = {
     "AddColumn": "P\u0159idat sloupec",
     "AddCustomColor": "P\u0159idat vlastn\xed barvu",
     "AddFavorite": "P\u0159idat k obl\xedben\xfdm",
+    "AddItem": "Add Item",
     "AddRow": "P\u0159idat \u0159\xe1dek",
     "AddSelection": "P\u0159idat volbu",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

@@ -1201,6 +1201,7 @@ __GGB__keysVar.ar_MA.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "\u0625\u0636\u0627\u0641\u0629 \u0644\u0648\u0646 \u0645\u062e\u0635\u0635",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "\u0625\u0636\u0627\u0641\u0629_\u0625\u062e\u062a\u064a\u0627\u0631",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

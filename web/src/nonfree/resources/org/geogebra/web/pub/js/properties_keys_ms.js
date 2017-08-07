@@ -1201,6 +1201,7 @@ __GGB__keysVar.ms.menu = {
     "AddColumn": "Tambah Lajur",
     "AddCustomColor": "Tambah Warna Langgan",
     "AddFavorite": "Tambah Kegemaran",
+    "AddItem": "Add Item",
     "AddRow": "Tambah Baris",
     "AddSelection": "Tambah Pemilihan",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

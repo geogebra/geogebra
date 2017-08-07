@@ -1201,6 +1201,7 @@ __GGB__keysVar.lv.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Pievienot kr\u0101su",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Pievienot izv\u0113l\u0113to",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

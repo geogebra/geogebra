@@ -1201,6 +1201,7 @@ __GGB__keysVar.nl.menu = {
     "AddColumn": "Voeg een kolom toe",
     "AddCustomColor": "Voeg kleur toe",
     "AddFavorite": "Voeg een favoriet toe",
+    "AddItem": "Add Item",
     "AddRow": "Rij toevoegen",
     "AddSelection": "Voeg selectie toe",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

@@ -1201,6 +1201,7 @@ __GGB__keysVar.no_NB.menu = {
     "AddColumn": "Legg til kolonne",
     "AddCustomColor": "Legg til egendefinert farge",
     "AddFavorite": "Legg til favoritt",
+    "AddItem": "Add Item",
     "AddRow": "Legg til rad",
     "AddSelection": "Legg til utvalg",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

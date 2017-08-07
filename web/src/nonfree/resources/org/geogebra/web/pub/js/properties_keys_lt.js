@@ -1201,6 +1201,7 @@ __GGB__keysVar.lt.menu = {
     "AddColumn": "Prid\u0117ti stulp\u0105",
     "AddCustomColor": "\u012etraukti spalv\u0105",
     "AddFavorite": "Prid\u0117ti m\u0117gstam\u0105",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Prid\u0117ti Pasirinkim\u0105",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

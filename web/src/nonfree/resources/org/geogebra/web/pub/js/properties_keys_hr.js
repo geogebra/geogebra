@@ -1201,6 +1201,7 @@ __GGB__keysVar.hr.menu = {
     "AddColumn": "Dodaj stupac",
     "AddCustomColor": "Dodaj korisni\u010dku boju",
     "AddFavorite": "Dodaj  zabilje\u0161ke",
+    "AddItem": "Add Item",
     "AddRow": "Dodaj redak",
     "AddSelection": "Dodaj odabir",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

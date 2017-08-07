@@ -1201,6 +1201,7 @@ __GGB__keysVar.gl.menu = {
     "AddColumn": "Engadir columna",
     "AddCustomColor": "Engadir unha cor propia",
     "AddFavorite": "Engadir como favorito",
+    "AddItem": "Add Item",
     "AddRow": "Engadir fila",
     "AddSelection": "Engade selecci\xf3n",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

@@ -1201,6 +1201,7 @@ __GGB__keysVar.sq.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Shto Ngjyre Pershtatje",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Shto Selektim",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

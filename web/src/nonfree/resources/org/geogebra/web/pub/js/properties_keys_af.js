@@ -1201,6 +1201,7 @@ __GGB__keysVar.af.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Voeg Eie Kleur By",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Voeg by Keuse",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

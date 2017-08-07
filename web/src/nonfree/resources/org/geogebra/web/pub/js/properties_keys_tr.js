@@ -1201,6 +1201,7 @@ __GGB__keysVar.tr.menu = {
     "AddColumn": "S\xfctun Ekle",
     "AddCustomColor": "\xd6zelle\u015ftirilmi\u015f Renk Ekle",
     "AddFavorite": "Favorilere Ekle",
+    "AddItem": "Add Item",
     "AddRow": "Sat\u0131r Ekle",
     "AddSelection": "Se\xe7im Ekle",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

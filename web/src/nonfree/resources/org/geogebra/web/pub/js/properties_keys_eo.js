@@ -1201,6 +1201,7 @@ __GGB__keysVar.eo.menu = {
     "AddColumn": "Aldoni kolumnon",
     "AddCustomColor": "Aldoni propran koloron",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Aldoni elekton",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

@@ -1201,6 +1201,7 @@ __GGB__keysVar.sv.menu = {
     "AddColumn": "L\xe4g till kolumn",
     "AddCustomColor": "L\xe4gg till egen f\xe4rg",
     "AddFavorite": "L\xe4gg till favorit",
+    "AddItem": "Add Item",
     "AddRow": "L\xe4gg till rad",
     "AddSelection": "L\xe4gg till till urvalet",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

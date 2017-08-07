@@ -1201,6 +1201,7 @@ __GGB__keysVar.sl.menu = {
     "AddColumn": "Dodaj stolpec",
     "AddCustomColor": "Dodaj svojo barvo",
     "AddFavorite": "Dodaj med priljubljene",
+    "AddItem": "Add Item",
     "AddRow": "Dodaj vrstico",
     "AddSelection": "Dodaj izbiro",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

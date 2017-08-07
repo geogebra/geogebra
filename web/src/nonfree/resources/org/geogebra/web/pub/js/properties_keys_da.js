@@ -1201,6 +1201,7 @@ __GGB__keysVar.da.menu = {
     "AddColumn": "Tilf\xf8j s\xf8jle",
     "AddCustomColor": "Tilf\xf8j farve",
     "AddFavorite": "Tilf\xf8j favorit",
+    "AddItem": "Add Item",
     "AddRow": "Tilf\xf8j r\xe6kke",
     "AddSelection": "Tilf\xf8j det valgte",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

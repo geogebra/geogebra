@@ -1201,6 +1201,7 @@ __GGB__keysVar.xh.menu = {
     "AddColumn": "Fakela ikholamni",
     "AddCustomColor": "Fakela Ibala Lakho",
     "AddFavorite": "Faka ekhethekileyo",
+    "AddItem": "Add Item",
     "AddRow": "Fakela iRowu",
     "AddSelection": "Fakela Okukhethileyo",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

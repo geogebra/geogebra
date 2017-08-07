@@ -1201,6 +1201,7 @@ __GGB__keysVar.eu.menu = {
     "AddColumn": "Gehitu Zutabea",
     "AddCustomColor": "Gehitu Kolore Pertsonalizatua",
     "AddFavorite": "Gehitu Gogokoa",
+    "AddItem": "Add Item",
     "AddRow": "Gehitu Lerroa",
     "AddSelection": "Gehitu hautapena",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

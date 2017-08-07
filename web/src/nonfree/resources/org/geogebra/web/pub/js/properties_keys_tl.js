@@ -1201,6 +1201,7 @@ __GGB__keysVar.tl.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Add Custom Color",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Isama ang napili",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

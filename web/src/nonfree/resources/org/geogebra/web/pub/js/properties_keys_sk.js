@@ -1201,6 +1201,7 @@ __GGB__keysVar.sk.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "Pridaj \u013eubovo\u013en\xfa farbu",
     "AddFavorite": "Prida\u0165 Ob\u013e\xfaben\xe9",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "Prida\u0165 vyzna\u010denie",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

@@ -1201,6 +1201,7 @@ __GGB__keysVar.hu_gm.menu = {
     "AddColumn": "Oszlop hozz\xe1ad\xe1sa",
     "AddCustomColor": "Egy\xe9ni sz\xedn hozz\xe1ad\xe1sa",
     "AddFavorite": "Kedvenc hozz\xe1ad\xe1sa",
+    "AddItem": "Add Item",
     "AddRow": "Sor hozz\xe1ad\xe1sa",
     "AddSelection": "Kijel\xf6l\xe9s hozz\xe1ad\xe1sa",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",

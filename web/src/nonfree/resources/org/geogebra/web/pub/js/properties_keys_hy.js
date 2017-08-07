@@ -1201,6 +1201,7 @@ __GGB__keysVar.hy.menu = {
     "AddColumn": "Add Column",
     "AddCustomColor": "\u0546\u0578\u0580 \u0563\u0578\u0582\u0575\u0576 \u0561\u057e\u0565\u056c\u0561\u0581\u0576\u0565\u0574",
     "AddFavorite": "Add Favorite",
+    "AddItem": "Add Item",
     "AddRow": "Add Row",
     "AddSelection": "\u0531\u057e\u0565\u056c\u0561\u0581\u0576\u0565\u0574 \u0568\u0576\u057f\u0580\u057e\u0561\u056e\u0576\u0565\u0580\u0568",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",
