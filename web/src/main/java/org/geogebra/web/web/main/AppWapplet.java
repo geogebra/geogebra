@@ -821,7 +821,7 @@ public class AppWapplet extends AppWFull {
 			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
 		}
 
-		if (frame.isKeyboardShowing()) {
+		if (!isPortrait() && frame.isKeyboardShowing()) {
 			newHeight -= frame.getKeyboardHeight();
 
 		}
