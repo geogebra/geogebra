@@ -3632,4 +3632,11 @@ public abstract class AppW extends App implements SetLabels {
 		// only with GUI
 	}
 
+	/**
+	 * 
+	 * @return true if app is on portrait mode;
+	 */
+	public boolean isPortrait() {
+		return getWidth() < getHeight();
+	}
 }
