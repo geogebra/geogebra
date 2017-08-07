@@ -10,6 +10,10 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * @author csilla
+ * 
+ */
 public class StandardButton extends FastButton {
 	
 	private App app;
@@ -17,16 +21,38 @@ public class StandardButton extends FastButton {
 	private String label;
 	private int width = -1;
 
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param app
+	 *            - application
+	 */
 	public StandardButton(final ImageResource icon, App app) {
 		this.app = app;
 		setIconAndLabel(icon, null, icon.getWidth());
 	}
 
+	/**
+	 * @param label
+	 *            - text of button
+	 * @param app
+	 *            - application
+	 */
 	public StandardButton(final String label, App app) {
 		this.app = app;
 		setIconAndLabel(null, label, -1);
 	}
 
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param label
+	 *            - text of button
+	 * @param width
+	 *            - width of button
+	 * @param app
+	 *            - application
+	 */
 	public StandardButton(final ResourcePrototype icon, final String label, int width, App app) {
 		this.app = app;
 		setIconAndLabel(icon, label, width);
@@ -86,21 +112,34 @@ public class StandardButton extends FastButton {
 
 	}
 
+	/**
+	 * @return text of button
+	 */
 	public String getLabel() {
 		return this.label;
 	}
 
+	/**
+	 * @param label
+	 *            - set text of button
+	 */
 	public void setLabel(final String label) {
 		setIconAndLabel(this.icon, label, this.width);
 	}
 
+	/**
+	 * @return icon of button
+	 */
 	public ResourcePrototype getIcon() {
 		return this.icon;
 	}
 
+	/**
+	 * @param icon
+	 *            - icon
+	 */
 	public void setIcon(final ImageResource icon) {
 		setIconAndLabel(icon, this.label, this.width);
-
 	}
 	
 	@Override
