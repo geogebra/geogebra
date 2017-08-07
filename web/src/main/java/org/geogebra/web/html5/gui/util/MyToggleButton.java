@@ -1,0 +1,46 @@
+package org.geogebra.web.html5.gui.util;
+
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ToggleButton;
+
+/**
+ * @author csilla
+ *
+ */
+public class MyToggleButton extends ToggleButton {
+
+	private App app;
+
+	/**
+	 * @param image
+	 *            an {@link Image} to use as an up Image
+	 * @param app
+	 *            application
+	 */
+	public MyToggleButton(Image image, App app) {
+		super(image);
+		this.app = app;
+	}
+
+	/**
+	 * @param app
+	 *            application
+	 */
+	public MyToggleButton(App app) {
+		super();
+		this.app = app;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		if (app.has(Feature.TOOLTIP_DESIGN)) {
+			getElement().removeAttribute("title");
+			getElement().setAttribute("data-title", title);
+		} else {
+			super.setTitle(title);
+		}
+	}
+}

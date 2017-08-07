@@ -2,8 +2,10 @@ package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -25,26 +27,39 @@ import com.google.gwt.user.client.ui.Widget;
  */
 class Header extends FlowPanel {
 
-	private AppW app;
+	/**
+	 * application
+	 */
+	AppW app;
 	/**
 	 * Parent tool panel
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
 
-	private static class PersistableToggleButton extends ToggleButton
+	private class PersistableToggleButton extends ToggleButton
 			implements Persistable {
 
 		public PersistableToggleButton(Image image) {
 			super(image);
 		}
 
+		@Override
+		public void setTitle(String title) {
+			if (app.has(Feature.TOOLTIP_DESIGN)) {
+				getElement().removeAttribute("title");
+				getElement().setAttribute("data-title", title);
+			} else {
+				super.setTitle(title);
+			}
+		}
+
 	}
 
 	private PersistableToggleButton btnMenu;
-	private ToggleButton btnAlgebra;
-	private ToggleButton btnTools;
-	private ToggleButton btnClose;
+	private MyToggleButton btnAlgebra;
+	private MyToggleButton btnTools;
+	private MyToggleButton btnClose;
 	private StandardButton btnContextMenu;
 	private boolean open = true;
 	private Image imgClose;
@@ -58,8 +73,8 @@ class Header extends FlowPanel {
 	 * panel containing undo and redo
 	 */
 	PersistablePanel undoRedoPanel;
-	private ToggleButton btnUndo;
-	private ToggleButton btnRedo;
+	private MyToggleButton btnUndo;
+	private MyToggleButton btnRedo;
 	private ContextMenuAlgebra cmAlgebra = null;
 	private ContextMenuTools cmTools;
 	private boolean animating = false;
@@ -85,8 +100,10 @@ class Header extends FlowPanel {
 	}
 
 	private void createCenter() {
-		btnAlgebra = new ToggleButton(new Image(
-				MaterialDesignResources.INSTANCE.toolbar_algebra()));
+		btnAlgebra = new MyToggleButton(
+				new Image(
+						MaterialDesignResources.INSTANCE.toolbar_algebra()),
+				app);
 		btnAlgebra.setTitle(
 				app.getLocalization().getMenu("ConstructionProtocol"));
 		btnAlgebra.addStyleName("tabButton");
@@ -101,8 +118,9 @@ class Header extends FlowPanel {
 			}
 		});
 
-		btnTools = new ToggleButton(new Image(
-				MaterialDesignResources.INSTANCE.toolbar_tools()));
+		btnTools = new MyToggleButton(
+				new Image(MaterialDesignResources.INSTANCE.toolbar_tools()),
+				app);
 		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
 		btnTools.addStyleName("tabButton");
 		ClickStartHandler.init(btnTools,
@@ -150,10 +168,16 @@ class Header extends FlowPanel {
 		this.toolbarPanel.setSelectedTab(TabIds.TOOLS);
 	}
 
+	/**
+	 * add css animation
+	 */
 	public void addAnimation() {
 		// addStyleName("header-animation");
 	}
 
+	/**
+	 * remove css animation
+	 */
 	public void removeAnimation() {
 		// removeStyleName("header-animation");
 	}
@@ -163,7 +187,7 @@ class Header extends FlowPanel {
 		imgOpen = new Image();
 		imgMenu = new Image();
 		updateButtonImages();
-		btnClose = new ToggleButton();
+		btnClose = new MyToggleButton(app);
 		btnClose.addStyleName("flatButton");
 		btnClose.addStyleName("close");
 
@@ -356,8 +380,8 @@ class Header extends FlowPanel {
 	}
 
 	private void addUndoButton(final FlowPanel panel) {
-		btnUndo = new ToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.undo_border()));
+		btnUndo = new MyToggleButton(
+				new Image(MaterialDesignResources.INSTANCE.undo_border()), app);
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
 
@@ -373,8 +397,8 @@ class Header extends FlowPanel {
 	}
 
 	private void addRedoButton(final FlowPanel panel) {
-		btnRedo = new ToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.redo_border()));
+		btnRedo = new MyToggleButton(
+				new Image(MaterialDesignResources.INSTANCE.redo_border()), app);
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
@@ -516,10 +540,17 @@ class Header extends FlowPanel {
 
 	}
 
+	/**
+	 * @return true if animating
+	 */
 	public boolean isAnimating() {
 		return animating;
 	}
 
+	/**
+	 * @param b
+	 *            - set if animating
+	 */
 	public void setAnimating(boolean b) {
 		this.animating = b;
 
