@@ -13,6 +13,7 @@ import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
 import org.geogebra.common.io.OFFHandler;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.View;
@@ -370,6 +371,10 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
 		Perspective p = null;		
+		if (isUnbundled()) {
+			Layout.initializeDefaultPerspectives(this, 0.2);
+
+		}
 		if (getGuiManager() != null) {
 			p = getGuiManager().getLayout().createPerspective("tmp");
 		}
@@ -378,7 +383,17 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		}
 		if (isUnbundled() && "1".equals(this.initialPerspective)) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
+
 		}
+		if (isPortrait()) {
+			p.getSplitPaneData()[0]
+					.setDivider(PerspectiveDecoder.portraitRatio(getHeight()));
+		} else {
+			p.getSplitPaneData()[0]
+					.setDivider(PerspectiveDecoder.landscapeRatio(getWidth()));
+
+		}
+
 		GeoGebraPreferencesW.getPref().loadForApp(this, p);
 
 		resetAllToolbars();
