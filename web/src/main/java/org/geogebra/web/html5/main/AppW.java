@@ -122,8 +122,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -2554,14 +2552,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	protected void resetToolbarPanel() {
-		if (!isUnbundled()) {
-			return;
-		}
-		GuiManagerW gm = (GuiManagerW) getGuiManager();
-
-		ToolbarDockPanelW dp = ((ToolbarDockPanelW) gm.getLayout()
-				.getDockManager().getPanel(VIEW_ALGEBRA));
-		dp.getToolbar().reset();
 
 	}
 
