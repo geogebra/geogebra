@@ -453,7 +453,9 @@ public class AppWapplet extends AppWFull {
 		onOpenFile();
 		showStartTooltip(0);
 		setAltText();
-		adjustViews(false, false);
+		if (!has(Feature.INITIAL_PORTRAIT) && isPortrait()) {
+			adjustViews(false, false);
+		}
 		kernel.notifyScreenChanged();
 		resetPenTool();
 

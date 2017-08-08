@@ -188,13 +188,29 @@ public class LoadFilePresenter {
 				        app.getKernel().getParser(),
 						ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
 				if ("1".equals(perspective)) {
-					int width = app.getArticleElement().getDataParamWidth();
-					if (app.getArticleElement().getDataParamFitToScreen()) {
-						width = Window.getClientWidth();
-					}
-					if (width > 0) {
-						double ratio = PerspectiveDecoder.landscapeRatio(width);
-						pd.getSplitPaneData()[0].setDivider(ratio);
+
+					if (app.isPortrait()) {
+						int height = app.getArticleElement()
+								.getDataParamHeight();
+						if (app.getArticleElement().getDataParamFitToScreen()) {
+							height = Window.getClientHeight();
+						}
+						if (height > 0) {
+							double ratio = PerspectiveDecoder
+									.portraitRatio(height);
+							pd.getSplitPaneData()[0].setDivider(ratio);
+						}
+
+					} else {
+						int width = app.getArticleElement().getDataParamWidth();
+						if (app.getArticleElement().getDataParamFitToScreen()) {
+							width = Window.getClientWidth();
+						}
+						if (width > 0) {
+							double ratio = PerspectiveDecoder
+									.landscapeRatio(width);
+							pd.getSplitPaneData()[0].setDivider(ratio);
+						}
 					}
 
 				}
@@ -246,7 +262,7 @@ public class LoadFilePresenter {
 		}
 
 		// no Feature.ADJUST_VIEWS: returns false.
-		if (app.getHeight() > app.getWidth()) {
+		if (!app.has(Feature.INITIAL_PORTRAIT) && app.isPortrait()) {
 			app.adjustViews(false, false);
 		}
 

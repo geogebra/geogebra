@@ -1028,8 +1028,8 @@ public abstract class AppW extends App implements SetLabels {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
 
-		if (getHeight() > getWidth()) {
-			adjustViews(true, true);
+		if (!has(Feature.INITIAL_PORTRAIT) && isPortrait()) {
+			adjustViews(false, false);
 		}
 	}
 

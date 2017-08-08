@@ -1888,10 +1888,7 @@ public class DockManagerW extends DockManager {
 		Log.debug("landscape: portraitDivider " + portraitDivider);
 
 		setDividerLocation(split,
-				isPortrait() ? 1 - portraitDivider : landscapeRatio);
-		if (app.has(Feature.INITIAL_PORTRAIT)) {
-			return;
-		}
+				app.isPortrait() ? 1 - portraitDivider : landscapeRatio);
 
 		split.clear();
 
