@@ -271,8 +271,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		editTemplate.allowMoreDigits = true;
 		editTemplate.hideLHS = true;
 
-		editorTemplate.sf = editTemplate.sf;
-		editorTemplate.nf = editTemplate.nf;
 		editorTemplate.allowMoreDigits = editTemplate.allowMoreDigits;
 		editorTemplate.hideLHS = editTemplate.hideLHS;
 
