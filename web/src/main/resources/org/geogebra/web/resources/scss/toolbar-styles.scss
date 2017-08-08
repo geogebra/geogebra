@@ -111,7 +111,10 @@
 					}
 				}			
 			}
-			
+		
+			.close {
+				position: relative;
+			}			
 		}
 	
 		.header-open-portrait,
@@ -252,10 +255,12 @@
     	}
     	
     	.categoryPanel {
+    		position: relative;
     		line-height: 31px !important;
 		}
 	
 		.button {
+			position: relative;
 			display: inline-block;
 			border-radius: 5px;
     		border: 1px solid $tool-border;
