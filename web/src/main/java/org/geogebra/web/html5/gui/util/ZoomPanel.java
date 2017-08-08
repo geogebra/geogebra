@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.MyZoomerListener;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -239,6 +240,10 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			final Element scaler = app.getArticleElement().getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreen) {
+				containerPositionBefore = container.getStyle().getPosition();
+				if (StringUtil.empty(containerPositionBefore)) {
+					containerPositionBefore = "static";
+				}
 				scaler.addClassName("fullscreen");
 				Timer t = new Timer() {
 
@@ -269,7 +274,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
 		container.getStyle().setWidth(100, Unit.PCT);
 		container.getStyle().setHeight(100, Unit.PCT);
-		containerPositionBefore = container.getStyle().getPosition();
 		container.getStyle().setPosition(Position.ABSOLUTE);
 		double marginLeft = 0;
 		double marginTop = 0;
