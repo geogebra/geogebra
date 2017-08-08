@@ -101,11 +101,15 @@ class Header extends FlowPanel {
 
 	private void createCenter() {
 		btnAlgebra = new MyToggleButton(
-				new Image(
-						MaterialDesignResources.INSTANCE.toolbar_algebra()),
+				new Image(app.isUnbundledGraphing()
+						? MaterialDesignResources.INSTANCE
+								.toolbar_algebra_graphing()
+						: MaterialDesignResources.INSTANCE
+								.toolbar_algebra_geometry()),
 				app);
 		btnAlgebra.setTitle(
-				app.getLocalization().getMenu("ConstructionProtocol"));
+				app.getLocalization().getMenu(app.isUnbundledGraphing()
+						? "Algebra" : "ConstructionProtocol"));
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
