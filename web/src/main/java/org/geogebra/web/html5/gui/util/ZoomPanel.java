@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -102,6 +101,11 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 						scaler.getStyle().setMarginLeft(0, Unit.PX);
 						scaler.getStyle().setMarginTop(0, Unit.PX);
 						dispatchResize();
+						Element container = scaler.getParentElement();
+						if (container != null) {
+							container.getStyle().setProperty("position",
+								containerPositionBefore);
+						}
 					}
 					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
 				}
@@ -258,12 +262,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			}
 		}
 		isFullScreen = !isFullScreen;
-
-		if (!isFullScreen && container != null) {
-			Log.debug(container, containerPositionBefore);
-			container.getStyle().setProperty("postion",
-					containerPositionBefore);
-		}
 		Browser.toggleFullscreen(isFullScreen, container);
 	}
 
