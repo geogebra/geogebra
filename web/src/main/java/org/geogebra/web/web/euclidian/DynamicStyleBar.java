@@ -165,32 +165,35 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			return;
 		}
 
-		GPoint newPos = new GPoint(), nextPos;
+		GPoint newPos = null, nextPos;
 
 		for (int i = 0; i < (app
 				.has(Feature.DYNAMIC_STYLEBAR_POSITION_MULTISELECT)
 						? activeGeoList.size() : 1); i++) {
 			GeoElement geo = activeGeoList.get(i);
-			if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
-					&& geo instanceof GeoFunction) {
-				nextPos = calculatePosition(null, true, false, true);
-			} else {
-				Drawable dr = (Drawable) ev.getDrawableND(geo);
-				nextPos = calculatePosition(
-						dr.getBoundsForStylebarPosition(),
-						!(dr instanceof DrawLine),
-						dr instanceof DrawPoint && activeGeoList.size() < 2,
-						false);
+			// it's possible if a non visible geo is in activeGeoList, if we
+			// duplicate a geo, which has descendant.
+			if (geo.isEuclidianVisible()) {
+				if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
+						&& geo instanceof GeoFunction) {
+					nextPos = calculatePosition(null, true, false, true);
+				} else {
+					Drawable dr = (Drawable) ev.getDrawableND(geo);
+					nextPos = calculatePosition(
+							dr.getBoundsForStylebarPosition(),
+							!(dr instanceof DrawLine),
+							dr instanceof DrawPoint && activeGeoList.size() < 2,
+							false);
+				}
+
+				if (newPos == null) {
+					newPos = nextPos;
+				} else {
+					newPos.x = Math.max(newPos.x, nextPos.x);
+					newPos.y = Math.min(newPos.y, nextPos.y);
+
+				}
 			}
-
-			if (i == 0) {
-				newPos = nextPos;
-			} else {
-				newPos.x = Math.max(newPos.x, nextPos.x);
-				newPos.y = Math.min(newPos.y, nextPos.y);
-
-			}
-
 		}
 
 		setPosition(newPos);
