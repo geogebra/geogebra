@@ -18,7 +18,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -482,7 +481,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            override values even they are not null.
 	 */
 	void setLastSize(boolean force) {
-		if (isPortrait()) {
+		if (app.isPortrait()) {
 			if (force || lastOpenHeight == null) {
 				lastOpenHeight = app.getActiveEuclidianView().getViewHeight();
 			}
@@ -521,7 +520,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * updates panel width according to its state in landscape mode.
 	 */
 	public void updateWidth() {
-		if (isPortrait()) {
+		if (app.isPortrait()) {
 			return;
 		}
 
@@ -580,7 +579,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * updates panel height according to its state in portrait mode.
 	 */
 	public void updateHeight() {
-		if (!isPortrait()) {
+		if (!app.isPortrait()) {
 			return;
 		}
 
@@ -868,14 +867,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 	}
 
-	/**
-	 * 
-	 * @return if app is in portrait mode.
-	 */
-	public boolean isPortrait() {
-		return ((DockManagerW) (app.getGuiManager().getLayout()
-				.getDockManager())).isPortrait();
-	}
 
 	/**
 	 * 

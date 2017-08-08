@@ -202,7 +202,7 @@ class Header extends FlowPanel {
 				addAnimation();
 				setAnimating(true);
 				if (isOpen()) {
-					if (Header.this.toolbarPanel.isPortrait()) {
+					if (app.isPortrait()) {
 						Header.this.toolbarPanel.header.getParent().getParent().getParent()
 								.addStyleName("closePortrait");
 						Header.this.toolbarPanel.setLastOpenHeight(
@@ -274,7 +274,7 @@ class Header extends FlowPanel {
 	}
 
 	private void updateButtonImages() {
-		if (this.toolbarPanel.isPortrait()) {
+		if (app.isPortrait()) {
 			imgOpen.setResource(MaterialDesignResources.INSTANCE
 					.toolbar_open_portrait_white());
 			imgClose.setResource(MaterialDesignResources.INSTANCE
@@ -325,10 +325,10 @@ class Header extends FlowPanel {
 		if (ev != null) {
 			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
 			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
-			if ((evLeft == 0) && !this.toolbarPanel.isPortrait()) {
+			if ((evLeft == 0) && !app.isPortrait()) {
 				return;
 			}
-			int move = this.toolbarPanel.isPortrait() ? 48 : 0;
+			int move = app.isPortrait() ? 48 : 0;
 			undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
 			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
 					Unit.PX);
@@ -434,7 +434,7 @@ class Header extends FlowPanel {
 		updateDraggerStyle(value);
 		// updateStyle();
 		
-		if (this.toolbarPanel.isPortrait()) {
+		if (app.isPortrait()) {
 			this.toolbarPanel.updateHeight();
 		} else {
 
@@ -460,7 +460,7 @@ class Header extends FlowPanel {
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null) {
-			if (toolbarPanel.isPortrait() && !close) {
+			if (app.isPortrait() && !close) {
 				dockParent.removeStyleName("hide-Dragger");
 				dockParent.addStyleName("moveUpDragger");
 			} else {
@@ -484,7 +484,7 @@ class Header extends FlowPanel {
 		removeStyleName("header-open-landscape");
 		removeStyleName("header-close-landscape");
 		updateButtonImages();
-		String orientation = this.toolbarPanel.isPortrait() ? "portrait" : "landscape";
+		String orientation = app.isPortrait() ? "portrait" : "landscape";
 		if (open) {
 			addStyleName("header-open-" + orientation);
 			btnClose.getUpFace().setImage(imgClose);
@@ -494,14 +494,14 @@ class Header extends FlowPanel {
 			addStyleName("header-close-" + orientation);
 			btnClose.getUpFace().setImage(imgOpen);
 			btnClose.setTitle(app.getLocalization().getMenu("Open"));
-			if (!this.toolbarPanel.isPortrait()) {
+			if (!app.isPortrait()) {
 				btnMenu.addStyleName("landscapeMenuBtn");
 			} else {
 				btnMenu.removeStyleName("landscapeMenuBtn");
 			}
 		}
 
-		if (this.toolbarPanel.isPortrait()) {
+		if (app.isPortrait()) {
 			btnMenu.addStyleName("portraitMenuBtn");
 		} else {
 			btnMenu.removeStyleName("portraitMenuBtn");
