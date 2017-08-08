@@ -4,6 +4,8 @@ evaluationDependsOn(':common')
 evaluationDependsOn(':ggbjdk')
 evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
+evaluationDependsOn(':keyboard-web')
+
 
 buildscript {
     dependencies {
