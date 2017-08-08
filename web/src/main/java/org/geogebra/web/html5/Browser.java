@@ -524,9 +524,6 @@ public class Browser {
 							prefix + "fullscreenchange",
 							(function(pfx) {
 								return function(e) {
-									$wnd.console.log(e, pfx
-											+ "FullScreenElement", $doc,
-											$doc[pfx + "FullscreenElement"]);
 									callback.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(($doc[pfx+"FullscreenElement"] || $doc.mozFullScreen) ?  "true" : "false");
 								}
 							})(prefix));

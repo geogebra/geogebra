@@ -258,8 +258,9 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			}
 		}
 		isFullScreen = !isFullScreen;
-		Log.debug("Fullscreen", isFullScreen + "," + containerPositionBefore);
+
 		if (!isFullScreen && container != null) {
+			Log.debug(container, containerPositionBefore);
 			container.getStyle().setProperty("postion",
 					containerPositionBefore);
 		}
