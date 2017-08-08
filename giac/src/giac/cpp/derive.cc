@@ -947,10 +947,24 @@ namespace giac {
 
   gen _implicit_diff(const gen & args,GIAC_CONTEXT){
     if (is_undef(args)) return args;
-    if (args.type!=_VECT || args._VECTptr->size()!=3)
+    if (args.type!=_VECT || (args._VECTptr->size()!=3 && args._VECTptr->size()!=4))
       return gensizeerr(contextptr);
-    gen eq(remove_equal(args._VECTptr->front())),x((*args._VECTptr)[1]),y(args._VECTptr->back());
-    return -derive(eq,x,contextptr)/derive(eq,y,contextptr);
+    int ndiff=1;
+    if (args._VECTptr->size()==4){
+      gen g=args._VECTptr->back();
+      if (!is_integral(g) || g.type!=_INT_ || g.val<1)
+	return gensizeerr(contextptr);
+      ndiff=g.val;
+    }
+    gen eq(remove_equal(args._VECTptr->front())),x((*args._VECTptr)[1]),y((*args._VECTptr)[2]);
+    gen yprime=-derive(eq,x,contextptr)/derive(eq,y,contextptr);
+    if (ndiff==1)
+      return yprime;
+    gen yn=yprime;
+    for (int n=2;n<=ndiff;++n){
+      yn=ratnormal(derive(yn,x,contextptr)+derive(yn,y,contextptr)*yprime,contextptr);
+    }
+    return yn;
   }
   static const char _implicit_diff_s []="implicit_diff";
   static define_unary_function_eval (__implicit_diff,&_implicit_diff,_implicit_diff_s);

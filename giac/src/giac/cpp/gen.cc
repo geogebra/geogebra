@@ -4339,16 +4339,8 @@ namespace giac {
     case _FRAC__FLOAT_:
       return evalf2bcd(a,1,contextptr)+b;
     case _INT___FRAC: case _ZINT__FRAC:
-      if (b.ref_count()==1){
-	b._FRACptr->num += a*(b._FRACptr->den);
-	return b;
-      }
       return a+(*b._FRACptr);
     case _FRAC__INT_: case _FRAC_ZINT:
-      if (a.ref_count()==1){
-	a._FRACptr->num += b*(a._FRACptr->den);
-	return a;
-      }
       return (*a._FRACptr)+b;
     case _FRAC__DOUBLE_:
       return ck_evalf_double(a,contextptr)+b;

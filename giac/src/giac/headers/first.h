@@ -134,6 +134,10 @@ int my_sprintf(char * s, const char * format, ...);
 #define CLOCK_T int
 #endif
 
+#if !defined HAVE_ALLOCA_H && !defined GIAC_HAS_STO_38
+#define alloca _alloca
+#endif
+
 #ifdef NO_UNARY_FUNCTION_COMPOSE
 
 #define define_unary_function_eval(name,ptr,name_s) const alias_unary_function_eval name={name_s,0,taylor,0,0,0,ptr,0}
