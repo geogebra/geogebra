@@ -142,27 +142,26 @@ public class PerspectivesMenuW extends GMenuBar {
 				&& app.getArticleElement().getDataParamApp()) {
 			changeMetaTitle(app.getLocalization()
 					.getMenu(Layout.getDefaultPerspectives(index).getId()));
-			updateURL(Perspective.getPerspectiveSlug(index));
+			updateURL(app, Perspective.getPerspectiveSlug(index));
 		}
 		if (changed) {
 			app.storeUndoInfo();
 		}
 	}
 
-	private static void updateURL(String slug) {
-		if (Location.getPath().indexOf("graphing") == -1
-				&& Location.getPath().indexOf("geometry") == -1) {
-			// default in future: we only get here from /classic URL
-			Browser.changeUrl("#" + slug);
-		} else {
-			// temporary: /graphing and /geometry in stable still point to
-			// classic; the URLs should be rewritten to eg /classic#3d and not
-			// changed when current perspective is selected
-			if (Location.getPath().replace("/", "").equals(slug)) {
-				return;
-			}
-			Browser.changeUrl("/classic#" + slug);
+	private static void updateURL(AppW app, String slug) {
+		// temporary: /graphing and /geometry in stable still point to
+		// classic; the URLs should be rewritten to eg /classic#3d and not
+		// changed when current perspective is selected
+		if (Location.getPath().replace("/", "").equals(slug)) {
+			return;
 		}
+		if (app.has(Feature.UNBUNDLING)) {
+			Browser.changeUrl("/classic/" + slug);
+		} else {
+			Browser.changeUrl("/" + slug);
+		}
+
 
 	}
 

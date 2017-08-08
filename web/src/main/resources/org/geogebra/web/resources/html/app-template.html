@@ -2,12 +2,11 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title><!--APP NAME--></title>
+	<title><!--APP NAME--> | GoGebra</title>
 	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
 	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
-	<meta property="og:title" content="GeoGebra Math Calculators" />
-	<meta name="description" content="Discover math on geogebra.org, the home of our free online graphing calculator, geometry calculator, 3D calculator, spreadsheet, CAS, probability calculator and classroom activities" />
-
+	<meta property="og:title" content="<!--APP NAME--> | GoGebra" />
+	
 <script type="text/javascript">
 if(window.applet && applet.inject){
         applet.inject =	function(){};
@@ -39,11 +38,12 @@ var analyticsVersion = 'V'+latestVersion;
 			e("ggw").setAttribute("data-param-"+paramName,getURLparam(paramName));
 		}
 	}
-	function changeMetaTitle(title){
+	function changeMetaTitle(titleBase){
+		var title = titleBase + " | GeoGebra";
 		var tags = document.head.getElementsByTagName("meta");
 		for(k in tags){
 			if(tags[k].getAttribute && tags[k].getAttribute("property")=="og:title"){
-				tags[k].setAttribute("content",title);
+				tags[k].setAttribute("content", title);
 			}
 		}
 		document.title = title;
@@ -90,8 +90,8 @@ var analyticsVersion = 'V'+latestVersion;
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
-			if((name != "graphing" && name != "geometry") || location.pathname.indexOf("classic") > 0){
-				name = "classic#" + name;
+			if((name != "graphing" && name != "geometry" && name != "classic") || location.pathname.indexOf("classic") > 0){
+				name = "classic/" + name;
 			}
 			history.pushState({}, "GeoGebra", "/"+name);
 		}
@@ -363,9 +363,7 @@ var app = document.createElement("script");
 		if(location.pathname.substring(0,3)==="/o/"){
 			tubeid = location.pathname.substring(3);
 		}
-		if(location.hash.substring(0,3)==="#m/"){
-			tubeid = location.hash.substring(3);
-		}
+		
 		function resizeStart(){
 			if(e("perspectivesBox")){
 				if(window.innerHeight < 650 || window.innerWidth < 650){

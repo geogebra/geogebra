@@ -125,7 +125,7 @@ task copyHtml {
 	    String html = file(templateDir+"app-template.html").text;
 	    String classicHtml = html.replace("<!--SPLASH-->", file(templateDir+"classic-splash.html").text)
 	      .replace("<!--SPLASH STYLE-->", file(templateDir+"splash-style.css").text)
-	      .replace("<!--APP NAME-->","GeoGebra Math Calculators")
+	      .replace("<!--APP NAME-->","Math Calculators")
 	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
 	    String appHtml = html.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text)
 	    .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text);
@@ -137,15 +137,15 @@ task copyHtml {
 	    file("war/app-template.html").text = appHtml;
 	    
 	    //local testing files
-	    file("war/calculator.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=28;appID=\"calculator\";</script>")
+	    file("war/calculator.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"calculator\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Scientific Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
 	    
-	    file("war/graphing.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=28; appID=\"graphing\";</script>")
+	    file("war/graphing.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"graphing\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Graphing Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/graphing.ico");
 	    
-	    file("war/geometry.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=28;appID=\"geometry\";</script>")
+	    file("war/geometry.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"geometry\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Geometry")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geometry.ico");
 	    
