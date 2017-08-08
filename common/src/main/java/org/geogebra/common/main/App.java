@@ -2841,7 +2841,7 @@ public abstract class App implements UpdateSelection {
 	 * @return where to show the inputBar (respective inputBox)
 	 */
 	public InputPosition getInputPosition() {
-		return showInputTop;
+		return isUnbundled() ? InputPosition.algebraView : showInputTop;
 	}
 
 	/**

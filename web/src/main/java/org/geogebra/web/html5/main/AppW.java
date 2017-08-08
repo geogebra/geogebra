@@ -197,7 +197,7 @@ public abstract class AppW extends App implements SetLabels {
 	private static boolean anyAppHasFocus = true;
 
 	private ReaderTimer readerTimer;
-	protected String initialPerspective;
+	protected final String initialPerspective;
 
 	/**
 	 * @param ae
@@ -3392,7 +3392,14 @@ public abstract class AppW extends App implements SetLabels {
 		setTubeId(i);
 
 		if (articleElement.getDataParamApp() && object !=null) {
-			Browser.changeUrl("#m/" + object);
+			String appName = "classic";
+			if ("1".equals(this.initialPerspective)) {
+				appName = "graphing";
+			}
+			if ("2".equals(this.initialPerspective)) {
+				appName = "geometry";
+			}
+			Browser.changeUrl("/" + appName + "/" + object);
 		}
 
 	}

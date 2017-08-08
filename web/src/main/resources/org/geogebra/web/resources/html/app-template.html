@@ -8,11 +8,6 @@
 	<meta property="og:title" content="<!--APP NAME--> | GoGebra" />
 	
 <script type="text/javascript">
-if(window.applet && applet.inject){
-        applet.inject =	function(){};
-        applet.getAppletObject = function(){return {setWidth:function(){},setHeight:function(){}};};
-
-}
 
 // for IE9
 if (!window.console) window.console = {};
@@ -360,8 +355,9 @@ var app = document.createElement("script");
 		installWorker();
 		var tubeid = getURLparam("id");
 		var codebase = "https://cdn.geogebra.org/apps/"+latestVersion+"/";
-		if(location.pathname.substring(0,3)==="/o/"){
-			tubeid = location.pathname.substring(3);
+		var checkId = location.pathname.match(/^\/(o|classic|graphing|geometry)\/([a-zA-Z0-9]+)/);
+		if(checkId){
+			tubeid = checkId[2];
 		}
 		
 		function resizeStart(){
@@ -398,9 +394,13 @@ var app = document.createElement("script");
 				codebase = "./";
 			}
 		}
+		var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
 		if(tubeid){
 			if(e("ggw")){
 				e("ggw").setAttribute("data-param-tubeid",tubeid);
+				if(window.appID){
+					e("ggw").setAttribute("data-param-perspective",names[appID]);
+				}
 				var previewDiv = document.createElement("div");
 				previewDiv.id= "ggbsplash";
 				previewDiv.style.zIndex=1000;
@@ -428,8 +428,7 @@ var app = document.createElement("script");
 				return;
 			}
 		}
-		else if(getPerspective()){
-			var names = {'geometry':2, 'spreadsheet':3, 'cas':4, '3d':5, 'probability':6, 'graphing':1, 'whiteboard':7,'calculator':8};
+		else if(getPerspective()){			
 			var pName = getPerspective();
 			if( pName.substring(0,6)=="search" || pName.substring(0,4) == "exam"){
 				if(e("perspectivesBox")){

@@ -391,7 +391,8 @@ public class AppWapplet extends AppWFull {
 						.getParser(), ToolBar.getAllToolsNoMacros(true, false, this));
 			}
 			getGuiManager().updateFrameSize();
-			if (articleElement.getDataParamShowAlgebraInput(false) && !isWhiteboardActive()) {
+			if (articleElement.getDataParamShowAlgebraInput(false)
+					&& !isWhiteboardActive() && !isUnbundled()) {
 				Perspective p2 = getTmpPerspective(p);
 				if (!algebraVisible(p2)
 						&& getInputPosition() == InputPosition.algebraView) {
@@ -399,7 +400,7 @@ public class AppWapplet extends AppWFull {
 					p2.setInputPosition(InputPosition.bottom);
 				}
 			}
-			if (!isUnbundled()) {
+			if (!isUnbundled() || this.isStartedWithFile()) {
 				getGuiManager().getLayout()
 					.setPerspectives(getTmpPerspectives(), p);
 			}
