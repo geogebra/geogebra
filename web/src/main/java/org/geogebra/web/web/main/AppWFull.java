@@ -61,7 +61,6 @@ import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.menubar.PerspectivesPopup;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -404,17 +403,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	}
 
-	private void resetToolbarPanel() {
-		if (!isUnbundled()) {
-			return;
-		}
-		GuiManagerW gm = (GuiManagerW) getGuiManager();
-
-		ToolbarDockPanelW dp = ((ToolbarDockPanelW) gm.getLayout()
-				.getDockManager().getPanel(VIEW_ALGEBRA));
-		dp.getToolbar().reset();
-
-	}
 	private void resetAllToolbars() {
 
 		GuiManagerW gm = (GuiManagerW) getGuiManager();

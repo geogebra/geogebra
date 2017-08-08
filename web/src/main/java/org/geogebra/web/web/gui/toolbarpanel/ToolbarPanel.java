@@ -469,7 +469,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (dockPanel != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			// AnimationCallback animCallback = null;
-			dockParent.addStyleName("hide-Dragger");
+			dockParent.addStyleName("hide-HDragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 		}
 	}
@@ -778,7 +778,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
-
 	}
 
 	/**
@@ -840,7 +839,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		header.resize();
 		resizeTabs();
-
 	}
 
 	private void resizeTabs() {

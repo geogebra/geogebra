@@ -159,6 +159,7 @@ class Header extends FlowPanel {
 		btnAlgebra.addStyleName("selected");
 		btnTools.removeStyleName("selected");
 		this.toolbarPanel.setSelectedTab(TabIds.ALGEBRA);
+		updateStyle();
 	}
 
 	/**
@@ -170,6 +171,7 @@ class Header extends FlowPanel {
 		btnAlgebra.removeStyleName("selected");
 		btnTools.addStyleName("selected");
 		this.toolbarPanel.setSelectedTab(TabIds.TOOLS);
+		updateStyle();
 	}
 
 	/**
