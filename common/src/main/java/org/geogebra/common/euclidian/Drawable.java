@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -572,7 +573,9 @@ public abstract class Drawable extends DrawableND {
 			decoStroke = EuclidianStatic.getStroke(width,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 			selStroke = EuclidianStatic.getStroke(
-					width + EuclidianStyleConstants.SELECTION_ADD,
+					width + (this.getView().getApplication()
+							.has(Feature.HIGHLIGT_IMPROVEMENTS) ? 0
+									: EuclidianStyleConstants.SELECTION_ADD),
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
 			if (!forcedLineType) {
