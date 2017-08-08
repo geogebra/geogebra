@@ -137,21 +137,21 @@ task copyHtml {
 	    file("war/app.html").text = classicHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
 	    
 	    file("war/app-template.html").text = appHtml;
-	    
+	    String appHtmlEn = appHtml.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download");
 	    //local testing files
-	    file("war/calculator.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"calculator\";</script>")
+	    file("war/calculator.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"calculator\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Scientific Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
 	    
-	    file("war/graphing.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"graphing\";</script>")
+	    file("war/graphing.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"graphing\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Graphing Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/graphing.ico");
 	    
-	    file("war/geometry.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"geometry\";</script>")
+	    file("war/geometry.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"geometry\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra Geometry")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geometry.ico");
 	    
-	    file("war/3d.html").text = appHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=28;appID=\"3d\";</script>")
+	    file("war/3d.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=28;appID=\"3d\";</script>")
 	    .replace("<!--APP NAME-->", "GeoGebra 3D Graphing Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
     }
