@@ -85,7 +85,12 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		double left, top = -1;
 
 		if (isFunction) {
-			top = this.getView().getEuclidianController().getMouseLoc().y + 10;
+			GPoint mouseLoc = this.getView().getEuclidianController()
+					.getMouseLoc();
+			if (mouseLoc == null) {
+				return null;
+			}
+			top = mouseLoc.y + 10;
 		} else if (!isPoint) {
 			if (hasBoundingBox) {
 				top = gRectangle2D.getMinY() - height - 10;
