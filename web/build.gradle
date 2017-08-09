@@ -130,7 +130,8 @@ task copyHtml {
 	    String classicHtml = html.replace("<!--SPLASH-->", file(templateDir+"classic-splash.html").text)
 	      .replace("<!--SPLASH STYLE-->", file(templateDir+"splash-style.css").text)
 	      .replace("<!--APP NAME-->","Math Calculators")
-	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
+	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico")
+	      .replace("<!--LANG-->","en");
 	    String appHtml = html.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text)
 	    .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text);
 	    
@@ -139,7 +140,9 @@ task copyHtml {
 	    file("war/app.html").text = classicHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
 	    
 	    file("war/app-template.html").text = appHtml;
-	    String appHtmlEn = appHtml.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download").replace("<!--APP NAME FULL-->","GeoGebra <!--APP NAME-->");
+	    String appHtmlEn = appHtml.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
+	        .replace("<!--APP NAME FULL-->","GeoGebra <!--APP NAME-->")
+	        .replace("<!--LANG-->","en");
 	    //local testing files
 	    file("war/calculator.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"calculator\";</script>")
 	    .replace("<!--APP NAME-->", "Scientific Calculator")

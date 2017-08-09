@@ -731,6 +731,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            application
 	 */
 	public void attachMenubar(AppW app1) {
+		if (app1.isUnbundled()) {
+			return;
+		}
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
 			ggwToolBar.init(app1);

@@ -7,5 +7,5 @@ package org.geogebra.web.web.gui;
  *
  */
 public interface Persistable {
-
+	// tagging interface
 }

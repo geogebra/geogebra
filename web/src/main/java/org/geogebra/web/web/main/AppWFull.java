@@ -432,6 +432,9 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	}
 	
+	/**
+	 * Resets toolbar
+	 */
 	protected void resetToolbarPanel() {
 		GuiManagerW gm = (GuiManagerW) getGuiManager();
 
