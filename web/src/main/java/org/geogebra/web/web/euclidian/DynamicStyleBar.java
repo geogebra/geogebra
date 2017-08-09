@@ -166,6 +166,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 		GPoint newPos = null, nextPos;
+		boolean hasVisibleGeo = false;
 
 		for (int i = 0; i < (app
 				.has(Feature.DYNAMIC_STYLEBAR_POSITION_MULTISELECT)
@@ -174,6 +175,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			// it's possible if a non visible geo is in activeGeoList, if we
 			// duplicate a geo, which has descendant.
 			if (geo.isEuclidianVisible()) {
+				hasVisibleGeo = true;
 				if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
 						&& geo instanceof GeoFunction) {
 					if (getView().getHits().contains(geo)) {
@@ -197,6 +199,13 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 					newPos.y = Math.min(newPos.y, nextPos.y);
 				}
 			}
+		}
+
+		// Maybe more functions are selected, but not hitted - in this case
+		// position of dynamic stylebar will be calculated accordintly of
+		// mouse position.
+		if (hasVisibleGeo && newPos == null) {
+			newPos = calculatePosition(null, true, false, true);
 		}
 
 		setPosition(newPos);
