@@ -18,6 +18,13 @@
     margin-left: 5px;
     margin-right: 0px;
 }
+.GeoGebraHeader ul{
+    list-style-type:none;
+    margin: 0;
+}
+.GeoGebraHeader li{
+    display: inline;
+}
 .GeoGebraHeader .links {
 	position: absolute;
 	right: 8px;

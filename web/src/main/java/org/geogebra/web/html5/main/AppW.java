@@ -251,7 +251,7 @@ public abstract class AppW extends App implements SetLabels {
 		if (header != null) {
 			header.getStyle()
 					.setDisplay(
-							AppW.smallScreen() ? Display.NONE : Display.BLOCK);
+							AppW.smallScreen() ? Display.NONE : Display.FLEX);
 		}
 
 

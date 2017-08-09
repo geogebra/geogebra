@@ -139,7 +139,7 @@ task copyHtml {
 	    file("war/app.html").text = classicHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
 	    
 	    file("war/app-template.html").text = appHtml;
-	    String appHtmlEn = appHtml.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download");
+	    String appHtmlEn = appHtml.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download").replace("<!--APP NAME FULL-->","GeoGebra <!--APP NAME-->");
 	    //local testing files
 	    file("war/calculator.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"calculator\";</script>")
 	    .replace("<!--APP NAME-->", "Scientific Calculator")
