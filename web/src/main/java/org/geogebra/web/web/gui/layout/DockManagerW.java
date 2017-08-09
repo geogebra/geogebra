@@ -1824,8 +1824,9 @@ public class DockManagerW extends DockManager {
 		}
 		calculateKeyboardHeight();
 		ExtendedBoolean old = portrait;
-		portrait = ExtendedBoolean
-				.newExtendedBoolean(app.getWidth() < app.getHeight());
+		portrait = ExtendedBoolean.newExtendedBoolean(app.isPortrait());
+		// ExtendedBoolean
+		// .newExtendedBoolean(app.getWidth() < app.getHeight());
 		if (force || old != portrait) {
 			// run only if oreintation has changed;
 			final double landscape = app.isUnbundled()
@@ -1892,9 +1893,9 @@ public class DockManagerW extends DockManager {
 
 		split.clear();
 
-		split.setOrientation(isPortrait() ? SwingConstants.VERTICAL_SPLIT
+		split.setOrientation(app.isPortrait() ? SwingConstants.VERTICAL_SPLIT
 				: SwingConstants.HORIZONTAL_SPLIT);
-		if (isPortrait()) {
+		if (app.isPortrait()) {
 			split.setRightComponent(avPanel);
 			split.setLeftComponent(opposite);
 		} else {
@@ -1916,13 +1917,5 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
-	/**
-	 * app is portrait mode if its height larger than width.
-	 * 
-	 * @return true if app is portrait mode.
-	 */
-	public boolean isPortrait() {
-		return portrait == ExtendedBoolean.TRUE;
-	}
 
 }
