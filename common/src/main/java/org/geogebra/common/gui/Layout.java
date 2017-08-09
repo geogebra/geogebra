@@ -96,7 +96,7 @@ public abstract class Layout implements SettingListener {
 
 		spData = new DockSplitPaneData[1];
 		if (app.isPortrait()) {
-			spData[0] = new DockSplitPaneData("", 0.1,
+			spData[0] = new DockSplitPaneData("", 0.45,
 					SwingConstants.VERTICAL_SPLIT);
 
 		} else {
@@ -117,13 +117,15 @@ public abstract class Layout implements SettingListener {
 		dpData = new DockPanelData[6];
 		dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false,
 				false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400), "1",
+				AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
+				app.isPortrait() ? "3" : "1",
 				500);
 		dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null,
 				app.isUnbundled(),
 				false,
 				false,
-				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400), "3",
+				AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
+				app.isPortrait() ? "1" : "3",
 				200).setToolMode(app.isUnbundled());
 		dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false, false,
 				false,

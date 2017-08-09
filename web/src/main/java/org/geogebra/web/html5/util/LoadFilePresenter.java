@@ -187,7 +187,7 @@ public class LoadFilePresenter {
 				Perspective pd = PerspectiveDecoder.decode(perspective,
 				        app.getKernel().getParser(),
 						ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
-				if ("1".equals(perspective)) {
+				if ("1".equals(perspective) || "2".equals(perspective)) {
 
 					if (app.isPortrait()) {
 						int height = app.getArticleElement()
