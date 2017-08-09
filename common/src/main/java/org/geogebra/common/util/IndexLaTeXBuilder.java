@@ -1,6 +1,5 @@
 package org.geogebra.common.util;
 
-
 public class IndexLaTeXBuilder extends IndexHTMLBuilder {
 
     public IndexLaTeXBuilder() {
