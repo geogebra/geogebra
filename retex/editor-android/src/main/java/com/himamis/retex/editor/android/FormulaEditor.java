@@ -68,6 +68,9 @@ public class FormulaEditor extends View implements MathField {
     private int mHiddenBitmapH = -1;
     private int mShiftX = 0;
 
+    private String mSerializedPreview;
+    private TeXIcon mPreviewTeXIcon;
+
     public FormulaEditor(Context context) {
         super(context);
         init();
@@ -172,6 +175,10 @@ public class FormulaEditor extends View implements MathField {
         requestLayout();
     }
 
+    public void setPreviewText(String text) {
+        mSerializedPreview = text;
+    }
+
     private void createTeXFormula() {
         mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel, mParser, mText));
     }
@@ -230,7 +237,10 @@ public class FormulaEditor extends View implements MathField {
     }
 
     protected int getWidthForIconWithPadding() {
-        return mTeXIcon.getIconWidth();
+        if(hasFocus() || mPreviewTeXIcon == null) {
+            return mTeXIcon.getIconWidth();
+        }
+        return mPreviewTeXIcon.getIconWidth();
     }
 
     @Override
@@ -267,11 +277,26 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        drawShifted(canvas, getShiftX());
+        if (hasFocus() || (!hasFocus() && mSerializedPreview == null)) {
+            drawShifted(canvas, getShiftX());
+        } else {
+            TeXFormula texFormula = new TeXFormula(mSerializedPreview);
+            mPreviewTeXIcon = texFormula.new TeXIconBuilder().setSize(mSize * mScale).setType(mType)
+                    .setStyle(TeXConstants.STYLE_DISPLAY).build();
+            mPreviewTeXIcon.setInsets(createInsetsFromPadding());
+
+            drawShiftedWithTexIcon(canvas, getShiftX(), mPreviewTeXIcon);
+            requestLayout();
+            invalidate();
+        }
     }
 
     protected void drawShifted(Canvas canvas, int shiftX) {
-        if (mTeXIcon == null) {
+        drawShiftedWithTexIcon(canvas, shiftX, mTeXIcon);
+    }
+
+    protected void drawShiftedWithTexIcon(Canvas canvas, int shiftX, TeXIcon teXIcon) {
+        if (teXIcon == null) {
             return;
         }
 
@@ -282,11 +307,11 @@ public class FormulaEditor extends View implements MathField {
         // draw background
         canvas.drawColor(mBackgroundColor);
 
-        int y = Math.round((getMeasuredHeight() - mTeXIcon.getIconHeight()) / 2.0f);
+        int y = Math.round((getMeasuredHeight() - teXIcon.getIconHeight()) / 2.0f);
         // draw latex
         mGraphics.setCanvas(canvas);
-        mTeXIcon.setForeground(mForegroundColor);
-        mTeXIcon.paintIcon(null, mGraphics, shiftX, y);
+        teXIcon.setForeground(mForegroundColor);
+        teXIcon.paintIcon(null, mGraphics, shiftX, y);
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
