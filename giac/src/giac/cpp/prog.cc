@@ -6280,20 +6280,22 @@ namespace giac {
     gen g=v.front();
     if (g.type==_VECT && v[1].type==_VECT)
       return gen(*g._VECTptr,v[1].subtype);
-    if (f==at_cell && ckmatrix(g)){
+    if (f==at_cell && ckmatrix(g,true)){
       matrice m=makefreematrice(*g._VECTptr);
       int lignes,colonnes; mdims(m,lignes,colonnes);
       makespreadsheetmatrice(m,contextptr);
-      if (s>=5){ // convert(matrix,cell,command,row,col)
+      if (s>=5){ // convert(matrix,command,row,col)
 	// command==copy down, copy right, insert/delete row, insert/delete col
 	gen CMD=v[2],cmd,R=v[3],C=v[4];
 	if (!is_integer(R) || !is_integer(C))
 	  return gensizeerr(contextptr);
 	string scmd;
-	if (CMD.type-=_STRNG)
+	if (CMD.type==_STRNG)
 	  scmd=*CMD._STRNGptr;
-	else 
+	else {
 	  if (!is_integral(CMD)) return gensizeerr(contextptr);
+	  cmd=CMD.val;
+	}
 	if (scmd=="copy down")
 	  cmd=0;
 	if (scmd=="copy right")

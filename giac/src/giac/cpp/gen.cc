@@ -8411,11 +8411,10 @@ namespace giac {
       return a._DOUBLE_val>mpz_get_d(*b._ZINTptr);
     case _ZINT__DOUBLE_:
       return mpz_get_d(*a._ZINTptr)>b._DOUBLE_val;
-    default:
-      if (a.type<=_REAL && b.type<=_REAL)
-	return is_strictly_positive(a-b,contextptr);
-      return sym_is_greater(a,b,contextptr);
     }
+    if (a.type<=_REAL && b.type<=_REAL)
+      return is_strictly_positive(a-b,contextptr);
+    return sym_is_greater(a,b,contextptr);
   }
 
   gen inferieur_strict(const gen & a,const gen & b,GIAC_CONTEXT){
