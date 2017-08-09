@@ -5,6 +5,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -15,7 +16,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * @author Zbynek
@@ -25,9 +25,9 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	private Marble marble;
 	private boolean selected = false;
 	/** warning triangle / help button */
-	private ToggleButton btnHelpToggle;
+	private MyToggleButton btnHelpToggle;
 	/** plus button (new expression / text, ...) */
-	ToggleButton btnPlus;
+	MyToggleButton btnPlus;
 	/** av item */
 	RadioTreeItem item;
 	/** plus menu */
@@ -109,7 +109,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 *            whether warning triangle should be visible
 	 */
 	public void updateIcons(boolean warning) {	
-		ToggleButton btn = null; 
+		MyToggleButton btn = null;
 		String tooltip="";
 		boolean textInput = item.getController().isInputAsText();
 		noPlus = !item.getText().isEmpty();
@@ -139,6 +139,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			add(btn);
 			addStyleName("error");
 			removeStyleName("help");
+
 		}
 		else if (item.getController().isEditing() || item.geo == null) {
 			remove(marble);
@@ -188,7 +189,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 
 	private void initHelpToggle() {
 		if (btnHelpToggle == null) {
-			btnHelpToggle = new ToggleButton();
+			btnHelpToggle = new MyToggleButton(item.app);
 			ClickStartHandler.init(btnHelpToggle,
 					new ClickStartHandler(true, true) {
 
@@ -245,7 +246,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 */
 	public void initPlus() {
 		if (btnPlus == null) {
-			btnPlus = new ToggleButton();
+			btnPlus = new MyToggleButton(item.app);
 			btnPlus.setTitle(item.app.getLocalization().getMenu("AddItem"));
 			add(btnPlus);
 			if (item.app.isUnbundled()) {
@@ -288,7 +289,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	/**
 	 * @return help button
 	 */
-	public ToggleButton getBtnHelpToggle() {
+	public MyToggleButton getBtnHelpToggle() {
 		return btnHelpToggle;
 	}
 
@@ -303,8 +304,18 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 * 
 	 * @return the Plus menu button.
 	 */
-	public ToggleButton getBtnPlus() {
+	public MyToggleButton getBtnPlus() {
 		return btnPlus;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		if (item.getApplication().has(Feature.TOOLTIP_DESIGN)) {
+			getElement().removeAttribute("title");
+			getElement().setAttribute("data-title", title);
+		} else {
+			super.setTitle(title);
+		}
 	}
 
 }

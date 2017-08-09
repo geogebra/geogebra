@@ -38,7 +38,9 @@ public class MyToggleButton extends ToggleButton {
 	public void setTitle(String title) {
 		if (app.has(Feature.TOOLTIP_DESIGN)) {
 			getElement().removeAttribute("title");
-			getElement().setAttribute("data-title", title);
+			if (!"".equals(title)) {
+				getElement().setAttribute("data-title", title);
+			}
 		} else {
 			super.setTitle(title);
 		}

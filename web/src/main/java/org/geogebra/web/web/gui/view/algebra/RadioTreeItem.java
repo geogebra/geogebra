@@ -635,7 +635,7 @@ public class RadioTreeItem extends AVTreeItem
 		content.clear();
 		content.add(getPlainTextItem());
 		adjustToPanel(plainTextItem);
-		if (geo.getParentAlgorithm() != null
+		if (geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput(0) != geo) {
 			Label prefix = new Label(AlgebraItem.getSymbolicPrefix(kernel));
 			content.addStyleName("additionalRow");
@@ -1518,7 +1518,7 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	@Override
-	public Widget getHelpToggle() {
+	public UIObject getHelpToggle() {
 		return this.marblePanel;
 	}
 

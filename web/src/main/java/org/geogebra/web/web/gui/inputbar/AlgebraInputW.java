@@ -14,6 +14,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.javax.swing.GOptionPaneW;
 import org.geogebra.web.html5.main.AppW;
@@ -22,6 +23,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
+import org.geogebra.web.web.gui.view.algebra.MarblePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -34,7 +36,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -55,7 +56,7 @@ public class AlgebraInputW extends FlowPanel
 	protected AutoCompleteTextFieldW inputField;
 	//protected FlowPanel innerPanel;
 	/** button for help */
-	protected ToggleButton btnHelpToggle;
+	protected MyToggleButton btnHelpToggle;
 	/** help popup */
 	protected InputBarHelpPopup helpPopup;
 	//	protected PopupPanel helpPopup;
@@ -141,7 +142,7 @@ public class AlgebraInputW extends FlowPanel
 
 	private void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
-			btnHelpToggle = new ToggleButton();
+			btnHelpToggle = new MyToggleButton(app);
 		}
 		btnHelpToggle.getUpFace().setImage(new NoDragImage(
 				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
@@ -376,9 +377,13 @@ public class AlgebraInputW extends FlowPanel
 			public void showError(String msg) {
 				input.setError(msg);
 				input.getHelpToggle().getElement().setTitle(msg == null
-						? app2.getLocalization().getMenu("InputHelp")
-						: msg);
-
+						? app2.getLocalization().getMenu("InputHelp") : msg);
+				if (app2.has(Feature.TOOLTIP_DESIGN)
+						&& input.getHelpToggle() instanceof MarblePanel) {
+					((MarblePanel) input.getHelpToggle())
+							.setTitle(msg == null ? app2.getLocalization()
+									.getMenu("InputHelp") : msg);
+				}
 			}
 
 			@Override
@@ -564,7 +569,7 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	@Override
-	public ToggleButton getHelpToggle() {
+	public MyToggleButton getHelpToggle() {
 		return this.btnHelpToggle;
 	}
 
