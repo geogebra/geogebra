@@ -3343,6 +3343,8 @@ public class MyXMLHandler implements DocHandler {
 					geo.setFixed(false);
 				} else if (geo instanceof GeoAngle) {
 					((GeoAngle) geo).setEmphasizeRightAngle(true);
+				} else if (geo instanceof GeoText) {
+					geo.setBackgroundColor(null);
 				}
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
