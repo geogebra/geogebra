@@ -1201,7 +1201,7 @@ __GGB__keysVar.it.menu = {
     "AddColumn": "Aggiungi colonna",
     "AddCustomColor": "Aggiungi colore personalizzato",
     "AddFavorite": "Aggiungi a Preferiti",
-    "AddItem": "Add Item",
+    "AddItem": "Aggiungi oggetto",
     "AddRow": "Aggiungi riga",
     "AddSelection": "Aggiungi selezione",
     "AddToolOrBoolean": "Add Tool or Boolean Variable",
