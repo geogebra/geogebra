@@ -176,7 +176,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			if (geo.isEuclidianVisible()) {
 				if (app.has(Feature.FUNCTIONS_DYNAMIC_STYLEBAR_POSITION)
 						&& geo instanceof GeoFunction) {
-					nextPos = calculatePosition(null, true, false, true);
+					if (getView().getHits().contains(geo)) {
+						nextPos = calculatePosition(null, true, false, true);
+					} else {
+						nextPos = null;
+					}
 				} else {
 					Drawable dr = (Drawable) ev.getDrawableND(geo);
 					nextPos = calculatePosition(
@@ -188,10 +192,9 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 				if (newPos == null) {
 					newPos = nextPos;
-				} else {
+				} else if (nextPos != null) {
 					newPos.x = Math.max(newPos.x, nextPos.x);
 					newPos.y = Math.min(newPos.y, nextPos.y);
-
 				}
 			}
 		}
