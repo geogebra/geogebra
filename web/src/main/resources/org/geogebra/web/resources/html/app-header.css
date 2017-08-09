@@ -3,17 +3,25 @@
     border-bottom: 1px solid #dcdcdc;
 	background-color: rgb(255,255,255);
     padding: 4px;
+    height: 36px;
 }
 .GeoGebraHeader .appName{
 	padding-left: 12px;
 	font-size: 16px;
 	margin: 3px 0;
+	font-weight: unset;
 }
 .GeoGebraHeader a{
-	color: #6557D2;
+	color: #00A8A8;
+    text-decoration: none;
+    padding: 0px 8px;
+    margin-left: 5px;
+    margin-right: 0px;
 }
 .GeoGebraHeader .links {
 	position: absolute;
-	top: 4px;
-	right: 16px;
+	right: 8px;
+    padding: 3px 0px;
+    font-size: 15px;
+    margin: 0px;
 }
