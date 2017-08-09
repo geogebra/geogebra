@@ -434,6 +434,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public void reset() {
 		lastOpenWidth = null;
 		hideDragger();
+		header.updateUndoRedoPosition();
 	}
 
 	private void addMoveBtn() {
@@ -469,7 +470,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (dockPanel != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			// AnimationCallback animCallback = null;
-			dockParent.addStyleName("hide-HDragger");
+			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 		}
 	}
@@ -1010,5 +1011,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void deferredOnResize() {
 		Scheduler.get().scheduleDeferred(deferredOnRes);
+	}
+
+	public void updateHeader() {
+		header.updateStyle();
 	}
 }

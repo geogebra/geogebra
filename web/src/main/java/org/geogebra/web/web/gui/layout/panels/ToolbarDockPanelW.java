@@ -135,6 +135,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 			} else {
 				toolbar.openAlgebra();
 			}
+			toolbar.updateHeader();
 		}
 		this.toolMode = toolMode;
 	}

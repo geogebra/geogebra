@@ -2545,14 +2545,9 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		if (isUnbundled()) {
-			resetToolbarPanel();
 			return;
 		}
 		set1rstMode();
-	}
-
-	protected void resetToolbarPanel() {
-
 	}
 
 	@Override
