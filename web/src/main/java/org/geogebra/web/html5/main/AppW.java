@@ -115,6 +115,7 @@ import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
@@ -134,6 +135,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.ScriptElement;
+import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.storage.client.Storage;
@@ -232,15 +234,31 @@ public abstract class AppW extends App implements SetLabels {
 			@Override
 			public void onResize(ResizeEvent event) {
 				if (getArticleElement().getDataParamFitToScreen()) {
+					updateHeaderVisible();
 					AppW.this.getGgbApi().setSize(Window.getClientWidth(),
 							getArticleElement().computeHeight());
 				}
 				windowResized();
 			}
 		});
+	}
+
+	/**
+	 * Update the visibility of external header
+	 */
+	public void updateHeaderVisible() {
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (header != null) {
+			header.getStyle()
+					.setDisplay(
+							AppW.smallScreen() ? Display.NONE : Display.BLOCK);
+		}
 
 
+	}
 
+	public static boolean smallScreen() {
+		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
 	}
 
 	private static Versions getVersion(ArticleElement ae, int dimension,

@@ -902,6 +902,7 @@ public class GgbAPIW extends GgbAPI {
 	public void setSize(int width, int height) {
 		setArticleParam("width", width);
 		setArticleParam("height", height);
+		Log.debug(height);
 		((AppW) app).getAppletFrame().setSize(width, height);
 	}
 

@@ -5,7 +5,7 @@
 	<title><!--APP NAME--> | GeoGebra</title>
 	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
 	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
-	<meta property="og:title" content="<!--APP NAME--> | GoGebra" />
+	<meta property="og:title" content="<!--APP NAME--> | GeoGebra" />
 	
 <script type="text/javascript">
 
@@ -85,7 +85,8 @@ var analyticsVersion = 'V'+latestVersion;
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
-			if((name != "graphing" && name != "geometry" && name != "classic") || location.pathname.indexOf("classic") > 0){
+			var unbundled = name == "graphing" || name == "geometry";
+			if(name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)){
 				name = "classic/" + name;
 			}
 			history.pushState({}, "GeoGebra", "/"+name);

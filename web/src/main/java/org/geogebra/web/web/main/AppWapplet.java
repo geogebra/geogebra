@@ -367,6 +367,7 @@ public class AppWapplet extends AppWFull {
 		if (!getLAF().isSmart()) {
 			removeSplash();
 		}
+		updateHeaderVisible();
 		String perspective = getArticleElement().getDataParamPerspective();
 		if (!isUsingFullGui()) {
 			if (showConsProtNavigation() || !isJustEuclidianVisible()
@@ -400,10 +401,8 @@ public class AppWapplet extends AppWFull {
 					p2.setInputPosition(InputPosition.bottom);
 				}
 			}
-			if (!isUnbundled() || this.isStartedWithFile()) {
-				getGuiManager().getLayout()
-					.setPerspectives(getTmpPerspectives(), p);
-			}
+			updatePerspective(p);
+
 		}
 
 		getScriptManager().ggbOnInit(); // put this here from Application
@@ -458,6 +457,17 @@ public class AppWapplet extends AppWFull {
 		}
 		kernel.notifyScreenChanged();
 		resetPenTool();
+
+	}
+
+	private void updatePerspective(Perspective p) {
+		if (!isUnbundled() || this.isStartedWithFile()) {
+			getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),
+					p);
+			if (isUnbundled()) {
+				getGuiManager().getLayout().getDockManager().adjustViews(true);
+			}
+		}
 
 	}
 

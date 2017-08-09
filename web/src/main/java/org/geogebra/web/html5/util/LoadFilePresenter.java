@@ -238,6 +238,7 @@ public class LoadFilePresenter {
 		if (p != null) {
 			app.setActivePerspective(p.getDefaultID() - 1);
 		}
+		app.updateHeaderVisible();
 		app.setPreferredSize(
 				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
 		app.loadPreferences(p);

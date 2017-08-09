@@ -17,6 +17,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -591,16 +592,17 @@ public final class ArticleElement extends Element {
 
 	public int computeHeight() {
 		// do we have data-param-height?
-		int height = getDataParamHeight()
-				- getBorderThickness();
-		if (height > 0) {
-			return height;
-		}
+		int height = getDataParamHeight() - getBorderThickness();
 
 		// do we have fit to screen?
 
 		if (getDataParamFitToScreen()) {
-			height = getOffsetHeight() - getDataParamMarginTop();
+			int margin = AppW.smallScreen() ? 0 : getDataParamMarginTop();
+			height = Window.getClientHeight() - margin;
+		}
+
+		if (height > 0) {
+			return height;
 		}
 
 		return height;
