@@ -4863,14 +4863,7 @@ public abstract class GeoElement extends ConstructionElement
 		builder.append(text);
 	}
 
-	/**
-	 * @param desc
-	 *            description
-	 * @param builder
-	 *            builder for indexed strings
-	 */
-	final public void addLabelTextOrHTML(final String desc,
-			IndexHTMLBuilder builder) {
+	final public String addLabelText(final String desc) {
 		String ret;
 
 		final boolean includesEqual = desc.indexOf('=') >= 0;
@@ -4889,6 +4882,18 @@ public abstract class GeoElement extends ConstructionElement
 			sb.append(desc);
 			ret = sb.toString();
 		}
+
+		return ret;
+	}
+
+	/**
+	 * @param desc
+	 *            description
+	 * @param builder
+	 *            builder for indexed strings
+	 */
+	final public void addLabelTextOrHTML(final String desc, IndexHTMLBuilder builder) {
+		String ret = addLabelText(desc);
 
 		// check for index
 		convertIndicesToHTML(ret, builder);
