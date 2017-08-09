@@ -140,19 +140,19 @@ task copyHtml {
 	    String appHtmlEn = appHtml.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download");
 	    //local testing files
 	    file("war/calculator.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"calculator\";</script>")
-	    .replace("<!--APP NAME-->", "GeoGebra Scientific Calculator")
+	    .replace("<!--APP NAME-->", "Scientific Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
 	    
 	    file("war/graphing.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"graphing\";</script>")
-	    .replace("<!--APP NAME-->", "GeoGebra Graphing Calculator")
+	    .replace("<!--APP NAME-->", "Graphing Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/graphing.ico");
 	    
 	    file("war/geometry.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;appID=\"geometry\";</script>")
-	    .replace("<!--APP NAME-->", "GeoGebra Geometry")
+	    .replace("<!--APP NAME-->", "Geometry")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geometry.ico");
 	    
 	    file("war/3d.html").text = appHtmlEn.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;marginTop=28;appID=\"3d\";</script>")
-	    .replace("<!--APP NAME-->", "GeoGebra 3D Graphing Calculator")
+	    .replace("<!--APP NAME-->", "3D Graphing Calculator")
 	    .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico");
     }
 }
