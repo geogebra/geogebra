@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class StepHelper {
 
@@ -25,7 +26,7 @@ public class StepHelper {
 			if (so.isOperation(Operation.DIVIDE)) {
 				return so.getSubTree(1);
 			} else if (so.isOperation(Operation.MINUS)) {
-				return StepNode.minus(getDenominator(so.getSubTree(0), kernel));
+				return getDenominator(so.getSubTree(0), kernel);
 			} else if (so.isOperation(Operation.PLUS) || so.isOperation(Operation.MULTIPLY)) {
 				StepNode denominator = new StepConstant(1);
 				for (int i = 0; i < so.noOfOperands(); i++) {
@@ -125,10 +126,10 @@ public class StepHelper {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if(!containsExpression(sn, variable)) {
+			if (!containsExpression(sn, variable)) {
 				return null;
 			}
-			
+
 			if (so.isOperation(Operation.DIVIDE)) {
 				StepNode coeff;
 				if (so.getSubTree(0).isConstant()) {
@@ -176,8 +177,8 @@ public class StepHelper {
 				return expr.equals(so);
 			}
 
-			for(int i = 0; i < so.noOfOperands(); i++) {
-				if(containsExpression(so.getSubTree(i), expr)) {
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				if (containsExpression(so.getSubTree(i), expr)) {
 					return true;
 				}
 			}
@@ -237,7 +238,7 @@ public class StepHelper {
 			if (so.isOperation(Operation.POWER) && !so.getSubTree(0).isConstant()) {
 				return (int) so.getSubTree(1).getValue();
 			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
-				for(int i = 0; i < so.noOfOperands(); i++) {
+				for (int i = 0; i < so.noOfOperands(); i++) {
 					int power = getPower(so.getSubTree(i));
 					if (power > 0) {
 						return power;
@@ -298,7 +299,7 @@ public class StepHelper {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -324,8 +325,8 @@ public class StepHelper {
 
 	public static boolean canBeReducedToQuadratic(StepNode sn, StepNode variable, Kernel kernel) {
 		int degree = degree(sn, kernel);
-		
-		if(degree / 2 * 2 != degree) { 		// if degree is odd
+
+		if (degree / 2 * 2 != degree) { // if degree is odd
 			return false;
 		}
 
@@ -408,7 +409,7 @@ public class StepHelper {
 				}
 				return so.getSubTree(0);
 			}
-			
+
 			StepOperation newSo = new StepOperation(so.getOperation());
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				newSo.addSubTree(swapAbsInTree(so.getSubTree(i), a, b, variable));
@@ -445,6 +446,11 @@ public class StepHelper {
 		double evaluatedLHS = LHS.getValueAt(variable, solution.getValue());
 		double evaluatedRHS = RHS.getValueAt(variable, solution.getValue());
 
+		Log.error("LHS: " + evaluatedLHS);
+		Log.error("RHS: " + evaluatedRHS);
+
+		Log.error("Solval: " + solution.getValue());
+
 		if (!isEqual(evaluatedLHS, evaluatedRHS)) {
 			return false;
 		}
@@ -479,20 +485,21 @@ public class StepHelper {
 	public static StepNode[] getCASSolutions(String LHS, String RHS, String variable, Kernel kernel) {
 		String s = callCAS(LHS + " = " + RHS + ", " + variable, "Solutions", kernel);
 
-		MyList solutionList = null;
 		try {
-			solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+			MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+
+			StepNode[] sn = new StepNode[solutionList.getLength()];
+
+			for (int i = 0; i < solutionList.getLength(); i++) {
+				sn[i] = StepNode.convertExpression(solutionList.getListElement(i));
+			}
+
+			return sn;
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 
-		StepNode[] sn = new StepNode[solutionList.getLength()];
-
-		for (int i = 0; i < solutionList.getLength(); i++) {
-			sn[i] = StepNode.convertExpression(solutionList.getListElement(i));
-		}
-
-		return sn;
+		return null;
 	}
 
 	public static int degree(StepNode sn, Kernel kernel) {
@@ -504,9 +511,9 @@ public class StepHelper {
 	}
 
 	public static StepNode LCM(StepNode a, StepNode b, Kernel kernel) {
-		return StepNode.getStepTree(
-				callCAS("(" + (a == null ? "1" : a.toString()) + "), (" + (b == null ? "1" : b.toString()) + ")", "LCM", kernel),
-				kernel.getParser());
+		return StepNode.getStepTree(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
+				"Factor(LCM(" + (a == null ? "1" : a.toString()) + ", " + (b == null ? "1" : b.toString()) + "))", null,
+				StringTemplate.defaultTemplate, kernel), kernel.getParser());
 	}
 
 	public static StepNode factor(StepNode sn, Kernel kernel) {

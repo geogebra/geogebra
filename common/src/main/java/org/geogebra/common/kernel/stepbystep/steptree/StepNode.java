@@ -1,16 +1,22 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.plugin.Operation;
 
 public abstract class StepNode {
 
 	public abstract boolean equals(StepNode sn);
+
+	public abstract int compareTo(StepNode sn);
 
 	public abstract StepNode deepCopy();
 
@@ -102,6 +108,56 @@ public abstract class StepNode {
 		return null;
 	}
 
+	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
+		List<StepNode> poli = new ArrayList<StepNode>();
+		StepNode p = toConvert;
+		
+		StepNode temp = StepHelper.findConstant(p);
+
+		poli.add(temp);
+		p = StepNode.subtract(p, temp).regroup();
+
+		int pow = 1;
+		while (!p.isConstant()) {
+			temp = StepHelper.findCoefficient(p, (pow == 1 ? var : StepNode.power(var, pow)));
+			poli.add(temp);
+			if (temp != null) {
+				p = StepNode.subtract(p, StepNode.multiply(temp, (pow == 1 ? var : StepNode.power(var, pow)))).regroup();
+			}
+			pow++;
+		}
+		return poli.toArray(new StepNode[0]);
+	}
+
+	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
+		StepNode[] arrayD = StepNode.convertToPolynomial(d, var);
+		StepNode[] arrayR = StepNode.convertToPolynomial(r, var);
+
+		int leadR = arrayR.length - 1;
+		int leadD = arrayD.length - 1;
+
+		StepNode q = new StepConstant(0);
+
+		while ((leadR != 0 || (arrayR[0] != null && arrayR[0].getValue() != 0)) && leadR >= leadD) {
+			StepNode t = StepNode.multiply(StepNode.divide(arrayR[leadR], arrayD[leadD]), StepNode.power(var, leadR - leadD)).regroup();
+			q = StepNode.add(q, t);
+
+			StepNode[] td = StepNode.convertToPolynomial(StepNode.multiply(t, d).simplify(), var);
+
+			for (int i = 0; i < td.length; i++) {
+				if (td[i] != null) {
+					arrayR[i] = StepNode.subtract(arrayR[i], td[i]).regroup();
+				}
+			}
+
+			while (leadR > 0 && (arrayR[leadR] == null || arrayR[leadR].getValue() == 0)) {
+				leadR--;
+			}
+		}
+
+		return q;
+	}
+
 	/**
 	 * @param sn - tree to add to the current one
 	 * @return the root of the new tree
@@ -137,6 +193,7 @@ public abstract class StepNode {
 	public static StepNode add(StepNode a, double b) {
 		return add(a, new StepConstant(b));
 	}
+
 
 	/**
 	 * @param sn - the tree to subtract from the current one
@@ -258,4 +315,10 @@ public abstract class StepNode {
 
 	public abstract StepNode divideAndSimplify(double x);
 
+	public static long gcd(long a, long b) {
+		if (b == 0) {
+			return a;
+		}
+		return gcd(b, a % b);
+	}
 }

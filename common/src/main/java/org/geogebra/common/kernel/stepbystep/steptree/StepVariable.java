@@ -101,4 +101,16 @@ public class StepVariable extends StepNode {
 	public StepNode divideAndSimplify(double x) {
 		return null;
 	}
+
+	@Override
+	public int compareTo(StepNode sn) {
+		if (sn instanceof StepVariable) {
+			return label.compareTo(sn.toString());
+		} else if (sn instanceof StepConstant) {
+			return -1;
+		} else {
+			return 1;
+		}
+	}
+
 }
