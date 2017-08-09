@@ -197,7 +197,8 @@ public class PopupMenuButtonW extends MyCJButton
 			@Override
 			public void hide() {
 				super.hide();
-				if (EuclidianStyleBarW.getCurrentPopup().equals(this)) {
+				if (EuclidianStyleBarW.getCurrentPopup() != null
+						&& EuclidianStyleBarW.getCurrentPopup().equals(this)) {
 					EuclidianStyleBarW.setCurrentPopup(null);
 				}
 			}

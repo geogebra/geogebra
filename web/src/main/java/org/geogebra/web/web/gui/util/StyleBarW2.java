@@ -20,6 +20,7 @@ import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.color.MOWColorButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.ColorPanel;
+import org.geogebra.web.web.gui.properties.PropertiesViewW;
 
 /**
  * a version of StyleBarW that also includes the buttons for color, line style
@@ -145,7 +146,11 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		((GuiManagerW) app.getGuiManager())
 				.getPropertiesView(OptionType.OBJECTS)
 				.setOptionPanel(OptionType.OBJECTS, 3);
-		app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		if (app.has(Feature.FLOATING_SETTINGS)) {
+			((PropertiesViewW) app.getGuiManager().getPropertiesView()).open();
+		} else {
+			app.getGuiManager().setShowView(true, App.VIEW_PROPERTIES);
+		}
 		ColorPanel colorPanel = ((GuiManagerW) app.getGuiManager())
 				.getColorPanel();
 		if (colorPanel != null) {
