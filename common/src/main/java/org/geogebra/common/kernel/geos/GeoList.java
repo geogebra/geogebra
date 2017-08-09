@@ -118,6 +118,9 @@ public class GeoList extends GeoElement
 	public void setParentAlgorithm(final AlgoElement algo) {
 		super.setParentAlgorithm(algo);
 		setEuclidianVisible(true);
+		// GGB-1999 reset background to null: defaults should only apply to
+		// dropdowns or independent lists
+		setBackgroundColor(null);
 	}
 
 	/**
@@ -294,7 +297,7 @@ public class GeoList extends GeoElement
 			geo.setAlphaValue(getAlphaValue());
 
 			geo.setLayer(getLayer());
-
+			geo.setBackgroundColor(getBackgroundColor());
 			// copy ShowObjectCondition, unless it generates a
 			// CirclularDefinitionException
 			try {

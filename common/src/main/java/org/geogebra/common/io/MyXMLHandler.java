@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.AngleProperties;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -565,7 +566,6 @@ public class MyXMLHandler implements DocHandler {
 
 			String ggbVersion = attrs.get("version");
 			app.setFileVersion(ggbVersion);
-
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
 				app.setUniqueId(uniqueId);
@@ -3341,6 +3341,8 @@ public class MyXMLHandler implements DocHandler {
 					((GeoPolyLine) geo).setVisibleInView3D(false);
 				} else if (geo instanceof GeoFunction) {
 					geo.setFixed(false);
+				} else if (geo instanceof GeoAngle) {
+					((GeoAngle) geo).setEmphasizeRightAngle(true);
 				}
 			} else if ("command".equals(eName)) {
 				cons.setOutputGeo(null);
