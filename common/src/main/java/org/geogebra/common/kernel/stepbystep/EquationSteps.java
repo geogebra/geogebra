@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class EquationSteps {
 	private Kernel kernel;
@@ -83,18 +82,14 @@ public class EquationSteps {
 			regroup();
 		}
 
-		Log.error("NEW: " + LHS + " = " + RHS);
-
 		// II. step: making denominators disappear
 		StepNode bothSides = StepNode.multiply(LHS, RHS);
 		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
 
 			StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
-			Log.error("DENOM: " + denominators);
 			multiply(denominators);
 		}
 
-		Log.error(LHS + " = " + RHS);
 		// III. step: solving as a product
 		if (isZero(LHS) && RHS.isOperation(Operation.MULTIPLY)) {
 			solveProduct((StepOperation) RHS);
@@ -109,8 +104,6 @@ public class EquationSteps {
 		if (StepHelper.countNonConstOperation(bothSides, Operation.NROOT) > 0) {
 			solveIrrational();
 		}
-
-		Log.error("NO SQ: " + LHS + " = " + RHS);
 
 		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS), kernel);
 		int degreeLHS = StepHelper.degree(LHS, kernel);
@@ -523,10 +516,6 @@ public class EquationSteps {
 	}
 
 	private void takeRoot() {
-
-		Log.error("Stuck Here");
-		Log.error(LHS + " = " + RHS);
-
 		StepNode sn = StepNode.subtract(LHS, RHS).regroup();
 		StepNode constant = StepHelper.findConstant(sn);
 		sn = StepNode.subtract(sn, constant).regroup();
@@ -550,7 +539,7 @@ public class EquationSteps {
 
 		int root = StepHelper.getPower(LHS);
 
-		StepNode toDivide = StepHelper.findCoefficient(LHS);
+		StepNode toDivide = LHS.getCoefficient();
 		divide(toDivide);
 
 		if (isEven(root) && RHS.isConstant() && RHS.getValue() < 0) {

@@ -259,6 +259,9 @@ public class StepOperation extends StepNode {
 			}
 			return subtrees.get(0).toLaTeXString() + "^{" + subtrees.get(1).toLaTeXString() + "}";
 		case NROOT:
+			if (isEqual(subtrees.get(1).getValue(), 2)) {
+				return "\\sqrt{" + subtrees.get(0).toLaTeXString() + "}";
+			}
 			return "\\sqrt[" + subtrees.get(1).toLaTeXString() + "]{" + subtrees.get(0).toLaTeXString() + "}";
 		case ABS:
 			return "\\left|" + subtrees.get(0).toLaTeXString() + "\\right|";
@@ -835,8 +838,12 @@ public class StepOperation extends StepNode {
 		return operation;
 	}
 
-	private static boolean closeToAnInteger(double d) {
+	public static boolean closeToAnInteger(double d) {
 		return Math.abs(Math.round(d) - d) < 0.0000001;
+	}
+
+	public static boolean isEqual(double a, double b) {
+		return Math.abs(a - b) < 0.0000001;
 	}
 
 	@Override

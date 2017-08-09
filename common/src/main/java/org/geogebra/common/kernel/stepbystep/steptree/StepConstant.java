@@ -56,11 +56,17 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public String toString() {
+		if (StepOperation.closeToAnInteger(value)) {
+			return Long.toString(Math.round(value));
+		}
 		return Double.toString(value);
 	}
 
 	@Override
 	public String toLaTeXString() {
+		if (StepOperation.closeToAnInteger(value)) {
+			return Long.toString(Math.round(value));
+		}
 		return Double.toString(value);
 	}
 
