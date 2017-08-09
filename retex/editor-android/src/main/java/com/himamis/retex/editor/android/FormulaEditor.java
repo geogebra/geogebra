@@ -68,8 +68,8 @@ public class FormulaEditor extends View implements MathField {
     private int mHiddenBitmapH = -1;
     private int mShiftX = 0;
 
-    private String mSerializedPreview;
-    private TeXIcon mPreviewTeXIcon;
+    private String mFormulaPreviewText;
+    private TeXIcon mFormulaPreviewTeXIcon;
 
     public FormulaEditor(Context context) {
         super(context);
@@ -176,7 +176,13 @@ public class FormulaEditor extends View implements MathField {
     }
 
     public void setPreviewText(String text) {
-        mSerializedPreview = text;
+        mFormulaPreviewText = text;
+        if (text != null) {
+            TeXFormula texFormula = new TeXFormula(mFormulaPreviewText);
+            mFormulaPreviewTeXIcon = texFormula.new TeXIconBuilder().setSize(mSize * mScale).setType(mType)
+                    .setStyle(TeXConstants.STYLE_DISPLAY).build();
+            mFormulaPreviewTeXIcon.setInsets(createInsetsFromPadding());
+        }
     }
 
     private void createTeXFormula() {
@@ -237,10 +243,10 @@ public class FormulaEditor extends View implements MathField {
     }
 
     protected int getWidthForIconWithPadding() {
-        if(hasFocus() || mPreviewTeXIcon == null) {
+        if (hasFocus() || mFormulaPreviewTeXIcon == null) {
             return mTeXIcon.getIconWidth();
         }
-        return mPreviewTeXIcon.getIconWidth();
+        return mFormulaPreviewTeXIcon.getIconWidth();
     }
 
     @Override
@@ -277,17 +283,10 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (hasFocus() || (!hasFocus() && mSerializedPreview == null)) {
+        if (hasFocus() || mFormulaPreviewTeXIcon == null) {
             drawShifted(canvas, getShiftX());
         } else {
-            TeXFormula texFormula = new TeXFormula(mSerializedPreview);
-            mPreviewTeXIcon = texFormula.new TeXIconBuilder().setSize(mSize * mScale).setType(mType)
-                    .setStyle(TeXConstants.STYLE_DISPLAY).build();
-            mPreviewTeXIcon.setInsets(createInsetsFromPadding());
-
-            drawShiftedWithTexIcon(canvas, getShiftX(), mPreviewTeXIcon);
-            requestLayout();
-            invalidate();
+            drawShiftedWithTexIcon(canvas, getShiftX(), mFormulaPreviewTeXIcon);
         }
     }
 
