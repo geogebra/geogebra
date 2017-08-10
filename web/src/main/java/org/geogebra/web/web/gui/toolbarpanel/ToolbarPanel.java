@@ -430,6 +430,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		lastOpenWidth = null;
 		hideDragger();
 		header.reset();
+		resizeTabs();
 	}
 
 	private void addMoveBtn() {
