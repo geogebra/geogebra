@@ -2673,6 +2673,7 @@ __GGB__keysVar.cs.menu = {
     "StemPlot.low": "N\xedzk\xfd",
     "Step": "Krok",
     "StepGraph": "Schodov\xfd graf",
+    "Steps": "Steps",
     "StickToEdge": "P\u0159i\u0159adit k hran\u011b",
     "StickyTools": "Zachovat n\xe1stroj",
     "Stop": "Stop",

@@ -2673,6 +2673,7 @@ __GGB__keysVar.lv.menu = {
     "StemPlot.low": "zems",
     "Step": "Solis",
     "StepGraph": "So\u013cu grafiks",
+    "Steps": "Steps",
     "StickToEdge": "Stick to Edge",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

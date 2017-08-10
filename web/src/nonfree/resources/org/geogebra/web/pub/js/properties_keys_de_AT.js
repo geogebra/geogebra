@@ -2673,6 +2673,7 @@ __GGB__keysVar.de_AT.menu = {
     "StemPlot.low": "niedrig",
     "Step": "Schrittweite",
     "StepGraph": "Stufendiagramm",
+    "Steps": "Steps",
     "StickToEdge": "Fixiert am Rand",
     "StickyTools": "Ausgew\xe4hltes Werkzeug beibehalten",
     "Stop": "Stop",

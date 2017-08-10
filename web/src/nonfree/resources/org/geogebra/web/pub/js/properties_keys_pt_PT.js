@@ -2673,6 +2673,7 @@ __GGB__keysVar.pt_PT.menu = {
     "StemPlot.low": "inferior",
     "Step": "Passo",
     "StepGraph": "Gr\xe1fico em Escada",
+    "Steps": "Steps",
     "StickToEdge": "Ajustar ao Bordo da Janela",
     "StickyTools": "Ferramentas",
     "Stop": "Parar",

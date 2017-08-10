@@ -2673,6 +2673,7 @@ __GGB__keysVar.ka.menu = {
     "StemPlot.low": "\u10d3\u10d0\u10d1\u10d0\u10da\u10d8",
     "Step": "\u10d1\u10d8\u10ef\u10d8",
     "StepGraph": "\u10d1\u10d8\u10ef\u10d8",
+    "Steps": "Steps",
     "StickToEdge": "\u10ec\u10d0\u10ee\u10dc\u10d0\u10d2\u10d6\u10d4 \u10db\u10d8\u10ec\u10d4\u10d1\u10d4\u10d1\u10d0",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

@@ -2673,6 +2673,7 @@ __GGB__keysVar.sq.menu = {
     "StemPlot.low": "i/e ulet",
     "Step": "Shkalle",
     "StepGraph": "Graf i Shkallezuar",
+    "Steps": "Steps",
     "StickToEdge": "Ngjesh tek Buza",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

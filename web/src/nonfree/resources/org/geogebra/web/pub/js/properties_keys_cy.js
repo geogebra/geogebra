@@ -2673,6 +2673,7 @@ __GGB__keysVar.cy.menu = {
     "StemPlot.low": "Isel",
     "Step": "Cam",
     "StepGraph": "Graff Step",
+    "Steps": "Steps",
     "StickToEdge": "Glynnu i'r ymyl",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

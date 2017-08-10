@@ -2673,6 +2673,7 @@ __GGB__keysVar.tl.menu = {
     "StemPlot.low": "pinakamababa",
     "Step": "Step",
     "StepGraph": "Step Graph",
+    "Steps": "Steps",
     "StickToEdge": "Dumikit sa Dulo",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

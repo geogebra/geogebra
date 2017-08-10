@@ -2673,6 +2673,7 @@ __GGB__keysVar.pl.menu = {
     "StemPlot.low": "niski",
     "Step": "Krok",
     "StepGraph": "Krok Wykresu",
+    "Steps": "Steps",
     "StickToEdge": "Trzymaj si\u0119 kraw\u0119dzi",
     "StickyTools": "Sticky Tools",
     "Stop": "Koniec",

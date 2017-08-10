@@ -2673,6 +2673,7 @@ __GGB__keysVar.xh.menu = {
     "StemPlot.low": "ezantsi",
     "Step": "iStep",
     "StepGraph": "iStep Graph",
+    "Steps": "Steps",
     "StickToEdge": "Hlala ngase Ngqamekweni",
     "StickyTools": "ii Sticky Tools",
     "Stop": "Yima",

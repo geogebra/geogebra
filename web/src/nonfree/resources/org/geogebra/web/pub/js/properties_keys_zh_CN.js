@@ -2673,6 +2673,7 @@ __GGB__keysVar.zh_CN.menu = {
     "StemPlot.low": "\u4f4e",
     "Step": "\u6b65\u957f",
     "StepGraph": "\u9636\u68af\u56fe",
+    "Steps": "Steps",
     "StickToEdge": "\u5438\u9644\u8fb9\u7f18",
     "StickyTools": "\u7c98\u8fde\u5de5\u5177",
     "Stop": "\u505c\u6b62",

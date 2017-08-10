@@ -2673,6 +2673,7 @@ __GGB__keysVar.sl.menu = {
     "StemPlot.low": "najmanj",
     "Step": "Korak",
     "StepGraph": "Korak grafa",
+    "Steps": "Steps",
     "StickToEdge": "Prilepljeni na rob",
     "StickyTools": "Pripeta orodja",
     "Stop": "Konec",

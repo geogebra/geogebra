@@ -2673,6 +2673,7 @@ __GGB__keysVar.et.menu = {
     "StemPlot.low": "madal",
     "Step": "Samm",
     "StepGraph": "Sammdiagramm",
+    "Steps": "Steps",
     "StickToEdge": "J\xe4\xe4 servale",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

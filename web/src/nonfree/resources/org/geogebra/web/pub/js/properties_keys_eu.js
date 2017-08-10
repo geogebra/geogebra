@@ -2673,6 +2673,7 @@ __GGB__keysVar.eu.menu = {
     "StemPlot.low": "baxu",
     "Step": "Pausoa",
     "StepGraph": "Pausokako grafikoa",
+    "Steps": "Steps",
     "StickToEdge": "Atxiki ertzari",
     "StickyTools": "Tresna Finkoak",
     "Stop": "Gelditu",

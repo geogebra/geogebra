@@ -2673,6 +2673,7 @@ __GGB__keysVar.eo.menu = {
     "StemPlot.low": "low",
     "Step": "Pa\u015do",
     "StepGraph": "Step Graph",
+    "Steps": "Steps",
     "StickToEdge": "Glui al la rando",
     "StickyTools": "Sticky Tools",
     "Stop": "Haltigi",

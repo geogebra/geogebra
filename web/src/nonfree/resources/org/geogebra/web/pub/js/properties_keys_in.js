@@ -2673,6 +2673,7 @@ __GGB__keysVar.in.menu = {
     "StemPlot.low": "rendah",
     "Step": "Langkah",
     "StepGraph": "Grafik Tangga",
+    "Steps": "Steps",
     "StickToEdge": "Menempel ke pinggiran",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

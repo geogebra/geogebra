@@ -2673,6 +2673,7 @@ __GGB__keysVar.sv.menu = {
     "StemPlot.low": "l\xe5gt",
     "Step": "Stegl\xe4ngd",
     "StepGraph": "Trappstegsdiagram",
+    "Steps": "Steps",
     "StickToEdge": "Docka till kanten",
     "StickyTools": "Verktyg forts\xe4tter vara aktiva",
     "Stop": "Stopp",

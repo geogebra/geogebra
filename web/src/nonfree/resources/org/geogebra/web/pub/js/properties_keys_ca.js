@@ -2673,6 +2673,7 @@ __GGB__keysVar.ca.menu = {
     "StemPlot.low": "baix",
     "Step": "Pas",
     "StepGraph": "Gr\xe0fic Escalonat",
+    "Steps": "Steps",
     "StickToEdge": "Enganxa a la vora",
     "StickyTools": "Selecciona l'eina Mou autom\xe0ticament.",
     "Stop": "Atura",

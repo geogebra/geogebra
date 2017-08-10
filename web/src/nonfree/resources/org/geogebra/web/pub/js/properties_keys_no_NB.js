@@ -2673,6 +2673,7 @@ __GGB__keysVar.no_NB.menu = {
     "StemPlot.low": "lav",
     "Step": "Trinn",
     "StepGraph": "Trinn Graf",
+    "Steps": "Steps",
     "StickToEdge": "Fest til kanten",
     "StickyTools": "Festeverkt\xf8y",
     "Stop": "Stopp",

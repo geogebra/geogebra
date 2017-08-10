@@ -2673,6 +2673,7 @@ __GGB__keysVar.ro.menu = {
     "StemPlot.low": "jos",
     "Step": "Pas",
     "StepGraph": "Grafic \xeen sc\u0103ri",
+    "Steps": "Steps",
     "StickToEdge": "Stick to Edge",
     "StickyTools": "Instrumente Sticky",
     "Stop": "Stop",

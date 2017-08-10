@@ -2673,6 +2673,7 @@ __GGB__keysVar.es_ES.menu = {
     "StemPlot.low": "bajo",
     "Step": "Paso",
     "StepGraph": "Gr\xe1fica escalonada",
+    "Steps": "Steps",
     "StickToEdge": "Limitarse al borde",
     "StickyTools": "Saltar autom\xe1ticamente a Elige y Mueve",
     "Stop": "Detener",

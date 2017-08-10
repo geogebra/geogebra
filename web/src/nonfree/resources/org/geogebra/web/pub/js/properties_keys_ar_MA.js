@@ -2673,6 +2673,7 @@ __GGB__keysVar.ar_MA.menu = {
     "StemPlot.low": "\u0645\u0646\u062e\u0641\u0638",
     "Step": "\u062e\u0637\u0648\u0629",
     "StepGraph": "\u0627\u0644\u0631\u0633\u0645 \u0627\u0644\u0628\u064a\u0627\u0646\u064a \u062e\u0637\u0648\u0629",
+    "Steps": "Steps",
     "StickToEdge": "\u0644\u0635\u0642 \u0641\u064a \u0627\u0644\u0631\u0643\u0646",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

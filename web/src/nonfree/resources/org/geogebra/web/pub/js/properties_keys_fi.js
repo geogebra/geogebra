@@ -2673,6 +2673,7 @@ __GGB__keysVar.fi.menu = {
     "StemPlot.low": "matala",
     "Step": "Askel",
     "StepGraph": "Porraskaavio",
+    "Steps": "Steps",
     "StickToEdge": "Kiinnit\xe4 reunalle",
     "StickyTools": "Pid\xe4 ty\xf6kalu valittuna",
     "Stop": "Pys\xe4yt\xe4",

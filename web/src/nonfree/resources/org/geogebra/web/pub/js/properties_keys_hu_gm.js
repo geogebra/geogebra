@@ -2673,6 +2673,7 @@ __GGB__keysVar.hu_gm.menu = {
     "StemPlot.low": "alacsony",
     "Step": "L\xe9p\xe9sk\xf6z",
     "StepGraph": "L\xe9pcs\u0151diagram",
+    "Steps": "Steps",
     "StickToEdge": "Sz\xe9lhez igaz\xedt",
     "StickyTools": "Ragad\xf3s eszk\xf6z\xf6k",
     "Stop": "Meg\xe1ll\xedt",

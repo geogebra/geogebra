@@ -2673,6 +2673,7 @@ __GGB__keysVar.sk.menu = {
     "StemPlot.low": "n\xedzka",
     "Step": "Krok",
     "StepGraph": "Krokov\xfd diagram",
+    "Steps": "Steps",
     "StickToEdge": "Upevni\u0165 roh",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",

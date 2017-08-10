@@ -2673,6 +2673,7 @@ __GGB__keysVar.gl.menu = {
     "StemPlot.low": "baixo",
     "Step": "Paso",
     "StepGraph": "Paso do gr\xe1fico",
+    "Steps": "Steps",
     "StickToEdge": "Adhesi\xf3n ao bordo",
     "StickyTools": "Saltar automaticamente a Elixe e Move",
     "Stop": "Deter",

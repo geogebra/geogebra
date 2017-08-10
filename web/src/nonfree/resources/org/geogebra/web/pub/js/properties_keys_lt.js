@@ -2673,6 +2673,7 @@ __GGB__keysVar.lt.menu = {
     "StemPlot.low": "\u017eemas",
     "Step": "\u017dingsnis",
     "StepGraph": "\u017dingsnio grafikas",
+    "Steps": "Steps",
     "StickToEdge": "Prisegti prie kampo",
     "StickyTools": "Svarb\u016bs \u012frankiai",
     "Stop": "Stop",
