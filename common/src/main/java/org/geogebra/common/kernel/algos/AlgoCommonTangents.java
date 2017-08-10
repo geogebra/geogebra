@@ -26,7 +26,6 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Two tangents through point P to conic section c
@@ -112,7 +111,6 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		}
 		for (int i = 0; i < 4; i++) {
 			c.polarLine((GeoPoint) algoIntersect.getOutput(i), currentTangent);
-			Log.debug(currentTangent);
 			if (isInner(currentTangent) && inner < 2) {
 				tangents[2 + inner].set(currentTangent);
 				tangents[2 + inner].getStartPoint()
@@ -131,8 +129,8 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 
 	private boolean isInner(GeoLine currentTangent2) {
 		Coords c0 = currentTangent2.getCoords();
-		double sgnC = c.getMidpoint().inner(c0);
-		double sgnD = d.getMidpoint().inner(c0);
+		double sgnC = c.getMidpoint().dotproduct(c0);
+		double sgnD = d.getMidpoint().dotproduct(c0);
 
 		return sgnC * sgnD < 0 || !currentTangent2.isDefined();
 	}

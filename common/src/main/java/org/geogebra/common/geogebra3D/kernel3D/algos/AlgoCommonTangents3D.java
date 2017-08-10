@@ -128,12 +128,12 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 		for (int i = 0; i < 4; i++) {
 			polarLine((GeoPoint) algoIntersect.getOutput(i));
 			if (isInner(polar)) {
-				tangents[inner].set(currentTangent);
+				tangents[2 + inner].set(currentTangent);
 				// tangents[inner]
 				// .setStartPoint((GeoPointND) algoIntersect.getOutput(i));
 				inner++;
 			} else if (outer < 2) {
-				tangents[2 + outer].set(currentTangent);
+				tangents[outer].set(currentTangent);
 				// tangents[2 + outer]
 				// .setStartPoint((GeoPointND) algoIntersect.getOutput(i));
 				outer++;
@@ -155,8 +155,8 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 		Coords c0 = currentTangent2.getCoords();
 		c2d.classifyConic(false);
 		d2d.classifyConic(false);
-		double sgnC = c2d.getMidpoint().inner(c0);
-		double sgnD = d2d.getMidpoint().inner(c0);
+		double sgnC = c2d.getMidpoint().dotproduct(c0);
+		double sgnD = d2d.getMidpoint().dotproduct(c0);
 
 		return sgnC * sgnD < 0;
 	}
