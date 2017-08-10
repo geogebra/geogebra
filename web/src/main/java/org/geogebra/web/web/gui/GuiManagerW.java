@@ -1839,16 +1839,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public int setToolbarMode(final int mode, ModeSetter m) {
-		if (toolbarPanel == null) {
-			return mode;
-		}
-		if (app.has(Feature.MOW_TOOLBAR)) {
-			(((AppWapplet) app).getAppletFrame()).setMOWToorbarMode(mode);
-			return mode;
-		}
-
-		if (app.isUnbundled()) {
-			this.getToolbarPanelV2().setMode(mode);
+		if (app.isUnbundled() && getToolbarPanelV2() != null) {
+			getToolbarPanelV2().setMode(mode);
 
 			// close dynamic stylebar at changing mode
 			if (app.has(Feature.SELECT_TOOL)) {
@@ -1857,6 +1849,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 							.setVisible(false);
 				}
 			}
+			return mode;
+		}
+
+		if (toolbarPanel == null) {
+			return mode;
+		}
+		if (app.has(Feature.MOW_TOOLBAR)) {
+			(((AppWapplet) app).getAppletFrame()).setMOWToorbarMode(mode);
 			return mode;
 		}
 
