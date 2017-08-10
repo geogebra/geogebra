@@ -34,7 +34,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web implementation of onscreen keyboard
  * 
- * @author Zbynek, based on Balaz's cross-platform model
+ * @author Zbynek, based on Balazs's cross-platform model
  */
 public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		implements VirtualKeyboardGUI, ButtonHandler {

@@ -152,9 +152,9 @@ public class TabbedKeyboard extends FlowPanel {
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_close_purple().getSafeUri().asString());
 			closeButton = new CustomButton(){};
-			if (getApp().has(Feature.TOOLTIP_DESIGN)) {
+			if (hasTooltips) {
 				closeButton.getElement().setAttribute("data-title",
-					app.getLocalization().getMenu("Close"));
+						locale.getMenu("Close"));
 			}
 			closeButton.getUpFace().setImage(img);
 			closeButton.getUpHoveringFace().setImage(hoverImg);
@@ -178,9 +178,9 @@ public class TabbedKeyboard extends FlowPanel {
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_more_purple().getSafeUri().asString());
 			moreButton = new ToggleButton(img, hoverImg);
-			if (getApp().has(Feature.TOOLTIP_DESIGN)) {
+			if (hasTooltips) {
 				moreButton.getElement().setAttribute("data-title",
-					app.getLocalization().getMenu("Commands"));
+						locale.getMenu("Commands"));
 			}
 			moreButton.getUpHoveringFace().setImage(hoverImg);
 			moreButton.addStyleName("moreKeyboardButton");
@@ -242,7 +242,7 @@ public class TabbedKeyboard extends FlowPanel {
 	}
 
 	protected static final int BASE_WIDTH = 70;
-	private KeyboardLocale locale;
+	KeyboardLocale locale;
 	private boolean isSmallKeyboard;
 	protected HasKeyboard app;
 	private ArrayList<Keyboard> layouts = new ArrayList<Keyboard>(4);
@@ -254,6 +254,10 @@ public class TabbedKeyboard extends FlowPanel {
 	protected KeyPanelBase currentKeyboard=null;
 	protected boolean keyboardWanted = false;
 	private boolean doubleBrackets;
+	/**
+	 * has material tooltips
+	 */
+	boolean hasTooltips;
 	private GFont latexFont;
 	private GFont latexFontSmall;
 
@@ -272,13 +276,13 @@ public class TabbedKeyboard extends FlowPanel {
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
 		KeyboardFactory kbf = new KeyboardFactory();
 		this.tabs = new FlowPanel();
+		this.hasTooltips = ((App) app).has(Feature.TOOLTIP_DESIGN);
+		this.locale = app.getLocalization();
+		this.keyboardLocale = locale.getLocaleStr();
 		switcher = new KeyboardSwitcher();
 		this.app = app;
 		this.bh = bh;
 		this.doubleBrackets = ((App) app).has(Feature.DOUBLE_ROUND_BRACKETS);
-		this.locale = app.getLocalization();
-		this.keyboardLocale = locale.getLocaleStr();
-
 
 		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(), bh);
 		tabs.add(keyboard);
@@ -749,7 +753,7 @@ public class TabbedKeyboard extends FlowPanel {
 	
 	protected void showHelp(int x, int y) {
 	}
-	
+
 	private void selectTab(int idx) {
 		switcher.select(idx);
 	}
