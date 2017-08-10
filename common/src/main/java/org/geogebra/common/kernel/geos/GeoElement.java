@@ -5499,7 +5499,9 @@ public abstract class GeoElement extends ConstructionElement
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
 		} else if ((algebraDesc.indexOf(":") > -1) && !geo.isGeoText()) {
-			sb.append(algebraDesc.split(":")[0] + ": \\,");
+			if (includeLHS) {
+				sb.append(algebraDesc.split(":")[0] + ": \\,");
+			}
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 

@@ -284,5 +284,13 @@ public class AlgebraStyleTest extends Assert {
 
 	}
 
+	@Test
+	public void packedGeosShouldHaveJustRHSInEditor() {
+		t("c=Cone[(0,0,0),(0,0,1),5]");
+		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
+				StringTemplate.editorTemplate);
+		assertEquals("Cone((0, 0, 0), (0, 0, 1), 5)", rhs);
+	}
+
 
 }
