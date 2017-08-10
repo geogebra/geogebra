@@ -127,6 +127,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	
 	@Source("org/geogebra/web/resources/scss/snackbar.scss")
 	SassResource snackbarScss();
+	
+	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
+	SassResource dialogStylesScss();
 
 	// don't include these anywhere!
 	// they are only here, because otherwise they are not compiled on browser

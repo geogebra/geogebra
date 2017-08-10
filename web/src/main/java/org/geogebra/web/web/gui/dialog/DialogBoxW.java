@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.web.html5.gui.FastButton;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -40,7 +41,11 @@ public class DialogBoxW extends GDialogBox {
 			Panel root, App app) {
 		super(autoHide, modal, root, app);
 		addResizeHandler();
-		this.addStyleName("DialogBox");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			this.setStyleName("MaterialDialogBox");
+		} else {
+			this.addStyleName("DialogBox");
+		}
 		this.addStyleName("GeoGebraFrame");
 		this.setGlassEnabled(modal);
 		this.eh = eh;

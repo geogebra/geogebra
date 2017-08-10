@@ -105,6 +105,7 @@ public class ResourcesInjector {
 				GuiResourcesSimple.INSTANCE.toolBarStyleScss());
 
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.menuStyleScss());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.dialogStylesScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.settingsStyleScss());
 
 		StyleInjector
