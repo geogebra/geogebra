@@ -152,6 +152,10 @@ public class TabbedKeyboard extends FlowPanel {
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_close_purple().getSafeUri().asString());
 			closeButton = new CustomButton(){};
+			if (getApp().has(Feature.TOOLTIP_DESIGN)) {
+				closeButton.getElement().setAttribute("data-title",
+					app.getLocalization().getMenu("Close"));
+			}
 			closeButton.getUpFace().setImage(img);
 			closeButton.getUpHoveringFace().setImage(hoverImg);
 			closeButton.addStyleName("closeTabbedKeyboardButton");
@@ -174,6 +178,10 @@ public class TabbedKeyboard extends FlowPanel {
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_more_purple().getSafeUri().asString());
 			moreButton = new ToggleButton(img, hoverImg);
+			if (getApp().has(Feature.TOOLTIP_DESIGN)) {
+				moreButton.getElement().setAttribute("data-title",
+					app.getLocalization().getMenu("Commands"));
+			}
 			moreButton.getUpHoveringFace().setImage(hoverImg);
 			moreButton.addStyleName("moreKeyboardButton");
 			ClickStartHandler.init(moreButton, new ClickStartHandler() {
