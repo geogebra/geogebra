@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.properties;
 import org.geogebra.common.gui.dialog.options.model.AnimationStepModel;
 import org.geogebra.common.gui.dialog.options.model.ITextFieldListener;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
@@ -79,7 +80,12 @@ implements ITextFieldListener {
 
 	@Override
 	public void setLabels() {
-		label.setText(kernel.getLocalization().getMenu("AnimationStep") + ": ");
+		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
+			label.setStyleName("coloredLabel");
+		}
+		label.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
+				? kernel.getLocalization().getMenu("AnimationStep")
+				: kernel.getLocalization().getMenu("AnimationStep") + ": ");
 	}
 
 	public void setPartOfSliderPanel() {

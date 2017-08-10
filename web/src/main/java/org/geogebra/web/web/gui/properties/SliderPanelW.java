@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
@@ -173,11 +174,15 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			}
 		});
 
-
 		maxLabel = new Label();
 		minLabel = new Label();
 		widthLabel = new Label();
 		widthUnitLabel = new Label();
+		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
+			maxLabel.setStyleName("coloredLabel");
+			minLabel.setStyleName("coloredLabel");
+			widthLabel.setStyleName("coloredLabel");
+		}
 
 		FlowPanel minPanel = new FlowPanel();
 		minPanel.add(minLabel);
@@ -193,8 +198,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthPanel.setStyleName("optionsPanel");
 		widthPanel.setStyleName("sliderWidthPanel");
 		widthPanel.add(widthLabel);
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			tfWidth.add(widthUnitLabel);
+			widthUnitLabel.setStyleName("unitLabel");
+		}
 		widthPanel.add(tfWidth);
-		widthPanel.add(widthUnitLabel);
+		if (!app.has(Feature.DIALOG_DESIGN)) {
+			widthPanel.add(widthUnitLabel);
+		}
 
 		sliderPanel.add(widthPanel);
 
@@ -280,9 +291,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		lbSliderHorizontal.setSelectedIndex(selectedIndex);
 
 
-		minLabel.setText(loc.getMenu("min") + ":");
-		maxLabel.setText(loc.getMenu("max") + ":");
-		widthLabel.setText(loc.getMenu("Width") + ":");
+		minLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("min") : loc.getMenu("min") +  ":");
+		maxLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("max") :loc.getMenu("max") + ":");
+		widthLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("Width"):loc.getMenu("Width") + ":");
 
 		model.setLabelForWidthUnit();
 

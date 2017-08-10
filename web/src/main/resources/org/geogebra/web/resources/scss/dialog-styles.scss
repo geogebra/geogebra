@@ -4,15 +4,163 @@ $duration: 0.2s;
 .GeoGebraFrame {	
 	
 	.MaterialDialogBox {
-		z-index: 501;
-		/*box-shadow: 1px 1px 6px 1px #666666;*/
+		z-index: 501;	
+		background-color: $white;
+		border-radius: 0px;
+		padding-left: 24px;
+		padding-right: 8px;
+		padding-top: 24px;
+	    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
+   		box-shadow: 0 2px 10px rgba(0,0,0,.2);
+   		
+   		.Caption { 
+   			font-size: 20px;	
+   			margin-bottom: 20px;
+   		}
+   	
+   		.coloredLabel {
+   			font-size: 13px;
+   			color: $teal-default;
+   		}
+   		
+   		.gwt-RadioButton label {
+    		padding-left: 8px;
+		}
 	
-		background-color: rgba(255,255,255,0.9);
-		border-radius: 10px;
+		.gwt-CheckBox label {
+    		padding-left: 8px;
+		}
+	
+		.gwt-CheckBox {
+    		margin-right: 16px;
+		}
+	
+		.gwt-ListBox {
+   			border-radius: 2px;
+    		box-shadow: none;
+   		}	
 
-		box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
+   		input[type="text"] {
+    		border: none !important;
+   			box-shadow: none !important;
+   			margin-bottom: 0px;
+   			padding-left: 4px;
+		}
 	
-		padding: 15px;
+		.gwt-Label {
+   			font-size: 13px;
+   			margin-top: 10px;
+		}
+	
+		.sliderIntervalPanel { 
+			margin-top: 10px;
+			
+			.gwt-TextBox {
+				border-bottom: 1px solid $teal-default !important;
+    			border-radius: 0px;
+			}
+			
+			.gwt-Label {
+    			margin-top: 0px;
+			}
+		
+		}
+   		
+   		.gwt-TabBar {
+   			.gwt-Label {
+   				font-size: 16px !important;
+			}
+   			
+   		}
+   		
+   		.gwt-TabBar .gwt-TabBarItem-selected { 
+   			color: $teal-default;
+   		}
+   	
+   		.gwt-TabPanelBottom {
+   			padding: 0px;
+   			select:focus {
+   				border: 1px $teal-default solid;		
+   			}
+   		
+   			.optionsPanel {
+   				margin-top: 10px;
+   				margin-bottom: 0px;
+   				.gwt-ListBox {
+   					border-radius: 2px;
+    				box-shadow: none;
+   				}	
+   			}
+   		
+   			.sliderWidthPanel {
+   				.AutoCompleteTextFieldW {
+   					 display: block;
+   					 
+   					 .unitLabel {
+   					 	float: right;	
+   					 }
+   				}
+   			}
+   		}
+   	
+   		.AutoCompleteTextFieldW {
+   			margin-right: 16px;	
+   			border-radius: 0px;
+   			border: none;
+   			border-bottom: 1px solid $teal-default; 
+   			
+   			.TextField { 
+   				
+   			}
+   		}
+   	
+   		.DialogRbPanel {
+   			padding-right: 16px;	
+   			margin-top: 16px;
+   		}
+   	
+   		.sliderPanelWidget {
+   			padding-right: 16px;
+   			margin-top: 16px;	
+   		}
+   	
+   		.scriptArea { 
+   			padding-right: 16px;	
+   		}
+   	
+   		.DialogButtonPanel {
+   			height: 36px;
+   			text-align: right;
+    		padding-top: 32px;
+    		padding-right: 0px;
+    		padding-bottom: 8px;
+    		padding-left: 0px;
+    		
+    		.gwt-Button {
+    			display: inline-block;
+    			position: relative;
+    			min-width: 64px;
+    			height: 36px;
+    			border: none;
+    			outline: none;
+    			background: transparent;
+    			color: $teal-default;
+    			font-size: 14px;
+    			font-weight: 500;
+    			letter-spacing: .04em;
+    			line-height: 36px;
+    			text-align: center;
+    			text-decoration: none;
+    			text-transform: uppercase;
+    			overflow: hidden;
+    			vertical-align: middle;
+    			padding: 0px 8px;
+    			margin-left: 8px;
+   				box-shadow: none;
+   				font-family: Roboto,sans-serif;
+    			font-weight: 400 !important;
+   			}
+   		}
 	}
 }
 	

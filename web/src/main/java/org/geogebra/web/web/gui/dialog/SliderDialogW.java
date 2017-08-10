@@ -172,6 +172,9 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		//nameWidget.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
 		
 		Label nameLabel = new Label(loc.getMenu("Name"));
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			nameLabel.setStyleName("coloredLabel");
+		}
 		nameWidget.add(nameLabel);
 		
 		tfLabel = new AutoCompleteTextFieldW(-1, app);
