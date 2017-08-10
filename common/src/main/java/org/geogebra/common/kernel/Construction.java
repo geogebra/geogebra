@@ -1068,6 +1068,7 @@ public class Construction {
 					AlgoElement algo = (AlgoElement) elem;
 					GeoElement[] geos = algo.getOutput();
 					for (GeoElement geo : geos) {
+						geo.update();
 						updateSet.addAllSorted(geo.getAlgoUpdateSet());
 					}
 				}

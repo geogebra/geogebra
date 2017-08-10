@@ -82,9 +82,6 @@ public class AlgoTextCorner extends AlgoElement {
 		// now compute()
 		compute();
 
-		// update corner
-		corner.update();
-
 		return true; // update cascade of dependent objects done in Construction
 	}
 
