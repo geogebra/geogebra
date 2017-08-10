@@ -110,7 +110,7 @@ public abstract class StepNode {
 
 	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
-		StepNode p = toConvert;
+		StepNode p = toConvert.deepCopy().expand();
 		
 		StepNode temp = StepHelper.findConstant(p);
 
@@ -155,7 +155,10 @@ public abstract class StepNode {
 			}
 		}
 
-		return q;
+		if (leadR == 0 && (arrayR[0] == null || arrayR[0].getValue() == 0)) {
+			return q.regroup();
+		}
+		return null;
 	}
 
 	/**

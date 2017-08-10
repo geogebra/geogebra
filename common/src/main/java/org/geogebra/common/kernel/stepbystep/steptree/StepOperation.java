@@ -442,18 +442,34 @@ public class StepOperation extends StepNode {
 			}
 
 			StepOperation so = new StepOperation(Operation.MULTIPLY);
+			StepOperation soDenominator = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < bases.size(); i++) {
 				exponents.set(i, exponents.get(i).constantRegroup());
 				if (exponents.get(i).getValue() != 0 && bases.get(i).getValue() != 1) {
 					if (exponents.get(i).getValue() == 1) {
 						so.addSubTree(bases.get(i));
 					} else if (exponents.get(i).getValue() == -1) {
-						so.addSubTree(StepNode.divide(new StepConstant(1), bases.get(i)));
+						soDenominator.addSubTree(bases.get(i));
 					} else if (exponents.get(i).getValue() == 0.5) {
 						so.addSubTree(StepNode.root(bases.get(i), 2));
 					} else {
 						so.addSubTree(StepNode.power(bases.get(i), exponents.get(i)));
 					}
+				}
+			}
+
+
+			if (soDenominator.noOfOperands() > 0) {
+				StepNode divided = StepNode.polynomialDivision(so.deepCopy(), soDenominator.deepCopy(), new StepVariable("x"));
+				
+				if(divided != null) {
+					while (so.noOfOperands() > 0) {
+						so.subtrees.remove(0);
+					}
+					so.addSubTree(divided);
+
+				} else {
+					so.addSubTree(StepNode.divide(new StepConstant(1), soDenominator));
 				}
 			}
 
