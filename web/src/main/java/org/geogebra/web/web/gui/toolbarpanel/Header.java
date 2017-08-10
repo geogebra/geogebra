@@ -109,7 +109,7 @@ class Header extends FlowPanel {
 				app);
 		btnAlgebra.setTitle(
 				app.getLocalization().getMenu(app.isUnbundledGraphing()
-						? "Algebra" : "ConstructionProtocol"));
+						? "Algebra" : "Steps"));
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
