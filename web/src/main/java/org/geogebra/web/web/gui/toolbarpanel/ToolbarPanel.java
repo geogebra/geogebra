@@ -51,11 +51,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
 	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
-	/**
-	 * height in open state
-	 */
-	static final int OPEN_HEIGHT = 56;
-
 	/** Application */
 	App app;
 
@@ -434,7 +429,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public void reset() {
 		lastOpenWidth = null;
 		hideDragger();
-		header.updateUndoRedoPosition();
+		header.reset();
 	}
 
 	private void addMoveBtn() {

@@ -78,6 +78,10 @@ class Header extends FlowPanel {
 	private ContextMenuAlgebra cmAlgebra = null;
 	private ContextMenuTools cmTools;
 	private boolean animating = false;
+	/**
+	 * height in open state
+	 */
+	private static final int OPEN_HEIGHT = 56;
 	
 	/**
 	 * @param toolbarPanel
@@ -519,7 +523,7 @@ class Header extends FlowPanel {
 	void updateCenterSize() {
 		int h = 0;
 		if (open) {
-			h = ToolbarPanel.OPEN_HEIGHT;
+			h = OPEN_HEIGHT;
 		} else {
 			h = getOffsetHeight() - btnMenu.getOffsetHeight()
 					- btnClose.getOffsetHeight() - 2 * PADDING;
@@ -569,5 +573,10 @@ class Header extends FlowPanel {
 	public void expandWidth(double dx) {
 		// getElement().getStyle().setWidth(getOffsetWidth() + dx, Unit.PX);
 		getElement().getStyle().setWidth(dx, Unit.PX);
+	}
+
+	public void reset() {
+		updateUndoRedoPosition();
+		getElement().getStyle().setHeight(OPEN_HEIGHT, Unit.PX);
 	}
 }
