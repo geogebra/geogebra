@@ -46,12 +46,14 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	private static final int TAB_COUNT = 2;
 
-	// dock panel animation time in milliseconds.
-	// For timing, see $open-close-transition also in toolbar-styles.scss
 	private static final int OPEN_ANIM_TIME = 200;
 
-	private static final int CLOSED_WIDTH_LANDSCAPE = 56;
-	private static final int CLOSED_HEIGHT_PORTRAIT = 56;
+	/** Closed width of header in landscape mode */
+	public static final int CLOSED_WIDTH_LANDSCAPE = 56;
+
+	/** Closed height of header in portrait mode */
+	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
+
 	/** Application */
 	App app;
 
@@ -1020,5 +1022,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void onOrientationChange() {
 		header.onOrientationChange();
+
 	}
 }

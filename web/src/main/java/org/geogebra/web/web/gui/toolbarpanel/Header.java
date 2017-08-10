@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -11,12 +12,14 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
+import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -588,7 +591,23 @@ class Header extends FlowPanel {
 		Log.debug("ORIENTATION: "
 				+ (app.isPortrait() ? "portrait" : "landscape"));
 		if (app.isPortrait()) {
+			getElement().getStyle().clearHeight();
 			getElement().getStyle().clearWidth();
+			if (!isOpen()) {
+				int h = (int) (DockManagerW.DEFAULT_KEYBOARD_HEIGHT
+						+ toolbarPanel.getMinVHeight());
+				toolbarPanel.setLastOpenHeight(h);
+			}
+			updateStyle();
+		} else {
+			if (!isOpen()) {
+				int width = app.getArticleElement().getDataParamWidth();
+				if (app.getArticleElement().getDataParamFitToScreen()) {
+					width = Window.getClientWidth();
+				}
+				toolbarPanel.setLastOpenWidth((int) (width
+						* PerspectiveDecoder.landscapeRatio(width)));
+			}
 
 		}
 	}

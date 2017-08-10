@@ -48,7 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DockManagerW extends DockManager {
 	private static final int MIN_TOOLBAR_WIDTH = 382;
-	private static final int DEFAULT_KEYBOARD_HEIGHT = 228;
+	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
 	AppW app;
 	private LayoutW layout;
 	
@@ -1879,16 +1879,23 @@ public class DockManagerW extends DockManager {
 		ToolbarPanel toolbar = null;
 		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
-			avHeight = kbHeight + toolbar.getMinVHeight();
+			avHeight = toolbar.isOpen() ? kbHeight + toolbar.getMinVHeight()
+					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 		}else{
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
 		double portraitDivider = (avHeight) / (appHeight);
 
 		Log.debug("landscape: portraitDivider " + portraitDivider);
-
-		setDividerLocation(split,
-				app.isPortrait() ? 1 - portraitDivider : landscapeRatio);
+		if (app.isPortrait()) {
+			setDividerLocation(split, 1 - portraitDivider);
+		} else {
+			double ratio = landscapeRatio;
+			if (toolbar != null && !toolbar.isOpen()) {
+				ratio = ToolbarPanel.CLOSED_WIDTH_LANDSCAPE / app.getWidth();
+			}
+			setDividerLocation(split, ratio);
+		}
 
 		split.clear();
 
