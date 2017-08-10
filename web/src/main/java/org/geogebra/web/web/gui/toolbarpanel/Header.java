@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
@@ -578,5 +579,17 @@ class Header extends FlowPanel {
 	public void reset() {
 		updateUndoRedoPosition();
 		getElement().getStyle().setHeight(OPEN_HEIGHT, Unit.PX);
+	}
+
+	/**
+	 * Called when app changes orientation.
+	 */
+	public void onOrientationChange() {
+		Log.debug("ORIENTATION: "
+				+ (app.isPortrait() ? "portrait" : "landscape"));
+		if (app.isPortrait()) {
+			getElement().getStyle().clearWidth();
+
+		}
 	}
 }

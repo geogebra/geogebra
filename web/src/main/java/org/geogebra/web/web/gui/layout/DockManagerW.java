@@ -1883,7 +1883,6 @@ public class DockManagerW extends DockManager {
 		}else{
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
-
 		double portraitDivider = (avHeight) / (appHeight);
 
 		Log.debug("landscape: portraitDivider " + portraitDivider);
@@ -1903,7 +1902,9 @@ public class DockManagerW extends DockManager {
 			split.setRightComponent(opposite);
 		}
 
-
+		if (toolbar != null) {
+			toolbar.onOrientationChange();
+		}
 	}
 
 	private void calculateKeyboardHeight() {
