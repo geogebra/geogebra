@@ -5988,11 +5988,15 @@ public class ExpressionNode extends ValidExpression
 	private String toFractionStringFlat(StringTemplate tpl) {
 		if (operation == Operation.MULTIPLY && right instanceof MyDouble
 				&& MyDouble.exactEqual(right.evaluateDouble(), Math.PI)) {
-			return tpl.multiplyString(left, right, left.toValueString(tpl),
+			return tpl.multiplyString(left, right,
+					kernel.format(Math.round(left.evaluateDouble()), tpl),
 					right.toValueString(tpl), true, loc);
 		}
 		if (operation == Operation.DIVIDE) {
-			return tpl.divideString(left, right, left.toValueString(tpl),
+			String leftS = left.isExpressionNode()
+					? left.wrap().toFractionStringFlat(tpl)
+					: left.toValueString(tpl);
+			return tpl.divideString(left, right, leftS,
 					right.toValueString(tpl), true);
 		}
 
