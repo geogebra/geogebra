@@ -35,6 +35,8 @@ import com.himamis.retex.editor.share.util.KeyCodes;
  */
 public abstract class GlobalKeyDispatcher {
 
+	private static final double AUTOSTEPS_PER_KEY = 5;
+
 	public GlobalKeyDispatcher(App app2) {
 		this.app = app2;
 		this.selection = app.getSelectionManager();
@@ -345,432 +347,438 @@ public abstract class GlobalKeyDispatcher {
 		// Ctrl key down (and not Alt, so that AltGr works for special
 		// characters)
 		if (isControlDown && !isAltDown) {
+			consumed = consumed || handleCtrlKey(key, isShiftDown,
+					fromSpreadsheet, fromEuclidianView);
 
-			switch (key) {
-			case K1:
-			case NUMPAD1:
-				// event.isShiftDown() doesn't work if NumLock on
-				// however .isAltDown() stops AltGr-1 from working (| on some
-				// keyboards)
-				if (isShiftDown && app.getGuiManager() != null) {// ||
-																	// event.isAltDown())
-																	// {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
-							App.VIEW_EUCLIDIAN);
-					consumed = true;
-
-				} else if (!isAltDown) { // make sure not triggered on
-					// AltGr
-					// Ctrl-1: set objects back to the default size (for font
-					// size 12)
-					changeFontsAndGeoElements(app, 12, false, false);
-					consumed = true;
-				}
-				break;
-
-			case NUMPAD2:
-			case K2:
-				// event.isShiftDown() doesn't work if NumLock on
-				// however .isAltDown() stops AltGr-2 from working (superscript
-				// 2 on some keyboards)
-				if (isShiftDown && app.getGuiManager() != null) {// ||
-																	// event.isAltDown())
-																	// {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
-							App.VIEW_EUCLIDIAN2);
-					consumed = true;
-
-				} else if (!isAltDown) { // make sure not triggered on
-					// AltGr
-					// Ctrl-2: large font size and thicker lines for projectors
-					// etc
-					int fontSize = Math.min(32, app.getFontSize() + 4);
-					changeFontsAndGeoElements(app, fontSize, false, true);
-					consumed = true;
-				}
-				break;
-
-			case NUMPAD3:
-			case K3:
-				// event.isShiftDown() doesn't work if NumLock on
-				// however .isAltDown() stops AltGr-3 from working (^ on
-				// Croatian keyboard)
-				if (isShiftDown && app.getGuiManager() != null
-						&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
-																		// event.isAltDown())
-																		// {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D),
-							App.VIEW_EUCLIDIAN3D);
-					consumed = true;
-
-				} else if (!isAltDown) { // make sure not triggered on
-					// AltGr
-					// Ctrl-3: set black/white mode printing and visually
-					// impaired users
-					changeFontsAndGeoElements(app, app.getFontSize(), true,
-							true);
-					consumed = true;
-				}
-				break;
-
-			case A:
-				if (isShiftDown) {
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(App.VIEW_ALGEBRA),
-								App.VIEW_ALGEBRA);
-						consumed = true;
-					}
-				} else {
-					selection.selectAll(-1);
-					consumed = true;
-				}
-				break;
-
-			case K:
-				if (isShiftDown) {
-					if (app.isUsingFullGui() && app.getGuiManager() != null
-							&& app.supportsView(App.VIEW_CAS)) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(App.VIEW_CAS),
-								App.VIEW_CAS);
-						consumed = true;
-					}
-				}
-				break;
-
-			case L:
-				if (isShiftDown) {
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(
-										App.VIEW_CONSTRUCTION_PROTOCOL),
-								App.VIEW_CONSTRUCTION_PROTOCOL);
-						consumed = true;
-					}
-				} else {
-					selection.selectAll(selection.getSelectedLayer());
-					consumed = true;
-				}
-				break;
-
-			case O: // File -> Open
-				if (!isShiftDown && app.getGuiManager() != null) {
-					app.getGuiManager().openFile();
-					consumed = true;
-				}
-				break;
-			case P:
-
-				if (isShiftDown) {
-					// toggle Probability View
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(
-										App.VIEW_PROBABILITY_CALCULATOR),
-								App.VIEW_PROBABILITY_CALCULATOR);
-					}
-				} else {
-					showPrintPreview(app);
-				}
-				consumed = true;
-
-				break;
-			case T: // File -> Export -> PSTricks
-				if (isShiftDown && app.getGuiManager() != null) {
-					app.getGuiManager().showPSTricksExport();
-					consumed = true;
-				}
-				break;
-			case W: // File -> Export -> Webpage
-				if (isShiftDown && app.getGuiManager() != null) {
-					app.getGuiManager().showWebpageExport();
-					consumed = true;
-				} else {
-					// File -> Close (under Mac: Command-W)
-					app.exitAll();
-					// Under Ubuntu/Unity this will close all windows.
-					consumed = true;
-				}
-				break;
-			case F4: // File -> Exit
-				if (!isShiftDown) {
-					app.exitAll();
-					consumed = true;
-				}
-				break;
-
-			case I: // Edit -> Invert Selection
-				if (!isShiftDown) {
-					selection.invertSelection();
-					consumed = true;
-				}
-				break;
-			case X:
-				// Ctrl-shift-c: copy graphics view to clipboard
-				// should also work in applets with no menubar
-				
-					// check not spreadsheet
-				if (!fromSpreadsheet) {
-					handleCopyCut(true);
-				}
-
-				
-				break;
-			case C:
-				// Ctrl-shift-c: copy graphics view to clipboard
-				// should also work in applets with no menubar
-				if (isShiftDown) {
-					app.copyGraphicsViewToClipboard();
-					consumed = true;
-				} else {
-					// check not spreadsheet
-					if (!fromSpreadsheet) {
-						handleCopyCut(false);
-					}
-
-				}
-				break;
-			case M:
-				if (isShiftDown) {
-					app.copyFullHTML5ExportToClipboard();
-				} else {
-					// Ctrl-M: standard view
-					app.setStandardView();
-				}
-				break;
-
-			case B:
-				// copy base64 string to clipboard
-				if (isShiftDown) {
-					app.copyBase64ToClipboard();
-				}
-				break;
-
-			// Ctrl + H / G: Show Hide objects (labels)
-			case G:
-			case H:
-				if (isShiftDown) {
-					selection.showHideSelectionLabels();
-				} else {
-					selection.showHideSelection();
-				}
-				consumed = true;
-				break;
-
-			// Ctrl + E: open object properties (needed here for spreadsheet)
-			case E:
-				if (app.isUsingFullGui() && app.getGuiManager() != null) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_PROPERTIES),
-							App.VIEW_PROPERTIES, false);
-				}
-				consumed = true;
-				break;
-
-			// Ctrl + F: refresh views
-			case F:
-				app.refreshViews();
-				consumed = true;
-				break;
-
-			/*
-			 * send next instance to front (alt - last)
-			 */
-			case N:
-				if (isShiftDown) {
-					handleCtrlShiftN(isAltDown);
-				} else if (newWindowAllowed) {
-					app.setWaitCursor();
-					createNewWindow();
-					app.setDefaultCursor();
-					newWindowAllowed = false;
-				}
-				break;
-
-			// needed for detached views and MacOS
-			// Ctrl + Z: Undo
-			case Z:
-				if (app.getGuiManager() != null) {
-					if (isShiftDown) {
-						app.getGuiManager().redo();
-					} else {
-						app.getGuiManager().undo();
-					}
-				}
-				consumed = true;
-				break;
-
-			case U:
-				if (isShiftDown && app.getGuiManager() != null) {
-					app.getGuiManager().showGraphicExport();
-					consumed = true;
-				}
-				break;
-
-			case V:
-				// check not spreadsheet, not inputbar
-				if (!(fromSpreadsheet)) {
-					handleCtrlV();
-				}
-				break;
-
-			// ctrl-R updates construction
-			// make sure it works in applets without a menubar
-			case R:
-				if (!app.isApplet() || app.isRightClickEnabled()) {
-					app.getKernel().updateConstruction();
-					app.setUnsaved();
-					consumed = true;
-				}
-				break;
-
-			// ctrl-shift-s (toggle spreadsheet)
-			case S:
-				if (isShiftDown) {
-					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager()
-										.showView(App.VIEW_SPREADSHEET),
-								App.VIEW_SPREADSHEET);
-						consumed = true;
-					}
-				} else if (app.getGuiManager() != null) {
-					app.getGuiManager().save();
-					consumed = true;
-				}
-				break;
-
-			case Y:
-				if (isShiftDown) {
-					// if (app.isUsingFullGui() && app.getGuiManager() != null)
-					// {
-					// app.getGuiManager().setShowView(
-					// !app.getGuiManager().showView(
-					// App.VIEW_PYTHON),
-					// App.VIEW_PYTHON);
-					// consumed = true;
-					// }
-				} else if (app.getGuiManager() != null) {
-					// needed for detached views and MacOS
-					// Cmd + Y: Redo
-
-					app.getGuiManager().redo();
-					consumed = true;
-				}
-				break;
-
-			// Ctrl-(shift)-Q (deprecated - doesn't work on MacOS)
-			// Ctrl-(shift)-J
-			case J:
-			case Q:
-				if (isShiftDown) {
-					selection.selectAllDescendants();
-				} else {
-					selection.selectAllPredecessors();
-				}
-				consumed = true;
-				break;
-
-			// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
-			case PLUS:
-			case ADD:
-			case SUBTRACT:
-			case MINUS:
-			case EQUALS:
-
-				// in Chrome and IE11, both the applet and the
-				// browser are zoomed
-				// even when the applet has focus
-				if (app.isHTML5Applet()) {
-					break;
-				}
-
-				// disable zooming in PEN mode
-				if (!EuclidianView
-						.isPenMode(app.getActiveEuclidianView().getMode())) {
-
-					boolean spanish = app.getLocalization().getLanguage()
-							.startsWith("es");
-
-					// AltGr+ on Spanish keyboard is ] so
-					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
-					// from eg Input Bar
-					if (!spanish || (fromEuclidianView)) {
-						(app.getActiveEuclidianView()).getEuclidianController()
-								.zoomInOut(isAltDown, key.equals(KeyCodes.MINUS)
-										|| key.equals(KeyCodes.SUBTRACT), null);
-						app.setUnsaved();
-						consumed = true;
-					}
-				}
-				break;
-
-			// Ctrl + D: toggles algebra style: value, definition, command
-			case D:
-			case BACK_QUOTE:
-				if (!isShiftDown) {
-					Kernel kernel = app.getKernel();
-					kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
-					kernel.setAlgebraStyleSpreadsheet(
-							(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
-
-					kernel.updateConstruction();
-					/*
-					 * if (app.hasOptionsMenu()) {
-					 * app.getOptionsMenu(null).updateMenuViewDescription(); }
-					 */
-					app.setUnsaved();
-					consumed = true;
-				} else {
-
-					// Ctrl-Shift-D
-					// toggle "selection allowed" for all objects
-					// except visible sliders, unfixed points, buttons,
-					// checkboxes, InputBoxes, drop-down lists
-
-					// what to set all objects to
-					boolean selectionAllowed = false;
-
-					// check if any geos already have selectionAllowed = false
-					// if so then we will set all to be true
-					TreeSet<GeoElement> objects = app.getKernel()
-							.getConstruction().getGeoSetConstructionOrder();
-					Iterator<GeoElement> it = objects.iterator();
-					while (it.hasNext()) {
-						GeoElement geo = it.next();
-						if (!geo.isSelectionAllowed(
-								app.getActiveEuclidianView())) {
-							selectionAllowed = true;
-							break;
-						}
-					}
-
-					it = objects.iterator();
-					while (it.hasNext()) {
-						GeoElement geo = it.next();
-
-						if (geo instanceof Furniture
-								|| (geo.isGeoNumeric() && geo.isIndependent())
-								|| (geo.isGeoList()
-										&& ((GeoList) geo).drawAsComboBox())
-								|| geo.isGeoBoolean()
-								|| (geo.isGeoPoint() && !geo.isLocked())) {
-
-							geo.setSelectionAllowed(true);
-						} else {
-							geo.setSelectionAllowed(selectionAllowed);
-						}
-					}
-
-				}
-				break;
-			}
 		}
 
+		return consumed;
+	}
+
+	private boolean handleCtrlKey(KeyCodes key, boolean isShiftDown,
+			boolean fromSpreadsheet, boolean fromEuclidianView) {
+		boolean consumed = false;
+		switch (key) {
+		case K1:
+		case NUMPAD1:
+			// event.isShiftDown() doesn't work if NumLock on
+			// however .isAltDown() stops AltGr-1 from working (| on some
+			// keyboards)
+			if (isShiftDown && app.getGuiManager() != null) {// ||
+																// event.isAltDown())
+																// {
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
+						App.VIEW_EUCLIDIAN);
+				consumed = true;
+
+			} else { // make sure not triggered on
+				// AltGr
+				// Ctrl-1: set objects back to the default size (for font
+				// size 12)
+				changeFontsAndGeoElements(app, 12, false, false);
+				consumed = true;
+			}
+			break;
+
+		case NUMPAD2:
+		case K2:
+			// event.isShiftDown() doesn't work if NumLock on
+			// however .isAltDown() stops AltGr-2 from working (superscript
+			// 2 on some keyboards)
+			if (isShiftDown && app.getGuiManager() != null) {// ||
+																// event.isAltDown())
+																// {
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
+						App.VIEW_EUCLIDIAN2);
+				consumed = true;
+
+			} else { // make sure not triggered on
+				// AltGr
+				// Ctrl-2: large font size and thicker lines for projectors
+				// etc
+				int fontSize = Math.min(32, app.getFontSize() + 4);
+				changeFontsAndGeoElements(app, fontSize, false, true);
+				consumed = true;
+			}
+			break;
+
+		case NUMPAD3:
+		case K3:
+			// event.isShiftDown() doesn't work if NumLock on
+			// however .isAltDown() stops AltGr-3 from working (^ on
+			// Croatian keyboard)
+			if (isShiftDown && app.getGuiManager() != null
+					&& app.supportsView(App.VIEW_EUCLIDIAN3D)) { // ||
+																	// event.isAltDown())
+																	// {
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(App.VIEW_EUCLIDIAN3D),
+						App.VIEW_EUCLIDIAN3D);
+				consumed = true;
+
+			} else { // make sure not triggered on
+				// AltGr
+				// Ctrl-3: set black/white mode printing and visually
+				// impaired users
+				changeFontsAndGeoElements(app, app.getFontSize(), true, true);
+				consumed = true;
+			}
+			break;
+
+		case A:
+			if (isShiftDown) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_ALGEBRA),
+							App.VIEW_ALGEBRA);
+					consumed = true;
+				}
+			} else {
+				selection.selectAll(-1);
+				consumed = true;
+			}
+			break;
+
+		case K:
+			if (isShiftDown) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null
+						&& app.supportsView(App.VIEW_CAS)) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_CAS),
+							App.VIEW_CAS);
+					consumed = true;
+				}
+			}
+			break;
+
+		case L:
+			if (isShiftDown) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager()
+									.showView(App.VIEW_CONSTRUCTION_PROTOCOL),
+							App.VIEW_CONSTRUCTION_PROTOCOL);
+					consumed = true;
+				}
+			} else {
+				selection.selectAll(selection.getSelectedLayer());
+				consumed = true;
+			}
+			break;
+
+		case O: // File -> Open
+			if (!isShiftDown && app.getGuiManager() != null) {
+				app.getGuiManager().openFile();
+				consumed = true;
+			}
+			break;
+		case P:
+
+			if (isShiftDown) {
+				// toggle Probability View
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager()
+									.showView(App.VIEW_PROBABILITY_CALCULATOR),
+							App.VIEW_PROBABILITY_CALCULATOR);
+				}
+			} else {
+				showPrintPreview(app);
+			}
+			consumed = true;
+
+			break;
+		case T: // File -> Export -> PSTricks
+			if (isShiftDown && app.getGuiManager() != null) {
+				app.getGuiManager().showPSTricksExport();
+				consumed = true;
+			}
+			break;
+		case W: // File -> Export -> Webpage
+			if (isShiftDown && app.getGuiManager() != null) {
+				app.getGuiManager().showWebpageExport();
+				consumed = true;
+			} else {
+				// File -> Close (under Mac: Command-W)
+				app.exitAll();
+				// Under Ubuntu/Unity this will close all windows.
+				consumed = true;
+			}
+			break;
+		case F4: // File -> Exit
+			if (!isShiftDown) {
+				app.exitAll();
+				consumed = true;
+			}
+			break;
+
+		case I: // Edit -> Invert Selection
+			if (!isShiftDown) {
+				selection.invertSelection();
+				consumed = true;
+			}
+			break;
+		case X:
+			// Ctrl-shift-c: copy graphics view to clipboard
+			// should also work in applets with no menubar
+
+			// check not spreadsheet
+			if (!fromSpreadsheet) {
+				handleCopyCut(true);
+			}
+
+			break;
+		case C:
+			// Ctrl-shift-c: copy graphics view to clipboard
+			// should also work in applets with no menubar
+			if (isShiftDown) {
+				app.copyGraphicsViewToClipboard();
+				consumed = true;
+			} else {
+				// check not spreadsheet
+				if (!fromSpreadsheet) {
+					handleCopyCut(false);
+				}
+
+			}
+			break;
+		case M:
+			if (isShiftDown) {
+				app.copyFullHTML5ExportToClipboard();
+			} else {
+				// Ctrl-M: standard view
+				app.setStandardView();
+			}
+			break;
+
+		case B:
+			// copy base64 string to clipboard
+			if (isShiftDown) {
+				app.copyBase64ToClipboard();
+			}
+			break;
+
+		// Ctrl + H / G: Show Hide objects (labels)
+		case G:
+		case H:
+			if (isShiftDown) {
+				selection.showHideSelectionLabels();
+			} else {
+				selection.showHideSelection();
+			}
+			consumed = true;
+			break;
+
+		// Ctrl + E: open object properties (needed here for spreadsheet)
+		case E:
+			if (app.isUsingFullGui() && app.getGuiManager() != null) {
+				app.getGuiManager().setShowView(
+						!app.getGuiManager().showView(App.VIEW_PROPERTIES),
+						App.VIEW_PROPERTIES, false);
+			}
+			consumed = true;
+			break;
+
+		// Ctrl + F: refresh views
+		case F:
+			app.refreshViews();
+			consumed = true;
+			break;
+
+		/*
+		 * send next instance to front (alt - last)
+		 */
+		case N:
+			if (isShiftDown) {
+				handleCtrlShiftN(false);
+			} else if (newWindowAllowed) {
+				app.setWaitCursor();
+				createNewWindow();
+				app.setDefaultCursor();
+				newWindowAllowed = false;
+			}
+			break;
+
+		// needed for detached views and MacOS
+		// Ctrl + Z: Undo
+		case Z:
+			if (app.getGuiManager() != null) {
+				if (isShiftDown) {
+					app.getGuiManager().redo();
+				} else {
+					app.getGuiManager().undo();
+				}
+			}
+			consumed = true;
+			break;
+
+		case U:
+			if (isShiftDown && app.getGuiManager() != null) {
+				app.getGuiManager().showGraphicExport();
+				consumed = true;
+			}
+			break;
+
+		case V:
+			// check not spreadsheet, not inputbar
+			if (!(fromSpreadsheet)) {
+				handleCtrlV();
+			}
+			break;
+
+		// ctrl-R updates construction
+		// make sure it works in applets without a menubar
+		case R:
+			if (!app.isApplet() || app.isRightClickEnabled()) {
+				app.getKernel().updateConstruction();
+				app.setUnsaved();
+				consumed = true;
+			}
+			break;
+
+		// ctrl-shift-s (toggle spreadsheet)
+		case S:
+			if (isShiftDown) {
+				if (app.isUsingFullGui() && app.getGuiManager() != null) {
+					app.getGuiManager().setShowView(
+							!app.getGuiManager().showView(App.VIEW_SPREADSHEET),
+							App.VIEW_SPREADSHEET);
+					consumed = true;
+				}
+			} else if (app.getGuiManager() != null) {
+				app.getGuiManager().save();
+				consumed = true;
+			}
+			break;
+
+		case Y:
+			if (isShiftDown) {
+				// if (app.isUsingFullGui() && app.getGuiManager() != null)
+				// {
+				// app.getGuiManager().setShowView(
+				// !app.getGuiManager().showView(
+				// App.VIEW_PYTHON),
+				// App.VIEW_PYTHON);
+				// consumed = true;
+				// }
+			} else if (app.getGuiManager() != null) {
+				// needed for detached views and MacOS
+				// Cmd + Y: Redo
+
+				app.getGuiManager().redo();
+				consumed = true;
+			}
+			break;
+
+		// Ctrl-(shift)-Q (deprecated - doesn't work on MacOS)
+		// Ctrl-(shift)-J
+		case J:
+		case Q:
+			if (isShiftDown) {
+				selection.selectAllDescendants();
+			} else {
+				selection.selectAllPredecessors();
+			}
+			consumed = true;
+			break;
+
+		// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
+		case PLUS:
+		case ADD:
+		case SUBTRACT:
+		case MINUS:
+		case EQUALS:
+
+			// in Chrome and IE11, both the applet and the
+			// browser are zoomed
+			// even when the applet has focus
+			if (app.isHTML5Applet()) {
+				break;
+			}
+
+			// disable zooming in PEN mode
+			if (!EuclidianView
+					.isPenMode(app.getActiveEuclidianView().getMode())) {
+
+				boolean spanish = app.getLocalization().getLanguage()
+						.startsWith("es");
+
+				// AltGr+ on Spanish keyboard is ] so
+				// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
+				// from eg Input Bar
+				if (!spanish || (fromEuclidianView)) {
+					(app.getActiveEuclidianView()).getEuclidianController()
+							.zoomInOut(false,
+									key.equals(KeyCodes.MINUS)
+											|| key.equals(KeyCodes.SUBTRACT),
+									null);
+					app.setUnsaved();
+					consumed = true;
+				}
+			}
+			break;
+
+		// Ctrl + D: toggles algebra style: value, definition, command
+		case D:
+		case BACK_QUOTE:
+			if (!isShiftDown) {
+				Kernel kernel = app.getKernel();
+				kernel.setAlgebraStyle((kernel.getAlgebraStyle() + 1) % 3);
+				kernel.setAlgebraStyleSpreadsheet(
+						(kernel.getAlgebraStyleSpreadsheet() + 1) % 3);
+
+				kernel.updateConstruction();
+				/*
+				 * if (app.hasOptionsMenu()) {
+				 * app.getOptionsMenu(null).updateMenuViewDescription(); }
+				 */
+				app.setUnsaved();
+				consumed = true;
+			} else {
+
+				// Ctrl-Shift-D
+				// toggle "selection allowed" for all objects
+				// except visible sliders, unfixed points, buttons,
+				// checkboxes, InputBoxes, drop-down lists
+
+				// what to set all objects to
+				boolean selectionAllowed = false;
+
+				// check if any geos already have selectionAllowed = false
+				// if so then we will set all to be true
+				TreeSet<GeoElement> objects = app.getKernel().getConstruction()
+						.getGeoSetConstructionOrder();
+				Iterator<GeoElement> it = objects.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+					if (!geo.isSelectionAllowed(app.getActiveEuclidianView())) {
+						selectionAllowed = true;
+						break;
+					}
+				}
+
+				it = objects.iterator();
+				while (it.hasNext()) {
+					GeoElement geo = it.next();
+
+					if (geo instanceof Furniture
+							|| (geo.isGeoNumeric() && geo.isIndependent())
+							|| (geo.isGeoList()
+									&& ((GeoList) geo).drawAsComboBox())
+							|| geo.isGeoBoolean()
+							|| (geo.isGeoPoint() && !geo.isLocked())) {
+
+						geo.setSelectionAllowed(true);
+					} else {
+						geo.setSelectionAllowed(selectionAllowed);
+					}
+				}
+
+			}
+			break;
+		}
 		return consumed;
 	}
 
@@ -1391,19 +1399,20 @@ public abstract class GlobalKeyDispatcher {
 							&& (!twoSliders || ((vertical && i == 0)
 									|| (!vertical && i == 1)))) {
 						GeoNumeric num = (GeoNumeric) geo;
+						double numStep = getAnimationStep(num);
 						double newValue = num.getValue()
-								+ changeVal * num.getAnimationStep();
-						if (num.getAnimationStep() > Kernel.MIN_PRECISION) {
+								+ changeVal * numStep;
+						if (numStep > Kernel.MIN_PRECISION) {
 							// round to decimal fraction, e.g. 2.800000000001 to
 							// 2.8
 							if (num.isGeoAngle()) {
 								newValue = Kernel.PI_180
 										* Kernel.checkDecimalFraction(
 												newValue * Kernel.CONST_180_PI,
-												1 / num.getAnimationStep());
+												1 / numStep);
 							} else {
 								newValue = Kernel.checkDecimalFraction(newValue,
-										1 / num.getAnimationStep());
+										1 / numStep);
 							}
 						}
 						num.setValue(newValue);
@@ -1443,6 +1452,12 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		return false;
+	}
+
+	private double getAnimationStep(GeoNumeric num) {
+		Log.debug(num.getAnimationStep());
+		return num.isAutoStep() ? num.getAnimationStep() * AUTOSTEPS_PER_KEY
+				: num.getAnimationStep();
 	}
 
 	/**

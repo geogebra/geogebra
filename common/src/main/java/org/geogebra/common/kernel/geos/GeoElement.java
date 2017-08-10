@@ -4863,6 +4863,11 @@ public abstract class GeoElement extends ConstructionElement
 		builder.append(text);
 	}
 
+	/**
+	 * @param desc
+	 *            value string
+	 * @return value string prepended with label = ,label(x) = or label :
+	 */
 	final public String addLabelText(final String desc) {
 		String ret;
 
@@ -6054,11 +6059,13 @@ public abstract class GeoElement extends ConstructionElement
 		// animation step width
 		if (isPointerChangeable()) {
 			sb.append("\t<animation");
-			final String animStep = animationIncrement == null ? "1"
-					: getAnimationStepObject().getLabel(tpl);
-			sb.append(" step=\"");
-			StringUtil.encodeXML(sb, animStep);
-			sb.append("\"");
+			if (isGeoNumeric() && !((GeoNumeric) this).isAutoStep()) {
+				final String animStep = animationIncrement == null ? "1"
+						: getAnimationStepObject().getLabel(tpl);
+				sb.append(" step=\"");
+				StringUtil.encodeXML(sb, animStep);
+				sb.append("\"");
+			}
 			final String animSpeed = animationSpeedObj == null ? "1"
 					: getAnimationSpeedObject().getLabel(tpl);
 			sb.append(" speed=\"");

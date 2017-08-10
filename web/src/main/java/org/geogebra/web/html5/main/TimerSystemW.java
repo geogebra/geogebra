@@ -12,7 +12,7 @@ public class TimerSystemW {
 	/**
 	 * loops to wait before performing a repaint
 	 */
-	final public static int EUCLIDIAN_LOOPS = 1;
+	final public static int EUCLIDIAN_LOOPS = 0; // no wait, repaint every loop
 
 	final public static int ALGEBRA_LOOPS = 5;
 

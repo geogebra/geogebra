@@ -73,8 +73,9 @@ public class GeoNumeric extends GeoElement
 	public static final int DEFAULT_THICKNESS = 2;
 	/** sliders */
 	public static final int DEFAULT_SLIDER_THICKNESS = 10;
-
-	private static final double AUTO_STEP_MUL = 0.0025;
+	// on 10 range and 10 speed this should yield 0.1 increment
+	// (nextPrettyNumber(0.09)=0.1)
+	private static final double AUTO_STEP_MUL = 0.0009;
 	private static final double AUTO_STEP_MUL_ANGLE = 0.0025;
 	/** placeholder for autostep */
 	public static final double AUTO_STEP = Double.NaN;
