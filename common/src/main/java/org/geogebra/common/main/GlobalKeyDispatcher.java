@@ -37,6 +37,10 @@ public abstract class GlobalKeyDispatcher {
 
 	private static final double AUTOSTEPS_PER_KEY = 5;
 
+	/**
+	 * @param app2
+	 *            app
+	 */
 	public GlobalKeyDispatcher(App app2) {
 		this.app = app2;
 		this.selection = app.getSelectionManager();
@@ -45,8 +49,8 @@ public abstract class GlobalKeyDispatcher {
 	/**
 	 * Handle Fx keys for input bar when geo is selected
 	 * 
-	 * @param i
-	 *            x when Fx is pressed
+	 * @param fkey
+	 *            eg 3 for F3 key
 	 * @param geo
 	 *            selected geo
 	 */
@@ -77,6 +81,7 @@ public abstract class GlobalKeyDispatcher {
 
 	/** application */
 	protected final App app;
+	/** selection */
 	protected final SelectionManager selection;
 
 	private TreeSet<AlgoElement> tempSet;
@@ -92,8 +97,14 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private Coords tempVec;
-	private boolean newWindowAllowed = true;
 
+	/**
+	 * Open rename dialog when first letter is typed
+	 * 
+	 * @param ch
+	 *            letter typed
+	 * @return whether we show the dialog
+	 */
 	protected boolean renameStarted(char ch) {
 		GeoElement geo;
 		if (selection.selectedGeosSize() == 1) {
@@ -129,7 +140,6 @@ public abstract class GlobalKeyDispatcher {
 
 	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
 			boolean down, boolean canOpenDropDown) {
-		Log.debug("[KEYS] handleUpDownArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (dl == null || !((GeoList) geos.get(0)).drawAsComboBox()) {
@@ -147,7 +157,6 @@ public abstract class GlobalKeyDispatcher {
 
 	private boolean handleLeftRightArrowsForDropdown(ArrayList<GeoElement> geos,
 			boolean left, boolean canOpenDropDown) {
-		Log.debug("[KEYS] handleLeftRightArrowsForDropdown");
 		if (geos.size() == 1 && geos.get(0).isGeoList()) {
 			DrawDropDownList dl = DrawDropDownList.asDrawable(app, geos.get(0));
 			if (canOpenDropDown && !dl.isOptionsVisible()) {
@@ -236,10 +245,6 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		return moved;
-	}
-
-	public void setNewWindowAllowed(boolean rel) {
-		newWindowAllowed = rel;
 	}
 
 	/**
@@ -593,11 +598,8 @@ public abstract class GlobalKeyDispatcher {
 		case N:
 			if (isShiftDown) {
 				handleCtrlShiftN(false);
-			} else if (newWindowAllowed) {
-				app.setWaitCursor();
+			} else {
 				createNewWindow();
-				app.setDefaultCursor();
-				newWindowAllowed = false;
 			}
 			break;
 
@@ -1454,8 +1456,7 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
-	private double getAnimationStep(GeoNumeric num) {
-		Log.debug(num.getAnimationStep());
+	private static double getAnimationStep(GeoNumeric num) {
 		return num.isAutoStep() ? num.getAnimationStep() * AUTOSTEPS_PER_KEY
 				: num.getAnimationStep();
 	}

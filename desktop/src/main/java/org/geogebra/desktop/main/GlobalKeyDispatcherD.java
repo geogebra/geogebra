@@ -39,6 +39,8 @@ import com.himamis.retex.editor.share.util.KeyCodes;
 public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		implements KeyEventDispatcher {
 
+	private boolean newWindowAllowed = true;
+
 	/**
 	 * @param app
 	 *            application
@@ -77,7 +79,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			break;
 
 		case KeyEvent.KEY_RELEASED:
-			setNewWindowAllowed(true);
+			newWindowAllowed = true;
 			break;
 		}
 
@@ -244,6 +246,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		}
 	}
 
+	/**
+	 * Handle pasted OOML (MS Office equation)
+	 */
 	protected void tryPasteEquation() {
 		String html = ((GuiManagerD) app.getGuiManager())
 				.getStringFromClipboard();
@@ -367,17 +372,24 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 		textComponent.setText(sb.toString());
 	}
 
-	@Override
-	protected void createNewWindow() {
-		// no wait cursor needed here, that's taken care of before we call this
-		if (app instanceof AppD) {
-			((AppD) app).createNewWindow();
-		}
-	}
+
 
 	@Override
 	protected void showPrintPreview(App app2) {
 		GeoGebraMenuBar.showPrintPreview((AppD) app);
+	}
+
+	@Override
+	protected void createNewWindow() {
+		if (newWindowAllowed) {
+			app.setWaitCursor();
+			if (app instanceof AppD) {
+				((AppD) app).createNewWindow();
+			}
+			app.setDefaultCursor();
+			newWindowAllowed = false;
+		}
+
 	}
 
 }
