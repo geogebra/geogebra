@@ -39,6 +39,7 @@ public class TextTreeItem extends RadioTreeItem {
 		text.getDescriptionForAV(
 				getBuilder(getPlainTextItem()));
 		content.add(getPlainTextItem());
+		getPlainTextItem().getElement().addClassName("textWrap");
 	}
 	
 	/**

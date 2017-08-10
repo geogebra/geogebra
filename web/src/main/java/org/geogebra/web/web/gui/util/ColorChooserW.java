@@ -123,7 +123,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			setHeight(row * colorIconSize.getHeight() + padding);
 
 			checkMark = ImageElement.as(new Image(AppResources.INSTANCE.color_chooser_check().getSafeUri()).getElement());
-			final int checkSize = 16;
+			final int checkSize = 12;
 			checkX = (colorIconSize.getWidth() - checkSize) / 2 + padding;
 			checkY = (colorIconSize.getHeight() - checkSize) / 2 + padding;
 			checkNeeded = false;
