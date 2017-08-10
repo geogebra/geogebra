@@ -4301,6 +4301,9 @@ public abstract class App implements UpdateSelection {
 		case INITIAL_PORTRAIT:
 			return isUnbundled() && prerelease;
 
+		case DIALOG_DESIGN:
+			return isUnbundled() && prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
