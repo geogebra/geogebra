@@ -2,7 +2,14 @@
 
 .GeoGebraFrame {
 	
+	div[data-title]:after {
+		opacity: 0;
+		content: "";
+	}
+	
 	div[data-title]:hover:after { 
+		opacity: 1;
+		transition: opacity 0s linear 1s;
 		content: attr(data-title);
 		font-size: 10px;
 		white-space: nowrap; 
