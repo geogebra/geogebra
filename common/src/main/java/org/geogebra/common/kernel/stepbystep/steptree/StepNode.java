@@ -94,6 +94,11 @@ public abstract class StepNode {
 			if (((ExpressionNode) ev).getOperation() == Operation.MINUS) {
 				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
 			}
+			if (((ExpressionNode) ev).getOperation() == Operation.MULTIPLY) {
+				if (((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
+					return minus(convertExpression(((ExpressionNode) ev).getRight()));
+				}
+			}
 			StepOperation so = new StepOperation(((ExpressionNode) ev).getOperation());
 			so.addSubTree(convertExpression(((ExpressionNode) ev).getLeft()));
 			so.addSubTree(convertExpression(((ExpressionNode) ev).getRight()));
@@ -110,8 +115,8 @@ public abstract class StepNode {
 
 	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
-		StepNode p = toConvert.deepCopy().expand();
-		
+		StepNode p = toConvert.deepCopy().simplify();
+
 		StepNode temp = StepHelper.findConstant(p);
 
 		poli.add(temp);
@@ -121,6 +126,7 @@ public abstract class StepNode {
 		while (!p.isConstant()) {
 			temp = StepHelper.findCoefficient(p, (pow == 1 ? var : StepNode.power(var, pow)));
 			poli.add(temp);
+
 			if (temp != null) {
 				p = StepNode.subtract(p, StepNode.multiply(temp, (pow == 1 ? var : StepNode.power(var, pow)))).regroup();
 			}

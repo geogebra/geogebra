@@ -14,6 +14,41 @@ import org.geogebra.common.plugin.Operation;
 
 public class StepHelper {
 
+	public static StepNode getCommon(StepNode a, StepNode b) {
+		if (a.isOperation(Operation.PLUS)) {
+			StepOperation op = new StepOperation(Operation.PLUS);
+			for (int i = 0; i < ((StepOperation) a).noOfOperands(); i++) {
+				if (containsExactExpression(b, ((StepOperation) a).getSubTree(i))) {
+					op.addSubTree(((StepOperation) a).getSubTree(i));
+				}
+			}
+			if (op.noOfOperands() == 1) {
+				return op.getSubTree(0);
+			} else if (op.noOfOperands() > 1) {
+				return op;
+			}
+		} else if (containsExactExpression(b, a)) {
+			return a;
+		}
+
+		return null;
+	}
+
+	public static boolean containsExactExpression(StepNode sn, StepNode expr) {
+		if (sn != null && sn.equals(expr)) {
+			return true;
+		}
+		if (sn != null && sn.isOperation(Operation.PLUS)) {
+			StepOperation so = (StepOperation) sn;
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				if (containsExactExpression(so.getSubTree(i), expr)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * @param sn expression tree to traverse
 	 * @param kernel GeoGebra kernel (used for CAS)
@@ -261,7 +296,7 @@ public class StepHelper {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(Operation.POWER) && !so.getSubTree(0).isConstant()) {
+			if (so.isOperation(Operation.POWER)) {
 				return true;
 			} else if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
 				for (int i = 0; i < so.noOfOperands(); i++) {

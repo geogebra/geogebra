@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -70,6 +71,10 @@ public class EquationSteps {
 	}
 
 	public SolutionStep getSteps() {
+		if (steps != null) {
+			return steps.getSteps();
+		}
+
 		steps = new SolutionBuilder();
 		solutions = new ArrayList<StepNode>();
 
@@ -82,10 +87,11 @@ public class EquationSteps {
 			regroup();
 		}
 
+		addOrSubtract(StepHelper.getCommon(LHS, RHS));
+
 		// II. step: making denominators disappear
 		StepNode bothSides = StepNode.multiply(LHS, RHS);
 		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
-
 			StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
 			multiply(denominators);
 		}
@@ -117,8 +123,10 @@ public class EquationSteps {
 		} else if (degreeRHS > degreeLHS) {
 			swapSides();
 		} else if (degreeRHS == degreeLHS) {
-			double coeffLHS = StepHelper.getCoefficientValue(LHS, degreeLHS == 1 ? variable : StepNode.power(variable, degreeLHS));
-			double coeffRHS = StepHelper.getCoefficientValue(RHS, degreeRHS == 1 ? variable : StepNode.power(variable, degreeRHS));
+			double coeffLHS = StepHelper.getCoefficientValue(LHS.deepCopy().simplify(),
+					degreeLHS == 1 ? variable : StepNode.power(variable, degreeLHS));
+			double coeffRHS = StepHelper.getCoefficientValue(RHS.deepCopy().simplify(),
+					degreeRHS == 1 ? variable : StepNode.power(variable, degreeRHS));
 
 			if (coeffRHS > coeffLHS) {
 				swapSides();
@@ -217,6 +225,10 @@ public class EquationSteps {
 			sb.append(variable);
 			sb.append(" = ");
 			sb.append(LaTeX(solutions.get(i)));
+			if(!(solutions.get(i) instanceof StepConstant)) {
+				sb.append(" \\approx ");
+				sb.append(new DecimalFormat("#0.00").format(solutions.get(i).getValue()));
+			}
 			if (i < solutions.size() - 1) {
 				sb.append(", ");
 			}
@@ -491,7 +503,9 @@ public class EquationSteps {
 
 			steps.add(variable + " = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}", SolutionStepTypes.COMMENT);
 
-			String formula = "\\frac{" + LaTeX("-(" + b + ")") + "\\pm \\sqrt{" + LaTeX(discriminant) + "}}{" + LaTeX("2(" + a + ")") + "}";
+			String formula = "\\frac{" + LaTeX(StepNode.minus(b)) + "\\pm \\sqrt{" + LaTeX(discriminant) + "}}{"
+					+ LaTeX(StepNode.multiply(2, a))
+					+ "}";
 			steps.add(variable + "_{1,2} = " + formula, SolutionStepTypes.EQUATION);
 			String simplifiedFormula = "\\frac{" + LaTeX(StepNode.minus(b).regroup()) + "\\pm \\sqrt{"
 					+ LaTeX(discriminant.deepCopy().regroup()) + "}}{" + LaTeX(StepNode.multiply(2, a).regroup()) + "}";
@@ -521,13 +535,8 @@ public class EquationSteps {
 		sn = StepNode.subtract(sn, constant).regroup();
 
 		if (!StepHelper.isPower(LHS) || !StepHelper.isPower(RHS)) {
-			if (sn.isOperation()) {
-				StepOperation so = (StepOperation) sn;
-				if (so.isOperation(Operation.PLUS) || so.isOperation(Operation.MINUS)) {
-					addOrSubtract(StepNode.subtract(LHS, so.getSubTree(0).regroup()));
-				} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so.isOperation(Operation.POWER)) {
-					addOrSubtract(StepNode.subtract(RHS, StepHelper.findConstant(RHS)).regroup());
-				}
+			if (sn.isOperation(Operation.MULTIPLY) || sn.isOperation(Operation.DIVIDE) || sn.isOperation(Operation.POWER)) {
+				addOrSubtract(StepNode.subtract(RHS, StepHelper.findConstant(RHS)).regroup());
 			}
 
 			addOrSubtract(StepHelper.findConstant(LHS));
@@ -761,7 +770,7 @@ public class EquationSteps {
 		if (root == 0 || root == 1) {
 			return;
 		} else if (root == 2) {
-			steps.add(loc.getMenuLaTeX("TakeSquareRoot", "Take square root"), SolutionStepTypes.INSTRUCTION);
+			steps.add(loc.getMenuLaTeX("TakeSquareRoot", "Take square root of both sides"), SolutionStepTypes.INSTRUCTION);
 		} else if (root == 3) {
 			steps.add(loc.getMenuLaTeX("TakeCubeRoot", "Take cube root"), SolutionStepTypes.INSTRUCTION);
 		} else {
@@ -815,15 +824,6 @@ public class EquationSteps {
 			steps.addAll(reduced.getSteps());
 			solutions.addAll(reduced.getSolutions());
 		}
-	}
-
-	private String LaTeX(String toLaTeX) {
-		if (toLaTeX.isEmpty()) {
-			return "";
-		}
-
-		StepNode ev = StepNode.getStepTree(toLaTeX, kernel.getParser());
-		return ev.toLaTeXString();
 	}
 
 	private static String LaTeX(StepNode toLaTeX) {

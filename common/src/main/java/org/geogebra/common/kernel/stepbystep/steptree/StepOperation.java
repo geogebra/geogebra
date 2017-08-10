@@ -298,7 +298,9 @@ public class StepOperation extends StepNode {
 	public StepNode regroup() {
 		sort();
 		if (isOperation(Operation.MINUS)) {
-			if (getSubTree(0).isOperation(Operation.PLUS)) {
+			if (getSubTree(0).isOperation(Operation.MINUS)) {
+				return ((StepOperation) getSubTree(0)).getSubTree(0).regroup();
+			} else if (getSubTree(0).isOperation(Operation.PLUS)) {
 				StepOperation sn = (StepOperation) getSubTree(0);
 				for (int i = 0; i < sn.noOfOperands(); i++) {
 					sn.subtrees.set(i, minus(sn.getSubTree(i)));
@@ -391,10 +393,17 @@ public class StepOperation extends StepNode {
 			}
 			addSubTree(sn);
 
+			double nominator = 1;
+			double denominator = 1;
+
 			List<StepNode> bases = new ArrayList<StepNode>();
 			List<StepNode> exponents = new ArrayList<StepNode>();
 			for (int i = 0; i < noOfOperands(); i++) {
-				if (getSubTree(i).isOperation(Operation.DIVIDE)) {
+				if (getSubTree(i).isOperation(Operation.MINUS)) {
+					nominator *= -1;
+					subtrees.set(i, ((StepOperation) getSubTree(i)).getSubTree(0));
+					i--;
+				} else if (getSubTree(i).isOperation(Operation.DIVIDE)) {
 					bases.add(((StepOperation) getSubTree(i)).getSubTree(0));
 					exponents.add(new StepConstant(1));
 					bases.add(((StepOperation) getSubTree(i)).getSubTree(1));
@@ -410,9 +419,6 @@ public class StepOperation extends StepNode {
 					exponents.add(new StepConstant(1));
 				}
 			}
-
-			double nominator = 1;
-			double denominator = 1;
 			for (int i = 0; i < bases.size(); i++) {
 				if (bases.get(i) instanceof StepConstant && exponents.get(i).getValue() == 1) {
 					nominator *= bases.get(i).getValue();
