@@ -515,7 +515,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			this.mode = mode;
 			clear();
 			toolbarImg = new NoDragImage(
-			        ((GGWToolBar) app.getToolbar()).getImageURL(mode), 32);
+					GGWToolBar.getImageURL(mode, app), 32);
 			toolbarImg.addStyleName("toolbar_icon");
 			toolbarImg.setWidth("32px");
 			btn.clear();

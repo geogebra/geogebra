@@ -832,13 +832,17 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// app.closePopups(); TODO
 		if (app.isMenuShowing()
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
-				&& !Dom.eventTargetsElement(event,
-						getToolbar().getOpenMenuButtonElement())
+				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
 				&& !app.isUnbundled()
 		) {
 			app.toggleMenu();
 		}
+	}
+
+	private Element getToolbarMenuElement() {
+		return getToolbar() == null ? null
+				: getToolbar().getOpenMenuButtonElement();
 	}
 
 	@Override

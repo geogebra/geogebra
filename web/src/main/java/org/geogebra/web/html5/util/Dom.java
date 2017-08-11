@@ -55,7 +55,7 @@ public class Dom extends DOM {
 	 */
 	public static boolean eventTargetsElement(NativeEvent event, Element element) {
 		EventTarget target = event.getEventTarget();
-		if (Element.is(target)) {
+		if (Element.is(target) && element != null) {
 			return element.isOrHasChild(Element.as(target));
 		}
 		return false;
