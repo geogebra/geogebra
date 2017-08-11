@@ -2673,7 +2673,7 @@ __GGB__keysVar.nl_NL.menu = {
     "StemPlot.low": "Laag",
     "Step": "Stap",
     "StepGraph": "Step Grafiek",
-    "Steps": "Steps",
+    "Steps": "Stappen",
     "StickToEdge": "w817",
     "StickyTools": "Sticky Tools",
     "Stop": "Stop",
