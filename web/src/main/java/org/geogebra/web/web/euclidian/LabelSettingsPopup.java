@@ -220,6 +220,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
+		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
+				&& namePanel != null) {
+			namePanel.setVisible(model.getGeosLength() == 1);
+		}
 		if (!model.isLabelVisible()) {
 			cmName.setChecked(false);
 			cmValue.setChecked(false);
@@ -236,11 +240,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 						|| isEqualMode)
 						&& (mode == LABEL_MODE_VALUE_ONLY
 				|| mode == LABEL_MODE_NAME_AND_VALUE));
-		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
-				&& namePanel != null) {
-			namePanel.setVisible(model.getGeosLength() == 1);
-		}
-
 	}
 
 	@Override
