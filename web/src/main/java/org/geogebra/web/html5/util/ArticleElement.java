@@ -458,6 +458,11 @@ public final class ArticleElement extends Element {
 		return ret == null ? "" : ret;
 	}
 
+	public String getDataParamAppName() {
+		String ret = this.getAttribute("data-param-appname");
+		return ret == null ? "" : ret;
+	}
+
 	public double getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
 		if (scale.length() < 1) {

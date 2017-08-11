@@ -44,9 +44,12 @@ var analyticsVersion = 'V'+latestVersion;
 		document.title = title;
 	}
 	function perspective(id, name){		
-		if(e("ggw")){
+		if(e("ggw")){			
 			e("ggw").className="geogebraweb";
-			e("ggw").setAttribute("data-param-marginTop",marginTop);
+
+			e("ggw").setAttribute("data-param-appname", window.appID || "classic");
+			e("ggw").setAttribute("data-param-marginTop", marginTop);
+
 			if(id){
 				if(id=="exam-simple"){
 					e("ggw").setAttribute("data-param-enableGraphing","false");				

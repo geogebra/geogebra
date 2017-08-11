@@ -8,7 +8,8 @@
 	padding-left: 12px;
 	font-size: 16px;
 	margin: 3px 0;
-	font-weight: unset;
+	font-weight: normal;
+	flex:1;
 }
 .GeoGebraHeader a{
 	color: #00A8A8;
@@ -25,9 +26,7 @@
     display: inline;
 }
 .GeoGebraHeader .links {
-	position: absolute;
-	right: 8px;
-    padding: 3px 0px;
+    padding: 3px 4px;
     font-size: 15px;
     margin: 0px;
 }

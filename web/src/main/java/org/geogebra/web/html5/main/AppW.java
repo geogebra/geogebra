@@ -3638,7 +3638,8 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean isUnbundled() {
 		return ("1".equals(initialPerspective)
 				|| "2".equals(initialPerspective))
-				&& has(Feature.UNBUNDLING);
+				&& has(Feature.UNBUNDLING)
+				&& !"classic".equals(articleElement.getDataParamAppName());
 
 	}
 
@@ -3655,6 +3656,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * 
 	 * @return true if app is on portrait mode;
 	 */
+	@Override
 	public boolean isPortrait() {
 		return getWidth() < getHeight();
 	}
