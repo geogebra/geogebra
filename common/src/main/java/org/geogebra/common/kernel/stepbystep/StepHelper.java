@@ -63,9 +63,21 @@ public class StepHelper {
 			} else if (so.isOperation(Operation.MINUS)) {
 				return getDenominator(so.getSubTree(0), kernel);
 			} else if (so.isOperation(Operation.PLUS) || so.isOperation(Operation.MULTIPLY)) {
-				StepNode denominator = new StepConstant(1);
+				StepNode denominator = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					denominator = LCM(denominator, getDenominator(so.getSubTree(i), kernel), kernel);
+					StepNode newDenominator = getDenominator(so.getSubTree(i), kernel);
+					if (newDenominator != null) {
+						if (denominator == null) {
+							denominator = newDenominator;
+						} else if (StepOperation.closeToAnInteger(denominator.getValue())
+								&& StepOperation.closeToAnInteger(newDenominator.getValue())) {
+							long a = (long) denominator.getValue();
+							long b = (long) newDenominator.getValue();
+							denominator = new StepConstant((a * b) / StepNode.gcd(a, b));
+						} else {
+							denominator = LCM(denominator, newDenominator, kernel);
+						}
+					}
 				}
 				return denominator;
 			}
@@ -345,8 +357,8 @@ public class StepHelper {
 		return false;
 	}
 
-	public static boolean canCompleteCube(StepNode sn, StepNode variable, Kernel kernel) {
-		if (degree(sn, kernel) != 3) {
+	public static boolean canCompleteCube(StepNode sn, StepNode variable) {
+		if (degree(sn) != 3) {
 			return false;
 		}
 
@@ -365,8 +377,8 @@ public class StepHelper {
 		return false;
 	}
 
-	public static boolean canBeReducedToQuadratic(StepNode sn, StepNode variable, Kernel kernel) {
-		int degree = degree(sn, kernel);
+	public static boolean canBeReducedToQuadratic(StepNode sn, StepNode variable) {
+		int degree = degree(sn);
 
 		if (degree / 2 * 2 != degree) { // if degree is odd
 			return false;
@@ -384,8 +396,8 @@ public class StepHelper {
 		return true;
 	}
 
-	public static boolean integerCoefficients(StepNode sn, StepNode variable, Kernel kernel) {
-		int degree = degree(sn, kernel);
+	public static boolean integerCoefficients(StepNode sn, StepNode variable) {
+		int degree = degree(sn);
 
 		double constant = findConstant(sn).getValue();
 		if (Math.floor(constant) != constant) {
@@ -479,7 +491,7 @@ public class StepHelper {
 	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepVariable variable, Kernel kernel) {
 		StepNode denominators = getDenominator(StepNode.add(LHS, RHS), kernel);
 
-		if (!denominators.isConstant()) {
+		if (denominators != null && !denominators.isConstant()) {
 			if (isEqual(denominators.getValueAt(variable, solution.getValue()), 0)) {
 				return false;
 			}
@@ -536,12 +548,67 @@ public class StepHelper {
 		return null;
 	}
 
-	public static int degree(StepNode sn, Kernel kernel) {
-		String d = callCAS(sn.toString(), "Degree", kernel);
-		if ("?".equals(d)) {
-			return -1;
+	public static int degree(StepNode sn) {
+		StepNode newSn = sn.deepCopy().regroup();
+
+		if (newSn instanceof StepVariable) {
+			return 1;
+		} else if (newSn instanceof StepConstant) {
+			return 0;
+		} else if (newSn.isOperation()) {
+			StepOperation so = (StepOperation) newSn;
+			
+			switch(so.getOperation()) {
+			case MINUS:
+				return degree(so.getSubTree(0));
+			case PLUS:
+				int max = 0;
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					int temp = degree(so.getSubTree(i));
+					if (temp == -1) {
+						return -1;
+					} else if (temp > max) {
+						max = temp;
+					}
+				}
+
+				return max;
+			case POWER:
+				int temp = degree(so.getSubTree(0));
+				if (temp == -1) {
+					return -1;
+				}
+				if (StepOperation.closeToAnInteger(so.getSubTree(1).getValue())) {
+					return (int) (temp * so.getSubTree(1).getValue());
+				}
+				return -1;
+			case MULTIPLY:
+				int p = 0;
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					int tmp = degree(so.getSubTree(i));
+					if (tmp == -1) {
+						return -1;
+					}
+					p += tmp;
+				}
+
+				return p;
+			case DIVIDE:
+				if (!so.getSubTree(1).isConstant()) {
+					return -1;
+				}
+				return degree(so.getSubTree(0));
+			case NROOT:
+				if (so.getSubTree(0).isConstant()) {
+					return 0;
+				}
+				return -1;
+			}
 		}
-		return Integer.parseInt(d);
+
+		return -1;
 	}
 
 	public static StepNode LCM(StepNode a, StepNode b, Kernel kernel) {

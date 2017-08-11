@@ -14,17 +14,32 @@ import org.geogebra.common.plugin.Operation;
 
 public abstract class StepNode {
 
+	/**
+	 * @param sn the tree to be compared to this
+	 * @return whether the two trees are exactly equal (order of operations matters)
+	 */
 	public abstract boolean equals(StepNode sn);
 
+	/**
+	 * @param sn the tree to be compared to this
+	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1, if lower
+	 */
 	public abstract int compareTo(StepNode sn);
 
+	/**
+	 * @return deep copy of the tree. Use this, if you want to preserve the tree after a regroup
+	 */
 	public abstract StepNode deepCopy();
 
 	/**
-	 * @return whether this node is an instance of StepByStepOperation
+	 * @return whether this node is an instance of StepOperation
 	 */
 	public abstract boolean isOperation();
 
+	/**
+	 * @param op
+	 * @return whether the node is instance of StepOperation and its operation equals to op
+	 */
 	public abstract boolean isOperation(Operation op);
 
 	/**
@@ -50,10 +65,19 @@ public abstract class StepNode {
 	 */
 	public abstract double getValueAt(StepVariable variable, double value);
 
+	/**
+	 * @return the non-variable coefficient of the tree (ex: 3 sqrt(3) x -> 3 sqrt(3))
+	 */
 	public abstract StepNode getCoefficient();
 
+	/**
+	 * @return the variable part of the tree (ex: 3 x (1/sqrt(x)) -> x (1/sqrt(x)))
+	 */
 	public abstract StepNode getVariable();
 
+	/**
+	 * @return the StepConstant coefficient of the tree (ex: 3 sqrt(3) -> 3)
+	 */
 	public abstract StepNode getConstantCoefficient();
 
 	/**
@@ -61,14 +85,31 @@ public abstract class StepNode {
 	 */
 	public abstract String toLaTeXString();
 
+	/**
+	 * @return the tree, regrouped (only call on constant trees!) (destroys the tree, use only in assignments)
+	 */
 	public abstract StepNode constantRegroup();
 
+	/**
+	 * @return the tree, regrouped (destroys the tree, use only in assignments)
+	 */
 	public abstract StepNode regroup();
 
+	/**
+	 * @return the tree, expanded (destroys the tree, use only in assignments)
+	 */
 	public abstract StepNode expand();
 
+	/**
+	 * @return the tree, fully simplified (destroys the tree, use only in assignments)
+	 */
 	public abstract StepNode simplify();
 
+	/**
+	 * @param s string to be parsed
+	 * @param parser GeoGebra parser
+	 * @return the string s, parsed as a StepTree
+	 */
 	public static StepNode getStepTree(String s, Parser parser) {
 		if (s.isEmpty()) {
 			return null;
@@ -83,26 +124,29 @@ public abstract class StepNode {
 		}
 	}
 
+	/**
+	 * @param ev ExpressionValue to be converted
+	 * @return ev converted to StepTree
+	 */
 	public static StepNode convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
-			if (((ExpressionNode) ev).getOperation() == Operation.NO_OPERATION) {
+			switch (((ExpressionNode) ev).getOperation()) {
+			case NO_OPERATION:
 				return convertExpression(((ExpressionNode) ev).getLeft());
-			}
-			if (((ExpressionNode) ev).getOperation() == Operation.SQRT) {
+			case SQRT:
 				return root(convertExpression(((ExpressionNode) ev).getLeft()), 2);
-			}
-			if (((ExpressionNode) ev).getOperation() == Operation.MINUS) {
+			case MINUS:
 				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
-			}
-			if (((ExpressionNode) ev).getOperation() == Operation.MULTIPLY) {
+			case MULTIPLY:
 				if (((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
 					return minus(convertExpression(((ExpressionNode) ev).getRight()));
 				}
+			default:
+				StepOperation so = new StepOperation(((ExpressionNode) ev).getOperation());
+				so.addSubTree(convertExpression(((ExpressionNode) ev).getLeft()));
+				so.addSubTree(convertExpression(((ExpressionNode) ev).getRight()));
+				return so;
 			}
-			StepOperation so = new StepOperation(((ExpressionNode) ev).getOperation());
-			so.addSubTree(convertExpression(((ExpressionNode) ev).getLeft()));
-			so.addSubTree(convertExpression(((ExpressionNode) ev).getRight()));
-			return so;
 		}
 		if (ev instanceof FunctionVariable) {
 			return new StepVariable(((FunctionVariable) ev).getSetVarString());
@@ -113,6 +157,11 @@ public abstract class StepNode {
 		return null;
 	}
 
+	/**
+	 * @param toConvert StepTree to convert
+	 * @param var variable to group in
+	 * @return toConvert in a polynomial format (as an array of coefficients) toConvert = sum(returned[i] * var^i)
+	 */
 	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
 		StepNode p = toConvert.deepCopy().simplify();
@@ -135,6 +184,12 @@ public abstract class StepNode {
 		return poli.toArray(new StepNode[0]);
 	}
 
+	/**
+	 * @param r dividend
+	 * @param d divisor
+	 * @param var variable
+	 * @return the quotient of the two polynomials, null if they can not be divided
+	 */
 	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
 		StepNode[] arrayD = StepNode.convertToPolynomial(d, var);
 		StepNode[] arrayR = StepNode.convertToPolynomial(r, var);
@@ -167,10 +222,6 @@ public abstract class StepNode {
 		return null;
 	}
 
-	/**
-	 * @param sn - tree to add to the current one
-	 * @return the root of the new tree
-	 */
 	public static StepNode add(StepNode a, StepNode b) {
 		if (a == null) {
 			return b == null ? null : b.deepCopy();
@@ -203,11 +254,6 @@ public abstract class StepNode {
 		return add(a, new StepConstant(b));
 	}
 
-
-	/**
-	 * @param sn - the tree to subtract from the current one
-	 * @return the root of the new tree
-	 */
 	public static StepNode subtract(StepNode a, StepNode b) {
 		return add(a, minus(b));
 	}
@@ -228,10 +274,6 @@ public abstract class StepNode {
 		return so;
 	}
 
-	/**
-	 * @param sn - the tree to be multiplied with
-	 * @return the root of the new tree
-	 */
 	public static StepNode multiply(StepNode a, StepNode b) {
 		if (a == null) {
 			return b == null ? null : b.deepCopy();
@@ -264,10 +306,6 @@ public abstract class StepNode {
 		return multiply(new StepConstant(a), b);
 	}
 
-	/**
-	 * @param sn - the tree to divide the current one with
-	 * @return the root of the new tree
-	 */
 	public static StepNode divide(StepNode a, StepNode b) {
 		if (a == null) {
 			return null;

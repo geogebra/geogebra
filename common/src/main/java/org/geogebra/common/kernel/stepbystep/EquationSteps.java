@@ -111,9 +111,9 @@ public class EquationSteps {
 			solveIrrational();
 		}
 
-		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS), kernel);
-		int degreeLHS = StepHelper.degree(LHS, kernel);
-		int degreeRHS = StepHelper.degree(RHS, kernel);
+		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS));
+		int degreeLHS = StepHelper.degree(LHS);
+		int degreeRHS = StepHelper.degree(RHS);
 
 		// Swapping sides, if necessary
 		if (degreeRHS == -1 || degreeLHS == -1) {
@@ -149,7 +149,7 @@ public class EquationSteps {
 			return checkSolutions();
 		}
 
-		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS), kernel);
+		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS));
 
 		// VII. step: solving linear equations
 		if (degreeDiff != -1 && degreeDiff <= 1) {
@@ -173,19 +173,19 @@ public class EquationSteps {
 		subtract(RHS);
 
 		// X. step: solving equations that can be reduced to a quadratic (ax^(2n) + bx^n + c = 0)
-		if (StepHelper.canBeReducedToQuadratic(LHS, variable, kernel)) {
+		if (StepHelper.canBeReducedToQuadratic(LHS, variable)) {
 			reduceToQuadratic();
 			return checkSolutions();
 		}
 
 		// XI. step: completing the cube
-		if (StepHelper.canCompleteCube(LHS, variable, kernel)) {
+		if (StepHelper.canCompleteCube(LHS, variable)) {
 			completeCube();
 			return checkSolutions();
 		}
 
 		// XII. step: finding and factoring rational roots
-		if (StepHelper.integerCoefficients(LHS, variable, kernel)) {
+		if (StepHelper.integerCoefficients(LHS, variable)) {
 			findRationalRoots();
 
 			if (solutions.size() > 0) {
@@ -559,7 +559,7 @@ public class EquationSteps {
 	}
 
 	private void reduceToQuadratic() {
-		int degree = StepHelper.degree(LHS, kernel);
+		int degree = StepHelper.degree(LHS);
 
 		StepNode coeffHigh = StepHelper.findCoefficient(LHS, StepNode.power(variable, degree));
 		StepNode coeffLow = StepHelper.findCoefficient(LHS, StepNode.power(variable, degree / 2));
@@ -600,7 +600,7 @@ public class EquationSteps {
 	}
 
 	private void findRationalRoots() {
-		int degree = StepHelper.degree(LHS, kernel);
+		int degree = StepHelper.degree(LHS);
 
 		int highestOrder = Math.abs((int) StepHelper.getCoefficientValue(LHS, StepNode.power(variable, degree)));
 		int constant = Math.abs((int) (StepHelper.findConstant(LHS).getValue()));
