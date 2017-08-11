@@ -32,6 +32,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawableND;
+import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
@@ -6675,7 +6676,10 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public boolean doHighlighting() {
 		return (highlighted || selected)
-				&& (!isLocked() || isSelectionAllowed(null));
+				&& (!isLocked() || isSelectionAllowed(null)) && (!kernel
+						.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
+						|| kernel.getApplication()
+								.getMode() != EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 	}
 
 	/**
