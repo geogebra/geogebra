@@ -225,11 +225,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/mode_move.png")
 	ImageResource mode_move();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/toolbar_writing_white.png")
-	ImageResource toolbar_writing();
-
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/toolbar_media_white.png")
-	ImageResource toolbar_media();
 
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/graphing.png")
