@@ -52,12 +52,11 @@ public class RelationPaneW extends GDialogBox
 	private FlowPanel[] buttons;
 
 	@Override
-	public void showDialog(String title, RelationRow[] relations, App app) {
+	public void showDialog(String title, RelationRow[] relations, App app1) {
 
 		// setGlassEnabled(true);
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (app1.has(Feature.DIALOG_DESIGN)) {
 			setStyleName("MaterialDialogBox");
-			this.addStyleName("GeoGebraFrame");
 		} else {
 			addStyleName("DialogBox");
 		}
@@ -82,7 +81,7 @@ public class RelationPaneW extends GDialogBox
 				callbacks[i] = relations[i].getCallback();
 				btnCallbacks[i] = new Button();
 				btnCallbacks[i]
-						.setText(app.getLocalization().getMenu("More")
+						.setText(app1.getLocalization().getMenu("More")
 								+ Unicode.ELLIPSIS);
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
