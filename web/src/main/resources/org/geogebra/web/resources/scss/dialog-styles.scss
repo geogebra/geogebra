@@ -26,6 +26,7 @@ $duration: 0.2s;
    		}
 	}
 
+	/* image tool dialog */
 	.MaterialDialogBox.image {
 		.gwt-Label:hover {
 			color: $teal-default;
@@ -34,6 +35,120 @@ $duration: 0.2s;
 		.gwt-Label-highlighted {
 			color: $teal-default;
 			cursor: pointer;	
+		}
+	}
+
+	/* recover dialog*/
+	.MaterialDialogBox.RecoverAutoSavedPanel {
+		.buttonPanel {
+   			height: 36px;
+   			text-align: right;
+    		padding-top: 32px;
+    		padding-right: 0px;
+    		padding-bottom: 8px;
+    		padding-left: 0px;
+    		
+    		.gwt-Button {
+    			display: inline-block;
+    			position: relative;
+    			min-width: 64px;
+    			height: 36px;
+    			border: none;
+    			outline: none;
+    			background: transparent;
+    			color: $teal-default;
+    			font-size: 14px;
+    			font-weight: 500;
+    			letter-spacing: .04em;
+    			line-height: 36px;
+    			text-align: center;
+    			text-decoration: none;
+    			text-transform: uppercase;
+    			overflow: hidden;
+    			vertical-align: middle;
+    			padding: 0px 8px;
+    			margin-left: 8px;
+   				box-shadow: none;
+   				font-family: Roboto,sans-serif;
+    			font-weight: 400 !important;
+   			}
+   		}
+	}
+
+	/* text tool dialog */
+	.MaterialDialogBox.TextInputDialog {
+		
+		 .MyToggleButton {
+		 	border-radius: 2px;	
+		 	line-height: 24px;
+    		vertical-align: middle;
+    		text-align: center;
+    		min-width: 24px;
+    		height: 24px;
+    		font-size: 14px;
+    		line-height: 24px;
+    		text-align: center;
+    		text-decoration: none;
+    		overflow: hidden;
+    		vertical-align: middle;
+   			box-shadow: none;
+   			padding: 3px;
+   			margin-right: 8px;
+   			
+   			img {
+   				opacity: 0.54;
+   			}
+		 }
+		
+		.MyToggleButton.gwt-ToggleButton-down, .MyToggleButton.gwt-ToggleButton-down-hovering { 
+			border-color: $teal-default;
+		}
+	
+		.MyToggleButton.gwt-ToggleButton-up-hovering {
+			border-color: $teal-light;
+		}
+		
+		.textEditor {
+			margin-right: 16px;	
+			margin-top: 10px;
+		}
+	
+		.gwt-DisclosurePanel {
+			.textEditorAdvancedPanel.textEditorDisclosurePanelContent {
+				.gwt-TabLayoutPanelTabInner {
+					.gwt-Label {
+						margin-top: 0px !important;
+					}
+				}
+				
+				.ggbTab { 
+					top: 4px;
+    				padding-top: 6px;
+				}
+			
+				.latexPanel canvas:hover {
+    				background-color: $teal-light;
+    				cursor: pointer;
+    			}
+			}
+		
+			.gwt-TabLayoutPanelTab.com-google-gwt-resources-client-CommonResources-InlineBlockStyle-inlineBlock {
+				height: 28px;
+			}
+		
+			.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
+   				background: $white;
+    			color: $teal-default;
+    		}    		
+		}
+	
+		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
+			 .GeoGebraFrame .gwt-TabBar .gwt-TabBarItem-selected {
+			color: $teal-default; 
+		}
+	
+		.gwt-TabLayoutPanelTabInner:hover {
+			color: $teal-light; 
 		}
 	}
 	
@@ -156,10 +271,6 @@ $duration: 0.2s;
    			border-radius: 0px;
    			border: none;
    			border-bottom: 1px solid $teal-default; 
-   			
-   			.TextField { 
-   				
-   			}
    		}
    	
    		.DialogRbPanel {

@@ -9,6 +9,7 @@ import org.geogebra.common.gui.inputfield.DynamicTextProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -16,6 +17,7 @@ import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.dom.client.Style;
@@ -188,8 +190,10 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		disclosurePanel.getHeaderTextAccessor()
 		        .setText(loc.getMenu("Advanced"));
-		btnBold.setText(loc.getMenu("Bold.Short"));
-		btnItalic.setText(loc.getMenu("Italic.Short"));
+		if (!app.has(Feature.DIALOG_DESIGN)) {
+			btnBold.setText(loc.getMenu("Bold.Short"));
+			btnItalic.setText(loc.getMenu("Italic.Short"));
+		}
 		btnLatex.setText(loc.getMenu("LaTeXFormula"));
 		btnSerif.setText(loc.getMenu("Serif"));
 		if (advancedPanel != null) {
@@ -262,12 +266,21 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		
 		
-
-		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			btnBold = new MyToggleButtonW(
+					MaterialDesignResources.INSTANCE.text_bold_black());
+		} else {
+			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
+		}
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			btnItalic = new MyToggleButtonW(
+					MaterialDesignResources.INSTANCE.text_italic_black());
+		} else {
+			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
+		}
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 		
