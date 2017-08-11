@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui.inputfield;
 
 import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -38,7 +39,11 @@ public class SymbolTablePopupW extends GPopupPanel implements ClickHandler {
 
 		// prevent autohide when clicking on the popup button
 		addAutoHidePartner(invoker.getElement());
-		addStyleName("SymbolTablePopup");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			addStyleName("MaterialSymbolTablePopup");
+		} else {
+			addStyleName("SymbolTablePopup");
+		}
 	}
 
 	private void createSymbolTable() {
