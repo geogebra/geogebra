@@ -2049,14 +2049,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public Factory getFactory() {
-		Factory ret = Factory.getPrototype();
 
-		if (ret == null) {
-			ret = new FactoryW();
-			Factory.setPrototype(ret);
-		}
-
-		return ret;
+		return new FactoryW(this);
 	}
 
 	public void restoreCurrentUndoInfo() {

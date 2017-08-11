@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -829,6 +830,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            browser event
 	 */
 	public void closePopupsAndMaybeMenu(NativeEvent event) {
+		Log.debug("closePopups");
 		// app.closePopups(); TODO
 		if (app.isMenuShowing()
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())

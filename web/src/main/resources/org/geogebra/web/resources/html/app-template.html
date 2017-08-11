@@ -410,7 +410,8 @@ var app = document.createElement("script");
 				preview.style.position="absolute";
 				
 				var xhr = new XMLHttpRequest();
-				xhr.open("GET", "/api/material_preview.php?u="+tubeid);
+				var materialHost = isLocalhost() ? "https://beta.geogebra.org":"";
+				xhr.open("GET", materialHost + "/api/material_preview.php?u="+tubeid);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.response) {
 					preview.addEventListener && preview.addEventListener("load",function(){
@@ -511,7 +512,7 @@ document.isChromeWebapp = function isChromeWebapp() {
 body {
 	color: #666666;
 	font-size: 16px;
-	font-family: sans-serif, Frutiger, "Frutiger Linotype", Univers, Calibri, "Gill Sans", "Gill Sans MT", "Myriad Pro", Myriad, "DejaVu Sans Condensed", "Liberation Sans", "Nimbus Sans L", Tahoma, Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-family: sans-serif;
 	margin: 0px;
 	padding: 0px;
 }
