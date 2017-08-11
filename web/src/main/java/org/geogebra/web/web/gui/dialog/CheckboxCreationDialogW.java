@@ -209,18 +209,31 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 
 	protected void createGUI(String title) {
 		addStyleName("GeoGebraPopup");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			addStyleName("Checkbox");
+		}
 		getCaption().setText(title);
 		Label lblSelectObjects = new Label(loc.getMenu("Tool.SelectObjects"));
 		lblSelectObjects.setStyleName("panelTitle");
 		// create caption panel
-		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
+		Label captionLabel = new Label(
+				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("Button.Caption")
+						: loc.getMenu("Button.Caption") + ":");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			captionLabel.addStyleName("coloredLabel");
+		}
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelW ip = new InputPanelW(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		tfCaption.setAutoComplete(false);
 		tfCaption.showPopupSymbolButton(true);
 		FlowPanel captionPanel = new FlowPanel();
-		captionPanel.add(LayoutUtilW.panelRow(captionLabel, ip));
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			captionPanel.add(captionLabel);
+			captionPanel.add(ip);
+		} else {
+			captionPanel.add(LayoutUtilW.panelRow(captionLabel, ip));
+		}
 
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);

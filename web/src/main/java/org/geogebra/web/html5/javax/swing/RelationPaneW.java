@@ -3,6 +3,7 @@ package org.geogebra.web.html5.javax.swing;
 import org.geogebra.common.gui.util.RelationMore;
 import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -42,7 +43,12 @@ public class RelationPaneW extends DialogBox
 	public void showDialog(String title, RelationRow[] relations, App app) {
 
 		// setGlassEnabled(true);
-		addStyleName("DialogBox");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			setStyleName("MaterialDialogBox");
+			this.addStyleName("GeoGebraFrame");
+		} else {
+			addStyleName("DialogBox");
+		}
 
 		DialogBox db = new DialogBox();
 		FlowPanel fp = new FlowPanel();

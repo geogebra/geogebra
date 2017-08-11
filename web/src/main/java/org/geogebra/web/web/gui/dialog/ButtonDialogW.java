@@ -72,7 +72,12 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		}
 		
 		// create caption panel
-		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
+		Label captionLabel = new Label(
+				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("Button.Caption")
+						: loc.getMenu("Button.Caption") + ":");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			captionLabel.addStyleName("coloredLabel");
+		}
 		
 		String initString = model.getInitString();
 		InputPanelW ip = new InputPanelW(initString, app, 1, 25, true);
@@ -149,8 +154,11 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 			}
 		}
 
-		Label scriptLabel = new Label(loc.getMenu("Script") + ":");
-
+		Label scriptLabel = new Label(app.has(Feature.DIALOG_DESIGN)
+				? loc.getMenu("Script") : loc.getMenu("Script") + ":");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			scriptLabel.addStyleName("coloredLabel");
+		}
 		tfScript = new ScriptArea();
 		
 		tfScript.enableGGBKeyboard(app);
@@ -160,7 +168,12 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		scriptPanel.add(tfScript);
 
 		VerticalPanel linkedPanel = new VerticalPanel();
-		Label linkedLabel = new Label(loc.getMenu("LinkedObject") + ":");
+		Label linkedLabel = new Label(
+				app.has(Feature.DIALOG_DESIGN) ? loc.getMenu("LinkedObject")
+						: loc.getMenu("LinkedObject") + ":");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			linkedLabel.addStyleName("coloredLabel");
+		}
 		linkedPanel.add(linkedLabel);
 		linkedPanel.add(cbAdd);
 		
