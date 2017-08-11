@@ -343,10 +343,25 @@
 
 	.mowOpenMenuButton {
 		position: absolute;
-		top: 5px;
-		left: 5px;
+		top: 4px;
+		left: 0px;
+		margin-left: 4px;
 		z-index: 99999;
+		img{
+			margin: 6px;
+		    padding: 6px;
+		    width: 24px;
+		    height: 24px;
+		    cursor: pointer;
+		}
 	}
+	.mowOpenMenuButton.button-up{
+			opacity: 0.54;
+		}
+	.mowOpenMenuButton.button-up-hovering{
+			opacity: 0.8;
+		}
+	
 	.mowMenubar {
 		  position: absolute;
 		  width: 100%;

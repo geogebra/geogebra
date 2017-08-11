@@ -28,7 +28,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	public OptionsMenuW(AppW app) {
 		super(true, "options", new MenuResources(), app);
 	    this.app = app;
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -46,7 +46,8 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void initItems(){
 		//"Algebra Descriptions" menu
 		// getOptionsMenu().addAlgebraDescriptionMenu(this);
-		getOptionsMenu().addDecimalPlacesMenu(this);
+		if (!app.isWhiteboardActive()) {
+			getOptionsMenu().addDecimalPlacesMenu(this);
 
 		// in exam mode only "Rounding" menu needed
 		if (app.isExam()) {
@@ -61,6 +62,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			addSeparator();
 		}
 		getOptionsMenu().addFontSizeMenu(this);
+		}
 		//language menu
 		addLanguageMenu();
 		if (!getApp().isApplet() && getApp().enableFileFeatures()) {
@@ -82,7 +84,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled()
+					app.isUnbundled() || app.isWhiteboardActive()
 							? MaterialDesignResources.INSTANCE.language_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE

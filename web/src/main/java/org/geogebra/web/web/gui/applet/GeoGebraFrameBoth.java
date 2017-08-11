@@ -25,6 +25,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.ImageFactory;
@@ -877,13 +878,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		PerspectiveResources pr = ((ImageFactory) GWT
 				.create(ImageFactory.class)).getPerspectiveResources();
 
-		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
-				32, app);
+		openMenuButton = new StandardButton(
+				MaterialDesignResources.INSTANCE.toolbar_menu_black(), null, 24,
+				app);
 
-		openMenuButton.getUpHoveringFace()
-				.setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(),
-						32));
-
+		/*
+		 * openMenuButton.getUpHoveringFace()
+		 * .setImage(MOWToolbar.getImage(pr.menu_header_open_menu_hover(), 32));
+		 */
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
