@@ -2,6 +2,7 @@ package org.geogebra.web.html5.javax.swing;
 
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
@@ -61,6 +62,7 @@ public class GOptionPaneW extends GDialogBox
 
 	public GOptionPaneW(Panel root, App app) {
 		super(false, true, root, app);
+		this.app = app;
 		createGUI();
 	}
 
@@ -114,7 +116,11 @@ public class GOptionPaneW extends GDialogBox
 	private void createGUI() {
 
 		setGlassEnabled(true);
-		addStyleName("DialogBox");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			addStyleName("MaterialDialogBox");
+		} else {
+			addStyleName("DialogBox");
+		}
 
 		btnOK = new Button();
 		btnOK.addClickHandler(this);

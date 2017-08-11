@@ -19,6 +19,33 @@ $duration: 0.2s;
 				border: 1px $teal-default solid;
 			}	
 	}	
+
+	/* color chooser dialog */
+	.MaterialDialogBox.ColorChooser { 
+		.ColorDialog-content {
+			.gwt-Label {
+				margin-top: 0px;
+				font-size: initial;;	
+			}
+		
+			.ggbSpinner { 
+				margin-right: 16px;
+				border-radius: 2px;
+			}
+		
+			.CustomColorPreview {
+				canvas {
+					width: 266px;;	
+					border-radius: 2px;
+				}
+			
+				.gwt-Label {
+					font-size: 13px;
+					color: $teal-default;
+				}
+			}
+		}
+	}
 		
 	.MaterialSymbolTablePopup {
 		z-index: 501;
@@ -85,7 +112,11 @@ $duration: 0.2s;
 	}
 
 	/* recover dialog*/
-	.MaterialDialogBox.RecoverAutoSavedPanel {
+	.MaterialDialogBox.RecoverAutoSavedDialog, .MaterialDialogBox.GeoGebraFileChooser {
+		.infotext {
+			font-size: 15px;
+			margin-right: 16px;
+		} 
 		.buttonPanel {
    			height: 36px;
    			text-align: right;
@@ -94,7 +125,7 @@ $duration: 0.2s;
     		padding-bottom: 8px;
     		padding-left: 0px;
     		
-    		.gwt-Button {
+    		.gwt-Button,.button {
     			display: inline-block;
     			position: relative;
     			min-width: 64px;
@@ -118,6 +149,21 @@ $duration: 0.2s;
    				font-family: Roboto,sans-serif;
     			font-weight: 400 !important;
    			}
+   		
+   			.visibility {
+   				top: 130px;
+   				left: 76px;
+   			 }
+   			
+   			.MyCanvasButton {
+   				border-radius: 2px;
+   				bottom: 15px;
+   				left: 24px !important;
+   			}
+   		
+   			input.gwt-TextBox {
+    			opacity: 0.7;
+			}
    		}
 	}
 
@@ -211,6 +257,8 @@ $duration: 0.2s;
    		.Caption { 
    			font-size: 20px;	
    			margin-bottom: 20px;
+   			color: #666;
+    		border: none;
    		}
    	
    		.SymbolToggleButton:hover, .SymbolToggleButton:focus { 

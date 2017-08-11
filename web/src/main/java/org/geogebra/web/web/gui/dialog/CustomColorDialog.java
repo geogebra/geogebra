@@ -152,6 +152,9 @@ public class CustomColorDialog extends DialogBoxW {
 		loc = app.getLocalization();
 		setWidget(mainWidget = new FlowPanel());
 		addStyleName("GeoGebraPopup");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			addStyleName("ColorChooser");
+		}
 		this.origColor = listener.getSelectedColor();
 		createGUI();
 	}

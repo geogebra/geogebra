@@ -174,7 +174,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	protected void handleClose() {
 		app.setDefaultCursor();
 		dontSaveButton.setEnabled(true);
-		title.setEnabled(true);
 		app.closePopupsNoTooltips();
 
 	}
@@ -275,6 +274,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		final HorizontalPanel titlePanel = new HorizontalPanel();
 		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.titleLabel = new Label(loc.getMenu("Title") + ": ");
+		if (app.has(Feature.DIALOG_DESIGN)) {
+			titleLabel.addStyleName("coloredLabel");
+		}
 		titlePanel.add(this.titleLabel);
 		titlePanel.add(title = new GTextBox());
 		title.setMaxLength(MAX_TITLE_LENGTH);
