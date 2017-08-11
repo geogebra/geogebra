@@ -156,7 +156,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		 */
 
 		boolean showLogo = ((width >= splashWidth) && (height >= splashHeight));
-		splash = new SplashDialog(showLogo, articleElement.getId(), this);
+		splash = new SplashDialog(showLogo, articleElement, this);
 
 		if (splash.isPreviewExists()) {
 			splashWidth = width;

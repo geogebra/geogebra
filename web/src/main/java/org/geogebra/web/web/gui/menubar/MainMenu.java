@@ -136,7 +136,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				if (app.isUnbundled()) {
 					this.menus = new GMenuBar[] { editMenu, downloadMenu,
 							perspectivesMenu,
-							optionsMenu, toolsMenu, helpMenu };
+							optionsMenu, toolsMenu, helpMenu, signInMenu };
 				} else if (app.isWhiteboardActive()) {
 					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
 							optionsMenu, toolsMenu, helpMenu };
@@ -149,7 +149,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					this.menus = new GMenuBar[] { fileMenu, editMenu,
 							downloadMenu,
 							perspectivesMenu, optionsMenu, toolsMenu,
-							helpMenu };
+							helpMenu, signInMenu };
 				} else if (app.isWhiteboardActive()) {
 					this.menus = new GMenuBar[] { fileMenu, editMenu,
 							optionsMenu, toolsMenu,
@@ -757,8 +757,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public void dispatchOpenEvent() {
 		if (menuPanel != null) {
 			int index = menuPanel.getSelectedIndex();
-			if (app.isUnbundled() && index == -1) {
-				index = 1;
+			if (app.isUnbundled()) {
+				index--;
+			}
+			if (index < 0 || index > menus.length - 1) {
+				index = 0;
 			}
 			app.dispatchEvent(new org.geogebra.common.plugin.Event(
 					EventType.OPEN_MENU, null, menus[index].getMenuTitle()));

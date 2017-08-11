@@ -271,7 +271,7 @@ public class LoadFilePresenter {
 				|| Window.getClientHeight() < MIN_SIZE_FOR_PICKER;
 		if (app.getArticleElement().getDataParamShowAppsPicker()
 				&& app.getExam() == null && !smallScreen
-				&& !app.isWhiteboardActive() && !app.isUnbundled()) {
+				&& !app.isWhiteboardActive()) {
 			app.showPerspectivesPopup();
 			}
 

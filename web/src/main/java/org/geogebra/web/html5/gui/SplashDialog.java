@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -19,7 +20,7 @@ public class SplashDialog extends SimplePanel {
 	boolean appLoaded = false;
 	boolean timerEllapsed = false;
 	boolean isPreviewExists = false;
-	private String articleId;
+	private Element article;
 
 	private Timer t = new Timer() {
 		@Override
@@ -33,10 +34,12 @@ public class SplashDialog extends SimplePanel {
 
 	private final GeoGebraFrameW geogebraFrame;
 
-	public SplashDialog(boolean showLogo, String articleId, GeoGebraFrameW frame) {
-		this.articleId = articleId;
+	public SplashDialog(boolean showLogo, ArticleElement article,
+			GeoGebraFrameW frame) {
+		this.article = article;
 		this.geogebraFrame = frame;
-		isPreviewExists = checkIfPreviewExists(articleId);
+		isPreviewExists = checkIfPreviewExists(article)
+				|| article.getDataParamMarginTop() > 0;
 
 		if (!isPreviewExists) {
 			FlowPanel panel = new FlowPanel();
@@ -87,8 +90,7 @@ public class SplashDialog extends SimplePanel {
 		geogebraFrame.runAsyncAfterSplash();
 	}
 
-	private native boolean checkIfPreviewExists(String id) /*-{
-		var thisArticle = $doc.getElementById(id);
+	private native boolean checkIfPreviewExists(Element thisArticle) /*-{
 		if (thisArticle && thisArticle.querySelector(".ggb_preview") !== null) {
 			return true;
 		}
@@ -102,12 +104,12 @@ public class SplashDialog extends SimplePanel {
 
 	protected void hide() {
 		this.removeFromParent();
-		removePreviewImg(articleId);
+		removePreviewImg(article);
 
 	}
 
-	private native void removePreviewImg(String id) /*-{
-		var thisArticle = $doc.getElementById(id), img;
+	private native void removePreviewImg(Element thisArticle) /*-{
+		var img;
 		if (thisArticle) {
 			img = thisArticle.querySelector(".ggb_preview");
 		}

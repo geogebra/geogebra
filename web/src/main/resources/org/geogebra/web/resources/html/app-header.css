@@ -31,3 +31,14 @@
     font-size: 15px;
     margin: 0px;
 }
+.application .startscreen {
+	display: none;
+}
+.startscreen.logo{
+	position: absolute;
+	max-width: 400px;
+	width: 40%;
+	left:50%;
+	top:50%;
+	transform: translate(-50%,-50%);
+}
