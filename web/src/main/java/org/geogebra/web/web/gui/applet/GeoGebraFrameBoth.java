@@ -28,12 +28,10 @@ import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
-import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
@@ -46,7 +44,6 @@ import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.GDevice;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
@@ -875,8 +872,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void attachOpenMenuButton() {
-		PerspectiveResources pr = ((ImageFactory) GWT
-				.create(ImageFactory.class)).getPerspectiveResources();
 
 		openMenuButton = new StandardButton(
 				MaterialDesignResources.INSTANCE.toolbar_menu_black(), null, 24,
