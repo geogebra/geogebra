@@ -298,30 +298,29 @@ public class StepOperation extends StepNode {
 	public StepNode regroup() {
 		sort();
 		if (isOperation(Operation.MINUS)) {
-			if (getSubTree(0).isOperation(Operation.MINUS)) {
-				return ((StepOperation) getSubTree(0)).getSubTree(0).regroup();
-			} else if (getSubTree(0).isOperation(Operation.PLUS)) {
-				StepOperation sn = (StepOperation) getSubTree(0);
+			StepOperation so = new StepOperation(Operation.MINUS);
+			so.addSubTree(getSubTree(0).regroup());
+			if (so.getSubTree(0).isOperation(Operation.MINUS)) {
+				return ((StepOperation) so.getSubTree(0)).getSubTree(0).regroup();
+			} else if (so.getSubTree(0).isOperation(Operation.PLUS)) {
+				StepOperation sn = (StepOperation) so.getSubTree(0);
 				for (int i = 0; i < sn.noOfOperands(); i++) {
 					sn.subtrees.set(i, minus(sn.getSubTree(i)));
 				}
 				return sn.regroup();
-			} else if (getSubTree(0).isOperation(Operation.MULTIPLY)) {
-				StepOperation sn = (StepOperation) getSubTree(0);
+			} else if (so.getSubTree(0).isOperation(Operation.MULTIPLY)) {
+				StepOperation sn = (StepOperation) so.getSubTree(0);
 				sn.addSubTree(new StepConstant(-1));
 				return sn.regroup();
-			} else if (getSubTree(0).isOperation(Operation.DIVIDE)) {
+			} else if (so.getSubTree(0).isOperation(Operation.DIVIDE)) {
 				StepOperation sn = new StepOperation(Operation.DIVIDE);
-				sn.addSubTree(StepNode.minus(((StepOperation) getSubTree(0)).getSubTree(0)));
-				sn.addSubTree(((StepOperation) getSubTree(0)).getSubTree(1));
+				sn.addSubTree(StepNode.minus(((StepOperation) so.getSubTree(0)).getSubTree(0)));
+				sn.addSubTree(((StepOperation) so.getSubTree(0)).getSubTree(1));
 				return sn;
-			} else if (getSubTree(0) instanceof StepConstant) {
-				return new StepConstant(-getSubTree(0).getValue());
-			} else {
-				StepOperation so = new StepOperation(Operation.MINUS);
-				so.addSubTree(getSubTree(0).regroup());
-				return so;
+			} else if (so.getSubTree(0) instanceof StepConstant) {
+				return new StepConstant(-so.getSubTree(0).getValue());
 			}
+			return so;
 		} else if (isOperation(Operation.PLUS)) {
 			StepOperation sn = new StepOperation(Operation.PLUS);
 			while (noOfOperands() > 0) {
@@ -553,10 +552,8 @@ public class StepOperation extends StepNode {
 					return ((StepOperation) so.getSubTree(0)).getSubTree(0);
 				}
 			}
-			if (so.getSubTree(0) instanceof StepConstant && so.getSubTree(1) instanceof StepConstant) {
-				if (closeToAnInteger(so.getSubTree(0).getValue()) && closeToAnInteger(so.getSubTree(1).getValue())) {
-					return new StepConstant(Math.pow(so.getSubTree(0).getValue(), so.getSubTree(1).getValue()));
-				}
+			if (closeToAnInteger(so.getSubTree(0).getValue()) && closeToAnInteger(so.getSubTree(1).getValue())) {
+				return new StepConstant(Math.pow(so.getSubTree(0).getValue(), so.getSubTree(1).getValue()));
 			}
 			if (so.getSubTree(1).getValue() == 0) {
 				return new StepConstant(1);

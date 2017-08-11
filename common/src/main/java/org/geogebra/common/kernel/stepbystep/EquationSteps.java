@@ -27,12 +27,13 @@ public class EquationSteps {
 	private StepNode RHS;
 
 	private boolean inverted;
-	private boolean intermediate;
 
 	private SolutionBuilder steps;
 	private List<StepNode> solutions;
 
 	private StepVariable variable;
+
+	private String solutionCase;
 
 	public EquationSteps(Kernel kernel, String LHS, String RHS, String variable) {
 		this.kernel = kernel;
@@ -46,8 +47,7 @@ public class EquationSteps {
 
 		this.variable = new StepVariable(variable);
 
-		inverted = false;
-		intermediate = false;
+		solutionCase = "";
 	}
 
 	public EquationSteps(Kernel kernel, StepNode LHS, StepNode RHS, StepVariable variable) {
@@ -57,17 +57,16 @@ public class EquationSteps {
 		this.LHS = LHS;
 		this.RHS = RHS;
 
-		this.variable = variable;
-
 		this.origLHS = this.LHS.deepCopy();
 		this.origRHS = this.RHS.deepCopy();
 
-		inverted = false;
-		intermediate = false;
+		this.variable = variable;
+
+		solutionCase = "";
 	}
 
-	public void setIntermediate() {
-		intermediate = true;
+	public void setCase(String s) {
+		solutionCase = s;
 	}
 
 	public SolutionStep getSteps() {
@@ -79,12 +78,15 @@ public class EquationSteps {
 		solutions = new ArrayList<StepNode>();
 
 		// I. step: regrouping
-		// addStep();
-
-		if (!intermediate) {
+		if ("".equals(solutionCase)) {
 			steps.add(loc.getMenuLaTeX("Solve", "Solve: %0", LaTeX(LHS) + " = " + LaTeX(RHS)), SolutionStepTypes.EQUATION);
 			steps.levelDown();
 			regroup();
+		} else if ("im".equals(solutionCase)) {
+			addStep();
+		} else {
+			steps.add(loc.getMenuLaTeX("CaseA", "Case %0: %1", solutionCase, LaTeX(LHS) + " = " + LaTeX(RHS)), SolutionStepTypes.EQUATION);
+			steps.levelDown();
 		}
 
 		addOrSubtract(StepHelper.getCommon(LHS, RHS));
@@ -208,9 +210,11 @@ public class EquationSteps {
 
 	// TODO: something else :-?
 	private SolutionStep checkSolutions() {
-		if (intermediate) {
+		if ("im".equals(solutionCase)) {
 			return steps.getSteps();
 		}
+
+		steps.levelUp();
 
 		for (int i = 0; i < solutions.size(); i++) {
 			if (Double.isNaN(solutions.get(i).getValue())) {
@@ -274,9 +278,10 @@ public class EquationSteps {
 		steps.add(loc.getMenuLaTeX("ProductIsZero", "Product is zero"), SolutionStepTypes.COMMENT);
 
 		for (int i = 0; i < product.noOfOperands(); i++) {
-			EquationSteps sbss = new EquationSteps(kernel, product.getSubTree(i), new StepConstant(0), variable);
-			steps.addAll(sbss.getSteps());
-			solutions.addAll(sbss.getSolutions());
+			EquationSteps es = new EquationSteps(kernel, product.getSubTree(i), new StepConstant(0), variable);
+			es.setCase(solutionCase + (i + 1) + ".");
+			steps.addAll(es.getSteps());
+			solutions.addAll(es.getSolutions());
 		}
 	}
 
@@ -355,21 +360,21 @@ public class EquationSteps {
 
 		for (int i = 0; i <= roots.size(); i++) {
 			solveAbsoulteValueEquation(i == 0 ? new StepConstant(Double.NEGATIVE_INFINITY) : roots.get(i - 1),
-					i == roots.size() ? new StepConstant(Double.POSITIVE_INFINITY) : roots.get(i));
+					i == roots.size() ? new StepConstant(Double.POSITIVE_INFINITY) : roots.get(i), i + 1);
 		}
 	}
 
-	private void solveAbsoulteValueEquation(StepNode a, StepNode b) {
-		steps.add(loc.getMenuLaTeX("SolvingBetween", "Solving %0 = %1 between %2 and %3", LaTeX(LHS), LaTeX(RHS), LaTeX(a), LaTeX(b)),
-				SolutionStepTypes.INSTRUCTION);
-
+	private void solveAbsoulteValueEquation(StepNode a, StepNode b, int noOfCase) {
 		StepNode LHSevaluated = StepHelper.swapAbsInTree(LHS.deepCopy(), a, b, variable);
 		StepNode RHSevaluated = StepHelper.swapAbsInTree(RHS.deepCopy(), a, b, variable);
 
-		EquationSteps sbss = new EquationSteps(kernel, LHSevaluated, RHSevaluated, variable);
-		steps.addAll(sbss.getSteps());
+		steps.add(loc.getMenuLaTeX("SolvingBetween", "Case %0: %1 is between %2 and %3", solutionCase + noOfCase + ".", LaTeX(variable),
+				LaTeX(a), LaTeX(b)),
+				SolutionStepTypes.INSTRUCTION);
+		EquationSteps es = new EquationSteps(kernel, LHSevaluated, RHSevaluated, variable);
+		steps.addAll(es.getSteps());
 
-		List<StepNode> partialSolutions = sbss.getSolutions();
+		List<StepNode> partialSolutions = es.getSolutions();
 		for (int i = 0; i < partialSolutions.size(); i++) {
 			double xVal = partialSolutions.get(i).getValue();
 
@@ -426,36 +431,11 @@ public class EquationSteps {
 
 		addOrSubtract(nonQuadratic);
 
-		StepNode diff = StepNode.subtract(LHS, RHS).regroup();
-
-		if (isZero(StepHelper.findVariable(diff, variable))) {
-			StepNode quadratic = StepHelper.findVariable(RHS, StepNode.power(variable, 2));
-			addOrSubtract(quadratic);
-
-			StepNode constant = StepHelper.findConstant(LHS);
-			addOrSubtract(constant);
-
-			StepNode toDivide = StepHelper.findCoefficient(LHS, StepNode.power(variable, 2));
-			divide(toDivide);
-
-			if (RHS.getValue() < 0) {
-				return;
-			}
-
-			nthroot(2);
-			return;
-		}
-
 		subtract(RHS);
 
 		StepNode a = StepHelper.findCoefficient(LHS, StepNode.power(variable, 2));
 		StepNode b = StepHelper.findCoefficient(LHS, variable);
 		StepNode c = StepHelper.findConstant(LHS);
-
-		if (isZero(a)) {
-			solveLinear();
-			return;
-		}
 
 		if (isZero(c)) {
 			steps.add(loc.getMenuLaTeX("FactorEquation", "Factor equation"), SolutionStepTypes.COMMENT);
@@ -513,11 +493,7 @@ public class EquationSteps {
 
 			steps.levelUp();
 
-			if (discriminantValue == 0) {
-				StepNode solution = StepNode.minus(StepNode.divide(b, StepNode.multiply(2, a)));
-
-				solutions.add(solution.simplify());
-			} else if (discriminantValue > 0) {
+			if (discriminantValue > 0) {
 				StepNode solution1 = StepNode.divide(StepNode.add(StepNode.minus(b), StepNode.root(discriminant, 2)),
 						StepNode.multiply(2, a));
 				StepNode solution2 = StepNode.divide(StepNode.subtract(StepNode.minus(b), StepNode.root(discriminant, 2)),
@@ -811,16 +787,18 @@ public class EquationSteps {
 				solutions.add(StepNode.minus(RHS));
 			} else {
 				EquationSteps positiveBranch = new EquationSteps(kernel, LHS, RHS, variable);
+				positiveBranch.setCase(solutionCase.concat("1."));
 				steps.addAll(positiveBranch.getSteps());
 				solutions.addAll(positiveBranch.getSolutions());
 
 				EquationSteps negativeBranch = new EquationSteps(kernel, LHS, StepNode.minus(RHS), variable);
+				negativeBranch.setCase(solutionCase.concat("2."));
 				steps.addAll(negativeBranch.getSteps());
 				solutions.addAll(negativeBranch.getSolutions());
 			}
 		} else {
 			EquationSteps reduced = new EquationSteps(kernel, LHS, RHS, variable);
-			reduced.setIntermediate();
+			reduced.setCase("im");
 			steps.addAll(reduced.getSteps());
 			solutions.addAll(reduced.getSolutions());
 		}

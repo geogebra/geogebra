@@ -133,18 +133,16 @@ public class StepHelper {
 					return so;
 				}
 			} else if (so.isOperation(Operation.MINUS)) {
-				if (countOperation(so, Operation.NROOT) > 0) {
-					return StepNode.minus(so);
-				}
+				return StepNode.minus(getOneSquareRoot(so));
 			} else if (so.isOperation(Operation.PLUS)) {
-				StepNode roots = null;
+				StepNode root = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					roots = StepNode.add(roots, getSQRoots(so.getSubTree(i)));
-					if (countOperation(so.getSubTree(i), Operation.NROOT) > 0) {
-						return roots;
+					root = getOneSquareRoot(so.getSubTree(i));
+					if (root != null) {
+						return root;
 					}
 				}
-				return roots;
+				return root;
 			}
 		}
 		return null;
@@ -162,9 +160,7 @@ public class StepHelper {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.equals(expr)) {
-				return so;
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
+			if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (so.getSubTree(i).equals(expr)) {
 						return so;
@@ -478,11 +474,11 @@ public class StepHelper {
 		StepNode evaluateAt;
 
 		if (Double.isInfinite(a.getValue()) && a.getValue() < 0) {
-			evaluateAt = StepNode.subtract(b, 10).simplify();
+			evaluateAt = StepNode.subtract(b, 10);
 		} else if (Double.isInfinite(b.getValue()) && b.getValue() > 0) {
-			evaluateAt = StepNode.add(a, 10).simplify();
+			evaluateAt = StepNode.add(a, 10);
 		} else {
-			evaluateAt = StepNode.divide(StepNode.add(a, b), 2).simplify();
+			evaluateAt = StepNode.divide(StepNode.add(a, b), 2);
 		}
 
 		return x.getValueAt(variable, evaluateAt.getValue()) < 0;

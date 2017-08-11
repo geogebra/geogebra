@@ -20,16 +20,21 @@ public class SolutionStep {
 	}
 
 	public void getListOfSteps(StepGuiBuilder builder) {
-		builder.addLatexRow(getLabel());
+		if (type == SolutionStepTypes.WRAPPER) {
+			for (int i = 0; i < substeps.size(); i++) {
+				(substeps.get(i)).getListOfSteps(builder);
+			}
+		} else {
+			builder.addLatexRow(getLabel());
 
-		if (substeps == null) {
-			return;
+			if (substeps != null) {
+				builder.startGroup();
+				for (int i = 0; i < substeps.size(); i++) {
+					(substeps.get(i)).getListOfSteps(builder);
+				}
+				builder.endGroup();
+			}
 		}
-		builder.startGroup();
-		for (int i = 0; i < substeps.size(); i++) {
-			(substeps.get(i)).getListOfSteps(builder);
-		}
-		builder.endGroup();
 	}
 
 	public void addSubStep(SolutionStep s) {
@@ -46,19 +51,7 @@ public class SolutionStep {
 		return substeps;
 	}
 
-	public boolean isComment() {
-		return type == SolutionStepTypes.COMMENT;
-	}
-
-	public boolean isInstruction() {
-		return type == SolutionStepTypes.INSTRUCTION;
-	}
-
-	public boolean isEquation() {
-		return type == SolutionStepTypes.EQUATION;
-	}
-
-	public boolean isSolution() {
-		return type == SolutionStepTypes.SOLUTION;
+	public SolutionStepTypes getType() {
+		return type;
 	}
 }

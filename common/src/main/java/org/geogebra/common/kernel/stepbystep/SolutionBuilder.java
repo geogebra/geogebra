@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import java.util.List;
 import java.util.Stack;
 
 public class SolutionBuilder {
@@ -9,6 +10,7 @@ public class SolutionBuilder {
 
 	public SolutionBuilder() {
 		previousSteps = new Stack<SolutionStep>();
+		add("", SolutionStepTypes.WRAPPER);
 	}
 
 	public SolutionStep getSteps() {
@@ -32,7 +34,12 @@ public class SolutionBuilder {
 	}
 
 	public void addAll(SolutionStep s) {
-		currentStep.addSubStep(s);
+		List<SolutionStep> ss = s.getSubsteps();
+		if (ss != null) {
+			for (int i = 0; i < ss.size(); i++) {
+				currentStep.addSubStep(ss.get(i));
+			}
+		}
 	}
 
 	public void levelDown() {

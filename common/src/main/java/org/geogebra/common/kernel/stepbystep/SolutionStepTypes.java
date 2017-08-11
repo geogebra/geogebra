@@ -7,5 +7,7 @@ public enum SolutionStepTypes {
 
 	EQUATION,
 
-	SOLUTION
+	SOLUTION,
+
+	WRAPPER
 }
