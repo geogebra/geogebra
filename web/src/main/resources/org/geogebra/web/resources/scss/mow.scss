@@ -94,16 +94,15 @@
 			padding: 2px;
     		border: 2px solid $mow_purple;
 			}
-		
-		.inactiveToolButton {
-			opacity: 0.3;
+	}
+	.inactiveToolButton {
+			opacity: 0.5;
 			cursor: default;
 			&[selected = true] {
 				padding: 3px;
 				border: 1px solid $tool-border;
 			}
 		}
-	}
 	.icon24_padding{
 		padding: 4px;
 	}

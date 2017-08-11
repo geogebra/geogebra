@@ -209,17 +209,17 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (mode == EuclidianConstants.MODE_IMAGE) {
 			im.addStyleName("icon24_padding");
 		}
-		if (mode == EuclidianConstants.MODE_VIDEO
-				|| mode == EuclidianConstants.MODE_AUDIO
-				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
-			im.addStyleName("inactiveToolButton");
-		}
 
 		StandardButton button = new StandardButton(null, "", 32, app);
 		button.getUpFace().setImage(im);
 		button.addFastClickHandler(this);
 
 		button.addStyleName("mowToolButton");
+		if (mode == EuclidianConstants.MODE_VIDEO
+				|| mode == EuclidianConstants.MODE_AUDIO
+				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
+			button.addStyleName("inactiveToolButton");
+		}
 		button.getElement().setAttribute("mode", mode + "");
 		button.getElement().setId("mode" + mode);
 		return button;
