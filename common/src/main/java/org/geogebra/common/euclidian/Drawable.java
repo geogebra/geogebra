@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -756,23 +755,8 @@ public abstract class Drawable extends DrawableND {
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-			if (view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-					&& geo.isSelected()) {
-				int alpha;
-				if (view.getApplication()
-						.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT) {
-					alpha = 102;
-				} else if (geo.getLineOpacity() > 191) { // 191 = 256 * 0.75 - 1
-					alpha = 127;
-				} else {
-					alpha = 255;
-				}
-				color = GColor.newColor(color.getRed(), color.getGreen(),
-						color.getBlue(), alpha);
-			} else {
-				color = GColor.newColor(color.getRed(), color.getGreen(),
-						color.getBlue(), geo.getLineOpacity());
-			}
+			color = GColor.newColor(color.getRed(), color.getGreen(),
+					color.getBlue(), geo.getLineOpacity());
 		}
 		return color;
 	}

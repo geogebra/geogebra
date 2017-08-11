@@ -1102,7 +1102,8 @@ public abstract class GeoElement extends ConstructionElement
 		// selColor = getInverseColor(objColor);
 		if (color != null) {
 			selColor = GColor.newColor(color.getRed(), color.getGreen(),
-					color.getBlue(), 100);
+					color.getBlue(), getKernel().getApplication()
+							.has(Feature.HIGHLIGT_IMPROVEMENTS) ? 85 : 100);
 		}
 	}
 
