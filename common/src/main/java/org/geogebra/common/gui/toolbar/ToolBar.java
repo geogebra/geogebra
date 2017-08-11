@@ -276,15 +276,20 @@ public class ToolBar {
 
 	public static String getMOWMediaToolBarDefString() {
 		StringBuilder sb = new StringBuilder();
+		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SELECT);
+		sb.append(" | ");
 		sb.append(EuclidianConstants.MODE_TEXT);
-		sb.append(" | ");
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
-		sb.append(" | ");
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_VIDEO);
-		sb.append(" | ");
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_AUDIO);
-		sb.append(" | ");
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_GEOGEBRA);
+		sb.append(" | ");
 		return sb.toString();
 	}
 
@@ -351,6 +356,13 @@ public class ToolBar {
 
 	public static String getMOWToolsDefString() {
 		StringBuilder sb = new StringBuilder();
+		// Move, Select
+		sb.append(EuclidianConstants.MODE_MOVE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_SELECT);
+		sb.append(" | ");
+
+		// Shapes
 		sb.append(EuclidianConstants.MODE_SHAPE_RECTANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_SQUARE);
@@ -366,6 +378,8 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_SHAPE_TRIANGLE);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_SHAPE_LINE);
+		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_FREEHAND_SHAPE);
 		sb.append(" | ");
 
 		// Points

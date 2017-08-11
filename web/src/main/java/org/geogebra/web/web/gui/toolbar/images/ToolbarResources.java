@@ -390,11 +390,11 @@ public interface ToolbarResources {
 
 	ResourcePrototype help_32();
 
-	ResourcePrototype media_panel_32();
+	ResourcePrototype media_panel_24();
 
-	ResourcePrototype pen_panel_32();
+	ResourcePrototype pen_panel_24();
 
-	ResourcePrototype tools_panel_32();
+	ResourcePrototype tools_panel_24();
 
 	ResourcePrototype move_pointer_32();
 
@@ -406,17 +406,13 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_audio_32();
 
-	ResourcePrototype undo_32();
-
-	ResourcePrototype redo_32();
-
-	ResourcePrototype media_panel_active_32();
+	ResourcePrototype media_panel_active_24();
 
 	ResourcePrototype move_pointer_active_32();
 
-	ResourcePrototype tools_panel_active_32();
+	ResourcePrototype tools_panel_active_24();
 
-	ResourcePrototype pen_panel_active_32();
+	ResourcePrototype pen_panel_active_24();
 
 	ResourcePrototype mode_pen_white_32();
 

@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.toolbar.mow;
 
+import java.util.Vector;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
@@ -39,7 +41,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private static final int BLACK = 0;
 	private StandardButton pen;
 	private StandardButton eraser;
-	private StandardButton freehand;
+	private StandardButton move;
+	private StandardButton select;
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
@@ -61,7 +64,7 @@ public class PenSubMenu extends SubMenuPanel {
 	 *            ggb app.
 	 */
 	public PenSubMenu(AppW app) {
-		super(app, false);
+		super(app/* , false */);
 		addStyleName("penSubMenu");
 	}
 
@@ -74,10 +77,14 @@ public class PenSubMenu extends SubMenuPanel {
 		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
 		im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);
+		pen.addStyleName("plusMarginLeft");
 
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
-		freehand = createButton(EuclidianConstants.MODE_FREEHAND_SHAPE);
-		penPanel.add(LayoutUtilW.panelRow(pen, eraser, freehand));
+		eraser.addStyleName("plusMarginLeft");
+		move = createButton(EuclidianConstants.MODE_MOVE);
+		select = createButton(EuclidianConstants.MODE_SELECT);
+
+		penPanel.add(LayoutUtilW.panelRow(move, pen, select, eraser));
 	}
 
 	/**
@@ -91,7 +98,6 @@ public class PenSubMenu extends SubMenuPanel {
 				aColor);
 		Label label = new Label();
 		color.applyToLabel(label);
-		// label.addStyleName("MyCanvasButton");
 		label.addStyleName("mowColorButton");
 		label.addClickHandler(this);
 		return label;
@@ -108,7 +114,6 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 
 		btnCustomColor = new StandardButton("+", app);
-		//btnCustomColor.addStyleName("MyCanvasButton color-button");
 		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(this);
@@ -162,13 +167,22 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	@Override
+	protected void addModeMenu(FlowPanel panel, Vector<Integer> menu) {
+		if (app.isModeValid(menu.get(0).intValue())) {
+			panel.add(createButton(menu.get(0).intValue()));
+		}
+	}
+
+	@Override
 	public void onClick(Widget source) {
 		if (source == pen) {
 			app.setMode(EuclidianConstants.MODE_PEN);
 		} else if (source == eraser) {
 			app.setMode(EuclidianConstants.MODE_ERASER);
-		} else if (source == freehand) {
-			app.setMode(EuclidianConstants.MODE_FREEHAND_SHAPE);
+		} else if (source == move) {
+			app.setMode(EuclidianConstants.MODE_MOVE);
+		} else if (source == select) {
+			app.setMode(EuclidianConstants.MODE_SELECT);
 		} else if (source == btnCustomColor) {
 			openColorDialog();
 		}
@@ -226,11 +240,17 @@ public class PenSubMenu extends SubMenuPanel {
 		preview.setVisible(false);
 	}
 
-	private void doSelectFreehand() {
+	private void doSelectMove() {
 		reset();
 		// colorPanel.setVisible(false);
-		freehand.getElement().setAttribute("selected", "true");
-		selectColor(BLACK);
+		move.getElement().setAttribute("selected", "true");
+		slider.setVisible(false);
+	}
+
+	private void doSelectSelect() {
+		reset();
+		// colorPanel.setVisible(false);
+		select.getElement().setAttribute("selected", "true");
 		slider.setVisible(false);
 	}
 
@@ -239,7 +259,8 @@ public class PenSubMenu extends SubMenuPanel {
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "false");
-		freehand.getElement().setAttribute("selected", "false");
+		move.getElement().setAttribute("selected", "false");
+		select.getElement().setAttribute("selected", "false");
 		setColorsEnabled(false);
 
 	}
@@ -303,8 +324,10 @@ public class PenSubMenu extends SubMenuPanel {
 	@Override
 	public void setMode(int mode) {
 		reset();
-		if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
-			doSelectFreehand();
+		if (mode == EuclidianConstants.MODE_MOVE) {
+			doSelectMove();
+		} else if (mode == EuclidianConstants.MODE_SELECT) {
+			doSelectSelect();
 		} else if (mode == EuclidianConstants.MODE_ERASER) {
 			doSelectEraser();
 		} else if (mode == EuclidianConstants.MODE_PEN) {

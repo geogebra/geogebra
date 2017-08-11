@@ -192,6 +192,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_down_white.png")
 	ImageResource toolbar_close_portrait_white();
 
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_up_black.png")
+	ImageResource toolbar_open_portrait_black();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_down_black.png")
+	ImageResource toolbar_close_portrait_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/arrow_right_white.png")
 	ImageResource toolbar_open_landscape_white();
 
@@ -218,6 +224,12 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/mode_move.png")
 	ImageResource mode_move();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/toolbar_writing_white.png")
+	ImageResource toolbar_writing();
+
+	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/toolbar_media_white.png")
+	ImageResource toolbar_media();
 
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/graphing.png")

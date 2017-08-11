@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
@@ -20,6 +21,7 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -31,12 +33,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private static final int DEFAULT_SUBMENU_HEIGHT = 120;
-	// private static final int TOOLS_SUBMENU_HEIGHT = 120;
-	// private static final int MEDIA_SUBMENU_HEIGHT = 55;
 	private AppW app;
 	private StandardButton redoButton;
 	private StandardButton undoButton;
-	private StandardButton moveButton;
+	private StandardButton closeButton;
 	private StandardButton penButton;
 	private StandardButton toolsButton;
 	private StandardButton mediaButton;
@@ -48,10 +48,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private SubMenuPanel toolsMenu;
 	private SubMenuPanel mediaMenu;
 	private FlowPanel subMenuPanel;
-	private int submenuHeight;
-	private int lastSubmenuHeight;
+	private boolean isSubmenuOpen;
 	private ToolbarResources pr;
-	private boolean stayClosed;
 
 	/**
 	 *
@@ -81,15 +79,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		createUndoRedo();
 		// midddle buttons open submenus
 		createMiddleButtons();
-		createMoveButton();
+		createCloseButton();
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
 
 		subMenuPanel = new FlowPanel();
 		add(subMenuPanel);
-		// hack
-		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
-		lastSubmenuHeight = 0;
-		stayClosed = false;
 		addStyleName("mowToolbar");
 		// sets the horizontal position of the toolbar
 		setResponsivePosition();
@@ -108,8 +102,10 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		createPenButton();
 		createToolsButton();
 		createMediaButton();
-		middlePanel
-				.add(LayoutUtilW.panelRow(penButton, toolsButton, mediaButton));
+
+		middlePanel.add(penButton);
+		middlePanel.add(toolsButton);
+		middlePanel.add(mediaButton);
 	}
 
 	/**
@@ -124,7 +120,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	public StandardButton createButton(String url,
 			FastClickHandler handler) {
 		NoDragImage im = new NoDragImage(url);
-		StandardButton btn = new StandardButton(null, "", 32, app);
+		StandardButton btn = new StandardButton(null, "", 24, app);
 		btn.getUpFace().setImage(im);
 		btn.addFastClickHandler(handler);
 		return btn;
@@ -145,11 +141,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		mediaMenu = new MediaSubMenu(app);
 	}
 
-	private void createMoveButton() {
-		moveButton = new StandardButton("", app);
-		moveButton.getUpFace().setImage(getImage(pr.move_pointer_32(), 32));
-		rightPanel.add(moveButton);
-		moveButton.addFastClickHandler(this);
+	private void createCloseButton() {
+		closeButton = new StandardButton("", app);
+		closeButton.getUpFace()
+				.setImage(new Image(MaterialDesignResources.INSTANCE
+						.toolbar_close_portrait_black()));
+		rightPanel.add(closeButton);
+		closeButton.addFastClickHandler(this);
 	}
 
 	/**
@@ -159,8 +157,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true = highlighted icon, false = gray icon
 	 */
 	private void togglePenButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.pen_panel_32(), 32);
-		NoDragImage downFace = getImage(pr.pen_panel_active_32(), 32);
+		NoDragImage upFace = getImage(pr.pen_panel_24(), 24);
+		NoDragImage downFace = getImage(pr.pen_panel_active_24(), 24);
 		if (toggle) {
 			penButton.getUpFace().setImage(downFace);
 		} else {
@@ -175,8 +173,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true = highlighted icon, false = gray icon
 	 */
 	private void toggleToolsButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.tools_panel_32(), 32);
-		NoDragImage downFace = getImage(pr.tools_panel_active_32(), 32);
+		NoDragImage upFace = getImage(pr.tools_panel_24(), 24);
+		NoDragImage downFace = getImage(pr.tools_panel_active_24(), 24);
 		if (toggle) {
 			toolsButton.getUpFace().setImage(downFace);
 		} else {
@@ -191,8 +189,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true = highlighted icon, false = gray icon
 	 */
 	private void toggleMediaButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.media_panel_32(), 32);
-		NoDragImage downFace = getImage(pr.media_panel_active_32(), 32);
+		NoDragImage upFace = getImage(pr.media_panel_24(), 24);
+		NoDragImage downFace = getImage(pr.media_panel_active_24(), 24);
 		if (toggle) {
 			mediaButton.getUpFace().setImage(downFace);
 		} else {
@@ -201,18 +199,20 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	/**
-	 * Toggles the move hand icon
+	 * Toggles the open/close toolbar icon
 	 * 
 	 * @param toggle
-	 *            true = highlighted icon, false = gray icon
+	 * 
 	 */
-	public void toggleMoveButton(boolean toggle) {
-		NoDragImage upFace = getImage(pr.move_pointer_32(), 32);
-		NoDragImage downFace = getImage(pr.move_pointer_active_32(), 32);
+	public void toggleCloseButton(boolean toggle) {
+		Image upFace = new Image(
+				MaterialDesignResources.INSTANCE.toolbar_open_portrait_black());
+		Image downFace = new Image(MaterialDesignResources.INSTANCE
+				.toolbar_close_portrait_black());
 		if (toggle) {
-			moveButton.getUpFace().setImage(downFace);
+			closeButton.getUpFace().setImage(downFace);
 		} else {
-			moveButton.getUpFace().setImage(upFace);
+			closeButton.getUpFace().setImage(upFace);
 		}
 	}
 
@@ -227,26 +227,18 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			togglePenButton(true);
 			toggleToolsButton(false);
 			toggleMediaButton(false);
-			toggleMoveButton(false);
 		}
 		if (button == toolsButton) {
 			togglePenButton(false);
 			toggleToolsButton(true);
 			toggleMediaButton(false);
-			toggleMoveButton(false);
 		}
 		if (button == mediaButton) {
 			togglePenButton(false);
 			toggleToolsButton(false);
 			toggleMediaButton(true);
-			toggleMoveButton(false);
 		}
-		if (button == moveButton) {
-			togglePenButton(false);
-			toggleToolsButton(false);
-			toggleMediaButton(false);
-			toggleMoveButton(true);
-		}
+
 	}
 
 	/**
@@ -257,19 +249,16 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void createUndoRedo() {
-		redoButton = new StandardButton(pr.redo_32(), null, 32, app);
-		redoButton.getUpHoveringFace()
-.setImage(getImage(pr.redo_32(), 32));
+		redoButton = new StandardButton(
+				MaterialDesignResources.INSTANCE.redo_black(), app);
 		redoButton.addFastClickHandler(this);
-		redoButton.addStyleName("redoButton");
 
-		undoButton = new StandardButton(pr.undo_32(), null, 32, app);
-		undoButton.getUpHoveringFace()
-.setImage(getImage(pr.undo_32(), 32));
+		undoButton = new StandardButton(
+				MaterialDesignResources.INSTANCE.undo_black(), app);
 		undoButton.addFastClickHandler(this);
-		undoButton.addStyleName("undoButton");
 
-		leftPanel.add(LayoutUtilW.panelRow(undoButton, redoButton));
+		leftPanel.add(undoButton);
+		leftPanel.add(redoButton);
 		updateUndoActions();
 	}
 
@@ -305,22 +294,25 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		} else if (source == undoButton) {
 			app.getGuiManager().undo();
 			app.hideKeyboard();
-		} else if (source == moveButton) {
-			app.setMoveMode();
-			if (currentMenu != null) {
-				setCurrentMenu(null);
-			}
-		} else if (source == penButton) {
-			if (subMenuPanel.isVisible() && currentMenu == penMenu) {
-				stayClosed = true;
+
+		} else if (source == closeButton) {
+			if (subMenuPanel.isVisible()) {
+				setSubmenuVisible(false);
+				toggleCloseButton(false);
 			} else {
-				stayClosed = false;
+				setSubmenuVisible(true);
+				toggleCloseButton(true);
 			}
+
+		} else if (source == penButton) {
 			setCurrentMenu(penMenu);
+			toggleCloseButton(true);
 		} else if (source == toolsButton) {
 			setCurrentMenu(toolsMenu);
+			toggleCloseButton(true);
 		} else if (source == mediaButton) {
 			setCurrentMenu(mediaMenu);
+			toggleCloseButton(true);
 		}
 		setButtonActive(source);
 	}
@@ -333,8 +325,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
 			return mediaMenu;
 		} else if (mode == EuclidianConstants.MODE_PEN
-				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE
 				|| mode == EuclidianConstants.MODE_ERASER) {
+			return penMenu;
+		} else if (mode == EuclidianConstants.MODE_MOVE
+				|| mode == EuclidianConstants.MODE_SELECT) {
+			if (currentMenu != null) {
+				return currentMenu;
+			}
 			return penMenu;
 		} else {
 			return toolsMenu;
@@ -348,21 +345,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            the mode to set.
 	 */
 	public void setMode(int mode) {
-		if(mode == EuclidianConstants.MODE_MOVE){
-			setButtonActive(moveButton);
-			if (currentMenu != null) {
-				currentMenu.reset();
-			}
-			return;
-		}
-		toggleMoveButton(false);
 
 		if (mode == EuclidianConstants.MODE_PEN) {
 			setButtonActive(penButton);
 		}
-		// make sure the pen panel stays closed if it was closed manually
-		// (MOW-247)
-		if (!(mode == EuclidianConstants.MODE_PEN && currentMenu == penMenu && stayClosed)) {
+
+		if (!(mode == EuclidianConstants.MODE_PEN
+				&& currentMenu == penMenu)) {
 			doSetCurrentMenu(getSubMenuForMode(mode));
 		}
 
@@ -397,8 +386,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (currentMenu == submenu) {
 			if (!subMenuPanel.isVisible()) {
 				currentMenu.onOpen();
+				setSubmenuVisible(true);
 			}
-			setSubmenuVisible(!subMenuPanel.isVisible());
 			return;
 		}
 		// this will call setMode => submenu is open
@@ -420,16 +409,16 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true if submenu should be visible
 	 */
 	private void setSubmenuVisible(final boolean visible) {
-		submenuHeight = DEFAULT_SUBMENU_HEIGHT;
+
 		if (visible) {
 			subMenuPanel.setVisible(visible);
-			if (lastSubmenuHeight == 0) {
-				setStyleName("animateBaseToDouble");
+			if (!isSubmenuOpen) {
+				setStyleName("showSubmenu");
 			}
-			lastSubmenuHeight = 120;
+			isSubmenuOpen = true;
 		} else {
-			if (submenuHeight == 120) {
-				setStyleName("animateDoubleToBase");
+			if (isSubmenuOpen) {
+				setStyleName("hideSubmenu");
 			}
 			Timer timer = new Timer() {
 				@Override
@@ -437,35 +426,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 					doShowSubmenu(visible);
 				}
 			};
-			timer.schedule(500);
-			lastSubmenuHeight = 0;
+			timer.schedule(250);
+			isSubmenuOpen = false;
 		}
 		addStyleName("mowToolbar");
 		setResponsivePosition();
-
-		/*
-		 * if (currentMenu == toolsMenu) { submenuHeight = TOOLS_SUBMENU_HEIGHT;
-		 * } else { submenuHeight = DEFAULT_SUBMENU_HEIGHT; }
-		 * 
-		 * if (visible) { subMenuPanel.setVisible(visible); if (submenuHeight ==
-		 * 120) { if (lastSubmenuHeight == 0) {
-		 * setStyleName("animateBaseToDouble");
-		 * 
-		 * } if (lastSubmenuHeight == 55) {
-		 * setStyleName("animateSimpleToDouble"); } lastSubmenuHeight = 120; }
-		 * if (submenuHeight == 55) { if (lastSubmenuHeight == 0) {
-		 * setStyleName("animateBaseToSimple"); } if (lastSubmenuHeight == 120)
-		 * { setStyleName("animateDoubleToSimple"); } lastSubmenuHeight = 55; }
-		 * } else { if (submenuHeight == 120) {
-		 * setStyleName("animateDoubleToBase"); } if (submenuHeight == 55) {
-		 * setStyleName("animateSimpleToBase"); } // timer delays hiding the
-		 * submenu so it stays visible until the end // of the animation Timer
-		 * timer = new Timer() {
-		 * 
-		 * @Override public void run() { doShowSubmenu(visible); } };
-		 * timer.schedule(500); lastSubmenuHeight = 0; }
-		 * addStyleName("mowToolbar"); setResponsivePosition();
-		 */
 	}
 
 	/**

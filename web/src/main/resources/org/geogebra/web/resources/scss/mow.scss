@@ -8,54 +8,65 @@
 	
 	.mowToolbar {
 		position: relative;
-		height: 40px;
+		height: 56px;
 		/** explicit non-transparent to hide EV content */
-		background-color: #fff;
+		background-color: $white;
 		
 		border-radius: 2px;
 		box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0,0,0,0.02);
-  		padding: 5px 0px 5px 0px;
 	    
 	    img {
 			opacity: 0.6;
 		}
 		
+		
 		.left {
 			position: absolute;
-			top: 3px;
+			top: 0px;
 			float: left;
-			padding-left: 10px;
+			display: inline-flex;
+			margin: 3px 0px 3px 0px;
+			img {
+				margin: 6px;
+	   			padding: 6px;
+	   			width: 24px;
+    			height: 24px;
+   			}
 		} 
 		.middle {
 			position: absolute;
-			top: 3px;
-			left: 45%; 
+			top: 0px;
+			margin: 3px 0px 3px 0px;
+			left: calc(50% - 72px); 
+			display: inline-flex;
+			img {
+				margin: 6px;
+    			padding: 6px;
+    			width: 24px;
+    			height: 24px;
+    			}
 		} 
 		.right {
-			top: 3px;
-			float: right;
-			padding-right: 5px;
+			position: absolute;
+			top: 0px;
+			right: 0px;
+			margin: 3px 0px 3px 0px;
+			img {
+				margin: 6px;
+	    		padding: 6px;
+	    		width: 24px;
+	    		height: 24px;
+	    		}
 		} 
 	}
-	.animateBaseToDouble { 
-	    animation-name: animBaseToDouble;
-	    animation-duration: 0.2s;
-	    bottom: 172px;
+	.showSubmenu { 
+	    bottom: 178px;
+	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	} 
-	.animateDoubleToBase { 
-	    animation-name: animDoubleToBase;
-	    animation-duration: 0.2s;
-	    bottom: 50px;
+	.hideSubmenu { 
+	    bottom: 56px;
+	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	} 
-	
-	@keyframes animBaseToDouble {
-		0% {bottom: 50px;}
-		100% {bottom: 172px;}
-	}
-	@keyframes animDoubleToBase {
-		0% {bottom: 172px;}
-		100% {bottom: 50px;}
-	}
 	
 	.BigScreen {
 		width: 700px;
@@ -64,51 +75,54 @@
 		width: 100%;
 	} 
 	
-		
 	.opacityFixForOldIcons {
 		opacity: 1 !important;
 	}
 	
-	.mowPanelButton {
-		/*opacity: 0.6;*/
-	}	
-	.mowPanelButton :hover {
-		opacity: 0.8;
-	}
-	
 	.mowToolButton {
-	  /*  width: 34px;
-	    height: 34px;*/
+		position: relative;
+	    display: inline-block;
+	    border-radius: 5px;
+	    border: 1px solid $tool-border;
+	    background-color: $white;
 	    padding: 3px;
-	    margin: 4px !important;
-		float: left;
+	    margin: 3px;
+	    width: 32px;
+	    height: 32px;
 		
 		&[selected = true] {
-			border-radius: 2px;
-			border: 2px solid $mow_purple;
-			margin: 2px !important;
+			padding: 2px;
+    		border: 2px solid $mow_purple;
 			}
+		
+		.inactiveToolButton {
+			opacity: 0.3;
+			cursor: default;
+			&[selected = true] {
+				padding: 3px;
+				border: 1px solid $tool-border;
+			}
+		}
 	}
-	
+	.icon24_padding{
+		padding: 4px;
+	}
 	
 	
 	.mowSubMenu {
 		position: absolute;
-		top: 50px;
+		top: 56px;
 		height: 120px;
 		width: 100%;
-		/*padding-top: 10px;*/
-		border-top: 1px solid #e0e0e0;
-		background-color: #fff;
+		border-top: 1px solid $burger-menu-border;
+		background-color: $white;
 		box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
 	}
 	
 	.mowSubMenuContent {
-		width: 380px;
-		padding-left: 10px;
+		width: 100%;
 		padding-top: 5px;
-		/*height: 65px;*/
-		background-color: #fff;
+		background-color: $white;
 	}
 	
 	.penSubMenu {
@@ -119,8 +133,12 @@
 			}
 		}
 		.penPanel {
-			width: 100px;
-			margin-top: 1px;	
+			width: 120px;
+			margin-top: 1px;
+			margin-left: 13px;	
+			.plusMarginLeft{
+				margin-left: 16px;
+			}
 		}
 		.colorPanel {
 			position: absolute;
@@ -148,38 +166,37 @@
 		position: absolute;
 		
 		.mowSubMenuContent {
-			width: 380px;
 			height: 117px;
-			top: -3px;
 			overflow: hidden;
 			overflow-x: scroll;
 			overflow-y: hidden !important;
-			border-right: 2px solid #e0e0e0;
 			
 			.panelRow {
 				position: absolute;    
 				top: -2px;
-				width: 1750px;
+				width: 1580px;
 			}	
 		}
 		.groupPanel {
-			padding-right: 10px;
+			padding-left: 10px;
 		}
 	}
 	
 	.mediaSubMenu {
 		.mowSubMenuContent {
 			position: absolute;
-			width: 380px;
-			height: 115px;
-			padding-top: 6px;
-   			top: -3px;
-			border-right: 2px solid #e0e0e0;
-			
-			panelRow {
-				margin-top: 3px;
-			}
+			width: calc(100% - 10px);
+		    height: 115px;
+		    padding-top: 6px;
+		    
+		    .panelRow {
+				position: absolute;    
+				top: -3px;
+			}	
 		}	
+		.groupPanel {
+			padding-left: 10px;
+		}
 	}
 	.mowColorButton {
 		 width: 28px;
@@ -192,7 +209,7 @@
 		border-radius: 2px;
 	}
 	.mowColorPlusButton {
-		 border: 1px solid #666666;
+		 border: 1px solid $tool-border;
 		 text-align: center;
 		 font-size: larger;
 	}
@@ -238,7 +255,7 @@
 /*****************
 *   INFOPANEL
 ******************/	
-		
+/*		
 	.mowSubMenuInfo {
 		position: absolute;
 		top: 10px;
@@ -269,7 +286,7 @@
 		cursor: pointer;
 		}
 	
-	
+	*/
 	
 /*****************
 *   STYLEBAR
@@ -335,11 +352,11 @@
 		  position: absolute;
 		  width: 100%;
 	  	  top: 45px;
-	  	  background-color: #fff !important;
+	  	  background-color: $white !important;
 	  	  
 	  	  .menuPanel {
 			width: 267px !important;
-			border: 1px solid #DCDCDC;
+			border: 1px solid $tool-border;
 		}
 	}
 	.subMenuRightSidePopup {

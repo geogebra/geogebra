@@ -6,19 +6,15 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
-import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,9 +27,24 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class SubMenuPanel extends FlowPanel
 		implements ClickHandler, FastClickHandler {
 
+	protected static class GroupPanel extends FlowPanel {
+		private static final int BUTTON_WIDTH = 46;
+
+		public GroupPanel() {
+			addStyleName("groupPanel");
+		}
+
+		public void setColumns(int columns) {
+			setWidth(((columns) * BUTTON_WIDTH) + "px");
+		}
+
+	}
+
+	protected FlowPanel panelRow;
+
 	/** app **/
 	AppW app;
-	private boolean info;
+	// private boolean info;
 	/**
 	 * Scrollpanel to larger toolbars like 'Tools'
 	 */
@@ -47,21 +58,21 @@ public abstract class SubMenuPanel extends FlowPanel
 	/**
 	 * The info (help) panel for the selected tool.
 	 */
-	FlowPanel infoPanel;
+	// FlowPanel infoPanel;
 
 	/**
 	 * icon of the tool for
 	 */
-	NoDragImage infoImage;
+	// NoDragImage infoImage;
 
 	/** '?' image */
-	NoDragImage questionMark;
+	// NoDragImage questionMark;
 
 	/** the brief info itself */
-	HTML infoLabel;
+	// HTML infoLabel;
 
 	/** link to more info. */
-	String infoURL;
+	// String infoURL;
 
 	/**
 	 * 
@@ -70,9 +81,9 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @param info
 	 *            true if submenu should have an info panel.
 	 */
-	public SubMenuPanel(AppW app, boolean info) {
+	public SubMenuPanel(AppW app/* , boolean info */) {
 		this.app=app;
-		this.info = info;
+		// this.info = info;
 		createGUI();
 	}
 
@@ -82,12 +93,12 @@ public abstract class SubMenuPanel extends FlowPanel
 	protected void createGUI() {
 		addStyleName("mowSubMenu");
 		createContentPanel();
-		if (hasInfo()) {
-			createInfoPanel();
-			add(LayoutUtilW.panelRow(scrollPanel, infoPanel));
-		} else {
+		/*
+		 * if (hasInfo()) { createInfoPanel();
+		 * add(LayoutUtilW.panelRow(scrollPanel, infoPanel)); } else {
+		 */
 			add(scrollPanel);
-		}
+		// }
 	}
 
 	/**
@@ -100,13 +111,19 @@ public abstract class SubMenuPanel extends FlowPanel
 		scrollPanel.add(contentPanel);
 	}
 
+	public void createPanelRow(String mowToolsDefString) {
+		panelRow = new FlowPanel();
+		panelRow.addStyleName("panelRow");
+		addModesToToolbar(panelRow, mowToolsDefString);
+		contentPanel.add(panelRow);
+	}
 	/**
 	 * Creates the info panel.
 	 */
-	protected void createInfoPanel() {
-		infoPanel = new FlowPanel();
-		infoPanel.addStyleName("mowSubMenuInfo");
-	}
+	/*
+	 * protected void createInfoPanel() { infoPanel = new FlowPanel();
+	 * infoPanel.addStyleName("mowSubMenuInfo"); }
+	 */
 
 	/**
 	 * 
@@ -154,7 +171,8 @@ public abstract class SubMenuPanel extends FlowPanel
 	}
 
 	/**
-	 * Add buttons to a panel depending a mode vector.
+	 * Add buttons to a panel depending a mode vector. add modes to a group so
+	 * they get grouped in the toolbox
 	 * 
 	 * @param panel
 	 *            The panel to add the mode buttons.
@@ -162,9 +180,17 @@ public abstract class SubMenuPanel extends FlowPanel
 	 *            The vector of modes to add buttons.
 	 */
 	protected void addModeMenu(FlowPanel panel, Vector<Integer> menu) {
-		if (app.isModeValid(menu.get(0).intValue())) {
-			panel.add(createButton(menu.get(0).intValue()));
+		int col = 0;
+		GroupPanel group = new GroupPanel();
+		for (Integer mode : menu) {
+			if (app.isModeValid(mode)) {
+				StandardButton btn = createButton(mode);
+				group.add(btn);
+				col++;
+			}
 		}
+		group.setColumns(col / 2 + col % 2);
+		panel.add(group);
 	}
 
 	/**
@@ -180,6 +206,15 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (imageNeedsOpacity(mode)) {
 			im.addStyleName("opacityFixForOldIcons");
 		}
+		if (mode == EuclidianConstants.MODE_IMAGE) {
+			im.addStyleName("icon24_padding");
+		}
+		if (mode == EuclidianConstants.MODE_VIDEO
+				|| mode == EuclidianConstants.MODE_AUDIO
+				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
+			im.addStyleName("inactiveToolButton");
+		}
+
 		StandardButton button = new StandardButton(null, "", 32, app);
 		button.getUpFace().setImage(im);
 		button.addFastClickHandler(this);
@@ -194,18 +229,18 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * 
 	 * @return true if submenu has info panel.
 	 */
-	public boolean hasInfo() {
-		return info;
-	}
+	/*
+	 * public boolean hasInfo() { return info; }
+	 */
 
 	/**
 	 * 
 	 * @param info
 	 *            true if submenu should have info panel, false if not.
 	 */
-	public void setInfo(boolean info) {
-		this.info = info;
-	}
+	/*
+	 * public void setInfo(boolean info) { this.info = info; }
+	 */
 
 	/**
 	 * Initializes the submenu when it is opened from MOWToolbar.
@@ -220,7 +255,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 */
 	public void reset() {
 		deselectAllCSS();
-		infoPanel.clear();
+		// infoPanel.clear();
 	}
 
 	@Override
@@ -229,19 +264,17 @@ public abstract class SubMenuPanel extends FlowPanel
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
 		setCSStoSelected(source);
 		app.setMode(mode);
-		if (hasInfo()) {
-			infoPanel.clear();
-			showToolTip(mode);
-		}
+		/*
+		 * if (hasInfo()) { infoPanel.clear(); showToolTip(mode); }
+		 */
 		scrollPanel.setHorizontalScrollPosition(pos);
 	}
 
-	@Override
-	public void onClick(ClickEvent event) {
-		if (event.getSource() == questionMark) {
-			app.getFileManager().open(infoURL);
-		}
-	}
+	// @Override
+	/*
+	 * public void onClick(ClickEvent event) { if (event.getSource() ==
+	 * questionMark) { app.getFileManager().open(infoURL); } }
+	 */
 
 	/**
 	 * Sets CSS of active tool to selected
@@ -266,7 +299,12 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * unselect all tools
 	 */
 	public void deselectAllCSS() {
-		// override in subclasses
+		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
+			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
+			for (int j = 0; j < w.getWidgetCount(); j++) {
+				w.getWidget(j).getElement().setAttribute("selected", "false");
+			}
+		}
 	}
 
 
@@ -276,29 +314,24 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @param mode
 	 *            The mode of the tool that needs info.
 	 */
-	protected void showToolTip(int mode) {
-		if (mode >= 0) {
-			infoImage = new NoDragImage(GGWToolBar.getImageURL(mode, app));
-			infoImage.addStyleName("mowToolButton");
-			// opacity hack: old icons don't need opacity, new ones do
-			if (imageNeedsOpacity(mode)) {
-				infoImage.addStyleName("opacityFixForOldIcons");
-			}
-			infoLabel = new HTML(app.getToolTooltipHTML(mode));
-			infoLabel.addStyleName("mowInfoLabel");
-			infoURL = app.getGuiManager().getTooltipURL(mode);
-			questionMark = new NoDragImage(ImgResourceHelper.safeURI(GGWToolBar.getMyIconResourceBundle().help_32()));
-			infoPanel.add(infoImage);
-			infoPanel.add(infoLabel);
-
-			boolean online = app.getNetworkOperation() == null || app.getNetworkOperation().isOnline();
-			if (infoURL != null && infoURL.length() > 0 && online) {
-				questionMark.addClickHandler(this);
-				questionMark.addStyleName("mowQuestionMark");
-				infoPanel.add(questionMark);
-			}
-		}
-	}
+	/*
+	 * protected void showToolTip(int mode) { if (mode >= 0) { infoImage = new
+	 * NoDragImage(GGWToolBar.getImageURL(mode, app));
+	 * infoImage.addStyleName("mowToolButton"); // opacity hack: old icons don't
+	 * need opacity, new ones do if (imageNeedsOpacity(mode)) {
+	 * infoImage.addStyleName("opacityFixForOldIcons"); } infoLabel = new
+	 * HTML(app.getToolTooltipHTML(mode));
+	 * infoLabel.addStyleName("mowInfoLabel"); infoURL =
+	 * app.getGuiManager().getTooltipURL(mode); questionMark = new
+	 * NoDragImage(ImgResourceHelper.safeURI(GGWToolBar.getMyIconResourceBundle(
+	 * ).help_32())); infoPanel.add(infoImage); infoPanel.add(infoLabel);
+	 * 
+	 * boolean online = app.getNetworkOperation() == null ||
+	 * app.getNetworkOperation().isOnline(); if (infoURL != null &&
+	 * infoURL.length() > 0 && online) { questionMark.addClickHandler(this);
+	 * questionMark.addStyleName("mowQuestionMark");
+	 * infoPanel.add(questionMark); } } }
+	 */
 
 	/**
 	 * Decide if icon needs opacity or not. New icons are black with opacity.
@@ -310,7 +343,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 */
 	protected boolean imageNeedsOpacity(int mode) {
 		if ((mode < 101 && mode != EuclidianConstants.MODE_TEXT && mode != EuclidianConstants.MODE_IMAGE
-				&& mode != EuclidianConstants.MODE_PEN && mode != EuclidianConstants.MODE_FREEHAND_SHAPE)
+				&& mode != EuclidianConstants.MODE_PEN)
 				|| (mode > 110 && mode != EuclidianConstants.MODE_VIDEO && mode != EuclidianConstants.MODE_AUDIO
 						&& mode != EuclidianConstants.MODE_GEOGEBRA)) {
 			return true;
@@ -329,7 +362,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		Element btn = DOM.getElementById("mode" + mode);
 		if (btn != null) {
 			btn.setAttribute("selected", "true");
-			showToolTip(mode);
+			// showToolTip(mode);
 		}
 	}
 
@@ -337,5 +370,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @return first mode; to be selected once this submenu is opened
 	 */
 	public abstract int getFirstMode();
+
 
 }

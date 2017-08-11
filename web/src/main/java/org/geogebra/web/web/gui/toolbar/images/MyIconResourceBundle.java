@@ -555,27 +555,27 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/media_panel.png")
-	ImageResource media_panel_32();
+	ImageResource media_panel_24();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/media_panel_active.png")
-	ImageResource media_panel_active_32();
+	ImageResource media_panel_active_24();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/pen_panel.png")
-	ImageResource pen_panel_32();
+	ImageResource pen_panel_24();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/pen_panel_active.png")
-	ImageResource pen_panel_active_32();
+	ImageResource pen_panel_active_24();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/tools_panel.png")
-	ImageResource tools_panel_32();
+	ImageResource tools_panel_24();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/tools_panel_active.png")
-	ImageResource tools_panel_active_32();
+	ImageResource tools_panel_active_24();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/move_pointer.png")
@@ -600,14 +600,6 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_audio.png")
 	ImageResource mode_audio_32();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/undo.png")
-	ImageResource undo_32();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/redo.png")
-	ImageResource redo_32();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_pen_white.png")
