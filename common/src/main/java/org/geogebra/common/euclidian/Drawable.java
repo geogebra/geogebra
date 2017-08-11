@@ -758,13 +758,17 @@ public abstract class Drawable extends DrawableND {
 		if (geo.hasLineOpacity()) {
 			if (view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
 					&& geo.isSelected()) {
-				if (geo.getLineOpacity() > 191) { // 191 = 256 * 0.75 - 1
-					color = GColor.newColor(color.getRed(), color.getGreen(),
-							color.getBlue(), 127);
+				int alpha;
+				if (view.getApplication()
+						.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT) {
+					alpha = 102;
+				} else if (geo.getLineOpacity() > 191) { // 191 = 256 * 0.75 - 1
+					alpha = 127;
 				} else {
-					color = GColor.newColor(color.getRed(), color.getGreen(),
-							color.getBlue(), 255);
+					alpha = 255;
 				}
+				color = GColor.newColor(color.getRed(), color.getGreen(),
+						color.getBlue(), alpha);
 			} else {
 				color = GColor.newColor(color.getRed(), color.getGreen(),
 						color.getBlue(), geo.getLineOpacity());
