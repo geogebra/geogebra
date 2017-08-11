@@ -431,7 +431,7 @@ public class ToolCategorization {
         addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
         addToList(tools, EuclidianConstants.MODE_RELATION);
         if (!isPhoneApp) {
-            addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+			// addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
             addToList(tools, EuclidianConstants.MODE_BUTTON_ACTION);
             addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
             addToList(tools, EuclidianConstants.MODE_TEXTFIELD_ACTION);
@@ -636,7 +636,7 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_FREEHAND_SHAPE);
 		addToList(tools, EuclidianConstants.MODE_RELATION);
 		if (!isPhoneApp) {
-			addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
+			// addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
 			addToList(tools, EuclidianConstants.MODE_BUTTON_ACTION);
 			addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			addToList(tools, EuclidianConstants.MODE_TEXTFIELD_ACTION);
