@@ -2673,7 +2673,7 @@ __GGB__keysVar.fr.menu = {
     "StemPlot.low": "aberrante(s) inf",
     "Step": "Pas",
     "StepGraph": "Graphique en escaliers",
-    "Steps": "Steps",
+    "Steps": "D\xe9marche",
     "StickToEdge": "Coller au bord",
     "StickyTools": "Outils de suite",
     "Stop": "Stop",
