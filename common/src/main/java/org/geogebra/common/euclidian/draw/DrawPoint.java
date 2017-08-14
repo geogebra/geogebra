@@ -44,6 +44,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.Log;
 
@@ -348,8 +349,12 @@ public final class DrawPoint extends Drawable {
 	private void updateDiameter() {
 		pointSize = P.getPointSize();
 		diameter = 2 * pointSize;
-		HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-		// HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+
+		if (view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)) {
+			HIGHLIGHT_OFFSET = pointSize + 1;
+		} else {
+			HIGHLIGHT_OFFSET = pointSize / 2 + 1;
+		}
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
 
