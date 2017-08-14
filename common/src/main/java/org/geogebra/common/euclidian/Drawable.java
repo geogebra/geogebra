@@ -573,7 +573,9 @@ public abstract class Drawable extends DrawableND {
 			decoStroke = EuclidianStatic.getStroke(width,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 			selStroke = EuclidianStatic.getStroke(
-					width + EuclidianStyleConstants.SELECTION_ADD,
+					view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
+					? 2 * width + 2
+					: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
 			if (!forcedLineType) {
@@ -607,7 +609,9 @@ public abstract class Drawable extends DrawableND {
 					objStroke.getEndCap(), objStroke.getLineJoin(),
 					objStroke.getMiterLimit(), decoStroke.getDashArray());
 			selStroke = AwtFactory.getPrototype().newBasicStroke(
-					width + EuclidianStyleConstants.SELECTION_ADD,
+					view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
+							? 2 * width + 2
+							: width + EuclidianStyleConstants.SELECTION_ADD,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
 					objStroke.getMiterLimit(), selStroke.getDashArray());
 
