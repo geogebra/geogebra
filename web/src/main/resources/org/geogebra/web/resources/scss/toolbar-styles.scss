@@ -221,7 +221,7 @@
 	.header-close-portrait	{
 		@extend .header-open-landscape;
 		position: absolute;
-		bottom: 0px;
+		bottom: -4px;
 		
 		.center {
 			left: -52px;
