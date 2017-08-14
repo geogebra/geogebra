@@ -35,7 +35,7 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 
 	@Override
 	public void tick(double progress) {
-
+		// nothing to do
 	}
 
 }
