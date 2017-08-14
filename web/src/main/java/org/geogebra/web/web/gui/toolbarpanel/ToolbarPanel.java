@@ -609,6 +609,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 							h1, h1 + 1) {
 						@Override
 						protected void onEnd() {
+							super.onEnd();
 							dockParent.setWidgetSize(opposite,
 									dockParent.getOffsetHeight()
 											- CLOSED_HEIGHT_PORTRAIT);

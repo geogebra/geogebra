@@ -21,7 +21,8 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 			header.addStyleName("header-open-portrait");
 			header.toolbarPanel.onOpen();
 		}
-	}
+		// header.hideCenter();
+		}
 
 	@Override
 	protected void onEnd() {
@@ -29,11 +30,12 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 			header.removeStyleName("header-open-portrait");
 			header.addStyleName("header-close-portrait");
 		}
+		// header.showCenter();
 	}
 
 	@Override
 	public void tick(double progress) {
-		// nothing to do.
+
 	}
 
 }
