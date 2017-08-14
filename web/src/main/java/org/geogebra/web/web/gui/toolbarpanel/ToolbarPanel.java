@@ -553,7 +553,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 						super.onEnd();
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
-
+						dockParent.onResize();
 					}
 				};
 
@@ -610,10 +610,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 						@Override
 						protected void onEnd() {
 							super.onEnd();
-							dockParent.setWidgetSize(opposite,
-									dockParent.getOffsetHeight()
-											- CLOSED_HEIGHT_PORTRAIT);
-
+							dockParent.onResize();
 						}
 
 					};
