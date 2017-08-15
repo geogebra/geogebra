@@ -125,6 +125,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
@@ -3872,9 +3873,11 @@ class ColorFunctionPanel extends JPanel
 		switch (colorSpace) {
 		default:
 		case GeoElement.COLORSPACE_RGB:
-			nameLabelR.setText(loc.getMenu("Red") + ":");
-			nameLabelG.setText(loc.getMenu("Green") + ":");
-			nameLabelB.setText(loc.getMenu("Blue") + ":");
+			nameLabelR.setText(StringUtil.capitalize(loc.getMenu("red")) + ":");
+			nameLabelG
+					.setText(StringUtil.capitalize(loc.getMenu("green")) + ":");
+			nameLabelB
+					.setText(StringUtil.capitalize(loc.getMenu("blue")) + ":");
 			break;
 		case GeoElement.COLORSPACE_HSB:
 			nameLabelR.setText(loc.getMenu("Hue") + ":");
