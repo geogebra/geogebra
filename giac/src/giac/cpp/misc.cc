@@ -4715,7 +4715,7 @@ static define_unary_function_eval (__simplex_reduce,&_simplex_reduce,_simplex_re
 	      cur_col=j;	    
 	    }
 	  }
-	  if (cur_col>=0){
+	  if (cur_col>=0 && is_one(mt[i][cur_col])){ // BUGFIX by Luka Marohnić: a proper check for idn line
 	    --counter;
 	    bfs[i]=mt[nc-1][cur_col];
 	  }

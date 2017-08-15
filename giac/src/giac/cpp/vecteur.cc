@@ -831,10 +831,17 @@ namespace giac {
 
   // insert nrows/ncols of fill in m, e.g. fill= [0,0,2] for a spreadsheet
   // or ["","",2] or 0 for a matrix
-  matrice matrice_insert(const matrice & m,int insert_row,int insert_col,int nrows,int ncols,const gen & fill,GIAC_CONTEXT){
+  matrice matrice_insert(const matrice & m,int insert_row,int insert_col,int nrows,int ncols,const gen & fill_,GIAC_CONTEXT){
     int r,c,cell_r,cell_c;
     int decal_i=0,decal_j;
     mdims(m,r,c);
+    gen fill(fill_);
+    if (is_undef(fill)){
+      if (m[0][0].type==_VECT)
+	fill=makevecteur(string2gen("",false),string2gen("",false),2);
+      else
+	fill=0;
+    }
     matrice res;
     res.reserve(r+nrows);
     // i,j position in the old matrix; i+decal_i,i+decal_j in the new

@@ -541,8 +541,18 @@ namespace giac {
     _NEGINT=2*256+2,
     _NONPOSINT=3*256+2,
     _NONNEGINT=4*256+2,
+    _LP_BINARY=106,           //   * binary
+    _LP_BINARYVARIABLES=107,  //   * binaryvariables
+    _LP_DEPTHLIMIT=108,       //   * depthlimit
+    _LP_INTEGER=109,          //   * integer
+    _LP_INTEGERVARIABLES=110, //   * integervariables
+    _LP_MAXIMIZE=111,         //   * maximize
+    _LP_NONNEGATIVE=112,      //   * nonnegative
+    _LP_NONNEGINT=113,        //   * nonnegint
+    _LP_VARIABLES=114,        //   * variables
+    _LP_ASSUME=115,
   };
-
+	
   enum mupad_operator {
     _DELETE_OPERATOR=0,
     _PREFIX_OPERATOR=1,

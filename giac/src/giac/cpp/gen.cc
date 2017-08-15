@@ -12945,6 +12945,26 @@ namespace giac {
 	return "nonposint";
       case _NONNEGINT:
 	return "nonnegint";
+      case _LP_ASSUME:
+	return "lp_assume";
+      case _LP_BINARY:
+	return "lp_binary";
+      case _LP_BINARYVARIABLES:
+	return "lp_binaryvariables";
+      case _LP_DEPTHLIMIT:
+	return "lp_depthlimit";
+      case _LP_MAXIMIZE:
+	return "lp_maximize";
+      case _LP_NONNEGATIVE:
+	return "lp_nonnegative";
+      case _LP_NONNEGINT:
+	return "lp_nonnegint";
+      case _LP_VARIABLES:
+	return "lp_variables";
+      case _LP_INTEGER:
+	return "lp_integer";
+      case _LP_INTEGERVARIABLES:
+	return "lp_integervariables";
       }
     }
     if (subtype==_INT_MUPADOPERATOR){

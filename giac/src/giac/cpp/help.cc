@@ -497,8 +497,8 @@ namespace giac {
 	vector<aide>::iterator itpos;
 	for (it=itbeg;it!=itend;++it){
 	  itpos=lower_bound(v.begin(),v.end(),current_aide,alpha_order);
-	  if (itpos!=v.begin()){
-	    --itpos;
+	  if (itpos!=v.end()){
+	    // --itpos;
 	    if (itpos->cmd_name==it->chaine){ // already documented
 	      current_synonymes=itpos->synonymes;
 	      current_blabla=itpos->blabla;

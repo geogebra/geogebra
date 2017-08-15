@@ -2788,6 +2788,8 @@ namespace giac {
 
   // replace in g using equalities in v
   gen subsop(const vecteur & g,const vecteur & v,const gen & sommet,GIAC_CONTEXT){
+    if (v.size()==2 && !v[0].is_symb_of_sommet(at_equal))
+      return subsop(g,vecteur(1,symb_equal(v[0],v[1])),sommet,contextptr);
     gen newsommet=sommet;
     vecteur res(g);
     const_iterateur it=v.begin(),itend=v.end();
@@ -6300,6 +6302,14 @@ namespace giac {
 	  cmd=0;
 	if (scmd=="copy right")
 	  cmd=1;
+	if (scmd=="row+")
+	  cmd=2;
+	if (scmd=="row-")
+	  cmd=3;
+	if (scmd=="col+")
+	  cmd=4;
+	if (scmd=="col-")
+	  cmd=5;
 	int r=R.val,c=C.val;
 	if (r<0 || r>=lignes || c<0 || c>=colonnes)
 	  return gendimerr(contextptr);
@@ -6316,6 +6326,14 @@ namespace giac {
 	    v[j]=freecopy(cellule);
 	  }
 	}
+	if (cmd==2)
+	  m=matrice_insert(m,r,c,1,0,undef,contextptr);
+	if (cmd==3)
+	  m=matrice_erase(m,r,c,1,0,contextptr);
+	if (cmd==4)
+	  m=matrice_insert(m,r,c,0,1,undef,contextptr);
+	if (cmd==5)
+	  m=matrice_erase(m,r,c,0,1,contextptr);
 	spread_eval(m,contextptr);
       }
       return gen(m,_SPREAD__VECT);
@@ -9785,7 +9803,7 @@ namespace giac {
   }
 
   gen _autosimplify(const gen & g,GIAC_CONTEXT){
-    if (is_zero(g)){
+    if (is_zero(g) && g.type!=_VECT){
       autosimplify("Nop",contextptr);
       return 1;
     }

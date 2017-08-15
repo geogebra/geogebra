@@ -2969,11 +2969,9 @@ extern "C" void Sleep(unsigned int miliSecond);
       */
     case 8:
       return "zh/";
-      /*
     case 9:
       return "de/";
       break;
-      */
     default:
       return "local/";
     }  
@@ -3007,11 +3005,9 @@ extern "C" void Sleep(unsigned int miliSecond);
     case 8:
       return "doc/zh/";
       break;
-      /*
     case 9:
       return "doc/de/";
       break;
-      */
     default:
       return "doc/local/";
     }  
