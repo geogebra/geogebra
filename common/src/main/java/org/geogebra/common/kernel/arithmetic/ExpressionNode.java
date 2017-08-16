@@ -5973,7 +5973,14 @@ public class ExpressionNode extends ValidExpression
 				resolve = evaluate(StringTemplate.defaultTemplate).wrap();
 			}
 		}
+	}
 
+	public ExpressionNode asFraction() {
+		initFraction();
+		if (resolve.isExpressionNode()) {
+			return resolve.wrap();
+		}
+		return null;
 	}
 
 	private void numericResolve(boolean pi, double ratio) {

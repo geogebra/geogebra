@@ -107,7 +107,7 @@ public class AlgoIntegral extends AlgoCasBase {
 				// ... we can calculate the derivative without loading the CAS
 				// (*much* faster, especially in web)
 				Function funDeriv = polyDeriv.getFunction(kernel,
-						inFun.getFunctionVariable());
+						inFun.getFunctionVariable(), true);
 
 				// Log.debug(f.toString());
 				// Log.debug(funDeriv.toString());

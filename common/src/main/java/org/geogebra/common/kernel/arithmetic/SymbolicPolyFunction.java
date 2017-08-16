@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.arithmetic;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.debug.Log;
 
@@ -97,6 +98,31 @@ public class SymbolicPolyFunction extends PolyFunction {
 			err.printStackTrace();
 			return false;
 		}
+	}
+
+	@Override
+	protected PolyFunction buildIntegral() {
+
+		// standard case
+		SymbolicPolyFunction integ = new SymbolicPolyFunction(getDegree() + 1);
+		if(symbCoeffs.length > 0){
+			integ.symbCoeffs[0] = new ExpressionNode(symbCoeffs[0].getKernel(),
+					0);
+		}
+		for (int i = 0; i <= getDegree(); i++) {
+			integ.symbCoeffs[i + 1] = symbCoeffs[i]
+					.divide(new MyDouble(symbCoeffs[i].getKernel(), i + 1));
+			integ.coeffs[i + 1] = integ.symbCoeffs[i + 1].evaluateDouble();
+		}
+		return integ;
+	}
+
+	@Override
+	protected ExpressionValue getCoeff(int i, boolean fraction, Kernel kernel) {
+		if (fraction && symbCoeffs[i].asFraction() != null) {
+			return symbCoeffs[i].asFraction();
+		}
+		return new MyDouble(kernel, coeffs[i]);
 	}
 
 }

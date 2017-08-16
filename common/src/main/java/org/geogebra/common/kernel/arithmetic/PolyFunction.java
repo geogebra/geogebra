@@ -158,7 +158,7 @@ public class PolyFunction
 		return deriv;
 	}
 
-	private PolyFunction buildIntegral() {
+	protected PolyFunction buildIntegral() {
 
 		// standard case
 		PolyFunction integ = new PolyFunction(degree + 1);
@@ -237,22 +237,25 @@ public class PolyFunction
 	 *            FunctionVariable, eg "t" in f(t)
 	 * @return Function containing ExpressionNode built from coefficients
 	 */
-	public Function getFunction(Kernel kernel, FunctionVariable fv) {
+	public Function getFunction(Kernel kernel, FunctionVariable fv,
+			boolean fraction) {
 
 		ExpressionNode fvEn = new ExpressionNode(kernel, fv);
 
 		if (degree == 0) {
 			// constant
 			ExpressionNode en = new ExpressionNode(kernel,
-					new MyDouble(kernel, coeffs[0]));
+					getCoeff(0, fraction, kernel));
 			return new Function(en, fv);
 		} else if (degree == 1) {
 			// linear
-			ExpressionNode en = fvEn.multiplyR(coeffs[1]).plus(coeffs[0]);
+			ExpressionNode en = fvEn.multiply(getCoeff(1, fraction, kernel))
+					.plus(getCoeff(0, fraction, kernel));
 			return new Function(en, fv);
 		}
 
-		ExpressionNode en = fvEn.power((degree)).multiplyR(coeffs[degree]);
+		ExpressionNode en = fvEn.power((degree))
+				.multiply(getCoeff(degree, fraction, kernel));
 
 		if (degree > 2) {
 			for (int i = degree - 1; i > 1; i--) {
@@ -262,7 +265,7 @@ public class PolyFunction
 				if (coeffs[i] != 0) {
 					ExpressionNode term = new ExpressionNode(kernel, fv,
 							Operation.POWER, new MyDouble(kernel, i))
-									.multiplyR(coeffs[i]);
+									.multiply(getCoeff(i, fraction, kernel));
 					en = en.plus(term);
 				}
 			}
@@ -270,16 +273,20 @@ public class PolyFunction
 
 		// linear coefficient
 		if (!Kernel.isZero(coeffs[1])) {
-			en = en.plus(fvEn.multiplyR(coeffs[1]));
+			en = en.plus(fvEn.multiply(getCoeff(1, fraction, kernel)));
 		}
 
 		// constant term
 		if (!Kernel.isZero(coeffs[0])) {
-			en = en.plus(coeffs[0]);
+			en = en.plus(getCoeff(0, fraction, kernel));
 		}
 
 		return new Function(en, fv);
 
+	}
+
+	protected ExpressionValue getCoeff(int i, boolean fraction, Kernel kernel) {
+		return new MyDouble(kernel, coeffs[i]);
 	}
 
 	/**

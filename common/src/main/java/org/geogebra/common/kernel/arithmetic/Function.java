@@ -428,7 +428,7 @@ public class Function extends FunctionNVar
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the integral of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false, true);
+		PolyFunction poly = expandToPolyFunction(expression, true, true);
 		if (poly != null) { // we got a polynomial
 			poly = poly.getIntegral();
 
@@ -869,7 +869,8 @@ public class Function extends FunctionNVar
 			if (factor) {
 				return getDerivativeNoCAS(n);
 			}
-			Function ret = polyDeriv.getFunction(kernel, getFunctionVariable());
+			Function ret = polyDeriv.getFunction(kernel, getFunctionVariable(),
+					false);
 
 			if (fast) {
 				// ret.setSecret();
