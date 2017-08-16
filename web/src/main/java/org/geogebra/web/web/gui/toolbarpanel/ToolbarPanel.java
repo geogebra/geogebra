@@ -482,7 +482,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			// AnimationCallback animCallback = null;
 			dockParent.addStyleName("hide-Dragger");
-			opposite.addStyleName("hiddenHDraggerRightPanel");
+			if (opposite != null) {
+				opposite.addStyleName("hiddenHDraggerRightPanel");
+			}
 		}
 	}
 

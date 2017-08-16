@@ -124,7 +124,9 @@ public class ToolbarDockPanelW extends DockPanelW {
 	 * Scrolls Algebra View to the bottom.
 	 */
 	public void scrollAVToBottom() {
-		toolbar.scrollAVToBottom();
+		if (toolbar != null) {
+			toolbar.scrollAVToBottom();
+		}
 	}
 
 	@Override

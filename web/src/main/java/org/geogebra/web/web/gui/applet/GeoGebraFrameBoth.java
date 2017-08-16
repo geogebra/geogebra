@@ -566,7 +566,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 						add(keyBoard);
 					} else {
 						showKeyboardButton(null);
-
+						remove(keyBoard);
 						this.setKeyboardShowing(false);
 						keyboardHeight = 0;
 						app.updateSplitPanelHeight();
