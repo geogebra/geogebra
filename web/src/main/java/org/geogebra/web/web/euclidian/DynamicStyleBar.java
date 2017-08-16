@@ -145,7 +145,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		}
 
 		// make sure it reflects selected geos
-		setOpen(true);
 
 		setMode(EuclidianConstants.MODE_MOVE);
 		super.updateStyleBar();
