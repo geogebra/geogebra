@@ -559,7 +559,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final boolean isSelectionRectangleAllowed() {
-		return getToolbar() != null;
+		return this.showToolBar;
 	}
 
 	@Override

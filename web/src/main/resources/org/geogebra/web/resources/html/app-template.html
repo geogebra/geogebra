@@ -418,9 +418,10 @@ var app = document.createElement("script");
 				xhr.open("GET", materialHost + "/api/material_preview.php?u="+tubeid);
 				xhr.onreadystatechange = function() {
 					if (xhr.readyState == 4 && xhr.response) {
-					preview.addEventListener && preview.addEventListener("load",function(){
+						preview.addEventListener && preview.addEventListener("load",function(){
 						preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
 						preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
+						document.getElementsByClassName("logo")[0].style.display = "none";
 					});
 						preview.src = xhr.response.replace("http:","https:");
 					}
