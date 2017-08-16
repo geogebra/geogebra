@@ -1879,14 +1879,16 @@ public class DockManagerW extends DockManager {
 		ToolbarPanel toolbar = null;
 		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
-			avHeight = toolbar.isOpen() ? kbHeight + toolbar.getMinVHeight()
+			avHeight = toolbar.isOpen() ? toolbar.getMinVHeight()
 					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 		}else{
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
-		double portraitDivider = (avHeight) / (appHeight);
+		double portraitDivider = kbHeight >= appHeight ? 1
+				: (avHeight) / (appHeight - kbHeight);
 
-		Log.debug("landscape: portraitDivider " + portraitDivider);
+		Log.debug("landscape: portraitDivider " + portraitDivider + ","
+				+ kbHeight + "," + avHeight);
 		if (app.isPortrait()) {
 			setDividerLocation(split, 1 - portraitDivider);
 		} else {
