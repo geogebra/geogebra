@@ -306,7 +306,9 @@ public class ConstructionDefaults {
 		// depPoint.setLocalVariableLabel(app.getPlain("Point") + strDependent);
 		depPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		depPoint.setLocalVariableLabel("Point" + strDependent);
-		depPoint.setObjColor(colDepPoint);
+		depPoint.setObjColor(
+				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+						? colDepPointG : colDepPoint);
 		depPoint.setPointSize(dependentPointSize);
 		depPoint.setDefaultGeoType(DEFAULT_POINT_DEPENDENT);
 		defaultGeoElements.put(DEFAULT_POINT_DEPENDENT, depPoint);
@@ -335,7 +337,9 @@ public class ConstructionDefaults {
 		GeoPoint complexPoint = new GeoPoint(cons);
 		complexPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		complexPoint.setLocalVariableLabel("PointOn");
-		complexPoint.setObjColor(colComplexPoint);
+		complexPoint.setObjColor(
+				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+						? colPointG : colComplexPoint);
 		complexPoint.setPointSize(pointSize);
 		complexPoint.setDefaultGeoType(DEFAULT_POINT_COMPLEX);
 		complexPoint.setMode(Kernel.COORD_COMPLEX);
@@ -558,6 +562,9 @@ public class ConstructionDefaults {
 	}
 
 	private GColor getPointColor() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+			return colPointG;
+		}
 		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
 			return colPointAlpha;
 		}
