@@ -396,16 +396,18 @@ public class Function extends FunctionNVar
 	 * @param skipCASfallback
 	 *            when true, answer is computed without CAS; in case of failure
 	 *            null is returned
+	 * @param keepFraction
+	 *            whether to keep 1/3 as 1/3 or change to 0.333..
 	 * @return derivative
 	 * 
 	 */
 	final public PolyFunction getNumericPolynomialDerivative(int n,
-			boolean skipCASfallback) {
+			boolean skipCASfallback, boolean keepFraction) {
 		// we expand the numerical expression of this function (all variables
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the derivative of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false,
+		PolyFunction poly = expandToPolyFunction(expression, keepFraction,
 				skipCASfallback);
 		if (poly != null) { // we got a polynomial
 			for (int i = 0; i < n; i++) {
@@ -831,7 +833,8 @@ public class Function extends FunctionNVar
 	 */
 	final Function getDerivative(int n, boolean keepFractions, boolean fast) {
 		// check if it's a polynomial
-		PolyFunction polyDeriv = getNumericPolynomialDerivative(n, true);
+		PolyFunction polyDeriv = getNumericPolynomialDerivative(n, true,
+				keepFractions);
 
 		// it it is...
 		if (polyDeriv != null) {
@@ -860,7 +863,7 @@ public class Function extends FunctionNVar
 				return getDerivativeNoCAS(n);
 			}
 			Function ret = polyDeriv.getFunction(kernel, getFunctionVariable(),
-					false);
+					keepFractions);
 
 			if (fast) {
 				// ret.setSecret();

@@ -1141,6 +1141,20 @@ public class CommandsTest extends Assert{
 	}
 	
 	@Test
+	public void cmdDerivative() {
+		t("Derivative[ Curve[sin(t),cos(t),t,0,1] ]",
+				"(cos(t), (sin(t) * (-1)))");
+		t("Derivative[ Curve[sin(t),cos(t),t,0,1],2 ]",
+				"((sin(t) * (-1)), (-cos(t)))");
+		t("Derivative[ sin(x) ]", "cos(x)");
+		t("Derivative[ cos(x), 3 ]", "sin(x)");
+		t("Derivative[ cos(x), x ]", "(-sin(x))");
+		t("Derivative[ cos(x), x, 3 ]", "sin(x)");
+		t("Derivative[ x^4/3 ]", "(4 / 3 * x^(3))");
+
+	}
+
+	@Test
 	public void plusMinus(){
 		tpm("1pm2","{3, -1}");
 		tpm("1pm2pm4","{7, -5}");

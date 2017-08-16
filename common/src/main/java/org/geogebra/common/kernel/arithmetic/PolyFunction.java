@@ -145,7 +145,10 @@ public class PolyFunction
 		return integral;
 	}
 
-	private PolyFunction buildDerivative() {
+	/**
+	 * @return first derivative of this function
+	 */
+	protected PolyFunction buildDerivative() {
 		if (degree < 1) {
 			return new PolyFunction(0);
 		}
@@ -158,6 +161,9 @@ public class PolyFunction
 		return deriv;
 	}
 
+	/**
+	 * @return integral of this function
+	 */
 	protected PolyFunction buildIntegral() {
 
 		// standard case
@@ -235,6 +241,8 @@ public class PolyFunction
 	 *            Kernel
 	 * @param fv
 	 *            FunctionVariable, eg "t" in f(t)
+	 * @param fraction
+	 *            whether to keep fractions
 	 * @return Function containing ExpressionNode built from coefficients
 	 */
 	public Function getFunction(Kernel kernel, FunctionVariable fv,
@@ -285,6 +293,15 @@ public class PolyFunction
 
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @param fraction
+	 *            whether to keep fractions (used by SymbolicFunction)
+	 * @param kernel
+	 *            kernel to build expressions
+	 * @return coefficient
+	 */
 	protected ExpressionValue getCoeff(int i, boolean fraction, Kernel kernel) {
 		return new MyDouble(kernel, coeffs[i]);
 	}

@@ -114,7 +114,8 @@ public class AlgoIntersectImplicitpolyParametric
 			}
 			tx = new PolynomialFunction(new double[] { 0, 1 }); // x=t
 			ty = new PolynomialFunction(f.getFunction()
-					.getNumericPolynomialDerivative(0, false).getCoeffs()); // y=f(t)
+					.getNumericPolynomialDerivative(0, false, false)
+					.getCoeffs()); // y=f(t)
 			maxT = f.getMaxParameter();
 			minT = f.getMinParameter();
 		} else if (l != null) {

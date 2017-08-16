@@ -557,17 +557,6 @@ public class NoExceptionsTest {
 
 	}
 
-
-	@Test
-	public void cmdDerivative() {
-		t("Derivative[ curve1 ]");
-		t("Derivative[ curve1, n1 ]");
-		t("Derivative[ f1 ]");
-		t("Derivative[ f1, n1 ]");
-		t("Derivative[ f1, x]");
-		t("Derivative[ f1, x, n1 ]");
-	}
-
 	@Test
 	public void cmdDeterminant() {
 		t("Determinant[ matrix1 ]");

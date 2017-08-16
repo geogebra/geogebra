@@ -134,6 +134,8 @@ public class Polynomial implements HasDebugString {
 	 *            addend
 	 * @param eq
 	 *            equation to get feedback when simplification fails
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void add(Polynomial e, Equation eq, boolean keepFraction) {
 		for (int i = 0; i < e.length(); i++) {
@@ -234,6 +236,8 @@ public class Polynomial implements HasDebugString {
 	 * 
 	 * @param d
 	 *            constant factor
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void multiply(double d, boolean keepFraction) {
 		multiply(new MyDouble(kernel, d), keepFraction);
@@ -314,6 +318,8 @@ public class Polynomial implements HasDebugString {
 	 * 
 	 * @param eq
 	 *            equation to get feedback when simplification fails
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void simplify(Equation eq, boolean keepFraction) {
 		// Application.debug("simplify " + this);
@@ -560,12 +566,14 @@ public class Polynomial implements HasDebugString {
 	 *            expression to be converted
 	 * @param eqn
 	 *            equation -- used for setting the dependsOnFunction flag
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 * @return polynomial
 	 */
 	static Polynomial fromNode(ExpressionNode lhs, Equation eqn,
-			boolean keepFractions) {
+			boolean keepFraction) {
 		ExpressionNode leftEN = lhs.getCopy(lhs.getKernel());
-		Polynomial poly = leftEN.makePolynomialTree(eqn, keepFractions);
+		Polynomial poly = leftEN.makePolynomialTree(eqn, keepFraction);
 		// Log.debug("Coefficients:");
 		// Log.debug(poly);
 		return poly;
@@ -580,6 +588,8 @@ public class Polynomial implements HasDebugString {
 	 *            second parameter
 	 * @param equ
 	 *            equation to get feedback when simplification fails
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 * @return result as polynomial
 	 */
 	Polynomial apply(Operation operation, Polynomial rt, Equation equ,
@@ -618,6 +628,8 @@ public class Polynomial implements HasDebugString {
 	 *            second parameter
 	 * @param equ
 	 *            equation to get feedback when simplification fails
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 * @return result as polynomial
 	 */
 	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ,

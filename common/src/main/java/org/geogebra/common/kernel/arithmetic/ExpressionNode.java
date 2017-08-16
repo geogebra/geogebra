@@ -981,6 +981,8 @@ public class ExpressionNode extends ValidExpression
 	 * 
 	 * @param equ
 	 *            equation
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 * @return expanded polynomial
 	 */
 	protected final Polynomial makePolynomialTree(Equation equ,
@@ -5987,6 +5989,9 @@ public class ExpressionNode extends ValidExpression
 		}
 	}
 
+	/**
+	 * @return simplified fraction if this is one; null otherwise
+	 */
 	public ExpressionNode asFraction() {
 		initFraction();
 		if (resolve.isExpressionNode()) {

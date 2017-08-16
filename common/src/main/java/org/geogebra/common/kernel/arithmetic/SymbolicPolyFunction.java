@@ -125,4 +125,20 @@ public class SymbolicPolyFunction extends PolyFunction {
 		return new MyDouble(kernel, coeffs[i]);
 	}
 
+	@Override
+	protected PolyFunction buildDerivative() {
+		if (getDegree() < 1) {
+			return new SymbolicPolyFunction(0);
+		}
+
+		// standard case
+		SymbolicPolyFunction deriv = new SymbolicPolyFunction(getDegree() - 1);
+		for (int i = 1; i <= getDegree(); i++) {
+			deriv.symbCoeffs[i - 1] = symbCoeffs[i]
+					.multiply(new MyDouble(symbCoeffs[i].getKernel(), i));
+			deriv.coeffs[i - 1] = deriv.symbCoeffs[i - 1].evaluateDouble();
+		}
+		return deriv;
+	}
+
 }

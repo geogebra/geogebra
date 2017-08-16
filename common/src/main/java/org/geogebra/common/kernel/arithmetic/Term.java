@@ -170,6 +170,8 @@ public class Term implements Comparable<Object> {
 	 *            number to add
 	 * @param kernel
 	 *            kernel
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void addToCoefficient(ExpressionValue number, Kernel kernel,
 			boolean keepFraction) {
@@ -233,6 +235,8 @@ public class Term implements Comparable<Object> {
 	 *            multiplier
 	 * @param kernel
 	 *            kernel
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void multiply(Term t, Kernel kernel, boolean keepFraction) {
 		setCoefficient(
@@ -258,6 +262,8 @@ public class Term implements Comparable<Object> {
 	 *            multiplier
 	 * @param kernel
 	 *            kernel
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void multiply(ExpressionValue number, Kernel kernel, boolean keepFraction) {
 		setCoefficient(multiply(coefficient, number, kernel, keepFraction));
@@ -322,6 +328,8 @@ public class Term implements Comparable<Object> {
 	 *            divisor
 	 * @param kernel
 	 *            kernel
+	 * @param keepFraction
+	 *            whether to use keep coefficients as fractions
 	 */
 	void divide(ExpressionValue number, Kernel kernel, boolean keepFraction) {
 		setCoefficient(divide(coefficient, number, kernel, keepFraction));
