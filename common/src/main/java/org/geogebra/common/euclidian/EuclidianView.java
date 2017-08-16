@@ -3825,7 +3825,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	boolean showResetIcon() {
 		if (!getApplication().showResetIcon()
 				|| !(getApplication().isApplet() || getApplication()
-						.isHTML5Applet())) {
+						.isHTML5Applet())
+				|| app.isWhiteboardActive()) {
 			return false;
 		}
 		return isPrimaryEV();

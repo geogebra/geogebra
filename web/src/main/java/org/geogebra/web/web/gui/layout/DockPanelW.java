@@ -452,7 +452,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 //		kbButtonSpace = new SimplePanel();
 		
 		titleBarPanelContent = new FlowPanel();
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			titleBarPanelContent.setStyleName("MatTitleBarPanelContent");
 		} else {
 			titleBarPanelContent.setStyleName("TitleBarPanelContent");
@@ -550,14 +550,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private void addToggleButton() {
 		// always show the view-icon; otherwise use showStylebar as parameter
-		if (app.isWhiteboardActive()) {
-			toggleStyleBarButton = new StandardButton(getToggleImage(false),
-					null, 24, app);
-			toggleStyleBarButton.addStyleName("toggleStyleBarNew");
-
-			downImage = (ImageResource) getResources().back_right();
-
-		} else if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			graphicsContextMenuBtn = new StandardButton(
 					MaterialDesignResources.INSTANCE.more_border(), app);
 			graphicsContextMenuBtn

@@ -29,7 +29,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	 */
 	public DynamicStyleBar(EuclidianView ev) {
 		super(ev, -1);
-		if (!app.isUnbundled()) {
+		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 			addStyleName("DynamicStyleBar");
 		} else {
 			addStyleName("matDynStyleBar");

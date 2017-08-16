@@ -104,9 +104,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			title = loc.getMenu("Selection");
 		}
 		setTitle(title);
-		if ((isWhiteboard() && !app.isUnbundled())) {
-			wrappedPopup.getPopupPanel().addStyleName("contextMenu");
-		} else if (app.isUnbundled()) {
+
+		if (app.isUnbundled() || isWhiteboard()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
@@ -129,7 +128,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			addPlaneItems();
 		}
 
-		if (wrappedPopup.getComponentCount() > 2) {
+		if (wrappedPopup.getComponentCount() > 2 && !app.isWhiteboardActive()) {
 			wrappedPopup.addSeparator();
 		}
 		addForAllItems();
@@ -197,33 +196,17 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			if (getGeo().isTraceable()) {
 
 				String img;
-				if (isWhiteboard()) {
-					if (!isTracing() || !app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
-						if (app.isUnbundled()) {
-							img = MaterialDesignResources.INSTANCE.trace_black()
-									.getSafeUri().asString();
-						} else {
-							img = AppResources.INSTANCE.trace20().getSafeUri()
-								.asString();
-						}
-					} else {
-						if (app.isUnbundled()) {
-							img = MaterialDesignResources.INSTANCE
-									.trace_black().getSafeUri().asString();
-						} else {
-							img = AppResources.INSTANCE.trace_off20()
-									.getSafeUri()
-								.asString();
-						}
-					}
 
+				if (app.isUnbundled() || isWhiteboard()) {
+					img = MaterialDesignResources.INSTANCE.trace_black()
+							.getSafeUri().asString();
 				} else {
 					img = AppResources.INSTANCE.trace_on().getSafeUri()
 							.asString();
 				}
 
 				if (app.has(Feature.IMPROVE_CONTEXT_MENU)
-						&& !app.isUnbundled()) {
+						&& !app.isUnbundled() && !isWhiteboard()) {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img, "", true),
 							loc.getMenu("HideTrace"), loc.getMenu("ShowTrace"),
@@ -236,7 +219,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							}, true, app);
 					cbItem.setSelected(isTracing());
 					wrappedPopup.addItem(cbItem);
-				} else if (app.isUnbundled()) {
+				} else if (app.isUnbundled() || isWhiteboard()) {
 					final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 							MainMenu.getMenuBarHtml(img,
 									loc.getMenu("ShowTrace")),
@@ -288,10 +271,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				if (showRecordToSpreadsheet) {
 
 					String img;
-					if (isWhiteboard() && !app.isUnbundled()) {
-						img = AppResources.INSTANCE.record_to_spreadsheet20()
-								.getSafeUri().asString();
-					} else if (app.isUnbundled()) {
+
+					if (app.isUnbundled() || isWhiteboard()) {
 						img = MaterialDesignResources.INSTANCE
 								.record_to_spreadsheet_black().getSafeUri()
 								.asString();
@@ -332,10 +313,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			if (getGeo().isAnimatable()) {
 
 				String img;
-				if (isWhiteboard() && !app.isUnbundled()) {
-					img = AppResources.INSTANCE.animation20().getSafeUri()
-							.asString();
-				} else if (app.isUnbundled()) {
+				if (app.isUnbundled() || isWhiteboard()) {
 					img = MaterialDesignResources.INSTANCE.play_black()
 							.getSafeUri().asString();
 				} else {
@@ -382,20 +360,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				if (getGeo().isFixable() && (getGeo().isGeoText()
 						|| getGeo().isGeoImage() || getGeo().isGeoButton())) {
 
-					String img;
-					if (isWhiteboard()) {
-						if (getGeo().isLocked()) {
-							img = AppResources.INSTANCE.unlock20().getSafeUri()
-									.asString();
-						} else {
-							img = AppResources.INSTANCE.lock20().getSafeUri()
-									.asString();
-
-						}
-					} else {
-						img = AppResources.INSTANCE.objectFixed().getSafeUri()
+					String img = AppResources.INSTANCE.objectFixed()
+							.getSafeUri()
 								.asString();
-					}
+
 
 					if (app.has(Feature.IMPROVE_CONTEXT_MENU)
 							|| app.isUnbundled()) {
@@ -426,32 +394,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					final GeoNumeric num = (GeoNumeric) getGeo();
 					if (num.isSlider()) {
 
-						String img;
-						if (isWhiteboard()) {
-							if (getGeo().isLocked()) {
-								if (app.isUnbundled()) {
-									img = MaterialDesignResources.INSTANCE
-											.unlock_black().getSafeUri()
-											.asString();
-								} else {
-									img = AppResources.INSTANCE.unlock20()
-										.getSafeUri().asString();
-								}
-							} else {
-								if (app.isUnbundled()) {
-									img = MaterialDesignResources.INSTANCE
-											.lock_black().getSafeUri()
-											.asString();
-								} else {
-									img = AppResources.INSTANCE.lock20()
-										.getSafeUri().asString();
-								}
-
-							}
-						} else {
-							img = AppResources.INSTANCE.objectFixed()
+						String img = AppResources.INSTANCE.objectFixed()
 									.getSafeUri().asString();
-						}
+
 
 						if (app.has(Feature.IMPROVE_CONTEXT_MENU)
 								|| app.isUnbundled()) {
@@ -484,32 +429,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					}
 				} else if (getGeo().isGeoBoolean()) {
 
-					String img;
-					if (isWhiteboard()) {
-						if (getGeo().isLocked()) {
-							if (app.isUnbundled()) {
-								img = MaterialDesignResources.INSTANCE
-										.unlock_black().getSafeUri().asString();
-							} else {
-								img = AppResources.INSTANCE.unlock20()
-										.getSafeUri()
-									.asString();
-							}
-						} else {
-							if (app.isUnbundled()) {
-								img = MaterialDesignResources.INSTANCE
-										.lock_black().getSafeUri().asString();
-							} else {
-								img = AppResources.INSTANCE.lock20()
-										.getSafeUri()
-									.asString();
-							}
-
-						}
-					} else {
-						img = AppResources.INSTANCE.objectFixed().getSafeUri()
+					String img = AppResources.INSTANCE.objectFixed()
+							.getSafeUri()
 								.asString();
-					}
+
 
 					cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(img,
 							loc.getMenu("FixCheckbox")), new Command() {
@@ -527,8 +450,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				// Pinnable
 				addPin();
 			}
-
+			if (!app.isWhiteboardActive()) {
 			wrappedPopup.addSeparator();
+			}
 		}
 
 		if (!isWhiteboard()) {
@@ -540,9 +464,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				&& !isWhiteboard()) {
 
 			String img;
-			if (isWhiteboard() && !app.isUnbundled()) {
-				img = AppResources.INSTANCE.delete20().getSafeUri().asString();
-			} else if (app.isUnbundled()) {
+			if (app.isUnbundled() || isWhiteboard()) {
 				img = MaterialDesignResources.INSTANCE.delete_black()
 						.getSafeUri().asString();
 			} else {
@@ -573,10 +495,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 
 			String img;
-			if (isWhiteboard() && !app.isUnbundled()) {
-				img = AppResources.INSTANCE.properties20().getSafeUri()
-						.asString();
-			} else if (app.isUnbundled()) {
+			if (app.isUnbundled() || isWhiteboard()) {
 				img = MaterialDesignResources.INSTANCE.settings_black()
 						.getSafeUri().asString();
 			} else {
@@ -592,7 +511,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					openPropertiesDialogCmd();
 				}
 			}, MainMenu.getMenuBarHtml(img,
-					app.isUnbundled() ? loc.getMenu("Settings")
+					app.isUnbundled() || isWhiteboard()
+							? loc.getMenu("Settings")
 							: loc.getMenu("Properties")),
 					loc.getMenu("Properties"));
 		}
@@ -601,12 +521,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addRename() {
 		if (getGeos() == null || !(getGeos().size() == 1 && app.letRename()
-				&& getGeo().isRenameable()) || app.isUnbundled()) {
+				&& getGeo().isRenameable()) || app.isUnbundled()
+				|| isWhiteboard()) {
 			return;
 		}
 
 		String img;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (!app.isUnbundled()) {
 			img = AppResources.INSTANCE.rename20().getSafeUri().asString();
 		} else if (app.isUnbundled()) {
 			img = MaterialDesignResources.INSTANCE.rename_black().getSafeUri()
@@ -629,9 +550,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				&& !getGeo().isProtected(EventType.UPDATE)) {
 
 			String img2;
-			if (isWhiteboard() && !app.isUnbundled()) {
-				img2 = AppResources.INSTANCE.edit20().getSafeUri().asString();
-			} else if (app.isUnbundled()) {
+			if (app.isUnbundled() || isWhiteboard()) {
 				img2 = MaterialDesignResources.INSTANCE.edit_black()
 						.getSafeUri().asString();
 			} else {
@@ -663,16 +582,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (!(showLabel || angle)) {
 			return;
 		}
-
+		if (!app.isWhiteboardActive()) {
 		wrappedPopup.addSeparator();
+		}
 
 		// Label
-		if (showLabel && !app.isUnbundled()) {
+		if (showLabel && !app.isUnbundled() && !isWhiteboard()) {
 
 			String img;
-			if (isWhiteboard() && !app.isUnbundled()) {
-				img = AppResources.INSTANCE.label20().getSafeUri().asString();
-			} else if (app.isUnbundled()) {
+			if (app.isUnbundled() || isWhiteboard()) {
 				img = MaterialDesignResources.INSTANCE.label_black()
 						.getSafeUri().asString();
 			} else {
@@ -687,9 +605,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (angle) {
 
 			String img;
-			if (isWhiteboard() && !app.isUnbundled()) {
-				img = AppResources.INSTANCE.angle20().getSafeUri().asString();
-			} else if (app.isUnbundled()) {
+			if (app.isUnbundled() || isWhiteboard()) {
 				img = MaterialDesignResources.INSTANCE.angle_black()
 						.getSafeUri().asString();
 			} else {
@@ -716,34 +632,24 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
-		wrappedPopup.addSeparator();
+		if (!app.isWhiteboardActive()) {
+			wrappedPopup.addSeparator();
+		}
 
 		if (pinnable) {
 
 			String img;
 			final boolean pinned = geo.isPinned();
 
-			if (isWhiteboard()) {
-				if (!app.has(Feature.IMPROVE_CONTEXT_MENU) || !pinned) {
-					if (app.isUnbundled()) {
-						img = MaterialDesignResources.INSTANCE.pin_black().getSafeUri().asString();
-					} else {
-						img = AppResources.INSTANCE.pin20().getSafeUri().asString();
-					}
-				} else {
-					if (app.isUnbundled()) {
-						img = MaterialDesignResources.INSTANCE.pin_black().getSafeUri().asString();
-					} else {
-						img = AppResources.INSTANCE.unpin20().getSafeUri()
-							.asString();
-					}
-				}
+			if (app.isUnbundled() || isWhiteboard()) {
+				img = MaterialDesignResources.INSTANCE.pin_black().getSafeUri()
+						.asString();
 			} else {
 				img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			}
 
 			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
-					&& !app.isUnbundled()) {
+					&& !app.isUnbundled() && !isWhiteboard()) {
 				GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnpinFromScreen"),
@@ -756,7 +662,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}, true, app);
 				cbItem.setSelected(pinned);
 				wrappedPopup.addItem(cbItem);
-			} else if (app.isUnbundled()) {
+			} else if (app.isUnbundled() || isWhiteboard()) {
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 						MainMenu.getMenuBarHtml(img,
 								loc.getMenu("PinToScreen")),
@@ -811,25 +717,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (cmd != null) {
 
 			String img = "";
-			if (isWhiteboard() && !app.isUnbundled()) {
-				if (geo.isLocked()) {
-					if (app.isUnbundled()) {
-						img = MaterialDesignResources.INSTANCE.lock_black()
-								.getSafeUri().asString();
-					} else {
-						img = AppResources.INSTANCE.unlock20().getSafeUri()
-							.asString();
-					}
-				} else {
-					if (app.isUnbundled()) {
-						img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri().asString();
-					} else {
-						img = AppResources.INSTANCE.lock20().getSafeUri()
-							.asString();
-					}
-
-				}
-			} else if (app.isUnbundled()) {
+			if (app.isUnbundled() || isWhiteboard()) {
 				img = MaterialDesignResources.INSTANCE.lock_black().getSafeUri()
 						.asString();
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
@@ -861,14 +749,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						.asString();
 			}
 
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+					&& !app.isWhiteboardActive()) {
 				GCheckBoxMenuItem mi = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnfixObject"), loc.getMenu("FixObject"),
 						cmd, true, app);
 				mi.setSelected(getGeo().isLocked());
 				wrappedPopup.addItem(mi);
-			} else if (!app.isUnbundled()) {
+			} else if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
 			}
 		}
@@ -878,13 +767,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addEditItems() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 
 			String img3;
-			if (isWhiteboard() && !app.isUnbundled()) {
-				img3 = AppResources.INSTANCE.duplicate20().getSafeUri()
-						.asString();
-			} else if (app.isUnbundled()) {
+
+			if (app.isUnbundled() || isWhiteboard()) {
 				img3 = MaterialDesignResources.INSTANCE.duplicate_black()
 						.getSafeUri().asString();
 			} else {
@@ -908,14 +795,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			return;
 		}
 
+		if (!app.isWhiteboardActive()) {
 		wrappedPopup.addSeparator();
+		}
 
 		final SelectionManager selection = app.getSelectionManager();
 
 		String img;
-		if (isWhiteboard() && !app.isUnbundled()) {
-			img = AppResources.INSTANCE.cut20().getSafeUri().asString();
-		} else if (app.isUnbundled()) {
+
+		if (app.isUnbundled() || isWhiteboard()) {
 			img = MaterialDesignResources.INSTANCE.cut_black().getSafeUri()
 					.asString();
 		} else {
@@ -934,9 +822,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				loc.getMenu("Cut"));
 
 		String img2;
-		if (isWhiteboard() && !app.isUnbundled()) {
-			img2 = AppResources.INSTANCE.copy20().getSafeUri().asString();
-		} else if (app.isUnbundled()) {
+
+		if (app.isUnbundled() || isWhiteboard()) {
 			img2 = MaterialDesignResources.INSTANCE.copy_black().getSafeUri()
 					.asString();
 		} else {
@@ -961,9 +848,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				loc.getMenu("Copy"));
 
 		String img3;
-		if (isWhiteboard() && !app.isUnbundled()) {
-			img3 = AppResources.INSTANCE.duplicate20().getSafeUri().asString();
-		} else if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			img3 = MaterialDesignResources.INSTANCE.duplicate_black()
 					.getSafeUri().asString();
 		} else {
@@ -985,9 +870,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		addPasteItem();
 
 		String img4;
-		if (isWhiteboard() && !app.isUnbundled()) {
-			img4 = AppResources.INSTANCE.delete20().getSafeUri().asString();
-		} else if (app.isUnbundled()) {
+
+		if (app.isUnbundled() || isWhiteboard()) {
 			img4 = MaterialDesignResources.INSTANCE.delete_black().getSafeUri()
 					.asString();
 		} else {
@@ -1012,9 +896,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		String img;
-		if (isWhiteboard() && !app.isUnbundled()) {
-			img = AppResources.INSTANCE.paste20().getSafeUri().asString();
-		} else if (app.isUnbundled()) {
+
+		if (isWhiteboard()) {
 			img = MaterialDesignResources.INSTANCE.paste_black().getSafeUri()
 					.asString();
 		} else {
@@ -1037,13 +920,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	protected void updatePasteItem() {
-		if (!app.isUnbundled()) {
+		if (!app.isUnbundled() && mnuPaste != null) {
 			mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
 		}
 	}
 
 	protected void updateEditItems() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			return;
 		}
 		if (!isWhiteboard()) {
@@ -1063,24 +946,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			String img;
 			final boolean pinned = getGeo().isPinned();
 
-			if (isWhiteboard()) {
-				if (!app.has(Feature.IMPROVE_CONTEXT_MENU) || !pinned) {
-					if (app.isUnbundled()) {
-						img = MaterialDesignResources.INSTANCE.pin_black()
+			if (app.isUnbundled() || isWhiteboard()) {
+				img = MaterialDesignResources.INSTANCE.pin_black()
 								.getSafeUri().asString();
-					} else {
-						img = AppResources.INSTANCE.pin20().getSafeUri()
-								.asString();
-					}
-				} else {
-					if (app.isUnbundled()) {
-						img = MaterialDesignResources.INSTANCE.unpin_black()
-								.getSafeUri().asString();
-					} else {
-						img = AppResources.INSTANCE.unpin20().getSafeUri()
-							.asString();
-					}
-				}
 			} else {
 				img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			}
@@ -1113,27 +981,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			}
 
 			cbItem.setSelected(pinned);
-			//
-			// final MenuItem cbItem = new MenuItem(MainMenu.getMenuBarHtml(
-			// AppResources.INSTANCE.pin().getSafeUri().asString(),
-			// loc.getMenu("AbsoluteScreenLocation")), true,
-			// new Command() {
-			//
-			// public void execute() {
-			// // must set emtpy because "not initialized..." error
-			// }
-			// });
-			// cbItem.setScheduledCommand(new Command() {
-			//
-			// public void execute() {
-			// boolean isSelected = (cbItem.getStyleName().indexOf(
-			// "checked") > -1);
-			// pinCmd(isSelected);
-			// }
-			// });
-			// MainMenu.setMenuSelected(cbItem, getGeo().isPinned());
+
 			wrappedPopup.addItem(cbItem);
-			// cbItem.addStyleName("mi_with_image");
+
 		}
 	}
 
@@ -1161,7 +1011,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addUserInputItem() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			return;
 		}
 		if (getGeo() instanceof GeoImplicit) {
@@ -1198,7 +1048,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addConicItems() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			return;
 		}
 		if (!(getGeo() instanceof GeoConic)) {
@@ -1299,7 +1149,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addLineItems() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			return;
 		}
 		if (!(getGeo() instanceof GeoLine)) {
@@ -1374,7 +1224,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private void addCoordsModeItems() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			return;
 		}
 
@@ -1492,13 +1342,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}
 					}
 				});
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || isWhiteboard()) {
 			title.addStyleName("no-hover");
 		} else {
 			title.addStyleName("menuTitle");
 		}
 		wrappedPopup.addItem(title);
-		wrappedPopup.addSeparator();
+		if (!isWhiteboard()) {
+			wrappedPopup.addSeparator();
+		}
 	}
 
 	public GPopupMenuW getWrappedPopup() {

@@ -508,7 +508,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		// add text decoration buttons
-		if (btnBold.isVisible() && !app.isUnbundled()) {
+		if (btnBold.isVisible() && !app.isUnbundled()
+				&& !app.isWhiteboardActive()) {
 			addSeparator();
 		}
 
@@ -551,7 +552,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			addLabelButton();
 		}
 
-		if (app.has(Feature.SWITCH_FLAG)) {
+		if (app.has(Feature.SWITCH_FLAG) || app.isWhiteboardActive()) {
 			addDeleteButton();
 		}
 
@@ -656,7 +657,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
-			if (!app.isUnbundled()) {
+			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 				btnContextMenu.addStyleName("dynStyleContextButton");
 			} else {
 				btnContextMenu.addStyleName("matDynStyleContextButton");
@@ -1125,7 +1126,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						this.setKeepVisible(
-								!app.isUnbundled() && EuclidianConstants
+								!app.isUnbundled() && !app.isWhiteboardActive()
+										&& EuclidianConstants
 										.isMoveOrSelectionMode(mode));
 					}
 				}
@@ -1297,7 +1299,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 
 		btnBgColor.setEnableTable(true);
-		btnBgColor.setKeepVisible(app.isUnbundled() ? false : true);
+		btnBgColor.setKeepVisible(
+				app.isUnbundled() || app.isWhiteboardActive() ? false : true);
 		btnBgColor.addPopupHandler(this);
 	}
 
@@ -1348,7 +1351,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextBoldBtn() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			btnBold = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.text_bold_black()) {
 				@Override
@@ -1429,7 +1432,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextItalicBtn() {
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			btnItalic = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.text_italic_black()) {
 
@@ -1503,7 +1506,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(new ImageOrText(app.isUnbundled()
+		btnTextSize.setIcon(
+				new ImageOrText(app.isUnbundled() || app.isWhiteboardActive()
 				? MaterialDesignResources.INSTANCE.text_size_black()
 				: StyleBarResources.INSTANCE
 		                        .font_size()));

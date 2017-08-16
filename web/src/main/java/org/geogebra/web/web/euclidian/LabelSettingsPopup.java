@@ -106,7 +106,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		lblName = new Label();
 		tfName = InputPanelW.newTextComponent(app);
 		tfName.setAutoComplete(false);
-		tfName.enableGGBKeyboard();
+		if (!app.isWhiteboardActive()) {
+			tfName.enableGGBKeyboard();
+		}
 		tfName.setDeferredFocus(true);
 
 		tfName.addFocusListener(new FocusListenerW(this) {

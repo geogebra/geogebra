@@ -44,7 +44,7 @@ public class ContextMenuPopup extends MyCJButton
 	public ContextMenuPopup(AppW app) {
 		super(app);
 		this.app = app;
-		ImgResourceHelper.setIcon(app.isUnbundled()
+		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				:AppResources.INSTANCE.dots(), this);
 		ec = app.getActiveEuclidianView().getEuclidianController();
@@ -116,13 +116,14 @@ public class ContextMenuPopup extends MyCJButton
 		if (isActive) {
 			ImgResourceHelper
 					.setIcon(
-							app.isUnbundled()
+							app.isUnbundled() || app.isWhiteboardActive()
 									? MaterialDesignResources.INSTANCE
 											.more_vert_purple()
 									: AppResources.INSTANCE.dots_active(),
 							this);
 		} else {
-			ImgResourceHelper.setIcon(app.isUnbundled()
+			ImgResourceHelper
+					.setIcon(app.isUnbundled() || app.isWhiteboardActive()
 					? MaterialDesignResources.INSTANCE.more_vert_black()
 					: AppResources.INSTANCE.dots(), this);
 		}
@@ -154,7 +155,7 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		popup.update();
 		popup.show(location);
-		ImgResourceHelper.setIcon(app.isUnbundled()
+		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
 				: AppResources.INSTANCE.dots_active(), this);
 		this.addStyleName("noOpacity");
@@ -167,7 +168,7 @@ public class ContextMenuPopup extends MyCJButton
 	 */
 	public void hideMenu() {
 		menuShown = false;
-		ImgResourceHelper.setIcon(app.isUnbundled()
+		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				: AppResources.INSTANCE.dots(), this);
 		this.removeStyleName("noOpacity");
@@ -196,7 +197,9 @@ public class ContextMenuPopup extends MyCJButton
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
-		ImgResourceHelper.setIcon(app.isUnbundled()
+		ImgResourceHelper
+				.setIcon(
+						app.isUnbundled() || app.isWhiteboardActive()
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
 				: AppResources.INSTANCE.dots_active(), this);
 	}
