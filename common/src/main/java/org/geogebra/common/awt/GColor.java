@@ -54,6 +54,21 @@ public final class GColor implements GPaint {
 	/** MOW PURPLE */
 	public static final GColor MOW_PURPLE = newColor(163, 136, 212);
 
+	// New colors for graphing/geometry app objects
+	/** GEOGEBRA_OBJECT_GREEN */
+	public static final GColor GEOGEBRA_OBJECT_GREEN = newColor(46, 125, 50);
+	/** GEOGEBRA_OBJECT_BlUE */
+	public static final GColor GEOGEBRA_OBJECT_BLUE = newColor(21, 101, 192);
+	/** GEOGEBRA_OBJECT_RED */
+	public static final GColor GEOGEBRA_OBJECT_RED = newColor(211, 47, 47);
+	/** GEOGEBRA_OBJECT_ORANGE */
+	public static final GColor GEOGEBRA_OBJECT_ORANGE = newColor(219, 97, 20);
+	/** GEOGEBRA_OBJECT_PURPLE */
+	public static final GColor GEOGEBRA_OBJECT_PURPLE = newColor(101, 87, 210);
+	/** GEOGEBRA_OBJECT_GREY */
+	public static final GColor GEOGEBRA_OBJECT_GREY = newColor(101, 87, 210);
+
+
 	private final int value;
 
 	/**

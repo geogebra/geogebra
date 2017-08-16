@@ -4206,6 +4206,9 @@ public abstract class App implements UpdateSelection {
 		case DEFAULT_OBJECT_STYLES:
 			return prerelease || isNativeMobileAppWithNewUI();
 
+		case OBJECT_DEFAULTS_AND_COLOR:
+			return prerelease;
+
 		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
 			return isNativeMobileAppWithNewUI();
 

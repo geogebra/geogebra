@@ -147,6 +147,19 @@ public class ConstructionDefaults {
 	/** default color for complex numbers */
 	public static final GColor colComplexPoint = colPoint;
 
+	// points - for geometry/graphing apps
+	/** default color for points */
+	public static final GColor colPointG = GColor.GEOGEBRA_OBJECT_BLUE;
+
+	/** default color for dependent points */
+	public static final GColor colDepPointG = GColor.GEOGEBRA_OBJECT_GREY;
+
+	/** default color for points on path */
+	public static final GColor colPathPointG = GColor.GEOGEBRA_OBJECT_BLUE;
+
+	/** default color for points in region */
+	public static final GColor colRegionPointG = colPathPoint;
+
 	// lines
 	/** default color for lines */
 	private static final GColor colLine = GColor.BLACK;
