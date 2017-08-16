@@ -2678,7 +2678,11 @@ public class ExpressionNode extends ValidExpression
 				break;
 			}
 			break;
-
+		case PLUSMINUS:
+			sb.append(leftStr);
+			sb.append(Unicode.PLUSMINUS);
+			sb.append(rightStr);
+			break;
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {

@@ -209,6 +209,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// we cannot use elseif here as we might need multiplication
 			if ((operation != Operation.IF_LIST)
+					&& (operation != Operation.PLUSMINUS)
 					&& (operation != Operation.MATRIXTOVECTOR)
 					&& (operation != Operation.EQUAL_BOOLEAN)
 					&& (operation != Operation.NOT_EQUAL // ditto

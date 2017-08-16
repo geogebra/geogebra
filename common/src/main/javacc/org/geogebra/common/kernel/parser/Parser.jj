@@ -251,6 +251,7 @@ TOKEN :  {
   | < EQUAL:    ("=" | "%=") > // %= for Giac
   | < PLUS:     "+" >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >
+  | < PLUSMINUS:    ("\u00b1") > 
   | < SUPERSCRIPT_MINUS: "\u207b" >
   | < POWER:    ("^" | "**" | "\u02C6") >  
     // dot operators for multiplication sign
@@ -1020,11 +1021,13 @@ ExpressionValue plusminusnode():
 }
 {
     ret = multterm()                 
-    (( x = <PLUS> | x = <MINUS> ) f = multterm()
+    (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS>) f = multterm()
         {                       
-            if (x.kind == PLUS) 
+            if (x.kind == PLUS){ 
                 ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);  
-            else            {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
+            } else if (x.kind == PLUSMINUS){
+            	ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
+            }            else {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
 							((ExpressionNode) ret).getRight(), Operation.MINUS,
 							f));
               }
@@ -1182,6 +1185,11 @@ ExpressionValue enunary():
    <PLUS> e = enpower()
         { // +e  = e
           return e;              
+        }
+        |
+   <PLUSMINUS> e = enpower()
+        { // +e  = e
+          return new ExpressionNode(kernel,e,Operation.PLUSMINUS,new MyNumberPair(kernel));              
         }
 |
     e = enpower()

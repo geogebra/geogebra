@@ -41,6 +41,14 @@ public class MyNumberPair extends MyVecNode {
 		super(kernel, en, en2);
 	}
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
+	public MyNumberPair(Kernel kernel) {
+		super(kernel, new MyDouble(kernel), new MyDouble(kernel));
+	}
+
 	@Override
 	public MyNumberPair deepCopy(Kernel kernel1) {
 		return new MyNumberPair(kernel1, x.deepCopy(kernel1),

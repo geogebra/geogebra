@@ -2000,7 +2000,6 @@ public class AlgebraProcessor {
 		}
 		if (!fun.initFunction(info.isSimplifyingIntegers())) {
 			ExpressionNode copy = fun.getExpression().deepCopy(kernel);
-
 			return getParamProcessor().processParametricFunction(
 					fun.getExpression(),
 					copy.evaluate(StringTemplate.defaultTemplate),
@@ -2847,7 +2846,6 @@ public class AlgebraProcessor {
 		Set<String> fvSet = new TreeSet<String>();
 		FVarCollector fvc = FVarCollector.getCollector(fvSet);
 		n.traverse(fvc);
-
 		if (fvSet.size() == 1) {
 			return new Function(n, new FunctionVariable(kernel, fvSet
 					.iterator().next()));

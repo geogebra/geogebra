@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -17,6 +18,7 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.VectorNDValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -32,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -1802,6 +1805,69 @@ public enum Operation {
 			}
 			return new MyVecNode(ev.getKernel(), MyList.getCell(list, 0, 0),
 					MyList.getCell(list, 0, 1));
+		}
+	},
+	PLUSMINUS {
+
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			MyList ret = new MyList(ev.getKernel(), true);
+			if (rt instanceof MyNumberPair) {
+				if (left.wrap().containsFreeFunctionVariable(null)) {
+					ret.addListElement(ev.getKernel().getAlgebraProcessor()
+							.makeFunctionNVar(MyList.get(left, 0).wrap()));
+					ret.addListElement(ev.getKernel().getAlgebraProcessor()
+							.makeFunctionNVar(
+									MyList.get(left, 1).wrap().multiplyR(-1)));
+				} else {
+					ret.addListElement(MyList.get(lt, 0));
+					ret.addListElement(ExpressionNode
+							.unaryMinus(ev.getKernel(), MyList.get(lt, 1))
+							.evaluate(tpl));
+				}
+			} else {
+				if(left.wrap().containsFreeFunctionVariable(null)
+						|| right.wrap().containsFreeFunctionVariable(null)) {
+					Log.debug(right);
+					add(ret, MyList.get(left, 0), MyList.get(right, 0),
+							Operation.PLUS);
+					add(ret, MyList.get(left, 1), MyList.get(right, 1),
+							Operation.MINUS);
+				} else {
+					ret.addListElement(
+							ev.handlePlus(MyList.get(lt, 0), MyList.get(rt, 0),
+							StringTemplate.defaultTemplate, false));
+
+					ret.addListElement(ev.handleMinus(MyList.get(lt, 1),
+							MyList.get(rt, 1)));
+				}
+			}
+			return ret;
+		}
+
+		private void add(MyList ret, ExpressionValue lt,
+				ExpressionValue rt, final Operation op) {
+			Traversing pmSimplifier = new Traversing() {
+
+				public ExpressionValue process(ExpressionValue ev) {
+					if (ev.isExpressionNode()) {
+						ExpressionNode en = (ExpressionNode) ev;
+						if (en.getOperation() == Operation.PLUSMINUS) {
+							en.setOperation(op);
+						}
+					}
+					return ev;
+				}
+
+			};
+			ret.addListElement(
+					ret.getKernel().getAlgebraProcessor()
+							.makeFunctionNVar(lt.wrap().apply(op, rt)
+									.deepCopy(ret.getKernel())
+									.traverse(pmSimplifier).wrap()));
+
 		}
 	};
 

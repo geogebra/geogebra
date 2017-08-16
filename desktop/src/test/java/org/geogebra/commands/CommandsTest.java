@@ -1139,6 +1139,23 @@ public class CommandsTest extends Assert{
 		t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
 
 	}
+	
+	@Test
+	public void plusMinus(){
+		tpm("1pm2","{3, -1}");
+		tpm("1pm2pm4","{7, -5}");
+		tpm("pm2","{2, -2}");
+		tpm("pmx","{x, (-x)}");
+		tpm("x+(pm2)","{x + 2, x - 2}");
+		tpm("xpm2","{x + 2, x - 2}");
+		//TODO tpm("xpm(pm2)","{x + 2, x - 2}");
+		
+	}
+
+	private void tpm(String string, String expected) {
+		t(string.replace("pm", Unicode.PLUSMINUS+""),expected);
+		
+	}
 
 	@Test
 	public void expandedFractionIsNotUsedForEvaluation() {
