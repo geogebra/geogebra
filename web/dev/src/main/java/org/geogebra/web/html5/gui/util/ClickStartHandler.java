@@ -149,4 +149,28 @@ public abstract class ClickStartHandler {
 	public void setStopPropagation(boolean stopPropagation) {
 		this.stopPropagation = stopPropagation;
 	}
+
+	/**
+	 * Attaches a handler only for preventing default and/or stopping
+	 * propagation.
+	 * 
+	 * @param w
+	 *            Widget that the handlers are attached to
+	 * @param preventDefault
+	 *            whether or not event.preventDefault() should be called for
+	 *            MouseDownEvents and TouchStartEvents
+	 * @param stopPropagation
+	 *            whether or not event.stopPropagation() should be called for
+	 *            MouseDownEvents and TouchStartEvents
+	 */
+	public static void initDefaults(Widget w, boolean preventDefault,
+			boolean stopPropagation) {
+		init(w, new ClickStartHandler(preventDefault, stopPropagation) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// just for preventDefault and stopPropagation.
+			}
+		});
+	}
 }

@@ -424,6 +424,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.add(tabTools);
 		addMoveBtn();
 		add(main);
+		ClickStartHandler.initDefaults(main, true, true);
 		hideDragger();
 	}
 
@@ -470,6 +471,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 		};
 		moveBtn.addFastClickHandler(moveBtnHandler);
+
 	}
 
 	private void hideDragger() {

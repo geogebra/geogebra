@@ -104,6 +104,7 @@ class Header extends FlowPanel {
 		createCenter();
 		addUndoRedoButtons();
 
+		ClickStartHandler.initDefaults(this, true, true);
 	}
 
 	private void createCenter() {
@@ -140,7 +141,6 @@ class Header extends FlowPanel {
 					@Override
 					public void onClickStart(int x, int y,
 							PointerEventType type) {
-
 						Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
 						Header.this.toolbarPanel.getFrame().showKeyboardButton(false);
 						Header.this.toolbarPanel.openTools();

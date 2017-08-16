@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.MyZoomerListener;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -132,6 +133,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
+		
 		zoomPanel.add(homeBtn);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
@@ -139,7 +141,15 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			addZoomOutButton();
 
 		}
+		ClickStartHandler.init(zoomPanel, new ClickStartHandler(true, true) {
 
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// to stopPropagation and preventDefault.
+				
+			}
+			
+		});
 	}
 
 	private void addZoomOutButton() {
