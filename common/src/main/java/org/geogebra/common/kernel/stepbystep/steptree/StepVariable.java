@@ -59,7 +59,7 @@ public class StepVariable extends StepNode {
 
 	@Override
 	public StepNode getCoefficient() {
-		return new StepConstant(1);
+		return null;
 	}
 
 	@Override

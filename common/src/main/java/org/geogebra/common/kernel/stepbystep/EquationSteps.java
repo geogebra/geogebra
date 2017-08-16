@@ -91,6 +91,7 @@ public class EquationSteps {
 
 		addOrSubtract(StepHelper.getCommon(LHS, RHS));
 
+
 		// II. step: making denominators disappear
 		StepNode bothSides = StepNode.multiply(LHS, RHS);
 		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
@@ -142,7 +143,7 @@ public class EquationSteps {
 		}
 
 		// IV. step: expanding parentheses
-		expandParantheses();
+		expandParentheses();
 
 		// VI. Step: equations containing absolute values
 		bothSides = StepNode.add(LHS, RHS);
@@ -549,7 +550,7 @@ public class EquationSteps {
 		newEquation = StepNode.add(newEquation, StepNode.multiply(coeffLow, newVariable));
 		newEquation = StepNode.add(newEquation, constant);
 
-		EquationSteps ssbs = new EquationSteps(kernel, newEquation, new StepConstant(0), newVariable);
+		EquationSteps ssbs = new EquationSteps(kernel, newEquation.regroup(), new StepConstant(0), newVariable);
 		steps.addAll(ssbs.getSteps());
 
 		List<StepNode> tempSolutions = ssbs.getSolutions();
@@ -634,7 +635,7 @@ public class EquationSteps {
 		}
 	}
 
-	private void expandParantheses() {
+	private void expandParentheses() {
 		StepNode expandedLHS = LHS.deepCopy().expand();
 		StepNode expandedRHS = RHS.deepCopy().expand();
 

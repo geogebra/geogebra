@@ -395,7 +395,7 @@ public class StepHelper {
 	public static boolean integerCoefficients(StepNode sn, StepNode variable) {
 		int degree = degree(sn);
 
-		double constant = findConstant(sn).getValue();
+		double constant = getValue(findConstant(sn));
 		if (Math.floor(constant) != constant) {
 			return false;
 		}
@@ -508,6 +508,10 @@ public class StepHelper {
 		return coeff == null ? 0 : coeff.getValue();
 	}
 
+	private static double getValue(StepNode sn) {
+		return sn == null ? 0 : sn.getValue();
+	}
+
 	private static boolean isZero(StepNode sn) {
 		return sn == null || isEqual(sn.getValue(), 0);
 	}
@@ -545,14 +549,23 @@ public class StepHelper {
 	}
 
 	public static int degree(StepNode sn) {
+		if (sn == null) {
+			return 0;
+		}
+
 		StepNode newSn = sn.deepCopy().regroup();
 
-		if (newSn instanceof StepVariable) {
+		return degreeRecursive(newSn);
+	}
+
+	private static int degreeRecursive(StepNode sn) {
+		if (sn instanceof StepVariable) {
 			return 1;
-		} else if (newSn instanceof StepConstant) {
+		} else if (sn instanceof StepConstant) {
 			return 0;
-		} else if (newSn.isOperation()) {
-			StepOperation so = (StepOperation) newSn;
+		} else if (sn.isOperation()) {
+
+			StepOperation so = (StepOperation) sn;
 			
 			switch(so.getOperation()) {
 			case MINUS:

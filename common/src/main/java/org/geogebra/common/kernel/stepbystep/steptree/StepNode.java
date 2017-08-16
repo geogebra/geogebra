@@ -191,6 +191,13 @@ public abstract class StepNode {
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
 	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
+		if (r == null || StepHelper.degree(r) == -1) {
+			return null;
+		}
+		if (d == null || StepHelper.degree(d) == -1) {
+			return null;
+		}
+
 		StepNode[] arrayD = StepNode.convertToPolynomial(d, var);
 		StepNode[] arrayR = StepNode.convertToPolynomial(r, var);
 
@@ -302,7 +309,7 @@ public abstract class StepNode {
 		return so;
 	}
 
-	public static StepNode multiply(int a, StepNode b) {
+	public static StepNode multiply(double a, StepNode b) {
 		return multiply(new StepConstant(a), b);
 	}
 
