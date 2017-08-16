@@ -640,13 +640,7 @@ public class Function extends FunctionNVar
 		if (polyFunNoCas != null || assumeFalseIfCASNeeded) {
 			return polyFunNoCas;
 		}
-		ExpressionNode node;
-		if (ev.isExpressionNode()) {
-			node = (ExpressionNode) ev;
-		} else {
-			// wrap expressionValue
-			node = new ExpressionNode(kernel, ev);
-		}
+		ExpressionNode node = ev.wrap();
 
 		// get coefficients as strings
 
@@ -719,16 +713,12 @@ public class Function extends FunctionNVar
 		VariableReplacer varep = VariableReplacer.getReplacer(
 				fVars[0].toString(StringTemplate.defaultTemplate), xVar,
 				kernel);
-		if (evCopy instanceof ExpressionNode) {
-			replaced = ((ExpressionNode) evCopy).traverse(varep).wrap();
-		} else {
-			replaced = (new ExpressionNode(kernel, evCopy)).traverse(varep)
-					.wrap();
-		}
+		replaced = evCopy.wrap().traverse(varep).wrap();
+
 		Equation equ = new Equation(kernel, replaced, new MyDouble(kernel, 0));
 
 		try {
-			coeff = Polynomial.fromNode(replaced, equ).getCoeff();
+			coeff = Polynomial.fromNode(replaced, equ, symbolic).getCoeff();
 			terms = coeff.length;
 		} catch (Throwable t) {
 			Log.warn(ev + " couldn't be transformed to polynomial:"

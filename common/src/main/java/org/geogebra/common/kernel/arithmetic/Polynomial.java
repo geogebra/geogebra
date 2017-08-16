@@ -135,11 +135,11 @@ public class Polynomial implements HasDebugString {
 	 * @param eq
 	 *            equation to get feedback when simplification fails
 	 */
-	void add(Polynomial e, Equation eq) {
+	void add(Polynomial e, Equation eq, boolean keepFraction) {
 		for (int i = 0; i < e.length(); i++) {
 			append(e.getTerm(i));
 		}
-		simplify(eq);
+		simplify(eq, keepFraction);
 	}
 
 	/**
@@ -148,10 +148,10 @@ public class Polynomial implements HasDebugString {
 	 * @param e
 	 *            subtrahend
 	 */
-	private void sub(Polynomial e, Equation eq) {
+	private void sub(Polynomial e, Equation eq, boolean keepFraction) {
 		Polynomial temp = new Polynomial(kernel, e);
-		temp.multiply(-1.0d);
-		add(temp, eq); // append -e
+		temp.multiply(-1.0d, keepFraction);
+		add(temp, eq, keepFraction); // append -e
 	}
 
 	/**
@@ -160,9 +160,10 @@ public class Polynomial implements HasDebugString {
 	 * @param number
 	 *            constant addend
 	 */
-	private void add(ExpressionValue number, Equation equ) {
+	private void add(ExpressionValue number, Equation equ,
+			boolean keepFraction) {
 		append(new Term(number, ""));
-		simplify(equ); // add up parts with same variables
+		simplify(equ, keepFraction); // add up parts with same variables
 	}
 
 	/**
@@ -171,11 +172,12 @@ public class Polynomial implements HasDebugString {
 	 * @param number
 	 *            constant subtrahend
 	 */
-	private void sub(ExpressionValue number, Equation equ) {
+	private void sub(ExpressionValue number, Equation equ,
+			boolean keepFraction) {
 		Term subTerm = new Term(number, "");
-		subTerm.multiply(new MyDouble(kernel, -1.0d), kernel);
+		subTerm.multiply(new MyDouble(kernel, -1.0d), kernel, keepFraction);
 		append(subTerm);
-		simplify(equ); // add up parts with same variables
+		simplify(equ, keepFraction); // add up parts with same variables
 	}
 
 	/**
@@ -184,7 +186,7 @@ public class Polynomial implements HasDebugString {
 	 * @param e
 	 *            factor
 	 */
-	private void multiply(Polynomial e, Equation equ) {
+	private void multiply(Polynomial e, Equation equ, boolean keepFraction) {
 		ArrayList<Term> temp = new ArrayList<Term>();
 		int i, j;
 		Term ti, newTerm;
@@ -195,12 +197,12 @@ public class Polynomial implements HasDebugString {
 			ti = getTerm(i);
 			for (j = 0; j < e.length(); j++) {
 				newTerm = new Term(ti, kernel);
-				newTerm.multiply(e.getTerm(j), kernel);
+				newTerm.multiply(e.getTerm(j), kernel, keepFraction);
 				temp.add(newTerm);
 			}
 		}
 		terms = temp;
-		simplify(equ);
+		simplify(equ, keepFraction);
 	}
 
 	/**
@@ -209,9 +211,9 @@ public class Polynomial implements HasDebugString {
 	 * @param number
 	 *            constant factor
 	 */
-	private void multiply(ExpressionValue number) {
+	private void multiply(ExpressionValue number, boolean keepFraction) {
 		for (int i = 0; i < length(); i++) {
-			terms.get(i).multiply(number, kernel);
+			terms.get(i).multiply(number, kernel, keepFraction);
 		}
 	}
 
@@ -221,9 +223,9 @@ public class Polynomial implements HasDebugString {
 	 * @param number
 	 *            constant divisor
 	 */
-	private void divide(ExpressionValue number) {
+	private void divide(ExpressionValue number, boolean keepFraction) {
 		for (int i = 0; i < length(); i++) {
-			getTerm(i).divide(number, kernel);
+			getTerm(i).divide(number, kernel, keepFraction);
 		}
 	}
 
@@ -233,8 +235,8 @@ public class Polynomial implements HasDebugString {
 	 * @param d
 	 *            constant factor
 	 */
-	void multiply(double d) {
-		multiply(new MyDouble(kernel, d));
+	void multiply(double d, boolean keepFraction) {
+		multiply(new MyDouble(kernel, d), keepFraction);
 	}
 
 	/**
@@ -243,7 +245,7 @@ public class Polynomial implements HasDebugString {
 	 * @param p
 	 *            exponent
 	 */
-	private void power(int p, Equation eq) {
+	private void power(int p, Equation eq, boolean keepFraction) {
 		if (p == 0) {
 			terms.clear(); // drop everything
 			append(new Term(new MyDouble(kernel, 1), ""));
@@ -255,10 +257,10 @@ public class Polynomial implements HasDebugString {
 		}
 
 		Polynomial exp = new Polynomial(kernel, this);
-		multiply(exp, eq);
-		power(p / 2, eq);
+		multiply(exp, eq, keepFraction);
+		power(p / 2, eq, keepFraction);
 		if (MyDouble.isOdd(p)) {
-			multiply(exp, eq);
+			multiply(exp, eq, keepFraction);
 		}
 	}
 
@@ -290,7 +292,7 @@ public class Polynomial implements HasDebugString {
 		for (int i = 0; i < length(); i++) {
 			t = getTerm(i);
 			if (t.getVars().equals(variables)) {
-				newTerm.addToCoefficient(t.coefficient, kernel);
+				newTerm.addToCoefficient(t.coefficient, kernel, false);
 			}
 		}
 		return newTerm.coefficient;
@@ -313,7 +315,7 @@ public class Polynomial implements HasDebugString {
 	 * @param eq
 	 *            equation to get feedback when simplification fails
 	 */
-	void simplify(Equation eq) {
+	void simplify(Equation eq, boolean keepFraction) {
 		// Application.debug("simplify " + this);
 		ArrayList<Term> list;
 		Object[] t;
@@ -335,7 +337,8 @@ public class Polynomial implements HasDebugString {
 				for (j = i + 1; j < len; j++) {
 					tj = (Term) t[j];
 					if (tj != null && vars.equals(tj.getVars())) {
-						ti.addToCoefficient(tj.coefficient, kernel);
+						ti.addToCoefficient(tj.coefficient, kernel,
+								keepFraction);
 						t[j] = null;
 					}
 				}
@@ -511,7 +514,7 @@ public class Polynomial implements HasDebugString {
 	 * @return Coefficient matrix of this polynomial (in x and y)
 	 */
 	public ExpressionValue[][] getCoeff() {
-		simplify(null);
+		simplify(null, false);
 		Iterator<Term> it = terms.iterator();
 		// TODO implement support for z as var
 		int degX = 0;
@@ -559,9 +562,10 @@ public class Polynomial implements HasDebugString {
 	 *            equation -- used for setting the dependsOnFunction flag
 	 * @return polynomial
 	 */
-	static Polynomial fromNode(ExpressionNode lhs, Equation eqn) {
+	static Polynomial fromNode(ExpressionNode lhs, Equation eqn,
+			boolean keepFractions) {
 		ExpressionNode leftEN = lhs.getCopy(lhs.getKernel());
-		Polynomial poly = leftEN.makePolynomialTree(eqn);
+		Polynomial poly = leftEN.makePolynomialTree(eqn, keepFractions);
 		// Log.debug("Coefficients:");
 		// Log.debug(poly);
 		return poly;
@@ -578,17 +582,18 @@ public class Polynomial implements HasDebugString {
 	 *            equation to get feedback when simplification fails
 	 * @return result as polynomial
 	 */
-	Polynomial apply(Operation operation, Polynomial rt, Equation equ) {
+	Polynomial apply(Operation operation, Polynomial rt, Equation equ,
+			boolean keepFraction) {
 		switch (operation) {
 		case PLUS:
-			this.add(rt, equ);
+			this.add(rt, equ, keepFraction);
 			break;
 		case MINUS:
-			this.sub(rt, equ);
+			this.sub(rt, equ, keepFraction);
 			break;
 		case MULTIPLY_OR_FUNCTION:
 		case MULTIPLY:
-			this.multiply(rt, equ);
+			this.multiply(rt, equ, keepFraction);
 			break;
 		case DIVIDE:
 		case POWER:
@@ -596,7 +601,8 @@ public class Polynomial implements HasDebugString {
 				equ.setIsPolynomial(false);
 				return rt;
 			}
-			return apply(operation, rt.getConstantCoefficient(), equ);
+			return apply(operation, rt.getConstantCoefficient(), equ,
+					keepFraction);
 		default:
 			break;
 		}
@@ -614,17 +620,18 @@ public class Polynomial implements HasDebugString {
 	 *            equation to get feedback when simplification fails
 	 * @return result as polynomial
 	 */
-	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ) {
+	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ,
+			boolean keepFraction) {
 		switch (operation) {
 		case PLUS:
-			this.add(rt, equ);
+			this.add(rt, equ, keepFraction);
 			break;
 		case MINUS:
-			this.sub(rt, equ);
+			this.sub(rt, equ, keepFraction);
 			break;
 		case MULTIPLY_OR_FUNCTION:
 		case MULTIPLY:
-			this.multiply(rt);
+			this.multiply(rt, keepFraction);
 			break;
 		case POWER:
 			double power = rt.evaluateDouble();
@@ -633,7 +640,7 @@ public class Polynomial implements HasDebugString {
 						StringTemplate.defaultTemplate) instanceof NumberValue)) {
 					equ.setIsPolynomial(false);
 				} else {
-					this.power((int) power, equ);
+					this.power((int) power, equ, keepFraction);
 				}
 				equ.addVariableDegree(rt);
 			} else if (this.degree() == 0) {
@@ -642,11 +649,11 @@ public class Polynomial implements HasDebugString {
 			} else if (!Kernel.isInteger(power) || Kernel.isGreater(0, power)) {
 				equ.setIsPolynomial(false);
 			} else {
-				this.power((int) power, equ);
+				this.power((int) power, equ, keepFraction);
 			}
 			break;
 		case DIVIDE:
-			this.divide(rt);
+			this.divide(rt, keepFraction);
 			break;
 		default:
 			break;

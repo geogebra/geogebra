@@ -265,13 +265,14 @@ public class Equation extends ValidExpression implements EquationValue {
 				zVar = new FunctionVariable(kernel, "z");
 		fixStructure(lhs, xVar, yVar, zVar);
 		fixStructure(rhs, xVar, yVar, zVar);
-		leftPoly = Polynomial.fromNode(lhs, this);
-		rightPoly = Polynomial.fromNode(rhs, this);
+		final boolean keepFractions = false;
+		leftPoly = Polynomial.fromNode(lhs, this, keepFractions);
+		rightPoly = Polynomial.fromNode(rhs, this, keepFractions);
 
 		// bring to normal form left - right = 0
 		normalForm = new Polynomial(kernel, rightPoly);
-		normalForm.multiply(-1.0d);
-		normalForm.add(leftPoly, this);
+		normalForm.multiply(-1.0d, keepFractions);
+		normalForm.add(leftPoly, this, keepFractions);
 	}
 
 	private static void fixStructure(ExpressionNode expression,

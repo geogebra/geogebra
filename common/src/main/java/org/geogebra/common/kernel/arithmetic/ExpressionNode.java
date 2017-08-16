@@ -983,20 +983,22 @@ public class ExpressionNode extends ValidExpression
 	 *            equation
 	 * @return expanded polynomial
 	 */
-	protected final Polynomial makePolynomialTree(Equation equ) {
+	protected final Polynomial makePolynomialTree(Equation equ,
+			boolean keepFraction) {
 		Polynomial lt;
 		Polynomial rt = null;
 
 		if (operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
 				return makePolynomialTreeFromFunctionNVar(
-						((FunctionalNVar) left).getFunction(), equ);
+						((FunctionalNVar) left).getFunction(), equ,
+						keepFraction);
 			}
 		} else if (operation == Operation.FUNCTION) {
 			if (left instanceof GeoFunction) {
 				Function func = ((Functional) left).getFunction();
 
-				return makePolyTreeFromFunction(func, equ);
+				return makePolyTreeFromFunction(func, equ, keepFraction);
 			} else if (left instanceof ExpressionNode && ((ExpressionNode) left)
 					.getOperation() == Operation.DERIVATIVE) {
 				Function base = ((Functional) ((ExpressionNode) left).getLeft())
@@ -1013,7 +1015,7 @@ public class ExpressionNode extends ValidExpression
 							base.getFunctionVariable());
 				}
 
-				return makePolyTreeFromFunction(base, equ);
+				return makePolyTreeFromFunction(base, equ, keepFraction);
 			}
 		}
 		if (!polynomialOperation(operation)) {
@@ -1032,11 +1034,11 @@ public class ExpressionNode extends ValidExpression
 				.expandScalarProduct(kernel, left, right,
 				operation);
 		if (scalarExpanded != null) {
-			return scalarExpanded.makePolynomialTree(equ);
+			return scalarExpanded.makePolynomialTree(equ, keepFraction);
 		}
 		// transfer left subtree
 		if (left.isExpressionNode()) {
-			lt = ((ExpressionNode) left).makePolynomialTree(equ);
+			lt = ((ExpressionNode) left).makePolynomialTree(equ, keepFraction);
 		} else if (left instanceof FunctionVariable) {
 			lt = new Polynomial(kernel,
 					((FunctionVariable) left).getSetVarString());
@@ -1047,7 +1049,8 @@ public class ExpressionNode extends ValidExpression
 		// transfer right subtree
 		if (right != null) {
 			if (right.isExpressionNode()) {
-				rt = ((ExpressionNode) right).makePolynomialTree(equ);
+				rt = ((ExpressionNode) right).makePolynomialTree(equ,
+						keepFraction);
 			} else if (right instanceof FunctionVariable) {
 				rt = new Polynomial(kernel,
 						((FunctionVariable) right).getSetVarString());
@@ -1057,20 +1060,21 @@ public class ExpressionNode extends ValidExpression
 					for (int i = 0; i < list.size(); i++) {
 						ExpressionValue ev = list.getListElement(i);
 						if (ev instanceof ExpressionNode) {
-							((ExpressionNode) ev).makePolynomialTree(equ);
+							((ExpressionNode) ev).makePolynomialTree(equ,
+									keepFraction);
 						}
 					}
 				}
 				// both for f(x,x) and x+3 we don't need the second argument
 				// wrapped
-				return lt.apply(operation, right, equ);
+				return lt.apply(operation, right, equ, keepFraction);
 			}
 		}
-		return lt.apply(operation, rt, equ);
+		return lt.apply(operation, rt, equ, keepFraction);
 	}
 
 	private Polynomial makePolynomialTreeFromFunctionNVar(FunctionNVar func,
-			Equation equ) {
+			Equation equ, boolean keepFraction) {
 		MyList list = ((MyList) right);
 		ExpressionNode expr = func.getExpression().getCopy(kernel);
 		if (func.getFunctionVariables().length == list.size()) {
@@ -1095,7 +1099,7 @@ public class ExpressionNode extends ValidExpression
 		}
 
 		if (equ.isFunctionDependent()) {
-			return expr.makePolynomialTree(equ);
+			return expr.makePolynomialTree(equ, keepFraction);
 		}
 		return new Polynomial(kernel, new Term(
 				new ExpressionNode(kernel, left, operation, right), ""));
@@ -1103,7 +1107,8 @@ public class ExpressionNode extends ValidExpression
 
 
 
-	private Polynomial makePolyTreeFromFunction(Function func, Equation equ) {
+	private Polynomial makePolyTreeFromFunction(Function func, Equation equ,
+			boolean keepFraction) {
 		if (right instanceof ExpressionNode) {
 			if (!equ.isFunctionDependent()) {
 				equ.setFunctionDependent(
@@ -1117,7 +1122,7 @@ public class ExpressionNode extends ValidExpression
 		if (equ.isFunctionDependent()) {
 			ExpressionNode expr = func.getExpression().getCopy(kernel);
 			expr = expr.replace(func.getFunctionVariable(), right).wrap();
-			return expr.makePolynomialTree(equ);
+			return expr.makePolynomialTree(equ, keepFraction);
 		}
 		return new Polynomial(kernel, new Term(
 				new ExpressionNode(kernel, left, operation, right), ""));
@@ -3280,6 +3285,8 @@ public class ExpressionNode extends ValidExpression
 					sb.append(tpl.rightBracket());
 				} else {
 					// inline function: replace function var by right side
+					Function fn = geo.getFunction();
+					if (fn != null) {
 					FunctionVariable var = geo.getFunction()
 							.getFunctionVariable();
 					String oldVarStr = var.toString(tpl);
@@ -3293,6 +3300,7 @@ public class ExpressionNode extends ValidExpression
 							: geo.getLabel(tpl);
 					sb.append(rhString);
 					var.setVarString(oldVarStr);
+					}
 				}
 			} else if (valueForm && left.isExpressionNode()) {
 				ExpressionNode en = (ExpressionNode) left;
