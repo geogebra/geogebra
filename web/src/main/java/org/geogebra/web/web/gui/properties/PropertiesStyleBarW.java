@@ -212,8 +212,6 @@ public class PropertiesStyleBarW extends
 			ImgResourceHelper.setIcon(pr.menu_icon_graphics3D24(), btn);
 		case CAS:
 			ImgResourceHelper.setIcon(pr.menu_icon_cas24(), btn);
-		case ADVANCED:
-			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case ALGEBRA:
 			ImgResourceHelper
 					.setIcon(AppResources.INSTANCE.options_algebra24(), btn);
@@ -248,8 +246,6 @@ public class PropertiesStyleBarW extends
 			//return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
 			return ImgResourceHelper.safeURI(pr.menu_icon_cas24());
-		case ADVANCED:
-			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case ALGEBRA:
 			return AppResources.INSTANCE.options_algebra24().getSafeUri()
 					.asString();

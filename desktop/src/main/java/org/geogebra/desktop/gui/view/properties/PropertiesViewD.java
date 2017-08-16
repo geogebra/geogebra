@@ -208,7 +208,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 
 		((OptionsDefaultsD) getOptionPanel(OptionType.DEFAULTS))
 				.restoreDefaults();
-		((OptionsAdvancedD) getOptionPanel(OptionType.ADVANCED))
+		((OptionsAdvancedD) getOptionPanel(OptionType.GLOBAL))
 				.updateAfterReset();
 
 		// TODO
@@ -439,7 +439,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			}
 			return spreadsheetPanel;
 
-		case ADVANCED:
+		case GLOBAL:
 			if (advancedPanel == null) {
 				advancedPanel = new OptionsAdvancedD((AppD) app);
 			}
@@ -847,7 +847,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS2);
 		case CAS:
 			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_CAS);
-		case ADVANCED:
+		case GLOBAL:
 			return app.getScaledIcon(GuiResourcesD.OPTIONS_ADVANCED_24);
 		case OBJECTS:
 			return app.getScaledIcon(GuiResourcesD.OPTIONS_OBJECTS_24);

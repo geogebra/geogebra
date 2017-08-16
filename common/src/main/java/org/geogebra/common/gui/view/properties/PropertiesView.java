@@ -185,7 +185,7 @@ public abstract class PropertiesView implements View {
 					loc.getMenu("GraphicsView3D"));
 		case CAS:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
-		case ADVANCED:
+		case GLOBAL:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
 		case ALGEBRA:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
@@ -216,7 +216,7 @@ public abstract class PropertiesView implements View {
 			return loc.getMenu("DrawingPad2");
 		case CAS:
 			return loc.getMenu("CAS");
-		case ADVANCED:
+		case GLOBAL:
 			return loc.getMenu("Advanced");
 		case OBJECTS:
 			return loc.getMenu("Objects");
@@ -470,7 +470,7 @@ public abstract class PropertiesView implements View {
 	protected boolean stayInCurrentPanel() {
 
 		return selectedOptionType == OptionType.DEFAULTS
-				|| selectedOptionType == OptionType.ADVANCED
+				|| selectedOptionType == OptionType.GLOBAL
 				|| selectedOptionType == OptionType.LAYOUT;
 	}
 

@@ -97,8 +97,8 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/menu_icons/mode_showhideobject.png")
 	ImageResource mode_showhideobject_16();
 
-	@Source("org/geogebra/common/icons/png/web/general/options-advanced24.png")
-	ImageResource options_advanced24();
+	// @Source("org/geogebra/common/icons/png/web/general/options-advanced24.png")
+	// ImageResource options_advanced24();
 
 	@Source("org/geogebra/common/icons/png/web/general/options-defaults224.png")
 	ImageResource options_defaults224();

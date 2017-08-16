@@ -239,7 +239,7 @@ public class OptionsMenuD extends BaseMenu
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				app.getDialogManager().showPropertiesDialog(OptionType.ADVANCED,
+				app.getDialogManager().showPropertiesDialog(OptionType.GLOBAL,
 						null);
 			}
 		};

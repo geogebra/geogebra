@@ -16,7 +16,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
-import org.geogebra.web.web.gui.dialog.options.OptionsAdvancedW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
 import org.geogebra.web.web.gui.dialog.options.OptionsCASW;
 import org.geogebra.web.web.gui.dialog.options.OptionsDefaultsW;
@@ -49,7 +48,6 @@ public class PropertiesViewW extends PropertiesView
 	private OptionsEuclidianW euclidianPanel, euclidianPanel2, euclidianPanel3D;
 	private OptionsSpreadsheetW spreadsheetPanel;
 	private OptionsCASW casPanel;
-	private OptionsAdvancedW advancedPanel;
 	private OptionsLayoutW layoutPanel;
 	private OptionsAlgebraW algebraPanel;
 	private OptionsGlobalW globalPanel;
@@ -237,11 +235,6 @@ public class PropertiesViewW extends PropertiesView
 			}
 			return spreadsheetPanel;
 
-		case ADVANCED:
-			if (advancedPanel == null) {
-				advancedPanel = new OptionsAdvancedW();
-			}
-			return advancedPanel;
 
 		case ALGEBRA:
 			if (algebraPanel == null) {
