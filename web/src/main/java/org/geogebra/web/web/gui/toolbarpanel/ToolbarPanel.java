@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
+import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.util.debug.Log;
@@ -74,7 +75,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private FlowPanel main;
 	private StandardButton moveBtn;
 	private Integer lastOpenWidth = null;
-	private Integer lastOpenHeight = null;
 	private AlgebraTab tabAlgebra = null;
 	private ToolsTab tabTools = null;
 	private TabIds selectedTab;
@@ -427,6 +427,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		hideDragger();
 	}
 
+	private int getOpenHeightInPortrait() {
+		double h = app.getHeight();
+		int kh = 0;
+		// getFrame().isKeyboardShowing()
+		// ? (int) (getFrame().getKeyboardHeight()) : 0;
+
+		return (int) (Math.round(h * PerspectiveDecoder.portraitRatio(h))) + kh;
+	}
+
 	/**
 	 * resets toolbar
 	 */
@@ -482,15 +491,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            override values even they are not null.
 	 */
 	void setLastSize(boolean force) {
-		if (app.isPortrait()) {
-			if (force || lastOpenHeight == null) {
-				lastOpenHeight = app.getActiveEuclidianView().getViewHeight();
-			}
-		} else {
-			if (force || lastOpenWidth == null) {
-				lastOpenWidth = getOffsetWidth();
-			}
-		}
+		// if (app.isPortrait()) {
+		// if (force || lastOpenHeight == null) {
+		// lastOpenHeight = app.getActiveEuclidianView().getViewHeight();
+		// }
+		// } else {
+		// if (force || lastOpenWidth == null) {
+		// lastOpenWidth = getOffsetWidth();
+		// }
+		// }
 
 	}
 	/**
@@ -502,7 +511,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		setClosedByUser(false);
 		header.setOpen(true);
-		setLastSize(false);
+		// setLastSize(false);
 
 	}
 
@@ -576,6 +585,60 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	}
 
+	// /**
+	// * updates panel height according to its state in portrait mode.
+	// */
+	// public void updateHeight() {
+	// if (!app.isPortrait()) {
+	// return;
+	// }
+	//
+	// ToolbarDockPanelW dockPanel = getToolbarDockPanel();
+	// final DockSplitPaneW dockParent = dockPanel != null
+	// ? dockPanel.getParentSplitPane() : null;
+	//
+	// AnimationCallback animationCallback = null;
+	// if (dockPanel != null) {
+	// final Widget opposite = dockParent.getOpposite(dockPanel);
+	// int h = 0;
+	// if (header.isOpen()) {
+	// h = getOpenHeightInPortrait();
+	// // dockParent.setDividerLocation(h);
+	// dockParent.updateDividerLocation(200, 0);
+	// dockParent.removeStyleName("hide-VDragger");
+	// animationCallback = new PortraitAnimationCallback(header, h + 1,
+	// h);
+	// } else {
+	// final int closedEVHeight = (int) (app.getHeight() -
+	// CLOSED_HEIGHT_PORTRAIT
+	// - 8);
+	// if (closedEVHeight > 0) {
+	// dockParent.updateDividerLocation(700, 0);
+	// // closedEVHeight / app.getHeight());
+	//
+	// // dockParent.setWidgetSize(opposite, closedEVHeight);
+	// dockParent.addStyleName("hide-VDragger");
+	// animationCallback = new PortraitAnimationCallback(header,
+	// closedEVHeight, closedEVHeight + 1) {
+	// @Override
+	// protected void onEnd() {
+	// super.onEnd();
+	// // dockParent.deferredOnResize();
+	// }
+	//
+	// };
+	// }
+	// h = closedEVHeight;
+	// }
+	//
+	// if (h > 0) {
+	// dockParent.animate(OPEN_ANIM_TIME, animationCallback);
+	// }
+	// }
+	//
+	// }
+	//
+
 	/**
 	 * updates panel height according to its state in portrait mode.
 	 */
@@ -588,43 +651,29 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
 
-		AnimationCallback animationCallback = null;
-		if (dockPanel != null && getLastOpenHeight() != null) {
-			final Widget opposite = dockParent.getOpposite(dockPanel);
-			int h = 0;
+		if (dockPanel != null) {
+			Widget evPanel = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
-				h = getLastOpenHeight();
-				dockParent.setWidgetSize(opposite, h);
+				dockParent.setWidgetSize(evPanel, getOpenHeightInPortrait());
 				dockParent.removeStyleName("hide-VDragger");
-				animationCallback = new PortraitAnimationCallback(header, h + 1,
-						h);
 			} else {
-				final int h1 = dockPanel.getOffsetHeight()
-						- CLOSED_HEIGHT_PORTRAIT + 8;
-				if (h1 > 0) {
-					dockParent.setWidgetSize(opposite,
-							opposite.getOffsetHeight() + h1);
-					dockParent.addStyleName("hide-VDragger");
-					animationCallback = new PortraitAnimationCallback(header,
-							h1, h1 + 1) {
+				dockParent.setWidgetSize(evPanel,
+						app.getHeight() - header.getOffsetHeight());
+				dockParent.addStyleName("hide-VDragger");
+			}
+
+			dockParent.animate(OPEN_ANIM_TIME,
+					new PortraitAnimationCallback(header) {
 						@Override
 						protected void onEnd() {
 							super.onEnd();
-							dockParent.onResize();
+							dockParent.forceLayout();
 						}
-
-					};
-				}
-				h = h1;
-			}
-
-			if (h > 0) {
-				dockParent.animate(OPEN_ANIM_TIME, animationCallback);
-				dockPanel.deferredOnResize();
-			}
+					});
 		}
 
 	}
+
 
 	/**
 	 * @return algebra dock panel
@@ -872,26 +921,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			main.addStyleName("hidden");
 
 		}
-	}
-
-
-	/**
-	 * 
-	 * @return last opened height in portrait mode.
-	 */
-	Integer getLastOpenHeight() {
-		return lastOpenHeight;
-	}
-
-
-	/**
-	 * Sets the last opened height in portrait mode.
-	 * 
-	 * @param value
-	 *            to set.
-	 */
-	void setLastOpenHeight(Integer value) {
-		this.lastOpenHeight = value;
 	}
 
 	/**

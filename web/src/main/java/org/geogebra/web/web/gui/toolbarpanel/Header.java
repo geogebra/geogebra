@@ -12,7 +12,6 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
-import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
@@ -213,8 +212,8 @@ class Header extends FlowPanel {
 					if (app.isPortrait()) {
 						Header.this.toolbarPanel.header.getParent().getParent().getParent()
 								.addStyleName("closePortrait");
-						Header.this.toolbarPanel.setLastOpenHeight(
-								Header.this.toolbarPanel.app.getActiveEuclidianView().getHeight());
+						// Header.this.toolbarPanel.setLastOpenHeight(
+						// Header.this.toolbarPanel.app.getActiveEuclidianView().getHeight());
 					} else {
 						Header.this.toolbarPanel.header.getParent().getParent()
 								.getParent().addStyleName("closeLandscape");
@@ -593,11 +592,6 @@ class Header extends FlowPanel {
 		if (app.isPortrait()) {
 			getElement().getStyle().clearHeight();
 			getElement().getStyle().clearWidth();
-			if (!isOpen()) {
-				int h = (int) (DockManagerW.DEFAULT_KEYBOARD_HEIGHT
-						+ toolbarPanel.getMinVHeight());
-				toolbarPanel.setLastOpenHeight(h);
-			}
 			updateStyle();
 		} else {
 			if (!isOpen()) {
@@ -610,5 +604,9 @@ class Header extends FlowPanel {
 			}
 
 		}
+	}
+
+	public void centerEV() {
+		app.getActiveEuclidianView().updateSize();
 	}
 }

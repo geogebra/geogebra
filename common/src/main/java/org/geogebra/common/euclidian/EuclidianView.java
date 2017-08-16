@@ -1145,6 +1145,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setCoordSystem(xZeroOld + dx, yZeroOld + dy, getXscale(), getYscale());
 	}
 
+	public void translateCoordSystemForAnimation(int dy) {
+		setCoordSystem(xZero, yZero + dy, getXscale(), getYscale());
+	}
 	/**
 	 * Sets coord system from mouse move
 	 * 

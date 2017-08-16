@@ -1,6 +1,9 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
+import org.geogebra.common.euclidian.EuclidianView;
+
 public class PortraitAnimationCallback extends HeaderAnimationCallback {
+
 
 	/**
 	 * 
@@ -8,9 +11,8 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 	 * @param expandFrom
 	 * @param expandTo
 	 */
-	public PortraitAnimationCallback(Header header, int expandFrom,
-			int expandTo) {
-		super(header, expandFrom, expandTo);
+	public PortraitAnimationCallback(Header header) {
+		super(header, 0, 0);
 
 	}
 
@@ -30,12 +32,15 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 			header.removeStyleName("header-open-portrait");
 			header.addStyleName("header-close-portrait");
 		}
-		// header.showCenter();
+		EuclidianView ev = header.app.getActiveEuclidianView();
+		int d = header.isOpen() ? -1 : 1;
+
+		ev.translateCoordSystemForAnimation(d * ev.getHeight() / 5);
 	}
 
 	@Override
 	public void tick(double progress) {
-		// nothing to do
+		// nothing to do.
 	}
 
 }
