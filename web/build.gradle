@@ -133,7 +133,7 @@ task copyHtml {
 	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico")
 	      .replace("<!--LANG-->","en");
 	    def appHtml = { raw, appID, prerelease -> 
-	    	return raw.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text + "<div class=\"startscreen logo\">"+file(templateDir+appID+"-min.svg").text+"</div>")
+	    	return raw.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
 	    	.replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
 	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";</script><!--LANGUAGE LINKS-->")
 	    	.replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/${appID}.ico");

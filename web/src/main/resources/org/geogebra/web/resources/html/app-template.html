@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="<!--LANG-->"">
+<html lang="<!--LANG-->">
 <head>
 	<meta charset="utf-8" />
 	<title><!--APP NAME--> | GeoGebra</title>
@@ -25,6 +25,9 @@ var analyticsVersion = 'V'+latestVersion;
 <script>
 	function e(id){
 		return document.getElementById(id);
+	}
+	function c(className){
+		return document.getElementsByClassName(className)[0];
 	}
 	var finalLang = null;
 	
@@ -364,6 +367,38 @@ var app = document.createElement("script");
 		if(checkId && !names[checkId[2]]){
 			tubeid = checkId[2];
 		}
+		var wait = false;
+		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+				.test(window.navigator.userAgent) && c("appName")){
+			var appName = c("appName");
+			appName.parentElement.remove();
+			//c("GeoGebraHeader").style.display= "none";
+			var tryApp = document.createElement("a");
+			tryApp.innerText = "Try App";
+			var stay = document.createElement("a");
+			stay.innerText = "Continue";
+			c("startscreen").appendChild(appName);
+			c("startscreen").appendChild(tryApp);
+			c("startscreen").appendChild(stay);
+			stay.addEventListener("click",function(){
+				insertScript(codebase);
+			});
+			var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
+					"graphing":"https://play.google.com/store/apps/details?id=org.geogebra.android"};
+			var iosLinks = {"graphing":"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204",
+					"geometry":"https://itunes.apple.com/us/app/geogebra-geometry-calculator/id1232591335"};
+			
+			if(/iPhone|iPad|iPod/i
+				.test(window.navigator.userAgent)){
+				tryApp.href = iosLinks[window.appID];
+			}
+			else {
+				tryApp.href = androidLinks[window.appID];
+			}
+			tryApp.target = "_blank";
+			tryApp.rel = "noreferrer noopener";
+			wait = true;
+		}
 		
 		function resizeStart(){
 			if(e("perspectivesBox")){
@@ -421,7 +456,7 @@ var app = document.createElement("script");
 						preview.addEventListener && preview.addEventListener("load",function(){
 						preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
 						preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
-						document.getElementsByClassName("logo")[0].style.display = "none";
+						c("logo").style.display = "none";
 					});
 						preview.src = xhr.response.replace("http:","https:");
 					}
@@ -441,14 +476,14 @@ var app = document.createElement("script");
 				if(e("perspectivesBox")){
 					e("perspectivesBox").style.display = "none";
 				}
-				perspective(pName);
+				wait || perspective(pName);
 			}
 			else{
 				perspective(names[pName],pName);
 			}
 			document.body.className += " "+pName;
 			document.body.className += " "+module;
-			insertScript(codebase);
+			wait || insertScript(codebase);
 			showStartScreen(codebase);
 			return;
 		}
@@ -461,7 +496,7 @@ var app = document.createElement("script");
 		showStartScreen(codebase);
 		
 		
-		insertScript(codebase);
+		wait || insertScript(codebase);
 		
 		perspective(false, "picker"); //TODO
 		
