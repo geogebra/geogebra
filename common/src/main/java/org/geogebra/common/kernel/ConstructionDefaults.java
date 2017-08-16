@@ -158,7 +158,7 @@ public class ConstructionDefaults {
 	public static final GColor colPathPointG = GColor.GEOGEBRA_OBJECT_BLUE;
 
 	/** default color for points in region */
-	public static final GColor colRegionPointG = colPathPoint;
+	public static final GColor colRegionPointG = colPathPointG;
 
 	// lines
 	/** default color for lines */
@@ -318,7 +318,9 @@ public class ConstructionDefaults {
 		// pathPoint.setLocalVariableLabel(app.getPlain("PointOn"));
 		pathPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		pathPoint.setLocalVariableLabel("PointOn");
-		pathPoint.setObjColor(colPathPoint);
+		pathPoint.setObjColor(
+				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+						? colPathPointG : colPathPoint);
 		pathPoint.setPointSize(pointSize);
 		pathPoint.setDefaultGeoType(DEFAULT_POINT_ON_PATH);
 		defaultGeoElements.put(DEFAULT_POINT_ON_PATH, pathPoint);
@@ -328,7 +330,9 @@ public class ConstructionDefaults {
 		// regionPoint.setLocalVariableLabel(app.getPlain("PointOn"));
 		regionPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_DOT);
 		regionPoint.setLocalVariableLabel("PointInRegion");
-		regionPoint.setObjColor(colRegionPoint);
+		regionPoint.setObjColor(
+				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+						? colRegionPointG : colRegionPoint);
 		regionPoint.setPointSize(pointSize);
 		regionPoint.setDefaultGeoType(DEFAULT_POINT_IN_REGION);
 		defaultGeoElements.put(DEFAULT_POINT_IN_REGION, regionPoint);
