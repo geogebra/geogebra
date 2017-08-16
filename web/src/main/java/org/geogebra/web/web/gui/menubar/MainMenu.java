@@ -406,6 +406,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 												.menu_icon_perspectives(),
 										"Perspectives"),
 							true);
+			} else if (app.isWhiteboardActive()) {
+				this.menuPanel
+						.add(perspectiveMenuUnbundled,
+								getHTML(MaterialDesignResources.INSTANCE
+										.geogebra_black(), "Perspectives"),
+								true);
 			}
 
 			if (!app.isUnbundled() && !app.isWhiteboardActive()) {

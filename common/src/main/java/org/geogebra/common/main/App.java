@@ -4302,7 +4302,7 @@ public abstract class App implements UpdateSelection {
 			return isUnbundled() && prerelease;
 
 		case DIALOG_DESIGN:
-			return isUnbundled() && prerelease;
+			return (isUnbundled() || whiteboard) && prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
