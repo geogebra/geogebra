@@ -437,10 +437,11 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	 */
 	protected void resetToolbarPanel() {
 		GuiManagerW gm = (GuiManagerW) getGuiManager();
-
-		ToolbarDockPanelW dp = ((ToolbarDockPanelW) gm.getLayout()
-				.getDockManager().getPanel(VIEW_ALGEBRA));
-		dp.getToolbar().reset();
+		DockPanel avPanel = gm.getLayout().getDockManager()
+				.getPanel(VIEW_ALGEBRA);
+		if (avPanel instanceof ToolbarDockPanelW) {
+			((ToolbarDockPanelW) avPanel).getToolbar().reset();
+		}
 	}
 	@Override
 	public void openOFF(String content){
