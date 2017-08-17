@@ -44,7 +44,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 
 		addGraphingGeometryMenuItems("graphing", "GraphingCalculator",
 				pr.menu_icon_algebra24());
-		addGraphingGeometryMenuItems("geometry", "GeometryCalculator",
+		addGraphingGeometryMenuItems("geometry", "Geometry",
 				pr.menu_icon_geometry24());
 		addGraphingGeometryMenuItems("classic", "Classic",
 				pr.menu_icon_geometry24());
