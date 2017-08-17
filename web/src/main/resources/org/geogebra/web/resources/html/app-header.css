@@ -11,14 +11,24 @@
 	font-weight: normal;
 	flex:1;
 }
-.startscreen a{
+.startscreen a, .startscreen a:visited{
 	margin: 10px;
-	border: 1px rgba(0,0,0,0.75) solid;
-	padding:5px;
+	padding:8px;
 	border-radius: 2px;
+	box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+	font-size:16px;
+	color: rgba(0,0,0,0.85);
+    text-decoration:none;
+    display:inline-block;
+    width: 250px;
+}
+.startscreen a.tryApp, .startscreen a.tryApp:visited{
+	background-color:#6557D2;
+	color:rgba(255,255,255,0.85);
 }
 .startscreen .appName{
-	margin: 3px 0;
+	margin-top: 0;
+	margin-bottom: 10px;
 }
 .GeoGebraHeader a{
 	color: #00A8A8;
@@ -52,6 +62,7 @@
 	width: 100%;
 
 }
+
 
 .startscreen .logo{
 	width: 35%;
