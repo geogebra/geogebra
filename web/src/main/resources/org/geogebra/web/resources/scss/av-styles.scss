@@ -354,6 +354,10 @@ $duration: 0.2s;
 			padding-bottom: 0px;
 			display: inline-block;
 		}
+		.avItem .elemText.noPadding{
+			padding-left: 0;
+			padding-top: 6px;
+		}
 		.avItem .elemText.additionalRow{
 			display: flex;
 			padding-top: 16px !important;
@@ -362,9 +366,14 @@ $duration: 0.2s;
 			line-height: 30px;
 		}
 		.avItem .elemText {
-			padding-top: 14px !important;
+			padding-top: 14px;
 			padding-bottom: 4px;
 		}	
+		
+		.avItem .gwt-CheckBox{
+			padding-left: 68px;
+			padding-top: 8px;
+		}
 		
 		.avItemContent {
 			padding-top: 6px;
