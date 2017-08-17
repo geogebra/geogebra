@@ -24,7 +24,86 @@ public abstract class StepNode {
 	 * @param sn the tree to be compared to this
 	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1, if lower
 	 */
-	public abstract int compareTo(StepNode sn);
+	public int compareTo(StepNode sn) {
+		if (this instanceof StepConstant && sn instanceof StepConstant) {
+			return Double.compare(getValue(), sn.getValue());
+		} else if (this instanceof StepConstant) {
+			return -1;
+		} else if (sn instanceof StepConstant) {
+			return 1;
+		}
+
+		int cmp = Double.compare(degree(), sn.degree());
+
+		if (cmp != 0) {
+			return cmp;
+		}
+
+		if (this instanceof StepVariable && sn instanceof StepVariable) {
+			return toString().compareTo(sn.toString());
+		} else if (this instanceof StepVariable) {
+			return -1;
+		} else if (sn instanceof StepVariable) {
+			return 1;
+		}
+
+		StepOperation so1 = (StepOperation) this;
+		StepOperation so2 = (StepOperation) sn;
+
+		cmp = Integer.compare(so1.noOfOperands(), so2.noOfOperands());
+
+		if (cmp != 0) {
+			return cmp;
+		}
+
+		for (int i = 0; i < so1.noOfOperands(); i++) {
+			cmp = so1.getSubTree(i).compareTo(so2.getSubTree(i));
+
+			if (cmp != 0) {
+				return cmp;
+			}
+		}
+
+		return 0;
+	}
+
+	public double degree() {
+		if (this instanceof StepVariable) {
+			return 1;
+		} else if (this instanceof StepConstant) {
+			return 0;
+		} else if (isOperation()) {
+			StepOperation so = (StepOperation) this;
+
+			switch (so.getOperation()) {
+			case MINUS:
+				return so.getSubTree(0).degree();
+			case PLUS:
+				double max = 0;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					double temp = so.getSubTree(i).degree();
+					if (temp > max) {
+						max = temp;
+					}
+				}
+				return max;
+			case POWER:
+				return so.getSubTree(0).degree() * so.getSubTree(1).getValue();
+			case MULTIPLY:
+				double p = 0;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					p += so.getSubTree(i).degree();
+				}
+				return p;
+			case DIVIDE:
+				return so.getSubTree(0).degree() - so.getSubTree(1).degree();
+			case NROOT:
+				return so.getSubTree(0).degree() / so.getSubTree(1).getValue();
+			}
+		}
+
+		return Double.NaN;
+	}
 
 	/**
 	 * @return deep copy of the tree. Use this, if you want to preserve the tree after a regroup

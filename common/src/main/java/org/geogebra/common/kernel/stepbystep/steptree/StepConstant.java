@@ -104,12 +104,4 @@ public class StepConstant extends StepNode {
 	public StepNode divideAndSimplify(double x) {
 		return new StepConstant(value / x);
 	}
-
-	@Override
-	public int compareTo(StepNode sn) {
-		if (sn instanceof StepVariable) {
-			return Double.compare(value, sn.getValue());
-		}
-		return 1;
-	}
 }

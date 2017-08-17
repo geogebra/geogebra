@@ -564,10 +564,9 @@ public class StepHelper {
 		} else if (sn instanceof StepConstant) {
 			return 0;
 		} else if (sn.isOperation()) {
-
 			StepOperation so = (StepOperation) sn;
-			
-			switch(so.getOperation()) {
+
+			switch (so.getOperation()) {
 			case MINUS:
 				return degree(so.getSubTree(0));
 			case PLUS:
