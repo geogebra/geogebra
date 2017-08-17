@@ -4207,7 +4207,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease || isNativeMobileAppWithNewUI();
 
 		case OBJECT_DEFAULTS_AND_COLOR:
-			return prerelease;
+			return prerelease && this.isUnbundled();
 
 		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
 			return isNativeMobileAppWithNewUI();
