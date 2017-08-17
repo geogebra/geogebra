@@ -179,6 +179,13 @@ public class ConstructionDefaults {
 	/** new default color for polygons */
 	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
 
+	public final GColor getColPolygon() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+			return colPolygonG;
+		}
+		return colPolygon;
+	}
+
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
@@ -419,9 +426,7 @@ public class ConstructionDefaults {
 		GeoPolygon polygon = new GeoPolygon(cons, null);
 		// polygon.setLocalVariableLabel(app.getPlain("Polygon"));
 		polygon.setLocalVariableLabel("Polygon");
-		polygon.setObjColor(
-				(cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR))
-						? colPolygonG : colPolygon);
+		polygon.setObjColor(getColPolygon());
 		setDefaultLineStyle(polygon);
 		polygon.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		polygon.setDefaultGeoType(DEFAULT_POLYGON);
@@ -450,7 +455,7 @@ public class ConstructionDefaults {
 				GeoConicNDConstants.CONIC_PART_SECTOR);
 		// conicSector.setLocalVariableLabel(app.getPlain("Sector"));
 		conicSector.setLocalVariableLabel("Sector");
-		conicSector.setObjColor(colPolygon);
+		conicSector.setObjColor(getColPolygon());
 		setDefaultLineStyle(conicSector);
 		conicSector.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		conicSector.setDefaultGeoType(DEFAULT_CONIC_SECTOR);

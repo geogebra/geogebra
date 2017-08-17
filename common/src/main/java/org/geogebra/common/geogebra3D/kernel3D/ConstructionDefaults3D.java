@@ -71,8 +71,8 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 
 	// polyhedrons
 	/** default color for polyhedrons */
-	private static final GColor colPolyhedron() {
-		return colPolygon;
+	private final GColor colPolyhedron() {
+		return getColPolygon();
 	}
 
 	/** default alpha for polyhedrons and limited quadrics */
