@@ -306,10 +306,14 @@ public class ConstructionDefaults {
 					} else if (geo instanceof GeoConicPart) {
 						geo.setLineOpacity(
 								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
+					} else {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 					}
+				} else {
+					geo.setLineOpacity(
+							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 				}
-				geo.setLineOpacity(
-						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 			}
 		}
 
