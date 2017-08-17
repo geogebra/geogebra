@@ -47,6 +47,8 @@ import org.geogebra.common.main.AlgoCubicSwitchParams;
 import org.geogebra.common.main.AlgoKimberlingWeightsInterface;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfig;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.FontManager;
@@ -3641,6 +3643,19 @@ public abstract class AppW extends App implements SetLabels {
 				&& has(Feature.UNBUNDLING)
 				&& !"classic".equals(articleElement.getDataParamAppName());
 
+	}
+
+	@Override
+	public AppConfig getConfig() {
+		if (has(Feature.UNBUNDLING)) {
+			if ("1".equals(initialPerspective)) {
+				return new AppConfigGraphing();
+			}
+			if ("2".equals(initialPerspective)) {
+				return new AppConfigGeometry();
+			}
+		}
+		return new AppConfigDefault();
 	}
 
 	@Override

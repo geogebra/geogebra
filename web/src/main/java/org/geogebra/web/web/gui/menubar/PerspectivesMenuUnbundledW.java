@@ -1,9 +1,8 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.gui.Layout;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 
@@ -43,46 +42,26 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		PerspectiveResources pr = ((ImageFactory) GWT
 				.create(ImageFactory.class)).getPerspectiveResources();
 
-		addGraphingGeometryMenuItems(0, pr.menu_icon_algebra24());
-		addGraphingGeometryMenuItems(1, pr.menu_icon_geometry24());
-		addClassic(MaterialDesignResources.INSTANCE.geogebra_color()
-				.getSafeUri().asString());
+		addGraphingGeometryMenuItems("graphing", "GraphingCalculator",
+				pr.menu_icon_algebra24());
+		addGraphingGeometryMenuItems("geometry", "GeometryCalculator",
+				pr.menu_icon_geometry24());
+		addGraphingGeometryMenuItems("classic", "Classic",
+				pr.menu_icon_geometry24());
 	}
 
-	private void addGraphingGeometryMenuItems(final int index,
+	private void addGraphingGeometryMenuItems(String appId,
+			String translationKey,
 			ResourcePrototype icon) {
-		if (Layout.getDefaultPerspectives(index) == null) {
-			return;
+
+		StringBuilder link = new StringBuilder("https://www.geogebra.org/");
+		if (app.has(Feature.TUBE_BETA)) {
+			link = new StringBuilder("https://beta.geogebra.org/");
 		}
-		StringBuilder link = new StringBuilder("https://beta.geogebra.org/");
-		switch (index) {
-		default:
-			break;
-		case 0:
-			link.append("graphing");
-			break;
-		case 1:
-			link.append("geometry");
-			break;
-		}
+		link.append(appId);
 		addItem(getHTMLwithLink(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
-						.getMenu(index == 0 ? "GraphingCalculator"
-								: "GeometryCalculator"),
-				link.toString()),
-				true, new MenuCommand(app) {
-
-					@Override
-					public void doExecute() {
-						// do nothing
-					}
-				});
-	}
-
-	private void addClassic(String icon) {
-		StringBuilder link = new StringBuilder("https://www.geogebra.org/graphing");
-		addItem(getHTMLwithLink(icon,
-				app.getLocalization().getMenu("Classic"),
+						.getMenu(translationKey),
 				link.toString()),
 				true, new MenuCommand(app) {
 

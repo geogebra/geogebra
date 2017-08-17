@@ -2857,13 +2857,13 @@ public class MyXMLHandler implements DocHandler {
 			int embeddedSize = Integer.parseInt(attrs.get("size"));
 
 			String plane = attrs.get("plane");
-			if (viewId == App.VIEW_ALGEBRA && app.isUnbundled()) {
-				isVisible = true;
-				embeddedDef = "1";
-			}
-			tmp_views.add(new DockPanelData(viewId, toolbar, isVisible,
+			DockPanelData dp = new DockPanelData(viewId, toolbar, isVisible,
 					openInFrame, showStyleBar, windowRect, embeddedDef,
-					embeddedSize, plane));
+					embeddedSize, plane);
+			if (app.getConfig() != null) {
+				app.getConfig().adjust(dp);
+			}
+			tmp_views.add(dp);
 
 			return true;
 		} catch (RuntimeException e) {

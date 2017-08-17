@@ -5018,4 +5018,8 @@ public abstract class App implements UpdateSelection {
 	public boolean isPortrait() {
 		return getHeight() > getWidth();
 	}
+
+	public AppConfig getConfig() {
+		return new AppConfigDefault();
+	}
 }
