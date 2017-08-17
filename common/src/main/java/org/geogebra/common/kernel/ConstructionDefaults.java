@@ -182,7 +182,10 @@ public class ConstructionDefaults {
 
 	// angles
 	/** default color for angles */
-	private static final GColor colAngle() {
+	private final GColor colAngle() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+			return GColor.BLACK;
+		}
 		return GeoGebraColorConstants.GGB_GREEN;
 	}
 
@@ -275,10 +278,17 @@ public class ConstructionDefaults {
 	protected String strDependent = " (dependent)";
 
 	private void setDefaultLineStyle(GeoElement geo) {
-		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
+		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES) || cons
+				.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
 			geo.setLineThickness(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
 			if (geo.hasLineOpacity()) {
+				if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+						&& geo instanceof GeoAngle) {
+					geo.setLineOpacity(
+							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
+					return;
+				}
 				geo.setLineOpacity(
 						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
 			}
