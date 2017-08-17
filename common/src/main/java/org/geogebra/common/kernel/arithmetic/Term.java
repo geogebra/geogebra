@@ -181,12 +181,13 @@ public class Term implements Comparable<Object> {
 	// return a + b
 	private ExpressionValue add(ExpressionValue a, ExpressionValue b,
 			Kernel kernel, boolean keepFraction) {
-		boolean aconst = false;// a.isConstant();
-		boolean bconst = false;// b.isConstant();
+		// potentially related to TRAC-1994
+		boolean aconst = a.isConstant();
+		boolean bconst = b.isConstant();
 		double aval, bval;
 
 		// add constant?
-		if (aconst && bconst) {
+		if (aconst && bconst && !keepFraction) {
 			aval = a.evaluateDouble();
 			bval = b.evaluateDouble();
 			return new MyDouble(kernel, aval + bval);
@@ -277,7 +278,7 @@ public class Term implements Comparable<Object> {
 		boolean bconst = b.isConstant();
 		double aval, bval;
 
-		if (aconst && bconst) {
+		if (aconst && bconst && !keepFraction) {
 			aval = a.evaluateDouble();
 			bval = b.evaluateDouble();
 
@@ -339,11 +340,11 @@ public class Term implements Comparable<Object> {
 	private ExpressionValue divide(ExpressionValue a, ExpressionValue b,
 			Kernel kernel, boolean keepFraction) {
 		// divide constants
-		boolean aconst = !keepFraction && a.isConstant();
-		boolean bconst = !keepFraction && b.isConstant();
+		boolean aconst = a.isConstant();
+		boolean bconst = b.isConstant();
 		double aval, bval;
 
-		if (aconst && bconst) {
+		if (aconst && bconst && !keepFraction) {
 			aval = a.evaluateDouble();
 			bval = b.evaluateDouble();
 			return new MyDouble(kernel, aval / bval);
