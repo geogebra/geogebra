@@ -11,6 +11,12 @@
 	font-weight: normal;
 	flex:1;
 }
+.GeoGebraHeader.mobile{
+	display:none;
+}
+.application .GeoGebraHeader.mobile{
+	display:flex;
+}
 .startscreen a, .startscreen a:visited{
 	margin: 10px;
 	padding:8px;

@@ -370,8 +370,11 @@ var app = document.createElement("script");
 		var wait = false;
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test(window.navigator.userAgent) && c("appName")){
-			var appName = c("appName");
-			appName.parentElement.remove();
+			var nameText = c("appName").innerText;
+			var appName = document.createElement("H1");
+			appName.innerText = nameText;
+			appName.clasName = "appName";
+			c("appName").parentElement.className += " mobile";
 			//c("GeoGebraHeader").style.display= "none";
 			var tryApp = document.createElement("a");
 			tryApp.innerText = "Try App";
