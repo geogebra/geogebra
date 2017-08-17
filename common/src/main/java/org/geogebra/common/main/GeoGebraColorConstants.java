@@ -144,6 +144,27 @@ public class GeoGebraColorConstants {
 	public static final GColor MOW_MAGENTA = GColor.newColor(204, 0, 153);
 	public static final GColor MOW_YELLOW = GColor.newColor(255, 204, 0);
 
+
+	// New colors for graphing/geometry app objects
+	/** GEOGEBRA_OBJECT_GREEN */
+	public static final GColor GEOGEBRA_OBJECT_GREEN = GColor.newColor(46, 125,
+			50);
+	/** GEOGEBRA_OBJECT_BlUE */
+	public static final GColor GEOGEBRA_OBJECT_BLUE = GColor.newColor(21, 101,
+			192);
+	/** GEOGEBRA_OBJECT_RED */
+	public static final GColor GEOGEBRA_OBJECT_RED = GColor.newColor(211, 47,
+			47);
+	/** GEOGEBRA_OBJECT_ORANGE */
+	public static final GColor GEOGEBRA_OBJECT_ORANGE = GColor.newColor(219, 97,
+			20);
+	/** GEOGEBRA_OBJECT_PURPLE */
+	public static final GColor GEOGEBRA_OBJECT_PURPLE = GColor.newColor(101, 87,
+			210);
+	/** GEOGEBRA_OBJECT_GREY */
+	public static final GColor GEOGEBRA_OBJECT_GREY = GColor.newColor(101, 87,
+			210);
+
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
 	 * from colors.properties value = RBG color
