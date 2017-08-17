@@ -176,6 +176,8 @@ public class ConstructionDefaults {
 	// polygons
 	/** default color for polygons */
 	public static final GColor colPolygon = GeoGebraColorConstants.GGB_BROWN;
+	/** new default color for polygons */
+	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
 
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
@@ -417,7 +419,9 @@ public class ConstructionDefaults {
 		GeoPolygon polygon = new GeoPolygon(cons, null);
 		// polygon.setLocalVariableLabel(app.getPlain("Polygon"));
 		polygon.setLocalVariableLabel("Polygon");
-		polygon.setObjColor(colPolygon);
+		polygon.setObjColor(
+				(cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR))
+						? colPolygonG : colPolygon);
 		setDefaultLineStyle(polygon);
 		polygon.setAlphaValue(DEFAULT_POLYGON_ALPHA);
 		polygon.setDefaultGeoType(DEFAULT_POLYGON);
