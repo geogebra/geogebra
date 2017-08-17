@@ -179,6 +179,9 @@ public class ConstructionDefaults {
 	/** new default color for polygons */
 	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
 
+	/**
+	 * @return default color for polygons.
+	 */
 	public final GColor getColPolygon() {
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
 			return colPolygonG;
@@ -292,11 +295,18 @@ public class ConstructionDefaults {
 			geo.setLineThickness(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS);
 			if (geo.hasLineOpacity()) {
-				if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-						&& geo instanceof GeoAngle) {
-					geo.setLineOpacity(
-							EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
-					return;
+				if (cons.getApplication()
+						.has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+					if (geo instanceof GeoAngle) {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_ANGLE);
+					} else if (geo instanceof GeoPolygon) {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON);
+					} else if (geo instanceof GeoConicPart) {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
+					}
 				}
 				geo.setLineOpacity(
 						EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
