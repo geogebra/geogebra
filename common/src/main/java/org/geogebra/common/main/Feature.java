@@ -305,6 +305,9 @@ public enum Feature {
 	/** GGB-1986 */
 	DIALOG_DESIGN,
 
-	INITIAL_PORTRAIT
+	INITIAL_PORTRAIT,
+
+	/** MOW-261 */
+	COLOR_FILLING_LINE
 
 }

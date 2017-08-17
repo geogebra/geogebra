@@ -44,6 +44,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
+import org.geogebra.web.web.gui.color.FillingStyleButton;
 import org.geogebra.web.web.gui.color.MOWColorButton;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
@@ -104,6 +105,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private PopupMenuButtonW btnShowAxes_new;
 	protected PopupMenuButtonW btnPointCapture;
 	protected PopupMenuButtonW btnChangeView;
+	protected FillingStyleButton btnFilling;
 
 	private MyToggleButtonW btnShowAxes;
 	MyToggleButtonW btnBold;
@@ -500,6 +502,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		add(btnColor);
 		add(btnBgColor);
 		add(btnTextColor);
+		if (app.has(Feature.COLOR_FILLING_LINE) && btnFilling != null) {
+			add(btnFilling);
+		}
 		add(btnLineStyle);
 		add(btnPointStyle);
 
@@ -764,12 +769,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 													// flag is true
 			return new PopupMenuButtonW[] { btnShowAxes_new,
 					getAxesOrGridPopupMenuButton(), btnColor, btnBgColor,
-					btnTextColor, btnLineStyle, btnPointStyle, btnTextSize,
+					btnTextColor, btnFilling, btnLineStyle, btnPointStyle,
+					btnTextSize,
 					btnAngleInterval, btnLabelStyle, btnPointCapture,
 					btnChangeView };
 		}
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
-		        btnColor, btnBgColor, btnTextColor, btnLineStyle,
+				btnColor, btnBgColor, btnTextColor, btnFilling, btnLineStyle,
  btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle, btnPointCapture,
 				btnChangeView };
 	}
@@ -788,9 +794,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		createAngleIntervalBtn();
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
-		if (app.isWhiteboardActive()) {
+
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			createColorBtn();
+			createFillingBtn();
+		} else if (app.isWhiteboardActive()) {
 			createMOWColorBtn();
-		} else {
+			} else {
 			createColorBtn();
 		}
 		createBgColorBtn();
@@ -1238,6 +1248,78 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnColor.addPopupHandler(this);
 	}
 
+	private void createFillingBtn() {
+		btnFilling = new FillingStyleButton(app) {
+			@Override
+			public void update(Object[] geos) {
+
+				if (mode == EuclidianConstants.MODE_FREEHAND_SHAPE) {
+					Log.debug(
+							"MODE_FREEHAND_SHAPE not working in StyleBar yet");
+				} else {
+					boolean geosOK = (geos.length > 0
+							|| (EuclidianView.isPenMode(mode)
+									&& !app.has(Feature.CLEAR_VIEW_STYLEBAR)));
+					for (int i = 0; i < geos.length; i++) {
+						GeoElement geo = ((GeoElement) geos[i])
+								.getGeoElementForPropertiesDialog();
+						if (geo instanceof GeoText
+								|| geo instanceof GeoButton) {
+							geosOK = false;
+							break;
+						}
+					}
+
+					if (geosOK) {
+
+						// check if selection contains a fillable geo
+						// if true, then set slider to first fillable's alpha
+						// value
+						double alpha = 1.0;
+						boolean hasFillable = false;
+						boolean alphaOnly = false;
+						FillType fillType = null;
+						for (int i = 0; i < geos.length; i++) {
+							GeoElement geo = (GeoElement) geos[i];
+							if (geo.isFillable()) {
+								alphaOnly = geo.isAngle() || geo.isGeoImage();
+								hasFillable = true;
+								alpha = geo.getAlphaValue();
+								fillType = geo.getFillType();
+								break;
+							}
+							if (geos[i] instanceof GeoPolyLine
+									&& EuclidianView.isPenMode(mode)) {
+								hasFillable = true;
+								alpha = ((GeoElement) geos[i]).getLineOpacity();
+
+								break;
+							}
+						}
+
+						if (hasFillable) {
+							setTitle(loc.getMenu("stylebar.ColorTransparency"));
+						} else {
+							setTitle(loc.getMenu("stylebar.Color"));
+						}
+
+						boolean enableFill = hasFillable && !alphaOnly;
+						super.setVisible(enableFill);
+						setFillEnabled(enableFill);
+						if (enableFill) {
+							setFillType(fillType);
+						}
+
+						this.setKeepVisible(
+								EuclidianConstants.isMoveOrSelectionMode(mode));
+					}
+				}
+			}
+
+		};
+		btnFilling.addPopupHandler(this);
+	}
+
 	private void createBgColorBtn() {
 
 		btnBgColor = new ColorPopupMenuButton(app,
@@ -1667,6 +1749,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
 				        color);
 			}
+		} else if (source == btnFilling) {
+			FillType fillType = btnFilling.getSelectedFillType();
+			EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
+
 		} else if (processSourceForAxesAndGrid(source)) {
 			// done in method
 		} else if (source == btnBold) {

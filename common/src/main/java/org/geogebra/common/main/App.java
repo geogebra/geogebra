@@ -4307,6 +4307,9 @@ public abstract class App implements UpdateSelection {
 		case DIALOG_DESIGN:
 			return (isUnbundled() || whiteboard) && prerelease;
 
+		case COLOR_FILLING_LINE:
+			return prerelease && whiteboard;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

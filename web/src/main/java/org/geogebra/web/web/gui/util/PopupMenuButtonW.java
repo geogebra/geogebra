@@ -248,7 +248,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 		myTable = new SelectionTableW(newData, rows, columns, mode,
 		        multiselectionEnabled);
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			myTable.addStyleName("matSelectionTable");
 		}
 		if (!multiselectionEnabled) {

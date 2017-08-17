@@ -164,9 +164,24 @@
     		input[type=range] {
     			padding: 5px 0;
     			margin: 0px 0px 0px 8px;
-    			width: 156px;
+    			width: 152px;
     			cursor: pointer;
     		}
+    		.opacityLabel {
+    			display: block;
+			    margin-bottom: 15px;
+			    margin-left: 5px;
+			    margin-top: 5px;
+    		}
+    		.thicknessLabel {
+    			display: block;
+			    margin-bottom: 10px;
+			    margin-left: 5px;
+			    margin-top: 5px;
+    		}
+    		.preview{
+		    margin: 3px 0px 3px 12px;
+	}
     	}
     
     	.labelPopupPanel {

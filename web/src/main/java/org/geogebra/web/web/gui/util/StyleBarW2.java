@@ -39,7 +39,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createLineStyleBtn(int mode) {
-		btnLineStyle = app.isWhiteboardActive() ? new MOWLineStyleButton(app)
+		btnLineStyle = app.has(Feature.COLOR_FILLING_LINE)
+				? new MOWLineStyleButton(app)
 				: new EuclidianLineStylePopup(app, -1, 5,
 				SelectionTable.MODE_ICON, true, true);
 		btnLineStyle.getMySlider().setMinimum(1);
@@ -92,7 +93,8 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			if (color == null && !(targetGeos.get(0) instanceof GeoImage)) {
 				openColorChooser(targetGeos, false);
 			} else {
-				if (app.isWhiteboardActive()) {
+				if (app.isWhiteboardActive()
+						&& !app.has(Feature.COLOR_FILLING_LINE)) {
 					FillType fillType = ((MOWColorButton) btnColor)
 							.getSelectedFillType();
 					EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);

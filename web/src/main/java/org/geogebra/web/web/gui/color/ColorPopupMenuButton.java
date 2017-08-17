@@ -14,6 +14,7 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Color popup for stylebar
@@ -29,6 +30,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	private GColor[] colorSet;
 	private GColor defaultColor;
 	private HashMap<String, Integer> lookupMap;
+	private Label titleLabel;
 
 	private boolean enableTable;
 	private boolean hasSlider;
@@ -64,18 +66,26 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		getMySlider().setMinorTickSpacing(5);
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
+		if (app.has(Feature.COLOR_FILLING_LINE) && hasSlider) {
+			titleLabel = new Label(app.getLocalization().getMenu("Opacity"));
+			titleLabel.addStyleName("opacityLabel");
+			sliderPanel.insert(titleLabel, 0);
+		}
 
 		updateColorTable();
 		setKeepVisible(false);
 		getMyTable().removeDefaultStyle();
-
 	}
 
 	/**
 	 * Sets the colors to choose from.
 	 */
 	protected void setColors() {
-		colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
+		if (app.isWhiteboardActive()) {
+			colorSet = GeoGebraColorConstants.getMOWPopupArray();
+		} else {
+			colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
+		}
 	}
 	/**
 	 * @param visible
@@ -84,15 +94,26 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
-		if (!hasSlider && app.isUnbundled()) {
-			getMyPopup().setHeight("88px");
-		}
-		if (hasSlider && app.isUnbundled()) {
-			getMyPopup().setHeight("118px");
-		}
-		if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
-			if (!hasSlider && app.isWhiteboardActive()) {
-				getMyPopup().setHeight("38px");
+		if (app.has(Feature.COLOR_FILLING_LINE) && titleLabel != null) {
+			titleLabel.setVisible(hasSlider);
+			if (!hasSlider) {
+				getMyPopup().setHeight("88px");
+			}
+			if (hasSlider) {
+				getMyPopup().setHeight("150px");
+			}
+
+		} else {
+			if (!hasSlider && app.isUnbundled()) {
+				getMyPopup().setHeight("88px");
+			}
+			if (hasSlider && app.isUnbundled()) {
+				getMyPopup().setHeight("118px");
+			}
+			if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+				if (!hasSlider && app.isWhiteboardActive()) {
+					getMyPopup().setHeight("38px");
+				}
 			}
 		}
 	}
@@ -247,4 +268,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		this.colorSet = colorSet;
 	}
 
+	@Override
+	protected String getSliderPostfix() {
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			return " %";
+		}
+		return "";
+	}
 }

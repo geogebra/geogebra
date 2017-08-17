@@ -2,9 +2,11 @@ package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -14,8 +16,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
-	private static final int CANVAS_WIDTH = 30;
-	private static final int CANVAS_HEIGHT = 30;
+	private static final int CANVAS_WIDTH = 20;
+	private static final int CANVAS_HEIGHT = 20;
 	private LineStylePreview preview;
 	/**
 	 * Constructor
@@ -30,13 +32,23 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();
-		panel.add(sliderPanel);
 		panel.add(getMyTable());
-		panel.addStyleName("mowStylePopup");
+		panel.add(sliderPanel);
+
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
-		sliderPanel.addStyleName("mowLinePopup");
+		updatePreview();
+		if (!app.has(Feature.COLOR_FILLING_LINE)) {
+			panel.addStyleName("mowStylePopup");
+			sliderPanel.addStyleName("mowLinePopup");
+		}
 		preview.addStyleName("preview");
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			Label titleLabel = new Label(
+					app.getLocalization().getMenu("Thickness"));
+			titleLabel.addStyleName("thicknessLabel");
+			sliderPanel.insert(titleLabel, 0);
+		}
 		setKeepVisible(true);
 	}
 
