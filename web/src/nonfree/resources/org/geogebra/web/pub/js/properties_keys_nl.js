@@ -1827,7 +1827,6 @@ __GGB__keysVar.nl.menu = {
     "GeogebraToAsymptoteExport": "Exporteer GeoGebra naar Asymptote",
     "GeometricObjects": "Meetkundige objecten",
     "Geometry": "Meetkunde",
-    "GeometryCalculator": "Meetkunde rekenmachine",
     "Glasses": "Anaglyphbril",
     "Global": "Algemeen",
     "GlobalJavaScript": "Globaal Javascript",

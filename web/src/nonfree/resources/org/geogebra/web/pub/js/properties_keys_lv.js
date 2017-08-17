@@ -1827,7 +1827,6 @@ __GGB__keysVar.lv.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra Asimpto\u0161u eksports",
     "GeometricObjects": "\u0122eometriski objekti",
     "Geometry": "\u0122eometrija",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Brilles",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

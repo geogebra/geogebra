@@ -1827,7 +1827,6 @@ __GGB__keysVar.hr.menu = {
     "GeogebraToAsymptoteExport": "Izvoz GeoGebre u Asymptote",
     "GeometricObjects": "Geometrijski objekti",
     "Geometry": "Geometrija",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Nao\u010dale",
     "Global": "Global",
     "GlobalJavaScript": "Globalni JavaScript",

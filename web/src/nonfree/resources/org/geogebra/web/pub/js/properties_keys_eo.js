@@ -1827,7 +1827,6 @@ __GGB__keysVar.eo.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra to Asymptote Export",
     "GeometricObjects": "Geometriaj objektoj",
     "Geometry": "Geometrio",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Okulvitroj",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

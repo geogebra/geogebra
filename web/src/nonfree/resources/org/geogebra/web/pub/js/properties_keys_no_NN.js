@@ -1827,7 +1827,6 @@ __GGB__keysVar.no_NN.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra til Asymptote-eksport",
     "GeometricObjects": "Geometriske objekt",
     "Geometry": "Geometri",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Briller",
     "Global": "Global",
     "GlobalJavaScript": "Globalt JavaScript",

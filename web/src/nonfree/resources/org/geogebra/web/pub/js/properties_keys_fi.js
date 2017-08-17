@@ -1827,7 +1827,6 @@ __GGB__keysVar.fi.menu = {
     "GeogebraToAsymptoteExport": "Vie: GeoGebrasta Asymptote-muotoon",
     "GeometricObjects": "Geometriset objektit",
     "Geometry": "Geometria",
-    "GeometryCalculator": "Geometrialaskin",
     "Glasses": "Lasit",
     "Global": "Global",
     "GlobalJavaScript": "Globaali JavaScript",

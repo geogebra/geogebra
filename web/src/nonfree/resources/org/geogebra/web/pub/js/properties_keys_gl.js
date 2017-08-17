@@ -1827,7 +1827,6 @@ __GGB__keysVar.gl.menu = {
     "GeogebraToAsymptoteExport": "Exporta GeoGebra a Asymptote",
     "GeometricObjects": "Obxectos xeom\xe9tricos",
     "Geometry": "Xeometr\xeda",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Lentes",
     "Global": "Global",
     "GlobalJavaScript": "JavaScript Global",

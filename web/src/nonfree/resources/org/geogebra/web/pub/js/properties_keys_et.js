@@ -1827,7 +1827,6 @@ __GGB__keysVar.et.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra eksportimine Asymptote",
     "GeometricObjects": "Geomeetrilised objektid",
     "Geometry": "Geomeetria",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Prillid",
     "Global": "Global",
     "GlobalJavaScript": "\xdcldine JavaScript",

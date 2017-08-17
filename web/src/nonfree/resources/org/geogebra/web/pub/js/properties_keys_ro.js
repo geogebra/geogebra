@@ -1827,7 +1827,6 @@ __GGB__keysVar.ro.menu = {
     "GeogebraToAsymptoteExport": "Export GeoGebra \xeen Asymptote",
     "GeometricObjects": "Obiecte geometrice",
     "Geometry": "Geometrie",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "ochelari",
     "Global": "Global",
     "GlobalJavaScript": "JavaScript global",

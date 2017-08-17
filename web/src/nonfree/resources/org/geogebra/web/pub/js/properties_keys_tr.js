@@ -1827,7 +1827,6 @@ __GGB__keysVar.tr.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra'dan Asimtot Aktar\u0131ma",
     "GeometricObjects": "Geometrik nesneler",
     "Geometry": "Geometri",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Mercekler",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

@@ -1827,7 +1827,6 @@ __GGB__keysVar.zh_CN.menu = {
     "GeogebraToAsymptoteExport": "\u5bfc\u51fa Asymptote \u4ee3\u7801",
     "GeometricObjects": "\u51e0\u4f55\u5bf9\u8c61",
     "Geometry": "\u51e0\u4f55",
-    "GeometryCalculator": "\u51e0\u4f55\u8ba1\u7b97\u5668",
     "Glasses": "\u773c\u955c\u6295\u5f71",
     "Global": "\u5168\u5c40",
     "GlobalJavaScript": "\u5168\u5c40 JavaScript",

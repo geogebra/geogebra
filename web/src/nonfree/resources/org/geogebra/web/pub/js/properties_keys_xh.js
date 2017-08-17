@@ -1827,7 +1827,6 @@ __GGB__keysVar.xh.menu = {
     "GeogebraToAsymptoteExport": "uJiyoJebra ukuya kwi Expoti yoMgcaOsondelaKwiGophe",
     "GeometricObjects": "Izakhiwo zeJiyometri",
     "Geometry": "IzifundoZeGeometry",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "iiGlasi",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

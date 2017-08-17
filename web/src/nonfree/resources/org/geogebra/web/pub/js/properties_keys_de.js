@@ -1827,7 +1827,6 @@ __GGB__keysVar.de.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra als Asymptote-Export",
     "GeometricObjects": "Geometrische Objekte",
     "Geometry": "Geometrie",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Brille",
     "Global": "Global",
     "GlobalJavaScript": "Globales JavaScript",

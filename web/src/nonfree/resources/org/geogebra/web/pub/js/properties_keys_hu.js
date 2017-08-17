@@ -1827,7 +1827,6 @@ __GGB__keysVar.hu.menu = {
     "GeogebraToAsymptoteExport": "Export\xe1l\xe1s Asymptote k\xf3dba",
     "GeometricObjects": "M\xe9rtani alakzatok",
     "Geometry": "Geometria",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Szem\xfcvegek",
     "Global": "Global",
     "GlobalJavaScript": "Glob\xe1lis JavaScript",

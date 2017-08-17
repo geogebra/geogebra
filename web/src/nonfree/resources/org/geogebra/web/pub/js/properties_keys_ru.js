@@ -1827,7 +1827,6 @@ __GGB__keysVar.ru.menu = {
     "GeogebraToAsymptoteExport": "Asymptote",
     "GeometricObjects": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u0447\u0435\u0441\u043a\u0438\u0435 \u043e\u0431\u044a\u0435\u043a\u0442\u044b",
     "Geometry": "\u0413\u0435\u043e\u043c\u0435\u0442\u0440\u0438\u044f",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "\u041e\u0447\u043a\u0438",
     "Global": "Global",
     "GlobalJavaScript": "\u041e\u0431\u0449\u0438\u0439 JavaScript",

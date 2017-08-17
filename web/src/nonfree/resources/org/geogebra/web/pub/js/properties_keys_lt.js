@@ -1827,7 +1827,6 @@ __GGB__keysVar.lt.menu = {
     "GeogebraToAsymptoteExport": "Eksportuoti GeoGebra kaip Asymptote",
     "GeometricObjects": "Geometriniai objektai",
     "Geometry": "Geometrija",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Akiniai",
     "Global": "Global",
     "GlobalJavaScript": "Globalus JavaScript",

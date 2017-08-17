@@ -1827,7 +1827,6 @@ __GGB__keysVar.bs.menu = {
     "GeogebraToAsymptoteExport": "Prenos GeoGebra-Asymptote",
     "GeometricObjects": "Geometrijske figure",
     "Geometry": "Geometrija",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Nao\u010dale",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

@@ -1827,7 +1827,6 @@ __GGB__keysVar.cy.menu = {
     "GeogebraToAsymptoteExport": "Allforio GeoGebra i Asymptote",
     "GeometricObjects": "Gwrthrychau geometrig",
     "Geometry": "Geometreg",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Glasses",
     "Global": "Global",
     "GlobalJavaScript": "JavaScript Bydgyfan",

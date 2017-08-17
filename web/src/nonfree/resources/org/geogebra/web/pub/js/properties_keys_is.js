@@ -1827,7 +1827,6 @@ __GGB__keysVar.is.menu = {
     "GeogebraToAsymptoteExport": "GeoGebra \xed \xfatflutning sem vigurmynd",
     "GeometricObjects": "R\xfamfr\xe6\xf0ihlutir",
     "Geometry": "R\xfamfr\xe6\xf0i",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Gleraugu",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

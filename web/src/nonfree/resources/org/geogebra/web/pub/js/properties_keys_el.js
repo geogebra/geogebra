@@ -1827,7 +1827,6 @@ __GGB__keysVar.el.menu = {
     "GeogebraToAsymptoteExport": "\u0395\u03be\u03b1\u03b3\u03c9\u03b3\u03ae \u03c3\u03b5 Asymptote",
     "GeometricObjects": "\u0393\u03b5\u03c9\u03bc\u03b5\u03c4\u03c1\u03b9\u03ba\u03ac \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03b1",
     "Geometry": "\u0393\u03b5\u03c9\u03bc\u03b5\u03c4\u03c1\u03af\u03b1",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "\u0393\u03c5\u03b1\u03bb\u03b9\u03ac",
     "Global": "Global",
     "GlobalJavaScript": "Global JavaScript",

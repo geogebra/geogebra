@@ -1827,7 +1827,6 @@ __GGB__keysVar.eu.menu = {
     "GeogebraToAsymptoteExport": "Esportatu GeoGebra Asymptote-ra",
     "GeometricObjects": "Objektu geometrikoak",
     "Geometry": "Geometria",
-    "GeometryCalculator": "Geometry Calculator",
     "Glasses": "Betaurrekoak",
     "Global": "Global",
     "GlobalJavaScript": "JavaScript orokorra",
