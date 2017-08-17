@@ -105,7 +105,7 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");
 
-			ClickStartHandler.init(btnMore, new ClickStartHandler() {
+			ClickStartHandler.init(btnMore, new ClickStartHandler(true, true) {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
