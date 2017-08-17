@@ -292,6 +292,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			if (needsFullscreenButton()) {
 				zoomPanel.addFullscreenButton();
 			}
+			zoomPanel.setLabels();
 		}
 	}
 
@@ -305,5 +306,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 	
+	@Override
+	public final void setLabels() {
+		super.setLabels();
+		if (zoomPanel != null) {
+			zoomPanel.setLabels();
+		}
+	}
 
 }

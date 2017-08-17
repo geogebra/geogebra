@@ -68,7 +68,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 				ZoomPanelResources.INSTANCE.fullscreen_black18(), app);
 		fullscreenBtn.getDownFace().setImage(new Image(
 				ZoomPanelResources.INSTANCE.fullscreen_exit_black18()));
-		fullscreenBtn.setTitle(app.getLocalization().getMenu("Fullscreen"));
+
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 
 		FastClickHandler handlerFullscreen = new FastClickHandler() {
@@ -122,7 +122,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		// add home button
 		homeBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.home_zoom_black18(), app);
-		homeBtn.setTitle(app.getLocalization().getMenu("Home"));
 		homeBtn.setStyleName("zoomPanelBtn");
 		hideHomeButton();
 		FastClickHandler handlerHome = new FastClickHandler() {
@@ -155,7 +154,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.remove_black18(), app);
-		zoomOutBtn.setTitle(app.getLocalization().getMenu("ZoomOut.Tool"));
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 
@@ -172,7 +170,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	private void addZoomInButton() {
 		zoomInBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.add_black18(), app);
-		zoomInBtn.setTitle(app.getLocalization().getMenu("ZoomIn.Tool"));
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 
@@ -296,6 +293,18 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		app.getArticleElement().resetScale();
 		app.recalculateEnvironments();
+
+	}
+
+	public void setLabels() {
+		setButtonTitle(fullscreenBtn, "Fullscreen");
+		setButtonTitle(homeBtn, "Home");
+		setButtonTitle(zoomOutBtn,"ZoomOut.Tool");
+		setButtonTitle(zoomInBtn,"ZoomIn.Tool");
+	}
+
+	private void setButtonTitle(StandardButton btn, String string) {
+		btn.setTitle(app.getLocalization().getMenu(string));
 
 	}
 }

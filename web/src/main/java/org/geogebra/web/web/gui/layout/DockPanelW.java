@@ -602,7 +602,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/**
 	 * Update localization
 	 */
-	public final void setLabels() {
+	public void setLabels() {
 		if (toggleStyleBarButton != null) {
 			toggleStyleBarButton
 					.setTitle(app.getLocalization().getMenu("ToggleStyleBar"));

@@ -146,4 +146,11 @@ public class ToolbarDockPanelW extends DockPanelW {
 		return toolMode;
 	}
 
+	@Override
+	public void setLabels() {
+		if (toolbar != null) {
+			toolbar.setLabels();
+		}
+	}
+
 }

@@ -164,6 +164,7 @@ $duration: 0.2s;
 
 	.suggestionBar {
 		position: absolute;
+		font-family: sans-serif;
 		bottom:0px;
 		right:0;
 		overflow-y:hidden;
@@ -348,6 +349,7 @@ $duration: 0.2s;
 		.scrollableTextBox.avPreview,
 		.scrollableTextBox.noPreview, 
 		.avItem .elemText,
+		.avItem .elemText.scrollableTextBox,
 		.avItemContent {
 			padding-top: 10px;
 			padding-left: 68px;

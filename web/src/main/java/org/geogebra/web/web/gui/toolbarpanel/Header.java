@@ -103,7 +103,7 @@ class Header extends FlowPanel {
 		createRightSide();
 		createCenter();
 		addUndoRedoButtons();
-
+		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
 	}
 
@@ -115,8 +115,6 @@ class Header extends FlowPanel {
 						: MaterialDesignResources.INSTANCE
 								.toolbar_algebra_geometry()),
 				app);
-		btnAlgebra.setTitle(
-				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -132,7 +130,7 @@ class Header extends FlowPanel {
 		btnTools = new MyToggleButton(
 				new Image(MaterialDesignResources.INSTANCE.toolbar_tools()),
 				app);
-		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
+
 		btnTools.addStyleName("tabButton");
 		ClickStartHandler.init(btnTools,
 				new ClickStartHandler(false, true) {
@@ -154,6 +152,14 @@ class Header extends FlowPanel {
 		center.add(btnAlgebra);
 		center.add(btnTools);
 		contents.add(center);
+	}
+
+	void setLabels() {
+		btnMenu.setTitle(app.getLocalization().getMenu("Menu"));
+		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
+		btnAlgebra.setTitle(
+				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
+
 	}
 
 	/**
@@ -300,7 +306,6 @@ class Header extends FlowPanel {
 	private void createMenuButton() {
 		btnMenu = new PersistableToggleButton(new Image(
 				MaterialDesignResources.INSTANCE.toolbar_menu_black()));
-		btnMenu.setTitle(app.getLocalization().getMenu("Menu"));
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
 

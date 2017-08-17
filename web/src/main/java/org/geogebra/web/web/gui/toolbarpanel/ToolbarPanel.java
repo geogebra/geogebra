@@ -1065,4 +1065,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		header.onOrientationChange();
 
 	}
+
+	public void setLabels() {
+		header.setLabels();
+
+	}
 }
