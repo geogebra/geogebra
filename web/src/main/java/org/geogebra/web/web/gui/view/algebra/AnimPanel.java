@@ -88,7 +88,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		btnPlay.addStyleName("playOnly");
 		buildSpeedPanel();
 		add(speedPanel);
-		add(btnPlay);	
+		add(btnPlay);
+		ClickStartHandler.initDefaults(btnPlay, true, true);
 
 	}
 
@@ -157,6 +158,9 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		speedPanel.add(lblSpeedValue);
 		speedPanel.add(btnSpeedUp);
 		showSpeedValue(false);
+		ClickStartHandler.initDefaults(btnSpeedUp, false, true);
+		ClickStartHandler.initDefaults(btnSpeedDown, false, true);
+		ClickStartHandler.initDefaults(lblSpeedValue, true, true);
 
 	}
 
