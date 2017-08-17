@@ -234,7 +234,7 @@ public class EuclidianStyleBarStatic {
 
 			}
 		}
-
+		ret.updateRepaint();
 		return ret;
 	}
 

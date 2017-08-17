@@ -87,4 +87,14 @@ public class FillingStyleButton extends PopupMenuButtonW {
 			}
 		}
 	}
+
+	@Override
+	public ImageOrText getButtonIcon() {
+		if (getSelectedIndex() > -1) {
+			return GeoGebraIconW.createFillStyleIcon(getSelectedIndex());
+
+		}
+
+		return new ImageOrText();
+	}
 }
