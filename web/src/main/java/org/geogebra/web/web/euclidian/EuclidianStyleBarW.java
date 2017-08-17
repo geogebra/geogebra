@@ -66,6 +66,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * StyleBar for euclidianView
  */
+@SuppressWarnings("javadoc")
 public class EuclidianStyleBarW extends StyleBarW2 implements
         org.geogebra.common.euclidian.EuclidianStyleBar,
 		ValueChangeHandler<Boolean> {
@@ -121,7 +122,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private PopupMenuButtonW[] popupBtnList;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
-	private Localization loc;
+	Localization loc;
 	private ContextMenuPopup btnContextMenu = null;
 	private StandardButton btnDelete;
 	private LabelSettingsPopup btnLabel;
@@ -1045,9 +1046,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnCloseView.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				app.getGuiManager().setShowView(false, viewID);
+				closeView();
 			}
 		});
+	}
+
+	protected void closeView() {
+		app.getGuiManager().setShowView(false, viewID);
+
 	}
 
 	/**
@@ -1275,7 +1281,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						// check if selection contains a fillable geo
 						// if true, then set slider to first fillable's alpha
 						// value
-						double alpha = 1.0;
+						// double alpha = 1.0;
 						boolean hasFillable = false;
 						boolean alphaOnly = false;
 						FillType fillType = null;
@@ -1284,14 +1290,15 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							if (geo.isFillable()) {
 								alphaOnly = geo.isAngle() || geo.isGeoImage();
 								hasFillable = true;
-								alpha = geo.getAlphaValue();
+								// alpha = geo.getAlphaValue();
 								fillType = geo.getFillType();
 								break;
 							}
 							if (geos[i] instanceof GeoPolyLine
 									&& EuclidianView.isPenMode(mode)) {
 								hasFillable = true;
-								alpha = ((GeoElement) geos[i]).getLineOpacity();
+								// alpha = ((GeoElement)
+								// geos[i]).getLineOpacity();
 
 								break;
 							}
@@ -1480,11 +1487,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixPosition(geos) && showAllStyleButtons();
+						.checkGeosForFixPosition(geos) && showAllStyleButtons();
 				super.setVisible(geosOK);
 				if (geosOK) {
-					btnFixPosition.setValue(EuclidianStyleBarStatic
-					        .checkSelectedFixPosition((GeoElement) geos[0]));
+					this.setValue(EuclidianStyleBarStatic
+							.checkSelectedFixPosition((GeoElement) geos[0]));
 				}
 			}
 		};
@@ -1502,11 +1509,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void update(Object[] geos) {
 
 				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixObject(geos) && showAllStyleButtons();
+						.checkGeosForFixObject(geos) && showAllStyleButtons();
 				super.setVisible(geosOK);
 				if (geosOK) {
-					btnFixObject.setValue(EuclidianStyleBarStatic
-					        .checkSelectedFixObject((GeoElement) geos[0]));
+					this.setValue(EuclidianStyleBarStatic
+							.checkSelectedFixObject((GeoElement) geos[0]));
 				}
 			}
 		};
@@ -1793,6 +1800,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return true;
 	}
 
+	/**
+	 * For 3D
+	 * 
+	 * @param si
+	 *            direction
+	 */
 	protected void setDirection(int si) {
 		// TODO Auto-generated method stub
 
