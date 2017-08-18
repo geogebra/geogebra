@@ -250,6 +250,9 @@ public class PopupMenuButtonW extends MyCJButton
 		        multiselectionEnabled);
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			myTable.addStyleName("matSelectionTable");
+			if (app.has(Feature.COLOR_FILLING_LINE)) {
+				myTable.addStyleName("matSelectionTableRound");
+			}
 		}
 		if (!multiselectionEnabled) {
 			setSelectedIndex(0);

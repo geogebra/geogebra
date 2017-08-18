@@ -527,7 +527,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		add(btnAngleInterval);
 
-
 		add(btnLabelStyle);
 
 		if (btnFixPosition.isVisible() || btnFixObject.isVisible()) {
@@ -1150,6 +1149,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		};
 		btnColor.addPopupHandler(this);
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			btnColor.addStyleName("mowColorButton");
+		}
 	}
 
 	private void createMOWColorBtn() {
@@ -1325,6 +1327,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		};
 		btnFilling.addPopupHandler(this);
+		btnFilling.addStyleName("mowFillingButton");
 	}
 
 	private void createBgColorBtn() {

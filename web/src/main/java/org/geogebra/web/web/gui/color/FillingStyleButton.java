@@ -86,12 +86,13 @@ public class FillingStyleButton extends PopupMenuButtonW {
 				getMyTable().setSelectedIndex(i);
 			}
 		}
+		this.setIcon(getButtonIcon());
 	}
-
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
-			return GeoGebraIconW.createFillStyleIcon(getSelectedIndex());
+			return GeoGebraIconW
+					.createFillStyleIcon(getMyTable().getSelectedIndex());
 
 		}
 

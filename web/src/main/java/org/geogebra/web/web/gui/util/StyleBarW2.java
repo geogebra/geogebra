@@ -48,6 +48,9 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.addPopupHandler(this);
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			btnLineStyle.addStyleName("mowBorderlessButton");
+		}
 	}
 
 	protected void createPointStyleBtn(int mode) {
@@ -62,6 +65,9 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 
 		btnPointStyle.addPopupHandler(this);
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			btnPointStyle.addStyleName("mowBorderlessButton");
+		}
 	}
 
 	/**

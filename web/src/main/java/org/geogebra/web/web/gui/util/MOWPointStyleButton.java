@@ -8,11 +8,13 @@ import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
@@ -31,6 +33,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 	private GGraphics2DW g2;
 	private DrawPoint drawPoint;
 	private GeoPoint p;
+	private Label titleLabel;
 
 	/**
 	 * Constructor
@@ -47,14 +50,22 @@ public class MOWPointStyleButton extends PointStylePopup {
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();
-		panel.add(sliderPanel);
 		panel.add(getMyTable());
-		panel.addStyleName("mowStylePopup");
+		panel.add(sliderPanel);
+
+
 		canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
+		if (app.has(Feature.COLOR_FILLING_LINE)) {
+			titleLabel = new Label(app.getLocalization().getMenu("PointSize"));
+			titleLabel.addStyleName("pointSizeLabel");
+			sliderPanel.insert(titleLabel, 0);
+		} else {
+			panel.addStyleName("mowStylePopup");
+			sliderPanel.addStyleName("mowLinePopup");
+		}
 		sliderPanel.add(canvas);
-		sliderPanel.addStyleName("mowLinePopup");
 		canvas.addStyleName("preview");
 		g2 = new GGraphics2DW(canvas);
 		p = new GeoPoint(app.getKernel().getConstruction(),

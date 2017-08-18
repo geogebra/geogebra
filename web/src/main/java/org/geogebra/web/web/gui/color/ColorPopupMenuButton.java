@@ -183,7 +183,13 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
-			this.setIcon(GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
+			if (app.has(Feature.COLOR_FILLING_LINE)) {
+				this.setIcon(
+						GeoGebraIconW.createColorSwatchIcon(1.0, gc, gc));
+			} else {
+				this.setIcon(
+						GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
+			}
 			this.getElement().getStyle().setBorderColor(gc.toString());
 		} else {
 			this.setIcon(GeoGebraIconW.createNullSymbolIcon());
