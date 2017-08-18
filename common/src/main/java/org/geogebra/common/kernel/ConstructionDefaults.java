@@ -126,6 +126,14 @@ public class ConstructionDefaults {
 			GeoGebraColorConstants.GGB_PURPLE,
 			GeoGebraColorConstants.GGB_GRAY, GeoGebraColorConstants.GGB_BROWN };
 
+	private static final GColor[] colorSequenceGraphing = new GColor[] {
+			GColor.BLACK, GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED };
+
 	// DEFAULT COLORs
 	// points
 	/** default color for points */
@@ -1157,11 +1165,19 @@ public class ConstructionDefaults {
 	 * @return next color in sequence
 	 */
 	public GColor getNextColor() {
-		GColor color = colorSequence[colorIndex];
+		GColor color = getColorSequence()[colorIndex];
 		if (!cons.getKernel().isSilentMode()) {
-			colorIndex = (colorIndex + 1) % colorSequence.length;
+			colorIndex = (colorIndex + 1) % getColorSequence().length;
 		}
 		return color;
+	}
+
+	private GColor[] getColorSequence() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGraphing()) {
+			return colorSequenceGraphing;
+		}
+		return colorSequence;
 	}
 
 }
