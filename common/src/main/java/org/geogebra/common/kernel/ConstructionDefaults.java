@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
+import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -116,6 +117,9 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_BOOLEAN = 120;
 	/** default polyhedron type (also used for limited quadrics) */
 	public static final int DEFAULT_POLYHEDRON = 3300;
+
+	/** default curve cartesian */
+	public static final int DEFAULT_CURVE_CARTESIAN = 3400;
 
 	/** default */
 	public static final int DEFAULT_LIST = 130;
@@ -430,6 +434,16 @@ public class ConstructionDefaults {
 		line.setMode(GeoLine.EQUATION_IMPLICIT);
 		setDefaultLineStyle(line);
 		defaultGeoElements.put(DEFAULT_LINE, line);
+
+		// curve
+		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
+		curve.setLocalVariableLabel("Curve");
+		curve.setObjColor(getLineColor());
+		curve.setDefaultGeoType(DEFAULT_CURVE_CARTESIAN);
+		setDefaultLineStyle(curve);
+		curve.setAutoColor(true);
+		defaultGeoElements.put(DEFAULT_CURVE_CARTESIAN, curve);
+
 
 		// segment
 		GeoSegment seg = new GeoSegment(cons);
@@ -788,6 +802,12 @@ public class ConstructionDefaults {
 		case RAY:
 			type = DEFAULT_RAY;
 			break;
+		case CURVE_CARTESIAN:
+			if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+					&& cons.getApplication().isUnbundledGraphing()) {
+				type = DEFAULT_CURVE_CARTESIAN;
+				break;
+			} // else: default - no need for break here.
 
 		default:
 			// all object types that are not specifically supported
