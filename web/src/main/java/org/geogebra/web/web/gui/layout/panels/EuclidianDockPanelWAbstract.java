@@ -211,7 +211,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					// position of EV did
 					dockPanel.calculateEnvironment();
 				}
+
+				dockPanel.checkZoomPanelNeeded();
 			}
+			
 		}
 
 		// hack to fix GGB-697
@@ -244,6 +247,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	protected abstract EuclidianPanel getEuclidianPanel();
+
+	public void checkZoomPanelNeeded() {
+		if (!app.isPortrait() && app.getAppletFrame().isKeyboardShowing()) {
+			hideZoomPanel();
+		} else {
+			showZoomPanel();
+
+		}
+	}
 
 	public AppW getApp() {
 		return app;
@@ -312,6 +324,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.setLabels();
 		}
+	}
+
+	private void hideZoomPanel() {
+		zoomPanel.addStyleName("hidden");
+
+	}
+
+	private void showZoomPanel() {
+		zoomPanel.removeStyleName("hidden");
 	}
 
 }
