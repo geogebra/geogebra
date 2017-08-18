@@ -43,6 +43,8 @@ public class EuclidianStyleConstants {
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_POLYGON = 204; // 0.8*255
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR = 204; //
 																		// 0.8*255
+	/* default line opacity on Geometry app */
+	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY = 204; // 0.8*255
 
 
 	public static final int DEFAULT_ANGLE_SIZE = 30;

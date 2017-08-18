@@ -325,6 +325,17 @@ public class ConstructionDefaults {
 					} else if (geo instanceof GeoConicPart) {
 						geo.setLineOpacity(
 								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
+					} else if ((cons.getApplication()
+							.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+							&& cons.getApplication().isUnbundledGeometry())
+							&& (geo instanceof GeoLine
+									|| geo instanceof GeoSegment
+									|| geo instanceof GeoRay
+									|| geo instanceof GeoVector
+									|| geo instanceof GeoPolyLine
+									|| geo instanceof GeoConic)) {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
 					} else {
 						geo.setLineOpacity(
 								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
