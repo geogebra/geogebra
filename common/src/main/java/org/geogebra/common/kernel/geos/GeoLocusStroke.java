@@ -42,6 +42,11 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
+	public boolean hasLineOpacity() {
+		return false;
+	}
+
+	@Override
 	public boolean isPinnable() {
 		return true;
 	}
