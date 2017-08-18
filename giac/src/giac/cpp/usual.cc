@@ -286,7 +286,7 @@ namespace giac {
 
   static string printasnot(const gen & g,const char * s,GIAC_CONTEXT){
     if (abs_calc_mode(contextptr)==38){
-      if (g.is_symb_of_sommet(at_and) ||g.is_symb_of_sommet(at_ou))
+      if (is_inequation(g) || g.is_symb_of_sommet(at_and) ||g.is_symb_of_sommet(at_ou))
 	return "NOT("+g.print(contextptr)+")";
       else
 	return "NOT "+g.print(contextptr);
