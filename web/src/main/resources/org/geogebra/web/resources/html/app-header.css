@@ -27,6 +27,7 @@
     text-decoration:none;
     display:inline-block;
     width: 250px;
+    transition: 0.2s;
 }
 .startscreen a.tryApp, .startscreen a.tryApp:visited{
 	background-color:#6557D2;

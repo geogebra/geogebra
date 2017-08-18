@@ -20,6 +20,7 @@ var prerelease = false;
 var startDelay = 0;
 var marginTop = 0;
 var analyticsVersion = 'V'+latestVersion;
+var translation = {};
 </script>
 <!--PLATFORM SPECIFIC CODE-->
 <script>
@@ -367,13 +368,15 @@ var app = document.createElement("script");
 		c("appName").parentElement.className += " mobile";
 		//c("GeoGebraHeader").style.display= "none";
 		var tryApp = document.createElement("a");
-		tryApp.innerText = "Try App";
+		tryApp.innerText = translation.tryApp || "Try App";
 		var stay = document.createElement("a");
-		stay.innerText = "Continue";
+		stay.innerText = translation.stay || "Continue";
 		c("startscreen").appendChild(appName);
 		c("startscreen").appendChild(tryApp);
 		c("startscreen").appendChild(stay);
 		stay.addEventListener("click",function(){
+			stay.style.opacity = 0;
+			tryApp.style.opacity = 0;
 			insertScript(codebaseFn());
 		});
 		var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
