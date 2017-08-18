@@ -4325,6 +4325,10 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	public boolean isUnbundledGeometry() {
+		return false;
+	}
+
 	public boolean isWhiteboardActive() {
 		return false;
 	}

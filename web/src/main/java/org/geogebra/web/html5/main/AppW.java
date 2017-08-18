@@ -3663,6 +3663,11 @@ public abstract class AppW extends App implements SetLabels {
 		return ("1".equals(initialPerspective) && has(Feature.UNBUNDLING));
 	}
 
+	@Override
+	public boolean isUnbundledGeometry() {
+		return ("2".equals(initialPerspective) && has(Feature.UNBUNDLING));
+	}
+
 	public void ensureStandardView() {
 		// only with GUI
 	}

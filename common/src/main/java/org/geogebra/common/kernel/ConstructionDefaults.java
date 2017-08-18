@@ -162,8 +162,18 @@ public class ConstructionDefaults {
 
 	// lines
 	/** default color for lines */
-	private static final GColor colLine = GColor.BLACK;
+	private final GColor colLine = GColor.BLACK;
+	/** default color for lines in Geometry app */
+	private final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 
+	private final GColor getLineColor(){
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGeometry()) {
+			return colLineGeometry;
+		}
+		return colLine;
+	}
+	
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.BLUE;
 
@@ -386,7 +396,7 @@ public class ConstructionDefaults {
 		GeoLine line = new GeoLine(cons);
 		// line.setLocalVariableLabel(app.getPlain("Line"));
 		line.setLocalVariableLabel("Line");
-		line.setObjColor(colLine);
+		line.setObjColor(getLineColor());
 		// line.setLineThickness(getDefaultLineThickness());
 		line.setDefaultGeoType(DEFAULT_LINE);
 		line.setMode(GeoLine.EQUATION_IMPLICIT);
@@ -396,7 +406,7 @@ public class ConstructionDefaults {
 		// segment
 		GeoSegment seg = new GeoSegment(cons);
 		seg.setLocalVariableLabel("Segment");
-		seg.setObjColor(colLine);
+		seg.setObjColor(getLineColor());
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
 		setDefaultLineStyle(seg);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
@@ -404,7 +414,7 @@ public class ConstructionDefaults {
 		// segment
 		GeoRay ray = new GeoRay(cons);
 		ray.setLocalVariableLabel("Segment");
-		ray.setObjColor(colLine);
+		ray.setObjColor(getLineColor());
 		ray.setDefaultGeoType(DEFAULT_RAY);
 		setDefaultLineStyle(ray);
 		defaultGeoElements.put(DEFAULT_RAY, ray);
@@ -431,7 +441,7 @@ public class ConstructionDefaults {
 		// vector
 		GeoVector vector = new GeoVector(cons);
 		vector.setLocalVariableLabel("Vector");
-		vector.setObjColor(colLine);
+		vector.setObjColor(getLineColor());
 		vector.setDefaultGeoType(DEFAULT_VECTOR);
 		setDefaultLineStyle(vector);
 		defaultGeoElements.put(DEFAULT_VECTOR, vector);
@@ -449,7 +459,7 @@ public class ConstructionDefaults {
 		// polyline
 		GeoPolyLine polyline = new GeoPolyLine(cons);
 		polyline.setLocalVariableLabel("Polyline");
-		polyline.setObjColor(colLine);
+		polyline.setObjColor(getLineColor());
 		setDefaultLineStyle(polyline);
 		polyline.setDefaultGeoType(DEFAULT_POLYLINE);
 		defaultGeoElements.put(DEFAULT_POLYLINE, polyline);
