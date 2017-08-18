@@ -134,6 +134,9 @@ public final class LongTouchManager {
 	 * @return if long touch is just happened.
 	 */
 	public boolean isLongTouchHappened() {
+		if (timer == null) {
+			return false;
+		}
 		return timer.isLongTouchHappened();
 	}
 }
