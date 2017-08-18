@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
@@ -26,12 +27,15 @@ public class EquationSteps {
 	private StepNode LHS;
 	private StepNode RHS;
 
-	private boolean inverted;
-
 	private SolutionBuilder steps;
 	private List<StepNode> solutions;
 
+	private boolean inverted;
+	private boolean intermediate;
+
 	private StepVariable variable;
+
+	private StepInterval interval;
 
 	private String solutionCase;
 
@@ -46,8 +50,6 @@ public class EquationSteps {
 		origRHS = this.RHS.deepCopy();
 
 		this.variable = new StepVariable(variable);
-
-		solutionCase = "";
 	}
 
 	public EquationSteps(Kernel kernel, StepNode LHS, StepNode RHS, StepVariable variable) {
@@ -61,12 +63,18 @@ public class EquationSteps {
 		this.origRHS = this.RHS.deepCopy();
 
 		this.variable = variable;
-
-		solutionCase = "";
 	}
 
 	public void setCase(String s) {
 		solutionCase = s;
+	}
+
+	public void setIntermediate() {
+		intermediate = true;
+	}
+
+	public void setInterval(StepInterval interval) {
+		this.interval = interval;
 	}
 
 	public SolutionStep getSteps() {
@@ -78,16 +86,22 @@ public class EquationSteps {
 		solutions = new ArrayList<StepNode>();
 
 		// I. step: regrouping
-		if ("".equals(solutionCase)) {
-			steps.add(loc.getMenuLaTeX("Solve", "Solve: %0", LaTeX(LHS) + " = " + LaTeX(RHS)), SolutionStepTypes.EQUATION);
-			steps.levelDown();
-			regroup();
-		} else if ("im".equals(solutionCase)) {
-			addStep();
-		} else {
-			steps.add(loc.getMenuLaTeX("CaseA", "Case %0: %1", solutionCase, LaTeX(LHS) + " = " + LaTeX(RHS)), SolutionStepTypes.EQUATION);
-			steps.levelDown();
+		if (!intermediate) {
+			if (solutionCase != null && interval != null) {
+				steps.add(loc.getMenuLaTeX("SolvingInInterval", "Case %0: %1 when %2", solutionCase, LaTeX(LHS) + " = " + LaTeX(RHS),
+						LaTeX(variable) + "\\in" + LaTeX(interval)), SolutionStepTypes.INSTRUCTION);
+				steps.levelDown();
+			} else if (solutionCase != null) {
+				steps.add(loc.getMenuLaTeX("CaseA", "Case %0: %1", solutionCase, LaTeX(LHS) + " = " + LaTeX(RHS)),
+						SolutionStepTypes.EQUATION);
+				steps.levelDown();
+			} else {
+				steps.add(loc.getMenuLaTeX("Solve", "Solve: %0", LaTeX(LHS) + " = " + LaTeX(RHS)), SolutionStepTypes.EQUATION);
+				steps.levelDown();
+				regroup();
+			}
 		}
+
 
 		addOrSubtract(StepHelper.getCommon(LHS, RHS));
 
@@ -108,13 +122,13 @@ public class EquationSteps {
 			return checkSolutions();
 		}
 
-		// V. step: getting rid of square roots
+		// IV. step: getting rid of square roots
 		bothSides = StepNode.add(LHS, RHS);
 		if (StepHelper.countNonConstOperation(bothSides, Operation.NROOT) > 0) {
 			solveIrrational();
 		}
 
-		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS));
+		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
 		int degreeLHS = StepHelper.degree(LHS);
 		int degreeRHS = StepHelper.degree(RHS);
 
@@ -136,32 +150,34 @@ public class EquationSteps {
 			}
 		}
 
-		// IX. step: taking roots, when necessary (ax^n = constant or ay^n = bz^n, where y and z are expressions in x)
+		// V. step: taking roots, when necessary (ax^n = constant or ay^n = bz^n, where y and z are expressions in x)
 		if (StepHelper.shouldTakeRoot(RHS, LHS)) {
 			takeRoot();
 			return checkSolutions();
 		}
 
-		// IV. step: expanding parentheses
+		// VI. step: expanding parentheses
 		expandParentheses();
 
-		// VI. Step: equations containing absolute values
+		// VII. Step: equations containing absolute values
 		bothSides = StepNode.add(LHS, RHS);
 		if (StepHelper.countOperation(bothSides, Operation.ABS) > 0) {
 			solveAbsoluteValue();
-			return checkSolutions();
+
+			if (solutions.size() > 0) {
+				return checkSolutions();
+			}
 		}
 
-		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS));
+		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
 
-		// VII. step: solving linear equations
+		// VIII. step: solving linear equations
 		if (degreeDiff != -1 && degreeDiff <= 1) {
-
 			solveLinear();
 			return checkSolutions();
 		}
 
-		// VIII. step: solving quadratic equations
+		// IX. step: solving quadratic equations
 		if (degreeDiff != -1 && degreeDiff <= 2) {
 			solveQuadratic();
 			return checkSolutions();
@@ -211,27 +227,40 @@ public class EquationSteps {
 
 	// TODO: something else :-?
 	private SolutionStep checkSolutions() {
-		if ("im".equals(solutionCase)) {
+		if (intermediate) {
 			return steps.getSteps();
 		}
 
 		steps.levelUp();
 
-		for (int i = 0; i < solutions.size(); i++) {
-			if (Double.isNaN(solutions.get(i).getValue())) {
-				steps.add(loc.getMenuLaTeX("TrueForAll", "The equation is true for all values of %0", variable.toString()),
-						SolutionStepTypes.SOLUTION);
-				return steps.getSteps();
+		if (isZero(LHS) && isZero(RHS)) {
+			if (interval == null) {
+				interval = new StepInterval(new StepConstant(Double.NEGATIVE_INFINITY), new StepConstant(Double.POSITIVE_INFINITY), false, false);
 			}
+			steps.add(
+					loc.getMenuLaTeX("TrueForAllAInB", "The equation is true for all %0", variable.toString() + " \\in " + LaTeX(interval)),
+					SolutionStepTypes.SOLUTION);
+			solutions.add(interval);
+			return steps.getSteps();
 		}
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < solutions.size(); i++) {
 			sb.append(variable);
-			sb.append(" = ");
+
+			if (solutions.get(i) instanceof StepInterval) {
+				sb.append(" \\in ");
+			} else {
+				sb.append(" = ");
+			}
+
 			sb.append(LaTeX(solutions.get(i)));
-			if(!(solutions.get(i) instanceof StepConstant)) {
-				sb.append(" \\approx ");
+			if (!(solutions.get(i) instanceof StepConstant) && !(solutions.get(i) instanceof StepInterval)) {
+				if (isSimpleFraction(solutions.get(i))) {
+					sb.append(" = ");
+				} else {
+					sb.append(" \\approx ");
+				}
 				sb.append(new DecimalFormat("#0.00").format(solutions.get(i).getValue()));
 			}
 			if (i < solutions.size() - 1) {
@@ -250,9 +279,10 @@ public class EquationSteps {
 		StepNode bothSides = StepNode.add(origLHS, origRHS);
 
 		StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
-		StepNode roots = StepHelper.getSQRoots(bothSides);
+		StepNode roots = StepHelper.getAll(bothSides, Operation.NROOT);
 
-		if ((denominators == null || denominators.isConstant()) && (roots == null || roots.isConstant()) || solutions.size() == 0) {
+		if (interval == null && (denominators == null || denominators.isConstant()) && (roots == null || roots.isConstant())
+				|| solutions.size() == 0) {
 			return steps.getSteps();
 		}
 
@@ -261,14 +291,26 @@ public class EquationSteps {
 		steps.levelDown();
 
 		for (int i = 0; i < solutions.size(); i++) {
-			if (StepHelper.isValidSolution(origLHS, origRHS, solutions.get(i), variable, kernel)) {
-				steps.add(loc.getMenuLaTeX("ValidSolution", "Valid Solution: %0", variable + "=" + LaTeX(solutions.get(i))),
-						SolutionStepTypes.COMMENT);
+			if (interval != null) {
+				if (interval.contains(solutions.get(i))) {
+					steps.add(loc.getMenuLaTeX("ValidSolutionAbs", "%0 = %1", variable.toString(),
+							LaTeX(solutions.get(i)) + " \\in " + LaTeX(interval)), SolutionStepTypes.COMMENT);
+				} else {
+					steps.add(loc.getMenuLaTeX("InvalidSolutionAbs", "%0 = %1", variable.toString(),
+							LaTeX(solutions.get(i)) +  " \\notin " + LaTeX(interval)), SolutionStepTypes.COMMENT);
+					solutions.remove(solutions.get(i));
+					i--;
+				}
 			} else {
-				steps.add(loc.getMenuLaTeX("InvalidSolution", "Invalid Solution: %0", variable + "\\neq" + LaTeX(solutions.get(i))),
-						SolutionStepTypes.COMMENT);
-				solutions.remove(solutions.get(i));
-				i--;
+				if (StepHelper.isValidSolution(origLHS, origRHS, solutions.get(i), variable, kernel)) {
+					steps.add(loc.getMenuLaTeX("ValidSolution", "Valid Solution: %0", variable + "=" + LaTeX(solutions.get(i))),
+							SolutionStepTypes.COMMENT);
+				} else {
+					steps.add(loc.getMenuLaTeX("InvalidSolution", "Invalid Solution: %0", variable + "\\neq" + LaTeX(solutions.get(i))),
+							SolutionStepTypes.COMMENT);
+					solutions.remove(solutions.get(i));
+					i--;
+				}
 			}
 		}
 
@@ -280,7 +322,7 @@ public class EquationSteps {
 
 		for (int i = 0; i < product.noOfOperands(); i++) {
 			EquationSteps es = new EquationSteps(kernel, product.getSubTree(i), new StepConstant(0), variable);
-			es.setCase(solutionCase + (i + 1) + ".");
+			es.setCase((solutionCase == null ? "" : solutionCase) + (i + 1) + ".");
 			steps.addAll(es.getSteps());
 			solutions.addAll(es.getSolutions());
 		}
@@ -298,41 +340,41 @@ public class EquationSteps {
 		}
 
 		if (sqrtNum == 1) {
-			StepNode nonIrrational = StepHelper.getNonIrrational(LHS);
+			StepNode nonIrrational = StepHelper.getNon(LHS, Operation.NROOT);
 			addOrSubtract(nonIrrational);
 			square();
 		}
 
 		if (sqrtNum == 2) {
 			StepNode diff = StepNode.subtract(LHS, RHS).regroup();
-			if (isZero(StepHelper.getNonIrrational(diff))) {
-				StepNode nonIrrational = StepHelper.getNonIrrational(LHS);
+			if (isZero(StepHelper.getNon(diff, Operation.NROOT))) {
+				StepNode nonIrrational = StepHelper.getNon(LHS, Operation.NROOT);
 				addOrSubtract(nonIrrational);
 				if (StepHelper.countNonConstOperation(RHS, Operation.NROOT) == 2) {
-					StepNode oneRoot = StepHelper.getOneSquareRoot(LHS);
+					StepNode oneRoot = StepHelper.getOne(LHS, Operation.NROOT);
 					addOrSubtract(oneRoot);
 				}
 				square();
 			} else {
-				StepNode rootsRHS = StepHelper.getSQRoots(RHS);
+				StepNode rootsRHS = StepHelper.getAll(RHS, Operation.NROOT);
 				addOrSubtract(rootsRHS);
-				StepNode nonIrrational = StepHelper.getNonIrrational(LHS);
+				StepNode nonIrrational = StepHelper.getNon(LHS, Operation.NROOT);
 				addOrSubtract(nonIrrational);
 				square();
 			}
 		}
 
 		if (sqrtNum == 3) {
-			StepNode nonIrrational = StepHelper.getNonIrrational(LHS);
+			StepNode nonIrrational = StepHelper.getNon(LHS, Operation.NROOT);
 			addOrSubtract(nonIrrational);
 
 			while (StepHelper.countNonConstOperation(RHS, Operation.NROOT) > 1) {
-				StepNode oneRoot = StepHelper.getOneSquareRoot(RHS);
+				StepNode oneRoot = StepHelper.getOne(RHS, Operation.NROOT);
 				addOrSubtract(oneRoot);
 			}
 
 			if (StepHelper.countNonConstOperation(LHS, Operation.NROOT) == 3) {
-				StepNode oneRoot = StepHelper.getOneSquareRoot(LHS);
+				StepNode oneRoot = StepHelper.getOne(LHS, Operation.NROOT);
 				addOrSubtract(oneRoot);
 			}
 
@@ -343,6 +385,40 @@ public class EquationSteps {
 	}
 
 	private void solveAbsoluteValue() {
+		if (interval != null) {
+			steps.add(loc.getMenuLaTeX("EvaluateAbsoluteValues", "Evaluate absolute values"), SolutionStepTypes.INSTRUCTION);
+
+			LHS = StepHelper.swapAbsInTree(LHS.deepCopy(), interval, variable);
+			RHS = StepHelper.swapAbsInTree(RHS.deepCopy(), interval, variable);
+
+			addStep();
+			expandParentheses();
+			return;
+		}
+
+		int absNum = StepHelper.countNonConstOperation(LHS, Operation.ABS) + StepHelper.countNonConstOperation(RHS, Operation.ABS);
+
+		if (StepHelper.countNonConstOperation(RHS, Operation.ABS) > StepHelper.countNonConstOperation(LHS, Operation.ABS)) {
+			swapSides();
+		}
+
+		StepNode nonAbsDiff = StepHelper.getNon(StepNode.subtract(LHS, RHS).regroup(), Operation.ABS);
+		if (absNum == 1 && (nonAbsDiff == null || nonAbsDiff.isConstant())) {
+			StepNode nonAbsolute = StepHelper.getNon(LHS, Operation.ABS);
+			addOrSubtract(nonAbsolute);
+			plusminus();
+			return;
+		} else if (absNum == 2 && (isZero(nonAbsDiff))) {
+			StepNode nonAbsolute = StepHelper.getNon(LHS, Operation.ABS);
+			addOrSubtract(nonAbsolute);
+			if (StepHelper.countNonConstOperation(LHS, Operation.ABS) == 2) {
+				StepNode oneAbs = StepHelper.getOne(LHS, Operation.ABS);
+				addOrSubtract(oneAbs);
+			}
+			plusminus();
+			return;
+		}
+
 		StepNode bothSides = StepNode.add(LHS, RHS);
 		ArrayList<String> absoluteValues = new ArrayList<String>();
 		StepHelper.getAbsoluteValues(absoluteValues, bothSides);
@@ -359,34 +435,16 @@ public class EquationSteps {
 			}
 		});
 
-		for (int i = 0; i <= roots.size(); i++) {
-			solveAbsoulteValueEquation(i == 0 ? new StepConstant(Double.NEGATIVE_INFINITY) : roots.get(i - 1),
-					i == roots.size() ? new StepConstant(Double.POSITIVE_INFINITY) : roots.get(i), i + 1);
-		}
-	}
+		roots.add(0, new StepConstant(Double.NEGATIVE_INFINITY));
+		roots.add(new StepConstant(Double.POSITIVE_INFINITY));
 
-	private void solveAbsoulteValueEquation(StepNode a, StepNode b, int noOfCase) {
-		StepNode LHSevaluated = StepHelper.swapAbsInTree(LHS.deepCopy(), a, b, variable);
-		StepNode RHSevaluated = StepHelper.swapAbsInTree(RHS.deepCopy(), a, b, variable);
+		for (int i = 1; i < roots.size(); i++) {
+			EquationSteps es = new EquationSteps(kernel, LHS, RHS, variable);
+			es.setCase((solutionCase == null ? "" : solutionCase) + i + ".");
+			es.setInterval(new StepInterval(roots.get(i - 1), roots.get(i), false, i != roots.size() - 1));
 
-		steps.add(loc.getMenuLaTeX("SolvingBetween", "Case %0: %1 is between %2 and %3", solutionCase + noOfCase + ".", LaTeX(variable),
-				LaTeX(a), LaTeX(b)),
-				SolutionStepTypes.INSTRUCTION);
-		EquationSteps es = new EquationSteps(kernel, LHSevaluated, RHSevaluated, variable);
-		steps.addAll(es.getSteps());
-
-		List<StepNode> partialSolutions = es.getSolutions();
-		for (int i = 0; i < partialSolutions.size(); i++) {
-			double xVal = partialSolutions.get(i).getValue();
-
-			if (a.getValue() <= xVal && xVal <= b.getValue()) {
-				steps.add(loc.getMenuLaTeX("ValidSolutionAbs", "%0 = %1 is between %2 and %3", variable.toString(),
-						LaTeX(partialSolutions.get(i)), LaTeX(a), LaTeX(b)), SolutionStepTypes.COMMENT);
-				solutions.add(partialSolutions.get(i));
-			} else {
-				steps.add(loc.getMenuLaTeX("InvalidSolutionAbs", "%0 = %1 is not between %2 and %3", variable.toString(),
-						LaTeX(partialSolutions.get(i)), LaTeX(a), LaTeX(b)), SolutionStepTypes.COMMENT);
-			}
+			steps.addAll(es.getSteps());
+			solutions.addAll(es.getSolutions());
 		}
 	}
 
@@ -397,12 +455,7 @@ public class EquationSteps {
 		StepNode constant = StepHelper.findConstant(diff);
 
 		if (isZero(StepNode.subtract(diff, constant).regroup())) {
-			addOrSubtract(RHS);
-
-			if (isZero(diff)) {
-				solutions.add(new StepConstant(Double.NaN));
-			}
-
+			subtract(RHS);
 			return;
 		}
 
@@ -760,57 +813,51 @@ public class EquationSteps {
 		}
 
 		steps.levelDown();
-
-		if (isEven(root) && !isZero(RHS)) {
-			steps.add(LaTeX(LHS) + " =  " + plusminus(RHS), SolutionStepTypes.EQUATION);
-		} else {
-			addStep();
-		}
+		addStep();
 		steps.levelUp();
 
 		LHS = LHS.regroup();
 		RHS = RHS.regroup();
 
-		if (isEven(root) && LHS.isOperation(Operation.ABS)) {
+		addStep();
+
+		EquationSteps es = new EquationSteps(kernel, LHS, RHS, variable);
+		es.setIntermediate();
+
+		steps.addAll(es.getSteps());
+		solutions.addAll(es.getSolutions());
+	}
+
+	private void plusminus() {
+		if (LHS.isOperation(Operation.ABS)) {
 			LHS = ((StepOperation) LHS).getSubTree(0);
 		}
-		if (isEven(root) && RHS.isOperation(Operation.ABS)) {
+		if (RHS.isOperation(Operation.ABS)) {
 			RHS = ((StepOperation) RHS).getSubTree(0);
 		}
 
-		if (isEven(root) && !isZero(RHS)) {
-			steps.add(LaTeX(LHS) + " =  " + plusminus(RHS), SolutionStepTypes.EQUATION);
-		}
+		steps.add(loc.getMenuLaTeX("ResolveAbsoluteValues", "Resolve Absolute Values"), SolutionStepTypes.INSTRUCTION);
 
-		if (isEven(root) && !isZero(RHS)) {
-			if (variable.equals(LHS) && RHS.isConstant()) {
+		if (!isZero(RHS)) {
+			steps.add(LaTeX(LHS) + " = " + plusminus(RHS), SolutionStepTypes.EQUATION);
+
+			if (LHS.equals(variable) && RHS.isConstant()) {
 				solutions.add(RHS);
 				solutions.add(StepNode.minus(RHS));
 			} else {
 				EquationSteps positiveBranch = new EquationSteps(kernel, LHS, RHS, variable);
-				positiveBranch.setCase(solutionCase.concat("1."));
+				positiveBranch.setCase(solutionCase == null ? "1." : solutionCase + "1.");
+				EquationSteps negativeBranch = new EquationSteps(kernel, LHS, StepNode.minus(RHS), variable);
+				negativeBranch.setCase(solutionCase == null ? "2." : solutionCase + "2.");
+
 				steps.addAll(positiveBranch.getSteps());
 				solutions.addAll(positiveBranch.getSolutions());
-
-				EquationSteps negativeBranch = new EquationSteps(kernel, LHS, StepNode.minus(RHS), variable);
-				negativeBranch.setCase(solutionCase.concat("2."));
 				steps.addAll(negativeBranch.getSteps());
 				solutions.addAll(negativeBranch.getSolutions());
 			}
 		} else {
-			EquationSteps reduced = new EquationSteps(kernel, LHS, RHS, variable);
-			reduced.setCase("im");
-			steps.addAll(reduced.getSteps());
-			solutions.addAll(reduced.getSolutions());
+			addStep();
 		}
-	}
-
-	private static String LaTeX(StepNode toLaTeX) {
-		if (toLaTeX == null) {
-			return "";
-		}
-
-		return toLaTeX.toLaTeXString();
 	}
 
 	private static String plusminus(StepNode ev) {
@@ -820,6 +867,14 @@ public class EquationSteps {
 			return "\\pm " + LaTeX(ev);
 		}
 		return "";
+	}
+
+	private static String LaTeX(StepNode toLaTeX) {
+		if (toLaTeX == null) {
+			return "";
+		}
+
+		return toLaTeX.toLaTeXString();
 	}
 
 	private void swapSides() {
@@ -836,6 +891,18 @@ public class EquationSteps {
 		} else {
 			steps.add(LaTeX(LHS) + " = " + LaTeX(RHS), SolutionStepTypes.EQUATION);
 		}
+	}
+
+	private static boolean isSimpleFraction(StepNode sn) {
+		if(sn.isOperation(Operation.MINUS)) {
+			return isSimpleFraction(((StepOperation) sn).getSubTree(0));
+		} else if(sn.isOperation(Operation.DIVIDE)) {
+			if(((StepOperation) sn).getSubTree(1) instanceof StepConstant) {
+				double val = ((StepOperation) sn).getSubTree(1).getValue();
+				return 100 % val == 0;
+			}
+		}
+		return false;
 	}
 
 	private static boolean isNegative(StepNode ev) {

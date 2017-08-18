@@ -3,10 +3,10 @@ package org.geogebra.common.kernel.stepbystep;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
@@ -89,20 +89,20 @@ public class StepHelper {
 	 * @param sn expression tree to traverse
 	 * @return sum of all the subexpressions containing square roots
 	 */
-	public static StepNode getSQRoots(StepNode sn) {
+	public static StepNode getAll(StepNode sn, Operation op) {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(Operation.NROOT)) {
+			if (so.isOperation(op)) {
 				return so;
 			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so.isOperation(Operation.MINUS)) {
-				if (countOperation(so, Operation.NROOT) > 0) {
+				if (countOperation(so, op) > 0) {
 					return so;
 				}
 			} else if (so.isOperation(Operation.PLUS)) {
 				StepNode roots = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					roots = StepNode.add(roots, getSQRoots(so.getSubTree(i)));
+					roots = StepNode.add(roots, getAll(so.getSubTree(i), op));
 				}
 				return roots;
 			}
@@ -114,30 +114,30 @@ public class StepHelper {
 	 * @param sn expression tree to traverse
 	 * @return part of the expression tree, which doesn't contain roots
 	 */
-	public static StepNode getNonIrrational(StepNode sn) {
-		return StepNode.subtract(sn, getSQRoots(sn)).regroup();
+	public static StepNode getNon(StepNode sn, Operation op) {
+		return StepNode.subtract(sn, getAll(sn, op)).regroup();
 	}
 
 	/**
 	 * @param sn expression tree to traverse
 	 * @return first subexpression containing square roots
 	 */
-	public static StepNode getOneSquareRoot(StepNode sn) {
+	public static StepNode getOne(StepNode sn, Operation op) {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(Operation.NROOT)) {
+			if (so.isOperation(op)) {
 				return so;
 			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
 				if (countOperation(so, Operation.NROOT) > 0) {
 					return so;
 				}
 			} else if (so.isOperation(Operation.MINUS)) {
-				return StepNode.minus(getOneSquareRoot(so));
+				return StepNode.minus(getOne(so, op));
 			} else if (so.isOperation(Operation.PLUS)) {
 				StepNode root = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					root = getOneSquareRoot(so.getSubTree(i));
+					root = getOne(so.getSubTree(i), op);
 					if (root != null) {
 						return root;
 					}
@@ -450,11 +450,11 @@ public class StepHelper {
 		return 0;
 	}
 
-	public static StepNode swapAbsInTree(StepNode sn, StepNode a, StepNode b, StepVariable variable) {
+	public static StepNode swapAbsInTree(StepNode sn, StepInterval si, StepVariable variable) {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 			if (so.isOperation(Operation.ABS)) {
-				if (isNegative(so.getSubTree(0), a, b, variable)) {
+				if (isNegative(so.getSubTree(0), si.getLeftBound(), si.getRightBound(), variable)) {
 					return StepNode.minus(so.getSubTree(0));
 				}
 				return so.getSubTree(0);
@@ -462,7 +462,7 @@ public class StepHelper {
 
 			StepOperation newSo = new StepOperation(so.getOperation());
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				newSo.addSubTree(swapAbsInTree(so.getSubTree(i), a, b, variable));
+				newSo.addSubTree(swapAbsInTree(so.getSubTree(i), si, variable));
 			}
 			return newSo;
 		}
@@ -524,14 +524,9 @@ public class StepHelper {
 		return Math.abs(a - b) < 0.00000001;
 	}
 
-	public static String callCAS(String s, String cmd, Kernel kernel) {
-		return kernel.getGeoGebraCAS().evaluateGeoGebraCAS(cmd + "[" + s + "]", null, StringTemplate.defaultTemplate, kernel);
-	}
-
 	public static StepNode[] getCASSolutions(String LHS, String RHS, String variable, Kernel kernel) {
-		String s = callCAS(LHS + " = " + RHS + ", " + variable, "Solutions", kernel);
-
 		try {
+			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + LHS + " = " + RHS + ", " + variable + ")", null);
 			MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
 
 			StepNode[] sn = new StepNode[solutionList.getLength()];
@@ -543,22 +538,14 @@ public class StepHelper {
 			return sn;
 		} catch (ParseException e) {
 			e.printStackTrace();
+		} catch (Throwable e) {
+			e.printStackTrace();
 		}
 
 		return null;
 	}
 
 	public static int degree(StepNode sn) {
-		if (sn == null) {
-			return 0;
-		}
-
-		StepNode newSn = sn.deepCopy().regroup();
-
-		return degreeRecursive(newSn);
-	}
-
-	private static int degreeRecursive(StepNode sn) {
 		if (sn instanceof StepVariable) {
 			return 1;
 		} else if (sn instanceof StepConstant) {
@@ -620,12 +607,21 @@ public class StepHelper {
 	}
 
 	public static StepNode LCM(StepNode a, StepNode b, Kernel kernel) {
-		return StepNode.getStepTree(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
-				"Factor(LCM(" + (a == null ? "1" : a.toString()) + ", " + (b == null ? "1" : b.toString()) + "))", null,
-				StringTemplate.defaultTemplate, kernel), kernel.getParser());
+		try {
+			return StepNode.getStepTree(
+					kernel.evaluateCachedGeoGebraCAS(
+							"Factor(LCM(" + (a == null ? "1" : a.toString()) + ", " + (b == null ? "1" : b.toString()) + "))", null),
+					kernel.getParser());
+		} catch (Throwable e) {
+			return null;
+		}
 	}
 
 	public static StepNode factor(StepNode sn, Kernel kernel) {
-		return StepNode.getStepTree(callCAS(sn.toString(), "Factor", kernel), kernel.getParser());
+		try {
+			return StepNode.getStepTree(kernel.evaluateCachedGeoGebraCAS("Factor(" + sn.toString() + ")", null), kernel.getParser());
+		} catch (Throwable e) {
+			return null;
+		}
 	}
 }

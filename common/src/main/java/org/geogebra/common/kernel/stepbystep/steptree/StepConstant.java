@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.text.DecimalFormat;
+
 import org.geogebra.common.plugin.Operation;
 
 public class StepConstant extends StepNode {
@@ -31,7 +33,7 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public int getPriority() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -56,18 +58,30 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public String toString() {
-		if (StepOperation.closeToAnInteger(value)) {
-			return Long.toString(Math.round(value));
+		if(Double.isNaN(value)) {
+			return "NaN";
 		}
-		return Double.toString(value);
+		if (Double.isInfinite(value)) {
+			if (value < 0) {
+				return "-inf";
+			}
+			return "inf";
+		}
+		return new DecimalFormat("#0.##").format(value);
 	}
 
 	@Override
 	public String toLaTeXString() {
-		if (StepOperation.closeToAnInteger(value)) {
-			return Long.toString(Math.round(value));
+		if (Double.isNaN(value)) {
+			return "NaN";
 		}
-		return Double.toString(value);
+		if (Double.isInfinite(value)) {
+			if (value < 0) {
+				return "-\\infty";
+			}
+			return "\\infty";
+		}
+		return new DecimalFormat("#0.##").format(value);
 	}
 
 	@Override

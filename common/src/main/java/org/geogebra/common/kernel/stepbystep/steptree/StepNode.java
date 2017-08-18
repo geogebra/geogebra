@@ -216,6 +216,8 @@ public abstract class StepNode {
 				return root(convertExpression(((ExpressionNode) ev).getLeft()), 2);
 			case MINUS:
 				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
+			case ABS:
+				return abs(convertExpression(((ExpressionNode) ev).getLeft()));
 			case MULTIPLY:
 				if (((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
 					return minus(convertExpression(((ExpressionNode) ev).getRight()));
@@ -270,10 +272,10 @@ public abstract class StepNode {
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
 	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
-		if (r == null || StepHelper.degree(r) == -1) {
+		if (r == null || StepHelper.degree(r) < 1) {
 			return null;
 		}
-		if (d == null || StepHelper.degree(d) == -1) {
+		if (d == null || StepHelper.degree(d) < 1) {
 			return null;
 		}
 
@@ -444,6 +446,16 @@ public abstract class StepNode {
 
 	public static StepNode root(StepNode a, int b) {
 		return root(a, new StepConstant(b));
+	}
+
+	public static StepNode abs(StepNode a) {
+		if (a == null) {
+			return null;
+		}
+
+		StepOperation so = new StepOperation(Operation.ABS);
+		so.addSubTree(a.deepCopy());
+		return so;
 	}
 
 	public abstract StepNode divideAndSimplify(double x);

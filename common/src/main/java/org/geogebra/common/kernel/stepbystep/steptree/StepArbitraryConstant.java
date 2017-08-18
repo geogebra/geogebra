@@ -2,16 +2,45 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.plugin.Operation;
 
-public class StepVariable extends StepNode {
-	private String label;
+public class StepArbitraryConstant extends StepNode {
 
-	public StepVariable(String label) {
+	public enum ConstantType {
+		INTEGER, REAL
+	}
+
+	private String label;
+	private int index;
+	private ConstantType type;
+
+	public StepArbitraryConstant(String label, int index, ConstantType type) {
 		this.label = label;
+		this.index = index;
+		this.type = type;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public int getIndex() {
+		return index;
+	}
+
+	public ConstantType getType() {
+		return type;
 	}
 
 	@Override
 	public boolean equals(StepNode sn) {
-		return sn.toString().equals(label);
+		if (sn instanceof StepArbitraryConstant) {
+			return ((StepArbitraryConstant) sn).label.equals(label) && ((StepArbitraryConstant) sn).index == index;
+		}
+		return false;
+	}
+
+	@Override
+	public StepNode deepCopy() {
+		return new StepArbitraryConstant(label, index, type);
 	}
 
 	@Override
@@ -26,7 +55,7 @@ public class StepVariable extends StepNode {
 
 	@Override
 	public boolean isConstant() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -40,46 +69,38 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepVariable variable, double replaceWith) {
-		if (equals(variable)) {
-			return replaceWith;
-		}
+	public double getValueAt(StepVariable variable, double value) {
 		return Double.NaN;
 	}
 
 	@Override
-	public StepConstant getConstantCoefficient() {
-		return new StepConstant(1);
-	}
-
-	@Override
-	public StepNode constantRegroup() {
+	public StepNode getCoefficient() {
 		return this;
 	}
 
 	@Override
-	public StepNode getCoefficient() {
+	public StepNode getVariable() {
 		return null;
 	}
 
 	@Override
-	public StepNode getVariable() {
+	public StepNode getConstantCoefficient() {
 		return this;
 	}
 
 	@Override
 	public String toString() {
-		return label;
+		return "[" + label + index + "]";
 	}
 
 	@Override
 	public String toLaTeXString() {
-		return label;
+		return label + "_{" + index + "}";
 	}
 
 	@Override
-	public StepNode deepCopy() {
-		return new StepVariable(label);
+	public StepNode constantRegroup() {
+		return this;
 	}
 
 	@Override
