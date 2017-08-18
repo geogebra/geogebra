@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
@@ -45,6 +46,14 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		this.view = view;
 		this.app = (AppW) view.getApplication();
 		view.getEuclidianController().setZoomerListener(this);
+		setStyleName("zoomPanel");
+		if (ZoomPanel.needsZoomButtons(app)) {
+			addZoomButtons();
+		}
+		if (ZoomPanel.needsFullscreenButton(app)) {
+			addFullscreenButton();
+		}
+		setLabels();
 
 	}
 	public void updateFullscreen() {
@@ -312,5 +321,26 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			btn.setTitle(app.getLocalization().getMenu(string));
 		}
 
+	}
+
+	private static boolean needsFullscreenButton(AppW app) {
+		return app.getArticleElement().getDataParamShowFullscreenButton()
+				|| (app.getArticleElement().getDataParamApp()
+						&& !Browser.isMobile());
+	}
+
+	private static boolean needsZoomButtons(AppW app) {
+		return (app.getArticleElement().getDataParamShowZoomButtons()
+				|| app.getArticleElement().getDataParamApp())
+				&& app.isShiftDragZoomEnabled();
+	}
+
+	public static boolean neededFor(AppW app) {
+		return (needsZoomButtons(app) || needsFullscreenButton(app))
+				&& app.has(Feature.ZOOM_PANEL);
+	}
+
+	public String getMinHeight() {
+		return needsZoomButtons(app) ? "200px" : "100px";
 	}
 }

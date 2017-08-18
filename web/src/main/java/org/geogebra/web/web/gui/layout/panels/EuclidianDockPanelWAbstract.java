@@ -2,8 +2,6 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
-import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -27,7 +25,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		implements GetViewId {
 	private ConstructionProtocolNavigationW consProtNav;
 	private boolean hasEuclidianFocus;
-	private boolean hasZoomPanel = false;
+	private boolean isViewForZoomPanel = false;
 	/**
 	 * panel with home,+,-,fullscreen btns
 	 */
@@ -58,7 +56,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			char shortcut) {
 		super(id, title, toolbar, hasStyleBar, menuOrder,
 				shortcut);
-		this.hasZoomPanel = hasZoomPanel;
+		this.isViewForZoomPanel = hasZoomPanel;
 	}
 
 	/**
@@ -267,28 +265,16 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	private boolean allowZoomPanel() {
-		return hasZoomPanel
-				&& (needsZoomButtons() || needsFullscreenButton())
-				&& app.has(Feature.ZOOM_PANEL);
+		return isViewForZoomPanel && ZoomPanel.neededFor(app);
 	}
 
-	private boolean needsFullscreenButton() {
-		return app.getArticleElement().getDataParamShowFullscreenButton()
-				|| (app.getArticleElement().getDataParamApp()
-						&& !Browser.isMobile());
-	}
 
-	private boolean needsZoomButtons() {
-		return (app.getArticleElement().getDataParamShowZoomButtons()
-				|| app.getArticleElement().getDataParamApp())
-				&& app.isShiftDragZoomEnabled();
-	}
 
 	@Override
 	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
 		if (allowZoomPanel()) {
 			dockPanel.getElement().getStyle().setProperty("minHeight",
-					needsZoomButtons() ? "200px" : "100px");
+					zoomPanel.getMinHeight());
 			dockPanel.addSouth(zoomPanel, 0);
 		}
 	}
@@ -297,14 +283,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	protected void tryBuildZoomPanel() {
 		if (allowZoomPanel()) {
 			zoomPanel = new ZoomPanel(getEuclidianView());
-			zoomPanel.setStyleName("zoomPanel");
-			if (needsZoomButtons()) {
-				zoomPanel.addZoomButtons();
-			}
-			if (needsFullscreenButton()) {
-				zoomPanel.addFullscreenButton();
-			}
-			zoomPanel.setLabels();
 		}
 	}
 

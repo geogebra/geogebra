@@ -9,6 +9,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
+import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.util.ArticleElement;
 
 import com.google.gwt.dom.client.Element;
@@ -22,6 +23,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AppWsimple extends AppW {
 	private GeoGebraFrameW frame;
+	private ZoomPanel zoomPanel;
 
 	/******************************************************
 	 * Constructs AppW for applets
@@ -51,6 +53,7 @@ public class AppWsimple extends AppW {
 
 		// TODO: EuclidianSimplePanelW
 		this.euclidianViewPanel = new EuclidianSimplePanelW(this);
+
 		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
@@ -76,6 +79,10 @@ public class AppWsimple extends AppW {
 
 		GeoGebraFrameW.handleLoadFile(articleElement, this);
 		initing = false;
+		if (ZoomPanel.neededFor(this)) {
+			this.zoomPanel = new ZoomPanel(getEuclidianView1());
+			euclidianViewPanel.getAbsolutePanel().add(zoomPanel);
+		}
 	}
 
 	@Override
