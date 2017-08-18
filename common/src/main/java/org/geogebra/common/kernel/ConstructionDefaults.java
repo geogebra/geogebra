@@ -179,7 +179,16 @@ public class ConstructionDefaults {
 
 	/** Color for conics **/
 	protected static final GColor colConic = GColor.BLACK;
+	/** Color for conics in Geometry app */
+	protected static final GColor colConicGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 
+	private final GColor getConicColor() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGeometry()) {
+			return colConicGeometry;
+		}
+		return colConic;
+	}
 	/** default alpha for conics */
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
@@ -468,7 +477,7 @@ public class ConstructionDefaults {
 		GeoConic conic = new GeoConic(cons);
 		// conic.setLocalVariableLabel(app.getPlain("Conic"));
 		conic.setLocalVariableLabel("Conic");
-		conic.setObjColor(colConic);
+		conic.setObjColor(getConicColor());
 		setDefaultLineStyle(conic);
 		conic.setAlphaValue(DEFAULT_CONIC_ALPHA);
 		conic.setDefaultGeoType(DEFAULT_CONIC);
