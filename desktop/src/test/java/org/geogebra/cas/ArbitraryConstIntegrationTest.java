@@ -5,7 +5,6 @@ import static org.junit.Assert.assertThat;
 
 import java.util.HashSet;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import org.geogebra.cas.logging.CASTestLogger;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
@@ -13,7 +12,9 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -21,9 +22,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.Timeout;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -41,7 +40,7 @@ public class ArbitraryConstIntegrationTest {
 
 	@BeforeClass
 	public static void setupCas() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppDNoGui(new LocalizationD(3), false);
 
 		if (silent) {
 			Log.setLogger(null);
@@ -120,8 +119,8 @@ public class ArbitraryConstIntegrationTest {
 	}
 
 	// 100 seconds max per method tested
-	@Rule
-	public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
+	// @Rule
+	// public Timeout globalTimeout = new Timeout(100, TimeUnit.SECONDS);
 
 	@Test
 	public void SolveODE_0() {
@@ -535,6 +534,15 @@ public class ArbitraryConstIntegrationTest {
 		app.getGgbApi().setBase64(base64);
 		Assert.assertEquals(app.getGgbApi().getValueString("$2"),
 				"F(x):=-cos(x) + c_1");
+	}
+
+	@Test
+	public void apTest() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		GeoFunction gf = ap.evaluateToFunction("x+c_1", true, true);
+		Assert.assertEquals(
+				gf.getFunctionExpression().toString(StringTemplate.xmlTemplate),
+				"x + arbconst(1)");
 	}
 
 }

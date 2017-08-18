@@ -413,7 +413,7 @@ public class ExpressionNode extends ValidExpression
 	private static ExpressionValue doSimplifyConstantIntegers(
 			ExpressionValue left2) {
 		ExpressionNode node = (ExpressionNode) left2;
-		if (left2.isConstant()) {
+		if (left2.isConstant() && node.getOperation() != Operation.ARBCONST) {
 			ExpressionValue eval = node
 					.evaluate(StringTemplate.defaultTemplate);
 			if (eval instanceof NumberValue) {

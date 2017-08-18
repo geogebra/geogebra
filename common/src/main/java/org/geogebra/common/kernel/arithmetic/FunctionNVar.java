@@ -593,6 +593,8 @@ public class FunctionNVar extends ValidExpression
 
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
+					resultFun.getExpression().traverse(
+							Traversing.ArbconstReplacer.getReplacer(arbconst));
 					// System.out.println("caching worked: " + casString +
 					// " -> " + resultFun);
 					return resultFun;
