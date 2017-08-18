@@ -183,6 +183,10 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		zoomPanel.add(zoomInBtn);
 
 	}
+
+	/**
+	 * @return view connected to this panel
+	 */
 	protected EuclidianViewInterfaceSlim getEuclidianView() {
 		return view;
 	}
@@ -304,7 +308,9 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	}
 
 	private void setButtonTitle(StandardButton btn, String string) {
-		btn.setTitle(app.getLocalization().getMenu(string));
+		if (btn != null) {
+			btn.setTitle(app.getLocalization().getMenu(string));
+		}
 
 	}
 }
