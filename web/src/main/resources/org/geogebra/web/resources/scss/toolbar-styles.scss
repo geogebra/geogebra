@@ -322,8 +322,8 @@
 		
 		.moveFloatingBtn {
 			cursor: pointer;
-			position: relative;
-    		bottom: 68px;
+			position: absolute;
+    		top: calc(100% - 68px);
     		left: calc(100% - 84px);
     		border-radius: 50%;
     		width: 48px;
@@ -399,7 +399,7 @@
     	}
 	
 	.main >* {	
-		position: absolute;
+		position: absolute !important;
 		top: 0px;
 		display: inline-block;
 	}	

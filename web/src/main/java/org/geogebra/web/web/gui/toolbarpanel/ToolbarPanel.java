@@ -127,7 +127,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		@Override
 		public void onResize() {
-			setWidth(ToolbarPanel.this.getTabWidth() + "px");
 			setHeight("100%");
 		}
 	}
@@ -175,6 +174,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		@Override
 		public void onResize() {
 			super.onResize();
+			setWidth(ToolbarPanel.this.getTabWidth() + "px");
 			if (aview != null) {
 				aview.resize();
 			}
@@ -365,6 +365,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		 */
 		void setMode(int mode) {
 			toolsPanel.setMode(mode);
+		}
+
+		@Override
+		public void onResize() {
+			super.onResize();
+			setWidth(2 * ToolbarPanel.this.getTabWidth() + "px");
+
+			getElement().getStyle().setLeft(getTabWidth(),
+					com.google.gwt.dom.client.Style.Unit.PX);
 		}
 
 	}
