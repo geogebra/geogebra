@@ -387,7 +387,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		}
 		if (isPortrait()) {
 			p.getSplitPaneData()[0]
-					.setDivider(PerspectiveDecoder.portraitRatio(getHeight()));
+					.setDivider(PerspectiveDecoder.portraitRatio(getHeight(),
+							"1".equals(this.initialPerspective)));
 		} else {
 			p.getSplitPaneData()[0]
 					.setDivider(PerspectiveDecoder.landscapeRatio(getWidth()));

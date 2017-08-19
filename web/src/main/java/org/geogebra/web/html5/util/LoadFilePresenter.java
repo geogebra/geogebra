@@ -197,7 +197,8 @@ public class LoadFilePresenter {
 						}
 						if (height > 0) {
 							double ratio = PerspectiveDecoder
-									.portraitRatio(height);
+									.portraitRatio(height,
+											app.isUnbundledGraphing());
 							pd.getSplitPaneData()[0].setDivider(ratio);
 						}
 

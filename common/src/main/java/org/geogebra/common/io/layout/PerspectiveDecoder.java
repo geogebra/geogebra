@@ -25,6 +25,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class PerspectiveDecoder {
 
+	private static final double GEOMETRY_PORTRAIT_RATIO = 0.6;
 	private static final int INPUT_ROW_HEIGHT = 80;
 	private static final int AV_ROWS_IN_PORTRAIT = 5;
 
@@ -50,9 +51,12 @@ public class PerspectiveDecoder {
 	 *            applet height
 	 * @return prefered ratio for AV perspective in portrait mode.
 	 */
-	public static double portraitRatio(double height) {
-		double avHeight = AV_ROWS_IN_PORTRAIT * INPUT_ROW_HEIGHT;
-		return 1 - avHeight / height;
+	public static double portraitRatio(double height, boolean graphing) {
+		if (graphing) {
+			double avHeight = AV_ROWS_IN_PORTRAIT * INPUT_ROW_HEIGHT;
+			return 1 - avHeight / height;
+		}
+		return GEOMETRY_PORTRAIT_RATIO;
 	}
 
 	private static Map<String, DockPanelData> viewCodes = new HashMap<String, DockPanelData>();

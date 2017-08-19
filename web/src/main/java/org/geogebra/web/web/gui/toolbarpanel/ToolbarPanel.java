@@ -443,7 +443,14 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		// getFrame().isKeyboardShowing()
 		// ? (int) (getFrame().getKeyboardHeight()) : 0;
 
-		return (int) (Math.round(h * PerspectiveDecoder.portraitRatio(h))) + kh;
+		if (app.isUnbundledGraphing()) {
+			return (int) (Math
+					.round(h * PerspectiveDecoder.portraitRatio(h, true))) + kh;
+		}
+
+		return (int) (Math
+				.round(h * PerspectiveDecoder.portraitRatio(h, false)));
+
 	}
 
 	/**
