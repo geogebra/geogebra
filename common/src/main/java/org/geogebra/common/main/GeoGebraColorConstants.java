@@ -164,6 +164,8 @@ public class GeoGebraColorConstants {
 	/** GEOGEBRA_OBJECT_GREY */
 	public static final GColor GEOGEBRA_OBJECT_GREY = GColor.newColor(97, 97,
 			97);
+	/** GEOGEBRA_OBJECT_BLACK */
+	public static final GColor GEOGEBRA_OBJECT_BLACK = GColor.BLACK;
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
@@ -528,6 +530,25 @@ public class GeoGebraColorConstants {
 		popupColors[7] = GGB_BROWN; // rgb(153, 51, 0);
 		popupColors[8] = GGB_ORANGE;// rgb(255, 85, 0);
 		popupColors[9] = null; // placeholder for (...) button
+		return popupColors;
+	}
+
+	/**
+	 * 
+	 * @return Colors for graphing/geometry apps.
+	 */
+	public static GColor[] getUnbundledPopupArray() {
+
+		GColor[] popupColors = new GColor[8];
+
+		popupColors[0] = GEOGEBRA_OBJECT_GREEN;
+		popupColors[1] = GEOGEBRA_OBJECT_BLUE;
+		popupColors[2] = GEOGEBRA_OBJECT_RED;
+		popupColors[3] = GEOGEBRA_OBJECT_ORANGE;
+		popupColors[4] = GEOGEBRA_OBJECT_PURPLE;
+		popupColors[5] = GEOGEBRA_OBJECT_GREY;
+		popupColors[6] = GEOGEBRA_OBJECT_BLACK;
+		popupColors[7] = null; // placeholder for (...) button
 		return popupColors;
 	}
 

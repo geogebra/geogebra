@@ -45,7 +45,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	 */
 	public ColorPopupMenuButton(AppW app, int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(10), -1, 5, SelectionTable.MODE_ICON);
+		super(app, createDummyIcons(app.isUnbundled() ? 8 : 10), -1,
+				app.isUnbundled() ? 4 : 5,
+				SelectionTable.MODE_ICON);
 		this.app = app;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;
@@ -84,7 +86,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (app.isWhiteboardActive()) {
 			colorSet = GeoGebraColorConstants.getMOWPopupArray();
 		} else {
-			colorSet = GeoGebraColorConstants.getSimplePopupArray(colorSetType);
+			colorSet = app.isUnbundled()
+					? GeoGebraColorConstants.getUnbundledPopupArray()
+					: GeoGebraColorConstants.getSimplePopupArray(colorSetType);
 		}
 	}
 	/**
