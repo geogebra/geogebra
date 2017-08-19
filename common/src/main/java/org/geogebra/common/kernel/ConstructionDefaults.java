@@ -131,12 +131,13 @@ public class ConstructionDefaults {
 			GeoGebraColorConstants.GGB_GRAY, GeoGebraColorConstants.GGB_BROWN };
 
 	private static final GColor[] colorSequenceGraphing = new GColor[] {
-			GColor.BLACK, GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE,
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED };
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY,
+			GColor.BLACK };
 
 	// DEFAULT COLORs
 	// points
