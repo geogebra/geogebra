@@ -147,23 +147,23 @@ public class GeoGebraColorConstants {
 
 	// New colors for graphing/geometry app objects
 	/** GEOGEBRA_OBJECT_GREEN */
-	public static final GColor GEOGEBRA_OBJECT_GREEN = GColor.newColor(46, 125,
-			50);
+	public static final GColor GEOGEBRA_OBJECT_GREEN = GColor.newColor(0x2E,
+			0x7D, 0x32);
 	/** GEOGEBRA_OBJECT_BlUE */
-	public static final GColor GEOGEBRA_OBJECT_BLUE = GColor.newColor(21, 101,
-			192);
+	public static final GColor GEOGEBRA_OBJECT_BLUE = GColor.newColor(0x15,
+			0x65, 0xC0);
 	/** GEOGEBRA_OBJECT_RED */
-	public static final GColor GEOGEBRA_OBJECT_RED = GColor.newColor(211, 47,
-			47);
+	public static final GColor GEOGEBRA_OBJECT_RED = GColor.newColor(0xD3, 0x2F,
+			0x2F);
 	/** GEOGEBRA_OBJECT_ORANGE */
-	public static final GColor GEOGEBRA_OBJECT_ORANGE = GColor.newColor(219, 97,
-			20);
+	public static final GColor GEOGEBRA_OBJECT_ORANGE = GColor.newColor(0xDB,
+			0x61, 0x14);
 	/** GEOGEBRA_OBJECT_PURPLE */
-	public static final GColor GEOGEBRA_OBJECT_PURPLE = GColor.newColor(101, 87,
-			210);
+	public static final GColor GEOGEBRA_OBJECT_PURPLE = GColor.newColor(0x65,
+			0x57, 0xD2);
 	/** GEOGEBRA_OBJECT_GREY */
-	public static final GColor GEOGEBRA_OBJECT_GREY = GColor.newColor(97, 97,
-			97);
+	public static final GColor GEOGEBRA_OBJECT_GREY = GColor.newColor(0x61,
+			0x61, 0x61);
 	/** GEOGEBRA_OBJECT_BLACK */
 	public static final GColor GEOGEBRA_OBJECT_BLACK = GColor.BLACK;
 
