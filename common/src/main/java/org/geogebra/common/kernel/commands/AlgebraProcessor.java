@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -97,6 +98,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -2387,7 +2389,7 @@ public class AlgebraProcessor {
 				&& !equ.getRHS().evaluatesToNumber(true)) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
-				return processValidExpression(equ.getRHS());
+				return setAutoColored(processValidExpression(equ.getRHS()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2401,12 +2403,13 @@ public class AlgebraProcessor {
 			}
 		}
 		if ("X".equals(singleLeftVariable)) {
-			return getParamProcessor().processXEquation(equ, info);
+			return setAutoColored(
+					getParamProcessor().processXEquation(equ, info));
 		}
 		if ("r".equals(singleLeftVariable)) {
 			try {
 				equ.getRHS().setLabel(equ.getLabel());
-				return processValidExpression(equ.getRHS());
+				return setAutoColored(processValidExpression(equ.getRHS()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2415,11 +2418,11 @@ public class AlgebraProcessor {
 			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(), null,
 					equ);
 			if (c != null) {
-				return new GeoElement[0];
+				return setAutoColored(new GeoElement[0]);
 			}
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
-				return processValidExpression(equ.getRHS());
+				return setAutoColored(processValidExpression(equ.getRHS()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2428,7 +2431,7 @@ public class AlgebraProcessor {
 				&& MyDouble.exactEqual(lhs.evaluateDouble(), MyMath.DEG)) {
 			equ.getRHS().setLabel("deg");
 			try {
-				return processValidExpression(equ.getRHS());
+				return setAutoColored(processValidExpression(equ.getRHS()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2441,14 +2444,28 @@ public class AlgebraProcessor {
 						.unwrap() instanceof FunctionVariable) {
 			equ.getRHS().setLabel("z");
 			try {
-				return processValidExpression(equ.getRHS());
+				return setAutoColored(processValidExpression(equ.getRHS()));
 			} catch (Exception e) {
 				e.printStackTrace();
 
 			}
 		}
-		return processEquation(equ, def,
-				kernel.getConstruction().isFileLoading());
+		return setAutoColored(processEquation(equ, def,
+				kernel.getConstruction().isFileLoading()));
+	}
+
+	private GeoElement[] setAutoColored(GeoElement[] geos) {
+		if (this.getKernel().getApplication()
+				.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& kernel.getApplication().isUnbundledGraphing()) {
+			GColor nextColor = getKernel().getConstruction()
+					.getConstructionDefaults().getNextColor();
+			for (int i = 0; i < geos.length; i++) {
+				geos[i].setObjColor(nextColor);
+			}
+		}
+		return geos;
+
 	}
 
 	/**
