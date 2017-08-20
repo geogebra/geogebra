@@ -311,7 +311,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	public void setLabels() {
 		setButtonTitle(fullscreenBtn, "Fullscreen");
-		setButtonTitle(homeBtn, "Home");
+		setButtonTitle(homeBtn, "StandardView");
 		setButtonTitle(zoomOutBtn,"ZoomOut.Tool");
 		setButtonTitle(zoomInBtn,"ZoomIn.Tool");
 	}
