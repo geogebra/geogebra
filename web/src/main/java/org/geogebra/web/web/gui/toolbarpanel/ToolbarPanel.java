@@ -437,7 +437,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		hideDragger();
 	}
 
-	private int getOpenHeightInPortrait() {
+	/**
+	 * 
+	 * @return the height of open toolbar in portrait mode.
+	 */
+	int getOpenHeightInPortrait() {
 		double h = app.getHeight();
 		int kh = 0;
 		// getFrame().isKeyboardShowing()

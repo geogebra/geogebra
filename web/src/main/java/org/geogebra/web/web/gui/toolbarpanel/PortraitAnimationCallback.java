@@ -35,7 +35,8 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 		EuclidianView ev = header.app.getActiveEuclidianView();
 		int d = header.isOpen() ? -1 : 1;
 
-		ev.translateCoordSystemForAnimation(d * ev.getHeight() / 5);
+		ev.translateCoordSystemForAnimation(
+				d * header.toolbarPanel.getOpenHeightInPortrait() / 2);
 	}
 
 	@Override
