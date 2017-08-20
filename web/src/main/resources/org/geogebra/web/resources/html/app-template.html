@@ -468,7 +468,7 @@ var app = document.createElement("script");
 						preview.addEventListener && preview.addEventListener("load",function(){
 						preview.style.top=(window.innerHeight/2-preview.height/2)+"px";
 						preview.style.left=(window.innerWidth/2-preview.width/2)+"px";
-						c("logo").style.display = "none";
+						c("logo") && c("logo").style.setProperty("display", "none");
 					});
 						preview.src = xhr.response.replace("http:","https:");
 					}
