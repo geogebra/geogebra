@@ -1179,4 +1179,12 @@ public class GeoGebraFrame extends JFrame
 
 	}
 
+	public static void doWithActiveInstance(NewInstanceListener listener) {
+		if (activeInstance == null || activeInstance.getApplication() == null) {
+			addNewInstanceListener(listener);
+		} else {
+			listener.newInstance(activeInstance);
+		}
+	}
+
 }

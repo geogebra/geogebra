@@ -132,6 +132,7 @@ eclipse {
             whenMerged { classpath ->
                 def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
                 jre.accessRules.add(new AccessRule('accessible', 'com/**'))
+                jre.accessRules.add(new AccessRule('accessible', 'javafx/**'))
             }
         }
     }
