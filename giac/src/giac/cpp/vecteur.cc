@@ -7179,7 +7179,7 @@ namespace giac {
 	  // find degrees wrt main variable
 	  int polydim=0;
 	  int totaldeg=0;
-	  vector<int> maxdegj(as);
+	  vector<int> maxdegj(a0s);
 	  for (unsigned int i=0;i<as;++i){
 	    int maxdegi=0;
 	    for (unsigned int j=0;j<a0s;++j){
@@ -7213,7 +7213,7 @@ namespace giac {
 		CERR << CLOCK()*1e-6 << " det: begin horner" << endl;
 	      for (unsigned int i=0;i<as;++i){
 		vecteur resxi;
-		resxi.reserve(totaldeg+1);
+		resxi.reserve(a0s); // was (totaldeg+1);
 		for (unsigned int j=0;j<a0s;++j){
 		  const gen & tmp = (*res[i]._VECTptr)[j];
 		  resxi.push_back(horner(tmp,realx));
@@ -7242,7 +7242,7 @@ namespace giac {
 		// extract right submatrix
 		res1=mtran(res1);
 		Z[x]=vecteur(res1.begin()+lmax,res1.end());
-	      }
+	      } // if (fullreduction)
 	    } // end for x
 	    if (x==totaldeg+1){
 	      proba_epsilon(contextptr) *= totaldeg;
@@ -7288,7 +7288,17 @@ namespace giac {
 		res=mtran(R);
 	      }
 	      return 1;
-	    } // end if interpolation ok (x==totaldeg+1)
+	    } // if interpolation ok (x==totaldeg+1)
+	    else { // back convert from poly1 to polynome
+	      for (unsigned int i=0;i<as;++i){
+		for (unsigned int j=0;j<a0s;++j){
+		  gen & tmp = (*res[i]._VECTptr)[j];
+		  if (tmp.type==_VECT){
+		    tmp=poly12polynome(*tmp._VECTptr,1,polydim);
+		  }
+		}
+	      }
+	    }
 	  } // end if polydim
 	}
       }
