@@ -141,6 +141,8 @@ task copyHtml {
 	    def english = {raw, appName ->
 	    	return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
 	        .replace("<!--APP NAME FULL-->","GeoGebra ${appName}")
+            .replace("<!--TRY APP-->","Try App")
+            .replace("<!--Continue-->","Continue")
 	        .replace("<!--APP NAME-->","${appName}")
 	        .replace("<!--LANG-->","en")
 	    }
