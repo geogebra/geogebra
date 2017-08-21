@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.io.MathMLParser;
 import org.geogebra.common.kernel.CircularDefinitionException;
@@ -67,7 +66,6 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -2383,6 +2381,12 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			EvalInfo info) throws MyError {
+		if (this.getKernel().getApplication()
+				.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& kernel.getApplication().isUnbundledGraphing()) {
+			kernel.getConstruction().getConstructionDefaults()
+					.setForceAutoColor(true);
+		}
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -2456,16 +2460,16 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] setAutoColored(GeoElement[] geos) {
-		if (this.getKernel().getApplication()
-				.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& kernel.getApplication().isUnbundledGraphing()) {
-			GColor nextColor = getKernel().getConstruction()
-					.getConstructionDefaults().getNextColor();
-			for (int i = 0; i < geos.length; i++) {
-				geos[i].setObjColor(nextColor);
-				geos[i].updateVisualStyle(GProperty.COLOR);
-			}
-		}
+		// if (this.getKernel().getApplication()
+		// .has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+		// && kernel.getApplication().isUnbundledGraphing()) {
+		// GColor nextColor = getKernel().getConstruction()
+		// .getConstructionDefaults().getNextColor();
+		// for (int i = 0; i < geos.length; i++) {
+		// geos[i].setObjColor(nextColor);
+		// geos[i].updateVisualStyle(GProperty.COLOR);
+		// }
+		// }
 		return geos;
 
 	}
