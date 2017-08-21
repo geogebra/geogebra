@@ -2618,9 +2618,14 @@ public class AlgebraProcessor {
 			line.setToExplicit();
 		}
 		line.showUndefinedInAlgebraView(true);
-		line.setLabel(label);
+		setEquationLabel(line, label);
 
 		return array(line);
+	}
+
+	protected void setEquationLabel(GeoElementND line, String label) {
+		// TODO line.setObjColor(cons.getConstructionDefaults().getNextColor());
+		line.setLabel(label);
 	}
 
 	/**
@@ -2673,7 +2678,7 @@ public class AlgebraProcessor {
 			conic.setToSpecific();
 		}
 		conic.setDefinition(def);
-		conic.setLabel(label);
+		setEquationLabel(conic, label);
 
 		return array(conic);
 	}
@@ -2721,7 +2726,7 @@ public class AlgebraProcessor {
 			geo.setDefinition(definition);
 		}
 		// AbstractApplication.debug("User Input: "+equ);
-		geo.setLabel(label);
+		setEquationLabel(geo, label);
 		return array(geo);
 	}
 
@@ -3299,7 +3304,12 @@ public class AlgebraProcessor {
 		return kernel;
 	}
 
-	private static GeoElement[] array(GeoElement geo) {
+	/**
+	 * @param geo
+	 *            element
+	 * @return geo wrapped in array
+	 */
+	protected static GeoElement[] array(GeoElement geo) {
 		return new GeoElement[] { geo };
 	}
 

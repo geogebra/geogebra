@@ -196,7 +196,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
-		quadric.setLabel(label);
+		setEquationLabel(quadric, label);
 		ret[0] = quadric;
 		return ret;
 	}
@@ -209,7 +209,6 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	private GeoElement[] processPlane(Equation equ, ExpressionNode def) {
 		double a = 0, b = 0, c = 0, d = 0;
 		GeoPlane3D plane = null;
-		GeoElement[] ret = new GeoElement[1];
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 
@@ -227,9 +226,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(equ);
 		}
 		plane.showUndefinedInAlgebraView(true);
-		plane.setLabel(label);
-		ret[0] = plane;
-		return ret;
+		setEquationLabel(plane, label);
+
+		return array(plane);
 	}
 
 	@Override
