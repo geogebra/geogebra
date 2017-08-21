@@ -54,7 +54,7 @@ public interface GeoGebraConstants {
 
 		WEB_GRAPHING_OFFLINE("offline", "gc"),
 
-		WEB_GEOMETRY_OFFLINE("geometry", "gc"),
+		WEB_GEOMETRY_OFFLINE("offline", "geo"),
 
 		SMART("smart", "classic"),
 
