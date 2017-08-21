@@ -196,7 +196,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
-		setEquationLabel(quadric, label);
+		setEquationLabelAndColor(quadric, label);
 		ret[0] = quadric;
 		return ret;
 	}
@@ -226,7 +226,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(equ);
 		}
 		plane.showUndefinedInAlgebraView(true);
-		setEquationLabel(plane, label);
+		setEquationLabelAndColor(plane, label);
 
 		return array(plane);
 	}

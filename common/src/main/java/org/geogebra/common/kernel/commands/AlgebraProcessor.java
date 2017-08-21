@@ -2381,12 +2381,6 @@ public class AlgebraProcessor {
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
 			EvalInfo info) throws MyError {
-		if (this.getKernel().getApplication()
-				.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& kernel.getApplication().isUnbundledGraphing()) {
-			kernel.getConstruction().getConstructionDefaults()
-					.setForceAutoColor(true);
-		}
 		ExpressionValue lhs = equ.getLHS().unwrap();
 		// z = 7
 		if (lhs instanceof FunctionVariable
@@ -2460,16 +2454,6 @@ public class AlgebraProcessor {
 	}
 
 	private GeoElement[] setAutoColored(GeoElement[] geos) {
-		// if (this.getKernel().getApplication()
-		// .has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-		// && kernel.getApplication().isUnbundledGraphing()) {
-		// GColor nextColor = getKernel().getConstruction()
-		// .getConstructionDefaults().getNextColor();
-		// for (int i = 0; i < geos.length; i++) {
-		// geos[i].setObjColor(nextColor);
-		// geos[i].updateVisualStyle(GProperty.COLOR);
-		// }
-		// }
 		return geos;
 
 	}
@@ -2618,13 +2602,16 @@ public class AlgebraProcessor {
 			line.setToExplicit();
 		}
 		line.showUndefinedInAlgebraView(true);
-		setEquationLabel(line, label);
+		setEquationLabelAndColor(line, label);
 
 		return array(line);
 	}
 
-	protected void setEquationLabel(GeoElementND line, String label) {
-		// TODO line.setObjColor(cons.getConstructionDefaults().getNextColor());
+	protected void setEquationLabelAndColor(GeoElementND line, String label) {
+		if (app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& kernel.getApplication().isUnbundledGraphing()) {
+			line.setObjColor(cons.getConstructionDefaults().getNextColor());
+		}
 		line.setLabel(label);
 	}
 
@@ -2678,7 +2665,7 @@ public class AlgebraProcessor {
 			conic.setToSpecific();
 		}
 		conic.setDefinition(def);
-		setEquationLabel(conic, label);
+		setEquationLabelAndColor(conic, label);
 
 		return array(conic);
 	}
@@ -2726,7 +2713,7 @@ public class AlgebraProcessor {
 			geo.setDefinition(definition);
 		}
 		// AbstractApplication.debug("User Input: "+equ);
-		setEquationLabel(geo, label);
+		setEquationLabelAndColor(geo, label);
 		return array(geo);
 	}
 

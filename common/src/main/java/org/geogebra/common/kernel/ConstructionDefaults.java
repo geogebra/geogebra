@@ -290,15 +290,6 @@ public class ConstructionDefaults {
 	private float filling = DEFAULT_POLYGON_ALPHA;
 
 	private boolean blackWhiteMode = false;
-	private boolean forceAutoColor = false;
-
-	public void setForceAutoColor(boolean b) {
-		forceAutoColor = b;
-	}
-
-	public boolean getForceAutoColor() {
-		return forceAutoColor;
-	}
 
 	/**
 	 * Creates a new ConstructionDefaults object to manage the default objects

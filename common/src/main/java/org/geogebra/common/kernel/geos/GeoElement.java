@@ -1671,11 +1671,8 @@ public abstract class GeoElement extends ConstructionElement
 	 *            source geo
 	 */
 	protected void setColorVisualStyle(final GeoElement geo) {
-		if (geo.isAutoColor()
-				|| cons.getConstructionDefaults().getForceAutoColor()) {
-
+		if (geo.isAutoColor()) {
 			setObjColor(cons.getConstructionDefaults().getNextColor());
-			cons.getConstructionDefaults().setForceAutoColor(false);
 		} else {
 			objColor = geo.objColor;
 			selColor = geo.selColor;
