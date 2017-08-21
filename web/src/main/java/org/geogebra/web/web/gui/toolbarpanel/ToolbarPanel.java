@@ -29,6 +29,7 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
@@ -246,6 +247,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		/**
 		 * tab containing the tools
 		 */
+
+		private ScrollPanel sp;
 		public ToolsTab() {
 			createContents();
 			handleMoreLessButtons();
@@ -335,8 +338,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		
 		private void createContents() {
+			sp = new ScrollPanel();
+			sp.setAlwaysShowScrollBars(false);
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
-			add(toolsPanel);
+			sp.add(toolsPanel);
+			add(sp);
 		}
 		
 		/**
@@ -345,7 +351,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		public void updateContent() {
 			toolsPanel.removeFromParent();
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
-			add(toolsPanel);
+			sp.clear();
+			sp.add(toolsPanel);
 			handleMoreLessButtons();
 		}
 
@@ -370,10 +377,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		@Override
 		public void onResize() {
 			super.onResize();
-			setWidth(2 * ToolbarPanel.this.getTabWidth() + "px");
+			int w = getTabWidth();
+			if (w < 0) {
+				return;
+			}
+			setWidth(2 * w + "px");
+			getElement().getStyle().setLeft(w, Unit.PX);
 
-			getElement().getStyle().setLeft(getTabWidth(),
-					com.google.gwt.dom.client.Style.Unit.PX);
+			sp.setWidth(w + "px");
+			sp.setHeight(app.getHeight() - 56 + "px");
 		}
 
 	}
@@ -860,6 +872,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
+
 	}
 
 	/**
