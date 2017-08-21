@@ -136,6 +136,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	@Override
 	public ImageOrText getButtonIcon() {
 		ImageOrText icon = super.getButtonIcon();
+		if (app.isUnbundled()) {
+			icon = new ImageOrText(
+					MaterialDesignResources.INSTANCE.color_black());
+			return icon;
+		}
 		if (icon == null) {
 			icon = GeoGebraIconW.createColorSwatchIcon(getSliderValue() / 100f,
 					defaultColor, null);

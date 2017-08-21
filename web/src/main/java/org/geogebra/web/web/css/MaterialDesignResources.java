@@ -11,6 +11,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	/** NEW MATERIAL DESIGN ICONS */
 
 	// dynamic stylebar
+	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/color_black.png")
+	ImageResource color_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/label_settings.png")
 	ImageResource label_settings();
 
