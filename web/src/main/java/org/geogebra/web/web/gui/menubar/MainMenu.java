@@ -61,11 +61,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private PerspectivesMenuW perspectivesMenu;
 	private PerspectivesMenuUnbundledW perspectiveMenuUnbundled;
-	private boolean leftSide = false;
+	// private boolean leftSide = false;
 	/**
 	 * Menus
 	 */
-	GMenuBar[] menus;
+	ArrayList<GMenuBar> menus;
 	/**
 	 * text list of menu items
 	 */
@@ -101,7 +101,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.addStyleName("menubarSMART");
 		}
 		signInMenu = new GMenuBar(true, "signin", app);
-		leftSide = app.isWhiteboardActive() || app.isUnbundled();
+		// leftSide = app.isWhiteboardActive() || app.isUnbundled();
 		if (app.isWhiteboardActive() && !app.isUnbundled()) {
 			addStyleName("floatingMenu");
 		}
@@ -129,48 +129,44 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (enableGraph) {
 			this.createToolsMenu();
 		}
+		this.menus = new ArrayList<GMenuBar>();
 		if (!exam) {
 			this.createHelpMenu();
 			this.createUserMenu();
-			if(!app.enableFileFeatures()){
-				if (app.isUnbundled()) {
-					this.menus = new GMenuBar[] { editMenu, downloadMenu,
-							perspectivesMenu,
-							optionsMenu, toolsMenu, helpMenu, signInMenu };
-				} else if (app.isWhiteboardActive()) {
-					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
-							optionsMenu, toolsMenu, helpMenu };
-				} else {
-					this.menus = new GMenuBar[] { editMenu, perspectivesMenu,
-							viewMenu, optionsMenu, toolsMenu, helpMenu };
-				}
-			}else{
-				if (app.isUnbundled()) {
-					this.menus = new GMenuBar[] { fileMenu, editMenu,
-							downloadMenu,
-							perspectivesMenu, optionsMenu, toolsMenu,
-							helpMenu, signInMenu };
-				} else if (app.isWhiteboardActive()) {
-					this.menus = new GMenuBar[] { fileMenu, editMenu,
-							optionsMenu, toolsMenu,
-							helpMenu };
-				} else {
-					this.menus = new GMenuBar[] { fileMenu, editMenu,
-							perspectivesMenu, viewMenu, optionsMenu, toolsMenu,
-							helpMenu };
-				}
+			if (app.enableFileFeatures()) {
+				menus.add(fileMenu);
 			}
+			
+			menus.add(editMenu);
+			if (app.isUnbundled()) {
+				menus.add(downloadMenu);
+			}
+			menus.add(perspectivesMenu);
+			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+				menus.add(viewMenu);
+			}
+
+			menus.add(optionsMenu);
+			menus.add(toolsMenu);
+			menus.add(helpMenu);
+
+			
+			if (app.enableFileFeatures()) {
+				menus.add(signInMenu);
+			}
+
 		} else {
-			this.menus = new GMenuBar[] { fileMenu, optionsMenu };
+			this.menus.add(fileMenu);
+			this.menus.add(optionsMenu);
 		}
 		menuTitles.clear();
 		menuImgs.clear();
 		
-		for(int i=0; i<menus.length; i++){
-			final int next = (i+1)%menus.length;
-			final int previous = (i-1+menus.length)%menus.length;
+		for (int i = 0; i < menus.size(); i++) {
+			final int next = (i + 1) % menus.size();
+			final int previous = (i - 1 + menus.size()) % menus.size();
 			final int index = i;
-		this.menus[i].addDomHandler(new KeyDownHandler(){
+			this.menus.get(i).addDomHandler(new KeyDownHandler() {
 			
 			@Override
             public void onKeyDown(KeyDownEvent event) {
@@ -178,16 +174,16 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				//First / last below are not intuitive -- note that default handler of
 				//down skipped already from last to first
 				if(keyCode == KeyCodes.KEY_DOWN){
-					if(menus[index].isFirstItemSelected()){
+					if(menus.get(index).isFirstItemSelected()){
 						menuPanel.showStack(next);
-						menus[next].focus();
+						menus.get(next).focus();
 					}
 					
 				}
 				if(keyCode == KeyCodes.KEY_UP){
-					if(menus[index].isLastItemSelected()){
+					if(menus.get(index).isLastItemSelected()){
 						menuPanel.showStack(previous);
-						menus[previous].focus();
+						menus.get(previous).focus();
 					}
 				}
 				if(keyCode == KeyCodes.KEY_ESCAPE){
@@ -209,18 +205,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							getHTMLCollapse(menuImgs.get(index - 1),
 									menuTitles.get(index - 1)),
 							true);
-						menus[index - 1].getElement()
+						menus.get(index - 1).getElement()
 								.removeClassName("collapse");
-						menus[index - 1].getElement().addClassName("expand");
+						menus.get(index - 1).getElement()
+								.addClassName("expand");
 					}
 				}
 				dispatchOpenEvent();
 				if (app.isUnbundled() && index == 0) {
 					app.getGuiManager().setDraggingViews(
-							isViewDraggingMenu(menus[1]), false);
+							isViewDraggingMenu(menus.get(1)), false);
 				} else {
 					app.getGuiManager().setDraggingViews(
-							isViewDraggingMenu(menus[index]), false);
+							isViewDraggingMenu(menus.get(index)), false);
 				}
 			}
 
@@ -266,9 +263,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									getHTMLExpand(menuImgs.get(index - 1),
 											menuTitles.get(index - 1)),
 									true);
-								menus[index - 1].getElement()
+								menus.get(index - 1).getElement()
 										.removeClassName("expand");
-								menus[index - 1].getElement()
+								menus.get(index - 1).getElement()
 										.addClassName("collapse");
 							}
 							return;
@@ -279,9 +276,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 									menuTitles
 											.get(this.getSelectedIndex() - 1)),
 									true);
-							menus[getSelectedIndex() - 1].getElement()
+							menus.get(getSelectedIndex() - 1).getElement()
 									.removeClassName("expand");
-							menus[getSelectedIndex() - 1].getElement()
+							menus.get(getSelectedIndex() - 1).getElement()
 									.addClassName("collapse");
 						}
 						showStack(index);
@@ -646,8 +643,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	public void focus(){
 		int index= Math.max(menuPanel.getSelectedIndex(),0);
-		if(this.menus[index]!=null){
-			this.menus[index].focus();
+		if (this.menus.get(index) != null) {
+			this.menus.get(index).focus();
 		}
 	}
 
@@ -766,11 +763,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			if (app.isUnbundled()) {
 				index--;
 			}
-			if (index < 0 || index > menus.length - 1) {
+			if (index < 0 || index > menus.size() - 1) {
 				index = 0;
 			}
 			app.dispatchEvent(new org.geogebra.common.plugin.Event(
-					EventType.OPEN_MENU, null, menus[index].getMenuTitle()));
+					EventType.OPEN_MENU, null,
+					menus.get(index).getMenuTitle()));
 		}
 	}
 
