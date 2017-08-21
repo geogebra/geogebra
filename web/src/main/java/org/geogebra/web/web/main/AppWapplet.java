@@ -208,8 +208,7 @@ public class AppWapplet extends AppWFull {
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
-					|| (isUnbundled()
-							&& frame.getWidget(i) instanceof FloatingMenuPanel)
+					|| (frame.getWidget(i) instanceof FloatingMenuPanel)
 					|| (isUnbundled()
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
@@ -314,7 +313,7 @@ public class AppWapplet extends AppWFull {
 		oldSplitLayoutPanel = getSplitLayoutPanel();
 
 		if (oldSplitLayoutPanel != null) {
-			if (!isUnbundled()
+			if (!isFloatingMenu()
 					&& getArticleElement().getDataParamShowMenuBar(false)) {
 				this.splitPanelWrapper = new HorizontalPanel();
 				// TODO
@@ -608,7 +607,9 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public double getWidth() {
 		if (spWidth > 0) {
-			return menuShowing ? spWidth + GLookAndFeel.MENUBAR_WIDTH : spWidth;
+			Log.printStacktrace(menuShowing);
+			return menuShowing && !isFloatingMenu()
+					? spWidth + GLookAndFeel.MENUBAR_WIDTH : spWidth;
 		}
 		return super.getWidth();
 	}
@@ -654,7 +655,7 @@ public class AppWapplet extends AppWFull {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
-			if (isUnbundled()) {
+			if (isFloatingMenu()) {
 				toggleFloatingMenu(needsUpdate);
 				return;
 			}
@@ -679,7 +680,7 @@ public class AppWapplet extends AppWFull {
 			getGuiManager().updateStyleBarPositions(true);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
-			if (isUnbundled()) {
+			if (isFloatingMenu()) {
 				menuShowing = false;
 				this.remove(new Runnable() {
 					@Override
@@ -723,7 +724,7 @@ public class AppWapplet extends AppWFull {
 
 
 	private void toggleFloatingMenu(boolean needsUpdate) {
-		if (!isUnbundled()) {
+		if (!isFloatingMenu()) {
 			return;
 		}
 		persistWidthAndHeight();
@@ -731,10 +732,11 @@ public class AppWapplet extends AppWFull {
 			floatingMenuPanel = new FloatingMenuPanel();
 			frame.add(floatingMenuPanel);
 		}
+
 		if (needsUpdate) {
 			frame.getMenuBar(this).getMenubar().updateMenubar();
 		}
-		if (isUnbundled() && menuShowing) {
+		if (isFloatingMenu() && menuShowing) {
 			this.add(new Runnable() {
 
 				@Override
@@ -745,8 +747,14 @@ public class AppWapplet extends AppWFull {
 			floatingMenuPanel.setVisible(true);
 			return;
 		}
+		floatingMenuPanel.add(getAppletFrame().getMenuBar(AppWapplet.this));
 		floatingMenuPanel.setVisible(menuShowing);
 		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
+	}
+
+	private boolean isFloatingMenu() {
+		// TODO Auto-generated method stub
+		return isUnbundled() || isWhiteboardActive();
 	}
 
 	@Override
@@ -767,7 +775,7 @@ public class AppWapplet extends AppWFull {
 			return;
 		}
 
-		if (this.isUnbundled()) {
+		if (this.isFloatingMenu()) {
 			this.toggleMenu();
 		} else {
 

@@ -102,9 +102,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 		signInMenu = new GMenuBar(true, "signin", app);
 		// leftSide = app.isWhiteboardActive() || app.isUnbundled();
-		if (app.isWhiteboardActive() && !app.isUnbundled()) {
-			addStyleName("floatingMenu");
-		}
+
 		this.app = app;
 		init();
 	}
