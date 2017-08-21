@@ -572,10 +572,11 @@ public abstract class Drawable extends DrawableND {
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 			decoStroke = EuclidianStatic.getStroke(width,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
+
 			selStroke = EuclidianStatic.getStroke(
 					view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-					? 2 * width + 2
-					: width + EuclidianStyleConstants.SELECTION_ADD,
+							&& !fromGeo.isShape() ? 2 * width + 2
+									: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
 			if (!forcedLineType) {

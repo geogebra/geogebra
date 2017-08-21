@@ -47,6 +47,8 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
 	/** normal direction, used for 3D */
 	protected GeoDirectionND direction;
+	/** String builder for description */
+	protected StringBuilder sb;
 
 	public AlgoPolygon(Construction cons, String[] labels, GeoList geoList) {
 		this(cons, labels, null, geoList);
@@ -83,7 +85,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 * @param direction
 	 *            normal direction, used for 3D
 	 */
-	protected AlgoPolygon(Construction cons, GeoPointND[] points,
+	public AlgoPolygon(Construction cons, GeoPointND[] points,
 			GeoList geoList, CoordSys cs2D, boolean createSegments,
 			GeoElement polyhedron, GeoDirectionND direction) {
 		super(cons);
@@ -199,6 +201,9 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		}
 	}
 
+	/**
+	 * @return either geoList or array of vertices
+	 */
 	protected GeoElement[] createEfficientInput() {
 
 		GeoElement[] efficientInput;
@@ -310,14 +315,23 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		super.getOutput(0).update();
 	}
 
+	/**
+	 * @return resulting polygon
+	 */
 	public GeoPolygon getPoly() {
 		return poly;
 	}
 
+	/**
+	 * @return array of vertices
+	 */
 	public GeoPointND[] getPoints() {
 		return points;
 	}
 
+	/**
+	 * @return parent polyhedron
+	 */
 	public GeoElement getPolyhedron() {
 		return polyhedron;
 	}
@@ -349,8 +363,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		poly.updateRegionCS();
 
 	}
-
-	protected StringBuilder sb;
 
 	/**
 	 * Returns the area of a polygon given by points P, negative if clockwise
@@ -453,6 +465,12 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		return ((GeoPoint) points2[i]).inhomY;
 	}
 
+	/**
+	 * String builder for description
+	 * 
+	 * @param tpl
+	 *            string template
+	 */
 	protected void createStringBuilder(StringTemplate tpl) {
 
 		if (sb == null) {

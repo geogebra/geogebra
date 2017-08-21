@@ -298,15 +298,15 @@ public class ModeShape {
 		if (ec.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE || ec
 				.getMode() == EuclidianConstants.MODE_SHAPE_RECTANGLE_ROUND_EDGES
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
-			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
-				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
-						getPointArray(event, true), false);
-			} else {
-				algo = new AlgoPolygon(
-					view.getKernel().getConstruction(),
-				null, getPointArray(event,false), false);
-			}
+			boolean square = ec
+					.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE;
+			algo = new AlgoPolygon(view.getKernel().getConstruction(),
+					getPointArray(event, square), null, null, false, null,
+					null);
+
 			createPolygon(algo);
+
+			((AlgoPolygon) algo).getPoly().initLabels(null);
 			view.setShapeRectangle(null);
 			view.repaintView();
 			wasDragged = false;
@@ -408,7 +408,6 @@ public class ModeShape {
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
 		poly.setObjColor(GColor.BLACK);
-		poly.updateRepaint();
 	}
 
 	/**

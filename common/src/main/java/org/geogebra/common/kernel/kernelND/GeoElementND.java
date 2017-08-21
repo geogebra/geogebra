@@ -720,4 +720,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean hasDrawable3D();
 
+	boolean isShape();
+
 }
