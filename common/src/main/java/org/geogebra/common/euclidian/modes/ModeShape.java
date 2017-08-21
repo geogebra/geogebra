@@ -16,9 +16,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -26,7 +23,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
-import org.geogebra.common.plugin.Operation;
 
 /**
  * @author csilla
@@ -310,22 +306,21 @@ public class ModeShape {
 			return algo.getOutput(0);
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_CIRCLE) {
-			Equation conicEqu;
+			double[] conicEqu;
 			if (ec.getMode() == EuclidianConstants.MODE_SHAPE_ELLIPSE) {
 				conicEqu = getEquationOfConic(event, false);
 			} else {
 				conicEqu = getEquationOfConic(event, true);
 			}
-			conicEqu.initEquation();
-			GeoElement[] geos = view.getKernel().getAlgebraProcessor()
-					.processConic(conicEqu, conicEqu.wrap());
-			geos[0].setLabelVisible(false);
-			((GeoConic) geos[0]).setIsShape(true);
-			geos[0].updateRepaint();
+			GeoConic conic = new GeoConic(view.getKernel().getConstruction(),
+					conicEqu);
+			conic.setLabelVisible(false);
+			conic.setIsShape(true);
+			conic.setLabel(null);
 			view.setShapeEllipse(null);
 			view.repaintView();
 			wasDragged = false;
-			return geos[0];
+			return conic;
 		} else if (ec.getMode() == EuclidianConstants.MODE_SHAPE_LINE) {
 			GeoPoint[] points = getRealPointsOfLine(event);
 			algo = new AlgoJoinPointsSegment(view.getKernel().getConstruction(),
@@ -555,7 +550,7 @@ public class ModeShape {
 		return points;
 	}
 
-	private Equation getEquationOfConic(AbstractEvent event, boolean isCircle) {
+	private double[] getEquationOfConic(AbstractEvent event, boolean isCircle) {
 		// real coords
 		double startX = view.toRealWorldCoordX(dragStartPoint.x);
 		double startY = view.toRealWorldCoordY(dragStartPoint.y);
@@ -580,47 +575,14 @@ public class ModeShape {
 				centerY - centerY);
 
 		// construct equation (x-center_x)^2 / b^2 + (y-center_y)^2 / a^2 = 1
-		FunctionVariable xx = new FunctionVariable(view.getKernel(), "x");
-		FunctionVariable yy = new FunctionVariable(view.getKernel(), "y");
-		ExpressionNode rhs = new ExpressionNode(view.getKernel(), 1);
-		ExpressionNode expCenterX = new ExpressionNode(view.getKernel(),
-				centerX);
-		ExpressionNode expCenterY = new ExpressionNode(view.getKernel(),
-				centerY);
-		ExpressionNode expA = new ExpressionNode(view.getKernel(),
-				a);
-		ExpressionNode expB = new ExpressionNode(view.getKernel(),
-				b);
 
-		ExpressionNode leftNumerator = new ExpressionNode(view.getKernel(), xx,
-				Operation.MINUS, expCenterX);
-		ExpressionNode leftNumeratorSqr = new ExpressionNode(view.getKernel(),
-				leftNumerator, Operation.POWER,
-				new ExpressionNode(view.getKernel(), 2));
 
-		ExpressionNode leftDenom = new ExpressionNode(view.getKernel(), expB,
-				Operation.POWER, new ExpressionNode(view.getKernel(), 2));
+		return new double[] { sq(1 / b), 0, sq(1 / a), -2 * centerX / sq(b),
+				-2 * centerY / sq(a), sq(centerX / b) + sq(centerY / a) - 1 };
+	}
 
-		ExpressionNode leftLhs = new ExpressionNode(view.getKernel(),
-				leftNumeratorSqr, Operation.DIVIDE, leftDenom);
-
-		ExpressionNode rightNumerator = new ExpressionNode(view.getKernel(), yy,
-				Operation.MINUS, expCenterY);
-		ExpressionNode rightNumeatorSqr = new ExpressionNode(view.getKernel(),
-				rightNumerator, Operation.POWER,
-				new ExpressionNode(view.getKernel(), 2));
-
-		ExpressionNode rightDenom = new ExpressionNode(view.getKernel(), expA,
-				Operation.POWER, new ExpressionNode(view.getKernel(), 2));
-
-		ExpressionNode rightLhs = new ExpressionNode(view.getKernel(),
-				rightNumeatorSqr, Operation.DIVIDE, rightDenom);
-
-		ExpressionNode lhs = new ExpressionNode(view.getKernel(), leftLhs,
-				Operation.PLUS, rightLhs);
-		Equation equ = new Equation(view.getKernel(), lhs, rhs);
-
-		return equ;
+	private static double sq(double d) {
+		return Math.pow(d, 2);
 	}
 
 	/**
