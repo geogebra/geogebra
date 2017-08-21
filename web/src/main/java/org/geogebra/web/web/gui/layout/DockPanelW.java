@@ -390,7 +390,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected StandardButton graphicsContextMenuBtn;
 
 	private ResourcePrototype viewImage;
-	private ImageResource downImage;
 
 	// needs to be initialized here, because the button might be added in
 	// adSouth(), before setLayout() is called
@@ -892,9 +891,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		buildGUIIfNecessary(true);
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR) && toggleStyleBarButton != null) {
-			if (showStyleBar) {
-				toggleStyleBarButton.setIcon(downImage);
-			} else {
+			if (!showStyleBar) {
 				toggleStyleBarButton.setIcon((ImageResource) viewImage);
 			}
 		}

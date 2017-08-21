@@ -300,13 +300,10 @@ public class ModeShape {
 				|| ec.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE) {
 			boolean square = ec
 					.getMode() == EuclidianConstants.MODE_SHAPE_SQUARE;
-			algo = new AlgoPolygon(view.getKernel().getConstruction(),
-					getPointArray(event, square), null, null, false, null,
-					null);
+			algo = getPolyAlgo(getPointArray(event, square));
 
 			createPolygon(algo);
 
-			((AlgoPolygon) algo).getPoly().initLabels(null);
 			view.setShapeRectangle(null);
 			view.repaintView();
 			wasDragged = false;
@@ -349,8 +346,7 @@ public class ModeShape {
 			} else {
 				points = getRealPointsOfPolygon(event);
 			}
-			algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
-					points, false);
+			algo = getPolyAlgo(points);
 			// do not show edge points
 			for (GeoPoint geoPoint : points) {
 				geoPoint.setEuclidianVisible(false);
@@ -383,8 +379,7 @@ public class ModeShape {
 											pointListFreePoly.size()
 													- 2)) == 0) {
 				// polygon.closePath();
-				algo = new AlgoPolygon(view.getKernel().getConstruction(), null,
-						getRealPointsOfFreeFormPolygon(), false);
+				algo = getPolyAlgo(getRealPointsOfFreeFormPolygon());
 				createPolygon(algo);
 				pointListFreePoly.clear();
 				dragPointSet = false;
@@ -399,6 +394,11 @@ public class ModeShape {
 		return null;
 	}
 
+	private AlgoElement getPolyAlgo(GeoPointND[] pointArray) {
+		return new AlgoPolygon(view.getKernel().getConstruction(), pointArray,
+				null, null, false, null, null);
+	}
+
 	private static void createPolygon(AlgoElement algo) {
 		GeoPolygon poly = (GeoPolygon) algo.getOutput(0);
 		// do not show segment labels
@@ -408,6 +408,7 @@ public class ModeShape {
 		poly.setAlphaValue(0);
 		poly.setBackgroundColor(GColor.WHITE);
 		poly.setObjColor(GColor.BLACK);
+		((AlgoPolygon) algo).getPoly().initLabels(null);
 	}
 
 	/**

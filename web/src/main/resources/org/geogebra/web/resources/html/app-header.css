@@ -3,6 +3,7 @@
     border-bottom: 1px solid #dcdcdc;
 	background-color: rgb(255,255,255);
     padding: 4px;
+    user-select: none;
 }
 .GeoGebraHeader .appName{
 	padding-left: 12px;

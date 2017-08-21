@@ -5240,6 +5240,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
+	/**
+	 * @return "undefined" or value string
+	 */
 	final public String getAlgebraDescriptionRHS() {
 		String algDesc;
 		if (!isDefined()) {

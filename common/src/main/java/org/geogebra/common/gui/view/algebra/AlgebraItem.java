@@ -14,8 +14,19 @@ import org.geogebra.common.main.Feature;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Utitlity class for AV items
+ */
 public class AlgebraItem {
 	private static String undefinedVariables;
+
+	/**
+	 * Changes the symbolic flag of a geo or its parent algo
+	 * 
+	 * @param geo
+	 *            element that we want to change
+	 * @return whether it's symbolic after toggle
+	 */
 	public static boolean toggleSymbolic(GeoElement geo) {
 
 		if (geo instanceof HasSymbolicMode) {
