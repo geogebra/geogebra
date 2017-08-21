@@ -1,4 +1,4 @@
-package org.geogebra.web.web.html5;
+package org.geogebra.web.html5.util;
 
 import org.geogebra.common.move.events.BaseEventPool;
 import org.geogebra.common.move.operations.Network;

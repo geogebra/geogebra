@@ -118,13 +118,13 @@ import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageManagerW;
+import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.html5.NetworkW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
