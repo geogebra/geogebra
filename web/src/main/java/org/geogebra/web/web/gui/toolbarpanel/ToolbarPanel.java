@@ -385,7 +385,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			getElement().getStyle().setLeft(w, Unit.PX);
 
 			sp.setWidth(w + "px");
-			sp.setHeight(app.getHeight() - 56 + "px");
+			sp.setHeight(app.getHeight() - CLOSED_HEIGHT_PORTRAIT + "px");
 		}
 
 	}

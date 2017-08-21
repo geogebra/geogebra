@@ -259,6 +259,19 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	/**
+	 * @return the height of external header
+	 */
+	public static int getHeaderHeight() {
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (header != null && !smallScreen()) {
+			return header.getOffsetHeight();
+		}
+		return 0;
+
+
+	}
+
 	public static boolean smallScreen() {
 		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
 	}

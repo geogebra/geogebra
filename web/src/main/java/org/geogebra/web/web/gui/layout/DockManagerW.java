@@ -47,6 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Florian Sonner
  */
 public class DockManagerW extends DockManager {
+	private static final int PAGE_HEADER_HEIGHT = 32;
 	private static final int MIN_TOOLBAR_WIDTH = 382;
 	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
 	AppW app;
@@ -1879,9 +1880,11 @@ public class DockManagerW extends DockManager {
 		ToolbarPanel toolbar = null;
 		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
+			int h = AppW.getHeaderHeight();
+			Log.debug("[HH] header height: " + h);
 			avHeight = toolbar.isOpen() ? toolbar.getMinVHeight()
-					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
-		}else{
+					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT - h;
+		} else {
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
 		double portraitDivider = kbHeight >= appHeight ? 1
