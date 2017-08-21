@@ -67,6 +67,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -2462,6 +2463,7 @@ public class AlgebraProcessor {
 					.getConstructionDefaults().getNextColor();
 			for (int i = 0; i < geos.length; i++) {
 				geos[i].setObjColor(nextColor);
+				geos[i].updateVisualStyle(GProperty.COLOR);
 			}
 		}
 		return geos;
