@@ -2388,7 +2388,7 @@ public class AlgebraProcessor {
 				&& !equ.getRHS().evaluatesToNumber(true)) {
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
-				return setAutoColored(processValidExpression(equ.getRHS()));
+				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2402,13 +2402,12 @@ public class AlgebraProcessor {
 			}
 		}
 		if ("X".equals(singleLeftVariable)) {
-			return setAutoColored(
-					getParamProcessor().processXEquation(equ, info));
+			return getParamProcessor().processXEquation(equ, info);
 		}
 		if ("r".equals(singleLeftVariable)) {
 			try {
 				equ.getRHS().setLabel(equ.getLabel());
-				return setAutoColored(processValidExpression(equ.getRHS()));
+				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2417,11 +2416,11 @@ public class AlgebraProcessor {
 			GeoCasCell c = this.checkCasEval(((Variable) lhs).getName(), null,
 					equ);
 			if (c != null) {
-				return setAutoColored(new GeoElement[0]);
+				return new GeoElement[0];
 			}
 			equ.getRHS().setLabel(lhs.toString(StringTemplate.defaultTemplate));
 			try {
-				return setAutoColored(processValidExpression(equ.getRHS()));
+				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2430,7 +2429,7 @@ public class AlgebraProcessor {
 				&& MyDouble.exactEqual(lhs.evaluateDouble(), MyMath.DEG)) {
 			equ.getRHS().setLabel("deg");
 			try {
-				return setAutoColored(processValidExpression(equ.getRHS()));
+				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -2443,19 +2442,14 @@ public class AlgebraProcessor {
 						.unwrap() instanceof FunctionVariable) {
 			equ.getRHS().setLabel("z");
 			try {
-				return setAutoColored(processValidExpression(equ.getRHS()));
+				return processValidExpression(equ.getRHS());
 			} catch (Exception e) {
 				e.printStackTrace();
 
 			}
 		}
-		return setAutoColored(processEquation(equ, def,
-				kernel.getConstruction().isFileLoading()));
-	}
-
-	private GeoElement[] setAutoColored(GeoElement[] geos) {
-		return geos;
-
+		return processEquation(equ, def,
+				kernel.getConstruction().isFileLoading());
 	}
 
 	/**
