@@ -38,6 +38,7 @@ import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
@@ -280,12 +281,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// this.mainPanel.clear();
 		app.getEuclidianView1().setKeepCenter(false);
 		if (show) {
+			showZoomPanel(false);
 			keyboardVisibilityChanging = true;
 			app.hideMenu();
 			app.persistWidthAndHeight();
 			ToolTipManagerW.hideAllToolTips();
 			addKeyboard(textField, true);
 		} else {
+			showZoomPanel(true);
 			keyboardVisibilityChanging = true;
 			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
@@ -423,6 +426,21 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 			dp.scrollToActiveItem();
 		}
+	}
+
+	private void showZoomPanel(boolean show) {
+		if (app.isPortrait()) {
+			return;
+		}
+
+		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+		if (show) {
+			dp.showZoomPanel();
+		} else {
+			dp.hideZoomPanel();
+		}
+
 	}
 
 	/**
