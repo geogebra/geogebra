@@ -794,6 +794,10 @@ public class EuclidianSettings extends AbstractSettings {
 		if (gridType == type) {
 			return;
 		}
+		// make sure the grid flag is also changed, for point capturing
+		if (type == EuclidianView.GRID_NOT_SHOWN) {
+			this.showGrid = false;
+		}
 		gridType = type;
 		settingChanged();
 	}
