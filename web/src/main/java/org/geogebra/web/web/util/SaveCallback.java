@@ -122,6 +122,9 @@ public class SaveCallback {
 
 	}
 
+	/**
+	 * @return state of saving
+	 */
 	public SaveState getState() {
 		return state;
 	}

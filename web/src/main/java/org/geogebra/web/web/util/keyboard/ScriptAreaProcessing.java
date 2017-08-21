@@ -9,10 +9,17 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
 
+/**
+ * Connector for keyboard and scripting editor
+ */
 public class ScriptAreaProcessing implements KeyboardListener {
 
 	private ScriptArea field;
 
+	/**
+	 * @param field
+	 *            scripting editor
+	 */
 	public ScriptAreaProcessing(ScriptArea field) {
 		this.field = field;
 	}

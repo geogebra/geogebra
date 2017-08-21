@@ -9,10 +9,19 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
 
+/**
+ * Connector for keyboartd and input boxes
+ */
 public class AutocompleteProcessing implements KeyboardListener {
 
 	private AutoCompleteTextFieldW field;
 
+	/**
+	 * Connector for keyboartd and input boxes
+	 * 
+	 * @param field
+	 *            input box
+	 */
 	public AutocompleteProcessing(AutoCompleteTextFieldW field) {
 		this.field = field;
 	}

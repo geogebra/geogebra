@@ -61,7 +61,6 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.move.events.BaseEventPool;
-import org.geogebra.common.move.events.NativeEventAttacher;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.ggtapi.models.Material.Provider;
@@ -125,6 +124,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.html5.NetworkW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -1328,42 +1328,15 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	protected void initNetworkEventFlow() {
 
-		Network network = new Network() {
-
-			private native boolean checkOnlineState() /*-{
-		return $wnd.navigator.onLine;
-	}-*/;
-
-			@Override
-			public boolean onLine() {
-				return checkOnlineState();
-			}
-		};
-
-		NativeEventAttacher attacher = new NativeEventAttacher() {
-
-			private native void nativeAttach(String t, BaseEventPool ep) /*-{
-		$wnd.addEventListener(t, function() {
-			ep.@org.geogebra.common.move.events.BaseEventPool::trigger()();
-		});
-		$doc.addEventListener(t, function() {
-			ep.@org.geogebra.common.move.events.BaseEventPool::trigger()();
-		});
-	}-*/;
-
-			@Override
-			public void attach(String type, BaseEventPool eventPool) {
-				nativeAttach(type, eventPool);
-			}
-		};
+		Network network = new NetworkW();
 
 		networkOperation = new NetworkOperation(network);
 		BaseEventPool offlineEventPool = new BaseEventPool(networkOperation,
 		        false);
-		attacher.attach("offline", offlineEventPool);
+		NetworkW.attach("offline", offlineEventPool);
 		BaseEventPool onlineEventPool = new BaseEventPool(networkOperation,
 		        true);
-		attacher.attach("online", onlineEventPool);
+		NetworkW.attach("online", onlineEventPool);
 		OfflineView ov = new OfflineView();
 		networkOperation.setView(ov);
 	}

@@ -607,7 +607,6 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public double getWidth() {
 		if (spWidth > 0) {
-			Log.printStacktrace(menuShowing);
 			return menuShowing && !isFloatingMenu()
 					? spWidth + GLookAndFeel.MENUBAR_WIDTH : spWidth;
 		}

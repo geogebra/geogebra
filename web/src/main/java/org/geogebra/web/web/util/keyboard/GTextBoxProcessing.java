@@ -8,9 +8,16 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
 
+/**
+ * Connector for keyboard and simple textbox
+ */
 public class GTextBoxProcessing implements KeyboardListener {
-	GTextBox field;
+	private GTextBox field;
 
+	/**
+	 * @param field
+	 *            textbox
+	 */
 	public GTextBoxProcessing(GTextBox field) {
 		this.field = field;
 	}
