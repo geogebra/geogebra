@@ -5235,14 +5235,21 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	final public String getAlgebraDescriptionTextOrHTMLRHS(
 			IndexHTMLBuilder builder) {
+		String algDesc = getAlgebraDescriptionRHS();
+
+		// convertion to html is only needed if indices are found
+		indicesToHTML(algDesc, builder);
+		return algDesc;
+
+	}
+
+	final public String getAlgebraDescriptionRHS() {
 		String algDesc;
 		if (!isDefined()) {
 			algDesc = getLoc().getMenu("Undefined");
 		} else {
 			algDesc = toValueString(StringTemplate.defaultTemplate);
 		}
-		// convertion to html is only needed if indices are found
-		indicesToHTML(algDesc, builder);
 		return algDesc;
 
 	}

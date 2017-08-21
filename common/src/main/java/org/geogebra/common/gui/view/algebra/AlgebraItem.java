@@ -166,13 +166,11 @@ public class AlgebraItem {
 			outputText = element.getLaTeXDescriptionRHS(true,
 					StringTemplate.latexTemplate);
 		} else {
-			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
 			if (needsPacking(element)) {
-				element.getAlgebraDescriptionTextOrHTMLDefault(sb);
+				outputText = element.getAlgebraDescriptionDefault();
 			} else {
-				element.getAlgebraDescriptionTextOrHTMLRHS(sb);
+				outputText = element.getAlgebraDescriptionRHS();
 			}
-			outputText = sb.toString();
 		}
 
 		return outputText;
