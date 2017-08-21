@@ -68,6 +68,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		getMySlider().setMinorTickSpacing(5);
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
+		if (app.isUnbundled()) {
+			getMySlider().setWidth("120px");
+		}
 		if (app.has(Feature.COLOR_FILLING_LINE) && hasSlider) {
 			titleLabel = new Label(app.getLocalization().getMenu("Opacity"));
 			titleLabel.addStyleName("opacityLabel");
