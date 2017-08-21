@@ -49,6 +49,8 @@ public class PerspectiveDecoder {
 	/**
 	 * @param height
 	 *            applet height
+	 * @param graphing
+	 *            whether this is for graphing
 	 * @return prefered ratio for AV perspective in portrait mode.
 	 */
 	public static double portraitRatio(double height, boolean graphing) {

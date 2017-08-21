@@ -26,7 +26,7 @@ import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.EquationSolverInterface;
+import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PointPair;
 import org.geogebra.common.kernel.PointPairList;
@@ -92,7 +92,6 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 
 	private PointPairList pointList = new PointPairList();
 
-	private EquationSolverInterface eqnSolver;
 	private SystemOfEquationsSolver sysSolver;
 
 	@Override
@@ -123,7 +122,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 	}
 
 	private void init(Construction cons) {
-		eqnSolver = cons.getKernel().getEquationSolver();
+		EquationSolver eqnSolver = cons.getKernel().getEquationSolver();
 		sysSolver = cons.getKernel().getSystemOfEquationsSolver(eqnSolver);
 
 		degConic = new GeoConic(cons);
@@ -926,7 +925,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		// + eqn[1] + " x + " + eqn[0] );
 
 		// solve cubic equation and sort solutions
-		int solnr = eqnSolver.solveCubic(eqn, sol, eps);
+		int solnr = EquationSolver.solveCubicS(eqn, sol, eps);
 		if (solnr > -1) {
 			Arrays.sort(sol, 0, solnr);
 		}
@@ -980,7 +979,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		eqn[2] = temp;
 
 		// solve cubic equation and sort solutions
-		solnr = eqnSolver.solveCubic(eqn, sol, eps);
+		solnr = EquationSolver.solveCubicS(eqn, sol, eps);
 		if (solnr > -1) {
 			Arrays.sort(sol, 0, solnr);
 		}

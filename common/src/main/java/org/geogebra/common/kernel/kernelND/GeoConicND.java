@@ -17,6 +17,7 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.Path;
@@ -347,7 +348,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		tmpDouble4[2] = 0;
 		tmpDouble4[1] = p - x;
 		tmpDouble4[0] = -y;
-		int nRoots = cons.getKernel().getEquationSolver().solveCubic(tmpDouble4,
+
+		int nRoots = EquationSolver.solveCubicS(tmpDouble4,
 				tmpDouble4, Kernel.STANDARD_PRECISION);
 
 		// find closest root
@@ -694,7 +696,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 				double[] eqn = { abspy, -p + px, 0, -p / 2 };
 				double[] roots = { 0, 0, 0 };
-				cons.getKernel().getEquationSolver().solveCubic(eqn, roots,
+				EquationSolver.solveCubicS(eqn, roots,
 						Kernel.STANDARD_PRECISION);
 				if (roots[0] > 0) {
 					pp.setT(roots[0]);
@@ -2898,7 +2900,8 @@ public abstract class GeoConicND extends GeoQuadricND
 			eigenval[0] = detS;
 			eigenval[1] = -(matrix[0] + matrix[1]); // -spurS
 			eigenval[2] = 1.0d;
-			int nRoots = cons.getKernel().getEquationSolver().solveQuadratic(
+
+			int nRoots = EquationSolver.solveQuadraticS(
 					eigenval, eigenval, Kernel.STANDARD_PRECISION);
 			if (nRoots == 1) {
 				eigenval[1] = eigenval[0];

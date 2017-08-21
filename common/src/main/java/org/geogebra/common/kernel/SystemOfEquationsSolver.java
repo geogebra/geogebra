@@ -125,7 +125,7 @@ public class SystemOfEquationsSolver {
 			double[] quadraticRoots = new double[3];
 
 			// finding candidates for x
-			int solnr2 = eqnSolver.solveQuadratic(quadraticParams,
+			int solnr2 = EquationSolver.solveQuadraticS(quadraticParams,
 					quadraticRoots, eps);
 			Arrays.sort(quadraticRoots, 0, solnr2);
 

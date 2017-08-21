@@ -213,6 +213,8 @@ public abstract class MyXMLio {
 	 *            true for ggt files
 	 * @param uniqueId
 	 *            construction ID
+	 * @param v
+	 *            app version
 	 */
 	public final static void addGeoGebraHeader(StringBuilder sb,
 			boolean isMacro, String uniqueId, Versions v) {
@@ -229,6 +231,9 @@ public abstract class MyXMLio {
 		sb.append("\" ");
 		sb.append("app=\"");
 		sb.append(v.getAppName());
+		sb.append("\" ");
+		sb.append("platform=\"");
+		sb.append(v.getPlatform());
 		sb.append("\" ");
 		if (uniqueId != null) {
 			sb.append("id=\"");

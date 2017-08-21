@@ -74,7 +74,8 @@ public class EquationSolver implements EquationSolverInterface {
 			break;
 
 		case 2:
-			realRoots = solveQuadratic(roots, roots, Kernel.STANDARD_PRECISION);
+			realRoots = solveQuadraticS(roots, roots,
+					Kernel.STANDARD_PRECISION);
 			if (multiple && realRoots == 1) {
 				realRoots = 2;
 				roots[1] = roots[0];
@@ -82,7 +83,7 @@ public class EquationSolver implements EquationSolverInterface {
 			break;
 
 		case 3:
-			realRoots = solveCubic(roots, roots, Kernel.STANDARD_PRECISION);
+			realRoots = solveCubicS(roots, roots, Kernel.STANDARD_PRECISION);
 			break;
 
 		default:
@@ -137,15 +138,21 @@ public class EquationSolver implements EquationSolverInterface {
 	 * @return the number of roots, or <code>-1</code> if the equation is a
 	 *         constant
 	 */
-	final public int solveQuadratic(double eqn[]) {
-		return solveQuadratic(eqn, eqn, Kernel.STANDARD_PRECISION);
+	final public static int solveQuadratic(double eqn[]) {
+		return solveQuadraticS(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
-	@Override
-	final public int solveQuadratic(double eqn[], double res[], double eps) {
-		return solveQuadraticS(eqn, res, eps);
-	}
-
+	/**
+	 * Solves quadratic equation
+	 * 
+	 * @param eqn
+	 *            coefficients
+	 * @param res
+	 *            result
+	 * @param eps
+	 *            precision
+	 * @return number of roots
+	 */
 	final public static int solveQuadraticS(double eqn[], double res[],
 			double eps) {
 		double a = eqn[2];
@@ -278,8 +285,8 @@ public class EquationSolver implements EquationSolverInterface {
 	 *            an array containing coefficients for a cubic
 	 * @return the number of roots, or -1 if the equation is a constant.
 	 */
-	final public int solveCubic(double eqn[]) {
-		return solveCubic(eqn, eqn, Kernel.STANDARD_PRECISION);
+	final public static int solveCubic(double eqn[]) {
+		return solveCubicS(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
 	/*
@@ -289,11 +296,19 @@ public class EquationSolver implements EquationSolverInterface {
 	 * 
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0
 	 */
-	@Override
-	final public int solveCubic(double eqn[], double res[], double eps) {
-		return solveCubicS(eqn, res, eps);
-	}
 
+
+	/**
+	 * Solves cubic equation
+	 * 
+	 * @param eqn
+	 *            coefficients
+	 * @param res
+	 *            result
+	 * @param eps
+	 *            precision
+	 * @return number of roots
+	 */
 	final static public int solveCubicS(double eqn[], double res[],
 			double eps) {
 
@@ -747,7 +762,7 @@ public class EquationSolver implements EquationSolverInterface {
 	public int solveQuartic(double eqn[], double res[], double eps) {
 
 		if (Math.abs(eqn[4]) < 0) {
-			return solveCubic(eqn, res, Kernel.STANDARD_PRECISION);
+			return solveCubicS(eqn, res, Kernel.STANDARD_PRECISION);
 		}
 
 		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4],
@@ -804,7 +819,7 @@ public class EquationSolver implements EquationSolverInterface {
 			res2[2] = 1.0;
 			res2[1] = a;
 			res2[0] = b;
-			int n = solveQuadratic(res2, res2, eps);
+			int n = solveQuadraticS(res2, res2, eps);
 			res[roots++] = res2[0];
 			res[roots++] = res2[1];
 			// if (gsl_poly_solve_quadratic(1.0,a,b,x2,x3)==0) {

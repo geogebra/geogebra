@@ -58,6 +58,8 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
+import com.himamis.retex.editor.share.input.Character;
+
 /**
  * Manages construction elements
  * 
@@ -2277,7 +2279,7 @@ public class Construction {
 		// try upper case version for spreadsheet label like a1
 		if (allowAutoCreate) {
 
-			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter
+			if (Character.isLetter(label1.charAt(0)) // starts with letter
 					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) // ends
 																				// with
 																				// digit
@@ -3613,6 +3615,11 @@ public class Construction {
 		return companion.is3D();
 	}
 
+	/**
+	 * @param ce1
+	 *            construction element
+	 * @return previous element in construction order
+	 */
 	public GeoElementND getPrevious(GeoElementND ce1) {
 		ConstructionElement ce = ce1.getParentAlgorithm() != null
 				? ce1.getParentAlgorithm()

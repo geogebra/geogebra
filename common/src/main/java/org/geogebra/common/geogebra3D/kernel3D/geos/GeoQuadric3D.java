@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentQuadric3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.EquationSolver;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.RegionParameters;
@@ -191,8 +192,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenval[1] = matrix[0] + matrix[1] + matrix[2];
 		eigenval[2] = -1;
 
-		int nRoots = cons.getKernel().getEquationSolver()
-				.solveQuadratic(eigenval, eigenval, Kernel.STANDARD_PRECISION);
+		int nRoots = EquationSolver.solveQuadraticS(eigenval, eigenval,
+				Kernel.STANDARD_PRECISION);
 
 		if (nRoots == 1) {
 			eigenval[1] = eigenval[0];
@@ -735,7 +736,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		eigenval[2] = matrix[0] + matrix[1] + matrix[2];
 		eigenval[3] = -1;
 
-		int nRoots = cons.getKernel().getEquationSolver().solveCubic(eigenval,
+		int nRoots = EquationSolver.solveCubicS(eigenval,
 				eigenval, Kernel.STANDARD_PRECISION);
 
 		if (nRoots == 1) {
