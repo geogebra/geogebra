@@ -3968,7 +3968,7 @@ public abstract class App implements UpdateSelection {
 				return false;
 			}
 			if (isAndroid()) {
-				return false;
+				return true;
 			}
 			return true;
 
