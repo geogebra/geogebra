@@ -49,7 +49,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 
 		addStyleName("marblePanel");
 		
-		if (item.app.has(Feature.AV_PLUS) && item.getAV().isInputActive()) {
+		if (item.app.has(Feature.AV_PLUS) && item.getAV().isInputActive()
+				&& item.getGeo() == null) {
 			addStyleName("plus");
 			initPlus();
 			return;
