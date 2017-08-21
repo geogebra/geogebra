@@ -117,7 +117,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	}
 
 	@Override
-	public Versions getVersion(int dim, boolean app) {
+	public Versions getVersion(int dim, String appName) {
 		return Versions.SMART;
 	}
 

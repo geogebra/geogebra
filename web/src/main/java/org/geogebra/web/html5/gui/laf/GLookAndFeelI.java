@@ -49,7 +49,7 @@ public interface GLookAndFeelI {
 
 	boolean printSupported();
 
-	public Versions getVersion(int dim, boolean app);
+	public Versions getVersion(int dim, String appName);
 
 	void storeLanguage(String language);
 

@@ -1149,12 +1149,14 @@ public class ConstructionDefaults {
 	public void getDefaultsXML(StringBuilder sb2d, StringBuilder sb3d) {
 
 		MyXMLio.addXMLHeader(sb2d);
-		MyXMLio.addGeoGebraHeader(sb2d, true, null);
+		MyXMLio.addGeoGebraHeader(sb2d, true, null,
+				cons.getApplication().getVersion());
 		sb2d.append("<defaults>\n");
 
 		if (sb3d != null) {
 			MyXMLio.addXMLHeader(sb3d);
-			MyXMLio.addGeoGebraHeader(sb3d, true, null);
+			MyXMLio.addGeoGebraHeader(sb3d, true, null,
+					cons.getApplication().getVersion());
 			sb3d.append("<defaults>\n");
 		}
 

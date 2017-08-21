@@ -4157,7 +4157,7 @@ public abstract class App implements UpdateSelection {
 
 		case INPUT_BAR_ADD_SLIDER:
 			return prerelease
-					&& Versions.WEB_APP_FOR_BROWSER_3D.equals(getVersion());
+					&& isHTML5Applet();
 
 		case AND_SNACKBAR:
 			return isNativeMobileAppWithNewUI();

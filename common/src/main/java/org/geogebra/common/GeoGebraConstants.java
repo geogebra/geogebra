@@ -19,70 +19,84 @@ public interface GeoGebraConstants {
 
 	public enum Versions {
 
-		DESKTOP("3D"),
+		DESKTOP("d", "classic"),
 
 		/** GeoGebra Graphing Calculator */
-		ANDROID_NATIVE_GRAPHING("a"),
+		ANDROID_NATIVE_GRAPHING("a", "gc"),
 
-		ANDROID_NATIVE_3D("a3D"),
+		ANDROID_NATIVE_3D("a", "3D"),
 
-		ANDROID_GEOMETRY("ag"),
+		ANDROID_GEOMETRY("a", "geo"),
 
-		ANDROID_WEBVIEW("aw"),
+		ANDROID_WEBVIEW("aw", "classic"),
 
-		ANDROID_WEBVIEW_EXAM("exam", true),
+		ANDROID_WEBVIEW_EXAM("aw", "exam"),
 
-		IOS_NATIVE("i"),
+		IOS_NATIVE("i", "gc"),
 
-		IOS_GEOMETRY("ig"),
+		IOS_GEOMETRY("i", "geo"),
 
-		IOS_WEBVIEW("iw"),
+		IOS_WEBVIEW("iw", "classic"),
 
-		WEB_FOR_DESKTOP("offline"),
+		WEB_FOR_DESKTOP("offline", "classic"),
 
-		WINDOWS_STORE("win"),
+		WINDOWS_STORE("win", "classic"),
 
-		WEB_FOR_BROWSER_3D("web3d"),
+		WEB_FOR_BROWSER_3D("w", "classic"),
 
-		WEB_FOR_BROWSER_2D("web"),
+		WEB_FOR_BROWSER_2D("w2d", "classic"),
 
-		WEB_FOR_BROWSER_SIMPLE("webSimple"),
+		WEB_FOR_BROWSER_SIMPLE("w", "simple"),
 
-		WEB_APP_FOR_BROWSER_3D("webapp"),
+		WEB_GRAPHING("w", "gc"),
 
-		SMART("s"),
+		WEB_GEOMETRY("w", "gc"),
 
-		POWERPOINT("p"),
+		WEB_GRAPHING_OFFLINE("offline", "gc"),
 
-		NO_CAS("nc");
+		WEB_GEOMETRY_OFFLINE("geometry", "gc"),
 
-		private String suffix;
+		SMART("smart", "classic"),
 
-		Versions(String suffix, boolean exam) {
-			this.suffix = suffix;
+		POWERPOINT("p", "classic"),
+
+		NO_CAS("nc", "classic");
+
+		private String platform;
+		private String appName;
+
+		Versions(String platform, String appName) {
+			this.platform = platform;
+			this.appName = appName;
 		}
 
-		Versions(String suffix) {
-			this.suffix = suffix;
+		public String getAppName() {
+			return appName;
+		}
+
+		public String getPlatform() {
+			return platform;
 		}
 
 		public String getVersionString(boolean prerelease, boolean canary) {
 
-			String preReleaseSuffix = "";
-
+			StringBuilder suffix = new StringBuilder(10);
+			suffix.append(platform);
+			if (!"classic".equals(appName)) {
+				suffix.append(appName);
+			}
 			if (canary) {
-				preReleaseSuffix = "-canary";
+				suffix.append("-canary");
 			} else if (prerelease) {
-				preReleaseSuffix = "-prerelease";
+				suffix.append("-prerelease");
 			}
 
 			switch (this) {
 			case WEB_FOR_DESKTOP:
 				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix
-						+ preReleaseSuffix;
+				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
 			default:
-				return VERSION_STRING + "-" + suffix + preReleaseSuffix;
+				return VERSION_STRING + "-" + suffix;
 
 			}
 

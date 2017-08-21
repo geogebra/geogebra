@@ -266,7 +266,7 @@ public abstract class AppW extends App implements SetLabels {
 	private static Versions getVersion(ArticleElement ae, int dimension,
 			GLookAndFeelI laf2) {
 		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
-				: laf2.getVersion(dimension, ae.getDataParamApp());
+				: laf2.getVersion(dimension, ae.getDataParamAppName());
 	}
 
 	protected final void windowResized() {
@@ -3647,7 +3647,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public AppConfig getConfig() {
-		if (has(Feature.UNBUNDLING)) {
+		if (has(Feature.UNBUNDLING)
+				&& !"classic".equals(articleElement.getDataParamAppName())) {
 			if ("1".equals(initialPerspective)) {
 				return new AppConfigGraphing();
 			}
@@ -3660,12 +3661,14 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean isUnbundledGraphing() {
-		return ("1".equals(initialPerspective) && has(Feature.UNBUNDLING));
+		return "1".equals(initialPerspective) && has(Feature.UNBUNDLING)
+				&& !"classic".equals(articleElement.getDataParamAppName());
 	}
 
 	@Override
 	public boolean isUnbundledGeometry() {
-		return ("2".equals(initialPerspective) && has(Feature.UNBUNDLING));
+		return "2".equals(initialPerspective) && has(Feature.UNBUNDLING)
+				&& !"classic".equals(articleElement.getDataParamAppName());
 	}
 
 	public void ensureStandardView() {
