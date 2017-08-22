@@ -521,24 +521,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	/**
-	 * Sets last height and width
-	 * 
-	 * @param force
-	 *            override values even they are not null.
-	 */
-	void setLastSize(boolean force) {
-		// if (app.isPortrait()) {
-		// if (force || lastOpenHeight == null) {
-		// lastOpenHeight = app.getActiveEuclidianView().getViewHeight();
-		// }
-		// } else {
-		// if (force || lastOpenWidth == null) {
-		// lastOpenWidth = getOffsetWidth();
-		// }
-		// }
-
-	}
-	/**
 	 * Opens the toolbar.
 	 */
 	public void doOpen() {
@@ -547,8 +529,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		setClosedByUser(false);
 		header.setOpen(true);
-		// setLastSize(false);
-
 	}
 
 	/**
@@ -605,7 +585,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 
 			dockParent.animate(OPEN_ANIM_TIME, animCallback);
-			// dockPanel.deferredOnResize();
 		}
 
 	}
@@ -620,61 +599,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 
 	}
-
-	// /**
-	// * updates panel height according to its state in portrait mode.
-	// */
-	// public void updateHeight() {
-	// if (!app.isPortrait()) {
-	// return;
-	// }
-	//
-	// ToolbarDockPanelW dockPanel = getToolbarDockPanel();
-	// final DockSplitPaneW dockParent = dockPanel != null
-	// ? dockPanel.getParentSplitPane() : null;
-	//
-	// AnimationCallback animationCallback = null;
-	// if (dockPanel != null) {
-	// final Widget opposite = dockParent.getOpposite(dockPanel);
-	// int h = 0;
-	// if (header.isOpen()) {
-	// h = getOpenHeightInPortrait();
-	// // dockParent.setDividerLocation(h);
-	// dockParent.updateDividerLocation(200, 0);
-	// dockParent.removeStyleName("hide-VDragger");
-	// animationCallback = new PortraitAnimationCallback(header, h + 1,
-	// h);
-	// } else {
-	// final int closedEVHeight = (int) (app.getHeight() -
-	// CLOSED_HEIGHT_PORTRAIT
-	// - 8);
-	// if (closedEVHeight > 0) {
-	// dockParent.updateDividerLocation(700, 0);
-	// // closedEVHeight / app.getHeight());
-	//
-	// // dockParent.setWidgetSize(opposite, closedEVHeight);
-	// dockParent.addStyleName("hide-VDragger");
-	// animationCallback = new PortraitAnimationCallback(header,
-	// closedEVHeight, closedEVHeight + 1) {
-	// @Override
-	// protected void onEnd() {
-	// super.onEnd();
-	// // dockParent.deferredOnResize();
-	// }
-	//
-	// };
-	// }
-	// h = closedEVHeight;
-	// }
-	//
-	// if (h > 0) {
-	// dockParent.animate(OPEN_ANIM_TIME, animationCallback);
-	// }
-	// }
-	//
-	// }
-	//
-
 	/**
 	 * updates panel height according to its state in portrait mode.
 	 */
@@ -937,8 +861,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	private void resizeTabs() {
-		// main.setWidth(TAB_COUNT * getTabWidth() + "px");
-
 		if (tabAlgebra != null) {
 			tabAlgebra.onResize();
 		}
