@@ -109,7 +109,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		if (!app.isWhiteboardActive()) {
 			tfName.enableGGBKeyboard();
 		}
-		tfName.setDeferredFocus(true);
+		// remove focus, see GGB-
+		// tfName.setDeferredFocus(true);
 
 		tfName.addFocusListener(new FocusListenerW(this) {
 			@Override
