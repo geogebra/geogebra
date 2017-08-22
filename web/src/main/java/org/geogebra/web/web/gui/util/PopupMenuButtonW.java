@@ -21,9 +21,14 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -145,6 +150,7 @@ public class PopupMenuButtonW extends MyCJButton
 				event.stopPropagation();
 			}
 		});
+
 		// merge mousedown + touchstart
 		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
@@ -157,7 +163,27 @@ public class PopupMenuButtonW extends MyCJButton
 
 			}
 		});
+		this.addMouseOverHandler(new MouseOverHandler() {
 
+			@Override
+			public void onMouseOver(MouseOverEvent event) {
+				getElement().getStyle().setBorderColor("#6557D2");
+			}
+		});
+		this.addMouseOutHandler(new MouseOutHandler() {
+
+			@Override
+			public void onMouseOut(MouseOutEvent event) {
+				if (getMyPopup() != null && getMyPopup().isVisible()
+						&& EuclidianStyleBarW.getCurrentPopup() != null
+						&& getMyPopup().equals(
+								EuclidianStyleBarW.getCurrentPopup())) {
+					getElement().getStyle().setBorderColor("#6557D2");
+				} else {
+					getElement().getStyle().setBorderColor("#dcdcdc");
+				}
+			}
+		});
 		addDomHandler(new TouchEndHandler() {
 			@Override
 			public void onTouchEnd(TouchEndEvent event) {
@@ -217,10 +243,16 @@ public class PopupMenuButtonW extends MyCJButton
 		if (EuclidianStyleBarW.getCurrentPopup() != myPopup) {
 			if (EuclidianStyleBarW.getCurrentPopup() != null) {
 				EuclidianStyleBarW.getCurrentPopup().hide();
+				if (EuclidianStyleBarW.getCurrentPopupButton() != null) {
+					EuclidianStyleBarW.getCurrentPopupButton().getElement()
+						.getStyle().setBorderColor("#dcdcdc");
+				}
 				/* getWidget().removeStyleName("active"); */
 			}
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
-
+			EuclidianStyleBarW.setCurrentPopupButton(this);
+			this.getElement().getStyle()
+					.setBorderColor("#6557D2");
 			app.registerPopup(myPopup);
 			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());
@@ -228,7 +260,9 @@ public class PopupMenuButtonW extends MyCJButton
 		} else {
 			/* getWidget().removeStyleName("active"); */
 			myPopup.setVisible(false);
+			this.getElement().getStyle().setBorderColor("#dcdcdc");
 			EuclidianStyleBarW.setCurrentPopup(null);
+			EuclidianStyleBarW.setCurrentPopupButton(null);
 		}
 	}
 	
@@ -584,5 +618,23 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public void setChangeEventHandler(StyleBarW2 handler){
 		this.changeEventHandler = handler;
+	}
+
+	/**
+	 * @param handler
+	 *            - mouse out
+	 * @return handler
+	 */
+	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+		return addDomHandler(handler, MouseOutEvent.getType());
+	}
+
+	/**
+	 * @param handler
+	 *            - mouse over
+	 * @return handler
+	 */
+	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+		return addDomHandler(handler, MouseOverEvent.getType());
 	}
 }

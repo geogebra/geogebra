@@ -202,13 +202,17 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 				this.setIcon(
 						GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
 			}
-			this.getElement().getStyle().setBorderColor(gc.toString());
+			if (!app.isUnbundled()) {
+				this.getElement().getStyle().setBorderColor(gc.toString());
+			}
 		} else {
 			this.setIcon(GeoGebraIconW.createNullSymbolIcon());
-			this.getElement().getStyle()
+			if (!app.isUnbundled()) {
+				this.getElement().getStyle()
 					.setBorderColor(this.app.isUnbundled()
 							? GColor.newColor(220, 220, 220, 255).toString()
 							: GColor.BLACK.toString());
+			}
 		}
 	}
 

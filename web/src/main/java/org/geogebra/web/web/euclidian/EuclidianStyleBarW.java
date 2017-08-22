@@ -76,6 +76,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private static ButtonPopupMenu currentPopup = null;
+	private static PopupMenuButtonW currentPopupBtn = null;
 	private EuclidianController ec;
 	protected EuclidianView ev;
 	private Construction cons;
@@ -2046,6 +2047,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	public static void setCurrentPopup(ButtonPopupMenu currentPopup) {
 		EuclidianStyleBarW.currentPopup = currentPopup;
+	}
+
+	public static PopupMenuButtonW getCurrentPopupButton() {
+		return currentPopupBtn;
+	}
+
+	public static void setCurrentPopupButton(PopupMenuButtonW currentPopupBtn) {
+		EuclidianStyleBarW.currentPopupBtn = currentPopupBtn;
 	}
 
 	@Override
