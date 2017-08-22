@@ -6394,41 +6394,46 @@ namespace giac {
       const_iterateur st=sols.begin(),stend=sols.end();
       for (;st!=stend;++st){
 	int foundvars=int(st->_VECTptr->size());
-	vecteur current=*st->_VECTptr;
-	gen curg=ratnormal(ratnormal(subst(g,vecteur(var.end()-foundvars,var.end()),*st,false,contextptr),contextptr),contextptr);
-	gen x;
-	int xpos=0;
-	// First search in current an identifier curg depends on
-	for (;xpos<foundvars;++xpos){
-	  x=current[xpos];
-	  if (x==var[s-foundvars+xpos] && !is_zero(derive(curg,x,contextptr),contextptr) )
-	    break;
-	}
-	if (xpos==foundvars){
-	  xpos=0;
-	  // find next var g depends on 
-	  for (;foundvars<s;++foundvars){
-	    x=var[s-foundvars-1];
-	    current.insert(current.begin(),x);
-	    if (!is_zero(derive(curg,x,contextptr),contextptr))
+	gen curgf=_factors(ratnormal(ratnormal(subst(g,vecteur(var.end()-foundvars,var.end()),*st,false,contextptr),contextptr),contextptr),contextptr);
+	if (curgf.type!=_VECT) return vecteur(1,gensizeerr(contextptr));
+	const_iterateur curgfit=curgf._VECTptr->begin(),curgfend=curgf._VECTptr->end();
+	for (;curgfit!=curgfend;curgfit+=2){
+	  vecteur current=*st->_VECTptr;
+	  gen curg=*curgfit;
+	  gen x;
+	  int xpos=0;
+	  // First search in current an identifier curg depends on
+	  for (;xpos<foundvars;++xpos){
+	    x=current[xpos];
+	    if (x==var[s-foundvars+xpos] && !is_zero(derive(curg,x,contextptr),contextptr) )
 	      break;
 	  }
-	  if (s==foundvars){
-	    if (is_zero(simplify(curg,contextptr),contextptr))
-	      newsols.push_back(current);
-	    continue;
+	  if (xpos==foundvars){
+	    xpos=0;
+	    // find next var g depends on 
+	    for (;foundvars<s;++foundvars){
+	      x=var[s-foundvars-1];
+	      current.insert(current.begin(),x);
+	      if (!is_zero(derive(curg,x,contextptr),contextptr))
+		break;
+	    }
+	    if (s==foundvars){
+	      if (is_zero(simplify(curg,contextptr),contextptr))
+		newsols.push_back(current);
+	      continue;
+	    }
 	  }
-	}
-	// solve
-	vecteur xsol(solve(curg,*x._IDNTptr,complexmode,contextptr));
-	const_iterateur xt=xsol.begin(),xtend=xsol.end();
-	for (;xt!=xtend;++xt){
-	  // current[xpos]=*xt;
-	  newsols.push_back(subst(current,*x._IDNTptr,*xt,false,contextptr));
-	}
+	  // solve
+	  vecteur xsol(solve(curg,*x._IDNTptr,complexmode,contextptr));
+	  const_iterateur xt=xsol.begin(),xtend=xsol.end();
+	  for (;xt!=xtend;++xt){
+	    // current[xpos]=*xt;
+	    newsols.push_back(subst(current,*x._IDNTptr,*xt,false,contextptr));
+	  }
+	} // end for curfit!=curfitend
       } // end for (;st!=stend;)
       sols=newsols;
-    }
+    } // end for jt!=jtend
     // Add var at the beginning of each solution of sols if needed
     it=sols.begin(); 
     itend=sols.end();
