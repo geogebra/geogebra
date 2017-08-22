@@ -160,9 +160,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 				.getOnScreenKeyboard(tfName, null);
 		getMyPopup().addAutoHidePartner(kbd.getElement());
 		setLabels();
-
 	}
-
 
 	/**
 	 * Submit the change

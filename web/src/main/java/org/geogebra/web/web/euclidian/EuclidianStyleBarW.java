@@ -43,6 +43,7 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.color.ColorPopupMenuButton;
 import org.geogebra.web.web.gui.color.FillingStyleButton;
 import org.geogebra.web.web.gui.color.MOWColorButton;
@@ -55,6 +56,7 @@ import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.util.PointStylePopup;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW2;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -608,6 +610,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			
 			@Override
 			public void onClick(Widget source) {
+				// force closing keyboard
+				getFrame().showKeyBoard(false, null, true);
 				if (app.has(Feature.DELETE_BUTTON_BEHAVIOR_FIX)) {
 					boolean deletePoints = true;
 					for (int i = activeGeoList.size() - 1; i >= 0; i--) {
@@ -637,6 +641,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
 		add(btnDelete);
+	}
+
+	/**
+	 * @return the frame with casting.
+	 */
+	GeoGebraFrameBoth getFrame() {
+		return ((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame());
 	}
 
 	/**
