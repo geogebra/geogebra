@@ -10,7 +10,9 @@ import org.geogebra.common.util.StringUtil;
 public class LabelManager {
 
 	/**
-	 * Checks whether name can be used as label
+	 * Checks whether name can be used as label Parser.parseLabel takes care of
+	 * checking unicode ranges and indices; this only checks for reserved names
+	 * and CAS labels
 	 * 
 	 * @param geo
 	 *            geo to be checked
@@ -36,13 +38,8 @@ public class LabelManager {
 			}
 		}
 
-		// first character can't be a digit
-		if (Character.isDigit(name.charAt(0))) {
-			return false;
-		}
-
-		if (!com.himamis.retex.editor.share.input.Character
-				.areLettersOrDigits(name)) {
+		// $1 is a valid label for CAS cells, not other geos
+		if (name.charAt(0) == '$' && !geo.isGeoCasCell()) {
 			return false;
 		}
 

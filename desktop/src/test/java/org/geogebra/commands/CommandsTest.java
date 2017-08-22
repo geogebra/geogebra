@@ -1155,6 +1155,21 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdRename() {
+		t("Rename[ 6*7, \"a\" ]", new String[0]);
+		Assert.assertEquals(
+				get("a").toValueString(StringTemplate.defaultTemplate), "42");
+		t("Rename[ a, \"b\" ]", new String[0]);
+		Assert.assertEquals(
+				get("b").toValueString(StringTemplate.defaultTemplate), "42");
+		Assert.assertNull(get("a"));
+		t("Rename[ b, \"  cc  d  \" ]", new String[0]);
+		Assert.assertEquals(
+				get("cc").toValueString(StringTemplate.defaultTemplate), "42");
+		Assert.assertNull(get("b"));
+	}
+
+	@Test
 	public void plusMinus(){
 		tpm("1pm2","{3, -1}");
 		tpm("1pm2pm4","{7, -5}");
@@ -1174,12 +1189,12 @@ public class CommandsTest extends Assert{
 	@Test
 	public void expandedFractionIsNotUsedForEvaluation() {
 		t("a=(1+1/143)^143", "2.708837868759473");
-		((GeoNumeric) app.getKernel().lookupLabel("a")).setSymbolicMode(true,
+		((GeoNumeric) get("a")).setSymbolicMode(true,
 				true);
 		t("a", "2.708837868759473");
 
 		t("b=(1+1/400)^400", "2.7148917443812293");
-		((GeoNumeric) app.getKernel().lookupLabel("b")).setSymbolicMode(true,
+		((GeoNumeric) get("b")).setSymbolicMode(true,
 				true);
 		t("b", "2.7148917443812293");
 	}

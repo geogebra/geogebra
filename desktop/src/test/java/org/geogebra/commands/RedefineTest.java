@@ -49,7 +49,7 @@ public class RedefineTest extends Assert {
 				.processAlgebraCommandNoExceptionHandling(s, false, errorStore,
 						false, null);
 
-		assertTrue(msg.equals(errorStore.getErrors()));
+		assertEquals(msg, errorStore.getErrors());
 
 	}
 
@@ -90,5 +90,11 @@ public class RedefineTest extends Assert {
 		kernel.getAlgebraProcessor().changeGeoElement(kernel.lookupLabel("a_1"),
 				"a_{1}: Segment(A, B, poly1)", true, true,
 				new TestErrorHandler(), null);
+	}
+
+	@Test
+	public void cmdRename() {
+		checkError("Rename[ 6*7, \"$7\" ]",
+				"Command Rename:\nIllegal argument: Text \"$7\"\n\nSyntax:\nRename( <Object>, <Name> )");
 	}
 }

@@ -1574,12 +1574,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdRename() {
-		t("Rename[ obj, txt+letter ]");
-		t("Rename[ GeoGebraX, \"obj\" ]");
-	}
-
-	@Test
 	public void cmdResidualPlot() {
 		t("ResidualPlot[ ptlist1, f1 ]");
 	}
