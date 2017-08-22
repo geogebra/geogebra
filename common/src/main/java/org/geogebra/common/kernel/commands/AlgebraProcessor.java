@@ -102,6 +102,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
@@ -2596,15 +2597,17 @@ public class AlgebraProcessor {
 			line.setToExplicit();
 		}
 		line.showUndefinedInAlgebraView(true);
-		setEquationLabelAndColor(line, label);
+		setEquationLabelAndVisualStyle(line, label);
 
 		return array(line);
 	}
 
-	protected void setEquationLabelAndColor(GeoElementND line, String label) {
+	protected void setEquationLabelAndVisualStyle(GeoElementND line, String label) {
 		if (app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 				&& kernel.getApplication().isUnbundledGraphing()) {
 			line.setObjColor(cons.getConstructionDefaults().getNextColor());
+			line.setLineOpacity(
+					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
 		line.setLabel(label);
 	}
@@ -2659,7 +2662,7 @@ public class AlgebraProcessor {
 			conic.setToSpecific();
 		}
 		conic.setDefinition(def);
-		setEquationLabelAndColor(conic, label);
+		setEquationLabelAndVisualStyle(conic, label);
 
 		return array(conic);
 	}
@@ -2707,7 +2710,7 @@ public class AlgebraProcessor {
 			geo.setDefinition(definition);
 		}
 		// AbstractApplication.debug("User Input: "+equ);
-		setEquationLabelAndColor(geo, label);
+		setEquationLabelAndVisualStyle(geo, label);
 		return array(geo);
 	}
 

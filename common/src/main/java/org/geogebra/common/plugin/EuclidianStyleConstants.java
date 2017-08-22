@@ -49,6 +49,7 @@ public class EuclidianStyleConstants {
 	/* default line opacity on Graphing app */
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY = 204; // 0.8*255
 	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY = 204; // 0.8*255
+	public static final int OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY = 204; // 0.8*255
 
 	public static final int DEFAULT_ANGLE_SIZE = 30;
 
