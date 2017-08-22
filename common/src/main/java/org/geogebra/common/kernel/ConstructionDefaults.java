@@ -338,9 +338,7 @@ public class ConstructionDefaults {
 					} else if (geo instanceof GeoConicPart) {
 						geo.setLineOpacity(
 								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_SECTOR);
-					} else if ((cons.getApplication()
-							.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-							&& cons.getApplication().isUnbundledGeometry())
+					} else if (cons.getApplication().isUnbundledGeometry()
 							&& (geo instanceof GeoLine
 									|| geo instanceof GeoSegment
 									|| geo instanceof GeoRay
@@ -349,6 +347,14 @@ public class ConstructionDefaults {
 									|| geo instanceof GeoConic)) {
 						geo.setLineOpacity(
 								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_GEOMETRY);
+					} else if (cons.getApplication().isUnbundledGraphing()
+							&& (geo instanceof GeoFunction)) {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_FUNCTION_GEOMETRY);
+					} else if (cons.getApplication().isUnbundledGraphing()
+							&& (geo instanceof GeoCurveCartesian)) {
+						geo.setLineOpacity(
+								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_CURVE_GEOMETRY);
 					} else {
 						geo.setLineOpacity(
 								EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY);
