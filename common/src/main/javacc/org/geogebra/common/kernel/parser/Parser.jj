@@ -1086,7 +1086,7 @@ ExpressionValue listopnode():
         {                       
             ret = new ExpressionNode(kernel, ret, Operation.IS_ELEMENT_OF, f);  
         }
-    )?
+    )*
     { 
       //ret.simplifyLeafs();
       return ret; 

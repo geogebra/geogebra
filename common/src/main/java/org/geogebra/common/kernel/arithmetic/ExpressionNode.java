@@ -2056,7 +2056,9 @@ public class ExpressionNode extends ValidExpression
 			default:
 				if (((leftStr.charAt(0) != '-') && // no unary
 						left.isLeaf())
-						|| (opID(left) > Operation.POWER.ordinal())) { // not +,
+						|| (opID(left) > Operation.POWER.ordinal()
+								&& opID(left) != Operation.FACTORIAL
+										.ordinal())) { // not +,
 					// -, *,
 					// /, ^
 					sb.append(leftStr);
@@ -2686,9 +2688,17 @@ public class ExpressionNode extends ValidExpression
 			}
 			break;
 		case PLUSMINUS:
-			sb.append(leftStr);
+			tpl.append(sb, leftStr, left, Operation.PLUSMINUS);
+
 			sb.append(Unicode.PLUSMINUS);
-			sb.append(rightStr);
+			if(right.isLeaf() || (ExpressionNode
+					.opID(right) >= Operation.VECTORPRODUCT.ordinal())) {
+				sb.append(rightStr);
+			} else {
+				sb.append(tpl.leftBracket());
+				sb.append(rightStr);
+				sb.append(tpl.rightBracket());
+			}
 			break;
 		case SQRT_SHORT:
 		case SQRT:

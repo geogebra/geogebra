@@ -1464,7 +1464,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append(rightBracket());
 			} else {
-				sb.append(leftStr);
+				append(sb, leftStr, left, Operation.PLUS);
 			}
 
 			// check for 0 at right

@@ -244,6 +244,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 						&& ((GeoElement) lt).isGeoSurfaceCartesian()) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
 				&& !operation.equals(Operation.DATA) // ditto
+				&& (operation != Operation.PLUSMINUS)
 				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg
 																				// {1,2}
 																				// +

@@ -95,22 +95,6 @@ public enum Operation {
 
 		}
 	},
-	NOT_EQUAL {
-		@Override
-		public ExpressionValue handle(ExpressionNodeEvaluator ev,
-				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(), lt,
-					rt);
-			// b can't be null here (findbugs)
-			// if (b == null) {
-			// return ev.illegalComparison(lt, rt,
-			// ExpressionNodeConstants.strNOT_EQUAL);
-			// }
-			b.setValue(!b.getBoolean());
-			return b;
-		}
-	},
 	NOT {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -129,6 +113,29 @@ public enum Operation {
 				return bool;
 			}
 			return ev.illegalBoolean(lt, ExpressionNodeConstants.strNOT);
+		}
+	},
+
+	IMPLICATION {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
+
+				BooleanValue a = ((BooleanValue) lt);
+				BooleanValue b = ((BooleanValue) rt);
+				boolean defined = a.isDefined() && b.isDefined();
+
+				MyBoolean bool = a.getMyBoolean();
+
+				bool.setValue(!a.getBoolean() || b.getBoolean());
+				bool.setDefined(defined);
+
+				return bool;
+			}
+			return ev.illegalBinary(lt, rt, "IllegalBoolean",
+					ExpressionNodeConstants.strNOT);
 		}
 	},
 	OR {
@@ -205,26 +212,20 @@ public enum Operation {
 			return AND.handle(ev, lt, rt, left, right, tpl, holdsLaTeX);
 		}
 	},
-	IMPLICATION {
+	NOT_EQUAL {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
-
-				BooleanValue a = ((BooleanValue) lt);
-				BooleanValue b = ((BooleanValue) rt);
-				boolean defined = a.isDefined() && b.isDefined();
-
-				MyBoolean bool = a.getMyBoolean();
-
-				bool.setValue(!a.getBoolean() || b.getBoolean());
-				bool.setDefined(defined);
-
-				return bool;
-			}
-			return ev.illegalBinary(lt, rt, "IllegalBoolean",
-					ExpressionNodeConstants.strNOT);
+			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(), lt,
+					rt);
+			// b can't be null here (findbugs)
+			// if (b == null) {
+			// return ev.illegalComparison(lt, rt,
+			// ExpressionNodeConstants.strNOT_EQUAL);
+			// }
+			b.setValue(!b.getBoolean());
+			return b;
 		}
 	},
 	EQUAL_BOOLEAN {
@@ -358,6 +359,34 @@ public enum Operation {
 					ExpressionNodeConstants.strPERPENDICULAR);
 		}
 	},
+	IS_SUBSET_OF {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof ListValue && rt instanceof ListValue) {
+				return new MyBoolean(ev.getKernel(),
+						MyList.listContains(((ListValue) rt).getMyList(),
+								((ListValue) lt).getMyList(), tpl));
+			}
+			return ev.illegalListOp(lt, rt,
+					ExpressionNodeConstants.strIS_SUBSET_OF);
+		}
+	},
+	IS_SUBSET_OF_STRICT {
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			if (lt instanceof ListValue && rt instanceof ListValue) {
+				return new MyBoolean(ev.getKernel(),
+						MyList.listContainsStrict(((ListValue) rt).getMyList(),
+								((ListValue) lt).getMyList(), tpl));
+			}
+			return ev.illegalListOp(lt, rt,
+					ExpressionNodeConstants.strIS_SUBSET_OF_STRICT);
+		}
+	},
 	IS_ELEMENT_OF {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -385,34 +414,6 @@ public enum Operation {
 
 			return ev.illegalListOp(lt, rt,
 					ExpressionNodeConstants.strIS_ELEMENT_OF);
-		}
-	},
-	IS_SUBSET_OF {
-		@Override
-		public ExpressionValue handle(ExpressionNodeEvaluator ev,
-				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return new MyBoolean(ev.getKernel(),
-						MyList.listContains(((ListValue) rt).getMyList(),
-								((ListValue) lt).getMyList(), tpl));
-			}
-			return ev.illegalListOp(lt, rt,
-					ExpressionNodeConstants.strIS_SUBSET_OF);
-		}
-	},
-	IS_SUBSET_OF_STRICT {
-		@Override
-		public ExpressionValue handle(ExpressionNodeEvaluator ev,
-				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return new MyBoolean(ev.getKernel(),
-						MyList.listContainsStrict(((ListValue) rt).getMyList(),
-								((ListValue) lt).getMyList(), tpl));
-			}
-			return ev.illegalListOp(lt, rt,
-					ExpressionNodeConstants.strIS_SUBSET_OF_STRICT);
 		}
 	},
 	SET_DIFFERENCE {
@@ -445,6 +446,40 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			return ev.handleMinus(lt, rt);
+
+		}
+	},
+	PLUSMINUS {
+
+		@Override
+		public ExpressionValue handle(ExpressionNodeEvaluator ev,
+				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
+				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
+			MyList ret=new MyList(ev.getKernel(),true);if(rt instanceof MyNumberPair){if(left.wrap().containsFreeFunctionVariable(null)){ret.addListElement(ev.getKernel().getAlgebraProcessor().makeFunctionNVar(MyList.get(left,0).wrap()));ret.addListElement(ev.getKernel().getAlgebraProcessor().makeFunctionNVar(MyList.get(left,1).wrap().multiplyR(-1)));}else{ret.addListElement(MyList.get(lt,0));ret.addListElement(ExpressionNode.unaryMinus(ev.getKernel(),MyList.get(lt,1)).evaluate(tpl));}}else{if(left.wrap().containsFreeFunctionVariable(null)||right.wrap().containsFreeFunctionVariable(null)){Log.debug(right);add(ret,MyList.get(left,0),MyList.get(right,0),Operation.PLUS);add(ret,MyList.get(left,1),MyList.get(right,1),Operation.MINUS);}else{ret.addListElement(ev.handlePlus(MyList.get(lt,0),MyList.get(rt,0),StringTemplate.defaultTemplate,false));
+
+	ret.addListElement(ev.handleMinus(MyList.get(lt,1),MyList.get(rt,1)));}}return ret;
+		}
+
+		private void add(MyList ret, ExpressionValue lt,
+				ExpressionValue rt, final Operation op) {
+			Traversing pmSimplifier = new Traversing() {
+
+				public ExpressionValue process(ExpressionValue ev) {
+					if (ev.isExpressionNode()) {
+						ExpressionNode en = (ExpressionNode) ev;
+						if (en.getOperation() == Operation.PLUSMINUS) {
+							en.setOperation(op);
+						}
+					}
+					return ev;
+				}
+
+			};
+			ret.addListElement(
+					ret.getKernel().getAlgebraProcessor()
+							.makeFunctionNVar(lt.wrap().apply(op, rt)
+									.deepCopy(ret.getKernel())
+									.traverse(pmSimplifier).wrap()));
 
 		}
 	},
@@ -1805,69 +1840,6 @@ public enum Operation {
 			}
 			return new MyVecNode(ev.getKernel(), MyList.getCell(list, 0, 0),
 					MyList.getCell(list, 0, 1));
-		}
-	},
-	PLUSMINUS {
-
-		@Override
-		public ExpressionValue handle(ExpressionNodeEvaluator ev,
-				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyList ret = new MyList(ev.getKernel(), true);
-			if (rt instanceof MyNumberPair) {
-				if (left.wrap().containsFreeFunctionVariable(null)) {
-					ret.addListElement(ev.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(MyList.get(left, 0).wrap()));
-					ret.addListElement(ev.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(
-									MyList.get(left, 1).wrap().multiplyR(-1)));
-				} else {
-					ret.addListElement(MyList.get(lt, 0));
-					ret.addListElement(ExpressionNode
-							.unaryMinus(ev.getKernel(), MyList.get(lt, 1))
-							.evaluate(tpl));
-				}
-			} else {
-				if(left.wrap().containsFreeFunctionVariable(null)
-						|| right.wrap().containsFreeFunctionVariable(null)) {
-					Log.debug(right);
-					add(ret, MyList.get(left, 0), MyList.get(right, 0),
-							Operation.PLUS);
-					add(ret, MyList.get(left, 1), MyList.get(right, 1),
-							Operation.MINUS);
-				} else {
-					ret.addListElement(
-							ev.handlePlus(MyList.get(lt, 0), MyList.get(rt, 0),
-							StringTemplate.defaultTemplate, false));
-
-					ret.addListElement(ev.handleMinus(MyList.get(lt, 1),
-							MyList.get(rt, 1)));
-				}
-			}
-			return ret;
-		}
-
-		private void add(MyList ret, ExpressionValue lt,
-				ExpressionValue rt, final Operation op) {
-			Traversing pmSimplifier = new Traversing() {
-
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev.isExpressionNode()) {
-						ExpressionNode en = (ExpressionNode) ev;
-						if (en.getOperation() == Operation.PLUSMINUS) {
-							en.setOperation(op);
-						}
-					}
-					return ev;
-				}
-
-			};
-			ret.addListElement(
-					ret.getKernel().getAlgebraProcessor()
-							.makeFunctionNVar(lt.wrap().apply(op, rt)
-									.deepCopy(ret.getKernel())
-									.traverse(pmSimplifier).wrap()));
-
 		}
 	};
 

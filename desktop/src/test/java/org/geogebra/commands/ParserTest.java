@@ -6,10 +6,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Locale;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -25,7 +29,7 @@ public class ParserTest {
 
 	@BeforeClass
 	public static void setupCas() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 	}
 	
@@ -142,6 +146,81 @@ public class ParserTest {
 			assertNotNull(e);
 		}
 			
+
+	}
+
+	@Test
+	public void priorityTest() {
+		Kernel kernel = app.getKernel();
+		for (Operation top : Operation.values()) {
+			if (!binary(top)) {
+				continue;
+			}
+			for (Operation bottom : Operation.values()) {
+				if (!binary(bottom)) {
+					continue;
+				}
+
+				ExpressionNode ex = new ExpressionNode(kernel,
+						new Variable(kernel, "a"), bottom,
+						new Variable(kernel, "b"));
+				ExpressionNode left = new ExpressionNode(kernel,
+						new Variable(kernel, "c"), top, ex);
+				checkStable(left);
+
+				ExpressionNode right = new ExpressionNode(kernel, ex, top,
+						new Variable(kernel, "c"));
+				checkStable(right);
+				ExpressionNode both = new ExpressionNode(kernel, ex, top,
+						ex);
+				checkStable(both);
+			}
+		}
+	}
+
+	private boolean binary(Operation op) {
+		// TODO Auto-generated method stub
+		return !Operation.isSimpleFunction(op) && op != Operation.IF_LIST
+				&& op != Operation.$VAR_COL && op != Operation.$VAR_ROW_COL
+				&& op != Operation.$VAR_ROW && op != Operation.XOR
+				&& op != Operation.AND_INTERVAL
+				&& op != Operation.ELEMENT_OF
+				&& op != Operation.DIFF
+				&& op != Operation.FREEHAND && op != Operation.DATA
+				&& op != Operation.MATRIXTOVECTOR
+				&& op != Operation.NO_OPERATION
+				&& op != Operation.MULTIPLY_OR_FUNCTION && op != Operation.BETA
+				&& op != Operation.BETA_INCOMPLETE
+				&& op != Operation.BETA_INCOMPLETE_REGULARIZED
+				&& op != Operation.GAMMA_INCOMPLETE_REGULARIZED
+				&& op != Operation.FUNCTION && op != Operation.FUNCTION_NVAR
+				&& op != Operation.VEC_FUNCTION && op != Operation.DERIVATIVE
+				&& op != Operation.IF
+				&& op != Operation.IF_ELSE && op != Operation.SUM;
+	}
+
+	private void checkStable(ExpressionNode left) {
+		String str = null;
+		try {
+			str = left.toString(StringTemplate.editTemplate);
+			// Log.debug(str);
+			ExpressionNode ve = (ExpressionNode) parseExpression(
+					str);
+			String combo = left.getOperation() + "," + ve.getOperation();
+
+			if ("SQRT_SHORT,SQRT".equals(combo) || "PLUS,MINUS".equals(combo)
+					|| "PLUS,PLUSMINUS".equals(combo)
+					|| "DIVIDE,MULTIPLY".equals(combo)
+					|| "VECTORPRODUCT,MULTIPLY".equals(combo)
+			) {
+				return;
+			}
+			Log.debug(str);
+			Assert.assertEquals(left.getOperation(), ve.getOperation());
+
+		} catch (ParseException e) {
+			Assert.fail(str);
+		}
 
 	}
 
