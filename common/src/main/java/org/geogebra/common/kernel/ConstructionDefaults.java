@@ -19,7 +19,6 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
-import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
