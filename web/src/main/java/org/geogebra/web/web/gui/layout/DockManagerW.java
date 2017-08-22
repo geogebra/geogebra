@@ -36,6 +36,7 @@ import org.geogebra.web.web.main.AppWapplet;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -1880,25 +1881,39 @@ public class DockManagerW extends DockManager {
 		ToolbarPanel toolbar = null;
 		if (app.isUnbundled()) {
 			toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
-			int h = AppW.getHeaderHeight();
-			Log.debug("[HH] header height: " + h);
 			avHeight = toolbar.isOpen() ? toolbar.getMinVHeight()
-					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT - h;
+					: ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 		} else {
 			appHeight -= GLookAndFeel.TOOLBAR_OFFSET;
 		}
+
 		double portraitDivider = kbHeight >= appHeight ? 1
 				: (avHeight) / (appHeight - kbHeight);
 
-		Log.debug("landscape: portraitDivider " + portraitDivider + ","
+		Log.debug("portraitDivider " + portraitDivider + ","
 				+ kbHeight + "," + avHeight);
 		if (app.isPortrait()) {
-			setDividerLocation(split, 1 - portraitDivider);
+			if (toolbar != null && toolbar.isClosed()) {
+				double height = app.getArticleElement().getDataParamHeight();
+				if (app.getArticleElement().getDataParamFitToScreen()) {
+					height = Window.getClientHeight();
+				}
+				if (app.smallScreen()) {
+					height += 36;
+				}
+				double d = 1 - (ToolbarPanel.CLOSED_HEIGHT_PORTRAIT
+						/ height);
+				setDividerLocation(split, d);
+
+			} else {
+				setDividerLocation(split, 1 - portraitDivider);
+			}
 		} else {
 			double ratio = landscapeRatio;
 			if (toolbar != null && !toolbar.isOpen()) {
 				ratio = ToolbarPanel.CLOSED_WIDTH_LANDSCAPE / app.getWidth();
 			}
+
 			setDividerLocation(split, ratio);
 		}
 
@@ -1909,6 +1924,7 @@ public class DockManagerW extends DockManager {
 		if (app.isPortrait()) {
 			split.setRightComponent(avPanel);
 			split.setLeftComponent(opposite);
+
 		} else {
 			split.setLeftComponent(avPanel);
 			split.setRightComponent(opposite);

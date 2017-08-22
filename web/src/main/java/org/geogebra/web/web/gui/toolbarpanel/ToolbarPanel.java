@@ -743,6 +743,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	/**
+	 * Just for convince.
+	 * 
+	 * @return if toolbar is closed or not.
+	 */
+	public boolean isClosed() {
+		return !isOpen();
+	}
+
+	/**
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameBoth getFrame() {
@@ -851,8 +860,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * Resize tabs.
 	 */
 	public void resize() {
-		int w = getOffsetWidth();
-		if (w == 0) {
+		if (getOffsetWidth() == 0) {
 			return;
 		}
 
