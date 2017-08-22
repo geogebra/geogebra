@@ -346,7 +346,7 @@ public class StepHelper {
 
 			if (isPower(so)) {
 				return true;
-			} else if (so.noOfOperands() == 2 && getPower(so.getSubTree(0)) != 0
+			} else if (isZero(constants) && so.noOfOperands() == 2 && getPower(so.getSubTree(0)) != 0
 					&& getPower(so.getSubTree(0)) == getPower(so.getSubTree(1))) {
 				return true;
 			}
@@ -471,16 +471,16 @@ public class StepHelper {
 		return false;
 	}
 
-	public static StepNode findTrigonometricVariable(StepNode sn) {
+	public static StepOperation findTrigonometricVariable(StepNode sn) {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
 			if (so.isTrigonometric()) {
-				return sn;
+				return (StepOperation) sn;
 			}
 
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				StepNode trigo = findTrigonometricVariable(so.getSubTree(i));
+				StepOperation trigo = findTrigonometricVariable(so.getSubTree(i));
 				if (trigo != null) {
 					return trigo;
 				}
@@ -492,7 +492,7 @@ public class StepHelper {
 	}
 
 	public static StepOperation linearInTrigonometric(StepNode sn) {
-		StepOperation trigoVar = (StepOperation) findTrigonometricVariable(sn);
+		StepOperation trigoVar = findTrigonometricVariable(sn);
 		int degree = degree(sn.deepCopy().replace(trigoVar, new StepVariable("x")));
 
 		if (degree == 1) {
@@ -503,7 +503,7 @@ public class StepHelper {
 	}
 
 	public static StepOperation quadraticInTrigonometric(StepNode sn) {
-		StepOperation trigoVar = (StepOperation) findTrigonometricVariable(sn);
+		StepOperation trigoVar = findTrigonometricVariable(sn);
 		int degree = degree(sn.deepCopy().replace(trigoVar, new StepVariable("x")));
 
 		if (degree == 2) {

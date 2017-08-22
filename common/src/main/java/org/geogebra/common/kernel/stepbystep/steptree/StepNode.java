@@ -392,6 +392,10 @@ public abstract class StepNode {
 		return subtract(a, new StepConstant(b));
 	}
 
+	public static StepNode subtract(double a, StepNode b) {
+		return subtract(new StepConstant(a), b);
+	}
+
 	public static StepNode minus(StepNode a) {
 		if (a == null) {
 			return null;

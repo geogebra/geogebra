@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class EquationSteps {
 	private Kernel kernel;
@@ -104,7 +105,6 @@ public class EquationSteps {
 		}
 
 		addOrSubtract(StepHelper.getCommon(LHS, RHS));
-		
 
 		StepNode bothSides = StepNode.add(LHS, RHS);
 
@@ -237,9 +237,10 @@ public class EquationSteps {
 
 		steps.levelUp();
 
-		if (isZero(LHS) && isZero(RHS)) {
+		if (LHS.equals(RHS)) {
 			if (interval == null) {
-				interval = new StepInterval(new StepConstant(Double.NEGATIVE_INFINITY), new StepConstant(Double.POSITIVE_INFINITY), false, false);
+				interval = new StepInterval(new StepConstant(Double.NEGATIVE_INFINITY), new StepConstant(Double.POSITIVE_INFINITY), false,
+						false);
 			}
 			steps.add(
 					loc.getMenuLaTeX("TrueForAllAInB", "The equation is true for all %0", variable.toString() + " \\in " + LaTeX(interval)),
@@ -301,7 +302,7 @@ public class EquationSteps {
 							LaTeX(solutions.get(i)) + " \\in " + LaTeX(interval)), SolutionStepTypes.COMMENT);
 				} else {
 					steps.add(loc.getMenuLaTeX("InvalidSolutionAbs", "%0 = %1", variable.toString(),
-							LaTeX(solutions.get(i)) +  " \\notin " + LaTeX(interval)), SolutionStepTypes.COMMENT);
+							LaTeX(solutions.get(i)) + " \\notin " + LaTeX(interval)), SolutionStepTypes.COMMENT);
 					solutions.remove(solutions.get(i));
 					i--;
 				}
@@ -335,8 +336,35 @@ public class EquationSteps {
 	private void solveTrigonometric() {
 		StepNode bothSides = StepNode.subtract(LHS, RHS).regroup();
 
+		StepNode argument = StepHelper.findTrigonometricVariable(bothSides).getSubTree(0);
+		StepNode sineSquared = StepNode.power(StepNode.apply(argument, Operation.SIN), 2);
+		StepNode cosineSquared = StepNode.power(StepNode.apply(argument, Operation.COS), 2);
+
+		StepNode coeffSineSquared = StepHelper.findCoefficient(bothSides, sineSquared);
+		StepNode coeffCosineSquared = StepHelper.findCoefficient(bothSides, cosineSquared);
+
+		if (coeffSineSquared != null && coeffSineSquared.equals(coeffCosineSquared)) {
+			addOrSubtract(StepNode.add(StepHelper.findVariable(RHS, sineSquared), StepHelper.findVariable(RHS, sineSquared)));
+
+			LHS = StepNode
+					.subtract(LHS, StepNode.add(StepHelper.findVariable(LHS, sineSquared), StepHelper.findVariable(LHS, cosineSquared)))
+					.regroup();
+			LHS = StepNode.add(LHS, StepNode.multiply(coeffSineSquared, StepNode.add(sineSquared, cosineSquared)));
+
+			if (!isOne(coeffSineSquared)) {
+				LHS = LHS.regroup();
+				RHS = RHS.regroup();
+				addStep();
+			}
+
+			replace(StepNode.add(sineSquared, cosineSquared), new StepConstant(1));
+			regroup();
+
+			bothSides = StepNode.subtract(LHS, RHS).regroup();
+		}
+
 		StepOperation trigoVar = StepHelper.linearInTrigonometric(bothSides);
-		
+
 		if (trigoVar != null) {
 			StepNode RHSlinear = StepHelper.findVariable(RHS, trigoVar);
 			addOrSubtract(RHSlinear);
@@ -348,9 +376,30 @@ public class EquationSteps {
 			divide(linearCoefficient);
 
 			solveSimpleTrigonometric(trigoVar, RHS);
+
+			return;
 		}
-		
+
 		trigoVar = StepHelper.quadraticInTrigonometric(bothSides);
+
+		if (trigoVar == null) {
+			Log.error(bothSides.deepCopy().replace(sineSquared, StepNode.subtract(1, cosineSquared)) + "");
+			trigoVar = StepHelper.quadraticInTrigonometric(bothSides.deepCopy().replace(sineSquared, StepNode.subtract(1, cosineSquared)));
+			if (trigoVar != null) {
+				replace(sineSquared, StepNode.subtract(1, cosineSquared));
+				regroup();
+			}
+		}
+
+		if (trigoVar == null) {
+			Log.error(bothSides.deepCopy().replace(cosineSquared, StepNode.subtract(1, sineSquared)) + "");
+			trigoVar = StepHelper.quadraticInTrigonometric(bothSides.deepCopy().replace(cosineSquared, StepNode.subtract(1, sineSquared)));
+			if (trigoVar != null) {
+				replace(cosineSquared, StepNode.subtract(1, sineSquared));
+				regroup();
+			}
+		}
+
 		if (trigoVar != null) {
 			StepVariable newVar = new StepVariable("t");
 			EquationSteps trigonometricReplaced = new EquationSteps(kernel, LHS.replace(trigoVar, newVar), RHS.replace(trigoVar, newVar),
@@ -368,8 +417,17 @@ public class EquationSteps {
 				steps.addAll(newCase.getSteps());
 				solutions.addAll(newCase.getSolutions());
 			}
+
+			return;
 		}
 
+	}
+
+	private void replace(StepNode from, StepNode to) {
+		steps.add(loc.getMenuLaTeX("ReplaceAWithB", "Replace %0 with %1", LaTeX(from), LaTeX(to)), SolutionStepTypes.INSTRUCTION);
+		LHS = LHS.replace(from, to);
+		RHS = RHS.replace(from, to);
+		addStep();
 	}
 
 	private void solveSimpleTrigonometric(StepOperation trigoVar, StepNode constant) {
@@ -385,11 +443,10 @@ public class EquationSteps {
 
 		Operation op = StepOperation.getInverse(trigoVar.getOperation());
 		StepNode newLHS = trigoVar.getSubTree(0);
-		
+
 		if (trigoVar.getOperation() == Operation.TAN) {
-			StepNode newRHS = StepNode.add(StepNode.apply(constant, op),
-					StepNode.multiply(new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER),
-							new StepConstant(Math.PI)));
+			StepNode newRHS = StepNode.add(StepNode.apply(constant, op), StepNode
+					.multiply(new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER), new StepConstant(Math.PI)));
 
 			EquationSteps tangent = new EquationSteps(kernel, newLHS, newRHS, variable);
 			tangent.setIntermediate();
@@ -399,11 +456,11 @@ public class EquationSteps {
 
 			return;
 		}
-		
+
 		StepNode newRHS = StepNode.add(StepNode.apply(constant, op),
 				StepNode.multiply(StepNode.multiply(2, new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER)),
 						new StepConstant(Math.PI)));
-		
+
 		EquationSteps firstBranch = new EquationSteps(kernel, newLHS, newRHS, variable);
 		if (isEqual(Math.abs(constant.getValue()), 1)) {
 			firstBranch.setIntermediate();
@@ -546,7 +603,7 @@ public class EquationSteps {
 			steps.addAll(es.getSteps());
 			solutions.addAll(es.getSolutions());
 		}
-		
+
 		return true;
 	}
 
@@ -624,8 +681,7 @@ public class EquationSteps {
 			steps.add(variable + " = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}", SolutionStepTypes.COMMENT);
 
 			String formula = "\\frac{" + LaTeX(StepNode.minus(b)) + "\\pm \\sqrt{" + LaTeX(discriminant) + "}}{"
-					+ LaTeX(StepNode.multiply(2, a))
-					+ "}";
+					+ LaTeX(StepNode.multiply(2, a)) + "}";
 			steps.add(variable + "_{1,2} = " + formula, SolutionStepTypes.EQUATION);
 			String simplifiedFormula = "\\frac{" + LaTeX(StepNode.minus(b).regroup()) + "\\pm \\sqrt{"
 					+ LaTeX(discriminant.deepCopy().regroup()) + "}}{" + LaTeX(StepNode.multiply(2, a).regroup()) + "}";
@@ -983,10 +1039,10 @@ public class EquationSteps {
 	}
 
 	private static boolean isSimpleFraction(StepNode sn) {
-		if(sn.isOperation(Operation.MINUS)) {
+		if (sn.isOperation(Operation.MINUS)) {
 			return isSimpleFraction(((StepOperation) sn).getSubTree(0));
-		} else if(sn.isOperation(Operation.DIVIDE)) {
-			if(((StepOperation) sn).getSubTree(1) instanceof StepConstant) {
+		} else if (sn.isOperation(Operation.DIVIDE)) {
+			if (((StepOperation) sn).getSubTree(1) instanceof StepConstant) {
 				double val = ((StepOperation) sn).getSubTree(1).getValue();
 				return 100 % val == 0;
 			}
