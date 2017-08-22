@@ -621,4 +621,8 @@ public class FormulaEditor extends View implements MathField {
     protected boolean appHasFeatureAND_KILL_TOOLBAR() {
         return false;
     }
+
+    protected boolean hasPreview() {
+        return mFormulaPreviewTeXIcon != null;
+    }
 }
