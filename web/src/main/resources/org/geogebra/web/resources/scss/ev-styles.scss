@@ -48,6 +48,10 @@
 			margin-right: 8px;
 			cursor: pointer;
 			
+			img , .buttonContent {
+				opacity: 0.7;	
+			}
+			
 			&:hover {
     			border:$purple-default solid 1px;
 			}
@@ -60,7 +64,7 @@
 				border: $tool-border solid 1px;
 				
 				.buttonContent {
-					opacity: 0.54;	
+					opacity: 0.7;	
 				}
 			
 				&:hover {
@@ -75,7 +79,7 @@
    	 		margin-right: 8px;
    	 		
 			img {
-				opacity: 0.54;
+				opacity: 0.7;
 			}	
 		
 			&:hover {
@@ -91,14 +95,13 @@
 			margin-right: 0px !important;
 			margin-left: 0px !important;
 			border: none !important;
-			opacity: 0.54;
 			
 			&.noOpacity, &.noOpacity:hover {
-				opacity: 1;	
+				opacity: 1 !important;	
 			}
 		
 			&:hover {
-				opacity: 1;		
+				opacity: 1 !important;		
 			}
 		
 		}
