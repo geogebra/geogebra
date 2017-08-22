@@ -202,6 +202,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
+	private boolean headerVisible = !AppW.smallScreen();
 
 	/**
 	 * @param ae
@@ -251,14 +252,24 @@ public abstract class AppW extends App implements SetLabels {
 	public void updateHeaderVisible() {
 		Element header = Dom.querySelector("GeoGebraHeader");
 		if (header != null) {
+			boolean visible = !AppW.smallScreen();
 			header.getStyle()
-					.setDisplay(
-							AppW.smallScreen() ? Display.NONE : Display.FLEX);
+					.setDisplay(visible ? Display.FLEX : Display.NONE);
+			if (headerVisible != visible) {
+				headerVisible = visible;
+				onHeaderVisible();
+			}
 		}
 
 
 	}
 
+	/**
+	 * Called if header visibility is changed.
+	 */
+	public void onHeaderVisible() {
+		// TODO listener (?)
+	}
 	/**
 	 * @return the height of external header
 	 */

@@ -63,6 +63,7 @@ import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.menubar.PerspectivesPopup;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.util.PopupBlockAvoider;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.dataCollection.DataCollection;
@@ -975,4 +976,13 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		getActiveEuclidianView()
 				.setKeepCenter(has(Feature.CENTER_STANDARD_VIEW));
 	}
+
+	@Override
+	public void onHeaderVisible() {
+		ToolbarPanel toolbar = ((GuiManagerW)getGuiManager()).getToolbarPanelV2();
+		if (isPortrait() && toolbar.isClosed()) {
+			toolbar.doCloseInPortrait();
+		}
+	}
+
 }

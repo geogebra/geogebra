@@ -1894,17 +1894,7 @@ public class DockManagerW extends DockManager {
 				+ kbHeight + "," + avHeight);
 		if (app.isPortrait()) {
 			if (toolbar != null && toolbar.isClosed()) {
-				double height = app.getArticleElement().getDataParamHeight();
-				if (app.getArticleElement().getDataParamFitToScreen()) {
-					height = Window.getClientHeight();
-				}
-				if (app.smallScreen()) {
-					height += 36;
-				}
-				double d = 1 - (ToolbarPanel.CLOSED_HEIGHT_PORTRAIT
-						/ height);
-				setDividerLocation(split, d);
-
+				closePortrait(split, toolbar);
 			} else {
 				setDividerLocation(split, 1 - portraitDivider);
 			}
@@ -1933,6 +1923,37 @@ public class DockManagerW extends DockManager {
 		if (toolbar != null) {
 			toolbar.onOrientationChange();
 		}
+	}
+
+	public void closePortrait() {
+		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
+		if (avPanel == null) {
+			return;
+		}
+
+		DockSplitPaneW split = avPanel.getParentSplitPane();
+		if (split == null || split != getRoot()) {
+			return;
+		}
+		ToolbarPanel toolbar = ((ToolbarDockPanelW) avPanel).getToolbar();
+		closePortrait(split, toolbar);
+	}
+
+	public void closePortrait(DockSplitPaneW split, ToolbarPanel toolbar) {
+		if (toolbar == null || toolbar.isOpen()) {
+			return;
+		}
+
+		double height = app.getArticleElement().getDataParamHeight();
+		if (app.getArticleElement().getDataParamFitToScreen()) {
+			height = Window.getClientHeight();
+		}
+		if (app.smallScreen()) {
+			height += 36;
+		}
+
+		double ratio = 1 - (ToolbarPanel.CLOSED_HEIGHT_PORTRAIT / height);
+		setDividerLocation(split, ratio);
 	}
 
 	private void calculateKeyboardHeight() {

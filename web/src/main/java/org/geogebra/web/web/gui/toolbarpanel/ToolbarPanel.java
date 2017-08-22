@@ -20,6 +20,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
@@ -1032,5 +1033,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public void setLabels() {
 		header.setLabels();
 
+	}
+
+	public void doCloseInPortrait() {
+		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
+				.getDockManager();
+		dm.closePortrait();
 	}
 }
