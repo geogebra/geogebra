@@ -1126,10 +1126,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							}
 						}
 
-						if (hasFillable) {
-							setTitle(loc.getMenu("stylebar.ColorTransparency"));
-						} else {
-							setTitle(loc.getMenu("stylebar.Color"));
+						if (!app.isUnbundled()) {
+							if (hasFillable) {
+								setTitle(loc
+										.getMenu("stylebar.ColorTransparency"));
+							} else {
+								setTitle(loc.getMenu("stylebar.Color"));
+							}
 						}
 
 						setSliderVisible(hasFillable);
@@ -1228,10 +1231,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							}
 						}
 
-						if (hasFillable) {
-							setTitle(loc.getMenu("stylebar.ColorTransparency"));
-						} else {
-							setTitle(loc.getMenu("stylebar.Color"));
+						if (!app.isUnbundled()) {
+							if (hasFillable) {
+								setTitle(loc
+										.getMenu("stylebar.ColorTransparency"));
+							} else {
+								setTitle(loc.getMenu("stylebar.Color"));
+							}
 						}
 
 						setSliderVisible(hasFillable);
@@ -1318,10 +1324,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							}
 						}
 
-						if (hasFillable) {
-							setTitle(loc.getMenu("stylebar.ColorTransparency"));
-						} else {
-							setTitle(loc.getMenu("stylebar.Color"));
+						if (!app.isUnbundled()) {
+							if (hasFillable) {
+								setTitle(loc
+										.getMenu("stylebar.ColorTransparency"));
+							} else {
+								setTitle(loc.getMenu("stylebar.Color"));
+							}
 						}
 
 						boolean enableFill = hasFillable && !alphaOnly;
@@ -2021,7 +2030,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * set tool tips
 	 */
 	protected void setToolTips() {
-
+		if (app.isUnbundled()) {
+			return;
+		}
 		setAxesAndGridToolTips(loc);
 		btnStandardView.setToolTipText(loc
 		        .getPlainTooltip("stylebar.ViewDefault"));
