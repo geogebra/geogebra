@@ -20,6 +20,7 @@ import java.util.Set;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
@@ -587,6 +588,7 @@ public class ConstructionDefaults {
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 				&& cons.getApplication().isUnbundledGeometry()) {
 			angle.labelMode = GeoElement.LABEL_VALUE;
+			angle.setAngleStyle(AngleStyle.NOTREFLEX);
 		}
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 
