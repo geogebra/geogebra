@@ -31,6 +31,7 @@ public class EuclidianStyleConstants {
 	 */
 	public static final int DEFAULT_POINT_SIZE_DEPENDENT = 4;
 
+	/* default size of dependent point in Graphing Calculator */
 	public static final int DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING = 5;
 
 	public static final int DEFAULT_LINE_THICKNESS = 5;
