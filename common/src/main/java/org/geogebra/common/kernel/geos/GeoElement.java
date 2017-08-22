@@ -4992,7 +4992,7 @@ public abstract class GeoElement extends ConstructionElement
 	final public String getLongDescriptionHTML(final boolean colored,
 			final boolean addHTMLtag) {
 		if ((algoParent == null) || this instanceof TextValue
-				|| this instanceof GeoPenStroke) {
+				|| this instanceof GeoPenStroke || this instanceof GeoPointND) {
 			return getNameDescriptionHTML(colored, addHTMLtag);
 		}
 		final StringBuilder sbLongDescHTML = new StringBuilder();
