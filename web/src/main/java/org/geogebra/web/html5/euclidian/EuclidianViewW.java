@@ -1050,7 +1050,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setToolTipText(String plainTooltip) {
-		ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);
+		if (!app.isUnbundled()
+				|| (app.isUnbundled() && !isDynStyleBarVisible())) {
+			ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);
+		}
 	}
 
 	private void setResizeXAxisCursor() {
