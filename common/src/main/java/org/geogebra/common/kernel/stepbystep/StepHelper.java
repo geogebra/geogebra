@@ -74,7 +74,8 @@ public class StepHelper {
 								&& StepOperation.closeToAnInteger(newDenominator.getValue())) {
 							long a = (long) denominator.getValue();
 							long b = (long) newDenominator.getValue();
-							denominator = new StepConstant((a * b) / StepNode.gcd(a, b));
+							long denominatorValue = (a * b) / StepNode.gcd(a, b);
+							denominator = new StepConstant(denominatorValue);
 						} else {
 							denominator = LCM(denominator, newDenominator, kernel);
 						}
@@ -615,7 +616,7 @@ public class StepHelper {
 		} else if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
-			if(so.isInverseTrigonometric() || so.isInverseTrigonometric()) {
+			if (so.isTrigonometric() || so.isInverseTrigonometric()) {
 				if(so.isConstant()) {
 					return 0;
 				}

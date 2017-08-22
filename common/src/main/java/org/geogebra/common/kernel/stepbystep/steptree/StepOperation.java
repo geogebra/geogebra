@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class StepOperation extends StepNode {
 	private List<StepNode> subtrees;
@@ -358,109 +359,57 @@ public class StepOperation extends StepNode {
 
 	@Override
 	public StepNode regroup() {
-		boolean changed = true;
 		StepNode sn = this;
-
-		// Log.error("Regroup: ");
-		// Log.error(toString());
 
 		if (sn.isOperation()) {
 			((StepOperation) sn).sort();
 		}
 
-		while (changed) {
-			changed = false;
+		Boolean[] changed = new Boolean[] { true };
+		Boolean[] temp = new Boolean[] { false };
 
-			Boolean[] temp = new Boolean[] { false };
+		while (changed[0]) {
+			changed[0] = false;
+			temp[0] = false;
+
+			// Log.error("Regroup: ");
+			// Log.error(sn.toString());
 
 			sn = doubleMinus(sn, temp);
-			if (temp[0]) {
-				// Log.error("DoubleMinus");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "DoubleMinus", temp, changed);
 
 			sn = trivialPowers(sn, temp);
-			if (temp[0]) {
-				// Log.error("TrivialPowers");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "TrivialPowers", temp, changed);
 
 			sn = distributeMinus(sn, temp);
-			if (temp[0]) {
-				// Log.error("MinusDistributed");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "MinusDistributed", temp, changed);
 
 			sn = minusConstant(sn, temp);
-			if (temp[0]) {
-				// Log.error("MinusConstant");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "MinusConstant", temp, changed);
 
 			sn = factorConstant(sn, temp);
-			if (temp[0]) {
-				// Log.error("FactorConstant");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "FactorConstant", temp, changed);
 
 			sn = regroupProducts(sn, temp);
-			if (temp[0]) {
-				// Log.error("ProductsRegrouped");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "ProductsRegrouped", temp, changed);
 
 			sn = regroupSums(sn, temp);
-			if (temp[0]) {
-				// Log.error("RegroupedSums");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "RegroupedSums", temp, changed);
 
 			sn = addFractions(sn, temp);
-			if (temp[0]) {
-				// Log.error("FractionsAdded");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "FractionsAdded", temp, changed);
 
 			sn = squaringMinuses(sn, temp);
-			if (temp[0]) {
-				// Log.error("MinusesSquared");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "MinusesSquared", temp, changed);
 
 			sn = sameRootAsPower(sn, temp);
-			if (temp[0]) {
-				// Log.error("SameRootAsPower");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
+			regroupStep(sn, "SameRootAsPower", temp, changed);
+
+			sn = nicerFractions(sn, temp);
+			regroupStep(sn, "FractionsNicened", temp, changed);
 
 			sn = calculateInverseTrigo(sn, temp);
-			if (temp[0]) {
-				// Log.error("inverseTrigoCalculated");
-				// Log.error(sn.toString());
-				temp[0] = false;
-				changed = true;
-			}
-
+			regroupStep(sn, "InverseTrigoCalculated", temp, changed);
 		}
 		// Log.error("Done: ");
 		// Log.error(sn.toString());
@@ -470,6 +419,19 @@ public class StepOperation extends StepNode {
 		}
 		
 		return sn;
+	}
+
+	private static void regroupStep(StepNode sn, String text, Boolean[] temp, Boolean[] changed) {
+		final boolean printDebug = false;
+
+		if (temp[0]) {
+			if (printDebug) {
+				Log.error(text);
+				Log.error(sn.toString());
+			}
+			temp[0] = false;
+			changed[0] = true;
+		}
 	}
 
 	private static StepNode doubleMinus(StepNode sn, Boolean[] changed) {
@@ -486,6 +448,41 @@ public class StepOperation extends StepNode {
 			StepOperation toReturn = new StepOperation(so.getOperation());
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				toReturn.addSubTree(doubleMinus(so.getSubTree(i), changed));
+			}
+			return toReturn;
+		}
+
+		return sn;
+	}
+
+	private static StepNode nicerFractions(StepNode sn, Boolean[] changed) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.NROOT)) {
+				if (so.getSubTree(0).isOperation(Operation.DIVIDE)) {
+					changed[0] = true;
+
+					StepNode nominator = StepNode.root(((StepOperation) so.getSubTree(0)).getSubTree(0), so.getSubTree(1));
+					StepNode denominator = StepNode.root(((StepOperation) so.getSubTree(0)).getSubTree(1), so.getSubTree(1));
+					
+					return nicerFractions(StepNode.divide(nominator, denominator), changed);
+				}
+			} else if(so.isOperation(Operation.DIVIDE)) {
+				if (so.getSubTree(1).isOperation(Operation.NROOT)
+						&& isEqual(((StepOperation) so.getSubTree(1)).getSubTree(1).getValue(), 2)) {
+					changed[0] = true;
+
+					StepNode nominator = StepNode.multiply(so.getSubTree(0), so.getSubTree(1));
+					StepNode denominator = ((StepOperation) so.getSubTree(1)).getSubTree(0);
+
+					return nicerFractions(StepNode.divide(nominator, denominator), changed);
+				}
+			}
+
+			StepOperation toReturn = new StepOperation(so.getOperation());
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				toReturn.addSubTree(nicerFractions(so.getSubTree(i), changed));
 			}
 			return toReturn;
 		}
@@ -614,11 +611,11 @@ public class StepOperation extends StepNode {
 				
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (coefficients[i].getValue() != 0) {
-						if (coefficients[i].getValue() == 1) {
+						if (isEqual(coefficients[i].getValue(), 1)) {
 							newSum.addSubTree(variables[i]);
-						} else if (variables[i].getValue() == 1) {
+						} else if (isEqual(variables[i].getValue(), 1)) {
 							newSum.addSubTree(coefficients[i]);
-						} else if (coefficients[i].getValue() == -1) {
+						} else if (isEqual(coefficients[i].getValue(), -1)) {
 							newSum.addSubTree(StepNode.minus(variables[i]));
 						} else {
 							newSum.addSubTree(StepNode.multiply(coefficients[i], variables[i]));
@@ -786,13 +783,17 @@ public class StepOperation extends StepNode {
 				double nominator = 1;
 				double denominator = 1;
 				for (int i = 0; i < bases.size(); i++) {
-					if (bases.get(i).nonSpecialConstant() && exponents.get(i).getValue() == 1) {
+					if (bases.get(i).nonSpecialConstant() && isEqual(exponents.get(i).getValue(), 1)) {
 						nominator *= bases.get(i).getValue();
 						exponents.set(i, new StepConstant(0));
-					} else if (bases.get(i).nonSpecialConstant() && exponents.get(i).getValue() == -1) {
+					} else if (bases.get(i).nonSpecialConstant() && isEqual(exponents.get(i).getValue(), -1)) {
 						denominator *= bases.get(i).getValue();
 						exponents.set(i, new StepConstant(0));
-					} else if (exponents.get(i).getValue() != 0) {
+					}
+				}
+
+				for (int i = 0; i < bases.size(); i++) {
+					if (!isEqual(exponents.get(i).getValue(), 0)) {
 						for (int j = i + 1; j < bases.size(); j++) {
 							if (bases.get(i).equals(bases.get(j))) {
 								exponents.set(i, StepNode.add(exponents.get(i), exponents.get(j)));
@@ -816,13 +817,15 @@ public class StepOperation extends StepNode {
 				StepNode soNominator = null;
 				StepNode soDenominator = null;
 				for (int i = 0; i < bases.size(); i++) {
-					if (exponents.get(i).getValue() != 0 && bases.get(i).getValue() != 1) {
-						if (exponents.get(i).getValue() == 1) {
+					if (!isEqual(exponents.get(i).getValue(), 0) && !isEqual(bases.get(i).getValue(), 1)) {
+						if (isEqual(exponents.get(i).getValue(), 1)) {
 							soNominator = StepNode.multiply(bases.get(i), soNominator);
-						} else if (exponents.get(i).getValue() == -1) {
+						} else if (isEqual(exponents.get(i).getValue(), -1)) {
 							soDenominator = StepNode.multiply(bases.get(i), soDenominator);
-						} else if (exponents.get(i).getValue() == 0.5) {
+						} else if (isEqual(exponents.get(i).getValue(), 0.5)) {
 							soNominator = StepNode.multiply(StepNode.root(bases.get(i), 2), soNominator);
+						} else if (isEqual(exponents.get(i).getValue(), -0.5)) {
+							soDenominator = StepNode.multiply(StepNode.root(bases.get(i), 2), soDenominator);
 						} else {
 							soNominator = StepNode.multiply(StepNode.power(bases.get(i), exponents.get(i)), soNominator);
 						}
@@ -1026,23 +1029,29 @@ public class StepOperation extends StepNode {
 	}
 
 	private static StepNode inverseTrigoLookup(StepOperation so) {
-		String[] arguments = new String[] { "0", "(1)/(2)", "(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };
-		String[] argumentsTan = new String[] { "0", "nroot(3, 2)/3", "1", "nroot(3, 2)", "INF" };
+		String[] arguments = new String[] { "-1", "-(nroot(3, 2))/(2)", "-(nroot(2, 2))/(2)", "-(1)/(2)", "0", "(1)/(2)",
+				"(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };
+		String[] argumentsTan = new String[] { "", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1", "nroot(3, 2)", "" };
+		
 		StepNode pi = new StepConstant(Math.PI);
-		StepNode[] values = new StepNode[] { new StepConstant(0), StepNode.divide(pi, 6), StepNode.divide(pi, 4), StepNode.divide(pi, 3),
-				StepNode.divide(pi, 2) };
+		StepNode[] valuesSinTan = new StepNode[] { StepNode.minus(StepNode.divide(pi, 2)), StepNode.minus(StepNode.divide(pi, 3)),
+				StepNode.minus(StepNode.divide(pi, 4)), StepNode.minus(StepNode.divide(pi, 6)), new StepConstant(0), 
+				StepNode.divide(pi, 6), StepNode.divide(pi, 4), StepNode.divide(pi, 3), StepNode.divide(pi, 2) };
+		StepNode[] valuesCos = new StepNode[] { pi, StepNode.divide(StepNode.multiply(5, pi), 6),
+				StepNode.divide(StepNode.multiply(3, pi), 4), StepNode.divide(StepNode.multiply(2, pi), 3), StepNode.divide(pi, 2),
+				StepNode.divide(pi, 3), StepNode.divide(pi, 4), StepNode.divide(pi, 6), new StepConstant(0) };
 
 		String currentArgument = so.getSubTree(0).toString();
 		for (int i = 0; i < arguments.length; i++) {
 			if(currentArgument.equals(arguments[i])) {
 				if (so.isOperation(Operation.ARCSIN)) {
-					return values[i];
+					return valuesSinTan[i];
 				} else if (so.isOperation(Operation.ARCCOS)) {
-					return values[values.length - i - 1];
+					return valuesCos[i];
 				}
 			} else if (currentArgument.equals(argumentsTan[i])) {
 				if (so.isOperation(Operation.ARCTAN)) {
-					return values[i];
+					return valuesSinTan[i];
 				}
 			}
 		}
