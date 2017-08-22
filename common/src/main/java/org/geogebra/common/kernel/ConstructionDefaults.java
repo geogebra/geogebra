@@ -286,7 +286,7 @@ public class ConstructionDefaults {
 
 	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
-	private int dependentPointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
+	private int dependentPointSize;
 	private int angleSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
 	private float filling = DEFAULT_POLYGON_ALPHA;
 
@@ -301,10 +301,18 @@ public class ConstructionDefaults {
 	 */
 	public ConstructionDefaults(Construction cons2) {
 		this.cons = cons2;
+
+		dependentPointSize = (cons.getApplication()
+				.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGraphing())
+						? EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT_GRAPHING
+						: EuclidianStyleConstants.DEFAULT_POINT_SIZE_DEPENDENT;
+
 		// if (cons2.getApplication().has(Feature.DEFAULT_OBJECT_STYLES)) {
 		// lineThickness =
 		// EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_THICKNESS;
 		// }
+
 		createDefaultGeoElements();
 	}
 
