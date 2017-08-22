@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -584,6 +585,10 @@ public class ConstructionDefaults {
 		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE);
 		angle.setLineTypeHidden(
 				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGeometry()) {
+			angle.labelMode = GeoElement.LABEL_VALUE;
+		}
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 
 		// function
@@ -1130,7 +1135,12 @@ public class ConstructionDefaults {
 	 */
 	public void resetLabelModeDefaultGeos() {
 		for (GeoElement geo : defaultGeoElements.values()) {
-			geo.labelMode = GeoElement.LABEL_DEFAULT;
+			if (!cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+					|| !cons.getApplication()
+							.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+					|| !(geo instanceof GeoAngle)) {
+				geo.labelMode = GeoElement.LABEL_DEFAULT;
+			}
 			geo.setLabelVisible(true);
 		}
 	}
