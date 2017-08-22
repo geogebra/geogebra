@@ -1423,6 +1423,7 @@ __GGB__keysVar.fi.menu = {
     "Comma": "Pilkku",
     "Command": "Komento",
     "CommandName": "Komennon nimi",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Yhteinen tangentti kartioleikkauksille %0 ja %1",
     "ComparisonNotPossible": "N\xe4iden objektien vertaaminen ei ole mahdollista",
     "Compasses": "Harppi",

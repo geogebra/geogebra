@@ -1423,6 +1423,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Comma": "V\xedrgula",
     "Command": "Comando",
     "CommandName": "Nome do comando",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangente comum \xe0s circunfer\xeancias %0 e %1",
     "ComparisonNotPossible": "Lamento, mas n\xe3o \xe9 poss\xedvel comparar os objetos",
     "Compasses": "Compasso",

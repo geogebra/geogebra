@@ -1423,6 +1423,7 @@ __GGB__keysVar.it.menu = {
     "Comma": "Virgola",
     "Command": "Comando",
     "CommandName": "Nome comando",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangenti comuni alle coniche %0 e %1",
     "ComparisonNotPossible": "Non \xe8 possibile confrontare questi oggetti",
     "Compasses": "Compasso",

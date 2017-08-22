@@ -1423,6 +1423,7 @@ __GGB__keysVar.cs.menu = {
     "Comma": "\u010c\xe1rka",
     "Command": "P\u0159\xedkaz",
     "CommandName": "N\xe1zev p\u0159\xedkazu",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Spole\u010dn\xe1 te\u010dna kru\u017enic %0 a %1",
     "ComparisonNotPossible": "Tyto objekty bohu\u017eel nen\xed mo\u017en\xe9 porovnat.",
     "Compasses": "Kru\u017e\xedtko",

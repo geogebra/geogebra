@@ -1423,6 +1423,7 @@ __GGB__keysVar.fr.menu = {
     "Comma": "Virgule",
     "Command": "Commande",
     "CommandName": "Nom de commande",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangente commune aux coniques %0 et %1",
     "ComparisonNotPossible": "D\xe9sol\xe9, ces objets ne peuvent \xeatre compar\xe9s.",
     "Compasses": "Compas",

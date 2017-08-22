@@ -1423,6 +1423,7 @@ __GGB__keysVar.sk.menu = {
     "Comma": "\u010ciarka",
     "Command": "Pr\xedkaz",
     "CommandName": "N\xe1zov pr\xedkazu",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Spolo\u010dn\xe1 doty\u010dnica kru\u017en\xedc %0 a %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Kru\u017enica dan\xe1 polomerom a stredom",

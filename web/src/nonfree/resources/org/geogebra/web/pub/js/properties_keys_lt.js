@@ -1423,6 +1423,7 @@ __GGB__keysVar.lt.menu = {
     "Comma": "Kablelis",
     "Command": "Komanda",
     "CommandName": "Komandos pavadinimas",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Bendra apskritim\u0173 %0 ir %1 liestin\u0117",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Apskritimas fiksuoto ilgio spinduliu",

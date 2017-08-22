@@ -1423,6 +1423,7 @@ __GGB__keysVar.ta.menu = {
     "Comma": "\u0b95\u0bbe\u0bb2\u0bcd \u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf",
     "Command": "\u0b95\u0b9f\u0bcd\u0b9f\u0bb3\u0bc8",
     "CommandName": "\u0b95\u0b9f\u0bcd\u0b9f\u0bb3\u0bc8\u0baa\u0bcd \u0baa\u0bc6\u0baf\u0bb0\u0bcd",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Common tangent of conics %0 and %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0b95\u0bb5\u0bb0\u0bbe\u0baf\u0bae\u0bcd",

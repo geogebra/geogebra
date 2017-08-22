@@ -1423,6 +1423,7 @@ __GGB__keysVar.sv.menu = {
     "Comma": "Komma",
     "Command": "Kommando",
     "CommandName": "Kommandonamn",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Gemensam tangent till cirklarna %0 och %1",
     "ComparisonNotPossible": "Tyv\xe4rr, det g\xe5r inte att j\xe4mf\xf6ra dessa objekt",
     "Compasses": "Passare",

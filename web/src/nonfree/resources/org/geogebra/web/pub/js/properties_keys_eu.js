@@ -1423,6 +1423,7 @@ __GGB__keysVar.eu.menu = {
     "Comma": "Koma",
     "Command": "Komandoa",
     "CommandName": "Komandoaren izena",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "%0 eta %1 zirkunferentzien ukitzaile komunak",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Konpasa",

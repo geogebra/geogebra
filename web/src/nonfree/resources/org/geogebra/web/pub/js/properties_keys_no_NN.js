@@ -1423,6 +1423,7 @@ __GGB__keysVar.no_NN.menu = {
     "Comma": "Komma",
     "Command": "Kommando",
     "CommandName": "Namn p\xe5 kommando",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Felles tangent til sirklane %0 og %1",
     "ComparisonNotPossible": "Det g\xe5r dessverre ikkje \xe5 samanlikne desse objekta",
     "Compasses": "Passar",

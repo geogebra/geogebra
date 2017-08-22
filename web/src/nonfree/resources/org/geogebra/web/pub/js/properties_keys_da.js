@@ -1423,6 +1423,7 @@ __GGB__keysVar.da.menu = {
     "Comma": "Komma",
     "Command": "Kommando",
     "CommandName": "Navn p\xe5 kommandoen",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "F\xe6llestangent for keglesnittene %0 og %1",
     "ComparisonNotPossible": "De objekter kan ikke sammenlignes",
     "Compasses": "Passer",

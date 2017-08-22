@@ -1423,6 +1423,7 @@ __GGB__keysVar.et.menu = {
     "Comma": "Koma",
     "Command": "K\xe4sk",
     "CommandName": "K\xe4su nimetus",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Ringjoonte %0 ja %1 \xfchine puutuja",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Sirkel",

@@ -1423,6 +1423,7 @@ __GGB__keysVar.vi.menu = {
     "Comma": "D\u1ea5u ph\u1ea9y",
     "Command": "C\xe2u l\u1ec7nh",
     "CommandName": "T\xean l\u1ec7nh",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Ti\u1ebfp tuy\u1ebfn chung c\u1ee7a hai \u0111\u01b0\u1eddng tr\xf2n %0 v\xe0 %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Compa",

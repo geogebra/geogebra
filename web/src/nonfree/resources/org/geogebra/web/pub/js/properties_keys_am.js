@@ -1423,6 +1423,7 @@ __GGB__keysVar.am.menu = {
     "Comma": "\u1290\u1320\u120b \u1230\u1228\u12dd",
     "Command": "\u1275\u12a5\u12db\u12dd",
     "CommandName": "\u1275\u12d5\u12db\u12dd \u1235\u121d",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "\u12e8\u12ad\u1260\u1266\u127d %0 \u12a5\u1293 %1 \u12e8\u130b\u122b \u1273\u12ab\u12aa",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u12ae\u121d\u1353\u1235",

@@ -1423,6 +1423,7 @@ __GGB__keysVar.ro.menu = {
     "Comma": "Virgul\u0103",
     "Command": "Comand\u0103",
     "CommandName": "Nume comand\u0103",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangent\u0103 comun\u0103 a cercurilor %0 \u0219i %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Compas",

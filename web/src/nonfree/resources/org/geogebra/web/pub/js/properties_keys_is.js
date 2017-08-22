@@ -1423,6 +1423,7 @@ __GGB__keysVar.is.menu = {
     "Comma": "Komma",
     "Command": "Skipun",
     "CommandName": "Nafn skipunar",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Sameiginlegur snertill hringja %0 og %1",
     "ComparisonNotPossible": "\xdev\xed mi\xf0ur er ekki h\xe6gt a\xf0 bera saman \xfeessa hluti",
     "Compasses": "Hringfari",

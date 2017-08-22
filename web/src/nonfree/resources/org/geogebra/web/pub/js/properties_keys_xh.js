@@ -1423,6 +1423,7 @@ __GGB__keysVar.xh.menu = {
     "Comma": "iKoma",
     "Command": "Umyalelo",
     "CommandName": "iCommand name",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "I thanjenti yee conics u %0 kunye no %1",
     "ComparisonNotPossible": "uxolo awunokwazi uthelekisa eziobjects",
     "Compasses": "iKhampasi",

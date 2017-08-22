@@ -1423,6 +1423,7 @@ __GGB__keysVar.lv.menu = {
     "Comma": "Komats",
     "Command": "Komanda",
     "CommandName": "Komandas nosaukums",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Kop\u0113j\u0101 ri\u0146\u0137u %0 and %1 pieskare",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Cirkulis",

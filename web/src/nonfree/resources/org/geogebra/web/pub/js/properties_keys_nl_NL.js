@@ -1423,6 +1423,7 @@ __GGB__keysVar.nl_NL.menu = {
     "Comma": "Komma",
     "Command": "Commando",
     "CommandName": "Naam opdracht",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Gemeenschappelijk raaklijn van cirkels %0 en %1",
     "ComparisonNotPossible": "Je kunt deze objecten niet met elkaar vergelijken",
     "Compasses": "Passer",

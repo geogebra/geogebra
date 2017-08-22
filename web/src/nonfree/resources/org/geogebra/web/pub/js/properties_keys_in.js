@@ -1423,6 +1423,7 @@ __GGB__keysVar.in.menu = {
     "Comma": "Koma",
     "Command": "Perintah",
     "CommandName": "Nama Perintah",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Garis singgung bersama dari %0 dan %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Jangka",

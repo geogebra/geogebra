@@ -1423,6 +1423,7 @@ __GGB__keysVar.kn.menu = {
     "Comma": "Comma",
     "Command": "\u0c86\u0c9c\u0ccd\u0ca8\u0ccd\u0c9e\u0cc6",
     "CommandName": "Command name",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Common tangent of conics %0 and %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0ca6\u0cbf\u0c95\u0ccd\u0cb8\u0cc2\u0c9a\u0cbf",

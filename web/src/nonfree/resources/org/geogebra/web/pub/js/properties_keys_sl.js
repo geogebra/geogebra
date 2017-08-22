@@ -1423,6 +1423,7 @@ __GGB__keysVar.sl.menu = {
     "Comma": "vejica",
     "Command": "Ukaz",
     "CommandName": "Ime ukaza",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Skupna tangenta kro\u017enic %0 in %1",
     "ComparisonNotPossible": "\u017dal je te objekte nemogo\u010de primerjati",
     "Compasses": "Kro\u017enica s polmerom",

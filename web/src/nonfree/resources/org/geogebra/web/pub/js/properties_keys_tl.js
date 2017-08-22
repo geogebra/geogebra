@@ -1423,6 +1423,7 @@ __GGB__keysVar.tl.menu = {
     "Comma": "Comma",
     "Command": "Utos",
     "CommandName": "Command name",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Pangkaraniwang dikit ng mga bilog na %0 at %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Compass",

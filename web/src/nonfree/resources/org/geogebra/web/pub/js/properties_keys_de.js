@@ -1423,6 +1423,7 @@ __GGB__keysVar.de.menu = {
     "Comma": "Komma",
     "Command": "Befehl",
     "CommandName": "Befehlsname",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Gemeinsame Tangente der Kegelschnitte %0 und %1",
     "ComparisonNotPossible": "Entschuldigung, diese Objekte k\xf6nnen nicht verglichen werden.",
     "Compasses": "Zirkel",

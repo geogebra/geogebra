@@ -1423,6 +1423,7 @@ __GGB__keysVar.ji.menu = {
     "Comma": "\u05e7\u05d0\u05b8\u05de\u05e2",
     "Command": "\u05d1\u05d0\u05b7\u05e4\u05bf\u05e2\u05dc",
     "CommandName": "\u05d1\u05d0\u05b7\u05e4\u05bf\u05e2\u05dc\u05be\u05e0\u05d0\u05b8\u05de\u05e2\u05df",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "\u05e9\u05d5\u05ea\u05bc\u05e4\u05bf\u05d9\u05e9\u05e2\u05e8 \u05d8\u05d0\u05b7\u05e0\u05d2\u05e2\u05e0\u05d8 \u05e6\u05d5 \u05d3\u05d9 \u05e7\u05e8\u05f2\u05b7\u05d6\u05df %0 \u05d0\u05d5\u05df %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u05e6\u05d9\u05e8\u05e7\u05dc",

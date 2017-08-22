@@ -1423,6 +1423,7 @@ __GGB__keysVar.ko.menu = {
     "Comma": "\ucef4\ub9c8",
     "Command": "\uba85\ub839",
     "CommandName": "\uba85\ub839 \uc774\ub984",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "\uc6d0 %0 \uacfc %1 \uc758 \uacf5\ud1b5\uc811\uc120",
     "ComparisonNotPossible": "\uc8c4\uc1a1\ud558\uc9c0\ub9cc \uadf8 \ub300\uc0c1\ub4e4\uc740 \ube44\uad50\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4.",
     "Compasses": "\ucef4\ud37c\uc2a4",

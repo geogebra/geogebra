@@ -1423,6 +1423,7 @@ __GGB__keysVar.sq.menu = {
     "Comma": "Presje",
     "Command": "Komande",
     "CommandName": "Emer komande",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangjente e perbashket e rratheve %0 dhe %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Kompase(rrethore)",

@@ -1423,6 +1423,7 @@ __GGB__keysVar.tr.menu = {
     "Comma": "Virg\xfcl",
     "Command": "Komut",
     "CommandName": "Komut ad\u0131",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "%0 ve %1 \xe7emberlerinin ortak te\u011feti",
     "ComparisonNotPossible": "\xdczg\xfcn\xfcz, bu nesneleri kar\u015f\u0131la\u015ft\u0131rmak m\xfcmk\xfcn de\u011fil",
     "Compasses": "Pergel",

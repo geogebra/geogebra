@@ -1423,6 +1423,7 @@ __GGB__keysVar.ar_TN.menu = {
     "Comma": "\u0641\u0627\u0635\u0644",
     "Command": "\u0627\u0644\u0623\u0645\u0631",
     "CommandName": "\u0625\u0633\u0645 \u0627\u0644\u0623\u0645\u0631",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "\u0645\u064f\u0645\u0627\u0633 \u0645\u0634\u062a\u0631\u0643 \u0644\u0644\u062f\u0627\u0626\u0631\u062a\u064a\u0646 %0 \u0648 %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0628\u0631\u0643\u0627\u0631",

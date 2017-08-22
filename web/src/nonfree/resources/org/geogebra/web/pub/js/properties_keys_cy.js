@@ -1423,6 +1423,7 @@ __GGB__keysVar.cy.menu = {
     "Comma": "Coma",
     "Command": "Gorchymyn",
     "CommandName": "Enw'r gorchymyn",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangiad cyffredin cylchoedd %0 a %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Cwmpas",

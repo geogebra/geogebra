@@ -1423,6 +1423,7 @@ __GGB__keysVar.pl.menu = {
     "Comma": "Przecinek",
     "Command": "Polecenie",
     "CommandName": "Nazwa polecenia",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Wsp\xf3lna styczna do sto\u017ckowej %0 i %1",
     "ComparisonNotPossible": "Niestety, nie mo\u017cna por\xf3wnywa\u0107 tych obiekt\xf3w",
     "Compasses": "Cyrkiel",

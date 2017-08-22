@@ -1423,6 +1423,7 @@ __GGB__keysVar.gl.menu = {
     "Comma": "Coma",
     "Command": "Comando",
     "CommandName": "Nome do comando",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tanxente com\xfan \xe1s circunferencias %0 e %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "Comp\xe1s",

@@ -1423,6 +1423,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Comma": "Vessz\u0151",
     "Command": "Parancs",
     "CommandName": "Parancssz\xf3",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "%0 \xe9s %1 k\xf6r\xf6k k\xf6z\xf6s \xe9rint\u0151je",
     "ComparisonNotPossible": "Sajnos ezek az alakzatok nem hasonl\xedthat\xf3k \xf6ssze",
     "Compasses": "K\xf6rz\u0151",

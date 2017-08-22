@@ -1423,6 +1423,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Comma": "\u9017\u865f",
     "Command": "\u6307\u4ee4",
     "CommandName": "\u6307\u4ee4\u540d\u7a31",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "\u5713 %0\u3001%1 \u7684\u516c\u5207\u7dda",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u5713 (\u5713\u5fc3\uff0c\u534a\u5f91\u7dda\u6bb5)",

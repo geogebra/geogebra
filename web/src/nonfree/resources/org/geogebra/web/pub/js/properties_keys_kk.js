@@ -1423,6 +1423,7 @@ __GGB__keysVar.kk.menu = {
     "Comma": "\u04ae\u0442\u0456\u0440",
     "Command": "\u041a\u043e\u043c\u0430\u043d\u0434\u0430",
     "CommandName": "\u041a\u043e\u043c\u0430\u043d\u0434\u0430 \u0430\u0442\u044b",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "%0 \u0436\u04d9\u043d\u0435 %1 \u0448\u0435\u04a3\u0431\u0435\u0440\u043b\u0435\u0440\u0434\u0456\u04a3 \u043e\u0440\u0442\u0430\u049b \u0436\u0430\u043d\u0430\u043c\u0430\u0441\u044b",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0426\u0438\u0440\u043a\u0443\u043b\u044c",

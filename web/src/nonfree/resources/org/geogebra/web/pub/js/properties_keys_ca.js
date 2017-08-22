@@ -1423,6 +1423,7 @@ __GGB__keysVar.ca.menu = {
     "Comma": "Coma",
     "Command": "Comandament",
     "CommandName": "Nom del comandament",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Tangent com\xfa a les circumfer\xe8ncies %0 i %1",
     "ComparisonNotPossible": "Ho sentim, no es poden comparar aquests objectes",
     "Compasses": "Comp\xe0s",

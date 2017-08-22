@@ -1423,6 +1423,7 @@ __GGB__keysVar.bs.menu = {
     "Comma": "Zarez",
     "Command": "Naredba",
     "CommandName": "Ime naredbe",
+    "Commands": "Commands",
     "CommonTangentOfCirclesAandB": "Zajedni\u010dka tangenta kru\u017enica %0 i %1",
     "ComparisonNotPossible": "Sorry, it's not possible to compare those objects",
     "Compasses": "\u0160estar",
