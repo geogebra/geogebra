@@ -51,6 +51,17 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
+	public boolean canBeEvaluated() {
+		for (int i = 0; i < subtrees.size(); i++) {
+			if (!subtrees.get(i).canBeEvaluated()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	@Override
 	public int getPriority() {
 		switch (operation) {
 		case PLUS:
@@ -69,6 +80,9 @@ public class StepOperation extends StepNode {
 		case CSC:
 		case SEC:
 		case COT:
+		case ARCSIN:
+		case ARCCOS:
+		case ARCTAN:
 			return 4;
 		}
 		return 0;
@@ -113,7 +127,7 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepVariable variable, double replaceWith) {
+	public double getValueAt(StepNode variable, double replaceWith) {
 		switch (operation) {
 		case PLUS:
 			double s = 0;
@@ -219,6 +233,16 @@ public class StepOperation extends StepNode {
 			return "nroot(" + subtrees.get(0).toString() + ", " + subtrees.get(1).toString() + ")";
 		case ABS:
 			return "|" + subtrees.get(0).toString() + "|";
+		case SIN:
+		case COS:
+		case TAN:
+		case CSC:
+		case SEC:
+		case COT:
+		case ARCSIN:
+		case ARCCOS:
+		case ARCTAN:
+			return operation.toString().toLowerCase() + "(" + subtrees.get(0).toString() + ")";
 		}
 		return "";
 	}
@@ -247,8 +271,10 @@ public class StepOperation extends StepNode {
 		case MULTIPLY:
 			StringBuilder sp = new StringBuilder();
 			for (int i = 0; i < subtrees.size(); i++) {
-				if (i != 0 && (subtrees.get(i - 1) instanceof StepConstant == subtrees.get(i) instanceof StepConstant)) {
+				if (i != 0 && requiresDot(subtrees.get(i - 1), subtrees.get(i))) {
 					sp.append(" \\cdot ");
+				} else if (i != 0) {
+					sp.append(" ");
 				}
 				if (subtrees.get(i).getPriority() < getPriority()) {
 					sp.append("\\left(");
@@ -273,8 +299,30 @@ public class StepOperation extends StepNode {
 			return "\\sqrt[" + subtrees.get(1).toLaTeXString() + "]{" + subtrees.get(0).toLaTeXString() + "}";
 		case ABS:
 			return "\\left|" + subtrees.get(0).toLaTeXString() + "\\right|";
+		case SIN:
+		case COS:
+		case TAN:
+		case CSC:
+		case SEC:
+		case COT:
+		case ARCSIN:
+		case ARCCOS:
+		case ARCTAN:
+			return "\\" + operation.toString().toLowerCase() + "\\left(" + subtrees.get(0).toLaTeXString() + "\\right)";
 		}
 		return "";
+	}
+
+	private static boolean requiresDot(StepNode a, StepNode b) {
+		if(a.nonSpecialConstant() && b.nonSpecialConstant()) {
+			return true;
+		}
+		
+		if((a instanceof StepVariable || a.isOperation()) && (b instanceof StepVariable || b.isOperation())) {
+			return true;
+		}
+		
+		return false;
 	}
 
 	@Override
@@ -286,6 +334,28 @@ public class StepOperation extends StepNode {
 		return so;
 	}
 
+	public void sort() {
+		for (int i = 0; i < noOfOperands(); i++) {
+			if (getSubTree(i).isOperation()) {
+				((StepOperation) getSubTree(i)).sort();
+			}
+		}
+
+		if (isOperation(Operation.MULTIPLY)) {
+			subtrees.sort(new Comparator<StepNode>() {
+				public int compare(StepNode arg0, StepNode arg1) {
+					return arg0.compareTo(arg1);
+				}
+			});
+		} else if (isOperation(Operation.PLUS)) {
+			subtrees.sort(new Comparator<StepNode>() {
+				public int compare(StepNode arg0, StepNode arg1) {
+					return arg1.compareTo(arg0);
+				}
+			});
+		}
+	}
+
 	@Override
 	public StepNode regroup() {
 		boolean changed = true;
@@ -293,6 +363,10 @@ public class StepOperation extends StepNode {
 
 		// Log.error("Regroup: ");
 		// Log.error(toString());
+
+		if (sn.isOperation()) {
+			((StepOperation) sn).sort();
+		}
 
 		while (changed) {
 			changed = false;
@@ -331,6 +405,14 @@ public class StepOperation extends StepNode {
 				changed = true;
 			}
 
+			sn = factorConstant(sn, temp);
+			if (temp[0]) {
+				// Log.error("FactorConstant");
+				// Log.error(sn.toString());
+				temp[0] = false;
+				changed = true;
+			}
+
 			sn = regroupProducts(sn, temp);
 			if (temp[0]) {
 				// Log.error("ProductsRegrouped");
@@ -342,6 +424,14 @@ public class StepOperation extends StepNode {
 			sn = regroupSums(sn, temp);
 			if (temp[0]) {
 				// Log.error("RegroupedSums");
+				// Log.error(sn.toString());
+				temp[0] = false;
+				changed = true;
+			}
+
+			sn = addFractions(sn, temp);
+			if (temp[0]) {
+				// Log.error("FractionsAdded");
 				// Log.error(sn.toString());
 				temp[0] = false;
 				changed = true;
@@ -363,9 +453,21 @@ public class StepOperation extends StepNode {
 				changed = true;
 			}
 
+			sn = calculateInverseTrigo(sn, temp);
+			if (temp[0]) {
+				// Log.error("inverseTrigoCalculated");
+				// Log.error(sn.toString());
+				temp[0] = false;
+				changed = true;
+			}
+
 		}
 		// Log.error("Done: ");
 		// Log.error(sn.toString());
+
+		if (sn.isOperation()) {
+			((StepOperation) sn).sort();
+		}
 		
 		return sn;
 	}
@@ -421,7 +523,7 @@ public class StepOperation extends StepNode {
 			StepOperation so = (StepOperation) sn;
 
 			if (so.isOperation(Operation.MINUS)) {
-				if (so.getSubTree(0) instanceof StepConstant) {
+				if (so.getSubTree(0).nonSpecialConstant()) {
 					changed[0] = true;
 					return new StepConstant(-so.getSubTree(0).getValue());
 				}
@@ -435,6 +537,28 @@ public class StepOperation extends StepNode {
 		return sn;
 	}
 
+	private static StepNode factorConstant(StepNode sn, Boolean[] changed) {
+		if (sn.isOperation()) {
+			double coefficient = sn.getConstantCoefficient().getValue();
+			StepNode remainder = sn.divideAndSimplify(coefficient);
+
+			StepOperation so;
+			if (!isEqual(Math.abs(coefficient), 1) && !isEqual(coefficient, 0) && remainder != null) {
+				so = (StepOperation) StepNode.multiply(new StepConstant(coefficient), remainder);
+			} else {
+				so = (StepOperation) sn;
+			}
+
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				so.subtrees.set(i, factorConstant(so.getSubTree(i), changed));
+			}
+
+			return so;
+		}
+
+		return sn;
+	}
+	
 	private static StepNode regroupSums(StepNode sn, Boolean[] changed) {
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
@@ -443,7 +567,6 @@ public class StepOperation extends StepNode {
 				so.subtrees.set(i, regroupSums(so.getSubTree(i), changed));
 			}
 			if (so.isOperation(Operation.PLUS)) {
-
 				StepNode[] coefficients = new StepNode[so.noOfOperands()];
 				StepNode[] variables = new StepNode[so.noOfOperands()];
 				for (int i = 0; i < so.noOfOperands(); i++) {
@@ -457,11 +580,26 @@ public class StepOperation extends StepNode {
 					}
 				}
 
+				int counter = 0;
+				double constants = 0;
+
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (coefficients[i].getValue() != 0) {
+					if (coefficients[i].nonSpecialConstant() && isEqual(variables[i].getValue(), 1)) {
+						constants += coefficients[i].getValue();
+						coefficients[i] = new StepConstant(0);
+						counter++;
+					}
+				}
+
+				if (counter > 1) {
+					changed[0] = true;
+				}
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (!isEqual(coefficients[i].getValue(), 0)) {
 						for (int j = i + 1; j < so.noOfOperands(); j++) {
-							if (variables[i].equals(variables[j])) {
-								coefficients[i] = StepNode.add(coefficients[i], coefficients[j]);
+							if (coefficients[j].getValue() != 0 && variables[i].equals(variables[j])) {
+								coefficients[i] = regroupConstant(StepNode.add(coefficients[i], coefficients[j]), changed);
 								coefficients[j] = new StepConstant(0);
 							}
 						}
@@ -469,8 +607,12 @@ public class StepOperation extends StepNode {
 				}
 
 				StepOperation newSum = new StepOperation(Operation.PLUS);
+
+				if (!isEqual(constants, 0)) {
+					newSum.addSubTree(new StepConstant(constants));
+				}
+				
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					coefficients[i] = coefficients[i].constantRegroup();
 					if (coefficients[i].getValue() != 0) {
 						if (coefficients[i].getValue() == 1) {
 							newSum.addSubTree(variables[i]);
@@ -490,12 +632,6 @@ public class StepOperation extends StepNode {
 					return newSum.getSubTree(0);
 				}
 
-				newSum.subtrees.sort(new Comparator<StepNode>() {
-					public int compare(StepNode arg0, StepNode arg1) {
-						return -arg0.compareTo(arg1);
-					}
-				});
-
 				return newSum;
 			}
 
@@ -503,6 +639,134 @@ public class StepOperation extends StepNode {
 		}
 
 		return sn;
+	}
+
+	private static StepNode regroupConstant(StepNode sn, Boolean[] changed) {
+		if (!sn.isOperation(Operation.PLUS)) {
+			return sn;
+		}
+
+		double[] coefficients = new double[((StepOperation) sn).noOfOperands()];
+		StepNode[] remainder = new StepNode[((StepOperation) sn).noOfOperands()];
+		for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+			coefficients[i] = ((StepOperation) sn).getSubTree(i).getConstantCoefficient().getValue();
+			remainder[i] = ((StepOperation) sn).getSubTree(i).divideAndSimplify(coefficients[i]);
+		}
+
+		for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+			if (coefficients[i] != 0) {
+				for (int j = i + 1; j < ((StepOperation) sn).noOfOperands(); j++) {
+					if (remainder[i].equals(remainder[j])) {
+						changed[0] = true;
+						coefficients[i] += coefficients[j];
+						coefficients[j] = 0;
+					}
+				}
+			}
+		}
+
+		StepOperation so = new StepOperation(Operation.PLUS);
+		for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+			if (coefficients[i] != 0) {
+				if (coefficients[i] == 1) {
+					so.addSubTree(remainder[i]);
+				} else if (remainder[i].getValue() == 1) {
+					so.addSubTree(new StepConstant(coefficients[i]));
+				} else if (coefficients[i] == -1) {
+					so.addSubTree(StepNode.minus(remainder[i]));
+				} else {
+					so.addSubTree(StepNode.multiply(new StepConstant(coefficients[i]), remainder[i]));
+				}
+			}
+		}
+
+		if (so.noOfOperands() == 0) {
+			return new StepConstant(0);
+		}
+
+		if (so.noOfOperands() == 1) {
+			return so.getSubTree(0);
+		}
+
+		return so;
+	}
+
+	private static StepNode addFractions(StepNode sn, Boolean[] changed) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				so.subtrees.set(i, addFractions(so.getSubTree(i), changed));
+			}
+			if (so.isOperation(Operation.PLUS)) {
+				List<StepNode> nominators = new ArrayList<StepNode>();
+				List<Long> denominators = new ArrayList<Long>();
+				
+				long newDenominator = 1;
+				
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					long currentDenominator = getDenominator(so.getSubTree(i));
+					if (currentDenominator != 0) {
+						nominators.add(getNominator(so.getSubTree(i)));
+						denominators.add(currentDenominator);
+						
+						newDenominator = lcm(newDenominator, currentDenominator);
+
+						so.subtrees.remove(i);
+						i--;
+					}
+				}
+
+				StepNode newNominator = null;
+
+				for (int i = 0; i < nominators.size(); i++) {
+					if (newDenominator != denominators.get(i)) {
+						newNominator = StepNode.add(newNominator,
+								StepNode.multiply(newDenominator / denominators.get(i), nominators.get(i)));
+					} else {
+						newNominator = StepNode.add(newNominator, nominators.get(i));
+					}
+				}
+				
+				if (newDenominator != 1) {
+					if (nominators.size() > 1) {
+						changed[0] = true;
+					}
+					so.addSubTree(StepNode.divide(newNominator, newDenominator));
+				} else {
+					so.addSubTree(newNominator);
+				}
+			}
+
+			return so;
+		}
+
+		return sn;
+	}
+
+	private static long getDenominator(StepNode sn) {
+		if (sn.nonSpecialConstant()) {
+			return 1;
+		} else if (sn.isOperation(Operation.MINUS)) {
+			return getDenominator(((StepOperation) sn).getSubTree(0));
+		} else if (sn.isOperation(Operation.DIVIDE)) {
+			if (closeToAnInteger(((StepOperation) sn).getSubTree(0).getValue())
+					&& closeToAnInteger(((StepOperation) sn).getSubTree(1).getValue())) {
+				return Math.round(((StepOperation) sn).getSubTree(1).getValue());
+			}
+		}
+		return 0;
+	}
+
+	private static StepNode getNominator(StepNode sn) {
+		if (sn.nonSpecialConstant()) {
+			return sn;
+		} else if (sn.isOperation(Operation.MINUS)) {
+			return StepNode.minus(getNominator(((StepOperation) sn).getSubTree(0)));
+		} else if (sn.isOperation(Operation.DIVIDE)) {
+			return ((StepOperation) sn).getSubTree(0);
+		}
+		return null;
 	}
 
 	private static StepNode regroupProducts(StepNode sn, Boolean[] changed) {
@@ -522,10 +786,10 @@ public class StepOperation extends StepNode {
 				double nominator = 1;
 				double denominator = 1;
 				for (int i = 0; i < bases.size(); i++) {
-					if (bases.get(i) instanceof StepConstant && exponents.get(i).getValue() == 1) {
+					if (bases.get(i).nonSpecialConstant() && exponents.get(i).getValue() == 1) {
 						nominator *= bases.get(i).getValue();
 						exponents.set(i, new StepConstant(0));
-					} else if (bases.get(i) instanceof StepConstant && exponents.get(i).getValue() == -1) {
+					} else if (bases.get(i).nonSpecialConstant() && exponents.get(i).getValue() == -1) {
 						denominator *= bases.get(i).getValue();
 						exponents.set(i, new StepConstant(0));
 					} else if (exponents.get(i).getValue() != 0) {
@@ -552,16 +816,15 @@ public class StepOperation extends StepNode {
 				StepNode soNominator = null;
 				StepNode soDenominator = null;
 				for (int i = 0; i < bases.size(); i++) {
-					exponents.set(i, exponents.get(i).constantRegroup());
 					if (exponents.get(i).getValue() != 0 && bases.get(i).getValue() != 1) {
 						if (exponents.get(i).getValue() == 1) {
-							soNominator = StepNode.multiply(soNominator, bases.get(i));
+							soNominator = StepNode.multiply(bases.get(i), soNominator);
 						} else if (exponents.get(i).getValue() == -1) {
-							soDenominator = StepNode.multiply(soDenominator, bases.get(i));
+							soDenominator = StepNode.multiply(bases.get(i), soDenominator);
 						} else if (exponents.get(i).getValue() == 0.5) {
-							soNominator = StepNode.multiply(soNominator, StepNode.root(bases.get(i), 2));
+							soNominator = StepNode.multiply(StepNode.root(bases.get(i), 2), soNominator);
 						} else {
-							soNominator = StepNode.multiply(soNominator, StepNode.power(bases.get(i), exponents.get(i)));
+							soNominator = StepNode.multiply(StepNode.power(bases.get(i), exponents.get(i)), soNominator);
 						}
 					}
 				}
@@ -600,21 +863,6 @@ public class StepOperation extends StepNode {
 				}
 				if (!isEqual(denominator, 1)) {
 					soDenominator = StepNode.multiply(denominator, soDenominator);
-				}
-
-				if (soNominator.isOperation(Operation.MULTIPLY)) {
-					((StepOperation) soNominator).subtrees.sort(new Comparator<StepNode>() {
-						public int compare(StepNode arg0, StepNode arg1) {
-							return arg0.compareTo(arg1);
-						}
-					});					
-				}
-				if (soDenominator != null && soDenominator.isOperation(Operation.MULTIPLY)) {
-					((StepOperation) soDenominator).subtrees.sort(new Comparator<StepNode>() {
-						public int compare(StepNode arg0, StepNode arg1) {
-							return arg0.compareTo(arg1);
-						}
-					});
 				}
 
 				if (negative) {
@@ -757,12 +1005,59 @@ public class StepOperation extends StepNode {
 		return sn;
 	}
 
+	private static StepNode calculateInverseTrigo(StepNode sn, Boolean[] changed) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isInverseTrigonometric()) {
+				StepNode value = inverseTrigoLookup(so);
+				if (value != null) {
+					changed[0] = true;
+					return value;
+				}
+			}
+
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				so.subtrees.set(i, calculateInverseTrigo(so.getSubTree(i), changed));
+			}
+		}
+
+		return sn;
+	}
+
+	private static StepNode inverseTrigoLookup(StepOperation so) {
+		String[] arguments = new String[] { "0", "(1)/(2)", "(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };
+		String[] argumentsTan = new String[] { "0", "nroot(3, 2)/3", "1", "nroot(3, 2)", "INF" };
+		StepNode pi = new StepConstant(Math.PI);
+		StepNode[] values = new StepNode[] { new StepConstant(0), StepNode.divide(pi, 6), StepNode.divide(pi, 4), StepNode.divide(pi, 3),
+				StepNode.divide(pi, 2) };
+
+		String currentArgument = so.getSubTree(0).toString();
+		for (int i = 0; i < arguments.length; i++) {
+			if(currentArgument.equals(arguments[i])) {
+				if (so.isOperation(Operation.ARCSIN)) {
+					return values[i];
+				} else if (so.isOperation(Operation.ARCCOS)) {
+					return values[values.length - i - 1];
+				}
+			} else if (currentArgument.equals(argumentsTan[i])) {
+				if (so.isOperation(Operation.ARCTAN)) {
+					return values[i];
+				}
+			}
+		}
+
+		return null;
+	}
+
 	@Override
 	public StepNode getConstantCoefficient() {
 		switch (operation) {
 		case MINUS:
 			return new StepConstant(-getSubTree(0).getConstantCoefficient().getValue());
 		case PLUS:
+			return new StepConstant(1);
+			/*
 			long gcd = 0;
 			boolean pos = false;
 			for (int i = 0; i < noOfOperands(); i++) {
@@ -777,6 +1072,7 @@ public class StepOperation extends StepNode {
 				gcd = -gcd;
 			}
 			return new StepConstant(gcd == 0 ? 1 : gcd);
+			*/
 		case MULTIPLY:
 			double c = 1;
 			for (int i = 0; i < noOfOperands(); i++) {
@@ -785,12 +1081,15 @@ public class StepOperation extends StepNode {
 			return new StepConstant(c);
 		case POWER:
 			double a = getSubTree(0).getConstantCoefficient().getValue();
-			double b = getSubTree(1).getConstantCoefficient().getValue();
+			double b = getSubTree(1).getValue();
 
-			return new StepConstant(Math.pow(a, b));
+			if (closeToAnInteger(b)) {
+				return new StepConstant(Math.pow(a, b));
+			}
+			return new StepConstant(1);
 		case NROOT:
 			a = getSubTree(0).getConstantCoefficient().getValue();
-			b = getSubTree(1).getConstantCoefficient().getValue();
+			b = getSubTree(1).getValue();
 
 			if (closeToAnInteger(a) && closeToAnInteger(b)) {
 				long x = Math.round(a);
@@ -889,56 +1188,6 @@ public class StepOperation extends StepNode {
 		default:
 			return this;
 		}
-	}
-
-	@Override
-	public StepNode constantRegroup() {
-		if (!isOperation(Operation.PLUS)) {
-			return this;
-		}
-
-		double[] coefficients = new double[noOfOperands()];
-		StepNode[] remainder = new StepNode[noOfOperands()];
-		for (int i = 0; i < noOfOperands(); i++) {
-			coefficients[i] = getSubTree(i).getConstantCoefficient().getValue();
-			remainder[i] = getSubTree(i).divideAndSimplify(coefficients[i]);
-		}
-
-		for (int i = 0; i < noOfOperands(); i++) {
-			if (coefficients[i] != 0) {
-				for (int j = i + 1; j < noOfOperands(); j++) {
-					if (remainder[i].equals(remainder[j])) {
-						coefficients[i] += coefficients[j];
-						coefficients[j] = 0;
-					}
-				}
-			}
-		}
-
-		StepOperation so = new StepOperation(Operation.PLUS);
-		for (int i = 0; i < noOfOperands(); i++) {
-			if (coefficients[i] != 0) {
-				if (coefficients[i] == 1) {
-					so.addSubTree(remainder[i]);
-				} else if (remainder[i].getValue() == 1) {
-					so.addSubTree(new StepConstant(coefficients[i]));
-				} else if (coefficients[i] == -1) {
-					so.addSubTree(StepNode.minus(remainder[i]));
-				} else {
-					so.addSubTree(StepNode.multiply(new StepConstant(coefficients[i]), remainder[i]));
-				}
-			}
-		}
-
-		if (so.noOfOperands() == 0) {
-			return new StepConstant(0);
-		}
-
-		if (so.noOfOperands() == 1) {
-			return so.getSubTree(0);
-		}
-
-		return so;
 	}
 
 	@Override
@@ -1065,6 +1314,28 @@ public class StepOperation extends StepNode {
 
 	public Operation getOperation() {
 		return operation;
+	}
+
+	public boolean isTrigonometric() {
+		return operation == Operation.SIN || operation == Operation.COS || operation == Operation.TAN || operation == Operation.CSC
+				|| operation == Operation.SEC || operation == Operation.CSC;
+	}
+
+	public boolean isInverseTrigonometric() {
+		return operation == Operation.ARCSIN || operation == Operation.ARCCOS || operation == Operation.ARCTAN;
+	}
+
+	public static Operation getInverse(Operation op) {
+		switch (op) {
+		case SIN:
+			return Operation.ARCSIN;
+		case COS:
+			return Operation.ARCCOS;
+		case TAN:
+			return Operation.ARCTAN;
+		default:
+			return Operation.NO_OPERATION;
+		}
 	}
 
 	public static boolean closeToAnInteger(double d) {

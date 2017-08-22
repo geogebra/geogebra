@@ -93,7 +93,7 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepVariable variable, double value) {
+	public double getValueAt(StepNode variable, double value) {
 		return Double.NaN;
 	}
 
@@ -157,8 +157,8 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public StepNode constantRegroup() {
-		return this;
+	public boolean canBeEvaluated() {
+		return false;
 	}
 
 	@Override

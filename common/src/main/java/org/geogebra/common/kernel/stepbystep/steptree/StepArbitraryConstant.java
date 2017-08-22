@@ -69,7 +69,7 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepVariable variable, double value) {
+	public double getValueAt(StepNode variable, double value) {
 		return Double.NaN;
 	}
 
@@ -85,7 +85,7 @@ public class StepArbitraryConstant extends StepNode {
 
 	@Override
 	public StepNode getConstantCoefficient() {
-		return this;
+		return new StepConstant(1);
 	}
 
 	@Override
@@ -95,12 +95,7 @@ public class StepArbitraryConstant extends StepNode {
 
 	@Override
 	public String toLaTeXString() {
-		return label + "_{" + index + "}";
-	}
-
-	@Override
-	public StepNode constantRegroup() {
-		return this;
+		return label + (index != 0 ? "_{" + index + "}" : "");
 	}
 
 	@Override
@@ -121,5 +116,10 @@ public class StepArbitraryConstant extends StepNode {
 	@Override
 	public StepNode divideAndSimplify(double x) {
 		return this;
+	}
+
+	@Override
+	public boolean canBeEvaluated() {
+		return false;
 	}
 }

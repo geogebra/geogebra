@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -450,7 +451,68 @@ public class StepHelper {
 		return 0;
 	}
 
-	public static StepNode swapAbsInTree(StepNode sn, StepInterval si, StepVariable variable) {
+	public static boolean containsTrigonometric(StepNode sn) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isTrigonometric()) {
+				return true;
+			}
+
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				if (containsTrigonometric(so.getSubTree(i))) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		return false;
+	}
+
+	public static StepNode findTrigonometricVariable(StepNode sn) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isTrigonometric()) {
+				return sn;
+			}
+
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				StepNode trigo = findTrigonometricVariable(so.getSubTree(i));
+				if (trigo != null) {
+					return trigo;
+				}
+			}
+			return null;
+		}
+
+		return null;
+	}
+
+	public static StepOperation linearInTrigonometric(StepNode sn) {
+		StepOperation trigoVar = (StepOperation) findTrigonometricVariable(sn);
+		int degree = degree(sn.deepCopy().replace(trigoVar, new StepVariable("x")));
+
+		if (degree == 1) {
+			return trigoVar;
+		}
+
+		return null;
+	}
+
+	public static StepOperation quadraticInTrigonometric(StepNode sn) {
+		StepOperation trigoVar = (StepOperation) findTrigonometricVariable(sn);
+		int degree = degree(sn.deepCopy().replace(trigoVar, new StepVariable("x")));
+
+		if (degree == 2) {
+			return trigoVar;
+		}
+
+		return null;
+	}
+
+	public static StepNode swapAbsInTree(StepNode sn, StepInterval si, StepNode variable) {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 			if (so.isOperation(Operation.ABS)) {
@@ -470,7 +532,7 @@ public class StepHelper {
 		return sn;
 	}
 
-	private static boolean isNegative(StepNode x, StepNode a, StepNode b, StepVariable variable) {
+	private static boolean isNegative(StepNode x, StepNode a, StepNode b, StepNode variable) {
 		StepNode evaluateAt;
 
 		if (Double.isInfinite(a.getValue()) && a.getValue() < 0) {
@@ -484,7 +546,7 @@ public class StepHelper {
 		return x.getValueAt(variable, evaluateAt.getValue()) < 0;
 	}
 
-	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepVariable variable, Kernel kernel) {
+	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepNode variable, Kernel kernel) {
 		StepNode denominators = getDenominator(StepNode.add(LHS, RHS), kernel);
 
 		if (denominators != null && !denominators.isConstant()) {
@@ -548,11 +610,18 @@ public class StepHelper {
 	public static int degree(StepNode sn) {
 		if (sn instanceof StepVariable) {
 			return 1;
-		} else if (sn instanceof StepConstant) {
+		} else if (sn instanceof StepConstant || sn instanceof StepArbitraryConstant) {
 			return 0;
 		} else if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
+			if(so.isInverseTrigonometric() || so.isInverseTrigonometric()) {
+				if(so.isConstant()) {
+					return 0;
+				}
+				return -1;
+			}
+			
 			switch (so.getOperation()) {
 			case MINUS:
 				return degree(so.getSubTree(0));

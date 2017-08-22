@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -33,7 +34,7 @@ public class EquationSteps {
 	private boolean inverted;
 	private boolean intermediate;
 
-	private StepVariable variable;
+	private StepNode variable;
 
 	private StepInterval interval;
 
@@ -52,7 +53,7 @@ public class EquationSteps {
 		this.variable = new StepVariable(variable);
 	}
 
-	public EquationSteps(Kernel kernel, StepNode LHS, StepNode RHS, StepVariable variable) {
+	public EquationSteps(Kernel kernel, StepNode LHS, StepNode RHS, StepNode variable) {
 		this.kernel = kernel;
 		this.loc = kernel.getLocalization();
 
@@ -102,12 +103,12 @@ public class EquationSteps {
 			}
 		}
 
-
 		addOrSubtract(StepHelper.getCommon(LHS, RHS));
+		
 
+		StepNode bothSides = StepNode.add(LHS, RHS);
 
 		// II. step: making denominators disappear
-		StepNode bothSides = StepNode.multiply(LHS, RHS);
 		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
 			StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
 			multiply(denominators);
@@ -162,31 +163,34 @@ public class EquationSteps {
 		// VII. Step: equations containing absolute values
 		bothSides = StepNode.add(LHS, RHS);
 		if (StepHelper.countOperation(bothSides, Operation.ABS) > 0) {
-			solveAbsoluteValue();
-
-			if (solutions.size() > 0) {
+			if (solveAbsoluteValue()) {
 				return checkSolutions();
 			}
 		}
 
+		// II. step: checking if it's a trigonometric equation
+		if (StepHelper.containsTrigonometric(bothSides)) {
+			solveTrigonometric();
+			return checkSolutions();
+		}
+
 		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
 
+		if (degreeDiff == -1) {
+			steps.add(loc.getMenuLaTeX("CantSolve", "Cannot Solve"), SolutionStepTypes.COMMENT);
+			return steps.getSteps();
+		}
+
 		// VIII. step: solving linear equations
-		if (degreeDiff != -1 && degreeDiff <= 1) {
+		if (degreeDiff <= 1) {
 			solveLinear();
 			return checkSolutions();
 		}
 
 		// IX. step: solving quadratic equations
-		if (degreeDiff != -1 && degreeDiff <= 2) {
+		if (degreeDiff == 2) {
 			solveQuadratic();
 			return checkSolutions();
-		}
-
-		// Checking if it's in polynomial form.
-		if (degreeDiff == -1) {
-			steps.add(loc.getMenuLaTeX("CannotSolve", "Can't solve"), SolutionStepTypes.COMMENT);
-			return steps.getSteps();
 		}
 
 		subtract(RHS);
@@ -255,7 +259,7 @@ public class EquationSteps {
 			}
 
 			sb.append(LaTeX(solutions.get(i)));
-			if (!(solutions.get(i) instanceof StepConstant) && !(solutions.get(i) instanceof StepInterval)) {
+			if (solutions.get(i).canBeEvaluated() && !(solutions.get(i) instanceof StepConstant)) {
 				if (isSimpleFraction(solutions.get(i))) {
 					sb.append(" = ");
 				} else {
@@ -328,6 +332,104 @@ public class EquationSteps {
 		}
 	}
 
+	private void solveTrigonometric() {
+		StepNode bothSides = StepNode.subtract(LHS, RHS).regroup();
+
+		StepOperation trigoVar = StepHelper.linearInTrigonometric(bothSides);
+		
+		if (trigoVar != null) {
+			StepNode RHSlinear = StepHelper.findVariable(RHS, trigoVar);
+			addOrSubtract(RHSlinear);
+
+			StepNode LHSconstant = StepHelper.findConstant(LHS);
+			addOrSubtract(LHSconstant);
+
+			StepNode linearCoefficient = StepHelper.findCoefficient(LHS, trigoVar);
+			divide(linearCoefficient);
+
+			solveSimpleTrigonometric(trigoVar, RHS);
+		}
+		
+		trigoVar = StepHelper.quadraticInTrigonometric(bothSides);
+		if (trigoVar != null) {
+			StepVariable newVar = new StepVariable("t");
+			EquationSteps trigonometricReplaced = new EquationSteps(kernel, LHS.replace(trigoVar, newVar), RHS.replace(trigoVar, newVar),
+					newVar);
+
+			steps.addAll(trigonometricReplaced.getSteps());
+
+			List<StepNode> tempSolutions = trigonometricReplaced.getSolutions();
+			for (int i = 0; i < tempSolutions.size(); i++) {
+				EquationSteps newCase = new EquationSteps(kernel, trigoVar, tempSolutions.get(i), variable);
+				if (tempSolutions.size() != 1) {
+					newCase.setCase(caseNumber(i + 1));
+				}
+
+				steps.addAll(newCase.getSteps());
+				solutions.addAll(newCase.getSolutions());
+			}
+		}
+
+	}
+
+	private void solveSimpleTrigonometric(StepOperation trigoVar, StepNode constant) {
+		if (trigoVar.isOperation(Operation.SIN) && (constant.getValue() < -1 || constant.getValue() > 1)) {
+			steps.add(loc.getMenuLaTeX("NoSolutionTrigonometricSin", "sin(x) \\in [-1, 1] for all x \\in \\mathbb{R}"),
+					SolutionStepTypes.COMMENT);
+			return;
+		} else if (trigoVar.isOperation(Operation.COS) && (constant.getValue() < -1 || constant.getValue() > 1)) {
+			steps.add(loc.getMenuLaTeX("NoSolutionTrigonometricCos", "cos(x) \\in [-1, 1] for all x \\in \\mathbb{R}"),
+					SolutionStepTypes.COMMENT);
+			return;
+		}
+
+		Operation op = StepOperation.getInverse(trigoVar.getOperation());
+		StepNode newLHS = trigoVar.getSubTree(0);
+		
+		if (trigoVar.getOperation() == Operation.TAN) {
+			StepNode newRHS = StepNode.add(StepNode.apply(constant, op),
+					StepNode.multiply(new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER),
+							new StepConstant(Math.PI)));
+
+			EquationSteps tangent = new EquationSteps(kernel, newLHS, newRHS, variable);
+			tangent.setIntermediate();
+
+			steps.addAll(tangent.getSteps());
+			solutions.addAll(tangent.getSolutions());
+
+			return;
+		}
+		
+		StepNode newRHS = StepNode.add(StepNode.apply(constant, op),
+				StepNode.multiply(StepNode.multiply(2, new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER)),
+						new StepConstant(Math.PI)));
+		
+		EquationSteps firstBranch = new EquationSteps(kernel, newLHS, newRHS, variable);
+		if (isEqual(Math.abs(constant.getValue()), 1)) {
+			firstBranch.setIntermediate();
+		} else {
+			firstBranch.setCase(caseNumber(1));
+		}
+
+		steps.addAll(firstBranch.getSteps());
+		solutions.addAll(firstBranch.getSolutions());
+
+		if (!isEqual(Math.abs(constant.getValue()), 1)) {
+			EquationSteps secondBranch;
+			if (trigoVar.getOperation() == Operation.SIN) {
+				secondBranch = new EquationSteps(kernel, StepNode.subtract(new StepConstant(Math.PI), newLHS), newRHS, variable);
+			} else {
+				secondBranch = new EquationSteps(kernel, StepNode.subtract(StepNode.multiply(2, new StepConstant(Math.PI)), newLHS), newRHS,
+						variable);
+			}
+
+			secondBranch.setCase(caseNumber(2));
+
+			steps.addAll(secondBranch.getSteps());
+			solutions.addAll(secondBranch.getSolutions());
+		}
+	}
+
 	private void solveIrrational() {
 		int sqrtNum = StepHelper.countNonConstOperation(LHS, Operation.NROOT) + StepHelper.countNonConstOperation(RHS, Operation.NROOT);
 
@@ -384,7 +486,7 @@ public class EquationSteps {
 		solveIrrational();
 	}
 
-	private void solveAbsoluteValue() {
+	private boolean solveAbsoluteValue() {
 		if (interval != null) {
 			steps.add(loc.getMenuLaTeX("EvaluateAbsoluteValues", "Evaluate absolute values"), SolutionStepTypes.INSTRUCTION);
 
@@ -393,7 +495,7 @@ public class EquationSteps {
 
 			addStep();
 			expandParentheses();
-			return;
+			return false;
 		}
 
 		int absNum = StepHelper.countNonConstOperation(LHS, Operation.ABS) + StepHelper.countNonConstOperation(RHS, Operation.ABS);
@@ -406,8 +508,7 @@ public class EquationSteps {
 		if (absNum == 1 && (nonAbsDiff == null || nonAbsDiff.isConstant())) {
 			StepNode nonAbsolute = StepHelper.getNon(LHS, Operation.ABS);
 			addOrSubtract(nonAbsolute);
-			plusminus();
-			return;
+			return plusminus();
 		} else if (absNum == 2 && (isZero(nonAbsDiff))) {
 			StepNode nonAbsolute = StepHelper.getNon(LHS, Operation.ABS);
 			addOrSubtract(nonAbsolute);
@@ -415,8 +516,7 @@ public class EquationSteps {
 				StepNode oneAbs = StepHelper.getOne(LHS, Operation.ABS);
 				addOrSubtract(oneAbs);
 			}
-			plusminus();
-			return;
+			return plusminus();
 		}
 
 		StepNode bothSides = StepNode.add(LHS, RHS);
@@ -446,6 +546,8 @@ public class EquationSteps {
 			steps.addAll(es.getSteps());
 			solutions.addAll(es.getSolutions());
 		}
+		
+		return true;
 	}
 
 	private void solveLinear() {
@@ -460,48 +562,30 @@ public class EquationSteps {
 		}
 
 		StepNode RHSlinear = StepHelper.findVariable(RHS, variable);
-		StepNode RHSconstant = StepHelper.findConstant(RHS);
-
-		StepNode nonLinear = StepNode.subtract(RHS, StepNode.add(RHSlinear, RHSconstant)).regroup();
-		addOrSubtract(nonLinear);
-
 		addOrSubtract(RHSlinear);
 
 		StepNode LHSconstant = StepHelper.findConstant(LHS);
 		addOrSubtract(LHSconstant);
 
-		StepNode toDivide = StepHelper.findCoefficient(LHS, variable);
-		divide(toDivide);
+		StepNode linearCoefficient = StepHelper.findCoefficient(LHS, variable);
+		divide(linearCoefficient);
 
 		solutions.add(RHS);
 	}
 
 	private void solveQuadratic() {
-		StepNode RHSconstant = StepHelper.findConstant(RHS);
-		StepNode RHSlinear = StepHelper.findVariable(RHS, variable);
-		StepNode RHSquadratic = StepHelper.findVariable(RHS, StepNode.power(variable, 2));
+		StepNode difference = StepNode.subtract(LHS, RHS).regroup();
 
-		StepNode nonQuadratic = StepNode.subtract(RHS, StepNode.add(RHSconstant, StepNode.add(RHSlinear, RHSquadratic))).regroup();
+		StepNode a = StepHelper.findCoefficient(difference, StepNode.power(variable, 2));
+		StepNode b = StepHelper.findCoefficient(difference, variable);
+		StepNode c = StepHelper.findConstant(difference);
 
-		addOrSubtract(nonQuadratic);
+		if (isOne(a) && isEven(b.getValue()) && !isZero(c)) {
+			StepNode RHSConstant = StepHelper.findConstant(RHS);
+			addOrSubtract(StepNode.subtract(RHS, RHSConstant).regroup());
 
-		subtract(RHS);
-
-		StepNode a = StepHelper.findCoefficient(LHS, StepNode.power(variable, 2));
-		StepNode b = StepHelper.findCoefficient(LHS, variable);
-		StepNode c = StepHelper.findConstant(LHS);
-
-		if (isZero(c)) {
-			steps.add(loc.getMenuLaTeX("FactorEquation", "Factor equation"), SolutionStepTypes.COMMENT);
-			LHS = StepHelper.factor(LHS, kernel);
-			addStep();
-
-			solveProduct((StepOperation) LHS);
-			return;
-		}
-
-		if (isOne(a) && isEven(b.getValue())) {
-			StepNode toComplete = StepNode.subtract(c, StepNode.power(StepNode.divide(b, 2), 2)).regroup();
+			StepNode LHSConstant = StepHelper.findConstant(LHS);
+			StepNode toComplete = StepNode.subtract(LHSConstant, StepNode.power(StepNode.divide(b, 2), 2)).regroup();
 
 			steps.add(loc.getMenuLaTeX("CompleteSquare", "Complete the square"), SolutionStepTypes.COMMENT);
 
@@ -516,10 +600,12 @@ public class EquationSteps {
 			nthroot(2);
 			return;
 		}
-		StepNode discriminant = StepNode.subtract(StepNode.power(b, 2), StepNode.multiply(4, StepNode.multiply(a, c)));
-		double discriminantValue = discriminant.getValue();
 
-		if (isSquare(discriminantValue)) {
+		subtract(RHS);
+
+		StepNode discriminant = StepNode.subtract(StepNode.power(b, 2), StepNode.multiply(4, StepNode.multiply(a, c)));
+
+		if (isZero(c) || isSquare(discriminant.getValue())) {
 			steps.add(loc.getMenuLaTeX("FactorEquation", "Factor equation"), SolutionStepTypes.COMMENT);
 			LHS = StepHelper.factor(LHS, kernel);
 			addStep();
@@ -547,7 +633,7 @@ public class EquationSteps {
 
 			steps.levelUp();
 
-			if (discriminantValue > 0) {
+			if (discriminant.getValue() > 0) {
 				StepNode solution1 = StepNode.divide(StepNode.add(StepNode.minus(b), StepNode.root(discriminant, 2)),
 						StepNode.multiply(2, a));
 				StepNode solution2 = StepNode.divide(StepNode.subtract(StepNode.minus(b), StepNode.root(discriminant, 2)),
@@ -828,7 +914,7 @@ public class EquationSteps {
 		solutions.addAll(es.getSolutions());
 	}
 
-	private void plusminus() {
+	private boolean plusminus() {
 		if (LHS.isOperation(Operation.ABS)) {
 			LHS = ((StepOperation) LHS).getSubTree(0);
 		}
@@ -855,9 +941,12 @@ public class EquationSteps {
 				steps.addAll(negativeBranch.getSteps());
 				solutions.addAll(negativeBranch.getSolutions());
 			}
-		} else {
-			addStep();
+
+			return true;
 		}
+
+		addStep();
+		return false;
 	}
 
 	private static String plusminus(StepNode ev) {
@@ -903,6 +992,10 @@ public class EquationSteps {
 			}
 		}
 		return false;
+	}
+
+	private String caseNumber(int i) {
+		return (solutionCase == null ? "" : solutionCase) + i + ".";
 	}
 
 	private static boolean isNegative(StepNode ev) {

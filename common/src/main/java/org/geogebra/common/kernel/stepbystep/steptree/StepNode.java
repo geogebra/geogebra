@@ -3,10 +3,12 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
@@ -25,46 +27,57 @@ public abstract class StepNode {
 	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1, if lower
 	 */
 	public int compareTo(StepNode sn) {
-		if (this instanceof StepConstant && sn instanceof StepConstant) {
-			return Double.compare(getValue(), sn.getValue());
-		} else if (this instanceof StepConstant) {
-			return -1;
-		} else if (sn instanceof StepConstant) {
-			return 1;
-		}
+		int a = getPriority(this);
+		int b = getPriority(sn);
 
-		int cmp = Double.compare(degree(), sn.degree());
+		if (a == b) {
+			if (this instanceof StepConstant) {
+				return Double.compare(getValue(), sn.getValue());
+			} else if (this instanceof StepOperation) {
+				int cmp = Double.compare(degree(), sn.degree());
 
-		if (cmp != 0) {
-			return cmp;
-		}
+				if (cmp != 0) {
+					return cmp;
+				}
 
-		if (this instanceof StepVariable && sn instanceof StepVariable) {
-			return toString().compareTo(sn.toString());
-		} else if (this instanceof StepVariable) {
-			return -1;
-		} else if (sn instanceof StepVariable) {
-			return 1;
-		}
+				StepOperation so1 = (StepOperation) this;
+				StepOperation so2 = (StepOperation) sn;
 
-		StepOperation so1 = (StepOperation) this;
-		StepOperation so2 = (StepOperation) sn;
+				cmp = Integer.compare(so1.noOfOperands(), so2.noOfOperands());
 
-		cmp = Integer.compare(so1.noOfOperands(), so2.noOfOperands());
+				if (cmp != 0) {
+					return cmp;
+				}
 
-		if (cmp != 0) {
-			return cmp;
-		}
+				for (int i = 0; i < so1.noOfOperands(); i++) {
+					cmp = so1.getSubTree(i).compareTo(so2.getSubTree(i));
 
-		for (int i = 0; i < so1.noOfOperands(); i++) {
-			cmp = so1.getSubTree(i).compareTo(so2.getSubTree(i));
+					if (cmp != 0) {
+						return cmp;
+					}
+				}
 
-			if (cmp != 0) {
-				return cmp;
+				return 0;
 			}
+			return toString().compareTo(sn.toString());
 		}
 
-		return 0;
+		return a - b;
+	}
+
+	private static int getPriority(StepNode sn) {
+		if (sn.nonSpecialConstant()) {
+			return 0;
+		} else if (sn instanceof StepArbitraryConstant) {
+			return 1;
+		} else if (sn.specialConstant()) {
+			return 2;
+		} else if (sn instanceof StepVariable) {
+			return 3;
+		} else if (sn.isOperation()) {
+			return 4;
+		}
+		return 5;
 	}
 
 	public double degree() {
@@ -126,6 +139,8 @@ public abstract class StepNode {
 	 */
 	public abstract boolean isConstant();
 
+	public abstract boolean canBeEvaluated();
+
 	/**
 	 * @return the priority of the top node (1 - addition and subtraction, 2 - multiplication and division, 3 - roots and
 	 *         exponents, 4 - constants and variables)
@@ -142,7 +157,7 @@ public abstract class StepNode {
 	 * @param value - the value to be replaced with
 	 * @return the value of the tree after replacement
 	 */
-	public abstract double getValueAt(StepVariable variable, double value);
+	public abstract double getValueAt(StepNode variable, double value);
 
 	/**
 	 * @return the non-variable coefficient of the tree (ex: 3 sqrt(3) x -> 3 sqrt(3))
@@ -159,15 +174,12 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode getConstantCoefficient();
 
+	public abstract StepNode divideAndSimplify(double x);
+
 	/**
 	 * @return the tree, formatted in LaTeX
 	 */
 	public abstract String toLaTeXString();
-
-	/**
-	 * @return the tree, regrouped (only call on constant trees!) (destroys the tree, use only in assignments)
-	 */
-	public abstract StepNode constantRegroup();
 
 	/**
 	 * @return the tree, regrouped (destroys the tree, use only in assignments)
@@ -184,6 +196,28 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode simplify();
 
+	public boolean nonSpecialConstant() {
+		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E);
+	}
+
+	public boolean specialConstant() {
+		return this instanceof StepConstant && (isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E));
+	}
+
+	public StepNode replace(StepNode from, StepNode to) {
+		if (equals(from)) {
+			return to;
+		}
+		if (isOperation()) {
+			StepOperation so = new StepOperation(((StepOperation) this).getOperation());
+			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
+				so.addSubTree(((StepOperation) this).getSubTree(i).replace(from, to));
+			}
+			return so;
+		}
+		return this;
+	}
+
 	/**
 	 * @param s string to be parsed
 	 * @param parser GeoGebra parser
@@ -196,11 +230,12 @@ public abstract class StepNode {
 
 		try {
 			ExpressionValue ev = parser.parseGeoGebraExpression(s);
+
 			return convertExpression(ev);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
-		}
+		} 
 	}
 
 	/**
@@ -218,6 +253,13 @@ public abstract class StepNode {
 				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
 			case ABS:
 				return abs(convertExpression(((ExpressionNode) ev).getLeft()));
+			case SIN:
+			case COS:
+			case TAN:
+			case CSC:
+			case SEC:
+			case COT:
+				return apply(convertExpression(((ExpressionNode) ev).getLeft()), ((ExpressionNode) ev).getOperation());
 			case MULTIPLY:
 				if (((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
 					return minus(convertExpression(((ExpressionNode) ev).getRight()));
@@ -229,8 +271,8 @@ public abstract class StepNode {
 				return so;
 			}
 		}
-		if (ev instanceof FunctionVariable) {
-			return new StepVariable(((FunctionVariable) ev).getSetVarString());
+		if (ev instanceof FunctionVariable || ev instanceof Variable) {
+			return new StepVariable(ev.toString(StringTemplate.defaultTemplate));
 		}
 		if (ev instanceof MyDouble) {
 			return new StepConstant(((MyDouble) ev).getDouble());
@@ -243,7 +285,7 @@ public abstract class StepNode {
 	 * @param var variable to group in
 	 * @return toConvert in a polynomial format (as an array of coefficients) toConvert = sum(returned[i] * var^i)
 	 */
-	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
+	public static StepNode[] convertToPolynomial(StepNode toConvert, StepNode var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
 		StepNode p = toConvert.deepCopy().simplify();
 
@@ -271,7 +313,7 @@ public abstract class StepNode {
 	 * @param var variable
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
-	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
+	public static StepNode polynomialDivision(StepNode r, StepNode d, StepNode var) {
 		if (r == null || StepHelper.degree(r) < 1) {
 			return null;
 		}
@@ -354,7 +396,7 @@ public abstract class StepNode {
 		if (a == null) {
 			return null;
 		}
-		if (a instanceof StepConstant) {
+		if (a.nonSpecialConstant()) {
 			return new StepConstant(-a.getValue());
 		}
 		StepOperation so = new StepOperation(Operation.MINUS);
@@ -458,12 +500,31 @@ public abstract class StepNode {
 		return so;
 	}
 
-	public abstract StepNode divideAndSimplify(double x);
+	public static StepNode apply(StepNode a, Operation op) {
+		if (a == null) {
+			return null;
+		}
+
+		StepOperation so = new StepOperation(op);
+		so.addSubTree(a.deepCopy());
+		return so;
+	}
 
 	public static long gcd(long a, long b) {
 		if (b == 0) {
 			return a;
 		}
 		return gcd(b, a % b);
+	}
+
+	public static long lcm(long a, long b) {
+		if (a == 0 || b == 0) {
+			return 0;
+		}
+		return a * b / gcd(a, b);
+	}
+
+	public static boolean isEqual(double a, double b) {
+		return Math.abs(a - b) < 0.0000001;
 	}
 }

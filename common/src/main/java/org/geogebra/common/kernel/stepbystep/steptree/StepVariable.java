@@ -40,7 +40,7 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepVariable variable, double replaceWith) {
+	public double getValueAt(StepNode variable, double replaceWith) {
 		if (equals(variable)) {
 			return replaceWith;
 		}
@@ -50,11 +50,6 @@ public class StepVariable extends StepNode {
 	@Override
 	public StepConstant getConstantCoefficient() {
 		return new StepConstant(1);
-	}
-
-	@Override
-	public StepNode constantRegroup() {
-		return this;
 	}
 
 	@Override
@@ -100,5 +95,10 @@ public class StepVariable extends StepNode {
 	@Override
 	public StepNode divideAndSimplify(double x) {
 		return this;
+	}
+
+	@Override
+	public boolean canBeEvaluated() {
+		return false;
 	}
 }

@@ -5,12 +5,11 @@ import java.text.DecimalFormat;
 import org.geogebra.common.plugin.Operation;
 
 public class StepConstant extends StepNode {
-	double value;
+	private double value;
 
 	public StepConstant(double value) {
 		this.value = value;
 	}
-
 	@Override
 	public boolean equals(StepNode sn) {
 		return sn instanceof StepConstant && Math.abs(sn.getValue() - value) < 0.00000001;
@@ -42,7 +41,7 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepVariable variable, double replaceWith) {
+	public double getValueAt(StepNode variable, double replaceWith) {
 		return value;
 	}
 
@@ -58,10 +57,13 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public String toString() {
-		if(Double.isNaN(value)) {
+		if (StepOperation.isEqual(value, Math.PI)) {
+			return "pi";
+		} else if (StepOperation.isEqual(value, Math.E)) {
+			return "e";
+		} else if (Double.isNaN(value)) {
 			return "NaN";
-		}
-		if (Double.isInfinite(value)) {
+		} else if (Double.isInfinite(value)) {
 			if (value < 0) {
 				return "-inf";
 			}
@@ -72,10 +74,13 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public String toLaTeXString() {
-		if (Double.isNaN(value)) {
+		if (StepOperation.isEqual(value, Math.PI)) {
+			return "\\pi";
+		} else if (StepOperation.isEqual(value, Math.E)) {
+			return "\\e";
+		} else if (Double.isNaN(value)) {
 			return "NaN";
-		}
-		if (Double.isInfinite(value)) {
+		} else if (Double.isInfinite(value)) {
 			if (value < 0) {
 				return "-\\infty";
 			}
@@ -106,16 +111,19 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public StepConstant getConstantCoefficient() {
-		return this;
-	}
-
-	@Override
-	public StepNode constantRegroup() {
-		return this;
+		if (nonSpecialConstant()) {
+			return this;
+		}
+		return new StepConstant(1);
 	}
 
 	@Override
 	public StepNode divideAndSimplify(double x) {
 		return new StepConstant(value / x);
+	}
+
+	@Override
+	public boolean canBeEvaluated() {
+		return true;
 	}
 }
