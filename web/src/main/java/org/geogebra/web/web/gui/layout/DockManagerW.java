@@ -1925,6 +1925,10 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
+	/**
+	 * Closes toolbar in portrait mode
+	 * 
+	 */
 	public void closePortrait() {
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
@@ -1939,6 +1943,14 @@ public class DockManagerW extends DockManager {
 		closePortrait(split, toolbar);
 	}
 
+	/**
+	 * Closes toolbar in portrait mode
+	 * 
+	 * @param split
+	 *            SpitPanel of the toolbar.
+	 * @param toolbar
+	 *            to close.
+	 */
 	public void closePortrait(DockSplitPaneW split, ToolbarPanel toolbar) {
 		if (toolbar == null || toolbar.isOpen()) {
 			return;
@@ -1947,9 +1959,8 @@ public class DockManagerW extends DockManager {
 		double height = app.getArticleElement().getDataParamHeight();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			height = Window.getClientHeight();
-		}
-		if (app.smallScreen()) {
-			height += 36;
+		} else if (AppW.smallScreen()) {
+			height += app.getArticleElement().getDataParamMarginTop();
 		}
 
 		double ratio = 1 - (ToolbarPanel.CLOSED_HEIGHT_PORTRAIT / height);
