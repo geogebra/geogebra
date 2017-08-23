@@ -10095,7 +10095,7 @@ public abstract class EuclidianController {
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
 					&& !draggingOccured) {
-			//	addDynamicStylebar();
+				addDynamicStylebar(true);
 			}
 		}
 
