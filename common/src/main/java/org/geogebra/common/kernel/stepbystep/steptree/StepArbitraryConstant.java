@@ -73,7 +73,7 @@ public class StepArbitraryConstant extends StepNode {
 		if (equals(variable)) {
 			return value;
 		}
-		return Double.NaN;
+		return 1;
 	}
 
 	@Override

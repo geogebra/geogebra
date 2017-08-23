@@ -550,16 +550,16 @@ public class StepHelper {
 	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepNode variable, Kernel kernel) {
 		StepNode denominators = getDenominator(StepNode.add(LHS, RHS), kernel);
 
-		StepArbitraryConstant sa = new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER);
-
 		if (denominators != null && !denominators.isConstant()) {
-			if (isEqual(denominators.getValueAt(variable, solution.getValueAt(sa, 0)), 0)) {
+			if (isEqual(denominators.getValueAt(variable, solution.getValue()), 0)) {
 				return false;
 			}
 		}
 
-		double evaluatedLHS = LHS.getValueAt(variable, solution.getValueAt(sa, 0));
-		double evaluatedRHS = RHS.getValueAt(variable, solution.getValueAt(sa, 0));
+		StepNode replacedSolution = replaceArbitraryConstants(solution);
+
+		double evaluatedLHS = LHS.getValueAt(variable, replacedSolution.getValue());
+		double evaluatedRHS = RHS.getValueAt(variable, replacedSolution.getValue());
 
 		if (!isEqual(evaluatedLHS, evaluatedRHS)) {
 			return false;
@@ -567,6 +567,21 @@ public class StepHelper {
 
 		return true;
 	}
+
+	private static StepNode replaceArbitraryConstants(StepNode sn) {
+		if (sn instanceof StepArbitraryConstant) {
+			return new StepConstant(0);
+		} else if (sn.isOperation()) {
+			StepOperation so = new StepOperation(((StepOperation) sn).getOperation());
+			for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+				so.addSubTree(replaceArbitraryConstants(((StepOperation) sn).getSubTree(i)));
+			}
+			return so;
+		}
+
+		return sn;
+	}
+
 
 	public static double getCoefficientValue(StepNode sn, StepNode s) {
 		StepNode coeff = findCoefficient(sn, s);
@@ -613,7 +628,7 @@ public class StepHelper {
 	public static int degree(StepNode sn) {
 		if (sn instanceof StepVariable) {
 			return 1;
-		} else if (sn instanceof StepConstant || sn instanceof StepArbitraryConstant) {
+		} else if (sn.isConstant()) {
 			return 0;
 		} else if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
