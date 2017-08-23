@@ -197,30 +197,17 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 						@Override
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
-							item.preventBlur();
-							item.requestFocus();
-							if (item.showCurrentError()) {
 
+							if (checkError(item)) {
 								return;
 							}
+
 							getBtnHelpToggle()
 									.setDown(!getBtnHelpToggle().isDown());
+
 							if (getBtnHelpToggle().isDown()) {
 								item.app.hideKeyboard();
-								Scheduler.get().scheduleDeferred(
-										new Scheduler.ScheduledCommand() {
-											@Override
-											public void execute() {
-												item.setShowInputHelpPanel(
-														true);
-												((InputBarHelpPanelW) item.app
-														.getGuiManager()
-														.getInputHelpPanel())
-																.focusCommand(
-																		item.getCommand());
-											}
-
-										});
+								showDeferred(item);
 							} else {
 								item.setShowInputHelpPanel(false);
 							}
@@ -319,4 +306,36 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		}
 	}
 
+	/**
+	 * Shows the help panel
+	 * 
+	 * @param item
+	 */
+	public static void showDeferred(final RadioTreeItem item) {
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			@Override
+			public void execute() {
+				item.setShowInputHelpPanel(true);
+
+				((InputBarHelpPanelW) item.app.getGuiManager()
+						.getInputHelpPanel()).focusCommand(item.getCommand());
+			}
+
+		});
+
+	}
+
+	/**
+	 * Check if item shows error.
+	 * 
+	 * @param item
+	 *            to check
+	 * 
+	 * @return if there is an error or not.
+	 */
+	public static boolean checkError(final RadioTreeItem item) {
+		item.preventBlur();
+		item.requestFocus();
+		return item.showCurrentError();
+	}
 }

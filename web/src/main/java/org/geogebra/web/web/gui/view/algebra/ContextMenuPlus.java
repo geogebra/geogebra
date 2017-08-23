@@ -8,11 +8,9 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
-import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -138,30 +136,13 @@ public class ContextMenuPlus implements SetLabels {
 	}
 	
 	private void showHelp() {
-		item.preventBlur();
-		item.requestFocus();
-		if (item.showCurrentError()) {
-
+		if (MarblePanel.checkError(item)) {
 			return;
 		}
+		MarblePanel.showDeferred(item);
 
-		item.app.hideKeyboard();
-		Scheduler.get().scheduleDeferred(
-				new Scheduler.ScheduledCommand() {
-					@Override
-					public void execute() {
-						item.setShowInputHelpPanel(
-								true);
-						
-						((InputBarHelpPanelW) item.app
-								.getGuiManager()
-								.getInputHelpPanel())
-						.focusCommand(
-								item.getCommand());
-					}
-
-				});
 	}
+
 
 }
 
