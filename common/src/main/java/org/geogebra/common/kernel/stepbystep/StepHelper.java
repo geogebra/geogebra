@@ -550,14 +550,16 @@ public class StepHelper {
 	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepNode variable, Kernel kernel) {
 		StepNode denominators = getDenominator(StepNode.add(LHS, RHS), kernel);
 
+		StepArbitraryConstant sa = new StepArbitraryConstant("k", 0, StepArbitraryConstant.ConstantType.INTEGER);
+
 		if (denominators != null && !denominators.isConstant()) {
-			if (isEqual(denominators.getValueAt(variable, solution.getValue()), 0)) {
+			if (isEqual(denominators.getValueAt(variable, solution.getValueAt(sa, 0)), 0)) {
 				return false;
 			}
 		}
 
-		double evaluatedLHS = LHS.getValueAt(variable, solution.getValue());
-		double evaluatedRHS = RHS.getValueAt(variable, solution.getValue());
+		double evaluatedLHS = LHS.getValueAt(variable, solution.getValueAt(sa, 0));
+		double evaluatedRHS = RHS.getValueAt(variable, solution.getValueAt(sa, 0));
 
 		if (!isEqual(evaluatedLHS, evaluatedRHS)) {
 			return false;

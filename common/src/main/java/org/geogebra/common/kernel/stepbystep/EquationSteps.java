@@ -33,6 +33,7 @@ public class EquationSteps {
 
 	private boolean inverted;
 	private boolean intermediate;
+	private boolean shouldCheckSolutions;
 
 	private StepNode variable;
 
@@ -110,6 +111,11 @@ public class EquationSteps {
 		// II. step: making denominators disappear
 		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
 			StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
+
+			if (denominators != null && !denominators.isConstant()) {
+				shouldCheckSolutions = true;
+			}
+
 			multiply(denominators);
 		}
 
@@ -281,13 +287,7 @@ public class EquationSteps {
 			steps.add(loc.getMenuLaTeX("SolutionsA", "Solutions: %0", sb.toString()), SolutionStepTypes.SOLUTION);
 		}
 
-		StepNode bothSides = StepNode.add(origLHS, origRHS);
-
-		StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
-		StepNode roots = StepHelper.getAll(bothSides, Operation.NROOT);
-
-		if (interval == null && (denominators == null || denominators.isConstant()) && (roots == null || roots.isConstant())
-				|| solutions.size() == 0) {
+		if (solutions.size() == 0 || interval == null && !shouldCheckSolutions) {
 			return steps.getSteps();
 		}
 
@@ -985,6 +985,8 @@ public class EquationSteps {
 		LHS = LHS.simplify();
 		RHS = RHS.simplify();
 		addStep();
+
+		shouldCheckSolutions = true;
 	}
 
 	private void nthroot(int root) {

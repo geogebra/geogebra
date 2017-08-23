@@ -123,6 +123,12 @@ public class StepOperation extends StepNode {
 			return Math.pow(base, 1 / exponent);
 		case ABS:
 			return Math.abs(subtrees.get(0).getValue());
+		case SIN:
+			return Math.sin(subtrees.get(0).getValue());
+		case COS:
+			return Math.cos(subtrees.get(0).getValue());
+		case TAN:
+			return Math.tan(subtrees.get(0).getValue());
 		}
 		return Double.NaN;
 	}
@@ -152,6 +158,12 @@ public class StepOperation extends StepNode {
 			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith), 1 / subtrees.get(1).getValueAt(variable, replaceWith));
 		case ABS:
 			return Math.abs(subtrees.get(0).getValueAt(variable, replaceWith));
+		case SIN:
+			return Math.sin(subtrees.get(0).getValueAt(variable, replaceWith));
+		case COS:
+			return Math.cos(subtrees.get(0).getValueAt(variable, replaceWith));
+		case TAN:
+			return Math.tan(subtrees.get(0).getValueAt(variable, replaceWith));
 		}
 		return Double.NaN;
 	}
@@ -633,9 +645,6 @@ public class StepOperation extends StepNode {
 					return newSum.getSubTree(0);
 				}
 
-				if (newSum.isConstant()) {
-					return regroupConstant(sn, changed);
-				}
 				return newSum;
 			}
 
