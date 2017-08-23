@@ -157,8 +157,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	private static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l',
 			'm', };
-	private static final char[] shortListLabels = { 'L', 'M', 'N', 'O', 'P',
-			'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Z' };
 
 	private static final char[] arabic = { '\u0623', '\u0628', '\u062a',
 			'\u062b', '\u062c', '\u062d', '\u062e', '\u062f', '\u0630',
@@ -3717,7 +3715,7 @@ public abstract class GeoElement extends ConstructionElement
 				chars = lineLabels;
 			} else if (this instanceof GeoPenStroke || this instanceof GeoLocusStroke) {
 				// needs to come before PolyLine (subclass)
-				return defaultNumberedLabel("penStroke"); // Name.penStroke
+				return defaultNumberedLabel("penStroke", false); // Name.penStroke
 			} else if (isGeoPolyLine()) {
 				chars = lineLabels;
 			} else if (isGeoConic()) {
@@ -3727,42 +3725,38 @@ public abstract class GeoElement extends ConstructionElement
 			} else if (isGeoAngle()) {
 				chars = Greek.getGreekLowerCaseNoPi();
 			} else if (isGeoText()) {
-				return defaultNumberedLabel("text"); // Name.text
+				return defaultNumberedLabel("text", false); // Name.text
 			} else if (isGeoImage()) {
-				return defaultNumberedLabel("picture"); // Name.picture
+				return defaultNumberedLabel("picture", false); // Name.picture
 			} else if (isGeoLocus()) {
 
 				if (algoParent.getClassName().equals(Commands.SolveODE)
 						|| algoParent instanceof AlgoIntegralODE || algoParent
 								.getClassName().equals(Commands.NSolveODE)) {
 
-					return defaultNumberedLabel("numericalIntegral"); // Name.numericalIntegral
+					return defaultNumberedLabel("numericalIntegral", false); // Name.numericalIntegral
 
 				} else if (algoParent.getClassName()
 						.equals(Commands.SlopeField)) {
 
-					return defaultNumberedLabel("slopefield"); // Name.slopefield
+					return defaultNumberedLabel("slopefield", false); // Name.slopefield
 				} else if (algoParent instanceof GraphAlgo) {
 
-					return defaultNumberedLabel("graph"); // Name.graph
+					return defaultNumberedLabel("graph", false); // Name.graph
 				}
 
-				return defaultNumberedLabel("locus"); // Name.locus
+				return defaultNumberedLabel("locus", false); // Name.locus
 			} else if (isGeoInputBox()) {
-				return defaultNumberedLabel("textfield"); // Name.textfield
+				return defaultNumberedLabel("textfield", false); // Name.textfield
 			} else if (isGeoButton()) {
-				return defaultNumberedLabel("button"); // Name.button
+				return defaultNumberedLabel("button", false); // Name.button
 			} else if (isGeoTurtle()) {
-				return defaultNumberedLabel("turtle"); // Name.turtle
+				return defaultNumberedLabel("turtle", false); // Name.turtle
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
-				if (!list.isMatrix()) {
-					chars = shortListLabels;
-				} else {
 
-					return defaultNumberedLabel("matrix"); // Name.matrix /
-																// Name.list
-				}
+				return defaultNumberedLabel(list.isMatrix() ? "matrix" : "list",
+						true);
 			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
 			} else {
@@ -3811,12 +3805,17 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 
-	private String defaultNumberedLabel(final String plainKey) {
+	private String defaultNumberedLabel(final String plainKey,
+			boolean allowNoSuffix) {
+		String trans = getLoc().getPlainLabel(plainKey);
+		if (allowNoSuffix && cons.isFreeLabel(trans)) {
+			return trans;
+		}
 		int counter = 0;
 		String str;
 		do {
 			counter++;
-			str = getLoc().getPlainLabel(plainKey)
+			str = trans
 					+ kernel.internationalizeDigits(counter + "",
 							StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
