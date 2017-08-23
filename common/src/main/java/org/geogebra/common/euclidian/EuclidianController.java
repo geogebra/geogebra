@@ -10145,6 +10145,10 @@ public abstract class EuclidianController {
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
 
+		if (draggingOccured && app.has(Feature.HIGHLIGT_IMPROVEMENTS)) {
+			selection.clearSelectedGeos();
+		}
+
 		if (this.doubleClickStarted && !draggingOccured && !right) {
 			wrapMouseclicked(control, 2, type);
 		}
