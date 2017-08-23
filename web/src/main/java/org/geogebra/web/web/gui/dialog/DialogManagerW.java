@@ -213,7 +213,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			return;
 		}
 
-		if (app.isUnbundled() && app.has(Feature.SWITCH_FLAG)) {
+		if (app.isUnbundled()) {
 			if (app.getActiveEuclidianView().getDynamicStyleBar().isVisible()) {
 				return;
 			}

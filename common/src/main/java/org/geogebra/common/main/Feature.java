@@ -192,9 +192,6 @@ public enum Feature {
 	/** MOB-1227 */
 	MOB_SELECT_TOOL,
 
-	/** GGB-1844 */
-	SWITCH_FLAG,
-
 	/** GGB-1868 */
 	SELECT_TOOL,
 

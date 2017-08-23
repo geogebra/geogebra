@@ -544,7 +544,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		if (!app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar()
-				|| !app.isWhiteboardActive() && !app.has(Feature.SWITCH_FLAG)) {
+				|| (!app.isWhiteboardActive() && !app.isUnbundled())) {
 			addMenuButton();
 		}
 
@@ -560,7 +560,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			addLabelButton();
 		}
 
-		if (app.has(Feature.SWITCH_FLAG) || app.isWhiteboardActive()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			addDeleteButton();
 		}
 
@@ -670,7 +670,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// context menu
 	protected void addContextMenuButton() {
 		if (!isBackground()
-				&& (app.isWhiteboardActive() || app.has(Feature.SWITCH_FLAG))) {
+				&& (app.isWhiteboardActive() || app.isUnbundled())) {
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
@@ -700,7 +700,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return !app.has(Feature.DYNAMIC_STYLEBAR)
 				|| (!isDynamicStylebar()
 						&& !(this.getView() instanceof EuclidianView3D))
-				|| !app.isWhiteboardActive() && !app.has(Feature.SWITCH_FLAG);
+				|| !app.isWhiteboardActive() && !app.isUnbundled();
 	}
 	
 	protected boolean isDynamicStylebar(){

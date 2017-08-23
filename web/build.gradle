@@ -132,8 +132,9 @@ task copyHtml {
 	      .replace("<!--APP NAME-->","Math Calculators")
 	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico")
 	      .replace("<!--LANG-->","en");
-	    def appHtml = { raw, appID, prerelease -> 
-	    	return raw.replace("<!--SPLASH-->", file(templateDir+"app-header.html").text + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
+	    def appHtml = { raw, appID, prerelease, offline = false ->
+	    	def header = offline ? "" : file(templateDir+"app-header.html").text; 
+	    	return raw.replace("<!--SPLASH-->", header + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
 	    	.replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
 	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";</script><!--LANGUAGE LINKS-->")
 	    	.replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/${appID}.ico");
@@ -153,7 +154,8 @@ task copyHtml {
 	    
 	    file("war/graphing-template.html").text = appHtml(html, "graphing", false);
 	    file("war/geometry-template.html").text = appHtml(html, "geometry", false);
-	    
+	    file("war/graphing-offline.html").text = appHtml(html, "graphing", false, true);
+	    file("war/geometry-offline.html").text = appHtml(html, "geometry", false, true);
 	  
 	    file("war/calculator.html").text = english(appHtml(html, "calculator", true), "Scientific Calculator");
 	    

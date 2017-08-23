@@ -4069,10 +4069,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case CONTEXT_MENU:
-			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));
+			return prerelease && (whiteboard || isUnbundled());
 
 		case DYNAMIC_STYLEBAR:
-			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));
+			return prerelease && (whiteboard || isUnbundled());
 
 		/** MOW-55 */
 		case BOUNDING_BOXES:
@@ -4097,7 +4097,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case CLEAR_VIEW_STYLEBAR:
-			return prerelease && (whiteboard || has(Feature.SWITCH_FLAG));
+			return prerelease && (whiteboard || isUnbundled());
 
 		case COLORPOPUP_IMPROVEMENTS:
 			return prerelease;
@@ -4180,9 +4180,6 @@ public abstract class App implements UpdateSelection {
 		 * Used for: dynamic stylebar will be added for version which use the
 		 * new toolbar
 		 */
-		case SWITCH_FLAG:
-			return prerelease && isUnbundled();
-
 		case MOB_INPUT_BAR_SOLVE:
 			return isNativeMobileAppWithNewUI();
 
