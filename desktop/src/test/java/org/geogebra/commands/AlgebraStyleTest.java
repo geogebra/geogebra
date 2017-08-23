@@ -261,6 +261,36 @@ public class AlgebraStyleTest extends Assert {
 
 	}
 
+	/**
+	 * GGB-2021, TRAC-1642
+	 */
+	@Test
+	public void substitutedFunctionsShouldBeExpanded() {
+		t("ff(x)=x");
+
+		t("gg(x)=2*ff(x)");
+
+		t("hh(x)=gg(x-1)");
+		assertEquals(
+				"2 (x - 1)",
+				getGeo("hh").toValueString(StringTemplate.defaultTemplate));
+
+		t("a(x, y) = -y^2 - x y + 2y");
+
+		t("f(x) = x/2");
+
+		t("g(x) = 1 -x/2");
+
+		t("h(x) = a(x, f) - a(x, g)");
+
+		assertEquals(
+				CommandsTest.unicode(
+						"-(x / 2)^2 - x x / 2 + 2x / 2 - (-(1 - x / 2)^2 - x (1 - x / 2) + 2 (1 - x / 2))"),
+				getGeo("h")
+				.toValueString(StringTemplate.defaultTemplate));
+
+	}
+
 	@Test
 	public void tooltipsShouldHaveDefaultPrecision() {
 		t("P=(0,1/3)");

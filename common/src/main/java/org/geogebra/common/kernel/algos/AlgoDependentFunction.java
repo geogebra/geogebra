@@ -395,7 +395,9 @@ public class AlgoDependentFunction extends AlgoElement
 		for (int i = 0; i < xy.length; i++) {
 			funNExpression = funNExpression.replace(xy[i],
 					expandFunctionDerivativeNodes(
-							((MyList) right).getListElement(i + offset), fast))
+							((MyList) right).getListElement(i + offset)
+									.unwrap(),
+							fast))
 					.wrap();
 		}
 		return (funNExpression);
