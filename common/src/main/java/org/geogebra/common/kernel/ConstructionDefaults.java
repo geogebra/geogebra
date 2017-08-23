@@ -1231,7 +1231,7 @@ public class ConstructionDefaults {
 
 	private GColor[] getColorSequence() {
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGraphing()) {
+				&& cons.getApplication().isUnbundled()) {
 			return colorSequenceGraphing;
 		}
 		return colorSequence;
