@@ -501,6 +501,10 @@ class Header extends FlowPanel {
 			btnClose.getUpFace().setImage(imgClose);
 			btnClose.setTitle(app.getLocalization().getMenu("Close"));
 			btnMenu.removeStyleName("landscapeMenuBtn");
+			if (!app.isPortrait()) {
+				clearHeight();
+				clearWidth();
+			}
 		} else {
 			addStyleName("header-close-" + orientation);
 			btnClose.getUpFace().setImage(imgOpen);
@@ -583,6 +587,7 @@ class Header extends FlowPanel {
 	}
 
 	public void reset() {
+		resize();
 		updateUndoRedoPosition();
 		getElement().getStyle().setHeight(OPEN_HEIGHT, Unit.PX);
 	}
@@ -594,8 +599,8 @@ class Header extends FlowPanel {
 		Log.debug("ORIENTATION: "
 				+ (app.isPortrait() ? "portrait" : "landscape"));
 		if (app.isPortrait()) {
-			getElement().getStyle().clearHeight();
-			getElement().getStyle().clearWidth();
+			clearWidth();
+			clearHeight();
 			updateStyle();
 		} else {
 			if (!isOpen()) {
@@ -608,6 +613,14 @@ class Header extends FlowPanel {
 			}
 
 		}
+	}
+
+	private void clearWidth() {
+		getElement().getStyle().clearWidth();
+	}
+
+	private void clearHeight() {
+		getElement().getStyle().clearHeight();
 	}
 
 	public void centerEV() {
