@@ -189,7 +189,7 @@ public abstract class StepNode {
 	/**
 	 * @return the tree, expanded (destroys the tree, use only in assignments)
 	 */
-	public abstract StepNode expand();
+	public abstract StepNode expand(Boolean[] changed);
 
 	/**
 	 * @return the tree, fully simplified (destroys the tree, use only in assignments)
@@ -230,7 +230,6 @@ public abstract class StepNode {
 
 		try {
 			ExpressionValue ev = parser.parseGeoGebraExpression(s);
-
 			return convertExpression(ev);
 		} catch (ParseException e) {
 			e.printStackTrace();
@@ -247,12 +246,6 @@ public abstract class StepNode {
 			switch (((ExpressionNode) ev).getOperation()) {
 			case NO_OPERATION:
 				return convertExpression(((ExpressionNode) ev).getLeft());
-			case SQRT:
-				return root(convertExpression(((ExpressionNode) ev).getLeft()), 2);
-			case MINUS:
-				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
-			case ABS:
-				return abs(convertExpression(((ExpressionNode) ev).getLeft()));
 			case SIN:
 			case COS:
 			case TAN:
@@ -260,8 +253,14 @@ public abstract class StepNode {
 			case SEC:
 			case COT:
 				return apply(convertExpression(((ExpressionNode) ev).getLeft()), ((ExpressionNode) ev).getOperation());
+			case SQRT:
+				return root(convertExpression(((ExpressionNode) ev).getLeft()), 2);
+			case MINUS:
+				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
+			case ABS:
+				return abs(convertExpression(((ExpressionNode) ev).getLeft()));
 			case MULTIPLY:
-				if (((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
+				if (((ExpressionNode) ev).getLeft().isConstant() && ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
 					return minus(convertExpression(((ExpressionNode) ev).getRight()));
 				}
 			default:

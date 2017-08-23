@@ -46,16 +46,6 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode getCoefficient() {
-		return this;
-	}
-
-	@Override
-	public StepNode getVariable() {
-		return null;
-	}
-
-	@Override
 	public String toString() {
 		if (StepOperation.isEqual(value, Math.PI)) {
 			return "pi";
@@ -100,13 +90,23 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode expand() {
+	public StepNode expand(Boolean[] changed) {
 		return this;
 	}
 
 	@Override
 	public StepNode simplify() {
 		return this;
+	}
+
+	@Override
+	public StepNode getCoefficient() {
+		return this;
+	}
+
+	@Override
+	public StepNode getVariable() {
+		return null;
 	}
 
 	@Override

@@ -104,7 +104,7 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode expand() {
+	public StepNode expand(Boolean[] changed) {
 		return this;
 	}
 

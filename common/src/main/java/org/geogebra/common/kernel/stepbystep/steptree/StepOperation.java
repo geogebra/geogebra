@@ -277,11 +277,15 @@ public class StepOperation extends StepNode {
 				} else if (i != 0) {
 					sp.append(" ");
 				}
-				if (subtrees.get(i).getPriority() < getPriority()) {
+				
+				boolean parantheses = subtrees.get(i).getPriority() < getPriority() || 
+						(subtrees.get(i).nonSpecialConstant() && subtrees.get(i).getValue() < 0 && i != 0);
+				
+				if (parantheses) {
 					sp.append("\\left(");
 				}
 				sp.append(subtrees.get(i).toLaTeXString());
-				if (subtrees.get(i).getPriority() < getPriority()) {
+				if (parantheses) {
 					sp.append("\\right)");
 				}
 			}
@@ -629,6 +633,9 @@ public class StepOperation extends StepNode {
 					return newSum.getSubTree(0);
 				}
 
+				if (newSum.isConstant()) {
+					return regroupConstant(sn, changed);
+				}
 				return newSum;
 			}
 
@@ -780,6 +787,8 @@ public class StepOperation extends StepNode {
 
 				getBasesAndExponents(so, null, bases, exponents);
 
+				boolean containsArbitraryInteger = false;
+
 				double nominator = 1;
 				double denominator = 1;
 				for (int i = 0; i < bases.size(); i++) {
@@ -793,6 +802,10 @@ public class StepOperation extends StepNode {
 				}
 
 				for (int i = 0; i < bases.size(); i++) {
+					if (bases.get(i) instanceof StepArbitraryConstant && isEqual(Math.abs(exponents.get(i).getValue()), 1)) {
+						containsArbitraryInteger = true;
+					}
+
 					if (!isEqual(exponents.get(i).getValue(), 0)) {
 						for (int j = i + 1; j < bases.size(); j++) {
 							if (bases.get(i).equals(bases.get(j))) {
@@ -868,7 +881,7 @@ public class StepOperation extends StepNode {
 					soDenominator = StepNode.multiply(denominator, soDenominator);
 				}
 
-				if (negative) {
+				if (negative && !containsArbitraryInteger) {
 					return StepNode.minus(StepNode.divide(soNominator, soDenominator));
 				}
 				return StepNode.divide(soNominator, soDenominator);
@@ -1200,13 +1213,13 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public StepNode expand() {
+	public StepNode expand(Boolean[] changed) {
 		if (isOperation(Operation.ABS)) {
 			return this;
 		}
 
 		for (int i = 0; i < noOfOperands(); i++) {
-			subtrees.set(i, distributeMinus(getSubTree(i).expand(), new Boolean[1]));
+			subtrees.set(i, distributeMinus(getSubTree(i).expand(changed), changed));
 		}
 
 		if (isOperation(Operation.MULTIPLY)) {
@@ -1230,7 +1243,7 @@ public class StepOperation extends StepNode {
 					}
 				}
 
-				return so.regroup().expand();
+				return so.regroup().expand(changed);
 			}
 
 			for (int i = 0; i < noOfOperands(); i++) {
@@ -1243,6 +1256,8 @@ public class StepOperation extends StepNode {
 			if (so == null) {
 				return this;
 			}
+
+			changed[0] = true;
 
 			for (int i = 0; i < noOfOperands(); i++) {
 				if (getSubTree(i).isOperation(Operation.PLUS)) {
@@ -1276,9 +1291,11 @@ public class StepOperation extends StepNode {
 					&& closeToAnInteger(getSubTree(1).getValue())) {
 				long n = Math.round(getSubTree(1).getValue());
 
-				if (n < 0) {
+				if (n <= 1) {
 					return this;
 				}
+
+				changed[0] = true;
 
 				StepNode sn = null;
 
@@ -1286,7 +1303,7 @@ public class StepOperation extends StepNode {
 					sn = StepNode.multiply(sn, getSubTree(0));
 				}
 
-				return sn.expand();
+				return sn.expand(changed);
 			}
 		}
 		return this;
@@ -1294,7 +1311,7 @@ public class StepOperation extends StepNode {
 
 	@Override
 	public StepNode simplify() {
-		return regroup().expand().regroup();
+		return regroup().expand(new Boolean[1]).regroup();
 	}
 
 	public void addSubTree(StepNode sn) {
