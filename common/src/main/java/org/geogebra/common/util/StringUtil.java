@@ -1389,7 +1389,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	public static String capitalize(String color) {
 		// use localized version of toUpperCase(), not toUpperCase(Locale.US)
 		return (color.charAt(0) + "").toUpperCase()
-				+ color.substring(1, color.length() - 1);
+				+ color.substring(1, color.length());
 	}
 
 	/**
