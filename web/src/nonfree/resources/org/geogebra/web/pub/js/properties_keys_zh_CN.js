@@ -1423,7 +1423,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Comma": "\u9017\u53f7",
     "Command": "\u6307\u4ee4",
     "CommandName": "\u6307\u4ee4\u540d\u79f0",
-    "Commands": "Commands",
+    "Commands": "\u6307\u4ee4",
     "CommonTangentOfCirclesAandB": "\u5706\u9525\u66f2\u7ebf %0 \u4e0e %1 \u7684\u516c\u5207\u7ebf",
     "ComparisonNotPossible": "\u5bf9\u4e0d\u8d77, \u4e0d\u80fd\u5bf9\u8fd9\u4e9b\u5bf9\u8c61\u8fdb\u884c\u6bd4\u8f83",
     "Compasses": "\u5706\u89c4(\u534a\u5f84\u4e0e\u5706\u5fc3)",
