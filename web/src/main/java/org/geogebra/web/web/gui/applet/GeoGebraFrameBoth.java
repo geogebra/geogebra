@@ -239,10 +239,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		// frameLayout.setLayout(app);
 		// frameLayout.forceLayout();
 		if (ae.getDataParamFitToScreen()) {
-
-			setSize(Window.getClientWidth(), Window.getClientHeight());
-
-
+			setSize(Window.getClientWidth(), ae.computeHeight());
 		} else {
 			app.updateViewSizes();
 		}
