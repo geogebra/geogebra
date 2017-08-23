@@ -109,7 +109,7 @@ class MetaModelSymbols {
 		operators.add(createOperator("\u27c2"));
 		operators.add(
 				createOperator("parallel", "\\parallel",
-						Unicode.PARALLEL + ""));
+						Unicode.PARALLEL));
 
 		operators.add(createOperator("subset", "NaN", "\\subset",
 				Unicode.IS_SUBSET_OF_STRICT));

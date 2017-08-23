@@ -1237,7 +1237,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void CSolve_Several_0 () {
     t("CSolve[{y^2 = x - 1, x = 2 * y - 1}, {x, y}]", "{{x = 1 - 2 * \u03af, y = 1 - \u03af}, {x = 1 + 2 * \u03af, y = 1 + \u03af}}",
-        "{{x = 1 + 2 * \u03af, y = 1 + \u03af}, {x = 1 - 2 *- \u03af, y = 1 - \u03af}}");
+				"{{x = 1 + 2 * \u03af, y = 1 + \u03af}, {x = 1 - 2 * \u03af, y = 1 - \u03af}}");
   }
 
 

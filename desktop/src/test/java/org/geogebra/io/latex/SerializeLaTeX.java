@@ -49,6 +49,8 @@ public class SerializeLaTeX {
 	public void testExpr() {
 		checkCannon("1 * 2", "1*2");
 		checkCannon("1 == 2", "1==2");
+		checkCannon("1 " + Unicode.PARALLEL + " 2",
+				"1" + Unicode.PARALLEL + "2");
 		checkCannon("1 = 2", "1=2");
 		checkCannon("(1 * 2)", "(1*2)");
 
