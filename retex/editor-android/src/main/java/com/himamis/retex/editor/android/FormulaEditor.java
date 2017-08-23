@@ -182,6 +182,8 @@ public class FormulaEditor extends View implements MathField {
             mFormulaPreviewTeXIcon = texFormula.new TeXIconBuilder().setSize(mSize * mScale).setType(mType)
                     .setStyle(TeXConstants.STYLE_DISPLAY).build();
             mFormulaPreviewTeXIcon.setInsets(createInsetsFromPadding());
+        } else {
+            mFormulaPreviewTeXIcon = null;
         }
     }
 
