@@ -144,10 +144,15 @@ $duration: 0.2s;
     			overflow: hidden;
     			vertical-align: middle;
     			padding: 0px 8px;
+    			border-radius: 2px;
     			margin-left: 8px;
    				box-shadow: none;
    				font-family: Roboto,sans-serif;
     			font-weight: 400 !important;
+    			
+    			&:hover {
+    				background: $black-10 !important;
+    			}
    			}
    		
    			.visibility {
@@ -407,11 +412,16 @@ $duration: 0.2s;
     			text-transform: uppercase;
     			overflow: hidden;
     			vertical-align: middle;
+    			border-radius: 2px;
     			padding: 0px 8px;
     			margin-left: 8px;
    				box-shadow: none;
    				font-family: Roboto,sans-serif;
     			font-weight: 400 !important;
+    			
+    			&:hover {
+    				background: $black-10 !important;
+    			}
    			}
    		}
 	}
