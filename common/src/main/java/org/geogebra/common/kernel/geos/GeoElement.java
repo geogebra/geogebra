@@ -157,6 +157,8 @@ public abstract class GeoElement extends ConstructionElement
 
 	private static final char[] integerLabels = { 'n', 'i', 'j', 'k', 'l',
 			'm', };
+	private static final char[] shortListLabels = { 'L', 'M', 'N', 'O', 'P',
+			'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'Z' };
 
 	private static final char[] arabic = { '\u0623', '\u0628', '\u062a',
 			'\u062b', '\u062c', '\u062d', '\u062e', '\u062f', '\u0630',
@@ -3754,9 +3756,13 @@ public abstract class GeoElement extends ConstructionElement
 				return defaultNumberedLabel("turtle"); // Name.turtle
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
-				return defaultNumberedLabel(
-						list.isMatrix() ? "matrix" : "list"); // Name.matrix /
+				if (!list.isMatrix()) {
+					chars = shortListLabels;
+				} else {
+
+					return defaultNumberedLabel("matrix"); // Name.matrix /
 																// Name.list
+				}
 			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
 			} else {
