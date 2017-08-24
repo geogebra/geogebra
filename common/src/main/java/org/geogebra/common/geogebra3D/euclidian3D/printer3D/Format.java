@@ -48,9 +48,10 @@ public interface Format {
 
 	/**
 	 * 
-	 * start for new vertex
+	 * start for new vertices list
+	 * @param count vertices length
 	 */
-	public void getVerticesStart(StringBuilder sb);
+	public void getVerticesStart(StringBuilder sb, int count);
 
 	/**
 	 * 
@@ -78,8 +79,9 @@ public interface Format {
 	/**
 	 * 
 	 * start for new normals
+	 * @param count normals length
 	 */
-	public void getNormalsStart(StringBuilder sb);
+	public void getNormalsStart(StringBuilder sb, int count);
 
 	/**
 	 * 
@@ -107,8 +109,9 @@ public interface Format {
 	/**
 	 * 
 	 * start for new face
+	 * @param count faces length
 	 */
-	public void getFacesStart(StringBuilder sb);
+	public void getFacesStart(StringBuilder sb, int count);
 
 	/**
 	 * 
@@ -118,8 +121,9 @@ public interface Format {
 	 *            second index
 	 * @param v3
 	 *            third index face description
+	 * @param normal normal index
 	 */
-	public void getFaces(StringBuilder sb, int v1, int v2, int v3);
+	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal);
 
 	/**
 	 * 

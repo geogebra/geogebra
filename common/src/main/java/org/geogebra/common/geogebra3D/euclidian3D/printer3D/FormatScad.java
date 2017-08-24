@@ -39,7 +39,7 @@ public class FormatScad implements Format {
 	}
 
 	@Override
-	public void getVerticesStart(StringBuilder sb) {
+	public void getVerticesStart(StringBuilder sb, int count) {
 		sb.append("\n    points = [");
 	}
 
@@ -65,12 +65,12 @@ public class FormatScad implements Format {
 	}
 
 	@Override
-	public void getFacesStart(StringBuilder sb) {
+	public void getFacesStart(StringBuilder sb, int count) {
 		sb.append("\n    faces = [");
 	}
 
 	@Override
-	public void getFaces(StringBuilder sb, int v1, int v2, int v3) {
+	public void getFaces(StringBuilder sb, int v1, int v2, int v3, int normal) {
 		sb.append("\n        [");
 		sb.append(v1);
 		sb.append(",");
@@ -96,7 +96,7 @@ public class FormatScad implements Format {
 	}
 
 	@Override
-	public void getNormalsStart(StringBuilder sb) {
+	public void getNormalsStart(StringBuilder sb, int count) {
 		// not used
 	}
 

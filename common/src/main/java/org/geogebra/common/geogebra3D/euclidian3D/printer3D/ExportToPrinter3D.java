@@ -44,7 +44,8 @@ public abstract class ExportToPrinter3D {
 	 */
 	public ExportToPrinter3D() {
 		format = new FormatJscad();
-		// format = new FormatObj();
+//		format = new FormatObj();
+//		format = new FormatCollada();
 		sb = new StringBuilder();
 	}
 
@@ -94,7 +95,7 @@ public abstract class ExportToPrinter3D {
 
 				// vertices
 				boolean notFirst = false;
-				format.getVerticesStart(sb);
+				format.getVerticesStart(sb, geometry.getLength());
 				GLBuffer fb = geometry.getVertices();
 				for (int i = 0; i < geometry.getLength(); i++) {
 					double x = fb.get();
@@ -111,9 +112,10 @@ public abstract class ExportToPrinter3D {
 
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
-				format.getFacesStart(sb);
+				int length = geometry.getIndicesLength() / 3;
+				format.getFacesStart(sb, length);
 				notFirst = false;
-				for (int i = 0; i < geometry.getIndicesLength() / 3; i++) {
+				for (int i = 0; i < length; i++) {
 					int v1 = bi.get();
 					int v2 = bi.get();
 					int v3 = bi.get();
@@ -182,7 +184,7 @@ public abstract class ExportToPrinter3D {
 
 				// vertices
 				boolean notFirst = false;
-				format.getVerticesStart(sb);
+				format.getVerticesStart(sb, geometry.getLength());
 				GLBuffer fb = geometry.getVertices();
 				for (int i = 0; i < geometry.getLength(); i++) {
 					double x = fb.get();
@@ -199,9 +201,10 @@ public abstract class ExportToPrinter3D {
 
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
-				format.getFacesStart(sb);
+				int length = geometry.getIndicesLength() / 3;
+				format.getFacesStart(sb, length);
 				notFirst = false;
-				for (int i = 0; i < geometry.getIndicesLength() / 3; i++) {
+				for (int i = 0; i < length; i++) {
 					int v1 = bi.get();
 					int v2 = bi.get();
 					int v3 = bi.get();
@@ -225,7 +228,7 @@ public abstract class ExportToPrinter3D {
 		if (format.handlesNormals()) {
 			GLBuffer fb = geometry.getNormals();
 			if (fb != null && !fb.isEmpty() && fb.capacity() > 3) {
-				format.getNormalsStart(sb);
+				format.getNormalsStart(sb, geometry.getLength());
 				for (int i = 0; i < geometry.getLength(); i++) {
 					double x = fb.get();
 					double y = fb.get();
@@ -282,7 +285,7 @@ public abstract class ExportToPrinter3D {
 
 			// vertices
 			boolean notFirst = false;
-			format.getVerticesStart(sb);
+			format.getVerticesStart(sb, length * 2);
 			for (int i = 0; i < length; i++) {
 				Coords v = vertices[i];
 				double x, y, z;
@@ -300,15 +303,23 @@ public abstract class ExportToPrinter3D {
 				getVertex(notFirst, x - dx, y - dy, z - dz);
 			}
 			format.getVerticesEnd(sb);
+			
+			// normal
+			if (format instanceof FormatCollada) {
+				format.getNormalsStart(sb, 2);
+				getNormal(n.getX(), n.getY(), n.getZ());
+				getNormal(-n.getX(), -n.getY(), -n.getZ());
+				format.getNormalsEnd(sb);
+			}
 
 			// faces
-			format.getFacesStart(sb);
+			format.getFacesStart(sb, format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2);
 			notFirst = false;
 
 			for (int i = 1; i < length - 1; i++) {
-				getFace(notFirst, 0, 2 * i, 2 * (i + 1)); // bottom
+				getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
 				notFirst = true;
-				getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1); // bottom
+				getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
 			}
 
 			if (format.needsClosedObjects()) {
@@ -382,17 +393,22 @@ public abstract class ExportToPrinter3D {
 		} else {
 			format.getNormal(sb, x, y, z);
 		}
+		format.getNormalsSeparator(sb);
+	}
+	
+	private void getFace(boolean notFirst, int v1, int v2, int v3) {
+		getFace(notFirst, v1, v2, v3, -1);
 	}
 
-	private void getFace(boolean notFirst, int v1, int v2, int v3) {
+	private void getFace(boolean notFirst, int v1, int v2, int v3, int normal) {
 		if (notFirst) {
 			format.getFacesSeparator(sb);
 		}
 
 		if (reverse) {
-			format.getFaces(sb, v1, v3, v2);
+			format.getFaces(sb, v1, v3, v2, normal);
 		} else {
-			format.getFaces(sb, v1, v2, v3);
+			format.getFaces(sb, v1, v2, v3, normal);
 		}
 	}
 	
