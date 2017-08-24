@@ -172,9 +172,9 @@ public abstract class StepNode {
 	/**
 	 * @return the StepConstant coefficient of the tree (ex: 3 sqrt(3) -> 3)
 	 */
-	public abstract StepNode getConstantCoefficient();
+	public abstract StepNode getIntegerCoefficient();
 
-	public abstract StepNode divideAndSimplify(double x);
+	public abstract StepNode getNonInteger();
 
 	/**
 	 * @return the tree, formatted in LaTeX
@@ -185,6 +185,8 @@ public abstract class StepNode {
 	 * @return the tree, regrouped (destroys the tree, use only in assignments)
 	 */
 	public abstract StepNode regroup();
+
+	public abstract StepNode regroup(Boolean[] changed);
 
 	/**
 	 * @return the tree, expanded (destroys the tree, use only in assignments)
@@ -441,7 +443,10 @@ public abstract class StepNode {
 
 	public static StepNode divide(StepNode a, StepNode b) {
 		if (a == null) {
-			return null;
+			if (b == null) {
+				return null;
+			}
+			return StepNode.divide(new StepConstant(1), b);
 		}
 		if (b == null) {
 			return a.deepCopy();
@@ -455,6 +460,10 @@ public abstract class StepNode {
 
 	public static StepNode divide(StepNode a, double b) {
 		return divide(a, new StepConstant(b));
+	}
+
+	public static StepNode divide(double a, double b) {
+		return divide(new StepConstant(a), new StepConstant(b));
 	}
 
 	public static StepNode power(StepNode a, StepNode b) {
@@ -471,7 +480,7 @@ public abstract class StepNode {
 		return so;
 	}
 
-	public static StepNode power(StepNode a, int b) {
+	public static StepNode power(StepNode a, double b) {
 		return power(a, new StepConstant(b));
 	}
 
@@ -489,7 +498,7 @@ public abstract class StepNode {
 		return so;
 	}
 
-	public static StepNode root(StepNode a, int b) {
+	public static StepNode root(StepNode a, double b) {
 		return root(a, new StepConstant(b));
 	}
 

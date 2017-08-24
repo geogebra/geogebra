@@ -59,6 +59,11 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
+	public boolean canBeEvaluated() {
+		return false;
+	}
+
+	@Override
 	public int getPriority() {
 		return 5;
 	}
@@ -73,32 +78,12 @@ public class StepArbitraryConstant extends StepNode {
 		if (equals(variable)) {
 			return value;
 		}
-		return 1;
+		return Double.NaN;
 	}
 
 	@Override
-	public StepNode getCoefficient() {
+	public StepNode regroup(Boolean[] changed) {
 		return this;
-	}
-
-	@Override
-	public StepNode getVariable() {
-		return null;
-	}
-
-	@Override
-	public StepNode getConstantCoefficient() {
-		return new StepConstant(1);
-	}
-
-	@Override
-	public String toString() {
-		return "[" + label + index + "]";
-	}
-
-	@Override
-	public String toLaTeXString() {
-		return label + (index != 0 ? "_{" + index + "}" : "");
 	}
 
 	@Override
@@ -117,12 +102,32 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode divideAndSimplify(double x) {
+	public StepNode getCoefficient() {
 		return this;
 	}
 
 	@Override
-	public boolean canBeEvaluated() {
-		return false;
+	public StepNode getVariable() {
+		return null;
+	}
+
+	@Override
+	public StepNode getIntegerCoefficient() {
+		return null;
+	}
+
+	@Override
+	public StepNode getNonInteger() {
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return "[" + label + index + "]";
+	}
+
+	@Override
+	public String toLaTeXString() {
+		return label + (index != 0 ? "_{" + index + "}" : "");
 	}
 }

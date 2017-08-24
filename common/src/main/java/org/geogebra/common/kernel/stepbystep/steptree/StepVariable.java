@@ -15,6 +15,11 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
+	public StepNode deepCopy() {
+		return new StepVariable(label);
+	}
+
+	@Override
 	public boolean isOperation() {
 		return false;
 	}
@@ -26,6 +31,11 @@ public class StepVariable extends StepNode {
 
 	@Override
 	public boolean isConstant() {
+		return false;
+	}
+
+	@Override
+	public boolean canBeEvaluated() {
 		return false;
 	}
 
@@ -48,33 +58,8 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public StepConstant getConstantCoefficient() {
-		return new StepConstant(1);
-	}
-
-	@Override
-	public StepNode getCoefficient() {
-		return null;
-	}
-
-	@Override
-	public StepNode getVariable() {
+	public StepNode regroup(Boolean[] changed) {
 		return this;
-	}
-
-	@Override
-	public String toString() {
-		return label;
-	}
-
-	@Override
-	public String toLaTeXString() {
-		return label;
-	}
-
-	@Override
-	public StepNode deepCopy() {
-		return new StepVariable(label);
 	}
 
 	@Override
@@ -93,12 +78,32 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public StepNode divideAndSimplify(double x) {
+	public StepNode getCoefficient() {
+		return null;
+	}
+
+	@Override
+	public StepNode getVariable() {
 		return this;
 	}
 
 	@Override
-	public boolean canBeEvaluated() {
-		return false;
+	public StepConstant getIntegerCoefficient() {
+		return null;
+	}
+
+	@Override
+	public StepNode getNonInteger() {
+		return this;
+	}
+
+	@Override
+	public String toString() {
+		return label;
+	}
+
+	@Override
+	public String toLaTeXString() {
+		return label;
 	}
 }

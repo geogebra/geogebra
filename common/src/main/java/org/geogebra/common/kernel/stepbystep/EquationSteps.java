@@ -867,11 +867,12 @@ public class EquationSteps {
 	}
 
 	private void regroup() {
-		// TODO: proper checking of simplification
-		StepNode regroupedLHS = LHS.deepCopy().regroup();
-		StepNode regroupedRHS = RHS.deepCopy().regroup();
+		Boolean[] changed = new Boolean[] { false };
 
-		if (regroupedLHS.toString().length() < LHS.toString().length() || regroupedRHS.toString().length() < RHS.toString().length()) {
+		StepNode regroupedLHS = LHS.deepCopy().regroup(changed);
+		StepNode regroupedRHS = RHS.deepCopy().regroup(changed);
+
+		if (changed[0]) {
 			LHS = regroupedLHS;
 			RHS = regroupedRHS;
 

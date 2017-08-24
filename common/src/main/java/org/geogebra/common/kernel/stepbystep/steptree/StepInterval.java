@@ -83,6 +83,11 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
+	public boolean canBeEvaluated() {
+		return false;
+	}
+
+	@Override
 	public int getPriority() {
 		return 5;
 	}
@@ -98,18 +103,43 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
+	public StepNode regroup(Boolean[] changed) {
+		return this;
+	}
+
+	@Override
+	public StepNode regroup() {
+		return this;
+	}
+
+	@Override
+	public StepNode expand(Boolean[] changed) {
+		return this;
+	}
+
+	@Override
+	public StepNode simplify() {
+		return this;
+	}
+
+	@Override
 	public StepNode getCoefficient() {
 		return null;
 	}
 
 	@Override
 	public StepNode getVariable() {
-		return null;
+		return this;
 	}
 
 	@Override
-	public StepNode getConstantCoefficient() {
+	public StepNode getIntegerCoefficient() {
 		return null;
+	}
+	
+	@Override
+	public StepNode getNonInteger() {
+		return this;
 	}
 
 	@Override
@@ -154,31 +184,6 @@ public class StepInterval extends StepNode {
 			sb.append("\\right)");
 		}
 		return sb.toString();
-	}
-
-	@Override
-	public boolean canBeEvaluated() {
-		return false;
-	}
-
-	@Override
-	public StepNode regroup() {
-		return this;
-	}
-
-	@Override
-	public StepNode expand(Boolean[] changed) {
-		return this;
-	}
-
-	@Override
-	public StepNode simplify() {
-		return this;
-	}
-
-	@Override
-	public StepNode divideAndSimplify(double x) {
-		return null;
 	}
 
 	public static boolean isEqual(double a, double b) {
