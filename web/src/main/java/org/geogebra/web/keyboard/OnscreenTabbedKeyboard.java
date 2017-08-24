@@ -24,6 +24,7 @@ import org.geogebra.web.web.gui.CSSAnimation;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
+import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
@@ -63,7 +64,9 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		if (helpPopup != null) {
 			return;
 		}
-		helpPopup = new InputBarHelpPopup((AppW)app, null,
+		AlgebraViewW av = (AlgebraViewW) ((AppW) app).getAlgebraView();
+		helpPopup = new InputBarHelpPopup((AppW) app,
+				av != null ? av.getInputTreeItem() : null,
 				"helpPopupAV");
 		helpPopup.addAutoHidePartner(this.getElement());
 		helpPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
