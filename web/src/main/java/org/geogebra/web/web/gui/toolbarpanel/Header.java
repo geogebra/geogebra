@@ -123,6 +123,8 @@ class Header extends FlowPanel {
 
 				Header.this.toolbarPanel.openAlgebra();
 				Header.this.toolbarPanel.setMoveMode();
+				app.setKeyboardNeeded(true);
+				Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
 				Header.this.toolbarPanel.getFrame().showKeyboardButton(true);
 			}
 		});
@@ -138,6 +140,7 @@ class Header extends FlowPanel {
 					@Override
 					public void onClickStart(int x, int y,
 							PointerEventType type) {
+						app.setKeyboardNeeded(false);
 						Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
 						Header.this.toolbarPanel.getFrame().showKeyboardButton(false);
 						Header.this.toolbarPanel.openTools();
