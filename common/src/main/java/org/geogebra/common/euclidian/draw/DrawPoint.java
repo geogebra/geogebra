@@ -483,7 +483,7 @@ public final class DrawPoint extends Drawable {
 				g2.fill(circle);
 
 				// black stroke
-				g2.setPaint(GColor.BLACK);
+				g2.setPaint(geo.getShowHideColor(GColor.BLACK));
 				g2.setStroke(borderStroke);
 				g2.draw(circle);
 			}

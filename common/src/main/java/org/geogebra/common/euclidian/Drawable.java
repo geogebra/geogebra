@@ -760,16 +760,10 @@ public abstract class Drawable extends DrawableND {
 	 */
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
-		if (geo.hasLineOpacity()) {
-			if (view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-					&& geo.isSelected() && (view.getApplication()
-							.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT)) {
-				color = GColor.newColor(color.getRed(), color.getGreen(),
-						color.getBlue(), 85);
-			} else {
+
+		if (geo.hasLineOpacity() && !geo.isHideShowGeo()) {
 				color = GColor.newColor(color.getRed(), color.getGreen(),
 						color.getBlue(), geo.getLineOpacity());
-			}
 		}
 		return color;
 	}

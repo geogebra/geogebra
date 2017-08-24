@@ -1341,7 +1341,31 @@ public abstract class GeoElement extends ConstructionElement
 		} catch (final Exception e) {
 			removeColorFunction();
 		}
+		
+		return getShowHideColor(col);
+	}
 
+	/**
+	 * @return true, if the geo is hidden, but currently should be shown,
+	 *         because Show/Hide tool selected
+	 */
+	public boolean isHideShowGeo() {
+		return kernel.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
+				&& isSelected() && (kernel.getApplication()
+						.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+	}
+
+	/**
+	 * @param col
+	 *            original color of the geo
+	 * @return the original color, with more opacity if needed (because hidden
+	 *         object, and show/hide tool selected
+	 */
+	public GColor getShowHideColor(GColor col) {
+		if (isHideShowGeo()) {
+			return GColor.newColor(col.getRed(), col.getGreen(), col.getBlue(),
+					85);
+		}
 		return col;
 	}
 
