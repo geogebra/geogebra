@@ -10,6 +10,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPoints;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPrism;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramid;
@@ -455,6 +456,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
 		if (isVisible()) {
+			// faces
 			for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
 					.getPolygonsLinked()) {
 				exportToPrinter3D(exportToPrinter3D, p);
@@ -463,6 +465,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 					.getPolygons()) {
 				exportToPrinter3D(exportToPrinter3D, p);
 			}
+			// edges
+			exportToPrinter3D.export(getGeometryIndex(), Type.CURVE, "SEGMENT",
+					getGeoElement().getLabelSimple());
 		}
 	}
 

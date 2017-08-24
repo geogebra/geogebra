@@ -63,25 +63,31 @@ public abstract class ExportToPrinter3D {
 	}
 
 	public void export(Drawable3D d, Type type) {
-
-		reverse = false;
-
-		GeometriesSet currentGeometriesSet = manager
-				.getGeometrySet(d.getGeometryIndex());
 		if (type == Type.POINT) {
 			center = ((DrawPoint3D) d).getCenter();
 		} else {
 			center = null;
 		}
+		GeoElement geo = d.getGeoElement();
+		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
+				geo.getLabelSimple());
+	}
+
+	public void export(int geometryIndex, Type type, String geoType,
+			String label) {
+
+		reverse = false;
+		GeometriesSet currentGeometriesSet = manager
+				.getGeometrySet(geometryIndex);
+
+
 		if (currentGeometriesSet != null) {
 			sb.setLength(0);
 			for (Geometry g : currentGeometriesSet) {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				GeoElement geo = d.getGeoElement();
-				format.getObjectStart(sb, geo.getGeoClassType().toString(),
-						geo.getLabelSimple());
+				format.getObjectStart(sb, geoType, label);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -150,7 +156,10 @@ public abstract class ExportToPrinter3D {
 	 */
 	public void export(DrawSurface3DElements d) {
 		if (format.handlesSurfaces()) {
+			reverse = false;
 			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH");
+			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE");
+			reverse = true;
 			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE");
 		}
 	}
@@ -240,7 +249,11 @@ public abstract class ExportToPrinter3D {
 			Coords n = polygon.getMainDirection();
 			double delta;
 			if (differentAxisRatio) {
+				if (format.needsClosedObjects()) {
 				delta = 3 * PlotterBrush.LINE3D_THICKNESS;
+				} else {
+					delta = PlotterBrush.LINE3D_THICKNESS / 2;
+				}
 				if (view.scaleAndNormalizeNormalXYZ(n, tmpNormal)) {
 					n = tmpNormal;
 				}
@@ -249,15 +262,17 @@ public abstract class ExportToPrinter3D {
 			}
 			
 			double dx = 0, dy = 0, dz = 0;
-			if (format.needsClosedObjects()) {
-				dx = n.getX() * delta;
-				dy = n.getY() * delta;
-				dz = n.getZ() * delta;
-			}
+			dx = n.getX() * delta;
+			dy = n.getY() * delta;
+			dz = n.getZ() * delta;
+
 			int length = polygon.getPointsLength();
 
 			reverse = polygon.getReverseNormalForDrawing()
 					^ (convexity == Convexity.CLOCKWISE);
+			if (!format.needsClosedObjects()) {
+				reverse = !reverse; // TODO fix that
+			}
 
 			format.getObjectStart(sb, polygon.getGeoClassType().toString(),
 					polygon.getLabelSimple());
@@ -280,36 +295,28 @@ public abstract class ExportToPrinter3D {
 					y = v.getY();
 					z = v.getZ();
 				}
-				if (format.needsClosedObjects()) {
-					getVertex(notFirst, x + dx, y + dy, z + dz);
-					notFirst = true;
-					getVertex(notFirst, x - dx, y - dy, z - dz);
-				} else {
-					getVertex(notFirst, x, y, z);
-					notFirst = true;
-				}
+				getVertex(notFirst, x + dx, y + dy, z + dz);
+				notFirst = true;
+				getVertex(notFirst, x - dx, y - dy, z - dz);
 			}
 			format.getVerticesEnd(sb);
 
 			// faces
 			format.getFacesStart(sb);
 			notFirst = false;
-			if (format.needsClosedObjects()) {
-				for (int i = 1; i < length - 1; i++) {
-					getFace(notFirst, 0, 2 * i, 2 * (i + 1)); // bottom
-					notFirst = true;
-					getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1); // bottom
-				}
 
+			for (int i = 1; i < length - 1; i++) {
+				getFace(notFirst, 0, 2 * i, 2 * (i + 1)); // bottom
+				notFirst = true;
+				getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1); // bottom
+			}
+
+			if (format.needsClosedObjects()) {
 				for (int i = 0; i < length; i++) { // side
 					getFace(notFirst, 2 * i, 2 * i + 1,
 							(2 * i + 3) % (2 * length));
 					getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length),
 							(2 * i + 2) % (2 * length));
-				}
-			} else {
-				for (int i = 1; i < length - 1; i++) {
-					getFace(notFirst, 0, i, i + 1);
 				}
 			}
 
@@ -370,7 +377,11 @@ public abstract class ExportToPrinter3D {
 	}
 	
 	private void getNormal(double x, double y, double z) {
-		format.getNormal(sb, x, y, z);
+		if (reverse) {
+			format.getNormal(sb, -x, -y, -z);
+		} else {
+			format.getNormal(sb, x, y, z);
+		}
 	}
 
 	private void getFace(boolean notFirst, int v1, int v2, int v3) {
