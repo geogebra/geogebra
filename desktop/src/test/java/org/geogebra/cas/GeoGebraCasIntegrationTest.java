@@ -3002,11 +3002,6 @@ public class GeoGebraCasIntegrationTest {
   }
 
   @Test
-  public void Solve_OneVariable_8 () {
-    t("Solve[x^2 - 4 x + 4 = 0, x]", "{x = 2}");
-  }
-
-  @Test
   public void Solve_OneVariable_9 () {
     t("Solve[x^2 + 1 = 0, x]", "{}");
   }
@@ -3021,11 +3016,6 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Solve_OneVariableVC_1 () {
     t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), a]", "{a = k^(2)}");
-  }
-
-  @Test
-  public void Solve_OneVariableVC_2 () {
-    t("Solve[1 / p - (a - k^2) / a = k^2 / (p a), k]", "{k = sqrt(a), k = -sqrt(a)}");
   }
 
   @Test

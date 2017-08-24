@@ -137,7 +137,8 @@ public class CAStestJSON {
 
 	}
 
-	private static void ta(boolean tkiontki, String input,
+	private static void ta(boolean tkiontki, StringBuilder[] failures,
+			String input,
 			String[] expectedResult, String... validResults) {
 		String result;
 
@@ -220,12 +221,11 @@ public class CAStestJSON {
 				t.printStackTrace();
 				// }
 				if (i == expectedResult.length - 1) {
-					Assert.assertEquals(
-							(expectedResult[0] == null ? "null"
-									: expectedResult[0].replaceAll("c_[0-9]+",
-											"c_0"))
-									+ " input:" + input,
-							result);
+					failures[0].append(expectedResult[0] == null ? "null"
+							: expectedResult[0].replaceAll("c_[0-9]+",
+									"c_0"));
+					failures[0].append(" input: ").append(input).append('\n');
+					failures[1].append(result).append('\n');
 				}
 			}
 		}
@@ -248,9 +248,10 @@ public class CAStestJSON {
 
 	}
 
-	private static void t(String input, String expectedResult) {
+	private static void t(StringBuilder[] failures, String input,
+			String expectedResult) {
 		String[] validResults = expectedResult.split("\\|OR\\|");
-		ta(false, input, validResults, validResults);
+		ta(false, failures, input, validResults, validResults);
 	}
 
 	private static void testCat(String name) {
@@ -261,6 +262,8 @@ public class CAStestJSON {
 		ArrayList<CasTest> cases = testcases.get(name);
 		Assert.assertNotEquals(0, cases.size());
 		testcases.remove(name);
+		StringBuilder[] failures = new StringBuilder[] { new StringBuilder(),
+				new StringBuilder() };
 		for (CasTest cmd : cases) {
 			if (!StringUtil.empty(cmd.rounding)) {
 				app.setRounding(cmd.rounding);
@@ -268,8 +271,9 @@ public class CAStestJSON {
 				app.setRounding("2");
 			}
 			Log.debug(cmd.input);
-			t(cmd.input, cmd.output);
+			t(failures, cmd.input, cmd.output);
 		}
+		Assert.assertEquals(failures[0].toString(), failures[1].toString());
 
 	}
 

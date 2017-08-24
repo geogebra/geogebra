@@ -172,7 +172,9 @@ public class ArbitraryConstIntegrationTest {
 	@Test
 	public void SolveODE_8() {
 		ta("SolveODE[2y''+y'-y=0]", "y = c_1 *" + Unicode.EULER_STRING
-				+ "^(-x) + c_2 *" + Unicode.EULER_STRING + "^(x/2)");
+				+ "^(-x) + c_2 *" + Unicode.EULER_STRING + "^(x/2)",
+				"y = c_1 *" + Unicode.EULER_STRING + "^(x / 2) + c_2 *"
+						+ Unicode.EULER_STRING + "^(-x)");
 	}
 
 	@Test
