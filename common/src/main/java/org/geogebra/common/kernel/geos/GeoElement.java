@@ -1282,9 +1282,9 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public GColor getFillColor() {
 		if (colFunction == null) {
-			return fillColor;
+			return getShowHideColor(fillColor);
 		}
-		return getRGBFromList(getAlphaValue());
+		return getShowHideColor(getRGBFromList(getAlphaValue()));
 	}
 
 	/**
@@ -1497,6 +1497,10 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public double getAlphaValue() {
+		if (this.isHideShowGeo()) {
+			return 0.3;
+		}
+
 		if ((colFunction == null) || (colFunction.size() == 3)) {
 			return alphaValue;
 		}
