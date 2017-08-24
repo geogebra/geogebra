@@ -57,6 +57,7 @@ class MetaModelSymbols {
         List<MetaComponent> operators = new ArrayList<MetaComponent>();
 
         operators.add(createOperator("-"));
+		operators.add(createOperator(Unicode.MINUS + ""));
         operators.add(createOperator("+"));
         operators.add(createOperator("*", "\\cdot", '*'));
         operators.add(createOperator("/"));
