@@ -4117,7 +4117,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case AV_CONTEXT_MENU:
-			return prerelease;
+			return relaunch;
 
 		case AV_ITEM_DESIGN:
 			return relaunch || isNativeMobileAppWithNewUI();
@@ -4269,30 +4269,30 @@ public abstract class App implements UpdateSelection {
 		// TODO if there is no need for this feature flag more, remove "appl"
 		// parameter from MyCJButton.MyCJButton(App appl)
 		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
-			return prerelease;
+			return relaunch;
 			/** GGB-1982 */
 		case CLOSE_LABEL_DIALOG_AT_ESC:
-			return prerelease;
+			return relaunch;
 
 		/** GGB-1983 */
 		case DYNAMIC_STYLEBAR_POSITION_MULTISELECT:
-			return prerelease;
+			return relaunch;
 		/** GGB-1983 */
 		case DYNAMIC_STYLEBAR_MULTISELECTION_BUGS:
-			return prerelease;
+			return relaunch;
 	
 		case FLOATING_SETTINGS:
-			return prerelease;
+			return relaunch;
 
 		case AND_COMPACT_AV_OUTPUT:
 			return prerelease;
 			
 		case GLOBAL_SETTINGS:
-			return prerelease;
+			return relaunch;
 
 		/** GGB-1975 */
 		case HIGHLIGT_IMPROVEMENTS:
-			return prerelease;
+			return relaunch;
 
 		case TOOLTIP_DESIGN:
 			return isUnbundled() && relaunch;

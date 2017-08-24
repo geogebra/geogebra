@@ -1100,7 +1100,7 @@ public enum Commands implements CommandsConstants,
 
 	NInvert(TABLE_FUNCTION),
 
-	NSolve(TABLE_CAS),
+	NSolve(TABLE_ALGEBRA),
 
 	NSolutions(TABLE_CAS),
 
@@ -1114,7 +1114,7 @@ public enum Commands implements CommandsConstants,
 
 	Solutions(TABLE_CAS),
 
-	Solve(TABLE_CAS),
+	Solve(TABLE_ALGEBRA),
 
 	SolveCubic(TABLE_CAS),
 
