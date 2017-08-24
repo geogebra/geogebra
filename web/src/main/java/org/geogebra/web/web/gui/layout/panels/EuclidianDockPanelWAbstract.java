@@ -298,7 +298,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * Hides zoom buttons.
 	 */
 	public void hideZoomPanel() {
-		zoomPanel.addStyleName("hidden");
+		if (zoomPanel != null) {
+			zoomPanel.addStyleName("hidden");
+		}
 
 	}
 
@@ -306,7 +308,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * Shows zoom buttons.
 	 */
 	public void showZoomPanel() {
-		zoomPanel.removeStyleName("hidden");
+		if (zoomPanel != null) {
+			zoomPanel.removeStyleName("hidden");
+		}
 	}
 
 }
