@@ -4165,7 +4165,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1868 */
 		case SELECT_TOOL:
-			return prerelease || isNativeMobileAppWithNewUI();
+			return relaunch || isNativeMobileAppWithNewUI();
 
 		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
 			return true; // 5.0.376
@@ -4199,10 +4199,10 @@ public abstract class App implements UpdateSelection {
 			return isNativeMobileAppWithNewUI();
 
 		case DEFAULT_OBJECT_STYLES:
-			return prerelease || isNativeMobileAppWithNewUI();
+			return relaunch || isNativeMobileAppWithNewUI();
 
 		case OBJECT_DEFAULTS_AND_COLOR:
-			return prerelease && this.isUnbundled();
+			return relaunch && this.isUnbundled();
 
 		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
 			return isNativeMobileAppWithNewUI();
@@ -4224,21 +4224,21 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
-			return prerelease;
+			return relaunch;
 
 		/** GGB-1958 */
 		case ONLY_ONE_ZERO:
 			return true;
 
 		case CENTER_STANDARD_VIEW:
-			return prerelease;
+			return relaunch;
 
 		case DELETE_BUTTON_BEHAVIOR_FIX:
-			return prerelease;
+			return relaunch;
 
 		/** GGB-1966 */
 		case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
-			return prerelease;
+			return relaunch;
 
 		case AND_TRANSPARENT_STATUSBAR:
 			return isNativeMobileAppWithNewUI();
@@ -4260,7 +4260,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 			
 		case OBJECT_HIGHLIGHT:
-			return prerelease;
+			return relaunch;
 
 		case AND_AV_ITEM_MENU:
 			return prerelease;
