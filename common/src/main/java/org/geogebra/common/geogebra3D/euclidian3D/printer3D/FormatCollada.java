@@ -281,7 +281,7 @@ public class FormatCollada implements Format {
 		sb.append(currentLabel);
 		sb.append("-mesh-positions\"/>");
 		sb.append("\n        </vertices>");
-		sb.append("\n        <polylist material=\"");
+		sb.append("\n        <triangles material=\"");
 		getMaterial(sb, currentColor);
 		sb.append("-material\" count=\"");
 		sb.append(count);
@@ -292,11 +292,6 @@ public class FormatCollada implements Format {
 		sb.append("\n          <input semantic=\"NORMAL\" source=\"#");
 		sb.append(currentLabel);
 		sb.append("-mesh-normals\" offset=\"1\"/>");
-		sb.append("\n          <vcount>");
-		for (int i = 0; i < count; i++) {
-			sb.append("3 ");
-		}
-		sb.append("</vcount>");
 		sb.append("\n          <p>");
 	}
 
@@ -327,7 +322,7 @@ public class FormatCollada implements Format {
 	@Override
 	public void getFacesEnd(StringBuilder sb) {
 		sb.append("</p>");
-		sb.append("\n        </polylist>");
+		sb.append("\n        </triangles>");
 	}
 
 	@Override
