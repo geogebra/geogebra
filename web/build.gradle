@@ -134,9 +134,10 @@ task copyHtml {
 	      .replace("<!--LANG-->","en");
 	    def appHtml = { raw, appID, prerelease, offline = false ->
 	    	def header = offline ? "" : file(templateDir+"app-header.html").text; 
+	    	def platformSpecific = offline ? "<script src=\"platform.js\"></script>":"<!--LANGUAGE LINKS-->"
 	    	return raw.replace("<!--SPLASH-->", header + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
 	    	.replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";</script><!--LANGUAGE LINKS-->")
+	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";</script>" + platformSpecific)
 	    	.replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/${appID}.ico");
 	    }
 	    def english = {raw, appName ->

@@ -3886,6 +3886,7 @@ public abstract class App implements UpdateSelection {
 
 	public final boolean has(Feature f) {
 		boolean whiteboard = isWhiteboardActive();
+		boolean relaunch = true;
 		// boolean keyboard = true;
 		switch (f) {
 
@@ -4069,10 +4070,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case CONTEXT_MENU:
-			return prerelease && (whiteboard || isUnbundled());
+			return relaunch && (whiteboard || isUnbundled());
 
 		case DYNAMIC_STYLEBAR:
-			return prerelease && (whiteboard || isUnbundled());
+			return relaunch && (whiteboard || isUnbundled());
 
 		/** MOW-55 */
 		case BOUNDING_BOXES:
@@ -4090,14 +4091,11 @@ public abstract class App implements UpdateSelection {
 		case AXES_STYLE_SUBMENU:
 			return prerelease && whiteboard;
 
-		case FILE_CONTROLS:
-			return prerelease;
-
 		case IMPROVE_CONTEXT_MENU:
 			return prerelease && whiteboard;
 
 		case CLEAR_VIEW_STYLEBAR:
-			return prerelease && (whiteboard || isUnbundled());
+			return relaunch && (whiteboard || isUnbundled());
 
 		case COLORPOPUP_IMPROVEMENTS:
 			return prerelease;
@@ -4122,22 +4120,22 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case AV_ITEM_DESIGN:
-			return prerelease || isNativeMobileAppWithNewUI();
+			return relaunch || isNativeMobileAppWithNewUI();
 
 		case AV_PLAY_ONLY:
-			return prerelease;
+			return relaunch;
 
 		case AV_TEXT_ITEM:
-			return prerelease;
+			return relaunch;
 
 		case AV_PLUS:
-			return prerelease;
+			return relaunch;
 
 		case AND_KILL_TOOLBAR:
 			return isNativeMobileAppWithNewUI();
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
-			return prerelease;
+			return relaunch;
 
 		/** GGB-1686 */
 		case TICK_NUMBERS_AT_EDGE:
@@ -4147,16 +4145,16 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case UNBUNDLING:
-			return prerelease;
+			return relaunch;
 
 		case EXPORT_SCAD:
 			return prerelease;
 
 		case INPUT_BAR_SOLVE:
-			return prerelease || isNativeMobileAppWithNewUI();
+			return relaunch || isNativeMobileAppWithNewUI();
 
 		case INPUT_BAR_ADD_SLIDER:
-			return prerelease
+			return relaunch
 					&& isHTML5Applet();
 
 		case AND_SNACKBAR:
@@ -4218,10 +4216,10 @@ public abstract class App implements UpdateSelection {
 		case SHOW_STEPS:
 			return prerelease;
 		case LABEL_SETTING_ON_STYLEBAR:
-			return prerelease;
+			return relaunch;
 
 		case LABEL_NAME_CAPTION:
-			return prerelease;
+			return relaunch;
 		case SURFACE_2D:
 			return false;
 
@@ -4297,12 +4295,12 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case TOOLTIP_DESIGN:
-			return isUnbundled() && prerelease;
+			return isUnbundled() && relaunch;
 		case INITIAL_PORTRAIT:
-			return isUnbundled() && prerelease;
+			return isUnbundled() && relaunch;
 
 		case DIALOG_DESIGN:
-			return (isUnbundled() || whiteboard) && prerelease;
+			return (isUnbundled() || whiteboard) && relaunch;
 
 		case COLOR_FILLING_LINE:
 			return prerelease && whiteboard;
