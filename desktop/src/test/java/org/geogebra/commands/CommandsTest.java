@@ -1186,6 +1186,17 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdNSolve() {
+		t("NSolve[ x^2=3 ]", "{x = -1.73205, x = 1.73205}",
+				StringTemplate.editTemplate);
+		t("NSolve[ x^2=-1 ]", "{}");
+		t("NSolve[ erf(x)=0.5 ]", "{x = 0.47694}", StringTemplate.editTemplate);
+		t("NSolve[ sin(x)=0 ]", "{x = 0, x = 3.14159}",
+				StringTemplate.editTemplate);
+		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0, y = 0}}");
+	}
+
+	@Test
 	public void plusMinus(){
 		tpm("1pm2","{3, -1}");
 		tpm("1pm2pm4","{7, -5}");

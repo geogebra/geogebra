@@ -1,6 +1,5 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;

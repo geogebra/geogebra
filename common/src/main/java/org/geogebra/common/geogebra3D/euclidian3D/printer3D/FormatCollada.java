@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -304,7 +303,7 @@ public class FormatCollada implements Format {
 		appendIndex(sb, v3, normal);
 	}
 
-	private void appendIndex(StringBuilder sb, int index, int normal) {
+	private static void appendIndex(StringBuilder sb, int index, int normal) {
 		sb.append(index);
 		sb.append(" ");
 		if (normal == -1) {
