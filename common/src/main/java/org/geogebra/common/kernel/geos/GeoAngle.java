@@ -267,8 +267,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	@Override
 	public void set(GeoElementND geo) {
-		GeoNumeric num = (GeoNumeric) geo;
-		setValue(num.getValue());
+		GeoNumberValue num = (GeoNumberValue) geo;
+		setValue(num.isGeoAngle() ? ((GeoAngle) num).getRawAngle()
+				: num.getDouble());
 	}
 
 	@Override
