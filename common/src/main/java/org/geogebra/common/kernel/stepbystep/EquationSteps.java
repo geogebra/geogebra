@@ -117,13 +117,7 @@ public class EquationSteps {
 
 		// II. step: making denominators disappear
 		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
-			StepNode denominators = StepHelper.getDenominator(bothSides, kernel);
-
-			if (denominators != null && !denominators.isConstant()) {
-				shouldCheckSolutions = true;
-			}
-
-			multiply(denominators);
+			commonDenominator();
 		}
 
 		// III. step: solving as a product
@@ -342,6 +336,49 @@ public class EquationSteps {
 				solutions.addAll(es.getSolutions());
 			}
 		}
+	}
+
+	private void commonDenominator() {
+		StepNode bothSides = StepNode.add(LHS, RHS);
+		StepNode commonDenominator = StepHelper.getCommonDenominator(bothSides, kernel);
+
+		if (commonDenominator != null && commonDenominator.isOperation(Operation.MULTIPLY)) {
+			Boolean[] changed = new Boolean[] { false };
+
+			LHS = StepHelper.factorDenominators(LHS, kernel, changed);
+			RHS = StepHelper.factorDenominators(RHS, kernel, changed);
+
+			if (changed[0]) {
+				steps.add(loc.getMenuLaTeX("FatorDenominators", "Factor Denominators"), SolutionStepTypes.INSTRUCTION);
+				addStep();
+				changed[0] = false;
+			}
+
+			LHS = StepHelper.expandFractions(LHS, commonDenominator, changed);
+			RHS = StepHelper.expandFractions(RHS, commonDenominator, changed);
+
+			if (changed[0]) {
+				steps.add(loc.getMenuLaTeX("ExpandFractions", "Expand Fractions, the common denominator is: %0", LaTeX(commonDenominator)),
+						SolutionStepTypes.INSTRUCTION);
+				addStep();
+				changed[0] = false;
+			}
+
+			LHS = StepHelper.addFractions(LHS, commonDenominator, changed);
+			RHS = StepHelper.addFractions(RHS, commonDenominator, changed);
+
+			if (changed[0]) {
+				steps.add(loc.getMenuLaTeX("AddFractions", "Add Fractions"), SolutionStepTypes.INSTRUCTION);
+				addStep();
+				changed[0] = false;
+			}
+		}
+		
+		if (commonDenominator != null && !commonDenominator.isConstant()) {
+			shouldCheckSolutions = true;
+		}
+
+		multiply(commonDenominator);
 	}
 
 	private boolean solveTrigonometric() {
@@ -783,7 +820,7 @@ public class EquationSteps {
 		int degree = StepHelper.degree(LHS);
 
 		StepNode coeffHigh = StepHelper.findCoefficient(LHS, StepNode.power(variable, degree));
-		StepNode coeffLow = StepHelper.findCoefficient(LHS, StepNode.power(variable, degree / 2));
+		StepNode coeffLow = StepHelper.findCoefficient(LHS, StepNode.power(variable, ((double) degree) / 2));
 		StepNode constant = StepHelper.findConstant(LHS);
 
 		StepVariable newVariable = new StepVariable("y");
@@ -799,8 +836,8 @@ public class EquationSteps {
 
 		List<StepNode> tempSolutions = ssbs.getSolutions();
 		for (int i = 0; i < tempSolutions.size(); i++) {
-			EquationSteps tempSsbs = new EquationSteps(kernel, StepNode.power(variable, degree / 2), tempSolutions.get(i), variable,
-					constantFactory);
+			EquationSteps tempSsbs = new EquationSteps(kernel, StepNode.power(variable, ((double) degree) / 2), tempSolutions.get(i),
+					variable, constantFactory);
 			steps.addAll(tempSsbs.getSteps());
 			solutions.addAll(tempSsbs.getSolutions());
 		}

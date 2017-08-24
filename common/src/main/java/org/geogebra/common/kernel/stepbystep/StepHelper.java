@@ -55,18 +55,18 @@ public class StepHelper {
 	 * @param kernel GeoGebra kernel (used for CAS)
 	 * @return lowest common denominator of the expression
 	 */
-	public static StepNode getDenominator(StepNode sn, Kernel kernel) {
+	public static StepNode getCommonDenominator(StepNode sn, Kernel kernel) {
 		if (sn != null && sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
 			if (so.isOperation(Operation.DIVIDE)) {
 				return so.getSubTree(1);
 			} else if (so.isOperation(Operation.MINUS)) {
-				return getDenominator(so.getSubTree(0), kernel);
+				return getCommonDenominator(so.getSubTree(0), kernel);
 			} else if (so.isOperation(Operation.PLUS) || so.isOperation(Operation.MULTIPLY)) {
 				StepNode denominator = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					StepNode newDenominator = getDenominator(so.getSubTree(i), kernel);
+					StepNode newDenominator = getCommonDenominator(so.getSubTree(i), kernel);
 					if (newDenominator != null) {
 						if (denominator == null) {
 							denominator = newDenominator;
@@ -85,6 +85,117 @@ public class StepHelper {
 			}
 		}
 		return null;
+	}
+
+	public static StepNode factorDenominators(StepNode sn, Kernel kernel, Boolean[] changed) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.DIVIDE)) {
+				StepNode newDenominator = factor(so.getSubTree(1), kernel);
+				if (!isZero(StepNode.subtract(so.getSubTree(1), newDenominator).regroup())) {
+					changed[0] = true;
+					return StepNode.divide(so.getSubTree(0), newDenominator);
+				}
+				return so;
+			}
+
+			if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.PLUS) || so.isOperation(Operation.MULTIPLY)) {
+				StepOperation newSo = new StepOperation(so.getOperation());
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					newSo.addSubTree(factorDenominators(so.getSubTree(i), kernel, changed));
+				}
+
+				return newSo;
+			}
+
+			return so;
+		}
+
+		return sn;
+	}
+
+	public static StepNode expandFractions(StepNode sn, StepNode commonDenominator, Boolean[] changed) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.DIVIDE)) {
+				StepNode ratio = StepNode.divide(commonDenominator, so.getSubTree(1)).regroup();
+				if (!isOne(ratio)) {
+					changed[0] = true;
+					return StepNode.divide(StepNode.multiply(ratio, so.getSubTree(0)).regroup(), commonDenominator);
+				}
+				return so;
+			}
+
+			if (so.isOperation(Operation.PLUS)) {
+				StepOperation newSo = new StepOperation(so.getOperation());
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (getNominator(so.getSubTree(i)).equals(so.getSubTree(i))) {
+						newSo.addSubTree(
+								StepNode.divide(StepNode.multiply(commonDenominator, so.getSubTree(i)).regroup(), commonDenominator));
+					} else {
+						newSo.addSubTree(expandFractions(so.getSubTree(i), commonDenominator, changed));
+					}
+				}
+
+				return newSo;
+			}
+
+			if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.MULTIPLY)) {
+				StepOperation newSo = new StepOperation(so.getOperation());
+
+				newSo.addSubTree(expandFractions(so.getSubTree(0), commonDenominator, changed));
+
+				for (int i = 1; i < so.noOfOperands(); i++) {
+					newSo.addSubTree(so.getSubTree(i));
+				}
+
+				return newSo;
+			}
+
+			return so;
+		}
+
+		return sn;
+	}
+
+	public static StepNode addFractions(StepNode sn, StepNode commonDenominator, Boolean[] changed) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.PLUS)) {
+				changed[0] = true;
+
+				StepNode newSo = null;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					newSo = StepNode.add(newSo, getNominator(so.getSubTree(i)));
+				}
+
+				return StepNode.divide(newSo, commonDenominator);
+			}
+
+			return so;
+		}
+
+		return sn;
+	}
+
+	public static StepNode getNominator(StepNode sn) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.DIVIDE)) {
+				return so.getSubTree(0);
+			}
+			if (so.isOperation(Operation.MINUS)) {
+				return StepNode.minus(getNominator(so.getSubTree(0)));
+			}
+		}
+
+		return sn;
 	}
 
 	/**
@@ -548,7 +659,7 @@ public class StepHelper {
 	}
 
 	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepNode variable, Kernel kernel) {
-		StepNode denominators = getDenominator(StepNode.add(LHS, RHS), kernel);
+		StepNode denominators = getCommonDenominator(StepNode.add(LHS, RHS), kernel);
 
 		if (denominators != null && !denominators.isConstant()) {
 			if (isEqual(denominators.getValueAt(variable, solution.getValue()), 0)) {
