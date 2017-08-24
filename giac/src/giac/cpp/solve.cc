@@ -2046,7 +2046,14 @@ namespace giac {
     }
 #endif
     gen ea,eb,ec;
-    if (!is_quadratic_wrt(expr,x,ea,eb,ec,contextptr))
+    if (is_quadratic_wrt(expr,x,ea,eb,ec,contextptr)){
+      gen tmp=factor(expr,false,contextptr); // factor in complex or real mode
+      if (!lop(tmp,at_rootof).empty())
+	expr=_sqrfree(expr,contextptr);
+      else
+	expr=tmp;
+    }
+    else
       expr=factor(expr,false,contextptr); // factor in complex or real mode
     if (expr.is_symb_of_sommet(at_neg))
       expr=expr._SYMBptr->feuille;
