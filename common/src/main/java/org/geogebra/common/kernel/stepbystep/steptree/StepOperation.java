@@ -503,6 +503,20 @@ public class StepOperation extends StepNode {
 
 					return nicerFractions(StepNode.divide(nominator, denominator), changed);
 				}
+
+				if (so.getSubTree(0).isOperation(Operation.NROOT) && so.getSubTree(1).isOperation(Operation.NROOT)) {
+					double a = ((StepOperation) so.getSubTree(0)).getSubTree(0).getValue();
+					double b = ((StepOperation) so.getSubTree(1)).getSubTree(0).getValue();
+
+					if (closeToAnInteger(a) && closeToAnInteger(b)) {
+						long roota = Math.round(((StepOperation) so.getSubTree(0)).getSubTree(1).getValue());
+						long rootb = Math.round(((StepOperation) so.getSubTree(1)).getSubTree(1).getValue());
+						
+						long commonRoot = lcm(roota, rootb);
+						
+						return StepNode.root(StepNode.divide(Math.pow(a, commonRoot / roota), Math.pow(b, commonRoot / rootb)), commonRoot);
+					}
+				}
 			}
 
 			StepOperation toReturn = new StepOperation(so.getOperation());
@@ -1095,6 +1109,19 @@ public class StepOperation extends StepNode {
 					changed[0] = true;
 					return trivialPowers(so.getSubTree(0), changed);
 				}
+
+				if(closeToAnInteger(so.getSubTree(0).getValue()) && closeToAnInteger(so.getSubTree(1).getValue())) {
+					long root = Math.round(so.getSubTree(1).getValue());
+					long power = getIntegerPower(Math.round(so.getSubTree(0).getValue()));
+
+					long gcd = gcd(root, power);
+
+					if (gcd > 1) {
+						changed[0] = true;
+						return StepNode.root(new StepConstant(Math.pow(so.getSubTree(0).getValue(), ((double) 1) / gcd)),
+								((double) root) / gcd);
+					}
+				}
 			}
 
 			for (int i = 0; i < so.noOfOperands(); i++) {
@@ -1103,6 +1130,29 @@ public class StepOperation extends StepNode {
 		}
 
 		return sn;
+	}
+
+	private static long getIntegerPower(long x) {
+		long temp = x;
+		if (temp < 0) {
+			temp = -temp;
+		}
+
+		if (temp == 1) {
+			return 1;
+		}
+
+		long power = 0;
+		long currentPower;
+		for (int i = 2; i <= temp; i++) {
+			currentPower = 0;
+			while(temp % i == 0) {
+				currentPower ++;
+				temp /= i;
+			}
+			power = gcd(power, currentPower);
+		}
+		return power;
 	}
 
 	private static StepNode calculateInverseTrigo(StepNode sn, Boolean[] changed) {
