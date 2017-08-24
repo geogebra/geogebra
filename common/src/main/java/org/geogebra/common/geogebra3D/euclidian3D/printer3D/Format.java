@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 /**
  * 
  * Different formats for 3D printers
@@ -29,10 +31,10 @@ public interface Format {
 	 * 
 	 * @param type
 	 *            object type
-	 * @param label
-	 *            object label string when new object starts
+	 * @param geo geo
+	 * @param transparency TODO
 	 */
-	public void getObjectStart(StringBuilder sb, String type, String label);
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency);
 
 	/**
 	 * 

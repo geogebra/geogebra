@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
@@ -43,9 +44,9 @@ public abstract class ExportToPrinter3D {
 	 * constructor
 	 */
 	public ExportToPrinter3D() {
-		format = new FormatJscad();
+//		format = new FormatJscad();
 //		format = new FormatObj();
-//		format = new FormatCollada();
+		format = new FormatCollada();
 		sb = new StringBuilder();
 	}
 
@@ -70,12 +71,11 @@ public abstract class ExportToPrinter3D {
 			center = null;
 		}
 		GeoElement geo = d.getGeoElement();
-		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(),
-				geo.getLabelSimple());
+		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(), geo);
 	}
 
 	public void export(int geometryIndex, Type type, String geoType,
-			String label) {
+			GeoElement geo) {
 
 		reverse = false;
 		GeometriesSet currentGeometriesSet = manager
@@ -88,7 +88,7 @@ public abstract class ExportToPrinter3D {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				format.getObjectStart(sb, geoType, label);
+				format.getObjectStart(sb, geoType, geo, false);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -159,14 +159,14 @@ public abstract class ExportToPrinter3D {
 	public void export(DrawSurface3DElements d) {
 		if (format.handlesSurfaces()) {
 			reverse = false;
-			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH");
-			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE");
+			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH", false);
+			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true);
 			reverse = true;
-			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE");
+			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true);
 		}
 	}
 
-	private void export(GeoElement geo, int geometryIndex, String group) {
+	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency) {
 
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
@@ -176,8 +176,7 @@ public abstract class ExportToPrinter3D {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				format.getObjectStart(sb, group,
-						geo.getLabelSimple());
+				format.getObjectStart(sb, group, geo, transparency);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -277,8 +276,7 @@ public abstract class ExportToPrinter3D {
 				reverse = !reverse; // TODO fix that
 			}
 
-			format.getObjectStart(sb, polygon.getGeoClassType().toString(),
-					polygon.getLabelSimple());
+			format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true);
 
 			// object is a polyhedron
 			format.getPolyhedronStart(sb);
@@ -307,8 +305,8 @@ public abstract class ExportToPrinter3D {
 			// normal
 			if (format instanceof FormatCollada) {
 				format.getNormalsStart(sb, 2);
-				getNormal(n.getX(), n.getY(), n.getZ());
 				getNormal(-n.getX(), -n.getY(), -n.getZ());
+				getNormal(n.getX(), n.getY(), n.getZ());
 				format.getNormalsEnd(sb);
 			}
 

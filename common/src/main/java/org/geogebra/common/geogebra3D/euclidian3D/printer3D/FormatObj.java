@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 /**
  * OpenSCAD format
  */
@@ -27,12 +29,12 @@ public class FormatObj implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, String label) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency) {
 		vertexShift = vertexSize + 1;
 		normalShift = normalSize + 1;
 		hasNormals = false;
 		sb.append("\n ######## ");
-		sb.append(label);
+		sb.append(geo.getLabelSimple());
 		sb.append("\n g ");
 		sb.append(type);
 	}
