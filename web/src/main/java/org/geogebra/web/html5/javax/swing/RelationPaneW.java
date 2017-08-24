@@ -80,8 +80,11 @@ public class RelationPaneW extends GDialogBox
 			if (relations[i].getCallback() != null) {
 				callbacks[i] = relations[i].getCallback();
 				btnCallbacks[i] = new Button();
+				btnCallbacks[i].setStyleName("moreBtn");
 				btnCallbacks[i]
-						.setText(app1.getLocalization().getMenu("More")
+						.setText(app1.has(Feature.DIALOG_DESIGN)
+								? app1.getLocalization().getMenu("More")
+								: app1.getLocalization().getMenu("More")
 								+ Unicode.ELLIPSIS);
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);

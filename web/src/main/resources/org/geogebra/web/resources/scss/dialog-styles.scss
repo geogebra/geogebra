@@ -126,33 +126,7 @@ $duration: 0.2s;
     		padding-left: 0px;
     		
     		.gwt-Button,.button {
-    			display: inline-block;
-    			position: relative;
-    			min-width: 64px;
-    			height: 36px;
-    			border: none;
-    			outline: none;
-    			background: transparent;
-    			color: $teal-default;
-    			font-size: 14px;
-    			font-weight: 500;
-    			letter-spacing: .04em;
-    			line-height: 36px;
-    			text-align: center;
-    			text-decoration: none;
-    			text-transform: uppercase;
-    			overflow: hidden;
-    			vertical-align: middle;
-    			padding: 0px 8px;
-    			border-radius: 2px;
-    			margin-left: 8px;
-   				box-shadow: none;
-   				font-family: Roboto,sans-serif;
-    			font-weight: 400 !important;
-    			
-    			&:hover {
-    				background: $black-10 !important;
-    			}
+    			@extend .flatDialogBtn;
    			}
    		
    			.visibility {
@@ -258,6 +232,36 @@ $duration: 0.2s;
 		padding-top: 24px;
 	    -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.2);
    		box-shadow: 0 2px 10px rgba(0,0,0,.2);
+   		
+   		.flatDialogBtn {
+			display: inline-block;
+    		position: relative;
+    		min-width: 64px;
+    		height: 36px;
+    		border: none;
+    		outline: none;
+    		background: transparent;
+    		color: $teal-default;
+    		font-size: 14px;
+    		font-weight: 500;
+    		letter-spacing: .04em;
+    		line-height: 36px;
+    		text-align: center;
+    		text-decoration: none;
+    		text-transform: uppercase;
+    		overflow: hidden;
+    		vertical-align: middle;
+    		border-radius: 2px;
+    		padding: 0px 8px;
+    		margin-left: 8px;
+   			box-shadow: none;
+   			font-family: Roboto,sans-serif;
+    		font-weight: 400 !important;
+    			
+    		&:hover {
+    			background: $black-10 !important;
+    		}
+    	}
    		
    		.Caption { 
    			font-size: 20px;	
@@ -395,34 +399,12 @@ $duration: 0.2s;
     		padding-left: 0px;
     		
     		.gwt-Button {
-    			display: inline-block;
-    			position: relative;
-    			min-width: 64px;
-    			height: 36px;
-    			border: none;
-    			outline: none;
-    			background: transparent;
-    			color: $teal-default;
-    			font-size: 14px;
-    			font-weight: 500;
-    			letter-spacing: .04em;
-    			line-height: 36px;
-    			text-align: center;
-    			text-decoration: none;
-    			text-transform: uppercase;
-    			overflow: hidden;
-    			vertical-align: middle;
-    			border-radius: 2px;
-    			padding: 0px 8px;
-    			margin-left: 8px;
-   				box-shadow: none;
-   				font-family: Roboto,sans-serif;
-    			font-weight: 400 !important;
-    			
-    			&:hover {
-    				background: $black-10 !important;
-    			}
+    			@extend .flatDialogBtn;
    			}
+   		}
+   	
+   		.moreBtn {
+   			@extend .flatDialogBtn;
    		}
 	}
 }
