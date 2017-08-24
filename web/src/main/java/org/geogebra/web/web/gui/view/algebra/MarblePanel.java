@@ -114,6 +114,13 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		String tooltip="";
 		boolean textInput = item.getController().isInputAsText();
 		noPlus = !item.getText().isEmpty();
+		if (textInput && !item.isInputTreeItem()
+				&& item.getController().isEditing()) {
+			addStyleName("text");
+		} else {
+			removeStyleName("text");
+		}
+
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
 		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
 			initPlus();
@@ -207,6 +214,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 
 							if (getBtnHelpToggle().isDown()) {
 								item.app.hideKeyboard();
+								item.clearPreviewAndSuggestions();
 								showDeferred(item);
 							} else {
 								item.setShowInputHelpPanel(false);
@@ -317,7 +325,6 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 			public void execute() {
 				item.setFocus(true, false);
 				item.setShowInputHelpPanel(true);
-
 				((InputBarHelpPanelW) item.app.getGuiManager()
 						.getInputHelpPanel()).focusCommand(item.getCommand());
 			}
