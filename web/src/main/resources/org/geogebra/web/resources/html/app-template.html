@@ -189,15 +189,19 @@ var translation = {};
 		e("create").innerHTML=dict["CreateYourOwn"] || "GeoGebra Math Calculators";
 	}
 	function showInLang(lang){
+		var props = __GGB__keysVar[lang];
+		if(window.appID === "graphing"){
+			changeMetaTitle(props.menu["GraphingCalculator"]+" | GeoGebra");
+		}
 		document.body.parentNode.style.overflow = "auto";
 		if(e("ggbPage")){
 			e("ggbPage").style.display = "";
 		}
+		
 		if(finalLang && finalLang != lang){
 			console.log("wrong lang");
 			return;
-		}
-		var props = __GGB__keysVar[lang];
+		}		
 		if(e("ggbPage")){
 			setPickerLabels(props.menu);
 		}

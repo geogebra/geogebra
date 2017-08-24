@@ -460,7 +460,7 @@ public final class ArticleElement extends Element {
 
 	public String getDataParamAppName() {
 		String ret = this.getAttribute("data-param-appname");
-		return ret == null ? "" : ret;
+		return ret == null || ret.length() < 1 ? "classic" : ret;
 	}
 
 	public double getDataParamScale() {

@@ -142,11 +142,11 @@ task copyHtml {
 	    }
 	    def english = {raw, appName ->
 	    	return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
-	        .replace("<!--APP NAME FULL-->","GeoGebra ${appName}")
-            .replace("<!--TRY APP-->","Try App")
-            .replace("<!--Continue-->","Continue")
-	        .replace("<!--APP NAME-->","${appName}")
-	        .replace("<!--LANG-->","en")
+	        .replace("<!--APP NAME FULL-->", "GeoGebra ${appName}")
+            .replace("<!--TRY APP-->", "Try App")
+            .replace("<!--Continue-->", "Continue")
+	        .replace("<!--APP NAME-->", appName)
+	        .replace("<!--LANG-->", "en")
 	    }
 	    
 	    file("war/app-release.html").text = classicHtml;
@@ -155,8 +155,8 @@ task copyHtml {
 	    
 	    file("war/graphing-template.html").text = appHtml(html, "graphing", false);
 	    file("war/geometry-template.html").text = appHtml(html, "geometry", false);
-	    file("war/graphing-offline.html").text = appHtml(html, "graphing", false, true);
-	    file("war/geometry-offline.html").text = appHtml(html, "geometry", false, true);
+	    file("war/graphing-offline.html").text = english(appHtml(html, "graphing", false, true), "Graphing Calculator");
+	    file("war/geometry-offline.html").text = english(appHtml(html, "geometry", false, true), "Geometry");
 	  
 	    file("war/calculator.html").text = english(appHtml(html, "calculator", true), "Scientific Calculator");
 	    

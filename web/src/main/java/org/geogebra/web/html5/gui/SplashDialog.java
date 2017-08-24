@@ -39,7 +39,7 @@ public class SplashDialog extends SimplePanel {
 		this.article = article;
 		this.geogebraFrame = frame;
 		isPreviewExists = checkIfPreviewExists(article)
-				|| article.getDataParamMarginTop() > 0;
+				|| !"classic".equals(article.getDataParamAppName());
 
 		if (!isPreviewExists) {
 			FlowPanel panel = new FlowPanel();
