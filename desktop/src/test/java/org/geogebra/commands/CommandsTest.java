@@ -1170,6 +1170,22 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdSolve() {
+		t("Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
+		t("Solve[ x^2=-1 ]", "{}");
+		t("Solve[ erf(x)=0.5 ]", "?");
+		t("r=Solve[ sin(x)=0 ]", "?");
+		t("r2=Solve[ {sin(x)=0, x=y} ]", "?");
+		t("UpdateConstruction[]", new String[0]);
+		Assert.assertEquals("\\text{undefined}", get("r")
+				.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate)
+				.trim());
+		Assert.assertEquals("\\text{undefined}", get("r2")
+				.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate)
+				.trim());
+	}
+
+	@Test
 	public void plusMinus(){
 		tpm("1pm2","{3, -1}");
 		tpm("1pm2pm4","{7, -5}");

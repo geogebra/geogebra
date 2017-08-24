@@ -75,8 +75,15 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 				solutions.setUndefined();
 				return;
 			}
-			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
 
+			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
+			// if we re-evaluate something with arbconst, it will only have
+			// undefined lines
+			if(!elementsDefined(raw)) {
+					solutions.clear();
+					solutions.setUndefined();
+					return;
+			}
 			if (equations.isGeoList() && raw.size() > 1
 					&& (raw.get(0).isGeoLine() || raw.get(0).isGeoPlane())) {
 				solutions.clear();
@@ -90,6 +97,19 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			e.printStackTrace();
 		}
 		solutions.setNotDrawable();
+	}
+
+	private boolean elementsDefined(GeoList raw) {
+		for (int i = 0; i < raw.size(); i++) {
+			if (!raw.get(i).isDefined()) {
+				return false;
+			}
+			if (raw.get(i).isGeoList()
+					&& !elementsDefined((GeoList) raw.get(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private void showUserForm(GeoList solutions2) {
