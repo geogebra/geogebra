@@ -1780,6 +1780,8 @@ public class EuclidianPen implements GTimerListener {
 	 * @return {@link GeoElement Polygon} created of given points
 	 */
 	private GeoElement createPolygonFromPoints(GeoPointND[] points) {
+		points[0].setHighlighted(false);
+
 		AlgoPolygon algo = new AlgoPolygon(app.getKernel().getConstruction(),
 				null, points);
 		GeoElement poly = algo.getOutput(0);

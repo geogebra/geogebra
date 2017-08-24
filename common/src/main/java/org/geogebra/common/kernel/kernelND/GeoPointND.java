@@ -420,4 +420,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * @return current (3D) view zScale (if set)
 	 */
 	public double getZScale();
+
+	public void setHighlighted(final boolean flag);
 }
