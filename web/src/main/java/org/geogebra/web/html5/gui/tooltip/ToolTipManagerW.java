@@ -424,7 +424,13 @@ public final class ToolTipManagerW {
 
 	}
 
-
+	/**
+	 * @param width
+	 *            - update width of tooltip with av resize
+	 */
+	public void setTooltipWidthOnResize(int width) {
+		bottomInfoTipPanel.getElement().getStyle().setWidth(width, Unit.PX);
+	}
 
 	/**
 	 * Hide the bottom tooltip

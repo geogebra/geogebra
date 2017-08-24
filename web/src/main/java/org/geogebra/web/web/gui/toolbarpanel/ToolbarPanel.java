@@ -387,6 +387,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 			sp.setWidth(w + "px");
 			sp.setHeight(app.getHeight() - CLOSED_HEIGHT_PORTRAIT + "px");
+			if (app.getWidth() < app.getHeight()) {
+				w = 420;
+			}
+			ToolTipManagerW.sharedInstance().setTooltipWidthOnResize(w);
 		}
 
 	}
