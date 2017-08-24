@@ -315,6 +315,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
+				item.setFocus(true, false);
 				item.setShowInputHelpPanel(true);
 
 				((InputBarHelpPanelW) item.app.getGuiManager()
