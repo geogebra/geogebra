@@ -76,7 +76,7 @@ public class AlgebraDockPanelW extends DockPanelW
 			algebrap.add(simplep);
 			simplep.addStyleName("algebraSimpleP");
 			algebrap.addStyleName("algebraPanel");
-			algebrap.addStyleName("matDesign");
+			algebrap.addStyleName("matAvDesign");
 			algebrap.addDomHandler(new ClickHandler() {
 
 				@Override

@@ -252,7 +252,28 @@ $duration: 0.2s;
     			}
 			}
 	}
-	.matDesign  {
+	.matAvDesign  {
+		
+		.matMinMaxPanel {
+			 display: flex;
+			
+			.AutoCompleteTextFieldW {
+    			width: initial;
+    			margin: 0px !important;
+    			border-radius: 2px;	
+    				
+    			.TextField {
+    				padding: 0px;
+   					padding-left: 8px;
+   					margin-bottom: 2px;
+    				border: none;
+    				border-bottom: 1px solid #dcdcdc;
+    				background: transparent;
+    				box-shadow: none;
+    				border-radius: 0px !important;
+    			}
+    		}
+		}
 	
 		.textOverMarble {
 			height: 20px;

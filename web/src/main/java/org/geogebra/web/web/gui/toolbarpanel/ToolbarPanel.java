@@ -157,7 +157,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				add(simplep);
 				simplep.addStyleName("algebraSimpleP");
 				addStyleName("algebraPanel");
-				addStyleName("matDesign");
+				addStyleName("matAvDesign");
 				addDomHandler(new ClickHandler() {
 
 					@Override
