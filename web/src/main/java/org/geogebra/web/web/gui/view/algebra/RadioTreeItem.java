@@ -2072,6 +2072,9 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public boolean popupSuggestions() {
+		if (controller.isInputAsText()) {
+			return false;
+		}
 		return getInputSuggestions().popupSuggestions();
 	}
 
