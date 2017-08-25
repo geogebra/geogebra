@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -130,6 +131,10 @@ public class AlgoJoinPoints extends AlgoElement
 
 		// Michael Borcherds 2008-03-31
 		// simplified to allow better translation
+		if (getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)) {
+			return getLoc().getPlainDefault("LineAB", "Line %0, %1",
+					P.getLabel(tpl), Q.getLabel(tpl));
+		}
 		return getLoc().getPlainDefault("LineThroughAB", "Line through %0, %1",
 				P.getLabel(tpl), Q.getLabel(tpl));
 

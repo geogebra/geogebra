@@ -303,6 +303,9 @@ public enum Feature {
 	INITIAL_PORTRAIT,
 
 	/** MOW-261 */
-	COLOR_FILLING_LINE
+	COLOR_FILLING_LINE,
+
+	/** GGB-2015 */
+	GEO_AV_DESCRIPTION
 
 }

@@ -3949,6 +3949,7 @@ public abstract class App implements UpdateSelection {
 		case TOOLBAR_ON_SMALL_SCREENS:
 			return true;
 
+
 		// MOW-29
 		case MOW_TOOLBAR:
 			return prerelease && whiteboard;// prerelease;
@@ -4304,6 +4305,9 @@ public abstract class App implements UpdateSelection {
 
 		case COLOR_FILLING_LINE:
 			return prerelease && whiteboard;
+			
+		case GEO_AV_DESCRIPTION:
+			return prerelease;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
