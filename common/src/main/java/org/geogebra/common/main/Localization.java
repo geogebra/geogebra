@@ -549,6 +549,10 @@ public abstract class Localization {
 
 		String ret = getMenu("Name." + key);
 
+		if (ret == null || ret.startsWith("Name.")) {
+			return key;
+		}
+
 		for (int i = ret.length() - 1; i >= 0; i--) {
 			if (!StringUtil.isLetterOrDigitOrUnderscore(ret.charAt(i))) {
 
