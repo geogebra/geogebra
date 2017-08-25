@@ -23,6 +23,8 @@ import com.google.gwt.dom.client.Style.Unit;
  */
 public class DynamicStyleBar extends EuclidianStyleBarW {
 
+	private GPoint oldPos = null;
+
 	/**
 	 * @param ev
 	 *            parent view
@@ -179,6 +181,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						&& geo instanceof GeoFunction) {
 					if (getView().getHits().contains(geo)) {
 						nextPos = calculatePosition(null, true, false, true);
+						oldPos = nextPos;
 					} else {
 						nextPos = null;
 					}
@@ -200,11 +203,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			}
 		}
 
-		// Maybe more functions are selected, but not hitted - in this case
-		// position of dynamic stylebar will be calculated accordintly of
-		// mouse position.
-		if (hasVisibleGeo && newPos == null) {
-			newPos = calculatePosition(null, true, false, true);
+		// function selected, but dyn stylebar hit
+		// do not calculate the new position of stylebar
+		// set the current position instead
+		if (hasVisibleGeo && newPos == null && oldPos != null) {
+			newPos = oldPos;
 		}
 
 		setPosition(newPos);
@@ -235,5 +238,4 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		super.setVisible(v);
 
 	}
-
 }
