@@ -7320,8 +7320,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    df2=limit(f2,xid,curx+1,0,contextptr);
 	  }
 	  else {
-	    dfx=limit(f1,xid,(curx+nextx)/2,0,contextptr);
-	    df2=limit(f2,xid,(curx+nextx)/2,0,contextptr);
+	    gen m=(curx+nextx)/2;
+	    if (in_domain(df,x,m,contextptr)){
+	      dfx=limit(f1,xid,m,0,contextptr);
+	      df2=limit(f2,xid,m,0,contextptr);
+	    }
+	    else dfx=df2=undef;
 	  }
 	}
       }
@@ -7329,28 +7333,38 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	purgenoassume(x,contextptr);
 	return 0;
       }
-      if (is_strictly_positive(dfx,contextptr)){
-#if defined NSPIRE || defined NSPIRE_NEWLIB || defined HAVE_WINT_T
-	tvif.push_back(string2gen("↑",false));
-#else
-	tvif.push_back(string2gen("↗",false));
-#endif
-	tvidf.push_back(string2gen("+",false));
+      if (is_undef(dfx)){
+	tvif.push_back(undef);
+	tvidf.push_back(undef);
       }
       else {
+	if (is_strictly_positive(dfx,contextptr)){
 #if defined NSPIRE || defined NSPIRE_NEWLIB || defined HAVE_WINT_T
-	tvif.push_back(string2gen("↓",false));
+	  tvif.push_back(string2gen("↑",false));
 #else
-	tvif.push_back(string2gen("↘",false));
+	  tvif.push_back(string2gen("↗",false));
 #endif
-	tvidf.push_back(string2gen("-",false));
-      }
-      if (do_inflex){
-	if (is_strictly_positive(df2,contextptr)){
-	  tvidf2.push_back(string2gen("convex",false));
+	  tvidf.push_back(string2gen("+",false));
 	}
 	else {
-	  tvidf2.push_back(string2gen("concav",false));
+#if defined NSPIRE || defined NSPIRE_NEWLIB || defined HAVE_WINT_T
+	  tvif.push_back(string2gen("↓",false));
+#else
+	  tvif.push_back(string2gen("↘",false));
+#endif
+	  tvidf.push_back(string2gen("-",false));
+	}
+      }
+      if (do_inflex){
+	if (is_undef(df2))
+	  tvidf2.push_back(undef);
+	else {
+	  if (is_strictly_positive(df2,contextptr)){
+	    tvidf2.push_back(string2gen("convex",false));
+	  }
+	  else {
+	    tvidf2.push_back(string2gen("concav",false));
+	  }
 	}
       }
       if (i<tvs-1 && equalposcomp(sing,nextx)){
