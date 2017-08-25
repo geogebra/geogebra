@@ -2530,7 +2530,17 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			name = getLoc().getPlainLabel("face"); // Name.face
 		}
 		else {
-			name = getLoc().getPlainLabel("polygon"); // Name.polygon
+			if (getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)) {
+				if (points.length == 3) {
+					name = getLoc().getPlainLabel("triangle");// Name.triangle
+				} else if (points.length == 4) {
+					name = getLoc().getPlainLabel("quadrilateral");// Name.quadrilateral
+				} else {
+					name = getLoc().getPlainLabel("polygon");
+				}
+			} else {
+				name = getLoc().getPlainLabel("polygon"); // Name.polygon
+			}
 		}
 		do {
 			counter++;
