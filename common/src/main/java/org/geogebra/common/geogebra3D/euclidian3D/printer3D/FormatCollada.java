@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class FormatCollada implements Format {
 
-	private class IdColor {
+	private static class IdColor {
 		public String id;
 		public GColor color;
 
