@@ -514,7 +514,12 @@ public class StepOperation extends StepNode {
 						
 						long commonRoot = lcm(roota, rootb);
 						
-						return StepNode.root(StepNode.divide(Math.pow(a, commonRoot / roota), Math.pow(b, commonRoot / rootb)), commonRoot);
+						long remainderA = commonRoot / roota;
+						long remainderB = commonRoot / rootb;
+
+						return StepNode
+								.root(StepNode.divide(Math.pow(a, remainderA),
+										Math.pow(b, remainderB)), commonRoot);
 					}
 				}
 			}
