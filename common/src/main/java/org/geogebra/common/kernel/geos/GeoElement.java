@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -7172,7 +7173,8 @@ public abstract class GeoElement extends ConstructionElement
 			// handled for mouse drag in
 			// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
 			// needed here for moving with arrow keys
-			if (freeInputPoints.size() > 0) {
+			if (getParentAlgorithm() instanceof AlgoMacro
+					&& freeInputPoints.size() > 0) {
 				for (int i = 0; i < freeInputPoints.size(); i++) {
 					((GeoElement) freeInputPoints.get(i)).moveObject(rwTransVec,
 							endPosition, viewDirection, updateGeos, view);
