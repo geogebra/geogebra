@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.export.UnicodeTeX;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.StringTemplate;
@@ -65,6 +66,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -77,6 +79,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	private boolean eurosym = false;
 	private static final int FORMAT_BEAMER = 1;
 	private StringBuilder codeBeginPic;
+
+	private NumberFormatAdapter opacityFormatter = FormatFactory.getPrototype()
+			.getNumberFormat(3);
 
 	/**
 	 * Constructor for GeoGeBra export
@@ -2100,7 +2105,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 					sb.append("fillcolor=");
 					colorCode(info.getLinecolor(), sb);
 					sb.append(",fillstyle=solid,opacity=");
-					sb.append(info.getAlpha());
+					// format to 3dp
+					// https://help.geogebra.org/topic/export-pstricks-wert-von-opacity
+					sb.append(opacityFormatter.format(info.getAlpha()));
 				}
 				break;
 			case SYMBOLS:
