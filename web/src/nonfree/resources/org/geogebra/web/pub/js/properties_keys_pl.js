@@ -657,7 +657,7 @@ __GGB__keysVar.pl.command = {
     "Periods.Syntax": "[ <Rate>, <Payment>, <Present Value>, <Future Value (optional)>, <Type (optional)> ]",
     "Plane": "P\u0142aszczyzna",
     "Plane.Syntax": "[ <Wielok\u0105t> ]\n[ <Sto\u017ckowa> ]\n[ <Punkt>, <P\u0142aszczyzna> ]\n[ <Punkt>, <Prosta> ]\n[ <Prosta>, <Prosta> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
-    "PlaneBisector": "P\u0142aszczyznaDwusieczna",
+    "PlaneBisector": "P\u0142aszczyznaSymetralna",
     "PlaneBisector.Syntax": "[ <Odcinek> ]\n[ <Punkt>, <Punkt> ]",
     "PlaySound": "ZagrajD\u017awi\u0119k",
     "PlaySound.Syntax": "[ <Plik> ]\n[ <Czy gra\u0107> ]\n[ <Funkcja>, <Min>, <Max> ]\n[ <Funkcja>, <Min>, <Max>, <Warto\u015b\u0107 pr\xf3bki>, <G\u0142\u0119boko\u015b\u0107 pr\xf3bki> ]",
