@@ -197,5 +197,12 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * set flag so a Solid CAD export will be done on next 3D frame
 	 */
 	public void setFlagForSCADexport();
+	
+	/**
+	 * zoom y & z axes ratio regarding x axis
+	 * @param zoomFactorY
+	 * @param zoomFactorZ
+	 */
+	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ);
 
 }

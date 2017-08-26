@@ -2318,6 +2318,36 @@ public abstract class EuclidianView3D extends EuclidianView
 		animationType = AnimationType.SCALE;
 
 	}
+	
+	@Override
+	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ) {
+
+		rememberOrigins();
+		animatedScaleStartX = getXZero();
+		animatedScaleStartY = getYZero();
+		animatedScaleStartZ = getZZero();
+
+		animatedScaleEndX = animatedScaleStartX;
+		animatedScaleEndY = animatedScaleStartY;
+		animatedScaleEndZ = animatedScaleStartZ;
+
+		animatedScaleTimeStart = app.getMillisecondTime();
+		
+		xScaleEnd = getXscale();
+		if (Double.isNaN(zoomFactorY) || Kernel.isGreaterEqual(0, zoomFactorY)) {
+			yScaleEnd = getYscale();
+		} else {
+			yScaleEnd = getXscale() * zoomFactorY;
+		}
+		if (Double.isNaN(zoomFactorZ) || Kernel.isGreaterEqual(0, zoomFactorZ)) {
+			zScaleEnd = getZscale();
+		} else {
+			zScaleEnd = getXscale() * zoomFactorZ;
+		}
+		animationType = AnimationType.ANIMATED_SCALE;
+		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
+
+	}
 
 	/**
 	 * return the point used for 3D cursor
