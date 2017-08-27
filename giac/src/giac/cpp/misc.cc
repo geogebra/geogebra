@@ -7334,8 +7334,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	return 0;
       }
       if (is_undef(dfx)){
-	tvif.push_back(undef);
-	tvidf.push_back(undef);
+	tvif.push_back(string2gen("x",false));
+	tvidf.push_back(string2gen("x",false));
       }
       else {
 	if (is_strictly_positive(dfx,contextptr)){
@@ -7357,7 +7357,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       }
       if (do_inflex){
 	if (is_undef(df2))
-	  tvidf2.push_back(undef);
+	  tvidf2.push_back(string2gen("x",false));
 	else {
 	  if (is_strictly_positive(df2,contextptr)){
 	    tvidf2.push_back(string2gen("convex",false));

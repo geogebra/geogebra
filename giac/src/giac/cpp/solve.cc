@@ -6406,6 +6406,7 @@ namespace giac {
 	const_iterateur curgfit=curgf._VECTptr->begin(),curgfend=curgf._VECTptr->end();
 	for (;curgfit!=curgfend;curgfit+=2){
 	  vecteur current=*st->_VECTptr;
+	  foundvars=int(st->_VECTptr->size());
 	  gen curg=*curgfit;
 	  gen x;
 	  int xpos=0;
