@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
@@ -261,6 +262,21 @@ public class ManagerElementForGLList extends Manager {
 		}
 		managerOriginal.vertex(vx.get(value), vy.get(value), vz.get(value));
 
+	}
+	
+	@Override
+	protected ScalerXYZ getScalerXYZ() {
+		return managerOriginal.getScalerXYZ();
+	}
+	
+	@Override
+	public void setScalerIdentity() {
+		managerOriginal.setScalerIdentity();
+	}
+
+	@Override
+	public void setScalerView() {
+		managerOriginal.setScalerView();
 	}
 
 }

@@ -471,7 +471,7 @@ abstract public class Manager {
 	 */
 	final protected void normalToScale(Coords n) {
 		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			if (scalerXYZ.scaleAndNormalizeNormalXYZ(n, normalToScaleTmp)){
+			if (getScalerXYZ().scaleAndNormalizeNormalXYZ(n, normalToScaleTmp)){
 				normal(normalToScaleTmp);
 			} else {
 				normal(n);
@@ -778,6 +778,10 @@ abstract public class Manager {
 	 * current scaler (identity/3D view)
 	 */
 	protected ScalerXYZ scalerXYZ;
+	
+	protected ScalerXYZ getScalerXYZ() {
+		return scalerXYZ;
+	}
 
 	/**
 	 * scale coords using current scaler
@@ -787,7 +791,7 @@ abstract public class Manager {
 	 */
 	public void scaleXYZ(Coords coords) {
 		if (view3D.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-			scalerXYZ.scaleXYZ(coords);
+			getScalerXYZ().scaleXYZ(coords);
 		}
 	}
 
@@ -795,21 +799,21 @@ abstract public class Manager {
 	 * @return scale on x-axis
 	 */
 	public double getXscale() {
-		return scalerXYZ.getXscale();
+		return getScalerXYZ().getXscale();
 	}
 
 	/**
 	 * @return scale on y-axis
 	 */
 	public double getYscale() {
-		return scalerXYZ.getYscale();
+		return getScalerXYZ().getYscale();
 	}
 
 	/**
 	 * @return scale on z-axis
 	 */
 	public double getZscale() {
-		return scalerXYZ.getZscale();
+		return getScalerXYZ().getZscale();
 	}
 
 	/**
