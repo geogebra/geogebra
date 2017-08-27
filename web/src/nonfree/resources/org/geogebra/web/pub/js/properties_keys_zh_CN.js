@@ -2499,7 +2499,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Segment.Help": "\u9009\u5b9a\u4e24\u70b9\u6216\u4f4d\u7f6e",
     "Segment.Tool": "\u7ebf\u6bb5",
     "SegmentAB": "\u7ebf\u6bb5 %0%1",
-    "SegmentABofC": "%2 \u7684\u7ebf\u6bb5 %0%1",
+    "SegmentABofC": "%2 \u4e0a\u7684\u7ebf\u6bb5 %0%1",
     "SegmentFixed": "\u5b9a\u957f\u7ebf\u6bb5",
     "SegmentFixed.Help": "\u9009\u5b9a\u4e00\u70b9, \u518d\u8f93\u5165\u7ebf\u6bb5\u957f\u5ea6",
     "Select": "\u9009\u62e9\u5bf9\u8c61",
