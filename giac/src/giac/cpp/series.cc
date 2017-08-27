@@ -2588,8 +2588,11 @@ namespace giac {
 	  return g1;
 	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
       }
-      if (p.empty() || ck_is_strictly_positive(p.front().exponent,contextptr))
+      if (p.empty() || ck_is_strictly_positive(p.front().exponent,contextptr) ){
+	if (check_bounded(p.front().coeff,contextptr)==-1)
+	  return gensizeerr("Unable to bound coefficient");
 	return 0;
+      }
       if (ck_is_strictly_positive(-p.front().exponent,contextptr)){
 	if (p.front().exponent.type==_INT_ && p.front().exponent.val%2==0){
 	  int s=fastsign(p.front().coeff,contextptr);
