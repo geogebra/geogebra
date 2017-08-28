@@ -813,7 +813,7 @@ public class GeoNumeric extends GeoElement
 	public boolean isFixable() {
 		// visible slider should not be fixable if whiteboard doesn't active
 		return (!isSetEuclidianVisible()
-				|| (kernel.getApplication().isWhiteboardActive() && kernel.getApplication().has(Feature.IMPROVE_CONTEXT_MENU)))
+				|| (kernel.getApplication().isWhiteboardActive() && kernel.getApplication().has(Feature.MOW_IMPROVE_CONTEXT_MENU)))
 						&& !isDefaultGeo();
 	}
 

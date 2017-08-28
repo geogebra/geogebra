@@ -860,7 +860,7 @@ public class AlgoDispatcher {
 	}
 
 	public AlgoElement getStrokeAlgo(GeoPointND[] p) {
-		return cons.getApplication().has(Feature.PEN_IS_LOCUS)
+		return cons.getApplication().has(Feature.MOW_PEN_IS_LOCUS)
 				? new AlgoLocusStroke(cons, p) : new AlgoPenStroke(cons, p);
 	}
 

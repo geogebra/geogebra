@@ -39,7 +39,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	}
 
 	protected void createLineStyleBtn(int mode) {
-		btnLineStyle = app.has(Feature.COLOR_FILLING_LINE)
+		btnLineStyle = app.has(Feature.MOW_COLOR_FILLING_LINE)
 				? new MOWLineStyleButton(app)
 				: new EuclidianLineStylePopup(app, -1, 5,
 				SelectionTable.MODE_ICON, true, true);
@@ -48,7 +48,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.addPopupHandler(this);
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			btnLineStyle.addStyleName("mowBorderlessButton");
 		}
 	}
@@ -65,7 +65,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnPointStyle.getMySlider().setMinorTickSpacing(1);
 
 		btnPointStyle.addPopupHandler(this);
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			btnPointStyle.addStyleName("mowBorderlessButton");
 		}
 	}
@@ -100,7 +100,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 				openColorChooser(targetGeos, false);
 			} else {
 				if (app.isWhiteboardActive()
-						&& !app.has(Feature.COLOR_FILLING_LINE)) {
+						&& !app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 					FillType fillType = ((MOWColorButton) btnColor)
 							.getSelectedFillType();
 					EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
@@ -176,7 +176,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 
 		GColor originalColor;
-		if (app.has(Feature.CLEAR_VIEW_STYLEBAR) && background) {
+		if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR) && background) {
 			originalColor = geo0.getBackgroundColor();
 		} else {
 			originalColor = geo0.getObjectColor();
@@ -193,7 +193,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 			@Override
 			public void onColorChange(GColor color) {
 				if (background) {
-					if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+					if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 						EuclidianStyleBarStatic.applyBgColor(targetGeos, color,
 								geo0.getAlphaValue());
 					}

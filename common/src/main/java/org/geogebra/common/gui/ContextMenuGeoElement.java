@@ -451,7 +451,8 @@ public abstract class ContextMenuGeoElement {
 	public void traceCmd() {
         ArrayList<GeoElement> geos2 = checkOneGeo();
 
-        if (app.has(Feature.IMPROVE_CONTEXT_MENU)) { // if there is at least 1
+		if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) { // if there is at least
+															// 1
                                                         // geo, which has no
                                                         // trace, all geo will
                                                         // have trace,
@@ -579,7 +580,7 @@ public abstract class ContextMenuGeoElement {
 		SpreadsheetTraceManager traceManager = app.getTraceManager();
 		if (!traceManager.isTraceGeo(getGeo())) {
 			traceManager.addSpreadsheetTraceGeo(getGeo());
-		} else if (app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+		} else if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
 			traceManager.removeSpreadsheetTraceGeo(getGeo());
 		}
 	}

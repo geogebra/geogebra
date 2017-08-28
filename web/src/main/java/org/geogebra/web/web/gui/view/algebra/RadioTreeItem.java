@@ -1909,7 +1909,7 @@ public class RadioTreeItem extends AVTreeItem
 			latexItem = new FlowPanel();
 		}
 		mf = new MathFieldW(latexItem, canvas, getLatexController(),
-				app.has(Feature.DIRECT_FORMULA_CONVERSION));
+				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());

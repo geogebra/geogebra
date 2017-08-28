@@ -32,7 +32,7 @@ public class MOWColorButton extends ColorPopupMenuButton {
 		super(app, 0, true);
 		ButtonPopupMenu pp = (ButtonPopupMenu) getMyPopup();
 		pp.addStyleName("mowColorPopup");
-		if (!app.has(Feature.COLOR_FILLING_LINE)) {
+		if (!app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			createFillTable();
 			pp.getPanel().add(fillTable);
 		}
@@ -76,7 +76,7 @@ public class MOWColorButton extends ColorPopupMenuButton {
 	 */
 	public void setFillEnabled(boolean b) {
 		fillTable.setVisible(b);
-		if (b && !app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+		if (b && !app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
 			getMyPopup().setHeight("125px");
 		}
 	}

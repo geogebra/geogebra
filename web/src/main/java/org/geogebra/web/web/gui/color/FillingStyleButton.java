@@ -63,7 +63,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	 */
 	public void setFillEnabled(boolean b) {
 		getMyTable().setVisible(b);
-		if (b && !app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+		if (b && !app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
 			getMyPopup().setHeight("125px");
 		}
 	}

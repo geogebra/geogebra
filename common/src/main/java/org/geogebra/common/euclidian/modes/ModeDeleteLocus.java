@@ -91,7 +91,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				// hit detection).
 
 				List<MyPoint> realPoints;
-				if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+				if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
 					realPoints = gps.getPointsWithoutControl();
 				} else {
 					realPoints = gps.getPoints();
@@ -110,7 +110,7 @@ public class ModeDeleteLocus extends ModeDelete {
 
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
 						dataPoints = ((AlgoLocusStroke) gps
 								.getParentAlgorithm())
 										.getPointsWithoutControl();
@@ -209,7 +209,7 @@ public class ModeDeleteLocus extends ModeDelete {
 					}
 
 					updatePolyLineDataPoints(dataPoints, gps);
-					if (view.getApplication().has(Feature.PEN_SMOOTHING)
+					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)
 							&& gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
@@ -609,7 +609,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				}
 				GeoLocusStroke gps = (GeoLocusStroke) geos[0];
 				List<MyPoint> realPoints;
-				if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+				if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
 					realPoints = gps.getPointsWithoutControl();
 				} else {
 					realPoints = gps.getPoints();
@@ -627,7 +627,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				}
 				if (gps.getParentAlgorithm() != null
 						&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
-					if (view.getApplication().has(Feature.PEN_SMOOTHING)) {
+					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
 						dataPoints = ((AlgoLocusStroke) gps
 								.getParentAlgorithm())
 										.getPointsWithoutControl();
@@ -732,7 +732,7 @@ public class ModeDeleteLocus extends ModeDelete {
 					}
 
 					updatePolyLineDataPoints(dataPoints, gps);
-					if (view.getApplication().has(Feature.PEN_SMOOTHING)
+					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)
 							&& gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())

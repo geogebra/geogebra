@@ -135,7 +135,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	protected boolean isWhiteboard() {
-		return app.has(Feature.CONTEXT_MENU);
+		return app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	private void addForAllItems() {
@@ -158,7 +158,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				&& app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
 			GCheckBoxMenuItem cbItem;
 			if (!(app.has(Feature.WHITEBOARD_APP)
-					&& app.has(Feature.CONTEXT_MENU))
+					&& app.has(Feature.MOW_CONTEXT_MENU))
 					&& getGeo().isEuclidianShowable()
 					&& getGeo().getShowObjectCondition() == null
 					&& (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
@@ -205,7 +205,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							.asString();
 				}
 
-				if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+				if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 						&& !app.isUnbundled() && !isWhiteboard()) {
 					cbItem = new GCheckBoxMenuItem(
 							MainMenu.getMenuBarHtml(img, "", true),
@@ -281,7 +281,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								.getSafeUri().asString();
 					}
 
-					if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+					if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 							|| app.isUnbundled()) {
 						cbItem = new GCheckBoxMenuItem(
 								MainMenu.getMenuBarHtml(img, ""),
@@ -365,7 +365,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								.asString();
 
 
-					if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+					if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 							|| app.isUnbundled()) {
 						cbItem = new GCheckBoxMenuItem(
 								MainMenu.getMenuBarHtml(img, ""),
@@ -398,7 +398,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 									.getSafeUri().asString();
 
 
-						if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+						if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 								|| app.isUnbundled()) {
 							cbItem = new GCheckBoxMenuItem(
 									MainMenu.getMenuBarHtml(img, ""),
@@ -648,7 +648,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				img = AppResources.INSTANCE.pin().getSafeUri().asString();
 			}
 
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 					&& !app.isUnbundled() && !isWhiteboard()) {
 				GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
@@ -749,7 +749,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						.asString();
 			}
 
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 					&& !app.isWhiteboardActive()) {
 				GCheckBoxMenuItem mi = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),
@@ -955,7 +955,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			GCheckBoxMenuItem cbItem;
 			
-			if (app.has(Feature.IMPROVE_CONTEXT_MENU)
+			if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)
 					|| app.isUnbundled()) {
 				cbItem = new GCheckBoxMenuItem(
 						MainMenu.getMenuBarHtml(img, ""),

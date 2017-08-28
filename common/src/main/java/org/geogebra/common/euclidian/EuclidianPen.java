@@ -834,7 +834,7 @@ public class EuclidianPen implements GTimerListener {
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
 			int ptsLength;
-			if (app.has(Feature.PEN_SMOOTHING)
+			if (app.has(Feature.MOW_PEN_SMOOTHING)
 					&& algo instanceof AlgoLocusStroke) {
 				ArrayList<MyPoint> pointsNoControl = ((AlgoLocusStroke) algo)
 					.getPointsWithoutControl();

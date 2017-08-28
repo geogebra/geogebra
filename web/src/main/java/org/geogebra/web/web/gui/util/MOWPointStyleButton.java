@@ -57,7 +57,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		canvas = Canvas.createIfSupported();
 		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			titleLabel = new Label(app.getLocalization().getMenu("PointSize"));
 			titleLabel.addStyleName("pointSizeLabel");
 			sliderPanel.insert(titleLabel, 0);

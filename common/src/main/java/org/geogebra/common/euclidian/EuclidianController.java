@@ -482,7 +482,7 @@ public abstract class EuclidianController {
 
 	ModeDelete getDeleteMode() {
 		if (deleteMode == null && view != null) {
-			deleteMode = view.getApplication().has(Feature.PEN_IS_LOCUS)
+			deleteMode = view.getApplication().has(Feature.MOW_PEN_IS_LOCUS)
 					? new ModeDeleteLocus(view) : new ModeDelete(view);
 		}
 		return deleteMode;
@@ -8700,7 +8700,7 @@ public abstract class EuclidianController {
 			// Slider can be moved too on whiteboard without using right mouse
 			// button or selecting slider tool.
 			else if (app.isWhiteboardActive()
-					&& app.has(Feature.IMPROVE_CONTEXT_MENU)) {
+					&& app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
 				setViewHits(event.getType());
 				GeoElement geo0 = null;
 				Hits hits0 = view.getHits();
@@ -11505,7 +11505,7 @@ public abstract class EuclidianController {
 
 	public final void setDefaultEventType(PointerEventType pointerEventType,
 			boolean down) {
-		if (app.has(Feature.PEN_EVENTS)) {
+		if (app.has(Feature.MOW_PEN_EVENTS)) {
 			if (pointerEventType == PointerEventType.PEN
 					&& pointerEventType != defaultEventType
 					&& app.getMode() == EuclidianConstants.MODE_MOVE) {
@@ -12088,7 +12088,8 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean isWhiteboard() {
-		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+		return app.has(Feature.WHITEBOARD_APP)
+				&& app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	public boolean isObjectMenuActive() {

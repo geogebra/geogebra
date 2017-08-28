@@ -406,14 +406,14 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 			if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianViewW)
-					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+					&& app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 				// in view stylebar won't be appeared object stylebar
 				geos = new Object[0];
 			} else if (!isDynamicStylebar()
 					&& (this.getView() instanceof EuclidianView3D)
 					&& (!EuclidianConstants.isMoveOrSelectionMode(app.getMode()))
 					&& (app.getMode() != EuclidianConstants.MODE_PEN)
-					&& app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+					&& app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 				// show the object stylebar in 3D view, when the user selects a
 				// tool
 				geos = activeGeoList.toArray();
@@ -477,7 +477,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected void setActionCommands() {
-		if (!app.has(Feature.AXES_STYLE_SUBMENU)) {
+		if (!app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
 			setActionCommand(btnShowAxes, "showAxes");
 		}
 		setActionCommand(btnPointCapture, "pointCapture");
@@ -506,13 +506,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		add(btnColor);
 		add(btnBgColor);
 		add(btnTextColor);
-		if (app.has(Feature.COLOR_FILLING_LINE) && btnFilling != null) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && btnFilling != null) {
 			add(btnFilling);
 		}
 		add(btnLineStyle);
 		add(btnPointStyle);
 
-		if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) { // order of buttons changed
+		if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) { // order of buttons changed
 			add(btnTextSize);
 		}
 
@@ -524,7 +524,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		add(btnBold);
 		add(btnItalic);
-		if (!app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+		if (!app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 			add(btnTextSize);
 		}
 
@@ -723,7 +723,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * add axes and grid buttons
 	 */
 	protected void addAxesAndGridButtons() {
-		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
+		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
 			add(btnShowAxes_new);
 		} else {
 			add(btnShowAxes);
@@ -764,7 +764,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected MyToggleButtonW[] newToggleBtnList() {
-		if (app.has(Feature.AXES_STYLE_SUBMENU)) { // no axes button here if
+		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) { // no axes button here if
 													// feature flag is true
 			return new MyToggleButtonW[] { btnBold, btnItalic, btnFixPosition,
 					btnFixObject, btnDeleteSizes[0], btnDeleteSizes[1],
@@ -777,7 +777,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected PopupMenuButtonW[] newPopupBtnList() {
-		if (app.has(Feature.AXES_STYLE_SUBMENU)) { // axes menu added if feature
+		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) { // axes menu added if feature
 													// flag is true
 			return new PopupMenuButtonW[] { btnShowAxes_new,
 					getAxesOrGridPopupMenuButton(), btnColor, btnBgColor,
@@ -807,7 +807,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
 
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			createColorBtn();
 			createFillingBtn();
 		} else if (app.isWhiteboardActive()) {
@@ -842,7 +842,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		@Override
 		public void update(Object[] geos) {
-			if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+			if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 				super.setVisible(geos.length == 0);
 			} else {
 				super.setVisible(geos.length == 0
@@ -872,7 +872,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// ========================================
 		// show axes button
 
-		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
+		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
 			ImageOrText[] axes = new ImageOrText[4];
 			for (int i = 0; i < 4; i++) {
 				axes[i] = GeoGebraIconW.createAxesStyleIcon(
@@ -930,7 +930,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 			@Override
 			public void update(Object[] geos) {
-				if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+				if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 					super.setVisible(geos.length == 0);
 				} else {
 					// same as axes
@@ -1015,7 +1015,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				GeoElement geo = EuclidianStyleBarStatic
 				        .checkGeosForAngleInterval(geos);
 				boolean geosOK = (geo != null
-						&& !app.has(Feature.CLEAR_VIEW_STYLEBAR));
+						&& !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR));
 				super.setVisible(geosOK);
 
 				if (geosOK) {
@@ -1164,7 +1164,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		};
 		btnColor.addPopupHandler(this);
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			btnColor.addStyleName("mowColorButton");
 		}
 	}
@@ -1182,7 +1182,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				} else {
 					boolean geosOK = (geos.length > 0
 							|| (EuclidianView.isPenMode(mode)
-									&& !app.has(Feature.CLEAR_VIEW_STYLEBAR)));
+									&& !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)));
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
@@ -1285,7 +1285,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				} else {
 					boolean geosOK = (geos.length > 0
 							|| (EuclidianView.isPenMode(mode)
-									&& !app.has(Feature.CLEAR_VIEW_STYLEBAR)));
+									&& !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)));
 					for (int i = 0; i < geos.length; i++) {
 						GeoElement geo = ((GeoElement) geos[i])
 								.getGeoElementForPropertiesDialog();
@@ -1428,7 +1428,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = !app.has(Feature.CLEAR_VIEW_STYLEBAR)
+				boolean geosOK = !app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)
 						&& checkGeoText(geos);
 				super.setVisible(geosOK);
 
@@ -1646,7 +1646,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected void updateAxesAndGridGUI() {
-		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
+		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
 			btnShowAxes_new.setSelectedIndex(axesIndex(ev));
 		} else {
 			btnShowAxes.removeValueChangeHandler();
@@ -2018,7 +2018,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
-		if (app.has(Feature.AXES_STYLE_SUBMENU)) {
+		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
 			btnShowAxes_new
 					.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 		} else {

@@ -23,7 +23,7 @@ public class AxesPopup extends PopupMenuButtonW {
 
 	@Override
 	public void update(Object[] geos) {
-		if (app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+		if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 			this.setVisible(geos.length == 0);
 		} else {
 			this.setVisible(

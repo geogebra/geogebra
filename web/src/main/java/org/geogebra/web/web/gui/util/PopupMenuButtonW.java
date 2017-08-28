@@ -284,7 +284,7 @@ public class PopupMenuButtonW extends MyCJButton
 		        multiselectionEnabled);
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			myTable.addStyleName("matSelectionTable");
-			if (app.has(Feature.COLOR_FILLING_LINE)) {
+			if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 				myTable.addStyleName("matSelectionTableRound");
 			}
 		}
@@ -510,12 +510,12 @@ public class PopupMenuButtonW extends MyCJButton
 		sliderPanel.add(sliderLabel);
 		sliderLabel.addStyleName("popupSliderLabel");
 		sliderPanel.addStyleName("panelRow");
-		if (app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+		if (app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
 			sliderPanel.addStyleName("panelRow2");
 		}
 		myPopup.getPanel().add(sliderPanel);
 
-		if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+		if (!app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
 			Label placeholder = new Label();
 			placeholder.setHeight("8px");
 			myPopup.getPanel().add(placeholder);

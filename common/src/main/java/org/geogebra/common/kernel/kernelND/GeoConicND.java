@@ -4607,7 +4607,8 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	@Override
 	public boolean isShape() {
-		return kernel.getApplication().has(Feature.BOUNDING_BOXES) && isShape;
+		return kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)
+				&& isShape;
 	}
 
 

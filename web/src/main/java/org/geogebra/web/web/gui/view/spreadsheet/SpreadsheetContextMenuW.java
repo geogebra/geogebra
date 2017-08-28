@@ -73,7 +73,8 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	protected boolean isWhiteboard() {
-		return app.has(Feature.WHITEBOARD_APP) && app.has(Feature.CONTEXT_MENU);
+		return app.has(Feature.WHITEBOARD_APP)
+				&& app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	@Override

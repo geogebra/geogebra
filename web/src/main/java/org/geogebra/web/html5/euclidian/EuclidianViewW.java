@@ -767,7 +767,7 @@ public class EuclidianViewW extends EuclidianView implements
 	        EuclidianControllerW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		if (!app.has(Feature.PEN_EVENTS)
+		if (!app.has(Feature.MOW_PEN_EVENTS)
 				|| !Browser.supportsPointerEvents(true)) {
 			evPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
@@ -783,13 +783,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 
 
-		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
+		if (Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
 			PointerEventHandler.attachTo(evPanel.getElement(), pointerHandler,
-					app.has(Feature.PEN_EVENTS));
+					app.has(Feature.MOW_PEN_EVENTS));
 
-			if (app.has(Feature.PEN_EVENTS)) {
+			if (app.has(Feature.MOW_PEN_EVENTS)) {
 				CancelEventTimer.killTouch(evPanel);
 			}
 			return;

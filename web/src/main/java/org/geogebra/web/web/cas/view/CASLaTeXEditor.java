@@ -72,7 +72,7 @@ public class CASLaTeXEditor extends FlowPanel
 		this.controller = controller;
 		Canvas canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(this, canvas, this,
-				app.has(Feature.DIRECT_FORMULA_CONVERSION));
+				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION));
 		retexListener = new RetexKeyboardListener(canvas, mf);
 		mf.setOnBlur(this);
 		add(mf);

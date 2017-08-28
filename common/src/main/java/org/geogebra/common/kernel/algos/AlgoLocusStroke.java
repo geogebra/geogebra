@@ -118,7 +118,7 @@ public class AlgoLocusStroke extends AlgoElement
 		// to use bezier curve we need at least 2 points
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data) && poly.getKernel().getApplication()
-				.has(Feature.PEN_SMOOTHING)) {
+				.has(Feature.MOW_PEN_SMOOTHING)) {
 			int index = 0;
 			pointList.clear();
 			if (data[0].isDefined()) {

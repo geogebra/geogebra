@@ -191,8 +191,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 
-		if (!Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))
-				|| !app.has(Feature.PEN_EVENTS)) {
+		if (!Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))
+				|| !app.has(Feature.MOW_PEN_EVENTS)) {
 			evPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
 			evPanel.addDomHandler(euclidiancontroller,
@@ -206,11 +206,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 		}
 
-		if (Browser.supportsPointerEvents(app.has(Feature.PEN_EVENTS))) {
+		if (Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
 			PointerEventHandler.attachTo(evPanel.getElement(), pointerHandler,
-					app.has(Feature.PEN_EVENTS));
+					app.has(Feature.MOW_PEN_EVENTS));
 			return;
 		}
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());

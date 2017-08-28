@@ -26,7 +26,7 @@ public class MyToggleButtonWforEV extends MyToggleButtonW {
 
 	@Override
 	public void update(Object[] geos) {
-		if (stylebar.app.has(Feature.CLEAR_VIEW_STYLEBAR)) {
+		if (stylebar.app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) {
 			this.setVisible(geos.length == 0);
 		} else {
 			int mode = stylebar.mode;

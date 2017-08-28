@@ -57,7 +57,7 @@ public class GCheckBoxMenuItem {
 		this.app = app;
 
 		this.toggle = app.has(Feature.WHITEBOARD_APP)
-				&& app.has(Feature.CONTEXT_MENU);
+				&& app.has(Feature.MOW_CONTEXT_MENU);
 
 
 		itemPanel = new HorizontalPanel();

@@ -38,12 +38,12 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
 		updatePreview();
-		if (!app.has(Feature.COLOR_FILLING_LINE)) {
+		if (!app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			panel.addStyleName("mowStylePopup");
 			sliderPanel.addStyleName("mowLinePopup");
 		}
 		preview.addStyleName("preview");
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			Label titleLabel = new Label(
 					app.getLocalization().getMenu("Thickness"));
 			titleLabel.addStyleName("thicknessLabel");

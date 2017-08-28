@@ -3989,38 +3989,38 @@ public abstract class App implements UpdateSelection {
 		case MOW_TOOLBAR:
 			return prerelease && whiteboard;// prerelease;
 
-		case CONTEXT_MENU:
+		case MOW_CONTEXT_MENU:
 			return relaunch && (whiteboard || isUnbundled());
 
 		/** MOW-55 */
-		case BOUNDING_BOXES:
+		case MOW_BOUNDING_BOXES:
 			return prerelease && whiteboard;
 
-		case PEN_IS_LOCUS:
+		case MOW_PEN_IS_LOCUS:
 			return prerelease;
 
-		case PEN_EVENTS:
+		case MOW_PEN_EVENTS:
 			return false;
 
-		case PEN_SMOOTHING:
+		case MOW_PEN_SMOOTHING:
 			return prerelease;
 
-		case AXES_STYLE_SUBMENU:
+		case MOW_AXES_STYLE_SUBMENU:
 			return prerelease && whiteboard;
 
-		case IMPROVE_CONTEXT_MENU:
+		case MOW_IMPROVE_CONTEXT_MENU:
 			return prerelease && whiteboard;
 
-		case CLEAR_VIEW_STYLEBAR:
+		case MOW_CLEAR_VIEW_STYLEBAR:
 			return relaunch && (whiteboard || isUnbundled());
 
-		case COLORPOPUP_IMPROVEMENTS:
+		case MOW_COLORPOPUP_IMPROVEMENTS:
 			return prerelease;
 
-		case DIRECT_FORMULA_CONVERSION:
+		case MOW_DIRECT_FORMULA_CONVERSION:
 			return false;
 
-		case COLOR_FILLING_LINE:
+		case MOW_COLOR_FILLING_LINE:
 			return prerelease && whiteboard;
 
 		// **********************************************************************

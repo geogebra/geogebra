@@ -71,7 +71,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (app.isUnbundled()) {
 			getMySlider().setWidth("120px");
 		}
-		if (app.has(Feature.COLOR_FILLING_LINE) && hasSlider) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && hasSlider) {
 			titleLabel = new Label(app.getLocalization().getMenu("Opacity"));
 			titleLabel.addStyleName("opacityLabel");
 			sliderPanel.insert(titleLabel, 0);
@@ -101,7 +101,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
-		if (app.has(Feature.COLOR_FILLING_LINE) && titleLabel != null) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && titleLabel != null) {
 			titleLabel.setVisible(hasSlider);
 			if (!hasSlider) {
 				getMyPopup().setHeight("88px");
@@ -117,7 +117,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			if (hasSlider && app.isUnbundled()) {
 				getMyPopup().setHeight("118px");
 			}
-			if (!app.has(Feature.COLORPOPUP_IMPROVEMENTS)) {
+			if (!app.has(Feature.MOW_COLORPOPUP_IMPROVEMENTS)) {
 				if (!hasSlider && app.isWhiteboardActive()) {
 					getMyPopup().setHeight("38px");
 				}
@@ -195,7 +195,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
-			if (app.has(Feature.COLOR_FILLING_LINE)) {
+			if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 				this.setIcon(
 						GeoGebraIconW.createColorSwatchIcon(1.0, gc, gc));
 			} else {
@@ -292,7 +292,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 
 	@Override
 	protected String getSliderPostfix() {
-		if (app.has(Feature.COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			return " %";
 		}
 		return "";
