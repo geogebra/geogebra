@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * OpenSCAD format
  */
 public class FormatCollada implements Format {
+	
+	private static float AMBIENT = Renderer.AMBIENT_0;
 
 	private static class IdColor {
 		public String id;
@@ -50,14 +53,24 @@ public class FormatCollada implements Format {
 		sb.append("\n    <up_axis>Z_UP</up_axis>");
 		sb.append("\n  </asset>");
 		sb.append("\n  <library_lights>");
-		sb.append("\n    <light id=\"Lamp-light\" name=\"Lamp\">");
+		sb.append("\n    <light id=\"L_dir\" name=\"Directional\">");
 		sb.append("\n      <technique_common>");
-		sb.append("\n        <point>");
+		sb.append("\n        <directional>");
 		sb.append("\n          <color sid=\"color\">1 1 1</color>");
-		sb.append("\n          <constant_attenuation>1</constant_attenuation>");
-		sb.append("\n          <linear_attenuation>0</linear_attenuation>");
-		sb.append("\n          <quadratic_attenuation>0.00111109</quadratic_attenuation>");
-		sb.append("\n        </point>");
+		sb.append("\n        </directional>");
+		sb.append("\n      </technique_common>");
+		sb.append("\n    </light>");
+		sb.append("\n    <light id=\"L_amb\" name=\"Ambient\">");
+		sb.append("\n      <technique_common>");
+		sb.append("\n        <ambient>");
+		sb.append("\n          <color sid=\"color\">");
+		sb.append(AMBIENT);
+		sb.append(" ");
+		sb.append(AMBIENT);
+		sb.append(" ");
+		sb.append(AMBIENT);
+		sb.append("</color>");
+		sb.append("\n        </ambient>");
 		sb.append("\n      </technique_common>");
 		sb.append("\n    </light>");
 		sb.append("\n  </library_lights>");
@@ -76,6 +89,9 @@ public class FormatCollada implements Format {
 			sb.append("\n      <profile_COMMON>");
 			sb.append("\n        <technique sid=\"common\">");
 			sb.append("\n          <phong>");
+			sb.append("\n            <ambient>");
+			sb.append("\n              <color sid=\"ambient\">0 0 0 1.0</color>");
+			sb.append("\n            </ambient>");
 			sb.append("\n            <diffuse>");
 			sb.append("\n              <color sid=\"diffuse\">");
 			sb.append(color.getRed()/255.0);
@@ -122,10 +138,12 @@ public class FormatCollada implements Format {
 		sb.append("\n  <library_visual_scenes>");
 		sb.append("\n    <visual_scene id=\"Scene\" name=\"Scene\">");
 		// light
-		sb.append("\n      <node id=\"Lamp\" name=\"Lamp\" type=\"NODE\">");
-		sb.append(
-				"\n        <matrix sid=\"transform\">-0.2908646 -0.7711008 0.5663932 4.076245 0.9551712 -0.1998834 0.2183912 1.005454 -0.05518906 0.6045247 0.7946723 5.903862 0 0 0 1</matrix>");
-		sb.append("\n        <instance_light url=\"#Lamp-light\"/>");
+		sb.append("\n      <node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
+		sb.append("\n        <matrix sid=\"transform\">0 0 0.70711 0  0 0 0 0  0 0  0.70711 0  0 0 0 0</matrix>");
+		sb.append("\n        <instance_light url=\"#L_dir\"/>");
+		sb.append("\n      </node>");
+		sb.append("\n      <node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");
+		sb.append("\n        <instance_light url=\"#L_amb\"/>");
 		sb.append("\n      </node>");
 		// geometries
 		for (IdColor idColor : idColors) {
