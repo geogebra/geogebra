@@ -2797,7 +2797,7 @@ __GGB__keysVar.uk.menu = {
     "ToolCategory.Edit": "\u0420\u0435\u0434\u0430\u0433\u0443\u0432\u0430\u043d\u043d\u044f",
     "ToolCategory.Lines": "\u041b\u0456\u043d\u0456\u0457",
     "ToolCategory.LinesAndPolygons": "Lines and Polygons",
-    "ToolCategory.Measure": "\u0412\u0438\u043c\u0456\u0440\u044f\u0442\u0438",
+    "ToolCategory.Measure": "\u0412\u0438\u043c\u0456\u0440\u044e\u0432\u0430\u043d\u043d\u044f",
     "ToolCategory.Media": "\u041c\u0435\u0434\u0456\u0430",
     "ToolCategory.Others": "\u0406\u043d\u0448\u0456",
     "ToolCategory.Planes": "\u041f\u043b\u043e\u0449\u0438\u043d\u0438",
