@@ -39,7 +39,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		setTitle(loc.getMenu("GraphicsView3D"));
 
-		if (isWhiteboard()) {
+		if (hasWhiteboardContextMenu()) {
 			addPasteItem();
 		} else {
 			addAxesAndGridCheckBoxes();
@@ -51,7 +51,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		addZoomMenu();
 
 		String img;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri()
 					.asString();
 		} else if (app.isUnbundled()) {
@@ -76,7 +76,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		wrappedPopup.addItem(miShowAllObjectsView);
 
 		String img2;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			img2 = AppResources.INSTANCE.standard_view20().getSafeUri()
 					.asString();
 		} else if (app.isUnbundled()) {
@@ -109,7 +109,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		// checkboxes for axes and grid
 		// AXES
 		String img;
-		if (isWhiteboard()) {
+		if (hasWhiteboardContextMenu()) {
 			img = AppResources.INSTANCE.axes20().getSafeUri().asString();
 		} else {
 			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
@@ -124,7 +124,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		// GRID
 		String img2;
-		if (isWhiteboard()) {
+		if (hasWhiteboardContextMenu()) {
 			img2 = AppResources.INSTANCE.grid20().getSafeUri().asString();
 		} else {
 			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
@@ -139,7 +139,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 		// PLANE
 		String img3;
-		if (isWhiteboard()) {
+		if (hasWhiteboardContextMenu()) {
 			img3 = AppResources.INSTANCE.plane20().getSafeUri().asString();
 		} else {
 			img3 = StyleBar3DResources.INSTANCE.plane().getSafeUri().asString();

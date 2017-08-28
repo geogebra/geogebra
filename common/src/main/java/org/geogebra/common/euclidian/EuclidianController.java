@@ -10573,7 +10573,7 @@ public abstract class EuclidianController {
 				} else if (selection.selectedGeosSize() > 0) {
 					// GeoElement selGeo = (GeoElement)
 					// getAppSelectedGeos().get(0);
-					if (isWhiteboard()) {
+					if (hasWhiteboardContextMenu()) {
 						clearAndShowDrawingPadPopup(mouseLoc);
 					} else {
 						showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
@@ -12087,7 +12087,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	protected boolean isWhiteboard() {
+	protected boolean hasWhiteboardContextMenu() {
 		return app.has(Feature.WHITEBOARD_APP)
 				&& app.has(Feature.MOW_CONTEXT_MENU);
 	}

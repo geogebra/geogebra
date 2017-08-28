@@ -46,7 +46,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup = new GPopupMenuW((AppW) app);
 		popup.getPopupPanel().addStyleName("geogebraweb-popup-spreadsheet");
 		initMenu();
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			popup.getPopupPanel().addStyleName("contextMenu");
 		} else if (app.isUnbundled()) {
 			popup.getPopupPanel().addStyleName("matMenu");
@@ -72,14 +72,17 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		popup.addItem(title);
 	}
 
-	protected boolean isWhiteboard() {
+	/**
+	 * @return true if has mow context menu feature
+	 */
+	protected boolean hasWhiteboardContextMenu() {
 		return app.has(Feature.WHITEBOARD_APP)
 				&& app.has(Feature.MOW_CONTEXT_MENU);
 	}
 
 	@Override
 	protected void addEditItems() {
-		if (isWhiteboard()) {
+		if (hasWhiteboardContextMenu()) {
 			addSeparator();
 
 			addCut();
@@ -106,7 +109,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public void addMenuItem(final String cmdString, String text, boolean enabled) {
 		String html;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
@@ -115,7 +118,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		MenuItem mi;
 		mi = new MenuItem(html, true, getCommand(cmdString));
-		if (!isWhiteboard()) {
+		if (!hasWhiteboardContextMenu()) {
 			mi.addStyleName("mi_with_image");
 		}
 		mi.setEnabled(enabled);
@@ -130,7 +133,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		String html;
 
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString, isSelected),
 					"");
 		} else {
@@ -150,7 +153,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        boolean isSelected) {
 
 		String html;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
@@ -167,7 +170,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	public MenuItem addSubMenu(String text, String cmdString) {
 
 		String html;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
@@ -189,7 +192,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	        String text, boolean enabled) {
 
 		String html;
-		if (isWhiteboard() && !app.isUnbundled()) {
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			html = MainMenu.getMenuBarHtml(getIconUrlNew(cmdString), text);
 		} else {
 			html = MainMenu.getMenuBarHtml(
