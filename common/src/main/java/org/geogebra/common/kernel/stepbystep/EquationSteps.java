@@ -1100,9 +1100,11 @@ public class EquationSteps {
 				solutions.add(StepNode.minus(RHS));
 			} else {
 				EquationSteps positiveBranch = new EquationSteps(kernel, LHS, RHS, variable, constantFactory);
-				positiveBranch.setCase(solutionCase == null ? "1." : solutionCase + "1.");
+				positiveBranch.setCase(
+						solutionCase == null ? "1" : solutionCase + "1");
 				EquationSteps negativeBranch = new EquationSteps(kernel, LHS, StepNode.minus(RHS), variable, constantFactory);
-				negativeBranch.setCase(solutionCase == null ? "2." : solutionCase + "2.");
+				negativeBranch.setCase(
+						solutionCase == null ? "2" : solutionCase + "2");
 
 				steps.addAll(positiveBranch.getSteps());
 				solutions.addAll(positiveBranch.getSolutions());
