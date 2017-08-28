@@ -1056,9 +1056,15 @@ public class EquationSteps {
 		} else if (root == 2) {
 			steps.add(loc.getMenuLaTeX("TakeSquareRoot", "Take square root of both sides"), SolutionStepTypes.INSTRUCTION);
 		} else if (root == 3) {
-			steps.add(loc.getMenuLaTeX("TakeCubeRoot", "Take cube root"), SolutionStepTypes.INSTRUCTION);
+			steps.add(
+					loc.getMenuLaTeX("TakeCubeRoot",
+							"Take cube root of both sides"),
+					SolutionStepTypes.INSTRUCTION);
 		} else {
-			steps.add(loc.getMenuLaTeX("TakeNthRoot", "Take %0th root", root + ""), SolutionStepTypes.INSTRUCTION);
+			steps.add(
+					loc.getMenuLaTeX("TakeNthRoot",
+							"Take %0th root of both sides", root + ""),
+					SolutionStepTypes.INSTRUCTION);
 		}
 
 		LHS = StepNode.root(LHS, root);
