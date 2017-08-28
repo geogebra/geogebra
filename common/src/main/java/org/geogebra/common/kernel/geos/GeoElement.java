@@ -3007,22 +3007,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 	}
 
-	// private StringBuilder sb;
-	//
-	// private String removeDollars(String s) {
-	// if (sb == null)
-	// sb = new StringBuilder();
-	// sb.setLength(0);
-	//
-	// for (int i = 0; i < s.length(); i++) {
-	// char c = s.charAt(i);
-	// if (c != '$')
-	// sb.append(c);
-	// }
-	//
-	// return sb.toString();
-	// }
-
 	/**
 	 * Sets label of a GeoElement and updates GeoElement table (label,
 	 * GeoElement). This method should only be used by MyXMLHandler.

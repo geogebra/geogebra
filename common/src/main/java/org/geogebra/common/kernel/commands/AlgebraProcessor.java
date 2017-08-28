@@ -2602,6 +2602,12 @@ public class AlgebraProcessor {
 		return array(line);
 	}
 
+	/**
+	 * @param line
+	 *            line or conic
+	 * @param label
+	 *            new label
+	 */
 	protected void setEquationLabelAndVisualStyle(GeoElementND line, String label) {
 		if (app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 				&& kernel.getApplication().isUnbundledGraphing()) {

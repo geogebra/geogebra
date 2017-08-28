@@ -1447,8 +1447,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public String getDefinitionDescription(StringTemplate tpl) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(getConstruction().getApplication().getLocalization().getMenu(getTypeString()));
 		if (algoParent == null) {
 			if (getDefinition() != null) {
 				return getDefinition().toString(tpl);
