@@ -145,7 +145,7 @@ public class FormatCollada implements Format {
 		sb.append("\n    <visual_scene id=\"Scene\" name=\"Scene\">");
 		// light
 		sb.append("\n      <node id=\"L_Dir\" name=\"Directional\" type=\"NODE\">");
-		sb.append("\n        <matrix sid=\"transform\">0 0 0.70711 0  0 0 0 0  0 0  0.70711 0  0 0 0 0</matrix>");
+		sb.append("\n        <matrix sid=\"transform\">-0.70711 0 0.70711 0  0 1 0 0  0.70711 0 0.70711 0  0 0 0 1</matrix>");
 		sb.append("\n        <instance_light url=\"#L_dir\"/>");
 		sb.append("\n      </node>");
 		sb.append("\n      <node id=\"L_Amb\" name=\"Ambient\" type=\"NODE\">");

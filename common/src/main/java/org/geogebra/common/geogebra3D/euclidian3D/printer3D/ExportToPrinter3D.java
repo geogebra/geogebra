@@ -307,8 +307,8 @@ public abstract class ExportToPrinter3D {
 			// normal
 			if (format instanceof FormatCollada) {
 				format.getNormalsStart(sb, 2);
-				getNormal(-n.getX(), -n.getY(), -n.getZ());
-				getNormal(n.getX(), n.getY(), n.getZ());
+				getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+				getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
 				format.getNormalsEnd(sb);
 			}
 
@@ -389,10 +389,15 @@ public abstract class ExportToPrinter3D {
 	
 	private void getNormal(double x, double y, double z) {
 		if (reverse) {
-			format.getNormal(sb, -x, -y, -z);
+			getNormalHandlingReverse(-x, -y, -z);
 		} else {
-			format.getNormal(sb, x, y, z);
+			getNormalHandlingReverse(x, y, z);
 		}
+		format.getNormalsSeparator(sb);
+	}
+	
+	private void getNormalHandlingReverse(double x, double y, double z) {
+		format.getNormal(sb, x, y, z);
 		format.getNormalsSeparator(sb);
 	}
 	
