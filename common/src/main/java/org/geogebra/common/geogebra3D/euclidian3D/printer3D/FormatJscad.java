@@ -69,7 +69,7 @@ public class FormatJscad implements Format {
 	}
 
 	@Override
-	public void getFacesStart(StringBuilder sb, int count) {
+	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals) {
 		sb.append("\n        triangles : [");
 	}
 

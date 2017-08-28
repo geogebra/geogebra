@@ -113,7 +113,7 @@ public abstract class ExportToPrinter3D {
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
 				int length = geometry.getIndicesLength() / 3;
-				format.getFacesStart(sb, length);
+				format.getFacesStart(sb, length, false);
 				notFirst = false;
 				for (int i = 0; i < length; i++) {
 					int v1 = bi.get();
@@ -201,7 +201,7 @@ public abstract class ExportToPrinter3D {
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
 				int length = geometry.getIndicesLength() / 3;
-				format.getFacesStart(sb, length);
+				format.getFacesStart(sb, length, false);
 				notFirst = false;
 				for (int i = 0; i < length; i++) {
 					int v1 = bi.get();
@@ -313,7 +313,7 @@ public abstract class ExportToPrinter3D {
 			}
 
 			// faces
-			format.getFacesStart(sb, format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2);
+			format.getFacesStart(sb, format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2, true);
 			notFirst = false;
 
 			for (int i = 1; i < length - 1; i++) {

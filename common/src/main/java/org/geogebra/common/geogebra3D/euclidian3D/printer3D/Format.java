@@ -114,8 +114,9 @@ public interface Format {
 	 * 
 	 * start for new face
 	 * @param count faces length
+	 * @param hasSpecificNormals says if we'll pass specific normals indices
 	 */
-	public void getFacesStart(StringBuilder sb, int count);
+	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals);
 
 	/**
 	 * 

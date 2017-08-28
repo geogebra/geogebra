@@ -307,7 +307,7 @@ public class FormatCollada implements Format {
 	}
 
 	@Override
-	public void getFacesStart(StringBuilder sb, int count) {
+	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals) {
 		sb.append("\n        <vertices id=\"");
 		sb.append(currentLabel);
 		sb.append("-mesh-vertices\">");
@@ -325,7 +325,11 @@ public class FormatCollada implements Format {
 		sb.append("-mesh-vertices\" offset=\"0\"/>");
 		sb.append("\n          <input semantic=\"NORMAL\" source=\"#");
 		sb.append(currentLabel);
-		sb.append("-mesh-normals\" offset=\"1\"/>");
+		if (hasSpecificNormals) {
+			sb.append("-mesh-normals\" offset=\"1\"/>");
+		} else {
+			sb.append("-mesh-normals\" offset=\"0\"/>");
+		}
 		sb.append("\n          <p>");
 	}
 
@@ -338,12 +342,11 @@ public class FormatCollada implements Format {
 		appendIndex(sb, v3, normal);
 	}
 
-	private static void appendIndex(StringBuilder sb, int index, int normal) {
+
+	private void appendIndex(StringBuilder sb, int index, int normal) {
 		sb.append(index);
-		sb.append(" ");
-		if (normal == -1) {
-			sb.append(index);
-		} else {
+		if (normal != -1) {
+			sb.append(" ");
 			sb.append(normal);
 		}
 	}
