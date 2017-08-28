@@ -3890,6 +3890,174 @@ public abstract class App implements UpdateSelection {
 		// boolean keyboard = true;
 		switch (f) {
 
+		// **********************************************************************
+		// MOBILE START
+		// note: please use prefix MOB
+		// *********************************************************
+		// **********************************************************************
+
+		/** MOB-637 */
+		case DIFFERENT_AXIS_RATIO_3D:
+			return true;
+
+		// MOB-270
+		case ACRA:
+			return prerelease;
+
+		case ANALYTICS:
+			return prerelease;
+
+		// MOB-601 5.0.358.0
+		case MOBILE_LOCAL_SAVE:
+			return true;
+
+		// AND-217
+		case MOBILE_AV_EDITOR:
+			return isNativeMobileAppWithNewUI();
+
+		// MOB-788
+		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
+			return false;
+
+		// MOB-351 5.0.358.0
+		case MOBILE_CACHE_FEATURED:
+			return true;
+
+		case AND_TRACE_IN_PROPERTIES:
+			return true; // 5.0.356
+
+		case AND_GEOMETRY_IN_MATH_APPS_MENU:
+			return true; // 5.0.376
+
+		case AND_KILL_TOOLBAR:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_SNACKBAR:
+			return isNativeMobileAppWithNewUI();
+
+		case MOB_SELECT_TOOL:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
+			return true; // 5.0.376
+
+		case MOB_INPUT_BAR_SOLVE:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_FOCUS_ON_BIND:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_SPEED_UP_AV:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
+			return isNativeMobileAppWithNewUI();
+
+		case MOB_TOOLSET_LEVELS:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_TRANSPARENT_STATUSBAR:
+			return isNativeMobileAppWithNewUI();
+
+		case AND_MOVE_FAB:
+			return prerelease;
+
+		case AND_EXAM_MODE:
+			return prerelease;
+
+		case AND_AV_ITEM_MENU:
+			return prerelease;
+
+		case AND_COMPACT_AV_OUTPUT:
+			return prerelease;
+
+		// **********************************************************************
+		// MOBILE END
+		// *********************************************************
+		// **********************************************************************
+
+		// **********************************************************************
+		// MOW START
+		// note: please use prefix MOW
+		// *********************************************************
+		// **********************************************************************
+
+		case WHITEBOARD_APP:
+			return prerelease;
+
+		// MOW-29
+		case MOW_TOOLBAR:
+			return prerelease && whiteboard;// prerelease;
+
+		case CONTEXT_MENU:
+			return relaunch && (whiteboard || isUnbundled());
+
+		/** MOW-55 */
+		case BOUNDING_BOXES:
+			return prerelease && whiteboard;
+
+		case PEN_IS_LOCUS:
+			return prerelease;
+
+		case PEN_EVENTS:
+			return false;
+
+		case PEN_SMOOTHING:
+			return prerelease;
+
+		case AXES_STYLE_SUBMENU:
+			return prerelease && whiteboard;
+
+		case IMPROVE_CONTEXT_MENU:
+			return prerelease && whiteboard;
+
+		case CLEAR_VIEW_STYLEBAR:
+			return relaunch && (whiteboard || isUnbundled());
+
+		case COLORPOPUP_IMPROVEMENTS:
+			return prerelease;
+
+		case DIRECT_FORMULA_CONVERSION:
+			return false;
+
+		case COLOR_FILLING_LINE:
+			return prerelease && whiteboard;
+
+		// **********************************************************************
+		// MOW END
+		// *********************************************************
+		// **********************************************************************
+
+		// **********************************************************************
+		// KEYBOARD START
+		// *******************************************************
+		// **********************************************************************
+
+		case KOREAN_KEYBOARD:
+			return true;
+
+		// GGB-1349
+
+		// GGB-1252
+		case KEYBOARD_BEHAVIOUR:
+			return true;
+
+		/**
+		 * GGB-1398 + GGB-1529
+		 */
+		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
+			return true;
+
+		/** GGB- 1501 */
+		case DIALOGS_OVERLAP_KEYBOARD:
+			// see comment at GPopupPanel.setOverlapFeature
+			return true;
+
+		// **********************************************************************
+		// KEYBOARD END
+		// *********************************************************
+		// **********************************************************************
+
 		// leave as prerelease
 		case TUBE_BETA:
 			return prerelease;
@@ -3941,25 +4109,9 @@ public abstract class App implements UpdateSelection {
 		case CONVEX_HULL_3D:
 			return canary;
 
-		/** MOB-637 */
-		case DIFFERENT_AXIS_RATIO_3D:
-			return true;
-
 		// GGB-335
 		case TOOLBAR_ON_SMALL_SCREENS:
 			return true;
-
-
-		// MOW-29
-		case MOW_TOOLBAR:
-			return prerelease && whiteboard;// prerelease;
-
-		// MOB-270
-		case ACRA:
-			return prerelease;
-
-		case ANALYTICS:
-			return prerelease;
 
 		case HANDWRITING:
 			return false;
@@ -4003,62 +4155,11 @@ public abstract class App implements UpdateSelection {
 		case EXPORT_ANIMATED_PDF:
 			return prerelease;
 
-		// MOB-601 5.0.358.0
-		case MOBILE_LOCAL_SAVE:
-			return true;
-
-		//AND-217
-		case MOBILE_AV_EDITOR:
-			return isNativeMobileAppWithNewUI();
-
-		// MOB-788
-		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
-			return false;
-
 		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
 			return true;
 
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
-
-		// **********************************************************************
-		// KEYBOARD START
-		// *******************************************************
-		// **********************************************************************
-
-		case KOREAN_KEYBOARD:
-			return true;
-
-		// GGB-1349
-
-
-		// GGB-1252
-		case KEYBOARD_BEHAVIOUR:
-			return true;
-
-		/**
-		 * GGB-1398 + GGB-1529
-		 */
-		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
-			return true;
-
-		/** GGB- 1501 */
-		case DIALOGS_OVERLAP_KEYBOARD:
-			// see comment at GPopupPanel.setOverlapFeature
-			return true;
-
-
-		// **********************************************************************
-		// KEYBOARD END
-		// *********************************************************
-		// **********************************************************************
-
-		case WHITEBOARD_APP:
-			return prerelease;
-
-		// MOB-351 5.0.358.0
-		case MOBILE_CACHE_FEATURED:
-			return true;
 
 		/* GGB-1374, GGB-1849 */
 		case READ_OBJECT_NAME_AT_SELECTING:
@@ -4070,46 +4171,8 @@ public abstract class App implements UpdateSelection {
 		case ROUNDED_POLYGON:
 			return prerelease;
 
-		case CONTEXT_MENU:
-			return relaunch && (whiteboard || isUnbundled());
-
 		case DYNAMIC_STYLEBAR:
 			return relaunch && (whiteboard || isUnbundled());
-
-		/** MOW-55 */
-		case BOUNDING_BOXES:
-			return prerelease && whiteboard;
-
-		case PEN_IS_LOCUS:
-			return prerelease;
-
-		case PEN_EVENTS:
-			return false;
-
-		case PEN_SMOOTHING:
-			return prerelease;
-
-		case AXES_STYLE_SUBMENU:
-			return prerelease && whiteboard;
-
-		case IMPROVE_CONTEXT_MENU:
-			return prerelease && whiteboard;
-
-		case CLEAR_VIEW_STYLEBAR:
-			return relaunch && (whiteboard || isUnbundled());
-
-		case COLORPOPUP_IMPROVEMENTS:
-			return prerelease;
-
-
-		case AND_TRACE_IN_PROPERTIES:
-			return true; // 5.0.356
-
-		case AND_GEOMETRY_IN_MATH_APPS_MENU:
-			return true; // 5.0.376
-
-		case DIRECT_FORMULA_CONVERSION:
-			return false;
 
 		/**
 		 * GGB-1572 Functions fixed by default
@@ -4131,9 +4194,6 @@ public abstract class App implements UpdateSelection {
 
 		case AV_PLUS:
 			return relaunch;
-
-		case AND_KILL_TOOLBAR:
-			return isNativeMobileAppWithNewUI();
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return relaunch;
@@ -4158,29 +4218,13 @@ public abstract class App implements UpdateSelection {
 			return relaunch
 					&& isHTML5Applet();
 
-		case AND_SNACKBAR:
-			return isNativeMobileAppWithNewUI();
-			
-		case MOB_SELECT_TOOL:
-			return isNativeMobileAppWithNewUI();
-
 		/** GGB-1868 */
 		case SELECT_TOOL:
 			return relaunch || isNativeMobileAppWithNewUI();
 
-		case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
-			return true; // 5.0.376
-
 		/** GGB-1876 */
 		case DOUBLE_ROUND_BRACKETS:
 			return prerelease;
-
-		/*
-		 * Used for: dynamic stylebar will be added for version which use the
-		 * new toolbar
-		 */
-		case MOB_INPUT_BAR_SOLVE:
-			return isNativeMobileAppWithNewUI();
 
 		case AXES_NUMBERS_WHITE_BACKGROUND:
 			return true;
@@ -4189,15 +4233,9 @@ public abstract class App implements UpdateSelection {
 		case NON_CAS_POLYNOMIAL_DIVISION:
 			return true;
 
-		case AND_FOCUS_ON_BIND:
-			return isNativeMobileAppWithNewUI();
-
 		/** GGB-1881 */
 		case MINOR_GRIDLINES:
 			return true;
-
-		case AND_SPEED_UP_AV:
-			return isNativeMobileAppWithNewUI();
 
 		case DEFAULT_OBJECT_STYLES:
 			return relaunch || isNativeMobileAppWithNewUI();
@@ -4205,22 +4243,19 @@ public abstract class App implements UpdateSelection {
 		case OBJECT_DEFAULTS_AND_COLOR:
 			return relaunch && this.isUnbundled();
 
-		case AND_COLLECT_ADAPTER_NOTIFICATIONS:
-			return isNativeMobileAppWithNewUI();
-
 		/** GGB-1838 */
 		case ZOOM_PANEL:
 			return true;
 
-		case MOB_TOOLSET_LEVELS:
-			return isNativeMobileAppWithNewUI();
 		case SHOW_STEPS:
 			return prerelease;
+
 		case LABEL_SETTING_ON_STYLEBAR:
 			return relaunch;
 
 		case LABEL_NAME_CAPTION:
 			return relaunch;
+
 		case SURFACE_2D:
 			return false;
 
@@ -4241,12 +4276,6 @@ public abstract class App implements UpdateSelection {
 		case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
 			return relaunch;
 
-		case AND_TRANSPARENT_STATUSBAR:
-			return isNativeMobileAppWithNewUI();
-
-		case AND_MOVE_FAB:
-			return prerelease;
-
 		case ARROW_OUTPUT_PREFIX:
 			return true;
 
@@ -4257,14 +4286,8 @@ public abstract class App implements UpdateSelection {
 		case MINOR_GRIDLINES_FIXES:
 			return true;
 
-		case AND_EXAM_MODE:
-			return prerelease;
-			
 		case OBJECT_HIGHLIGHT:
 			return relaunch;
-
-		case AND_AV_ITEM_MENU:
-			return prerelease;
 
 		/** GGB-1982 */
 		// TODO if there is no need for this feature flag more, remove "appl"
@@ -4284,9 +4307,6 @@ public abstract class App implements UpdateSelection {
 	
 		case FLOATING_SETTINGS:
 			return relaunch;
-
-		case AND_COMPACT_AV_OUTPUT:
-			return prerelease;
 			
 		case GLOBAL_SETTINGS:
 			return relaunch;
@@ -4303,11 +4323,8 @@ public abstract class App implements UpdateSelection {
 		case DIALOG_DESIGN:
 			return (isUnbundled() || whiteboard) && relaunch;
 
-		case COLOR_FILLING_LINE:
-			return prerelease && whiteboard;
-			
 		case GEO_AV_DESCRIPTION:
-			return prerelease;
+			return relaunch;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
