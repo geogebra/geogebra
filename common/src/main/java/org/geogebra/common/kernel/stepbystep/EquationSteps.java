@@ -876,6 +876,15 @@ public class EquationSteps {
 
 		// Case: default
 		{
+
+			// nice brackets eg 2(3)
+			String twoALaTeX = "2 \\left(" + LaTeX(a) + "\\right)";
+
+			// nice brackets eg -4(3)(2)
+			String discriminantLaTeX = "\\left(" + LaTeX(b)
+					+ "\\right)^{2} - 4 \\left(" + LaTeX(a) + "\\right) \\left("
+					+ LaTeX(c) + "\\right)";
+
 			steps.add(
 					loc.getMenuLaTeX("UseQuadraticFormulaWithABC",
 							"Use quadratic formula with a = %0, b = %1, c = %2",
@@ -888,8 +897,8 @@ public class EquationSteps {
 					SolutionStepTypes.COMMENT);
 
 			String formula = "\\frac{" + LaTeX(StepNode.minus(b))
-					+ "\\pm \\sqrt{" + LaTeX(discriminant) + "}}{"
-					+ LaTeX(StepNode.multiply(2, a)) + "}";
+					+ "\\pm \\sqrt{" + discriminantLaTeX + "}}{" + twoALaTeX
+					+ "}";
 			steps.add(variable + "_{1,2} = " + formula,
 					SolutionStepTypes.EQUATION);
 			String simplifiedFormula = "\\frac{"
