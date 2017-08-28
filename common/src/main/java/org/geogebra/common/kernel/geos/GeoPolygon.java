@@ -2531,9 +2531,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 		else {
 			if (getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)) {
-				if (points.length == 3) {
+				if (points != null && points.length == 3) {
 					name = getLoc().getPlainLabel("triangle");// Name.triangle
-				} else if (points.length == 4) {
+				} else if (points != null && points.length == 4) {
 					name = getLoc().getPlainLabel("quadrilateral");// Name.quadrilateral
 				} else {
 					name = getLoc().getPlainLabel("polygon");
