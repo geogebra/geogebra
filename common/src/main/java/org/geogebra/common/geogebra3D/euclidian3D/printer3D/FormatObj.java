@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -29,7 +30,7 @@ public class FormatObj implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color) {
 		vertexShift = vertexSize + 1;
 		normalShift = normalSize + 1;
 		hasNormals = false;

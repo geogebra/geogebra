@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -32,9 +33,10 @@ public interface Format {
 	 * @param type
 	 *            object type
 	 * @param geo geo
-	 * @param transparency TODO
+	 * @param transparency if this object is transparent
+	 * @param color color
 	 */
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency);
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color);
 
 	/**
 	 * 

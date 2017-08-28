@@ -6,6 +6,7 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * OpenSCAD format
@@ -27,6 +28,8 @@ public class FormatCollada implements Format {
 	private ArrayList<IdColor> idColors;
 	
 	private HashMap<Integer, GColor> materials;
+	
+	private HashMap<String, Integer> labels;
 
 	@Override
 	public void getExtension(StringBuilder sb) {
@@ -43,6 +46,9 @@ public class FormatCollada implements Format {
 		if (materials == null) {
 			materials = new HashMap<Integer, GColor>();
 		} 
+		if (labels == null) {
+			labels = new HashMap<String, Integer>();
+		}
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		sb.append("\n<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");
 		sb.append("\n  <asset>");
@@ -182,6 +188,7 @@ public class FormatCollada implements Format {
 		
 		idColors.clear();
 		materials.clear();
+		labels.clear();
 	}
 
 	private String currentLabel = "";
@@ -199,12 +206,22 @@ public class FormatCollada implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color) {
 		currentLabel = geo.getLabelSimple();
-		if (transparency) {
-			currentColor = geo.getObjectColor().deriveWithAlpha((int) (geo.getAlphaValue() * 255));
+		Integer n = labels.get(currentLabel);
+		if (n != null) {
+			// we need a new label
+			labels.put(currentLabel, n+1);
+			currentLabel = currentLabel + "_" + n;
 		} else {
-			currentColor = geo.getObjectColor();
+			// if needed, second time we'll use label_2 instead of label
+			labels.put(currentLabel, 2);
+		}
+		GColor c = color == null ? geo.getObjectColor() : color;
+		if (transparency) {
+			currentColor = c.deriveWithAlpha((int) (geo.getAlphaValue() * 255));
+		} else {
+			currentColor = c;
 		}
 		materials.put(currentColor.hashCode(), currentColor);
 		idColors.add(new IdColor(currentLabel, currentColor));

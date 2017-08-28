@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
@@ -23,7 +24,7 @@ public class FormatScad implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color) {
 		sb.append("\n///////////////////////\n// ");
 		sb.append(type);
 		sb.append(": ");

@@ -1,5 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
@@ -87,7 +88,7 @@ public abstract class ExportToPrinter3D {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				format.getObjectStart(sb, geoType, geo, false);
+				format.getObjectStart(sb, geoType, geo, false, null);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -158,14 +159,14 @@ public abstract class ExportToPrinter3D {
 	public void export(DrawSurface3DElements d) {
 		if (format.handlesSurfaces()) {
 			reverse = false;
-			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH", false);
-			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true);
+			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH", false, GColor.BLACK);
+			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true, null);
 			reverse = true;
-			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true);
+			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true, null);
 		}
 	}
 
-	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency) {
+	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency, GColor color) {
 
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
@@ -175,7 +176,7 @@ public abstract class ExportToPrinter3D {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				format.getObjectStart(sb, group, geo, transparency);
+				format.getObjectStart(sb, group, geo, transparency, color);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -277,7 +278,7 @@ public abstract class ExportToPrinter3D {
 				reverse = !reverse; // TODO fix that
 			}
 
-			format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true);
+			format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, null);
 
 			// object is a polyhedron
 			format.getPolyhedronStart(sb);
