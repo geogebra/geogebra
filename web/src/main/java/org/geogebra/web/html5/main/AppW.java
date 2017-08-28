@@ -2753,7 +2753,16 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void showError(String key, String error) {
-		showErrorDialog(getLocalization().getError(key) + ":\n" + error);
+
+		String translatedError = getLocalization().getError(key);
+
+		// in case translations not available
+		// eg webSimple
+		if ("InvalidInput".equals(translatedError)) {
+			translatedError = "Invalid Input";
+		}
+
+		showErrorDialog(translatedError + ":\n" + error);
 	}
 
 	public void showMessage(final String message) {
