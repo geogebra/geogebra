@@ -57,7 +57,6 @@ import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
-import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.AlgoName;
 import org.geogebra.common.kernel.algos.AlgoTranslate;
@@ -6962,7 +6961,8 @@ public abstract class GeoElement extends ConstructionElement
 			final Coords position = (size == 1)
 					&& (geo.getParentAlgorithm() != null) ? endPosition : null;
 			moved = geo.moveObject(rwTransVec, position, viewDirection,
-					moveObjectsUpdateList, view) || moved;
+					moveObjectsUpdateList, view, geos.size() < 2)
+					|| moved;
 
 		}
 
@@ -7058,7 +7058,8 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	private boolean moveObject(final Coords rwTransVec,
 			final Coords endPosition, final Coords viewDirection,
-			final ArrayList<GeoElement> updateGeos, EuclidianView view) {
+			final ArrayList<GeoElement> updateGeos, EuclidianView view,
+			boolean moveParentPoints) {
 		boolean movedGeo = false;
 		GeoElement geo = this;
 		// moveable geo
@@ -7179,11 +7180,12 @@ public abstract class GeoElement extends ConstructionElement
 			// handled for mouse drag in
 			// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
 			// needed here for moving with arrow keys
-			if (getParentAlgorithm() instanceof AlgoMacro
+			if (moveParentPoints
 					&& freeInputPoints.size() > 0) {
 				for (int i = 0; i < freeInputPoints.size(); i++) {
 					((GeoElement) freeInputPoints.get(i)).moveObject(rwTransVec,
-							endPosition, viewDirection, updateGeos, view);
+							endPosition, viewDirection, updateGeos, view,
+							false);
 				}
 			} else {
 
