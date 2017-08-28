@@ -263,9 +263,11 @@ public abstract class ExportToPrinter3D {
 			}
 			
 			double dx = 0, dy = 0, dz = 0;
-			dx = n.getX() * delta;
-			dy = n.getY() * delta;
-			dz = n.getZ() * delta;
+			if (!(format instanceof FormatCollada)) {
+				dx = n.getX() * delta;
+				dy = n.getY() * delta;
+				dz = n.getZ() * delta;
+			}
 
 			int length = polygon.getPointsLength();
 
