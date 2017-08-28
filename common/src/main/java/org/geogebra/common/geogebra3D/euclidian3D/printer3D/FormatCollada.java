@@ -41,7 +41,7 @@ public class FormatCollada implements Format {
 			materials = new HashMap<Integer, GColor>();
 		} 
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
-		sb.append("\n<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.4.1\">");
+		sb.append("\n<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");
 		sb.append("\n  <asset>");
 		sb.append("\n    <contributor>");
 		sb.append("\n      <authoring_tool>GeoGebra</authoring_tool>");
