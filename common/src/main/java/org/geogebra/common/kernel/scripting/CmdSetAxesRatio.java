@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
