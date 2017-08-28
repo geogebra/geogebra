@@ -2466,8 +2466,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public int getWidthForSplitPanel(int fallback) {
-		int ret = getAppletWidth() - articleElement.getBorderThickness(); // 2:
-																			// border
+		int ret = getAppletWidth(); // border already excluded
 
 		// if it is not 0, there will be some scaling later
 		if (ret <= 0) {
@@ -2484,8 +2483,8 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public int getHeightForSplitPanel(int fallback) {
-		int windowHeight = getAppletHeight()
-				- articleElement.getBorderThickness(); // 2: border
+		// border excluded
+		int windowHeight = getAppletHeight();
 		// but we want to know the available height for the rootPane
 		// so we either use the above as a heuristic,
 		// or we should substract the height(s) of
@@ -3508,8 +3507,9 @@ public abstract class AppW extends App implements SetLabels {
 
 		GDimension gd = evSet.getPreferredSize();
 		if (gd.getWidth() == 0 || gd.getHeight() == 0) {
-			int width = getAppletWidth() - 2; // 2: border
-			int height = getAppletHeight() - 2; // 2: border
+			// border already excluded
+			int width = getAppletWidth();
+			int height = getAppletHeight();
 			if (width == 0 || height == 0) {
 				// setting a standard size, like in
 				// compabilityLayout

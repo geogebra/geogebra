@@ -1456,15 +1456,13 @@ public class MyXMLHandler implements DocHandler {
 			int width;
 			int height;
 			if (!isPreferencesXML) {
-				int border = 2; // TODO needs to be 0 when fullscreen, also what
-								// about other views?
-				// 2: border
-				width = (app.getAppletWidth() > border && !app.getUseFullGui())
-						? app.getAppletWidth() - border
+				// border excluded in getAppletWidth
+				width = (app.getAppletWidth() > 0 && !app.getUseFullGui())
+						? app.getAppletWidth()
 						: Integer.parseInt(attrs.get("width"));
-				height = (app.getAppletHeight() > border
+				height = (app.getAppletHeight() > 0
 						&& !app.getUseFullGui())
-								? app.getAppletHeight() - border
+								? app.getAppletHeight()
 						: Integer.parseInt(attrs.get("height"));
 
 				ev.setPreferredSize(
