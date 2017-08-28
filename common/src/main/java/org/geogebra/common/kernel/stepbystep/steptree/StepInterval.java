@@ -9,7 +9,8 @@ public class StepInterval extends StepNode {
 	private boolean leftClosed;
 	private boolean rightClosed;
 
-	public StepInterval(StepNode leftBound, StepNode rightBound, boolean leftClosed, boolean rightClosed) {
+	public StepInterval(StepNode leftBound, StepNode rightBound,
+			boolean leftClosed, boolean rightClosed) {
 		this.leftBound = leftBound;
 		this.rightBound = rightBound;
 		this.leftClosed = leftClosed;
@@ -33,11 +34,11 @@ public class StepInterval extends StepNode {
 	}
 
 	public boolean contains(StepNode sn) {
-		if(sn.isConstant()) {
+		if (sn.isConstant()) {
 			double value = sn.getValue();
 			double leftBoundValue = leftBound.getValue();
 			double rightBoundValue = rightBound.getValue();
-			
+
 			if (leftClosed && isEqual(leftBoundValue, value)) {
 				return true;
 			}
@@ -48,7 +49,7 @@ public class StepInterval extends StepNode {
 
 			return leftBoundValue < value && value < rightBoundValue;
 		}
-		
+
 		return false;
 	}
 
@@ -56,7 +57,8 @@ public class StepInterval extends StepNode {
 	public boolean equals(StepNode sn) {
 		if (sn instanceof StepInterval) {
 			StepInterval si = (StepInterval) sn;
-			return si.leftClosed == leftClosed && si.rightClosed == rightClosed && si.leftBound.equals(leftBound)
+			return si.leftClosed == leftClosed && si.rightClosed == rightClosed
+					&& si.leftBound.equals(leftBound)
 					&& si.rightBound.equals(rightBound);
 		}
 		return false;
@@ -136,7 +138,7 @@ public class StepInterval extends StepNode {
 	public StepNode getIntegerCoefficient() {
 		return null;
 	}
-	
+
 	@Override
 	public StepNode getNonInteger() {
 		return this;
@@ -144,7 +146,8 @@ public class StepInterval extends StepNode {
 
 	@Override
 	public String toString() {
-		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
+		if (Double.isInfinite(leftBound.getValue())
+				&& Double.isInfinite(rightBound.getValue())) {
 			return "R";
 		}
 		StringBuilder sb = new StringBuilder();
@@ -166,11 +169,12 @@ public class StepInterval extends StepNode {
 
 	@Override
 	public String toLaTeXString() {
-		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
+		if (Double.isInfinite(leftBound.getValue())
+				&& Double.isInfinite(rightBound.getValue())) {
 			return "\\mathbb{R}";
 		}
 		StringBuilder sb = new StringBuilder();
-		if(leftClosed) {
+		if (leftClosed) {
 			sb.append("\\left[");
 		} else {
 			sb.append("\\left(");

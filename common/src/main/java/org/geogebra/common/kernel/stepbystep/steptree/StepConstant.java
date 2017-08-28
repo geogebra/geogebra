@@ -13,7 +13,8 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public boolean equals(StepNode sn) {
-		return sn instanceof StepConstant && Math.abs(sn.getValue() - value) < 0.00000001;
+		return sn instanceof StepConstant
+				&& Math.abs(sn.getValue() - value) < 0.00000001;
 	}
 
 	@Override
@@ -75,6 +76,7 @@ public class StepConstant extends StepNode {
 	public StepNode simplify() {
 		return this;
 	}
+
 	@Override
 	public StepNode getCoefficient() {
 		return this;

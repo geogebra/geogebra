@@ -33,7 +33,8 @@ public class StepArbitraryConstant extends StepNode {
 	@Override
 	public boolean equals(StepNode sn) {
 		if (sn instanceof StepArbitraryConstant) {
-			return ((StepArbitraryConstant) sn).label.equals(label) && ((StepArbitraryConstant) sn).index == index;
+			return ((StepArbitraryConstant) sn).label.equals(label)
+					&& ((StepArbitraryConstant) sn).index == index;
 		}
 		return false;
 	}

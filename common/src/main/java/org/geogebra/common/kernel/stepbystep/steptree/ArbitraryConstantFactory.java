@@ -5,7 +5,8 @@ public class ArbitraryConstantFactory {
 	private int counter;
 	private StepArbitraryConstant.ConstantType type;
 
-	public ArbitraryConstantFactory(String label, StepArbitraryConstant.ConstantType type) {
+	public ArbitraryConstantFactory(String label,
+			StepArbitraryConstant.ConstantType type) {
 		this.label = label;
 		this.type = type;
 		this.counter = 1;
