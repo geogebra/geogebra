@@ -84,7 +84,6 @@ public class MouseTouchGestureController {
 	private GeoLine lineToMove;
 
 	private boolean firstTouchIsAttachedToStartPoint;
-	private boolean mAllowPropertiesView = true;
 
 	/**
 	 * @param app
@@ -434,25 +433,5 @@ public class MouseTouchGestureController {
 				&& Math.abs(oldStartY - newStartY) < capThreshold
 				&& Math.abs(oldEndX - newEndX) < capThreshold
 				&& Math.abs(oldEndY - newEndY) < capThreshold;
-	}
-
-	/**
-	 * Used in Android
-	 * 
-	 * @param allowProperties
-	 *            whether properties are allowed
-	 */
-	public void allowPropertiesView(boolean allowProperties) {
-		mAllowPropertiesView = allowProperties;
-	}
-
-	/**
-	 * Used in Android
-	 * 
-	 * @return whether properties are allowed
-	 */
-	protected boolean isAllowPropertiesView() {
-
-		return mAllowPropertiesView;
 	}
 }
