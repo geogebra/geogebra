@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.prover.AbstractProverReciosMethod;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -1423,6 +1424,39 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		sbToString.append(buildValueString(tpl).toString());
 		return sbToString.toString();
 	}
+
+	/**
+	 * @param tpl
+	 *            - string template
+	 * @return description for points ("Point A" instead of "A = (0,0)")
+	 */
+	final public String toStringDescription(StringTemplate tpl) {
+		sbToString.setLength(0);
+		boolean isAvDescrip = getKernel().getApplication().has(Feature.GEO_AV_DESCRIPTION)
+				&& Kernel.ALGEBRA_STYLE_DESCRIPTION == getKernel()
+				.getAlgebraStyle();
+		if (isAvDescrip) {
+			sbToString.append(
+					getKernel().getLocalization().getMenu("Point") + " ");
+			sbToString.append(label);
+			return sbToString.toString();
+		}
+		return toString(tpl);
+	}
+
+	@Override
+	public String getDefinitionDescription(StringTemplate tpl) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(getConstruction().getApplication().getLocalization().getMenu(getTypeString()));
+		if (algoParent == null) {
+			if (getDefinition() != null) {
+				return getDefinition().toString(tpl);
+			}
+			return "";
+		}
+		return algoParent.toString(tpl);
+	}
+
 
 	/**
 	 * add "=" or not for "A=(...)"
