@@ -489,6 +489,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				MaterialDesignResources.INSTANCE.mode_move(), app);
 		moveBtn.setStyleName("moveFloatingBtn");
 		main.add(moveBtn);
+		hideMoveFloatingButton();
 		FastClickHandler moveBtnHandler = new FastClickHandler() {
 			
 			@Override
