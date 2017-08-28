@@ -168,7 +168,8 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	}
 
 	private boolean hasMoreMenu() {
-		return radioTreeItem.app.has(Feature.AV_ITEM_DESIGN);
+		return radioTreeItem.app.has(Feature.AV_ITEM_DESIGN)
+				&& radioTreeItem.app.showAlgebraInput();
 	}
 
 	/**
