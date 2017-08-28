@@ -2018,6 +2018,9 @@ public abstract class Renderer {
 	 * set texture nearest parameters
 	 */
 	abstract public void setTextureNearest();
+	
+	public static float AMBIENT_0 = 0.5f;
+	public static float AMBIENT_1 = 0.4f;
 
 	/**
 	 * init the renderer
@@ -2029,13 +2032,10 @@ public abstract class Renderer {
 		geometryManager = createManager();
 
 		// GL_LIGHT0 & GL_LIGHT1
-		float ambiant0 = 0.5f;
-		float diffuse0 = 1f - ambiant0;
+		float diffuse0 = 1f - AMBIENT_0;
+		float diffuse1 = 1f - AMBIENT_1;
 
-		float ambiant1 = 0.4f;
-		float diffuse1 = 1f - ambiant1;
-
-		setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
+		setLightAmbiantDiffuse(AMBIENT_0, diffuse0, AMBIENT_1, diffuse1);
 
 		// material and light
 		setColorMaterial();
