@@ -1063,7 +1063,8 @@ public class EquationSteps {
 		} else {
 			steps.add(
 					loc.getMenuLaTeX("TakeNthRoot",
-							"Take %0th root of both sides", root + ""),
+							"Take %0 root of both sides",
+							loc.getOrdinalNumber(root)),
 					SolutionStepTypes.INSTRUCTION);
 		}
 
