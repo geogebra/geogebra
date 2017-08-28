@@ -46,7 +46,7 @@ public class FormatCollada implements Format {
 		sb.append("\n    <contributor>");
 		sb.append("\n      <authoring_tool>GeoGebra</authoring_tool>");
 		sb.append("\n    </contributor>");
-		sb.append("\n    <unit name=\"meter\" meter=\"1\"/>");
+		sb.append("\n    <unit name=\"centimeter\" meter=\"0.01\"/>");
 		sb.append("\n    <up_axis>Z_UP</up_axis>");
 		sb.append("\n  </asset>");
 		sb.append("\n  <library_lights>");
