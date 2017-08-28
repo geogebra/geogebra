@@ -26,6 +26,7 @@ import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -296,6 +297,12 @@ public class RadioTreeItem extends AVTreeItem
 		createAvexWidget();
 		addAVEXWidget(content);
 		getWidget().addStyleName("latexEditor");
+		if (app.isUnbundled() && app.has(Feature.AV_PLAY_ONLY)
+				&& geo0.getParentAlgorithm() != null
+				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
+			getWidget().getElement().getStyle().setProperty("height", 72,
+					Unit.PX);
+		}
 	}
 
 
