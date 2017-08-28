@@ -3960,16 +3960,16 @@ public abstract class App implements UpdateSelection {
 			return isNativeMobileAppWithNewUI();
 
 		case AND_MOVE_FAB:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		case AND_EXAM_MODE:
 			return prerelease;
 
 		case AND_AV_ITEM_MENU:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		case AND_COMPACT_AV_OUTPUT:
-			return prerelease;
+			return isNativeMobileAppWithNewUI();
 
 		// **********************************************************************
 		// MOBILE END
