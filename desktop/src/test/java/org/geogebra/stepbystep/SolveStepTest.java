@@ -1,5 +1,10 @@
 package org.geogebra.stepbystep;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.List;
 
 import org.geogebra.commands.CommandsTest;
@@ -7,7 +12,9 @@ import org.geogebra.common.kernel.stepbystep.EquationSteps;
 import org.geogebra.common.kernel.stepbystep.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
+import org.junit.AfterClass;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -25,6 +32,10 @@ public class SolveStepTest {
 			e.printStackTrace();
 		}
 	}
+
+	private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+	private boolean needsHeading;
+	private static int caseCounter = 0;
 
 	@Test
 	public void linearEquation() {
@@ -140,6 +151,13 @@ public class SolveStepTest {
 	}
 
 	public void t(String LHS, String RHS, String variable, int expectedSteps, String... expectedSolutions) {
+		if (needsHeading) {
+			Throwable t = new Throwable();
+			htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);
+			needsHeading = false;
+		}
+		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
+
 		EquationSteps es = new EquationSteps(app.getKernel(), LHS, RHS, variable);
 
 		SolutionStep steps = es.getSteps();
@@ -151,6 +169,7 @@ public class SolveStepTest {
 		for (int i = 0; i < expectedSolutions.length; i++) {
 			Assert.assertEquals(expectedSolutions[i], solutions.get(i).toString());
 		}
+		steps.getListOfSteps(htmlBuilder);
 	}
 	
 	private int countSteps(SolutionStep s) {
@@ -166,5 +185,33 @@ public class SolveStepTest {
 		}
 
 		return x;
+	}
+
+	@Before
+	public void resetHeading() {
+		needsHeading = true;
+	}
+
+	@AfterClass
+	public static void printHtml() {
+		File f = new File("report.html");
+		OutputStreamWriter isw = null;
+		try {
+			 isw = new OutputStreamWriter(
+					new FileOutputStream(f));
+			isw.write(htmlBuilder.getHtml());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		if(isw!=null){
+			try {
+				isw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("file:///" + f.getAbsolutePath());
 	}
 }
