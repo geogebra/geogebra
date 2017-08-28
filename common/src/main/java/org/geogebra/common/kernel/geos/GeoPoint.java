@@ -1437,7 +1437,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				.getAlgebraStyle();
 		if (isAvDescrip) {
 			sbToString.append(
-					getKernel().getLocalization().getMenu("Point") + " ");
+					getKernel().getLocalization().getMenu("Point"));
+			sbToString.append(" ");
 			sbToString.append(label);
 			return sbToString.toString();
 		}
