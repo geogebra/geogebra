@@ -198,7 +198,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 	@Override
 	final public boolean isDefined() {
-		return isDefined;
+		return isDefined && getFun(0) != null;
 	}
 
 	/**
