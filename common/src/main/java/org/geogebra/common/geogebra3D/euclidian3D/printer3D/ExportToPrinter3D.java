@@ -1,5 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
@@ -13,7 +15,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsG
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer.GeometryElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
+import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.Feature;
@@ -243,15 +247,13 @@ public abstract class ExportToPrinter3D {
 
 		sb.setLength(0);
 
-		// check if the polygon is convex
-		Convexity convexity = polygon.getPolygonTriangulation().checkIsConvex();
-		if (convexity != Convexity.NOT) {
-
+		PolygonTriangulation pt = polygon.getPolygonTriangulation();
+		if (pt.getMaxPointIndex() > 2) {
 			Coords n = polygon.getMainDirection();
 			double delta;
 			if (differentAxisRatio) {
 				if (format.needsClosedObjects()) {
-				delta = 3 * PlotterBrush.LINE3D_THICKNESS;
+					delta = 3 * PlotterBrush.LINE3D_THICKNESS;
 				} else {
 					delta = PlotterBrush.LINE3D_THICKNESS / 2;
 				}
@@ -261,7 +263,7 @@ public abstract class ExportToPrinter3D {
 			} else {
 				delta = 3 * PlotterBrush.LINE3D_THICKNESS / view.getScale();
 			}
-			
+
 			double dx = 0, dy = 0, dz = 0;
 			if (format.needsClosedObjects()) {
 				dx = n.getX() * delta;
@@ -269,76 +271,146 @@ public abstract class ExportToPrinter3D {
 				dz = n.getZ() * delta;
 			}
 
-			int length = polygon.getPointsLength();
+			// check if the polygon is convex
+			Convexity convexity = polygon.getPolygonTriangulation().checkIsConvex();
+			if (convexity != Convexity.NOT) {
+				int length = polygon.getPointsLength();
 
-			reverse = polygon.getReverseNormalForDrawing()
-					^ (convexity == Convexity.CLOCKWISE);
-			if (!format.needsClosedObjects()) {
-				reverse = !reverse; // TODO fix that
-			}
-
-			format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, null);
-
-			// object is a polyhedron
-			format.getPolyhedronStart(sb);
-
-			// vertices
-			boolean notFirst = false;
-			format.getVerticesStart(sb, length * 2);
-			for (int i = 0; i < length; i++) {
-				Coords v = vertices[i];
-				double x, y, z;
-				if (differentAxisRatio) {
-					x = v.getX() * view.getXscale();
-					y = v.getY() * view.getYscale();
-					z = v.getZ() * view.getZscale();
-				} else {
-					x = v.getX();
-					y = v.getY();
-					z = v.getZ();
+				reverse = polygon.getReverseNormalForDrawing() ^ (convexity == Convexity.CLOCKWISE);
+				if (!format.needsClosedObjects()) {
+					reverse = !reverse; // TODO fix that
 				}
-				getVertex(notFirst, x + dx, y + dy, z + dz);
-				notFirst = true;
-				getVertex(notFirst, x - dx, y - dy, z - dz);
-			}
-			format.getVerticesEnd(sb);
-			
-			// normal
-			if (format.handlesNormals()) {
-				format.getNormalsStart(sb, 2);
-				getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
-				getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
-				format.getNormalsEnd(sb);
-			}
 
-			// faces
-			format.getFacesStart(sb, format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2, true);
-			notFirst = false;
+				format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, null);
 
-			for (int i = 1; i < length - 1; i++) {
-				getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
-				notFirst = true;
-				getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
-			}
+				// object is a polyhedron
+				format.getPolyhedronStart(sb);
 
-			if (format.needsClosedObjects()) {
-				for (int i = 0; i < length; i++) { // side
-					getFace(notFirst, 2 * i, 2 * i + 1,
-							(2 * i + 3) % (2 * length));
-					getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length),
-							(2 * i + 2) % (2 * length));
+				// vertices
+				boolean notFirst = false;
+				format.getVerticesStart(sb, length * 2);
+				for (int i = 0; i < length; i++) {
+					Coords v = vertices[i];
+					double x, y, z;
+					if (differentAxisRatio) {
+						x = v.getX() * view.getXscale();
+						y = v.getY() * view.getYscale();
+						z = v.getZ() * view.getZscale();
+					} else {
+						x = v.getX();
+						y = v.getY();
+						z = v.getZ();
+					}
+					getVertex(notFirst, x + dx, y + dy, z + dz);
+					notFirst = true;
+					getVertex(notFirst, x - dx, y - dy, z - dz);
 				}
+				format.getVerticesEnd(sb);
+
+				// normal
+				if (format.handlesNormals()) {
+					format.getNormalsStart(sb, 2);
+					getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+					getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
+					format.getNormalsEnd(sb);
+				}
+
+				// faces
+				format.getFacesStart(sb, format.needsClosedObjects() ? (length - 2) * 2 + 2 : (length - 2) * 2, true);
+				notFirst = false;
+
+				for (int i = 1; i < length - 1; i++) {
+					getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
+					notFirst = true;
+					getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
+				}
+
+				if (format.needsClosedObjects()) {
+					for (int i = 0; i < length; i++) { // side
+						getFace(notFirst, 2 * i, 2 * i + 1, (2 * i + 3) % (2 * length));
+						getFace(notFirst, 2 * i, (2 * i + 3) % (2 * length), (2 * i + 2) % (2 * length));
+					}
+				}
+
+				format.getFacesEnd(sb); // end of faces
+
+				// end of polyhedron
+				format.getPolyhedronEnd(sb);
+
+				printToFile(sb.toString());
+
+			} else {
+				if (!format.needsClosedObjects()) { // TODO for 3D printing
+					int length = polygon.getPointsLength();
+					Coords[] verticesWithIntersections = pt.getCompleteVertices(vertices, length);
+					int completeLength = pt.getMaxPointIndex();
+					reverse = false;
+
+					format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, null);
+
+					// object is a polyhedron
+					format.getPolyhedronStart(sb);
+
+					// vertices
+					boolean notFirst = false;
+					format.getVerticesStart(sb, completeLength * 2);
+					for (int i = 0; i < completeLength; i++) {
+						Coords v = verticesWithIntersections[i];
+						double x, y, z;
+						if (differentAxisRatio) {
+							x = v.getX() * view.getXscale();
+							y = v.getY() * view.getYscale();
+							z = v.getZ() * view.getZscale();
+						} else {
+							x = v.getX();
+							y = v.getY();
+							z = v.getZ();
+						}
+						getVertex(notFirst, x + dx, y + dy, z + dz);
+						notFirst = true;
+						getVertex(notFirst, x - dx, y - dy, z - dz);
+					}
+					format.getVerticesEnd(sb);
+
+					// normal
+					if (format.handlesNormals()) {
+						format.getNormalsStart(sb, 2);
+						getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
+						getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
+						format.getNormalsEnd(sb);
+					}
+
+					// faces
+					int size = 0;
+					ArrayList<TriangleFan> triFanList = pt.getTriangleFans();
+					for (TriangleFan triFan : triFanList) {
+						size += triFan.size() - 1;
+					}
+					format.getFacesStart(sb, size * 2, true);
+					notFirst = false;
+
+					for (TriangleFan triFan : triFanList) {
+						int apex = triFan.getApexPoint();
+						int current = triFan.getVertexIndex(0);
+						for (int i = 1; i < triFan.size(); i++) {
+							int old = current;
+							current = triFan.getVertexIndex(i);
+							getFace(notFirst, 2 * apex, 2 * old, 2 * current, 0); // top
+							notFirst = true;
+							getFace(notFirst, 2 * apex + 1, 2 * current + 1, 2 * old + 1, 1); // bottom
+						}
+					}
+
+					format.getFacesEnd(sb); // end of faces
+
+					// end of polyhedron
+					format.getPolyhedronEnd(sb);
+
+					printToFile(sb.toString());
+
+				}
+
 			}
-
-			format.getFacesEnd(sb); // end of faces
-
-			// end of polyhedron
-			format.getPolyhedronEnd(sb);
-
-			printToFile(sb.toString());
-
-		} else {
-			// TODO implement non convex polygons
 		}
 
 	}
