@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * companion for view for 3D
@@ -33,6 +32,11 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 
 	@Override
+	/**
+	 * Creates drawable for geo, also covers the 3D cases that can be flattened.
+	 * 
+	 * Coverage of all classes tested in DrawablesTest
+	 */
 	public DrawableND newDrawable(GeoElementND geo) {
 		// first try super method
 		DrawableND d = super.newDrawable(geo);
@@ -43,7 +47,6 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 		// try 3D geos
 		switch (geo.getGeoClassType()) {
 		default:
-			Log.debug("missing case " + geo.getGeoClassType());
 			break;
 
 		case ANGLE3D:

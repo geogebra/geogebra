@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 
@@ -47,7 +48,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		addGraphingGeometryMenuItems("geometry", "Geometry",
 				pr.menu_icon_geometry24());
 		addGraphingGeometryMenuItems("classic", "Classic",
-				pr.menu_icon_geometry24());
+				MaterialDesignResources.INSTANCE.geogebra_color());
 	}
 
 	private void addGraphingGeometryMenuItems(String appId,
