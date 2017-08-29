@@ -45,6 +45,8 @@ public class SolveStepTest {
 		t("x/x", "0", "x", 5);
 		t("2x+1", "x-2", "x", 9, "-3");
 		t("3x+4", "-x-1", "x", 12, "-(5)/(4)");
+		t("3x+4", "3x+4", "x", 6, "R");
+		t("3x+4", "3x+3", "x", 9);
 		t("x-2", "sqrt(3)", "x", 6, "(nroot(3, 2) + 2)");
 		t("x-2", "sqrt(12)-2*sqrt(3)", "x", 8, "2");
 	}
@@ -153,6 +155,13 @@ public class SolveStepTest {
 				"((2)([k2])(pi)-arcsin(-((nroot(5, 2)-1))/(2)) + pi)");
 		t("2(cos(x))^2+2(sin(x))^2", "2", "x", 8, "R");
 		t("sin(x)+cos(x)", "1", "x", 54, "((2)([k1])(pi) + (pi)/(2))", "(2)([k3])(pi)");
+	}
+
+	@Test
+	public void extremeNested() {
+		t("(((x+1)^2+1)^2+1)^2", "10", "x", 48,
+				"(nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)",
+				"(-nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)");
 	}
 
 	public void t(String LHS, String RHS, String variable, int expectedSteps, String... expectedSolutions) {
