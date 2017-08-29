@@ -1185,6 +1185,8 @@ public class CommandsTest extends Assert{
 	private static void runSolveTests() {
 		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
 		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
+		t("sm=Solve[ {x+y=1,x-y=0} ]", "{{x = 1 / 2, y = 1 / 2}}");
+		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("sm")));
 		t("Solve[ x^2=-1 ]", "{}");
 		t("Solve[ erf(x)=0.5 ]", "?");
 		t("r=Solve[ sin(x)=0 ]", "?");

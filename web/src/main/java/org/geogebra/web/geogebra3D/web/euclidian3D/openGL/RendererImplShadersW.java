@@ -624,4 +624,9 @@ public class RendererImplShadersW extends RendererImplShaders {
 				WebGLRenderingContext.FRAMEBUFFER) == WebGLRenderingContext.FRAMEBUFFER_COMPLETE;
 	}
 
+	@Override
+	protected void glResetProgram() {
+		glUseProgram(null);
+	}
+
 }

@@ -567,11 +567,16 @@ public abstract class RendererImplShaders extends RendererImpl {
 	@Override
 	public void dispose() {
 
-		glUseProgram(0);
+		glResetProgram();
 		glDetachAndDeleteShader(shaderProgram, vertShader);
 		glDetachAndDeleteShader(shaderProgram, fragShader);
 		glDeleteProgram(shaderProgram);
 	}
+
+	/**
+	 * Reset program to 0
+	 */
+	protected abstract void glResetProgram();
 
 	abstract protected void glDetachAndDeleteShader(Object program,
 			Object shader);

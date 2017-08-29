@@ -559,4 +559,9 @@ public class RendererImplShadersD extends RendererImplShaders {
 				GL.GL_FRAMEBUFFER) == GL.GL_FRAMEBUFFER_COMPLETE;
 	}
 
+	@Override
+	protected void glResetProgram() {
+		glUseProgram(0);
+	}
+
 }
