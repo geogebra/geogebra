@@ -196,8 +196,8 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	 *         the user disabled AV slider for given number
 	 */
 	private static boolean animPanelFits(GeoElement geo) {
-		return geo instanceof GeoNumeric
-				? ((GeoNumeric) geo).isShowingExtendedAV() : true;
+		return !(geo instanceof GeoNumeric)
+				|| ((GeoNumeric) geo).isShowingExtendedAV();
 	}
 
 	/**
