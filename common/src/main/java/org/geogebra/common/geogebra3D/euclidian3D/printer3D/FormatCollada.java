@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * OpenSCAD format
