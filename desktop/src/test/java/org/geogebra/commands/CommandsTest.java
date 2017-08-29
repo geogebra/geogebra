@@ -1174,12 +1174,15 @@ public class CommandsTest extends Assert{
 	@Test
 	public void cmdSolve() {
 		runSolveTests();
+		app.getKernel().clearConstruction(true);
 		app.setActiveView(App.VIEW_EUCLIDIAN3D);
 		app.getEuclidianView3D();
+		t("eq: x^2=6", unicode("x^2 + 0z^2 = 6"));
+		t("Solve[ eq ]", "{x = (-sqrt(6)), x = sqrt(6)}");
 		runSolveTests();
 	}
 
-	private void runSolveTests() {
+	private static void runSolveTests() {
 		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
 		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
 		t("Solve[ x^2=-1 ]", "{}");
@@ -1219,7 +1222,7 @@ public class CommandsTest extends Assert{
 		
 	}
 
-	private void tpm(String string, String expected) {
+	private static void tpm(String string, String expected) {
 		t(string.replace("pm", Unicode.PLUSMINUS+""),expected);
 		
 	}
