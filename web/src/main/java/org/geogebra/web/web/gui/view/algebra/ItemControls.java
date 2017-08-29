@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionSlider;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -152,7 +153,8 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	}
 
 	private void buildAnimPanel() {
-		if (radioTreeItem.geo != null && radioTreeItem.geo.isAnimatable()) {
+		if (radioTreeItem.geo != null && radioTreeItem.geo.isAnimatable()
+				&& animPanelFits(radioTreeItem.geo)) {
 			if (animPanel == null) {
 				createAnimPanel();
 			}
@@ -176,7 +178,8 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	 * 
 	 */
 	protected void createAnimPanel() {
-		if (radioTreeItem.geo.isAnimatable()) {
+		GeoElement geo = radioTreeItem.geo;
+		if (geo.isAnimatable() && animPanelFits(geo)) {
 			animPanel = radioTreeItem.app.has(Feature.AV_PLAY_ONLY)
 					? new AnimPanel(radioTreeItem, this)
 					: new AnimPanel(radioTreeItem);
@@ -184,6 +187,17 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 			animPanel = null;
 		}
 
+	}
+
+	/**
+	 * @param geo
+	 *            geo
+	 * @return whether we have place for the animation panel: do not show it if
+	 *         the user disabled AV slider for given number
+	 */
+	private static boolean animPanelFits(GeoElement geo) {
+		return geo instanceof GeoNumeric
+				? ((GeoNumeric) geo).isShowingExtendedAV() : true;
 	}
 
 	/**
@@ -407,6 +421,9 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	}
 
 	public void onPlay(boolean show) {
+		if (btnMore == null) {
+			return;
+		}
 		if (show) {
 			btnMore.removeStyleName("more");
 			btnMore.addStyleName("more-hidden");
