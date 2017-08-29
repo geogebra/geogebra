@@ -48,6 +48,7 @@ import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -551,7 +552,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// always show the view-icon; otherwise use showStylebar as parameter
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			graphicsContextMenuBtn = new StandardButton(
-					MaterialDesignResources.INSTANCE.more_border(), app);
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.more_border()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false),
+					app);
 			graphicsContextMenuBtn
 					.setTitle(app.getLocalization().getMenu("Settings"));
 			FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {
@@ -570,11 +575,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 			graphicsContextMenuBtn.addStyleName("graphicsContextMenuBtn");
 			titleBarPanelContent.add(graphicsContextMenuBtn);
 			return;
-		} else {
-			toggleStyleBarButton = new StandardButton(getToggleImage(false),
-					null, 32, app);
-			toggleStyleBarButton.addStyleName("toggleStyleBar");
 		}
+		toggleStyleBarButton = new StandardButton(getToggleImage(false), null,
+				32, app);
+		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
 
 		if (!showStyleBar && viewImage != null) {

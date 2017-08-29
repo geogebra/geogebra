@@ -887,9 +887,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	private void attachOpenMenuButton() {
-
 		openMenuButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.toolbar_menu_black(), null, 24,
+				MaterialDesignResources.INSTANCE.toolbar_menu_black(),
+				null, 24,
 				app);
 
 		/*

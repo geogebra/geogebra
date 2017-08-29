@@ -34,6 +34,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -486,7 +487,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	private void addMoveBtn() {
 		moveBtn = new StandardButton(
-				MaterialDesignResources.INSTANCE.mode_move(), app);
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.mode_move()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
 		moveBtn.setStyleName("moveFloatingBtn");
 		main.add(moveBtn);
 		hideMoveFloatingButton();

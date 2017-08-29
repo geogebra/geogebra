@@ -18,6 +18,8 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -108,13 +110,19 @@ class Header extends FlowPanel {
 	}
 
 	private void createCenter() {
-		btnAlgebra = new MyToggleButton(
-				new Image(app.isUnbundledGraphing()
-						? MaterialDesignResources.INSTANCE
-								.toolbar_algebra_graphing()
-						: MaterialDesignResources.INSTANCE
-								.toolbar_algebra_geometry()),
+		if (app.isUnbundledGraphing()) {
+			btnAlgebra = new MyToggleButton(
+					new Image(MaterialDesignResources.INSTANCE
+							.toolbar_algebra_graphing()),
+					app);
+		} else {
+			btnAlgebra = new MyToggleButton(
+					new Image(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE
+									.toolbar_algebra_geometry().getSafeUri(),
+							0, 0, 24, 24, false, false)),
 				app);
+		}
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -243,8 +251,12 @@ class Header extends FlowPanel {
 			}
 		});
 		
-		btnContextMenu = new StandardButton(MaterialDesignResources.INSTANCE
-				.more_vert_white(), app);
+		btnContextMenu = new StandardButton(
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.more_vert_white()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
 		btnContextMenu.addStyleName("flatButton");
 		btnContextMenu.addStyleName("contextMenu");
 		
@@ -290,25 +302,40 @@ class Header extends FlowPanel {
 
 	private void updateButtonImages() {
 		if (app.isPortrait()) {
-			imgOpen.setResource(MaterialDesignResources.INSTANCE
-					.toolbar_open_portrait_white());
-			imgClose.setResource(MaterialDesignResources.INSTANCE
-					.toolbar_close_portrait_white());
+			imgOpen.setResource(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE
+							.toolbar_open_portrait_white().getSafeUri(),
+					0, 0, 24, 24, false, false));
+			imgClose.setResource(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE
+							.toolbar_close_portrait_white().getSafeUri(),
+					0, 0, 24, 24, false, false));
 			imgMenu.setResource(
 					MaterialDesignResources.INSTANCE.menu_black_border());
 		} else {
-			imgOpen.setResource(MaterialDesignResources.INSTANCE
-					.toolbar_open_landscape_white());
-			imgClose.setResource(MaterialDesignResources.INSTANCE
-					.toolbar_close_landscape_white());
+			imgOpen.setResource(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE
+							.toolbar_open_landscape_white().getSafeUri(),
+					0, 0, 24, 24, false, false));
+			imgClose.setResource(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE
+							.toolbar_close_landscape_white().getSafeUri(),
+					0, 0, 24, 24, false, false));
+			ImageResource menuImgRec = new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE.toolbar_menu_white()
+							.getSafeUri(),
+					0, 0, 24, 24, false, false);
 			imgMenu.setResource(
-					MaterialDesignResources.INSTANCE.toolbar_menu_white());
+					menuImgRec);
 		}
 	}
 
 	private void createMenuButton() {
-		btnMenu = new PersistableToggleButton(new Image(
-				MaterialDesignResources.INSTANCE.toolbar_menu_black()));
+		ImageResource menuImgRec = new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.toolbar_menu_black()
+						.getSafeUri(),
+				0, 0, 24, 24, false, false);
+		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
 
@@ -399,7 +426,11 @@ class Header extends FlowPanel {
 
 	private void addUndoButton(final FlowPanel panel) {
 		btnUndo = new MyToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.undo_border()), app);
+				new Image(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.undo_border()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)),
+				app);
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
 
@@ -416,7 +447,11 @@ class Header extends FlowPanel {
 
 	private void addRedoButton(final FlowPanel panel) {
 		btnRedo = new MyToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.redo_border()), app);
+				new Image(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.redo_border()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)),
+				app);
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
