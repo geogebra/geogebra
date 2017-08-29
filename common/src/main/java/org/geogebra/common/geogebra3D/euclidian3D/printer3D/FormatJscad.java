@@ -25,7 +25,7 @@ public class FormatJscad implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color, double alpha) {
 		sb.append("\n    // ");
 		sb.append(type);
 		sb.append(": ");

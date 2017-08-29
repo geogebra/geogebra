@@ -676,7 +676,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
 		if (isVisible()) {
-			exportToPrinter3D.export((GeoPolygon) getGeoElement(), vertices);
+			exportToPrinter3D.export((GeoPolygon) getGeoElement(), vertices, null, getGeoElement().getAlphaValue());
 		}
 	}
 

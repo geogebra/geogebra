@@ -48,8 +48,8 @@ public abstract class ExportToPrinter3D {
 	 * constructor
 	 */
 	public ExportToPrinter3D() {
-		format = new FormatJscad();
-		// format = new FormatCollada();
+		// format = new FormatJscad();
+		format = new FormatCollada();
 		sb = new StringBuilder();
 	}
 
@@ -75,6 +75,9 @@ public abstract class ExportToPrinter3D {
 		}
 		GeoElement geo = d.getGeoElement();
 		export(d.getGeometryIndex(), type, geo.getGeoClassType().toString(), geo);
+		if (type == Type.CURVE_CLOSED) {
+			exportSurface(d.getGeoElement(), d.getSurfaceIndex());
+		}
 	}
 
 	public void export(int geometryIndex, Type type, String geoType,
@@ -91,7 +94,7 @@ public abstract class ExportToPrinter3D {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				format.getObjectStart(sb, geoType, geo, false, null);
+				format.getObjectStart(sb, geoType, geo, false, null, 1);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -162,14 +165,21 @@ public abstract class ExportToPrinter3D {
 	public void export(DrawSurface3DElements d) {
 		if (format.handlesSurfaces()) {
 			reverse = false;
-			export(d.getGeoElement(), d.getGeometryIndex(), "SURFACE_MESH", false, GColor.BLACK);
-			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true, null);
-			reverse = true;
-			export(d.getGeoElement(), d.getSurfaceIndex(), "SURFACE", true, null);
+			GeoElement geo = d.getGeoElement();
+			export(geo, d.getGeometryIndex(), "SURFACE_MESH", false, GColor.BLACK, 1);
+			exportSurface(geo, d.getSurfaceIndex());
 		}
 	}
 
-	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency, GColor color) {
+	private void exportSurface(GeoElement geo, int index) {
+		double alpha = geo.getAlphaValue();
+		export(geo, index, "SURFACE", true, null, alpha);
+		reverse = true;
+		export(geo, index, "SURFACE", true, null, alpha);
+	}
+
+	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency, GColor color,
+			double alpha) {
 
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
@@ -179,7 +189,7 @@ public abstract class ExportToPrinter3D {
 
 				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
 
-				format.getObjectStart(sb, group, geo, transparency, color);
+				format.getObjectStart(sb, group, geo, transparency, color, alpha);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -203,15 +213,38 @@ public abstract class ExportToPrinter3D {
 
 				// faces
 				GLBufferIndices bi = geometry.getCurrentBufferI();
-				int length = geometry.getIndicesLength() / 3;
-				format.getFacesStart(sb, length, false);
-				notFirst = false;
-				for (int i = 0; i < length; i++) {
-					int v1 = bi.get();
-					int v2 = bi.get();
+				switch (geometry.getType()) {
+				case TRIANGLE_FAN:
+					// for openGL we use replace triangle fans by triangle strips, repeating apex
+					// every time
+				case TRIANGLE_STRIP:
+					int length = geometry.getIndicesLength() / 2;
+					format.getFacesStart(sb, length - 1, false);
+					notFirst = false;
 					int v3 = bi.get();
-					getFace(notFirst, v1, v2, v3);
-					notFirst = true;
+					int v4 = bi.get();
+					for (int i = 1; i < length; i++) {
+						int v1 = v3;
+						int v2 = v4;
+						v3 = bi.get();
+						v4 = bi.get();
+						getFace(notFirst, v1, v2, v4);
+						notFirst = true;
+					}
+					break;
+				case TRIANGLES:
+				default:
+					length = geometry.getIndicesLength() / 3;
+					format.getFacesStart(sb, length, false);
+					notFirst = false;
+					for (int i = 0; i < length; i++) {
+						int v1 = bi.get();
+						int v2 = bi.get();
+						v3 = bi.get();
+						getFace(notFirst, v1, v2, v3);
+						notFirst = true;
+					}
+					break;
 				}
 				bi.rewind();
 
@@ -243,7 +276,7 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 
-	public void export(GeoPolygon polygon, Coords[] vertices) {
+	public void export(GeoPolygon polygon, Coords[] vertices, GColor color, double alpha) {
 
 		sb.setLength(0);
 
@@ -281,7 +314,7 @@ public abstract class ExportToPrinter3D {
 					reverse = !reverse; // TODO fix that
 				}
 
-				format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, null);
+				format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, color, alpha);
 
 				// object is a polyhedron
 				format.getPolyhedronStart(sb);
@@ -357,7 +390,7 @@ public abstract class ExportToPrinter3D {
 					int completeLength = pt.getMaxPointIndex();
 					reverse = false;
 
-					format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, null);
+					format.getObjectStart(sb, polygon.getGeoClassType().toString(), polygon, true, color, alpha);
 
 					// object is a polyhedron
 					format.getPolyhedronStart(sb);

@@ -205,7 +205,7 @@ public class FormatCollada implements Format {
 	}
 
 	@Override
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color) {
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color, double alpha) {
 		currentLabel = geo.getLabelSimple();
 		Integer n = labels.get(currentLabel);
 		if (n != null) {
@@ -218,7 +218,7 @@ public class FormatCollada implements Format {
 		}
 		GColor c = color == null ? geo.getObjectColor() : color;
 		if (transparency) {
-			currentColor = c.deriveWithAlpha((int) (geo.getAlphaValue() * 255));
+			currentColor = c.deriveWithAlpha((int) (alpha * 255));
 		} else {
 			currentColor = c;
 		}

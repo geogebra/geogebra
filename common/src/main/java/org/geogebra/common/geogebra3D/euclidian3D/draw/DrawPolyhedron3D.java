@@ -495,7 +495,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			vertices[i].setValues(polygon.getPoint3D(i), 3);
 		}
 
-		exportToPrinter3D.export(polygon, vertices);
+		exportToPrinter3D.export(polygon, vertices, getGeoElement().getObjectColor(), getGeoElement().getAlphaValue());
 
 	}
 

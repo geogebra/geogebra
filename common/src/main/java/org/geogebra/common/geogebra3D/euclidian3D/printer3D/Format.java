@@ -32,11 +32,16 @@ public interface Format {
 	 * 
 	 * @param type
 	 *            object type
-	 * @param geo geo
-	 * @param transparency if this object is transparent
-	 * @param color color
+	 * @param geo
+	 *            geo
+	 * @param transparency
+	 *            if this object is transparent
+	 * @param color
+	 *            color
+	 * @param alpha
+	 *            object alpha
 	 */
-	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color);
+	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color, double alpha);
 
 	/**
 	 * 
