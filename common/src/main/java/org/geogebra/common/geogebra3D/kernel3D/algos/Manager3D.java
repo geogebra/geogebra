@@ -579,6 +579,10 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoPlane3D Plane3D(double a, double b, double c, double d) {
 		GeoPlane3D plane = new GeoPlane3D(cons, a, b, c, d);
+		if (Double.isNaN(d) || Double.isNaN(c) || Double.isNaN(b)
+				|| Double.isNaN(a)) {
+			plane.setUndefined();
+		}
 		return plane;
 	}
 

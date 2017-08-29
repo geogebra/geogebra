@@ -87,6 +87,8 @@ public class AppDNoGui extends App {
 	private LocalizationD loc;
 	private SpreadsheetTableModelD tableModel;
 	private DrawEquationD drawEquation;
+	private boolean is3Dactive;
+	private EuclidianView3DNoGui ev3d;
 
 	/**
 	 * @param loc
@@ -215,7 +217,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public EuclidianView getActiveEuclidianView() {
-		return euclidianView;
+		return is3Dactive && ev3d != null ? ev3d : euclidianView;
 	}
 
 	@Override
@@ -276,7 +278,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public void setActiveView(int evID) {
-		// TODO Auto-generated method stub
+		this.is3Dactive = evID == App.VIEW_EUCLIDIAN3D;
 
 	}
 
@@ -761,7 +763,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public EuclidianView3DInterface getEuclidianView3D() {
-		return new EuclidianView3DNoGui(
+		return ev3d = new EuclidianView3DNoGui(
 				new EuclidianController3DNoGui(this, kernel),
 				this.getSettings().getEuclidian(3));
 	}

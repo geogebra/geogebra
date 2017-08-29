@@ -2,6 +2,7 @@ package org.geogebra.commands;
 
 import java.util.Locale;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -113,6 +114,7 @@ public class CommandsTest extends Assert{
 	public void resetSyntaxes(){
 		syntaxes = -1000;
 		app.getKernel().clearConstruction(true);
+		app.setActiveView(App.VIEW_EUCLIDIAN);
 	}
 	@After
 	public void checkSyntaxes(){
@@ -1171,7 +1173,15 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdSolve() {
-		t("Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
+		runSolveTests();
+		app.setActiveView(App.VIEW_EUCLIDIAN3D);
+		app.getEuclidianView3D();
+		runSolveTests();
+	}
+
+	private void runSolveTests() {
+		t("ss=Solve[ x^2=3 ]", "{x = (-sqrt(3)), x = sqrt(3)}");
+		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("ss")));
 		t("Solve[ x^2=-1 ]", "{}");
 		t("Solve[ erf(x)=0.5 ]", "?");
 		t("r=Solve[ sin(x)=0 ]", "?");
@@ -1183,6 +1193,7 @@ public class CommandsTest extends Assert{
 		Assert.assertEquals("\\text{undefined}", get("r2")
 				.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate)
 				.trim());
+
 	}
 
 	@Test

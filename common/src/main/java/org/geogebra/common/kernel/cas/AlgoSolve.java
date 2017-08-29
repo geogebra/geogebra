@@ -79,10 +79,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
 			// if we re-evaluate something with arbconst, it will only have
 			// undefined lines
-			if(!elementsDefined(raw)) {
-					solutions.clear();
-					solutions.setUndefined();
-					return;
+			if (raw == null || !elementsDefined(raw)) {
+				solutions.clear();
+				solutions.setUndefined();
+				return;
 			}
 			if (equations.isGeoList() && raw.size() > 1
 					&& (raw.get(0).isGeoLine() || raw.get(0).isGeoPlane())) {

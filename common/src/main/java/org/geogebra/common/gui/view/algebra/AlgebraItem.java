@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.Feature;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -86,6 +87,11 @@ public class AlgebraItem {
 		for (int i = 0; i < geo.size(); i++) {
 			if (geo.get(i) instanceof GeoLine
 					&& !Kernel.isInteger(((GeoLine) geo.get(i)).getZ())) {
+				return false;
+			}
+			if (geo.get(i) instanceof GeoPlaneND
+					&& !Kernel.isInteger(((GeoPlaneND) geo.get(i)).getCoordSys()
+							.getEquationVector().getW())) {
 				return false;
 			}
 			if (geo.get(i) instanceof GeoList

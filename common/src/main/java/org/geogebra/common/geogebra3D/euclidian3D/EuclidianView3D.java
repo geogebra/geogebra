@@ -420,6 +420,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		Log.debug("create gl renderer");
 		renderer = createRenderer();
 		if (renderer == null) {
+			initAxisAndPlane();
 			return;
 		}
 		renderer.setDrawable3DLists(drawable3DLists);
