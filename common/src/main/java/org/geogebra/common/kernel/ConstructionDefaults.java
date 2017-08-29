@@ -460,8 +460,9 @@ public class ConstructionDefaults {
 		setDefaultLineStyle(line);
 		defaultGeoElements.put(DEFAULT_LINE, line);
 
-		// curve
-		GeoCurveCartesian curve = new GeoCurveCartesian(cons);
+		// curve: actually a function to allow opening .ggb in older version
+		// (NPE if curve has undefined functions in v<=5.0.382)
+		GeoFunction curve = new GeoFunction(cons);
 		curve.setLocalVariableLabel("Curve");
 		curve.setObjColor(getLineColor());
 		curve.setDefaultGeoType(DEFAULT_CURVE_CARTESIAN);
