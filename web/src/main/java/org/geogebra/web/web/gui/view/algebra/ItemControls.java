@@ -232,7 +232,8 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 				|| getController().selectionCtrl.isEmpty()) {
 			radioTreeItem.setFirst(radioTreeItem.first);
 			clear();
-			if (radioTreeItem.geo.isAnimatable()) {
+			if (radioTreeItem.geo.isAnimatable()
+					&& animPanelFits(radioTreeItem.geo)) {
 				if (animPanel == null) {
 					createAnimPanel();
 				}
