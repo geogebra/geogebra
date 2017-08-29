@@ -4668,9 +4668,11 @@ public class Kernel {
 			macroManager.removeMacro(macro);
 		}
 		// Also remove Assignments using this macro from Exercise
-		Exercise ex = getExercise();
-		if (!ex.isEmpty() && ex.usesMacro(macro)) {
-			ex.removeAssignment(macro);
+		if (hasExercise()) {
+			Exercise ex = getExercise();
+			if (!ex.isEmpty() && ex.usesMacro(macro)) {
+				ex.removeAssignment(macro);
+			}
 		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null,
@@ -4686,7 +4688,9 @@ public class Kernel {
 			macroManager.removeAllMacros();
 		}
 		// Also remove all Assignments
-		getExercise().removeAllAssignments();
+		if (hasExercise()) {
+			getExercise().removeAllAssignments();
+		}
 
 		app.dispatchEvent(new Event(EventType.REMOVE_MACRO, null, null));
 	}
