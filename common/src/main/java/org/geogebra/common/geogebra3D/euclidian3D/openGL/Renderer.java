@@ -69,6 +69,8 @@ public abstract class Renderer {
 	static final public int ARROW_TYPE_NONE = 0;
 	/** simple arrows */
 	static final public int ARROW_TYPE_SIMPLE = 1;
+	public static final float AMBIENT_0 = 0.5f;
+	public static final float AMBIENT_1 = 0.4f;
 
 
 	/**
@@ -2018,9 +2020,6 @@ public abstract class Renderer {
 	 * set texture nearest parameters
 	 */
 	abstract public void setTextureNearest();
-	
-	public static float AMBIENT_0 = 0.5f;
-	public static float AMBIENT_1 = 0.4f;
 
 	/**
 	 * init the renderer
