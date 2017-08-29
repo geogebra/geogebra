@@ -288,7 +288,7 @@ public abstract class ExportToPrinter3D {
 
 				// vertices
 				boolean notFirst = false;
-				format.getVerticesStart(sb, length * 2);
+				format.getVerticesStart(sb, format.needsClosedObjects() ? length * 2 : length);
 				for (int i = 0; i < length; i++) {
 					Coords v = vertices[i];
 					double x, y, z;
@@ -301,9 +301,14 @@ public abstract class ExportToPrinter3D {
 						y = v.getY();
 						z = v.getZ();
 					}
-					getVertex(notFirst, x + dx, y + dy, z + dz);
-					notFirst = true;
-					getVertex(notFirst, x - dx, y - dy, z - dz);
+					if (format.needsClosedObjects()) {
+						getVertex(notFirst, x + dx, y + dy, z + dz);
+						notFirst = true;
+						getVertex(notFirst, x - dx, y - dy, z - dz);
+					} else {
+						getVertex(notFirst, x, y, z);
+						notFirst = true;
+					}
 				}
 				format.getVerticesEnd(sb);
 
@@ -320,9 +325,15 @@ public abstract class ExportToPrinter3D {
 				notFirst = false;
 
 				for (int i = 1; i < length - 1; i++) {
-					getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
-					notFirst = true;
-					getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
+					if (format.needsClosedObjects()) {
+						getFace(notFirst, 0, 2 * i, 2 * (i + 1), 0); // top
+						notFirst = true;
+						getFace(notFirst, 1, 2 * (i + 1) + 1, 2 * i + 1, 1); // bottom
+					} else {
+						getFace(notFirst, 0, i, i + 1, 0); // top
+						notFirst = true;
+						getFace(notFirst, 0, i + 1, i, 1); // bottom
+					}
 				}
 
 				if (format.needsClosedObjects()) {
@@ -353,7 +364,7 @@ public abstract class ExportToPrinter3D {
 
 					// vertices
 					boolean notFirst = false;
-					format.getVerticesStart(sb, completeLength * 2);
+					format.getVerticesStart(sb, completeLength);
 					for (int i = 0; i < completeLength; i++) {
 						Coords v = verticesWithIntersections[i];
 						double x, y, z;
@@ -366,9 +377,8 @@ public abstract class ExportToPrinter3D {
 							y = v.getY();
 							z = v.getZ();
 						}
-						getVertex(notFirst, x + dx, y + dy, z + dz);
+						getVertex(notFirst, x, y, z);
 						notFirst = true;
-						getVertex(notFirst, x - dx, y - dy, z - dz);
 					}
 					format.getVerticesEnd(sb);
 
@@ -395,9 +405,9 @@ public abstract class ExportToPrinter3D {
 						for (int i = 1; i < triFan.size(); i++) {
 							int old = current;
 							current = triFan.getVertexIndex(i);
-							getFace(notFirst, 2 * apex, 2 * old, 2 * current, 0); // top
+							getFace(notFirst, apex, old, current, 0); // top
 							notFirst = true;
-							getFace(notFirst, 2 * apex + 1, 2 * current + 1, 2 * old + 1, 1); // bottom
+							getFace(notFirst, apex, current, old, 1); // bottom
 						}
 					}
 
