@@ -48,8 +48,8 @@ public abstract class ExportToPrinter3D {
 	 * constructor
 	 */
 	public ExportToPrinter3D() {
-		// format = new FormatJscad();
-		format = new FormatCollada();
+		format = new FormatJscad();
+		// format = new FormatCollada();
 		sb = new StringBuilder();
 	}
 
