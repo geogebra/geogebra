@@ -81,6 +81,11 @@ public class SolveStepTest {
 		t("(x-5)^2", "x^2", "x", 24, "(5)/(2)");
 		t("3x^2+3x+3", "x^2-x-2", "x", 10);
 		t("(x-2)^2-x^2", "-x^2", "x", 14, "2");
+		t("(x+1)(x+2)", "(2x+3)(x+4)", "x", 28, "(nroot(6, 2)-4)",
+				"(-nroot(6, 2)-4)");
+		// TODO: multiply both sides by (-1) first
+		t("-x^2-x+1", "0", "x", 7, "-((nroot(5, 2) + 1))/(2)",
+				"-((-nroot(5, 2) + 1))/(2)");
 	}
 
 	@Test
@@ -106,7 +111,7 @@ public class SolveStepTest {
 	}
 
 	@Test
-	public void qubicEquations() {
+	public void cubicEquations() {
 		t("x^3+1", "4", "x", 9, "nroot(3, 3)");
 		t("x^3+3x^2+3x+2", "0", "x", 14, "(nroot(-1, 3)-1)");
 		t("x^3-6x^2+12x+13", "0", "x", 14, "(nroot(-21, 3) + 2)");
