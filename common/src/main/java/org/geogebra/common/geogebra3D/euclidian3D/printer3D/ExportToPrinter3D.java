@@ -45,8 +45,7 @@ public abstract class ExportToPrinter3D {
 	 */
 	public ExportToPrinter3D() {
 		format = new FormatJscad();
-//		format = new FormatObj();
-//		format = new FormatCollada();
+		// format = new FormatCollada();
 		sb = new StringBuilder();
 	}
 
@@ -264,7 +263,7 @@ public abstract class ExportToPrinter3D {
 			}
 			
 			double dx = 0, dy = 0, dz = 0;
-			if (!(format instanceof FormatCollada)) {
+			if (format.needsClosedObjects()) {
 				dx = n.getX() * delta;
 				dy = n.getY() * delta;
 				dz = n.getZ() * delta;
@@ -305,7 +304,7 @@ public abstract class ExportToPrinter3D {
 			format.getVerticesEnd(sb);
 			
 			// normal
-			if (format instanceof FormatCollada) {
+			if (format.handlesNormals()) {
 				format.getNormalsStart(sb, 2);
 				getNormalHandlingReverse(-n.getX(), -n.getY(), -n.getZ());
 				getNormalHandlingReverse(n.getX(), n.getY(), n.getZ());
