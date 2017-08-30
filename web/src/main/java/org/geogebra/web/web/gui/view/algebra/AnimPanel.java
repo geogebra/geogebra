@@ -176,7 +176,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 			btnPlay.getUpHoveringFace().setImage(
 					new Image(MaterialDesignResources.INSTANCE.play_purple()));
 			btnPlay.getDownHoveringFace().setImage(
-					new Image(MaterialDesignResources.INSTANCE.pause_purple()));
+					new Image(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.pause_purple()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)));
 		} else {
 			btnPlay = new MyToggleButtonW(
 				GuiResourcesSimple.INSTANCE.icons_play_circle(),

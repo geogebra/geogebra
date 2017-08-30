@@ -79,6 +79,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -650,7 +651,10 @@ public class RadioTreeItem extends AVTreeItem
 			updateFont(content);
 			if (app.has(Feature.ARROW_OUTPUT_PREFIX)) {
 				Image arrow = new Image(
-						MaterialDesignResources.INSTANCE.arrow_black());
+						new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE.arrow_black()
+										.getSafeUri(),
+								0, 0, 24, 24, false, false));
 				arrow.setStyleName("arrowOutputImg");
 				content.insert(arrow, 0);
 			} else {

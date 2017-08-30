@@ -15,6 +15,7 @@ import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -56,8 +57,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 	 * add arrow prefix for av output
 	 */
 	void addArrowPrefix() {
-		final Image arrow = new Image(
-				MaterialDesignResources.INSTANCE.arrow_black());
+		final Image arrow = new Image(new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.arrow_black()
+				.getSafeUri(),
+		0, 0, 24, 24, false, false));
 		arrow.setStyleName("arrowOutputImg");
 		add(arrow);
 	}

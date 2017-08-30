@@ -127,8 +127,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
 	SVGResource add_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/add_purple.png")
-	ImageResource add_purple();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add_purple.svg")
+	SVGResource add_purple();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_help_outline_black_24px.svg")
 	SVGResource icon_help_black();
@@ -140,8 +140,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource insert_photo_black();
 
 	// av icons
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/arrow_black.png")
-	ImageResource arrow_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/arrow_black.svg")
+	SVGResource arrow_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/mode_toggle_numeric_white.png")
 	ImageResource modeToggleNumeric();
@@ -158,8 +158,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
 	SVGResource pause_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/pause_purple.png")
-	ImageResource pause_purple();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/pause_purple.svg")
+	SVGResource pause_purple();
 
 	// ev icons
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/more_border.png")
@@ -168,7 +168,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_menu_black_24px.svg")
 	SVGResource menu_black_border();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
+	// @Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/settings.svg")
 	SVGResource gere();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_undo_black_24px.svg")
