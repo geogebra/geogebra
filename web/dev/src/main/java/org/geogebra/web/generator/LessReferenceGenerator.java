@@ -20,60 +20,20 @@ import java.net.URL;
 
 import org.geogebra.web.resources.LessReference;
 
-import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.UnableToCompleteException;
-import com.google.gwt.core.ext.typeinfo.JMethod;
-import com.google.gwt.resources.ext.AbstractResourceGenerator;
-import com.google.gwt.resources.ext.ResourceContext;
-import com.google.gwt.resources.ext.ResourceGeneratorUtil;
-import com.google.gwt.user.rebind.SourceWriter;
-import com.google.gwt.user.rebind.StringSourceWriter;
-
 /**
  * Provides implementations of LessReference.
  */
-public class LessReferenceGenerator extends AbstractResourceGenerator {
+public class LessReferenceGenerator extends AsciiResourceGenerator {
 
 	@Override
-	public String createAssignment(TreeLogger logger, ResourceContext context,
-	        JMethod method) throws UnableToCompleteException {
-
-		// Extract the SVG name from the @Source annotation
-		URL[] resources = ResourceGeneratorUtil.findResources(logger, context,
-		        method);
-		if (resources.length != 1) {
-			logger.log(TreeLogger.ERROR,
-			        "Exactly one resource must be specified", null);
-			throw new UnableToCompleteException();
-		}
-		URL resource = resources[0];
-
-		SourceWriter sw = new StringSourceWriter();
-		sw.println("new " + LessReference.class.getName() + "() {");
-		sw.indent();
-		// sw.println("private String css=\"" + Generator.escape(css) + "\";");
-
-		// Convenience when examining the generated code.
-		sw.println("// " + resource.toExternalForm());
-
-		sw.println("@Override");
-		sw.println("public String getName() {");
-		sw.indent();
-		sw.println("return \"" + method.getName() + "\";");
-		sw.outdent();
-		sw.println("}");
-
-		sw.println("@Override");
-		sw.println("public String getText() {");
-		sw.indent();
-		sw.println("return \"\";");
-		sw.outdent();
-		sw.println("}");
-
-		sw.outdent();
-		sw.println("}");
-
-		return sw.toString();
+	protected String process(String css, URL inputFile) throws Exception {
+		return "";
 	}
+
+	@Override
+	protected String getClassName() {
+		return LessReference.class.getName();
+	}
+
 
 }

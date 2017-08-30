@@ -23,19 +23,6 @@ import java.net.URL;
 
 import org.geogebra.web.resources.SassResource;
 
-import com.google.gwt.core.ext.Generator;
-import com.google.gwt.core.ext.TreeLogger;
-import com.google.gwt.core.ext.TreeLogger.Type;
-import com.google.gwt.core.ext.UnableToCompleteException;
-import com.google.gwt.core.ext.typeinfo.JMethod;
-import com.google.gwt.dev.util.Util;
-import com.google.gwt.resources.ext.AbstractResourceGenerator;
-import com.google.gwt.resources.ext.ResourceContext;
-import com.google.gwt.resources.ext.ResourceGeneratorUtil;
-import com.google.gwt.user.rebind.SourceWriter;
-import com.google.gwt.user.rebind.StringSourceWriter;
-
-import io.bit3.jsass.CompilationException;
 import io.bit3.jsass.Options;
 import io.bit3.jsass.Output;
 import io.bit3.jsass.OutputStyle;
@@ -43,24 +30,10 @@ import io.bit3.jsass.OutputStyle;
 /**
  * Provides implementations of SVGResource.
  */
-public class SassResourceGenerator extends AbstractResourceGenerator {
+public class SassResourceGenerator extends AsciiResourceGenerator {
 
 	@Override
-	public String createAssignment(TreeLogger logger, ResourceContext context,
-	        JMethod method) throws UnableToCompleteException {
-
-		// Extract the SVG name from the @Source annotation
-		URL[] resources = ResourceGeneratorUtil.findResources(logger, context,
-		        method);
-		if (resources.length != 1) {
-			logger.log(TreeLogger.ERROR,
-			        "Exactly one resource must be specified", null);
-			throw new UnableToCompleteException();
-		}
-		URL resource = resources[0];
-
-		String css = Util.readURLAsString(resource);
-
+	protected String process(String css, URL resource) throws Exception {
 		URI inputFile = null;
 		try {
 			inputFile = resource.toURI();
@@ -73,54 +46,16 @@ public class SassResourceGenerator extends AbstractResourceGenerator {
 		Options options = new Options();
 		options.setOutputStyle(OutputStyle.COMPRESSED);
 
-		try {
-			Output output = new io.bit3.jsass.Compiler().compileString(css,
-					inputFile, outputFile,
-					options);
+		Output output = new io.bit3.jsass.Compiler().compileString(css,
+				inputFile, outputFile, options);
 
-			
-			css = output.getCss();
-			System.out.println("Compiled successfully: "+method.getName()+" ("+css.length()+")");
-		
-		} catch (CompilationException e) {
-			logger.log(Type.ERROR, "Error processing " + method.getName(), null);
-			if (Util.readURLAsString(resource) == null) {
-				logger.log(Type.ERROR, method.getName() + " not found:"
-						+ resource.toString(), null);
-			}
-			e.printStackTrace();
-			throw new UnableToCompleteException();
-		}
-		logger.log(Type.INFO,
-				method.getName() + ": " + css.length() + " bytes", null);
+		return output.getCss();
 
+	}
 
-		SourceWriter sw = new StringSourceWriter();
-		sw.println("new " + SassResource.class.getName() + "() {");
-		sw.indent();
-		sw.println("private String css=\"" + Generator.escape(css) + "\";");
-
-		// Convenience when examining the generated code.
-		sw.println("// " + resource.toExternalForm());
-
-		sw.println("@Override");
-		sw.println("public String getName() {");
-		sw.indent();
-		sw.println("return \"" + method.getName() + "\";");
-		sw.outdent();
-		sw.println("}");
-
-		sw.println("@Override");
-		sw.println("public String getText() {");
-		sw.indent();
-		sw.println("return css;");
-		sw.outdent();
-		sw.println("}");
-
-		sw.outdent();
-		sw.println("}");
-
-		return sw.toString();
+	@Override
+	protected String getClassName() {
+		return SassResource.class.getName();
 	}
 
 }
