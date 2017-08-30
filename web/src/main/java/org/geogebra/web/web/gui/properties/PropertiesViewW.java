@@ -551,11 +551,6 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 
-	@Override
-	public boolean isShowing() {
-		Log.debug("isShowing");
-		return false;
-	}
 
 	/**
 	 * 

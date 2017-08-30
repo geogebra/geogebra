@@ -1738,7 +1738,6 @@ public abstract class ProbabilityCalculatorView
 		return false;
 	}
 
-	@Override
 	public boolean isShowing() {
 		return app.showView(App.VIEW_PROBABILITY_CALCULATOR);
 	}

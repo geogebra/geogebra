@@ -1230,7 +1230,9 @@ public class DockManagerW extends DockManager {
 		} else if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D)) {
 			toolbarID = App.VIEW_EUCLIDIAN3D;
 			// what else can it be??
-		} else if (guiManager.hasProbabilityCalculator() && app.getGuiManager().getProbabilityCalculator().isShowing()) {
+		} else if (guiManager.hasProbabilityCalculator()
+				&& getPanel(App.VIEW_PROBABILITY_CALCULATOR) != null
+				&& getPanel(App.VIEW_PROBABILITY_CALCULATOR).isVisible()) {
 			toolbarID = App.VIEW_PROBABILITY_CALCULATOR;
 		} else if (guiManager.hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing()) {
 			// algebra view has no toolbar!

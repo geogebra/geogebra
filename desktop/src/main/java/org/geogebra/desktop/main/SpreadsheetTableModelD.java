@@ -86,11 +86,6 @@ public class SpreadsheetTableModelD extends SpreadsheetTableModel {
 	}
 
 	@Override
-	public boolean isShowing() {
-		return false;
-	}
-
-	@Override
 	public boolean suggestRepaint() {
 		return false;
 		// only for web

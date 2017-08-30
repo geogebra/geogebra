@@ -686,12 +686,6 @@ public class ConstructionProtocolView {
 			return false;
 		}
 
-		@Override
-		public boolean isShowing() {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
 		/* End of View Implementation */
 
 		private void updateRowNumbers(int row) {

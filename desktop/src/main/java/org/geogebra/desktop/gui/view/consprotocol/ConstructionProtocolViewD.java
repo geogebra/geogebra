@@ -1206,11 +1206,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return false;
 		}
 
-		@Override
-		public boolean isShowing() {
-			return false;
-		}
-
 		public class MyGAbstractTableModel extends GAbstractTableModelD {
 
 			@Override

@@ -696,12 +696,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	}
 
 	@Override
-	public boolean isShowing() {
-		// not used
-		return false;
-	}
-
-	@Override
 	public void startBatchUpdate() {
 		// not used
 	}

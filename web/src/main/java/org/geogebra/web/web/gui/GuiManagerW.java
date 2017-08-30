@@ -1158,7 +1158,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// #5320
 		getApp().getEuclidianView1().updateFonts();
 		if (hasEuclidianView2(1)) {
-			((EuclidianView) getEuclidianView2(1)).updateFonts();
+			getEuclidianView2(1).updateFonts();
 		}
 
 		// if (getApp().getEuclidianView3D() != null) {
@@ -1502,7 +1502,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public View getEuclidianView2(final int idx) {
+	public EuclidianView getEuclidianView2(final int idx) {
 		for (int i = euclidianView2.size(); i <= idx; i++) {
 			euclidianView2.add(null);
 		}
@@ -2024,7 +2024,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void recalculateEnvironments() {
 		for (int i = 0; i < getEuclidianViewCount(); i++) {
 			if (hasEuclidianView2(i)) {
-				((EuclidianView) getEuclidianView2(i)).getEuclidianController()
+				getEuclidianView2(i).getEuclidianController()
 			        .calculateEnvironment();
 			}
 		}

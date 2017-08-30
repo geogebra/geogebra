@@ -198,11 +198,6 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
-	public boolean isShowing() {
-		return false;
-	}
-
-	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
 

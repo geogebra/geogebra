@@ -113,11 +113,6 @@ public interface View {
 	public boolean hasFocus();
 
 	/**
-	 * @return whether this view is visible
-	 */
-	public boolean isShowing();
-
-	/**
 	 * Notification for update batch
 	 */
 	public void startBatchUpdate();

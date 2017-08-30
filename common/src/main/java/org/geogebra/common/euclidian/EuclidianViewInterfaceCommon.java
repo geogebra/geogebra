@@ -1058,4 +1058,10 @@ public interface EuclidianViewInterfaceCommon
 	 * Notify view about screen size change
 	 */
 	public void screenChanged();
+
+	/**
+	 * @return whether this view is visible
+	 */
+	public boolean isShowing();
+
 }

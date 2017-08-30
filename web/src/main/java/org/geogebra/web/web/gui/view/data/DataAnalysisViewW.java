@@ -678,7 +678,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		return false;
 	}
 
-	@Override
 	public boolean isShowing() {
 		return app.showView(App.VIEW_DATA_ANALYSIS);
 	}

@@ -261,7 +261,7 @@ public interface GuiManagerInterface {
 
 	public void setLabels();
 
-	public View getEuclidianView2(int idx);
+	public EuclidianViewInterfaceCommon getEuclidianView2(int idx);
 
 	public boolean hasEuclidianView2EitherShowingOrNot(int idx);
 

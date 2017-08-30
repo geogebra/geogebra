@@ -108,8 +108,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 	protected EuclidianViewW getEuclidianView() {
 		if (ev == null) {
 			ev = new MyEuclidianView(getEVPanel(), new EuclidianControllerW(
-					kernel), EuclidianView.EVNO_GENERAL,
-			        null);
+					kernel), EuclidianView.EVNO_GENERAL, null);
 		}
 		return (EuclidianViewW) ev;
 	}

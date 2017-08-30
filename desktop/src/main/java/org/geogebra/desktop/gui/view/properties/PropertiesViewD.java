@@ -917,7 +917,6 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		Log.debug("unimplemented");
 	}
 
-	@Override
 	public boolean isShowing() {
 
 		PropertiesDockPanel dockPanel = ((GuiManagerD) app.getGuiManager())

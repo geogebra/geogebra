@@ -331,12 +331,6 @@ public abstract class FunctionInspector
 	}
 
 	@Override
-	public boolean isShowing() {
-		//
-		return false;
-	}
-
-	@Override
 	public void startBatchUpdate() {
 		//
 

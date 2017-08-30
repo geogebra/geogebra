@@ -195,11 +195,6 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		return false;
 	}
 
-	@Override
-	public boolean isShowing() {
-		return false;
-	}
-
 	/**
 	 * @param cl
 	 *            change listener

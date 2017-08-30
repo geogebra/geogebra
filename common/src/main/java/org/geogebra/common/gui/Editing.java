@@ -12,4 +12,10 @@ public interface Editing extends View {
 	 *            whether to unselect other items
 	 */
 	public void resetItems(boolean unselectAll);
+
+	/**
+	 * @return whether this view is visible
+	 */
+	public boolean isShowing();
+
 }
