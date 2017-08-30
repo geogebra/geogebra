@@ -186,6 +186,10 @@ public abstract class ExportToPrinter3D {
 	private void export(GeoElement geo, int geometryIndex, String group, boolean transparency, GColor color,
 			double alpha) {
 
+		if (alpha < 0.001) {
+			return;
+		}
+
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
 		if (currentGeometriesSet != null) {
@@ -297,6 +301,10 @@ public abstract class ExportToPrinter3D {
 	}
 
 	public void export(GeoPolygon polygon, Coords[] vertices, GColor color, double alpha) {
+
+		if (alpha < 0.001) {
+			return;
+		}
 
 		sb.setLength(0);
 
