@@ -228,7 +228,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/filter_list_black.png")
 	ImageResource filter_list_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/white_arrow.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/mode_move.svg")
 	SVGResource mode_move();
 
 
