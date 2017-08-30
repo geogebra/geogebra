@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -1210,6 +1211,15 @@ public class CommandsTest extends Assert{
 		t("NSolve[ sin(x)=0 ]", "{x = 0, x = 3.14159}",
 				StringTemplate.editTemplate);
 		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0, y = 0}}");
+	}
+
+	@Test
+	public void yLHSFunctions() {
+		t("f:y=sin(x)", "sin(x)");
+		t("SetValue(f,x^2)", new String[0]);
+		Assert.assertEquals(get("f").getGeoClassType(), GeoClass.FUNCTION);
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(get("f").getGeoClassType(), GeoClass.FUNCTION);
 	}
 
 	@Test

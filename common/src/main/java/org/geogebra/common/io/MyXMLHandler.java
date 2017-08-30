@@ -5953,9 +5953,9 @@ public class MyXMLHandler implements DocHandler {
 						((Equation) ve).setForceConic();
 					} else if ("quadric".equals(type)) {
 						((Equation) ve).setForceQuadric();
-					} else if ("implicitpoly".equals(type)) {
-						((Equation) ve).setForceImplicitPoly();
-					} else if ("implicitPoly".equals(type)) {
+					} else if ("implicitpoly".equals(type)
+							|| "function".equals(type)
+							|| "implicitPoly".equals(type)) {
 						((Equation) ve).setForceImplicitPoly();
 					} else if ("implicitsurface".equals(type)) {
 						((Equation) ve).setForceSurface();

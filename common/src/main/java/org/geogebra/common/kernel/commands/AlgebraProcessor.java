@@ -2490,6 +2490,7 @@ public class AlgebraProcessor {
 			return processImplicitPoly(equ, def);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
+				&& !equ.isForcedImplicitPoly()
 				? equ.degree() : -1;
 		// consider algebraic degree of equation
 		// check not equation of eg plane
