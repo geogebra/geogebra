@@ -269,11 +269,11 @@
     		margin: 3px;
     		width: 32px;
    			height: 32px;
-   			
-   			img.gwt-Image.plusPadding {
-   				padding: 4px;	
-   			}
 		}
+	
+		.button.plusPadding img {
+   				padding: 4px;	
+   		}
 		
 		.button[selected=true]{
 			padding: 2px;

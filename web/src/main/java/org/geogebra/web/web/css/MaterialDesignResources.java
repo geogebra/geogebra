@@ -170,6 +170,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/menu_black_border.png")
 	ImageResource menu_black_border();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
+	SVGResource gere();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/undo_border.svg")
 	SVGResource undo_border();
 
