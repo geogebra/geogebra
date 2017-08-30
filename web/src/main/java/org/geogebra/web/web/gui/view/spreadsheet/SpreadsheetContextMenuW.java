@@ -12,6 +12,7 @@ import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -305,7 +306,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case Create:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.add_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.add_black()
+						.getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.empty();
 			}

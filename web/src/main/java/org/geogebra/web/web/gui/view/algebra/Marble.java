@@ -8,6 +8,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.MaterialDesignResources;
 
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -41,8 +42,10 @@ public class Marble extends SimplePanel
 			this.getElement().removeAttribute("title");
 		}
 		if (gc.isTextItem()) {
-			imgText = new Image(
-					MaterialDesignResources.INSTANCE.icon_quote_black());
+			imgText = new Image(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE.icon_quote_black()
+							.getSafeUri(),
+					0, 0, 24, 24, false, false));
 			imgText.addStyleName("textOverMarble");
 			add(imgText);
 		}

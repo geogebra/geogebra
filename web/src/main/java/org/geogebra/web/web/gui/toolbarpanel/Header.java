@@ -310,8 +310,10 @@ class Header extends FlowPanel {
 					MaterialDesignResources.INSTANCE
 							.toolbar_close_portrait_white().getSafeUri(),
 					0, 0, 24, 24, false, false));
-			imgMenu.setResource(
-					MaterialDesignResources.INSTANCE.menu_black_border());
+			imgMenu.setResource(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE.menu_black_border()
+					.getSafeUri(),
+					0, 0, 24, 24, false, false));
 		} else {
 			imgOpen.setResource(new ImageResourcePrototype(null,
 					MaterialDesignResources.INSTANCE

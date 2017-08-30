@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -455,13 +456,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!exam) {
 			if (app.isUnbundled()) {
 				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
-						MaterialDesignResources.INSTANCE.icon_help_black(),
+						new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE
+										.icon_help_black()
+										.getSafeUri(),
+								0, 0, 24, 24, false, false),
 						"Help"), true);
 			} else {
 				this.menuPanel.add(helpMenu,
 						getHTML(app.isWhiteboardActive()
-								? MaterialDesignResources.INSTANCE
-										.icon_help_black()
+								? new ImageResourcePrototype(null,
+										MaterialDesignResources.INSTANCE
+												.icon_help_black().getSafeUri(),
+										0, 0, 24, 24, false, false)
 								: GuiResources.INSTANCE.menu_icon_help(),
 								"Help"),
 					true);

@@ -124,20 +124,20 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	// plus menu icon resources
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/add_black.png")
-	ImageResource add_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_add_black_24px.svg")
+	SVGResource add_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/add_purple.png")
 	ImageResource add_purple();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/menu_help_black.png")
-	ImageResource icon_help_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_help_outline_black_24px.svg")
+	SVGResource icon_help_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/format_quote_black.png")
-	ImageResource icon_quote_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_format_quote_black_24px.svg")
+	SVGResource icon_quote_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/plusMenu/insert_photo_black.png")
-	ImageResource insert_photo_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/ic_image_black_24px.svg")
+	SVGResource insert_photo_black();
 
 	// av icons
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/arrow_black.png")
@@ -155,28 +155,26 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/speed_down_black.png")
 	ImageResource speed_down_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/pause_black.png")
-	ImageResource pause_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
+	SVGResource pause_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/av/pause_purple.png")
 	ImageResource pause_purple();
 
 	// ev icons
-	// @Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/settings_border.svg")
-	// SVGResource more_border();
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/more_border.png")
 	ImageResource more_border();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/menu_black_border.png")
-	ImageResource menu_black_border();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_menu_black_24px.svg")
+	SVGResource menu_black_border();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gere();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/undo_border.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_undo_black_24px.svg")
 	SVGResource undo_border();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/redo_border.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_redo_black_24px.svg")
 	SVGResource redo_border();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_refresh_black_24px.svg")

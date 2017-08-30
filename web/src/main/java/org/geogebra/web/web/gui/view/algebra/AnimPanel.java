@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -168,7 +169,10 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		if (playOnly) {
 			btnPlay = new MyToggleButtonW(
 					MaterialDesignResources.INSTANCE.play_black(),
-					MaterialDesignResources.INSTANCE.pause_black());
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.pause_black()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false));
 			btnPlay.getUpHoveringFace().setImage(
 					new Image(MaterialDesignResources.INSTANCE.play_purple()));
 			btnPlay.getDownHoveringFace().setImage(
