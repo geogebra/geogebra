@@ -171,8 +171,13 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 
+	public void exportSurface(Drawable3D d) {
+		exportSurface(d.getGeoElement(), d.getSurfaceIndex());
+	}
+
 	private void exportSurface(GeoElement geo, int index) {
 		double alpha = geo.getAlphaValue();
+		reverse = false;
 		export(geo, index, "SURFACE", true, null, alpha);
 		reverse = true;
 		export(geo, index, "SURFACE", true, null, alpha);
@@ -217,7 +222,6 @@ public abstract class ExportToPrinter3D {
 				case TRIANGLE_FAN:
 					// for openGL we use replace triangle fans by triangle strips, repeating apex
 					// every time
-				case TRIANGLE_STRIP:
 					int length = geometry.getIndicesLength() / 2;
 					format.getFacesStart(sb, length - 1, false);
 					notFirst = false;
@@ -230,6 +234,22 @@ public abstract class ExportToPrinter3D {
 						v4 = bi.get();
 						getFace(notFirst, v1, v2, v4);
 						notFirst = true;
+					}
+					break;
+				case TRIANGLE_STRIP:
+					length = geometry.getIndicesLength() / 2;
+					format.getFacesStart(sb, (length - 1) * 2, false);
+					notFirst = false;
+					v3 = bi.get();
+					v4 = bi.get();
+					for (int i = 1; i < length; i++) {
+						int v1 = v3;
+						int v2 = v4;
+						v3 = bi.get();
+						v4 = bi.get();
+						getFace(notFirst, v1, v2, v3);
+						notFirst = true;
+						getFace(notFirst, v2, v4, v3);
 					}
 					break;
 				case TRIANGLES:
