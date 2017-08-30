@@ -1,4 +1,4 @@
-/* 
+/*
 GeoGebra - Dynamic Mathematics for Everyone
 Copyright Markus Hohenwarter, http://www.geogebra.org
 
@@ -14,9 +14,9 @@ the Free Software Foundation; either version 2 of the License, or
  * Parser.jj
  * javacc definition file to generate Parser.java
  * <BR> <BR>
- * This class provides a static function to  
+ * This class provides a static function to
  * parse a String and return an appropriate ValidExpression.
- * Direct subclasses of ValidExpression are: 
+ * Direct subclasses of ValidExpression are:
  * Command, Equation (in x, y), Parametric, Vector (for cartesian and polar points),
  * ExpressionNode (for number or vector arithmetic expressions)
  *
@@ -33,14 +33,14 @@ the Free Software Foundation; either version 2 of the License, or
  * Command <CODE> P = Intersect[ g, h ] </CODE>
  * Number  <CODE> r = 25 </CODE>
  * <BR><BR>
- * All arithmetic expressions (operators: +, -, *, /, ^) are 
+ * All arithmetic expressions (operators: +, -, *, /, ^) are
  * valid as long as they obey the following rules:
  * Variables are x or y. Divisors and Exponents must be constant
  * numbers. The "*" operator may be omitted.
  *
  * @author Markus Hohenwarter
  * @version 10.4.2004
- */   
+ */
 
 PARSER_BEGIN(Parser)
 package org.geogebra.common.kernel.parser;
@@ -79,7 +79,7 @@ public class Parser implements ParserInterface{
   private boolean enableVectors = true;
   private FunctionParser functionParser;
   private ArrayList<ExpressionNode > undecided = new ArrayList<ExpressionNode >();
-    
+
     public Parser(Kernel kernel) {
        this ( new StringProvider("") ); // dummy stream for parser initing
          this.kernel = kernel;
@@ -88,17 +88,17 @@ public class Parser implements ParserInterface{
          loc = app.getLocalization();
     }
 
-    public Kernel getKernel() 
+    public Kernel getKernel()
     {
       return kernel;
     }
-    
+
     // reset for new parsing
     public void myReInit(String parseString) throws ParseException {
         if(!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
           throw new BracketsError(loc,parseString);
         }
-      ReInit(new StringProvider(StringUtil.fixVerticalBars(parseString)));      
+      ReInit(new StringProvider(StringUtil.fixVerticalBars(parseString)));
       GeoGebraCASParsing = false;
       ExternalCASParsing = false;
       GiacParsing = false;
@@ -107,88 +107,88 @@ public class Parser implements ParserInterface{
     }
 
     /**
-     * Parses a String and returns a ValidExpression Object     
+     * Parses a String and returns a ValidExpression Object
      */
-    public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {           
-        myReInit( parseString.charAt(0)=='=' ? parseString.substring(1):parseString );                         
+    public ValidExpression parseGeoGebraExpression(String parseString) throws ParseException {
+        myReInit( parseString.charAt(0)=='=' ? parseString.substring(1):parseString );
         ValidExpression ret = buildValidExpression();
         processUndecided();
-        return ret;     
+        return ret;
     }
-    
+
      /**
-     * Parses a String and returns a ValidExpression Object     
+     * Parses a String and returns a ValidExpression Object
      */
-    public ValidExpression parseGeoGebraCAS(String parseString, GeoCasCell cell) throws ParseException {           
+    public ValidExpression parseGeoGebraCAS(String parseString, GeoCasCell cell) throws ParseException {
         myReInit( parseString );
         // parse x^2 + y^2 as an expression and don't throw Incomplete Equation error
-        GeoGebraCASParsing = true;                        
+        GeoGebraCASParsing = true;
         ValidExpression ret = buildCASExpression(cell);
         processUndecided();
-        return ret;     
-    }
-    
-    /**
-     * Parses a Giac String and returns a ValidExpression Object     
-     */
-    public ValidExpression parseGiac(String parseString) throws ParseException {           
-        myReInit( parseString ); 
-        ExternalCASParsing = true;
-        GiacParsing = true;                     
-        return buildGiacExpression();     
-    }
-    
-    /**
-     * Parses a String and returns a Function Object     
-     */
-    public Function parseFunction(String parseString) 
-    throws ParseException {    
-        myReInit( parseString );                           
-        Function ret = function();
-        processUndecided();
-        return ret;           
+        return ret;
     }
 
     /**
-     * Parses a String and returns a Function Object     
+     * Parses a Giac String and returns a ValidExpression Object
      */
-    public FunctionNVar parseFunctionNVar(String parseString) 
-    throws ParseException {    
-        myReInit( parseString );                           
+    public ValidExpression parseGiac(String parseString) throws ParseException {
+        myReInit( parseString );
+        ExternalCASParsing = true;
+        GiacParsing = true;
+        return buildGiacExpression();
+    }
+
+    /**
+     * Parses a String and returns a Function Object
+     */
+    public Function parseFunction(String parseString)
+    throws ParseException {
+        myReInit( parseString );
+        Function ret = function();
+        processUndecided();
+        return ret;
+    }
+
+    /**
+     * Parses a String and returns a Function Object
+     */
+    public FunctionNVar parseFunctionNVar(String parseString)
+    throws ParseException {
+        myReInit( parseString );
         FunctionNVar ret = functionNVar();
         processUndecided();
-        return ret;           
+        return ret;
     }
-    
+
     /**
-     * Parses a String and returns an ExpressionNode Object     
+     * Parses a String and returns an ExpressionNode Object
      */
-    public ExpressionNode parseCmdExpression(String parseString) 
-    throws ParseException {    
-        myReInit(parseString );                           
+    public ExpressionNode parseCmdExpression(String parseString)
+    throws ParseException {
+        myReInit(parseString );
         ExpressionNode ret = expressionOrEquation().wrap();
         processUndecided();
-        return ret;           
+        return ret;
     }
-    
+
     /**
-     * Parses a String and returns an ExpressionNode Object     
+     * Parses a String and returns an ExpressionNode Object
      */
-    public ExpressionNode parseExpression(String parseString) 
-    throws ParseException {    
-        myReInit( parseString);                           
+    public ExpressionNode parseExpression(String parseString)
+    throws ParseException {
+        myReInit( parseString);
         ExpressionNode ret = expressionNoFreeVars();
         processUndecided();
-        return ret;   
+        return ret;
     }
-    
+
     /**
      * Parses a String if it is a label
      */
-    public String parseLabel(String parseString) 
-    throws ParseException {    
-        myReInit(parseString );                           
-        return label().image;      
+    public String parseLabel(String parseString)
+    throws ParseException {
+        myReInit(parseString );
+        return label().image;
     }
     private ExpressionNode makePower(ExpressionValue v,ExpressionValue e){
       if(v.isExpressionNode() && ((ExpressionNode)v).getOperation()
@@ -202,19 +202,19 @@ public class Parser implements ParserInterface{
   private void processUndecided(){
     for(ExpressionNode en: undecided)
       en.setOperation(Operation.MULTIPLY);
-    undecided.clear();    
+    undecided.clear();
    }
 
    private ExpressionValue ifVectorsEnabled(ExpressionValue def){     return enableVectors ? def : new MyDouble(kernel,Double.NaN); }
 
-   
+
 }
 PARSER_END(Parser)
 
 
 
 SKIP : {
-    " " 
+    " "
   | "\r"
   | "\t"
   | "\n"
@@ -225,11 +225,11 @@ SKIP : {
 //}
 
 /* OPERATORS */
-TOKEN :  {   
+TOKEN :  {
     < ASSIGNMENT: ( ":=" | "\u2254" ) >
   | < DELAYED_ASSIGNMENT: ( "::=") >
   | < VERTICAL_BAR: "|" >
-  | < NOT: ("\u00ac") > 
+  | < NOT: ("\u00ac") >
   | < OR:    ("||" | "\u2228" ) >
   | < AND:    ("&&" | "\u2227" ) >
   | < IMPLICATION:    ("->" | "\u2192") >
@@ -251,14 +251,14 @@ TOKEN :  {
   | < EQUAL:    ("=" | "%=") > // %= for Giac
   | < PLUS:     "+" >
   | < MINUS:    ("-"  | "\u2013" | "\u2212") >
-  | < PLUSMINUS:    ("\u00b1") > 
+  | < PLUSMINUS:    ("\u00b1") >
   | < SUPERSCRIPT_MINUS: "\u207b" >
-  | < POWER:    ("^" | "**" | "\u02C6") >  
+  | < POWER:    ("^" | "**" | "\u02C6") >
     // dot operators for multiplication sign
   | < MULTIPLY: ("*" | "\u22c5" | "\u2219" | "\u00D7") >
   | < VECTORPRODUCT: "\u2297" >
   | < DIVIDE:   ("/" | "\u00f7") >
-  | < FACTORIAL: "!" >  
+  | < FACTORIAL: "!" >
   | < UNDEFINED: ( "?" | "\ufffd" | "Undefined" | "NaN" ) >
 //  | < POWER0:   "\u2070" >
 //  | < POWER1:   "\u00b9" >
@@ -290,11 +290,11 @@ TOKEN :  {
   | < COMMA:    ( "," | "\u060c" ) > // Arabic comma
 }
 
-TOKEN : {      
+TOKEN : {
       < VARX: "x" >
   |    < VARY: "y" >
   |    < VARZ: "z" >
-  //|     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X 
+  //|     < PARAMETRICVAR: (("\u0058") /*| ( ("(") (< VARX >) (< COMMA >) (< VARY >) (")"))*/) > // X
   |     < FLOAT:  (<INTEGER> | <DECIMAL_POINT>)+ > //deliberately trap eg 1.2.3.4 , 1..2 here, error then thrown in MyDouble.parseDouble()
   |     < EFLOAT: <FLOAT> ("E") (<PLUS> | <MINUS>)? <INTEGER> >
   |     < INTEGER: ( <DIGIT> )+ >
@@ -323,19 +323,19 @@ TOKEN : {
           "\u17e0"-"\u17e9", // Khmer
           "\u1810"-"\u1819", // Mongolian
           "\ua8d0"-"\ua8d9"  // Saurashtra
-         ]       
-    > 
-}   
+         ]
+    >
+}
 
-TOKEN : { 
+TOKEN : {
    // labels for cells in the spreadsheet
    <SPREADSHEET_LABEL: ("$")?(["A"-"Z"]|["a"-"z"])+("$")?(["0"-"9"])+ > // e.g. B12
- | 
+ |
    // standard case: labels for GeoElements and command names
-   < LABEL:  
+   < LABEL:
     <LETTER> ( <LETTER> | <DIGIT> | "'" )* (<INDEX>)? (<LETTER> | <DIGIT> | "'" )*>
- // |  < #INDEX:  "_" (  <CHAR>  | ("{" (<CHAR>)+ "}") )  >  
- |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >  
+ // |  < #INDEX:  "_" (  <CHAR>  | ("{" (<CHAR>)+ "}") )  >
+ |  < #INDEX:  "_" (  <CHAR>  | ("{" (~["}"])+ "}" ) )  >
  | < #LETTER:  // unicode letters
        [
         "$", // for absolute references in the spreadsheet
@@ -346,11 +346,11 @@ TOKEN : {
         "\u00d8"-"\u00f6",    //accentuated letters
         "\u00f8"-"\u01bf",    //accentuated letters
         "\u01c4"-"\u02a8",    //accentuated letters
-        "\u0391"-"\u03f3",     // Greek 
+        "\u0391"-"\u03f3",     // Greek
          "\u0401"-"\u0481",    // Cyrillic
         "\u0490"-"\u04f9",    // Cyrillic
         "\u0531"-"\u1ffc",       // a lot of signs (Arabic, accentuated, ...)
-        "\u3041"-"\u3357",      // Asian letters   
+        "\u3041"-"\u3357",      // Asian letters
         "\u4e00"-"\ud7a3",    // Asian letters
         "\uf71d"-"\ufa2d",    // Asian letters
         "\ufb13"-"\ufdfb",    // Armenian, Hebrew, Arabic
@@ -358,7 +358,7 @@ TOKEN : {
         "\uff66"-"\uff9d",    // Katakana
         "\uffa1"-"\uffdc"    // Hangul
        ] >
-       
+
 }
 
 
@@ -366,51 +366,51 @@ TOKEN : {
 // labels for function names
 TOKEN: {
     < X_FUNC:  ("x" | "xcoord")  ("("|"[")>
-|  < Y_FUNC:  ("y" | "ycoord")   ("("|"[")> 
+|  < Y_FUNC:  ("y" | "ycoord")   ("("|"[")>
 |  < Z_FUNC:  ("z" | "zcoord")   ("("|"[")>
 |  < RANDOM_FUNC:  "random()"  >
 |   < POLAR_SEPARATOR: ( "\u2221" | ";" ) > // separator used by Giac instead of ;
-|    < SQRT_SHORT: "\u221a" > 
+|    < SQRT_SHORT: "\u221a" >
 |   < FUNCTION_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) ("("|"[") >
 |   < FUNCTION_POWER_LABEL: (<SPREADSHEET_LABEL> | <LABEL> ) (< POWERN > )("("|"[") >
 }
 
  TOKEN : {
  < TEXT: "\""  (<CHAR>)* "\"" > |
- < #CHAR: ["\u0000"-"\u0021", "\u0023"-"\uffff"]  >    
+ < #CHAR: ["\u0000"-"\u0021", "\u0023"-"\uffff"]  >
 }
-                         
-     
+
+
 
 /**
  * for GeoGebra input field
- * validexpression =    
+ * validexpression =
  *                  labellist() = command() |           // e.g. {A,B} = Intersect[c, g]
- *                      <LABEL> : parametric() |        // e.g. X = (3,2) + t (2,1)              
+ *                      <LABEL> : parametric() |        // e.g. X = (3,2) + t (2,1)
  *                      <LABEL> = expressionn()      // arithmetic expression of floats, vectors and vars
  *                      <LABEL> : equation()        // equation in x an y
              <LABEL>(x) = function()   // function in x, e.g. f(x) = 3x^3 - sqrt(x)
  */
-ValidExpression buildValidExpression() : 
+ValidExpression buildValidExpression() :
 {
     ValidExpression ve = null;
     ExpressionNode conditions = null;
     Token l = new Token();
-} 
-{         
-     (       
-        // f(x) =  x^2 + 3  
+}
+{
+     (
+        // f(x) =  x^2 + 3
         LOOKAHEAD(2147483647)
-        ve = functionExpressionnode()          
-     |             
+        ve = functionExpressionnode()
+     |
        // spreadsheet range like A1:B2
     LOOKAHEAD (3)
-    ve = spreadsheetRange()     
-     |       
-        // special case "A: (3,2)" should become a point  
+    ve = spreadsheetRange()
+     |
+        // special case "A: (3,2)" should become a point
         // CAS assignment "a := 5" should be supported too
-        // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too                                  
-      LOOKAHEAD(2147483647)  
+        // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too
+      LOOKAHEAD(2147483647)
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
    |
         LOOKAHEAD(2147483647)
@@ -421,56 +421,56 @@ ValidExpression buildValidExpression() :
         {
 			ve = new ExpressionNode(kernel, conditions, Operation.IF, ve);
         })?
-                       
-     |       
-        LOOKAHEAD(2147483647)                               
+        
+     |
+        LOOKAHEAD(2147483647)
       ve = cartesianvector_special()
   |
   LOOKAHEAD(2147483647)
   ve = cartesianvector3D_special()
   |
-      LOOKAHEAD(2147483647)    
-        ve = polarvector_special()  
-    )                     
-    ( <POLAR_SEPARATOR> | <EOF> )     
-    {                      
+      LOOKAHEAD(2147483647)
+        ve = polarvector_special()
+    )
+    ( <POLAR_SEPARATOR> | <EOF> )
+    {
         if (ve.labelCount() == 0)
         {
           ve.addLabel(l.image);  // standard case
-        }                         
+        }
         return ve;
-    }    
+    }
 }
 
 /**
  *  parse GeoGebra CAS input
  */
-ValidExpression buildCASExpression(GeoCasCell cell) : 
+ValidExpression buildCASExpression(GeoCasCell cell) :
 {
     ValidExpression ve;
     Token l = new Token();
     Token assign = null;
-} 
-{         
+}
+{
         // CAS function
        // f(a) := a^2 + 3a
      (
-        LOOKAHEAD(2147483647)   
+        LOOKAHEAD(2147483647)
         ve = casFunction(cell)
-    |     
+    |
          // labeled equation, e.g. g: 3x + y = 7
-         // assignment         
+         // assignment
         // b := 27 + c, also allow x := 5, see http://www.geogebra.org/trac/ticket/946
-        LOOKAHEAD(2147483647)    
+        LOOKAHEAD(2147483647)
     l = casVar() (assign= ":" |assign = <ASSIGNMENT> | assign = <DELAYED_ASSIGNMENT > ) ve = expressionOrEquation()
-   |      
+   |
          // equation, e.g. 3x + y = 7
-         LOOKAHEAD(2147483647)   
-         ve = expressionOrEquation()         
-  )                     
-    ( <POLAR_SEPARATOR> | <EOF> )     
-    {   
-      // remember label      
+         LOOKAHEAD(2147483647)
+         ve = expressionOrEquation()
+  )
+    ( <POLAR_SEPARATOR> | <EOF> )
+    {
+      // remember label
       if (l.image != null)
       {
           if(":".equals(assign.image) &&
@@ -482,49 +482,49 @@ ValidExpression buildCASExpression(GeoCasCell cell) :
     cmd.addArgument(startCell);
     cmd.addArgument(endCell);
     return cmd;
-          }           
+          }
           ve.addLabel(l.image);
           if(cell != null){
           	cell.setAssignmentType(assign.kind == DELAYED_ASSIGNMENT?AssignmentType.DELAYED:AssignmentType.DEFAULT);
           }
-       }                          
+       }
         return ve;
-    }    
+    }
 }
 
 
 /**
  * convert Giac String to GeoGebra string
  */
-private ValidExpression buildGiacExpression() : 
+private ValidExpression buildGiacExpression() :
 {
     ValidExpression ve;
-} 
-{         
-    (     
-    // try to parse Giac string as standard GeoGebra expression 
-      ve = buildCASExpression(null)                 
-  )                     
-    ( <POLAR_SEPARATOR> | <EOF> )     
-    {                                  
+}
+{
+    (
+    // try to parse Giac string as standard GeoGebra expression
+      ve = buildCASExpression(null)
+  )
+    ( <POLAR_SEPARATOR> | <EOF> )
+    {
         return ve;
-    }    
+    }
 }
 
 /**
- * (<VARZ> | <LABEL> | <SPREADSHEET_LABEL>) 
+ * (<VARZ> | <LABEL> | <SPREADSHEET_LABEL>)
  */
 Token label():
-{     
+{
     Token t;
 }
-{             
+{
        ( t = <VARZ> | t = <SPREADSHEET_LABEL> |  t = <LABEL> )
         {  return t;   }
 }
 
 /**
- * (<VARX> | <VARY> | <VARZ> | <LABEL> | <SPREADSHEET_LABEL>) 
+ * (<VARX> | <VARY> | <VARZ> | <LABEL> | <SPREADSHEET_LABEL>)
  */
 Token casVar():
 {
@@ -539,20 +539,20 @@ Token casVar():
 
 
 /**
- * command =     <LABEL> [ argument (, argument)* ]  
+ * command =     <LABEL> [ argument (, argument)* ]
  */
 ValidExpression command():
-{     
+{
     Command c;
     Token t;
     String cmdName;
     ValidExpression en;
 }
-{   
+{
   (
        (t = <FUNCTION_LABEL>) // includes (
       { cmdName = t.image.substring(0,t.image.length()-1);
-        c = new Command(kernel, cmdName, true, !ExternalCASParsing );    } 
+        c = new Command(kernel, cmdName, true, !ExternalCASParsing );    }
       (   ( en = expressionOrEquation()  { c.addArgument( en.wrap() ); } )?
           ( <COMMA> en = expressionOrEquation() { c.addArgument( en.wrap() ); } )*
       (")"|"]") )
@@ -582,88 +582,88 @@ ExpressionNode expressionNoFreeVars():
 {
     ExpressionNode rhs;
 }
-{    
-    rhs = expressionnode()              
+{
+    rhs = expressionnode()
     {
       // Giac uses x,y not ggbtmpvarx/y
         if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFreeFunctionVariable(null)) {
           throw new MyError(loc, "IncompleteEquation");
         }
-        
-        // since v3.0: commands have to take care of resolving the variables of 
-        // their arguments on their own, e.g. Sequence[ (i, i^2), i , 1, 10 ]       
+
+        // since v3.0: commands have to take care of resolving the variables of
+        // their arguments on their own, e.g. Sequence[ (i, i^2), i , 1, 10 ]
     //rhs.resolveVariables();
         return rhs;
     }
 }
 
 /**
- * function = functionExpressionnode 
+ * function = functionExpressionnode
  */
 Function  function():
 {
     ExpressionNode rhs;
     Function f;
 }
-{          
+{
 (
-     // f(x) =  x^2 + 3  
+     // f(x) =  x^2 + 3
       rhs = functionExpressionnode()
       {
         if (rhs.getLeft() instanceof Function) {
           f = (Function) rhs.getLeft();
         }
         else {
-            f = new Function(rhs);            
+            f = new Function(rhs);
         }
-        f.setLabel(rhs.getLabel());         
+        f.setLabel(rhs.getLabel());
         return f;
-      }   
-)     
+      }
+)
 }
 
 /**
- * functionNVar = functionExpressionnode 
+ * functionNVar = functionExpressionnode
  */
 FunctionNVar  functionNVar():
 {
     ExpressionNode rhs;
     FunctionNVar f;
 }
-{          
+{
 (
-     // f(x) =  x^2 + 3  
+     // f(x) =  x^2 + 3
       rhs = functionExpressionnode()
       {
         if (rhs.getLeft() instanceof FunctionNVar) {
           f = (FunctionNVar) rhs.getLeft();
         }
         else {
-            f = new FunctionNVar(rhs);            
+            f = new FunctionNVar(rhs);
         }
-        f.setLabel(rhs.getLabel());         
+        f.setLabel(rhs.getLabel());
         return f;
-      }   
-)     
+      }
+)
 }
 
 ExpressionNode conditions():
 {
-    
+
     ExpressionNode condition = null;
-    ExpressionNode conditions = null;    
+    ExpressionNode conditions = null;
 }
-{  
+{
 (  <COMMA> (condition = expressionnode())
           {
             conditions = conditions == null ? condition : new ExpressionNode(kernel, conditions, Operation.AND, condition);
           })+
           {			return conditions;
           }
-}        
+}
 /**
- * function =   f(var1, var2) = expressionnode 
- *        f(var) := expressionnode 
+ * function =   f(var1, var2) = expressionnode
+ *        f(var) := expressionnode
  *        f(var) = command
  */
 ExpressionNode functionExpressionnode():
@@ -674,7 +674,7 @@ ExpressionNode functionExpressionnode():
     Token varName = null;
     ArrayList<String> localVars;
 }
-{          
+{
 (
       // single or multi-variable function definition
      // f(a) =  a^2 + 3
@@ -682,26 +682,26 @@ ExpressionNode functionExpressionnode():
      (
        funName = <FUNCTION_LABEL> |  // includes "(" at end
        funName = <Z_FUNC> // includes "(" at end
-     ) 
+     )
          // local variables, allow function of y and deal with it in GeoFunction constructor
          (( varName =  <VARX> | varName =  <VARY> | varName = label() )
            { localVars = new ArrayList<String>(); localVars.add(varName.image);
            kernel.getConstruction().registerFunctionVariable(varName.image);} )
-      // optional second variable      
+      // optional second variable
        (<COMMA> ( varName = casVar() )
        { localVars.add(varName.image);
-       kernel.getConstruction().registerFunctionVariable(varName.image);} )* 
+       kernel.getConstruction().registerFunctionVariable(varName.image);} )*
       // closing ) and assignment with expressionnode
           ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (cond = conditions())?
       {
           // allow f(y) in CAS but not in GeoGebra
-    //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image)) 
+    //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image))
       //      throw new MyError(app, "InvalidInput");
       	if(cond != null)
       	{
 			rhs = new ExpressionNode(kernel, cond, Operation.IF, rhs);
       	}
-        String funLabel = funName.image.substring(0,funName.image.length()-1);   
+        String funLabel = funName.image.substring(0,funName.image.length()-1);
 
       // command without variables: return expressionnode
       // only check for function variables outside of command, eg Derivative[f(x)]+x #4533
@@ -709,7 +709,7 @@ ExpressionNode functionExpressionnode():
         rhs.setLabel(funLabel);
         return rhs;
       }
-      
+
 
         // function: wrap function in ExpressionNode
       // number of vars
@@ -728,7 +728,7 @@ ExpressionNode functionExpressionnode():
         }
         return new Equation(kernel, functionParser.buildOpNode(op, vars), rhs).wrap();
       }
-      
+
       FunctionVariable[] funVar = new FunctionVariable[n];
         for (int i=0;i<n; i++){
           funVar[i] = new FunctionVariable(kernel);
@@ -736,7 +736,7 @@ ExpressionNode functionExpressionnode():
         }
 
           switch (n) {
-            case 1: // single variable function          
+            case 1: // single variable function
         Function fun = new Function(rhs, funVar[0]);
         fun.setLabel(funLabel);
         rhs = new ExpressionNode(kernel, fun);
@@ -747,18 +747,18 @@ ExpressionNode functionExpressionnode():
         funn.setLabel(funLabel);
         rhs = new ExpressionNode(kernel, funn);
              break;
-          }             
-           
+          }
+
            rhs.setLabel(funLabel);
            return rhs;
-      }   
+      }
 )
 }
 
 /**
- * CAS function =   label(var) := expressionnode 
+ * CAS function =   label(var) := expressionnode
  */
-FunctionNVar casFunction(GeoCasCell cell):          
+FunctionNVar casFunction(GeoCasCell cell):
 {
     ExpressionNode rhs,cond = null;
     Token funName = null;
@@ -766,7 +766,7 @@ FunctionNVar casFunction(GeoCasCell cell):
     Token assign = null;
     ArrayList<String> localVars;
 }
-{          
+{
 (
       // single or multi-variable function definition
      // f(a) =  a^2 + 3
@@ -774,13 +774,13 @@ FunctionNVar casFunction(GeoCasCell cell):
      (
        funName = <FUNCTION_LABEL> |  // includes "(" at end
        funName = <Z_FUNC> // includes "(" at end
-     )    
+     )
          // local variables
          (( varName =  casVar() )
            { localVars = new ArrayList<String>(); localVars.add(varName.image); } )
-      // optional second variable      
+      // optional second variable
        (<COMMA> ( varName =  casVar() )
-       { localVars.add(varName.image); } )* 
+       { localVars.add(varName.image); } )*
       // closing ) and assignment with expressionnode
           ")" (assign = <ASSIGNMENT> | assign = < DELAYED_ASSIGNMENT >) rhs = expressionnode() (cond = conditions())?
       {
@@ -788,11 +788,11 @@ FunctionNVar casFunction(GeoCasCell cell):
       	{
 			rhs = new ExpressionNode(kernel, cond, Operation.IF, rhs);
       	}
-        String funLabel = funName.image.substring(0,funName.image.length()-1);   
+        String funLabel = funName.image.substring(0,funName.image.length()-1);
 
       // number of vars
       int n = localVars.size();
-      
+
       FunctionVariable[] funVar = new FunctionVariable[n];
         for (int i=0;i<n; i++){
           funVar[i] = new FunctionVariable(kernel);
@@ -800,7 +800,7 @@ FunctionNVar casFunction(GeoCasCell cell):
         }
 
           switch (n) {
-            case 1: // single variable function          
+            case 1: // single variable function
         Function fun = new Function(rhs, funVar[0]);
         fun.setLabel(funLabel);
         if(cell != null){
@@ -816,9 +816,9 @@ FunctionNVar casFunction(GeoCasCell cell):
         }
         return funn;
           }
-      }   
-)   
-}     
+      }
+)
+}
 
 
 /**
@@ -829,28 +829,28 @@ ExpressionNode expressionnode():
     ExpressionValue ret, f;
 }
 {
-    ret = ORterm()                 
+    ret = ORterm()
     ( <IMPLICATION>  f = ORterm()
-        {                
-           ret = new ExpressionNode(kernel, ret, Operation.IMPLICATION, f);                   
+        {
+           ret = new ExpressionNode(kernel, ret, Operation.IMPLICATION, f);
         }
     )*
-    { 
+    {
       ExpressionNode en;
       if (ret.isExpressionNode())
         en = (ExpressionNode) ret;
       else
         en = new ExpressionNode(kernel, ret);
-      
+
       //en.expandEquationExpressions();
       if (ExternalCASParsing)
         en.simplifyLeafs();
-      return en; 
+      return en;
     }
 }
 
 /**
- *  expressionOrEquation =  equation | expressionnode 
+ *  expressionOrEquation =  equation | expressionnode
  */
 ValidExpression expressionOrEquation():
 {
@@ -858,137 +858,137 @@ ValidExpression expressionOrEquation():
     ExpressionNode rhs = null;
     ExpressionNode rrhs = null;
 }
-{ 
+{
      en = expressionnode()
       (  <EQUAL> rhs = expressionnode()
         (  <EQUAL> rrhs = expressionnode()
-            
-      	)?    
+
+      	)?
       )?
   {
     if(rrhs!=null)    {
       return new MyVecNode(kernel, new Equation(kernel, en, rhs), new Equation(kernel, en, rrhs)).wrap();    }
-            
-    return  rhs == null ? en : new Equation(kernel, en, rhs);           
+
+    return  rhs == null ? en : new Equation(kernel, en, rhs);
   }
 }
 
 /**
- * ANDterm =   COMPAREterm <AND> COMPAREterm 
+ * ANDterm =   COMPAREterm <AND> COMPAREterm
  */
 ExpressionValue ANDterm():
 {
     ExpressionValue ret, f;
 }
 {
-    ret = COMPAREterm()           
-    ( <AND>  f = COMPAREterm() 
+    ret = COMPAREterm()
+    ( <AND>  f = COMPAREterm()
         {
-          ret = new ExpressionNode(kernel, ret, Operation.AND, f);             
-        }     
+          ret = new ExpressionNode(kernel, ret, Operation.AND, f);
+        }
     )*
-    { return ret; }  
+    { return ret; }
 }
 
 /**
- * ORterm =   ANDterm <OR> ANDterm 
+ * ORterm =   ANDterm <OR> ANDterm
  */
 ExpressionValue ORterm():
 {
     ExpressionValue ret, f;
 }
 {
-    ret = ANDterm()           
-    ( <OR>  f = ANDterm() 
+    ret = ANDterm()
+    ( <OR>  f = ANDterm()
         {
-          ret = new ExpressionNode(kernel, ret, Operation.OR, f);             
-        }     
+          ret = new ExpressionNode(kernel, ret, Operation.OR, f);
+        }
     )*
-    { return ret; }  
+    { return ret; }
 }
 
 /**
- * COMPAREterm =   listopnode ("==" | "<" | "<=" | ">" | ">=") listopnode 
+ * COMPAREterm =   listopnode ("==" | "<" | "<=" | ">" | ">=") listopnode
  */
 ExpressionValue COMPAREterm():
 {
     ExpressionValue left, right;
-    ExpressionNode result;   
+    ExpressionNode result;
     Vector<ExpressionNode> andList = null; // support multiple comparisons like 3 < x < 7
 }
 {
-    left = listopnode()  
-    (         
+    left = listopnode()
+    (
        (
          (<EQUAL_BOOLEAN>  right = listopnode()
-       {            
+       {
          if (ExternalCASParsing)
              result = new ExpressionNode(kernel, new Equation(kernel, left, right));
          else
-                result = new ExpressionNode(kernel, left, Operation.EQUAL_BOOLEAN, right);  
+                result = new ExpressionNode(kernel, left, Operation.EQUAL_BOOLEAN, right);
          }
-       )   
-     |   
+       )
+     |
        (<NOT_EQUAL>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.NOT_EQUAL, right);
          }
-       )   
-     |  
+       )
+     |
        (<XOR>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.XOR, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.XOR, right);
          }
-       )   
-     |   
+       )
+     |
        (<IS_SUBSET_OF>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF, right);
          }
-       )   
-     |   
+       )
+     |
        (<IS_SUBSET_OF_STRICT>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF_STRICT, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.IS_SUBSET_OF_STRICT, right);
          }
-       )   
-     |   
+       )
+     |
        (<LESS>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.LESS, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.LESS, right);
          }
-       ) 
+       )
      |
        (<GREATER>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.GREATER, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.GREATER, right);
          }
-       ) 
+       )
      |
        (<LESS_EQUAL>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.LESS_EQUAL, right);
          }
-       ) 
+       )
      |
        (<GREATER_EQUAL>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.GREATER_EQUAL, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.GREATER_EQUAL, right);
          }
-       ) 
+       )
       |
          (<PARALLEL>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.PARALLEL, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.PARALLEL, right);
          }
-         ) 
+         )
       |
          (<PERPENDICULAR>  right = listopnode()
-       {            
-           result = new ExpressionNode(kernel, left, Operation.PERPENDICULAR, right);  
+       {
+           result = new ExpressionNode(kernel, left, Operation.PERPENDICULAR, right);
          }
         )
-     )                    
+     )
      {
         // store all AND parts
         // e.g. 3 < x < 7 should get stored as 3 < x && x < 7
@@ -997,17 +997,17 @@ ExpressionValue COMPAREterm():
     andList.add(result);
     left = right;
      }
-    )* 
+    )*
     {
       if (andList != null) {
       // build AND ExpressionNode tree, e.g. 3 < x && x < 7
         left = andList.get(0);
         for (int i=1; i < andList.size(); i++) {
       left = new ExpressionNode(kernel, left, Operation.AND_INTERVAL, andList.get(i));
-        }   
+        }
       }
       return left;
-    }  
+    }
 }
 
 /**
@@ -1020,11 +1020,11 @@ ExpressionValue plusminusnode():
     Token x;
 }
 {
-    ret = multterm()                 
+    ret = multterm()
     (( x = <PLUS> | x = <MINUS> | x = <PLUSMINUS>) f = multterm()
-        {                       
-            if (x.kind == PLUS){ 
-                ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);  
+        {
+            if (x.kind == PLUS){
+                ret = new ExpressionNode(kernel, ret, Operation.PLUS, f);
             } else if (x.kind == PLUSMINUS){
             	ret = new ExpressionNode(kernel, ret, Operation.PLUSMINUS, f);
             }            else {              if(ret.isExpressionNode() && ( (ExpressionNode)ret).isStringAddition() )              {                ((ExpressionNode) ret).setRight(new ExpressionNode(kernel,
@@ -1034,11 +1034,11 @@ ExpressionValue plusminusnode():
               else              {
                  ret = new ExpressionNode(kernel, ret, Operation.MINUS, f);              }
         	}
-      }          
+      }
     )*
-    { 
+    {
       //ret.simplifyLeafs();
-      return ret; 
+      return ret;
     }
 }
 
@@ -1047,15 +1047,15 @@ ExpressionValue sequencenode():
     ExpressionValue ret, f;
 }
 {
-    ret = plusminusnode()                 
+    ret = plusminusnode()
     (<SEQUENCE_OPERATOR> f = plusminusnode()
-        {                       
-            ret = new ExpressionNode(kernel, ret, Operation.SEQUENCE, f);  
+        {
+            ret = new ExpressionNode(kernel, ret, Operation.SEQUENCE, f);
         }
     )*
-    { 
+    {
       //ret.simplifyLeafs();
-      return ret; 
+      return ret;
     }
 }
 
@@ -1064,15 +1064,15 @@ ExpressionValue setdifferencenode():
     ExpressionValue ret, f;
 }
 {
-    ret = sequencenode()                 
+    ret = sequencenode()
     (<SET_DIFFERENCE> f = sequencenode()
-        {                       
-            ret = new ExpressionNode(kernel, ret, Operation.SET_DIFFERENCE, f);  
+        {
+            ret = new ExpressionNode(kernel, ret, Operation.SET_DIFFERENCE, f);
         }
     )*
-    { 
+    {
       //ret.simplifyLeafs();
-      return ret; 
+      return ret;
     }
 }
 
@@ -1081,20 +1081,20 @@ ExpressionValue listopnode():
     ExpressionValue ret, f;
 }
 {
-    ret = setdifferencenode()                 
+    ret = setdifferencenode()
     (<IS_ELEMENT_OF> f = setdifferencenode()
-        {                       
-            ret = new ExpressionNode(kernel, ret, Operation.IS_ELEMENT_OF, f);  
+        {
+            ret = new ExpressionNode(kernel, ret, Operation.IS_ELEMENT_OF, f);
         }
     )*
-    { 
+    {
       //ret.simplifyLeafs();
-      return ret; 
+      return ret;
     }
 }
 
 /**
- * multterm =   divterm * divterm 
+ * multterm =   divterm * divterm
  */
 ExpressionValue multterm():
 {
@@ -1102,14 +1102,14 @@ ExpressionValue multterm():
     Token x;
 }
 {
-    ret = divterm()           
-    (                 
-     ( x = <MULTIPLY> | x = <VECTORPRODUCT> ) f = divterm() 
+    ret = divterm()
+    (
+     ( x = <MULTIPLY> | x = <VECTORPRODUCT> ) f = divterm()
         {
             if (x.kind == MULTIPLY) {
-                ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);   
+                ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
             } else {
-                ret = new ExpressionNode(kernel, ret, Operation.VECTORPRODUCT, f);  
+                ret = new ExpressionNode(kernel, ret, Operation.VECTORPRODUCT, f);
             }
         }
      |
@@ -1118,7 +1118,7 @@ ExpressionValue multterm():
      f = powerdivterm()
         {
               ExpressionValue special = ExpressionNode.multiplySpecial(ret, f, kernel, GiacParsing);
-  
+
                   if(special == null)
                   {
                       ret = new ExpressionNode(kernel, ret, Operation.MULTIPLY, f);
@@ -1126,9 +1126,9 @@ ExpressionValue multterm():
                   	  ret = special;
                   }
             }
-           
+
     )*
-    { return ret; }  
+    { return ret; }
 }
 
 /**
@@ -1139,14 +1139,14 @@ ExpressionValue divterm():
     ExpressionValue ret, f;
 }
 {
-    ret = enunary()           
-    (                 
-       <DIVIDE> f = enunary() 
+    ret = enunary()
+    (
+       <DIVIDE> f = enunary()
         {
-            ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f); 
-        }  
+            ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f);
+        }
     )*
-    { return ret; }  
+    { return ret; }
 }
 
 /**
@@ -1157,39 +1157,39 @@ ExpressionValue powerdivterm():
     ExpressionValue ret, f;
 }
 {
-    ret = enpower()           
-    (                 
-       <DIVIDE> f = enunary() 
+    ret = enpower()
+    (
+       <DIVIDE> f = enunary()
         {
-            ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f); 
-        }  
+            ret = new ExpressionNode(kernel, ret, Operation.DIVIDE, f);
+        }
     )*
-    { return ret; }  
+    { return ret; }
 }
 
 /**
  * unary =  -power    |
- *           +power    |   
+ *           +power    |
  *          power
  */
-ExpressionValue enunary():        
+ExpressionValue enunary():
 {
     ExpressionValue e;
 }
 {
     <MINUS> e = enpower()
         { // -e  = -1*e
-          return ExpressionNode.unaryMinus(kernel, e);              
+          return ExpressionNode.unaryMinus(kernel, e);
         }
 |
    <PLUS> e = enpower()
         { // +e  = e
-          return e;              
+          return e;
         }
         |
    <PLUSMINUS> e = enpower()
         { // +e  = e
-          return new ExpressionNode(kernel,e,Operation.PLUSMINUS,new MyNumberPair(kernel));              
+          return new ExpressionNode(kernel,e,Operation.PLUSMINUS,new MyNumberPair(kernel));
         }
 |
     e = enpower()
@@ -1200,43 +1200,43 @@ ExpressionValue enunary():
 
 /**
  * power =    element                 |
- *          element ^ power           
+ *          element ^ power
  */
 ExpressionValue enpower():
 {
     ExpressionValue ret, f;
     Token c = null;
     ArrayList<ExpressionValue> exponentList = null;
-    
+
 }
-{  
-    ret = enfactorial()         
+{
+    ret = enfactorial()
     (
-        (   
-       c = <POWERN> 
-        {            
+        (
+       c = <POWERN>
+        {
             f = new MyDouble(kernel, c.image);
             // collect exponents
       if (exponentList == null)
         exponentList = new ArrayList<ExpressionValue>();
-            exponentList.add(f);  
+            exponentList.add(f);
       }
-     )     
-    |                   
+     )
+    |
       (
           <POWER> (c = <MINUS> | c = <PLUS>)? f = enfactorial()
         {
             // -f  = -1*f
       if (c != null && c.kind == MINUS)
-      {                
+      {
              f = ExpressionNode.unaryMinus(kernel, f);
              c = null; // make sure we forget minus for next exponent
             }
-          
+
       // collect exponents
       if (exponentList == null)
         exponentList = new ArrayList<ExpressionValue>();
-            exponentList.add(f);  
+            exponentList.add(f);
 
            /*
           // check if we have e^
@@ -1244,20 +1244,20 @@ ExpressionValue enpower():
             ExpressionNode en = (ExpressionNode) ret;
             if (en.isLeaf() &&  en.getLeft() instanceof MyDouble) {
               MyDouble num = (MyDouble) en.getLeft();
-              if (num.getDouble() == Math.E) {        
-                  ret = new ExpressionNode(kernel, f, Operation.EXP, null);            
-              } 
-            }       
+              if (num.getDouble() == Math.E) {
+                  ret = new ExpressionNode(kernel, f, Operation.EXP, null);
+              }
+            }
           }
-      */                                            
+      */
         }
-        )                       
+        )
     )*
     {
     if (exponentList == null)
       return ret;
-      
-        
+
+
       // GeoGebra / Giac etc : right associative: a^b^c = a^(b^c)
       int size = exponentList.size();
       ExpressionValue tempEV = exponentList.get(size-1); // last exponent, e.g. c
@@ -1267,10 +1267,10 @@ ExpressionValue enpower():
       tempEV = makePower(prevExponent,tempEV);
     }
     ret = makePower(ret, tempEV);
-  
+
         return ret;
 
-      }    
+      }
 }
 
 /**
@@ -1278,12 +1278,12 @@ ExpressionValue enpower():
  *              <NOTterm> !
  */
 ExpressionValue enfactorial():
-{   
-    ExpressionValue en;   
+{
+    ExpressionValue en;
 }
-{     
-      en = ensqrt() 
-      (LOOKAHEAD(<FACTORIAL>) <FACTORIAL> 
+{
+      en = ensqrt()
+      (LOOKAHEAD(<FACTORIAL>) <FACTORIAL>
        {
              if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
              && !((ExpressionNode)en).hasBrackets())
@@ -1294,18 +1294,18 @@ ExpressionValue enfactorial():
                  );
              }
              else
-              en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);                    
-       }      
-       )?    
-       { return en; }        
+              en = new ExpressionNode(kernel, en, Operation.FACTORIAL, null);
+       }
+       )?
+       { return en; }
 }
 
 ExpressionValue ensqrt():
-{   
-    ExpressionValue en;   
+{
+    ExpressionValue en;
 }
-{     
-      <SQRT_SHORT > en = NOTterm()  
+{
+      <SQRT_SHORT > en = NOTterm()
        {
              if(en.isExpressionNode() && ((ExpressionNode)en).getOperation()==Operation.MULTIPLY_OR_FUNCTION
              && !((ExpressionNode)en).hasBrackets())
@@ -1313,16 +1313,16 @@ ExpressionValue ensqrt():
                en = new ExpressionNode(kernel,
                new ExpressionNode(kernel, ((ExpressionNode)en).getLeft(), Operation.SQRT_SHORT, null),
                  Operation.MULTIPLY,
-               ((ExpressionNode)en).getRight()  
+               ((ExpressionNode)en).getRight()
                  );
              }
              else
               en = new ExpressionNode(kernel, en, Operation.SQRT_SHORT, null);
-              return en;               
-       }     | en = NOTterm() 
-           
+              return en;
+       }     | en = NOTterm()
+
        { return en; }
-       { return en; }  
+       { return en; }
 }
 
 /**
@@ -1330,21 +1330,21 @@ ExpressionValue ensqrt():
  *                 <enelement>
  */
 ExpressionValue NOTterm():
-{   
-    ExpressionValue en;   
+{
+    ExpressionValue en;
 }
-{     
+{
   (
-      ( <NOT> | "!" ) en = enelement()       
-       {            
-              return new ExpressionNode(kernel, en, Operation.NOT, null);       
-       }      
-   ) 
+      ( <NOT> | "!" ) en = enelement()
+       {
+              return new ExpressionNode(kernel, en, Operation.NOT, null);
+       }
+   )
 |
    (
-      en = enelement()   
-       { return en; }        
-   )             
+      en = enelement()
+       { return en; }
+   )
 }
 
 /**
@@ -1353,21 +1353,21 @@ ExpressionValue NOTterm():
  *              ( expression )
  */
 ExpressionValue enelement():
-{    
+{
     ExpressionValue ev;
-    Token c;    
+    Token c;
 }
-{   
+{
 // boolean
   <TRUE>
-   { return  new MyBoolean(kernel, true); }     
+   { return  new MyBoolean(kernel, true); }
 |
   <FALSE>
-    { return new MyBoolean(kernel, false); }     
-|      
+    { return new MyBoolean(kernel, false); }
+|
  // number
     ev = myDouble()
-        { return ev; }      
+        { return ev; }
 |
     // cos, sin, tan, ...
     LOOKAHEAD(2147483647)
@@ -1377,39 +1377,39 @@ ExpressionValue enelement():
   // command
   LOOKAHEAD(2147483647)
     ev = command()
-        { return ev; } 
+        { return ev; }
 |
     // number or vector variable
      LOOKAHEAD(2147483647)
     ev = numVecVariable()
         { return ev; }
-|        
+|
     //list
     LOOKAHEAD(2147483647)
   ev = list()
-      { return ev; }      
-| 
-     
+      { return ev; }
+|
+
     // absolute value
     LOOKAHEAD(2147483647)
-    <VERTICAL_BAR> ev = expressionnode() <VERTICAL_BAR> 
-        { 
+    <VERTICAL_BAR> ev = expressionnode() <VERTICAL_BAR>
+        {
 			return new ExpressionNode(kernel, ev, Operation.ABS, null);
 		}
 |
     // cartesian vector  (x, y) or (x|y)
     LOOKAHEAD(2147483647)
     ev = tuple()
-        { return ev; } 
+        { return ev; }
  |
 
   // text (between " ... ")
   c = <TEXT>
-    { 
+    {
       // remove " (first and last character)
       String text = c.image.substring(1, c.image.length()-1);
       return  new MyStringBuffer(kernel, text);
-     }  
+     }
 }
 
 ExpressionValue list():
@@ -1418,32 +1418,32 @@ ExpressionValue list():
     ExpressionValue ev;
 }
 {
-   "{" 
+   "{"
  (   (
      // empty list
-       "}"  
-      {   
-           return ifVectorsEnabled(new MyList(kernel));               
+       "}"
+      {
+           return ifVectorsEnabled(new MyList(kernel));
        }
     )
     |
-   ( 
-    // list    
-      ev = expressionOrEquation()     
-       {   
-            myList = new MyList(kernel);         
+   (
+    // list
+      ev = expressionOrEquation()
+       {
+            myList = new MyList(kernel);
             myList.addListElement(ev);
         }
-       ( <COMMA> ev = expressionOrEquation()  
+       ( <COMMA> ev = expressionOrEquation()
           {
-           myList.addListElement(ev); 
-          } 
+           myList.addListElement(ev);
+          }
         )*
     "}"
     {  return ifVectorsEnabled(myList);  }
    )
  )
-  
+
 }
 
 ExpressionValue numVecVariable():
@@ -1452,16 +1452,16 @@ ExpressionValue numVecVariable():
     ExpressionValue ev;
 }
 {
-    c = <VARX>  
+    c = <VARX>
     {
-      
+
         if (GeoGebraCASParsing)
        return new Variable(kernel, c.image);
-    else    
+    else
           return new FunctionVariable(kernel, c.image);
     }
 |
-    c = <VARY>  
+    c = <VARY>
     {
         if (GeoGebraCASParsing)
        return new Variable(kernel, c.image);
@@ -1469,7 +1469,7 @@ ExpressionValue numVecVariable():
           return new FunctionVariable(kernel, c.image);
     }
 |
-    c = <VARZ>  
+    c = <VARZ>
     {
         // check for CAS parsing or if z is defined in kernel
         if (GeoGebraCASParsing || kernel.lookupLabel("z") != null) {
@@ -1506,14 +1506,14 @@ ExpressionValue numVecVariable():
       // only treat e or i specially when they are undefined in GeoGebra
       lookforEulerImaginary = true;
     }
-      
+
         // return defined variables immediately
     if (lookforEulerImaginary)
     {
       // TREAT e and i specially
       // e for Euler constant
       if (c.image.equals("e") && kernel.lookupLabel(c.image) == null)
-      {     
+      {
         return kernel.getEulerNumber();
       }
       // i for imaginary unit
@@ -1521,7 +1521,7 @@ ExpressionValue numVecVariable():
       {
           return kernel.getImaginaryUnit();
       }
-    }              
+    }
 
        // standard case for variables
        return new Variable(kernel, c.image);
@@ -1549,7 +1549,7 @@ Command spreadsheetRange():
     return cmd;
   }
 }
-   
+
 
 /**
  * floating point number: angle or numeric are distinguished
@@ -1561,31 +1561,31 @@ ExpressionValue myDouble():
     MyDouble d;
     double val;
 }
-{       
+{
    (
      (c = <FLOAT> | c = <EFLOAT>)(percent ="%")?
       {
       // check if token includes "b"
-        
+
           c.image = c.image.replaceFirst("e", "E" );
         val = MyDouble.parseDouble( loc, c.image );
-        if(percent != null) { 
-	 	                        val = val * 0.01; 
-	 	} 
-        
- } 
+        if(percent != null) {
+	 	                        val = val * 0.01;
+	 	}
+
+ }
 
     )
   {
       if (ExternalCASParsing || GeoGebraCASParsing) {
         // preserve string from CAS: it may have higher
         // precision than double
-        
-           return new MySpecialDouble(kernel, val, percent == null ? c.image : c.image + "%");  
+
+           return new MySpecialDouble(kernel, val, percent == null ? c.image : c.image + "%");
       }
       else {
           return new MyDouble(kernel, val);
-      }                               
+      }
     }
 |
     (c = <DEGREE>)
@@ -1593,21 +1593,21 @@ ExpressionValue myDouble():
     if(c.image.length() ==3)    {		GeoElement geo = kernel.lookupLabel(c.image);
 		if(geo != null)		{			return geo;
 		}
-    } 
+    }
         d = new MySpecialDouble(kernel, Math.PI / 180.0d, "\u00b0");
         d.setAngle();
         return d;
     }
 |
     <RAD>
-    {  // constant for radians to radians 
+    {  // constant for radians to radians
         d = new MySpecialDouble(kernel, 1.0d, "rad");
         d.setAngle();
         return d;
     }
 |
     <GRADIAN>
-    {  // constant for gradians to radians 
+    {  // constant for gradians to radians
         d = new MySpecialDouble(kernel, Math.PI / 200.0d, "\u1D4D");
         d.setAngle();
         return d;
@@ -1624,19 +1624,19 @@ ExpressionValue myDouble():
     }
 |
     <E>
-    {    
+    {
       return kernel.getEulerNumber();
     }
 |
    <IMAGINARY>
     {
       return kernel.getImaginaryUnit();
-    }         
+    }
  |
     <INFINITY>
     {
         return new MyDouble(kernel, Double.POSITIVE_INFINITY);
-    }   
+    }
 |
   <UNDEFINED>
   {
@@ -1654,11 +1654,11 @@ ExpressionNode numberFunction():
     MyList myList;
     Token c;
 }
-{           
+{
     c = <X_FUNC> en = expressionOrEquation() (")"|"]")
       {
-        if (GeoGebraCASParsing) 
-        {            
+        if (GeoGebraCASParsing)
+        {
       		return Command.xyzCAS(en, 0,!ExternalCASParsing, undecided);
         }
         else
@@ -1666,11 +1666,11 @@ ExpressionNode numberFunction():
           // standard GeoGebra input bar: x(...) is interpreted as "x-coordinate of"
           return new ExpressionNode(kernel, en, Operation.XCOORD, null);
         }
-       }  
+       }
 |
      c = <Y_FUNC> en = expressionOrEquation() (")"|"]")
       {
-        if (GeoGebraCASParsing) 
+        if (GeoGebraCASParsing)
         {
             // GeoGebra CAS view: y(...) is interpreted as a function
             return Command.xyzCAS(en, 1,!ExternalCASParsing, undecided);
@@ -1680,11 +1680,11 @@ ExpressionNode numberFunction():
           // standard GeoGebra input bar: y(...) is interpreted as "y-coordinate of"
           return new ExpressionNode(kernel, en, Operation.YCOORD, null);
         }
-       } 
+       }
 |
      c = <Z_FUNC> en = expressionOrEquation() (")"|"]")
      {
-        if (GeoGebraCASParsing) 
+        if (GeoGebraCASParsing)
         {
             return Command.xyzCAS(en,2,!ExternalCASParsing, undecided);
         }
@@ -1701,8 +1701,8 @@ ExpressionNode numberFunction():
            }
         }
       }
-| 
-      ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]") 
+|
+      ( c = <FUNCTION_POWER_LABEL> ) en = expressionOrEquation() (")"|"]")
            {
              int pos = c.image.length()-2;
              while(pos >=0 && (StringUtil.isSuperscriptDigit(c.image.charAt(pos))||
@@ -1713,34 +1713,34 @@ ExpressionNode numberFunction():
              if(ret.getOperation()==Operation.MULTIPLY_OR_FUNCTION)
                undecided.add(ret);
              return ret;
-             }          
+             }
 |      <RANDOM_FUNC>
-      {  
+      {
          Construction cons = kernel.getConstruction();
          GeoNumeric randNum = new GeoNumeric(cons);
          cons.addRandomGeo(randNum);
-         randNum.setValue(app.getRandomNumber());         
+         randNum.setValue(app.getRandomNumber());
          return new ExpressionNode(kernel, randNum, Operation.RANDOM, null);
       }
 |
   (
     c = <FUNCTION_LABEL> en = expressionOrEquation()
-    {   
-            myList = new MyList(kernel, true);         
+    {
+            myList = new MyList(kernel, true);
             myList.addListElement(en);
         }
-       ( <COMMA> en = expressionOrEquation()  
+       ( <COMMA> en = expressionOrEquation()
           {
-           myList.addListElement(en); 
-          } 
+           myList.addListElement(en);
+          }
         )*
     )
   (")"|"]")
   // note: the last character of FUNCTION_LABEL is a "("
-      { 
+      {
           // remove the opening parenthesis
           return functionParser.makeFunctionNode(c.image,myList, undecided, GiacParsing);
-      }  
+      }
 }
 
 
@@ -1749,25 +1749,25 @@ ExpressionNode numberFunction():
 /**
  *  tuple =  ( expression, expression )
  *  tuple =  ( expression, expression, expression )
- * | and ; can be used instead of , 
+ * | and ; can be used instead of ,
  */
 ExpressionValue tuple():
-{     
+{
     ExpressionValue x, y=null, z = null;
-    Token sep = null;            
+    Token sep = null;
 }
-{   
+{
     // cartesian coordinates
-  
-    "(" x = expressionOrEquation() (  
-   		(   sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )   
+
+    "(" x = expressionOrEquation() (
+   		(   sep = <COMMA> y = expressionOrEquation() (<COMMA> z = expressionnode())?   )
     	|   (  sep = <VERTICAL_BAR> y = expressionOrEquation() (<VERTICAL_BAR> z = expressionnode())? )
     	|  (  sep = <POLAR_SEPARATOR> y = expressionOrEquation() (<POLAR_SEPARATOR> z = expressionnode())?  )
 		)? ")"
     {
-      
+
       if(y == null)      {
-        
+
          if(GiacParsing)
         {
           x = x.unwrap();
@@ -1786,74 +1786,74 @@ ExpressionValue tuple():
            }
            return ifVectorsEnabled(ret);
        }
-    }       
+    }
 }
 
 
 
 /**
- * cartesianvector_special =  <LABEL>( expression | expression ) 
+ * cartesianvector_special =  <LABEL>( expression | expression )
  */
 ExpressionNode cartesianvector_special():
-{     
+{
    Token l;
-    ExpressionValue x, y;                
+    ExpressionValue x, y;
 }
-{   
+{
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR> y = expressionNoFreeVars() ")" )
         {
           if(!enableVectors)
       {
         return new ExpressionNode(kernel, Double.NaN);
-      }        
-          ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y)); 
+      }
+          ExpressionNode en =  new ExpressionNode(kernel, new MyVecNode(kernel, x, y));
           en.setLabel(l.image.substring(0,l.image.length()-1));
           return en;
-        }           
+        }
 }
 
 ExpressionNode cartesianvector3D_special():
-{     
+{
    Token l;
-    ExpressionValue x, y, z;                
+    ExpressionValue x, y, z;
 }
-{   
+{
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  x = expressionNoFreeVars() <VERTICAL_BAR > y = expressionNoFreeVars() <VERTICAL_BAR> z = expressionNoFreeVars() ")" )
         {
           if(!enableVectors)
       {
         return new ExpressionNode(kernel, Double.NaN);
-      }        
-          ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z)); 
+      }
+          ExpressionNode en =  new ExpressionNode(kernel, new MyVec3DNode(kernel, x, y, z));
           en.setLabel(l.image.substring(0,l.image.length()-1));
           return en;
-        }           
+        }
 }
 
 /**
- * polarvector_special =  <LABEL>( expression ; expression ) 
+ * polarvector_special =  <LABEL>( expression ; expression )
  */
 ExpressionNode polarvector_special():
-{     
+{
    Token l;
-    ExpressionValue r, phi;                
+    ExpressionValue r, phi;
 }
-{   
+{
     // cartesian coordinates
     (   l = <FUNCTION_LABEL>  r = expressionNoFreeVars() <POLAR_SEPARATOR>  phi = expressionNoFreeVars() ")" )
         {
           if(!enableVectors)
       {
         return new ExpressionNode(kernel, Double.NaN);
-      }      
+      }
             MyVecNode v = new MyVecNode(kernel);
             v.setPolarCoords(r, phi);
-          ExpressionNode en =  new ExpressionNode(kernel, v); 
+          ExpressionNode en =  new ExpressionNode(kernel, v);
           en.setLabel(l.image.substring(0,l.image.length()-1));
           return en;
-        }           
+        }
 }
 
 
