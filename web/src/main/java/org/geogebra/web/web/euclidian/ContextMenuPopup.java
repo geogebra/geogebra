@@ -67,7 +67,7 @@ public class ContextMenuPopup extends MyCJButton
 				.getPopupMenu(ec.getAppSelectedGeos());
 		popup.getWrappedPopup().getPopupPanel().addCloseHandler(this);
 		// addClickHandler(this);
-		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
