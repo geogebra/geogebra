@@ -26,6 +26,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -268,7 +269,10 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		
 		if (app.has(Feature.DIALOG_DESIGN)) {
 			btnBold = new MyToggleButtonW(
-					MaterialDesignResources.INSTANCE.text_bold_black());
+					new ImageResourcePrototype(
+							null, MaterialDesignResources.INSTANCE
+									.text_bold_black().getSafeUri(),
+							0, 0, 24, 24, false, false));
 		} else {
 			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
 		}
@@ -277,7 +281,10 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		if (app.has(Feature.DIALOG_DESIGN)) {
 			btnItalic = new MyToggleButtonW(
-					MaterialDesignResources.INSTANCE.text_italic_black());
+					new ImageResourcePrototype(
+							null, MaterialDesignResources.INSTANCE
+									.text_italic_black().getSafeUri(),
+							0, 0, 24, 24, false, false));
 		} else {
 			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
 		}

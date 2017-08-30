@@ -17,7 +17,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.css.ToolbarSvgResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -488,7 +488,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private void addMoveBtn() {
 		moveBtn = new StandardButton(
 				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.mode_move()
+						ToolbarSvgResources.INSTANCE.mode_move_32()
 								.getSafeUri(),
 						0, 0, 24, 24, false, false),
 				app);

@@ -13,20 +13,20 @@ public interface MaterialDesignResources extends ClientBundle {
 	/** NEW MATERIAL DESIGN ICONS */
 
 	// dynamic stylebar
-	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/color_black.png")
-	ImageResource color_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/color_black.svg")
+	SVGResource color_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/label_settings.png")
 	ImageResource label_settings();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/text_size_black.png")
-	ImageResource text_size_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_size_black_24px.svg")
+	SVGResource text_size_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/text_bold_black.png")
-	ImageResource text_bold_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_bold_black_24px.svg")
+	SVGResource text_bold_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/text_italic_black.png")
-	ImageResource text_italic_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_italic_black_24px.svg")
+	SVGResource text_italic_black();
 
 	// context menu icon resources
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/more_vert_black.png")
@@ -228,7 +228,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/filter_list_black.png")
 	ImageResource filter_list_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/mode_move.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/white_arrow.svg")
 	SVGResource mode_move();
 
 

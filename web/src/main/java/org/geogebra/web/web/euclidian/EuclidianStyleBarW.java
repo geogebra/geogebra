@@ -63,6 +63,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -1466,7 +1467,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private void createTextBoldBtn() {
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			btnBold = new MyToggleButtonW(
-					MaterialDesignResources.INSTANCE.text_bold_black()) {
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.text_bold_black()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)) {
 				@Override
 				public void update(Object[] geos) {
 
@@ -1547,7 +1551,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private void createTextItalicBtn() {
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			btnItalic = new MyToggleButtonW(
-					MaterialDesignResources.INSTANCE.text_italic_black()) {
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.text_italic_black()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)) {
 
 				@Override
 				public void update(Object[] geos) {
@@ -1621,7 +1628,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnTextSize.setKeepVisible(false);
 		btnTextSize.setIcon(
 				new ImageOrText(app.isUnbundled() || app.isWhiteboardActive()
-				? MaterialDesignResources.INSTANCE.text_size_black()
+						? new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE
+										.text_size_black().getSafeUri(),
+								0, 0, 24, 24, false, false)
 				: StyleBarResources.INSTANCE
 		                        .font_size()));
 		btnTextSize.addStyleName("withIcon");

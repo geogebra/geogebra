@@ -28,6 +28,7 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -68,8 +69,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		this.app = app;
 		loc = app.getLocalization();
 		ImgResourceHelper
-				.setIcon(
-						MaterialDesignResources.INSTANCE.label_settings(),
+				.setIcon(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.label_settings()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
 						this);
 		createPopup();
 
