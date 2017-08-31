@@ -38,17 +38,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/rename_black.png")
 	ImageResource rename_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_mode_edit_black_24px.svg")
-	SVGResource edit_black();
-
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/cut_black.png")
 	ImageResource cut_black();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_content_copy_black_24px.svg")
-	SVGResource copy_black();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_content_paste_black_24px.svg")
-	SVGResource paste_black();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/duplicate_black.png")
 	ImageResource duplicate_black();
@@ -234,11 +225,20 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource mode_move();
 
 	// Burger Menu resources
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/graphing.png")
-	ImageResource graphing();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_content_copy_black_24px.svg")
+	SVGResource copy_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geometry.png")
-	ImageResource geometry();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_content_paste_black_24px.svg")
+	SVGResource paste_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_mode_edit_black_24px.svg")
+	SVGResource edit_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/graphing.svg")
+	SVGResource graphing();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geometry.svg")
+	SVGResource geometry();
 
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/whiteboard.png")
 	ImageResource whiteboard();
@@ -276,8 +276,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geogebra.svg")
 	SVGResource geogebra_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/geogebra_color.png")
-	ImageResource geogebra_color();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geogebra_color.svg")
+	SVGResource geogebra_color();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_language_black_24px.svg")
 	SVGResource language_black();

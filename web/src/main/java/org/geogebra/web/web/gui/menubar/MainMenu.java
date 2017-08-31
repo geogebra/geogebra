@@ -332,8 +332,14 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			ImageResource icon = app.getSettings()
 					.getToolbarSettings()
 					.getType().equals(AppType.GRAPHING_CALCULATOR)
-							? MaterialDesignResources.INSTANCE.graphing()
-							: MaterialDesignResources.INSTANCE.geometry();
+							?  new ImageResourcePrototype(null,
+									MaterialDesignResources.INSTANCE
+											.graphing().getSafeUri(),
+									0, 0, 36, 36, false, false)
+							:  new ImageResourcePrototype(null,
+									MaterialDesignResources.INSTANCE
+									.geometry().getSafeUri(),
+									0, 0, 36, 36, false, false);
 			logoMenu = new GMenuBar(true, "", app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu,
