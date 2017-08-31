@@ -2,14 +2,18 @@ package org.geogebra.commands;
 
 import java.util.Locale;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
@@ -311,6 +315,47 @@ public class AlgebraStyleTest extends Assert {
 	private void t(String def) {
 		ap.processAlgebraCommandNoExceptionHandling(def, false,
 				TestErrorHandler.INSTANCE, false, null);
+	}
+
+	@Test
+	public void pointDescriptionShouldNotHaveCoords() {
+
+		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_DESCRIPTION);
+		GeoPoint gp = new GeoPoint(app.getKernel().getConstruction());
+		gp.setCoords(1, 2, 1);
+		gp.setLabel("P");
+		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
+		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
+		Assert.assertEquals("Point P", builder.toString());
+		t("P=(1,0)");
+		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
+		Assert.assertEquals("Point P", builder.toString());
+		t("Q=Dilate[P,2]");
+		AlgebraItem.buildPlainTextItemSimple(getGeo("Q"), builder);
+		Assert.assertEquals("Q = P dilated by factor 2 from (0, 0)",
+				builder.toString());
+		t("R=2*P");
+		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
+		Assert.assertEquals("R = 2P",
+				builder.toString());
+
+	}
+
+	@Test
+	public void dependentPointsShouldHaveTextDescriptions() {
+
+		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_DESCRIPTION);
+		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
+		t("P=(1,0)");
+		AlgebraItem.buildPlainTextItemSimple(getGeo("P"), builder);
+		Assert.assertEquals("Point P", builder.toString());
+		t("Q=Dilate[P,2]");
+		AlgebraItem.buildPlainTextItemSimple(getGeo("Q"), builder);
+		Assert.assertEquals("Q = P dilated by factor 2 from (0, 0)",
+				builder.toString());
+		t("R=2*P");
+		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
+		Assert.assertEquals("R = 2P", builder.toString());
 
 	}
 

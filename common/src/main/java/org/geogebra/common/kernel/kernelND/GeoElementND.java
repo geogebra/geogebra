@@ -722,4 +722,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	boolean isShape();
 
+	public void setHighlighted(final boolean flag);
+
 }

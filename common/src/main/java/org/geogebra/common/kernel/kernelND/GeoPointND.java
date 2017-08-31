@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.PathOrPoint;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.RegionParameters;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -421,5 +422,11 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 */
 	public double getZScale();
 
-	public void setHighlighted(final boolean flag);
+
+	/**
+	 * @param tpl
+	 *            - string template
+	 * @return description for points ("Point A" instead of "A = (0,0)")
+	 */
+	public String toStringDescription(StringTemplate defaulttemplate);
 }

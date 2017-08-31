@@ -367,34 +367,13 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	private void buildPlainTextItem() {
-		if (geo.isIndependent() && geo.getDefinition() == null) {
-			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(getPlainTextItem()));
-		} else {
-			switch (kernel.getAlgebraStyle()) {
-			case Kernel.ALGEBRA_STYLE_VALUE:
-				geo.getAlgebraDescriptionTextOrHTMLDefault(
-						getBuilder(getPlainTextItem()));
-				break;
-
-			case Kernel.ALGEBRA_STYLE_DESCRIPTION:
-				geo.addLabelTextOrHTML(
-						geo.getDefinitionDescription(StringTemplate.defaultTemplate),
-						getBuilder(getPlainTextItem()));
-				break;
-
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				geo.addLabelTextOrHTML(
-						geo.getDefinition(StringTemplate.defaultTemplate),
-						getBuilder(getPlainTextItem()));
-				break;
-			default:
-			case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
-				buildItemContent();
-				break;
-			}
+		if (!AlgebraItem.buildPlainTextItemSimple(geo,
+				getBuilder(getPlainTextItem()))) {
+			buildItemContent();
 		}
 	}
+
+
 
 	protected void createDVPanels() {
 		if (definitionPanel == null) {

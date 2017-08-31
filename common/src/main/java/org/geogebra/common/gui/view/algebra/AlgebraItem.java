@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.IndexHTMLBuilder;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -197,5 +199,44 @@ public class AlgebraItem {
 				&& element.getParentAlgorithm().getOutput(0) != element
 				&& element.getKernel().getApplication().getSettings().getAlgebra()
 				.getTreeMode() == SortMode.ORDER;
+	}
+
+	public static boolean buildPlainTextItemSimple(GeoElement geo1,
+			IndexHTMLBuilder builder) {
+		int avStyle = geo1.getKernel().getAlgebraStyle();
+		if (geo1.isIndependent() && geo1.getDefinition() == null) {
+			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+			return true;
+		}
+		if (geo1.isIndependent() && geo1.isGeoPoint()
+				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
+				&& geo1.getKernel().getApplication()
+						.has(Feature.GEO_AV_DESCRIPTION)) {
+			builder.clear();
+			builder.append(((GeoPointND) geo1)
+					.toStringDescription(StringTemplate.defaultTemplate));
+			return true;
+		}
+		switch (avStyle) {
+		case Kernel.ALGEBRA_STYLE_VALUE:
+			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
+			return true;
+
+		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+			geo1.addLabelTextOrHTML(geo1.getDefinitionDescription(
+					StringTemplate.defaultTemplate), builder);
+			return true;
+
+		case Kernel.ALGEBRA_STYLE_DEFINITION:
+			geo1.addLabelTextOrHTML(
+					geo1.getDefinition(StringTemplate.defaultTemplate),
+					builder);
+			return true;
+		default:
+		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
+
+			return false;
+		}
+
 	}
 }
