@@ -3026,9 +3026,10 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void ggwGraphicsViewDimChanged(int width, int height) {
 		// Log.debug("dim changed" + getSettings().getEuclidian(1));
-		getSettings().getEuclidian(1).setPreferredSize(
-				AwtFactory.getPrototype().newDimension(
-		                width, height));
+		if (width > 0 && height > 0) {
+			getSettings().getEuclidian(1).setPreferredSize(
+					AwtFactory.getPrototype().newDimension(width, height));
+		}
 
 		// simple setting temp.
 		appCanvasHeight = height;
@@ -3047,10 +3048,10 @@ public abstract class AppW extends App implements SetLabels {
 	 *            , height
 	 */
 	public void ggwGraphicsView2DimChanged(int width, int height) {
-		getSettings().getEuclidian(2).setPreferredSize(
-				AwtFactory.getPrototype().newDimension(
-		                width, height));
-
+		if (width > 0 && height > 0) {
+			getSettings().getEuclidian(2).setPreferredSize(
+					AwtFactory.getPrototype().newDimension(width, height));
+		}
 		// simple setting temp.
 		// appCanvasHeight = height;
 		// appCanvasWidth = width;
