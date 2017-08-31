@@ -266,8 +266,8 @@ public class EditMenuW extends GMenuBar {
 		// undo menu
 		addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE.undo_black()
-								.getSafeUri().asString()
+						? MaterialDesignResources.INSTANCE.
+								undo_black().getSafeUri().asString()
 						: GuiResources.INSTANCE
 				.menu_icon_edit_undo().getSafeUri().asString(),
 				loc.getMenu("Undo"), true), true, new MenuCommand(app) {

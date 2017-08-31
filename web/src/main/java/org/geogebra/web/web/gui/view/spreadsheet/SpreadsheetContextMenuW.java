@@ -248,7 +248,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case Copy:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.copy_black();
+				im =  new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+						.copy_black().getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.edit_copy();
 			}
@@ -262,7 +265,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case Paste:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.paste_black();
+				im =  new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+								.paste_black().getSafeUri(),
+				0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.edit_paste();
 			}

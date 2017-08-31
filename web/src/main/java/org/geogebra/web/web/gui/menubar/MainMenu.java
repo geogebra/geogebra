@@ -349,19 +349,27 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 		if(app.enableFileFeatures()){	
 			if (app.isUnbundled()) {
-				this.menuPanel.add(fileMenu, getHTMLCollapse(
-						MaterialDesignResources.INSTANCE.insert_file_black(),
+				this.menuPanel.add(fileMenu,
+						getHTMLCollapse(new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE
+										.insert_file_black().getSafeUri(),
+								0, 0, 24, 24, false, false),
 						"File"), true);
 				// fileMenu.getElement().removeClassName("collapse");
 				// fileMenu.getElement().addClassName("expand");
 				menuTitles.add("File");
-				menuImgs.add(
-						MaterialDesignResources.INSTANCE.insert_file_black());
+				menuImgs.add(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+						.insert_file_black().getSafeUri(),
+						0, 0, 24, 24, false, false));
 			} else {
 				this.menuPanel.add(fileMenu,
 						getHTML(app.isWhiteboardActive()
-								? MaterialDesignResources.INSTANCE
-										.insert_file_black()
+								?new ImageResourcePrototype(null,
+										MaterialDesignResources.INSTANCE
+												.insert_file_black()
+												.getSafeUri(),
+								0, 0, 24, 24, false, false)
 								: GuiResources.INSTANCE.menu_icon_file(),
 								"File"),
 						true);
@@ -370,14 +378,19 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (enableGraph) {
 			if (app.isUnbundled()) {
 				this.menuPanel.add(editMenu,
-						getExpandCollapseHTML(
-								MaterialDesignResources.INSTANCE.edit_black(),
+						getExpandCollapseHTML(new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE
+								.edit_black().getSafeUri(),
+								0, 0, 24, 24, false, false),
 								"Edit"),
 						true);
 			} else {
 				this.menuPanel.add(editMenu,
 						getHTML(app.isWhiteboardActive()
-								? MaterialDesignResources.INSTANCE.edit_black()
+								? new ImageResourcePrototype(null,
+										MaterialDesignResources.INSTANCE
+												.edit_black().getSafeUri(),
+										0, 0, 24, 24, false, false)
 								: GuiResources.INSTANCE.menu_icon_edit(),
 								"Edit"),
 					true);
@@ -385,19 +398,27 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 			if (app.isUnbundled()) {
 				this.menuPanel.add(downloadMenu, getExpandCollapseHTML(
-						MaterialDesignResources.INSTANCE.file_download_black(),
+						 new ImageResourcePrototype(null,
+									MaterialDesignResources.INSTANCE
+										.file_download_black().getSafeUri(),
+							0, 0, 24, 24, false, false),
 						"DownloadAs"), true);
 				this.menuPanel.add(perspectiveMenuUnbundled,
-						getExpandCollapseHTML(MaterialDesignResources.INSTANCE
-								.geogebra_black(),
+						getExpandCollapseHTML(
+								new ImageResourcePrototype(null,
+										MaterialDesignResources.INSTANCE
+												.geogebra_black().getSafeUri(),
+										0, 0, 24, 24, false, false),
 								"math_apps"),
 						true);
 			} else if (!app.isWhiteboardActive()) {
 				this.menuPanel
 					.add(perspectivesMenu,
 							getHTML(app.isUnbundled()
-									? MaterialDesignResources.INSTANCE
-											.geogebra_black()
+									? new ImageResourcePrototype(null,
+											MaterialDesignResources.INSTANCE
+											.geogebra_black().getSafeUri(),
+							0, 0, 24, 24, false, false)
 									: GuiResources.INSTANCE
 												.menu_icon_perspectives(),
 										"Perspectives"),
@@ -405,8 +426,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			} else if (app.isWhiteboardActive()) {
 				this.menuPanel
 						.add(perspectiveMenuUnbundled,
-								getHTML(MaterialDesignResources.INSTANCE
-										.geogebra_black(), "Perspectives"),
+								getHTML( new ImageResourcePrototype(null,
+										MaterialDesignResources.INSTANCE
+												.geogebra_black().getSafeUri(),
+						0, 0, 24, 24, false, false), "Perspectives"),
 								true);
 			}
 
@@ -444,11 +467,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					24, 24, false, false));
 			languageMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(languageMenu,
-					getHTML(MaterialDesignResources.INSTANCE.language_black(),
+					getHTML(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.language_black()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false),
 							app.getLocalization().getMenu("Language")),
 					true);
 			menuTitles.add("Language");
-			menuImgs.add(MaterialDesignResources.INSTANCE.language_black());
+			menuImgs.add(
+					new ImageResourcePrototype(
+							null, MaterialDesignResources.INSTANCE
+									.language_black().getSafeUri(),
+							0, 0, 24, 24, false, false));
 		}
 		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundled()
 				&& !app.isWhiteboardActive()) {

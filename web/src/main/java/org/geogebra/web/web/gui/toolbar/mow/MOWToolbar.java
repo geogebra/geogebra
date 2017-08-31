@@ -18,6 +18,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -250,11 +251,19 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void createUndoRedo() {
 		redoButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.redo_black(), app);
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.redo_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
 		redoButton.addFastClickHandler(this);
 
 		undoButton = new StandardButton(
-				MaterialDesignResources.INSTANCE.undo_black(), app);
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.undo_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
 		undoButton.addFastClickHandler(this);
 
 		leftPanel.add(undoButton);
