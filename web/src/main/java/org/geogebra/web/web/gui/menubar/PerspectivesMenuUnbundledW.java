@@ -4,10 +4,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
@@ -39,10 +36,6 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	}
 
 	private void initActions() {
-
-		PerspectiveResources pr = ((ImageFactory) GWT
-				.create(ImageFactory.class)).getPerspectiveResources();
-
 		addGraphingGeometryMenuItems("graphing", "GraphingCalculator",
 				MaterialDesignResources.INSTANCE.graphing());
 		addGraphingGeometryMenuItems("geometry", "Geometry",
