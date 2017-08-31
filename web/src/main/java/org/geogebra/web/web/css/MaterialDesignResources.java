@@ -181,11 +181,11 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_refresh_black_24px.svg")
 	SVGResource refresh_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/grid_black.png")
-	ImageResource grid_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/grid_black.svg")
+	SVGResource grid_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/axes_black.png")
-	ImageResource axes_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/axes_black.svg")
+	SVGResource axes_black();
 
 	// Toolbar resoures
 
@@ -228,7 +228,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/filter_list_black.png")
 	ImageResource filter_list_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/mode_move.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
 
 
