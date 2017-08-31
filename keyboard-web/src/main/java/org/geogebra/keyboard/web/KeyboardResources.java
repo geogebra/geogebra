@@ -1,5 +1,6 @@
 package org.geogebra.keyboard.web;
 
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SassResource;
 
 import com.google.gwt.core.client.GWT;
@@ -15,18 +16,18 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/view_close.png")
 	ImageResource keyboard_close();
 	
-	@Source("org/geogebra/common/icons/png/keyboard/more_black.png")
-	ImageResource keyboard_more();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_black_24px.svg")
+	SVGResource keyboard_more();
 	
-	@Source("org/geogebra/common/icons/png/keyboard/more_purple.png")
-	ImageResource keyboard_more_purple();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_more_horiz_purple_24px.svg")
+	SVGResource keyboard_more_purple();
 	
 	// close button for new keyboard
-	@Source("org/geogebra/common/icons/png/keyboard/view_close_black.png")
-	ImageResource keyboard_close_black();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_close_black_24px.svg")
+	SVGResource keyboard_close_black();
 	
-	@Source("org/geogebra/common/icons/png/keyboard/view_close_purple.png")
-	ImageResource keyboard_close_purple();
+	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_close_purple_24px.svg")
+	SVGResource keyboard_close_purple();
 
 	@Source("org/geogebra/common/icons/png/keyboard/shift_purple.png")
 	ImageResource keyboard_shiftDown();
