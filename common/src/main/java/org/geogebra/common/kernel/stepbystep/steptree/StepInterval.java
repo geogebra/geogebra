@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
 public class StepInterval extends StepNode {
@@ -9,8 +11,7 @@ public class StepInterval extends StepNode {
 	private boolean leftClosed;
 	private boolean rightClosed;
 
-	public StepInterval(StepNode leftBound, StepNode rightBound,
-			boolean leftClosed, boolean rightClosed) {
+	public StepInterval(StepNode leftBound, StepNode rightBound, boolean leftClosed, boolean rightClosed) {
 		this.leftBound = leftBound;
 		this.rightBound = rightBound;
 		this.leftClosed = leftClosed;
@@ -34,11 +35,11 @@ public class StepInterval extends StepNode {
 	}
 
 	public boolean contains(StepNode sn) {
-		if (sn.isConstant()) {
+		if(sn.isConstant()) {
 			double value = sn.getValue();
 			double leftBoundValue = leftBound.getValue();
 			double rightBoundValue = rightBound.getValue();
-
+			
 			if (leftClosed && isEqual(leftBoundValue, value)) {
 				return true;
 			}
@@ -49,7 +50,7 @@ public class StepInterval extends StepNode {
 
 			return leftBoundValue < value && value < rightBoundValue;
 		}
-
+		
 		return false;
 	}
 
@@ -57,8 +58,7 @@ public class StepInterval extends StepNode {
 	public boolean equals(StepNode sn) {
 		if (sn instanceof StepInterval) {
 			StepInterval si = (StepInterval) sn;
-			return si.leftClosed == leftClosed && si.rightClosed == rightClosed
-					&& si.leftBound.equals(leftBound)
+			return si.leftClosed == leftClosed && si.rightClosed == rightClosed && si.leftBound.equals(leftBound)
 					&& si.rightBound.equals(rightBound);
 		}
 		return false;
@@ -66,7 +66,9 @@ public class StepInterval extends StepNode {
 
 	@Override
 	public StepNode deepCopy() {
-		return new StepInterval(leftBound, rightBound, leftClosed, rightClosed);
+		StepInterval si = new StepInterval(leftBound, rightBound, leftClosed, rightClosed);
+		si.setColor(color);
+		return si;
 	}
 
 	@Override
@@ -105,7 +107,7 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public StepNode regroup(Boolean[] changed) {
+	public StepNode regroup(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -115,12 +117,12 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public StepNode expand(Boolean[] changed) {
+	public StepNode expand(SolutionBuilder sb) {
 		return this;
 	}
 
 	@Override
-	public StepNode simplify() {
+	public StepNode simplify(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -138,7 +140,7 @@ public class StepInterval extends StepNode {
 	public StepNode getIntegerCoefficient() {
 		return null;
 	}
-
+	
 	@Override
 	public StepNode getNonInteger() {
 		return this;
@@ -146,8 +148,7 @@ public class StepInterval extends StepNode {
 
 	@Override
 	public String toString() {
-		if (Double.isInfinite(leftBound.getValue())
-				&& Double.isInfinite(rightBound.getValue())) {
+		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
 			return "R";
 		}
 		StringBuilder sb = new StringBuilder();
@@ -168,20 +169,23 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public String toLaTeXString() {
-		if (Double.isInfinite(leftBound.getValue())
-				&& Double.isInfinite(rightBound.getValue())) {
+	public String toLaTeXString(Localization loc, boolean colored) {
+		if (colored && color != 0) {
+			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
+		}
+
+		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
 			return "\\mathbb{R}";
 		}
 		StringBuilder sb = new StringBuilder();
-		if (leftClosed) {
+		if(leftClosed) {
 			sb.append("\\left[");
 		} else {
 			sb.append("\\left(");
 		}
-		sb.append(leftBound.toLaTeXString());
+		sb.append(leftBound.toLaTeXString(loc, colored));
 		sb.append(",");
-		sb.append(rightBound.toLaTeXString());
+		sb.append(rightBound.toLaTeXString(loc, colored));
 		if (rightClosed) {
 			sb.append("\\right]");
 		} else {
@@ -190,7 +194,8 @@ public class StepInterval extends StepNode {
 		return sb.toString();
 	}
 
-	public static boolean isEqual(double a, double b) {
-		return Math.abs(a - b) < 0.0000001;
+	@Override
+	public String toLaTeXString(Localization loc) {
+		return toLaTeXString(loc, false);
 	}
 }

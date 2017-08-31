@@ -2,6 +2,8 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import java.text.DecimalFormat;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
 public class StepConstant extends StepNode {
@@ -13,13 +15,14 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public boolean equals(StepNode sn) {
-		return sn instanceof StepConstant
-				&& Math.abs(sn.getValue() - value) < 0.00000001;
+		return sn instanceof StepConstant && isEqual(sn.getValue(), value);
 	}
 
 	@Override
 	public StepNode deepCopy() {
-		return new StepConstant(value);
+		StepConstant sc = new StepConstant(value);
+		sc.setColor(color);
+		return sc;
 	}
 
 	@Override
@@ -58,7 +61,7 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode regroup(Boolean[] changed) {
+	public StepNode regroup(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -68,15 +71,14 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode expand(Boolean[] changed) {
+	public StepNode expand(SolutionBuilder sb) {
 		return this;
 	}
 
 	@Override
-	public StepNode simplify() {
+	public StepNode simplify(SolutionBuilder sb) {
 		return this;
 	}
-
 	@Override
 	public StepNode getCoefficient() {
 		return this;
@@ -105,9 +107,9 @@ public class StepConstant extends StepNode {
 
 	@Override
 	public String toString() {
-		if (StepOperation.isEqual(value, Math.PI)) {
+		if (isEqual(value, Math.PI)) {
 			return "pi";
-		} else if (StepOperation.isEqual(value, Math.E)) {
+		} else if (isEqual(value, Math.E)) {
 			return "e";
 		} else if (Double.isNaN(value)) {
 			return "NaN";
@@ -121,10 +123,18 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public String toLaTeXString() {
-		if (StepOperation.isEqual(value, Math.PI)) {
+	public String toLaTeXString(Localization loc) {
+		return toLaTeXString(loc, false);
+	}
+
+	@Override
+	public String toLaTeXString(Localization loc, boolean colored) {
+		if (colored && color != 0) {
+			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
+		}
+		if (isEqual(value, Math.PI)) {
 			return "\\pi";
-		} else if (StepOperation.isEqual(value, Math.E)) {
+		} else if (isEqual(value, Math.E)) {
 			return "\\e";
 		} else if (Double.isNaN(value)) {
 			return "NaN";

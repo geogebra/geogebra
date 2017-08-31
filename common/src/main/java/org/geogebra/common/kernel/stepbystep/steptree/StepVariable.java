@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
 public class StepVariable extends StepNode {
@@ -11,12 +13,14 @@ public class StepVariable extends StepNode {
 
 	@Override
 	public boolean equals(StepNode sn) {
-		return sn.toString().equals(label);
+		return sn != null && sn.toString().equals(label);
 	}
 
 	@Override
 	public StepNode deepCopy() {
-		return new StepVariable(label);
+		StepVariable sv = new StepVariable(label);
+		sv.setColor(color);
+		return sv;
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public StepNode regroup(Boolean[] changed) {
+	public StepNode regroup(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -68,12 +72,12 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public StepNode expand(Boolean[] changed) {
+	public StepNode expand(SolutionBuilder sb) {
 		return this;
 	}
 
 	@Override
-	public StepNode simplify() {
+	public StepNode simplify(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -103,7 +107,15 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public String toLaTeXString() {
+	public String toLaTeXString(Localization loc) {
+		return label;
+	}
+
+	@Override
+	public String toLaTeXString(Localization loc, boolean colored) {
+		if (colored && color != 0) {
+			return "\\fgcolor{" + getColorHex() + "}{" + label + "}";
+		}
 		return label;
 	}
 }

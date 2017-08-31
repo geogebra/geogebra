@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
 public class StepArbitraryConstant extends StepNode {
@@ -33,15 +35,16 @@ public class StepArbitraryConstant extends StepNode {
 	@Override
 	public boolean equals(StepNode sn) {
 		if (sn instanceof StepArbitraryConstant) {
-			return ((StepArbitraryConstant) sn).label.equals(label)
-					&& ((StepArbitraryConstant) sn).index == index;
+			return ((StepArbitraryConstant) sn).label.equals(label) && ((StepArbitraryConstant) sn).index == index;
 		}
 		return false;
 	}
 
 	@Override
 	public StepNode deepCopy() {
-		return new StepArbitraryConstant(label, index, type);
+		StepArbitraryConstant sac = new StepArbitraryConstant(label, index, type);
+		sac.setColor(color);
+		return sac;
 	}
 
 	@Override
@@ -83,7 +86,7 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode regroup(Boolean[] changed) {
+	public StepNode regroup(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -93,12 +96,12 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode expand(Boolean[] changed) {
+	public StepNode expand(SolutionBuilder sb) {
 		return this;
 	}
 
 	@Override
-	public StepNode simplify() {
+	public StepNode simplify(SolutionBuilder sb) {
 		return this;
 	}
 
@@ -128,7 +131,15 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public String toLaTeXString() {
+	public String toLaTeXString(Localization loc) {
+		return toLaTeXString(loc, false);
+	}
+
+	@Override
+	public String toLaTeXString(Localization loc, boolean colored) {
+		if (colored && color != 0) {
+			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
+		}
 		return label + (index != 0 ? "_{" + index + "}" : "");
 	}
 }

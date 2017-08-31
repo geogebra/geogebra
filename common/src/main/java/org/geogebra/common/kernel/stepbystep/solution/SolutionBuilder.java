@@ -1,16 +1,23 @@
-package org.geogebra.common.kernel.stepbystep;
+package org.geogebra.common.kernel.stepbystep.solution;
 
 import java.util.List;
 import java.util.Stack;
 
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.main.Localization;
+
 public class SolutionBuilder {
+	private Localization loc;
+
 	private Stack<SolutionStep> previousSteps;
 	private SolutionStep currentStep;
 	private SolutionStep lastStep;
 
-	public SolutionBuilder() {
+	public SolutionBuilder(Localization loc) {
+		this.loc = loc;
+
 		previousSteps = new Stack<SolutionStep>();
-		add("", SolutionStepTypes.WRAPPER);
+		add(SolutionStepType.WRAPPER);
 	}
 
 	public SolutionStep getSteps() {
@@ -21,9 +28,19 @@ public class SolutionBuilder {
 		return currentStep;
 	}
 
-	public void add(String s, SolutionStepTypes type) {
-		SolutionStep newStep = new SolutionStep(s, type);
+	public Localization getLocalization() {
+		return loc;
+	}
 
+	public void add(SolutionStepType type, int color) {
+		add(new SolutionStep(loc, type, color));
+	}
+
+	public void add(SolutionStepType type, StepNode... arguments) {
+		add(new SolutionStep(loc, type, arguments));
+	}
+
+	public void add(SolutionStep newStep) {
 		if (currentStep == null) {
 			currentStep = newStep;
 		} else {
@@ -49,5 +66,11 @@ public class SolutionBuilder {
 
 	public void levelUp() {
 		lastStep = currentStep = previousSteps.pop();
+	}
+
+	public void reset() {
+		previousSteps = new Stack<SolutionStep>();
+		currentStep = lastStep = null;
+		add(SolutionStepType.WRAPPER);
 	}
 }
