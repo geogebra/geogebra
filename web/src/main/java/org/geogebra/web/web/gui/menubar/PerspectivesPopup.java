@@ -5,7 +5,6 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -106,27 +105,18 @@ public class PerspectivesPopup {
 			separator.addStyleName("separatorDiv");
 
 			// creating play store icon
-			NoDragImage playStoreIcon = new NoDragImage(ImgResourceHelper
-					.safeURI(GuiResources.INSTANCE.google_play_badge()), 34,
-					true);
-			Anchor link_playstore = new Anchor(playStoreIcon.toString(), true,
-					"https://play.google.com/store/apps/details?id=org.geogebra.android");
-			link_playstore.addStyleName("linkPlaystore");
-			link_playstore.setTarget("_blank");
 
-			// creating app store icon
-			NoDragImage appStoreIcon = new NoDragImage(ImgResourceHelper
-					.safeURI(GuiResources.INSTANCE.app_store()), 34, true);
-			Anchor link_appstore = new Anchor(appStoreIcon.toString(), true,
-					"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204");
-			link_appstore.setTarget("_blank");
+			Anchor link_playstore = new Anchor(
+					app.getLocalization().getMenu("Download"),
+					"https://www.geogebra.org/download");
+			link_playstore.addStyleName("linkDownload");
+			link_playstore.setTarget("_blank");
 
 			// holder panel
 			FlowPanel holderPanel = new FlowPanel();
 			holderPanel.addStyleName("storeIconHolder");
 			holderPanel.add(separator); // separator
 			holderPanel.add(link_playstore);
-			holderPanel.add(link_appstore);
 			contentPanel.add(holderPanel);
 
 		}

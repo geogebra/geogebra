@@ -5,30 +5,27 @@
 		width: 100%;
 		text-align: center;
 		display: block;
-	}
-
-	.storeIconHolder a {
-		display: inline-block;
-		vertical-align: middle;
-		padding-top: 10px;
-	}
+		
+		a,  a:visited {
+			display: inline-block;
+			vertical-align: middle;
+			padding-top: 10px;
+			font-size: 16px;
+			color: #666;
+		}
+		
+		.storeIconHolder .separatorDiv {
+			clear: both;
+		}
 	
-	.storeIconHolder .separatorDiv {
-		clear: both;
+		a:hover {
+			background-color: #FFFFFF;
+			opacity: 0.7;
+		}
+		
+		.separatorDiv {
+			clear: both;
+			border-top: 1px solid #DCDCDC;
+		}
 	}
-	
-	.storeIconHolder .linkPlaystore {
-		margin-right: 10px;
-	}
-
-	.storeIconHolder a img:hover {
-		background-color: #FFFFFF;
-		opacity: 0.7;
-	}
-	
-	.storeIconHolder .separatorDiv {
-		clear: both;
-		border-top: 1px solid #DCDCDC;
-	}
-	
 }

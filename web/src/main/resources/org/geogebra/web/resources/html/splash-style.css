@@ -103,18 +103,17 @@ border-spacing:0;
 	display: block;
 }
 
-.storeIconHolder a {
+.storeIconHolder a, .storeIconHolder a:visited {
 	display: inline-block;
 	vertical-align: middle;
 	padding-top: 10px;
+	color:#666;
+	font-size:16px;
+	text-decoration: none;
 }
 
 .storeIconHolder .separatorDiv {
 	clear: both;
-}
-
-.storeIconHolder .linkPlaystore {
-	margin-right: 10px;
 }
 
 .storeIconHolder a img:hover {
