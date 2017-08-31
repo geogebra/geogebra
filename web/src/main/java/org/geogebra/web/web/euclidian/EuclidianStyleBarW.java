@@ -605,7 +605,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 */
 	protected void addDeleteButton() {
 		btnDelete = new StandardButton(
-				MaterialDesignResources.INSTANCE.delete_black(), app);
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.delete_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
 		btnDelete.setStyleName("MyCanvasButton");
 		FastClickHandler btnDelHandler = new FastClickHandler() {
 			

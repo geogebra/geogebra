@@ -19,6 +19,7 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -99,9 +100,15 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
 			btnMore = new ToggleButton(new Image(
-					MaterialDesignResources.INSTANCE.more_vert_black()));
-			btnMore.getUpHoveringFace().setImage(new Image(
-					MaterialDesignResources.INSTANCE.more_vert_purple()));
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.more_vert_black()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)));
+			btnMore.getUpHoveringFace()
+					.setImage(new Image(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.more_vert_purple()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");

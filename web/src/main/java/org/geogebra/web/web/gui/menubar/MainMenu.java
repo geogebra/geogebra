@@ -442,7 +442,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 				this.menuPanel.add(viewMenu,
 						getHTML(app.isUnbundled()
-							? MaterialDesignResources.INSTANCE.home_black()
+								? new ImageResourcePrototype(null,
+										MaterialDesignResources.INSTANCE
+												.home_black().getSafeUri(),
+										0, 0, 24, 24, false, false)
 							: GuiResources.INSTANCE.menu_icon_view(), "View"),
 					true);
 			}

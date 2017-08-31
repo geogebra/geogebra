@@ -44,9 +44,9 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				.create(ImageFactory.class)).getPerspectiveResources();
 
 		addGraphingGeometryMenuItems("graphing", "GraphingCalculator",
-				pr.menu_icon_algebra24());
+				MaterialDesignResources.INSTANCE.graphing());
 		addGraphingGeometryMenuItems("geometry", "Geometry",
-				pr.menu_icon_geometry24());
+				MaterialDesignResources.INSTANCE.geometry());
 		addGraphingGeometryMenuItems("classic", "Classic",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 	}

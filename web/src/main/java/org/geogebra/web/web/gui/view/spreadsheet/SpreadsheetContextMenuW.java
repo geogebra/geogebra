@@ -241,7 +241,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case ShowLabel:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.label_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.label_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.mode_showhidelabel_16();
 			}
@@ -258,7 +261,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case Cut:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.cut_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.cut_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.edit_cut();
 			}
@@ -275,7 +281,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case Duplicate:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.duplicate_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.duplicate_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.duplicate20();
 			}
@@ -283,7 +292,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		case Delete:
 		case DeleteObjects:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.delete_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.delete_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.delete_small();
 			}

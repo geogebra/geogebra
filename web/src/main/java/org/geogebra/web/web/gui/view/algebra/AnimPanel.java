@@ -168,13 +168,21 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private void createPlayButton() {
 		if (playOnly) {
 			btnPlay = new MyToggleButtonW(
-					MaterialDesignResources.INSTANCE.play_black(),
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.play_black()
+									.getSafeUri(),
+							0, 0, 24, 24, false,
+							false),
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.pause_black()
 									.getSafeUri(),
 							0, 0, 24, 24, false, false));
-			btnPlay.getUpHoveringFace().setImage(
-					new Image(MaterialDesignResources.INSTANCE.play_purple()));
+			btnPlay.getUpHoveringFace()
+					.setImage(new Image(
+					new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.play_purple()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)));
 			btnPlay.getDownHoveringFace().setImage(
 					new Image(new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.pause_purple()
