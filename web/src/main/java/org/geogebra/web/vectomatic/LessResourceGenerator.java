@@ -31,8 +31,7 @@ public class LessResourceGenerator extends AsciiResourceGenerator {
 	@Override
 	public String process(String css, URL resource) throws Exception {
 		LessEngine leg = new LessEngine();
-		css = leg.compile(resource, true);
-		return css;
+		return leg.compile(resource, true);
 	}
 
 	@Override
