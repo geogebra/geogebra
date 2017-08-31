@@ -3167,6 +3167,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return showAxes[axis];
 	}
 
+	public boolean isAxesHidden() {
+		return !showAxes[0] && !showAxes[1];
+	}
+
 	@Override
 	public boolean getShowXaxis() {
 		// return showAxes[0];

@@ -306,6 +306,11 @@ public enum Feature {
 	MOW_COLOR_FILLING_LINE,
 
 	/** GGB-2015 */
-	GEO_AV_DESCRIPTION
+	GEO_AV_DESCRIPTION,
+
+	/**
+	 * AND-364
+	 */
+	AND_EV_SETTINGS_POPUP
 
 }

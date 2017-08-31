@@ -4326,6 +4326,9 @@ public abstract class App implements UpdateSelection {
 		case GEO_AV_DESCRIPTION:
 			return relaunch;
 
+		case AND_EV_SETTINGS_POPUP:
+			return false;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

@@ -4266,6 +4266,16 @@ public abstract class EuclidianView3D extends EuclidianView
 		return this.axis[axisNo].isEuclidianVisible();
 	}
 
+	@Override
+	public boolean isAxesHidden() {
+		for (int i = 0; i < axis.length; i++) {
+			if (this.axis[i].isEuclidianVisible()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	/*
 	 * @Override public geogebra.common.awt.GColor getBackgroundCommon() {
 	 * return new geogebra.awt.GColorD(getBackground());
