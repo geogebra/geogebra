@@ -499,7 +499,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 			String img;
 			if (app.isUnbundled() || hasWhiteboardContextMenu()) {
-				img = MaterialDesignResources.INSTANCE.settings_black()
+				img = MaterialDesignResources.INSTANCE.gere()
 						.getSafeUri().asString();
 			} else {
 				img = AppResources.INSTANCE.view_properties16().getSafeUri()

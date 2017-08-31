@@ -239,7 +239,7 @@ public class ContextMenuAlgebra implements SetLabels {
 	}
 
 	private void addPropertiesItem() {
-		String img = MaterialDesignResources.INSTANCE.settings_black()
+		String img = MaterialDesignResources.INSTANCE.gere()
 				.getSafeUri()
 				.asString();
 		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,

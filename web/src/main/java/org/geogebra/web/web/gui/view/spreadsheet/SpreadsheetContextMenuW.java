@@ -292,7 +292,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case Properties:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.settings_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.gere().getSafeUri(), 0,
+						0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.view_properties16();
 			}

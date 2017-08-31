@@ -165,17 +165,19 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/more_border.png")
 	ImageResource more_border();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_menu_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/menu.svg")
 	SVGResource menu_black_border();
 
-	// @Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/settings.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gere();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_undo_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/settings.svg")
+	SVGResource settings_border();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/undo.svg")
 	SVGResource undo_border();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_redo_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/redo.svg")
 	SVGResource redo_border();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_refresh_black_24px.svg")
@@ -230,7 +232,6 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
-
 
 	// Burger Menu resources
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/graphing.png")

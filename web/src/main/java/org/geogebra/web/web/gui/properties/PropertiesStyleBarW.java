@@ -196,7 +196,7 @@ public class PropertiesStyleBarW extends
 		switch (type) {
 		case GLOBAL:
 			ImgResourceHelper.setIcon(
-					MaterialDesignResources.INSTANCE.settings_black(), btn);
+					MaterialDesignResources.INSTANCE.gere(), btn);
 		case DEFAULTS:
 			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
 		case SPREADSHEET:
@@ -232,8 +232,8 @@ public class PropertiesStyleBarW extends
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
 		case GLOBAL:
-			return MaterialDesignResources.INSTANCE.settings_black()
-					.getSafeUri().asString();
+			return MaterialDesignResources.INSTANCE.gere().getSafeUri()
+					.asString();
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:

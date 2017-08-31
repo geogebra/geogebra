@@ -423,7 +423,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!app.isUnbundled()) {
 			this.menuPanel.add(optionsMenu,
 					getHTML(app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE.settings_black()
+							? MaterialDesignResources.INSTANCE.settings_black()
 						: GuiResources.INSTANCE.menu_icon_options(),
 							app.isWhiteboardActive()
 								? app.getLocalization().getMenu("Settings")
@@ -432,11 +432,16 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		} else {
 			settingsMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(settingsMenu,
-					getHTML(MaterialDesignResources.INSTANCE.settings_black(),
+					getHTML(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.gere()
+							.getSafeUri(),
+							0, 0, 24, 24, false, false),
 							app.getLocalization().getMenu("Settings")),
 					true);
 			menuTitles.add("Settings");
-			menuImgs.add(MaterialDesignResources.INSTANCE.settings_black());
+			menuImgs.add(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE.gere().getSafeUri(), 0, 0,
+					24, 24, false, false));
 			languageMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(languageMenu,
 					getHTML(MaterialDesignResources.INSTANCE.language_black(),

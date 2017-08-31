@@ -119,7 +119,8 @@ public class EditMenuW extends GMenuBar {
 		addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
 						? MaterialDesignResources.INSTANCE
-						.settings_black().getSafeUri().asString() :
+								.gere().getSafeUri().asString()
+						:
 				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 								.asString(),
 				!app.getKernel().isEmpty() ? loc.getMenu("Properties")

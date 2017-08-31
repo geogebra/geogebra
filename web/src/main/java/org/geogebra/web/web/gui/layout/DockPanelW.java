@@ -553,7 +553,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			graphicsContextMenuBtn = new StandardButton(
 					new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.gere()
+							MaterialDesignResources.INSTANCE.settings_border()
 									.getSafeUri(),
 							0, 0, 24, 24, false, false),
 					app);
