@@ -130,17 +130,17 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/arrow_black.svg")
 	SVGResource arrow_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/mode_toggle_numeric_white.png")
-	ImageResource modeToggleNumeric();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_symbolic_white.svg")
+	SVGResource modeToggleNumeric();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/mode_toggle_symbolic_white.png")
-	ImageResource modeToggleSymbolic();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/mode_numeric_white.svg")
+	SVGResource modeToggleSymbolic();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/speed_up_black.png")
-	ImageResource speed_up_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/speed_up_black.svg")
+	SVGResource speed_up_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/av/speed_down_black.png")
-	ImageResource speed_down_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/speed_down_black.svg")
+	SVGResource speed_down_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/ic_pause_circle_outline_black_24px.svg")
 	SVGResource pause_black();

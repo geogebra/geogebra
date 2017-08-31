@@ -84,9 +84,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 		if (btnSymbolic == null) {
 			if (swap) {
-				btnSymbolic = new MyToggleButtonW(
-					MaterialDesignResources.INSTANCE.modeToggleSymbolic(),
-					MaterialDesignResources.INSTANCE.modeToggleNumeric());
+				btnSymbolic = new MyToggleButtonW( new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.modeToggleSymbolic()
+						.getSafeUri(),
+				0, 0, 24, 24, false, false), new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.modeToggleNumeric()
+						.getSafeUri(),
+								0, 0, 24, 24, false, false));
 			} else {
 				btnSymbolic = new MyToggleButtonW(
 						GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),

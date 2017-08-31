@@ -131,13 +131,17 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private void buildSpeedPanel() {
 		speedPanel = new FlowPanel();
 		speedPanel.addStyleName("speedPanel-hidden");
-		btnSpeedDown = new MyToggleButtonW(
-				MaterialDesignResources.INSTANCE.speed_down_black());
+		btnSpeedDown = new MyToggleButtonW( new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.speed_down_black()
+				.getSafeUri(),
+		0, 0, 24, 24, false, false));
 
 		btnSpeedDown.setStyleName("flatButton");
 
-		btnSpeedUp = new MyToggleButtonW(
-				MaterialDesignResources.INSTANCE.speed_up_black());
+		btnSpeedUp = new MyToggleButtonW( new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.speed_up_black()
+				.getSafeUri(),
+		0, 0, 24, 24, false, false));
 
 		btnSpeedUp.setStyleName("flatButton");
 
