@@ -4306,7 +4306,7 @@ public abstract class App implements UpdateSelection {
 			return relaunch;
 	
 		case FLOATING_SETTINGS:
-			return relaunch;
+			return isUnbundled() && relaunch;
 			
 		case GLOBAL_SETTINGS:
 			return relaunch;
