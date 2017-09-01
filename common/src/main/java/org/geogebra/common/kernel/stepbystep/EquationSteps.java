@@ -873,17 +873,21 @@ public class EquationSteps {
 
 		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).regroup(sb);
 
-		if (sb.getSteps() != null) {
-			LHS = regrouped.getSubTree(0);
-			RHS = regrouped.getSubTree(1);
+		if (sb.getSteps().getSubsteps() != null) {
 			if (substep) {
 				steps.add(SolutionStepType.REGROUP_WRAPPER);
 				steps.levelDown();
 			}
+
 			steps.addAll(sb.getSteps());
-			steps.levelUp();
-			addStep();
+
+			if (substep) {
+				steps.levelUp();
+			}
 		}
+
+		LHS = regrouped.getSubTree(0);
+		RHS = regrouped.getSubTree(1);
 	}
 
 	private void simplify(boolean substep) {
@@ -891,23 +895,27 @@ public class EquationSteps {
 
 		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).expand(sb);
 
-		if (sb.getSteps() != null) {
-			LHS = regrouped.getSubTree(0);
-			RHS = regrouped.getSubTree(1);
-
+		if (sb.getSteps().getSubsteps() != null) {
 			if (substep) {
 				steps.add(SolutionStepType.SIMPLIFICATION_WRAPPER);
 				steps.levelDown();
 			}
 
 			steps.addAll(sb.getSteps());
-			steps.levelUp();
-			addStep();
+
+			if (substep) {
+				steps.levelUp();
+			}
 		}
+
+		LHS = regrouped.getSubTree(0);
+		RHS = regrouped.getSubTree(1);
 	}
 
 	private void add(StepNode toAdd) {
 		if (!isZero(toAdd)) {
+			toAdd.setColor(1);
+
 			LHS = StepNode.add(LHS, toAdd);
 			RHS = StepNode.add(RHS, toAdd);
 
@@ -915,11 +923,15 @@ public class EquationSteps {
 			steps.levelDown();
 			addStep();
 			regroup(false);
+			steps.levelUp();
+			addStep();
 		}
 	}
 
 	private void subtract(StepNode toSubtract) {
 		if (!isZero(toSubtract)) {
+			toSubtract.setColor(1);
+
 			LHS = StepNode.subtract(LHS, toSubtract);
 			RHS = StepNode.subtract(RHS, toSubtract);
 
@@ -927,6 +939,8 @@ public class EquationSteps {
 			steps.levelDown();
 			addStep();
 			regroup(false);
+			steps.levelUp();
+			addStep();
 		}
 	}
 
@@ -944,6 +958,8 @@ public class EquationSteps {
 
 	private void multiply(StepNode toMultiply) {
 		if (!isOne(toMultiply) && !isZero(toMultiply)) {
+			toMultiply.setColor(1);
+
 			if (toMultiply.isConstant()) {
 				LHS = StepNode.multiply(toMultiply, LHS);
 				RHS = StepNode.multiply(toMultiply, RHS);
@@ -956,11 +972,15 @@ public class EquationSteps {
 			steps.levelDown();
 			addStep();
 			simplify(false);
+			steps.levelUp();
+			addStep();
 		}
 	}
 
 	private void divide(StepNode toDivide) {
 		if (!isOne(toDivide) && !isZero(toDivide)) {
+			toDivide.setColor(1);
+
 			LHS = StepNode.divide(LHS, toDivide);
 			RHS = StepNode.divide(RHS, toDivide);
 
@@ -968,6 +988,8 @@ public class EquationSteps {
 			steps.levelDown();
 			addStep();
 			simplify(false);
+			steps.levelUp();
+			addStep();
 		}
 	}
 
@@ -992,8 +1014,9 @@ public class EquationSteps {
 
 		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
 		steps.levelDown();
-		addStep();
 		simplify(false);
+		steps.levelUp();
+		addStep();
 
 		shouldCheckSolutions = true;
 	}
@@ -1015,8 +1038,9 @@ public class EquationSteps {
 		}
 
 		steps.levelDown();
-		addStep();
 		regroup(false);
+		steps.levelUp();
+		addStep();
 
 		EquationSteps es = new EquationSteps(kernel, LHS, RHS, variable, constantFactory);
 		es.setIntermediate();

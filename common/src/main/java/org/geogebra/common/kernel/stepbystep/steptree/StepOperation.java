@@ -431,6 +431,7 @@ public class StepOperation extends StepNode {
 	@Override
 	public StepNode regroup(SolutionBuilder sb) {
 		StepNode origSn = this, newSn;
+		cleanColors();
 
 		Localization loc = sb == null ? null : sb.getLocalization();
 
@@ -512,6 +513,7 @@ public class StepOperation extends StepNode {
 	@Override
 	public StepNode expand(SolutionBuilder sb) {
 		StepNode origSn = this, newSn;
+		cleanColors();
 
 		Localization loc = sb == null ? null : sb.getLocalization();
 
@@ -750,11 +752,6 @@ public class StepOperation extends StepNode {
 							}
 						}
 					} 
-
-					// if (isEqual(coefficients[i].getValue(), 0)) {
-					// so.getSubTree(i).setColor(colorTracker[0]);
-					// sb.add(SolutionStepType.ZERO_IN_ADDITION, colorTracker[0]++);
-					// }
 				}
 
 				StepOperation newSum = new StepOperation(Operation.PLUS);
