@@ -412,7 +412,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	public void showLoading() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(
+		if (!app.isUnbundled()) {
+			ToolTipManagerW.sharedInstance().showBottomMessage(
 				app.getLocalization().getMenu("Loading"), false, app);
+		}
 	}
 }

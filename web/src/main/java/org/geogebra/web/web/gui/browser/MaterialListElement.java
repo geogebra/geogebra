@@ -581,13 +581,16 @@ public class MaterialListElement extends FlowPanel
 								});
 				return;
 			}
-			ToolTipManagerW.sharedInstance()
+			if (!app.isUnbundled()) {
+				ToolTipManagerW.sharedInstance()
 					.showBottomMessage(loc.getMenu("Loading"), false, app);
-
+			}
 			loadGGBfromTube();
 		} else {
-			ToolTipManagerW.sharedInstance()
+			if (!app.isUnbundled()) {
+				ToolTipManagerW.sharedInstance()
 					.showBottomMessage(loc.getMenu("Loading"), false, app);
+			}
 			if (!this.app.getFileManager().hasBase64(this.material)) {
 				loadGGBfromTube();
 			} else {
