@@ -494,7 +494,7 @@ public class StepHelper {
 	public static boolean canBeReducedToQuadratic(StepNode sn, StepNode variable) {
 		int degree = degree(sn);
 
-		if (degree / 2 * 2 != degree) { // if degree is odd
+		if (degree % 2 == 1) {
 			return false;
 		}
 

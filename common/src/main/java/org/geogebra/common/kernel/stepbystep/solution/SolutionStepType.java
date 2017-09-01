@@ -8,7 +8,7 @@ import org.geogebra.common.util.StringUtil;
 public enum SolutionStepType {
 	WRAPPER("", ""),
 	
-	SIMPLIFICATION_WRAPPER("", ""),
+	SUBSTEP_WRAPPER("", ""),
 
 	EQUATION("", ""),
 
@@ -29,26 +29,26 @@ public enum SolutionStepType {
 	SOLUTIONS("SolutionsA", "Solutions: %0") {
 		@Override
 		public String getDefaultText(Localization loc, StepNode[] parameters) {
-			String serializedDefault = "";
+			StringBuilder serializedDefault = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
-					serializedDefault += ",\\;";
+					serializedDefault.append(",\\;");
 				}
-				serializedDefault += parameters[i].toLaTeXString(loc, false);
+				serializedDefault.append(parameters[i].toLaTeXString(loc, false));
 			}
-			return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault);
+			return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault.toString());
 		}
 
 		@Override
 		public String getColoredText(Localization loc, int color, StepNode[] parameters) {
-			String serializedColored = "";
+			StringBuilder serializedColored = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
-					serializedColored += ",\\;";
+					serializedColored.append(",\\;");
 				}
-				serializedColored += parameters[i].toLaTeXString(loc, true);
+				serializedColored.append(parameters[i].toLaTeXString(loc, true));
 			}
-			return loc.getMenuLaTeX(getKey(), getDefault(), serializedColored) + colorText(color);
+			return loc.getMenuLaTeX(getKey(), getDefault(), serializedColored.toString()) + colorText(color);
 		}
 	},
 
@@ -73,8 +73,6 @@ public enum SolutionStepType {
 	SQUARE_BOTH_SIDES("SquareBothSides", "Square both sides"),
 
 	ADD_TO_BOTH_SIDES("AddAToBothSides", "Add %0 to both sides"),
-
-	EXPAND_PARENTHESES("ExpandParentheses", "Expand Parentheses"),
 
 	SUBTRACT_FROM_BOTH_SIDES("SubtractAFromBothSides", "Subtract %0 from both sides"),
 
@@ -110,6 +108,8 @@ public enum SolutionStepType {
 	SOLVE_NUMERICALLY("SolveNumerically", "Solve numerically: "),
 
 	REGROUP_WRAPPER("RegroupExpression", "Regroup Expression"),
+
+	SIMPLIFICATION_WRAPPER("SimplifyExpression", "Simplify Expression"),
 
 	DOUBLE_MINUS("DoubleMinus", "A double negative is a positive"),
 
@@ -149,9 +149,25 @@ public enum SolutionStepType {
 
 	FIRST_ROOT("FirstRoot", "The first root of anything is itself"),
 
+	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
+
+	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
+
 	REWRITE_AS_POWER("RevriteAAsB", "Rewrite %0 as %1"),
 
 	FACTOR_SQUARE("FactorSquare", "Factor out the perfect square"),
+
+	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum", "Multiply everything in the first parantheses with everything in the second parantheses"),
+
+	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum", "Multiply %0 with everything in the parantheses"),
+
+	BINOM_SQUARED("BinomSquared", "Use (a+b)^2 = a^2 + 2ab + b^2 to expand"),
+
+	BINOM_CUBED("BinomCubed", "Use (a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3 to expand"),
+
+	TRINOM_SQUARED("TrinomSquared", "Use (a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc + 2ac to expand"),
+
+	REWRITE_AS_MULTIPLICATION("RewriteAsMultiplication", "Rewrite as multiplication"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function");
 	

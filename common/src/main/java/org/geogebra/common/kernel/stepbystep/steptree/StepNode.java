@@ -223,14 +223,9 @@ public abstract class StepNode {
 	public abstract StepNode regroup(SolutionBuilder sb);
 
 	/**
-	 * @return the tree, expanded (destroys the tree, use only in assignments)
+	 * @return the tree, regrouped and expanded (destroys the tree, use only in assignments)
 	 */
 	public abstract StepNode expand(SolutionBuilder sb);
-
-	/**
-	 * @return the tree, fully simplified (destroys the tree, use only in assignments)
-	 */
-	public abstract StepNode simplify(SolutionBuilder sb);
 
 	public boolean nonSpecialConstant() {
 		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E);
@@ -461,20 +456,6 @@ public abstract class StepNode {
 			return a.deepCopy();
 		}
 
-		if (a.isOperation(Operation.MULTIPLY)) {
-			StepNode copyofa = a.deepCopy();
-
-			if (b.isOperation(Operation.MULTIPLY)) {
-				for (int i = 0; i < ((StepOperation) b).noOfOperands(); i++) {
-					((StepOperation) copyofa).addSubTree(((StepOperation) b).getSubTree(i).deepCopy());
-				}
-			} else {
-				((StepOperation) copyofa).addSubTree(b.deepCopy());
-			}
-
-			return copyofa;
-		}
-
 		StepOperation so = new StepOperation(Operation.MULTIPLY);
 		so.addSubTree(a.deepCopy());
 		so.addSubTree(b.deepCopy());
@@ -647,18 +628,26 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * return a*b, except if a == 1, then it returns b
+	 * return a*b, except if: a == 1 -> b, a == -1 -> -b and vice versa
 	 */
 	public static StepNode nonTrivialProduct(StepNode a, StepNode b) {
-		if (a != null && b != null && isEqual(a.getValue(), 1)) {
-			return b;
+		if (a != null && b != null) {
+			if (isEqual(a.getValue(), 1)) {
+				return b;
+			} else if (isEqual(a.getValue(), -1)) {
+				return minus(b);
+			} else if (isEqual(b.getValue(), 1)) {
+				return a;
+			} else if (isEqual(b.getValue(), -1)) {
+				return minus(a);
+			}
 		}
 
 		return multiply(a, b);
 	}
 
 	public static StepNode negate(StepNode sn) {
-		if (sn instanceof StepConstant) {
+		if (sn.nonSpecialConstant()) {
 			return new StepConstant(-sn.getValue());
 		}
 		if (sn.isOperation(Operation.MINUS)) {
@@ -670,6 +659,9 @@ public abstract class StepNode {
 				so = StepNode.multiply(so, ((StepOperation) sn).getSubTree(i));
 			}
 			return so;
+		}
+		if (sn.isOperation(Operation.DIVIDE)) {
+			return divide(negate(((StepOperation) sn).getSubTree(0)), ((StepOperation) sn).getSubTree(1));
 		}
 		return StepNode.minus(sn);
 	}

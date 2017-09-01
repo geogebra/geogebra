@@ -107,9 +107,10 @@ public class EquationSteps {
 			} else {
 				steps.add(SolutionStepType.SOLVE, StepNode.equal(LHS, RHS));
 				steps.levelDown();
-				regroup(true);
 			}
 		}
+
+		regroup(true);
 
 		addOrSubtract(StepHelper.getCommon(LHS, RHS));
 
@@ -164,7 +165,7 @@ public class EquationSteps {
 		}
 
 		// VI. step: expanding parentheses
-		expandParentheses();
+		simplify(true);
 
 		// VII. Step: equations containing absolute values
 		bothSides = StepNode.add(LHS, RHS);
@@ -610,7 +611,7 @@ public class EquationSteps {
 			RHS = StepHelper.swapAbsInTree(RHS.deepCopy(), interval, variable);
 
 			addStep();
-			expandParentheses();
+			simplify(true);
 			return false;
 		}
 
@@ -888,36 +889,20 @@ public class EquationSteps {
 	private void simplify(boolean substep) {
 		SolutionBuilder sb = new SolutionBuilder(loc);
 
-		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).simplify(sb);
+		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).expand(sb);
 
 		if (sb.getSteps() != null) {
 			LHS = regrouped.getSubTree(0);
 			RHS = regrouped.getSubTree(1);
 
 			if (substep) {
-				steps.add(SolutionStepType.REGROUP_WRAPPER);
+				steps.add(SolutionStepType.SIMPLIFICATION_WRAPPER);
 				steps.levelDown();
 			}
 
 			steps.addAll(sb.getSteps());
 			steps.levelUp();
 			addStep();
-		}
-	}
-
-	private void expandParentheses() {
-		SolutionBuilder sb = new SolutionBuilder(loc);
-		
-		StepNode expandedLHS = LHS.deepCopy().expand(sb);
-		StepNode expandedRHS = RHS.deepCopy().expand(sb);
-
-		if (sb.getSteps() != null) {
-			LHS = expandedLHS;
-			RHS = expandedRHS;
-			steps.add(SolutionStepType.EXPAND_PARENTHESES);
-			steps.levelDown();
-			addStep();
-			steps.levelUp();
 		}
 	}
 
@@ -982,7 +967,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
 			steps.levelDown();
 			addStep();
-			regroup(false);
+			simplify(false);
 		}
 	}
 

@@ -54,6 +54,15 @@ public class SolveStepTest {
 		t("x", "(x+1)/x*10*(x+2)/(x+1)^2*1/5", "x", 1);
 	}
 
+	// @Test
+	public void expandTest() {
+		t("(3x+1)(4y+2)(5z+3)", "1", "x", 1);
+		t("5(4y+2)", "1", "x", 1);
+		t("(4y+2)^2", "1", "x", 1);
+		t("(4y+2+z)^2", "1", "x", 1);
+		t("(4y+2)^3", "1", "x", 1);
+	}
+
 	@Test
 	public void linearEquation() {
 		t("(4x-3)/(2 + 3)", "1-x", "x", 17, "(8)/(9)");
@@ -149,28 +158,26 @@ public class SolveStepTest {
 		t("x^4+4x^2+2", "0", "x", 30);
 		t("x^4+x^3+4x^2+2", "0", "x", 4);
 		t("x^6+4x^3+2", "0", "x", 36, "nroot((nroot(2, 2)-2), 3)", "nroot((-nroot(2, 2)-2), 3)");
-		t("(((1+x)^(2)+1)^(2)+1)^(2)", "10", "x", 48, "(nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)",
-				"(-nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)");
 		t("((x+1)^4+1)^2", "6", "x", 33, "(nroot((nroot(6, 2)-1), 4)-1)", "(-nroot((nroot(6, 2)-1), 4)-1)");
 		t("((1+x)^(2)+1)^(2)+1", "10", "x", 36, "(nroot(2, 2)-1)", "(-nroot(2, 2)-1)");
 	}
 
-	// @Test
+	@Test
 	public void trigonometricEquations() {
 		t("3+2sin(x)", "sin(x)-1", "x", 10);
-		t("1/2+2sin(x)", "sin(x)+1", "x", 23, "((2)([k1])(pi) + (pi)/(6))", "((2)([k2])(pi) + ((5)(pi))/(6))");
-		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", 31, "(((2)([k1])(pi) + (pi)/(6)-1))/(3)", "-(((2)([k2])(pi)-((5)(pi))/(6) + 1))/(3)");
-		t("(sin(2x+1))^2+1/2", "1", "x", 59, "(((2)([k1])(pi) + (pi)/(4)-1))/(2)", "-(((2)([k2])(pi)-((3)(pi))/(4) + 1))/(2)",
-				"(((2)([k3])(pi)-(pi)/(4)-1))/(2)", "-(((2)([k4])(pi)-((5)(pi))/(4) + 1))/(2)");
-		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", 31, "(((2)([k1])(pi) + (pi)/(3)-1))/(3)",
-				"-(((2)([k2])(pi)-((5)(pi))/(3) + 1))/(3)");
+		t("1/2+2sin(x)", "sin(x)+1", "x", 23, "((pi)/(6) + (2)([k1])(pi))", "(((5)(pi))/(6)-(2)([k2])(pi))");
+		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", 31, "(((pi)/(6) + (2)([k1])(pi)-1))/(3)",
+				"((((-5)(pi))/(6) + (2)([k2])(pi) + 1))/(-3)");
+		t("(sin(2x+1))^2+1/2", "1", "x", 59, "(((pi)/(4) + (2)([k1])(pi)-1))/(2)", "((((-3)(pi))/(4) + (2)([k2])(pi) + 1))/(-2)",
+				"(((-pi)/(4) + (2)([k3])(pi)-1))/(2)", "((((-5)(pi))/(4) + (2)([k4])(pi) + 1))/(-2)");
+		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", 31, "(((pi)/(3) + (2)([k1])(pi)-1))/(3)", "((((-5)(pi))/(3) + (2)([k2])(pi) + 1))/(-3)");
 		t("3+2tan(x)", "tan(x)-1", "x", 10, "(arctan(-4) + ([k1])(pi))");
-		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", 31, "(arccos(-((nroot(5, 2)-1))/(2)) + (2)([k1])(pi))",
-				"((2)([k2])(pi)-arccos(-((nroot(5, 2)-1))/(2)) + (2)(pi))");
-		t("2(cos(x))^2+(sin(x))^2+sin(x)", "1", "x", 31, "(arcsin(-((nroot(5, 2)-1))/(2)) + (2)([k1])(pi))",
-				"((2)([k2])(pi)-arcsin(-((nroot(5, 2)-1))/(2)) + pi)");
+		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", 31, "(arccos(((-1 + nroot(5, 2)))/(-2)) + (2)([k1])(pi))",
+				"(-arccos(((-1 + nroot(5, 2)))/(-2))-(2)([k2])(pi) + (2)(pi))");
+		t("2(cos(x))^2+(sin(x))^2+sin(x)", "1", "x", 31, "(arcsin(((-1 + nroot(5, 2)))/(-2)) + (2)([k1])(pi))",
+				"(-arcsin(((-1 + nroot(5, 2)))/(-2))-(2)([k2])(pi) + pi)");
 		t("2(cos(x))^2+2(sin(x))^2", "2", "x", 8, "R");
-		t("sin(x)+cos(x)", "1", "x", 54, "((2)([k1])(pi) + (pi)/(2))", "(2)([k3])(pi)");
+		t("sin(x)+cos(x)", "1", "x", 54, "((pi)/(2) + (2)([k1])(pi))", "(2)([k3])(pi)");
 	}
 
 	@Test
@@ -192,6 +199,7 @@ public class SolveStepTest {
 
 		SolutionStep steps = es.getSteps();
 		List<StepNode> solutions = es.getSolutions();
+		steps.getListOfSteps(htmlBuilder);
 
 		Assert.assertTrue(Math.abs(expectedSteps - countSteps(steps)) < 1000);
 		Assert.assertEquals(expectedSolutions.length, solutions.size());
@@ -199,7 +207,6 @@ public class SolveStepTest {
 		for (int i = 0; i < expectedSolutions.length; i++) {
 			Assert.assertEquals(expectedSolutions[i], solutions.get(i).toString());
 		}
-		// steps.getListOfSteps(htmlBuilder);
 	}
 	
 	private int countSteps(SolutionStep s) {

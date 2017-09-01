@@ -380,7 +380,11 @@ public class StepOperation extends StepNode {
 			return true;
 		}
 
-		if ((a instanceof StepVariable || a.isOperation()) && (b instanceof StepVariable || b.isOperation())) {
+		if (a instanceof StepVariable && b.nonSpecialConstant()) {
+			return true;
+		}
+
+		if (a instanceof StepVariable && a.equals(b)) {
 			return true;
 		}
 
@@ -428,8 +432,6 @@ public class StepOperation extends StepNode {
 	public StepNode regroup(SolutionBuilder sb) {
 		StepNode origSn = this, newSn;
 
-		Log.error("new regroup started: " + this);
-
 		Localization loc = sb == null ? null : sb.getLocalization();
 
 		SolutionBuilder changes = new SolutionBuilder(loc);
@@ -438,9 +440,8 @@ public class StepOperation extends StepNode {
 		boolean changedInCycle = true;
 		while (changedInCycle) {
 			changedInCycle = false;
-			Log.error("new regroup cycle started" + origSn);
 
-			newSn = doubleMinus(origSn, changes, colorTracker);
+			newSn = calculateInverseTrigo(origSn, changes, colorTracker);
 			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
 			origSn = newSn;
 
@@ -449,6 +450,14 @@ public class StepOperation extends StepNode {
 			origSn = newSn;
 
 			newSn = distributeMinus(origSn, changes, colorTracker);
+			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
+			origSn = newSn;
+
+			newSn = doubleMinus(origSn, changes, colorTracker);
+			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
+			origSn = newSn;
+
+			newSn = eliminateOpposites(origSn, changes, colorTracker);
 			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
 			origSn = newSn;
 
@@ -495,26 +504,56 @@ public class StepOperation extends StepNode {
 			newSn = nicerFractions(origSn, changes, colorTracker);
 			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
 			origSn = newSn;
-
-			newSn = calculateInverseTrigo(origSn, changes, colorTracker);
-			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
-			origSn = newSn;
-			Log.error(newSn + "");
 		}
-		// Log.error("Done: ");
-		// Log.error(sn.toString());
 
 		return origSn;
 	}
 
-	private static boolean regroupStep(StepNode origSn, StepNode newSn, SolutionBuilder changes, SolutionBuilder sb,
-			int[] colorTracker) {
+	@Override
+	public StepNode expand(SolutionBuilder sb) {
+		StepNode origSn = this, newSn;
+
+		Localization loc = sb == null ? null : sb.getLocalization();
+
+		SolutionBuilder changes = new SolutionBuilder(loc);
+		int[] colorTracker = new int[] { 1 };
+		
+		Log.error("New expand started");
+
+		boolean changedInCycle = true;
+		while (changedInCycle) {
+			changedInCycle = false;
+
+			Log.error("New expand cycle started" + origSn);
+			origSn = origSn.regroup(sb);
+
+			newSn = expandPowers(origSn, changes, colorTracker);
+			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
+			origSn = newSn;
+
+			newSn = expandProducts(origSn, changes, colorTracker);
+			changedInCycle |= regroupStep(origSn, newSn, changes, sb, colorTracker);
+			origSn = newSn;
+		}
+
+		return origSn;
+	}
+
+	private static boolean regroupStep(StepNode origSn, StepNode newSn, SolutionBuilder changes, SolutionBuilder sb, int[] colorTracker) {
+		final boolean printDebug = false;
+
+		if (printDebug) {
+			Log.error(": " + origSn);
+		}
+
 		if (colorTracker[0] > 1) {
 			if (sb != null) {
-				sb.add(SolutionStepType.SIMPLIFICATION_WRAPPER);
+				sb.add(SolutionStepType.SUBSTEP_WRAPPER);
+				sb.levelDown();
 				sb.add(SolutionStepType.EQUATION, origSn.deepCopy());
 				sb.addAll(changes.getSteps());
 				sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
+				sb.levelUp();
 			}
 
 			newSn.cleanColors();
@@ -524,6 +563,229 @@ public class StepOperation extends StepNode {
 		}
 
 		return false;
+	}
+
+	private static StepNode expandProducts(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.MULTIPLY)) {
+				StepNode firstMultiplicand = null;
+				StepOperation secondMultiplicand = null; // must be a sum
+				StepNode remaining = null;
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (firstMultiplicand == null && (secondMultiplicand != null || !so.getSubTree(i).isOperation(Operation.PLUS))) {
+						firstMultiplicand = so.getSubTree(i);
+					} else if (secondMultiplicand == null && so.getSubTree(i).isOperation(Operation.PLUS)) {
+						secondMultiplicand = (StepOperation) so.getSubTree(i);
+					} else {
+						remaining = multiply(remaining, so.getSubTree(i));
+					}
+				}
+
+				if (firstMultiplicand != null && secondMultiplicand != null) {
+					StepOperation product = new StepOperation(Operation.PLUS);
+
+					if (firstMultiplicand.isOperation(Operation.PLUS)
+							&& StepHelper.countOperation(secondMultiplicand, Operation.DIVIDE) == 0) {
+						StepOperation firstMultiplicandS = (StepOperation) firstMultiplicand;
+
+						for (int i = 0; i < firstMultiplicandS.noOfOperands(); i++) {
+							firstMultiplicandS.getSubTree(i).setColor(colorTracker[0]++);
+						}
+						for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
+							secondMultiplicand.getSubTree(i).setColor(colorTracker[0]++);
+						}
+
+						for (int i = 0; i < firstMultiplicandS.noOfOperands(); i++) {
+							for (int j = 0; j < secondMultiplicand.noOfOperands(); j++) {
+								product.addSubTree(multiply(firstMultiplicandS.getSubTree(i), secondMultiplicand.getSubTree(j)));
+							}
+						}
+
+						sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
+					} else {
+						firstMultiplicand.setColor(colorTracker[0]++);
+						for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
+							secondMultiplicand.getSubTree(i).setColor(colorTracker[0]++);
+						}
+						
+						for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
+							product.addSubTree(multiply(firstMultiplicand, secondMultiplicand.getSubTree(i)));
+						}
+						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, firstMultiplicand);
+					}
+
+					return multiply(product, remaining);
+				}
+			}
+
+			StepOperation toReturn = new StepOperation(so.getOperation());
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				if (so.getSubTree(i).isOperation(Operation.ABS)) {
+					toReturn.addSubTree(so.getSubTree(i));
+				} else {
+					toReturn.addSubTree(expandProducts(so.getSubTree(i), sb, colorTracker));
+				}
+			}
+			return toReturn;
+		}
+
+		return sn;
+	}
+
+	private static StepNode expandPowers(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.POWER) && so.getSubTree(0).isOperation(Operation.PLUS)) {
+				StepOperation sum = (StepOperation) so.getSubTree(0);
+
+				if (so.getSubTree(1).getValue() > 0 && closeToAnInteger(so.getSubTree(1))) {
+					if (so.getSubTree(1).getValue() + sum.noOfOperands() < 6) {
+						for (int i = 0; i < sum.noOfOperands(); i++) {
+							sum.getSubTree(i).setColor(colorTracker[0]++);
+						}
+
+						StepOperation newSum = new StepOperation(Operation.PLUS);
+
+						if (isEqual(so.getSubTree(1).getValue(), 2)) {
+							if (sum.noOfOperands() == 2) {
+								newSum.addSubTree(power(sum.getSubTree(0), 2));
+								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+								newSum.addSubTree(power(sum.getSubTree(1), 2));
+
+								sb.add(SolutionStepType.BINOM_SQUARED);
+							} else if (sum.noOfOperands() == 3) {
+								newSum.addSubTree(power(sum.getSubTree(0), 2));
+								newSum.addSubTree(power(sum.getSubTree(1), 2));
+								newSum.addSubTree(power(sum.getSubTree(2), 2));
+								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(1), sum.getSubTree(2))));
+								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(2))));
+
+								sb.add(SolutionStepType.TRINOM_SQUARED);
+							}
+						} else if (isEqual(so.getSubTree(1).getValue(), 3)) {
+							if (sum.noOfOperands() == 2) {
+								newSum.addSubTree(power(sum.getSubTree(0), 3));
+								newSum.addSubTree(multiply(3, multiply(power(sum.getSubTree(0), 2), sum.getSubTree(1))));
+								newSum.addSubTree(multiply(3, multiply(sum.getSubTree(0), power(sum.getSubTree(1), 2))));
+								newSum.addSubTree(power(sum.getSubTree(1), 3));
+
+								sb.add(SolutionStepType.BINOM_CUBED);
+							}
+						}
+
+						return newSum;
+					}
+
+					StepOperation asMultiplication = new StepOperation(Operation.MULTIPLY);
+					for (int i = 0; i < Math.round(so.getSubTree(1).getValue()); i++) {
+						asMultiplication.addSubTree(sum.deepCopy());
+					}
+					return asMultiplication;
+				}
+			}
+
+			StepOperation toReturn = new StepOperation(so.getOperation());
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				if (so.getSubTree(i).isOperation(Operation.ABS)) {
+					toReturn.addSubTree(so.getSubTree(i));
+				} else {
+					toReturn.addSubTree(expandPowers(so.getSubTree(i), sb, colorTracker));
+				}
+			}
+			return toReturn;
+		}
+
+		return sn;
+	}
+
+	private static StepNode eliminateOpposites(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		if (sn.isOperation()) {
+			StepOperation so = new StepOperation(((StepOperation) sn).getOperation());
+
+			Integer colorsAtStart = colorTracker[0];
+			for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+				so.addSubTree(eliminateOpposites(((StepOperation) sn).getSubTree(i), sb, colorTracker));
+			}
+
+			if (colorsAtStart < colorTracker[0]) {
+				return so;
+			}
+
+			so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.PLUS)) {
+				StepNode[] coefficients = new StepNode[so.noOfOperands()];
+				StepNode[] variables = new StepNode[so.noOfOperands()];
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					coefficients[i] = so.getSubTree(i).getIntegerCoefficient();
+					variables[i] = so.getSubTree(i).getNonInteger();
+
+					if (coefficients[i] == null) {
+						coefficients[i] = new StepConstant(1);
+					}
+					if (variables[i] == null) {
+						variables[i] = new StepConstant(1);
+					}
+				}
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (!isEqual(variables[i].getValue(), 0)) {
+						for (int j = i + 1; j < so.noOfOperands(); j++) {
+							if (!isEqual(variables[j].getValue(), 0)
+									&& isEqual(-coefficients[i].getValue(), coefficients[j].getValue())
+									&& variables[i].equals(variables[j])) {
+								so.getSubTree(i).setColor(colorTracker[0]);
+								so.getSubTree(j).setColor(colorTracker[0]);
+
+								variables[i] = new StepConstant(0);
+								variables[j] = new StepConstant(0);
+
+								sb.add(SolutionStepType.ELIMINATE_OPPOSITES, colorTracker[0]++);
+								break;
+							}
+						}
+					} 
+
+					// if (isEqual(coefficients[i].getValue(), 0)) {
+					// so.getSubTree(i).setColor(colorTracker[0]);
+					// sb.add(SolutionStepType.ZERO_IN_ADDITION, colorTracker[0]++);
+					// }
+				}
+
+				StepOperation newSum = new StepOperation(Operation.PLUS);
+
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (coefficients[i].getValue() != 0 && variables[i].getValue() != 0) {
+						if (coefficients[i].nonSpecialConstant() && isEqual(coefficients[i].getValue(), 1)) {
+							newSum.addSubTree(variables[i]);
+						} else if (variables[i].nonSpecialConstant() && isEqual(variables[i].getValue(), 1)) {
+							newSum.addSubTree(coefficients[i]);
+						} else if (coefficients[i].nonSpecialConstant() && isEqual(coefficients[i].getValue(), -1)) {
+							newSum.addSubTree(minus(variables[i]));
+						} else {
+							newSum.addSubTree(multiply(coefficients[i], variables[i]));
+						}
+					}
+				}
+
+				if (newSum.noOfOperands() == 0) {
+					return new StepConstant(0);
+				} else if (newSum.noOfOperands() == 1) {
+					return newSum.getSubTree(0);
+				}
+
+				return newSum;
+			}
+
+			return so;
+		}
+
+		return sn;
 	}
 
 	private static StepNode doubleMinus(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
@@ -599,7 +861,13 @@ public class StepOperation extends StepNode {
 	private static StepNode distributeMinus(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
-
+			
+			if (so.isOperation(Operation.MULTIPLY) && isEqual(so.getSubTree(0).getValue(), -1)) {
+				if (so.noOfOperands() == 2 && so.getSubTree(1).isOperation(Operation.PLUS)) {
+					so = (StepOperation) minus(so.getSubTree(1));
+				}
+			}
+			
 			if (so.isOperation(Operation.MINUS)) {
 				if (so.getSubTree(0).isOperation(Operation.PLUS)) {
 					StepOperation result = new StepOperation(Operation.PLUS);
@@ -766,7 +1034,7 @@ public class StepOperation extends StepNode {
 				StepOperation newSum = new StepOperation(Operation.PLUS);
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (coefficients[i].getValue() != 0) {
+					if (!isEqual(coefficients[i].getValue(), 0) && !isEqual(variables[i].getValue(), 0)) {
 						if (coefficients[i].nonSpecialConstant() && isEqual(coefficients[i].getValue(), 1)) {
 							newSum.addSubTree(variables[i]);
 						} else if (variables[i].nonSpecialConstant() && isEqual(variables[i].getValue(), 1)) {
@@ -788,6 +1056,12 @@ public class StepOperation extends StepNode {
 					newConstants.setColor(colorTracker[0]);
 					colorTracker[0]++;
 				}
+
+				if (isEqual(constantSum, 0) && constantList.size() == 1) {
+					constantList.get(0).setColor(colorTracker[0]);
+					sb.add(SolutionStepType.ZERO_IN_ADDITION, colorTracker[0]++);
+				}
+
 				if (!isEqual(constantSum, 0)) {
 					newSum.addSubTree(newConstants);
 				}
@@ -832,8 +1106,8 @@ public class StepOperation extends StepNode {
 							wasChanged = true;
 
 							StepNode newFraction = divide(
-									multiply(((double) newDenominator) / currentDenominator, getNominator(so.getSubTree(i))),
-									newDenominator);
+									nonTrivialProduct(new StepConstant(((double) newDenominator) / currentDenominator),
+											getNominator(so.getSubTree(i))), newDenominator);
 
 							newFraction.setColor(colorTracker[0]);
 							so.getSubTree(i).setColor(colorTracker[0]);
@@ -1111,14 +1385,13 @@ public class StepOperation extends StepNode {
 						for (int j = i + 1; j < bases.size(); j++) {
 							if (!isEqual(exponents.get(j).getValue(), 0) && bases.get(i).equals(bases.get(j))) {
 								foundCommon = true;
-								so.getSubTree(j).setColor(colorTracker[0]);
+								bases.get(j).setColor(colorTracker[0]);
 
 								exponents.set(i, add(exponents.get(i), exponents.get(j)));
 								exponents.set(j, new StepConstant(0));
 							}
 						}
 						if (foundCommon) {
-							so.getSubTree(i).setColor(colorTracker[0]);
 							bases.get(i).setColor(colorTracker[0]);
 							exponents.get(i).setColor(colorTracker[0]++);
 
@@ -1463,104 +1736,6 @@ public class StepOperation extends StepNode {
 			return divide(getSubTree(0).getNonInteger(), getSubTree(1).getNonInteger());
 		}
 		return this;
-	}
-
-	@Override
-	public StepNode expand(SolutionBuilder sb) {
-		if (isOperation(Operation.ABS)) {
-			return this;
-		}
-
-		for (int i = 0; i < noOfOperands(); i++) {
-			subtrees.set(i, distributeMinus(getSubTree(i).expand(sb), sb, new int[] { 1 }));
-		}
-
-		if (isOperation(Operation.MULTIPLY)) {
-			StepOperation so = null;
-
-			if (StepHelper.countOperation(this, Operation.DIVIDE) > 0) {
-				for (int i = 0; i < noOfOperands(); i++) {
-					if (getSubTree(i).isOperation(Operation.PLUS) && StepHelper.countOperation(getSubTree(i), Operation.DIVIDE) > 0) {
-						so = (StepOperation) subtrees.remove(i);
-						break;
-					}
-				}
-
-				if (so == null) {
-					return this;
-				}
-
-				for (int i = 0; i < noOfOperands(); i++) {
-					for (int j = 0; j < so.noOfOperands(); j++) {
-						so.subtrees.set(j, multiply(so.getSubTree(j), getSubTree(i)));
-					}
-				}
-
-				return so.regroup().expand(sb);
-			}
-
-			for (int i = 0; i < noOfOperands(); i++) {
-				if (getSubTree(i).isOperation(Operation.PLUS)) {
-					so = (StepOperation) subtrees.remove(i);
-					break;
-				}
-			}
-
-			if (so == null) {
-				return this;
-			}
-
-			for (int i = 0; i < noOfOperands(); i++) {
-				if (getSubTree(i).isOperation(Operation.PLUS)) {
-					StepOperation so2 = (StepOperation) getSubTree(i);
-					StepOperation newSo = new StepOperation(Operation.PLUS);
-					for (int j = 0; j < so.noOfOperands(); j++) {
-						for (int k = 0; k < so2.noOfOperands(); k++) {
-							newSo.addSubTree(multiply(so.getSubTree(j), so2.getSubTree(k)));
-						}
-					}
-					so = newSo;
-				} else if (getSubTree(i).isOperation(Operation.MINUS)) {
-					StepOperation so2 = (StepOperation) getSubTree(i);
-					for (int j = 0; j < so.noOfOperands(); j++) {
-						if (so.getSubTree(j).isOperation(Operation.MINUS)) {
-							so.subtrees.set(j, multiply(((StepOperation) so.getSubTree(j)).getSubTree(0), so2.getSubTree(0)));
-						} else {
-							so.subtrees.set(j, minus(multiply(so.getSubTree(j), so2.getSubTree(0))));
-						}
-					}
-				} else {
-					for (int j = 0; j < so.noOfOperands(); j++) {
-						so.subtrees.set(j, multiply(so.getSubTree(j), getSubTree(i)));
-					}
-				}
-			}
-
-			return so.regroup();
-		} else if (isOperation(Operation.POWER)) {
-			if ((getSubTree(0).isOperation(Operation.PLUS) || getSubTree(0).isOperation(Operation.MULTIPLY))
-					&& closeToAnInteger(getSubTree(1).getValue())) {
-				long n = Math.round(getSubTree(1).getValue());
-
-				if (n <= 1) {
-					return this;
-				}
-
-				StepNode sn = null;
-
-				for (int i = 0; i < n; i++) {
-					sn = multiply(sn, getSubTree(0));
-				}
-
-				return sn.expand(sb);
-			}
-		}
-		return this;
-	}
-
-	@Override
-	public StepNode simplify(SolutionBuilder sb) {
-		return regroup(sb).expand(sb).regroup(sb);
 	}
 
 	public void addSubTree(StepNode sn) {
