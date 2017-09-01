@@ -3045,7 +3045,7 @@ __GGB__keysVar.sl.menu = {
     "insert_worksheet": "Vstavi delovni list",
     "jpg": "JPG format",
     "materials": "Gradiva",
-    "math_apps": "Math Apps",
+    "math_apps": "GeoGebra Classic",
     "max": "maks",
     "min": "min",
     "off": "Izklju\u010deno",

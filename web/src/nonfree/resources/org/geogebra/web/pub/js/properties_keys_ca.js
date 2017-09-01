@@ -3045,7 +3045,7 @@ __GGB__keysVar.ca.menu = {
     "insert_worksheet": "Inserir el full de treball",
     "jpg": "JPG Format",
     "materials": "Materials",
-    "math_apps": "Aplicacions Matem\xe0tiques",
+    "math_apps": "GeoGebra Classic",
     "max": "max",
     "min": "min",
     "off": "Desconnectat",

@@ -3045,7 +3045,7 @@ __GGB__keysVar.ne.menu = {
     "insert_worksheet": "Insert Worksheet",
     "jpg": "\u091c\u0947\u092a\u093f\u091c\u093f \u092a\u094d\u0930\u093e\u0930\u0941\u092a",
     "materials": "\u0938\u093e\u092e\u093e\u0917\u094d\u0930\u0940\u0939\u0930\u0941",
-    "math_apps": "Math Apps",
+    "math_apps": "GeoGebra Classic",
     "max": "\u0909\u091a\u094d\u091a\u0924\u092e\u094d",
     "min": "\u0928\u094d\u092f\u0941\u0928\u0924\u092e",
     "off": "\u0916",

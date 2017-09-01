@@ -3045,7 +3045,7 @@ __GGB__keysVar.fi.menu = {
     "insert_worksheet": "Liit\xe4 ty\xf6kirja",
     "jpg": "JPG Format",
     "materials": "Materiaalit",
-    "math_apps": "Laskimet",
+    "math_apps": "GeoGebra Classic",
     "max": "Max",
     "min": "Min",
     "off": "pois",

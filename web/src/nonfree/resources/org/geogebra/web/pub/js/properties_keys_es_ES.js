@@ -3045,7 +3045,7 @@ __GGB__keysVar.es_ES.menu = {
     "insert_worksheet": "Insertar actividad",
     "jpg": "Imagen JPG",
     "materials": "Materiales",
-    "math_apps": "Calc. Matem\xe1ticas",
+    "math_apps": "GeoGebra Classic",
     "max": "M\xe1x",
     "min": "M\xedn",
     "off": "desactivar",

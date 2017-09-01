@@ -3045,7 +3045,7 @@ __GGB__keysVar.ca_XV.menu = {
     "insert_worksheet": "Inserix una construcci\xf3 din\xe0mica",
     "jpg": "Format JPG",
     "materials": "Materials",
-    "math_apps": "Aplicacions Matem\xe0tiques",
+    "math_apps": "GeoGebra Classic",
     "max": "m\xe0x.",
     "min": "m\xedn.",
     "off": "desconnectat",

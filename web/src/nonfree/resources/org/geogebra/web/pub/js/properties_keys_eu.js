@@ -1500,7 +1500,7 @@ __GGB__keysVar.eu.menu = {
     "CreateSlidersForA": "Irristailua(k) sortu honentzat: %0",
     "CreateTable": "Taula",
     "CreateTable.Help": "Hautatu gelaxkak. Ondoren, egin klik tresnaren botoian",
-    "CreateYourOwn": "GeoGebra Math Calculators",
+    "CreateYourOwn": "GeoGebra Classic",
     "CreatingAnimatedGIF": "Hurrengo GIF Biziduna Sortzen:",
     "CrossAt": "Gurutzea hemen:",
     "Ctrl": "Ctrl",

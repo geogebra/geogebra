@@ -1500,7 +1500,7 @@ __GGB__keysVar.tr.menu = {
     "CreateSlidersForA": "%0 i\xe7in s\xfcrg\xfc(ler) olu\u015ftur",
     "CreateTable": "Tablo Olu\u015ftur",
     "CreateTable.Help": "H\xfccreleri se\xe7in ve sonra ara\xe7 d\xfc\u011fmesine t\u0131klay\u0131n",
-    "CreateYourOwn": "GeoGebra Math Calculators",
+    "CreateYourOwn": "GeoGebra Classic",
     "CreatingAnimatedGIF": "Hareketli GIF olu\u015fturuluyor:",
     "CrossAt": "Kesi\u015ftir",
     "Ctrl": "Ctrl",

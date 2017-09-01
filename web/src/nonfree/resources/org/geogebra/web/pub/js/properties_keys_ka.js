@@ -3045,7 +3045,7 @@ __GGB__keysVar.ka.menu = {
     "insert_worksheet": "GeoGebra-\u10d8\u10e1 \u10d2\u10d5\u10d4\u10e0\u10d3\u10d8\u10e1 \u10e9\u10d0\u10e1\u10db\u10d0",
     "jpg": "JPG \u10e4\u10dd\u10e0\u10db\u10d0\u10e2\u10d8",
     "materials": "Materials",
-    "math_apps": "Math Apps",
+    "math_apps": "GeoGebra Classic",
     "max": "\u10db\u10d0\u10e5\u10e1\u10d8\u10db\u10e3\u10db\u10d8",
     "min": "\u10db\u10d8\u10dc\u10d8\u10db\u10e3\u10db\u10d8",
     "off": "\u10d2\u10d0\u10db\u10dd\u10e0\u10d7\u10d5\u10d0",
