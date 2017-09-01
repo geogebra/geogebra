@@ -75,6 +75,9 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/keyboard_open.png")
 	ImageResource keyboard_show();
 
+	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_keyboard_black_24px.svg")
+	SVGResource keyboard_show_material();
+
 	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
 	SassResource keyboardStyle();
 

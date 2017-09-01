@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ShowKeyboardButton extends SimplePanel {
 	
 	private Widget parent;
+	private AppW app;
 
 	// MathKeyboardListener mathKeyboardListener;
 
@@ -44,15 +45,19 @@ public class ShowKeyboardButton extends SimplePanel {
 	 */
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
 			final DockManagerW dm, Widget parent, final AppW app) {
-
+		this.app = app;
 		this.parent = parent;
-		this.addStyleName("openKeyboardButton");
-		NoDragImage showKeyboard = new NoDragImage(KeyboardResources.INSTANCE
+		this.addStyleName(app.isUnbundled() ? "matOpenKeyboardBtn"
+				: "openKeyboardButton");
+		NoDragImage showKeyboard = new NoDragImage(app.isUnbundled()
+				? KeyboardResources.INSTANCE.keyboard_show_material()
+						.getSafeUri().asString()
+				: KeyboardResources.INSTANCE
 		        .keyboard_show().getSafeUri().asString());
 		this.add(showKeyboard);
 
 		//TODO: app paramater used only for feature checking so this can be removed later
-		if (app!= null && app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			if (listener instanceof ComplexPanel){
 				((ComplexPanel)listener).add(this);
 			}
@@ -142,26 +147,20 @@ public class ShowKeyboardButton extends SimplePanel {
 	 * @param textField
 	 *            {@link Widget} to receive the text input
 	 */
-	public void show(boolean show, MathKeyboardListener textField,
-			boolean hasOneKeyboardButtonFeature) {
+	public void show(boolean show, MathKeyboardListener textField) {
 
-		if (show && (parent.isVisible() || hasOneKeyboardButtonFeature)) {
+		if (show && (parent.isVisible()
+				|| app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME))) {
 			setVisible(true);
 		} else {
 			setVisible(false);
 		}
 
 	}
-
-	public void show(boolean show, MathKeyboardListener textField) {
-		show(show, textField, false);
-	}
-
 	/**
 	 * Hide the button
 	 */
 	public void hide() {
 		setVisible(false);
 	}
-
 }

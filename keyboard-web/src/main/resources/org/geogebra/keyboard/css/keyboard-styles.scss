@@ -38,6 +38,25 @@ $purple-default: #6557D2;
 		text-align: center;
 	}
 
+	.matOpenKeyboardBtn {
+   		position: absolute;
+    	bottom: 8px;
+    	height: 22px;
+    	cursor: pointer;
+    	text-align: center;
+    	
+    	img {
+    		width: 36px;
+   			opacity: 0.54;
+    	}    
+	}
+
+	.matOpenKeyboardBtn:hover {
+		img {
+			opacity: 0.84;
+		}
+	}
+
 	.keyBoardClosePanel {
 		position: absolute;
 		top: 0;

@@ -512,8 +512,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				this.setKeyboardButton();
 			}
 			// showKeyboardButton.show(app.isKeyboardNeeded(), textField);
-			showKeyboardButton.show(app.isKeyboardNeeded(), textField,
-					app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME));
+			showKeyboardButton.show(app.isKeyboardNeeded(), textField);
 			if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 				showKeyboardButton.addStyleName("openKeyboardButton2");
 			}
