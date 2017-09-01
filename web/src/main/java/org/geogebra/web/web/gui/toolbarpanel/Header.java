@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
@@ -51,7 +52,7 @@ class Header extends FlowPanel {
 
 		@Override
 		public void setTitle(String title) {
-			if (app.has(Feature.TOOLTIP_DESIGN)) {
+			if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
 				getElement().removeAttribute("title");
 				getElement().setAttribute("data-title", title);
 			} else {

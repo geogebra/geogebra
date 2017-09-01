@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -36,7 +37,7 @@ public class MyToggleButton extends ToggleButton {
 
 	@Override
 	public void setTitle(String title) {
-		if (app.has(Feature.TOOLTIP_DESIGN)) {
+		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
 			getElement().removeAttribute("title");
 			if (!"".equals(title)) {
 				getElement().setAttribute("data-title", title);

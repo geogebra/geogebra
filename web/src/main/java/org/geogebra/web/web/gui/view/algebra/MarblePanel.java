@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
@@ -306,7 +307,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setTitle(String title) {
-		if (item.getApplication().has(Feature.TOOLTIP_DESIGN)) {
+		if (item.getApplication().has(Feature.TOOLTIP_DESIGN)
+				&& !Browser.isMobile()) {
 			getElement().removeAttribute("title");
 			getElement().setAttribute("data-title", title);
 		} else {

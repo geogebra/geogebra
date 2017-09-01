@@ -10,6 +10,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -378,7 +379,7 @@ public class AlgebraInputW extends FlowPanel
 				input.setError(msg);
 				input.getHelpToggle().getElement().setTitle(msg == null
 						? app2.getLocalization().getMenu("InputHelp") : msg);
-				if (app2.has(Feature.TOOLTIP_DESIGN)
+				if (app2.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()
 						&& input.getHelpToggle() instanceof MarblePanel) {
 					((MarblePanel) input.getHelpToggle())
 							.setTitle(msg == null ? app2.getLocalization()

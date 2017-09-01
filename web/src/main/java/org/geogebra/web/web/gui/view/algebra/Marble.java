@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.MaterialDesignResources;
 
@@ -38,7 +39,8 @@ public class Marble extends SimplePanel
 	 */
 	public Marble(final RadioTreeItem gc) {
 		this.gc = gc;
-		if (gc.getApplication().has(Feature.TOOLTIP_DESIGN)) {
+		if (gc.getApplication().has(Feature.TOOLTIP_DESIGN)
+				&& !Browser.isMobile()) {
 			this.getElement().removeAttribute("title");
 		}
 		if (gc.isTextItem()) {

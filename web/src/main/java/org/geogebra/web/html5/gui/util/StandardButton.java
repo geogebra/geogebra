@@ -2,6 +2,7 @@ package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastButton;
 
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -153,7 +154,7 @@ public class StandardButton extends FastButton {
 
 	@Override
 	public void setTitle(String title) {
-		if (app.has(Feature.TOOLTIP_DESIGN)) {
+		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
 			getElement().removeAttribute("title");
 			getElement().setAttribute("data-title", title);
 		} else {
