@@ -3971,6 +3971,11 @@ public abstract class App implements UpdateSelection {
 		case AND_COMPACT_AV_OUTPUT:
 			return isNativeMobileAppWithNewUI();
 
+		// AND-364
+		case MOB_EV_SETTINGS_POPUP:
+			return false;
+
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
@@ -4325,9 +4330,6 @@ public abstract class App implements UpdateSelection {
 
 		case GEO_AV_DESCRIPTION:
 			return relaunch;
-
-		case AND_EV_SETTINGS_POPUP:
-			return false;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

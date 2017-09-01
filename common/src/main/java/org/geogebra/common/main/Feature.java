@@ -311,6 +311,6 @@ public enum Feature {
 	/**
 	 * AND-364
 	 */
-	AND_EV_SETTINGS_POPUP
+	MOB_EV_SETTINGS_POPUP
 
 }
