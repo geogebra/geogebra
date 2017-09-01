@@ -179,7 +179,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		Log.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
 		        ZeroOffset.instance);
-		event.setIsRightClick(true);
+		if (!app.isUnbundled()) {
+			event.setIsRightClick(true);
+		}
 		ec.wrapMouseReleased(event);
 	}
 
