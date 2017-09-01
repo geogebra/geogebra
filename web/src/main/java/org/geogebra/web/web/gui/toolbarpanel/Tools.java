@@ -15,6 +15,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.ToolbarSvgResources;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -647,7 +648,10 @@ public class Tools extends FlowPanel {
 				@Override
 				public void onClick(Widget source) {
 					app.setMode(mode);
-					if (!Browser.isMobile()) {
+					boolean isIpad = Window.Navigator.getUserAgent()
+							.toLowerCase().contains("ipad");
+					// allow tooltips for iPad
+					if (!Browser.isMobile() || isIpad) {
 						ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 						ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 							app.getToolTooltipHTML(mode),
