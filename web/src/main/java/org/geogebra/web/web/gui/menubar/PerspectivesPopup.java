@@ -5,6 +5,8 @@ import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -19,6 +21,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
@@ -105,18 +108,28 @@ public class PerspectivesPopup {
 			separator.addStyleName("separatorDiv");
 
 			// creating play store icon
-
-			Anchor link_playstore = new Anchor(
-					app.getLocalization().getMenu("Download"),
+			SVGResource res = GuiResources.INSTANCE.get_app();
+			ndebug(res);
+			
+			NoDragImage ndg = new NoDragImage(res.getSafeUri().asString(), 24);
+			ndg.addStyleName("downloadimg");
+			Anchor link = new Anchor("",
 					"https://www.geogebra.org/download");
-			link_playstore.addStyleName("linkDownload");
-			link_playstore.setTarget("_blank");
+			link.addStyleName("linkDownload");
+			link.setTarget("_blank");
+			link.getElement().appendChild(ndg.getElement());
+			InlineLabel linktext = new InlineLabel(
+					app.getLocalization().getMenu("Download"));
+			linktext.addStyleName("downloadlink");
+			link.getElement().appendChild(
+					linktext
+							.getElement());
 
 			// holder panel
 			FlowPanel holderPanel = new FlowPanel();
 			holderPanel.addStyleName("storeIconHolder");
 			holderPanel.add(separator); // separator
-			holderPanel.add(link_playstore);
+			holderPanel.add(link);
 			contentPanel.add(holderPanel);
 
 		}
@@ -125,6 +138,11 @@ public class PerspectivesPopup {
 				.setText(app.getLocalization().getMenu("CreateYourOwn"));
 
 	}
+
+	private native void ndebug(Object res) /*-{
+		$wnd.console.log(res);
+
+	}-*/;
 
 	private void addPerspective(int i, ResourcePrototype icon) {
 		if (Layout.getDefaultPerspectives(i) == null) {

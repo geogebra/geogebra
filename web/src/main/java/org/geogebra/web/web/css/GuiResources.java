@@ -14,6 +14,8 @@ public interface GuiResources extends ClientBundle {
 
 	GuiResources INSTANCE = GWT.create(GuiResources.class);
 
+	@Source("org/geogebra/common/icons/svg/web/ic_get_app_black_24px.svg")
+	SVGResource get_app();
 	@Source("org/geogebra/common/icons/png/web/algebra-view-tree-open.png")
 	ImageResource algebra_tree_open();
 
@@ -444,12 +446,6 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/spreadsheet.scss")
 	SassResource spreadsheetStyle();
-
-	@Source("org/geogebra/common/icons/svg/web/app_store.svg")
-	SVGResource app_store();
-
-	@Source("org/geogebra/common/icons/png/google-play-badge.png")
-	ImageResource google_play_badge();
 
 	@Source("org/geogebra/web/resources/scss/open-screen.scss")
 	SassResource openScreenStyle();
