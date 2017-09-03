@@ -105,6 +105,46 @@ public final class MyMath {
 	}
 
 	/**
+	 * need some leeway to make sure asin(0.8^2 / sqrt(0.8^4)) works
+	 */
+	final public static double asin(double a) {
+
+		if (a > 1) {
+			if (Kernel.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
+				return Math.asin(1);
+			}
+		}
+
+		if (a < -1) {
+			if (Kernel.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
+				return Math.asin(-1);
+			}
+		}
+
+		return Math.asin(a);
+	}
+
+	/**
+	 * need some leeway to make sure acos(0.8^2 / sqrt(0.8^4)) works
+	 */
+	final public static double acos(double a) {
+
+		if (a > 1) {
+			if (Kernel.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
+				return Math.acos(1);
+			}
+		}
+
+		if (a < -1) {
+			if (Kernel.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
+				return Math.acos(-1);
+			}
+		}
+
+		return Math.acos(a);
+	}
+
+	/**
 	 * 
 	 * coth(0) should return undefined not inf
 	 * 

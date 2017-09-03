@@ -486,7 +486,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public MyDouble acos(boolean deg) {
 		angleDim = deg ? 1 : 0;
-		set(Math.acos(val));
+		set(MyMath.acos(val));
 		return this;
 	}
 
@@ -497,7 +497,7 @@ public class MyDouble extends ValidExpression
 	 */
 	final public MyDouble asin(boolean deg) {
 		angleDim = deg ? 1 : 0;
-		set(Math.asin(val));
+		set(MyMath.asin(val));
 		return this;
 	}
 
