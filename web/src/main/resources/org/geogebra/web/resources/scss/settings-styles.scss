@@ -8,11 +8,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			position: absolute;
 			top: 0px;
 			right: 0px;
-			/*left: 6px;*/
-			/*padding: 8px 0px 8px 0px;*/
 			box-shadow: 0 0 16px $black-28;
 			background-color: $white;
-			/*border-radius: 2px;*/
 			z-index:  100000;;
 			height: 100%;
 			width: 500px;
@@ -20,6 +17,13 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		
     		.closeButtonPanel { 
     			float: right;
+    			padding: 8px;
+    			height: 24px;
+    			opacity: 0.54;
+    			
+    			&:hover {
+    				opacity: 1;	
+    			}
     		}
     		
     		.MyCanvasButton.settingsBtn {
@@ -40,6 +44,25 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		
     			&:hover {
     				border-color: #ccf;
+    			}
+    		}
+    	
+    		.propertiesStyleBar {
+    			overflow: visible;
+    			top: 40px;
+    			    
+    			.menuProperties {
+    				position: relative;
+    				width: 40px;
+   					right: 6px;
+    				
+    				.gwt-MenuItem{
+    					padding: 0px;
+    					
+    					img {
+    						padding: 8px;	
+    					}
+    				}	
     			}
     		}
     }

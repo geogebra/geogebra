@@ -15,6 +15,7 @@ import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.core.shared.GWT;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -202,7 +203,12 @@ public class PropertiesStyleBarW extends
 		case SPREADSHEET:
 			ImgResourceHelper.setIcon(pr.menu_icon_spreadsheet24(), btn);
 		case EUCLIDIAN:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics24(), btn);
+			ImgResourceHelper.setIcon(app.isUnbundled()? new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE
+									.geometry().getSafeUri(),
+							0, 0, 24, 24, false, false)
+							: pr.menu_icon_graphics24(),
+					btn);
 		case EUCLIDIAN2:
 			ImgResourceHelper.setIcon(pr.menu_icon_graphics224(), btn);
 		case EUCLIDIAN_FOR_PLANE:
@@ -214,7 +220,14 @@ public class PropertiesStyleBarW extends
 			ImgResourceHelper.setIcon(pr.menu_icon_cas24(), btn);
 		case ALGEBRA:
 			ImgResourceHelper
-					.setIcon(AppResources.INSTANCE.options_algebra24(), btn);
+					.setIcon(
+							app.isUnbundled()
+									? new ImageResourcePrototype(null,
+											MaterialDesignResources.INSTANCE
+													.graphing().getSafeUri(),
+											0, 0, 24, 24, false, false)
+									: AppResources.INSTANCE.options_algebra24(),
+							btn);
 		case OBJECTS:
 			//AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
 			ImgResourceHelper.setIcon(GuiResources.INSTANCE.properties_object(), btn);
@@ -239,7 +252,12 @@ public class PropertiesStyleBarW extends
 		case SPREADSHEET:
 			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet24());
 		case EUCLIDIAN:
-			return ImgResourceHelper.safeURI(pr.menu_icon_graphics24());
+			return app.isUnbundled()
+					? new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.geometry()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false).getURL()
+					: ImgResourceHelper.safeURI(pr.menu_icon_graphics24());
 			//return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
 			return ImgResourceHelper.safeURI(pr.menu_icon_graphics224());
@@ -247,7 +265,12 @@ public class PropertiesStyleBarW extends
 		case CAS:
 			return ImgResourceHelper.safeURI(pr.menu_icon_cas24());
 		case ALGEBRA:
-			return AppResources.INSTANCE.options_algebra24().getSafeUri()
+			return  app.isUnbundled()
+					? new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.graphing()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false).getURL()
+					: AppResources.INSTANCE.options_algebra24().getSafeUri()
 					.asString();
 		case OBJECTS:
 			//return AppResources.INSTANCE.options_objects24().getSafeUri().asString();

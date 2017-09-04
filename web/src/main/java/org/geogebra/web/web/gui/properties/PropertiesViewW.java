@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -27,6 +28,7 @@ import org.geogebra.web.web.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
 
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -126,7 +128,12 @@ public class PropertiesViewW extends PropertiesView
 		if (!app.has(Feature.FLOATING_SETTINGS)) {
 			return;
 		}
-		closeButton = new StandardButton(GuiResources.INSTANCE.dockbar_close(),
+		closeButton = new StandardButton(app.isUnbundled()
+				? new ImageResourcePrototype(null,
+						KeyboardResources.INSTANCE.keyboard_close_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)
+				: GuiResources.INSTANCE.dockbar_close(),
 				app);
 		closeButton.addFastClickHandler(new FastClickHandler() {
 			
@@ -570,14 +577,16 @@ public class PropertiesViewW extends PropertiesView
     @Override
 	public void onResize() {
     	//-34px for width of stylebar
-    	int width = getWrappedPanel().getOffsetWidth() - 37;
+		int width = getWrappedPanel().getOffsetWidth()
+				- (app.isUnbundled() ? 40 : 37);
     	int height = getWrappedPanel().getOffsetHeight();
     	//contentsPanel.setHeight(getWrappedPanel().getOffsetHeight() + "px");
     	
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
-    		
-
+		} else if (app.isUnbundled() && width == -40
+				&& getWrappedPanel() != null) {
+			contentsPanel.setWidth("460px");
     	}
     }
     
