@@ -5282,7 +5282,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	protected boolean needsZoomerForStandardRatio() {
-		return getScaleRatio() != 1.0;
+		return Math.abs(getScaleRatio() - 1.0) > 0.001;
 	}
 
 	/**
