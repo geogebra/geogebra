@@ -109,7 +109,6 @@ public class PerspectivesPopup {
 
 			// creating play store icon
 			SVGResource res = GuiResources.INSTANCE.get_app();
-			ndebug(res);
 			
 			NoDragImage ndg = new NoDragImage(res.getSafeUri().asString(), 24);
 			ndg.addStyleName("downloadimg");
@@ -138,11 +137,6 @@ public class PerspectivesPopup {
 				.setText(app.getLocalization().getMenu("CreateYourOwn"));
 
 	}
-
-	private native void ndebug(Object res) /*-{
-		$wnd.console.log(res);
-
-	}-*/;
 
 	private void addPerspective(int i, ResourcePrototype icon) {
 		if (Layout.getDefaultPerspectives(i) == null) {

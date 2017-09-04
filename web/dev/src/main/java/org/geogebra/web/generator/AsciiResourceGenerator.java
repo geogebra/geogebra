@@ -100,8 +100,20 @@ public abstract class AsciiResourceGenerator extends AbstractResourceGenerator {
 		return sw.toString();
 	}
 
+	/**
+	 * @return class name of generated resource
+	 */
 	protected abstract String getClassName();
 
+	/**
+	 * @param css
+	 *            scss / less
+	 * @param inputFile
+	 *            file URL
+	 * @return processed CSS
+	 * @throws Exception
+	 *             for invalid SCSS
+	 */
 	protected abstract String process(String css, URL inputFile)
 			throws Exception;
 }
