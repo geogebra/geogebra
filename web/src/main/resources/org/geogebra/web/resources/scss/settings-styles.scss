@@ -15,6 +15,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: 500px;
     		overflow-y: auto;	
     		
+    		select:focus,select:hover {
+    			border: 1px $purple-default solid;
+    		}
+    		
     		.closeButtonPanel { 
     			float: right;
     			padding: 8px;
@@ -34,7 +38,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			border: 1px solid #dcdcdc;
     			margin-top: 8px;
     			margin-right: 16px;
-    			border-radius: 5px;
+    			border-radius: 2px;
     			line-height: 24px;
     			cursor: pointer;
     			
@@ -43,13 +47,17 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			}
     		
     			&:hover {
-    				border-color: #ccf;
+    				border-color: $purple-default;
     			}
     		}
     	
     		.propertiesStyleBar {
     			overflow: visible;
     			top: 40px;
+    			
+    			.selected,.gwt-MenuItem.selected:hover {
+    				background-image: -webkit-linear-gradient(right,#dcdcdc,#f8f8f8);
+    			}
     			    
     			.menuProperties {
     				position: relative;
@@ -64,6 +72,32 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					}
     				}	
     			}
+    		}
+    	
+    		.propertiesTabPanel {
+    			
+    			.gwt-TabBar .gwt-TabBarItem-selected {
+    				cursor: default;
+    				background: white;
+    				color: $purple-default;
+    				border-bottom: 1px solid white;
+				}
+    			
+    			.propGlobalTab {
+    				overflow: auto;
+    				padding-right: 8px;
+    				padding-left: 16px;
+    				box-sizing: border-box;	
+    				
+    				.panelRowIndent {
+    					padding-left: 0px;	
+    					
+    					.gwt-ListBox {
+    						border-radius: 2px;	
+    						box-shadow: none;
+    					}
+    				}
+    			}	
     		}
     }
 	
