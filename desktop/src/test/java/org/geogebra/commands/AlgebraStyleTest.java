@@ -50,6 +50,8 @@ public class AlgebraStyleTest extends Assert {
 	@Before
 	public void resetSyntaxes(){
 		app.getKernel().clearConstruction(true);
+		app.getKernel()
+				.setAlgebraStyle(Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE);
 	}
 	
 	@BeforeClass
