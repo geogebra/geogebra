@@ -1315,25 +1315,25 @@ public abstract class EuclidianController {
 	}
 
 	public GeoPointND createNewPoint2D(String label, boolean forPreviewable,
-			Path path, double x, double y, boolean complex, boolean coords2D) {
+			Path path, double x, double y, boolean complexPoint, boolean coords2D) {
 		checkZooming(forPreviewable);
 
 		return getAlgoDispatcher().Point(label, path, x, y, !forPreviewable,
-				complex, coords2D);
+				complexPoint, coords2D);
 	}
 
 	final protected GeoPointND createNewPoint2D(String label,
 			boolean forPreviewable, Region region, double x, double y,
-			boolean complex, boolean coords2D) {
+			boolean complexPoint, boolean coords2D) {
 		checkZooming(forPreviewable);
 
 		GeoPointND ret = getAlgoDispatcher().PointIn(label, region, x, y,
-				!forPreviewable, complex, coords2D);
+				!forPreviewable, complexPoint, coords2D);
 		return ret;
 	}
 
 	final public GeoPointND createNewPoint(String label, boolean forPreviewable,
-			Region region, double x, double y, double z, boolean complex,
+			Region region, double x, double y, double z, boolean complexPoint,
 			boolean coords2D) {
 
 		if (region.toGeoElement().isGeoElement3D()) {
@@ -1351,7 +1351,7 @@ public abstract class EuclidianController {
 
 			return point;
 		}
-		return createNewPoint2D(label, forPreviewable, region, x, y, complex,
+		return createNewPoint2D(label, forPreviewable, region, x, y, complexPoint,
 				coords2D);
 	}
 
@@ -5080,7 +5080,7 @@ public abstract class EuclidianController {
 
 	public final GeoPointND updateNewPoint(boolean forPreviewable, Hits hits,
 			boolean onPathPossible, boolean inRegionPossible,
-			boolean intersectPossible, boolean chooseGeo, boolean complex) {
+			boolean intersectPossible, boolean chooseGeo, boolean complexPoint) {
 
 		// App.printStacktrace("\n"+hits);
 
@@ -5286,12 +5286,12 @@ public abstract class EuclidianController {
 			transformCoords(); // use point capturing if on
 			// branches reordered to prefer path, and then region
 			if ((path != null) && onPathPossible) {
-				point = companion.createNewPoint(forPreviewable, path, complex);
+				point = companion.createNewPoint(forPreviewable, path, complexPoint);
 			} else if ((region != null) && inRegionPossible) {
 				point = companion.createNewPoint(forPreviewable, region,
-						complex);
+						complexPoint);
 			} else {
-				point = companion.createNewPoint(forPreviewable, complex);
+				point = companion.createNewPoint(forPreviewable, complexPoint);
 				view.setShowMouseCoords(true);
 			}
 		}
@@ -5307,15 +5307,15 @@ public abstract class EuclidianController {
 
 	protected GeoPointND getNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
-			boolean complex) {
+			boolean complexPoint) {
 
 		return updateNewPoint(false, hits, onPathPossible, inRegionPossible,
-				intersectPossible, true, complex);
+				intersectPossible, true, complexPoint);
 	}
 
 	protected boolean createNewPointND(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex) {
+			boolean doSingleHighlighting, boolean complexPoint) {
 
 		pointCreated = null;
 
@@ -5324,7 +5324,7 @@ public abstract class EuclidianController {
 		}
 
 		GeoPointND point = getNewPoint(hits, onPathPossible, inRegionPossible,
-				intersectPossible, complex);
+				intersectPossible, complexPoint);
 
 		if (point != null) {
 			pointCreated = point;
@@ -8963,7 +8963,7 @@ public abstract class EuclidianController {
 		// 3D only
 	}
 
-	protected void createNewPointForModePoint(Hits hits, boolean complex) {
+	protected void createNewPointForModePoint(Hits hits, boolean complexPoint) {
 		if ((mode == EuclidianConstants.MODE_POINT)
 				|| (mode == EuclidianConstants.MODE_COMPLEX_NUMBER)) {// remove
 			// polygons
@@ -8979,10 +8979,10 @@ public abstract class EuclidianController {
 			// v3.2
 			hits.removeAllPolygons();
 			hits.removeConicsHittedOnFilling();
-			createNewPoint(hits, true, false, true, true, complex);
+			createNewPoint(hits, true, false, true, true, complexPoint);
 		} else {// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in
 			// a region
-			createNewPoint(hits, true, true, true, true, complex);
+			createNewPoint(hits, true, true, true, true, complexPoint);
 		}
 	}
 
@@ -9954,10 +9954,10 @@ public abstract class EuclidianController {
 
 	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
 			boolean inRegionPossible, boolean intersectPossible,
-			boolean doSingleHighlighting, boolean complex) {
+			boolean doSingleHighlighting, boolean complexPoint) {
 		boolean newPointCreated = createNewPointND(hits, onPathPossible,
 				inRegionPossible, intersectPossible, doSingleHighlighting,
-				complex);
+				complexPoint);
 
 		GeoElement point = this.view.getHits().getFirstHit(Test.GEOPOINT);
 		if (point != null && !newPointCreated && this.selPoints() == 1
