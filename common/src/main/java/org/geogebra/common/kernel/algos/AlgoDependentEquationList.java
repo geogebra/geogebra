@@ -121,6 +121,8 @@ public class AlgoDependentEquationList extends AlgoElement
 		for (int i = 0; i < evalListSize; i++) {
 			Equation eq = new Equation(kernel, get(leftList, i),
 					get(rightList, i));
+			eq.setLHS(AlgoDependentFunction
+					.expandFunctionDerivativeNodes(eq.getLHS(), true).wrap());
 
 			GeoElement element = kernel.getAlgebraProcessor()
 					.processEquation(eq, eq.wrap(), true)[0];
@@ -132,7 +134,7 @@ public class AlgoDependentEquationList extends AlgoElement
 		kernel.getConstruction().setSuppressLabelCreation(oldFlag);
 	}
 
-	private ExpressionValue listOrValue(ExpressionNode lhs2) {
+	private static ExpressionValue listOrValue(ExpressionNode lhs2) {
 		ExpressionValue evlist = lhs2.evaluate(StringTemplate.defaultTemplate);
 		if (evlist instanceof MyList) {
 			return evlist;
