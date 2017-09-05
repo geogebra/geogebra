@@ -31,24 +31,45 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		}
     		
     		.MyCanvasButton.settingsBtn {
-    			height: 24px !important;
-    			width: 180px !important;
-    			padding: 4px;
+    			height: 36px !important;
+    			width: 136px !important;
+    			padding: 0px 16px;
     			text-align: center;
-    			border: 1px solid #dcdcdc;
-    			margin-top: 8px;
+    			font-size: 14px;
+    			text-transform: uppercase;
+    			border: none;
+    			margin-top: 16px;
     			margin-right: 16px;
     			border-radius: 2px;
-    			line-height: 24px;
+    			line-height: 36px;
     			cursor: pointer;
+    			box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    			transition: box-shadow 0.3s ease-out;
     			
     			.html-face {
-    				height: 24px;	
+    				pointer: default;
+    				height: 36px;	
     			}
     		
     			&:hover {
-    				border-color: $purple-default;
+    				box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+    				border-color: $teal-default;
     			}
+    		}
+    	
+    		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
+    			margin-right: 4px;
+   				padding: 8px;
+    			height: 36px;
+    			cursor: pointer;
+    			font-size: 16px;
+    			cursor: hand;
+    			font-weight: normal;
+    			text-align: center;
+   				background: $white;
+    			border-radius: 3px 3px 0 0;
+    			border: 1px solid $tool-border;
+    			box-sizing: border-box;
     		}
     	
     		.propertiesStyleBar {
@@ -75,12 +96,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		}
     	
     		.propertiesTabPanel {
+    			.gwt-TabBar {
+    				cursor: pointer;	
+    			}
     			
     			.gwt-TabBar .gwt-TabBarItem-selected {
     				cursor: default;
     				background: white;
-    				color: $purple-default;
+    				color: $teal-default;
     				border-bottom: 1px solid white;
+				}
+			
+				.panelRowIndent .gwt-Label {
+					cursor: default;
+					font-size: 14px;
 				}
     			
     			.propGlobalTab {
@@ -93,8 +122,18 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					padding-left: 0px;	
     					
     					.gwt-ListBox {
-    						border-radius: 2px;	
+    						cursor: pointer;
+    						border-radius: 0px;	
     						box-shadow: none;
+    						border: none;
+    						border-bottom: 1px solid $tool-border;
+    					    padding: 8px;
+    					    font-size: 14px;
+    					    transition: border-bottom 0.3s ease-out;
+    					    
+    					    &:hover {
+    					    	border-bottom: 1px solid $teal-default !important;
+    					    }
     					}
     				}
     			}	
