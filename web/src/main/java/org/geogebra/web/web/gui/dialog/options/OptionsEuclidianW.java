@@ -380,7 +380,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			}
 			
 			axesStylePopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-			        org.geogebra.common.gui.util.SelectionTable.MODE_ICON) {
+					org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
+					true) {
 				@Override
 				public void handlePopupActionEvent(){
 					int idx = getSelectedIndex();
@@ -703,7 +704,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbOpenConsProtocol
 					.setText(loc.getMenu("ConstructionProtocolButton"));
 			
-			lblAxisLabelStyle.setText(loc.getMenu("LabelStyle"));
+			lblAxisLabelStyle.setText(loc.getMenu("LabelStyle") + ":");
 			cbAxisLabelSerif.setText(loc.getMenu("Serif"));
 			cbAxisLabelBold.setText(loc.getMenu("Bold"));
 			cbAxisLabelItalic.setText(loc.getMenu("Italic"));

@@ -157,7 +157,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		}
 
 		viewButton = new PopupMenuButtonW(app, data, k, 1,
-		        org.geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+				org.geogebra.common.gui.util.SelectionTable.MODE_TEXT, false);
 		viewButton.addStyleDependentName("borderless");
 		viewButton.addStyleDependentName("rightaligned");
 		ImageOrText views = new ImageOrText();

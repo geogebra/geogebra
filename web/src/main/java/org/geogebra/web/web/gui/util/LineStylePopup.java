@@ -55,7 +55,7 @@ public class LineStylePopup extends PopupMenuButtonW  {
 			boolean hasTable, boolean hasSlider,
 			HashMap<Integer, Integer> lineStyleMap0) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider,
-				lineStyleMap0);
+				lineStyleMap0, false);
 
 	}
 

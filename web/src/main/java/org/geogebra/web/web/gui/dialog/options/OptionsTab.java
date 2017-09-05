@@ -542,7 +542,7 @@ public class OptionsTab extends FlowPanel {
 				iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
 			}
 			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-					SelectionTable.MODE_ICON) {
+					SelectionTable.MODE_ICON, false) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -613,7 +613,7 @@ public class OptionsTab extends FlowPanel {
 				iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
 			}
 			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-					SelectionTable.MODE_ICON) {
+					SelectionTable.MODE_ICON, false) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();

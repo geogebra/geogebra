@@ -25,7 +25,7 @@ public class AxesAndPlanePopup extends PopupMenuButtonW {
 	 */
 	public AxesAndPlanePopup(AppW app, ImageOrText[] data, EuclidianView3D ev) {
 		super(app, data, -1, data.length, SelectionTable.MODE_ICON, true,
-				false, null);
+				false, null, false);
 		this.ev = ev;
 		defaultIcon = data.length > 1 ? data[1] : null;
 

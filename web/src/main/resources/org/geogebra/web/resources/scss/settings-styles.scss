@@ -146,13 +146,50 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				padding-left: 16px;
     				box-sizing: border-box;	
     				
+    				.panelIndent {
+    					padding-left: 25px;	
+    				}
+    			
+    				.gwt-CheckBox, .checkBoxPanel {
+    					input[type="checkbox"] { 
+    						cursor: pointer;		
+    					}
+    					
+    					label {
+    						cursor: default;
+    						font-size: 14px;
+    						margin-left: 8px;
+    						margin-right: 16px;
+    					}
+    				}
+    			
+    				.MyCanvasButton {
+    					border-radius: 2px;
+    					transition: border 0.3s ease-out;
+    					
+    					&:hover {
+    						border: 1px solid $teal-default;	
+    					}
+    						
+    				}
+    			
+    				.checkBoxPanel-disabled {
+    					opacity: 0.42;
+    					color: initial;
+    					
+    					input[type="checkbox"] { 
+    						cursor: default;		
+    					}
+    				}	
+    				
     				.panelRowIndent, 
     				  .panelRow {
     					padding-left: 0px;	
     					
     					.gwt-ToggleButton {
     						cursor: pointer; 
-    						padding: 8px;
+    						padding: 4px;
+    						margin: 0px;
     						img {
     							opacity: 0.54;	
     						}	
@@ -163,7 +200,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     							}
     						}
     					}
-    					
+    				
     					input[type="text"].gwt-SuggestBox  {
     						width: 100%;
     						font-size: 14px;
@@ -182,7 +219,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					
     						&:disabled {
     							background-color: $transparent;
-    							opacity: 0.54;
+    							opacity: 0.42;
     							
     							&:hover {
     								border-bottom: 1px solid $tool-border;	

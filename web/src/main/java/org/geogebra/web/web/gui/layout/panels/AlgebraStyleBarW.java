@@ -179,7 +179,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		ImageOrText[] strTreeMode = getTreeModeStr();
 		if(treeModeButton == null){
 			treeModeButton = new PopupMenuButtonW(app, strTreeMode,
-					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
+					strTreeMode.length, 1, SelectionTable.MODE_TEXT, false);
 	
 			ImageOrText icon = new ImageOrText(
 					StyleBarResources.INSTANCE.sortObjects());
@@ -213,7 +213,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		ImageOrText[] strTreeMode = getDescriptionModes();
 		if (descriptionButton == null) {
 			descriptionButton = new PopupMenuButtonW(app, strTreeMode,
-					strTreeMode.length, 1, SelectionTable.MODE_TEXT);
+					strTreeMode.length, 1, SelectionTable.MODE_TEXT, false);
 
 			ImageOrText icon = new ImageOrText(
 					StyleBarResources.INSTANCE.description());

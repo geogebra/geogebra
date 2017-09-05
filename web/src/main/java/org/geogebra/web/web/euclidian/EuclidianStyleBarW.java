@@ -842,7 +842,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-					SelectionTable.MODE_ICON, true, false, null);
+					SelectionTable.MODE_ICON, true, false, null, false);
 		}
 
 		@Override
@@ -931,7 +931,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				loc.getMenu("FixedToGrid"), loc.getMenu("off") });
 
 		btnPointCapture = new PopupMenuButtonW(app, strPointCapturing, -1, 1,
-				SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT, false) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -972,7 +972,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        });
 
 		btnLabelStyle = new PopupMenuButtonW(app, captionArray, -1, 1,
-				SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT, false) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1013,7 +1013,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        .convert(angleIntervalString);
 
 		btnAngleInterval = new PopupMenuButtonW(app, angleIntervalArray, -1, 1,
-				SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT, false) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1608,7 +1608,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		        .getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButtonW(app, textSizeArray, -1, 1,
-				SelectionTable.MODE_TEXT) {
+				SelectionTable.MODE_TEXT, false) {
 
 			@Override
 			public void update(Object[] geos) {

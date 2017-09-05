@@ -48,7 +48,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 
 		super(app, createDummyIcons(app.isUnbundled() ? 8 : 10), -1,
 				app.isUnbundled() ? 4 : 5,
-				SelectionTable.MODE_ICON);
+				SelectionTable.MODE_ICON, false);
 		this.app = app;
 		this.colorSetType = colorSetType;
 		this.hasSlider = hasSlider;

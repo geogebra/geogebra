@@ -76,10 +76,12 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code Integer}
 	 * @param mode
 	 *            {@link SelectionTableW}
+	 * @param isBorderTeal
+	 *            - true if the border should be teal
 	 */
 	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
-			Integer columns, SelectionTable mode) {
-		this(app, data, rows, columns, mode, true, false, null);
+			Integer columns, SelectionTable mode, boolean isBorderTeal) {
+		this(app, data, rows, columns, mode, true, false, null, isBorderTeal);
 	}
 
 	/**
@@ -99,12 +101,14 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            {@code boolean}
 	 * @param lineStyleMap0
 	 *            maps item index to line style
+	 * @param isBorderTeal
+	 *            - true if the border should be teal
 	 */
 	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
-			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0) {
+			boolean hasSlider, HashMap<Integer, Integer> lineStyleMap0, boolean isBorderTeal) {
 		this(app, data, rows, columns, mode, hasTable, hasSlider, null,
-				lineStyleMap0);
+				lineStyleMap0, isBorderTeal);
 	}
 
 	
@@ -127,11 +131,14 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            which items are selected
 	 * @param lineStyleMap0
 	 *            maps item index to line style
+	 * @param isBorderTeal
+	 *            - true if the border should be teal
 	 */
 	public PopupMenuButtonW(App app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode, final boolean hasTable,
 			boolean hasSlider, boolean[] selected,
-			HashMap<Integer, Integer> lineStyleMap0) {
+			HashMap<Integer, Integer> lineStyleMap0,
+			final boolean isBorderTeal) {
 		super(app);
 		this.app = (AppW) app;
 		this.hasTable = hasTable;
@@ -159,7 +166,7 @@ public class PopupMenuButtonW extends MyCJButton
 				if (!PopupMenuButtonW.this.isEnabled()) {
 					return;
 				}
-				handleClick();
+				handleClick(isBorderTeal);
 
 			}
 		});
@@ -167,7 +174,8 @@ public class PopupMenuButtonW extends MyCJButton
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				getElement().getStyle().setBorderColor("#6557D2");
+				getElement().getStyle()
+						.setBorderColor(isBorderTeal ? "#00A8A8" : "#6557D2");
 			}
 		});
 		this.addMouseOutHandler(new MouseOutHandler() {
@@ -178,7 +186,8 @@ public class PopupMenuButtonW extends MyCJButton
 						&& EuclidianStyleBarW.getCurrentPopup() != null
 						&& getMyPopup().equals(
 								EuclidianStyleBarW.getCurrentPopup())) {
-					getElement().getStyle().setBorderColor("#6557D2");
+					getElement().getStyle().setBorderColor(
+							isBorderTeal ? "#00A8A8" : "#6557D2");
 				} else {
 					getElement().getStyle().setBorderColor("#dcdcdc");
 				}
@@ -237,8 +246,11 @@ public class PopupMenuButtonW extends MyCJButton
 
 	/**
 	 * handle click on {@link PopupMenuButtonW this button}
+	 * 
+	 * @param isBorderTeal
+	 *            - true if the border should be teal
 	 */
-	void handleClick() {
+	void handleClick(boolean isBorderTeal) {
 		onClickAction();
 		if (EuclidianStyleBarW.getCurrentPopup() != myPopup) {
 			if (EuclidianStyleBarW.getCurrentPopup() != null) {
@@ -252,7 +264,7 @@ public class PopupMenuButtonW extends MyCJButton
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
 			EuclidianStyleBarW.setCurrentPopupButton(this);
 			this.getElement().getStyle()
-					.setBorderColor("#6557D2");
+					.setBorderColor(isBorderTeal ? "#00A8A8" : "#6557D2");
 			app.registerPopup(myPopup);
 			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());
