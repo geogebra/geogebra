@@ -43,11 +43,17 @@ public class SolutionStep {
 	}
 
 	public String getColored() {
-		return type.getColoredText(loc, color, parameters);
+		return type.getDetailedText(loc, color, parameters);
 	}
 
 	public void getListOfSteps(StepGuiBuilder builder) {
 		if (type == SolutionStepType.WRAPPER) {
+			for (int i = 0; i < substeps.size(); i++) {
+				(substeps.get(i)).getListOfSteps(builder);
+			}
+		} else if (type == SolutionStepType.SUBSTEP_WRAPPER) {
+			builder.addLatexRow(getColored());
+
 			for (int i = 0; i < substeps.size(); i++) {
 				(substeps.get(i)).getListOfSteps(builder);
 			}

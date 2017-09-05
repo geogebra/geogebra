@@ -40,7 +40,7 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public String getColoredText(Localization loc, int color, StepNode[] parameters) {
+		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
 			StringBuilder serializedColored = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
@@ -68,7 +68,17 @@ public enum SolutionStepType {
 
 	CUBE_ROOT("TakeCubeRoot", "Take cube root of both sides"),
 
-	NTH_ROOT("TakeNthRoot", "Take %0th root of both sides"),
+	NTH_ROOT("TakeNthRoot", "Take %0 root of both sides") {
+		@Override
+		public String getDefaultText(Localization loc, StepNode[] parameters) {
+			return loc.getMenuLaTeX(getKey(), getDefault(), loc.getOrdinalNumber((int) parameters[0].getValue()));
+		}
+
+		@Override
+		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
+			return loc.getMenuLaTeX(getKey(), getDefault(), loc.getOrdinalNumber((int) parameters[0].getValue()));
+		}
+	},
 
 	SQUARE_BOTH_SIDES("SquareBothSides", "Square both sides"),
 
@@ -82,6 +92,8 @@ public enum SolutionStepType {
 
 	FACTOR_EQUATION("FactorEquation", "Factor equation"),
 	
+	INVERT_BOTH_SIDES("InvertBothSides", "Invert both sides"),
+
 	USE_QUADRATIC_FORMULA("UseQuadraticFormulaWithABC", "Use quadratic formula with a = %0, b = %1, c = %2"),
 
 	QUADRATIC_FORMULA("QuadraticFormula", "%0 = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}"),
@@ -115,6 +127,8 @@ public enum SolutionStepType {
 
 	RATIONALIZE_DENOMINATOR("RationalizeDenominator", "Rationalize the denominator."),
 
+	MULTIPLY_NUM_DENOM("MultiplyNumeratorAndDenominator", "Mutiply the numerator and denominator by %0"),
+
 	DISTRIBUTE_ROOT_FRAC("DistributeRootOverFraction", "Distribute the root over the fraction"),
 
 	DISTRIBUTE_MINUS("DistributeMinus", "Distribute minus"),
@@ -124,6 +138,8 @@ public enum SolutionStepType {
 	COLLECT_LIKE_TERMS("CollectLikeTerms", "Collect like terms: %0"),
 
 	ADD_FRACTIONS("AddFractions", "Add fractions"),
+
+	ADD_NUMERATORS("AddNumerators", "Add numerators"),
 
 	MULTIPLY_CONSTANTS("MultiplyConstants", "Multiply constants"),
 
@@ -137,9 +153,9 @@ public enum SolutionStepType {
 
 	SQUARE_MINUS("SquareMinus", "Squaring a minus makes it go awaaayy"),
 
-	DIVIDE_ROOT_AND_POWER("DivideRootAndPower", "Divide the root and power by: "),
+	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: "),
 
-	DIVIDE_ROOT_AND_POWER_EVEN("DivideRootAndPowerEven", "Divide the root and power by: "),
+	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power by: "),
 
 	EVALUATE_POWER("EvaluatePower", "Evaluate power"),
 
@@ -149,9 +165,13 @@ public enum SolutionStepType {
 
 	FIRST_ROOT("FirstRoot", "The first root of anything is itself"),
 
+	ROOT_OF_ONE("RootOfOne", "Any root of 1 equals 1"),
+
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
 	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
+
+	DIVIDE_BY_ONE("DividedByOne", "Any expression divided by one remains the same"),
 
 	REWRITE_AS_POWER("RevriteAAsB", "Rewrite %0 as %1"),
 
@@ -166,6 +186,8 @@ public enum SolutionStepType {
 	BINOM_CUBED("BinomCubed", "Use (a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3 to expand"),
 
 	TRINOM_SQUARED("TrinomSquared", "Use (a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc + 2ac to expand"),
+
+	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) = a^2-b^2$ to expand"),
 
 	REWRITE_AS_MULTIPLICATION("RewriteAsMultiplication", "Rewrite as multiplication"),
 
@@ -191,7 +213,7 @@ public enum SolutionStepType {
 		return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault);
 	}
 
-	public String getColoredText(Localization loc, int color, StepNode[] parameters) {
+	public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
 		if (parameters == null) {
 			return loc.getMenuLaTeX(getKey(), getDefault()) + colorText(color);
 		}

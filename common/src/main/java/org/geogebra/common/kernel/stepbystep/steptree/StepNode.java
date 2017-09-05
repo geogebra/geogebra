@@ -239,6 +239,10 @@ public abstract class StepNode {
 		return this instanceof StepConstant && isEqual(Math.round(this.getValue()), this.getValue());
 	}
 
+	public boolean isSquareRoot() {
+		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getSubTree(1), 2);
+	}
+
 	public StepNode replace(StepNode from, StepNode to) {
 		if (equals(from)) {
 			return to;
@@ -563,16 +567,33 @@ public abstract class StepNode {
 
 	public static StepNode in(StepNode a, StepNode b) {
 		if (a == null) {
-			return equal(new StepConstant(0), b);
+			return in(new StepConstant(0), b);
 		}
 		if (b == null) {
-			return equal(a, new StepConstant(0));
+			return in(a, new StepConstant(0));
 		}
 
 		StepOperation so = new StepOperation(Operation.IS_ELEMENT_OF);
 		so.addSubTree(a.deepCopy());
 		so.addSubTree(b.deepCopy());
 		return so;
+	}
+
+	public static StepNode invert(StepNode a) {
+		if (a == null) {
+			return null;
+		}
+
+		if (a.isOperation(Operation.DIVIDE)) {
+			if (isEqual(((StepOperation) a).getSubTree(0), 1)) {
+				return ((StepOperation) a).getSubTree(1);
+			}
+			return divide(((StepOperation) a).getSubTree(1), ((StepOperation) a).getSubTree(0));
+		} else if (isEqual(a, 1) || isEqual(a, -1)) {
+			return a;
+		} else {
+			return divide(new StepConstant(1), a);
+		}
 	}
 
 	/**
@@ -699,6 +720,10 @@ public abstract class StepNode {
 
 	protected static boolean isEqual(double a, double b) {
 		return Math.abs(a - b) < 0.0000001;
+	}
+
+	public static boolean isEqual(StepNode a, double b) {
+		return a.canBeEvaluated() && isEqual(a.getValue(), b);
 	}
 
 	protected static boolean isEven(double d) {

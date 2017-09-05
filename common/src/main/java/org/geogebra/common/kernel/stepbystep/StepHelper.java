@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class StepHelper {
 
@@ -452,8 +451,6 @@ public class StepHelper {
 	public static boolean shouldTakeRoot(StepNode snRHS, StepNode snLHS) {
 		StepNode sn = StepNode.subtract(snRHS, snLHS).regroup();
 
-		Log.error("TAKE< " + sn);
-
 		StepNode constants = findConstant(sn);
 		sn = StepNode.subtract(sn, constants).regroup();
 
@@ -494,7 +491,7 @@ public class StepHelper {
 	public static boolean canBeReducedToQuadratic(StepNode sn, StepNode variable) {
 		int degree = degree(sn);
 
-		if (degree % 2 == 1) {
+		if (degree % 2 != 0) {
 			return false;
 		}
 
@@ -529,7 +526,38 @@ public class StepHelper {
 	}
 
 	public static boolean shouldMultiply(StepNode sn) {
-		return countOperation(sn, Operation.DIVIDE) > 1 || countNonConstOperation(sn, Operation.DIVIDE) > 0;
+		return countOperation(sn, Operation.DIVIDE) > 1 || countNonConstOperation(sn, Operation.DIVIDE) == 1 && linearInInverse(sn) == null;
+	}
+
+	public static StepOperation findInverse(StepNode sn) {
+		if (sn != null && sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.DIVIDE) && so.getSubTree(0).isConstant() && !so.getSubTree(1).isConstant()) {
+				return (StepOperation) sn;
+			}
+
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				StepOperation inverse = findInverse(so.getSubTree(i));
+				if (inverse != null) {
+					return inverse;
+				}
+			}
+			return null;
+		}
+
+		return null;
+	}
+
+	public static StepOperation linearInInverse(StepNode sn) {
+		StepOperation inverse = findInverse(sn);
+		int degree = degree(sn.deepCopy().replace(inverse, new StepVariable("x")));
+
+		if (inverse != null && degree == 1 && sn.deepCopy().replace(inverse, inverse.getSubTree(0)).isConstant()) {
+			return inverse;
+		}
+
+		return null;
 	}
 
 	public static int countNonConstOperation(StepNode sn, Operation operation) {

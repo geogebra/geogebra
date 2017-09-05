@@ -27,7 +27,7 @@ public class SolveStepTest {
 		app = CommandsTest.createApp();
 		// just to load CAS
 		try {
-			app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
+			// app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
@@ -39,6 +39,10 @@ public class SolveStepTest {
 
 	// @Test
 	public void colorTest() {
+		t("x", "1/3+1/2", "x", 10, "(5)/(6)");
+		t("x", "1/(sqrt(2)-1)", "x", 6, "(nroot(2, 2) + 1)");
+		t("x", "nroot(1, 2)", "x", 6, "1");
+		t("x", "nroot(-1, 3)", "x", 6, "-1");
 		t("2x+1+3x+2", "x+x+1+1", "x", 47, "(3)/(4)");
 		t("-(-x)-3", "-(-(-x))+1", "x", 1);
 		t("x", "2/nroot(3, 2)", "x", 1);
@@ -65,6 +69,7 @@ public class SolveStepTest {
 
 	@Test
 	public void linearEquation() {
+		t("x", "1/(sqrt(2)-1) + 1/(sqrt(2)+1)", "x", 1, "(2)(nroot(2, 2))");
 		t("(4x-3)/(2 + 3)", "1-x", "x", 17, "(8)/(9)");
 		t("1-2x", "2x+8", "x", 12, "(-7)/(4)");
 		t("(2x-5)/12", "(-x)/4-5/3", "x", 15, "-3");
@@ -89,7 +94,7 @@ public class SolveStepTest {
 		// t("x/(1-x)", "(3+x)/x", "x", 18, "(((2)(nroot(7, 2))-2))/(4)", "((-(2)(nroot(7, 2))-2))/(4)");
 		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", 46, "((-9 + (3)(nroot(5, 2))))/(6)", "((-9-(3)(nroot(5, 2))))/(6)",
 				"((-1 + nroot(13, 2)))/(2)", "((-1-nroot(13, 2)))/(2)");
-		t("(1/x+3)^2", "6", "x", 40, "(-1)/((-nroot(6, 2) + 3))", "(-1)/((nroot(6, 2) + 3))");
+		t("(1/x+3)^2", "6", "x", 40, "(1)/((nroot(6, 2)-3))", "(1)/((-nroot(6, 2)-3))");
 	}
 
 	@Test
@@ -165,7 +170,7 @@ public class SolveStepTest {
 	@Test
 	public void trigonometricEquations() {
 		t("3+2sin(x)", "sin(x)-1", "x", 10);
-		t("1/2+2sin(x)", "sin(x)+1", "x", 23, "((pi)/(6) + (2)([k1])(pi))", "(((5)(pi))/(6)-(2)([k2])(pi))");
+		t("1/2+2sin(x)", "sin(x)+1", "x", 23, "((pi)/(6) + (2)([k1])(pi))", "(((5)(pi))/(6) + (-2)([k2])(pi))");
 		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", 31, "(((pi)/(6) + (2)([k1])(pi)-1))/(3)",
 				"((((-5)(pi))/(6) + (2)([k2])(pi) + 1))/(-3)");
 		t("(sin(2x+1))^2+1/2", "1", "x", 59, "(((pi)/(4) + (2)([k1])(pi)-1))/(2)", "((((-3)(pi))/(4) + (2)([k2])(pi) + 1))/(-2)",
@@ -173,9 +178,9 @@ public class SolveStepTest {
 		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", 31, "(((pi)/(3) + (2)([k1])(pi)-1))/(3)", "((((-5)(pi))/(3) + (2)([k2])(pi) + 1))/(-3)");
 		t("3+2tan(x)", "tan(x)-1", "x", 10, "(arctan(-4) + ([k1])(pi))");
 		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", 31, "(arccos(((-1 + nroot(5, 2)))/(-2)) + (2)([k1])(pi))",
-				"(-arccos(((-1 + nroot(5, 2)))/(-2))-(2)([k2])(pi) + (2)(pi))");
+				"(-arccos(((-1 + nroot(5, 2)))/(-2)) + (-2)([k2])(pi) + (2)(pi))");
 		t("2(cos(x))^2+(sin(x))^2+sin(x)", "1", "x", 31, "(arcsin(((-1 + nroot(5, 2)))/(-2)) + (2)([k1])(pi))",
-				"(-arcsin(((-1 + nroot(5, 2)))/(-2))-(2)([k2])(pi) + pi)");
+				"(-arcsin(((-1 + nroot(5, 2)))/(-2)) + (-2)([k2])(pi) + pi)");
 		t("2(cos(x))^2+2(sin(x))^2", "2", "x", 8, "R");
 		t("sin(x)+cos(x)", "1", "x", 54, "((pi)/(2) + (2)([k1])(pi))", "(2)([k3])(pi)");
 	}

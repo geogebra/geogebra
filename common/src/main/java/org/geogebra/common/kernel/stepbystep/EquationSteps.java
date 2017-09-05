@@ -110,14 +110,17 @@ public class EquationSteps {
 			}
 		}
 
-		regroup(true);
+		regroup();
 
-		addOrSubtract(StepHelper.getCommon(LHS, RHS));
+		StepNode common = StepHelper.getCommon(LHS, RHS);
+		if (!LHS.equals(common) || !RHS.equals(common)) {
+			addOrSubtract(common);
+		}
 
 		StepNode bothSides = StepNode.add(LHS, RHS);
 
 		// II. step: making denominators disappear
-		if (StepHelper.shouldMultiply(bothSides) || StepHelper.countOperation(bothSides, Operation.DIVIDE) > 1) {
+		if (StepHelper.shouldMultiply(bothSides)) {
 			commonDenominator();
 		}
 
@@ -160,12 +163,13 @@ public class EquationSteps {
 
 		// V. step: taking roots, when necessary (ax^n = constant or ay^n = bz^n, where y and z are expressions in x)
 		if (StepHelper.shouldTakeRoot(RHS, LHS)) {
-			takeRoot();
-			return checkSolutions();
+			if (takeRoot()) {
+				return checkSolutions();
+			}
 		}
 
 		// VI. step: expanding parentheses
-		simplify(true);
+		simplify();
 
 		// VII. Step: equations containing absolute values
 		bothSides = StepNode.add(LHS, RHS);
@@ -173,6 +177,11 @@ public class EquationSteps {
 			if (solveAbsoluteValue()) {
 				return checkSolutions();
 			}
+		}
+
+		if (StepHelper.linearInInverse(bothSides) != null) {
+			solveLinearInInverse();
+			return checkSolutions();
 		}
 
 		// II. step: checking if it's a trigonometric equation
@@ -189,15 +198,17 @@ public class EquationSteps {
 			return steps.getSteps();
 		}
 
-		// VIII. step: solving linear equations
-		if (degreeDiff <= 1) {
-			solveLinear();
-			return checkSolutions();
-		}
 
 		// IX. step: solving quadratic equations
 		if (degreeDiff == 2) {
-			solveQuadratic();
+			if (solveQuadratic()) {
+				return checkSolutions();
+			}
+		}
+
+		// VIII. step: solving linear equations
+		if (degreeDiff <= 1) {
+			solveLinear();
 			return checkSolutions();
 		}
 
@@ -385,7 +396,7 @@ public class EquationSteps {
 			}
 
 			replace(StepNode.add(sineSquared, cosineSquared), new StepConstant(1));
-			regroup(true);
+			regroup();
 
 			bothSides = StepNode.subtract(LHS, RHS).regroup();
 		}
@@ -437,7 +448,7 @@ public class EquationSteps {
 			trigoVar = StepHelper.quadraticInTrigonometric(bothSides.deepCopy().replace(sineSquared, StepNode.subtract(1, cosineSquared)));
 			if (trigoVar != null) {
 				replace(sineSquared, StepNode.subtract(1, cosineSquared));
-				regroup(true);
+				regroup();
 			}
 		}
 
@@ -445,7 +456,7 @@ public class EquationSteps {
 			trigoVar = StepHelper.quadraticInTrigonometric(bothSides.deepCopy().replace(cosineSquared, StepNode.subtract(1, sineSquared)));
 			if (trigoVar != null) {
 				replace(cosineSquared, StepNode.subtract(1, sineSquared));
-				regroup(true);
+				regroup();
 			}
 		}
 
@@ -611,7 +622,7 @@ public class EquationSteps {
 			RHS = StepHelper.swapAbsInTree(RHS.deepCopy(), interval, variable);
 
 			addStep();
-			simplify(true);
+			simplify();
 			return false;
 		}
 
@@ -672,7 +683,6 @@ public class EquationSteps {
 		StepNode constant = StepHelper.findConstant(diff);
 
 		if (isZero(StepNode.subtract(diff, constant).regroup())) {
-			subtract(RHS);
 			return;
 		}
 
@@ -688,7 +698,34 @@ public class EquationSteps {
 		solutions.add(RHS);
 	}
 
-	private void solveQuadratic() {
+	private void solveLinearInInverse() {
+		StepNode inverseVar = StepHelper.linearInInverse(StepNode.add(LHS, RHS));
+		
+		StepNode diff = StepNode.subtract(LHS, RHS).regroup();
+		StepNode constant = StepHelper.findConstant(diff);
+
+		if (isZero(StepNode.subtract(diff, constant).regroup())) {
+			return;
+		}
+
+		StepNode RHSlinear = StepHelper.findVariable(RHS, inverseVar);
+		addOrSubtract(RHSlinear);
+
+		StepNode LHSconstant = StepHelper.findConstant(LHS);
+		addOrSubtract(LHSconstant);
+
+		steps.add(SolutionStepType.INVERT_BOTH_SIDES);
+		LHS = StepNode.invert(LHS);
+		RHS = StepNode.invert(RHS);
+		addStep();
+
+		StepNode linearCoefficient = StepHelper.findCoefficient(LHS, inverseVar);
+		multiplyOrDivide(linearCoefficient);
+
+		solutions.add(RHS);
+	}
+
+	private boolean solveQuadratic() {
 		StepNode difference = StepNode.subtract(LHS, RHS).regroup();
 
 		StepNode a = StepHelper.findCoefficient(difference, StepNode.power(variable, 2));
@@ -709,11 +746,10 @@ public class EquationSteps {
 			addStep();
 
 			if (RHS.getValue() < 0) {
-				return;
+				return true;
 			}
 
-			nthroot(2);
-			return;
+			return takeRoot();
 		}
 
 		subtract(RHS);
@@ -728,7 +764,7 @@ public class EquationSteps {
 			addStep();
 
 			solveProduct((StepOperation) LHS);
-			return;
+			return true;
 		}
 
 		a.setColor(1);
@@ -756,10 +792,12 @@ public class EquationSteps {
 				solutions.add(solution1.regroup());
 				solutions.add(solution2.regroup());
 			}
+
+			return true;
 		}
 	}
 
-	private void takeRoot() {
+	private boolean takeRoot() {
 		StepNode sn = StepNode.subtract(LHS, RHS).regroup();
 		StepNode constant = StepHelper.findConstant(sn);
 		sn = StepNode.subtract(sn, constant).regroup();
@@ -778,10 +816,22 @@ public class EquationSteps {
 		multiplyOrDivide(toDivide);
 
 		if (isEven(root) && RHS.isConstant() && RHS.getValue() < 0) {
-			return;
+			return true;
+		}
+
+		if(root == 2 && RHS.isConstant()) {
+			steps.add(SolutionStepType.SQUARE_ROOT);
+
+			LHS = ((StepOperation) LHS).getSubTree(0);
+			if (!StepNode.isEqual(RHS, 0)) {
+				RHS = StepNode.root(RHS, 2);
+			}
+
+			return plusminus();
 		}
 
 		nthroot(root);
+		return true;
 	}
 
 	private void reduceToQuadratic() {
@@ -793,7 +843,7 @@ public class EquationSteps {
 
 		StepVariable newVariable = new StepVariable("y");
 
-		steps.add(SolutionStepType.REPLACE_WITH, StepNode.power(variable, degree / 2), newVariable);
+		steps.add(SolutionStepType.REPLACE_WITH, StepNode.power(variable, ((double) degree) / 2), newVariable);
 
 		StepNode newEquation = StepNode.multiply(coeffHigh, StepNode.power(newVariable, 2));
 		newEquation = StepNode.add(newEquation, StepNode.multiply(coeffLow, newVariable));
@@ -868,45 +918,15 @@ public class EquationSteps {
 		solutions.addAll(Arrays.asList(CASSolutions));
 	}
 
-	private void regroup(boolean substep) {
-		SolutionBuilder sb = new SolutionBuilder(loc);
-
-		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).regroup(sb);
-
-		if (sb.getSteps().getSubsteps() != null) {
-			if (substep) {
-				steps.add(SolutionStepType.REGROUP_WRAPPER);
-				steps.levelDown();
-			}
-
-			steps.addAll(sb.getSteps());
-
-			if (substep) {
-				steps.levelUp();
-			}
-		}
+	private void regroup() {
+		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).regroup(steps);
 
 		LHS = regrouped.getSubTree(0);
 		RHS = regrouped.getSubTree(1);
 	}
 
-	private void simplify(boolean substep) {
-		SolutionBuilder sb = new SolutionBuilder(loc);
-
-		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).expand(sb);
-
-		if (sb.getSteps().getSubsteps() != null) {
-			if (substep) {
-				steps.add(SolutionStepType.SIMPLIFICATION_WRAPPER);
-				steps.levelDown();
-			}
-
-			steps.addAll(sb.getSteps());
-
-			if (substep) {
-				steps.levelUp();
-			}
-		}
+	private void simplify() {
+		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).expand(steps);
 
 		LHS = regrouped.getSubTree(0);
 		RHS = regrouped.getSubTree(1);
@@ -922,7 +942,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.ADD_TO_BOTH_SIDES, toAdd);
 			steps.levelDown();
 			addStep();
-			regroup(false);
+			regroup();
 			steps.levelUp();
 			addStep();
 		}
@@ -938,7 +958,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.SUBTRACT_FROM_BOTH_SIDES, toSubtract);
 			steps.levelDown();
 			addStep();
-			regroup(false);
+			regroup();
 			steps.levelUp();
 			addStep();
 		}
@@ -950,9 +970,9 @@ public class EquationSteps {
 		}
 
 		if (StepNode.isNegative(ev)) {
-			add(StepNode.negate(ev));
+			add(StepNode.negate(ev.deepCopy()));
 		} else {
-			subtract(ev);
+			subtract(ev.deepCopy());
 		}
 	}
 
@@ -961,8 +981,25 @@ public class EquationSteps {
 			toMultiply.setColor(1);
 
 			if (toMultiply.isConstant()) {
-				LHS = StepNode.multiply(toMultiply, LHS);
-				RHS = StepNode.multiply(toMultiply, RHS);
+				if (LHS.isOperation(Operation.PLUS)) {
+					StepOperation newLHS = new StepOperation(Operation.PLUS);
+					for (int i = 0; i < ((StepOperation) LHS).noOfOperands(); i++) {
+						newLHS.addSubTree(StepNode.multiply(toMultiply, ((StepOperation) LHS).getSubTree(i)));
+					}
+					LHS = newLHS;
+				} else {
+					LHS = StepNode.multiply(toMultiply, LHS);
+				}
+
+				if (RHS.isOperation(Operation.PLUS)) {
+					StepOperation newRHS = new StepOperation(Operation.PLUS);
+					for (int i = 0; i < ((StepOperation) RHS).noOfOperands(); i++) {
+						newRHS.addSubTree(StepNode.multiply(toMultiply, ((StepOperation) RHS).getSubTree(i)));
+					}
+					RHS = newRHS;
+				} else {
+					RHS = StepNode.multiply(toMultiply, RHS);
+				}
 			} else {
 				LHS = StepNode.multiply(LHS, toMultiply);
 				RHS = StepNode.multiply(RHS, toMultiply);
@@ -971,7 +1008,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES, toMultiply);
 			steps.levelDown();
 			addStep();
-			simplify(false);
+			simplify();
 			steps.levelUp();
 			addStep();
 		}
@@ -987,7 +1024,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
 			steps.levelDown();
 			addStep();
-			simplify(false);
+			simplify();
 			steps.levelUp();
 			addStep();
 		}
@@ -1014,7 +1051,7 @@ public class EquationSteps {
 
 		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
 		steps.levelDown();
-		simplify(false);
+		simplify();
 		steps.levelUp();
 		addStep();
 
@@ -1038,7 +1075,7 @@ public class EquationSteps {
 		}
 
 		steps.levelDown();
-		regroup(false);
+		regroup();
 		steps.levelUp();
 		addStep();
 
@@ -1050,6 +1087,10 @@ public class EquationSteps {
 	}
 
 	private boolean plusminus() {
+		if (LHS.isOperation(Operation.ABS) || RHS.isOperation(Operation.ABS)) {
+			steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
+		}
+
 		if (LHS.isOperation(Operation.ABS)) {
 			LHS = ((StepOperation) LHS).getSubTree(0);
 		}
@@ -1057,14 +1098,15 @@ public class EquationSteps {
 			RHS = ((StepOperation) RHS).getSubTree(0);
 		}
 
-		steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
-
 		if (!isZero(RHS)) {
 			steps.add(SolutionStepType.EQUATION, StepNode.equal(LHS, StepNode.apply(RHS, Operation.PLUSMINUS)));
 
 			if (LHS.equals(variable) && RHS.isConstant()) {
-				solutions.add(RHS);
-				solutions.add(StepNode.minus(RHS));
+				RHS = StepNode.apply(RHS, Operation.PLUSMINUS);
+				regroup();
+
+				solutions.add(((StepOperation) RHS).getSubTree(0));
+				solutions.add(StepNode.minus(((StepOperation) RHS).getSubTree(0)));
 			} else {
 				EquationSteps positiveBranch = new EquationSteps(kernel, LHS, RHS, variable, constantFactory);
 				positiveBranch.setCase(solutionCase == null ? "1." : solutionCase + "1.");
