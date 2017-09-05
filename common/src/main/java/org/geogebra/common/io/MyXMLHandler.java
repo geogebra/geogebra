@@ -3333,6 +3333,7 @@ public class MyXMLHandler implements DocHandler {
 				fontTagProcessed = false;
 				symbolicTagProcessed = false;
 				lineStyleTagProcessed = false;
+				geo.setLineOpacity(255);
 				if (geo instanceof VectorNDValue) {
 					((VectorNDValue) geo)
 							.setMode(((VectorNDValue) geo).getDimension() == 3
