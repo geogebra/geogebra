@@ -2436,7 +2436,7 @@ __GGB__keysVar.fr.menu = {
     "ResidualPlot": "R\xe9sidus",
     "ResizeAngle": "Redimensionnement automatique angle",
     "ResolutionInDPI": "R\xe9solution en dpi",
-    "RestoreSettings": "Restore Settings",
+    "RestoreSettings": "Restaurer les param\xe8tres",
     "Result": "R\xe9sultat",
     "Result.Exercise": "R\xe9sultat",
     "ResultsFor": "R\xe9sultats pour %0",
