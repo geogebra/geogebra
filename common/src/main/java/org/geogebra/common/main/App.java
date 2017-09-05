@@ -4246,7 +4246,7 @@ public abstract class App implements UpdateSelection {
 			return relaunch || isNativeMobileAppWithNewUI();
 
 		case OBJECT_DEFAULTS_AND_COLOR:
-			return relaunch && this.isUnbundled();
+			return relaunch && (this.isUnbundled() || whiteboard);
 
 		/** GGB-1838 */
 		case ZOOM_PANEL:
