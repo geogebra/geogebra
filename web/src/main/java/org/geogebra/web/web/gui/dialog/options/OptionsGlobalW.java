@@ -64,7 +64,11 @@ public class OptionsGlobalW implements OptionPanelW {
 		protected GlobalTab() {
 			createGUI();
 			updateGUI();
-			setStyleName("propGlobalTab");
+			if (app.isUnbundled()) {
+				setStyleName("propMaterialTab");
+			} else {
+				setStyleName("propertiesTab");
+			}
 			add(optionsPanel);
 		}
 

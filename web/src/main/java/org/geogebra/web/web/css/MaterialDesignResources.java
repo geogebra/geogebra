@@ -61,6 +61,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_lock_outline_black_24px.svg")
 	SVGResource lock_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_lock_open_black_24px.svg")
+	SVGResource lock_open_black();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/trace_black.png")
 	ImageResource trace_black();
 

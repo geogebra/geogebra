@@ -26,6 +26,7 @@ import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
@@ -43,6 +44,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -71,7 +73,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected abstract class EuclidianTab extends FlowPanel implements SetLabels {
 		
 		protected EuclidianTab() {
-			setStyleName("propertiesTab");
+			if (app.isUnbundled()) {
+				setStyleName("propMaterialTab");
+			} else {
+				setStyleName("propertiesTab");
+			}
 		}
 		
 		public void onResize(int height, int width) {
@@ -205,8 +211,18 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 			
-			imgLock = new Image(AppResources.INSTANCE.lock());
-			imgUnlock = new Image(AppResources.INSTANCE.unlock());
+			imgLock = new Image(app.isUnbundled()
+					? new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.lock_black()
+									.getSafeUri(),
+							0, 0, 18, 18, false, false)
+					: AppResources.INSTANCE.lock());
+			imgUnlock = new Image(app.isUnbundled()
+					? new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.lock_open_black()
+									.getSafeUri(),
+							0, 0, 18, 18, false, false)
+					: AppResources.INSTANCE.unlock());
 
 			tbLockRatio = new ToggleButton(imgLock);
 			tbLockRatio.setValue(view.isLockedAxesRatio());

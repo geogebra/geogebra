@@ -57,6 +57,21 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			}
     		}
     	
+    		.panelTitle:first-child {
+    			margin-top: 0px !important;
+			}
+    	
+    		.panelTitle {
+    			margin-bottom: 8px;
+    			margin-top: 16px;
+    			padding-bottom: 0px;
+    			display: block;
+    			color: $black;
+    			font-size: 15px;
+    			opacity: 0.7;
+    			border-bottom: 1px solid $tool-border;
+			}
+    	
     		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
     			margin-right: 4px;
    				padding: 8px;
@@ -70,13 +85,18 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			border-radius: 3px 3px 0 0;
     			border: 1px solid $tool-border;
     			box-sizing: border-box;
+    			
+    			&:hover {
+    				color: $teal-light;	
+    			}
     		}
     	
     		.propertiesStyleBar {
     			overflow: visible;
     			top: 40px;
     			
-    			.selected,.gwt-MenuItem.selected:hover {
+    			.selected,
+    				.gwt-MenuItem.selected:hover {
     				background-image: -webkit-linear-gradient(right,#dcdcdc,#f8f8f8);
     			}
     			    
@@ -100,27 +120,76 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				cursor: pointer;	
     			}
     			
-    			.gwt-TabBar .gwt-TabBarItem-selected {
+    			.numberInput {
+    				border: none;
+    				box-shadow: none;	
+    			}
+    			
+    			.gwt-TabBar 
+    				.gwt-TabBarItem-selected {
     				cursor: default;
     				background: white;
     				color: $teal-default;
     				border-bottom: 1px solid white;
 				}
 			
-				.panelRowIndent .gwt-Label {
+				.panelRowIndent .gwt-Label, 
+					.panelRowCell .gwt-Label, 
+						.panelRow .gwt-Label {
 					cursor: default;
 					font-size: 14px;
 				}
     			
-    			.propGlobalTab {
+    			.propMaterialTab {
     				overflow: auto;
     				padding-right: 8px;
     				padding-left: 16px;
     				box-sizing: border-box;	
     				
-    				.panelRowIndent {
+    				.panelRowIndent, 
+    				  .panelRow {
     					padding-left: 0px;	
     					
+    					.gwt-ToggleButton {
+    						cursor: pointer; 
+    						padding: 8px;
+    						img {
+    							opacity: 0.54;	
+    						}	
+    					
+    						&:hover {
+    							img {
+    								opacity: 1;
+    							}
+    						}
+    					}
+    					
+    					input[type="text"].gwt-SuggestBox  {
+    						width: 100%;
+    						font-size: 14px;
+    						border-radius: 0px;
+    						border: none;
+    						box-shadow: none;
+    						border-bottom: 1px solid $tool-border;
+    						padding: 0px;
+    						padding-left: 8px;
+    						margin-bottom: 2px;
+    						transition: border-bottom 0.3s ease-out;
+    						
+    						&:hover,:focus {
+    							border-bottom: 1px solid $teal-default;
+    						}
+    					
+    						&:disabled {
+    							background-color: $transparent;
+    							opacity: 0.54;
+    							
+    							&:hover {
+    								border-bottom: 1px solid $tool-border;	
+    							}
+							}
+    					}
+    				
     					.gwt-ListBox {
     						cursor: pointer;
     						border-radius: 0px;	
