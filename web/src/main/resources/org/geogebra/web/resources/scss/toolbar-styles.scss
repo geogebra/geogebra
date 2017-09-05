@@ -323,7 +323,6 @@
 		.moveFloatingBtn {
 			cursor: pointer;
 			position: absolute;
-    		top: calc(100% - 68px);
     		left: calc(100% - 84px);
     		border-radius: 50%;
     		width: 48px;
@@ -368,11 +367,11 @@
     		}
 		}
 		.moveMoveBtnUp {
-	   	 	bottom: calc(68px + 80px);
+	   	 	bottom: calc(12px + 80px);
 	   	 	transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 		.moveMoveBtnDown {
-	   	 	bottom: 68px;
+	   	 	bottom: 12px;
 	   	 	transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
 		.moveMoveBtnUpSmall {
@@ -398,9 +397,8 @@
 		transition: all 0.3s ease;
     	}
 	
-	.main >* {	
+	.main >* {
 		position: absolute !important;
-		top: 0px;
 		display: inline-block;
 	}	
 
