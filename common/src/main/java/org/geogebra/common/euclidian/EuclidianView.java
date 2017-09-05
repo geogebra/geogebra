@@ -1211,8 +1211,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return;
 		}
 
-		getEuclidianController().onCoordSystemChanged();
-
 		this.xZero = xZero;
 		this.yZero = yZero;
 		this.setXscale(xscale);
@@ -1225,6 +1223,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
 
+		getEuclidianController().onCoordSystemChanged();
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
 			updateBackgroundOnNextRepaint = true;
