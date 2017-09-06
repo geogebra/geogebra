@@ -2432,33 +2432,34 @@ public abstract class App implements UpdateSelection {
 	@Override
 	public void updateSelection(boolean updatePropertiesView) {
 
-		if (!isUsingFullGui() || isIniting()) {
+		if (isIniting()) {
 			return;
 		}
 
 		// put in to check possible bottleneck
 		// Application.debug("Update Selection");
+		if (isUsingFullGui()) {
+			if (getGuiManager() != null && showMenuBar) {
+				getGuiManager().updateMenubarSelection();
+			}
 
-		if (getGuiManager() != null && showMenuBar) {
-			getGuiManager().updateMenubarSelection();
-		}
+			// if showMenuBar is false, we can still update the style bars
+			if (EuclidianConstants
+					.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
+					|| getActiveEuclidianView()
+							.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
+				updateStyleBars();
+			}
 
-		// if showMenuBar is false, we can still update the style bars
-		if (EuclidianConstants.isMoveOrSelectionMode(getActiveEuclidianView().getMode())
-				|| getActiveEuclidianView()
-						.getMode() == EuclidianConstants.MODE_TRANSLATEVIEW) {
-			updateStyleBars();
-		}
+			if (has(Feature.DYNAMIC_STYLEBAR)) {
+				// TODO update only dynamic stylebar
+				updateStyleBars();
+			}
 
-		if (has(Feature.DYNAMIC_STYLEBAR)) {
-			// TODO update only dynamic stylebar
-			updateStyleBars();
+			if (updatePropertiesView && propertiesView != null && showMenuBar) {
+				propertiesView.updateSelection();
+			}
 		}
-
-		if (updatePropertiesView && propertiesView != null && showMenuBar) {
-			propertiesView.updateSelection();
-		}
-		
 		ScreenReader.updateSelection(this);
 		
 	}
