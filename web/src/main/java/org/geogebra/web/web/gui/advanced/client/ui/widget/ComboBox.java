@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ComboBoxDataModel;
@@ -61,7 +62,6 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -75,7 +75,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
         implements HasAllFocusHandlers, HasAllKeyHandlers, HasClickHandlers,
-        ListModelListener, HasChangeHandlers, HasCloseHandlers<PopupPanel> {
+		ListModelListener, HasChangeHandlers, HasCloseHandlers<GPopupPanel> {
 	/**
 	 * @param app
 	 *            application
@@ -549,7 +549,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      */
 	@Override
 	public HandlerRegistration addCloseHandler(
-			CloseHandler<PopupPanel> handler) {
+			CloseHandler<GPopupPanel> handler) {
         return getListPanel().addCloseHandler(handler);
     }
 
@@ -714,7 +714,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      */
 	protected ListPopupPanel<T> getListPanel() {
         if (listPanel == null) {
-			listPanel = new ListPopupPanel<T>(this);
+			listPanel = new ListPopupPanel<T>(this, getApp());
         }
         return listPanel;
     }

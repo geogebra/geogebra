@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.main.AppW;
@@ -19,7 +20,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Combo box
@@ -45,10 +45,10 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		this.prepareChoiceButton();
 		this.setChoiceButtonVisible(true);
 		
-		addCloseHandler(new CloseHandler<PopupPanel>() {
+		addCloseHandler(new CloseHandler<GPopupPanel>() {
 			
 			@Override
-			public void onClose(CloseEvent<PopupPanel> event) {
+			public void onClose(CloseEvent<GPopupPanel> event) {
 				onValueChange(getValue());
 			}
 		});
@@ -60,7 +60,8 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					onValueChange(getValue());
 				}
-	        }});
+			}
+		});
 		//
 
 		final AutoCompleteTextFieldW tf = getSelectedValue();

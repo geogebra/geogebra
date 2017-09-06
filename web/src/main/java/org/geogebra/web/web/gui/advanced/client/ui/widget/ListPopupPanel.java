@@ -16,6 +16,8 @@
 
 package org.geogebra.web.web.gui.advanced.client.ui.widget;
 
+import org.geogebra.web.html5.gui.GPopupPanel;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.advanced.client.datamodel.ListDataModel;
 import org.geogebra.web.web.gui.advanced.client.ui.AdvancedWidget;
 import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.ComboBoxChangeEvent;
@@ -42,7 +44,6 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -56,7 +57,7 @@ import com.google.gwt.user.client.ui.Widget;
  *            model type
  * @since 1.2.0
  */
-public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
+public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		implements AdvancedWidget, HasChangeHandlers {
     /** a list of items */
     private FlowPanel list;
@@ -86,12 +87,15 @@ public class ListPopupPanel<T extends ListDataModel> extends PopupPanel
     private DropDownPosition dropDownPosition = DropDownPosition.AUTO;
 
     /**
-     * Creates an instance of this class and sets the parent combo box value.
-     *
-     * @param selectionTextBox is a selection box value.
-     */
-	protected ListPopupPanel(ComboBox<T> selectionTextBox) {
-        super(false, false);
+	 * Creates an instance of this class and sets the parent combo box value.
+	 *
+	 * @param selectionTextBox
+	 *            is a selection box value.
+	 * @param app
+	 *            application
+	 */
+	protected ListPopupPanel(ComboBox<T> selectionTextBox, AppW app) {
+		super(false, false, app.getPanel(), app);
         this.comboBox = selectionTextBox;
 
         setStyleName("advanced-ListPopupPanel");

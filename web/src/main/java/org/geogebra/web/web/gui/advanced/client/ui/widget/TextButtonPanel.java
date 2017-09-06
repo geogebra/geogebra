@@ -63,7 +63,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
     private boolean enabled;
 
     private EnterAction enterAction = EnterAction.OPEN_DROP_DOWN;
-	private AppW app;
+	private final AppW app;
 
 	/** action to be performed on Enter key press in the text field */
     public enum EnterAction {
@@ -281,7 +281,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      */
 	protected AutoCompleteTextFieldW getSelectedValue() {
         if (selectedValue == null) {
-			selectedValue = new AutoCompleteTextFieldW(6, app);
+			selectedValue = new AutoCompleteTextFieldW(6, getApp());
 			selectedValue.requestToShowSymbolButton();
 			selectedValue.setAutoComplete(false);
 		}
@@ -390,4 +390,11 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
     public void setEnterAction(ComboBox.EnterAction enterAction) {
         this.enterAction = enterAction;
     }
+
+	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
+	}
 }
