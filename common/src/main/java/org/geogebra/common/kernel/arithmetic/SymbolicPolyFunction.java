@@ -119,7 +119,8 @@ public class SymbolicPolyFunction extends PolyFunction {
 
 	@Override
 	protected ExpressionValue getCoeff(int i, boolean fraction, Kernel kernel) {
-		if (fraction && symbCoeffs[i].asFraction() != null) {
+		if (fraction && symbCoeffs[i] != null
+				&& symbCoeffs[i].asFraction() != null) {
 			return symbCoeffs[i].asFraction();
 		}
 		return new MyDouble(kernel, coeffs[i]);
