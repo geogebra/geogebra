@@ -152,6 +152,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 							margin-bottom: 0px;	
 						}
 				}
+			
+				.listBoxPanel {
+					margin-bottom: 0px;
+				}
     			
     			.propMaterialTab {
     				overflow: auto;
@@ -253,6 +257,27 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					    &:hover {
     					    	border-bottom: 1px solid $teal-default !important;
     					    }
+    					}
+    				}
+    			
+    				.AutoCompleteTextFieldW {
+    					.SymbolToggleButton {
+    						top: 0%;
+    						right: 16px;
+    						
+    						&.shown:hover {
+    							color: $teal-default;
+    						}
+    					}
+    					
+    					.gwt-SuggestBox.TextField {
+    						padding: 4px !important;
+    					}	
+    				}
+    			
+    				.listBoxPanel {
+    					.gwt-Label {
+    						min-width: 64px;	
     					}
     				}
     			}	
