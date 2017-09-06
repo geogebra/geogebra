@@ -381,7 +381,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			axesStylePopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 					org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
-					true) {
+					app.isUnbundled()) {
 				@Override
 				public void handlePopupActionEvent(){
 					int idx = getSelectedIndex();
@@ -992,7 +992,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
-			btnGridStyle = LineStylePopup.create(app, -1, false,true);
+			btnGridStyle = LineStylePopup.create(app, -1, false,
+					app.isUnbundled());
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
