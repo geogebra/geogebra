@@ -24,49 +24,53 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This factory tries to detect what should be returned by value type.<p/>
- * If the value is instance of <code>String</code>, <code>Number</code> or <code>Date</code> it returns this value
- * wrapped in appropriate widget. Otherwise it returns <code>null</code>.<p/>
+ * This factory tries to detect what should be returned by value type.
+ * <p/>
+ * If the value is instance of <code>String</code>, <code>Number</code> or
+ * <code>Date</code> it returns this value wrapped in appropriate widget.
+ * Otherwise it returns <code>null</code>.
+ * <p/>
  * If you want to use more complex objects you should develop your own factory.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
  * @since 1.2.0
  */
 public class DefaultListItemFactory implements ListItemFactory {
-    /**
-     * See class docs.
-     *
-     * @param value is a value to be adopted.
-     * @return a widget to be inserted into the list.
-     */
-    @Override
+	/**
+	 * See class docs.
+	 *
+	 * @param value
+	 *            is a value to be adopted.
+	 * @return a widget to be inserted into the list.
+	 */
+	@Override
 	public Widget createWidget(Object value) {
-        if (value == null) {
+		if (value == null) {
 			return new Label();
 		} else if (value instanceof String || value instanceof Number) {
 			return new Label(String.valueOf(value));
-		} else if (value instanceof GeoElement){
-			return new HTML(((GeoElement) value).getColoredLabel());			
+		} else if (value instanceof GeoElement) {
+			return new HTML(((GeoElement) value).getColoredLabel());
 		} else {
 			return null;
 		}
-    }
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public String convert(Object value) {
-        if (value == null) {
+		if (value == null) {
 			return "";
 		} else if (value instanceof String || value instanceof Number) {
 			return String.valueOf(value);
 		} else if (value instanceof GeoElement) {
 			return ((GeoElement) value).getLabel(StringTemplate.editTemplate);
 		}
-      /*  else if (value instanceof Date)
-            return new DatePicker((Date)value).getTextualDate();
-        else if (value instanceof IconItem)
-            return ((IconItem)value).getLabel();
-        else */
-            return "";
-    }
+		/*
+		 * else if (value instanceof Date) return new
+		 * DatePicker((Date)value).getTextualDate(); else if (value instanceof
+		 * IconItem) return ((IconItem)value).getLabel(); else
+		 */
+		return "";
+	}
 }

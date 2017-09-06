@@ -25,260 +25,278 @@ import java.util.Map;
 import com.google.gwt.core.client.GWT;
 
 /**
- * This is an implementation of the data model interface for the ComboBox widget.
+ * This is an implementation of the data model interface for the ComboBox
+ * widget.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
  * @since 1.2.0
  */
 public class ComboBoxDataModel implements ListDataModel {
-    /** a list of item IDs where each item is instance of <code>String</code> */
-    private List<String> itemIds = new ArrayList<String>();
-    /** a map of items where each item is pair of <code>String</code> ID and <code>Object</code> value */
-    private Map<String, Object> items = new HashMap<String, Object>();
-    /** a selected item ID */
-    private String selectedId;
-    /** {@link org.gwt.advanced.client.datamodel.ListModelListener}s */
-    private List<ListModelListener> listeners = new ArrayList<ListModelListener>();
+	/** a list of item IDs where each item is instance of <code>String</code> */
+	private List<String> itemIds = new ArrayList<String>();
+	/**
+	 * a map of items where each item is pair of <code>String</code> ID and
+	 * <code>Object</code> value
+	 */
+	private Map<String, Object> items = new HashMap<String, Object>();
+	/** a selected item ID */
+	private String selectedId;
+	/** {@link org.gwt.advanced.client.datamodel.ListModelListener}s */
+	private List<ListModelListener> listeners = new ArrayList<ListModelListener>();
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void add(String id, Object item) {
-        addInternally(id, item);
+		addInternally(id, item);
 
-        fireEvent(new ListModelEvent(this, id, getItemIds().indexOf(id), ListModelEvent.ADD_ITEM));
-    }
+		fireEvent(new ListModelEvent(this, id, getItemIds().indexOf(id),
+				ListModelEvent.ADD_ITEM));
+	}
 
-    /** {@inheritDoc} */
+	/** {@inheritDoc} */
 	@Override
 	public void add(int invalidIndex, String id, Object item) {
-        List<String> ids = getItemIds();
+		List<String> ids = getItemIds();
 		int index = getValidIndex(invalidIndex);
 
-        if (!ids.contains(id)) {
+		if (!ids.contains(id)) {
 			ids.add(index, id);
 		}
 
-        add(id, item);
-    }
+		add(id, item);
+	}
 
-    /** {@inheritDoc} */
-    @Override
-    public void add(Map<String, Object> newItems) {
-        if (newItems == null) {
-            return;
-        }
+	/** {@inheritDoc} */
+	@Override
+	public void add(Map<String, Object> newItems) {
+		if (newItems == null) {
+			return;
+		}
 
-        Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
-        for (Map.Entry<String, Object> entry : newItems.entrySet()) {
-            addInternally(entry.getKey(), entry.getValue());
-            itemIndexes.put(entry.getKey(), getItemIds().indexOf(entry.getKey()));
-        }
+		Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
+		for (Map.Entry<String, Object> entry : newItems.entrySet()) {
+			addInternally(entry.getKey(), entry.getValue());
+			itemIndexes.put(entry.getKey(),
+					getItemIds().indexOf(entry.getKey()));
+		}
 
-        fireEvent(new ListModelEvent(this, itemIndexes, ListModelEvent.ADD_ITEM));
-    }
+		fireEvent(
+				new ListModelEvent(this, itemIndexes, ListModelEvent.ADD_ITEM));
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public Object get(String id) {
-        return getItems().get(id);
-    }
+		return getItems().get(id);
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public Object get(int index) {
 		if (isIndexValid(index)) {
-            return get(getItemIds().get(index));
+			return get(getItemIds().get(index));
 		}
 		return null;
-    }
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void remove(String... ids) {
-        Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
-        for (String id : ids) {
-            int index = removeInternally(id);
-            itemIndexes.put(id, index);
-        }
+		Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
+		for (String id : ids) {
+			int index = removeInternally(id);
+			itemIndexes.put(id, index);
+		}
 
-        fireEvent(new ListModelEvent(this, itemIndexes, ListModelEvent.REMOVE_ITEM));
-    }
+		fireEvent(new ListModelEvent(this, itemIndexes,
+				ListModelEvent.REMOVE_ITEM));
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void remove(int... indexes) {
-        Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
-        for (int index : indexes) {
-            if (isIndexValid(index)) {
-                String id = getItemIds().get(index);
-                removeInternally(id);
-                itemIndexes.put(id, index);
-            }
-        }
+		Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
+		for (int index : indexes) {
+			if (isIndexValid(index)) {
+				String id = getItemIds().get(index);
+				removeInternally(id);
+				itemIndexes.put(id, index);
+			}
+		}
 
-        fireEvent(new ListModelEvent(this, itemIndexes, ListModelEvent.REMOVE_ITEM));
-    }
+		fireEvent(new ListModelEvent(this, itemIndexes,
+				ListModelEvent.REMOVE_ITEM));
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public String getSelectedId() {
-        return selectedId;
-    }
+		return selectedId;
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public int getSelectedIndex() {
-        return getItemIds().indexOf(getSelectedId());
-    }
+		return getItemIds().indexOf(getSelectedId());
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public Object getSelected() {
-        return getItems().get(getSelectedId());
-    }
+		return getItems().get(getSelectedId());
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void setSelectedId(String id) {
-        this.selectedId = id;
+		this.selectedId = id;
 
-        fireEvent(new ListModelEvent(this, id, getSelectedIndex(), ListModelEvent.SELECT_ITEM));
-    }
+		fireEvent(new ListModelEvent(this, id, getSelectedIndex(),
+				ListModelEvent.SELECT_ITEM));
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void setSelectedIndex(int index) {
-        if (index < 0) {
-            selectedId = null;
-            return;
-        }
-        List<String> ids = getItemIds();
-        if (ids.size() > 0) {
+		if (index < 0) {
+			selectedId = null;
+			return;
+		}
+		List<String> ids = getItemIds();
+		if (ids.size() > 0) {
 			setSelectedId(ids.get(index));
 		}
-    }
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public void clear() {
-        getItemIds().clear();
+		getItemIds().clear();
 
-        fireEvent(new ListModelEvent(this, ListModelEvent.CLEAN));
-    }
+		fireEvent(new ListModelEvent(this, ListModelEvent.CLEAN));
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public boolean isEmpty() {
-        return getItemIds().isEmpty();
-    }
+		return getItemIds().isEmpty();
+	}
 
-    /** {@inheritDoc} */
-    @Override
+	/** {@inheritDoc} */
+	@Override
 	public int getCount() {
-        return getItemIds().size();
-    }
+		return getItemIds().size();
+	}
 
-    /**
-     * This method registers a list data model listener.
-     *
-     * @param listener is a listener to be invoked on any event.
-     */
-    @Override
-    public void addListModelListener(ListModelListener listener) {
-        removeListModelListener(listener);
-        listeners.add(listener);
-    }
+	/**
+	 * This method registers a list data model listener.
+	 *
+	 * @param listener
+	 *            is a listener to be invoked on any event.
+	 */
+	@Override
+	public void addListModelListener(ListModelListener listener) {
+		removeListModelListener(listener);
+		listeners.add(listener);
+	}
 
-    /**
-     * This method unregisters the specified listener.
-     *
-     * @param listener is a listener to be unregistered.
-     */
-    @Override
-    public void removeListModelListener(ListModelListener listener) {
-        listeners.remove(listener);
-    }
+	/**
+	 * This method unregisters the specified listener.
+	 *
+	 * @param listener
+	 *            is a listener to be unregistered.
+	 */
+	@Override
+	public void removeListModelListener(ListModelListener listener) {
+		listeners.remove(listener);
+	}
 
-    /**
-     * This method fires the specified event and invokes the listeners.
-     *
-     * @param event is an event to fire.
-     */
-    protected void fireEvent(ListModelEvent event) {
-        for (ListModelListener listener : listeners) {
-            try {
-                listener.onModelEvent(event);
-            } catch (Throwable t) {
-                GWT.log("Unknown listener error", t);
-            }
-        }
-    }
+	/**
+	 * This method fires the specified event and invokes the listeners.
+	 *
+	 * @param event
+	 *            is an event to fire.
+	 */
+	protected void fireEvent(ListModelEvent event) {
+		for (ListModelListener listener : listeners) {
+			try {
+				listener.onModelEvent(event);
+			} catch (Throwable t) {
+				GWT.log("Unknown listener error", t);
+			}
+		}
+	}
 
-    /**
-     * Adds a new item into the list without firing an event.
-     *
-     * @param id   is an item ID to add.
-     * @param item is an item itself.
-     */
-    protected void addInternally(String id, Object item) {
-        List<String> ids = getItemIds();
-        if (!ids.contains(id)) {
+	/**
+	 * Adds a new item into the list without firing an event.
+	 *
+	 * @param id
+	 *            is an item ID to add.
+	 * @param item
+	 *            is an item itself.
+	 */
+	protected void addInternally(String id, Object item) {
+		List<String> ids = getItemIds();
+		if (!ids.contains(id)) {
 			ids.add(id);
 		}
-        getItems().put(id, item);
-    }
+		getItems().put(id, item);
+	}
 
-    /**
-     * This method removes one item without sending any event.
-     *
-     * @param id is an ID of the item to remove.
-     * @return an index of the item that was removed.
-     */
-    protected int removeInternally(String id) {
-        int index = getItemIds().indexOf(id);
-        getItemIds().remove(id);
-        getItems().remove(id);
-        return index;
-    }
+	/**
+	 * This method removes one item without sending any event.
+	 *
+	 * @param id
+	 *            is an ID of the item to remove.
+	 * @return an index of the item that was removed.
+	 */
+	protected int removeInternally(String id) {
+		int index = getItemIds().indexOf(id);
+		getItemIds().remove(id);
+		getItems().remove(id);
+		return index;
+	}
 
-    /**
-     * Getter for property 'itemIds'.
-     *
-     * @return Value for property 'itemIds'.
-     */
-    protected List<String> getItemIds() {
-        return itemIds;
-    }
+	/**
+	 * Getter for property 'itemIds'.
+	 *
+	 * @return Value for property 'itemIds'.
+	 */
+	protected List<String> getItemIds() {
+		return itemIds;
+	}
 
-    /**
-     * Getter for property 'items'.
-     *
-     * @return Value for property 'items'.
-     */
-    protected Map<String, Object> getItems() {
-        return items;
-    }
+	/**
+	 * Getter for property 'items'.
+	 *
+	 * @return Value for property 'items'.
+	 */
+	protected Map<String, Object> getItems() {
+		return items;
+	}
 
-    /**
-     * This method checks whether the specified index is valid.
-     *
-     * @param index is an index value to check.
-     * @return <code>true</code> if the index is valid.
-     */
-    protected boolean isIndexValid(int index) {
-        return getItemIds().size() > index && index >= 0;
-    }
+	/**
+	 * This method checks whether the specified index is valid.
+	 *
+	 * @param index
+	 *            is an index value to check.
+	 * @return <code>true</code> if the index is valid.
+	 */
+	protected boolean isIndexValid(int index) {
+		return getItemIds().size() > index && index >= 0;
+	}
 
-    /**
-     * This method calculates a valid index value taking into account the following rule:
-     * if the index < 0, it returns 0;
-     * if the index > then {@link #getItemIds()} size, it returns {@link #getItemIds()} size.
-     *
-     * @param invalidIndex is an index.
-     * @return a valid index value.
-     */
-    protected int getValidIndex(int invalidIndex) {
-        List<String> ids = getItemIds();
+	/**
+	 * This method calculates a valid index value taking into account the
+	 * following rule: if the index < 0, it returns 0; if the index > then
+	 * {@link #getItemIds()} size, it returns {@link #getItemIds()} size.
+	 *
+	 * @param invalidIndex
+	 *            is an index.
+	 * @return a valid index value.
+	 */
+	protected int getValidIndex(int invalidIndex) {
+		List<String> ids = getItemIds();
 		int validIndex = invalidIndex;
 		if (invalidIndex < 0) {
 			validIndex = 0;
@@ -287,5 +305,5 @@ public class ComboBoxDataModel implements ListDataModel {
 			validIndex = ids.size();
 		}
 		return validIndex;
-    }
+	}
 }

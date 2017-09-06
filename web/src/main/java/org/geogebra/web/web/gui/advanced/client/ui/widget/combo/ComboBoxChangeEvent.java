@@ -30,43 +30,45 @@ import com.google.gwt.event.dom.client.ChangeEvent;
  * @since 2.0.1
  */
 public class ComboBoxChangeEvent extends ChangeEvent {
-    /** selected row number */
-    private int row;
-    /** an input device originally initiated the event */
-    private ChangeEventInputDevice inputDevice;
+	/** selected row number */
+	private int row;
+	/** an input device originally initiated the event */
+	private ChangeEventInputDevice inputDevice;
 
-    /**
-     * Creates an instance of this class and initalized internal variables.
-     *
-     * @param row is a row number.
-     * @param inputDevice is an original input device initiated the event.
-     */
-    public ComboBoxChangeEvent(int row, ChangeEventInputDevice inputDevice) {
-        this.row = row;
-        this.inputDevice = inputDevice;
-    }
+	/**
+	 * Creates an instance of this class and initalized internal variables.
+	 *
+	 * @param row
+	 *            is a row number.
+	 * @param inputDevice
+	 *            is an original input device initiated the event.
+	 */
+	public ComboBoxChangeEvent(int row, ChangeEventInputDevice inputDevice) {
+		this.row = row;
+		this.inputDevice = inputDevice;
+	}
 
 	/**
 	 * @return row
 	 */
-    public int getRow() {
-        return row;
-    }
+	public int getRow() {
+		return row;
+	}
 
 	/**
 	 * @return keyboard or mouse
 	 */
-    public ChangeEventInputDevice getInputDevice() {
-        return inputDevice;
-    }
+	public ChangeEventInputDevice getInputDevice() {
+		return inputDevice;
+	}
 
-    /**
-     * This enum describes possible devices that can initiate the event.
-     */
-    public enum ChangeEventInputDevice {
-        /** keyboard device (or virtual keyboard) */
-        KEYBOARD,
-        /** mouse device (or touch screen) */
-        MOUSE
-    }
+	/**
+	 * This enum describes possible devices that can initiate the event.
+	 */
+	public enum ChangeEventInputDevice {
+		/** keyboard device (or virtual keyboard) */
+		KEYBOARD,
+		/** mouse device (or touch screen) */
+		MOUSE
+	}
 }

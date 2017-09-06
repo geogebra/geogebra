@@ -26,30 +26,30 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * @since 1.0.0
  */
 public class LockingPanel extends PopupPanel {
-    /**
-     * Creates an instance of this class.
-     */
-    public LockingPanel() {
-        super(false, false);
-    }
+	/**
+	 * Creates an instance of this class.
+	 */
+	public LockingPanel() {
+		super(false, false);
+	}
 
-    /**
-     * Shows the panel.
-     */
-    public void lock() {
-        setStyleName("advanced-LockingPanel");
-        setPopupPosition(0, 0);
-        setWidth("100%");
-        setHeight("100%");
-        setPixelSize(Window.getClientWidth(), Window.getClientHeight());
+	/**
+	 * Shows the panel.
+	 */
+	public void lock() {
+		setStyleName("advanced-LockingPanel");
+		setPopupPosition(0, 0);
+		setWidth("100%");
+		setHeight("100%");
+		setPixelSize(Window.getClientWidth(), Window.getClientHeight());
 
-        show();
-    }
+		show();
+	}
 
-    /**
-     * Hides the panel.
-     */
-    public void unlock() {
-        hide();
-    }
+	/**
+	 * Hides the panel.
+	 */
+	public void unlock() {
+		hide();
+	}
 }

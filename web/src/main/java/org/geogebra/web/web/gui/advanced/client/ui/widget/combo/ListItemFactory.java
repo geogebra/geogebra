@@ -26,19 +26,22 @@ import com.google.gwt.user.client.ui.Widget;
  * @since 1.2.0
  */
 public interface ListItemFactory {
-    /**
-     * This method creates a new widget that should be inserted into the list.
-     *
-     * @param value is a value to be used to construct the widget.
-     * @return a widget instance (can be equal to <code>null</code>).
-     */
-    Widget createWidget(Object value);
+	/**
+	 * This method creates a new widget that should be inserted into the list.
+	 *
+	 * @param value
+	 *            is a value to be used to construct the widget.
+	 * @return a widget instance (can be equal to <code>null</code>).
+	 */
+	Widget createWidget(Object value);
 
-    /**
-     * This method should convert the value to the text to be displayed in the selection text box.
-     *
-     * @param value is a value to be converted.
-     * @return textual representation of the value.
-     */
-    String convert(Object value);
+	/**
+	 * This method should convert the value to the text to be displayed in the
+	 * selection text box.
+	 *
+	 * @param value
+	 *            is a value to be converted.
+	 * @return textual representation of the value.
+	 */
+	String convert(Object value);
 }

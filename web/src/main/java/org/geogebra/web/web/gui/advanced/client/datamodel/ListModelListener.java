@@ -17,17 +17,19 @@
 package org.geogebra.web.web.gui.advanced.client.datamodel;
 
 /**
- * This is an interface that describes a listeners that is invoked
- * on list data model changes.
+ * This is an interface that describes a listeners that is invoked on list data
+ * model changes.
  *
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
  * @since 1.4.9
  */
 public interface ListModelListener {
-    /**
-     * This method should implement actions which related widgets must do on events.
-     *
-     * @param event an event produced by the model.
-     */
-    void onModelEvent(ListModelEvent event);
+	/**
+	 * This method should implement actions which related widgets must do on
+	 * events.
+	 *
+	 * @param event
+	 *            an event produced by the model.
+	 */
+	void onModelEvent(ListModelEvent event);
 }

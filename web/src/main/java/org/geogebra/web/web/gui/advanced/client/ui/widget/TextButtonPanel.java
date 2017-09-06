@@ -38,40 +38,40 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * @since 1.2.0
  */
 public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
-        implements AdvancedWidget, HasValue<TypeOfSelectedValue> {
-    /** widget layout */
-    private FlexTable layout;
-    /** a selected value box */
+		implements AdvancedWidget, HasValue<TypeOfSelectedValue> {
+	/** widget layout */
+	private FlexTable layout;
+	/** a selected value box */
 	private AutoCompleteTextFieldW selectedValue;
-    /** a choice button */
-    private ToggleButton choiceButton;
-    /** a choice button image */
-    private Image choiceButtonImage;
-    /** this flag means whether it's possible to enter a custom text */
-    private boolean customTextAllowed;
-    /** a falg meaning whether the widget locked */
-    private boolean locked;
-    /** a locking panel to lock the screen */
-    private LockingPanel lockingPanel;
-    /** choice button visibility flag */
-    private boolean choiceButtonVisible;
-    /** widget width */
-    private String width;
-    /** widget height */
-    private String height;
-    /** enabled panel controls flag */
-    private boolean enabled;
+	/** a choice button */
+	private ToggleButton choiceButton;
+	/** a choice button image */
+	private Image choiceButtonImage;
+	/** this flag means whether it's possible to enter a custom text */
+	private boolean customTextAllowed;
+	/** a falg meaning whether the widget locked */
+	private boolean locked;
+	/** a locking panel to lock the screen */
+	private LockingPanel lockingPanel;
+	/** choice button visibility flag */
+	private boolean choiceButtonVisible;
+	/** widget width */
+	private String width;
+	/** widget height */
+	private String height;
+	/** enabled panel controls flag */
+	private boolean enabled;
 
-    private EnterAction enterAction = EnterAction.OPEN_DROP_DOWN;
+	private EnterAction enterAction = EnterAction.OPEN_DROP_DOWN;
 	private final AppW app;
 
 	/** action to be performed on Enter key press in the text field */
-    public enum EnterAction {
+	public enum EnterAction {
 		/** open */
 		OPEN_DROP_DOWN,
 		/** ignore */
 		DO_NOTHING;
-    }
+	}
 
 	/**
 	 * @param app
@@ -79,193 +79,202 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 */
 	protected TextButtonPanel(AppW app) {
 		this.app = app;
-        getLayout().setWidget(0, 0, getSelectedValue());
-        setChoiceButtonVisible(true);
-        setCustomTextAllowed(false);
-        setStyleName("advanced-TextButtonPanel");
-        setWidget(getLayout());
-        addComponentListeners();
-    }
+		getLayout().setWidget(0, 0, getSelectedValue());
+		setChoiceButtonVisible(true);
+		setCustomTextAllowed(false);
+		setStyleName("advanced-TextButtonPanel");
+		setWidget(getLayout());
+		addComponentListeners();
+	}
 
-    /**
-     * Getter for property 'customTextAllowed'.
-     *
-     * @return Value for property 'customTextAllowed'.
-     */
-    public boolean isCustomTextAllowed() {
-        return customTextAllowed;
-    }
+	/**
+	 * Getter for property 'customTextAllowed'.
+	 *
+	 * @return Value for property 'customTextAllowed'.
+	 */
+	public boolean isCustomTextAllowed() {
+		return customTextAllowed;
+	}
 
-    /**
-     * Setter for property 'customTextAllowed'.
-     *
-     * @param customTextAllowed Value to set for property 'customTextAllowed'.
-     */
-    public void setCustomTextAllowed(boolean customTextAllowed) {
-        this.customTextAllowed = customTextAllowed;
-        prepareSelectedValue();
-    }
+	/**
+	 * Setter for property 'customTextAllowed'.
+	 *
+	 * @param customTextAllowed
+	 *            Value to set for property 'customTextAllowed'.
+	 */
+	public void setCustomTextAllowed(boolean customTextAllowed) {
+		this.customTextAllowed = customTextAllowed;
+		prepareSelectedValue();
+	}
 
-    /**
-     * Setter for property 'choiceButtonImage'.
-     *
-     * @param choiceButtonImage Value to set for property 'choiceButtonImage'.
-     */
-    public void setChoiceButtonImage(Image choiceButtonImage) {
-        this.choiceButtonImage = choiceButtonImage;
-    }
+	/**
+	 * Setter for property 'choiceButtonImage'.
+	 *
+	 * @param choiceButtonImage
+	 *            Value to set for property 'choiceButtonImage'.
+	 */
+	public void setChoiceButtonImage(Image choiceButtonImage) {
+		this.choiceButtonImage = choiceButtonImage;
+	}
 
-    /**
-     * Getter for property 'choiceButtonVisible'.
-     *
-     * @return Value for property 'choiceButtonVisible'.
-     */
-    public boolean isChoiceButtonVisible() {
-        return choiceButtonVisible;
-    }
+	/**
+	 * Getter for property 'choiceButtonVisible'.
+	 *
+	 * @return Value for property 'choiceButtonVisible'.
+	 */
+	public boolean isChoiceButtonVisible() {
+		return choiceButtonVisible;
+	}
 
-    /**
-     * Setter for property 'choiceButtonVisible'.
-     *
-     * @param choiceButtonVisible Value to set for property 'choiceButtonVisible'.
-     */
-    public void setChoiceButtonVisible(boolean choiceButtonVisible) {
-        if (!choiceButtonVisible && isChoiceButtonVisible()) {
-            getLayout().removeCell(0, 1);
-        } else if (choiceButtonVisible && !isChoiceButtonVisible()) {
-            getLayout().setWidget(0, 1, getChoiceButton());
-            prepareChoiceButton();
-        }
-        this.choiceButtonVisible = choiceButtonVisible;
-    }
+	/**
+	 * Setter for property 'choiceButtonVisible'.
+	 *
+	 * @param choiceButtonVisible
+	 *            Value to set for property 'choiceButtonVisible'.
+	 */
+	public void setChoiceButtonVisible(boolean choiceButtonVisible) {
+		if (!choiceButtonVisible && isChoiceButtonVisible()) {
+			getLayout().removeCell(0, 1);
+		} else if (choiceButtonVisible && !isChoiceButtonVisible()) {
+			getLayout().setWidget(0, 1, getChoiceButton());
+			prepareChoiceButton();
+		}
+		this.choiceButtonVisible = choiceButtonVisible;
+	}
 
-    /** {@inheritDoc} */
+	/** {@inheritDoc} */
 	@Override
 	public void setWidth(String width) {
-        super.setWidth(width);
-        this.width = width;
-        prepareSelectedValue();
-    }
+		super.setWidth(width);
+		this.width = width;
+		prepareSelectedValue();
+	}
 
-
-    /** {@inheritDoc} */
+	/** {@inheritDoc} */
 	@Override
 	public void setHeight(String height) {
-        super.setHeight(height);
-        this.height = height;
-        prepareSelectedValue();
-    }
+		super.setHeight(height);
+		this.height = height;
+		prepareSelectedValue();
+	}
 
-    /**
-     * This method gets a maximum length of the text box.<p/>
-     * It makes sence if you allow custom values entering.<p/>
-     * See also {@link #isCustomTextAllowed()} and {@link #setCustomTextAllowed(boolean)}.
-     *
-     * @return a maximum length of the text box.
-     */
-    public int getMaxLength() {
+	/**
+	 * This method gets a maximum length of the text box.
+	 * <p/>
+	 * It makes sence if you allow custom values entering.
+	 * <p/>
+	 * See also {@link #isCustomTextAllowed()} and
+	 * {@link #setCustomTextAllowed(boolean)}.
+	 *
+	 * @return a maximum length of the text box.
+	 */
+	public int getMaxLength() {
 		return 100;// getSelectedValue().getMaxLength();
-    }
+	}
 
-    /**
-     * This method sets a maximum length of the text box.<p/>
-     * It makes sence if you allow custom values entering.<p/>
-     * See also {@link #isCustomTextAllowed()} and {@link #setCustomTextAllowed(boolean)}.
-     *
-     * @param length is a maximum length of the text box.
-     */
-    public void setMaxLength(int length) {
+	/**
+	 * This method sets a maximum length of the text box.
+	 * <p/>
+	 * It makes sence if you allow custom values entering.
+	 * <p/>
+	 * See also {@link #isCustomTextAllowed()} and
+	 * {@link #setCustomTextAllowed(boolean)}.
+	 *
+	 * @param length
+	 *            is a maximum length of the text box.
+	 */
+	public void setMaxLength(int length) {
 		// getSelectedValue().setMaxLength(length);
-    }
+	}
 
-    /**
-     * This method sets a tab index for this component.
-     *
-     * @param index is a tab order number.
-     */
-    public void setTabIndex(int index) {
+	/**
+	 * This method sets a tab index for this component.
+	 *
+	 * @param index
+	 *            is a tab order number.
+	 */
+	public void setTabIndex(int index) {
 		// getSelectedValue().setTabIndex(index);
-    }
+	}
 
-    /**
-     * Checks whether the controls palced on this panel are enabled.
-     *
-     * @return a result of check.
-     */
-    public boolean isEnabled() {
-        return enabled;
-    }
+	/**
+	 * Checks whether the controls palced on this panel are enabled.
+	 *
+	 * @return a result of check.
+	 */
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-    /**
-     * Enables or disables the controls inside the panel.
-     *
-     * @param enabled is a flag that means whether the controls must be enabled.
-     */
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+	/**
+	 * Enables or disables the controls inside the panel.
+	 *
+	 * @param enabled
+	 *            is a flag that means whether the controls must be enabled.
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 		getSelectedValue().setEditable(enabled);
-        getChoiceButton().setEnabled(enabled);
-    }
+		getChoiceButton().setEnabled(enabled);
+	}
 
-    /**
-     * Cleans all the data displayed in the widget.
-     */
-    public void cleanSelection() {
-        getSelectedValue().setText("");
-    }
+	/**
+	 * Cleans all the data displayed in the widget.
+	 */
+	public void cleanSelection() {
+		getSelectedValue().setText("");
+	}
 
-   
+	/**
+	 * This method adds component listeners.
+	 */
+	protected abstract void addComponentListeners();
 
-    /**
-     * This method adds component listeners.
-     */
-    protected abstract  void addComponentListeners();
-
-    /**
-     * Prepares the selected value box for displaying.
-     */
-    protected void prepareSelectedValue() {
+	/**
+	 * Prepares the selected value box for displaying.
+	 */
+	protected void prepareSelectedValue() {
 		AutoCompleteTextFieldW selValue = getSelectedValue();
 		selValue.setEditable(!isCustomTextAllowed());
 		selValue.setStyleName("selected-value");
 
-        if(getHeight() != null) {
-            getLayout().setHeight("100%");
-            getLayout().getCellFormatter().setHeight(0, 0, "100%");
-            getSelectedValue().setHeight("100%");
-        }
+		if (getHeight() != null) {
+			getLayout().setHeight("100%");
+			getLayout().getCellFormatter().setHeight(0, 0, "100%");
+			getSelectedValue().setHeight("100%");
+		}
 
-        if (getWidth() != null) {
-            getLayout().setWidth("100%");
+		if (getWidth() != null) {
+			getLayout().setWidth("100%");
 			getLayout().getCellFormatter().setWidth(0, 0, "100%");
-            getSelectedValue().setWidth("100%");
-        }
-    }
+			getSelectedValue().setWidth("100%");
+		}
+	}
 
-    /**
-     * Prepares the drop down button for displaying.
-     */
-    protected void prepareChoiceButton() {
-        ToggleButton dropDownButton = getChoiceButton();
-        dropDownButton.getUpFace().setImage(getChoiceButtonImage());
-        dropDownButton.getDownFace().setImage(getChoiceButtonImage());
-        dropDownButton.setStyleName("choice-button");
-    }
+	/**
+	 * Prepares the drop down button for displaying.
+	 */
+	protected void prepareChoiceButton() {
+		ToggleButton dropDownButton = getChoiceButton();
+		dropDownButton.getUpFace().setImage(getChoiceButtonImage());
+		dropDownButton.getDownFace().setImage(getChoiceButtonImage());
+		dropDownButton.setStyleName("choice-button");
+	}
 
-    /**
-     * Getter for property 'layout'.
-     *
-     * @return Value for property 'layout'.
-     */
-    protected FlexTable getLayout() {
-        if (layout == null) {
-            layout = new FlexTable();
-            layout.setCellPadding(0);
-            layout.setCellSpacing(0);
-            layout.getFlexCellFormatter().setWidth(0, 0, "100%");
-        }
-        return layout;
-    }
+	/**
+	 * Getter for property 'layout'.
+	 *
+	 * @return Value for property 'layout'.
+	 */
+	protected FlexTable getLayout() {
+		if (layout == null) {
+			layout = new FlexTable();
+			layout.setCellPadding(0);
+			layout.setCellSpacing(0);
+			layout.getFlexCellFormatter().setWidth(0, 0, "100%");
+		}
+		return layout;
+	}
 
 	/**
 	 * @param tf
@@ -274,122 +283,125 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	public void setTextField(AutoCompleteTextFieldW tf) {
 		selectedValue = tf;
 	}
-    /**
-     * Getter for property 'selectedValue'.
-     *
-     * @return Value for property 'selectedValue'.
-     */
+
+	/**
+	 * Getter for property 'selectedValue'.
+	 *
+	 * @return Value for property 'selectedValue'.
+	 */
 	protected AutoCompleteTextFieldW getSelectedValue() {
-        if (selectedValue == null) {
+		if (selectedValue == null) {
 			selectedValue = new AutoCompleteTextFieldW(6, getApp());
 			selectedValue.requestToShowSymbolButton();
 			selectedValue.setAutoComplete(false);
 		}
 		return selectedValue;
-    }
+	}
 
-    /**
-     * Getter for property 'choiceButton'.
-     *
-     * @return Value for property 'choiceButton'.
-     */
-    protected ToggleButton getChoiceButton() {
-        if (choiceButton == null) {
+	/**
+	 * Getter for property 'choiceButton'.
+	 *
+	 * @return Value for property 'choiceButton'.
+	 */
+	protected ToggleButton getChoiceButton() {
+		if (choiceButton == null) {
 			choiceButton = new ToggleButton();
 		}
-        return choiceButton;
-    }
+		return choiceButton;
+	}
 
-    /**
-     * Getter for property 'choiceButtonImage'.
-     *
-     * @return Value for property 'choiceButtonImage'.
-     */
-    protected Image getChoiceButtonImage() {
-        if (choiceButtonImage == null) {
-			choiceButtonImage = new Image(GuiResources.INSTANCE.little_triangle_down());
+	/**
+	 * Getter for property 'choiceButtonImage'.
+	 *
+	 * @return Value for property 'choiceButtonImage'.
+	 */
+	protected Image getChoiceButtonImage() {
+		if (choiceButtonImage == null) {
+			choiceButtonImage = new Image(
+					GuiResources.INSTANCE.little_triangle_down());
 		}
-        return choiceButtonImage;
-    }
+		return choiceButtonImage;
+	}
 
-    /**
-     * Getter for property 'locked'.
-     *
-     * @return Value for property 'locked'.
-     */
-    public boolean isLocked() {
-        return locked;
-    }
+	/**
+	 * Getter for property 'locked'.
+	 *
+	 * @return Value for property 'locked'.
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
 
-    /**
-     * This method locks the screen.
-     */
-    public void lock() {
-        setLocked(true);
-        getLockingPanel().lock();
-    }
+	/**
+	 * This method locks the screen.
+	 */
+	public void lock() {
+		setLocked(true);
+		getLockingPanel().lock();
+	}
 
-    /**
-     * This method unlocks the screen and redisplays the widget.
-     */
-    public void unlock() {
-        getLockingPanel().unlock();
-        setLocked(false);
-    }
+	/**
+	 * This method unlocks the screen and redisplays the widget.
+	 */
+	public void unlock() {
+		getLockingPanel().unlock();
+		setLocked(false);
+	}
 
-    /**
-     * Setter for property 'locked'.
-     *
-     * @param locked Value to set for property 'locked'.
-     */
-    protected void setLocked(boolean locked) {
-        this.locked = locked;
-    }
+	/**
+	 * Setter for property 'locked'.
+	 *
+	 * @param locked
+	 *            Value to set for property 'locked'.
+	 */
+	protected void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 
-    /**
-     * Getter for property 'lockingPanel'.
-     *
-     * @return Value for property 'lockingPanel'.
-     */
-    protected LockingPanel getLockingPanel() {
-        if (lockingPanel == null) {
+	/**
+	 * Getter for property 'lockingPanel'.
+	 *
+	 * @return Value for property 'lockingPanel'.
+	 */
+	protected LockingPanel getLockingPanel() {
+		if (lockingPanel == null) {
 			lockingPanel = new LockingPanel();
 		}
-        return lockingPanel;
-    }
+		return lockingPanel;
+	}
 
-    /**
-     * Getter for property 'width'.
-     *
-     * @return Value for property 'width'.
-     */
-    protected String getWidth() {
-        return width;
-    }
+	/**
+	 * Getter for property 'width'.
+	 *
+	 * @return Value for property 'width'.
+	 */
+	protected String getWidth() {
+		return width;
+	}
 
-    /**
-     * Getter for property 'height'.
-     *
-     * @return Value for property 'height'.
-     */
-    protected String getHeight() {
-        return height;
-    }
+	/**
+	 * Getter for property 'height'.
+	 *
+	 * @return Value for property 'height'.
+	 */
+	protected String getHeight() {
+		return height;
+	}
 
 	/**
 	 * @return action on enter
 	 */
-    public ComboBox.EnterAction getEnterAction() {
-        return enterAction;
-    }
+	public ComboBox.EnterAction getEnterAction() {
+		return enterAction;
+	}
 
 	/**
 	 * @param enterAction
 	 *            action on enter
 	 */
-    public void setEnterAction(ComboBox.EnterAction enterAction) {
-        this.enterAction = enterAction;
-    }
+	public void setEnterAction(ComboBox.EnterAction enterAction) {
+		this.enterAction = enterAction;
+	}
 
 	/**
 	 * @return application

@@ -27,13 +27,14 @@ package org.geogebra.web.web.gui.advanced.client.ui.widget.combo;
  * @since 2.0.2
  */
 public enum DropDownPosition {
-    /**
-     * The list will be displayed above the box or under it according to many conditions detected
-     * automatically. Usually it's shown under the text area and button if there is space enough.
-     */
-    AUTO,
-    /** The list is always displayed above the box */
-    ABOVE,
-    /** The list is always displayed under the box */
-    UNDER
+	/**
+	 * The list will be displayed above the box or under it according to many
+	 * conditions detected automatically. Usually it's shown under the text area
+	 * and button if there is space enough.
+	 */
+	AUTO,
+	/** The list is always displayed above the box */
+	ABOVE,
+	/** The list is always displayed under the box */
+	UNDER
 }
