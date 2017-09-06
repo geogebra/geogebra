@@ -38,7 +38,8 @@ public class LineStylePopup extends PopupMenuButtonW  {
 
 	}
 
-	public static LineStylePopup create(AppW app, int mode, boolean hasSlider) {
+	public static LineStylePopup create(AppW app, int mode, boolean hasSlider,
+			boolean isTealBorder) {
 
 		ImageOrText[] lineStyleIcons0 = getLineStyleIcons();
 
@@ -46,16 +47,16 @@ public class LineStylePopup extends PopupMenuButtonW  {
 
 		LineStylePopup ret = new LineStylePopup(app, lineStyleIcons0, -1,
 				LineStyleModel.getStyleCount(), SelectionTable.MODE_ICON,
-				true, hasSlider, lineStyleMap0);
+				true, hasSlider, lineStyleMap0, isTealBorder);
 		return ret;
 	}
 
 	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode,
 			boolean hasTable, boolean hasSlider,
-			HashMap<Integer, Integer> lineStyleMap0) {
+			HashMap<Integer, Integer> lineStyleMap0, boolean isTealBorder) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider,
-				lineStyleMap0, false);
+				lineStyleMap0, isTealBorder);
 
 	}
 

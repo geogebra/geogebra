@@ -832,7 +832,7 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, -1, false);
+			btnLineStyle = LineStylePopup.create(app, -1, false, false);
 			// slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 

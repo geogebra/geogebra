@@ -19,7 +19,7 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 			boolean hasSlider) {
 		super(app, LineStylePopup.getLineStyleIcons(), rows, columns,
 				mode, hasTable, hasSlider,
-				LineStylePopup.createLineStyleMap());
+				LineStylePopup.createLineStyleMap(), false);
 		model = new LineStyleModel(app);
 		model.setListener(this);
 		this.setKeepVisible(false);

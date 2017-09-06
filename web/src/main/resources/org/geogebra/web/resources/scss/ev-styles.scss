@@ -188,8 +188,8 @@
 			    margin-top: 5px;
     		}
     		.preview{
-		    margin: 3px 0px 3px 12px;
-	}
+		    	margin: 3px 0px 3px 12px;
+			}
     	}
     
     	.labelPopupPanel {
@@ -281,6 +281,18 @@
     			}
     		 }
 	}	
+
+	.matPopupPanel.tealBorder {
+		padding: 0px !important; 
+		
+   		.matSelectionTable {
+   		 	.gwt-Label.border:hover,
+   		 		.gwt-Label.border.selected, 
+					.gwt-Label.border.selected:hover {
+   		 		border: 1px solid $teal-default !important;
+   		 	}
+   		}
+   	}
 
 	.zoomPanel {
 		position: absolute;

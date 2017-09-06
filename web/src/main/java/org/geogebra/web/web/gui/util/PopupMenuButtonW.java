@@ -147,7 +147,7 @@ public class PopupMenuButtonW extends MyCJButton
 			multiselectionEnabled = true;
 		}
 
-		createPopup();
+		createPopup(isBorderTeal);
 
 		// add a mouse listener to our button that triggers the popup
 		addClickHandler(new ClickHandler() {
@@ -218,7 +218,7 @@ public class PopupMenuButtonW extends MyCJButton
 	/**
 	 * creates a new {@link ButtonPopupMenu}
 	 */
-	private void createPopup() {
+	private void createPopup(boolean isBorderTeal) {
 		myPopup = new ButtonPopupMenu(app.getPanel(), app) {
 			@Override
 			public void setVisible(boolean visible) {
@@ -240,6 +240,9 @@ public class PopupMenuButtonW extends MyCJButton
 		};
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			myPopup.addStyleName("matPopupPanel");
+			if (isBorderTeal) {
+				myPopup.addStyleName("tealBorder");
+			}
 		}
 		myPopup.setAutoHideEnabled(true);
     }

@@ -209,6 +209,22 @@ $collapse-trans: all 0.2s ease;
 		max-height: 0px;
 		transition: $collapse-trans;
 	} 
+
+	.advanced-ListPopupPanel {
+		z-index: 500;	
+		background: $white;
+    	border: 1px solid #dcdcdc;
+    	cursor: pointer;
+    	
+    	.item:hover {
+    		color: $teal-default;	
+    	}
+		
+		.gwt-Label {
+   			position: relative;
+    		left: 12px;
+		}
+	}
  }
   
  

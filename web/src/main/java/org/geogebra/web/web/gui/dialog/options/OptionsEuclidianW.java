@@ -992,7 +992,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
-			btnGridStyle = LineStylePopup.create(app, -1, false);
+			btnGridStyle = LineStylePopup.create(app, -1, false,true);
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 

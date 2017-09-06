@@ -10,7 +10,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			right: 0px;
 			box-shadow: 0 0 16px $black-28;
 			background-color: $white;
-			z-index:  100000;;
+			z-index: 500;
 			height: 100%;
 			width: 500px;
     		overflow-y: auto;	
@@ -58,7 +58,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		}
     	
     		.panelTitle:first-child {
-    			margin-top: 0px !important;
+    			margin-top: 8px !important;
 			}
     	
     		.panelTitle {
@@ -120,6 +120,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				cursor: pointer;	
     			}
     			
+    			.gwt-CheckBox {
+					margin-bottom: 8px;	
+				}
+    			
     			.numberInput {
     				border: none;
     				box-shadow: none;	
@@ -133,11 +137,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				border-bottom: 1px solid white;
 				}
 			
-				.panelRowIndent .gwt-Label, 
-					.panelRowCell .gwt-Label, 
-						.panelRow .gwt-Label {
-					cursor: default;
-					font-size: 14px;
+				.panelRowIndent, 
+				  .panelRowCell, 
+					.panelRow,
+					  .listBoxPanel {
+					  	margin-bottom: 10px;
+					  	
+						.gwt-Label {
+							cursor: default;
+							font-size: 14px;
+						}
+					
+						.gwt-CheckBox {
+							margin-bottom: 0px;	
+						}
 				}
     			
     			.propMaterialTab {
@@ -183,7 +196,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				}	
     				
     				.panelRowIndent, 
-    				  .panelRow {
+    				  .panelRow, .listBoxPanel {
     					padding-left: 0px;	
     					
     					.gwt-ToggleButton {
