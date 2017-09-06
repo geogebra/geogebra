@@ -2982,7 +2982,7 @@ __GGB__keysVar.fr.menu = {
     "ar.activity.football": "Comment peut-on construire un ballon de foot \xe0 partir d'un icosa\xe8dre r\xe9gulier ?",
     "ar.activity.kleinsbottle": "Prendre une s\xe9rie de photos en entrant dans la bouteille, puis en suivant l'anse pour finalement \xeatre bloqu\xe9 au niveau du goulot",
     "ar.activity.penrose": "Prendre une photo qui donne l'illusion d'un triangle ferm\xe9",
-    "ar.activity.ruledsurface": "Prendre des photos qui:\na) montrent trois cercles\nb) montrent que l'objet est constitu\xe9 de segments\nc) montrent deux branches d'une hyperbole",
+    "ar.activity.ruledsurface": "Prendre des photos qui :\na) montrent trois cercles\nb) montrent que l'objet est constitu\xe9 de segments\nc) montrent deux branches d'une hyperbole",
     "ar.activity.sierpinski": "Prendre plusieurs photos qui montrent le m\xeame motif \xe0 diff\xe9rents niveaux de la fractale",
     "ar.interruption.message": "La session va maintenant red\xe9marrer.",
     "ar.interruption.title": "Session interrompue",
