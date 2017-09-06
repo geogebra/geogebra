@@ -890,12 +890,15 @@ namespace giac {
     else
       return s;
   }
+
+#ifdef USE_GMP_REPLACEMENTS
   gen _extrema(const gen & g,GIAC_CONTEXT){
     return critical(g,true,contextptr);
   }
   static const char _extrema_s []="extrema";
   static define_unary_function_eval_quoted (__extrema,&_extrema,_extrema_s);
   define_unary_function_ptr5( at_extrema ,alias_at_extrema,&__extrema,_QUOTE_ARGUMENTS,true);
+#endif
 
   gen _critical(const gen & g,GIAC_CONTEXT){
     return critical(g,false,contextptr);

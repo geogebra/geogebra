@@ -1153,13 +1153,11 @@ namespace giac {
     double eps=epsilon(contextptr);
     if (g.type==_VECT && g._VECTptr->size()==2){
       gen gf=evalf_double(g._VECTptr->back(),1,contextptr);
+      if (is_integral(gf))
+	return gen2continued_fraction(g._VECTptr->front(),gf.val,contextptr);
       if (gf.type==_DOUBLE_){
 	eps=gf._DOUBLE_val;
 	g=evalf_double(g._VECTptr->front(),1,contextptr);
-      }
-      else {
-	if (g._VECTptr->back().type==_INT_)
-	  return gen2continued_fraction(g._VECTptr->front(),g._VECTptr->back().val,contextptr);
       }
     }
     g=evalf_double(g,1,contextptr);
@@ -7730,6 +7728,36 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static const char _link2giac_s []="link2giac";
   static define_unary_function_eval (__link2giac,&_link2giac,_link2giac_s);
   define_unary_function_ptr5( at_link2giac ,alias_at_link2giac,&__link2giac,0,true);
+
+  gen _range(const gen & args,GIAC_CONTEXT){
+    gen g(args);
+    if (is_integral(g) && g.type==_INT_ && g.val>=0){
+      int n=g.val;
+      vecteur v(n);
+      for (int i=0;i<n;++i)
+	v[i]=i;
+      return v;
+    }
+    if (g.type==_VECT && g._VECTptr->size()>=2){
+      gen a=g._VECTptr->front(),b=(*g._VECTptr)[1],c=1;
+      if (g._VECTptr->size()==3)
+	c=g._VECTptr->back();
+      if (is_integral(a) && is_integral(b) && is_integral(c)){
+	int A=a.val,B=b.val,C=c.val;
+	if ( (A<=B && C>0) || (A>=B && C<0)){
+	  int s=(B-A)/C;
+	  vecteur w(s);
+	  for (int i=0;i<s;++i)
+	    w[i]=A+i*C;
+	  return w;
+	}
+      }
+    }
+    return gensizeerr(contextptr);
+  }
+  static const char _range_s []="range";
+  static define_unary_function_eval (__range,&_range,_range_s);
+  define_unary_function_ptr5( at_range ,alias_at_range,&__range,0,true);
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

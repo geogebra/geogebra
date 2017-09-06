@@ -3608,6 +3608,7 @@ namespace giac {
       if (valeur.type==_STRNG){
 	if (indice.type!=_INT_ || a.type!=_STRNG || a._STRNGptr->empty())
 	  return gensizeerr(contextptr);
+	if (indice.val<0) indice+=(int) valeur._STRNGptr->size();
 	if (indice.val<0 || indice.val>=(int) valeur._STRNGptr->size())
 	  return gendimerr(contextptr);
 	if (in_place){
@@ -3744,10 +3745,14 @@ namespace giac {
 	v=*valeur._VECTptr;
 	vptr=&v;
       }
-      if (indice.is_symb_of_sommet(*at_interval)&& indice._SYMBptr->feuille.type==_VECT && indice._SYMBptr->feuille._VECTptr->size()==2){
+      if ( (indice.is_symb_of_sommet(*at_interval) || indice.is_symb_of_sommet(*at_deuxpoints))&& indice._SYMBptr->feuille.type==_VECT && indice._SYMBptr->feuille._VECTptr->size()==2){
 	gen deb=indice._SYMBptr->feuille._VECTptr->front();
 	gen fin=indice._SYMBptr->feuille._VECTptr->back();
-	if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ || deb.val<0 || fin.val<0 || deb.val>fin.val)
+	if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ )
+	  return gendimerr();
+	if (deb.val<0) deb.val+=int(vptr->size());
+	if (fin.val<0) fin.val+=int(vptr->size());
+	if (deb.val<0 || fin.val<0 || deb.val>fin.val)
 	  return gendimerr();
 	if (a.type==_VECT && a._VECTptr->size()!=fin.val-deb.val+1)
 	  return gendimerr(contextptr);
@@ -3768,6 +3773,8 @@ namespace giac {
 	return sto(gen(v,valeur.subtype),destination,in_place,contextptr);
       }
       if (indice.type!=_VECT){
+	if (indice.type==_INT_ && indice.val<0)
+	  indice += int(vptr->size());
 	if (indice.type!=_INT_ || indice.val<0 )
 	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
 	// check size
@@ -3786,10 +3793,14 @@ namespace giac {
       iterateur it=indice._VECTptr->begin(),itend=indice._VECTptr->end();
       if (itend-it==2){
 	gen i2=*(it+1);
-	if (it->is_symb_of_sommet(*at_interval)&& it->_SYMBptr->feuille.type==_VECT && it->_SYMBptr->feuille._VECTptr->size()==2){
+	if ( (it->is_symb_of_sommet(*at_interval) ||it->is_symb_of_sommet(*at_deuxpoints) ) && it->_SYMBptr->feuille.type==_VECT && it->_SYMBptr->feuille._VECTptr->size()==2){
 	  gen deb=it->_SYMBptr->feuille._VECTptr->front();
 	  gen fin=it->_SYMBptr->feuille._VECTptr->back();
-	  if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ || deb.val<0 || fin.val<0 || deb.val>fin.val)
+	  if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ )
+	    return gendimerr(contextptr);
+	  if (deb.val<0) deb.val+=int(vptr->size());
+	  if (fin.val<0) fin.val+=int(vptr->size());
+	  if (deb.val<0 || fin.val<0 || deb.val>fin.val)
 	    return gendimerr(contextptr);
 	  if (a.type==_VECT && a._VECTptr->size()!=fin.val-deb.val+1)
 	    return gendimerr(contextptr);
@@ -3805,10 +3816,14 @@ namespace giac {
 	    for (int i=deb.val;i<=fin.val;++i)
 	      (*vptr)[i]=*(*vptr)[i]._VECTptr;
 	  }
-	  if (i2.is_symb_of_sommet(*at_interval) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
+	  if ( (i2.is_symb_of_sommet(*at_interval) || i2.is_symb_of_sommet(*at_deuxpoints)) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
 	    gen deb2=i2._SYMBptr->feuille._VECTptr->front();
 	    gen fin2=i2._SYMBptr->feuille._VECTptr->back();
-	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_ || deb2.val<0 || fin2.val<0 || fin2.val>=cols )
+	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_) 
+	      return gendimerr(contextptr);
+	    if (deb2.val<0) deb2.val+=cols;
+	    if (fin2.val<0) fin2.val+=cols;
+	    if (deb2.val<0 || fin2.val<0 || fin2.val>=cols )
 	      return gendimerr(contextptr);
 	    if (ckmatrix(a)){
 	      if (fin2.val-deb2.val+1!=a._VECTptr->front()._VECTptr->size())
@@ -3839,6 +3854,7 @@ namespace giac {
 	    }
 	  }
 	  else {
+	    if (i2.type==_INT_ && i2.val<0) i2.val += cols;
 	    if (i2.type!=_INT_ || i2.val<0 || i2.val>=cols)
 	      return gendimerr(contextptr);
 	    if (a.type==_VECT){
@@ -3854,17 +3870,22 @@ namespace giac {
 	    return valeur; // string2gen("Done",false);
 	  return sto(gen(v,valeur.subtype),destination,in_place,contextptr);
 	} // end first value interval
+	if (it->type==_INT_ && it->val<0) it->val += vptr->size();
 	if (it->type!=_INT_ || it->val<0)
 	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
 	int i1=it->val;
-	if (i2.is_symb_of_sommet(*at_interval) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
+	if ( (i2.is_symb_of_sommet(*at_interval) || i2.is_symb_of_sommet(*at_deuxpoints)) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
 	  if (!ckmatrix(*vptr))
 	    return gendimerr(contextptr);
 	  if (!in_place)
 	    (*vptr)[i1]=*(*vptr)[i1]._VECTptr;
 	  gen deb2=i2._SYMBptr->feuille._VECTptr->front();
 	  gen fin2=i2._SYMBptr->feuille._VECTptr->back();
-	  if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_ || deb2.val<0 || fin2.val <deb2.val || fin2.val>=vptr->front()._VECTptr->size())
+	  if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_ )
+	    return gendimerr(contextptr);
+	  if (deb2.val<0) deb2.val += int(vptr->front()._VECTptr->size());
+	  if (fin2.val<0) fin2.val += int(vptr->front()._VECTptr->size());
+	  if (deb2.val<0 || fin2.val <deb2.val || fin2.val>=int(vptr->front()._VECTptr->size()))
 	    return gendimerr(contextptr);
 	  if (a.type==_VECT){
 	    for (int i=deb2.val;i<=fin2.val;++i)
@@ -3886,11 +3907,13 @@ namespace giac {
 	  empile.push_back(v);
 	gen tmp;
 	if (in_place){
-	  if ( it->val<0 || it->val>= (int)(vptr->size()) )
+	  if (it->val<0) it->val += (int)(vptr->size());
+	  if (it->val<0 || it->val>= (int)(vptr->size()) )
 	    return gendimerr(contextptr);
 	  tmp=(*vptr)[it->val];
 	}
 	else {
+	  if (it->val<0) it->val += (int)(v.size());
 	  if ( it->val<0 || it->val>= (int)(v.size()) )
 	    return gendimerr(contextptr);
 	  tmp=v[it->val];	  

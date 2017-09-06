@@ -8690,6 +8690,7 @@ namespace giac {
 	return *this;
       return gentypeerr(gettext("Gen [int]"));
     }
+    if (i<0) i+=_VECTptr->size();
     if (unsigned(i)>=_VECTptr->size()){
       if (xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)
 	++i;
@@ -8760,17 +8761,24 @@ namespace giac {
     if (i.type==_FLOAT_)
       return (*this)[ get_int(i._FLOAT_val) ];
     if (i.type==_SYMB){
-      if (i._SYMBptr->sommet==at_interval) {
+      if (i._SYMBptr->sommet==at_interval || i._SYMBptr->sommet==at_deuxpoints) {
 	gen i1=_ceil(i._SYMBptr->feuille._VECTptr->front(),contextptr);
 	gen i2=_floor(i._SYMBptr->feuille._VECTptr->back(),contextptr);
 	if (is_integral(i1) && is_integral(i2)){
 	  int debut=i1.val,fin=i2.val;
-	  debut=giacmax(debut,0);
+	  if (debut<0){ 
+	    if (type==_STRNG) debut+=_STRNGptr->size();
+	    if (type==_VECT) debut+=_VECTptr->size();
+	  }
 	  if (type==_STRNG)
 	    fin=giacmin(fin,int(_STRNGptr->size())-1);
 	  if (type==_VECT)
 	    fin=giacmin(fin,int(_VECTptr->size())-1);
-	  if (fin<debut)
+	  if (fin<0){ 
+	    if (type==_STRNG) fin+=_STRNGptr->size();
+	    if (type==_VECT) fin+=_VECTptr->size();
+	  }
+	  if (debut<0 || fin<debut)
 	    return (type==_STRNG)?string2gen("",false):gen(vecteur(0),subtype); // swap(debut,fin);
 	  if (type==_STRNG){
 	    return string2gen('"'+_STRNGptr->substr(debut,fin-debut+1)+'"');
@@ -8793,15 +8801,16 @@ namespace giac {
 	  }
 	  return gen(tmp,it->subtype);
 	}
-	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_interval) && (it+1!=itend) ){
+	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_interval || it->_SYMBptr->sommet==at_deuxpoints) && (it+1!=itend) ){
 	  // submatrix extraction
 	  if ((it->_SYMBptr->feuille._VECTptr->front().type==_INT_) && (it->_SYMBptr->feuille._VECTptr->back().type==_INT_) ){
 	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=it->_SYMBptr->feuille._VECTptr->back().val;
-	    if (fin<debut)
-	      swap(debut,fin);
 	    if (res.type==_VECT){
-	      debut=giacmax(debut,0);
+	      if (debut<0) debut +=res._VECTptr->size();
+	      if (fin<0) fin +=res._VECTptr->size();
 	      fin=giacmin(fin,int(res._VECTptr->size())-1);
+	      if (debut<0 || fin<0 || fin<debut)
+		return gendimerr(contextptr);
 	      iterateur jt=res._VECTptr->begin()+debut,jtend=_VECTptr->begin()+fin+1;
 	      gen fin_it(vecteur(it+1,itend),_SEQ__VECT);
 	      vecteur v;
@@ -11236,7 +11245,8 @@ namespace giac {
 
   int giac_yyparse(void * scanner);
 
-  static int try_parse(const string & s,GIAC_CONTEXT){
+  static int try_parse(const string & s_orig,GIAC_CONTEXT){
+    string s=abs_calc_mode(contextptr)==38?s_orig:python2xcas(s_orig,contextptr);
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
     if (contextptr && thread_param_ptr(contextptr)->stackaddr){
       gen er;

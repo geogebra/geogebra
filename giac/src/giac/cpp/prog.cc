@@ -1379,7 +1379,7 @@ namespace giac {
 	  }
 	  else {
 	    // res=it->eval(eval_level(contextptr),contextptr);
-	    if (!it->in_eval(eval_level(contextptr),res,contextptr))
+	    if (!equaltosto(*it,contextptr).in_eval(eval_level(contextptr),res,contextptr))
 	      res=*it;
 	  }
 	}

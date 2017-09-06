@@ -5891,7 +5891,51 @@ namespace giac {
   static define_unary_function_eval (__fourier_cn,&_fourier_cn,_fourier_cn_s);
   define_unary_function_ptr5( at_fourier_cn ,alias_at_fourier_cn,&__fourier_cn,0,true);
 
-  
+#ifndef USE_GMP_REPLACEMENTS
+  // periodic by Luka Marohnić
+  // example f:=periodic(x^2,x,-1,1); plot(f,x=-5..5)
+  gen _periodic(const gen & g,GIAC_CONTEXT) {
+    if (g.type==_STRNG && g.subtype==-1) return g;
+    if (g.type!=_VECT || g.subtype!=_SEQ__VECT)
+      return gentypeerr(contextptr);
+    vecteur & gv = *g._VECTptr;
+    if (gv.size()!=4 && gv.size()!=2)
+      return gensizeerr(contextptr);
+    gen & e=gv[0],x,a,b;
+    if (e.type!=_SYMB)
+      return gentypeerr(contextptr);
+    vecteur vars(*_lname(e,contextptr)._VECTptr);
+    if (vars.empty())
+      return e;
+    if (gv.size()==2) {
+      if (!gv[1].is_symb_of_sommet(at_equal))
+	return gentypeerr(contextptr);
+      vecteur & fl=*gv[1]._SYMBptr->feuille._VECTptr;
+      if ((x=fl[0]).type!=_IDNT || !fl[1].is_symb_of_sommet(at_interval))
+	return gentypeerr(contextptr);
+      vecteur & ab=*fl[1]._SYMBptr->feuille._VECTptr;
+      a=ab[0];
+      b=ab[1];
+    }
+    else {
+      x=gv[1];
+      if (x.type!=_IDNT)
+	return gentypeerr(contextptr);
+      if (find(vars.begin(),vars.end(),x)==vars.end())
+	return e;
+      a=gv[2];
+      b=gv[3];
+    }
+    gen T(b-a);
+    if (!is_strictly_positive(T,contextptr))
+      return gentypeerr(contextptr);
+    gen p(subst(e,x,x-T*_floor((x-a)/T,contextptr),false,contextptr));
+    return p;// _unapply(makesequence(p,x),contextptr);
+  }
+  static const char _periodic_s []="periodic";
+  static define_unary_function_eval (__periodic,&_periodic,_periodic_s);
+  define_unary_function_ptr5(at_periodic,alias_at_periodic,&__periodic,0,true);  
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

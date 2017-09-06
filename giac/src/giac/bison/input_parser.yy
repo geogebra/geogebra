@@ -144,6 +144,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc TI_STO
 %nonassoc T_PIPE
 %nonassoc T_AFFECT
+%nonassoc T_FOR
 %left TI_SEMI
 %left T_VIRGULE
 %nonassoc T_INTERROGATION
@@ -220,7 +221,7 @@ exp	: T_NUMBER		{$$ = $1;}
          const giac::context * contextptr = giac_yyget_extra(scanner);
          gen g=symbolic(at_of,gen(makevecteur($3,$6) ,_SEQ__VECT)); $$=symb_sto($1,g); 
         }
-	| exp TI_STO symbol { if ($3.type==_IDNT){ const char * ch=$3.print(context0).c_str(); if (ch[0]=='_' && unit_conversion_map().find(ch+1) != unit_conversion_map().end()) $$=symbolic(at_convert,gen(makevecteur($1,symbolic(at_unit,makevecteur(1,$3))) ,_SEQ__VECT)); } else $$=symb_sto($1,$3); }
+	| exp TI_STO symbol { if ($3.type==_IDNT) { const char * ch=$3.print(context0).c_str(); if (ch[0]=='_' && unit_conversion_map().find(ch+1) != unit_conversion_map().end()) $$=symbolic(at_convert,gen(makevecteur($1,symbolic(at_unit,makevecteur(1,$3))) ,_SEQ__VECT)); else $$=symb_sto($1,$3); } else $$=symb_sto($1,$3); }
 	| exp TI_STO T_UNARY_OP { $$=symbolic(at_convert,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp TI_STO T_PLUS { $$=symbolic(at_convert,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp TI_STO T_FOIS { $$=symbolic(at_convert,gen(makevecteur($1,$3) ,_SEQ__VECT)); }
@@ -568,6 +569,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR bloc {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,symb_bloc($9)));}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
 	| T_FOR T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen2vecteur($3));}
+	| exp T_FOR symbol T_IN exp { $$=symbolic(at_feuille,symbolic(at_apply,symbolic(at_program,makesequence($3,0,$1)),$5)); }
 	| T_WHILE T_BEGIN_PAR exp T_END_PAR bloc { 
 	vecteur v=makevecteur(zero,equaltosame($3),zero,symb_bloc($5));
 	$$=symbolic(*$1._FUNCptr,v); 

@@ -5508,6 +5508,208 @@ unsigned int ConvertUTF8toUTF16 (
       unlock_syms_mutex();  
     }
   }
+
+  static string remove_comment(const string & s,const string &pattern){
+    string res(s);
+    for (;;){
+      int pos1=res.find(pattern);
+      if (pos1<0 || pos1+3>=int(res.size()))
+	break;
+      int pos2=res.find(pattern,pos1+3);
+      if (pos2<0 || pos2+3>=int(res.size()))
+	break;
+      res=res.substr(0,pos1)+res.substr(pos2+3,res.size()-pos2-3);
+    }
+    return res;
+  }
+
+  struct int_string {
+    int decal;
+    std::string endbloc;
+    int_string():decal(0){}
+    int_string(int i,string s):decal(i),endbloc(s){}
+  };
+
+  static bool instruction_at(const string & s,int pos,int shift){
+    if (pos && isalphan(s[pos-1]))
+      return false;
+    if (pos+shift<int(s.size()) && isalphan(s[pos+shift]))
+      return false;
+    return true;
+  }
+
+  // detect Python like syntax: 
+  // remove """ """ docstrings and ''' ''' comments
+  // cut string in lines, remove comments at the end (search for #)
+  // warning don't take care of # inside strings
+  // if a line of s ends with a :
+  // search for matching def/for/if/else/while
+  // stores matching end keyword in a stack as a vector<[int,string]>
+  // int is the number of white spaces at the start of the next line
+  // def ... : -> function [ffunction]
+  // for ... : -> for ... do [od]
+  // while ... : -> while ... do [od]
+  // if ...: -> if ... then [fi]
+  // else: -> else [nothing in stack]
+  // elif ...: -> elif ... then [nothing in stack]
+  // ? support for try except
+  std::string python2xcas(const std::string & s_orig,GIAC_CONTEXT){
+    // quick check for python-like syntax: search line ending with :
+    int first=0,sss=s_orig.size();
+    first=s_orig.find("maple_mode");
+    if (first>=0 && first<sss)
+      return s_orig;
+    first=s_orig.find("xcas_mode");
+    if (first>=0 && first<sss)
+      return s_orig;
+    for (first=0;first<sss;){
+      first=s_orig.find(':',first);
+      if (first<0 || first>=sss)
+	return s_orig; // not Python like
+      int endl=s_orig.find('\n',first);
+      if (endl<0 || endl>=sss)
+	endl=sss;
+      ++first;
+      if (first<endl && (s_orig[first]==';' || s_orig[first]=='=')) 
+	continue; // ignore :;
+      // search for line finishing with : (or with # comment)
+      for (;first<endl;++first){
+	char ch=s_orig[first];
+	if (ch!=' '){
+	  if (ch=='#')
+	    first=endl;
+	  break;
+	}
+      }
+      if (first==endl) 
+	break;
+    }
+    // probably Python-like
+    bool pythonmode=false;
+    string res(s_orig);
+    if (res.size()>18 && res.substr(0,17)=="add_autosimplify(" 
+	&& res[res.size()-1]==')'
+	)
+      res=res.substr(17,res.size()-18);
+    res=remove_comment(res,"\"\"\"");
+    res=remove_comment(res,"'''");
+    vector<int_string> stack;
+    string s,cur; 
+    for (;res.size();){
+      int pos=res.find('\n');
+      if (pos<0 || pos>=int(res.size())){
+	cur=res; res="";
+      }
+      else {
+	cur=res.substr(0,pos); // without \n
+	res=res.substr(pos+1,res.size()-pos-1);
+      }
+      // detect comment (outside of a string) and lambda expr:expr
+      bool instring=false;
+      for (pos=0;pos<int(cur.size());++pos){
+	char ch=cur[pos];
+	if (ch=='"')
+	  instring=!instring;
+	if (instring) continue;
+	if (ch=='#'){
+	  cur=cur.substr(0,pos);
+	  break;
+	}
+	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
+	  int posdot=cur.find('.',pos);
+	  if (posdot>=pos && posdot<int(cur.size()))
+	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
+	}
+      }
+      // detect : at end of line
+      for (pos=int(cur.size())-1;pos>=0;--pos){
+	if (cur[pos]!=' ' && cur[pos]!=char(9))
+	  break;
+      }
+      if (pos<=0) continue;
+      // count whitespaces, compare to stack
+      int ws=0;
+      int cs=cur.size();
+      for (ws=0;ws<cs;++ws){
+	if (cur[ws]!=' ' && cur[ws]!=char(9))
+	  break;
+      }
+      if (cur[pos]==':'){
+	// detect matching programming structure
+	int progpos=cur.find("if");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
+	  pythonmode=true;
+	  s += cur.substr(0,pos)+" then\n";
+	  stack.push_back(int_string(ws,"fi"));
+	  continue;
+	}
+	progpos=cur.find("else");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
+	  pythonmode=true;
+	  s += cur.substr(0,pos)+"\n";
+	  continue;
+	}
+	progpos=cur.find("elif");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
+	  pythonmode=true;
+	  s += cur.substr(0,pos)+" then\n";
+	  continue;
+	}
+	progpos=cur.find("for");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
+	  pythonmode=true;
+	  s += cur.substr(0,pos)+" do\n";
+	  stack.push_back(int_string(ws,"od"));
+	  continue;
+	}
+	progpos=cur.find("while");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,5)){
+	  pythonmode=true;
+	  s += cur.substr(0,pos)+" do\n";
+	  stack.push_back(int_string(ws,"od"));
+	  continue;
+	}
+	progpos=cur.find("def");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
+	  pythonmode=true;
+	  s += cur.substr(0,progpos)+"function"+cur.substr(progpos+3,pos-progpos-3)+"\n";
+	  stack.push_back(int_string(ws,"ffunction"));
+	  continue;
+	}
+      }
+      else {
+	// normal line add ; at end
+	if (pythonmode && pos>=0 && cur[pos]!=';')
+	  cur = cur +';';
+	cur = cur +'\n';
+	int indent=0;
+	if (stack.empty()){
+	  s = s+cur;
+	  continue;
+	}
+	indent=stack.back().decal;
+	if (ws>indent){
+	  s =s+cur; continue;
+	}
+	// remove last \n and add explicit endbloc delimiters from stack
+	int ss=s.size();
+	if (ss && s[ss-1]=='\n')
+	  s=s.substr(0,ss-1);
+	while (!stack.empty() && stack.back().decal>=ws){
+	  s += ' '+stack.back().endbloc+';';
+	  stack.pop_back();
+	}
+	s +='\n'+cur;
+      }
+    }
+    while (!stack.empty()){
+      s += ' '+stack.back().endbloc+';';
+      stack.pop_back();
+    }
+    if (pythonmode)
+      *logptr(contextptr) << "// Python-like syntax, check string delimiters \"\" and declare local variables.\nTranslated to Xcas as:\n" << s << endl;
+    return s;
+  }
   
     std::string translate_at(const char * ch){
       if (!strcmp(ch,"ΔLIST"))

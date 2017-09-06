@@ -4350,7 +4350,7 @@ namespace giac {
 	    if (it->type==_INT_){
 	      if (jt->type==_INT_){
 		longlong x=longlong(it->val)*jt->val;
-#ifdef x86_64
+#if defined x86_64 && !defined(WIN64) //fred
 		if (x>=0)
 		  mpz_add_ui(*tmp._ZINTptr,*tmp._ZINTptr,x);
 		else

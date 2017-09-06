@@ -915,6 +915,8 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   int equalposcomp(const std::vector<int> v,int i);
   int equalposcomp(const std::vector<short int> v,int i);
   int equalposcomp(int tab[],int f);
+  // attempt to convert Python-like programming structures to Xcas
+  std::string python2xcas(const std::string & s_orig,GIAC_CONTEXT);
   std::string find_doc_prefix(int i);
   std::string find_lang_prefix(int i);
   int string2lang(const std::string & s); // convert "fr" to 1, "es" to 3 etc.
