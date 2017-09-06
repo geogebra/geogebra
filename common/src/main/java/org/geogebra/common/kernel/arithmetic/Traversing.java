@@ -855,7 +855,7 @@ public interface Traversing {
 
 			ExpressionNode en = (ExpressionNode) ev;
 
-			if (arbconst.isBlocking(en.getOperation())) {
+			if (arbconst != null && arbconst.isBlocking(en.getOperation())) {
 				return new MyDouble(en.getKernel(), Double.NaN);
 			}
 			if (en.getOperation() == Operation.MULTIPLY) {
