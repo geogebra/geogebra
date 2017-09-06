@@ -891,7 +891,7 @@ namespace giac {
       return s;
   }
 
-#ifdef USE_GMP_REPLACEMENTS
+#if defined USE_GMP_REPLACEMENTS || defined GIAC_GGB
   gen _extrema(const gen & g,GIAC_CONTEXT){
     return critical(g,true,contextptr);
   }

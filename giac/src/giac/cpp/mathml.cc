@@ -847,8 +847,11 @@ namespace giac {
     else
       s = "<circle vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width);
     // COUT << s << endl;
-    s = s+"\" fill=\"none\" cx=\""
-      + re(center,contextptr).print(contextptr)+"\" cy=\""
+    if (attr.fill_polygon)
+      s = s+"\" fill=\""+color_string(attr)+"\" cx=\"";
+    else
+      s = s+"\" fill=\"none\" cx=\"";
+    s = s + re(center,contextptr).print(contextptr)+"\" cy=\""
       + im(center,contextptr).print(contextptr)+"\" r=\""
       + print_DOUBLE_(r,contextptr)
       + "\" />\n";
@@ -993,7 +996,10 @@ namespace giac {
     }
     else
       s = s+"vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width);
-    s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
+    if (attr.fill_polygon)
+      s = s+"\" fill=\""+color_string(attr)+"\" points=\"";
+    else
+      s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" points=\"";
     for (i=0 ; i<signed(v.size())-1 ; i++){
       s = s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+", ";
     }
@@ -1015,7 +1021,10 @@ namespace giac {
     }
     else
       s = s+"vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width);
-    s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
+    if (attr.fill_polygon)
+      s = s+"\" fill=\""+color_string(attr)+"\" d=\"M";
+    else
+      s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
     g=evalf(g,1,contextptr);
     vecteur v=*(g._VECTptr);
     for (i=0 ; i<signed(v.size()) ; i++){

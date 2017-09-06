@@ -7745,7 +7745,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (is_integral(a) && is_integral(b) && is_integral(c)){
 	int A=a.val,B=b.val,C=c.val;
 	if ( (A<=B && C>0) || (A>=B && C<0)){
-	  int s=(B-A)/C;
+	  int s=std::ceil(double(B-A)/C);
 	  vecteur w(s);
 	  for (int i=0;i<s;++i)
 	    w[i]=A+i*C;
