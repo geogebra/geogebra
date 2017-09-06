@@ -390,14 +390,6 @@ public interface ToolbarResources {
 
 	ResourcePrototype help_32();
 
-	ResourcePrototype media_panel_24();
-
-	ResourcePrototype pen_panel_24();
-
-	ResourcePrototype tools_panel_24();
-
-	ResourcePrototype move_pointer_32();
-
 	ResourcePrototype mode_geogebra_32();
 
 	ResourcePrototype mode_photo_32();
@@ -405,14 +397,6 @@ public interface ToolbarResources {
 	ResourcePrototype mode_video_32();
 
 	ResourcePrototype mode_audio_32();
-
-	ResourcePrototype media_panel_active_24();
-
-	ResourcePrototype move_pointer_active_32();
-
-	ResourcePrototype tools_panel_active_24();
-
-	ResourcePrototype pen_panel_active_24();
 
 	ResourcePrototype mode_pen_white_32();
 

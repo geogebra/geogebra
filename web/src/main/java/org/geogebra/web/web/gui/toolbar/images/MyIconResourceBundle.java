@@ -554,38 +554,6 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 	ImageResource help_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/media_panel.png")
-	ImageResource media_panel_24();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/media_panel_active.png")
-	ImageResource media_panel_active_24();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/pen_panel.png")
-	ImageResource pen_panel_24();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/pen_panel_active.png")
-	ImageResource pen_panel_active_24();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/tools_panel.png")
-	ImageResource tools_panel_24();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/tools_panel_active.png")
-	ImageResource tools_panel_active_24();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/move_pointer.png")
-	ImageResource move_pointer_32();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/move_pointer_active.png")
-	ImageResource move_pointer_active_32();
-
-	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_geogebra.png")
 	ImageResource mode_geogebra_32();
 

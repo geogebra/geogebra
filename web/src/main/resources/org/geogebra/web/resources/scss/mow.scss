@@ -16,9 +16,8 @@
 		box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0,0,0,0.02);
 	    
 	    img {
-			opacity: 0.6;
-		}
-		
+			opacity: 0.54;	
+		}		
 		
 		.left {
 			position: absolute;
@@ -32,12 +31,15 @@
 	   			width: 24px;
     			height: 24px;
    			}
+   			:hover img{
+				opacity: 0.84;
+			}
 		} 
 		.middle {
 			position: absolute;
 			top: 0px;
 			margin: 3px 0px 3px 0px;
-			left: calc(50% - 72px); 
+			left: calc(50% - 108px); 
 			display: inline-flex;
 			img {
 				margin: 6px;
@@ -45,7 +47,38 @@
     			width: 24px;
     			height: 24px;
     			}
+    		:hover{
+				opacity: 0.84;
+			}
+			.indicator {
+			    width: 36px;
+    			height: 3px;
+    			background-color: black;
+    			vertical-align: bottom;
+    			position: relative;
+   				bottom: 10px;
+    			display: inline-table !important;
+    			top: 40px;	
+    			transition: all 0.3s ease;
+    			left: 50%;
+    			opacity: 0.54;
+			}
 		} 
+		.middle.indicatorLeft {
+			.indicator {
+				transform: translate(calc(50% - 66px),0);
+			}	
+		}
+		.middle.indicatorCenter {
+			.indicator {
+				transform: translate(calc(50% - 18px),0);
+			}	
+		}
+		.middle.indicatorRight {
+			.indicator {
+				transform: translate(calc(50% + 30px),0);
+			}	
+		}
 		.right {
 			position: absolute;
 			top: 0px;
@@ -57,8 +90,13 @@
 	    		width: 24px;
 	    		height: 24px;
 	    		}
+	    	:hover{
+				opacity: 0.84;
+			}
 		} 
+		
 	}
+	
 	.showSubmenu { 
 	    bottom: 178px;
 	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
@@ -89,18 +127,31 @@
 	    margin: 3px;
 	    width: 32px;
 	    height: 32px;
-		
-		&[selected = true] {
-			padding: 2px;
-    		border: 2px solid $mow_purple;
-			}
 	}
+	.mowToolButton[selected=true]{
+		padding: 2px;
+    	border: 2px solid $purple-default;
+	}
+	.mowToolButton[selected=false] {
+			border: 1px solid $tool-border;
+			
+			&:hover {
+				border: 1px solid $purple-default;
+	 		}
+		}
+	
 	.inactiveToolButton {
 			opacity: 0.5;
 			cursor: default;
 			&[selected = true] {
 				padding: 3px;
 				border: 1px solid $tool-border;
+			}
+			&[selected = false]{
+				border: 1px solid $tool-border;
+				&:hover {
+					border: 1px solid $tool-border;
+				}
 			}
 		}
 	.icon24_padding{

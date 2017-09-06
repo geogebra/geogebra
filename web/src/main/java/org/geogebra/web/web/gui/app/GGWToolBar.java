@@ -1138,19 +1138,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		case EuclidianConstants.MODE_ERASER:
 			return myIconResourceBundle.mode_eraser_32();
 
-		/*
-		 * case EuclidianConstants.MODE_HIGHLIGHTER: return
-		 * myIconResourceBundle.mode_highlighter_32();
-		 */
-		case EuclidianConstants.MODE_PEN_PANEL:
-			return myIconResourceBundle.pen_panel_24();
-
-		case EuclidianConstants.MODE_TOOLS_PANEL:
-			return myIconResourceBundle.tools_panel_24();
-
-		case EuclidianConstants.MODE_MEDIA_PANEL:
-			return myIconResourceBundle.media_panel_24();
-
 		case EuclidianConstants.MODE_VIDEO:
 			return myIconResourceBundle.mode_video_32();
 
