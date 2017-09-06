@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
@@ -557,10 +558,12 @@ public class EuclidianControllerCompanion {
 	 * 
 	 * @param clockwise
 	 *            input orientation
-	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it
-	 *         in the view (used for EuclidianViewForPlane)
+	 * @param creator
+	 *            contains object used to check clockwise orientation
+	 * @return clockwise (resp. not(clockwise)) if clockwise is displayed as it in
+	 *         the view (used for EuclidianViewForPlane)
 	 */
-	public boolean viewOrientationForClockwise(boolean clockwise) {
+	public boolean viewOrientationForClockwise(boolean clockwise, CreateGeoForRotate creator) {
 		return clockwise;
 	}
 

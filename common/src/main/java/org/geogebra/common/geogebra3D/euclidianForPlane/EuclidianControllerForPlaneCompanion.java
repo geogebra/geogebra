@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 
 /**
  * controller creator for view from plane
@@ -134,7 +135,7 @@ public class EuclidianControllerForPlaneCompanion
 	}
 
 	@Override
-	public boolean viewOrientationForClockwise(boolean clockwise) {
+	public boolean viewOrientationForClockwise(boolean clockwise, CreateGeoForRotate creator) {
 		return ((EuclidianViewForPlaneCompanion) ec.getView().getCompanion())
 				.viewOrientationForClockwise(clockwise);
 	}

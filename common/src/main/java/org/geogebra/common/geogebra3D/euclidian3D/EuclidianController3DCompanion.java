@@ -15,9 +15,11 @@ import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
@@ -553,6 +555,14 @@ public class EuclidianController3DCompanion
 
 	protected EuclidianView3D getView() {
 		return (EuclidianView3D) ec.getView();
+	}
+
+	@Override
+	public boolean viewOrientationForClockwise(boolean clockwise, CreateGeoForRotate creator) {
+		if (creator.getPivot().isGeoPoint()) {
+			return super.viewOrientationForClockwise(clockwise, creator);
+		}
+		return ec3D.viewOrientationForClockwise(clockwise, (GeoLineND) creator.getPivot());
 	}
 
 }

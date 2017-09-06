@@ -307,7 +307,7 @@ public abstract class DialogManager {
 		cons.setSuppressLabelCreation(true);
 
 		// negative orientation ?
-		if (ec.getCompanion().viewOrientationForClockwise(clockwise)) {
+		if (ec.getCompanion().viewOrientationForClockwise(clockwise, creator)) {
 			inputText = "-(" + inputText + ")";
 		}
 
