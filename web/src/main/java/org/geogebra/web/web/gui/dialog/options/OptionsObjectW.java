@@ -495,9 +495,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 		@Override
 		public void setLabels() {
-			nameLabel.setText(loc.getMenu("Name") + ":");
-			defLabel.setText(loc.getMenu("Definition") + ":");
-			captionLabel.setText(loc.getMenu("Button.Caption") + ":");
+			nameLabel.setText(app.isUnbundled() ? loc.getMenu("Name"):loc.getMenu("Name") + ":");
+			defLabel.setText(app.isUnbundled() ? loc.getMenu("Definition")
+					: loc.getMenu("Definition") + ":");
+			captionLabel
+					.setText(app.isUnbundled() ? loc.getMenu("Button.Caption")
+							: loc.getMenu("Button.Caption") + ":");
 		}
 
 		@Override
@@ -1148,7 +1151,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				for (OptionsTab tab : tabs) {
 					tab.setFocused(false);
 				}
-				tabs.get(event.getSelectedItem()).initGUI(app, isDefaults);
+				tabs.get(event.getSelectedItem()).initGUI(isDefaults);
 				onTabSelection.run();
 			}
 				});
@@ -1378,7 +1381,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	private OptionsTab makeOptionsTab(String id) {
-		return new OptionsTab(this.loc, this.tabPanel, id);
+		return new OptionsTab(app, this.loc, this.tabPanel, id);
 	}
 
 	public void reinit() {

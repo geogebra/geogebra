@@ -47,7 +47,6 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -83,59 +82,92 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
+/**
+ * options tab
+ */
 public class OptionsTab extends FlowPanel {
 	/**
 	 * 
 	 */
 	// private final OptionsObjectW optionsObjectW;
+	private AppW app;
 	private String titleId;
 	private int index;
 	private List<OptionsModel> models;
 	private MultiRowsTabPanel tabPanel;
-	Localization loc;
+	private Localization loc;
 	private boolean inited = false;
 	private boolean focused = false, updated = true;
 	
-	public OptionsTab(Localization loc, MultiRowsTabPanel tabPanel,
+	/**
+	 * @param app
+	 *            applications
+	 * @param loc
+	 *            localization to get translations
+	 * @param tabPanel
+	 *            tab
+	 * @param title
+	 *            title of tab
+	 */
+	public OptionsTab(AppW app, Localization loc, MultiRowsTabPanel tabPanel,
 			final String title) {
 		super();
 		// this.optionsObjectW = optionsObjectW;
+		this.app = app;
 		this.titleId = title;
 		this.loc = loc;
 		this.tabPanel = tabPanel;
 		models = new ArrayList<OptionsModel>();
-		setStyleName("propertiesTab");
+		if (app.isUnbundled()) {
+			setStyleName("propMaterialTab");
+		} else {
+			setStyleName("propertiesTab");
+		}
 	}
 
+	/**
+	 * @param panel
+	 *            ad panel to model
+	 */
 	public void add(IOptionPanel panel) {
 		add(panel.getWidget());
 		models.add(panel.getModel());
 	}
 
+	/**
+	 * @param model
+	 *            model for options
+	 * @return tab
+	 */
 	public OptionsTab addModel(OptionsModel model) {
 		models.add(model);
 		return this;
 	}
 
+	/**
+	 * @param list
+	 *            list of panels
+	 */
 	public void addPanelList(List<OptionPanel> list) {
 		for (OptionPanel panel: list) {
 			add(panel);
 		}
 	}
 
+	/**
+	 * @param geos
+	 *            list of selected geos
+	 * @return
+	 */
 	public boolean update(Object[] geos) {
-
 		boolean enabled = updateGUI(geos);
-
-		// if (app.has(Feature.MULTIROW_TAB_PROPERTIES)) {
-
 		MultiRowsTabBar tabBar = this.tabPanel.getTabBar();
 		tabBar.setTabText(index, getTabText());
 		tabBar.setTabEnabled(index, enabled);
+
 		if (!enabled && tabBar.getSelectedTab() == index) {
 			tabBar.selectTab(0);
 		}
-
 		return enabled;
 	}
 
@@ -153,28 +185,39 @@ public class OptionsTab extends FlowPanel {
 				if (panel.checkGeos()) {
 					return true;
 				}
-
 			}
 		}
 		return enabled;
-
 	}
 
 	private String getTabText() {
 		return loc.getMenu(titleId);
 	}
 
+	/**
+	 * add tab to panel
+	 */
 	public void addToTabPanel() {
 		this.tabPanel.add(this, getTabText());
 		index = this.tabPanel.getWidgetIndex(this);
 	}
 
+	/**
+	 * @param height
+	 *            current height
+	 * @param width
+	 *            current width
+	 */
 	public void onResize(int height, int width) {
 		this.setHeight(height + "px");
 		this.setWidth(width + "px");
     }
 
-	public void initGUI(App app, boolean isDefaults) {
+	/**
+	 * @param isDefaults
+	 *            true if default
+	 */
+	public void initGUI(boolean isDefaults) {
 		this.focused = true;
 		if (inited) {
 			if (models.size() > 0 && !updated) {
@@ -184,7 +227,7 @@ public class OptionsTab extends FlowPanel {
 		}
 		inited = true;
 		for (OptionsModel m : models) {
-			IOptionPanel panel = buildPanel(m, (AppW) app, isDefaults);
+			IOptionPanel panel = buildPanel(m, isDefaults);
 			if (panel != null) {
 				add(panel.getWidget());
 				// geos might be null in fome models because update only checks
@@ -192,10 +235,9 @@ public class OptionsTab extends FlowPanel {
 				m.updateMPanel(models.get(0).getGeos());
 			}
 		}
-
 	}
 
-	private IOptionPanel buildPanel(OptionsModel m, AppW app, boolean isDefaults) {
+	private IOptionPanel buildPanel(OptionsModel m, boolean isDefaults) {
 		if (m instanceof ColorObjectModel) {
 			ColorPanel ret = new ColorPanel((ColorObjectModel) m, app,
 					isDefaults);
@@ -207,10 +249,10 @@ public class OptionsTab extends FlowPanel {
 			return new PointSizePanel((PointSizeModel)m);
 		}
 		if (m instanceof PointStyleModel) {
-			return new PointStylePanel((PointStyleModel)m, app);
+			return new PointStylePanel((PointStyleModel) m, app);
 		}
 		if (m instanceof LineStyleModel) {
-			return new LineStylePanel((LineStyleModel)m, app);
+			return new LineStylePanel((LineStyleModel) m, app);
 		}
 		if (m instanceof AngleArcSizeModel) {
 			return new AngleArcSizePanel((AngleArcSizeModel)m);
@@ -280,25 +322,41 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof ConicEqnModel) {
 			return new ConicEqnPanel((ConicEqnModel) m, app);
 		}
-
 		if (m instanceof AnimationSpeedModel) {
 			return new AnimationSpeedPanelW((AnimationSpeedModel) m, app);
 		}
-
 		return null;
 	}
 
+	/**
+	 * @param id
+	 *            key of word
+	 * @return translation
+	 */
 	String localize(final String id) {
 		return loc.getMenu(id);
 	}
+
+	/**
+	 * Panel for color settings
+	 */
 	public class ColorPanel extends OptionPanel implements IColorObjectListener {
-		ColorObjectModel model;
+		private ColorObjectModel model;
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW;
 		private GColor selectedColor;
-		CheckBox sequential;
+		private CheckBox sequential;
 
-		public ColorPanel(ColorObjectModel model0, App app, boolean isDefaults) {
+		/**
+		 * @param model0
+		 *            model
+		 * @param app
+		 *            application
+		 * @param isDefaults
+		 *            true if default
+		 */
+		public ColorPanel(ColorObjectModel model0, App app,
+				boolean isDefaults) {
 			this.model = model0;
 			model.setListener(this);
 			setModel(model);
@@ -316,22 +374,22 @@ public class OptionsTab extends FlowPanel {
 				@Override
 				public void onAlphaChange() {
 					applyChanges(true);
-
 				}
 
 				@Override
 				public void onClearBackground() {
-					model.clearBackgroundColor();
+					getModel().clearBackgroundColor();
 				}
 
 				@Override
 				public void onBackgroundSelected() {
-					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0);
+					updatePreview(getModel().getGeoAt(0).getBackgroundColor(),
+							1.0);
 				}
 
 				@Override
 				public void onForegroundSelected() {
-					GeoElement geo0 = model.getGeoAt(0);
+					GeoElement geo0 = getModel().getGeoAt(0);
 					double alpha = 1.0;
 					GColor color = null;
 					if (geo0.isFillable()) {
@@ -340,17 +398,15 @@ public class OptionsTab extends FlowPanel {
 					} else {
 						color = geo0.getObjectColor();
 					}
-
 					updatePreview(color, alpha);
 				}
 
 				@Override
 				public void onBarSelected() {
-					updateChooserFromBarChart(model.getGeoAt(0));
+					updateChooserFromBarChart(getModel().getGeoAt(0));
 				}
 			});
 			colorChooserW.setColorPreviewClickable();
-
 
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
@@ -363,8 +419,7 @@ public class OptionsTab extends FlowPanel {
 				@Override
 				public void onClick(ClickEvent event) {
 					// TODO we may need to update the GUI here
-					model.setSequential(sequential.getValue());
-
+						getModel().setSequential(getSequential().getValue());
 				}
 				});
 			}
@@ -372,6 +427,10 @@ public class OptionsTab extends FlowPanel {
 
 		}
 
+		/**
+		 * @param alphaOnly
+		 *            no color, only alpha
+		 */
 		public void applyChanges(boolean alphaOnly) {
 			double alpha = colorChooserW.getAlphaValue();
 			GColor color = colorChooserW.getSelectedColor();
@@ -381,7 +440,6 @@ public class OptionsTab extends FlowPanel {
 			} else {
 				model.applyChanges(color, alpha, alphaOnly);
 			}
-
 		}
 
 		@Override
@@ -402,7 +460,6 @@ public class OptionsTab extends FlowPanel {
 				colorChooserW.enableColorPanel(false);
 			} else {
 				colorChooserW.enableColorPanel(true);
-
 			}
 
 			selectedColor = null;
@@ -410,13 +467,11 @@ public class OptionsTab extends FlowPanel {
 				selectedBGColor = geo0.getBackgroundColor();
 			}
 
-
 			if (isBackgroundColorSelected()) {
 				selectedColor = selectedBGColor;
 			} else {
 				// set selectedColor if all selected geos have the same color
 				if (equalObjColor) {
-
 					if (allFillable) {
 						selectedColor = geo0.getFillColor();
 						alpha = geo0.getAlphaValue();
@@ -429,12 +484,10 @@ public class OptionsTab extends FlowPanel {
 			if (allFillable && hasOpacity) { // show opacity slider and set to
 				// first geo's
 				// alpha value
-
 				colorChooserW.enableOpacity(true);
 				alpha = geo0.getAlphaValue();
 
 				colorChooserW.setAlphaValue(Math.round(alpha * 100));
-
 			} else { // hide opacity slider and set alpha = 1
 				colorChooserW.enableOpacity(false);
 				alpha = 1;
@@ -442,15 +495,18 @@ public class OptionsTab extends FlowPanel {
 			}
 
 			colorChooserW.enableBackgroundColorPanel(hasBackground);
-
 			updatePreview(selectedColor, alpha);
 		}
 
-		private boolean updateChooserFromBarChart(GeoElement geo0) {
+		/**
+		 * @param geo0
+		 *            geoElement
+		 * @return
+		 */
+		public boolean updateChooserFromBarChart(GeoElement geo0) {
 			AlgoBarChart algo = model.getAlgoBarChart();
 
 			if (algo == null) {
-				Log.debug("[BARS] NO BARCHART!");
 				return false;
 			}
 
@@ -467,7 +523,6 @@ public class OptionsTab extends FlowPanel {
 				alpha = algo.getBarAlpha(barIdx);
 				if (selectedColor == null) {
 					selectedColor = geo0.getObjectColor();
-
 				}
 
 				if (alpha == -1) {
@@ -503,7 +558,6 @@ public class OptionsTab extends FlowPanel {
 			if (allFillable) {
 				geo.setAlphaValue(alpha);
 			}
-
 		}
 
 		@Override
@@ -516,11 +570,25 @@ public class OptionsTab extends FlowPanel {
 			colorChooserW.setOpacityTitle(localize("Opacity"));
 		}
 
+		/**
+		 * @param background
+		 *            background is selected
+		 */
 		public void setBackground(boolean background) {
 			colorChooserW.setBackground(background);
-
 		}
 
+		@Override
+		public ColorObjectModel getModel() {
+			return model;
+		}
+
+		/**
+		 * @return sequential check box
+		 */
+		public CheckBox getSequential() {
+			return sequential;
+		}
 	}
 
 	private class DecoAnglePanel extends OptionPanel implements
@@ -548,13 +616,11 @@ public class OptionsTab extends FlowPanel {
 					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
 					model.applyChanges(idx);
-
 				}
 			};
 			decoPopup.setKeepVisible(false);
 			mainWidget.add(decoPopup);
 			setWidget(mainWidget);
-
 		}
 
 		@Override
@@ -564,20 +630,17 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void addItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void setLabels() {
-			decoLabel.setText(loc.getMenu("Decoration") + ":");
-
+			decoLabel.setText(getLoc().getMenu("Decoration") + ":");
 		}
 
 		@Override
@@ -588,10 +651,8 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void clearItems() {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
-
 	}
 
 	private class DecoSegmentPanel extends OptionPanel implements
@@ -619,13 +680,11 @@ public class OptionsTab extends FlowPanel {
 					super.handlePopupActionEvent();
 					int idx = getSelectedIndex();
 					model.applyChanges(idx);
-
 				}
 			};
 			decoPopup.setKeepVisible(false);
 			mainWidget.add(decoPopup);
 			setWidget(mainWidget);
-
 		}
 
 		@Override
@@ -635,28 +694,23 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void addItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void setLabels() {
-			decoLabel.setText(loc.getMenu("Decoration") + ":");
-
+			decoLabel.setText(getLoc().getMenu("Decoration") + ":");
 		}
 
 		@Override
 		public void clearItems() {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
-
 	}
 
 	private class PointSizePanel extends OptionPanel implements ISliderListener {
@@ -695,13 +749,11 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			titleLabel.setText(localize("PointSize"));
-
 		}
 
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
-
 		}
 
 	}
@@ -732,7 +784,6 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			titleLabel.setText(localize("PointStyle"));
-
 		}
 
 		@Override
@@ -744,20 +795,17 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void addItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void clearItems() {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 	}
@@ -882,31 +930,26 @@ public class OptionsTab extends FlowPanel {
 			styleHiddenList.addItem(localize("Hidden.Dashed")); // index 1
 			styleHiddenList.addItem(localize("Hidden.Unchanged")); // index 2
 			styleHiddenList.setSelectedIndex(selectedIndex);
-
 		}
 
 		@Override
 		public void setThicknessSliderValue(int value) {
 			thicknessSlider.setValue(value);
-
 		}
 
 		@Override
 		public void setThicknessSliderMinimum(int minimum) {
 			thicknessSlider.setMinimum(minimum);
-
 		}
 
 		@Override
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
 			btnLineStyle.selectLineType(type);
-
 		}
 
 		@Override
 		public void selectCommonLineStyleHidden(boolean equalStyle, int type) {
 			styleHiddenList.setSelectedIndex(type);
-
 		}
 
 		@Override
@@ -967,13 +1010,11 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			titleLabel.setText(localize("Size"));
-
 		}
 
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
-
 		}
 
 	}
@@ -1014,13 +1055,11 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			titleLabel.setText(localize("Size"));
-
 		}
 
 		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
-
 		}
 
 	}
@@ -1099,20 +1138,28 @@ public class OptionsTab extends FlowPanel {
 
 	}
 
+	/**
+	 * settings for button size
+	 */
 	public class ButtonSizePanel extends OptionPanel implements
 			IButtonSizeListener {
 		private InputPanelW ipButtonWidth;
 		private InputPanelW ipButtonHeight;
-		AutoCompleteTextFieldW tfButtonWidth;
-		AutoCompleteTextFieldW tfButtonHeight;
-		CheckBox cbUseFixedSize;
-
+		private AutoCompleteTextFieldW tfButtonWidth;
+		private AutoCompleteTextFieldW tfButtonHeight;
+		private CheckBox cbUseFixedSize;
 		private Label labelWidth;
 		private Label labelHeight;
 		private Label labelPixelW;
 		private Label labelPixelH;
-		ButtonSizeModel model;
+		private ButtonSizeModel model;
 
+		/**
+		 * @param model0
+		 *            model
+		 * @param app
+		 *            application
+		 */
 		public ButtonSizePanel(ButtonSizeModel model0, AppW app) {
 			model = model0;
 			model.setListener(this);
@@ -1136,8 +1183,9 @@ public class OptionsTab extends FlowPanel {
 			FocusListenerW focusListener = new FocusListenerW(this) {
 				@Override
 				protected void wrapFocusLost() {
-					model.setSizesFromString(tfButtonWidth.getText(),
-							tfButtonHeight.getText(), cbUseFixedSize.getValue());
+					getModel().setSizesFromString(getTfButtonWidth().getText(),
+							getTfButtonHeight().getText(),
+							getCbUseFixedSize().getValue());
 
 				}
 			};
@@ -1150,9 +1198,10 @@ public class OptionsTab extends FlowPanel {
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						model.setSizesFromString(tfButtonWidth.getText(),
-								tfButtonHeight.getText(),
-								cbUseFixedSize.getValue());
+						getModel().setSizesFromString(
+								getTfButtonWidth().getText(),
+								getTfButtonHeight().getText(),
+								getCbUseFixedSize().getValue());
 					}
 				}
 
@@ -1165,7 +1214,7 @@ public class OptionsTab extends FlowPanel {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					model.applyChanges(cbUseFixedSize.getValue());
+					getModel().applyChanges(getCbUseFixedSize().getValue());
 
 				}
 			});
@@ -1206,56 +1255,79 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			labelWidth.setText(loc.getMenu("Width"));
-			labelHeight.setText(loc.getMenu("Height"));
-			labelPixelW.setText(loc.getMenu("Pixels.short"));
-			labelPixelH.setText(loc.getMenu("Pixels.short"));
-			cbUseFixedSize.setText(loc.getMenu("fixed"));
-
+			labelWidth.setText(getLoc().getMenu("Width"));
+			labelHeight.setText(getLoc().getMenu("Height"));
+			labelPixelW.setText(getLoc().getMenu("Pixels.short"));
+			labelPixelH.setText(getLoc().getMenu("Pixels.short"));
+			cbUseFixedSize.setText(getLoc().getMenu("fixed"));
 		}
 
+		/**
+		 * @return text area btn for width
+		 */
+		public AutoCompleteTextFieldW getTfButtonWidth() {
+			return tfButtonWidth;
+		}
+
+		/**
+		 * @return text area btn for height
+		 */
+		public AutoCompleteTextFieldW getTfButtonHeight() {
+			return tfButtonHeight;
+		}
+
+		/**
+		 * @return check box to fix size
+		 */
+		public CheckBox getCbUseFixedSize() {
+			return cbUseFixedSize;
+		}
+
+		@Override
+		public ButtonSizeModel getModel() {
+			return model;
+		}
 	}
 
-
-
+	/**
+	 * level of detail panel
+	 */
 	class LodPanel extends OptionPanel implements IComboListener {
-		LodModel model;
+		private LodModel model;
 		private FlowPanel mainWidget;
 		private Label label;
-		ListBox combo;
+		private ListBox combo;
 
+		/**
+		 * @param model0
+		 *            model
+		 */
 		public LodPanel(LodModel model0) {
 			model = model0;
 			model.setListener(this);
 			setModel(model);
 
 			mainWidget = new FlowPanel();
-
 			label = new Label();
 			mainWidget.add(label);
-
 			combo = new ListBox();
-
 			combo.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					model.applyChanges(combo.getSelectedIndex());
+					getModel().applyChanges(getCombo().getSelectedIndex());
 				}
 			});
-
 			mainWidget.add(combo);
-
 			setWidget(mainWidget);
 		}
 
 		@Override
 		public void setLabels() {
-			label.setText(loc.getMenu("LevelOfDetail"));
-
+			label.setText(getLoc().getMenu("LevelOfDetail"));
 			int idx = combo.getSelectedIndex();
 			combo.clear();
-			model.fillModes(loc);
+			model.fillModes(getLoc());
 			combo.setSelectedIndex(idx);
 		}
 
@@ -1272,15 +1344,24 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setSelectedItem(String item) {
 			// nothing to do here
-
 		}
 
 		@Override
 		public void clearItems() {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
+		/**
+		 * @return combo list
+		 */
+		public ListBox getCombo() {
+			return combo;
+		}
+
+		@Override
+		public LodModel getModel() {
+			return model;
+		}
 	}
 
 	private static class ImageCornerPanel extends ComboBoxPanel {
@@ -1310,7 +1391,6 @@ public class OptionsTab extends FlowPanel {
 		protected void onComboBoxChange() {
 			final String item = getComboBox().getValue();
 			model.applyChanges(item, this);
-
 		}
 
 		@Override
@@ -1324,15 +1404,23 @@ public class OptionsTab extends FlowPanel {
 		public void setSelectedItem(String item) {
 			getComboBox().setValue(item);
 		}
-
 	}
 
+	/**
+	 * position of corner panel
+	 */
 	static class CornerPointsPanel extends OptionPanel {
 
 		private ImageCornerPanel corner1;
 		private ImageCornerPanel corner2;
 		private ImageCornerPanel corner4;
 
+		/**
+		 * @param model
+		 *            model
+		 * @param app
+		 *            application
+		 */
 		public CornerPointsPanel(CornerPointsModel model, AppW app) {
 			model.setListener(this);
 			setModel(model);
@@ -1369,8 +1457,6 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-
-
 	private class StartPointPanel extends ComboBoxPanel {
 
 		private Kernel kernel;
@@ -1404,7 +1490,7 @@ public class OptionsTab extends FlowPanel {
 			if (points.size() != combo.getItemCount() - 1) {
 				combo.getModel().clear();
 				combo.addItem("");
-				getStartPointModel().fillModes(loc);
+				getStartPointModel().fillModes(getLoc());
 				setFirstLabel();
 			}
 
@@ -1417,7 +1503,6 @@ public class OptionsTab extends FlowPanel {
 		protected void onComboBoxChange() {
 			final String strLoc = getComboBox().getValue();
 			getStartPointModel().applyChanges(strLoc, this);
-
 		}
 
 		@Override
@@ -1446,7 +1531,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			getLabel().setText(loc.getMenu(getTitle()) + ":");
+			getLabel().setText(getLoc().getMenu(getTitle()) + ":");
 		}
 	} // StartPointPanel
 
@@ -1478,7 +1563,7 @@ public class OptionsTab extends FlowPanel {
 
 		@Override
 		public void setLabels() {
-			setTitle(loc.getMenu(getTitle()));
+			setTitle(getLoc().getMenu(getTitle()));
 			ListBox lb = getListBox();
 			if (getModel().hasGeos() && getModel().checkGeos()) {
 				int selectedIndex = lb.getSelectedIndex();
@@ -1490,8 +1575,18 @@ public class OptionsTab extends FlowPanel {
 
 	} // ConicEqnPanel
 
+	/**
+	 * @param b
+	 *            true if should have focus
+	 */
 	public void setFocused(boolean b) {
 		this.focused = b;
+	}
 
+	/**
+	 * @return localization
+	 */
+	public Localization getLoc() {
+		return loc;
 	}
 }

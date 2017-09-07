@@ -122,6 +122,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			
     			.gwt-CheckBox {
 					margin-bottom: 8px;	
+					
+					input[type="checkbox"] {
+    					margin-right: 10px;		
+    				}
 				}
     			
     			.numberInput {
@@ -150,6 +154,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					
 						.gwt-CheckBox {
 							margin-bottom: 0px;	
+							
+							input[type="checkbox"] {
+    							margin-right: 0px;		
+    						}
 						}
 				}
 			
@@ -169,7 +177,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			
     				.gwt-CheckBox, .checkBoxPanel {
     					input[type="checkbox"] { 
-    						cursor: pointer;		
+    						cursor: pointer;	
     					}
     					
     					label {
@@ -187,8 +195,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					&:hover {
     						border: 1px solid $teal-default;	
     					}
-    						
     				}
+    			
+    				.checkBoxPanel {
+						margin-bottom: 8px;	
+					}
     			
     				.checkBoxPanel-disabled {
     					opacity: 0.42;
@@ -198,9 +209,25 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     						cursor: default;		
     					}
     				}	
+    			
+    				.gwt-ListBox {
+    					cursor: pointer;
+    					border-radius: 0px;	
+    					box-shadow: none;
+    					border: none;
+    					border-bottom: 1px solid $tool-border;
+    					padding: 8px;
+    					font-size: 14px;
+    					transition: border-bottom 0.3s ease-out;
+    					    
+    					&:hover {
+    					  	border-bottom: 1px solid $teal-default !important;
+    					}
+    				}
     				
     				.panelRowIndent, 
-    				  .panelRow, .listBoxPanel {
+    				  .panelRow, .listBoxPanel,
+    				  	.optionsInput {
     					padding-left: 0px;	
     					
     					.gwt-ToggleButton {
@@ -267,22 +294,17 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     							}
 							}
     					}
-    				
-    					.gwt-ListBox {
-    						cursor: pointer;
-    						border-radius: 0px;	
-    						box-shadow: none;
-    						border: none;
-    						border-bottom: 1px solid $tool-border;
-    					    padding: 8px;
-    					    font-size: 14px;
-    					    transition: border-bottom 0.3s ease-out;
-    					    
-    					    &:hover {
-    					    	border-bottom: 1px solid $teal-default !important;
-    					    }
-    					}
     				}
+    				
+    				.optionsInput {
+					  	margin-bottom: 10px;
+					  	
+						.gwt-Label {
+							cursor: default;
+							font-size: 13px;
+							color: $teal-default;
+						}
+					}
     			
     				.AutoCompleteTextFieldW {
     					.SymbolToggleButton {
