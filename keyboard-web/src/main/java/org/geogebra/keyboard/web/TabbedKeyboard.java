@@ -163,8 +163,7 @@ public class TabbedKeyboard extends FlowPanel {
 
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					updateKeyBoardListener.keyBoardNeeded(false, null);
-					keyboardWanted = false;
+					closeButtonClicked();
 				}
 				
 			});
@@ -271,6 +270,13 @@ public class TabbedKeyboard extends FlowPanel {
 
 	public void setListener(UpdateKeyBoardListener listener) {
 		this.updateKeyBoardListener = listener;
+	}
+
+	protected void closeButtonClicked() {
+		if (updateKeyBoardListener != null) {
+			updateKeyBoardListener.keyBoardNeeded(false, null);
+		}
+		keyboardWanted = false;
 	}
 
 	public void buildGUI(ButtonHandler bh, HasKeyboard app) {
