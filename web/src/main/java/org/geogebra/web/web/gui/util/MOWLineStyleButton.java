@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	/** Size of the value canvas */
-	private static final int CANVAS_WIDTH = 20;
+	private static final int CANVAS_WIDTH = 30;
 	private static final int CANVAS_HEIGHT = 20;
 	private LineStylePreview preview;
 	/**
@@ -48,6 +48,8 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 					app.getLocalization().getMenu("Thickness"));
 			titleLabel.addStyleName("thicknessLabel");
 			sliderPanel.insert(titleLabel, 0);
+			getMySlider().setWidth("140px");
+
 		}
 		setKeepVisible(true);
 	}

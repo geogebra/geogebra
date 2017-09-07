@@ -72,6 +72,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (app.isUnbundled()) {
 			getMySlider().setWidth("120px");
 		}
+		if (app.isWhiteboardActive()) {
+			getMySlider().setWidth("140px");
+		}
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && hasSlider) {
 			titleLabel = new Label(app.getLocalization().getMenu("Opacity"));
 			titleLabel.addStyleName("opacityLabel");
@@ -137,7 +140,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	@Override
 	public ImageOrText getButtonIcon() {
 		ImageOrText icon = super.getButtonIcon();
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			icon = new ImageOrText(new ImageResourcePrototype(null,
 					MaterialDesignResources.INSTANCE.color_black().getSafeUri(),
 					0, 0, 24, 24, false, false));
@@ -197,14 +200,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setDefaultColor(double alpha, GColor gc) {
 		defaultColor = gc;
 		if (gc != null) {
-			if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-				this.setIcon(
-						GeoGebraIconW.createColorSwatchIcon(1.0, gc, gc));
-			} else {
+			if (!app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 				this.setIcon(
 						GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
 			}
-			if (!app.isUnbundled()) {
+			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 				this.getElement().getStyle().setBorderColor(gc.toString());
 			}
 		} else {

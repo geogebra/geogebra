@@ -5,12 +5,14 @@ import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 
 public class FillingStyleButton extends PopupMenuButtonW {
 
@@ -86,16 +88,20 @@ public class FillingStyleButton extends PopupMenuButtonW {
 				getMyTable().setSelectedIndex(i);
 			}
 		}
-		this.setIcon(getButtonIcon());
+		// this.setIcon(getButtonIcon());
 	}
 	@Override
 	public ImageOrText getButtonIcon() {
-		if (getSelectedIndex() > -1) {
-			return GeoGebraIconW
-					.createFillStyleIcon(getMyTable().getSelectedIndex());
-
-		}
-
-		return new ImageOrText();
+		/*
+		 * if (getSelectedIndex() > -1) { return GeoGebraIconW
+		 * .createFillStyleIcon(getMyTable().getSelectedIndex());
+		 * 
+		 * }
+		 * 
+		 * return new ImageOrText();
+		 */
+		return new ImageOrText(new ImageResourcePrototype(null,
+				MaterialDesignResources.INSTANCE.filling_black().getSafeUri(),
+				0, 0, 24, 24, false, false));
 	}
 }

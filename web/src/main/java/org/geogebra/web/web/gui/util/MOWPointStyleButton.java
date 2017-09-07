@@ -61,6 +61,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 			titleLabel = new Label(app.getLocalization().getMenu("PointSize"));
 			titleLabel.addStyleName("pointSizeLabel");
 			sliderPanel.insert(titleLabel, 0);
+			getMySlider().setWidth("140px");
 		} else {
 			panel.addStyleName("mowStylePopup");
 			sliderPanel.addStyleName("mowLinePopup");

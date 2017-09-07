@@ -5,6 +5,7 @@ import java.util.Vector;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -298,15 +299,10 @@ public abstract class SubMenuPanel extends FlowPanel
 	 */
 	public void setCSStoSelected(Widget source) {
 
-		FlowPanel parent = (FlowPanel) source.getParent();
-		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			Widget w = parent.getWidget(i);
-			if (w != source) {
-				w.getElement().setAttribute("selected", "false");
-			} else {
-				w.getElement().setAttribute("selected", "true");
-			}
-		}
+		deselectAllCSS();
+		Log.debug("source: " + source);
+		source.getElement().setAttribute("selected", "true");
+		Log.debug("source: " + source);
 	}
 
 	/**
@@ -374,7 +370,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 *            The mode to select and display info from.
 	 */
 	public void setMode(int mode) {
-		reset();
+		// reset();
 		Element btn = DOM.getElementById("mode" + mode);
 		if (btn != null) {
 			btn.setAttribute("selected", "true");

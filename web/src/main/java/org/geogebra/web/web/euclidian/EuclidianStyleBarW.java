@@ -1352,8 +1352,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 
 		};
+		btnFilling.setFixedIcon(btnFilling.getButtonIcon());
 		btnFilling.addPopupHandler(this);
-		btnFilling.addStyleName("mowFillingButton");
 	}
 
 	private void createBgColorBtn() {

@@ -287,7 +287,7 @@
 		border-radius: 2px;
 	}
 	.mowColorPlusButton {
-		 border: 1px solid $tool-border;
+		 border: 1px solid $tool-border !important;
 		 text-align: center;
 		 font-size: larger;
 	}
@@ -427,28 +427,7 @@
 		border: 2px solid $mow_purple;
 		padding: 2px;
 	}
-	
-	.mowColorButton {
-		border: none !important;
-	}
-	.mowColorButton .buttonContent {
-		width: 22px !important;
-		height: 22px !important;
-		border: 2px solid;
-		border-radius: 16px;
-	}
-	.matSelectionTableRound .borderButton {
-		border-radius: 16px !important;
-	}
-	
-	.mowFillingButton {
-		border: none !important;
-	}
-	.mowFillingButton .buttonContent{
-		width: 22px !important;
-		height: 22px !important;
-		border: 2px solid;
-	}
+		
 	.mowBorderlessButton {
 		border: none !important;
 	}
