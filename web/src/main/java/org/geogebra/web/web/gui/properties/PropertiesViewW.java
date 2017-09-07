@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -87,7 +86,6 @@ public class PropertiesViewW extends PropertiesView
 			this.wrappedPanel = new FlowPanel();
 		}
 		app.setPropertiesView(this);
-
 		app.setWaitCursor();   
 
 		notImplemented = new Label("Not implemented");
@@ -156,7 +154,6 @@ public class PropertiesViewW extends PropertiesView
 		if (styleBar == null) {
 			styleBar = newPropertiesStyleBar();
 		}
-
 		return styleBar;
 	}
 
@@ -211,7 +208,6 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel.showCbView(false);
 			}
 
-			Log.debug("euclidianPanel");
 			return euclidianPanel;
 
 		case EUCLIDIAN2:
@@ -222,7 +218,6 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel2.setView(((AppW)app).getEuclidianView2(1));
 				euclidianPanel2.showCbView(false);
 			}
-			Log.debug("euclidianPanel2");
 			return euclidianPanel2;
 		case EUCLIDIAN3D:
 			if (euclidianPanel3D == null) {
@@ -232,7 +227,6 @@ public class PropertiesViewW extends PropertiesView
 		//		euclidianPanel3D.setView(((AppW)app).getEuclidianView3D());
 				euclidianPanel3D.showCbView(false);
 			}
-			Log.debug("euclidianPanel2");
 			return euclidianPanel2;
 
 			
@@ -269,8 +263,6 @@ public class PropertiesViewW extends PropertiesView
 						}));
 
 			}
-
-			Log.debug("obect prop SELECTING TAB " + subType);
 			getObjectPanel().selectTab(subType);
 			return getObjectPanel();
 		}
@@ -308,7 +300,6 @@ public class PropertiesViewW extends PropertiesView
 		// app.updateViewSizes();
 		// }
 		// }
-
 	}
 
 	@Override
@@ -327,8 +318,6 @@ public class PropertiesViewW extends PropertiesView
 		// TODO Auto-generated method stub
 	}	
 
-
-
 	@Override
 	public void rename(GeoElement geo) {
 		// TODO Auto-generated method stub
@@ -344,8 +333,6 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateVisualStyle(GeoElement geo, GProperty prop) {
-		// TODO Auto-generated method stub
-		Log.debug("update visual style");
 		if(geo.isLabelSet()){
 			updatePropertiesGUI();
 		}
@@ -365,30 +352,26 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		Log.debug("reset");
+		// do nothing
 	}
 
 	@Override
 	public void clearView() {
-		Log.debug("Clear View");
+		// do nothing
 	}
 
 	@Override
 	public void setMode(int mode,ModeSetter m) {
-		// TODO Auto-generated method stub
-		Log.debug("setting mode");
+		// do nothing
 	}
 
 	@Override
 	public int getViewID() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public boolean hasFocus() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -412,8 +395,6 @@ public class PropertiesViewW extends PropertiesView
 				}
 			}
 		}
-
-
 		updatePropertiesGUI();
 	}
 
@@ -431,21 +412,20 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	protected void setObjectsToolTip() {
-		Log.debug("=============== PropertiesViewW.setObjectsToolTip() : TODO");
 		// styleBar.setObjectsToolTip();
 	}
 
 	@Override
 	protected void setSelectedTab(OptionType type) {
 		switch (type) {
-		default:
-			// do nothing
-			break;
 		case EUCLIDIAN:
 			euclidianPanel.setSelectedTab(getSelectedTab());
 			break;
 		case EUCLIDIAN2:
 			euclidianPanel2.setSelectedTab(getSelectedTab());
+			break;
+		default:
+			// do nothing
 			break;
 		}
 	}
@@ -497,7 +477,6 @@ public class PropertiesViewW extends PropertiesView
 			setOptionPanel(OptionType.OBJECTS);
 		}
 		updatePropertiesGUI();
-		Log.debug("updateSelection(geos)");
 	}
 
 	private void updatePropertiesGUI() {
@@ -519,20 +498,16 @@ public class PropertiesViewW extends PropertiesView
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}	
-
-
 	}
 
 	@Override
 	protected void updateTitleBar() {
 		updatePropertiesGUI();
-
 	}
 
 	@Override
 	public void attachView() {
 		if (isAttached()) {
-			Log.debug("already attached");
 			return;
 		}
 
@@ -554,10 +529,7 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	public void updatePropertiesView() {
 		updatePropertiesGUI();
-		Log.debug("updatePropertiesView");
 	}
-
-
 
 	/**
 	 * 
@@ -576,12 +548,9 @@ public class PropertiesViewW extends PropertiesView
 
     @Override
 	public void onResize() {
-    	//-34px for width of stylebar
 		int width = getWrappedPanel().getOffsetWidth()
 				- (app.isUnbundled() ? 40 : 37);
     	int height = getWrappedPanel().getOffsetHeight();
-    	//contentsPanel.setHeight(getWrappedPanel().getOffsetHeight() + "px");
-    	
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
 		} else if (app.isUnbundled() && width == -40
@@ -612,7 +581,6 @@ public class PropertiesViewW extends PropertiesView
 		if (casPanel != null) {
 			casPanel.setLabels();
 		}
-
 		if (algebraPanel != null) {
 			algebraPanel.setLabels();
 		}
@@ -620,7 +588,6 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateStyleBar() {
-
 		if (styleBar != null) {
 			styleBar.updateGUI();
 		}
@@ -645,21 +612,27 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	/**
-	 * Closess floating settings.
+	 * Closes floating settings.
 	 */
 	public void close() {
 		if (!app.has(Feature.FLOATING_SETTINGS)) {
 			return;
 		}
-
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
 	}
 
+	/**
+	 * @return true is settings panel is floating
+	 */
 	public boolean isFloatingAttached() {
 		return floatingAttached;
 	}
 
+	/**
+	 * @param floatingAttached
+	 *            true if settings panel is floating
+	 */
 	public void setFloatingAttached(boolean floatingAttached) {
 		this.floatingAttached = floatingAttached;
 	}
