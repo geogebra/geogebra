@@ -54,6 +54,10 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * Here goes the toolbar contents ie the buttons
 	 */
 	FlowPanel contentPanel;
+	FlowPanel selectPanel;
+
+	protected StandardButton move;
+	protected StandardButton select;
 
 	/**
 	 * The info (help) panel for the selected tool.
@@ -92,12 +96,22 @@ public abstract class SubMenuPanel extends FlowPanel
 	 */
 	protected void createGUI() {
 		addStyleName("mowSubMenu");
+		move = createButton(EuclidianConstants.MODE_MOVE);
+		select = createButton(EuclidianConstants.MODE_SELECT);
+		selectPanel = new FlowPanel();
+		selectPanel.add(move);
+		selectPanel.add(select);
+		selectPanel.addStyleName("selectPanel");
+		add(selectPanel);
 		createContentPanel();
+
 		/*
 		 * if (hasInfo()) { createInfoPanel();
 		 * add(LayoutUtilW.panelRow(scrollPanel, infoPanel)); } else {
 		 */
-			add(scrollPanel);
+
+		add(scrollPanel);
+
 		// }
 	}
 
@@ -305,6 +319,8 @@ public abstract class SubMenuPanel extends FlowPanel
 				w.getWidget(j).getElement().setAttribute("selected", "false");
 			}
 		}
+		move.getElement().setAttribute("selected", "false");
+		select.getElement().setAttribute("selected", "false");
 	}
 
 
@@ -370,6 +386,5 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @return first mode; to be selected once this submenu is opened
 	 */
 	public abstract int getFirstMode();
-
 
 }

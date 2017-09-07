@@ -8,12 +8,16 @@
 	
 	.mowToolbar {
 		position: relative;
-		height: 56px;
+		height: 182px;
 		/** explicit non-transparent to hide EV content */
 		background-color: $white;
 		
 		border-radius: 2px;
-		box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2), 0 -1px 0px rgba(0,0,0,0.02);
+		border-bottom-right-radius: 0px;
+   		border-bottom-left-radius: 0px;
+		
+		box-shadow: 0px -4px 6px 0px rgba(110, 110, 110, 0.46);
+		
 	    
 	    img {
 			opacity: 0.54;	
@@ -99,12 +103,25 @@
 	
 	.showSubmenu { 
 	    bottom: 178px;
-	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+	    transition: bottom 0.3s ease;
 	} 
 	.hideSubmenu { 
 	    bottom: 56px;
-	    transition: bottom 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+	    transition: bottom 0.3s ease;
 	} 
+	
+	.slideLeft {
+		left: 0px !important;
+    	transition: all 0.3s ease;
+	}
+	.slideCenter {
+		left: -100% !important;
+   		transition: all 0.3s ease;
+	}
+	.slideRight {
+		left: -200% !important;
+   		transition: all 0.3s ease;
+	}
 	
 	.BigScreen {
 		width: 700px;
@@ -158,41 +175,52 @@
 		padding: 4px;
 	}
 	
-	
 	.mowSubMenu {
-		position: absolute;
-		top: 56px;
-		height: 120px;
-		width: 100%;
-		border-top: 1px solid $burger-menu-border;
+		height: 122px;
+		width: calc(100% /3);
+		overflow: hidden;
 		background-color: $white;
-		box-shadow: 0 2px 4px rgba(0,0,0,0.2), 0 -1px 0px rgba(0,0,0,0.02);
 	}
-	
-	.mowSubMenuContent {
+	.scrollPanel {
+		position: relative;
+		top:56px;
 		width: 100%;
-		padding-top: 5px;
+		height: 122px;
+		overflow: hidden !important;
+	}
+	.submenuContainer {
+		position: absolute;
+		width: 300%;
+		display: flex;
+	}
+	.mowSubMenuContent {
+		width: calc(100% - 70px);
+  	  	padding-top: 5px;
+    	margin-right: 10px;
 		background-color: $white;
+	}
+	.selectPanel {
+		width: 50px;
+		padding-top: 6px;
+   		padding-left: 10px;
+		float: left;
 	}
 	
 	.penSubMenu {
 		.mowSubMenuContent {
-			width: 690px;
+			position: absolute;
 			panelRow {
 				top: -2px;
 			}
 		}
 		.penPanel {
-			width: 120px;
+			width: 50px;
 			margin-top: 1px;
 			margin-left: 13px;	
-			.plusMarginLeft{
-				margin-left: 16px;
-			}
 		}
 		.colorPanel {
 			position: absolute;
-			left: 30%; 
+			left: 25%; 
 			top: 5px;
 		} 
 		.plusButton {
@@ -201,7 +229,7 @@
 		}
 		.sizePanel {
 			position: absolute;
-			left: 35%; 
+			left: 30%; 
 	    	top: 60px;
 	    	
 		}
@@ -213,9 +241,10 @@
 	}
 	
 	.toolsSubMenu {
-		position: absolute;
+		
 		
 		.mowSubMenuContent {
+			position: absolute;
 			height: 117px;
 			overflow: hidden;
 			overflow-x: scroll;
@@ -224,7 +253,7 @@
 			.panelRow {
 				position: absolute;    
 				top: -2px;
-				width: 1580px;
+				width: 1515px;
 			}	
 		}
 		.groupPanel {
@@ -235,7 +264,6 @@
 	.mediaSubMenu {
 		.mowSubMenuContent {
 			position: absolute;
-			width: calc(100% - 10px);
 		    height: 115px;
 		    padding-top: 6px;
 		    

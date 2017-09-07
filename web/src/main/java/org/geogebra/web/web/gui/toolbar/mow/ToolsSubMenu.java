@@ -22,7 +22,6 @@ public class ToolsSubMenu extends SubMenuPanel {
 	public ToolsSubMenu(AppW app) {
 		super(app/* , true */);
 		addStyleName("toolsSubMenu");
-		
 	}
 
 	@Override

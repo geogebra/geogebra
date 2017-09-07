@@ -16,6 +16,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -40,7 +41,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private SubMenuPanel penMenu;
 	private SubMenuPanel toolsMenu;
 	private SubMenuPanel mediaMenu;
-	private FlowPanel subMenuPanel;
+	private ScrollPanel subMenuPanel;
+	private FlowPanel contentContainer;
 	private boolean isSubmenuOpen;
 
 
@@ -74,8 +76,18 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		createCloseButton();
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
 
-		subMenuPanel = new FlowPanel();
+
+		contentContainer = new FlowPanel();
+		contentContainer.addStyleName("submenuContainer");
+		contentContainer.add(penMenu);
+		contentContainer.add(toolsMenu);
+		contentContainer.add(mediaMenu);
+
+		subMenuPanel = new ScrollPanel();
+		subMenuPanel.addStyleName("scrollPanel");
+		subMenuPanel.add(contentContainer);
 		add(subMenuPanel);
+
 		addStyleName("mowToolbar");
 		// sets the horizontal position of the toolbar
 		setResponsivePosition();
@@ -342,11 +354,21 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
-		subMenuPanel.clear();
-		this.currentMenu = submenu;
-		subMenuPanel.add(currentMenu);
+
 		setSubmenuVisible(true);
 
+		contentContainer.removeStyleName("slideLeft");
+		contentContainer.removeStyleName("slideCenter");
+		contentContainer.removeStyleName("slideRight");
+
+		if (submenu == penMenu) {
+			contentContainer.addStyleName("slideLeft");
+		} else if (submenu == toolsMenu) {
+			contentContainer.addStyleName("slideCenter");
+		} else if (submenu == mediaMenu) {
+			contentContainer.addStyleName("slideRight");
+		}
+		currentMenu = submenu;
 	}
 
 	/**
