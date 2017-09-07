@@ -328,8 +328,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		completions = null;
 
-		// CommandCompletionListCellRenderer cellRenderer = new
-		// CommandCompletionListCellRenderer();
 		completionsPopup.addTextField(this);
 
 		// addKeyListener(this); now in MathTextField <==AG not mathtexfield

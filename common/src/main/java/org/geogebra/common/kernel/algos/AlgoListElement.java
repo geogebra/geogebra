@@ -142,12 +142,13 @@ public class AlgoListElement extends AlgoElement {
 			do {
 				int initIndex = Math.max(0,
 						(int) Math.round(num2[k].getDouble()) - 1);
+				GeoList currentList = (GeoList) current;
 				// init return element as copy of initIndex list element
-				if (((GeoList) current).size() > initIndex) {
+				if (currentList.size() > initIndex) {
 					// create copy of initIndex GeoElement in list
 					current = k == num2.length - 1
-							? getGenericElement((GeoList) current, initIndex)
-							: ((GeoList) current).get(initIndex);
+							? getGenericElement(currentList, initIndex)
+							: currentList.get(initIndex);
 				}
 
 				// if not enough elements in list:
@@ -155,8 +156,8 @@ public class AlgoListElement extends AlgoElement {
 				else if (geoList.size() > 0) {
 					// create copy of first GeoElement in list
 					current = k == num2.length - 1
-							? getGenericElement((GeoList) current, 0)
-							: ((GeoList) current).get(0);
+							? getGenericElement(currentList, 0)
+							: currentList.get(0);
 				}
 				k++;
 			} while (current.isGeoList() && k < num2.length);
@@ -248,7 +249,7 @@ public class AlgoListElement extends AlgoElement {
 				}
 			}
 
-			GeoList list = ((GeoList) current);
+			GeoList list = (GeoList) current;
 
 			if (m >= 0 && m < list.size()) {
 				current = list.get(m);
