@@ -115,12 +115,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	List<OptionsTab> tabs;
 
-
 	String localize(final String id) {
 		return loc.getMenu(id);
 	}
-
-
 
 
 	private class ShowObjectPanel extends CheckboxPanel implements IShowObjectListener {
@@ -135,6 +132,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			getCheckbox().setEnabled(isEnabled);
 		}
 	}
+
 
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
 		final CheckBox showLabelCB;
@@ -171,7 +169,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			});
 			mainWidget.add(labelMode);
-
 		}
 
 		private void updateShowLabel() {
@@ -180,14 +177,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			} else {
 				showLabelCB.setText(localize("ShowLabel") + ":");
 			}
-
 		}
-
 
 		@Override
 		public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
 			// change "Show Label:" to "Show Label" if there's no menu
-
 			updateShowLabel();
 
 			GeoElement geo0 = model.getGeoAt(0);
@@ -208,7 +202,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			// locus in selection
 			labelMode.setVisible(model.isNameValueShown());
-
 		}
 
 		public void autoShowCaption() {
@@ -232,12 +225,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 
-
 	private class ShowConditionPanel extends OptionPanel implements
 			IShowConditionListener, ErrorHandler {
-
-
-
 		private ShowConditionModel model;
 		private Label title;
 		private AutoCompleteTextFieldW tfCondition;
@@ -270,7 +259,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 						doActionPerformed();	    
 					}
 				}
-
 			});
 
 			tfCondition.addFocusListener(new FocusListenerW(this){
@@ -298,6 +286,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		public void resetError() {
 			showError(null);
 		}
+
 		@Override
 		public void showError(String msg) {
 			if (msg == null) {
@@ -308,21 +297,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			for (String item : lines) {
 				errorPanel.add(new Label(item));
 			}
-
 		}
 
 		@Override
 		public void showCommandError(String command, String message) {
 			app.getDefaultErrorHandler().showCommandError(command, message);
-
 		}
 
 		@Override
 		public String getCurrentCommand() {
 			return tfCondition.getCommand();
 		}
-
-
 
 		void doActionPerformed() {
 			processed = true;
@@ -335,18 +320,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tfCondition.setText(text);	
 		}
 
-
-
 		@Override
 		public void setLabels() {
 			title.setText(loc.getMenu("Condition.ShowObject"));
-
 		}
 
 		@Override
 		public void updateSelection(Object[] geos) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
@@ -354,17 +335,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				AsyncOperation<String[]> callback) {
 			return app.getGuiManager().checkAutoCreateSliders(string, callback);
 		}
-
 	}
-
-
 
 
 	private class NamePanel extends OptionPanel implements IObjectNameListener,
 			ErrorHandler {
-
-
-
 		ObjectNameModel model;
 		AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
@@ -511,7 +486,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				labelPanel.autoShowCaption();
 			}
 			model.applyCaptionChange(tfCaption.getText());
-
 		}
 
 		@Override
@@ -566,10 +540,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 //				}
 				mainWidget.add(captionPanel);
 			}
-
 			//app.setComponentOrientation(this);
-
-
 		}
 
 		/**
@@ -589,8 +560,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			errorPanel.clear();
 			model.getDefInputHandler().setGeoElement(geo);
 			tfDefinition.setText(ObjectNameModel.getDefText(geo));
-
-			// App.printStacktrace(""+geo);
 		}
 
 		@Override
@@ -613,7 +582,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void updateCaption(String text) {
 			tfCaption.setText(text);
-
 		}
 
 		@Override
@@ -630,11 +598,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void updateName(String text) {
 			tfName.setText(text);
-
 			// if a focus lost is called in between, we keep the current definition text
 			redefinitionForFocusLost = tfDefinition.getText();
-
-
 		}
 
 		@Override
@@ -647,13 +612,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			for (String item : lines) {
 				errorPanel.add(new Label(item));
 			}
-
 		}
 
 		@Override
 		public void showCommandError(String command, String message) {
 			app.getDefaultErrorHandler().showCommandError(command, message);
-
 		}
 
 		@Override
@@ -661,8 +624,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			return tfDefinition.getCommand();
 		}
 	}
-
-
 
 	class ListAsComboPanel extends CheckboxPanel implements IListAsComboListener {
 		public ListAsComboPanel() {
@@ -687,11 +648,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				} else if (view.intValue() == App.VIEW_EUCLIDIAN2 && app.hasEuclidianView2(1)) {
 					app.getEuclidianView2(1).drawListAsComboBox(geo, value);
 				}
-
 			}
 		}
-
 	}
+
 
 	class ReflexAnglePanel extends OptionPanel implements IReflexAngleListener {
 		ReflexAngleModel model;
@@ -710,7 +670,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			mainWidget.add(intervalLabel);
 
 			intervalLB = new ListBox();
-
 			intervalLB.addChangeHandler(new ChangeHandler(){
 
 				@Override
@@ -720,14 +679,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			});
 
 			mainWidget.add(intervalLB);
-
 			setWidget(mainWidget);
 		}
 
 		@Override
 		public void setLabels() {
 			intervalLabel.setText(localize("AngleBetween"));
-
 			setComboLabels();
 		}
 
@@ -737,14 +694,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			intervalLB.clear();
 			model.fillModes(loc);
 			intervalLB.setSelectedIndex(idx);
-
 		}
 
 		int getIndex() {
 			if (model.hasOrientation()) {
 				return intervalLB.getSelectedIndex();
 			}
-
 			// first interval disabled
 			return intervalLB.getSelectedIndex() + 1;
 		}
@@ -771,27 +726,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		@Override
 		public void setSelectedItem(String item) {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
 
 		@Override
 		public void clearItems() {
-			// TODO Auto-generated method stub
-
+			// do nothing
 		}
-
-
 	}
-
-
-
-
-
-
-
-
-
 
 
 	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
@@ -823,8 +765,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			tfBlue = inputPanelB.getTextComponent();
 			tfAlpha = inputPanelA.getTextComponent();
 
-			
-
 			nameLabelR = new Label();
 			nameLabelG = new Label();
 			nameLabelB = new Label();
@@ -845,7 +785,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				}	
 			};
 
-
 			tfRed.addFocusListener(focusListener);						
 			tfGreen.addFocusListener(focusListener);						
 			tfBlue.addFocusListener(focusListener);						
@@ -861,7 +800,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 						}
 					}
 				}
-
 			};
 
 			tfRed.addKeyHandler(keyHandler);
@@ -936,7 +874,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			mainWidget.add(buttonsPanel);
 
 			setWidget(mainWidget);
-
 		}
 
 		@Override
@@ -993,26 +930,21 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void setRedText(final String text) {
 			tfRed.setText(text);
-
 		}
 
 		@Override
 		public void setGreenText(final String text) {
 			tfGreen.setText(text);
-			// TODO Auto-generated method stub
-
 		}
 
 		@Override
 		public void setBlueText(final String text) {
 			tfBlue.setText(text);
-
 		}
 
 		@Override
 		public void setAlphaText(final String text) {
 			tfAlpha.setText(text);
-
 		}
 
 		@Override
@@ -1023,14 +955,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			defaultB = "" + col.getBlue() / 255.0;
 			defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
 
-
 			// set the selected color space and labels to match the first geo's
 			// color space
 			colorSpace = geo.getColorSpace();
 			cbColorSpace.setSelectedIndex(colorSpace);
 			allowSetComboBoxLabels = false;
 			setLabels();
-
 		}
 
 		@Override
@@ -1042,14 +972,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void updateSelection(Object[] geos) {
 			//updateSelection(geos);
-
 		}
-
 	}
 
 
 	private class TooltipPanel extends ListBoxPanel {
-
 
 		public TooltipPanel() {
 			super(loc, "Tooltip");
@@ -1059,8 +986,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	private class LayerPanel extends ListBoxPanel {
 
+	private class LayerPanel extends ListBoxPanel {
 
 		public LayerPanel() {
 			super(loc, "Layer");
@@ -1069,6 +996,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			setModel(model);
 		}
 	}
+
 
 	private class ViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
 		ViewLocationModel model;
@@ -1089,14 +1017,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView2 = new CheckBox();
 			cbGraphicsView3D = new CheckBox();
 			cbGraphicsViewForPlane = new CheckBox();
-
-
 			cbGraphicsView.addClickHandler(new ClickHandler(){
 
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView1(cbGraphicsView.getValue());
-
 				}});
 
 			cbGraphicsView2.addClickHandler(new ClickHandler(){
@@ -1104,7 +1029,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView2(cbGraphicsView2.getValue());
-
 				}});
 
 			cbGraphicsView3D.addClickHandler(new ClickHandler() {
@@ -1112,7 +1036,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView3D(cbGraphicsView3D.getValue());
-
 				}
 			});
 
@@ -1122,11 +1045,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianViewForPlane(cbGraphicsViewForPlane
 							.getValue());
-
 				}
 			});
-
-
 
 			cbAlgebraView = new CheckBox();
 			cbAlgebraView.addClickHandler(new ClickHandler() {
@@ -1134,7 +1054,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToAlgebraView(cbAlgebraView.getValue());
-
 				}
 			});
 
@@ -1156,9 +1075,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void selectView(int index, boolean isSelected) {
 			switch (index) {
-			default:
-				// do nothing
-				break;
 			case 0:
 				cbGraphicsView.setValue(isSelected);
 				break;
@@ -1171,11 +1087,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			case 3:
 				cbGraphicsViewForPlane.setValue(isSelected);
 				break;
-
 			case 4:
 					cbAlgebraView.setValue(isSelected);
 				break;
-
+			default:
+				// do nothing
+				break;
 			}
 		}
 
@@ -1187,7 +1104,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView3D.setText(localize("GraphicsView3D"));
 			cbGraphicsViewForPlane.setText(localize("ExtraViews"));
 			cbAlgebraView.setText(localize("Algebra"));
-
 		}
 
 		@Override
@@ -1199,18 +1115,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		public void setCheckBoxForPlaneVisible(boolean flag) {
 			cbGraphicsViewForPlane.setVisible(flag);
 		}
-
-		// public void setCheckBoxAlgebraVisible(boolean flag) {
-		// if (app.has(Feature.AV_EXTENSIONS)) {
-		// cbAlgebraView.setVisible(flag);
-		// }
-		// }
-
 	}
 
-
-
-	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
@@ -1219,7 +1125,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		initGUI(onTabSelection);
 	}
 	
-
 	AppW getAppW() {
 		return app;
 	}
@@ -1239,7 +1144,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				{			
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
-	//			updateGUI();
+				// updateGUI();
 				for (OptionsTab tab : tabs) {
 					tab.setFocused(false);
 				}
@@ -1281,8 +1186,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		});
 		wrappedPanel.setVisible(false);
 		selectTab(0);
-
-
 	}
 
 	private void createBasicTab() {
@@ -1306,11 +1209,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		FlowPanel checkboxPanel = new FlowPanel();
 		basicTab.add(checkboxPanel);
 
-
 		CheckboxPanel showObjectPanel = new ShowObjectPanel();
 		checkboxPanel.add(showObjectPanel.getWidget());
-
-
 
 		labelPanel = new LabelPanel();
 		if (!isDefaults) {
@@ -1369,7 +1269,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					bgImagePanel, reflexAnglePanel, rightAnglePanel,
 					listAsComboPanel, trimmedIntersectionLinesPanel,
 					allowOutlyingIntersectionsPanel, fixCheckboxPanel));
-
 	}
 
 	private OptionsTab addTextTab() {
@@ -1407,7 +1306,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		InterpolateImageModel interpol = new InterpolateImageModel(app);
 		DecoAngleModel decoAngle = new DecoAngleModel(app);
 		DecoSegmentModel decoSegment = new DecoSegmentModel(app);
-		
 
 		tab.addModel(ptSize).addModel(ptStyle).addModel(lod)
 				.addModel(lineStyle).addModel(arcSize).addModel(slopeSize)
@@ -1424,7 +1322,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				model.applyModifications();
-
 			}
 		});
 		tab.addModel(model);
@@ -1461,18 +1358,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	private OptionsTab addAlgebraTab() {
 		OptionsTab tab;
-	
 		tab = makeOptionsTab("Properties.Algebra");
 		tab.addModel(new CoordsModel(app));
 		tab.addModel(new LineEqnModel(app));
 		tab.addModel(new SymbolicModel(app));
 		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));
-
-		// tab.addModel(new AnimationStepModel(null, app));
-
 		return tab;
-
 	}
 
 	private OptionsTab addPositionTab() {
@@ -1480,10 +1372,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tab = makeOptionsTab("Properties.Position");
 		tab.addModel(new StartPointModel(app))
 				.addModel(new CornerPointsModel(app))
-.addModel(
+				.addModel(
 				new AbsoluteScreenLocationModel(app));
 		return tab;
-
 	}
 
 	private OptionsTab makeOptionsTab(String id) {
@@ -1497,11 +1388,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	@Override
 	public void updateGUI() {
-		Log.info("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
-
 		update(app.getSelectionManager().getSelectedGeos());
-
 	}
 
 	private void update(ArrayList<GeoElement> list) {
@@ -1509,17 +1397,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		if (geos != null && geos.length != 0) {
 			wrappedPanel.setVisible(true);
-
 			for (OptionsTab tab : tabs) {
 				tab.update(geos);
 			}
-
 		} else {
 			wrappedPanel.setVisible(false);
-
 		}
-
-
 	}
 
 	@Override
@@ -1533,11 +1416,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 	public void openFileAsImage(String fileName) {
 		Log.debug(fileName);
-
 	}
 
 	public void updateIfInSelection(GeoElement geo) {
-
 		if (getSelection() != null && getSelection().size() == 1
 				&& getSelection().contains(geo)) {
 			updateGUI();
@@ -1554,7 +1435,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	public void updateSelection(ArrayList<GeoElement> geos) {
 		setSelection(geos);
 		update(geos);
-
 	}
 
 	@Override
