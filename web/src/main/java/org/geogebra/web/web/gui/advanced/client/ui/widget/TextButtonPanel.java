@@ -19,8 +19,10 @@ package org.geogebra.web.web.gui.advanced.client.ui.widget;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.advanced.client.ui.AdvancedWidget;
 
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Image;
@@ -256,8 +258,20 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 */
 	protected void prepareChoiceButton() {
 		ToggleButton dropDownButton = getChoiceButton();
-		dropDownButton.getUpFace().setImage(getChoiceButtonImage());
-		dropDownButton.getDownFace().setImage(getChoiceButtonImage());
+		if (app.isUnbundled()) {
+			dropDownButton.getUpFace()
+					.setImage(new Image(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE.arrow_drop_down()
+									.getSafeUri(),
+							0, 0, 24, 24, false, false)));
+			dropDownButton.getDownFace().setImage(new Image(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE.arrow_drop_up()
+					.getSafeUri(),
+			0, 0, 24, 24, false, false)));
+		} else {
+			dropDownButton.getUpFace().setImage(getChoiceButtonImage());
+			dropDownButton.getDownFace().setImage(getChoiceButtonImage());
+		}
 		dropDownButton.setStyleName("choice-button");
 	}
 

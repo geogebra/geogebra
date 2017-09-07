@@ -24,188 +24,311 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * @author csilla
+ *
+ */
 public class OptionsAlgebraW extends OptionsAdvanced
  implements OptionPanelW,
-		SetLabels, ClickHandler, ChangeHandler, SettingListener {
+		SetLabels, SettingListener {
+
 	private AppW app;
-	private FlowPanel optionsPanel;
-	private Label lblShow;
-	private CheckBox showAuxiliaryObjects;
-	private ListBox sortMode;
-	private AlgebraStyleListBox description;
-	private Label lblCoordStyle;
-	private ListBox coordStyle;
-	private Label lblAngleUnit;
-	private ListBox angleUnit;
-	private Label lblSortMode;
-	private Label lblDescriptionMode;
-	private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
+	private AlgebraTab algebraTab;
+	/**
+	 * tabs (for now only algebra)
+	 */
+	protected MultiRowsTabPanel tabPanel;
+
+	/**
+	 * @author csilla
+	 *
+	 */
+	protected class AlgebraTab extends FlowPanel
+			implements ClickHandler, ChangeHandler {
+		private FlowPanel optionsPanel;
+		private Label lblShow;
+		private CheckBox showAuxiliaryObjects;
+		private ListBox sortMode;
+		private AlgebraStyleListBox description;
+		private Label lblCoordStyle;
+		private ListBox coordStyle;
+		private Label lblAngleUnit;
+		private ListBox angleUnit;
+		private Label lblSortMode;
+		private Label lblDescriptionMode;
+		private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
 			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
-	public OptionsAlgebraW(AppW app) {
-		this.app = app;
-		createGUI();
-		app.getSettings().getAlgebra().addListener(this);
-	}
+		/**
+		 * algebra tab in algebra settings panel
+		 */
+		public AlgebraTab() {
+			createGUI();
+			updateGUI();
+			if (getApp().isUnbundled()) {
+				setStyleName("propMaterialTab");
+			} else {
+				setStyleName("propertiesTab");
+			}
+			add(optionsPanel);
+		}
 
-	private void createGUI() {
-		optionsPanel = new FlowPanel();
-		optionsPanel.setStyleName("algebraOptions");
-		lblShow = new Label();
-		lblShow.addStyleName("panelTitle");
-		showAuxiliaryObjects = new CheckBox();
-		showAuxiliaryObjects.addClickHandler(this);
-		lblSortMode = new Label();
-		lblSortMode.addStyleName("panelTitle");
-		lblDescriptionMode = new Label();
-		lblDescriptionMode.addStyleName("panelTitle");
-		sortMode = new ListBox();
-		description = new AlgebraStyleListBox(app, false);
+		private void createGUI() {
+			optionsPanel = new FlowPanel();
+			optionsPanel.setStyleName("algebraOptions");
+			lblShow = new Label();
+			lblShow.addStyleName("panelTitle");
+			showAuxiliaryObjects = new CheckBox();
+			showAuxiliaryObjects.addClickHandler(this);
+			lblSortMode = new Label();
+			lblSortMode.addStyleName("panelTitle");
+			lblDescriptionMode = new Label();
+			lblDescriptionMode.addStyleName("panelTitle");
+			sortMode = new ListBox();
+			description = new AlgebraStyleListBox(getApp(), false);
 
-		lblCoordStyle = new Label(
-				app.getLocalization().getMenu("Coordinates") + ":");
-		coordStyle = new ListBox();
-		lblAngleUnit = new Label(
-				app.getLocalization().getMenu("AngleUnit") + ":");
-		angleUnit = new ListBox();
+			lblCoordStyle = new Label(
+					getApp().getLocalization().getMenu("Coordinates") + ":");
+			coordStyle = new ListBox();
+			lblAngleUnit = new Label(
+					getApp().getLocalization().getMenu("AngleUnit") + ":");
+			angleUnit = new ListBox();
 
+			optionsPanel.add(lblShow);
+			optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
+			optionsPanel.add(lblSortMode);
+			optionsPanel.add(LayoutUtilW.panelRowIndent(sortMode));
+			optionsPanel.add(lblDescriptionMode);
+			optionsPanel.add(LayoutUtilW.panelRowIndent(description));
 
-		optionsPanel.add(lblShow);
-		optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));
-		optionsPanel.add(lblSortMode);
-		optionsPanel.add(LayoutUtilW.panelRowIndent(sortMode));
-		optionsPanel.add(lblDescriptionMode);
-		optionsPanel.add(LayoutUtilW.panelRowIndent(description));
-
-		optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
-		coordStyle.addChangeHandler(this);
-		optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
-		angleUnit.addChangeHandler(this);
-
-		sortMode.addChangeHandler(this);
-		description.addChangeHandler(new ChangeHandler() {
+			optionsPanel.add(LayoutUtilW.panelRowIndent(lblCoordStyle, coordStyle));
+			coordStyle.addChangeHandler(this);
+			optionsPanel.add(LayoutUtilW.panelRowIndent(lblAngleUnit, angleUnit));
+			angleUnit.addChangeHandler(this);
+			sortMode.addChangeHandler(this);
+			description.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				int idx = description.getSelectedIndex();
-				app.getKernel().setAlgebraStyle(
+				int idx = getDescription().getSelectedIndex();
+				getApp().getKernel()
+						.setAlgebraStyle(
 							AlgebraSettings.getStyleModeAt(idx));
-				app.getKernel().updateConstruction();
-			}
-		});
-		// updateSortMode(); done by setLabels
-		// updateDescription(); done by set labels
-		setLabels();
-	}
-
-	private void updateSortMode() {
-		sortMode.clear();
-		for (SortMode mode : supportedModes) {
-			sortMode.addItem(app.getLocalization().getMenu(mode.toString()));
+				getApp().getKernel().updateConstruction();
+				}
+			});
+			setLabels();
 		}
 
-		SortMode selectedMode = app.getAlgebraView().getTreeMode();
-		sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
+		/**
+		 * @return sort mode combo box
+		 */
+		public ListBox getSortMode() {
+			return sortMode;
+		}
+
+		/**
+		 * @return show aux obj check box
+		 */
+		public CheckBox getShowAuxiliaryObjects() {
+			return showAuxiliaryObjects;
+		}
+
+		/**
+		 * @return coord style combo box
+		 */
+		public ListBox getCoordStyle() {
+			return coordStyle;
+		}
+
+		/**
+		 * @return angle unit combo box
+		 */
+		public ListBox getAngleUnit() {
+			return angleUnit;
+		}
+
+		/**
+		 * update sort mode combo box
+		 */
+		public void updateSortMode() {
+			sortMode.clear();
+			for (SortMode mode : supportedModes) {
+				sortMode.addItem(
+						getApp().getLocalization().getMenu(mode.toString()));
+			}
+			SortMode selectedMode = getApp().getAlgebraView().getTreeMode();
+			sortMode.setSelectedIndex(supportedModes.indexOf(selectedMode));
+		}
+
+		/**
+		 * update coord style combo box content
+		 */
+		public void updateCoordStyle() {
+			lblCoordStyle
+					.setText(getApp().getLocalization().getMenu("Coordinates")
+							+ ":");
+			coordStyle.clear();
+			coordStyle
+					.addItem(getApp().getLocalization().getMenu("A = (x, y)"));
+			coordStyle.addItem(getApp().getLocalization().getMenu("A(x | y)"));
+			coordStyle.addItem(getApp().getLocalization().getMenu("A: (x, y)"));
+			coordStyle.setSelectedIndex(getApp().getKernel().getCoordStyle());
+			getApp().getKernel().updateConstruction();
+		}
+
+		/**
+		 * update angle unit
+		 */
+		public void updateAngleUnit() {
+			lblAngleUnit
+					.setText(getApp().getLocalization().getMenu("AngleUnit") + ":");
+			angleUnit.clear();
+			angleUnit.addItem(getApp().getLocalization().getMenu("Degree"));
+			angleUnit.addItem(getApp().getLocalization().getMenu("Radiant"));
+			angleUnit.setSelectedIndex(
+					getApp().getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT
+							? 1 : 0);
+			getApp().getKernel().updateConstruction();
+			getApp().setUnsaved();
+		}
+
+		/**
+		 * update content GUI
+		 */
+		public void updateGUI() {
+			showAuxiliaryObjects.setValue(getApp().showAuxiliaryObjects);
+			updateSortMode();
+			description.update();
+			updateCoordStyle();
+			updateAngleUnit();
+		}
+
+		/**
+		 * @return description combo box
+		 */
+		public AlgebraStyleListBox getDescription() {
+			return description;
+		}
+
+		/**
+		 * @param description
+		 *            - list of description style
+		 */
+		public void setDescription(AlgebraStyleListBox description) {
+			this.description = description;
+		}
+
+		/**
+		 * set text of labels
+		 */
+		public void setLabels() {
+			lblShow.setText(getApp().getLocalization().getMenu("Show"));
+			showAuxiliaryObjects
+					.setText(getApp().getLocalization()
+							.getMenu("AuxiliaryObjects"));
+			lblSortMode.setText(getApp().getLocalization().getMenu("SortBy"));
+			lblDescriptionMode.setText(
+					getApp().getLocalization().getMenu("AlgebraDescriptions"));
+		}
+
+		@Override
+		public void onChange(ChangeEvent event) {
+			Object source = event.getSource();
+			if (source == getSortMode()) {
+				int i = getSortMode().getSelectedIndex();
+				getApp().getSettings().getAlgebra().setTreeMode(i);
+			} else if (source == getCoordStyle()) {
+				int i = getCoordStyle().getSelectedIndex();
+				getApp().getKernel().setCoordStyle(i);
+				getApp().getKernel().updateConstruction();
+			} else if (source == getAngleUnit()) {
+				int i = getAngleUnit().getSelectedIndex();
+				getApp().getKernel().setAngleUnit(
+						i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
+				getApp().getKernel().updateConstruction();
+				getApp().setUnsaved();
+			}
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+			Object source = event.getSource();
+			if (source == getShowAuxiliaryObjects()) {
+				getApp().setShowAuxiliaryObjects(
+						getShowAuxiliaryObjects().getValue());
+			}
+		}
+
 	}
 
-	private void updateCoordStyle() {
-
-		lblCoordStyle
-				.setText(app.getLocalization().getMenu("Coordinates") + ":");
-		coordStyle.clear();
-		coordStyle.addItem(app.getLocalization().getMenu("A = (x, y)"));
-		coordStyle.addItem(app.getLocalization().getMenu("A(x | y)"));
-		coordStyle.addItem(app.getLocalization().getMenu("A: (x, y)"));
-		coordStyle.setSelectedIndex(app.getKernel().getCoordStyle());
-		app.getKernel().updateConstruction();
-
-	}
-
-	private void updateAngleUnit() {
-
-		lblAngleUnit.setText(app.getLocalization().getMenu("AngleUnit") + ":");
-		angleUnit.clear();
-		angleUnit.addItem(app.getLocalization().getMenu("Degree"));
-		angleUnit.addItem(app.getLocalization().getMenu("Radiant"));
-		angleUnit.setSelectedIndex(
-				app.getKernel().getAngleUnit() == Kernel.ANGLE_RADIANT ? 1 : 0);
-		app.getKernel().updateConstruction();
-		app.setUnsaved();
-
-	}
-
-	@Override
-	public void updateGUI() {
-		showAuxiliaryObjects.setValue(app.showAuxiliaryObjects);
-		updateSortMode();
-		description.update();
-		updateCoordStyle();
-		updateAngleUnit();
+	/**
+	 * @param app
+	 *            application
+	 */
+	public OptionsAlgebraW(AppW app) {
+		this.app = app;
+		tabPanel = new MultiRowsTabPanel();
+		algebraTab = new AlgebraTab();
+		tabPanel.add(algebraTab, app.getLocalization().getMenu("Algebra"));
+		updateGUI();
+		tabPanel.selectTab(0);
+		app.setDefaultCursor();
+		app.getSettings().getAlgebra().addListener(this);
 	}
 
 	@Override
 	public Widget getWrappedPanel() {
-		return optionsPanel;
+		return tabPanel;
     }
 
 	@Override
     public void onResize(int height, int width) {
-	    // TODO Auto-generated method stub
-	    
+		// TO DO
     }
 
-	@Override
-	public void onClick(ClickEvent event) {
-		Object source = event.getSource();
-		if (source == showAuxiliaryObjects) {
-			app.setShowAuxiliaryObjects(showAuxiliaryObjects.getValue());
-		}
+	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
 	}
 
-	@Override
-	public void setLabels() {
-		lblShow.setText(app.getLocalization().getMenu("Show"));
-		showAuxiliaryObjects
-				.setText(app.getLocalization().getMenu("AuxiliaryObjects"));
-
-		lblSortMode.setText(app.getLocalization().getMenu("SortBy"));
-		lblDescriptionMode.setText(app.getLocalization().getMenu(
-				"AlgebraDescriptions"));
-		updateSortMode();
-		description.update();
-		updateCoordStyle();
-		updateAngleUnit();
+	/**
+	 * @param app
+	 *            application
+	 */
+	public void setApp(AppW app) {
+		this.app = app;
 	}
 
-	@Override
-	public void onChange(ChangeEvent event) {
-		Object source = event.getSource();
-		if (source == sortMode) {
-			int i = sortMode.getSelectedIndex();
-			app.getSettings().getAlgebra().setTreeMode(supportedModes.get(i));
-
-		} else if (source == coordStyle) {
-			int i = coordStyle.getSelectedIndex();
-			app.getKernel().setCoordStyle(i);
-			app.getKernel().updateConstruction();
-		} else if (source == angleUnit) {
-			int i = angleUnit.getSelectedIndex();
-			app.getKernel().setAngleUnit(
-					i == 0 ? Kernel.ANGLE_DEGREE : Kernel.ANGLE_RADIANT);
-			app.getKernel().updateConstruction();
-			app.setUnsaved();
-		}
-
+	/**
+	 * @return algebra tab
+	 */
+	public AlgebraTab getAlgebraTab() {
+		return algebraTab;
 	}
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
 		updateGUI();
-
 	}
 
 	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return null;
+	}
+
+	@Override
+	public void setLabels() {
+		algebraTab.setLabels();
+		algebraTab.updateSortMode();
+		algebraTab.getDescription().update();
+		algebraTab.updateCoordStyle();
+		algebraTab.updateAngleUnit();
+	}
+
+	public void updateGUI() {
+		algebraTab.updateGUI();
 	}
 }

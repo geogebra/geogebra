@@ -12,6 +12,13 @@ public interface MaterialDesignResources extends ClientBundle {
 	MaterialDesignResources INSTANCE = GWT.create(MaterialDesignResources.class);
 	/** NEW MATERIAL DESIGN ICONS */
 
+	// settings panel
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_up_black_24px.svg")
+	SVGResource arrow_drop_up();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/settings/ic_arrow_drop_down_black_24px.svg")
+	SVGResource arrow_drop_down();
+
 	// dynamic stylebar
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/color_black.svg")
 	SVGResource color_black();

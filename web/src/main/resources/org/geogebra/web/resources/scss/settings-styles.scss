@@ -218,6 +218,30 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     						}
     					}
     				
+    					.advanced-TextButtonPanel { 
+    						.choice-button {
+    							top: 2px !important;
+    						
+    							img {
+    								opacity: 0.54;	
+    							}	
+    					
+    							&:hover {
+    								img {
+    									opacity: 1;
+    								}
+    							}
+    						
+    							&.choice-button-up-disabled {
+    								cursor: default;
+    								
+    								img {
+    									opacity: 0.3;	
+    								}	
+    							}
+ 		   					} 
+    					}	
+    						
     					input[type="text"].gwt-SuggestBox  {
     						width: 100%;
     						font-size: 14px;
@@ -263,7 +287,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				.AutoCompleteTextFieldW {
     					.SymbolToggleButton {
     						top: 0%;
-    						right: 16px;
+    						right: 20px;
     						
     						&.shown:hover {
     							color: $teal-default;

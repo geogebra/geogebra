@@ -171,11 +171,13 @@ public abstract class PropertiesView implements View {
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
+			return app.isUnbundled() ? loc.getMenu("Defaults")
+					: loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
 		case SPREADSHEET:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
 		case EUCLIDIAN:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
+			return app.isUnbundled() ? loc.getMenu("DrawingPad")
+					: loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
 		case EUCLIDIAN2:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad2"));
 		case EUCLIDIAN_FOR_PLANE:
@@ -186,9 +188,11 @@ public abstract class PropertiesView implements View {
 		case CAS:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
 		case GLOBAL:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
+			return app.isUnbundled() ? loc.getMenu("Advanced")
+					: loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
 		case ALGEBRA:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
+			return app.isUnbundled() ? loc.getMenu("Algebra")
+					: loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
 		case OBJECTS:
 			return objectPanel == null ? loc.getMenu("Objects") : objectPanel
 					.getSelectionDescription(loc);

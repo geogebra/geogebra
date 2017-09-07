@@ -136,7 +136,7 @@ public class PropertiesStyleBarW extends
 		
 		for (final OptionType type : OptionTypesImpl) {
 			if (typeAvailable(type)){
-				final PropertiesButton btn = new PropertiesButton(
+				final PropertiesButton btn = new PropertiesButton(app,
 						getMenuHtml(type), new Command() {
 
 					@Override

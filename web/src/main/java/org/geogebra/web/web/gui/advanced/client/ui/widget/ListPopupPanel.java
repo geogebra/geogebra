@@ -410,7 +410,8 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 				|| getDropDownPosition() == DropDownPosition.AUTO) {
 			setPopupPosition(getComboBox().getAbsoluteLeft(),
 					getComboBox().getAbsoluteTop()
-							+ getComboBox().getOffsetHeight());
+							+ (app.isUnbundled() ? -5
+									: getComboBox().getOffsetHeight()));
 		}
 	}
 
