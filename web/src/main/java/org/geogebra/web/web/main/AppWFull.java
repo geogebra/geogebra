@@ -154,11 +154,13 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public void showKeyboard(MathKeyboardListener textField, boolean forceShow) {
-		getAppletFrame().showKeyBoard(true, textField, forceShow);
+	public boolean showKeyboard(MathKeyboardListener textField,
+			boolean forceShow) {
+		boolean ret = getAppletFrame().showKeyBoard(true, textField, forceShow);
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
 		}
+		return ret;
 	}
 
 	@Override

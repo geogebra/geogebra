@@ -3119,8 +3119,9 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param forceShow
 	 *            whether it must appear now
 	 */
-	public void showKeyboard(MathKeyboardListener textField, boolean forceShow) {
-		// Overwritten in subclass - nothing to do here
+	public boolean showKeyboard(MathKeyboardListener textField,
+			boolean forceShow) {
+		return false; // Overwritten in subclass
 	}
 
 	/**

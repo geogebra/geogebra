@@ -58,7 +58,7 @@ public interface HeaderPanelDeck
 	 * @param forceShow
 	 *            whether to force showing
 	 */
-	public void showKeyBoard(boolean show, MathKeyboardListener textField,
+	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow);
 
 }

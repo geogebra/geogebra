@@ -71,7 +71,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private DockGlassPaneW glass;
 	private GGWToolBar ggwToolBar = null;
 	private GGWMenuBar ggwMenuBar;
-	private boolean keyboardVisibilityChanging;
+	private KeyboardState keyboardState;
 	private final SimplePanel kbButtonSpace = new SimplePanel();
 	private GDevice device;
 	private boolean[] childVisible = new boolean[0];
@@ -261,7 +261,11 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
-		if (keyboardVisibilityChanging) {
+		if (show) {
+			Log.printStacktrace("");
+		}
+		if (keyboardState == KeyboardState.ANIMATING_IN
+				|| keyboardState == KeyboardState.ANIMATING_OUT) {
 			return;
 		}
 
@@ -279,18 +283,18 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		app.getEuclidianView1().setKeepCenter(false);
 		if (show) {
 			showZoomPanel(false);
-			keyboardVisibilityChanging = true;
+			keyboardState = KeyboardState.ANIMATING_IN;
 			app.hideMenu();
 			app.persistWidthAndHeight();
 			ToolTipManagerW.hideAllToolTips();
 			addKeyboard(textField, true);
 		} else {
 			showZoomPanel(true);
-			keyboardVisibilityChanging = true;
+			keyboardState = KeyboardState.ANIMATING_OUT;
 			app.persistWidthAndHeight();
 			showKeyboardButton(textField);
 			removeKeyboard(textField);
-			keyboardVisibilityChanging = false;
+			keyboardState = KeyboardState.HIDDEN;
 		}
 
 		// this.mainPanel.add(this.dockPanel);
@@ -408,7 +412,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			showKeyboardButton.hide();
 		}
 		app.centerAndResizePopups();
-		keyboardVisibilityChanging = false;
+		keyboardState = KeyboardState.SHOWN;
 
 	}
 
@@ -454,19 +458,23 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 	@Override
-	public void showKeyBoard(boolean show, MathKeyboardListener textField,
+	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {
 		if (forceShow) {
 			doShowKeyBoard(show, textField);
-		} else {
-			keyBoardNeeded(show, textField);
+			return true;
 		}
+		return keyBoardNeeded(show, textField);
 	}
 
 	@Override
-	public void keyBoardNeeded(boolean show, MathKeyboardListener textField) {
-		if (this.keyboardVisibilityChanging) {
-			return;
+	public boolean keyBoardNeeded(boolean show,
+			MathKeyboardListener textField) {
+		if (this.keyboardState == KeyboardState.ANIMATING_IN) {
+			return true;
+		}
+		if (this.keyboardState == KeyboardState.ANIMATING_OUT) {
+			return false;
 		}
 		
 		if (app.isUnbundled() && !app.isWhiteboardActive()
@@ -474,7 +482,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 						.getToolbarPanelV2() != null
 				&& !((GuiManagerW) app.getGuiManager()).getToolbarPanelV2()
 						.isOpen()) {
-			return;
+			return false;
 		}
 		if (app.getLAF().isTablet()
 				|| isKeyboardShowing()
@@ -483,10 +491,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				|| (app.getGuiManager() != null
 						&& app.getGuiManager().getKeyboardShouldBeShownFlag())) {
 			doShowKeyBoard(show, textField);
-
-		} else {
-			showKeyboardButton(textField);
+			return true;
 		}
+		showKeyboardButton(textField);
+		return false;
 
 	}
 

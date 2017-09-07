@@ -43,9 +43,8 @@ public class FieldHandler implements FocusHandler, BlurHandler {
 
 	public static void focusGained(HasKeyboardTF field, AppW app) {
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
-			if (field != null) {
+			if (field != null && app.showKeyboard(field, false)) {
 				field.startOnscreenKeyboardEditing();
-				app.showKeyboard(field, true);
 			}
 		}
 	}

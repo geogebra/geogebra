@@ -2179,9 +2179,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {
 		if (onScreenKeyboard == null) {
-
 			onScreenKeyboard = new OnscreenTabbedKeyboard((HasKeyboard) app);
-
 		}
 
 		if (textField != null) {

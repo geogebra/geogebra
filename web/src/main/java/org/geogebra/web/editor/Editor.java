@@ -51,8 +51,9 @@ public class Editor implements EntryPoint, MathFieldListener {
 		kb.setListener(new UpdateKeyBoardListener() {
 
 			@Override
-			public void keyBoardNeeded(boolean show,
+			public boolean keyBoardNeeded(boolean show,
 					MathKeyboardListener textField) {
+				return true;
 				// no real app frame
 			}
 
