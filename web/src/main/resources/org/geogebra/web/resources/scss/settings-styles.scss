@@ -15,8 +15,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			width: 500px;
     		overflow-y: auto;	
     		
-    		select:focus,select:hover {
-    			border: 1px $purple-default solid;
+    		select:focus,select:hover, textarea:focus:not([readonly]) {
+    			border: 1px $teal-default solid;
     		}
     		
     		.closeButtonPanel { 
@@ -30,7 +30,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			}
     		}
     		
-    		.MyCanvasButton.settingsBtn {
+    		.MyCanvasButton.settingsBtn, .textButton {
     			height: 36px !important;
     			width: 136px !important;
     			padding: 0px 16px;
@@ -53,8 +53,23 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		
     			&:hover {
     				box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
-    				border-color: $teal-default;
     			}
+    		}
+    	
+    		.textButton {
+    			width: 64px !important;	
+    			color: $black;
+    			margin-top: 0px;
+    			margin-left: 16px;
+    			
+    			&:hover {
+    				text-decoration: none;	
+    			}
+    		}
+    	
+    		.CustomColorButton:hover {
+    			border: 2px solid $teal-default !important;
+    			background-color: $white !important;
     		}
     	
     		.panelTitle:first-child {
@@ -127,6 +142,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					margin-right: 10px;		
     				}
 				}
+			
+				textarea {
+					border-radius:2px;
+					box-shadow: none;
+				}
     			
     			.numberInput {
     				border: none;
@@ -144,7 +164,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				.panelRowIndent, 
 				  .panelRowCell, 
 					.panelRow,
-					  .listBoxPanel {
+					  .listBoxPanel,
+					  	.optionsPanel {
 					  	margin-bottom: 10px;
 					  	
 						.gwt-Label {
@@ -161,6 +182,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 						}
 				}
 			
+				.colorChooserPreview canvas {
+					border-radius: 2px;	
+					cursor: pointer;
+				}
+			
 				.listBoxPanel {
 					margin-bottom: 0px;
 				}
@@ -173,6 +199,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				
     				.panelIndent {
     					padding-left: 25px;	
+    				}
+    			
+    				.coloredLabel {
+    					cursor: default;
+						font-size: 13px;
+						color: $teal-default;		
     				}
     			
     				.gwt-CheckBox, .checkBoxPanel {
@@ -225,9 +257,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					}
     				}
     				
-    				.panelRowIndent, 
-    				  .panelRow, .listBoxPanel,
-    				  	.optionsInput {
+    				.panelRowIndent, .optionsPanel, .sliderIntervalPanel,
+    				  .panelRow, .listBoxPanel, .sliderWidthPanel,
+    				  	.optionsInput, .optionsPanelCell {
     					padding-left: 0px;	
     					
     					.gwt-ToggleButton {
@@ -269,7 +301,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
  		   					} 
     					}	
     						
-    					input[type="text"].gwt-SuggestBox  {
+    					input[type="text"] {
     						width: 100%;
     						font-size: 14px;
     						border-radius: 0px;
@@ -295,16 +327,6 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 							}
     					}
     				}
-    				
-    				.optionsInput {
-					  	margin-bottom: 10px;
-					  	
-						.gwt-Label {
-							cursor: default;
-							font-size: 13px;
-							color: $teal-default;
-						}
-					}
     			
     				.AutoCompleteTextFieldW {
     					.SymbolToggleButton {
@@ -321,9 +343,72 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					}	
     				}
     			
+    				.optionsPanelCell {
+    					.gwt-Label {
+							font-size: 14px;
+							min-width: 64px;
+						}
+								
+    					.AutoCompleteTextFieldW {
+    						.SymbolToggleButton {
+    							right: -8px;
+    						}
+    					}
+    				}
+    				
+    				.optionsInput, .sliderIntervalPanel {
+					  	margin-bottom: 10px;
+					  	
+						.gwt-Label {
+							cursor: default;
+							font-size: 13px;
+							color: $teal-default;
+						}
+					
+						.AutoCompleteTextFieldW {
+    						.SymbolToggleButton {
+    							position: relative;
+    						}
+    					}
+					
+						input[type="text"].gwt-SuggestBox  {
+    						width: 80%;
+    					}
+					}
+				
+					.sliderWidthPanel {
+						.AutoCompleteTextFieldW {
+							display: flex;
+							
+							.unitLabel {
+								font-size: 14px;	
+							}
+						}
+					}
+				
+					.optionsPanel {
+						display: flex;
+						
+						.optionsSlider {
+							display: flex;	
+						}
+					
+						.gwt-Label {
+							line-height: 200%;	
+						}
+					
+						.gwt-CheckBox {
+							margin-top: 11px !important;
+						}
+					}
+    			
     				.listBoxPanel {
     					.gwt-Label {
     						min-width: 64px;	
+    					}
+    				
+    					.imageCorner{ 
+    						font-size: 14px;
     					}
     				}
     			}	

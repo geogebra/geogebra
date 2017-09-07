@@ -27,10 +27,15 @@ $duration: 0.2s;
 				margin-top: 0px;
 				font-size: initial;;	
 			}
+			
+			input[type="range"] {
+				cursor: pointer;	
+			}
 		
 			.ggbSpinner { 
 				margin-right: 16px;
 				border-radius: 2px;
+				box-shadow: none;
 			}
 		
 			.CustomColorPreview {
@@ -42,6 +47,7 @@ $duration: 0.2s;
 				.gwt-Label {
 					font-size: 13px;
 					color: $teal-default;
+					cursor: default;
 				}
 			}
 		}

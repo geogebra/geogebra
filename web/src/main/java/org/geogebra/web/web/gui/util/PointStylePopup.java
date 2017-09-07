@@ -21,7 +21,7 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 	private boolean euclidian3D;
 
 	public static PointStylePopup create(AppW app, int mode, boolean hasSlider,
-			PointStyleModel model) {
+			PointStyleModel model, boolean isTealBorder) {
 		
 		PointStylePopup.mode = mode;
 		
@@ -39,20 +39,22 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 
 		return new PointStylePopup(app, pointStyleIcons, 2, -1,
 				SelectionTable.MODE_ICON, true,
-		        hasSlider, model);
+				hasSlider, model, isTealBorder);
 	}
 
 	public static PointStylePopup create(AppW app, int mode,
-	        PointStyleModel model) {
+			PointStyleModel model, boolean isTealBorder) {
 		return new PointStylePopup(app, null, 1, -1, 
-				SelectionTable.MODE_ICON, false, true, model);
+				SelectionTable.MODE_ICON, false, true, model, isTealBorder);
 	}
 
 
 	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode,
-            boolean hasTable, boolean hasSlider, PointStyleModel model) {
-		super(app, data, rows, columns, mode, hasTable, hasSlider, null, false);
+			boolean hasTable, boolean hasSlider, PointStyleModel model,
+			boolean isTealBorder) {
+		super(app, data, rows, columns, mode, hasTable, hasSlider, null,
+				isTealBorder);
 	    this.model = model;
 		euclidian3D = false;
     }

@@ -55,7 +55,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 		btnPointStyle = app.isWhiteboardActive()
 				? MOWPointStyleButton.create(app)
 				: PointStylePopup.create(app, mode, true,
-				new PointStyleModel(app));
+						new PointStyleModel(app), false);
 
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);

@@ -773,7 +773,7 @@ public class OptionsTab extends FlowPanel {
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
 			btnPointStyle = PointStylePopup.create(app, -1, false,
-					model);
+					model, true);
 			if (btnPointStyle != null) {
 				btnPointStyle.setKeepVisible(false);
 				mainPanel.add(btnPointStyle);
