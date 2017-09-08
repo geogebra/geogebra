@@ -1,6 +1,9 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -18,10 +21,6 @@ public abstract class StepNode {
 
 	protected int color;
 
-	/**
-	 * @param sn the tree to be compared to this
-	 * @return whether the two trees are exactly equal (order of operations matters)
-	 */
 	public abstract boolean equals(StepNode sn);
 
 	/**
@@ -33,7 +32,7 @@ public abstract class StepNode {
 		int b = getPriority(sn);
 
 		if (a == b) {
-			if (this instanceof StepConstant) {
+			if (this.canBeEvaluated()) {
 				return Double.compare(getValue(), sn.getValue());
 			} else if (this instanceof StepOperation) {
 				int cmp = Double.compare(degree(), sn.degree());
@@ -76,7 +75,7 @@ public abstract class StepNode {
 			return 2;
 		} else if (sn instanceof StepVariable) {
 			return 3;
-		} else if (sn.isOperation()) {
+		} else if (sn instanceof StepOperation) {
 			return 4;
 		}
 		return 5;
@@ -185,10 +184,6 @@ public abstract class StepNode {
 
 	public abstract String toLaTeXString(Localization loc, boolean colored);
 
-	public void setColor(int color) {
-		this.color = color;
-	}
-
 	protected String getColorHex() {
 		switch (color % 5) {
 		case 1:
@@ -206,13 +201,17 @@ public abstract class StepNode {
 		}
 	}
 
-	public void cleanColors() {
-		setColor(0);
+	public void setColor(int color) {
+		this.color = color;
 		if (isOperation()) {
 			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
-				((StepOperation) this).getSubTree(i).cleanColors();
+				((StepOperation) this).getSubTree(i).setColor(color);
 			}
 		}
+	}
+
+	public void cleanColors() {
+		setColor(0);
 	}
 
 	/**
@@ -228,7 +227,8 @@ public abstract class StepNode {
 	public abstract StepNode expand(SolutionBuilder sb);
 
 	public boolean nonSpecialConstant() {
-		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E);
+		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E)
+				|| isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).nonSpecialConstant();
 	}
 
 	public boolean specialConstant() {
@@ -241,6 +241,15 @@ public abstract class StepNode {
 
 	public boolean isSquareRoot() {
 		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getSubTree(1), 2);
+	}
+
+	public boolean isTrigonometric() {
+		return isOperation(Operation.SIN) || isOperation(Operation.COS) || isOperation(Operation.TAN) || isOperation(Operation.CSC)
+				|| isOperation(Operation.SEC) || isOperation(Operation.CSC);
+	}
+
+	public boolean isInverseTrigonometric() {
+		return isOperation(Operation.ARCSIN) || isOperation(Operation.ARCCOS) || isOperation(Operation.ARCTAN);
 	}
 
 	public StepNode replace(StepNode from, StepNode to) {
@@ -308,6 +317,12 @@ public abstract class StepNode {
 				so.addSubTree(convertExpression(((ExpressionNode) ev).getRight()));
 				return so;
 			}
+		}
+		if (ev instanceof Equation) {
+			StepOperation so = new StepOperation(Operation.EQUAL_BOOLEAN);
+			so.addSubTree(convertExpression(((Equation) ev).getLHS()));
+			so.addSubTree(convertExpression(((Equation) ev).getRHS()));
+			return so;
 		}
 		if (ev instanceof FunctionVariable || ev instanceof Variable) {
 			return new StepVariable(ev.toString(StringTemplate.defaultTemplate));
@@ -442,11 +457,7 @@ public abstract class StepNode {
 		if (a == null) {
 			return null;
 		}
-		if (a.nonSpecialConstant()) {
-			StepConstant newConstant = new StepConstant(-a.getValue());
-			newConstant.setColor(a.color);
-			return newConstant;
-		}
+
 		StepOperation so = new StepOperation(Operation.MINUS);
 		so.addSubTree(a.deepCopy());
 		return so;
@@ -566,11 +577,8 @@ public abstract class StepNode {
 	}
 
 	public static StepNode in(StepNode a, StepNode b) {
-		if (a == null) {
-			return in(new StepConstant(0), b);
-		}
-		if (b == null) {
-			return in(a, new StepConstant(0));
+		if (a == null || b == null) {
+			return null;
 		}
 
 		StepOperation so = new StepOperation(Operation.IS_ELEMENT_OF);
@@ -634,9 +642,9 @@ public abstract class StepNode {
 	 */
 	public static StepNode nonTrivialPower(StepNode a, StepNode b) {
 		if (a != null && b != null) {
-			if (isEqual(b.getValue(), 1)) {
+			if (isEqual(b, 1)) {
 				return a;
-			} else if (isEqual(b.getValue(), 0)) {
+			} else if (isEqual(b, 0)) {
 				return new StepConstant(1);
 			}
 		}
@@ -653,13 +661,13 @@ public abstract class StepNode {
 	 */
 	public static StepNode nonTrivialProduct(StepNode a, StepNode b) {
 		if (a != null && b != null) {
-			if (isEqual(a.getValue(), 1)) {
+			if (isEqual(a, 1)) {
 				return b;
-			} else if (isEqual(a.getValue(), -1)) {
+			} else if (isEqual(a, -1)) {
 				return minus(b);
-			} else if (isEqual(b.getValue(), 1)) {
+			} else if (isEqual(b, 1)) {
 				return a;
-			} else if (isEqual(b.getValue(), -1)) {
+			} else if (isEqual(b, -1)) {
 				return minus(a);
 			}
 		}
@@ -687,8 +695,161 @@ public abstract class StepNode {
 		return StepNode.minus(sn);
 	}
 
+	/**
+	 * returns the largest b-th power in a (for example (8, 2) -> 4, (8, 3) -> 8, (108, 2) -> 36)
+	 * 
+	 * @param a base
+	 * @param b exponent
+	 * @return largest b-th power that divides a
+	 */
+	public static long largestNthPower(double a, double b) {
+		if (closeToAnInteger(a) && closeToAnInteger(b)) {
+			long x = Math.round(a);
+			long y = Math.round(b);
+
+			int power = 1;
+			int count = 0;
+
+			while (x % 2 == 0) {
+				count++;
+				x /= 2;
+			}
+
+			count /= y;
+			power *= Math.pow(2, count);
+
+			for (int i = 3; i < x; i += 2) {
+				count = 0;
+
+				while (x % i == 0) {
+					count++;
+					x /= i;
+				}
+
+				count /= y;
+				power *= Math.pow(i, count);
+			}
+
+			return power;
+		}
+
+		return 1;
+	}
+
+	public static long getDenominator(StepNode sn) {
+		if (sn.nonSpecialConstant()) {
+			return 1;
+		} else if (sn.isOperation(Operation.MINUS)) {
+			return getDenominator(((StepOperation) sn).getSubTree(0));
+		} else if (sn.isOperation(Operation.DIVIDE)) {
+			if (closeToAnInteger(((StepOperation) sn).getSubTree(0)) && closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
+				return Math.round(((StepOperation) sn).getSubTree(1).getValue());
+			}
+		}
+		return 0;
+	}
+
+	public static StepNode getNumerator(StepNode sn) {
+		if (sn.nonSpecialConstant()) {
+			return sn;
+		} else if (sn.isOperation(Operation.MINUS)) {
+			return minus(getNumerator(((StepOperation) sn).getSubTree(0)));
+		} else if (sn.isOperation(Operation.DIVIDE)) {
+			return ((StepOperation) sn).getSubTree(0);
+		}
+		return null;
+	}
+
+	public static StepNode inverseTrigoLookup(StepOperation so) {
+		String[] arguments = new String[] { "-1", "-(nroot(3, 2))/(2)", "-(nroot(2, 2))/(2)", "-(1)/(2)", "0", "(1)/(2)",
+				"(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };
+		String[] argumentsTan = new String[] { "", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1", "nroot(3, 2)", "" };
+
+		StepNode pi = new StepConstant(Math.PI);
+		StepNode[] valuesSinTan = new StepNode[] { minus(divide(pi, 2)), minus(divide(pi, 3)), minus(divide(pi, 4)), minus(divide(pi, 6)),
+				new StepConstant(0), divide(pi, 6), divide(pi, 4), divide(pi, 3), divide(pi, 2) };
+		StepNode[] valuesCos = new StepNode[] { pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4), divide(multiply(2, pi), 3),
+				divide(pi, 2), divide(pi, 3), divide(pi, 4), divide(pi, 6), new StepConstant(0) };
+
+		String currentArgument = so.getSubTree(0).toString();
+		for (int i = 0; i < arguments.length; i++) {
+			if (currentArgument.equals(arguments[i])) {
+				if (so.isOperation(Operation.ARCSIN)) {
+					return valuesSinTan[i];
+				} else if (so.isOperation(Operation.ARCCOS)) {
+					return valuesCos[i];
+				}
+			} else if (currentArgument.equals(argumentsTan[i])) {
+				if (so.isOperation(Operation.ARCTAN)) {
+					return valuesSinTan[i];
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * returns the largest n, for which x is a perfect nth power
+	 */
+	public static long getIntegerPower(long x) {
+		long temp = x;
+		if (temp < 0) {
+			temp = -temp;
+		}
+
+		if (temp == 1) {
+			return 1;
+		}
+
+		long power = 0;
+		long currentPower;
+		for (int i = 2; i <= temp; i++) {
+			currentPower = 0;
+			while (temp % i == 0) {
+				currentPower++;
+				temp /= i;
+			}
+			power = gcd(power, currentPower);
+		}
+		return power;
+	}
+
+	public static void getBasesAndExponents(StepNode sn, StepNode currentExp, List<StepNode> bases, List<StepNode> exponents) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+
+			switch (so.getOperation()) {
+			case MULTIPLY:
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					getBasesAndExponents(so.getSubTree(i), currentExp, bases, exponents);
+				}
+				return;
+			case MINUS:
+				if (!so.getSubTree(0).nonSpecialConstant()) {
+					bases.add(new StepConstant(-1));
+					exponents.add(new StepConstant(1));
+					getBasesAndExponents(so.getSubTree(0), currentExp, bases, exponents);
+					return;
+				}
+				break;
+			case DIVIDE:
+				getBasesAndExponents(so.getSubTree(0), currentExp, bases, exponents);
+				getBasesAndExponents(so.getSubTree(1), multiply(-1, currentExp), bases, exponents);
+				return;
+			case POWER:
+				bases.add(so.getSubTree(0));
+				exponents.add(multiply(currentExp, so.getSubTree(1)));
+				return;
+			}
+		}
+
+		bases.add(sn);
+		exponents.add(currentExp == null ? new StepConstant(1) : currentExp);
+	}
+
 	public static boolean isNegative(StepNode sn) {
-		return sn.getValue() < 0 || sn.isOperation(Operation.MINUS)
+		return (sn.nonSpecialConstant() && sn.getValue() < 0) || sn.isOperation(Operation.MINUS)
 				|| sn.isOperation(Operation.MULTIPLY) && isNegative(((StepOperation) sn).getSubTree(0));
 	}
 
@@ -697,7 +858,21 @@ public abstract class StepNode {
 	}
 
 	public static boolean closeToAnInteger(StepNode sn) {
-		return sn.canBeEvaluated() && closeToAnInteger(sn.getValue());
+		return (sn != null && sn.isOperation(Operation.MINUS) && closeToAnInteger(((StepOperation) sn).getSubTree(0)))
+				|| sn instanceof StepConstant && closeToAnInteger(sn.getValue());
+	}
+
+	public static Operation getInverse(Operation op) {
+		switch (op) {
+		case SIN:
+			return Operation.ARCSIN;
+		case COS:
+			return Operation.ARCCOS;
+		case TAN:
+			return Operation.ARCTAN;
+		default:
+			return Operation.NO_OPERATION;
+		}
 	}
 
 	public static long gcd(long a, long b) {
@@ -718,15 +893,20 @@ public abstract class StepNode {
 		return a * b / gcd(a, b);
 	}
 
-	protected static boolean isEqual(double a, double b) {
+	public static boolean isEqual(double a, double b) {
 		return Math.abs(a - b) < 0.0000001;
 	}
 
 	public static boolean isEqual(StepNode a, double b) {
-		return a.canBeEvaluated() && isEqual(a.getValue(), b);
+		return a instanceof StepConstant && isEqual(a.getValue(), b);
 	}
 
-	protected static boolean isEven(double d) {
-		return isEqual(Math.floor(d / 2) * 2, d);
+	public static boolean isEven(double d) {
+		return isEqual(d % 2, 0);
 	}
+
+	public static boolean isOdd(double d) {
+		return isEqual(d % 2, 1);
+	}
+
 }

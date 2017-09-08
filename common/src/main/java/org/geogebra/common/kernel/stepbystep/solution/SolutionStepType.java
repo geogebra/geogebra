@@ -167,6 +167,10 @@ public enum SolutionStepType {
 
 	ROOT_OF_ONE("RootOfOne", "Any root of 1 equals 1"),
 
+	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
+
+	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} = \\sqrt[mn]{a}$ to simplify the expression"),
+
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
 	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
@@ -181,15 +185,19 @@ public enum SolutionStepType {
 
 	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum", "Multiply %0 with everything in the parantheses"),
 
-	BINOM_SQUARED("BinomSquared", "Use (a+b)^2 = a^2 + 2ab + b^2 to expand"),
+	BINOM_SQUARED_SUM("BinomSquaredSum", "Use $(a+b)^2 = a^2 + 2ab + b^2$ to expand"),
 
-	BINOM_CUBED("BinomCubed", "Use (a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3 to expand"),
+	BINOM_SQUARED_DIFF("BinomSquaredDiff", "Use $(a-b)^2 = a^2 - 2ab + b^2$ to expand"),
 
-	TRINOM_SQUARED("TrinomSquared", "Use (a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc + 2ac to expand"),
+	BINOM_CUBED("BinomCubed", "Use $(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$ to expand"),
+
+	TRINOM_SQUARED("TrinomSquared", "Use $(a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
 
 	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) = a^2-b^2$ to expand"),
 
 	REWRITE_AS_MULTIPLICATION("RewriteAsMultiplication", "Rewrite as multiplication"),
+
+	DISTRIBUTE_POWER_OVER_PRODUCT("DistributePowerOverProduct", "Distribute power over product"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function");
 	

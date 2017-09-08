@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class StepHelper {
 
@@ -449,7 +450,9 @@ public class StepHelper {
 	}
 
 	public static boolean shouldTakeRoot(StepNode snRHS, StepNode snLHS) {
+
 		StepNode sn = StepNode.subtract(snRHS, snLHS).regroup();
+		Log.error("Take: " + sn);
 
 		StepNode constants = findConstant(sn);
 		sn = StepNode.subtract(sn, constants).regroup();

@@ -504,7 +504,7 @@ public class EquationSteps {
 			return true;
 		}
 
-		Operation op = StepOperation.getInverse(trigoVar.getOperation());
+		Operation op = StepNode.getInverse(trigoVar.getOperation());
 		StepNode newLHS = trigoVar.getSubTree(0);
 
 		if (trigoVar.getOperation() == Operation.TAN) {
@@ -778,10 +778,12 @@ public class EquationSteps {
 			steps.levelDown();
 
 			steps.add(SolutionStepType.QUADRATIC_FORMULA, variable);
-			StepNode formula = StepNode.divide(
+			LHS = variable;
+			RHS = StepNode.divide(
 					StepNode.add(StepNode.minus(b), StepNode.apply(StepNode.root(discriminant, 2), Operation.PLUSMINUS)),
 					StepNode.multiply(2, a));
-			steps.add(SolutionStepType.EQUATION, StepNode.equal(variable, formula));
+
+			regroup();
 
 			if (discriminant.getValue() > 0) {
 				StepNode solution1 = StepNode.divide(StepNode.add(StepNode.minus(b), StepNode.root(discriminant, 2)),
@@ -919,17 +921,27 @@ public class EquationSteps {
 	}
 
 	private void regroup() {
-		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).regroup(steps);
-
-		LHS = regrouped.getSubTree(0);
-		RHS = regrouped.getSubTree(1);
+		if (inverted) {
+			StepOperation regrouped = (StepOperation) StepNode.equal(RHS, LHS).regroup(steps);
+			RHS = regrouped.getSubTree(0);
+			LHS = regrouped.getSubTree(1);
+		} else {
+			StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).regroup(steps);
+			LHS = regrouped.getSubTree(0);
+			RHS = regrouped.getSubTree(1);
+		}
 	}
 
 	private void simplify() {
-		StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).expand(steps);
-
-		LHS = regrouped.getSubTree(0);
-		RHS = regrouped.getSubTree(1);
+		if (inverted) {
+			StepOperation simplified = (StepOperation) StepNode.equal(RHS, LHS).expand(steps);
+			RHS = simplified.getSubTree(0);
+			LHS = simplified.getSubTree(1);
+		} else {
+			StepOperation simplified = (StepOperation) StepNode.equal(LHS, RHS).expand(steps);
+			LHS = simplified.getSubTree(0);
+			RHS = simplified.getSubTree(1);
+		}
 	}
 
 	private void add(StepNode toAdd) {
