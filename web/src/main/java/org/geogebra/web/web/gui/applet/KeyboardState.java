@@ -1,5 +1,13 @@
 package org.geogebra.web.web.gui.applet;
 
+/** Is keyboard show? */
 public enum KeyboardState {
-	SHOWN, HIDDEN, ANIMATING_IN, ANIMATING_OUT
+	/** shown */
+	SHOWN,
+	/** not shown */
+	HIDDEN,
+	/** opening */
+	ANIMATING_IN,
+	/** closing */
+	ANIMATING_OUT
 }

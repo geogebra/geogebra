@@ -261,9 +261,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	@Override
 	public void doShowKeyBoard(final boolean show,
 			MathKeyboardListener textField) {
-		if (show) {
-			Log.printStacktrace("");
-		}
 		if (keyboardState == KeyboardState.ANIMATING_IN
 				|| keyboardState == KeyboardState.ANIMATING_OUT) {
 			return;
