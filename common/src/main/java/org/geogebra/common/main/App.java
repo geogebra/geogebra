@@ -3972,6 +3972,9 @@ public abstract class App implements UpdateSelection {
 		case AND_COMPACT_AV_OUTPUT:
 			return isNativeMobileAppWithNewUI();
 
+		case MOB_DYNAMIC_SYLEBAR:
+			return prerelease;
+
 		// AND-364
 		case MOB_EV_SETTINGS_POPUP:
 			return false;

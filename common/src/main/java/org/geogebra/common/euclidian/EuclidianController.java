@@ -10035,13 +10035,6 @@ public abstract class EuclidianController {
 			return;
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (EuclidianConstants.isMoveOrSelectionMode(mode)
-					&& !draggingOccured && !event.isRightClick()) {
-				addDynamicStylebar(event.isControlDown());
-			}
-		}
-
 		// after finished drag switch back mode
 		// also ignore drag start point
 		if (EuclidianConstants.isMoveOrSelectionMode(mode) && shapeDragged) {
@@ -10094,8 +10087,8 @@ public abstract class EuclidianController {
 		// TODO: call it once in the method.
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
-					&& !draggingOccured) {
-				addDynamicStylebar(true);
+					&& !draggingOccured && !event.isRightClick()) {
+				addDynamicStylebar(event.isControlDown());
 			}
 		}
 
@@ -10104,10 +10097,6 @@ public abstract class EuclidianController {
 			setResizedShape(null);
 		}
 
-		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
-				&& mode == EuclidianConstants.MODE_SELECT && !draggingOccured) {
-			addDynamicStylebar(false);
-		}
 		if (this.pointerUpCallback != null) {
 			runPointerCallback(pointerUpCallback);
 			this.pointerUpCallback = null;

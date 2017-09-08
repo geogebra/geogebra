@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 
 /**
  * Style bar for Euclidian view
@@ -39,7 +40,7 @@ public interface EuclidianStyleBar {
 	 * @param mode
 	 *            euclidian view mode
 	 */
-	public void updateButtonPointCapture(int mode);
+	void updateButtonPointCapture(int mode);
 
 	/**
 	 * update the style bar if the geo is part of the active geo list
@@ -47,26 +48,28 @@ public interface EuclidianStyleBar {
 	 * @param geo
 	 *            geo
 	 */
-	public void updateVisualStyle(GeoElement geo);
+	void updateVisualStyle(GeoElement geo);
 
 	/**
 	 * @return index of selected point capturing mode
 	 */
 	int getPointCaptureSelectedIndex();
 
-	public void updateGUI();
+	void updateGUI();
 
 	void hidePopups();
 
 	/**
 	 * reset "first paint", so that on first paint the GUI will be updated
 	 */
-	public void resetFirstPaint();
+	void resetFirstPaint();
 
 	void reinit();
 
 	void setVisible(boolean b);
 	
 	boolean isVisible();
+
+	void setApplication(App app);
 
 }
