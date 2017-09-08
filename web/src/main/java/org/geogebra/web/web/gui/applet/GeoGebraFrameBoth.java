@@ -41,6 +41,7 @@ import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.GDevice;
@@ -315,6 +316,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(false);
 
+		if (app.has(Feature.FLOATING_MOVE_BUTTON_ANIM)) {
+			ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
+					.getToolbarPanelV2();
+			if (toolbarPanel != null) {
+				toolbarPanel.updateMoveButton();
+			}
+		}
 		app.updateSplitPanelHeight();
 
 		keyboardHeight = 0;
@@ -340,6 +348,14 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	void addKeyboard(final MathKeyboardListener textField, boolean animated) {
 		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(true);
+
+		if (app.has(Feature.FLOATING_MOVE_BUTTON_ANIM)) {
+			ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
+					.getToolbarPanelV2();
+			if (toolbarPanel != null) {
+				toolbarPanel.hideMoveFloatingButton();
+			}
+		}
 
 		keyBoard.prepareShow(animated);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {

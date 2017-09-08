@@ -311,6 +311,9 @@ public enum Feature {
 	/**
 	 * AND-364
 	 */
-	MOB_EV_SETTINGS_POPUP
+	MOB_EV_SETTINGS_POPUP,
+
+	/** GGB-2039 */
+	FLOATING_MOVE_BUTTON_ANIM
 
 }

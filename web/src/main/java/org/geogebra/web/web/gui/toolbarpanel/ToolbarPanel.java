@@ -668,6 +668,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		updateMoveButton(mode);
 	}
 
+	public void updateMoveButton() {
+		updateMoveButton(app.getMode());
+	}
+
 	private void updateMoveButton(int mode) {
 		if (mode == EuclidianConstants.MODE_MOVE) {
 			hideMoveFloatingButton();
@@ -690,7 +694,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * Hide move floating action button
 	 */
-	void hideMoveFloatingButton() {
+	public void hideMoveFloatingButton() {
 		if (moveBtn == null) {
 			return;
 		}
