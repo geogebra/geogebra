@@ -32,12 +32,14 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 */
 	ScheduledPreviewFromInputBar(Kernel kernel) {
 		this.kernel = kernel;
+		notFirstInput = false;
 	}
 
 	private String input = "";
 	private String validInput = "";
 	private ErrorHandler validation;
 	private int maxLength = DEFAULT_MAX_LENGTH;
+	private boolean notFirstInput = false;
 
 	private void setInput(String str, ErrorHandler validation) {
 		this.input = str;
@@ -69,10 +71,11 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			ErrorHelper.handleException(new Exception(e),
 					kernel.getApplication(), validation);
 		}
-		if (System.currentTimeMillis() > start + 200) {
+		if (notFirstInput && System.currentTimeMillis() > start + 200) {
 			maxLength = str.length();
 			validInput = null;
 		} else {
+			notFirstInput = true;
 			maxLength = DEFAULT_MAX_LENGTH;
 		}
 	}
