@@ -32,6 +32,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("(x-y)/(sqrt(x)-sqrt(y))", "(nroot(x, 2) + nroot(y, 2))");
 		r("2x+1+3x+2 = x+x+1+1", "((5)(x) + 3) = ((2)(x) + 2)");
 		r("1/3+1/2", "(5)/(6)");
 		r("nroot(1, 2)", "1");
@@ -41,7 +42,7 @@ public class RegroupStepTest {
 		r("2/nroot(3, 3)", "((2)((nroot(3, 3))^(2)))/(3)");
 		r("-(3+x)", "(-3-x)");
 		r("(-x)^2+1", "((x)^(2) + 1)");
-		r("x*sqrt(8)+sqrt(27)", "((2)(x)(nroot(2, 2)) + (3)(nroot(3, 2)))");
+		r("x*sqrt(8)+sqrt(27)", "((x)(2)(nroot(2, 2)) + (3)(nroot(3, 2)))");
 		r("sqrt(8)-sqrt(2)", "nroot(2, 2)");
 		r("x*x*y/2*z*x/3*5*4", "((10)((x)^(3))(y)(z))/(3)");
 		r("sqrt(x^2)+(sqrt(x))^2+nroot(x^3, 3)+nroot(x^2, 4)", "(|x| + (2)(x) + nroot(|x|, 2))");

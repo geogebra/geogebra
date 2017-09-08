@@ -179,6 +179,8 @@ public enum SolutionStepType {
 
 	REWRITE_AS_POWER("RevriteAAsB", "Rewrite %0 as %1"),
 
+	POWER_OF_POWER("MultiplyExponents", "Simplify the expression by multiplying the exponents"),
+
 	FACTOR_SQUARE("FactorSquare", "Factor out the perfect square"),
 
 	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum", "Multiply everything in the first parantheses with everything in the second parantheses"),

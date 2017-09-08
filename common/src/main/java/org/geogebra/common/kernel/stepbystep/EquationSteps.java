@@ -205,6 +205,8 @@ public class EquationSteps {
 				return checkSolutions();
 			}
 		}
+		
+		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
 
 		// VIII. step: solving linear equations
 		if (degreeDiff <= 1) {
