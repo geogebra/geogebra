@@ -1379,7 +1379,6 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public void setLayer(int layer2) {
 		int newlayer = layer2;
-		// Application.printStacktrace("layer="+layer);
 
 		if (layer2 == this.layer
 		// layer valid only for Drawable objects
@@ -1501,6 +1500,10 @@ public abstract class GeoElement extends ConstructionElement
 			return 0.3;
 		}
 
+		return getAlphaValueWhenVisible();
+	}
+
+	private double getAlphaValueWhenVisible() {
 		if ((colFunction == null) || (colFunction.size() == 3)) {
 			return alphaValue;
 		}
@@ -2952,7 +2955,6 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public final void setLabel(String labelNew) {
 		String newLabel = labelNew;
-		// Application.printStacktrace(newLabel);
 
 		if (cons.isSuppressLabelsActive()) {
 			if (kernel.getApplication()
@@ -6905,7 +6907,6 @@ public abstract class GeoElement extends ConstructionElement
 	public static boolean moveObjects(ArrayList<GeoElement> geosToMove,
 			final Coords rwTransVec, final Coords endPosition,
 			final Coords viewDirection, EuclidianView view) {
-		// AbstractApplication.printStacktrace("XXX");
 		if (moveObjectsUpdateList == null) {
 			moveObjectsUpdateList = new ArrayList<GeoElement>();
 		}
@@ -8921,7 +8922,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         alpha-value is greater zero, or hatching is enabled.
 	 */
 	public boolean isFilled() {
-		return getAlphaValue() > 0 || isHatchingEnabled();
+		return getAlphaValueWhenVisible() > 0 || isHatchingEnabled();
 	}
 
 	/**
