@@ -15,6 +15,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.web.html5.gui.inputfield.GeoTextEditor;
 import org.geogebra.web.html5.gui.inputfield.ITextEditPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.TextEditAdvancedPanel;
 import org.geogebra.web.web.gui.dialog.TextPreviewPanelW;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -25,6 +26,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -134,14 +136,30 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		// font size
 		// TODO require font phrases F.S.
 		// toggle buttons for bold and italic
-		btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
-		btnBold.addStyleName("btnBold");
+		if (app.isUnbundled()) {
+			btnItalic = new MyToggleButtonW(
+					new ImageResourcePrototype(
+							null, MaterialDesignResources.INSTANCE
+									.text_italic_black().getSafeUri(),
+							0, 0, 24, 24, false, false));
+			btnItalic.addStyleName("btnItalic");
 
-		btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
-		btnItalic.addStyleName("btnItalic");
+			btnBold = new MyToggleButtonW(
+					new ImageResourcePrototype(
+							null, MaterialDesignResources.INSTANCE
+									.text_bold_black().getSafeUri(),
+							0, 0, 24, 24, false, false));
+			btnBold.addStyleName("btnBold");
+		} else {
+			btnBold = new MyToggleButtonW(loc.getMenu("Bold.Short"));
+			btnBold.addStyleName("btnBold");
 
-		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+			btnItalic = new MyToggleButtonW(loc.getMenu("Italic.Short"));
+			btnItalic.addStyleName("btnItalic");
+
+			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		}
 
 		btnLatex = new MyToggleButtonW("LaTeX");
 
@@ -238,6 +256,10 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		btnCancel = new Button();
 		btnPanel.add(btnCancel);
+		if (app.isUnbundled()) {
+			btnOk.addStyleName("okBtn");
+			btnCancel.addStyleName("cancelBtn");
+		}
 		btnCancel.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -310,12 +332,16 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 
-		btnBold.setText(loc.getMenu("Bold.Short"));
-		btnItalic.setText(loc.getMenu("Italic.Short"));
+		if (!app.isUnbundled()) {
+			btnBold.setText(loc.getMenu("Bold.Short"));
+			btnItalic.setText(loc.getMenu("Italic.Short"));
+		}
 
 		btnLatex.setText(loc.getMenu("LaTeXFormula"));
-		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		if (!app.isUnbundled()) {
+			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		}
 
 		if (advancedPanel != null) {
 			advancedPanel.setLabels();

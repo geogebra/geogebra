@@ -30,7 +30,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			}
     		}
     		
-    		.MyCanvasButton.settingsBtn, .textButton {
+    		.settingsBtn, .textButton, .openFileBtn,
+    			.okBtn, .cancelBtn {
     			height: 36px !important;
     			width: 136px !important;
     			padding: 0px 16px;
@@ -53,19 +54,61 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		
     			&:hover {
     				box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+    				border: none;
     			}
     		}
     	
-    		.textButton {
+    		.textButton, .okBtn, .cancelBtn {
     			width: 64px !important;	
     			color: $black;
     			margin-top: 0px;
     			margin-left: 16px;
     			
     			&:hover {
+    				background-color: $white;
     				text-decoration: none;	
     			}
     		}
+    	
+    		.openFileBtn {
+    			width: 150px !important;	
+    			color: $black;
+    			margin-top: 0px;
+    			margin-left: 16px;
+    			
+    			&:hover {
+    				text-decoration: none;	
+    				background-color: $white;
+    			}
+    		}  
+    	
+    		.clearImgBtn {
+    			padding: 4px;
+    			img {
+    				opacity: 0.54;	
+    			}	
+    			img:hover {
+    				opacity: 1;	
+    			}
+    		}
+    	
+    		.btnBold,.btnItalic, .btnLatex {
+				border-radius: 2px;
+				margin-left: 0px;
+   	 			margin-right: 8px;
+   	 		
+				img {
+					opacity: 0.7;
+				}	
+		
+				&:hover {
+					border: $teal-default solid 1px;
+				}
+		
+				&.gwt-ToggleButton-down {
+					border: $teal-default solid 1px;
+				}
+			}
     	
     		.CustomColorButton:hover {
     			border: 2px solid $teal-default !important;
@@ -86,6 +129,18 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			opacity: 0.7;
     			border-bottom: 1px solid $tool-border;
 			}
+		
+			iframe.objectPropertiesTextEditor {
+   				border: #dcdcdc solid 1px;
+    			background: $white;
+    			padding: 4px 5px;
+    			color: #666;
+    			border-radius: 2px;
+   				 box-sizing: border-box;
+    			-moz-box-sizing: border-box;
+    			font-size: 14px;
+    			box-shadow: none;
+    		}
     	
     		.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab, .gwt-TabBar .gwt-TabBarItem {
     			margin-right: 4px;
@@ -105,6 +160,17 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				color: $teal-light;	
     			}
     		}
+    	
+    		.gwt-DisclosurePanel 
+    			.gwt-TabLayoutPanelTab
+    				.com-google-gwt-resources-client-CommonResources-InlineBlockStyle-inlineBlock {
+   	 			height: 28px;
+			}
+		
+			.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,
+				.gwt-TabBar .gwt-TabBarItem-selected {
+    			color: $teal-default;
+			}
     	
     		.propertiesStyleBar {
     			overflow: visible;
@@ -165,7 +231,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				  .panelRowCell, 
 					.panelRow,
 					  .listBoxPanel,
-					  	.optionsPanel {
+					  	.optionsPanel, .optionsPanelIndent {
 					  	margin-bottom: 10px;
 					  	
 						.gwt-Label {
@@ -205,6 +271,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     					cursor: default;
 						font-size: 13px;
 						color: $teal-default;		
+    				}
+    			
+    				input[type="range"] { 
+    					cursor: pointer;	
     				}
     			
     				.gwt-CheckBox, .checkBoxPanel {
@@ -386,7 +456,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 						}
 					}
 				
-					.optionsPanel {
+					.optionsPanel, .optionsPanelIndent {
 						display: flex;
 						
 						.optionsSlider {
@@ -394,11 +464,22 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 						}
 					
 						.gwt-Label {
-							line-height: 200%;	
+							vertical-align: middle;
+    						line-height: 250%;
 						}
 					
 						.gwt-CheckBox {
 							margin-top: 11px !important;
+						}
+						
+						 input[type="range"] {
+						 	padding-top: 0px !important;	
+						 }
+						
+						.optionsSlider {
+							.gwt-Label {
+								margin-bottom: 3px;
+							}
 						}
 					}
     			

@@ -610,7 +610,7 @@ public class OptionsTab extends FlowPanel {
 				iconArray[i] = GeoGebraIconW.createDecorAngleIcon(i);
 			}
 			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-					SelectionTable.MODE_ICON, false) {
+					SelectionTable.MODE_ICON, app.isUnbundled()) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -674,7 +674,7 @@ public class OptionsTab extends FlowPanel {
 				iconArray[i] = GeoGebraIconW.createDecorSegmentIcon(i);
 			}
 			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
-					SelectionTable.MODE_ICON, false) {
+					SelectionTable.MODE_ICON, app.isUnbundled()) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -773,7 +773,7 @@ public class OptionsTab extends FlowPanel {
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
 			btnPointStyle = PointStylePopup.create(app, -1, false,
-					model, true);
+					model, app.isUnbundled());
 			if (btnPointStyle != null) {
 				btnPointStyle.setKeepVisible(false);
 				mainPanel.add(btnPointStyle);
@@ -880,7 +880,8 @@ public class OptionsTab extends FlowPanel {
 			stylePanel.setStyleName("optionsPanel");
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
-			btnLineStyle = LineStylePopup.create(app, -1, false, false);
+			btnLineStyle = LineStylePopup.create(app, -1, false,
+					app.isUnbundled());
 			// slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 

@@ -20,6 +20,12 @@ $duration: 0.2s;
 			}	
 	}	
 
+	.MaterialDialogBox {
+		.gwt-Label {
+			cursor: default;	
+		}	
+	}
+
 	/* color chooser dialog */
 	.MaterialDialogBox.ColorChooser { 
 		.ColorDialog-content {
@@ -99,6 +105,7 @@ $duration: 0.2s;
   	  		margin-right: 16px;
     		color: $teal-default;
     		display: block;
+    		cursor: default;
     		border-bottom: 1px solid $teal-light;
 		}		
 	}
@@ -274,6 +281,7 @@ $duration: 0.2s;
    			margin-bottom: 20px;
    			color: #666;
     		border: none;
+    		cursor: default;
    		}
    	
    		.SymbolToggleButton:hover, .SymbolToggleButton:focus { 
@@ -411,6 +419,11 @@ $duration: 0.2s;
    	
    		.moreBtn {
    			@extend .flatDialogBtn;
+   		}
+   	
+   		.dialogBtn {
+   			@extend .flatDialogBtn;
+   			float: right;
    		}
 	}
 }

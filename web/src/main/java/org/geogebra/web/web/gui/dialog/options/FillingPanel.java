@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.MD5EncrypterGWTImpl;
 import org.geogebra.common.util.Util;
@@ -23,6 +24,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.FileInputDialog;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.properties.OptionPanel;
@@ -38,6 +40,7 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -85,11 +88,16 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		public MyImageFileInputDialog(AppW app, GeoPoint location) {
 			super(app, location);
 			createGUI();
+			if (app.has(Feature.DIALOG_DESIGN)) {
+				btCancel.addStyleName("dialogBtn");
+				this.setStyleName("MaterialDialogBox");
+			}
 		}
 
 		@Override
 		protected void createGUI() {
 			super.createGUI();
+
 			addGgbChangeHandler(getInputWidget().getElement());
 		}
 
@@ -422,7 +430,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		// // panel for button to open external file
 		//
 		btnImage = new PopupMenuButtonW(app, iconArray, -1, 4,
-				SelectionTable.MODE_ICON, false) {
+				SelectionTable.MODE_ICON, app.isUnbundled()) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
@@ -442,8 +450,12 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		};
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
-		btnClearImage = new PushButton(new Image(
-				AppResources.INSTANCE.delete_small()));
+		btnClearImage = new PushButton(new Image(app.isUnbundled()
+				? new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.delete_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)
+				: AppResources.INSTANCE.delete_small()));
 		btnClearImage.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -453,6 +465,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		});
 		btnOpenFile = new Button();
+		if (app.isUnbundled()) {
+			btnOpenFile.addStyleName("openFileBtn");
+			btnClearImage.addStyleName("clearImgBtn");
+		}
 		btnOpenFile.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
@@ -466,7 +482,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnPanel.setStyleName("optionsPanelIndent");
 
 		imagePanel.add(btnPanel);
-
 	}
 
 	@Override
@@ -602,7 +617,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
+		btnOpenFile.setText(app.isUnbundled() ? loc.getMenu("ChooseFromFile")
+				: loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
 	}
 
 	@Override
