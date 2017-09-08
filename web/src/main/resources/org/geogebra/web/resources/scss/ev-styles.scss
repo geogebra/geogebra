@@ -198,7 +198,7 @@
     		
     		.panelRow {
     			height: 32px !important;
-    			
+    			display: flex;
     			.gwt-Label {
     				line-height: 30px;
     				cursor: default;
