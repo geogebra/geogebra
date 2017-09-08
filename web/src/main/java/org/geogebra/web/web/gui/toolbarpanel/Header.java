@@ -150,8 +150,12 @@ class Header extends FlowPanel {
 					public void onClickStart(int x, int y,
 							PointerEventType type) {
 						app.setKeyboardNeeded(false);
-						Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
-						Header.this.toolbarPanel.getFrame().showKeyboardButton(false);
+						if (Header.this.toolbarPanel.getFrame() != null) {
+							Header.this.toolbarPanel.getFrame()
+									.keyBoardNeeded(false, null);
+							Header.this.toolbarPanel.getFrame()
+									.showKeyboardButton(false);
+						}
 						Header.this.toolbarPanel.openTools();
 					}
 				});
