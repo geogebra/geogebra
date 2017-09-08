@@ -71,6 +71,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			ErrorHelper.handleException(new Exception(e),
 					kernel.getApplication(), validation);
 		}
+		// maxLenght is not written if the first preview computed -- needed in Android with old phones
+		// probably some other thread makes the compute too long (so false positive)
 		if (notFirstInput && System.currentTimeMillis() > start + 200) {
 			maxLength = str.length();
 			validInput = null;
