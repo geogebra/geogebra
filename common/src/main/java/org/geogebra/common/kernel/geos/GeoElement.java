@@ -1364,7 +1364,7 @@ public abstract class GeoElement extends ConstructionElement
 	public GColor getShowHideColor(GColor col) {
 		if (isHideShowGeo()) {
 			return GColor.newColor(col.getRed(), col.getGreen(), col.getBlue(),
-					85);
+					col.getAlpha() / 2);
 		}
 		return col;
 	}
