@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 abstract public class ObjectSettingsModel {
 
-    private final int MAX_SIZE = 9;
+    private static int MAX_SIZE = 9;
     protected App mApp;
 
     protected GeoElement mGeoElement;
@@ -31,10 +31,10 @@ abstract public class ObjectSettingsModel {
 
     public ObjectSettingsModel(App app) {
         this.mApp = app;
-        setGeoElement();
+        initGeoElement();
     }
 
-    protected void setGeoElement() {
+    protected void initGeoElement() {
         if (mApp.has(Feature.MOB_SELECT_TOOL)) {
             mGeoElementsList = new ArrayList<GeoElement>();
         }
@@ -514,5 +514,22 @@ abstract public class ObjectSettingsModel {
             return true;
         }
         return LineStyleModel.match(mGeoElement);
+    }
+
+    public GeoElement getGeoElement() {
+        return mGeoElement;
+    }
+
+
+    public void setGeoElement(GeoElement GeoElement) {
+        this.mGeoElement = GeoElement;
+    }
+
+    public ArrayList<GeoElement> getGeoElementsList() {
+        return mGeoElementsList;
+    }
+
+    public void setGeoElementsList(ArrayList<GeoElement> GeoElementsList) {
+        this.mGeoElementsList = GeoElementsList;
     }
 }
