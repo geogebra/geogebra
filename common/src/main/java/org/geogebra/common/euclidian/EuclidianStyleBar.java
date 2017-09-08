@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian;
 
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 
 /**
  * Style bar for Euclidian view
@@ -69,7 +68,4 @@ public interface EuclidianStyleBar {
 	void setVisible(boolean b);
 	
 	boolean isVisible();
-
-	void setApplication(App app);
-
 }

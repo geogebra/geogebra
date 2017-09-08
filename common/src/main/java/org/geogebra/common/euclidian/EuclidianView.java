@@ -3332,9 +3332,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setApplication(App application) {
 		this.app = application;
-		if (dynamicStyleBar != null) {
-			dynamicStyleBar.setApplication(application);
-		}
 	}
 
 	@Override
