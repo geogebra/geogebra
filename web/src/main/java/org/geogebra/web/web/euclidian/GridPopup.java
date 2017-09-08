@@ -8,13 +8,27 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
+/**
+ * Grid style popup
+ *
+ */
 public class GridPopup extends PopupMenuButtonW {
 
 	private ImageOrText defaultIcon;
 
-	public GridPopup(AppW app, ImageOrText[] data, int rows, int columns,
+	/**
+	 * @param app
+	 *            app
+	 * @param data
+	 *            icons
+	 * @param mode
+	 *            selecion mode
+	 * @param ev
+	 *            view
+	 */
+	public GridPopup(AppW app, ImageOrText[] data, 
 	        SelectionTable mode, EuclidianView ev) {
-		super(app, data, rows, columns, mode, true, false, null, false);
+		super(app, data, -1, data.length, mode, true, false, null, false);
 		defaultIcon = data.length > 1 ? data[1] : null;
 		this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);
 	}

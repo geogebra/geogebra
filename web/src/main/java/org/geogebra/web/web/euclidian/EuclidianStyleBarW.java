@@ -883,7 +883,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				axes[i] = GeoGebraIconW.createAxesStyleIcon(
 						EuclidianView.getAxesStyle(i), true);
 			}
-			btnShowAxes_new = new AxesPopup(app, axes, -1, 4,
+			btnShowAxes_new = new AxesPopup(app, axes,
 					SelectionTable.MODE_ICON);
 			btnShowAxes_new.addPopupHandler(this);
 		} else {
@@ -900,8 +900,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			grids[i] = GeoGebraIconW
 					.createGridStyleIcon(EuclidianView.getPointStyle(i));
 		}
-		btnShowGrid = new GridPopup(app, grids, -1, 4,
-				SelectionTable.MODE_ICON, ev);
+		btnShowGrid = new GridPopup(app, grids, SelectionTable.MODE_ICON, ev);
 		btnShowGrid.addPopupHandler(this);
 	}
 
@@ -1672,7 +1671,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	@Override
-	public void onValueChange(ValueChangeEvent event) {
+	public void onValueChange(ValueChangeEvent<Boolean> event) {
 		Object source = event.getSource();
 
 		handleEventHandlers(source);

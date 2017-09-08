@@ -15,9 +15,17 @@ public class AxesPopup extends PopupMenuButtonW {
 
 	private ImageOrText defaultIcon;
 
-	public AxesPopup(AppW app, ImageOrText[] data, int rows, int columns,
+	/**
+	 * @param app
+	 *            app
+	 * @param data
+	 *            icons
+	 * @param mode
+	 *            selection mode
+	 */
+	public AxesPopup(AppW app, ImageOrText[] data,
 			SelectionTable mode) {
-		super(app, data, rows, columns, mode, true, false, null, false);
+		super(app, data, -1, data.length, mode, true, false, null, false);
 		defaultIcon = data.length > 1 ? data[1] : null;
 	}
 
