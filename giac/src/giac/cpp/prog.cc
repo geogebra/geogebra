@@ -6959,7 +6959,7 @@ namespace giac {
       if (args._SYMBptr->sommet==at_program && args._SYMBptr->feuille.type==_VECT){
 	vecteur v=*args._SYMBptr->feuille._VECTptr;
 	if (v.size()==3){
-	  string argss="Help on user function "+g.print(contextptr)+"\nArguments: ";
+	  string argss="Help on user function "+g.print(contextptr)+"(";
 	  if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
 	    argss += v[0]._VECTptr->front().print(contextptr);
 	  else
@@ -6971,7 +6971,7 @@ namespace giac {
 	    g=g._SYMBptr->feuille[1];
 	  while (g.type==_VECT && !g._VECTptr->empty())
 	    g=g._VECTptr->front();
-	  argss += "\nBegins by: "+g.print(contextptr);
+	  argss += ")\nBegins by: "+g.print(contextptr);
 	  return string2gen(argss,false);
 	}
       }

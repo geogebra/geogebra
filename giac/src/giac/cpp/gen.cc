@@ -8725,9 +8725,10 @@ namespace giac {
 	return (*this)[int(id)];
     }
     if ((type==_STRNG) && (i.type==_INT_)){
-      int s=int(_STRNGptr->size());
-      if ( (i.val<s) && (i.val>=0))
-	return string2gen(string()+'"'+(*_STRNGptr)[i.val]+'"');
+      int s=int(_STRNGptr->size()),I=i.val;
+      if (I<0) I+=s;
+      if ( (I<s) && (I>=0))
+	return string2gen(string()+'"'+(*_STRNGptr)[I]+'"');
     }
     if (type==_IDNT)
       return new_ref_symbolic(symbolic(at_at,gen(makenewvecteur(*this,i),_SEQ__VECT)));
