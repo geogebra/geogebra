@@ -491,8 +491,11 @@ namespace giac {
 #endif
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	int n1(_floor(tmp,contextptr).val);
-	for (;n0<=n1;++n0)
-	  newv.push_back(subst(*it,n,n0,false,contextptr));
+	for (;n0<=n1;++n0){
+	  gen sol=ratnormal(subst(*it,n,n0,false,contextptr),contextptr);
+	  if (!equalposcomp(excluded,sol))
+	    newv.push_back(sol);
+	}
       }
       else {
 	if (is_strictly_greater(l,sol,contextptr))

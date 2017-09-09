@@ -300,6 +300,10 @@ namespace giac {
   static define_unary_function_eval (__revlist,&_revlist,_revlist_s);
   define_unary_function_ptr5( at_revlist ,alias_at_revlist,&__revlist,0,true);
 
+  static const char _reverse_s []="reverse";
+  static define_unary_function_eval (__reverse,&_revlist,_reverse_s);
+  define_unary_function_ptr5( at_reverse ,alias_at_reverse,&__reverse,0,true);
+
   gen _restart(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     init_context((context *) ((void *) contextptr));
@@ -448,6 +452,10 @@ namespace giac {
   static const char _length_s []="length";
   static define_unary_function_eval (__length,&_size,_length_s);
   define_unary_function_ptr5( at_length ,alias_at_length,&__length,0,true);
+
+  static const char _len_s []="len";
+  static define_unary_function_eval (__len,&_size,_len_s);
+  define_unary_function_ptr5( at_len ,alias_at_len,&__len,0,true);
 
   static const char _nops_s []="nops";
   static define_unary_function_eval (__nops,&_size,_nops_s);

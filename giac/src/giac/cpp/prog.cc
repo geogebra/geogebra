@@ -3431,6 +3431,63 @@ namespace giac {
   static define_unary_function_eval (__rand,&_rand,_rand_s);
   define_unary_function_ptr5( at_rand ,alias_at_rand,&__rand,0,true);
 
+  static const char _random_s []="random";
+  static define_unary_function_eval (__random,&_rand,_random_s);
+  define_unary_function_ptr5( at_random ,alias_at_random,&__random,0,true);
+
+  gen _randint(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (!is_integral(a) || !is_integral(b))
+      return gentypeerr(contextptr);
+    return a+_rand(b-a+1,contextptr);
+  }
+  static const char _randint_s []="randint";
+  static define_unary_function_eval (__randint,&_randint,_randint_s);
+  define_unary_function_ptr5( at_randint ,alias_at_randint,&__randint,0,true);
+
+  gen _choice(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->empty())
+      return gensizeerr(contextptr);
+    int n=int(args._VECTptr->size());
+    gen g=_rand(n,contextptr);
+    if (g.type!=_INT_ || g.val<0 || g.val>=n)
+      return gendimerr(contextptr);
+    return args[g.val];
+  }
+  static const char _choice_s []="choice";
+  static define_unary_function_eval (__choice,&_choice,_choice_s);
+  define_unary_function_ptr5( at_choice ,alias_at_choice,&__choice,0,true);
+
+  gen _shuffle(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->empty())
+      return gensizeerr(contextptr);
+    vecteur v(*args._VECTptr);
+    int n=int(v.size());
+    vecteur w(n);
+    vector<int> p=randperm(n,contextptr);
+    for (int i=0;i<n;++i){
+      w[i]=v[p[i]];
+    }
+    return gen(w,args.subtype);
+  }
+  static const char _shuffle_s []="shuffle";
+  static define_unary_function_eval (__shuffle,&_shuffle,_shuffle_s);
+  define_unary_function_ptr5( at_shuffle ,alias_at_shuffle,&__shuffle,0,true);
+
+  gen _sample(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen a=args._VECTptr->front(),b=args._VECTptr->back();
+    if (a.type!=_VECT || !is_integral(b) || b.type==_ZINT || b.val<0)
+      return gensizeerr(contextptr);
+    return _rand(makesequence(b,a),contextptr);
+  }
+  static const char _sample_s []="sample";
+  static define_unary_function_eval (__sample,&_sample,_sample_s);
+  define_unary_function_ptr5( at_sample ,alias_at_sample,&__sample,0,true);
+
   gen _srand(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type==_INT_){
@@ -6898,8 +6955,28 @@ namespace giac {
       args=args._SYMBptr->feuille._VECTptr->front();
       args=eval(args,1,contextptr);
     }
-    if (args.type==_SYMB && args._SYMBptr->sommet!=at_of)
+    if (args.type==_SYMB && args._SYMBptr->sommet!=at_of){
+      if (args._SYMBptr->sommet==at_program && args._SYMBptr->feuille.type==_VECT){
+	vecteur v=*args._SYMBptr->feuille._VECTptr;
+	if (v.size()==3){
+	  string argss="Help on user function "+g.print(contextptr)+"\nArguments: ";
+	  if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
+	    argss += v[0]._VECTptr->front().print(contextptr);
+	  else
+	    argss += v[0].print(contextptr);
+	  gen g=v[2];
+	  while (g.is_symb_of_sommet(at_bloc)) 
+	    g=g._SYMBptr->feuille;
+	  while (g.is_symb_of_sommet(at_local))
+	    g=g._SYMBptr->feuille[1];
+	  while (g.type==_VECT && !g._VECTptr->empty())
+	    g=g._VECTptr->front();
+	  argss += "\nBegins by: "+g.print(contextptr);
+	  return string2gen(argss,false);
+	}
+      }
       args=args._SYMBptr->sommet;
+    }
     string argss=args.print(contextptr);
     // remove space at the end if required
     while (!argss.empty() && argss[argss.size()-1]==' ')
@@ -6973,6 +7050,10 @@ namespace giac {
   static const char _findhelp_s []="findhelp";
   static define_unary_function_eval_quoted (__findhelp,&_findhelp,_findhelp_s);
   define_unary_function_ptr5( at_findhelp ,alias_at_findhelp,&__findhelp,_QUOTE_ARGUMENTS,true);
+
+  static const char _help_s []="help";
+  static define_unary_function_eval_quoted (__help,&_findhelp,_help_s);
+  define_unary_function_ptr5( at_help ,alias_at_help,&__help,_QUOTE_ARGUMENTS,true);
 
   gen _member(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
@@ -9823,6 +9904,52 @@ namespace giac {
   static const char _autosimplify_s []="autosimplify";
   static define_unary_function_eval (__autosimplify,&_autosimplify,_autosimplify_s);
   define_unary_function_ptr5( at_autosimplify ,alias_at_autosimplify,&__autosimplify,0,true);
+
+  gen _struct_dot(const gen & g,GIAC_CONTEXT){
+    if (g.type!=_VECT)
+      return gensizeerr(contextptr);
+    vecteur w=*g._VECTptr;
+    size_t ws=w.size();
+    if (ws!=2)
+      return gensizeerr(contextptr);
+    gen a=w[0],b=w[1];
+    if (b.type!=_SYMB)
+      return _prod(eval(g,eval_level(contextptr),contextptr),contextptr);
+    gen f=b;
+    unary_function_ptr & u=b._SYMBptr->sommet;
+    if (a!=at_random){
+      f=b._SYMBptr->feuille;
+      vecteur v(gen2vecteur(f));
+      if (v.empty())
+	f=a;
+      else {
+	v.insert(v.begin(),a);
+	f=gen(v,f.type==_VECT?f.subtype:_SEQ__VECT);
+      }
+      f=symbolic(u,f);
+    }
+    f=eval(f,eval_level(contextptr),contextptr);
+    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_rotate || u==at_shift || u==at_suppress)
+      return sto(f,a,contextptr);
+    return f;
+  }
+  static const char _struct_dot_s []=".";
+  static define_unary_function_eval4 (__struct_dot,&_struct_dot,_struct_dot_s,&printsommetasoperator,&texprintsommetasoperator);
+  define_unary_function_ptr5( at_struct_dot ,alias_at_struct_dot,&__struct_dot,_QUOTE_ARGUMENTS,true);
+
+  gen _assert(const gen & args,GIAC_CONTEXT){
+    gen test=equaltosame(args);
+    int evallevel=eval_level(contextptr);
+    test=equaltosame(test).eval(evallevel,contextptr);
+    if (!is_integer(test))
+      test=test.evalf_double(evallevel,contextptr);
+    if (!is_integral(test) || test.val!=1)
+      return gensizeerr("assert failure: "+args.print(contextptr));
+    return 1;
+  }
+  static const char _assert_s []="assert";
+  static define_unary_function_eval (__assert,&_assert,_assert_s);
+  define_unary_function_ptr5( at_assert ,alias_at_assert,&__assert,_QUOTE_ARGUMENTS,true);
 
 
 #ifndef NO_NAMESPACE_GIAC

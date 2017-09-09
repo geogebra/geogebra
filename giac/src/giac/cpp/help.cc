@@ -680,7 +680,7 @@ namespace giac {
     if (access(file.c_str(),R_OK))
       return false;
     ifstream i(file.c_str());
-    // Skip navigation panel
+    // Skip navigation panel 
 #if defined VISUALC || defined BESTA_OS
     char * buf=new char[BUFFER_SIZE+1];
 #else
@@ -688,17 +688,17 @@ namespace giac {
 #endif
     for (;i && !i.eof();){
       i.getline(buf,BUFFER_SIZE,'\n');
-      string s(buf);
-      if (s=="<!--End of Navigation Panel-->")
+      string s(buf),stmp;
+      if (s=="<!--End of Navigation Panel-->") // latex2html?
 	break;
       int t=int(s.size());
-      if (t>24 && s.substr(t-24,24)=="<LI CLASS=\"li-indexenv\">"){
+      if (t>24 && ((stmp=s.substr(t-24,24))=="<LI CLASS=\"li-indexenv\">" || stmp=="<li class=\"li-indexenv\">")){
 	// hevea file contains index
 	for (;i && !i.eof(); ){
 	  i.getline(buf,BUFFER_SIZE,'\n');
 	  s=buf;
 	  t=int(s.size());
-	  if (t>29 && s.substr(0,29)=="</LI><LI CLASS=\"li-indexenv\">"){
+	  if (t>29 && ((stmp=s.substr(0,29))=="</LI><LI CLASS=\"li-indexenv\">" || stmp=="</li><li class=\"li-indexenv\">")){
 	    s=s.substr(29,s.size()-29);
 	    t=int(s.size());
 	    if (!t || s[0]=='<') // skip index words with special color/font
@@ -710,9 +710,12 @@ namespace giac {
 	      vector<string> hrefs;
 	      for (;;){
 		t=int(s.size());
-		endcmd=int(s.find("<A HREF=\""));
-		if (endcmd<0 || endcmd+9>=t)
-		  break;
+		endcmd=int(s.find("<a href=\""));
+		if (endcmd<0 || endcmd+9>=t){
+		  endcmd=int(s.find("<A HREF=\""));
+		  if (endcmd<0 || endcmd+9>=t)
+		    break;
+		}
 		s=s.substr(endcmd+9,s.size()-endcmd-9);
 		t=int(s.size());
 		endcmd=int(s.find("\""));
@@ -727,7 +730,7 @@ namespace giac {
 		t=int(s.size());
 		if (t<3)
 		  break;
-		if (s.substr(0,3)=="<B>")
+		if (s.substr(0,3)=="<B>" || (t>30 && s.substr(0,29)=="<span style=\"font-weight:bold"))
 		  hrefs.insert(hrefs.begin(),link);
 		else
 		  hrefs.push_back(link);
@@ -740,13 +743,14 @@ namespace giac {
 	      }
 	    } // if (endcmd>2 && endcmd<t)
 	  } // if (t>29 &&...
-	} // end of file
+	} // for (;i && !i.eof();) end of file
 #if defined VISUALC || defined BESTA_OS
 	delete [] buf;
 #endif
 	return true;
-      }
-      if (t>14 && s.substr(t-14,14)=="Index</A></B> "){
+      } // end hevea file with index
+      // latex2html only?
+      if (t>14 && s.substr(t-14,14)=="Index</A></B> "){ 
 	// look in the corresponding index file instead
 	int t1=int(s.find("HREF"))+6;
 	if (t1>=0 && t1<t-16){

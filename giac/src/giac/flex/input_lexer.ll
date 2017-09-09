@@ -515,13 +515,15 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "*"                     index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS;
 "⊗"                     index_status(yyextra)=0; (*yylval)=gen(at_cross,2); return T_FOIS;
 "*="                    index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_FOIS;
-"."                     index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_prod,2); return T_FOIS;}
+"."                     index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_struct_dot,2); return T_FOIS;}
 "&*"                     index_status(yyextra)=0; (*yylval)=gen(at_ampersand_times,2); return T_FOIS;
 "&^"                     index_status(yyextra)=0; (*yylval)=gen(at_quote_pow,2); return T_POW;
 ".*"                     index_status(yyextra)=0; (*yylval)=gen(at_pointprod,2); return T_FOIS;
 "'*'"                   index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_QUOTED_BINARY;
 "_mult"                   index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_QUOTED_BINARY;
 "/"                     index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_DIV;
+"/%"                     index_status(yyextra)=0; (*yylval)=gen(at_iquo,2); return T_MOD;
+"%/"                     index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_MOD;
 "/="                    index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_DIV;
 "./"                     index_status(yyextra)=0; (*yylval)=gen(at_pointdivision,2); return T_DIV;
 "'/'"                   index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;

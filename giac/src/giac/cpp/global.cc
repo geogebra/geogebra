@@ -5509,7 +5509,7 @@ unsigned int ConvertUTF8toUTF16 (
     }
   }
 
-  static string remove_comment(const string & s,const string &pattern){
+  static string remove_comment(const string & s,const string &pattern,bool replace){
     string res(s);
     for (;;){
       int pos1=res.find(pattern);
@@ -5518,7 +5518,10 @@ unsigned int ConvertUTF8toUTF16 (
       int pos2=res.find(pattern,pos1+3);
       if (pos2<0 || pos2+3>=int(res.size()))
 	break;
-      res=res.substr(0,pos1)+res.substr(pos2+3,res.size()-pos2-3);
+      if (replace)
+	res=res.substr(0,pos1)+'"'+res.substr(pos1+3,pos2-pos1-3)+'"'+res.substr(pos2+3,res.size()-pos2-3);
+      else
+	res=res.substr(0,pos1)+res.substr(pos2+3,res.size()-pos2-3);
     }
     return res;
   }
@@ -5566,6 +5569,9 @@ unsigned int ConvertUTF8toUTF16 (
       first=s_orig.find(':',first);
       if (first<0 || first>=sss)
 	return s_orig; // not Python like
+      int pos=s_orig.find("lambda");
+      if (pos>=0 && pos<sss)
+	break;
       int endl=s_orig.find('\n',first);
       if (endl<0 || endl>=sss)
 	endl=sss;
@@ -5591,8 +5597,8 @@ unsigned int ConvertUTF8toUTF16 (
 	&& res[res.size()-1]==')'
 	)
       res=res.substr(17,res.size()-18);
-    res=remove_comment(res,"\"\"\"");
-    res=remove_comment(res,"'''");
+    res=remove_comment(res,"\"\"\"",false);
+    res=remove_comment(res,"'''",true);
     vector<int_string> stack;
     string s,cur; 
     for (;res.size();){
@@ -5616,7 +5622,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  break;
 	}
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
-	  int posdot=cur.find('.',pos);
+	  int posdot=cur.find(':',pos);
 	  if (posdot>=pos && posdot<int(cur.size()))
 	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
 	}
@@ -5635,15 +5641,8 @@ unsigned int ConvertUTF8toUTF16 (
 	  break;
       }
       if (cur[pos]==':'){
-	// detect matching programming structure
-	int progpos=cur.find("if");
-	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
-	  pythonmode=true;
-	  s += cur.substr(0,pos)+" then\n";
-	  stack.push_back(int_string(ws,"fi"));
-	  continue;
-	}
-	progpos=cur.find("else");
+	// detect else or elif
+	int progpos=cur.find("else");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
 	  s += cur.substr(0,pos)+"\n";
@@ -5653,6 +5652,32 @@ unsigned int ConvertUTF8toUTF16 (
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
 	  s += cur.substr(0,pos)+" then\n";
+	  continue;
+	}
+      }
+      if (!stack.empty()){ 
+	int indent=stack.back().decal;
+	if (ws<=indent){
+	  // remove last \n and add explicit endbloc delimiters from stack
+	  int ss=s.size();
+	  bool nl= ss && s[ss-1]=='\n';
+	  if (nl)
+	    s=s.substr(0,ss-1);
+	  while (!stack.empty() && stack.back().decal>=ws){
+	    s += ' '+stack.back().endbloc+';';
+	    stack.pop_back();
+	  }
+	  if (nl)
+	    s += '\n';
+	}
+      }
+      if (cur[pos]==':'){
+	// detect matching programming structure
+	int progpos=cur.find("if");
+	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
+	  pythonmode=true;
+	  s += cur.substr(0,pos)+" then\n";
+	  stack.push_back(int_string(ws,"fi"));
 	  continue;
 	}
 	progpos=cur.find("for");
@@ -5681,25 +5706,25 @@ unsigned int ConvertUTF8toUTF16 (
 	// normal line add ; at end
 	if (pythonmode && pos>=0 && cur[pos]!=';')
 	  cur = cur +';';
+	if (pythonmode){
+	  for (pos=1;pos<int(cur.size());++pos){
+	    char prevch=cur[pos-1],curch=cur[pos];
+	    if (curch=='%'){
+	      cur.insert(cur.begin()+pos+1,'/');
+	      ++pos;
+	      continue;
+	    }
+	    if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && (pos==int(cur.size())-1 || cur[pos+1]!='=')){
+	      cur.insert(cur.begin()+pos,':');
+	      ++pos;
+	      continue;
+	    }
+	    if (prevch=='/' && curch=='/')
+	      cur[pos]='%';
+	  }
+	}
 	cur = cur +'\n';
-	int indent=0;
-	if (stack.empty()){
-	  s = s+cur;
-	  continue;
-	}
-	indent=stack.back().decal;
-	if (ws>indent){
-	  s =s+cur; continue;
-	}
-	// remove last \n and add explicit endbloc delimiters from stack
-	int ss=s.size();
-	if (ss && s[ss-1]=='\n')
-	  s=s.substr(0,ss-1);
-	while (!stack.empty() && stack.back().decal>=ws){
-	  s += ' '+stack.back().endbloc+';';
-	  stack.pop_back();
-	}
-	s +='\n'+cur;
+	s = s+cur;
       }
     }
     while (!stack.empty()){

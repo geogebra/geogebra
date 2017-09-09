@@ -63,7 +63,9 @@ namespace giac {
   extern const unary_function_ptr * const  at_right;
   gen _mid(const gen & g,GIAC_CONTEXT);
   gen _ord(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_rotate;
   gen _rotate(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_shift;
   gen _shift(const gen & g,GIAC_CONTEXT);
   gen _augment(const gen & g,GIAC_CONTEXT);
   gen _semi_augment(const gen & g,GIAC_CONTEXT);

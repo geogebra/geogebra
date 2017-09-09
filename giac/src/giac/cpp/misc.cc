@@ -1071,7 +1071,7 @@ namespace giac {
     int s=int(v.size());
     if (s<2)
       return gensizeerr(contextptr);
-    if (s>3 || v[1].is_symb_of_sommet(at_equal)){
+    if (s>3 || v[1].is_symb_of_sommet(at_equal) || (s==3 && v[2].type==_INT_)){
       p=_POLY1__VECT;
       p.subtype=_INT_MAPLECONVERSION;
       v.push_back(p);

@@ -35,6 +35,8 @@ namespace giac {
   gen _Inverse(const gen & g,GIAC_CONTEXT);
   gen _igcdex(const gen & a_orig,GIAC_CONTEXT);
   gen _gcdex(const gen & a_orig,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_revlist ;
+  extern const unary_function_ptr * const  at_reverse ;
   gen _revlist(const gen & a,GIAC_CONTEXT);
   gen _restart(const gen & args,GIAC_CONTEXT);
   gen _restart_modes(const gen & args,GIAC_CONTEXT);

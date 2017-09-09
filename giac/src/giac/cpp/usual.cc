@@ -8097,7 +8097,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr(contextptr);
-    gen & f =g._VECTptr->front();
+    gen f =g._VECTptr->front();
     if (is_equal(f))
       return symb_equal(_normalmod(makevecteur(f._SYMBptr->feuille[0],g._VECTptr->back()),contextptr),
 			_normalmod(makevecteur(f._SYMBptr->feuille[1],g._VECTptr->back()),contextptr));
@@ -8107,7 +8107,29 @@ namespace giac {
 	v[i]=_normalmod(makevecteur(v[i],g._VECTptr->back()),contextptr);
       return gen(v,f.subtype);
     }
-    gen res=normal(makemodquoted(f,g._VECTptr->back()),contextptr);
+    gen b=g._VECTptr->back();
+    static bool warnmod=true;
+    if (f.type==_MOD){
+      if (warnmod){
+	*logptr(contextptr) << "// Warning: a % b returns the class of a in Z/bZ. Use irem(a,b) for remainder" << endl;
+	warnmod=false;
+      }
+      f=*f._MODptr;
+      if (b.type==_MOD)
+	b=*b._MODptr;
+      if (b==0) return f;
+      return _irem(makesequence(f,b),contextptr);
+    }
+    if (b.type==_MOD){
+      if (warnmod){
+	*logptr(contextptr) << "// Warning: a % b returns the class of a in Z/bZ. Use irem(a,b) for remainder" << endl;
+	warnmod=false;
+      }
+      b=*b._MODptr;
+      if (b==0) return f;
+      return _irem(makesequence(f,b),contextptr);
+    }
+    gen res=normal(makemodquoted(f,b),contextptr);
     if (f.type==_VECT && res.type==_VECT)
       res.subtype=f.subtype;
     return res;
