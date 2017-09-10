@@ -9937,7 +9937,7 @@ namespace giac {
   static define_unary_function_eval4 (__struct_dot,&_struct_dot,_struct_dot_s,&printsommetasoperator,&texprintsommetasoperator);
   define_unary_function_ptr5( at_struct_dot ,alias_at_struct_dot,&__struct_dot,_QUOTE_ARGUMENTS,true);
 
-  gen _assert(const gen & args,GIAC_CONTEXT){
+  gen _giac_assert(const gen & args,GIAC_CONTEXT){
     gen test=equaltosame(args);
     int evallevel=eval_level(contextptr);
     test=equaltosame(test).eval(evallevel,contextptr);
@@ -9947,9 +9947,9 @@ namespace giac {
       return gensizeerr("assert failure: "+args.print(contextptr));
     return 1;
   }
-  static const char _assert_s []="assert";
-  static define_unary_function_eval (__assert,&_assert,_assert_s);
-  define_unary_function_ptr5( at_assert ,alias_at_assert,&__assert,_QUOTE_ARGUMENTS,true);
+  static const char _giac_assert_s []="assert";
+  static define_unary_function_eval (__giac_assert,&_giac_assert,_giac_assert_s);
+  define_unary_function_ptr5( at_giac_assert ,alias_at_giac_assert,&__giac_assert,_QUOTE_ARGUMENTS,true);
 
 
 #ifndef NO_NAMESPACE_GIAC
