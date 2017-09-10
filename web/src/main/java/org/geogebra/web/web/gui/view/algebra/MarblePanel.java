@@ -320,6 +320,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 * Shows the help panel
 	 * 
 	 * @param item
+	 *            item to show the help in
 	 */
 	public static void showDeferred(final RadioTreeItem item) {
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {

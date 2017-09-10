@@ -20,7 +20,6 @@ public class TextTreeItem extends RadioTreeItem {
 	public TextTreeItem(GeoElement geo0) {
 		super(geo0);
 		text = (GeoText) geo;
-		geo.setEuclidianVisible(false);
 		doUpdate();
 	}
 
