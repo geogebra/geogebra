@@ -1156,12 +1156,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			}
 				});
 		((Widget) tabPanel).setStyleName("propertiesTabPanel");
-
-		// TODO after release MULTIROW_TAB_PROPERTIES feature:
-		// propertiesTabPanel
-		// and propertiesTabPanel2 classes should be merged
-		((Widget) tabPanel).addStyleName("propertiesTabPanel2");
-
 		createBasicTab();
 		if (!(app.isExam())) {
 			tabs = Arrays.asList(basicTab, addTextTab(), addSliderTab(),

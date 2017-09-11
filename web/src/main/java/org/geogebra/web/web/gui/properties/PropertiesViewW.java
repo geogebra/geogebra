@@ -104,7 +104,6 @@ public class PropertiesViewW extends PropertiesView
 		
 		contentsPanel = new FlowPanel();
 		contentsPanel.addStyleName("contentsPanel");
-		contentsPanel.addStyleName("contentsPanel2");
 		//wrappedPanel.addStyleName("propertiesView");
 		//mainPanel.add(contentsPanel);
 		wrappedPanel.add(contentsPanel);
