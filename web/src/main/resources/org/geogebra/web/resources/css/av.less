@@ -8,7 +8,44 @@
 @import "definitions.less";
 
 .GeoGebraFrame {
+	.algebraView {
+		height: 100%;
 	
+	
+		div table:not(.spec) {
+			width: 100%;
+			border-collapse: collapse;
+		}
+		
+		div table:not(.spec) tr > td:first-child {
+			display: none;
+		}
+		
+		div table:not(.spec) tr>td+td {
+			width: 100%;
+			padding: 0px;
+		}
+		
+		.avItem {
+			line-height: 10px;/*low enough to avoid overflow in IE*/
+		}
+	}
+	/*.algebraView div div>div {*/
+	.algebraView > div > div > div {
+		margin-left: 0px !important;
+	/*	width: 100%; */
+	}
+	
+	
+	.algebraView .avItem, .algebraView .avInputItem {
+		/*padding: 3px 10px !important;*/
+		padding: 0px !important;
+		z-index: 1;
+		margin-top: -2px;
+	}
+	.avItem.avSelectedRow {
+		z-index: 3;
+	}
 	.avItem,
 	.avItem .gwt-TreeItem,
 	.avItem .gwt-TreeItem >* {
