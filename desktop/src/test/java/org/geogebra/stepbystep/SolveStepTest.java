@@ -27,7 +27,7 @@ public class SolveStepTest {
 		app = CommandsTest.createApp();
 		// just to load CAS
 		try {
-			// app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
+			app.getKernel().evaluateGeoGebraCAS("Regroup(1)", null);
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}

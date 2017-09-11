@@ -185,11 +185,7 @@ public enum SimplificationSteps {
 					return newSum;
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -203,7 +199,6 @@ public enum SimplificationSteps {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.isOperation(Operation.MULTIPLY) && StepHelper.countOperation(so, Operation.NROOT) > 1) {
-					// Log.error(so + "");
 
 					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
 					long commonRoot = 1;
@@ -227,20 +222,67 @@ public enum SimplificationSteps {
 						}
 					}
 
-					newProduct.addSubTree(root(underRoot, commonRoot));
+					if (commonRoot != 1) {
+						newProduct.addSubTree(root(underRoot, commonRoot));
+						colorTracker[0]++;
+					}
 
-					colorTracker[0]++;
-
-					// Log.error(newProduct + "");
+					if (newProduct.noOfOperands() == 1) {
+						return newProduct.getSubTree(0);
+					}
 
 					return newProduct;
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
+				return iterateThrough(this, so, sb, colorTracker);
+			}
+
+			return sn;
+		}
+	},
+
+	SQUARE_ROOT_MULTIPLIED_BY_ITSELF {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation()) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.isOperation(Operation.MULTIPLY)) {
+					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+
+					boolean[] found = new boolean[so.noOfOperands()];
+					for (int i = 0; i < so.noOfOperands(); i++) {
+						if (so.getSubTree(i).isSquareRoot()) {
+							for (int j = i + 1; j < so.noOfOperands(); j++) {
+								if (so.getSubTree(i).equals(so.getSubTree(j))) {
+									StepNode result = ((StepOperation) so.getSubTree(i)).getSubTree(0).deepCopy();
+
+									found[i] = found[j] = true;
+
+									so.getSubTree(i).setColor(colorTracker[0]);
+									so.getSubTree(j).setColor(colorTracker[0]);
+									result.setColor(colorTracker[0]);
+
+									sb.add(SolutionStepType.SQUARE_ROOT_MULTIPLIED_BY_ITSELF, colorTracker[0]++);
+
+									newProduct.addSubTree(result);
+								}
+							}
+						}
+
+						if (!found[i]) {
+							newProduct.addSubTree(so.getSubTree(i));
+						}
+					}
+
+					if (newProduct.noOfOperands() == 1) {
+						return newProduct.getSubTree(0);
+					}
+
+					return newProduct;
 				}
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -271,12 +313,8 @@ public enum SimplificationSteps {
 						return result;
 					}
 				}
-	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;
@@ -302,12 +340,8 @@ public enum SimplificationSteps {
 						return result;
 					}
 				}
-	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;
@@ -382,12 +416,8 @@ public enum SimplificationSteps {
 						}
 					}
 				}
-	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;
@@ -420,12 +450,8 @@ public enum SimplificationSteps {
 						return result;
 					}
 				}
-	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;
@@ -475,13 +501,8 @@ public enum SimplificationSteps {
 						}
 					}
 				}
-	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-	
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;
@@ -671,12 +692,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -723,12 +739,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -815,11 +826,7 @@ public enum SimplificationSteps {
 					return newFraction == null ? new StepConstant(1) : newFraction;
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -895,6 +902,26 @@ public enum SimplificationSteps {
 
 					StepNode.getBasesAndExponents(so, null, bases, exponents);
 
+					List<StepNode> constantList = new ArrayList<StepNode>();
+					double constantValue = 1;
+					for (int i = 0; i < bases.size(); i++) {
+						if (bases.get(i).nonSpecialConstant() && isEqual(exponents.get(i), 1)) {
+							constantList.add(bases.get(i));
+							constantValue *= bases.get(i).getValue();
+
+							exponents.set(i, new StepConstant(0));
+						}
+					}
+
+					if (isEqual(constantValue, 0)) {
+						so.setColor(colorTracker[0]);
+						StepNode result = new StepConstant(0);
+						result.setColor(colorTracker[0]);
+
+						sb.add(SolutionStepType.MULTIPLIED_BY_ZERO, colorTracker[0]++);
+						return result;
+					}
+
 					for (int i = 0; i < bases.size(); i++) {
 						if (!isEqual(exponents.get(i), 0)) {
 							boolean foundCommon = false;
@@ -914,26 +941,6 @@ public enum SimplificationSteps {
 								sb.add(SolutionStepType.REGROUP_PRODUCTS, bases.get(i));
 							}
 						}
-					}
-
-					List<StepNode> constantList = new ArrayList<StepNode>();
-					double constantValue = 1;
-					for (int i = 0; i < bases.size(); i++) {
-						if (bases.get(i).nonSpecialConstant() && isEqual(exponents.get(i), 1)) {
-							constantList.add(bases.get(i));
-							constantValue *= bases.get(i).getValue();
-
-							exponents.set(i, new StepConstant(0));
-						}
-					}
-
-					if (isEqual(constantValue, 0)) {
-						so.setColor(colorTracker[0]);
-						StepNode result = new StepConstant(0);
-						result.setColor(colorTracker[0]);
-
-						sb.add(SolutionStepType.MULTIPLIED_BY_ZERO, colorTracker[0]++);
-						return result;
 					}
 
 					StepNode newProduct = null;
@@ -996,11 +1003,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -1026,12 +1029,8 @@ public enum SimplificationSteps {
 						}
 					}
 				}
-	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;	
@@ -1087,11 +1086,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -1145,11 +1140,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -1206,11 +1197,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -1233,11 +1220,7 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 
 			return sn;
@@ -1285,14 +1268,15 @@ public enum SimplificationSteps {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			SimplificationSteps[] denominatorRationalization = new SimplificationSteps[] {
 					RATIONALIZE_DENOMINATOR,
+					SQUARE_ROOT_MULTIPLIED_BY_ITSELF,
 					COMMON_ROOT,
+					SIMPLE_POWERS, 
+					SIMPLE_ROOTS,
 					REGROUP_PRODUCTS,
 					REGROUP_SUMS,
 					EXPAND_DENOMINATORS, 
-					FACTOR_SQUARE,
+					FACTOR_SQUARE, 
 					SIMPLIFY_POWERS_AND_ROOTS,
-					SIMPLE_POWERS,
-					SIMPLE_ROOTS,
 					SIMPLIFY_FRACTIONS
 			};
 			
@@ -1467,6 +1451,31 @@ public enum SimplificationSteps {
 		}
 
 		return sn;
+	}
+
+	private static StepNode iterateThrough(SimplificationSteps step, StepOperation so, SolutionBuilder sb, int[] colorTracker) {
+		int colorsAtStart = colorTracker[0];
+
+		StepOperation toReturn = null;
+		for (int i = 0; i < so.noOfOperands(); i++) {
+			StepNode a = step.apply(so.getSubTree(i), sb, colorTracker);
+			if (toReturn == null && colorTracker[0] > colorsAtStart) {
+				toReturn = new StepOperation(so.getOperation());
+
+				for (int j = 0; j < i; j++) {
+					toReturn.addSubTree(so.getSubTree(j));
+				}
+			}
+			if (toReturn != null) {
+				toReturn.addSubTree(a);
+			}
+		}
+
+		if (toReturn == null) {
+			return so;
+		}
+
+		return toReturn;
 	}
 
 	public abstract StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker);

@@ -201,6 +201,9 @@ public enum SolutionStepType {
 
 	DISTRIBUTE_POWER_OVER_PRODUCT("DistributePowerOverProduct", "Distribute power over product"),
 
+	SQUARE_ROOT_MULTIPLIED_BY_ITSELF("SquareRootMultipliedByItself",
+			"When the square root of an expression in multiplied by itself, the result is that expression"),
+
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function");
 	
 	private final String keyText;
