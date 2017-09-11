@@ -8,9 +8,11 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEven;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isNegative;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOdd;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.lcm;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.negate;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.nonTrivialPower;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 
@@ -50,43 +52,7 @@ public enum SimplificationSteps {
 					StepOperation sum = (StepOperation) so.getSubTree(0);
 
 					if (so.getSubTree(1).getValue() + sum.noOfOperands() < 6) {
-						for (int i = 0; i < sum.noOfOperands(); i++) {
-							sum.getSubTree(i).setColor(colorTracker[0]++);
-						}
-
-						StepOperation newSum = new StepOperation(Operation.PLUS);
-
-						if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2 && isNegative(sum.getSubTree(1))) {
-							newSum.addSubTree(power(sum.getSubTree(0), 2));
-							newSum.addSubTree(multiply(-2, multiply(sum.getSubTree(0), negate(sum.getSubTree(1)))));
-							newSum.addSubTree(power(negate(sum.getSubTree(1)), 2));
-
-							sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
-						} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2) {
-							newSum.addSubTree(power(sum.getSubTree(0), 2));
-							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
-							newSum.addSubTree(power(sum.getSubTree(1), 2));
-
-							sb.add(SolutionStepType.BINOM_SQUARED_SUM);
-						} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 3) {
-							newSum.addSubTree(power(sum.getSubTree(0), 2));
-							newSum.addSubTree(power(sum.getSubTree(1), 2));
-							newSum.addSubTree(power(sum.getSubTree(2), 2));
-							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
-							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(1), sum.getSubTree(2))));
-							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(2))));
-
-							sb.add(SolutionStepType.TRINOM_SQUARED);
-						} else if (isEqual(so.getSubTree(1), 3) && sum.noOfOperands() == 2) {
-							newSum.addSubTree(power(sum.getSubTree(0), 3));
-							newSum.addSubTree(multiply(3, multiply(power(sum.getSubTree(0), 2), sum.getSubTree(1))));
-							newSum.addSubTree(multiply(3, multiply(sum.getSubTree(0), power(sum.getSubTree(1), 2))));
-							newSum.addSubTree(power(sum.getSubTree(1), 3));
-
-							sb.add(SolutionStepType.BINOM_CUBED);
-						}
-
-						return newSum;
+						return expandUsingFormula(so, sb, colorTracker);
 					}
 
 					StepOperation asMultiplication = new StepOperation(Operation.MULTIPLY);
@@ -108,6 +74,48 @@ public enum SimplificationSteps {
 			}
 	
 			return sn;
+		}
+
+		private StepNode expandUsingFormula(StepOperation so, SolutionBuilder sb, int[] colorTracker) {
+			StepOperation sum = (StepOperation) so.getSubTree(0);
+
+			for (int i = 0; i < sum.noOfOperands(); i++) {
+				sum.getSubTree(i).setColor(colorTracker[0]++);
+			}
+
+			StepOperation newSum = new StepOperation(Operation.PLUS);
+
+			if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2 && isNegative(sum.getSubTree(1))) {
+				newSum.addSubTree(power(sum.getSubTree(0), 2));
+				newSum.addSubTree(multiply(-2, multiply(sum.getSubTree(0), negate(sum.getSubTree(1)))));
+				newSum.addSubTree(power(negate(sum.getSubTree(1)), 2));
+
+				sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
+			} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2) {
+				newSum.addSubTree(power(sum.getSubTree(0), 2));
+				newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+				newSum.addSubTree(power(sum.getSubTree(1), 2));
+
+				sb.add(SolutionStepType.BINOM_SQUARED_SUM);
+			} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 3) {
+				newSum.addSubTree(power(sum.getSubTree(0), 2));
+				newSum.addSubTree(power(sum.getSubTree(1), 2));
+				newSum.addSubTree(power(sum.getSubTree(2), 2));
+				newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+				newSum.addSubTree(multiply(2, multiply(sum.getSubTree(1), sum.getSubTree(2))));
+				newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(2))));
+
+				sb.add(SolutionStepType.TRINOM_SQUARED);
+			} else if (isEqual(so.getSubTree(1), 3) && sum.noOfOperands() == 2) {
+				newSum.addSubTree(power(sum.getSubTree(0), 3));
+				newSum.addSubTree(multiply(3, multiply(power(sum.getSubTree(0), 2), sum.getSubTree(1))));
+				newSum.addSubTree(multiply(3, multiply(sum.getSubTree(0), power(sum.getSubTree(1), 2))));
+				newSum.addSubTree(power(sum.getSubTree(1), 3));
+
+				sb.add(SolutionStepType.BINOM_CUBED);
+			}
+
+			return newSum;
 		}
 	},
 
@@ -187,6 +195,57 @@ public enum SimplificationSteps {
 		}
 	},
 	
+	COMMON_ROOT {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation()) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.isOperation(Operation.MULTIPLY) && StepHelper.countOperation(so, Operation.NROOT) > 1) {
+					// Log.error(so + "");
+
+					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+					long commonRoot = 1;
+
+					for (int i = 0; i < so.noOfOperands(); i++) {
+						if (so.getSubTree(i).isOperation(Operation.NROOT)
+								&& closeToAnInteger(((StepOperation) so.getSubTree(i)).getSubTree(1))) {
+							commonRoot = lcm(commonRoot, Math.round(((StepOperation) so.getSubTree(i)).getSubTree(1).getValue()));
+						} else {
+							newProduct.addSubTree(so.getSubTree(i));
+						}
+					}
+
+					StepOperation underRoot = new StepOperation(Operation.MULTIPLY);
+					for (int i = 0; i < so.noOfOperands(); i++) {
+						if (so.getSubTree(i).isOperation(Operation.NROOT)
+								&& closeToAnInteger(((StepOperation) so.getSubTree(i)).getSubTree(1))) {
+							StepOperation currentRoot = (StepOperation) so.getSubTree(i);
+							underRoot.addSubTree(
+									nonTrivialPower(currentRoot.getSubTree(0), commonRoot / currentRoot.getSubTree(1).getValue()));
+						}
+					}
+
+					newProduct.addSubTree(root(underRoot, commonRoot));
+
+					colorTracker[0]++;
+
+					// Log.error(newProduct + "");
+
+					return newProduct;
+				}
+
+				StepOperation toReturn = new StepOperation(so.getOperation());
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
+				}
+				return toReturn;
+			}
+
+			return sn;
+		}
+	},
+
 	DOUBLE_MINUS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
@@ -265,8 +324,8 @@ public enum SimplificationSteps {
 						double root = ((StepOperation) so.getSubTree(1)).getSubTree(1).getValue();
 	
 						if (closeToAnInteger(root)) {
-							StepNode toMultiply = StepNode.nonTrivialPower(root(((StepOperation) so.getSubTree(1)).getSubTree(0), root),
-									root - 1);
+							StepNode toMultiply = root(StepNode.nonTrivialPower(((StepOperation) so.getSubTree(1)).getSubTree(0), root - 1),
+									root);
 	
 							toMultiply.setColor(colorTracker[0]++);
 	
@@ -1228,9 +1287,9 @@ public enum SimplificationSteps {
 					REGROUP_PRODUCTS,
 					REGROUP_SUMS,
 					EXPAND_DENOMINATORS, 
-					SIMPLIFY_POWERS_AND_ROOTS,
 					SIMPLE_POWERS,
 					SIMPLE_ROOTS,
+					SIMPLIFY_POWERS_AND_ROOTS,
 					SIMPLIFY_FRACTIONS
 			};
 			
