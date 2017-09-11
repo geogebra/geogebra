@@ -924,7 +924,7 @@ __GGB__keysVar.it.command = {
     "Sphere": "Sfera",
     "Sphere.Syntax": "[ <Punto>, <Raggio> ]\n[ <Punto>, <Punto> ]",
     "Spline": "Spline",
-    "Spline.Syntax": "[ <Lista di punti> ]\n[ <Lista di punti>, <Ordine \u2265 3> ]",
+    "Spline.Syntax": "[ <Lista di punti> ]\n[ <Lista di punti>, <Ordine \u2265 3> ]\n[ <Lista di punti>, <Ordine \u2265 3>, <Funzione peso> ]",
     "StartAnimation": "AvviaAnimazione",
     "StartAnimation.Syntax": "[ ]\n[ <Booleano> ]\n[ <Slider o punto>, <Slider o punto>, ... ]\n[ <Slider o punto>, <Slider o punto>, ..., <Booleano> ]",
     "StartLogging": "AvviaAcquisizione",
