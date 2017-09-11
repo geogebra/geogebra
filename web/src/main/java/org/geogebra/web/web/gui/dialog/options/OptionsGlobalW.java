@@ -261,6 +261,7 @@ public class OptionsGlobalW implements OptionPanelW {
 		}
 
 		private void updateFontSizeList() {
+			fontSizeList.clear();
 			for (int i = 0; i < org.geogebra.common.util.Util
 					.menuFontSizesLength(); i++) {
 				fontSizeList.addItem(
@@ -269,6 +270,7 @@ public class OptionsGlobalW implements OptionPanelW {
 		}
 
 		private void updateLabelingList() {
+			labelingList.clear();
 			String[] labelingStrs = { "Labeling.automatic", "Labeling.on",
 					"Labeling.off", "Labeling.pointsOnly" };
 			for (String str : labelingStrs) {
@@ -281,6 +283,7 @@ public class OptionsGlobalW implements OptionPanelW {
 		}
 
 		private void updateRoundingList() {
+			roundingList.clear();
 			String[] strDecimalSpaces = app.getLocalization()
 					.getRoundingMenuWithoutSeparator();
 			for (String str : strDecimalSpaces) {
