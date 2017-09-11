@@ -13,6 +13,7 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.negate;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.nonTrivialPower;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.nonTrivialProduct;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 
@@ -324,12 +325,12 @@ public enum SimplificationSteps {
 						double root = ((StepOperation) so.getSubTree(1)).getSubTree(1).getValue();
 	
 						if (closeToAnInteger(root)) {
-							StepNode toMultiply = root(StepNode.nonTrivialPower(((StepOperation) so.getSubTree(1)).getSubTree(0), root - 1),
+							StepNode toMultiply = root(nonTrivialPower(((StepOperation) so.getSubTree(1)).getSubTree(0), root - 1),
 									root);
 	
 							toMultiply.setColor(colorTracker[0]++);
 	
-							StepNode numerator = StepNode.nonTrivialProduct(so.getSubTree(0), toMultiply);
+							StepNode numerator = nonTrivialProduct(so.getSubTree(0), toMultiply);
 							StepNode denominator = multiply(so.getSubTree(1), toMultiply);
 	
 							StepNode result = divide(numerator, denominator);
@@ -347,7 +348,7 @@ public enum SimplificationSteps {
 	
 							toMultiply.setColor(colorTracker[0]++);
 	
-							StepNode numerator = StepNode.nonTrivialProduct(so.getSubTree(0), toMultiply);
+							StepNode numerator = nonTrivialProduct(so.getSubTree(0), toMultiply);
 							StepNode denominator = multiply(so.getSubTree(1), toMultiply);
 	
 							StepNode result = divide(numerator, denominator);
@@ -371,7 +372,7 @@ public enum SimplificationSteps {
 						if (irrational != null) {
 							irrational.setColor(colorTracker[0]++);
 
-							StepNode numerator = StepNode.nonTrivialProduct(so.getSubTree(0), irrational);
+							StepNode numerator = nonTrivialProduct(so.getSubTree(0), irrational);
 							StepNode denominator = multiply(so.getSubTree(1), irrational);
 
 							StepNode result = divide(numerator, denominator);
@@ -444,7 +445,7 @@ public enum SimplificationSteps {
 					if (closeToAnInteger(coefficient)) {
 						long root = Math.round(so.getSubTree(1).getValue());
 
-						long power = StepNode.getIntegerPower(Math.round(so.getSubTree(0).getValue()));
+						long power = StepNode.getIntegerPower(Math.round(coefficient.getValue()));
 						long gcd = StepNode.gcd(root, power);
 	
 						if (gcd > 1) {
@@ -634,7 +635,7 @@ public enum SimplificationSteps {
 					for (int i = 0; i < so.noOfOperands(); i++) {
 						long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
 						if (currentDenominator != 0) {
-							newDenominator = StepNode.lcm(newDenominator, currentDenominator);
+							newDenominator = lcm(newDenominator, currentDenominator);
 						}
 					}
 
@@ -647,7 +648,7 @@ public enum SimplificationSteps {
 								wasChanged = true;
 
 								StepNode newFraction = divide(
-										StepNode.nonTrivialProduct(new StepConstant(((double) newDenominator) / currentDenominator),
+										nonTrivialProduct(new StepConstant(((double) newDenominator) / currentDenominator),
 												StepNode.getNumerator(so.getSubTree(i))),
 										newDenominator);
 
@@ -775,7 +776,7 @@ public enum SimplificationSteps {
 								exponents.get(i).setColor(colorTracker[0]);
 								exponents.get(j).setColor(colorTracker[0]);
 
-								StepNode toCancel = StepNode.nonTrivialPower(bases.get(i), min);
+								StepNode toCancel = nonTrivialPower(bases.get(i), min);
 								toCancel.setColor(colorTracker[0]++);
 								sb.add(SolutionStepType.CANCEL_FRACTION, toCancel);
 
@@ -894,26 +895,6 @@ public enum SimplificationSteps {
 
 					StepNode.getBasesAndExponents(so, null, bases, exponents);
 
-					List<StepNode> constantList = new ArrayList<StepNode>();
-					double constantValue = 1;
-					for (int i = 0; i < bases.size(); i++) {
-						if (bases.get(i).nonSpecialConstant() && isEqual(exponents.get(i), 1)) {
-							constantList.add(bases.get(i));
-							constantValue *= bases.get(i).getValue();
-
-							exponents.set(i, new StepConstant(0));
-						}
-					}
-
-					if (isEqual(constantValue, 0)) {
-						so.setColor(colorTracker[0]);
-						StepNode result = new StepConstant(0);
-						result.setColor(colorTracker[0]);
-
-						sb.add(SolutionStepType.MULTIPLIED_BY_ZERO, colorTracker[0]++);
-						return result;
-					}
-
 					for (int i = 0; i < bases.size(); i++) {
 						if (!isEqual(exponents.get(i), 0)) {
 							boolean foundCommon = false;
@@ -933,6 +914,26 @@ public enum SimplificationSteps {
 								sb.add(SolutionStepType.REGROUP_PRODUCTS, bases.get(i));
 							}
 						}
+					}
+
+					List<StepNode> constantList = new ArrayList<StepNode>();
+					double constantValue = 1;
+					for (int i = 0; i < bases.size(); i++) {
+						if (bases.get(i).nonSpecialConstant() && isEqual(exponents.get(i), 1)) {
+							constantList.add(bases.get(i));
+							constantValue *= bases.get(i).getValue();
+
+							exponents.set(i, new StepConstant(0));
+						}
+					}
+
+					if (isEqual(constantValue, 0)) {
+						so.setColor(colorTracker[0]);
+						StepNode result = new StepConstant(0);
+						result.setColor(colorTracker[0]);
+
+						sb.add(SolutionStepType.MULTIPLIED_BY_ZERO, colorTracker[0]++);
+						return result;
 					}
 
 					StepNode newProduct = null;
@@ -1284,12 +1285,14 @@ public enum SimplificationSteps {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			SimplificationSteps[] denominatorRationalization = new SimplificationSteps[] {
 					RATIONALIZE_DENOMINATOR,
+					COMMON_ROOT,
 					REGROUP_PRODUCTS,
 					REGROUP_SUMS,
 					EXPAND_DENOMINATORS, 
+					FACTOR_SQUARE,
+					SIMPLIFY_POWERS_AND_ROOTS,
 					SIMPLE_POWERS,
 					SIMPLE_ROOTS,
-					SIMPLIFY_POWERS_AND_ROOTS,
 					SIMPLIFY_FRACTIONS
 			};
 			
