@@ -97,11 +97,15 @@
 			border: none !important;
 			
 			&.noOpacity, &.noOpacity:hover {
-				opacity: 1 !important;	
+				.buttonContent.stylebarButton {
+					opacity: 1 !important;	
+				}
 			}
 		
 			&:hover {
-				opacity: 1 !important;		
+				.buttonContent.stylebarButton {
+					opacity: 1 !important;		
+				}
 			}
 		
 		}
@@ -210,7 +214,7 @@
     				border-radius: 2px;	
     				
     				.TextField {
-    					padding: 0px;
+    					padding: 2px;
    						padding-left: 8px;
    						margin-bottom: 2px;
     					border: none;

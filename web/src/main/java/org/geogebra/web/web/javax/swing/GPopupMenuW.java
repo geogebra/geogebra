@@ -34,15 +34,22 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class GPopupMenuW implements AttachedToDOM {
 
+	/**
+	 * popup panel
+	 */
 	protected GPopupPanel popupPanel;
+	/**
+	 * popup menu
+	 */
 	protected PopupMenuBar popupMenu;
 	private int popupMenuSize = 0;
-	/*
+	/**
 	 * popup panel for submenu this field used to avoid having more submenu at
 	 * the same time
 	 */
 	GPopupMenuW subPopup;
 	private AppW app;
+	private boolean menuShown = false;
 
 	/**
 	 * @param app
@@ -78,6 +85,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * 
 	 * @param mb
 	 *            menu
+	 * @param app
+	 *            application
 	 */
 	public GPopupMenuW(MenuBar mb, AppW app) {
 		popupPanel = new GPopupPanel(app.getPanel(), app);
@@ -103,6 +112,9 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * Shows the popup menu, ensures that the popup menu must be on the client
 	 * area.
+	 * 
+	 * @param p
+	 *            point to show popup
 	 */
 	public final void show(GPoint p) {
 		int top = (int) (p.getY() - (app.getPanel().getAbsoluteTop()
@@ -140,12 +152,23 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * Shows the popup menu at the p point, independently of there is enough
 	 * place for the popup menu. (Maybe some details of the popup menu won't be
 	 * visible.)
+	 * 
+	 * @param p
+	 *            point to show popup
 	 */
 	public void showAtPoint(GPoint p) {
 		popupPanel.setPopupPosition(p.getX(), p.getY());
 		popupPanel.show();
 	}
 
+	/**
+	 * @param c
+	 *            canvas
+	 * @param x
+	 *            coord to show popup
+	 * @param y
+	 *            coord to show popup
+	 */
 	public void show(Canvas c, int x, int y) {
 		show(new GPoint(
 		        (int) (c.getAbsoluteLeft()
@@ -154,6 +177,14 @@ public class GPopupMenuW implements AttachedToDOM {
 		        (int) (c.getAbsoluteTop() / app.getArticleElement().getScaleY() + y)));
 	}
 
+	/**
+	 * @param c
+	 *            widget
+	 * @param x
+	 *            coord to show popup
+	 * @param y
+	 *            coord to show popup
+	 */
 	public void show(Widget c, int x, int y) {
 		show(new GPoint(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y));
 	}
@@ -164,20 +195,32 @@ public class GPopupMenuW implements AttachedToDOM {
 		popupPanel.removeFromParent();
 	}
 
+	/**
+	 * clear popup
+	 */
 	public void clearItems() {
 		popupMenu.clearItems();
 	}
 
+	/**
+	 * @return nr of menu items
+	 */
 	public int getComponentCount() {
 		return popupMenuSize;
 	}
 
+	/**
+	 * add seperator to menu
+	 */
 	public void addSeparator() {
 		if (!app.isUnbundled()) {
 			popupMenu.addSeparator();
 		}
 	}
 
+	/**
+	 * add vertical separator
+	 */
 	public void addVerticalSeparator() {
 		MenuItemSeparator separator = new MenuItemSeparator();
 		separator.getElement().getFirstChildElement().setClassName("Separator");
@@ -192,6 +235,7 @@ public class GPopupMenuW implements AttachedToDOM {
 				@Override
 				public void execute() {
 					oldCmd.execute();
+					setMenuShown(false);
 					popupPanel.hide();
 				}
 			};
@@ -238,15 +282,29 @@ public class GPopupMenuW implements AttachedToDOM {
 	// popupMenuSize++;
 	// }
 
+	/**
+	 * @param item
+	 *            to add to popup menu
+	 */
 	public void addItem(final MenuItem item) {
 		addItem(item, true);
 	}
 
 
+	/**
+	 * @param item
+	 *            check mark menu item
+	 */
 	public void addItem(GCheckmarkMenuItem item) {
 		addItem(item.getMenuItem());
 	}
 
+	/**
+	 * @param item
+	 *            to add
+	 * @param autoHide
+	 *            true if auto hide
+	 */
 	public void addItem(final MenuItem item, boolean autoHide) {
 		final MenuBar subMenu = item.getSubMenu();
 		if (autoHide) {
@@ -271,11 +329,12 @@ public class GPopupMenuW implements AttachedToDOM {
 					if (subPopup != null) {
 						subPopup.removeFromDOM();
 					}
-					subPopup = new GPopupMenuW(subMenu, app);
+					subPopup = new GPopupMenuW(subMenu, getApp());
 					subPopup.setVisible(true);
 					int xPercent = 0;
 					// Calculate the position of the "submenu", and show it
-					if (app.getLocalization().isRightToLeftReadingOrder()) {
+					if (getApp().getLocalization()
+							.isRightToLeftReadingOrder()) {
 						xCord = getLeftSubPopupXCord();
 						if (xCord < 0) {
 							xCord = getRightSubPopupXCord();
@@ -292,9 +351,10 @@ public class GPopupMenuW implements AttachedToDOM {
 					}
 					yCord = Math.min(
 							newItem.getAbsoluteTop()
-									- app.getPanel().getAbsoluteTop(),
+									- getApp().getPanel().getAbsoluteTop(),
 					        Window.getClientHeight() - getSubPopupHeight());
-					Browser.scale(subPopup.getPopupPanel().getElement(), app
+					Browser.scale(subPopup.getPopupPanel().getElement(),
+							getApp()
 					        .getArticleElement().getScaleX(), xPercent, 0);
 					subPopup.showAtPoint(new GPoint(xCord, yCord));
 				}
@@ -378,28 +438,72 @@ public class GPopupMenuW implements AttachedToDOM {
 				- app.getPanel().getAbsoluteLeft();
 	}
 
+	/**
+	 * @param item
+	 *            check box menu item
+	 */
 	public void addItem(GCheckBoxMenuItem item) {
 		addItem(item.getMenuItem());
 
 	}
 
 
+	/**
+	 * @param s
+	 *            title
+	 * @param c
+	 *            command
+	 */
 	public void addItem(String s, ScheduledCommand c) {
 		addItem(new MenuItem(s, c));
 	}
 
+	/**
+	 * hide popup menu
+	 */
 	public void hide() {
 		popupPanel.hide();
 	}
 
+	/**
+	 * @return popup menu
+	 */
 	public MenuBar getPopupMenu() {
 		return popupMenu;
 	}
 
+	/**
+	 * @return popup panel
+	 */
 	public GPopupPanel getPopupPanel() {
 		return popupPanel;
 	}
 
+	/**
+	 * @return true if menu is shown
+	 */
+	public boolean isMenuShown() {
+		return menuShown;
+	}
+
+	/**
+	 * @param menuShown
+	 *            true if menu is shown
+	 */
+	public void setMenuShown(boolean menuShown) {
+		this.menuShown = menuShown;
+	}
+
+	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
+	}
+
+	/**
+	 * remove sub popup menu
+	 */
 	public void removeSubPopup() {
 		if (subPopup != null) {
 			subPopup.removeFromDOM();

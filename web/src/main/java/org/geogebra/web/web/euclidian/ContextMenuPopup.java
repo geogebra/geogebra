@@ -30,7 +30,6 @@ public class ContextMenuPopup extends MyCJButton
 
 	private EuclidianController ec;
 	private GPoint location;
-	private boolean menuShown = false;
 	private AppW app;
 	/**
 	 * context menu
@@ -159,15 +158,14 @@ public class ContextMenuPopup extends MyCJButton
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
 				: AppResources.INSTANCE.dots_active(), this);
 		this.addStyleName("noOpacity");
-		menuShown = true;
-
+		popup.setMenuShown(true);
 	}
 
 	/**
 	 * hide the menu
 	 */
 	public void hideMenu() {
-		menuShown = false;
+		popup.setMenuShown(false);
 		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				: AppResources.INSTANCE.dots(), this);
@@ -184,7 +182,7 @@ public class ContextMenuPopup extends MyCJButton
 	 * @return in the menu open
 	 */
 	public boolean isMenuShown() {
-		return menuShown;
+		return popup.isMenuShown();
 	}
 
 	/**
@@ -192,6 +190,12 @@ public class ContextMenuPopup extends MyCJButton
 	 */
 	public void close() {
 		popup.getWrappedPopup().hide();
+		hideMenu();
+	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
 		hideMenu();
 	}
 

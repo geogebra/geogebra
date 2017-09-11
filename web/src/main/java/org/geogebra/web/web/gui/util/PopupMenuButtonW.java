@@ -62,7 +62,13 @@ public class PopupMenuButtonW extends MyCJButton
 	private boolean isFixedIcon = false;
 	private boolean multiselectionEnabled = false;
 	private StyleBarW2 changeEventHandler;
+	/**
+	 * line style map
+	 */
 	protected HashMap<Integer, Integer> lineStyleMap;
+	/**
+	 * panel for slider
+	 */
 	protected FlowPanel sliderPanel;
 
 	/**
@@ -497,6 +503,10 @@ public class PopupMenuButtonW extends MyCJButton
 		return mySlider;
 	}
 	
+	/**
+	 * @param show
+	 *            true if slider should be shown
+	 */
 	public void showSlider(boolean show) {
 		if (show) {
 			getMySlider().setVisible(show);
@@ -587,7 +597,6 @@ public class PopupMenuButtonW extends MyCJButton
 	 * @param array
 	 *            elements (usually GeoElements) whose state is displayed in
 	 *            this table
-	 * @return
 	 */
 	public void update(Object[] array) {
 	    // will be overwritten from instances

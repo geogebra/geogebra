@@ -53,7 +53,13 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		implements AttachedToDOM {
 
+	/**
+	 * popup menu
+	 */
 	protected GPopupMenuW wrappedPopup;
+	/**
+	 * localization
+	 */
 	protected Localization loc;
 	// private MenuItem mnuCopy;
 	private MenuItem mnuCut;
@@ -69,9 +75,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	ContextMenuGeoElementW(AppW app) {
 		super(app);
+		this.app = app;
 		this.loc = app.getLocalization();
 		wrappedPopup = new GPopupMenuW(app);
-
 	}
 
 	/**
@@ -84,10 +90,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	public ContextMenuGeoElementW(AppW app, ArrayList<GeoElement> geos) {
 		this(app);
-		initPopup(app, geos);
+		initPopup(geos);
 	}
 
-	public void initPopup(AppW app, ArrayList<GeoElement> geos) {
+	/**
+	 * @param geos
+	 *            list of geos
+	 */
+	public void initPopup(ArrayList<GeoElement> geos) {
 		wrappedPopup.clearItems();
 		if (geos == null || geos.size() == 0) {
 			return;
@@ -110,6 +120,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 	}
 
+	/**
+	 * add oither items like special for lines and conics
+	 */
 	public void addOtherItems() {
 		if (app.getGuiManager() != null
 				&& app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
@@ -764,9 +777,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
 			}
 		}
-
 		// wrappedPopup.addSeparator();
-
 	}
 
 	private void addEditItems() {
@@ -799,7 +810,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		if (!app.isWhiteboardActive()) {
-		wrappedPopup.addSeparator();
+			wrappedPopup.addSeparator();
 		}
 
 		final SelectionManager selection = app.getSelectionManager();
@@ -893,6 +904,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		updateEditItems();
 	}
 
+	/**
+	 * add paste menu item
+	 */
 	protected void addPasteItem() {
 		if (app.isUnbundled()) {
 			return;
@@ -922,12 +936,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				loc.getMenu("Paste"));
 	}
 
+	/**
+	 * update paste menu item
+	 */
 	protected void updatePasteItem() {
 		if (!app.isUnbundled() && mnuPaste != null) {
 			mnuPaste.setEnabled(!app.getCopyPaste().isEmpty());
 		}
 	}
 
+	/**
+	 * update edit menu item
+	 */
 	protected void updateEditItems() {
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			return;
@@ -1297,6 +1317,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	}
 
+	/**
+	 * @param action
+	 *            action to perform on click
+	 * @param html
+	 *            html string of menu item
+	 * @param text
+	 *            text of menu item
+	 * @return new menu item
+	 */
 	protected MenuItem addAction(Command action, String html, String text) {
 		MenuItem mi;
 		if (html != null) {
@@ -1314,6 +1343,14 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// return wrappedPopup.add(action, html, text);
 	}
 
+	/**
+	 * @param html
+	 *            html string of superior menu item
+	 * @param text
+	 *            name of menu item
+	 * @param subMenu
+	 *            sub menu
+	 */
 	protected void addSubmenuAction(String html, String text, MenuBar subMenu) {
 		MenuItem mi;
 		if (html != null) {
@@ -1331,6 +1368,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		// return wrappedPopup.add(action, html, text);
 	}
 
+	/**
+	 * @param str
+	 *            title of menu (first menu item)
+	 */
 	protected void setTitle(String str) {
 		MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(
 				AppResources.INSTANCE.empty().getSafeUri().asString(), str),
@@ -1340,6 +1381,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					public void execute() {
 						if (hasWhiteboardContextMenu()) {
 							wrappedPopup.setVisible(true);
+							wrappedPopup.setMenuShown(false);
 						} else {
 							wrappedPopup.setVisible(false);
 						}
@@ -1356,15 +1398,30 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 	}
 
+	/**
+	 * @return popup
+	 */
 	public GPopupMenuW getWrappedPopup() {
 		return wrappedPopup;
 	}
 
+	/**
+	 * @param c
+	 *            canvas
+	 * @param x
+	 *            coord
+	 * @param y
+	 *            coord
+	 */
 	public void show(Canvas c, int x, int y) {
 		updateEditItems();
 		wrappedPopup.show(c, x, y);
 	}
 
+	/**
+	 * @param p
+	 *            show in p's coord
+	 */
 	public void show(GPoint p) {
 		updateEditItems();
 		wrappedPopup.show(p);
@@ -1381,7 +1438,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	}
 
 	private MenuBar getLabelSubMenu() {
-
 		String[] labels = { loc.getMenu("stylebar.Hidden"), loc.getMenu("Name"),
 				loc.getMenu("NameAndValue"), loc.getMenu("Value"),
 				loc.getMenu("Caption") };
@@ -1403,16 +1459,13 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						public void execute() {
 							if (idx == 0) {
 								model.applyModeChanges(4, false);
-
 							} else {
 								model.applyModeChanges(idx - 1, true);
 							}
-
 						}
 					});
 			mnu.addItem(mi);
 		}
-
 		return mnu;
 	}
 
@@ -1446,12 +1499,29 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					});
 			mnu.addItem(mi);
 		}
-
 		return mnu;
 	}
 
+	/**
+	 * @return true if menu is shown
+	 */
+	public boolean isMenuShown() {
+		return wrappedPopup.isMenuShown();
+	}
+
+	/**
+	 * @param menuShown
+	 *            true if menu is shown
+	 */
+	public void setMenuShown(boolean menuShown) {
+		wrappedPopup.setMenuShown(menuShown);
+	}
+
+	/**
+	 * update whole popup
+	 */
 	public void update() {
-		initPopup((AppW) app, app.getActiveEuclidianView()
+		initPopup(app.getActiveEuclidianView()
 				.getEuclidianController().getAppSelectedGeos());
 		addOtherItems();
 	}
