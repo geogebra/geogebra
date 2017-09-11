@@ -302,8 +302,10 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case RecordToSpreadsheet:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE
-						.record_to_spreadsheet_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+								.record_to_spreadsheet_black().getSafeUri(),
+						0, 0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.spreadsheettrace();
 			}
@@ -319,7 +321,9 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			break;
 		case SpreadsheetOptions:
 			if (isNewDesign) {
-				im = MaterialDesignResources.INSTANCE.settings_black();
+				im = new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.gere().getSafeUri(), 0,
+						0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.view_properties16();
 			}

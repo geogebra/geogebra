@@ -455,7 +455,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if (!app.isUnbundled()) {
 			this.menuPanel.add(optionsMenu,
 					getHTML(app.isWhiteboardActive()
-							? MaterialDesignResources.INSTANCE.settings_black()
+							? new ImageResourcePrototype(null,
+									MaterialDesignResources.INSTANCE.gere()
+											.getSafeUri(),
+									0, 0, 24, 24, false, false)
 						: GuiResources.INSTANCE.menu_icon_options(),
 							app.isWhiteboardActive()
 								? app.getLocalization().getMenu("Settings")
@@ -565,7 +568,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.userMenu.addItem(
 				getMenuBarHtml(
 						app.isUnbundled() || app.isWhiteboardActive()
-								? MaterialDesignResources.INSTANCE.signout_black().getSafeUri().asString()
+								? MaterialDesignResources.INSTANCE
+										.signout_black().getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
 								.asString(),
 						app.getLocalization().getMenu("SignOut"), true),
@@ -777,7 +781,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     private void addSignInMenu() {
 		this.menuPanel.add(this.signInMenu,
 				getHTML(app.isUnbundled() || app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE.signin_black()
+						? new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE
+								.signin_black().getSafeUri(),
+								0, 0, 24, 24, false, false)
 						: GuiResources.INSTANCE.menu_icon_sign_in(),
 						app.getLocalization().getMenu("SignIn")),
 				true);
@@ -786,16 +793,21 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     private void addUserMenu() {
 		if (app.isUnbundled()) {
 			this.menuPanel.add(this.userMenu,
-					getExpandCollapseHTML(
-							MaterialDesignResources.INSTANCE.person_black(),
+					getExpandCollapseHTML(new ImageResourcePrototype(
+							null, MaterialDesignResources.INSTANCE
+									.person_black().getSafeUri(),
+							0, 0, 24, 24, false, false),
 							app.getLoginOperation().getUserName()),
 					true);
 		} else {
 			this.menuPanel
 				.add(this.userMenu,
 							getHTML(app.isWhiteboardActive()
-									? MaterialDesignResources.INSTANCE
-											.person_black()
+									? new ImageResourcePrototype(null,
+											MaterialDesignResources.INSTANCE
+													.person_black()
+													.getSafeUri(),
+											0, 0, 24, 24, false, false)
 									: GuiResources.INSTANCE
 									.menu_icon_signed_in_f(),
 									app.getLoginOperation().getUserName()),

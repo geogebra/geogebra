@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -218,8 +219,14 @@ public class GPopupMenuW implements AttachedToDOM {
 			boolean isNewDesign) {
 		if (isNewDesign) {
 			return isRTL
-					? MaterialDesignResources.INSTANCE.arrow_drop_left_black()
-					: MaterialDesignResources.INSTANCE.arrow_drop_right_black();
+					? new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE
+									.arrow_drop_left_black().getSafeUri(),
+							0, 0, 24, 24, false, false)
+					: new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE
+									.arrow_drop_right_black().getSafeUri(),
+							0, 0, 24, 24, false, false);
 		}
 		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL()
 		        : GuiResources.INSTANCE.menuBarSubMenuIconLTR();

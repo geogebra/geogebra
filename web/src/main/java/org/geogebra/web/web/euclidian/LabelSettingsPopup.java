@@ -14,11 +14,12 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.css.ToolbarSvgResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -68,12 +69,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		super(app, null, -1, -1, null, false, false, null, false);
 		this.app = app;
 		loc = app.getLocalization();
-		ImgResourceHelper
-				.setIcon(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.label_settings()
+		this.setIcon(new ImageOrText(new ImageResourcePrototype(null,
+						ToolbarSvgResources.INSTANCE.mode_showhidelabel_32()
 								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-						this);
+				0, 0, 24, 24, false, false)));
 		createPopup();
 
 		addStyleName("MyCanvasButton");

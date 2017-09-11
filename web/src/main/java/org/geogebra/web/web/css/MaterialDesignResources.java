@@ -26,9 +26,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_black.svg")
 	SVGResource filling_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/dynStylebar/label_settings.png")
-	ImageResource label_settings();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_size_black_24px.svg")
 	SVGResource text_size_black();
 
@@ -45,8 +42,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_purple_24px.svg")
 	SVGResource more_vert_purple();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/rename_black.png")
-	ImageResource rename_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/rename_black.svg")
+	SVGResource rename_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_content_cut_black_24px.svg")
 	SVGResource cut_black();
@@ -60,13 +57,14 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_label_outline_black_24px.svg")
 	SVGResource label_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/angle_black.png")
-	ImageResource angle_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/angle_black.svg")
+	SVGResource angle_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/pin_black.png")
-	ImageResource pin_black();
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/unpin_black.png")
-	ImageResource unpin_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/pin_black.svg")
+	SVGResource pin_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/unpin_black.svg")
+	SVGResource unpin_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_lock_outline_black_24px.svg")
 	SVGResource lock_black();
@@ -77,20 +75,14 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/trace_black.png")
 	ImageResource trace_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/trace_off_black.png")
-	ImageResource trace_off_black();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_black_24px.svg")
 	SVGResource play_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_play_circle_outline_purple_24px.svg")
 	SVGResource play_purple();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/record_to_spreadsheet_black.png")
-	ImageResource record_to_spreadsheet_black();
-
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/settings_black.png")
-	ImageResource settings_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/record_to_spreadsheet_black.svg")
+	SVGResource record_to_spreadsheet_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_zoom_in_black_24px.svg")
 	SVGResource zoom_in_black();
@@ -98,14 +90,14 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_home_black_24px.svg")
 	SVGResource home_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/show_all_objects_black.png")
-	ImageResource show_all_objects_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/show_all_objects_black.svg")
+	SVGResource show_all_objects_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/arrow_drop_right_black.png")
-	ImageResource arrow_drop_right_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/arrow_drop_right_black.svg")
+	SVGResource arrow_drop_right_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/arrow_drop_left_black.png")
-	ImageResource arrow_drop_left_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/arrow_drop_left_black.svg")
+	SVGResource arrow_drop_left_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_check_black_24px.svg")
 	SVGResource check_black();
@@ -162,9 +154,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource pause_purple();
 
 	// ev icons
-	@Source("org/geogebra/common/icons/png/matDesignIcons/ev/more_border.png")
-	ImageResource more_border();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/menu.svg")
 	SVGResource menu_black_border();
 
@@ -218,17 +207,17 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/menu.svg")
 	SVGResource toolbar_menu_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/av_tab_graphing_white.png")
-	ImageResource toolbar_algebra_graphing();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_graphing_white.svg")
+	SVGResource toolbar_algebra_graphing();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/av_tab_geometry_white.svg")
 	SVGResource toolbar_algebra_geometry();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/tools_tab_white.png")
-	ImageResource toolbar_tools();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/tools_tab_white.svg")
+	SVGResource toolbar_tools();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/toolBar/filter_list_black.png")
-	ImageResource filter_list_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_filter_list_black_24px.svg")
+	SVGResource filter_list_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/move_white.svg")
 	SVGResource mode_move();
@@ -291,9 +280,6 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_language_black_24px.svg")
 	SVGResource language_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/font_size_black.png")
-	ImageResource font_size_black();
-
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_forum_black_24px.svg")
 	SVGResource forum_black();
 
@@ -321,14 +307,14 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/new_exercise_black.png")
 	ImageResource new_exercise_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/signin_black.png")
-	ImageResource signin_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/signin_black.svg")
+	SVGResource signin_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/signout_black.png")
-	ImageResource signout_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/signout_black.svg")
+	SVGResource signout_black();
 
-	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/person_black.png")
-	ImageResource person_black();
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_person_black_24px.svg")
+	SVGResource person_black();
 
 	// MOW toolbar resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_gesture_black_24px.svg")
@@ -339,7 +325,4 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_attach_file_black_24px.svg")
 	SVGResource mow_media_panel();
-
-
-
 }

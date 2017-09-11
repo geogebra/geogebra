@@ -113,8 +113,10 @@ class Header extends FlowPanel {
 	private void createCenter() {
 		if (app.isUnbundledGraphing()) {
 			btnAlgebra = new MyToggleButton(
-					new Image(MaterialDesignResources.INSTANCE
-							.toolbar_algebra_graphing()),
+					new Image(new ImageResourcePrototype(null,
+							MaterialDesignResources.INSTANCE
+							.toolbar_algebra_graphing().getSafeUri(),
+					0, 0, 24, 24, false, false)),
 					app);
 		} else {
 			btnAlgebra = new MyToggleButton(
@@ -139,7 +141,10 @@ class Header extends FlowPanel {
 		});
 
 		btnTools = new MyToggleButton(
-				new Image(MaterialDesignResources.INSTANCE.toolbar_tools()),
+				new Image(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+						.toolbar_tools().getSafeUri(),
+				0, 0, 24, 24, false, false)),
 				app);
 
 		btnTools.addStyleName("tabButton");

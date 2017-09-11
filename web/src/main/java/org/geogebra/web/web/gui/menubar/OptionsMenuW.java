@@ -12,7 +12,6 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.main.GeoGebraPreferencesW;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
@@ -207,17 +206,10 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				ImageResource imgRes = AppResources.INSTANCE.empty();
 
 				if ("Labeling".equals(key)) {
-					imgRes = app.isUnbundled()
-							? new ImageResourcePrototype(null,
-									MaterialDesignResources.INSTANCE
-											.label_black().getSafeUri(),
-									0, 0, 24, 24, false, false)
-							: AppResources.INSTANCE.mode_showhidelabel_16();
+					imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
 				}
 				if ("FontSize".equals(key)) {
-					imgRes = app.isUnbundled()
-							? MaterialDesignResources.INSTANCE.font_size_black()
-							: GuiResources.INSTANCE
+					imgRes = GuiResources.INSTANCE
 							.menu_icon_options_font_size();
 				}
 
