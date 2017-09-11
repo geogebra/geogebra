@@ -496,7 +496,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setCaption = function(objName, caption) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCaption(Ljava/lang/String;Ljava/lang/String;)(objName, caption);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCaption(Ljava/lang/String;Ljava/lang/String;)(objName + "", caption + "");
 		};
 
 		api.getXcoord = function(objName) {
