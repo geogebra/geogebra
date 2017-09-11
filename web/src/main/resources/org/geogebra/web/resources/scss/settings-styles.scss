@@ -54,7 +54,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		
     			&:hover {
     				box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
-    				border: none;
+    				border: none !important;
     			}
     		}
     	
