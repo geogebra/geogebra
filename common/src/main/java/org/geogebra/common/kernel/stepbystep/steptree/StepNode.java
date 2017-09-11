@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -11,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Variable;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -338,10 +340,9 @@ public abstract class StepNode {
 	 * @param var variable to group in
 	 * @return toConvert in a polynomial format (as an array of coefficients) toConvert = sum(returned[i] * var^i)
 	 */
-	/*
 	public static StepNode[] convertToPolynomial(StepNode toConvert, StepNode var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
-		StepNode p = toConvert.deepCopy().simplify();
+		StepNode p = toConvert.deepCopy().expand(null);
 
 		StepNode temp = StepHelper.findConstant(p);
 
@@ -360,7 +361,6 @@ public abstract class StepNode {
 		}
 		return poli.toArray(new StepNode[0]);
 	}
-	*/
 
 	/**
 	 * @param r dividend
@@ -368,7 +368,6 @@ public abstract class StepNode {
 	 * @param var variable
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
-	/*
 	public static StepNode polynomialDivision(StepNode r, StepNode d, StepNode var) {
 		if (r == null || StepHelper.degree(r) < 1) {
 			return null;
@@ -389,7 +388,7 @@ public abstract class StepNode {
 			StepNode t = StepNode.multiply(StepNode.divide(arrayR[leadR], arrayD[leadD]), StepNode.power(var, leadR - leadD)).regroup();
 			q = StepNode.add(q, t);
 
-			StepNode[] td = StepNode.convertToPolynomial(StepNode.multiply(t, d).simplify(), var);
+			StepNode[] td = StepNode.convertToPolynomial(StepNode.multiply(t, d).expand(null), var);
 
 			for (int i = 0; i < td.length; i++) {
 				if (td[i] != null) {
@@ -407,7 +406,6 @@ public abstract class StepNode {
 		}
 		return null;
 	}
-	*/
 
 	public static StepNode add(StepNode a, StepNode b) {
 		if (a == null) {
@@ -690,13 +688,17 @@ public abstract class StepNode {
 			return so;
 		}
 		if (sn.isOperation(Operation.DIVIDE)) {
-			return divide(negate(((StepOperation) sn).getSubTree(0)), ((StepOperation) sn).getSubTree(1));
+			if (isNegative(((StepOperation) sn).getSubTree(0))) {
+				return divide(negate(((StepOperation) sn).getSubTree(0)), ((StepOperation) sn).getSubTree(1));
+			}
+			return minus(sn);
 		}
+
 		return StepNode.minus(sn);
 	}
 
 	/**
-	 * returns the largest b-th power in a (for example (8, 2) -> 4, (8, 3) -> 8, (108, 2) -> 36)
+	 * returns the largest b-th that divides a (for example (8, 2) -> 4, (8, 3) -> 8, (108, 2) -> 36)
 	 * 
 	 * @param a base
 	 * @param b exponent

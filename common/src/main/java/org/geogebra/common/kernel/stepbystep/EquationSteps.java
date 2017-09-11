@@ -229,7 +229,6 @@ public class EquationSteps {
 		}
 
 		// XII. step: finding and factoring rational roots
-		/*
 		if (StepHelper.integerCoefficients(LHS, variable)) {
 			findRationalRoots();
 
@@ -237,7 +236,6 @@ public class EquationSteps {
 				return checkSolutions();
 			}
 		}
-		*/
 
 		// XIII. step: numeric solutions
 		numericSolutions();
@@ -880,7 +878,6 @@ public class EquationSteps {
 		nthroot(3);
 	}
 
-	/*
 	private void findRationalRoots() {
 		int degree = StepHelper.degree(LHS);
 
@@ -912,7 +909,7 @@ public class EquationSteps {
 
 			solveProduct((StepOperation) LHS);
 		}
-	} */
+	}
 
 	private void numericSolutions() {
 		StepNode[] CASSolutions = StepHelper.getCASSolutions(LHS.toString(), "0", variable.toString(), kernel);

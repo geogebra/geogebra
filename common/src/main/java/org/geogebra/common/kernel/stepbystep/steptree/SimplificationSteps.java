@@ -56,20 +56,18 @@ public enum SimplificationSteps {
 	
 							StepOperation newSum = new StepOperation(Operation.PLUS);
 	
-							if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2) {
-								if (isNegative(sum.getSubTree(1))) {
-									newSum.addSubTree(power(sum.getSubTree(0), 2));
-									newSum.addSubTree(multiply(-2, multiply(sum.getSubTree(0), negate(sum.getSubTree(1)))));
-									newSum.addSubTree(power(negate(sum.getSubTree(1)), 2));
+							if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2 && isNegative(sum.getSubTree(1))) {
+								newSum.addSubTree(power(sum.getSubTree(0), 2));
+								newSum.addSubTree(multiply(-2, multiply(sum.getSubTree(0), negate(sum.getSubTree(1)))));
+								newSum.addSubTree(power(negate(sum.getSubTree(1)), 2));
 
-									sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
-								} else {
-									newSum.addSubTree(power(sum.getSubTree(0), 2));
-									newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
-									newSum.addSubTree(power(sum.getSubTree(1), 2));
+								sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
+							} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2) {
+								newSum.addSubTree(power(sum.getSubTree(0), 2));
+								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+								newSum.addSubTree(power(sum.getSubTree(1), 2));
 
-									sb.add(SolutionStepType.BINOM_SQUARED_SUM);
-								}
+								sb.add(SolutionStepType.BINOM_SQUARED_SUM);
 							} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 3) {
 								newSum.addSubTree(power(sum.getSubTree(0), 2));
 								newSum.addSubTree(power(sum.getSubTree(1), 2));
@@ -190,7 +188,6 @@ public enum SimplificationSteps {
 		}
 	},
 	
-
 	DOUBLE_MINUS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
@@ -1257,9 +1254,9 @@ public enum SimplificationSteps {
 					SIMPLIFY_FRACTIONS, 
 					COMMON_FRACTION,
 					DISTRIBUTE_POWER_OVER_PRODUCT,
-					ADD_FRACTIONS,
 					REGROUP_PRODUCTS,
 					REGROUP_SUMS,
+					ADD_FRACTIONS,
 					SQUARE_MINUSES,
 					RATIONALIZE_DENOMINATORS
 			};
