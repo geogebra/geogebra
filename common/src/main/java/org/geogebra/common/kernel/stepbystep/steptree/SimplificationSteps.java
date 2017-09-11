@@ -45,56 +45,55 @@ public enum SimplificationSteps {
 			if (sn.isOperation()) {
 				StepOperation so = (StepOperation) sn;
 	
-				if (so.isOperation(Operation.POWER) && so.getSubTree(0).isOperation(Operation.PLUS)) {
+				if (so.isOperation(Operation.POWER) && so.getSubTree(0).isOperation(Operation.PLUS) &&
+						so.getSubTree(1).getValue() > 0 && closeToAnInteger(so.getSubTree(1))) {
 					StepOperation sum = (StepOperation) so.getSubTree(0);
-	
-					if (so.getSubTree(1).getValue() > 0 && closeToAnInteger(so.getSubTree(1))) {
-						if (so.getSubTree(1).getValue() + sum.noOfOperands() < 6) {
-							for (int i = 0; i < sum.noOfOperands(); i++) {
-								sum.getSubTree(i).setColor(colorTracker[0]++);
-							}
-	
-							StepOperation newSum = new StepOperation(Operation.PLUS);
-	
-							if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2 && isNegative(sum.getSubTree(1))) {
-								newSum.addSubTree(power(sum.getSubTree(0), 2));
-								newSum.addSubTree(multiply(-2, multiply(sum.getSubTree(0), negate(sum.getSubTree(1)))));
-								newSum.addSubTree(power(negate(sum.getSubTree(1)), 2));
 
-								sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
-							} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2) {
-								newSum.addSubTree(power(sum.getSubTree(0), 2));
-								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
-								newSum.addSubTree(power(sum.getSubTree(1), 2));
-
-								sb.add(SolutionStepType.BINOM_SQUARED_SUM);
-							} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 3) {
-								newSum.addSubTree(power(sum.getSubTree(0), 2));
-								newSum.addSubTree(power(sum.getSubTree(1), 2));
-								newSum.addSubTree(power(sum.getSubTree(2), 2));
-								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
-								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(1), sum.getSubTree(2))));
-								newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(2))));
-
-								sb.add(SolutionStepType.TRINOM_SQUARED);
-							} else if (isEqual(so.getSubTree(1), 3) && sum.noOfOperands() == 2) {
-								newSum.addSubTree(power(sum.getSubTree(0), 3));
-								newSum.addSubTree(multiply(3, multiply(power(sum.getSubTree(0), 2), sum.getSubTree(1))));
-								newSum.addSubTree(multiply(3, multiply(sum.getSubTree(0), power(sum.getSubTree(1), 2))));
-								newSum.addSubTree(power(sum.getSubTree(1), 3));
-
-								sb.add(SolutionStepType.BINOM_CUBED);
-							}
-	
-							return newSum;
+					if (so.getSubTree(1).getValue() + sum.noOfOperands() < 6) {
+						for (int i = 0; i < sum.noOfOperands(); i++) {
+							sum.getSubTree(i).setColor(colorTracker[0]++);
 						}
-	
-						StepOperation asMultiplication = new StepOperation(Operation.MULTIPLY);
-						for (int i = 0; i < Math.round(so.getSubTree(1).getValue()); i++) {
-							asMultiplication.addSubTree(sum.deepCopy());
+
+						StepOperation newSum = new StepOperation(Operation.PLUS);
+
+						if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2 && isNegative(sum.getSubTree(1))) {
+							newSum.addSubTree(power(sum.getSubTree(0), 2));
+							newSum.addSubTree(multiply(-2, multiply(sum.getSubTree(0), negate(sum.getSubTree(1)))));
+							newSum.addSubTree(power(negate(sum.getSubTree(1)), 2));
+
+							sb.add(SolutionStepType.BINOM_SQUARED_DIFF);
+						} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 2) {
+							newSum.addSubTree(power(sum.getSubTree(0), 2));
+							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+							newSum.addSubTree(power(sum.getSubTree(1), 2));
+
+							sb.add(SolutionStepType.BINOM_SQUARED_SUM);
+						} else if (isEqual(so.getSubTree(1), 2) && sum.noOfOperands() == 3) {
+							newSum.addSubTree(power(sum.getSubTree(0), 2));
+							newSum.addSubTree(power(sum.getSubTree(1), 2));
+							newSum.addSubTree(power(sum.getSubTree(2), 2));
+							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(1))));
+							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(1), sum.getSubTree(2))));
+							newSum.addSubTree(multiply(2, multiply(sum.getSubTree(0), sum.getSubTree(2))));
+
+							sb.add(SolutionStepType.TRINOM_SQUARED);
+						} else if (isEqual(so.getSubTree(1), 3) && sum.noOfOperands() == 2) {
+							newSum.addSubTree(power(sum.getSubTree(0), 3));
+							newSum.addSubTree(multiply(3, multiply(power(sum.getSubTree(0), 2), sum.getSubTree(1))));
+							newSum.addSubTree(multiply(3, multiply(sum.getSubTree(0), power(sum.getSubTree(1), 2))));
+							newSum.addSubTree(power(sum.getSubTree(1), 3));
+
+							sb.add(SolutionStepType.BINOM_CUBED);
 						}
-						return asMultiplication;
+
+						return newSum;
 					}
+
+					StepOperation asMultiplication = new StepOperation(Operation.MULTIPLY);
+					for (int i = 0; i < Math.round(so.getSubTree(1).getValue()); i++) {
+						asMultiplication.addSubTree(sum.deepCopy());
+					}
+					return asMultiplication;
 				}
 	
 				StepOperation toReturn = new StepOperation(so.getOperation());
@@ -295,6 +294,30 @@ public enum SimplificationSteps {
 							StepNode result = divide(numerator, denominator);
 							sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, toMultiply);
 	
+							return result;
+						}
+					}
+					
+					if(so.getSubTree(1).isOperation(Operation.MULTIPLY)) {
+						StepOperation product = (StepOperation) so.getSubTree(1);
+						
+						StepNode irrational = null;
+						
+						for (int i = 0; irrational == null && i < product.noOfOperands(); i++) {
+							if(product.getSubTree(i).isSquareRoot()) {
+								irrational = product.getSubTree(i).deepCopy();
+							}
+						}
+
+						if (irrational != null) {
+							irrational.setColor(colorTracker[0]++);
+
+							StepNode numerator = StepNode.nonTrivialProduct(so.getSubTree(0), irrational);
+							StepNode denominator = multiply(so.getSubTree(1), irrational);
+
+							StepNode result = divide(numerator, denominator);
+							sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, irrational);
+
 							return result;
 						}
 					}
