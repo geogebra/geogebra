@@ -144,6 +144,16 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 
 	}
 
+	/**
+	 * set brush thickness
+	 * 
+	 * @param brush
+	 *            brush
+	 * @param thickness
+	 *            thickness
+	 * @param scale
+	 *            scale
+	 */
 	protected void setBrushThickness(PlotterBrush brush, int thickness, float scale) {
 		brush.setThickness(thickness, scale);
 	}

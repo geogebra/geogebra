@@ -226,6 +226,7 @@ public class DrawAxis3D extends DrawLine3D {
 				.getScale(((GeoAxisND) getGeoElement()).getType());
 	}
 
+	@Override
 	protected void setBrushThickness(PlotterBrush brush, int thickness, float scale) {
 		brush.setThickness(thickness, true, scale);
 	}
