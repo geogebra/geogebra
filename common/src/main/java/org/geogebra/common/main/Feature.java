@@ -260,7 +260,7 @@ public enum Feature {
 	ARROW_OUTPUT_PREFIX,
 
 	/** AND-479*/
-	AND_EXAM_MODE,
+	MOB_EXAM_MODE,
 
 	/** GGB-1935 */
 	LATEX_ON_KEYBOARD,

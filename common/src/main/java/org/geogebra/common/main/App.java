@@ -3963,7 +3963,7 @@ public abstract class App implements UpdateSelection {
 		case AND_MOVE_FAB:
 			return isNativeMobileAppWithNewUI();
 
-		case AND_EXAM_MODE:
+		case MOB_EXAM_MODE:
 			return isNativeMobileAppWithNewUI();
 
 		case AND_AV_ITEM_MENU:
