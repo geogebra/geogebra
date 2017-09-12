@@ -7,8 +7,19 @@ import com.himamis.retex.editor.share.model.MathFunction;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.util.Unicode;
 
+/**
+ * Library class for processing function arguments
+ */
 public class ArgumentHelper {
 
+	/**
+	 * Moves content from current editor field into a function argument
+	 * 
+	 * @param editorState
+	 *            editor state
+	 * @param container
+	 *            function
+	 */
     public static void passArgument(EditorState editorState, MathContainer container) {
         MathSequence currentField = editorState.getCurrentField();
         int currentOffset = editorState.getCurrentOffset();
@@ -86,6 +97,14 @@ public class ArgumentHelper {
         editorState.setCurrentOffset(currentOffset);
     }
 
+	/**
+	 * Reads all characters to the right of the cursor until it encounters a
+	 * symbol
+	 * 
+	 * @param editorState
+	 *            current editor state
+	 * @return last string of characters
+	 */
     public static String readCharacters(EditorState editorState) {
         StringBuilder stringBuilder = new StringBuilder();
         int offset = editorState.getCurrentOffset();

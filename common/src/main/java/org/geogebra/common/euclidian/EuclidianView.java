@@ -6086,4 +6086,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				: YZERO_STANDARD;
 	}
 
+	public abstract void readText(String text);
+
 }

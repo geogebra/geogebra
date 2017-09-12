@@ -605,6 +605,25 @@ public class EuclidianStatic {
 				yLabel - fontSize - 3, xoffset + 6, height + 6);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param labelDesc
+	 *            text
+	 * @param xLabel
+	 *            x-coord
+	 * @param yLabel
+	 *            y-coord
+	 * @param g2
+	 *            graphics
+	 * @param labelRectangle
+	 *            bounds
+	 * @param serif
+	 *            true for serif font
+	 * @param textFont
+	 *            font
+	 * @return border of resulting text drawing
+	 */
 	public static boolean drawIndexedMultilineString(App app, String labelDesc,
 			GGraphics2D g2, GRectangle labelRectangle, GFont textFont,
 			boolean serif, int xLabel, int yLabel) {

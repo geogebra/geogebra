@@ -784,7 +784,7 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	/**
-	 * @return
+	 * @return number of vertices
 	 */
 	protected int getPolygonal() {
 		brk = new int[5];
@@ -1983,6 +1983,12 @@ public class EuclidianPen implements GTimerListener {
 		return null;
 	}
 
+	/**
+	 * Update state of the pen after geo is removed
+	 * 
+	 * @param geo
+	 *            removed element
+	 */
 	public void remove(GeoElement geo) {
 		if (geo.getParentAlgorithm() == this.lastAlgo) {
 			lastAlgo = null;
