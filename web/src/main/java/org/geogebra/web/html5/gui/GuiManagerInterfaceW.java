@@ -124,4 +124,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void updateFullscreen();
 
+	public void addAsAutoHidePartner(GPopupPanel popup);
+
 }

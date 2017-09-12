@@ -56,6 +56,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
@@ -2469,6 +2470,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		};
 
+	}
+
+	@Override
+	public void addAsAutoHidePartner(GPopupPanel popup) {
+		if (onScreenKeyboard != null) {
+			onScreenKeyboard.addAsAutoHidePartner(popup);
+		}
 	}
 }
 

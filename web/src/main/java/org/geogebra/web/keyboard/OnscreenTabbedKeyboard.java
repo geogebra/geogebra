@@ -374,4 +374,9 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 				GColor.BLACK, GColor.WHITE, false, false, null);
 
 	}
+
+	@Override
+	public void addAsAutoHidePartner(GPopupPanel popup) {
+		popup.addAutoHidePartner(getElement());
+	}
 }
