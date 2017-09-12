@@ -9,6 +9,7 @@
 	.mowToolbar {
 		position: relative;
 		height: 182px;
+		overflow: hidden;
 		/** explicit non-transparent to hide EV content */
 		background-color: $white;
 		
@@ -183,27 +184,17 @@
 	}
 	.scrollPanel {
 		position: relative;
-		top:56px;
-		width: 100%;
-		height: 122px;
-		overflow: hidden !important;
-	}
-	.submenuContainer {
-		position: absolute;
-		width: 300%;
 		display: flex;
+		top:56px;
+		width: 300%;
+		height: 122px;
 	}
+
 	.mowSubMenuContent {
-		width: calc(100% - 70px);
+		width: 100%;
   	  	padding-top: 5px;
     	margin-right: 10px;
 		background-color: $white;
-	}
-	.selectPanel {
-		width: 50px;
-		padding-top: 6px;
-   		padding-left: 10px;
-		float: left;
 	}
 	
 	.penSubMenu {
@@ -214,13 +205,16 @@
 			}
 		}
 		.penPanel {
-			width: 50px;
+			width: 120px;
 			margin-top: 1px;
 			margin-left: 13px;	
+			.plusMarginLeft{ 
+            	margin-left: 16px; 
+              } 
 		}
 		.colorPanel {
 			position: absolute;
-			left: 25%; 
+			left: 30%; 
 			top: 5px;
 		} 
 		.plusButton {
@@ -229,7 +223,7 @@
 		}
 		.sizePanel {
 			position: absolute;
-			left: 30%; 
+			left: 35%; 
 	    	top: 60px;
 	    	
 		}
@@ -253,7 +247,7 @@
 			.panelRow {
 				position: absolute;    
 				top: -2px;
-				width: 1515px;
+				width: 1580px;
 			}	
 		}
 		.groupPanel {

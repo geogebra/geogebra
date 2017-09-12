@@ -16,7 +16,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -41,8 +40,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private SubMenuPanel penMenu;
 	private SubMenuPanel toolsMenu;
 	private SubMenuPanel mediaMenu;
-	private ScrollPanel subMenuPanel;
-	private FlowPanel contentContainer;
+	private FlowPanel subMenuPanel;
 	private boolean isSubmenuOpen;
 
 
@@ -76,16 +74,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		createCloseButton();
 		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
 
-
-		contentContainer = new FlowPanel();
-		contentContainer.addStyleName("submenuContainer");
-		contentContainer.add(penMenu);
-		contentContainer.add(toolsMenu);
-		contentContainer.add(mediaMenu);
-
-		subMenuPanel = new ScrollPanel();
+		subMenuPanel = new FlowPanel();
 		subMenuPanel.addStyleName("scrollPanel");
-		subMenuPanel.add(contentContainer);
+		subMenuPanel.add(penMenu);
+		subMenuPanel.add(toolsMenu);
+		subMenuPanel.add(mediaMenu);
 		add(subMenuPanel);
 
 		addStyleName("mowToolbar");
@@ -355,20 +348,25 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
 
+		// subMenuPanel.clear();
+		// this.currentMenu = submenu;
+		// subMenuPanel.add(currentMenu);
 		setSubmenuVisible(true);
+		if (submenu != currentMenu) {
+			subMenuPanel.removeStyleName("slideLeft");
+			subMenuPanel.removeStyleName("slideCenter");
+			subMenuPanel.removeStyleName("slideRight");
 
-		contentContainer.removeStyleName("slideLeft");
-		contentContainer.removeStyleName("slideCenter");
-		contentContainer.removeStyleName("slideRight");
+			if (submenu == penMenu) {
+				subMenuPanel.addStyleName("slideLeft");
+			} else if (submenu == toolsMenu) {
+				subMenuPanel.addStyleName("slideCenter");
+			} else if (submenu == mediaMenu) {
+				subMenuPanel.addStyleName("slideRight");
+			}
 
-		if (submenu == penMenu) {
-			contentContainer.addStyleName("slideLeft");
-		} else if (submenu == toolsMenu) {
-			contentContainer.addStyleName("slideCenter");
-		} else if (submenu == mediaMenu) {
-			contentContainer.addStyleName("slideRight");
+			currentMenu = submenu;
 		}
-		currentMenu = submenu;
 	}
 
 	/**

@@ -41,6 +41,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private static final int BLACK = 0;
 	private StandardButton pen;
 	private StandardButton eraser;
+	private StandardButton move;
+	private StandardButton select;
 
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
@@ -77,10 +79,12 @@ public class PenSubMenu extends SubMenuPanel {
 		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
 		im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);
+		pen.addStyleName("plusMarginLeft");
 		eraser = createButton(EuclidianConstants.MODE_ERASER);
-
-		penPanel.add(
-				LayoutUtilW.panelRow(pen, eraser));
+		eraser.addStyleName("plusMarginLeft");
+		move = createButton(EuclidianConstants.MODE_MOVE);
+		select = createButton(EuclidianConstants.MODE_SELECT);
+		penPanel.add(LayoutUtilW.panelRow(move, pen, select, eraser));
 	}
 
 	/**
