@@ -5305,7 +5305,7 @@ namespace giac {
   static define_unary_function_eval2 (__integer_format,&_integer_format,_integer_format_s,&printasDigits);
   define_unary_function_ptr5( at_integer_format ,alias_at_integer_format,&__integer_format,0,true);
 
-  // 0: xcas, 1: maple, 2: mupad, 3: ti
+  // 0: xcas, 1: maple, 2: mupad, 3: ti, 256:xcas/python
   gen _xcas_mode(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
     gen args(g);
@@ -5313,7 +5313,8 @@ namespace giac {
       args=int(g._DOUBLE_val);    
     if (args.type!=_INT_)
       return xcas_mode(contextptr);
-    xcas_mode(contextptr)=args.val;
+    xcas_mode(contextptr)=args.val & 0xff;
+    python_compat(contextptr)=args.val>=256;
     return string2gen("Warning: some commands like subs might change arguments order",false);
   }
   static const char _xcas_mode_s []="xcas_mode";

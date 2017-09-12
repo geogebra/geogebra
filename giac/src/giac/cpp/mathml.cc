@@ -828,33 +828,60 @@ namespace giac {
     return res;
   }
   
-  static string svg_circle(const gen & diameter0, const gen & diameter1, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+  static string svg_circle(const gen & diameter0, const gen & diameter1, const gen & angle1,const gen & angle2,svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s="";
     gen center=evalf_double((diameter0+diameter1)/2,1,contextptr);
+    gen centerx,centery;
+    reim(center,centerx,centery,contextptr);
+    double cx=evalf_double(centerx,1,contextptr)._DOUBLE_val;
+    double cy=evalf_double(centery,1,contextptr)._DOUBLE_val;
     gen d01=evalf_double(diameter0-diameter1,1,contextptr);
+    gen rotg=arg(d01,0);
+    double rot=M_PI+evalf_double(rotg,1,contextptr)._DOUBLE_val;
     gen di,dr;
     reim(d01,dr,di,contextptr);
     double did=di._DOUBLE_val,drd=dr._DOUBLE_val;
     // COUT << center << " " << d01 << " " << drd << " " << did << endl;
     double r=std::sqrt(drd*drd+did*did)/2.0;
     // COUT << r << endl;
+    double a1=evalf_double(angle1,1,contextptr)._DOUBLE_val+rot;
+    double a2=evalf_double(angle2,1,contextptr)._DOUBLE_val+rot;
+    bool arc=std::abs(a2-a1-2*M_PI)>1e-4;
+    s= string(arc?"<path ":"<circle ");
     if (attr.ie){
       // COUT << xmin << " " << xmax << " " << ymin << " " << ymax << " " << svg_epaisseur1 << " " << attr.width << endl;
       double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
       // COUT << thickness << endl;
-      s= "<circle stroke-width=\""+print_DOUBLE_(thickness,5)+"\" stroke=\""+color_string(attr);
+      s = s+" stroke-width=\""+print_DOUBLE_(thickness,5)+"\" stroke=\""+color_string(attr);
     }
     else
-      s = "<circle vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width);
+      s = s+"vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width);
     // COUT << s << endl;
     if (attr.fill_polygon)
-      s = s+"\" fill=\""+color_string(attr)+"\" cx=\"";
+      s = s+"\" fill=\""+color_string(attr)+"\" ";
     else
-      s = s+"\" fill=\"none\" cx=\"";
-    s = s + re(center,contextptr).print(contextptr)+"\" cy=\""
-      + im(center,contextptr).print(contextptr)+"\" r=\""
-      + print_DOUBLE_(r,contextptr)
-      + "\" />\n";
+      s = s+"\" fill=\"none\" ";
+    if (arc){
+      // arc of circle: compute start.x, start.y, end.x end.y
+      // from polar coord (radius,a1) and (radius,a2)
+      // largeArcFlag=1 if a2-a1>=M_PI
+      // <path d="M start.x start.y 
+      //          A radius radius rotation largeArcFlag 0 end.x end.y
+      //          L center.x center.y Z">
+      // move to start, arc to end, segment to center, loop to start
+      s = s+" d=\"M "+print_DOUBLE_(cx+r*std::cos(a1),5)+" "+print_DOUBLE_(cy+r*std::sin(a1),5);
+      s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" "+print_DOUBLE_(rot*rad2deg_d,5)+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
+      s = s+ print_DOUBLE_(cx+r*std::cos(a2),5)+" "+print_DOUBLE_(cy+r*std::sin(a2),5);
+      if (attr.fill_polygon)
+	s = s+" L "+print_DOUBLE_(cx,5)+" "+print_DOUBLE_(cy,5)+" Z";
+      s = s+"\" />\n";
+      //CERR << s << endl;
+    }
+    else 
+      s = s + "cx=\""+centerx.print(contextptr)+"\" cy=\""
+	+ centery.print(contextptr)+"\" r=\""
+	+ print_DOUBLE_(r,contextptr)
+	+ "\" />\n";
     if (legende!="")
       s = s+svg_text(evalf(center+r,1,contextptr),legende,attr,xmin,xmax,ymin,ymax,contextptr);
     // COUT << s << endl;
@@ -1160,13 +1187,20 @@ namespace giac {
 	}
 	if (figure.sommet==at_cercle ){
 	  gen diametre;
-	  if (figure.feuille.type==_VECT && !figure.feuille._VECTptr->empty() && figure.feuille._VECTptr->front().type==_VECT)
-	    diametre=figure.feuille._VECTptr->front();
+	  gen angle1=0,angle2=2*M_PI;
+	  gen f=figure.feuille;
+	  if (f.type==_VECT && !f._VECTptr->empty() && f._VECTptr->front().type==_VECT){
+	    if (f._VECTptr->size()>=3){
+	      angle1=f[1]; 
+	      angle2=f[2];
+	    }
+	    diametre=f._VECTptr->front();
+	  }
 	  else
-	    diametre=figure.feuille;
+	    diametre=f;
 	  if (diametre.type==_VECT && diametre._VECTptr->size()>=2){
 	    vecteur v=*diametre._VECTptr;
-	    return svg_circle(v[0],v[1], attr, name,xmin,xmax,ymin,ymax,contextptr);
+	    return svg_circle(v[0],v[1], angle1,angle2,attr, name,xmin,xmax,ymin,ymax,contextptr);
 	  }
 	  return "svg circle error";
 	}

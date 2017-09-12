@@ -533,6 +533,21 @@ extern "C" void Sleep(unsigned int miliSecond);
       _integer_mode_=b;
   }
 
+  static bool _python_compat_=false;
+  bool & python_compat(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_python_compat_;
+    else
+      return _python_compat_;
+  }
+
+  void python_compat(bool b,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_python_compat_=b;
+    else
+      _python_compat_=b;
+  }
+
   static bool _complex_mode_=false; 
   bool & complex_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -3223,7 +3238,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     s += print_VECT(cas_setup(contextptr),_SEQ__VECT,contextptr);
     s += "),";
     s += "xcas_mode(";
-    s += print_INT_(xcas_mode(contextptr));
+    s += print_INT_(xcas_mode(contextptr)+(python_compat(contextptr)?256:0));
     s += ")";
     return s;
   }
@@ -3346,6 +3361,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_atan_tan_no_floor_=_atan_tan_no_floor_;
      ptr->globalptr->_keep_acosh_asinh_=_keep_acosh_asinh_;
      ptr->globalptr->_keep_algext_=_keep_algext_;
+     ptr->globalptr->_python_compat_=_python_compat_;
      ptr->globalptr->_complex_variables_=_complex_variables_;
      ptr->globalptr->_increasing_power_=_increasing_power_;
      ptr->globalptr->_approx_mode_=_approx_mode_;
@@ -3761,10 +3777,10 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5),
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5),
 #else
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
 #ifdef EMCC
 		     _logptr_(&COUT), 
 #else
@@ -3822,6 +3838,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      _atan_tan_no_floor_=g._atan_tan_no_floor_;
      _keep_acosh_asinh_=g._keep_acosh_asinh_;
      _keep_algext_=g._keep_algext_;
+     _python_compat_=g._python_compat_;
      _variables_are_files_=g._variables_are_files_;
      _bounded_function_no_=g._bounded_function_no_;
      _series_flags_=g._series_flags_; // bit1= full simplify, bit2=1 for truncation, bit3=?, bit4=1 do not convert back SPOL1 to symbolic expression
