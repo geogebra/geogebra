@@ -255,31 +255,14 @@ public class DefaultTeXFontParser {
 		int unicode = getOptionalInt("unicode", font, 0);
 
 		// get different versions of a font
-		String bold = null;
-		try {
-			bold = getAttrValueAndCheckIfNotNull("boldVersion", font);
-		} catch (ResourceParseException e) {
-		}
-		String roman = null;
-		try {
-			roman = getAttrValueAndCheckIfNotNull("romanVersion", font);
-		} catch (ResourceParseException e) {
-		}
-		String ss = null;
-		try {
-			ss = getAttrValueAndCheckIfNotNull("ssVersion", font);
-		} catch (ResourceParseException e) {
-		}
-		String tt = null;
-		try {
-			tt = getAttrValueAndCheckIfNotNull("ttVersion", font);
-		} catch (ResourceParseException e) {
-		}
-		String it = null;
-		try {
-			it = getAttrValueAndCheckIfNotNull("itVersion", font);
-		} catch (ResourceParseException e) {
-		}
+		String bold = getAttrValueOrNull("boldVersion", font);
+
+		String roman = getAttrValueOrNull("romanVersion", font);
+
+		String ss = getAttrValueOrNull("ssVersion", font);
+
+		String tt = getAttrValueOrNull("ttVersion", font);
+		String it = getAttrValueOrNull("itVersion", font);
 
 		String path = name.substring(0, name.lastIndexOf("/") + 1) + fontName;
 
@@ -426,12 +409,9 @@ public class DefaultTeXFontParser {
 				String fontId = getAttrValueAndCheckIfNotNull("fontId",
 						mapping);
 				// put mapping in table
-				String boldFontId = null;
-				try {
-					boldFontId = getAttrValueAndCheckIfNotNull("boldId",
+				String boldFontId = getAttrValueOrNull("boldId",
 							mapping);
-				} catch (ResourceParseException e) {
-				}
+
 
 				if (boldFontId == null) {
 					res.put(symbolName,
@@ -548,11 +528,7 @@ public class DefaultTeXFontParser {
 			// get required string attribute
 			String textStyleName = getAttrValueAndCheckIfNotNull("name",
 					mapping);
-			String boldFontId = null;
-			try {
-				boldFontId = getAttrValueAndCheckIfNotNull("bold", mapping);
-			} catch (ResourceParseException e) {
-			}
+			String boldFontId = getAttrValueOrNull("bold", mapping);
 
 			NodeList mapRangeList = mapping.getElementsByTagName("MapRange");
 			// iterate all mapping ranges
@@ -599,6 +575,14 @@ public class DefaultTeXFontParser {
 		String attrValue = element.getAttribute(attrName);
 		if ("".equals(attrValue)) {
 			throw new XMLResourceParseException(RESOURCE_NAME, element.getTagName(), attrName, null);
+		}
+		return attrValue;
+	}
+
+	private static String getAttrValueOrNull(String attrName, Element element) {
+		String attrValue = element.getAttribute(attrName);
+		if ("".equals(attrValue)) {
+			return null;
 		}
 		return attrValue;
 	}
