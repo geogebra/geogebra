@@ -313,9 +313,6 @@ public enum Feature {
 	 */
 	MOB_EV_SETTINGS_POPUP,
 
-	/** GGB-2039 */
-	FLOATING_MOVE_BUTTON_ANIM,
-
 	/** AND-465 */
 	MOB_DYNAMIC_SYLEBAR
 }

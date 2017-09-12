@@ -4335,9 +4335,6 @@ public abstract class App implements UpdateSelection {
 		case GEO_AV_DESCRIPTION:
 			return relaunch;
 
-		case FLOATING_MOVE_BUTTON_ANIM:
-			return prerelease;
-
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

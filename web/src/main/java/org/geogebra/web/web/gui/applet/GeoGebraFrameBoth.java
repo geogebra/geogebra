@@ -316,12 +316,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final VirtualKeyboardGUI keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(false);
 
-		if (app.has(Feature.FLOATING_MOVE_BUTTON_ANIM)) {
-			ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
-					.getToolbarPanelV2();
-			if (toolbarPanel != null) {
-				toolbarPanel.updateMoveButton();
-			}
+		ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
+				.getToolbarPanelV2();
+		if (toolbarPanel != null) {
+			toolbarPanel.updateMoveButton();
 		}
 		app.updateSplitPanelHeight();
 
@@ -349,13 +347,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final VirtualKeyboardW keyBoard = getOnScreenKeyboard(textField);
 		this.setKeyboardShowing(true);
 
-		if (app.has(Feature.FLOATING_MOVE_BUTTON_ANIM)) {
-			ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
-					.getToolbarPanelV2();
-			if (toolbarPanel != null) {
-				toolbarPanel.hideMoveFloatingButton();
-			}
+		ToolbarPanel toolbarPanel = ((GuiManagerW) app.getGuiManager())
+				.getToolbarPanelV2();
+		if (toolbarPanel != null) {
+			toolbarPanel.hideMoveFloatingButton();
 		}
+
 
 		keyBoard.prepareShow(animated);
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
