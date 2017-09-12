@@ -74,6 +74,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 	}
 
+	/**
+	 * @param parent
+	 *            parent panel
+	 * @param geo
+	 *            geoelement
+	 * @param swap
+	 *            whether symbolic mode of geo should show numeric icon
+	 */
 	public static void createSymbolicButton(FlowPanel parent,
 			final GeoElement geo, boolean swap) {
 		MyToggleButtonW btnSymbolic = null;
@@ -118,6 +126,17 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	}
 
+	/**
+	 * @param geo1
+	 *            geoelement
+	 * @param text
+	 *            text content
+	 * @param latex
+	 *            whether the text is LaTeX
+	 * @param fontSize
+	 *            size in pixels
+	 * @return whether update was successful (AV has value panel)
+	 */
 	boolean updateValuePanel(GeoElement geo1, String text,
 			boolean latex, int fontSize) {
 		if (geo1 == null || geo1
@@ -176,6 +195,14 @@ public class AlgebraOutputPanel extends FlowPanel {
 		return true;
 	}
 
+	/**
+	 * @param text
+	 *            preview text
+	 * @param previewGeo
+	 *            preview geo
+	 * @param fontSize
+	 *            size in pixels
+	 */
 	public void showLaTeXPreview(String text, GeoElementND previewGeo,
 			int fontSize) {
 		// LaTeX
@@ -187,6 +214,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 
 	}
 
+	/**
+	 * Clear the panel and its children
+	 */
 	public void reset() {
 		valuePanel.clear();
 		clear();
