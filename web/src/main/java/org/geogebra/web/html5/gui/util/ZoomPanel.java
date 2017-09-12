@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -272,7 +271,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	@Override
 	public void onCoordSystemChanged() {
-		Log.debug("onCoordSystemChanged()");
 		updateHomeButton();
 	}
 
@@ -365,7 +363,11 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 				&& app.has(Feature.ZOOM_PANEL);
 	}
 
-	public String getMinHeight() {
-		return needsZoomButtons(app) ? "200px" : "100px";
+	/**
+	 * 
+	 * @return the minimum height that is needed to display zoomPanel.
+	 */
+	public int getMinHeight() {
+		return needsZoomButtons(app) ? 200 : 100;
 	}
 }

@@ -209,8 +209,12 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					dockPanel.calculateEnvironment();
 				}
 
+				dockPanel.checkZoomPanelFits(h);
+
+
 			}
 			
+
 		}
 
 		// hack to fix GGB-697
@@ -282,6 +286,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	public abstract void resizeView(int width, int height);
 
 	public void updateFullscreen() {
+
 		if (zoomPanel != null) {
 			zoomPanel.updateFullscreen();
 		}
@@ -314,4 +319,13 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
+	private void checkZoomPanelFits(int height) {
+		if (zoomPanel != null && ZoomPanel.neededFor(app)) {
+			if (height < zoomPanel.getMinHeight()) {
+				hideZoomPanel();
+			} else {
+				showZoomPanel();
+			}
+		}
+	}
 }
