@@ -203,6 +203,10 @@ public enum SolutionStepType {
 
 	SQUARE_ROOT_MULTIPLIED_BY_ITSELF("SquareRootMultipliedByItself",
 			"When the square root of an expression in multiplied by itself, the result is that expression"),
+	
+	EXPAND_ROOT("ExpandRoot", "Using $\\sqrt[n]{a} = \\sqrt[mn]{a^m}$, expand the expression"),
+
+	PRODUCT_OF_ROOTS("ProductOfRoots", "The product of roots with the same index is equal to the root of the product"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function");
 	

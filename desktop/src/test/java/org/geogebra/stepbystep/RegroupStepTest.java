@@ -32,6 +32,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("nroot(2, 2)*nroot(3, 3)", "nroot(72, 6)");
 		r("(x-y)/(sqrt(x)-sqrt(y))", "(nroot(x, 2) + nroot(y, 2))");
 		r("2x+1+3x+2 = x+x+1+1", "((5)(x) + 3) = ((2)(x) + 2)");
 		r("1/3+1/2", "(5)/(6)");

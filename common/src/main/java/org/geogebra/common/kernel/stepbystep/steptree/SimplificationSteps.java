@@ -45,7 +45,7 @@ public enum SimplificationSteps {
 	EXPAND_POWERS() {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation() && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 	
 				if (so.isOperation(Operation.POWER) && so.getSubTree(0).isOperation(Operation.PLUS) &&
@@ -63,15 +63,7 @@ public enum SimplificationSteps {
 					return asMultiplication;
 				}
 	
-				StepOperation toReturn = new StepOperation(so.getOperation());
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (so.getSubTree(i).isOperation(Operation.ABS)) {
-						toReturn.addSubTree(so.getSubTree(i));
-					} else {
-						toReturn.addSubTree(apply(so.getSubTree(i), sb, colorTracker));
-					}
-				}
-				return toReturn;
+				return iterateThrough(this, so, sb, colorTracker);
 			}
 	
 			return sn;
@@ -123,304 +115,329 @@ public enum SimplificationSteps {
 	ELIMINATE_OPPOSITES {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.PLUS)) {
-					StepOperation newSum = new StepOperation(Operation.PLUS);
+				StepOperation newSum = new StepOperation(Operation.PLUS);
 
-					boolean[] found = new boolean[so.noOfOperands()];
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						if (so.getSubTree(i).isOperation(Operation.MINUS)
-								&& ((StepOperation) so.getSubTree(i)).getSubTree(0).isOperation(Operation.PLUS)) {
-							StepOperation innerSum = (StepOperation) ((StepOperation) so.getSubTree(i)).getSubTree(0);
+				boolean[] found = new boolean[so.noOfOperands()];
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (so.getSubTree(i).isOperation(Operation.MINUS)
+							&& ((StepOperation) so.getSubTree(i)).getSubTree(0).isOperation(Operation.PLUS)) {
+						StepOperation innerSum = (StepOperation) ((StepOperation) so.getSubTree(i)).getSubTree(0);
 
-							for (int j = 0; j < so.noOfOperands() - innerSum.noOfOperands(); j++) {
-								boolean foundSum = true;
-								for (int k = 0; foundSum && k < innerSum.noOfOperands(); k++) {
-									if (!so.getSubTree(j + k).equals(innerSum.getSubTree(k))) {
-										foundSum = false;
-									}
-								}
-
-								if (foundSum) {
-									found[i] = true;
-									so.getSubTree(i).setColor(colorTracker[0]);
-
-									for (int k = 0; k < innerSum.noOfOperands(); k++) {
-										found[j + k] = true;
-										so.getSubTree(j + k).setColor(colorTracker[0]);
-									}
-									sb.add(SolutionStepType.ELIMINATE_OPPOSITES, colorTracker[0]++);
-									break;
+						for (int j = 0; j < so.noOfOperands() - innerSum.noOfOperands(); j++) {
+							boolean foundSum = true;
+							for (int k = 0; foundSum && k < innerSum.noOfOperands(); k++) {
+								if (!so.getSubTree(j + k).equals(innerSum.getSubTree(k))) {
+									foundSum = false;
 								}
 							}
-						}
-						
-						for (int j = i + 1; !found[i] && j < so.noOfOperands(); j++) {
-							if (so.getSubTree(i).equals(negate(so.getSubTree(j)))) {
-								so.getSubTree(i).setColor(colorTracker[0]);
-								so.getSubTree(j).setColor(colorTracker[0]);
-								sb.add(SolutionStepType.ELIMINATE_OPPOSITES, colorTracker[0]++);
+
+							if (foundSum) {
 								found[i] = true;
-								found[j] = true;
+								so.getSubTree(i).setColor(colorTracker[0]);
+
+								for (int k = 0; k < innerSum.noOfOperands(); k++) {
+									found[j + k] = true;
+									so.getSubTree(j + k).setColor(colorTracker[0]);
+								}
+								sb.add(SolutionStepType.ELIMINATE_OPPOSITES, colorTracker[0]++);
+								break;
 							}
 						}
 					}
 
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						if (!found[i]) {
-							newSum.addSubTree(so.getSubTree(i));
+					for (int j = i + 1; !found[i] && j < so.noOfOperands(); j++) {
+						if (so.getSubTree(i).equals(negate(so.getSubTree(j)))) {
+							so.getSubTree(i).setColor(colorTracker[0]);
+							so.getSubTree(j).setColor(colorTracker[0]);
+							sb.add(SolutionStepType.ELIMINATE_OPPOSITES, colorTracker[0]++);
+							found[i] = true;
+							found[j] = true;
 						}
 					}
-
-					if (newSum.noOfOperands() == 0) {
-						return new StepConstant(0);
-					}
-
-					if (newSum.noOfOperands() == 1) {
-						return newSum.getSubTree(0);
-					}
-
-					return newSum;
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (!found[i]) {
+						newSum.addSubTree(so.getSubTree(i));
+					}
+				}
+
+				if (newSum.noOfOperands() == 0) {
+					return new StepConstant(0);
+				}
+
+				if (newSum.noOfOperands() == 1) {
+					return newSum.getSubTree(0);
+				}
+
+				return newSum;
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 	
-	COMMON_ROOT {
+	EXPAND_ROOT {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.MULTIPLY) && StepHelper.countOperation(so, Operation.NROOT) > 1) {
+				int rootCount = 0;
+				long commonRoot = 1;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (so.getSubTree(i).isOperation(Operation.NROOT)) {
+						double currentRoot = ((StepOperation) so.getSubTree(i)).getSubTree(1).getValue();
+						if (closeToAnInteger(currentRoot)) {
+							rootCount++;
+							commonRoot = lcm(commonRoot, Math.round(currentRoot));
+						}
+					}
+				}
 
+				if (rootCount > 1) {
 					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
-					long commonRoot = 1;
-
 					for (int i = 0; i < so.noOfOperands(); i++) {
-						if (so.getSubTree(i).isOperation(Operation.NROOT)
-								&& closeToAnInteger(((StepOperation) so.getSubTree(i)).getSubTree(1))) {
-							commonRoot = lcm(commonRoot, Math.round(((StepOperation) so.getSubTree(i)).getSubTree(1).getValue()));
+						if (so.getSubTree(i).isOperation(Operation.NROOT)) {
+							double currentRoot = ((StepOperation) so.getSubTree(i)).getSubTree(1).getValue();
+							if (closeToAnInteger(currentRoot) && !isEqual(commonRoot, currentRoot)) {
+								StepNode argument = ((StepOperation) so.getSubTree(i)).getSubTree(0);
+
+								StepNode result = root(power(argument, commonRoot / currentRoot), commonRoot);
+
+								so.getSubTree(i).setColor(colorTracker[0]);
+								result.setColor(colorTracker[0]);
+
+								sb.add(SolutionStepType.EXPAND_ROOT, colorTracker[0]++);
+
+								newProduct.addSubTree(result);
+							} else {
+								newProduct.addSubTree(so.getSubTree(i));
+							}
 						} else {
 							newProduct.addSubTree(so.getSubTree(i));
 						}
 					}
 
-					StepOperation underRoot = new StepOperation(Operation.MULTIPLY);
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						if (so.getSubTree(i).isOperation(Operation.NROOT)
-								&& closeToAnInteger(((StepOperation) so.getSubTree(i)).getSubTree(1))) {
-							StepOperation currentRoot = (StepOperation) so.getSubTree(i);
-							underRoot.addSubTree(
-									nonTrivialPower(currentRoot.getSubTree(0), commonRoot / currentRoot.getSubTree(1).getValue()));
+					return newProduct;
+				}
+			}
+
+			return iterateThrough(this, sn, sb, colorTracker);
+		}
+	},
+
+	COMMON_ROOT {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation(Operation.MULTIPLY)) {
+				StepOperation so = (StepOperation) sn;
+
+				StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+				StepOperation underRoot = new StepOperation(Operation.MULTIPLY);
+
+				int rootCount = 0;
+				double commonRoot = 0;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (so.getSubTree(i).isOperation(Operation.NROOT)) {
+						double currentRoot = ((StepOperation) so.getSubTree(i)).getSubTree(1).getValue();
+						if (isEqual(commonRoot, 0) || isEqual(commonRoot, currentRoot)) {
+							commonRoot = currentRoot;
+
+							underRoot.addSubTree(((StepOperation) so.getSubTree(i)).getSubTree(0));
+							so.getSubTree(i).setColor(colorTracker[0]);
+							
+							rootCount++;
+						} else {
+							newProduct.addSubTree(so.getSubTree(i));
 						}
+					} else {
+						newProduct.addSubTree(so.getSubTree(i));
 					}
+				}
 
-					if (commonRoot != 1) {
-						newProduct.addSubTree(root(underRoot, commonRoot));
-						colorTracker[0]++;
-					}
+				if (rootCount > 1) {
+					StepNode result = root(underRoot, commonRoot);
+					result.setColor(colorTracker[0]);
 
-					if (newProduct.noOfOperands() == 1) {
-						return newProduct.getSubTree(0);
-					}
+					sb.add(SolutionStepType.PRODUCT_OF_ROOTS, colorTracker[0]++);
+
+					newProduct.addSubTree(result);
 
 					return newProduct;
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
 	SQUARE_ROOT_MULTIPLIED_BY_ITSELF {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.MULTIPLY)) {
-					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+				StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
 
-					boolean[] found = new boolean[so.noOfOperands()];
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						if (so.getSubTree(i).isSquareRoot()) {
-							for (int j = i + 1; j < so.noOfOperands(); j++) {
-								if (so.getSubTree(i).equals(so.getSubTree(j))) {
-									StepNode result = ((StepOperation) so.getSubTree(i)).getSubTree(0).deepCopy();
+				boolean[] found = new boolean[so.noOfOperands()];
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (so.getSubTree(i).isSquareRoot()) {
+						for (int j = i + 1; j < so.noOfOperands(); j++) {
+							if (so.getSubTree(i).equals(so.getSubTree(j))) {
+								StepNode result = ((StepOperation) so.getSubTree(i)).getSubTree(0).deepCopy();
 
-									found[i] = found[j] = true;
+								found[i] = found[j] = true;
 
-									so.getSubTree(i).setColor(colorTracker[0]);
-									so.getSubTree(j).setColor(colorTracker[0]);
-									result.setColor(colorTracker[0]);
+								so.getSubTree(i).setColor(colorTracker[0]);
+								so.getSubTree(j).setColor(colorTracker[0]);
+								result.setColor(colorTracker[0]);
 
-									sb.add(SolutionStepType.SQUARE_ROOT_MULTIPLIED_BY_ITSELF, colorTracker[0]++);
+								sb.add(SolutionStepType.SQUARE_ROOT_MULTIPLIED_BY_ITSELF, colorTracker[0]++);
 
-									newProduct.addSubTree(result);
-								}
+								newProduct.addSubTree(result);
 							}
 						}
-
-						if (!found[i]) {
-							newProduct.addSubTree(so.getSubTree(i));
-						}
 					}
 
-					if (newProduct.noOfOperands() == 1) {
-						return newProduct.getSubTree(0);
+					if (!found[i]) {
+						newProduct.addSubTree(so.getSubTree(i));
 					}
-
-					return newProduct;
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (newProduct.noOfOperands() == 1) {
+					return newProduct.getSubTree(0);
+				}
+
+				return newProduct;
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
 	DOUBLE_MINUS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.MINUS)) {
 				StepOperation so = (StepOperation) sn;
-	
-				if (so.isOperation(Operation.MINUS)) {
-					if (so.getSubTree(0).isOperation(Operation.MINUS)) {
-						StepNode result = ((StepOperation) so.getSubTree(0)).getSubTree(0);
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.DOUBLE_MINUS, colorTracker[0]++);
-	
-						return result;
-					}
-					if (so.getSubTree(0).nonSpecialConstant() && so.getSubTree(0).getValue() < 0) {
-						StepNode result = new StepConstant(so.getValue());
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.DOUBLE_MINUS, colorTracker[0]++);
-	
-						return result;
-					}
-				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (so.getSubTree(0).isOperation(Operation.MINUS)) {
+					StepNode result = ((StepOperation) so.getSubTree(0)).getSubTree(0);
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.DOUBLE_MINUS, colorTracker[0]++);
+
+					return result;
+				}
+				if (so.getSubTree(0).nonSpecialConstant() && so.getSubTree(0).getValue() < 0) {
+					StepNode result = new StepConstant(so.getValue());
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.DOUBLE_MINUS, colorTracker[0]++);
+
+					return result;
+				}
 			}
-	
-			return sn;
+
+			return iterateThrough(this, sn, sb, colorTracker);
 		}	
 	}, 
 	
 	DISTRIBUTE_ROOT_OVER_FRACTION {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.NROOT)) {
 				StepOperation so = (StepOperation) sn;
-	
-				if (so.isOperation(Operation.NROOT)) {
-					if (so.getSubTree(0).isOperation(Operation.DIVIDE)) {
-						StepNode numerator = root(((StepOperation) so.getSubTree(0)).getSubTree(0), so.getSubTree(1));
-						StepNode denominator = root(((StepOperation) so.getSubTree(0)).getSubTree(1), so.getSubTree(1));
-	
-						StepNode result = divide(numerator, denominator);
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.DISTRIBUTE_ROOT_FRAC, colorTracker[0]++);
-	
-						return result;
-					}
-				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (so.getSubTree(0).isOperation(Operation.DIVIDE)) {
+					StepNode numerator = root(((StepOperation) so.getSubTree(0)).getSubTree(0), so.getSubTree(1));
+					StepNode denominator = root(((StepOperation) so.getSubTree(0)).getSubTree(1), so.getSubTree(1));
+
+					StepNode result = divide(numerator, denominator);
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.DISTRIBUTE_ROOT_FRAC, colorTracker[0]++);
+
+					return result;
+				}
 			}
-	
-			return sn;
+
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 	
 	RATIONALIZE_DENOMINATOR {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.DIVIDE)) {
 				StepOperation so = (StepOperation) sn;
-	
-				if (so.isOperation(Operation.DIVIDE)) {
-					if (so.getSubTree(1).isOperation(Operation.NROOT)) {
-						double root = ((StepOperation) so.getSubTree(1)).getSubTree(1).getValue();
-	
-						if (closeToAnInteger(root)) {
-							StepNode toMultiply = root(nonTrivialPower(((StepOperation) so.getSubTree(1)).getSubTree(0), root - 1),
-									root);
-	
-							toMultiply.setColor(colorTracker[0]++);
-	
-							StepNode numerator = nonTrivialProduct(so.getSubTree(0), toMultiply);
-							StepNode denominator = multiply(so.getSubTree(1), toMultiply);
-	
-							StepNode result = divide(numerator, denominator);
-							sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, toMultiply);
-	
-							return result;
-						}
-					}
-	
-					if (so.getSubTree(1).isOperation(Operation.PLUS)) {
-						StepOperation sum = (StepOperation) so.getSubTree(1);
-	
-						if (sum.noOfOperands() == 2 && (sum.getSubTree(0).isSquareRoot() || sum.getSubTree(1).isSquareRoot())) {
-							StepNode toMultiply = add(sum.getSubTree(0), negate(sum.getSubTree(1)));
-	
-							toMultiply.setColor(colorTracker[0]++);
-	
-							StepNode numerator = nonTrivialProduct(so.getSubTree(0), toMultiply);
-							StepNode denominator = multiply(so.getSubTree(1), toMultiply);
-	
-							StepNode result = divide(numerator, denominator);
-							sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, toMultiply);
-	
-							return result;
-						}
-					}
-					
-					if(so.getSubTree(1).isOperation(Operation.MULTIPLY)) {
-						StepOperation product = (StepOperation) so.getSubTree(1);
-						
-						StepNode irrational = null;
-						
-						for (int i = 0; irrational == null && i < product.noOfOperands(); i++) {
-							if(product.getSubTree(i).isSquareRoot()) {
-								irrational = product.getSubTree(i).deepCopy();
-							}
-						}
 
-						if (irrational != null) {
-							irrational.setColor(colorTracker[0]++);
+				if (so.getSubTree(1).isOperation(Operation.NROOT)) {
+					double root = ((StepOperation) so.getSubTree(1)).getSubTree(1).getValue();
 
-							StepNode numerator = nonTrivialProduct(so.getSubTree(0), irrational);
-							StepNode denominator = multiply(so.getSubTree(1), irrational);
+					if (closeToAnInteger(root)) {
+						StepNode toMultiply = root(nonTrivialPower(((StepOperation) so.getSubTree(1)).getSubTree(0), root - 1), root);
 
-							StepNode result = divide(numerator, denominator);
-							sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, irrational);
+						toMultiply.setColor(colorTracker[0]++);
 
-							return result;
-						}
+						StepNode numerator = nonTrivialProduct(so.getSubTree(0), toMultiply);
+						StepNode denominator = multiply(so.getSubTree(1), toMultiply);
+
+						StepNode result = divide(numerator, denominator);
+						sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, toMultiply);
+
+						return result;
 					}
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (so.getSubTree(1).isOperation(Operation.PLUS)) {
+					StepOperation sum = (StepOperation) so.getSubTree(1);
+
+					if (sum.noOfOperands() == 2 && (sum.getSubTree(0).isSquareRoot() || sum.getSubTree(1).isSquareRoot())) {
+						StepNode toMultiply = add(sum.getSubTree(0), negate(sum.getSubTree(1)));
+
+						toMultiply.setColor(colorTracker[0]++);
+
+						StepNode numerator = nonTrivialProduct(so.getSubTree(0), toMultiply);
+						StepNode denominator = multiply(so.getSubTree(1), toMultiply);
+
+						StepNode result = divide(numerator, denominator);
+						sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, toMultiply);
+
+						return result;
+					}
+				}
+
+				if (so.getSubTree(1).isOperation(Operation.MULTIPLY)) {
+					StepOperation product = (StepOperation) so.getSubTree(1);
+
+					StepNode irrational = null;
+					
+					for (int i = 0; irrational == null && i < product.noOfOperands(); i++) {
+						if (product.getSubTree(i).isSquareRoot()) {
+							irrational = product.getSubTree(i).deepCopy();
+						}
+					}
+
+					if (irrational != null) {
+						irrational.setColor(colorTracker[0]++);
+
+						StepNode numerator = nonTrivialProduct(so.getSubTree(0), irrational);
+						StepNode denominator = multiply(so.getSubTree(1), irrational);
+
+						StepNode result = divide(numerator, denominator);
+						sb.add(SolutionStepType.MULTIPLY_NUM_DENOM, irrational);
+
+						return result;
+					}
+				}
 			}
-	
-			return sn;
+
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 	
@@ -450,62 +467,56 @@ public enum SimplificationSteps {
 						return result;
 					}
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
-	
-			return sn;
+
+			return iterateThrough(this, sn, sb, colorTracker);
 		}	
 	},
 	
 	FACTOR_SQUARE {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.NROOT)) {
 				StepOperation so = (StepOperation) sn;
-	
-				if (so.isOperation(Operation.NROOT)) {
-					StepNode coefficient = so.getSubTree(0).getIntegerCoefficient();
-					StepNode remainder = so.getSubTree(0).getNonInteger();
-	
-					if (closeToAnInteger(coefficient)) {
-						long root = Math.round(so.getSubTree(1).getValue());
 
-						long power = StepNode.getIntegerPower(Math.round(coefficient.getValue()));
-						long gcd = StepNode.gcd(root, power);
-	
-						if (gcd > 1) {
-							StepNode newValue = power(new StepConstant(Math.pow(so.getSubTree(0).getValue(), ((double) 1) / gcd)), gcd);
-	
-							so.getSubTree(0).setColor(colorTracker[0]);
-							newValue.setColor(colorTracker[0]++);
-	
-							StepNode result = root(newValue, root);
-							sb.add(SolutionStepType.REWRITE_AS_POWER, so.getSubTree(0), newValue);
-	
-							return result;
-						}
+				StepNode coefficient = so.getSubTree(0).getIntegerCoefficient();
+				StepNode remainder = so.getSubTree(0).getNonInteger();
 
-						long newCoefficient = StepNode.largestNthPower(coefficient.getValue(), so.getSubTree(1).getValue());
+				if (closeToAnInteger(coefficient)) {
+					long root = Math.round(so.getSubTree(1).getValue());
 
-						if (!isEqual(newCoefficient, 1)) {
-							StepNode result = multiply(newCoefficient,
-									root(multiply(coefficient.getValue() / Math.pow(newCoefficient, root), remainder), so.getSubTree(1)));
+					long power = StepNode.getIntegerPower(Math.round(coefficient.getValue()));
+					long gcd = StepNode.gcd(root, power);
 
-							so.setColor(colorTracker[0]);
-							result.setColor(colorTracker[0]);
+					if (gcd > 1) {
+						StepNode newValue = power(new StepConstant(Math.pow(so.getSubTree(0).getValue(), ((double) 1) / gcd)), gcd);
 
-							sb.add(SolutionStepType.FACTOR_SQUARE, colorTracker[0]++);
+						so.getSubTree(0).setColor(colorTracker[0]);
+						newValue.setColor(colorTracker[0]++);
 
-							return result;
-						}
+						StepNode result = root(newValue, root);
+						sb.add(SolutionStepType.REWRITE_AS_POWER, so.getSubTree(0), newValue);
+
+						return result;
+					}
+
+					long newCoefficient = StepNode.largestNthPower(coefficient.getValue(), so.getSubTree(1).getValue());
+
+					if (!isEqual(newCoefficient, 1)) {
+						StepNode result = multiply(newCoefficient,
+								root(multiply(coefficient.getValue() / Math.pow(newCoefficient, root), remainder), so.getSubTree(1)));
+
+						so.setColor(colorTracker[0]);
+						result.setColor(colorTracker[0]);
+
+						sb.add(SolutionStepType.FACTOR_SQUARE, colorTracker[0]++);
+
+						return result;
 					}
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
-	
-			return sn;
+
+			return iterateThrough(this, sn, sb, colorTracker);
 		}		
 	},
 
@@ -645,104 +656,96 @@ public enum SimplificationSteps {
 	EXPAND_FRACTIONS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.PLUS)) {
-					StepOperation newSum = new StepOperation(Operation.PLUS);
+				StepOperation newSum = new StepOperation(Operation.PLUS);
 
-					long newDenominator = 1;
+				long newDenominator = 1;
 
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
-						if (currentDenominator != 0) {
-							newDenominator = lcm(newDenominator, currentDenominator);
-						}
-					}
-
-					if (newDenominator != 1) {
-						boolean wasChanged = false;
-
-						for (int i = 0; i < so.noOfOperands(); i++) {
-							long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
-							if (currentDenominator != 0 && currentDenominator != newDenominator) {
-								wasChanged = true;
-
-								StepNode newFraction = divide(
-										nonTrivialProduct(new StepConstant(((double) newDenominator) / currentDenominator),
-												StepNode.getNumerator(so.getSubTree(i))),
-										newDenominator);
-
-								newFraction.setColor(colorTracker[0]);
-								so.getSubTree(i).setColor(colorTracker[0]);
-
-								newSum.addSubTree(newFraction);
-							} else {
-								newSum.addSubTree(so.getSubTree(i));
-							}
-						}
-
-						if (wasChanged) {
-							StepConstant denominatorNode = new StepConstant(newDenominator);
-							denominatorNode.setColor(colorTracker[0]++);
-							sb.add(SolutionStepType.EXPAND_FRACTIONS, denominatorNode);
-
-							return newSum;
-						}
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
+					if (currentDenominator != 0) {
+						newDenominator = lcm(newDenominator, currentDenominator);
 					}
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (newDenominator != 1) {
+					boolean wasChanged = false;
+
+					for (int i = 0; i < so.noOfOperands(); i++) {
+						long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
+						if (currentDenominator != 0 && currentDenominator != newDenominator) {
+							wasChanged = true;
+
+							StepNode newFraction = divide(
+									nonTrivialProduct(new StepConstant(((double) newDenominator) / currentDenominator),
+											StepNode.getNumerator(so.getSubTree(i))),
+									newDenominator);
+
+							newFraction.setColor(colorTracker[0]);
+							so.getSubTree(i).setColor(colorTracker[0]);
+
+							newSum.addSubTree(newFraction);
+						} else {
+							newSum.addSubTree(so.getSubTree(i));
+						}
+					}
+
+					if (wasChanged) {
+						StepConstant denominatorNode = new StepConstant(newDenominator);
+						denominatorNode.setColor(colorTracker[0]++);
+						sb.add(SolutionStepType.EXPAND_FRACTIONS, denominatorNode);
+
+						return newSum;
+					}
+				}
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 	
 	ADD_NUMERATORS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.PLUS)) {
-					StepNode remainder = null;
-					StepNode newNumerator = null;
-					long newDenominator = 0;
+				StepNode remainder = null;
+				StepNode newNumerator = null;
+				long newDenominator = 0;
 
-					List<StepNode> fractions = new ArrayList<StepNode>();
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						StepNode currentNumerator = StepNode.getNumerator(so.getSubTree(i));
-						long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
+				List<StepNode> fractions = new ArrayList<StepNode>();
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					StepNode currentNumerator = StepNode.getNumerator(so.getSubTree(i));
+					long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
 
-						if (newDenominator == 0 && currentDenominator != 0 && currentDenominator != 1) {
-							newDenominator = currentDenominator;
-						}
-
-						if (currentDenominator != 0 && currentDenominator == newDenominator) {
-							newNumerator = add(newNumerator, currentNumerator);
-							fractions.add(so.getSubTree(i));
-						} else {
-							remainder = add(remainder, so.getSubTree(i));
-						}
+					if (newDenominator == 0 && currentDenominator != 0 && currentDenominator != 1) {
+						newDenominator = currentDenominator;
 					}
 
-					if (fractions.size() > 1) {
-						for (int i = 0; i < fractions.size(); i++) {
-							fractions.get(i).setColor(colorTracker[0]);
-						}
-
-						StepNode result = divide(newNumerator, newDenominator);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.ADD_NUMERATORS, colorTracker[0]++);
-						return add(remainder, result);
+					if (currentDenominator != 0 && currentDenominator == newDenominator) {
+						newNumerator = add(newNumerator, currentNumerator);
+						fractions.add(so.getSubTree(i));
+					} else {
+						remainder = add(remainder, so.getSubTree(i));
 					}
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (fractions.size() > 1) {
+					for (int i = 0; i < fractions.size(); i++) {
+						fractions.get(i).setColor(colorTracker[0]);
+					}
+
+					StepNode result = divide(newNumerator, newDenominator);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.ADD_NUMERATORS, colorTracker[0]++);
+					return add(remainder, result);
+				}
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 	
@@ -825,56 +828,39 @@ public enum SimplificationSteps {
 
 					return newFraction == null ? new StepConstant(1) : newFraction;
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 	
 	COMMON_FRACTION {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
-				StepOperation so = new StepOperation(((StepOperation) sn).getOperation());
+			if (sn.isOperation(Operation.MULTIPLY)) {
+				StepOperation so = (StepOperation) sn;
 
-				Integer colorsAtStart = colorTracker[0];
-				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-					so.addSubTree(apply(((StepOperation) sn).getSubTree(i), sb, colorTracker));
+				List<StepNode> bases = new ArrayList<StepNode>();
+				List<StepNode> exponents = new ArrayList<StepNode>();
+
+				StepNode.getBasesAndExponents(so, null, bases, exponents);
+
+				StepNode newFraction = null;
+
+				for (int i = 0; i < bases.size(); i++) {
+					newFraction = StepNode.makeFraction(newFraction, bases.get(i), exponents.get(i));
 				}
 
-				if (colorsAtStart < colorTracker[0]) {
-					return so;
+				if (newFraction.isOperation(Operation.DIVIDE)) {
+					so.setColor(colorTracker[0]);
+					newFraction.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.COMMON_FRACTION, colorTracker[0]++);
+
+					return newFraction;
 				}
-
-				so = (StepOperation) sn;
-
-				if (so.isOperation(Operation.MULTIPLY)) {
-					List<StepNode> bases = new ArrayList<StepNode>();
-					List<StepNode> exponents = new ArrayList<StepNode>();
-
-					StepNode.getBasesAndExponents(so, null, bases, exponents);
-
-					StepNode newFraction = null;
-
-					for (int i = 0; i < bases.size(); i++) {
-						newFraction = StepNode.makeFraction(newFraction, bases.get(i), exponents.get(i));
-					}
-
-					if (newFraction.isOperation(Operation.DIVIDE)) {
-						so.setColor(colorTracker[0]);
-						newFraction.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.COMMON_FRACTION, colorTracker[0]++);
-
-						return newFraction;
-					}
-				}
-
-				return so;
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 
 	},
@@ -885,7 +871,7 @@ public enum SimplificationSteps {
 			if (sn.isOperation()) {
 				StepOperation so = new StepOperation(((StepOperation) sn).getOperation());
 
-				Integer colorsAtStart = colorTracker[0];
+				int colorsAtStart = colorTracker[0];
 				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
 					so.addSubTree(apply(((StepOperation) sn).getSubTree(i), sb, colorTracker));
 				}
@@ -984,56 +970,48 @@ public enum SimplificationSteps {
 	DISTRIBUTE_POWER_OVER_PRODUCT {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.POWER)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.POWER)) {
-					if (so.getSubTree(0).isOperation(Operation.MULTIPLY)) {
-						StepOperation result = new StepOperation(Operation.MULTIPLY);
+				if (so.getSubTree(0).isOperation(Operation.MULTIPLY)) {
+					StepOperation result = new StepOperation(Operation.MULTIPLY);
 
-						so.getSubTree(1).setColor(colorTracker[0]++);
-						for (int i = 0; i < ((StepOperation) so.getSubTree(0)).noOfOperands(); i++) {
-							((StepOperation) so.getSubTree(0)).getSubTree(i).setColor(colorTracker[0]++);
-							result.addSubTree(power(((StepOperation) so.getSubTree(0)).getSubTree(i), so.getSubTree(1)));
-						}
-
-						sb.add(SolutionStepType.DISTRIBUTE_POWER_OVER_PRODUCT);
-
-						return result;
+					so.getSubTree(1).setColor(colorTracker[0]++);
+					for (int i = 0; i < ((StepOperation) so.getSubTree(0)).noOfOperands(); i++) {
+						((StepOperation) so.getSubTree(0)).getSubTree(i).setColor(colorTracker[0]++);
+						result.addSubTree(power(((StepOperation) so.getSubTree(0)).getSubTree(i), so.getSubTree(1)));
 					}
-				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+					sb.add(SolutionStepType.DISTRIBUTE_POWER_OVER_PRODUCT);
+
+					return result;
+				}
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
 	SQUARE_MINUSES {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.POWER)) {
 				StepOperation so = (StepOperation) sn;
-	
-				if (so.isOperation(Operation.POWER)) {
-					if (so.getSubTree(1).getValue() == 2) {
-						if (so.getSubTree(0).isOperation(Operation.MINUS)) {
-							StepNode result = power(((StepOperation) so.getSubTree(0)).getSubTree(0), 2);
-	
-							so.setColor(colorTracker[0]);
-							result.setColor(colorTracker[0]);
-							sb.add(SolutionStepType.SQUARE_MINUS, colorTracker[0]++);
-	
-							return result;
-						}
+
+				if (so.getSubTree(1).getValue() == 2) {
+					if (so.getSubTree(0).isOperation(Operation.MINUS)) {
+						StepNode result = power(((StepOperation) so.getSubTree(0)).getSubTree(0), 2);
+
+						so.setColor(colorTracker[0]);
+						result.setColor(colorTracker[0]);
+						sb.add(SolutionStepType.SQUARE_MINUS, colorTracker[0]++);
+
+						return result;
 					}
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
-	
-			return sn;	
+
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
@@ -1085,65 +1063,59 @@ public enum SimplificationSteps {
 
 					}
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
 	SIMPLE_POWERS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.POWER)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.POWER)) {
-					if (so.getSubTree(0).isOperation(Operation.POWER)) {
-						StepNode result = power(((StepOperation) so.getSubTree(0)).getSubTree(0),
-								so.getSubTree(1).getValue() * ((StepOperation) so.getSubTree(0)).getSubTree(1).getValue());
+				if (so.getSubTree(0).isOperation(Operation.POWER)) {
+					StepNode result = power(((StepOperation) so.getSubTree(0)).getSubTree(0),
+							so.getSubTree(1).getValue() * ((StepOperation) so.getSubTree(0)).getSubTree(1).getValue());
 
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.POWER_OF_POWER, colorTracker[0]++);
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.POWER_OF_POWER, colorTracker[0]++);
 
-						return result;
-					}
-
-					if (closeToAnInteger(so.getSubTree(0)) && closeToAnInteger(so.getSubTree(1))) {
-						StepNode result = new StepConstant(Math.pow(so.getSubTree(0).getValue(), so.getSubTree(1).getValue()));
-
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.EVALUATE_POWER, colorTracker[0]++);
-
-						return result;
-					}
-					if (isEqual(so.getSubTree(1), 0)) {
-						StepNode result = new StepConstant(1);
-
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.ZEROTH_POWER, colorTracker[0]++);
-
-						return result;
-					}
-					if (isEqual(so.getSubTree(1), 1)) {
-						StepNode result = so.getSubTree(0);
-
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.FIRST_POWER, colorTracker[0]++);
-
-						return result;
-					}
+					return result;
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (closeToAnInteger(so.getSubTree(0)) && closeToAnInteger(so.getSubTree(1))) {
+					StepNode result = new StepConstant(Math.pow(so.getSubTree(0).getValue(), so.getSubTree(1).getValue()));
+
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.EVALUATE_POWER, colorTracker[0]++);
+
+					return result;
+				}
+				if (isEqual(so.getSubTree(1), 0)) {
+					StepNode result = new StepConstant(1);
+
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.ZEROTH_POWER, colorTracker[0]++);
+
+					return result;
+				}
+				if (isEqual(so.getSubTree(1), 1)) {
+					StepNode result = so.getSubTree(0);
+
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.FIRST_POWER, colorTracker[0]++);
+
+					return result;
+				}
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
@@ -1151,79 +1123,71 @@ public enum SimplificationSteps {
 	SIMPLE_ROOTS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isOperation(Operation.NROOT)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.NROOT)) {
-					if (so.getSubTree(0).isOperation(Operation.NROOT)) {
-						StepNode result = root(((StepOperation) so.getSubTree(0)).getSubTree(0),
-								so.getSubTree(1).getValue() * ((StepOperation) so.getSubTree(0)).getSubTree(1).getValue());
+				if (so.getSubTree(0).isOperation(Operation.NROOT)) {
+					StepNode result = root(((StepOperation) so.getSubTree(0)).getSubTree(0),
+							so.getSubTree(1).getValue() * ((StepOperation) so.getSubTree(0)).getSubTree(1).getValue());
 
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.ROOT_OF_ROOT, colorTracker[0]++);
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.ROOT_OF_ROOT, colorTracker[0]++);
 
-						return result;
-					}
-
-					if (isEqual(so.getSubTree(0), 1)) {
-						StepNode result = new StepConstant(1);
-
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.ROOT_OF_ONE, colorTracker[0]++);
-
-						return result;
-					}
-
-					if (isEqual(so.getSubTree(1), 1)) {
-						StepNode result = so.getSubTree(0);
-
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.FIRST_ROOT, colorTracker[0]++);
-
-						return result;
-					}
-
-					if (isOdd(so.getSubTree(1).getValue()) && isNegative(so.getSubTree(0))) {
-						StepNode result = minus(root(negate(so.getSubTree(0)), so.getSubTree(1)));
-
-						so.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.ODD_ROOT_OF_NEGATIVE, colorTracker[0]++);
-
-						return result;
-					}
+					return result;
 				}
 
-				return iterateThrough(this, so, sb, colorTracker);
+				if (isEqual(so.getSubTree(0), 1)) {
+					StepNode result = new StepConstant(1);
+
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.ROOT_OF_ONE, colorTracker[0]++);
+
+					return result;
+				}
+
+				if (isEqual(so.getSubTree(1), 1)) {
+					StepNode result = so.getSubTree(0);
+
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.FIRST_ROOT, colorTracker[0]++);
+
+					return result;
+				}
+
+				if (isOdd(so.getSubTree(1).getValue()) && isNegative(so.getSubTree(0))) {
+					StepNode result = minus(root(negate(so.getSubTree(0)), so.getSubTree(1)));
+
+					so.setColor(colorTracker[0]);
+					result.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.ODD_ROOT_OF_NEGATIVE, colorTracker[0]++);
+
+					return result;
+				}
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
 	CALCULATE_INVERSE_TRIGO {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
-			if (sn.isOperation()) {
+			if (sn.isInverseTrigonometric()) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isInverseTrigonometric()) {
-					StepNode value = StepNode.inverseTrigoLookup(so);
-					if (value != null) {
-						so.setColor(colorTracker[0]);
-						value.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.EVALUATE_INVERSE_TRIGO, colorTracker[0]++);
-						return value;
-					}
+				StepNode value = StepNode.inverseTrigoLookup(so);
+				if (value != null) {
+					so.setColor(colorTracker[0]);
+					value.setColor(colorTracker[0]);
+					sb.add(SolutionStepType.EVALUATE_INVERSE_TRIGO, colorTracker[0]++);
+					return value;
 				}
-
-				return iterateThrough(this, so, sb, colorTracker);
 			}
 
-			return sn;
+			return iterateThrough(this, sn, sb, colorTracker);
 		}
 	},
 
@@ -1269,14 +1233,13 @@ public enum SimplificationSteps {
 			SimplificationSteps[] denominatorRationalization = new SimplificationSteps[] {
 					RATIONALIZE_DENOMINATOR,
 					SQUARE_ROOT_MULTIPLIED_BY_ITSELF,
+					EXPAND_ROOT,
 					COMMON_ROOT,
-					SIMPLE_POWERS, 
-					SIMPLE_ROOTS,
+					SIMPLE_POWERS, SIMPLE_ROOTS,
 					REGROUP_PRODUCTS,
 					REGROUP_SUMS,
 					EXPAND_DENOMINATORS, 
-					FACTOR_SQUARE, 
-					SIMPLIFY_POWERS_AND_ROOTS,
+					FACTOR_SQUARE, SIMPLIFY_POWERS_AND_ROOTS,
 					SIMPLIFY_FRACTIONS
 			};
 			
@@ -1297,7 +1260,6 @@ public enum SimplificationSteps {
 				sb.levelUp();
 
 				colorTracker[0]++;
-
 				return newSn;
 			}
 
@@ -1311,6 +1273,7 @@ public enum SimplificationSteps {
 			SimplificationSteps[] defaultStrategy = new SimplificationSteps[] {
 					CALCULATE_INVERSE_TRIGO,
 					DISTRIBUTE_ROOT_OVER_FRACTION, 
+					EXPAND_ROOT, COMMON_ROOT,
 					SIMPLIFY_POWERS_AND_ROOTS,
 					SIMPLE_POWERS,
 					SIMPLE_ROOTS,
@@ -1453,29 +1416,35 @@ public enum SimplificationSteps {
 		return sn;
 	}
 
-	private static StepNode iterateThrough(SimplificationSteps step, StepOperation so, SolutionBuilder sb, int[] colorTracker) {
-		int colorsAtStart = colorTracker[0];
+	private static StepNode iterateThrough(SimplificationSteps step, StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
 
-		StepOperation toReturn = null;
-		for (int i = 0; i < so.noOfOperands(); i++) {
-			StepNode a = step.apply(so.getSubTree(i), sb, colorTracker);
-			if (toReturn == null && colorTracker[0] > colorsAtStart) {
-				toReturn = new StepOperation(so.getOperation());
+			int colorsAtStart = colorTracker[0];
 
-				for (int j = 0; j < i; j++) {
-					toReturn.addSubTree(so.getSubTree(j));
+			StepOperation toReturn = null;
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				StepNode a = step.apply(so.getSubTree(i), sb, colorTracker);
+				if (toReturn == null && colorTracker[0] > colorsAtStart) {
+					toReturn = new StepOperation(so.getOperation());
+
+					for (int j = 0; j < i; j++) {
+						toReturn.addSubTree(so.getSubTree(j));
+					}
+				}
+				if (toReturn != null) {
+					toReturn.addSubTree(a);
 				}
 			}
-			if (toReturn != null) {
-				toReturn.addSubTree(a);
+
+			if (toReturn == null) {
+				return so;
 			}
+
+			return toReturn;
 		}
 
-		if (toReturn == null) {
-			return so;
-		}
-
-		return toReturn;
+		return sn;
 	}
 
 	public abstract StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker);
