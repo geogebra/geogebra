@@ -23,14 +23,14 @@ public class CmdText extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 
-			arg = resArgs(c);
+			arg = resArgs(c, true, info);
 			AlgoText algo = new AlgoText(cons, c.getLabel(), arg[0]);
 
 			GeoElement[] ret = { algo.getGeoText() };
