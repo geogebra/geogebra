@@ -223,6 +223,8 @@ public abstract class SubMenuPanel extends FlowPanel
 				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
 			button.addStyleName("inactiveToolButton");
 		}
+		button.setTitle(app.getLocalization()
+				.getMenu(EuclidianConstants.getModeText(mode)));
 		button.getElement().setAttribute("mode", mode + "");
 		button.getElement().setId("mode" + mode);
 		return button;

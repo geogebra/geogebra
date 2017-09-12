@@ -36,8 +36,16 @@
 	   			width: 24px;
     			height: 24px;
    			}
-   			:hover img{
+			:hover img{
 				opacity: 0.84;
+			}
+			
+			.button.button-up-disabled {
+				img {
+					opacity: 0.3;
+				}
+				cursor: default;
+				border: 0px;
 			}
 		} 
 		.middle {
@@ -52,7 +60,7 @@
     			width: 24px;
     			height: 24px;
     			}
-    		:hover{
+    		:hover img{
 				opacity: 0.84;
 			}
 			.indicator {
@@ -95,7 +103,7 @@
 	    		width: 24px;
 	    		height: 24px;
 	    		}
-	    	:hover{
+	    	:hover img{
 				opacity: 0.84;
 			}
 		} 
@@ -160,7 +168,7 @@
 	
 	.inactiveToolButton {
 			opacity: 0.5;
-			cursor: default;
+			cursor: default !important;
 			&[selected = true] {
 				padding: 3px;
 				border: 1px solid $tool-border;
@@ -192,6 +200,7 @@
 
 	.mowSubMenuContent {
 		width: 100%;
+		height: 100%;
   	  	padding-top: 5px;
     	margin-right: 10px;
 		background-color: $white;
@@ -274,6 +283,10 @@
 		 width: 28px;
 		 height: 28px;
 		 border-radius: 2px;
+		 cursor: pointer;
+		 &:hover {
+		 	opacity: 0.65;
+		 }
 	}
 	.mowColorButton-selected {
 		width: 34px;
@@ -284,6 +297,10 @@
 		 border: 1px solid $tool-border !important;
 		 text-align: center;
 		 font-size: larger;
+		 &:hover {
+		 	opacity: 1;
+    		border: 1px solid $purple-default !important;
+		 }
 	}
 	.mowColorPlusButton  div {
 	 	margin-top: 3px;	 

@@ -4325,7 +4325,7 @@ public abstract class App implements UpdateSelection {
 			return relaunch;
 
 		case TOOLTIP_DESIGN:
-			return isUnbundled() && relaunch;
+			return (isUnbundled() || whiteboard) && relaunch;
 		case INITIAL_PORTRAIT:
 			return isUnbundled() && relaunch;
 

@@ -186,10 +186,12 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				null, MaterialDesignResources.INSTANCE
 						.toolbar_open_portrait_black().getSafeUri(),
 				0, 0, 24, 24, false, false));
+		upFace.getElement().setAttribute("draggable", "false");
 		Image downFace = new Image(new ImageResourcePrototype(
 				null, MaterialDesignResources.INSTANCE
 						.toolbar_close_portrait_black().getSafeUri(),
 				0, 0, 24, 24, false, false));
+		downFace.getElement().setAttribute("draggable", "false");
 		if (toggle) {
 			closeButton.getUpFace().setImage(downFace);
 		} else {
