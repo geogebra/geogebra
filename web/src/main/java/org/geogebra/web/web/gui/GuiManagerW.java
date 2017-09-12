@@ -2473,9 +2473,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public void addAsAutoHidePartner(GPopupPanel popup) {
+	public void addKeyboardAutoHidePartner(GPopupPanel popup) {
 		if (onScreenKeyboard != null) {
-			onScreenKeyboard.addAsAutoHidePartner(popup);
+			onScreenKeyboard.addAutoHidePartner(popup);
 		}
 	}
 }

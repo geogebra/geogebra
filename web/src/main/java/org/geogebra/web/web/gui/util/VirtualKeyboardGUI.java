@@ -21,5 +21,5 @@ public interface VirtualKeyboardGUI extends VirtualKeyboardW {
 
 	void checkLanguage();
 
-	void addAsAutoHidePartner(GPopupPanel popup);
+	void addAutoHidePartner(GPopupPanel popup);
 }

@@ -1454,7 +1454,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	void showTablePopupRelativeTo(Widget w) {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-			app.getGuiManager().addAsAutoHidePartner(tablePopup);
+			app.getGuiManager().addKeyboardAutoHidePartner(tablePopup);
 		}
 		if (this.tablePopup != null) {
 			tablePopup.showRelativeTo(w);
