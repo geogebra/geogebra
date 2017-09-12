@@ -815,6 +815,43 @@ public enum SimplificationSteps {
 
 									break;
 								}
+
+								if (isEqual(bases.get(i).getValue() % bases.get(j).getValue(), 0)) {
+									bases.set(i, new StepConstant(bases.get(i).getValue() / bases.get(j).getValue()));
+									bases.set(j, new StepConstant(1));
+								}
+							}
+
+							if (isEqual(exponents.get(i), 1) && isEqual(exponents.get(j), -1)) {
+								StepNode numByDenom = StepNode.tryToDivide(bases.get(i), bases.get(j));
+
+								if (numByDenom != null && !bases.get(j).isConstant()) {
+									bases.get(i).setColor(colorTracker[0]);
+									bases.get(j).setColor(colorTracker[0]);
+									numByDenom.setColor(colorTracker[0]);
+
+									sb.add(SolutionStepType.POLYNOMIAL_DIVISION, bases.get(i), bases.get(j), numByDenom);
+
+									bases.set(i, numByDenom);
+									bases.set(j, new StepConstant(1));
+									colorTracker[0]++;
+
+									continue;
+								}
+
+								StepNode denomByNum = StepNode.tryToDivide(bases.get(j), bases.get(i));
+
+								if (denomByNum != null && !bases.get(i).isConstant()) {
+									bases.get(i).setColor(colorTracker[0]);
+									bases.get(j).setColor(colorTracker[0]);
+									denomByNum.setColor(colorTracker[0]);
+
+									sb.add(SolutionStepType.POLYNOMIAL_DIVISION, bases.get(j), bases.get(i), denomByNum);
+
+									bases.set(i, new StepConstant(1));
+									bases.set(j, denomByNum);
+									colorTracker[0]++;
+								}
 							}
 						}
 					}

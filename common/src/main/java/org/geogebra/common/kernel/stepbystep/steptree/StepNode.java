@@ -340,26 +340,60 @@ public abstract class StepNode {
 	 * @param var variable to group in
 	 * @return toConvert in a polynomial format (as an array of coefficients) toConvert = sum(returned[i] * var^i)
 	 */
-	public static StepNode[] convertToPolynomial(StepNode toConvert, StepNode var) {
+	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
-		StepNode p = toConvert.deepCopy().expand(null);
 
-		StepNode temp = StepHelper.findConstant(p);
-
+		StepNode temp = StepHelper.findConstant(toConvert);
 		poli.add(temp);
-		p = StepNode.subtract(p, temp).regroup();
 
-		int pow = 1;
-		while (!p.isConstant()) {
-			temp = StepHelper.findCoefficient(p, (pow == 1 ? var : StepNode.power(var, pow)));
-			poli.add(temp);
-
-			if (temp != null) {
-				p = StepNode.subtract(p, StepNode.multiply(temp, (pow == 1 ? var : StepNode.power(var, pow)))).regroup();
-			}
-			pow++;
+		for (int pow = 1; pow <= StepHelper.degree(toConvert); pow++) {
+			poli.add(StepHelper.findCoefficient(toConvert, (pow == 1 ? var : StepNode.power(var, pow))));
 		}
+
 		return poli.toArray(new StepNode[0]);
+	}
+
+	private static boolean isMonom(StepNode sn) {
+		if (sn instanceof StepVariable) {
+			return true;
+		}
+
+		if (sn.isOperation(Operation.POWER)) {
+			StepOperation so = (StepOperation) sn;
+
+			return so.getSubTree(0) instanceof StepVariable && closeToAnInteger(so.getSubTree(1));
+		}
+
+		return false;
+	}
+
+	private static boolean isPolynomial(StepNode sn) {
+		if (sn.isConstant() || isMonom(sn)) {
+			return true;
+		}
+
+		if(sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+			
+			if(so.isOperation(Operation.PLUS)) {
+				for(int i = 0; i < so.noOfOperands(); i++) {
+					if(!isPolynomial(so.getSubTree(i))) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			if (so.isOperation(Operation.MULTIPLY) && so.noOfOperands() == 2) {
+				return so.getSubTree(0).isConstant() && isMonom(so.getSubTree(1));
+			}
+
+			if (so.isOperation(Operation.MINUS)) {
+				return isPolynomial(so.getSubTree(0)) && !so.getSubTree(0).isOperation(Operation.PLUS);
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -368,11 +402,8 @@ public abstract class StepNode {
 	 * @param var variable
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
-	public static StepNode polynomialDivision(StepNode r, StepNode d, StepNode var) {
-		if (r == null || StepHelper.degree(r) < 1) {
-			return null;
-		}
-		if (d == null || StepHelper.degree(d) < 1) {
+	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
+		if (!isPolynomial(r) || !isPolynomial(d)) {
 			return null;
 		}
 
@@ -405,6 +436,52 @@ public abstract class StepNode {
 			return q.regroup();
 		}
 		return null;
+	}
+
+	/**
+	 * tries to divide a by b
+	 * @param a dividend
+	 * @param b divisor
+	 * @return result, if polynomial division was successful, null otherwise
+	 */
+	public static StepNode tryToDivide(StepNode a, StepNode b) {
+		List<StepVariable> listA = new ArrayList<StepVariable>();
+		List<StepVariable> listB = new ArrayList<StepVariable>();
+
+		getListOfVariables(a, listA);
+		getListOfVariables(b, listB);
+
+		for (int i = 0; i < listA.size(); i++) {
+			for (int j = 0; j < listB.size(); j++) {
+				if (listA.get(i).equals(listB.get(j))) {
+					StepNode result = polynomialDivision(a, b, listA.get(i));
+					if (result != null) {
+						return result;
+					}
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private static void getListOfVariables(StepNode sn, List<StepVariable> variableList) {
+		if (sn.isOperation()) {
+			StepOperation so = (StepOperation) sn;
+			for (int i = 0; i < so.noOfOperands(); i++) {
+				getListOfVariables(so.getSubTree(i), variableList);
+			}
+		}
+
+		if (sn instanceof StepVariable) {
+			for (int i = 0; i < variableList.size(); i++) {
+				if (variableList.get(i).equals(sn)) {
+					return;
+				}
+			}
+
+			variableList.add((StepVariable) sn);
+		}
 	}
 
 	public static StepNode add(StepNode a, StepNode b) {

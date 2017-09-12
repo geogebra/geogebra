@@ -38,7 +38,7 @@ public class EquationSteps {
 	private boolean intermediate;
 	private boolean shouldCheckSolutions;
 
-	private StepNode variable;
+	private StepVariable variable;
 
 	private StepInterval interval;
 
@@ -61,7 +61,7 @@ public class EquationSteps {
 		this.constantFactory = new ArbitraryConstantFactory("k", StepArbitraryConstant.ConstantType.INTEGER);
 	}
 
-	public EquationSteps(Kernel kernel, StepNode LHS, StepNode RHS, StepNode variable, ArbitraryConstantFactory constantFactory) {
+	public EquationSteps(Kernel kernel, StepNode LHS, StepNode RHS, StepVariable variable, ArbitraryConstantFactory constantFactory) {
 		this.kernel = kernel;
 		this.loc = kernel.getLocalization();
 
