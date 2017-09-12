@@ -1158,6 +1158,23 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdParametricDerivative() {
+		t("ParametricDerivative[Curve[t^2,sin(t),t,-7,7]]",
+				"(t^(2), cos(t) / ((2 * t)))");
+	}
+
+	@Test
+	public void cmdImplicitDerivative() {
+		t("ImplicitDerivative[x^2+y^2]", "((-x)) / y");
+	}
+
+	@Test
+	public void cmdNDerivative() {
+		t("NDerivative[x^2]", unicode("NDerivative(x^2)"),
+				StringTemplate.defaultTemplate);
+	}
+
+	@Test
 	public void cmdRename() {
 		t("Rename[ 6*7, \"a\" ]", new String[0]);
 		Assert.assertEquals(
@@ -1211,6 +1228,13 @@ public class CommandsTest extends Assert{
 		t("NSolve[ sin(x)=0 ]", "{x = 0, x = 3.14159}",
 				StringTemplate.editTemplate);
 		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0, y = 0}}");
+	}
+
+	@Test
+	public void cmdSimplify() {
+		t("Simplify[ sin^2(x)+cos^2(x) ]", "1");
+		t("Simplify[ 2/sqrt(2) ]", "sqrt(2)");
+		t("Simplify[\"x+-x--x\"]", "x " + Unicode.MINUS + " x + x");
 	}
 
 	@Test

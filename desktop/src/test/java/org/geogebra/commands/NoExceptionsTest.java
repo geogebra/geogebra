@@ -1878,12 +1878,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdSimplify() {
-		t("Simplify[ f1 ]");
-		t("Simplify[ txt ]");
-	}
-
-	@Test
 	public void cmdSlider() {
 		t("Slider[ n1, n4, n3, n5, n2, b1, !b1, b2, !b1 ]");
 	}
@@ -2323,10 +2317,7 @@ public class NoExceptionsTest {
 		t("ChiSquaredTest[{list1},{list1}]");
 	}
 
-	@Test
-	public void cmdParametricDerivative() {
-		t("ParametricDerivative[Curve[t^2,sin(t),t,-7,7]]");
-	}
+
 
 	@Test
 	public void cmdDivisorsSum() {
@@ -2392,11 +2383,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdImplicitDerivative() {
-		t("ImplicitDerivative[x^2+y^2]");
-	}
-
-	@Test
 	public void cmdToPolar() {
 		t("ToPolar[(1,2)]");
 		t("ToPolar[complex1]");
@@ -2437,10 +2423,7 @@ public class NoExceptionsTest {
 		t("NIntegral[x^2]");
 	}
 	
-	@Test
-	public void cmdNDerivative() {
-		t("NDerivative[x^2]");
-	}
+
 
 	@Test
 	public void cmdRunClickScript(){

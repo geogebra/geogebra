@@ -1162,7 +1162,9 @@ public class GeoNumeric extends GeoElement
 	 */
 	@Override
 	public GeoFunction getGeoFunction() {
-		ExpressionNode en = new ExpressionNode(kernel, this);
+		ExpressionNode en = getDefinition() == null
+				? new ExpressionNode(kernel, this)
+				: getDefinition().deepCopy(kernel);
 		Function fun = new Function(en, new FunctionVariable(kernel));
 		GeoFunction ret;
 
