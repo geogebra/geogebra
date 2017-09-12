@@ -169,27 +169,23 @@ public class ScriptManagerW extends ScriptManager {
 			}
 			for(var i = 0;i<api.listeners.length;i++){
 				if(api.listeners[i]==obj){
-					return i+"";
+					return i + "";
 				}
 			}
 			api.listeners[api.listeners.length]=obj;
-			return (api.listeners.length-1)+"";
-		}
-		
-		function makeStr(data){
-			return data ? data+"" : "";
+			return (api.listeners.length-1) + "";
 		}
 		
 		api.getXML = function(objName) {
 			if (objName) {
-				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName);
+				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML(Ljava/lang/String;)(objName + "");
 			} else {
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXML()();
 			}
 		};
 
 		api.getAlgorithmXML = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAlgorithmXML(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAlgorithmXML(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getPerspectiveXML = function() {
@@ -302,22 +298,22 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setVisible = function(objName, visible) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setVisible(Ljava/lang/String;Z)(objName, !!visible);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setVisible(Ljava/lang/String;Z)(objName + "", !!visible);
 		};
 
 		api.getVisible = function(objName, view) {
 			if (typeof view !== 'undefined') {
-				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getVisible(Ljava/lang/String;I)(objName,view);
+				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getVisible(Ljava/lang/String;I)(objName + "",view);
 			}
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getVisible(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getVisible(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setLayer = function(objName, layer) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLayer(Ljava/lang/String;I)(objName,layer);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLayer(Ljava/lang/String;I)(objName + "",layer);
 		};
 
 		api.getLayer = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLayer(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLayer(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setLayerVisible = function(layer, visible) {
@@ -325,62 +321,62 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setTrace = function(objName, flag) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setTrace(Ljava/lang/String;Z)(objName, !!flag);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setTrace(Ljava/lang/String;Z)(objName + "", !!flag);
 		};
 
 		api.isTracing = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isTracing(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isTracing(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setLabelVisible = function(objName, visible) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLabelVisible(Ljava/lang/String;Z)(objName, !!visible);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLabelVisible(Ljava/lang/String;Z)(objName + "", !!visible);
 		};
 
 		api.setLabelStyle = function(objName, style) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLabelStyle(Ljava/lang/String;I)(objName,style);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLabelStyle(Ljava/lang/String;I)(objName + "",style);
 		};
 
 		api.getLabelStyle = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLabelStyle(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLabelStyle(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getLabelVisible = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLabelVisible(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLabelVisible(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setColor = function(objName, red, green, blue) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setColor(Ljava/lang/String;III)(objName,red,green,blue);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setColor(Ljava/lang/String;III)(objName + "",red,green,blue);
 		};
 
 		api.setCorner = function(objName, x, y, index) {
 			if (!index) {
 				index = 1;
 			}
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCorner(Ljava/lang/String;DDI)(objName,x,y,index);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCorner(Ljava/lang/String;DDI)(objName + "",x,y,index);
 		};
 
 		api.setLineStyle = function(objName, style) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLineStyle(Ljava/lang/String;I)(objName,style);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLineStyle(Ljava/lang/String;I)(objName + "",style);
 		};
 
 		api.setLineThickness = function(objName, thickness) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLineThickness(Ljava/lang/String;I)(objName,thickness);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLineThickness(Ljava/lang/String;I)(objName + "",thickness);
 		};
 
 		api.setPointStyle = function(objName, style) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointStyle(Ljava/lang/String;I)(objName,style);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointStyle(Ljava/lang/String;I)(objName + "",style);
 		};
 
 		api.setPointSize = function(objName, style) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointSize(Ljava/lang/String;I)(objName,style);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPointSize(Ljava/lang/String;I)(objName + "",style);
 		};
 
 		api.setFilling = function(objName, filling) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFilling(Ljava/lang/String;D)(objName,filling);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFilling(Ljava/lang/String;D)(objName + "",filling);
 		};
 
 		api.getColor = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getColor(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getColor(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getPenColor = function() {
@@ -400,35 +396,35 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getFilling = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFilling(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getFilling(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getLineStyle = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLineStyle(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLineStyle(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getLineThickness = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLineThickness(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLineThickness(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getPointStyle = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPointStyle(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPointStyle(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getPointSize = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPointSize(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPointSize(Ljava/lang/String;)(objName + "");
 		};
 
 		api.deleteObject = function(objName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::deleteObject(Ljava/lang/String;)(objName);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::deleteObject(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setAnimating = function(objName, animate) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAnimating(Ljava/lang/String;Z)(objName, !!animate);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAnimating(Ljava/lang/String;Z)(objName + "", !!animate);
 		};
 
 		api.setAnimationSpeed = function(objName, speed) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAnimationSpeed(Ljava/lang/String;D)(objName,speed);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAnimationSpeed(Ljava/lang/String;D)(objName + "",speed);
 		};
 
 		api.startAnimation = function() {
@@ -440,7 +436,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 		
 		api.setAuxiliary = function(objName, auxiliary) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAuxiliary(Ljava/lang/String;Z)(objName, !!auxiliary);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAuxiliary(Ljava/lang/String;Z)(objName + "", !!auxiliary);
 		};
 
 		api.hideCursorWhenDragging = function(hideCursorWhenDragging) {//TODO: CSS hacks in GeoGebraWeb
@@ -456,43 +452,43 @@ public class ScriptManagerW extends ScriptManager {
 		}
 
 		api.renameObject = function(oldName, newName, force) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::renameObject(Ljava/lang/String;Ljava/lang/String;Z)(oldName,newName, !!force);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::renameObject(Ljava/lang/String;Ljava/lang/String;Z)(oldName + "",newName + "", !!force);
 		};
 
 		api.exists = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exists(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exists(Ljava/lang/String;)(objName + "");
 		};
 
 		api.isDefined = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isDefined(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isDefined(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getValueString = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValueString(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValueString(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getListValue = function(objName, index) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getListValue(Ljava/lang/String;I)(objName, index);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getListValue(Ljava/lang/String;I)(objName + "", index);
 		};
 
 		api.getDefinitionString = function(objName, localize) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;Z)(objName,  typeof localize === 'undefined' ? true : !!localize);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;Z)(objName + "",  typeof localize === 'undefined' ? true : !!localize);
 		};
 
 		api.getLaTeXString = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLaTeXString(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLaTeXString(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getLaTeXBase64 = function(objName, value) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLaTeXBase64(Ljava/lang/String;Z)(objName, !!value);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getLaTeXBase64(Ljava/lang/String;Z)(objName + "", !!value);
 		};
 
 		api.getCommandString = function(objName, localize) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCommandString(Ljava/lang/String;Z)(objName, typeof localize === 'undefined' ? true : !!localize);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCommandString(Ljava/lang/String;Z)(objName + "", typeof localize === 'undefined' ? true : !!localize);
 		};
 
 		api.getCaption = function(objName, subst) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCaption(Ljava/lang/String;Z)(objName, !!subst);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getCaption(Ljava/lang/String;Z)(objName + "", !!subst);
 		};
 
 		api.setCaption = function(objName, caption) {
@@ -500,27 +496,27 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getXcoord = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXcoord(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getXcoord(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getYcoord = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getYcoord(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getYcoord(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getZcoord = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getZcoord(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getZcoord(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setCoords = function(objName, x, y, z) {
 			if (typeof z === 'undefined') {
-				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DD)(objName,x,y);
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DD)(objName + "",x,y);
 			} else {
-				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DDD)(objName,x,y,z);
+				ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCoords(Ljava/lang/String;DDD)(objName + "",x,y,z);
 			}
 		};
 
 		api.getValue = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValue(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getValue(Ljava/lang/String;)(objName + "");
 		};
 
 		api.getVersion = function() {
@@ -550,7 +546,7 @@ public class ScriptManagerW extends ScriptManager {
 				// avoid possible strange effects 
 				return;
 			}
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setValue(Ljava/lang/String;D)(objName,x);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setValue(Ljava/lang/String;D)(objName + "",x);
 		};
 
 		api.setTextValue = function(objName, x) {
@@ -561,7 +557,7 @@ public class ScriptManagerW extends ScriptManager {
 				// avoid possible strange effects 
 				return;
 			}
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setTextValue(Ljava/lang/String;Ljava/lang/String;)(objName,x);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setTextValue(Ljava/lang/String;Ljava/lang/String;)(objName + "",x);
 		};
 
 		api.setListValue = function(objName, x, y) {
@@ -593,7 +589,7 @@ public class ScriptManagerW extends ScriptManager {
 				// avoid possible strange effects 
 				return;
 			}
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setListValue(Ljava/lang/String;DD)(objName,x,y);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setListValue(Ljava/lang/String;DD)(objName + "",x,y);
 		};
 
 		api.setRepaintingActive = function(flag) {
@@ -618,15 +614,15 @@ public class ScriptManagerW extends ScriptManager {
 		};
 		
 		api.setAxisUnits = function(arg1, arg2, arg3, arg4) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisUnits(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisUnits(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, arg2 + "", arg3 + "", arg4 + "");
 		};
 		
 		api.setAxisLabels = function(arg1, arg2, arg3, arg4) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisLabels(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisLabels(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, arg2 + "", arg3 + "", arg4 + "");
 		};
 		
 		api.setAxisSteps = function(arg1, arg2, arg3, arg4) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisSteps(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, makeStr(arg2), makeStr(arg3), makeStr(arg4));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setAxisSteps(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;)(arg1, arg2 + "",arg3 + "", arg4 + "");
 		};
 		
 		api.setPointCapture = function(view, capture) {
@@ -653,7 +649,7 @@ public class ScriptManagerW extends ScriptManager {
 			if(typeof objectType === "undefined"){
 				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames()();
 			}else{
-				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames(Ljava/lang/String;)(objectType);
+				return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getAllObjectNames(Ljava/lang/String;)(objectType + "");
 			}
 			
 		};
@@ -667,7 +663,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getObjectType = function(objName) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getObjectType(Ljava/lang/String;)(objName);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getObjectType(Ljava/lang/String;)(objName + "");
 		};
 
 		api.setMode = function(mode) {
@@ -683,7 +679,7 @@ public class ScriptManagerW extends ScriptManager {
         };
 
 		api.openMaterial = function(material) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::openMaterial(Ljava/lang/String;)(material);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::openMaterial(Ljava/lang/String;)(material + "");
 		};
 
 		// not supported by GgbAPI Desktop,Web
@@ -744,7 +740,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.registerObjectUpdateListener = function(objname, JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectUpdateListener(Ljava/lang/String;Ljava/lang/String;)(objname, getId(JSFunctionName));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectUpdateListener(Ljava/lang/String;Ljava/lang/String;)(objname + "", getId(JSFunctionName));
 		};
 
 		api.unregisterObjectUpdateListener = function(JSFunctionName) {
@@ -752,11 +748,11 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.registerObjectClickListener = function(objname, JSFunctionName) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectClickListener(Ljava/lang/String;Ljava/lang/String;)(objname, getId(JSFunctionName));
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::registerObjectClickListener(Ljava/lang/String;Ljava/lang/String;)(objname + "", getId(JSFunctionName));
 		};
 
 		api.unregisterObjectClickListener = function(objname) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterObjectClickListener(Ljava/lang/String;)(objname);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::unregisterObjectClickListener(Ljava/lang/String;)(objname + "");
 		};
 
 		api.registerClickListener = function(JSFunctionName) {
@@ -780,7 +776,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.debug = function(str) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::debug(Ljava/lang/String;)(str);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::debug(Ljava/lang/String;)(str + "");
 		};
 
 		api.setWidth = function(width) {
@@ -812,7 +808,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setCustomToolBar = function(toolbarDef) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCustomToolBar(Ljava/lang/String;)(toolbarDef);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setCustomToolBar(Ljava/lang/String;)(toolbarDef + "");
 		};
 
 		api.showMenuBar = function(show) {
@@ -832,11 +828,11 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setFont = function(label, size, bold, italic, serif) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFont(Ljava/lang/String;IZZZ)(label, size, !!bold, !!italic, !!serif);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setFont(Ljava/lang/String;IZZZ)(label + "", size, !!bold, !!italic, !!serif);
 		};
 
 		api.insertImage = function(url) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::insertImage(Ljava/lang/String;)(url);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::insertImage(Ljava/lang/String;)(url + "");
 		};
 
 		api.recalculateEnvironments = function() {
@@ -844,15 +840,15 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.isIndependent = function(label) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isIndependent(Ljava/lang/String;)(label);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isIndependent(Ljava/lang/String;)(label + "");
 		};
 
 		api.isMoveable = function(label) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isMoveable(Ljava/lang/String;)(label);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::isMoveable(Ljava/lang/String;)(label + "");
 		};
 
 		api.setPerspective = function(code) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code+"");
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code + "");
 		};
 		
 		api.enableCAS = function(enable) {
@@ -877,11 +873,11 @@ public class ScriptManagerW extends ScriptManager {
 		}
 
 		api.setLanguage = function(lang) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang + "");
 		}
 
 		api.showTooltip = function(lang) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(lang);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(lang + "");
 		}
 
 		api.remove = function() {
@@ -906,7 +902,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setExternalPath = function(path) {
-			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path);
+			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setExternalPath(Ljava/lang/String;)(path + "");
 		};
 
 		api.checkSaved = function(path) {
@@ -918,7 +914,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.writePNGtoFile = function(filename, exportScale, transparent, DPI) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::writePNGtoFile(Ljava/lang/String;DZD)(filename, exportScale, !!transparent, DPI);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::writePNGtoFile(Ljava/lang/String;DZD)(filename + "", exportScale, !!transparent, DPI);
 		};
 
 		api.exportPGF = function() {
@@ -938,23 +934,23 @@ public class ScriptManagerW extends ScriptManager {
 		};
 		
 		api.setRounding = function(digits) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits+"");
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::setRounding(Ljava/lang/String;)(digits + "");
 		};
 
 		api.copyTextToClipboard = function(text) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::copyTextToClipboard(Ljava/lang/String;)(text+"");
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::copyTextToClipboard(Ljava/lang/String;)(text + "");
 		};
 		
 		api.evalLaTeX = function(text,mode) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalLaTeX(Ljava/lang/String;I)(text+"",mode);
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalLaTeX(Ljava/lang/String;I)(text + "",mode);
 		};
 
 		api.evalMathML = function(text) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalMathML(Ljava/lang/String;)(text+"");
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::evalMathML(Ljava/lang/String;)(text + "");
 		};
 
 		api.stepByStep = function(text) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stepByStep(Ljava/lang/String;)(text+"");
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::stepByStep(Ljava/lang/String;)(text + "");
 		};
 
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
