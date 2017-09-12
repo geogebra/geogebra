@@ -663,6 +663,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private boolean updatingBounds = false;
+	private boolean coordSystemTranslatedByAnimation;
 
 	@Override
 	public void updateBounds(boolean updateDrawables, boolean updateSettings) {
@@ -1147,7 +1148,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public void translateCoordSystemForAnimation(int dy) {
+		coordSystemTranslatedByAnimation = true;
 		setCoordSystem(xZero, yZero + dy, getXscale(), getYscale());
+		coordSystemTranslatedByAnimation = false;
+
 	}
 	/**
 	 * Sets coord system from mouse move
@@ -6085,6 +6089,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return app.has(Feature.CENTER_STANDARD_VIEW) ? getViewHeight() / 2.0
 				: YZERO_STANDARD;
 	}
+
+	/**
+	 * 
+	 * @return true if coord system is translated by internal animation, like
+	 *         open/close toolbar in portrait.
+	 */
+	public boolean isCoordSystemTranslatedByAnimation() {
+		return coordSystemTranslatedByAnimation;
+	}
+
 
 	public abstract void readText(String text);
 

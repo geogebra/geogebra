@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -244,6 +245,9 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	}
 
 	private void updateHomeButton() {
+		if (app.getEuclidianView1().isCoordSystemTranslatedByAnimation()) {
+			return;
+		}
 		if (app.getEuclidianView1().isStandardView()) {
 			hideHomeButton();
 		} else {
@@ -268,6 +272,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	@Override
 	public void onCoordSystemChanged() {
+		Log.debug("onCoordSystemChanged()");
 		updateHomeButton();
 	}
 
