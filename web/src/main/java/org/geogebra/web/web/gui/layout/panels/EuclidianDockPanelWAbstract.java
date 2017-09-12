@@ -263,8 +263,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
 		if (allowZoomPanel()) {
-			dockPanel.getElement().getStyle().setProperty("minHeight",
-					zoomPanel.getMinHeight());
+			// This causes EV overlap toolbar
+			// dockPanel.getElement().getStyle().setProperty("minHeight",
+			// zoomPanel.getMinHeight());
 			dockPanel.addSouth(zoomPanel, 0);
 		}
 	}
