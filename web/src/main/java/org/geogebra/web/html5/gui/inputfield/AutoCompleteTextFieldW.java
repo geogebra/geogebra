@@ -28,7 +28,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.event.KeyEventsHandler;
@@ -41,7 +40,6 @@ import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
-import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -1456,9 +1454,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	void showTablePopupRelativeTo(Widget w) {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-			TabbedKeyboard kbd = (TabbedKeyboard) ((GuiManagerW) app
-					.getGuiManager()).getOnScreenKeyboard(this, null);
-			tablePopup.addAutoHidePartner(kbd.getElement());
+			// TabbedKeyboard kbd = (TabbedKeyboard) ((GuiManagerW) app
+			// .getGuiManager()).getOnScreenKeyboard(this, null);
+			// tablePopup.addAutoHidePartner(kbd.getElement());
 		}
 		if (this.tablePopup != null) {
 			tablePopup.showRelativeTo(w);
