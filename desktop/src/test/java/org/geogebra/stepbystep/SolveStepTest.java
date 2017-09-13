@@ -161,6 +161,24 @@ public class SolveStepTest {
 		t("(((x+1)^2+1)^2+1)^2", "10", "x", 48,
 				"(nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)",
 				"(-nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)");
+		
+		t("sqrt(1+sqrt(1+sqrt(1+x)))", "10", "x", 22, "96039999");
+		t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+x))))", "10", "x", 22,
+				"9223681407920000");
+
+		// TODO: infinite loop?
+		// t("sqrt(x+sqrt(x+sqrt(x+1)))", "10", "x", 22, "fail");
+
+		// TODO: problem with accuracy
+		// t("x^2", "12345678987654321", "x", 22, "-111111111","111111111");
+
+		// TODO: problem with accuracy
+		// 85076298714809070000000000000000
+		// doesn't agree with CAS answer of
+		// 85076298714809073438726399999999
+		// t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+sqrt(1+x)))))", "10", "x", 22,
+		// "85076298714809073438726399999999");
+
 	}
 
 	public void t(String LHS, String RHS, String variable, int expectedSteps, String... expectedSolutions) {
