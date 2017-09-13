@@ -1492,10 +1492,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public double getAlphaValue() {
-		if (this.isHideShowGeo()) {
-			return 0.3;
-		}
-
 		return getAlphaValueWhenVisible();
 	}
 
@@ -8434,6 +8430,9 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public int getLineOpacity() {
+		if (isHideShowGeo()) {
+			return lineOpacity / 2;
+		}
 		return lineOpacity;
 	}
 
