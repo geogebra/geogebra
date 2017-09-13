@@ -21,7 +21,7 @@ public class SuggestionSolve extends Suggestion {
 
 	@Override
 	public String getCommand(Localization loc) {
-		return loc.getCommand("Solve");
+		return loc.getMenu("Solve");
 	}
 
 	public String getLabels(GeoElementND geo) {

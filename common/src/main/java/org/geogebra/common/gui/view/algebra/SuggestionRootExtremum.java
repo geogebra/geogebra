@@ -23,6 +23,10 @@ public class SuggestionRootExtremum extends Suggestion {
 
 	@Override
 	public void execute(GeoElementND geo) {
+		// reported typecast error
+		if (!(geo instanceof GeoFunction)) {
+			return;
+		}
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
 				.expandToPolyFunction(
 				((GeoFunction) geo).getFunctionExpression(), false, true);

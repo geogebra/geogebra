@@ -173,7 +173,7 @@ public class Construction {
 	private HashMap<GeoClass, TreeSet<GeoElement>> geoSetsTypeMap;
 
 	// ConstructionElement List (for objects of type ConstructionElement)
-	private ArrayList<ConstructionElement> ceList;
+	private final ArrayList<ConstructionElement> ceList;
 
 	// AlgoElement List (for objects of type AlgoElement)
 	private ArrayList<AlgoElement> algoList; // used in updateConstruction()
