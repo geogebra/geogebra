@@ -1168,9 +1168,6 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			}
 		};
 		btnColor.addPopupHandler(this);
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-			btnColor.addStyleName("mowColorButton");
-		}
 	}
 
 	private void createMOWColorBtn() {

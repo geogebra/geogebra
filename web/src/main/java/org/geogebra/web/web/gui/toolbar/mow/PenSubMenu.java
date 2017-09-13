@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
@@ -23,6 +24,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -113,7 +115,12 @@ public class PenSubMenu extends SubMenuPanel {
 			btnColor[i] = createColorButton(penColor[i]);
 		}
 
-		btnCustomColor = new StandardButton("+", app);
+		btnCustomColor = new StandardButton(
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.add_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
 		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(this);
@@ -129,7 +136,7 @@ public class PenSubMenu extends SubMenuPanel {
 		sizePanel = new FlowPanel();
 		sizePanel.addStyleName("sizePanel");
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
-		slider.addStyleName("optionsSlider");
+		slider.addStyleName("mowOptionsSlider");
 
 		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
