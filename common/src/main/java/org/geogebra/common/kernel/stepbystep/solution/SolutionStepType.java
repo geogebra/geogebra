@@ -151,7 +151,7 @@ public enum SolutionStepType {
 
 	REGROUP_PRODUCTS("RegroupProducts", "Regroup products: "),
 
-	SQUARE_MINUS("SquareMinus", "Squaring a minus makes it go awaaayy"),
+	SQUARE_MINUS("SquareMinus", "Squaring a minus makes it positive"),
 
 	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: "),
 
@@ -165,11 +165,12 @@ public enum SolutionStepType {
 
 	FIRST_ROOT("FirstRoot", "The first root of anything is itself"),
 
-	ROOT_OF_ONE("RootOfOne", "Any root of 1 equals 1"),
+	ROOT_OF_ONE("RootOfOne", "Any root of 1 is 1"),
 
 	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
 
-	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} = \\sqrt[mn]{a}$ to simplify the expression"),
+	ROOT_OF_ROOT("RootOfRoot",
+			"Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
 
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
@@ -187,15 +188,20 @@ public enum SolutionStepType {
 
 	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum", "Multiply %0 with everything in the parantheses"),
 
-	BINOM_SQUARED_SUM("BinomSquaredSum", "Use $(a+b)^2 = a^2 + 2ab + b^2$ to expand"),
+	BINOM_SQUARED_SUM("BinomSquaredSum",
+			"Use $(a+b)^2 \\equiv a^2 + 2ab + b^2$ to expand"),
 
-	BINOM_SQUARED_DIFF("BinomSquaredDiff", "Use $(a-b)^2 = a^2 - 2ab + b^2$ to expand"),
+	BINOM_SQUARED_DIFF("BinomSquaredDiff",
+			"Use $(a-b)^2 \\equiv a^2 - 2ab + b^2$ to expand"),
 
-	BINOM_CUBED("BinomCubed", "Use $(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$ to expand"),
+	BINOM_CUBED("BinomCubed",
+			"Use $(a+b)^3 \\equiv a^3 + 3a^2b + 3ab^2 + b^3$ to expand"),
 
-	TRINOM_SQUARED("TrinomSquared", "Use $(a+b+c)^2 = a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
+	TRINOM_SQUARED("TrinomSquared",
+			"Use $(a+b+c)^2 \\equiv a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
 
-	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) = a^2-b^2$ to expand"),
+	DIFFERENCE_OF_SQUARES("DifferenceOfSquares",
+			"Use $(a+b)(a-b) \\equiv a^2-b^2$ to expand"),
 
 	REWRITE_AS_MULTIPLICATION("RewriteAsMultiplication", "Rewrite as multiplication"),
 
@@ -204,7 +210,8 @@ public enum SolutionStepType {
 	SQUARE_ROOT_MULTIPLIED_BY_ITSELF("SquareRootMultipliedByItself",
 			"When the square root of an expression in multiplied by itself, the result is that expression"),
 	
-	EXPAND_ROOT("ExpandRoot", "Using $\\sqrt[n]{a} = \\sqrt[mn]{a^m}$, expand the expression"),
+	EXPAND_ROOT("ExpandRoot",
+			"Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
 
 	PRODUCT_OF_ROOTS("ProductOfRoots", "The product of roots with the same index is equal to the root of the product"),
 
