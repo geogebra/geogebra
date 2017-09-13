@@ -292,7 +292,7 @@
 			border-radius: 2px;
     		font-size: 14px;
    			min-width: 64px;
-   			color: $teal-dark;
+   			color: $teal-default;
     		text-transform: uppercase;
     		text-align: center;
 			float: left;
@@ -313,6 +313,7 @@
 			
 			&:hover {
 				background-color: $black-10;
+				color: $teal-dark;
 			}
 		}
 	}

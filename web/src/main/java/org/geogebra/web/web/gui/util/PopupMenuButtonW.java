@@ -181,7 +181,7 @@ public class PopupMenuButtonW extends MyCJButton
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				getElement().getStyle()
-						.setBorderColor(isBorderTeal ? "#00A8A8" : "#6557D2");
+						.setBorderColor(isBorderTeal ? "#008475" : "#6557D2");
 			}
 		});
 		this.addMouseOutHandler(new MouseOutHandler() {
@@ -193,7 +193,7 @@ public class PopupMenuButtonW extends MyCJButton
 						&& getMyPopup().equals(
 								EuclidianStyleBarW.getCurrentPopup())) {
 					getElement().getStyle().setBorderColor(
-							isBorderTeal ? "#00A8A8" : "#6557D2");
+							isBorderTeal ? "#008475" : "#6557D2");
 				} else {
 					getElement().getStyle().setBorderColor("#dcdcdc");
 				}
@@ -273,7 +273,7 @@ public class PopupMenuButtonW extends MyCJButton
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
 			EuclidianStyleBarW.setCurrentPopupButton(this);
 			this.getElement().getStyle()
-					.setBorderColor(isBorderTeal ? "#00A8A8" : "#6557D2");
+					.setBorderColor(isBorderTeal ? "#008475" : "#6557D2");
 			app.registerPopup(myPopup);
 			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());

@@ -78,7 +78,7 @@ $duration: 0.2s;
    	
    		.SymbolTable td:hover, .GeoGebraFrame .SymbolTable td.focus {
    			background: $white;
-    		color: $teal-default;
+    		color: $teal-light;
    		}
 	}
 
@@ -273,6 +273,7 @@ $duration: 0.2s;
     			
     		&:hover {
     			background: $black-10 !important;
+    			color: $teal-dark;
     		}
     	}
    		
