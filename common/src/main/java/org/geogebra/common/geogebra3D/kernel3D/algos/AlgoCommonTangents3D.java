@@ -145,9 +145,15 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	private void polarLine(GeoPoint output) {
 		polar = new GeoLine(cons);
 		c2d.polarLine(output, polar);
-		currentTangent.setCoord(c.getCoordSys().getPoint(-polar.z / polar.x, 0),
-				c.getCoordSys().getPoint(-(polar.z + polar.y * 100) / polar.x,
-						100));
+		if (!Kernel.isZero(polar.x)) {
+			currentTangent.setCoord(
+					c.getCoordSys().getPoint(-polar.z / polar.x, 0),
+				c.getCoordSys().getVector(-polar.y, polar.x));
+		} else {
+			currentTangent.setCoord(
+					c.getCoordSys().getPoint(0, -polar.z / polar.y),
+					c.getCoordSys().getVector(-polar.y, polar.x));
+		}
 
 	}
 
