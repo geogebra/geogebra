@@ -3493,8 +3493,18 @@ namespace giac {
       }
     }
     if (add_last && i==1229 && !is_one(n)){
-      u.push_back(n);
-      u.push_back(1);
+      // hack: check if n is a perfect square
+      double nf=evalf_double(n,1,contextptr)._DOUBLE_val;
+      nf=std::sqrt(nf);
+      gen n2=_round(nf,contextptr);
+      if (n2*n2==n){
+	u.push_back(n2);
+	u.push_back(2);	
+      }
+      else {
+	u.push_back(n);
+	u.push_back(1);
+      }
       n=1;
     }
     //v[0]=n;
