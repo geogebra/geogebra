@@ -204,7 +204,7 @@ public class GgbAPIW extends GgbAPI {
 	public static String zipJSworkerURL() {
 		// FIXME disabled workers in Touch for now
 		if ("tablet".equals(GWT.getModuleName())
-				|| "phone".equals(GWT.getModuleName())) {
+				|| "tabletWin".equals(GWT.getModuleName())) {
 			return "false";
 		}
 		return Browser.webWorkerSupported() ? GWT.getModuleBaseURL()
