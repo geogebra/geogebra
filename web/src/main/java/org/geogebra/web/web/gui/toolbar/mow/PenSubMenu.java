@@ -212,10 +212,8 @@ public class PenSubMenu extends SubMenuPanel {
 	}
 
 	private void doSelectPen() {
-		// reset();
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);
-		// colorPanel.setVisible(true);
 		if (lastSelectedColor == null) {
 			selectColor(BLACK);
 		} else {
@@ -225,8 +223,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.setMaximum(MAX_PEN_SIZE, false);
 		slider.setStep(PEN_STEP);
 		slider.setValue((double) getPenGeo().getLineThickness());
-		slider.setVisible(true);
-		// slider.addStyleName("optionsSlider-pen");
+		slider.getElement().setAttribute("disabled", "false");
 		preview.setVisible(true);
 		updatePreview();
 	}
@@ -235,30 +232,27 @@ public class PenSubMenu extends SubMenuPanel {
 		reset();
 		eraser.getElement().setAttribute("selected", "true");
 		setColorsEnabled(false);
-		// colorPanel.setVisible(false);
 		slider.setMinimum(1, false);
 		slider.setMaximum(MAX_ERASER_SIZE, false);
 		slider.setStep(ERASER_STEP);
 		int delSize = app.getActiveEuclidianView().getSettings()
 				.getDeleteToolSize();
 		slider.setValue((double) delSize);
-		slider.setVisible(true);
-		// slider.removeStyleName("optionsSlider-pen");
+		slider.getElement().setAttribute("disabled", "false");
 		preview.setVisible(false);
 	}
 
 	private void doSelectMove() {
 		reset();
-		// colorPanel.setVisible(false);
 		move.getElement().setAttribute("selected", "true");
-		slider.setVisible(false);
+		slider.getElement().setAttribute("disabled", "true");
 	}
 
 	private void doSelectSelect() {
 		reset();
-		// colorPanel.setVisible(false);
 		select.getElement().setAttribute("selected", "true");
-		slider.setVisible(false);
+		slider.getElement().setAttribute("disabled", "true");
+
 	}
 
 
@@ -309,10 +303,12 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (enable) {
 				btnColor[i].removeStyleName("disabled");
+				if (penColor[i] == lastSelectedColor) {
+					btnColor[i].addStyleName("mowColorButton-selected");
+				}
 			} else {
 				btnColor[i].addStyleName("disabled");
-
-
+				btnColor[i].removeStyleName("mowColorButton-selected");
 			}
 		}
 		if (enable) {

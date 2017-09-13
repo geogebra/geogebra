@@ -29,7 +29,7 @@
 			top: 0px;
 			float: left;
 			display: inline-flex;
-			margin: 3px 0px 3px 0px;
+			margin: 4px 0px 4px 0px;
 			img {
 				margin: 6px;
 	   			padding: 6px;
@@ -51,7 +51,7 @@
 		.middle {
 			position: absolute;
 			top: 0px;
-			margin: 3px 0px 3px 0px;
+			margin: 4px 0px 4px 0px;
 			left: calc(50% - 108px); 
 			display: inline-flex;
 			img {
@@ -96,7 +96,7 @@
 			position: absolute;
 			top: 0px;
 			right: 0px;
-			margin: 3px 0px 3px 0px;
+			margin: 4px 0px 4px 0px;
 			img {
 				margin: 6px;
 	    		padding: 6px;
@@ -349,6 +349,9 @@
 	        span{
 	        	border: none !important;
 	        }
+    	}
+    	&[disabled = true]{
+    		opacity: 0.3;
     	}
 	}
 	
