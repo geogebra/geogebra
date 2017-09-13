@@ -184,9 +184,11 @@ public enum SolutionStepType {
 
 	FACTOR_SQUARE("FactorSquare", "Factor out the perfect square"),
 
-	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum", "Multiply everything in the first parantheses with everything in the second parantheses"),
+	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum",
+			"Multiply everything in the first parentheses with everything in the second parentheses"),
 
-	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum", "Multiply %0 with everything in the parantheses"),
+	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum",
+			"Multiply %0 with everything in the parentheses"),
 
 	BINOM_SQUARED_SUM("BinomSquaredSum",
 			"Use $(a+b)^2 \\equiv a^2 + 2ab + b^2$ to expand"),
