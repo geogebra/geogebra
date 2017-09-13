@@ -8517,7 +8517,7 @@ namespace giac {
       gen c=a*re(A,contextptr)+b*im(A,contextptr);
       if (!is_zero(b,contextptr))
 	return symbolic(at_equal,makesequence(y,normal(-a/b,contextptr)*x+normal(c/b,contextptr)));
-      return symbolic(at_equal,makesequence(a*x+b*y,c));
+      return symbolic(at_equal,makesequence(x,normal(c/a,contextptr)));//symbolic(at_equal,makesequence(a*x+b*y,c));
     }
     if ( (e.type==_SYMB) && (e._SYMBptr->sommet==at_curve)){
       vecteur v=*e._SYMBptr->feuille._VECTptr->front()._VECTptr; 

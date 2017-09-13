@@ -3033,6 +3033,8 @@ extern "C" void Sleep(unsigned int miliSecond);
       vector_completions_ptr()->clear();
       int n=int(vector_aide_ptr()->size());
       for (int k=0;k<n;++k){
+	if (debug_infolevel>10)
+	  CERR << "+ " << (*vector_aide_ptr())[k].cmd_name  << endl;
 	vector_completions_ptr()->push_back((*vector_aide_ptr())[k].cmd_name);
       }
     }
@@ -5748,8 +5750,12 @@ unsigned int ConvertUTF8toUTF16 (
       s += ' '+stack.back().endbloc+';';
       stack.pop_back();
     }
-    if (pythonmode)
+    if (pythonmode){
+      if (s[s.size()-1]==';')
+	s=s.substr(0,s.size()-1);
+      s += "\n:;";
       *logptr(contextptr) << "// Python-like syntax, check string delimiters \"\" and declare local variables.\nTranslated to Xcas as:\n" << s << endl;
+    }
     return s;
   }
   

@@ -443,6 +443,7 @@ namespace giac {
       readhelp(v,f_name,count,warn);
     return v;
   }
+  // FIXME: aide_cas may end with synonyms (# cmd synonym1 ...)
   void readhelp(vector<aide> & v,const char * f_name,int & count,bool warn){
     count=0;
 #ifndef NSPIRE
