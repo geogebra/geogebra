@@ -70,6 +70,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -3114,7 +3115,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		tmpCoordsL3.setX(p.getInhomX());
 		tmpCoordsL3.setY(p.getInhomY());
 		tmpCoordsL3.setZ(p.getInhomZ());
-		GeoElement.moveObjects(pastePreviewSelected, translationVec3D,
+		MoveGeos.moveObjects(pastePreviewSelected, translationVec3D,
 				tmpCoordsL3, view3D.getViewDirection(), view3D);
 	}
 
@@ -3822,7 +3823,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			end = g3d.getInhomCoordsInD3();
 		}
 
-		GeoElement.moveObjects(translateableGeos, translationVec3D, end,
+		MoveGeos.moveObjects(translateableGeos, translationVec3D, end,
 				view3D.getHittingDirection(), view3D);
 
 		kernel.notifyRepaint();

@@ -31,7 +31,6 @@ import java.util.TreeSet;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.MyImage;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -53,14 +52,11 @@ import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadiusInterface;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
-import org.geogebra.common.kernel.algos.AlgoDynamicCoordinatesInterface;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntegralODE;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.AlgoName;
-import org.geogebra.common.kernel.algos.AlgoTranslate;
-import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.algos.AlgorithmSet;
 import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
@@ -6888,79 +6884,9 @@ public abstract class GeoElement extends ConstructionElement
 		colFunction = null;
 	}
 
-	/**
-	 * Translates all GeoElement objects in geos by a vector in real world
-	 * coordinates or by (xPixel, yPixel) in screen coordinates.
-	 * 
-	 * @param geosToMove
-	 *            geos to be moved
-	 * @param rwTransVec
-	 *            translation vector
-	 * @param endPosition
-	 *            end position; may be null
-	 * @param viewDirection
-	 *            direction of view
-	 * @param view
-	 *            euclidian view
-	 * @return true if something was moved
-	 */
-	public static boolean moveObjects(ArrayList<GeoElement> geosToMove,
-			final Coords rwTransVec, final Coords endPosition,
-			final Coords viewDirection, EuclidianView view) {
-		if (moveObjectsUpdateList == null) {
-			moveObjectsUpdateList = new ArrayList<GeoElement>();
-		}
-		ArrayList<GeoElement> geos = geosToMove;
-		final ArrayList<GeoElement> geos2 = new ArrayList<GeoElement>();
 
-		// remove duplicates, eg drag Circle[A,A]
-		for (int i = 0; i < geos.size(); i++) {
-			if (!geos2.contains(geos.get(i))) {
-				geos2.add(geos.get(i));
-			}
-		}
 
-		geos = geos2;
 
-		boolean moved = false;
-		final int size = geos.size();
-		moveObjectsUpdateList.clear();
-		moveObjectsUpdateList.ensureCapacity(size);
-
-		for (int i = 0; i < size; i++) {
-			final GeoElement geo = geos.get(i);
-			if (geo.isGeoList()) {
-				moveObjectsUpdateList.add(geo);
-				continue;
-			}
-			/*
-			 * Michael Borcherds check for isGeoPoint() as it makes the mouse
-			 * jump to the position of the point when dragging eg Image with one
-			 * corner, Rigid Polygon and stops grid-lock working properly but is
-			 * needed for eg dragging (a + x(A), b + x(B))
-			 */
-			// AbstractApplication.debug((geo.getParentAlgorithm() == null) + "
-			// "
-			// + size + " " + geo.getClassName()+"
-			// "+geo.getLabel(StringTemplate.defaultTemplate));
-			final Coords position = (size == 1)
-					&& (geo.getParentAlgorithm() != null) ? endPosition : null;
-			moved = geo.moveObject(rwTransVec, position, viewDirection,
-					moveObjectsUpdateList, view, geos.size() < 2)
-					|| moved;
-
-		}
-
-		// take all independent input objects and build a common updateSet
-		// then update all their algos.
-		// (don't do updateCascade() on them individually as this could cause
-		// multiple updates of the same algorithm)
-		updateCascade(moveObjectsUpdateList, getTempSet(), false);
-
-		return moved;
-	}
-
-	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
 	private static volatile TreeSet<AlgoElement> tempSet;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
@@ -7036,156 +6962,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	}
 
-	/**
-	 * Moves geo by a vector in real world coordinates.
-	 * 
-	 * @return whether actual moving occurred
-	 */
-	private boolean moveObject(final Coords rwTransVec,
-			final Coords endPosition, final Coords viewDirection,
-			final ArrayList<GeoElement> updateGeos, EuclidianView view,
-			boolean moveParentPoints) {
-		boolean movedGeo = false;
-		GeoElement geo = this;
-		// moveable geo
-		if (isMoveable()) {
-			// point
-			if (isGeoPoint()) {
 
-				if (getParentAlgorithm() instanceof AlgoDynamicCoordinatesInterface) {
-					final GeoPointND p = ((AlgoDynamicCoordinatesInterface) getParentAlgorithm())
-							.getParentPoint();
-					movedGeo = p.movePoint(rwTransVec, endPosition);
-					geo = (GeoElement) p;
-				} else {
-					movedGeo = movePoint(rwTransVec, endPosition);
-				}
-			}
-
-			// vector
-			else if (isGeoVector()) {
-				movedGeo = moveVector(rwTransVec, endPosition);
-			}
-
-			// translateable
-			else if (isTranslateable()) {
-				final Translateable trans = (Translateable) this;
-				trans.translate(rwTransVec);
-				movedGeo = true;
-			}
-
-			// absolute position on screen
-			else if (isAbsoluteScreenLocateable()) {
-				final AbsoluteScreenLocateable screenLoc = (AbsoluteScreenLocateable) this;
-				if (screenLoc.isAbsoluteScreenLocActive()) {
-					final int vxPixel = (int) Math
-							.round(kernel.getXscale() * rwTransVec.getX());
-					final int vyPixel = -(int) Math
-							.round(kernel.getYscale() * rwTransVec.getY());
-					final int x = screenLoc.getAbsoluteScreenLocX() + vxPixel;
-					final int y = screenLoc.getAbsoluteScreenLocY() + vyPixel;
-					DrawableND drawable = view.getDrawableFor(geo);
-					// https://play.google.com/apps/publish/?dev_acc=05873811091523087820#ErrorClusterDetailsPlace:p=org.geogebra.android&et=CRASH&lr=LAST_7_DAYS&ecn=java.lang.NullPointerException&tf=SourceFile&tc=org.geogebra.common.kernel.geos.GeoElement&tm=moveObject&nid&an&c&s=new_status_desc
-					if (drawable != null) {
-						drawable.move();
-						screenLoc.setAbsoluteScreenLoc(x, y);
-						movedGeo = true;
-					}
-				} else if (isGeoNumeric()) {
-					view.getDrawableFor(geo).move();
-					if (!((GeoNumeric) geo).isSliderFixed()) {
-						// real world screen position - GeoNumeric
-						((GeoNumeric) geo).setRealWorldLoc(
-								((GeoNumeric) geo).getRealWorldLocX()
-										+ rwTransVec.getX(),
-								((GeoNumeric) geo).getRealWorldLocY()
-										+ rwTransVec.getY());
-						movedGeo = true;
-					}
-				} else if (isGeoText()) {
-					// check for GeoText with unlabeled start point
-					final GeoText movedGeoText = (GeoText) this;
-					if (movedGeoText.hasAbsoluteLocation()) {
-						// absolute location: change location
-						final GeoPointND locPoint = movedGeoText
-								.getStartPoint();
-						if (locPoint != null) {
-							locPoint.translate(rwTransVec);
-							movedGeo = true;
-						}
-					}
-				}
-			}
-
-			if (movedGeo) {
-				if (updateGeos != null) {
-					updateGeos.add(geo);
-				} else {
-					geo.updateCascade();
-				}
-			}
-		}
-
-		// non-moveable geo
-
-		else if (isTranslateable()
-				&& getParentAlgorithm() instanceof AlgoTranslate) {
-
-			AlgoElement algo = getParentAlgorithm();
-			GeoElement[] input = algo.getInput();
-			GeoElement in = input[1];
-			if (in.isGeoVector()) {
-				ArrayList<GeoElement> tempMoveObjectList = kernel
-						.getApplication().getSelectionManager()
-						.getTempMoveGeoList();
-
-				if (in.isIndependent()) {
-					movedGeo = in.moveVector(rwTransVec, endPosition);
-					addParentToUpdateList(in, updateGeos, tempMoveObjectList);
-				} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint) {
-					AlgoVectorPoint algoVector = (AlgoVectorPoint) in
-							.getParentAlgorithm();
-					GeoElement p = (GeoElement) algoVector.getP();
-					if (p.isIndependent()) {
-						movedGeo = p.movePoint(rwTransVec, endPosition);
-						addParentToUpdateList(p, updateGeos,
-								tempMoveObjectList);
-					}
-				}
-			}
-
-		}
-
-		else {
-
-			ArrayList<GeoPointND> freeInputPoints = getFreeInputPoints(view);
-
-			// eg macro like Hexagon[G_8], if the hexagon is dragged then G_8
-			// needs updating
-			// handled for mouse drag in
-			// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
-			// needed here for moving with arrow keys
-			if (moveParentPoints
-					&& freeInputPoints.size() > 0) {
-				for (int i = 0; i < freeInputPoints.size(); i++) {
-					((GeoElement) freeInputPoints.get(i)).moveObject(rwTransVec,
-							endPosition, viewDirection, updateGeos, view,
-							false);
-				}
-			} else {
-
-				ArrayList<GeoElement> tempMoveObjectList = kernel
-						.getApplication().getSelectionManager()
-						.getTempMoveGeoList();
-
-				movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
-						endPosition, viewDirection, updateGeos,
-						tempMoveObjectList, view);
-			}
-		}
-
-		return movedGeo;
-	}
 
 	/**
 	 * try to move the geo with coord parent numbers (e.g. point defined by
@@ -7244,14 +7021,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param tempMoveObjectList1
 	 *            temporary list
 	 */
-	static final protected void addChangeableCoordParentNumberToUpdateList(
-			final GeoElement number, final ArrayList<GeoElement> updateGeos,
-			ArrayList<GeoElement> tempMoveObjectList1) {
-
-		addParentToUpdateList(number, updateGeos, tempMoveObjectList1);
-	}
-
-	static final private void addParentToUpdateList(final GeoElement number,
+	protected static final void addParentToUpdateList(final GeoElement number,
 			final ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList1) {
 		if (updateGeos != null) {

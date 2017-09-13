@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -223,7 +224,7 @@ public abstract class GlobalKeyDispatcher {
 		tempVec.setZ(zd);
 
 		// move objects
-		boolean moved = GeoElement.moveObjects(geos, tempVec, null, null,
+		boolean moved = MoveGeos.moveObjects(geos, tempVec, null, null,
 				app.getActiveEuclidianView());
 
 		// nothing moved

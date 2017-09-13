@@ -195,7 +195,7 @@ public class ChangeableCoordParent {
 		if (endPosition == null) { // comes from arrows keys -- all is added
 			var.setValue(var.getValue() + rwTransVec.getX() + rwTransVec.getY()
 					+ rwTransVec.getZ());
-			GeoElement.addChangeableCoordParentNumberToUpdateList(var,
+			GeoElement.addParentToUpdateList(var,
 					updateGeos, tempMoveObjectList);
 			return true;
 		}
@@ -250,8 +250,7 @@ public class ChangeableCoordParent {
 		}
 
 		var.setValue(val);
-		GeoElement.addChangeableCoordParentNumberToUpdateList(var, updateGeos,
-				tempMoveObjectList);
+		GeoElement.addParentToUpdateList(var, updateGeos, tempMoveObjectList);
 
 		return true;
 

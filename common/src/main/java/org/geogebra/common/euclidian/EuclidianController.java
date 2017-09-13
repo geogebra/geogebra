@@ -103,6 +103,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Test;
@@ -574,7 +575,7 @@ public abstract class EuclidianController {
 		tmpCoordsL3.setX(xRW);
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
-		GeoElement.moveObjects(pastePreviewSelected, translationVec,
+		MoveGeos.moveObjects(pastePreviewSelected, translationVec,
 				tmpCoordsL3, null, view);
 	}
 	
@@ -593,7 +594,7 @@ public abstract class EuclidianController {
 		tmpCoordsL3.setX(middleX);
 		tmpCoordsL3.setY(middleY);
 		tmpCoordsL3.setZ(0);
-		GeoElement.moveObjects(pastePreviewSelected, translationVec,
+		MoveGeos.moveObjects(pastePreviewSelected, translationVec,
 				tmpCoordsL3, null, view);
 	}
 
@@ -6530,7 +6531,7 @@ public abstract class EuclidianController {
 			tmpCoordsL3 = new Coords(4);
 		}
 		view.getCompanion().getCoordsFromView(xRW, yRW, tmpCoordsL3);
-		GeoElement.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
+		MoveGeos.moveObjects(translateableGeos, translationVec, tmpCoordsL3,
 				null, view);
 		kernel.movedGeoSet(translateableGeos);
 		if (repaint) {
@@ -6568,7 +6569,7 @@ public abstract class EuclidianController {
 		tmpCoordsL3.setX(xRW);
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
-		GeoElement.moveObjects(
+		MoveGeos.moveObjects(
 				companion.removeParentsOfView(getAppSelectedGeos()),
 				translationVec, tmpCoordsL3, null, view);
 		if (repaint) {

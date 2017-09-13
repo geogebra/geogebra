@@ -2214,15 +2214,15 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 
 		if (xvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric) xvar,
+			addParentToUpdateList((GeoNumeric) xvar,
 					updateGeos, tempMoveObjectList);
 		}
 		if (yvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric) yvar,
+			addParentToUpdateList((GeoNumeric) yvar,
 					updateGeos, tempMoveObjectList);
 		}
 		if (zvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric) zvar,
+			addParentToUpdateList((GeoNumeric) zvar,
 					updateGeos, tempMoveObjectList);
 		}
 

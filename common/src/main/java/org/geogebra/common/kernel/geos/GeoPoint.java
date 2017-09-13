@@ -501,12 +501,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 
 		if (xvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric) xvar,
-					updateGeos, tempMoveObjectList);
+			addParentToUpdateList((GeoNumeric) xvar, updateGeos,
+					tempMoveObjectList);
 		}
 		if (yvar instanceof GeoNumeric) {
-			addChangeableCoordParentNumberToUpdateList((GeoNumeric) yvar,
-					updateGeos, tempMoveObjectList);
+			addParentToUpdateList((GeoNumeric) yvar, updateGeos,
+					tempMoveObjectList);
 		}
 
 		return true;
