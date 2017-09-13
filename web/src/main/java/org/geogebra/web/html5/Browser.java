@@ -496,10 +496,11 @@ public class Browser {
 				el.msRequestFullscreen();
 			} else if (document.documentElement.mozRequestFullScreen) {
 				el.mozRequestFullScreen();
-			} else if (document.documentElement.webkitRequestFullscreen) {
+			} else if (document.documentElement.webkitRequestFullScreen) {
 				el.style.setProperty("width", "100%", "important");
 				el.style.setProperty("height", "100%", "important");
-				el.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+				el.webkitRequestFullScreen();
+				//Element.ALLOW_KEYBOARD_INPUT);
 			}
 		} else {
 			if ($doc.exitFullscreen) {
@@ -508,8 +509,8 @@ public class Browser {
 				$doc.msExitFullscreen();
 			} else if (document.mozCancelFullScreen) {
 				$doc.mozCancelFullScreen();
-			} else if (document.webkitExitFullscreen) {
-				$doc.webkitExitFullscreen();
+			} else if (document.webkitCancelFullScreen) {
+				$doc.webkitCancelFullScreen();
 			}
 		}
 	}-*/;
