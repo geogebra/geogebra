@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -180,8 +181,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				getElement().getStyle()
-						.setBorderColor(isBorderTeal ? "#008475" : "#6557D2");
+				updateBorderColor(getElement(), isBorderTeal);
 			}
 		});
 		this.addMouseOutHandler(new MouseOutHandler() {
@@ -192,8 +192,7 @@ public class PopupMenuButtonW extends MyCJButton
 						&& EuclidianStyleBarW.getCurrentPopup() != null
 						&& getMyPopup().equals(
 								EuclidianStyleBarW.getCurrentPopup())) {
-					getElement().getStyle().setBorderColor(
-							isBorderTeal ? "#008475" : "#6557D2");
+					updateBorderColor(getElement(), isBorderTeal);
 				} else {
 					getElement().getStyle().setBorderColor("#dcdcdc");
 				}
@@ -272,8 +271,7 @@ public class PopupMenuButtonW extends MyCJButton
 			}
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
 			EuclidianStyleBarW.setCurrentPopupButton(this);
-			this.getElement().getStyle()
-					.setBorderColor(isBorderTeal ? "#008475" : "#6557D2");
+			updateBorderColor(getElement(), isBorderTeal);
 			app.registerPopup(myPopup);
 			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());
@@ -287,6 +285,17 @@ public class PopupMenuButtonW extends MyCJButton
 		}
 	}
 	
+	/**
+	 * @param element
+	 *            element
+	 * @param isBorderTeal
+	 *            whether border should be teal (otherwise purple)
+	 */
+	static void updateBorderColor(Element element, boolean isBorderTeal) {
+		element.getStyle().setBorderColor(isBorderTeal ? "#008475" : "#6557D2");
+
+	}
+
 	/**
 	 * @param newData
 	 *            icons
