@@ -700,32 +700,30 @@ public class StepHelper {
 			}
 		}
 
-		StepNode replacedSolution = replaceArbitraryConstants(solution);
+		String casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + variable + " = " + solution + ")";
+		String withAssumptions = getAssumptions(StepNode.add(LHS, StepNode.add(RHS, solution)), casCommand);
 
-		double evaluatedLHS = LHS.getValueAt(variable, replacedSolution.getValue());
-		double evaluatedRHS = RHS.getValueAt(variable, replacedSolution.getValue());
-
-		if (!isEqual(evaluatedLHS, evaluatedRHS)) {
+		try {
+			String result = kernel.evaluateCachedGeoGebraCAS(withAssumptions, null);
+			return "true".equals(result);
+		} catch (Throwable e) {
 			return false;
 		}
-
-		return true;
 	}
 
-	private static StepNode replaceArbitraryConstants(StepNode sn) {
+	private static String getAssumptions(StepNode sn, String s) {
 		if (sn instanceof StepArbitraryConstant) {
-			return new StepConstant(0);
+			return "AssumeInteger(" + sn.toString() + ", " + s + ")";
 		} else if (sn.isOperation()) {
-			StepOperation so = new StepOperation(((StepOperation) sn).getOperation());
+			String temp = s;
 			for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-				so.addSubTree(replaceArbitraryConstants(((StepOperation) sn).getSubTree(i)));
+				temp = getAssumptions(((StepOperation) sn).getSubTree(i), temp);
 			}
-			return so;
+			return temp;
 		}
 
-		return sn;
+		return s;
 	}
-
 
 	public static double getCoefficientValue(StepNode sn, StepNode s) {
 		StepNode coeff = findCoefficient(sn, s);

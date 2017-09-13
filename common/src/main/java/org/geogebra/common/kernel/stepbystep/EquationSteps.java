@@ -284,13 +284,11 @@ public class EquationSteps {
 			steps.add(SolutionStepType.SOLUTIONS, variableWithSolution);
 		}
 
-		if (solutions.size() == 0 || interval == null && !shouldCheckSolutions) {
-			return steps.getSteps();
+		if (!(solutions.size() == 0 || interval == null && !shouldCheckSolutions)) {
+			steps.add(SolutionStepType.CHECK_VALIDITY);
+			steps.levelDown();
 		}
 
-		steps.add(SolutionStepType.CHECK_VALIDITY);
-
-		steps.levelDown();
 
 		for (int i = 0; i < solutions.size(); i++) {
 			if (interval != null) {
@@ -714,7 +712,7 @@ public class EquationSteps {
 		StepNode LHSconstant = StepHelper.findConstant(LHS);
 		addOrSubtract(LHSconstant);
 
-		steps.add(SolutionStepType.INVERT_BOTH_SIDES);
+		steps.add(SolutionStepType.RECIPROCATE_BOTH_SIDES);
 		LHS = StepNode.invert(LHS);
 		RHS = StepNode.invert(RHS);
 		addStep();
@@ -883,6 +881,10 @@ public class EquationSteps {
 
 		int highestOrder = Math.abs((int) StepHelper.getCoefficientValue(LHS, StepNode.power(variable, degree)));
 		int constant = Math.abs((int) (StepHelper.findConstant(LHS).getValue()));
+
+		if (-30 > highestOrder || 30 < highestOrder || -30 > constant || 30 < constant) {
+			return;
+		}
 
 		StepNode factored = new StepConstant(1);
 

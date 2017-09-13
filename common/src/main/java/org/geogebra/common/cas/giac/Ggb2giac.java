@@ -72,6 +72,9 @@ public class Ggb2giac {
 
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 
+		p("CorrectSolution.3", "simplify(texpand(subst(%0, %2) - subst(%1, %2))) == 0");
+		p("AssumeInteger.2", "[assume(%0, integer), %1][1]");
+
 		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong, eg CFactor[sqrt(21)
 		// - 2sqrt(7) x <complexi> + 3sqrt(3) x^2 <complexi> + 6x^3]

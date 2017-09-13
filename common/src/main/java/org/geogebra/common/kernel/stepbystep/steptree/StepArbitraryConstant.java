@@ -122,7 +122,7 @@ public class StepArbitraryConstant extends StepNode {
 
 	@Override
 	public String toString() {
-		return "[" + label + index + "]";
+		return label + index;
 	}
 
 	@Override

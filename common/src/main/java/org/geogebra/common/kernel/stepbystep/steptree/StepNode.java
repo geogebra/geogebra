@@ -245,6 +245,23 @@ public abstract class StepNode {
 		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getSubTree(1), 2);
 	}
 
+	public boolean isSquare() {
+		return isOperation(Operation.POWER) && isEven(((StepOperation) this).getSubTree(1));
+	}
+
+	/**
+	 * Only if isSquare() is true!
+	 * @return the square root of the expression
+	 */
+	public StepNode getSquareRoot() {
+		if (isSquare()) {
+			StepOperation so = (StepOperation) this;
+			return nonTrivialPower(so.getSubTree(0), so.getSubTree(1).getValue() / 2);
+		}
+
+		return null;
+	}
+
 	public boolean isTrigonometric() {
 		return isOperation(Operation.SIN) || isOperation(Operation.COS) || isOperation(Operation.TAN) || isOperation(Operation.CSC)
 				|| isOperation(Operation.SEC) || isOperation(Operation.CSC);
@@ -982,6 +999,10 @@ public abstract class StepNode {
 
 	public static boolean isEven(double d) {
 		return isEqual(d % 2, 0);
+	}
+
+	public static boolean isEven(StepNode sn) {
+		return sn.canBeEvaluated() && isEqual(sn.getValue() % 2, 0);
 	}
 
 	public static boolean isOdd(double d) {

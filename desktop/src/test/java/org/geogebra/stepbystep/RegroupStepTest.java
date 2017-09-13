@@ -9,6 +9,7 @@ import java.io.OutputStreamWriter;
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.steptree.SimplificationSteps;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
@@ -29,6 +30,13 @@ public class RegroupStepTest {
 	private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
 	private boolean needsHeading;
 	private static int caseCounter = 0;
+
+	@Test
+	public void factorTest() {
+		f("4(x+1)^2+(x+1)^4+1", "(((((x + 1))^(2) + 2))^(2)-3)");
+		f("x^2+4x+1", "(((x + 2))^(2)-3)");
+		// f("(x^2-3)^2+4(x^2-3)+4", "((x-1)(x+1))^(2)");
+	}
 
 	@Test
 	public void regroupTest() {
@@ -96,6 +104,24 @@ public class RegroupStepTest {
 		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
 		StepNode sn = StepNode.getStepTree(toExpand, app.getKernel().getParser());
 		String result = sn.expand(sb).toString();
+
+		SolutionStep steps = sb.getSteps();
+		steps.getListOfSteps(htmlBuilder);
+
+		Assert.assertEquals(expectedResult, result);
+	}
+
+	public void f(String toFactor, String expectedResult) {
+		if (needsHeading) {
+			Throwable t = new Throwable();
+			htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);
+			needsHeading = false;
+		}
+		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
+
+		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
+		StepNode sn = StepNode.getStepTree(toFactor, app.getKernel().getParser());
+		String result = SimplificationSteps.DEFAULT_FACTOR.apply(sn, sb, new int[] { 1 }).toString();
 
 		SolutionStep steps = sb.getSteps();
 		steps.getListOfSteps(htmlBuilder);

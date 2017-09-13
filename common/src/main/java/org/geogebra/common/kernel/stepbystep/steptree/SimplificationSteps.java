@@ -42,7 +42,7 @@ public enum SimplificationSteps {
 		}
 	},
 
-	EXPAND_POWERS() {
+	EXPAND_POWERS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			if (sn.isOperation() && !sn.isOperation(Operation.ABS)) {
@@ -1097,7 +1097,6 @@ public enum SimplificationSteps {
 							result.setColor(colorTracker[0]++);
 							return result;
 						}
-
 					}
 				}
 			}
@@ -1301,6 +1300,132 @@ public enum SimplificationSteps {
 			}
 
 			return sn;
+		}
+	},
+
+	COMPLETING_THE_SQUARE {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation(Operation.PLUS)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.noOfOperands() == 3) {
+					StepNode first = null, second = null, third = null;
+
+					for (int i = 0; i < 3; i++) {
+						if (so.getSubTree(i).isSquare()) {
+							first = so.getSubTree(i);
+						} else if (so.getSubTree(i).nonSpecialConstant()) {
+							third = so.getSubTree(i);
+						} else {
+							second = so.getSubTree(i);
+						}
+					}
+
+					if (first == null || second == null || third == null) {
+						return iterateThrough(this, sn, sb, colorTracker);
+					}
+
+					StepNode b = StepHelper.findCoefficient(second, first.getSquareRoot());
+
+					if (b != null && isEven(b)) {
+						double toComplete = third.getValue() - b.getValue() * b.getValue() / 4;
+
+						if (toComplete <= 0) {
+							StepOperation newSum = new StepOperation(Operation.PLUS);
+							newSum.addSubTree(first);
+							newSum.addSubTree(second);
+							newSum.addSubTree(new StepConstant(b.getValue() * b.getValue() / 4));
+							newSum.addSubTree(new StepConstant(toComplete));
+
+							colorTracker[0]++;
+							return newSum;
+						}
+
+					}
+
+				}
+
+				if ((so.noOfOperands() == 3 || so.noOfOperands() == 4) && (so.getSubTree(0).isSquare() && so.getSubTree(2).isConstant())) {
+					StepNode b = StepHelper.findCoefficient(so.getSubTree(1), so.getSubTree(0).getSquareRoot());
+
+					if (b != null && isEven(b)) {
+						double toComplete = so.getSubTree(2).getValue() - b.getValue() * b.getValue() / 4;
+
+						if (isEqual(toComplete, 0)) {
+							colorTracker[0]++;
+
+							if (so.noOfOperands() == 3) {
+								return power(add(so.getSubTree(0).getSquareRoot(), new StepConstant(b.getValue() / 2)), 2);
+							}
+
+							StepOperation newSum = new StepOperation(Operation.PLUS);
+							newSum.addSubTree(power(add(so.getSubTree(0).getSquareRoot(), new StepConstant(b.getValue() / 2)), 2));
+							newSum.addSubTree(so.getSubTree(3));
+							return newSum;
+						}
+
+					}
+
+				}
+			}
+
+			return iterateThrough(this, sn, sb, colorTracker);
+		}
+	},
+
+	FACTOR_USING_FORMULA {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation(Operation.PLUS)) {
+				// TODO
+			}
+
+			return iterateThrough(this, sn, sb, colorTracker);
+		}
+	},
+
+	REORGANIZE_POLYNOMIAL {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation(Operation.PLUS)) {
+				// TODO
+			}
+
+			return iterateThrough(this, sn, sb, colorTracker);
+		}
+	},
+
+	FACTOR_POLYNOMIAL {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn.isOperation(Operation.PLUS)) {
+				// TODO
+			}
+
+			return iterateThrough(this, sn, sb, colorTracker);
+		}
+	},
+
+	DEFAULT_FACTOR {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			SimplificationSteps[] defaultStrategy = new SimplificationSteps[] { 
+					COMPLETING_THE_SQUARE, 
+					FACTOR_USING_FORMULA,
+					REORGANIZE_POLYNOMIAL, 
+					FACTOR_POLYNOMIAL 
+			};
+
+			StepNode result = sn;
+			String old = null, current = null;
+			do {
+				result = implementStrategy(result, sb, defaultStrategy);
+				old = current;
+				current = result.toString();
+			} while (!current.equals(old));
+
+			return result;
 		}
 	},
 

@@ -92,7 +92,7 @@ public enum SolutionStepType {
 
 	FACTOR_EQUATION("FactorEquation", "Factor equation"),
 	
-	INVERT_BOTH_SIDES("InvertBothSides", "Invert both sides"),
+	RECIPROCATE_BOTH_SIDES("ReciprocateBothSides", "Reciprocate  both sides"),
 
 	USE_QUADRATIC_FORMULA("UseQuadraticFormulaWithABC", "Use quadratic formula with a = %0, b = %1, c = %2"),
 
