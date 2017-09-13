@@ -3107,6 +3107,7 @@ __GGB__keysVar.fi.menu = {
     "stylebar.ColorTransparency": "Aseta v\xe4ri ja l\xe4pin\xe4kyvyys",
     "stylebar.CopyVisualStyle": "Kopioi visuaalinen tyyli",
     "stylebar.Eraser": "Pyyhi kyn\xe4n j\xe4lki",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Lasien projektio",
     "stylebar.Grid": "N\xe4yt\xe4/piilota ruudukko",
     "stylebar.Hidden": "Piilotettu",

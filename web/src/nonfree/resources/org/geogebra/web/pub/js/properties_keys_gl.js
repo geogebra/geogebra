@@ -3107,6 +3107,7 @@ __GGB__keysVar.gl.menu = {
     "stylebar.ColorTransparency": "Fixa cor e transparencia",
     "stylebar.CopyVisualStyle": "Copia estilo visual",
     "stylebar.Eraser": "Borra trazo de pluma",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Proxecci\xf3n para lentes",
     "stylebar.Grid": "Exp\xf3n ou oculta a cuadr\xedcula",
     "stylebar.Hidden": "Ocultos",

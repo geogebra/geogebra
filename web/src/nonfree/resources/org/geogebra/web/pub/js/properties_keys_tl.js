@@ -3107,6 +3107,7 @@ __GGB__keysVar.tl.menu = {
     "stylebar.ColorTransparency": "Ayusin ang Kulay at Pagkalinaw",
     "stylebar.CopyVisualStyle": "Kopyahin ang istilong biswal",
     "stylebar.Eraser": "Burahin ang ginuhit",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Ipakita o itago ang grid",
     "stylebar.Hidden": "Nakatago",

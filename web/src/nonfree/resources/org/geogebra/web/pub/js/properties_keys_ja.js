@@ -3107,6 +3107,7 @@ __GGB__keysVar.ja.menu = {
     "stylebar.ColorTransparency": "\u8272\u3068\u900f\u904e\u7387\u3092\u8a2d\u5b9a",
     "stylebar.CopyVisualStyle": "\u8868\u793a\u30b9\u30bf\u30a4\u30eb\u3092\u30b3\u30d4\u30fc",
     "stylebar.Eraser": "\u30da\u30f3\u30b9\u30c8\u30ed\u30fc\u30af\u3092\u6d88\u53bb",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "\u30b0\u30ea\u30c3\u30c9\u3092\u8868\u793a\uff0f\u975e\u8868\u793a",
     "stylebar.Hidden": "\u975e\u8868\u793a",

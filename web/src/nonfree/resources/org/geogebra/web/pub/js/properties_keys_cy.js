@@ -3107,6 +3107,7 @@ __GGB__keysVar.cy.menu = {
     "stylebar.ColorTransparency": "Gosod lliw a thryloywder",
     "stylebar.CopyVisualStyle": "Copio'r arddull gweledol",
     "stylebar.Eraser": "Dileu marc yr ysgrifbin",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Dangos/cuddio'r grid",
     "stylebar.Hidden": "Cudd",

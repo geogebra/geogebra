@@ -3107,6 +3107,7 @@ __GGB__keysVar.eo.menu = {
     "stylebar.ColorTransparency": "Koloro kaj Opakeco",
     "stylebar.CopyVisualStyle": "Copy visual style",
     "stylebar.Eraser": "Erase pen stroke",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Montri a\u016d ka\u015di kradon",
     "stylebar.Hidden": "Ka\u015dita",

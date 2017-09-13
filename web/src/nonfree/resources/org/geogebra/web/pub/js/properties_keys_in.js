@@ -3107,6 +3107,7 @@ __GGB__keysVar.in.menu = {
     "stylebar.ColorTransparency": "Atur warna dan transparansi",
     "stylebar.CopyVisualStyle": "Salin Format Tampilan",
     "stylebar.Eraser": "Hapus goresan pena",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Tampilkan atau sembunyikan kisi-kisi",
     "stylebar.Hidden": "Tersembunyi",

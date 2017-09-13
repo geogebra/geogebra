@@ -3107,6 +3107,7 @@ __GGB__keysVar.ta.menu = {
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
     "stylebar.Eraser": "\u0baa\u0bc7\u0ba3\u0bbe \u0bb5\u0bb0\u0bc8\u0b95\u0bc0\u0bb1\u0bcd\u0bb1\u0bc8 \u0b85\u0bb4\u0bbf\u0b95\u0bcd\u0b95\u0bb5\u0bc1\u0bae\u0bcd.",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "\u0b95\u0b9f\u0bcd\u0b9f\u0b99\u0bcd\u0b95\u0bb3\u0bc8 \u0bae\u0bb1\u0bc8\u0ba4\u0bcd\u0ba4\u0bbf\u0b9f\u0bc1 \u0b85\u0bb2\u0bcd\u0bb2\u0ba4\u0bc1 \u0b95\u0bbe\u0b9f\u0bcd\u0b9f\u0bbf\u0b9f\u0bc1",
     "stylebar.Hidden": "\u0bae\u0bb1\u0bc8\u0b95\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f\u0bc1\u0bb3\u0bcd\u0bb3\u0ba4\u0bc1",

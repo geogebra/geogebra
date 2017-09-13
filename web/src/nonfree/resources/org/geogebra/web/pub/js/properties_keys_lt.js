@@ -3107,6 +3107,7 @@ __GGB__keysVar.lt.menu = {
     "stylebar.ColorTransparency": "Nustatyti spalv\u0105 ir permatomum\u0105",
     "stylebar.CopyVisualStyle": "Nukopijuoti stili\u0173",
     "stylebar.Eraser": "I\u0161trinti pie\u0161tuko \u017eymes",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Rodyti arba sl\u0117pti lentel\u0119",
     "stylebar.Hidden": "Pasl\u0117ptas",

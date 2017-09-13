@@ -3107,6 +3107,7 @@ __GGB__keysVar.da.menu = {
     "stylebar.ColorTransparency": "Indstil farve og gennemsigtighed",
     "stylebar.CopyVisualStyle": "Kopier stil",
     "stylebar.Eraser": "Visk ud",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projektion for briller",
     "stylebar.Grid": "Vis eller skjul gitter",
     "stylebar.Hidden": "Skjult",

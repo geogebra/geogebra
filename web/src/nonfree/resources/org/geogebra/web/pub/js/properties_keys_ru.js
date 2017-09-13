@@ -3107,6 +3107,7 @@ __GGB__keysVar.ru.menu = {
     "stylebar.ColorTransparency": "\u0426\u0432\u0435\u0442 \u0438 \u0437\u0430\u043b\u0438\u0432\u043a\u0430",
     "stylebar.CopyVisualStyle": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0441\u0442\u0438\u043b\u044c",
     "stylebar.Eraser": "\u0421\u0442\u0435\u0440\u0435\u0442\u044c \u0441\u043b\u0435\u0434 \u043e\u0442 \u043a\u0430\u0440\u0430\u043d\u0434\u0430\u0448\u0430",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "\u0421\u0435\u0442\u043a\u0430",
     "stylebar.Hidden": "\u041d\u0435 \u043f\u043e\u043a\u0430\u0437\u044b\u0432\u0430\u0442\u044c",

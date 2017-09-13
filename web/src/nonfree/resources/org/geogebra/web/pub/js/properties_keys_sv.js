@@ -3107,6 +3107,7 @@ __GGB__keysVar.sv.menu = {
     "stylebar.ColorTransparency": "F\xe4rg och transparens",
     "stylebar.CopyVisualStyle": "Kopiera visuellt format",
     "stylebar.Eraser": "Radera penndrag",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projektion f\xf6r 3D-glas\xf6gon",
     "stylebar.Grid": "Visa/D\xf6lj Rutn\xe4t",
     "stylebar.Hidden": "Dold",

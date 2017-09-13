@@ -3107,6 +3107,7 @@ __GGB__keysVar.sk.menu = {
     "stylebar.ColorTransparency": "nastavi\u0165 farbu a prieh\u013eadnos\u0165",
     "stylebar.CopyVisualStyle": "kop\xedrova\u0165 form\xe1t",
     "stylebar.Eraser": "vymaza\u0165 ceruzku",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projekcia pre okuliare",
     "stylebar.Grid": "uk\xe1za\u0165 alebo skry\u0165 mrie\u017eku",
     "stylebar.Hidden": "skryt\xe9",

@@ -3107,6 +3107,7 @@ __GGB__keysVar.et.menu = {
     "stylebar.ColorTransparency": "M\xe4\xe4ra v\xe4rv ja l\xe4bipaistvus",
     "stylebar.CopyVisualStyle": "Kopeeri visuaalne stiil",
     "stylebar.Eraser": "Kustuta pliiatsi joon",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projektsioon prillidele",
     "stylebar.Grid": "N\xe4ita v\xf5i peida ruudustikku",
     "stylebar.Hidden": "Peidetud",

@@ -3107,6 +3107,7 @@ __GGB__keysVar.de.menu = {
     "stylebar.ColorTransparency": "Farbe und Transparenz",
     "stylebar.CopyVisualStyle": "Format \xfcbertragen",
     "stylebar.Eraser": "Stift l\xf6sche",
+    "stylebar.Filling": "F\xfcllung",
     "stylebar.GlassesProjection": "Projektion f\xfcr Brillen",
     "stylebar.Grid": "Koordinatengitter anzeigen oder verbergen",
     "stylebar.Hidden": "Keine",

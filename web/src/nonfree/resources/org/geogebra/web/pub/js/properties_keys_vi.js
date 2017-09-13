@@ -3107,6 +3107,7 @@ __GGB__keysVar.vi.menu = {
     "stylebar.ColorTransparency": "Thi\u1ebft l\u1eadp m\xe0u v\xe0 s\u1ef1 trong su\u1ed1t",
     "stylebar.CopyVisualStyle": "Sao ch\xe9p ki\u1ec3u nh\xecn th\u1ea5y",
     "stylebar.Eraser": "X\xf3a n\xe9t ch\u1eef vi\u1ebft b\u1eb1ng b\xfat",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Hi\u1ec3n th\u1ecb ho\u1eb7c \u1ea9n l\u01b0\u1edbi",
     "stylebar.Hidden": "\u1ea8n",

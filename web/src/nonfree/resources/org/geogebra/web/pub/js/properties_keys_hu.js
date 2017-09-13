@@ -3107,6 +3107,7 @@ __GGB__keysVar.hu.menu = {
     "stylebar.ColorTransparency": "Sz\xedn & kit\xf6lt\xe9s",
     "stylebar.CopyVisualStyle": "Vizu\xe1lis st\xedlus m\xe1sol\xe1sa",
     "stylebar.Eraser": "Rad\xedr",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Szem\xfcveg vet\xedt\xe9se",
     "stylebar.Grid": "R\xe1cs mutat\xe1sa / rejt\xe9se",
     "stylebar.Hidden": "Rejtett",

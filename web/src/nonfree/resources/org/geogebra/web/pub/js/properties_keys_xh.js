@@ -3107,6 +3107,7 @@ __GGB__keysVar.xh.menu = {
     "stylebar.ColorTransparency": "Lungisa Color ne Transparency",
     "stylebar.CopyVisualStyle": "Kopa ivisual style",
     "stylebar.Eraser": "Cima ipen stroke",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "iProjection yee glasi",
     "stylebar.Grid": "Bonisa okanye ufihle le gridi",
     "stylebar.Hidden": "iFihliwe",

@@ -3107,6 +3107,7 @@ __GGB__keysVar.pl.menu = {
     "stylebar.ColorTransparency": "Ustal kolor i przejrzysto\u015b\u0107",
     "stylebar.CopyVisualStyle": "Kopiuj wizualny styl",
     "stylebar.Eraser": "Usu\u0144 poci\u0105gni\u0119cie pi\xf3ra",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Rzut na okulary",
     "stylebar.Grid": "Poka\u017c lub ukryj siatk\u0119",
     "stylebar.Hidden": "Ukryty",

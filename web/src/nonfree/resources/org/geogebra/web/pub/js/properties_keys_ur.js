@@ -3107,6 +3107,7 @@ __GGB__keysVar.ur.menu = {
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
     "stylebar.Eraser": "Erase pen stroke",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",
     "stylebar.Grid": "Show or hide the grid",
     "stylebar.Hidden": "Hidden",

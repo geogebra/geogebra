@@ -3107,6 +3107,7 @@ __GGB__keysVar.is.menu = {
     "stylebar.ColorTransparency": "Setja lit og gegns\xe6i",
     "stylebar.CopyVisualStyle": "Afrita \xfatlit",
     "stylebar.Eraser": "Stroka \xfat pennastrik",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "V\xf6rpun fyrir gleraugu",
     "stylebar.Grid": "S\xfdna e\xf0a fela grind",
     "stylebar.Hidden": "Fela",

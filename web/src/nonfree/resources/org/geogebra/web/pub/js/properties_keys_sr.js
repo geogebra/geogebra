@@ -3107,6 +3107,7 @@ __GGB__keysVar.sr.menu = {
     "stylebar.ColorTransparency": "Postavi boju i providnost",
     "stylebar.CopyVisualStyle": "Kopiraj vizuelni stil",
     "stylebar.Eraser": "Obri\u0161i crte\u017e olovke",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projekcija za nao\u010dare",
     "stylebar.Grid": "Prika\u017ei / sakrij mre\u017eu",
     "stylebar.Hidden": "Sakriveno",

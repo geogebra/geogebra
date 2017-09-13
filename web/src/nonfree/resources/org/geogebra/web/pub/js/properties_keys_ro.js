@@ -3107,6 +3107,7 @@ __GGB__keysVar.ro.menu = {
     "stylebar.ColorTransparency": "Stabile\u0219te culoare \u0219i transparen\u021b\u0103",
     "stylebar.CopyVisualStyle": "Copiere stil vizual",
     "stylebar.Eraser": "\u0218terge urm\u0103 creion",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Proiec\u021bie pentru ochelari",
     "stylebar.Grid": "Afi\u0219eaz\u0103 sau ascunde gril\u0103",
     "stylebar.Hidden": "Ascuns",

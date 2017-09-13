@@ -3107,6 +3107,7 @@ __GGB__keysVar.no_NB.menu = {
     "stylebar.ColorTransparency": "Velg farge og gjennomsiktighet",
     "stylebar.CopyVisualStyle": "Kopier stil og useende",
     "stylebar.Eraser": "Slett pennestr\xf8k",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projeksjon for 3D-briller",
     "stylebar.Grid": "Vis eller skjul rutenett",
     "stylebar.Hidden": "Skjult",

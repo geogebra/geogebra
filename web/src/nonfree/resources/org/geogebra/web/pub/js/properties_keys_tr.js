@@ -3107,6 +3107,7 @@ __GGB__keysVar.tr.menu = {
     "stylebar.ColorTransparency": "Renk ve \u015eeffafl\u0131k ayarla",
     "stylebar.CopyVisualStyle": "G\xf6rsel Sitili kopyala",
     "stylebar.Eraser": "Kalem vuru\u015funu sil",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Mercekler i\xe7in izd\xfc\u015f\xfcm",
     "stylebar.Grid": "Izgaray\u0131 g\xf6ster veya sakla",
     "stylebar.Hidden": "Gizli",

@@ -3107,6 +3107,7 @@ __GGB__keysVar.am.menu = {
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "\u121d\u1235\u120b\u12ca \u1245\u1325 \u1245\u12f3",
     "stylebar.Eraser": "Erase pen stroke",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses [??]",
     "stylebar.Grid": "\u12e8\u1270\u1308\u1293\u1299 \u1218\u1235\u1218\u122e\u127d \u12a0\u1233\u12ed \u12c8\u12ed\u121d \u12f0\u1265\u1245",
     "stylebar.Hidden": "\u12f5\u1265\u1245",

@@ -3107,6 +3107,7 @@ __GGB__keysVar.eu.menu = {
     "stylebar.ColorTransparency": "Ezarri Kolorea eta Gardentasuna",
     "stylebar.CopyVisualStyle": "Kopiatu ikuspegi-estiloa",
     "stylebar.Eraser": "Ezabatu arkatzaren arrastoa",
+    "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Betaurrekoetarako proiekzioa",
     "stylebar.Grid": "Erakutsi edo ezkutatu lauki-sarea",
     "stylebar.Hidden": "Ezkutatuta",
