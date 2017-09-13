@@ -62,8 +62,8 @@ public class SolveStepTest {
 		t("x+1/(x-1)", "2x-1", "x", 22, "0", "2");
 		t("1/(x-6)+x/(x-2)", "4/(x^2-8x+12)", "x", 31, "-1");
 		t("x/(1-x)", "(3+x)/x", "x", 18, "((-2 + (2)(nroot(7, 2))))/(4)", "((-2-(2)(nroot(7, 2))))/(4)");
-		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", 46, "((-9 + (3)(nroot(5, 2))))/(6)", "((-9-(3)(nroot(5, 2))))/(6)",
-				"((-1 + nroot(13, 2)))/(2)", "((-1-nroot(13, 2)))/(2)");
+		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", 46, "((-9 + (3)(nroot(5, 2))))/(6)",
+				"((-9-(3)(nroot(5, 2))))/(6)", "((-1 + nroot(13, 2)))/(2)", "((-1-nroot(13, 2)))/(2)");
 		t("(1/x+3)^2", "6", "x", 40, "(1)/((nroot(6, 2)-3))", "(1)/((-nroot(6, 2)-3))");
 	}
 
@@ -142,10 +142,13 @@ public class SolveStepTest {
 	public void trigonometricEquations() {
 		t("3+2sin(x)", "sin(x)-1", "x", 10);
 		t("1/2+2sin(x)", "sin(x)+1", "x", 23, "((pi)/(6) + (2)(k1)(pi))", "(((5)(pi))/(6)-(2)(k2)(pi))");
-		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", 31, "(((pi)/(6) + (2)(k1)(pi)-1))/(3)", "((((-5)(pi))/(6) + (2)(k2)(pi) + 1))/(-3)");
-		t("(sin(2x+1))^2+1/2", "1", "x", 59, "(((pi)/(4) + (2)(k1)(pi)-1))/(2)", "((((-3)(pi))/(4) + (2)(k2)(pi) + 1))/(-2)",
-				"((-(pi)/(4) + (2)(k3)(pi)-1))/(2)", "((((-5)(pi))/(4) + (2)(k4)(pi) + 1))/(-2)");
-		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", 31, "(((pi)/(3) + (2)(k1)(pi)-1))/(3)", "((((-5)(pi))/(3) + (2)(k2)(pi) + 1))/(-3)");
+		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", 31, "(((pi)/(6) + (2)(k1)(pi)-1))/(3)",
+				"((((-5)(pi))/(6) + (2)(k2)(pi) + 1))/(-3)");
+		t("(sin(2x+1))^2+1/2", "1", "x", 59, "(((pi)/(4) + (2)(k1)(pi)-1))/(2)",
+				"((((-3)(pi))/(4) + (2)(k2)(pi) + 1))/(-2)", "((-(pi)/(4) + (2)(k3)(pi)-1))/(2)",
+				"((((-5)(pi))/(4) + (2)(k4)(pi) + 1))/(-2)");
+		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", 31, "(((pi)/(3) + (2)(k1)(pi)-1))/(3)",
+				"((((-5)(pi))/(3) + (2)(k2)(pi) + 1))/(-3)");
 		t("3+2tan(x)", "tan(x)-1", "x", 10, "(arctan(-4) + (k1)(pi))");
 		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", 31, "(arccos(((-1 + nroot(5, 2)))/(-2)) + (2)(k1)(pi))",
 				"(-arccos(((-1 + nroot(5, 2)))/(-2))-(2)(k2)(pi) + (2)(pi))");
@@ -159,7 +162,7 @@ public class SolveStepTest {
 	public void extremeNested() {
 		t("(((x+1)^2+1)^2+1)^2", "10", "x", 48, "(nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)",
 				"(-nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)");
-		
+
 		t("sqrt(1+sqrt(1+sqrt(1+x)))", "10", "x", 22, "96039999");
 		t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+x))))", "10", "x", 22, "9223681407920000");
 
@@ -172,7 +175,8 @@ public class SolveStepTest {
 		// 85076298714809070000000000000000
 		// doesn't agree with CAS answer of
 		// 85076298714809073438726399999999
-		// t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+sqrt(1+x)))))", "10", "x", 22, "85076298714809073438726399999999");
+		// t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+sqrt(1+x)))))", "10", "x", 22,
+		// "85076298714809073438726399999999");
 
 	}
 
@@ -197,7 +201,7 @@ public class SolveStepTest {
 			Assert.assertEquals(expectedSolutions[i], solutions.get(i).toString());
 		}
 	}
-	
+
 	private int countSteps(SolutionStep s) {
 		int x = 1;
 		List<SolutionStep> substeps = s.getSubsteps();
@@ -223,15 +227,14 @@ public class SolveStepTest {
 		File f = new File("report.html");
 		OutputStreamWriter isw = null;
 		try {
-			 isw = new OutputStreamWriter(
-					new FileOutputStream(f));
+			isw = new OutputStreamWriter(new FileOutputStream(f));
 			isw.write(htmlBuilder.getHtml());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		if(isw!=null){
+		if (isw != null) {
 			try {
 				isw.close();
 			} catch (IOException e) {

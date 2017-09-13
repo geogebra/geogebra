@@ -7,7 +7,7 @@ import org.geogebra.common.util.StringUtil;
 
 public enum SolutionStepType {
 	WRAPPER("", ""),
-	
+
 	SUBSTEP_WRAPPER("", ""),
 
 	EQUATION("", ""),
@@ -15,7 +15,7 @@ public enum SolutionStepType {
 	SOLVE("Solve", "Solve: %0"),
 
 	NEW_CASE("CaseA", "Case ?: %0"),
-	
+
 	SOLVING_IN_INTERVAL("SolvingInInterval", "Case ?: %0 when %1"),
 
 	CANT_SOLVE("CantSolve", "Cannot Solve"),
@@ -91,7 +91,7 @@ public enum SolutionStepType {
 	DIVIDE_BOTH_SIDES("DivideBothSidesByA", "Divide both sides by %0"),
 
 	FACTOR_EQUATION("FactorEquation", "Factor equation"),
-	
+
 	RECIPROCATE_BOTH_SIDES("ReciprocateBothSides", "Reciprocate  both sides"),
 
 	USE_QUADRATIC_FORMULA("UseQuadraticFormulaWithABC", "Use quadratic formula with a = %0, b = %1, c = %2"),
@@ -169,8 +169,7 @@ public enum SolutionStepType {
 
 	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
 
-	ROOT_OF_ROOT("RootOfRoot",
-			"Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
+	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
 
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
@@ -190,20 +189,15 @@ public enum SolutionStepType {
 	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum",
 			"Multiply %0 with everything in the parentheses"),
 
-	BINOM_SQUARED_SUM("BinomSquaredSum",
-			"Use $(a+b)^2 \\equiv a^2 + 2ab + b^2$ to expand"),
+	BINOM_SQUARED_SUM("BinomSquaredSum", "Use $(a+b)^2 \\equiv a^2 + 2ab + b^2$ to expand"),
 
-	BINOM_SQUARED_DIFF("BinomSquaredDiff",
-			"Use $(a-b)^2 \\equiv a^2 - 2ab + b^2$ to expand"),
+	BINOM_SQUARED_DIFF("BinomSquaredDiff", "Use $(a-b)^2 \\equiv a^2 - 2ab + b^2$ to expand"),
 
-	BINOM_CUBED("BinomCubed",
-			"Use $(a+b)^3 \\equiv a^3 + 3a^2b + 3ab^2 + b^3$ to expand"),
+	BINOM_CUBED("BinomCubed", "Use $(a+b)^3 \\equiv a^3 + 3a^2b + 3ab^2 + b^3$ to expand"),
 
-	TRINOM_SQUARED("TrinomSquared",
-			"Use $(a+b+c)^2 \\equiv a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
+	TRINOM_SQUARED("TrinomSquared", "Use $(a+b+c)^2 \\equiv a^2 + b^2 + c^2 + 2ab + 2bc + 2ac$ to expand"),
 
-	DIFFERENCE_OF_SQUARES("DifferenceOfSquares",
-			"Use $(a+b)(a-b) \\equiv a^2-b^2$ to expand"),
+	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) \\equiv a^2-b^2$ to expand"),
 
 	REWRITE_AS_MULTIPLICATION("RewriteAsMultiplication", "Rewrite as multiplication"),
 
@@ -211,24 +205,23 @@ public enum SolutionStepType {
 
 	SQUARE_ROOT_MULTIPLIED_BY_ITSELF("SquareRootMultipliedByItself",
 			"When the square root of an expression in multiplied by itself, the result is that expression"),
-	
-	EXPAND_ROOT("ExpandRoot",
-			"Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
+
+	EXPAND_ROOT("ExpandRoot", "Using $\\sqrt[n]{a} \\equiv \\sqrt[mn]{a^m}$, expand the expression"),
 
 	PRODUCT_OF_ROOTS("ProductOfRoots", "The product of roots with the same index is equal to the root of the product"),
 
 	POLYNOMIAL_DIVISION("DivideAByBToGetC", "Divide %0 by %1 to get %2"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function");
-	
+
 	private final String keyText;
 	private final String defaultText;
-	
+
 	SolutionStepType(String keyText, String defaultText) {
 		this.keyText = keyText;
 		this.defaultText = defaultText;
 	}
-	
+
 	public String getDefaultText(Localization loc, StepNode[] parameters) {
 		if (parameters == null) {
 			return loc.getMenuLaTeX(getKey(), getDefault());
@@ -278,7 +271,7 @@ public enum SolutionStepType {
 	public String getKey() {
 		return keyText;
 	}
-	
+
 	public String getDefault() {
 		return defaultText;
 	}

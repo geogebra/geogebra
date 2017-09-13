@@ -12,12 +12,12 @@ public class SolutionStep {
 	private Localization loc;
 
 	/**
-	 * The color of the solution step is either contained in the parameters themselves,
-	 * or - when there is no parameter, but there is still need for a color (to signal
-	 * for example the regrouping of constants), you have to pass a color. This will be 
-	 * represented as a dot after the text of the step.
+	 * The color of the solution step is either contained in the parameters
+	 * themselves, or - when there is no parameter, but there is still need for a
+	 * color (to signal for example the regrouping of constants), you have to pass a
+	 * color. This will be represented as a dot after the text of the step.
 	 */
-	
+
 	private SolutionStepType type;
 	private StepNode[] parameters;
 	private int color;

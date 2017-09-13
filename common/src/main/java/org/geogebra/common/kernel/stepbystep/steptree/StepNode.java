@@ -26,8 +26,10 @@ public abstract class StepNode {
 	public abstract boolean equals(StepNode sn);
 
 	/**
-	 * @param sn the tree to be compared to this
-	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1, if lower
+	 * @param sn
+	 *            the tree to be compared to this
+	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1,
+	 *         if lower
 	 */
 	public int compareTo(StepNode sn) {
 		int a = getPriority(this);
@@ -122,7 +124,8 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * @return deep copy of the tree. Use this, if you want to preserve the tree after a regroup
+	 * @return deep copy of the tree. Use this, if you want to preserve the tree
+	 *         after a regroup
 	 */
 	public abstract StepNode deepCopy();
 
@@ -133,7 +136,8 @@ public abstract class StepNode {
 
 	/**
 	 * @param op
-	 * @return whether the node is instance of StepOperation and its operation equals to op
+	 * @return whether the node is instance of StepOperation and its operation
+	 *         equals to op
 	 */
 	public abstract boolean isOperation(Operation op);
 
@@ -145,8 +149,9 @@ public abstract class StepNode {
 	public abstract boolean canBeEvaluated();
 
 	/**
-	 * @return the priority of the top node (1 - addition and subtraction, 2 - multiplication and division, 3 - roots and
-	 *         exponents, 4 - constants and variables)
+	 * @return the priority of the top node (1 - addition and subtraction, 2 -
+	 *         multiplication and division, 3 - roots and exponents, 4 - constants
+	 *         and variables)
 	 */
 	public abstract int getPriority();
 
@@ -156,14 +161,17 @@ public abstract class StepNode {
 	public abstract double getValue();
 
 	/**
-	 * @param variable - the name of the variable to be replaced
-	 * @param value - the value to be replaced with
+	 * @param variable
+	 *            - the name of the variable to be replaced
+	 * @param value
+	 *            - the value to be replaced with
 	 * @return the value of the tree after replacement
 	 */
 	public abstract double getValueAt(StepNode variable, double value);
 
 	/**
-	 * @return the non-variable coefficient of the tree (ex: 3 sqrt(3) x -> 3 sqrt(3))
+	 * @return the non-variable coefficient of the tree (ex: 3 sqrt(3) x -> 3
+	 *         sqrt(3))
 	 */
 	public abstract StepNode getCoefficient();
 
@@ -224,7 +232,8 @@ public abstract class StepNode {
 	public abstract StepNode regroup(SolutionBuilder sb);
 
 	/**
-	 * @return the tree, regrouped and expanded (destroys the tree, use only in assignments)
+	 * @return the tree, regrouped and expanded (destroys the tree, use only in
+	 *         assignments)
 	 */
 	public abstract StepNode expand(SolutionBuilder sb);
 
@@ -251,6 +260,7 @@ public abstract class StepNode {
 
 	/**
 	 * Only if isSquare() is true!
+	 * 
 	 * @return the square root of the expression
 	 */
 	public StepNode getSquareRoot() {
@@ -263,8 +273,8 @@ public abstract class StepNode {
 	}
 
 	public boolean isTrigonometric() {
-		return isOperation(Operation.SIN) || isOperation(Operation.COS) || isOperation(Operation.TAN) || isOperation(Operation.CSC)
-				|| isOperation(Operation.SEC) || isOperation(Operation.CSC);
+		return isOperation(Operation.SIN) || isOperation(Operation.COS) || isOperation(Operation.TAN)
+				|| isOperation(Operation.CSC) || isOperation(Operation.SEC) || isOperation(Operation.CSC);
 	}
 
 	public boolean isInverseTrigonometric() {
@@ -286,8 +296,10 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * @param s string to be parsed
-	 * @param parser GeoGebra parser
+	 * @param s
+	 *            string to be parsed
+	 * @param parser
+	 *            GeoGebra parser
 	 * @return the string s, parsed as a StepTree
 	 */
 	public static StepNode getStepTree(String s, Parser parser) {
@@ -301,11 +313,12 @@ public abstract class StepNode {
 		} catch (ParseException e) {
 			e.printStackTrace();
 			return null;
-		} 
+		}
 	}
 
 	/**
-	 * @param ev ExpressionValue to be converted
+	 * @param ev
+	 *            ExpressionValue to be converted
 	 * @return ev converted to StepTree
 	 */
 	public static StepNode convertExpression(ExpressionValue ev) {
@@ -323,11 +336,13 @@ public abstract class StepNode {
 			case SQRT:
 				return root(convertExpression(((ExpressionNode) ev).getLeft()), 2);
 			case MINUS:
-				return add(convertExpression(((ExpressionNode) ev).getLeft()), minus(convertExpression(((ExpressionNode) ev).getRight())));
+				return add(convertExpression(((ExpressionNode) ev).getLeft()),
+						minus(convertExpression(((ExpressionNode) ev).getRight())));
 			case ABS:
 				return abs(convertExpression(((ExpressionNode) ev).getLeft()));
 			case MULTIPLY:
-				if (((ExpressionNode) ev).getLeft().isConstant() && ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
+				if (((ExpressionNode) ev).getLeft().isConstant()
+						&& ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
 					return minus(convertExpression(((ExpressionNode) ev).getRight()));
 				}
 			default:
@@ -353,9 +368,12 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * @param toConvert StepTree to convert
-	 * @param var variable to group in
-	 * @return toConvert in a polynomial format (as an array of coefficients) toConvert = sum(returned[i] * var^i)
+	 * @param toConvert
+	 *            StepTree to convert
+	 * @param var
+	 *            variable to group in
+	 * @return toConvert in a polynomial format (as an array of coefficients)
+	 *         toConvert = sum(returned[i] * var^i)
 	 */
 	public static StepNode[] convertToPolynomial(StepNode toConvert, StepVariable var) {
 		List<StepNode> poli = new ArrayList<StepNode>();
@@ -389,12 +407,12 @@ public abstract class StepNode {
 			return true;
 		}
 
-		if(sn.isOperation()) {
+		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
-			
-			if(so.isOperation(Operation.PLUS)) {
-				for(int i = 0; i < so.noOfOperands(); i++) {
-					if(!isPolynomial(so.getSubTree(i))) {
+
+			if (so.isOperation(Operation.PLUS)) {
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (!isPolynomial(so.getSubTree(i))) {
 						return false;
 					}
 				}
@@ -414,9 +432,12 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * @param r dividend
-	 * @param d divisor
-	 * @param var variable
+	 * @param r
+	 *            dividend
+	 * @param d
+	 *            divisor
+	 * @param var
+	 *            variable
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
 	public static StepNode polynomialDivision(StepNode r, StepNode d, StepVariable var) {
@@ -433,7 +454,9 @@ public abstract class StepNode {
 		StepNode q = new StepConstant(0);
 
 		while ((leadR != 0 || (arrayR[0] != null && arrayR[0].getValue() != 0)) && leadR >= leadD) {
-			StepNode t = StepNode.multiply(StepNode.divide(arrayR[leadR], arrayD[leadD]), StepNode.power(var, leadR - leadD)).regroup();
+			StepNode t = StepNode
+					.multiply(StepNode.divide(arrayR[leadR], arrayD[leadD]), StepNode.power(var, leadR - leadD))
+					.regroup();
 			q = StepNode.add(q, t);
 
 			StepNode[] td = StepNode.convertToPolynomial(StepNode.multiply(t, d).expand(null), var);
@@ -457,8 +480,11 @@ public abstract class StepNode {
 
 	/**
 	 * tries to divide a by b
-	 * @param a dividend
-	 * @param b divisor
+	 * 
+	 * @param a
+	 *            dividend
+	 * @param b
+	 *            divisor
 	 * @return result, if polynomial division was successful, null otherwise
 	 */
 	public static StepNode tryToDivide(StepNode a, StepNode b) {
@@ -519,7 +545,7 @@ public abstract class StepNode {
 			} else {
 				copyofa.addSubTree(b.deepCopy());
 			}
-			
+
 			return copyofa;
 		}
 
@@ -697,8 +723,9 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * calculates currentFraction * base ^ exponent, and writes it in a nice form i.e.: makeFraction((x+1)/x, x+1, 1) ->
-	 * ((x+1)(x+1))/x, makeFraction((x+1)/(x(x+1)), x, -1) -> (x+1)/(x(x+1)x)
+	 * calculates currentFraction * base ^ exponent, and writes it in a nice form
+	 * i.e.: makeFraction((x+1)/x, x+1, 1) -> ((x+1)(x+1))/x,
+	 * makeFraction((x+1)/(x(x+1)), x, -1) -> (x+1)/(x(x+1)x)
 	 */
 	public static StepNode makeFraction(StepNode currentFraction, StepNode base, StepNode exponent) {
 		StepNode nominator;
@@ -730,7 +757,8 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * returns a^b, except if b == 1, then it returns a, or if b == 0, then it returns 1
+	 * returns a^b, except if b == 1, then it returns a, or if b == 0, then it
+	 * returns 1
 	 */
 	public static StepNode nonTrivialPower(StepNode a, StepNode b) {
 		if (a != null && b != null) {
@@ -792,10 +820,13 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * returns the largest b-th that divides a (for example (8, 2) -> 4, (8, 3) -> 8, (108, 2) -> 36)
+	 * returns the largest b-th that divides a (for example (8, 2) -> 4, (8, 3) ->
+	 * 8, (108, 2) -> 36)
 	 * 
-	 * @param a base
-	 * @param b exponent
+	 * @param a
+	 *            base
+	 * @param b
+	 *            exponent
 	 * @return largest b-th power that divides a
 	 */
 	public static long largestNthPower(double a, double b) {
@@ -838,7 +869,8 @@ public abstract class StepNode {
 		} else if (sn.isOperation(Operation.MINUS)) {
 			return getDenominator(((StepOperation) sn).getSubTree(0));
 		} else if (sn.isOperation(Operation.DIVIDE)) {
-			if (closeToAnInteger(((StepOperation) sn).getSubTree(0)) && closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
+			if (closeToAnInteger(((StepOperation) sn).getSubTree(0))
+					&& closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
 				return Math.round(((StepOperation) sn).getSubTree(1).getValue());
 			}
 		}
@@ -857,15 +889,17 @@ public abstract class StepNode {
 	}
 
 	public static StepNode inverseTrigoLookup(StepOperation so) {
-		String[] arguments = new String[] { "-1", "-(nroot(3, 2))/(2)", "-(nroot(2, 2))/(2)", "-(1)/(2)", "0", "(1)/(2)",
-				"(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };
-		String[] argumentsTan = new String[] { "", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1", "nroot(3, 2)", "" };
+		String[] arguments = new String[] { "-1", "-(nroot(3, 2))/(2)", "-(nroot(2, 2))/(2)", "-(1)/(2)", "0",
+				"(1)/(2)", "(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };
+		String[] argumentsTan = new String[] { "", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1",
+				"nroot(3, 2)", "" };
 
 		StepNode pi = new StepConstant(Math.PI);
-		StepNode[] valuesSinTan = new StepNode[] { minus(divide(pi, 2)), minus(divide(pi, 3)), minus(divide(pi, 4)), minus(divide(pi, 6)),
-				new StepConstant(0), divide(pi, 6), divide(pi, 4), divide(pi, 3), divide(pi, 2) };
-		StepNode[] valuesCos = new StepNode[] { pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4), divide(multiply(2, pi), 3),
-				divide(pi, 2), divide(pi, 3), divide(pi, 4), divide(pi, 6), new StepConstant(0) };
+		StepNode[] valuesSinTan = new StepNode[] { minus(divide(pi, 2)), minus(divide(pi, 3)), minus(divide(pi, 4)),
+				minus(divide(pi, 6)), new StepConstant(0), divide(pi, 6), divide(pi, 4), divide(pi, 3), divide(pi, 2) };
+		StepNode[] valuesCos = new StepNode[] { pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4),
+				divide(multiply(2, pi), 3), divide(pi, 2), divide(pi, 3), divide(pi, 4), divide(pi, 6),
+				new StepConstant(0) };
 
 		String currentArgument = so.getSubTree(0).toString();
 		for (int i = 0; i < arguments.length; i++) {
@@ -911,7 +945,8 @@ public abstract class StepNode {
 		return power;
 	}
 
-	public static void getBasesAndExponents(StepNode sn, StepNode currentExp, List<StepNode> bases, List<StepNode> exponents) {
+	public static void getBasesAndExponents(StepNode sn, StepNode currentExp, List<StepNode> bases,
+			List<StepNode> exponents) {
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 

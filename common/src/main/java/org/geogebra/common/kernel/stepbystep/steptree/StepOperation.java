@@ -186,11 +186,14 @@ public class StepOperation extends StepNode {
 			}
 			return p;
 		case DIVIDE:
-			return subtrees.get(0).getValueAt(variable, replaceWith) / subtrees.get(1).getValueAt(variable, replaceWith);
+			return subtrees.get(0).getValueAt(variable, replaceWith)
+					/ subtrees.get(1).getValueAt(variable, replaceWith);
 		case POWER:
-			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith), subtrees.get(1).getValueAt(variable, replaceWith));
+			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith),
+					subtrees.get(1).getValueAt(variable, replaceWith));
 		case NROOT:
-			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith), 1 / subtrees.get(1).getValueAt(variable, replaceWith));
+			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith),
+					1 / subtrees.get(1).getValueAt(variable, replaceWith));
 		case ABS:
 			return Math.abs(subtrees.get(0).getValueAt(variable, replaceWith));
 		case SIN:
@@ -312,8 +315,8 @@ public class StepOperation extends StepNode {
 					sp.append(" ");
 				}
 
-				boolean parantheses = subtrees.get(i).getPriority() < getPriority() && !subtrees.get(i).isOperation(Operation.MINUS)
-						|| (i != 0 && isNegative(subtrees.get(i)));
+				boolean parantheses = subtrees.get(i).getPriority() < getPriority()
+						&& !subtrees.get(i).isOperation(Operation.MINUS) || (i != 0 && isNegative(subtrees.get(i)));
 
 				if (parantheses) {
 					sp.append("\\left(");
@@ -325,18 +328,21 @@ public class StepOperation extends StepNode {
 			}
 			return sp.toString();
 		case DIVIDE:
-			return "\\frac{" + subtrees.get(0).toLaTeXString(loc, colored) + "}{" + subtrees.get(1).toLaTeXString(loc, colored) + "}";
+			return "\\frac{" + subtrees.get(0).toLaTeXString(loc, colored) + "}{"
+					+ subtrees.get(1).toLaTeXString(loc, colored) + "}";
 		case POWER:
 			if (subtrees.get(0).getPriority() <= 3) {
-				return "\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)^{" + subtrees.get(1).toLaTeXString(loc, colored)
-						+ "}";
+				return "\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)^{"
+						+ subtrees.get(1).toLaTeXString(loc, colored) + "}";
 			}
-			return subtrees.get(0).toLaTeXString(loc, colored) + "^{" + subtrees.get(1).toLaTeXString(loc, colored) + "}";
+			return subtrees.get(0).toLaTeXString(loc, colored) + "^{" + subtrees.get(1).toLaTeXString(loc, colored)
+					+ "}";
 		case NROOT:
 			if (isSquareRoot()) {
 				return "\\sqrt{" + subtrees.get(0).toLaTeXString(loc, colored) + "}";
 			}
-			return "\\sqrt[" + subtrees.get(1).toLaTeXString(loc, colored) + "]{" + subtrees.get(0).toLaTeXString(loc, colored) + "}";
+			return "\\sqrt[" + subtrees.get(1).toLaTeXString(loc, colored) + "]{"
+					+ subtrees.get(0).toLaTeXString(loc, colored) + "}";
 		case ABS:
 			return "\\left|" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right|";
 		case SIN:
@@ -348,23 +354,21 @@ public class StepOperation extends StepNode {
 		case ARCSIN:
 		case ARCCOS:
 		case ARCTAN:
-			return "\\" + loc.getFunction(operation.toString().toLowerCase()) + "\\left(" + subtrees.get(0).toLaTeXString(loc, colored)
-					+ "\\right)";
+			return "\\" + loc.getFunction(operation.toString().toLowerCase()) + "\\left("
+					+ subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
 		}
 		return "";
 	}
 
 	private static boolean requiresPlus(StepNode a) {
-		return !(a instanceof StepConstant && a.getValue() < 0) 
-				&& !a.isOperation(Operation.MINUS) 
+		return !(a instanceof StepConstant && a.getValue() < 0) && !a.isOperation(Operation.MINUS)
 				&& !a.isOperation(Operation.PLUSMINUS)
 				&& (!a.isOperation(Operation.MULTIPLY) || requiresPlus(((StepOperation) a).getSubTree(0)));
 	}
 
 	private static boolean requiresDot(StepNode a, StepNode b) {
-		return (a.nonSpecialConstant() && b.nonSpecialConstant()) 
-				|| (a instanceof StepVariable && b.nonSpecialConstant())
-				|| (a instanceof StepVariable && a.equals(b))
+		return (a.nonSpecialConstant() && b.nonSpecialConstant())
+				|| (a instanceof StepVariable && b.nonSpecialConstant()) || (a instanceof StepVariable && a.equals(b))
 				|| (b.isOperation(Operation.POWER) && requiresDot(a, ((StepOperation) b).getSubTree(0)));
 	}
 

@@ -35,11 +35,11 @@ public class StepInterval extends StepNode {
 	}
 
 	public boolean contains(StepNode sn) {
-		if(sn.isConstant()) {
+		if (sn.isConstant()) {
 			double value = sn.getValue();
 			double leftBoundValue = leftBound.getValue();
 			double rightBoundValue = rightBound.getValue();
-			
+
 			if (leftClosed && isEqual(leftBoundValue, value)) {
 				return true;
 			}
@@ -50,7 +50,7 @@ public class StepInterval extends StepNode {
 
 			return leftBoundValue < value && value < rightBoundValue;
 		}
-		
+
 		return false;
 	}
 
@@ -135,7 +135,7 @@ public class StepInterval extends StepNode {
 	public StepNode getIntegerCoefficient() {
 		return null;
 	}
-	
+
 	@Override
 	public StepNode getNonInteger() {
 		return this;
@@ -173,7 +173,7 @@ public class StepInterval extends StepNode {
 			return "\\mathbb{R}";
 		}
 		StringBuilder sb = new StringBuilder();
-		if(leftClosed) {
+		if (leftClosed) {
 			sb.append("\\left[");
 		} else {
 			sb.append("\\left(");

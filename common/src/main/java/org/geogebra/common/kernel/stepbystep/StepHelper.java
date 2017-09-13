@@ -51,8 +51,10 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
-	 * @param kernel GeoGebra kernel (used for CAS)
+	 * @param sn
+	 *            expression tree to traverse
+	 * @param kernel
+	 *            GeoGebra kernel (used for CAS)
 	 * @return lowest common denominator of the expression
 	 */
 	public static StepNode getCommonDenominator(StepNode sn, Kernel kernel) {
@@ -100,7 +102,8 @@ public class StepHelper {
 				return so;
 			}
 
-			if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.PLUS) || so.isOperation(Operation.MULTIPLY)) {
+			if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.PLUS)
+					|| so.isOperation(Operation.MULTIPLY)) {
 				StepOperation newSo = new StepOperation(so.getOperation());
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
@@ -134,8 +137,8 @@ public class StepHelper {
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (getNominator(so.getSubTree(i)).equals(so.getSubTree(i))) {
-						newSo.addSubTree(
-								StepNode.divide(StepNode.multiply(commonDenominator, so.getSubTree(i)).regroup(), commonDenominator));
+						newSo.addSubTree(StepNode.divide(
+								StepNode.multiply(commonDenominator, so.getSubTree(i)).regroup(), commonDenominator));
 					} else {
 						newSo.addSubTree(expandFractions(so.getSubTree(i), commonDenominator, changed));
 					}
@@ -201,7 +204,8 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
+	 * @param sn
+	 *            expression tree to traverse
 	 * @return sum of all the subexpressions containing square roots
 	 */
 	public static StepNode getAll(StepNode sn, Operation op) {
@@ -210,7 +214,8 @@ public class StepHelper {
 
 			if (so.isOperation(op)) {
 				return so;
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so.isOperation(Operation.MINUS)) {
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
+					|| so.isOperation(Operation.MINUS)) {
 				if (countOperation(so, op) > 0) {
 					return so;
 				}
@@ -226,7 +231,8 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
+	 * @param sn
+	 *            expression tree to traverse
 	 * @return part of the expression tree, which doesn't contain roots
 	 */
 	public static StepNode getNon(StepNode sn, Operation op) {
@@ -234,7 +240,8 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
+	 * @param sn
+	 *            expression tree to traverse
 	 * @return first subexpression containing square roots
 	 */
 	public static StepNode getOne(StepNode sn, Operation op) {
@@ -264,8 +271,10 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
-	 * @param expr expression to find
+	 * @param sn
+	 *            expression tree to traverse
+	 * @param expr
+	 *            expression to find
 	 * @return all subexpression which contain expr
 	 */
 	public static StepNode findVariable(StepNode sn, StepNode expr) {
@@ -295,8 +304,10 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
-	 * @param expr expression to find
+	 * @param sn
+	 *            expression tree to traverse
+	 * @param expr
+	 *            expression to find
 	 * @return the coefficient of expr in the tree
 	 */
 	public static StepNode findCoefficient(StepNode sn, StepNode expr) {
@@ -347,8 +358,10 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
-	 * @param expr expression to find
+	 * @param sn
+	 *            expression tree to traverse
+	 * @param expr
+	 *            expression to find
 	 * @return whether sn contains expr
 	 */
 	private static boolean containsExpression(StepNode sn, StepNode expr) {
@@ -372,7 +385,8 @@ public class StepHelper {
 	}
 
 	/**
-	 * @param sn expression tree to traverse
+	 * @param sn
+	 *            expression tree to traverse
 	 * @return subexpression which do not contain any variable part
 	 */
 	public static StepNode findConstant(StepNode sn) {
@@ -402,7 +416,8 @@ public class StepHelper {
 
 			if (so.isOperation(Operation.POWER) && !so.getSubTree(0).isConstant()) {
 				return (int) so.getSubTree(1).getValue();
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE) || so.isOperation(Operation.MINUS)) {
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
+					|| so.isOperation(Operation.MINUS)) {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					int power = getPower(so.getSubTree(i));
 					if (power > 0) {
@@ -421,7 +436,8 @@ public class StepHelper {
 
 			if (so.isOperation(Operation.POWER)) {
 				return true;
-			} else if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)) {
+			} else if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.MULTIPLY)
+					|| so.isOperation(Operation.DIVIDE)) {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (!isPower(so.getSubTree(i))) {
 						return false;
@@ -526,7 +542,8 @@ public class StepHelper {
 	}
 
 	public static boolean shouldMultiply(StepNode sn) {
-		return countOperation(sn, Operation.DIVIDE) > 1 || countNonConstOperation(sn, Operation.DIVIDE) == 1 && linearInInverse(sn) == null;
+		return countOperation(sn, Operation.DIVIDE) > 1
+				|| countNonConstOperation(sn, Operation.DIVIDE) == 1 && linearInInverse(sn) == null;
 	}
 
 	public static StepOperation findInverse(StepNode sn) {
@@ -691,7 +708,8 @@ public class StepHelper {
 		return x.getValueAt(variable, evaluateAt.getValue()) < 0;
 	}
 
-	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepNode variable, Kernel kernel) {
+	public static boolean isValidSolution(StepNode LHS, StepNode RHS, StepNode solution, StepNode variable,
+			Kernel kernel) {
 		StepNode denominators = getCommonDenominator(StepNode.add(LHS, RHS), kernel);
 
 		if (denominators != null && !denominators.isConstant()) {
@@ -776,12 +794,12 @@ public class StepHelper {
 			StepOperation so = (StepOperation) sn;
 
 			if (so.isTrigonometric() || so.isInverseTrigonometric()) {
-				if(so.isConstant()) {
+				if (so.isConstant()) {
 					return 0;
 				}
 				return -1;
 			}
-			
+
 			switch (so.getOperation()) {
 			case MINUS:
 				return degree(so.getSubTree(0));
@@ -837,10 +855,9 @@ public class StepHelper {
 
 	public static StepNode LCM(StepNode a, StepNode b, Kernel kernel) {
 		try {
-			return StepNode.getStepTree(
-					kernel.evaluateCachedGeoGebraCAS(
-							"Factor(LCM(" + (a == null ? "1" : a.toString()) + ", " + (b == null ? "1" : b.toString()) + "))", null),
-					kernel.getParser());
+			return StepNode.getStepTree(kernel.evaluateCachedGeoGebraCAS(
+					"Factor(LCM(" + (a == null ? "1" : a.toString()) + ", " + (b == null ? "1" : b.toString()) + "))",
+					null), kernel.getParser());
 		} catch (Throwable e) {
 			return null;
 		}
@@ -848,7 +865,8 @@ public class StepHelper {
 
 	public static StepNode factor(StepNode sn, Kernel kernel) {
 		try {
-			return StepNode.getStepTree(kernel.evaluateCachedGeoGebraCAS("Factor(" + sn.toString() + ")", null), kernel.getParser());
+			return StepNode.getStepTree(kernel.evaluateCachedGeoGebraCAS("Factor(" + sn.toString() + ")", null),
+					kernel.getParser());
 		} catch (Throwable e) {
 			return null;
 		}
