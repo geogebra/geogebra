@@ -752,7 +752,6 @@ public class AppWapplet extends AppWFull {
 	}
 
 	private boolean isFloatingMenu() {
-		// TODO Auto-generated method stub
 		return isUnbundled() || isWhiteboardActive();
 	}
 

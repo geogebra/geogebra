@@ -189,7 +189,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 
-
 	/**
 	 * Scroll handler
 	 */
@@ -274,7 +273,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			break;
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
-			app.toggleMenu();
 			app.closePopups();
 			// see this.setFocus(true) and this.addKeyDownHandler...
 			app.focusGained(AlgebraViewW.this, this.getElement());

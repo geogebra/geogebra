@@ -35,6 +35,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -444,6 +446,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		header = new Header(this, (AppW) app);
 		add(header);
 		main = new FlowPanel();
+		sinkEvents(Event.ONCLICK);
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab();
 		tabTools = new ToolsTab();
@@ -453,6 +456,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		add(main);
 		ClickStartHandler.initDefaults(main, true, true);
 		hideDragger();
+	}
+
+	@Override
+	public void onBrowserEvent(Event event) {
+		if (DOM.eventGetType(event) == Event.ONCLICK
+				&& ((AppW) app).isMenuShowing()) {
+			toggleMenu();
+		}
+		super.onBrowserEvent(event);
 	}
 
 	/**
