@@ -244,7 +244,9 @@ abstract public class ObjectSettingsModel {
     }
 
     public void rename(String name) {
-        mGeoElement.rename(name);
+        if (mGeoElement != null) {
+            mGeoElement.rename(name);
+        }
     }
 
     public String getNameDescription() {
