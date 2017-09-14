@@ -1029,11 +1029,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		case EuclidianConstants.MODE_ZOOM_OUT:
 			return myIconResourceBundle.mode_zoomout_32();
 			
-			
-			
-			
-			
-			
 			/*
 			 * 3D
 			 */

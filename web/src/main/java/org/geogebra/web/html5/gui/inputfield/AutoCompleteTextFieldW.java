@@ -1160,11 +1160,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				break;
 			}
 
-			/*
-			 * AG do this if we will have windows Component comp =
-			 * SwingUtilities.getRoot(this); if (comp instanceof JDialog) {
-			 * ((JDialog) comp).setVisible(false); return; }
-			 */
+			/* TODO maybe close parent dialog? */
 			if (textField.isSuggestionListVisible()) {
 				textField.hideSuggestions();
 			} else {
@@ -1174,34 +1170,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			break;
 
 		case GWTKeycodes.KEY_UP:
-			if (!isSuggesting()) {
-				if (!handleEscapeKey) {
-					break;
-				}
-				if (historyPopup == null) {
-					String text = getPreviousInput();
-					if (text != null) {
-						setText(text);
-					}
-				} else if (!historyPopup.isDownPopup()) {
-					historyPopup.showPopup();
-				}
-			}
+			handleUpArrow();
 			e.stopPropagation();
 			break;
 
 		case GWTKeycodes.KEY_DOWN:
-			if (!handleEscapeKey) {
-				break;
-			}
-			if (historyPopup != null && historyPopup.isDownPopup()) {
-				historyPopup.showPopup();
-			} else {
-				// Fix for Ticket #463
-				if (getNextInput() != null) {
-					setText(getNextInput());
-				}
-			}
+			handleDownArrow();
 			e.stopPropagation(); // prevent GlobalKeyDispatcherW to move the
 									// euclidian view
 			break;
@@ -1233,27 +1207,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		case GWTKeycodes.KEY_F1:
 
-			if (autoComplete) {
-				if (!"".equals(getText())) {
-					int pos = getCaretPosition();
-					while (pos > 0 && getText().charAt(pos - 1) == '[') {
-						pos--;
-					}
-					String word = getWordAtPos(getText(), pos);
-					String lowerCurWord = word.toLowerCase();
-					String closest = getDictionary().lookup(lowerCurWord);
-
-					if (closest != null) {
-						// lowerCurWord.equals(closest.toLowerCase()))
-						showCommandHelp(app.getInternalCommand(closest));
-					} else if (app.getGuiManager() != null) {
-						app.getGuiManager().openHelp(App.WIKI_MANUAL);
-					}
-
-				}
-			} else if (app.getGuiManager() != null) {
-				app.getGuiManager().openHelp(App.WIKI_MANUAL);
-			}
+			handleF1();
 
 			e.stopPropagation();
 			break;
@@ -1325,6 +1279,63 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 
 		}
+	}
+
+	private void handleDownArrow() {
+		if (!handleEscapeKey) {
+			return;
+		}
+		if (historyPopup != null && historyPopup.isDownPopup()) {
+			historyPopup.showPopup();
+		} else {
+			// Fix for Ticket #463
+			if (getNextInput() != null) {
+				setText(getNextInput());
+			}
+		}
+
+	}
+
+	private void handleF1() {
+		if (autoComplete) {
+			if (!"".equals(getText())) {
+				int pos = getCaretPosition();
+				while (pos > 0 && getText().charAt(pos - 1) == '[') {
+					pos--;
+				}
+				String word = getWordAtPos(getText(), pos);
+				String lowerCurWord = word.toLowerCase();
+				String closest = getDictionary().lookup(lowerCurWord);
+
+				if (closest != null) {
+					// lowerCurWord.equals(closest.toLowerCase()))
+					showCommandHelp(app.getInternalCommand(closest));
+				} else if (app.getGuiManager() != null) {
+					app.getGuiManager().openHelp(App.WIKI_MANUAL);
+				}
+
+			}
+		} else if (app.getGuiManager() != null) {
+			app.getGuiManager().openHelp(App.WIKI_MANUAL);
+		}
+
+	}
+
+	private void handleUpArrow() {
+		if (!isSuggesting()) {
+			if (!handleEscapeKey) {
+				return;
+			}
+			if (historyPopup == null) {
+				String text = getPreviousInput();
+				if (text != null) {
+					setText(text);
+				}
+			} else if (!historyPopup.isDownPopup()) {
+				historyPopup.showPopup();
+			}
+		}
+
 	}
 
 	public void addToHistory(String str) {

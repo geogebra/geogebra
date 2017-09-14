@@ -46,6 +46,11 @@
 	<rule ref="rulesets/java/imports.xml">
 		<exclude name="TooManyStaticImports"/>
 	</rule>
+	<rule ref="rulesets/java/codesize.xml/ExcessiveMethodLength">
+	<properties>
+        <property name="minimum" value="900"/>
+    </properties>
+	</rule>
 	<rule ref="rulesets/java/design.xml">
 	<exclude name="ImmutableField"/>
 	<exclude name="ConstructorCallsOverridableMethod"/>

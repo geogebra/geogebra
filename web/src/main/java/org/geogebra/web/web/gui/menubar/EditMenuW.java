@@ -68,47 +68,9 @@ public class EditMenuW extends GMenuBar {
 			}
 		}
 
-		// copy menu
-		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE.copy_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE
-		        .menu_icon_edit_copy().getSafeUri().asString(),
-				loc.getMenu("Copy"), true), true, new MenuCommand(app) {
+		addCopy();
 
-			@Override
-			public void doExecute() {
-				if (!selection.getSelectedGeos().isEmpty()) {
-					app.setWaitCursor();
-							app.getCopyPaste().copyToXML(app,
-					        selection.getSelectedGeos(), false);
-					initActions(); // app.updateMenubar(); - it's needn't to
-					               // update the all menubar here
-					app.setDefaultCursor();
-				}
-			}
-		});
-
-		// paste menu
-		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE.paste_black()
-								.getSafeUri().asString()
-						: GuiResources.INSTANCE
-		        .menu_icon_edit_paste().getSafeUri().asString(),
-				loc.getMenu("Paste"), true), true, new MenuCommand(app) {
-
-			@Override
-			public void doExecute() {
-						if (!app.getCopyPaste().isEmpty()) {
-					app.setWaitCursor();
-							app.getCopyPaste().pasteFromXML(app, false);
-					app.setDefaultCursor();
-				}
-
-			}
-		});
+		addPasteItem();
 
 		if (!app.isUnbundled()) {
 			addSeparator();
@@ -116,90 +78,19 @@ public class EditMenuW extends GMenuBar {
 
 		// object properties menu
 
-		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE
-								.gere().getSafeUri().asString()
-						:
-				GuiResources.INSTANCE.menu_icon_options().getSafeUri()
-								.asString(),
-				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
-						: app.isUnbundled() ? loc.getMenu("Settings")
-								: loc
-						.getMenu("Options") + " ...", true), true,
-				new MenuCommand(app) {
-
-					@Override
-					public void doExecute() {
-							app.getDialogManager().showPropertiesDialog(
-									OptionType.OBJECTS, null);
-					}
-				});
+		addPropertiesItem();
 
 		if (!app.isUnbundled()) {
 			addSeparator();
 		}
 
-		// select all menu
-		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
-						? MaterialDesignResources.INSTANCE
-						.select_all_black().getSafeUri().asString() : noIcon,
-				loc.getMenu("SelectAll"), true),
-		        true, new MenuCommand(app) {
+		addSelectAllItem(noIcon);
 
-			        @Override
-			        public void doExecute() {
-				        if (!app.getKernel().isEmpty()) {
-					        selection.selectAll(-1);
-				        }
-			        }
-		        });
+		addSelectCurrentLayer(noIcon);
 
-		// select current layer menu
-		if (selection.getSelectedLayer() >= 0 && app.getMaxLayerUsed() > 0) {
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("SelectCurrentLayer"), true), true,
-			        new MenuCommand(app) {
+		addDescentdantsItem(noIcon);
 
-				        @Override
-				        public void doExecute() {
-					        int layer1 = selection.getSelectedLayer();
-					        if (layer1 != -1)
-							 {
-								selection.selectAll(layer1); // select all
-						                                     // objects in layer
-							}
-				        }
-			        });
-		}
-
-		if (selection.hasDescendants()) {
-			// select descendants menu
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("SelectDescendants"), true), true,
-			        new MenuCommand(app) {
-
-				        @Override
-				        public void doExecute() {
-					        selection.selectAllDescendants();
-				        }
-			        });
-		}
-
-		if (selection.hasPredecessors()) {
-			// select ancestors menu
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("SelectAncestors"), true), true,
-			        new MenuCommand(app) {
-
-				        @Override
-				        public void doExecute() {
-					        selection.selectAllPredecessors();
-				        }
-			        });
-
-		}
+		addPredecessorsItem(noIcon);
 
 		if (haveSelection) {
 			if (!app.isUnbundled()) {
@@ -217,26 +108,9 @@ public class EditMenuW extends GMenuBar {
 			        });
 		}
 
-		// show/hide objects and show/hide labels menus
 		if (layer != -1) {
-			addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHide"),
-			        true), true, new MenuCommand(app) {
-
-				@Override
-				public void doExecute() {
-					selection.showHideSelection();
-				}
-			});
-
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					loc.getMenu("ShowHideLabels"), true), true,
-			        new MenuCommand(app) {
-
-				        @Override
-				        public void doExecute() {
-					        selection.showHideSelectionLabels();
-				        }
-			        });
+			addShowHideItem(noIcon);
+			addShowHideLabelsItem(noIcon);
 		}
 
 		// Delete menu
@@ -244,19 +118,189 @@ public class EditMenuW extends GMenuBar {
 			if (!app.isUnbundled()) {
 				addSeparator();
 			}
-			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled() || app.isWhiteboardActive()
-							? MaterialDesignResources.INSTANCE.delete_black().getSafeUri().asString()
-							: GuiResources.INSTANCE
-			        .menu_icon_edit_delete().getSafeUri().asString(),
-					loc.getMenu("Delete"), true), true, new MenuCommand(app) {
-
-				@Override
-				public void doExecute() {
-							app.deleteSelectedObjects(false);
-				}
-			});
+			addDeleteItem();
 		}
+
+	}
+
+	private void addShowHideLabelsItem(String noIcon) {
+		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHideLabels"),
+				true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						selection.showHideSelectionLabels();
+					}
+				});
+
+	}
+
+	private void addShowHideItem(String noIcon) {
+		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHide"), true),
+				true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						selection.showHideSelection();
+					}
+				});
+
+	}
+
+	private void addDeleteItem() {
+		addItem(MainMenu.getMenuBarHtml(
+				app.isUnbundled() || app.isWhiteboardActive()
+						? MaterialDesignResources.INSTANCE.delete_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE.menu_icon_edit_delete()
+								.getSafeUri().asString(),
+				loc.getMenu("Delete"), true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						app.deleteSelectedObjects(false);
+					}
+				});
+
+	}
+
+	private void addPasteItem() {
+		addItem(MainMenu.getMenuBarHtml(
+				app.isUnbundled() || app.isWhiteboardActive()
+						? MaterialDesignResources.INSTANCE.paste_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE.menu_icon_edit_paste()
+								.getSafeUri().asString(),
+				loc.getMenu("Paste"), true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						if (!app.getCopyPaste().isEmpty()) {
+							app.setWaitCursor();
+							app.getCopyPaste().pasteFromXML(app, false);
+							app.setDefaultCursor();
+						}
+
+					}
+				});
+
+	}
+
+	private void addSelectAllItem(String noIcon) {
+		// select all menu
+		addItem(MainMenu.getMenuBarHtml(
+				app.isUnbundled() || app.isWhiteboardActive()
+						? MaterialDesignResources.INSTANCE.select_all_black()
+								.getSafeUri().asString()
+						: noIcon,
+				loc.getMenu("SelectAll"), true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						if (!app.getKernel().isEmpty()) {
+							selection.selectAll(-1);
+						}
+					}
+				});
+
+	}
+
+	private void addPredecessorsItem(String noIcon) {
+		if (selection.hasPredecessors()) {
+			// select ancestors menu
+			addItem(MainMenu.getMenuBarHtml(noIcon,
+					loc.getMenu("SelectAncestors"), true), true,
+					new MenuCommand(app) {
+
+						@Override
+						public void doExecute() {
+							selection.selectAllPredecessors();
+						}
+					});
+
+		}
+
+	}
+
+	private void addDescentdantsItem(String noIcon) {
+		if (selection.hasDescendants()) {
+			// select descendants menu
+			addItem(MainMenu.getMenuBarHtml(noIcon,
+					loc.getMenu("SelectDescendants"), true), true,
+					new MenuCommand(app) {
+
+						@Override
+						public void doExecute() {
+							selection.selectAllDescendants();
+						}
+					});
+		}
+
+	}
+
+	private void addSelectCurrentLayer(String noIcon) {
+		if (selection.getSelectedLayer() >= 0 && app.getMaxLayerUsed() > 0) {
+			addItem(MainMenu.getMenuBarHtml(noIcon,
+					loc.getMenu("SelectCurrentLayer"), true), true,
+					new MenuCommand(app) {
+
+						@Override
+						public void doExecute() {
+							int layer1 = selection.getSelectedLayer();
+							if (layer1 != -1) {
+								selection.selectAll(layer1); // select all
+																// objects in
+																// layer
+							}
+						}
+					});
+		}
+
+	}
+
+	private void addPropertiesItem() {
+		addItem(MainMenu.getMenuBarHtml(
+				app.isUnbundled() || app.isWhiteboardActive()
+						? MaterialDesignResources.INSTANCE.gere().getSafeUri()
+								.asString()
+						: GuiResources.INSTANCE.menu_icon_options().getSafeUri()
+								.asString(),
+				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
+						: app.isUnbundled() ? loc.getMenu("Settings")
+								: loc.getMenu("Options") + " ...",
+				true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						app.getDialogManager()
+								.showPropertiesDialog(OptionType.OBJECTS, null);
+					}
+				});
+
+	}
+
+	private void addCopy() {
+		addItem(MainMenu.getMenuBarHtml(
+				app.isUnbundled() || app.isWhiteboardActive()
+						? MaterialDesignResources.INSTANCE.copy_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE.menu_icon_edit_copy()
+								.getSafeUri().asString(),
+				loc.getMenu("Copy"), true), true, new MenuCommand(app) {
+
+					@Override
+					public void doExecute() {
+						if (!selection.getSelectedGeos().isEmpty()) {
+							app.setWaitCursor();
+							app.getCopyPaste().copyToXML(app,
+									selection.getSelectedGeos(), false);
+							initActions(); // app.updateMenubar(); - it's
+											// needn't to
+											// update the all menubar here
+							app.setDefaultCursor();
+						}
+					}
+				});
 
 	}
 
