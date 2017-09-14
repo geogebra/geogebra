@@ -174,7 +174,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				&& app.getGuiManager().showView(App.VIEW_SPREADSHEET))) {
 			GCheckBoxMenuItem cbItem;
 			if (!(app.has(Feature.WHITEBOARD_APP)
-					&& app.has(Feature.MOW_CONTEXT_MENU))
+					&& app.has(Feature.MOW_CONTEXT_MENU)) && !app.isUnbundled()
 					&& getGeo().isEuclidianShowable()
 					&& getGeo().getShowObjectCondition() == null
 					&& (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
