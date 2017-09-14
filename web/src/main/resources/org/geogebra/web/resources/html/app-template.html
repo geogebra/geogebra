@@ -108,10 +108,24 @@ var translation = {};
 	}
 
 	function getLocalStorage(key){
-		if(location.host && window.localStorage){
-			return localStorage.getItem(key);
+		try{
+			if(location.host && window.localStorage){
+				return localStorage.getItem(key);
+			}
+		} catch(e){
+			//local storage not supported
 		}
 		return false;
+	}
+	
+	function setLocalStorage(key, value){
+		try{
+			if(location.host && window.localStorage){
+				return localStorage.setItem(key, value);
+			}
+		} catch(e){
+			//local storage not supported
+		}
 	}
 
 	function getCookie(cookieName){
@@ -257,7 +271,7 @@ var translation = {};
 	}
 	function switchLang(lang, codebase){
 		var storedTranslation = {};
-		if(localStorage && localStorage.translation){
+		if(getLocalStorage("translation")){
 			try { 
 				storedTranslation = JSON.parse(localStorage.translation);
 			}
@@ -278,11 +292,11 @@ var translation = {};
 			
 			
 				showInLang(lang);
-				if(window.localStorage && window.__GGB__keysVar[lang]){
+				if(window.__GGB__keysVar[lang]){
 					var obj = {};
 					obj["version"] = latestVersion;
 					obj[lang] = window.__GGB__keysVar[lang];
-					localStorage.translation = JSON.stringify(obj);
+					setLocalStorage("translation", JSON.stringify(obj));
 				}
 				
 			}
