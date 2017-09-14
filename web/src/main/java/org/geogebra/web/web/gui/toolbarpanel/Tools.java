@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.web.html5.Browser;
@@ -23,27 +24,32 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author judit Content of tools tab of Toolbar panel.
  */
-public class Tools extends FlowPanel {
+public class Tools extends FlowPanel implements SetLabels {
 
 	/**
 	 * Tool categories
 	 */
-	ToolCategorization mToolCategorization;
+	private ToolCategorization mToolCategorization;
 	/**
 	 * application
 	 */
-	AppW app;
+	private AppW app;
 	/**
 	 * move button
 	 */
-	StandardButton moveButton;
+	private StandardButton moveButton;
+	/**
+	 * categories list
+	 */
+	private ArrayList<ToolCategorization.Category> categories;
+	private ArrayList<CategoryPanel> categoryPanelList;
 
 	/**
-	 * @param appl
+	 * @param app
 	 *            application
 	 */
-	public Tools(AppW appl) {
-		app = appl;
+	public Tools(AppW app) {
+		this.app = app;
 		this.addStyleName("toolsPanel");
 		buildGui();
 	}
@@ -88,6 +94,28 @@ public class Tools extends FlowPanel {
 	}
 
 	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
+	}
+
+	/**
+	 * @return tool categorization
+	 */
+	public ToolCategorization getmToolCategorization() {
+		return mToolCategorization;
+	}
+
+	/**
+	 * @param moveButton
+	 *            floating action move btn
+	 */
+	public void setMoveButton(StandardButton moveButton) {
+		this.moveButton = moveButton;
+	}
+
+	/**
 	 * Clears visual selection of all tools.
 	 */
 	public void clearSelectionStyle() {
@@ -108,23 +136,34 @@ public class Tools extends FlowPanel {
 	 */
 	public void buildGui() {
 		this.clear();
-
 		mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(), app.getSettings().getToolbarSettings().getToolsetLevel(), false);
 		mToolCategorization.resetTools();
-		ArrayList<ToolCategorization.Category> categories = mToolCategorization
+		categories = mToolCategorization
 				.getCategories();
-
+		categoryPanelList = new ArrayList<Tools.CategoryPanel>();
 		for (int i = 0; i < categories.size(); i++) {
-			add(new CategoryPanel(categories.get(i)));
+			CategoryPanel catPanel = new CategoryPanel(categories.get(i));
+			categoryPanelList.add(catPanel);
+			add(catPanel);
 		}
-		
 		setMoveMode();
 	}
 
-	private class CategoryPanel extends FlowPanel {
+	@Override
+	public void setLabels() {
+		if (categoryPanelList!=null && !categoryPanelList.isEmpty()) {
+			for (CategoryPanel categoryPanel : categoryPanelList) {
+				categoryPanel.setLabels();
+			}
+		}
+	}
+
+	private class CategoryPanel extends FlowPanel implements SetLabels {
 		private Category category;
 		private FlowPanel toolsPanel;
+		private Label categoryLabel;
+		private ArrayList<StandardButton> toolBtnList;
 		private ToolbarSvgResources toolSvgRes = ToolbarSvgResources.INSTANCE;
 
 		public CategoryPanel(ToolCategorization.Category cat) {
@@ -134,18 +173,21 @@ public class Tools extends FlowPanel {
 		}
 
 		private void initGui() {
-			add(new Label(mToolCategorization.getLocalizedHeader(category)));
+			categoryLabel = new Label(
+					getmToolCategorization().getLocalizedHeader(category));
+			add(categoryLabel);
 
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
-			ArrayList<Integer> tools = mToolCategorization.getTools(
-					mToolCategorization.getCategories().indexOf(category));
-
+			ArrayList<Integer> tools = getmToolCategorization().getTools(
+					getmToolCategorization().getCategories().indexOf(category));
+			toolBtnList = new ArrayList<StandardButton>();
 			for (int i = 0; i < tools.size(); i++) {
 				StandardButton btn = getButton(tools.get(i));
+				toolBtnList.add(btn);
 				toolsPanel.add(btn);
 				if (tools.get(i) == EuclidianConstants.MODE_MOVE) {
-					moveButton = btn;
+					setMoveButton(btn);
 				}
 			}
 			add(toolsPanel);
@@ -633,8 +675,8 @@ public class Tools extends FlowPanel {
 							getSvgImageForTool(mode).getSafeUri(), 0, 0, size,
 							size,
 							false, false),
-					app);
-			btn.setTitle(app.getLocalization()
+					getApp());
+			btn.setTitle(getApp().getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
 
 			if (mode == EuclidianConstants.MODE_DELETE
@@ -647,26 +689,37 @@ public class Tools extends FlowPanel {
 
 				@Override
 				public void onClick(Widget source) {
-					app.setMode(mode);
+					getApp().setMode(mode);
 					boolean isIpad = Window.Navigator.getUserAgent()
 							.toLowerCase().contains("ipad");
 					// allow tooltips for iPad
 					if (!Browser.isMobile() || isIpad) {
 						ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 						ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-							app.getToolTooltipHTML(mode),
-							app.getGuiManager().getTooltipURL(mode),
-							ToolTipLinkType.Help, app,
-							app.getAppletFrame().isKeyboardShowing());
+								getApp().getToolTooltipHTML(mode),
+								getApp().getGuiManager().getTooltipURL(mode),
+								ToolTipLinkType.Help, getApp(),
+								getApp().getAppletFrame().isKeyboardShowing());
 						ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 					}
-					app.updateDynamicStyleBars();
+					getApp().updateDynamicStyleBars();
 				}
-
 			});
-
 			return btn;
 		}
-	}
 
+		@Override
+		public void setLabels() {
+			// update label of category header
+			categoryLabel.setText(
+					getmToolCategorization().getLocalizedHeader(category));
+			// update tooltips of tools
+			ArrayList<Integer> tools = getmToolCategorization().getTools(
+					getmToolCategorization().getCategories().indexOf(category));
+			for (int i = 0; i < tools.size(); i++) {
+				toolBtnList.get(i).setTitle(getApp().getLocalization()
+						.getMenu(EuclidianConstants.getModeText(tools.get(i))));
+			}
+		}
+	}
 }

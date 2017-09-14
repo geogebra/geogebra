@@ -253,6 +253,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		 */
 
 		private ScrollPanel sp;
+
+		/**
+		 * panel containing tools
+		 */
 		public ToolsTab() {
 			createContents();
 			handleMoreLessButtons();
@@ -680,6 +684,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		updateMoveButton(mode);
 	}
 
+	/**
+	 * show or hide move btn according to selected tool
+	 */
 	public void updateMoveButton() {
 		updateMoveButton(app.getMode());
 	}
@@ -1047,6 +1054,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
+	/**
+	 * update header style
+	 */
 	public void updateHeader() {
 		header.updateStyle();
 	}
@@ -1059,11 +1069,19 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	}
 
+	/**
+	 * set labels of gui elements
+	 */
 	public void setLabels() {
 		header.setLabels();
-
+		tabTools.toolsPanel.setLabels();
+		tabTools.moreBtn.setText(app.getLocalization().getMenu("Tools.More"));
+		tabTools.lessBtn.setText(app.getLocalization().getMenu("Tools.Less"));
 	}
 
+	/**
+	 * close portrait
+	 */
 	public void doCloseInPortrait() {
 		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager();

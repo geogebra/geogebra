@@ -171,12 +171,14 @@ class Header extends FlowPanel {
 		contents.add(center);
 	}
 
+	/**
+	 * set labels
+	 */
 	void setLabels() {
 		btnMenu.setTitle(app.getLocalization().getMenu("Menu"));
 		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
 		btnAlgebra.setTitle(
 				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
-
 	}
 
 	/**
