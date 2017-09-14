@@ -23,7 +23,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/color_black.svg")
 	SVGResource color_black();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/filling_black.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_texture_black_24px.svg")
 	SVGResource filling_black();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/ic_format_size_black_24px.svg")

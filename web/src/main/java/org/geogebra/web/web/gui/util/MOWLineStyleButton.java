@@ -38,19 +38,13 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
 		updatePreview();
-		if (!app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+			addSliderTitle();
+		} else {
 			panel.addStyleName("mowStylePopup");
 			sliderPanel.addStyleName("mowLinePopup");
 		}
 		preview.addStyleName("preview");
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-			Label titleLabel = new Label(
-					app.getLocalization().getMenu("Thickness"));
-			titleLabel.addStyleName("thicknessLabel");
-			sliderPanel.insert(titleLabel, 0);
-			getMySlider().setWidth("140px");
-
-		}
 		setKeepVisible(true);
 	}
 
@@ -78,12 +72,24 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		updatePreview();
 	}
 
+	private void addSliderTitle() {
+		titleLabel = new Label();
+		titleLabel.addStyleName("thicknessLabel");
+		sliderPanel.insert(titleLabel, 0);
+		getMySlider().setWidth("140px");
+		setLabels();
+	}
 	/**
 	 * No text (but canvas) for slider so leave this empty.
 	 */
 	@Override
 	protected void setSliderText(String text) {
 		// intentionally left blank
+	}
+
+	@Override
+	public void setLabels() {
+		titleLabel.setText(app.getLocalization().getMenu("Thickness"));
 	}
 
 	private void updatePreview() {

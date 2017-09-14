@@ -512,7 +512,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 		add(btnLineStyle);
 		add(btnPointStyle);
-
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+			// update language of descriptions in color, line style and point
+			// style dialogs
+			btnColor.setLabels();
+			btnLineStyle.setLabels();
+			btnPointStyle.setLabels();
+		}
 		if (app.has(Feature.MOW_CLEAR_VIEW_STYLEBAR)) { // order of buttons changed
 			add(btnTextSize);
 		}
@@ -1325,14 +1331,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							}
 						}
 
-						if (!app.isUnbundled()) {
-							if (hasFillable) {
-								setTitle(loc
-										.getMenu("stylebar.ColorTransparency"));
-							} else {
-								setTitle(loc.getMenu("stylebar.Color"));
-							}
-						}
+						setTitle(loc.getMenu("stylebar.Filling"));
 
 						boolean enableFill = hasFillable && !alphaOnly;
 						super.setVisible(enableFill);
@@ -2054,6 +2053,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnLineStyle.setToolTipText(loc.getPlainTooltip("stylebar.LineStyle"));
 		btnPointStyle
 		        .setToolTipText(loc.getPlainTooltip("stylebar.PointStyle"));
+		btnFilling.setToolTipText(loc.getPlainTooltip("stylebar.Filling"));
 		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
 		btnTextSize.setToolTipText(loc.getPlainTooltip("stylebar.TextSize"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));

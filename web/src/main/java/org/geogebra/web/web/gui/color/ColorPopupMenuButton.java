@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.color;
 import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -22,7 +23,7 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class ColorPopupMenuButton extends PopupMenuButtonW
-		implements ClickHandler {
+		implements ClickHandler, SetLabels {
 	/** foreground */
 	public static final int COLORSET_DEFAULT = 0;
 	/** background */
@@ -31,7 +32,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	private GColor[] colorSet;
 	private GColor defaultColor;
 	private HashMap<String, Integer> lookupMap;
-	private Label titleLabel;
+
 
 	private boolean enableTable;
 	private boolean hasSlider;
@@ -72,13 +73,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (app.isUnbundled()) {
 			getMySlider().setWidth("120px");
 		}
-		if (app.isWhiteboardActive()) {
-			getMySlider().setWidth("140px");
-		}
+
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && hasSlider) {
-			titleLabel = new Label(app.getLocalization().getMenu("Opacity"));
-			titleLabel.addStyleName("opacityLabel");
-			sliderPanel.insert(titleLabel, 0);
+			addSliderTitle();
 		}
 
 		updateColorTable();
@@ -98,6 +95,16 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 					: GeoGebraColorConstants.getSimplePopupArray(colorSetType);
 		}
 	}
+
+	private void addSliderTitle() {
+		titleLabel = new Label();
+		titleLabel.addStyleName("opacityLabel");
+		sliderPanel.insert(titleLabel, 0);
+		if (app.isWhiteboardActive()) {
+			getMySlider().setWidth("140px");
+		}
+		setLabels();
+	}
 	/**
 	 * @param visible
 	 *            {@code boolean}
@@ -105,8 +112,10 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		showSlider(hasSlider);
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && titleLabel != null) {
-			titleLabel.setVisible(hasSlider);
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+			if (titleLabel != null) {
+				titleLabel.setVisible(hasSlider);
+			}
 			if (!hasSlider) {
 				getMyPopup().setHeight("88px");
 			}
@@ -254,6 +263,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			defaultColor = getSelectedColor();
 			updateColorTable();
 			setSelectedIndex(si);
+			setLabels();
 		}
 	}
 
@@ -284,6 +294,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		if (!enableTable && app.isUnbundled()) {
 			getMyPopup().setHeight("30px");
 		}
+		if(!enableTable && app.has(Feature.MOW_COLOR_FILLING_LINE)){
+			getMyPopup().setHeight("65px");
+		}
 	}
 
 	public GColor[] getColorSet() {
@@ -294,6 +307,10 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		this.colorSet = colorSet;
 	}
 
+	@Override
+	public void setLabels() {
+			titleLabel.setText(app.getLocalization().getMenu("Opacity"));
+	}
 	@Override
 	protected String getSliderPostfix() {
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {

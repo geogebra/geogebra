@@ -91,7 +91,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	public GPopupMenuW(MenuBar mb, AppW app) {
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			popupPanel.addStyleName("matSubMenu");
 		}
 	}

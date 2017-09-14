@@ -54,6 +54,7 @@ public class PopupMenuButtonW extends MyCJButton
 	private PopupMenuHandler popupHandler;
 	private Slider mySlider;
 	private Label sliderLabel;
+	protected Label titleLabel;
 	private SelectionTableW myTable;
 	private boolean hasTable;
 	/** flag to determine if the popup should persist after a mouse click */

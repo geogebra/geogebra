@@ -1,5 +1,6 @@
 package org.geogebra.web.web.euclidian;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -11,7 +12,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 
 public class EuclidianLineStylePopup extends LineStylePopup implements
-		ILineStyleListener {
+		ILineStyleListener, SetLabels {
 	protected LineStyleModel model;
 
 	public EuclidianLineStylePopup(AppW app, Integer rows,
@@ -106,6 +107,10 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 	@Override
 	public void setLineOpacityVisible(boolean value) {
 		// TODO Auto-generated method stub
+	}
+
+	// Overridden in MOWLineStyleButton
+	public void setLabels() {
 	}
 
 }

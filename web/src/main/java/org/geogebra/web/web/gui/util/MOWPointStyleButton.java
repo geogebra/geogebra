@@ -33,7 +33,6 @@ public class MOWPointStyleButton extends PointStylePopup {
 	private GGraphics2DW g2;
 	private DrawPoint drawPoint;
 	private GeoPoint p;
-	private Label titleLabel;
 
 	/**
 	 * Constructor
@@ -58,10 +57,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		canvas.setCoordinateSpaceHeight(CANVAS_SIZE);
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
-			titleLabel = new Label(app.getLocalization().getMenu("PointSize"));
-			titleLabel.addStyleName("pointSizeLabel");
-			sliderPanel.insert(titleLabel, 0);
-			getMySlider().setWidth("140px");
+			addSliderTitle();
 		} else {
 			panel.addStyleName("mowStylePopup");
 			sliderPanel.addStyleName("mowLinePopup");
@@ -74,6 +70,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		drawPoint = new DrawPoint(app.getActiveEuclidianView(), p);
 		p.setEuclidianVisible(true);
 	}
+
 
 	/**
 	 * 
@@ -118,6 +115,13 @@ public class MOWPointStyleButton extends PointStylePopup {
 		updateCanvas();
 	}
 
+	private void addSliderTitle() {
+		titleLabel = new Label();
+		titleLabel.addStyleName("pointSizeLabel");
+		sliderPanel.insert(titleLabel, 0);
+		getMySlider().setWidth("140px");
+		setLabels();
+	}
 	/**
 	 * No text (but canvas) for slider so leave this empty.
 	 */
@@ -140,5 +144,10 @@ public class MOWPointStyleButton extends PointStylePopup {
 		p.setPointSize(getSliderValue());
 		p.setObjColor(GColor.BLACK);
 		p.setPointStyle(getMyTable().getSelectedIndex());
+	}
+
+	@Override
+	public void setLabels() {
+		titleLabel.setText(app.getLocalization().getMenu("PointSize"));
 	}
 }

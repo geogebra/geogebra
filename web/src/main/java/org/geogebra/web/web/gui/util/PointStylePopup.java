@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.util.SelectionTable;
@@ -12,7 +13,8 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 
-public class PointStylePopup extends PopupMenuButtonW implements IComboListener {
+public class PointStylePopup extends PopupMenuButtonW
+		implements IComboListener, SetLabels {
 
 	private static final int DEFAULT_SIZE = 4;
 	static HashMap<Integer, Integer> pointStyleMap;
@@ -158,6 +160,10 @@ public class PointStylePopup extends PopupMenuButtonW implements IComboListener 
 	public void addItem(GeoElement item) {
 		// TODO Auto-generated method stub
 
+	}
+
+	// Overridden in MowPointStyle
+	public void setLabels() {
 	}
 
 }
