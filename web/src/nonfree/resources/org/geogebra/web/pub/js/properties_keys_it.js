@@ -3107,7 +3107,7 @@ __GGB__keysVar.it.menu = {
     "stylebar.ColorTransparency": "Colore e trasparenza",
     "stylebar.CopyVisualStyle": "Copia stile visuale",
     "stylebar.Eraser": "Cancella il tratto della penna",
-    "stylebar.Filling": "Set Filling",
+    "stylebar.Filling": "Imposta riempimento",
     "stylebar.GlassesProjection": "Proiezione per occhiali 3D",
     "stylebar.Grid": "Mostra / nascondi griglia",
     "stylebar.Hidden": "Nascosto",

@@ -3107,7 +3107,7 @@ __GGB__keysVar.fr.menu = {
     "stylebar.ColorTransparency": "Couleur et Opacit\xe9",
     "stylebar.CopyVisualStyle": "Copier le style graphique",
     "stylebar.Eraser": "Effacer stylo",
-    "stylebar.Filling": "Set Filling",
+    "stylebar.Filling": "Remplir",
     "stylebar.GlassesProjection": "Projection pour lunettes",
     "stylebar.Grid": "Afficher ou cacher la grille",
     "stylebar.Hidden": "Cacher",
