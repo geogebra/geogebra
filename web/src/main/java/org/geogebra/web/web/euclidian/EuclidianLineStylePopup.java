@@ -109,8 +109,9 @@ public class EuclidianLineStylePopup extends LineStylePopup implements
 		// TODO Auto-generated method stub
 	}
 
-	// Overridden in MOWLineStyleButton
+
 	public void setLabels() {
+		// Overridden in MOWLineStyleButton
 	}
 
 }

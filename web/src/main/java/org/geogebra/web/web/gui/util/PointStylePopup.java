@@ -162,8 +162,8 @@ public class PointStylePopup extends PopupMenuButtonW
 
 	}
 
-	// Overridden in MowPointStyle
 	public void setLabels() {
+		// Overridden in MowPointStyle
 	}
 
 }
