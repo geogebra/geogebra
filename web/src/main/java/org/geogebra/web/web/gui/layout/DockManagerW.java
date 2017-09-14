@@ -867,56 +867,15 @@ public class DockManagerW extends DockManager {
 			// their opposite element
 			
 			// the component opposite to the current component
-			Widget opposite;
-			int oppositeWidth = 0;
-			int oppositeHeight = 0;
+			int[] oppositeDim = new int[] { 0, 0 };
 
 			//====================
 			// TODO temporary fix:
 			//newSplitPane.setDividerLocation(size);
 			
 			
-			if(secondLastPos == -1) {
-				opposite = rootPane;
-				oppositeWidth = opposite.getOffsetWidth();
-				oppositeHeight = opposite.getOffsetHeight();
-				rootPane = newSplitPane;
-
-				// in root pane, the opposite may be null
-				if(lastPos == 0 || lastPos == 3) {
-					if(((DockSplitPaneW)opposite).getLeftComponent() == null) {
-						opposite = ((DockSplitPaneW)opposite).getRightComponent();
-					}
-				} else {
-					if (((DockSplitPaneW) opposite)
-							.getRightComponent() == null) {
-						opposite = ((DockSplitPaneW)opposite).getLeftComponent();
-					}
-				}
-			} else {
-				if (secondLastPos == 0 || secondLastPos == 3) {
-					opposite = currentPane.getLeftComponent();
-				} else {
-					opposite = currentPane.getRightComponent();
-				}
-
-				// in root pane, the opposite may be null
-				if (opposite == null) {
-					opposite = currentPane.getOpposite(null);
-					oppositeWidth = opposite.getOffsetWidth();
-					oppositeHeight = opposite.getOffsetHeight();
-					rootPane = newSplitPane;
-				} else if(opposite.getParent() == rootPane && rootPane.getOpposite(opposite) == null) {
-					oppositeWidth = opposite.getOffsetWidth();
-					oppositeHeight = opposite.getOffsetHeight();
-					rootPane = newSplitPane;
-				} else {
-					oppositeWidth = opposite.getOffsetWidth();
-					oppositeHeight = opposite.getOffsetHeight();
-					currentPane.replaceComponent(opposite, newSplitPane);
-				}
-			}
-			newSplitPane.setPreferredWidth(oppositeWidth, oppositeHeight);
+			Widget opposite = prepareRootPaneForInsert(oppositeDim, currentPane,
+					newSplitPane, lastPos, secondLastPos);
 
 
 			//App.debug("\n"+((DockComponent) opposite).toString("opposite"));
@@ -941,15 +900,12 @@ public class DockManagerW extends DockManager {
 			int newSplitPaneSize;
 			if (newSplitPane
 					.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
-				newSplitPaneSize=//newSplitPane.getOffsetWidth();
-					oppositeWidth;
+				newSplitPaneSize = oppositeDim[0];
 			} else {
-				newSplitPaneSize=//newSplitPane.getOffsetHeight();
-					oppositeHeight;
+				newSplitPaneSize = oppositeDim[1];
 			}
 			//check if panel size is not too large
-			if (size+DockComponent.MIN_SIZE>newSplitPaneSize)
-			 {
+			if (size + DockComponent.MIN_SIZE > newSplitPaneSize) {
 				size = newSplitPaneSize/2;
 			//set the divider location
 			}
@@ -968,10 +924,64 @@ public class DockManagerW extends DockManager {
 			//App.debug("\n======\n"+((DockComponent) opposite).toString(""));
 			//re dispatch divider locations to prevent not visible views
 			if (opposite != null) {
-				((DockComponent) opposite).updateDividerLocation(newSplitPaneSize-size,newSplitPane.getOrientation());
+				((DockComponent) opposite).updateDividerLocation(
+						newSplitPaneSize - size, newSplitPane.getOrientation());
 			}
 		}
 
+		updateAfterShow(panel);
+	}
+
+	private Widget prepareRootPaneForInsert(int[] oppositeDim,
+			DockSplitPaneW currentPane, DockSplitPaneW newSplitPane,
+			final int lastPos, final int secondLastPos) {
+		Widget opposite;
+		if (secondLastPos == -1) {
+			opposite = rootPane;
+			oppositeDim[0] = opposite.getOffsetWidth();
+			oppositeDim[1] = opposite.getOffsetHeight();
+			rootPane = newSplitPane;
+
+			// in root pane, the opposite may be null
+			if (lastPos == 0 || lastPos == 3) {
+				if (((DockSplitPaneW) opposite).getLeftComponent() == null) {
+					opposite = ((DockSplitPaneW) opposite).getRightComponent();
+				}
+			} else {
+				if (((DockSplitPaneW) opposite).getRightComponent() == null) {
+					opposite = ((DockSplitPaneW) opposite).getLeftComponent();
+				}
+			}
+		} else {
+			if (secondLastPos == 0 || secondLastPos == 3) {
+				opposite = currentPane.getLeftComponent();
+			} else {
+				opposite = currentPane.getRightComponent();
+			}
+
+			// in root pane, the opposite may be null
+			if (opposite == null) {
+				opposite = currentPane.getOpposite(null);
+				oppositeDim[0] = opposite.getOffsetWidth();
+				oppositeDim[1] = opposite.getOffsetHeight();
+				rootPane = newSplitPane;
+			} else if (opposite.getParent() == rootPane
+					&& rootPane.getOpposite(opposite) == null) {
+				oppositeDim[0] = opposite.getOffsetWidth();
+				oppositeDim[1] = opposite.getOffsetHeight();
+				rootPane = newSplitPane;
+			} else {
+				oppositeDim[0] = opposite.getOffsetWidth();
+				oppositeDim[1] = opposite.getOffsetHeight();
+				currentPane.replaceComponent(opposite, newSplitPane);
+			}
+		}
+		newSplitPane.setPreferredWidth(oppositeDim[0], oppositeDim[1]);
+		return opposite;
+
+	}
+
+	private void updateAfterShow(DockPanelW panel) {
 		panel.updatePanel(false);
 
 		// here we need to resize both panel and opposite
@@ -1002,8 +1012,9 @@ public class DockManagerW extends DockManager {
 		for (ShowDockPanelListener l:showDockPanelListener){
 			l.showDockPanel(panel);
 		}
+
 	}
-	
+
 	/**
 	 * Hide a dock panel identified by the view ID.
 	 * 
