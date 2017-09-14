@@ -130,6 +130,10 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	 * Show the More context menu
 	 */
 	protected void showMoreContexMenu() {
+		if (radioTreeItem.getApplication().isUnbundled()
+				&& radioTreeItem.getApplication().isMenuShowing()) {
+			radioTreeItem.getApplication().toggleMenu();
+		}
 		if (cmMore == null) {
 			cmMore = new ContextMenuMore(radioTreeItem);
 

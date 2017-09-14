@@ -224,10 +224,13 @@ class Header extends FlowPanel {
 		btnClose.addStyleName("flatButton");
 		btnClose.addStyleName("close");
 
-		ClickStartHandler.init(btnClose, new ClickStartHandler() {
+		ClickStartHandler.init(btnClose, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				if (app.isMenuShowing()) {
+					app.toggleMenu();
+				}
 				addAnimation();
 				setAnimating(true);
 				if (isOpen()) {
@@ -442,10 +445,13 @@ class Header extends FlowPanel {
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
 
-		ClickStartHandler.init(btnUndo, new ClickStartHandler() {
+		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				if (app.isMenuShowing()) {
+					app.toggleMenu();
+				}
 				Header.this.toolbarPanel.app.getGuiManager().undo();
 			}
 		});
@@ -464,10 +470,13 @@ class Header extends FlowPanel {
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
 
-		ClickStartHandler.init(btnRedo, new ClickStartHandler() {
+		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				if (app.isMenuShowing()) {
+					app.toggleMenu();
+				}
 				Header.this.toolbarPanel.app.getGuiManager().redo();
 			}
 		});
