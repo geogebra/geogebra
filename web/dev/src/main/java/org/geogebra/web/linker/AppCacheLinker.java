@@ -63,7 +63,6 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
  * <p>
  * 
  * <pre>
- * <blockquote>
  * {@code @Shardable}
  * public class MyAppCacheLinker extends AbstractAppCacheLinker {
  *   {@code @Override}
@@ -71,7 +70,6 @@ import com.google.gwt.core.ext.linker.impl.SelectionInformation;
  *     return new String[] {"/MyApp.html","/MyApp.css"};
  *   }
  * }
- * </blockquote>
  * </pre>
  */
 @LinkerOrder(Order.POST)
