@@ -73,7 +73,7 @@ public class KeyboardFactory {
 
     /**
      * Calls {@link #createLettersKeyboard(String, String, String, Map)} with a null
-     * upper keys. In this case {@link Character#toUpperCase(char) is used.
+     * upper keys. In this case {@link Character#toUpperCase(char)} is used.
      */
 	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
 		return createLettersKeyboard(topRow, middleRow, bottomRow, null);
