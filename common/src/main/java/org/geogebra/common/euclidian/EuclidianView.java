@@ -157,7 +157,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			.getPrototype().newBasicStroke(1.0f);
 	protected GRectangle deletionRectangle;
 
-	// bounding box
+	/**
+	 * bounding box
+	 */
 	protected BoundingBox boundingBox;
 	private EuclidianBoundingBoxHandler hitHandler = EuclidianBoundingBoxHandler.UNDEFINED;
 
@@ -5742,8 +5744,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public final void setLabels() {
-		if (this.styleBar != null) {
+		if (styleBar != null) {
 			styleBar.setLabels();
+		}
+		if (dynamicStyleBar != null) {
+			dynamicStyleBar.setLabels();
 		}
 	}
 
