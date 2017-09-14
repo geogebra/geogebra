@@ -6091,7 +6091,7 @@ public abstract class GeoElement extends ConstructionElement
 		// animation step width
 		if (isPointerChangeable()) {
 			sb.append("\t<animation");
-			if (isGeoNumeric() && !((GeoNumeric) this).isAutoStep()) {
+			if (!isGeoNumeric() || !((GeoNumeric) this).isAutoStep()) {
 				final String animStep = animationIncrement == null ? "1"
 						: getAnimationStepObject().getLabel(tpl);
 				sb.append(" step=\"");

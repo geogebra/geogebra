@@ -11,18 +11,29 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.xml.sax.SAXParseException;
 
 public class XmlTest {
 
+	static AppDNoGui app;
+	private static AlgebraProcessor ap;
+
+	@BeforeClass
+	public static void setup() {
+		app = new AppDNoGui(new LocalizationD(3), true);
+		ap = app.getKernel().getAlgebraProcessor();
+		app.setLanguage(Locale.US);
+	}
 	@Test
 	public void test() {
-		AppDNoGui app = new AppDNoGui(new LocalizationD(3), true);
-		app.setLanguage(Locale.US);
 		testCurrentXML(app);
 	}
 
@@ -51,6 +62,15 @@ public class XmlTest {
 			Assert.assertNull(e.getLocalizedMessage(), e);
 		}
 		
+	}
+
+	@Test
+	public void pointReloadTest() {
+		GeoElementND p = ap.processAlgebraCommand("P=(1,1)", true)[0];
+		((GeoPoint) p).setAnimationStep(0.01);
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(0.01,
+				app.getKernel().lookupLabel("P").getAnimationStep(), 1E-8);
 	}
 
 }
