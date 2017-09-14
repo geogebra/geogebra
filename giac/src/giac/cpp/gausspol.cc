@@ -5573,6 +5573,7 @@ namespace giac {
       ii.insert(ii.begin(),0);
       p_y=p_y+poly1_2_polynome(*(p_it->value._EXTptr->_VECTptr),p_y.dim).shift(ii);
     }
+    // p_y=p_y/Tcontent(p_y);
     return true;
   }
 
@@ -5723,6 +5724,8 @@ namespace giac {
 	      res=res._FRACptr->num;
 	    if (res.type!=_POLY)
 	      continue;
+	    // ? unitarize res
+	    *res._POLYptr=*res._POLYptr/res._POLYptr->coord.front().value;
 	    f.push_back(facteur<polynome>(*res._POLYptr,mult));
 	  }
 	  if (j==v.size()){ //adjust an

@@ -1643,7 +1643,7 @@ namespace giac {
 
   static const char _redim_s[]="redim";
   static define_unary_function_eval_quoted (__redim,&giac::_REDIM,_redim_s);
-  define_unary_function_ptr5( at_redim ,alias_at_redim,&__redim,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_redim ,alias_at_redim,&__redim,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _REPLACE(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
