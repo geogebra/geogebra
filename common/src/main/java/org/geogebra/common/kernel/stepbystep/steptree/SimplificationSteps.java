@@ -16,6 +16,7 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.nonTrivial
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.nonTrivialProduct;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -1312,7 +1313,7 @@ public enum SimplificationSteps {
 					StepNode first = null, second = null, third = null;
 
 					for (int i = 0; i < 3; i++) {
-						if (so.getSubTree(i).isSquare()) {
+						if (so.getSubTree(i).isSquare() && !so.getSubTree(i).isConstant()) {
 							first = so.getSubTree(i);
 						} else if (so.getSubTree(i).nonSpecialConstant()) {
 							third = so.getSubTree(i);
@@ -1330,7 +1331,7 @@ public enum SimplificationSteps {
 					if (b != null && isEven(b)) {
 						double toComplete = third.getValue() - b.getValue() * b.getValue() / 4;
 
-						if (toComplete <= 0) {
+						if (toComplete < 0) {
 							StepOperation newSum = new StepOperation(Operation.PLUS);
 							newSum.addSubTree(first);
 							newSum.addSubTree(second);
@@ -1340,36 +1341,12 @@ public enum SimplificationSteps {
 							colorTracker[0]++;
 							return newSum;
 						}
-
 					}
 
 				}
 
-				if ((so.noOfOperands() == 3 || so.noOfOperands() == 4)
-						&& (so.getSubTree(0).isSquare() && so.getSubTree(2).isConstant())) {
-					StepNode b = StepHelper.findCoefficient(so.getSubTree(1), so.getSubTree(0).getSquareRoot());
-
-					if (b != null && isEven(b)) {
-						double toComplete = so.getSubTree(2).getValue() - b.getValue() * b.getValue() / 4;
-
-						if (isEqual(toComplete, 0)) {
-							colorTracker[0]++;
-
-							if (so.noOfOperands() == 3) {
-								return power(add(so.getSubTree(0).getSquareRoot(), new StepConstant(b.getValue() / 2)),
-										2);
-							}
-
-							StepOperation newSum = new StepOperation(Operation.PLUS);
-							newSum.addSubTree(power(
-									add(so.getSubTree(0).getSquareRoot(), new StepConstant(b.getValue() / 2)), 2));
-							newSum.addSubTree(so.getSubTree(3));
-							return newSum;
-						}
-
-					}
-
-				}
+				// DON'T go further in! factor only the outermost sum
+				return so;
 			}
 
 			return iterateThrough(this, sn, sb, colorTracker);
@@ -1380,7 +1357,87 @@ public enum SimplificationSteps {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			if (sn.isOperation(Operation.PLUS)) {
-				// TODO
+				StepOperation so = (StepOperation) sn;
+				
+				if (so.noOfOperands() >= 3) {
+					StepNode first = null, second = null, third = null;
+
+					for (int i = 0; i < 3; i++) {
+						if (so.getSubTree(i).isSquare() && first == null) {
+							first = so.getSubTree(i);
+						} else if (so.getSubTree(i).isSquare() && third == null) {
+							third = so.getSubTree(i);
+						} else {
+							second = so.getSubTree(i);
+						}
+					}
+
+					if (first == null || second == null || third == null) {
+						return iterateThrough(this, sn, sb, colorTracker);
+					}
+
+					StepNode b = multiply(2, multiply(first.getSquareRoot(), third.getSquareRoot()));
+
+					if (isEqual(subtract(second, b).regroup(), 0)) {
+						colorTracker[0]++;
+						StepNode result = power(add(first.getSquareRoot(), third.getSquareRoot()), 2);
+
+						if (so.noOfOperands() == 3) {
+							return result;
+						}
+
+						StepOperation newSum = new StepOperation(Operation.PLUS);
+						newSum.addSubTree(result);
+						for (int i = 3; i < so.noOfOperands(); i++) {
+							newSum.addSubTree(so.getSubTree(i));
+						}
+						return newSum;
+					}
+
+					if (isEqual(add(second, b).regroup(), 0)) {
+						colorTracker[0]++;
+						StepNode result = power(subtract(first.getSquareRoot(), third.getSquareRoot()), 2);
+
+						if (so.noOfOperands() == 3) {
+							return result;
+						}
+
+						StepOperation newSum = new StepOperation(Operation.PLUS);
+						newSum.addSubTree(result);
+						for (int i = 3; i < so.noOfOperands(); i++) {
+							newSum.addSubTree(so.getSubTree(i));
+						}
+						return newSum;
+					}
+				}
+
+				if (so.noOfOperands() == 2 && so.getSubTree(0).isSquare() && so.getSubTree(1).isSquare()) {
+					if (isNegative(so.getSubTree(0)) && !isNegative(so.getSubTree(1))) {
+						StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+						newProduct.addSubTree(
+								add(so.getSubTree(1).getSquareRoot(), negate(so.getSubTree(0)).getSquareRoot()));
+						newProduct.addSubTree(
+								subtract(so.getSubTree(1).getSquareRoot(), negate(so.getSubTree(0)).getSquareRoot()));
+
+						colorTracker[0]++;
+						return newProduct;
+					}
+
+					if (!isNegative(so.getSubTree(0)) && isNegative(so.getSubTree(1))) {
+						StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+						newProduct.addSubTree(
+								add(so.getSubTree(0).getSquareRoot(), negate(so.getSubTree(1)).getSquareRoot()));
+						newProduct.addSubTree(
+								subtract(so.getSubTree(0).getSquareRoot(), negate(so.getSubTree(1)).getSquareRoot()));
+
+						colorTracker[0]++;
+						return newProduct;
+					}
+				}
+
+				// DON'T go further in! factor only the outermost sum
+				return so;
+
 			}
 
 			return iterateThrough(this, sn, sb, colorTracker);
@@ -1418,6 +1475,7 @@ public enum SimplificationSteps {
 			StepNode result = sn;
 			String old = null, current = null;
 			do {
+				result = DEFAULT_REGROUP.apply(result, sb, new int[] { 1 });
 				result = implementStrategy(result, sb, defaultStrategy);
 				old = current;
 				current = result.toString();

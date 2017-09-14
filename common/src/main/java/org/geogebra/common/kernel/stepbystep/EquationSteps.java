@@ -1183,7 +1183,7 @@ public class EquationSteps {
 	}
 
 	private static boolean isEven(double d) {
-		return isEqual(Math.floor(d / 2) * 2, d);
+		return isEqual(d % 2, 0);
 	}
 
 	private static boolean isSquare(double d) {

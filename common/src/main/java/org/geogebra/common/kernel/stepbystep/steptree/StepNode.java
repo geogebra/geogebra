@@ -32,8 +32,8 @@ public abstract class StepNode {
 	 *         if lower
 	 */
 	public int compareTo(StepNode sn) {
-		int a = getPriority(this);
-		int b = getPriority(sn);
+		int a = getSortingPriority(this);
+		int b = getSortingPriority(sn);
 
 		if (a == b) {
 			if (this.canBeEvaluated()) {
@@ -70,7 +70,11 @@ public abstract class StepNode {
 		return a - b;
 	}
 
-	private static int getPriority(StepNode sn) {
+	/**
+	 * This priority is used only for sorting and has nothing to do with the
+	 * precedence of operations
+	 */
+	private static int getSortingPriority(StepNode sn) {
 		if (sn.nonSpecialConstant()) {
 			return 0;
 		} else if (sn instanceof StepArbitraryConstant) {
@@ -85,7 +89,13 @@ public abstract class StepNode {
 		return 5;
 	}
 
-	public double degree() {
+	/**
+	 * Used only for sorting. Will return a value even if it's not a polynomial That
+	 * is x/(x+1) has a "degree" 1, while x/nroot(x+1, 3) a "degree" of 2/3
+	 * 
+	 * @return a heuristic "degree".
+	 */
+	private double degree() {
 		if (this instanceof StepVariable) {
 			return 1;
 		} else if (this instanceof StepConstant) {
@@ -142,10 +152,19 @@ public abstract class StepNode {
 	public abstract boolean isOperation(Operation op);
 
 	/**
+	 * !This does not mean that getValue() will not return NaN.
+	 * StepArbitraryConstants are constants, but cannot be evaluated
+	 * 
 	 * @return whether this expression contains variables
 	 */
 	public abstract boolean isConstant();
 
+	/**
+	 * It guarantees that getValue() returns a non-NaN value. Except when division,
+	 * Math.pow, or Math.sqrt fails.
+	 * 
+	 * @return whether this expression can be evaluated
+	 */
 	public abstract boolean canBeEvaluated();
 
 	/**
@@ -162,9 +181,9 @@ public abstract class StepNode {
 
 	/**
 	 * @param variable
-	 *            - the name of the variable to be replaced
+	 *            the name of the variable to be replaced
 	 * @param value
-	 *            - the value to be replaced with
+	 *            the value to be replaced with
 	 * @return the value of the tree after replacement
 	 */
 	public abstract double getValueAt(StepNode variable, double value);
@@ -185,6 +204,9 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode getIntegerCoefficient();
 
+	/**
+	 * @return the non-StepConstant part of the tree (ex: 3 sqrt(3) -> sqrt(3))
+	 */
 	public abstract StepNode getNonInteger();
 
 	/**
@@ -192,6 +214,9 @@ public abstract class StepNode {
 	 */
 	public abstract String toLaTeXString(Localization loc);
 
+	/**
+	 * @return the tree, formatted in LaTeX, with colors, if colored is set
+	 */
 	public abstract String toLaTeXString(Localization loc, boolean colored);
 
 	protected String getColorHex() {
@@ -211,6 +236,13 @@ public abstract class StepNode {
 		}
 	}
 
+	/**
+	 * Recursively sets a color for the tree (i.e. for the root and all of the nodes
+	 * under it)
+	 * 
+	 * @param color
+	 *            the color to set
+	 */
 	public void setColor(int color) {
 		this.color = color;
 		if (isOperation()) {
@@ -220,6 +252,9 @@ public abstract class StepNode {
 		}
 	}
 
+	/**
+	 * Sets 0 as the color of the tree
+	 */
 	public void cleanColors() {
 		setColor(0);
 	}
@@ -229,6 +264,11 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode regroup();
 
+	/**
+	 * @param sb
+	 *            SolutionBuilder for the regroup steps
+	 * @return the tree, regrouped (destroys the tree, use only in assignments)
+	 */
 	public abstract StepNode regroup(SolutionBuilder sb);
 
 	/**
@@ -237,25 +277,49 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode expand(SolutionBuilder sb);
 
+	/**
+	 * Non-special constants are StepConstants and minus(StepConstant)s, except for
+	 * pi and e
+	 * 
+	 * @return whether the current node is a nonSpecialConstant
+	 */
 	public boolean nonSpecialConstant() {
 		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E)
 				|| isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).nonSpecialConstant();
 	}
 
+	/**
+	 * Special constants are pi and e
+	 * 
+	 * @return whether the current node is a specialConstant
+	 */
 	public boolean specialConstant() {
 		return this instanceof StepConstant && (isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E));
 	}
 
+	/**
+	 * @return whether the current node is an integer (not Integer..)
+	 */
 	public boolean isInteger() {
 		return this instanceof StepConstant && isEqual(Math.round(this.getValue()), this.getValue());
 	}
 
+	/**
+	 * @return whether the current node is a squreRoot (that is nroot, with an
+	 *         exponent of 2)
+	 */
 	public boolean isSquareRoot() {
 		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getSubTree(1), 2);
 	}
 
+	/**
+	 * A square is an expression of the form a^(2n), or a nonSpecialConstant. This
+	 * definition is useful for factoring
+	 * 
+	 * @return whether the current node is a square
+	 */
 	public boolean isSquare() {
-		return isOperation(Operation.POWER) && isEven(((StepOperation) this).getSubTree(1));
+		return nonSpecialConstant() || isOperation(Operation.POWER) && isEven(((StepOperation) this).getSubTree(1));
 	}
 
 	/**
@@ -265,6 +329,13 @@ public abstract class StepNode {
 	 */
 	public StepNode getSquareRoot() {
 		if (isSquare()) {
+			if(nonSpecialConstant()) {
+				if(isEqual(Math.sqrt(getValue()), Math.floor(Math.sqrt(getValue())))) {
+					return new StepConstant(Math.sqrt(getValue()));
+				}
+				return root(this, 2);
+			}
+			
 			StepOperation so = (StepOperation) this;
 			return nonTrivialPower(so.getSubTree(0), so.getSubTree(1).getValue() / 2);
 		}
@@ -272,15 +343,28 @@ public abstract class StepNode {
 		return null;
 	}
 
+	/**
+	 * @return whether the current node is a trigonometric function
+	 */
 	public boolean isTrigonometric() {
 		return isOperation(Operation.SIN) || isOperation(Operation.COS) || isOperation(Operation.TAN)
 				|| isOperation(Operation.CSC) || isOperation(Operation.SEC) || isOperation(Operation.CSC);
 	}
 
+	/**
+	 * @return whether the current node is an inverse trigonometric function
+	 */
 	public boolean isInverseTrigonometric() {
 		return isOperation(Operation.ARCSIN) || isOperation(Operation.ARCCOS) || isOperation(Operation.ARCTAN);
 	}
 
+	/**
+	 * @param from
+	 *            StepNode to replace
+	 * @param to
+	 *            StepNode to replace with
+	 * @return the tree, replaced
+	 */
 	public StepNode replace(StepNode from, StepNode to) {
 		if (equals(from)) {
 			return to;
@@ -388,25 +472,23 @@ public abstract class StepNode {
 		return poli.toArray(new StepNode[0]);
 	}
 
+	/**
+	 * a monom is an expression of the form x^n, where n is an integer, or a simple
+	 * integer
+	 * 
+	 * @return whether sn is a monom
+	 */
 	private static boolean isMonom(StepNode sn) {
-		if (sn instanceof StepVariable) {
-			return true;
-		}
-
 		if (sn.isOperation(Operation.POWER)) {
 			StepOperation so = (StepOperation) sn;
 
 			return so.getSubTree(0) instanceof StepVariable && closeToAnInteger(so.getSubTree(1));
 		}
 
-		return false;
+		return sn instanceof StepVariable || sn instanceof StepConstant;
 	}
 
 	private static boolean isPolynomial(StepNode sn) {
-		if (sn.isConstant() || isMonom(sn)) {
-			return true;
-		}
-
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 
@@ -428,7 +510,7 @@ public abstract class StepNode {
 			}
 		}
 
-		return false;
+		return sn.isConstant() || isMonom(sn);
 	}
 
 	/**
@@ -452,7 +534,7 @@ public abstract class StepNode {
 		int leadD = arrayD.length - 1;
 
 		StepNode q = new StepConstant(0);
-
+		
 		while ((leadR != 0 || (arrayR[0] != null && arrayR[0].getValue() != 0)) && leadR >= leadD) {
 			StepNode t = StepNode
 					.multiply(StepNode.divide(arrayR[leadR], arrayD[leadD]), StepNode.power(var, leadR - leadD))
@@ -508,6 +590,14 @@ public abstract class StepNode {
 		return null;
 	}
 
+	/**
+	 * Iterates through the tree searching for StepVariables
+	 * 
+	 * @param sn
+	 *            tree to search
+	 * @param variableList
+	 *            set of variables found in the tree
+	 */
 	private static void getListOfVariables(StepNode sn, List<StepVariable> variableList) {
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
@@ -795,6 +885,14 @@ public abstract class StepNode {
 		return multiply(a, b);
 	}
 
+	/**
+	 * Tries to negate the subtree. Basically, it removes the starting minus, if
+	 * there is one.
+	 * 
+	 * @param sn
+	 *            tree to negate
+	 * @return -sn
+	 */
 	public static StepNode negate(StepNode sn) {
 		if (sn.nonSpecialConstant()) {
 			return new StepConstant(-sn.getValue());
@@ -863,6 +961,10 @@ public abstract class StepNode {
 		return 1;
 	}
 
+	/**
+	 * @param sn
+	 * @return the denominator of the tree, if it's an integer. 0 otherwise
+	 */
 	public static long getDenominator(StepNode sn) {
 		if (sn.nonSpecialConstant()) {
 			return 1;
@@ -877,6 +979,10 @@ public abstract class StepNode {
 		return 0;
 	}
 
+	/**
+	 * @param sn
+	 * @return the numerator of the tree.
+	 */
 	public static StepNode getNumerator(StepNode sn) {
 		if (sn.nonSpecialConstant()) {
 			return sn;
@@ -888,6 +994,12 @@ public abstract class StepNode {
 		return null;
 	}
 
+	/**
+	 * Returns the value of arcsin(a), arccos(a) and arctg(a) for simple a-s
+	 * 
+	 * @param so
+	 * @return the value, if it can be evaluated, null otherwise
+	 */
 	public static StepNode inverseTrigoLookup(StepOperation so) {
 		String[] arguments = new String[] { "-1", "-(nroot(3, 2))/(2)", "-(nroot(2, 2))/(2)", "-(1)/(2)", "0",
 				"(1)/(2)", "(nroot(2, 2))/(2)", "(nroot(3, 2))/(2)", "1" };

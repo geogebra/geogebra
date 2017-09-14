@@ -20,6 +20,11 @@ public class SolutionBuilder {
 		add(SolutionStepType.WRAPPER);
 	}
 
+	/**
+	 * Get the step tree
+	 * 
+	 * @return root of the StepTree (always of the type WRAPPER)
+	 */
 	public SolutionStep getSteps() {
 		while (!previousSteps.isEmpty()) {
 			currentStep = previousSteps.pop();
@@ -32,14 +37,36 @@ public class SolutionBuilder {
 		return loc;
 	}
 
+	/**
+	 * Creates a new solution step and adds it to the tree
+	 * 
+	 * @param type
+	 *            SolutionStepType of the SolutionStep
+	 * @param color
+	 *            color assigned to the SolutionStep
+	 */
 	public void add(SolutionStepType type, int color) {
 		add(new SolutionStep(loc, type, color));
 	}
 
+	/**
+	 * Creates a new solutions step and adds it to the tree
+	 * 
+	 * @param type
+	 *            SolutionStepType of the SolutionStep
+	 * @param arguments
+	 *            StepNode arguments of the SolutionStep
+	 */
 	public void add(SolutionStepType type, StepNode... arguments) {
 		add(new SolutionStep(loc, type, arguments));
 	}
 
+	/**
+	 * Adds a SolutionStep to the solution tree
+	 * 
+	 * @param newStep
+	 *            SolutionStep to add
+	 */
 	public void add(SolutionStep newStep) {
 		if (currentStep == null) {
 			currentStep = newStep;
@@ -50,6 +77,12 @@ public class SolutionBuilder {
 		lastStep = newStep;
 	}
 
+	/**
+	 * Add all the substeps of s to the solution that is being built
+	 * 
+	 * @param s
+	 *            wrapper of substeps to add
+	 */
 	public void addAll(SolutionStep s) {
 		List<SolutionStep> ss = s.getSubsteps();
 		if (ss != null) {
@@ -59,15 +92,25 @@ public class SolutionBuilder {
 		}
 	}
 
+	/**
+	 * Go a level down in the tree. (i.e. indent more)
+	 */
 	public void levelDown() {
 		previousSteps.push(currentStep);
 		currentStep = lastStep;
 	}
 
+	/**
+	 * Go a level up in the tree. (i.e. indent less)
+	 */
 	public void levelUp() {
 		lastStep = currentStep = previousSteps.pop();
 	}
 
+	/**
+	 * Cleans the solution builder, so you don't have to create a new instance, when
+	 * many are needed
+	 */
 	public void reset() {
 		previousSteps = new Stack<SolutionStep>();
 		currentStep = lastStep = null;

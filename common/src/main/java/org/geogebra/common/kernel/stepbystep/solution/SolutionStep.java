@@ -38,14 +38,30 @@ public class SolutionStep {
 		this.color = color;
 	}
 
+	/**
+	 * Get the simple (no colors) text of the step
+	 * 
+	 * @return default text, formatted using LaTeX
+	 */
 	public String getDefault() {
 		return type.getDefaultText(loc, parameters);
 	}
 
+	/**
+	 * Get the detailed (colored) text of the step
+	 * 
+	 * @return colored text, formatted using LaTeX
+	 */
 	public String getColored() {
 		return type.getDetailedText(loc, color, parameters);
 	}
 
+	/**
+	 * Builds the solution tree using a StepGuiBuilder
+	 * 
+	 * @param builder
+	 *            StepGuiBuilder to use (different for the web and for the tests)
+	 */
 	public void getListOfSteps(StepGuiBuilder builder) {
 		if (substeps != null && type == SolutionStepType.WRAPPER) {
 			for (int i = 0; i < substeps.size(); i++) {
@@ -70,6 +86,12 @@ public class SolutionStep {
 		}
 	}
 
+	/**
+	 * Adds a substep
+	 * 
+	 * @param s
+	 *            substep to add
+	 */
 	public void addSubStep(SolutionStep s) {
 		if (s != null) {
 			if (substeps == null) {
