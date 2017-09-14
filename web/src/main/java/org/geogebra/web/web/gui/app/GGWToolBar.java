@@ -1354,11 +1354,13 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if (((GGWToolBar)app.getToolbar()).getToolBar() == null) {
 			return;
 		}
-		
+		if (app.isWhiteboardActive()) {
+			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
+		} else {
 		app.setMode(((GGWToolBar)app.getToolbar()).
 				getToolBar().getFirstMode(),
 		        ModeSetter.DOCK_PANEL);
-	    
+		}
     }
 
 	@Override

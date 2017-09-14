@@ -42,7 +42,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private SubMenuPanel mediaMenu;
 	private FlowPanel subMenuPanel;
 	private boolean isSubmenuOpen;
-
+	private int currentMode = -1;
 
 	/**
 	 *
@@ -282,7 +282,8 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 				|| mode == EuclidianConstants.MODE_ERASER) {
 			return penMenu;
 		} else if (mode == EuclidianConstants.MODE_MOVE
-				|| mode == EuclidianConstants.MODE_SELECT) {
+				|| mode == EuclidianConstants.MODE_SELECT
+				|| mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
 			if (currentMenu != null) {
 				return currentMenu;
 			}
@@ -299,7 +300,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            the mode to set.
 	 */
 	public void setMode(int mode) {
-
 		if (mode == EuclidianConstants.MODE_PEN) {
 			selectButton(penButton);
 		}
@@ -312,6 +312,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (currentMenu != null) {
 			currentMenu.setMode(mode);
 		}
+		currentMode = mode;
 	}
 
 
@@ -323,6 +324,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		return currentMenu;
 	}
 
+	public int getCurrentMode() {
+		return currentMode;
+	}
 	/**
 	 * Sets the actual submenu, and opens it if it is different than the last
 	 * one, toggles its visibility otherwise.
