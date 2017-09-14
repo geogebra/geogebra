@@ -33,7 +33,7 @@ public class Tools extends FlowPanel implements SetLabels {
 	/**
 	 * application
 	 */
-	private AppW app;
+	AppW app;
 	/**
 	 * move button
 	 */
@@ -678,6 +678,11 @@ public class Tools extends FlowPanel implements SetLabels {
 					getApp());
 			btn.setTitle(getApp().getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
+
+			btn.getElement().setAttribute("alt",
+					getApp().getLocalization()
+							.getMenu(EuclidianConstants.getModeText(mode))
+							+ app.getToolHelp(mode));
 
 			if (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) {
