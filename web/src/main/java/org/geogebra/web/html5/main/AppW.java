@@ -2407,8 +2407,6 @@ public abstract class AppW extends App implements SetLabels {
 		getActiveEuclidianView().getEuclidianController()
 				.setObjectMenuActive(false);
 		}
-
-
 	}
 
 	public void closePopupsNoTooltips() {
@@ -3107,7 +3105,6 @@ public abstract class AppW extends App implements SetLabels {
 	 * Overwritten for AppWapplet/AppWapplication
 	 */
 	public HeaderPanel getLanguageGUI() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

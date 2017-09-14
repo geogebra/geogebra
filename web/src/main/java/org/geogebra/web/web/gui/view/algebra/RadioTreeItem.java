@@ -1909,6 +1909,9 @@ public class RadioTreeItem extends AVTreeItem
 	@Override
 	public void setFocus(boolean focus, boolean sv) {
 		if (focus) {
+			if (app.isUnbundled() && app.isMenuShowing()) {
+				app.toggleMenu();
+			}
 			removeDummy();
 		}
 
