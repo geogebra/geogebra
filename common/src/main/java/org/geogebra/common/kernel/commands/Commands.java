@@ -952,6 +952,8 @@ public enum Commands implements CommandsConstants,
 
 	CircularArc(TABLE_ENGLISH),
 
+	Polyline(TABLE_ENGLISH),
+
 	Sxx(TABLE_ENGLISH),
 
 	Syy(TABLE_ENGLISH),
@@ -1158,6 +1160,8 @@ public enum Commands implements CommandsConstants,
 
 	public static Commands englishToInternal(Commands comm) {
 		switch (comm) {
+		case Polyline:
+			return PolyLine;
 		case Sxx:
 			return SXX;
 		case Syy:

@@ -46,6 +46,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdPolygon3D(kernel);
 			case Area:
 				return new CmdArea3D(kernel);
+			case Polyline:
 			case PolyLine:
 				return new CmdPolyLine3D(kernel);
 			case Point:

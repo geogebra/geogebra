@@ -475,6 +475,7 @@ public abstract class CommandDispatcher {
 			case Dot:
 			case Cross:
 			case PolyLine:
+			case Polyline:
 			case PointIn:
 			case Line:
 			case Ray:
@@ -701,6 +702,9 @@ public abstract class CommandDispatcher {
 			case SD:
 			case SDX:
 			case SDY:
+			case Sxx:
+			case Sxy:
+			case Syy:
 			case SXX:
 			case SXY:
 			case SYY:
