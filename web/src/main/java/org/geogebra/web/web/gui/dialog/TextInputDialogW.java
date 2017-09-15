@@ -112,11 +112,13 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	 * keyboard has to be closed programmatically at clicking on OK or Cancel,
 	 * otherwise it won't be closed after the dialog will be hidden.
 	 */
+	@Override
 	protected void closeIOSKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;
 		}
-		if (inputPanel == null || inputPanel.getTextAreaComponent() == null) {
+		if (inputPanel == null || inputPanel.getText().equals("")
+				|| inputPanel.getTextAreaComponent() == null) {
 			return;
 		}
 		TextBox dummyTextBox = new TextBox();
