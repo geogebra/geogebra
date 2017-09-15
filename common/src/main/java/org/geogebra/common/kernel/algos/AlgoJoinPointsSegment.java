@@ -19,6 +19,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -296,6 +297,16 @@ public class AlgoJoinPointsSegment extends AlgoElement
 			}
 		}
 		throw new NoSymbolicParametersException();
+	}
+
+	@Override
+	public ArrayList<GeoPointND> getFreeInputPoints() {
+		if (poly == null
+				|| !(poly.getParentAlgorithm() instanceof AlgoPolygonRegular)) {
+			return super.getFreeInputPoints();
+		}
+
+		return poly.getParentAlgorithm().getFreeInputPoints();
 	}
 
 }

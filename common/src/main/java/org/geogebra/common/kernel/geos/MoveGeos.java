@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.algos.AlgoTranslate;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Library class for moving geos by drag
+ */
 public class MoveGeos {
 	private static volatile ArrayList<GeoElement> moveObjectsUpdateList;
 	/**
@@ -207,30 +210,31 @@ public class MoveGeos {
 		}
 
 		else {
+			ArrayList<GeoElement> tempMoveObjectList = geo1.kernel
+					.getApplication().getSelectionManager()
+					.getTempMoveGeoList();
 
-			ArrayList<GeoPointND> freeInputPoints = geo1
-					.getFreeInputPoints(view);
+			movedGeo = geo1.moveFromChangeableCoordParentNumbers(rwTransVec,
+					endPosition, viewDirection, updateGeos, tempMoveObjectList,
+					view);
+			if (!movedGeo) {
+				ArrayList<GeoPointND> freeInputPoints = geo1
+						.getFreeInputPoints(view);
 
-			// eg macro like Hexagon[G_8], if the hexagon is dragged then G_8
-			// needs updating
-			// handled for mouse drag in
-			// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
-			// needed here for moving with arrow keys
-			if (moveParentPoints && freeInputPoints.size() > 0) {
-				for (int i = 0; i < freeInputPoints.size(); i++) {
-					moveObject(((GeoElement) freeInputPoints.get(i)),
-							rwTransVec, endPosition, viewDirection, updateGeos,
-							view, false);
+				// eg macro like Hexagon[G_8], if the hexagon is dragged then
+				// G_8
+				// needs updating
+				// handled for mouse drag in
+				// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
+				// needed here for moving with arrow keys
+				if (moveParentPoints && freeInputPoints.size() > 0) {
+					for (int i = 0; i < freeInputPoints.size(); i++) {
+						moveObject(((GeoElement) freeInputPoints.get(i)),
+								rwTransVec, endPosition, viewDirection,
+								updateGeos, view, false);
+					}
+					movedGeo = true;
 				}
-			} else {
-
-				ArrayList<GeoElement> tempMoveObjectList = geo1.kernel
-						.getApplication().getSelectionManager()
-						.getTempMoveGeoList();
-
-				movedGeo = geo1.moveFromChangeableCoordParentNumbers(rwTransVec,
-						endPosition, viewDirection, updateGeos,
-						tempMoveObjectList, view);
 			}
 		}
 
