@@ -28,10 +28,11 @@ public class AlgoNSolveODE extends AlgoElement {
 	private GeoNumeric endX; // input
 
 	private GeoLocus out[]; // output
-
-	protected ArrayList<MyPoint> al[];
+	/** list of solutions */
+	protected ArrayList<ArrayList<MyPoint>> al;
 
 	private double t0, y0[];
+	/** dimension (number of functions) */
 	protected int dim;
 
 	/**
@@ -113,10 +114,10 @@ public class AlgoNSolveODE extends AlgoElement {
 			y0[i] = ((GeoNumeric) startY.get(i)).getDouble();
 		}
 
-		al = new ArrayList[dim];
+		al = new ArrayList<ArrayList<MyPoint>>(dim);
 
 		for (int i = 0; i < dim; i++) {
-			al[i] = new ArrayList<MyPoint>();
+			al.add(new ArrayList<MyPoint>());
 		}
 
 		FirstOrderIntegrator integrator = new DormandPrince54Integrator(0.001,
@@ -125,7 +126,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		integrator.addStepHandler(stepHandler);
 
 		for (int i = 0; i < dim; i++) {
-			al[i].add(new MyPoint(startX.getDouble(), y0[i],
+			al.get(i).add(new MyPoint(startX.getDouble(), y0[i],
 					SegmentType.MOVE_TO));
 		}
 		try {
@@ -138,7 +139,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 
 		for (int i = 0; i < dim; i++) {
-			out[i].setPoints(al[i]);
+			out[i].setPoints(al.get(i));
 			out[i].setDefined(true);
 		}
 	}
@@ -151,7 +152,7 @@ public class AlgoNSolveODE extends AlgoElement {
 
 	private StepHandler stepHandler = new StepHandler() {
 
-		public void init(double t0, double[] y0, double t) {
+		public void init(double ts0, double[] ys0, double t) {
 			//
 		}
 
@@ -161,7 +162,7 @@ public class AlgoNSolveODE extends AlgoElement {
 			double[] y1 = interpolator.getInterpolatedState();
 
 			for (int i = 0; i < y1.length; i++) {
-				al[i].add(new MyPoint(t, y1[i], SegmentType.LINE_TO));
+				al.get(i).add(new MyPoint(t, y1[i], SegmentType.LINE_TO));
 			}
 		}
 	};

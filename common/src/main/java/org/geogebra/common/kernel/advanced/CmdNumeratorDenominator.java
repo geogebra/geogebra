@@ -50,8 +50,8 @@ public class CmdNumeratorDenominator extends CommandProcessor {
 
 			} else if (arg[0] instanceof GeoNumeric) {
 				AlgoNumeratorDenominator algo = new AlgoNumeratorDenominator(
-						cons, c.getLabel(), (GeoNumeric) arg[0], type);
-
+						cons, (GeoNumeric) arg[0], type);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}

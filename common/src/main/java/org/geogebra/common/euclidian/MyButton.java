@@ -70,6 +70,8 @@ public class MyButton implements Observer {
 	 *            graphics
 	 * @param multiplier
 	 *            font size multiplier
+	 * @param mayResize
+	 *            whether we can resize fonts
 	 */
 	public void paintComponent(GGraphics2D g, double multiplier,
 			boolean mayResize) {

@@ -29,12 +29,14 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 	private GeoNumeric g; // output
 	private Commands type;
 
-	public AlgoNumeratorDenominator(Construction cons, String label,
-			GeoNumeric f, Commands type) {
-		this(cons, f, type);
-		g.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            number
+	 * @param type
+	 *            numerator or denominator
+	 */
 	public AlgoNumeratorDenominator(Construction cons, GeoNumeric f,
 			Commands type) {
 		super(cons);
@@ -60,6 +62,9 @@ public class AlgoNumeratorDenominator extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return numerator or denominator
+	 */
 	public GeoElement getResult() {
 		return g;
 	}

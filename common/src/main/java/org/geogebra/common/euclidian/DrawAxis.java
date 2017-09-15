@@ -591,8 +591,11 @@ public class DrawAxis {
 	/**
 	 * 
 	 * @param xCrossPix
+	 *            x-coord of axis cross (in pixels)
 	 * @param xoffset
+	 *            offset from screen edge
 	 * @param width
+	 *            label width
 	 * @return if number should be fixed at the left or right edge, it returns
 	 *         the x position of number, otherwise returns null
 	 */
