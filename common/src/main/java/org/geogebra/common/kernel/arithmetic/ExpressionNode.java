@@ -3333,7 +3333,15 @@ public class ExpressionNode extends ValidExpression
 						sb.append(en.getLeft().toValueString(tpl));
 						sb.append("(");
 						sb.append(rightStr);
-						sb.append("))");
+						sb.append(")");
+						String deg = en.getRight().toValueString(tpl);
+						// TODO doesn't work for var!=f, solve this in
+						// FunctionExpander
+						if (!"1".equals(deg)) {
+							sb.append(",x,");
+							sb.append(deg);
+						}
+						sb.append(")");
 						break;
 					}
 					appendUserFunction(sb,leftStr, rightStr, tpl);
@@ -3427,6 +3435,7 @@ public class ExpressionNode extends ValidExpression
 			sb.append(tpl.rightBracket());
 			break;
 		case DIFF:
+			Log.printStacktrace("DIFF" + right);
 			// we only serialize this temporarily during GIAC parsing, so only
 			// default template needed
 			// GIAC template added for safety

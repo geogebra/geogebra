@@ -5067,4 +5067,13 @@ public class GeoGebraCasIntegrationTest {
 				a.getInput(StringTemplate.defaultTemplate));
 		Assert.assertFalse(a.isError());
 	}
+
+	@Test
+	public void symbolicDerivative() {
+		t("f(x) := h(x)", "h(x)");
+		t("f''(x)", "h''(x)");
+		t("f'(x)", "h'(x)");
+
+
+	}
 }
