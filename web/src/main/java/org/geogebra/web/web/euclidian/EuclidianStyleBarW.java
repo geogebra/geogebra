@@ -2044,28 +2044,37 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			return;
 		}
 		setAxesAndGridToolTips(loc);
-		btnStandardView.setToolTipText(loc
-		        .getPlainTooltip("stylebar.ViewDefault"));
-		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
-		btnAngleInterval.setToolTipText(loc.getPlainTooltip("AngleBetween"));
-		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
-		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
-		btnLineStyle.setToolTipText(loc.getPlainTooltip("stylebar.LineStyle"));
-		btnPointStyle
-		        .setToolTipText(loc.getPlainTooltip("stylebar.PointStyle"));
-		btnFilling.setToolTipText(loc.getPlainTooltip("stylebar.Filling"));
-		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
-		btnTextSize.setToolTipText(loc.getPlainTooltip("stylebar.TextSize"));
-		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-		btnPointCapture.setToolTipText(loc.getPlainTooltip("stylebar.Capture"));
-		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
-		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		setToolTipText(btnStandardView, "stylebar.ViewDefault");
+		setToolTipText(btnLabelStyle, "stylebar.Label");
+		setToolTipText(btnAngleInterval,"AngleBetween");
+		setToolTipText(btnColor,"stylebar.Color");
+		setToolTipText(btnBgColor,"stylebar.BgColor");
+		setToolTipText(btnLineStyle,"stylebar.LineStyle");
+		setToolTipText(btnPointStyle,"stylebar.PointStyle");
+		setToolTipText(btnFilling,"stylebar.Filling");
+		setToolTipText(btnTextColor,"stylebar.TextColor");
+		setToolTipText(btnTextSize,"stylebar.TextSize");
+		setToolTipText(btnBold,"stylebar.Bold");
+		setToolTipText(btnItalic,"stylebar.Italic");
+		setToolTipText(btnPointCapture,"stylebar.Capture");
+		setToolTipText(btnBold,"stylebar.Bold");
+		setToolTipText(btnItalic,"stylebar.Italic");
 
-		btnFixPosition.setToolTipText(loc
-		        .getPlainTooltip("AbsoluteScreenLocation"));
-		btnFixObject.setToolTipText(loc.getPlainTooltip("FixObject"));
+		setToolTipText(btnFixPosition,"AbsoluteScreenLocation");
+		setToolTipText(btnFixObject, "FixObject");
 
+	}
+
+	private void setToolTipText(MyCJButton btn, String key) {
+		if (btn != null) {
+			btn.setToolTipText(loc.getPlainTooltip(key));
+		}
+	}
+
+	private void setToolTipText(MyToggleButtonW btn, String key) {
+		if (btn != null) {
+			btn.setToolTipText(loc.getPlainTooltip(key));
+		}
 	}
 
 	@Override
