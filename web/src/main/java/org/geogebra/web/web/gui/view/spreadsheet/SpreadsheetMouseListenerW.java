@@ -575,53 +575,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 					if (!selRect.contains(getAbsoluteX(event),
 					        getAbsoluteY(event))) {
 
-						int rowOffset = 0, colOffset = 0;
-
-						// get row distance
-						if (table.minSelectionRow > 0
-						        && table.draggingToRow < table.minSelectionRow) {
-							rowOffset = mouseY - (int) selRect.getY();
-							if (-rowOffset < 0.5 * table.getCellRect(
-							        table.minSelectionRow - 1,
-							        table.minSelectionColumn, true).getHeight()) {
-								rowOffset = 0;
-							}
-						} else if (table.maxSelectionRow < app
-								.getMaxSpreadsheetRowsVisible()
-						        && table.draggingToRow > table.maxSelectionRow) {
-							rowOffset = mouseY
-							        - ((int) selRect.getY() + (int) selRect
-							                .getHeight());
-							if (rowOffset < 0.5 * table.getCellRect(
-							        table.maxSelectionRow + 1,
-							        table.maxSelectionColumn, true).getHeight()) {
-								rowOffset = 0;
-							}
-						}
+						int rowOffset = getRowOffset(mouseY, selRect);
+						int colOffset = getColOffset(mouseX, selRect);
 
 						// get column distance
-						if (table.minSelectionColumn > 0
-						        && table.draggingToColumn < table.minSelectionColumn) {
-							colOffset = mouseX - (int) selRect.getX();
-							if (-colOffset < 0.5 * table.getCellRect(
-							        table.minSelectionRow,
-							        table.minSelectionColumn - 1, true)
-							        .getWidth()) {
-								colOffset = 0;
-							}
-						} else if (table.maxSelectionColumn < app
-								.getMaxSpreadsheetColumnsVisible()
-						        && table.draggingToColumn > table.maxSelectionColumn) {
-							colOffset = mouseX
-							        - ((int) selRect.getX() + (int) selRect
-							                .getWidth());
-							if (colOffset < 0.5 * table.getCellRect(
-							        table.maxSelectionRow,
-							        table.maxSelectionColumn + 1, true)
-							        .getWidth()) {
-								colOffset = 0;
-							}
-						}
+
 
 						if (rowOffset == 0 && colOffset == 0) {
 							table.draggingToColumn = -1;
@@ -686,9 +644,52 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 
 			updateTableIsOverDot(event);
-
 		}
 
+	}
+
+	private int getColOffset(int mouseX, GRectangle selRect) {
+		int colOffset = 0;
+		if (table.minSelectionColumn > 0
+				&& table.draggingToColumn < table.minSelectionColumn) {
+			colOffset = mouseX - (int) selRect.getX();
+			if (-colOffset < 0.5 * table.getCellRect(table.minSelectionRow,
+					table.minSelectionColumn - 1, true).getWidth()) {
+				colOffset = 0;
+			}
+		} else if (table.maxSelectionColumn < app
+				.getMaxSpreadsheetColumnsVisible()
+				&& table.draggingToColumn > table.maxSelectionColumn) {
+			colOffset = mouseX
+					- ((int) selRect.getX() + (int) selRect.getWidth());
+			if (colOffset < 0.5 * table.getCellRect(table.maxSelectionRow,
+					table.maxSelectionColumn + 1, true).getWidth()) {
+				colOffset = 0;
+			}
+		}
+		return colOffset;
+	}
+
+	private int getRowOffset(int mouseY, GRectangle selRect) {
+		int rowOffset = 0;
+		// get row distance
+		if (table.minSelectionRow > 0
+				&& table.draggingToRow < table.minSelectionRow) {
+			rowOffset = mouseY - (int) selRect.getY();
+			if (-rowOffset < 0.5 * table.getCellRect(table.minSelectionRow - 1,
+					table.minSelectionColumn, true).getHeight()) {
+				rowOffset = 0;
+			}
+		} else if (table.maxSelectionRow < app.getMaxSpreadsheetRowsVisible()
+				&& table.draggingToRow > table.maxSelectionRow) {
+			rowOffset = mouseY
+					- ((int) selRect.getY() + (int) selRect.getHeight());
+			if (rowOffset < 0.5 * table.getCellRect(table.maxSelectionRow + 1,
+					table.maxSelectionColumn, true).getHeight()) {
+				rowOffset = 0;
+			}
+		}
+		return rowOffset;
 	}
 
 	private void updateTableIsOverDot(DomEvent<?> event) {

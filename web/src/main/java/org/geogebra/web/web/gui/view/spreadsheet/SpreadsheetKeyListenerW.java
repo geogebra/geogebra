@@ -65,191 +65,37 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 
 		// AppW.isControlDown(e) // Windows ctrl/Mac Meta
 		// || e.isControlDown(); // Fudge (Mac ctrl key)
-
-		int row = table.getSelectedRow();
-		int column = table.getSelectedColumn();
+		GPoint pos = new GPoint(table.getSelectedColumn(),
+				table.getSelectedRow());
 
 		switch (keyCode) {
 
 		case KeyCodes.KEY_UP:// KeyEvent.VK_UP:
 			e.preventDefault();
-			if (e.isControlKeyDown()) {
-				// AppW.isControlDown(e)) {
-				if (model.getValueAt(row, column) != null) {
-					// move to top of current "block"
-					// if shift pressed, select cells too
-					while (row > 0 && model.getValueAt(row - 1, column) != null) {
-						row--;
-					}
-					table.changeSelection(row, column, 
-					        e.isShiftKeyDown());
-				} else {
-					// move up to next defined cell
-					while (row > 0 && model.getValueAt(row - 1, column) == null) {
-						row--;
-					}
-					table.changeSelection(Math.max(0, row - 1), column, false);
-
-				}
-				// e.consume();
-			} else {
-				// default action
-				row = table.getLeadSelectionRow();
-				column = table.getLeadSelectionColumn();
-				if (row > 0) {
-					table.changeSelection(row - 1, column, e.isShiftKeyDown());
-				}
-			}
-			// copy description into input bar when a cell is entered
-			// GeoElement geo = (GeoElement)
-			// getModel().getValueAt(table.getSelectedRow() - 1,
-			// table.getSelectedColumn());
-			// if (geo != null) {
-			// AlgebraInput ai =
-			// (AlgebraInput)(app.getGuiManager().getAlgebraInput());
-			// ai.setString(geo);
-			// }
-
+			handleKeyUp(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
 			break;
 
 		case KeyCodes.KEY_LEFT:// VK_LEFT:
 			e.preventDefault();
-			if (e.isControlKeyDown()) {
-				// AppD.isControlDown(e)) {
+			handleKeyLeft(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
 
-				if (model.getValueAt(row, column) != null) {
-					// move to left of current "block"
-					// if shift pressed, select cells too
-					while (column > 0
-					        && model.getValueAt(row, column - 1) != null) {
-						column--;
-					}
-					table.changeSelection(row, column, e.isShiftKeyDown());
-				} else {
-					// move left to next defined cell
-					while (column > 0
-					        && model.getValueAt(row, column - 1) == null) {
-						column--;
-					}
-					table.changeSelection(row, Math.max(0, column - 1), false);
-				}
-
-				// e.consume();
-			} else {
-				// default action
-				row = table.getLeadSelectionRow();
-				column = table.getLeadSelectionColumn();
-				if (column > 0) {
-					table.changeSelection(row, column - 1, e.isShiftKeyDown());
-				}
-			}
-			// // copy description into input bar when a cell is entered
-			// geo = (GeoElement) getModel().getValueAt(table.getSelectedRow(),
-			// table.getSelectedColumn() - 1);
-			// if (geo != null) {
-			// AlgebraInput ai =
-			// (AlgebraInput)(app.getGuiManager().getAlgebraInput());
-			// ai.setString(geo);
-			// }
 			break;
 
 		case KeyCodes.KEY_DOWN:// VK_DOWN:
 			e.preventDefault();
-			// auto increase spreadsheet size when you go off the bottom
-			if (table.getSelectedRow() + 1 >= table.getRowCount()
-					&& table.getSelectedRow() + 1 < app
-							.getMaxSpreadsheetRowsVisible()) {
-				model.setRowCount(table.getRowCount() + 1);
-
-				// getView().getRowHeader().revalidate(); //G.STURR 2010-1-9
-
-				table.changeSelection(row + 1, column, e.isShiftKeyDown());
-
-			} else if (e.isControlKeyDown()) {
-				// AppD.isControlDown(e)) {
-
-				if (model.getValueAt(row, column) != null) {
-
-					// move to bottom of current "block"
-					// if shift pressed, select cells too
-					while (row < table.getRowCount() - 1
-					        && model.getValueAt(row + 1, column) != null) {
-						row++;
-					}
-					table.changeSelection(row, column, e.isShiftKeyDown());
-				} else {
-					// move down to next selected cell
-					while (row < table.getRowCount() - 1
-					        && model.getValueAt(row + 1, column) == null) {
-						row++;
-					}
-					table.changeSelection(
-					        Math.min(table.getRowCount() - 1, row + 1), column,
-					        e.isShiftKeyDown());
-
-				}
-
-				// e.consume();
-			} else {
-				// default action
-				row = table.getLeadSelectionRow();
-				column = table.getLeadSelectionColumn();
-				if (row < table.getRowCount() - 1) {
-
-					table.changeSelection(row + 1, column, e.isShiftKeyDown());
-				}
-			}
-
-			// // copy description into input bar when a cell is entered
-			// geo = (GeoElement)
-			// getModel().getValueAt(table.getSelectedRow()+1,
-			// table.getSelectedColumn());
-			// if (geo != null) {
-			// AlgebraInput ai =
-			// (AlgebraInput)(app.getGuiManager().getAlgebraInput());
-			// ai.setString(geo);
-			// }
-
+			handleKeyDown(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
 			break;
 
 		case KeyCodes.KEY_HOME:// .VK_HOME:
 			e.preventDefault();
-
-			// if shift pressed, select cells too
-			if (e.isControlKeyDown()) {
-				// AppD.isControlDown(e)) {
-
-				// move to top left of spreadsheet
-				table.changeSelection(0, 0, e.isShiftKeyDown());
-			} else {
-				// move to left of current row
-				table.changeSelection(row, 0, e.isShiftKeyDown());
-			}
+			handleHomeKey(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
 
 			// e.consume();
 			break;
 
 		case KeyCodes.KEY_END:// .VK_END:
 			e.preventDefault();
-
-			// move to bottom right of spreadsheet
-			// if shift pressed, select cells too
-
-			// find rectangle that will contain all cells
-			for (int c = 0; c < table.getColumnCount() - 1; c++) {
-				for (int r = 0; r < table.getRowCount() - 1; r++) {
-					if ((r > row || c > column)
-					        && model.getValueAt(r, c) != null) {
-						if (r > row) {
-							row = r;
-						}
-						if (c > column) {
-							column = c;
-						}
-					}
-				}
-			}
-			table.changeSelection(row, column, e.isShiftKeyDown());
+			handleEndKey(e.isShiftKeyDown(), pos);
 
 			// e.consume();
 			break;
@@ -258,82 +104,24 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			e.preventDefault();
 			// auto increase spreadsheet size when you go off the right
 
-			if (table.getSelectedColumn() + 1 >= table.getColumnCount()
-					&& table.getSelectedColumn() + 1 < app
-							.getMaxSpreadsheetColumnsVisible()) {
+			handleKeyRight(e.isControlKeyDown(), e.isShiftKeyDown(), pos);
 
-				// table.setRepaintAll();
-				model.setColumnCount(table.getColumnCount() + 1);
-				// view.columnHeaderRevalidate();
-
-				// view.repaint();//FIXME: setRepaintAll is not compatible with
-				// TimerSystemW!
-				// table.repaint();
-
-				// view.getFocusPanel().setWidth(table.getGrid().getOffsetWidth()+"px");
-
-				// these two lines are a workaround for Java 6
-				// (Java bug?)
-				table.changeSelection(row, column + 1, false);
-			} else if (e.isControlKeyDown()) {
-				// AppD.isControlDown(e)) {
-
-				if (model.getValueAt(row, column) != null) {
-					// move to bottom of current "block"
-					// if shift pressed, select cells too
-					while (column < table.getColumnCount() - 1
-					        && model.getValueAt(row, column + 1) != null) {
-						column++;
-					}
-					table.changeSelection(row, column, e.isShiftKeyDown());
-				} else {
-					// move right to next defined cell
-					while (column < table.getColumnCount() - 1
-					        && model.getValueAt(row, column + 1) == null) {
-						column++;
-					}
-					table.changeSelection(row,
-					        Math.min(table.getColumnCount() - 1, column + 1),
-					        false);
-				}
-				// e.consume();
-			} else {
-
-				// default action
-				row = table.getLeadSelectionRow();
-				column = table.getLeadSelectionColumn();
-				if (column < table.getColumnCount() - 1) {
-					table.changeSelection(row, column + 1, e.isShiftKeyDown());
-				}
-			}
-
-			// // copy description into input bar when a cell is entered
-			// geo = (GeoElement) getModel().getValueAt(table.getSelectedRow(),
-			// table.getSelectedColumn() + 1);
-			// if (geo != null) {
-			// AlgebraInput ai =
-			// (AlgebraInput)(app.getGuiManager().getAlgebraInput());
-			// ai.setString(geo);
-			// }
 			break;
 
 		case KeyCodes.KEY_SHIFT:// .VK_SHIFT:
 		case KeyCodes.KEY_CTRL:// Event.VK_CONTROL:
 		case KeyCodes.KEY_ALT:// Event.VK_ALT:
 			// case KeyEvent.VK_META: //MAC_OS Meta
-			// e.consume(); // stops editing start
 			break;
 
 		case GWTKeycodes.KEY_F9:// Event.VK_F9:
 			kernel.updateConstruction();
-			// e.consume(); // stops editing start
 			break;
 
 		case GWTKeycodes.KEY_R:// KeyEvent.VK_R:
 			if (e.isControlKeyDown()) {
 				// AppD.isControlDown(e)) {
 				kernel.updateConstruction();
-				// e.consume();
 			} else {
 				letterOrDigitTyped();
 			}
@@ -344,7 +132,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			if (ctrlDown) {
 				// Application.debug("undo");
 				app.getGuiManager().undo();
-				// e.consume();
 			} else {
 				letterOrDigitTyped();
 			}
@@ -355,7 +142,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			if (ctrlDown) {
 				// Application.debug("redo");
 				app.getGuiManager().redo();
-				// e.consume();
 			} else {
 				letterOrDigitTyped();
 			}
@@ -375,8 +161,6 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		case GWTKeycodes.KEY_BACKSPACE:// KeyEvent.VK_BACK_SPACE:
 			if (!editor.isEditing()) {
 				e.preventDefault();
-				// e.consume();
-				// Application.debug("deleting...");
 				boolean storeUndo = table.delete();
 				if (storeUndo) {
 					app.storeUndoInfo();
@@ -407,84 +191,40 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		case GWTKeycodes.KEY_PAGEDOWN:// KeyEvent.VK_PAGE_DOWN:
 			e.preventDefault();
 
-			int pixelx = table.getPixel(column, row, true).getX();
+			int pixelx = table.getPixel(pos.x, pos.y, true).getX();
 			int pixely = view.getFocusPanel().getAbsoluteTop()
 			        + view.getFocusPanel().getOffsetHeight();
 			GPoint gip = table.getIndexFromPixel(pixelx, pixely);
 			if (gip != null) {
-				table.changeSelection(gip.getY(), column, false);
+				table.changeSelection(gip.getY(), pos.x, false);
 			} else {
-				table.changeSelection(model.getRowCount() - 1, column, false);
+				table.changeSelection(model.getRowCount() - 1, pos.x, false);
 			}
 			break;
 
 		case GWTKeycodes.KEY_PAGEUP:// KeyEvent.VK_PAGE_UP:
 			e.preventDefault();
 
-			int pixx = table.getPixel(column, row, true).getX();
+			int pixx = table.getPixel(pos.x, pos.y, true).getX();
 			int pixy = view.getFocusPanel().getAbsoluteTop();
 			GPoint gi = table.getIndexFromPixel(pixx, pixy);
 			if (gi != null) {
-				table.changeSelection(gi.getY(), column, false);
+				table.changeSelection(gi.getY(), pos.x, false);
 				// stop cell being erased before moving
 			} else {
-				table.changeSelection(0, column, false);
+				table.changeSelection(0, pos.x, false);
 			}
 			break;
 
 		// stop TAB erasing cell before moving
 		case KeyCodes.KEY_TAB:// KeyEvent.VK_TAB:
 			e.preventDefault();
-
-			// disable shift-tab in column A
-			if (table.getSelectedColumn() == 0 && e.isShiftKeyDown()) {
-				// e.consume();
-			} else {
-				if (e.isShiftKeyDown()) {
-					// if (table.getSelectedColumn() == 0)
-					// this cannot happen
-
-					table.changeSelection(row, column - 1, false);
-
-				} else {
-					if (table.getSelectedColumn() + 1 >= table.getColumnCount() - 1) {
-						if (table.getSelectedRow() + 1 < table.getRowCount() - 1) {
-							table.changeSelection(row + 1, 0, false);
-						}
-					} else {
-						table.changeSelection(row, column + 1, false);
-					}
-				}
-			}
+			handleTabKey(e.isShiftKeyDown(), pos);
 			break;
 
 		case GWTKeycodes.KEY_A:// KeyEvent.VK_A:
 			if (e.isControlKeyDown()) {
-				// AppD.isControlDown(e)) {
-
-				// select all cells
-
-				row = 0;
-				column = 0;
-				// find rectangle that will contain all defined cells
-				for (int c = 0; c < table.getColumnCount() - 1; c++) {
-					for (int r = 0; r < table.getRowCount() - 1; r++) {
-						if ((r > row || c > column)
-						        && model.getValueAt(r, c) != null) {
-							if (r > row) {
-								row = r;
-							}
-							if (c > column) {
-								column = c;
-							}
-						}
-					}
-				}
-				table.changeSelection(0, 0, false);
-				table.changeSelection(row, column, true);
-
-				// e.consume();
-
+				selectAll(pos);
 			}
 			// no break, fall through
 		default:
@@ -499,7 +239,257 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				// e.consume();
 				break;
 			}
+		}
 
+	}
+
+	private void handleHomeKey(boolean ctrl, boolean shift, GPoint pos) {
+		// if shift pressed, select cells too
+		if (ctrl) {
+			// AppD.isControlDown(e)) {
+
+			// move to top left of spreadsheet
+			table.changeSelection(0, 0, shift);
+		} else {
+			// move to left of current row
+			table.changeSelection(pos.y, 0, shift);
+		}
+
+	}
+
+	private void handleTabKey(boolean shift, GPoint pos) {
+		// disable shift-tab in column A
+		if (table.getSelectedColumn() == 0 && shift) {
+			// e.consume();
+		} else {
+			if (shift) {
+				// if (table.getSelectedColumn() == 0)
+				// this cannot happen
+
+				table.changeSelection(pos.y, pos.x - 1, false);
+
+			} else {
+				if (table.getSelectedColumn() + 1 >= table.getColumnCount()
+						- 1) {
+					if (table.getSelectedRow() + 1 < table.getRowCount() - 1) {
+						table.changeSelection(pos.y + 1, 0, false);
+					}
+				} else {
+					table.changeSelection(pos.y, pos.x + 1, false);
+				}
+			}
+		}
+
+	}
+
+	private void selectAll(GPoint pos) {
+		pos.y = 0;
+		pos.x = 0;
+		// find rectangle that will contain all defined cells
+		for (int c = 0; c < table.getColumnCount() - 1; c++) {
+			for (int r = 0; r < table.getRowCount() - 1; r++) {
+				if ((r > pos.y || c > pos.x)
+						&& model.getValueAt(r, c) != null) {
+					if (r > pos.y) {
+						pos.y = r;
+					}
+					if (c > pos.x) {
+						pos.x = c;
+					}
+				}
+			}
+		}
+		table.changeSelection(0, 0, false);
+		table.changeSelection(pos.y, pos.x, true);
+
+	}
+
+	private void handleEndKey(boolean shift, GPoint pos) {
+
+		// move to bottom right of spreadsheet
+		// if shift pressed, select cells too
+
+		// find rectangle that will contain all cells
+		for (int c = 0; c < table.getColumnCount() - 1; c++) {
+			for (int r = 0; r < table.getRowCount() - 1; r++) {
+				if ((r > pos.y || c > pos.x)
+						&& model.getValueAt(r, c) != null) {
+					if (r > pos.y) {
+						pos.y = r;
+					}
+					if (c > pos.x) {
+						pos.x = c;
+					}
+				}
+			}
+		}
+		table.changeSelection(pos.y, pos.x, shift);
+
+	}
+
+	private void handleKeyLeft(boolean ctrl, boolean shift,
+			GPoint pos) {
+		if (ctrl) {
+			// AppD.isControlDown(e)) {
+
+			if (model.getValueAt(pos.y, pos.x) != null) {
+				// move to left of current "block"
+				// if shift pressed, select cells too
+				while (pos.x > 0
+						&& model.getValueAt(pos.y, pos.x - 1) != null) {
+					pos.x--;
+				}
+				table.changeSelection(pos.y, pos.x, shift);
+			} else {
+				// move left to next defined cell
+				while (pos.x > 0
+						&& model.getValueAt(pos.y, pos.x - 1) == null) {
+					pos.x--;
+				}
+				table.changeSelection(pos.y, Math.max(0, pos.x - 1), false);
+			}
+
+			// e.consume();
+		} else {
+			// default action
+			pos.y = table.getLeadSelectionRow();
+			pos.x = table.getLeadSelectionColumn();
+			if (pos.x > 0) {
+				table.changeSelection(pos.y, pos.x - 1, shift);
+			}
+		}
+
+	}
+
+	private void handleKeyUp(boolean ctrl, boolean shift,
+			GPoint pos) {
+		if (ctrl) {
+			// AppW.isControlDown(e)) {
+			if (model.getValueAt(pos.y, pos.x) != null) {
+				// move to top of current "block"
+				// if shift pressed, select cells too
+				while (pos.y > 0
+						&& model.getValueAt(pos.y - 1, pos.x) != null) {
+					pos.y--;
+				}
+				table.changeSelection(pos.y, pos.x, shift);
+			} else {
+				// move up to next defined cell
+				while (pos.y > 0
+						&& model.getValueAt(pos.y - 1, pos.x) == null) {
+					pos.y--;
+				}
+				table.changeSelection(Math.max(0, pos.y - 1), pos.x, false);
+
+			}
+			// e.consume();
+		} else {
+			// default action
+			pos.y = table.getLeadSelectionRow();
+			pos.x = table.getLeadSelectionColumn();
+			if (pos.y > 0) {
+				table.changeSelection(pos.y - 1, pos.x, shift);
+			}
+		}
+
+	}
+
+	private void handleKeyDown(boolean ctrl, boolean shift, GPoint pos) {
+		// auto increase spreadsheet size when you go off the bottom
+		if (table.getSelectedRow() + 1 >= table.getRowCount()
+				&& table.getSelectedRow() + 1 < app
+						.getMaxSpreadsheetRowsVisible()) {
+			model.setRowCount(table.getRowCount() + 1);
+
+			// getView().getRowHeader().revalidate(); //G.STURR 2010-1-9
+
+			table.changeSelection(pos.y + 1, pos.x, shift);
+
+		} else if (ctrl) {
+			// AppD.isControlDown(e)) {
+
+			if (model.getValueAt(pos.y, pos.x) != null) {
+
+				// move to bottom of current "block"
+				// if shift pressed, select cells too
+				while (pos.y < table.getRowCount() - 1
+						&& model.getValueAt(pos.y + 1, pos.x) != null) {
+					pos.y++;
+				}
+				table.changeSelection(pos.y, pos.x, shift);
+			} else {
+				// move down to next selected cell
+				while (pos.y < table.getRowCount() - 1
+						&& model.getValueAt(pos.y + 1, pos.x) == null) {
+					pos.y++;
+				}
+				table.changeSelection(
+						Math.min(table.getRowCount() - 1, pos.y + 1), pos.x,
+						shift);
+
+			}
+
+			// e.consume();
+		} else {
+			// default action
+			pos.y = table.getLeadSelectionRow();
+			pos.x = table.getLeadSelectionColumn();
+			if (pos.y < table.getRowCount() - 1) {
+
+				table.changeSelection(pos.y + 1, pos.x, shift);
+			}
+		}
+
+	}
+
+	private void handleKeyRight(boolean ctrl, boolean shift, GPoint pos) {
+		if (table.getSelectedColumn() + 1 >= table.getColumnCount()
+				&& table.getSelectedColumn() + 1 < app
+						.getMaxSpreadsheetColumnsVisible()) {
+
+			// table.setRepaintAll();
+			model.setColumnCount(table.getColumnCount() + 1);
+			// view.pos.xHeaderRevalidate();
+
+			// view.repaint();//FIXME: setRepaintAll is not compatible with
+			// TimerSystemW!
+			// table.repaint();
+
+			// view.getFocusPanel().setWidth(table.getGrid().getOffsetWidth()+"px");
+
+			// these two lines are a workaround for Java 6
+			// (Java bug?)
+			table.changeSelection(pos.y, pos.x + 1, false);
+		} else if (ctrl) {
+			// AppD.isControlDown(e)) {
+
+			if (model.getValueAt(pos.y, pos.x) != null) {
+				// move to bottom of current "block"
+				// if shift pressed, select cells too
+				while (pos.x < table.getColumnCount() - 1
+						&& model.getValueAt(pos.y, pos.x + 1) != null) {
+					pos.x++;
+				}
+				table.changeSelection(pos.y, pos.x, shift);
+			} else {
+				// move right to next defined cell
+				while (pos.x < table.getColumnCount() - 1
+						&& model.getValueAt(pos.y, pos.x + 1) == null) {
+					pos.x++;
+				}
+				table.changeSelection(pos.y,
+						Math.min(table.getColumnCount() - 1, pos.x + 1),
+						false);
+			}
+			// e.consume();
+		} else {
+
+			// default action
+			pos.y = table.getLeadSelectionRow();
+			pos.x = table.getLeadSelectionColumn();
+			if (pos.x < table.getColumnCount() - 1) {
+				table.changeSelection(pos.y, pos.x + 1, shift);
+			}
 		}
 
 	}
