@@ -2700,7 +2700,8 @@ public abstract class EuclidianView3D extends EuclidianView
 			case PREVIEW_POINT_REGION:
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
-				if (cursorNormal.dotproduct3(getViewDirection()) > 0) {
+				Coords direction = getViewDirection();
+				if (direction != null && cursorNormal.dotproduct3(direction) > 0) {
 					cursorNormal.mulInside(-1);
 				}
 				if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
