@@ -3107,7 +3107,7 @@ __GGB__keysVar.nl_NL.menu = {
     "stylebar.ColorTransparency": "Instelling kleur en transparantie",
     "stylebar.CopyVisualStyle": "Kopieer de visuele stijl",
     "stylebar.Eraser": "Wis penstrook",
-    "stylebar.Filling": "Set Filling",
+    "stylebar.Filling": "Bepaal opvulling",
     "stylebar.GlassesProjection": "Projectie voor bril",
     "stylebar.Grid": "Toon of verberg het rooster",
     "stylebar.Hidden": "Verborgen",
