@@ -1790,11 +1790,7 @@ var __giac = [ {},
 { cat: "Solve", cmd:"Solve[{67000=c*a^2007,3=c*a^9},{c,a}]", result:"{{c = 3 / (67000 / 3)^(1 / 222), a = (67000 / 3)^(1 / 1998)}}" },
 { cat: "Solve", cmd:"Solve[{6.7*10^9=c*a^2007,3*10^8=c*a^950},{c,a}]", result:"{{c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070, a = (67 / 3)^(1 / 1057)}}" },
 { cat: "Solve", cmd:"Solve[{((67/10))*((10)^(9))=(c)*((a)^(2007)), (3)*((10)^(8))=(c)*((a)^(950))},{a, c}]", result:"{{a = (67 / 3)^(1 / 1057), c = 300000000 / ((67 / 3)^(1 / 1057))\u2079\u2075\u2070}}", notes:"" },
-<<<<<<< .mine
-{ cat: "Derivative", cmd:"Derivative[f(x!)]", result:"psi(x + 1) x! f'(x!)", notes:"" },
-=======
 { cat: "Derivative", cmd:"Derivative[f(x!)]", result:"psi(x+1)f'(x!)x!|OR|psi(x + 1) x! f'(x!)", notes:"" },
->>>>>>> .r55854
 { cat: "Integral", cmd:"Integral[Function[x^2,-2,3]]", result:"?", notes:"" },
 { cat: "Translate", cmd:"Translate[x^2, Vector[(2,3)]]", result:"(x - 2)\u00B2 + 3", notes:"GGB-343" },
 { cat: "Translate", cmd:"Translate[y=2x+3,Vector[(2,3)]]", result:"y - 3 = 2 (x - 2) + 3",  notes:"GGB-343, GGB-1111" },
