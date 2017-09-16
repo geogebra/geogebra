@@ -5560,6 +5560,24 @@ unsigned int ConvertUTF8toUTF16 (
     return true;
   }
 
+  void convert_python(string & cur){
+    for (int pos=1;pos<int(cur.size());++pos){
+      char prevch=cur[pos-1],curch=cur[pos];
+      if (curch=='%'){
+	cur.insert(cur.begin()+pos+1,'/');
+	++pos;
+	continue;
+      }
+      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && (pos==int(cur.size())-1 || cur[pos+1]!='=')){
+	cur.insert(cur.begin()+pos,':');
+	++pos;
+	continue;
+      }
+      if (prevch=='/' && curch=='/')
+	cur[pos]='%';
+    }
+  }
+
   // detect Python like syntax: 
   // remove """ """ docstrings and ''' ''' comments
   // cut string in lines, remove comments at the end (search for #)
@@ -5670,7 +5688,9 @@ unsigned int ConvertUTF8toUTF16 (
 	progpos=cur.find("elif");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
-	  s += cur.substr(0,pos)+" then\n";
+	  cur=cur.substr(0,pos);
+	  convert_python(cur);
+	  s += cur+" then\n";
 	  continue;
 	}
       }
@@ -5695,21 +5715,27 @@ unsigned int ConvertUTF8toUTF16 (
 	int progpos=cur.find("if");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
 	  pythonmode=true;
-	  s += cur.substr(0,pos)+" then\n";
+	  cur=cur.substr(0,pos);
+	  convert_python(cur);
+	  s += cur +" then\n";
 	  stack.push_back(int_string(ws,"fi"));
 	  continue;
 	}
 	progpos=cur.find("for");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
-	  s += cur.substr(0,pos)+" do\n";
+	  cur=cur.substr(0,pos);
+	  convert_python(cur);
+	  s += cur+" do\n";
 	  stack.push_back(int_string(ws,"od"));
 	  continue;
 	}
 	progpos=cur.find("while");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,5)){
 	  pythonmode=true;
-	  s += cur.substr(0,pos)+" do\n";
+	  cur=cur.substr(0,pos);
+	  convert_python(cur);
+	  s += cur +" do\n";
 	  stack.push_back(int_string(ws,"od"));
 	  continue;
 	}
@@ -5725,23 +5751,8 @@ unsigned int ConvertUTF8toUTF16 (
 	// normal line add ; at end
 	if (pythonmode && pos>=0 && cur[pos]!=';')
 	  cur = cur +';';
-	if (pythonmode){
-	  for (pos=1;pos<int(cur.size());++pos){
-	    char prevch=cur[pos-1],curch=cur[pos];
-	    if (curch=='%'){
-	      cur.insert(cur.begin()+pos+1,'/');
-	      ++pos;
-	      continue;
-	    }
-	    if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && (pos==int(cur.size())-1 || cur[pos+1]!='=')){
-	      cur.insert(cur.begin()+pos,':');
-	      ++pos;
-	      continue;
-	    }
-	    if (prevch=='/' && curch=='/')
-	      cur[pos]='%';
-	  }
-	}
+	if (pythonmode)
+	  convert_python(cur);
 	cur = cur +'\n';
 	s = s+cur;
       }
