@@ -870,6 +870,7 @@ namespace giac {
       //          L center.x center.y Z">
       // move to start, arc to end, segment to center, loop to start
       s = s+" d=\"M "+print_DOUBLE_(cx+r*std::cos(a1),5)+" "+print_DOUBLE_(cy+r*std::sin(a1),5);
+      //s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" 0"+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
       s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" "+print_DOUBLE_(rot*rad2deg_d,5)+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
       s = s+ print_DOUBLE_(cx+r*std::cos(a2),5)+" "+print_DOUBLE_(cy+r*std::sin(a2),5);
       if (attr.fill_polygon)

@@ -11256,19 +11256,35 @@ namespace giac {
   static int try_parse(const string & s_orig,GIAC_CONTEXT){
     string s=s_orig;
     if (abs_calc_mode(contextptr)!=38){
-      if (s.size()>5 && s.substr(0,5)=="\"def "){
-	s="";
-	int ss=s_orig.size()-1;
+      // remove leading spaces
+      for (int i=0;i<s.size();++i){
+	if (s[i]!=' '){
+	  if (i)
+	    s=s.substr(i,s.size()-i);
+	  break;
+	}
+      }
+      if (s.size()>10 && (s.substr(0,5)=="\"def " || s.substr(0,10)=="\"function ")){
+	string news="";
+	int ss=s.size()-1;
 	for (;ss>5;--ss){
-	  if (s_orig[ss]=='"')
+	  if (s[ss]=='"')
 	    break;
 	}
 	for (int i=1;i<ss;++i){
-	  if (s_orig[i]==char(0xa))
-	    s+='\n';
+	  char ch=s[i];
+	  if (ch==char(0xa)){
+	    news+='\n';
+	    continue;
+	  }
+	  if (ch=='"' && s[i+1]=='"')
+	    ++i;
+	  if (ch=='`')
+	    news+='"';
 	  else
-	    s+=s_orig[i];
+	    news+=ch;
 	}
+	s=news;
       }
       s=python2xcas(s,contextptr);
     }
