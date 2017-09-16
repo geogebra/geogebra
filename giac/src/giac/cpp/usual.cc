@@ -5154,6 +5154,16 @@ namespace giac {
       }
     }
     f=qf.eval(eval_level(contextptr),contextptr);
+    if (f.is_symb_of_sommet(at_struct_dot) && f._SYMBptr->feuille.type==_VECT && f._SYMBptr->feuille._VECTptr->size()==2){
+      gen v=f._SYMBptr->feuille._VECTptr->front(),op=f._SYMBptr->feuille._VECTptr->back();
+      gen ve=eval(v,eval_level(contextptr),contextptr);
+      if (b.type==_VECT && b.subtype==_SEQ__VECT && b._VECTptr->empty())
+	;
+      else
+	ve=makesuite(ve,b._SYMBptr->feuille);
+      ve=op(ve,contextptr);
+      return sto(ve,v,contextptr);
+    }
     if (f.type<=_POLY || f.type==_FRAC || f.type==_FLOAT_)
       *logptr(contextptr) << "Warning, constant function " << f << " applied to " << b << endl;
     if ( f.is_symb_of_sommet(at_program) && qf.type==_IDNT ){
