@@ -438,7 +438,11 @@ namespace giac {
 #ifdef NSPIRE
     sleep(1);
 #else
+#ifdef GIAC_HAS_STO_38
+    usleep(10);
+#else
     usleep(1000);
+#endif
 #endif
 #ifndef NO_STDEXCEPT
     if (debug_infolevel!=-5)
@@ -6018,16 +6022,19 @@ namespace giac {
 	}
       }
     case _INT___MAP: case _ZINT__MAP: case _DOUBLE___MAP: case _FLOAT___MAP: case _CPLX__MAP: case _SYMB__MAP: case _IDNT__MAP: case _POLY__MAP: case _EXT__MAP: case _MOD__MAP: case _FRAC__MAP: case _REAL__MAP: {
-	int brows,bcols,bn;
-	if (is_sparse_matrix(b,brows,bcols,bn)){
-	  gen_map res;
-	  gen g(res);
-	  if (is_zero(a))
-	    return g;
-	  *g._MAPptr=*b._MAPptr;
-	  sparse_mult(a,*g._MAPptr);
+      if (is_one(a))
+	return b;
+      int brows,bcols,bn;
+      if (is_sparse_matrix(b,brows,bcols,bn)){
+	gen_map res;
+	gen g(res);
+	if (is_zero(a))
 	  return g;
-	}
+	*g._MAPptr=*b._MAPptr;
+	sparse_mult(a,*g._MAPptr);
+	return g;
+      }
+      break;
     }
     case _POLY__INT_: case _POLY__ZINT: case _POLY__DOUBLE_: case _POLY__FLOAT_: case _POLY__CPLX: case _POLY__USER: case _POLY__REAL:
       if (is_one(b))
@@ -11247,7 +11254,24 @@ namespace giac {
   int giac_yyparse(void * scanner);
 
   static int try_parse(const string & s_orig,GIAC_CONTEXT){
-    string s=abs_calc_mode(contextptr)==38?s_orig:python2xcas(s_orig,contextptr);
+    string s=s_orig;
+    if (abs_calc_mode(contextptr)!=38){
+      if (s.size()>5 && s.substr(0,5)=="\"def "){
+	s="";
+	int ss=s_orig.size()-1;
+	for (;ss>5;--ss){
+	  if (s_orig[ss]=='"')
+	    break;
+	}
+	for (int i=1;i<ss;++i){
+	  if (s_orig[i]==char(0xa))
+	    s+='\n';
+	  else
+	    s+=s_orig[i];
+	}
+      }
+      s=python2xcas(s,contextptr);
+    }
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
     if (contextptr && thread_param_ptr(contextptr)->stackaddr){
       gen er;

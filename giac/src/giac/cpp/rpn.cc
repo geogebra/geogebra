@@ -1449,7 +1449,7 @@ namespace giac {
 
   static const char _scale_s[]="scale";
   static define_unary_function_eval_quoted (__scale,&giac::_SCALE,_scale_s);
-  define_unary_function_ptr5( at_scale ,alias_at_scale,&__scale,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_scale ,alias_at_scale,&__scale,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _SCALEADD(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1468,7 +1468,7 @@ namespace giac {
 
   static const char _scaleadd_s[]="scaleadd";
   static define_unary_function_eval_quoted (__scaleadd,&giac::_SCALEADD,_scaleadd_s);
-  define_unary_function_ptr5( at_scaleadd ,alias_at_scaleadd,&__scaleadd,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_scaleadd ,alias_at_scaleadd,&__scaleadd,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   gen _SWAPCOL(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -1726,7 +1726,7 @@ namespace giac {
 
   static const char _replace_s[]="replace";
   static define_unary_function_eval_quoted (__replace,&giac::_REPLACE,_replace_s);
-  define_unary_function_ptr5( at_replace ,alias_at_replace,&__replace,_QUOTE_ARGUMENTS,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_replace ,alias_at_replace,&__replace,_QUOTE_ARGUMENTS,T_UNARY_OP);
 
   static const char _COLNORM_s[]="COLNORM";
   static define_unary_function_eval (__COLNORM,&giac::_colNorm,_COLNORM_s);
@@ -3071,7 +3071,7 @@ namespace giac {
   }
   static const char _pointer_s[]="pointer";
   static define_unary_function_eval (__pointer,&_pointer,_pointer_s);
-  define_unary_function_ptr5( at_pointer ,alias_at_pointer,&__pointer,0,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_pointer ,alias_at_pointer,&__pointer,0,T_UNARY_OP);
   
   int is_known_name_home_38(const char * idname){
     int s=int(strlen(idname));
@@ -3851,7 +3851,7 @@ namespace giac {
   }
   static const char _tests_s[]="tests";
   static define_unary_function_eval(__tests,&_tests,_tests_s);
-  define_unary_function_ptr5( at_tests ,alias_at_tests,&__tests,0,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_tests ,alias_at_tests,&__tests,0,T_UNARY_OP);
 
   gen _CHOOSE(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
@@ -4236,7 +4236,7 @@ namespace giac {
   }
   static const char _Celsius2Fahrenheit_s []="Celsius2Fahrenheit";
   static define_unary_function_eval (__Celsius2Fahrenheit,&giac::_Celsius2Fahrenheit,_Celsius2Fahrenheit_s);
-  define_unary_function_ptr5( at_Celsius2Fahrenheit ,alias_at_Celsius2Fahrenheit,&__Celsius2Fahrenheit,0,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_Celsius2Fahrenheit ,alias_at_Celsius2Fahrenheit,&__Celsius2Fahrenheit,0,T_UNARY_OP);
 
   gen _Fahrenheit2Celsius(const gen & g,GIAC_CONTEXT){
     if (g.type==_VECT)
@@ -4245,7 +4245,7 @@ namespace giac {
   }
   static const char _Fahrenheit2Celsius_s []="Fahrenheit2Celsius";
   static define_unary_function_eval (__Fahrenheit2Celsius,&giac::_Fahrenheit2Celsius,_Fahrenheit2Celsius_s);
-  define_unary_function_ptr5( at_Fahrenheit2Celsius ,alias_at_Fahrenheit2Celsius,&__Fahrenheit2Celsius,0,T_UNARY_OP_38);
+  define_unary_function_ptr5( at_Fahrenheit2Celsius ,alias_at_Fahrenheit2Celsius,&__Fahrenheit2Celsius,0,T_UNARY_OP);
 
   // put here function names that are in lowercase in giac and should be printed uppercase
   // on HP
