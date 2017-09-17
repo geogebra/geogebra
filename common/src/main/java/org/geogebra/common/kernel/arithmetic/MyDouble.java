@@ -723,6 +723,11 @@ public class MyDouble extends ValidExpression
 	final private static double doRound(double x) {
 		// if (!(Double.isInfinite(x) || Double.isNaN(x)))
 
+		// make sure round(-1/8,2) is consistent with Options -> Rounding -> 2dp
+		if (x < 0) {
+			return -Math.floor(-x + 0.5d);
+		}
+
 		// changed from Math.round(x) as it uses (long) so fails for large
 		// numbers
 		// also means the check for Infinity / NaN not needed
