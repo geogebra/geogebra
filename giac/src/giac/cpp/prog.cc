@@ -3448,7 +3448,7 @@ namespace giac {
   define_unary_function_ptr5( at_randint ,alias_at_randint,&__randint,0,true);
 
   gen _choice(const gen & args,GIAC_CONTEXT){
-    if (args.type!=_VECT || args._VECTptr->empty())
+    if (args.type!=_VECT || args.subtype==_SEQ__VECT || args._VECTptr->empty())
       return gensizeerr(contextptr);
     int n=int(args._VECTptr->size());
     gen g=_rand(n,contextptr);
@@ -3460,7 +3460,10 @@ namespace giac {
   static define_unary_function_eval (__choice,&_choice,_choice_s);
   define_unary_function_ptr5( at_choice ,alias_at_choice,&__choice,0,true);
 
-  gen _shuffle(const gen & args,GIAC_CONTEXT){
+  gen _shuffle(const gen & a,GIAC_CONTEXT){
+    gen args(a);
+    if (is_integral(args))
+      return _randperm(args,contextptr);
     if (args.type!=_VECT || args._VECTptr->empty())
       return gensizeerr(contextptr);
     vecteur v(*args._VECTptr);

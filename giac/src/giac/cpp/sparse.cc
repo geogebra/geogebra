@@ -97,14 +97,14 @@ namespace giac {
 	++it;
 	continue;
       }
-      c[jt->first]=jt->second;
+      c[jt->first]=-jt->second;
       ++jt;
     }
     for (;it!=itend;++it){
       c[it->first]=it->second;
     }
     for (;jt!=jtend;++jt){
-      c[jt->first]=jt->second;
+      c[jt->first]=-jt->second;
     }
   }
 

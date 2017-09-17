@@ -1157,7 +1157,9 @@ namespace giac {
 	  return opstring+gen2tex(feu,contextptr) ;
 	return opstring+string("\\left(") + gen2tex(feu,contextptr) +string("\\right)");
       }
-      if (mys.sommet==at_inv && (feu.is_symb_of_sommet(at_prod) || feu.is_symb_of_sommet(at_plus) || feu.type<=_IDNT) ){
+      if (mys.sommet==at_inv && (feu.is_symb_of_sommet(at_prod) || feu.is_symb_of_sommet(at_plus) || feu.is_symb_of_sommet(at_pow) || feu.type<=_IDNT) ){
+	if (feu.type==_IDNT)
+	  return gen2tex(feu,contextptr)+"^{-1}";
 	return string("\\frac{1}{") + gen2tex(feu,contextptr) +string("}");
       }
       return opstring + "\\left(" + gen2tex(feu,contextptr) +"\\right)" ;
