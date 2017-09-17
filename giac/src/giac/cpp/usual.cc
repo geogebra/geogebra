@@ -329,11 +329,14 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ((args.type!=_VECT) || ckmatrix(args))
       return inv(args,contextptr);
-    iterateur it=args._VECTptr->begin(), itend=args._VECTptr->end();
-    gen prod(1);
-    for (;it!=itend;++it)
-      prod = prod * (*it);
-    return inv(prod,contextptr);
+    if (args.subtype==_SEQ__VECT){
+      iterateur it=args._VECTptr->begin(), itend=args._VECTptr->end();
+      gen prod(1);
+      for (;it!=itend;++it)
+	prod = prod * (*it);
+      return inv(prod,contextptr);
+    }
+    return apply(args,_inv,contextptr);
   }
   static const char _inv_s []="inv";
   static define_unary_function_eval_index (12,__inv,&_inv,_inv_s);

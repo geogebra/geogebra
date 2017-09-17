@@ -11255,7 +11255,7 @@ namespace giac {
 
   static int try_parse(const string & s_orig,GIAC_CONTEXT){
     string s=s_orig;
-    if (abs_calc_mode(contextptr)!=38){
+    if (1 || abs_calc_mode(contextptr)!=38){
       // remove leading spaces
       for (int i=0;i<s.size();++i){
 	if (s[i]!=' '){
