@@ -5220,8 +5220,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private MyZoomer axesRatioZoomer;
 
 	private boolean isZeroStandard() {
-		return (Kernel.checkInteger(xZero) == getXZeroStandard()
-				&& Kernel.checkInteger(yZero) == getYZeroStandard())
+		return (Kernel.isEqual(xZero, getXZeroStandard())
+				&& Kernel.isEqual(yZero, getYZeroStandard()))
 				|| (isZeroStandardForSmallScreen()
 						&& !app.has(Feature.CENTER_STANDARD_VIEW));
 	}
