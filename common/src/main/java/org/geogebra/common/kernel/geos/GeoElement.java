@@ -3761,8 +3761,8 @@ public abstract class GeoElement extends ConstructionElement
 			} else if (isGeoList()) {
 				final GeoList list = (GeoList) this;
 
-				return defaultNumberedLabel(list.isMatrix() ? "matrix" : "list",
-						true);
+				return getIndexLabel(kernel.getLocalization().getMenu(
+						"Name." + (list.isMatrix() ? "matrix" : "list")));
 			} else if (isInteger && isGeoNumeric()) {
 				chars = integerLabels;
 			} else {
