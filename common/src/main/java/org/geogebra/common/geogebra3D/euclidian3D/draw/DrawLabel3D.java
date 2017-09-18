@@ -241,7 +241,7 @@ public class DrawLabel3D {
 	}
 
 	private static boolean isLatex(String text) {
-		return (text.charAt(0) == '$') && text.endsWith("$");
+		return text.length() > 1 && text.charAt(0) == '$' && text.endsWith("$");
 	}
 
 	/**
