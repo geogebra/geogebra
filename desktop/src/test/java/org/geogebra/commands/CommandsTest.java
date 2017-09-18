@@ -1254,8 +1254,22 @@ public class CommandsTest extends Assert{
 		tpm("pmx","{x, (-x)}");
 		tpm("x+(pm2)","{x + 2, x - 2}");
 		tpm("xpm2","{x + 2, x - 2}");
-		//TODO tpm("xpm(pm2)","{x + 2, x - 2}");
+		tpm("xpm(pm2)", "{x + 2, x + 2}");
 		
+	}
+
+	@Test
+	public void expandFunctions() {
+		t("f(x,y)=x+y", "x + y");
+		t("a:x + 1 / f", "x + 1 / (x + y)");
+		t("a(1,3)", "1.25");
+		t("f(x,y)=2x+0y", "(2 * x) + (0 * y)");
+		t("g(x,y)=0x+3y", "(0 * x) + (3 * y)");
+		t("2f+3g", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y)))");
+		// t("2f+3g=36",
+		// "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y))) = 36");
+		//
+
 	}
 
 	private static void tpm(String string, String expected) {

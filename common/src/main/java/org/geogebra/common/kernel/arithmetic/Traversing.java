@@ -1086,7 +1086,27 @@ public interface Traversing {
 			if (ev instanceof FunctionVariable) {
 				commands.add(((FunctionVariable) ev).getSetVarString());
 			}
+			if (ev instanceof ExpressionNode) {
+				ExpressionNode en = ev.wrap();
+				if (en.getOperation() != Operation.FUNCTION
+						&& en.getOperation() != Operation.FUNCTION_NVAR
+						&& en.getOperation() != Operation.VEC_FUNCTION) {
+
+					checkFunctional(en.getLeft());
+					checkFunctional(en.getRight());
+				}
+			}
 			return ev;
+		}
+
+		private void checkFunctional(ExpressionValue right) {
+			if (right instanceof FunctionalNVar) {
+				for (FunctionVariable fv : ((FunctionalNVar) right)
+						.getFunctionVariables()) {
+					commands.add(fv.getSetVarString());
+				}
+			}
+
 		}
 
 		private static FVarCollector collector = new FVarCollector();
