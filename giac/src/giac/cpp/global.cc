@@ -5563,6 +5563,15 @@ unsigned int ConvertUTF8toUTF16 (
   void convert_python(string & cur){
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];
+      if (curch==':' && prevch=='['){
+	cur.insert(cur.begin()+pos,'0');
+	continue;
+      }
+      if (curch==']' && prevch==':'){
+	cur.insert(cur.begin()+pos,'-');
+	cur.insert(cur.begin()+pos,'1');
+	continue;
+      }
       if (curch=='%'){
 	cur.insert(cur.begin()+pos+1,'/');
 	++pos;
@@ -5603,10 +5612,16 @@ unsigned int ConvertUTF8toUTF16 (
     if (first>=0 && first<sss)
       return s_orig;
     for (first=0;first<sss;){
+      int pos=s_orig.find(":]");
+      if (pos>=0 && pos<sss)
+	break;
+      pos=s_orig.find("[:");
+      if (pos>=0 && pos<sss)
+	break;
       first=s_orig.find(':',first);
       if (first<0 || first>=sss)
 	return s_orig; // not Python like
-      int pos=s_orig.find("lambda");
+      pos=s_orig.find("lambda");
       if (pos>=0 && pos<sss)
 	break;
       int endl=s_orig.find('\n',first);
@@ -5686,7 +5701,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (cur[pos]!=' ' && cur[pos]!=char(9))
 	  break;
       }
-      if (pos<=0) continue;
+      if (pos<0) continue;
       // count whitespaces, compare to stack
       int ws=0;
       int cs=cur.size();

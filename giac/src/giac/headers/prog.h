@@ -999,6 +999,9 @@ namespace giac {
   gen _autosimplify(const gen & g,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_struct_dot ;
 
+  extern const unary_function_ptr * const  at_index ;
+  gen _index(const gen & args,GIAC_CONTEXT);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

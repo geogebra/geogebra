@@ -3165,6 +3165,10 @@ namespace giac {
   static define_unary_function_eval (__concat,&_concat,_concat_s);
   define_unary_function_ptr5( at_concat ,alias_at_concat,&__concat,0,true);
 
+  static const char _extend_s []="extend";
+  static define_unary_function_eval (__extend,&_concat,_extend_s);
+  define_unary_function_ptr5( at_extend ,alias_at_extend,&__extend,0,true);
+
   static gen symb_option(const gen & args){
     return symbolic(at_option,args);
   }
@@ -5079,11 +5083,11 @@ namespace giac {
     gen a,b,c;
     if (!check_binary(args,a,b))
       return a;
-    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_append || b==at_prepend || b==at_concat || b==at_rotate || b==at_shift || b==at_suppress)
+    if (b==at_revlist || b==at_reverse || b==at_sort || b==at_append || b==at_prepend || b==at_concat || b==at_extend || b==at_rotate || b==at_shift || b==at_suppress)
       return symbolic(at_struct_dot,args);
     if (b.type==_SYMB){
       unary_function_ptr c=b._SYMBptr->sommet;
-      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_append || c==at_prepend || c==at_concat || c==at_rotate || c==at_shift || c==at_suppress){
+      if (c==at_revlist || c==at_reverse || c==at_sort || c==at_append || c==at_prepend || c==at_concat || c==at_extend || c==at_rotate || c==at_shift || c==at_suppress){
 	gen d=eval(a,eval_level(contextptr),contextptr);
 	if (b._SYMBptr->feuille.type==_VECT && b._SYMBptr->feuille.subtype==_SEQ__VECT && b._SYMBptr->feuille._VECTptr->empty())
 	  ;
@@ -10037,7 +10041,7 @@ namespace giac {
       f=symbolic(u,f);
     }
     f=eval(f,eval_level(contextptr),contextptr);
-    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_rotate || u==at_shift || u==at_suppress)
+    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress)
       return sto(f,a,contextptr);
     return f;
   }
@@ -10058,6 +10062,18 @@ namespace giac {
   static const char _giac_assert_s []="assert";
   static define_unary_function_eval (__giac_assert,&_giac_assert,_giac_assert_s);
   define_unary_function_ptr5( at_giac_assert ,alias_at_giac_assert,&__giac_assert,_QUOTE_ARGUMENTS,true);
+
+  gen _index(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_VECT || args._VECTptr->size()!=2)
+      return gensizeerr(contextptr);
+    gen l=_find(makesequence(args._VECTptr->back(),args._VECTptr->front()),contextptr);
+    if (l.type!=_VECT || l._VECTptr->empty())
+      return gensizeerr(contextptr);
+    return l._VECTptr->front();
+  }
+  static const char _index_s []="index";
+  static define_unary_function_eval (__index,&_index,_index_s);
+  define_unary_function_ptr5( at_index ,alias_at_index,&__index,0,true);
 
 
 #ifndef NO_NAMESPACE_GIAC
