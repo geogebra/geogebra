@@ -88,11 +88,17 @@ public class CharBox extends Box {
 		if (size != 1) {
 			g2.scale(size, size);
 		}
-		if (!g2.getFont().isEqual(font)) {
+		Font oldFont = g2.getFont();
+		if (!oldFont.isEqual(font)) {
 			g2.setFont(font);
 		}
 		arr[0] = cf.c;
+
 		g2.drawChars(arr, 0, 1, 0, 0);
+
+		if (!oldFont.isEqual(font)) {
+			g2.setFont(oldFont);
+		}
 		g2.restoreTransformation();
 	}
 
