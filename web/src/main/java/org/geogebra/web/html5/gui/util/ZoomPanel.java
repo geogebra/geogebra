@@ -42,6 +42,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
 	private String containerPositionBefore;
+	private String containerMarginLeft, containerMarginTop;
 
 	public ZoomPanel(EuclidianView view) {
 		this.view = view;
@@ -123,12 +124,13 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 						scaler.getStyle().setMarginTop(0, Unit.PX);
 						dispatchResize();
 						Element container = scaler.getParentElement();
-						if (container != null) {
-							container.getStyle().setProperty("position",
-								containerPositionBefore);
-						}
+						resetStyleAfterFullscreen(container);
+						Browser.scale(scaler,
+								app.getArticleElement().getDataParamScale(), 0,
+								0);
 					}
 					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
+
 				}
 
 			}
@@ -137,6 +139,21 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	}
 
+	protected void resetStyleAfterFullscreen(Element container) {
+		if (container != null) {
+			container.getStyle().setProperty("position",
+					containerPositionBefore);
+			if (!StringUtil.empty(containerMarginLeft)) {
+				container.getStyle().setProperty("marginLeft",
+						containerMarginLeft);
+			}
+			if (!StringUtil.empty(containerMarginTop)) {
+				container.getStyle().setProperty("marginTop",
+						containerMarginTop);
+			}
+		}
+
+	}
 	public void addZoomButtons() {
 
 		// add home button
@@ -288,6 +305,12 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			container = scaler.getParentElement();
 			if (!isFullScreen) {
 				containerPositionBefore = container.getStyle().getPosition();
+				containerMarginLeft = container.getStyle()
+						.getProperty("marginLeft");
+				containerMarginTop = container.getStyle()
+						.getProperty("marginTop");
+				container.getStyle().setProperty("marginTop", "0");
+				container.getStyle().setProperty("marginLeft", "0");
 				if (StringUtil.empty(containerPositionBefore)) {
 					containerPositionBefore = "static";
 				}
