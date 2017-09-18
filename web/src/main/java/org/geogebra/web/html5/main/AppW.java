@@ -503,9 +503,9 @@ public abstract class AppW extends App implements SetLabels {
 		// update display & Input Bar Dictionary etc
 		setLabels();
 
-		// inputField.setDictionary(getCommandDictionary());
-
 		notifyLocalizationLoaded();
+		// importatnt for accessibility
+		getFrameElement().setLang(lang);
 	}
 
 	public void notifyLocalizationLoaded() {
@@ -1824,11 +1824,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * @return element of the AppFrame / GeoGebraFrame
 	 */
-	public Element getFrameElement() {
-		// Log.debug("getFrameElement() returns null, should be overridden by
-		// subclasses");
-		return null;
-	}
+	public abstract Element getFrameElement();
 
 	@Override
 	public void setWaitCursor() {
