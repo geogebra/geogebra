@@ -5648,16 +5648,30 @@ unsigned int ConvertUTF8toUTF16 (
 	res=res.substr(pos+1,res.size()-pos-1);
       }
       // detect comment (outside of a string) and lambda expr:expr
-      bool instring=false;
+      bool instring=false,chkfrom=true;
       for (pos=0;pos<int(cur.size());++pos){
 	char ch=cur[pos];
-	if (ch=='"')
+	if (ch==' ' || ch==char(9))
+	  continue;
+	if (ch=='"'){
+	  chkfrom=false;
 	  instring=!instring;
+	}
 	if (instring) continue;
 	if (ch=='#'){
 	  cur=cur.substr(0,pos);
 	  break;
 	}
+	// skip from * import *
+	if (chkfrom && ch=='f' && pos+15<int(cur.size()) && cur.substr(pos,5)=="from "){
+	  chkfrom=false;
+	  int posi=cur.find(" import ");
+	  if (posi>pos+5 && posi<int(cur.size())){
+	    cur=cur.substr(0,pos);
+	    break;
+	  }
+	}
+	chkfrom=false;
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
 	  int posdot=cur.find(':',pos);
 	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='=')

@@ -2062,9 +2062,93 @@ namespace giac {
 	}
 	index_name=test._SYMBptr->feuille._VECTptr->front();
       }
-      for (equaltosto(initialisation,contextptr).eval(eval_lev,newcontextptr);
-	   for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr);
-	   ++counter,((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
+      // check if we have a standard for loop
+      bool stdloop=(itend-it)<5 && contextptr && !for_in && is_inequation(test) && test._SYMBptr->feuille.type==_VECT && test._SYMBptr->feuille._VECTptr->size()==2;
+      stdloop = stdloop && increment.type==_SYMB && (increment._SYMBptr->sommet==at_increment || increment._SYMBptr->sommet==at_decrement);
+      gen index,stopg;
+      int *idx=0,step,stop;
+      if (stdloop){
+	index=increment._SYMBptr->feuille;
+	if (index.type==_VECT) index=index._VECTptr->front();
+	stdloop=index==test._SYMBptr->feuille._VECTptr->front();
+      }
+      // loop initialisation
+      equaltosto(initialisation,contextptr).eval(eval_lev,newcontextptr);
+      if (stdloop){
+	stopg=test._SYMBptr->feuille._VECTptr->back();
+	gen stopindex=eval(stopg,1,contextptr);
+	is_integral(stopindex);
+	stop=stopindex.val;
+	gen incrementstep=increment._SYMBptr->feuille;
+	incrementstep=incrementstep.type==_VECT?incrementstep._VECTptr->back():1;
+	is_integral(incrementstep);
+	step=incrementstep.val;
+	if (increment._SYMBptr->sommet==at_decrement) 
+	  step=-step;
+	stdloop=index.type==_IDNT && incrementstep.type==_INT_ && stopindex.type==_INT_;
+      }
+      if (stdloop){
+	sym_tab::iterator it=contextptr->tabptr->find(index._IDNTptr->id_name),itend=contextptr->tabptr->end();
+	// compute idx
+	if (it!=itend && it->second.type==_INT_ 
+     	    && (stop-it->second.val)/step>50){
+	  idx=&it->second.val;
+	  // adjust stop for a loop with condition *idx!=stop
+	  int niter=-1;
+	  unary_function_ptr & u=test._SYMBptr->sommet;
+	  if (u==at_inferieur_strict) {
+	    if (*idx>=stop)
+	      niter=0;
+	    else
+	      niter=step<0?-1:(stop+step-1-*idx)/step;
+	  }
+	  if (u==at_superieur_strict){
+	    if (*idx<=stop)
+	      niter=0;
+	    else
+	      niter=step>0?-1:(*idx-stop-step-1)/(-step);
+	  }
+	  if (u==at_inferieur_egal){
+	    if (*idx>stop)
+	      niter=0;
+	    else
+	      niter=step<0?-1:(stop+step-*idx)/step;
+	  }
+	  if (u==at_superieur_egal){
+	    if (*idx<stop)
+	      niter=0;
+	    else
+	      niter=step>0?-1:(*idx-stop-step)/(-step);
+	  }
+	  if (niter<0){
+	    if (bound)
+	      leave(protect,loop_var,newcontextptr);
+	    return gensizeerr("Infinite number of iterations");
+	  }
+	  stop=*idx+niter*step;
+	  // check that index and stopg are not modified inside the loop
+	  vecteur v=mergevecteur(lop(forprog,at_sto),lop(forprog,at_array_sto));
+	  for (int i=0;i<int(v.size());++i){
+	    gen to=v[i]._SYMBptr->feuille[1];
+	    if (to==index || to==stopg){
+	      stdloop=false;
+	      break;
+	    }
+	  }
+	  v=mergevecteur(lop(forprog,at_increment),lop(forprog,at_decrement));
+	  for (int i=0;i<int(v.size());++i){
+	    gen to=v[i]._SYMBptr->feuille;
+	    if (to.type==_VECT) to=to._VECTptr->front();
+	    if (to==index || to==stopg){
+	      stdloop=false;
+	      break;
+	    }
+	  }
+	}
+      }
+      for (;
+	   idx?*idx!=stop:(for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr));
+	   ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
 	if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
 	  break;
 	dbgptr->current_instruction=save_current_instruction;
@@ -6989,7 +7073,13 @@ namespace giac {
 	    g=g._SYMBptr->feuille[1];
 	  while (g.type==_VECT && !g._VECTptr->empty())
 	    g=g._VECTptr->front();
-	  argss += ")\nBegins by: "+g.print(contextptr);
+	  argss += ")\n";
+	  if (g.type==_STRNG)
+	    argss += *g._STRNGptr;
+	  else {
+	    argss += "Begins by: ";
+	    argss +=g.print(contextptr);
+	  }
 	  return string2gen(argss,false);
 	}
       }
