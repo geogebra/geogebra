@@ -252,11 +252,12 @@ public class DrawLabel3D {
 		GBufferedImage bimg;
 		GGraphics2D g2d;
 
-		if (isLatex(text) && text.length() > 1) {
+		if (isLatex(text)) {
 			GeoElement geo = drawable.getGeoElement();
-			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
-													// don't go
-			// off bottom of screen
+
+			// make sure LaTeX labels
+			// don't go off bottom of screen
+			int offsetY = 10 + view.getFontSize();
 
 			height += offsetY;
 			bimg = createBufferedImage();
