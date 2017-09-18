@@ -307,6 +307,10 @@ public class PropertiesViewW extends PropertiesView
 				? (OptionsObjectW) super.getObjectPanel() : null;
 	}
 
+	private OptionsEuclidianW getEuclidianPanel() {
+		return euclidianPanel;
+	}
+
 	@Override
 	public void add(GeoElement geo) {
 		// TODO Auto-generated method stub
@@ -487,6 +491,9 @@ public class PropertiesViewW extends PropertiesView
 					setOptionPanel(OptionType.EUCLIDIAN);
 				}
 			}
+		}
+		if (getEuclidianPanel() != null) {
+			getEuclidianPanel().updateGUI();
 		}
 
 		//		   if (optionType == OptionType.OBJECTS)  {

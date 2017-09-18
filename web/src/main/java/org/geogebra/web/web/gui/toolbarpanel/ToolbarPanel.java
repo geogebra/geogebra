@@ -8,7 +8,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -424,7 +423,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (isAnimating() && !app.isPortrait()) {
 			w -= HDRAGGER_WIDTH;
 		}
-		Log.debug("TAB width: " + w);
 		return w > 0 ? w : 0;
 	}
 

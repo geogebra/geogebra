@@ -6,6 +6,7 @@ import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -56,6 +57,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			addAxesMenuItem();
 			addGridMenuItem();
+			addSnapToGridMenuItem();
 			addClearTraceMenuItem();
 		}
 
@@ -179,6 +181,44 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		GridSubmenu gridSubMenu = new GridSubmenu(ci);
 		gridSubMenu.update();
 
+	}
+
+	private void addSnapToGridMenuItem() {
+		String img = MaterialDesignResources.INSTANCE.snap_to_grid()
+				.getSafeUri().asString();
+
+		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("SnapToGrid")),
+				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+						.asString(),
+				app.getSettings().getEuclidian(1)
+						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC,
+				new Command() {
+
+					@Override
+					public void execute() {
+						// fill later
+					}
+
+				});
+		snapToGrid.setCommand(new Command() {
+			@Override
+			public void execute() {
+				boolean isSnapToGrid = app.getSettings().getEuclidian(1)
+						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+				app.getEuclidianView1().setPointCapturing(isSnapToGrid
+						? EuclidianStyleConstants.POINT_CAPTURING_OFF
+						: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+				if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+					app.getEuclidianView2(1).setPointCapturing(isSnapToGrid
+							? EuclidianStyleConstants.POINT_CAPTURING_OFF
+							: EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
+				}
+				snapToGrid.setChecked(!isSnapToGrid);
+				app.getGuiManager().updatePropertiesView();
+			}
+		});
+		wrappedPopup.addItem(snapToGrid);
 	}
 
 	private void addAxesMenuItem() {

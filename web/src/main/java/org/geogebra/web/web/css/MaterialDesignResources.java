@@ -160,6 +160,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gere();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/gridSVG.svg")
+	SVGResource snap_to_grid();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/settings.svg")
 	SVGResource settings_border();
 

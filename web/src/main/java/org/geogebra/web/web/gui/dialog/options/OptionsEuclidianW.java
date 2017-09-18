@@ -835,6 +835,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected class GridTab extends EuclidianTab {
 		private static final int iconHeight = 24;
 		CheckBox cbShowGrid;
+		private Label lbPointCapturing;
+		private ListBox pointCapturingStyleList;
 		ListBox lbGridType;
 		CheckBox cbGridManualTick;
 		NumberListBox ncbGridTickX;
@@ -850,6 +852,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
 		private FlowPanel mainPanel;
+
 		public GridTab() {
 			super();
 			cbShowGrid = new CheckBox();
@@ -863,11 +866,95 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			mainPanel = new FlowPanel();
 
 			add(cbShowGrid);
+			addPointCapturingStyle();
 			add(mainPanel);
 			initGridTypePanel();
 			initGridStylePanel();
 		}
 		
+		/**
+		 * update gui of grid tab
+		 */
+		public void updateGUI() {
+			updatePointCapturingStyleList();
+		}
+
+		private void addPointCapturingStyle() {
+			lbPointCapturing = new Label(loc.getMenu("PointCapturing") + ":");
+			pointCapturingStyleList = new ListBox();
+			updatePointCapturingStyleList();
+			mainPanel.add(LayoutUtilW.panelRowIndent(lbPointCapturing,
+					pointCapturingStyleList));
+			pointCapturingStyleList.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					int index = getPointCapturingStyleList().getSelectedIndex();
+					app.getEuclidianView1().setPointCapturing(
+							getPointCapturingModeList(index));
+					if (app.hasEuclidianView2EitherShowingOrNot(1)) {
+						app.getEuclidianView2(1).setPointCapturing(index);
+					}
+					app.setUnsaved();
+				}
+			});
+		}
+
+		/**
+		 * @param index
+		 *            selected index in list
+		 * @return point capturing mode
+		 */
+		public int getPointCapturingModeList(int index) {
+			switch (index) {
+			case 0:
+				return EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+			case 1:
+				return EuclidianStyleConstants.POINT_CAPTURING_ON_GRID;
+			case 2:
+				return EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS;
+			case 3:
+				return EuclidianStyleConstants.POINT_CAPTURING_OFF;
+			default:
+				return EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+			}
+		}
+
+		/**
+		 * @return list of point capturing style
+		 */
+		public ListBox getPointCapturingStyleList() {
+			return pointCapturingStyleList;
+		}
+
+		private void updatePointCapturingStyleList() {
+			pointCapturingStyleList.clear();
+			String[] strPointCapturing = new String[] {
+					loc.getMenu("Labeling.automatic"),
+					loc.getMenu("SnapToGrid"), loc.getMenu("FixedToGrid"),
+					loc.getMenu("off") };
+			for (String str : strPointCapturing) {
+				pointCapturingStyleList.addItem(str);
+			}
+			pointCapturingStyleList.setSelectedIndex(getPointCapturingModeEV());
+		}
+
+		private int getPointCapturingModeEV() {
+			int mode = app.getActiveEuclidianView().getPointCapturingMode();
+			switch (mode) {
+			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
+				return 0;
+			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
+				return 1;
+			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+				return 2;
+			case EuclidianStyleConstants.POINT_CAPTURING_OFF:
+				return 3;
+			default:
+				return 0;
+			}
+		}
+
 		void enableGrid(boolean value) {
 			model.showGrid(value);
 			if (value) {
@@ -880,10 +967,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btnGridStyle.setEnabled(value);
 			cbBoldGrid.setEnabled(value);
 			btGridColor.setEnabled(value);
-
 		}
-		private void initGridTypePanel() {
 
+		private void initGridTypePanel() {
 			// grid type combo box
 			lblGridType = new Label();
 			lbGridType = new ListBox();
@@ -984,7 +1070,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		protected void addGridType(FlowPanel gridTickAnglePanel){
 			gridTickAnglePanel.add(lbGridType);
 		}
-
 
 		private void initGridStylePanel() {
 
@@ -1088,6 +1173,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		@Override
 		public void setLabels() {
 			cbShowGrid.setText(loc.getMenu("ShowGrid"));
+			lbPointCapturing.setText(loc.getMenu("PointCapturing") + ":");
+			updatePointCapturingStyleList();
 	        int idx = lbGridType.getSelectedIndex();
 	        setGridTypeLabel();
 	        lbGridType.clear();
@@ -1312,14 +1399,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	public void showCbView(boolean b) {
 		Log.warn("showCbView");
-	        // TODO Auto-generated method stub
-	    
     }
 
 	@Override
     public void updateGUI() {
 	    model.updateProperties();
 	    setLabels();
+		getGridTab().updateGUI();
     }
 
 	@Override
@@ -1342,6 +1428,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public GColor getEuclidianBackground(int viewNumber) {
 		return app.getSettings().getEuclidian(viewNumber).getBackground();
+	}
+
+	/**
+	 * @return grid tab
+	 */
+	public GridTab getGridTab() {
+		return gridTab;
 	}
 
 	@Override
@@ -1436,6 +1529,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    gridTab.addAngleOptionItem(item);
 
 	}
+
 	protected void updateView() {
 		view.updateBackground();
 		updateGUI();
