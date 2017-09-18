@@ -21,6 +21,7 @@ public class StandardButton extends FastButton {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
+	private NoDragImage btnImage;
 
 	/**
 	 * @param icon
@@ -65,24 +66,32 @@ public class StandardButton extends FastButton {
 		this.label = label;
 		if (image != null && label != null) {
 			this.getElement().removeAllChildren();
-			this.getElement().appendChild(
-					new NoDragImage(ImgResourceHelper.safeURI(image), width)
-							.getElement());
+			btnImage = new NoDragImage(ImgResourceHelper.safeURI(image),
+					width);
+			this.getElement().appendChild(btnImage.getElement());
 			this.getElement().appendChild(new Label(label).getElement());
 			return;
 		}
 
 		if (image != null) {
-			NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(image),
+			btnImage = new NoDragImage(ImgResourceHelper.safeURI(image),
 					width);
-			getUpFace().setImage(im);
+			getUpFace().setImage(btnImage);
 		}
 
 		if (label != null) {
 			getUpFace().setText(label);
 		}
+
 	}
 	
+	/**
+	 * @return image of button
+	 */
+	public NoDragImage getImage() {
+		return btnImage;
+	}
+
 	@Override
     public void setText(String text){
 		this.label = text;
