@@ -7938,7 +7938,7 @@ namespace giac {
 	if (s>=4){
 	  tmin=vargs[2].evalf_double(eval_level(contextptr),contextptr)._DOUBLE_val;
 	  tmax=vargs[3].evalf_double(eval_level(contextptr),contextptr)._DOUBLE_val;
-	  if (s>4)
+	  if (s>4 && !vargs[4].is_symb_of_sommet(at_equal))
 	    tstep=vargs[4].evalf_double(eval_level(contextptr),contextptr)._DOUBLE_val;
 	}
       }

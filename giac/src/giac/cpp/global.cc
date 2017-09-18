@@ -5568,7 +5568,7 @@ unsigned int ConvertUTF8toUTF16 (
 	++pos;
 	continue;
       }
-      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && (pos==int(cur.size())-1 || cur[pos+1]!='=')){
+      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && (pos==int(cur.size())-1 || cur[pos+1]!='=')){
 	cur.insert(cur.begin()+pos,':');
 	++pos;
 	continue;
@@ -5660,6 +5660,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (instring) continue;
 	if (ch=='#'){
 	  cur=cur.substr(0,pos);
+	  pythonmode=true;
 	  break;
 	}
 	// skip from * import *
@@ -5668,6 +5669,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  int posi=cur.find(" import ");
 	  if (posi>pos+5 && posi<int(cur.size())){
 	    cur=cur.substr(0,pos);
+	    pythonmode=true;
 	    break;
 	  }
 	}
@@ -5675,6 +5677,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
 	  int posdot=cur.find(':',pos);
 	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='=')
+	    pythonmode=true;
 	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
 	}
       }
@@ -5776,7 +5779,8 @@ unsigned int ConvertUTF8toUTF16 (
       stack.pop_back();
     }
     if (pythonmode){
-      if (s[s.size()-1]==';')
+      char ch;
+      while ((ch=s[s.size()-1])==';' || (ch=='\n'))
 	s=s.substr(0,s.size()-1);
       s += "\n:;";
       *logptr(contextptr) << "// Python-like syntax, check string delimiters \"\" and declare local variables.\nTranslated to Xcas as:\n" << s << endl;
