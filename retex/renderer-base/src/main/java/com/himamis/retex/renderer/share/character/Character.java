@@ -49,7 +49,7 @@ import java.util.Map;
  * <li><a href="http://www.unicode.org">http://www.unicode.org</a>
  * </ul>
  *
- * <h4><a name="unicode">Unicode Character Representations</a></h4>
+ * <h1><a name="unicode">Unicode Character Representations</a></h1>
  *
  * <p>
  * The {@code char} data type (and therefore the value that a {@code Character} object encapsulates)
@@ -62,7 +62,7 @@ import java.util.Map;
  *
  * <p>
  * <a name="BMP">The set of characters from U+0000 to U+FFFF is sometimes referred to as the
- * <em>Basic Multilingual Plane (BMP)</em>. <a name="supplementary">Characters</a> whose code points
+ * <em>Basic Multilingual Plane (BMP)</em>.</a> <a name="supplementary">Characters</a> whose code points
  * are greater than U+FFFF are called <em>supplementary character</em>s. The Java platform uses the
  * UTF-16 representation in {@code char} arrays and in the {@code String} and {@code StringBuffer}
  * classes. In this representation, supplementary characters are represented as a pair of
