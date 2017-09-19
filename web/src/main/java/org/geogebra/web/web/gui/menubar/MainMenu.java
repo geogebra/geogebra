@@ -229,7 +229,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				this.menuPanel
 						.add(perspectiveMenuUnbundled,
 								getHTML(MaterialDesignResources.INSTANCE
-										.geogebra_black(), "Perspectives"),
+										.geogebra_black(), "Apps"),
 								true);
 			}
 

@@ -38,7 +38,7 @@ var translation = {};
 		}
 	}
 	function changeMetaTitle(titleBase){
-		var title = titleBase + " | GeoGebra";
+		var title = titleBase.match(/GeoGebra/) ? titleBase : titleBase + " | GeoGebra";
 		var tags = document.head.getElementsByTagName("meta");
 		for(k in tags){
 			if(tags[k].getAttribute && tags[k].getAttribute("property")=="og:title"){
@@ -175,7 +175,7 @@ var translation = {};
 					window.open("https://www.geogebra.org/tutorial")
 					
 			});
-		}else{
+		} else {
 			parent.addEventListener("click",function(){
 				if(e("ggw")){
 					e("ggw").setAttribute("data-param-showAppsPicker","false");
@@ -213,6 +213,9 @@ var translation = {};
 		}
 		if(window.appID === "geometry"){
 			changeMetaTitle(props.menu["Geometry"]  || "Geometry");
+		}
+		if(!window.appID && !getPerspective()){
+			changeMetaTitle(props.menu["math_apps"]  || "GeoGebra Classic");
 		}
 		document.body.parentNode.style.overflow = "auto";
 		if(e("ggbPage")){

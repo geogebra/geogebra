@@ -40,7 +40,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				MaterialDesignResources.INSTANCE.graphing());
 		addGraphingGeometryMenuItems("geometry", "Geometry",
 				MaterialDesignResources.INSTANCE.geometry());
-		addGraphingGeometryMenuItems("classic", "Classic",
+		addGraphingGeometryMenuItems("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 	}
 
