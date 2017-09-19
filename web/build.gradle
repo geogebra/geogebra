@@ -129,7 +129,7 @@ task copyHtml {
 	    String html = file(templateDir+"app-template.html").text;
 	    String classicHtml = html.replace("<!--SPLASH-->", file(templateDir+"classic-splash.html").text)
 	      .replace("<!--SPLASH STYLE-->", file(templateDir+"splash-style.css").text)
-	      .replace("<!--APP NAME-->","Math Calculators")
+	      .replace("<!--APP NAME-->","Classic")
 	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico")
 	      .replace("<!--LANG-->","en");
 	    def appHtml = { raw, appID, prerelease, offline = false ->
