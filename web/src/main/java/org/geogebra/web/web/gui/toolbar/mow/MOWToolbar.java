@@ -177,7 +177,9 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	public void updateUndoRedoPosition() {
 
 		undoRedoPanel.getElement().getStyle().setLeft(0, Unit.PX);
-		if (this.getAbsoluteLeft() > 120) {
+		// toolbar max width = 700 + undoRedoPanel width = 120
+		// 700+2*120 = 940
+		if (app.getWidth() > 940) {
 			undoRedoPanel.getElement().getStyle().setBottom(0, Unit.PX);
 		} else {
 			undoRedoPanel.getElement().getStyle().clearBottom();
