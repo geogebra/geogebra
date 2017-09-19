@@ -213,7 +213,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						getExpandCollapseHTML(
 								MaterialDesignResources.INSTANCE
 										.geogebra_black(),
-								"math_apps"),
+								"Apps"),
 						true);
 			} else if (!app.isWhiteboardActive()) {
 				this.menuPanel
