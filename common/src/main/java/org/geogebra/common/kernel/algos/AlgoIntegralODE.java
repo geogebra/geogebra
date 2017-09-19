@@ -21,8 +21,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * 
- * Integral[ f(x,y), <Point> ] Integral[ SlopeField, <Point> ] based on
- * AlgoSolveODE
+ * Integral[ f(x,y), &lt;Point&gt; ] Integral[ SlopeField, &lt;Point&gt; ] based
+ * on AlgoSolveODE
  * 
  * @author michael
  *

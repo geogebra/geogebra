@@ -218,8 +218,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * 
 	 * @param p
 	 *            polygon
-	 * @param newCoords
-	 *            intersection points
 	 */
 	protected void intersectionsCoords(GeoPolygon p) {
 
@@ -332,7 +330,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * 
 	 * @param parameter
 	 * @param coords
-	 * @param newCoords
+	 * @param parent
 	 */
 	protected void addCoords(double parameter, Coords coords,
 			GeoElementND parent) {

@@ -1992,10 +1992,6 @@ public class AlgoDispatcher {
 	 * 
 	 * @param point
 	 *            the GeoPoint to be detached
-	 * @param rwX
-	 *            new real world x-coordinate
-	 * @param rwY
-	 *            new real world y-coordinate
 	 * @return success
 	 */
 	public boolean detach(GeoPointND point, double d, double e,

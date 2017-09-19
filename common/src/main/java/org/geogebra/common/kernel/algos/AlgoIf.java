@@ -145,9 +145,9 @@ public class AlgoIf extends AlgoElement {
 	}
 
 	/**
-	 * For Curve[If[t>0,t^2,-t^2],t,t,-5,5]
+	 * For Curve[If[t&gt;0,t^2,-t^2],t,t,-5,5]
 	 * 
-	 * @return expression expanision of this algo
+	 * @return expression expansion of this algo
 	 */
 	public ExpressionNode toExpression() {
 		if (this.alternatives.size() == 1) {

@@ -218,7 +218,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * of discrete points, then convert the linear polynomials to a product
 		 * of circle definitions with zero radius.
 		 */
-		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); ll:=lvar(ee); if (size(ee)>1) begin ff:=round(fsolve(ee,ll)*precision)/precision; gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
+		GEOM_ELIM("geomElim", "geomElim(polys,elimvars,precision):=begin local ee, ll, ff, gg, ii; ee:=eliminate(polys,revlist(elimvars)); /*print(ee);*/ ll:=lvar(ee); /*print(ll);*/ if (size(ee)>1) begin /*print(fsolve(ee,ll));*/ ff:=round(fsolve(ee,ll)*precision)/precision; /*print(ff);*/ gg:=1; for ii from 0 to size(ff)-1 do gg:=gg*(((ll[0]-ff[ii,0])^2+(ll[1]-ff[ii,1])^2)); /*print(gg);*/ od; ee:=[expand(lcm(denom(coeff(gg)))*gg)]; end; if (size(ee)==0) return 0; else return primpoly(ee)[0]; end;"),
 		/**
 		 * Help simplifying the input when computing the Jacobian matrix in the
 		 * Envelope command. Input: a list of polynomials and a list of
@@ -236,7 +236,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * 
 		 * Used internally.
 		 */
-		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /* print(polys); */ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
+		JACOBI_PREPARE("jacobiPrepare", "jacobiPrepare(polys,excludevars):=begin local ii, degrees, pos, vars, linvar; vars:=lvar(polys); ii:=0; while (ii<size(polys)-1) do degrees:=degree(polys[ii],vars); if (sum(degrees)=1) begin pos:=find(1,degrees); linvar:=vars[pos[0]]; if (!is_element(linvar,excludevars)) begin substval:=op(solve(polys[ii]=0,linvar)[0])[1]; polys:=remove(0,expand(subs(polys,[linvar],[substval]))); /*print(polys);*/ ii:=-1; end; end; ii:=ii+1; od; return polys; end"),
 		/**
 		 * Compute the Jacobian determinant of the polys with respect to
 		 * excludevars. Used internally.
@@ -294,7 +294,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Absolute factorization of a poly in 2 vars: return the factorization
 		 * over the extension. We assume that the poly is irreducible over Q.
 		 */
-		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); print(algnum,type(algnum)); if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end");
+		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); /*print(algnum,type(algnum));*/ if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end");
 		/**
 		 * Examples: absfact(y^4 +2*y^2*x+14*y^2-7*x^2 +6*x+47) should return
 		 * -7*(x+(-2*sqrt(2)-1)/7*y^2+(-13*sqrt(2)-3)/7)*(x+(2*sqrt(2)-1)/7*y^2+(13*sqrt(2)-3)/7).

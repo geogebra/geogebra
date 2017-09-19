@@ -1448,8 +1448,8 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * Expressions should be shown as out = expression e.g.
-	 * <expression label="u" exp="a + 7 b"/>
+	 * Expressions should be shown as out = expression e.g. &lt;expression
+	 * label="u" exp="a + 7 b"/&gt;
 	 * 
 	 * @param tpl
 	 *            string template

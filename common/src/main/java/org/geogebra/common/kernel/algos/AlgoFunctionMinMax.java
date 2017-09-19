@@ -23,13 +23,13 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 
 /**
- * Command: Min[<function>,left-x,right-x]
+ * Command: Min[&lt;function&gt;,left-x,right-x]
  * 
  * Numerically calculates Extremum point for <function> in closed interval
  * [left-x,right-x] without being dependent on being able to find the derivate
- * of <function>.
+ * of &lt;function&gt;.
  * 
- * Restrictions for use: <function> should be continuous and only have one
+ * Restrictions for use: &lt;function&gt; should be continuous and only have one
  * extremum in the interval [left-x,right-x]
  * 
  * Breaking restrictions will give unpredictable results: -Will usually find the

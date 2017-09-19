@@ -21,19 +21,19 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
- * Command: Extremum[<function>,leftx,rightx]
+ * Command: Extremum[&lt;function&gt;,leftx,rightx]
  * 
- * Numerically calculates Extremum point for <function> in open interval
- * <leftx,rightx> without being dependent on being able to find the derivate of
- * <function>.
+ * Numerically calculates Extremum point for &lt;function&gt; in open interval
+ * &lt;leftx,rightx&gt; without being dependent on being able to find the
+ * derivate of &lt;function&gt;.
  * 
- * Restrictions for use: <function> should be continuous and only have one
- * extremum in the interval <leftx,rightx>. (The interval should be an open
- * interval, extremum should not be on leftx or rightx.) Breaking restrictions
- * will give unpredictable results.
+ * Restrictions for use: &lt;function&gt; should be continuous and only have one
+ * extremum in the interval &lt;leftx,rightx&gt;. (The interval should be an
+ * open interval, extremum should not be on leftx or rightx.) Breaking
+ * restrictions will give unpredictable results.
  * 
- * My algorithm is based on the fact that <function> vil be monotonous on either
- * side of the extremum in the interval. The interval is sliced with a
+ * My algorithm is based on the fact that &lt;function&gt; will be monotonous on
+ * either side of the extremum in the interval. The interval is sliced with a
  * divider=4, and parts of the interval is eliminated when the extremum is
  * passed in every iteration. With a uniform probability for the placement of
  * the extremum in the interval, the optimum divider is 3, but in reality the
@@ -49,7 +49,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  * The Art of Computer Programming, Donald Knuth...)
  * 
  * 2011-02-06: Got rid of some consequences (fake extremum point) of wrong
- * userinput. (extremums>1, no extremums, discontinuous,...)
+ * userinput. (extremums&gt;1, no extremums, discontinuous,...)
  * 
  * @author Hans-Petter Ulven
  * @version 2011-02.05

@@ -165,8 +165,6 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 *            input polygon 2
 	 * @param operationType
 	 *            the enum type of operation INTERSECTION, UNION, DIFFERENCE,XOR
-	 * @param outputSizes
-	 *            output size (if initial occurrence null)
 	 */
 	public AlgoPolygonOperation(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType) {

@@ -5898,7 +5898,8 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * Appends open element tag &lt;element> or &lt;cascell> to the builder
+	 * Appends open element tag &lt;element&gt; or &lt;cascell&gt; to the
+	 * builder
 	 * 
 	 * @param sb
 	 *            string builder
@@ -5918,7 +5919,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * Closes the element tag -- either &lt;element> or &lt;cascell>
+	 * Closes the element tag -- either &lt;element&gt; or &lt;cascell&gt;
 	 * 
 	 * @param sb
 	 *            string builder

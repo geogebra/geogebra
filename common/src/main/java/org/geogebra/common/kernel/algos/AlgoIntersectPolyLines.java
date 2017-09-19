@@ -63,8 +63,10 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 * 
 	 * @param construction
 	 * @param labels
-	 * @param polyLine1
-	 * @param polyLine2
+	 * @param polyA
+	 * @param polyB
+	 * @param polyAClosed
+	 * @param polyBClosed
 	 */
 	public AlgoIntersectPolyLines(Construction construction, String[] labels,
 			GeoPoly polyA, GeoPoly polyB, boolean polyAClosed,
@@ -191,9 +193,9 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	/**
 	 * calculates the intersecting points of two polyLines
 	 * 
-	 * @param polyLineA
+	 * @param polyA
 	 *            input polyLine 1
-	 * @param polyLineB
+	 * @param polyB
 	 *            input polyLine 2
 	 * @param newCoords
 	 *            TreeMap to add calculated intersecting Coords

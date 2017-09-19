@@ -93,7 +93,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 
 	/**
 	 * @param roots
-	 *            array with the coefficients of the polynomial<br/>
+	 *            array with the coefficients of the polynomial<br>
 	 *            the roots of the polynomial are assigned to the first n
 	 *            elements of <b>roots</b>
 	 * @param eqnSolver

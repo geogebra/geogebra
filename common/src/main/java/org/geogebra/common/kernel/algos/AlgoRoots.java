@@ -31,9 +31,10 @@ import org.geogebra.common.util.debug.Log;
 //import org.apache.commons.math3.analysis.solvers.UnivariateRealSolverFactory;
 
 /**
- * Command: Roots[ <function>, <left-x>, <right-x>] (TYPE 0) and Command:
- * Intersect[ <function>, <function>, <left-x>, <right-x>] (TYPE 1) (just uses
- * difference-function instead of one function)
+ * Command: Roots[ &lt;function&gt;, &lt;left-x&gt;, &lt;right-x&gt;] (TYPE 0)
+ * and Command: Intersect[ &lt;function&gt;, &lt;function&gt;, &lt;left-x&gt;,
+ * &lt;right-x&gt;] (TYPE 1) (just uses difference-function instead of one
+ * function)
  *
  * Can be used elsewhere: public static final double[] findRoots(GeoFunction
  * f,double l,double r,int samples) public static final double[]
@@ -60,7 +61,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	private int type = TYPE_ROOTS;
 
 	/**
-	 * Computes "all" Roots of f in <l,r> TYPE_ROOTS
+	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_ROOTS
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			GeoNumberValue left, GeoNumberValue right) {
@@ -106,7 +107,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	}// Constructor TYPE_ROOTS
 
 	/**
-	 * Computes "all" Roots of f in <l,r> TYPE_INTERSECTIONS
+	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_INTERSECTIONS
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			GeoFunction function2, GeoNumberValue left, GeoNumberValue right) {
@@ -265,7 +266,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	/**
 	 * Main algorithm, public for eventual use by other commands Finds a
 	 * samplesize n depending on screen coordinates Samples n intervals Collects
-	 * roots in intervals where y(l)*y(r)>0
+	 * roots in intervals where y(l)*y(r)&gt;0
 	 */
 	public static final double[] findRoots(GeoFunction f, double l, double r,
 			int samples) {

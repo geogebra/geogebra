@@ -326,8 +326,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * BarChart [<list of data without repetition>, <frequency of each of these
-	 * data>]
+	 * BarChart [&lt;list of data without repetition&gt;, &lt;frequency of each
+	 * of these data&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -358,8 +358,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * BarChart [<list of data without repetition>, <frequency of each of these
-	 * data>, <width>]
+	 * BarChart [&lt;list of data without repetition&gt;, &lt;frequency of each
+	 * of these data&gt;, &lt;width&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -393,7 +393,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * BarChart [<list of data>, <width>]
+	 * BarChart [&lt;list of data&gt;, &lt;width&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -419,7 +419,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * BarChart [<list of data>, <width>]
+	 * BarChart [&lt;list of data&gt;, &lt;width&gt;]
 	 * 
 	 * @param cons
 	 * @param list1
@@ -443,7 +443,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * HISTOGRAM[ <list of class boundaries>, <list of heights> ]
+	 * HISTOGRAM[ &lt;list of class boundaries&gt;, &lt;list of heights&gt; ]
 	 * 
 	 * @param cons
 	 * @param label
@@ -458,7 +458,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * HISTOGRAM[ <list of class boundaries>, <list of heights> ] (no label)
+	 * HISTOGRAM[ &lt;list of class boundaries&gt;, &lt;list of heights&gt; ]
+	 * (no label)
 	 * 
 	 * @param cons
 	 * @param list1
@@ -493,8 +494,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	}
 
 	/**
-	 * Histogram [<list of class boundaries>, <list of raw data>, <useDensity>,
-	 * <densityFactor>]
+	 * Histogram [&lt;list of class boundaries&gt;, &lt;list of raw data&gt;,
+	 * &lt;useDensity&gt;, &lt;densityFactor&gt;]
 	 * 
 	 * @param cons
 	 * @param label

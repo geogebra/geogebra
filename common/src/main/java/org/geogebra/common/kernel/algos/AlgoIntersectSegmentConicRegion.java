@@ -726,7 +726,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	/**
 	 * create the necessary output handlers
 	 * 
-	 * @return OutputHandler<GeoSegment>
+	 * @return
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
 		return new OutputHandler<GeoSegment>(new elementFactory<GeoSegment>() {

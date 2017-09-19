@@ -1019,7 +1019,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	/**
-	 * @return swaps in form a -&gt b
+	 * @return swaps in form a -&gt; b
 	 */
 	public ArrayList<String> getVarSwaps() {
 		return varSwaps;

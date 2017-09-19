@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 public class AlgoStepGraph extends AlgoBarChart {
 
 	/******************************************************
-	 * StepGraph[<list of points>]
+	 * StepGraph[&lt;list of points&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -37,7 +37,7 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<list of points>, <boolean hasJump>]
+	 * StepGraph[&lt;list of points&gt;, &lt;boolean hasJump&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -53,7 +53,8 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<list of points>, <boolean hasJump>, < point style]
+	 * StepGraph[&lt;list of points&gt;, &lt;boolean hasJump&gt;, &lt;point
+	 * style&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -70,7 +71,7 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<x list>, <y list>]
+	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -85,7 +86,7 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<x list>, <y list>] (no label)
+	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;] (no label)
 	 * 
 	 * @param cons
 	 * @param list1
@@ -97,7 +98,7 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<x list>, <y list>, <boolean hasJump>]
+	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;, &lt;boolean hasJump&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -112,7 +113,8 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<x list>, <y list>, <boolean hasJump>] (no label)
+	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;, &lt;boolean hasJump&gt;] (no
+	 * label)
 	 * 
 	 * @param cons
 	 * @param list1
@@ -126,7 +128,8 @@ public class AlgoStepGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StepGraph[<x list>, <y list>, <boolean hasJump>, < point style >]
+	 * StepGraph[&lt;x list&gt;, &lt;y list&gt;, &lt;boolean hasJump&gt;,
+	 * &lt;point style&gt;]
 	 * 
 	 * @param cons
 	 * @param label

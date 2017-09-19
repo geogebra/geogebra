@@ -85,6 +85,7 @@ public class Ggb2giac {
 
 		// factor over complex irrationals
 		p("CIFactor.1",
+				//"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
 				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
 		p("CIFactor.2",
 				"[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,%1)],ggbcfactans][3]");

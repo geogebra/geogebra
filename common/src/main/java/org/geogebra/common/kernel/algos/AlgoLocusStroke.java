@@ -107,7 +107,7 @@ public class AlgoLocusStroke extends AlgoElement
 	/**
 	 * Update point array of polygon using the given array list
 	 * 
-	 * @param pointList
+	 * @param data
 	 */
 	public void updatePointArray(GeoPointND[] data) {
 		// check if we have a point list
@@ -364,8 +364,8 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	/**
-	 * Expressions should be shown as out = expression e.g.
-	 * <expression label="u" exp="a + 7 b"/>
+	 * Expressions should be shown as out = expression e.g. &lt;expression
+	 * label="u" exp="a + 7 b"/&gt;
 	 * 
 	 * @param tpl
 	 *            string template

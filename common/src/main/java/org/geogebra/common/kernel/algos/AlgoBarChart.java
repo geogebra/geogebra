@@ -457,7 +457,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	/**
-	 * @param cons
 	 * @param p1
 	 * @param p2
 	 * @param p3

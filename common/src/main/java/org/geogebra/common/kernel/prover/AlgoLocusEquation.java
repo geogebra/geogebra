@@ -336,17 +336,22 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					.append(elimVars)
 					.append("),dp;")
 					.append("short=0;ideal I=")
-					.append(polys)
-					.append(";def Gp=grobcov(I);list l=")
+					.append(polys).append(";");
+			if (singularWS.getLocusLib()
+					.equals("/home/singularws/grobcov-20170620")) {
+				sb.append("list l=locus(I);");
+			} else {
+				sb.append("def Gp=grobcov(I);list l=")
 					.append(singularWS.getLocusCommand());
-			sb.append("(Gp);");
+				sb.append("(Gp);");
+			}
 			/*
 			 * If Gp is an empty list, then there is no locus, so that we return
 			 * 0=-1.
 			 */
 			sb.append("if(size(l)==0){print(\"{{1,1,1},{1,1,1,1}}\");exit;}")
 					.append("poly pp=1; ideal ii; int i; int j=1; poly c; for (i=1; i<=size(l); i++)")
-					.append("{ if ((string(l[i][3])==\"Normal\") || (string(l[i][3])==\"Accumulation\")) { c=point_to_0circle(l[i][1]); pp=pp*c; ii[j]=c; j++; } }")
+					.append("{ if ((string(l[i][3][2])==\"Normal\") || (string(l[i][3][2])==\"Accumulation\")) { c=point_to_0circle(l[i][1]); pp=pp*c; ii[j]=c; j++; } }")
 					.append("string s=string(pp);string si=\"ideal iii=\"+string(ii); int sl=size(s);if(sl==1){print(\"{{1,1,1},{1,1,1,1}}\");exit;}string pg=\"poly p=\"+s[2,sl-2];")
 					.append("ring rr=0,(").append(vars)
 					.append("),dp;execute(pg);execute(si);")

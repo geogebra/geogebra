@@ -36,12 +36,8 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	/**
 	 * @param cons
 	 *            the construction
-	 * @param label
-	 *            name of the polyline
 	 * @param points
 	 *            vertices of the polygon
-	 * @param geoList
-	 *            list of vertices of the polygon (alternative to points)
 	 */
 
 

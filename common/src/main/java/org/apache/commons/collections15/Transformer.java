@@ -46,8 +46,6 @@ public interface Transformer<I, O> {
 	 *             (runtime) if the input is the wrong class
 	 * @throws IllegalArgumentException
 	 *             (runtime) if the input is invalid
-	 * @throws FunctorException
-	 *             (runtime) if the transform cannot be completed
 	 */
 	public O transform(I input);
 

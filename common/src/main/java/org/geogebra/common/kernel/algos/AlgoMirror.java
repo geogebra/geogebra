@@ -143,7 +143,6 @@ public class AlgoMirror extends AlgoTransformation implements
 	 * Creates new "mirror at line" algo
 	 * 
 	 * @param cons
-	 * @param label
 	 * @param in
 	 * @param g
 	 */

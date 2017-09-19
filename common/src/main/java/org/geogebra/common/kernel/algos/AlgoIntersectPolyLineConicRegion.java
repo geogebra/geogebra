@@ -67,8 +67,6 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * 
 	 * @param cons
 	 *            construction
-	 * @param labels
-	 *            labels for the output
 	 * @param poly
 	 *            input poly, can be polyLine or polyGon
 	 * @param conic
@@ -562,7 +560,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	/**
 	 * create the necessary output handlers
 	 * 
-	 * @return OutputHandler<GeoSegment>
+	 * @return
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
 		return new OutputHandler<GeoSegment>(new elementFactory<GeoSegment>() {

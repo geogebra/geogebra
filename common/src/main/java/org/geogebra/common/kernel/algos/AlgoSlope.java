@@ -109,9 +109,6 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 		return slope;
 	}
 
-	/**
-	 * @return the line
-	 */
 	public void getInhomPointOnLine(double[] coords) {
 		if (g != null) {
 			g.getInhomPointOnLine(coords);

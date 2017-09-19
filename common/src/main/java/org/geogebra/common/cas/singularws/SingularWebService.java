@@ -31,7 +31,9 @@ public class SingularWebService {
 	private String locusLib = "";
 	private boolean fastConn;
 
-	private final static String[] SINGULAR_LIB_GROBCOVs = { "grobcov",
+	private final static String[] SINGULAR_LIB_GROBCOVs = {
+			"/home/singularws/grobcov-20170620",
+			"grobcov",
 			"grobcovG",
 			"grobcovF2m", "grobcovC1", "grobcovC0" };
 

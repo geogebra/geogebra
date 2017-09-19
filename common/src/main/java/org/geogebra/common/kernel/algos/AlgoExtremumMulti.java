@@ -26,13 +26,13 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Command: Extremum[ <function>, left-x, right-x]
+ * Command: Extremum[ &lt;function&gt;, left-x, right-x]
  *
- * Numerically calculates Extremum points for <function> in interval
- * <left-x,right-x> without being dependent on being able to find the derivate
- * of <function>.
+ * Numerically calculates Extremum points for &lt;function&gt; in interval
+ * &lt;left-x,right-x&gt; without being dependent on being able to find the
+ * derivate of &lt;function&gt;.
  *
- * Restrictions for use: <function> should be continuous and be reasonably
+ * Restrictions for use: &lt;function&gt; should be continuous and be reasonably
  * well-behaved in the interval. (For instance the function should not be wildly
  * oscillating in small x-intervals, and not have several hundred extremums in
  * the interval.) (The interval should be an open interval, extremums should not
@@ -62,7 +62,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	// Input-Output
 	private GeoFunction f1;
 
-	/** Computes "all" Extremums of f in <l,r> */
+	/** Computes "all" Extremums of f in &lt;l,r&gt; */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
 			GeoFunction function, GeoNumberValue left, GeoNumberValue right) {
 		super(cons, labels, !cons.isSuppressLabelsActive(), function); // set
