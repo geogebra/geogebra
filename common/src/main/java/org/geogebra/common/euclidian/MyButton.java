@@ -5,10 +5,12 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoButton.Observer;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -256,12 +258,40 @@ public class MyButton implements Observer {
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
 
+		MyImage im = geoButton.getFillImage();
 		// draw image
-		if (geoButton.getFillImage() != null) {
+		if (im != null) {
 
-			geoButton.getFillImage().drawSubimage(startX, startY, imgWidth,
-					imgHeight, g, x + (geoButton.getWidth() - imgWidth) / 2,
-					(int) (y + marginTopMultiplier * margin + imgStart));
+			if (im.isSVG()) {
+
+				// SVG is scaled to the button size rather than cropped
+				double sx = (double) im.getWidth()
+						/ (double) geoButton.getWidth();
+				double sy = (double) im.getHeight()
+						/ (double) geoButton.getHeight();
+
+				boolean one2one = MyDouble.exactEqual(sx, 1)
+						&& MyDouble.exactEqual(sy, 1);
+
+				if (!one2one) {
+					g.saveTransform();
+
+					g.scale(1 / sx, 1 / sy);
+					g.translate(x * sx, y * sy);
+				}
+
+				g.drawImage(im, 0, 0);
+
+				if (!one2one) {
+					g.restoreTransform();
+				}
+
+			} else {
+
+				im.drawSubimage(startX, startY, imgWidth, imgHeight, g,
+						x + (geoButton.getWidth() - imgWidth) / 2,
+						(int) (y + marginTopMultiplier * margin + imgStart));
+			}
 		}
 
 		// draw the text center-aligned to the button
