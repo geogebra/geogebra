@@ -437,7 +437,7 @@ public interface GWTKeycodes {
 	 */
 	// public static final int KEY_WIN_KEY = 224;
 	/**
-	 * Key code for {@link KeyCodes#KEY_WIN_KEY_LEFT_META} that Firefox fires
+	 * Key code for {@link GWTKeyCodes#KEY_WIN_KEY_LEFT_META} that Firefox fires
 	 * for the meta key.
 	 */
 	public static final int KEY_MAC_FF_META = 224; // Firefox (Gecko) fires this

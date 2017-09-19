@@ -480,7 +480,6 @@ public class Korean {
 	 * https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
 	 * 
 	 * @param ch
-	 * @param lead
 	 * @return
 	 */
 	public static char convertToCompatibilityJamo(char ch) {

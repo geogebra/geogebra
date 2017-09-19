@@ -33,7 +33,7 @@ import com.himamis.retex.editor.share.model.traverse.Traversing;
 
 /**
  * Character. This class is part of model.
- * <p/>
+ * <p>
  * x^2
  * x_j
  *

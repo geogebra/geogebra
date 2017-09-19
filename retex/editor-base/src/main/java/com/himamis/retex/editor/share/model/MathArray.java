@@ -36,7 +36,7 @@ import com.himamis.retex.editor.share.meta.Tag;
 
 /**
  * Array/array. This class is part of model.
- * <p/>
+ * <p>
  * array(i)
  * array(i*j)
  * vector(i)

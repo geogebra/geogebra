@@ -30,12 +30,12 @@ package com.himamis.retex.editor.share.meta;
 /**
  * Distinction between operators, core functions and functions is based on
  * visual aspects of math elements rather than based on mathematical analogy.
- * <p/>
+ * <p>
  * operator) a * b
- * <p/>
+ * <p>
  * core function) common math symbols with custom appearance such as fraction,
  * square root, integration
- * <p/>
+ * <p>
  * function(...)
  */
 public class MetaModel {

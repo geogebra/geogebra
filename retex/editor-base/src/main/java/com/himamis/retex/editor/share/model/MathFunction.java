@@ -32,7 +32,7 @@ import com.himamis.retex.editor.share.meta.Tag;
 
 /**
  * Function. This class is part of model.
- * <p/>
+ * <p>
  * function(arguments)
  *
  * @author Bea Petrovicova

@@ -11,7 +11,7 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public class CursorController {
 
-    /** Next character -> key. */
+    /** Next character &rarr; key. */
 	public static boolean nextCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
@@ -30,7 +30,7 @@ public class CursorController {
         }
     }
 
-    /** Previous character <- key. */
+    /** Previous character &larr; key. */
     public void prevCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();

@@ -1076,7 +1076,7 @@ public class InputController {
 
 	/**
 	 * @param args
-	 *            text of the form <arg1>,<arg2>
+	 *            text of the form &lt;arg1&gt;&lt;arg2&gt;
 	 * @param state
 	 *            current state
 	 * @param offset
