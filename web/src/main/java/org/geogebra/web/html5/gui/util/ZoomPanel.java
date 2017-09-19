@@ -58,6 +58,7 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		setLabels();
 
 	}
+
 	public void updateFullscreen() {
 		ArticleElement ae = app.getArticleElement();
 		if (!ae.getDataParamApp() && isFullScreen) {
@@ -102,41 +103,51 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 			@Override
 			public void handle(String obj) {
 				if ("true".equals(obj)) {
-					isFullScreen = true;
-					fullscreenBtn.setIcon(new ImageResourcePrototype(null,
-							ZoomPanelResources.INSTANCE
-									.fullscreen_exit_black18().getSafeUri(),
-							0, 0, 18, 18, false, false));
+					onFullscreen();
 				} else {
-					isFullScreen = false;
-					fullscreenBtn.setIcon(new ImageResourcePrototype(null,
-							ZoomPanelResources.INSTANCE
-									.fullscreen_black18().getSafeUri(),
-							0, 0, 18, 18, false, false));
-					if (!app.getArticleElement()
-							.getDataParamFitToScreen()) {
-
-						final Element scaler = app.getArticleElement()
-								.getParentElement();
-
-						scaler.removeClassName("fullscreen");
-						scaler.getStyle().setMarginLeft(0, Unit.PX);
-						scaler.getStyle().setMarginTop(0, Unit.PX);
-						dispatchResize();
-						Element container = scaler.getParentElement();
-						resetStyleAfterFullscreen(container);
-						Browser.scale(scaler,
-								app.getArticleElement().getDataParamScale(), 0,
-								0);
-					}
-					Browser.scale(zoomPanel.getElement(), 1, 0, 0);
-
+					onExitFullscreen();
 				}
-
 			}
 		});
 		zoomPanel.add(fullscreenBtn);
 
+	}
+
+	/**
+	 * Handler that runs on switching to fullscreen.
+	 */
+	void onFullscreen() {
+		isFullScreen = true;
+		fullscreenBtn
+				.setIcon(new ImageResourcePrototype(
+						null, ZoomPanelResources.INSTANCE
+								.fullscreen_exit_black18().getSafeUri(),
+						0, 0, 18, 18, false, false));
+	}
+
+	/**
+	 * Handler that runs on exiting to fullscreen.
+	 */
+	void onExitFullscreen() {
+		isFullScreen = false;
+		fullscreenBtn.setIcon(new ImageResourcePrototype(null,
+				ZoomPanelResources.INSTANCE.fullscreen_black18().getSafeUri(),
+				0, 0, 18, 18, false, false));
+		if (!app.getArticleElement().getDataParamFitToScreen()) {
+
+			final Element scaler = app.getArticleElement().getParentElement();
+
+			scaler.removeClassName("fullscreen");
+			scaler.getStyle().setMarginLeft(0, Unit.PX);
+			scaler.getStyle().setMarginTop(0, Unit.PX);
+			dispatchResize();
+			Element container = scaler.getParentElement();
+			resetStyleAfterFullscreen(container);
+			Browser.scale(scaler, app.getArticleElement().getDataParamScale(),
+					0, 0);
+
+		}
+		Browser.scale(zoomPanel.getElement(), 1, 0, 0);
 	}
 
 	protected void resetStyleAfterFullscreen(Element container) {
@@ -296,8 +307,12 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 
 	}-*/;
 
+	/**
+	 * Switch between fullscreen and windowed mode.
+	 */
 	protected void toggleFullscreen() {
 		final Element container;
+		final boolean ipad = Browser.isIPad();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 		} else {
@@ -315,20 +330,33 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 					containerPositionBefore = "static";
 				}
 				scaler.addClassName("fullscreen");
+				if (ipad) {
+					scaler.addClassName("fullscreen-ipad");
+				}
 				Timer t = new Timer() {
 
 					@Override
 					public void run() {
 						scaleApplet(scaler, container);
+						if (ipad) {
+							onFullscreen();
+						}
 
 					}
 				};
 				// delay scaling to make sure scrollbars disappear
 				t.schedule(50);
+			} else {
+				if (ipad) {
+					scaler.removeClassName("fullscreen-ipad");
+					onExitFullscreen();
+				}
 			}
 		}
-		isFullScreen = !isFullScreen;
-		Browser.toggleFullscreen(isFullScreen, container);
+		if (!ipad) {
+			isFullScreen = !isFullScreen;
+			Browser.toggleFullscreen(isFullScreen, container);
+		}
 	}
 
 	protected void scaleApplet(Element scaler, Element container) {
