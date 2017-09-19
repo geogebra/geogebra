@@ -64,8 +64,6 @@ public class GeoImplicitSurface extends GeoElement3D
 	 *            {@link Construction}
 	 * @param eqn
 	 *            {@link Equation}
-	 * @param label
-	 *            label for the object
 	 */
 	public GeoImplicitSurface(Construction cons, Equation eqn) {
 		super(cons);

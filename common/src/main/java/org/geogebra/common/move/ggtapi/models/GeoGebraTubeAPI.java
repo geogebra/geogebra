@@ -49,6 +49,7 @@ public abstract class GeoGebraTubeAPI {
 
 	/**
 	 * @param beta
+	 *            true if beta
 	 */
 	public GeoGebraTubeAPI(boolean beta) {
 		this.materialsURL = beta ? urlBeta : url;
@@ -103,8 +104,10 @@ public abstract class GeoGebraTubeAPI {
 	 * 
 	 * @param user
 	 *            The user that should be authorized.
-	 * @return One of the following return codes: LOGIN_TOKEN_VALID,
-	 *         LOGIN_TOKEN_INVALID, LOGIN_REQUEST_FAILED
+	 * @param op
+	 *            login operation
+	 * @param automatic
+	 *            true if automatic
 	 */
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
@@ -304,8 +307,6 @@ public abstract class GeoGebraTubeAPI {
 	/**
 	 * to rename materials on ggt; TODO no use of base64
 	 * 
-	 * @param app
-	 *            {@link AppW}
 	 * @param mat
 	 *            {@link Material}
 	 * @param cb
@@ -321,8 +322,6 @@ public abstract class GeoGebraTubeAPI {
 	/**
 	 * Uploads a local saved file (web - localStorage; touch - device) to ggt
 	 * 
-	 * @param app
-	 *            {@link AppW}
 	 * @param mat
 	 *            {@link Material}
 	 * @param cb
@@ -335,8 +334,6 @@ public abstract class GeoGebraTubeAPI {
 	}
 
 	/**
-	 * @param app
-	 *            {@link AppW}
 	 * @param material
 	 *            {@link Material}
 	 * @param cb
@@ -355,8 +352,6 @@ public abstract class GeoGebraTubeAPI {
 	}
 
 	/**
-	 * @param userId
-	 *            int
 	 * @param cb
 	 *            {@link MaterialCallbackI}
 	 */
@@ -424,12 +419,19 @@ public abstract class GeoGebraTubeAPI {
 	/**
 	 * Uploads the actual opened application to ggt
 	 * 
-	 * @param app
-	 *            AppW
+	 * @param tubeID
+	 *            tube id
+	 * @param visibility
+	 *            visibility string
+	 * 
 	 * @param filename
 	 *            String
+	 * @param base64
+	 *            base64 string
 	 * @param cb
 	 *            MaterialCallback
+	 * @param type
+	 *            material type
 	 */
 	public void uploadMaterial(int tubeID, String visibility,
 			final String filename, String base64, final MaterialCallbackI cb,

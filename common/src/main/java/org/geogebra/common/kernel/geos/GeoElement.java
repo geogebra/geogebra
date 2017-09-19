@@ -931,7 +931,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Returns definition or value string of this object. Automatically
-	 * increases decimals to at least 5, e.g. FractionText[4/3] ->
+	 * increases decimals to at least 5, e.g. FractionText[4/3] -&gt;
 	 * FractionText[1.333333333333333]
 	 * 
 	 * @param useChangeable
@@ -4811,7 +4811,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * @param addHTMLtag
-	 *            true to wrap in &lthtml>
+	 *            true to wrap in &lt;html&gt;
 	 * @return definition description as HTML
 	 */
 	final public String getDescriptionHTML(final boolean addHTMLtag) {
@@ -4838,7 +4838,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * @param addHTMLtag
-	 *            tue to wrap in &lt;HTML>
+	 *            true to wrap in &lt;HTML&gt;
 	 * @return HTML command description
 	 */
 	final public String getDefinitionHTML(final boolean addHTMLtag) {
@@ -4859,7 +4859,7 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
-	 * Converts indices to HTML &lt;sub> tags if necessary.
+	 * Converts indices to HTML &lt;sub&gt; tags if necessary.
 	 * 
 	 * @param text
 	 *            GGB string
@@ -4920,7 +4920,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * @param addHTMLtag
-	 *            true to wrap in &lt;html>
+	 *            true to wrap in &lt;html&gt;
 	 * @param tpl
 	 *            string template
 	 * @return HTML representation of caption
@@ -4999,7 +4999,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param colored
 	 *            true to allow colors
 	 * @param addHTMLtag
-	 *            true to wrap in &lt;html>
+	 *            true to wrap in &lt;html&gt;
 	 * @return description (type + label + definition)
 	 */
 	final public String getLongDescriptionHTML(final boolean colored,
@@ -5102,7 +5102,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param colored
 	 *            true to use colors
 	 * @param addHTMLtag
-	 *            true to wrap in &lt;html> ... &lt;/html>
+	 *            true to wrap in &lt;html&gt; ... &lt;/html&gt;
 	 * @param alwaysOn
 	 *            true to override default
 	 * @return long description for all GeoElements in given array.
@@ -5352,8 +5352,8 @@ public abstract class GeoElement extends ConstructionElement
 
 	/**
 	 * Returns algebraic representation (e.g. coordinates, equation) of this
-	 * construction element. Default string template is used => caching can be
-	 * employed
+	 * construction element. Default string template is used =&gt; caching can
+	 * be employed
 	 * 
 	 * @return algebraic representation (e.g. coordinates, equation)
 	 */
@@ -5613,8 +5613,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param str
 	 *            raw string
 	 * @param addHTMLtag
-	 *            true to wrap in &lt;html>
-	 * @return str with indices in HTML notation (&lt;sub>)
+	 *            true to wrap in &lt;html&gt;
+	 * @return str with indices in HTML notation (&lt;sub&gt;)
 	 */
 	public static String indicesToHTML(final String str,
 			final boolean addHTMLtag) {
@@ -5741,7 +5741,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param colored
 	 *            true to allow colors
 	 * @param addHTMLtag
-	 *            true to wrap in &lt;html>
+	 *            true to wrap in &lt;html&gt;
 	 * @return type and label of a GeoElement as html string
 	 */
 	public String getNameDescriptionHTML(final boolean colored,

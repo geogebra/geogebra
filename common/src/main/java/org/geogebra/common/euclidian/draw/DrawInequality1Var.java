@@ -46,7 +46,7 @@ public class DrawInequality1Var extends Drawable {
 	 * @param view
 	 *            view
 	 * @param geo
-	 *            the top-level function (e.g x>1 && x<3)
+	 *            the top-level function (e.g. x &gt; 1 &amp;&amp; x &lt; 3)
 	 * @param ineq
 	 *            inequality
 	 * @param varIsY
@@ -147,19 +147,31 @@ public class DrawInequality1Var extends Drawable {
 		return false;
 	}
 
+	/**
+	 * @return operation is greater equal of less equal
+	 */
 	public boolean isGrtLessEqual() {
 		return this.ineq.getOperation().equals(Operation.GREATER_EQUAL)
 				|| this.ineq.getOperation().equals(Operation.LESS_EQUAL);
 	}
 
+	/**
+	 * @return true if min bound was set
+	 */
 	public boolean isMinBoundSet() {
 		return !Kernel.isEqual(minBound, -1000000);
 	}
 
+	/**
+	 * @return get max bound
+	 */
 	public double getMaxBound() {
 		return maxBound;
 	}
 
+	/**
+	 * @return get min bound
+	 */
 	public double getMinBound() {
 		return minBound;
 	}
@@ -382,13 +394,11 @@ public class DrawInequality1Var extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
+		// do nothing
 	}
 }

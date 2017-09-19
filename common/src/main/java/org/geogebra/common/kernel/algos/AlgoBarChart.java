@@ -108,13 +108,19 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	private boolean isAreaSum = true;
 
 	/******************************************************
-	 * BarChart[<interval start>,<interval stop>, <list of heights>]
+	 * BarChart[&lt;interval start&gt;,&lt;interval stop&gt;, &lt;list of
+	 * heights&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param a
+	 *            first value
 	 * @param b
+	 *            second value
 	 * @param list1
+	 *            list
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoNumberValue a,
 			GeoNumberValue b, GeoList list1) {
@@ -144,12 +150,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	/******************************************************
-	 * BarChart[<a>,<b>, <list of raw data>, <bar width>]
+	 * BarChart[&lt;a&gt;,&lt;b&gt;, &lt;list of raw data&gt;, &lt;bar
+	 * width&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param list1
+	 *            list
 	 * @param width
+	 *            width
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoNumeric width) {
@@ -158,6 +169,18 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param list1
+	 *            list
+	 * @param width
+	 *            width
+	 * @param scale
+	 *            scale
+	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoNumeric width, GeoNumeric scale) {
 		this(cons, list1, null, width, null, null, null, scale,
@@ -167,23 +190,32 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	/******************************************************
-	 * BarChart[<a>,<b>, <list of raw data>, <bar width>] (no label)
+	 * BarChart[&lt;a&gt;,&lt;b&gt;, &lt;list of raw data&gt;, &lt;bar
+	 * width&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
+	 *            first list
 	 * @param width
+	 *            width
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoNumeric width) {
 		this(cons, list1, null, width, null, null, null, TYPE_BARCHART_RAWDATA);
 	}
 
 	/******************************************************
-	 * BarChart[<a>,<b>, <list of values>, <list of frequencies>]
+	 * BarChart[&lt;a&gt;,&lt;b&gt;, &lt;list of values&gt;, &lt;list of
+	 * frequencies&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2) {
@@ -194,11 +226,15 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	/******************************************************
-	 * BarChart[<a>,<b>, <list of values>, <list of frequencies>] (no label)
+	 * BarChart[&lt;a&gt;,&lt;b&gt;, &lt;list of values&gt;, &lt;list of
+	 * frequencies&gt;] (no label)
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2) {
 
@@ -207,13 +243,19 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	/******************************************************
-	 * BarChart[<a>,<b>, <list of values>, <list of frequencies>, <bar width>]
+	 * BarChart[&lt;a&gt;,&lt;b&gt;, &lt;list of values&gt;, &lt;list of
+	 * frequencies&gt;, &lt;bar width&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 * @param width
+	 *            width
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
 			GeoList list2, GeoNumberValue width) {
@@ -224,13 +266,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	/******************************************************
-	 * BarChart[<a>,<b>, <list of values>, <list of frequencies>, <bar width>]
-	 * (no label)
+	 * BarChart[&lt;a&gt;,&lt;b&gt;, &lt;list of values&gt;, &lt;list of
+	 * frequencies&gt;, &lt;bar width&gt;] (no label)
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 * @param width
+	 *            width
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			GeoNumberValue width) {
@@ -243,14 +289,23 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * General constructor with label
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 * @param width
+	 *            width
 	 * @param isHorizontal
+	 *            true if horizontal
 	 * @param join
+	 *            true if join
 	 * @param pointType
+	 *            point type
 	 * @param type
+	 *            type id
 	 * 
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoList list1,
@@ -268,15 +323,21 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * General constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 * @param width
+	 *            width
 	 * @param isHorizontal
+	 *            true if horizontal
 	 * @param join
-	 * @param showStepJump
-	 * @param showPoints
+	 *            true if join
 	 * @param pointType
+	 *            point type
 	 * @param type
+	 *            type id
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			GeoNumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
@@ -291,16 +352,23 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * General constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param list1
+	 *            first list
 	 * @param list2
+	 *            second list
 	 * @param width
+	 *            width
 	 * @param isHorizontal
+	 *            true if horizontal
 	 * @param join
-	 * @param showStepJump
-	 * @param showPoints
+	 *            true if join
 	 * @param pointType
+	 *            point type
 	 * @param scale
+	 *            scale
 	 * @param type
+	 *            type id
 	 */
 	public AlgoBarChart(Construction cons, GeoList list1, GeoList list2,
 			GeoNumberValue width, GeoBoolean isHorizontal, GeoBoolean join,
@@ -337,12 +405,19 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 * Discrete distribution bar chart
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param p1
+	 *            first value
 	 * @param p2
+	 *            second value
 	 * @param p3
+	 *            third value
 	 * @param isCumulative
+	 *            true if cumulative
 	 * @param type
+	 *            type id
 	 */
 	public AlgoBarChart(Construction cons, String label, GeoNumberValue p1,
 			GeoNumberValue p2, GeoNumberValue p3, GeoBoolean isCumulative,

@@ -17,7 +17,7 @@ import org.geogebra.common.util.debug.Log;
  * - fast point location. (O(n^0.5)), practical runtime is often very fast. <br>
  * - handles degenerate cases and none general position input (ignores duplicate
  * points). <br>
- * - save & load from\to text file in TSIN format. <br>
+ * - save &amp; load from\to text file in TSIN format. <br>
  * - 3D support: including z value approximation. <br>
  * - standard java (1.5 generic) iterators for the vertices and triangles. <br>
  * - smart iterator to only the updated triangles - for terrain simplification
@@ -84,6 +84,9 @@ public class Delaunay_Triangulation {
 	/**
 	 * creates a Delaunay Triangulation from all the points. Note: duplicated
 	 * points are ignored.
+	 * 
+	 * @param ps
+	 *            input
 	 */
 	public Delaunay_Triangulation(Point_dt[] ps) {
 		_modCount = 0;
@@ -114,7 +117,7 @@ public class Delaunay_Triangulation {
 	}
 
 	/**
-	 * @return the number of triangles in the triangulation. <br />
+	 * @return the number of triangles in the triangulation. <br>
 	 *         Note: includes infinife faces!!.
 	 */
 	public int trianglesSize() {
@@ -123,7 +126,7 @@ public class Delaunay_Triangulation {
 	}
 
 	/**
-	 * returns the changes counter for this triangulation
+	 * @return the changes counter for this triangulation
 	 */
 	public int getModeCounter() {
 		return this._modCount;
@@ -162,10 +165,10 @@ public class Delaunay_Triangulation {
 	 * @param pointToDelete
 	 *            The given point to delete.
 	 * 
-	 *            Implementation of the Mostafavia, Gold & Dakowicz algorithm
-	 *            (2002).
+	 *            Implementation of the Mostafavia, Gold &amp; Dakowicz
+	 *            algorithm (2002).
 	 * 
-	 *            By Eyal Roth & Doron Ganel (2009).
+	 *            By Eyal Roth &amp; Doron Ganel (2009).
 	 */
 	public void deletePoint(Point_dt pointToDelete) {
 
@@ -212,7 +215,7 @@ public class Delaunay_Triangulation {
 	 * @param pointToDelete
 	 *            the point that the user wants to delete
 	 * @return a point from the trangulation that is close to pointToDelete By
-	 *         Eyal Roth & Doron Ganel (2009).
+	 *         Eyal Roth &amp; Doron Ganel (2009).
 	 */
 	public Point_dt findClosePoint(Point_dt pointToDelete) {
 		Triangle_dt triangle = find(pointToDelete);
@@ -1051,8 +1054,8 @@ public class Delaunay_Triangulation {
 	}
 
 	/**
-	 * compute the number of vertices in the convex hull. <br />
-	 * NOTE: has a 'bug-like' behavor: <br />
+	 * compute the number of vertices in the convex hull. <br>
+	 * NOTE: has a 'bug-like' behavor: <br>
 	 * in cases of colinear - not on a asix parallel rectangle, colinear points
 	 * are reported
 	 *
@@ -1238,7 +1241,13 @@ public class Delaunay_Triangulation {
 	/**
 	 * Walks on a consistent side of triangles until a cycle is achieved.
 	 * 
-	 * By Doron Ganel & Eyal Roth changed to public by Udi
+	 * By Doron Ganel &amp; Eyal Roth changed to public by Udi
+	 * 
+	 * @param firstTriangle
+	 *            first triangle
+	 * @param point
+	 *            point
+	 * @return vector of triangulation
 	 */
 	public Vector<Triangle_dt> findTriangleNeighborhood(
 			Triangle_dt firstTriangle, Point_dt point) {
@@ -1409,16 +1418,16 @@ public class Delaunay_Triangulation {
 	}
 
 	/**
-	 * return the min point of the bounding box of this triangulation
-	 * {{x0,y0,z0}}
+	 * @return the min point of the bounding box of this triangulation
+	 *         {{x0,y0,z0}} =
 	 */
 	public Point_dt minBoundingBox() {
 		return _bb_min;
 	}
 
 	/**
-	 * return the max point of the bounding box of this triangulation
-	 * {{x1,y1,z1}}
+	 * @return the max point of the bounding box of this triangulation
+	 *         {{x1,y1,z1}}
 	 */
 	public Point_dt maxBoundingBox() {
 		return _bb_max;

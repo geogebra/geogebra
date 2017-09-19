@@ -405,6 +405,7 @@ public class Kernel {
 	 * sets the 3D manager
 	 * 
 	 * @param manager
+	 *            3d interface manager
 	 */
 	public void setManager3D(Manager3DInterface manager) {
 		this.manager3D = manager;
@@ -700,7 +701,7 @@ public class Kernel {
 	}
 
 	/**
-	 * @return
+	 * @return last construction step
 	 */
 	public int getLastConstructionStep() {
 		return cons.steps() - 1;
@@ -834,6 +835,7 @@ public class Kernel {
 	 * geos
 	 * 
 	 * @param otherKernel
+	 *            other kernel
 	 */
 	public void setVisualStyles(Kernel otherKernel) {
 		TreeSet<GeoElement> okts = otherKernel.getConstruction()
@@ -960,7 +962,7 @@ public class Kernel {
 	/**
 	 * States whether the continuity heuristic is active.
 	 * 
-	 * @returns whether continuous mode is on
+	 * @return whether continuous mode is on
 	 */
 	final public boolean isContinuous() {
 		return continuous;
@@ -969,6 +971,9 @@ public class Kernel {
 	/**
 	 * Turns the continuity heuristic on or off. Note: the macro kernel always
 	 * turns continuity off.
+	 * 
+	 * @param continuous
+	 *            true if continuous
 	 */
 	public void setContinuous(boolean continuous) {
 		this.continuous = continuous;
@@ -1622,7 +1627,7 @@ public class Kernel {
 	 * @param KEEP_LEADING_SIGN
 	 *            true to keep leading sign
 	 * @param CANCEL_DOWN
-	 *            true to allow canceling 2x+4y -> x+2y
+	 *            true to allow canceling 2x+4y -&gt; x+2y
 	 * @param needsZ
 	 *            whether "+0z" is needed when z is not present
 	 * @param setConstantIfNoLeading
@@ -1672,10 +1677,10 @@ public class Kernel {
 
 	// y = k x + d
 	/**
-	 * Inverts the > or < sign
+	 * Inverts the &gt; or &lt; sign
 	 * 
 	 * @param op
-	 *            =,<,>,\u2264 or \u2265
+	 *            =,&lt;,&gt;,\u2264 or \u2265
 	 * @return opposite sign
 	 */
 	public static char oppositeSign(char op) {
@@ -2236,6 +2241,10 @@ public class Kernel {
 
 	/**
 	 * if x is nearly zero, 0.0 is returned, else x is returned
+	 * 
+	 * @param x
+	 *            input
+	 * @return 0.0 if x is nearly zero
 	 */
 	final public static double chop(double x) {
 		if (isZero(x)) {
@@ -2244,12 +2253,12 @@ public class Kernel {
 		return x;
 	}
 
-	/** is abs(x) < epsilon ? */
+	/** is abs(x) &lt; epsilon ? */
 	final public static boolean isZero(double x) {
 		return (-STANDARD_PRECISION < x) && (x < STANDARD_PRECISION);
 	}
 
-	/** is abs(x) < epsilon ? */
+	/** is abs(x) &lt; epsilon ? */
 	final public static boolean isZero(double x, double eps) {
 		return (-eps < x) && (x < eps);
 	}
@@ -2474,7 +2483,7 @@ public class Kernel {
 	 *            first value
 	 * @param y
 	 *            second value
-	 * @return 0 if x ~ y ; -1 if x < y ; 1 if x > y
+	 * @return 0 if x ~ y ; -1 if x &lt; y ; 1 if x &gt; y
 	 */
 	final public static int compare(double x, double y) {
 		if (isGreater(x, y)) {
@@ -2497,7 +2506,7 @@ public class Kernel {
 	 *            y
 	 * @param eps
 	 *            tolerance
-	 * @return true if x > y + eps
+	 * @return true if x &gt; y + eps
 	 */
 	final public static boolean isGreater(double x, double y, double eps) {
 		return x > (y + eps);
@@ -2735,7 +2744,7 @@ public class Kernel {
 	/**
 	 * @param returnAngle
 	 *            whether angle should be returned from asin /acos/..
-	 *            (compatibility setting for v < 5.0.290)
+	 *            (compatibility setting for v &lt; 5.0.290)
 	 */
 	public void setInverseTrigReturnsAngle(boolean returnAngle) {
 		arcusFunctionCreatesAngle = returnAngle;
@@ -3092,8 +3101,8 @@ public class Kernel {
 	 * used in EudlidianView. The scale is the number of pixels per unit.
 	 * (useful for some algorithms like findminimum). All
 	 * 
-	 * @param view
-	 *            view
+	 * @param viewNo
+	 *            view number
 	 * @param xmin
 	 *            left x-coord
 	 * @param xmax
@@ -3206,8 +3215,8 @@ public class Kernel {
 
 	/**
 	 * @param clearScripts
-	 *            (true when called from File -> New, false after loading a file
-	 *            otherwise the GlobalJavascript is wrongly deleted)
+	 *            (true when called from File -&gt; New, false after loading a
+	 *            file otherwise the GlobalJavascript is wrongly deleted)
 	 */
 	public synchronized void clearConstruction(boolean clearScripts) {
 
@@ -3594,7 +3603,7 @@ public class Kernel {
 	/**
 	 * @param geo
 	 * @return RealWorld Coordinates of the rectangle covering all euclidian
-	 *         views in which <b>geo</b> is shown.<br />
+	 *         views in which <b>geo</b> is shown.<br>
 	 *         Format: {xMin,xMax,yMin,yMax,xScale,yScale}
 	 */
 	public double[] getViewBoundsForGeo(GeoElementND geo) {
@@ -4905,8 +4914,8 @@ public class Kernel {
 	 * congruent to original
 	 * 
 	 * @param poly
-	 * @param offset2
-	 * @param offset
+	 * @param offsetX
+	 * @param offsetY
 	 * @return
 	 */
 	final public GeoElement[] rigidPolygon(GeoPolygon poly, double offsetX,
@@ -5168,7 +5177,7 @@ public class Kernel {
 	 * When function (or parabola) is transformed to curve, we need some good
 	 * estimate for which part of curve should be ploted
 	 * 
-	 * @return lower bound for function -> curve transform
+	 * @return lower bound for function -&gt; curve transform
 	 */
 	public double getXmaxForFunctions() {
 		if (getXmin() == getXmax()) {
@@ -5179,7 +5188,7 @@ public class Kernel {
 
 	/**
 	 * @see #getXmaxForFunctions()
-	 * @return upper bound for function -> curve transform
+	 * @return upper bound for function -&gt; curve transform
 	 */
 	public double getXminForFunctions() {
 		if (getXmin() == getXmax()) {
@@ -5540,9 +5549,6 @@ public class Kernel {
 
 	/**
 	 * try to create/update preview for input typed
-	 * 
-	 * @param input
-	 *            current algebra input
 	 */
 	public ScheduledPreviewFromInputBar getInputPreviewHelper() {
 		return scheduledPreviewFromInputBar;

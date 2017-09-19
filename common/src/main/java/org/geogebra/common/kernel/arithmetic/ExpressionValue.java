@@ -267,8 +267,8 @@ public interface ExpressionValue {
 	public ExpressionValue getUndefinedCopy(Kernel kernel);
 
 	/**
-	 * @return converts to valid expression, GeoText -> MyTextBuffer,
-	 *         GeoNumeric-MyDouble etc.
+	 * @return converts to valid expression, GeoText -&gt; MyTextBuffer,
+	 *         GeoNumeric -&gt; MyDouble etc.
 	 * 
 	 */
 	public ExpressionValue toValidExpression();

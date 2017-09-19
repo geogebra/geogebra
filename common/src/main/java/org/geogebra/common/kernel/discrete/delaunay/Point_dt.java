@@ -22,7 +22,7 @@ public class Point_dt {
 	}
 
 	/**
-	 * Default Constructor. <br />
+	 * Default Constructor. <br>
 	 * constructs a 3D point at (0,0,0).
 	 */
 	public Point_dt() {
@@ -31,6 +31,13 @@ public class Point_dt {
 
 	/**
 	 * constructs a 3D point
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param z
+	 *            z-coord
 	 */
 	public Point_dt(double x, double y, double z) {
 		this.x = x;
@@ -38,19 +45,31 @@ public class Point_dt {
 		this.z = z;
 	}
 
-	/** constructs a 3D point with a z value of 0. */
+	/**
+	 * constructs a 3D point with a z value of 0.
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 */
 	public Point_dt(double x, double y) {
 		this(x, y, 0);
 	}
 
-	/** simple copy constructor */
+	/**
+	 * simple copy constructor
+	 * 
+	 * @param p
+	 *            point
+	 */
 	public Point_dt(Point_dt p) {
 		x = p.x;
 		y = p.y;
 		z = p.z;
 	}
 
-	/** returns the x-coordinate of this point. */
+	/** @return the x-coordinate of this point. */
 	public double x() {
 		return x;
 	}
@@ -65,7 +84,7 @@ public class Point_dt {
 		this.x = x;
 	}
 
-	/** returns the y-coordinate of this point. */
+	/** @return the y-coordinate of this point. */
 	public double y() {
 		return y;
 	}
@@ -80,7 +99,7 @@ public class Point_dt {
 		this.y = y;
 	}
 
-	/** returns the z-coordinate of this point. */
+	/** @return the z-coordinate of this point. */
 	public double z() {
 		return z;
 	}
@@ -88,34 +107,56 @@ public class Point_dt {
 	/**
 	 * Sets the z coordinate.
 	 * 
-	 * @param z
+	 * @param Z
 	 *            The new z coordinate.
 	 */
 	public void setZ(double Z) {
 		this.z = Z;
 	}
 
+	/**
+	 * @param p
+	 *            point
+	 * @return distance
+	 */
 	double distance2(Point_dt p) {
 		return (p.x - x) * (p.x - x) + (p.y - y) * (p.y - y);
 	}
 
+	/**
+	 * @param px
+	 *            x-coord
+	 * @param py
+	 *            y-coord
+	 * @return distance
+	 */
 	double distance2(double px, double py) {
 		return (px - x) * (px - x) + (py - y) * (py - y);
 	}
 
+	/**
+	 * @param p
+	 *            point
+	 * @return true if less than this
+	 */
 	boolean isLess(Point_dt p) {
 		return Compare.lessThan(x, p.x)
 				|| (Compare.equals(x, p.x) && Compare.lessThan(y, p.y));
 	}
 
+	/**
+	 * @param p
+	 *            point
+	 * @return true if greater than this
+	 */
 	boolean isGreater(Point_dt p) {
 		return Compare.greaterThan(x, p.x)
 				|| (Compare.equals(x, p.x) && Compare.greaterThan(y, p.y));
 	}
 
 	/**
-	 * return true iff this point [x,y] coordinates are the same as p [x,y]
-	 * coordinates. (the z value is ignored).
+	 * @return true iff this point [x,y] coordinates are the same as p [x,y]
+	 *         coordinates. (the z value is ignored).
 	 */
 	@Override
 	public boolean equals(Object p) {
@@ -128,20 +169,28 @@ public class Point_dt {
 				&& Compare.equals(y, ((Point_dt) p).y);
 	}
 
-	/** return a String in the [x,y,z] format */
+	/** @return a String in the [x,y,z] format */
 	@Override
 	public String toString() {
 		return " Pt[" + x + "," + y + "," + z + "]";
 	}
 
-	/** @return the L2 distance NOTE: 2D only!!! */
+	/**
+	 * @param p
+	 *            point
+	 * @return the L2 distance NOTE: 2D only!!!
+	 */
 	public double distance(Point_dt p) {
 		return MyMath.length(p.x() - x, p.y() - y);
 		//double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2);
 		//return Math.sqrt(temp);
 	}
 
-	/** @return the L2 distance NOTE: 3D only!!! */
+	/**
+	 * @param p
+	 *            point
+	 * @return the L2 distance NOTE: 3D only!!!
+	 */
 	public double distance3D(Point_dt p) {
 		return MyMath.length(p.x() - x, p.y() - y, p.z() - z);
 		// double temp = Math.pow(p.x() - x, 2) + Math.pow(p.y() - y, 2)
@@ -150,7 +199,7 @@ public class Point_dt {
 	}
 
 	/**
-	 * return a String: x y z (used by the save to file - write_tsin method).
+	 * @return a String: x y z (used by the save to file - write_tsin method).
 	 */
 	public String toFile() {
 		return ("" + x + " " + y + " " + z);

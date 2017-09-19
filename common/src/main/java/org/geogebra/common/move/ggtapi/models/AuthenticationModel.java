@@ -53,7 +53,9 @@ public abstract class AuthenticationModel extends BaseModel {
 	public abstract void clearLoginToken();
 
 	/**
-	 * @param response
+	 * @param user
+	 *            ggb tube user
+	 * @param json
 	 *            from GGT Parses the response, and sets model dependent things
 	 *            (localStorage, etc).
 	 */
@@ -71,7 +73,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	protected abstract void storeLastUser(String s);
 
 	/**
-	 * @param response
+	 * @param user ggb tube user
 	 *            from GGT error happened, cleanup, etc
 	 */
 	public void onLoginError(GeoGebraTubeUser user) {

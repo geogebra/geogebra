@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.discrete.delaunay;
 
 /**
- * this class represents a simple circle. <br />
- * it is used by the Delaunay Triangulation class. <br />
- * <br />
+ * this class represents a simple circle. <br>
+ * it is used by the Delaunay Triangulation class. <br>
+ * <br>
  * note that this class is immutable.
  * 
  * @see Delaunay_Triangulation
@@ -14,7 +14,7 @@ public class Circle_dt {
 	private double r;
 
 	/**
-	 * Constructor. <br />
+	 * Constructor. <br>
 	 * Constructs a new Circle_dt.
 	 * 
 	 * @param c
@@ -28,7 +28,7 @@ public class Circle_dt {
 	}
 
 	/**
-	 * Copy Constructor. <br />
+	 * Copy Constructor. <br>
 	 * Creates a new Circle with same properties of <code>circ</code>.
 	 * 
 	 * @param circ

@@ -66,6 +66,9 @@ public class MaterialRequest implements Request {
 
 	/**
 	 * Constructor for a Featured Materials Request
+	 * 
+	 * @param client
+	 *            client
 	 */
 	public MaterialRequest(ClientInfo client) {
 		this.client = client;
@@ -77,6 +80,8 @@ public class MaterialRequest implements Request {
 	 * 
 	 * @param query
 	 *            search term or #id
+	 * @param client
+	 *            client
 	 */
 	public MaterialRequest(String query, ClientInfo client) {
 		this(client);
@@ -94,8 +99,12 @@ public class MaterialRequest implements Request {
 	/**
 	 * Constructor for a Request by ID
 	 * 
-	 * @param filters
-	 * @param by
+	 * @param id
+	 *            id of request
+	 * @param client
+	 *            client
+	 * 
+	 * @return material request
 	 */
 	public static MaterialRequest forId(String id, ClientInfo client) {
 		MaterialRequest mr = new MaterialRequest(client);

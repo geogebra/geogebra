@@ -22,6 +22,13 @@ public class Triangle_dt {
 	// public int _id;
 	/**
 	 * constructs a triangle form 3 point - store it in counterclockwised order.
+	 * 
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
 	 */
 	public Triangle_dt(Point_dt A, Point_dt B, Point_dt C) {
 		// visitflag=visitValue;
@@ -47,7 +54,9 @@ public class Triangle_dt {
 	 * creates a half plane using the segment (A,B).
 	 * 
 	 * @param A
+	 *            point A
 	 * @param B
+	 *            point B
 	 */
 	public Triangle_dt(Point_dt A, Point_dt B) {
 		// visitflag=visitValue;
@@ -68,49 +77,49 @@ public class Triangle_dt {
 	// this.abnext = null; this.bcnext=null; this.canext=null;}
 
 	/**
-	 * returns true iff this triangle is actually a half plane.
+	 * @return true iff this triangle is actually a half plane.
 	 */
 	public boolean isHalfplane() {
 		return this.halfplane;
 	}
 
 	/**
-	 * returns the first vertex of this triangle.
+	 * @return the first vertex of this triangle.
 	 */
 	public Point_dt p1() {
 		return a;
 	}
 
 	/**
-	 * returns the second vertex of this triangle.
+	 * @return the second vertex of this triangle.
 	 */
 	public Point_dt p2() {
 		return b;
 	}
 
 	/**
-	 * returns the 3th vertex of this triangle.
+	 * @return the 3th vertex of this triangle.
 	 */
 	public Point_dt p3() {
 		return c;
 	}
 
 	/**
-	 * returns the consecutive triangle which shares this triangle p1,p2 edge.
+	 * @return the consecutive triangle which shares this triangle p1,p2 edge.
 	 */
 	public Triangle_dt next_12() {
 		return this.abnext;
 	}
 
 	/**
-	 * returns the consecutive triangle which shares this triangle p2,p3 edge.
+	 * @return the consecutive triangle which shares this triangle p2,p3 edge.
 	 */
 	public Triangle_dt next_23() {
 		return this.bcnext;
 	}
 
 	/**
-	 * returns the consecutive triangle which shares this triangle p3,p1 edge.
+	 * @return the consecutive triangle which shares this triangle p3,p1 edge.
 	 */
 	public Triangle_dt next_31() {
 		return this.canext;
@@ -306,7 +315,7 @@ public class Triangle_dt {
 	 *            The given point.
 	 * @return True iff the given point is a corner of this triangle.
 	 * 
-	 *         By Eyal Roth & Doron Ganel.
+	 *         By Eyal Roth &amp; Doron Ganel.
 	 */
 	public boolean isCorner(Point_dt p) {
 		return (p.x == a.x & p.y == a.y) | (p.x == b.x & p.y == b.y)
@@ -332,8 +341,8 @@ public class Triangle_dt {
 	}
 
 	/**
-	 * compute the Z value for the X,Y values of q. <br />
-	 * assume this triangle represent a plane --> q does NOT need to be
+	 * compute the Z value for the X,Y values of q. <br>
+	 * assume this triangle represent a plane --&gt; q does NOT need to be
 	 * contained in this triangle.
 	 * 
 	 * @param q
@@ -418,7 +427,8 @@ public class Triangle_dt {
 
 	/**
 	 * compute the Z value for the X,Y values of q. assume this triangle
-	 * represent a plane --> q does NOT need to be contained in this triangle.
+	 * represent a plane --&gt; q does NOT need to be contained in this
+	 * triangle.
 	 * 
 	 * @param x
 	 *            x-coordinate of the query point.
@@ -433,7 +443,8 @@ public class Triangle_dt {
 
 	/**
 	 * compute the Z value for the X,Y values of q. assume this triangle
-	 * represent a plane --> q does NOT need to be contained in this triangle.
+	 * represent a plane --&gt; q does NOT need to be contained in this
+	 * triangle.
 	 * 
 	 * @param q
 	 *            query point (its Z value is ignored).

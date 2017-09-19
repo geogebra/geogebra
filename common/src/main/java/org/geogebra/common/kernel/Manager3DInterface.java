@@ -39,7 +39,7 @@ import org.geogebra.common.kernel.kernelND.HasHeight;
 import org.geogebra.common.kernel.kernelND.HasVolume;
 
 /**
- * Interface for managing all 3D methods in Kernel. <br/>
+ * Interface for managing all 3D methods in Kernel. <br>
  * See Also {@link org.geogebra.common.geogebra3D.kernel3D.algos.Manager3D}.
  * 
  * @author mathieu
@@ -522,8 +522,9 @@ public interface Manager3DInterface {
 	// 3D CURVE (1 VAR)
 
 	/**
-	 * 3D Cartesian curve command: Curve[ <expression x-coord>, <expression
-	 * y-coord>, <expression z-coord>, <number-var>, <from>, <to> ]
+	 * 3D Cartesian curve command: Curve[ &lt;expression x-coord&gt;,
+	 * &lt;expression y-coord&gt;, &lt;expression z-coord&gt;,
+	 * &lt;number-var&gt;, &lt;from&gt;, &lt;to&gt; ]
 	 */
 	public GeoElement CurveCartesian3D(GeoNumberValue xcoord,
 			GeoNumberValue ycoord, GeoNumberValue zcoord, GeoNumeric localVar,
@@ -533,9 +534,10 @@ public interface Manager3DInterface {
 	// 3D SURFACE (2 VARS)
 
 	/**
-	 * 3D Cartesian surface command: Surface[ <expression x-coord>, <expression
-	 * y-coord>, <expression z-coord>, <u-var>, <u-from>, <u-to>, <v-var>,
-	 * <v-from>, <v-to> ]
+	 * 3D Cartesian surface command: Surface[ &lt;expression x-coord&gt;,
+	 * &lt;expression y-coord&gt;, &lt;expression z-coord&gt;, &lt;u-var&gt;,
+	 * &lt;u-from&gt;, &lt;u-to&gt;, &lt;v-var&gt;, &lt;v-from&gt;, &lt;v-to&gt;
+	 * ]
 	 */
 	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
 			GeoNumberValue xcoord, GeoNumberValue ycoord, GeoNumberValue zcoord,
@@ -548,7 +550,7 @@ public interface Manager3DInterface {
 	 * @param label
 	 *            name
 	 * @param function
-	 *            x->y function
+	 *            x-&gt;y function
 	 * @param angle
 	 *            angle
 	 * @return surface of revolution

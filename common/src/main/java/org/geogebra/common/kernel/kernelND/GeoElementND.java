@@ -167,7 +167,7 @@ public interface GeoElementND extends ExpressionValue {
 	public boolean hasLineOpacity();
 
 	/**
-	 * Sets the line opacity for this {@code GeoElement}. </br>
+	 * Sets the line opacity for this {@code GeoElement}. <br>
 	 * 
 	 * @param opacity
 	 *            opacity value between 0 - 255
@@ -175,7 +175,7 @@ public interface GeoElementND extends ExpressionValue {
 	public void setLineOpacity(int opacity);
 
 	/**
-	 * @return The value for the line opacity (0 - 255). </br>
+	 * @return The value for the line opacity (0 - 255). <br>
 	 *         The default value is 255 (opaque)
 	 */
 	public int getLineOpacity();

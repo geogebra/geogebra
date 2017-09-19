@@ -154,6 +154,7 @@ public abstract class ConstructionElement
 	 * Returns XML representation of this object. GeoGebra File Format.
 	 * 
 	 * @param getListentersToo
+	 *            true if should get also listeners
 	 * @param sb
 	 *            string builder
 	 */

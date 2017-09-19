@@ -195,8 +195,8 @@ public abstract class AlgoElement extends ConstructionElement
 	/**
 	 * OutputHandler can manage several different output types, each with
 	 * increasing length. For each occurring type, you need one OutputHandler in
-	 * the Subclass (or OutputHandler<GeoElement> if the type doesn't matter).
-	 * <br />
+	 * the Subclass (or OutputHandler&lt;GeoElement&gt; if the type doesn't
+	 * matter). <br>
 	 * Don't use this if you are accessing output directly, or use setOutput or
 	 * setOutputLength, because the OutputHandler changes output on it's own and
 	 * will 'overwrite' any direct changes.
@@ -253,7 +253,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 		/**
 		 * @param size
-		 *            makes room in this OutputHandler for size Objects.<br />
+		 *            makes room in this OutputHandler for size Objects.<br>
 		 *            if there are currently more objects than size, they become
 		 *            undefined.
 		 */
@@ -262,7 +262,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		/**
-		 * makes room in this OutputHandler for size Objects.<br />
+		 * makes room in this OutputHandler for size Objects.<br>
 		 * if there are currently more objects than size, they become undefined.
 		 *
 		 * @param size
@@ -504,7 +504,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * Produces objects of type &lt;S>
+	 * Produces objects of type &lt;S&gt;
 	 * 
 	 * @param <S>
 	 *            element type
@@ -563,8 +563,8 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @return whether this algo has NEAR-TO relations (ie ambiguous output =>
-	 *         we pick the nearest possibility to last output)
+	 * @return whether this algo has NEAR-TO relations (ie ambiguous output
+	 *         =&gt; we pick the nearest possibility to last output)
 	 */
 	public boolean isNearToAlgorithm() {
 		return false;
@@ -979,7 +979,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * Compares using getConstructionIndex() to order algos in update order.
 	 * Note: 0 is only returned for this == obj.
 	 * 
-	 * @overwrite ConstructionElement.compareTo()
+	 * overwright ConstructionElement.compareTo()
 	 */
 	@Override
 	public int compareTo(ConstructionElement obj) {
