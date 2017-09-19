@@ -234,7 +234,9 @@ public class GPopupMenuW implements AttachedToDOM {
 			ScheduledCommand cmd = new ScheduledCommand() {
 				@Override
 				public void execute() {
-					oldCmd.execute();
+					if (oldCmd != null) {
+						oldCmd.execute();
+					}
 					setMenuShown(false);
 					popupPanel.hide();
 				}
@@ -534,7 +536,10 @@ public class GPopupMenuW implements AttachedToDOM {
 				if (item != null) {
 					if ("true".equals(item.getElement()
 							.getAttribute("hasPopup"))) {
-						item.getScheduledCommand().execute();
+						ScheduledCommand cmd = item.getScheduledCommand();
+						if (cmd != null) {
+							cmd.execute();
+						}
 					} else {
 						removeSubPopup();
 					}
