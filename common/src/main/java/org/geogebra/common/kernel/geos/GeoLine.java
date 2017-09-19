@@ -190,6 +190,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	final public void setLineThrough(double pointX, double pointY) {
 		setCoords(x, y, -((x * pointX) + (y * pointY)));
+		setStandardStartPoint();
 	}
 
 	@Override

@@ -408,7 +408,7 @@ public abstract class EuclidianController {
 	/**
 	 * update the moved geo
 	 */
-	protected final static void updateAfterMove(GeoElement geo,
+	protected final static void updateAfterMove(GeoElementND geo,
 			boolean repaint) {
 		if (repaint) {
 			geo.updateRepaint();
@@ -6077,15 +6077,12 @@ public abstract class EuclidianController {
 	protected void moveLine(boolean repaint) {
 		// make parallel geoLine through (xRW, yRW)
 		movedGeoLine.setLineThrough(xRW, yRW);
-		updateAfterMove((GeoElement) movedGeoLine, repaint);
+		updateAfterMove(movedGeoLine, repaint);
 	}
 
 	protected final void moveVector(boolean repaint) {
-
 		moveVector();
-
-		updateAfterMove((GeoElement) movedGeoVector, repaint);
-
+		updateAfterMove(movedGeoVector, repaint);
 	}
 
 	protected void moveVector() {
@@ -7129,7 +7126,7 @@ public abstract class EuclidianController {
 			handleMovedElementDependent();
 		}
 
-		// free point
+		// free point, line etc.
 		else {
 			handleMovedElementFree(type);
 		}
