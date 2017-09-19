@@ -64,19 +64,17 @@ public class StandardButton extends FastButton {
 		this.width = width;
 		this.icon = image;
 		this.label = label;
-		if (image != null && label != null) {
-			this.getElement().removeAllChildren();
-			btnImage = new NoDragImage(ImgResourceHelper.safeURI(image),
-					width);
-			this.getElement().appendChild(btnImage.getElement());
-			this.getElement().appendChild(new Label(label).getElement());
-			return;
-		}
-
 		if (image != null) {
 			btnImage = new NoDragImage(ImgResourceHelper.safeURI(image),
 					width);
-			getUpFace().setImage(btnImage);
+			if (label == null) {
+				getUpFace().setImage(btnImage);
+			} else {
+				this.getElement().removeAllChildren();
+				this.getElement().appendChild(btnImage.getElement());
+				this.getElement().appendChild(new Label(label).getElement());
+			}
+			return;
 		}
 
 		if (label != null) {
