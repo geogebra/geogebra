@@ -70,8 +70,6 @@ public abstract class GeoGebraTubeAPI {
 	 * 
 	 * @param requestString
 	 *            JSON request String for the GeoGebraTubeAPI
-	 * @return The HttpRequest object that contains the response and error
-	 *         information
 	 */
 	protected final void performRequest(String requestString, boolean login,
 			AjaxCallback callback) {
