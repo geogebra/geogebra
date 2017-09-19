@@ -2,11 +2,15 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -25,15 +29,14 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class MOWToolbar extends FlowPanel implements FastClickHandler {
-
-	private AppW app;
-	private StandardButton redoButton;
-	private StandardButton undoButton;
+	/**
+	 * application
+	 */
+	AppW app;
 	private StandardButton closeButton;
 	private StandardButton penButton;
 	private StandardButton toolsButton;
 	private StandardButton mediaButton;
-	private FlowPanel leftPanel;
 	private FlowPanel middlePanel;
 	private FlowPanel rightPanel;
 	private SubMenuPanel currentMenu = null;
@@ -43,6 +46,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	private FlowPanel subMenuPanel;
 	private boolean isSubmenuOpen;
 	private int currentMode = -1;
+	/**
+	 * panel containing undo and redo
+	 */
+	PersistablePanel undoRedoPanel;
+	private MyToggleButton btnUndo;
+	private MyToggleButton btnRedo;
+
 
 	/**
 	 *
@@ -51,6 +61,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 */
 	public MOWToolbar(AppW app) {
 		this.app = app;
+
 		buildGUI();
 	}
 
@@ -59,8 +70,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 * right (move) panels
 	 */
 	protected void buildGUI() {
-		leftPanel = new FlowPanel();
-		leftPanel.addStyleName("left");
 
 		middlePanel = new FlowPanel();
 		middlePanel.addStyleName("middle");
@@ -68,11 +77,11 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		rightPanel = new FlowPanel();
 		rightPanel.addStyleName("right");
 
-		createUndoRedo();
+		createUndoRedoButtons();
 		// midddle buttons open submenus
 		createMiddleButtons();
 		createCloseButton();
-		add(LayoutUtilW.panelRow(leftPanel, middlePanel, rightPanel));
+		add(LayoutUtilW.panelRow(middlePanel, rightPanel));
 
 		subMenuPanel = new FlowPanel();
 		subMenuPanel.addStyleName("scrollPanel");
@@ -84,17 +93,124 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		addStyleName("mowToolbar");
 		// sets the horizontal position of the toolbar
 		setResponsivePosition();
+		updateUndoRedoPosition();
 
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
 				setResponsivePosition();
+				updateUndoRedoPosition();
 			}
 		});
 
 
 	}
 
+	private void createUndoRedoButtons() {
+		undoRedoPanel = new PersistablePanel();
+		undoRedoPanel.addStyleName("undoRedoPanel");
+		addUndoButton(undoRedoPanel);
+		addRedoButton(undoRedoPanel);
+	}
+
+	/**
+	 * get the undo/redo panel
+	 * 
+	 * @return undo/redo panel
+	 */
+	public PersistablePanel getUndoRedoButtons() {
+		return undoRedoPanel;
+	}
+
+	private void addUndoButton(final FlowPanel panel) {
+		btnUndo = new MyToggleButton(
+				new Image(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.undo_border()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)),
+				app);
+		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
+		btnUndo.addStyleName("flatButton");
+
+		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (app.isMenuShowing()) {
+					app.toggleMenu();
+				}
+				app.getGuiManager().undo();
+			}
+		});
+
+		panel.add(btnUndo);
+	}
+
+	private void addRedoButton(final FlowPanel panel) {
+		btnRedo = new MyToggleButton(
+				new Image(new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.redo_border()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)),
+				app);
+		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
+		btnRedo.addStyleName("flatButton");
+		btnRedo.addStyleName("buttonActive");
+
+		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (app.isMenuShowing()) {
+					app.toggleMenu();
+				}
+				app.getGuiManager().redo();
+			}
+		});
+
+		panel.add(btnRedo);
+	}
+
+	/**
+	 * update position of undo+redo panel
+	 */
+	public void updateUndoRedoPosition() {
+
+		undoRedoPanel.getElement().getStyle().setLeft(0, Unit.PX);
+		if (this.getAbsoluteLeft() > 120) {
+			undoRedoPanel.getElement().getStyle().setBottom(0, Unit.PX);
+		} else {
+			undoRedoPanel.getElement().getStyle().clearBottom();
+			if (isSubmenuOpen) {
+				undoRedoPanel.removeStyleName("hideSubmenu");
+				undoRedoPanel.addStyleName("showSubmenu");
+			} else {
+				undoRedoPanel.removeStyleName("showSubmenu");
+				undoRedoPanel.addStyleName("hideSubmenu");
+			}
+
+		}
+	}
+
+	/**
+	 * update style of undo+redo buttons
+	 */
+	public void updateUndoRedoActions() {
+
+		if (app.getKernel().undoPossible()) {
+			btnUndo.addStyleName("buttonActive");
+			btnUndo.removeStyleName("buttonInactive");
+		} else {
+			btnUndo.removeStyleName("buttonActive");
+			btnUndo.addStyleName("buttonInactive");
+		}
+
+		if (app.getKernel().redoPossible()) {
+			btnRedo.removeStyleName("hideButton");
+		} else {
+			btnRedo.addStyleName("hideButton");
+		}
+	}
 	private void createMiddleButtons() {
 		createPenButton();
 		createToolsButton();
@@ -203,53 +319,16 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 * Updates the toolbar ie. undo/redo button states
 	 */
 	public void update() {
-		updateUndoActions();
+		updateUndoRedoPosition();
+		updateUndoRedoActions();
 	}
 
-	private void createUndoRedo() {
-		redoButton = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.redo_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
-		redoButton.addFastClickHandler(this);
 
-		undoButton = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.undo_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
-		undoButton.addFastClickHandler(this);
-
-		leftPanel.add(undoButton);
-		leftPanel.add(redoButton);
-		updateUndoActions();
-	}
-
-	/**
-	 * Update enabled/disabled state of undo and redo buttons.
-	 */
-	public void updateUndoActions() {
-		if (undoButton != null) {
-			this.undoButton.setEnabled(app.getKernel().undoPossible());
-		}
-		if (this.redoButton != null) {
-			this.redoButton.setVisible(app.getKernel().redoPossible());
-		}
-	}
 
 	@Override
 	public void onClick(Widget source) {
-		if (source == redoButton) {
-			app.getGuiManager().redo();
-			app.hideKeyboard();
-		} else if (source == undoButton) {
-			app.getGuiManager().undo();
-			app.hideKeyboard();
 
-		} else if (source == closeButton) {
+		if (source == closeButton) {
 			if (subMenuPanel.isVisible()) {
 				setSubmenuVisible(false);
 				toggleCloseButton(false);
@@ -404,6 +483,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		}
 		addStyleName("mowToolbar");
 		setResponsivePosition();
+		updateUndoRedoPosition();
 	}
 
 	/**

@@ -818,6 +818,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			insert(mowToolbar, 0);
 		}
 
+		add(mowToolbar.getUndoRedoButtons());
 		int currentMode = mowToolbar.getCurrentMode();
 		if (currentMode != -1) {
 			app1.setMode(currentMode, ModeSetter.TOOLBAR);

@@ -24,30 +24,6 @@
 			opacity: 0.54;	
 		}		
 		
-		.left {
-			position: absolute;
-			top: 0px;
-			float: left;
-			display: inline-flex;
-			margin: 4px 0px 4px 0px;
-			img {
-				margin: 6px;
-	   			padding: 6px;
-	   			width: 24px;
-    			height: 24px;
-   			}
-			:hover img{
-				opacity: 0.84;
-			}
-			
-			.button.button-up-disabled {
-				img {
-					opacity: 0.3;
-				}
-				cursor: default;
-				border: 0px;
-			}
-		} 
 		.middle {
 			position: absolute;
 			top: 0px;
