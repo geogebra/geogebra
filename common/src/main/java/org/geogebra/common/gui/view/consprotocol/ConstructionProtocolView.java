@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.javax.swing.GImageIcon;
 import org.geogebra.common.javax.swing.SwingConstants;
-import org.geogebra.common.javax.swing.table.GAbstractTableModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.StringTemplate;
@@ -409,11 +408,6 @@ public class ConstructionProtocolView {
 
 		public ArrayList<RowData> getrowList() {
 			return rowList;
-		}
-
-		public GAbstractTableModel getImpl() {
-			Log.debug("ConstructionTableData.getImpl() must be overriden");
-			return null;
 		}
 
 		public ColumnData[] getColumns() {

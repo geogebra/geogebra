@@ -4,15 +4,13 @@ import javax.swing.event.EventListenerList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.table.AbstractTableModel;
 
-import org.geogebra.common.javax.swing.table.GAbstractTableModel;
-
 /**
  * Wrappper class for javax.swing.table.AbstractTableModel
  * 
  * @author judit
  *
  */
-public abstract class GAbstractTableModelD implements GAbstractTableModel {
+public abstract class GAbstractTableModelD {
 
 	MyAbstractTableModel impl;
 	GAbstractTableModelD wrapper = this;

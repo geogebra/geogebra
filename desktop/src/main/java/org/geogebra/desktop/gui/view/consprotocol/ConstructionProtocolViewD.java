@@ -64,7 +64,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import org.geogebra.common.javax.swing.table.GAbstractTableModel;
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
@@ -132,7 +131,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		table = new JTable();
 		table.setAutoCreateColumnsFromModel(false);
-		table.setModel(((GAbstractTableModelD) data.getImpl()).getImpl());
+		table.setModel(((ConstructionTableDataD) data).getImpl().getImpl());
 		table.setRowSelectionAllowed(true);
 		table.setGridColor(Color.lightGray);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
@@ -696,7 +695,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				// setSize(view.getWidth(), getHeight());
 			}
 			table.tableChanged(new TableModelEvent(
-					((GAbstractTableModelD) data.getImpl()).getImpl()));
+					((ConstructionTableDataD) data).getImpl().getImpl()));
 
 			// reinit view to update possible breakpoint changes
 			((ConstructionTableDataD) data).initView();
@@ -897,8 +896,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// geoMap = new HashMap<GeoElement, RowData>();
 		}
 
-		@Override
-		public GAbstractTableModel getImpl() {
+		public GAbstractTableModelD getImpl() {
 			return ctDataImpl;
 		}
 
