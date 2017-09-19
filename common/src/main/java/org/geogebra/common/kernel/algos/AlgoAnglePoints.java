@@ -30,7 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * @author Markus
  */
 public class AlgoAnglePoints extends AlgoAnglePointsND {
-
+	transient private double bx, by, vx, vy, wx, wy;
 	/**
 	 * @param cons
 	 *            construction
@@ -89,9 +89,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 	 */
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(A.toGeoElement().cons, false);
-		this.leg1N = A;
-		this.vertexN = B;
-		this.leg2N = C;
+		setABC(A, B, C);
 	}
 
 	@Override

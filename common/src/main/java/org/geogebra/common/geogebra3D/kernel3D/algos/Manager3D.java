@@ -1569,8 +1569,9 @@ public class Manager3D implements Manager3DInterface {
 	@Override
 	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		AlgoAnglePoints3D algo = new AlgoAnglePoints3D(cons, label, A, B, C);
+		AlgoAnglePoints3D algo = new AlgoAnglePoints3D(cons, A, B, C);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 
@@ -1578,8 +1579,9 @@ public class Manager3D implements Manager3DInterface {
 	final public GeoAngle Angle3D(String label, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation) {
 		AlgoAnglePoints3DOrientation algo = new AlgoAnglePoints3DOrientation(
-				cons, label, A, B, C, orientation);
+				cons, A, B, C, orientation);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 

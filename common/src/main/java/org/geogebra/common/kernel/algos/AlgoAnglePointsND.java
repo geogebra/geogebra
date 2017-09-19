@@ -33,18 +33,27 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoAnglePointsND extends AlgoAngle
 		implements DrawInformationAlgo {
+	/** first leg */
+	protected GeoPointND leg1N;
+	/** vertex */
+	protected GeoPointND vertexN;
+	/** second leg */
+	protected GeoPointND leg2N;
+	/** output angle */
+	protected GeoAngle angle;
 
-	protected GeoPointND leg1N, vertexN, leg2N; // input
-	protected GeoAngle angle; // output
-
-	transient protected double bx, by, vx, vy, wx, wy;
-
-	public AlgoAnglePointsND(Construction cons, String label, GeoPointND A,
-			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
-		this(cons, A, B, C, orientation);
-		angle.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 * @param orientation
+	 *            orientation for 3D or null
+	 */
 	public AlgoAnglePointsND(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation) {
 		super(cons);
@@ -80,6 +89,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	 * used as a helper algo (for AlgoAnglePolygon)
 	 * 
 	 * @param cons
+	 *            construction
 	 */
 	protected AlgoAnglePointsND(Construction cons) {
 		super(cons);
@@ -91,32 +101,57 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 	 * set the points
 	 * 
 	 * @param A
+	 *            leg
 	 * @param B
+	 *            vertex
 	 * @param C
+	 *            leg
 	 */
-	public void setABC(GeoPointND A, GeoPointND B, GeoPointND C) {
+	public final void setABC(GeoPointND A, GeoPointND B, GeoPointND C) {
 		this.leg1N = A;
 		this.vertexN = B;
 		this.leg2N = C;
 	}
 
+	/**
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 * @param cons
+	 *            construction
+	 */
 	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C,
 			Construction cons) {
 		super(cons);
 		this.cons = cons;
-		this.leg1N = A;
-		this.vertexN = B;
-		this.leg2N = C;
+		setABC(A, B, C);
 
 	}
 
+	/**
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 */
 	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(A.toGeoElement().cons, false);
-		this.leg1N = A;
-		this.vertexN = B;
-		this.leg2N = C;
+		setABC(A, B, C);
 	}
 
+	/**
+	 * For copy constructor
+	 * 
+	 * @param c
+	 *            construction
+	 * @param addToConstructionList
+	 *            whether to add to cons
+	 */
 	protected AlgoAnglePointsND(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
 	}
@@ -134,18 +169,30 @@ public abstract class AlgoAnglePointsND extends AlgoAngle
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return output angle
+	 */
 	public GeoAngle getAngle() {
 		return angle;
 	}
 
+	/**
+	 * @return first leg
+	 */
 	public GeoPointND getA() {
 		return leg1N;
 	}
 
+	/**
+	 * @return vertex
+	 */
 	public GeoPointND getB() {
 		return vertexN;
 	}
 
+	/**
+	 * @return second leg
+	 */
 	public GeoPointND getC() {
 		return leg2N;
 	}

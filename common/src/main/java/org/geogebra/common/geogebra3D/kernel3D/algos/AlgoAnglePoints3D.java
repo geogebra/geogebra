@@ -33,14 +33,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
-	AlgoAnglePoints3D(Construction cons, String label, GeoPointND A,
+	AlgoAnglePoints3D(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
-		this(cons, label, A, B, C, null);
+		this(cons, A, B, C, null);
 	}
 
-	AlgoAnglePoints3D(Construction cons, String label, GeoPointND A,
+	AlgoAnglePoints3D(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
-		super(cons, label, A, B, C, orientation);
+		super(cons, A, B, C, orientation);
 	}
 
 	AlgoAnglePoints3D(Construction cons) {

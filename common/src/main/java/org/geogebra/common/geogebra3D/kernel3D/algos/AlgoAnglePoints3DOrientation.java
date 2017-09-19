@@ -18,9 +18,9 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 
 	private GeoDirectionND orientation;
 
-	AlgoAnglePoints3DOrientation(Construction cons, String label, GeoPointND A,
+	AlgoAnglePoints3DOrientation(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
-		super(cons, label, A, B, C, orientation);
+		super(cons, A, B, C, orientation);
 	}
 
 	public AlgoAnglePoints3DOrientation(Construction cons,

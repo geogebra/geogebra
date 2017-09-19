@@ -1062,10 +1062,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			if (nrSidesPoly1 == nrSidesPoly2 && (this).hasSameArea(polygon)) {
 				GeoSegmentND[] segmentsPoly1 = this.getSegments();
 				GeoSegmentND[] segmentsPoly2 = polygon.getSegments();
-				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, this,
-						null);
-				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, polygon,
-						null);
+				AlgoAnglePolygonND algo1 = new AlgoAnglePolygon(cons, this);
+				AlgoAnglePolygonND algo2 = new AlgoAnglePolygon(cons, polygon);
 				GeoElement[] anglesPoly1 = algo1.getAngles();
 				GeoElement[] anglesPoly2 = algo2.getAngles();
 				int nrOfShifts = 0;
