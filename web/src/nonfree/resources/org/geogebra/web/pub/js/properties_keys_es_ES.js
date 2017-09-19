@@ -1390,7 +1390,6 @@ __GGB__keysVar.es_ES.menu = {
     "ClassRule": "Reglas de clase",
     "ClassWithFrequency": "Clase y Frecuencia",
     "Classes": "Clases",
-    "Classic": "GeoGebra Cl\xe1sico",
     "ClearColumn": "Limpia la columna",
     "ClearColumns": "Limpia las columnas",
     "ClearRow": "Limpia la fila",

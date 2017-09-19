@@ -1390,7 +1390,6 @@ __GGB__keysVar.et.menu = {
     "ClassRule": "Klassi eeskiri",
     "ClassWithFrequency": "Klass sagedusega",
     "Classes": "Klassid",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "T\xfchjenda veerg",
     "ClearColumns": "T\xfchjenda veerud",
     "ClearRow": "T\xfchjenda rida",

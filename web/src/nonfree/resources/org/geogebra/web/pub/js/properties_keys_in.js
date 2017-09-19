@@ -1390,7 +1390,6 @@ __GGB__keysVar.in.menu = {
     "ClassRule": "Aturan Kelas",
     "ClassWithFrequency": "Kelas dengan Frekuensi",
     "Classes": "Kelas-kelas",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Kosongkan Kolom",
     "ClearColumns": "Kosongkan Kolom-kolom",
     "ClearRow": "Kosongkan Baris",

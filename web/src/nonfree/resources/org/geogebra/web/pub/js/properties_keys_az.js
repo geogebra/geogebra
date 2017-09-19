@@ -1390,7 +1390,6 @@ __GGB__keysVar.az.menu = {
     "ClassRule": "Class Rule",
     "ClassWithFrequency": "Class with Frequency",
     "Classes": "Classes",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Clear Column",
     "ClearColumns": "Clear Columns",
     "ClearRow": "S\u0259tri t\u0259mizl\u0259",

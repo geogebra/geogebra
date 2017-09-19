@@ -1390,7 +1390,6 @@ __GGB__keysVar.sr.menu = {
     "ClassRule": "Pravilo za klase",
     "ClassWithFrequency": "Klasa sa frekvencijom",
     "Classes": "Klase",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Obri\u0161i kolonu",
     "ClearColumns": "Obri\u0161i kolone",
     "ClearRow": "Obri\u0161i vrstu",

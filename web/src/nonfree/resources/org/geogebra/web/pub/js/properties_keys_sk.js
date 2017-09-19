@@ -1390,7 +1390,6 @@ __GGB__keysVar.sk.menu = {
     "ClassRule": "Pravidlo triedy",
     "ClassWithFrequency": "Triedy s frekvenciou",
     "Classes": "Triedy",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Vymaza\u0165 st\u013apec",
     "ClearColumns": "Vymaza\u0165 st\u013apcov",
     "ClearRow": "Vymaza\u0165 riadok",

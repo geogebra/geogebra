@@ -1390,7 +1390,6 @@ __GGB__keysVar.sq.menu = {
     "ClassRule": "rregulli Klases",
     "ClassWithFrequency": "Klase me Frekuence",
     "Classes": "Klasa",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Fshih te dhenat ne Kolone",
     "ClearColumns": "Pastro Kolonat",
     "ClearRow": "Liro(fshih te dhenat) Rreshtin",

@@ -1390,7 +1390,6 @@ __GGB__keysVar.zh_TW.menu = {
     "ClassRule": "\u5206\u7d44\u898f\u5247",
     "ClassWithFrequency": "\u5206\u7d44\u983b\u7387",
     "Classes": "\u5206\u7d44",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "\u6e05\u9664\u6574\u884c\u7684\u5167\u5bb9",
     "ClearColumns": "\u6e05\u9664\u6574\u884c\u7684\u5167\u5bb9",
     "ClearRow": "\u6e05\u9664\u6574\u5217\u7684\u5167\u5bb9",

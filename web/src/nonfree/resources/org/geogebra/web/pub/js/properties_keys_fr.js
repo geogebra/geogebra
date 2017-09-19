@@ -1390,7 +1390,6 @@ __GGB__keysVar.fr.menu = {
     "ClassRule": "R\xe8gle Classes",
     "ClassWithFrequency": "Classes et Effectifs",
     "Classes": "Classes",
-    "Classic": "GeoGebra Classique",
     "ClearColumn": "Effacer la colonne",
     "ClearColumns": "Effacer les colonnes",
     "ClearRow": "Effacer la ligne",

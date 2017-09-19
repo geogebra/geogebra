@@ -1390,7 +1390,6 @@ __GGB__keysVar.ro.menu = {
     "ClassRule": "Regul\u0103 clas\u0103",
     "ClassWithFrequency": "Clas\u0103 cu frecven\u021b\u0103",
     "Classes": "Clase",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "\u015etergere coloan\u0103",
     "ClearColumns": "\u015etergere coloane",
     "ClearRow": "\u015etergere linie",

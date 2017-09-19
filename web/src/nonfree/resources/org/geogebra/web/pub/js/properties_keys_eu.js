@@ -1390,7 +1390,6 @@ __GGB__keysVar.eu.menu = {
     "ClassRule": "Klasearen irizpidea",
     "ClassWithFrequency": "Klasea eta maiztasunak",
     "Classes": "Klaseak",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Garbitu Zutabea",
     "ClearColumns": "Garbitu Zutabeak",
     "ClearRow": "Garbitu Errenkada",

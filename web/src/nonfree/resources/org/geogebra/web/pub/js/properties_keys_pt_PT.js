@@ -1390,7 +1390,6 @@ __GGB__keysVar.pt_PT.menu = {
     "ClassRule": "Regra de Classe",
     "ClassWithFrequency": "Classes com Frequ\xeancias",
     "Classes": "Classes",
-    "Classic": "Geogebra Cl\xe1ssico",
     "ClearColumn": "Apagar Coluna",
     "ClearColumns": "Apagar Colunas",
     "ClearRow": "Apagar Linha",

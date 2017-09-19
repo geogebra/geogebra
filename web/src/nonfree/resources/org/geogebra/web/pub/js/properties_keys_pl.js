@@ -1390,7 +1390,6 @@ __GGB__keysVar.pl.menu = {
     "ClassRule": "Zasady klasyfikowania",
     "ClassWithFrequency": "Klasa cz\u0119sto\u015bci",
     "Classes": "Klasy/Kategorie",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Wyczy\u015b\u0107 kolumn\u0119",
     "ClearColumns": "Wyczy\u015b\u0107 kolumny",
     "ClearRow": "Wyczy\u015b\u0107 wiersz",

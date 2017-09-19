@@ -1390,7 +1390,6 @@ __GGB__keysVar.de_AT.menu = {
     "ClassRule": "Klasseneinteilung",
     "ClassWithFrequency": "Klasse mit H\xe4ufigkeit",
     "Classes": "Klassen",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Spalteneintrag l\xf6schen",
     "ClearColumns": "Spalteneintr\xe4ge l\xf6schen",
     "ClearRow": "Zeileneintrag l\xf6schen",

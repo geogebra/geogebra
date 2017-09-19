@@ -1390,7 +1390,6 @@ __GGB__keysVar.hu_gm.menu = {
     "ClassRule": "Oszt\xe1ly hat\xe1rok",
     "ClassWithFrequency": "Oszt\xe1lyok gyakoris\xe1gokkal",
     "Classes": "Oszt\xe1lyok",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Oszlop t\xf6rl\xe9se",
     "ClearColumns": "Oszlopok t\xf6rl\xe9se",
     "ClearRow": "Sor t\xf6rl\xe9se",

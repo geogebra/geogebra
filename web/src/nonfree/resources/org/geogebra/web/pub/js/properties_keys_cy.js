@@ -1390,7 +1390,6 @@ __GGB__keysVar.cy.menu = {
     "ClassRule": "Rheol Dosbarth",
     "ClassWithFrequency": "Class with Frequency",
     "Classes": "Dosbarth",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Clirio colofn",
     "ClearColumns": "Clirio colofnau",
     "ClearRow": "Clirio rhes",

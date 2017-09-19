@@ -1390,7 +1390,6 @@ __GGB__keysVar.xh.menu = {
     "ClassRule": "Umthetho weKlasi",
     "ClassWithFrequency": "Iklasi enokuPhindaphindeka",
     "Classes": "Iiklasi",
-    "Classic": "GeoGebra Classic",
     "ClearColumn": "Cima iColumn",
     "ClearColumns": "Cima iiColumn",
     "ClearRow": "Cima iRow",
