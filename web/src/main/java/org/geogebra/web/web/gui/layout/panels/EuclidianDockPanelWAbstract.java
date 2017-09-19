@@ -208,9 +208,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					// position of EV did
 					dockPanel.calculateEnvironment();
 				}
-
 				dockPanel.checkZoomPanelFits(h);
-
 
 			}
 			
@@ -285,8 +283,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	public abstract void resizeView(int width, int height);
 
+	/**
+	 * updates icon on the full screen button.
+	 */
 	public void updateFullscreen() {
-
 		if (zoomPanel != null) {
 			zoomPanel.updateFullscreen();
 		}
@@ -319,7 +319,14 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
-	private void checkZoomPanelFits(int height) {
+	/**
+	 * Checks if zoom panel fit on Euclidian View with given height and
+	 * shows/hides it respectively.
+	 * 
+	 * @param height
+	 *            Height of EV.
+	 */
+	void checkZoomPanelFits(int height) {
 		if (zoomPanel != null && ZoomPanel.neededFor(app)) {
 			if (height < zoomPanel.getMinHeight()) {
 				hideZoomPanel();
