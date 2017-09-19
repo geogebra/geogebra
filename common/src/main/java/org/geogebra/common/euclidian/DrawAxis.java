@@ -414,7 +414,7 @@ public class DrawAxis {
 		// tick, exception is for positive only
 		double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
 		if (view.getPositiveAxes()[1]
-				&& (Kernel.isGreaterEqual(yCrossPix, view.getYmin()))) {
+				&& (Kernel.isGreaterEqual(view.axisCross[0], view.getYmin()))) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -933,7 +933,7 @@ public class DrawAxis {
 		double smallTickOffset = 0;
 		double axesStep = view.getXscale() * view.axesNumberingDistances[0]; // pixelstep
 		if (view.getPositiveAxes()[0]
-				&& (Kernel.isGreaterEqual(rw, view.getXmin()))) {
+				&& (Kernel.isGreaterEqual(view.axisCross[1], view.getXmin()))) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
