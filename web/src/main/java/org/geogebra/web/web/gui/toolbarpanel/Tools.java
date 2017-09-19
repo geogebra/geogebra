@@ -685,6 +685,7 @@ public class Tools extends FlowPanel implements SetLabels {
 							+ ". " + app.getToolHelp(mode));
 
 			btn.getImage().getElement().setAttribute("role", "button");
+			btn.getElement().removeAttribute("role");
 
 			if (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) {
