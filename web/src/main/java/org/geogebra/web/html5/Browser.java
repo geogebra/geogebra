@@ -43,7 +43,7 @@ public class Browser {
 	 * Better solution, copied from CopyPasteCutW originally TODO: add
 	 * toLowerCase() call to it!
 	 * 
-	 * @return
+	 * @return true if IE
 	 */
 	public static native boolean isInternetExplorer() /*-{
 		// check if app is running in IE5 or greater

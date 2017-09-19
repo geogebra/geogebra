@@ -194,6 +194,8 @@ public class TeXParser {
 	 *
 	 * @param parseString
 	 *            the string to be parsed
+	 * @param formula
+	 *            formula
 	 * @param firstpass
 	 *            a boolean to indicate if the parser must replace the
 	 *            user-defined macros by their content
@@ -206,8 +208,8 @@ public class TeXParser {
 
 	/**
 	 * Create a new TeXParser in the context of an array. When the parser meets
-	 * a & a new atom is added in the current line and when a \\ is met, a new
-	 * line is created.
+	 * a &amp; a new atom is added in the current line and when a \\ is met, a
+	 * new line is created.
 	 *
 	 * @param isPartial
 	 *            if true certains exceptions are not thrown
@@ -228,8 +230,8 @@ public class TeXParser {
 
 	/**
 	 * Create a new TeXParser in the context of an array. When the parser meets
-	 * a & a new atom is added in the current line and when a \\ is met, a new
-	 * line is created.
+	 * a &amp; a new atom is added in the current line and when a \\ is met, a
+	 * new line is created.
 	 *
 	 * @param isPartial
 	 *            if true certains exceptions are not thrown
@@ -240,6 +242,9 @@ public class TeXParser {
 	 * @param firstpass
 	 *            a boolean to indicate if the parser must replace the
 	 *            user-defined macros by their content
+	 * @param space
+	 *            a boolean to indicate if the parser must ignore or not the
+	 *            white space
 	 * @throws ParseException
 	 *             if the string could not be parsed correctly
 	 */
@@ -250,8 +255,8 @@ public class TeXParser {
 
 	/**
 	 * Create a new TeXParser in the context of an array. When the parser meets
-	 * a & a new atom is added in the current line and when a \\ is met, a new
-	 * line is created.
+	 * a &amp; a new atom is added in the current line and when a \\ is met, a
+	 * new line is created.
 	 *
 	 * @param parseString
 	 *            the string to be parsed
@@ -275,6 +280,8 @@ public class TeXParser {
 	 *            if true certains exceptions are not thrown
 	 * @param parseString
 	 *            the string to be parsed
+	 * @param formula
+	 *            formula
 	 * @param firstpass
 	 *            a boolean to indicate if the parser must replace the
 	 *            user-defined macros by their content
@@ -295,6 +302,8 @@ public class TeXParser {
 	 *
 	 * @param parseString
 	 *            the string to be parsed
+	 * @param formula
+	 *            formula
 	 * @param firstpass
 	 *            a boolean to indicate if the parser must replace the
 	 *            user-defined macros by their content
@@ -311,6 +320,9 @@ public class TeXParser {
 
 	/**
 	 * Reset the parser with a new latex expression
+	 * 
+	 * @param latex
+	 *            latex string
 	 */
 	public void reset(String latex) {
 		parseString = new StringBuilder(latex);
@@ -329,28 +341,28 @@ public class TeXParser {
 	}
 
 	/**
-	 * Return true if we get a partial formula
+	 * @return true if we get a partial formula
 	 */
 	public boolean getIsPartial() {
 		return isPartial;
 	}
 
 	/**
-	 * Get the number of the current line
+	 * @return the number of the current line
 	 */
 	public int getLine() {
 		return line;
 	}
 
 	/**
-	 * Get the number of the current column
+	 * @return the number of the current column
 	 */
 	public int getCol() {
 		return pos - col - 1;
 	}
 
 	/**
-	 * Get the last atom of the current formula
+	 * @return the last atom of the current formula
 	 */
 	public Atom getLastAtom() {
 		Atom at = formula.root;
@@ -362,7 +374,7 @@ public class TeXParser {
 	}
 
 	/**
-	 * Get the atom represented by the current formula
+	 * @return the atom represented by the current formula
 	 */
 	public Atom getFormulaAtom() {
 		Atom at = formula.root;
@@ -372,6 +384,9 @@ public class TeXParser {
 
 	/**
 	 * Put an atom in the current formula
+	 * 
+	 * @param at
+	 *            atom
 	 */
 	public void addAtom(Atom at) {
 		formula.add(at);
@@ -392,16 +407,16 @@ public class TeXParser {
 	}
 
 	/**
-	 * Return a boolean indicating if the character @ is considered as a letter
-	 * or not
+	 * @return a boolean indicating if the character @ is considered as a letter
+	 *         or not
 	 */
 	public boolean isAtLetter() {
 		return (atIsLetter != 0);
 	}
 
 	/**
-	 * Return a boolean indicating if the parser is used to parse an array or
-	 * not
+	 * @return a boolean indicating if the parser is used to parse an array or
+	 *         not
 	 */
 	public boolean isArrayMode() {
 		return arrayMode;
@@ -412,21 +427,21 @@ public class TeXParser {
 	}
 
 	/**
-	 * Return a boolean indicating if the parser must ignore white spaces
+	 * @return a boolean indicating if the parser must ignore white spaces
 	 */
 	public boolean isIgnoreWhiteSpace() {
 		return ignoreWhiteSpace;
 	}
 
 	/**
-	 * Return a boolean indicating if the parser is in math mode
+	 * @return a boolean indicating if the parser is in math mode
 	 */
 	public boolean isMathMode() {
 		return ignoreWhiteSpace;
 	}
 
 	/**
-	 * Return the current position in the parsed string
+	 * @return the current position in the parsed string
 	 */
 	public int getPos() {
 		return pos;
@@ -1242,6 +1257,8 @@ public class TeXParser {
 	 * 
 	 * @param c0
 	 *            the character to be converted
+	 * @param oneChar
+	 *            one char
 	 * @return the corresponding atom
 	 * @throws ParseException
 	 *             if the character is unknown
@@ -1586,8 +1603,8 @@ public class TeXParser {
 	 * Test the validity of a character in a command. It must contains only
 	 * alpha characters and eventually a @ if makeAtletter activated
 	 * 
-	 * @param com
-	 *            the command's name
+	 * @param ch
+	 *            character
 	 * @return the validity of the name
 	 */
 	public final boolean isValidCharacterInCommand(char ch) {

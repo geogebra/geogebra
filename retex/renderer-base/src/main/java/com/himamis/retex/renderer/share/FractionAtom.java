@@ -101,14 +101,22 @@ public class FractionAtom extends Atom {
 	}
 
 	/**
-	 * Depending on noDef, the given thickness and unit will be used (<-> the default thickness).
+	 * Depending on noDef, the given thickness and unit will be used (&lt;-&gt;
+	 * the default thickness).
 	 *
-	 * @param num the numerator
-	 * @param den the denominator
-	 * @param noDef whether the default thickness should not be used for the fraction line
-	 * @param unit a unit constant for the line thickness
-	 * @param t the thickness of the fraction line (in the given unit)
-	 * @throws InvalidUnitException if the given integer is not a valid unit constant
+	 * @param num
+	 *            the numerator
+	 * @param den
+	 *            the denominator
+	 * @param noDef
+	 *            whether the default thickness should not be used for the
+	 *            fraction line
+	 * @param unit
+	 *            a unit constant for the line thickness
+	 * @param t
+	 *            the thickness of the fraction line (in the given unit)
+	 * @throws InvalidUnitException
+	 *             if the given integer is not a valid unit constant
 	 */
 	public FractionAtom(Atom num, Atom den, boolean noDef, int unit, double t) throws InvalidUnitException {
 		// check unit

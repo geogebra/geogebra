@@ -93,7 +93,7 @@ public class BigOperatorAtom extends Atom {
 	 * @param base atom representing the big operator
 	 * @param under atom representing the under limit
 	 * @param over atom representing the over limit
-	 * @param limits whether limits should be drawn over and under the base (<-> as scripts)
+	 * @param limits whether limits should be drawn over and under the base (&lt;-&gt; as scripts)
 	 */
 	public BigOperatorAtom(Atom base, Atom under, Atom over, boolean limits) {
 		this(base, under, over);

@@ -108,8 +108,6 @@ public final class Character {
 	 * as the {@code digit} method, the {@code forDigit} method, and the {@code toString} method of
 	 * class {@code Integer}.
 	 *
-	 * @see Character#digit(char, int)
-	 * @see Character#forDigit(int, int)
 	 * @see Integer#toString(int, int)
 	 * @see Integer#valueOf(String)
 	 */
@@ -121,8 +119,6 @@ public final class Character {
 	 * as the {@code digit} method, the {@code forDigit} method, and the {@code toString} method of
 	 * class {@code Integer}.
 	 *
-	 * @see Character#digit(char, int)
-	 * @see Character#forDigit(int, int)
 	 * @see Integer#toString(int, int)
 	 * @see Integer#valueOf(String)
 	 */

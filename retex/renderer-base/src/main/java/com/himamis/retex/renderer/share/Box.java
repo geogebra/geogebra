@@ -59,18 +59,22 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 import com.himamis.retex.renderer.share.platform.graphics.Stroke;
 
 /**
- * An abstract graphical representation of a formula, that can be painted. All characters, font
- * sizes, positions are fixed. Only special Glue boxes could possibly stretch or shrink. A box has 3
- * dimensions (width, height and depth), can be composed of other child boxes that can possibly be
- * shifted (up, down, left or right). Child boxes can also be positioned outside their parent's box
+ * An abstract graphical representation of a formula, that can be painted. All
+ * characters, font sizes, positions are fixed. Only special Glue boxes could
+ * possibly stretch or shrink. A box has 3 dimensions (width, height and depth),
+ * can be composed of other child boxes that can possibly be shifted (up, down,
+ * left or right). Child boxes can also be positioned outside their parent's box
  * (defined by it's dimensions).
  * <p>
- * Subclasses must implement the abstract {@link #draw(Graphics2DInterface, float, float)} method
- * (that paints the box). <b> This implementation must start with calling the method
- * {@link #startDraw(Graphics2DInterface, float, float)} and end with calling the method
- * {@link #endDraw(Graphics2DInterface)} to set and restore the color's that must be used for
- * painting the box and to draw the background!</b> They must also implement the abstract
- * {@link #getLastFontId()} method (the last font that will be used when this box will be painted).
+ * Subclasses must implement the abstract
+ * {@link #draw(Graphics2DInterface, float, float)} method (that paints the
+ * box). <b> This implementation must start with calling the method
+ * {@link #startDraw(Graphics2DInterface, float, float)} and end with calling
+ * the method {@link #endDraw(Graphics2DInterface)} to set and restore the
+ * color's that must be used for painting the box and to draw the
+ * background!</b> They must also implement the abstract
+ * {@link #getLastFontId()} method (the last font that will be used when this
+ * box will be painted).
  */
 public abstract class Box {
 

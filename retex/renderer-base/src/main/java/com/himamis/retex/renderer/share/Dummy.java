@@ -82,7 +82,7 @@ public class Dummy {
 	/**
 	 * Changes the type of the atom
 	 *
-	 * @param t the new type
+	 * @return the type
 	 */
 	public int getType() {
 		return type;
@@ -114,6 +114,10 @@ public class Dummy {
 
 	/**
 	 * This method will only be called if isCharSymbol returns true.
+	 * 
+	 * @param tf
+	 *            text font
+	 * @return char font
 	 */
 	public CharFont getCharFont(TeXFont tf) {
 		return ((CharSymbol) el).getCharFont(tf);

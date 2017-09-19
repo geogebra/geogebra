@@ -34,8 +34,6 @@ public class CASgiacW extends CASgiac {
 	 * 
 	 * @param casParser
 	 *            parser
-	 * @param parserTools
-	 *            scientific notation convertor
 	 * @param kernel
 	 *            kernel
 	 */

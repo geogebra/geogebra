@@ -204,10 +204,15 @@ public class TeXFormula {
 	}
 
 	/**
-	 * Creates a new TeXFormula by parsing the given string (using a primitive TeX parser).
+	 * Creates a new TeXFormula by parsing the given string (using a primitive
+	 * TeX parser).
 	 *
-	 * @param s the string to be parsed
-	 * @throws ParseException if the string could not be parsed correctly
+	 * @param s
+	 *            the string to be parsed
+	 * @param map
+	 *            map
+	 * @throws ParseException
+	 *             if the string could not be parsed correctly
 	 */
 	public TeXFormula(String s, Map<String, String> map) throws ParseException {
 		this.jlmXMLMap = map;
@@ -356,7 +361,8 @@ public class TeXFormula {
 	}
 
 	/**
-	 * @param a formula
+	 * @param formula
+	 *            formula
 	 * @return a partial TeXFormula containing the valid part of formula
 	 */
 	public static TeXFormula getPartialTeXFormula(String formula) {
@@ -387,6 +393,10 @@ public class TeXFormula {
 
 	/**
 	 * Inserts an atom at the end of the current formula
+	 * 
+	 * @param el
+	 *            atom
+	 * @return new formula with atom
 	 */
 	public TeXFormula add(Atom el) {
 		if (el != null) {
@@ -853,11 +863,19 @@ public class TeXFormula {
 //	}
 
 	/**
-	 * @param formula the formula
-	 * @param style the style
-	 * @param size the size
-	 * @param transparency, if true the background is transparent
+	 * @param formula
+	 *            the formula
+	 * @param style
+	 *            the style
+	 * @param size
+	 *            the size
+	 * @param fg
+	 *            foreground color
+	 * @param bg
+	 *            background color
 	 * @return the generated image
+	 * @throws ParseException
+	 *             exception
 	 */
 	public static Image createBufferedImage(String formula, int style, double size, Color fg, Color bg)
 			throws ParseException {
@@ -867,11 +885,17 @@ public class TeXFormula {
 	}
 
 	/**
-	 * @param formula the formula
-	 * @param style the style
-	 * @param size the size
-	 * @param transparency, if true the background is transparent
+	 * @param style
+	 *            the style
+	 * @param size
+	 *            the size
+	 * @param fg
+	 *            foreground color
+	 * @param bg
+	 *            background color
 	 * @return the generated image
+	 * @throws ParseException
+	 *             exception
 	 */
 	public Image createBufferedImage(int style, double size, Color fg, Color bg) throws ParseException {
 		TeXIcon icon = createTeXIcon(style, size);
