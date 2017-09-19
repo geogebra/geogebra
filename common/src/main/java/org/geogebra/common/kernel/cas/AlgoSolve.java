@@ -16,7 +16,7 @@ import org.geogebra.common.kernel.stepbystep.EquationSteps;
 /**
  * Use Solve cas command from AV
  */
-public class AlgoSolve extends AlgoElement implements UsesCAS {
+public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	private GeoList solutions;
 	private GeoElement equations;
@@ -163,5 +163,9 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 		EquationSteps sbss = new EquationSteps(kernel, equation[0], equation[1], "x");
 
 		sbss.getSteps().getListOfSteps(builder);
+	}
+
+	public boolean canShowSteps() {
+		return true;
 	}
 }

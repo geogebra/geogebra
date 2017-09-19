@@ -1,7 +1,7 @@
 package org.geogebra.common.gui.view.algebra;
 
 import org.geogebra.common.kernel.algos.GetCommand;
-import org.geogebra.common.kernel.cas.AlgoSolve;
+import org.geogebra.common.kernel.cas.HasSteps;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Localization;
@@ -20,12 +20,13 @@ public class SuggestionSteps extends Suggestion {
 	public void execute(GeoElementND geo) {
 		StepGuiBuilder builder = geo.getKernel().getApplication()
 				.getGuiManager().getStepGuiBuilder();
-		((AlgoSolve) geo.getParentAlgorithm()).getSteps(builder);
+		((HasSteps) geo.getParentAlgorithm()).getSteps(builder);
 		builder.show();
 	}
 
 	public static Suggestion get(GeoElement geo) {
-		if (geo.getParentAlgorithm() instanceof AlgoSolve) {
+		if (geo.getParentAlgorithm() instanceof HasSteps &&
+				((HasSteps) geo.getParentAlgorithm()).canShowSteps()) {
 				return INSTANCE;
 
 		}

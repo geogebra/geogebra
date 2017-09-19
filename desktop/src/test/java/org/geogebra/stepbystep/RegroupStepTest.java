@@ -1,11 +1,5 @@
 package org.geogebra.stepbystep;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
@@ -41,6 +35,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("-(-x)", "x");
 		r("(x)/((1-x))", "(x)/((1-x))");
 		r("(x^2-3x+2)/(x-1)", "(x-2)");
 		r("(x-1)/(x^2-3x+2)", "(1)/((x-2))");
@@ -138,23 +133,6 @@ public class RegroupStepTest {
 
 	@AfterClass
 	public static void printHtml() {
-		File f = new File("report.html");
-		OutputStreamWriter isw = null;
-		try {
-			isw = new OutputStreamWriter(new FileOutputStream(f));
-			isw.write(htmlBuilder.getHtml());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (isw != null) {
-			try {
-				isw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("file:///" + f.getAbsolutePath());
+		htmlBuilder.printReport("regroup.html");
 	}
 }

@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.cas;
 
+import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
@@ -19,13 +20,17 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.main.App;
 
 /**
  * Process a function using single argument command
  * 
  * @author Markus Hohenwarter
  */
-public class AlgoCasBaseSingleArgument extends AlgoCasBase {
+public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 
 	/**
 	 * @param cons
@@ -54,6 +59,25 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 		if (f.isDefined() && !g.isDefined()) {
 			g.toGeoElement().set(f.toGeoElement());
 		}
+	}
+
+	public void getSteps(StepGuiBuilder builder) {
+		App app = kernel.getApplication();
+
+		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
+		StepNode sn = StepNode.getStepTree(
+				f.toGeoElement()
+						.getDefinitionNoLabel(StringTemplate.defaultTemplate),
+				app.getKernel().getParser());
+		sn.regroup(sb);
+
+		SolutionStep steps = sb.getSteps();
+		steps.getListOfSteps(builder);
+
+	}
+
+	public boolean canShowSteps() {
+		return getClassName() == Commands.Simplify;
 	}
 
 }
