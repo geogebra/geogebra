@@ -21,7 +21,6 @@ public class StandardButton extends FastButton {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
-	private NoDragImage btnImage;
 
 	/**
 	 * @param icon
@@ -31,7 +30,20 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ImageResource icon, App app) {
 		this.app = app;
-		setIconAndLabel(icon, null, icon.getWidth());
+		setIconAndLabel(icon, null, icon.getWidth(), null);
+	}
+
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param app
+	 *            - application
+	 * @param altText
+	 *            - alternative text
+	 */
+	public StandardButton(final ImageResource icon, App app, String altText) {
+		this.app = app;
+		setIconAndLabel(icon, null, icon.getWidth(), altText);
 	}
 
 	/**
@@ -42,7 +54,7 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final String label, App app) {
 		this.app = app;
-		setIconAndLabel(null, label, -1);
+		setIconAndLabel(null, label, -1, null);
 	}
 
 	/**
@@ -57,15 +69,16 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ResourcePrototype icon, final String label, int width, App app) {
 		this.app = app;
-		setIconAndLabel(icon, label, width);
+		setIconAndLabel(icon, label, width, null);
 	}
 
-	private void setIconAndLabel(final ResourcePrototype image, final String label, int width) {
+	private void setIconAndLabel(final ResourcePrototype image, final String label, int width, String altText) {
 		this.width = width;
 		this.icon = image;
 		this.label = label;
 		if (image != null) {
-			btnImage = new NoDragImage(ImgResourceHelper.safeURI(image),
+			NoDragImage btnImage = new NoDragImage(
+					ImgResourceHelper.safeURI(image),
 					width);
 			if (label == null) {
 				getUpFace().setImage(btnImage);
@@ -74,6 +87,8 @@ public class StandardButton extends FastButton {
 				this.getElement().appendChild(btnImage.getElement());
 				this.getElement().appendChild(new Label(label).getElement());
 			}
+			btnImage.getElement().setAttribute("alt", altText);
+			btnImage.getElement().setAttribute("role", "button");
 			return;
 		}
 
@@ -82,18 +97,11 @@ public class StandardButton extends FastButton {
 		}
 
 	}
-	
-	/**
-	 * @return image of button
-	 */
-	public NoDragImage getImage() {
-		return btnImage;
-	}
 
 	@Override
     public void setText(String text){
 		this.label = text;
-		setIconAndLabel(this.icon, text, this.width);
+		setIconAndLabel(this.icon, text, this.width, null);
 	}
 
 	@Override
@@ -132,7 +140,7 @@ public class StandardButton extends FastButton {
 	 *            - set text of button
 	 */
 	public void setLabel(final String label) {
-		setIconAndLabel(this.icon, label, this.width);
+		setIconAndLabel(this.icon, label, this.width, null);
 	}
 
 	/**
@@ -147,7 +155,7 @@ public class StandardButton extends FastButton {
 	 *            - icon
 	 */
 	public void setIcon(final ImageResource icon) {
-		setIconAndLabel(icon, this.label, this.width);
+		setIconAndLabel(icon, this.label, this.width, null);
 	}
 	
 	@Override

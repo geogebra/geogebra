@@ -675,16 +675,13 @@ public class Tools extends FlowPanel implements SetLabels {
 							getSvgImageForTool(mode).getSafeUri(), 0, 0, size,
 							size,
 							false, false),
-					getApp());
-			btn.setTitle(getApp().getLocalization()
-					.getMenu(EuclidianConstants.getModeText(mode)));
-			
-			btn.getImage().getElement().setAttribute("alt",
+					getApp(),
 					getApp().getLocalization()
 							.getMenu(EuclidianConstants.getModeText(mode))
 							+ ". " + app.getToolHelp(mode));
+			btn.setTitle(getApp().getLocalization()
+					.getMenu(EuclidianConstants.getModeText(mode)));
 
-			btn.getImage().getElement().setAttribute("role", "button");
 			btn.getElement().removeAttribute("role");
 
 			if (mode == EuclidianConstants.MODE_DELETE
