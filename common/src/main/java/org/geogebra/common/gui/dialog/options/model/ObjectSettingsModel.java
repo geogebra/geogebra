@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -505,6 +506,17 @@ abstract public class ObjectSettingsModel {
         return mGeoElement instanceof PointProperties;
     }
 
+    public boolean hasFunctionProperties() {
+        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
+            for (GeoElement geo : mGeoElementsList) {
+                if (!(geo instanceof GeoFunction)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return mGeoElement instanceof GeoFunction;
+    }
 
     public boolean hasLineProperties() {
         if (mApp.has(Feature.MOB_SELECT_TOOL)) {
