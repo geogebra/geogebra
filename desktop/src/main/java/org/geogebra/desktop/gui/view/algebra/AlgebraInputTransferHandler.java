@@ -40,7 +40,6 @@ public class AlgebraInputTransferHandler extends TransferHandler
 	/****************************************
 	 * Constructor
 	 * 
-	 * @param ev
 	 */
 	public AlgebraInputTransferHandler(AppD app, JTextComponent ta) {
 		this.ta = ta;

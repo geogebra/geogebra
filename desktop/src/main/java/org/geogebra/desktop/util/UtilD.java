@@ -384,7 +384,7 @@ public class UtilD extends Util {
 	 * 
 	 * @param s
 	 *            string to write
-	 * @param filename
+	 * @param file
 	 *            filename
 	 */
 	public static void writeStringToFile(String s, File file) {

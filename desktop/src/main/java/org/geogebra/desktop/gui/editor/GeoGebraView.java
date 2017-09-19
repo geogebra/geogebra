@@ -138,13 +138,14 @@ public class GeoGebraView extends WrappedPlainView {
 
 	/**
 	 * This method can be used to draw anything you want in the editor (such as
-	 * the line of maximum recommanded chars).
+	 * the line of maximum recommended chars).
 	 * 
 	 * @param g
 	 *            the graphics where to draw
 	 * @param a
 	 *            the shape bounding the visible area
-	 * @overload paint method in WrappedPlainView
+	 *            
+	 * (overload paint method in WrappedPlainView)
 	 */
 	@Override
 	public void paint(Graphics g, Shape a) {

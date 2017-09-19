@@ -20,8 +20,9 @@ import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
- *         responses for desktop.
+ * Implements HTTP requests and responses for desktop.
+ *  
+ * @author Zoltan Kovacs 
  */
 public class HttpRequestD extends HttpRequest {
 	private String answer;

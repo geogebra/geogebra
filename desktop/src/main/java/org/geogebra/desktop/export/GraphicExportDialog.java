@@ -869,8 +869,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	/**
 	 * Exports drawing as png with given resolution in dpi
 	 * 
-	 * @param exportToClipboard
-	 *            whether to use clipboard or not
 	 * @return whether succesful
 	 */
 	final public static boolean exportPNGClipboard(boolean transparent0,
@@ -1157,8 +1155,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 *            application
 	 * @param ev
 	 *            view
-	 * @param file
-	 *            target file
 	 * @param textAsShapes
 	 *            whether to convert text to curves
 	 * @param pixelWidth

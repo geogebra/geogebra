@@ -434,8 +434,6 @@ public class GeoGebraFrame extends JFrame
 	 * 
 	 * @param args
 	 *            Command line arguments
-	 * @param macro
-	 *            Macro to open (or null for file edit mode)
 	 * @param wnd
 	 * @return the new window
 	 */

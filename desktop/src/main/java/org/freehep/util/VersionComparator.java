@@ -14,7 +14,7 @@ public class VersionComparator implements Comparator {
 	/**
 	 * Compares two version numbers of the form 1.2.3.4
 	 * 
-	 * @return >0 if v1>v2, <0 if v1<v2 or 0 if v1=v2
+	 * @return &gt;0 if v1&gt;v2, &lt;0 if v1&lt;v2 or 0 if v1=v2
 	 */
 	public int versionNumberCompare(String v1, String v2)
 			throws NumberFormatException {

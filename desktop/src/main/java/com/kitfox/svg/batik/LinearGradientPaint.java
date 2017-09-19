@@ -37,7 +37,6 @@ import com.kitfox.svg.SVGConst;
  * <p>
  * For example: <br>
  * <code>
- * <p>
  * Point2D start = new Point2D.Float(0, 0);<br>
  * Point2D end = new Point2D.Float(100,100);<br>
  * float[] dist = {0.0, 0.2, 1.0};<br>

@@ -25,7 +25,7 @@ package org.geogebra.desktop.export.epsgraphics;
 
 /**
  * Constants for color modes. Currently supported are: rgb, cmyk, grayscale and
- * black&white.
+ * black&amp;white.
  * 
  * @author Thomas Abeel
  * 

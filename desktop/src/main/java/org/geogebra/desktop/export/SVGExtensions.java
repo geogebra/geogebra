@@ -14,14 +14,13 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 
 /**
- * adds support for grouping objects in SVG files
+ * Adds support for grouping objects in SVG files.
  * 
- * also now adds support for exporting size in cm from suggestion here
- * http://forum.geogebra.org/viewtopic.php?f=8&t=38068
+ * Also now adds support for exporting size in cm from
+ * <a href="http://forum.geogebra.org/viewtopic.php?f=8&t=38068">suggestion here</a>
+ * and returning null from getTransform() (ie Identity matrix).
  * 
- * and returning null from getTransform() (ie Identity matrix)
- * 
- * needs this line changed in SVGGraphics2D.java (was private) protected
+ * Needs this line changed in SVGGraphics2D.java (was private) protected
  * PrintWriter os;
  * 
  * @author Michael Borcherds
@@ -102,7 +101,7 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 	/**
 	 * 
-	 * Adapted from DrawableList (to handle SVG <title> and <desc>)
+	 * Adapted from DrawableList (to handle SVG &lt;title&gt; and &lt;desc&gt;)
 	 * 
 	 * @param list
 	 * @param g2

@@ -132,8 +132,6 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 		}
 
 		/**
-		 * @param el
-		 *            the index of Element to test
 		 * @return true if the line is commented part of a multi line comment
 		 */
 		public boolean isMultiLineCommented(int index) {

@@ -11,8 +11,9 @@ import java.util.GregorianCalendar;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Web implementation for the
- *         GeoGebraLogger
+ * Web implementation for the GeoGebraLogger
+ * 
+ * @author Zoltan Kovacs 
  */
 public class LoggerD extends Log {
 

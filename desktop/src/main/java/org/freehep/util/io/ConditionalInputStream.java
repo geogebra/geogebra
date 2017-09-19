@@ -11,19 +11,19 @@ import java.util.Properties;
  * <P>
  * The following statements, all start with the
  * 
- * &at;-sign, are allowed:
+ * &#64;-sign, are allowed:
  * 
  * <UL>
  * <LI><B>@ifdef property</B>, reads everything up to the next
  * 
- * @statement if the property is defined.
+ * &#64;statement if the property is defined.
  *            <LI><B>@ifndef property</B>, reads everything up to the next
- * @statement if the property is not defined.
+ * &#64;statement if the property is not defined.
  *            <LI><B>@else</B>, corresponding else statement
  *            <LI><B>@endif</B>, corresponging endif statement
  *            </UL>
  * 
- *            The &at;-sign itself must be escaped by a backslash, if used in
+ *            The &#64;-sign itself must be escaped by a backslash, if used in
  *            the text followed by any of the keywords described above and no
  *            action should be taken.
  * 

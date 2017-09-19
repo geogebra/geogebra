@@ -25,7 +25,7 @@ public interface LaTeXLexerConstants extends LexerConstants {
 	public static final int NUMBEROFTOKENS = 12;
 
 	/**
-	 * AMP : token '&' in array env
+	 * AMP : token '&amp;' in array env
 	 */
 	public static final int AMP = 4;
 

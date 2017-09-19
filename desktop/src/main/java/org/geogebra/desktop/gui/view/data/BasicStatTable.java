@@ -36,7 +36,6 @@ public class BasicStatTable extends JPanel
 	 * 
 	 * @param app
 	 * @param statDialog
-	 * @param mode
 	 */
 	public BasicStatTable(AppD app, DataAnalysisViewD statDialog) {
 		this(app, statDialog, true);

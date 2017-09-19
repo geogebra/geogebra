@@ -204,7 +204,7 @@ public class BitOutputStream extends CompressableOutputStream
 	 * @param number
 	 *            value to calculate bits for
 	 * @param signed
-	 *            true if the value if signed (< 0)
+	 *            true if the value if signed (&lt; 0)
 	 * @return number of bits needed to store value
 	 */
 	public static int minBits(long number, boolean signed) {

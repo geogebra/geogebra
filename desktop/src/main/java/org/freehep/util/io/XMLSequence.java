@@ -7,8 +7,8 @@ import java.util.NoSuchElementException;
 
 /**
  * The XMLSequence allows parsing by an XML Parser of concatenated XML segments.
- * Each segment needs to start with "<?xml". If the underlying stream contains
- * just one segment "<xml?" may be left out. Methods hasNext() and next() should
+ * Each segment needs to start with "&lt;?xml". If the underlying stream contains
+ * just one segment "&lt;xml?" may be left out. Methods hasNext() and next() should
  * be called to retrieve the inputstream for the XMLParser.
  * 
  * Typical usage:

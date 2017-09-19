@@ -27,10 +27,10 @@ public class Factory {
 	 * Find the correct factory name, based on the following procedure:
 	 * <ol>
 	 * <li>Use the specified system property: factoryName.
-	 * <li>Use the specified property file in JAVA_HOME/lib/<factoryFile> and
+	 * <li>Use the specified property file in JAVA_HOME/lib/&lt;factoryFile&gt; and
 	 * the specified property: factoryName.
 	 * <li>Use the Services API (as detailed in the JAR specification) to look
-	 * for the classname in META-INF/services/<factoryName>.
+	 * for the classname in META-INF/services/&lt;factoryName&gt;.
 	 * <li>Use the specfied default factory: defaultFactory.
 	 * </ol>
 	 *

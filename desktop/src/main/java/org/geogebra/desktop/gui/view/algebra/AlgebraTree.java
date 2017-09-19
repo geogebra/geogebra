@@ -322,7 +322,7 @@ public class AlgebraTree extends JTree {
 	/**
 	 * updates node of GeoElement geo (needed for highlighting)
 	 * 
-	 * @see EuclidianViewD#setHighlighted()
+	 * see EuclidianViewD#setHighlighted()
 	 */
 	public void update(GeoElement geo) {
 		DefaultMutableTreeNode node = nodeTable.get(geo);

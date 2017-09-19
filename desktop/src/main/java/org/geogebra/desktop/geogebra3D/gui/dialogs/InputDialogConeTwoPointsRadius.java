@@ -21,7 +21,6 @@ public class InputDialogConeTwoPointsRadius extends InputDialogRadiusD {
 	 * @param app
 	 * @param title
 	 * @param handler
-	 * @param point
 	 * @param kernel
 	 */
 	public InputDialogConeTwoPointsRadius(AppD app, String title,

@@ -105,9 +105,6 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 	 * @param app
 	 *            App
 	 * @param settings
-	 * @param statDialog
-	 *            statDialog
-	 * @param settings
 	 *            settings
 	 */
 	public OptionsPanelD(AppD app, DataAnalysisModel model,

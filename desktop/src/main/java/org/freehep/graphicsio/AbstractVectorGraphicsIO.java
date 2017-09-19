@@ -867,7 +867,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * implementation calls writeTransform using the inverted affine transform
 	 * to calculate it.
 	 * 
-	 * new version by Calixte Denizet fixes eg writing output from JLaTeXMath ->
+	 * new version by Calixte Denizet fixes eg writing output from JLaTeXMath to
 	 * PDF
 	 *
 	 * @param transform

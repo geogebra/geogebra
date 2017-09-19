@@ -429,8 +429,6 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	/**
 	 * Shows a modal dialog to enter an angle or angle variable name.
-	 * 
-	 * @return: Object[] with { NumberValue, AngleInputDialog } pair
 	 */
 	@Override
 	public void showAngleInputDialog(String title, String message,

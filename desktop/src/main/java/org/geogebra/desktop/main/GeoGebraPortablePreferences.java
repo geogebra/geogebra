@@ -46,8 +46,8 @@ import org.geogebra.common.util.debug.Log;
  * behaves like a kind of "singleton factory".
  * 
  * This class implements all the commands of GeoGebraPreferences, but stores in
- * propertyfile given on the commandline: --settingsFile=<path>\
- * <filename> (prefs.properties)
+ * propertyfile given on the commandline: --settingsFile=&lt;path&gt;\
+ * &lt;filename&gt; (prefs.properties)
  * 
  * Options/ToDo: Might as well store: xml in user.xml ggt in macro.bin to avoid
  * escaping "=", b64 encode/decoding and save some time... Also useful to have
@@ -253,7 +253,7 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 	/**
 	 * Saves preferences by taking the application's current values. Apparently
 	 * no limit on property length! (# preferences: 8192), so no need to split
-	 * up in pieces :-) But we have to convert byte[]--b64-->String
+	 * up in pieces :-) But we have to convert byte[]&rarr;b64&rarr;String
 	 */
 	@Override
 	public void saveXMLPreferences(AppD app) { // debug("saveXMLPreferences(app):");

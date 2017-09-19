@@ -606,7 +606,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	/**
-	 * @todo Do not just use the default euclidian view if no EV has focus, but
+	 * TODO: Do not just use the default euclidian view if no EV has focus, but
 	 *       determine if maybe just one EV is visible etc.
 	 * 
 	 * @return The euclidian view to which new geo elements should be added by
@@ -1338,7 +1338,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * (if transfer is null). If an image is found, then it is loaded and stored
 	 * in this application's imageManager.
 	 * 
-	 * @param transfer
+	 * @param transfer0
 	 * @return fileName of image stored in imageManager
 	 */
 	@SuppressWarnings("unchecked")

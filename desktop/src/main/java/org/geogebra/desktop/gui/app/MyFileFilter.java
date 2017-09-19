@@ -29,11 +29,11 @@ import org.geogebra.common.util.StringUtil;
  *
  * Example - create a new filter that filters out all files but gif and jpg
  * image files:
- *
+ * <pre>
  * JFileChooser chooser = new JFileChooser(); MyFileFilter filter = new
  * MyFileFilter( new String{"gif", "jpg"}, "JPEG & GIF Images")
  * chooser.addChoosableFileFilter(filter); chooser.showOpenDialog(this);
- * 
+ * </pre>
  */
 public class MyFileFilter extends FileFilter implements java.io.FileFilter {
 

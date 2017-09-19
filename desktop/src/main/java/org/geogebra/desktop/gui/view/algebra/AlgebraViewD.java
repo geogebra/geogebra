@@ -1010,15 +1010,19 @@ public class AlgebraViewD extends AlgebraTree
 		}
 	}
 
-	/**
-	 * returns settings in XML format
-	 * 
-	 * public void getXML(StringBuilder sb) {
-	 * 
-	 * sb.append("<algebraView>\n"); sb.append("\t<useLaTeX "); sb.append(
-	 * " value=\""); sb.append(isRenderLaTeX()); sb.append("\"");
-	 * sb.append("/>\n"); sb.append("</algebraView>\n"); }
-	 */
+	
+	// returns settings in XML format
+	// 
+	// public void getXML(StringBuilder sb) {
+	// 
+	// sb.append("<algebraView>\n");
+	// sb.append("\t<useLaTeX ");
+	// sb.append(" value=\""); 
+	// sb.append(isRenderLaTeX());
+	// sb.append("\"");
+	// sb.append("/>\n");
+	// sb.append("</algebraView>\n");
+
 
 	// temporary proxies for the temporary implementation of AlgebraController
 	// in common

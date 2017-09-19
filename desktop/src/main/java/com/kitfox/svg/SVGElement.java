@@ -211,10 +211,8 @@ abstract public class SVGElement {
 	/**
 	 * Swaps 2 elements in children.
 	 *
-	 * @i index of first
-	 * @j index of second
-	 *
-	 * @return true if successful, false otherwise
+	 * @param i index of first
+	 * @param j index of second
 	 */
 	public void swapChildren(int i, int j) throws SVGException {
 		if ((children == null) || (i < 0) || (i >= children.size()) || (j < 0)

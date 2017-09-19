@@ -21,7 +21,6 @@ public class InputDialogCylinderTwoPointsRadius extends InputDialogRadiusD {
 	 * @param app
 	 * @param title
 	 * @param handler
-	 * @param point
 	 * @param kernel
 	 */
 	public InputDialogCylinderTwoPointsRadius(AppD app, String title,

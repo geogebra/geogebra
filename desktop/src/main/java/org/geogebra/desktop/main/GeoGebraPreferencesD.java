@@ -32,7 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * Stores user settings and options as preferences.
  * 
  * @author Markus Hohenwarter
- * @date May 16, 2007
+ * @version May 16, 2007
  */
 
 /*

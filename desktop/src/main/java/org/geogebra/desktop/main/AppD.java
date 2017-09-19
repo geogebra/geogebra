@@ -270,7 +270,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	private static LinkedList<File> fileList = new LinkedList<File>();
 	protected File currentPath, currentImagePath, currentFile = null;
 
-	/** maximum number of files to (save &) show in File -> Recent submenu */
+	/** maximum number of files to (save &amp;) show in File &rarr; Recent submenu */
 	public static final int MAX_RECENT_FILES = 8;
 
 	// ==============================================================
@@ -682,7 +682,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * Sets the look and feel.
 	 * 
 	 * @param isSystemLAF
-	 *            true => set system LAF, false => set cross-platform LAF
+	 *            true &rarr; set system LAF, false &rarr; set cross-platform LAF
 	 */
 	public static void setLAF(boolean isSystemLAF) {
 		try {
@@ -1244,7 +1244,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * parameters.
 	 * 
 	 * @return if the check is allowed
-	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 * @author Zoltan Kovacs
 	 */
 	public boolean getVersionCheckAllowed() {
 
@@ -1595,7 +1595,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	/**
-	 * loads an html file with <param name="ggbBase64" value="UEsDBBQACAAI...
+	 * loads an html file with &lt;param name="ggbBase64" value="UEsDBBQACAAI..."&gt;
 	 * 
 	 * @param file
 	 *            html file
@@ -2025,7 +2025,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * Attempt to return a flag to represent the current language
 	 * 
 	 * Not always possible to return a sensible value as there is not a 1-1
-	 * correspondence between countries & languages
+	 * correspondence between countries &amp; languages
 	 * 
 	 * @return
 	 * 

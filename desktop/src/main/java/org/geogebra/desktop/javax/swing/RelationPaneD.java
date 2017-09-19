@@ -32,7 +32,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Desktop implementation of the Relation Tool information window.
  * 
- * @author Zoltan "of Swing" Kovacs <zoltan@geogebra.org>
+ * @author Zoltan "of Swing" Kovacs
  * 
  */
 public class RelationPaneD implements RelationPane, ActionListener {

@@ -20,7 +20,7 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
  * Abstract class for all "euclidian" panels.
  * 
  * @author Mathieu
- * @remark {@link #getEuclidianView()} has to be overridden if
+ * Remark: {@link #getEuclidianView()} has to be overridden if
  *         {@link #getComponent()} does not return the euclidian view directly
  */
 public abstract class EuclidianDockPanelAbstract extends DockPanelD
@@ -58,7 +58,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 
 	/**
 	 * @return The euclidian view associated with this dock panel.
-	 * @remark This method has to be overridden if the component of the dock
+	 * Remark: This method has to be overridden if the component of the dock
 	 *         panel is not the euclidian view itself
 	 */
 	abstract public EuclidianView getEuclidianView();

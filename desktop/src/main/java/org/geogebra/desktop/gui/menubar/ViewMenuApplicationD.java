@@ -314,8 +314,6 @@ public class ViewMenuApplicationD extends ViewMenuD {
 	/**
 	 * Checkbox of Construction protocol view will be checked if visible is
 	 * true. Otherwise won't be checked.
-	 * 
-	 * @param visible
 	 */
 	public void updateCPView(boolean selected) {
 		if (cbConsprot != null) {

@@ -203,7 +203,7 @@ public class AutoCompletion {
 	/**
 	 * Adds auto completion support to a {@link JTextField}. If all you need is
 	 * completion for a fixed set of options you may use
-	 * {@link #install(JTextField, String[], boolean, int)} instead. <br />
+	 * {@link #install(JTextField, String[], boolean, int)} instead. <br>
 	 * This method offers the most flexibility. Completion options returned by
 	 * the completion provider can be arbitrary objects which in turn are
 	 * visualized by the supplied {@link ListCellRenderer}.
