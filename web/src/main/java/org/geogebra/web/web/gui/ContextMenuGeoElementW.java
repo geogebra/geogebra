@@ -396,13 +396,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						MainMenu.getMenuBarHtml(img, loc.getMenu("ShowTrace")),
 						MaterialDesignResources.INSTANCE.check_black()
 								.getSafeUri().asString(),
-						isTracing(), new Command() {
-
-							@Override
-							public void execute() {
-								// fill later
-							}
-						});
+						isTracing());
 				Command cmdTrace = new Command() {
 
 					@Override
@@ -710,14 +704,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								loc.getMenu("PinToScreen")),
 						MaterialDesignResources.INSTANCE.check_black()
 								.getSafeUri().asString(),
-						pinned, new Command() {
-
-							@Override
-							public void execute() {
-								// TODO Auto-generated method stub
-
-							}
-						});
+						pinned);
 				Command cmdPin = new Command() {
 					
 					@Override
@@ -766,13 +753,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						MainMenu.getMenuBarHtml(img, loc.getMenu("FixObject")),
 						MaterialDesignResources.INSTANCE.check_black()
 								.getSafeUri().asString(),
-						geo.isLocked(), new Command() {
-					
-					@Override
-					public void execute() {
-								// fill later
-					}
-				});
+						geo.isLocked());
 				Command cmdLock = new Command() {
 
 					@Override

@@ -33,6 +33,24 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	}
 
 	/**
+	 * @param text
+	 *            Title
+	 * @param checkUrl
+	 *            image of check mark
+	 * @param checked
+	 *            initial value.
+	 */
+	public GCheckmarkMenuItem(String text, String checkUrl,
+			boolean checked) {
+		super(text, checkUrl, checked, new Command() {
+			
+			public void execute() {
+				// fill this later
+			}
+		});
+	}
+
+	/**
 	 * 
 	 * @return The standard menu item with checkmark.
 	 */

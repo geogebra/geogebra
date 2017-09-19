@@ -192,15 +192,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
 				app.getSettings().getEuclidian(1)
-						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC,
-				new Command() {
-
-					@Override
-					public void execute() {
-						// fill later
-					}
-
-				});
+						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 		snapToGrid.setCommand(new Command() {
 			@Override
 			public void execute() {
@@ -230,15 +222,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
 				app.getSettings().getEuclidian(1).getShowAxis(0)
-						&& app.getSettings().getEuclidian(1).getShowAxis(1),
-				new Command() {
-
-					@Override
-					public void execute() {
-						// fill later
-					}
-
-				});
+						&& app.getSettings().getEuclidian(1).getShowAxis(1));
 		showAxes.setCommand(new Command() {
 
 			@Override
