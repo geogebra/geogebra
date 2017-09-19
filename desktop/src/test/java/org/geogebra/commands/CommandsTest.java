@@ -1263,12 +1263,15 @@ public class CommandsTest extends Assert{
 		t("f(x,y)=x+y", "x + y");
 		t("a:x + 1 / f", "x + 1 / (x + y)");
 		t("a(1,3)", "1.25");
+	}
+
+	@Test
+	public void expandFunctionsLine() {
 		t("f(x,y)=2x+0y", "(2 * x) + (0 * y)");
 		t("g(x,y)=0x+3y", "(0 * x) + (3 * y)");
-		t("2f+3g", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y)))");
-		// t("2f+3g=36",
-		// "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y))) = 36");
-		//
+		// t("2f+3g", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y)))");
+		t("2f+3g=36",
+				"4x + 9y = 36");
 
 	}
 

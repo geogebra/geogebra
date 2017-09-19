@@ -348,10 +348,14 @@ public class Polynomial implements HasDebugString {
 						t[j] = null;
 					}
 				}
-				if (!(ti.coefficient.evaluate(
-						StringTemplate.defaultTemplate) instanceof NumberValue)) {
+				ExpressionValue eval = ti.coefficient
+						.evaluate(StringTemplate.defaultTemplate);
+				if (!(eval instanceof NumberValue)) {
 					if (eq != null) {
 						eq.setIsPolynomial(false);
+					}
+					if (eval instanceof FunctionalNVar) {
+						eq.setFunctionDependent(true);
 					}
 					return;
 
@@ -365,7 +369,7 @@ public class Polynomial implements HasDebugString {
 				}
 				// add simplified term to list
 				if (!ti.coefficient.isConstant()
-						|| ti.coefficient.evaluateDouble() != 0.0) {
+						|| eval.evaluateDouble() != 0.0) {
 					list.add(ti);
 				}
 			}

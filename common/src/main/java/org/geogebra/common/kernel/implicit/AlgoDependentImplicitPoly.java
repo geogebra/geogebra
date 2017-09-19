@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
@@ -32,6 +33,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	// private FunctionNVar[] dependentFromFunctions;
 	private Set<FunctionNVar> dependentFromFunctions;
 	private Equation equation;
+	private Equation equationExpanded;
 
 	/**
 	 * Creates new implicit polynomial from equation. This algo may also return
@@ -50,7 +52,12 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			ExpressionNode definition, boolean simplify) {
 		super(c, false);
 		equation = equ;
-		Polynomial lhs = equ.getNormalForm();
+		if (equation.isFunctionDependent()) {
+			expandEquation();
+		} else {
+			equationExpanded = equation;
+		}
+		Polynomial lhs = equationExpanded.getNormalForm();
 		coeff = lhs.getCoeff();
 		try {
 			PolynomialUtils.checkNumericCoeff(coeff, simplify);
@@ -79,6 +86,20 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		setInputOutput(); // for AlgoElement
 
 		compute(true);
+
+	}
+
+	private void expandEquation() {
+		equationExpanded = new Equation(kernel,
+				AlgoDependentFunction
+						.expandFunctionDerivativeNodes(
+								equation.getLHS().deepCopy(kernel), true)
+						.wrap(),
+				AlgoDependentFunction
+						.expandFunctionDerivativeNodes(
+								equation.getRHS().deepCopy(kernel), true)
+						.wrap());
+		equationExpanded.initEquation();
 
 	}
 
@@ -128,24 +149,25 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 						new TreeSet<AlgoElement>());
 
 				if (!functions.equals(dependentFromFunctions)
-						|| equation.hasVariableDegree() || recomputeCoeff) {
-					equation.initEquation();
-					coeff = equation.getNormalForm().getCoeff();
+						|| equationExpanded.hasVariableDegree()
+						|| recomputeCoeff) {
+					expandEquation();
+					coeff = equationExpanded.getNormalForm().getCoeff();
 					dependentFromFunctions = functions;
 				}
-			} else if (equation.hasVariableDegree()) {
-				equation.initEquation();
-				coeff = equation.getNormalForm().getCoeff();
+			} else if (equationExpanded.hasVariableDegree()) {
+				equationExpanded.initEquation();
+				coeff = equationExpanded.getNormalForm().getCoeff();
 			}
 		}
-		if (equation.getNormalForm() == null) {
-			equation.initEquation();
+		if (equationExpanded.getNormalForm() == null) {
+			equationExpanded.initEquation();
 		}
 		ExpressionNode def = geoElement.getDefinition();
 
 		// use the forced behavior here
-		int degree = equation.preferredDegree();
-		if (!equation.isPolynomial()) {
+		int degree = equationExpanded.preferredDegree();
+		if (!equationExpanded.isPolynomial()) {
 			degree = 3;
 		}
 		switch (degree) {
@@ -178,8 +200,8 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		default:
 			if (geoElement instanceof GeoImplicit) {
 				((GeoImplicit) geoElement).setDefined();
-				((GeoImplicit) geoElement).fromEquation(equation, null);
-				if (equation.isPolynomial()) {
+				((GeoImplicit) geoElement).fromEquation(equationExpanded, null);
+				if (equationExpanded.isPolynomial()) {
 					((GeoImplicit) geoElement).setCoeff(coeff);
 				} else {
 					((GeoImplicit) geoElement).setCoeff((double[][]) null);
@@ -191,8 +213,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 					replaceGeoElement(
 							kernel.newImplicitPoly(getConstruction()));
 					((GeoImplicit) geoElement).setDefined();
-					((GeoImplicit) geoElement).fromEquation(equation, null);
-					if (equation.isPolynomial()) {
+					((GeoImplicit) geoElement).fromEquation(equationExpanded,
+							null);
+					if (equationExpanded.isPolynomial()) {
 						((GeoImplicit) geoElement).setCoeff(coeff);
 					} else {
 						((GeoImplicit) geoElement).setCoeff((double[][]) null);
