@@ -101,7 +101,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 
 	private boolean elementsDefined(GeoList raw) {
 		for (int i = 0; i < raw.size(); i++) {
-			if (!raw.get(i).isDefined()) {
+			if (!raw.get(i).isDefinitionValid()) {
 				return false;
 			}
 			if (raw.get(i).isGeoList()
