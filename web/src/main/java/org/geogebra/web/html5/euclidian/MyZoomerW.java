@@ -1,11 +1,11 @@
 package org.geogebra.web.html5.euclidian;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.web.html5.sound.GTimerW;
 
-public class MyZoomerW extends MyZoomer implements GTimerListener {
+public class MyZoomerW extends CoordSystemAnimation implements GTimerListener {
 	protected GTimerW timer; // for animation
 
 	public MyZoomerW(EuclidianView view) {

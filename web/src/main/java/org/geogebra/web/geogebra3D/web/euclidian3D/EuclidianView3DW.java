@@ -8,7 +8,7 @@ import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -454,7 +454,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	protected MyZoomer newZoomer() {
+	protected CoordSystemAnimation newZoomer() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,7 +1,7 @@
 package org.geogebra.web.geogebra3D.web.euclidian3D.openGL;
 
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.euclidian.MyZoomer;
+import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
@@ -260,7 +260,7 @@ public class RendererWithImplW extends RendererWithImpl implements
 				}
 			}
 		};
-		loopTimer.scheduleRepeating(MyZoomer.DELAY);
+		loopTimer.scheduleRepeating(CoordSystemAnimation.DELAY);
 
 	}
 

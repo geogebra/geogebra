@@ -5171,7 +5171,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 
 	 * @return zoomer
 	 */
-	protected abstract MyZoomer newZoomer();
+	protected abstract CoordSystemAnimation newZoomer();
 
 	/**
 	 * Zooms around fixed point (px, py)
@@ -5190,7 +5190,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	private MyZoomer zoomer;
+	private CoordSystemAnimation zoomer;
 
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
@@ -5217,7 +5217,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				.startAnimation(getEuclidianController().getZoomerListener());
 	}
 
-	private MyZoomer axesRatioZoomer;
+	private CoordSystemAnimation axesRatioZoomer;
 
 	private boolean isZeroStandard() {
 		return (Kernel.isEqual(xZero, getXZeroStandard())
@@ -5347,7 +5347,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	private MyZoomer mover;
+	private CoordSystemAnimation mover;
 
 	/**
 	 * Sets real world coord system using min and max values for both axes in
@@ -5363,7 +5363,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		zoomerRW.startAnimation(getEuclidianController().getZoomerListener());
 	}
 
-	private MyZoomer zoomerRW;
+	private CoordSystemAnimation zoomerRW;
 
 	// for use in AlgebraController
 	@Override

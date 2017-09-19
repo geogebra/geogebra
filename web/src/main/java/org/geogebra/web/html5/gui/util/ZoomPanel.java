@@ -1,8 +1,8 @@
 package org.geogebra.web.html5.gui.util;
 
+import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
-import org.geogebra.common.euclidian.MyZoomerListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ZoomPanel extends FlowPanel implements MyZoomerListener {
+public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
@@ -280,21 +280,6 @@ public class ZoomPanel extends FlowPanel implements MyZoomerListener {
 		} else {
 			showHomeButton();
 		}
-	}
-
-	@Override
-	public void onZoomStart() {
-		// only zoom end important
-	}
-
-	@Override
-	public void onZoomStep() {
-		// only zoom end important
-	}
-
-	@Override
-	public void onZoomEnd() {
-		updateHomeButton();
 	}
 
 	@Override

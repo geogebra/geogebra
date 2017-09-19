@@ -8139,7 +8139,7 @@ public abstract class EuclidianController {
 
 	protected double newZero, newScale;
 	private boolean objectMenuActive;
-	private MyZoomerListener zoomerListener = null;
+	private CoordSystemListener zoomerListener = null;
 	private MyModeChangedListener modeChangeListener = null;
 
 	protected void scaleXAxis(boolean repaint) {
@@ -10289,7 +10289,7 @@ public abstract class EuclidianController {
 				}
 			}
 			if (this.zoomerListener != null) {
-				this.zoomerListener.onZoomEnd();
+				this.zoomerListener.onCoordSystemChanged();
 			}
 		} else {
 			movedGeoElement = null;
@@ -10990,7 +10990,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void zoomInOut(boolean altPressed, boolean minusPressed, MyZoomerListener listener) {
+	public void zoomInOut(boolean altPressed, boolean minusPressed, CoordSystemListener listener) {
 		double factor = minusPressed
 				? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
@@ -12087,11 +12087,11 @@ public abstract class EuclidianController {
 		this.objectMenuActive = objectMenuActive;
 	}
 
-	public MyZoomerListener getZoomerListener() {
+	public CoordSystemListener getZoomerListener() {
 		return zoomerListener;
 	}
 
-	public void setZoomerListener(MyZoomerListener zoomerListener) {
+	public void setZoomerListener(CoordSystemListener zoomerListener) {
 		this.zoomerListener = zoomerListener;
 	}
 

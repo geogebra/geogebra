@@ -6,9 +6,9 @@ import org.geogebra.common.kernel.Kernel;
  * AbstractZoomer is responsible for animated zooming of Euclidian View
  *
  */
-public abstract class MyZoomer {
+public abstract class CoordSystemAnimation {
 
-	private enum ZoomerMode {
+	private enum AnimationMode {
 		ZOOM, ZOOM_RW, AXES, MOVE
 	}
 
@@ -23,7 +23,7 @@ public abstract class MyZoomer {
 
 	private static final int MAX_TIME = 400; // millis
 
-	private ZoomerMode mode;
+	private AnimationMode mode;
 
 	private double px, py; // zoom point
 
@@ -39,7 +39,7 @@ public abstract class MyZoomer {
 
 	private boolean storeUndo;
 
-	private MyZoomerListener listener;
+	private CoordSystemListener listener;
 
 	/**
 	 * Creates new zoomer
@@ -47,7 +47,7 @@ public abstract class MyZoomer {
 	 * @param view
 	 *            view
 	 */
-	public MyZoomer(EuclidianView view) {
+	public CoordSystemAnimation(EuclidianView view) {
 		this.view = view;
 	}
 
@@ -67,7 +67,7 @@ public abstract class MyZoomer {
 		oldScale = view.getYscale();
 		newScale = view.getXscale() * ratio; // new yscale
 		this.steps = MAX_STEPS;
-		mode = ZoomerMode.AXES;
+		mode = AnimationMode.AXES;
 	}
 
 	/**
@@ -95,7 +95,7 @@ public abstract class MyZoomer {
 		newScale = view.getXscale() * zoomFactor;
 
 		this.steps = Math.min(MAX_STEPS, noOfSteps);
-		mode = ZoomerMode.ZOOM;
+		mode = AnimationMode.ZOOM;
 	}
 
 	/**
@@ -127,7 +127,7 @@ public abstract class MyZoomer {
 		this.storeUndo = doStoreUndo;
 
 		this.steps = Math.min(MAX_STEPS, noOfSteps);
-		mode = ZoomerMode.ZOOM_RW;
+		mode = AnimationMode.ZOOM_RW;
 	}
 
 	/**
@@ -142,7 +142,7 @@ public abstract class MyZoomer {
 		this.px = ox;
 		this.py = oy;
 		this.storeUndo = doStoreUndo;
-		mode = ZoomerMode.MOVE;
+		mode = AnimationMode.MOVE;
 		this.steps = MAX_STEPS;
 	}
 
@@ -181,10 +181,6 @@ public abstract class MyZoomer {
 						view.getXscale(), view.getYscale());
 			}
 		}
-
-		if (getListener() != null) {
-			getListener().onZoomStep();
-		}
 	}
 
 	private synchronized void stopAnimation() {
@@ -216,7 +212,7 @@ public abstract class MyZoomer {
 			view.getApplication().storeUndoInfo();
 		}
 		if (getListener() != null) {
-			getListener().onZoomEnd();
+			getListener().onCoordSystemChanged();
 		}
 	}
 
@@ -241,7 +237,7 @@ public abstract class MyZoomer {
 	/**
 	 * Starts the animation
 	 */
-	public synchronized void startAnimation(MyZoomerListener listener) {
+	public synchronized void startAnimation(CoordSystemListener listener) {
 		if (!hasTimer()) {
 			return;
 		}
@@ -272,7 +268,7 @@ public abstract class MyZoomer {
 		startTime = System.currentTimeMillis();
 		startTimer();
 		if (getListener() != null) {
-			getListener().onZoomEnd();
+			getListener().onCoordSystemChanged();
 		}
 	}
 
@@ -285,7 +281,7 @@ public abstract class MyZoomer {
 	/** @return true if timer is defined */
 	protected abstract boolean hasTimer();
 
-	public MyZoomerListener getListener() {
+	public CoordSystemListener getListener() {
 		return listener;
 	}
 
