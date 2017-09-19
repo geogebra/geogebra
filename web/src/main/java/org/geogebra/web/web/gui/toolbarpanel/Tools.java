@@ -682,8 +682,6 @@ public class Tools extends FlowPanel implements SetLabels {
 			btn.setTitle(getApp().getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
 
-			btn.getElement().removeAttribute("role");
-
 			if (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) {
 				btn.addStyleName("plusPadding");
