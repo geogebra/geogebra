@@ -2131,7 +2131,7 @@ namespace giac {
 	  for (int i=0;i<int(v.size());++i){
 	    gen to=v[i]._SYMBptr->feuille[1];
 	    if (to==index || to==stopg){
-	      stdloop=false;
+	      idx=0;
 	      break;
 	    }
 	  }
@@ -2140,9 +2140,38 @@ namespace giac {
 	    gen to=v[i]._SYMBptr->feuille;
 	    if (to.type==_VECT) to=to._VECTptr->front();
 	    if (to==index || to==stopg){
-	      stdloop=false;
+	      idx=0;
 	      break;
 	    }
+	  }
+	}
+      }
+      bool oneiter=idx && (itend-itbeg==1) && !dbgptr->debug_mode;
+      if (oneiter){
+	for (;!interrupted && *idx!=stop;*idx+=step){
+#ifdef SMARTPTR64
+	  swapgen(oldres,res);
+#else
+	  oldres=res;
+#endif
+	  if (!itbeg->in_eval(eval_lev,res,newcontextptr))
+	    res=*itbeg;
+	  if (res.type!=_SYMB) 
+	    continue;
+	  if (is_return(res,newres)) {
+	    if (bound)
+	      leave(protect,loop_var,newcontextptr);
+	    return res;
+	  }
+	  unary_function_ptr & u=res._SYMBptr->sommet;
+	  if (u==at_break){
+	    test=zero;
+	    res=u; // res=oldres;
+	    break;
+	  }
+	  if (u==at_continue){
+	    res=oldres;
+	    break;
 	  }
 	}
       }

@@ -5563,11 +5563,11 @@ unsigned int ConvertUTF8toUTF16 (
   void convert_python(string & cur){
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];
-      if (curch==':' && prevch=='['){
+      if (curch==':' && (prevch=='[' || prevch==',')){
 	cur.insert(cur.begin()+pos,'0');
 	continue;
       }
-      if (curch==']' && prevch==':'){
+      if (curch==']' && (prevch==':' || prevch==',')){
 	cur.insert(cur.begin()+pos,'-');
 	cur.insert(cur.begin()+pos,'1');
 	continue;
@@ -5616,6 +5616,12 @@ unsigned int ConvertUTF8toUTF16 (
       if (pos>=0 && pos<sss)
 	break;
       pos=s_orig.find("[:");
+      if (pos>=0 && pos<sss)
+	break;
+      pos=s_orig.find(",:");
+      if (pos>=0 && pos<sss)
+	break;
+      pos=s_orig.find(":,");
       if (pos>=0 && pos<sss)
 	break;
       first=s_orig.find(':',first);
