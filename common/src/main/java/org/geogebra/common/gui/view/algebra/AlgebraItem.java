@@ -121,19 +121,22 @@ public class AlgebraItem {
 				.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 			return null;
 		}
-		if (geo.getKernel().getApplication()
-				.has(Feature.INPUT_BAR_SOLVE)) {
+
+		boolean casEnabled = geo.getKernel().getApplication().getSettings()
+				.getCasSettings().isEnabled();
+		if (casEnabled) {
 			sug = SuggestionSolve.get(geo);
 			if (sug != null) {
 				return sug;
 			}
 
-			sug = SuggestionRootExtremum.get(geo);
-			if (sug != null) {
-				return sug;
-			}
 		}
-		if (geo.getKernel().getApplication().has(Feature.SHOW_STEPS)) {
+		sug = SuggestionRootExtremum.get(geo);
+		if (sug != null) {
+			return sug;
+		}
+		if (geo.getKernel().getApplication().has(Feature.SHOW_STEPS)
+				&& casEnabled) {
 			sug = SuggestionSteps.get(geo);
 
 			if (sug != null) {

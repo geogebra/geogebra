@@ -166,9 +166,6 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("showMenuBar", def) || getDataParamApp();
 	}
 
-	public boolean getDataParamShowMenuBar2(boolean def) {
-		return getBoolDataParam("showMenuBar", def);
-	}
 	public boolean getDataParamAllowStyleBar(boolean def) {
 		return getBoolDataParam("allowStyleBar", def);
 	}
@@ -579,6 +576,13 @@ public final class ArticleElement extends Element {
 
 	public boolean getDataParamShowZoomButtons() {
 		return getBoolDataParam("showZoomButtons", false);
+	}
+
+	public boolean getDataParamShowSuggestionButtons() {
+		Log.debug("SUG" + getBoolDataParam("showSuggestionButtons",
+				getDataParamShowMenuBar(false)));
+		return getBoolDataParam("showSuggestionButtons",
+				getDataParamShowMenuBar(false));
 	}
 
 	public boolean getDataParamShowFullscreenButton() {
