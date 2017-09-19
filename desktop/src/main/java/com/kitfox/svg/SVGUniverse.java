@@ -63,6 +63,7 @@ import java.util.zip.GZIPInputStream;
 import javax.imageio.ImageIO;
 
 import org.geogebra.common.jre.util.Base64;
+import org.geogebra.common.util.debug.Log;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -307,9 +308,15 @@ public class SVGUniverse implements Serializable {
 				// System.err.println("SVGUnivserse: " + xmlBase.toString());
 				// javax.swing.JOptionPane.showMessageDialog(null,
 				// xmlBase.toString());
-				URL url = xmlBase.toURL();
 
-				loadSVG(url, false);
+				try {
+					URL url = xmlBase.toURL();
+					loadSVG(url, false);
+				} catch (java.net.MalformedURLException e) {
+					Log.error(e.getMessage());
+					return null;
+				}
+
 				dia = (SVGDiagram) loadedDocs.get(xmlBase);
 				if (dia == null) {
 					return null;
@@ -413,6 +420,8 @@ public class SVGUniverse implements Serializable {
 			if (loadedDocs.containsKey(uri) && !forceLoad) {
 				return uri;
 			}
+
+			Log.debug("docroot = " + docRoot);
 
 			InputStream is = docRoot.openStream();
 			return loadSVG(uri, new InputSource(createDocumentInputStream(is)));
