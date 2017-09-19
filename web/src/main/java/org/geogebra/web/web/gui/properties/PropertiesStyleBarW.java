@@ -14,6 +14,7 @@ import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
@@ -122,7 +123,10 @@ public class PropertiesStyleBarW extends
 						|| DOM.eventGetType(event) == Event.ONTOUCHSTART) {
 					MenuItem item = this.getSelectedItem();
 					if (item != null) {
-						item.getScheduledCommand().execute();
+						ScheduledCommand cmd = item.getScheduledCommand();
+						if (cmd != null) {
+							cmd.execute();
+						}
 					}
 				}
 			}
