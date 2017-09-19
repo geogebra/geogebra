@@ -421,8 +421,6 @@ public class SVGUniverse implements Serializable {
 				return uri;
 			}
 
-			Log.debug("docroot = " + docRoot);
-
 			InputStream is = docRoot.openStream();
 			return loadSVG(uri, new InputSource(createDocumentInputStream(is)));
 		} catch (URISyntaxException ex) {
