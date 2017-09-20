@@ -4575,6 +4575,10 @@ unsigned int ConvertUTF8toUTF16 (
       return true;
     }
 #endif
+    if (strlen(s)==1 && s[0]==':'){
+      g=at_deuxpoints;
+      return true;
+    }
     return false;
   }
 
@@ -5560,16 +5564,21 @@ unsigned int ConvertUTF8toUTF16 (
     return true;
   }
 
-  void convert_python(string & cur){
+  void convert_python(string & cur,GIAC_CONTEXT){
+    bool indexshift=xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];
       if (curch==':' && (prevch=='[' || prevch==',')){
-	cur.insert(cur.begin()+pos,'0');
+	cur.insert(cur.begin()+pos,indexshift?'1':'0');
 	continue;
       }
       if (curch==']' && (prevch==':' || prevch==',')){
-	cur.insert(cur.begin()+pos,'-');
-	cur.insert(cur.begin()+pos,'1');
+	if (indexshift)
+	  cur.insert(cur.begin()+pos,'0');
+	else {
+	  cur.insert(cur.begin()+pos,'-');
+	  cur.insert(cur.begin()+pos,'1');
+	}
 	continue;
       }
       if (curch=='%'){
@@ -5728,7 +5737,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
 	  cur=cur.substr(0,pos);
-	  convert_python(cur);
+	  convert_python(cur,contextptr);
 	  s += cur+" then\n";
 	  continue;
 	}
@@ -5755,7 +5764,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,2)){
 	  pythonmode=true;
 	  cur=cur.substr(0,pos);
-	  convert_python(cur);
+	  convert_python(cur,contextptr);
 	  s += cur +" then\n";
 	  stack.push_back(int_string(ws,"fi"));
 	  continue;
@@ -5764,7 +5773,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
 	  cur=cur.substr(0,pos);
-	  convert_python(cur);
+	  convert_python(cur,contextptr);
 	  s += cur+" do\n";
 	  stack.push_back(int_string(ws,"od"));
 	  continue;
@@ -5773,7 +5782,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,5)){
 	  pythonmode=true;
 	  cur=cur.substr(0,pos);
-	  convert_python(cur);
+	  convert_python(cur,contextptr);
 	  s += cur +" do\n";
 	  stack.push_back(int_string(ws,"od"));
 	  continue;
@@ -5791,7 +5800,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (pythonmode && pos>=0 && cur[pos]!=';')
 	  cur = cur +';';
 	if (pythonmode)
-	  convert_python(cur);
+	  convert_python(cur,contextptr);
 	cur = cur +'\n';
 	s = s+cur;
       }

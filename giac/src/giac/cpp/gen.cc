@@ -4524,8 +4524,8 @@ namespace giac {
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
-    if (a.is_symb_of_sommet(at_interval) && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
-      return symb_interval(a._SYMBptr->feuille._VECTptr->front()+b,a._SYMBptr->feuille._VECTptr->back()+b);
+    if ( (a.is_symb_of_sommet(at_interval) || a.is_symb_of_sommet(at_deuxpoints))&& a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
+      return symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()+b,a._SYMBptr->feuille._VECTptr->back()+b));
     if (a.is_symb_of_sommet(at_unit)){
       if (is_zero(b))
 	return a;
