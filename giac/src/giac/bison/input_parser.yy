@@ -573,11 +573,11 @@ exp	: T_NUMBER		{$$ = $1;}
           const giac::context * contextptr = giac_yyget_extra(scanner);
            $$=symb_program_sto($3,zero*$3,symb_local($7,$8,contextptr),$1,false,contextptr); 
         }
-	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR bloc {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,symb_bloc($9)));}
-	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
+	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR bloc  {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,symb_bloc($9)));}
+	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI  {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
 	| T_FOR T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen2vecteur($3));}
-	| exp T_FOR suite_symbol T_IN exp { $$=symbolic(at_feuille,symbolic(at_apply,makesequence(symbolic(at_program,makesequence($3,0*$3,$1)),$5))); }
-	| exp T_FOR suite_symbol T_IN exp T_IF exp { $$=symbolic(at_feuille,symbolic(at_apply,symbolic(at_program,makesequence($3,0*$3,$1)),symbolic(at_select,makesequence(symbolic(at_program,makesequence($3,0*$3,$7)),$5)))); }
+	| T_VECT_DISPATCH exp T_FOR suite_symbol T_IN exp T_VECT_END { $$=symbolic(at_apply,makesequence(symbolic(at_program,makesequence($4,0*$4,$2)),$6)); }
+	| T_VECT_DISPATCH exp T_FOR suite_symbol T_IN exp T_IF exp T_VECT_END { $$=symbolic(at_apply,symbolic(at_program,makesequence($4,0*$4,$2)),symbolic(at_select,makesequence(symbolic(at_program,makesequence($4,0*$4,$8)),$6))); }
 	| T_WHILE T_BEGIN_PAR exp T_END_PAR bloc { 
 	vecteur v=makevecteur(zero,equaltosame($3),zero,symb_bloc($5));
 	$$=symbolic(*$1._FUNCptr,v); 
