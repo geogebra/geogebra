@@ -1206,6 +1206,7 @@ public class CommandsTest extends Assert{
 		t("sm=Solve[ {x+y=1,x-y=0} ]", "{{x = 1 / 2, y = 1 / 2}}");
 		Assert.assertTrue(AlgebraItem.isSymbolicDiffers(get("sm")));
 		t("Solve[ x^2=-1 ]", "{}");
+		t("Solve[ x=x ]", "{x = x}");
 		t("Solve[ erf(x)=0.5 ]", "?");
 		t("r=Solve[ sin(x)=0 ]", "?");
 		t("r2=Solve[ {sin(x)=0, x=y} ]", "?");

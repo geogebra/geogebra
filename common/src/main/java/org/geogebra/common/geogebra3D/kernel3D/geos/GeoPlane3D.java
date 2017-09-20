@@ -13,6 +13,8 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -546,7 +548,23 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public boolean isDefinitionValid() {
-		return isDefined() || getDefinition() != null;
+		return isDefined() || (getDefinition() != null
+				&& bothSidesDefined(getDefinition()));
+	}
+
+	/**
+	 * @param definition
+	 * @return whether this is a (wrapped) equation with both sides defined, ie
+	 *         x=? is undefined, x=x defined
+	 */
+	private static boolean bothSidesDefined(ExpressionNode definition) {
+		ExpressionValue ev = definition.unwrap();
+		if (ev instanceof Equation) {
+			return MyDouble.isFinite(((Equation) ev).getLHS().evaluateDouble())
+					&& MyDouble.isFinite(
+							((Equation) ev).getRHS().evaluateDouble());
+		}
+		return false;
 	}
 
 	@Override
