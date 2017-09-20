@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * UnitVector[ <GeoLine> ] UnitVector[ <GeoVector> ]
+ * UnitVector[ &lt;GeoLine&gt; ] UnitVector[ &lt;GeoVector&gt; ]
  */
 public class CmdUnitVector extends CommandProcessor {
 

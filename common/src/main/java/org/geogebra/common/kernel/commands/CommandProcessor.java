@@ -796,7 +796,6 @@ public abstract class CommandProcessor {
 	 *            kernel
 	 * @param length
 	 *            number of arguments
-	 * @date Jan 26, 2008
 	 */
 	public static GeoList wrapInList(Kernel kernel, GeoElement[] args,
 			int length, GeoClass type) {

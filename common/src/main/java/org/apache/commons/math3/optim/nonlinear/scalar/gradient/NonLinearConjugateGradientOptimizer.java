@@ -28,14 +28,15 @@ import org.apache.commons.math3.optim.PointValuePair;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 import org.apache.commons.math3.optim.nonlinear.scalar.GradientMultivariateOptimizer;
 import org.apache.commons.math3.optim.nonlinear.scalar.LineSearch;
+import org.apache.commons.math3.optim.nonlinear.scalar.MultivariateOptimizer;
 import org.apache.commons.math3.util.Cloner;
 
 
 /**
- * Non-linear conjugate gradient optimizer. <br/>
+ * Non-linear conjugate gradient optimizer. <br>
  * This class supports both the Fletcher-Reeves and the Polak-Ribiere update
  * formulas for the conjugate search directions. It also supports optional
- * preconditioning. <br/>
+ * preconditioning. <br>
  * Constraints are not supported: the call to
  * {@link #optimize(OptimizationData[]) optimize} will throw
  * {@link MathUnsupportedOperationException} if bounds are passed to it.
@@ -76,17 +77,15 @@ public class NonLinearConjugateGradientOptimizer
     }
 
     /**
-     * The initial step is a factor with respect to the search direction
-     * (which itself is roughly related to the gradient of the function).
-     * <br/>
-     * It is used to find an interval that brackets the optimum in line
-     * search.
-     *
-     * @since 3.1
-     * @deprecated As of v3.3, this class is not used anymore.
-     * This setting is replaced by the {@code initialBracketingRange}
-     * argument to the new constructors.
-     */
+	 * The initial step is a factor with respect to the search direction (which
+	 * itself is roughly related to the gradient of the function). <br>
+	 * It is used to find an interval that brackets the optimum in line search.
+	 *
+	 * @since 3.1
+	 * @deprecated As of v3.3, this class is not used anymore. This setting is
+	 *             replaced by the {@code initialBracketingRange} argument to
+	 *             the new constructors.
+	 */
     @Deprecated
     public static class BracketingStep implements OptimizationData {
         /** Initial step. */

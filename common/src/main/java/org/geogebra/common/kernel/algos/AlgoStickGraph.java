@@ -22,12 +22,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 public class AlgoStickGraph extends AlgoBarChart {
 
 	/******************************************************
-	 * StickGraph[<list of points>]
+	 * StickGraph[&lt;list of points&gt;]
 	 * 
 	 * @param cons
 	 * @param label
 	 * @param list1
-	 * @param list2
 	 */
 	public AlgoStickGraph(Construction cons, String label, GeoList list1) {
 
@@ -37,12 +36,12 @@ public class AlgoStickGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StickGraph[<list of points, <horizontal>]
+	 * StickGraph[&lt;list of points, &lt;horizontal&gt;]
 	 * 
 	 * @param cons
 	 * @param label
 	 * @param list1
-	 * @param list2
+	 * @param isHorizontal
 	 */
 	public AlgoStickGraph(Construction cons, String label, GeoList list1,
 			GeoBoolean isHorizontal) {
@@ -53,7 +52,7 @@ public class AlgoStickGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StickGraph[<x list>, <y list>]
+	 * StickGraph[&lt;x list&gt;, &lt;y list&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -69,7 +68,7 @@ public class AlgoStickGraph extends AlgoBarChart {
 	}
 
 	/******************************************************
-	 * StickGraph[<x list>, <y list>] (no label)
+	 * StickGraph[&lt;x list&gt;, &lt;y list&gt;] (no label)
 	 * 
 	 * @param cons
 	 * @param list1
@@ -81,8 +80,8 @@ public class AlgoStickGraph extends AlgoBarChart {
 	}
 
 	/**
-	 * /****************************************************** StickGraph[<x
-	 * list>, <y list>, <Horizontal>]
+	 * /****************************************************** StickGraph[&lt;x
+	 * list&gt;, &lt;y list&gt;, &lt;Horizontal&gt;]
 	 * 
 	 * @param cons
 	 * @param label
@@ -98,8 +97,8 @@ public class AlgoStickGraph extends AlgoBarChart {
 	}
 
 	/**
-	 * /****************************************************** StickGraph[<x
-	 * list>, <y list>, <Horizontal>] (no label)
+	 * /****************************************************** StickGraph[&lt;x
+	 * list&gt;, &lt;y list&gt;, &lt;Horizontal&gt;] (no label)
 	 * 
 	 * @param cons
 	 * @param list1

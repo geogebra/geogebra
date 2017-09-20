@@ -26,9 +26,11 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * StepGraph[&lt;list of points&gt;]
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param list1
-	 * @param list2
+	 *            first list
 	 */
 	public AlgoStepGraph(Construction cons, String label, GeoList list1) {
 
@@ -43,7 +45,6 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param label
 	 * @param list1
 	 * @param hasJump
-	 * @param list2
 	 */
 	public AlgoStepGraph(Construction cons, String label, GeoList list1,
 			GeoBoolean hasJump) {
@@ -61,7 +62,6 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param list1
 	 * @param hasJump
 	 * @param pointStyle
-	 * @param list2
 	 */
 	public AlgoStepGraph(Construction cons, String label, GeoList list1,
 			GeoBoolean hasJump, GeoNumeric pointStyle) {
@@ -104,7 +104,7 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param label
 	 * @param list1
 	 * @param list2
-	 * @param showStep
+	 * @param hasJump
 	 */
 	public AlgoStepGraph(Construction cons, String label, GeoList list1,
 			GeoList list2, GeoBoolean hasJump) {
@@ -119,7 +119,7 @@ public class AlgoStepGraph extends AlgoBarChart {
 	 * @param cons
 	 * @param list1
 	 * @param list2
-	 * @param showStep
+	 * @param hasJump
 	 */
 	public AlgoStepGraph(Construction cons, GeoList list1, GeoList list2,
 			GeoBoolean hasJump) {

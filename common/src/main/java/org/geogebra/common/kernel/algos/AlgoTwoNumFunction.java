@@ -23,7 +23,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * Parent algorithm for commands that are functions of R^2 -> R
+ * Parent algorithm for commands that are functions of R^2 -&gt; R
  * 
  * @author Markus Hohenwarter
  */

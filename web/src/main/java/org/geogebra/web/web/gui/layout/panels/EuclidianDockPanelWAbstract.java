@@ -316,7 +316,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * @param height
 	 *            Height of EV.
 	 */
-	void checkZoomPanelFits(int height) {
+	public void checkZoomPanelFits(int height) {
 		if (zoomPanel != null && ZoomPanel.neededFor(app)) {
 			if (height < zoomPanel.getMinHeight()) {
 				hideZoomPanel();

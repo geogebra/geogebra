@@ -9,7 +9,8 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.MyError;
 
 /**
- * UnitOrthogonalVector[ <GeoLine> ] UnitOrthogonalVector[ <GeoVector> ]
+ * UnitOrthogonalVector[ &lt;GeoLine&gt; ] UnitOrthogonalVector[
+ * &lt;GeoVector&gt; ]
  */
 public class CmdUnitOrthogonalVector extends CommandProcessor {
 

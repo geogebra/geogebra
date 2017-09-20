@@ -1,7 +1,7 @@
 package org.geogebra.common.io.layout;
 
 /**
- * A storage container for a split pane. Just used for saving & loading a
+ * A storage container for a split pane. Just used for saving &amp; loading a
  * perspective as not all information can be stored in the DockPanelInfo.
  * 
  * @author Florian Sonner

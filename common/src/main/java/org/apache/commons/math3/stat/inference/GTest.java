@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NotStrictlyPositiveException;
 import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.exception.ZeroException;
 import org.apache.commons.math3.exception.util.LocalizedFormats;
-import org.apache.commons.math3.util.FastMath;
 import org.apache.commons.math3.util.MathArrays;
 
 /**
@@ -43,36 +42,48 @@ import org.apache.commons.math3.util.MathArrays;
 public class GTest {
 
     /**
-     * Computes the <a href="http://en.wikipedia.org/wiki/G-test">G statistic
-     * for Goodness of Fit</a> comparing {@code observed} and {@code expected}
-     * frequency counts.
-     *
-     * <p>This statistic can be used to perform a G test (Log-Likelihood Ratio
-     * Test) evaluating the null hypothesis that the observed counts follow the
-     * expected distribution.</p>
-     *
-     * <p><strong>Preconditions</strong>: <ul>
-     * <li>Expected counts must all be positive. </li>
-     * <li>Observed counts must all be &ge; 0. </li>
-     * <li>The observed and expected arrays must have the same length and their
-     * common length must be at least 2. </li></ul></p>
-     *
-     * <p>If any of the preconditions are not met, a
-     * {@code MathIllegalArgumentException} is thrown.</p>
-     *
-     * <p><strong>Note:</strong>This implementation rescales the
-     * {@code expected} array if necessary to ensure that the sum of the
-     * expected and observed counts are equal.</p>
-     *
-     * @param observed array of observed frequency counts
-     * @param expected array of expected frequency counts
-     * @return G-Test statistic
-     * @throws NotPositiveException if {@code observed} has negative entries
-     * @throws NotStrictlyPositiveException if {@code expected} has entries that
-     * are not strictly positive
-     * @throws DimensionMismatchException if the array lengths do not match or
-     * are less than 2.
-     */
+	 * Computes the <a href="http://en.wikipedia.org/wiki/G-test">G statistic
+	 * for Goodness of Fit</a> comparing {@code observed} and {@code expected}
+	 * frequency counts.
+	 *
+	 * <p>
+	 * This statistic can be used to perform a G test (Log-Likelihood Ratio
+	 * Test) evaluating the null hypothesis that the observed counts follow the
+	 * expected distribution.
+	 * </p>
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>Expected counts must all be positive.</li>
+	 * <li>Observed counts must all be &ge; 0.</li>
+	 * <li>The observed and expected arrays must have the same length and their
+	 * common length must be at least 2.</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * If any of the preconditions are not met, a
+	 * {@code MathIllegalArgumentException} is thrown.
+	 * </p>
+	 *
+	 * <p>
+	 * <strong>Note:</strong>This implementation rescales the {@code expected}
+	 * array if necessary to ensure that the sum of the expected and observed
+	 * counts are equal.
+	 * </p>
+	 *
+	 * @param observed
+	 *            array of observed frequency counts
+	 * @param expected
+	 *            array of expected frequency counts
+	 * @return G-Test statistic
+	 * @throws NotPositiveException
+	 *             if {@code observed} has negative entries
+	 * @throws NotStrictlyPositiveException
+	 *             if {@code expected} has entries that are not strictly
+	 *             positive
+	 * @throws DimensionMismatchException
+	 *             if the array lengths do not match or are less than 2.
+	 */
     public double g(final double[] expected, final long[] observed)
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException {
@@ -109,45 +120,58 @@ public class GTest {
     }
 
     /**
-     * Returns the <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue"> p-value</a>,
-     * associated with a G-Test for goodness of fit</a> comparing the
-     * {@code observed} frequency counts to those in the {@code expected} array.
-     *
-     * <p>The number returned is the smallest significance level at which one
-     * can reject the null hypothesis that the observed counts conform to the
-     * frequency distribution described by the expected counts.</p>
-     *
-     * <p>The probability returned is the tail probability beyond
-     * {@link #g(double[], long[]) g(expected, observed)}
-     * in the ChiSquare distribution with degrees of freedom one less than the
-     * common length of {@code expected} and {@code observed}.</p>
-     *
-     * <p> <strong>Preconditions</strong>: <ul>
-     * <li>Expected counts must all be positive. </li>
-     * <li>Observed counts must all be &ge; 0. </li>
-     * <li>The observed and expected arrays must have the
-     * same length and their common length must be at least 2.</li>
-     * </ul></p>
-     *
-     * <p>If any of the preconditions are not met, a
-     * {@code MathIllegalArgumentException} is thrown.</p>
-     *
-     * <p><strong>Note:</strong>This implementation rescales the
-     * {@code expected} array if necessary to ensure that the sum of the
-     *  expected and observed counts are equal.</p>
-     *
-     * @param observed array of observed frequency counts
-     * @param expected array of expected frequency counts
-     * @return p-value
-     * @throws NotPositiveException if {@code observed} has negative entries
-     * @throws NotStrictlyPositiveException if {@code expected} has entries that
-     * are not strictly positive
-     * @throws DimensionMismatchException if the array lengths do not match or
-     * are less than 2.
-     * @throws MaxCountExceededException if an error occurs computing the
-     * p-value.
-     */
+	 * Returns the <i>observed significance level</i>, or
+	 * <a href= "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+	 * p-value</a>, associated with a G-Test for goodness of fit comparing the
+	 * {@code observed} frequency counts to those in the {@code expected} array.
+	 *
+	 * <p>
+	 * The number returned is the smallest significance level at which one can
+	 * reject the null hypothesis that the observed counts conform to the
+	 * frequency distribution described by the expected counts.
+	 * </p>
+	 *
+	 * <p>
+	 * The probability returned is the tail probability beyond
+	 * {@link #g(double[], long[]) g(expected, observed)} in the ChiSquare
+	 * distribution with degrees of freedom one less than the common length of
+	 * {@code expected} and {@code observed}.
+	 * </p>
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>Expected counts must all be positive.</li>
+	 * <li>Observed counts must all be &ge; 0.</li>
+	 * <li>The observed and expected arrays must have the same length and their
+	 * common length must be at least 2.</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * If any of the preconditions are not met, a
+	 * {@code MathIllegalArgumentException} is thrown.
+	 * </p>
+	 *
+	 * <p>
+	 * <strong>Note:</strong>This implementation rescales the {@code expected}
+	 * array if necessary to ensure that the sum of the expected and observed
+	 * counts are equal.
+	 * </p>
+	 *
+	 * @param observed
+	 *            array of observed frequency counts
+	 * @param expected
+	 *            array of expected frequency counts
+	 * @return p-value
+	 * @throws NotPositiveException
+	 *             if {@code observed} has negative entries
+	 * @throws NotStrictlyPositiveException
+	 *             if {@code expected} has entries that are not strictly
+	 *             positive
+	 * @throws DimensionMismatchException
+	 *             if the array lengths do not match or are less than 2.
+	 * @throws MaxCountExceededException
+	 *             if an error occurs computing the p-value.
+	 */
     public double gTest(final double[] expected, final long[] observed)
             throws NotPositiveException, NotStrictlyPositiveException,
             DimensionMismatchException, MaxCountExceededException {
@@ -190,49 +214,67 @@ public class GTest {
     }
 
     /**
-     * Performs a G-Test (Log-Likelihood Ratio Test) for goodness of fit
-     * evaluating the null hypothesis that the observed counts conform to the
-     * frequency distribution described by the expected counts, with
-     * significance level {@code alpha}. Returns true iff the null
-     * hypothesis can be rejected with {@code 100 * (1 - alpha)} percent confidence.
-     *
-     * <p><strong>Example:</strong><br> To test the hypothesis that
-     * {@code observed} follows {@code expected} at the 99% level,
-     * use </p><p>
-     * {@code gTest(expected, observed, 0.01)}</p>
-     *
-     * <p>Returns true iff {@link #gTest(double[], long[])
-     *  gTestGoodnessOfFitPValue(expected, observed)} < alpha</p>
-     *
-     * <p><strong>Preconditions</strong>: <ul>
-     * <li>Expected counts must all be positive. </li>
-     * <li>Observed counts must all be &ge; 0. </li>
-     * <li>The observed and expected arrays must have the same length and their
-     * common length must be at least 2.
-     * <li> {@code 0 < alpha < 0.5} </li></ul></p>
-     *
-     * <p>If any of the preconditions are not met, a
-     * {@code MathIllegalArgumentException} is thrown.</p>
-     *
-     * <p><strong>Note:</strong>This implementation rescales the
-     * {@code expected} array if necessary to ensure that the sum of the
-     * expected and observed counts are equal.</p>
-     *
-     * @param observed array of observed frequency counts
-     * @param expected array of expected frequency counts
-     * @param alpha significance level of the test
-     * @return true iff null hypothesis can be rejected with confidence 1 -
-     * alpha
-     * @throws NotPositiveException if {@code observed} has negative entries
-     * @throws NotStrictlyPositiveException if {@code expected} has entries that
-     * are not strictly positive
-     * @throws DimensionMismatchException if the array lengths do not match or
-     * are less than 2.
-     * @throws MaxCountExceededException if an error occurs computing the
-     * p-value.
-     * @throws OutOfRangeException if alpha is not strictly greater than zero
-     * and less than or equal to 0.5
-     */
+	 * Performs a G-Test (Log-Likelihood Ratio Test) for goodness of fit
+	 * evaluating the null hypothesis that the observed counts conform to the
+	 * frequency distribution described by the expected counts, with
+	 * significance level {@code alpha}. Returns true iff the null hypothesis
+	 * can be rejected with {@code 100 * (1 - alpha)} percent confidence.
+	 *
+	 * <p>
+	 * <strong>Example:</strong><br>
+	 * To test the hypothesis that {@code observed} follows {@code expected} at
+	 * the 99% level, use
+	 * </p>
+	 * <p>
+	 * {@code gTest(expected, observed, 0.01)}
+	 * </p>
+	 *
+	 * <p>
+	 * Returns true iff {@link #gTest(double[], long[])
+	 * gTestGoodnessOfFitPValue(expected, observed)} &lt; alpha
+	 * </p>
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>Expected counts must all be positive.</li>
+	 * <li>Observed counts must all be &ge; 0.</li>
+	 * <li>The observed and expected arrays must have the same length and their
+	 * common length must be at least 2.
+	 * <li>{@code 0 &lt; alpha &lt; 0.5}</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * If any of the preconditions are not met, a
+	 * {@code MathIllegalArgumentException} is thrown.
+	 * </p>
+	 *
+	 * <p>
+	 * <strong>Note:</strong>This implementation rescales the {@code expected}
+	 * array if necessary to ensure that the sum of the expected and observed
+	 * counts are equal.
+	 * </p>
+	 *
+	 * @param observed
+	 *            array of observed frequency counts
+	 * @param expected
+	 *            array of expected frequency counts
+	 * @param alpha
+	 *            significance level of the test
+	 * @return true iff null hypothesis can be rejected with confidence 1 -
+	 *         alpha
+	 * @throws NotPositiveException
+	 *             if {@code observed} has negative entries
+	 * @throws NotStrictlyPositiveException
+	 *             if {@code expected} has entries that are not strictly
+	 *             positive
+	 * @throws DimensionMismatchException
+	 *             if the array lengths do not match or are less than 2.
+	 * @throws MaxCountExceededException
+	 *             if an error occurs computing the p-value.
+	 * @throws OutOfRangeException
+	 *             if alpha is not strictly greater than zero and less than or
+	 *             equal to 0.5
+	 */
     public boolean gTest(final double[] expected, final long[] observed,
             final double alpha)
             throws NotPositiveException, NotStrictlyPositiveException,
@@ -277,16 +319,19 @@ public class GTest {
     }
 
     /**
-     * Calculates the <a href="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29">
-     * Shannon entropy</a> for a vector.  The values of {@code k} are taken to be
-     * incidence counts of the values of a random variable. What is returned is <br/>
-     * &sum;p<sub>i</sub>log(p<sub>i</sub><br/>
-     * where p<sub>i</sub> = k[i] / (sum of elements in k)
-     *
-     * @param k Vector (for ex. Row Sums of a trials)
-     * @return Shannon Entropy of the given Vector
-     *
-     */
+	 * Calculates the
+	 * <a href="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29">
+	 * Shannon entropy</a> for a vector. The values of {@code k} are taken to be
+	 * incidence counts of the values of a random variable. What is returned is
+	 * <br>
+	 * &sum;p<sub>i</sub>log(p<sub>i</sub><br>
+	 * where p<sub>i</sub> = k[i] / (sum of elements in k)
+	 *
+	 * @param k
+	 *            Vector (for ex. Row Sums of a trials)
+	 * @return Shannon Entropy of the given Vector
+	 *
+	 */
     private double entropy(final long[] k) {
         double h = 0d;
         double sum_k = 0d;
@@ -303,47 +348,64 @@ public class GTest {
     }
 
     /**
-     * <p>Computes a G (Log-Likelihood Ratio) two sample test statistic for
-     * independence comparing frequency counts in
-     * {@code observed1} and {@code observed2}. The sums of frequency
-     * counts in the two samples are not required to be the same. The formula
-     * used to compute the test statistic is </p>
-     *
-     * <p>{@code 2 * totalSum * [H(rowSums) + H(colSums) - H(k)]}</p>
-     *
-     * <p> where {@code H} is the
-     * <a href="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29">
-     * Shannon Entropy</a> of the random variable formed by viewing the elements
-     * of the argument array as incidence counts; <br/>
-     * {@code k} is a matrix with rows {@code [observed1, observed2]}; <br/>
-     * {@code rowSums, colSums} are the row/col sums of {@code k}; <br>
-     * and {@code totalSum} is the overall sum of all entries in {@code k}.</p>
-     *
-     * <p>This statistic can be used to perform a G test evaluating the null
-     * hypothesis that both observed counts are independent </p>
-     *
-     * <p> <strong>Preconditions</strong>: <ul>
-     * <li>Observed counts must be non-negative. </li>
-     * <li>Observed counts for a specific bin must not both be zero. </li>
-     * <li>Observed counts for a specific sample must not all be  0. </li>
-     * <li>The arrays {@code observed1} and {@code observed2} must have
-     * the same length and their common length must be at least 2. </li></ul></p>
-     *
-     * <p>If any of the preconditions are not met, a
-     * {@code MathIllegalArgumentException} is thrown.</p>
-     *
-     * @param observed1 array of observed frequency counts of the first data set
-     * @param observed2 array of observed frequency counts of the second data
-     * set
-     * @return G-Test statistic
-     * @throws DimensionMismatchException the the lengths of the arrays do not
-     * match or their common length is less than 2
-     * @throws NotPositiveException if any entry in {@code observed1} or
-     * {@code observed2} is negative
-     * @throws ZeroException if either all counts of
-     * {@code observed1} or {@code observed2} are zero, or if the count
-     * at the same index is zero for both arrays.
-     */
+	 * <p>
+	 * Computes a G (Log-Likelihood Ratio) two sample test statistic for
+	 * independence comparing frequency counts in {@code observed1} and
+	 * {@code observed2}. The sums of frequency counts in the two samples are
+	 * not required to be the same. The formula used to compute the test
+	 * statistic is
+	 * </p>
+	 *
+	 * <p>
+	 * {@code 2 * totalSum * [H(rowSums) + H(colSums) - H(k)]}
+	 * </p>
+	 *
+	 * <p>
+	 * where {@code H} is the
+	 * <a href="http://en.wikipedia.org/wiki/Entropy_%28information_theory%29">
+	 * Shannon Entropy</a> of the random variable formed by viewing the elements
+	 * of the argument array as incidence counts; <br>
+	 * {@code k} is a matrix with rows {@code [observed1, observed2]}; <br>
+	 * {@code rowSums, colSums} are the row/col sums of {@code k}; <br>
+	 * and {@code totalSum} is the overall sum of all entries in {@code k}.
+	 * </p>
+	 *
+	 * <p>
+	 * This statistic can be used to perform a G test evaluating the null
+	 * hypothesis that both observed counts are independent
+	 * </p>
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>Observed counts must be non-negative.</li>
+	 * <li>Observed counts for a specific bin must not both be zero.</li>
+	 * <li>Observed counts for a specific sample must not all be 0.</li>
+	 * <li>The arrays {@code observed1} and {@code observed2} must have the same
+	 * length and their common length must be at least 2.</li>
+	 * </ul>
+	 * 
+	 *
+	 * <p>
+	 * If any of the preconditions are not met, a
+	 * {@code MathIllegalArgumentException} is thrown.
+	 * </p>
+	 *
+	 * @param observed1
+	 *            array of observed frequency counts of the first data set
+	 * @param observed2
+	 *            array of observed frequency counts of the second data set
+	 * @return G-Test statistic
+	 * @throws DimensionMismatchException
+	 *             the the lengths of the arrays do not match or their common
+	 *             length is less than 2
+	 * @throws NotPositiveException
+	 *             if any entry in {@code observed1} or {@code observed2} is
+	 *             negative
+	 * @throws ZeroException
+	 *             if either all counts of {@code observed1} or
+	 *             {@code observed2} are zero, or if the count at the same index
+	 *             is zero for both arrays.
+	 */
     public double gDataSetsComparison(final long[] observed1, final long[] observed2)
             throws DimensionMismatchException, NotPositiveException, ZeroException {
 
@@ -388,35 +450,48 @@ public class GTest {
     }
 
     /**
-     * Calculates the root log-likelihood ratio for 2 state Datasets. See
-     * {@link #gDataSetsComparison(long[], long[] )}.
-     *
-     * <p>Given two events A and B, let k11 be the number of times both events
-     * occur, k12 the incidence of B without A, k21 the count of A without B,
-     * and k22 the number of times neither A nor B occurs.  What is returned
-     * by this method is </p>
-     *
-     * <p>{@code (sgn) sqrt(gValueDataSetsComparison({k11, k12}, {k21, k22})}</p>
-     *
-     * <p>where {@code sgn} is -1 if {@code k11 / (k11 + k12) < k21 / (k21 + k22))};<br/>
-     * 1 otherwise.</p>
-     *
-     * <p>Signed root LLR has two advantages over the basic LLR: a) it is positive
-     * where k11 is bigger than expected, negative where it is lower b) if there is
-     * no difference it is asymptotically normally distributed. This allows one
-     * to talk about "number of standard deviations" which is a more common frame
-     * of reference than the chi^2 distribution.</p>
-     *
-     * @param k11 number of times the two events occurred together (AB)
-     * @param k12 number of times the second event occurred WITHOUT the
-     * first event (notA,B)
-     * @param k21 number of times the first event occurred WITHOUT the
-     * second event (A, notB)
-     * @param k22 number of times something else occurred (i.e. was neither
-     * of these events (notA, notB)
-     * @return root log-likelihood ratio
-     *
-     */
+	 * Calculates the root log-likelihood ratio for 2 state Datasets. See
+	 * {@link #gDataSetsComparison(long[], long[] )}.
+	 *
+	 * <p>
+	 * Given two events A and B, let k11 be the number of times both events
+	 * occur, k12 the incidence of B without A, k21 the count of A without B,
+	 * and k22 the number of times neither A nor B occurs. What is returned by
+	 * this method is
+	 * </p>
+	 *
+	 * <p>
+	 * {@code (sgn) sqrt(gValueDataSetsComparison({k11, k12}, {k21, k22})}
+	 * </p>
+	 *
+	 * <p>
+	 * where {@code sgn} is -1 if
+	 * {@code k11 / (k11 + k12) < k21 / (k21 + k22))};<br>
+	 * 1 otherwise.
+	 * </p>
+	 *
+	 * <p>
+	 * Signed root LLR has two advantages over the basic LLR: a) it is positive
+	 * where k11 is bigger than expected, negative where it is lower b) if there
+	 * is no difference it is asymptotically normally distributed. This allows
+	 * one to talk about "number of standard deviations" which is a more common
+	 * frame of reference than the chi^2 distribution.
+	 * </p>
+	 *
+	 * @param k11
+	 *            number of times the two events occurred together (AB)
+	 * @param k12
+	 *            number of times the second event occurred WITHOUT the first
+	 *            event (notA,B)
+	 * @param k21
+	 *            number of times the first event occurred WITHOUT the second
+	 *            event (A, notB)
+	 * @param k22
+	 *            number of times something else occurred (i.e. was neither of
+	 *            these events (notA, notB)
+	 * @return root log-likelihood ratio
+	 *
+	 */
     public double rootLogLikelihoodRatio(final long k11, long k12,
             final long k21, final long k22) {
         final double llr = gDataSetsComparison(
@@ -429,45 +504,57 @@ public class GTest {
     }
 
     /**
-     * <p>Returns the <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
-     * p-value</a>, associated with a G-Value (Log-Likelihood Ratio) for two
-     * sample test comparing bin frequency counts in {@code observed1} and
-     * {@code observed2}.</p>
-     *
-     * <p>The number returned is the smallest significance level at which one
-     * can reject the null hypothesis that the observed counts conform to the
-     * same distribution. </p>
-     *
-     * <p>See {@link #gTest(double[], long[])} for details
-     * on how the p-value is computed.  The degrees of of freedom used to
-     * perform the test is one less than the common length of the input observed
-     * count arrays.</p>
-     *
-     * <p><strong>Preconditions</strong>:
-     * <ul> <li>Observed counts must be non-negative. </li>
-     * <li>Observed counts for a specific bin must not both be zero. </li>
-     * <li>Observed counts for a specific sample must not all be 0. </li>
-     * <li>The arrays {@code observed1} and {@code observed2} must
-     * have the same length and their common length must be at least 2. </li>
-     * </ul><p>
-     * <p> If any of the preconditions are not met, a
-     * {@code MathIllegalArgumentException} is thrown.</p>
-     *
-     * @param observed1 array of observed frequency counts of the first data set
-     * @param observed2 array of observed frequency counts of the second data
-     * set
-     * @return p-value
-     * @throws DimensionMismatchException the the length of the arrays does not
-     * match or their common length is less than 2
-     * @throws NotPositiveException if any of the entries in {@code observed1} or
-     * {@code observed2} are negative
-     * @throws ZeroException if either all counts of {@code observed1} or
-     * {@code observed2} are zero, or if the count at some index is
-     * zero for both arrays
-     * @throws MaxCountExceededException if an error occurs computing the
-     * p-value.
-     */
+	 * <p>
+	 * Returns the <i>observed significance level</i>, or
+	 * <a href= "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+	 * p-value</a>, associated with a G-Value (Log-Likelihood Ratio) for two
+	 * sample test comparing bin frequency counts in {@code observed1} and
+	 * {@code observed2}.
+	 * </p>
+	 *
+	 * <p>
+	 * The number returned is the smallest significance level at which one can
+	 * reject the null hypothesis that the observed counts conform to the same
+	 * distribution.
+	 * </p>
+	 *
+	 * <p>
+	 * See {@link #gTest(double[], long[])} for details on how the p-value is
+	 * computed. The degrees of of freedom used to perform the test is one less
+	 * than the common length of the input observed count arrays.
+	 * </p>
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>Observed counts must be non-negative.</li>
+	 * <li>Observed counts for a specific bin must not both be zero.</li>
+	 * <li>Observed counts for a specific sample must not all be 0.</li>
+	 * <li>The arrays {@code observed1} and {@code observed2} must have the same
+	 * length and their common length must be at least 2.</li>
+	 * </ul>
+	 * <p>
+	 * If any of the preconditions are not met, a
+	 * {@code MathIllegalArgumentException} is thrown.
+	 * </p>
+	 *
+	 * @param observed1
+	 *            array of observed frequency counts of the first data set
+	 * @param observed2
+	 *            array of observed frequency counts of the second data set
+	 * @return p-value
+	 * @throws DimensionMismatchException
+	 *             the the length of the arrays does not match or their common
+	 *             length is less than 2
+	 * @throws NotPositiveException
+	 *             if any of the entries in {@code observed1} or
+	 *             {@code observed2} are negative
+	 * @throws ZeroException
+	 *             if either all counts of {@code observed1} or
+	 *             {@code observed2} are zero, or if the count at some index is
+	 *             zero for both arrays
+	 * @throws MaxCountExceededException
+	 *             if an error occurs computing the p-value.
+	 */
     public double gTestDataSetsComparison(final long[] observed1,
             final long[] observed2)
             throws DimensionMismatchException, NotPositiveException, ZeroException,
@@ -481,47 +568,59 @@ public class GTest {
     }
 
     /**
-     * <p>Performs a G-Test (Log-Likelihood Ratio Test) comparing two binned
-     * data sets. The test evaluates the null hypothesis that the two lists
-     * of observed counts conform to the same frequency distribution, with
-     * significance level {@code alpha}. Returns true iff the null
-     * hypothesis can be rejected  with 100 * (1 - alpha) percent confidence.
-     * </p>
-     * <p>See {@link #gDataSetsComparison(long[], long[])} for details
-     * on the formula used to compute the G (LLR) statistic used in the test and
-     * {@link #gTest(double[], long[])} for information on how
-     * the observed significance level is computed. The degrees of of freedom used
-     * to perform the test is one less than the common length of the input observed
-     * count arrays. </p>
-     *
-     * <strong>Preconditions</strong>: <ul>
-     * <li>Observed counts must be non-negative. </li>
-     * <li>Observed counts for a specific bin must not both be zero. </li>
-     * <li>Observed counts for a specific sample must not all be 0. </li>
-     * <li>The arrays {@code observed1} and {@code observed2} must
-     * have the same length and their common length must be at least 2. </li>
-     * <li>{@code 0 < alpha < 0.5} </li></ul></p>
-     *
-     * <p>If any of the preconditions are not met, a
-     * {@code MathIllegalArgumentException} is thrown.</p>
-     *
-     * @param observed1 array of observed frequency counts of the first data set
-     * @param observed2 array of observed frequency counts of the second data
-     * set
-     * @param alpha significance level of the test
-     * @return true iff null hypothesis can be rejected with confidence 1 -
-     * alpha
-     * @throws DimensionMismatchException the the length of the arrays does not
-     * match
-     * @throws NotPositiveException if any of the entries in {@code observed1} or
-     * {@code observed2} are negative
-     * @throws ZeroException if either all counts of {@code observed1} or
-     * {@code observed2} are zero, or if the count at some index is
-     * zero for both arrays
-     * @throws OutOfRangeException if {@code alpha} is not in the range
-     * (0, 0.5]
-     * @throws MaxCountExceededException if an error occurs performing the test
-     */
+	 * <p>
+	 * Performs a G-Test (Log-Likelihood Ratio Test) comparing two binned data
+	 * sets. The test evaluates the null hypothesis that the two lists of
+	 * observed counts conform to the same frequency distribution, with
+	 * significance level {@code alpha}. Returns true iff the null hypothesis
+	 * can be rejected with 100 * (1 - alpha) percent confidence.
+	 * </p>
+	 * <p>
+	 * See {@link #gDataSetsComparison(long[], long[])} for details on the
+	 * formula used to compute the G (LLR) statistic used in the test and
+	 * {@link #gTest(double[], long[])} for information on how the observed
+	 * significance level is computed. The degrees of of freedom used to perform
+	 * the test is one less than the common length of the input observed count
+	 * arrays.
+	 * </p>
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>Observed counts must be non-negative.</li>
+	 * <li>Observed counts for a specific bin must not both be zero.</li>
+	 * <li>Observed counts for a specific sample must not all be 0.</li>
+	 * <li>The arrays {@code observed1} and {@code observed2} must have the same
+	 * length and their common length must be at least 2.</li>
+	 * <li>{@code 0 &lt; alpha &lt; 0.5}</li>
+	 * </ul>
+	 *
+	 * <p>
+	 * If any of the preconditions are not met, a
+	 * {@code MathIllegalArgumentException} is thrown.
+	 * </p>
+	 *
+	 * @param observed1
+	 *            array of observed frequency counts of the first data set
+	 * @param observed2
+	 *            array of observed frequency counts of the second data set
+	 * @param alpha
+	 *            significance level of the test
+	 * @return true iff null hypothesis can be rejected with confidence 1 -
+	 *         alpha
+	 * @throws DimensionMismatchException
+	 *             the the length of the arrays does not match
+	 * @throws NotPositiveException
+	 *             if any of the entries in {@code observed1} or
+	 *             {@code observed2} are negative
+	 * @throws ZeroException
+	 *             if either all counts of {@code observed1} or
+	 *             {@code observed2} are zero, or if the count at some index is
+	 *             zero for both arrays
+	 * @throws OutOfRangeException
+	 *             if {@code alpha} is not in the range (0, 0.5]
+	 * @throws MaxCountExceededException
+	 *             if an error occurs performing the test
+	 */
     public boolean gTestDataSetsComparison(
             final long[] observed1,
             final long[] observed2,

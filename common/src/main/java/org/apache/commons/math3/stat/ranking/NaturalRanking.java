@@ -26,44 +26,56 @@ import org.apache.commons.math3.exception.MathInternalError;
 import org.apache.commons.math3.exception.NotANumberException;
 import org.apache.commons.math3.random.RandomDataGenerator;
 import org.apache.commons.math3.random.RandomGenerator;
-import org.apache.commons.math3.util.FastMath;
 
 
 /**
- * <p> Ranking based on the natural ordering on doubles.</p>
- * <p>NaNs are treated according to the configured {@link NaNStrategy} and ties
- * are handled using the selected {@link TiesStrategy}.
- * Configuration settings are supplied in optional constructor arguments.
- * Defaults are {@link NaNStrategy#FAILED} and {@link TiesStrategy#AVERAGE},
- * respectively. When using {@link TiesStrategy#RANDOM}, a
- * {@link RandomGenerator} may be supplied as a constructor argument.</p>
- * <p>Examples:
- * <table border="1" cellpadding="3">
- * <tr><th colspan="3">
- * Input data: (20, 17, 30, 42.3, 17, 50, Double.NaN, Double.NEGATIVE_INFINITY, 17)
- * </th></tr>
- * <tr><th>NaNStrategy</th><th>TiesStrategy</th>
+ * <p>
+ * Ranking based on the natural ordering on doubles.
+ * </p>
+ * <p>
+ * NaNs are treated according to the configured {@link NaNStrategy} and ties are
+ * handled using the selected {@link TiesStrategy}. Configuration settings are
+ * supplied in optional constructor arguments. Defaults are
+ * {@link NaNStrategy#FAILED} and {@link TiesStrategy#AVERAGE}, respectively.
+ * When using {@link TiesStrategy#RANDOM}, a {@link RandomGenerator} may be
+ * supplied as a constructor argument.
+ * </p>
+ * Examples:
+ * <table border="1" cellpadding="3" summary="">
+ * <tr>
+ * <th colspan="3">Input data: (20, 17, 30, 42.3, 17, 50, Double.NaN,
+ * Double.NEGATIVE_INFINITY, 17)</th>
+ * </tr>
+ * <tr>
+ * <th>NaNStrategy</th>
+ * <th>TiesStrategy</th>
  * <th><code>rank(data)</code></th>
  * <tr>
  * <td>default (NaNs maximal)</td>
  * <td>default (ties averaged)</td>
- * <td>(5, 3, 6, 7, 3, 8, 9, 1, 3)</td></tr>
+ * <td>(5, 3, 6, 7, 3, 8, 9, 1, 3)</td>
+ * </tr>
  * <tr>
  * <td>default (NaNs maximal)</td>
  * <td>MINIMUM</td>
- * <td>(5, 2, 6, 7, 2, 8, 9, 1, 2)</td></tr>
+ * <td>(5, 2, 6, 7, 2, 8, 9, 1, 2)</td>
+ * </tr>
  * <tr>
  * <td>MINIMAL</td>
  * <td>default (ties averaged)</td>
- * <td>(6, 4, 7, 8, 4, 9, 1.5, 1.5, 4)</td></tr>
+ * <td>(6, 4, 7, 8, 4, 9, 1.5, 1.5, 4)</td>
+ * </tr>
  * <tr>
  * <td>REMOVED</td>
  * <td>SEQUENTIAL</td>
- * <td>(5, 2, 6, 7, 3, 8, 1, 4)</td></tr>
+ * <td>(5, 2, 6, 7, 3, 8, 1, 4)</td>
+ * </tr>
  * <tr>
  * <td>MINIMAL</td>
  * <td>MAXIMUM</td>
- * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td></tr></table></p>
+ * <td>(6, 5, 7, 8, 5, 9, 2, 2, 5)</td>
+ * </tr>
+ * </table>
  *
  * @since 2.0
  */

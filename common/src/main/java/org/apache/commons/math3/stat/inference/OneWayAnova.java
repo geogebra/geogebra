@@ -58,32 +58,46 @@ public class OneWayAnova {
     }
 
     /**
-     * Computes the ANOVA F-value for a collection of <code>double[]</code>
-     * arrays.
-     *
-     * <p><strong>Preconditions</strong>: <ul>
-     * <li>The categoryData <code>Collection</code> must contain
-     * <code>double[]</code> arrays.</li>
-     * <li> There must be at least two <code>double[]</code> arrays in the
-     * <code>categoryData</code> collection and each of these arrays must
-     * contain at least two values.</li></ul></p><p>
-     * This implementation computes the F statistic using the definitional
-     * formula<pre>
-     *   F = msbg/mswg</pre>
-     * where<pre>
-     *  msbg = between group mean square
-     *  mswg = within group mean square</pre>
-     * are as defined <a href="http://faculty.vassar.edu/lowry/ch13pt1.html">
-     * here</a></p>
-     *
-     * @param categoryData <code>Collection</code> of <code>double[]</code>
-     * arrays each containing data for one category
-     * @return Fvalue
-     * @throws NullArgumentException if <code>categoryData</code> is <code>null</code>
-     * @throws DimensionMismatchException if the length of the <code>categoryData</code>
-     * array is less than 2 or a contained <code>double[]</code> array does not have
-     * at least two values
-     */
+	 * Computes the ANOVA F-value for a collection of <code>double[]</code>
+	 * arrays.
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>The categoryData <code>Collection</code> must contain
+	 * <code>double[]</code> arrays.</li>
+	 * <li>There must be at least two <code>double[]</code> arrays in the
+	 * <code>categoryData</code> collection and each of these arrays must
+	 * contain at least two values.</li>
+	 * </ul>
+	 * 
+	 * This implementation computes the F statistic using the definitional
+	 * formula
+	 * 
+	 * <pre>
+	 * F = msbg / mswg
+	 * </pre>
+	 * 
+	 * where
+	 * 
+	 * <pre>
+	 *  msbg = between group mean square
+	 *  mswg = within group mean square
+	 * </pre>
+	 * 
+	 * are as defined <a href="http://faculty.vassar.edu/lowry/ch13pt1.html">
+	 * here</a>
+	 *
+	 * @param categoryData
+	 *            <code>Collection</code> of <code>double[]</code> arrays each
+	 *            containing data for one category
+	 * @return Fvalue
+	 * @throws NullArgumentException
+	 *             if <code>categoryData</code> is <code>null</code>
+	 * @throws DimensionMismatchException
+	 *             if the length of the <code>categoryData</code> array is less
+	 *             than 2 or a contained <code>double[]</code> array does not
+	 *             have at least two values
+	 */
     public double anovaFValue(final Collection<double[]> categoryData)
         throws NullArgumentException, DimensionMismatchException {
 
@@ -93,33 +107,46 @@ public class OneWayAnova {
     }
 
     /**
-     * Computes the ANOVA P-value for a collection of <code>double[]</code>
-     * arrays.
-     *
-     * <p><strong>Preconditions</strong>: <ul>
-     * <li>The categoryData <code>Collection</code> must contain
-     * <code>double[]</code> arrays.</li>
-     * <li> There must be at least two <code>double[]</code> arrays in the
-     * <code>categoryData</code> collection and each of these arrays must
-     * contain at least two values.</li></ul></p><p>
-     * This implementation uses the
-     * {@link org.apache.commons.math3.distribution.FDistribution
-     * commons-math F Distribution implementation} to estimate the exact
-     * p-value, using the formula<pre>
-     *   p = 1 - cumulativeProbability(F)</pre>
-     * where <code>F</code> is the F value and <code>cumulativeProbability</code>
-     * is the commons-math implementation of the F distribution.</p>
-     *
-     * @param categoryData <code>Collection</code> of <code>double[]</code>
-     * arrays each containing data for one category
-     * @return Pvalue
-     * @throws NullArgumentException if <code>categoryData</code> is <code>null</code>
-     * @throws DimensionMismatchException if the length of the <code>categoryData</code>
-     * array is less than 2 or a contained <code>double[]</code> array does not have
-     * at least two values
-     * @throws ConvergenceException if the p-value can not be computed due to a convergence error
-     * @throws MaxCountExceededException if the maximum number of iterations is exceeded
-     */
+	 * Computes the ANOVA P-value for a collection of <code>double[]</code>
+	 * arrays.
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>The categoryData <code>Collection</code> must contain
+	 * <code>double[]</code> arrays.</li>
+	 * <li>There must be at least two <code>double[]</code> arrays in the
+	 * <code>categoryData</code> collection and each of these arrays must
+	 * contain at least two values.</li>
+	 * </ul>
+	 * 
+	 * This implementation uses the
+	 * {@link org.apache.commons.math3.distribution.FDistribution commons-math F
+	 * Distribution implementation} to estimate the exact p-value, using the
+	 * formula
+	 * 
+	 * <pre>
+	 * p = 1 - cumulativeProbability(F)
+	 * </pre>
+	 * 
+	 * where <code>F</code> is the F value and
+	 * <code>cumulativeProbability</code> is the commons-math implementation of
+	 * the F distribution.
+	 * 
+	 * @param categoryData
+	 *            <code>Collection</code> of <code>double[]</code> arrays each
+	 *            containing data for one category
+	 * @return Pvalue
+	 * @throws NullArgumentException
+	 *             if <code>categoryData</code> is <code>null</code>
+	 * @throws DimensionMismatchException
+	 *             if the length of the <code>categoryData</code> array is less
+	 *             than 2 or a contained <code>double[]</code> array does not
+	 *             have at least two values
+	 * @throws ConvergenceException
+	 *             if the p-value can not be computed due to a convergence error
+	 * @throws MaxCountExceededException
+	 *             if the maximum number of iterations is exceeded
+	 */
     public double anovaPValue(final Collection<double[]> categoryData)
         throws NullArgumentException, DimensionMismatchException,
         ConvergenceException, MaxCountExceededException {
@@ -133,35 +160,49 @@ public class OneWayAnova {
     }
 
     /**
-     * Computes the ANOVA P-value for a collection of {@link SummaryStatistics}.
-     *
-     * <p><strong>Preconditions</strong>: <ul>
-     * <li>The categoryData <code>Collection</code> must contain
-     * {@link SummaryStatistics}.</li>
-     * <li> There must be at least two {@link SummaryStatistics} in the
-     * <code>categoryData</code> collection and each of these statistics must
-     * contain at least two values.</li></ul></p><p>
-     * This implementation uses the
-     * {@link org.apache.commons.math3.distribution.FDistribution
-     * commons-math F Distribution implementation} to estimate the exact
-     * p-value, using the formula<pre>
-     *   p = 1 - cumulativeProbability(F)</pre>
-     * where <code>F</code> is the F value and <code>cumulativeProbability</code>
-     * is the commons-math implementation of the F distribution.</p>
-     *
-     * @param categoryData <code>Collection</code> of {@link SummaryStatistics}
-     * each containing data for one category
-     * @param allowOneElementData if true, allow computation for one catagory
-     * only or for one data element per category
-     * @return Pvalue
-     * @throws NullArgumentException if <code>categoryData</code> is <code>null</code>
-     * @throws DimensionMismatchException if the length of the <code>categoryData</code>
-     * array is less than 2 or a contained {@link SummaryStatistics} does not have
-     * at least two values
-     * @throws ConvergenceException if the p-value can not be computed due to a convergence error
-     * @throws MaxCountExceededException if the maximum number of iterations is exceeded
-     * @since 3.2
-     */
+	 * Computes the ANOVA P-value for a collection of {@link SummaryStatistics}.
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>The categoryData <code>Collection</code> must contain
+	 * {@link SummaryStatistics}.</li>
+	 * <li>There must be at least two {@link SummaryStatistics} in the
+	 * <code>categoryData</code> collection and each of these statistics must
+	 * contain at least two values.</li>
+	 * </ul>
+	 * 
+	 * This implementation uses the
+	 * {@link org.apache.commons.math3.distribution.FDistribution commons-math F
+	 * Distribution implementation} to estimate the exact p-value, using the
+	 * formula
+	 * 
+	 * <pre>
+	 * p = 1 - cumulativeProbability(F)
+	 * </pre>
+	 * 
+	 * where <code>F</code> is the F value and
+	 * <code>cumulativeProbability</code> is the commons-math implementation of
+	 * the F distribution.
+	 *
+	 * @param categoryData
+	 *            <code>Collection</code> of {@link SummaryStatistics} each
+	 *            containing data for one category
+	 * @param allowOneElementData
+	 *            if true, allow computation for one catagory only or for one
+	 *            data element per category
+	 * @return Pvalue
+	 * @throws NullArgumentException
+	 *             if <code>categoryData</code> is <code>null</code>
+	 * @throws DimensionMismatchException
+	 *             if the length of the <code>categoryData</code> array is less
+	 *             than 2 or a contained {@link SummaryStatistics} does not have
+	 *             at least two values
+	 * @throws ConvergenceException
+	 *             if the p-value can not be computed due to a convergence error
+	 * @throws MaxCountExceededException
+	 *             if the maximum number of iterations is exceeded
+	 * @since 3.2
+	 */
     public double anovaPValue(final Collection<SummaryStatistics> categoryData,
                               final boolean allowOneElementData)
         throws NullArgumentException, DimensionMismatchException,
@@ -211,39 +252,57 @@ public class OneWayAnova {
     }
 
     /**
-     * Performs an ANOVA test, evaluating the null hypothesis that there
-     * is no difference among the means of the data categories.
-     *
-     * <p><strong>Preconditions</strong>: <ul>
-     * <li>The categoryData <code>Collection</code> must contain
-     * <code>double[]</code> arrays.</li>
-     * <li> There must be at least two <code>double[]</code> arrays in the
-     * <code>categoryData</code> collection and each of these arrays must
-     * contain at least two values.</li>
-     * <li>alpha must be strictly greater than 0 and less than or equal to 0.5.
-     * </li></ul></p><p>
-     * This implementation uses the
-     * {@link org.apache.commons.math3.distribution.FDistribution
-     * commons-math F Distribution implementation} to estimate the exact
-     * p-value, using the formula<pre>
-     *   p = 1 - cumulativeProbability(F)</pre>
-     * where <code>F</code> is the F value and <code>cumulativeProbability</code>
-     * is the commons-math implementation of the F distribution.</p>
-     * <p>True is returned iff the estimated p-value is less than alpha.</p>
-     *
-     * @param categoryData <code>Collection</code> of <code>double[]</code>
-     * arrays each containing data for one category
-     * @param alpha significance level of the test
-     * @return true if the null hypothesis can be rejected with
-     * confidence 1 - alpha
-     * @throws NullArgumentException if <code>categoryData</code> is <code>null</code>
-     * @throws DimensionMismatchException if the length of the <code>categoryData</code>
-     * array is less than 2 or a contained <code>double[]</code> array does not have
-     * at least two values
-     * @throws OutOfRangeException if <code>alpha</code> is not in the range (0, 0.5]
-     * @throws ConvergenceException if the p-value can not be computed due to a convergence error
-     * @throws MaxCountExceededException if the maximum number of iterations is exceeded
-     */
+	 * Performs an ANOVA test, evaluating the null hypothesis that there is no
+	 * difference among the means of the data categories.
+	 *
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>The categoryData <code>Collection</code> must contain
+	 * <code>double[]</code> arrays.</li>
+	 * <li>There must be at least two <code>double[]</code> arrays in the
+	 * <code>categoryData</code> collection and each of these arrays must
+	 * contain at least two values.</li>
+	 * <li>alpha must be strictly greater than 0 and less than or equal to 0.5.
+	 * </li>
+	 * </ul>
+	 * 
+	 * This implementation uses the
+	 * {@link org.apache.commons.math3.distribution.FDistribution commons-math F
+	 * Distribution implementation} to estimate the exact p-value, using the
+	 * formula
+	 * 
+	 * <pre>
+	 * p = 1 - cumulativeProbability(F)
+	 * </pre>
+	 * 
+	 * where <code>F</code> is the F value and
+	 * <code>cumulativeProbability</code> is the commons-math implementation of
+	 * the F distribution.
+	 * 
+	 * <p>
+	 * True is returned iff the estimated p-value is less than alpha.
+	 * </p>
+	 *
+	 * @param categoryData
+	 *            <code>Collection</code> of <code>double[]</code> arrays each
+	 *            containing data for one category
+	 * @param alpha
+	 *            significance level of the test
+	 * @return true if the null hypothesis can be rejected with confidence 1 -
+	 *         alpha
+	 * @throws NullArgumentException
+	 *             if <code>categoryData</code> is <code>null</code>
+	 * @throws DimensionMismatchException
+	 *             if the length of the <code>categoryData</code> array is less
+	 *             than 2 or a contained <code>double[]</code> array does not
+	 *             have at least two values
+	 * @throws OutOfRangeException
+	 *             if <code>alpha</code> is not in the range (0, 0.5]
+	 * @throws ConvergenceException
+	 *             if the p-value can not be computed due to a convergence error
+	 * @throws MaxCountExceededException
+	 *             if the maximum number of iterations is exceeded
+	 */
     public boolean anovaTest(final Collection<double[]> categoryData,
                              final double alpha)
         throws NullArgumentException, DimensionMismatchException,

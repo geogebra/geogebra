@@ -25,7 +25,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 /**
  * Command: Min[&lt;function&gt;,left-x,right-x]
  * 
- * Numerically calculates Extremum point for <function> in closed interval
+ * Numerically calculates Extremum point for &lt;function&gt; in closed interval
  * [left-x,right-x] without being dependent on being able to find the derivate
  * of &lt;function&gt;.
  * 

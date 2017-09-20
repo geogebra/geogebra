@@ -24,7 +24,6 @@ import org.apache.commons.math3.exception.NullArgumentException;
 import org.apache.commons.math3.stat.ranking.NaNStrategy;
 import org.apache.commons.math3.stat.ranking.NaturalRanking;
 import org.apache.commons.math3.stat.ranking.TiesStrategy;
-import org.apache.commons.math3.util.FastMath;
 
 /**
  * An implementation of the Mann-Whitney U test (also called Wilcoxon rank-sum test).
@@ -108,13 +107,11 @@ public class MannWhitneyUTest {
      * Y<sub>j</sub> the j'th individual in the second sample. Note that the
      * samples would often have different length.
      * </p>
-     * <p>
      * <strong>Preconditions</strong>:
      * <ul>
      * <li>All observations in the two samples are independent.</li>
      * <li>The observations are at least ordinal (continuous are also ordinal).</li>
      * </ul>
-     * </p>
      *
      * @param x the first sample
      * @param y the second sample
@@ -188,37 +185,41 @@ public class MannWhitneyUTest {
     }
 
     /**
-     * Returns the asymptotic <i>observed significance level</i>, or <a href=
-     * "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
-     * p-value</a>, associated with a <a
-     * href="http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U"> Mann-Whitney
-     * U statistic</a> comparing mean for two independent samples.
-     * <p>
-     * Let X<sub>i</sub> denote the i'th individual of the first sample and
-     * Y<sub>j</sub> the j'th individual in the second sample. Note that the
-     * samples would often have different length.
-     * </p>
-     * <p>
-     * <strong>Preconditions</strong>:
-     * <ul>
-     * <li>All observations in the two samples are independent.</li>
-     * <li>The observations are at least ordinal (continuous are also ordinal).</li>
-     * </ul>
-     * </p><p>
-     * Ties give rise to biased variance at the moment. See e.g. <a
-     * href="http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf"
-     * >http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf</a>.</p>
-     *
-     * @param x the first sample
-     * @param y the second sample
-     * @return asymptotic p-value
-     * @throws NullArgumentException if {@code x} or {@code y} are {@code null}.
-     * @throws NoDataException if {@code x} or {@code y} are zero-length.
-     * @throws ConvergenceException if the p-value can not be computed due to a
-     * convergence error
-     * @throws MaxCountExceededException if the maximum number of iterations
-     * is exceeded
-     */
+	 * Returns the asymptotic <i>observed significance level</i>, or
+	 * <a href= "http://www.cas.lancs.ac.uk/glossary_v1.1/hyptest.html#pvalue">
+	 * p-value</a>, associated with a
+	 * <a href="http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U">
+	 * Mann-Whitney U statistic</a> comparing mean for two independent samples.
+	 * <p>
+	 * Let X<sub>i</sub> denote the i'th individual of the first sample and
+	 * Y<sub>j</sub> the j'th individual in the second sample. Note that the
+	 * samples would often have different length.
+	 * </p>
+	 * <p>
+	 * <strong>Preconditions</strong>:
+	 * <ul>
+	 * <li>All observations in the two samples are independent.</li>
+	 * <li>The observations are at least ordinal (continuous are also
+	 * ordinal).</li>
+	 * </ul>
+	 * Ties give rise to biased variance at the moment. See e.g.
+	 * <a href="http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf"
+	 * >http://mlsc.lboro.ac.uk/resources/statistics/Mannwhitney.pdf</a>.
+	 *
+	 * @param x
+	 *            the first sample
+	 * @param y
+	 *            the second sample
+	 * @return asymptotic p-value
+	 * @throws NullArgumentException
+	 *             if {@code x} or {@code y} are {@code null}.
+	 * @throws NoDataException
+	 *             if {@code x} or {@code y} are zero-length.
+	 * @throws ConvergenceException
+	 *             if the p-value can not be computed due to a convergence error
+	 * @throws MaxCountExceededException
+	 *             if the maximum number of iterations is exceeded
+	 */
     public double mannWhitneyUTest(final double[] x, final double[] y)
         throws NullArgumentException, NoDataException,
         ConvergenceException, MaxCountExceededException {
