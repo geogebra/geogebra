@@ -1372,7 +1372,15 @@ namespace giac {
       return;
 #endif
     if ( complex_mode(contextptr)==0 && lvarx(e,x).size()>1 ){
-      gen es=simplify(e,contextptr);
+      gen es=e;
+      if (has_op(es,*at_ln)){
+	es=lncollect(es,contextptr);
+	if (lvarx(es,x).size()==1){
+	  e=es;
+	  return;
+	}
+      }
+      es=simplify(e,contextptr);
       if (lvarx(es,x).size()==1){
 	e=es;
 	return;
@@ -2124,7 +2132,7 @@ namespace giac {
   vecteur solve(const gen & e,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     ck_isolate_mode(isolate_mode,x,contextptr);
     if (is_undef(e)) return vecteur(0);
-    gen expr(e);
+    gen expr(exp2pow(e,contextptr));//gen expr(e);
     gen modulo;
     if (has_mod_coeff(expr,modulo)){
       vecteur v;

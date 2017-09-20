@@ -1758,6 +1758,28 @@ namespace giac {
     return symbolic(at_rootof,e);
   }
 
+  void lvar_rootof(const gen & e,const vecteur &l,vecteur & lv,GIAC_CONTEXT){
+    if (!l.empty() && l.front().type==_VECT && has_op(e,*at_rootof)){
+      vecteur lve(lvar(e)),lvr;
+      for (int i=0;i<lve.size();++i){
+	if (lve[i].is_symb_of_sommet(at_rootof))
+	  lvr.push_back(lve[i]);
+      }
+      if (!lvr.empty()){
+	vector<const unary_function_ptr *> vu;
+	vu.push_back(at_rootof); 
+	vector <gen_op_context> vv;
+	vv.push_back(rootof_extract);
+	gen er=subst(e,vu,vv,true,contextptr);
+	lvar(er,lv);
+      }
+      else
+	lvar(e,lv);
+    }
+    else
+      lvar(e,lv);
+  }
+
   bool sym2r (const gen &e,const vecteur &l, int l_size,gen & num,gen & den,GIAC_CONTEXT){
     if (e.type<_POLY){
       num=e;
@@ -1779,16 +1801,7 @@ namespace giac {
     }
     bool totally_converted=true;
     vecteur lv,lvnum,lvden;
-    if (!l.empty() && l.front().type==_VECT && has_op(e,*at_rootof)){
-      vector<const unary_function_ptr *> vu;
-      vu.push_back(at_rootof); 
-      vector <gen_op_context> vv;
-      vv.push_back(rootof_extract);
-      gen er=subst(e,vu,vv,true,context0);
-      lvar(er,lv);
-    }
-    else
-      lvar(e,lv);
+    lvar_rootof(e,l,lv,context0);
     if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr)){
       num=undef;
       return false;
@@ -1850,16 +1863,7 @@ namespace giac {
       l_size=int(l.size());
     gen num,den;
     vecteur lv,lvnum,lvden;
-    if (!l.empty() && l.front().type==_VECT && has_op(e,*at_rootof)){
-      vector<const unary_function_ptr *> vu;
-      vu.push_back(at_rootof); 
-      vector <gen_op_context> vv;
-      vv.push_back(rootof_extract);
-      gen er=subst(e,vu,vv,true,context0);
-      lvar(er,lv);
-    }
-    else
-      lvar(e,lv);
+    lvar_rootof(e,l,lv,contextptr);
     if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr))
       return gensizeerr(contextptr);
     gen iext=find_iext(e,lvnum,contextptr);

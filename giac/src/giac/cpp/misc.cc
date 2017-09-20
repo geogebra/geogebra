@@ -7761,6 +7761,58 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__range,&_range,_range_s);
   define_unary_function_ptr5( at_range ,alias_at_range,&__range,0,true);
 
+  string strip(const string & s,const string &chars){
+    int ss=int(s.size()),cs=int(chars.size()),i,j;
+    for (i=0;i<ss;++i){
+      int pos=chars.find(s[i]);
+      if (pos<0 || pos>=cs)
+	break;
+    }
+    for (j=ss-1;j>=i;--j){
+      int pos=chars.find(s[j]);
+      if (pos<0 || pos>=cs)
+	break;
+    }
+    return s.substr(i,j-i+1);
+  }
+  
+  gen _strip(const gen & args,GIAC_CONTEXT){
+    if (args.type==_STRNG)
+      return string2gen(strip(*args._STRNGptr," "),false);
+    if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->front().type==_STRNG && args._VECTptr->back().type==_STRNG)
+      return string2gen(strip(*args._VECTptr->front()._STRNGptr,*args._VECTptr->back()._STRNGptr),false);
+    return gensizeerr(contextptr);
+  }
+  static const char _strip_s []="strip";
+  static define_unary_function_eval (__strip,&_strip,_strip_s);
+  define_unary_function_ptr5( at_strip ,alias_at_strip,&__strip,0,true);
+
+  gen _lower(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_STRNG)
+      return gensizeerr(contextptr);
+    string s(*args._STRNGptr);
+    int ss=s.size();
+    for (int i=0;i<ss;++i)
+      s[i]=tolower(s[i]);
+    return string2gen(s,false);
+  }
+  static const char _lower_s []="lower";
+  static define_unary_function_eval (__lower,&_lower,_lower_s);
+  define_unary_function_ptr5( at_lower ,alias_at_lower,&__lower,0,true);
+
+  gen _upper(const gen & args,GIAC_CONTEXT){
+    if (args.type!=_STRNG)
+      return gensizeerr(contextptr);
+    string s(*args._STRNGptr);
+    int ss=s.size();
+    for (int i=0;i<ss;++i)
+      s[i]=toupper(s[i]);
+    return string2gen(s,false);
+  }
+  static const char _upper_s []="upper";
+  static define_unary_function_eval (__upper,&_upper,_upper_s);
+  define_unary_function_ptr5( at_upper ,alias_at_upper,&__upper,0,true);
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC
