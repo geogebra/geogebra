@@ -1911,9 +1911,7 @@ public class ExpressionNode extends ValidExpression
 				sb.append(' ');
 				if (right.isExpressionNode() && right.wrap()
 						.getOperation() == Operation.SET_DIFFERENCE) {
-					sb.append(tpl.leftBracket());
-					sb.append(rightStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, rightStr);
 				} else {
 					tpl.append(sb, rightStr, right, operation);
 				}
@@ -2011,9 +2009,7 @@ public class ExpressionNode extends ValidExpression
 						&& ((ExpressionNode) right)
 								.getOperation() == Operation.VECTORPRODUCT;
 				if (rightVectorProduct) {
-					sb.append(tpl.leftBracket());
-					sb.append(rightStr);
-					sb.append(tpl.rightBracket());
+					tpl.appendWithBrackets(sb, rightStr);
 				} else {
 					tpl.append(sb, rightStr, right, operation);
 				}
@@ -3742,9 +3738,7 @@ public class ExpressionNode extends ValidExpression
 	private static void appendUserFunction(StringBuilder sb, String leftStr,
 			String rightStr, StringTemplate tpl) {
 		sb.append(leftStr);
-		sb.append(tpl.leftBracket());
-		sb.append(rightStr);
-		sb.append(tpl.rightBracket());
+		tpl.appendWithBrackets(sb, rightStr);
 
 	}
 

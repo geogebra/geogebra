@@ -1151,9 +1151,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			int leftop = ExpressionNode.opID(left);
 			if (left instanceof Equation
 					|| (leftop >= 0 && leftop < Operation.PLUS.ordinal())) {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, leftStr);
 			} else {
 				sb.append(leftStr);
 			}
@@ -1171,9 +1169,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				} else {
 					sb.append(" + ");
 				}
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, rightStr);
 			} else {
 				if (rightStr.charAt(0) == '-') { // convert + - to -
 					if (stringType.equals(StringType.LATEX)
@@ -1460,9 +1456,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		default:
 			if (left instanceof Equation) {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, leftStr);
 			} else {
 				append(sb, leftStr, left, Operation.PLUS);
 			}
@@ -1516,9 +1510,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				} else {
 					sb.append(" - ");
 				}
-				sb.append(leftBracket());
-				sb.append(rightStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, rightStr);
 			}
 			break;
 		}
@@ -1619,9 +1611,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 							Unicode.RIGHT_TO_LEFT_UNARY_MINUS_SIGN)) {
 						// brackets needed for eg Arabic digits
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
-						sb.append(leftBracket());
-						sb.append(leftStr);
-						sb.append(rightBracket());
+						appendWithBrackets(sb, leftStr);
 						sb.append(Unicode.RIGHT_TO_LEFT_MARK);
 					} else {
 						sb.append(leftStr);
@@ -1987,9 +1977,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			case GIAC:
 				sb.append("!");
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, leftStr);
 				return sb.toString();
 
 			default:
@@ -1998,9 +1986,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			if (left.isLeaf()) {
 				sb.append(leftStr);
 			} else {
-				sb.append(leftBracket());
-				sb.append(leftStr);
-				sb.append(rightBracket());
+				appendWithBrackets(sb, leftStr);
 			}
 		}
 		return sb.toString();
@@ -2551,9 +2537,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 					// we might need more brackets here #4764
 					sb.append(leftStr);
 				} else {
-					sb.append(leftBracket());
-					sb.append(leftStr);
-					sb.append(rightBracket());
+					appendWithBrackets(sb, leftStr);
 				}
 				break;
 			}
@@ -2575,11 +2559,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				sb.append('{');
 				if (addParentheses) {
-					sb.append(leftBracket());
-				}
-				sb.append(rightStr);
-				if (addParentheses) {
-					sb.append(rightBracket());
+					appendWithBrackets(sb, rightStr);
+				} else {
+					sb.append(rightStr);
 				}
 				sb.append('}');
 				break;
@@ -2590,9 +2572,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			case PGF:
 			case GEOGEBRA_XML:
 				sb.append('^');
-				sb.append('(');
-				sb.append(rightStr);
-				sb.append(')');
+				appendWithBrackets(sb, rightStr);
 				break;
 
 			default:
@@ -2618,14 +2598,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				} else {
 					sb.append('^');
-					sb.append(leftBracket());
-					sb.append(rightStr);
-					sb.append(rightBracket());
+					appendWithBrackets(sb, rightStr);
 				}
 			}
 		}
 
 		return sb.toString();
+	}
+
+	public void appendWithBrackets(StringBuilder sb, String leftStr) {
+		sb.append(leftBracket());
+		sb.append(leftStr);
+		sb.append(rightBracket());
+
 	}
 
 	private static void exponent(StringBuilder sb, int i0) {
