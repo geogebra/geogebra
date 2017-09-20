@@ -4,9 +4,11 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.gui.util.ViewsChangedListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -23,6 +25,7 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author G. Sturr
@@ -31,10 +34,19 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 public abstract class StyleBarW extends HorizontalPanel implements
         ViewsChangedListener, SetLabels {
 
-	PopupMenuButtonW viewButton;
-	MyCJButton menuButton;
+	private PopupMenuButtonW viewButton;
+	private StandardButton menuButton;
+	/**
+	 * application
+	 */
 	public AppW app;
+	/**
+	 * id of view
+	 */
 	protected int viewID;
+	/**
+	 * option type
+	 */
 	protected OptionType optionType;
 
 	/**
@@ -49,6 +61,10 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	    this.app.addViewsChangedListener(this);
     }
 
+	/**
+	 * @param showStyleBar
+	 *            true if open stylebar
+	 */
 	public abstract void setOpen(boolean showStyleBar);
 
 	/**
@@ -67,26 +83,25 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			return;
 		}
 		if(menuButton == null){
-			menuButton = new MyCJButton(app);
-	
-			ImageOrText icon;
 			if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-				icon = new ImageOrText(GuiResources.INSTANCE.stylebar_more());
+				menuButton = new StandardButton(
+						GuiResources.INSTANCE.stylebar_more(), app);
 				menuButton.addStyleName("MyCanvasButton-borderless");
 			} else {
-				icon = new ImageOrText(GuiResources.INSTANCE.menu_icon_options());
+				menuButton = new StandardButton(
+						GuiResources.INSTANCE.menu_icon_options(), app);
+				menuButton.setStyleName("MyCanvasButton");
+				menuButton.addStyleName("gereBtn");
 			}
-			menuButton.setIcon(icon);
 
-			menuButton.addClickHandler(new ClickHandler() {
-				@Override
-				public void onClick(ClickEvent event) {
+			menuButton.addFastClickHandler(new FastClickHandler() {
+
+				public void onClick(Widget source) {
 					// close keyboard first to avoid perspective mess
 					app.hideKeyboard();
 					if (app.getGuiManager().showView(App.VIEW_PROPERTIES)) {
 						PropertiesViewW pW = (PropertiesViewW) ((GuiManagerW) app
-								.getGuiManager())
-								.getCurrentPropertiesView();
+								.getGuiManager()).getCurrentPropertiesView();
 
 						if (optionType == pW.getOptionType()) {
 							app.getGuiManager().setShowView(false,
@@ -94,21 +109,29 @@ public abstract class StyleBarW extends HorizontalPanel implements
 							return;
 						}
 					}
-					if ((!app.getSelectionManager().getSelectedGeos().isEmpty() && optionType != OptionType.ALGEBRA)
-							|| optionType == null
-							) {
-						app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
-					} else{
-						app.getDialogManager().showPropertiesDialog(optionType, null);
+					if ((!app.getSelectionManager().getSelectedGeos().isEmpty()
+							&& optionType != OptionType.ALGEBRA)
+							|| optionType == null) {
+						app.getDialogManager()
+								.showPropertiesDialog(OptionType.OBJECTS, null);
+					} else {
+						app.getDialogManager().showPropertiesDialog(optionType,
+								null);
 					}
-	            }
+				}
 			});
 		}
+			
 		add(menuButton);
 	}
-	protected PopupMenuButtonW getViewButton(){
+	
+	/**
+	 * @return view button
+	 */
+	protected PopupMenuButtonW getViewButton() {
 		return this.viewButton;
 	}
+	
 	/**
 	 * adds a {@link PopupMenuButtonW button} to show a popup, where the user can
 	 * either close this view or open another one.
@@ -171,14 +194,14 @@ public abstract class StyleBarW extends HorizontalPanel implements
 		viewButton.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!viewButton.getMyPopup().isVisible()) {
+				if (!getViewButton().getMyPopup().isVisible()) {
 					ImageOrText icon = new ImageOrText(AppResources.INSTANCE
 							.dots());
-					viewButton.setFixedIcon(icon);
+					getViewButton().setFixedIcon(icon);
 				} else {
 					ImageOrText icon = new ImageOrText(AppResources.INSTANCE
 							.dots_active());
-					viewButton.setFixedIcon(icon);
+					getViewButton().setFixedIcon(icon);
 				}
 			}
 		});
@@ -188,14 +211,14 @@ public abstract class StyleBarW extends HorizontalPanel implements
 					@Override
 					public void onClose(CloseEvent<GPopupPanel> event) {
 				ImageOrText icon = new ImageOrText(AppResources.INSTANCE.dots());
-				viewButton.setFixedIcon(icon);
+						getViewButton().setFixedIcon(icon);
 			}
 		});
 
 	    viewButton.addPopupHandler(new PopupMenuHandler(){
 			@Override
             public void fireActionPerformed(PopupMenuButtonW actionButton) {
-				int i = viewButton.getSelectedIndex();
+				int i = getViewButton().getSelectedIndex();
 
 				// the first item is the close button
 				int closeButtonIndex = 0;

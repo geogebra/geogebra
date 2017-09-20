@@ -25,7 +25,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	 * This constructor is used by the applet
 	 * 
 	 * @param application
-	 * @param stylebar
 	 */
 	public EuclidianSimplePanelW(AppW application) {
 		super();
