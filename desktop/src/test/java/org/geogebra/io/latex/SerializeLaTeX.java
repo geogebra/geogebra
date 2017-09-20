@@ -77,6 +77,9 @@ public class SerializeLaTeX {
 		checkCannon("x^2/ 3", "(x^(2))/(3)");
 		checkCannon("x^2 / 2", "(x^(2))/(2)");
 		checkCannon("2/cos(x)", "(2)/(cos(x))");
+		checkCannon("1/(2^3)", "(1)/(2^(3))");
+		checkCannon("1/2^3", "(1)/(2^(3))");
+		checkCannon("1/2" + Unicode.SUPERSCRIPT_3, "(1)/(2^(3))");
 	}
 
 	@Test
@@ -104,6 +107,8 @@ public class SerializeLaTeX {
 	@Test
 	public void testPower() {
 		checkCannon("x ^ 2", "x^(2)");
+		checkCannon("x ^ 2 ^3", "x^(2)^(3)");
+		checkCannon("(x ^ 2) ^3", "(x^(2))^(3)");
 		checkCannon("x ^ 2 + 1", "x^(2)+1");
 		checkCannon("x" + Unicode.SUPERSCRIPT_2 + Unicode.SUPERSCRIPT_3,
 				"x^(23)");
