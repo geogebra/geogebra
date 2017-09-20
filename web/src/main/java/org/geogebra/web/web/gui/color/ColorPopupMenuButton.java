@@ -10,6 +10,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.util.ButtonPopupMenu;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
@@ -74,8 +75,12 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 			getMySlider().setWidth("120px");
 		}
 
-		if (app.has(Feature.MOW_COLOR_FILLING_LINE) && hasSlider) {
-			addSliderTitle();
+		if (app.has(Feature.MOW_COLOR_FILLING_LINE)){
+			if(hasSlider) {
+				addSliderTitle();
+			}
+			((ButtonPopupMenu) getMyPopup()).getPanel()
+					.addStyleName("mowPopup");
 		}
 
 		updateColorTable();

@@ -34,7 +34,11 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 			addStyleName("DynamicStyleBar");
 		} else {
+			if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
+				addStyleName("mowDynStyleBar");
+			}
 			addStyleName("matDynStyleBar");
+
 		}
 
 		app.getSelectionManager()

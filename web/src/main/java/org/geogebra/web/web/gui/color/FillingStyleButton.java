@@ -28,7 +28,8 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	public FillingStyleButton(App app) {
 		super(app, createDummyIcons(5), -1, 5, SelectionTable.MODE_ICON, false);
 		ButtonPopupMenu pp = (ButtonPopupMenu) getMyPopup();
-		pp.addStyleName("fillingPopup");
+		// pp.addStyleName("fillingPopup");
+		pp.addStyleName("mowPopup");
 		createFillTable();
 
 	}

@@ -58,6 +58,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		canvas.setCoordinateSpaceWidth(CANVAS_SIZE);
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			addSliderTitle();
+			panel.addStyleName("mowPopup");
 		} else {
 			panel.addStyleName("mowStylePopup");
 			sliderPanel.addStyleName("mowLinePopup");

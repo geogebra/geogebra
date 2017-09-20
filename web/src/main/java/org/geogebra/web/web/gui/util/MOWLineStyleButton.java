@@ -40,6 +40,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		updatePreview();
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			addSliderTitle();
+			panel.addStyleName("mowPopup");
 		} else {
 			panel.addStyleName("mowStylePopup");
 			sliderPanel.addStyleName("mowLinePopup");
