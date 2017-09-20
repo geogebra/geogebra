@@ -428,6 +428,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected EuclidianViewCompanion companion;
 
+	private boolean updatingBounds = false;
+	private boolean coordSystemTranslatedByAnimation;
+
 	/**
 	 * @param ec
 	 *            controller
@@ -663,9 +666,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			updateBounds(true, true);
 		}
 	}
-
-	private boolean updatingBounds = false;
-	private boolean coordSystemTranslatedByAnimation;
 
 	@Override
 	public void updateBounds(boolean updateDrawables, boolean updateSettings) {

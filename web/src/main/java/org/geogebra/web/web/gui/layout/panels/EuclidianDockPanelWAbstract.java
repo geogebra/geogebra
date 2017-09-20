@@ -30,7 +30,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * panel with home,+,-,fullscreen btns
 	 */
 	ZoomPanel zoomPanel;
-	
 
 	/**
 	 * default constructor
@@ -185,13 +184,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 		@Override
 		public void onResize() {
-
 			if (dockPanel.getApp() != null) {
 				int h = dockPanel.getComponentInteriorHeight()
 						- dockPanel.navHeightIfShown();
 				int w = dockPanel.getComponentInteriorWidth();
-
-
 				// TODO handle this better?
 				// exit if new size cannot be determined
 				// one dimension may be intentionally 0, resize to avoid DOM
@@ -209,10 +205,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 					dockPanel.calculateEnvironment();
 				}
 				dockPanel.checkZoomPanelFits(h);
-
 			}
-			
-
 		}
 
 		// hack to fix GGB-697
@@ -246,7 +239,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	protected abstract EuclidianPanel getEuclidianPanel();
 
-
 	public AppW getApp() {
 		return app;
 	}
@@ -259,8 +251,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	private boolean allowZoomPanel() {
 		return isViewForZoomPanel && ZoomPanel.neededFor(app);
 	}
-
-
 
 	@Override
 	protected void addZoomPanel(MyDockLayoutPanel dockPanel) {
