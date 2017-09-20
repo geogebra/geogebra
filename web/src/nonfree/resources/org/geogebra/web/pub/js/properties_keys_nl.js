@@ -1874,7 +1874,7 @@ __GGB__keysVar.nl.menu = {
     "Highlighter": "Highlighter",
     "Hint": "Tip",
     "Histogram": "Histogram",
-    "Home": "Naar begin",
+    "Home": "Startpagina",
     "HomeDirectory": "Home map",
     "HorizontalScrollbars": "Horizontale schuifbalken",
     "HorizontalSplit": "Horizontaal splitsen",

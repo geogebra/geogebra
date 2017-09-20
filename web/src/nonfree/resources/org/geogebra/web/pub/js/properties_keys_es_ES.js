@@ -2980,7 +2980,7 @@ __GGB__keysVar.es_ES.menu = {
     "ar.activity.basicsolids": "Toma capturas de pantalla de todos los s\xf3lidos que:\na) sean pir\xe1mides\nb) sean prismas\nc) consten solo de tri\xe1ngulos\nd) consten solo de cuadrados\ne) tengan seis caras\nf) tengan doce aristas",
     "ar.activity.football": "\xbfC\xf3mo se puede construir un bal\xf3n de  f\xfatbol a partir de un icosaedro regular?",
     "ar.activity.kleinsbottle": "Toma una secuencia de capturas de pantalla donde entres en la botella, sigas el tubo y finalmente quedes atrapado en el cuello de la botella",
-    "ar.activity.penrose": "Tome una captura de pantalla que muestre la ilusi\xf3n de ser un tri\xe1ngulo conectado",
+    "ar.activity.penrose": "Toma una captura de pantalla que d\xe9 la ilusi\xf3n de ser un tri\xe1ngulo conectado",
     "ar.activity.ruledsurface": "Toma capturas de pantalla que:\na) muestren 3 c\xedrculos\nb) muestren que est\xe1 hecho de segmentos rectos\nc) muestren dos ramas de una hip\xe9rbola",
     "ar.activity.sierpinski": "Toma varias capturas de pantalla que muestren el mismo patr\xf3n en diferentes niveles del fractal",
     "ar.interruption.message": "La sesi\xf3n se reiniciar\xe1 una vez finalizada la interrupci\xf3n.",
