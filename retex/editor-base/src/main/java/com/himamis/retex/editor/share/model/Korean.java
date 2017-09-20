@@ -1003,6 +1003,8 @@ public class Korean {
 				if (c2 == '\u11ba') {
 					sb.append('\u11b9');
 					i++;
+				} else {
+					sb.append(c);
 				}
 				break;
 			default:
