@@ -2175,84 +2175,86 @@ namespace giac {
 	  }
 	}
       }
-      for (;
-	   idx?*idx!=stop:(for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr));
-	   ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
-	if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
-	  break;
-	dbgptr->current_instruction=save_current_instruction;
-	findlabel=false;
-	// add a test for boucle of type program/composite
-	// if that's the case call eval with test for break and continue
-	for (it=itbeg;!interrupted && it!=itend;++it){
+      else {
+	for (;
+	     idx?*idx!=stop:(for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr));
+	     ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
+	  if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
+	    break;
+	  dbgptr->current_instruction=save_current_instruction;
+	  findlabel=false;
+	  // add a test for boucle of type program/composite
+	  // if that's the case call eval with test for break and continue
+	  for (it=itbeg;!interrupted && it!=itend;++it){
 #ifdef SMARTPTR64
-	  swapgen(oldres,res);
+	    swapgen(oldres,res);
 #else
-	  oldres=res;
+	    oldres=res;
 #endif
-	  ++dbgptr->current_instruction;
-	  if (dbgptr->debug_mode){
-	    debug_loop(res,newcontextptr);
-	    if (is_undef(res)){
+	    ++dbgptr->current_instruction;
+	    if (dbgptr->debug_mode){
+	      debug_loop(res,newcontextptr);
+	      if (is_undef(res)){
+		increment_instruction(it+1,itend,newcontextptr);
+		if (bound)
+		  leave(protect,loop_var,newcontextptr);
+		return res;
+	      }
+	    }
+	    if (!findlabel){
+	      // res=it->eval(eval_lev,newcontextptr);
+	      if (!it->in_eval(eval_lev,res,newcontextptr))
+		res=*it;
+	      if (res.type<=_POLY) 
+		continue;
+	    }
+	    else {
+#ifdef TIMEOUT
+	      control_c();
+#endif
+	      if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
+		interrupted = true; ctrl_c=false;
+		*logptr(contextptr) << "Stopped in loop" << endl;
+		gensizeerr(gettext("Stopped by user interruption."),res);
+		break;
+	      }
+	      res=*it;
+	    }
+	    if (is_return(res,newres)) {
 	      increment_instruction(it+1,itend,newcontextptr);
 	      if (bound)
 		leave(protect,loop_var,newcontextptr);
 	      return res;
 	    }
-	  }
-	  if (!findlabel){
-	    // res=it->eval(eval_lev,newcontextptr);
-	    if (!it->in_eval(eval_lev,res,newcontextptr))
-	      res=*it;
-	    if (res.type<=_POLY) 
-	      continue;
-	  }
-	  else {
-#ifdef TIMEOUT
-	    control_c();
-#endif
-	    if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
-	      interrupted = true; ctrl_c=false;
-	      *logptr(contextptr) << "Stopped in loop" << endl;
-	      gensizeerr(gettext("Stopped by user interruption."),res);
-	      break;
-	    }
-	    res=*it;
-	  }
-	  if (is_return(res,newres)) {
-	    increment_instruction(it+1,itend,newcontextptr);
-	    if (bound)
-	      leave(protect,loop_var,newcontextptr);
-	    return res;
-	  }
-	  if (res.type==_SYMB){
-	    unary_function_ptr & u=res._SYMBptr->sommet;
-	    if (!findlabel){ 
-	      if (u==at_break){
-		increment_instruction(it+1,itend,newcontextptr);
-		test=zero;
-		res=u; // res=oldres;
-		break;
+	    if (res.type==_SYMB){
+	      unary_function_ptr & u=res._SYMBptr->sommet;
+	      if (!findlabel){ 
+		if (u==at_break){
+		  increment_instruction(it+1,itend,newcontextptr);
+		  test=zero;
+		  res=u; // res=oldres;
+		  break;
+		}
+		if (u==at_continue){
+		  increment_instruction(it+1,itend,newcontextptr);
+		  res=oldres;
+		  break;
+		}
 	      }
-	      if (u==at_continue){
-		increment_instruction(it+1,itend,newcontextptr);
-		res=oldres;
-		break;
+	      else {
+		if (u==at_label && label==res._SYMBptr->feuille)
+		  findlabel=false;
 	      }
-	    }
-	    else {
-	      if (u==at_label && label==res._SYMBptr->feuille)
-		findlabel=false;
-	    }
-	    if (!findlabel && u==at_goto){
-	      findlabel=true;
-	      label=res._SYMBptr->feuille;
-	    }
-	  } // end res.type==_SYMB
-	  if (findlabel && it+1==itend)
-	    it=itbeg-1;
-	} // end of loop of FOR bloc instructions
-      } // end of user FOR loop
+	      if (!findlabel && u==at_goto){
+		findlabel=true;
+		label=res._SYMBptr->feuille;
+	      }
+	    } // end res.type==_SYMB
+	    if (findlabel && it+1==itend)
+	      it=itbeg-1;
+	  } // end of loop of FOR bloc instructions
+	} // end of user FOR loop
+      } // end else one iteration
       dbgptr->current_instruction=save_current_instruction;
       increment_instruction(itbeg,itend,newcontextptr);
 #ifndef NO_STDEXCEPT
