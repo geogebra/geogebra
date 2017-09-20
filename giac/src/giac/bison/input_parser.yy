@@ -144,7 +144,7 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc TI_STO
 %nonassoc T_PIPE
 %nonassoc T_AFFECT
-%nonassoc T_FOR
+%nonassoc T_FOR T_IN
 %left TI_SEMI
 %left T_VIRGULE
 %nonassoc T_INTERROGATION
@@ -576,8 +576,8 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR bloc {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,symb_bloc($9)));}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
 	| T_FOR T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen2vecteur($3));}
-	| exp T_FOR symbol T_IN exp { $$=symbolic(at_feuille,symbolic(at_apply,symbolic(at_program,makesequence($3,0,$1)),$5)); }
-	| exp T_FOR symbol T_IN exp T_IF exp { $$=symbolic(at_feuille,symbolic(at_apply,symbolic(at_program,makesequence($3,0,$1)),symbolic(at_select,makesequence(symbolic(at_program,makesequence($3,0,$7)),$5)))); }
+	| exp T_FOR suite_symbol T_IN exp { $$=symbolic(at_feuille,symbolic(at_apply,makesequence(symbolic(at_program,makesequence($3,0*$3,$1)),$5))); }
+	| exp T_FOR suite_symbol T_IN exp T_IF exp { $$=symbolic(at_feuille,symbolic(at_apply,symbolic(at_program,makesequence($3,0*$3,$1)),symbolic(at_select,makesequence(symbolic(at_program,makesequence($3,0*$3,$7)),$5)))); }
 	| T_WHILE T_BEGIN_PAR exp T_END_PAR bloc { 
 	vecteur v=makevecteur(zero,equaltosame($3),zero,symb_bloc($5));
 	$$=symbolic(*$1._FUNCptr,v); 

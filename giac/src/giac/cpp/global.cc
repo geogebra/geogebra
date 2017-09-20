@@ -5697,9 +5697,10 @@ unsigned int ConvertUTF8toUTF16 (
 	chkfrom=false;
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
 	  int posdot=cur.find(':',pos);
-	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='=')
+	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='='){
 	    pythonmode=true;
 	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
+	  }
 	}
       }
       // detect : at end of line

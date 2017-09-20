@@ -6093,6 +6093,7 @@ namespace giac {
 	return gensizeerr(contextptr);
       return sym_mult(a,b,contextptr);
     }
+    return undef;
   }
 
   gen operator_times (const gen & a,const gen & b,GIAC_CONTEXT){

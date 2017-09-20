@@ -3847,6 +3847,9 @@ namespace giac {
     }
     if (to_apply.type!=_FUNC)
       n=n2-1;
+    int nargs=1;
+    if (to_apply.is_symb_of_sommet(at_program) && to_apply._SYMBptr->feuille[0].type==_VECT)
+      nargs=to_apply._SYMBptr->feuille[0]._VECTptr->size();
     if (n && (n2==n+1) ){
       vecteur res;
       for (int i=0;;++i){
@@ -3867,8 +3870,12 @@ namespace giac {
 	}
 	if (finished)
 	  break;
-	if (n==1)
-	  res.push_back(to_apply(tmp.front(),contextptr));
+	if (n==1){
+	  gen tmp1=tmp.front();
+	  if (nargs>1 && tmp1.type==_VECT) // for apply((j,k)->j*k,matrix 2 cols)
+	    tmp1.subtype=_SEQ__VECT;
+	  res.push_back(to_apply(tmp1,contextptr));
+	}
 	else
 	  res.push_back(to_apply(tmp,contextptr));
       }
