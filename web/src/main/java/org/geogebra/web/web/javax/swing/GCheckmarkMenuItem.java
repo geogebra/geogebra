@@ -42,12 +42,7 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	 */
 	public GCheckmarkMenuItem(String text, String checkUrl,
 			boolean checked) {
-		super(text, checkUrl, checked, new Command() {
-			
-			public void execute() {
-				// fill this later
-			}
-		});
+		super(text, checkUrl, checked, null);
 	}
 
 	/**
