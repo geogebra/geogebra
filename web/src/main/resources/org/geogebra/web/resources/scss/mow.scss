@@ -217,9 +217,12 @@
 			left: 35%; 
 	    	top: 70px;
 		}
-		.disabled {
-			border-color: rgb(111,111,111);
+		.disabled, .disabled:hover {
+			border-color: rgb(111,111,111) !important;
 			opacity: 0.3;
+			img {
+				opacity: 0.3;
+			}
 			cursor: default;
 		}
 	}
@@ -307,6 +310,9 @@
     	}
     	&[disabled = true]{
     		opacity: 0.3;
+    		.ui-slider-horizontal, .ui-slider-handle{
+    			cursor: default;
+    			}
     	}
 	}
 	
