@@ -140,8 +140,12 @@ void mathContainer(MathContainer currentField) : {}
         mathCharacter(currentField)
     )*
 }
-
-void mathAtom(MathContainer currentField) : {
+/**
+* Adds an atomic expression to the current field. Atomic expression does not have operator on top level,
+* i.e. must be wrapped in brackets (1+1) or be a simple number 12 or special function eg. -sqrt(5)
+* @param currentField parent field 
+*/
+void mathAtomOrPower(MathContainer currentField) : {
     Token t = null;
 
 }
@@ -174,7 +178,7 @@ void mathAtom(MathContainer currentField) : {
     |
         (          (mathAtomCharacter(currentField))+ (arrayParantheses(currentField))?
           )
-    )
+    ) (power(currentField) | superscript(currentField))?
 }
 
 void superscript(MathContainer currentField) :
@@ -204,7 +208,7 @@ void power(MathContainer currentField) : { }
     <POWER> {
         MathFunction power = new MathFunction(metaModel.getGeneral(Tag.SUPERSCRIPT));
         MathSequence mathSequence = new MathSequence();
-        mathAtom(mathSequence);
+        mathAtomOrPower(mathSequence);
         mathSequence.removeBrackets();
         power.setArgument(0, mathSequence);
         currentField.addArgument(power);
@@ -226,7 +230,7 @@ void fraction(MathContainer currentField) :
         argumentHelper.passArgument(editorState, fraction);
     	//handle denominator
         MathSequence mathSequence = new MathSequence();
-        mathAtom(mathSequence);
+        mathAtomOrPower(mathSequence);
         mathSequence.removeBrackets();
         fraction.setArgument(1, mathSequence);
         currentField.addArgument(fraction);
