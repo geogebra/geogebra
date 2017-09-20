@@ -106,16 +106,19 @@ public class RendererWithImplW extends RendererWithImpl implements
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
 		// values for picking (ignore transparent bytes)
 		label.setPickingDimension(0, 0, label.getWidth(), label.getHeight());
-
-		// check if image is ready
-		ImageElement image = ((GBufferedImageW) bimg).getImageElement();
-		if (!image.getPropertyBoolean("complete")) {
-			ImageWrapper.nativeon(image, "load", new AlphaTextureCreator(label,
-					image, (GBufferedImageW) bimg, this));
+		GBufferedImageW imgw = (GBufferedImageW) bimg;
+		if (imgw.hasCanvas()) {
+			createAlphaTexture(label, null, imgw);
 		} else {
-			createAlphaTexture(label, image, (GBufferedImageW) bimg);
+			// check if image is ready
+			ImageElement image = imgw.getImageElement();
+			if (!image.getPropertyBoolean("complete")) {
+				ImageWrapper.nativeon(image, "load",
+						new AlphaTextureCreator(label, image, imgw, this));
+			} else {
+				createAlphaTexture(label, image, imgw);
+			}
 		}
-
 	}
 
 

@@ -18,6 +18,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
 import com.googlecode.gwtgl.binding.WebGLFramebuffer;
 import com.googlecode.gwtgl.binding.WebGLProgram;
@@ -534,10 +535,11 @@ public class RendererImplShadersW extends RendererImplShaders {
 		}
 
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
-
+		JavaScriptObject data = image == null
+				? bimg.getCanvas().getCanvasElement() : image;
 		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0,
 				WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA,
-				WebGLRenderingContext.UNSIGNED_BYTE, image);
+				WebGLRenderingContext.UNSIGNED_BYTE, data);
 
 		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
 
