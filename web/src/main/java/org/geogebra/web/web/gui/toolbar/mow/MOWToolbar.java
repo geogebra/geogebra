@@ -438,9 +438,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
-		// subMenuPanel.clear();
-		// this.currentMenu = submenu;
-		// subMenuPanel.add(currentMenu);
 		setSubmenuVisible(true);
 		if (submenu != currentMenu) {
 			subMenuPanel.removeStyleName("slideLeft");

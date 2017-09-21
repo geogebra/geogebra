@@ -249,8 +249,6 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.getElement().setAttribute("disabled", "true");
 	}
 
-
-	@Override
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "false");

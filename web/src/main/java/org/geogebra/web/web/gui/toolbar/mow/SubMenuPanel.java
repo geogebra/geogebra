@@ -12,8 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -265,24 +263,16 @@ public abstract class SubMenuPanel extends FlowPanel
 		setMode(mode);
 	}
 
-	/**
-	 * reset
-	 */
-	public void reset() {
-		deselectAllTool();
-		// infoPanel.clear();
-	}
-
 	@Override
 	public void onClick(Widget source) {
 		int pos = scrollPanel.getHorizontalScrollPosition();
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
 		app.setMode(mode);
-		setCSStoSelected(source);
+		scrollPanel.setHorizontalScrollPosition(pos);
 		/*
 		 * if (hasInfo()) { infoPanel.clear(); showToolTip(mode); }
 		 */
-		scrollPanel.setHorizontalScrollPosition(pos);
+
 	}
 
 	// @Override
@@ -290,36 +280,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * public void onClick(ClickEvent event) { if (event.getSource() ==
 	 * questionMark) { app.getFileManager().open(infoURL); } }
 	 */
-
-	/**
-	 * Sets CSS of active tool to selected
-	 * 
-	 * @param source
-	 *            The widget to select.
-	 */
-	public void setCSStoSelected(Widget source) {
-		FlowPanel parent = (FlowPanel) source.getParent();
-		for (int i = 0; i < parent.getWidgetCount(); i++) {
-			Widget w = parent.getWidget(i);
-			if (w != source) {
-				w.getElement().setAttribute("selected", "false");
-			} else {
-				w.getElement().setAttribute("selected", "true");
-			}
-		}
-	}
-
-	/**
-	 * unselect all tools
-	 */
-	public void deselectAllTool() {
-		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
-			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
-			for (int j = 0; j < w.getWidgetCount(); j++) {
-				w.getWidget(j).getElement().setAttribute("selected", "false");
-			}
-		}
-	}
 
 	/**
 	 * Add tooltips to info panel
@@ -365,17 +325,25 @@ public abstract class SubMenuPanel extends FlowPanel
 	}
 
 	/**
-	 * Select tool and show its info.
+	 * Set css to selected for given mode
 	 * 
 	 * @param mode
-	 *            The mode to select and display info from.
+	 *            The mode to select
 	 */
 	public void setMode(int mode) {
-		reset();
-		Element btn = DOM.getElementById("mode" + mode);
-		if (btn != null) {
-			btn.setAttribute("selected", "true");
-			// showToolTip(mode);
+		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
+			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
+			for (int j = 0; j < w.getWidgetCount(); j++) {
+				int modeID = Integer.parseInt(
+						w.getWidget(j).getElement().getAttribute("mode"));
+				if (modeID != mode) {
+					w.getWidget(j).getElement().setAttribute("selected",
+							"false");
+				} else {
+					w.getWidget(j).getElement().setAttribute("selected",
+							"true");
+				}
+			}
 		}
 	}
 
