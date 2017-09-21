@@ -105,7 +105,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	private Boolean isInequality = null;
 	private boolean shortLHS = false;
-
+	private static StringBuilder sbCasCommand;
 	/**
 	 * Creates new function
 	 * 
@@ -1374,7 +1374,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		sbToString.setLength(0);
 		sbToString.append(tpl.printVariableName(label));
 		if (this.getLabelDelimiter() != ':') {
-			tpl.appendWithBrackets(sb, getVarString(tpl));
+			tpl.appendWithBrackets(sbToString, getVarString(tpl));
 		}
 		return sbToString.toString();
 	}
@@ -1812,29 +1812,29 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
 		String[] funVarStr = getTempVarCASString(false);
 
-		if (sb == null) {
-			sb = new StringBuilder();
+		if (sbCasCommand == null) {
+			sbCasCommand = new StringBuilder();
 		} else {
-			sb.setLength(0);
+			sbCasCommand.setLength(0);
 		}
-		sb.setLength(0);
-		sb.append("Numeric(Limit");
+		sbCasCommand.setLength(0);
+		sbCasCommand.append("Numeric(Limit");
 		if (direction == -1) {
-			sb.append("Above");
+			sbCasCommand.append("Above");
 		} else if (direction == 1) {
-			sb.append("Below");
+			sbCasCommand.append("Below");
 		}
-		sb.append('(');
-		sb.append(funVarStr[0]); // function expression
-		sb.append(',');
-		sb.append(funVarStr[1]); // function variable
-		sb.append(',');
-		sb.append(MyDouble.toString(x));
-		sb.append("),");
+		sbCasCommand.append('(');
+		sbCasCommand.append(funVarStr[0]); // function expression
+		sbCasCommand.append(',');
+		sbCasCommand.append(funVarStr[1]); // function variable
+		sbCasCommand.append(',');
+		sbCasCommand.append(MyDouble.toString(x));
+		sbCasCommand.append("),");
 		// increase precision to improve problems like
 		// http://www.geogebra.org/trac/ticket/1106
-		sb.append("50)");
-		return sb.toString();
+		sbCasCommand.append("50)");
+		return sbCasCommand.toString();
 	}
 
 	/**
@@ -1908,8 +1908,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		getDiagonalAsymptoteStatic(this, f, SB, false);
 	}
 
-	private static StringBuilder sb;
-
 	/**
 	 * Adds diagonal asymptotes to the string builder SB
 	 * 
@@ -1938,29 +1936,30 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			String[] derivVarStr = deriv.getTempVarCASString(false);
 			String[] funVarStr = f.getTempVarCASString(false);
 
-			if (sb == null) {
-				sb = new StringBuilder();
+			if (sbCasCommand == null) {
+				sbCasCommand = new StringBuilder();
 			} else {
-				sb.setLength(0);
+				sbCasCommand.setLength(0);
 			}
 
 			String gradientStrMinus = "";
 			String interceptStrMinus = "";
 
-			sb.setLength(0);
-			sb.append("Limit(");
-			sb.append(derivVarStr[0]); // derivative expression
-			sb.append(',');
-			sb.append(derivVarStr[1]); // derivative function variable
-			sb.append(',');
+			sbCasCommand.setLength(0);
+			sbCasCommand.append("Limit(");
+			sbCasCommand.append(derivVarStr[0]); // derivative expression
+			sbCasCommand.append(',');
+			sbCasCommand.append(derivVarStr[1]); // derivative function variable
+			sbCasCommand.append(',');
 			if (!positiveInfinity)
 			 {
-				sb.append('-'); // -Infinity
+				sbCasCommand.append('-'); // -Infinity
 			}
-			sb.append(Unicode.INFINITY);
-			sb.append(')');
+			sbCasCommand.append(Unicode.INFINITY);
+			sbCasCommand.append(')');
 
-			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
+			gradientStrMinus = kernel.evaluateCachedGeoGebraCAS(
+					sbCasCommand.toString(),
 					null);
 			// Application.debug(sb.toString()+" = "+gradientStrMinus,1);
 
@@ -1974,40 +1973,43 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 			if (!GeoFunction.CASError(gradientStrMinus, false)
 					&& !Kernel.isZero(grad)) {
-				sb.setLength(0);
-				sb.append("Limit(");
-				sb.append(funVarStr[0]); // function expression
-				sb.append(" - ");
-				sb.append(gradientStrMinus);
-				sb.append(" * ");
-				sb.append(derivVarStr[1]); // derivative function variable
-				sb.append(',');
-				sb.append(derivVarStr[1]); // derivative function variable
-				sb.append(',');
+				sbCasCommand.setLength(0);
+				sbCasCommand.append("Limit(");
+				sbCasCommand.append(funVarStr[0]); // function expression
+				sbCasCommand.append(" - ");
+				sbCasCommand.append(gradientStrMinus);
+				sbCasCommand.append(" * ");
+				sbCasCommand.append(derivVarStr[1]); // derivative function
+														// variable
+				sbCasCommand.append(',');
+				sbCasCommand.append(derivVarStr[1]); // derivative function
+														// variable
+				sbCasCommand.append(',');
 				if (!positiveInfinity)
 				 {
-					sb.append('-'); // -Infinity
+					sbCasCommand.append('-'); // -Infinity
 				}
-				sb.append(Unicode.INFINITY);
-				sb.append(')');
+				sbCasCommand.append(Unicode.INFINITY);
+				sbCasCommand.append(')');
 
 				interceptStrMinus = kernel
-						.evaluateCachedGeoGebraCAS(sb.toString(), null);
+						.evaluateCachedGeoGebraCAS(sbCasCommand.toString(),
+								null);
 				// Application.debug(sb.toString()+" = "+interceptStrMinus,1);
 
 				if (!GeoFunction.CASError(interceptStrMinus, false)) {
-					sb.setLength(0);
-					sb.append("y = ");
-					sb.append(gradientStrMinus);
-					sb.append(" * x +");
-					sb.append(interceptStrMinus);
+					sbCasCommand.setLength(0);
+					sbCasCommand.append("y = ");
+					sbCasCommand.append(gradientStrMinus);
+					sbCasCommand.append(" * x +");
+					sbCasCommand.append(interceptStrMinus);
 
-					if (!SB.toString().endsWith(sb.toString())) { // not
+					if (!SB.toString().endsWith(sbCasCommand.toString())) { // not
 						// duplicated
 						if (SB.length() > 1) {
 							SB.append(',');
 						}
-						SB.append(sb);
+						SB.append(sbCasCommand);
 						// Application.debug("diagonal asymptote minus: y =
 						// "+gradientStrMinus+"x + "+interceptStrMinus,1);
 					}
@@ -2040,25 +2042,26 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
 		String[] funVarStr = f.getTempVarCASString(false);
 
-		if (sb == null) {
-			sb = new StringBuilder();
+		if (sbCasCommand == null) {
+			sbCasCommand = new StringBuilder();
 		} else {
-			sb.setLength(0);
+			sbCasCommand.setLength(0);
 		}
-		sb.append("Limit(");
-		sb.append(funVarStr[0]); // function expression
-		sb.append(',');
-		sb.append(funVarStr[1]); // function variable
-		sb.append(',');
+		sbCasCommand.append("Limit(");
+		sbCasCommand.append(funVarStr[0]); // function expression
+		sbCasCommand.append(',');
+		sbCasCommand.append(funVarStr[1]); // function variable
+		sbCasCommand.append(',');
 		if (!positiveInfinity)
 		 {
-			sb.append('-'); // -Infinity
+			sbCasCommand.append('-'); // -Infinity
 		}
-		sb.append(Unicode.INFINITY);
-		sb.append(")");
+		sbCasCommand.append(Unicode.INFINITY);
+		sbCasCommand.append(")");
 
 		try {
-			String limit = kernel.evaluateCachedGeoGebraCAS(sb.toString(), null)
+			String limit = kernel
+					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null)
 					.trim();
 
 			// Application.debug(sb.toString()+" = "+limit,1);
@@ -2066,14 +2069,15 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			if (!GeoFunction.CASError(limit, false)) {
 
 				// check not duplicated
-				sb.setLength(0);
-				sb.append("y=");
-				sb.append(limit);
-				if (!SB.toString().endsWith(sb.toString())) { // not duplicated
+				sbCasCommand.setLength(0);
+				sbCasCommand.append("y=");
+				sbCasCommand.append(limit);
+				if (!SB.toString().endsWith(sbCasCommand.toString())) { // not
+																		// duplicated
 					if (SB.length() > 1) {
 						SB.append(',');
 					}
-					SB.append(sb);
+					SB.append(sbCasCommand);
 				}
 			}
 		} catch (Throwable t) {
@@ -2112,31 +2116,32 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				getVarString(tpl) };
 
 		// solve 1/f(x) == 0 to find vertical asymptotes
-		if (sb == null) {
-			sb = new StringBuilder();
+		if (sbCasCommand == null) {
+			sbCasCommand = new StringBuilder();
 		} else {
-			sb.setLength(0);
+			sbCasCommand.setLength(0);
 		}
 
-		sb.append("Solve(");
+		sbCasCommand.append("Solve(");
 		// if (kernel.getCASType() == CasType.GIAC) {
 		// Solve(1/(1/x)) "works" in Reduce but not in Giac
-		sb.append("Simplify(");
+		sbCasCommand.append("Simplify(");
 		// }
-		sb.append("1/(");
-		sb.append(funVarStr[0]); // function expression with "ggbtmpvarx" as
+		sbCasCommand.append("1/(");
+		sbCasCommand.append(funVarStr[0]); // function expression with
+											// "ggbtmpvarx" as
 		// function variable
 		// if (kernel.getCASType() == CasType.GIAC) {
-		sb.append(')');
+		sbCasCommand.append(')');
 		// }
-		sb.append(")=0");
-		sb.append(",");
-		sb.append(funVarStr[1]); // function variable "ggbtmpvarx"
-		sb.append(")");
+		sbCasCommand.append(")=0");
+		sbCasCommand.append(",");
+		sbCasCommand.append(funVarStr[1]); // function variable "ggbtmpvarx"
+		sbCasCommand.append(")");
 
 		try {
 			String verticalAsymptotes = kernel
-					.evaluateCachedGeoGebraCAS(sb.toString(), null);
+					.evaluateCachedGeoGebraCAS(sbCasCommand.toString(), null);
 			// Application.debug(sb.toString()+" = "+verticalAsymptotes,1);
 
 			if (!GeoFunction.CASError(verticalAsymptotes, false)
@@ -2193,21 +2198,22 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 					if (!repeat && isInRange) {
 
-						sb.setLength(0);
-						sb.append("Numeric(Limit(");
-						sb.append(funVarStr[0]); // function expression with
+						sbCasCommand.setLength(0);
+						sbCasCommand.append("Numeric(Limit(");
+						sbCasCommand.append(funVarStr[0]); // function
+															// expression with
 						// "ggbtmpvarx" as function
 						// variable
-						sb.append(',');
-						sb.append(funVarStr[1]); // function variable
+						sbCasCommand.append(',');
+						sbCasCommand.append(funVarStr[1]); // function variable
 						// "ggbtmpvarx"
-						sb.append(",");
-						sb.append(verticalAsymptotesArray[i]);
-						sb.append("))");
+						sbCasCommand.append(",");
+						sbCasCommand.append(verticalAsymptotesArray[i]);
+						sbCasCommand.append("))");
 
 						try {
 							String limit = kernel.evaluateCachedGeoGebraCAS(
-									sb.toString(), null);
+									sbCasCommand.toString(), null);
 							// Application.debug("checking for vertical
 							// asymptote: "+sb.toString()+" = "+limit,1);
 							if ("?".equals(limit)
