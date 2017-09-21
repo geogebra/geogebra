@@ -179,6 +179,10 @@ class Header extends FlowPanel {
 		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
 		btnAlgebra.setTitle(
 				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
+		btnClose.setTitle(
+				app.getLocalization().getMenu(isOpen() ? "Close" : "Open"));
+		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
+		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 	}
 
 	/**

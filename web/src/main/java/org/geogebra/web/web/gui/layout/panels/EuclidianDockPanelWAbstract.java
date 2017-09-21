@@ -288,6 +288,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.setLabels();
 		}
+		if (graphicsContextMenuBtn != null) {
+			graphicsContextMenuBtn
+					.setTitle(app.getLocalization().getMenu("Settings"));
+		}
 	}
 
 	/**
@@ -297,7 +301,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		if (zoomPanel != null) {
 			zoomPanel.addStyleName("hidden");
 		}
-
 	}
 
 	/**
