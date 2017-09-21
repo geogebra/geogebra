@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.dialog.options;
 
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author csilla
  *
  */
-public class OptionsGlobalW implements OptionPanelW {
+public class OptionsGlobalW implements OptionPanelW, SetLabels {
 
 	/**
 	 * application
@@ -38,7 +39,7 @@ public class OptionsGlobalW implements OptionPanelW {
 	 * @author csilla
 	 *
 	 */
-	protected class GlobalTab extends FlowPanel {
+	protected class GlobalTab extends FlowPanel implements SetLabels {
 		private FlowPanel optionsPanel;
 		private Label lblRounding;
 		/**
@@ -338,6 +339,21 @@ public class OptionsGlobalW implements OptionPanelW {
 			this.setHeight(height + "px");
 			this.setWidth(width + "px");
 		}
+
+		@Override
+		public void setLabels() {
+			lblRounding
+					.setText(app.getLocalization().getMenu("Rounding") + ":");
+			updateRoundingList();
+			lblLabeling.setText(app.getLocalization().getMenu("Labeling") + ":");
+			updateLabelingList();
+			lblFontSize.setText(app.getLocalization().getMenu("FontSize") + ":");
+			updateFontSizeList();
+			saveSettingsBtn
+					.setText(app.getLocalization().getMenu("Settings.Save"));
+			restoreSettingsBtn
+					.setText(app.getLocalization().getMenu("RestoreSettings"));
+		}
 	}
 
 	/**
@@ -367,8 +383,13 @@ public class OptionsGlobalW implements OptionPanelW {
 	}
 
 	public MultiRowsTabPanel getTabPanel() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
+	public void setLabels() {
+		tabPanel.getTabBar().setTabText(0,
+				app.getLocalization().getMenu("Global"));
+		globalTab.setLabels();
+	}
 }

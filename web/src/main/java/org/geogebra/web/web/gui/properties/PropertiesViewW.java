@@ -572,6 +572,9 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
     public void setLabels() {
+		if (globalPanel != null) {
+			globalPanel.setLabels();
+		}
 		if (euclidianPanel != null) {
 			euclidianPanel.setLabels();
 		}
