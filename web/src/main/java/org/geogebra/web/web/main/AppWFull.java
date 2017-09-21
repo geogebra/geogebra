@@ -731,7 +731,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void showPerspectivesPopup() {
-		if (isUnbundled()) {
+		if (isUnbundled() || isWhiteboardActive()) {
 			return;
 		}
 		afterLocalizationLoaded(new Runnable() {
