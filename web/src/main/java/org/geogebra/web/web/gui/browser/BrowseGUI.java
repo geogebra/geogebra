@@ -304,20 +304,21 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				                        key.indexOf("#") + 1) + 1));
 				if (material.getType() != MaterialType.ggt) {
 				app.updateMaterialURL(material.getId(),
-						material.getSharingKeyOrId());
+							material.getSharingKeyOrId(), material.getTitle());
 				}
 				app.setLocalID(material.getLocalID());
 			} else if (!getLastSelected().isLocal
 			        && getLastSelected().isOwnMaterial) {
 				app.getKernel().getConstruction().setTitle(material.getTitle());
 				app.updateMaterialURL(material.getId(),
-						material.getSharingKeyOrId());
+						material.getSharingKeyOrId(), material.getTitle());
 			} else {
 				app.setTubeId(0);
-				app.updateMaterialURL(0, material.getSharingKeyOrId());
+				app.updateMaterialURL(0, material.getSharingKeyOrId(),
+						material.getTitle());
 			}
 		} else {
-			app.updateMaterialURL(0, null);
+			app.updateMaterialURL(0, null, null);
 			app.setTubeId(0);
 		}
 		setMaterialsDefaultStyle();

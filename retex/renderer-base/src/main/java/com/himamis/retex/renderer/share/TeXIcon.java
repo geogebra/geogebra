@@ -58,8 +58,8 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 
 
 /**
- * An {@link javax.swing.Icon} implementation that will paint the TeXFormula
- * that created it.
+ * An {@link Icon} implementation that will paint the TeXFormula that created
+ * it.
  * <p>
  * This class cannot be instantiated directly. It can be constructed from a
  * TeXFormula using the {@link TeXFormula#createTeXIcon(int,double)} method.

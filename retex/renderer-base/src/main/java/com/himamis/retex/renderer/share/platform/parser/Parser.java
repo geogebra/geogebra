@@ -55,7 +55,8 @@ public interface Parser {
 	 * the implementations of this interface.
 	 * 
 	 * @param input
-	 * @return
+	 *            platform dependent: string for GWT, InputStream for Java
+	 * @return parsed XML document
 	 */
 	public Document parse(Object input) throws ResourceParseException;
 

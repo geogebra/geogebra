@@ -425,8 +425,10 @@ public class PredefMacros {
 	 * http://www.combinatorics.net/weblib/commands/command.html
 	 * 
 	 * @param tp
-	 * @return
+	 *            parser
+	 * @return \bangle macro
 	 * @throws ParseException
+	 *             if argument parsing fails
 	 */
 	public static final Atom bangle_macro(final TeXParser tp)
 			throws ParseException {
@@ -437,8 +439,10 @@ public class PredefMacros {
 	 * eg {a \brack b} http://www.combinatorics.net/weblib/commands/command.html
 	 * 
 	 * @param tp
-	 * @return
+	 *            parser
+	 * @return \brack macro
 	 * @throws ParseException
+	 *             if argument parsing fails
 	 */
 	public static final Atom brack_macro(final TeXParser tp)
 			throws ParseException {
@@ -449,8 +453,10 @@ public class PredefMacros {
 	 * eg {a \brace b} http://www.combinatorics.net/weblib/commands/command.html
 	 * 
 	 * @param tp
-	 * @return
+	 *            parser
+	 * @return \brace macro
 	 * @throws ParseException
+	 *             if argument parsing fails
 	 */
 	public static final Atom brace_macro(final TeXParser tp)
 			throws ParseException {

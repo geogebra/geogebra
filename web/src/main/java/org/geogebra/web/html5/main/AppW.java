@@ -3402,10 +3402,10 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
-	public void updateMaterialURL(int i, String object) {
+	public void updateMaterialURL(int i, String sharingKey, String title) {
 		setTubeId(i);
 
-		if (articleElement.getDataParamApp() && object !=null) {
+		if (articleElement.getDataParamApp() && sharingKey != null) {
 			String appName = "classic";
 			if ("1".equals(this.initialPerspective)) {
 				appName = "graphing";
@@ -3413,7 +3413,10 @@ public abstract class AppW extends App implements SetLabels {
 			if ("2".equals(this.initialPerspective)) {
 				appName = "geometry";
 			}
-			Browser.changeUrl("/" + appName + "/" + object);
+			Browser.changeUrl("/" + appName + "/" + sharingKey);
+			if (!StringUtil.empty(title)) {
+				Browser.changeMetaTitle(title);
+			}
 		}
 
 	}

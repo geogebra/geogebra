@@ -140,7 +140,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		// app.getToolbar().closeAllSubmenu();
 		if (app.getTubeId() < 1
 				&& app.getArticleElement().getDataParamApp()) {
-			changeMetaTitle(app.getLocalization()
+			Browser.changeMetaTitle(app.getLocalization()
 					.getMenu(Layout.getDefaultPerspectives(index).getId()));
 			updateURL(app, Perspective.getPerspectiveSlug(index));
 		}
@@ -165,9 +165,7 @@ public class PerspectivesMenuW extends GMenuBar {
 
 	}
 
-	private static native void changeMetaTitle(String title) /*-{
-		$wnd.changeMetaTitle && $wnd.changeMetaTitle(title);
-	}-*/;
+
 	
 
 

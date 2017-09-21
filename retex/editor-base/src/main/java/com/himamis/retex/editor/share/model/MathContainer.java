@@ -342,7 +342,7 @@ abstract public class MathContainer extends MathComponent {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder(getClass().getSimpleName());
+		StringBuilder sb = new StringBuilder(getSimpleName());
 		sb.append('[');
 		for (int i = 0; i < size(); i++) {
 			if (i > 0) {
@@ -352,6 +352,13 @@ abstract public class MathContainer extends MathComponent {
 		}
 		sb.append(']');
 		return sb.toString();
+	}
+
+	/**
+	 * @return representation in debug string
+	 */
+	protected String getSimpleName() {
+		return getClass().getSimpleName();
 	}
 
 }

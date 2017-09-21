@@ -683,7 +683,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 							getGgbApi().setBase64(material.getBase64());
 							setActiveMaterial(material);
 							AppWFull.this.updateMaterialURL(material.getId(),
-									material.getSharingKey());
+									material.getSharingKey(),
+									material.getTitle());
 						} else {
 							onError.run();
 						}

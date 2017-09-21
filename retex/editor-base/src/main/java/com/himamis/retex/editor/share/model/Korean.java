@@ -313,8 +313,10 @@ public class Korean {
 	 * https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
 	 * 
 	 * @param ch
+	 *            jamo
 	 * @param lead
-	 * @return
+	 *            whether it's the lead char
+	 * @return hangul character
 	 */
 	public static char convertFromCompatibilityJamo(char ch, boolean lead) {
 		switch (ch) {
@@ -480,7 +482,8 @@ public class Korean {
 	 * https://en.wikipedia.org/wiki/Hangul_Compatibility_Jamo
 	 * 
 	 * @param ch
-	 * @return
+	 *            hangul character
+	 * @return compatibility jamo
 	 */
 	public static char convertToCompatibilityJamo(char ch) {
 		switch (ch) {

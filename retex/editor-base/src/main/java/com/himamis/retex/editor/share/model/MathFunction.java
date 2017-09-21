@@ -128,4 +128,9 @@ public class MathFunction extends MathContainer {
 	public String getClosingBracket() {
 		return meta.getClosingBracket();
     }
+
+	@Override
+	protected String getSimpleName() {
+		return "Fn" + meta.getTexName();
+	}
 }

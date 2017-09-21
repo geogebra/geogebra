@@ -206,7 +206,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 						newMat.setSyncStamp(newMat.getModified());
 
 						app.updateMaterialURL(newMat.getId(),
-								newMat.getSharingKeyOrId());
+								newMat.getSharingKeyOrId(), title.getText());
 
 						app.setActiveMaterial(newMat);
 						app.setSyncStamp(newMat.getModified());
@@ -507,7 +507,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				if (titleChanged
 						&& isWorksheet()) {
 					Log.debug("SAVE filename changed");
-					app.updateMaterialURL(0, null);
+					app.updateMaterialURL(0, null, null);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, false));
 				} else if (app.getTubeId() == 0
@@ -593,7 +593,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 								Log.debug("SAVE MULTIPLE"
 						                + parseResponse.get(0).getModified()
 						                + ":" + app.getSyncStamp());
-								app.updateMaterialURL(0, null);
+								app.updateMaterialURL(0, null, null);
 						        materialCallback = initMaterialCB(base64, true);
 					        } else {
 						        materialCallback = initMaterialCB(base64, false);

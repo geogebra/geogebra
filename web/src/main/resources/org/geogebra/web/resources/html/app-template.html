@@ -2,10 +2,10 @@
 <html lang="<!--LANG-->">
 <head>
 	<meta charset="utf-8" />
-	<title><!--APP NAME--> | GeoGebra</title>
+	<title><!--APP NAME--> - GeoGebra</title>
 	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
 	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
-	<meta property="og:title" content="<!--APP NAME--> | GeoGebra" />
+	<meta property="og:title" content="<!--APP NAME--> - GeoGebra" />
 	
 <script type="text/javascript">
 
@@ -38,7 +38,7 @@ var translation = {};
 		}
 	}
 	function changeMetaTitle(titleBase){
-		var title = titleBase.match(/GeoGebra/) ? titleBase : titleBase + " | GeoGebra";
+		var title = titleBase.match(/GeoGebra/) ? titleBase : titleBase + " - GeoGebra";
 		var tags = document.head.getElementsByTagName("meta");
 		for(k in tags){
 			if(tags[k].getAttribute && tags[k].getAttribute("property")=="og:title"){

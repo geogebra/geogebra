@@ -195,8 +195,10 @@ public class MetaModel {
 
 	/**
 	 * @param name
+	 *            component tag
 	 * @param group
-	 * @return
+	 *            parent group
+	 * @return component of parent group with given tag
 	 * @throws ArrayIndexOutOfBoundsException
 	 *             when tag unknown in this group
 	 */

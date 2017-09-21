@@ -339,8 +339,11 @@ public class Browser {
 				|| string.startsWith("#")) {
 			nativeChangeUrl(string);
 		}
-
 	}
+
+	public static native void changeMetaTitle(String title) /*-{
+		$wnd.changeMetaTitle && $wnd.changeMetaTitle(title);
+	}-*/;
 
 	private static native void nativeChangeUrl(String name) /*-{
 		if (name && $wnd.history && $wnd.history.pushState) {
