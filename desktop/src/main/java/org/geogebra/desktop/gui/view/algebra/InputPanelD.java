@@ -197,7 +197,6 @@ public class InputPanelD extends JPanel
 
 		// make sure autocomplete works for the Virtual Keyboard
 		if (textComponent instanceof AutoCompleteTextFieldD) {
-			((AutoCompleteTextFieldD) textComponent).mergeKoreanDoubles();
 			((AutoCompleteTextFieldD) textComponent).updateCurrentWord(false);
 			((AutoCompleteTextFieldD) textComponent).startAutoCompletion();
 		}

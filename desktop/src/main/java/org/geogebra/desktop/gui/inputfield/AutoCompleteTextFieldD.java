@@ -45,8 +45,6 @@ import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
-import com.himamis.retex.editor.share.model.Korean;
-
 public class AutoCompleteTextFieldD extends MathTextField
 		implements AutoComplete, AutoCompleteTextField {
 
@@ -542,8 +540,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		// handle alt-p etc
 		super.keyReleased(e);
 
-		mergeKoreanDoubles();
-
 		if (getAutoComplete()) {
 			updateCurrentWord(false);
 			startAutoCompletion();
@@ -553,20 +549,6 @@ public class AutoCompleteTextFieldD extends MathTextField
 		 * if (charCodePressed == KeyEvent.VK_BACK_SPACE && isTextSelected &&
 		 * input.length() > 0) { setText(input.substring(0, input.length())); }
 		 */
-	}
-
-	public void mergeKoreanDoubles() {
-		// avoid shift on Korean keyboards
-		if (app.getLocale().getLanguage().equals("ko")) {
-			String text = getText();
-			int caretPos = getCaretPosition();
-			String mergeText = Korean.mergeDoubleCharacters(text);
-			int decrease = text.length() - mergeText.length();
-			if (decrease > 0) {
-				setText(mergeText);
-				setCaretPosition(caretPos - decrease);
-			}
-		}
 	}
 
 	private void clearSelection() {
