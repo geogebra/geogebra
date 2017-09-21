@@ -613,8 +613,6 @@ public final class ArticleElement extends Element {
 	}
 
 	public boolean getDataParamShowSuggestionButtons() {
-		Log.debug("SUG" + getBoolDataParam("showSuggestionButtons",
-				getDataParamShowMenuBar(false)));
 		return getBoolDataParam("showSuggestionButtons",
 				getDataParamShowMenuBar(false));
 	}

@@ -754,7 +754,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		@Override
 		protected void initColors() {
-			colors = GeoGebraColorConstants.mainColorSwatchColors;
+			colors = GeoGebraColorConstants.getMainColorSwatchColors();
 		}
 
 	}

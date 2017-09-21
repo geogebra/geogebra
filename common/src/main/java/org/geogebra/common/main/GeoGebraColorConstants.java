@@ -133,10 +133,11 @@ public class GeoGebraColorConstants {
 	/** default color */
 	public static final GColor INPUT_DEFAULT_COLOR = GColor.BLACK;
 
-	/** MOW Colors */
-
+	/** MOW Color: teal */
 	public static final GColor MOW_TEAL = GColor.newColor(0, 168, 168);
+	/** MOW Color: magenta */
 	public static final GColor MOW_MAGENTA = GColor.newColor(204, 0, 153);
+	/** MOW Color: yellow */
 	public static final GColor MOW_YELLOW = GColor.newColor(255, 204, 0);
 
 
@@ -591,9 +592,11 @@ public class GeoGebraColorConstants {
 	/**
 	 * Array of colors intended for the main color swatch panel of the
 	 * GeoGebraColorChooser class.
+	 * 
+	 * @return colors for main chooser
 	 */
-	public static GColor[] mainColorSwatchColors = {
-
+	public static GColor[] getMainColorSwatchColors() {
+		return new GColor[] {
 			// Row 1 RED related colors
 
 			PINK, rgb(255, 153, 204), rgb(255, 102, 153), rgb(255, 51, 102),
@@ -642,20 +645,21 @@ public class GeoGebraColorConstants {
 
 			LIGHTVIOLET, rgb(255, 153, 255), rgb(255, 153, 153),
 			rgb(255, 51, 204), CRIMSON, rgb(204, 0, 102), rgb(153, 0, 51),
-			rgb(102, 0, 153), };
+				rgb(102, 0, 153) };
+	}
 
 	public static GColor[] getSwatchColors() {
 		GColor[] primColor = GeoGebraColorConstants.getPrimarySwatchColors();
-		GColor[] colors = GeoGebraColorConstants.mainColorSwatchColors;
+		GColor[] scolors = GeoGebraColorConstants.getMainColorSwatchColors();
 		return new GColor[] {
 				primColor[0], primColor[2], primColor[4], primColor[8], primColor[10], primColor[12], GColor.BLACK,
-				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED, GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, colors[19], GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, colors[43], GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE, GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
-				colors[0], colors[8], colors[16], colors[32], colors[40], colors[48], colors[56],
-				colors[1], colors[9], colors[17], colors[24], colors[41], colors[49], colors[57],
-				colors[3], colors[11], primColor[5], colors[33], primColor[11], colors[51], colors[59],
-				colors[4], colors[12], colors[20], colors[36], colors[44], colors[52], colors[60],
-				colors[6], colors[14], colors[22], colors[38], colors[46], colors[54], colors[62],
-				colors[7], colors[15], colors[23], colors[39], colors[47], colors[55], colors[63]
+				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED, GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, scolors[19], GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, scolors[43], GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE, GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
+				scolors[0], scolors[8], scolors[16], scolors[32], scolors[40], scolors[48], scolors[56],
+				scolors[1], scolors[9], scolors[17], scolors[24], scolors[41], scolors[49], scolors[57],
+				scolors[3], scolors[11], primColor[5], scolors[33], primColor[11], scolors[51], scolors[59],
+				scolors[4], scolors[12], scolors[20], scolors[36], scolors[44], scolors[52], scolors[60],
+				scolors[6], scolors[14], scolors[22], scolors[38], scolors[46], scolors[54], scolors[62],
+				scolors[7], scolors[15], scolors[23], scolors[39], scolors[47], scolors[55], scolors[63]
 		};
 	}
 

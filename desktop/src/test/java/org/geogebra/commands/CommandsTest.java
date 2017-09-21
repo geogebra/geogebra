@@ -1221,6 +1221,27 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdSolutions() {
+		t("Solutions[ x^2=3 ]", "{-1.73, 1.73}",
+				StringTemplate.defaultTemplate);
+		t("Solutions[ 5x=4 ]", "{4 / 5}");
+		t("Solutions[ sin(x)=1/2 ]",
+				"{" + Unicode.pi + " / 6, 5" + Unicode.pi + " / 6}",
+				StringTemplate.defaultTemplate);
+	}
+
+	@Test
+	public void cmdNSolutions() {
+		t("NSolutions[ x^2=3 ]", "{-1.73, 1.73}",
+				StringTemplate.defaultTemplate);
+		t("NSolutions[ 5x=4 ]", "{0.8}");
+		t("NSolutions[ sin(x)=1/2 ]",
+				"{0.52, 2.62}",
+				StringTemplate.defaultTemplate);
+
+	}
+
+	@Test
 	public void cmdNSolve() {
 		t("NSolve[ x^2=3 ]", "{x = -1.73205, x = 1.73205}",
 				StringTemplate.editTemplate);

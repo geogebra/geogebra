@@ -233,7 +233,6 @@ public class GeoList extends GeoElement
 			if (thisElement == null) {
 				thisElement = getCopyForList(otherElement);
 			}
-
 			// set list element
 			add(thisElement);
 		}
@@ -247,6 +246,9 @@ public class GeoList extends GeoElement
 		// create a copy of geo
 		final GeoElement ret = geo.copyInternal(cons);
 		ret.setParentAlgorithm(getParentAlgorithm());
+		if (geo.getDefinition() != null) {
+			ret.setDefinition(geo.getDefinition().deepCopy(kernel));
+		}
 		return ret;
 	}
 

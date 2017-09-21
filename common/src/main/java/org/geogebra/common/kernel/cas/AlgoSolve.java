@@ -39,7 +39,6 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		setInputOutput();
 		compute();
 		solutions.setEuclidianVisible(false);
-
 	}
 
 	@Override
@@ -52,6 +51,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	@Override
 	public void compute() {
+		boolean symbolic = solutions.size() < 1 || solutions.isSymbolicMode();
 		StringBuilder sb = new StringBuilder(type.getCommand());
 		sb.append('[');
 		if (equations instanceof GeoList) {
@@ -93,6 +93,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 				solutions.set(raw);
 			}
 			showUserForm(solutions);
+			if (type == Commands.Solutions && symbolic) {
+				solutions.setSymbolicMode(true, false);
+			}
+
 		} catch (Throwable e) {
 			solutions.setUndefined();
 			e.printStackTrace();
@@ -121,6 +125,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			if (solutions2.get(i) instanceof GeoPlaneND) {
 				((GeoPlaneND) solutions2.get(i)).setMode(GeoLine.EQUATION_USER);
 			}
+
 			if (solutions2.get(i) instanceof GeoList) {
 				showUserForm((GeoList) solutions2.get(i));
 			}
