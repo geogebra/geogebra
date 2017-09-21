@@ -145,6 +145,7 @@ public class UndoManagerW extends UndoManager {
 	@Override
 	protected void loadUndoInfo(final AppState info) {
 		try {
+			app.getEuclidianView1().setKeepCenter(false);
 			// load from file
 			String tempXML = ((AppStateWeb) info).getXML();
 			if (tempXML == null) {
