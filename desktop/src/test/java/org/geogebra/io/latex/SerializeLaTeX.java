@@ -226,44 +226,38 @@ public class SerializeLaTeX {
 		testEditor("\u314D\u3157\u314E", "\uD407");
 		testEditor("\u3141\u3163\u3142\u315C\u3134",
 				"\uBBF8\uBD84");
-		testEditor("\u3145\u3145", "\u110A");
-		testEditor("\u3147\u315C\u3163", "\uC704");
 
-		testEditor("\u3131\u314F\u3142\u3145", "\uAC12");
+		testEditor("\u3147\u315F", "\uC704");
 
-		testEditor("\u314E\u314F\u3134\u3145\u3145\u314F\u3147",
+		testEditor("\u3131\u314F\u3144", "\uAC12");
+
+		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147",
 				"\uD55C\uC30D");
 		
-		// tricky
-		// tail doubled char needs to be undoubled and split across 2 chars
 		testEditor("\u314E\u314F\u3145\u3145\u314F\u3147", "\uD56B\uC0C1");
 
 		// small steps
 		testEditor("\u314E\u314F", "\uD558");
 		testEditor("\u314E\u314F\u3145", "\uD56B");
-		testEditor("\u314E\u314F\u3145\u3145", "\uD56C");
+		testEditor("\u314E\u314F\u3145\u3145", "\uD56B\u3145");
 		testEditor("\u314E\u314F\u3145\u3145\u314F", "\uD56B\uC0AC");
 
 		testEditor("\u3131\u3161", "\uADF8");
 		testEditor("\u3131\u3161\u3131", "\uADF9");
-		testEditor("\u3131\u3161\u3131\u3131", "\uADFA");
+		testEditor("\u3131\u3161\u3132", "\uADFA");
 		testEditor("\u3131\u3161\u3131\u3131\u314F", "\uADF9\uAC00");
 		testEditor("\u3131\u3161\u3131\u3131\u314F\u3142", "\uADF9\uAC11");
-		testEditor("\u3131\u3161\u3131\u3131\u314F\u3142\u3145",
-				"\uADF9\uAC12");
+		testEditor("\u3131\u3161\u3131\u3131\u314F\u3144", "\uADF9\uAC12");
 
 		testEditor("\u314E\u314F\u3134\u3146\u314F\u3147", "\uD55C\uC30D");
 
-		// type with explicit double
-		// strictly should probably be \uD558\uC30D
-		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD56B\uC0C1");
+		testEditor("\u314E\u314F\u3146\u314F\u3147", "\uD558\uC30D");
 		
-		testEditor("\u3134\u3153\u3139\u3142\u3147\u3163", "\uB113\uC774");
-		testEditor("\u3147\u314F\u3134\u314E\u3137\u314F", "\uC54A\uB2E4");
-		testEditor("\u3131\u314F\u3142\u3145\u3147\u3161\u3134", "\uAC12\uC740");
+		testEditor("\u3134\u3153\u313C\u3147\u3163", "\uB113\uC774");
+		testEditor("\u3147\u314F\u3136\u3137\u314F", "\uC54A\uB2E4");
+		testEditor("\u3131\u314F\u3144\u3147\u3161\u3134", "\uAC12\uC740");
 
-		testEditor("\u3131\u314F\u3142\u3145\u3145\u314F\u3134",
-				"\uAC12\uC0B0");
+		testEditor("\u3131\u314F\u3144\u3145\u314F\u3134", "\uAC12\uC0B0");
 
 		testEditor(Korean.flattenKorean("\uB098"), "\uB098");
 		testEditor(Korean.flattenKorean("\uB108"), "\uB108");
@@ -283,8 +277,7 @@ public class SerializeLaTeX {
 				"\uC801\uBD84");
 		testEditor(Korean.flattenKorean("\uC288\uD37C\uB9E8"),
 				"\uC288\uD37C\uB9E8");
-		testEditor(Korean.flattenKorean("\u3137\u3137"),
-				"\u1104");
+		testEditor(Korean.flattenKorean("\u3138"), "\u1104");
 		testEditor(Korean.flattenKorean("\uC778\uD14C\uADF8\uB784"),
 				"\uC778\uD14C\uADF8\uB784");
 		testEditor(Korean.flattenKorean("\u3137"), "\u1103");
@@ -297,17 +290,17 @@ public class SerializeLaTeX {
 		testEditor(Korean.flattenKorean("\uC544\uBAA8\uB974\uACA0\uB2E4"),
 				"\uC544\uBAA8\uB974\uACA0\uB2E4");
 		
-		testEditor("\u3145\u3145\u1161\u11BC", "\uC30D");
+		testEditor("\u3146\u1161\u11BC", "\uC30D");
 		testEditor("\u110A\u1161\u11BC", "\uC30D");
 		
 		
 		testEditor("\u3142\u315C", "\uBD80");
-		testEditor("\u3142\u315C\u3154", "\uBDB8");
-		testEditor("\u3142\u315C\u3154\u3139", "\uBDC0");
-		testEditor("\u3142\u315C\u3154\u3139\u3131","\uBDC1");
+		testEditor("\u3142\u315E", "\uBDB8");
+		testEditor("\u3142\u315E\u3139", "\uBDC0");
+		testEditor("\u3142\u315E\u313A", "\uBDC1");
 		
-		testEditor("\u3131\u3131", "\u1101");
-		testEditor("\u3131\u3131\u314F", "\uAE4C");
+		// testEditor("\u3132", "\u1101");
+		testEditor("\u3132\u314F", "\uAE4C");
 
 		testEditor("\u3131\u3157\u3142\u3131\u3161\u3134", "\uACF1\uADFC");
 		testEditor("\u3147\u3163\u3142\u3139\u3155\u3131", "\uC785\uB825");

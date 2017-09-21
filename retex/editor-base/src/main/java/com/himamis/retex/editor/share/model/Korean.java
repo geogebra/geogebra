@@ -682,6 +682,10 @@ public class Korean {
 
 	public static String unmergeDoubleCharacterToLeadTail(char c) {
 
+		if (true) {
+			return "";
+		}
+
 		switch (c) {
 
 		case '\u3149':
@@ -776,6 +780,10 @@ public class Korean {
 	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
 	 */
 	public static String mergeDoubleCharacters(String str, boolean lead) {
+
+		if (true) {
+			return str;
+		}
 
 		if (str.length() < 2) {
 			return str;
