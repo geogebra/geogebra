@@ -63,9 +63,9 @@ using namespace std;
 #include <gsl/gsl_sf_erf.h>
 #include <gsl/gsl_sf_expint.h>
 #endif
-#ifdef TARGET_OS_IPHONE
-#include "psi.h"
-#endif
+//#ifdef TARGET_OS_IPHONE
+//#include "psi.h"
+//#endif
 #ifdef USE_GMP_REPLACEMENTS
 #undef HAVE_GMPXX_H
 #undef HAVE_LIBMPFR
@@ -7853,10 +7853,10 @@ namespace giac {
     if (x.type==_DOUBLE_)
       return gsl_sf_psi(x._DOUBLE_val);
 #endif
-#ifdef TARGET_OS_IPHONE
-    if (x.type == _DOUBLE_)
-      return psi(x._DOUBLE_val);
-#endif
+//#ifdef TARGET_OS_IPHONE
+//    if (x.type == _DOUBLE_)
+//      return psi(x._DOUBLE_val);
+//#endif
     if (x.type==_DOUBLE_){
       double z=x._DOUBLE_val;
       // z<=0 , psi(z)=pi*cotan(pi*z)-psi(1-z)
