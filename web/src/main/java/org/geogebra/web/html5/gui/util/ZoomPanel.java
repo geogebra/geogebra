@@ -38,11 +38,12 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	boolean isFullScreen = false;
 
 	private FlowPanel zoomPanel = this;
-	private AppW app;
+	AppW app;
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
 	private String containerPositionBefore;
 	private String containerMarginLeft, containerMarginTop;
+	private double cssScale = 0;
 
 	public ZoomPanel(EuclidianView view) {
 		this.view = view;
@@ -230,6 +231,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 
+
 			@Override
 			public void onClick(Widget source) {
 				getEuclidianView().getEuclidianController().zoomInOut(false,
@@ -296,11 +298,12 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	protected void toggleFullscreen() {
 		final Element container;
-		final boolean ipad = Browser.isIPad();
+		final boolean ipad = Browser.isIPad() || true;
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 		} else {
-			final Element scaler = app.getArticleElement().getParentElement();
+			ArticleElement ae = app.getArticleElement();
+			final Element scaler = ae.getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreen) {
 				containerPositionBefore = container.getStyle().getPosition();
@@ -315,14 +318,17 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				}
 				scaler.addClassName("fullscreen");
 				if (ipad) {
+					cssScale = ae.getParentScaleX();
 					scaler.addClassName("fullscreen-ipad");
 				}
+
 				Timer t = new Timer() {
 
 					@Override
 					public void run() {
 						scaleApplet(scaler, container);
 						if (ipad) {
+
 							onFullscreen();
 						}
 					}
@@ -333,6 +339,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				if (ipad) {
 					scaler.removeClassName("fullscreen-ipad");
 					onExitFullscreen();
+					if (cssScale != 0) {
+						Browser.scale(scaler, cssScale, 0, 0);
+					}
 				}
 			}
 		}
@@ -373,6 +382,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 	}
 
+	/**
+	 * Sets translated titles of the buttons.
+	 */
 	public void setLabels() {
 		setButtonTitle(fullscreenBtn, "Fullscreen");
 		setButtonTitle(homeBtn, "StandardView");
@@ -399,6 +411,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				&& app.isShiftDragZoomEnabled();
 	}
 
+	/**
+	 * Checks if the current app needs zoom panel or not.
+	 * 
+	 * @param app
+	 *            the application to check.
+	 * @return true if app needs zoom panel.
+	 */
 	public static boolean neededFor(AppW app) {
 		return (needsZoomButtons(app) || needsFullscreenButton(app))
 				&& app.has(Feature.ZOOM_PANEL);

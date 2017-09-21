@@ -385,6 +385,40 @@ public final class ArticleElement extends Element {
 		return type === "x" ? sx : sy;
 	}-*/;
 
+	private native double parentScale(JavaScriptObject current,
+			String type) /*-{
+		var sx = 0;
+		var sy = 0;
+		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/, style = $wnd
+				.getComputedStyle(current);
+		if (style) {
+			var transform = style.transform || style.webkitTransform
+					|| style.MozTransform || style.msTransform
+					|| style.oTransform || "";
+			var matches = transform.match(matrixRegex);
+			if (matches && matches.length) {
+
+				sx = $wnd.parseFloat(matches[1]);
+				sy = $wnd.parseFloat(matches[4]);
+			} else if (transform.indexOf("scale") === 0) {
+				var mul = $wnd.parseFloat(transform.substr(transform
+						.indexOf("(") + 1));
+				sx = mul;
+				sy = mul;
+			}
+		}
+
+		return type === "x" ? sx : sy;
+	}-*/;
+
+	public double getParentScaleX() {
+		return parentScale(this.getParentElement(), "x");
+	}
+
+	public double getParentScaleY() {
+		return parentScale(this.getParentElement(), "y");
+	}
+
 	/**
 	 * @return the CSS scale attached to the article element
 	 */
