@@ -297,6 +297,7 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 * Toggles the open/close toolbar icon
 	 * 
 	 * @param toggle
+	 *            true if open action happend
 	 * 
 	 */
 	public void toggleCloseButton(boolean toggle) {
@@ -405,9 +406,13 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		return currentMenu;
 	}
 
+	/**
+	 * @return more of current selected tool
+	 */
 	public int getCurrentMode() {
 		return currentMode;
 	}
+
 	/**
 	 * Sets the actual submenu, and opens it if it is different than the last
 	 * one, toggles its visibility otherwise.
@@ -421,7 +426,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			currentMenu = null;
 			return;
 		}
-
 		if (currentMenu == submenu) {
 			if (!subMenuPanel.isVisible()) {
 				currentMenu.onOpen();
@@ -434,7 +438,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	}
 
 	private void doSetCurrentMenu(SubMenuPanel submenu) {
-
 		// subMenuPanel.clear();
 		// this.currentMenu = submenu;
 		// subMenuPanel.add(currentMenu);
@@ -443,7 +446,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			subMenuPanel.removeStyleName("slideLeft");
 			subMenuPanel.removeStyleName("slideCenter");
 			subMenuPanel.removeStyleName("slideRight");
-
 			if (submenu == penMenu) {
 				subMenuPanel.addStyleName("slideLeft");
 			} else if (submenu == toolsMenu) {
@@ -451,7 +453,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 			} else if (submenu == mediaMenu) {
 				subMenuPanel.addStyleName("slideRight");
 			}
-
 			currentMenu = submenu;
 		}
 	}
@@ -463,7 +464,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 *            true if submenu should be visible
 	 */
 	private void setSubmenuVisible(final boolean visible) {
-
 		if (visible) {
 			subMenuPanel.setVisible(visible);
 			if (!isSubmenuOpen) {
@@ -494,7 +494,6 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 	 */
 	protected void doShowSubmenu(boolean visible) {
 		subMenuPanel.setVisible(visible);
-
 	}
 
 	/**

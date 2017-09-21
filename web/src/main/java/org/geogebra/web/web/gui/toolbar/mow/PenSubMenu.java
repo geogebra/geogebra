@@ -45,7 +45,6 @@ public class PenSubMenu extends SubMenuPanel {
 	private StandardButton eraser;
 	private StandardButton move;
 	private StandardButton select;
-
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
@@ -55,7 +54,6 @@ public class PenSubMenu extends SubMenuPanel {
 	private StandardButton btnCustomColor;
 	private PenPreview preview;
 	private boolean colorsEnabled;
-
 	// preset colors black, green, teal,blue, purple,magenta, red, carrot,
 	// yellow
 	private final static String hexColors[] = { "000000", "2E7D32", "00A8A8",
@@ -114,7 +112,6 @@ public class PenSubMenu extends SubMenuPanel {
 					.newColorRGB(Integer.parseInt(hexColors[i], 16));
 			btnColor[i] = createColorButton(penColor[i]);
 		}
-
 		btnCustomColor = new StandardButton(
 				new ImageResourcePrototype(null,
 						MaterialDesignResources.INSTANCE.add_black()
@@ -137,7 +134,6 @@ public class PenSubMenu extends SubMenuPanel {
 		sizePanel.addStyleName("sizePanel");
 		slider = new SliderPanelW(0, 20, app.getKernel(), false);
 		slider.addStyleName("mowOptionsSlider");
-
 		preview = new PenPreview(app, 50, 30);
 		preview.addStyleName("preview");
 		slider.add(preview);
@@ -148,11 +144,13 @@ public class PenSubMenu extends SubMenuPanel {
 				sliderValueChanged(event.getValue());
 			}
 		});
-
 	}
 
 	/**
 	 * Sets the size of pen/eraser from the slider value.
+	 * 
+	 * @param value
+	 *            value of slider
 	 */
 	void sliderValueChanged(double value) {
 		if (colorsEnabled) {
@@ -193,7 +191,6 @@ public class PenSubMenu extends SubMenuPanel {
 		} else if (source == btnCustomColor) {
 			openColorDialog();
 		}
-
 	}
 
 	@Override
@@ -201,14 +198,12 @@ public class PenSubMenu extends SubMenuPanel {
 		if (!colorsEnabled) {
 			return;
 		}
-
 		Object source = event.getSource();
 		for (int i = 0; i < btnColor.length; i++) {
 			if (source == btnColor[i]) {
 				selectColor(i);
 			}
 		}
-
 	}
 
 	private void doSelectPen() {
@@ -252,7 +247,6 @@ public class PenSubMenu extends SubMenuPanel {
 		reset();
 		select.getElement().setAttribute("selected", "true");
 		slider.getElement().setAttribute("disabled", "true");
-
 	}
 
 
@@ -263,20 +257,26 @@ public class PenSubMenu extends SubMenuPanel {
 		move.getElement().setAttribute("selected", "false");
 		select.getElement().setAttribute("selected", "false");
 		setColorsEnabled(false);
-
 	}
 
-	private void setPenIconColor(String colorStr) {
+	/**
+	 * @param colorStr
+	 *            color string
+	 */
+	public void setPenIconColor(String colorStr) {
 		// set background of pen icon to selected color
 		pen.getElement().getFirstChildElement().getNextSiblingElement()
 				.setAttribute("style", "background-color: " + colorStr);
-
 	}
-	private void selectColor(int idx) {
+
+	/**
+	 * @param idx
+	 *            index
+	 */
+	public void selectColor(int idx) {
 		for (int i = 0; i < btnColor.length; i++) {
 			if (idx == i) {
 				getPenGeo().setObjColor(penColor[i]);
-
 				if (colorsEnabled) {
 					lastSelectedColor = penColor[i];
 					btnColor[i].addStyleName("mowColorButton-selected");
@@ -287,7 +287,6 @@ public class PenSubMenu extends SubMenuPanel {
 			}
 		}
 		updatePreview();
-
 	}
 
 	// remember and set a color that was picked from color chooser
@@ -317,8 +316,8 @@ public class PenSubMenu extends SubMenuPanel {
 			btnCustomColor.addStyleName("disabled");
 		}
 		colorsEnabled = enable;
-
 	}
+
 	private GeoElement getPenGeo() {
 		return app.getActiveEuclidianView().getEuclidianController()
 				.getPen().DEFAULT_PEN_LINE;
@@ -338,11 +337,32 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 	}
 
+	/**
+	 * @return last selected color
+	 */
+	public GColor getLastSelectedColor() {
+		return lastSelectedColor;
+	}
+
+	/**
+	 * @param lastSelectedColor
+	 *            update last selected color
+	 */
+	public void setLastSelectedColor(GColor lastSelectedColor) {
+		this.lastSelectedColor = lastSelectedColor;
+	}
+
+	/**
+	 * @return get preview of pen
+	 */
+	public PenPreview getPreview() {
+		return preview;
+	}
+
 	@Override
 	public int getFirstMode() {
 		return EuclidianConstants.MODE_PEN;
 	}
-
 
 	private void updatePreview() {
 		preview.update();
@@ -350,44 +370,39 @@ public class PenSubMenu extends SubMenuPanel {
 
 	private void openColorDialog() {
 		if (colorsEnabled) {
-		final GeoElement penGeo = getPenGeo();
-		DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
-		GColor originalColor = penGeo.getObjectColor();
-		dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
+			final GeoElement penGeo = getPenGeo();
+			DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
+			GColor originalColor = penGeo.getObjectColor();
+			dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
 
-			public void onForegroundSelected() {
-				// TODO Auto-generated method stub
+				public void onForegroundSelected() {
+					// do nothing here
+				}
 
-			}
-
-			public void onColorChange(GColor color) {
-				penGeo.setObjColor(color);
-				setPenIconColor(color.toString());
-				lastSelectedColor = color;
+				public void onColorChange(GColor color) {
+					penGeo.setObjColor(color);
+					setPenIconColor(color.toString());
+					setLastSelectedColor(color);
 					selectColor(-1);
-				updatePreview();
-			}
+					getPreview().update();
+				}
 
-			public void onClearBackground() {
-				// TODO Auto-generated method stub
+				public void onClearBackground() {
+					// do nothing
+				}
 
-			}
+				public void onBarSelected() {
+					// do nothing
+				}
 
-			public void onBarSelected() {
-				// TODO Auto-generated method stub
+				public void onBackgroundSelected() {
+					// do nothing
+				}
 
-			}
-
-			public void onBackgroundSelected() {
-				// TODO Auto-generated method stub
-
-			}
-
-			public void onAlphaChange() {
-				// TODO Auto-generated method stub
-
-			}
-		});
-	}
+				public void onAlphaChange() {
+					// do nothing
+				}
+			});
+		}
 	}
 }

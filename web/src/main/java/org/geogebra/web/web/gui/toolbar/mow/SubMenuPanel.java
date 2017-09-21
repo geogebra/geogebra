@@ -27,19 +27,31 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class SubMenuPanel extends FlowPanel
 		implements ClickHandler, FastClickHandler {
 
+	/**
+	 * group panel
+	 */
 	protected static class GroupPanel extends FlowPanel {
 		private static final int BUTTON_WIDTH = 46;
 
+		/**
+		 * constructor
+		 */
 		public GroupPanel() {
 			addStyleName("groupPanel");
 		}
 
+		/**
+		 * @param columns
+		 *            nr of cloumns
+		 */
 		public void setColumns(int columns) {
 			setWidth(((columns) * BUTTON_WIDTH) + "px");
 		}
-
 	}
 
+	/**
+	 * panel row
+	 */
 	protected FlowPanel panelRow;
 
 	/** app **/
@@ -78,8 +90,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * 
 	 * @param app
 	 *            GGB application.
-	 * @param info
-	 *            true if submenu should have an info panel.
 	 */
 	public SubMenuPanel(AppW app/* , boolean info */) {
 		this.app=app;
@@ -93,14 +103,11 @@ public abstract class SubMenuPanel extends FlowPanel
 	protected void createGUI() {
 		addStyleName("mowSubMenu");
 		createContentPanel();
-
 		/*
 		 * if (hasInfo()) { createInfoPanel();
 		 * add(LayoutUtilW.panelRow(scrollPanel, infoPanel)); } else {
 		 */
-
 		add(scrollPanel);
-
 		// }
 	}
 
@@ -114,12 +121,17 @@ public abstract class SubMenuPanel extends FlowPanel
 		scrollPanel.add(contentPanel);
 	}
 
+	/**
+	 * @param mowToolsDefString
+	 *            mow toolbar definition
+	 */
 	public void createPanelRow(String mowToolsDefString) {
 		panelRow = new FlowPanel();
 		panelRow.addStyleName("panelRow");
 		addModesToToolbar(panelRow, mowToolsDefString);
 		contentPanel.add(panelRow);
 	}
+
 	/**
 	 * Creates the info panel.
 	 */
@@ -212,11 +224,9 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (mode == EuclidianConstants.MODE_IMAGE) {
 			im.addStyleName("icon24_padding");
 		}
-
 		StandardButton button = new StandardButton(null, "", 32, app);
 		button.getUpFace().setImage(im);
 		button.addFastClickHandler(this);
-
 		button.addStyleName("mowToolButton");
 		if (mode == EuclidianConstants.MODE_VIDEO
 				|| mode == EuclidianConstants.MODE_AUDIO
@@ -259,7 +269,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * reset
 	 */
 	public void reset() {
-		deselectAllCSS();
+		deselectAllTool();
 		// infoPanel.clear();
 	}
 
@@ -288,7 +298,6 @@ public abstract class SubMenuPanel extends FlowPanel
 	 *            The widget to select.
 	 */
 	public void setCSStoSelected(Widget source) {
-
 		FlowPanel parent = (FlowPanel) source.getParent();
 		for (int i = 0; i < parent.getWidgetCount(); i++) {
 			Widget w = parent.getWidget(i);
@@ -303,7 +312,7 @@ public abstract class SubMenuPanel extends FlowPanel
 	/**
 	 * unselect all tools
 	 */
-	public void deselectAllCSS() {
+	public void deselectAllTool() {
 		for (int i = 0; i < panelRow.getWidgetCount(); i++) {
 			FlowPanel w = (FlowPanel) panelRow.getWidget(i);
 			for (int j = 0; j < w.getWidgetCount(); j++) {
@@ -311,7 +320,6 @@ public abstract class SubMenuPanel extends FlowPanel
 			}
 		}
 	}
-
 
 	/**
 	 * Add tooltips to info panel
@@ -375,5 +383,4 @@ public abstract class SubMenuPanel extends FlowPanel
 	 * @return first mode; to be selected once this submenu is opened
 	 */
 	public abstract int getFirstMode();
-
 }

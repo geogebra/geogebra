@@ -14,6 +14,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
  */
 public class MediaSubMenu extends SubMenuPanel {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public MediaSubMenu(AppW app) {
 		super(app/* , true */);
 		addStyleName("mediaSubMenu");
@@ -31,7 +35,6 @@ public class MediaSubMenu extends SubMenuPanel {
 	}
 
 	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-
+		// do nothing here
 	}
 }

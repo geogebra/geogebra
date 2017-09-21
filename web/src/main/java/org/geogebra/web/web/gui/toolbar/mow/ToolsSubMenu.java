@@ -36,7 +36,6 @@ public class ToolsSubMenu extends SubMenuPanel {
 	}
 
 	public void onClick(ClickEvent event) {
-		// TODO Auto-generated method stub
-
+		// do nothing
 	}
 }
