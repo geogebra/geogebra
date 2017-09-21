@@ -3977,7 +3977,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-364
 		case MOB_EV_SETTINGS_POPUP:
-			return true;
+			return prerelease;
 
 
 		// **********************************************************************
