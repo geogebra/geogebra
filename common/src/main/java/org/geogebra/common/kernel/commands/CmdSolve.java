@@ -13,17 +13,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class CmdSolve extends CommandProcessor {
 
-	private boolean numeric;
+	private Commands type;
 
 	/**
 	 * @param kernel
 	 *            kernel
-	 * @param numeric
-	 *            whether to use NSolve
+	 * @param command
+	 *            one of (N?)Solve, (N?)Solutions
 	 */
-	public CmdSolve(Kernel kernel, boolean numeric) {
+	public CmdSolve(Kernel kernel, Commands command) {
 		super(kernel);
-		this.numeric = numeric;
+		this.type = command;
 	}
 
 	@Override
@@ -33,7 +33,8 @@ public class CmdSolve extends CommandProcessor {
 		case 1:
 			if (args[0].isGeoList() || args[0] instanceof EquationValue
 					|| args[0].isGeoFunction()) {
-				AlgoSolve solve = new AlgoSolve(cons, args[0], numeric);
+				AlgoSolve solve = new AlgoSolve(cons, args[0], type);
+
 				if (info.isLabelOutput()) {
 					solve.getOutput(0).setLabel(c.getLabel());
 				}

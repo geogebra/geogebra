@@ -602,11 +602,9 @@ public abstract class CommandDispatcher {
 			case GroebnerLex:
 			case GroebnerDegRevLex:
 			case GroebnerLexDeg:
-			case NSolutions:
 			case Numeric:
 			case MixedNumber:
 			case Rationalize:
-			case Solutions:
 			case Substitute:
 			case ToExponential:
 				return new CAScmdProcessor(kernel);
@@ -760,6 +758,8 @@ public abstract class CommandDispatcher {
 				return getDiscreteDispatcher().dispatch(command, kernel);
 			case NSolve:
 			case Solve:
+			case Solutions:
+			case NSolutions:
 				if (app.has(Feature.INPUT_BAR_SOLVE)) {
 					return getCASDispatcher().dispatch(command, kernel);
 				}

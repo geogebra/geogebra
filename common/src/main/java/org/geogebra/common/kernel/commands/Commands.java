@@ -1104,7 +1104,7 @@ public enum Commands implements CommandsConstants,
 
 	NSolve(TABLE_ALGEBRA),
 
-	NSolutions(TABLE_CAS),
+	NSolutions(TABLE_ALGEBRA),
 
 	Numeric(TABLE_CAS),
 
@@ -1114,7 +1114,7 @@ public enum Commands implements CommandsConstants,
 
 	Rationalize(TABLE_CAS),
 
-	Solutions(TABLE_CAS),
+	Solutions(TABLE_ALGEBRA),
 
 	Solve(TABLE_ALGEBRA),
 

@@ -95,10 +95,12 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 			return new CmdNextPreviousPrime(kernel, true);
 		case PreviousPrime:
 			return new CmdNextPreviousPrime(kernel, false);
-		case Solve:
-			return new CmdSolve(kernel, false);
 		case NSolve:
-			return new CmdSolve(kernel, true);
+		case Solve:
+		case NSolutions:
+		case Solutions:
+			return new CmdSolve(kernel, c);
+
 		default:
 			break;
 		}

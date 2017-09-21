@@ -21,19 +21,19 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	private GeoList solutions;
 	private GeoElement equations;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
-	private boolean numeric;
+	private Commands type;
 
 	/**
 	 * @param c
 	 *            construction
 	 * @param eq
 	 *            equation or list thereof
-	 * @param numeric
-	 *            whether to use NSolve
+	 * @param type
+	 *            whether to use Solve / NSolve / NSolutions / Solutions
 	 */
-	public AlgoSolve(Construction c, GeoElement eq, boolean numeric) {
+	public AlgoSolve(Construction c, GeoElement eq, Commands type) {
 		super(c);
-		this.numeric = numeric;
+		this.type = type;
 		this.equations = eq;
 		this.solutions = new GeoList(cons);
 		setInputOutput();
@@ -52,7 +52,8 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	@Override
 	public void compute() {
-		StringBuilder sb = new StringBuilder(numeric ? "NSolve[" : "Solve[");
+		StringBuilder sb = new StringBuilder(type.getCommand());
+		sb.append('[');
 		if (equations instanceof GeoList) {
 			sb.append("{");
 			for (int i = 0; i < ((GeoList) equations).size(); i++) {
@@ -85,7 +86,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 				return;
 			}
 			if (equations.isGeoList() && raw.size() > 1
-					&& (raw.get(0).isGeoLine() || raw.get(0).isGeoPlane())) {
+					&& (!raw.get(0).isGeoList())) {
 				solutions.clear();
 				solutions.add(raw);
 			} else {
@@ -138,7 +139,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	@Override
 	public GetCommand getClassName() {
-		return numeric ? Commands.NSolve : Commands.Solve;
+		return type;
 	}
 
 	/**
@@ -147,10 +148,23 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	 * @return whether this is numeric after the toggle
 	 */
 	public boolean toggleNumeric() {
-		numeric = !numeric;
+		type = opposite(type);
 		compute();
 		solutions.updateCascade();
-		return numeric;
+		return type == Commands.NSolve || type == Commands.NSolutions;
+	}
+
+	private static Commands opposite(Commands type2) {
+		switch (type2) {
+		case Solutions:
+			return Commands.NSolutions;
+		case NSolutions:
+			return Commands.Solutions;
+		case NSolve:
+			return Commands.Solve;
+		default:
+			return Commands.NSolve;
+		}
 	}
 
 	/**
