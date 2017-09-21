@@ -1604,6 +1604,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (repaint) {
 			repaint();
 		}
+
+		// show the dynamic style bar again (if was visible) at the right location
+		if (dynamicStyleBar != null && dynamicStyleBar.isVisible()) {
+			dynamicStyleBar.setVisible(false);
+			dynamicStyleBar.updateStyleBar();
+			dynamicStyleBar.setVisible(true);
+		}
 	}
 
 	// may need to be synchronized for some 3D implementations
