@@ -155,6 +155,7 @@ task copyHtml {
 	    
 	    file("war/graphing-template.html").text = appHtml(html, "graphing", false);
 	    file("war/geometry-template.html").text = appHtml(html, "geometry", false);
+	    file("war/whiteboard-template.html").text = appHtml(html, "whiteboard", true);
 	    file("war/graphing-offline.html").text = english(appHtml(html, "graphing", false, true), "Graphing Calculator");
 	    file("war/geometry-offline.html").text = english(appHtml(html, "geometry", false, true), "Geometry");
 	  
