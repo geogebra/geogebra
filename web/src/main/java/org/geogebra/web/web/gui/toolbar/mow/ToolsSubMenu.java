@@ -4,8 +4,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
  * Tools submenu for MOWToolbar.
  * 
@@ -33,9 +31,5 @@ public class ToolsSubMenu extends SubMenuPanel {
 	@Override
 	public int getFirstMode() {
 		return EuclidianConstants.MODE_SHAPE_RECTANGLE;
-	}
-
-	public void onClick(ClickEvent event) {
-		// do nothing
 	}
 }

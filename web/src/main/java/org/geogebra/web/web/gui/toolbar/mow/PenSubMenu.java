@@ -4,8 +4,10 @@ import java.util.Vector;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -21,7 +23,6 @@ import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.PenPreview;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -53,7 +54,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
 	private PenPreview preview;
-	private boolean colorsEnabled;
+	/** whether colors are enabled */
+	boolean colorsEnabled;
 	// preset colors black, green, teal,blue, purple,magenta, red, carrot,
 	// yellow
 	private final static String hexColors[] = { "000000", "2E7D32", "00A8A8",
@@ -93,13 +95,25 @@ public class PenSubMenu extends SubMenuPanel {
 	 * @param aColor
 	 * @return
 	 */
-	private Label createColorButton(GColor aColor) {
+	private Label createColorButton(GColor aColor, final int colorIndex) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
 				aColor);
 		Label label = new Label();
 		color.applyToLabel(label);
 		label.addStyleName("mowColorButton");
-		label.addClickHandler(this);
+		ClickStartHandler.init(label, new ClickStartHandler() {
+
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+
+				if (!colorsEnabled) {
+					return;
+				}
+
+				selectColor(colorIndex);
+
+			}
+		});
 		return label;
 	}
 	private void createColorPanel() {
@@ -110,7 +124,7 @@ public class PenSubMenu extends SubMenuPanel {
 		for (int i = 0; i < hexColors.length; i++) {
 			penColor[i] = GColor
 					.newColorRGB(Integer.parseInt(hexColors[i], 16));
-			btnColor[i] = createColorButton(penColor[i]);
+			btnColor[i] = createColorButton(penColor[i], i);
 		}
 		btnCustomColor = new StandardButton(
 				new ImageResourcePrototype(null,
@@ -193,18 +207,7 @@ public class PenSubMenu extends SubMenuPanel {
 		}
 	}
 
-	@Override
-	public void onClick(ClickEvent event) {
-		if (!colorsEnabled) {
-			return;
-		}
-		Object source = event.getSource();
-		for (int i = 0; i < btnColor.length; i++) {
-			if (source == btnColor[i]) {
-				selectColor(i);
-			}
-		}
-	}
+
 
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
@@ -249,6 +252,9 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.getElement().setAttribute("disabled", "true");
 	}
 
+	/**
+	 * Unselect all buttons and disable colors
+	 */
 	public void reset() {
 		pen.getElement().setAttribute("selected", "false");
 		eraser.getElement().setAttribute("selected", "false");

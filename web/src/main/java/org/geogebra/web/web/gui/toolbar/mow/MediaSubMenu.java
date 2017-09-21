@@ -4,8 +4,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.web.html5.main.AppW;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-
 /**
  * Submenu for media (i.e. photo, video, ...)
  * 
@@ -32,9 +30,5 @@ public class MediaSubMenu extends SubMenuPanel {
 	@Override
 	public int getFirstMode() {
 		return EuclidianConstants.MODE_TEXT;
-	}
-
-	public void onClick(ClickEvent event) {
-		// do nothing here
 	}
 }

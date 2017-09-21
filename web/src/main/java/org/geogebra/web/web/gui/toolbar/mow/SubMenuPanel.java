@@ -11,7 +11,6 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -23,7 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public abstract class SubMenuPanel extends FlowPanel
-		implements ClickHandler, FastClickHandler {
+		implements FastClickHandler {
 
 	/**
 	 * group panel
