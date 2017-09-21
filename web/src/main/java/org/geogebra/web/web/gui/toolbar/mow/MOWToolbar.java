@@ -385,12 +385,14 @@ public class MOWToolbar extends FlowPanel implements FastClickHandler {
 		if (mode == EuclidianConstants.MODE_PEN) {
 			selectButton(penButton);
 		}
-
 		if (!(mode == EuclidianConstants.MODE_PEN
-				&& currentMenu == penMenu)) {
+				&& currentMenu == penMenu)
+				&& !(mode == EuclidianConstants.MODE_SELECTION_LISTENER)
+				&& !((mode == EuclidianConstants.MODE_TEXT
+						|| mode == EuclidianConstants.MODE_MOVE)
+						&& currentMenu == mediaMenu)) {
 			doSetCurrentMenu(getSubMenuForMode(mode));
 		}
-
 		if (currentMenu != null) {
 			currentMenu.setMode(mode);
 		}
