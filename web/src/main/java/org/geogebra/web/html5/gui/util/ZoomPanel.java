@@ -57,7 +57,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			addFullscreenButton();
 		}
 		setLabels();
-
 	}
 
 	public void updateFullscreen() {
@@ -145,11 +144,16 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			resetStyleAfterFullscreen(container);
 			Browser.scale(scaler, app.getArticleElement().getDataParamScale(),
 					0, 0);
-
 		}
+
 		Browser.scale(zoomPanel.getElement(), 1, 0, 0);
 	}
 
+	/**
+	 * Resetting position and margins.
+	 * 
+	 * @param container
+	 */
 	protected void resetStyleAfterFullscreen(Element container) {
 		if (container != null) {
 			container.getStyle().setProperty("position",
@@ -169,8 +173,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * Add zoom in/out buttons to GUI
 	 */
 	public void addZoomButtons() {
-
-		// add home button
 		homeBtn = new StandardButton(
 				new ImageResourcePrototype(null,
 						ZoomPanelResources.INSTANCE.home_zoom_black18()
@@ -200,7 +202,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// to stopPropagation and preventDefault.
 			}
-			
 		});
 	}
 
@@ -230,7 +231,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				18, 18, false, false), app);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
-
 
 			@Override
 			public void onClick(Widget source) {
@@ -288,9 +288,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		updateHomeButton();
 	}
 
+	/**
+	 * forces a resize event.
+	 */
 	protected native void dispatchResize() /*-{
 		$wnd.dispatchEvent(new Event("resize"));
-
 	}-*/;
 
 	/**
@@ -298,7 +300,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	protected void toggleFullscreen() {
 		final Element container;
-		final boolean ipad = Browser.isIPad() || true;
+		final boolean ipad = Browser.isIPad();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 		} else {
@@ -328,7 +330,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 					public void run() {
 						scaleApplet(scaler, container);
 						if (ipad) {
-
 							onFullscreen();
 						}
 					}
@@ -345,6 +346,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				}
 			}
 		}
+
 		if (!ipad) {
 			isFullScreen = !isFullScreen;
 			Browser.toggleFullscreen(isFullScreen, container);
@@ -358,6 +360,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		return Math.max(1d, Math.min(xscale, yscale));
 	}
 
+	/**
+	 * Scales the applet to fit the screen.
+	 * 
+	 * @param scaler
+	 *            the applet scaler element.
+	 * @param container
+	 */
 	protected void scaleApplet(Element scaler, Element container) {
 		double xscale = Window.getClientWidth() / app.getWidth();
 		double yscale = Window.getClientHeight() / app.getHeight();
@@ -379,7 +388,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		scaler.getStyle().setMarginTop(marginTop, Unit.PX);
 		app.getArticleElement().resetScale();
 		app.recalculateEnvironments();
-
 	}
 
 	/**
