@@ -75,7 +75,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * add fullscreen button
 	 */
 	public void addFullscreenButton() {
-		// add fullscreen button
 		fullscreenBtn = new StandardButton(
 				new ImageResourcePrototype(null,
 						ZoomPanelResources.INSTANCE.fullscreen_black18()
@@ -97,6 +96,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				toggleFullscreen();
 			}
 		};
+
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
 		Browser.addFullscreenListener(new StringHandler() {
 
@@ -110,7 +110,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			}
 		});
 		zoomPanel.add(fullscreenBtn);
-
 	}
 
 	/**
@@ -163,8 +162,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 						containerMarginTop);
 			}
 		}
-
 	}
+
+	/**
+	 * Add zoom in/out buttons to GUI
+	 */
 	public void addZoomButtons() {
 
 		// add home button
@@ -188,16 +190,14 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		zoomPanel.add(homeBtn);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
-
 			addZoomOutButton();
-
 		}
+
 		ClickStartHandler.init(zoomPanel, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// to stopPropagation and preventDefault.
-				
 			}
 			
 		});
@@ -238,7 +238,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
 		zoomPanel.add(zoomInBtn);
-
 	}
 
 	/**
@@ -326,7 +325,6 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 						if (ipad) {
 							onFullscreen();
 						}
-
 					}
 				};
 				// delay scaling to make sure scrollbars disappear
@@ -344,10 +342,18 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
+	private static double getDeviceScale(double xscale, double yscale) {
+		if ((xscale < 1 || yscale < 1) || Browser.isIPad()) {
+			return Math.min(1d, Math.min(xscale, yscale));
+		}
+		return Math.max(1d, Math.min(xscale, yscale));
+	}
+
 	protected void scaleApplet(Element scaler, Element container) {
-		double xscale = Window.getClientWidth() / app.getWidth();
-		double yscale = Window.getClientHeight() / app.getHeight();
-		double scale = Math.max(1d, Math.min(xscale, yscale));
+		int margin = 32;
+		double xscale = (Window.getClientWidth() - margin) / app.getWidth();
+		double yscale = (Window.getClientHeight() - margin) / app.getHeight();
+		double scale = getDeviceScale(xscale, yscale);
 		Browser.scale(scaler, scale, 0, 0);
 		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
 		container.getStyle().setWidth(100, Unit.PCT);
