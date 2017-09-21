@@ -59,7 +59,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     		}
     	
     		.textButton, .okBtn, .cancelBtn {
-    			width: 64px !important;	
+    			width: 100% !important;
+    			min-width: 64px;	
+    			max-width: 128px;
     			color: $black;
     			margin-top: 0px;
     			margin-left: 16px;
@@ -81,6 +83,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     				background-color: $white;
     			}
     		}  
+    	
+    		.settingsBtn {
+    		    width: 100% !important;
+    			max-width: 256px;
+    			min-width: 136px;
+    		}
     	
     		.clearImgBtn {
     			padding: 4px;
