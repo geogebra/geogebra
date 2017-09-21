@@ -644,6 +644,21 @@ public class GeoGebraColorConstants {
 			rgb(255, 51, 204), CRIMSON, rgb(204, 0, 102), rgb(153, 0, 51),
 			rgb(102, 0, 153), };
 
+	public static GColor[] getSwatchColors() {
+		GColor[] primColor = GeoGebraColorConstants.getPrimarySwatchColors();
+		GColor[] colors = GeoGebraColorConstants.mainColorSwatchColors;
+		return new GColor[] {
+				primColor[0], primColor[2], primColor[4], primColor[8], primColor[10], primColor[12], GColor.BLACK,
+				GeoGebraColorConstants.GEOGEBRA_OBJECT_RED, GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE, colors[19], GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN, colors[43], GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE, GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
+				colors[0], colors[8], colors[16], colors[32], colors[40], colors[48], colors[56],
+				colors[1], colors[9], colors[17], colors[24], colors[41], colors[49], colors[57],
+				colors[3], colors[11], primColor[5], colors[33], primColor[11], colors[51], colors[59],
+				colors[4], colors[12], colors[20], colors[36], colors[44], colors[52], colors[60],
+				colors[6], colors[14], colors[22], colors[38], colors[46], colors[54], colors[62],
+				colors[7], colors[15], colors[23], colors[39], colors[47], colors[55], colors[63]
+		};
+	}
+
 	private static volatile HashMap<String, GColor> colors = null;
 
 	/**
