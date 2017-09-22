@@ -54,6 +54,9 @@ public class PopupMenuButtonW extends MyCJButton
 	private PopupMenuHandler popupHandler;
 	private Slider mySlider;
 	private Label sliderLabel;
+	/**
+	 * title label
+	 */
 	protected Label titleLabel;
 	private SelectionTableW myTable;
 	private boolean hasTable;
@@ -182,7 +185,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
-				updateBorderColor(getElement(), isBorderTeal);
+				updateBorderColor(getElement(), isBorderTeal, getApp());
 			}
 		});
 		this.addMouseOutHandler(new MouseOutHandler() {
@@ -193,7 +196,7 @@ public class PopupMenuButtonW extends MyCJButton
 						&& EuclidianStyleBarW.getCurrentPopup() != null
 						&& getMyPopup().equals(
 								EuclidianStyleBarW.getCurrentPopup())) {
-					updateBorderColor(getElement(), isBorderTeal);
+					updateBorderColor(getElement(), isBorderTeal, getApp());
 				} else {
 					getElement().getStyle().setBorderColor("#dcdcdc");
 				}
@@ -272,7 +275,7 @@ public class PopupMenuButtonW extends MyCJButton
 			}
 			EuclidianStyleBarW.setCurrentPopup(myPopup);
 			EuclidianStyleBarW.setCurrentPopupButton(this);
-			updateBorderColor(getElement(), isBorderTeal);
+			updateBorderColor(getElement(), isBorderTeal, app);
 			app.registerPopup(myPopup);
 			/* getWidget().addStyleName("active"); */
 			myPopup.showRelativeTo(getWidget());
@@ -291,10 +294,13 @@ public class PopupMenuButtonW extends MyCJButton
 	 *            element
 	 * @param isBorderTeal
 	 *            whether border should be teal (otherwise purple)
+	 * @param app
+	 *            application
 	 */
-	static void updateBorderColor(Element element, boolean isBorderTeal) {
-		element.getStyle().setBorderColor(isBorderTeal ? "#008475" : "#6557D2");
-
+	static void updateBorderColor(Element element, boolean isBorderTeal,
+			AppW app) {
+		element.getStyle().setBorderColor(isBorderTeal ? "#008475"
+				: app.isWhiteboardActive() ? "#00a8d5" : "#6557D2");
 	}
 
 	/**
@@ -624,6 +630,13 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public int getSliderValue() {
 		return mySlider == null ? -1 : mySlider.getValue();
+	}
+
+	/**
+	 * @return application
+	 */
+	public AppW getApp() {
+		return app;
 	}
 
 	/**

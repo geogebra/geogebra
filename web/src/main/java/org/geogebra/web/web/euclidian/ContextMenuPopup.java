@@ -115,10 +115,14 @@ public class ContextMenuPopup extends MyCJButton
 		if (isActive) {
 			ImgResourceHelper
 					.setIcon(
-							app.isUnbundled() || app.isWhiteboardActive()
+							app.isUnbundled()
 									? MaterialDesignResources.INSTANCE
 											.more_vert_purple()
-									: AppResources.INSTANCE.dots_active(),
+									: app.isWhiteboardActive()
+											? MaterialDesignResources.INSTANCE
+													.more_vert_mebis()
+											: AppResources.INSTANCE
+													.dots_active(),
 							this);
 		} else {
 			ImgResourceHelper
@@ -154,9 +158,12 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		popup.update();
 		popup.show(location);
-		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
+		ImgResourceHelper.setIcon(app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
-				: AppResources.INSTANCE.dots_active(), this);
+				: app.isWhiteboardActive()
+						? MaterialDesignResources.INSTANCE.more_vert_mebis()
+						: AppResources.INSTANCE.dots_active(),
+				this);
 		this.addStyleName("noOpacity");
 		popup.setMenuShown(true);
 	}
@@ -203,9 +210,13 @@ public class ContextMenuPopup extends MyCJButton
 	public void onMouseOver(MouseOverEvent event) {
 		ImgResourceHelper
 				.setIcon(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundled()
 				? MaterialDesignResources.INSTANCE.more_vert_purple()
-				: AppResources.INSTANCE.dots_active(), this);
+								: app.isWhiteboardActive()
+										? MaterialDesignResources.INSTANCE
+												.more_vert_mebis()
+										: AppResources.INSTANCE.dots_active(),
+						this);
 	}
 
 }

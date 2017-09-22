@@ -42,6 +42,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_purple_24px.svg")
 	SVGResource more_vert_purple();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_mebis_24px.svg")
+	SVGResource more_vert_mebis();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/rename_black.svg")
 	SVGResource rename_black();
 
