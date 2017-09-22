@@ -1451,11 +1451,10 @@ public class GeoText extends GeoElement
 			return super.getDefinitionForEditor();
 		}
 
-		String ret = getAlgebraDescription(StringTemplate.editorTemplate)
-				.replace("\"", "").replace(Unicode.OPEN_DOUBLE_QUOTE + "", "")
-				.replace(Unicode.CLOSE_DOUBLE_QUOTE + "", "").split(" = ")[1];
-
-		return ret;
+		String[] ret = getAlgebraDescription(StringTemplate.editorTemplate)
+                .replace("\"", "").replace(Unicode.OPEN_DOUBLE_QUOTE + "", "")
+                .replace(Unicode.CLOSE_DOUBLE_QUOTE + "", "").split(" = ");
+        return ret.length > 1 ? ret[1] : "";
 	}
 
 	/**
