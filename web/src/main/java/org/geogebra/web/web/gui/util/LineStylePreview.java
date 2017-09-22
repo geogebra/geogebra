@@ -19,6 +19,14 @@ public class LineStylePreview extends StylePreview {
 	private DrawLine drawLine;
 
 
+	/**
+	 * @param app
+	 *            application
+	 * @param width
+	 *            width of line
+	 * @param height
+	 *            height of line
+	 */
 	public LineStylePreview(AppW app, int width, int height) {
 		super(app, width, height);
 	}
@@ -28,8 +36,8 @@ public class LineStylePreview extends StylePreview {
 		line = new GeoLine(app.getKernel().getConstruction(), 0, 1, 0);
 		line.setLineType(1);
 		drawLine = new DrawLine(app.getActiveEuclidianView(), line);
-
 	}
+
 	/**
 	 * Update preview
 	 * 
@@ -48,7 +56,6 @@ public class LineStylePreview extends StylePreview {
 		line.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 		clear();
 		drawLine.drawStylePreview(g2, getMarginX(), getMarginY(),
-				getOffsetWidth());
+				getOffsetWidth() == 0 ? 30 : getOffsetWidth());
 	}
-
 }

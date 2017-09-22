@@ -34,7 +34,6 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		panel.add(sliderPanel);
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
-		updatePreview();
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {
 			addSliderTitle();
 			panel.addStyleName("mowPopup");
@@ -44,6 +43,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		}
 		preview.addStyleName("preview");
 		setKeepVisible(true);
+		updatePreview();
 	}
 
 	@Override

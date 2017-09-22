@@ -14,6 +14,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 
+/**
+ * button to get popup with filling options
+ */
 public class FillingStyleButton extends PopupMenuButtonW {
 
 	private static final int FILL_TYPES_COUNT = 5;
@@ -24,6 +27,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 	 * Filling style for fillable Geos
 	 * 
 	 * @param app
+	 *            application
 	 */
 	public FillingStyleButton(App app) {
 		super(app, createDummyIcons(5), -1, 5, SelectionTable.MODE_ICON, false);
@@ -31,7 +35,6 @@ public class FillingStyleButton extends PopupMenuButtonW {
 		// pp.addStyleName("fillingPopup");
 		pp.addStyleName("mowPopup");
 		createFillTable();
-
 	}
 
 	private void createFillTable() {
@@ -43,6 +46,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 		getMyTable().addClickHandler(new ClickHandler() {
 
 			@Override
+
 			public void onClick(ClickEvent event) {
 				handlePopupActionEvent();
 			}
@@ -58,6 +62,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 		}
 		return a;
 	}
+
 	/**
 	 * Shows/hides fill table.
 	 * 
@@ -71,10 +76,12 @@ public class FillingStyleButton extends PopupMenuButtonW {
 		}
 	}
 
+	/**
+	 * @return selected fill type
+	 */
 	public FillType getSelectedFillType() {
 		int idx = getMyTable().getSelectedIndex();
 		return idx != -1 ? fillTypes[idx] : FillType.STANDARD;
-
 	}
 
 	/**
@@ -91,6 +98,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 		}
 		// this.setIcon(getButtonIcon());
 	}
+
 	@Override
 	public ImageOrText getButtonIcon() {
 		/*
