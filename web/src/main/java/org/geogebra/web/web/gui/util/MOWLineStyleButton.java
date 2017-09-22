@@ -27,14 +27,11 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	 */
 	public MOWLineStyleButton(AppW app) {
 		super(app, -1, 5, SelectionTable.MODE_ICON, true, true);
-
-
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();
 		panel.add(getMyTable());
 		panel.add(sliderPanel);
-
 		preview = new LineStylePreview(app, CANVAS_WIDTH, CANVAS_HEIGHT);
 		sliderPanel.add(preview);
 		updatePreview();
@@ -80,6 +77,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 		getMySlider().setWidth("140px");
 		setLabels();
 	}
+
 	/**
 	 * No text (but canvas) for slider so leave this empty.
 	 */
@@ -96,5 +94,4 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	private void updatePreview() {
 		preview.update(getSliderValue(), getSelectedIndex(), GColor.BLACK);
 	}
-
 }

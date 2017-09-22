@@ -316,6 +316,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public void setLabels() {
 			titleLabel.setText(app.getLocalization().getMenu("Opacity"));
 	}
+
 	@Override
 	protected String getSliderPostfix() {
 		if (app.has(Feature.MOW_COLOR_FILLING_LINE)) {

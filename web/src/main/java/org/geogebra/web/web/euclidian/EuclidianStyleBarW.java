@@ -2022,6 +2022,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		this.btnBold.getUpFace().setText(loc.getMenu("Bold.Short"));
 		this.btnItalic.getUpFace().setText(loc.getMenu("Italic.Short"));
 		btnLabel.setLabels();
+		btnLineStyle.setLabels();
+		btnColor.setLabels();
 		// set labels for ToolTips
 		setToolTips();
 	}
