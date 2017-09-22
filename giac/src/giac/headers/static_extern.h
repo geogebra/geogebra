@@ -1,5 +1,6 @@
 #ifndef STATIC_EXTERN
 #define STATIC_EXTERN
+namespace giac {
 struct unary_function_ptr;
 extern const unary_function_ptr * const  at_polar_complex ;
 extern const unary_function_ptr * const  at_PERCENT;
@@ -1252,4 +1253,5 @@ extern const unary_function_ptr * const  at_HPSUM;
 extern const unary_function_ptr * const  at_SIGMALIST;
 extern const unary_function_ptr * const  at_HPDIFF;
 extern const unary_function_ptr * const  at_HPINT;
+}
 #endif // STATIC_EXTERN

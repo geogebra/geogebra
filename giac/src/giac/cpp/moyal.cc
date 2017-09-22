@@ -2328,7 +2328,7 @@ namespace giac {
 
   gen _randgeometric(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return _ceil(gen(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/ln(1-g,contextptr)),contextptr);
+    return _ceil(gen(std::log(1-giac_rand(contextptr)/(rand_max2+1.0)))/ln(1-g,contextptr),contextptr);
   }
   static const char _randgeometric_s []="randgeometric";
   static define_unary_function_eval (__randgeometric,&_randgeometric,_randgeometric_s);

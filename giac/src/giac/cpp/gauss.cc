@@ -635,7 +635,7 @@ namespace giac {
 	    tmp=z0+zV0*tmp;
 	  }
 	  if (is_undef(ratparam))
-	    ratparam=z0+zV0*(vp0*(1-pow(t,2))+cst_i*vp1*2*t)/(1+pow(t,2));
+	    ratparam=z0+zV0*(vp0*(1-pow(t,2))+cst_i*vp1*plus_two*t)/(1+pow(t,2));
 
     bool rad = angle_radian(contextptr), deg = angle_degree(contextptr);
 	  param_curves.push_back(makevecteur(tmp,t,0, rad?cst_two_pi:(deg ? 360 : 400), rad?cst_two_pi/60:(deg?6:rdiv(20,3)),q,ratparam)); //grad
@@ -679,7 +679,7 @@ namespace giac {
 	  }
 	  bool noratparam=is_undef(ratparam);
 	  if (noratparam){
-	    ratparam=vp0*((sprodcoeff<0)?(t+1/t)/2:(t-1/t)/2)+cst_i*vp1*((sprodcoeff<0)?(t-1/t)/2:(t+1/t)/2);
+	    ratparam=vp0*gen((sprodcoeff<0)?(t+plus_one/t)/2:(t-plus_one/t)/2)+cst_i*vp1*((sprodcoeff<0)?(t-plus_one/t)/2:(t+plus_one/t)/2);
 	    ratparam=z0+zV0*ratparam;
 	  }
 	  param_curves.push_back(makevecteur(tmp,t,-3.14,3.14,0.0314,q,ratparam));
