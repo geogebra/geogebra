@@ -11,16 +11,34 @@ import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * Class for Plus menu for AV Input to select input method (expression, text or
+ * image) and get help.
+ * 
+ * @author Laszlo Gal
+ *
+ */
 public class ContextMenuPlus implements SetLabels {
+	/** The popup itself */
 	protected GPopupMenuW wrappedPopup;
-	protected Localization loc;
-	private AppW app;
 
+	/** Localization */
+	protected Localization loc;
+
+	/** Application */
+	AppW app;
+
+	/** The AV item associated the menu with */
 	RadioTreeItem item;
+
+	/** On-Screen Keyboard instance to switch tabs if needed */
 	TabbedKeyboard kbd;
+
 	/**
 	 * Creates new context menu
 	 * 
@@ -122,12 +140,38 @@ public class ContextMenuPlus implements SetLabels {
 
 		wrappedPopup.addItem(mi);
 	}
+
+	/**
+	 * Show popup menu at a given point.
+	 * 
+	 * @param p
+	 *            point to show the menu at.
+	 */
 	public void show(GPoint p) {
 		wrappedPopup.show(p);
+		focusDeferred();
 	}
 
+	/**
+	 * Show popup menu at (x, y) screen coordinates.
+	 * 
+	 * @param x
+	 *            y coordinate.
+	 * @param y
+	 *            y coordinate.
+	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
+		focusDeferred();
+	}
+
+	private void focusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				wrappedPopup.getPopupMenu().getElement().focus();
+			}
+		});
 	}
 
 	@Override
@@ -135,7 +179,10 @@ public class ContextMenuPlus implements SetLabels {
 		buildGUI();
 	}
 	
-	private void showHelp() {
+	/**
+	 * Shows command help dialog for the item.
+	 */
+	void showHelp() {
 		if (MarblePanel.checkError(item)) {
 			return;
 		}
