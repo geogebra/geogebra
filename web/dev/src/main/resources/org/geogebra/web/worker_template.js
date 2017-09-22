@@ -62,23 +62,7 @@ self.addEventListener('fetch', function (event) {
         }
         // third attempt: fetch un-cached file from other place
         silent || console.log("[fetch] No match in cached files: " + event.request.url);
-        return fetch(event.request).then(
-                function(response) {
-                  // Check if we received a valid response
-                  if(!response || response.status !== 200 || response.type !== 'basic' || response.method !== 'GET') {
-                    return response;
-                  }
-
-                  var responseToCache = response.clone();
-
-                  caches.open(urlsToCache.unique_id)
-                    .then(function(cache) {
-                      cache.put(event.request, responseToCache);
-                    });
-
-                  return response;
-                }
-              );
+        return fetch(event.request);
       }).catch(function (reason) {
       silent || console.error(reason);
     })
