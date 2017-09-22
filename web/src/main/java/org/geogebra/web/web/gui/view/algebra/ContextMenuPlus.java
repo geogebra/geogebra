@@ -189,7 +189,5 @@ public class ContextMenuPlus implements SetLabels {
 		MarblePanel.showDeferred(item);
 
 	}
-
-
 }
 
