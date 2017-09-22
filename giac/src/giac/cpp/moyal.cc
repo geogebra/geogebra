@@ -329,7 +329,7 @@ namespace giac {
 	w[i]=randNorm(contextptr);
       return evalf(v[0]+v[1]*w,1,contextptr);
     }
-    return evalf(v[0]+v[1]*randNorm(contextptr),1,contextptr);
+    return evalf(v[0]+v[1]*gen(randNorm(contextptr)),1,contextptr);
   }
   static const char _randNorm_s []="randNorm";
   static define_unary_function_eval (__randNorm,&_randNorm,_randNorm_s);
@@ -1813,7 +1813,7 @@ namespace giac {
   gen cauchy(const gen & x0,const gen & a,const gen & x,GIAC_CONTEXT){
     if (x.type==_VECT)
       return apply3rd(x0,a,x,contextptr,cauchy);
-    return 1/cst_pi*a/(pow(x-x0,2,contextptr)+pow(a,2,contextptr));
+    return plus_one/cst_pi*a/(pow(x-x0,2,contextptr)+pow(a,2,contextptr));
   }
   gen _cauchy(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1936,7 +1936,7 @@ namespace giac {
   gen weibull_icdf(const gen & k,const gen & lambda,const gen & theta,const gen & y,GIAC_CONTEXT){
     // solve(1-exp(-((x-theta)/lambda)^k)=y,x)
     // x=lambda*(-ln(-(y-1)))^(1/k)+theta
-    return lambda*pow(-ln(1-y,contextptr),1/k,contextptr)+theta;
+    return lambda*pow(-ln(1-y,contextptr),plus_one/k,contextptr)+theta;
   }
   gen _weibull_icdf(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -1962,7 +1962,7 @@ namespace giac {
 
   gen betad(const gen &alpha,const gen & beta,const gen & x,GIAC_CONTEXT){
     if ( (x==0 && alpha==1) || (x==1 && beta==1))
-      return 1/Beta(alpha,beta,contextptr);
+      return plus_one/Beta(alpha,beta,contextptr);
     return pow(x,alpha-1,contextptr)*pow(1-x,beta-1,contextptr)/Beta(alpha,beta,contextptr);
   }
   gen _betad(const gen & g,GIAC_CONTEXT){
@@ -2031,8 +2031,8 @@ namespace giac {
       if (beta._DOUBLE_val<1 && y>.5)
 	return 1-betad_icdf(beta,alpha,1-y,contextptr);
       double Y=y*Beta(alpha,beta,contextptr)._DOUBLE_val;
-      tmp=exp(ln(alpha*Y,contextptr)/alpha,contextptr);
-      tmp=tmp*(1+tmp*(beta._DOUBLE_val-1)/(alpha._DOUBLE_val+1));
+      tmp=exp(ln(alpha*gen(Y),contextptr)/alpha,contextptr);
+      tmp=tmp*(1+tmp*gen(beta._DOUBLE_val-1)/(alpha._DOUBLE_val+1));
       if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val>0)
 	x0=tmp._DOUBLE_val;
       if (x0<1e-4)
@@ -2122,7 +2122,7 @@ namespace giac {
       prefactor=1.;
     }
     else {
-      gen tmp=exp(ln(alpha*y*Gamma(alpha,contextptr),contextptr)/alpha,contextptr);
+      gen tmp=exp(ln(alpha*gen(y)*Gamma(alpha,contextptr),contextptr)/alpha,contextptr);
       tmp=tmp*(1-tmp/(alpha._DOUBLE_val+1));
       if (tmp.type==_DOUBLE_ && tmp._DOUBLE_val>0)
 	x0=tmp._DOUBLE_val;
@@ -2328,7 +2328,7 @@ namespace giac {
 
   gen _randgeometric(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return _ceil(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/ln(1-g,contextptr),contextptr);
+    return _ceil(gen(std::log(1-giac_rand(contextptr)/(rand_max2+1.0))/ln(1-g,contextptr)),contextptr);
   }
   static const char _randgeometric_s []="randgeometric";
   static define_unary_function_eval (__randgeometric,&_randgeometric,_randgeometric_s);
@@ -3748,7 +3748,7 @@ namespace giac {
       return gendimerr(contextptr);
     gen res=1;
     for (int k=2;k<=n.val;++k){
-      res += 1/pow(gen(k),e,contextptr);
+      res += plus_one/pow(gen(k),e,contextptr);
     }
     return res;
   }

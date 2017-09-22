@@ -1117,6 +1117,10 @@ namespace giac {
     // Compute a vector of size n+1 with last element=remainder
     vecteur res,remain;
     gen tmp(g),f;
+#ifndef HAVE_LIBMPFR
+    if (!alg_lvar(tmp).empty())
+      tmp=evalf_double(tmp,1,contextptr);
+#endif
     int i=0,j;
     for (;i<n;++i){
       if ( (j=equalposcomp(remain,tmp)) ){

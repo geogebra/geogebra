@@ -682,7 +682,7 @@ namespace giac {
       return false;
     ifstream i(file.c_str());
     // Skip navigation panel 
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
     char * buf=new char[BUFFER_SIZE+1];
 #else
     char buf[BUFFER_SIZE+1];
@@ -745,7 +745,7 @@ namespace giac {
 	    } // if (endcmd>2 && endcmd<t)
 	  } // if (t>29 &&...
 	} // for (;i && !i.eof();) end of file
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	delete [] buf;
 #endif
 	return true;
@@ -759,13 +759,13 @@ namespace giac {
 	  if (warn)
 	    cerr << "Using index " << s << endl;
 	  find_index(current_dir,current_dir+s,mtt,mall,true,warn);
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	  delete [] buf;
 #endif
 	  return true;
 	}
       }
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
       delete [] buf;
 #endif
     }
@@ -905,7 +905,7 @@ namespace giac {
     return 0;
   }
 
-#if ! (defined VISUALC || defined BESTA_OS || defined NSPIRE || defined NSPIRE_NEWLIB)
+#if ! (defined VISUALC || defined BESTA_OS || defined FREERTOS || defined NSPIRE || defined NSPIRE_NEWLIB)
 #ifdef WIN32
   static int dir_select (const struct dirent *d){
     string s(d->d_name);
@@ -1061,7 +1061,7 @@ namespace giac {
 
   // extern int debug_infolevel;
   static bool get_index_from_cache(const char * filename, multimap<string,string> & multi,bool verbose){
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS  || defined FREERTOS
     char * buf = new char[BUFFER_SIZE];
 #else
     char buf[BUFFER_SIZE];
@@ -1073,7 +1073,7 @@ namespace giac {
       if (!if_mtt || if_mtt.eof()){
 	if (verbose)
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	delete [] buf;
 #endif
 	return true;
@@ -1081,7 +1081,7 @@ namespace giac {
       string first(buf);
       if_mtt.getline(buf,BUFFER_SIZE,char(0xa4));
       if (!if_mtt || if_mtt.eof()){
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	delete [] buf;
 #endif
 	return false;
@@ -1102,15 +1102,13 @@ namespace giac {
 	  multi.clear();
 	  cerr << "Wrong cache! " << filename << endl;
 	  if_mtt.close();
-	  #ifndef RTOS_THREADX
-	  #ifndef BESTA_OS
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS
 	  if (unlink(filename)==-1)
 	    cerr <<  "You don't have write permissions on " << filename <<".\nYou must ask someone who has write permissions to remove " << filename << endl;
 	  else
 	    cerr << "Cache file "<< filename << " has been deleted" << endl;
-	  #endif
-	  #endif
-#if defined VISUALC || defined BESTA_OS
+#endif
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	  delete [] buf;
 #endif
 	  return false;
@@ -1121,14 +1119,14 @@ namespace giac {
     }
     if (verbose)
       cerr << "// Read " << n << " entries from cache " << filename ;
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
     delete [] buf;
 #endif
     return true;
   }
 
   static bool get_index_from_cache(const char * filename, vector<string> & multi,bool verbose){
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
     char * buf = new char[BUFFER_SIZE];
 #else
     char buf[BUFFER_SIZE];
@@ -1138,12 +1136,12 @@ namespace giac {
     while (if_mtt && !if_mtt.eof()){
       if_mtt.getline(buf,BUFFER_SIZE,char(0xa4));
       if (!if_mtt || if_mtt.eof()){
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	delete [] buf;
 #endif
 	if (verbose)	
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
 	delete [] buf;
 #endif
 	return true;
@@ -1152,7 +1150,7 @@ namespace giac {
       ++n;
       if_mtt.getline(buf,BUFFER_SIZE,'\n');
     }
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
     delete [] buf;
 #endif
     if (verbose)

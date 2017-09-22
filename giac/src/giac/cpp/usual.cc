@@ -209,15 +209,13 @@ namespace giac {
   
   gen _rm_a_z(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-#ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS
     if (variables_are_files(contextptr)){
       char a_effacer[]="a.cas";
       for (;a_effacer[0]<='z';++a_effacer[0]){
 	unlink(a_effacer);
       }
     }
-#endif
 #endif
     for (char c='a';c<='z';c++){
       purgenoassume(gen(string(1,c),contextptr),contextptr);
@@ -3748,9 +3746,10 @@ namespace giac {
 	v=*valeur._VECTptr;
 	vptr=&v;
       }
-      if ( (indice.is_symb_of_sommet(*at_interval) || indice.is_symb_of_sommet(*at_deuxpoints))&& indice._SYMBptr->feuille.type==_VECT && indice._SYMBptr->feuille._VECTptr->size()==2){
+      bool indicedeuxpoints=indice.is_symb_of_sommet(*at_deuxpoints);
+      if ( (indice.is_symb_of_sommet(*at_interval) || indicedeuxpoints)&& indice._SYMBptr->feuille.type==_VECT && indice._SYMBptr->feuille._VECTptr->size()==2){
 	gen deb=indice._SYMBptr->feuille._VECTptr->front();
-	gen fin=indice._SYMBptr->feuille._VECTptr->back();
+	gen fin=indice._SYMBptr->feuille._VECTptr->back()+(indicedeuxpoints?minus_one:zero);
 	if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ )
 	  return gendimerr();
 	if (deb.val<0) deb.val+=int(vptr->size());
@@ -3796,9 +3795,10 @@ namespace giac {
       iterateur it=indice._VECTptr->begin(),itend=indice._VECTptr->end();
       if (itend-it==2){
 	gen i2=*(it+1);
-	if ( (it->is_symb_of_sommet(*at_interval) ||it->is_symb_of_sommet(*at_deuxpoints) ) && it->_SYMBptr->feuille.type==_VECT && it->_SYMBptr->feuille._VECTptr->size()==2){
+	bool itdeuxpoints=it->is_symb_of_sommet(*at_deuxpoints);
+	if ( (it->is_symb_of_sommet(*at_interval) || itdeuxpoints ) && it->_SYMBptr->feuille.type==_VECT && it->_SYMBptr->feuille._VECTptr->size()==2){
 	  gen deb=it->_SYMBptr->feuille._VECTptr->front();
-	  gen fin=it->_SYMBptr->feuille._VECTptr->back();
+	  gen fin=it->_SYMBptr->feuille._VECTptr->back()+(itdeuxpoints?minus_one:zero);
 	  if (!is_integral(deb) || !is_integral(fin) || deb.type!=_INT_ || fin.type!=_INT_ )
 	    return gendimerr(contextptr);
 	  if (deb.val<0) deb.val+=int(vptr->size());
@@ -3819,9 +3819,10 @@ namespace giac {
 	    for (int i=deb.val;i<=fin.val;++i)
 	      (*vptr)[i]=*(*vptr)[i]._VECTptr;
 	  }
-	  if ( (i2.is_symb_of_sommet(*at_interval) || i2.is_symb_of_sommet(*at_deuxpoints)) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
+	  bool i2deuxpoints=i2.is_symb_of_sommet(*at_deuxpoints);
+	  if ( (i2.is_symb_of_sommet(*at_interval) || i2deuxpoints) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
 	    gen deb2=i2._SYMBptr->feuille._VECTptr->front();
-	    gen fin2=i2._SYMBptr->feuille._VECTptr->back();
+	    gen fin2=i2._SYMBptr->feuille._VECTptr->back()+(i2deuxpoints?minus_one:zero);
 	    if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_) 
 	      return gendimerr(contextptr);
 	    if (deb2.val<0) deb2.val+=cols;
@@ -3877,13 +3878,14 @@ namespace giac {
 	if (it->type!=_INT_ || it->val<0)
 	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
 	int i1=it->val;
-	if ( (i2.is_symb_of_sommet(*at_interval) || i2.is_symb_of_sommet(*at_deuxpoints)) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
+	bool i2deuxpoints=i2.is_symb_of_sommet(*at_deuxpoints);
+	if ( (i2.is_symb_of_sommet(*at_interval) || i2deuxpoints) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
 	  if (!ckmatrix(*vptr))
 	    return gendimerr(contextptr);
 	  if (!in_place)
 	    (*vptr)[i1]=*(*vptr)[i1]._VECTptr;
 	  gen deb2=i2._SYMBptr->feuille._VECTptr->front();
-	  gen fin2=i2._SYMBptr->feuille._VECTptr->back();
+	  gen fin2=i2._SYMBptr->feuille._VECTptr->back()+(i2deuxpoints?minus_one:zero);
 	  if (!is_integral(deb2) || !is_integral(fin2) || deb2.type!=_INT_ || fin2.type!=_INT_ )
 	    return gendimerr(contextptr);
 	  if (deb2.val<0) deb2.val += int(vptr->front()._VECTptr->size());
@@ -7023,7 +7025,7 @@ namespace giac {
 
 
   string version(){
-    return string("giac ")+VERSION+string(", (c) B. Parisse and R. De Graeve, Institut Fourier, Universite de Grenoble I");
+    return string("giac ")+GIAC_VERSION+string(", (c) B. Parisse and R. De Graeve, Institut Fourier, Universite de Grenoble I");
   }
   gen _version(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;

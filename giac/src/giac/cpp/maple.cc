@@ -65,7 +65,7 @@ using namespace std;
 #endif
 
 
-#ifdef GIAC_HAS_STO_38
+#if 0 // def GIAC_HAS_STO_38
   TMillisecs PrimeGetNow();
 #endif
 

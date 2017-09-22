@@ -1652,6 +1652,26 @@ namespace giac {
 
   extern "C" const char * caseval(const char *);
 
+// Alloca proposal by Cyrille to make it work on every compiler.
+#ifndef ALLOCA
+  // alloca versions...
+  #if defined(FREERTOS)
+    // for systems that do not support alloca or s[size] syntaxes
+    class Calloca { public:
+      void *ram;
+      Calloca(size_t s): ram(malloc(s)) { }
+      ~Calloca() { free(ram); }
+    };
+    #define ALLOCA(type, var, size) Calloca alloca##var(size); type *var= (type*)(alloca##var.ram)
+  #else
+    #if defined( VISUALC ) || defined( BESTA_OS )
+      #define ALLOCA(type, var, size) type *var= (type*)alloca(size)
+    #else
+      #define ALLOCA(type, var, size) type var[size]
+    #endif
+  #endif
+#endif
+
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

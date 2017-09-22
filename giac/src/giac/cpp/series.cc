@@ -1922,7 +1922,7 @@ namespace giac {
 	  }
 	  // final correction for Psi
 	  if (temp__SYMB.sommet==at_Psi){
-	    v.insert(v.begin(),((addorder%2)?1:-1)/factorial(addorder));
+	    v.insert(v.begin(),gen((addorder%2)?1:-1)/factorial(addorder));
 	    shift_coeff -= 1;
 	  }
 	}

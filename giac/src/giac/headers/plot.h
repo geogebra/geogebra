@@ -67,8 +67,8 @@ enum Fl_Color {	// standard colors
 //#ifndef LP64
 typedef ptrdiff_t Int;
 //#else typedef signed long Int; #endif
-#include "Colors.h"
-//#include "../../src/Colors.h"
+//#include "Colors.h"
+#include "../../src/Colors.h"
 enum Fl_Color {
   FL_BLACK = ColorBlack,
   FL_WHITE = ColorWhite,

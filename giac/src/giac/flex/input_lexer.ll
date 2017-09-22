@@ -45,10 +45,10 @@
  */
 
 %{
+#include "giacPCH.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-#include "first.h"
 #include <iostream>
 #include <stdexcept>
 
@@ -82,11 +82,11 @@
 #include "permu.h"
 #include "input_parser.h"    
 
-#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined MS_SMART 
+#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined MS_SMART || defined(FREERTOS)
   int isatty (int ){ return 0; }
 #endif
 
-#ifdef BESTA_OS
+#if defined BESTA_OS || defined(FREERTOS)
 #define EINTR           4
 #endif
 
@@ -944,10 +944,12 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	  ofstream static_extern("static_extern.h");
 	  static_extern << "#ifndef STATIC_EXTERN" << endl;
 	  static_extern << "#define STATIC_EXTERN" << endl;
+	  static_extern << "namespace giac{" << endl;
 	  static_extern << "struct unary_function_ptr;" << endl;
 	  for (int i=0;i<nfunc;i++){
 	    static_extern << "extern const unary_function_ptr * const  at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ";" << endl;
 	  }
+	  static_extern << "}" << endl;
 	  static_extern << "#endif // STATIC_EXTERN" << endl;
 	  static_extern.close();
 	}

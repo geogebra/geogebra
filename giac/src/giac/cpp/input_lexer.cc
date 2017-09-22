@@ -1370,10 +1370,10 @@ static yyconst flex_int16_t yy_chk[2073] =
  *  Definitions
  */
 #line 48 "input_lexer.ll"
+#include "giacPCH.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
-#include "first.h"
 #include <iostream>
 #include <stdexcept>
 
@@ -1407,11 +1407,11 @@ static yyconst flex_int16_t yy_chk[2073] =
 #include "permu.h"
 #include "input_parser.h"    
 
-#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined MS_SMART 
+#if defined(RTOS_THREADX) || defined(__MINGW_H) || defined NSPIRE || defined MS_SMART || defined(FREERTOS)
   int isatty (int ){ return 0; }
 #endif
 
-#ifdef BESTA_OS
+#if defined BESTA_OS || defined(FREERTOS)
 #define EINTR           4
 #endif
 
@@ -5339,10 +5339,12 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	  ofstream static_extern("static_extern.h");
 	  static_extern << "#ifndef STATIC_EXTERN" << endl;
 	  static_extern << "#define STATIC_EXTERN" << endl;
+	  static_extern << "namespace giac{" << endl;
 	  static_extern << "struct unary_function_ptr;" << endl;
 	  for (int i=0;i<nfunc;i++){
 	    static_extern << "extern const unary_function_ptr * const  at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ";" << endl;
 	  }
+	  static_extern << "}" << endl;
 	  static_extern << "#endif // STATIC_EXTERN" << endl;
 	  static_extern.close();
 	}

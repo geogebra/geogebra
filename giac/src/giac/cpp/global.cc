@@ -170,7 +170,9 @@ namespace giac {
 #endif
 
 #if defined VISUALC || defined BESTA_OS
+#ifndef FREERTOS
   int R_OK=4;
+#endif
   int access(const char *path, int mode ){
     // return _access(path, mode );
     return 0;
@@ -3905,7 +3907,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else // __APPLE__
   bool my_isnan(double d){
 #if defined VISUALC || defined BESTA_OS
-#ifndef RTOS_THREADX
+#if !defined RTOS_THREADX && !defined FREERTOS
     return _isnan(d)!=0;
 #else
     return isnan(d);
@@ -5576,8 +5578,8 @@ unsigned int ConvertUTF8toUTF16 (
 	if (indexshift)
 	  cur.insert(cur.begin()+pos,'0');
 	else {
-	  cur.insert(cur.begin()+pos,'-');
 	  cur.insert(cur.begin()+pos,'1');
+	  cur.insert(cur.begin()+pos,'-');
 	}
 	continue;
       }
@@ -5620,19 +5622,28 @@ unsigned int ConvertUTF8toUTF16 (
     first=s_orig.find("xcas_mode");
     if (first>=0 && first<sss)
       return s_orig;
+    bool pythonmode=false;
     for (first=0;first<sss;){
       int pos=s_orig.find(":]");
-      if (pos>=0 && pos<sss)
+      if (pos>=0 && pos<sss){
+	pythonmode=true;
 	break;
+      }
       pos=s_orig.find("[:");
-      if (pos>=0 && pos<sss)
+      if (pos>=0 && pos<sss){
+	pythonmode=true;
 	break;
+      }
       pos=s_orig.find(",:");
-      if (pos>=0 && pos<sss)
+      if (pos>=0 && pos<sss){
+	pythonmode=true;
 	break;
+      }
       pos=s_orig.find(":,");
-      if (pos>=0 && pos<sss)
+      if (pos>=0 && pos<sss){
+	pythonmode=true;
 	break;
+      }
       first=s_orig.find(':',first);
       if (first<0 || first>=sss)
 	return s_orig; // not Python like
@@ -5658,7 +5669,6 @@ unsigned int ConvertUTF8toUTF16 (
 	break;
     }
     // probably Python-like
-    bool pythonmode=false;
     string res(s_orig);
     if (res.size()>18 && res.substr(0,17)=="add_autosimplify(" 
 	&& res[res.size()-1]==')'

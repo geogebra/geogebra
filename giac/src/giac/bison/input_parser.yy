@@ -31,6 +31,7 @@
 %pure-parser
 %parse-param {void * scanner}
 %{
+#include "giacPCH.h"
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -144,7 +145,8 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %nonassoc TI_STO
 %nonassoc T_PIPE
 %nonassoc T_AFFECT
-%nonassoc T_FOR T_IN
+%nonassoc T_IN
+%nonassoc T_FOR 
 %left TI_SEMI
 %left T_VIRGULE
 %nonassoc T_INTERROGATION
@@ -576,6 +578,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR bloc  {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,symb_bloc($9)));}
 	| T_FOR T_BEGIN_PAR exp_or_empty T_SEMI exp_or_empty T_SEMI exp_or_empty T_END_PAR exp T_SEMI  {$$ = symbolic(*$1._FUNCptr,makevecteur($3,equaltosame($5),$7,$9));}
 	| T_FOR T_BEGIN_PAR exp T_END_PAR	{$$ = symbolic(*$1._FUNCptr,gen2vecteur($3));}
+	| exp T_IN exp {$$=symbolic(at_member,makesequence($1,$3));}
 	| T_VECT_DISPATCH exp T_FOR suite_symbol T_IN exp T_VECT_END { $$=symbolic(at_apply,makesequence(symbolic(at_program,makesequence($4,0*$4,$2)),$6)); }
 	| T_VECT_DISPATCH exp T_FOR suite_symbol T_IN exp T_IF exp T_VECT_END { $$=symbolic(at_apply,symbolic(at_program,makesequence($4,0*$4,$2)),symbolic(at_select,makesequence(symbolic(at_program,makesequence($4,0*$4,$8)),$6))); }
 	| T_WHILE T_BEGIN_PAR exp T_END_PAR bloc { 

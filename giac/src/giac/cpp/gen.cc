@@ -4524,8 +4524,9 @@ namespace giac {
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
     }
-    if ( (a.is_symb_of_sommet(at_interval) || a.is_symb_of_sommet(at_deuxpoints))&& a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
-      return symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()+b,a._SYMBptr->feuille._VECTptr->back()+b));
+    bool adeuxpoints=a.is_symb_of_sommet(at_deuxpoints);
+    if ( (a.is_symb_of_sommet(at_interval) || adeuxpoints)&& a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2)
+      return symbolic(a._SYMBptr->sommet,makesequence(a._SYMBptr->feuille._VECTptr->front()+b,a._SYMBptr->feuille._VECTptr->back()+b+(adeuxpoints?minus_one:zero)));
     if (a.is_symb_of_sommet(at_unit)){
       if (is_zero(b))
 	return a;
@@ -8770,9 +8771,10 @@ namespace giac {
     if (i.type==_FLOAT_)
       return (*this)[ get_int(i._FLOAT_val) ];
     if (i.type==_SYMB){
-      if (i._SYMBptr->sommet==at_interval || i._SYMBptr->sommet==at_deuxpoints) {
+      bool ideuxpoints=i._SYMBptr->sommet==at_deuxpoints;
+      if (i._SYMBptr->sommet==at_interval || ideuxpoints) {
 	gen i1=_ceil(i._SYMBptr->feuille._VECTptr->front(),contextptr);
-	gen i2=_floor(i._SYMBptr->feuille._VECTptr->back(),contextptr);
+	gen i2=_floor(i._SYMBptr->feuille._VECTptr->back(),contextptr)+(ideuxpoints?minus_one:zero);
 	if (is_integral(i1) && is_integral(i2)){
 	  int debut=i1.val,fin=i2.val;
 	  if (debut<0){ 
@@ -8810,10 +8812,11 @@ namespace giac {
 	  }
 	  return gen(tmp,it->subtype);
 	}
-	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_interval || it->_SYMBptr->sommet==at_deuxpoints) && (it+1!=itend) ){
+	bool itdeuxpoints=it->type==_SYMB && it->_SYMBptr->sommet==at_deuxpoints;
+	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_interval || itdeuxpoints) && (it+1!=itend) ){
 	  // submatrix extraction
 	  if ((it->_SYMBptr->feuille._VECTptr->front().type==_INT_) && (it->_SYMBptr->feuille._VECTptr->back().type==_INT_) ){
-	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=it->_SYMBptr->feuille._VECTptr->back().val;
+	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=it->_SYMBptr->feuille._VECTptr->back().val+itdeuxpoints?-1:0;
 	    if (res.type==_VECT){
 	      if (debut<0) debut +=res._VECTptr->size();
 	      if (fin<0) fin +=res._VECTptr->size();
@@ -11113,7 +11116,11 @@ namespace giac {
     if (l>0 && s[l-1]=='.'){
       // make a copy of s, call chartab2gen recursivly, 
       // because some implementations of strtod do not like a . at the end
+#ifdef FREERTOS
+      ALLOCA(char, scopy, l+2); 
+#else
       char * scopy=(char *)alloca(l+2);
+#endif
       strcpy(scopy,s);
       scopy[l]='0';
       scopy[l+1]=0;
@@ -11820,7 +11827,7 @@ namespace giac {
     if (l>unsigned(MAX_PRINTABLE_ZINT))
       return "Integer_too_large_for_display";
 #if defined( VISUALC ) || defined( BESTA_OS )
-    char * s = ( char * )alloca( l );
+    ALLOCA(char, s, l); //s = ( char * )alloca( l );
 #else
     char s[l];
 #endif
@@ -11835,7 +11842,7 @@ namespace giac {
     if (l>unsigned(MAX_PRINTABLE_ZINT))
       return "Integer_too_large";
 #if defined( VISUALC ) || defined( BESTA_OS )
-    char * s = ( char * )alloca( l );
+    ALLOCA(char, s, l);//char * s = ( char * )alloca( l );
 #else
     char s[l];
 #endif
@@ -11867,7 +11874,7 @@ namespace giac {
     if (l>unsigned(MAX_PRINTABLE_ZINT))
       return "Integer_too_large";
 #if defined( VISUALC ) || defined( BESTA_OS )
-    char * s = ( char * )alloca( l );
+    ALLOCA(char, s, l);//char * s = ( char * )alloca( l );
 #else
     char s[l];
 #endif
@@ -11898,7 +11905,7 @@ namespace giac {
     if (l>unsigned(MAX_PRINTABLE_ZINT))
       return "Integer_too_large";
 #if defined( VISUALC ) || defined( BESTA_OS )
-    char * s = ( char * )alloca( l );
+    ALLOCA(char, s, l);//char * s = ( char * )alloca( l );
 #else
     char s[l];
 #endif

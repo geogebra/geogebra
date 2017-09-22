@@ -184,8 +184,10 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   unsigned int utf8length(const wchar_t * wline);
 
 
-#if defined VISUALC || defined BESTA_OS
+#if defined VISUALC || defined BESTA_OS || defined FREERTOS
+#ifndef R_OK
   extern int R_OK;
+#endif
   int access(const char * ch,int mode);
   void usleep(int );
 #endif

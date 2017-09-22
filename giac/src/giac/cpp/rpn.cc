@@ -16,9 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-#ifdef __ANDROID__
-using std::vector;
-#endif
 
 using namespace std;
 #include "rpn.h"
@@ -958,11 +955,9 @@ namespace giac {
       }
     }
     if (args._IDNTptr->value){
-#ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS
       if (variables_are_files(contextptr))
 	unlink((args._IDNTptr->name()+string(cas_suffixe)).c_str());
-#endif
 #endif
       gen res=*args._IDNTptr->value;
       if (res.type==_VECT && res.subtype==_FOLDER__VECT){
@@ -1114,8 +1109,8 @@ namespace giac {
   define_unary_function_ptr5( at_RE ,alias_at_RE,&__RE,0,T_UNARY_OP_38);
 
   static const char _IM_s[]="IM";
-  static define_unary_function_eval (__IM,(const gen_op_context)giac::im,_IM_s);
-  define_unary_function_ptr5( at_IM ,alias_at_IM,&__IM,0,T_UNARY_OP_38);
+  static define_unary_function_eval (___IM,(const gen_op_context)giac::im,_IM_s);
+  define_unary_function_ptr5( at_IM ,alias_at_IM,&___IM,0,T_UNARY_OP_38);
 
   static const char _FLOOR_s[]="FLOOR";
   static define_unary_function_eval (__FLOOR,(const gen_op_context)giac::_floor,_FLOOR_s);

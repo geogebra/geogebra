@@ -2026,6 +2026,7 @@ namespace giac {
     int save_current_instruction=debug_ptr(newcontextptr)->current_instruction;
     int eval_lev=eval_level(newcontextptr);
     debug_struct * dbgptr=debug_ptr(newcontextptr);
+    int & dbgptr_current_instruction = dbgptr->current_instruction;
     gen testf;
 #ifndef NO_STDEXCEPT
     try {
@@ -2063,7 +2064,7 @@ namespace giac {
 	index_name=test._SYMBptr->feuille._VECTptr->front();
       }
       // check if we have a standard for loop
-      bool stdloop=(itend-it)<5 && contextptr && !for_in && is_inequation(test) && test._SYMBptr->feuille.type==_VECT && test._SYMBptr->feuille._VECTptr->size()==2;
+      bool stdloop=(itend-it)<5 && contextptr && !for_in && is_inequation(test) && test._SYMBptr->feuille.type==_VECT && test._SYMBptr->feuille._VECTptr->size()==2 && !dbgptr->debug_mode;
       stdloop = stdloop && increment.type==_SYMB && (increment._SYMBptr->sommet==at_increment || increment._SYMBptr->sommet==at_decrement);
       gen index,stopg;
       int *idx=0,step,stop;
@@ -2181,7 +2182,7 @@ namespace giac {
 	     ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
 	  if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
 	    break;
-	  dbgptr->current_instruction=save_current_instruction;
+	  dbgptr_current_instruction=save_current_instruction;
 	  findlabel=false;
 	  // add a test for boucle of type program/composite
 	  // if that's the case call eval with test for break and continue
@@ -2191,7 +2192,7 @@ namespace giac {
 #else
 	    oldres=res;
 #endif
-	    ++dbgptr->current_instruction;
+	    ++dbgptr_current_instruction;
 	    if (dbgptr->debug_mode){
 	      debug_loop(res,newcontextptr);
 	      if (is_undef(res)){
@@ -5690,7 +5691,7 @@ namespace giac {
 
   void set_decimal_digits(int n,GIAC_CONTEXT){
 #ifdef GNUWINCE
-    return undef;
+    return ;
 #else
 #ifdef HAVE_LIBMPFR
     decimal_digits(contextptr)=giacmax(absint(n),1);
@@ -6914,7 +6915,7 @@ namespace giac {
     if (!inf)
       return undef;
 #if defined( VISUALC ) || defined( BESTA_OS )
-    char * thebuf = ( char * )alloca( BUFFER_SIZE );
+    ALLOCA(char, thebuf, BUFFER_SIZE );// char * thebuf = ( char * )alloca( BUFFER_SIZE );
 #else
     char thebuf[BUFFER_SIZE];
 #endif

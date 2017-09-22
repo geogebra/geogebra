@@ -21,6 +21,9 @@
 #ifndef _GIAC_FIRST_H_
 #define _GIAC_FIRST_H_
 
+#ifndef GIAC_VERSION
+#define GIAC_VERSION VERSION
+#endif
 //#include <stdint.h>
 
 #ifdef __x86_64__

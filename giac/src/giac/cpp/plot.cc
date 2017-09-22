@@ -1255,7 +1255,7 @@ namespace giac {
     if (vars.type==_IDNT){ // function plot
       gen a,b;
       if (taille(f,100)<=100 && is_linear_wrt(f,vars,a,b,contextptr))	
-	return put_attributs(_segment(makesequence(function_xmin+cst_i*(a*function_xmin+b),function_xmax+cst_i*(a*function_xmax+b)),contextptr),attributs,contextptr);
+	return put_attributs(_segment(makesequence(function_xmin+cst_i*(a*gen(function_xmin)+b),function_xmax+cst_i*(a*gen(function_xmax)+b)),contextptr),attributs,contextptr);
       vecteur lpiece(lop(f,at_piecewise));
       if (!lpiece.empty()) lpiece=lvarx(lpiece,vars);
       if (!lpiece.empty()){
@@ -10936,7 +10936,7 @@ namespace giac {
   // Return 0 if not successfull, or a vector of remaining gen in the archive
   gen unarchive_session(istream & is,int level, const gen & replace,GIAC_CONTEXT){
 #if defined BESTA_OS || defined VISUALC
-    char * buf = ( char * )alloca( BUFFER_SIZE );
+    ALLOCA(char, buf, BUFFER_SIZE ); //char * buf = ( char * )alloca( BUFFER_SIZE );
 #else
     char buf[BUFFER_SIZE];
 #endif
@@ -11612,7 +11612,7 @@ namespace giac {
 	chemin.push_back(lastsing);
 	xcurrent=evalf_double(re(tmp[3],contextptr),1,contextptr)._DOUBLE_val;
 	ycurrent=evalf_double(im(tmp[3],contextptr),1,contextptr)._DOUBLE_val;
-	lastsingdir=xcurrent+cst_i*ycurrent;
+	lastsingdir=xcurrent+cst_i*gen(ycurrent);
 	// set iorig,jorig
 	iorig=int((xcurrent-xmin)/xstep); // FIXME? +.5
 	jorig=int((ycurrent-ymin)/ystep); // 
@@ -11749,7 +11749,7 @@ namespace giac {
 	gen newxy=undef;
 	if (was_not_singular){
 	  double pascoeff=std::min(xstep,ystep)/std::sqrt(dfycurrent*dfycurrent+dfxcurrent*dfxcurrent);
-	  gen pas=pascoeff*makevecteur(dfycurrent,-dfxcurrent);
+	  gen pas=gen(pascoeff)*makevecteur(dfycurrent,-dfxcurrent);
 	  newxy=xycurrent+pas;
 	  gtmp=subst(dfx,xy,newxy,false,contextptr).evalf2double(eval_level(contextptr),contextptr);
 	  if (gtmp.type==_DOUBLE_){

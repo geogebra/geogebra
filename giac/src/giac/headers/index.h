@@ -28,10 +28,8 @@
 //#pragma anon_unions
 //#endif
 //========================================
-#ifndef ConnectivityKit
-#ifndef _MSC_VER
+#if !defined ConnectivityKit && !defined _MSC_VER && !defined FREERTOS
 #pragma anon_unions
-#endif
 #endif
 ///////////////////////////////////////////
 

@@ -2249,7 +2249,7 @@ namespace giac {
     // copy rem to an array
     vector<int>::const_iterator remit=rem.begin();//,remend=rem.end();
     if ((a-b+1)*double(m)*m<9e15){
-      longlong * tmp=(longlong *)alloca((a+1)*sizeof(longlong));
+      ALLOCA(longlong, tmp, (a+1)*sizeof(longlong));//longlong * tmp=(longlong *)alloca((a+1)*sizeof(longlong));
       longlong * tmpend=&tmp[a];
       longlong * tmpptr=tmpend; // tmpend points to the highest degree coeff of A
       for (;tmpptr!=tmp-1;--tmpptr,++remit)
