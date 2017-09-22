@@ -255,7 +255,7 @@ public class TubeAPITest extends Assert {
 		Assert.assertNotNull("Token must be stored as materials.token",
 				System.getProperty("materials.token"));
 		GeoGebraTubeUser user = new GeoGebraTubeUser(
-				System.getProperty("materials.token"));
+				System.getProperty("materials.token").trim());
 
 		user.setUserId(4951854);
 		auth.onEvent(new LoginEvent(user, true, true, "{}"));
