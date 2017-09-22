@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionSlider;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
@@ -207,8 +208,12 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	 *         the user disabled AV slider for given number
 	 */
 	private static boolean animPanelFits(GeoElement geo) {
-		return !(geo instanceof GeoNumeric)
-				|| ((GeoNumeric) geo).isShowingExtendedAV();
+		if(geo instanceof GeoNumeric){
+			return ((GeoNumeric) geo).isShowingExtendedAV();
+		}
+		return geo.getKernel()
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
+
 	}
 
 	/**

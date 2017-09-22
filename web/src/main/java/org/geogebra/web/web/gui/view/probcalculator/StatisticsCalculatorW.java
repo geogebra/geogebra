@@ -577,19 +577,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 			addNextTabIndex((AutoCompleteTextFieldW) fldSampleStat2[i]);
 
-		}	    
-	    
-    }
+		}
 
-	
-//	private String getStyleForBodyText() {
-//		String padding = "padding-top:2px; padding-bottom:2px;padding-left:5px;padding-right:5px;";
-//	    return "<style>" +
-//	    		"body {color:#00008B; font : 9pt verdana; margin: 4px;  }" +
-//	    		"td {text-align: center; border-top-width: 1px; border-bottom-width: 1px;border-left-width: 1px;border-right-width: 1px;border-style:solid; border-color:#00008B;"
-//						+ padding + "}" +
-//	    "</style>";
-//    }
+	}
 
 	@Override
 	protected void updateResultText(String str) {
