@@ -505,7 +505,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		notifyLocalizationLoaded();
 		// importatnt for accessibility
-		getFrameElement().setLang(lang);
+		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
 	}
 
 	public void notifyLocalizationLoaded() {
