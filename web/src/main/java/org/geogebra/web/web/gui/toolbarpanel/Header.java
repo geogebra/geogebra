@@ -358,7 +358,7 @@ class Header extends FlowPanel {
 
 		this.toolbarPanel.getFrame().add(btnMenu);
 
-		ClickStartHandler.init(btnMenu, new ClickStartHandler() {
+		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
