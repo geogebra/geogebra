@@ -551,43 +551,47 @@ public class ArbitraryConstIntegrationTest {
 	public void reloadAppTest() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(x)=Integral(sin(x)*sin(x), x)", false);
-		Assert.assertEquals(kernel.lookupLabel("F")
-				.toString(StringTemplate.defaultTemplate),
-				"F(x) = -1 / 4 sin(2x) + 1 / 2 x");
+		checkAfterReload("F", "F(x) = -1 / 4 sin(2x) + 1 / 2 x");
+	}
+
+	private static void checkAfterReload(String name, String... valid) {
+		String current = kernel.lookupLabel("F")
+				.toString(StringTemplate.defaultTemplate);
+		assertIn(valid, current);
 		app.setXML(app.getXML(), true);
-		Assert.assertEquals(kernel.lookupLabel("F")
-				.toString(StringTemplate.defaultTemplate),
-				"F(x) = -1 / 4 sin(2x) + 1 / 2 x");
+		current = kernel.lookupLabel("F")
+				.toString(StringTemplate.defaultTemplate);
+		assertIn(valid, current);
+
+	}
+
+	private static void assertIn(String[] valid, String current) {
+		for(int i = 0; i < valid.length -1;i++){
+			if(valid[i].equals(current)){
+				return;
+			}
+		}
+		Assert.assertEquals(valid[valid.length - 1], current);
+
 	}
 
 	@Test
 	public void reloadAppTestXY() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(x,y)=Integral(sin(x)*sin(y-x), x)", false);
-		Assert.assertEquals(
-				kernel.lookupLabel("F")
-						.toString(StringTemplate.defaultTemplate),
-				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)");
-		app.setXML(app.getXML(), true);
-		Assert.assertEquals(
-				kernel.lookupLabel("F")
-						.toString(StringTemplate.defaultTemplate),
-				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)");
+		checkAfterReload("F",
+				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)",
+				"F(x, y) = -1 / 2 x cos(y) + 1 / 4 sin(2x - y)");
 	}
 
 	@Test
 	public void reloadAppTest2Var() {
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
 		ap.processAlgebraCommand("F(t,x)=Integral(sin(x)*sin(t-x), x)", false);
-		Assert.assertEquals(
-				kernel.lookupLabel("F")
-						.toString(StringTemplate.defaultTemplate),
-				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)");
-		app.setXML(app.getXML(), true);
-		Assert.assertEquals(
-				kernel.lookupLabel("F")
-						.toString(StringTemplate.defaultTemplate),
-				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)");
+		checkAfterReload("F",
+				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)",
+				"F(t, x) = -1 / 2 x cos(t) - 1 / 4 sin(t - 2x)");
+
 	}
 
 }
