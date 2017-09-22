@@ -19,7 +19,9 @@ $slider-diameter:15px;
 		font-stretch: normal;
 		font-kerning: auto;
 		text-decoration: none;
-		box-sizing:content-box;
+		box-sizing: content-box;
+		text-align: initial;
+		background: initial;
 	}
 	.gwt-Button {
 		height: initial;
