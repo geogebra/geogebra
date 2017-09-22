@@ -46,17 +46,29 @@ public class GGraphics2DW implements GGraphics2D {
 
 	private GFontW currentFont = new GFontW("normal");
 	private GColor color = GColor.newColor(255, 255, 255, 255);
-	private double[] dash_array = null;
 
 	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
+
+	private double[] dash_array = null;
+	private boolean nativeDashUsed = false;
 	private JsArrayNumber jsarrn;
 
+	private int canvasWidth;
+	private int canvasHeight;
+
 	private View view;
+
+	private boolean lastDebugOk = false;
+	private boolean lastDebugException = false;
 
 	/**
 	 * the pixel ratio of the canvas.
 	 */
 	public double devicePixelRatio = 1;
+
+	private double pathLastX;
+	private double pathLastY;
+	private double[] coords = new double[6];
 
 	/**
 	 * @param canvas
@@ -139,8 +151,6 @@ public class GGraphics2DW implements GGraphics2D {
 		});
 	}-*/;
 
-	private double[] coords = new double[6];
-
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
 		int width = (int) context.getLineWidth();
@@ -214,9 +224,6 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 		// this.closePath();
 	}
-
-	private double pathLastX;
-	private double pathLastY;
 
 	private void setLastCoords(double x, double y) {
 		pathLastX = x;
@@ -330,10 +337,6 @@ public class GGraphics2DW implements GGraphics2D {
 			dash_array = dasharr;
 		}
 	}
-
-	private boolean nativeDashUsed = false;
-	private int canvasWidth;
-	private int canvasHeight;
 
 	public native void setStrokeDash(Context2d ctx, JsArrayNumber dasharray) /*-{
 		if (dasharray === undefined || dasharray === null) {
@@ -892,9 +895,6 @@ public class GGraphics2DW implements GGraphics2D {
 		this.setColor(color);
 		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
 	}
-
-	private boolean lastDebugOk = false;
-	private boolean lastDebugException = false;
 
 	public void debug() {
 		// TODO Auto-generated method stub

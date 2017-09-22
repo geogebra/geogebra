@@ -94,6 +94,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private boolean latexLoaded;
 	private int userWidth;
 	private TreeItem inputPanelTreeItem;
+	private ArrayList<Integer> collapsedNodes;
+	private boolean isShowingAuxiliaryObjects;
+	/** whether it's attached to kernel */
+	protected boolean attached = false;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		@Override
@@ -587,8 +591,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
-	private ArrayList<Integer> collapsedNodes;
-	private boolean isShowingAuxiliaryObjects;
+
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
 		if (collapsedNodes == null) {
@@ -706,9 +709,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		settingsChanged = true;
 		resetItems(false);
 	}
-
-	/** whether it's attached to kernel */
-	protected boolean attached = false;
 
 	/**
 	 * Fill this view and attach it to kernel

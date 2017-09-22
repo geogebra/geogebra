@@ -11,13 +11,12 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 public class EuclidianViewInput3DW extends EuclidianView3DW {
 
 	private Input3D input3D;
+	private EuclidianViewInput3DCompanion companionInput3D;
 
 	public EuclidianViewInput3DW(EuclidianController3D ec,
 			EuclidianSettings settings) {
 		super(ec, settings);
 	}
-
-	private EuclidianViewInput3DCompanion companionInput3D;
 
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {

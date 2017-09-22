@@ -11,6 +11,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 public class GLBufferIndicesW implements GLBufferIndices {
 
 	private MyInt16Array impl;
+	private boolean isEmpty;
+	private int currentLength;
+	private int index = 0;
 
 	/**
 	 * constructor from float array
@@ -19,10 +22,6 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		isEmpty = true;
 		currentLength = 0;
 	}
-
-	private boolean isEmpty;
-
-	private int currentLength;
 
 	@Override
 	public boolean isEmpty() {
@@ -45,8 +44,6 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		index = 0;
 
 	}
-
-	private int index = 0;
 
 	@Override
 	public void setLimit(int length) {

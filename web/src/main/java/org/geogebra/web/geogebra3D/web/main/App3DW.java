@@ -3,10 +3,7 @@ package org.geogebra.web.geogebra3D.web.main;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
-import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
-import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
@@ -33,14 +30,8 @@ import org.geogebra.web.web.main.GDevice;
  */
 public class App3DW {
 
-	/**
-	 * 
-	 * @param this_app
-	 * @return new kernel
-	 */
-	static final protected Kernel newKernel(App this_app) {
-		return new Kernel3D(this_app, new GeoFactory3D());
-	}
+	static private boolean useZSpace = false;
+
 
 	/**
 	 * 
@@ -100,8 +91,6 @@ public class App3DW {
 
 		return new EuclidianController3DWnoWebGL(kernel);
 	}
-	
-	static private boolean useZSpace = false;
 
 	/**
 	 * 

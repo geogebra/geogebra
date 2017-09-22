@@ -17,6 +17,7 @@ public class AuthenticationModelW extends AuthenticationModel {
 	protected Storage storage = null;
 	private String authToken = null;
 	private AppW app;
+	private boolean inited = false;
 
 	/**
 	 * creates a new login model for Web
@@ -66,8 +67,6 @@ public class AuthenticationModelW extends AuthenticationModel {
 		storage.removeItem(GGB_TOKEN_KEY_NAME);
 		storage.removeItem(GGB_LAST_USER);
 	}
-
-	private boolean inited = false;
 
 	private void ensureInited() {
 

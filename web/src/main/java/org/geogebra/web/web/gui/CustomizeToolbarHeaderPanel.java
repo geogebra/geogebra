@@ -26,6 +26,14 @@ import com.google.gwt.user.client.ui.Widget;
 public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
 	/**
+	 * General toolbar id
+	 */
+	protected static final int GENERAL = -1;
+	private AppW app;
+	private FlowPanel buttons;
+	private int selectedViewId = GENERAL;
+	private CustomizeToolbarListener listener;
+	/**
 	 * Listens to updates of the toolbar
 	 */
 	public interface CustomizeToolbarListener {
@@ -35,15 +43,6 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		 */
 		void update(int id);
 	}
-
-	/**
-	 * General toolbar id
-	 */
-	protected static final int GENERAL = -1;
-	private AppW app;
-	private FlowPanel buttons;
-	private int selectedViewId = GENERAL;
-	private CustomizeToolbarListener listener;
 
 	private static class ViewButton extends MyToggleButtonW {
 

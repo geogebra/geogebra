@@ -13,6 +13,9 @@ public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
     private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled, wasScreenOn;
+	private GTimer checkTaskLockTimer = null;
+	private GTimer checkScreenState = null;
+	private boolean isCheating;
 
 	/**
 	 * @param app
@@ -51,7 +54,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
         }
     }
 
-    private GTimer checkTaskLockTimer = null;
+
 
     private void watchTaskLock() {
         Log.debug("watch task lock");
@@ -74,7 +77,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
 
-    private GTimer checkScreenState = null;
+
 
     private void watchScreenState() {
         Log.debug("watch screen state");
@@ -304,8 +307,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
             }
         }
     }
-
-    private boolean isCheating;
 
     @Override
 	public boolean isCheating() {

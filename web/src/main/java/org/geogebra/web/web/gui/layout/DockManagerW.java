@@ -53,6 +53,10 @@ public class DockManagerW extends DockManager {
 	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
 	AppW app;
 	private LayoutW layout;
+	private double kbHeight = 0;
+
+	// null it to trigger orientation change for the first time.
+	private ExtendedBoolean portrait = ExtendedBoolean.UNKNOWN;
 	
 	/**
 	 * False if the application is running in unsigned mode. We can only listen to 
@@ -86,7 +90,7 @@ public class DockManagerW extends DockManager {
 	private List<ShowDockPanelListener> showDockPanelListener;
 	private boolean panelsMoved;
 	
-	
+	private TreeSet<Integer> viewsInPerspective = new TreeSet<Integer>();
 	
 	/**
 	 * @param layout
@@ -1193,9 +1197,7 @@ public class DockManagerW extends DockManager {
 
 		return true;
 	}
-	
-	
-	private TreeSet<Integer> viewsInPerspective = new TreeSet<Integer>();
+
 	/**
 	 * set active toolbar to default
 	 */
@@ -1223,7 +1225,7 @@ public class DockManagerW extends DockManager {
 			} else if (viewsInPerspective.contains(App.VIEW_EUCLIDIAN3D)) {
 				toolbarID = App.VIEW_EUCLIDIAN3D;
 			} else if (viewsInPerspective
-			        .contains(App.VIEW_PROBABILITY_CALCULATOR)) {
+					.contains(App.VIEW_PROBABILITY_CALCULATOR)) {
 				toolbarID = App.VIEW_PROBABILITY_CALCULATOR;
 			}
 		}
@@ -1724,10 +1726,7 @@ public class DockManagerW extends DockManager {
 			}
 		}
 		
-		
 		return panel;
-		
-		
 	}
 
 	
@@ -1769,12 +1768,6 @@ public class DockManagerW extends DockManager {
 	public boolean hasFullFocusSystem() {
 		return hasFullFocusSystem;
 	}
-	
-
-	private double kbHeight = 0;
-
-	// null it to trigger orientation change for the first time.
-	private ExtendedBoolean portrait = ExtendedBoolean.UNKNOWN;
 
 	
 	public void addShowDockPanelListener(ShowDockPanelListener l){

@@ -23,6 +23,8 @@ import org.geogebra.web.web.gui.layout.LayoutW;
  */
 public class App3DCompanionW extends App3DCompanion {
 
+	private EuclidianDockPanelForPlaneW panel;
+	private ArrayList<EuclidianDockPanelForPlaneW> panelForPlaneList;
 	/**
 	 * constructor
 	 * 
@@ -62,8 +64,6 @@ public class App3DCompanionW extends App3DCompanion {
 		return view.getCompanion();
 	}
 
-	private EuclidianDockPanelForPlaneW panel;
-
 	/**
 	 * 
 	 * @return current dockpanel for plane
@@ -72,8 +72,6 @@ public class App3DCompanionW extends App3DCompanion {
 	public DockPanel getPanelForPlane() {
 		return panel;
 	}
-
-	private ArrayList<EuclidianDockPanelForPlaneW> panelForPlaneList;
 
 	@Override
 	public void storeViewCreators() {

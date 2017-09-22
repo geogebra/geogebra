@@ -127,6 +127,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		protected CheckBox cbAxisLabelSerif;
 		protected CheckBox cbAxisLabelBold;
 		protected CheckBox cbAxisLabelItalic;
+		protected FlowPanel miscPanel;
+
 		public BasicTab() {
 			super();
 			addDimensionPanel();
@@ -536,13 +538,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void onClick(ClickEvent event) {
 					toggleConsProtButton();
 				}});
-			
-						
-			
-        }
-		
-		protected FlowPanel miscPanel;
-		
+		}
+
 		protected void applyBackgroundColor(GColor color){
 			int viewIdx = 0;
 			if (view == app.getEuclidianView1()) {
@@ -1562,7 +1559,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		basicTab.cbAxisLabelSerif.setValue(serif);
 		basicTab.cbAxisLabelBold.setValue(isBold);
 		basicTab.cbAxisLabelItalic.setValue(isItalic);
-
 	}
 
 	@Override

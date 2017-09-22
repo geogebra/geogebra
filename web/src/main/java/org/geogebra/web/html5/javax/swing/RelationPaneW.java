@@ -28,6 +28,14 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class RelationPaneW extends GDialogBox
 		implements RelationPane, ClickHandler {
+
+	private Button btnOK;
+	private Button[] btnCallbacks;
+	private RelationMore[] callbacks;
+	private int rels;
+	private FlowPanel[] texts;
+	private FlowPanel[] buttons;
+
 	/**
 	 * @param autoHide
 	 *            whether to hide this
@@ -43,13 +51,6 @@ public class RelationPaneW extends GDialogBox
 	public void setGlassEnabled(boolean enabled) {
 		super.setGlassEnabled(enabled);
 	}
-
-	private Button btnOK;
-	private Button[] btnCallbacks;
-	private RelationMore[] callbacks;
-	private int rels;
-	private FlowPanel[] texts;
-	private FlowPanel[] buttons;
 
 	@Override
 	public void showDialog(String title, RelationRow[] relations, App app1) {

@@ -114,6 +114,7 @@ public class RadioTreeItem extends AVTreeItem
 		AutoCompleteW, RequiresResize, HasHelpButton {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
+	private static final int MARGIN_RESIZE = 50;
 
 	static final int BROWSER_SCROLLBAR_WIDTH = 17;
 
@@ -178,6 +179,13 @@ public class RadioTreeItem extends AVTreeItem
 
 	String lastTeX;
 	private MathFieldW mf;
+	private boolean selectedItem = false;
+
+	// controls must appear on select or not
+	private boolean forceControls = false;
+
+	private AsyncOperation<GeoElementND> suggestionCallback;
+	protected boolean first = false;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -652,7 +660,6 @@ public class RadioTreeItem extends AVTreeItem
 		controls.updateAnimPanel();
 	}
 
-	protected boolean first = false;
 	public void setFirst(boolean first) {
 		this.first = first;
 		updateButtonPanelPosition();
@@ -1029,10 +1036,6 @@ public class RadioTreeItem extends AVTreeItem
 		return newValue;
 	}
 
-	private static final int MARGIN_RESIZE = 50;
-
-
-
 	protected void clearErrorLabel() {
 		commandError = null;
 		errorMessage = null;
@@ -1295,13 +1298,6 @@ public class RadioTreeItem extends AVTreeItem
 	public GeoElement getGeo() {
 		return geo;
 	}
-
-	private boolean selectedItem = false;
-
-	// controls must appear on select or not
-	private boolean forceControls = false;
-
-	private AsyncOperation<GeoElementND> suggestionCallback;
 
 	/**
 	 * This method shall only be called when we are not doing editing, so this

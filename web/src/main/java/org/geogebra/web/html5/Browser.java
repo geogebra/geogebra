@@ -10,6 +10,8 @@ import com.google.gwt.user.client.Window.Location;
 
 public class Browser {
 	private static boolean webWorkerSupported = false;
+	private static boolean float64supported = true;
+	private static Boolean webglSupported = null;
 
 	public static native boolean isFirefox() /*-{
 		// copying checking code from the checkWorkerSupport method
@@ -116,8 +118,6 @@ public class Browser {
 		return "unknown";
 	}-*/;
 
-	private static boolean float64supported = true;
-
 	/**
 	 * Checks whether browser supports float64. Must be called before a polyfill
 	 * kicks in.
@@ -169,8 +169,6 @@ public class Browser {
 		return "https://" + url;
 
 	}
-
-	private static Boolean webglSupported = null;
 
 	public static boolean supportsWebGL() {
 		if (webglSupported == null) {

@@ -18,6 +18,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 		"tb and pr should be static" })
 public class SVGImageFactory implements ImageFactory {
 	private static ToolbarResources tb;
+	private static PerspectiveResources pr;
 
 	@Override
 	public ToolbarResources getToolbarResources() {
@@ -27,8 +28,6 @@ public class SVGImageFactory implements ImageFactory {
 		return tb;
 
 	}
-
-	private static PerspectiveResources pr;
 
 	@Override
 	public PerspectiveResources getPerspectiveResources() {

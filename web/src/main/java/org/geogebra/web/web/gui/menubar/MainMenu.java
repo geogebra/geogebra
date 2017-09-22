@@ -92,6 +92,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 * simple language menu item
 	 */
 	GMenuBar languageMenu;
+	private boolean loggedIn = false;
 
 	/**
 	 * Constructs the menubar
@@ -725,7 +726,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.setHeight(height + "px");
     }
 
-	private boolean loggedIn = false;
 	@Override
 	public void renderEvent(final BaseEvent event) {
 		if(!app.enableFileFeatures()){

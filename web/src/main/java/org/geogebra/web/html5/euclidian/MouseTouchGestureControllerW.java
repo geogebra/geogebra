@@ -65,9 +65,20 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 */
 	protected boolean moveAxesAllowed = true;
 
-
 	private LongTouchManager longTouchManager;
 
+	private boolean dragModeMustBeSelected = false;
+	private int deltaSum = 0;
+	private int moveCounter = 0;
+	private boolean dragModeIsRightClick = false;
+	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
+	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
+	private boolean comboboxFocused;
+	private boolean euclidianOffsetsInited = false;
+	/**
+	 * ignore events after first touchEnd of a multi touch event
+	 */
+	private boolean ignoreEvent = false;
 
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return style;
@@ -133,10 +144,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		        - Window.getScrollTop();
 	}
 
-	private boolean EuclidianOffsetsInited = false;
-
 	public boolean isOffsetsUpToDate() {
-		return EuclidianOffsetsInited;
+		return euclidianOffsetsInited;
 	}
 
 	private Timer repaintTimer = new Timer() {
@@ -301,11 +310,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		moveCounter++;
 	}
 
-	/**
-	 * ignore events after first touchEnd of a multi touch event
-	 */
-	private boolean ignoreEvent = false;
-
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
 		dragModeMustBeSelected = false;
@@ -382,11 +386,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		first.release();
 		second.release();
 	}
-
-	private boolean dragModeMustBeSelected = false;
-	private int deltaSum = 0;
-	private int moveCounter = 0;
-	private boolean dragModeIsRightClick = false;
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		// don't want to roll the scrollbar
@@ -613,15 +612,12 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		                .getViewWidth() - 18)));
 	}
 
-	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
-
 	@Override
 	public LinkedList<PointerEvent> getMouseEventPool() {
 		return mousePool;
 	}
 
-	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
-	private boolean comboboxFocused;
+
 
 
 	@Override

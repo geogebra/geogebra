@@ -44,6 +44,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private String driveBase64description = null;
 	private String driveBase64FileName = null;
 	private Runnable waitingHandler;
+	private boolean inited = false;
+	private String currentFileId = null;
 
 	/**
 	 * creates new google drive operation instance
@@ -83,7 +85,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		return getModel().getUserName();
 	}
 
-	private boolean inited = false;
+
 	/**
 	 * Go for the google drive url, and fetch the script
 	 */
@@ -557,8 +559,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		currentFileId = null;
 
 	}
-
-	private String currentFileId = null;
 
 	public String getCurrentFileId() {
 		return currentFileId;

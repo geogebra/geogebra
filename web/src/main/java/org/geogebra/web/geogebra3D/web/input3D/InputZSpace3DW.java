@@ -21,6 +21,9 @@ public class InputZSpace3DW extends Input3D {
 	private double[] inputPosition, inputDirection, inputOrientation;
 
 	private double[][] inputGlassesPosition;
+	private double eyeSeparation;
+	private boolean isRightPressed, isLeftPressed, isThirdButtonPressed;
+	private boolean hasStylusNotIntersectingPhysicalScreen = true;
 
 	public InputZSpace3DW() {
 		super();
@@ -193,14 +196,10 @@ public class InputZSpace3DW extends Input3D {
 		return inputGlassesPosition[i];
 	}
 
-	private double eyeSeparation;
-
 	@Override
 	public double getEyeSeparation() {
 		return eyeSeparation;
 	}
-
-	private boolean isRightPressed, isLeftPressed, isThirdButtonPressed;
 
 	@Override
 	public boolean isRightPressed() {
@@ -385,8 +384,6 @@ public class InputZSpace3DW extends Input3D {
 	public void setPositionOffScreen() {
 		hasStylusNotIntersectingPhysicalScreen = true;
 	}
-
-	private boolean hasStylusNotIntersectingPhysicalScreen = true;
 
 	@Override
 	public boolean isZSpace() {

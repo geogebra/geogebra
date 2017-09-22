@@ -13,23 +13,6 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class GeoGebraIconW extends BasicIcons {
 
-
-
-	/**
-	 * creates LineStyle icon
-	 * 
-	 * @param dashStyle
-	 *            dash index (see lineStyleIcons)
-	 * @return Canvas with icon drawn
-	 */
-	public static ImageOrText createLineStyleIcon(int dashStyle) {
-		if(dashStyle >= lineStyleIcons.length){
-			return new ImageOrText();
-		}
-		return new ImageOrText(lineStyleIcons[dashStyle]);
-
-    }
-
 	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
 	private static ImageResource[] pointStyleIcons =  {
 		(LafIcons.point_full()),
@@ -55,6 +38,21 @@ public class GeoGebraIconW extends BasicIcons {
 	
 	private static ImageResource[] fillStyleIcons = { (LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
 			(LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()), (LafIcons.pattern_honeycomb()) };
+
+	/**
+	 * creates LineStyle icon
+	 * 
+	 * @param dashStyle
+	 *            dash index (see lineStyleIcons)
+	 * @return Canvas with icon drawn
+	 */
+	public static ImageOrText createLineStyleIcon(int dashStyle) {
+		if (dashStyle >= lineStyleIcons.length) {
+			return new ImageOrText();
+		}
+		return new ImageOrText(lineStyleIcons[dashStyle]);
+
+	}
 
 	/**
 	 * @param pointStyle

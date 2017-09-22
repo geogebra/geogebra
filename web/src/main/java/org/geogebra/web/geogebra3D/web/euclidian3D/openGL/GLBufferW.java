@@ -15,7 +15,10 @@ import com.googlecode.gwtgl.array.Float32Array;
 public class GLBufferW implements GLBuffer {
 
 	private MyFloat32Array impl;
+	private boolean isEmpty;
+	private int index = 0;
 
+	private int currentLength;
 	/**
 	 * constructor from float array
 	 */
@@ -24,9 +27,7 @@ public class GLBufferW implements GLBuffer {
 		currentLength = 0;
 	}
 
-	private boolean isEmpty;
 
-	private int currentLength;
 
 	@Override
 	public boolean isEmpty() {
@@ -47,10 +48,7 @@ public class GLBufferW implements GLBuffer {
 		}
 
 		index = 0;
-
 	}
-
-	private int index = 0;
 
 	@Override
 	public void setLimit(int length) {

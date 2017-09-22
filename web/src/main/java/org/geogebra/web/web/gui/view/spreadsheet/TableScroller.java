@@ -20,6 +20,8 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 	private Grid cellTable;
 	private SpreadsheetRowHeaderW rowHeader;
 	private SpreadsheetColumnHeaderW columnHeader;
+	GRectangle contentRect;
+	boolean doAdjustScroll = true;
 
 	public TableScroller(MyTableW table, SpreadsheetRowHeaderW rowHeader,
 			SpreadsheetColumnHeaderW columnHeader) {
@@ -94,7 +96,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		Scheduler.get().scheduleDeferred(scrollRectCommand);
 	}
 
-	GRectangle contentRect;
 
 	Scheduler.ScheduledCommand scrollRectCommand = new Scheduler.ScheduledCommand() {
 		@Override
@@ -230,8 +231,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 			this.height = height;
 		}
 	}
-
-	boolean doAdjustScroll = true;
 
 	protected void adjustScroll() {
 

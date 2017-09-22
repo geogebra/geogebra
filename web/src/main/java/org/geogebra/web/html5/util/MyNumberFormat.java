@@ -345,6 +345,63 @@ public class MyNumberFormat {
 	private static final char PATTERN_ZERO_DIGIT = '0';
 
 	private static final char QUOTE = '\'';
+	/**
+	 * Holds the current decimal position during one call to
+	 * {@link #format(boolean, StringBuilder, int)}.
+	 */
+	private transient int decimalPosition;
+
+	/**
+	 * Forces the decimal separator to always appear in a formatted number.
+	 */
+	private boolean decimalSeparatorAlwaysShown = false;
+
+	/**
+	 * Holds the current digits length during one call to
+	 * {@link #format(boolean, StringBuilder, int)}.
+	 */
+	private transient int digitsLength;
+
+	/**
+	 * Holds the current exponent during one call to
+	 * {@link #format(boolean, StringBuilder, int)}.
+	 */
+	private transient int exponent;
+	/**
+	 * The number of digits between grouping separators in the integer portion
+	 * of a number.
+	 */
+	private int groupingSize = 3;
+	// private boolean isCurrencyFormat = false;
+	private int maximumFractionDigits = 3; // invariant, >= minFractionDigits.
+
+	private int maximumIntegerDigits = 40;
+
+	private int minExponentDigits;
+
+	private int minimumFractionDigits = 0;
+
+	private int minimumIntegerDigits = 1;
+
+	// The multiplier for use in percent, per mille, etc.
+	private int multiplier = 1;
+
+	private String negativePrefix = "-";
+
+	private String negativeSuffix = "";
+
+	// Locale specific symbol collection.
+	private static final NumberConstants numberConstants = new MyNumberConstants();
+
+	// The pattern to use for formatting and parsing.
+	private final String pattern;
+
+	private String positivePrefix = "";
+
+	private String positiveSuffix = "";
+
+	// True to force the use of exponential (i.e. scientific) notation.
+	private boolean useExponentialNotation = false;
 
 	/**
 	 * Returns true if all new MyNumberFormat instances will use latin digits
@@ -624,63 +681,7 @@ public class MyNumberFormat {
 		return d.toPrecision(digits);
 	}-*/;
 
-	/**
-	 * Holds the current decimal position during one call to
-	 * {@link #format(boolean, StringBuilder, int)}.
-	 */
-	private transient int decimalPosition;
 
-	/**
-	 * Forces the decimal separator to always appear in a formatted number.
-	 */
-	private boolean decimalSeparatorAlwaysShown = false;
-
-	/**
-	 * Holds the current digits length during one call to
-	 * {@link #format(boolean, StringBuilder, int)}.
-	 */
-	private transient int digitsLength;
-
-	/**
-	 * Holds the current exponent during one call to
-	 * {@link #format(boolean, StringBuilder, int)}.
-	 */
-	private transient int exponent;
-	/**
-	 * The number of digits between grouping separators in the integer portion
-	 * of a number.
-	 */
-	private int groupingSize = 3;
-	// private boolean isCurrencyFormat = false;
-	private int maximumFractionDigits = 3; // invariant, >= minFractionDigits.
-
-	private int maximumIntegerDigits = 40;
-
-	private int minExponentDigits;
-
-	private int minimumFractionDigits = 0;
-
-	private int minimumIntegerDigits = 1;
-
-	// The multiplier for use in percent, per mille, etc.
-	private int multiplier = 1;
-
-	private String negativePrefix = "-";
-
-	private String negativeSuffix = "";
-
-	// Locale specific symbol collection.
-	private static final NumberConstants numberConstants = new MyNumberConstants();
-
-	// The pattern to use for formatting and parsing.
-	private final String pattern;
-
-	private String positivePrefix = "";
-
-	private String positiveSuffix = "";
-
-	// True to force the use of exponential (i.e. scientific) notation.
-	private boolean useExponentialNotation = false;
 
 	/**
 	 * Constructs a format object based on the specified settings.

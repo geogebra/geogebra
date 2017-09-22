@@ -20,6 +20,10 @@ public class PointerEventHandler {
 	private final IsEuclidianController tc;
 	private HasOffsets off;
 
+	private final PointerEventType[] types = new PointerEventType[] {
+			PointerEventType.MOUSE, PointerEventType.TOUCH,
+			PointerEventType.PEN };
+
 	private static class MsOffset extends ZeroOffset {
 
 		private IsEuclidianController ec;
@@ -130,9 +134,6 @@ public class PointerEventHandler {
 		this.tc.onPointerEventEnd(e);
 	}
 
-	private final PointerEventType[] types = new PointerEventType[] {
-			PointerEventType.MOUSE, PointerEventType.TOUCH,
-			PointerEventType.PEN };
 
 	private void setPointerType(int i, boolean pointerDown) {
 		this.tc.setDefaultEventType(types[i], pointerDown);

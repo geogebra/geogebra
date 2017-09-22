@@ -30,6 +30,7 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	protected boolean isAltKeyDown;
 	protected boolean isShiftKeyDown;
 	protected boolean isMetaKeyDown;
+	private HasSymbolPopup showSymbolElement;
 
 	public GTextBox(Element e) {
 		super(e);
@@ -83,8 +84,6 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 			isMetaKeyDown = nativeEvent.getMetaKey();
 		}
 	}
-
-	private HasSymbolPopup showSymbolElement;
 
 	public void setPopupCallback(HasSymbolPopup element) {
 		this.showSymbolElement = element;

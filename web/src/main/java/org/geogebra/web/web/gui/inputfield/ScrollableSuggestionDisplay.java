@@ -22,6 +22,7 @@ public final class ScrollableSuggestionDisplay extends
 	// TODO: improve it, if we can... this still seems smaller (but OK)
 	public final static int lineWidth = 29;
 	private HasSuggestions editor;
+	private ScrollPanel scrollable;
 
 	public ScrollableSuggestionDisplay(HasSuggestions ed, Panel panel,
 			App app) {
@@ -29,7 +30,7 @@ public final class ScrollableSuggestionDisplay extends
 		this.editor = ed;
 	}
 
-	private ScrollPanel scrollable;
+
 
 	@Override
 	protected void moveSelectionDown() {

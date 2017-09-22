@@ -343,6 +343,8 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class RecentTable extends ColorTable {
+		private List<Entry> entries;
+
 		private class Entry {
 			ColorTable table;
 			int col;
@@ -353,12 +355,11 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				this.row = table.getSelectedRow();
 			}
 		}
-		
-		private List<Entry> entries;
+
 		public RecentTable(int x, int y, int col, int row) {
-	        super(x, y, col, row, null);
-	        entries = new ArrayList<Entry>();
-	    	
+			super(x, y, col, row, null);
+			entries = new ArrayList<Entry>();
+
 		}
 		
 		public void injectFrom(ColorTable source) {

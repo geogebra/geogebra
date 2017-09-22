@@ -101,6 +101,11 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	private boolean localizationLoaded;
 	/** browser / tablet / win store device */
 	protected GDevice device;
+	/** material ID waiting for login */
+	String toOpen = "";
+	private PerspectivesPopup perspectivesPopup;
+
+	private int activePerspective;
 	
 	/**
 	 * 
@@ -623,11 +628,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		return getAppletFrame().getElement();
 	}
 
-	/** material ID waiting for login */
-	String toOpen = "";
-	private PerspectivesPopup perspectivesPopup;
 
-	private int activePerspective;
 	@Override
 	public final void openMaterial(final String id, final Runnable onError) {
 		if (getLoginOperation() != null

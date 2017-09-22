@@ -161,6 +161,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 
 	private class RotateViewPopup extends PopupMenuButtonForView3D {
+		private ImageOrText pauseIcon, playIcon;
 
 		public RotateViewPopup(ImageResource playIcon, ImageResource pauseIcon) {
 			super();
@@ -175,10 +176,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			getMySlider().setMajorTickSpacing(10);
 			getMySlider().setMinorTickSpacing(1);
 			setSliderValue(5);
-
 		}
-
-		private ImageOrText pauseIcon, playIcon;
 
 		@Override
 		protected void fireActionPerformed() {
@@ -203,10 +201,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		}
 	}
 
-	private class PopupMenuButtonForView3D extends PopupMenuButtonW /*
-																	 * implements
-																	 * ClickHandler
-																	 */{
+	private class PopupMenuButtonForView3D extends PopupMenuButtonW {
 
 		public PopupMenuButtonForView3D() {
 			super(EuclidianStyleBar3DW.this.app, null, -1, -1,
@@ -222,16 +217,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 						&& mode != EuclidianConstants.MODE_PEN);
 			}
 		}
-
-		/*
-		 * public void onClick(ClickEvent event) { App.debug("onClick : "+this);
-		 * }
-		 */
-
-		/*
-		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
-		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
-		 */
 
 	}
 

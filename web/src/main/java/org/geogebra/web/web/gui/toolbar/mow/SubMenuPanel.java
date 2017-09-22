@@ -23,6 +23,23 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class SubMenuPanel extends FlowPanel
 		implements FastClickHandler {
+	/**
+	 * panel row
+	 */
+	protected FlowPanel panelRow;
+
+	/** app **/
+	AppW app;
+	// private boolean info;
+	/**
+	 * Scrollpanel to larger toolbars like 'Tools'
+	 */
+	ScrollPanel scrollPanel;
+
+	/**
+	 * Here goes the toolbar contents ie the buttons
+	 */
+	FlowPanel contentPanel;
 
 	/**
 	 * group panel
@@ -46,23 +63,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		}
 	}
 
-	/**
-	 * panel row
-	 */
-	protected FlowPanel panelRow;
 
-	/** app **/
-	AppW app;
-	// private boolean info;
-	/**
-	 * Scrollpanel to larger toolbars like 'Tools'
-	 */
-	ScrollPanel scrollPanel;
-
-	/**
-	 * Here goes the toolbar contents ie the buttons
-	 */
-	FlowPanel contentPanel;
 
 	/**
 	 * The info (help) panel for the selected tool.

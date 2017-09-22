@@ -31,10 +31,10 @@ import com.himamis.retex.renderer.web.graphics.JLMContext2d;
  * Web LaTeX helper class
  */
 public class DrawEquationW extends DrawEquation {
-
-
- 
-
+	/*
+	 * needed for avoid the pixelated appearance of LaTeX texts at printing
+	 */
+	private static double printScale = 1;
 	private static Object initJLaTeXMath = null;
 
 	@Override
@@ -81,11 +81,6 @@ public class DrawEquationW extends DrawEquation {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
 	}
-
-	/*
-	 * needed for avoid the pixelated appearance of LaTeX texts at printing
-	 */
-	private static double printScale = 1;
 
 	/**
 	 * @param t

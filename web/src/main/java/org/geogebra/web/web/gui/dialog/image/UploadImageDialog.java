@@ -28,6 +28,7 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	protected Button cancelBtn;
 	protected Label upload;
 	protected GeoPoint location;
+	protected boolean mayCenter = true;
 	
 	int previewHeight;
 	int previewWidth;
@@ -117,8 +118,8 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	 */
 	public void setLocation(GeoPoint loc) {
 		this.location = loc;
-    }
-	protected boolean mayCenter = true;
+	}
+
 	@Override
 	public void center() {
 		

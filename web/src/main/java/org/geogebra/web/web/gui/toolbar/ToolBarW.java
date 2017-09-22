@@ -46,6 +46,8 @@ public class ToolBarW extends FlowPanel
 	private boolean isMouseDown = false;
 	private int mousePosition;
 	private int toolbarPosition;
+	private Integer activeView = App.VIEW_EUCLIDIAN;
+	private int maxButtons = 200;
 
 	/**
 	 * Creates general toolbar. There is no app parameter here, because of
@@ -211,9 +213,6 @@ public class ToolBarW extends FlowPanel
 	public UnorderedList getMenuList() {
 		return menuList;
 	}
-
-	private Integer activeView = App.VIEW_EUCLIDIAN;
-	private int maxButtons = 200;
 
 	/**
 	 * Adds the given modes to a two-dimensional toolbar. The toolbar definition

@@ -6,6 +6,14 @@ import java.util.List;
 import org.geogebra.common.util.debug.Log;
 
 public class GridModel {
+	private static final String PREFIX = "[GRID MODEL]";
+
+	private IGridListener listener;
+	private List<String> headers;
+	private List<List<DataCell>> data;
+	private int columnCount;
+	private int rowCount;
+	private DataCell editCell;
 
 	public interface IGridListener {
 		/** Column/header operations */
@@ -52,14 +60,7 @@ public class GridModel {
 		}
 	}
 
-	private static final String PREFIX = "[GRID MODEL]";
-	
-	private IGridListener listener;
-	private List<String> headers;
-	private List<List<DataCell>> data;
-	private int columnCount;
-	private int rowCount;
-	private DataCell editCell;
+
 
 	public GridModel(int col, IGridListener listener) {
 		columnCount = col;

@@ -22,6 +22,10 @@ public class ImageManagerW extends ImageManager {
 	private HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
 	private HashMap<String, String> externalImageSrcs = new HashMap<String, String>();
 	private boolean preventAuxImage;
+	protected int imagesLoaded = 0;
+	private String construction, defaults2d, defaults3d, macros;
+	private MyXMLio myXMLio;
+
 	public void reset() {
 		externalImageTable = new HashMap<String, ImageElement>();
 		externalImageSrcs = new HashMap<String, String>();
@@ -32,17 +36,6 @@ public class ImageManagerW extends ImageManager {
 		defaults3d = null;
 		myXMLio = null;
 	}
-
-	protected int imagesLoaded = 0;
-
-	/*
-	 * ImageLoadCallback callBack = new ImageLoadCallback() {
-	 * 
-	 * public void onLoad() { imagesLoaded++; checkIfAllLoaded(); } };
-	 */
-
-	private String construction, defaults2d, defaults3d, macros;
-	private MyXMLio myXMLio;
 
 	public void addExternalImage(String fileName, String src) {
 		if (fileName != null && src != null) {
@@ -154,8 +147,7 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	public void triggerImageLoading(String construction, String defaults2d,
-			String defaults3d, String macros, MyXMLio myXMLio,
- final AppW app) {
+			String defaults3d, String macros, MyXMLio myXMLio, final AppW app) {
 		this.construction = construction;
 		this.defaults2d = defaults2d;
 		this.defaults3d = defaults3d;
@@ -165,8 +157,7 @@ public class ImageManagerW extends ImageManager {
 		if (externalImageSrcs.entrySet() != null) {
 			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
 				ImageWrapper img = new ImageWrapper(
-getExternalImage(
-						imgSrc.getKey(), app));
+						getExternalImage(imgSrc.getKey(), app));
 				img.attachNativeLoadHandler(this, new ImageLoadCallback() {
 
 					@Override

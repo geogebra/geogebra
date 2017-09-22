@@ -38,6 +38,8 @@ public class FileManagerW extends FileManager {
 	private static final String TIMESTAMP = "timestamp";
 	/** locale storage */
 	Storage stockStore = Storage.getLocalStorageIfSupported();
+	private int freeBytes = -1;
+	private TreeSet<Integer> offlineIDs = new TreeSet<Integer>();
 
 	/**
 	 * @param app
@@ -166,8 +168,6 @@ public class FileManagerW extends FileManager {
 		}
 	}
 
-	private int freeBytes = -1;
-	private TreeSet<Integer> offlineIDs = new TreeSet<Integer>();
 	@Override
 	public boolean shouldKeep(int id) {
 		if (!getApp().has(Feature.LOCALSTORAGE_FILES)) {

@@ -8,11 +8,11 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.web.gui.dialog.options.OptionsTab.CornerPointsPanel;
 
 public class CornerPointsModel extends OptionsModel {
+	private CornerPointsPanel listener;
 	public CornerPointsModel(App app) {
 		super(app);
 	}
 
-	private CornerPointsPanel listener;
 
 	@Override
 	protected boolean isValidAt(int index) {

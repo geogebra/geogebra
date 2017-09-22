@@ -128,6 +128,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private int columns = 0;
 	private boolean forCAS;
 	private InsertHandler insertHandler = null;
+	private boolean isSuggestionJustHappened = false;
+	private GeoInputBox geoUsedForInputBox;
 	/**
 	 * Pattern to find an argument description as found in the syntax
 	 * information of a command.
@@ -144,6 +146,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private boolean deferredFocus = false;
 
 	private boolean dummyCursor = false;
+
+	boolean ctrlC = false;
+
+	private boolean rightAltDown;
+	private boolean leftAltDown;
 
 	public interface InsertHandler {
 		void onInsert(String text);
@@ -953,14 +960,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return false;
 	}
 
-	// ----------------------------------------------------------------------------
-	// Protected methods ..why? :-)
-	// ----------------------------------------------------------------------------
 
-	boolean ctrlC = false;
-
-	private boolean rightAltDown;
-	private boolean leftAltDown;
 
 	@Override
 	public void onKeyPress(KeyPressEvent e) {
@@ -1351,9 +1351,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public boolean isSuggesting() {
 		return textField.isSuggestionListVisible();
 	}
-
-	private boolean isSuggestionJustHappened = false;
-	private GeoInputBox geoUsedForInputBox;
 
 	/**
 	 * @return that suggestion is just happened (click or enter, so we don't

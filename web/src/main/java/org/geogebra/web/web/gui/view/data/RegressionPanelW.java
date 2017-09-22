@@ -55,6 +55,9 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 
 	private DataAnalysisModel daModel;
 
+	private FlowPanel regressionPanel;
+	private Label regressionTitle;
+
 	/**
 	 * Construct a regression panel
 	 * 
@@ -79,12 +82,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		isIniting = false;
 	}
 
-	private FlowPanel regressionPanel;
-
-	private Label regressionTitle;
-
 	private void createRegressionPanel() {
-
 		// components
 		String[] orders = { "2", "3", "4", "5", "6", "7", "8", "9" };
 		lbPolyOrder = new ListBox();

@@ -93,7 +93,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
 @SuppressWarnings("javadoc")
-public class OptionsObjectW extends OptionsObject implements OptionPanelW{
+public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	Localization loc;
 
 	MultiRowsTabPanel tabPanel;
@@ -101,26 +101,27 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	private FlowPanel wrappedPanel;
 	private OptionsTab basicTab;
 
-	//Basic
+	// Basic
 	LabelPanel labelPanel;
 	AppW app;
 
-	//Color picker
+	// Color picker
 
 	// Style
 	// FillingPanel fillingPanel;
 
-	//Advanced
+	// Advanced
 	final boolean isDefaults;
 
 	List<OptionsTab> tabs;
+	private TextOptionsModel textModel;
 
 	String localize(final String id) {
 		return loc.getMenu(id);
 	}
 
-
-	private class ShowObjectPanel extends CheckboxPanel implements IShowObjectListener {
+	private class ShowObjectPanel extends CheckboxPanel
+			implements IShowObjectListener {
 		public ShowObjectPanel() {
 			super("ShowObject", loc);
 			setModel(new ShowObjectModel(this, app));
@@ -133,15 +134,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
 		final CheckBox showLabelCB;
 		private final FlowPanel mainWidget;
 		final ListBox labelMode;
 		ShowLabelModel model;
+
 		public LabelPanel() {
 			mainWidget = new FlowPanel();
-			showLabelCB = new CheckBox(localize("ShowLabel") + ":"); 
+			showLabelCB = new CheckBox(localize("ShowLabel") + ":");
 			mainWidget.add(showLabelCB);
 			setWidget(mainWidget);
 
@@ -153,14 +154,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			labelMode = new ListBox();
 			labelMode.setMultipleSelect(false);
 
-			showLabelCB.addClickHandler(new ClickHandler(){
+			showLabelCB.addClickHandler(new ClickHandler() {
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyShowChanges(showLabelCB.getValue());
 				}
 			});
 
-			labelMode.addChangeHandler(new ChangeHandler(){
+			labelMode.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
@@ -195,8 +196,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			// set label visible checkbox
 			if (isEqualMode) {
 				labelMode.setSelectedIndex(geo0.getLabelMode());
-			}
-			else {
+			} else {
 				labelMode.setSelectedIndex(-1);
 			}
 
@@ -220,13 +220,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			labelMode.addItem(localize("NameAndValue")); // index 1
 			labelMode.addItem(localize("Value")); // index 2
 			labelMode.addItem(localize("Caption")); // index 3 Michael
-			labelMode.setSelectedIndex(selectedIndex);        
+			labelMode.setSelectedIndex(selectedIndex);
 		}
 	}
 
-
-	private class ShowConditionPanel extends OptionPanel implements
-			IShowConditionListener, ErrorHandler {
+	private class ShowConditionPanel extends OptionPanel
+			implements IShowConditionListener, ErrorHandler {
 		private ShowConditionModel model;
 		private Label title;
 		private AutoCompleteTextFieldW tfCondition;
@@ -235,7 +234,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private FlowPanel errorPanel;
 
 		public ShowConditionPanel() {
-			//this.propPanel = propPanel;
+			// this.propPanel = propPanel;
 			model = new ShowConditionModel(app, this);
 			setModel(model);
 
@@ -244,35 +243,35 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			title = new Label();
 			title.setStyleName("panelTitle");
-			
+
 			mainPanel.add(title);
 			// non auto complete input panel
 			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1,
 					true);
 			tfCondition = inputPanel.getTextComponent();
 
-			tfCondition.addKeyHandler(new KeyHandler(){
+			tfCondition.addKeyHandler(new KeyHandler() {
 
 				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
-						doActionPerformed();	    
+						doActionPerformed();
 					}
 				}
 			});
 
-			tfCondition.addFocusListener(new FocusListenerW(this){
+			tfCondition.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusGained(){
+				protected void wrapFocusGained() {
 					processed = false;
 				}
 
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					if (!processed) {
 						doActionPerformed();
 					}
-				}	
+				}
 			});
 			// put it all together
 			mainPanel.add(inputPanel);
@@ -317,7 +316,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		@Override
 		public void setText(String text) {
-			tfCondition.setText(text);	
+			tfCondition.setText(text);
 		}
 
 		@Override
@@ -337,9 +336,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-
-	private class NamePanel extends OptionPanel implements IObjectNameListener,
-			ErrorHandler {
+	private class NamePanel extends OptionPanel
+			implements IObjectNameListener, ErrorHandler {
 		ObjectNameModel model;
 		AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
@@ -351,7 +349,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		private FlowPanel defPanel;
 		private FlowPanel errorPanel;
 		private FlowPanel captionPanel;
+		/**
+		 * current geo on which focus lost should apply (may be different to
+		 * current geo, due to threads)
+		 */
+		GeoElementND currentGeoForFocusLost = null;
 
+		String redefinitionForFocusLost = "";
 		public NamePanel() {
 			model = new ObjectNameModel(app, this);
 
@@ -362,12 +366,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			inputPanelName = new InputPanelW(null, app, 1, -1, true);
 			tfName = inputPanelName.getTextComponent();
 			tfName.setAutoComplete(false);
-			tfName.addFocusListener(new FocusListenerW(this){
+			tfName.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					model.applyNameChange(tfName.getText(),
 							app.getErrorHandler());
-				}	
+				}
 			});
 			tfName.addKeyHandler(new KeyHandler() {
 
@@ -377,12 +381,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 						model.applyNameChange(tfName.getText(),
 								app.getErrorHandler());
 					}
-				}});
+				}
+			});
 
 			// definition field: non auto complete input panel
 			inputPanelDef = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfDefinition = inputPanelDef
-					.getTextComponent();
+			tfDefinition = inputPanelDef.getTextComponent();
 			tfDefinition.setAutoComplete(false);
 
 			tfDefinition.addFocusListener(new FocusListenerW(this) {
@@ -419,18 +423,19 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 								NamePanel.this);
 					}
 
-				}});
+				}
+			});
 
 			// caption field: non auto complete input panel
 			inputPanelCap = new InputPanelW(null, getAppW(), 1, -1, true);
 			tfCaption = inputPanelCap.getTextComponent();
 			tfCaption.setAutoComplete(false);
 
-			tfCaption.addFocusListener(new FocusListenerW(this){
+			tfCaption.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					doCaptionChanged();
-				}	
+				}
 			});
 			tfCaption.addKeyHandler(new KeyHandler() {
 
@@ -439,14 +444,15 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					if (e.isEnterKey()) {
 						doCaptionChanged();
 					}
-				}});
+				}
+			});
 
 			mainWidget = new FlowPanel();
 
 			// name panel
 			nameStrPanel = new FlowPanel();
 			nameLabel = new Label();
-			//inputPanelName.insert(nameLabel, 0);
+			// inputPanelName.insert(nameLabel, 0);
 
 			nameStrPanel.add(nameLabel);
 			nameStrPanel.add(inputPanelName);
@@ -493,9 +499,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				AsyncOperation<String[]> callback) {
 			return app.getGuiManager().checkAutoCreateSliders(string, callback);
 		}
+
 		@Override
 		public void setLabels() {
-			nameLabel.setText(app.isUnbundled() ? loc.getMenu("Name"):loc.getMenu("Name") + ":");
+			nameLabel.setText(app.isUnbundled() ? loc.getMenu("Name")
+					: loc.getMenu("Name") + ":");
 			defLabel.setText(app.isUnbundled() ? loc.getMenu("Definition")
 					: loc.getMenu("Definition") + ":");
 			captionLabel
@@ -508,57 +516,51 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			OptionPanel result = super.updatePanel(geos);
 			return result;
 		}
-		
+
 		@Override
 		public void updateGUI(boolean showDefinition, boolean showCaption) {
 			mainWidget.clear();
-//			if (loc.isRightToLeftReadingOrder()) {
-//				mainWidget.add(inputPanelName);
-//				mainWidget.add(nameLabel);
-//			} else {
-//				mainWidget.add(nameLabel);
-//				mainWidget.add(inputPanelName);
-//			}
+			// if (loc.isRightToLeftReadingOrder()) {
+			// mainWidget.add(inputPanelName);
+			// mainWidget.add(nameLabel);
+			// } else {
+			// mainWidget.add(nameLabel);
+			// mainWidget.add(inputPanelName);
+			// }
 			mainWidget.add(nameStrPanel);
 
 			if (showDefinition) {
 				// if (loc.isRightToLeftReadingOrder()) {
-//					mainWidget.add(inputPanelDef);
-//					mainWidget.add(defLabel);
-//				} else {
-//					mainWidget.add(defLabel);
-//					mainWidget.add(inputPanelDef);
-//				}
+				// mainWidget.add(inputPanelDef);
+				// mainWidget.add(defLabel);
+				// } else {
+				// mainWidget.add(defLabel);
+				// mainWidget.add(inputPanelDef);
+				// }
 				mainWidget.add(defPanel);
 				mainWidget.add(errorPanel);
 			}
 
 			if (showCaption) {
 				// if (loc.isRightToLeftReadingOrder()) {
-//					mainWidget.add(inputPanelCap);
-//					mainWidget.add(captionLabel);
-//				} else {
-//					mainWidget.add(captionLabel);
-//					mainWidget.add(inputPanelCap);
-//				}
+				// mainWidget.add(inputPanelCap);
+				// mainWidget.add(captionLabel);
+				// } else {
+				// mainWidget.add(captionLabel);
+				// mainWidget.add(inputPanelCap);
+				// }
 				mainWidget.add(captionPanel);
 			}
-			//app.setComponentOrientation(this);
+			// app.setComponentOrientation(this);
 		}
 
-		/**
-		 * current geo on which focus lost shouls apply
-		 * (may be different to current geo, due to threads)
-		 */
-		GeoElementND currentGeoForFocusLost = null;
 
-		String redefinitionForFocusLost = "";
 
 		public void updateDef(GeoElementND geo) {
 
 			// do nothing if called by doActionPerformed
-			//		if (actionPerforming)
-			//			return;
+			// if (actionPerforming)
+			// return;
 
 			errorPanel.clear();
 			model.getDefInputHandler().setGeoElement(geo);
@@ -601,7 +603,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void updateName(String text) {
 			tfName.setText(text);
-			// if a focus lost is called in between, we keep the current definition text
+			// if a focus lost is called in between, we keep the current
+			// definition text
 			redefinitionForFocusLost = tfDefinition.getText();
 		}
 
@@ -628,7 +631,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	class ListAsComboPanel extends CheckboxPanel implements IListAsComboListener {
+	class ListAsComboPanel extends CheckboxPanel
+			implements IListAsComboListener {
 		public ListAsComboPanel() {
 			super("DrawAsDropDownList", loc);
 			setModel(new ListAsComboModel(app, this));
@@ -640,7 +644,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				app.getEuclidianView1().drawListAsComboBox(geo, value);
 				return;
 			}
-			
+
 			Iterator<Integer> it = geo.getViewSet().iterator();
 
 			// #3929
@@ -648,13 +652,13 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				Integer view = it.next();
 				if (view.intValue() == App.VIEW_EUCLIDIAN) {
 					app.getEuclidianView1().drawListAsComboBox(geo, value);
-				} else if (view.intValue() == App.VIEW_EUCLIDIAN2 && app.hasEuclidianView2(1)) {
+				} else if (view.intValue() == App.VIEW_EUCLIDIAN2
+						&& app.hasEuclidianView2(1)) {
 					app.getEuclidianView2(1).drawListAsComboBox(geo, value);
 				}
 			}
 		}
 	}
-
 
 	class ReflexAnglePanel extends OptionPanel implements IReflexAngleListener {
 		ReflexAngleModel model;
@@ -673,12 +677,12 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			mainWidget.add(intervalLabel);
 
 			intervalLB = new ListBox();
-			intervalLB.addChangeHandler(new ChangeHandler(){
+			intervalLB.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyChanges(getIndex());
-				}   
+				}
 			});
 
 			mainWidget.add(intervalLB);
@@ -717,14 +721,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			if (model.hasOrientation()) {
 
 				if (index >= intervalLB.getItemCount()) {
-					intervalLB.setSelectedIndex(0);					
+					intervalLB.setSelectedIndex(0);
 				} else {
 					intervalLB.setSelectedIndex(index);
 				}
 			} else {
 				// first interval disabled
 				intervalLB.setSelectedIndex(index - 1);
-			}	        
+			}
 		}
 
 		@Override
@@ -738,8 +742,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-
-	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
+	private class ColorFunctionPanel extends OptionPanel
+			implements IColorFunctionListener {
 		ColorFunctionModel model;
 		private InputPanelW inputPanelA;
 		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
@@ -755,13 +759,17 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				defaultA = "1";
 
 		boolean processed = false;
+
 		public ColorFunctionPanel() {
 			model = new ColorFunctionModel(app, this);
 			setModel(model);
 			// non auto complete input panel
-			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), 1, -1, true);
-			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1, true);
-			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1, true);
+			InputPanelW inputPanelR = new InputPanelW(null, getAppW(), 1, -1,
+					true);
+			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1,
+					true);
+			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1,
+					true);
 			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
 			tfRed = inputPanelR.getTextComponent();
 			tfGreen = inputPanelG.getTextComponent();
@@ -773,25 +781,25 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			nameLabelB = new Label();
 			nameLabelA = new Label();
 
-			FocusListenerW focusListener = new FocusListenerW(this){
+			FocusListenerW focusListener = new FocusListenerW(this) {
 
 				@Override
-				protected void wrapFocusGained(){
+				protected void wrapFocusGained() {
 					processed = false;
 				}
 
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					if (!processed) {
 						doActionPerformed();
 					}
-				}	
+				}
 			};
 
-			tfRed.addFocusListener(focusListener);						
-			tfGreen.addFocusListener(focusListener);						
-			tfBlue.addFocusListener(focusListener);						
-			tfAlpha.addFocusListener(focusListener);						
+			tfRed.addFocusListener(focusListener);
+			tfGreen.addFocusListener(focusListener);
+			tfBlue.addFocusListener(focusListener);
+			tfAlpha.addFocusListener(focusListener);
 
 			KeyHandler keyHandler = new KeyHandler() {
 
@@ -817,10 +825,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				@Override
 				public void onClick(ClickEvent event) {
 					model.removeAll();
-				}});
+				}
+			});
 
 			cbColorSpace = new ListBox();
-			cbColorSpace.addChangeHandler(new ChangeHandler(){
+			cbColorSpace.addChangeHandler(new ChangeHandler() {
 
 				@Override
 				public void onChange(ChangeEvent event) {
@@ -829,8 +838,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					setLabels();
 					doActionPerformed();
 					cbColorSpace.setSelectedIndex(colorSpace);
-				}});
-			
+				}
+			});
+
 			FlowPanel redColorPanel = new FlowPanel();
 			FlowPanel greenColorPanel = new FlowPanel();
 			FlowPanel blueColorPanel = new FlowPanel();
@@ -839,7 +849,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			greenColorPanel.setStyleName("optionsPanelCell");
 			blueColorPanel.setStyleName("optionsPanelCell");
 			alphaColorPanel.setStyleName("optionsPanelCell");
-			
+
 			redColorPanel.add(nameLabelR);
 			redColorPanel.add(inputPanelR);
 			greenColorPanel.add(nameLabelG);
@@ -859,7 +869,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			FlowPanel mainWidget = new FlowPanel();
 			title = new Label();
 			title.setStyleName("panelTitle");
-			
+
 			mainWidget.add(title);
 
 			mainWidget.add(colorsPanel);
@@ -882,7 +892,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		@Override
 		public void setLabels() {
 			title.setText(loc.getMenu("DynamicColors"));
-			//tfRed.setVisible(false);
+			// tfRed.setVisible(false);
 			if (allowSetComboBoxLabels) {
 				cbColorSpace.clear();
 				cbColorSpace.addItem(loc.getMenu("RGB"));
@@ -915,7 +925,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 			nameLabelA.setText(loc.getMenu("Opacity") + ":");
 			btRemove.setText(loc.getPlainTooltip("Remove"));
-			//btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
+			// btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		}
 
 		void doActionPerformed() {
@@ -974,10 +984,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 		@Override
 		public void updateSelection(Object[] geos) {
-			//updateSelection(geos);
+			// updateSelection(geos);
 		}
 	}
-
 
 	private class TooltipPanel extends ListBoxPanel {
 
@@ -989,7 +998,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-
 	private class LayerPanel extends ListBoxPanel {
 
 		public LayerPanel() {
@@ -1000,8 +1008,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-
-	private class ViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
+	private class ViewLocationPanel extends OptionPanel
+			implements IGraphicsViewLocationListener {
 		ViewLocationModel model;
 
 		private Label title;
@@ -1020,19 +1028,21 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			cbGraphicsView2 = new CheckBox();
 			cbGraphicsView3D = new CheckBox();
 			cbGraphicsViewForPlane = new CheckBox();
-			cbGraphicsView.addClickHandler(new ClickHandler(){
+			cbGraphicsView.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView1(cbGraphicsView.getValue());
-				}});
+				}
+			});
 
-			cbGraphicsView2.addClickHandler(new ClickHandler(){
+			cbGraphicsView2.addClickHandler(new ClickHandler() {
 
 				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView2(cbGraphicsView2.getValue());
-				}});
+				}
+			});
 
 			cbGraphicsView3D.addClickHandler(new ClickHandler() {
 
@@ -1046,8 +1056,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 
 				@Override
 				public void onClick(ClickEvent event) {
-					model.applyToEuclidianViewForPlane(cbGraphicsViewForPlane
-							.getValue());
+					model.applyToEuclidianViewForPlane(
+							cbGraphicsViewForPlane.getValue());
 				}
 			});
 
@@ -1068,7 +1078,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			checkBoxPanel.add(cbGraphicsView3D);
 			checkBoxPanel.add(cbGraphicsViewForPlane);
 			checkBoxPanel.add(cbAlgebraView);
-			
+
 			mainPanel.add(title);
 			title.setStyleName("panelTitle");
 			mainPanel.add(checkBoxPanel);
@@ -1091,7 +1101,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				cbGraphicsViewForPlane.setValue(isSelected);
 				break;
 			case 4:
-					cbAlgebraView.setValue(isSelected);
+				cbAlgebraView.setValue(isSelected);
 				break;
 			default:
 				// do nothing
@@ -1120,19 +1130,18 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		}
 	}
 
-	public OptionsObjectW(AppW app, boolean isDefaults, Runnable onTabSelection) {
+	public OptionsObjectW(AppW app, boolean isDefaults,
+			Runnable onTabSelection) {
 		this.app = app;
 		this.isDefaults = isDefaults;
 		loc = app.getLocalization();
 		// build GUI
 		initGUI(onTabSelection);
 	}
-	
+
 	AppW getAppW() {
 		return app;
 	}
-
-	private TextOptionsModel textModel;
 
 	private void initGUI(final Runnable onTabSelection) {
 		wrappedPanel = new FlowPanel();
@@ -1143,8 +1152,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		wrappedPanel.addStyleName("propertiesPanel2");
 		tabPanel = new MultiRowsTabPanel();
 
-		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
-				{			
+		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				// updateGUI();
@@ -1154,7 +1162,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 				tabs.get(event.getSelectedItem()).initGUI(isDefaults);
 				onTabSelection.run();
 			}
-				});
+		});
 		((Widget) tabPanel).setStyleName("propertiesTabPanel");
 		createBasicTab();
 		if (!(app.isExam())) {
@@ -1168,7 +1176,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 					addAdvancedTab(), addAlgebraTab());
 		}
 
-		for (OptionsTab tab: tabs) {
+		for (OptionsTab tab : tabs) {
 			tab.addToTabPanel();
 		}
 
@@ -1214,8 +1222,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			checkboxPanel.add(labelPanel.getWidget());
 		}
 
-		tracePanel = new CheckboxPanel("ShowTrace", loc, new TraceModel(null,
-				app));
+		tracePanel = new CheckboxPanel("ShowTrace", loc,
+				new TraceModel(null, app));
 		checkboxPanel.add(tracePanel.getWidget());
 		basicTab.add(checkboxPanel);
 
@@ -1225,8 +1233,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 			checkboxPanel.add(animatingPanel.getWidget());
 		}
 
-		fixPanel = new CheckboxPanel("FixObject", loc, new FixObjectModel(null,
-				app));
+		fixPanel = new CheckboxPanel("FixObject", loc,
+				new FixObjectModel(null, app));
 		checkboxPanel.add(fixPanel.getWidget());
 
 		auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
@@ -1251,7 +1259,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		trimmedIntersectionLinesPanel = new CheckboxPanel("ShowTrimmed", loc,
 				new TrimmedIntersectionLinesModel(null, app));
 
-		//		tabList.add(comboBoxPanel);
+		// tabList.add(comboBoxPanel);
 		allowOutlyingIntersectionsPanel = new CheckboxPanel(
 				"allowOutlyingIntersections", loc,
 				new OutlyingIntersectionsModel(null, app));
@@ -1262,10 +1270,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		basicTab.add(fixCheckboxPanel.getWidget());
 
 		basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
-					tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
-					bgImagePanel, reflexAnglePanel, rightAnglePanel,
-					listAsComboPanel, trimmedIntersectionLinesPanel,
-					allowOutlyingIntersectionsPanel, fixCheckboxPanel));
+				tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
+				bgImagePanel, reflexAnglePanel, rightAnglePanel,
+				listAsComboPanel, trimmedIntersectionLinesPanel,
+				allowOutlyingIntersectionsPanel, fixCheckboxPanel));
 	}
 
 	private OptionsTab addTextTab() {
@@ -1304,11 +1312,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		DecoAngleModel decoAngle = new DecoAngleModel(app);
 		DecoSegmentModel decoSegment = new DecoSegmentModel(app);
 
-		tab.addModel(ptSize).addModel(ptStyle).addModel(lod)
-				.addModel(lineStyle).addModel(arcSize).addModel(slopeSize)
-				.addModel(ineqStyle).addModel(tfSize).addModel(buttonSize)
-				.addModel(filling).addModel(interpol).addModel(decoAngle)
-				.addModel(decoSegment);
+		tab.addModel(ptSize).addModel(ptStyle).addModel(lod).addModel(lineStyle)
+				.addModel(arcSize).addModel(slopeSize).addModel(ineqStyle)
+				.addModel(tfSize).addModel(buttonSize).addModel(filling)
+				.addModel(interpol).addModel(decoAngle).addModel(decoSegment);
 		return tab;
 	}
 
@@ -1324,7 +1331,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tab.addModel(model);
 		return tab;
 	}
-	
 
 	private OptionsTab addAdvancedTab() {
 		OptionsTab tab = makeOptionsTab("Advanced");
@@ -1333,8 +1339,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		LayerPanel layerPanel = new LayerPanel();
 		TooltipPanel tooltipPanel = new TooltipPanel();
 		CheckboxPanel selectionAllowedPanel = new CheckboxPanel(
-				"SelectionAllowed", loc,
-				new SelectionAllowedModel(null, app));
+				"SelectionAllowed", loc, new SelectionAllowedModel(null, app));
 		ViewLocationPanel graphicsViewLocationPanel = new ViewLocationPanel();
 
 		tab.add(showConditionPanel);
@@ -1369,8 +1374,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 		tab = makeOptionsTab("Properties.Position");
 		tab.addModel(new StartPointModel(app))
 				.addModel(new CornerPointsModel(app))
-				.addModel(
-				new AbsoluteScreenLocationModel(app));
+				.addModel(new AbsoluteScreenLocationModel(app));
 		return tab;
 	}
 
@@ -1408,7 +1412,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	public void selectTab(int index) {
-		tabPanel.selectTab(index < 0 ? 0: index);	    
+		tabPanel.selectTab(index < 0 ? 0 : index);
 	}
 
 	public void openFileAsImage(String fileName) {
@@ -1423,11 +1427,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW{
 	}
 
 	@Override
-    public void onResize(int height, int width) {
-		for (OptionsTab tab: tabs) {
+	public void onResize(int height, int width) {
+		for (OptionsTab tab : tabs) {
 			tab.onResize(height, width);
 		}
-    }
+	}
 
 	public void updateSelection(ArrayList<GeoElement> geos) {
 		setSelection(geos);

@@ -22,24 +22,23 @@ import com.google.gwt.user.client.ui.RootPanel;
 public final class LocalizationW extends Localization
 		implements KeyboardLocale {
 	/**
-	 * @param dimension
-	 *            3 for 3D
-	 */
-	public LocalizationW(int dimension) {
-		super(dimension, 13);
-	}
-
-	/**
 	 * eg "en_GB", "es" // remains null until we're sure keys are loaded
 	 */
 	String localeStr = "en";
 
 	private boolean commandChanged = true;
 	/**
-	 * Constants related to internationalization
-	 * 
+	 * Default locale string
 	 */
 	public final static String DEFAULT_LANGUAGE = "en";
+
+	/**
+	 * @param dimension
+	 *            3 for 3D
+	 */
+	public LocalizationW(int dimension) {
+		super(dimension, 13);
+	}
 
 	//
 	/*

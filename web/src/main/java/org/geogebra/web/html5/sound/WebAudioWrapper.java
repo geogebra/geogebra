@@ -5,9 +5,7 @@ import org.geogebra.web.html5.Browser;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class WebAudioWrapper {
-	public interface FunctionAudioListener {
-		double getValueAt(double t);
-	}
+
 	public static final WebAudioWrapper INSTANCE = new WebAudioWrapper();
 	private FunctionAudioListener listener = null;
 	private boolean supported;
@@ -17,6 +15,9 @@ public class WebAudioWrapper {
 	private static JavaScriptObject context;
 	private static JavaScriptObject processor;
 
+	public interface FunctionAudioListener {
+		double getValueAt(double t);
+	}
 	private WebAudioWrapper() {
 		supported = !Browser.isIE() && !Browser.isFirefox();
 		init();

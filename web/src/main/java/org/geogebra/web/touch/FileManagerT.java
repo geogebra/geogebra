@@ -53,6 +53,7 @@ public class FileManagerT extends FileManager {
 	PhoneGap phonegap;
 	Flags createIfNotExist = new Flags(true, false);
 	Flags dontCreateIfNotExist = new Flags(false, false);
+	int nextFreeID = 1;
 
 	public FileManagerT(final AppW app) {
 		super(app);
@@ -599,7 +600,7 @@ public class FileManagerT extends FileManager {
 		        });
 
 	}
-	int nextFreeID = 1;
+
 	/**
 	 * @param cb
 	 *            Callback

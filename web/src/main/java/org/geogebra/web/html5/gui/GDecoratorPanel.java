@@ -97,6 +97,15 @@ public class GDecoratorPanel extends SimplePanel {
 	 */
 	private static final String[] DEFAULT_ROW_STYLENAMES = { "top", "middle",
 			"bottom" };
+	/**
+	 * The container element at the center of the panel.
+	 */
+	private Element containerElem;
+
+	/**
+	 * The table body element.
+	 */
+	private Element tbody;
 
 	/**
 	 * Create a new row with a specific style name. The row will contain three
@@ -141,15 +150,7 @@ public class GDecoratorPanel extends SimplePanel {
 		return tdElem;
 	}
 
-	/**
-	 * The container element at the center of the panel.
-	 */
-	private Element containerElem;
 
-	/**
-	 * The table body element.
-	 */
-	private Element tbody;
 
 	/**
 	 * Create a new {@link DecoratorPanel}.

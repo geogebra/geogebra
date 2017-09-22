@@ -17,6 +17,7 @@ import com.google.gwt.dom.client.NodeList;
 public class ViewW {
 
 	private HashMap<String, String> archiveContent;
+	private int zippedLength = 0;
 
 	private Element container;
 	private AppW app;
@@ -190,8 +191,6 @@ public class ViewW {
 	public void processBase64String(String dataParamBase64String) {
 		populateArchiveContent(getBase64Reader(dataParamBase64String));
 	}
-
-	private int zippedLength = 0;
 
 	private void putIntoArchiveContent(String key, String value) {
 		archiveContent.put(key, value);

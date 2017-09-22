@@ -76,14 +76,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		implements HasAllFocusHandlers, HasAllKeyHandlers, HasClickHandlers,
 		ListModelListener, HasChangeHandlers, HasCloseHandlers<GPopupPanel> {
-	/**
-	 * @param app
-	 *            application
-	 */
-	protected ComboBox(AppW app) {
-		super(app);
-		// TODO Auto-generated constructor stub
-	}
+
 
 	/** a combo box data model */
 	private ListDataModel model;
@@ -100,6 +93,15 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	private ComboBoxKeyboardManager keyboardManager;
 	/** a flag that is <code>true</code> if any control key is pressed */
 	private boolean keyPressed;
+	
+	/**
+	 * @param app
+	 *            application
+	 */
+	protected ComboBox(AppW app) {
+		super(app);
+		// TODO Auto-generated constructor stub
+	}
 
 	/**
 	 * Setter for property 'model'.

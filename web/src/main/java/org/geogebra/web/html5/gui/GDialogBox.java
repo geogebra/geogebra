@@ -146,6 +146,22 @@ import com.google.gwt.user.client.ui.Widget;
 @SuppressWarnings("deprecation")
 public class GDialogBox extends GDecoratedPopupPanel
 		implements HasHTML, HasSafeHtml, MouseListener {
+
+	/**
+	 * The default style name.
+	 */
+	private static final String DEFAULT_STYLENAME = "gwt-DialogBox";
+
+	private Caption caption;
+	private boolean dragging;
+	private int dragStartX, dragStartY;
+	private int windowWidth;
+	private int clientLeft;
+	private int clientTop;
+
+	// Visible for Testing
+	HandlerRegistration resizeHandlerRegistration;
+
 	/**
 	 * Set of characteristic interfaces supported by the {@link DialogBox}
 	 * caption.
@@ -210,20 +226,7 @@ public class GDialogBox extends GDecoratedPopupPanel
 		}
 	}
 
-	/**
-	 * The default style name.
-	 */
-	private static final String DEFAULT_STYLENAME = "gwt-DialogBox";
 
-	private Caption caption;
-	private boolean dragging;
-	private int dragStartX, dragStartY;
-	private int windowWidth;
-	private int clientLeft;
-	private int clientTop;
-
-	// Visible for Testing
-	HandlerRegistration resizeHandlerRegistration;
 
 	/**
 	 * Creates an empty dialog box. It should not be shown until its child

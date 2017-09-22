@@ -41,6 +41,16 @@ public class MyCellEditorW implements BaseCellEditor {
 	private boolean editing = false;
 
 	private boolean allowProcessGeo = false;
+	private boolean enableAutoComplete = false;
+
+	private SpreadsheetCellEditorKeyListener keyListener;
+
+	private boolean allowAutoEdit;
+
+	private SpreadsheetController controller;
+	// keep track of when <tab> was first pressed
+	// so we can return to that column when <enter> pressed
+	private int tabReturnCol = -1;
 
 	public boolean allowProcessGeo() {
 		return allowProcessGeo;
@@ -49,14 +59,6 @@ public class MyCellEditorW implements BaseCellEditor {
 	public void setAllowProcessGeo(boolean allowProcessGeo) {
 		this.allowProcessGeo = allowProcessGeo;
 	}
-
-	private boolean enableAutoComplete = false;
-
-	private SpreadsheetCellEditorKeyListener keyListener;
-
-	private boolean allowAutoEdit;
-
-	private SpreadsheetController controller;
 
 	public boolean isEnableAutoComplete() {
 		return enableAutoComplete;
@@ -88,7 +90,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	public Widget getTableCellEditorWidget(MyTableW table0, Object value0,
-	        boolean isSelected, int row0, int column0) {
+			boolean isSelected, int row0, int column0) {
 
 		table = table0;
 
@@ -309,10 +311,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		autoCompleteTextField.getTextField().setFocus(true);
 		keyListener.onKeyDown(e);
 	}
-
-	// keep track of when <tab> was first pressed
-	// so we can return to that column when <enter> pressed
-	private int tabReturnCol = -1;
 
 	public class SpreadsheetCellEditorKeyListener implements KeyEventsHandler {
 

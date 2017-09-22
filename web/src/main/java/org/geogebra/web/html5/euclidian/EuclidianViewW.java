@@ -5,11 +5,11 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
@@ -82,14 +82,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianViewW extends EuclidianView implements
 		EuclidianViewWInterface, PrintableW {
 
-
-
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
 
 	public GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
 	public GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		@Override
@@ -127,6 +126,20 @@ public class EuclidianViewW extends EuclidianView implements
 	// applet or not (because we shall not change selection in case
 	// e.g. the spreadsheet view gives focus to Graphics view).
 	private static boolean tabPressed = false;
+
+	// STROKES
+	final protected static GBasicStrokeW standardStroke = new GBasicStrokeW(1.0,
+			GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
+
+	final protected static GBasicStrokeW selStroke = new GBasicStrokeW(
+			1.0 + EuclidianStyleConstants.SELECTION_ADD, GBasicStroke.CAP_ROUND,
+			GBasicStroke.JOIN_ROUND);
+
+	protected boolean unitAxesRatio;
+
+	private GDimension preferredSize;
+
+	private SimplePanel dummyDiv;
 
 	/**
 	 * @param euclidianViewPanel
@@ -403,8 +416,6 @@ public class EuclidianViewW extends EuclidianView implements
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
 		}
 	}
-
-	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
 	/**
 	 * schedule a repaint
@@ -817,19 +828,6 @@ public class EuclidianViewW extends EuclidianView implements
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, DropEvent.getType());
 	}
-	// STROKES
-	final protected static GBasicStrokeW standardStroke = new GBasicStrokeW(
-			1.0, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
-
-	final protected static GBasicStrokeW selStroke = new GBasicStrokeW(
-			1.0 + EuclidianStyleConstants.SELECTION_ADD,
-	        GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
-
-	protected boolean unitAxesRatio;
-
-	private Object preferredSize;
-
-	private SimplePanel dummyDiv;
 
 	static public GBasicStrokeW getDefaultStroke() {
 		return standardStroke;

@@ -84,6 +84,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected DockManagerW dockManager;
 	/** app */
 	protected AppW app;
+	private boolean longStyleBar = false;
 
 	/**
 	 * The ID of this dock panel.
@@ -120,7 +121,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 */
 	private boolean hasStyleBar = false;
 	
+	private int embeddedDimWidth, embeddedDimHeight;
 
+	private ShowKeyboardButton keyboardButton;
 
 	/**
 	 * Style bar component.
@@ -200,6 +203,30 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * Images for Stylingbar
 	 */
 	private Image triangleRight, triangleLeft, dragIcon, closeIcon;
+
+	/** dock panel */
+	MyDockLayoutPanel dockPanel;
+	/** the main panel of this stylebar */
+	FlowPanel titleBarPanel;
+	private FlowPanel titleBarPanelContent;
+
+	private PushButton closeButton;
+	private FlowPanel dragPanel;
+	private FlowPanel closeButtonPanel;
+
+	private VerticalPanel componentPanel;
+	/** button to collapse / expand stylebar */
+	protected StandardButton toggleStyleBarButton;
+	/**
+	 * button to open graphics context menu
+	 */
+	protected StandardButton graphicsContextMenuBtn;
+
+	private ResourcePrototype viewImage;
+
+	// needs to be initialized here, because the button might be added in
+	// adSouth(), before setLayout() is called
+	private final SimplePanel kbButtonSpace = new SimplePanel();
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -369,32 +396,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// buildGUI();
 	}
 
-	/** dock panel */
-	MyDockLayoutPanel dockPanel;
-	/** the main panel of this stylebar */
-	FlowPanel titleBarPanel;
-	private FlowPanel titleBarPanelContent;
-	
 
-
-
-	private PushButton closeButton;
-	private FlowPanel dragPanel;
-	private FlowPanel closeButtonPanel;
-
-	private VerticalPanel componentPanel;
-	/** button to collapse / expand stylebar */
-	protected StandardButton toggleStyleBarButton;
-	/**
-	 * button to open graphics context menu
-	 */
-	protected StandardButton graphicsContextMenuBtn;
-
-	private ResourcePrototype viewImage;
-
-	// needs to be initialized here, because the button might be added in
-	// adSouth(), before setLayout() is called
-	private final SimplePanel kbButtonSpace = new SimplePanel();
 
 	/**
 	 * @return height in pixels
@@ -764,8 +766,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		return p.getElement().getInnerHTML();
 	}
-
-	private boolean longStyleBar = false;
 
 	/**
 	 * Update all elements in the title bar.
@@ -1426,9 +1426,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return new GDimensionW(getOffsetWidth(), getOffsetHeight());
 	}
 
-	private int embeddedDimWidth, embeddedDimHeight;
 
-	private ShowKeyboardButton keyboardButton;
 
 	/**
 	 * embedded dimensions (calculated when perspective is set)
@@ -1483,7 +1481,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			triangleLeft = new Image(
 			        GuiResources.INSTANCE.dockbar_triangle_left());
 		}
-        return GuiResources.INSTANCE.dockbar_triangle_left();
+		return GuiResources.INSTANCE.dockbar_triangle_left();
 	}
 
 	public void setStyleBarRightOffset(int offset){

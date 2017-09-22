@@ -8,13 +8,12 @@ public class ZeroOffset implements HasOffsets {
 
 	public static final ZeroOffset instance = new ZeroOffset();
 	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
+	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
 
 	@Override
 	public LinkedList<PointerEvent> getMouseEventPool() {
 		return mousePool;
 	}
-
-	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
 
 	@Override
 	public LinkedList<PointerEvent> getTouchEventPool() {

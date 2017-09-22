@@ -42,6 +42,16 @@ public class ExamDialog {
 	private Label instruction;
 
 	private Button btnOk;
+	private boolean lockTaskIsAvailable;
+	private DialogState dialogState;
+	private boolean wasAirplaneModeOn;
+	private GTimer checkTaskLockTimer = null;
+
+	private enum DialogState {
+		WAIT_FOR_AIRPLANE_MODE, WAIT_FOR_TASK_LOCK, CAN_START_EXAM
+	}
+
+
 
 	/**
 	 * @param app
@@ -347,12 +357,6 @@ public class ExamDialog {
 		startCheckAirplaneMode();
 	}
 
-	private boolean lockTaskIsAvailable;
-
-	private enum DialogState {WAIT_FOR_AIRPLANE_MODE, WAIT_FOR_TASK_LOCK, CAN_START_EXAM}
-
-	private DialogState dialogState;
-
 	/**
 	 * Android exam OK button pressed
 	 */
@@ -391,8 +395,6 @@ public class ExamDialog {
 				break;
 		}
 	}
-
-	private boolean wasAirplaneModeOn;
 
 	private void startCheckAirplaneMode() {
 		if (isAirplaneModeOn()) {
@@ -448,7 +450,6 @@ public class ExamDialog {
 		dialogState = DialogState.CAN_START_EXAM;
 	}
 
-	private GTimer checkTaskLockTimer = null;
 
 	private void askForTaskLock() {
 		Log.debug("ask for task lock");

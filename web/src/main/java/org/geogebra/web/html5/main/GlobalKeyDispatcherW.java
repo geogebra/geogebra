@@ -43,6 +43,12 @@ public class GlobalKeyDispatcherW extends
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
+	/**
+	 * Used if we need tab working properly
+	 */
+	private boolean inFocus = false;
+
+	private static boolean isHandlingTab;
 
 	/**
 	 * @return whether ctrll is pressed
@@ -69,12 +75,7 @@ public class GlobalKeyDispatcherW extends
 		shiftDown = ev.isShiftKeyDown();
 	}
 
-	/**
-	 * Used if we need tab working properly
-	 */
-	private boolean inFocus = false;
 
-	private static boolean isHandlingTab;
 
 	/**
 	 * @param tab

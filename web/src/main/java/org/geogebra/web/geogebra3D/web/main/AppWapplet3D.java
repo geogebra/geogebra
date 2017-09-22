@@ -3,6 +3,8 @@ package org.geogebra.web.geogebra3D.web.main;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
+import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
+import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
@@ -47,7 +49,7 @@ public class AppWapplet3D extends AppWapplet {
 
 	@Override
 	protected Kernel newKernel(App this_app) {
-		return App3DW.newKernel(this_app);
+		return new Kernel3D(this_app, new GeoFactory3D());
 	}
 
 	@Override

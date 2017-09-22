@@ -139,6 +139,33 @@ public class GSuggestBox extends Composite
 		HasAllKeyHandlers, HasValue<String>,
 		HasSelectionHandlers<Suggestion>, IsEditor<LeafValueEditor<String>> {
 
+	private static final String STYLENAME_DEFAULT = "gwt-SuggestBox";
+	private int limit = 20;
+	private boolean selectsFirstItem = true;
+	private SuggestOracle oracle;
+	private String currentText;
+	private LeafValueEditor<String> editor;
+	private final SuggestionDisplay display;
+	private final ValueBoxBase<String> box;
+	private final Callback callback = new Callback() {
+		public void onSuggestionsReady(Request request, Response response) {
+			// If disabled while request was in-flight, drop it
+			if (!isEnabled()) {
+				return;
+			}
+			display.setMoreSuggestions(response.hasMoreSuggestions(),
+					response.getMoreSuggestionsCount());
+			display.showSuggestions(GSuggestBox.this, response.getSuggestions(),
+					oracle.isDisplayStringHTML(), isAutoSelectEnabled(),
+					suggestionCallback);
+		}
+	};
+	private final SuggestionCallback suggestionCallback = new SuggestionCallback() {
+		public void onSuggestionSelected(Suggestion suggestion) {
+			box.setFocus(true);
+			setNewSelection(suggestion);
+		}
+	};
 	/**
 	 * The callback used when a user selects a {@link Suggestion}.
 	 */
@@ -707,8 +734,6 @@ public class GSuggestBox extends Composite
 		}
 	}
 
-	private static final String STYLENAME_DEFAULT = "gwt-SuggestBox";
-
 	/**
 	 * Creates a {@link SuggestBox} widget that wraps an existing &lt;input
 	 * type='text'&gt; element.
@@ -737,32 +762,7 @@ public class GSuggestBox extends Composite
 		return suggestBox;
 	}
 
-	private int limit = 20;
-	private boolean selectsFirstItem = true;
-	private SuggestOracle oracle;
-	private String currentText;
-	private LeafValueEditor<String> editor;
-	private final SuggestionDisplay display;
-	private final ValueBoxBase<String> box;
-	private final Callback callback = new Callback() {
-		public void onSuggestionsReady(Request request, Response response) {
-			// If disabled while request was in-flight, drop it
-			if (!isEnabled()) {
-				return;
-			}
-			display.setMoreSuggestions(response.hasMoreSuggestions(),
-					response.getMoreSuggestionsCount());
-			display.showSuggestions(GSuggestBox.this, response.getSuggestions(),
-					oracle.isDisplayStringHTML(), isAutoSelectEnabled(),
-					suggestionCallback);
-		}
-	};
-	private final SuggestionCallback suggestionCallback = new SuggestionCallback() {
-		public void onSuggestionSelected(Suggestion suggestion) {
-			box.setFocus(true);
-			setNewSelection(suggestion);
-		}
-	};
+
 
 	/**
 	 * Constructor for {@link SuggestBox}. Creates a

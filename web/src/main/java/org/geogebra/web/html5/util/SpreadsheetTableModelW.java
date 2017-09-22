@@ -14,6 +14,17 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
+	private MyTable table;
+
+	private ChangeListener listener = null;
+
+	// try with one-dimension ArrayList to represent two dimensions
+	private ArrayList<Object> defaultTableModel;
+
+	// it is easier to store the rowNum and colNum than computing them
+	private int rowNum = 0;
+	private int colNum = 0;
+
 	/**
 	 * Listens to changes in table size and values
 	 */
@@ -28,17 +39,6 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		 */
 		public void valueChange();
 	}
-
-	private MyTable table;
-
-	private ChangeListener listener = null;
-
-	// try with one-dimension ArrayList to represent two dimensions
-	private ArrayList<Object> defaultTableModel;
-
-	// it is easier to store the rowNum and colNum than computing them
-	private int rowNum = 0;
-	private int colNum = 0;
 
 	/**
 	 * Constructor

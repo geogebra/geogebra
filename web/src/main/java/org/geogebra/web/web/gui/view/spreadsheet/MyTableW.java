@@ -84,14 +84,14 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static final GColor HEADER_GRID_COLOR = GeoGebraColorConstants.GRAY4;
 	public static final GColor SELECTED_RECTANGLE_COLOR = GColor.BLUE;
 
+	final static double dash1[] = { 2.0 };
+	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
+			DefaultBasicStroke.CAP_BUTT, DefaultBasicStroke.JOIN_MITER, 10.0,
+			dash1);
+
 	protected Kernel kernel;
 	protected AppW app;
 	private MyCellEditorW editor;
-
-	// private MyCellEditorBooleanW editorBoolean;
-	// private MyCellEditorButton editorButton;
-	// private MyCellEditorList editorList;
-
 
 
 	public CopyPasteCut copyPasteCut;
@@ -178,20 +178,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static int minusColumnWidth = 2; // 14;
 
 	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
+	private boolean allowEditing = false;
 
-
-
-	// cursors
-	// protected Cursor defaultCursor = Cursor.getDefaultCursor();
-	// protected Cursor crossHairCursor = Cursor
-	// .getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
-	// protected Cursor handCursor = Cursor
-	// .getPredefinedCursor(Cursor.HAND_CURSOR);
-	// protected Cursor grabbingCursor, grabCursor;
+	private SpreadsheetModeProcessor spredsheetModeProcessor;
 
 	protected Grid ssGrid;
-
-
 
 	protected TableScroller scroller;
 
@@ -234,6 +225,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private boolean isSelectAll = false;
 	private boolean isSelectNone = false;
+	private GRectangle targetcellFrame;
+
+	private SpreadsheetController controller;
 
 	/*******************************************************************
 	 * Construct table
@@ -1594,9 +1588,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	// target selection frame
 	// =============================
-	private GRectangle targetcellFrame;
 
-	private SpreadsheetController controller;
 
 	public GRectangle getTargetcellFrame() {
 		return targetcellFrame;
@@ -1606,10 +1598,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		this.targetcellFrame = targetcellFrame;
 	}
 
-	final static double dash1[] = { 2.0 };
-	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
-			DefaultBasicStroke.CAP_BUTT, DefaultBasicStroke.JOIN_MITER, 10.0,
-			dash1);
+
 
 	/**
 	 * @param point
@@ -1730,10 +1719,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public int convertColumnIndexToModel(int viewColumnIndex) {
 		return viewColumnIndex;
 	}
-
-	private boolean allowEditing = false;
-
-	private SpreadsheetModeProcessor spredsheetModeProcessor;
 
 	public boolean isAllowEditing() {
 		return allowEditing;

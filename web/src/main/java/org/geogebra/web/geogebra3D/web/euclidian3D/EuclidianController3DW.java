@@ -58,6 +58,14 @@ public class EuclidianController3DW extends EuclidianController3D implements
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
 		IsEuclidianController {
 	private MouseTouchGestureControllerW mtg;
+	/**
+	 * x-coordinates of the center of the multitouch-event
+	 */
+	protected int oldCenterX3D;
+	/**
+	 * y-coordinates of the center of the multitouch-event
+	 */
+	protected int oldCenterY3D;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
@@ -237,17 +245,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public double getScaleYMultiplier() {
 		return mtg.getScaleYMultiplier();
 	}
-
-
-
-	/**
-	 * x-coordinates of the center of the multitouch-event
-	 */
-	protected int oldCenterX3D;
-	/**
-	 * y-coordinates of the center of the multitouch-event
-	 */
-	protected int oldCenterY3D;
 
 	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {

@@ -17,6 +17,9 @@ public class SignInButton extends Button implements EventRenderable{
 	protected final App app;
 	protected Timer loginChecker;
 
+	private WindowReference signInDialog = null;
+	private String callbackURL;
+
 	public SignInButton(final App app, final int delay, String callbackURL) {
 		super(app.getLocalization().getMenu("SignIn"));
 		this.callbackURL = callbackURL;
@@ -26,26 +29,26 @@ public class SignInButton extends Button implements EventRenderable{
 		
 		this.addClickHandler(new ClickHandler(){
 			@Override
-            public void onClick(ClickEvent event) {
+			public void onClick(ClickEvent event) {
 				SignInButton.this.login();
 				if(delay > 0){
 				loginChecker = new Timer(){
 					private String oldCookie = null;
 					@Override
-		            public void run() {
+						public void run() {
 						String cookie = Cookies.getCookie("SSID");
-						if(cookie != null && !cookie.equals(oldCookie)){
-				    		app.getLoginOperation().performCookieLogin(cookie);
-				    		this.oldCookie = cookie;
+							if (cookie != null && !cookie.equals(oldCookie)) {
+								app.getLoginOperation()
+										.performCookieLogin(cookie);
+								this.oldCookie = cookie;
+							}
 						}
-		            }};
-		        loginChecker.scheduleRepeating(delay);
+					};
+					loginChecker.scheduleRepeating(delay);
 				}
-            }});
+			}
+		});
 	}
-
-	private WindowReference signInDialog = null;
-	private String callbackURL;
 
 	/**
 	 * Show login dialog

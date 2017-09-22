@@ -25,6 +25,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	String[] commands;
 	MyActionListener listener;
 	private AppW app;
+	Scheduler.ScheduledCommand itemSideEffect = null;
 
 	/**
 	 * Creates a RadioButtonMenuBarW instance
@@ -93,12 +94,11 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 							itemSideEffect.execute();
 						}
 					}
-				}, i == selectedPos);			
+				}, i == selectedPos);
 			}
-		}	    
-    }
+		}
+	}
 
-	Scheduler.ScheduledCommand itemSideEffect = null;
 	public void registerItemSideEffect(Scheduler.ScheduledCommand sc) {
 		itemSideEffect = sc;
 	}

@@ -102,6 +102,95 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		EventPreview, HasAnimation, HasCloseHandlers<GPopupPanel> {
 
 	/**
+	 * The duration of the animation.
+	 */
+	private static final int ANIMATION_DURATION = 200;
+
+	/**
+	 * The default style name.
+	 */
+	private static final String DEFAULT_STYLENAME = "gwt-PopupPanel";
+
+	private static final PopupImpl impl = GWT.create(PopupImpl.class);
+
+	/**
+	 * Window resize handler used to keep the glass the proper size.
+	 */
+	private ResizeHandler glassResizer = new ResizeHandler() {
+		@Override
+		public void onResize(ResizeEvent event) {
+			Style style = glass.getStyle();
+
+			int winWidth = getRootPanel().getOffsetWidth();
+			int winHeight = getRootPanel().getOffsetHeight();
+
+			// Hide the glass while checking the document size. Otherwise it
+			// would
+			// interfere with the measurement.
+			style.setDisplay(Display.NONE);
+			style.setWidth(0, Unit.PX);
+			style.setHeight(0, Unit.PX);
+
+			// Set the glass size to the larger of the window's client size or
+			// the
+			// document's scroll size.
+			style.setWidth(winWidth, Unit.PX);
+			style.setHeight(winHeight, Unit.PX);
+
+			// The size is set. Show the glass again.
+			style.setDisplay(Display.BLOCK);
+		}
+	};
+
+	private AnimationType animType = AnimationType.CENTER;
+
+	private boolean autoHide, previewAllNativeEvents, modal, showing;
+	private boolean autoHideOnHistoryEvents;
+
+	private List<Element> autoHidePartners;
+
+	// Used to track requested size across changing child widgets
+	private String desiredHeight;
+
+	private String desiredWidth;
+
+	/**
+	 * The glass element.
+	 */
+	private Element glass;
+
+	private String glassStyleName = "gwt-PopupPanelGlass";
+
+	/**
+	 * A boolean indicating that a glass element should be used.
+	 */
+	private boolean isGlassEnabled;
+
+	private boolean isAnimationEnabled = false;
+
+	// the left style attribute in pixels
+	private int leftPosition = -1;
+
+	private HandlerRegistration nativePreviewHandlerRegistration;
+	private HandlerRegistration historyHandlerRegistration;
+
+	/**
+	 * The {@link ResizeAnimation} used to open and close the {@link PopupPanel}
+	 * s.
+	 */
+	private final ResizeAnimation resizeAnimation;
+
+	// The top style attribute in pixels
+	private int topPosition = -1;
+
+	private final Panel root;
+
+	// temporary variable for checking feature flag
+	public boolean hasOverlapFeature = false;
+
+	protected App app;
+
+	/**
 	 * A callback that is used to set the position of a {@link GPopupPanel}
 	 * right before it is shown.
 	 */
@@ -384,95 +473,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 	}
 
-	/**
-	 * The duration of the animation.
-	 */
-	private static final int ANIMATION_DURATION = 200;
-
-	/**
-	 * The default style name.
-	 */
-	private static final String DEFAULT_STYLENAME = "gwt-PopupPanel";
-
-	private static final PopupImpl impl = GWT.create(PopupImpl.class);
-
-	/**
-	 * Window resize handler used to keep the glass the proper size.
-	 */
-	private ResizeHandler glassResizer = new ResizeHandler() {
-		@Override
-		public void onResize(ResizeEvent event) {
-			Style style = glass.getStyle();
-
-			int winWidth = getRootPanel().getOffsetWidth();
-			int winHeight = getRootPanel().getOffsetHeight();
-
-			// Hide the glass while checking the document size. Otherwise it
-			// would
-			// interfere with the measurement.
-			style.setDisplay(Display.NONE);
-			style.setWidth(0, Unit.PX);
-			style.setHeight(0, Unit.PX);
-
-
-			// Set the glass size to the larger of the window's client size or
-			// the
-			// document's scroll size.
-			style.setWidth(winWidth, Unit.PX);
-			style.setHeight(winHeight, Unit.PX);
-
-			// The size is set. Show the glass again.
-			style.setDisplay(Display.BLOCK);
-		}
-	};
-
-	private AnimationType animType = AnimationType.CENTER;
-
-	private boolean autoHide, previewAllNativeEvents, modal, showing;
-	private boolean autoHideOnHistoryEvents;
-
-	private List<Element> autoHidePartners;
-
-	// Used to track requested size across changing child widgets
-	private String desiredHeight;
-
-	private String desiredWidth;
-
-	/**
-	 * The glass element.
-	 */
-	private Element glass;
-
-	private String glassStyleName = "gwt-PopupPanelGlass";
-
-	/**
-	 * A boolean indicating that a glass element should be used.
-	 */
-	private boolean isGlassEnabled;
-
-	private boolean isAnimationEnabled = false;
-
-	// the left style attribute in pixels
-	private int leftPosition = -1;
-
-	private HandlerRegistration nativePreviewHandlerRegistration;
-	private HandlerRegistration historyHandlerRegistration;
-
-	/**
-	 * The {@link ResizeAnimation} used to open and close the {@link PopupPanel}
-	 * s.
-	 */
-	private final ResizeAnimation resizeAnimation;
-
-	// The top style attribute in pixels
-	private int topPosition = -1;
-
-	private final Panel root;
-
-	//temporary variable for checking feature flag
-	public boolean hasOverlapFeature = false;
-
-	protected App app;
 
 	/**
 	 * Creates an empty popup panel. A child widget must be added to it before

@@ -20,6 +20,10 @@ import com.google.gwt.core.client.Callback;
 
 public class TabletFileManager extends FileManagerT {
 
+	private static int NO_CALLBACK = 0;
+	private TreeMap<Integer, MyCallback> callbacks;
+	private int callbacksCount = NO_CALLBACK;
+
 	private abstract class MyCallback implements Callback<Object, Object> {
 		private int id;
 
@@ -32,9 +36,7 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
-	private static int NO_CALLBACK = 0;
-	private TreeMap<Integer, MyCallback> callbacks;
-	private int callbacksCount = NO_CALLBACK;
+
 
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);	

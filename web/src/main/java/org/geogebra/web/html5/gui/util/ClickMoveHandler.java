@@ -10,6 +10,8 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class ClickMoveHandler {
 
+	boolean preventDefault = false;
+	boolean stopPropagation = false;
 	/**
 	 * Attaches a handler for MouseMoveEvent and a TouchMoveEvent to the widget.
 	 * CancelEventTimer is used to prevent duplication of events.
@@ -52,9 +54,6 @@ public abstract class ClickMoveHandler {
 			}
 		}, TouchMoveEvent.getType());
 	}
-
-	boolean preventDefault = false;
-	boolean stopPropagation = false;
 
 	/**
 	 * creates the base version of a ClickEventHandler.

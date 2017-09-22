@@ -60,6 +60,18 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
+	private static final int DEFAULT_SPLITTER_SIZE = 8;
+	private static final int DOUBLE_CLICK_TIMEOUT = 500;
+
+	/**
+	 * The element that masks the screen so we can catch mouse events over
+	 * iframes.
+	 */
+	private static Element glassElem = null;
+
+	private final int splitterSize;
+	private double zoom;
+
   class HSplitter extends Splitter {
     public HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       super(target, reverse, splitPanel);
@@ -360,18 +372,6 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
       return target.getOffsetHeight();
     }
   }
-
-  private static final int DEFAULT_SPLITTER_SIZE = 8;
-  private static final int DOUBLE_CLICK_TIMEOUT = 500;
-
-  /**
-   * The element that masks the screen so we can catch mouse events over
-   * iframes.
-   */
-  private static Element glassElem = null;
-
-  private final int splitterSize;
-  private double zoom;
 
 	/**
 	 * @return glass pane

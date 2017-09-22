@@ -55,6 +55,17 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	private static HashMap<String, AppW> articleMap = new HashMap<String, AppW>();
+	/** Article element */
+	public ArticleElement ae;
+
+	private int computedWidth = 0;
+	private int computedHeight = 0;
+	private final GLookAndFeelI laf;
+
+	/**
+	 * Callback from renderGGBElement to run, if everything is done
+	 */
+	private JavaScriptObject onLoadCallback = null;
 
 	/** Creates new GeoGebraFrame */
 	public GeoGebraFrameW(GLookAndFeelI laf) {
@@ -210,18 +221,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 		return width;
 	}
-
-	/** Article element */
-	public ArticleElement ae;
-
-	private int computedWidth = 0;
-	private int computedHeight = 0;
-	private final GLookAndFeelI laf;
-
-	/**
-	 * Callback from renderGGBElement to run, if everything is done
-	 */
-	private JavaScriptObject onLoadCallback = null;
 
 	@Override
 	public JavaScriptObject getOnLoadCallback() {

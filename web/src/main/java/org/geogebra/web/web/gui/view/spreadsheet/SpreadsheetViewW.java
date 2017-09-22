@@ -79,6 +79,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	
 	//false, if user close keyboard with X button, in this case, keyboard won't appear if a user click in a cell later, he should open it with keyboard button
 	private boolean keyboardEnabled = true;
+	private boolean scrollToShow = false;
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
 	/******************************************************
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
@@ -110,10 +112,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 					Touch t0 = event.getTouches().get(0);
 					Touch t1 = event.getTouches().get(1);
 					scrollPos.setLocation(
-					        getHorizontalScrollPosition()
-					                + (t0.getScreenX() + t1.getScreenX()) / 2,
-					        getVerticalScrollPosition()
-					                + (t0.getScreenY() + t1.getScreenY()) / 2);
+							getHorizontalScrollPosition()
+									+ (t0.getScreenX() + t1.getScreenX()) / 2,
+							getVerticalScrollPosition()
+									+ (t0.getScreenY() + t1.getScreenY()) / 2);
 				}
 			}
 		}, TouchStartEvent.getType());
@@ -435,8 +437,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}
-
-	private boolean scrollToShow = false;
 
 	public void setScrollToShow(boolean scrollToShow) {
 		this.scrollToShow = scrollToShow;
@@ -1162,8 +1162,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	public void doRepaint() {
 		table.repaint();
 	}
-
-	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
 	/**
 	 * timer system suggests a repaint

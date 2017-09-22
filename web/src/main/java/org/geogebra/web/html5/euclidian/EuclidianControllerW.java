@@ -67,7 +67,7 @@ public class EuclidianControllerW extends EuclidianController implements
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
 		IsEuclidianController, DropHandler {
 
-
+	private MouseTouchGestureControllerW mtg;
 
 
 	@Override
@@ -87,8 +87,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void moveIfWaiting() {
 		mtg.moveIfWaiting();
 	}
-
-	private MouseTouchGestureControllerW mtg;
 
 	@Override
 	protected void createCompanions() {

@@ -34,7 +34,10 @@ public class PerspectivesPopup {
 	/** application */
 	final AppWFull app;
 	private FlowPanel contentPanel;
-
+	/** tutorial links */
+	final static String[] tutorials = new String[] { "graphing/", "graphing/",
+			"geometry/", "spreadsheet/", "cas/", "3d/", "probability/", "exam/",
+			"" };
 
 
 	/**
@@ -155,9 +158,7 @@ public class PerspectivesPopup {
 
 	}
 
-	/** tutorial links */
-	final static String[] tutorials = new String[] { "graphing/", "graphing/", "geometry/", "spreadsheet/", "cas/",
-			"3d/", "probability/", "exam/", "" };
+
 
 	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
 			String menuID, final int index, final int defID) {

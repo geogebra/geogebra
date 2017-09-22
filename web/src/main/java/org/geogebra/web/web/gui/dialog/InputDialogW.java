@@ -58,6 +58,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	protected FlowPanel btPanel;
 
 	protected final Localization loc;
+	private boolean showingError = false;
 	
 	public InputDialogW(boolean modal, AppW app, boolean hasKeyboard){
 		this.app = app;
@@ -354,10 +355,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			return;
 		}
 
-	    
-    }
+	}
 
-	private boolean showingError = false;
 	@Override
     public void showError(String msg) {
 		if(msg == null){

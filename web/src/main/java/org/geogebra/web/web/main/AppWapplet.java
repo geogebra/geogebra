@@ -71,6 +71,13 @@ public class AppWapplet extends AppWFull {
 	private boolean menuInited = false;
 
 	private GeoGebraFrameBoth frame;
+	private DockSplitPaneW oldSplitLayoutPanel = null; // just a technical
+	// helper
+	// variable
+	private HorizontalPanel splitPanelWrapper = null;
+	private View focusedView;
+	/** floating menu */
+	FloatingMenuPanel floatingMenuPanel = null;
 
 	/******************************************************
 	 * Constructs AppW for applets
@@ -186,10 +193,7 @@ public class AppWapplet extends AppWFull {
 		}
 	}
 
-	private DockSplitPaneW oldSplitLayoutPanel = null; // just a technical
-														// helper
-												// variable
-	private HorizontalPanel splitPanelWrapper = null;
+
 
 
 	@Override
@@ -489,10 +493,6 @@ public class AppWapplet extends AppWFull {
 			
 		}
 	}
-
-	private View focusedView;
-	/** floating menu */
-	FloatingMenuPanel floatingMenuPanel = null;
 
 	@Override
 	public void focusLost(View v, Element el) {
