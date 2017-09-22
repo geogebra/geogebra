@@ -93,13 +93,12 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	public double getPixelOffset() {
 		return (30 * getApplication().getFontSize()
 				) / 12.0;
-    }
-	
+	}
+
 	@Override
-    public void updateSizeKeepDrawables() {
+	public void updateSizeKeepDrawables() {
 		super.updateSizeKeepDrawables();
 	}
-	
 	
 
 	public Widget getComponent() {

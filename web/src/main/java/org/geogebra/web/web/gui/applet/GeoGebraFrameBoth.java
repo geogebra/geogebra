@@ -416,7 +416,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		// TODO maybe too expensive?
 		app.updateCenterPanelAndViews();
-		GeoGebraFrameBoth.this.add(keyBoard);
+		add(keyBoard);
 		keyBoard.setVisible(true);
 		if (showKeyboardButton != null) {
 			showKeyboardButton.hide();
@@ -735,8 +735,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				app.updateSplitPanelHeight();
 				keyboardHeight = newHeight;
 				app.updateCenterPanelAndViews();
-				GeoGebraFrameBoth.this
-						.add(getOnScreenKeyboard(null));
+				add(getOnScreenKeyboard(null));
 			}
 		}
 	}

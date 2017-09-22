@@ -128,8 +128,8 @@ public class PointStylePopup extends PopupMenuButtonW
 
 	@Override
 	public void setSelectedIndex(int index) {
-	    super.setSelectedIndex(index);		
-    }
+		super.setSelectedIndex(index);
+	}
 
 	@Override
 	public void addItem(String item) {

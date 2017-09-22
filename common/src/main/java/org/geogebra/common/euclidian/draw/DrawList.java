@@ -61,65 +61,61 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	private void reset() {
 
-
-
-			if (drawables == null) {
-				drawables = new DrawListArray(view);
-			}
+		if (drawables == null) {
+			drawables = new DrawListArray(view);
+		}
 
 	}
 
 	@Override
-	final public void update() {
+	public void update() {
 
+		isVisible = geoList.isEuclidianVisible();
+		if (!isVisible) {
+			return;
+		}
 
-			isVisible = geoList.isEuclidianVisible();
-			if (!isVisible) {
-				return;
+		// go through list elements and create and/or update drawables
+		int size = geoList.size();
+		drawables.ensureCapacity(size);
+		int oldDrawableSize = drawables.size();
+
+		int drawablePos = 0;
+		for (int i = 0; i < size; i++) {
+			GeoElement listElement = geoList.get(i);
+			if (!listElement.isDrawable()) {
+				continue;
 			}
 
-			// go through list elements and create and/or update drawables
-			int size = geoList.size();
-			drawables.ensureCapacity(size);
-			int oldDrawableSize = drawables.size();
-
-			int drawablePos = 0;
-			for (int i = 0; i < size; i++) {
-				GeoElement listElement = geoList.get(i);
-				if (!listElement.isDrawable()) {
-					continue;
-				}
-
-				// add drawable for listElement
-				// if (addToDrawableList(listElement, drawablePos,
-				// oldDrawableSize))
-				if (drawables.addToDrawableList(listElement, drawablePos,
-						oldDrawableSize, this)) {
-					drawablePos++;
-				}
-
+			// add drawable for listElement
+			// if (addToDrawableList(listElement, drawablePos,
+			// oldDrawableSize))
+			if (drawables.addToDrawableList(listElement, drawablePos,
+					oldDrawableSize, this)) {
+				drawablePos++;
 			}
 
-			// remove end of list
-			for (int i = drawables.size() - 1; i >= drawablePos; i--) {
-				view.remove(drawables.get(i).getGeoElement());
-				drawables.remove(i);
-			}
+		}
 
-			// draw trace
-			if (geoList.getTrace()) {
-				isTracing = true;
-				GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null) {
-					drawTrace(g2);
-				}
-			} else {
-				if (isTracing) {
-					isTracing = false;
-					// view.updateBackground();
-				}
-			}
+		// remove end of list
+		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
+			view.remove(drawables.get(i).getGeoElement());
+			drawables.remove(i);
+		}
 
+		// draw trace
+		if (geoList.getTrace()) {
+			isTracing = true;
+			GGraphics2D g2 = view.getBackgroundGraphics();
+			if (g2 != null) {
+				drawTrace(g2);
+			}
+		} else {
+			if (isTracing) {
+				isTracing = false;
+				// view.updateBackground();
+			}
+		}
 
 	}
 
@@ -128,7 +124,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * step, and the sub-drawables of this list should be removed as well
 	 */
 	@Override
-	final public void remove() {
+	public void remove() {
 		for (int i = drawables.size() - 1; i >= 0; i--) {
 			GeoElement currentGeo = drawables.get(i).getGeoElement();
 			if (!currentGeo.isLabelSet()) {
@@ -139,31 +135,29 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	protected final void drawTrace(GGraphics2D g2) {
+	protected void drawTrace(GGraphics2D g2) {
 
-
-			g2.setPaint(geo.getObjectColor());
-			g2.setStroke(objStroke);
-			if (isVisible) {
-				int size = drawables.size();
-				for (int i = 0; i < size; i++) {
-					Drawable d = (Drawable) drawables.get(i);
-					// draw only those drawables that have been created by this
-					// list;
-					// if d belongs to another object, we don't want to mess
-					// with it
-					// here
-					if (createdByDrawList()
-							|| !d.getGeoElement().isLabelSet()) {
-						d.draw(g2);
-					}
+		g2.setPaint(geo.getObjectColor());
+		g2.setStroke(objStroke);
+		if (isVisible) {
+			int size = drawables.size();
+			for (int i = 0; i < size; i++) {
+				Drawable d = (Drawable) drawables.get(i);
+				// draw only those drawables that have been created by this
+				// list;
+				// if d belongs to another object, we don't want to mess
+				// with it
+				// here
+				if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+					d.draw(g2);
 				}
 			}
+		}
 
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 			boolean doHighlight = geoList.doHighlighting();
@@ -189,8 +183,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * position.
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
-
+	public boolean hit(int x, int y, int hitThreshold) {
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
@@ -232,7 +225,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public GRectangle getBounds() {
 		if (!geo.isEuclidianVisible()) {
 			return null;
 		}
@@ -259,8 +252,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	}
 
-
-
 	/**
 	 * @param geoItem
 	 *            geo
@@ -270,7 +261,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		return geoItem instanceof FunctionalNVar
 				|| (geoItem.isGeoText() && geoItem.isLaTeXDrawableGeo());
 	}
-
 
 	/**
 	 * 
@@ -285,7 +275,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		this.geo = geo;
 	}
 
-
 	@Override
 	public BoundingBox getBoundingBox() {
 		// TODO Auto-generated method stub
@@ -295,7 +284,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	public void updateBoundingBox() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

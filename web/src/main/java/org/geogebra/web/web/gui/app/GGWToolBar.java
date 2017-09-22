@@ -57,14 +57,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	static private ToolbarResources myIconResourceBundle = ((ImageFactory) GWT
 			.create(ImageFactory.class)).getToolbarResources();
 	
-	/**
-	 * PNG or SVG resource bundle
-	 * 
-	 * @return bundle
-	 */
-	static public ToolbarResources getMyIconResourceBundle() {
-		return myIconResourceBundle;
-	}
 
 	private ArrayList<ToolBarW> toolbars;
 	/** application */
@@ -89,6 +81,15 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	/** undo button */
 	StandardButton undoButton;
 	private StandardButton redoButton;
+
+	/**
+	 * PNG or SVG resource bundle
+	 * 
+	 * @return bundle
+	 */
+	static public ToolbarResources getMyIconResourceBundle() {
+		return myIconResourceBundle;
+	}
 
 	/**
 	 * Create a new GGWToolBar object

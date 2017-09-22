@@ -249,8 +249,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 				        .hasGoogleDrive()) {
 					// do nothing, see requestDriveLogin
 				} else {
-					GoogleDriveOperationW.this.getModel()
-					        .setLoggedInFromGoogleDrive(false);
+					getModel().setLoggedInFromGoogleDrive(false);
 				}
 			} else {
 				logOut();

@@ -495,8 +495,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 * sync-problems with a file, a new one is generated on ggt.
 	 */
 	private void uploadToGgt(final String visibility) {
-		final boolean titleChanged = !SaveDialogW.this.title.getText().equals(
-				app.getKernel().getConstruction().getTitle());
+		final boolean titleChanged = !this.title.getText()
+				.equals(app.getKernel().getConstruction().getTitle());
 		if (this.saveType != MaterialType.ggt) {
 			app.getKernel().getConstruction().setTitle(this.title.getText());
 		}

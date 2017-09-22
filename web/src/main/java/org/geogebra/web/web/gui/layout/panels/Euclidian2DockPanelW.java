@@ -98,11 +98,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 	    return eview1;
     }
 
-	@Override
-	public void onResize() {
-		super.onResize();
-    }
-
 	public void remove(Widget w) {
 		euclidianpanel.remove(w);
     }
@@ -125,7 +120,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 	}
 	
 	@Override
-    public ResourcePrototype getIcon() {
+	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics2();
 	}
 

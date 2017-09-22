@@ -46,6 +46,39 @@ import com.google.gwt.user.client.ui.TreeItem;
  */
 public class CustomizeToolbarGUI extends MyHeaderPanel implements
         CustomizeToolbarListener, SetLabels {
+	private static final int PANEL_GAP = 30;
+	private static final int MARGIN_Y = 21;
+	private static final int ALLTOOLS_SCROLLPANEL_PADDING = 17;
+	private static final int DRAGABLE_TOOLS_PADDING = 55;
+	private static final int DRAGABLE_TOOLS_CHILD_PADDING = 16;
+
+	/** application **/
+	AppW app;
+	private CustomizeToolbarHeaderPanel header;
+	private Label lblAllTools, lblUsedTools;
+	/** contains the {@link #toolTree} of the used tools **/
+	ScrollPanel usedToolsPanelContent;
+	/**
+	 * flowPanel in a {@link #spAllTools scrollPanel} which contains all
+	 * available tools
+	 **/
+	FlowPanel allToolsPanelContent;
+	/** contains the panel with the tools **/
+	ScrollPanel spAllTools;
+	private Vector<Integer> usedTools;
+	/** all tools **/
+	Vector<Integer> allTools;
+	/** tree which contains the used tools **/
+	ToolTree toolTree;
+	/** element for dragging **/
+	static DraggableTool draggingTool = null;
+	private Button btDefalutToolbar;
+	private Button btApply;
+	private String oldToolbarString;
+	private DockPanelW dockPanel;
+	private int toolbarId;
+	/** localization */
+	Localization loc;
 
 	private static class ToolTreeResources implements Tree.Resources {
 
@@ -571,40 +604,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 
 	}
-
-	private static final int PANEL_GAP = 30;
-	private static final int MARGIN_Y = 21;
-	private static final int ALLTOOLS_SCROLLPANEL_PADDING = 17;
-	private static final int DRAGABLE_TOOLS_PADDING = 55;
-	private static final int DRAGABLE_TOOLS_CHILD_PADDING = 16;
-
-	/** application **/
-	AppW app;
-	private CustomizeToolbarHeaderPanel header;
-	private Label lblAllTools, lblUsedTools;
-	/** contains the {@link #toolTree} of the used tools **/
-	ScrollPanel usedToolsPanelContent;
-	/**
-	 * flowPanel in a {@link #spAllTools scrollPanel} which contains all
-	 * available tools
-	 **/
-	FlowPanel allToolsPanelContent;
-	/** contains the panel with the tools **/
-	ScrollPanel spAllTools;
-	private Vector<Integer> usedTools;
-	/** all tools **/
-	Vector<Integer> allTools;
-	/** tree which contains the used tools **/
-	ToolTree toolTree;
-	/** element for dragging **/
-	static DraggableTool draggingTool = null;
-	private Button btDefalutToolbar;
-	private Button btApply;
-	private String oldToolbarString;
-	private DockPanelW dockPanel;
-	private int toolbarId;
-	/** localization */
-	Localization loc;
 
 	/**
 	 * @param app

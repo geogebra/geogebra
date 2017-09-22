@@ -36,6 +36,19 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		KeyHandler, MouseDownHandler, MouseUpHandler, CancelListener {
 	private static volatile MinMaxPanel openedMinMaxPanel = null;
+	private SliderTreeItemInterface sliderTreeItem;
+	/** min width of the panel */
+	public static final int MINMAX_MIN_WIDHT = 326;
+	private AVField tfMin;
+	private AVField tfMax;
+	private AVField tfStep;
+	private Label lblValue;
+	private Label lblStep;
+	private GeoNumeric num;
+	private boolean keepOpen = false;
+	private boolean focusRequested = false;
+	private Kernel kernel;
+	private App app;
 
 	/**
 	 * @return current panel
@@ -128,20 +141,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		}
 
 	}
-
-	private SliderTreeItemInterface sliderTreeItem;
-	/** min width of the panel */
-	public static final int MINMAX_MIN_WIDHT = 326;
-	private AVField tfMin;
-	private AVField tfMax;
-	private AVField tfStep;
-	private Label lblValue;
-	private Label lblStep;
-	private GeoNumeric num;
-	private boolean keepOpen = false;
-	private boolean focusRequested = false;
-	private Kernel kernel;
-	private App app;
 
 	/**
 	 * @param item

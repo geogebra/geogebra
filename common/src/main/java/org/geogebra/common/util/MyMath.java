@@ -48,14 +48,14 @@ public final class MyMath {
 	 * @param a
 	 * @return cube root
 	 */
-	final public static double cbrt(double a) {
+	public static double cbrt(double a) {
 		if (a > 0.0) {
 			return Math.pow(a, ONE_THIRD);
 		}
 		return -Math.pow(-a, ONE_THIRD);
 	}
 
-	final public static double sgn(double a) {
+	public static double sgn(double a) {
 
 		// bugfix for graph f(x) = sgn(sqrt(1 - x))
 		if (Double.isNaN(a)) {
@@ -71,15 +71,15 @@ public final class MyMath {
 		}
 	}
 
-	final public static double cosh(double a) {
+	public static double cosh(double a) {
 		return Math.cosh(a);
 	}
 
-	final public static double sinh(double a) {
+	public static double sinh(double a) {
 		return Math.sinh(a);
 	}
 
-	final public static double tanh(double a) {
+	public static double tanh(double a) {
 		return Math.tanh(a);
 	}
 
@@ -89,7 +89,7 @@ public final class MyMath {
 	 * @param a
 	 * @return csch(a)
 	 */
-	final public static double csch(double a) {
+	public static double csch(double a) {
 
 		// don't change this, csch(0.000000000000000000000000000000001)
 		// **shoudn't** return NaN
@@ -100,14 +100,14 @@ public final class MyMath {
 		return 1 / sinh(a);
 	}
 
-	final public static double sech(double a) {
+	public static double sech(double a) {
 		return 1 / cosh(a);
 	}
 
 	/**
 	 * need some leeway to make sure asin(0.8^2 / sqrt(0.8^4)) works
 	 */
-	final public static double asin(double a) {
+	public static double asin(double a) {
 
 		if (a > 1) {
 			if (Kernel.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
@@ -127,7 +127,7 @@ public final class MyMath {
 	/**
 	 * need some leeway to make sure acos(0.8^2 / sqrt(0.8^4)) works
 	 */
-	final public static double acos(double a) {
+	public static double acos(double a) {
 
 		if (a > 1) {
 			if (Kernel.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
@@ -151,23 +151,23 @@ public final class MyMath {
 	 * @param a
 	 * @return coth(a)
 	 */
-	final public static double coth(double a) {
+	public static double coth(double a) {
 		return 1 / tanh(a);
 	}
 
-	final public static double acosh(double a) {
+	public static double acosh(double a) {
 		return FastMath.acosh(a);
 	}
 
-	final public static double asinh(double a) {
+	public static double asinh(double a) {
 		return FastMath.asinh(a);
 	}
 
-	final public static double atanh(double a) {
+	public static double atanh(double a) {
 		return FastMath.atanh(a);
 	}
 
-	final public static double csc(double a) {
+	public static double csc(double a) {
 		double sin = Math.sin(a);
 		if (Kernel.isZero(sin)) {
 			return Double.NaN;
@@ -176,7 +176,7 @@ public final class MyMath {
 		return 1 / sin;
 	}
 
-	final public static double sec(double a) {
+	public static double sec(double a) {
 
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
@@ -187,7 +187,7 @@ public final class MyMath {
 		return 1 / cos;
 	}
 
-	final public static double cot(double a) {
+	public static double cot(double a) {
 		double sin = Math.sin(a);
 		if (Kernel.isZero(sin)) {
 			return Double.NaN; // not infinity (1/0)
@@ -266,9 +266,20 @@ public final class MyMath {
 		}
 	}
 
+	/**
+	 * @param fun
+	 *            function
+	 * @param px
+	 *            x-ccord of the point
+	 * @param py
+	 *            y-coord of the point
+	 * @param x
+	 *            x-coord on function
+	 * @return D(x) = sqrt((x - a)^2+(f(x) - b)^2)
+	 */
 	public static double distancePointFunctionAt(final UnivariateFunction fun,
 			final double px, final double py, double x) {
-		// D(x) = sqrt((x - a)^2+(f(x) - b)^2)
+		//
 		return MyMath.length(x - px, fun.value(x) - py);
 	}
 

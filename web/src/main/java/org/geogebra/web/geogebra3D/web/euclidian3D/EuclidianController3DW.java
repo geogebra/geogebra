@@ -57,12 +57,12 @@ public class EuclidianController3DW extends EuclidianController3D implements
         TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
 		IsEuclidianController {
+	private MouseTouchGestureControllerW mtg;
 
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return mtg.getEnvironmentStyle();
 	}
-
 
 	/**
 	 * recalculates cached styles concerning browser environment
@@ -75,11 +75,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	@Override
 	public void moveIfWaiting() {
 		mtg.moveIfWaiting();
-
 	}
-
-
-	private MouseTouchGestureControllerW mtg;
 
 	@Override
 	protected void createCompanions() {

@@ -77,7 +77,7 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public void update() {
+	public void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible && !text.isNeedsUpdatedBoundingBox()) {
 			// Corner[Element[text
@@ -164,7 +164,7 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 
 			GColor bg = geo.getBackgroundColor();
@@ -212,12 +212,12 @@ public final class DrawText extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		return super.hitLabel(x, y);
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 
@@ -235,12 +235,12 @@ public final class DrawText extends Drawable {
 	}
 
 	@Override
-	final public GeoElement getGeoElement() {
+	public GeoElement getGeoElement() {
 		return geo;
 	}
 
 	@Override
-	final public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
 
@@ -278,7 +278,7 @@ public final class DrawText extends Drawable {
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}

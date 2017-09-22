@@ -544,7 +544,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			return;
 		}
 
-		dockManager.drag(DockPanelW.this);
+		dockManager.drag(this);
 
 	}
 
@@ -724,7 +724,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 		
 		@Override
-        public void add(Widget w){
+		public void add(Widget w) {
 			if(this.getCenter()!=null){
 				Log.error("TODO: dock panel filled twice");
 				this.remove(this.getCenter());

@@ -66,7 +66,7 @@ public final class DrawPoint extends Drawable {
 	 *            controller threshold
 	 * @return distance threshold to select a point
 	 */
-	public static final int getSelectionThreshold(int threshold) {
+	public static int getSelectionThreshold(int threshold) {
 		return threshold + SELECTION_RADIUS_MIN;
 	}
 
@@ -129,10 +129,9 @@ public final class DrawPoint extends Drawable {
 	private double[] coords1 = new double[2];
 
 	@Override
-	final public void update() {
+	public void update() {
 
-		if (gp != null)
-		 {
+		if (gp != null) {
 			gp.reset(); // stop trace being left when (filled diamond) point
 						// moved
 		}
@@ -168,7 +167,7 @@ public final class DrawPoint extends Drawable {
 	 * @param coords2
 	 *            (x,y) real world coords
 	 */
-	final public void update(double[] coords2) {
+	public void update(double[] coords2) {
 		update(coords2, true);
 	}
 
@@ -409,7 +408,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			if (geo.doHighlighting()) {
 				g2.setPaint(geo.getSelColor());
@@ -498,7 +497,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	protected final void drawTrace(GGraphics2D g2) {
+	protected void drawTrace(GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 
 		int pointStyle = P.getPointStyle();
@@ -520,7 +519,7 @@ public final class DrawPoint extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		int r = getSelectionThreshold(hitThreshold);
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
@@ -528,7 +527,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
 
@@ -541,7 +540,7 @@ public final class DrawPoint extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public GRectangle getBounds() {
 		// return selection circle's bounding box
 		if (!geo.isEuclidianVisible()) {
 			return null;
@@ -560,12 +559,12 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	final public GeoElement getGeoElement() {
+	public GeoElement getGeoElement() {
 		return geo;
 	}
 
 	@Override
-	final public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
 
@@ -573,7 +572,7 @@ public final class DrawPoint extends Drawable {
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
-	final private static GBasicStroke getEmptyStroke(int pointSize) {
+	private static GBasicStroke getEmptyStroke(int pointSize) {
 		if (pointSize > 9) {
 			return AwtFactory.getPrototype()
 					.newBasicStrokeJoinMitre(pointSize / 2f);
@@ -591,7 +590,7 @@ public final class DrawPoint extends Drawable {
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
 	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
-	final private static GBasicStroke getFillStroke(int pointSize) {
+	private static GBasicStroke getFillStroke(int pointSize) {
 
 		if (pointSize > 9) {
 			return AwtFactory.getPrototype().newBasicStroke(pointSize / 2f);
@@ -644,7 +643,7 @@ public final class DrawPoint extends Drawable {
 	 * @param y
 	 *            y-coord.
 	 */
-	final public void updateStylePreview(double x, double y) {
+	public void updateStylePreview(double x, double y) {
 		if (gp != null) {
 			gp.reset();
 		}

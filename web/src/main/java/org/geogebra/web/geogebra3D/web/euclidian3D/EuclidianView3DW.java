@@ -5,10 +5,10 @@ import java.util.HashMap;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -80,6 +80,13 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public GGraphics2DW g2p = null;
 
 	private PointerEventHandler pointerHandler;
+
+	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
+	private long lastRepaint;
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	private boolean waitForNewRepaint = false;
+
+	private boolean readyToRender = false;
 
 	/**
 	 * constructor
@@ -305,9 +312,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
-
-	private boolean readyToRender = false;
-
 	/**
 	 * tells the view that all is ready for GL rendering
 	 */
@@ -528,10 +532,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	};
 
-	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
-
-	private long lastRepaint;
-
 	/**
 	 * This doRepaint method should be used instead of repaintView in cases when
 	 * the repaint should be done immediately
@@ -586,9 +586,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	final public void waitForNewRepaint() {
 		waitForNewRepaint = true;
 	}
-
-	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
-	private boolean waitForNewRepaint = false;
 
 	/**
 	 * schedule a repaint
@@ -740,11 +737,13 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 	
+	@Override
 	public void setFlagForSCADexport() {
 		super.setFlagForSCADexport();
 		repaint();
 	}
 	
+	@Override
 	protected ExportToPrinter3D createExportToPrinter3D() {
 		return new ExportToPrinter3DW(this, renderer);
 	}

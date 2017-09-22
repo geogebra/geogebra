@@ -32,9 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	
-	public interface SearchListener {
-		void onSearch(String query);
-	}
+
 
 //	private FlowPanel searchPanel;
 	private TextBox query;
@@ -42,6 +40,10 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 	private final List<SearchListener> listeners;
 	private NetworkOperation op;
 	protected final Localization loc;
+
+	public interface SearchListener {
+		void onSearch(String query);
+	}
 
 	public SearchPanel(AppW app) {
 		this.setStyleName("searchDiv");

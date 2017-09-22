@@ -84,55 +84,55 @@ public final class RegressionMath {
 
 	// / --- Interface --- ///
 
-	public final double getP1() {
+	public double getP1() {
 		return p1;
 	}
 
-	public final double getP2() {
+	public double getP2() {
 		return p2;
 	}
 
-	public final double getP3() {
+	public double getP3() {
 		return p3;
 	}
 
-	public final double getP4() {
+	public double getP4() {
 		return p4;
 	}
 
-	public final double getP5() {
+	public double getP5() {
 		return p5;
 	}
 
-	// public final double getR() {return r; }
-	public final double getSigmaX() {
+	// public double getR() {return r; }
+	public double getSigmaX() {
 		return sigmax;
 	}
 
-	public final double getSigmaX2() {
+	public double getSigmaX2() {
 		return sigmax2;
 	}
 
-	public final double getSigmaY() {
+	public double getSigmaY() {
 		return sigmay;
 	}
 
-	public final double getSigmaY2() {
+	public double getSigmaY2() {
 		return sigmay2;
 	}
 
-	public final double getSigmaXy() {
+	public double getSigmaXy() {
 		return sigmaxy;
 	}
 
 	// 27.01.09:
 	/** Returns array with calculated parameters */
-	public final double[] getPar() {
+	public double[] getPar() {
 		return pararray;
 	}
 
 	/** Does the Polynom regression for degree > 4 */
-	public final boolean doPolyN(GeoList gl, int degree) {
+	public boolean doPolyN(GeoList gl, int degree) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -167,7 +167,7 @@ public final class RegressionMath {
 		return !error;
 	}// doPolyN()
 
-	public final boolean doLinear(GeoList gl) {
+	public boolean doLinear(GeoList gl) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -190,7 +190,7 @@ public final class RegressionMath {
 		return true;
 	}// doLinearReg(GeoList)
 
-	public final boolean doQuad(GeoList gl) {
+	public boolean doQuad(GeoList gl) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -219,7 +219,7 @@ public final class RegressionMath {
 		return true;
 	}// doQuad(Geolist)
 
-	public final boolean doCubic(GeoList gl) {
+	public boolean doCubic(GeoList gl) {
 		error = false;
 		geolist = gl;
 		size = geolist.size();
@@ -255,7 +255,7 @@ public final class RegressionMath {
 		return true;
 	}// doCubic(Geolist)
 
-	public final boolean doExp(GeoList gl) {
+	public boolean doExp(GeoList gl) {
 		error = false;
 		geolist = gl;
 		double y = 0.0d;
@@ -293,7 +293,7 @@ public final class RegressionMath {
 		return true;
 	}// doExp(GeoList)
 
-	public final boolean doLog(GeoList gl) {
+	public boolean doLog(GeoList gl) {
 		error = false;
 		geolist = gl;
 		double x = 0.0d;
@@ -326,7 +326,7 @@ public final class RegressionMath {
 		return true;
 	}// doLog(GeoList)
 
-	public final boolean doPow(GeoList gl) {
+	public boolean doPow(GeoList gl) {
 		error = false;
 		geolist = gl;
 		double x, y;
@@ -366,13 +366,13 @@ public final class RegressionMath {
 		return true;
 	}// doPow(GeoList)
 
-	public final static double det22( // 15.11.08: public for FitSin and
+	public static double det22( // 15.11.08: public for FitSin and
 										// FitLogisticc
 			double a11, double a12, double a21, double a22) {
 		return a11 * a22 - a21 * a12;
 	}// det22()
 
-	public final static double det33(
+	public static double det33(
 			// 15.11.08: public for FitSin and FitLogisticc
 			double a11, double a12, double a13, double a21, double a22,
 			double a23, double a31, double a32, double a33) {
@@ -380,7 +380,7 @@ public final class RegressionMath {
 				+ a13 * (a21 * a32 - a31 * a22);
 	}// det33()
 
-	public final static double det44(
+	public static double det44(
 			// 15.11.08: public for FitSin and FitLogisticc
 			double a11, double a12, double a13, double a14, double a21,
 			double a22, double a23, double a24, double a31, double a32,
@@ -405,7 +405,7 @@ public final class RegressionMath {
 	/* Do whatever sums neccessary */
 	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
 			"missing break is deliberate" })
-	private final void doSums(int degree) { // do whatever sums neccessary
+	private void doSums(int degree) { // do whatever sums neccessary
 		double x, y, xx, xy;
 		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = sigmax7 = sigmax8 = sigmaxy = sigmax2y = sigmax3y = sigmax4y = sigmay = sigmay2 = 0.0d;
 		for (int i = 0; i < size; i++) {
@@ -444,7 +444,7 @@ public final class RegressionMath {
 	}
 
 	/* Get points to local array */
-	private final void getPoints() {
+	private void getPoints() {
 		// double x,y;
 		double xy[] = new double[2];
 		GeoElement geoelement;
@@ -466,7 +466,7 @@ public final class RegressionMath {
 	}// getPoints()
 
 	// Make M with 1,x,x^2,... , and Y with y1,y2,.. for all datapoints
-	private final void makeMatrixArrays(int degree) {
+	private void makeMatrixArrays(int degree) {
 		marray = new double[size][degree + 1];
 		yarray = new double[size][1]; // column matrix
 		for (int i = 0; i < size; i++) {

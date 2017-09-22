@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 public class CardPanel extends FlowPanel {
 	private int selectedIndex;
@@ -21,9 +20,4 @@ public class CardPanel extends FlowPanel {
 		selectedIndex = idx;
 	}
 
-	@Override
-	public void add(Widget w) {
-		// w.setVisible(false);
-		super.add(w);
-	}
 }

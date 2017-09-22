@@ -86,10 +86,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		ValueChangeHandler<String>, SelectionHandler<Suggestion>,
 		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
 
-	public interface InsertHandler {
-		void onInsert(String text);
-	}
-
 	private static final int BOX_ROUND = 8;
 
 	protected AppW app;
@@ -149,6 +145,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	private boolean dummyCursor = false;
 
+	public interface InsertHandler {
+		void onInsert(String text);
+	}
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created

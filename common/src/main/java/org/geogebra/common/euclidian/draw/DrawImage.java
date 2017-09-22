@@ -81,7 +81,7 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	final public void update() {
+	public void update() {
 		isVisible = geo.isEuclidianVisible();
 
 		if (!isVisible) {
@@ -248,7 +248,7 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g3) {
+	public void draw(GGraphics2D g3) {
 		if (isVisible) {
 			GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
@@ -336,7 +336,7 @@ public final class DrawImage extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
@@ -363,7 +363,7 @@ public final class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
@@ -374,7 +374,7 @@ public final class DrawImage extends Drawable {
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public GRectangle getBounds() {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
@@ -390,12 +390,12 @@ public final class DrawImage extends Drawable {
 	}
 
 	@Override
-	final public GeoElement getGeoElement() {
+	public GeoElement getGeoElement() {
 		return geo;
 	}
 
 	@Override
-	final public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
 

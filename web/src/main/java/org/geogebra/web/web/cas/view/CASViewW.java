@@ -43,8 +43,6 @@ public class CASViewW extends CASView implements PrintableW {
 		component = new CASComponentW();
 		this.app = app;
 
-
-
 		// CAS input/output cells
 		CASTableControllerW ml = new CASTableControllerW(this, app);
 		consoleTable = new CASTableW(app, ml, this);
@@ -89,14 +87,8 @@ public class CASViewW extends CASView implements PrintableW {
 	}
 
 	@Override
-	public void clearView() {
-		super.clearView();
-	}
-
-	@Override
 	public void repaintView() {
-		// TODO Auto-generated method stub
-
+		// no repaint needed in Web
 	}
 
 	@Override

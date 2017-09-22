@@ -660,30 +660,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	}
 
 	/**
-	 * Gets the panel's offset height in pixels. Calls to
-	 * {@link #setHeight(String)} before the panel's child widget is set will
-	 * not influence the offset height.
-	 *
-	 * @return the object's offset height
-	 */
-	@Override
-	public int getOffsetHeight() {
-		return super.getOffsetHeight();
-	}
-
-	/**
-	 * Gets the panel's offset width in pixels. Calls to
-	 * {@link #setWidth(String)} before the panel's child widget is set will not
-	 * influence the offset width.
-	 *
-	 * @return the object's offset width
-	 */
-	@Override
-	public int getOffsetWidth() {
-		return super.getOffsetWidth();
-	}
-
-	/**
 	 * Gets the popup's left position relative to the browser's client area.
 	 *
 	 * @return the popup's left position

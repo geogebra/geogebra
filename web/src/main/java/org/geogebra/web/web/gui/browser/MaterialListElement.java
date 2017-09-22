@@ -493,7 +493,7 @@ public class MaterialListElement extends FlowPanel
 
 	protected void remove() {
 		app.getGuiManager().getBrowseView()
-				.removeMaterial(MaterialListElement.this.material);
+				.removeMaterial(this.material);
 	}
 
 	protected void setAllMaterialsDefault() {

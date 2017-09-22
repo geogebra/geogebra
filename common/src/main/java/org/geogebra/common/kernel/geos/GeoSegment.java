@@ -68,7 +68,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * @see #SEGMENT_DECORATION_ONE_TICK etc.
 	 * @return array of all decoration types
 	 */
-	public static final Integer[] getDecoTypes() {
+	public static Integer[] getDecoTypes() {
 		Integer[] ret = { Integer.valueOf(SEGMENT_DECORATION_NONE),
 				Integer.valueOf(SEGMENT_DECORATION_ONE_TICK),
 				Integer.valueOf(SEGMENT_DECORATION_TWO_TICKS),
@@ -247,7 +247,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
+	public boolean showInAlgebraView() {
 		// return defined;
 		return true;
 	}
@@ -280,7 +280,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 		sbToString.append(" = ");
@@ -289,7 +289,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
+	public String toStringMinimal(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(length));
 		return sbToString.toString();
@@ -300,7 +300,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	private boolean forceSimpleTransform;
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public String toValueString(StringTemplate tpl) {
 		return kernel.format(length, tpl);
 	}
 
@@ -313,12 +313,12 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public double getDouble() {
+	public double getDouble() {
 		return getLength();
 	}
 
 	@Override
-	final public boolean isConstant() {
+	public boolean isConstant() {
 		return false;
 	}
 
@@ -348,7 +348,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public boolean isLimitedPath() {
+	public boolean isLimitedPath() {
 		return true;
 	}
 
@@ -567,7 +567,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 *            point y-coord
 	 * @return closest parameter
 	 */
-	final public double getParameter(double ptx, double pty) {
+	public double getParameter(double ptx, double pty) {
 		double px = ptx;
 		double py = pty;
 		// project P on line
@@ -591,7 +591,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * returns distance from endpoints if appropriate
 	 */
 	@Override
-	final public double distance(GeoPoint p) {
+	public double distance(GeoPoint p) {
 
 		double t = getParameter(p.inhomX, p.inhomY);
 
@@ -608,7 +608,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public double distance(double x0, double y0) {
+	public double distance(double x0, double y0) {
 
 		double t = getParameter(x0, y0);
 
@@ -742,7 +742,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * dilate from S by r
 	 */
 	@Override
-	final public void dilate(NumberValue rval, Coords S) {
+	public void dilate(NumberValue rval, Coords S) {
 
 		super.dilate(rval, S);
 
@@ -757,7 +757,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * rotate this line by angle phi around (0,0)
 	 */
 	@Override
-	final public void rotate(NumberValue phiVal) {
+	public void rotate(NumberValue phiVal) {
 		super.rotate(phiVal);
 
 		startPoint.rotate(phiVal);
@@ -771,7 +771,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * rotate this line by angle phi around Q
 	 */
 	@Override
-	final public void rotate(NumberValue phiVal, GeoPointND point) {
+	public void rotate(NumberValue phiVal, GeoPointND point) {
 
 		super.rotate(phiVal, point);
 		Coords sCoords = point.getInhomCoords();
@@ -787,7 +787,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * mirror this line at point Q
 	 */
 	@Override
-	final public void mirror(Coords Q) {
+	public void mirror(Coords Q) {
 
 		super.mirror(Q);
 		startPoint.mirror(Q);
@@ -802,7 +802,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * mirror this point at line g
 	 */
 	@Override
-	final public void mirror(GeoLineND g1) {
+	public void mirror(GeoLineND g1) {
 
 		super.mirror(g1);
 		startPoint.mirror(g1);
@@ -817,7 +817,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	 * translate by vector v
 	 */
 	@Override
-	final public void translate(Coords v) {
+	public void translate(Coords v) {
 		super.translate(v);
 		startPoint.translate(v);
 		endPoint.translate(v);
@@ -827,7 +827,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public void matrixTransform(double p, double q, double r, double s) {
+	public void matrixTransform(double p, double q, double r, double s) {
 
 		super.matrixTransform(p, q, r, s);
 
@@ -839,7 +839,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	}
 
 	@Override
-	final public void matrixTransform(double a00, double a01, double a02,
+	public void matrixTransform(double a00, double a01, double a02,
 			double a10, double a11, double a12, double a20, double a21,
 			double a22) {
 		super.matrixTransform(a00, a01, a02, a10, a11, a12, a20, a21, a22);

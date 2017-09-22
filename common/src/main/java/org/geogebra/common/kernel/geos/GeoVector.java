@@ -97,7 +97,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	final public boolean isCasEvaluableObject() {
+	public boolean isCasEvaluableObject() {
 		return true;
 	}
 
@@ -136,7 +136,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	final public void setCoords(double x, double y, double z) {
+	public void setCoords(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -144,12 +144,12 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	final public void setCoords(double[] c) {
+	public void setCoords(double[] c) {
 		setCoords(c[0], c[1], c[2]);
 	}
 
 	@Override
-	final public void setCoords(GeoVec3D v) {
+	public void setCoords(GeoVec3D v) {
 		x = v.x;
 		y = v.y;
 		z = v.z;
@@ -208,7 +208,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * @param phi
 	 *            phase
 	 */
-	final public void setPolarCoords(double r, double phi) {
+	public void setPolarCoords(double r, double phi) {
 		// convert angle to radiant
 		x = r * Math.cos(phi);
 		y = r * Math.sin(phi);
@@ -221,7 +221,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * @param v
 	 *            vector (x,y)
 	 */
-	final public void setCoords(GeoVec2D v) {
+	public void setCoords(GeoVec2D v) {
 		x = v.getX();
 		y = v.getY();
 		z = 0.0d;
@@ -233,7 +233,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * 
 	 * @return vector containing inhomogeneous coords
 	 */
-	final public GeoVec2D getInhomVec() {
+	public GeoVec2D getInhomVec() {
 		return new GeoVec2D(kernel, x, y);
 	}
 
@@ -241,7 +241,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * Retuns starting point of this vector or null.
 	 */
 	@Override
-	final public GeoPointND getStartPoint() {
+	public GeoPointND getStartPoint() {
 		return startPoint;
 	}
 
@@ -362,22 +362,22 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	final public boolean isFinite() {
+	public boolean isFinite() {
 		return !isInfinite();
 	}
 
 	@Override
-	final public boolean isInfinite() {
+	public boolean isInfinite() {
 		return Double.isInfinite(x) || Double.isInfinite(y);
 	}
 
 	@Override
-	final protected boolean showInEuclidianView() {
+	protected boolean showInEuclidianView() {
 		return isDefined() && !isInfinite();
 	}
 
 	@Override
-	public final boolean showInAlgebraView() {
+	public boolean showInAlgebraView() {
 		// independent or defined
 		// return isIndependent() || isDefined();
 		return true;
@@ -389,7 +389,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 */
 	// Michael Borcherds 2008-05-01
 	@Override
-	final public boolean isEqual(GeoElementND geo) {
+	public boolean isEqual(GeoElementND geo) {
 
 		if (!geo.isGeoVector()) {
 			return false;
@@ -410,7 +410,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * rotate this vector by angle phi around (0,0)
 	 */
 	@Override
-	final public void rotate(NumberValue phi) {
+	public void rotate(NumberValue phi) {
 		rotateXY(phi);
 
 	}
@@ -462,7 +462,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	/*********************************************************************/
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
@@ -488,7 +488,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	final public String toStringMinimal(StringTemplate tpl) {
+	public String toStringMinimal(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append(regrFormat(x));
 		sbToString.append(" ");
@@ -499,7 +499,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	private StringBuilder sbToString = new StringBuilder(50);
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
 
@@ -761,7 +761,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * @param symbolic
 	 *            if symbolic
 	 */
-	public static final void buildLatexValueStringCoordCartesian3D(
+	public static void buildLatexValueStringCoordCartesian3D(
 			Kernel kernel, StringTemplate tpl, double x, double y, double z,
 			StringBuilder sb, GeoVectorND vector, boolean symbolic) {
 		String[] inputs;
@@ -853,7 +853,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 *            vector coresponding to x,y (result depends on parent algo)
 	 * @return content of string builder
 	 */
-	static final public String buildLatexString(Kernel kernel, StringBuilder sb,
+	static public String buildLatexString(Kernel kernel, StringBuilder sb,
 			boolean symbolic, StringTemplate tpl, int toStringMode, double x,
 			double y, GeoVectorND vector) {
 		switch (toStringMode) {
@@ -1103,7 +1103,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	@Override
-	final public HitType getLastHitType() {
+	public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 

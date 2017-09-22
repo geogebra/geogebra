@@ -32,6 +32,10 @@
 		<exclude name="UnusedModifier" />
 	</rule>
 
+	<rule ref="rulesets/java/unnecessary.xml">
+		<exclude name="UselessParentheses"/>
+		<exclude name="UselessOverridingMethod"/>
+	</rule>
 
 	<rule ref="rulesets/java/braces.xml">
 	</rule>

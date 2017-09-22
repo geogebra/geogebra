@@ -58,6 +58,7 @@ final public class GeoVec2D extends ValidExpression
 	private int mode; // POLAR or CARTESIAN
 
 	private Kernel kernel;
+	private StringBuilder sbToString;
 
 	/**
 	 * Creates new GeoVec2D
@@ -208,7 +209,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @return x-coord
 	 */
 	@Override
-	final public double getX() {
+	public double getX() {
 		return x;
 	}
 
@@ -216,28 +217,28 @@ final public class GeoVec2D extends ValidExpression
 	 * @return y-coord
 	 */
 	@Override
-	final public double getY() {
+	public double getY() {
 		return y;
 	}
 
 	/**
 	 * @return radius (polar)
 	 */
-	final public double getR() {
+	public double getR() {
 		return MyMath.length(x, y);
 	}
 
 	/**
 	 * @return phase (polar)
 	 */
-	final public double getPhi() {
+	public double getPhi() {
 		return Math.atan2(y, x);
 	}
 
 	/**
 	 * @return coordinates as array
 	 */
-	final public double[] getCoords() {
+	public double[] getCoords() {
 		double[] res = { x, y };
 		return res;
 	}
@@ -248,7 +249,7 @@ final public class GeoVec2D extends ValidExpression
 	 * 
 	 * @return length of this vector
 	 */
-	final public double length() {
+	public double length() {
 		return MyMath.length(x, y);
 	}
 
@@ -256,7 +257,7 @@ final public class GeoVec2D extends ValidExpression
 	 * Changes this vector to a vector with the same direction and orientation,
 	 * but length 1.
 	 */
-	final public void makeUnitVector() {
+	public void makeUnitVector() {
 		double len = this.length();
 		x = x / len;
 		y = y / len;
@@ -268,7 +269,7 @@ final public class GeoVec2D extends ValidExpression
 	 * 
 	 * @return unit vector with same direction
 	 */
-	final public GeoVec2D getUnitVector() {
+	public GeoVec2D getUnitVector() {
 		double len = this.length();
 		return new GeoVec2D(kernel, x / len, y / len);
 	}
@@ -279,7 +280,7 @@ final public class GeoVec2D extends ValidExpression
 	 * 
 	 * @return normalized coords
 	 */
-	final public double[] getUnitCoords() {
+	public double[] getUnitCoords() {
 		double len = this.length();
 		double[] res = { x / len, y / len };
 		return res;
@@ -292,7 +293,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            other vector
 	 * @return this * v
 	 */
-	final public double inner(GeoVec2D v) {
+	public double inner(GeoVec2D v) {
 		return x * v.x + y * v.y;
 	}
 
@@ -304,7 +305,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            other vector
 	 * @return true if both vectors have equal coords
 	 */
-	final public boolean isEqual(GeoVec2D v) {
+	public boolean isEqual(GeoVec2D v) {
 		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);
 	}
 
@@ -317,7 +318,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            other vector
 	 * @return true if this is linear dependent on v
 	 */
-	final public boolean linDep(GeoVec2D v) {
+	public boolean linDep(GeoVec2D v) {
 		// v = l* w <=> det(v, w) = o
 		return Kernel.isZero(det(this, v));
 	}
@@ -331,7 +332,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            v
 	 * @return determinant of {u,v}
 	 */
-	final public static double det(GeoVec2D u, GeoVec2D v) {
+	public static double det(GeoVec2D u, GeoVec2D v) {
 		return u.x * v.y - u.y * v.x;
 		/*
 		 * // symmetric operation // det(u,v) = -det(v,u) if (u.objectID <
@@ -346,7 +347,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param v
 	 *            translation vector
 	 */
-	final public void translate(GeoVec2D v) {
+	public void translate(GeoVec2D v) {
 		x += v.x;
 		y += v.y;
 	}
@@ -357,7 +358,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param phi
 	 *            angle
 	 */
-	final public void rotate(double phi) {
+	public void rotate(double phi) {
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 
@@ -372,7 +373,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param Q
 	 *            mirror point
 	 */
-	final public void mirror(Coords Q) {
+	public void mirror(Coords Q) {
 		x = 2.0 * Q.getX() - x;
 		y = 2.0 * Q.getY() - y;
 	}
@@ -384,7 +385,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param phi
 	 *            parameter
 	 */
-	final public void mirror(double phi) {
+	public void mirror(double phi) {
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
 
@@ -400,7 +401,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            addend
 	 * @return this + a
 	 */
-	final public GeoVec2D add(GeoVec2D a) {
+	public GeoVec2D add(GeoVec2D a) {
 		GeoVec2D res = new GeoVec2D(kernel, 0, 0);
 		add(this, a, res);
 		return res;
@@ -416,7 +417,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void add(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
+	public static void add(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		c.x = a.x + b.x;
 		c.y = a.y + b.y;
 		if (a.getMode() == Kernel.COORD_COMPLEX
@@ -436,7 +437,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {
+	public static void add(GeoVec2D a, NumberValue b, GeoVec2D c) {
 
 		if (a.getMode() == Kernel.COORD_COMPLEX) {
 			c.x = a.x + b.getDouble();
@@ -458,7 +459,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void add(GeoVec2D a, ListValue b, GeoVec2D c) {
+	public static void add(GeoVec2D a, ListValue b, GeoVec2D c) {
 		MyList list = b.getMyList();
 		if (list.size() != 2) {
 			c.x = Double.NaN;
@@ -492,7 +493,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param reverse
 	 *            true to compute subtrahend - minuend
 	 */
-	final public static void sub(GeoVec2D a, ListValue b, GeoVec2D c,
+	public static void sub(GeoVec2D a, ListValue b, GeoVec2D c,
 			boolean reverse) {
 
 		MyList list = b.getMyList();
@@ -525,7 +526,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {
+	public static void sub(NumberValue b, GeoVec2D a, GeoVec2D c) {
 		if (a.getMode() == Kernel.COORD_COMPLEX) {
 			c.x = b.getDouble() - a.x;
 			c.y = -a.y;
@@ -547,7 +548,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {
+	public static void sub(GeoVec2D a, NumberValue b, GeoVec2D c) {
 		if (a.getMode() == Kernel.COORD_COMPLEX) {
 			c.x = a.x - b.getDouble();
 			c.y = a.y;
@@ -565,7 +566,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            subtrahend
 	 * @return this - subtrahend
 	 */
-	final public GeoVec2D sub(GeoVec2D a) {
+	public GeoVec2D sub(GeoVec2D a) {
 		GeoVec2D res = new GeoVec2D(kernel, 0, 0);
 		sub(this, a, res);
 		return res;
@@ -581,7 +582,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void sub(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
+	public static void sub(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		c.x = a.x - b.x;
 		c.y = a.y - b.y;
 		if (a.getMode() == Kernel.COORD_COMPLEX
@@ -597,7 +598,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            factor
 	 * @return reference to self
 	 */
-	final public GeoVec2D mult(double b) {
+	public GeoVec2D mult(double b) {
 		x = b * x;
 		y = b * y;
 		return this;
@@ -618,7 +619,7 @@ final public class GeoVec2D extends ValidExpression
 	 * 
 	 * @return exponential integral
 	 */
-	public final GeoVec2D ei() {
+	public GeoVec2D ei() {
 		GeoVec2D log = new GeoVec2D(kernel);
 		GeoVec2D.complexLog(this, log);
 		GeoVec2D ret = new GeoVec2D(kernel, MyMath.EULER, 0).add(log).add(this);
@@ -642,7 +643,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void mult(GeoVec2D a, double b, GeoVec2D c) {
+	public static void mult(GeoVec2D a, double b, GeoVec2D c) {
 		c.x = a.x * b;
 		c.y = a.y * b;
 	}
@@ -658,7 +659,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            result
 	 * 
 	 */
-	final public static void complexDivide(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
+	public static void complexDivide(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 
 		Complex out = new Complex(a.x, a.y);
 		out = out.divide(new Complex(b.x, b.y));
@@ -679,7 +680,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            result
 	 * 
 	 */
-	final public static void complexDivide(NumberValue a, GeoVec2D b,
+	public static void complexDivide(NumberValue a, GeoVec2D b,
 			GeoVec2D c) {
 		// NB temporary variables *crucial*: a and c can be the same variable
 		// double x1=a.getDouble(), x2 = b.x, y2 = b.y;
@@ -704,7 +705,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void complexMultiply(GeoVec2D a, GeoVec2D b,
+	public static void complexMultiply(GeoVec2D a, GeoVec2D b,
 			GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.multiply(new Complex(b.x, b.y));
@@ -724,7 +725,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void complexPower(GeoVec2D a, NumberValue b,
+	public static void complexPower(GeoVec2D a, NumberValue b,
 			GeoVec2D c) {
 
 		if (a.x == 0 && a.y == 0 && b.getDouble() > 0) {
@@ -747,7 +748,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexSqrt(GeoVec2D a, GeoVec2D c) {
+	public static void complexSqrt(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.sqrt();
 		c.x = out.getReal();
@@ -763,7 +764,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexSin(GeoVec2D a, GeoVec2D c) {
+	public static void complexSin(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.sin();
 		c.x = out.getReal();
@@ -779,7 +780,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCos(GeoVec2D a, GeoVec2D c) {
+	public static void complexCos(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.cos();
 		c.x = out.getReal();
@@ -795,7 +796,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexTan(GeoVec2D a, GeoVec2D c) {
+	public static void complexTan(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.tan();
 		c.x = out.getReal();
@@ -811,7 +812,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexSinh(GeoVec2D a, GeoVec2D c) {
+	public static void complexSinh(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.sinh();
 		c.x = out.getReal();
@@ -827,7 +828,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCosh(GeoVec2D a, GeoVec2D c) {
+	public static void complexCosh(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.cosh();
 		c.x = out.getReal();
@@ -843,7 +844,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexTanh(GeoVec2D a, GeoVec2D c) {
+	public static void complexTanh(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.tanh();
 		c.x = out.getReal();
@@ -859,7 +860,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexSec(GeoVec2D a, GeoVec2D c) {
+	public static void complexSec(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.cos());
 
@@ -877,7 +878,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCsc(GeoVec2D a, GeoVec2D c) {
+	public static void complexCsc(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.sin());
 
@@ -895,7 +896,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCot(GeoVec2D a, GeoVec2D c) {
+	public static void complexCot(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.tan());
 
@@ -913,7 +914,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexSech(GeoVec2D a, GeoVec2D c) {
+	public static void complexSech(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.cosh());
 
@@ -930,7 +931,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCsch(GeoVec2D a, GeoVec2D c) {
+	public static void complexCsch(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.sinh());
 
@@ -948,7 +949,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCoth(GeoVec2D a, GeoVec2D c) {
+	public static void complexCoth(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = Complex.ONE.divide(out.tanh());
 
@@ -965,7 +966,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexZeta(GeoVec2D a, GeoVec2D c) {
+	public static void complexZeta(GeoVec2D a, GeoVec2D c) {
 		double[] s = { a.x, a.y };
 		s = Riemann.zeta(s);
 		c.x = s[0]; // real
@@ -981,7 +982,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexCbrt(GeoVec2D a, GeoVec2D c) {
+	public static void complexCbrt(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.pow(new Complex(1 / 3d, 0));
 		c.x = out.getReal();
@@ -997,7 +998,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            c
 	 */
-	final public static void complexConjugate(GeoVec2D a, GeoVec2D c) {
+	public static void complexConjugate(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.conjugate();
 		c.x = out.getReal();
@@ -1015,7 +1016,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void complexPower(NumberValue a, GeoVec2D b,
+	public static void complexPower(NumberValue a, GeoVec2D b,
 			GeoVec2D c) {
 		Complex out;
 		if (MyDouble.exactEqual(a.getDouble(), Math.E)) {
@@ -1041,7 +1042,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void complexExp(GeoVec2D a, GeoVec2D c) {
+	public static void complexExp(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.exp();
 		c.x = out.getReal();
@@ -1057,7 +1058,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            logaritmus of a
 	 */
-	final public static void complexLog(GeoVec2D a, GeoVec2D c) {
+	public static void complexLog(GeoVec2D a, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.log();
 		c.x = out.getReal();
@@ -1072,7 +1073,7 @@ final public class GeoVec2D extends ValidExpression
 	 *            a
 	 * @return absolute value of a
 	 */
-	final public static double complexAbs(GeoVec2D a) {
+	public static double complexAbs(GeoVec2D a) {
 		Complex out = new Complex(a.x, a.y);
 
 		return out.abs();
@@ -1088,7 +1089,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void complexPower(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
+	public static void complexPower(GeoVec2D a, GeoVec2D b, GeoVec2D c) {
 		Complex out = new Complex(a.x, a.y);
 		out = out.pow(new Complex(b.x, b.y));
 		c.x = out.getReal();
@@ -1106,7 +1107,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void complexMultiply(GeoVec2D a, NumberValue b,
+	public static void complexMultiply(GeoVec2D a, NumberValue b,
 			GeoVec2D c) {
 		// NB temporary variables *crucial*: a and c can be the same variable
 		// double x1=a.x,y1=a.y,x2=b.getDouble();
@@ -1131,7 +1132,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            vector product
 	 */
-	final public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
+	public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
 			MyDouble c) {
 		c.set(a.getX() * b.getY() - a.getY() * b.getX());
 	}
@@ -1144,7 +1145,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            inner product
 	 */
-	final public static void inner(GeoVec2D a, GeoVec2D b, MyDouble c) {
+	public static void inner(GeoVec2D a, GeoVec2D b, MyDouble c) {
 		c.set(a.x * b.x + a.y * b.y);
 	}
 
@@ -1158,13 +1159,13 @@ final public class GeoVec2D extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void div(GeoVec2D a, double b, GeoVec2D c) {
+	public static void div(GeoVec2D a, double b, GeoVec2D c) {
 		c.x = a.x / b;
 		c.y = a.y / b;
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		if (isImaginaryUnit()) {
 			switch (tpl.getStringType()) {
 			case GIAC:
@@ -1200,8 +1201,6 @@ final public class GeoVec2D extends ValidExpression
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString;
-
 	private void initStringBuilder() {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
@@ -1213,42 +1212,42 @@ final public class GeoVec2D extends ValidExpression
 	 * imaginary(i*5*x) returns 5*x
 	 */
 	@Override
-	final public GeoVec2D getVector() {
+	public GeoVec2D getVector() {
 		return new GeoVec2D(this);
 	}
 
 	@Override
-	final public boolean isConstant() {
+	public boolean isConstant() {
 		return true;
 	}
 
 	@Override
-	final public boolean isLeaf() {
+	public boolean isLeaf() {
 		return true;
 	}
 
 	@Override
-	final public int getMode() {
+	public int getMode() {
 		return mode;
 	}
 
 	@Override
-	final public ExpressionValue evaluate(StringTemplate tpl) {
+	public ExpressionValue evaluate(StringTemplate tpl) {
 		return getVector();
 	}
 
 	@Override
-	final public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables() {
 		return null;
 	}
 
 	@Override
-	final public void setMode(int mode) {
+	public void setMode(int mode) {
 		this.mode = mode;
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
 
@@ -1258,33 +1257,25 @@ final public class GeoVec2D extends ValidExpression
 	}
 
 	// abstract methods of GeoElement
-	/*
-	 * final public GeoElement copy() { return new GeoVec2D(this); }
-	 * 
-	 * final public void set(GeoElement geo) { GeoVec2D v = (GeoVec2D) geo;
-	 * this.x = v.x; this.y = v.y; }
-	 * 
-	 * final public boolean isDefined() { return true; }
-	 */
 
 	@Override
-	final public boolean isNumberValue() {
+	public boolean isNumberValue() {
 		return false;
 	}
 
 	@Override
-	final public ValueType getValueType() {
+	public ValueType getValueType() {
 		return this.mode != Kernel.COORD_COMPLEX ? ValueType.NONCOMPLEX2D
 				: ValueType.COMPLEX;
 	}
 
 	@Override
-	final public boolean evaluatesToVectorNotPoint() {
+	public boolean evaluatesToVectorNotPoint() {
 		return this.mode != Kernel.COORD_COMPLEX;
 	}
 
 	@Override
-	final public boolean contains(ExpressionValue ev) {
+	public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 

@@ -32,7 +32,32 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 class Header extends FlowPanel {
+	private PersistableToggleButton btnMenu;
+	private MyToggleButton btnAlgebra;
+	private MyToggleButton btnTools;
+	private MyToggleButton btnClose;
+	private StandardButton btnContextMenu;
+	private boolean open = true;
+	private Image imgClose;
+	private Image imgOpen;
 
+	private Image imgMenu;
+	private FlowPanel contents;
+	private FlowPanel center;
+	private FlowPanel rightSide;
+	/**
+	 * panel containing undo and redo
+	 */
+	PersistablePanel undoRedoPanel;
+	private MyToggleButton btnUndo;
+	private MyToggleButton btnRedo;
+	private ContextMenuAlgebra cmAlgebra = null;
+	private ContextMenuTools cmTools;
+	private boolean animating = false;
+	/**
+	 * height in open state
+	 */
+	private static final int OPEN_HEIGHT = 56;
 	/**
 	 * application
 	 */
@@ -62,32 +87,6 @@ class Header extends FlowPanel {
 
 	}
 
-	private PersistableToggleButton btnMenu;
-	private MyToggleButton btnAlgebra;
-	private MyToggleButton btnTools;
-	private MyToggleButton btnClose;
-	private StandardButton btnContextMenu;
-	private boolean open = true;
-	private Image imgClose;
-	private Image imgOpen;
-
-	private Image imgMenu;
-	private FlowPanel contents;
-	private FlowPanel center;
-	private FlowPanel rightSide;
-	/**
-	 * panel containing undo and redo
-	 */
-	PersistablePanel undoRedoPanel;
-	private MyToggleButton btnUndo;
-	private MyToggleButton btnRedo;
-	private ContextMenuAlgebra cmAlgebra = null;
-	private ContextMenuTools cmTools;
-	private boolean animating = false;
-	/**
-	 * height in open state
-	 */
-	private static final int OPEN_HEIGHT = 56;
 	
 	/**
 	 * @param toolbarPanel

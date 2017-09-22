@@ -151,7 +151,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}
 
 	@Override
-	public final void compute() {
+	public void compute() {
 		size = geolist.size();
 		error = false; // General flag
 		if (!geolist.isDefined() || (size < 3)) { // Need three points, at the
@@ -193,12 +193,12 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// / ============= IMPLEMENTATION
 	// =============================================================///
-	private final void doReg() {
+	private void doReg() {
 		findParameters(); // Find initial parameters a,b,c,d
 		Logistic_Reg(); // Run LM nonlinear iteration
 	}// doReg()
 
-	private final void findParameters() {
+	private void findParameters() {
 		double err, err_old;
 		double lambda = 0.01d; //
 		int sign = 1;
@@ -275,9 +275,9 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 			Log.debug("findParameters(): a,b or c undefined");
 			return;
 		} // 20.11:if one is undefined, everything is undefined
-	}// findParameters()
+	}
 
-	private final void Logistic_Reg() {
+	private void Logistic_Reg() {
 
 		double lambda = 0.0d; // LM-damping coefficient
 		double multfaktor = LMFACTORMULT; // later?: divfaktor=LMFACTORDIV;
@@ -414,33 +414,33 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	private double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
 
 	/** Logistic function f(x)=c/(1+ae^(-bx)) */
-	private final static double f(double x, double a1, double b1, double c1) {
+	private static double f(double x, double a1, double b1, double c1) {
 		return df_c(x, a1, b1) * c1;
 	}// f(x,a,b,c)
 
 	// Adjusted f, used in findParameters(), when a and c are calculated from
 	// first and last datapoint
 	// Also tries to avoid rounding off errors
-	private final double f(double x, double k) { // k=b
+	private double f(double x, double k) { // k=b
 		double e1k = Math.pow(e1, k), e2k = Math.pow(e2, k);
 		double efrac = Math.pow(emult / Math.exp(x), k);
 		return ymult * (e1k - e2k) / (y2 * e1k - y1 * e2k + ydiff * efrac);
 	}// f(x,k)
 
 	// df/dc=1/(1+ae^(-bx))
-	private final static double df_c(double x, double a1, double b1) {
+	private static double df_c(double x, double a1, double b1) {
 		return (1.0d / (1.0d + a1 * Math.exp(-b1 * x)));
 	}// simple(x,a,b)
 
 	// df/da
-	private final static double df_a(double x, double a1, double b1,
+	private static double df_a(double x, double a1, double b1,
 			double c1) {
 		double df_c = df_c(x, a1, b1);
 		return df_c * df_c * Math.exp(-b1 * x) * (-c1);
 	}// df_a(x,a,b,c)
 
 	// df/db
-	private final static double df_b(double x, double a1, double b1,
+	private static double df_b(double x, double a1, double b1,
 			double c1) {
 		double df_c = df_c(x, a1, b1);
 		return df_c * df_c * Math.exp(-b1 * x) * x * a1 * c1;
@@ -448,18 +448,18 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// / --- Error calculations --- ///
 	// beta = yd-f(xd,yd,a,b,c)
-	private final static double beta(double x, double y, double a1, double b1,
+	private static double beta(double x, double y, double a1, double b1,
 			double c1) {
 		return y - f(x, a1, b1, c1);
 	}// beta(x,y,a,b,c)
 
 	// beta = yd-f(x,b) for use in findParameters(). (a and c calculated)
-	private final double beta(double x, double y, double b1) {
+	private double beta(double x, double y, double b1) {
 		return y - f(x, b1);
 	}// bet(x,y,b)
 
 	// Sum of squared errors, using last a,b and c
-	private final double beta2(double[] x, double[] y, double a1, double b1,
+	private double beta2(double[] x, double[] y, double a1, double b1,
 			double c1) {
 		double sum = 0.0d, beta;
 		for (int i = 0; i < size; i++) {
@@ -472,7 +472,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// Sum of squared errors, using b(=k). a and c are calculated from first and
 	// last datapoint.
-	private final double beta2(double k1) {
+	private double beta2(double k1) {
 		double beta = 0.0d, sum = 0.0d;
 		for (int i = 0; i < size; i++) {
 			beta = beta(xd[i], yd[i], k1);
@@ -483,20 +483,20 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 
 	// / --- Bjorn Ove Thue's trick --- ///
 	// c as function of first and last point
-	private final static double c(double cx1, double cy1, double cx2,
+	private static double c(double cx1, double cy1, double cx2,
 			double cy2, double cb) {
 		return cy1 * cy2 * (Math.exp(cb * cx1) - Math.exp(cb * cx2))
 				/ (cy2 * Math.exp(cb * cx1) - cy1 * Math.exp(cb * cx2));
 	}// c(x1,y1,x2,y2,k)
 
 	/** a as function of first and last point */
-	private final static double a(double ax1, double ay1, double ax2,
+	private static double a(double ax1, double ay1, double ax2,
 			double ay2, double ab) {
 		return Math.exp(ab * (ax1 + ax2)) * (ay1 - ay2)
 				/ (ay2 * Math.exp(ab * ax1) - ay1 * Math.exp(ab * ax2));
 	}// a(x1,y1,x2,y2,b)
 
-	private final void getPoints() {
+	private void getPoints() {
 
 		// problem bothering the gui: GeoList
 		// newlist=k.Sort("tmp_{FitLogistic}",geolist);

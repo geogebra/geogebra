@@ -68,7 +68,7 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	@Override
-	final public void update() {
+	public void update() {
 		isVisible = geo.isEuclidianVisible();
 
 		// return here, object is invisible, not just offscreen
@@ -109,7 +109,7 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 
@@ -183,7 +183,7 @@ public final class DrawBoolean extends Drawable {
 	/**
 	 * Removes button from view again
 	 */
-	final public void remove() {
+	public void remove() {
 		// view.remove(checkBox);
 	}
 
@@ -192,12 +192,12 @@ public final class DrawBoolean extends Drawable {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		return super.hitLabel(x, y);
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 
@@ -215,12 +215,12 @@ public final class DrawBoolean extends Drawable {
 	}
 
 	@Override
-	final public GeoElement getGeoElement() {
+	public GeoElement getGeoElement() {
 		return geo;
 	}
 
 	@Override
-	final public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
 

@@ -137,7 +137,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	// }
 
 	@Override
-	final public void update() {
+	public void update() {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible) {
 			return;
@@ -177,7 +177,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 
 		if (isVisible) {
 			myButton.setSelected(geo.doHighlighting());
@@ -196,7 +196,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	 * Removes button from view again
 	 */
 	@Override
-	final public void remove() {
+	public void remove() {
 		// ((EuclidianView)view).remove(myButton);
 	}
 
@@ -205,12 +205,12 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	 * coords)
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 		return myButton.getBounds().contains(x, y) && isVisible;
 	}
 
 	@Override
-	final public boolean isInside(GRectangle rect) {
+	public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
 
@@ -228,12 +228,12 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	final public GeoElement getGeoElement() {
+	public GeoElement getGeoElement() {
 		return geo;
 	}
 
 	@Override
-	final public void setGeoElement(GeoElement geo) {
+	public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
 

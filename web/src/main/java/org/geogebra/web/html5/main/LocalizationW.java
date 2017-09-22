@@ -147,7 +147,7 @@ public final class LocalizationW extends Localization
 	}
 
 	@Override
-	final public String getSymbol(int key) {
+	public String getSymbol(int key) {
 
 		if (localeStr == null) {
 			// keys not loaded yet
@@ -165,7 +165,7 @@ public final class LocalizationW extends Localization
 	}
 
 	@Override
-	final public String getSymbolTooltip(int key) {
+	public String getSymbolTooltip(int key) {
 
 		if (localeStr == null) {
 			// keys not loaded yet

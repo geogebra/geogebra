@@ -1056,7 +1056,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	@Override
-	final public void update() {
+	public void update() {
 		isVisible = geo.isEuclidianVisible() && geoList.size() != 0;
 		int fontSize = (int) (view.getFontSize()
 				* geoList.getFontSizeMultiplier());
@@ -1085,7 +1085,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	}
 
 	@Override
-	final public void draw(GGraphics2D g2) {
+	public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			drawOnCanvas(g2, "");
 		}
@@ -1096,7 +1096,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * position.
 	 */
 	@Override
-	final public boolean hit(int x, int y, int hitThreshold) {
+	public boolean hit(int x, int y, int hitThreshold) {
 
 
 			DrawDropDownList opened = view.getOpenedComboBox();
@@ -1128,7 +1128,7 @@ public final class DrawDropDownList extends CanvasDrawable
 	 * Returns the bounding box of this DrawPoint in screen coordinates.
 	 */
 	@Override
-	final public GRectangle getBounds() {
+	public GRectangle getBounds() {
 
 		return getHitRect().getBounds();
 

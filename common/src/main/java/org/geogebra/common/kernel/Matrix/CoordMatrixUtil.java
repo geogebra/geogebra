@@ -23,7 +23,7 @@ public final class CoordMatrixUtil {
 	 *            direction of line2
 	 * @return {p1,p2,{p1 coord on l1,p2 coord on l2}}
 	 */
-	static final public Coords[] nearestPointsFromTwoLines(Coords o1, Coords v1,
+	static public Coords[] nearestPointsFromTwoLines(Coords o1, Coords v1,
 			Coords o2, Coords v2) {
 
 		double[] project1 = new double[4], project2 = new double[4],
@@ -58,7 +58,7 @@ public final class CoordMatrixUtil {
 	 *            tmp values (length 4)
 	 * 
 	 */
-	static final public void nearestPointsFromTwoLines(Coords o1, Coords v1,
+	static public void nearestPointsFromTwoLines(Coords o1, Coords v1,
 			Coords o2, Coords v2, double[] project1, double[] project2,
 			double[] lineCoords, double[] tmp) {
 
@@ -98,7 +98,7 @@ public final class CoordMatrixUtil {
 	 *         intersection of the line and the plane, and the original point in
 	 *         (plane.vx, plane.vy, line direction, line origin) coords
 	 */
-	static final public Coords[] intersectLinePlane(CoordMatrix line,
+	static public Coords[] intersectLinePlane(CoordMatrix line,
 			CoordMatrix plane) {
 
 		Coords v = line.getColumn(1);
@@ -122,7 +122,7 @@ public final class CoordMatrixUtil {
 	 *            3D vector in cartesian coords
 	 * @return the spherical coords of v
 	 */
-	static final public void sphericalCoords(Coords v, Coords ret) {
+	static public void sphericalCoords(Coords v, Coords ret) {
 
 		double x = v.get(1);
 		double y = v.get(2);
@@ -167,7 +167,7 @@ public final class CoordMatrixUtil {
 	 * @param plane
 	 * @return (a,b,c) where ax+by+c=0 is an equation of the line in the plane
 	 */
-	static final public Coords lineEquationVector(Coords origin,
+	static public Coords lineEquationVector(Coords origin,
 			Coords direction, CoordMatrix plane) {
 
 		Coords o = new Coords(4);
@@ -183,7 +183,7 @@ public final class CoordMatrixUtil {
 	 * @param direction
 	 * @return (a,b,c) where ax+by+c=0 is an equation of the line in xOy plane
 	 */
-	static final public Coords lineEquationVector(Coords origin,
+	static public Coords lineEquationVector(Coords origin,
 			Coords direction) {
 
 		// if lines is not in the plane, return null
@@ -204,7 +204,7 @@ public final class CoordMatrixUtil {
 	 * @param plane2
 	 * @return {origin, direction} of the line intersection of the two planes
 	 */
-	static final public Coords[] intersectPlanes(CoordMatrix plane1,
+	static public Coords[] intersectPlanes(CoordMatrix plane1,
 			CoordMatrix plane2) {
 
 		// compute direction vector

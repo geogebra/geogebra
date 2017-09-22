@@ -192,7 +192,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	 * @return a GuiManager for GeoGebraWeb
 	 */
 	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(AppWFull.this, getDevice());
+		return new GuiManagerW(this, getDevice());
 	}
 
 

@@ -746,7 +746,7 @@ public class AppWapplet extends AppWFull {
 			floatingMenuPanel.setVisible(true);
 			return;
 		}
-		floatingMenuPanel.add(getAppletFrame().getMenuBar(AppWapplet.this));
+		floatingMenuPanel.add(getAppletFrame().getMenuBar(this));
 		floatingMenuPanel.setVisible(menuShowing);
 		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
 	}

@@ -16,7 +16,6 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
-import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -169,10 +168,5 @@ public class InputDialogAngleFixedW extends AngleInputDialogW{
 		int caretPos = tc.getCaretPosition();
 		tc.setText(input);
 		tc.setCaretPosition(caretPos);
-	}
-
-	@Override
-	public void onKeyUp(KeyUpEvent e) {
-		super.onKeyUp(e);
 	}
 }

@@ -10,6 +10,10 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
+/**
+ * Popup for axes and coordinate plane
+ *
+ */
 public class AxesAndPlanePopup extends PopupMenuButtonW {
 
 	private EuclidianView3D ev;
@@ -43,6 +47,9 @@ public class AxesAndPlanePopup extends PopupMenuButtonW {
 		return ret;
 	}
 
+	/**
+	 * Select item based on current EV state
+	 */
 	public void setIndexFromEV() {
 		setSelectedIndex(getIndexFromEV());
 	}

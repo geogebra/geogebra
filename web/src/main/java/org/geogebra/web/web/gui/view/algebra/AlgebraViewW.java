@@ -89,6 +89,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private GeoElement draggedGeo;
 	// to store width if original was thiner than needed.
 	private Integer originalWidth = null;
+	private int mqFontSize = -1;
+	private int maxItemWidth = 0;
+	private boolean latexLoaded;
+	private int userWidth;
+	private TreeItem inputPanelTreeItem;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		@Override
@@ -275,7 +280,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		case Event.ONTOUCHSTART:
 			app.closePopups();
 			// see this.setFocus(true) and this.addKeyDownHandler...
-			app.focusGained(AlgebraViewW.this, this.getElement());
+			app.focusGained(this, this.getElement());
 		}
 		if (!editItem) {
 			if (event.getTypeInt() == Event.ONCLICK) {
@@ -1480,8 +1485,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
-	private TreeItem inputPanelTreeItem;
-
 	/**
 	 * @return the RadioButtonTreeItem containing the input-box
 	 */
@@ -1961,11 +1964,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		super.onLoad();
 		repaintView();
 	}
-
-	private int mqFontSize = -1;
-	private int maxItemWidth = 0;
-	private boolean latexLoaded;
-	private int userWidth;
 
 	/*
 	 * private int resizedWidth;* Not used in Web so far. Will not work with

@@ -51,6 +51,18 @@ import com.google.gwt.user.client.ui.PushButton;
 public class CheckboxCreationDialogW extends DialogBoxW implements
 		GeoElementSelectionListener, HasKeyboardPopup {
 
+	private AutoCompleteTextFieldW tfCaption;
+	private Button btOK, btCancel;
+	private FlowPanel optionPane;
+	private GeoListBox gbObjects;
+	private GeoAttachedListBox gbList;
+
+	private GPoint location;
+	private AppW app;
+	private GeoBoolean geoBoolean;
+
+	private LocalizationW loc;
+
 	private class GeoListBox extends ListBox {
 		private List<GeoElement> geos;
 		
@@ -132,17 +144,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		}
 
 	}
-	private AutoCompleteTextFieldW tfCaption;
-	private Button btOK, btCancel;
-	private FlowPanel optionPane;
-	private GeoListBox gbObjects;
-	private GeoAttachedListBox gbList;
-	
-	private GPoint location;
-	private AppW app;
-	private GeoBoolean geoBoolean;
-
-	private LocalizationW loc;
 
 	/**
 	 * Input Dialog for a GeoBoolean object Make this *not* modal to allow

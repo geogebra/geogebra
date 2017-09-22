@@ -14,7 +14,6 @@ import org.geogebra.web.web.gui.advanced.client.ui.widget.ComboBox;
 import org.geogebra.web.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
 
 import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -67,10 +66,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		final AutoCompleteTextFieldW tf = getSelectedValue();
 		tf.addStyleName("AutoCompleteTextFieldW");
 		tf.addFocusListener(new FocusListenerW(this) {
-			@Override
-			public void onFocus(FocusEvent event) {
-				super.onFocus(event);
-			}
 
 			@Override
 			public void onBlur(BlurEvent event) {

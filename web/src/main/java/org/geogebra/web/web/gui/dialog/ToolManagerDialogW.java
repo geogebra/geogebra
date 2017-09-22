@@ -53,6 +53,28 @@ public class ToolManagerDialogW extends DialogBoxW implements
  ClickHandler,
         ToolManagerDialogListener, MacroChangeListener {
 
+	AppW app;
+	final LocalizationW loc;
+	private ToolManagerDialogModel model;
+
+	private Button btUp;
+
+	private Button btDown;
+
+	MacroListBox toolList;
+
+	private Button btDelete;
+
+	private Button btOpen;
+
+	private Button btSave;
+
+	private Button btClose;
+
+	private ToolNameIconPanelW macroPanel;
+
+	private Button btShare;
+
 	private static class MacroListBox extends ListBox {
 		List<Macro> macros;
 		public MacroListBox() {
@@ -124,29 +146,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			return macros.isEmpty();
 		}
 	}
-
-	AppW app;
-	final LocalizationW loc;
-	private ToolManagerDialogModel model;
-
-	private Button btUp;
-
-	private Button btDown;
-
-	MacroListBox toolList;
-
-	private Button btDelete;
-
-	private Button btOpen;
-
-	private Button btSave;
-
-	private Button btClose;
-
-	private ToolNameIconPanelW macroPanel;
-
-	private Button btShare;
-
 
 	public ToolManagerDialogW(AppW app) {
 		super(app.getPanel(), app);

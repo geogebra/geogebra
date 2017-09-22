@@ -250,7 +250,7 @@ final public class DockPanelData {
 	/**
 	 * @return string builder with tag name and basic parameters
 	 */
-	private final StringBuilder getStartXml() {
+	private StringBuilder getStartXml() {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("<view id=\"");
@@ -312,7 +312,7 @@ final public class DockPanelData {
 	 * 
 	 * @return clone
 	 */
-	final public DockPanelData duplicate() {
+	public DockPanelData duplicate() {
 		return new DockPanelData(viewId, toolbarString, isVisible, openInFrame,
 				showStyleBar, frameBounds, embeddedDef, embeddedSize, plane);
 	}

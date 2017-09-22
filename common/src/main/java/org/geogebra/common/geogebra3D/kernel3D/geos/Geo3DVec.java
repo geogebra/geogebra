@@ -185,29 +185,26 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	@Override
-	final public double getX() {
+	public double getX() {
 		return x;
 	}
 
 	@Override
-	final public double getY() {
+	public double getY() {
 		return y;
 	}
 
 	@Override
-	final public double getZ() {
+	public double getZ() {
 		return z;
 	}
-
-	// final public double getR() { return length(x, y); }
-	// final public double getPhi() { return Math.atan2(y, x); }
 
 	/**
 	 * Calculates the eucilidian length of this 2D vector. The result is
 	 * sqrt(x^2 + y^2).
 	 */
 	@Override
-	final public double length() {
+	public double length() {
 		return length(x, y, z);
 	}
 
@@ -225,7 +222,7 @@ final public class Geo3DVec extends ValidExpression
 	 * Changes this vector to a vector with the same direction and orientation,
 	 * but length 1.
 	 */
-	final public void makeUnitVector() {
+	public void makeUnitVector() {
 		double len = this.length();
 		x = x / len;
 		y = y / len;
@@ -239,30 +236,9 @@ final public class Geo3DVec extends ValidExpression
 	 *            other vector
 	 * @return whether they are equal, ignoring z
 	 */
-	final public boolean equals(GeoVec2D v) {
+	public boolean equals(GeoVec2D v) {
 		return Kernel.isEqual(x, v.getX()) && Kernel.isEqual(y, v.getY());
 	}
-
-	/**
-	 * Yields true if this vector and v are linear dependent This is done by
-	 * calculating the determinant of this vector an v: this = v <=> det(this,
-	 * v) = nullvector.
-	 */
-	// final public boolean linDep(GeoVec2D v) {
-	// // v = l* w <=> det(v, w) = o
-	// return kernel.isZero(det(this, v));
-	// }
-
-	/**
-	 * calculates the determinant of u and v. det(u,v) = u1*v2 - u2*v1
-	 */
-
-	/** returns this + a */
-	// /final public GeoVec2D add(GeoVec2D a) {
-	// / GeoVec2D res = new GeoVec2D(kernel, 0,0);
-	// add(this, a, res);
-	// return res;
-	// }
 
 	/**
 	 * c = a + b
@@ -274,7 +250,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            sum
 	 */
-	final public static void add(Geo3DVec a, Geo3DVec b, Geo3DVec c) {
+	public static void add(Geo3DVec a, Geo3DVec b, Geo3DVec c) {
 		c.x = a.x + b.x;
 		c.y = a.y + b.y;
 		c.z = a.z + b.z;
@@ -290,7 +266,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            sum
 	 */
-	final public static void add(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
+	public static void add(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
 		c.x = a.x + b.getX();
 		c.y = a.y + b.getY();
 		c.z = a.z;
@@ -307,7 +283,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            product
 	 */
-	final public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
+	public static void vectorProduct(GeoVecInterface a, GeoVecInterface b,
 			Geo3DVec c) {
 		// tempX/Y needed because a and c can be the same variable
 		double tempX = a.getY() * b.getZ() - a.getZ() * b.getY();
@@ -316,13 +292,6 @@ final public class Geo3DVec extends ValidExpression
 		c.x = tempX;
 		c.y = tempY;
 	}
-
-	/** returns this - a */
-	// final public GeoVec2D sub(GeoVec2D a) {
-	// GeoVec2D res = new GeoVec2D(kernel, 0,0);
-	// sub(this, a, res);
-	// return res;
-	// }
 
 	/**
 	 * c = a - b
@@ -334,7 +303,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void sub(Geo3DVec a, Geo3DVec b, Geo3DVec c) {
+	public static void sub(Geo3DVec a, Geo3DVec b, Geo3DVec c) {
 		c.x = a.x - b.x;
 		c.y = a.y - b.y;
 		c.z = a.z - b.z;
@@ -351,7 +320,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            result
 	 * */
-	final public static void sub(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
+	public static void sub(Geo3DVec a, GeoVec2D b, Geo3DVec c) {
 		c.x = a.x - b.getX();
 		c.y = a.y - b.getY();
 		c.z = a.z;
@@ -367,7 +336,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            result
 	 */
-	final public static void sub(GeoVec2D a, Geo3DVec b, Geo3DVec c) {
+	public static void sub(GeoVec2D a, Geo3DVec b, Geo3DVec c) {
 		c.x = a.getX() - b.x;
 		c.y = a.getY() - b.y;
 		c.z = -b.z;
@@ -383,7 +352,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            product
 	 */
-	final public static void mult(Geo3DVec a, double b, Geo3DVec c) {
+	public static void mult(Geo3DVec a, double b, Geo3DVec c) {
 		c.x = a.x * b;
 		c.y = a.y * b;
 		c.z = a.z * b;
@@ -399,7 +368,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            output number
 	 */
-	final public static void inner(GeoVecInterface a, GeoVecInterface b,
+	public static void inner(GeoVecInterface a, GeoVecInterface b,
 			MyDouble c) {
 		c.set(a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ());
 	}
@@ -415,7 +384,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            product
 	 */
-	final public static void complexMultiply(GeoVecInterface a,
+	public static void complexMultiply(GeoVecInterface a,
 			GeoVecInterface b, GeoVec2D c) {
 
 		if (!Kernel.isZero(a.getZ()) || !Kernel.isZero(b.getZ())) {
@@ -443,14 +412,14 @@ final public class Geo3DVec extends ValidExpression
 	 * @param c
 	 *            ratio
 	 */
-	final public static void div(Geo3DVec a, double b, Geo3DVec c) {
+	public static void div(Geo3DVec a, double b, Geo3DVec c) {
 		c.x = a.x / b;
 		c.y = a.y / b;
 		c.z = a.z / b;
 	}
 
 	@Override
-	final public String toString(StringTemplate tpl) {
+	public String toString(StringTemplate tpl) {
 		sbToString.setLength(0);
 		sbToString.append('(');
 		sbToString.append(kernel.format(x, tpl));
@@ -466,27 +435,27 @@ final public class Geo3DVec extends ValidExpression
 	 * interface VectorValue implementation
 	 */
 	@Override
-	final public Geo3DVec getVector() {
+	public Geo3DVec getVector() {
 		return this;
 	}
 
 	@Override
-	final public boolean isConstant() {
+	public boolean isConstant() {
 		return true;
 	}
 
 	@Override
-	final public boolean isLeaf() {
+	public boolean isLeaf() {
 		return true;
 	}
 
 	@Override
-	final public HashSet<GeoElement> getVariables() {
+	public HashSet<GeoElement> getVariables() {
 		return null;
 	}
 
 	@Override
-	final public String toValueString(StringTemplate tpl) {
+	public String toValueString(StringTemplate tpl) {
 		return toString(tpl);
 	}
 
@@ -496,12 +465,12 @@ final public class Geo3DVec extends ValidExpression
 	}
 
 	@Override
-	final public boolean isNumberValue() {
+	public boolean isNumberValue() {
 		return false;
 	}
 
 	@Override
-	final public boolean contains(ExpressionValue ev) {
+	public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}
 

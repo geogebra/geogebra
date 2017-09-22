@@ -151,25 +151,25 @@ public class WinFileManager extends FileManager {
 	@Override
 	public void saveFile(String base64, long modified, final SaveCallback cb) {
 
-		final Material mat = WinFileManager.this.createMaterial("", modified);
+		final Material mat = createMaterial("", modified);
 		String meta = mat.toJson().toString();
-		WinFileManager.this.doSave(base64, getApp().getLocalID(), getApp()
-		        .getKernel().getConstruction().getTitle(), meta,
-		        new NativeSaveCallback() {
+		doSave(base64, getApp().getLocalID(),
+				getApp().getKernel().getConstruction().getTitle(), meta,
+				new NativeSaveCallback() {
 
-			        @Override
-			        public void onSuccess(String fileID) {
-				        getApp().setLocalID(Integer.parseInt(fileID));
-				        cb.onSaved(mat, true);
+					@Override
+					public void onSuccess(String fileID) {
+						getApp().setLocalID(Integer.parseInt(fileID));
+						cb.onSaved(mat, true);
 
-			        }
+					}
 
-			        @Override
-			        public void onFailure() {
-				        cb.onError();
+					@Override
+					public void onFailure() {
+						cb.onError();
 
-			        }
-		        });
+					}
+				});
 
 	}
 

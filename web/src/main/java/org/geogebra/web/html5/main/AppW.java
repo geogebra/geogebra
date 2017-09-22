@@ -203,6 +203,14 @@ public abstract class AppW extends App implements SetLabels {
 	private ReaderTimer readerTimer;
 	protected final String initialPerspective;
 	private boolean headerVisible = !AppW.smallScreen();
+	private boolean toolLoadedFromStorage;
+	private Storage storage;
+	private ScriptLoadCallback scriptCallback;
+	WebsocketLogger webSocketLogger = null;
+	private boolean keyboardNeeded;
+	private String externalPath;
+	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<ViewsChangedListener>();
+	private GDimension preferredSize;
 
 	/**
 	 * @param ae
@@ -478,10 +486,6 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 	}
-
-	private boolean toolLoadedFromStorage;
-	private Storage storage;
-	private ScriptLoadCallback scriptCallback;
 
 	@Override
 	public boolean loadXML(String xml) throws Exception {
@@ -1700,9 +1704,6 @@ public abstract class AppW extends App implements SetLabels {
 	protected void initGoogleDriveEventFlow() {
 		// overriden in AppW
 	}
-
-	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<ViewsChangedListener>();
-	private GDimension preferredSize;
 
 	public void addViewsChangedListener(ViewsChangedListener l) {
 		viewsChangedListener.add(l);
@@ -3176,9 +3177,7 @@ public abstract class AppW extends App implements SetLabels {
 		// for applets with keyboard only
 	}
 
-	WebsocketLogger webSocketLogger = null;
-	private boolean keyboardNeeded;
-	private String externalPath;
+
 
 	@Override
 	public SensorLogger getSensorLogger() {

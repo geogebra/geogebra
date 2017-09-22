@@ -26,18 +26,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class AnimPanel extends FlowPanel implements ClickHandler {
-	/**
-	 * Callback for play button
-	 */
-	public interface AnimPanelListener {
-		/**
-		 * Run this when animation was started / stopped
-		 * 
-		 * @param play
-		 *            whether animation was started
-		 */
-		void onPlay(boolean play);
-	}
+
 	/**
 	 * Animation speeds
 	 */
@@ -55,6 +44,19 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private FlowPanel speedPanel;
 	private AnimPanelListener listener = null;
 	private Label lblSpeedValue;
+	
+	/**
+	 * Callback for play button
+	 */
+	public interface AnimPanelListener {
+		/**
+		 * Run this when animation was started / stopped
+		 * 
+		 * @param play
+		 *            whether animation was started
+		 */
+		void onPlay(boolean play);
+	}
 
 	/**
 	 * @param radioTreeItem

@@ -21,14 +21,14 @@ final public class GeoAngle3D extends GeoAngle {
 	}
 
 	@Override
-	final public GeoClass getGeoClassType() {
+	public GeoClass getGeoClassType() {
 		return GeoClass.ANGLE3D;
 	}
 
 	private boolean hasOrientation;
 
 	@Override
-	final public boolean hasOrientation() {
+	public boolean hasOrientation() {
 		return hasOrientation; // no specific orientation
 	}
 
@@ -50,7 +50,7 @@ final public class GeoAngle3D extends GeoAngle {
 	 *            construction
 	 * @return new GeoAngle
 	 */
-	static public final GeoAngle3D newAngle3DWithDefaultInterval(
+	static public GeoAngle3D newAngle3DWithDefaultInterval(
 			Construction cons) {
 		GeoAngle3D ret = new GeoAngle3D(cons);
 		// set the angle interval

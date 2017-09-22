@@ -35,11 +35,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
         KeyUpHandler {
-	public interface MacroChangeListener {
-		void onMacroChange(Macro macro);
 
-		void onShowToolChange(Macro macro);
-	}
 	/** With of tool icon in pixels **/
 	public static final int ICON_WIDTH = 32;
 	/** Height of tool icon in pixels **/
@@ -57,6 +53,12 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 	private Macro macro;
 	private MacroChangeListener listener;
 	
+	public interface MacroChangeListener {
+		void onMacroChange(Macro macro);
+
+		void onShowToolChange(Macro macro);
+	}
+
 	/**
 	 * 
 	 * @param app

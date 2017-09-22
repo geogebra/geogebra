@@ -116,10 +116,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public ArrayList<CellRange> selectedCellRanges;
 
-	@Override
-	public ArrayList<CellRange> getSelectedCellRanges() {
-		return selectedCellRanges;
-	}
+
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -235,6 +232,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private boolean autoScrolls = true;
 
+	private boolean isSelectAll = false;
+	private boolean isSelectNone = false;
+
 	/*******************************************************************
 	 * Construct table
 	 */
@@ -328,6 +328,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		registerListeners();
 		repaintAll();
+	}
+
+	@Override
+	public ArrayList<CellRange> getSelectedCellRanges() {
+		return selectedCellRanges;
 	}
 
 	/**
@@ -1353,9 +1358,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		leadSelectionColumn = col1;
 		selectionChanged();
 	}
-
-	private boolean isSelectAll = false;
-	private boolean isSelectNone = false;
 
 	@Override
 	public boolean isSelectNone() {

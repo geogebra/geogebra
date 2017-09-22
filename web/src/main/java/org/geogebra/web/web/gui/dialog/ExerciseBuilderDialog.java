@@ -52,7 +52,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		GeoElementSelectionListener, ChangeHandler {
 	/** application */
-	protected AppW app;
+	// protected AppW app;
 	private Exercise exercise;
 
 	private VerticalPanel mainWidget;
@@ -239,7 +239,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 *            The Assignment to be edited.
 	 */
 	void handleEditClick(Assignment assignment) {
-		new AssignmentEditDialog(app, assignment, ExerciseBuilderDialog.this)
+		new AssignmentEditDialog(app, assignment, this)
 				.center();
 		hide();
 	}
@@ -410,7 +410,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
 					.mode_showcheckbox_32()).getSafeUri();
 		} else if (!fileName.isEmpty()) {
-			String imageURL = app.getImageManager().getExternalImageSrc(
+			String imageURL = ((AppW) app).getImageManager()
+					.getExternalImageSrc(
 					fileName);
 			if (imageURL != null) {
 				return UriUtils.fromString(imageURL);
@@ -589,7 +590,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	private void newTool() {
 		setVisible(false);
-		ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(app,
+		ToolCreationDialogW toolCreationDialog = new ToolCreationDialogW(
+				(AppW) app,
 				new AsyncOperation<Macro>() {
 					@Override
 					public void callback(Macro macro) {

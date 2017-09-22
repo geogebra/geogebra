@@ -934,11 +934,10 @@ public class RadioTreeItem extends AVTreeItem
 			if (geo != null) {
 
 				boolean redefine = !isMoveablePoint(geo);
-				RadioTreeItem.this.lastInput = newValue;
-				RadioTreeItem.this.lastTeX = RadioTreeItem.this
-						.getEditorLatex();
-				if (RadioTreeItem.this.lastTeX == null) {
-					RadioTreeItem.this.lastInput = null;
+				this.lastInput = newValue;
+				this.lastTeX = getEditorLatex();
+				if (this.lastTeX == null) {
+					this.lastInput = null;
 				}
 
 				kernel.getAlgebraProcessor().changeGeoElement(geo, newValue,
@@ -1122,7 +1121,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (geo != null) {
 			geo.setUndefined();
 			geo.updateRepaint();
-			RadioTreeItem.this.updateAfterRedefine(true);
+			updateAfterRedefine(true);
 			if (marblePanel != null) {
 				marblePanel.updateIcons(true);
 			}
