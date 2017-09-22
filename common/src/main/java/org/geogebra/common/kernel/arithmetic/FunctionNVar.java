@@ -1394,7 +1394,7 @@ public class FunctionNVar extends ValidExpression
 
 		for (Entry<String, String> entry : map.entrySet()) {
 			FunctionalNVar gfun = kernel.getAlgebraProcessor()
-					.evaluateToFunctionNVar(entry.getValue(), true);
+					.evaluateToFunctionNVar(entry.getValue(), true, true);
 			if (gfun != null) {
 				getCasEvalMap().put(entry.getKey(), gfun.getFunction());
 			}

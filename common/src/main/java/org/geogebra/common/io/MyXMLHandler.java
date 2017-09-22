@@ -5671,10 +5671,12 @@ public class MyXMLHandler implements DocHandler {
 			cons.setOutputGeo(type);
 		}
 
-		String var = attrs.get("var");
-		if (var != null) {
-			Log.debug("reading var");
-			cons.registerFunctionVariable(var);
+		String varStr = attrs.get("var");
+		if (varStr != null) {
+			String[] vars = varStr.split(",");
+			for (String var : vars) {
+				cons.registerFunctionVariable(var);
+			}
 		}
 
 		// Application.debug(name);

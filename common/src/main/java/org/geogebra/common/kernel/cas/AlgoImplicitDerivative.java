@@ -69,7 +69,7 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 			} else {
 				// read result back into function
 				result.set(kernel.getAlgebraProcessor()
-						.evaluateToFunctionNVar(functionOut, true));
+						.evaluateToFunctionNVar(functionOut, true, false));
 			}
 		} catch (Throwable e) {
 			result.setUndefined();

@@ -547,6 +547,49 @@ public class ArbitraryConstIntegrationTest {
 				"x + arbconst(1)");
 	}
 
+	@Test
+	public void reloadAppTest() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		ap.processAlgebraCommand("F(x)=Integral(sin(x)*sin(x), x)", false);
+		Assert.assertEquals(kernel.lookupLabel("F")
+				.toString(StringTemplate.defaultTemplate),
+				"F(x) = -1 / 4 sin(2x) + 1 / 2 x");
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(kernel.lookupLabel("F")
+				.toString(StringTemplate.defaultTemplate),
+				"F(x) = -1 / 4 sin(2x) + 1 / 2 x");
+	}
+
+	@Test
+	public void reloadAppTestXY() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		ap.processAlgebraCommand("F(x,y)=Integral(sin(x)*sin(y-x), x)", false);
+		Assert.assertEquals(
+				kernel.lookupLabel("F")
+						.toString(StringTemplate.defaultTemplate),
+				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)");
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(
+				kernel.lookupLabel("F")
+						.toString(StringTemplate.defaultTemplate),
+				"F(x, y) = 1 / 4 sin(2x - y) - 1 / 2 x cos(y)");
+	}
+
+	@Test
+	public void reloadAppTest2Var() {
+		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
+		ap.processAlgebraCommand("F(t,x)=Integral(sin(x)*sin(t-x), x)", false);
+		Assert.assertEquals(
+				kernel.lookupLabel("F")
+						.toString(StringTemplate.defaultTemplate),
+				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)");
+		app.setXML(app.getXML(), true);
+		Assert.assertEquals(
+				kernel.lookupLabel("F")
+						.toString(StringTemplate.defaultTemplate),
+				"F(t, x) = -1 / 4 sin(t - 2x) - 1 / 2 x cos(t)");
+	}
+
 }
 
 

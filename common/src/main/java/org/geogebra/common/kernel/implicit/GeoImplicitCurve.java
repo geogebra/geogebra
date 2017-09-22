@@ -1019,7 +1019,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			Log.error("Undefined factor " + factor + " in "
 					+ toString(StringTemplate.editTemplate));
 			factorExpression[factor] = kernel.getAlgebraProcessor()
-					.evaluateToFunctionNVar("0x+0y", true).getFunction();
+					.evaluateToFunctionNVar("0x+0y", true, false).getFunction();
 			setUndefined();
 		}
 		return this.factorExpression[factor];

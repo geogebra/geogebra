@@ -1322,32 +1322,7 @@ public class AlgebraProcessor {
 			ExpressionNode exp = ve.wrap();
 			replaceVariables(exp, varName, fv);
 			if (revertArbconst) {
-				exp = exp.traverse(new Traversing() {
-
-					@Override
-					public ExpressionValue process(ExpressionValue ev) {
-						if (ev instanceof Variable) {
-							GeoElement geo = kernel
-									.lookupLabel(((Variable) ev).getName());
-							String[] parts = ((Variable) ev).getName()
-									.split("_");
-							if (geo == null && parts.length == 2) {
-								try {
-									int idx = Integer.parseInt(parts[1]
-											.replace("{", "").replace("}", ""));
-									return new ExpressionNode(kernel,
-											new MyDouble(kernel, idx),
-											Operation.ARBCONST, null);
-								} catch (Exception e) {
-									Log.debug("Invalid variable");
-								}
-							} else if (geo != null) {
-								return geo;
-							}
-						}
-						return ev;
-					}
-				}).wrap();
+				exp = exp.traverse(getArbcostReverse()).wrap();
 			}
 			GeoElementND[] temp = processValidExpression(exp);
 
@@ -1384,6 +1359,34 @@ public class AlgebraProcessor {
 		return func;
 	}
 
+	private Traversing getArbcostReverse() {
+		return new Traversing() {
+
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if (ev instanceof Variable) {
+					GeoElement geo = kernel
+							.lookupLabel(((Variable) ev).getName());
+					String[] parts = ((Variable) ev).getName().split("_");
+					if (geo == null && parts.length == 2) {
+						try {
+							int idx = Integer.parseInt(
+									parts[1].replace("{", "").replace("}", ""));
+							return new ExpressionNode(kernel,
+									new MyDouble(kernel, idx),
+									Operation.ARBCONST, null);
+						} catch (Exception e) {
+							Log.debug("Invalid variable");
+						}
+					} else if (geo != null) {
+						return geo;
+					}
+				}
+				return ev;
+			}
+		};
+	}
+
 	/**
 	 * @param argument
 	 *            expression
@@ -1414,13 +1417,16 @@ public class AlgebraProcessor {
 	 * @return str parsed to multivariate function
 	 */
 	public GeoFunctionNVar evaluateToFunctionNVar(String str,
-			boolean suppressErrors) {
+			boolean suppressErrors, boolean revertArbconst) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		GeoFunctionNVar func = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
+			if (revertArbconst) {
+				ve = ve.traverse(getArbcostReverse()).wrap();
+			}
 			GeoElementND[] temp = processValidExpression(ve);
 
 			if (temp[0] instanceof GeoFunctionNVar) {

@@ -28,11 +28,11 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -1521,12 +1521,12 @@ public abstract class AlgoElement extends ConstructionElement
 			sb.append(getOutput()[0].getXMLtypeString());
 			sb.append("\"");
 		}
-		if (getOutputLength() > 0 && getOutput(0) instanceof GeoFunction) {
+		if (getOutputLength() > 0 && getOutput(0) instanceof FunctionalNVar) {
 			// need to write the geo type in the XML if it's undefined
 			// so that it's the same type when the file is loaded again
-			String varStr = ((GeoFunction) getOutput(0))
+			String varStr = ((FunctionalNVar) getOutput(0))
 					.getVarString(StringTemplate.defaultTemplate);
-			if (!"x".equals(varStr)) {
+			if (!"x".equals(varStr) && !"x, y".equals(varStr)) {
 				sb.append(" var=\"");
 				sb.append(varStr);
 				sb.append("\"");

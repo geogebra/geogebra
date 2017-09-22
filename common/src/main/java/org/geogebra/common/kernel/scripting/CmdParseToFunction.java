@@ -56,7 +56,7 @@ public class CmdParseToFunction extends CommandProcessor {
 							? kernel.getAlgebraProcessor()
 									.evaluateToFunction(str, true)
 							: kernel.getAlgebraProcessor()
-									.evaluateToFunctionNVar(str, true);
+									.evaluateToFunctionNVar(str, true, false);
 					fun.set(parsed);
 					fun.updateCascade();
 				} catch (Exception e) {

@@ -56,7 +56,7 @@ public class AlgoLeftRightSide extends AlgoElement {
 		String[] sides = str.split("=");
 		String sideStr = left ? sides[0] : sides[1];
 		GeoFunctionNVar processed = kernel.getAlgebraProcessor()
-				.evaluateToFunctionNVar(sideStr, true);
+				.evaluateToFunctionNVar(sideStr, true, false);
 		side.set(processed);
 
 	}
