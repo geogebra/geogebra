@@ -1,14 +1,5 @@
 // -*- mode:C++ ; compile-command: "g++ -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -fno-strict-aliasing -g -c gen.cc -Wall" -*-
 #include "giacPCH.h"
-#if defined VISUALC || defined VISUALC13
-#undef clock
-#undef clock_t
-#ifndef ConnectivityKit
-#ifndef MS_SMART
-#include "../../../_windows/src/stdafx.h"
-#endif
-#endif
-#endif
 
 /*
  *  Copyright (C) 2001,14 B. Parisse, Institut Fourier, 38402 St Martin d'Heres
@@ -11177,7 +11168,7 @@ namespace giac {
 #ifdef HAVE_LIBPTHREAD
       int locked=pthread_mutex_trylock(&locale_mutex);
       if (!locked){
-	char * lc=setlocale(LC_NUMERIC,0);
+	char * lc=setlocale(LC_NUMERIC,(char *)NULL);
 	setlocale(LC_NUMERIC,"POSIX");
 	d=strtod(s,&endchar);
 	setlocale(LC_NUMERIC,lc);

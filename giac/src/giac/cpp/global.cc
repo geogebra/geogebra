@@ -5575,6 +5575,9 @@ unsigned int ConvertUTF8toUTF16 (
 	continue;
       }
       if (curch==']' && (prevch==':' || prevch==',')){
+	cur[pos-1]='.';
+	cur.insert(cur.begin()+pos,'.');
+	++pos;
 	if (indexshift)
 	  cur.insert(cur.begin()+pos,'0');
 	else {

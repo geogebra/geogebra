@@ -463,9 +463,9 @@ namespace giac {
     inline unary_function_eval * ptr() const {
       return (unary_function_eval *) (((size_t) _ptr) & ~(uintptr_t)3);
 #ifdef x86_64
-      return (unary_function_eval *) (((ulonglong ) _ptr) & 0xfffffffffffffffc);
+      //return (unary_function_eval *) (((ulonglong ) _ptr) & 0xfffffffffffffffc);
 #else
-      return (unary_function_eval *) (((size_t) _ptr) & 0xfffffffc);
+      //return (unary_function_eval *) (((size_t) _ptr) & 0xfffffffc);
 #endif
     }
 #else // NO_UNARY_FUNCTION_COMPOSE
@@ -484,9 +484,9 @@ namespace giac {
       // if (&u==this) return true; 
       return ((ulonglong)(_ptr) & ~(uintptr_t)3 )  == ((ulonglong)( u._ptr) & ~(uintptr_t)3 );
 #ifdef x86_64
-      return ((ulonglong)(_ptr) & 0xfffffffffffffffc)  == ((ulonglong)( u._ptr) & 0xfffffffffffffffc ); 
+      //return ((ulonglong)(_ptr) & 0xfffffffffffffffc)  == ((ulonglong)( u._ptr) & 0xfffffffffffffffc ); 
 #else
-      return ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u._ptr) & 0xfffffffc); 
+      //return ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u._ptr) & 0xfffffffc); 
 #endif
     }
     inline bool operator !=(const unary_function_ptr & u) const { return !(*this==u); }
@@ -494,9 +494,9 @@ namespace giac {
       // if (&u==this) return true; 
       return u && ( ((ulonglong)(_ptr) &  ~(uintptr_t)3 ) == ((ulonglong)(u->_ptr) &  ~(uintptr_t)3) ); 
 #ifdef x86_64
-      return u && ( ((ulonglong)(_ptr) & 0xfffffffffffffffc) == ((ulonglong)(u->_ptr) & 0xfffffffffffffffc) ); 
+      //return u && ( ((ulonglong)(_ptr) & 0xfffffffffffffffc) == ((ulonglong)(u->_ptr) & 0xfffffffffffffffc) ); 
 #else
-      return u && ( ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u->_ptr) & 0xfffffffc ) ); 
+      //return u && ( ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u->_ptr) & 0xfffffffc ) ); 
 #endif
     }
     inline bool operator !=(const unary_function_ptr * u) const { return !(*this==u); }
