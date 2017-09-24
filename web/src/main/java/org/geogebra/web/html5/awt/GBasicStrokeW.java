@@ -48,8 +48,10 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 			return JOIN_ROUND;
 		case 'b':
 			return JOIN_BEVEL;
+		default:
+			return JOIN_MITER;
 		}
-		return JOIN_MITER;
+
 	}
 
 	public static int getCap(String join) {
@@ -58,8 +60,10 @@ public class GBasicStrokeW extends DefaultBasicStroke {
 			return CAP_ROUND;
 		case 's':
 			return CAP_SQUARE;
+		default:
+			return CAP_BUTT;
 		}
-		return CAP_BUTT;
+
 	}
 
 	public LineCap getEndCapString() {

@@ -63,9 +63,9 @@ public class PropertiesView3DW extends PropertiesViewW {
 			}
 
 			return euclidianForPlanePanel;
+		default:
+			return super.getOptionPanel(type, subType);
 		}
-
-		return super.getOptionPanel(type, subType);
 	}
 
 	@Override

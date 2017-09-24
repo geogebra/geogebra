@@ -8,10 +8,10 @@ import com.google.gwt.xhr.client.XMLHttpRequest;
  * @author gabor extendef from native XHR to accept FormData
  */
 public class XHR2 extends XMLHttpRequest {
-
-	protected XHR2() {
-
-	}
+	/** @return new XHR */
+	public static native XHR2 create() /*-{
+		return new $wnd.XMLHttpRequest();
+	}-*/;
 
 	/**
 	 * @param httpMethod
@@ -34,10 +34,8 @@ public class XHR2 extends XMLHttpRequest {
 	}-*/;
 
 	/**
-	 * @param succesHandler
-	 *            The success handler code
-	 * @param errorHandler
-	 *            The error handler code
+	 * @param callback
+	 *            Contains the he success handler and the error handler code
 	 */
 	public final native void onLoad(AjaxCallback callback) /*-{
 		var xhr = this;

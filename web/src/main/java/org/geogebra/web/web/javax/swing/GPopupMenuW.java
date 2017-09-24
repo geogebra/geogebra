@@ -530,8 +530,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			switch (DOM.eventGetType(event)) {
-			case Event.ONMOUSEOVER: {
+			if (DOM.eventGetType(event) == Event.ONMOUSEOVER) {
 				MenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if ("true".equals(item.getElement()
@@ -544,8 +543,6 @@ public class GPopupMenuW implements AttachedToDOM {
 						removeSubPopup();
 					}
 				}
-				break;
-			}
 			}
 			super.onBrowserEvent(event);
 		}

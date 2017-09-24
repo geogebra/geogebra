@@ -66,18 +66,13 @@ public class ScriptAreaProcessing implements KeyboardListener {
 	@Override
 	public void onArrow(ArrowType type) {
 		int cursorPos = field.getCursorPos();
-		switch (type) {
-		case left:
-			if (cursorPos > 0) {
+		if (type == ArrowType.left && cursorPos > 0) {
 				field.setCursorPos(cursorPos - 1);
-			}
-			break;
-		case right:
-			if (cursorPos < field.getText().length()) {
+		} else if (type == ArrowType.right
+				&& cursorPos < field.getText().length()) {
 				field.setCursorPos(cursorPos + 1);
-			}
-			break;
 		}
+
 	}
 
 	@Override

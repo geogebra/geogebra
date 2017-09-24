@@ -10,7 +10,6 @@ import com.google.gwt.http.client.RequestCallback;
 import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.xhr.client.XMLHttpRequest;
 
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
@@ -64,7 +63,7 @@ public class HttpRequestW extends HttpRequest {
 
 	@Override
 	public void sendRequestPost(String url, String post, AjaxCallback callback) {
-		XHR2 request = (XHR2) XMLHttpRequest.create();
+		XHR2 request = XHR2.create();
 		if (callback == null) {
 			request.openSync("POST", url);
 		} else {

@@ -195,18 +195,14 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 			return;
 		}
 
-		//GeoPoint geo = null;
-			
+		int mode = daView.getModel().getMode();
 	
-		switch (daView.getModel().getMode()) {
-
-		case DataAnalysisModel.MODE_ONEVAR:
+		if (mode == DataAnalysisModel.MODE_ONEVAR) {
 			populateOneVarDataTable(dataArray);
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
+		}
+		else if (mode == DataAnalysisModel.MODE_REGRESSION) {
 			populateRegressionDataTable(dataArray);
-			break;
+
 		}
 
 	}

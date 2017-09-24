@@ -330,11 +330,7 @@ public class MyCellEditorW implements BaseCellEditor {
 			checkCursorKeys(e);
 			int keyCode = e.getNativeKeyCode();
 
-			switch (keyCode) {
-			default:
-				// do nothing
-				break;
-			case KeyCodes.KEY_ESCAPE:
+			if (keyCode == KeyCodes.KEY_ESCAPE) {
 				e.preventDefault();
 				GeoElement oldGeo = kernel.getGeoAt(column, row);
 				cancelCellEditing();
@@ -348,8 +344,6 @@ public class MyCellEditorW implements BaseCellEditor {
 
 				// update the formula bar after escape
 				// ?//table.getView().updateFormulaBar();
-
-				break;
 
 			}
 		}

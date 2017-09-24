@@ -346,8 +346,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return true;
 	}
 
-
-
 	@Override
 	public final void repaintView() {
 		app.ensureTimerRunning();
@@ -430,7 +428,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-
 	/**
 	 * updates only GeoNumerics; used for animated
 	 */
@@ -451,9 +448,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			repaintSlidersDependent(this.indNode);
 			break;
 		default:
-
 			break;
-
 		}
 	}
 
@@ -632,13 +627,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (flag) {
 			clearView();
 
-			switch (getTreeMode()) {
-			default:
-				// do nothing
-				break;
-			case DEPENDENCY:
+			if (getTreeMode() == SortMode.DEPENDENCY) {
 				addItem(auxiliaryNode);
-				break;
 			}
 			kernel.notifyAddAll(this);
 		} else {
@@ -646,17 +636,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// just remove that leaf, but for type-based categorization those
 			// auxiliary nodes might be scattered across the whole tree,
 			// therefore we just rebuild the tree
-			switch (getTreeMode()) {
-			default:
-				clearView();
-				kernel.notifyAddAll(this);
-				break;
-			case DEPENDENCY:
+			if (getTreeMode() == SortMode.DEPENDENCY) {
 				if (auxiliaryNode.getParentItem() != null) {
 					removeItem(auxiliaryNode);
 				}
-				break;
-
+			} else {
+				clearView();
+				kernel.notifyAddAll(this);
 			}
 		}
 	}
@@ -1407,24 +1393,17 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private static boolean compare(GeoElement geo1, GeoElement geo2,
 			SortMode mode) {
-		switch (mode) {
-
-		case ORDER:
-
+		if (mode == SortMode.ORDER) {
 			return geo1.getConstructionIndex() > geo2.getConstructionIndex()
 					|| (geo1.getConstructionIndex() == geo2
 							.getConstructionIndex()
 							&& geo1.getParentAlgorithm() != null
 							&& geo1.getParentAlgorithm().isBefore(geo1, geo2));
-
-		default: // alphabetical
-
-			return GeoElement.compareLabels(
-					geo1.getLabel(StringTemplate.defaultTemplate),
-					geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
-
 		}
-
+		// alphabetical
+		return GeoElement.compareLabels(
+				geo1.getLabel(StringTemplate.defaultTemplate),
+				geo2.getLabel(StringTemplate.defaultTemplate)) > 0;
 	}
 
 	@Override

@@ -131,17 +131,14 @@ public class PrintScalePanelW extends FlowPanel {
 			mode = PrintScaleModes.SIZEINCM;
 		}
 
-		switch (mode) {
-		case SIZEINCM:
+		if (mode == PrintScaleModes.SIZEINCM) {
 			remove(fixedSizeModePanel);
 			add(cmModePanel);
 			updateScaleTextFields();
-			break;
-		case FIXED_SIZE:
+		} else if (mode == PrintScaleModes.FIXED_SIZE) {
 			remove(cmModePanel);
 			add(fixedSizeModePanel);
 			updateFixedSizeTextFields();
-			break;
 		}
 
 	}

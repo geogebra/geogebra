@@ -62,8 +62,9 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 			pr = ((ImageFactory) GWT.create(ImageFactory.class))
 					.getPerspectiveResources();
 			return ImgResourceHelper.safeURI(pr.menu_icon_graphics_extra());
+		default:
+			return super.getTypeIcon(type);
 		}
-		return super.getTypeIcon(type);
 	}
 
 	@Override

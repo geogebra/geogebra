@@ -1936,13 +1936,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void detachView(final int viewId) {
-		switch (viewId) {
-		case App.VIEW_FUNCTION_INSPECTOR:
+		if (viewId == App.VIEW_FUNCTION_INSPECTOR) {
 			Log.debug("Detaching VIEW_FUNCTION_INSPECTOR");
 			((DialogManagerW) app.getDialogManager()).getFunctionInspector()
-			        .setInspectorVisible(false);
-			break;
-		default:
+					.setInspectorVisible(false);
+		} else {
 			super.detachView(viewId);
 		}
 	}

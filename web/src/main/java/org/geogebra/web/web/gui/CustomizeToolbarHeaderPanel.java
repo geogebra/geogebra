@@ -93,16 +93,12 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			if (panel.canCustomizeToolbar()) {
 				Log.debug("[customize] view id for button is " + viewId);
 				ResourcePrototype res = null;
-				switch (viewId) {
-				case App.VIEW_DATA_ANALYSIS:
+				if (viewId == App.VIEW_DATA_ANALYSIS) {
 					res = pr.menu_icon_probability();
-					break;
-				default:
-					if (App.isView3D(viewId)) {
-						res = pr.menu_icon_graphics3D();
-					} else {
-						res = panel.getIcon();
-					}
+				} else if (App.isView3D(viewId)) {
+					res = pr.menu_icon_graphics3D();
+				} else {
+					res = panel.getIcon();
 				}
 
 				final ViewButton btn = new ViewButton(

@@ -74,14 +74,12 @@
 	<exclude name="ConstantsInInterface"/>
 	<exclude name="CompareObjectsWithEquals"/>
 	<exclude name="AvoidSynchronizedAtMethodLevel"/>
-	<exclude name="TooFewBranchesForASwitchStatement"/>
 	<exclude name="UseUtilityClass"/>
 	<exclude name="SimplifyBooleanReturns"/>
 	<exclude name="UseLocaleWithCaseConversions"/>
 	<exclude name="AvoidConstantsInterface"/>
 	<exclude name="UncommentedEmptyConstructor"/>
 	<exclude name="OptimizableToArrayCall"/>
-	<exclude name="AbstractClassWithoutAnyMethod"/>
 	<exclude name="PreserveStackTrace"/>
 	
 	</rule>
