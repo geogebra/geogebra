@@ -7511,7 +7511,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     }
     if (s<2)
       return gensizeerr(contextptr);
-    gen f=v[0];
+    gen f=exact(v[0],contextptr);
     gen x=v[1];
     int s0=2;
     gen xmin(minus_inf),xmax(plus_inf);
@@ -7598,7 +7598,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (plot==1)
 	return tvi; // gprintf("%gen",makevecteur(gen(poi,_SEQ__VECT)),1,contextptr);
     }
-    *logptr(contextptr) << (param?"plotparam(":"plotfunc(") << gen(w,_SEQ__VECT) << ')' <<"\nInside Xcas you can see the function with Cfg>Show>DispG." <<  endl;
+    if (abs_calc_mode(contextptr)!=38)
+      *logptr(contextptr) << (param?"plotparam(":"plotfunc(") << gen(w,_SEQ__VECT) << ')' <<"\nInside Xcas you can see the function with Cfg>Show>DispG." <<  endl;
     return tvi;
   }
   static const char _tabvar_s []="tabvar";

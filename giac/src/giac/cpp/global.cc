@@ -5826,7 +5826,10 @@ unsigned int ConvertUTF8toUTF16 (
       char ch;
       while ((ch=s[s.size()-1])==';' || (ch=='\n'))
 	s=s.substr(0,s.size()-1);
-      s += "\n:;";
+      if (s.size()>10 && s.substr(s.size()-9,9)=="ffunction")
+	s += ":;";
+      else
+	s += ";";
       *logptr(contextptr) << "// Python-like syntax, check string delimiters \"\" and declare local variables.\nTranslated to Xcas as:\n" << s << endl;
     }
     return s;
