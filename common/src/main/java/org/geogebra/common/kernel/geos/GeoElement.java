@@ -5634,7 +5634,9 @@ public abstract class GeoElement extends ConstructionElement
 			IndexHTMLBuilder sbIndicesToHTML) {
 
 		sbIndicesToHTML.clear();
-
+		if (str == null) {
+			return;
+		}
 		int depth = 0;
 		int startPos = 0;
 		final int length = str.length();

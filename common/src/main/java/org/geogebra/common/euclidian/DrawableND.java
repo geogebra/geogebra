@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -158,6 +159,13 @@ public abstract class DrawableND {
 		}
 
 		return true;
+	}
+
+	/**
+	 * @return recctangle for stylebar
+	 */
+	public GRectangle2D getBoundsForStylebarPosition() {
+		return null;
 	}
 
 }

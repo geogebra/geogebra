@@ -491,5 +491,10 @@ public class GeoInputBox extends GeoButton {
 		}
 		return getHeight();
 	}
+	
+	@Override
+	public DescriptionMode needToShowBothRowsInAV() {
+		return DescriptionMode.DEFINITION;
+	}
 
 }

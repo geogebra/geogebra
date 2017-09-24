@@ -833,6 +833,7 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * @return bounds of the drawn path
 	 */
+	@Override
 	public GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
 	}

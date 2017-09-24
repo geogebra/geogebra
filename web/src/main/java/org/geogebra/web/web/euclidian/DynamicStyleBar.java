@@ -2,7 +2,7 @@ package org.geogebra.web.web.euclidian;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
-import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
@@ -51,10 +51,13 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						}
 
 						if (app.has(Feature.LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR)) {
-							// If the activeGeoList will be null or empty, this will
+							// If the activeGeoList will be null or empty, this
+							// will
 							// hide the dynamic stylebar.
-							// If we clicked on a locked geo, the activeGeoList will
-							// contain it, so in this case the dynamic stylebar will
+							// If we clicked on a locked geo, the activeGeoList
+							// will
+							// contain it, so in this case the dynamic stylebar
+							// will
 							// be visible yet.
 							DynamicStyleBar.this.updateStyleBar();
 						} else {
@@ -125,7 +128,6 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			}
 		}
 
-
 		// get left position
 		if (isFunction) {
 			left = this.getView().getEuclidianController().getMouseLoc().x + 10;
@@ -137,8 +139,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		if (left < 0) {
 			left = 0;
 		}
-		if (left + this.getOffsetWidth() > app.getActiveEuclidianView().getWidth()) {
-			left = app.getActiveEuclidianView().getWidth() - this.getOffsetWidth();
+		if (left + this.getOffsetWidth() > app.getActiveEuclidianView()
+				.getWidth()) {
+			left = app.getActiveEuclidianView().getWidth()
+					- this.getOffsetWidth();
 		}
 
 		return new GPoint((int) left, (int) top);
@@ -159,7 +163,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 			this.setVisible(false);
 			return;
 		}
-		
+
 		this.getElement().getStyle().setTop(-10000, Unit.PX);
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
@@ -190,12 +194,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 						nextPos = null;
 					}
 				} else {
-					Drawable dr = (Drawable) ev.getDrawableND(geo);
-					nextPos = calculatePosition(
-							dr.getBoundsForStylebarPosition(),
-							!(dr instanceof DrawLine),
-							dr instanceof DrawPoint && activeGeoList.size() < 2,
-							false);
+					nextPos = fromDrawable(geo);
 				}
 
 				if (newPos == null) {
@@ -217,6 +216,16 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		setPosition(newPos);
 	}
 
+	private GPoint fromDrawable(GeoElement geo) {
+		DrawableND dr = ev.getDrawableND(geo);
+		if (dr != null) {
+			return calculatePosition(dr.getBoundsForStylebarPosition(),
+					!(dr instanceof DrawLine),
+					dr instanceof DrawPoint && activeGeoList.size() < 2, false);
+		}
+		return null;
+	}
+
 	/**
 	 * Sets the position of dynamic style bar. for newPos
 	 */
@@ -230,10 +239,10 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 	}
 
 	@Override
-	protected boolean isDynamicStylebar(){
+	protected boolean isDynamicStylebar() {
 		return true;
 	}
-	
+
 	public void setVisible(boolean v) {
 		// Close label popup if opened when dynamic stylebar visiblity changed
 		if (app.has(Feature.CLOSE_LABEL_DIALOG_AT_ESC) && isVisible()) {
