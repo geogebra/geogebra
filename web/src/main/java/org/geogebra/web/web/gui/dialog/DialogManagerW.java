@@ -64,6 +64,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	protected SaveDialogW saveDialog = null;
 	protected UploadImageDialog imageDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
+	private PopupPanel loadingAnimation = null;
+	private ColorChooserDialog dialog = null;
 	
 	public DialogManagerW(AppW app) {
 		super(app);
@@ -439,9 +441,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	    
     }
 
-    private PopupPanel loadingAnimation  = null;
-	private ColorChooserDialog dialog = null;
-    
 	/**
 	 * Shows a loading animation
 	 */

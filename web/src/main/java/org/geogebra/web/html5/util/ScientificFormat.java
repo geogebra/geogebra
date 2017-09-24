@@ -20,7 +20,7 @@ import org.geogebra.common.util.ScientificFormatAdapter;
  *          $
  */
 
-public class ScientificFormat extends Format implements ScientificFormatAdapter {
+public class ScientificFormat implements ScientificFormatAdapter {
 	/**
 	 * The number of significant digits the number is formatted to is recorded
 	 * by sigDigit. The maximum width allowed for the returned String is

@@ -60,7 +60,11 @@ import com.google.gwt.core.client.Scheduler;
  *
  */
 public class AwtFactoryW extends AwtFactory {
+	/** to make code more efficient in the following method */
+	boolean repaintDeferred = false;
 
+	/** to avoid infinite loop in the following method */
+	int repaintsFromHereInProgress = 0;
 
 	@Override
 	public GAffineTransform newAffineTransform() {
@@ -248,12 +252,6 @@ public class AwtFactoryW extends AwtFactory {
 				new GBufferedImageW(((MyImageW) subimage).getImage()));
 
 	}
-
-	// to make code more efficient in the following method
-	boolean repaintDeferred = false;
-
-	// to avoid infinite loop in the following method
-	int repaintsFromHereInProgress = 0;
 
 	@Override
 	public void fillAfterImageLoaded(final GShape shape, final GGraphics2D g3,

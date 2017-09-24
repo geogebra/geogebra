@@ -210,9 +210,9 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			mode = LABEL_MODE_NAME_AND_VALUE;
 		} else if (!name && value) {
 			mode = LABEL_MODE_VALUE_ONLY;
-		} else if (!name && !value) {
-			// hide, nothing to do.
 		}
+		// !name && !value: hide, nothing to do.
+
 		model.applyModeChanges(mode, mode != -1);
 	}
 

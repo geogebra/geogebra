@@ -11,9 +11,10 @@ import org.geogebra.common.util.NumberFormatAdapter;
  *         </p>
  *
  */
-public class NumberFormatW extends Format implements NumberFormatAdapter {
+public class NumberFormatW implements NumberFormatAdapter {
 
 	private int maximumFractionDigits;
+	private MyNumberFormat nf = MyNumberFormat.getDecimalFormat();
 
 	/**
 	 * @param s

@@ -302,16 +302,16 @@ public class CASTableControllerW extends CASTableCellController implements
 			return;
 		}
 		int currentRow = point.getY();
-		if (event.getNativeButton() == NativeEvent.BUTTON_RIGHT
-		        && selectionContainsRow(currentRow)) {
-			// do nothing
-		} else if (event.isShiftKeyDown()) {
-			table.setSelectedRows(startSelectRow, currentRow);
-		} else if (event.isControlKeyDown()) {
-			table.addSelectedRows(currentRow, currentRow);
-		} else {
-			startSelectRow = currentRow;
-			table.setSelectedRows(currentRow, currentRow);
+		if (!(event.getNativeButton() == NativeEvent.BUTTON_RIGHT
+				&& selectionContainsRow(currentRow))) {
+			if (event.isShiftKeyDown()) {
+				table.setSelectedRows(startSelectRow, currentRow);
+			} else if (event.isControlKeyDown()) {
+				table.addSelectedRows(currentRow, currentRow);
+			} else {
+				startSelectRow = currentRow;
+				table.setSelectedRows(currentRow, currentRow);
+			}
 		}
 	}
 

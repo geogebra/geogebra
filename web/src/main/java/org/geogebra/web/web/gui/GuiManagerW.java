@@ -913,15 +913,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// toolbarPanel.buildGui();
 		// }
 
-
-
 		if (layout != null) {
 			// AG layout.getDockManager().updateToolbars();
 			if (getToolbarPanel() != null) {
 				getToolbarPanel().updateToolbarPanel();
-			}
-			if (app.isUnbundled()) {
-				// getLayout().getDockManager().adjustViews(true);
 			}
 		}
 	}

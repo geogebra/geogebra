@@ -159,6 +159,7 @@ public abstract class AppW extends App implements SetLabels {
 	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 
+	private static final int LOWER_HEIGHT = 350;
 
 	private DrawEquationW drawEquation;
 
@@ -211,6 +212,36 @@ public abstract class AppW extends App implements SetLabels {
 	private String externalPath;
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<ViewsChangedListener>();
 	private GDimension preferredSize;
+	private NetworkOperation networkOperation;
+
+	/*
+	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
+	 * symbol buttons with data-param-allowSymbolTable parameter)
+	 */
+	private boolean allowSymbolTables = true;
+	private boolean allowStyleBar = true;
+	private TimerSystemW timers;
+	HashMap<String, String> revTranslateCommandTable = new HashMap<String, String>();
+	private ArrayList<FileLoadListener> fileLoadListeners = new ArrayList<FileLoadListener>();
+	private Runnable closeBroserCallback;
+	private Runnable insertImageCallback;
+	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
+
+	Timer timeruc = new Timer() {
+		@Override
+		public void run() {
+			updateConsBoundingBox();
+		}
+	};
+
+	Scheduler.ScheduledCommand sucCallback = new Scheduler.ScheduledCommand() {
+		@Override
+		public void execute() {
+			// 0.5 seconds is good for the user and maybe for the computer
+			// too
+			timeruc.schedule(500);
+		}
+	};
 
 	/**
 	 * @param ae
@@ -432,16 +463,12 @@ public abstract class AppW extends App implements SetLabels {
 		return (EuclidianViewW) euclidianView;
 	}
 
-	private TimerSystemW timers;
-
 	public TimerSystemW getTimerSystem() {
 		if (timers == null) {
 			timers = new TimerSystemW(this);
 		}
 		return timers;
 	}
-
-
 
 	@Override
 	protected ScriptManager newScriptManager() {
@@ -657,8 +684,6 @@ public abstract class AppW extends App implements SetLabels {
 		return revTranslateCommandTable.get(cmdLower);
 		// return null;
 	}
-
-	HashMap<String, String> revTranslateCommandTable = new HashMap<String, String>();
 
 	@Override
 	protected void fillCommandDict() {
@@ -1255,8 +1280,6 @@ public abstract class AppW extends App implements SetLabels {
 		this.fileLoadListeners.add(f);
 	}
 
-	private ArrayList<FileLoadListener> fileLoadListeners = new ArrayList<FileLoadListener>();
-
 	/**
 	 * Notify listeners about loaded file, see
 	 * {@link #addFileLoadListener(FileLoadListener)}
@@ -1336,14 +1359,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	private NetworkOperation networkOperation;
-
-	/*
-	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
-	 * symbol buttons with data-param-allowSymbolTable parameter)
-	 */
-	private boolean allowSymbolTables = true;
-
 	/**
 	 * @return OfflineOperation event flow
 	 */
@@ -1379,8 +1394,6 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean isAllowedSymbolTables() {
 		return allowSymbolTables;
 	}
-
-	private boolean allowStyleBar = true;
 
 	/**
 	 * @param flag
@@ -2315,24 +2328,6 @@ public abstract class AppW extends App implements SetLabels {
 		Scheduler.get().scheduleDeferred(sucCallback);
 	}
 
-	Timer timeruc = new Timer() {
-		@Override
-		public void run() {
-			updateConsBoundingBox();
-		}
-	};
-
-	Scheduler.ScheduledCommand sucCallback = new Scheduler.ScheduledCommand() {
-		@Override
-		public void execute() {
-			// 0.5 seconds is good for the user and maybe for the computer
-			// too
-			timeruc.schedule(500);
-		}
-	};
-	private Runnable closeBroserCallback;
-	private Runnable insertImageCallback;
-
 	protected void updateConsBoundingBox() {
 		boolean force = kernel.getForceUpdatingBoundingBox();
 		kernel.setForceUpdatingBoundingBox(true);
@@ -2395,11 +2390,8 @@ public abstract class AppW extends App implements SetLabels {
 		if (!isUnbundled() && getGuiManager() != null
 				&& getGuiManager().hasAlgebraView()) {
 			getAlgebraView().resetItems(false);
+		}
 
-		}
-		if (getGuiManager() != null && getGuiManager().hasCasView()) {
-			// getGuiManager().getCasView().resetItems(false);
-		}
 		if (getActiveEuclidianView() != null) {
 		getActiveEuclidianView().getEuclidianController()
 				.setObjectMenuActive(false);
@@ -2912,10 +2904,6 @@ public abstract class AppW extends App implements SetLabels {
 		return element.getAbsoluteBottom();
 	}
 
-
-
-
-
 	public void attachNativeLoadHandler(ImageElement img) {
 		addNativeLoadHandler(img, getActiveEuclidianView());
 	}
@@ -2955,8 +2943,6 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		return getFrameElement().getOffsetHeight();
 	}
-
-	private static final int LOWER_HEIGHT = 350;
 
 	public boolean needsSmallKeyboard() {
 		return (getHeight() > 0 && getHeight() < LOWER_HEIGHT)
@@ -3302,8 +3288,6 @@ public abstract class AppW extends App implements SetLabels {
 		return Browser.getPixelRatio()
 				* articleElement.readScaleX();
 	}
-
-	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
 
 	public void addWindowResizeListener(MouseTouchGestureControllerW mtg) {
 		this.euclidianHandlers.add(mtg);

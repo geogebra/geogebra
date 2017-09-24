@@ -729,8 +729,6 @@ public class EuclidianViewW extends EuclidianView implements
 				getCanvas().setTabIndex(
 						GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX - 1);
 			}
-		} else {
-			// ?
 		}
 	}
 
@@ -791,8 +789,6 @@ public class EuclidianViewW extends EuclidianView implements
 						MouseDownEvent.getType());
 			}
 		}
-
-
 
 		if (Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
@@ -928,9 +924,6 @@ public class EuclidianViewW extends EuclidianView implements
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
-			if (getCanvas() != null) {
-				// this.app.focusLost(this, getCanvas().getElement());
-			}
 		}
 	}
 

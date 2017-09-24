@@ -106,9 +106,9 @@ public class CASgiacW extends CASgiac {
 			 * contains an internal GeoGebra CAS command, then that command will be executed
 			 * in Giac. TODO: find a better a way.
 			 */
-            if (function.functionName == null || (foundInInput = (exp
+			if (function.functionName == null || (foundInInput = (exp
 				.indexOf(function.functionName) > -1))) {
-            	nativeEvaluateRaw(function.definitionString, false);
+				nativeEvaluateRaw(function.definitionString, false);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
 					ArrayList<CustomFunctions> dependencies = CustomFunctions
@@ -120,9 +120,6 @@ public class CASgiacW extends CASgiac {
 				}
 
 				// Log.debug("sending " + function);
-			} else {
-				// Log.error("not sending " + function + " "
-				// + function.functionName);
 			}
 
 			// Log.error(function.functionName + " " +

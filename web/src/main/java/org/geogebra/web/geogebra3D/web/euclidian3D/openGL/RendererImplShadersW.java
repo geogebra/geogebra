@@ -36,7 +36,9 @@ import com.googlecode.gwtgl.binding.WebGLUniformLocation;
  */
 public class RendererImplShadersW extends RendererImplShaders {
 
+	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 	private WebGLRenderingContext glContext;
+	private ArrayList<WebGLTexture> texturesArray = new ArrayList<WebGLTexture>();
 
 	/**
 	 * Constructor
@@ -46,8 +48,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	 * 
 	 * @param view
 	 *            view
-	 * @param jogl
-	 *            java openGL implementation
 	 */
 	public RendererImplShadersW(Renderer renderer, EuclidianView3D view) {
 		super(renderer, view);
@@ -171,8 +171,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		return length * size * 4; // 4 bytes per float
 	}
 
-	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
-
 	@Override
 	public void storeElementBuffer(short[] fb, int length,
 			GPUBuffer buffers) {
@@ -220,10 +218,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 			float z){
 		glContext.uniform3f((WebGLUniformLocation) location, x, y, z);
 	}
-
-
-
-
 
 	@Override
 	protected void glEnableVertexAttribArray(int attrib) {
@@ -420,8 +414,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 			texturesArray.add(glContext.createTexture());
 		}
 	}
-
-	private ArrayList<WebGLTexture> texturesArray = new ArrayList<WebGLTexture>();
 
 	@Override
 	public void bindTexture(int index) {

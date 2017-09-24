@@ -55,32 +55,32 @@ public class LoadFilePresenter {
 		boolean specialPerspective = false;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
-		if (isReloadDataInStorage()) {
-			// do nothing here - everything done in isReloadDataInStorage()
-			// function
-		} else if (!"".equals((filename = view.getDataParamJSON()))) {
-			processJSON(filename);
-		} else if (!"".equals((base64String = view.getDataParamBase64String()))) {
-			process(base64String);
-		} else if (!"".equals((filename = view.getDataParamFileName()))) {
-			fetch(filename);
-		} else if (!"".equals((filename = view.getDataParamTubeID()))) {
-			app.openMaterial(view.getDataParamTubeID(), new Runnable() {
+		if (!tryReloadDataInStorage()) {
+			if (!"".equals((filename = view.getDataParamJSON()))) {
+				processJSON(filename);
+			} else if (!""
+					.equals((base64String = view.getDataParamBase64String()))) {
+				process(base64String);
+			} else if (!"".equals((filename = view.getDataParamFileName()))) {
+				fetch(filename);
+			} else if (!"".equals((filename = view.getDataParamTubeID()))) {
+				app.openMaterial(view.getDataParamTubeID(), new Runnable() {
 
-				@Override
-				public void run() {
+					@Override
+					public void run() {
 
-					openEmptyApp(app);
-					ToolTipManagerW.sharedInstance().showBottomMessage(
-							app.getLocalization().getError("LoadFileFailed"),
+						openEmptyApp(app);
+						ToolTipManagerW.sharedInstance().showBottomMessage(app
+								.getLocalization().getError("LoadFileFailed"),
 
-							false, app);
+								false, app);
 
-				}
-			});
-		} else {
-			fileOpened = false;
-			specialPerspective = openEmptyApp(app);
+					}
+				});
+			} else {
+				fileOpened = false;
+				specialPerspective = openEmptyApp(app);
+			}
 		}
 
 		// app.setChooserPopupsEnabled(enableChooserPopups);
@@ -282,7 +282,7 @@ public class LoadFilePresenter {
 
 
 
-	private boolean isReloadDataInStorage() {
+	private boolean tryReloadDataInStorage() {
 		if (!Browser.supportsSessionStorage()) {
 			return false;
 		}

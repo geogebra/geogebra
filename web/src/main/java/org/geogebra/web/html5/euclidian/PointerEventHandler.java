@@ -147,15 +147,9 @@ public class PointerEventHandler {
 	}
 
 	private void checkMoveLongTouch() {
-		if (!tc.isDraggingBeyondThreshold()) {
-			/*
-			 * this.tc.getLongTouchManager().rescheduleTimerIfRunning(tc, x, y,
-			 * false);
-			 */
-		} else {
+		if (tc.isDraggingBeyondThreshold()) {
 			this.tc.getLongTouchManager().cancelTimer();
 		}
-
 	}
 
 	/**

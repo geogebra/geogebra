@@ -113,7 +113,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 
-
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController euclidiancontroller) {
 
@@ -168,8 +167,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	public void updateFirstAndLast(boolean attach, boolean anyway) {
 		if (attach) {
 			EuclidianViewW.updateFirstAndLast(this, anyway);
-		} else {
-			// ?
 		}
 	}
 

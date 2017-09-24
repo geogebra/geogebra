@@ -935,12 +935,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 					app.toggleMenu();
 				}
-				if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
-					// GGWToolBar.this.selectMenuButton(0);
-				}
-				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
-					// GGWToolBar.this.toolBar.selectMenu(0);
-				}
+				// if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+				// GGWToolBar.this.selectMenuButton(0);
+				// }
+				// if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+				// GGWToolBar.this.toolBar.selectMenu(0);
+				// }
 			}
 		}, KeyUpEvent.getType());
 

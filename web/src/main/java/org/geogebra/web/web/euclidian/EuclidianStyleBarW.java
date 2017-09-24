@@ -799,7 +799,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 		return new PopupMenuButtonW[] { getAxesOrGridPopupMenuButton(),
 				btnColor, btnBgColor, btnTextColor, btnFilling, btnLineStyle,
- btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle, btnPointCapture,
+				btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
+				btnPointCapture,
 				btnChangeView };
 	}
 
@@ -1793,9 +1794,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			FillType fillType = btnFilling.getSelectedFillType();
 			EuclidianStyleBarStatic.applyFillType(targetGeos, fillType);
 
-		} else if (processSourceForAxesAndGrid(source)) {
-			// done in method
-		} else if (source == btnBold) {
+		}  else if (source == btnBold) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
 			        GFont.ITALIC, btnBold.isDown() ? GFont.BOLD : GFont.PLAIN);
 		} else if (source == btnItalic) {
@@ -1820,7 +1819,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			btnFixObject.update(targetGeos.toArray());
 		}
 
-		else {
+		else if (!processSourceForAxesAndGrid(source)) {
 			for (int i = 0; i < 3; i++) {
 				if (source == btnDeleteSizes[i]) {
 					setDelSize(i);

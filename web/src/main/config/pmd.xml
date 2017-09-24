@@ -58,7 +58,6 @@
 	<rule ref="rulesets/java/design.xml">
 	<exclude name="ImmutableField"/>
 	<exclude name="ConstructorCallsOverridableMethod"/>
-	<exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
 	<exclude name="UseVarargs"/>
 	<exclude name="DefaultLabelNotLastInSwitchStmt"/>
 	<exclude name="SingularField"/>
@@ -80,7 +79,6 @@
 	<exclude name="SimplifyBooleanReturns"/>
 	<exclude name="UseLocaleWithCaseConversions"/>
 	<exclude name="AvoidConstantsInterface"/>
-	<exclude name="AbstractClassWithoutAbstractMethod"/>
 	<exclude name="UncommentedEmptyConstructor"/>
 	<exclude name="OptimizableToArrayCall"/>
 	<exclude name="AbstractClassWithoutAnyMethod"/>

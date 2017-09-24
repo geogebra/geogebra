@@ -6,7 +6,11 @@ import com.google.gwt.event.dom.client.DomEvent;
 /**
  * Simple static methods helping event handling.
  */
-public abstract class EventUtil {
+public final class EventUtil {
+
+	private EventUtil() {
+		// utility class
+	}
 
 	/**
 	 * @param event

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.main.AppW;
 
@@ -136,9 +135,6 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				boolean newDirRTL = Localization
-				        .rightToLeftReadingOrder(current.localeGWT);
-
 				app.getLAF().storeLanguage(current.localeGWT);
 				if (app.getLoginOperation().isLoggedIn()) {
 					app.getLoginOperation()
@@ -157,9 +153,11 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 				// back after page reloading.
 				// Otherwise only the language will change, and the
 				// setting related with language.
-				if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
-					// TODO change direction
-				}
+
+				// TODO change direction if Localization
+				// .rightToLeftReadingOrder(current.localeGWT) !=
+				// app.getLocalization().rightToLeftReadingOrder
+
 				app.setLanguage(current.localeGWT);
 				LanguageGUI.this.setActiveLabel(label);
 				LanguageGUI.this.close();

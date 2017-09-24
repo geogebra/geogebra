@@ -33,6 +33,8 @@ public class RendererWithImplW extends RendererWithImpl implements
 	protected Canvas webGLCanvas;
 
 	protected WebGLRenderingContext glContext;
+	private double ratio = 1;
+	private Timer loopTimer;
 
 	/**
 	 * @param view
@@ -216,8 +218,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		});
 	}-*/;
 
-	private double ratio = 1;
-
 	@Override
 	public void setPixelRatio(double ratio) {
 		this.ratio = ratio;
@@ -235,7 +235,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		super.setView(x, y, w, h);
 
 		start();
-
 	}
 
 	@Override
@@ -247,8 +246,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 	public int getHeightInPixels() {
 		return (int) (getHeight() * ratio);
 	}
-
-	private Timer loopTimer;
 
 	private void start() {
 
