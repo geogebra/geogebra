@@ -59,7 +59,7 @@ public class AltKeys {
 		lookupUpper.put('*', Unicode.VECTOR_PRODUCT + "");
 		lookupLower.put('*', Unicode.VECTOR_PRODUCT + "");
 
-		lookupUpper.put('+', Unicode.XOR + "");
+		lookupUpper.put('+', Unicode.PLUSMINUS + "");
 		lookupLower.put('+', Unicode.XOR + "");
 
 		lookupUpper.put(Unicode.e_GRAVE, "{"); // Italian keyboards
