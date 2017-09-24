@@ -8,6 +8,13 @@ import com.google.gwt.xhr.client.XMLHttpRequest;
  * @author gabor extendef from native XHR to accept FormData
  */
 public class XHR2 extends XMLHttpRequest {
+
+	/**
+	 * Use XHR2.create instead
+	 */
+	protected XHR2() {
+		// needed for GWT
+	}
 	/** @return new XHR */
 	public static native XHR2 create() /*-{
 		return new $wnd.XMLHttpRequest();
