@@ -74,9 +74,11 @@ var translation = {};
 			}
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
-			if(location.href.match(/lti/)){
+			if(location.pathname.match(/lti/)){
 				e("ggw").setAttribute("data-param-showAppsPicker","false");
-				e("appsPicker").style.display = "none";
+				e("appsPicker") && e("appsPicker").style.setProperty("display", "none");
+				c("GeoGebraHeader") && c("GeoGebraHeader").remove();
+				e("ggw").setAttribute("data-param-marginTop",0);
 			}
 			if(window.ggbRerun){
 				ggbRerun();
