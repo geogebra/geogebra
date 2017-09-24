@@ -7,10 +7,6 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class OptionsLayoutW extends OptionsLayout implements OptionPanelW {
 
-	public OptionsLayoutW() {
-	    // TODO Auto-generated constructor stub
-    }
-
 	@Override
 	public void updateGUI() {
 	    // TODO Auto-generated method stub

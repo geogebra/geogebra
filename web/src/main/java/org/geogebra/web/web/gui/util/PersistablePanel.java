@@ -4,10 +4,11 @@ import org.geogebra.web.web.gui.Persistable;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 
+/**
+ * FlowPanel that should stay when keyboard is opened/closed
+ *
+ */
 public class PersistablePanel extends FlowPanel
 		implements Persistable {
-
-	public PersistablePanel() {
-		super();
-	}
+	// only adds the Persistable interface
 }

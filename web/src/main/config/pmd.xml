@@ -93,4 +93,6 @@
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />	
 		<exclude name="AvoidUsingHardCodedIP" />	
 	</rule>
+	<rule ref="rulesets/java/controversial.xml/UnnecessaryConstructor">
+	</rule>
 </ruleset>

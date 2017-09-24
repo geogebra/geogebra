@@ -16,11 +16,18 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * The ... menu for AV items
+ *
+ */
 public class ContextMenuMore implements SetLabels {
+	/** visible component */
 	protected GPopupMenuW wrappedPopup;
+	/** localization */
 	protected Localization loc;
 	private AppW app;
-	private RadioTreeItem item;
+	/** parent item */
+	RadioTreeItem item;
 	/**
 	 * Creates new context menu
 	 * 
@@ -47,11 +54,13 @@ public class ContextMenuMore implements SetLabels {
 		// wrappedPopup.addSeparator();
 		addPropertiesItem();
 	}
-	
-	public void show(GPoint p) {
-		wrappedPopup.show(p);
-	}
 
+	/**
+	 * @param x
+	 *            screen x-coordinate
+	 * @param y
+	 *            screen y-coordinate
+	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
 	}
@@ -111,15 +120,21 @@ public class ContextMenuMore implements SetLabels {
 					
 					@Override
 					public void execute() {
-						ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-						list.add(item.geo);
-						app.getDialogManager()
-								.showPropertiesDialog(OptionType.OBJECTS,
-								list);
+						openSettings();
 					}
 				});
 
 		wrappedPopup.addItem(mi);
+	}
+
+	/**
+	 * OPen object settings
+	 */
+	protected void openSettings() {
+		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		list.add(item.geo);
+		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, list);
+
 	}
 
 	@Override

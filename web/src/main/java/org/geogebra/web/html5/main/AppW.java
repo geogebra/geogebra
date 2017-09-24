@@ -3359,7 +3359,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		GeoNumeric geo;
 
-		public ReaderTimer() {
+		protected ReaderTimer() {
 			// TODO Auto-generated constructor stub
 		}
 

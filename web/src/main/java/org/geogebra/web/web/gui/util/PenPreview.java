@@ -11,6 +11,15 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class PenPreview extends StylePreview {
 	private EuclidianPen pen;
+
+	/**
+	 * @param app
+	 *            app
+	 * @param width
+	 *            pixel width
+	 * @param height
+	 *            pixel height
+	 */
 	public PenPreview(AppW app, int width, int height) {
 		super(app, width, height);
 
