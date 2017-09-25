@@ -459,6 +459,12 @@ public class GlobalKeyDispatcherW extends
 		Log.debug("KEY pressed::"
 				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()) + " in "
 				+ getActive());
+
+		if (app.has(Feature.TAB_ON_GUI) && !isTabOverGeos()
+				&& event.getNativeKeyCode() == 9) {
+			return;
+		}
+
 		setDownKeys(event);
 		// AbstractApplication.debug("onkeydown");
 
