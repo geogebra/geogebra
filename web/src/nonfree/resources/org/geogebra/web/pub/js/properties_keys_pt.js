@@ -1339,6 +1339,7 @@ __GGB__keysVar.pt.menu = {
     "CalligraphicLetters": "Letras Caligr\xe1ficas",
     "Cancel": "Cancelar",
     "Caption": "Legenda",
+    "CaptionAndValue": "Legenda & Valor",
     "Cartesian": "Cartesiana",
     "CartesianCoords": "Coordenadas Cartesianas",
     "CartesianCoords3D": "Coordenadas Cartesianas 3D",

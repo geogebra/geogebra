@@ -1339,6 +1339,7 @@ __GGB__keysVar.lv.menu = {
     "CalligraphicLetters": "Kaligr\u0101fiski burti",
     "Cancel": "Atcelt",
     "Caption": "Virsraksts",
+    "CaptionAndValue": "Virsraksts & V\u0113rt\u012bba",
     "Cartesian": "Dekarta",
     "CartesianCoords": "Dekarta Koordin\u0101tas",
     "CartesianCoords3D": "3D Cartesian Coordinates",

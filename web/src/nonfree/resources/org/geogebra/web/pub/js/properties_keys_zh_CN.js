@@ -1339,6 +1339,7 @@ __GGB__keysVar.zh_CN.menu = {
     "CalligraphicLetters": "\u4e66\u6cd5\u4f53\u5b57\u6bcd",
     "Cancel": "\u53d6\u6d88",
     "Caption": "\u6807\u9898",
+    "CaptionAndValue": "\u540d\u79f0\u4e0e\u6570\u503c",
     "Cartesian": "\u76f4\u89d2\u5750\u6807",
     "CartesianCoords": "\u76f4\u89d2\u5750\u6807",
     "CartesianCoords3D": "3D \u76f4\u89d2\u5750\u6807",

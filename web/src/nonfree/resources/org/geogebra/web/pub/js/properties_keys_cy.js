@@ -1339,6 +1339,7 @@ __GGB__keysVar.cy.menu = {
     "CalligraphicLetters": "Llythrennau Llawysgrifen",
     "Cancel": "Canslo",
     "Caption": "Pennawd",
+    "CaptionAndValue": "Pennawd a gwerth",
     "Cartesian": "Cartesaidd",
     "CartesianCoords": "Cyfesurynnau Cartesaidd",
     "CartesianCoords3D": "3D Cartesian Coordinates",

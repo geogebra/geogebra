@@ -1339,6 +1339,7 @@ __GGB__keysVar.de.menu = {
     "CalligraphicLetters": "Kalligraphisch",
     "Cancel": "Abbrechen",
     "Caption": "Beschriftung",
+    "CaptionAndValue": "Beschriftung & Wert",
     "Cartesian": "Kartesisch",
     "CartesianCoords": "Kartesische Koordinaten",
     "CartesianCoords3D": "3D kartesische Koordinaten",

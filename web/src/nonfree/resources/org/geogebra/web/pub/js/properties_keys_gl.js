@@ -1339,6 +1339,7 @@ __GGB__keysVar.gl.menu = {
     "CalligraphicLetters": "Letras caligr\xe1ficas",
     "Cancel": "Cancelar",
     "Caption": "Subt\xedtulo",
+    "CaptionAndValue": "Subt\xedtulo e valor",
     "Cartesian": "Cartesiano",
     "CartesianCoords": "Coordenadas cartesianas",
     "CartesianCoords3D": "Coordenadas cartesianas 3D",

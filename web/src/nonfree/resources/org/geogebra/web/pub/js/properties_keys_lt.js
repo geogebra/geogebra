@@ -1339,6 +1339,7 @@ __GGB__keysVar.lt.menu = {
     "CalligraphicLetters": "Kaligrafin\u0117s raid\u0117s",
     "Cancel": "At\u0161aukti",
     "Caption": "Antra\u0161t\u0117",
+    "CaptionAndValue": "Antra\u0161t\u0117 ir vert\u0117",
     "Cartesian": "Dekarto",
     "CartesianCoords": "Dekarto koordinat\u0117s",
     "CartesianCoords3D": "3D Dekarto koordinat\u0117s",

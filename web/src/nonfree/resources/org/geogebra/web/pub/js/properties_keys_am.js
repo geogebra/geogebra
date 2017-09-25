@@ -1339,6 +1339,7 @@ __GGB__keysVar.am.menu = {
     "CalligraphicLetters": "\u12e8\u1241\u121d \u1225\u1290 \u133d\u1211\u134d",
     "Cancel": "\u1270\u12c8\u12cd",
     "Caption": "\u1218\u130d\u1208\u132b",
+    "CaptionAndValue": "\u1235\u121d & \u12a5\u1234\u1275",
     "Cartesian": "\u12ab\u122d\u1274\u12db\u12ca",
     "CartesianCoords": "\u12e8\u12ab\u122d\u1274\u12db\u12ca \u1235\u122d\u12a0\u1275 \u12cd\u1245\u122d",
     "CartesianCoords3D": "3-\u120d \u12e8\u12ab\u122d\u1274\u12db\u12ca \u1235\u122d\u12a0\u1275 \u12cd\u1245\u122d",

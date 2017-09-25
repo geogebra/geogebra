@@ -1339,6 +1339,7 @@ __GGB__keysVar.et.menu = {
     "CalligraphicLetters": "Galligraafilised t\xe4hed",
     "Cancel": "T\xfchista",
     "Caption": "Pealdis",
+    "CaptionAndValue": "Pealdis ja v\xe4\xe4rtus",
     "Cartesian": "Ristkoordinaadid",
     "CartesianCoords": "Ristkoordinaadid",
     "CartesianCoords3D": "3D Ristkoordinaadid",

@@ -1339,6 +1339,7 @@ __GGB__keysVar.sr.menu = {
     "CalligraphicLetters": "Kaligrafska slova",
     "Cancel": "Odustani",
     "Caption": "Natpis",
+    "CaptionAndValue": "Natpis i vrednost",
     "Cartesian": "Dekartov",
     "CartesianCoords": "Dekartove koordinate",
     "CartesianCoords3D": "3D Cartesian Coordinates",

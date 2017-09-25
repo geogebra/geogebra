@@ -1339,6 +1339,7 @@ __GGB__keysVar.ca_XV.menu = {
     "CalligraphicLetters": "Car\xe0cters cal\xb7ligr\xe0fics",
     "Cancel": "Cancel\xb7la",
     "Caption": "Llegenda",
+    "CaptionAndValue": "Llegenda i valor",
     "Cartesian": "Cartesi\xe0",
     "CartesianCoords": "Coordenades cartesianes",
     "CartesianCoords3D": "Coordenades cartesianes en 3D",

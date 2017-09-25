@@ -1339,6 +1339,7 @@ __GGB__keysVar.da.menu = {
     "CalligraphicLetters": "Calligrafiske bogstaver",
     "Cancel": "Fortryd",
     "Caption": "Billedtekst",
+    "CaptionAndValue": "Billedtekst & v\xe6rdi",
     "Cartesian": "Kartesiske",
     "CartesianCoords": "Retvinklede koordinater",
     "CartesianCoords3D": "3D kartesiske koordinater",

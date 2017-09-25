@@ -1339,6 +1339,7 @@ __GGB__keysVar.tl.menu = {
     "CalligraphicLetters": "Calligraphic Letters",
     "Cancel": "Cancel",
     "Caption": "Kapsyon",
+    "CaptionAndValue": "Kapsyon & Halaga",
     "Cartesian": "Cartesian",
     "CartesianCoords": "Koordineyt na Kartesyan",
     "CartesianCoords3D": "3D Cartesian Coordinates",

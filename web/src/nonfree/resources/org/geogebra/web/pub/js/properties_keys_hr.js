@@ -1339,6 +1339,7 @@ __GGB__keysVar.hr.menu = {
     "CalligraphicLetters": "Krasopisna slova",
     "Cancel": "Odustani",
     "Caption": "Natpis",
+    "CaptionAndValue": "Natpis i vrijednost",
     "Cartesian": "Kartezijeva",
     "CartesianCoords": "Kartezijeve koordinate",
     "CartesianCoords3D": "3D kartezijeve koordinate",

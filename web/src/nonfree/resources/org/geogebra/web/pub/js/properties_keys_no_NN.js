@@ -1339,6 +1339,7 @@ __GGB__keysVar.no_NN.menu = {
     "CalligraphicLetters": "Kalligrafiske bokstavar",
     "Cancel": "Avbryt",
     "Caption": "Objekttekst",
+    "CaptionAndValue": "Objekttekst og verdi",
     "Cartesian": "Kartesisk",
     "CartesianCoords": "Kartesiske koordinatar",
     "CartesianCoords3D": "3D Kartesiske koordinatar",

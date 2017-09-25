@@ -1339,6 +1339,7 @@ __GGB__keysVar.cs.menu = {
     "CalligraphicLetters": "Kaligrafick\xe9 p\xedsmo",
     "Cancel": "Storno",
     "Caption": "Popisek",
+    "CaptionAndValue": "Popisek & Hodnota",
     "Cartesian": "Kart\xe9zsk\xfd",
     "CartesianCoords": "Kart\xe9zsk\xe9 sou\u0159adnice",
     "CartesianCoords3D": "3D kart\xe9zsk\xe9 sou\u0159adnice",

@@ -1339,6 +1339,7 @@ __GGB__keysVar.tr.menu = {
     "CalligraphicLetters": "Talik Harfler",
     "Cancel": "\u0130ptal",
     "Caption": "Ba\u015fl\u0131k",
+    "CaptionAndValue": "Ba\u015fl\u0131k & De\u011fer",
     "Cartesian": "Kartezyen",
     "CartesianCoords": "Kartezyen koordinatlar",
     "CartesianCoords3D": "3D Kartezyen Koordinatlar\u0131",

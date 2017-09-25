@@ -1339,6 +1339,7 @@ __GGB__keysVar.bs.menu = {
     "CalligraphicLetters": "Kaligrafska slova",
     "Cancel": "Poni\u0161ti",
     "Caption": "Naslov",
+    "CaptionAndValue": "Naslov & Vrijednost",
     "Cartesian": "Descartes-ova mre\u017ea",
     "CartesianCoords": "Descartes-ove koordinate",
     "CartesianCoords3D": "3D Descartes-ove koordinate",

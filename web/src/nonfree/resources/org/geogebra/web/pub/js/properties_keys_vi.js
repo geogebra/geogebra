@@ -1339,6 +1339,7 @@ __GGB__keysVar.vi.menu = {
     "CalligraphicLetters": "C\xe1c k\xed t\u1ef1 th\u01b0 ph\xe1p",
     "Cancel": "H\u1ee7y",
     "Caption": "Ti\xeau \u0111\u1ec1",
+    "CaptionAndValue": "Ti\xeau \u0111\u1ec1 & Gi\xe1 tr\u1ecb",
     "Cartesian": "H\u1ec7 tr\u1ee5c t\u1ecda \u0111\u1ed9 \u0110\u1ec1-c\xe1c",
     "CartesianCoords": "T\u1ecda \u0111\u1ed9 \u0110\u1ec1-c\xe1c",
     "CartesianCoords3D": "3D Cartesian Coordinates",

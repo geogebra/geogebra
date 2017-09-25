@@ -1339,6 +1339,7 @@ __GGB__keysVar.fi.menu = {
     "CalligraphicLetters": "Kalligrafinen merkist\xf6",
     "Cancel": "Peruuta",
     "Caption": "Teksti",
+    "CaptionAndValue": "Teksti ja arvo",
     "Cartesian": "Karteesinen",
     "CartesianCoords": "XY-koordinaatit",
     "CartesianCoords3D": "Karteesiset xyz-koordinaatit",

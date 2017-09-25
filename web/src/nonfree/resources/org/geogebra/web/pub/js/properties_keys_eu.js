@@ -1339,6 +1339,7 @@ __GGB__keysVar.eu.menu = {
     "CalligraphicLetters": "Letra Kaligrafikoak",
     "Cancel": "Utzi",
     "Caption": "Azpititulua",
+    "CaptionAndValue": "Azpititulua eta balioa",
     "Cartesian": "Kartesiarra",
     "CartesianCoords": "Koordenatu cartesiarrak",
     "CartesianCoords3D": "3D Koordenatu Cartesiarrak",

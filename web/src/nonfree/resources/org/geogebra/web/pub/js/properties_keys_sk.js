@@ -1339,6 +1339,7 @@ __GGB__keysVar.sk.menu = {
     "CalligraphicLetters": "Kaligrafick\xe9 p\xedsmen\xe1",
     "Cancel": "Zru\u0161i\u0165",
     "Caption": "Popis",
+    "CaptionAndValue": "Popis a hodnota",
     "Cartesian": "Kartezi\xe1nsky",
     "CartesianCoords": "Kartesi\xe1nske s\xfaradnice",
     "CartesianCoords3D": "3D Kartezi\xe1nske s\xfaradnice",

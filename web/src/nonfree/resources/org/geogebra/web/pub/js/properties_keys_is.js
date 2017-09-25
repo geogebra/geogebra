@@ -1339,6 +1339,7 @@ __GGB__keysVar.is.menu = {
     "CalligraphicLetters": "Skrautskrift",
     "Cancel": "H\xe6tta vi\xf0",
     "Caption": "Sk\xfdringartexti",
+    "CaptionAndValue": "Sk\xfdringartexti og gildi",
     "Cartesian": "Kartes\xedsk",
     "CartesianCoords": "Kartesarhnit",
     "CartesianCoords3D": "3D Kartes\xedsk hnit",

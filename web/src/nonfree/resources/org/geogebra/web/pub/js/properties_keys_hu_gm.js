@@ -1339,6 +1339,7 @@ __GGB__keysVar.hu_gm.menu = {
     "CalligraphicLetters": "Kalligrafikus karakterek",
     "Cancel": "M\xe9gse",
     "Caption": "C\xedmke",
+    "CaptionAndValue": "C\xedmke & \xe9rt\xe9k",
     "Cartesian": "Descartes",
     "CartesianCoords": "Der\xe9ksz\xf6g\u0171 koordin\xe1t\xe1k",
     "CartesianCoords3D": "3D Descartes-koordin\xe1t\xe1k",

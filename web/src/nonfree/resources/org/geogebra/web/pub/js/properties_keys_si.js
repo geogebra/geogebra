@@ -1339,6 +1339,7 @@ __GGB__keysVar.si.menu = {
     "CalligraphicLetters": "Calligraphic Letters",
     "Cancel": "\u0d85\u0dc0\u0dbd\u0d82\u0d9c\u0dd4 \u0d9a\u0dbb\u0db1\u0dca\u0db1",
     "Caption": "\u0db8\u0dcf\u0dad\u0dd8\u0d9a\u0dcf\u0dc0",
+    "CaptionAndValue": "\u0db1\u0dcf\u0db8\u0dba \u0dc3\u0dc4 \u0d85\u0d9c\u0dba",
     "Cartesian": "Cartesian",
     "CartesianCoords": "\u0d9a\u0dcf\u0da7\u0dd2\u0dc3\u0dd3\u0dba \u0d9b\u0dab\u0dca\u0da9\u0dcf\u0d82\u0d9a",
     "CartesianCoords3D": "\u0dc3\u0dd2\u0dba\u0dbd\u0dd4 \u0d85\u0daf\u0dc4\u0dc3\u0dca \u0d8b\u0daf\u0dc4\u0dc3\u0dca",

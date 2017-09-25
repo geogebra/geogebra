@@ -1339,6 +1339,7 @@ __GGB__keysVar.kn.menu = {
     "CalligraphicLetters": "Calligraphic Letters",
     "Cancel": "\u0cb0\u0ca6\u0ccd\u0ca6\u0cc1\u0c97\u0cca\u0cb3\u0cbf\u0cb8\u0cc1",
     "Caption": "\u0ca4\u0cb2\u0cc6\u0cac\u0cb0\u0cb9",
+    "CaptionAndValue": "Name & Value",
     "Cartesian": "\u0c95\u0cbe\u0cb0\u0ccd\u0c9f\u0cc0\u0cb8\u0cbf\u0caf\u0ca8\u0ccd\u0ca8\u0cbf\u0ca8",
     "CartesianCoords": "Cartesian Coordinates",
     "CartesianCoords3D": "3D Cartesian Coordinates",

@@ -1339,6 +1339,7 @@ __GGB__keysVar.eo.menu = {
     "CalligraphicLetters": "Kaligrafiaj literoj",
     "Cancel": "Nuligi",
     "Caption": "Apudskribo",
+    "CaptionAndValue": "Apudskribo kaj valoro",
     "Cartesian": "Kartezia",
     "CartesianCoords": "Karteziaj Koordinatoj",
     "CartesianCoords3D": "3D Cartesian Coordinates",

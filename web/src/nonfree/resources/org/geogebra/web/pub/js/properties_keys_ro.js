@@ -1339,6 +1339,7 @@ __GGB__keysVar.ro.menu = {
     "CalligraphicLetters": "Litere caligrafice",
     "Cancel": "Anulare",
     "Caption": "Legend\u0103",
+    "CaptionAndValue": "Legend\u0103 \u015fi valoare",
     "Cartesian": "Cartezian",
     "CartesianCoords": "Coordonate carteziane",
     "CartesianCoords3D": "Coordonate carteziene 3D",

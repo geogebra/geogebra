@@ -1339,6 +1339,7 @@ __GGB__keysVar.sq.menu = {
     "CalligraphicLetters": "Shkronja Kaligrafike",
     "Cancel": "Anulloj",
     "Caption": "Legjende",
+    "CaptionAndValue": "Legjende dhe Vlere",
     "Cartesian": "Kartezian",
     "CartesianCoords": "Koordinata Karteziane",
     "CartesianCoords3D": "3D Cartesian Coordinates",

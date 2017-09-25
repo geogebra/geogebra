@@ -1339,6 +1339,7 @@ __GGB__keysVar.nl_NL.menu = {
     "CalligraphicLetters": "Calligrafische letters",
     "Cancel": "Annuleren",
     "Caption": "Titel",
+    "CaptionAndValue": "Titel & waarde",
     "Cartesian": "Cartesiaans",
     "CartesianCoords": "Cartesische co\xf6rdinaten",
     "CartesianCoords3D": "3D Cartesische co\xf6rdinaten",

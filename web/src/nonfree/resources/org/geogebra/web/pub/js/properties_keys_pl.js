@@ -1339,6 +1339,7 @@ __GGB__keysVar.pl.menu = {
     "CalligraphicLetters": "Czcionka Calligraphic",
     "Cancel": "Anuluj",
     "Caption": "Opis",
+    "CaptionAndValue": "Opis i Warto\u015b\u0107",
     "Cartesian": "Kartezja\u0144ski",
     "CartesianCoords": "Wsp\xf3\u0142rz\u0119dne kartezja\u0144skie",
     "CartesianCoords3D": "3D Wsp\xf3\u0142rz\u0119dne kartezja\u0144skie",

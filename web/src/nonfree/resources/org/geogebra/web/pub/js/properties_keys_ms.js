@@ -1339,6 +1339,7 @@ __GGB__keysVar.ms.menu = {
     "CalligraphicLetters": "Huruf-huruf Seni Khat",
     "Cancel": "Batal",
     "Caption": "Kapsyen",
+    "CaptionAndValue": "Kapsyen & Nilai",
     "Cartesian": "Cartesan",
     "CartesianCoords": "Koordinat-koordinat Cartesan",
     "CartesianCoords3D": "Koordinat Kartesian 3D",

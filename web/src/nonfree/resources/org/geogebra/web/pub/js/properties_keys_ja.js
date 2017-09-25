@@ -1339,6 +1339,7 @@ __GGB__keysVar.ja.menu = {
     "CalligraphicLetters": "\u7b46\u8a18\u4f53",
     "Cancel": "\u53d6\u308a\u6d88\u3057",
     "Caption": "\u898b\u51fa\u3057",
+    "CaptionAndValue": "\u540d\u524d\u3068\u5024",
     "Cartesian": "\u76f4\u4ea4\u5ea7\u6a19",
     "CartesianCoords": "\u76f4\u4ea4\u5ea7\u6a19",
     "CartesianCoords3D": "\uff13\u6b21\u5143\u76f4\u4ea4\u5ea7\u6a19",

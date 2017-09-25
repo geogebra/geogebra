@@ -1339,6 +1339,7 @@ __GGB__keysVar.xh.menu = {
     "CalligraphicLetters": "Oonobumba beCalligraphic",
     "Cancel": "Cima",
     "Caption": "Ingongoma",
+    "CaptionAndValue": "Ingongoma & Ixabiso",
     "Cartesian": "iCartesian",
     "CartesianCoords": "Amawele eCartesian",
     "CartesianCoords3D": "iiKhoordineyti",
