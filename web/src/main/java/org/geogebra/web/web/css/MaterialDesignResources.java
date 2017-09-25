@@ -114,8 +114,54 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_sort_black_24px.svg")
 	SVGResource sort_black();
 
-	// @Source("org/geogebra/common/icons/png/matDesignIcons/contextMenu/content_copy_black.png")
-	// ImageResource copy_content_black();
+	// LINES
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dash_dot.svg")
+	SVGResource line_dash_dot();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dashed_long.svg")
+	SVGResource line_dashed_long();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dashed_short.svg")
+	SVGResource line_dashed_short();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_dotted.svg")
+	SVGResource line_dotted();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_line_solid.svg")
+	SVGResource line_solid();
+
+	// POINTS
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_full.svg")
+	SVGResource point_full();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_empty.svg")
+	SVGResource point_empty();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_cross.svg")
+	SVGResource point_cross();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_cross_diag.svg")
+	SVGResource point_cross_diag();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_diamond_full.svg")
+	SVGResource point_diamond();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_diamond_empty.svg")
+	SVGResource point_diamond_empty();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_up.svg")
+	SVGResource point_up();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_down.svg")
+	SVGResource point_down();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_left.svg")
+	SVGResource point_left();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_right.svg")
+	SVGResource point_right();
 
 	// plus menu icon resources
 
@@ -163,7 +209,8 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
 	SVGResource gere();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/gridSVG.svg")
+	// @Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/gridSVG.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/point_capturing.svg")
 	SVGResource snap_to_grid();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/settings.svg")

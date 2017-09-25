@@ -1,10 +1,14 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * image or text holder
+ */
 public class ImageOrText {
 	private String url = null;
 	private String text = null;
@@ -12,8 +16,11 @@ public class ImageOrText {
 	private int bgSize;
 	private String className;
 
+	/**
+	 * empty constructor
+	 */
 	public ImageOrText() {
-	    // TODO Auto-generated constructor stub
+		// empty constructor
     }
 
 	/**
@@ -24,16 +31,49 @@ public class ImageOrText {
 		this.setText(string);
 	}
 
+	/**
+	 * @param res
+	 *            image resource
+	 */
 	public ImageOrText(ImageResource res) {
 		setResource(res);
 		bgSize = res.getWidth();
 	}
 
-	public void setResource(ImageResource res) {
-		setUrl(res.getSafeUri().asString());
-
+	/**
+	 * @param res
+	 *            svg resource
+	 * @param width
+	 *            width
+	 */
+	public ImageOrText(SVGResource res, int width) {
+		setSvgRes(res);
+		bgSize = width;
 	}
 
+	/**
+	 * @param res
+	 *            svg resource
+	 */
+	public void setSvgRes(SVGResource res) {
+		setUrl(res.getSafeUri().asString());
+	}
+
+	/**
+	 * @param res
+	 *            resource
+	 */
+	public void setResource(ImageResource res) {
+		setUrl(res.getSafeUri().asString());
+	}
+
+	/**
+	 * @param res
+	 *            resource
+	 * @param size
+	 *            size
+	 * @return converted array
+	 */
 	public static ImageOrText[] convert(ImageResource[] res, int size) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){
@@ -46,6 +86,11 @@ public class ImageOrText {
 	    return arr;
     }
 	
+	/**
+	 * @param res
+	 *            resource
+	 * @return converted array
+	 */
 	public static ImageOrText[] convert(String[] res) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){
@@ -150,10 +195,19 @@ public class ImageOrText {
 		return this.text;
 	}
 
+	/**
+	 * @param size
+	 *            size
+	 */
 	public void setBgSize(int size) {
 		this.bgSize = size;
 	}
 
+	/**
+	 * @param string
+	 *            class name
+	 * @return this image
+	 */
 	public ImageOrText setClass(String string) {
 		this.className = string;
 		return this;

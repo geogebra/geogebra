@@ -6,38 +6,58 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 
 import com.google.gwt.resources.client.ImageResource;
 
+/**
+ * icon resources (point style, line style, etc.)
+ */
 public class GeoGebraIconW extends BasicIcons {
 
 	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
-	private static ImageResource[] pointStyleIcons =  {
-		(LafIcons.point_full()),
-		(LafIcons.point_cross_diag()),
-		(LafIcons.point_empty()),
-		(LafIcons.point_cross()),
-		(LafIcons.point_diamond()),
-		(LafIcons.point_diamond_empty()),
-		(LafIcons.point_up()),
-		(LafIcons.point_down()),
-		(LafIcons.point_right()),
-		(LafIcons.point_left())};
-	private static ImageResource[] gridStyleIcons =  {
-		(LafIcons.stylingbar_empty()),
-		(LafIcons.grid()),
-		(LafIcons.polar_grid()),
-		(LafIcons.isometric_grid())};
+	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
+	/*
+	 * private static ImageResource[] pointStyleIcons = {
+	 * (LafIcons.point_full()), (LafIcons.point_cross_diag()),
+	 * (LafIcons.point_empty()), (LafIcons.point_cross()),
+	 * (LafIcons.point_diamond()), (LafIcons.point_diamond_empty()),
+	 * (LafIcons.point_up()), (LafIcons.point_down()), (LafIcons.point_right()),
+	 * (LafIcons.point_left())};
+	 */
 
-	private static ImageResource[] lineStyleIcons = { LafIcons.line_solid(),
-			LafIcons.line_dashed_long(), LafIcons.line_dashed_short(),
-			LafIcons.line_dotted(), LafIcons.line_dash_dot(),
-			LafIcons.point_cross_diag() };
+	private static ImageResource[] gridStyleIcons = {
+			(LafIcons.stylingbar_empty()), (LafIcons.grid()),
+			(LafIcons.polar_grid()), (LafIcons.isometric_grid()) };
+
+	private static SVGResource[] pointStyleSVGIcons = {
+			matIcons.point_full(),
+			matIcons.point_cross_diag(), matIcons.point_empty(),
+			matIcons.point_cross(), matIcons.point_diamond(),
+			matIcons.point_diamond_empty(), matIcons.point_up(),
+			matIcons.point_down(), matIcons.point_right(),
+			matIcons.point_left() };
+
+	/*
+	 * private static ImageResource[] lineStyleIcons = { LafIcons.line_solid(),
+	 * LafIcons.line_dashed_long(), LafIcons.line_dashed_short(),
+	 * LafIcons.line_dotted(), LafIcons.line_dash_dot(),
+	 * LafIcons.point_cross_diag() };
+	 */
 	
-	private static ImageResource[] fillStyleIcons = { (LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
-			(LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()), (LafIcons.pattern_honeycomb()) };
+	private static SVGResource[] lineStyleSVGIcons = {
+			matIcons.line_solid(),
+			matIcons.line_dashed_long(), matIcons.line_dashed_short(),
+			matIcons.line_dotted(), matIcons.line_dash_dot(),
+			matIcons.point_cross_diag() };
+
+	private static ImageResource[] fillStyleIcons = {
+			(LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
+			(LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()),
+			(LafIcons.pattern_honeycomb()) };
 
 	/**
 	 * creates LineStyle icon
@@ -47,11 +67,10 @@ public class GeoGebraIconW extends BasicIcons {
 	 * @return Canvas with icon drawn
 	 */
 	public static ImageOrText createLineStyleIcon(int dashStyle) {
-		if (dashStyle >= lineStyleIcons.length) {
+		if (dashStyle >= lineStyleSVGIcons.length) {
 			return new ImageOrText();
 		}
-		return new ImageOrText(lineStyleIcons[dashStyle]);
-
+		return new ImageOrText(lineStyleSVGIcons[dashStyle], 24);
 	}
 
 	/**
@@ -60,12 +79,18 @@ public class GeoGebraIconW extends BasicIcons {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createPointStyleIcon(int pointStyle) {
-		return new ImageOrText(pointStyleIcons[pointStyle]);
+		return new ImageOrText(pointStyleSVGIcons[pointStyle], 24);
     }
 	
+	/**
+	 * @param fillStyle
+	 *            fill style id
+	 * @return {@link ImageOrText}
+	 */
 	public static ImageOrText createFillStyleIcon(int fillStyle) {
 		return new ImageOrText(fillStyleIcons[fillStyle]);
 	}
+
 	/**
 	 * @param pointStyle
 	 *            int
@@ -84,6 +109,7 @@ public class GeoGebraIconW extends BasicIcons {
 	 *            {@link GColor}
 	 * @return {@link ImageOrText}
 	 */
+
 	public static ImageOrText createColorSwatchIcon(double alpha,
 			GColor fgColor,
 			GColor bgColor) {
@@ -156,7 +182,6 @@ public class GeoGebraIconW extends BasicIcons {
 				url =  GuiResources.INSTANCE.deco_angle_1line();
 		}
 		return new ImageOrText(url);
-
 	}
 
 	/**
@@ -166,7 +191,6 @@ public class GeoGebraIconW extends BasicIcons {
 	 */
 	public static ImageOrText createDecorSegmentIcon(int id) {
 		ImageResource url = null;
-
 		switch (id) {		
 		case GeoElement.DECORATION_SEGMENT_ONE_TICK:
 			url =  GuiResources.INSTANCE.deco_segment_1stroke();
@@ -190,19 +214,17 @@ public class GeoGebraIconW extends BasicIcons {
 			url =  GuiResources.INSTANCE.deco_segment_none();
 			break;
 		}
-
 		return new ImageOrText(url);
-
     }
 
 	/**
 	 * @param id
 	 *            {@code int}
+	 * @param newStyle
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createAxesStyleIcon(int id, boolean newStyle) {
 		ImageResource url = null;
-
 		if (newStyle) {
 			switch (id) {
 			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
@@ -217,7 +239,6 @@ public class GeoGebraIconW extends BasicIcons {
 			default:
 				url = StyleBarResources.INSTANCE.stylingbar_empty();
 			}
-
 		} else {
 			switch (id) {
 			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
@@ -236,7 +257,6 @@ public class GeoGebraIconW extends BasicIcons {
 				url = GuiResources.INSTANCE.deco_axes_none();
 			}
 		}
-
 		return new ImageOrText(url);
 	}
 }
