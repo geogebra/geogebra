@@ -1041,6 +1041,13 @@ public abstract class GlobalKeyDispatcher {
 		if (isAltDown) {
 			base = 100;
 		}
+
+		if (app.has(Feature.TAB_ON_GUI) && isControlDown && isShiftDown
+				&& (key == KeyCodes.LEFT || key == KeyCodes.RIGHT)) {
+			toggleTabOverGeos();
+			return true;
+		}
+
 		// Log.debug("key pressed");
 		if (geos == null || geos.size() == 0) {
 

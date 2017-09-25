@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -541,6 +542,10 @@ public class GlobalKeyDispatcherW extends
 	 */
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
+		if (!app.has(Feature.TAB_ON_GUI) || !isTabOverGeos()) {
+			return true;
+		}
+
 		app.getActiveEuclidianView().closeDropdowns();
 		
 		if (isShiftDown) {
