@@ -321,6 +321,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				scaler.addClassName("fullscreen");
 				if (ipad) {
 					cssScale = ae.getParentScaleX();
+					container.getStyle().setProperty("left", "0px");
 					scaler.addClassName("fullscreen-ipad");
 				}
 
@@ -338,6 +339,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				t.schedule(50);
 			} else {
 				if (ipad) {
+					container.getStyle().clearLeft();
 					scaler.removeClassName("fullscreen-ipad");
 					onExitFullscreen();
 					if (cssScale != 0) {
