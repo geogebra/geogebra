@@ -1124,11 +1124,6 @@ public abstract class GlobalKeyDispatcher {
 					break;
 
 				case LEFT:
-					if (app.has(Feature.TAB_ON_GUI) && isControlDown
-							&& isShiftDown) {
-						toggleTabOverGeos();
-						return true;
-					}
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
@@ -1151,12 +1146,6 @@ public abstract class GlobalKeyDispatcher {
 					break;
 
 				case RIGHT:
-					if (app.has(Feature.TAB_ON_GUI) && isControlDown
-							&& isShiftDown) {
-						toggleTabOverGeos();
-						return true;
-					}
-
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
