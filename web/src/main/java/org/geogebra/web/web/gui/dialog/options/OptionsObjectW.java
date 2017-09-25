@@ -165,7 +165,9 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 				@Override
 				public void onChange(ChangeEvent event) {
-					model.applyModeChanges(labelMode.getSelectedIndex(), true);
+					model.applyModeChanges(
+							model.fromDropdown(labelMode.getSelectedIndex()),
+							true);
 				}
 
 			});

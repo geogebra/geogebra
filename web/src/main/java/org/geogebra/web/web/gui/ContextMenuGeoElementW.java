@@ -1465,7 +1465,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						@Override
 						public void execute() {
 							if (idx == 0) {
-								model.applyModeChanges(4, false);
+								model.applyModeChanges(GeoElement.LABEL_DEFAULT,
+										false);
 							} else {
 								model.applyModeChanges(idx - 1, true);
 							}

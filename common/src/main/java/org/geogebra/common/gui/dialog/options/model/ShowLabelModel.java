@@ -109,4 +109,14 @@ public class ShowLabelModel extends OptionsModel {
 				|| geo.isGeoInputBox();
 
 	}
+
+	public static int getDropdownIndex(GeoElement geo0) {
+		return geo0.getLabelMode() == GeoElement.LABEL_CAPTION_VALUE ? 4
+				: Math.min(geo0.getLabelMode(), 3);
+	}
+
+	public int fromDropdown(int selectedIndex) {
+		return selectedIndex > 3 ? GeoElement.LABEL_CAPTION_VALUE
+				: selectedIndex;
+	}
 }

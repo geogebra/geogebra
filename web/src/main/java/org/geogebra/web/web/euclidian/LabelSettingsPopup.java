@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -41,10 +42,11 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		implements CloseHandler<GPopupPanel>, MouseOverHandler, SetLabels,
 		INameValueListener {
 
-	private static final int LABEL_MODE_NAME_ONLY = 0;
-	private static final int LABEL_MODE_NAME_AND_VALUE = 1;
-	private static final int LABEL_MODE_VALUE_ONLY = 2;
-	private static final int LABEL_MODE_CAPTION = 3;
+	// private static final int LABEL_MODE_NAME_ONLY = GeoElement.LABEL_NAME;
+	// private static final int LABEL_MODE_NAME_AND_VALUE =
+	// GeoElement.LABEL_NAME_VALUE;
+	// private static final int LABEL_MODE_VALUE_ONLY = 2;
+	// private static final int LABEL_MODE_CAPTION = GeoElement.LABEL_CAPTION;
 
 	/**
 	 * popup menu
@@ -204,12 +206,13 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		boolean value = cmValue.isChecked();
 		int mode = -1;
 		if (name && !value) {
-			mode = model.isForceCaption() ? LABEL_MODE_CAPTION
-					: LABEL_MODE_NAME_ONLY;
+			mode = model.isForceCaption() ? GeoElement.LABEL_CAPTION
+					: GeoElement.LABEL_NAME;
 		} else if (name && value) {
-			mode = LABEL_MODE_NAME_AND_VALUE;
+			mode = model.isForceCaption() ? GeoElement.LABEL_CAPTION_VALUE
+					: GeoElement.LABEL_NAME_VALUE;
 		} else if (!name && value) {
-			mode = LABEL_MODE_VALUE_ONLY;
+			mode = GeoElement.LABEL_VALUE;
 		}
 		// !name && !value: hide, nothing to do.
 
@@ -235,14 +238,14 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		cmName.setChecked(
 				(!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
 						|| isEqualVal)
-						&& (mode == LABEL_MODE_NAME_ONLY
-				|| mode == LABEL_MODE_NAME_AND_VALUE
-				|| mode == LABEL_MODE_CAPTION));
+						&& (mode == GeoElement.LABEL_NAME
+								|| mode == GeoElement.LABEL_NAME_VALUE
+								|| mode == GeoElement.LABEL_CAPTION));
 		cmValue.setChecked(
 				(!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
 						|| isEqualMode)
-						&& (mode == LABEL_MODE_VALUE_ONLY
-				|| mode == LABEL_MODE_NAME_AND_VALUE));
+						&& (mode == GeoElement.LABEL_VALUE
+								|| mode == GeoElement.LABEL_NAME_VALUE));
 	}
 
 	@Override

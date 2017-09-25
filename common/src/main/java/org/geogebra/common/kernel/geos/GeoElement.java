@@ -186,6 +186,8 @@ public abstract class GeoElement extends ConstructionElement
 	public static final int LABEL_DEFAULT_VALUE = 7;
 	/** label mode: default, caption */
 	public static final int LABEL_DEFAULT_CAPTION = 8;
+	/** caption + value */
+	public static final int LABEL_CAPTION_VALUE = 9;
 
 	/** tooltip mode: iff AV showing */
 	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
@@ -620,6 +622,7 @@ public abstract class GeoElement extends ConstructionElement
 			case LABEL_NAME_VALUE:
 			case LABEL_VALUE:
 			case LABEL_CAPTION:
+			case LABEL_CAPTION_VALUE:
 				// old values for default geos: set label to default
 				labelMode = LABEL_DEFAULT;
 				break;
@@ -650,7 +653,9 @@ public abstract class GeoElement extends ConstructionElement
 			case LABEL_DEFAULT_CAPTION:
 				labelMode = LABEL_CAPTION;
 				break;
-
+			case LABEL_CAPTION_VALUE:
+				labelMode = LABEL_CAPTION_VALUE;
+				break;
 			case LABEL_DEFAULT:
 				setLabelModeDefault();
 				break;
@@ -5045,9 +5050,10 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	public String getLabelDescription() {
 		switch (labelMode) {
+		case LABEL_CAPTION_VALUE:
+			return getCaptionAndValue();
 		case LABEL_NAME_VALUE:
-			return getKernel().getApplication().has(Feature.LABEL_NAME_CAPTION)
-					? getCaptionAndValue() : getAlgebraDescriptionDefault();
+			return getAlgebraDescriptionDefault();
 
 		case LABEL_VALUE:
 			return toDefinedValueString(StringTemplate.defaultTemplate);

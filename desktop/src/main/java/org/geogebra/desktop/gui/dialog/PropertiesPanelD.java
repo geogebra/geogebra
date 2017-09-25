@@ -1247,6 +1247,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			labelModeCB.addItem(loc.getMenu("NameAndValue")); // index 1
 			labelModeCB.addItem(loc.getMenu("Value")); // index 2
 			labelModeCB.addItem(loc.getMenu("Caption")); // index 3
+			labelModeCB.addItem(loc.getMenu("CaptionAndValue")); // index 9
 
 			labelModeCB.setSelectedIndex(selectedIndex);
 			labelModeCB.addActionListener(this);
@@ -1316,7 +1317,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			Object source = e.getSource();
 			if (source == labelModeCB) {
 				showLabelCB.setSelected(true);
-				model.applyModeChanges(labelModeCB.getSelectedIndex(), true);
+				model.applyModeChanges(
+						model.fromDropdown(labelModeCB.getSelectedIndex()),
+						true);
 			}
 		}
 
@@ -1353,7 +1356,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			ignoreEvents = true;
 			// set label visible checkbox
 			if (isEqualMode) {
-				labelModeCB.setSelectedIndex(Math.min(geo0.getLabelMode(), 3));
+				labelModeCB
+						.setSelectedIndex(
+								ShowLabelModel.getDropdownIndex(geo0));
 			} else {
 				labelModeCB.setSelectedItem(null);
 			}
