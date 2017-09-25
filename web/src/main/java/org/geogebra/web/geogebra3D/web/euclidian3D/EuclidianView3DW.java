@@ -84,7 +84,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	private long lastRepaint;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
-	private boolean waitForNewRepaint = false;
+	private int objectsWaitingForNewRepaint = 0;
 
 	private boolean readyToRender = false;
 
@@ -548,10 +548,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
 
-		if (waitForNewRepaint) {
+		if (objectsWaitingForNewRepaint > 0) {
 			kernel.notifyControllersMoveIfWaiting();
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
-			waitForNewRepaint = false;
+			objectsWaitingForNewRepaint--;
 		} else {
 			waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 		}
@@ -582,7 +582,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	final public void waitForNewRepaint() {
-		waitForNewRepaint = true;
+		objectsWaitingForNewRepaint++;
 	}
 
 	/**

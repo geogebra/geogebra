@@ -969,6 +969,10 @@ public abstract class GeoElement extends ConstructionElement
 		return '=';
 	}
 
+	private String getLabelDelimiterWithSpace() {
+		return getLabelDelimiter() == '=' ? " = " : getLabelDelimiter() + " ";
+	}
+
 	/**
 	 * Returns the definition of this GeoElement for the input field, e.g. A1 =
 	 * 5, B1 = A1 + 2
@@ -1010,10 +1014,8 @@ public abstract class GeoElement extends ConstructionElement
 
 			// check needed for eg f(x) = g(x) + h(x), f(x) = sin(x)
 			// beware correct vars for f(t) = t + a
-			final char delimiter = getLabelDelimiter();
-
 			inputBarStr = getAssignmentLHS(stringTemplate)
-						+ (delimiter == '=' ? " =" : delimiter) + " "
+					+ getLabelDelimiterWithSpace()
 						+ inputBarStr;
 
 		} else {
@@ -5177,7 +5179,7 @@ public abstract class GeoElement extends ConstructionElement
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append(getRawCaption());
-		sb.append(":");
+		sb.append(getLabelDelimiterWithSpace());
 		sb.append(toValueString(StringTemplate.defaultTemplate));
 		return sb.toString();
 	}
@@ -5459,10 +5461,8 @@ public abstract class GeoElement extends ConstructionElement
 
 		}
 		if (ret != null && ret.length() > 0) {
-			final char delimiter = getLabelDelimiter();
-
 			ret = getAssignmentLHS(StringTemplate.editTemplate)
-					+ (delimiter == '=' ? " =" : delimiter) + " " + ret;
+					+ getLabelDelimiterWithSpace() + ret;
 
 			return ret;
 		}
