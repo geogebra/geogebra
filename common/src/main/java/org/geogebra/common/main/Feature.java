@@ -314,5 +314,8 @@ public enum Feature {
 	MOB_EV_SETTINGS_POPUP,
 
 	/** AND-465 */
-	MOB_DYNAMIC_SYLEBAR
+	MOB_DYNAMIC_SYLEBAR,
+
+	/** GGB-20533 */
+	TAB_ON_GUI
 }

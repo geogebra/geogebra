@@ -38,6 +38,7 @@ public abstract class GlobalKeyDispatcher {
 
 	private static final double AUTOSTEPS_PER_KEY = 5;
 
+	private boolean tabOverGeos = true;
 	/**
 	 * @param app2
 	 *            app
@@ -316,8 +317,9 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case TAB:
-
-			consumed = handleTab(isControlDown, isShiftDown, true);
+			if (!app.has(Feature.TAB_ON_GUI) || isTabOverGeos()) {
+				consumed = handleTab(isControlDown, isShiftDown, true);
+			}
 
 			break;
 
@@ -1115,7 +1117,11 @@ public abstract class GlobalKeyDispatcher {
 					break;
 
 				case LEFT:
-
+					if (app.has(Feature.TAB_ON_GUI) && isControlDown
+							&& isShiftDown) {
+						toggleTabOverGeos();
+						return true;
+					}
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
@@ -1138,6 +1144,11 @@ public abstract class GlobalKeyDispatcher {
 					break;
 
 				case RIGHT:
+					if (app.has(Feature.TAB_ON_GUI) && isControlDown
+							&& isShiftDown) {
+						toggleTabOverGeos();
+						return true;
+					}
 
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
@@ -1487,5 +1498,28 @@ public abstract class GlobalKeyDispatcher {
 
 		}
 		return false;
+	}
+
+	/**
+	 * @return true if TAB navigates through geos, false if through GUI elements
+	 *         only.
+	 */
+	public boolean isTabOverGeos() {
+		return tabOverGeos;
+	}
+
+	/**
+	 * sets if TAB should navigate through geos or GUI elements only.
+	 */
+	public void setTabOverGeos(boolean tabOverGeos) {
+		this.tabOverGeos = tabOverGeos;
+	}
+
+	/**
+	 * Toggle TAB behaviour
+	 */
+	public void toggleTabOverGeos() {
+		this.tabOverGeos = !tabOverGeos;
+		Log.debug("tabOverGeos" + tabOverGeos);
 	}
 }
