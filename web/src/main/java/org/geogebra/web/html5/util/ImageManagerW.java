@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -80,8 +81,11 @@ public class ImageManagerW extends ImageManager {
 	}
 
 	public ImageElement getExternalImage(String fileName, AppW app1) {
-		ImageElement match = externalImageTable.get(StringUtil
-		        .removeLeadingSlash(fileName));
+		ImageElement match = getMatch(fileName);
+		if(match == null){
+			match = getMatch(StringUtil.changeFileExtension(fileName,
+					FileExtensions.PNG));
+		}
 		// FIXME this is a bit hacky: if we did not get precise match, assume
 		// encoding problem and rely on MD5
 		if (match == null
@@ -97,6 +101,10 @@ public class ImageManagerW extends ImageManager {
 			}
 		}
 		return match;
+	}
+
+	private ImageElement getMatch(String fileName) {
+		return externalImageTable.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
 	public static GBufferedImage toBufferedImage(ImageElement im) {
