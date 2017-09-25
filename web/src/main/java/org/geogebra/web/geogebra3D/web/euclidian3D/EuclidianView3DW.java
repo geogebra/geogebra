@@ -551,6 +551,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		if (waitForNewRepaint) {
 			kernel.notifyControllersMoveIfWaiting();
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+			waitForNewRepaint = false;
 		} else {
 			waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 		}
