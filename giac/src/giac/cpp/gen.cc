@@ -11177,7 +11177,7 @@ namespace giac {
       else
 	d=strtod(s,&endchar);	
 #else
-      char * lc=setlocale(LC_NUMERIC,0);
+      char * lc=setlocale(LC_NUMERIC,(char const *)NULL);
       setlocale(LC_NUMERIC,"POSIX");
       d=strtod(s,&endchar);
       setlocale(LC_NUMERIC,lc);

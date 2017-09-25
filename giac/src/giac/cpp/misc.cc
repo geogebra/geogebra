@@ -6891,9 +6891,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvidf.push_back(string2gen("-",false));
       }
       if (is_strictly_positive(convt,contextptr))
-	tviconv.push_back(string2gen("convex",false));
+	tviconv.push_back(string2gen(abs_calc_mode(contextptr)==38?"∪":"convex",false));
       else
-	tviconv.push_back(string2gen("concav",false));
+	tviconv.push_back(string2gen(abs_calc_mode(contextptr)==38?"∩":"concav",false));
       if (is_strictly_positive(dgx,contextptr)){
 #if defined NSPIRE || defined NSPIRE_NEWLIB || defined HAVE_WINT_T
 	tvig.push_back(string2gen("↑",false));
@@ -7364,10 +7364,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  tvidf2.push_back(string2gen("X",false));
 	else {
 	  if (is_strictly_positive(df2,contextptr)){
-	    tvidf2.push_back(string2gen("convex",false));
+	    tvidf2.push_back(string2gen(abs_calc_mode(contextptr)==38?"∪":"convex",false));
 	  }
 	  else {
-	    tvidf2.push_back(string2gen("concav",false));
+	    tvidf2.push_back(string2gen(abs_calc_mode(contextptr)==38?"∩":"concav",false)); 
 	  }
 	}
       }

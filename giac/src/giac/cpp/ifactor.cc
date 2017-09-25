@@ -29,7 +29,6 @@ using namespace std;
 #ifdef GIAC_HAS_STO_38
 //#undef clock
 //#undef clock_t
-#include "PrimePCH.h"
 #else
 #include <fstream>
 //#include <unistd.h> // For reading arguments from file

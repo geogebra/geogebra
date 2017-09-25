@@ -48,11 +48,9 @@ using namespace std;
 
 // C headers
 #include <stdio.h>
-#ifndef __VISUALC__
-#ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#ifndef __VISUALC__ 
+#if !defined RTOS_THREADX && !defined BESTA_OS && !defined FREERTOS
 #include <fcntl.h>
-#endif
 #endif
 #endif // __VISUALC__
 

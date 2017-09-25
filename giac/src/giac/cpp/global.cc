@@ -78,13 +78,9 @@ using namespace std;
 #endif // win32
 #endif // ndef bestaos
 
-#if defined VISUALC || defined BESTA_OS
-#ifndef RTOS_THREADX
-#ifndef BESTA_OS
+#if defined VISUALC && !defined BESTA_OS && !defined RTOS_THREADX && !defined FREERTOS
 #include <Windows.h>
-#endif // besta_os
-#endif // rtos_threadx
-#endif // visualc || besta_os
+#endif 
 
 #ifdef BESTA_OS
 #include <stdlib.h>

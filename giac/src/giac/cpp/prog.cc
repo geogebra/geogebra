@@ -9465,6 +9465,10 @@ namespace giac {
     if (is_undef(v)) return v;
     gen res1=v[0];
     int s=int(v.size());
+    for (;s>0;--s){
+      if (!is_zero(v[s-1]))
+	break;
+    }
     if (s>5)
       return g;
     for (int i=s;i<5;++i)
