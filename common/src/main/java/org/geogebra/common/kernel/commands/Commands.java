@@ -238,6 +238,11 @@ public enum Commands implements CommandsConstants,
 
 	Roots(TABLE_FUNCTION),
 
+	/**
+	 * bad translation, actually InflectionPoint
+	 * 
+	 * name just used internally and in XML
+	 */
 	TurningPoint(TABLE_FUNCTION),
 
 	Polynomial(TABLE_FUNCTION),
@@ -964,6 +969,8 @@ public enum Commands implements CommandsConstants,
 
 	DelaunayTriangulation(TABLE_ENGLISH),
 
+	InflectionPoint(TABLE_ENGLISH),
+
 	// =================================================================
 	// 3D
 	// =============================================================
@@ -1206,6 +1213,8 @@ public enum Commands implements CommandsConstants,
 			return SecondAxisLength;
 		case UnitPerpendicularVector:
 			return UnitOrthogonalVector;
+		case InflectionPoint:
+			return TurningPoint;
 		case CorrelationCoefficient:
 			return PMCC;
 		case FitLine:

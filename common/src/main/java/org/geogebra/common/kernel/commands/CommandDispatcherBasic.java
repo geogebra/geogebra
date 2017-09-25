@@ -131,6 +131,7 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdIf(kernel);
 		case Root:
 			return new CmdRoot(kernel);
+		case InflectionPoint:
 		case TurningPoint:
 			return new CmdTurningPoint(kernel);
 		case Polynomial:
