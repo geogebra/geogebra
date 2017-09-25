@@ -42,7 +42,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
 	private String containerPositionBefore;
-	private String containerMarginLeft, containerMarginTop;
+	private String containerLeft;
+	private String containerMarginLeft;
+	private String containerMarginTop;
 	private double cssScale = 0;
 
 	public ZoomPanel(EuclidianView view) {
@@ -320,6 +322,8 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				}
 				scaler.addClassName("fullscreen");
 				if (ipad) {
+					containerLeft = container.getStyle()
+							.getProperty("left");
 					cssScale = ae.getParentScaleX();
 					container.getStyle().setProperty("left", "0px");
 					scaler.addClassName("fullscreen-ipad");
@@ -339,7 +343,10 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				t.schedule(50);
 			} else {
 				if (ipad) {
-					container.getStyle().clearLeft();
+					if (containerLeft != null) {
+						container.getStyle().setProperty("left", containerLeft);
+
+					}
 					scaler.removeClassName("fullscreen-ipad");
 					onExitFullscreen();
 					if (cssScale != 0) {
