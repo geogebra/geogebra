@@ -207,7 +207,8 @@ public abstract class CanvasDrawable extends Drawable {
 	}
 
 	public GFont getLabelFont() {
-		return labelFont;
+		// deriveFont() as quick fix for GGB-2094
+		return labelFont.deriveFont(GFont.PLAIN);
 	}
 
 	private void setLabelFont(GFont labelFont) {
