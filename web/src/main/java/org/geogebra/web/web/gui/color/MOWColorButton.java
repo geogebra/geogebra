@@ -41,13 +41,10 @@ public class MOWColorButton extends ColorPopupMenuButton {
 	private void createFillTable() {
 		ImageOrText[] icons = new ImageOrText[FILL_TYPES_COUNT];
 		for (int i = 0; i < FILL_TYPES_COUNT; i++) {
-			icons[i] = GeoGebraIconW
-.createFillStyleIcon(i);
+			icons[i] = GeoGebraIconW.createFillStyleIcon(i);
 		}
-
 		fillTable = new SelectionTableW(icons, 1, 5,
 				SelectionTable.MODE_ICON, false);
-
 		fillTable.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -81,11 +78,12 @@ public class MOWColorButton extends ColorPopupMenuButton {
 		}
 	}
 
-
+	/**
+	 * @return fill type id
+	 */
 	public FillType getSelectedFillType() {
 		int idx = fillTable.getSelectedIndex();
 		return idx != -1 ? fillTypes[idx] : FillType.STANDARD;
-
 	}
 
 	/**
@@ -110,5 +108,4 @@ public class MOWColorButton extends ColorPopupMenuButton {
 	// }
 	// super.onClick(event);
 	// }
-
 }

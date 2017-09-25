@@ -314,7 +314,9 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 
 	@Override
 	public void setLabels() {
+		if (titleLabel != null) {
 			titleLabel.setText(app.getLocalization().getMenu("Opacity"));
+		}
 	}
 
 	@Override
