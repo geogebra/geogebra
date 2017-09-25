@@ -63,6 +63,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoSurfaceFinite;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.ParametricCurve;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -1210,7 +1211,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectLineConic3D algo = getIntersectionAlgorithm(g, c);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 
@@ -1315,7 +1316,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectConics3D algo = getIntersectionAlgorithmConics(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 
@@ -1397,7 +1398,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectLineQuadric3D algo = getIntersectionAlgorithm(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 
@@ -1511,7 +1512,7 @@ public class Manager3D implements Manager3DInterface {
 		AlgoIntersectPlaneConic algo = getIntersectionAlgorithm(A, B);
 		algo.setPrintedInXML(true);
 		GeoPoint3D[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 

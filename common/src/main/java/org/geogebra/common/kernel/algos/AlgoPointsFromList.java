@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.LabelManager;
 
 /**
  * Converts a list into a Point (or Points) adapted from AlgoRootsPolynomial
@@ -281,7 +282,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				|| (list.get(0).isGeoList()
 						&& ((GeoList) list.get(0)).size() == 2)) {
 			if (initLabels) {
-				GeoElement.setLabels(labels, points);
+				LabelManager.setLabels(labels, points);
 				initLabels = false;
 			} else {
 				for (int i = 0; i < number; i++) {
@@ -303,7 +304,7 @@ public class AlgoPointsFromList extends AlgoElement {
 				|| (list.get(0).isGeoList()
 						&& ((GeoList) list.get(0)).size() == 3)) {
 			if (initLabels) {
-				GeoElement.setLabels(labels, points3D);
+				LabelManager.setLabels(labels, points3D);
 				initLabels = false;
 			} else {
 				for (int i = 0; i < number; i++) {

@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
 /**
@@ -47,7 +48,7 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	public AlgoAngularBisectorLines3D(Construction cons, String[] labels,
 			GeoLineND g, GeoLineND h) {
 		this(cons, g, h);
-		GeoElement.setLabels(labels, bisector);
+		LabelManager.setLabels(labels, bisector);
 	}
 
 	@Override

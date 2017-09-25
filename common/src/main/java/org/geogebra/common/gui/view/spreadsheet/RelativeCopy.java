@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
@@ -951,7 +952,7 @@ public class RelativeCopy {
 				}
 			}
 
-			GeoElement.setLabels(name, newValues); // set names to be D1,
+			LabelManager.setLabels(name, newValues); // set names to be D1,
 													// E1,
 			// F1, etc for multiple
 			// objects

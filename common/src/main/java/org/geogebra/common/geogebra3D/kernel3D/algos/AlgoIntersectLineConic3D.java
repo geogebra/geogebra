@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
@@ -44,7 +45,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	AlgoIntersectLineConic3D(Construction cons, String label, GeoLineND g,
 			GeoConicND c) {
 		this(cons, g, c);
-		GeoElement.setLabels(label, P);
+		LabelManager.setLabels(label, P);
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	AlgoIntersectLineConic3D(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {
 		this(cons, g, c);
-		GeoElement.setLabels(labels, P);
+		LabelManager.setLabels(labels, P);
 	}
 
 	@Override

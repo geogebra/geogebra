@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
@@ -75,7 +76,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	AlgoIntersectConics3D(Construction cons, String label, GeoConicND A,
 			GeoConicND B) {
 		this(cons, A, B);
-		GeoElement.setLabels(label, P);
+		LabelManager.setLabels(label, P);
 	}
 
 	/**
@@ -88,7 +89,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	AlgoIntersectConics3D(Construction cons, String[] labels, GeoConicND A,
 			GeoConicND B) {
 		this(cons, A, B);
-		GeoElement.setLabels(labels, P);
+		LabelManager.setLabels(labels, P);
 	}
 
 	@Override

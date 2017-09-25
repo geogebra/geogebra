@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
@@ -55,12 +56,12 @@ public class AlgoAsymptote extends AlgoElement {
 	 */
 	AlgoAsymptote(Construction cons, String label, GeoConic c) {
 		this(cons, c);
-		GeoElement.setLabels(label, asymptotes);
+		LabelManager.setLabels(label, asymptotes);
 	}
 
 	public AlgoAsymptote(Construction cons, String[] labels, GeoConic c) {
 		this(cons, c);
-		GeoElement.setLabels(labels, asymptotes);
+		LabelManager.setLabels(labels, asymptotes);
 	}
 
 	@Override

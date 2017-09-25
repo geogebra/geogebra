@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
@@ -78,5 +79,111 @@ public class LabelManager {
 			return validVar;
 		}
 		return true;
+	}
+
+	/**
+	 * set labels for array of GeoElements with given label prefix. e.g.
+	 * labelPrefix = "F", geos.length = 2 sets geo[0].setLabel("F_1") and
+	 * geo[1].setLabel("F_2") all members in geos are assumed to be initialized.
+	 * 
+	 * @param labelPrefix
+	 *            prefix
+	 * @param geos
+	 *            array of geos to be labeled
+	 */
+	public static void setLabels(final String labelPrefix,
+			final GeoElementND[] geos) {
+		if (geos == null) {
+			return;
+		}
+
+		int visible = 0;
+		int firstVisible = 0;
+		for (int i = geos.length - 1; i >= 0; i--) {
+			if (geos[i].isVisible()) {
+				firstVisible = i;
+				visible++;
+			}
+		}
+
+		switch (visible) {
+		case 0: // no visible geos: they all get the labelPrefix as suggestion
+			for (int i = 0; i < geos.length; i++) {
+				geos[i].setLabel(labelPrefix);
+			}
+			break;
+
+		case 1: // if there is only one visible geo, don't use indices
+			geos[firstVisible].setLabel(labelPrefix);
+			break;
+
+		default:
+			// is this a spreadsheet label?
+			final GPoint p = GeoElementSpreadsheet
+					.spreadsheetIndices(labelPrefix);
+			if ((p.x >= 0) && (p.y >= 0)) {
+				// more than one visible geo and it's a spreadsheet cell
+				// use D1, E1, F1, etc as names
+				final int col = p.x;
+				final int row = p.y;
+				for (int i = 0; i < geos.length; i++) {
+					geos[i].setLabel(geos[i].getFreeLabel(GeoElementSpreadsheet
+							.getSpreadsheetCellName(col + i, row)));
+				}
+			} else { // more than one visible geo: use indices if we got a
+						// prefix
+				for (int i = 0; i < geos.length; i++) {
+					geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
+				}
+			}
+		}
+	}
+
+	/**
+	 * Sets labels for given geos
+	 * 
+	 * @param labels
+	 *            labels
+	 * @param geos
+	 *            geos
+	 * @param indexedOnly
+	 *            true for labels a_1,a_2,a_3,...
+	 */
+	static void setLabels(final String[] labels, final GeoElement[] geos,
+			final boolean indexedOnly) {
+		final int labelLen = (labels == null) ? 0 : labels.length;
+
+		if ((labelLen == 1) && (labels[0] != null) && !labels[0].equals("")) {
+			setLabels(labels[0], geos);
+			return;
+		}
+
+		String label;
+		for (int i = 0; i < geos.length; i++) {
+			if (i < labelLen) {
+				label = labels[i];
+			} else {
+				label = null;
+			}
+
+			if (indexedOnly) {
+				label = geos[i].getIndexLabel(label);
+			}
+
+			geos[i].setLabel(label);
+		}
+	}
+
+	/**
+	 * set labels for array of GeoElements pairwise: geos[i].setLabel(labels[i])
+	 * 
+	 * @param labels
+	 *            array of labels
+	 * @param geos
+	 *            array of geos
+	 */
+	public static void setLabels(final String[] labels,
+			final GeoElement[] geos) {
+		setLabels(labels, geos, false);
 	}
 }

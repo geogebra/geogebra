@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoScriptAction;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
@@ -1874,7 +1875,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 *            old label
 	 */
 	public void resetLabels(String oldGeoLabel) {
-		GeoElement.setLabels(oldGeoLabel, getOutput());
+		LabelManager.setLabels(oldGeoLabel, getOutput());
 	}
 
 }

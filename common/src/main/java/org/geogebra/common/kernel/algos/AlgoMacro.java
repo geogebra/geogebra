@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
@@ -107,7 +108,7 @@ public class AlgoMacro extends AlgoElement
 		}
 
 		if (add) {
-			GeoElement.setLabels(labels, getOutput());
+			LabelManager.setLabels(labels, getOutput());
 			// we hide objects that are hidden in macro construction, but
 			// we want to do this only with 4.0 macros
 			if (macro.isCopyCaptionsAndVisibility()) {

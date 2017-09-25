@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -65,13 +66,13 @@ public class AlgoAngularBisectorLines extends AlgoElement
 	AlgoAngularBisectorLines(Construction cons, String label, GeoLine g,
 			GeoLine h) {
 		this(cons, g, h);
-		GeoElement.setLabels(label, bisector);
+		LabelManager.setLabels(label, bisector);
 	}
 
 	public AlgoAngularBisectorLines(Construction cons, String[] labels,
 			GeoLine g, GeoLine h) {
 		this(cons, g, h);
-		GeoElement.setLabels(labels, bisector);
+		LabelManager.setLabels(labels, bisector);
 	}
 
 	@Override

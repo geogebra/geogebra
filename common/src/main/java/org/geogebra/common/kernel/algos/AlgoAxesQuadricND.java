@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 
@@ -45,7 +46,7 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	protected AlgoAxesQuadricND(Construction cons, String label,
 			GeoQuadricND c) {
 		this(cons, c);
-		GeoElement.setLabels(label, axes);
+		LabelManager.setLabels(label, axes);
 	}
 
 	/**
@@ -59,7 +60,7 @@ public abstract class AlgoAxesQuadricND extends AlgoElement {
 	protected AlgoAxesQuadricND(Construction cons, String[] labels,
 			GeoQuadricND c) {
 		this(cons, c);
-		GeoElement.setLabels(labels, (GeoElement[]) axes);
+		LabelManager.setLabels(labels, (GeoElement[]) axes);
 	}
 
 	@Override

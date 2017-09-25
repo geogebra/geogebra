@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.LabelManager;
 
 /**
  * Finds all real roots of a polynomial. TODO: extend for rational functions
@@ -502,7 +503,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// number is the number of current roots
 	protected void updateLabels(int number) {
 		if (initLabels) {
-			GeoElement.setLabels(labels, rootPoints);
+			LabelManager.setLabels(labels, rootPoints);
 			initLabels = false;
 		} else {
 			for (int i = 0; i < number; i++) {

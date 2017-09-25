@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -46,7 +47,7 @@ public abstract class AlgoTangentPointND extends AlgoElement
 	public AlgoTangentPointND(Construction cons, String[] labels, GeoPointND P,
 			GeoConicND c) {
 		this(cons, P, c);
-		GeoElement.setLabels(labels, getOutput());
+		LabelManager.setLabels(labels, getOutput());
 	}
 
 	AlgoTangentPointND(Construction cons, GeoPointND P, GeoConicND c) {

@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.geos.GeoVector;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.implicit.AlgoImplicitCurveFunction;
 import org.geogebra.common.kernel.implicit.AlgoImplicitPolyFunction;
 import org.geogebra.common.kernel.implicit.AlgoIntersectImplicitpolyParametric;
@@ -1157,7 +1158,7 @@ public class AlgoDispatcher {
 				(GeoConic) c);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 
@@ -1171,7 +1172,7 @@ public class AlgoDispatcher {
 				g, c);
 		algo.setPrintedInXML(true);
 		GeoElement[] points = algo.getOutput();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 
@@ -1188,7 +1189,7 @@ public class AlgoDispatcher {
 					g, c);
 			algo.setPrintedInXML(true);
 			GeoElement[] points = algo.getOutput();
-			GeoElement.setLabels(labels, points);
+			LabelManager.setLabels(labels, points);
 			return points;
 		}
 	}
@@ -1203,7 +1204,7 @@ public class AlgoDispatcher {
 				(GeoConic) b);
 		algo.setPrintedInXML(true);
 		GeoPoint[] points = algo.getIntersectionPoints();
-		GeoElement.setLabels(labels, points);
+		LabelManager.setLabels(labels, points);
 		return points;
 	}
 

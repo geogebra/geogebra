@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.LabelManager;
 
 /**
  * @author Bencze Balazs
@@ -63,7 +64,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		y0 = new double[dim];
 		setInputOutput();
 		compute();
-		GeoElement.setLabels(labels, out);
+		LabelManager.setLabels(labels, out);
 	}
 
 	@Override

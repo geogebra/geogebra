@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
@@ -53,9 +54,9 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 			sections[0].setLabel(null);
 			sections[1].setLabel(null);
 		} else if (labels.length == 1) {
-			GeoElement.setLabels(labels[0], sections);
+			LabelManager.setLabels(labels[0], sections);
 		} else {
-			GeoElement.setLabels(labels, sections);
+			LabelManager.setLabels(labels, sections);
 		}
 	}
 

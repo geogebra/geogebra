@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec2D;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -52,7 +53,7 @@ public class AlgoVertexConic extends AlgoElement {
 	 */
 	AlgoVertexConic(Construction cons, String label, GeoConicND c) {
 		this(cons, c);
-		GeoElement.setLabels(label, vertex);
+		LabelManager.setLabels(label, vertex);
 	}
 
 	/**
@@ -65,7 +66,7 @@ public class AlgoVertexConic extends AlgoElement {
 	 */
 	public AlgoVertexConic(Construction cons, String[] labels, GeoConicND c) {
 		this(cons, c);
-		GeoElement.setLabels(labels, (GeoElement[]) vertex);
+		LabelManager.setLabels(labels, (GeoElement[]) vertex);
 	}
 
 	/**

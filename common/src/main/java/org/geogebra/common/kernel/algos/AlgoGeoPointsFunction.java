@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.LabelManager;
 
 /**
  * Abstract class with all the label methods needed to update labels of commands
@@ -179,7 +180,7 @@ public abstract class AlgoGeoPointsFunction extends AlgoElement {
 	// number is the number of current roots
 	protected void updateLabels(int number) {
 		if (initLabels) {
-			GeoElement.setLabels(labels, points);
+			LabelManager.setLabels(labels, points);
 			initLabels = false;
 		} else {
 			for (int i = 0; i < number; i++) {

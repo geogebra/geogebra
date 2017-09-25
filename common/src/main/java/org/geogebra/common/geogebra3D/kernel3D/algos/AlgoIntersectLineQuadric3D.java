@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
@@ -53,7 +54,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	AlgoIntersectLineQuadric3D(Construction cons, String label, GeoLineND g,
 			GeoQuadric3D q) {
 		this(cons, g, q);
-		GeoElement.setLabels(label, P); // TODO change to P
+		LabelManager.setLabels(label, P); // TODO change to P
 	}
 
 	/**
@@ -70,7 +71,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	AlgoIntersectLineQuadric3D(Construction cons, String[] labels, GeoLineND g,
 			GeoQuadric3D q) {
 		this(cons, g, q);
-		GeoElement.setLabels(labels, P); // TODO change to P
+		LabelManager.setLabels(labels, P); // TODO change to P
 	}
 
 	@Override

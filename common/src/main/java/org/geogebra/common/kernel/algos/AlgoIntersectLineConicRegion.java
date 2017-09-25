@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
 /**
@@ -57,7 +58,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			GeoLine g, GeoConic c) {
 		super(cons, g, c);
 
-		GeoElement.setLabels(labels, getIntersectionLines());
+		LabelManager.setLabels(labels, getIntersectionLines());
 	}
 
 	@Override

@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
@@ -48,13 +49,13 @@ public abstract class AlgoTangentLineND extends AlgoElement
 	protected AlgoTangentLineND(Construction cons, String label, GeoLineND g,
 			GeoConicND c) {
 		this(cons, g, c);
-		GeoElement.setLabels(label, getOutput());
+		LabelManager.setLabels(label, getOutput());
 	}
 
 	public AlgoTangentLineND(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {
 		this(cons, g, c);
-		GeoElement.setLabels(labels, getOutput());
+		LabelManager.setLabels(labels, getOutput());
 	}
 
 	@Override

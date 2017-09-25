@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
@@ -64,7 +65,7 @@ public class AlgoCommonTangents extends AlgoCommonTangentsND {
 		}
 		setInputOutput();
 		compute();
-		GeoElement.setLabels(labels, getOutput());
+		LabelManager.setLabels(labels, getOutput());
 
 	}
 
