@@ -1491,7 +1491,6 @@ public abstract class GlobalKeyDispatcher {
 				app.getActiveEuclidianView()
 						.focusAndShowTextField((GeoInputBox) geo);
 			}
-
 		}
 		return false;
 	}
@@ -1506,6 +1505,9 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * sets if TAB should navigate through geos or GUI elements only.
+	 * 
+	 * @param tabOverGeos
+	 *            to set.
 	 */
 	public void setTabOverGeos(boolean tabOverGeos) {
 		this.tabOverGeos = tabOverGeos;
@@ -1516,6 +1518,16 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public void toggleTabOverGeos() {
 		this.tabOverGeos = !tabOverGeos;
+		if (!tabOverGeos) {
+			onTabModeChange();
+		}
 		Log.debug("tabOverGeos" + tabOverGeos);
+	}
+
+	/**
+	 * Gives the focus to the first GUI element after tab switching.
+	 */
+	protected void onTabModeChange() {
+		// overwritten to descendant
 	}
 }

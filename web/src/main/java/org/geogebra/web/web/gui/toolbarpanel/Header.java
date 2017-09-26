@@ -1,12 +1,14 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -19,19 +21,21 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * header of toolbar
  *
  */
-class Header extends FlowPanel {
+class Header extends FlowPanel implements KeyDownHandler {
 	private PersistableToggleButton btnMenu;
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
@@ -67,7 +71,7 @@ class Header extends FlowPanel {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
-
+	private List<ToggleButton> buttons = null;
 	private class PersistableToggleButton extends ToggleButton
 			implements Persistable {
 
@@ -107,6 +111,8 @@ class Header extends FlowPanel {
 		addUndoRedoButtons();
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
+		buttons = Arrays.asList(btnMenu, btnAlgebra, btnTools, btnClose,
+				btnUndo, btnRedo);
 	}
 
 	private void createCenter() {
@@ -130,12 +136,7 @@ class Header extends FlowPanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-
-				Header.this.toolbarPanel.openAlgebra();
-				Header.this.toolbarPanel.setMoveMode();
-				app.setKeyboardNeeded(true);
-				Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
-				Header.this.toolbarPanel.getFrame().showKeyboardButton(true);
+				onAlgebraPressed();
 			}
 		});
 
@@ -153,13 +154,15 @@ class Header extends FlowPanel {
 					@Override
 					public void onClickStart(int x, int y,
 							PointerEventType type) {
-						app.setKeyboardNeeded(false);
-						Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
-						Header.this.toolbarPanel.getFrame().showKeyboardButton(false);
-						Header.this.toolbarPanel.openTools();
+						onToolsPressed();
 					}
 				});
 
+		if (app.has(Feature.TAB_ON_GUI)) {
+			btnAlgebra.addKeyDownHandler(this);
+			btnTools.addKeyDownHandler(this);
+
+		}
 		center = new FlowPanel();
 		center.addStyleName("center");
 		center.addStyleName("indicatorLeft");
@@ -168,6 +171,79 @@ class Header extends FlowPanel {
 		center.add(btnAlgebra);
 		center.add(btnTools);
 		contents.add(center);
+	}
+
+	/**
+	 * Handler for Algebra button.
+	 */
+	protected void onAlgebraPressed() {
+		Header.this.toolbarPanel.openAlgebra();
+		Header.this.toolbarPanel.setMoveMode();
+		app.setKeyboardNeeded(true);
+		Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		Header.this.toolbarPanel.getFrame().showKeyboardButton(true);
+	}
+
+	/**
+	 * Handler for button.
+	 */
+	protected void onToolsPressed() {
+		app.setKeyboardNeeded(false);
+		Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		Header.this.toolbarPanel.getFrame().showKeyboardButton(false);
+		Header.this.toolbarPanel.openTools();
+	}
+
+	/**
+	 * Handler for Close button.
+	 */
+	protected void onClosePressed() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		addAnimation();
+		setAnimating(true);
+		if (isOpen()) {
+			if (app.isPortrait()) {
+				Header.this.toolbarPanel.header.getParent().getParent()
+						.getParent().addStyleName("closePortrait");
+			} else {
+				Header.this.toolbarPanel.header.getParent().getParent()
+						.getParent().addStyleName("closeLandscape");
+				Header.this.toolbarPanel.setLastOpenWidth(getOffsetWidth());
+			}
+			Header.this.toolbarPanel.setMoveMode();
+			Header.this.toolbarPanel.setClosedByUser(true);
+		} else {
+			Header.this.toolbarPanel.header.getParent().getParent().getParent()
+					.removeStyleName("closePortrait");
+			Header.this.toolbarPanel.header.getParent().getParent().getParent()
+					.removeStyleName("closeLandscape");
+			Header.this.toolbarPanel.setClosedByUser(false);
+		}
+
+		Header.this.toolbarPanel.getFrame().showKeyBoard(false, null, true);
+		setOpen(!isOpen());
+	}
+
+	/**
+	 * Handler for Undo button.
+	 */
+	protected void onUndoPressed() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		Header.this.toolbarPanel.app.getGuiManager().undo();
+	}
+
+	/**
+	 * Handler for Redo button.
+	 */
+	protected void onRedoPressed() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		Header.this.toolbarPanel.app.getGuiManager().redo();
 	}
 
 	/**
@@ -182,6 +258,21 @@ class Header extends FlowPanel {
 				app.getLocalization().getMenu(isOpen() ? "Close" : "Open"));
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
+		if (app.has(Feature.TAB_ON_GUI)) {
+			setAltTexts();
+
+		}
+	}
+
+	private void setAltTexts() {
+		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
+		btnAlgebra.setAltText(
+				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
+		btnTools.setAltText(app.getLocalization().getMenu("Tools"));
+		btnClose.setAltText(
+				app.getLocalization().getMenu(isOpen() ? "Close" : "Open"));
+		btnUndo.setAltText(app.getLocalization().getMenu("Undo"));
+		btnRedo.setAltText(app.getLocalization().getMenu("Redo"));
 	}
 
 	/**
@@ -233,63 +324,18 @@ class Header extends FlowPanel {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (app.isMenuShowing()) {
-					app.toggleMenu();
-				}
-				addAnimation();
-				setAnimating(true);
-				if (isOpen()) {
-					if (app.isPortrait()) {
-						Header.this.toolbarPanel.header.getParent().getParent().getParent()
-								.addStyleName("closePortrait");
-						// Header.this.toolbarPanel.setLastOpenHeight(
-						// Header.this.toolbarPanel.app.getActiveEuclidianView().getHeight());
-					} else {
-						Header.this.toolbarPanel.header.getParent().getParent()
-								.getParent().addStyleName("closeLandscape");
-						Header.this.toolbarPanel.setLastOpenWidth(getOffsetWidth());
-					}
-					Header.this.toolbarPanel.setMoveMode();
-					Header.this.toolbarPanel.setClosedByUser(true);
-				} else {
-					Header.this.toolbarPanel.header.getParent().getParent().getParent()
-							.removeStyleName("closePortrait");
-					Header.this.toolbarPanel.header.getParent().getParent().getParent()
-							.removeStyleName("closeLandscape");
-					Header.this.toolbarPanel.setClosedByUser(false);
-				}
-
-				Header.this.toolbarPanel.getFrame().showKeyBoard(false, null, true);
-				setOpen(!isOpen());
-
+				onClosePressed();
 			}
 		});
 		
-		btnContextMenu = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.more_vert_white()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
-		btnContextMenu.addStyleName("flatButton");
-		btnContextMenu.addStyleName("contextMenu");
-		
-		FastClickHandler handler = new FastClickHandler() {
+		if (app.has(Feature.TAB_ON_GUI)) {
+			btnClose.addKeyDownHandler(this);
+		}
 
-			@Override
-			public void onClick(Widget source) {
-				openContextMenu();
-			}
-		};
-
-		btnContextMenu.addFastClickHandler(handler);
 		rightSide = new FlowPanel();
 		rightSide.add(btnClose);
-		// remove context menu
-		// rightSide.add(btnContextMenu);
 		rightSide.addStyleName("rightSide");
 		contents.add(rightSide);
-
 	}
 
 	/**
@@ -364,7 +410,12 @@ class Header extends FlowPanel {
 				Header.this.toolbarPanel.toggleMenu();
 			}
 		});
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			btnMenu.addKeyDownHandler(this);
+		}
 	}
+
 
 	private void addUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
@@ -449,17 +500,19 @@ class Header extends FlowPanel {
 				app);
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
+		btnUndo.addStyleName("undo");
 
 		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (app.isMenuShowing()) {
-					app.toggleMenu();
-				}
-				Header.this.toolbarPanel.app.getGuiManager().undo();
+				onUndoPressed();
 			}
 		});
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			btnUndo.addKeyDownHandler(this);
+		}
 
 		panel.add(btnUndo);
 	}
@@ -474,17 +527,19 @@ class Header extends FlowPanel {
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
+		btnRedo.addStyleName("redo");
 
 		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (app.isMenuShowing()) {
-					app.toggleMenu();
-				}
-				Header.this.toolbarPanel.app.getGuiManager().redo();
+				onRedoPressed();
 			}
 		});
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			btnRedo.addKeyDownHandler(this);
+		}
 
 		panel.add(btnRedo);
 	}
@@ -503,27 +558,16 @@ class Header extends FlowPanel {
 	public void setOpen(boolean value) {
 		this.open = value;
 		updateDraggerStyle(value);
-		// updateStyle();
 		
 		if (app.isPortrait()) {
 			this.toolbarPanel.updateHeight();
 		} else {
-
-			// Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-			//
-			// @Override
-			// public void execute() {
-			// updateCenterSize();
-			// }
-			// });
 			this.toolbarPanel.updateWidth();
 
 		}
-		
 
 		this.toolbarPanel.showKeyboardButtonDeferred(
 				isOpen() && this.toolbarPanel.getSelectedTab() != TabIds.TOOLS);
-
 	}
 
 	private void updateDraggerStyle(boolean close) {
@@ -546,7 +590,6 @@ class Header extends FlowPanel {
 	 */
 	public void updateStyle() {
 		if (isAnimating()) {
-			
 			return;
 		}
 		this.toolbarPanel.updateStyle();
@@ -585,7 +628,6 @@ class Header extends FlowPanel {
 		btnMenu.getUpFace().setImage(imgMenu);
 		updateUndoRedoPosition();
 		updateUndoRedoActions();
-
 	}
 
 	/**
@@ -598,13 +640,11 @@ class Header extends FlowPanel {
 		} else {
 			h = getOffsetHeight() - btnMenu.getOffsetHeight()
 					- btnClose.getOffsetHeight() - 2 * PADDING;
-
 		}
 
 		if (h > 0) {
 			center.setHeight(h + "px");
 		}
-
 	}
 
 	/**
@@ -616,7 +656,6 @@ class Header extends FlowPanel {
 		}
 		updateCenterSize();
 		updateStyle();
-
 	}
 
 	/**
@@ -632,7 +671,6 @@ class Header extends FlowPanel {
 	 */
 	public void setAnimating(boolean b) {
 		this.animating = b;
-
 	}
 
 	/**
@@ -642,10 +680,12 @@ class Header extends FlowPanel {
 	 *            the step of shinking.
 	 */
 	public void expandWidth(double dx) {
-		// getElement().getStyle().setWidth(getOffsetWidth() + dx, Unit.PX);
 		getElement().getStyle().setWidth(dx, Unit.PX);
 	}
 
+	/**
+	 * Resets toolbar.
+	 */
 	public void reset() {
 		resize();
 		updateUndoRedoPosition();
@@ -671,7 +711,6 @@ class Header extends FlowPanel {
 				toolbarPanel.setLastOpenWidth((int) (width
 						* PerspectiveDecoder.landscapeRatio(width)));
 			}
-
 		}
 	}
 
@@ -683,7 +722,40 @@ class Header extends FlowPanel {
 		getElement().getStyle().clearHeight();
 	}
 
-	public void centerEV() {
-		app.getActiveEuclidianView().updateSize();
+	/**
+	 * Sets tab order for header buttons.
+	 */
+	public void setTabIndexes() {
+		int tabIndex = 1;
+		for (ToggleButton btn : buttons) {
+			if (btn != null) {
+				btn.setTabIndex(tabIndex);
+
+				tabIndex++;
+			}
+		}
+		btnMenu.getElement().focus();
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
+		int key = event.getNativeKeyCode();
+		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
+			return;
+		}
+		Object source = event.getSource();
+
+		if (source == btnMenu) {
+			Header.this.toolbarPanel.toggleMenu();
+		} else if (source == btnAlgebra) {
+			onAlgebraPressed();
+		} else if (source == btnTools) {
+			onToolsPressed();
+		} else if (source == btnClose) {
+			onClosePressed();
+		} else if (source == btnUndo) {
+			onUndoPressed();
+		} else if (source == btnRedo) {
+			onRedoPressed();
+		}
 	}
 }

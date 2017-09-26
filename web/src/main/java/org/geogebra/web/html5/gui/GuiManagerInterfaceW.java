@@ -126,4 +126,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void addKeyboardAutoHidePartner(GPopupPanel popup);
 
+	public void onTabModeChange(boolean tabsOnGUI);
+
 }

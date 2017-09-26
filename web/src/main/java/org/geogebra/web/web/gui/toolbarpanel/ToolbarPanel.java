@@ -1085,4 +1085,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				.getDockManager();
 		dm.closePortrait();
 	}
+
+	/**
+	 * sets icons tab-able.
+	 */
+	public void setTabIndexes() {
+		header.setTabIndexes();
+	}
 }

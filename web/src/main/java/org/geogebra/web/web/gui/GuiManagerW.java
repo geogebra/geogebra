@@ -2471,6 +2471,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			onScreenKeyboard.addAutoHidePartner(popup);
 		}
 	}
+
+	public void onTabModeChange(boolean tabsOnGUI) {
+		Element frame = ((AppW) app).getFrameElement();
+		if (tabsOnGUI) {
+			getToolbarPanelV2().setTabIndexes();
+		} else {
+			getToolbarPanelV2().setTabIndexes();
+		}
+	}
 }
 
 

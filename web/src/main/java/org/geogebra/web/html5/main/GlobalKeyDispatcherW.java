@@ -739,4 +739,12 @@ public class GlobalKeyDispatcherW extends
 		return e.isAltKeyDown() && !e.isControlKeyDown()
 				&& e.getNativeEvent().getCharCode() > 128;
 	}
+
+	@Override
+	protected void onTabModeChange() {
+		((GuiManagerInterfaceW) app.getGuiManager())
+				.onTabModeChange(!isTabOverGeos());
+
+
+	}
 }

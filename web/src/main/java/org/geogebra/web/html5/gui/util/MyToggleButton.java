@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public class MyToggleButton extends ToggleButton {
 
 	private App app;
+	private Image image = null;
 
 	/**
 	 * @param image
@@ -23,6 +24,7 @@ public class MyToggleButton extends ToggleButton {
 	 */
 	public MyToggleButton(Image image, App app) {
 		super(image);
+		this.image = image;
 		this.app = app;
 	}
 
@@ -45,5 +47,12 @@ public class MyToggleButton extends ToggleButton {
 		} else {
 			super.setTitle(title);
 		}
+	}
+
+	public void setAltText(String text) {
+		if (image == null) {
+			return;
+		}
+		image.setAltText(text);
 	}
 }
