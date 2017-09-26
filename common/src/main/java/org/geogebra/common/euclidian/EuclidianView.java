@@ -229,25 +229,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
 			EuclidianStyleConstants.LINE_TYPE_POINTWISE };
 
-	public static int getLineType(int i) {
-		return lineTypes[i];
-	}
 
-	public static int getLineTypeLength() {
-		return lineTypes.length;
-	}
 
-	/** @return line types */
-	public static final Integer[] getLineTypes() {
-		Integer[] ret = new Integer[lineTypes.length];
 
-		for (int i = 0; i < lineTypes.length; i++) {
-			ret[i] = lineTypes[i];
-		}
-
-		return ret;
-
-	}
 
 	private final static int[] pointStyles = {
 			EuclidianStyleConstants.POINT_STYLE_DOT,
@@ -261,34 +245,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST,
 			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST };
 
-	public static int getPointStyle(int i) {
-		return pointStyles[i];
-	}
 
 	private final static int[] axesStyles = { EuclidianStyleConstants.NO_AXES,
 			EuclidianStyleConstants.AXES_LINE_TYPE_ARROW,
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS, EuclidianStyleConstants.AXES_LINE_TYPE_FULL };
 
-	public static int getAxesStyle(int i) {
-		return axesStyles[i];
-	}
 
-	public static int getPointStyleLength() {
-		return pointStyles.length;
-	}
-
-	/** @return point styles */
-	public static final Integer[] getPointStyles() {
-
-		Integer[] ret = new Integer[pointStyles.length];
-
-		for (int i = 0; i < pointStyles.length; i++) {
-			ret[i] = pointStyles[i];
-		}
-
-		return ret;
-
-	}
 
 	// end
 	private int fontSize;
@@ -430,6 +392,51 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private boolean updatingBounds = false;
 	private boolean coordSystemTranslatedByAnimation;
+
+	/** @return line types */
+	public static final Integer[] getLineTypes() {
+		Integer[] ret = new Integer[lineTypes.length];
+
+		for (int i = 0; i < lineTypes.length; i++) {
+			ret[i] = lineTypes[i];
+		}
+
+		return ret;
+
+	}
+
+	public static int getLineType(int i) {
+		return lineTypes[i];
+	}
+
+	public static int getLineTypeLength() {
+		return lineTypes.length;
+	}
+
+	public static int getAxesStyle(int i) {
+		return axesStyles[i];
+	}
+
+	public static int getPointStyleLength() {
+		return pointStyles.length;
+	}
+
+	/** @return point styles */
+	public static final Integer[] getPointStyles() {
+
+		Integer[] ret = new Integer[pointStyles.length];
+
+		for (int i = 0; i < pointStyles.length; i++) {
+			ret[i] = pointStyles[i];
+		}
+
+		return ret;
+
+	}
+
+	public static int getPointStyle(int i) {
+		return pointStyles[i];
+	}
 
 	/**
 	 * @param ec

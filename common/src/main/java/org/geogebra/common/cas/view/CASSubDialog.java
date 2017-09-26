@@ -17,7 +17,31 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public abstract class CASSubDialog {
+	/** Editing row from CAS table */
+	protected int editRow;
+	/** Evaluation prefix */
+	protected String prefix;
+	/** Evaluation text */
+	protected String evalText;
+	/** Evaluation postfix */
+	protected String postfix;
 
+	/** Evaluation symbol */
+	protected static final String EVAL_SYM = "=";
+	/** Numeric symbol */
+	protected static final String NUM_SYM = "\u2248";
+	/** Substitute symbol */
+	protected static final String SUB_SYM = "\u2713";
+
+	/** Evaluation action command */
+	protected static final String ACTION_EVALUATE = "Evaluate";
+	/** Numeric action command */
+	protected static final String ACTION_NUMERIC = "Numeric";
+	/** Substitute action command */
+	protected static final String ACTION_SUBSTITUTE = "Substitute";
+
+	/** Contains substitution values */
+	protected Vector<Vector<String>> data;
 	/**
 	 * Class containing row information
 	 */
@@ -67,31 +91,7 @@ public abstract class CASSubDialog {
 		}
 	}
 
-	/** Editing row from CAS table */
-	protected int editRow;
-	/** Evaluation prefix */
-	protected String prefix;
-	/** Evaluation text */
-	protected String evalText;
-	/** Evaluation postfix */
-	protected String postfix;
 
-	/** Evaluation symbol */
-	protected static final String EVAL_SYM = "=";
-	/** Numeric symbol */
-	protected static final String NUM_SYM = "\u2248";
-	/** Substitute symbol */
-	protected static final String SUB_SYM = "\u2713";
-
-	/** Evaluation action command */
-	protected static final String ACTION_EVALUATE = "Evaluate";
-	/** Numeric action command */
-	protected static final String ACTION_NUMERIC = "Numeric";
-	/** Substitute action command */
-	protected static final String ACTION_SUBSTITUTE = "Substitute";
-
-	/** Contains substitution values */
-	protected Vector<Vector<String>> data;
 
 	/**
 	 * @param prefix

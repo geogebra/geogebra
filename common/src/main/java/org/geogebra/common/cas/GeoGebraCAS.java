@@ -43,6 +43,11 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private CASGenericInterface cas;
 
 	private ArrayList<String> varSwaps = new ArrayList<String>();
+	// these variables are cached to gain some speed in getPolynomialCoeffs
+	private Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<String, String[]>(
+			Kernel.GEOGEBRA_CAS_CACHE_SIZE);
+	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
+	private StringBuilder sbPolyCoeffs = new StringBuilder();
 
 	/**
 	 * Creates new CAS interface
@@ -189,12 +194,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 		return "?";
 	}
-
-	// these variables are cached to gain some speed in getPolynomialCoeffs
-	private Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<String, String[]>(
-			Kernel.GEOGEBRA_CAS_CACHE_SIZE);
-	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
-	private StringBuilder sbPolyCoeffs = new StringBuilder();
 
 	@Override
 	final public String[] getPolynomialCoeffs(final String polyExpr,

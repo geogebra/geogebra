@@ -61,6 +61,7 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	private ExpressionNode point;
 	/** derivative */
 	protected GeoCurveCartesianND derivGeoFun;
+	private boolean hideRangeInFormula;
 
 	/**
 	 * common constructor
@@ -491,8 +492,6 @@ public abstract class GeoCurveCartesianND extends GeoElement
 
 	@Override
 	public abstract double evaluateCurvature(double t);
-
-	private boolean hideRangeInFormula;
 
 	/**
 	 * @return whether range is hidden in algebra

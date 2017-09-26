@@ -56,6 +56,8 @@ public final class GColor implements GPaint {
 
 	private final int value;
 
+	private static final double FACTOR = 0.7;
+
 	/**
 	 * @param r
 	 *            red (0-255)
@@ -390,8 +392,6 @@ public final class GColor implements GPaint {
 
 		return ret;
 	}
-
-	private static final double FACTOR = 0.7;
 
 	/**
 	 * @return darker color

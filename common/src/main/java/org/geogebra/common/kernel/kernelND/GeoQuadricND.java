@@ -53,14 +53,6 @@ public abstract class GeoQuadricND extends GeoElement
 	protected double[] matrix;
 
 	/**
-	 * 
-	 * @return flat matrix
-	 */
-	public double[] getFlatMatrix() {
-		return matrix;
-	}
-
-	/**
 	 * half axes
 	 */
 	public double[] halfAxes;
@@ -151,6 +143,14 @@ public abstract class GeoQuadricND extends GeoElement
 
 		eigenval = new double[dim + 1];
 		mu = new double[dim];
+	}
+
+	/**
+	 * 
+	 * @return flat matrix
+	 */
+	public double[] getFlatMatrix() {
+		return matrix;
 	}
 
 	@Override

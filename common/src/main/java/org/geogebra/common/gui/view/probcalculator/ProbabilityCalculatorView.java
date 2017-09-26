@@ -102,11 +102,6 @@ public abstract class ProbabilityCalculatorView
 	 */
 	protected Construction cons;
 
-	// colors
-	private static final GColor colorPDF() {
-		return GeoGebraColorConstants.DARKBLUE;
-	}
-
 	private static final GColor COLOR_NORMAL_OVERLAY = GColor.RED;
 
 	private static final GColor COLOR_PDF_FILL = GColor.BLUE;
@@ -365,7 +360,10 @@ public abstract class ProbabilityCalculatorView
 	// =================================================
 	// Plotting
 	// =================================================
-
+	// colors
+	private static final GColor colorPDF() {
+		return GeoGebraColorConstants.DARKBLUE;
+	}
 	/**
 	 * Creates the required GeoElements for the currently selected distribution
 	 * type and parameters.

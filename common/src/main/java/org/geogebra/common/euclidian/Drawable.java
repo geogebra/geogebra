@@ -101,6 +101,9 @@ public abstract class Drawable extends DrawableND {
 
 	/** tracing */
 	protected boolean isTracing = false;
+	private boolean forcedLineType;
+
+	private HatchingHandler hatchingHandler;
 
 	// boolean createdByDrawList = false;
 
@@ -523,10 +526,6 @@ public abstract class Drawable extends DrawableND {
 			return EuclidianBoundingBoxHandler.UNDEFINED;
 		}
 	}
-
-	private boolean forcedLineType;
-
-	private HatchingHandler hatchingHandler;
 
 	/**
 	 * Set fixed line type and ignore line type of the geo. Needed for

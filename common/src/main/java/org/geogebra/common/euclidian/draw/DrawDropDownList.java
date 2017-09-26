@@ -85,6 +85,45 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		// private static final int MAX_COLS_NO_FONT_CHANGE = 5;
 
+		private static final int MIN_FONT_SIZE = 12;
+
+		private int colCount = 1;
+		private int rowCount = 1;
+		private GRectangle rectTable;
+		private GDimension dimItem;
+		private GDimension dimTable;
+		private int left;
+		private int top;
+		private int xPadding;
+		private int yPadding;
+		GFont itemFont;
+
+		private List<OptionItem> items;
+		private OptionItem hovered;
+		private GColor hoverColor;
+		private GGraphics2D g2;
+		private boolean visible;
+
+		private int selectedIndex;
+
+		private int itemFontSize;
+
+		// startIdx and endIdx defines the range of items that are visible.
+		private int startIdx = -1;
+		private int endIdx;
+		private GRectangle rectUp;
+		private GRectangle rectDown;
+
+		private boolean scrollNeeded = false;
+		private ScrollMode scrollMode = ScrollMode.NONE;
+		private DraggedItem dragged = null;
+
+		private int dragOffset;
+
+		private boolean dragging = false;
+
+		private boolean dragDirection;
+
 		private class OptionItem {
 			public int index;
 			public int width;
@@ -162,45 +201,6 @@ public final class DrawDropDownList extends CanvasDrawable
 				return item != null;
 			}
 		}
-
-		private static final int MIN_FONT_SIZE = 12;
-
-		private int colCount = 1;
-		private int rowCount = 1;
-		private GRectangle rectTable;
-		private GDimension dimItem;
-		private GDimension dimTable;
-		private int left;
-		private int top;
-		private int xPadding;
-		private int yPadding;
-		GFont itemFont;
-
-		private List<OptionItem> items;
-		private OptionItem hovered;
-		private GColor hoverColor;
-		private GGraphics2D g2;
-		private boolean visible;
-
-		private int selectedIndex;
-
-		private int itemFontSize;
-
-		// startIdx and endIdx defines the range of items that are visible.
-		private int startIdx = -1;
-		private int endIdx;
-		private GRectangle rectUp;
-		private GRectangle rectDown;
-
-		private boolean scrollNeeded = false;
-		private ScrollMode scrollMode = ScrollMode.NONE;
-		private DraggedItem dragged = null;
-
-		private int dragOffset;
-
-		private boolean dragging = false;
-
-		private boolean dragDirection;
 
 		public DrawOptions(EuclidianView view) {
 			this.viewOpt = view;

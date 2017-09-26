@@ -36,6 +36,16 @@ public interface GeoPointND extends PointProperties, Translateable,
 		SpreadsheetTraceable, PointRotateable, CoordStyle, VectorNDValue,
 		Mirrorable, Dilateable, Animatable {
 
+	/** cannot move */
+	public static int MOVE_MODE_NONE = 0; // for intersection points and fixed
+											// points
+	/** cna move in xy directions */
+	public static int MOVE_MODE_XY = 1;
+	/** can move in z direction */
+	public static int MOVE_MODE_Z = 2;
+	/** use tool default: XY for move, Z for others */
+	public static int MOVE_MODE_TOOL_DEFAULT = 3;
+
 	/** @return whether this point has changeable numbers as coordinates */
 	public boolean hasChangeableCoordParentNumbers();
 
@@ -258,16 +268,6 @@ public interface GeoPointND extends PointProperties, Translateable,
 	/////////////////////////////////////////
 	// MOVING THE POINT (3D)
 	/////////////////////////////////////////
-
-	/** cannot move */
-	public static int MOVE_MODE_NONE = 0; // for intersection points and fixed
-											// points
-	/** cna move in xy directions */
-	public static int MOVE_MODE_XY = 1;
-	/** can move in z direction */
-	public static int MOVE_MODE_Z = 2;
-	/** use tool default: XY for move, Z for others */
-	public static int MOVE_MODE_TOOL_DEFAULT = 3;
 
 	/**
 	 * sets the move mode (along xOy or along Oz)

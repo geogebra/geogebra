@@ -112,14 +112,6 @@ public class EuclidianStyleConstants {
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS,
 			EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED };
 
-	public static Integer getLineStyleOptions(int i) {
-		return lineStyleOptions[i];
-	}
-
-	public static Integer getLineStyleOptionsLength() {
-		return lineStyleOptions.length;
-	}
-
 	public static final int POINT_STYLE_DOT = 0;
 	public static final int POINT_STYLE_CROSS = 1;
 	public static final int POINT_STYLE_CIRCLE = 2;
@@ -153,5 +145,13 @@ public class EuclidianStyleConstants {
 	final public static double DEFAULT_GRID_DIST_FACTOR = 1;
 
 	public static final int NO_AXES = -1;
+
+	public static Integer getLineStyleOptions(int i) {
+		return lineStyleOptions[i];
+	}
+
+	public static Integer getLineStyleOptionsLength() {
+		return lineStyleOptions.length;
+	}
 
 }

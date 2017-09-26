@@ -178,6 +178,8 @@ public class DrawConic extends Drawable implements Previewable {
 	private double oldWidth = Double.NaN, oldHeight = Double.NaN;
 	private double proportion = Double.NaN;
 	private boolean isCircle = false;
+	/** eigenvectors */
+	protected Coords[] ev;
 	/**
 	 * preview of ellipse during resize with drag
 	 */
@@ -943,11 +945,6 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 	}
-
-	/**
-	 * 
-	 */
-	protected Coords[] ev;
 
 	/**
 	 * Update in case this draws an ellipse

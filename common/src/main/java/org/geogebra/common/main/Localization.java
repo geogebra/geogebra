@@ -24,28 +24,25 @@ public abstract class Localization {
 	private String[] fontSizeStrings = null;
 
 	protected Locale currentLocale = Locale.ENGLISH;
+	static final public String ROUNDING_MENU_SEPARATOR = "---";
 
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int maxFigures = 15;
 	private int dimension = 2;
 
+	private StringBuilder sbOrdinal = new StringBuilder();
+	private boolean isAutoCompletePossible = true;
+	// For Persian and Arabic.
+	private boolean rightToLeftDigits = false;
+	/**
+	 * Use localized labels.
+	 */
+	private boolean useLocalizedLabels = true;
+	private HashMap<String, String> translateCommandTable;
+
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
 		this.maxFigures = maxFigures;
-	}
-
-	/**
-	 * @return localized strings describing font sizes (very small, smaall, ...)
-	 */
-	public String[] getFontSizeStrings() {
-		if (fontSizeStrings == null) {
-			fontSizeStrings = new String[] { getMenu("ExtraSmall"),
-					getMenu("VerySmall"), getMenu("Small"), getMenu("Medium"),
-					getMenu("Large"), getMenu("VeryLarge"),
-					getMenu("ExtraLarge") };
-		}
-
-		return fontSizeStrings;
 	}
 
 	private boolean reverseNameDescription = false;
@@ -63,12 +60,7 @@ public abstract class Localization {
 	// For Hebrew and Arabic. Guy Hed, 25.8.2008
 	public boolean rightToLeftReadingOrder = false;
 
-	/**
-	 * @return whether current language uses RTL orientation
-	 */
-	final public boolean isRightToLeftReadingOrder() {
-		return rightToLeftReadingOrder;
-	}
+
 
 	/** decimal point (different in eg Arabic) */
 	public char unicodeDecimalPoint = '.';
@@ -76,6 +68,27 @@ public abstract class Localization {
 	public char unicodeComma = ','; // \u060c for Arabic comma
 	/** zero (different in eg Arabic) */
 	public char unicodeZero = '0';
+
+	/**
+	 * @return whether current language uses RTL orientation
+	 */
+	final public boolean isRightToLeftReadingOrder() {
+		return rightToLeftReadingOrder;
+	}
+
+	/**
+	 * @return localized strings describing font sizes (very small, smaall, ...)
+	 */
+	public String[] getFontSizeStrings() {
+		if (fontSizeStrings == null) {
+			fontSizeStrings = new String[] { getMenu("ExtraSmall"),
+					getMenu("VerySmall"), getMenu("Small"), getMenu("Medium"),
+					getMenu("Large"), getMenu("VeryLarge"),
+					getMenu("ExtraLarge") };
+		}
+
+		return fontSizeStrings;
+	}
 
 	/**
 	 * Text fixer for the Hungarian language
@@ -623,8 +636,6 @@ public abstract class Localization {
 		return translationFixHu(text);
 	}
 
-	private StringBuilder sbOrdinal = new StringBuilder();
-
 	/**
 	 * given 1, return eg 1st, 1e, 1:e according to the language
 	 * 
@@ -775,8 +786,6 @@ public abstract class Localization {
 
 	}
 
-	static final public String ROUNDING_MENU_SEPARATOR = "---";
-
 	/**
 	 * @return rounding menu items
 	 */
@@ -839,8 +848,6 @@ public abstract class Localization {
 		return true;
 	}
 
-	private boolean isAutoCompletePossible = true;
-
 	/**
 	 * Returns whether autocomplete should be used at all. Certain languages
 	 * make problems with auto complete turned on (e.g. Korean).
@@ -850,9 +857,6 @@ public abstract class Localization {
 	final public boolean isAutoCompletePossible() {
 		return isAutoCompletePossible;
 	}
-
-	// For Persian and Arabic.
-	private boolean rightToLeftDigits = false;
 
 	/**
 	 * Returns whether current language uses RTL orientation for numbers for
@@ -1003,11 +1007,6 @@ public abstract class Localization {
 	private String buildSyntax(String syntax, String command) {
 		return syntax.replace("[", command + '(').replace(']', ')');
 	}
-
-	/**
-	 * Use localized labels.
-	 */
-	private boolean useLocalizedLabels = true;
 
 	/**
 	 * @return If localized labels are used for certain languages.
@@ -1203,8 +1202,6 @@ public abstract class Localization {
 	public int getRightAngleStyle() {
 		return Language.getRightAngleStyle(getLanguage());
 	}
-
-	private HashMap<String, String> translateCommandTable;
 
 	public String getReverseCommand(String command) {
 		if (command == null) {

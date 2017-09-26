@@ -1941,26 +1941,28 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private static class RecoSegment {
-		protected RecoSegment() {
-
-		}
 		int startpt = 0, endpt = 0;
 		double xcenter = 0, ycenter = 0, angle = 0, radius = 0;
 		double x1 = 0, y1 = 0, x2 = 0, y2 = 0;
 		boolean reversed;
 
+		protected RecoSegment() {
+
+		}
+
 	}
 
 	private static class Inertia {
-		protected Inertia() {
-
-		}
 		double mass = 0;
 		double sx = 0;
 		double sxx = 0;
 		double sy = 0;
 		double sxy = 0;
 		double syy = 0;
+
+		protected Inertia() {
+
+		}
 
 		protected void copyValuesFrom(Inertia inertia) {
 			mass = inertia.mass;

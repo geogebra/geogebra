@@ -17,6 +17,30 @@ public abstract class Log {
 	private static volatile Log logger;
 	private static Object lock = new Object();
 
+	private static Set<String> reportedImplementationNeeded = new TreeSet<String>();
+	/** emergency */
+	public final Level EMERGENCY = new Level(0, "EMERGENCY");
+	/** alert */
+	public final Level ALERT = new Level(1, "ALERT");
+	/** critical */
+	public final Level CRITICAL = new Level(2, "CRITICAL");
+	/** error */
+	public final Level ERROR = new Level(3, "ERROR");
+	/** warning */
+	public final Level WARN = new Level(4, "WARN");
+	/** notice */
+	public final Level NOTICE = new Level(5, "NOTICE");
+	/** information */
+	public final Level INFO = new Level(7, "INFO");
+	/** debugging (default) */
+	public final Level DEBUG = new Level(8, "DEBUG");
+	/** trace */
+	public final Level TRACE = new Level(9, "TRACE");
+	/** in case keepLog = true, this sets max length of in-memory log */
+	public static final int LOGFILE_MAXLENGTH = 10000;
+
+	private final StringBuilder memoryLog = new StringBuilder();
+
 	/**
 	 * Logging level
 	 */
@@ -52,30 +76,6 @@ public abstract class Log {
 			return priority;
 		}
 	}
-
-	private static Set<String> reportedImplementationNeeded = new TreeSet<String>();
-	/** emergency */
-	public final Level EMERGENCY = new Level(0, "EMERGENCY");
-	/** alert */
-	public final Level ALERT = new Level(1, "ALERT");
-	/** critical */
-	public final Level CRITICAL = new Level(2, "CRITICAL");
-	/** error */
-	public final Level ERROR = new Level(3, "ERROR");
-	/** warning */
-	public final Level WARN = new Level(4, "WARN");
-	/** notice */
-	public final Level NOTICE = new Level(5, "NOTICE");
-	/** information */
-	public final Level INFO = new Level(7, "INFO");
-	/** debugging (default) */
-	public final Level DEBUG = new Level(8, "DEBUG");
-	/** trace */
-	public final Level TRACE = new Level(9, "TRACE");
-	/** in case keepLog = true, this sets max length of in-memory log */
-	public static final int LOGFILE_MAXLENGTH = 10000;
-
-	private final StringBuilder memoryLog = new StringBuilder();
 
 	/**
 	 * The entire log since starting the application.

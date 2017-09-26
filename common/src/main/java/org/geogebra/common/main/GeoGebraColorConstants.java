@@ -24,13 +24,6 @@ public class GeoGebraColorConstants {
 	/** grid color for spreadsheet */
 	public static final GColor TABLE_GRID_COLOR = GColor.GRAY;
 
-	private static GColor rgb(int r, int g, int b) {
-		return GColor.newColor(r, g, b);
-	}
-
-	private static GColor rgb(int rgb) {
-		return GColor.newColorRGB(rgb);
-	}
 	// ggb color constants
 
 	/** violet */
@@ -828,5 +821,13 @@ public class GeoGebraColorConstants {
 		}
 
 		return colors;
+	}
+
+	private static GColor rgb(int r, int g, int b) {
+		return GColor.newColor(r, g, b);
+	}
+
+	private static GColor rgb(int rgb) {
+		return GColor.newColorRGB(rgb);
 	}
 }

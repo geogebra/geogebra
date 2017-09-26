@@ -23,6 +23,19 @@ public class DataImport {
 	 * CopyPasteCutD.copy()
 	 */
 	final static String decimalSeparator = ".";
+	// match numbers with commas every 3 digits eg 1,234
+	// 1,234,567
+	// 12,456
+	// 123,566
+	// -123,566
+	// don't match
+	// 123
+	// 12
+	// 1
+	// 0,123
+	// 123,456789
+	final private static RegExp regex = RegExp
+			.compile("^-?\\d?\\d?\\d,(\\d\\d\\d,)*\\d\\d\\d$");
 	/**
 	 * Parses external non-ggb data.
 	 * 
@@ -160,20 +173,6 @@ public class DataImport {
 
 		return data;
 	}
-
-	// match numbers with commas every 3 digits eg 1,234
-	// 1,234,567
-	// 12,456
-	// 123,566
-	// -123,566
-	// don't match
-	// 123
-	// 12
-	// 1
-	// 0,123
-	// 123,456789
-	final private static RegExp regex = RegExp
-			.compile("^-?\\d?\\d?\\d,(\\d\\d\\d,)*\\d\\d\\d$");
 
 	/**
 	 * Returns an unformatted number string (e.g. "1,234,567" --> "1234567")

@@ -55,6 +55,8 @@ public class CASparser implements CASParserInterface {
 	private ParserFunctions parserFunctions;
 	// it's defined only for command Solve with parametric equation
 	private int nrOfVars = 0;
+	private Map<String, String> rbCasTranslations; // translates from
+	// GeogebraCAS
 
 	/**
 	 * Creates new CAS parser
@@ -425,9 +427,6 @@ public class CASparser implements CASParserInterface {
 			return body;
 
 	}
-
-	private Map<String, String> rbCasTranslations; // translates from
-													// GeogebraCAS
 
 	// syntax to the internal CAS
 	// syntax.

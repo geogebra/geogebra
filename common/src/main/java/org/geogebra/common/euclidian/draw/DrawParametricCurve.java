@@ -56,6 +56,13 @@ public class DrawParametricCurve extends Drawable {
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible, fillCurve;
+	private StringBuilder labelSB = new StringBuilder();
+	private int nPoints = 0;
+	private ArrayList<GPoint2D> points;
+	private GLine2D diag1, diag2;
+	private ExpressionNode dataExpression;
+	private FunctionVariable invFV;
+	private ExpressionNode invert;
 
 	/**
 	 * Creates graphical representation of the curve
@@ -71,8 +78,6 @@ public class DrawParametricCurve extends Drawable {
 		geo = curve.toGeoElement();
 		update();
 	}
-
-	private StringBuilder labelSB = new StringBuilder();
 
 	@Override
 	final public void update() {
@@ -184,10 +189,6 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
-	private int nPoints = 0;
-	private ArrayList<GPoint2D> points;
-	private GLine2D diag1, diag2;
-
 	private void updatePointwise() {
 		if (points == null) {
 			points = new ArrayList<GPoint2D>();
@@ -233,10 +234,6 @@ public class DrawParametricCurve extends Drawable {
 		}
 
 	}
-
-	private ExpressionNode dataExpression;
-	private FunctionVariable invFV;
-	private ExpressionNode invert;
 
 	private Inspecting checkPointwise() {
 		return new Inspecting() {

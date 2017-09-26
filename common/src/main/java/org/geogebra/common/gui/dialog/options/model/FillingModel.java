@@ -17,6 +17,11 @@ import org.geogebra.common.util.debug.Log;
 
 public class FillingModel extends MultipleOptionsModel {
 
+	private FillType fillType;
+	private Kernel kernel;
+	private boolean hasGeoButton;
+	private boolean hasGeoTurtle;
+
 	public interface IFillingListener extends IComboListener {
 		void setSymbolsVisible(boolean isVisible);
 
@@ -64,11 +69,6 @@ public class FillingModel extends MultipleOptionsModel {
 
 		int getAngleValue();
 	}
-
-	private FillType fillType;
-	private Kernel kernel;
-	private boolean hasGeoButton;
-	private boolean hasGeoTurtle;
 
 	public FillingModel(App app) {
 		super(app);

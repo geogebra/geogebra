@@ -2,6 +2,10 @@ package org.geogebra.common.awt;
 
 /** Class for integer tuples **/
 public class GPoint {
+	/** y-coordinate **/
+	public int y;
+	/** x-coordinate **/
+	public int x;
 
 	public GPoint() {
 		x = 0;
@@ -12,11 +16,6 @@ public class GPoint {
 		this.x = x;
 		this.y = y;
 	}
-
-	/** y-coordinate **/
-	public int y = 0;
-	/** x-coordinate **/
-	public int x = 0;
 
 	/**
 	 * Set x and y at the same time

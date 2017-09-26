@@ -67,55 +67,7 @@ import com.himamis.retex.editor.share.input.Character;
  * 
  */
 public class Construction {
-
-	/**
-	 * Creates a new Construction.
-	 * 
-	 * @param k
-	 *            Kernel
-	 */
-	public Construction(Kernel k) {
-		this(k, null);
-	}
-
 	private ConstructionCompanion companion;
-
-	/**
-	 * Creates a new Construction.
-	 * 
-	 * @param k
-	 *            Kernel
-	 * @param parentConstruction
-	 *            parent construction (used for macro constructions)
-	 */
-	protected Construction(Kernel k, Construction parentConstruction) {
-		kernel = k;
-
-		companion = kernel.createConstructionCompanion(this);
-
-		ceList = new ArrayList<ConstructionElement>();
-		algoList = new ArrayList<AlgoElement>();
-		step = -1;
-
-		geoSetConsOrder = new TreeSet<GeoElement>();
-		geoSetWithCasCells = new TreeSet<GeoElement>();
-		geoSetLabelOrder = new TreeSet<GeoElement>(new LabelComparator());
-		geoSetsTypeMap = new HashMap<GeoClass, TreeSet<GeoElement>>();
-		euclidianViewCE = new ArrayList<EuclidianViewCE>();
-
-		if (parentConstruction != null) {
-			consDefaults = parentConstruction.getConstructionDefaults();
-		} else {
-			newConstructionDefaults();
-		}
-		// consDefaults = new ConstructionDefaults(this);
-		setIgnoringNewTypes(true);
-		initAxis();
-		setIgnoringNewTypes(false);
-		geoTable = new HashMap<String, GeoElement>(200);
-		initGeoTables();
-	}
-
 	/** maps arbconst indices to related numbers */
 	public Map<Integer, GeoNumeric> constsM = new TreeMap<Integer, GeoNumeric>();
 	/** maps arbint indices to related numbers */
@@ -227,6 +179,52 @@ public class Construction {
 	private GeoPoint origin;
 
 	private GeoElement selfGeo;
+
+	/**
+	 * Creates a new Construction.
+	 * 
+	 * @param k
+	 *            Kernel
+	 */
+	public Construction(Kernel k) {
+		this(k, null);
+	}
+
+	/**
+	 * Creates a new Construction.
+	 * 
+	 * @param k
+	 *            Kernel
+	 * @param parentConstruction
+	 *            parent construction (used for macro constructions)
+	 */
+	protected Construction(Kernel k, Construction parentConstruction) {
+		kernel = k;
+
+		companion = kernel.createConstructionCompanion(this);
+
+		ceList = new ArrayList<ConstructionElement>();
+		algoList = new ArrayList<AlgoElement>();
+		step = -1;
+
+		geoSetConsOrder = new TreeSet<GeoElement>();
+		geoSetWithCasCells = new TreeSet<GeoElement>();
+		geoSetLabelOrder = new TreeSet<GeoElement>(new LabelComparator());
+		geoSetsTypeMap = new HashMap<GeoClass, TreeSet<GeoElement>>();
+		euclidianViewCE = new ArrayList<EuclidianViewCE>();
+
+		if (parentConstruction != null) {
+			consDefaults = parentConstruction.getConstructionDefaults();
+		} else {
+			newConstructionDefaults();
+		}
+		// consDefaults = new ConstructionDefaults(this);
+		setIgnoringNewTypes(true);
+		initAxis();
+		setIgnoringNewTypes(false);
+		geoTable = new HashMap<String, GeoElement>(200);
+		initGeoTables();
+	}
 
 	/**
 	 * Returns the point (0,0)

@@ -23,6 +23,31 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	private double a = EuclidianView3D.ANGLE_ROT_OZ;
 	private double b = EuclidianView3D.ANGLE_ROT_XOY;// angles (in degrees)
 
+	private boolean hadSettingChanged = false;
+	private boolean hasSameScales = true;
+	private double xyScale, yzScale, zxScale, maxScale;
+	private boolean showPlate = true;
+	private int projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
+	public static final int EYE_SEP_DEFAULT = 200;
+
+	private int eyeSep = EYE_SEP_DEFAULT;
+
+	public static final double PROJECTION_OBLIQUE_ANGLE_DEFAULT = 30;
+	public static final double PROJECTION_OBLIQUE_FACTOR_DEFAULT = 0.5;
+
+	private double projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
+	private double projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
+	private boolean yAxisVertical = false;
+
+	private boolean useLight = true;
+
+	private double rotSpeed;
+
+	/**
+	 * default value for eye distance to the screen for perspective
+	 */
+	public static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
+
 	public EuclidianSettings3D(App app) {
 		super(app);
 
@@ -32,9 +57,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 	}
-
-	private boolean hadSettingChanged = false;
-
 	/**
 	 * 
 	 * @return true if some setting has been changed
@@ -76,9 +98,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		this.zscale = scale;
 		updateScaleHelpers();
 	}
-
-	private boolean hasSameScales = true;
-	private double xyScale, yzScale, zxScale, maxScale;
 
 	private void updateScaleHelpers() {
 		hasSameScales = true;
@@ -236,8 +255,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return clippingReduction;
 	}
 
-	private boolean showPlate = true;
-
 	public void setShowPlate(boolean flag) {
 		if (showPlate != flag) {
 			showPlate = flag;
@@ -272,13 +289,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return projection;
 	}
 
-	private int projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
-
-	/**
-	 * default value for eye distance to the screen for perspective
-	 */
-	public static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
-
 	/**
 	 * 
 	 * @return eye distance to the screen for perspective
@@ -300,10 +310,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 	}
 
-	public static final int EYE_SEP_DEFAULT = 200;
-
-	private int eyeSep = EYE_SEP_DEFAULT;
-
 	public void setEyeSep(int value) {
 		if (eyeSep != value) {
 			eyeSep = value;
@@ -314,12 +320,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public int getEyeSep() {
 		return eyeSep;
 	}
-
-	public static final double PROJECTION_OBLIQUE_ANGLE_DEFAULT = 30;
-	public static final double PROJECTION_OBLIQUE_FACTOR_DEFAULT = 0.5;
-
-	private double projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
-	private double projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
 
 	public void setProjectionObliqueAngle(double value) {
 		if (projectionObliqueAngle != value) {
@@ -343,8 +343,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return projectionObliqueFactor;
 	}
 
-	private boolean yAxisVertical = false;
-
 	/**
 	 * 
 	 * @return true if y axis is vertical (and not z axis)
@@ -354,17 +352,11 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 
 	public void setYAxisVertical(boolean flag) {
-
 		if (yAxisVertical != flag) {
 			yAxisVertical = flag;
 			settingChanged();
 		}
-
 	}
-
-	private boolean useLight = true;
-
-	private double rotSpeed;
 
 	public void setUseLight(boolean flag) {
 		if (useLight != flag) {

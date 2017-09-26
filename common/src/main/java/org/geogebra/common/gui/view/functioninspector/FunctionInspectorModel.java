@@ -61,37 +61,6 @@ import org.geogebra.common.plugin.Operation;
 
 public class FunctionInspectorModel {
 
-	public interface IFunctionInspectorListener {
-
-		void updateXYTable(boolean isTable);
-
-		void updateInterval(ArrayList<String> property,
-				ArrayList<String> value);
-
-		void setXYValueAt(Double value, int row, int col);
-
-		Object getXYValueAt(int row, int col);
-
-		void addTableColumn(String name);
-
-		void setGeoName(String name);
-
-		void changeTableSelection();
-
-		void updateHighAndLow(boolean isAscending, boolean isLowSelected);
-
-		void setStepText(String text);
-
-		void setStepVisible(boolean isVisible);
-
-		GColor getColor(Colors id);
-
-		int getSelectedXYRow();
-
-		void changedNumberFormat();
-
-	}
-
 	// ggb fields
 	private App app;
 	private Kernel kernel;
@@ -144,6 +113,36 @@ public class FunctionInspectorModel {
 	private int printFigures = -1;
 	private int printDecimals = 4;
 
+	public interface IFunctionInspectorListener {
+
+		void updateXYTable(boolean isTable);
+
+		void updateInterval(ArrayList<String> property,
+				ArrayList<String> value);
+
+		void setXYValueAt(Double value, int row, int col);
+
+		Object getXYValueAt(int row, int col);
+
+		void addTableColumn(String name);
+
+		void setGeoName(String name);
+
+		void changeTableSelection();
+
+		void updateHighAndLow(boolean isAscending, boolean isLowSelected);
+
+		void setStepText(String text);
+
+		void setStepVisible(boolean isVisible);
+
+		GColor getColor(Colors id);
+
+		int getSelectedXYRow();
+
+		void changedNumberFormat();
+
+	}
 	/***************************************************************
 	 * Constructs a FunctionInspecor
 	 * 

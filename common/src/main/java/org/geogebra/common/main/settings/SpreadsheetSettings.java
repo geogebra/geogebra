@@ -13,20 +13,6 @@ import org.geogebra.common.factories.AwtFactory;
  */
 public class SpreadsheetSettings extends AbstractSettings {
 
-	public static class Defaults {
-		public static final boolean SHOW_FORMULA_BAR = false;
-		public static final boolean SHOW_GRID = true;
-		public static final boolean SHOW_ROW_HEADER = true;
-		public static final boolean SHOW_COLUMN_HEADER = true;
-		public static final boolean SHOW_VSCROLLBAR = true;
-		public static final boolean SHOW_HSCROLLBAR = true;
-		public static final boolean IS_COLUMN_SELECT = false;
-		public static final boolean ALLOW_SPECIAL_EDITOR = false;
-		public static final boolean ALLOW_TOOLTIPS = true;
-		public static final boolean EQUALS_REQUIRED = false;
-		public static final boolean ENABLE_AUTOCOMPLETE = false;
-	}
-
 	public static final int TABLE_CELL_WIDTH = 70;
 	public static final int TABLE_CELL_HEIGHT = 21; // G.Sturr (old height 20) +
 													// 1 to stop cell editor
@@ -64,6 +50,20 @@ public class SpreadsheetSettings extends AbstractSettings {
 	private GDimension preferredSize;
 	private int HScrollBarValue;
 	private int VScrollBarValue;
+
+	public static class Defaults {
+		public static final boolean SHOW_FORMULA_BAR = false;
+		public static final boolean SHOW_GRID = true;
+		public static final boolean SHOW_ROW_HEADER = true;
+		public static final boolean SHOW_COLUMN_HEADER = true;
+		public static final boolean SHOW_VSCROLLBAR = true;
+		public static final boolean SHOW_HSCROLLBAR = true;
+		public static final boolean IS_COLUMN_SELECT = false;
+		public static final boolean ALLOW_SPECIAL_EDITOR = false;
+		public static final boolean ALLOW_TOOLTIPS = true;
+		public static final boolean EQUALS_REQUIRED = false;
+		public static final boolean ENABLE_AUTOCOMPLETE = false;
+	}
 
 	public boolean hasInitialized() {
 		return !(heightMap == null && widthMap == null);

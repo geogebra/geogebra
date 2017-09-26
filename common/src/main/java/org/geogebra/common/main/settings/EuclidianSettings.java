@@ -66,6 +66,62 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private GDimension sizeFromFile, size;
 
+	protected boolean[] showAxes = { true, true, true };
+	protected boolean[] selectionAllowed = { true, true, true };
+	protected boolean[] showAxesNumbers = { true, true, true };
+	protected boolean[] logAxes = { false, false, false };
+	protected String[] axesLabels = { null, null, null };
+
+	protected String[] axesUnitLabels = { null, null, null };
+
+	protected boolean[] piAxisUnit = { false, false, false };
+
+	protected int[] axesTickStyles = {
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
+
+	// for axes labeling with numbers
+	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
+
+	protected GeoNumberValue axisNumberingDistances[] = new GeoNumeric[] { null,
+			null, null };
+
+	// distances between grid lines
+	protected boolean automaticGridDistance = true;
+
+	protected double xZero;
+
+	protected double yZero;
+
+	protected double xscale = EuclidianView.SCALE_STANDARD;
+
+	protected double yscale = EuclidianView.SCALE_STANDARD;
+
+	private GDimension preferredSize;
+
+	private boolean showGrid;
+
+	protected boolean gridIsBold;
+
+	private int gridType = EuclidianView.GRID_CARTESIAN;
+
+	private int pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
+
+	// set to false because it was set to false in Desktop anyway
+	// (due to a bug in MyXMLHandler?), and it does some speedup in Web
+	private boolean allowShowMouseCoords = false;
+
+	private double lockedAxesRatio = -1;
+
+	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
+
+	private int axisFontStyle = GFont.PLAIN;
+
+	private boolean axesLabelsSerif = false;
+
+	private ExtendedBoolean enabledEB = ExtendedBoolean.UNKNOWN;
+
 	protected App app;
 
 	// settings for the base EuclidianView (or null if this is the base)
@@ -334,61 +390,6 @@ public class EuclidianSettings extends AbstractSettings {
 		return automaticGridDistance;
 	}
 
-	protected boolean[] showAxes = { true, true, true };
-	protected boolean[] selectionAllowed = { true, true, true };
-	protected boolean[] showAxesNumbers = { true, true, true };
-	protected boolean[] logAxes = { false, false, false };
-	protected String[] axesLabels = { null, null, null };
-
-	protected String[] axesUnitLabels = { null, null, null };
-
-	protected boolean[] piAxisUnit = { false, false, false };
-
-	protected int[] axesTickStyles = {
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
-
-	// for axes labeling with numbers
-	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
-
-	protected GeoNumberValue axisNumberingDistances[] = new GeoNumeric[] { null,
-			null, null };
-
-	// distances between grid lines
-	protected boolean automaticGridDistance = true;
-
-	protected double xZero;
-
-	protected double yZero;
-
-	protected double xscale = EuclidianView.SCALE_STANDARD;
-
-	protected double yscale = EuclidianView.SCALE_STANDARD;
-
-	private GDimension preferredSize;
-
-	private boolean showGrid;
-
-	protected boolean gridIsBold;
-
-	private int gridType = EuclidianView.GRID_CARTESIAN;
-
-	private int pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
-
-	// set to false because it was set to false in Desktop anyway
-	// (due to a bug in MyXMLHandler?), and it does some speedup in Web
-	private boolean allowShowMouseCoords = false;
-
-	private double lockedAxesRatio = -1;
-
-	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
-
-	private int axisFontStyle = GFont.PLAIN;
-
-	private boolean axesLabelsSerif = false;
-
-	private ExtendedBoolean enabledEB = ExtendedBoolean.UNKNOWN;
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
