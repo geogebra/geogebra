@@ -551,6 +551,12 @@ namespace giac {
     _LP_NONNEGINT=113,        //   * nonnegint
     _LP_VARIABLES=114,        //   * variables
     _LP_ASSUME=115,
+    _LP_NODE_LIMIT = 116,             // lp_nodelimit
+    _LP_INTEGER_TOLERANCE = 117,      // lp_integertolerance
+    _LP_METHOD = 118,                 // lp_method
+    _LP_SIMPLEX = 119,                // lp_simplex
+    _LP_INTERIOR_POINT = 120,         // lp_interiorpoint
+    _LP_INITIAL_POINT = 121 ,          // lp_initialpoint
   };
 	
   enum mupad_operator {

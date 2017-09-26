@@ -5587,7 +5587,7 @@ unsigned int ConvertUTF8toUTF16 (
 	++pos;
 	continue;
       }
-      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && (pos==int(cur.size())-1 || cur[pos+1]!='=')){
+      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
 	cur.insert(cur.begin()+pos,':');
 	++pos;
 	continue;
@@ -5726,7 +5726,10 @@ unsigned int ConvertUTF8toUTF16 (
 	if (cur[pos]!=' ' && cur[pos]!=char(9))
 	  break;
       }
-      if (pos<0) continue;
+      if (pos<0){ 
+	s+='\n';  
+	continue;
+      }
       // count whitespaces, compare to stack
       int ws=0;
       int cs=cur.size();
