@@ -33,7 +33,10 @@ public class MyButton implements Observer {
 
 	private final static int margin = 10;
 	private final static int minSize = 24;
-	private final static int arcSize = 10;
+
+	// corner arc size as fraction of button's width
+	private final static double arcSizefraction = 0.1;
+
 	private GFont font;
 	private boolean pressed, draggedOrContext;
 	private double textHeight;
@@ -211,6 +214,9 @@ public class MyButton implements Observer {
 		} else {
 			g.setPaint(bg);
 		}
+
+		int arcSize = (int) Math.round(getWidth() * arcSizefraction);
+
 		// fill background
 		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,
 				geoButton.getHeight() - 1, arcSize, arcSize);
@@ -223,7 +229,8 @@ public class MyButton implements Observer {
 				g.setColor(GColor.GRAY);
 				// inner border
 				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3,
-						getHeight() - 3, arcSize - 3, arcSize - 3);
+						getHeight() - 3, arcSize * getWidth(),
+						arcSize * getWidth());
 				// color for outer border
 				g.setColor(GColor.BLACK);
 
@@ -233,7 +240,8 @@ public class MyButton implements Observer {
 				g.setColor(bg.darker());
 				// inner border
 				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3,
-						getHeight() - 3, arcSize - 3, arcSize - 3);
+						getHeight() - 3, arcSize * getWidth(),
+						arcSize * getWidth());
 				// color for outer border
 				g.setColor(bg.darker().darker());
 			}
