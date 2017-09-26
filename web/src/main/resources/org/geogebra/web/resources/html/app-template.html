@@ -56,21 +56,21 @@ var translation = {};
 
 			if(id){
 				if(id=="exam-simple"){
-					e("ggw").setAttribute("data-param-enableGraphing","false");				
-					e("ggw").setAttribute("data-param-enableCAS","false");				
+					e("ggw").setAttribute("data-param-enableGraphing","false");
+					e("ggw").setAttribute("data-param-enableCAS","false");
 					e("ggw").setAttribute("data-param-enable3D","false");
 				}
 				if(id=="exam-graphing"){
-					e("ggw").setAttribute("data-param-enableGraphing","true");	
-					e("ggw").setAttribute("data-param-enableCAS","false");				
+					e("ggw").setAttribute("data-param-enableGraphing","true");
+					e("ggw").setAttribute("data-param-enableCAS","false");
 					e("ggw").setAttribute("data-param-enable3D","false");
 				}
 				if(id=="exam-cas"){
-					e("ggw").setAttribute("data-param-enableGraphing","true");	
-					e("ggw").setAttribute("data-param-enableCAS","true");				
+					e("ggw").setAttribute("data-param-enableGraphing","true");
+					e("ggw").setAttribute("data-param-enableCAS","true");
 					e("ggw").setAttribute("data-param-enable3D","false");
 				}				
-				e("ggw").setAttribute("data-param-perspective",id);				
+				e("ggw").setAttribute("data-param-perspective",id);
 			}
 			setParamFromURL("filename");
 			setParamFromURL("rounding");
@@ -202,7 +202,7 @@ var translation = {};
 		button("perspective3d", 5, dict["GeoGebra3DGrapher.short"] || "3D Calculator");
 		button("probability", 6, dict["Perspective.Probability"] || "Probability Calc");
 
-		button("exam","exam", dict["exam_menu_entry"] || "Exam Calculator");			
+		button("exam","exam", dict["exam_menu_entry"] || "Exam Calculator");
 		e("create").innerHTML = dict["CreateYourOwn"] || "GeoGebra Classic";
 		if(e("download")){
 			e("download").innerHTML = dict["Download"] || "Download";

@@ -37,36 +37,39 @@ self.addEventListener('install', function (event) {
  
 self.addEventListener('fetch', function (event) {
   "use strict";
-  event.respondWith(
-    caches
-      .match(event.request)
-      .then(function (response) {
-        // first attempt: find file in caches
-        if (response) {
-          silent || console.log("[fetch] Load resource with original url from cache: " + event.request.url);
-          return response;
-        }
-        // second attempt: find file with different url in caches
-        var modUrl = event.request.url.replace(/cdn.geogebra.org\/apps/, 'download.geogebra.org/web/5.0');
-        if (urlsToCache.urls_to_cache.indexOf(modUrl) !== -1) {
-          return caches
-            .match(modUrl)
-            .then(function (response) {
-              if (response) {
-                silent || console.log("[fetch] Url in list, load resource with overridden url from cache: " + modUrl);
-                return response;
-              }
-              silent || console.log("[fetch] Overridden url in list, but no match in cached files: " + event.request.url);
-              return fetch(event.request);
-            });
-        }
-        // third attempt: fetch un-cached file from other place
-        silent || console.log("[fetch] No match in cached files: " + event.request.url);
-        return fetch(event.request);
-      }).catch(function (reason) {
-      silent || console.error(reason);
-    })
-  );
+  // Use the service worker only for uls from the urls_to_cache array
+  var modUrl = event.request.url.replace(/cdn.geogebra.org\/apps/, 'download.geogebra.org/web/5.0');
+  if (urlsToCache.urls_to_cache.indexOf(event.request.url) !== -1 || urlsToCache.urls_to_cache.indexOf(modUrl) !== -1) {
+    event.respondWith(
+      caches
+        .match(event.request)
+        .then(function (response) {
+          // first attempt: find file in caches
+          if (response) {
+            silent || console.log("[fetch] Load resource with original url from cache: " + event.request.url);
+            return response;
+          }
+          // second attempt: find file with different url in caches
+          if (urlsToCache.urls_to_cache.indexOf(modUrl) !== -1) {
+            return caches
+              .match(modUrl)
+              .then(function (response) {
+                if (response) {
+                  silent || console.log("[fetch] Url in list, load resource with overridden url from cache: " + modUrl);
+                  return response;
+                }
+                silent || console.log("[fetch] Overridden url in list, but no match in cached files: " + event.request.url);
+                return fetch(event.request);
+              });
+          }
+          // third attempt: fetch un-cached file from other place
+          silent || console.log("[fetch] No match in cached files: " + event.request.url);
+          return fetch(event.request);
+        }).catch(function (reason) {
+        silent || console.error(reason);
+      })
+    );
+  }
 });
  
 self.addEventListener('activate', function (event) {
