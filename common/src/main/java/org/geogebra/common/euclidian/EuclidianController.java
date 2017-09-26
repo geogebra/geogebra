@@ -11512,7 +11512,6 @@ public abstract class EuclidianController {
 		oldMode = mode;
 		oldEventType = defaultEventType;
 		view.setMode(modePen, ModeSetter.DOCK_PANEL);
-
 	}
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {

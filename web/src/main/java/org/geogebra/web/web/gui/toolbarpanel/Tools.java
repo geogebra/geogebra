@@ -73,6 +73,9 @@ public class Tools extends FlowPanel implements SetLabels {
 	 *            the mode will be selected
 	 */
 	public void setMode(int mode) {
+		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
+			return;
+		}
 		for (int i = 0; i < getWidgetCount(); i++) {
 			Widget w = getWidget(i);
 			if (w instanceof CategoryPanel) {
