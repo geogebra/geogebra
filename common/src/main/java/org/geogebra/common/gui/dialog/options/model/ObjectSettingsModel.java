@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.App;
@@ -246,7 +247,26 @@ abstract public class ObjectSettingsModel {
 
     public void rename(String name) {
         if (mGeoElement != null) {
-            mGeoElement.rename(name);
+            GeoElement geo;
+            if (mApp.has(Feature.MOB_SELECT_TOOL)) {
+                if (mGeoElementsList.size() == 1) {
+                    geo = mGeoElementsList.get(0);
+                } else {
+                    return; // should not happen...
+                }
+            } else {
+                geo = mGeoElement;
+            }
+            try {
+                String checked = geo.getKernel().getAlgebraProcessor().parseLabel(name);
+                if (LabelManager.checkName(geo, checked)) {
+                    geo.rename(checked);
+                    geo.updateRepaint();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -555,5 +575,31 @@ abstract public class ObjectSettingsModel {
 
     public void setGeoElementsList(ArrayList<GeoElement> GeoElementsList) {
         this.mGeoElementsList = GeoElementsList;
+    }
+
+    public String getTranslatedTypeString() {
+        if (mGeoElement == null) {
+            return "";
+        }
+        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
+            if (mGeoElementsList.size() > 1) {
+                return mApp.getLocalization().getMenu("Selection");
+            }
+            return mGeoElementsList.get(0).translatedTypeString();
+        }
+        return mGeoElement.translatedTypeString();
+    }
+
+    public String getLabel() {
+        if (mGeoElement == null) {
+            return null;
+        }
+        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
+            if (mGeoElementsList.size() > 1) {
+                return null;
+            }
+            return mGeoElementsList.get(0).getLabelSimple();
+        }
+        return mGeoElement.getLabelSimple();
     }
 }
