@@ -25,6 +25,8 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private CasEvaluableFunction f;
 	private GeoElementND g;
 	private GeoPointND pt;
+	private String oldCASstring;
+	private boolean nocas = false;
 
 	/**
 	 * @param cons
@@ -88,9 +90,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 		setDependencies();
 
 	}
-
-	private String oldCASstring;
-	private boolean nocas = false;
 
 	@Override
 	public void compute() {

@@ -174,8 +174,7 @@ public class AlgoSolveODE extends AlgoElement {
 		}
 		integrator.addStepHandler(stepHandler);
 
-		al.add(new MyPoint(x.getDouble(), y.getDouble(),
- SegmentType.MOVE_TO));
+		al.add(new MyPoint(x.getDouble(), y.getDouble(), SegmentType.MOVE_TO));
 
 		double[] yy = new double[] { y.getDouble() }; // initial state
 		double[] yy2 = new double[] { x.getDouble(), y.getDouble() }; // initial

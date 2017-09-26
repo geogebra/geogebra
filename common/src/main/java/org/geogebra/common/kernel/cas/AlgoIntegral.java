@@ -56,7 +56,7 @@ public class AlgoIntegral extends AlgoCasBase {
 			boolean numeric) {
 		super(cons, f, numeric ? Commands.NIntegral : Commands.Integral, info);
 		this.var = var;
-		this.allowConstant = allowConstant;
+		this.allowConstant = allowConstant && info.isUsingCAS();
 		this.numeric = numeric || !info.isUsingCAS();
 		setInputOutput(); // for AlgoElement
 		compute();
