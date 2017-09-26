@@ -1339,7 +1339,7 @@ __GGB__keysVar.en_AU.menu = {
     "CalligraphicLetters": "Calligraphic Letters",
     "Cancel": "Cancel",
     "Caption": "Caption",
-    "CaptionAndValue": "Name & Value",
+    "CaptionAndValue": "Caption & Value",
     "Cartesian": "Cartesian",
     "CartesianCoords": "Cartesian Coordinates",
     "CartesianCoords3D": "3D Cartesian Coordinates",

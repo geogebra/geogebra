@@ -566,7 +566,7 @@ __GGB__keysVar.nl.command = {
     "Mirror": "Spiegeling",
     "Mirror.Syntax": "[ <Punt>, <Punt> ]\n[ <Rechte>, <Punt> ]\n[ <Kegelsnede>, <Punt> ]\n[ <Veelhoek>, <Punt> ]\n[ <Afbeelding>, <Punt> ]\n[ <Punt>, <Rechte> ]\n[ <Rechte>, <Rechte> ]\n[ <Kegelsnede>, <Rechte> ]\n[ <Veelhoek>, <Rechte> ]\n[ <Afbeelding>, <Rechte> ]\n[ <Punt>, <Cirkel> ]",
     "Mirror.Syntax3D": "[ <Object>, <Punt> ]\n[ <Object>, <Rechte> ]\n[ <Object>, <Vlak> ]\n[ <Object>, <Cirkel> ]",
-    "MixedNumber": "MixedGetal",
+    "MixedNumber": "GemengdGetal",
     "MixedNumber.SyntaxCAS": "[ <Getal> ]",
     "Mod": "Mod",
     "Mod.Syntax": "[ <Getal>, <Getal> ]\n[ <Deelveelterm>, <Deler> ]",
