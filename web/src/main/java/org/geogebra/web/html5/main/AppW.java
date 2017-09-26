@@ -266,7 +266,7 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
-		ArticleElement.addNativeHandlers(articleElement, this);
+		ArticleElement.addNativeFocusHandler(articleElement, this);
 		this.laf = laf;
 
 		getTimerSystem();

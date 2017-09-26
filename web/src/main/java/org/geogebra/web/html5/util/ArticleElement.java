@@ -19,18 +19,20 @@ import com.google.gwt.dom.client.TagName;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
-import com.google.gwt.user.client.ui.Widget;
 
 @TagName(ArticleElement.TAG)
+/**
+ * Class for the HTML5 &lt;article&gt; tag
+ */
 public final class ArticleElement extends Element {
-
+	/** tag name */
 	static final String TAG = "article";
 
 	/**
 	 * @param element
 	 *            Assert, that the given {@link Element} is compatible with this
 	 *            class and automatically typecast it.
-	 * @return
+	 * @return cast element
 	 */
 	public static ArticleElement as(Element element) {
 		if (element != null) {
@@ -41,34 +43,31 @@ public final class ArticleElement extends Element {
 		return (ArticleElement) element;
 	}
 
+	/**
+	 * Create new article element
+	 */
 	protected ArticleElement() {
+		// needed for GWT
 	}
 
-	public void add(Widget w) {
-		this.appendChild(w.getElement());
-	}
-
+	/**
+	 * Clear the content of this element
+	 */
 	public void clear() {
 		this.setInnerHTML("");
 	}
 
-	public boolean remove(Widget w) {
-		for (int i = 0; i < this.getChildCount(); i++) {
-			if (this.getChild(i).equals(w.getElement())) {
-				this.removeChild(this.getChild(i));
-				return true;
-			}
-		}
-		return false;
-	}
-
-	public static native void addNativeHandlers(Element el, AppW app)/*-{
+	/**
+	 * @param el
+	 *            element
+	 * @param app
+	 *            app listening to focus (see {@link AppW#addFocusToApp()})
+	 */
+	public static native void addNativeFocusHandler(Element el, AppW app)/*-{
 		el.onfocus = function(event) {
 			app.@org.geogebra.web.html5.main.AppW::addFocusToApp()();
 		}
 	}-*/;
-
-
 
 	/**
 	 * @return the data-param-id article attribute as String if set else
@@ -91,6 +90,9 @@ public final class ArticleElement extends Element {
 		return (ret != null) ? ret : "";
 	}
 
+	/**
+	 * @return data-param-json (string encoded ZIP file stucture)
+	 */
 	public String getDataParamJSON() {
 		String ret = this.getAttribute("data-param-json");
 		return (ret != null) ? ret : "";
@@ -126,26 +128,47 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("enableRightClick", true);
 	}
 	
+	/**
+	 * @param def
+	 *            fallback if parameter not set
+	 * @return data-param-enableCAS: whether CAS is enabled
+	 */
 	public boolean getDataParamEnableCAS(boolean def) {
 		return getBoolDataParam("enableCAS", def);
 	}
 
+	/**
+	 * @param def
+	 *            fallback if parameter not set
+	 * @return data-param-enable3D: whether 3D is enabled
+	 */
 	public boolean getDataParamEnable3D(boolean def) {
 		return getBoolDataParam("enable3D", def);
 	}
 
+	/**
+	 * @param def
+	 *            fallback if parameter not set
+	 * @return data-param-enableGraphing: whether graphing, commands and vectors
+	 *         are enabled
+	 */
 	public boolean getDataParamEnableGraphing(boolean def) {
 		return getBoolDataParam("enableGraphing", def);
 	}
 
-	/*
-	 * Returns true, if there is data-param-enableGraphing attribute, and it is
-	 * not an empty string
+	/**
+	 * @return true, if there is data-param-enableGraphing attribute, and it is
+	 *         not an empty string
 	 */
 	public boolean hasDataParamEnableGraphing() {
 		return !"".equals(this.getAttribute("data-param-enableGraphing"));
 	}
 
+	/**
+	 * @return rounding; consists of integer and suffix that determines whether
+	 *         significant figures are used (s) and whether fractions are
+	 *         prefered (r)
+	 */
 	public String getDataParamRounding() {
 		return this.getAttribute("data-param-rounding");
 	}
@@ -160,17 +183,27 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
+	 * @param def
+	 *            fallback if parameter is not set
 	 * @return the data-param-showMenuBar (default: false)
 	 */
 	public boolean getDataParamShowMenuBar(boolean def) {
 		return getBoolDataParam("showMenuBar", def) || getDataParamApp();
 	}
 
+	/**
+	 * @param def
+	 *            fallback if parameter is not set
+	 * @return data-param-allowStylebar: whether to have stylebar; no effect
+	 *         when menu is present
+	 */
 	public boolean getDataParamAllowStyleBar(boolean def) {
 		return getBoolDataParam("allowStyleBar", def);
 	}
 
 	/**
+	 * @param def
+	 *            fallback if parameter is not set
 	 * @return the data-param-showToolBar (default: false)
 	 */
 	public boolean getDataParamShowToolBar(boolean def) {
@@ -180,6 +213,11 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("showToolBar", def);
 	}
 
+	/**
+	 * @param def
+	 *            fallback if parameter is not set
+	 * @return whether to show toolbar help (tooltips)
+	 */
 	public boolean getDataParamShowToolBarHelp(boolean def) {
 		if (!getDataParamShowToolBar(false) && !getDataParamApp()) {
 			return false;
@@ -196,12 +234,19 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
+	 * @param def
+	 *            fallback if parameter is not set
 	 * @return the data-param-showAlgebraInput (default: true)
 	 */
 	public boolean getDataParamShowAlgebraInput(boolean def) {
 		return getBoolDataParam("showAlgebraInput", def);
 	}
 	
+	/**
+	 * @param def
+	 *            fallback if parameter is not set
+	 * @return input position (top / bottom / AV)
+	 */
 	public InputPosition getAlgebraPosition(InputPosition def) {
 		String pos = this.getAttribute("data-param-algebraInputPosition").toLowerCase().trim();
 		if("top".equals(pos)){
@@ -230,6 +275,10 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("showAnimationButton", true);
 	}
 
+	/**
+	 * @return pixel distance from point that counts as hit, defaults to
+	 *         {@link App#DEFAULT_THRESHOLD}
+	 */
 	public int getDataParamCapturingThreshold() {
 		int threshold = App.DEFAULT_THRESHOLD;
 		if ("".equals(this.getAttribute("data-param-capturingThreshold"))) {
@@ -314,6 +363,9 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("fittoscreen", false) || getDataParamApp();
 	}
 
+	/**
+	 * @return border color (valid CSS color)
+	 */
 	public String getDataParamBorder() {
 		return this.getAttribute("data-param-borderColor");
 	}
@@ -420,6 +472,8 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
+	 * Read scale value and cache it
+	 * 
 	 * @return the CSS scale attached to the article element
 	 */
 	public double getScaleX() {
@@ -432,6 +486,11 @@ public final class ArticleElement extends Element {
 		return Double.parseDouble(this.getAttribute("data-scalex"));
 	}
 
+	/**
+	 * Read cached scale value or compute it, do not cache it
+	 * 
+	 * @return the CSS scale attached to the article element
+	 */
 	public double readScaleX() {
 		if ("".equals(this.getAttribute("data-scalex"))) {
 			return envScale("x");
@@ -480,20 +539,32 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("preventFocus", false);
 	}
 
+	/**
+	 * @return client ID for API
+	 */
 	public String getDataClientID() {
 		return this.getAttribute("data-param-clientid");
 	}
 
+	/**
+	 * @return perspective
+	 */
 	public String getDataParamPerspective() {
 		String ret = this.getAttribute("data-param-perspective");
 		return ret == null ? "" : ret;
 	}
 
+	/**
+	 * @return graphing, geometry or classic; defaults to classic
+	 */
 	public String getDataParamAppName() {
 		String ret = this.getAttribute("data-param-appname");
 		return ret == null || ret.length() < 1 ? "classic" : ret;
 	}
 
+	/**
+	 * @return data-param-scale: the parameter for CSS scaling
+	 */
 	public double getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
 		if (scale.length() < 1) {
@@ -608,17 +679,26 @@ public final class ArticleElement extends Element {
 		return getDataParamFitToScreen() ? 0 : 2;
 	}
 
+	/**
+	 * @return whether to show zoom buttons, defaults to false
+	 */
 	public boolean getDataParamShowZoomButtons() {
 		return getBoolDataParam("showZoomButtons", false);
 	}
 
-	public boolean getDataParamShowSuggestionButtons() {
-		return getBoolDataParam("showSuggestionButtons",
-				getDataParamShowMenuBar(false));
-	}
-
+	/**
+	 * @return whether to show fullscreen button, defaults to false
+	 */
 	public boolean getDataParamShowFullscreenButton() {
 		return getBoolDataParam("showFullscreenButton", false);
+	}
+
+	/**
+	 * @return whether suggestions buttons should be shown; default true if not
+	 *         set
+	 */
+	public boolean getDataParamShowSuggestionButtons() {
+		return getBoolDataParam("showSuggestionButtons", true);
 	}
 
 	private boolean getBoolDataParam(String string, boolean def) {
@@ -627,10 +707,17 @@ public final class ArticleElement extends Element {
 				|| "true".equals(this.getAttribute(attr));
 	}
 
+	/**
+	 * @return how much space should be left above the applet in fit-to-screen
+	 *         mode
+	 */
 	public int getDataParamMarginTop() {
 		return this.getIntegerAttribute("data-param-marginTop", 0);
 	}
 
+	/**
+	 * @return height based on height and fitToScreen parameters
+	 */
 	public int computeHeight() {
 		// do we have data-param-height?
 		int height = getDataParamHeight() - getBorderThickness();
