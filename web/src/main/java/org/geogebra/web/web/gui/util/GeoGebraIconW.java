@@ -54,11 +54,17 @@ public class GeoGebraIconW extends BasicIcons {
 			matIcons.line_dotted(), matIcons.line_dash_dot(),
 			matIcons.point_cross_diag() };
 
-	private static ImageResource[] fillStyleIcons = {
-			(LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
-			(LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()),
-			(LafIcons.pattern_honeycomb()) };
+	private static SVGResource[] fillStyleSVGIcons = {
+			matIcons.pattern_filled(), matIcons.pattern_hatching(),
+			matIcons.pattern_dots(), matIcons.pattern_cross_hatching(),
+			matIcons.pattern_honeycomb() };
 
+	/*
+	 * private static ImageResource[] fillStyleIcons = {
+	 * (LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
+	 * (LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()),
+	 * (LafIcons.pattern_honeycomb()) };
+	 */
 	/**
 	 * creates LineStyle icon
 	 * 
@@ -88,7 +94,7 @@ public class GeoGebraIconW extends BasicIcons {
 	 * @return {@link ImageOrText}
 	 */
 	public static ImageOrText createFillStyleIcon(int fillStyle) {
-		return new ImageOrText(fillStyleIcons[fillStyle]);
+		return new ImageOrText(fillStyleSVGIcons[fillStyle], 24);
 	}
 
 	/**
