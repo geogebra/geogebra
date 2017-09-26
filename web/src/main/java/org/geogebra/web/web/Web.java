@@ -204,17 +204,17 @@ public class Web implements EntryPoint {
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			if ("smart".equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
+			String laf = ((ArticleElement) nodes.getItem(i))
+					.getAttribute("data-param-laf");
+			if ("smart".equals(laf)) {
 				return new SmartLookAndFeel();
 			}
 
-			if ("office"
-					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
+			if ("office".equals(laf)) {
 				return new OfficeLookAndFeel();
 			}
 
-			if ("bundle"
-					.equals(nodes.getItem(i).getAttribute("data-param-laf"))) {
+			if ("bundle".equals(laf)) {
 				return new BundleLookAndFeel();
 			}
 		}

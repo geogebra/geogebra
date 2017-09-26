@@ -20,10 +20,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 
-@TagName(ArticleElement.TAG)
 /**
  * Class for the HTML5 &lt;article&gt; tag
  */
+@TagName(ArticleElement.TAG)
 public final class ArticleElement extends Element {
 	/** tag name */
 	static final String TAG = "article";
@@ -520,14 +520,26 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("allowStyleBar", false);
 	}
 
+	/**
+	 * @return whwether to use app mode (forces fit to screen and most UIs
+	 *         visible)
+	 */
 	public boolean getDataParamApp() {
 		return getBoolDataParam("app", false);
 	}
 
+	/**
+	 * Running in screenshot generator mode allows some optimizations
+	 * 
+	 * @return whether we are running the applet as screenshot generator
+	 */
 	public boolean getDataParamScreenshotGenerator() {
 		return getBoolDataParam("screenshotGenerator", false);
 	}
 
+	/**
+	 * @return look and feel
+	 */
 	public String getDataParamLAF() {
 		return this.getAttribute("data-param-laf");
 	}
@@ -601,18 +613,33 @@ public final class ArticleElement extends Element {
 
 	}
 
+	/**
+	 * Remove cached scale values
+	 */
 	public void resetScale() {
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
 	}
 
+	/**
+	 * @return data-param-prerelease: whether to use some beta features
+	 */
 	public String getDataParamPrerelease() {
 		return getAttribute("data-param-prerelease").trim().toLowerCase();
 	}
 
+	/**
+	 * @return material ID (or sharing code) to open on startup
+	 */
 	public String getDataParamTubeID() {
 		return getAttribute("data-param-tubeid");
 	}
+
+	/**
+	 * @param def
+	 *            fallback if parameter not set
+	 * @return whether to show "welcome" tooltip
+	 */
 	public boolean getDataParamShowStartTooltip(boolean def) {
 		return getBoolDataParam("showTutorialLink", def);
 	}
@@ -624,6 +651,10 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("enableFileFeatures", true);
 	}
 
+	/**
+	 * @return list of articles on the page that have the proper class (
+	 *         {@value GeoGebraConstants#GGM_CLASS_NAME})
+	 */
 	public static ArrayList<ArticleElement> getGeoGebraMobileTags() {
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
@@ -636,6 +667,14 @@ public final class ArticleElement extends Element {
 		return articleNodes;
 	}
 
+	/**
+	 * Set the ID of this article to something unique; prefer getDataParamId,
+	 * append number in case of conflicts. If not set, use a string that
+	 * contains i
+	 * 
+	 * @param i
+	 *            number for id if fdataParamId not set
+	 */
 	public void initID(int i) {
 		String paramID = getDataParamId();
 		if (paramID.equals(getId())) {
@@ -655,26 +694,44 @@ public final class ArticleElement extends Element {
 
 	}
 
+	/**
+	 * @return whether error dialogs should be active, defaults to true
+	 */
 	public boolean getDataParamErrorDialogsActive() {
 		return getBoolDataParam("errorDialogsActive", true);
 	}
 
+	/**
+	 * @return whether startups stats are enabled
+	 */
 	public static boolean isEnableUsageStats() {
 		return ((CASFactory) GWT.create(CASFactory.class)).isEnabled();
 	}
 
+	/**
+	 * @return URL of materials plaftform API (empty string if not set)
+	 */
 	public String getMaterialsAPIurl() {
 		return this.getAttribute("data-param-materialsApi");
 	}
 
+	/**
+	 * @return URL of materials plaftform API (empty string if not set)
+	 */
 	public String getLoginAPIurl() {
 		return this.getAttribute("data-param-loginApi");
 	}
 
+	/**
+	 * @return whether to allow apps picker (for classic)
+	 */
 	public boolean getDataParamShowAppsPicker() {
 		return getBoolDataParam("showAppsPicker", false);
 	}
 
+	/**
+	 * @return total thickness of borders (left + right = top + bottom)
+	 */
 	public int getBorderThickness() {
 		return getDataParamFitToScreen() ? 0 : 2;
 	}
