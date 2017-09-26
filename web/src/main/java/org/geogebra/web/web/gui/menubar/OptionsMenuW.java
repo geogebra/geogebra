@@ -53,26 +53,18 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		if (app.isExam()) {
 			return;
 		}
-
-		if (!app.isUnbundled()) {
 			addSeparator();
-		}
 		getOptionsMenu().addLabelingMenu(this);
-		if (!app.isUnbundled()) {
 			addSeparator();
-		}
 		getOptionsMenu().addFontSizeMenu(this);
 		}
 		//language menu
 		addLanguageMenu();
 		if (!getApp().isApplet() && getApp().enableFileFeatures()) {
-			if (!app.isUnbundled()) {
-				addSeparator();
-			}
+			addSeparator();
 			addSaveSettingsMenu();
 			addRestoreDefaultSettingsMenu();
 		}
-		
 		/*
 		addSeparator();
 		addZoomMenu();
@@ -81,7 +73,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 
 	private void addLanguageMenu() {
-
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
 					app.isUnbundled() || app.isWhiteboardActive()
@@ -101,7 +92,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
-		
 		addItem(MainMenu.getMenuBarHtml(
 				AppResources.INSTANCE.empty()
 				.getSafeUri().asString(),
@@ -112,7 +102,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			        @Override
 			        public void doExecute() {
 						resetDefault();
-
 					}
 				});
 	}
@@ -122,26 +111,21 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	 */
 	protected void resetDefault() {
 		GeoGebraPreferencesW.getPref().clearPreferences();
-
 		// reset defaults for GUI, views etc
 		// this has to be called before load XML preferences,
 		// in order to avoid overwrite
 		app.getSettings().resetSettings(app);
-
 		// for geoelement defaults, this will do nothing, so it is
 		// OK here
 		GeoGebraPreferencesW.getPref().resetPreferences(app);
-
 		// reset default line thickness etc
 		app.getKernel().getConstruction().getConstructionDefaults()
 				.resetDefaults();
-
 		// reset defaults for geoelements; this will create brand
 		// new objects
 		// so the options defaults dialog should be reset later
 		app.getKernel().getConstruction().getConstructionDefaults()
 				.createDefaultGeoElements();
-
 		// reset the stylebar defaultGeo
 		if (app.getEuclidianView1().hasStyleBar()) {
 			app.getEuclidianView1().getStyleBar().restoreDefaultGeo();

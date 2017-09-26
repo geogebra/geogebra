@@ -31,8 +31,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	}
 
 	private void update() {
-		// TODO Auto-generated method stub
-
+		// do nothing
 	}
 
 	private void initActions() {
@@ -47,7 +46,6 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	private void addGraphingGeometryMenuItems(String appId,
 			String translationKey,
 			ResourcePrototype icon) {
-
 		StringBuilder link = new StringBuilder("https://www.geogebra.org/");
 		if (app.has(Feature.TUBE_BETA)) {
 			link = new StringBuilder("https://beta.geogebra.org/");

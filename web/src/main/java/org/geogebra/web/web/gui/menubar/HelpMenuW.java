@@ -22,14 +22,12 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	 *            application
 	 */
 	public HelpMenuW(final App app)  {
-
 		super(true, "help", app);
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
 		}
-	    
 		Localization loc = app.getLocalization();
 	    // TODO: This item has no localization entry yet.
 	    //addItem("Version", new Command() {
@@ -52,8 +50,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    	public void doExecute() {
 		        app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
             }
-	    });
-	    
+				});
 	    // Help
 		manual = addItem(
 				MainMenu.getMenuBarHtml(
@@ -70,8 +67,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 		        app.getGuiManager().openHelp(App.WIKI_MANUAL);
 				
             }
-	    });
-	    
+				});
 		forum = addItem(MainMenu
 				.getMenuBarHtml(
 						app.isUnbundled() || app.isWhiteboardActive()
@@ -84,15 +80,11 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 			
 	    	@Override
 	    	public void doExecute() {
-	    		((AppW) app).getFileManager().open(GeoGebraConstants.FORUM_URL, "_blank", "");
-				
+						((AppW) app).getFileManager().open(
+								GeoGebraConstants.FORUM_URL, "_blank", "");
             }
 	    });
-
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
-	    
+		addSeparator();
 	    // Report Bug
 		bug = addItem(
 				MainMenu.getMenuBarHtml(
@@ -108,11 +100,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    		((AppW) app).getFileManager().open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
             }
 	    });
-	    
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
-
+		addSeparator();
 		about = addItem(
 				MainMenu.getMenuBarHtml(
 						app.isUnbundled() || app.isWhiteboardActive()
@@ -150,8 +138,6 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    manual.setEnabled(b);
 	    tutorials.setEnabled(b);
 	    bug.setEnabled(b);
-	    forum.setEnabled(b);
-	    
+		forum.setEnabled(b);
     }
-	
 }

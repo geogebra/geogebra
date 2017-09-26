@@ -38,6 +38,9 @@ public class GMenuBar extends MenuBar{
 	
 	@Override
 	public MenuItemSeparator addSeparator(){
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
+			return null;
+		}
 		this.separators  ++;
 		return super.addSeparator();
 	}

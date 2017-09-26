@@ -377,9 +377,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			sb.setLength(0);
 
 			if ((perc <= 100) && (!separatorAdded)) {
-				if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
-					menu.addSeparator();
-				}
+				menu.addSeparator();
 				separatorAdded = true;
 			}
 

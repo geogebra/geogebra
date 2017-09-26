@@ -30,7 +30,6 @@ public class EditMenuW extends GMenuBar {
 	 *            Application instance
 	 */
 	public EditMenuW(AppW app) {
-
 		super(true, "edit", new MenuResources(), app);
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -47,7 +46,6 @@ public class EditMenuW extends GMenuBar {
 	 * initializes the menu
 	 */
 	void initActions() {
-
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		/*
 		 * layer values: -1 means nothing selected -2 means different layers
@@ -57,47 +55,27 @@ public class EditMenuW extends GMenuBar {
 		boolean justCreated = !(app.getActiveEuclidianView()
 		        .getEuclidianController().getJustCreatedGeos().isEmpty());
 		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
-
 		clearItems();
-
 		if (app.isUndoRedoEnabled()) {
 			addUndoRedo();
-			if (!app.isUnbundled()) {
-				// separator
-				addSeparator();
-			}
+			// separator
+			addSeparator();
 		}
-
 		addCopy();
-
 		addPasteItem();
-
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
-
+		addSeparator();
 		// object properties menu
-
 		addPropertiesItem();
-
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
-
+		addSeparator();
 		addSelectAllItem(noIcon);
-
-		addSelectCurrentLayer(noIcon);
-
-		addDescentdantsItem(noIcon);
-
-		addPredecessorsItem(noIcon);
-
-		if (haveSelection) {
-			if (!app.isUnbundled()) {
+		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			addSelectCurrentLayer(noIcon);
+			addDescentdantsItem(noIcon);
+			addPredecessorsItem(noIcon);
+			if (haveSelection) {
 				addSeparator();
-			}
-			// invert selection menu
-			addItem(MainMenu.getMenuBarHtml(noIcon,
+				// invert selection menu
+				addItem(MainMenu.getMenuBarHtml(noIcon,
 					loc.getMenu("InvertSelection"), true), true,
 			        new MenuCommand(app) {
 
@@ -106,21 +84,17 @@ public class EditMenuW extends GMenuBar {
 					        selection.invertSelection();
 				        }
 			        });
-		}
-
-		if (layer != -1) {
-			addShowHideItem(noIcon);
-			addShowHideLabelsItem(noIcon);
-		}
-
-		// Delete menu
-		if (layer != -1 || justCreated) {
-			if (!app.isUnbundled()) {
-				addSeparator();
 			}
-			addDeleteItem();
+			if (layer != -1) {
+				addShowHideItem(noIcon);
+				addShowHideLabelsItem(noIcon);
+			}
+			// Delete menu
+			if (layer != -1 || justCreated) {
+				addSeparator();
+				addDeleteItem();
+			}
 		}
-
 	}
 
 	private void addShowHideLabelsItem(String noIcon) {
@@ -132,7 +106,6 @@ public class EditMenuW extends GMenuBar {
 						selection.showHideSelectionLabels();
 					}
 				});
-
 	}
 
 	private void addShowHideItem(String noIcon) {
@@ -144,7 +117,6 @@ public class EditMenuW extends GMenuBar {
 						selection.showHideSelection();
 					}
 				});
-
 	}
 
 	private void addDeleteItem() {
@@ -161,7 +133,6 @@ public class EditMenuW extends GMenuBar {
 						app.deleteSelectedObjects(false);
 					}
 				});
-
 	}
 
 	private void addPasteItem() {
@@ -180,10 +151,8 @@ public class EditMenuW extends GMenuBar {
 							app.getCopyPaste().pasteFromXML(app, false);
 							app.setDefaultCursor();
 						}
-
 					}
 				});
-
 	}
 
 	private void addSelectAllItem(String noIcon) {
@@ -202,7 +171,6 @@ public class EditMenuW extends GMenuBar {
 						}
 					}
 				});
-
 	}
 
 	private void addPredecessorsItem(String noIcon) {
@@ -217,9 +185,7 @@ public class EditMenuW extends GMenuBar {
 							selection.selectAllPredecessors();
 						}
 					});
-
 		}
-
 	}
 
 	private void addDescentdantsItem(String noIcon) {
@@ -235,7 +201,6 @@ public class EditMenuW extends GMenuBar {
 						}
 					});
 		}
-
 	}
 
 	private void addSelectCurrentLayer(String noIcon) {
@@ -255,7 +220,6 @@ public class EditMenuW extends GMenuBar {
 						}
 					});
 		}
-
 	}
 
 	private void addPropertiesItem() {
@@ -266,7 +230,8 @@ public class EditMenuW extends GMenuBar {
 						: GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 								.asString(),
 				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
-						: app.isUnbundled() ? loc.getMenu("Settings")
+						: app.isUnbundled() || app.isWhiteboardActive()
+								? loc.getMenu("Settings")
 								: loc.getMenu("Options") + " ...",
 				true), true, new MenuCommand(app) {
 
@@ -276,7 +241,6 @@ public class EditMenuW extends GMenuBar {
 								.showPropertiesDialog(OptionType.OBJECTS, null);
 					}
 				});
-
 	}
 
 	private void addCopy() {
@@ -301,12 +265,9 @@ public class EditMenuW extends GMenuBar {
 						}
 					}
 				});
-
 	}
 
 	private void addUndoRedo() {
-
-
 		// undo menu
 		addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
@@ -323,7 +284,6 @@ public class EditMenuW extends GMenuBar {
 						}
 					}
 				});
-
 		// redo menu
 		addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
@@ -340,8 +300,6 @@ public class EditMenuW extends GMenuBar {
 						}
 					}
 				});
-
-
 	}
 
 	/**
@@ -364,7 +322,5 @@ public class EditMenuW extends GMenuBar {
 			valid = true;
 			this.initActions();
 		}
-
 	}
-
 }

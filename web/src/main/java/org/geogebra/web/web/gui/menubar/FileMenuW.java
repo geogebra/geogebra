@@ -59,7 +59,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			}
 		};
-
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			addStyleName("matStackPanel");
 		} else {
@@ -67,7 +66,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 	    initActions();
 	}
-
 	
 	/**
 	 * @return whether native JS function for sharing is present
@@ -79,21 +77,16 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return false;
 	}-*/;
 
-
-	
-
 	/**
 	 * Exit exam and restore normal mode
 	 */
 	protected void exitAndResetExam() {
 		app.getLAF().toggleFullscreen(false);
-
 		ExamEnvironment exam = app.getExam();
 		exam.exit();
 		boolean examFile = app.getArticleElement().hasDataParamEnableGraphing();
 		String buttonText = null;
 		AsyncOperation<String[]> handler = null;
-
 		if (examFile) {
 			if (app.getVersion().isAndroidWebview()) {
 				handler = new AsyncOperation<String[]>() {
@@ -137,7 +130,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							handler);
 				}
 			}
-
 		} else {
 			app.showMessage(exam.getLog(loc, app.getSettings()),
 					loc.getMenu("exam_log_header") + " "
@@ -153,12 +145,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		app.getGuiManager().setGeneralToolBarDefinition(
 				ToolBar.getAllToolsNoMacros(true, false, app));
 		app.getGuiManager().resetMenu();
-
 		app.setActivePerspective(0);
-
 	}
 	
-
 	private void initActions() {
 		// if (!app.has(Feature.NEW_START_SCREEN)) {
 		if (app.isExam()) {
@@ -172,15 +161,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							showExamExitDialog();
 						}
 					});
-
 			return;
 		}
 		/*
 		 * } else { if (app.isExam()) { return; } }
 		 */
-		
-		
-
 		// this is enabled always
 		addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
@@ -193,12 +178,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			@Override
 			public void doExecute() {
 						((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(newConstruction);
-
 			}
 		});
-
 		// open menu is always visible in menu
-		
 		addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
 						? MaterialDesignResources.INSTANCE.search_black()
@@ -211,9 +193,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				public void doExecute() {
 			        app.openSearch(null);
 				}
-			});	
-		
-		
+				});
 		if(app.getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
 					app.isUnbundled() || app.isWhiteboardActive()
@@ -229,11 +209,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			});			
 		}
-
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
-
+		addSeparator();
 		shareItem = addItem(MainMenu.getMenuBarHtml(
 				app.isUnbundled() || app.isWhiteboardActive()
 						? MaterialDesignResources.INSTANCE.share_black()
@@ -250,14 +226,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 								app.getGgbApi().getBase64(true,
 										getShareStringHandler(app));
 							}
-
-
 					}
 			});
-
-
-
-		if (app.getLAF().exportSupported() && !app.isUnbundled()) {
+		if (app.getLAF().exportSupported() && !app.isUnbundled()
+				&& !app.isWhiteboardActive()) {
 			addItem(MainMenu.getMenuBarHtml(
 					app.isUnbundled() || app.isWhiteboardActive()
 					? MaterialDesignResources.INSTANCE.file_download_black()
@@ -266,10 +238,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							.menu_icons_file_export().getSafeUri().asString(),
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true),
 					true, new ExportMenuW(app), !app.isWhiteboardActive());
-
 		}
-
-
 		if (app.getLAF().printSupported()) {
 			printItem = new MenuItem(
 					MainMenu.getMenuBarHtml(
@@ -298,11 +267,8 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			});
 			// updatePrintMenu();
 			addItem(printItem);
-
 		}
-
 	    app.getNetworkOperation().getView().add(this);
-	    
 	    if (!app.getNetworkOperation().isOnline()) {
 	    	render(false);    	
 	    }
@@ -315,7 +281,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		// set Firefox dom.allow_scripts_to_close_windows in about:config to
 		// true to make this work
 		String[] optionNames = { loc.getMenu("Cancel"), loc.getMenu("Exit") };
-
 		app.getGuiManager().getOptionPane().showOptionDialog(app,
 				loc.getMenu("exam_exit_confirmation"), // ExitExamConfirm
 				loc.getMenu("exam_exit_header"), // ExitExamConfirmTitle
@@ -330,8 +295,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				});
 	}
 
-
-
 	/**
 	 * SHow the custom share dialog
 	 */
@@ -343,7 +306,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				ShareDialogW sd = new ShareDialogW(app);
 				sd.setVisible(true);
 				sd.center();
-
 			}
 		};
 		if (app.getActiveMaterial() == null
@@ -358,7 +320,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 								&& ((LoginEvent) event).isSuccessful()) {
 							showShareDialog();
 						}
-
 					}
 				});
 				((SignInButton) app.getLAF().getSignInButton(app)).login();
@@ -372,7 +333,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 			// saved
 			shareCallback.run();
 		}
-
 	}
 
 	/**
@@ -385,10 +345,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		} else {
 			$wnd.location.assign("/");
 		}
-
 	}-*/;
-
-
 	/**
 	 * 
 	 * @param app

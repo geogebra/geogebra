@@ -22,12 +22,11 @@ public class DownloadMenuW extends GMenuBar {
 	public DownloadMenuW(final AppW app) {
 		super(true, "DownloadAs", app);
 		this.app = app;
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
 		}
-
 		init();
 	}
 
@@ -43,7 +42,6 @@ public class DownloadMenuW extends GMenuBar {
 						app.getFileManager().export(app);
 					}
 				});
-
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "png", true), true,
@@ -66,7 +64,6 @@ public class DownloadMenuW extends GMenuBar {
 						dialogEvent("exportPNG");
 					}
 				});
-
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "PSTricks", true), true,
@@ -86,7 +83,6 @@ public class DownloadMenuW extends GMenuBar {
 						dialogEvent("exportPSTricks");
 					}
 				});
-
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "PGF/TikZ", true), true,
@@ -106,7 +102,6 @@ public class DownloadMenuW extends GMenuBar {
 						dialogEvent("exportPGF");
 					}
 				});
-
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "Asymptote", true), true,
@@ -126,7 +121,6 @@ public class DownloadMenuW extends GMenuBar {
 						dialogEvent("exportPGF");
 					}
 				});
-
 		if (app.has(Feature.EXPORT_SCAD)) {
 			addItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
@@ -137,7 +131,6 @@ public class DownloadMenuW extends GMenuBar {
 						}
 					});
 		}
-
 	}
 
 	/**
@@ -149,8 +142,6 @@ public class DownloadMenuW extends GMenuBar {
 	protected void dialogEvent(String string) {
 		app.dispatchEvent(new org.geogebra.common.plugin.Event(
 				EventType.OPEN_DIALOG, null, string));
-
 	}
-
 }
 

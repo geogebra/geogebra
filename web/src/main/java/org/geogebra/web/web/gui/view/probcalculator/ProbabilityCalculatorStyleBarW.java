@@ -252,7 +252,6 @@ public class ProbabilityCalculatorStyleBarW extends
 			wrappedToolbar.addItem(btnBarGraph);
 			wrappedToolbar.addSeparator();
 			//wrappedToolbar.addItem(btnNormalOverlay);
-
 			wrappedToolbar.addSeparator();
 			//wrappedToolbar.addItem(btnExport);
 			// add(btnGrid); (grid doesn't work well with discrete graphs and

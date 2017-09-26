@@ -43,7 +43,6 @@ public class ViewMenuW extends GMenuBar {
 	 *            The App instance
 	 */
 	public ViewMenuW(AppW application) {
-
 		super(true, "view", application);
 		this.app = application;
 		if (app.isUnbundled()) {
@@ -70,7 +69,6 @@ public class ViewMenuW extends GMenuBar {
 						app.refreshViews();
 					}
 				});
-
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				.getSafeUri().asString(), loc.getMenu("RecomputeAllViews"),
 				true), true, new MenuCommand(app) {
@@ -92,9 +90,7 @@ public class ViewMenuW extends GMenuBar {
 			}
 			addToMenu(e);
 		}
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
+		addSeparator();
 		for (final ViewType e : Views.getViewExtensions()) {
 			if (!app.supportsView(e.getID())) {
 				continue;
@@ -143,7 +139,6 @@ public class ViewMenuW extends GMenuBar {
 				}, true, app);
 		inputBarItem.setForceCheckbox(true);
 		addItem(inputBarItem.getMenuItem());
-
 		consProtNav = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				AppResources.INSTANCE.empty().getSafeUri().asString(),
 				loc.getMenu("NavigationBar"), true), new MenuCommand(app) {
@@ -162,10 +157,7 @@ public class ViewMenuW extends GMenuBar {
 			}
 				}, true, app);
 		consProtNav.setForceCheckbox(true);
-
 		addItem(consProtNav.getMenuItem());
-
-
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(), app
@@ -188,19 +180,13 @@ public class ViewMenuW extends GMenuBar {
 			addItem(dataCollection.getMenuItem());
 			}
 		}
-
-		if (!app.isUnbundled()) {
-			addSeparator();
-		}
-
+		addSeparator();
 		initRefreshActions(loc);
-
 		update();
 	}
 
 
 	private void addToMenu(final ViewType e) {
-
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),
 						app.getLocalization().getMenu(e.getKey()), true),
@@ -229,11 +215,8 @@ public class ViewMenuW extends GMenuBar {
 					}
 				};
 				timer.schedule(0);
-
 			}
-			
 		});
-		
 		newItem.setForceCheckbox(true);
 		items.put(e.getID(), newItem);
 		addItem(newItem.getMenuItem());
@@ -244,9 +227,7 @@ public class ViewMenuW extends GMenuBar {
 	 */
 	public void update() {
 		for (Entry<Integer, GCheckBoxMenuItem> entry : this.items.entrySet()) {
-
 			int viewID = entry.getKey();
-
 			entry.getValue().setSelected(
 					app.getGuiManager().showView(viewID));
 		}

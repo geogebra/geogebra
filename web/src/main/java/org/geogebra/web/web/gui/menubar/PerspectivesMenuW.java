@@ -23,7 +23,6 @@ public class PerspectivesMenuW extends GMenuBar {
 	
 	/** Application */
 	AppW app;
-	
 
 	/**
 	 * @param app application
@@ -41,14 +40,11 @@ public class PerspectivesMenuW extends GMenuBar {
 	}
 
 	private void update() {
-	    // TODO Auto-generated method stub
-	    
+		// do nothing
     }
 
 	private void initActions() {
-
 	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-
 		addPerspective(0, pr.menu_icon_algebra24());
 		addPerspective(3, pr.menu_icon_cas24());
 		addPerspective(1, pr.menu_icon_geometry24());
@@ -58,10 +54,7 @@ public class PerspectivesMenuW extends GMenuBar {
 		if (app.has(Feature.WHITEBOARD_APP)) {
 			addPerspective(6, pr.menu_icon_whiteboard24());
 		}
-
-
 		if (!app.isExam()) {
-
 			if (app.getLAF().examSupported(app.has(Feature.EXAM_TABLET))) {
 				addItem(MainMenu.getMenuBarHtml(
 						GuiResources.INSTANCE.menu_icon_exam24().getSafeUri()
@@ -80,12 +73,10 @@ public class PerspectivesMenuW extends GMenuBar {
 		}
 	}
 
-
 	private void addPerspective(final int index, ResourcePrototype icon) {
 		if (Layout.getDefaultPerspectives(index) == null) {
 			return;
 		}
-
 		final int defID = Layout.getDefaultPerspectives(index).getDefaultID();
 		addItem(MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
@@ -101,7 +92,6 @@ public class PerspectivesMenuW extends GMenuBar {
 						}
 					}
 				});
-
 	}
 
 	/**
@@ -109,16 +99,13 @@ public class PerspectivesMenuW extends GMenuBar {
 	 *         (goes fullscreen)
 	 */
 	Runnable getExamCallback() {
-
 		return new Runnable() {
 
 			@Override
 			public void run() {
 				app.getLAF().toggleFullscreen(true);
-
 				app.setNewExam();
 				((AppWFull) app).examWelcome();
-
 			}
 		};
 	}
@@ -161,12 +148,5 @@ public class PerspectivesMenuW extends GMenuBar {
 		} else {
 			Browser.changeUrl("/" + slug);
 		}
-
-
 	}
-
-
-	
-
-
 }
