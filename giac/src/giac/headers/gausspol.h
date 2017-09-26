@@ -600,17 +600,17 @@ namespace giac {
     p.coord=std::vector< monomial<gen> >(itend-it);
     std::vector< monomial<gen> >::iterator jt=p.coord.begin();
     int nthreads=threads;
-    if (nthreads==1 || !threaded ||p.dim>POLY_VARS){
+    if (nthreads==1 || !threaded || p.dim>POLY_VARS){
       convert_from<T,U>(it,itend,deg,jt,0); 
       return;
     }
-#if defined(HAVE_PTHREAD_H) && !defined(EMCC) && !defined(__clang__)
+#if defined(HAVE_PTHREAD_H) && !defined(EMCC) // && !defined(__clang__)
     unsigned taille=itend-it;
     if (nthreads>1 
 	&& int(taille)>nthreads*1000
 	){
       pthread_t tab[nthreads];
-      convert_t<T,U> arg[nthreads];
+      std::vector< convert_t<T,U> > arg(nthreads);
       for (int i=0;i<nthreads;i++){
 	convert_t<T,U> tmp={it+i*(taille/nthreads),it+(i+1)*taille/nthreads,&deg,jt+i*(taille/nthreads),0};
 	if (i==nthreads-1){

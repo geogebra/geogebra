@@ -1082,7 +1082,7 @@ namespace giac {
     return;
 #else
     if ( 
-	// true // used for debugging with small poly
+	//true || // used for debugging with small poly
 	c1>50 || c2 >50 || (c1>7 && c2>7) 
 	){
       // Degree info, try to multiply the polys using integer for the exponents

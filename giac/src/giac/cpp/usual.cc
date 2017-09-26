@@ -7912,7 +7912,7 @@ namespace giac {
       complex<double> res0=0,res1=0,res2=0;
       bool sub=false;
       if (c._CPLXptr->_DOUBLE_val<0){
-#ifdef FREERTOS
+#ifdef GIAC_HAS_STO_38
 	// The weired 2 lines bellow are a replacement of a single res0=M_PI/std::tan(M_PI*z).
 	// They are unfortunately nessecary because the keil compiler seems to loose its footing on typing with the "simple" version
 	// The code that I am using here forces the compiler to assign types to objects at every steps and to "not mess up".
