@@ -255,8 +255,7 @@ public class MyButton implements Observer {
 				g.setColor(bg.darker());
 				// inner border
 				g.drawRoundRect(x + 1, y + 1, getWidth() + (int) add - 3,
-						getHeight() - 3, arcSize * getWidth(),
-						arcSize * getWidth());
+						getHeight() - 3, arcSize, arcSize);
 				// color for outer border
 				g.setColor(bg.darker().darker());
 			}
