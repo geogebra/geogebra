@@ -326,14 +326,24 @@ abstract public class ObjectSettingsModel {
             return;
         }
         double step = mApp.getKernel().getAlgebraProcessor().evaluateToDouble(increment);
+        boolean isNaN = Double.isNaN(step);
+
         if (mApp.has(Feature.MOB_SELECT_TOOL)) {
             for (GeoElement geo : mGeoElementsList) {
                 geo.setAnimationStep(step);
+                setSliderAutoStep(geo, isNaN);
             }
         } else {
             mGeoElement.setAnimationStep(step);
+            setSliderAutoStep(mGeoElement, isNaN);
         }
         mApp.setPropertiesOccured();
+    }
+
+    private void setSliderAutoStep(GeoElement geoElement, boolean autoStep) {
+        if (geoElement instanceof GeoNumeric) {
+            ((GeoNumeric) geoElement).setAutoStep(autoStep);
+        }
     }
 
     public float getAlpha() {
