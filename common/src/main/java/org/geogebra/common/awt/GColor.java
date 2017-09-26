@@ -484,8 +484,8 @@ public final class GColor implements GPaint {
 				slightlyDarker(getBlue()), getAlpha());
 	}
 
-	private int slightlyDarker(int c) {
-		return c * (c + 100) / 400;
+	private int slightlyDarker(double x) {
+		return (int) (x * (x * (0.000038475 * x - 0.012532) + 1.6102) - 2.9469);
 	}
 
 }
