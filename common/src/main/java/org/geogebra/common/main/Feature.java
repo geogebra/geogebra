@@ -311,5 +311,8 @@ public enum Feature {
 	MOB_DYNAMIC_SYLEBAR,
 
 	/** GGB-20533 */
-	TAB_ON_GUI
+	TAB_ON_GUI,
+
+	/** GGB-2096 */
+	BUTTONS_HAVE_SHADOW
 }

@@ -4315,19 +4315,29 @@ public abstract class App implements UpdateSelection {
 		case HIGHLIGT_IMPROVEMENTS:
 			return relaunch;
 
+		/** GGB-2005 */
 		case TOOLTIP_DESIGN:
 			return (isUnbundled() || whiteboard) && relaunch;
+
 		case INITIAL_PORTRAIT:
 			return isUnbundled() && relaunch;
 
+		/** GGB-1986 */
 		case DIALOG_DESIGN:
 			return (isUnbundled() || whiteboard) && relaunch;
 
+		/** GGB-2015 */
 		case GEO_AV_DESCRIPTION:
 			return relaunch;
 
+		/** GGB-20533 */
 		case TAB_ON_GUI:
 			return prerelease;
+
+		/** GGB-2096 */
+		case BUTTONS_HAVE_SHADOW:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

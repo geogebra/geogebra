@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 //import java.awt.Color;
 
@@ -202,24 +203,40 @@ public class MyButton implements Observer {
 		if (bg == null) {
 			bg = GColor.WHITE;
 		}
+		
+		GColor paint;
 
 		// change background color on mouse click
 		if (pressed) {
 			if (bg.equals(GColor.WHITE)) {
-				g.setPaint(GColor.LIGHTEST_GRAY);
+				paint = GColor.LIGHTEST_GRAY;
 			} else {
-				g.setPaint(bg.darker());
+				paint = bg.darker();
 			}
 		} else {
-			g.setPaint(bg);
+			paint = bg;
 		}
+		
 
 		int arcSize = (int) Math.round(getWidth() * arcSizefraction);
+		
+		int shadowSize = 0;
 
 		// fill background
-		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,
-				geoButton.getHeight() - 1, arcSize, arcSize);
 
+		if (geoButton.getKernel().getApplication()
+				.has(Feature.BUTTONS_HAVE_SHADOW)) {
+			shadowSize = (int) (getHeight() * 0.1);
+			g.setPaint(paint.slightlyDarker());
+			g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,
+					geoButton.getHeight() - 1, arcSize, arcSize);
+		}
+
+		g.setPaint(paint);
+		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,
+				geoButton.getHeight() - 1-shadowSize, arcSize, arcSize);
+		
+		
 		// change border on mouseover
 		if (isSelected()) {
 			// default button design
@@ -259,8 +276,8 @@ public class MyButton implements Observer {
 
 		// draw border
 		g.setStroke(EuclidianStatic.getDefaultStroke());
-		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
-				arcSize, arcSize);
+		g.drawRoundRect(x, y, getWidth() + (int) add - 1,
+				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
@@ -309,12 +326,13 @@ public class MyButton implements Observer {
 								* margin
 						- textHeight) / 2;
 			}
-			drawText(g, t, imgStart + imgGap + imgHeight, latex, add);
+			drawText(g, t, imgStart + imgGap + imgHeight, latex, add,
+					shadowSize);
 		}
 	}
 
 	private void drawText(GGraphics2D g, GTextLayout t, int imgEnd,
-			boolean latex, double add) {
+			boolean latex, double add, int shadowSize) {
 		int xPos = latex ? (int) (x + (geoButton.getWidth() - textWidth) / 2)
 				: (int) (x + (geoButton.getWidth() - t.getAdvance() + add) / 2);
 		// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
@@ -324,6 +342,8 @@ public class MyButton implements Observer {
 				? (int) (y + (geoButton.getHeight() - textHeight) / 2) + imgEnd
 				: (int) (y + marginTopMultiplier * margin + imgEnd
 						+ t.getAscent());
+
+		yPos -= shadowSize / 2;
 
 		if (geoButton.getFillImage() != null) {
 			yPos = latex ? y + imgEnd
