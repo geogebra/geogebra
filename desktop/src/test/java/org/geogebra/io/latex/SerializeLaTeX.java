@@ -307,6 +307,10 @@ public class SerializeLaTeX {
 		testEditor("\u3131\u3157\u3142\u3131\u3161\u3134", "\uACF1\uADFC");
 		testEditor("\u3147\u3163\u3142\u3139\u3155\u3131", "\uC785\uB825");
 		
+		testEditor("\u3147\u3157\u314F\u3134\u3139\u315B", "\uC644\uB8CC");
+		testEditor("\u3131\u3157\u3142\u314E\u314F\u3131\u3163",
+				"\uACF1\uD558\uAE30");
+		
 		// some middle (vowel) characters need doubling (no other way to enter
 		// them)
 		// eg \u315c \u3153 = \u116f
