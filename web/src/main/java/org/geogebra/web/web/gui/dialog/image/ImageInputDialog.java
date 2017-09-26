@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.dialog.image;
 
+import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -105,6 +107,8 @@ public class ImageInputDialog extends UploadImageDialog {
 	    	hide();
 	    } else if (source == cancelBtn) {
 	      	app.getImageManager().setPreventAuxImage(false);
+			app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+					ModeSetter.TOOLBAR);
 	  	   	hide();
 	    } else if (source == upload) {
 	    	uploadClicked();
