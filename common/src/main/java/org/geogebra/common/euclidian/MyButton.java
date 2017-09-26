@@ -109,8 +109,7 @@ public class MyButton implements Observer {
 		if (hasText) {
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font,
-						getCaption());
+						view.getApplication(), geoButton, font, getCaption());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 			} else {
@@ -307,7 +306,8 @@ public class MyButton implements Observer {
 			if (geoButton.getFillImage() == null) {
 				imgStart = (int) (geoButton.getHeight()
 						- (marginTopMultiplier + marginBottomMultiplier)
-						* margin - textHeight) / 2;
+								* margin
+						- textHeight) / 2;
 			}
 			drawText(g, t, imgStart + imgGap + imgHeight, latex, add);
 		}
@@ -320,13 +320,15 @@ public class MyButton implements Observer {
 		// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
 		// imgGap + t.getAscent() + imgStart);
 
-		int yPos = latex ? (int) (y + (geoButton.getHeight() - textHeight) / 2)
-				+ imgEnd : (int) (y + marginTopMultiplier * margin + imgEnd + t
-				.getAscent());
+		int yPos = latex
+				? (int) (y + (geoButton.getHeight() - textHeight) / 2) + imgEnd
+				: (int) (y + marginTopMultiplier * margin + imgEnd
+						+ t.getAscent());
 
 		if (geoButton.getFillImage() != null) {
-			yPos = latex ? y + imgEnd : (int) (y + marginTopMultiplier * margin
-					+ t.getAscent() + imgEnd);
+			yPos = latex ? y + imgEnd
+					: (int) (y + marginTopMultiplier * margin + t.getAscent()
+							+ imgEnd);
 		}
 
 		if (latex) {
@@ -360,8 +362,7 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font,
-						getCaption());
+						view.getApplication(), geoButton, font, getCaption());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 
@@ -381,8 +382,7 @@ public class MyButton implements Observer {
 					(int) (GeoText.getRelativeFontSize(i) * 12));
 			if (latex) {
 				GDimension d = CanvasDrawable.measureLatex(
-						view.getApplication(), geoButton, font,
-						getCaption());
+						view.getApplication(), geoButton, font, getCaption());
 				textHeight = d.getHeight();
 				textWidth = d.getWidth();
 
@@ -492,17 +492,6 @@ public class MyButton implements Observer {
 	public void setPressed(boolean b) {
 		if (b) {
 			draggedOrContext = false;
-		}
-		// releasing
-		else if (!draggedOrContext) {
-
-			// make sure that Input Boxes lose focus (and so update) before
-			// running scripts
-			// geoButton.getKernel().getApplication().getActiveEuclidianView().requestFocusInWindow();
-
-			// now called from EuclidianController
-			// geoButton.getKernel().getApplication().runScripts(geoButton,
-			// null);
 		}
 
 		pressed = b;

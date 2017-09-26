@@ -50,91 +50,9 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 		this.geoButton = geoButton;
 		geo = geoButton;
 		myButton = new MyButton(geoButton, view);
-		// action listener for checkBox
-		/*
-		 * bl = new ButtonListener();
-		 * 
-		 * myButton.addItemListener(bl); myButton.addMouseListener(bl);
-		 * myButton.addMouseMotionListener(bl); myButton.setFocusable(false);
-		 */
-		// view.add(myButton);
 
 		update();
 	}
-
-	// private class ButtonListener implements ItemListener,
-	// MouseListener, MouseMotionListener {
-	//
-	// private boolean dragging = false;
-	// private EuclidianController ec =
-	// ((EuclidianView)view).getEuclidianController();
-	//
-	// /**
-	// * Handles click on check box. Changes value of GeoBoolean.
-	// */
-	// public void itemStateChanged(ItemEvent e) {
-	// }
-	//
-	// public void mouseDragged(MouseEvent e) {
-	// dragging = true;
-	// e.translatePoint(myButton.getX(), myButton.getY());
-	// ec.mouseDragged(e);
-	// ((EuclidianView)view).setToolTipText(null);
-	// }
-	//
-	// public void mouseMoved(MouseEvent e) {
-	// e.translatePoint(myButton.getX(), myButton.getY());
-	// ec.mouseMoved(e);
-	// ((EuclidianView)view).setToolTipText(null);
-	// }
-	//
-	// public void mouseClicked(MouseEvent e) {
-	// if (e.getClickCount() > 1) return;
-	//
-	// e.translatePoint(myButton.getX(), myButton.getY());
-	// ec.mouseClicked(e);
-	// }
-	//
-	// public void mousePressed(MouseEvent e) {
-	// dragging = false;
-	// e.translatePoint(myButton.getX(), myButton.getY());
-	// ec.mousePressed(e);
-	// }
-	//
-	// public void mouseReleased(MouseEvent e) {
-	// if (!dragging && !e.isMetaDown() && !e.isPopupTrigger()
-	// && view.getMode() == EuclidianConstants.MODE_MOVE)
-	// {
-	// // handle LEFT CLICK
-	// //geoBool.setValue(!geoBool.getBoolean());
-	// //geoBool.updateRepaint();
-	//
-	// // delayed run to allow time for focus leaving event
-	// // to be triggered for GeoTextField
-	// SwingUtilities.invokeLater( new Runnable(){ public void
-	// run() { geo.runScripts(null); }});
-	//
-	//
-	// // make sure itemChanged does not change
-	// // the value back my faking a drag
-	// dragging = true;
-	// }
-	// else {
-	// // handle right click and dragging
-	// e.translatePoint(myButton.getX(), myButton.getY());
-	// ec.mouseReleased(e);
-	// }
-	// }
-	//
-	// public void mouseEntered(MouseEvent arg0) {
-	// hit = true;
-	// ((EuclidianView)view).setToolTipText(null);
-	// }
-	//
-	// public void mouseExited(MouseEvent arg0) {
-	// hit = false;
-	// }
-	// }
 
 	@Override
 	public void update() {
@@ -159,15 +77,6 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 		myButton.setFont(app.getFontCanDisplay(myButton.getText(),
 				geoButton.isSerifFont(), geoButton.getFontStyle(), fontSize));
 
-		// myButton.setForeground(geogebra.awt.Color.getAwtColor(geo.getObjectColor()));
-		// Color bgCol = geo.getBackgroundColor();
-		// myButton.setBackground(Color.red);//bgCol != null ? bgCol :
-		// view.getBackground());
-		// set checkbox state
-		// jButton.removeItemListener(bl);
-		// jButton.setSelected(geo.getBoolean());
-		// jButton.addItemListener(bl);
-
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 
@@ -183,12 +92,6 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 			myButton.setSelected(geo.doHighlighting());
 			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier(),
 					true);
-			// setSelected doesn't seem to do anything in Windows XP
-			// if (!Application.MAC_OS) {
-			// // but looks ugly in MacOS, see #820
-			// button.setBackground(geo.doHighlighting() ? Color.blue :
-			// Color.white);
-			// }
 		}
 	}
 
@@ -239,14 +142,12 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
+		//
 	}
 
 }
