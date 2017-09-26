@@ -223,6 +223,8 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testKorean() {
+
+
 		testEditor("\u314D\u3157\u314E", "\uD407");
 		testEditor("\u3141\u3163\u3142\u315C\u3134",
 				"\uBBF8\uBD84");
@@ -304,6 +306,17 @@ public class SerializeLaTeX {
 
 		testEditor("\u3131\u3157\u3142\u3131\u3161\u3134", "\uACF1\uADFC");
 		testEditor("\u3147\u3163\u3142\u3139\u3155\u3131", "\uC785\uB825");
+		
+		// some middle (vowel) characters need doubling (no other way to enter
+		// them)
+		// eg \u315c \u3153 = \u116f
+		testEditor("\u3147\u315c", "\uc6b0");
+		testEditor("\u3147\u315c\u3153", "\uc6cc");
+		testEditor("\u3147\u315c\u3153\u3134", "\uc6d0");
+		testEditor("\u3147\u3157\u314F", "\uC640");
+		// ... and same for tail
+		testEditor("\u3137\u314F\u3139\u3131", "\uB2ED");
+
 
 	}
 

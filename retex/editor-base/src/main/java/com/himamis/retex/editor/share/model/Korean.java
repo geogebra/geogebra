@@ -696,78 +696,78 @@ public class Korean {
 		}
 	}
 
-	// public static String unmergeDoubleCharacterToLeadTail(char c) {
-	//
-	// switch (c) {
-	//
-	// case '\u3149':
-	// case '\u110d':
-	// return "\u11bd\u110c";
-	//
-	// case '\u3143':
-	// case '\u1108':
-	// return "\u11b8\u1107";
-	//
-	// case '\u3132':
-	// case '\u1101':
-	// case '\u11a9':
-	// return "\u11a8\u1100";
-	//
-	// case '\u3133':
-	// case '\u11aa':
-	// return "\u11a8\u1109";
-	//
-	// case '\u3135':
-	// case '\u11ac':
-	// return "\u11ab\u110c";
-	//
-	// case '\u3136':
-	// case '\u11ad':
-	// return "\u11ab\u1112";
-	//
-	// case '\u313a':
-	// case '\u11b0':
-	// return "\u11af\u1100";
-	//
-	// case '\u313b':
-	// case '\u11b1':
-	// return "\u11af\u1106";
-	//
-	// case '\u313c':
-	// case '\u11b2':
-	// return "\u11af\u1107";
-	//
-	// case '\u313d':
-	// case '\u11b3':
-	// return "\u11af\u1109";
-	//
-	// case '\u313e':
-	// case '\u11b4':
-	// return "\u11af\u1110";
-	//
-	// case '\u313f':
-	// case '\u11b5':
-	// return "\u11af\u1111";
-	//
-	// case '\u3140':
-	// case '\u11b6':
-	// return "\u11af\u1112";
-	//
-	// case '\u3144':
-	// case '\u1121':
-	// case '\u11b9':
-	// return "\u11b8\u1109";
-	//
-	// case '\u110A':
-	// case '\u11BB':
-	// case '\u3145':
-	// // tail + lead
-	// return "\u11ba\u1109";
-	//
-	// }
-	//
-	// return c + "";
-	// }
+	public static String unmergeDoubleCharacterToLeadTail(char c) {
+
+		switch (c) {
+
+		case '\u3149':
+		case '\u110d':
+			return "\u11bd\u110c";
+
+		case '\u3143':
+		case '\u1108':
+			return "\u11b8\u1107";
+
+		case '\u3132':
+		case '\u1101':
+		case '\u11a9':
+			return "\u11a8\u1100";
+
+		case '\u3133':
+		case '\u11aa':
+			return "\u11a8\u1109";
+
+		case '\u3135':
+		case '\u11ac':
+			return "\u11ab\u110c";
+
+		case '\u3136':
+		case '\u11ad':
+			return "\u11ab\u1112";
+
+		case '\u313a':
+		case '\u11b0':
+			return "\u11af\u1100";
+
+		case '\u313b':
+		case '\u11b1':
+			return "\u11af\u1106";
+
+		case '\u313c':
+		case '\u11b2':
+			return "\u11af\u1107";
+
+		case '\u313d':
+		case '\u11b3':
+			return "\u11af\u1109";
+
+		case '\u313e':
+		case '\u11b4':
+			return "\u11af\u1110";
+
+		case '\u313f':
+		case '\u11b5':
+			return "\u11af\u1111";
+
+		case '\u3140':
+		case '\u11b6':
+			return "\u11af\u1112";
+
+		case '\u3144':
+		case '\u1121':
+		case '\u11b9':
+			return "\u11b8\u1109";
+
+		case '\u110A':
+		case '\u11BB':
+		case '\u3145':
+			// tail + lead
+			return "\u11ba\u1109";
+
+		}
+
+		return c + "";
+	}
 
 
 	// static {
@@ -783,264 +783,265 @@ public class Korean {
 	// Log.debug("\u1103\u116E goes to " + StringUtil.toHexString(s));
 	// }
 	
-	// public static String mergeDoubleCharacters(String str) {
-	// return mergeDoubleCharacters(str, true);
-	// }
+	public static String mergeDoubleCharacters(String str) {
+		return mergeDoubleCharacters(str, true);
+	}
 
 	/*
 	 * avoid having to press shift by merging eg \u1100\u1100 to \u1101
-	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html
+	 * http://www.kfunigraz.ac.at/~katzer/korean_hangul_unicode.html (not
+	 * needed/used currently - can be entered with <shift>)
+	 * 
+	 * and merging doubled vowel characters (is used)
 	 */
-	// public static String mergeDoubleCharacters(String str, boolean lead) {
-	//
-	// if (true) {
-	// return str;
-	// }
-	//
-	// if (str.length() < 2) {
-	// return str;
-	// }
-	//
-	// if (sb == null) {
-	// sb = new StringBuilder();
-	// } else {
-	// sb.setLength(0);
-	// }
-	//
-	// char c, c2;
-	//
-	// for (int i = 0; i < str.length() - 1; i++) {
-	// int offset = 1;
-	// switch (c = str.charAt(i)) {
-	//
-	// case '\u11ab':
-//			case '\u1102':
-	// switch (str.charAt(i + 1)) {
-	// case '\u110c':
-	// case '\u11bd':
-	// sb.append('\u11ac');
-	// i++;
-	// break;
-	// case '\u1112':
-	// case '\u11c2':
-	// sb.append('\u11ad');
-	// i++;
-	// break;
-	// default:
-	// sb.append(c);
-	//
-	// }
-	// break;
-	//
-	// case '\u1105':
-	// case '\u11af':
-	// switch (str.charAt(i + 1)) {
-	// case '\u3131':
-	// case '\u1100':
-	// case '\u11a8':
-	// sb.append('\u11b0');
-	// i++;
-	// break;
-	// case '\u3141':
-	// case '\u1106':
-	// case '\u11b7':
-	// sb.append('\u11b1');
-	// i++;
-	// break;
-	// case '\u3142':
-	// case '\u11b8':
-	// case '\u1107':
-	// sb.append('\u11b2');
-	// i++;
-	// break;
-	// case '\u3145':
-	// case '\u1109':
-	// case '\u11ba':
-	// sb.append('\u11b3');
-	// i++;
-	// break;
-	// case '\u314c':
-	// case '\u1110':
-	// case '\u11c0':
-	// sb.append('\u11b4');
-	// i++;
-	// break;
-	// case '\u314d':
-	// case '\u1111':
-	// case '\u11c1':
-	// sb.append('\u11b5');
-	// i++;
-	// break;
-	// case '\u314e':
-	// case '\u1112':
-	// case '\u11c2':
-	// sb.append('\u11b6');
-	// i++;
-	// break;
-	// default:
-	// sb.append(c);
-	// }
-	// break;
-	//
-	// case '\u1161': // these character are "doubled" by adding 2 to their
-	// // Unicode value
-	// case '\u1162':
-	// case '\u1165':
-	// case '\u1166':
-	// offset++;
-	// // fall through
-	// // case '\u1100' : // these character are "doubled" by adding 1
-	// // to their Unicode value
-	// case '\u1103':
-	// // case '\u1107' :
-	// case '\u1109':
-	// case '\u110c':
-	// case '\u11a8':
-	// case '\u11ba':
-	// if (str.charAt(i + 1) == c) {
-	// sb.append((char) (c + offset)); // eg \u1101 ie doubled char
-	// i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	// case '\u1169':
-	// c2 = str.charAt(i + 1);
-	// if (c2 == '\u1161') {
-	// sb.append('\u116a'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1162') {
-	// sb.append('\u116b'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1175') {
-	// sb.append('\u116c'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1169') {
-	// sb.append('\u116d'); // eg \u1101 ie doubled char
-	// i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	// // case '\u1105':
-	// // case '\u11af':
-	// // c2 = str.charAt(i + 1);
-	// // if (c2 == '\u1100') {
-	// // sb.append('\u11b0'); // eg \u1101 ie doubled char
-	// // i++;
-	// // } else if (c2 == '\u1106') {
-	// // sb.append('\u11b1'); // eg \u1101 ie doubled char
-	// // i++;
-	// // } else if (c2 == '\u1107') {
-	// // sb.append('\u11b2'); // eg \u1101 ie doubled char
-	// // i++;
-	// // } else if (c2 == '\u1109') {
-	// // sb.append('\u11b3'); // eg \u1101 ie doubled char
-	// // i++;
-	// // } else if (c2 == '\u1110') {
-	// // sb.append('\u11b4'); // eg \u1101 ie doubled char
-	// // i++;
-	// // } else if (c2 == '\u1112') {
-	// // sb.append('\u11b6'); // eg \u1101 ie doubled char
-	// // i++;
-	// // } else {
-	// // sb.append(c);
-	// // }
-	// // break;
-	// case '\u116e':
-	// c2 = str.charAt(i + 1);
-	// if (c2 == '\u1165') {
-	// sb.append('\u116f'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1166') {
-	// sb.append('\u1170'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1175') {
-	// sb.append('\u1171'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u116e') {
-	// sb.append('\u1172'); // eg \u1101 ie doubled char
-	// i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	// case '\u1173':
-	// c2 = str.charAt(i + 1);
-	// if (c2 == '\u1175') {
-	// sb.append('\u1174'); // eg \u1101 ie doubled char
-	// i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	// case '\u1100':
-	// c2 = str.charAt(i + 1);
-	// if (c2 == '\u1100') {
-	// // assume we want lead \u1101 not tail \u11a9
-	// // eg \u3131 + \u3131 + \u314F -> \uAE4C
-	// sb.append('\u1101'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1109') {
-	// sb.append('\u11aa'); // eg \u1101 ie doubled char
-	// i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	//// case '\u1102':
-	//// c2 = str.charAt(i + 1);
-	//// if (c2 == '\u110c') {
-	//// sb.append('\u11ac'); // eg \u1101 ie doubled char
-	//// i++;
-	//// } else if (c2 == '\u1112') {
-	//// sb.append('\u11ad'); // eg \u1101 ie doubled char
-	//// i++;
-	//// } else {
-	//// sb.append(c);
-	//// }
-	//// break;
-	// case '\u1111':
-	// c2 = str.charAt(i + 1);
-	// if (c2 == '\u1111') {
-	// sb.append('\u11b5'); // eg \u1101 ie doubled char
-	// i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	// case '\u1107':
-//				c2 = str.charAt(i + 1);
-	// if (c2 == '\u1109') {
-	// sb.append('\u11b9'); // eg \u1101 ie doubled char
-	// i++;
-	// } else if (c2 == '\u1107') {
-	// sb.append('\u1108'); // eg \u1101 ie doubled char
-//					i++;
-	// } else {
-	// sb.append(c);
-	// }
-	// break;
-	// case '\u11b8':
-	// c2 = str.charAt(i + 1);
-	// if (c2 == '\u11ba') {
-	// sb.append('\u11b9');
-//					i++;
-//				} else {
-//					sb.append(c);
-//				}
-//				break;
-	// default:
-	// sb.append(c);
-	// }
-	// if (i == str.length() - 2) {
-	// sb.append(str.charAt(str.length() - 1));
-	// }
-	//
-	// }
-	//
-	// return sb.toString();
-	// }
+	public static String mergeDoubleCharacters(String str, boolean lead) {
+
+		if (str.length() < 2) {
+			return str;
+		}
+
+		if (sb == null) {
+			sb = new StringBuilder();
+		} else {
+			sb.setLength(0);
+		}
+
+		char c, c2;
+
+		for (int i = 0; i < str.length() - 1; i++) {
+			int offset = 1;
+			switch (c = str.charAt(i)) {
+
+			case '\u11ab':
+			case '\u1102':
+				switch (str.charAt(i + 1)) {
+				case '\u110c':
+				case '\u11bd':
+					sb.append('\u11ac');
+					i++;
+					break;
+				case '\u1112':
+				case '\u11c2':
+					sb.append('\u11ad');
+					i++;
+					break;
+				default:
+					sb.append(c);
+
+				}
+				break;
+
+			case '\u1105':
+			case '\u11af':
+				switch (str.charAt(i + 1)) {
+				case '\u3131':
+				case '\u1100':
+				case '\u11a8':
+					sb.append('\u11b0');
+					i++;
+					break;
+				case '\u3141':
+				case '\u1106':
+				case '\u11b7':
+					sb.append('\u11b1');
+					i++;
+					break;
+				case '\u3142':
+				case '\u11b8':
+				case '\u1107':
+					sb.append('\u11b2');
+					i++;
+					break;
+				case '\u3145':
+				case '\u1109':
+				case '\u11ba':
+					sb.append('\u11b3');
+					i++;
+					break;
+				case '\u314c':
+				case '\u1110':
+				case '\u11c0':
+					sb.append('\u11b4');
+					i++;
+					break;
+				case '\u314d':
+				case '\u1111':
+				case '\u11c1':
+					sb.append('\u11b5');
+					i++;
+					break;
+				case '\u314e':
+				case '\u1112':
+				case '\u11c2':
+					sb.append('\u11b6');
+					i++;
+					break;
+				default:
+					sb.append(c);
+				}
+				break;
+
+			case '\u1161': // these character are "doubled" by adding 2 to their
+				// Unicode value
+			case '\u1162':
+			case '\u1165':
+			case '\u1166':
+				offset++;
+				// fall through
+				// case '\u1100' : // these character are "doubled" by adding 1
+				// to their Unicode value
+			case '\u1103':
+				// case '\u1107' :
+
+				// don't want these doubled (should use <shift>)
+				// case '\u1109':
+				// case '\u110c':
+				// case '\u11a8':
+				// case '\u11ba':
+				// if (str.charAt(i + 1) == c) {
+				// sb.append((char) (c + offset)); // eg \u1101 ie doubled char
+				// i++;
+				// } else {
+				// sb.append(c);
+				// }
+				// break;
+			case '\u1169':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u1161') {
+					sb.append('\u116a'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1162') {
+					sb.append('\u116b'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1175') {
+					sb.append('\u116c'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1169') {
+					sb.append('\u116d'); // eg \u1101 ie doubled char
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			// case '\u1105':
+			// case '\u11af':
+			// c2 = str.charAt(i + 1);
+			// if (c2 == '\u1100') {
+			// sb.append('\u11b0'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1106') {
+			// sb.append('\u11b1'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1107') {
+			// sb.append('\u11b2'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1109') {
+			// sb.append('\u11b3'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1110') {
+			// sb.append('\u11b4'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1112') {
+			// sb.append('\u11b6'); // eg \u1101 ie doubled char
+			// i++;
+			// } else {
+			// sb.append(c);
+			// }
+			// break;
+			case '\u116e':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u1165') {
+					sb.append('\u116f'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1166') {
+					sb.append('\u1170'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1175') {
+					sb.append('\u1171'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u116e') {
+					sb.append('\u1172'); // eg \u1101 ie doubled char
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			case '\u1173':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u1175') {
+					sb.append('\u1174'); // eg \u1101 ie doubled char
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			case '\u1100':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u1100') {
+					// assume we want lead \u1101 not tail \u11a9
+					// eg \u3131 + \u3131 + \u314F -> \uAE4C
+					sb.append('\u1101'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1109') {
+					sb.append('\u11aa'); // eg \u1101 ie doubled char
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			// case '\u1102':
+			// c2 = str.charAt(i + 1);
+			// if (c2 == '\u110c') {
+			// sb.append('\u11ac'); // eg \u1101 ie doubled char
+			// i++;
+			// } else if (c2 == '\u1112') {
+			// sb.append('\u11ad'); // eg \u1101 ie doubled char
+			// i++;
+			// } else {
+			// sb.append(c);
+			// }
+			// break;
+			case '\u1111':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u1111') {
+					sb.append('\u11b5'); // eg \u1101 ie doubled char
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			case '\u1107':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u1109') {
+					sb.append('\u11b9'); // eg \u1101 ie doubled char
+					i++;
+				} else if (c2 == '\u1107') {
+					sb.append('\u1108'); // eg \u1101 ie doubled char
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			case '\u11b8':
+				c2 = str.charAt(i + 1);
+				if (c2 == '\u11ba') {
+					sb.append('\u11b9');
+					i++;
+				} else {
+					sb.append(c);
+				}
+				break;
+			default:
+				sb.append(c);
+			}
+			if (i == str.length() - 2) {
+				sb.append(str.charAt(str.length() - 1));
+			}
+
+		}
+
+		return sb.toString();
+	}
 
 	/**
 	 * tries to combine lastChar+newChar as a single char or two chars if
@@ -1117,6 +1118,7 @@ public class Korean {
 
 		String lastCharFlat = Korean.flattenKorean(lastChar + "");
 
+
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanVowelChar(newChar, true)) {
 
@@ -1126,6 +1128,8 @@ public class Korean {
 			// newChar = Korean.convertFromCompatibilityJamo(newChar,
 			// false);
 
+			char lastCharFlat2 = lastCharFlat.charAt(2);
+
 			char newLastChar = Korean
 					.unflattenKorean(lastCharFlat.substring(0, 2)).charAt(0);
 
@@ -1133,9 +1137,92 @@ public class Korean {
 					Korean.tailToLead(lastCharFlat.charAt(2)) + "" + newChar)
 					.charAt(0);
 
+			String unmergedChar2 = isKoreanVowelChar(newChar, true)
+					? unmergeDoubleCharacterToLeadTail(lastCharFlat2) : "";
+
+			// System.err.println("lastCharFlat2 = " + lastCharFlat2 + " "
+			// + toJavaString("" + lastCharFlat2));
+
 			ret[0] = newLastChar;
 			ret[1] = newNewChar;
 			return ret;
+
+		}
+
+		// case5: a tailed char is doubled
+		// entered as two key presses
+		// eg \u3131 \u314F \u3142 \u3145 needs to give \uAC12
+
+		if (lastCharFlat.length() == 3
+				&& Korean.isKoreanTailChar(newChar, true)) {
+			// System.err.println("case 5 " + lastChar + " " + newChar);
+
+			newChar = Korean.convertFromCompatibilityJamo(newChar, false);
+
+			// System.err.println("newChar = " + newChar);
+
+			char lastChar2 = lastCharFlat.charAt(2);
+			// System.err.println("lastChar2 = " + lastChar2);
+
+			// if this is length 1, merge succeeded
+			String doubleCheck = Korean
+					.mergeDoubleCharacters(lastChar2 + "" + newChar);
+
+			// System.err.println("doubleCheck = " + doubleCheck + " "
+			// + doubleCheck.length());
+
+			if (doubleCheck.length() == 1) {
+				// System.err.println("merge check passed");
+
+				newChar = Korean
+						.unflattenKorean(
+								lastCharFlat.substring(0, 2) + "" + doubleCheck)
+						.charAt(0);
+
+				ret[0] = newChar;
+				ret[1] = 0;
+				return ret;
+
+			}
+
+		}
+
+		// case 6
+		// a vowel character is a "doubled" char
+		// case 1
+		// we already have Jamo lead + vowel as single unicode
+
+		// System.err.println("Korean.isKoreanLeadPlusVowelChar(lastChar) = "
+		// + Korean.isKoreanLeadPlusVowelChar(lastChar));
+		// System.err.println("Korean.isKoreanVowelChar(newChar, true) = "
+		// + Korean.isKoreanVowelChar(newChar, true));
+
+		if (Korean.isKoreanLeadPlusVowelChar(lastChar)
+				&& Korean.isKoreanVowelChar(newChar, true)) {
+
+			// System.err.println("case 6 " + lastChar + " " + newChar);
+
+			char lastChar1 = lastCharFlat.charAt(1);
+
+			// if this is length 1, merge succeeded
+			String doubleCheck = Korean.mergeDoubleCharacters(lastChar1 + ""
+					+ Korean.convertFromCompatibilityJamo(newChar, true));
+
+			// System.err.println("doubleCheck = " + doubleCheck);
+
+			if (doubleCheck.length() == 1) {
+				// System.err.println("merge check 2 passed");
+
+				newChar = Korean
+						.unflattenKorean(
+								lastCharFlat.charAt(0) + "" + doubleCheck)
+						.charAt(0);
+
+				ret[0] = newChar;
+				ret[1] = 0;
+				return ret;
+
+			}
 
 		}
 
