@@ -8769,8 +8769,7 @@ public abstract class EuclidianController {
 			// else
 			if (app.isSelectionRectangleAllowed()
 					&& ((app.isRightClick(event)
-							|| app.getMode() == EuclidianConstants.MODE_SELECT
-									&& app.has(Feature.SELECT_TOOL))
+							|| app.getMode() == EuclidianConstants.MODE_SELECT)
 							|| (allowSelectionRectangle() && !shapeDragged))
 					&& !temporaryMode) {
 				// Michael Borcherds 2007-10-07

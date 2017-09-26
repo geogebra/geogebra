@@ -4220,16 +4220,10 @@ public abstract class App implements UpdateSelection {
 		case EXPORT_SCAD:
 			return prerelease;
 
-		case INPUT_BAR_SOLVE:
-			return relaunch || isNativeMobileAppWithNewUI();
 
 		case INPUT_BAR_ADD_SLIDER:
 			return relaunch
 					&& isHTML5Applet();
-
-		/** GGB-1868 */
-		case SELECT_TOOL:
-			return relaunch || isNativeMobileAppWithNewUI();
 
 		/** GGB-1876 */
 		case DOUBLE_ROUND_BRACKETS:
@@ -4260,9 +4254,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case LABEL_SETTING_ON_STYLEBAR:
-			return relaunch;
-
-		case LABEL_NAME_CAPTION:
 			return relaunch;
 
 		case SURFACE_2D:

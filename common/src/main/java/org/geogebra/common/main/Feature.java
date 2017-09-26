@@ -181,17 +181,11 @@ public enum Feature {
 
 	EXPORT_SCAD,
 
-	INPUT_BAR_SOLVE,
-
-
 	/** AND-343 */
 	AND_SNACKBAR,
 	
 	/** MOB-1227 */
 	MOB_SELECT_TOOL,
-
-	/** GGB-1868 */
-	SELECT_TOOL,
 
 	/** AND-174 */
 	AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION,
@@ -254,7 +248,7 @@ public enum Feature {
 
 	AND_MOVE_FAB,
 
-	LABEL_NAME_CAPTION, SURFACE_2D,
+	SURFACE_2D,
 
 	/** GGB-1970*/
 	ARROW_OUTPUT_PREFIX,
