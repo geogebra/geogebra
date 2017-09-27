@@ -1,5 +1,6 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -42,6 +43,7 @@ public class MyButton implements Observer {
 	private boolean pressed, draggedOrContext;
 	private double textHeight;
 	private double textWidth;
+	private GBasicStroke borderStroke;
 
 	private final static float marginTopMultiplier = 0.6f;
 	private final static float marginBottomMultiplier = 0.5f;
@@ -59,6 +61,7 @@ public class MyButton implements Observer {
 		this.view = view;
 		this.x = 20;
 		this.y = 20;
+		this.borderStroke = AwtFactory.getPrototype().newMyBasicStroke(0.25f);
 		geoButton.setObserver(this);
 	}
 
@@ -264,7 +267,7 @@ public class MyButton implements Observer {
 		} else {
 			// default button design
 			if (bg.equals(GColor.WHITE)) {
-				g.setColor(GColor.BLACK);
+				g.setColor(GColor.GRAY);
 
 				// user adjusted design
 			} else {
@@ -273,7 +276,7 @@ public class MyButton implements Observer {
 		}
 
 		// draw border
-		g.setStroke(EuclidianStatic.getDefaultStroke());
+		g.setStroke(borderStroke);
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1,
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
