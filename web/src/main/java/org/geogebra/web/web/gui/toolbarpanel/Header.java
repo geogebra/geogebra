@@ -15,6 +15,7 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
@@ -731,7 +732,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		int tabIndex = 1;
+		int tabIndex = GUITabs.HEADER_TAB_START;
 		for (ToggleButton btn : buttons) {
 			if (btn != null) {
 				btn.setTabIndex(tabIndex);

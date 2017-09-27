@@ -1,5 +1,8 @@
 package org.geogebra.web.html5.gui.util;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
@@ -12,6 +15,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.web.gui.layout.GUITabs;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
@@ -46,6 +50,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private String containerMarginLeft;
 	private String containerMarginTop;
 	private double cssScale = 0;
+	private List<StandardButton> buttons = null;
 
 	public ZoomPanel(EuclidianView view) {
 		this.view = view;
@@ -59,6 +64,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 			addFullscreenButton();
 		}
 		setLabels();
+		if (app.has(Feature.TAB_ON_GUI)) {
+			buttons = Arrays.asList(homeBtn, zoomInBtn, zoomOutBtn,
+					fullscreenBtn);
+			setTabIndexes();
+		}
 	}
 
 	public void updateFullscreen() {
@@ -260,6 +270,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 		homeBtn.addStyleName("zoomPanelHomeIn");
 		homeBtn.removeStyleName("zoomPanelHomeOut");
+		homeBtn.getElement().setAttribute("arial-hidden", "false");
 	}
 
 	/**
@@ -272,6 +283,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 		homeBtn.addStyleName("zoomPanelHomeOut");
 		homeBtn.removeStyleName("zoomPanelHomeIn");
+		homeBtn.getElement().setAttribute("arial-hidden", "true");
 	}
 
 	private void updateHomeButton() {
@@ -447,5 +459,18 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 */
 	public int getMinHeight() {
 		return needsZoomButtons(app) ? 200 : 100;
+	}
+
+	/**
+	 * Sets tab order for header buttons.
+	 */
+	public void setTabIndexes() {
+		int tabIndex = GUITabs.ZOOMPANEL_TAB_START;
+		for (StandardButton btn : buttons) {
+			if (btn != null) {
+				btn.setTabIndex(tabIndex);
+				tabIndex++;
+			}
+		}
 	}
 }
