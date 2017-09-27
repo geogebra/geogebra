@@ -40,9 +40,9 @@ namespace giac {
   std::string matrix2mathml(const matrice & m,GIAC_CONTEXT);
   std::string gen2mathml(const gen & e,GIAC_CONTEXT);
   std::string gen2mathml(const gen & e, std::string &svg,GIAC_CONTEXT);
-  std::string gen2svg(const gen &e,GIAC_CONTEXT,bool withpreamble);
+  std::string gen2svg(const gen &e,GIAC_CONTEXT,bool withpreamble=false);
   //std::string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT);
-  std::string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT,bool withpreamble);
+  std::string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT,bool withpreamble=false);
   std::string svg_preamble_pixel(const gen & g,double width_cm, double height_cm,bool xml=true);
   std::string svg_preamble(double width_cm, double height_cm,bool xml=true);
   std::string svg_preamble_pixel(const gen & g,double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml);

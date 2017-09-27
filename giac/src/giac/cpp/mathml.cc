@@ -924,6 +924,7 @@ namespace giac {
     // COUT << r << endl;
     double a1=evalf_double(angle1,1,contextptr)._DOUBLE_val+rot;
     double a2=evalf_double(angle2,1,contextptr)._DOUBLE_val+rot;
+    if (a2<a1) std::swap(a1,a2);
     bool arc=std::abs(a2-a1-2*M_PI)>1e-4;
     s= string(arc?"<path ":"<circle ");
     if (attr.ie){
