@@ -21,6 +21,7 @@ public class StandardButton extends FastButton {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
+	private NoDragImage btnImage;
 
 	/**
 	 * @param icon
@@ -30,7 +31,7 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ImageResource icon, App app) {
 		this.app = app;
-		setIconAndLabel(icon, null, icon.getWidth(), null);
+		setIconAndLabel(icon, null, icon.getWidth());
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ImageResource icon, App app, String altText) {
 		this.app = app;
-		setIconAndLabel(icon, null, icon.getWidth(), altText);
+		setIconAndLabel(icon, null, icon.getWidth());
 	}
 
 	/**
@@ -54,7 +55,7 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final String label, App app) {
 		this.app = app;
-		setIconAndLabel(null, label, -1, null);
+		setIconAndLabel(null, label, -1);
 	}
 
 	/**
@@ -69,15 +70,15 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ResourcePrototype icon, final String label, int width, App app) {
 		this.app = app;
-		setIconAndLabel(icon, label, width, null);
+		setIconAndLabel(icon, label, width);
 	}
 
-	private void setIconAndLabel(final ResourcePrototype image, final String label, int width, String altText) {
+	private void setIconAndLabel(final ResourcePrototype image, final String label, int width) {
 		this.width = width;
 		this.icon = image;
 		this.label = label;
 		if (image != null) {
-			NoDragImage btnImage = new NoDragImage(
+			btnImage = new NoDragImage(
 					ImgResourceHelper.safeURI(image),
 					width);
 			if (label == null) {
@@ -87,7 +88,6 @@ public class StandardButton extends FastButton {
 				this.getElement().appendChild(btnImage.getElement());
 				this.getElement().appendChild(new Label(label).getElement());
 			}
-			btnImage.getElement().setAttribute("alt", altText);
 			btnImage.getElement().setAttribute("role", "button");
 			return;
 		}
@@ -101,7 +101,7 @@ public class StandardButton extends FastButton {
 	@Override
     public void setText(String text){
 		this.label = text;
-		setIconAndLabel(this.icon, text, this.width, null);
+		setIconAndLabel(this.icon, text, this.width);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public class StandardButton extends FastButton {
 	 *            - set text of button
 	 */
 	public void setLabel(final String label) {
-		setIconAndLabel(this.icon, label, this.width, null);
+		setIconAndLabel(this.icon, label, this.width);
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class StandardButton extends FastButton {
 	 *            - icon
 	 */
 	public void setIcon(final ImageResource icon) {
-		setIconAndLabel(icon, this.label, this.width, null);
+		setIconAndLabel(icon, this.label, this.width);
 	}
 	
 	@Override
@@ -175,5 +175,14 @@ public class StandardButton extends FastButton {
 		} else {
 			super.setTitle(title);
 		}
+	}
+
+	/**
+	 * @param altText
+	 *            - alt text
+	 */
+	public void setAltText(String altText) {
+		btnImage.getElement().setAttribute("alt", altText);
+		btnImage.getElement().setAttribute("role", "button");
 	}
 }

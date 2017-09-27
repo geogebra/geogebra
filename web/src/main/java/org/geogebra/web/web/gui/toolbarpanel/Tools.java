@@ -723,8 +723,10 @@ public class Tools extends FlowPanel implements SetLabels {
 			ArrayList<Integer> tools = getmToolCategorization().getTools(
 					getmToolCategorization().getCategories().indexOf(category));
 			for (int i = 0; i < tools.size(); i++) {
-				toolBtnList.get(i).setTitle(getApp().getLocalization()
-						.getMenu(EuclidianConstants.getModeText(tools.get(i))));
+				String title = getApp().getLocalization()
+						.getMenu(EuclidianConstants.getModeText(tools.get(i)));
+				toolBtnList.get(i).setTitle(title);
+				toolBtnList.get(i).setAltText(title);
 			}
 		}
 	}

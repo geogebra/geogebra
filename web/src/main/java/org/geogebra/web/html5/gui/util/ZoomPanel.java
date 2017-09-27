@@ -403,15 +403,16 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * Sets translated titles of the buttons.
 	 */
 	public void setLabels() {
-		setButtonTitle(fullscreenBtn, "Fullscreen");
-		setButtonTitle(homeBtn, "StandardView");
-		setButtonTitle(zoomOutBtn,"ZoomOut.Tool");
-		setButtonTitle(zoomInBtn,"ZoomIn.Tool");
+		setButtonTitleAndAltText(fullscreenBtn, "Fullscreen");
+		setButtonTitleAndAltText(homeBtn, "StandardView");
+		setButtonTitleAndAltText(zoomOutBtn,"ZoomOut.Tool");
+		setButtonTitleAndAltText(zoomInBtn,"ZoomIn.Tool");
 	}
 
-	private void setButtonTitle(StandardButton btn, String string) {
+	private void setButtonTitleAndAltText(StandardButton btn, String string) {
 		if (btn != null) {
 			btn.setTitle(app.getLocalization().getMenu(string));
+			btn.setAltText(app.getLocalization().getMenu(string));
 		}
 
 	}
