@@ -2166,7 +2166,6 @@ namespace giac {
 	  }
 	  unary_function_ptr & u=res._SYMBptr->sommet;
 	  if (u==at_break){
-	    test=zero;
 	    res=u; // res=oldres;
 	    break;
 	  }
@@ -2178,7 +2177,7 @@ namespace giac {
       }
       else {
 	for (;
-	     idx?*idx!=stop:(for_in?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr));
+	     idx?*idx!=stop:((for_in && test.val)?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr));
 	     ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
 	  if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
 	    break;
@@ -2233,6 +2232,7 @@ namespace giac {
 		if (u==at_break){
 		  increment_instruction(it+1,itend,newcontextptr);
 		  test=zero;
+		  idx=0;
 		  res=u; // res=oldres;
 		  break;
 		}

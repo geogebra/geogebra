@@ -7233,9 +7233,9 @@ namespace giac {
     if (x.real()<0.5){
 #if !defined(HAVE_LONG_DOUBLE) || defined(PNACL)
 #ifdef FREERTOS
-      res=std::log(M_PI) -std::log(complex_long_double(std::sin(M_PI*x.real())*std::cosh(M_PI*x.imag()),std::cos(M_PI*x.real())*std::sinh(M_PI*x.imag())) - lngamma(1.-x);
+      res=std::log(M_PI) -std::log(complex_long_double(std::sin(M_PI*x.real())*std::cosh(M_PI*x.imag()),std::cos(M_PI*x.real())*std::sinh(M_PI*x.imag()))) - lngamma(1.-x);
 #else
-      res=std::log(M_PI) -std::log(std::sin(M_PI*x)) - lngamma(1.-x);
+      res=std::log((double) M_PI) -std::log(std::sin((double)M_PI*x)) - lngamma(1.-x);
 #endif
 #else
       res=std::log(M_PIL) -std::log(std::sin(M_PIL*x)) - lngamma(1.L-x);
@@ -7913,11 +7913,7 @@ namespace giac {
       bool sub=false;
       if (c._CPLXptr->_DOUBLE_val<0){
 #ifdef GIAC_HAS_STO_38
-	// The weired 2 lines bellow are a replacement of a single res0=M_PI/std::tan(M_PI*z).
-	// They are unfortunately nessecary because the keil compiler seems to loose its footing on typing with the "simple" version
-	// The code that I am using here forces the compiler to assign types to objects at every steps and to "not mess up".
-	complex<double> t(M_PI*z.real(), M_PI*z.imag()); // t= M_PI*z; did not work as it seems that the comiler was generating a gen
-	res0=M_PI; res0/=std::tan(t);                    // res0=M_PI/std::tan(t) did not work as the comiler was generating a gen that it could not store in a complex
+	res0=(double) M_PI/std::tan((double) M_PI*z);
 #else
 	res0=M_PI/std::tan(M_PI*z);
 #endif

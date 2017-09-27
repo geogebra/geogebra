@@ -611,7 +611,7 @@ namespace giac {
 
   gen _cycles2permu(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if (args.type!=_VECT) 
+    if (!ckmatrix(args)) 
       return gentypeerr(contextptr);
     vecteur v(*args._VECTptr); 
     vecteur::const_iterator it=v.begin(),itend=v.end();
