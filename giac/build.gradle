@@ -9,23 +9,34 @@ apply from: 'gradle-scripts/repositories.gradle'
 apply plugin: 'cpp'
 apply plugin: 'visual-studio'
 
-// FIXME: These seetings are hardcoded at the moment, they need to be more general.
-// Set this as needed:
+/* Emscripten related settings. Currently we use version 1.34.1, newer versions will currently not work,
+ * older versions may have problems in some Giac commands and results.
+ *
+ * 1. You will need to download the correct toolchain version by running the task installEmsdk.
+ *    Always take care of using the correct emscripten version and also the appropriate clang compiler,
+ *    otherwise you may encounter extremely strange problems on compilation time or runtime.
+ *    Newer emscripten versions usually do sanity checks during the compilation and inform you
+ *    about any issues.
+ *
+ * 2. Hopefully you have the correct versions of GMP and MPFR in src/giac.js/prebuilt/. If not, you
+ *    need to compile the correct version. The provided tasks may compile an incorrect version for
+ *    1.34.1, but it should work for the older ones. The related tasks are: emConfigureGmp,
+ *    emMakeGmp, emConfigureMpfr, emMakeMpfr. (The correct GMP and MPFR versions can be tested
+ *    by entering some big integer/real computations.) First you may need to set some environmental
+ *    variables or hardcoded script variables manually. FIXME
+ *    The compilation can be influenced by using the environmental variable EXT_GMPMPFR (local/emgiac).
+ *
+ * 3. Run the createGiacJs task. It will recompile all C++ files and then re-link the library. FIXME
+ *    It can be fine-tuned by using the EMCC and EMSCRIPTEN_VER environmental variables
+ *    (but usually not required to use them).
+ */
+
+// FIXME: These settings are hardcoded at the moment, they need to be more general.
 def externalSourceDir = "/home/autotest/gmp+mpfr-llvm"
 // You may need to download and unzip following packages:
 def gmpSourceDir = "$externalSourceDir/gmp-6.0.0"
 def mpfrSourceDir = "$externalSourceDir/mpfr-3.1.2"
 def emgiacSourceDir = "$externalSourceDir/emgiac"
-
-def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
-
-def emccCommand = "emcc"
-// You may override it by using environmental variable:
-if (System.env['EMCC'] != null) {
-    emccCommand = System.env['EMCC']
-}
-// Also consider setting LLVM for the older emscripten version.
-// Emscripten should be configured before running this script, and on the first run there may be problems.
 
 def jsPrebuiltDir = "src/giac.js/prebuilt"
 def LlvmMpfrA = "$jsPrebuiltDir/libmpfr.a"
@@ -38,16 +49,28 @@ if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "emgiac") 
     LlvmMpfrA = "$emgiacSourceDir/giac/libmpfr.a"
     LlvmGmpA = "$emgiacSourceDir/giac/libgmp.a"
 }
-def emscriptenVer = '201304'
-if (System.env['EMSCRIPTEN_VER'] != null && System.env['EMSCRIPTEN_VER'] == "201505") {
-    emscriptenVer = '201505'
+def emscriptenVer = '201505' // 1.34.1
+if (System.env['EMSCRIPTEN_VER'] != null) {
+    emscriptenVer = System.env['EMSCRIPTEN_VER'];
 }
 
 def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('build/emsdk')
-def emsdkRunDir = file("$emsdkDir/emsdk_portable")
-def emscriptenDir = file("$emsdkRunDir/emscripten/1.30.0")
+def emsdkRunDir = file("$emsdkDir/emsdk-portable")
+def emscriptenVersion = "1.34.1"
+def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
+
+def emccCommand = "${emscriptenDir}/emcc"
+if (System.env['EMCC'] != null) {
+    emccCommand = System.env['EMCC']
+    println "Warning: emscripten's installation folder is set internally to ${emscriptenDir}."
+    println "This is hardcoded in the script and must be changed manually if you want to recompile GMP and MPFR."
+}
+
+// End of emscripten related settings. Huh.
+
+def java_home = org.gradle.internal.jvm.Jvm.current().javaHome
 
 import org.apache.tools.ant.taskdefs.condition.Os
 
@@ -542,14 +565,19 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
                     if (emscriptenVer == '201304') {
                         commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
                     }
-                    if (emscriptenVer == '201505') {
+                    if (emscriptenVer != '201304') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1 -fno-exceptions"
+                        commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
+
+                    }
+                    if (emscriptenVer == '201704') {
+                        commandline += " -DHAVE_UNISTD_H"
                     }
 
                     commandline += ' -DGIAC_GGB' // from old Makefile
                     commandline += ' -DTIMEOUT -DEMCC' // from old config.h
                     commandline += " -Isrc/giac/headers -c $input -o $output"
-
+                    println "Compiling: ${commandline}"
                     commandLine commandline.split()
                 }
             }
@@ -577,6 +605,10 @@ task emccCompile {
 
 task emccGiacJs (dependsOn: 'emccCompile') {
     description 'Links giac.js.'
+    mustRunAfter emccCompile
+    def output = "build/binaries/giacggb.js/giacggb.js"
+    outputs.file output
+    doLast {
     def list = []
     def linkerArgs = []
     def inputInclude = []
@@ -588,11 +620,7 @@ task emccGiacJs (dependsOn: 'emccCompile') {
         list << emccCompileTask
         linkerArgs << "build/objs/giac.js/${f.name}"
         }
-    def output = "build/binaries/giacggb.js/giacggb.js"
-    inputs.files inputInclude
-    outputs.file output
-    mustRunAfter emccCompile
-    doLast {
+
         file("build/binaries/giacggb.js").mkdirs()
         exec {
             linkerArgs << LlvmMpfrA // mpfr must precede gmp, see http://www.mpfr.org/faq.html, Q5
@@ -601,14 +629,17 @@ task emccGiacJs (dependsOn: 'emccCompile') {
             if (emscriptenVer == '201304') {
                 linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
             }
-            if (emscriptenVer == '201505') {
+            if (emscriptenVer != '201304') {
                 linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
-                // linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+                linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
             }
             linkerArgs << '-DGIAC_GGB'
             linkerArgs << '-o' << output
-            linkerArgs << '-O2' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
-            linkerArgs << '--closure' << '1'
+            linkerArgs << '-O3' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
+            linkerArgs << '--memory-init-file' << '0'
+            linkerArgs << '-s' << 'TOTAL_MEMORY=64000000' // consider increasing this if running out of memory on GB computations
+            def linkerArgsString = linkerArgs.join(" ")
+            println "Linking: ${emccCommand} ${linkerArgsString}"
             commandLine emccCommand
             args linkerArgs
         }
@@ -655,11 +686,11 @@ task installEmsdk (dependsOn: 'downloadEmsdk') {
             workingDir emsdkRunDir
         }
         exec {
-            commandLine './emsdk install latest'.split()
+            commandLine "./emsdk install $emscriptenVersion".split()
             workingDir emsdkRunDir
         }
         exec {
-            commandLine './emsdk activate latest'.split()
+            commandLine "./emsdk activate $emscriptenVersion".split()
             workingDir emsdkRunDir
         }
         // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
@@ -708,15 +739,6 @@ task emMakeMpfr {
     }
 }
 
-/* How to use the new system:
- * Run tasks downloadEmsdk, installEmsdk, emConfigureGmp, emMakeGmp, emConfigureMpfr, emMakeMpfr, then run
- * $ EMSCRIPTEN_VER=201505 EXT_GMPMPFR=emgiac EMCC=$HOME/geogebra/giac/build/emsdk/emsdk_portable/emscripten/master/emcc ../gradlew createGiacJs
- */
-
-/* How to use the old system under Java 8, 2 CPUs:
- * $ EMCC=.../emscripten-master/emcc LLVM=.../clang+llvm-3.2-x86_64-linux-ubuntu-12.04/bin \
-   PATH=.../cross-compilers/x86/bin:/.../cross-compilers/arm/bin:$PATH JAVA_HEAP_SIZE=3072m ../gradlew createGiacJs
- */
 
 task androidCopyCrystaxSo (dependsOn: 'giac-android:copyCrystaxSo')
 
