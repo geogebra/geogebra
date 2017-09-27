@@ -7,6 +7,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 
+/**
+ * categorization of tools
+ */
 public class ToolCategorization {
 
 	/**
@@ -43,55 +46,117 @@ public class ToolCategorization {
 		}
 	}
 
+	/**
+	 * @author csilla
+	 * 
+	 *         app types
+	 *
+	 */
 	public enum AppType {
-		GEOMETRY_CALC, GRAPHING_CALCULATOR, GRAPHER_3D
+		/**
+		 * graphing calculator
+		 */
+		GEOMETRY_CALC,
+		/**
+		 * geometry
+		 */
+		GRAPHING_CALCULATOR,
+		/**
+		 * 3D graphing calculator
+		 */
+		GRAPHER_3D
 	}
 
+	/**
+	 * @author csilla
+	 * 
+	 *         category names
+	 *
+	 */
     public enum Category {
         // from Geometry & Graphing Calculator
+		/**
+		 * basic
+		 */
 		BASIC("ToolCategory.BasicTools"),
-
+		/**
+		 * edit
+		 */
 		EDIT("ToolCategory.Edit"),
-
+		/**
+		 * media
+		 */
 		MEDIA("ToolCategory.Media"),
-
+		/**
+		 * construct
+		 */
 		CONSTRUCT("ToolCategory.Construct"),
-
+		/**
+		 * measure
+		 */
 		MEASURE("ToolCategory.Measure"),
-
+		/**
+		 * points
+		 */
 		POINTS("ToolCategory.Points"),
-
+		/**
+		 * lines
+		 */
 		LINES("ToolCategory.Lines"),
-
+		/**
+		 * polygons
+		 */
 		POLYGONS("ToolCategory.Polygons"),
-
+		/**
+		 * circles
+		 */
 		CIRCLES("ToolCategory.Circles"),
-
+		/**
+		 * curves
+		 */
 		CURVES("ToolCategory.Curves"),
-
+		/**
+		 * conics
+		 */
 		CONICS("ToolCategory.Conics"),
-
+		/**
+		 * transformation
+		 */
 		TRANSFORM("ToolCategory.Transform"),
-
+		/**
+		 * special lines
+		 */
         SPECIAL_LINES("ToolCategory.SpecialLines"),
-
+		/**
+		 * others
+		 */
 		OTHERS("ToolCategory.Others"),
-
+		/**
+		 * lines and polygons
+		 */
         // specific to 3D Grapher
 		LINES_AND_POLYGONS("ToolCategory.LinesAndPolygons"),
-
+		/**
+		 * solids
+		 */
 		SOLIDS("ToolCategory.Solids"),
-
+		/**
+		 * planes
+		 */
 		PLANES("ToolCategory.Planes"),
-
+		/**
+		 * select and format
+		 */
 		SELECT_AND_FORMAT("ToolCategory.SelectAndFormat");
-
         private final String header;
 
         Category(String header) {
             this.header = header;
         }
 
+		/**
+		 * @return header of category
+		 */
         public String getHeader() {
             return header;
         }
@@ -103,7 +168,6 @@ public class ToolCategorization {
     private ArrayList<Category> customizedCategories;
     private ArrayList<ArrayList<Integer>> toolsLists;
     private TreeSet<Integer> availableTools;
-
     private App app;
 
     /**
@@ -198,11 +262,9 @@ public class ToolCategorization {
 			addToList(tools, EuclidianConstants.MODE_POLYGON);
 			addToList(tools, EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
 			storeIfNotEmpty(category, tools);
-
 			if (!level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) {
 				buildGeometryCalculatorCommonTools();
 			}
-
 			break;
 
             case GRAPHING_CALCULATOR:
@@ -219,9 +281,7 @@ public class ToolCategorization {
                    // addToList(tools, EuclidianConstants.MODE_FUNCTION_INSPECTOR);
                 }
                 storeIfNotEmpty(category, tools);
-
 			buildGraphingCalculatorCommonTools();
-
                 break;
 
             case GRAPHER_3D:
@@ -236,13 +296,9 @@ public class ToolCategorization {
                 addToList(tools, EuclidianConstants.MODE_INTERSECTION_CURVE);
                 addToList(tools, EuclidianConstants.MODE_NET);
                 storeIfNotEmpty(category, tools);
-
 				build3DGrapherCommonTools();
-
                 break;
-
         }
-
     }
 
 	private void buildGraphingCalculatorCommonTools() {
@@ -251,7 +307,6 @@ public class ToolCategorization {
 		} else {
 			buildGraphingStandardCommonTools();
 		}
-
 	}
 
 	private void buildGraphingStandardCommonTools() {
@@ -260,9 +315,7 @@ public class ToolCategorization {
 
 		category = Category.EDIT;
 		tools = new ArrayList<Integer>();
-
 		addToList(tools, EuclidianConstants.MODE_SELECT);
-
 		addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
 		addToList(tools, EuclidianConstants.MODE_DELETE);
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
@@ -323,9 +376,7 @@ public class ToolCategorization {
 
         category = Category.EDIT;
         tools = new ArrayList<Integer>();
-
 		addToList(tools, EuclidianConstants.MODE_SELECT);
-
 		addToList(tools, EuclidianConstants.MODE_TRANSLATEVIEW);
 		addToList(tools, EuclidianConstants.MODE_DELETE);
         addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
@@ -434,7 +485,7 @@ public class ToolCategorization {
             addToList(tools, EuclidianConstants.MODE_BUTTON_ACTION);
             addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
             addToList(tools, EuclidianConstants.MODE_TEXTFIELD_ACTION);
-            addToList(tools, EuclidianConstants.MODE_CREATE_LIST);
+			// addToList(tools, EuclidianConstants.MODE_CREATE_LIST);
         }
         storeIfNotEmpty(category, tools);
     }
@@ -453,9 +504,7 @@ public class ToolCategorization {
 
 		category = Category.EDIT;
 		tools = new ArrayList<Integer>();
-
 		addToList(tools, EuclidianConstants.MODE_SELECT);
-
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 		addToList(tools, EuclidianConstants.MODE_DELETE);
@@ -527,9 +576,7 @@ public class ToolCategorization {
 
 		category = Category.EDIT;
 		tools = new ArrayList<Integer>();
-
 		addToList(tools, EuclidianConstants.MODE_SELECT);
-
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_LABEL);
 		addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 		addToList(tools, EuclidianConstants.MODE_DELETE);
@@ -639,7 +686,7 @@ public class ToolCategorization {
 			addToList(tools, EuclidianConstants.MODE_BUTTON_ACTION);
 			addToList(tools, EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			addToList(tools, EuclidianConstants.MODE_TEXTFIELD_ACTION);
-			addToList(tools, EuclidianConstants.MODE_CREATE_LIST);
+			// addToList(tools, EuclidianConstants.MODE_CREATE_LIST);
 		}
 		storeIfNotEmpty(category, tools);
 	}
@@ -836,7 +883,6 @@ public class ToolCategorization {
 		addToList(tools, EuclidianConstants.MODE_POLAR_DIAMETER);
 		storeIfNotEmpty(category, tools);
 	}
-
 
     private void storeIfNotEmpty(Category category, ArrayList<Integer> tools) {
         if (!tools.isEmpty()) {
