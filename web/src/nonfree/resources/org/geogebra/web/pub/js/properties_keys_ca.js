@@ -2894,7 +2894,7 @@ __GGB__keysVar.ca.menu = {
     "Up": "Amunt",
     "Upload": "Transfereix",
     "UploadError": "No es pot accedir a GeoGebra. Transfer\xe8ncia suspesa. (Codi de l'error: %0)",
-    "UploadGeoGebraTube": "Puja a GeoGebra",
+    "UploadGeoGebraTube": "Puja a la web de materials de GeoGebra",
     "UploadPrepare": "Preparant la transfer\xe8ncia",
     "UpperLimit": "L\xedmit superior",
     "UpperQuartile.short": "Q3",

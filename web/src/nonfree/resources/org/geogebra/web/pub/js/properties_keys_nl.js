@@ -802,7 +802,7 @@ __GGB__keysVar.nl.command = {
     "SampleVariance": "Steekproefvariantie",
     "SampleVariance.Syntax": "[ <Lijst met waarnemingsgetallen> ]\n[ <Lijst met waarnemingsgetallen>, <Lijst met frequenties> ]",
     "SampleVariance.SyntaxCAS": "[ <Lijst met waarnemingsgetallen> ]",
-    "ScientificText": "ScientificTekst",
+    "ScientificText": "WetenschappelijkeNotatie",
     "ScientificText.Syntax": "[ <Getal> ]\n[ <Getal>, <Precisie> ]",
     "SecondAxis": "Nevenas",
     "SecondAxis.Syntax": "[ <Kegelsnede> ]",
