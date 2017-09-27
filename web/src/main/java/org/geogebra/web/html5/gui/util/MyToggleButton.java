@@ -49,10 +49,16 @@ public class MyToggleButton extends ToggleButton {
 		}
 	}
 
-	public void setAltText(String text) {
+	/**
+	 * Sets alternate text for button.
+	 * 
+	 * @param alt
+	 *            to set
+	 */
+	public void setAltText(String alt) {
 		if (image == null) {
 			return;
 		}
-		image.setAltText(text);
+		image.setAltText(alt);
 	}
 }

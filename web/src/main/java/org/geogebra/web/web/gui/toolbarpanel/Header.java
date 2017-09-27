@@ -258,19 +258,20 @@ class Header extends FlowPanel implements KeyDownHandler {
 				app.getLocalization().getMenu(isOpen() ? "Close" : "Open"));
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
-		if (app.has(Feature.TAB_ON_GUI)) {
-			setAltTexts();
 
-		}
+		setAltTexts();
+
 	}
 
 	private void setAltTexts() {
+		if (!app.has(Feature.TAB_ON_GUI)) {
+			return;
+		}
+
 		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
 		btnAlgebra.setAltText(
 				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
 		btnTools.setAltText(app.getLocalization().getMenu("Tools"));
-		btnClose.setAltText(
-				app.getLocalization().getMenu(isOpen() ? "Close" : "Open"));
 		btnUndo.setAltText(app.getLocalization().getMenu("Undo"));
 		btnRedo.setAltText(app.getLocalization().getMenu("Redo"));
 	}
@@ -390,6 +391,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 			imgMenu.setResource(
 					menuImgRec);
 		}
+
+		imgOpen.setAltText(app.getLocalization().getMenu("Open"));
+		imgClose.setAltText(app.getLocalization().getMenu("Close"));
 	}
 
 	private void createMenuButton() {
@@ -734,6 +738,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 				tabIndex++;
 			}
 		}
+
+		setAltTexts();
 		btnMenu.getElement().focus();
 	}
 
