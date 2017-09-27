@@ -2089,7 +2089,18 @@ namespace giac {
 	stdloop=index.type==_IDNT && incrementstep.type==_INT_ && stopindex.type==_INT_;
       }
       if (stdloop){
-	sym_tab::iterator it=contextptr->tabptr->find(index._IDNTptr->id_name),itend=contextptr->tabptr->end();
+	const context * cur=contextptr;
+	sym_tab::iterator it,itend;
+	for (;cur->previous;cur=cur->previous){
+	  it=cur->tabptr->find(index._IDNTptr->id_name);
+	  itend=cur->tabptr->end();
+	  if (it!=itend)
+	    break;
+	}
+	if (it==itend){
+	  it=cur->tabptr->find(index._IDNTptr->id_name);
+	  itend=cur->tabptr->end();
+	}
 	// compute idx
 	if (it!=itend && it->second.type==_INT_ 
      	    && (stop-it->second.val)/step>50){
