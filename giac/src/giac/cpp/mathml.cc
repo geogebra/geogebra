@@ -585,11 +585,82 @@ namespace giac {
     }
   }
 
-  string svg_preamble(double svg_width_cm, double svg_height_cm,bool xml){
-    return svg_preamble(svg_width_cm,svg_height_cm,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,true,xml);
+  void arc_en_ciel(int k,int & r,int & g,int & b){
+    k += 21;
+    k %= 126;
+    if (k<0)
+      k += 126;
+    if (k<21){
+      r=251; g=0; b=12*k;
+    }
+    if (k>=21 && k<42){
+      r=251-(12*(k-21)); g=0; b=251;
+    } 
+    if (k>=42 && k<63){
+      r=0; g=(k-42)*12; b=251;
+    } 
+    if (k>=63 && k<84){
+      r=0; g=251; b=251-(k-63)*12;
+    } 
+    if (k>=84 && k<105){
+      r=(k-84)*12; g=251; b=0;
+    } 
+    if (k>=105 && k<126){
+      r=251; g=251-(k-105)*12; b=0;
+    } 
   }
 
-  string svg_preamble(double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml){
+
+  static string color_string(int color){
+    switch (color) {
+    case 0:
+      return "black";
+    case _RED:
+      return "red";
+    case _GREEN:
+      return "green";
+    case _YELLOW:
+      return "yellow";
+    case _BLUE:
+      return "blue";
+    case _MAGENTA:
+      return "magenta";
+    case _CYAN:
+      return "cyan";
+    }
+    int r,g,b;
+    arc_en_ciel(color,r,g,b);
+    return "rgb("+print_INT_(r)+","+print_INT_(g)+","+print_INT_(b)+")";
+  }
+
+  void pixon2svg(const gen & g,string & s){
+    if (g.type==_VECT){
+      const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+      for (;it!=itend;++it){
+	pixon2svg(*it,s);
+      }
+      return;
+    }
+    if (!g.is_symb_of_sommet(at_pnt))
+      return;
+    gen h=remove_at_pnt(g);
+    if (!h.is_symb_of_sommet(at_pixon))
+      return;
+    h=h._SYMBptr->feuille;
+    if (h.type!=_VECT || h._VECTptr->size()<2)
+      return;
+    vecteur & v=*h._VECTptr;
+    gen x=pixon_size*v[0],y=pixon_size*v[1];
+    char ch='0'+pixon_size;
+    int color=0;
+    if (v.size()>2)
+      color=v[2].val;
+    s += "<rect x=\""+x.print(context0)+"\" y=\""+y.print(context0)+"\" width=\""+ch+"\" height=\""+ch+"\" fill=\""+color_string(color)+"\"/>\n";
+  }
+
+  // before making a user transformation on the frame, 
+  // collect pixon instructions in g
+  string svg_preamble_pixel(const gen &g,double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml){
     double svg_width=xmax-xmin;
     double svg_height=ymax-ymin;
     double x_scale=(xmax-xmin)/10;
@@ -619,13 +690,25 @@ namespace giac {
       // sortie << "<svg ";
     }
     pos=buffer+strlen(buffer);
+    string pixons;
+    pixon2svg(g,pixons);
+    if (!pixons.empty()){
+      sprintf(pos,"width=\"320\" height=\"240\">\n");
+      pos=buffer+strlen(buffer);
+      sprintf(pos,pixons.c_str());
+      return buffer;
+    }
     if (ortho){
-      sprintf(pos,"preserveAspectRatio=\"xMidyMin meet\" width=\"%.5gcm\" height=\"%.5gcm\" viewBox=\"%.5g %.5g %.5g %.5g\" >\n<g transform=\"translate(0,%.5g) scale(1,-1)\">\n",svg_width_cm+2,svg_height_cm+1,xmin-x_scale,ymin-y_scale,svg_width+3*x_scale,svg_height+2*x_scale,svg_height+2*ymin);
+      sprintf(pos,"width=\"%.5gcm\" height=\"%.5gcm\" ",svg_width_cm+2,svg_height_cm+1);
+      pos=buffer+strlen(buffer);
+      sprintf(pos,"preserveAspectRatio=\"xMidyMin meet\" viewBox=\"%.5g %.5g %.5g %.5g\" >\n<g transform=\"translate(0,%.5g) scale(1,-1)\">\n",xmin-x_scale,ymin-y_scale,svg_width+3*x_scale,svg_height+2*x_scale,svg_height+2*ymin);
       // sortie << "preserveAspectRatio=\"xMidyMin meet\"";
       // sortie << " width=\""<<svg_width_cm+2<<"cm\" height=\""<<svg_height_cm+1<<"cm\" viewBox=\""<<xmin-x_scale<<" "<<ymin-y_scale<<" "<<svg_width+3*x_scale<<" "<<svg_height+2*x_scale<<"\" >\n<g transform=\"translate(0,"<<svg_height+2*ymin<<") scale(1,-1)\">\n";
     }
     else {
-      sprintf(pos,"width=\"%.5gcm\" height=\"%.5gcm\" preserveAspectRatio=\"none\" viewBox=\"%.5g %.5g %.5g %.5g\" >\n<g transform=\"translate(0,%.5g) scale(1,-1)\">\n",svg_width_cm*1.2,svg_height_cm*1.2,xmin-x_scale,ymin-y_scale,svg_width+2*x_scale,svg_height+2*y_scale,svg_height+2*ymin);
+      sprintf(pos,"width=\"%.5gcm\" height=\"%.5gcm\" ",svg_width_cm*1.2,svg_height_cm*1.2);
+      pos=buffer+strlen(buffer);
+      sprintf(pos,"preserveAspectRatio=\"none\" viewBox=\"%.5g %.5g %.5g %.5g\" >\n<g transform=\"translate(0,%.5g) scale(1,-1)\">\n",xmin-x_scale,ymin-y_scale,svg_width+2*x_scale,svg_height+2*y_scale,svg_height+2*ymin);
       // sortie << " width=\""<<svg_width_cm+2<<"cm\" height=\""<<svg_height_cm+1<<"cm\" viewBox=\""<<xmin-x_scale<<" "<<ymin-y_scale<<" "<< svg_width+2*x_scale<<" "<<svg_height+2*y_scale<<'"';
       // sortie << " preserveAspectRatio=\"none\" >" ;
       // sortie << "\n<g transform=\"translate(0,"<<svg_height+2*ymin<<") scale(1,-1)\">\n";
@@ -679,6 +762,18 @@ namespace giac {
     return buffer;
   }
 
+  string svg_preamble_pixel(const gen &g,double svg_width_cm, double svg_height_cm,bool xml){
+    return svg_preamble_pixel(g,svg_width_cm,svg_height_cm,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,true,xml);
+  }
+
+  string svg_preamble(double svg_width_cm, double svg_height_cm,bool xml){
+    return svg_preamble_pixel(0,svg_width_cm, svg_height_cm, xml);
+  }
+
+  string svg_preamble(double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml){
+    return svg_preamble_pixel(0,svg_width_cm,svg_height_cm,xmin,xmax,ymin,ymax,ortho,xml);
+  }
+  
   string svg_grid(){
     return svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax);
   }
@@ -743,25 +838,8 @@ namespace giac {
     return buffer;
   }
 
-
-  static string color_string(svg_attribut attr){
-    switch (attr.color) {
-    case 0:
-      return "black";
-    case _RED:
-      return "red";
-    case _GREEN:
-      return "green";
-    case _YELLOW:
-      return "yellow";
-    case _BLUE:
-      return "blue";
-    case _MAGENTA:
-      return "magenta";
-    case _CYAN:
-      return "cyan";
-    }
-    return "black";
+  static inline string color_string(svg_attribut attr){
+    return color_string(attr.color);
   }
 
 #if 0
@@ -1208,6 +1286,8 @@ namespace giac {
 	  }
 	  return "svg circle error";
 	}
+	if (figure.sommet==at_pixon)
+	  return "";
 	return svg_point(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr); 
       }
       return svg_point(v[0], attr, name,xmin,xmax,ymin,ymax,contextptr); 
@@ -1215,12 +1295,14 @@ namespace giac {
     return "undef";
   }
 
-
-  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT){
+  // preamble added for debugging purpose for svg2doutput in gen.cc
+  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,double ysurx,GIAC_CONTEXT,bool withpreamble){
+    string s;
+    if (withpreamble)
+      s=svg_preamble_pixel(e,10,6,false);
     if (e.type== _SYMB)
-      return symbolic2svg(*e._SYMBptr,xmin,xmax,ymin,ymax,ysurx,contextptr);
+      return s+symbolic2svg(*e._SYMBptr,xmin,xmax,ymin,ymax,ysurx,contextptr);
     if (e.type==_VECT){
-      string s;
       vecteur v=*e._VECTptr;
       for (int i=0; i<signed(v.size()); i++){
 	if (v[i].type==_SYMB){
@@ -1229,27 +1311,30 @@ namespace giac {
 	    s=s+symbolic2svg(sym,xmin,xmax,ymin,ymax,ysurx,contextptr);
 	}
 	if (v[i].type==_VECT){
-	  s=s+gen2svg(v[i],xmin,xmax,ymin,ymax,ysurx,contextptr);
+	  s=s+gen2svg(v[i],xmin,xmax,ymin,ymax,ysurx,contextptr,false);
 	}
       }
       return s;
     }
     return "error";
   }
-  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
-    return gen2svg(e,xmin,xmax,ymin,ymax,1.0,contextptr);
+  string gen2svg(const gen &e,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT,bool withpreamble){
+    return gen2svg(e,xmin,xmax,ymin,ymax,1.0,contextptr,withpreamble);
   }
-  string gen2svg(const gen &e,GIAC_CONTEXT){
-    return gen2svg(e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,1.0,contextptr);
+  string gen2svg(const gen &e,GIAC_CONTEXT,bool withpreamble){
+    return gen2svg(e,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,1.0,contextptr,withpreamble);
   }
   gen _svg(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1 && (*g._VECTptr)[1].type==_STRNG){
-      ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
-      of << gen2svg(g._VECTptr->front(),contextptr) << endl;
-      return plus_one;
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()>1){
+      if ((*g._VECTptr)[1].type==_STRNG){
+	ofstream of((*g._VECTptr)[1]._STRNGptr->c_str());
+	of << gen2svg(g._VECTptr->front(),contextptr,false) << endl;
+	return plus_one;
+      }
+      return string2gen(gen2svg(g,contextptr,true),false);
     }
-    return string2gen(gen2svg(g,contextptr),false);
+    return string2gen(gen2svg(g,contextptr,false),false);
   }
   static const char _svg_s []="svg";
   static define_unary_function_eval (__svg,&_svg,_svg_s);

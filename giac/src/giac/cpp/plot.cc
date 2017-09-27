@@ -2134,10 +2134,20 @@ namespace giac {
     return e;
   }
 
+  int pixon_size=2; // global size, used in all sessions
   // pixel (i,j,[color])
-  gen _pixon(const gen & args,GIAC_CONTEXT){
+  gen _pixon(const gen & a,GIAC_CONTEXT){
+    gen args(a);
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     int s;
+    if (is_integral(args)){
+      s=args.val;
+      if (s<=0 || s>=10)
+	return gendimerr(contextptr);
+      int n=pixon_size;
+      pixon_size=s;
+      return n;
+    }
     if (args.type!=_VECT || (s=int(args._VECTptr->size()))<2)
       return gensizeerr(contextptr);
     vecteur v(*args._VECTptr);

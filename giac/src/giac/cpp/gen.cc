@@ -8807,7 +8807,7 @@ namespace giac {
 	if ( (it->type==_SYMB) && (it->_SYMBptr->sommet==at_interval || itdeuxpoints) && (it+1!=itend) ){
 	  // submatrix extraction
 	  if ((it->_SYMBptr->feuille._VECTptr->front().type==_INT_) && (it->_SYMBptr->feuille._VECTptr->back().type==_INT_) ){
-	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=it->_SYMBptr->feuille._VECTptr->back().val+itdeuxpoints?-1:0;
+	    int debut=it->_SYMBptr->feuille._VECTptr->front().val,fin=it->_SYMBptr->feuille._VECTptr->back().val+(itdeuxpoints?-1:0);
 	    if (res.type==_VECT){
 	      if (debut<0) debut +=res._VECTptr->size();
 	      if (fin<0) fin +=res._VECTptr->size();
@@ -12125,8 +12125,8 @@ namespace giac {
     //COUT << window_xmin << " " << window_xmax << " " << window_ymin << " " << window_ymax << endl;
     //g=_symetrie(makesequence(_droite(makesequence(0,1),contextptr),g),contextptr);
     //S='"'+svg_preamble(7,7,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,ortho,false)+gen2svg(g,contextptr)+svg_grid(gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax)+"</svg>\"";
-    S='"'+svg_preamble(gwidth,gwidth*gratio,window_xmin,window_xmax,window_ymin,window_ymax,ortho,false);
-    S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,ratio/gratio,contextptr)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
+    S='"'+svg_preamble_pixel(g,gwidth,gwidth*gratio,window_xmin,window_xmax,window_ymin,window_ymax,ortho,false);
+    S= S+(gen2svg(g,window_xmin,window_xmax,window_ymin,window_ymax,ratio/gratio,contextptr,false)+svg_grid(window_xmin,window_xmax,window_ymin,window_ymax)+"</svg>\"");
 #endif
     return S.c_str();
   }

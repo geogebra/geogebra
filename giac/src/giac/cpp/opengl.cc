@@ -100,31 +100,6 @@ namespace giac {
     return std::pow(10.,d);
   }
 
-  void arc_en_ciel(int k,int & r,int & g,int & b){
-    k += 21;
-    k %= 126;
-    if (k<0)
-      k += 126;
-    if (k<21){
-      r=251; g=0; b=12*k;
-    }
-    if (k>=21 && k<42){
-      r=251-(12*(k-21)); g=0; b=251;
-    } 
-    if (k>=42 && k<63){
-      r=0; g=(k-42)*12; b=251;
-    } 
-    if (k>=63 && k<84){
-      r=0; g=251; b=251-(k-63)*12;
-    } 
-    if (k>=84 && k<105){
-      r=(k-84)*12; g=251; b=0;
-    } 
-    if (k>=105 && k<126){
-      r=251; g=251-(k-105)*12; b=0;
-    } 
-  }
-
   void xcas_color(int color,bool dim3){
     switch (color){
     case FL_RED:

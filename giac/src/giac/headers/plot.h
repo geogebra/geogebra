@@ -279,7 +279,8 @@ namespace giac {
 
   gen _erase(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_erase;
-
+  
+  extern int pixon_size; 
   gen _pixon(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pixon;
 
