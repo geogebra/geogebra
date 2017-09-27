@@ -577,6 +577,13 @@ abstract public class ObjectSettingsModel {
         this.mGeoElementsList = GeoElementsList;
     }
 
+    public void deleteGeoElements() {
+        if (mGeoElement == null) {
+            return;
+        }
+        mApp.deleteSelectedObjects(false);
+    }
+
     public String getTranslatedTypeString() {
         if (mGeoElement == null) {
             return "";
