@@ -32,7 +32,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	/** av item */
 	RadioTreeItem item;
 	/** plus menu */
-	ContextMenuPlus cmPlus=null;
+	ContextMenuAVPlus cmPlus = null;
 
 	/** No PLUS menu */
 	boolean noPlus = false;
@@ -259,7 +259,7 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 					}
 					
 					if (cmPlus == null) {
-						cmPlus = new ContextMenuPlus(item);
+						cmPlus = new ContextMenuAVPlus(item);
 					}
 					item.cancelEditing();
 					cmPlus.show(btnPlus.getAbsoluteLeft() + 16,

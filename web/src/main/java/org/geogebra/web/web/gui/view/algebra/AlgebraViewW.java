@@ -1975,6 +1975,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			TreeItem ti = getItem(i);
 			if (ti instanceof RadioTreeItem) {
 				RadioTreeItem.as(ti).updateOnNextRepaint();
+				RadioTreeItem.as(ti).setLabels();
 			} else if (ti.getWidget() instanceof GroupHeader) {
 				ti.getWidget().getElement().getStyle()
 						.setFontSize(app.getFontSizeWeb(), Unit.PX);
@@ -1982,14 +1983,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 					if (ti.getChild(j) instanceof RadioTreeItem) {
 						RadioTreeItem.as(ti.getChild(j))
 						.updateOnNextRepaint();
-
+						RadioTreeItem.as(ti).setLabels();
 					}
 				}
-
 			}
 		}
 		this.repaintView();
-
 	}
 
 

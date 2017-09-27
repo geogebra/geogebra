@@ -23,19 +23,15 @@ import com.google.gwt.user.client.ui.MenuItem;
  * @author Laszlo Gal
  *
  */
-public class ContextMenuPlus implements SetLabels {
+public class ContextMenuAVPlus implements SetLabels {
 	/** The popup itself */
 	protected GPopupMenuW wrappedPopup;
-
 	/** Localization */
 	protected Localization loc;
-
 	/** Application */
 	AppW app;
-
 	/** The AV item associated the menu with */
 	RadioTreeItem item;
-
 	/** On-Screen Keyboard instance to switch tabs if needed */
 	TabbedKeyboard kbd;
 
@@ -45,7 +41,7 @@ public class ContextMenuPlus implements SetLabels {
 	 * @param item
 	 *            application
 	 */
-	ContextMenuPlus(RadioTreeItem item) {
+	ContextMenuAVPlus(RadioTreeItem item) {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
@@ -81,7 +77,6 @@ public class ContextMenuPlus implements SetLabels {
 						kbd.selectNumbers();
 					}
 				});
-
 		wrappedPopup.addItem(mi);
 	}
 
@@ -100,7 +95,6 @@ public class ContextMenuPlus implements SetLabels {
 						kbd.selectAbc();
 					}
 				});
-
 		wrappedPopup.addItem(mi);
 	}
 	
@@ -121,7 +115,6 @@ public class ContextMenuPlus implements SetLabels {
 						((GuiManagerW)app.getGuiManager()).loadImage(null, null, false, app.getActiveEuclidianView());
 					}
 				});
-
 		wrappedPopup.addItem(mi);
 	}
 
@@ -137,7 +130,6 @@ public class ContextMenuPlus implements SetLabels {
 						showHelp();
 					}
 				});
-
 		wrappedPopup.addItem(mi);
 	}
 
@@ -187,7 +179,6 @@ public class ContextMenuPlus implements SetLabels {
 			return;
 		}
 		MarblePanel.showDeferred(item);
-
 	}
 }
 

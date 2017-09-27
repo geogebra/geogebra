@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionSlider;
 import org.geogebra.common.gui.view.algebra.SuggestionSolve;
@@ -30,7 +31,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * Item action bar
  *
  */
-public class ItemControls extends FlowPanel implements AnimPanelListener {
+public class ItemControls extends FlowPanel
+		implements AnimPanelListener, SetLabels {
 	/**
 	 * 
 	 */
@@ -45,7 +47,7 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 	/** animation controls */
 	protected AnimPanel animPanel = null;
 
-	private ContextMenuMore cmMore = null;
+	private ContextMenuAVItemMore cmMore = null;
 	private SuggestionBar suggestionBar;
 
 	/**
@@ -136,7 +138,7 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 			radioTreeItem.getApplication().toggleMenu();
 		}
 		if (cmMore == null) {
-			cmMore = new ContextMenuMore(radioTreeItem);
+			cmMore = new ContextMenuAVItemMore(radioTreeItem);
 
 		}
 		radioTreeItem.cancelEditing();
@@ -450,5 +452,11 @@ public class ItemControls extends FlowPanel implements AnimPanelListener {
 
 		}
 
+	}
+
+	public void setLabels() {
+		if (cmMore != null) {
+			cmMore.setLabels();
+		}
 	}
 }

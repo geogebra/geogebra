@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
@@ -111,7 +112,7 @@ import com.himamis.retex.renderer.share.CursorBox;
 @SuppressWarnings("javadoc")
 public class RadioTreeItem extends AVTreeItem
 		implements MathKeyboardListener, 
-		AutoCompleteW, RequiresResize, HasHelpButton {
+		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
@@ -2012,15 +2013,17 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	@Override
 	public void setLabels() {
 		if (dummyLabel != null) {
 			dummyLabel.setText(loc.getMenu("InputLabel") + Unicode.ELLIPSIS);
-
 		}
 		if (hasMarblePanel()) {
 			marblePanel.setLabels();
 		}
-
+		if (controls != null) {
+			controls.setLabels();
+		}
 	}
 
 	@Override

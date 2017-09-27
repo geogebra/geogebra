@@ -20,7 +20,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  * The ... menu for AV items
  *
  */
-public class ContextMenuMore implements SetLabels {
+public class ContextMenuAVItemMore implements SetLabels {
 	/** visible component */
 	protected GPopupMenuW wrappedPopup;
 	/** localization */
@@ -34,7 +34,7 @@ public class ContextMenuMore implements SetLabels {
 	 * @param item
 	 *            application
 	 */
-	ContextMenuMore(RadioTreeItem item) {
+	ContextMenuAVItemMore(RadioTreeItem item) {
 		app = item.getApplication();
 		loc = app.getLocalization();
 		this.item = item;
@@ -45,7 +45,7 @@ public class ContextMenuMore implements SetLabels {
 			wrappedPopup.getPopupPanel().addStyleName("mioMenu");
 		}
 		buildGUI();
-		}
+	}
 
 	private void buildGUI() {
 		wrappedPopup.clearItems();
