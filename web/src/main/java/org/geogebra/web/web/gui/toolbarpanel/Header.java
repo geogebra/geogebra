@@ -113,6 +113,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		ClickStartHandler.initDefaults(this, true, true);
 		buttons = Arrays.asList(btnMenu, btnAlgebra, btnTools, btnClose,
 				btnUndo, btnRedo);
+		setTabIndexes();
 	}
 
 	private void createCenter() {
@@ -177,11 +178,11 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Algebra button.
 	 */
 	protected void onAlgebraPressed() {
-		Header.this.toolbarPanel.openAlgebra();
-		Header.this.toolbarPanel.setMoveMode();
+		toolbarPanel.openAlgebra();
+		toolbarPanel.setMoveMode();
 		app.setKeyboardNeeded(true);
-		Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
-		Header.this.toolbarPanel.getFrame().showKeyboardButton(true);
+		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().showKeyboardButton(true);
 	}
 
 	/**
@@ -189,9 +190,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	protected void onToolsPressed() {
 		app.setKeyboardNeeded(false);
-		Header.this.toolbarPanel.getFrame().keyBoardNeeded(false, null);
-		Header.this.toolbarPanel.getFrame().showKeyboardButton(false);
-		Header.this.toolbarPanel.openTools();
+		toolbarPanel.getFrame().keyBoardNeeded(false, null);
+		toolbarPanel.getFrame().showKeyboardButton(false);
+		toolbarPanel.openTools();
 	}
 
 	/**
@@ -205,24 +206,24 @@ class Header extends FlowPanel implements KeyDownHandler {
 		setAnimating(true);
 		if (isOpen()) {
 			if (app.isPortrait()) {
-				Header.this.toolbarPanel.header.getParent().getParent()
+				toolbarPanel.header.getParent().getParent()
 						.getParent().addStyleName("closePortrait");
 			} else {
-				Header.this.toolbarPanel.header.getParent().getParent()
+				toolbarPanel.header.getParent().getParent()
 						.getParent().addStyleName("closeLandscape");
-				Header.this.toolbarPanel.setLastOpenWidth(getOffsetWidth());
+				toolbarPanel.setLastOpenWidth(getOffsetWidth());
 			}
-			Header.this.toolbarPanel.setMoveMode();
-			Header.this.toolbarPanel.setClosedByUser(true);
+			toolbarPanel.setMoveMode();
+			toolbarPanel.setClosedByUser(true);
 		} else {
-			Header.this.toolbarPanel.header.getParent().getParent().getParent()
+			toolbarPanel.header.getParent().getParent().getParent()
 					.removeStyleName("closePortrait");
-			Header.this.toolbarPanel.header.getParent().getParent().getParent()
+			toolbarPanel.header.getParent().getParent().getParent()
 					.removeStyleName("closeLandscape");
-			Header.this.toolbarPanel.setClosedByUser(false);
+			toolbarPanel.setClosedByUser(false);
 		}
 
-		Header.this.toolbarPanel.getFrame().showKeyBoard(false, null, true);
+		toolbarPanel.getFrame().showKeyBoard(false, null, true);
 		setOpen(!isOpen());
 	}
 
@@ -233,7 +234,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		Header.this.toolbarPanel.app.getGuiManager().undo();
+		toolbarPanel.app.getGuiManager().undo();
 	}
 
 	/**
@@ -243,7 +244,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		Header.this.toolbarPanel.app.getGuiManager().redo();
+		toolbarPanel.app.getGuiManager().redo();
 	}
 
 	/**
@@ -284,7 +285,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		center.addStyleName("indicatorLeft");
 		btnAlgebra.addStyleName("selected");
 		btnTools.removeStyleName("selected");
-		this.toolbarPanel.setSelectedTab(TabIds.ALGEBRA);
+		toolbarPanel.setSelectedTab(TabIds.ALGEBRA);
 	}
 
 	/**
@@ -295,7 +296,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		center.addStyleName("indicatorRight");
 		btnAlgebra.removeStyleName("selected");
 		btnTools.addStyleName("selected");
-		this.toolbarPanel.setSelectedTab(TabIds.TOOLS);
+		toolbarPanel.setSelectedTab(TabIds.TOOLS);
 	}
 
 	/**
@@ -346,15 +347,15 @@ class Header extends FlowPanel implements KeyDownHandler {
 		int x = btnContextMenu.getAbsoluteLeft();
 		int y = btnContextMenu.getAbsoluteTop() + 6;
 
-		if (this.toolbarPanel.isAlgebraViewActive()) {
+		if (toolbarPanel.isAlgebraViewActive()) {
 			if (cmAlgebra == null) {
-				cmAlgebra = new ContextMenuAlgebra((AppW) this.toolbarPanel.app);
+				cmAlgebra = new ContextMenuAlgebra((AppW) toolbarPanel.app);
 			}
 			cmAlgebra.show(x, y);
 		} else {
 			if (cmTools == null) {
-				cmTools = new ContextMenuTools((AppW) this.toolbarPanel.app,
-						this.toolbarPanel);
+				cmTools = new ContextMenuTools((AppW) toolbarPanel.app,
+						toolbarPanel);
 			}
 			cmTools.getSubToolFilter().update();
 			cmTools.show(x, y);
@@ -405,13 +406,13 @@ class Header extends FlowPanel implements KeyDownHandler {
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
 
-		this.toolbarPanel.getFrame().add(btnMenu);
+		toolbarPanel.getFrame().add(btnMenu);
 
 		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				Header.this.toolbarPanel.toggleMenu();
+				toolbarPanel.toggleMenu();
 			}
 		});
 
@@ -426,14 +427,14 @@ class Header extends FlowPanel implements KeyDownHandler {
 		undoRedoPanel.addStyleName("undoRedoPanel");
 		addUndoButton(undoRedoPanel);
 		addRedoButton(undoRedoPanel);
-		this.toolbarPanel.getFrame().add(undoRedoPanel);
+		toolbarPanel.getFrame().add(undoRedoPanel);
 	}
 
 	/**
 	 * update position of undo+redo panel
 	 */
 	public void updateUndoRedoPosition() {
-		final EuclidianView ev = ((AppW) this.toolbarPanel.app).getEuclidianView1();
+		final EuclidianView ev = ((AppW) toolbarPanel.app).getEuclidianView1();
 		if (ev != null) {
 			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
 			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
@@ -480,7 +481,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
-		if (this.toolbarPanel.app.getKernel().undoPossible()) {
+		if (toolbarPanel.app.getKernel().undoPossible()) {
 			btnUndo.addStyleName("buttonActive");
 			btnUndo.removeStyleName("buttonInactive");
 		} else {
@@ -488,7 +489,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 			btnUndo.addStyleName("buttonInactive");
 		}
 
-		if (this.toolbarPanel.app.getKernel().redoPossible()) {
+		if (toolbarPanel.app.getKernel().redoPossible()) {
 			btnRedo.removeStyleName("hideButton");
 		} else {
 			btnRedo.addStyleName("hideButton");
@@ -564,14 +565,14 @@ class Header extends FlowPanel implements KeyDownHandler {
 		updateDraggerStyle(value);
 		
 		if (app.isPortrait()) {
-			this.toolbarPanel.updateHeight();
+			toolbarPanel.updateHeight();
 		} else {
-			this.toolbarPanel.updateWidth();
+			toolbarPanel.updateWidth();
 
 		}
 
-		this.toolbarPanel.showKeyboardButtonDeferred(
-				isOpen() && this.toolbarPanel.getSelectedTab() != TabIds.TOOLS);
+		toolbarPanel.showKeyboardButtonDeferred(
+				isOpen() && toolbarPanel.getSelectedTab() != TabIds.TOOLS);
 	}
 
 	private void updateDraggerStyle(boolean close) {
@@ -596,7 +597,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (isAnimating()) {
 			return;
 		}
-		this.toolbarPanel.updateStyle();
+		toolbarPanel.updateStyle();
 		removeStyleName("header-open-portrait");
 		removeStyleName("header-close-portrait");
 		removeStyleName("header-open-landscape");
@@ -751,7 +752,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		Object source = event.getSource();
 
 		if (source == btnMenu) {
-			Header.this.toolbarPanel.toggleMenu();
+			toolbarPanel.toggleMenu();
 		} else if (source == btnAlgebra) {
 			onAlgebraPressed();
 		} else if (source == btnTools) {
