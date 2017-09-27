@@ -13,10 +13,11 @@ apply plugin: 'visual-studio'
  * older versions may have problems in some Giac commands and results.
  *
  * 1. You will need to download the correct toolchain version by running the task installEmsdk.
- *    Always take care of using the correct emscripten version and also the appropriate clang compiler,
+ *    (Always take care of using the correct emscripten version and also the appropriate clang compiler,
  *    otherwise you may encounter extremely strange problems on compilation time or runtime.
  *    Newer emscripten versions usually do sanity checks during the compilation and inform you
- *    about any issues.
+ *    about any issues.) This step may take a while since clang may be recompiled from source.
+ *    (You may need additional tools to compile it including cmake.)
  *
  * 2. Hopefully you have the correct versions of GMP and MPFR in src/giac.js/prebuilt/. If not, you
  *    need to compile the correct version. The provided tasks may compile an incorrect version for
@@ -686,11 +687,19 @@ task installEmsdk (dependsOn: 'downloadEmsdk') {
             workingDir emsdkRunDir
         }
         exec {
-            commandLine "./emsdk install $emscriptenVersion".split()
+            commandLine "./emsdk install emscripten-$emscriptenVersion".split()
             workingDir emsdkRunDir
         }
         exec {
-            commandLine "./emsdk activate $emscriptenVersion".split()
+            commandLine "./emsdk activate emscripten-$emscriptenVersion".split()
+            workingDir emsdkRunDir
+        }
+        exec {
+            commandLine "./emsdk install clang-tag-e$emscriptenVersion-64bit".split()
+            workingDir emsdkRunDir
+        }
+        exec {
+            commandLine "./emsdk activate clang-tag-e$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
         }
         // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
