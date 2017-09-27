@@ -57,7 +57,7 @@ if (System.env['EMSCRIPTEN_VER'] != null) {
 
 def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
-def emsdkDir = file('build/emsdk')
+def emsdkDir = file('emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk-portable")
 def emscriptenVersion = "1.34.1"
 def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
@@ -562,17 +562,17 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
                     // Be very careful when changing this: config.h also contains some entries! 
                     def specialOptions = ''
                     def commandline = emccCommand
-                    commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DNO_STDEXCEPT -DHAVE_CONFIG_H' // from old Makefile
+                    commandline += ' -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -DHAVE_CONFIG_H' // from old Makefile
                     if (emscriptenVer == '201304') {
-                        commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
+                        commandline += " -DNO_STDEXCEPT -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
                     }
                     if (emscriptenVer != '201304') {
-                        commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1 -fno-exceptions"
+                        commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1" // -fno-exceptions"
                         commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
 
                     }
                     if (emscriptenVer == '201704') {
-                        commandline += " -DHAVE_UNISTD_H"
+                        commandline += "-DNO_STDEXCEPT -DHAVE_UNISTD_H"
                     }
 
                     commandline += ' -DGIAC_GGB' // from old Makefile
@@ -636,7 +636,7 @@ task emccGiacJs (dependsOn: 'emccCompile') {
             }
             linkerArgs << '-DGIAC_GGB'
             linkerArgs << '-o' << output
-            linkerArgs << '-O3' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
+            linkerArgs << '-Oz' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
             linkerArgs << '--memory-init-file' << '0'
             linkerArgs << '-s' << 'TOTAL_MEMORY=64000000' // consider increasing this if running out of memory on GB computations
             def linkerArgsString = linkerArgs.join(" ")
