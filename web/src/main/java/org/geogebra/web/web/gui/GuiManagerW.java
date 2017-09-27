@@ -2473,11 +2473,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void onTabModeChange(boolean tabsOnGUI) {
-		Element frame = ((AppW) app).getFrameElement();
 		if (tabsOnGUI) {
 			getToolbarPanelV2().setTabIndexes();
 		} else {
-			getToolbarPanelV2().setTabIndexes();
+			// TODO: switch back to geo mode.
 		}
 	}
 }
