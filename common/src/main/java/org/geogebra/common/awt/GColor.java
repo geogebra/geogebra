@@ -2,6 +2,8 @@ package org.geogebra.common.awt;
 
 import java.util.HashMap;
 
+import org.geogebra.common.util.debug.Log;
+
 /**
  * @author michael
  * 
@@ -480,12 +482,25 @@ public final class GColor implements GPaint {
 	}
 
 	public GPaint slightlyDarker() {
-		return newColor(slightlyDarker(getRed()), slightlyDarker(getGreen()),
-				slightlyDarker(getBlue()), getAlpha());
+		Log.debug(slightlyDarkerRed(getRed())+" "+
+				slightlyDarkerGreen(getGreen()) + " "
+				+ slightlyDarkerBlue(getBlue()));
+		return newColor(slightlyDarkerRed(getRed()),
+				slightlyDarkerGreen(getGreen()), slightlyDarkerBlue(getBlue()),
+				getAlpha());
 	}
 
-	private int slightlyDarker(double x) {
-		return (int) (x * (x * (0.000038475 * x - 0.012532) + 1.6102) - 2.9469);
+	private static int slightlyDarkerRed(double x) {
+		return (int) Math.round(0.0011372 * x * x + 0.61590 * x);
+	}
+
+	private static int slightlyDarkerGreen(double x) {
+		return (int) Math.round(0.0019424 * x * x + 0.41057 * x);
+	}
+
+	private static int slightlyDarkerBlue(double x) {
+		return (int) Math.round(
+				0.0000084096 * x * x * x + 0.0012150 * x * x + 0.049231 * x);
 	}
 
 }
