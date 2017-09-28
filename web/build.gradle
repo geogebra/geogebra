@@ -133,11 +133,11 @@ task copyHtml {
 	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico")
 	      .replace("<!--LANG-->","en");
 	    def appHtml = { raw, appID, prerelease, offline = false ->
-	    	def header = offline ? "" : file(templateDir+"app-header.html").text; 
+	    	def header = offline || appID == "whiteboard" ? "" : file(templateDir+"app-header.html").text; 
 	    	def platformSpecific = offline ? "<script src=\"platform.js\"></script>":"<!--LANGUAGE LINKS-->"
 	    	return raw.replace("<!--SPLASH-->", header + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
 	    	.replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";</script>" + platformSpecific)
+	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";onlineApp=${!offline};</script>" + platformSpecific)
 	    	.replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/${appID}.ico");
 	    }
 	    def english = {raw, appName ->
@@ -155,7 +155,7 @@ task copyHtml {
 	    
 	    file("war/graphing-template.html").text = appHtml(html, "graphing", false);
 	    file("war/geometry-template.html").text = appHtml(html, "geometry", false);
-	    file("war/whiteboard-template.html").text = appHtml(html, "whiteboard", true, true);
+	    file("war/whiteboard-template.html").text = appHtml(html, "whiteboard", true);
 	    file("war/graphing-offline.html").text = english(appHtml(html, "graphing", false, true), "Graphing Calculator");
 	    file("war/geometry-offline.html").text = english(appHtml(html, "geometry", false, true), "Geometry");
 	  
@@ -167,7 +167,7 @@ task copyHtml {
 	    
 	    file("war/3d.html").text = english(appHtml(html, "3d", true), "3D Graphing Calculator");
 	    
-	    file("war/whiteboard.html").text = english(appHtml(html, "whiteboard", true, true), "Whiteboard");
+	    file("war/whiteboard.html").text = english(appHtml(html, "whiteboard", true), "Whiteboard");
     }
 }
 
