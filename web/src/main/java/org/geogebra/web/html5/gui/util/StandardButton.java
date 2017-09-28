@@ -35,19 +35,6 @@ public class StandardButton extends FastButton {
 	}
 
 	/**
-	 * @param icon
-	 *            - img of button
-	 * @param app
-	 *            - application
-	 * @param altText
-	 *            - alternative text
-	 */
-	public StandardButton(final ImageResource icon, App app, String altText) {
-		this.app = app;
-		setIconAndLabel(icon, null, icon.getWidth());
-	}
-
-	/**
 	 * @param label
 	 *            - text of button
 	 * @param app

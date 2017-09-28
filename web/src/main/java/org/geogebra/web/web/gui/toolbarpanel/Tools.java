@@ -678,10 +678,7 @@ public class Tools extends FlowPanel implements SetLabels {
 							getSvgImageForTool(mode).getSafeUri(), 0, 0, size,
 							size,
 							false, false),
-					getApp(),
-					getApp().getLocalization()
-							.getMenu(EuclidianConstants.getModeText(mode))
-							+ ". " + app.getToolHelp(mode));
+					getApp());
 			btn.setTitle(getApp().getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
 
