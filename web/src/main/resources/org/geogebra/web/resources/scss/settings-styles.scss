@@ -124,6 +124,48 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     			background-color: $white !important;
     		}
     	
+    		.gwt-ToggleButton {
+    						cursor: pointer; 
+    						padding: 4px;
+    						margin: 0px;
+    						img {
+    							opacity: 0.54;	
+    						}	
+    					
+    						&:hover {
+    							img {
+    								opacity: 1;
+    							}
+    						}
+    					}
+    	
+    	    .BackgroundColorPanel {
+    	    	.gwt-RadioButton {
+    	    		input[type="radio"] {
+    	    			margin-right: 10px;
+    	    		}
+    	    	
+    	    		label {
+    	    			font-size: 14px;	
+    	    		}
+    	    	}
+    	    	
+    	    	.ClearBackgroundButton {
+    	    		cursor: pointer; 
+    				padding: 4px;
+    				margin: 0px;
+    				img {
+    					opacity: 0.54;	
+    				}	
+    					
+    				&:hover {
+    					img {
+    						opacity: 1;
+    					}
+    				}
+    	    	}	
+    	   }		
+    	
     		.panelTitle:first-child {
     			margin-top: 8px !important;
 			}

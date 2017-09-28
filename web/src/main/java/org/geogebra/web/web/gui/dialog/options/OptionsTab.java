@@ -352,7 +352,6 @@ public class OptionsTab extends FlowPanel {
 		 *            model
 		 * @param app
 		 *            application
-		 * @param isDefaults
 		 *            true if default
 		 */
 		public ColorPanel(ColorObjectModel model0, App app,

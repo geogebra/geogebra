@@ -15,6 +15,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.gui.util.SliderInputHandler;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.CustomColorDialog;
 import org.geogebra.web.web.gui.dialog.CustomColorDialog.ICustomColor;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -29,6 +30,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -497,8 +499,16 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			foregroundButton = new RadioButton("fg");
 			backgroundButton.setName("bgfg");
 			foregroundButton.setName("bgfg");
-			btnClearBackground = new PushButton(new Image(AppResources.INSTANCE
+			if (app.isUnbundled()) {
+				btnClearBackground = new PushButton(
+						new Image(new ImageResourcePrototype(null,
+								MaterialDesignResources.INSTANCE.delete_black()
+										.getSafeUri(),
+								0, 0, 24, 24, false, false)));
+			} else {
+				btnClearBackground = new PushButton(new Image(AppResources.INSTANCE
 					.delete_small()));
+			}
 			btnClearBackground.setStyleName("ClearBackgroundButton");
 			
 			updateBackgroundButtons(false);
