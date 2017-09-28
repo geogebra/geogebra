@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.sound;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -17,7 +18,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	private AppW app;
 	private boolean mp3active=true;
-	private Map<String,Element> urlToAudio;
+	private Map<String,Element> urlToAudio = new HashMap<String,Element>();
 	/**
 	 * @param app
 	 *            App
