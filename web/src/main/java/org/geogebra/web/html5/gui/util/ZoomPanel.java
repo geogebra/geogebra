@@ -20,14 +20,24 @@ import org.geogebra.web.web.gui.layout.GUITabs;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
-public class ZoomPanel extends FlowPanel implements CoordSystemListener {
+/**
+ * Place of the zoom buttons.
+ * 
+ * @author zbynek, laszlo
+ *
+ */
+public class ZoomPanel extends FlowPanel
+		implements CoordSystemListener, KeyDownHandler {
 
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
@@ -42,7 +52,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	boolean isFullScreen = false;
 
 	private FlowPanel zoomPanel = this;
-	AppW app;
+	private AppW app;
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
 	private String containerPositionBefore;
@@ -52,6 +62,11 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	private double cssScale = 0;
 	private List<StandardButton> buttons = null;
 
+	/**
+	 *
+	 * @param view
+	 *            The Euclidian View to put zoom buttons onto.
+	 */
 	public ZoomPanel(EuclidianView view) {
 		this.view = view;
 		this.app = (AppW) view.getApplication();
@@ -71,6 +86,9 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		}
 	}
 
+	/**
+	 * Updates fullscreen button and article.
+	 */
 	public void updateFullscreen() {
 		ArticleElement ae = app.getArticleElement();
 		if (!ae.getDataParamApp() && isFullScreen) {
@@ -105,9 +123,13 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 			@Override
 			public void onClick(Widget source) {
-				toggleFullscreen();
+				onFullscreenPressed();
 			}
 		};
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			fullscreenBtn.addKeyDownHandler(this);
+		}
 
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
 		Browser.addFullscreenListener(new StringHandler() {
@@ -134,6 +156,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 						null, ZoomPanelResources.INSTANCE
 								.fullscreen_exit_black18().getSafeUri(),
 						0, 0, 18, 18, false, false));
+
 	}
 
 	/**
@@ -165,6 +188,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * Resetting position and margins.
 	 * 
 	 * @param container
+	 *            to reset.
 	 */
 	protected void resetStyleAfterFullscreen(Element container) {
 		if (container != null) {
@@ -197,11 +221,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 			@Override
 			public void onClick(Widget source) {
-				app.getEuclidianView1().setStandardView(true);
+				onHomePressed();
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
-		
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			homeBtn.addKeyDownHandler(this);
+		}
+
 		zoomPanel.add(homeBtn);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
@@ -229,11 +257,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 			@Override
 			public void onClick(Widget source) {
-				getEuclidianView().getEuclidianController().zoomInOut(false,
-						true, ZoomPanel.this);
+				onZoomOutPressed();
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			zoomOutBtn.addKeyDownHandler(this);
+		}
+
 		zoomPanel.add(zoomOutBtn);
 	}
 
@@ -246,11 +278,15 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 
 			@Override
 			public void onClick(Widget source) {
-				getEuclidianView().getEuclidianController().zoomInOut(false,
-						false, ZoomPanel.this);
+				onZoomInPressed();
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			zoomInBtn.addKeyDownHandler(this);
+		}
+
 		zoomPanel.add(zoomInBtn);
 	}
 
@@ -309,10 +345,25 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 		$wnd.dispatchEvent(new Event("resize"));
 	}-*/;
 
-	/**
-	 * Switch between fullscreen and windowed mode.
-	 */
-	protected void toggleFullscreen() {
+	/** Home button handler. */
+	protected void onHomePressed() {
+		app.getEuclidianView1().setStandardView(true);
+	}
+
+	/** Zoom In button handler. */
+	protected void onZoomInPressed() {
+		getEuclidianView().getEuclidianController().zoomInOut(false, false,
+				ZoomPanel.this);
+	}
+
+	/** Zoom Out button handler. */
+	protected void onZoomOutPressed() {
+		getEuclidianView().getEuclidianController().zoomInOut(false, true,
+				this);
+	}
+
+	/** Full screen button handler. */
+	protected void onFullscreenPressed() {
 		final Element container;
 		final boolean ipad = Browser.isIPad();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
@@ -387,6 +438,7 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 	 * @param scaler
 	 *            the applet scaler element.
 	 * @param container
+	 *            content to scale.
 	 */
 	protected void scaleApplet(Element scaler, Element container) {
 		double xscale = Window.getClientWidth() / app.getWidth();
@@ -471,6 +523,24 @@ public class ZoomPanel extends FlowPanel implements CoordSystemListener {
 				btn.setTabIndex(tabIndex);
 				tabIndex++;
 			}
+		}
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
+		int key = event.getNativeKeyCode();
+		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
+			return;
+		}
+		Object source = event.getSource();
+
+		if (source == homeBtn) {
+			onHomePressed();
+		} else if (source == zoomOutBtn) {
+			onZoomOutPressed();
+		} else if (source == zoomInBtn) {
+			onZoomInPressed();
+		} else if (source == fullscreenBtn) {
+			onFullscreenPressed();
 		}
 	}
 }
