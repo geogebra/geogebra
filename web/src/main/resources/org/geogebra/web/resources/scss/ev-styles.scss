@@ -339,15 +339,17 @@
     
 		.zoomPanelHomeIn {
 			@extend .zoomPanelBtn;
-			opacity: 1;	 
-			transition: opacity 0.2s ease;
+			opacity: 1;
+			visibility: visible;	 
+			transition: all 0.2s ease;
 			}
 	
 		.zoomPanelHomeOut {
 			@extend .zoomPanelBtn;
 			cursor: default;
 			opacity: 0;	
-			transition: opacity 0.2s ease;
+			visibility: hidden;	 
+			transition: all 0.2s ease;
 	
 			img {
     			opacity: 0;
