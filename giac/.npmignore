@@ -10,3 +10,4 @@ LINUX_README
 settings.gradle
 node_modules
 local.properties
+emsdk
