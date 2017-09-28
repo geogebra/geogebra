@@ -11,12 +11,11 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
-import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.PersistablePanel;
@@ -41,7 +40,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
 	private MyToggleButton btnClose;
-	private StandardButton btnContextMenu;
 	private boolean open = true;
 	private Image imgClose;
 	private Image imgOpen;
@@ -56,8 +54,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 	PersistablePanel undoRedoPanel;
 	private MyToggleButton btnUndo;
 	private MyToggleButton btnRedo;
-	private ContextMenuAlgebra cmAlgebra = null;
-	private ContextMenuTools cmTools;
 	private boolean animating = false;
 	/**
 	 * height in open state
@@ -339,28 +335,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		rightSide.add(btnClose);
 		rightSide.addStyleName("rightSide");
 		contents.add(rightSide);
-	}
-
-	/**
-	 * context menu button handler
-	 */
-	protected void openContextMenu() {
-		int x = btnContextMenu.getAbsoluteLeft();
-		int y = btnContextMenu.getAbsoluteTop() + 6;
-
-		if (toolbarPanel.isAlgebraViewActive()) {
-			if (cmAlgebra == null) {
-				cmAlgebra = new ContextMenuAlgebra((AppW) toolbarPanel.app);
-			}
-			cmAlgebra.show(x, y);
-		} else {
-			if (cmTools == null) {
-				cmTools = new ContextMenuTools((AppW) toolbarPanel.app,
-						toolbarPanel);
-			}
-			cmTools.getSubToolFilter().update();
-			cmTools.show(x, y);
-		}
 	}
 
 	private void updateButtonImages() {
