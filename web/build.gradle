@@ -155,7 +155,7 @@ task copyHtml {
 	    
 	    file("war/graphing-template.html").text = appHtml(html, "graphing", false);
 	    file("war/geometry-template.html").text = appHtml(html, "geometry", false);
-	    file("war/whiteboard-template.html").text = appHtml(html, "whiteboard", true);
+	    file("war/whiteboard-template.html").text = appHtml(html, "whiteboard", true, true);
 	    file("war/graphing-offline.html").text = english(appHtml(html, "graphing", false, true), "Graphing Calculator");
 	    file("war/geometry-offline.html").text = english(appHtml(html, "geometry", false, true), "Geometry");
 	  
@@ -167,7 +167,7 @@ task copyHtml {
 	    
 	    file("war/3d.html").text = english(appHtml(html, "3d", true), "3D Graphing Calculator");
 	    
-	    file("war/whiteboard.html").text = english(appHtml(html, "whiteboard", true), "Whiteboard");
+	    file("war/whiteboard.html").text = english(appHtml(html, "whiteboard", true, true), "Whiteboard");
     }
 }
 
