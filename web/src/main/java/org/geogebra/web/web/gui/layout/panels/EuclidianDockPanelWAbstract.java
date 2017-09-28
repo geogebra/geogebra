@@ -289,8 +289,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			zoomPanel.setLabels();
 		}
 		if (graphicsContextMenuBtn != null) {
-			graphicsContextMenuBtn
-					.setTitle(app.getLocalization().getMenu("Settings"));
+			String titletext = app.getLocalization().getMenu("Settings");
+			graphicsContextMenuBtn.setTitle(titletext);
+			graphicsContextMenuBtn.setAltText(titletext);
 		}
 	}
 
