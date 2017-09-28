@@ -1655,7 +1655,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				// w.getElement().setAttribute("display", "none");
 
 				if (view.isKeyboardEnabled()) {
-					app.showKeyboard(w, true);
+					if (app.getGuiManager() != null) {
+						app.showKeyboard(w,
+							app.getGuiManager().getKeyboardShouldBeShownFlag());
+					} else {
+						app.showKeyboard(w, true);
+					}
 					final GRectangle rect = getCellRect(row, col, true);
 					Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 						@Override
