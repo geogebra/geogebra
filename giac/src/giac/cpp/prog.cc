@@ -7530,11 +7530,11 @@ namespace giac {
     if ( (v[0].type!=_INT_) || (v[1].type!=_INT_) )
       return gensizeerr(contextptr);
     int l(giacmax(v[0].val,1)),c(giacmax(v[1].val,1));
-    if (vs==3){
+    if (vs==3 && v[2].type<=_IDNT){
       vecteur res(l);
       for (int i=0;i<l;++i)
 	res[i]=vecteur(c,v[2]);
-      return res;
+      return gen(res,_MATRIX__VECT);
     }
     bool transpose=(vs>3);
     if (transpose){ // try to merge arguments there
