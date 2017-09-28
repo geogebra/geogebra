@@ -18,6 +18,8 @@ import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -637,4 +639,15 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	}
 
+	/**
+	 * focus menu in a deferred way.
+	 */
+	public void focusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				wrappedPopup.getPopupMenu().getElement().focus();
+			}
+		});
+	}
 }

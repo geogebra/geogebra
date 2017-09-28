@@ -46,6 +46,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -58,6 +60,7 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -79,7 +82,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public abstract class DockPanelW extends ResizeComposite implements
  DockPanel,
-		DockComponent {
+		DockComponent, KeyDownHandler {
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -279,8 +282,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            The default toolbar string (or null if this view has none)
 	 * @param hasStyleBar
 	 *            If a style bar exists
-	 * @param hasZoomPanel
-	 *            If zoom panel should be added
 	 * @param menuOrder
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
@@ -302,7 +303,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *            The default toolbar string (or null if this view has none)
 	 * @param hasStyleBar
 	 *            If a style bar exists
-	 * @param hasZoomPanel is has zoomPanel
 	 * @param menuOrder
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
@@ -530,8 +530,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	}
 
-
-
+	/** Builds zoom panel */
 	protected void tryBuildZoomPanel() {
 		// overridden in EV
 	}
@@ -551,7 +550,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	private void addToggleButton() {
-		// always show the view-icon; otherwise use showStylebar as parameter
+		// always show the view-icon; othrwise use showStylebar as parameter
 		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			graphicsContextMenuBtn = new StandardButton(
 					new ImageResourcePrototype(null,
@@ -565,9 +564,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 				@Override
 				public void onClick(Widget source) {
-					ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-							app, source.getAbsoluteLeft(), 8);
-					contextMenu.show(new GPoint(source.getAbsoluteLeft(), 8));
+					onGraphicsSettingsPressed();
 				}
 
 			};
@@ -578,6 +575,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			titleBarPanelContent.add(graphicsContextMenuBtn);
 			if (app.has(Feature.TAB_ON_GUI)) {
 				graphicsContextMenuBtn.setTabIndex(GUITabs.EV_TAB_START);
+				graphicsContextMenuBtn.addKeyDownHandler(this);
 			}
 			return;
 		}
@@ -605,6 +603,15 @@ public abstract class DockPanelW extends ResizeComposite implements
 		};
 		toggleStyleBarButton.addFastClickHandler(toggleStyleBarHandler);
 		titleBarPanelContent.add(toggleStyleBarButton);
+	}
+
+	/** Graphics Settings button handler */
+	protected void onGraphicsSettingsPressed() {
+		int x = graphicsContextMenuBtn.getAbsoluteLeft();
+		int y = 8;
+		ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
+				app, x, y);
+		contextMenu.show(new GPoint(x, y));
 	}
 
 	/**
@@ -671,6 +678,12 @@ public abstract class DockPanelW extends ResizeComposite implements
 		}
 	}
 
+	/**
+	 * Adds a panel zoom buttons on it.
+	 * 
+	 * @param dockPanel2
+	 *            panel to add to.
+	 */
 	protected void addZoomPanel(MyDockLayoutPanel dockPanel2) {
 		// TODO Auto-generated method stub
 
@@ -1620,4 +1633,16 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// do nothing by default
 	}
 
+	public void onKeyDown(KeyDownEvent event) {
+		int key = event.getNativeKeyCode();
+		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
+			return;
+		}
+		Object source = event.getSource();
+
+		if (source == graphicsContextMenuBtn) {
+			onGraphicsSettingsPressed();
+
+		}
+	}
 }

@@ -353,7 +353,7 @@ public class ZoomPanel extends FlowPanel
 	/** Zoom In button handler. */
 	protected void onZoomInPressed() {
 		getEuclidianView().getEuclidianController().zoomInOut(false, false,
-				ZoomPanel.this);
+				this);
 	}
 
 	/** Zoom Out button handler. */

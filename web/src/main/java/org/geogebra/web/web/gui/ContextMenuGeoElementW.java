@@ -40,6 +40,8 @@ import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -1423,6 +1425,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	public void show(Canvas c, int x, int y) {
 		updateEditItems();
 		wrappedPopup.show(c, x, y);
+		focusDeferred();
 	}
 
 	/**
@@ -1432,6 +1435,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	public void show(GPoint p) {
 		updateEditItems();
 		wrappedPopup.show(p);
+		focusDeferred();
 	}
 
 	// public void reInit(ArrayList<GeoElement> geos, GPoint location) {
@@ -1532,5 +1536,18 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		initPopup(app.getActiveEuclidianView()
 				.getEuclidianController().getAppSelectedGeos());
 		addOtherItems();
+	}
+
+	private void focusDeferred() {
+		if (!app.has(Feature.TAB_ON_GUI)) {
+			return;
+		}
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				wrappedPopup.getPopupMenu().getElement().focus();
+			}
+		});
 	}
 }
