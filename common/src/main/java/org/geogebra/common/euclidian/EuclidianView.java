@@ -3469,6 +3469,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).endGroup("layer "+layer);
 		}
+		// make sure pen stroke is drawn
+		if (app.has(Feature.MOW_PEN_ON_TOP_LAYER)) {
+			if (drawLayers[9].size() != 0) {
+				drawLayers[9].drawAll(g2);
+			}
+		}
 	}
 
 	// Michael Borcherds 2008-03-01
