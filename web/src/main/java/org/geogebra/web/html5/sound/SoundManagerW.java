@@ -6,13 +6,15 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.dom.client.Element;
+
 /**
  *
  */
 public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	private AppW app;
-
+	private boolean mp3active=true;
 	/**
 	 * @param app
 	 *            App
@@ -25,6 +27,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	@Override
 	public void pauseResumeSound(boolean b) {
 		FunctionSoundW.INSTANCE.pause(b);
+		mp3active = b;
 	}
 
 	@Override
@@ -49,6 +52,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	@Override
 	public void playFile(String url0) {
+		this.mp3active = true;
 		String url = url0;
 		// eg PlaySound["#12345"] to play material 12345 from GeoGebraTube
 		boolean fmtMp3 = url.startsWith("#");
@@ -89,7 +93,9 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	public void stopCurrentSound() {
 		// getMidiSound().stop();
 	}
-
+	protected boolean isMp3Active(){
+		return mp3active;
+	}
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
@@ -101,15 +107,17 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	 * @param url
 	 *            eg
 	 *            http://www.geogebra.org/static/spelling/spanish/00/00002.mp3
+	 * @return audio element
 	 */
-	native void playMP3(String url) /*-{
+	native Element playMP3(String url) /*-{
 		var audioElement = $doc.createElement('audio');
+		var that = this;
 		audioElement.setAttribute('src', url);
 		audioElement.load();
 		audioElement.addEventListener("canplay", function() {
-			audioElement.play();
+			that.@org.geogebra.web.html5.sound.SoundManagerW::isMp3Active()() && audioElement.play();
 		});
-
+		return audioElement;
 	}-*/;
 
 	public void onError(int errorCode) {
