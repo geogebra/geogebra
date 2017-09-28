@@ -20,6 +20,7 @@ var prerelease = false;
 var startDelay = 0;
 var marginTop = 0;
 var analyticsVersion = 'V'+latestVersion;
+var appOnline=true;
 var translation = {};
 </script>
 <!--PLATFORM SPECIFIC CODE-->
@@ -571,14 +572,27 @@ document.isChromeWebapp = function isChromeWebapp() {
 	
 	ga('send', 'pageview');
 	if(window.appID !== null && window.appID !== '') {
-   		if (window.appID == 'graphing') {
-   			ga('send', 'event', 'Startup', analyticsVersion, 'Graphing');
-   		} 
-   		if (window.appID == 'geometry') {
-   			ga('send', 'event', 'Startup', analyticsVersion, 'Geometry');
+		if (appOnline) {
+   			if (window.appID == 'graphing') {
+   				ga('send', 'event', 'Startup', analyticsVersion, 'Graphing Web');
+   			} 
+   			if (window.appID == 'geometry') {
+   				ga('send', 'event', 'Startup', analyticsVersion, 'Geometry Web');
+   			}
+   		} else {
+   			if (window.appID == 'graphing') {
+   				ga('send', 'event', 'Startup', analyticsVersion, 'Graphing Offline');
+   			} 
+   			if (window.appID == 'geometry') {
+   				ga('send', 'event', 'Startup', analyticsVersion, 'Geometry Offline');
+   			}
    		}
 	} else {
-		ga('send', 'event', 'Startup', analyticsVersion, 'Classic');
+		if (appOnline) {
+			ga('send', 'event', 'Startup', analyticsVersion, 'Classic Web');
+		} else {
+			ga('send', 'event', 'Startup', analyticsVersion, 'Classic Offline');
+		}
 	}
 	</script> 
 	<script async src='https://www.google-analytics.com/analytics.js'></script>
