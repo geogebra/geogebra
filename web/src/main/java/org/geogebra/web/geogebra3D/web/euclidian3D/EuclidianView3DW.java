@@ -46,6 +46,19 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.GestureChangeEvent;
+import com.google.gwt.event.dom.client.GestureEndEvent;
+import com.google.gwt.event.dom.client.GestureStartEvent;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.TouchCancelEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -180,23 +193,22 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController3DW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
-		// evPanel.addDomHandler(euclidiancontroller,
-		// MouseWheelEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 
-		// if (!Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))
-		// || !app.has(Feature.MOW_PEN_EVENTS)) {
-		// evPanel.addDomHandler(euclidiancontroller,
-		// MouseMoveEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller,
-		// MouseOverEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
-		// if (((AppW) app).getLAF() == null
-		// || !((AppW) app).getLAF().isSmart()) {
-		// evPanel.addDomHandler(euclidiancontroller,
-		// MouseDownEvent.getType());
-		// }
-		// evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-		// }
+		if (!Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))
+				|| !app.has(Feature.MOW_PEN_EVENTS)) {
+			evPanel.addDomHandler(euclidiancontroller,
+					MouseMoveEvent.getType());
+			evPanel.addDomHandler(euclidiancontroller,
+					MouseOverEvent.getType());
+			evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
+			if (((AppW) app).getLAF() == null
+					|| !((AppW) app).getLAF().isSmart()) {
+				evPanel.addDomHandler(euclidiancontroller,
+						MouseDownEvent.getType());
+			}
+			evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+		}
 
 		if (Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
@@ -205,18 +217,13 @@ public class EuclidianView3DW extends EuclidianView3D implements
 					app.has(Feature.MOW_PEN_EVENTS));
 			return;
 		}
-		// evPanel.addDomHandler(euclidiancontroller,
-		// TouchStartEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller,
-		// TouchCancelEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller,
-		// GestureStartEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller,
-		// GestureChangeEvent.getType());
-		// evPanel.addDomHandler(euclidiancontroller,
-		// GestureEndEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
+		evPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
 
 	}
 
