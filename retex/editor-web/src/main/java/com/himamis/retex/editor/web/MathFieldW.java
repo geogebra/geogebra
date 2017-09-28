@@ -100,6 +100,8 @@ public class MathFieldW implements MathField, IsWidget {
 	private SimplePanel clip;
 
 	private double scale = 1.0;
+
+	private FocusHandler focusHandler;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -115,7 +117,8 @@ public class MathFieldW implements MathField, IsWidget {
 	 *            listener for special events
 	 */
 	public MathFieldW(Panel parent, Canvas canvas,
-			MathFieldListener listener, boolean directFormulaBuilder) {
+			MathFieldListener listener, boolean directFormulaBuilder,
+			FocusHandler fh) {
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
@@ -153,7 +156,7 @@ public class MathFieldW implements MathField, IsWidget {
 			}
 		}, MouseDownEvent.getType());
 
-
+		this.focusHandler = fh;
 		setKeyListener(wrap, keyListener);
 	}
 
@@ -523,7 +526,9 @@ public class MathFieldW implements MathField, IsWidget {
 	public void setFocus(boolean focus) {
 		if (focus) {
 			startBlink();
-
+			if (focusHandler != null) {
+				focusHandler.onFocus(null);
+			}
 			focuser = new Timer() {
 
 				@Override
@@ -563,6 +568,9 @@ public class MathFieldW implements MathField, IsWidget {
 		mathFieldInternal.update();
 		// first focus canvas to get the scrolling right
 		html.getElement().focus();
+		if (focusHandler != null) {
+			focusHandler.onFocus(null);
+		}
 		// after set focus to the keyboard listening element
 		wrap.getElement().focus();
 		onTextfieldBlur = oldBlur;

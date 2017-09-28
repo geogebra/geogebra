@@ -19,6 +19,8 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyEvent;
@@ -746,5 +748,16 @@ public class GlobalKeyDispatcherW extends
 				.onTabModeChange(!isTabOverGeos());
 
 
+	}
+
+	public FocusHandler getFocusHandler() {
+		return new FocusHandler() {
+
+			public void onFocus(FocusEvent event) {
+				GlobalKeyDispatcherW.this.setFocused(true);
+
+			}
+
+		};
 	}
 }
