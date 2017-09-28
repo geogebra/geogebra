@@ -1340,6 +1340,11 @@ namespace giac {
     matrice res;
     vecteur v;
     for (int i=0;i<=s;++i){
+      if (is_zero(mpow)){
+	vecteur w(i+1);
+	w[0]=1;
+	return w;
+      }
       aplatir(mpow,v);
       v.push_back(pow(vx_var,i));
       res.push_back(v);
@@ -1504,7 +1509,7 @@ namespace giac {
     if (proba_epsilon(contextptr) &&probabilistic_pmin(m,w,true,contextptr))
       return symb_horner(w,v.back());
     else
-      return _r2e(gen(makevecteur(pmin(m,contextptr),v.back()),_SEQ__VECT),contextptr);
+      return _r2e(gen(makevecteur(_pmin(m,contextptr),v.back()),_SEQ__VECT),contextptr);
   }
   static const char _pmin_s []="pmin";
   static define_unary_function_eval (__pmin,&_pmin,_pmin_s);
