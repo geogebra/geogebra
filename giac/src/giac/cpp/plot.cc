@@ -2134,6 +2134,72 @@ namespace giac {
     return e;
   }
 
+  vecteur merge_pixon(const vecteur & v){
+    vecteur w;
+    const_iterateur it=v.begin(),itend=v.end();
+    w.reserve(itend-it);
+    int lastxmin=-1,lastxmax=-1,lastymin=-1,lastymax=-1,lastcolor=-1;
+    for (;it!=itend;++it){
+      if (!it->is_symb_of_sommet(at_pnt)){
+	w.push_back(*it);
+	continue;
+      }
+      gen tmp=remove_at_pnt(*it);
+      if (!tmp.is_symb_of_sommet(at_pixon) || tmp._SYMBptr->feuille.type!=_VECT){
+	w.push_back(*it);
+	continue;	
+      }
+      vecteur & f=*tmp._SYMBptr->feuille._VECTptr;
+      if (f.size()<2){
+	w.push_back(*it);
+	continue;	
+      }
+      gen x=f[0],y=f[1],c=0;
+      if (f.size()>2)
+	c=f[2];
+      if (!is_integral(x) || !is_integral(y) || !is_integral(c)){
+	w.push_back(*it);
+	continue;	
+      }
+      if (lastcolor==c.val && lastxmax==lastxmin && lastxmax==x.val && lastymax+1==y.val){
+	++lastymax;
+	continue;
+      }
+      if (lastcolor==c.val && lastymax==lastymin && lastymax==y.val && lastxmax+1==x.val){
+	++lastxmax;
+	continue;
+      }
+      if (lastcolor!=-1){
+	if (lastxmax==lastxmin){
+	  if (lastymax==lastymin)
+	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor)),0)));
+	  else
+	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastymax-lastymin)),0)));
+	}
+	else {
+	  if (lastymax==lastymin)
+	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax)),0)));
+	}
+      }
+      lastxmax=lastxmin=x.val;
+      lastymax=lastymin=y.val;
+      lastcolor=c.val;
+    }
+    if (lastcolor!=-1){
+      if (lastxmax==lastxmin){
+	if (lastymax==lastymin)
+	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor)),0)));
+	else
+	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastymax-lastymin)),0)));
+      }
+      else {
+	if (lastymax==lastymin)
+	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax)),0)));
+      }
+    }
+    return w;
+  }
+
   int pixon_size=2; // global size, used in all sessions
   // pixel (i,j,[color])
   gen _pixon(const gen & a,GIAC_CONTEXT){

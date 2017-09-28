@@ -635,7 +635,8 @@ namespace giac {
 
   void pixon2svg(const gen & g,string & s){
     if (g.type==_VECT){
-      const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+      vecteur w=merge_pixon(*g._VECTptr);
+      const_iterateur it=w.begin(),itend=w.end();
       for (;it!=itend;++it){
 	pixon2svg(*it,s);
       }
@@ -651,11 +652,22 @@ namespace giac {
       return;
     vecteur & v=*h._VECTptr;
     gen x=pixon_size*v[0],y=pixon_size*v[1];
-    char ch='0'+pixon_size;
-    int color=0;
+    int color=0,w=0,he=0;
     if (v.size()>2)
       color=v[2].val;
-    s += "<rect x=\""+x.print(context0)+"\" y=\""+y.print(context0)+"\" width=\""+ch+"\" height=\""+ch+"\" fill=\""+color_string(color)+"\"/>\n";
+    if (v.size()>3 && v[3].type==_INT_){
+      if (v[3].val>0) 
+	he=v[3].val; 
+      else 
+	w=-v[3].val;
+    }
+    if (w==0 && he==0){
+      char ch='0'+pixon_size;
+      s += "<rect x=\""+x.print(context0)+"\" y=\""+y.print(context0)+"\" width=\""+ch+"\" height=\""+ch+"\" fill=\""+color_string(color)+"\"/>\n";
+      return;
+    }
+    s += "<rect x=\""+x.print(context0)+"\" y=\""+y.print(context0)+"\" width=\""+print_INT_((w+1)*pixon_size)+"\" height=\""+print_INT_((he+1)*pixon_size)+"\" fill=\""+color_string(color)+"\"/>\n";
+    
   }
 
   // before making a user transformation on the frame, 

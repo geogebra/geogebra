@@ -281,6 +281,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_erase;
   
   extern int pixon_size; 
+  vecteur merge_pixon(const vecteur & v);
   gen _pixon(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pixon;
 

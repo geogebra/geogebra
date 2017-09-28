@@ -175,7 +175,7 @@ namespace giac {
       b=0;
     else
       b=ratnormal(e-a*x,contextptr);
-    return true;
+    return lvarx(b,x).empty();
   }
 
   // return true if e=a*x+b
