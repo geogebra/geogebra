@@ -1303,6 +1303,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 							break;
 						}
 					}
+					super.setVisible(geosOK);
 
 					if (geosOK) {
 
