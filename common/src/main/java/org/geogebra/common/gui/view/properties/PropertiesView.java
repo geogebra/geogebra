@@ -171,12 +171,14 @@ public abstract class PropertiesView implements View {
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.isUnbundled() ? loc.getMenu("Defaults")
+			return app.isUnbundled() || app.isWhiteboardActive()
+					? loc.getMenu("Defaults")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
 		case SPREADSHEET:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
 		case EUCLIDIAN:
-			return app.isUnbundled() ? loc.getMenu("DrawingPad")
+			return app.isUnbundled() || app.isWhiteboardActive()
+					? loc.getMenu("DrawingPad")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
 		case EUCLIDIAN2:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad2"));
@@ -188,10 +190,12 @@ public abstract class PropertiesView implements View {
 		case CAS:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
 		case GLOBAL:
-			return app.isUnbundled() ? loc.getMenu("Advanced")
+			return app.isUnbundled() || app.isWhiteboardActive()
+					? loc.getMenu("Advanced")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
 		case ALGEBRA:
-			return app.isUnbundled() ? loc.getMenu("Algebra")
+			return app.isUnbundled() || app.isWhiteboardActive()
+					? loc.getMenu("Algebra")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
 		case OBJECTS:
 			return objectPanel == null ? loc.getMenu("Objects") : objectPanel

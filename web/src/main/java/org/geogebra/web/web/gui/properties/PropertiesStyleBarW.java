@@ -207,7 +207,9 @@ public class PropertiesStyleBarW extends
 		case SPREADSHEET:
 			ImgResourceHelper.setIcon(pr.menu_icon_spreadsheet24(), btn);
 		case EUCLIDIAN:
-			ImgResourceHelper.setIcon(app.isUnbundled()? new ImageResourcePrototype(null,
+			ImgResourceHelper
+					.setIcon(app.isUnbundled() || app.isWhiteboardActive()
+							? new ImageResourcePrototype(null,
 					MaterialDesignResources.INSTANCE
 									.geometry().getSafeUri(),
 							0, 0, 24, 24, false, false)
@@ -225,7 +227,7 @@ public class PropertiesStyleBarW extends
 		case ALGEBRA:
 			ImgResourceHelper
 					.setIcon(
-							app.isUnbundled()
+							app.isUnbundled() || app.isWhiteboardActive()
 									? new ImageResourcePrototype(null,
 											MaterialDesignResources.INSTANCE
 													.graphing().getSafeUri(),
@@ -256,7 +258,7 @@ public class PropertiesStyleBarW extends
 		case SPREADSHEET:
 			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet24());
 		case EUCLIDIAN:
-			return app.isUnbundled()
+			return app.isUnbundled() || app.isWhiteboardActive()
 					? new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.geometry()
 									.getSafeUri(),
@@ -269,7 +271,7 @@ public class PropertiesStyleBarW extends
 		case CAS:
 			return ImgResourceHelper.safeURI(pr.menu_icon_cas24());
 		case ALGEBRA:
-			return  app.isUnbundled()
+			return app.isUnbundled() || app.isWhiteboardActive()
 					? new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.graphing()
 									.getSafeUri(),

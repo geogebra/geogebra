@@ -136,7 +136,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 		// font size
 		// TODO require font phrases F.S.
 		// toggle buttons for bold and italic
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			btnItalic = new MyToggleButtonW(
 					new ImageResourcePrototype(
 							null, MaterialDesignResources.INSTANCE
@@ -256,7 +256,7 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		btnCancel = new Button();
 		btnPanel.add(btnCancel);
-		if (app.isUnbundled()) {
+		if (app.isUnbundled() || app.isWhiteboardActive()) {
 			btnOk.addStyleName("okBtn");
 			btnCancel.addStyleName("cancelBtn");
 		}
@@ -332,13 +332,13 @@ class TextOptionsPanelW extends OptionPanel implements ITextOptionsListener,
 
 		decimalLabel.setText(loc.getMenu("Rounding") + ":");
 
-		if (!app.isUnbundled()) {
+		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 			btnBold.setText(loc.getMenu("Bold.Short"));
 			btnItalic.setText(loc.getMenu("Italic.Short"));
 		}
 
 		btnLatex.setText(loc.getMenu("LaTeXFormula"));
-		if (!app.isUnbundled()) {
+		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
 			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 		}

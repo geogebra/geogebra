@@ -213,7 +213,7 @@ public class AppWapplet extends AppWFull {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
 					|| (frame.getWidget(i) instanceof FloatingMenuPanel)
-					|| (isUnbundled()
+					|| ((isUnbundled() || isWhiteboardActive())
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
@@ -658,13 +658,7 @@ public class AppWapplet extends AppWFull {
 				toggleFloatingMenu(needsUpdate);
 				return;
 			}
-
-			if (isWhiteboardActive()) {
-				this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
-
-			} else {
-				this.splitPanelWrapper.add(frame.getMenuBar(this));
-			}
+			this.splitPanelWrapper.add(frame.getMenuBar(this));
 			this.oldSplitLayoutPanel.setPixelSize(
 					this.oldSplitLayoutPanel.getOffsetWidth()
 							- GLookAndFeel.MENUBAR_WIDTH,
@@ -818,7 +812,7 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void closePopups() {
 		super.closePopups();
-		if (isUnbundled() && !isWhiteboardActive()) {
+		if (isUnbundled() && isWhiteboardActive()) {
 			hideMenu();
 		}
 	}

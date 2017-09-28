@@ -65,7 +65,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		public AlgebraTab() {
 			createGUI();
 			updateGUI();
-			if (getApp().isUnbundled()) {
+			if (getApp().isUnbundled() || getApp().isWhiteboardActive()) {
 				setStyleName("propMaterialTab");
 			} else {
 				setStyleName("propertiesTab");

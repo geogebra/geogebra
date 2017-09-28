@@ -125,7 +125,8 @@ public class PropertiesViewW extends PropertiesView
 		if (!app.has(Feature.FLOATING_SETTINGS)) {
 			return;
 		}
-		closeButton = new StandardButton(app.isUnbundled()
+		closeButton = new StandardButton(
+				app.isUnbundled() || app.isWhiteboardActive()
 				? new ImageResourcePrototype(null,
 						KeyboardResources.INSTANCE.keyboard_close_black()
 								.getSafeUri(),
@@ -555,11 +556,12 @@ public class PropertiesViewW extends PropertiesView
     @Override
 	public void onResize() {
 		int width = getWrappedPanel().getOffsetWidth()
-				- (app.isUnbundled() ? 40 : 37);
+				- (app.isUnbundled() || app.isWhiteboardActive() ? 40 : 37);
     	int height = getWrappedPanel().getOffsetHeight();
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
-		} else if (app.isUnbundled() && width == -40
+		} else if ((app.isUnbundled() || app.isWhiteboardActive())
+				&& width == -40
 				&& getWrappedPanel() != null) {
 			contentsPanel.setWidth("460px");
     	}
@@ -609,7 +611,6 @@ public class PropertiesViewW extends PropertiesView
 		if (!app.has(Feature.FLOATING_SETTINGS)) {
 			return;
 		}
-
 		if (!isFloatingAttached()) {
 			wrappedPanel.setVisible(true);
 			wrappedPanel.addStyleName("floatingSettings");
