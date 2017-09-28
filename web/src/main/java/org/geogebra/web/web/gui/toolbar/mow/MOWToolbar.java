@@ -402,12 +402,14 @@ public class MOWToolbar extends FlowPanel {
 	 *            the mode to set.
 	 */
 	public void setMode(int mode) {
+		if (mode == EuclidianConstants.MODE_SELECTION_LISTENER) {
+			return;
+		}
 		if (mode == EuclidianConstants.MODE_PEN) {
 			selectButton(penButton);
 		}
 		if (!(mode == EuclidianConstants.MODE_PEN
 				&& currentMenu == penMenu)
-				&& mode != EuclidianConstants.MODE_SELECTION_LISTENER
 				&& !((mode == EuclidianConstants.MODE_TEXT
 						|| mode == EuclidianConstants.MODE_MOVE)
 						&& currentMenu == mediaMenu)) {
