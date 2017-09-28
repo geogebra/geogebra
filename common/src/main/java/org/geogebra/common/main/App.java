@@ -4274,7 +4274,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case LABEL_SETTING_ON_STYLEBAR:
-			return relaunch;
+			return relaunch && !whiteboard;
 
 		case SURFACE_2D:
 			return false;
