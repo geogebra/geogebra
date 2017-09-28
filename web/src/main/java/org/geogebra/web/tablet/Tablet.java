@@ -129,32 +129,6 @@ public class Tablet implements EntryPoint {
 		// });
 	}
 
-	private void loadAppAsync() {
-		// GWT.runAsync(new RunAsyncCallback() {
-		// public void onSuccess() {
-		ResourcesInjector.injectResources();
-		createGeoGebraAppFrame();
-		// }
-
-		// public void onFailure(Throwable reason) {
-		// Log.debug(reason);
-		// }
-		// });
-
-	}
-
-	/**
-	 * create app frame
-	 */
-	protected void createGeoGebraAppFrame() {
-		appFrame = new GeoGebraFrameBoth(
-				(AppletFactory) GWT.create(AppletFactory.class),
-				(GLookAndFeel) GWT.create(TabletLookAndFeel.class),
-				(GDevice) GWT.create(TabletDevice.class));
-		appFrame.addStyleName(((TabletLookAndFeel) GWT
-				.create(TabletLookAndFeel.class)).getFrameStyleName());
-	}
-
 	/**
 	 * Export the extension renderer method
 	 */
@@ -235,6 +209,9 @@ public class Tablet implements EntryPoint {
 	}
 	
 
+	/**
+	 * @return whether cordova is needed, based on global war
+	 */
 	public static native boolean useCordova() /*-{
 		if ($wnd.android) {
 			if ($wnd.android.noCordova) {
