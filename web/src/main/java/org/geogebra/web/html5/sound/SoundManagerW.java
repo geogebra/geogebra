@@ -74,8 +74,15 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		}
 
 		Log.debug("playing URL as MP3: " + url);
-		if (urlToAudio.get(url) != null) {
-			playAudioElement(urlToAudio.get(url));
+		final Element audio = urlToAudio.get(url);
+		if (audio != null) {
+			app.invokeLater(new Runnable(){
+
+				@Override
+				public void run() {
+					playAudioElement(audio);
+				}});
+			
 		} else {
 			playMP3(url);
 		}
