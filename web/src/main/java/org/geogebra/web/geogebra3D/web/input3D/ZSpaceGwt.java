@@ -14,41 +14,18 @@ public class ZSpaceGwt {
 	}
 	
 	public static native boolean zspaceIsAvailable() /*-{
-	    if (navigator.getVRDisplays) {
-	      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("navigator.getVRDisplays");
-	      navigator.getVRDisplays().then(function (displays) {
-	        if (displays.length > 0) {
-	          var i;
-	          var flag = false;
-	          for (i = 0; i < displays.length; i++) {
-	          	@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("displays[i].displayName = "+displays[i].displayName);
-	            if (displays[i].displayName == "ZSpace Display") {
-	              flag = true;
-	            }
-	          }
-	          if (flag) {
-	          	$wnd.localStorage.setItem('zSpace', 'true');
-	          } else {
-	          	$wnd.localStorage.setItem('zSpace', 'false');
-	          }
-	        }
-	      });
-	      var stored = $wnd.localStorage.getItem('zSpace');
-	      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("localStorage.getItem = "+stored);
-	      if (stored == "true") {
-	      	return true;
-	      }
-	    } 
-	    return false;
+//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("navigator.userAgent = "+ navigator.userAgent);
+		var index = navigator.userAgent.indexOf("zSpace Beta");
+//		@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("indexOf = "+ index);
+		return index !== -1;
 	}-*/;
 
 	protected native void init(WebGLRenderingContext gl,
-			Element canvas) /*-{
+			Element canvas) /*-{		
 		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl = new $wnd.ZSpace(
-				gl, canvas, $wnd);
+				gl, canvas);
 		var zs = this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl;
 		zs.zspaceInit();
-		zs.setCanvasOffset(0, 0);
 	}-*/;
 
 	public native void zspaceUpdate() /*-{
@@ -84,8 +61,8 @@ public class ZSpaceGwt {
 	}-*/;
 
 	public native void setCanvasOffset(int x, int y) /*-{
-		return this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
-				.setCanvasOffset(x, y);
+		this.@org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt::impl
+				.setBrowserViewportOffset(x, y);
 	}-*/;
 
 	public native JsArrayNumber getViewportSpaceStylusPose() /*-{
