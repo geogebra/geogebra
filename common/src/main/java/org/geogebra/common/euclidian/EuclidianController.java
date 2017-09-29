@@ -5500,7 +5500,7 @@ public abstract class EuclidianController {
 			if (selectionPreview) {
 				getSelectables(hits.getTopHits(), selectionPreview);
 			} else {
-				if (draggingOccured && (selection.selectedGeosSize() == 1)) {
+				if (isDraggingOccuredBeyondThreshold() && (selection.selectedGeosSize() == 1)) {
 					selection.clearSelectedGeos();
 				}
 
@@ -9971,6 +9971,10 @@ public abstract class EuclidianController {
 		return newPointCreated;
 	}
 
+	protected boolean isDraggingOccuredBeyondThreshold() {
+		return draggingOccured && draggingBeyondThreshold;
+	}
+
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
@@ -10002,7 +10006,7 @@ public abstract class EuclidianController {
 		if (getResizedShape() != null) {
 			getResizedShape().updateGeo(event);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
-			if (!draggingOccured) {
+			if (!isDraggingOccuredBeyondThreshold()) {
 				addDynamicStylebar(false);
 			}
 			storeUndoInfo();
@@ -10021,7 +10025,7 @@ public abstract class EuclidianController {
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
-					if (!draggingOccured) {
+					if (!isDraggingOccuredBeyondThreshold()) {
 						addDynamicStylebar(false);
 					}
 				}
@@ -10084,7 +10088,7 @@ public abstract class EuclidianController {
 		// TODO: call it once in the method.
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionMode(mode)
-					&& !draggingOccured && !event.isRightClick()) {
+					&& !isDraggingOccuredBeyondThreshold() && !event.isRightClick()) {
 				addDynamicStylebar(event.isControlDown());
 			}
 		}
@@ -10131,11 +10135,11 @@ public abstract class EuclidianController {
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
 
-		if (draggingOccured && app.has(Feature.HIGHLIGT_IMPROVEMENTS)) {
+		if (isDraggingOccuredBeyondThreshold() && app.has(Feature.HIGHLIGT_IMPROVEMENTS)) {
 			selection.clearSelectedGeos();
 		}
 
-		if (this.doubleClickStarted && !draggingOccured && !right) {
+		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !right) {
 			wrapMouseclicked(control, 2, type);
 		}
 		this.doubleClickStarted = false;
@@ -10233,7 +10237,7 @@ public abstract class EuclidianController {
 		}
 		if (movedGeoElement instanceof GeoPointND
 				&& movedGeoElement.hasChangeableCoordParentNumbers()
-				&& !draggingOccured) {
+				&& !isDraggingOccuredBeyondThreshold()) {
 			this.switchPointMoveMode();
 		}
 		if (movedGeoNumeric != null) {
@@ -10259,7 +10263,7 @@ public abstract class EuclidianController {
 
 		// handle moving
 		boolean changedKernel = false;
-		if (draggingOccured) {
+		if (isDraggingOccuredBeyondThreshold()) {
 
 			draggingOccurredBeforeRelease = true;
 			draggingOccured = false;
@@ -10393,7 +10397,7 @@ public abstract class EuclidianController {
 
 		// allow drag with right mouse button or ctrl
 		// make sure Ctrl still works for selection (when no dragging occured)
-		if (right || (control && draggingOccured))// &&
+		if (right || (control && isDraggingOccuredBeyondThreshold()))// &&
 		// !TEMPORARY_MODE)
 		{
 			if (!temporaryMode) {
@@ -10537,7 +10541,7 @@ public abstract class EuclidianController {
 		if ((app.isMacOS() && control) || !right) {
 			return;
 		}
-		if (draggingOccured) {
+		if (isDraggingOccuredBeyondThreshold()) {
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(alt, control, shift);
 				return;
@@ -10626,7 +10630,7 @@ public abstract class EuclidianController {
 	}
 
 	private final boolean canShowPopupMenu() {
-		return !draggingOccured && app.isUsingFullGui()
+		return !isDraggingOccuredBeyondThreshold() && app.isUsingFullGui()
 				&& app.getGuiManager() != null;
 	}
 
