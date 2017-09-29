@@ -221,7 +221,8 @@ public class MyButton implements Observer {
 		}
 		
 
-		int arcSize = (int) Math.round(getWidth() * arcSizefraction);
+		int arcSize = (int) Math
+				.round(Math.min(getWidth(), getHeight()) * arcSizefraction);
 		
 		int shadowSize = 0;
 
