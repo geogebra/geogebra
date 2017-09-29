@@ -7984,9 +7984,6 @@ public abstract class EuclidianController {
 			stopCollectingMinorRepaints();
 			return;
 		}
-		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
-			draggingBeyondThreshold = true;
-		}
 		if (freehandModePrepared()) {
 			stopCollectingMinorRepaints();
 			// no repaint, so that the line drawn by the freehand mode will not
@@ -8578,6 +8575,11 @@ public abstract class EuclidianController {
 		}
 
 		clearJustCreatedGeos();
+
+		if (!draggingBeyondThreshold && isDraggingBeyondThreshold()) {
+			draggingBeyondThreshold = true;
+		}
+
 		if (!draggingOccured) {
 			draggingOccured = true;
 
@@ -9972,7 +9974,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean isDraggingOccuredBeyondThreshold() {
-		return draggingOccured;
+		return draggingOccured && draggingBeyondThreshold;
 	}
 
 	public void wrapMouseReleased(AbstractEvent event) {
@@ -10087,8 +10089,8 @@ public abstract class EuclidianController {
 		// Quick fix for GeoFunctions.
 		// TODO: call it once in the method.
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (EuclidianConstants.isMoveOrSelectionMode(mode)
-					&& !isDraggingOccuredBeyondThreshold() && !event.isRightClick()) {
+			if (EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold())
+					&& !event.isRightClick()) {
 				addDynamicStylebar(event.isControlDown());
 			}
 		}

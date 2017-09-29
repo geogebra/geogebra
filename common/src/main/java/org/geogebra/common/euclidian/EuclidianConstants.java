@@ -862,11 +862,32 @@ public final class EuclidianConstants {
 	/**
 	 * @param mode
 	 *            mode number
-	 * @return whether modeis MOVE or SELECT
+	 * @return whether mode is MOVE or SELECT
 	 */
 	static public boolean isMoveOrSelectionMode(int mode) {
 		return mode == MODE_MOVE || mode == MODE_SELECT;
 	}
+
+	/**
+	 * @param mode
+	 *            mode number
+	 * @param draggingOccured
+	 *            tells if dragging occured
+	 *
+	 * @return whether mode is MOVE or SELECT, and return false if the mode is not compatible
+	 * with dragging occured
+	 */
+	static public boolean isMoveOrSelectionModeCompatibleWithDragging(int mode, boolean draggingOccured) {
+		switch (mode) {
+			case MODE_MOVE:
+				return !draggingOccured;
+			case MODE_SELECT:
+				return true;
+			default:
+				return false;
+		}
+	}
+
 
 	// prevent instantiation
 	private EuclidianConstants() {
