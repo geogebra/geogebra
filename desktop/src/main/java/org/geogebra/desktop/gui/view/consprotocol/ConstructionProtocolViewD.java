@@ -1044,7 +1044,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				BufferedImage img2 = toBufferedImage(img1);
 				String base64 = GgbAPID.base64encode(img2, 72);
 
-				return "<img src=\"data:image/png;base64," + base64 + "\">";
+				return "<img src=\"" + StringUtil.pngMarker + base64 + "\">";
 			}
 			case 3:
 				return rowList.get(nRow).getGeo().getDescriptionHTML(false);
@@ -1409,7 +1409,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		// include image file
 		if (imgBase64 != null) {
 			sb.append("<p>\n");
-			sb.append("<img src=\"data:image/png;base64,");
+			sb.append("<img src=\"");
+			sb.append(StringUtil.pngMarker);
 			sb.append(imgBase64);
 			sb.append("\" alt=\"");
 			sb.append(StringUtil

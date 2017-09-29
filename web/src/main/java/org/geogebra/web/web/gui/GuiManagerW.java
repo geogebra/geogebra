@@ -429,9 +429,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			Log.debug("trying to paste image " + html);
 
-			String pngMarker = "data:image/png;base64,";
-
-			int pngBase64index = html.indexOf(pngMarker);
+			int pngBase64index = html.indexOf(StringUtil.pngMarker);
 
 			if (pngBase64index > -1) {
 				int pngBase64end = html.indexOf("\"", pngBase64index);

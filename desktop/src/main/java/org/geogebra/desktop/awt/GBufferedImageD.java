@@ -6,6 +6,7 @@ import java.awt.image.DataBufferInt;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.plugin.GgbAPID;
 
 public class GBufferedImageD implements GBufferedImage {
@@ -60,7 +61,7 @@ public class GBufferedImageD implements GBufferedImage {
 	}
 
 	public String getBase64() {
-		return "data:image/png;base64," + GgbAPID.base64encode(impl, 72);
+		return StringUtil.pngMarker + GgbAPID.base64encode(impl, 72);
 	}
 
 }

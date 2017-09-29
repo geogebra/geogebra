@@ -1381,14 +1381,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			if (transfer.isDataFlavorSupported(htmlFlavor)) {
 				String html = (String) transfer.getTransferData(htmlFlavor);
 
-				String pngMarker = "data:image/png;base64,";
-
-				int pngBase64index = html.indexOf(pngMarker);
+				int pngBase64index = html.indexOf(StringUtil.pngMarker);
 
 				if (pngBase64index > -1) {
 					int pngBase64end = html.indexOf("\"", pngBase64index);
 					String base64 = html.substring(
-							pngBase64index + pngMarker.length(), pngBase64end);
+							pngBase64index + StringUtil.pngMarker.length(),
+							pngBase64end);
 					byte[] bytes = Base64.decode(base64);
 
 					InputStream in = new ByteArrayInputStream(bytes);

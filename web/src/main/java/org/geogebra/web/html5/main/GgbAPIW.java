@@ -157,7 +157,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private static String pngBase64(String pngURL) {
-		return pngURL.substring("data:image/png;base64,".length());
+		return pngURL.substring(StringUtil.pngMarker.length());
 	}
 	public String getLaTeXBase64(String label, boolean value) {
 		Canvas c = Canvas.createIfSupported();
@@ -174,7 +174,7 @@ public class GgbAPIW extends GgbAPI {
 					.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSizeWeb());
-		return c.toDataUrl().substring("data:image/png;base64,".length());
+		return c.toDataUrl().substring(StringUtil.pngMarker.length());
 	}
 
 	public void getGGB(final boolean includeThumbnail,

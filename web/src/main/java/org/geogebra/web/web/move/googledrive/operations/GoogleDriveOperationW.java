@@ -6,6 +6,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -442,7 +443,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		        "image",
 		        ((EuclidianViewWInterface) app.getActiveEuclidianView())
 		                .getCanvasBase64WithTypeString()
-		                .substring("data:image/png;base64,".length())
+						.substring(StringUtil.pngMarker.length())
 		                .replace("+", "-").replace("/", "_"));
 		JSON.put(thumbnail, "mimeType", "image/png");
 		JSON.putObject(metaData, "thumbnail", thumbnail);
