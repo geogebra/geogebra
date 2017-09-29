@@ -6,6 +6,7 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -136,8 +137,28 @@ public abstract class GlobalKeyDispatcher {
 				return true;
 			}
 		}
-
+		if (ch == ' ') {
+			toggleSelectionVisibility();
+		}
+		EuclidianStyleBar es = app.getActiveEuclidianView()
+				.getDynamicStyleBar();
+		if (es != null) {
+			es.setVisible(false);
+		}
 		return false;
+	}
+
+	private void toggleSelectionVisibility() {
+		int selSize = selection.selectedGeosSize();
+		if (selSize > 0 && app.getGuiManager() != null
+				&& app.getGuiManager().hasAlgebraView()) {
+			for (int i = 0; i < selSize; i++) {
+				GeoElement geo1 = selection.getSelectedGeos().get(i);
+				geo1.setEuclidianVisible(!geo1.isSetEuclidianVisible());
+				geo1.update();
+			}
+			app.getKernel().notifyRepaint();
+		}
 	}
 
 	private boolean handleUpDownArrowsForDropdown(ArrayList<GeoElement> geos,
