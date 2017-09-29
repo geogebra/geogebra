@@ -165,6 +165,11 @@ public class CASgiacW extends CASgiac {
 	}-*/;
 
 	public void initialize() {
+
+		if (casLoaded) {
+			return;
+		}
+
 		GWT.runAsync(new RunAsyncCallback() {
 			@Override
 			public void onSuccess() {
