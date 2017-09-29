@@ -284,7 +284,8 @@ public class GlobalKeyDispatcherW extends
 			String className) {
 		Element el = child;
 		do {
-			List<String> classnames = Arrays.asList(el.getClassName()
+			List<String> classnames = Arrays
+					.asList((el.getClassName() + "")
 					.split(" "));
 			if (classnames.contains(className)) {
 				return el;
@@ -325,6 +326,7 @@ public class GlobalKeyDispatcherW extends
 	@Override
 	public void onKeyPress(KeyPressEvent event) {
 		setDownKeys(event);
+		Log.debug("PRESS");
 		event.stopPropagation();
 		if (inFocus) {
 			// in theory, default action of TAB is not triggered here

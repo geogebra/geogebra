@@ -1853,19 +1853,27 @@ public abstract class AlgoElement extends ConstructionElement
 	 * @param geo1
 	 *            output
 	 * @param geo2
-	 *            second output
+	 *            second geo -- possibly also output
 	 * @return whether geo1 appears in output array before geo2
 	 */
 	public boolean isBefore(GeoElement geo1, GeoElement geo2) {
-		for (int i = 0; i < getOutputLength(); i++) {
-			if (getOutput(i) == geo1) {
-				return false;
-			}
-			if (getOutput(i) == geo2) {
-				return true;
+		if (geo2.getParentAlgorithm() == this) {
+			for (int i = 0; i < getOutputLength(); i++) {
+				if (getOutput(i) == geo1) {
+					return false;
+				}
+				if (getOutput(i) == geo2) {
+					return true;
+				}
 			}
 		}
-		return false;
+		int classDiff = geo2.getGeoClassType().ordinal()
+				- geo1.getGeoClassType().ordinal();
+		if (classDiff != 0) {
+			return classDiff < 0;
+		}
+		return (geo1.isLabelSet() && geo2.isLabelSet()
+				&& geo1.getLabelSimple().compareTo(geo2.getLabelSimple()) >= 0);
 	}
 
 	/**
