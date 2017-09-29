@@ -338,7 +338,7 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case TAB:
-			if (!app.has(Feature.TAB_ON_GUI) || isTabOverGeos()) {
+			if (!app.has(Feature.TAB_ON_GUI)) {
 				consumed = handleTab(isControlDown, isShiftDown, true);
 			}
 
@@ -883,7 +883,7 @@ public abstract class GlobalKeyDispatcher {
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
 		} else {
-			selection.selectNextGeo(app.getActiveEuclidianView(), cycle);
+			selection.selectNextGeo(app.getActiveEuclidianView(), false);
 		}
 
 		return true;
@@ -1063,13 +1063,6 @@ public abstract class GlobalKeyDispatcher {
 			base = 100;
 		}
 
-		if (app.has(Feature.TAB_ON_GUI) && isControlDown && isShiftDown
-				&& (key == KeyCodes.LEFT || key == KeyCodes.RIGHT)) {
-			toggleTabOverGeos();
-			return true;
-		}
-
-		// Log.debug("key pressed");
 		if (geos == null || geos.size() == 0) {
 
 			// Get the EuclidianView which has the focus
@@ -1532,23 +1525,19 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	public void setTabOverGeos(boolean tabOverGeos) {
 		this.tabOverGeos = tabOverGeos;
-	}
 
-	/**
-	 * Toggle TAB behaviour
-	 */
-	public void toggleTabOverGeos() {
-		this.tabOverGeos = !tabOverGeos;
-		if (!tabOverGeos) {
-			onTabModeChange();
+		if (tabOverGeos == false) {
+			selection.clearSelectedGeos();
 		}
-		Log.debug("tabOverGeos" + tabOverGeos);
 	}
 
 	/**
 	 * Gives the focus to the first GUI element after tab switching.
+	 * 
+	 * @param lastgeo
+	 *            if the last geo was selected before.
 	 */
-	protected void onTabModeChange() {
+	protected void onTabModeChange(boolean lastgeo) {
 		// overwritten to descendant
 	}
 }

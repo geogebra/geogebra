@@ -61,6 +61,7 @@ public class ZoomPanel extends FlowPanel
 	private String containerMarginTop;
 	private double cssScale = 0;
 	private List<StandardButton> buttons = null;
+	private boolean homeShown;
 
 	/**
 	 *
@@ -304,6 +305,7 @@ public class ZoomPanel extends FlowPanel
 		if (homeBtn == null) {
 			return;
 		}
+		homeShown = true;
 		homeBtn.addStyleName("zoomPanelHomeIn");
 		homeBtn.removeStyleName("zoomPanelHomeOut");
 		homeBtn.getElement().setAttribute("arial-hidden", "false");
@@ -316,7 +318,7 @@ public class ZoomPanel extends FlowPanel
 		if (homeBtn == null) {
 			return;
 		}
-
+		homeShown = false;
 		homeBtn.addStyleName("zoomPanelHomeOut");
 		homeBtn.removeStyleName("zoomPanelHomeIn");
 		homeBtn.getElement().setAttribute("arial-hidden", "true");
@@ -478,7 +480,6 @@ public class ZoomPanel extends FlowPanel
 			btn.setTitle(app.getLocalization().getMenu(string));
 			btn.setAltText(app.getLocalization().getMenu(string));
 		}
-
 	}
 
 	private static boolean needsFullscreenButton(AppW app) {
@@ -528,10 +529,16 @@ public class ZoomPanel extends FlowPanel
 
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
+		Object source = event.getSource();
+		if (source == getFirstButton() && key == GWTKeycodes.KEY_TAB
+				&& event.isShiftKeyDown()) {
+			app.getGlobalKeyDispatcher().focusLastGeo();
+			event.stopPropagation();
+			event.preventDefault();
+		}
 		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
 			return;
 		}
-		Object source = event.getSource();
 
 		if (source == homeBtn) {
 			onHomePressed();
@@ -542,5 +549,25 @@ public class ZoomPanel extends FlowPanel
 		} else if (source == fullscreenBtn) {
 			onFullscreenPressed();
 		}
+	}
+
+	/** Focus the first available button on zoom panel. */
+	public void focusFirstButton() {
+		Widget btn = getFirstButton();
+		if (btn != null) {
+			btn.getElement().focus();
+		}
+	}
+
+	private Widget getFirstButton() {
+		if (homeBtn != null && homeShown) {
+			return homeBtn;
+		}
+
+		if (zoomInBtn != null) {
+			return zoomInBtn;
+		}
+
+		return fullscreenBtn;
 	}
 }

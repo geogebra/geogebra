@@ -716,7 +716,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		}
 
 		setAltTexts();
-		btnMenu.getElement().focus();
 	}
 
 	public void onKeyDown(KeyDownEvent event) {

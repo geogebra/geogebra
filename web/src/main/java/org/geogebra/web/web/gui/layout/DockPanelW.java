@@ -1637,10 +1637,18 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
+		Object source = event.getSource();
+
+		if (source == graphicsContextMenuBtn && key == GWTKeycodes.KEY_TAB
+				&& !event.isShiftKeyDown()) {
+			app.getGlobalKeyDispatcher().focusFirstGeo();
+			event.stopPropagation();
+			event.preventDefault();
+		}
+
 		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
 			return;
 		}
-		Object source = event.getSource();
 
 		if (source == graphicsContextMenuBtn) {
 			onGraphicsSettingsPressed();

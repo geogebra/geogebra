@@ -42,6 +42,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GlobalKeyDispatcherW extends
         org.geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
         KeyDownHandler, KeyPressHandler {
+	private enum GUISwitchMode {
+		None, LastGeoToGUI, FirstGeoToGUI, GUIToFirstGeo
+	}
 
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
@@ -88,6 +91,7 @@ public class GlobalKeyDispatcherW extends
 		isHandlingTab = tab;
 	}
 
+	private GUISwitchMode guiSwitchMode = GUISwitchMode.None;
 	/**
 	 * @param app
 	 *            application
@@ -175,7 +179,6 @@ public class GlobalKeyDispatcherW extends
 		} else {
 			nextArticle.focus();
 		}
-
 	}
 
 	/**
@@ -193,7 +196,6 @@ public class GlobalKeyDispatcherW extends
 			}
 
 		}
-
 	}
 
 	/**
@@ -386,7 +388,6 @@ public class GlobalKeyDispatcherW extends
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
 			setFocused(true);
 		}
-
 	}
 
 	private boolean handleKeyPressed(KeyUpEvent event) {
@@ -402,7 +403,6 @@ public class GlobalKeyDispatcherW extends
 		// app.getSelectionManager().getSelectedGeos())) {
 		// return true;
 		// }
-
 		return false;
 	}
 
@@ -441,7 +441,6 @@ public class GlobalKeyDispatcherW extends
 			event.preventDefault();
 		}
 		return handled;
-
 	}
 
 	/**
@@ -529,7 +528,6 @@ public class GlobalKeyDispatcherW extends
 		if (keydownPreventsDefaultKeypressTAB) {
 			event.preventDefault();
 		}
-
 	}
 
 	private native String getActive() /*-{
@@ -552,22 +550,44 @@ public class GlobalKeyDispatcherW extends
 	 */
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
-		if (!app.has(Feature.TAB_ON_GUI) || !isTabOverGeos()) {
+		if (!app.has(Feature.TAB_ON_GUI)) {
+			return true;
+		}
+
+		if (!isTabOverGeos()) {
+			Log.debug("GUI TAB");
 			return true;
 		}
 
 		app.getActiveEuclidianView().closeDropdowns();
+
+		if (changeTabMode()) {
+			return true;
+		}
 		
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
+			if (selection.isFirstGeoSelected()) {
+				guiSwitchMode = GUISwitchMode.FirstGeoToGUI;
+			}
 			return true;
 		}
 		boolean forceRet = false;
 		if (selection.getSelectedGeos().size() == 0) {
 			forceRet = true;
 		}
-		return selection.selectNextGeo(app.getActiveEuclidianView(), cycle)
-				|| forceRet;
+
+		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView(),
+				false);
+
+		if (selection.isLastGeoSelected()) {
+			guiSwitchMode = GUISwitchMode.LastGeoToGUI;
+		} else {
+			setTabOverGeos(true);
+
+		}
+
+		return hasNext || forceRet;
 	}
 
 	@Override
@@ -596,8 +616,6 @@ public class GlobalKeyDispatcherW extends
 				}
 			}
 		}
-
-
 		return false;
 	}
 
@@ -731,8 +749,6 @@ public class GlobalKeyDispatcherW extends
 		}
 	}
 
-
-
 	/**
 	 * 
 	 * @param e
@@ -745,11 +761,12 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	@Override
-	protected void onTabModeChange() {
+	protected void onTabModeChange(boolean lastgeo) {
+		if (!!isTabOverGeos()) {
+			selection.clearSelectedGeos();
+		}
 		((GuiManagerInterfaceW) app.getGuiManager())
-				.onTabModeChange(!isTabOverGeos());
-
-
+				.onTabModeChange(!isTabOverGeos(), lastgeo);
 	}
 
 	public FocusHandler getFocusHandler() {
@@ -759,7 +776,42 @@ public class GlobalKeyDispatcherW extends
 				GlobalKeyDispatcherW.this.setFocused(true);
 
 			}
-
 		};
+	}
+
+	private boolean changeTabMode() {
+		switch (guiSwitchMode) {
+		case FirstGeoToGUI:
+			setTabOverGeos(false);
+			onTabModeChange(false);
+			break;
+		case LastGeoToGUI:
+			setTabOverGeos(false);
+			onTabModeChange(true);
+			break;
+		case None:
+			return false;
+		default:
+			break;
+		}
+
+		guiSwitchMode = GUISwitchMode.None;
+		return true;
+	}
+
+	/**
+	 * focus first geo entering EV with tab.
+	 */
+	public void focusFirstGeo() {
+		setTabOverGeos(true);
+		selection.addFirstGeoSelected();
+	}
+
+	/**
+	 * focus last geo entering EV with shift + tab.
+	 */
+	public void focusLastGeo() {
+		setTabOverGeos(true);
+		selection.addLastGeoSelected();
 	}
 }

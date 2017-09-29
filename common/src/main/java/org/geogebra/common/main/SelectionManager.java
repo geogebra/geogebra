@@ -1123,4 +1123,51 @@ public class SelectionManager {
 		}
 		setSelectedGeos(list);
 	}
+
+	/**
+	 * 
+	 * @return if the very first geo is selected.
+	 */
+	public boolean isFirstGeoSelected() {
+		if (selectedGeos.size() == 0) {
+			return false;
+		}
+
+		TreeSet<GeoElement> tree = kernel.getConstruction()
+				.getGeoSetLabelOrder();
+		return tree.first().equals(selectedGeos.get(0));
+	}
+
+	/**
+	 * 
+	 * @return if the very last geo is selected.
+	 */
+	public boolean isLastGeoSelected() {
+		if (selectedGeos.size() == 0) {
+			return false;
+		}
+		TreeSet<GeoElement> tree = kernel.getConstruction()
+				.getGeoSetLabelOrder();
+		return tree.last().equals(selectedGeos.get(0));
+	}
+
+	/**
+	 * Select first geo of the construction.
+	 */
+	public void addFirstGeoSelected() {
+		GeoElement geo = kernel.getConstruction().getGeoSetLabelOrder().first();
+		if (geo != null) {
+			addSelectedGeo(geo);
+		}
+	}
+
+	/**
+	 * Select last geo of the construction.
+	 */
+	public void addLastGeoSelected() {
+		GeoElement geo = kernel.getConstruction().getGeoSetLabelOrder().last();
+		if (geo != null) {
+			addSelectedGeo(geo);
+		}
+	}
 }

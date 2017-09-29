@@ -314,6 +314,23 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	}
 
 	/**
+	 * Focus the next available element on GUI. after geos.
+	 */
+	public void focusNextGUIElement() {
+		if (zoomPanel != null) {
+			zoomPanel.focusFirstButton();
+		} else {
+			// TODO add focus somewhere else like burger menu.
+		}
+	}
+
+	/**
+	 * Focus the last available element on GUI before geos.
+	 */
+	public void focusLastGUIElement() {
+		graphicsContextMenuBtn.getElement().focus();
+	}
+	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.
 	 * 

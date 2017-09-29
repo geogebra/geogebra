@@ -2470,8 +2470,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
-	public void onTabModeChange(boolean tabsOnGUI) {
+	public void onTabModeChange(boolean tabsOnGUI, boolean lastgeo) {
 		if (tabsOnGUI) {
+			EuclidianDockPanelW dp = (EuclidianDockPanelW) getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
+			if (lastgeo) {
+				dp.focusNextGUIElement();
+			} else {
+				dp.focusLastGUIElement();
+			}
 			getToolbarPanelV2().setTabIndexes();
 		} else {
 			// TODO: switch back to geo mode.
