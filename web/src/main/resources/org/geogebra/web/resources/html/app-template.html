@@ -571,29 +571,11 @@ document.isChromeWebapp = function isChromeWebapp() {
 	}
 	
 	ga('send', 'pageview');
-	if(window.appID !== null && window.appID !== '') {
-		if (appOnline) {
-   			if (window.appID == 'graphing') {
-   				ga('send', 'event', 'Startup', analyticsVersion, 'Graphing Web');
-   			} 
-   			if (window.appID == 'geometry') {
-   				ga('send', 'event', 'Startup', analyticsVersion, 'Geometry Web');
-   			}
-   		} else {
-   			if (window.appID == 'graphing') {
-   				ga('send', 'event', 'Startup', analyticsVersion, 'Graphing Offline');
-   			} 
-   			if (window.appID == 'geometry') {
-   				ga('send', 'event', 'Startup', analyticsVersion, 'Geometry Offline');
-   			}
-   		}
-	} else {
-		if (appOnline) {
-			ga('send', 'event', 'Startup', analyticsVersion, 'Classic Web');
-		} else {
-			ga('send', 'event', 'Startup', analyticsVersion, 'Classic Offline');
-		}
-	}
+	
+	var gaPrefixes = {"graphing":"Graphing", "geometry":"Geometry"};
+	var gaLabel = gaPrefixes[window.appID] || "Classic";
+	gaLabel += appOnline ? " Web" : " Offline";	
+	ga('send', 'event', 'Startup', analyticsVersion, gaLabel);
 	</script> 
 	<script async src='https://www.google-analytics.com/analytics.js'></script>
  	<!-- Google Analytics (End) -->
