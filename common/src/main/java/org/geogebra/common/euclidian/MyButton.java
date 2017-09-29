@@ -61,7 +61,7 @@ public class MyButton implements Observer {
 		this.view = view;
 		this.x = 20;
 		this.y = 20;
-		this.borderStroke = AwtFactory.getPrototype().newMyBasicStroke(0.25f);
+		this.borderStroke = EuclidianStatic.getDefaultStroke(); // AwtFactory.getPrototype().newMyBasicStroke(0.25f);
 		geoButton.setObserver(this);
 	}
 
@@ -267,7 +267,7 @@ public class MyButton implements Observer {
 		} else {
 			// default button design
 			if (bg.equals(GColor.WHITE)) {
-				g.setColor(GColor.GRAY);
+				g.setColor(GColor.BLACK);
 
 				// user adjusted design
 			} else {
