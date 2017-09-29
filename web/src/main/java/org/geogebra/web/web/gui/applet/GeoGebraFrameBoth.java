@@ -145,7 +145,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
 					device,
-					"true".equals(articleElement.getDataParamPrerelease()));
+					"true".equals(articleElement.getDataParamPrerelease())
+							|| "canary".equals(
+									articleElement.getDataParamPrerelease()));
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
