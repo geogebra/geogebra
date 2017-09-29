@@ -9972,7 +9972,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean isDraggingOccuredBeyondThreshold() {
-		return draggingOccured && draggingBeyondThreshold;
+		return draggingOccured;
 	}
 
 	public void wrapMouseReleased(AbstractEvent event) {
