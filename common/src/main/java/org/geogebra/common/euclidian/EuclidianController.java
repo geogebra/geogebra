@@ -8235,7 +8235,7 @@ public abstract class EuclidianController {
 			return true;
 		// move objects
 		case EuclidianConstants.MODE_MOVE:
-			return moveMode == MOVE_NONE;
+			return moveMode == MOVE_NONE && isAltDown();
 			
 		case EuclidianConstants.MODE_SELECT:
 			return true;
