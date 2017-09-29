@@ -1,13 +1,16 @@
 package org.geogebra.desktop.sound;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 
 import javax.swing.SwingUtilities;
 
+import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.sound.SoundManager;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.sound.mp3transform.Decoder;
@@ -128,12 +131,22 @@ public class SoundManagerD implements SoundManager {
 			public void run() {
 
 				try {
-					if (fileName.startsWith("#") || !(fileName.endsWith(".midi")
+					if (fileName.startsWith("data:") || fileName.startsWith("#")
+							|| !(fileName.endsWith(".midi")
 							&& fileName.endsWith(".mid"))) {
 
 						InputStream is;
 
-						if (fileName.startsWith("#")) {
+						if (fileName.startsWith(StringUtil.mp3Marker)) {
+
+							String mp3base64 = fileName
+									.substring(StringUtil.mp3Marker.length());
+
+							byte[] mp3 = Base64.decode(mp3base64);
+
+							is = new ByteArrayInputStream(mp3);
+
+						} else if (fileName.startsWith("#")) {
 							// eg PlaySound["#12345"] to play from GeoGebraTube
 							String id = fileName.substring(1);
 

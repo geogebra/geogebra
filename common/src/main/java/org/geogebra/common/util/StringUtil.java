@@ -22,6 +22,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 @SuppressWarnings("javadoc")
 public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
+	final static public String mp3Marker = "data:audio/mp3;base64,";
+	final static public String pngMarker = "data:image/png;base64,";
+
 	/**
 	 * @param data
 	 *            to convert
