@@ -702,7 +702,6 @@ public final class ToolTipManagerW {
 			@Override
 			public void run() {
 				show();
-				// App.debug("initialDelay timer done, toolTip shown");
 			}
 		};
 		// App.debug("start initialDelay timer");

@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.ggbjdk.java.awt.geom.AffineTransform;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
@@ -230,8 +229,6 @@ public class GGraphics2DW implements GGraphics2D {
 		pathLastY = y;
 	}
 
-	//
-
 	@Override
 	public void drawString(String str, int x, int y) {
 		context.fillText(str, x, y);
@@ -255,15 +252,6 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void setComposite(GComposite comp) {
 		context.setGlobalAlpha(((GAlphaCompositeW) comp).getAlpha());
-
-		// if (comp != null) {
-		// float alpha= ((AlphaComposite) comp).getAlpha();
-		// if (alpha >= 0f && alpha < 1f) {
-		// context.setGlobalAlpha(alpha);
-		// }
-		// context.setGlobalAlpha(0.5d);
-		// context.restore();
-		// }
 	}
 
 	@Override
@@ -319,11 +307,11 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void setStroke(GBasicStroke stroke) {
 		if (stroke != null) {
-			context.setLineWidth(((GBasicStrokeW) stroke).getLineWidth());
+			context.setLineWidth(stroke.getLineWidth());
 			context.setLineCap(((GBasicStrokeW) stroke).getEndCapString());
 			context.setLineJoin(((GBasicStrokeW) stroke).getLineJoinString());
 
-			double[] dasharr = ((GBasicStrokeW) stroke).getDashArray();
+			double[] dasharr = stroke.getDashArray();
 			if (dasharr != null) {
 				jsarrn = JavaScriptObject.createArray().cast();
 				jsarrn.setLength(dasharr.length);
@@ -376,8 +364,8 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void transform(GAffineTransform Tx) {
 		context.transform2(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
-				Tx.getScaleY(), ((AffineTransform) Tx).getTranslateX(),
-				((AffineTransform) Tx).getTranslateY());
+				Tx.getScaleY(), Tx.getTranslateX(),
+				Tx.getTranslateY());
 	}
 
 	private void setTransform(GAffineTransform Tx) {
@@ -388,19 +376,14 @@ public class GGraphics2DW implements GGraphics2D {
 				devicePixelRatio * Tx.getShearY(),
 				devicePixelRatio * Tx.getShearX(),
 				devicePixelRatio * Tx.getScaleY(),
-				devicePixelRatio * ((AffineTransform) Tx).getTranslateX(),
-				devicePixelRatio * ((AffineTransform) Tx).getTranslateY());
+				devicePixelRatio * Tx.getTranslateX(),
+				devicePixelRatio * Tx.getTranslateY());
 
 	}
 
 	@Override
 	public GComposite getComposite() {
 		return new GAlphaCompositeW(context.getGlobalAlpha());
-
-		// context.save();
-		// //just to not return null;
-		// return new AlphaComposite(0, 0) {
-		// };
 	}
 
 	@Override
@@ -482,7 +465,6 @@ public class GGraphics2DW implements GGraphics2D {
 	public void setFont(GFont font) {
 		if (font instanceof GFontW) {
 			currentFont = (GFontW) font;
-			// TODO: pass other parameters here as well
 			try {
 				context.setFont(currentFont.getFullFontString());
 			} catch (Throwable t) {
