@@ -200,7 +200,7 @@ public abstract class EuclidianController {
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
-	private static final int DRAG_THRESHOLD = 10;
+	protected static final int DRAG_THRESHOLD = 10;
 	/**
 	 * factor by which hit-threshold is increased while dragging for
 	 * attachDetach (while the point is attached to a Path or Region)
