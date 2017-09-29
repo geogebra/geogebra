@@ -164,9 +164,9 @@ gen polynome_or_sparse_poly1(const gen & coeff, const gen & index){
 %left T_INTERVAL
 %left T_PLUS T_MOINS T_MOINS38
 %nonassoc T_NUMBER
-%nonassoc T_MOD
 %left T_FOIS T_IMPMULT
 %left T_DIV 
+%nonassoc T_MOD
 %nonassoc T_UNIT
 %nonassoc T_NEG38 T_NOT
 %nonassoc T_DOLLAR // this priority for spreadsheet

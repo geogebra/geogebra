@@ -11,6 +11,7 @@
 #include "plot.h"
 #include "tex.h"
 #include "mathml.h"
+#include "maple.h"
 #include "giacintl.h"
 
 //#include <fcntl.h>
@@ -920,14 +921,14 @@ namespace giac {
   
   static string svg_circle(const gen & diameter0, const gen & diameter1, const gen & angle1,const gen & angle2,svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s="";
-    gen center=evalf_double((diameter0+diameter1)/2,1,contextptr);
+    gen center=evalf_double(_evalc((diameter0+diameter1)/2,contextptr),1,contextptr);
     gen centerx,centery;
     reim(center,centerx,centery,contextptr);
     double cx=evalf_double(centerx,1,contextptr)._DOUBLE_val;
     double cy=evalf_double(centery,1,contextptr)._DOUBLE_val;
-    gen d01=evalf_double(diameter0-diameter1,1,contextptr);
+    gen d01=evalf_double(_evalc(diameter1-diameter0,contextptr),1,contextptr);
     gen rotg=arg(d01,0);
-    double rot=M_PI+evalf_double(rotg,1,contextptr)._DOUBLE_val;
+    double rot=evalf_double(rotg,1,contextptr)._DOUBLE_val;
     gen di,dr;
     reim(d01,dr,di,contextptr);
     double did=di._DOUBLE_val,drd=dr._DOUBLE_val;
