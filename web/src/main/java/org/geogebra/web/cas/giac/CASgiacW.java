@@ -164,10 +164,34 @@ public class CASgiacW extends CASgiac {
 		return ret
 	}-*/;
 
+	private native boolean nativeCASloaded() /*-{
+
+		return !!$wnd.__ggb__giac;
+	}-*/;
+
 	public void initialize() {
 
 		if (casLoaded) {
 			return;
+		}
+
+		if (nativeCASloaded()) {
+			GWT.runAsync(new RunAsyncCallback() {
+				@Override
+				public void onSuccess() {
+					Log.debug("giac.js already loaded");
+					CASgiacW.this.casLoaded = true;
+					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+				}
+
+				@Override
+				public void onFailure(Throwable reason) {
+					//
+				}
+			});
+
+			return;
+
 		}
 
 		GWT.runAsync(new RunAsyncCallback() {
