@@ -2,8 +2,6 @@ package org.geogebra.common.awt;
 
 import java.util.HashMap;
 
-import org.geogebra.common.util.debug.Log;
-
 /**
  * @author michael
  * 
@@ -481,10 +479,11 @@ public final class GColor implements GPaint {
 
 	}
 
+	/**
+	 * @return slightly darker color, using quadratic /cubic polynomials for
+	 *         each part
+	 */
 	public GPaint slightlyDarker() {
-		Log.debug(slightlyDarkerRed(getRed())+" "+
-				slightlyDarkerGreen(getGreen()) + " "
-				+ slightlyDarkerBlue(getBlue()));
 		return newColor(slightlyDarkerRed(getRed()),
 				slightlyDarkerGreen(getGreen()), slightlyDarkerBlue(getBlue()),
 				getAlpha());
