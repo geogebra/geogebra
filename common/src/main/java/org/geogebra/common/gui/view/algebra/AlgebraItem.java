@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -241,5 +242,11 @@ public class AlgebraItem {
 			return false;
 		}
 
+	}
+
+	public static boolean isTextItem(GeoElement geo) {
+		return geo.getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)
+				&& geo instanceof GeoText && !((GeoText) geo).isLaTeX()
+				&& !(geo).isTextCommand();
 	}
 }

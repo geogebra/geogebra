@@ -1,8 +1,8 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.common.main.Feature;
 
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -47,9 +47,7 @@ public class TextTreeItem extends RadioTreeItem {
 	 * @return if geo matches to CheckboxTreeItem.
 	 */
 	public static boolean match(GeoElement geo) {
-		return geo.getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)
-				&& geo instanceof GeoText && !((GeoText) geo).isLaTeX()
-				&& !((GeoText) geo).isTextCommand();
+		return AlgebraItem.isTextItem(geo);
 	}
 
 	public static TextTreeItem as(TreeItem ti) {
