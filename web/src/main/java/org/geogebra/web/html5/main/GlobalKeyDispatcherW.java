@@ -43,12 +43,14 @@ public class GlobalKeyDispatcherW extends
         org.geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
         KeyDownHandler, KeyPressHandler {
 	private enum GUISwitchMode {
-		None, LastGeoToGUI, FirstGeoToGUI, GUIToFirstGeo
+		None, LastGeoToGUI, FirstGeoToGUI
 	}
 
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
+	private GUISwitchMode guiSwitchMode = GUISwitchMode.None;
+
 	/**
 	 * Used if we need tab working properly
 	 */
@@ -91,7 +93,6 @@ public class GlobalKeyDispatcherW extends
 		isHandlingTab = tab;
 	}
 
-	private GUISwitchMode guiSwitchMode = GUISwitchMode.None;
 	/**
 	 * @param app
 	 *            application
@@ -762,7 +763,7 @@ public class GlobalKeyDispatcherW extends
 
 	@Override
 	protected void onTabModeChange(boolean lastgeo) {
-		if (!!isTabOverGeos()) {
+		if (!isTabOverGeos()) {
 			selection.clearSelectedGeos();
 		}
 		((GuiManagerInterfaceW) app.getGuiManager())

@@ -1526,7 +1526,7 @@ public abstract class GlobalKeyDispatcher {
 	public void setTabOverGeos(boolean tabOverGeos) {
 		this.tabOverGeos = tabOverGeos;
 
-		if (tabOverGeos == false) {
+		if (!tabOverGeos) {
 			selection.clearSelectedGeos();
 		}
 	}
