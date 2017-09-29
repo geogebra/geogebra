@@ -507,7 +507,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		closeButtonPanel.add(closeButton);
 		
 		titleBarPanelContent.add(styleBarPanel);
-		titleBarPanelContent.add(dragPanel);
+		if (!app.isUnbundled()) {
+			titleBarPanelContent.add(dragPanel);
+		}
 
 		if (!this.isStyleBarEmpty()) {
 			addToggleButton();
