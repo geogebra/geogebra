@@ -91,10 +91,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	 *            look and feel
 	 * @param device
 	 *            browser/tablet; if left null, defaults to browser
+	 * @param mainTag
+	 *            TODO remove, if GGB-2051 released.
 	 */
 	public GeoGebraFrameBoth(AppletFactory factory, GLookAndFeel laf,
-			GDevice device) {
-		super(laf);
+			GDevice device, boolean mainTag) {
+		super(laf, mainTag);
 		this.device = device;
 		this.factory = factory;
 		kbButtonSpace.addStyleName("kbButtonSpace");
@@ -142,7 +144,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
-					device);
+					device,
+					"true".equals(articleElement.getDataParamPrerelease()));
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
@@ -178,7 +181,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			GLookAndFeel laf, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
-				factory, laf, null), clb);
+				factory, laf, null, false), clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
 	}

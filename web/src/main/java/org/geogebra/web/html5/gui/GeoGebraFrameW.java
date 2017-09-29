@@ -16,6 +16,7 @@ import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Node;
@@ -67,9 +68,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private JavaScriptObject onLoadCallback = null;
 
-	/** Creates new GeoGebraFrame */
-	public GeoGebraFrameW(GLookAndFeelI laf) {
-		super();
+	/** Creates new GeoGebraFrame 
+	 * @param mainTag TODO*/
+	public GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
+		super(mainTag ? "main" : DivElement.TAG);
 		this.laf = laf;
 		instances.add(this);
 		addStyleName("GeoGebraFrame");

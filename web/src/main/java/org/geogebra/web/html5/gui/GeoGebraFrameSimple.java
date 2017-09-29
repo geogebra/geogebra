@@ -21,7 +21,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	 * Frame for simple applets (only EV showing)
 	 */
 	public GeoGebraFrameSimple() {
-		super(null);
+		super(null, false);
 	}
 
 	@Override
