@@ -3215,6 +3215,18 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	/**
+	 * @param ae
+	 *            article element
+	 * @return true if prerelease
+	 * 
+	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
+	 */
+	public static boolean isPrerelease(ArticleElement ae) {
+		return "true".equals(ae.getDataParamPrerelease())
+				|| "canary".equals(ae.getDataParamPrerelease());
+	}
+
 	public void hideMenu() {
 		// for applets with menubar
 	}

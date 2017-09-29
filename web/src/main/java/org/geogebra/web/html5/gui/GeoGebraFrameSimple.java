@@ -19,9 +19,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	/**
 	 * Frame for simple applets (only EV showing)
+	 * @param mainTag TODO remove if GGB-2051 released
 	 */
-	public GeoGebraFrameSimple() {
-		super(null, false);
+	public GeoGebraFrameSimple(boolean mainTag) {
+		super(null, mainTag);
 	}
 
 	@Override
@@ -41,7 +42,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
 
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
-			final GeoGebraFrameW inst = new GeoGebraFrameSimple();
+			final GeoGebraFrameW inst = new GeoGebraFrameSimple(
+					AppW.isPrerelease(articleElement));
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
@@ -67,7 +69,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el,
-				new GeoGebraFrameSimple(), clb);
+				new GeoGebraFrameSimple(
+						AppW.isPrerelease((ArticleElement) el)),
+				clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
 	}

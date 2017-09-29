@@ -145,9 +145,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		for (final ArticleElement articleElement : geoGebraMobileTags) {
 			final GeoGebraFrameW inst = new GeoGebraFrameBoth(factory, laf,
 					device,
-					"true".equals(articleElement.getDataParamPrerelease())
-							|| "canary".equals(
-									articleElement.getDataParamPrerelease()));
+					AppW.isPrerelease(articleElement));
 			inst.ae = articleElement;
 			LoggerW.startLogger(inst.ae);
 			inst.createSplash(articleElement);
@@ -183,7 +181,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			GLookAndFeel laf, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
-				factory, laf, null, false), clb);
+				factory, laf, null, AppW.isPrerelease((ArticleElement) el)),
+				clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
 	}
