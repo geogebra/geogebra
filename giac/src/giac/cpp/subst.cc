@@ -338,7 +338,8 @@ namespace giac {
     if (has_i(g) && !complex_mode(contextptr) && contains(g,cst_pi) && is_linear_wrt(g,cst_pi,a,b,contextptr) && !is_zero(a)){
       // exp(pi*a+b)
       reim(a,ar,ai,contextptr);
-      if (is_zero(ar))
+      // checked added for ai otherwise expre:=2*pi*sin(a*pi)/(1-cos(2*a*pi));simplify(expre); is wrong
+      if (is_zero(ar) && is_assumed_integer(ai,contextptr))
 	return exptopower(b,contextptr)*pow(-1,ai,contextptr);
     }
     vecteur l(lop(g,at_ln));
@@ -3263,6 +3264,43 @@ namespace giac {
       return apply_to_equal(args,Heavisidetopiecewise,contextptr);
     return apply(args,Heavisidetopiecewise,contextptr);
   }
+
+#ifndef USE_GMP_REPLACEMENTS
+  // find simplest between some trig simplifications, by Luka Marohnić
+  gen _trigsimplify(const gen & g,GIAC_CONTEXT) {
+    if (g.type==_STRNG && g.subtype==-1) return g;
+    vecteur can(1,_simplify(g,contextptr));
+    can.push_back(_texpand(can.back(),contextptr));
+    can.push_back(_tcollect(can.back(),contextptr));
+    for (int i=1;i<3;++i) {
+        can.push_back(_trigtan(can[i],contextptr));
+        can.push_back(_trigsin(can[i],contextptr));
+        can.push_back(_trigcos(can[i],contextptr));
+        can.push_back(_tlin(can[i],contextptr));
+    }
+    int n=can.size();
+    for (int i=0;i<n;++i) {
+        can.push_back(_tcollect(can[i],contextptr));
+    }
+    n=can.size();
+    for (int i=0;i<n;++i) {
+        can.push_back(_trigtan(can[i],contextptr));
+    }
+    gen simplest=g;
+    int len=taille(g,0);
+    for (const_iterateur it=can.begin();it!=can.end();++it) {
+        int c=taille(*it,len);
+        if (c<len) {
+            simplest=*it;
+            len=c;
+        }
+    }
+    return simplest;
+  }
+  static const char _trigsimplify_s []="trigsimplify";
+  static define_unary_function_eval (__trigsimplify,&_trigsimplify,_trigsimplify_s);
+  define_unary_function_ptr5(at_trigsimplify,alias_at_trigsimplify,&__trigsimplify,0,true)
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
