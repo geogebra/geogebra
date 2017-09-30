@@ -35,6 +35,8 @@ public class PlotterBrushSection {
 	/** thickness = radius of the section */
 	private float thickness;
 
+	private Coords tmpCoords = new Coords(3);
+
 	/**
 	 * constructor
 	 * 
@@ -147,8 +149,6 @@ public class PlotterBrushSection {
 
 		// Application.debug("direction=\n"+direction.toString());
 	}
-
-	private Coords tmpCoords = new Coords(3);
 
 	/**
 	 * set the normal vector and position for parameters u,v

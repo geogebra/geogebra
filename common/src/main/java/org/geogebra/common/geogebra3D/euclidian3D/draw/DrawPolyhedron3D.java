@@ -31,11 +31,24 @@ import org.geogebra.common.main.Feature;
 public class DrawPolyhedron3D extends Drawable3DSurfaces
 		implements Previewable {
 
+	private DrawPolygon3D drawPolygon3D;
+	private Coords[] vertices = new Coords[0];
+
+	private ArrayList<GeoPointND> selectedPoints;
+	private ArrayList<GeoPolygon> selectedPolygons;
+	private int previewMode;
+	private boolean previewBasisIsFinished = false;
+	private AlgoPolyhedronPoints previewAlgo;
+
+	private Coords globalCoords, inPlaneCoords;
+
 	/**
 	 * Common constructor
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param poly
+	 *            polyhedron
 	 */
 	public DrawPolyhedron3D(EuclidianView3D a_view3D, GeoPolyhedron poly) {
 
@@ -43,14 +56,18 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	}
 
-
-	private int previewMode;
-
-	private DrawPolygon3D drawPolygon3D;
-
-	private ArrayList<GeoPointND> selectedPoints;
-	private ArrayList<GeoPolygon> selectedPolygons;
-
+	/**
+	 * Preview constructor
+	 * 
+	 * @param a_view3D
+	 *            view
+	 * @param selectedPoints
+	 *            input polyons
+	 * @param selectedPolygons
+	 *            input polygons
+	 * @param mode
+	 *            preview mode
+	 */
 	public DrawPolyhedron3D(EuclidianView3D a_view3D,
 			ArrayList<GeoPointND> selectedPoints,
 			ArrayList<GeoPolygon> selectedPolygons, int mode) {
@@ -146,8 +163,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CURVES);
 
 	}
-
-	private Coords[] vertices = new Coords[0];
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -307,8 +322,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	}
 
-	private AlgoPolyhedronPoints previewAlgo;
-
 	@Override
 	public void disposePreview() {
 		super.disposePreview();
@@ -343,8 +356,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	public void updateMousePos(double x, double y) {
 		// TODO Auto-generated method stub
 	}
-
-	private boolean previewBasisIsFinished = false;
 
 	/**
 	 * tells that the preview basis is done
@@ -387,8 +398,6 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 
 	}
-
-	private Coords globalCoords, inPlaneCoords;
 
 	@Override
 	public boolean hit(Hitting hitting) {

@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  *
  */
 public class DrawSegment3D extends DrawCoordSys1D {
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	/**
 	 * Common constructor
@@ -80,8 +81,6 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		return new Coords[] { seg.getStartInhomCoords(),
 				seg.getEndInhomCoords() };
 	}
-
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	protected void setStartEndPoints(Coords p1, Coords p2) {

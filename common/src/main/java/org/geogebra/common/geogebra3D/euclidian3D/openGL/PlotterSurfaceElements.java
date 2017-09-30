@@ -10,17 +10,21 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	final private static boolean DEBUG = false;
 
-	final private static void debug(String s) {
-		if (DEBUG) {
-			Log.debug(s);
-		}
-	}
-
 	private int latitudeMin;
 	private int latitude;
 	private int latitudeMax;
 	private int latitudeMaxTop;
 	private int latitudeMaxBottom;
+	private Coords n;
+
+	private DrawSphere drawSphere;
+	private DrawEllipsoid drawEllipsoid;
+	private DrawHyperboloidOneSheet drawHyperboloidOneSheet;
+	private DrawHyperboloidTwoSheets drawHyperboloidTwoSheets;
+	private DrawParaboloid drawParaboloid;
+
+	private double maxFadingStartTop, maxFadingEndTop, middleFading,
+			maxFadingStartBottom, maxFadingEndBottom;
 
 	private interface DrawEllipticSurface {
 		public void drawNCr(Coords normal);
@@ -289,6 +293,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		protected Coords c = Coords.createInhomCoorsInD3();
 		protected Coords n = new Coords(4);
 		protected Coords tmpCoords = new Coords(4);
+		protected double maxFadingStartTop, maxFadingEndTop, middleFading,
+				maxFadingStartBottom, maxFadingEndBottom;
 
 		protected DrawHyperboloidOneSheet() {
 		}
@@ -308,9 +314,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			this.fading = fading;
 
 		}
-
-		protected double maxFadingStartTop, maxFadingEndTop, middleFading,
-				maxFadingStartBottom, maxFadingEndBottom;
 
 		public void setMinMax(double min, double max) {
 			if (min < 0) {
@@ -798,10 +801,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		dp.setMinMax(min, max);
 
 	}
-
-	private Coords n;
-
-	private DrawSphere drawSphere;
 
 	private void drawNV(DrawEllipticSurface dse, int longitude,
 			double longitudeStart, int longitudeLength) {
@@ -1366,8 +1365,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	}
 
-	private DrawEllipsoid drawEllipsoid;
-
 	@Override
 	public void drawEllipsoid(Coords center, Coords ev0, Coords ev1, Coords ev2,
 			double r0, double r1, double r2, int longitude) {
@@ -1390,8 +1387,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		setIndices(longitude, longitude, drawEllipsoid);
 	}
-
-	private DrawHyperboloidOneSheet drawHyperboloidOneSheet;
 
 	@Override
 	public void drawHyperboloidOneSheet(Coords center, Coords ev0, Coords ev1,
@@ -1419,8 +1414,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		setIndices(longitude, longitude, drawHyperboloidOneSheet);
 	}
 
-	private DrawHyperboloidTwoSheets drawHyperboloidTwoSheets;
-
 	@Override
 	public void drawHyperboloidTwoSheets(Coords center, Coords ev0, Coords ev1,
 			Coords ev2, double r0, double r1, double r2, int longitude,
@@ -1447,8 +1440,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		setIndices(longitude, longitude, drawHyperboloidTwoSheets);
 	}
 
-	private DrawParaboloid drawParaboloid;
-
 	@Override
 	public void drawParaboloid(Coords center, Coords ev0, Coords ev1,
 			Coords ev2, double r0, double r1, int longitude, double min,
@@ -1472,9 +1463,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		setIndices(longitude, longitude, drawParaboloid);
 	}
-
-	private double maxFadingStartTop, maxFadingEndTop, middleFading,
-			maxFadingStartBottom, maxFadingEndBottom;
 
 	@Override
 	public void drawParabolicCylinder(Coords center, Coords ev0, Coords ev1,
@@ -2140,4 +2128,11 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		arrayI.put((short) id);
 		arrayIndex++;
 	}
+
+	final private static void debug(String s) {
+		if (DEBUG) {
+			Log.debug(s);
+		}
+	}
+
 }

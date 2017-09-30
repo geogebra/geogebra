@@ -18,6 +18,9 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  *
  */
 public class DrawVector3D extends DrawJoinPoints {
+	private Coords[] points = { Coords.createInhomCoorsInD3(),
+			Coords.createInhomCoorsInD3() };
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	/**
 	 * Common constructor
@@ -79,9 +82,6 @@ public class DrawVector3D extends DrawJoinPoints {
 		}
 	}
 
-	private Coords[] points = { Coords.createInhomCoorsInD3(),
-			Coords.createInhomCoorsInD3() };
-
 	@Override
 	protected Coords[] calcPoints() {
 		GeoVectorND geo = ((GeoVectorND) getGeoElement());
@@ -97,8 +97,6 @@ public class DrawVector3D extends DrawJoinPoints {
 
 		return points;
 	}
-
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	protected void setStartEndPoints(Coords p1, Coords p2) {

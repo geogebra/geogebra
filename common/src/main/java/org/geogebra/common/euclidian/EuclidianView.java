@@ -245,6 +245,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// private double scaleRatio = 1.0;
 	/** print scale ratio */
 	protected double printingScale;
+	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
 
 	// Map (geo, drawable) for GeoElements and Drawables
 	private HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
@@ -422,12 +423,34 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	private GeoElement[] previewFromInputBarGeos;
 	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
+	private boolean labelHitNeedsRefresh = true;
+	private GeoElement labelHitLastGeo = null;
+	/** reIniting is used by GeoGebraWeb */
+	protected boolean reIniting = false;
+	private boolean backgroundIsUpdating = false;
+
+	private int widthTemp, heightTemp;
+	private double xminTemp, xmaxTemp, yminTemp, ymaxTemp;
+
+	private Hits tempArrayList = new Hits();
+
+	private CoordSystemAnimation zoomer;
+	private CoordSystemAnimation axesRatioZoomer;
+	private CoordSystemAnimation zoomerRW;
+	private CoordSystemAnimation mover;
+
+	private OptionsEuclidian optionPanel = null;
+	private DrawDropDownList openedComboBox = null;
+
+	protected ViewTextField viewTextField;
+	private EuclidianStyleBar dynamicStyleBar;
 
 	/**
 	 * Get styleBar
 	 */
 	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
 	private DrawGrid drawGrid;
+	private DrawAxis da;
 
 	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
 	private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
@@ -2022,8 +2045,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
-
 	/**
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
@@ -2196,9 +2217,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		return null;
 	}
-
-	private boolean labelHitNeedsRefresh = true;
-	private GeoElement labelHitLastGeo = null;
 
 	/**
 	 * says that label hit needs to be refreshed
@@ -3509,8 +3527,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		drawBackground(g, false);
 	}
 
-	private boolean backgroundIsUpdating = false;
-
 	private void setBackgroundUpdating(boolean b) {
 		backgroundIsUpdating = b;
 	}
@@ -3541,9 +3557,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            background graphics
 	 */
 	public abstract void paintBackground(GGraphics2D g2);
-
-	/** reIniting is used by GeoGebraWeb */
-	protected boolean reIniting = false;
 
 	/**
 	 * Switches re-initing flag. If re-initing, also resets background.
@@ -3832,8 +3845,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 	}
-
-	private DrawAxis da;
 
 	boolean showResetIcon() {
 		if (!getApplication().showResetIcon()
@@ -4408,9 +4419,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		previewDrawable = p;
 	}
-
-	private int widthTemp, heightTemp;
-	private double xminTemp, xmaxTemp, yminTemp, ymaxTemp;
 
 	/**
 	 * Finds maximum pixel width and height needed to draw current x and y axis
@@ -5120,8 +5128,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	private Hits tempArrayList = new Hits();
-
 	// for use in AlgebraController
 	@Override
 	final public void clickedGeo(GeoElement geo, boolean isControlDown) {
@@ -5175,8 +5181,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	}
 
-	private CoordSystemAnimation zoomer;
-
 	/**
 	 * Zooms towards the given axes scale ratio. Note: Only the y-axis is
 	 * changed here. ratio = yscale / xscale;
@@ -5201,8 +5205,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		axesRatioZoomer
 				.startAnimation(getEuclidianController().getZoomerListener());
 	}
-
-	private CoordSystemAnimation axesRatioZoomer;
 
 	private boolean isZeroStandard() {
 		return (Kernel.isEqual(xZero, getXZeroStandard())
@@ -5332,8 +5334,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	private CoordSystemAnimation mover;
-
 	/**
 	 * Sets real world coord system using min and max values for both axes in
 	 * real world values.
@@ -5347,8 +5347,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		zoomerRW.initRW(xmin, xmax, ymin, ymax, steps, storeUndo);
 		zoomerRW.startAnimation(getEuclidianController().getZoomerListener());
 	}
-
-	private CoordSystemAnimation zoomerRW;
 
 	// for use in AlgebraController
 	@Override
@@ -5548,12 +5546,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return mode == EuclidianConstants.MODE_PEN
 				|| mode == EuclidianConstants.MODE_FREEHAND_SHAPE;
 	}
-
-	private OptionsEuclidian optionPanel = null;
-	private DrawDropDownList openedComboBox = null;
-
-	protected ViewTextField viewTextField;
-	private EuclidianStyleBar dynamicStyleBar;
 
 	/**
 	 * sets the option panel for gui update

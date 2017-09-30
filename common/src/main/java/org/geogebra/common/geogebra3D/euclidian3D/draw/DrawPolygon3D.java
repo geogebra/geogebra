@@ -31,6 +31,20 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
+	private int surfaceDrawTypeAdded;
+	private boolean curvesAdded;
+	private Coords[] vertices = new Coords[0];
+	// preview
+	private ArrayList<GeoPointND> selectedPoints;
+	/** segments of the polygon preview */
+	private ArrayList<DrawSegment3D> segments;
+	private ArrayList<ArrayList<GeoPointND>> segmentsPoints;
+	private boolean isPreview = false;
+	private Coords project, globalCoords, inPlaneCoords;
+
+	private double[] parameters = new double[2];
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private GeoPoint3D hittingPointForOutline;
 
 	/**
 	 * Common constructor
@@ -115,9 +129,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		 */
 	}
 
-	private int surfaceDrawTypeAdded;
-	private boolean curvesAdded;
-
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		if (((GeoPolygon) getGeoElement()).isPartOfClosedSurface()) {
@@ -148,8 +159,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
-	private Coords[] vertices = new Coords[0];
-
 	private void updateVertices(GeoPolygon polygon, int pointLength) {
 
 		if (vertices.length < pointLength) {
@@ -170,10 +179,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				enlargeBounds(boundsMin, boundsMax, vertices[i]);
 			}
 		}
-
 	}
-
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
@@ -374,15 +380,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	// //////////////////////////////
 	// Previewable interface
 
-	private ArrayList<GeoPointND> selectedPoints;
-
-	/** segments of the polygon preview */
-	private ArrayList<DrawSegment3D> segments;
-
-	private ArrayList<ArrayList<GeoPointND>> segmentsPoints;
-
-	private boolean isPreview = false;
-
 	/**
 	 * Constructor for previewable
 	 * 
@@ -455,8 +452,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		// set points to new segments points
 		while (i.hasNext()) {
-			if (sp != null && point != null)
-			 {
+			if (sp != null && point != null) {
 				sp.add(point); // add second point to precedent segment
 			}
 
@@ -543,8 +539,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		return super.doHighlighting();
 	}
-
-	private GeoPoint3D hittingPointForOutline;
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -668,10 +662,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		return false;
 
 	}
-
-	private Coords project, globalCoords, inPlaneCoords;
-
-	private double[] parameters = new double[2];
 
 	@Override
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {

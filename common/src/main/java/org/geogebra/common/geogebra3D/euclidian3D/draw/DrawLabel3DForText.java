@@ -15,10 +15,12 @@ import org.geogebra.common.kernel.geos.TextProperties;
 /**
  * class for drawing texts
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawLabel3DForText extends DrawLabel3D {
+	protected GeoText geo;
+	private int highLightIndex = -1;
 
 	public DrawLabel3DForText(EuclidianView3D view, Drawable3D drawable) {
 		super(view, drawable);
@@ -60,8 +62,6 @@ public class DrawLabel3DForText extends DrawLabel3D {
 		return bimg;
 	}
 
-	protected GeoText geo;
-
 	public void setGeo(GeoText geo) {
 		this.geo = geo;
 	}
@@ -83,8 +83,6 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			renderer.enableTextures();
 		}
 	}
-
-	private int highLightIndex = -1;
 
 	@Override
 	public void updatePosition(Renderer renderer) {

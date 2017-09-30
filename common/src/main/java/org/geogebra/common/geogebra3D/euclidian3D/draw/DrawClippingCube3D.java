@@ -32,6 +32,21 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	static private double[] INTERIOR_RADIUS_FACTOR = { 1, Math.sqrt(2),
 			Math.sqrt(3) };
+	private double horizontalDiagonal;
+
+	/**
+	 * max value from center to one FRUSTUM edge
+	 */
+	private double frustumRadius;
+
+	/**
+	 * min value from center to one FRUSTUM face
+	 */
+	private double frustumInteriorRadius;
+
+	private int nearestCornerX = -1, nearestCornerY = -1, nearestCornerZ = -1;
+	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3);
+	private double border;
 
 	/**
 	 * Common constructor
@@ -70,17 +85,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * minMax[1][1]; } public double zmax(){ return minMax[2][1]; }
 	 */
 
-	private double horizontalDiagonal;
-
-	/**
-	 * max value from center to one FRUSTUM edge
-	 */
-	private double frustumRadius;
-
-	/**
-	 * min value from center to one FRUSTUM face
-	 */
-	private double frustumInteriorRadius;
 
 	/**
 	 * 
@@ -193,8 +197,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMax;
 	}
 
-	private int nearestCornerX = -1, nearestCornerY = -1, nearestCornerZ = -1;
-
 	/**
 	 * update corner nearest to the eye
 	 * 
@@ -293,8 +295,6 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * getView3D().useClippingCube(); }
 	 */
 
-	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3);
-	private double border;
 
 	@Override
 	protected boolean updateForItSelf() {

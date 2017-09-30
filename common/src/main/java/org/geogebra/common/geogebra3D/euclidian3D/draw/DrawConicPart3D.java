@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 public class DrawConicPart3D extends DrawConic3D {
+	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
 
 	public DrawConicPart3D(EuclidianView3D view3d, GeoConicPartND conic) {
 		super(view3d, (GeoConicND) conic);
@@ -46,9 +47,7 @@ public class DrawConicPart3D extends DrawConic3D {
 
 		updateSectorSegments(brush, start, start + extent);
 	}
-	
-	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
-	
+
 	private void createTmpCoordsIfNeeded() {
 		if (tmpCoords1 == null) {
 			tmpCoords1 = new Coords(3);

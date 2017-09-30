@@ -25,12 +25,15 @@ public class DrawList3D extends Drawable3D {
 	private Drawable3DListsForDrawList3D drawable3DLists;
 
 	private DrawList3DArray drawables;
+	private int pickOrder = DRAW_PICK_ORDER_MAX;
 
 	/**
 	 * common constructor
 	 * 
 	 * @param view3D
+	 *            view
 	 * @param geo
+	 *            list
 	 */
 	public DrawList3D(EuclidianView3D view3D, GeoList geo) {
 		super(view3D, geo);
@@ -306,8 +309,6 @@ public class DrawList3D extends Drawable3D {
 
 		return super.getDrawablePicked(drawableSource);
 	}
-
-	private int pickOrder = DRAW_PICK_ORDER_MAX;
 
 	@Override
 	public int getPickOrder() {

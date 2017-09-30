@@ -23,7 +23,7 @@ import com.himamis.retex.renderer.share.platform.graphics.RenderingHints;
 /**
  * Class for drawing labels of 3D elements
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawLabel3D {
@@ -61,11 +61,25 @@ public class DrawLabel3D {
 	/** says it wait for reset */
 	private boolean waitForReset;
 
+	private Runnable callBack = null;
+
+	protected double drawX, drawY, drawZ;
+
+	private Coords v = new Coords(3);
+
+	private float[] labelOrigin = new float[3];
+
+	private int pickingX, pickingY, pickingW, pickingH;
+
 	/** temp graphics used for calculate bounds */
 	protected GGraphics2D tempGraphics = AwtFactory.getPrototype()
 			.newBufferedImage(1, 1, 1).createGraphics();
 
 	protected Drawable3D drawable;
+	private int textIndex = -1;
+	private int pickingIndex = -1;
+	protected int backgroundIndex = -1;
+	protected boolean hasIndex = false;
 
 	/**
 	 * common constructor
@@ -185,7 +199,6 @@ public class DrawLabel3D {
 
 		this.xOffset = xOffset;// + xOffset2;
 		this.yOffset = yOffset;// + yOffset2;
-
 	}
 
 	/**
@@ -221,8 +234,6 @@ public class DrawLabel3D {
 	protected GBufferedImage createBufferedImage() {
 		return view.getRenderer().createBufferedImage(this);
 	}
-
-	protected boolean hasIndex = false;
 
 	protected GRectangle getBounds() {
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
@@ -285,8 +296,6 @@ public class DrawLabel3D {
 
 		return bimg;
 	}
-
-	private Runnable callBack = null;
 
 	/**
 	 * 
@@ -355,8 +364,6 @@ public class DrawLabel3D {
 		draw(renderer, false);
 	}
 
-	protected double drawX, drawY, drawZ;
-
 	/**
 	 * 
 	 * @return z position (in screen coords) where the label is drawn
@@ -364,10 +371,6 @@ public class DrawLabel3D {
 	public double getDrawZ() {
 		return drawZ;
 	}
-
-	private Coords v = new Coords(3);
-
-	private float[] labelOrigin = new float[3];
 
 	/**
 	 * update draw position
@@ -600,15 +603,9 @@ public class DrawLabel3D {
 		pickingH *= scale;
 	}
 
-	private int pickingX, pickingY, pickingW, pickingH;
-
 	public boolean isPickable() {
 		return drawable.hasPickableLable();
 	}
-
-	private int textIndex = -1;
-	private int pickingIndex = -1;
-	protected int backgroundIndex = -1;
 
 	/**
 	 * update label for view (update screen position)

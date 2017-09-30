@@ -105,6 +105,16 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	private Boolean isInequality = null;
 	private boolean shortLHS = false;
+	/** implicit poly for composite function */
+	GeoImplicit iPoly;
+	/** substitute functions for composite function */
+	GeoFunction[] substituteFunctions;
+	private GeoFunction derivGeoFun;
+	private TreeSet<SurfaceEvaluable> surfaceEvaluables;
+	private Function includesFreehandOrDataFun = null;
+	private Function includesNonContinuousIntegralFun = null;
+	private Function includesDivisionByVarFun = null;
+
 	private static StringBuilder sbCasCommand;
 	/**
 	 * Creates new function
@@ -197,11 +207,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		// setConstructionDefaults is called from initFunction
 		initFunction(simplifyInt);
 	}
-
-	/** implicit poly for composite function */
-	GeoImplicit iPoly;
-	/** substitute functions for composite function */
-	GeoFunction[] substituteFunctions;
 
 	// Currently, the composite function is only for internal use
 	// The expression is not correct but it is not to be shown anyway.
@@ -388,8 +393,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			geo.resetDerivatives();
 		}
 	}
-
-	private TreeSet<SurfaceEvaluable> surfaceEvaluables;
 
 	@Override
 	public boolean addToUpdateSets(final AlgoElement algorithm) {
@@ -663,8 +666,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		return derivGeoFun;
 	}
 
-	private GeoFunction derivGeoFun;
-
 	/**
 	 * translate function by vector v
 	 */
@@ -791,10 +792,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 		return includesNonContinuousIntegral;
 	}
-
-	private Function includesFreehandOrDataFun = null;
-	private Function includesNonContinuousIntegralFun = null;
-	private Function includesDivisionByVarFun = null;
 
 	@Override
 	public boolean isDefined() {

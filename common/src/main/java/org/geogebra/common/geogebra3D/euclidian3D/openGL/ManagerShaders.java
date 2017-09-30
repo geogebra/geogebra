@@ -16,6 +16,19 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 public class ManagerShaders extends Manager {
 
 	protected Renderer renderer;
+	private ArrayList<Double> vertices, normals, textures, colors;
+
+	private int verticesLength, verticesSize, normalsLength, normalsSize,
+			texturesLength, texturesSize, colorsLength, colorsSize;
+	protected TreeMap<Integer, GeometriesSet> geometriesSetList;
+
+	private int geometriesSetMaxIndex;
+
+	protected GeometriesSet currentGeometriesSet;
+
+	private Stack<Integer> indicesRemoved;
+
+	private int currentOld;
 
 	/**
 	 * common constructor
@@ -32,11 +45,6 @@ public class ManagerShaders extends Manager {
 	public enum TypeElement {
 		NONE, CURVE, SURFACE, FAN_DIRECT, FAN_INDIRECT
 	}
-
-	private ArrayList<Double> vertices, normals, textures, colors;
-
-	private int verticesLength, verticesSize, normalsLength, normalsSize,
-			texturesLength, texturesSize, colorsLength, colorsSize;
 
 	@Override
 	protected void initGeometriesList() {
@@ -459,16 +467,6 @@ public class ManagerShaders extends Manager {
 		}
 
 	}
-
-	protected TreeMap<Integer, GeometriesSet> geometriesSetList;
-
-	private int geometriesSetMaxIndex;
-
-	protected GeometriesSet currentGeometriesSet;
-
-	private Stack<Integer> indicesRemoved;
-
-	private int currentOld;
 
 	@Override
 	public int startNewList(int old) {

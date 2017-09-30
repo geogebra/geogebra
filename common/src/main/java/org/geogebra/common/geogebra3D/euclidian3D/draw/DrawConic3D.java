@@ -28,6 +28,26 @@ import org.geogebra.common.main.Feature;
  */
 public class DrawConic3D extends Drawable3DCurves
 		implements Functional2Var, Previewable {
+	/* used for update */
+	protected Coords m;
+	protected Coords d;
+	protected Coords[] points = new Coords[4];
+	protected double[] minmax;
+	protected GeoConicND conic;
+	protected Coords ev1, ev2;
+	protected double e1, e2;
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+
+	private Coords tmpCoords1, tmpCoords2;
+	private PathParameter hittingPathParameter = new PathParameter();
+	private double alpha, beta;
+
+	protected int longitude = 60;
+	private Coords project, globalCoords, inPlaneCoords;
+
+	private double[] parameters = new double[2];
+	private int drawTypeAdded;
+	private Visible visible = Visible.TOTALLY_OUTSIDE;
 
 	/**
 	 * @param view3d
@@ -119,17 +139,6 @@ public class DrawConic3D extends Drawable3DCurves
 		return Math.log(x + Math.sqrt(1 + x * x));
 	}
 
-	/* used for update */
-	protected Coords m;
-	protected Coords d;
-	protected Coords[] points = new Coords[4];
-	protected double[] minmax;
-	protected GeoConicND conic;
-	protected Coords ev1, ev2;
-	protected double e1, e2;
-	
-	private Coords tmpCoords1, tmpCoords2;
-	
 	private void createTmpCoordsIfNeeded() {
 		if (tmpCoords1 == null) {
 			tmpCoords1 = new Coords(3);
@@ -246,11 +255,13 @@ public class DrawConic3D extends Drawable3DCurves
 	 * @return min, max parameters on the i-th line
 	 */
 	protected double[] getLineMinMax(int i) {
-
 		return getView3D().getIntervalClippedLarge(new double[] {
 				Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY }, m, d);
 	}
 	
+	/**
+	 * initiate #points array
+	 */
 	protected void createPointsIfNeeded() {
 		if (points[0] == null) {
 			for (int i = 0; i < 4; i++) {
@@ -550,8 +561,6 @@ public class DrawConic3D extends Drawable3DCurves
 		return DRAW_PICK_ORDER_SURFACE;
 	}
 
-	private int drawTypeAdded;
-
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		super.addToDrawable3DLists(lists);
@@ -671,15 +680,12 @@ public class DrawConic3D extends Drawable3DCurves
 
 	@Override
 	public void updatePreview() {
-
 		// setWaitForUpdate();
-
 	}
 
 	@Override
 	public void updateMousePos(double x, double y) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -690,10 +696,6 @@ public class DrawConic3D extends Drawable3DCurves
 
 		return false;
 	}
-
-	private double alpha, beta;
-
-	protected int longitude = 60;
 
 	/**
 	 * Visibility flag
@@ -713,8 +715,6 @@ public class DrawConic3D extends Drawable3DCurves
 		/** the conic is partly inside, center inside */
 		CENTER_INSIDE
 	}
-
-	private Visible visible = Visible.TOTALLY_OUTSIDE;
 
 	/**
 	 * check if the ellipse is (at least partially) visible
@@ -770,8 +770,6 @@ public class DrawConic3D extends Drawable3DCurves
 
 		return Visible.CENTER_INSIDE; // do as if center inside
 	}
-
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
@@ -888,8 +886,6 @@ public class DrawConic3D extends Drawable3DCurves
 		}
 	}
 
-	private PathParameter hittingPathParameter = new PathParameter();
-
 	@Override
 	public boolean hit(Hitting hitting) {
 		return hit(hitting, false);
@@ -955,12 +951,9 @@ public class DrawConic3D extends Drawable3DCurves
 					&& hitting.isInsideClipping(globalCoords)
 					&& conic.isInRegion(inPlaneCoords.getX(),
 							inPlaneCoords.getY())) {
-				double parameterOnHitting = inPlaneCoords.getZ();// TODO use
-																	// other for
-																	// non-parallel
-																	// projection
-																	// :
-																	// -hitting.origin.distance(project[0]);
+				// TODO use other for non-parallel projection:
+				// -hitting.origin.distance(project[0]);
+				double parameterOnHitting = inPlaneCoords.getZ();
 				setZPick(parameterOnHitting, parameterOnHitting);
 				setPickingType(PickingType.SURFACE);
 				ret = true;
@@ -993,10 +986,6 @@ public class DrawConic3D extends Drawable3DCurves
 			return ret;
 		}
 	}
-
-	private Coords project, globalCoords, inPlaneCoords;
-
-	private double[] parameters = new double[2];
 
 	@Override
 	public boolean doHighlighting() {

@@ -18,10 +18,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 /**
  * Class for drawing 3D planes.
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawPlane3D extends Drawable3DSurfaces {
+	private static final double INV_SQRT_2 = 1 / Math.sqrt(2);
 
 	/** gl index of the grid */
 	private int gridIndex = -1;
@@ -31,14 +32,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 
 	/** says if the view direction is parallel to the plane */
 	private boolean viewDirectionIsParallel;
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
-	@Override
-	public void setWaitForReset() {
-
-		gridIndex = -1;
-		gridOutlineIndex = -1;
-		super.setWaitForReset();
-	}
+	private Coords o = Coords.createInhomCoorsInD3();
+	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(),
+			tmpCoords2 = Coords.createInhomCoorsInD3();
 
 	/**
 	 * Common constructor
@@ -47,9 +45,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 * @param a_plane3D
 	 */
 	public DrawPlane3D(EuclidianView3D a_view3D, GeoPlane3D a_plane3D) {
-
 		this(a_view3D, a_plane3D, null);
+	}
 
+	@Override
+	public void setWaitForReset() {
+		gridIndex = -1;
+		gridOutlineIndex = -1;
+		super.setWaitForReset();
 	}
 
 	/**
@@ -75,9 +78,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 *            geo caller
 	 */
 	protected void init(GeoElement a_plane3D, GeoElement geo2) {
-
 		super.init(a_plane3D);
-
 	}
 
 	@Override
@@ -322,8 +323,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return true;
 	}
 
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-
 	protected void updateBounds(double xmin, double xmax, double ymin,
 			double ymax) {
 
@@ -429,10 +428,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return (GeoPlane3D) getGeoElement();
 	}
 
-	private Coords o = Coords.createInhomCoorsInD3();
-	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(),
-			tmpCoords2 = Coords.createInhomCoorsInD3();
-
 	/**
 	 * sets the min/max regarding a clipping box
 	 * 
@@ -446,7 +441,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	 *            third edge
 	 */
 	private void setMinMax(Coords origin, Coords vx, Coords vy, Coords vz) {
-
 		GeoPlane3D geo = getPlane();
 
 		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
@@ -477,12 +471,8 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			else {
 				minmaxYFinal[1] += y; // add to ymax
 			}
-
 		}
-
 	}
-
-	private static final double INV_SQRT_2 = 1 / Math.sqrt(2);
 
 	private void setMinMax(Coords origin, double radius) {
 		GeoPlane3D geo = getPlane();

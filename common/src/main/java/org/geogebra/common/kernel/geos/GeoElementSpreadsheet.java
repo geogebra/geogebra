@@ -35,6 +35,9 @@ public class GeoElementSpreadsheet {
 	/** regex group for row number */
 	public final static int MATCH_ROW = 4;
 
+	private static StringBuilder sb;
+
+
 	/**
 	 * Converts column number to name
 	 * 
@@ -222,8 +225,6 @@ public class GeoElementSpreadsheet {
 		}
 		return null;
 	}
-
-	private static StringBuilder sb;
 
 	/**
 	 * used to set a cell to another geo used by FillCells[] etc

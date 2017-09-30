@@ -55,6 +55,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	private double[] lineCoords, tmp;
 
 	private double[] parameters = new double[2];
+	protected Coords o1, d1;
+	private boolean hasLabels = false;
 
 	/**
 	 * common constructor
@@ -105,8 +107,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		update();
 
 	}
-
-	private boolean hasLabels = false;
 
 	public AlgoIntersectPathLinePolygon(Construction c) {
 		super(c);
@@ -197,10 +197,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	protected Coords o1, d1;
 
 	protected void setIntersectionLine() {
-
 		o1 = g.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		d1 = g.getPointInD(3, 1).getInhomCoordsInSameDimension().sub(o1);
 	}

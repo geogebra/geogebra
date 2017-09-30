@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
@@ -15,6 +14,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 public class ManagerElementForGLList extends Manager {
 
 	private Manager managerOriginal;
+	private ArrayList<Double> vx, vy, vz, nx, ny, nz, tx, ty;
+
+	private boolean hasTexture = false;
+	private GLBufferIndicesForGLList arrayI = null;
 
 	public ManagerElementForGLList(Renderer renderer, EuclidianView3D view3d,
 			Manager managerOriginal) {
@@ -45,10 +48,6 @@ public class ManagerElementForGLList extends Manager {
 	public void endList() {
 		// not used here
 	}
-
-	private ArrayList<Double> vx, vy, vz, nx, ny, nz, tx, ty;
-
-	private boolean hasTexture = false;
 
 	@Override
 	public void startGeometry(Type type) {
@@ -179,8 +178,6 @@ public class ManagerElementForGLList extends Manager {
 		// TODO Auto-generated method stub
 
 	}
-
-	private GLBufferIndicesForGLList arrayI = null;
 
 	@Override
 	public GLBufferIndices getCurrentGeometryIndices(int size) {

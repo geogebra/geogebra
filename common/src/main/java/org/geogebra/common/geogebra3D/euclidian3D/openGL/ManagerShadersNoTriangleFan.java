@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *
  */
 public class ManagerShadersNoTriangleFan extends ManagerShadersWithTemplates {
+	private Coords triangleFanApex;
 
 	/**
 	 * constructor
@@ -23,8 +24,6 @@ public class ManagerShadersNoTriangleFan extends ManagerShadersWithTemplates {
 			EuclidianView3D view3d) {
 		super(renderer, view3d);
 	}
-
-	private Coords triangleFanApex;
 
 	@Override
 	protected void triangleFanApex(Coords v) {

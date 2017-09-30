@@ -20,6 +20,8 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	private CoordMatrix4x4 planeMatrix;
 
 	private Coords p1, p2;
+	private boolean hasBeenUpdated = false;
+	private GeoPointND point;
 
 	/**
 	 * common constructor
@@ -44,8 +46,6 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	}
 
-	private boolean hasBeenUpdated = false;
-
 	@Override
 	protected boolean isVisible() {
 		return true; // no geo connected
@@ -58,8 +58,6 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	public boolean shouldBeDrawn() {
 		return point != null && hasBeenUpdated;
 	}
-
-	private GeoPointND point;
 
 	/**
 	 * set the point for which decorations are made

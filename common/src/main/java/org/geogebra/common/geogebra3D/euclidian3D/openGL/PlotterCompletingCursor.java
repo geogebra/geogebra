@@ -15,6 +15,7 @@ public class PlotterCompletingCursor {
 
 	static private float coeff = 30f, coeffCircle = 1.25f,
 			coeffCompleting = 1.25f;
+	private static float r = 0.25f, g = 0.25f, b = 0.25f, a = 0.5f;
 
 	public static final double WIDTH = 10;
 
@@ -25,6 +26,7 @@ public class PlotterCompletingCursor {
 	static private float[] u, v;
 
 	static int longitude = 32;
+	private Coords p = new Coords(3);
 
 	static {
 		float dt = (float) 1 / longitude;
@@ -120,8 +122,6 @@ public class PlotterCompletingCursor {
 	// INDEX
 	// ////////////////////////////////
 
-	private Coords p = new Coords(3);
-
 	private void startGeometry() {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 		manager.setDummyTexture();
@@ -131,8 +131,6 @@ public class PlotterCompletingCursor {
 	private void endGeometry() {
 		manager.endGeometry();
 	}
-
-	private static float r = 0.25f, g = 0.25f, b = 0.25f, a = 0.5f;
 
 	public void drawCircle(boolean out) {
 		manager.color(0.5f, 0.5f, 0.5f, 0.5f);

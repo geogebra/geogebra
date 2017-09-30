@@ -41,6 +41,12 @@ abstract public class Manager {
 
 	// geogebra stuff
 	private EuclidianView3D view3D;
+	private Coords normalToScaleTmp = new Coords(3);
+
+	/**
+	 * current scaler (identity/3D view)
+	 */
+	protected ScalerXYZ scalerXYZ;
 
 	/**
 	 * create a manager for geometries
@@ -461,8 +467,6 @@ abstract public class Manager {
 		normal(n.getX(), n.getY(), n.getZ());
 	}
 	
-	private Coords normalToScaleTmp = new Coords(3);
-	
 	/**
 	 * scale normal and draw it
 	 * 
@@ -773,11 +777,6 @@ abstract public class Manager {
 			return 1;
 		}
 	};
-
-	/**
-	 * current scaler (identity/3D view)
-	 */
-	protected ScalerXYZ scalerXYZ;
 	
 	protected ScalerXYZ getScalerXYZ() {
 		return scalerXYZ;

@@ -30,6 +30,7 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DrawSurface3D extends Drawable3DSurfaces {
+	final static private boolean DEBUG = false;
 
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
@@ -57,6 +58,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final int MAX_SPLIT_IN_ONE_UPDATE_SPEED = 512;
 	private static final int MAX_SPLIT_IN_ONE_UPDATE_QUALITY = MAX_SPLIT_IN_ONE_UPDATE_SPEED
 			* 2;
+	final private static int HIT_SAMPLES = 10;
+	final private static double DELTA_SAMPLES = 1.0 / HIT_SAMPLES;
+
+	private double[] xyzuv;
 
 	private SurfaceEvaluable.LevelOfDetail levelOfDetail = SurfaceEvaluable.LevelOfDetail.QUALITY;
 
@@ -85,9 +90,57 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private int currentSplitStoppedIndex;
 	protected int loopSplitIndex;
 	protected int drawListIndex;
+	private boolean drawFromScratch = true;
+	private boolean drawUpToDate = false;
+	// previously set thickness (-1 means needs update)
+	private int oldThickness = -1;
+
+	private boolean wireframeVisible = false;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
+	// corners for drawing wireframe (bottom and right sides)
+	private Corner[] wireframeBottomCorners, wireframeRightCorners;
+	private int wireframeBottomCornersLength, wireframeRightCornersLength;
+
+	// says if we draw borders for wireframe
+	// (we use short for array index shifting)
+	private short wireframeBorderU, wireframeBorderV;
+
+	// says if only one wireframe line is drawn
+	private boolean wireframeUniqueU, wireframeUniqueV;
+
+	// steps to draw wireframe
+	private int wireFrameStepU, wireFrameStepV;
+	private Coords3 evaluatedPoint = newCoords3();
+	private Coords3 evaluatedNormal = newCoords3();
+	/**
+	 * used to draw "still to split" corners
+	 */
+	protected Corner[] cornerForStillToSplit, cornerToDrawStillToSplit;
+
+	/**
+	 * max distance in real world from view
+	 */
+	private double maxRWPixelDistance;
+	/**
+	 * max distance in real world for splitting
+	 */
+	private double maxRWDistance;
+	/**
+	 * max distance in real world under which we don't check angles
+	 */
+	protected double maxRWDistanceNoAngleCheck;
+	protected double maxBend;
+	protected int notDrawn;
+
+	private boolean splitsStartedNotFinished, stillRoomLeft;
+
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	/**
+	 * first corner from root mesh
+	 */
+	private Corner firstCorner;
 
 	/**
 	 * common constructor
@@ -169,8 +222,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	final static private boolean DEBUG = false;
-
 	/**
 	 * console debug
 	 * 
@@ -244,13 +295,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 	}
 
-	private boolean drawFromScratch = true;
-	private boolean drawUpToDate = false;
-
-	/**
-	 * first corner from root mesh
-	 */
-	private Corner firstCorner;
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -665,11 +709,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return corner.p.isDefined();
 	}
 
-	// previously set thickness (-1 means needs update)
-	private int oldThickness = -1;
-
-	private boolean wireframeVisible = false;
-
 	private void setWireframeInvisible() {
 		wireframeVisible = false;
 	}
@@ -764,8 +803,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 	}
 
-	private boolean splitsStartedNotFinished, stillRoomLeft;
-
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom()
@@ -829,8 +866,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return false;
 	}
 
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-
 	private void initBounds() {
 		boundsMin.set(Double.POSITIVE_INFINITY);
 		boundsMax.set(Double.NEGATIVE_INFINITY);
@@ -866,20 +901,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
-
-	// corners for drawing wireframe (bottom and right sides)
-	private Corner[] wireframeBottomCorners, wireframeRightCorners;
-	private int wireframeBottomCornersLength, wireframeRightCornersLength;
-
-	// says if we draw borders for wireframe
-	// (we use short for array index shifting)
-	private short wireframeBorderU, wireframeBorderV;
-
-	// says if only one wireframe line is drawn
-	private boolean wireframeUniqueU, wireframeUniqueV;
-
-	// steps to draw wireframe
-	private int wireFrameStepU, wireFrameStepV;
 
 	private Corner createRootMesh(double uBorderMin, double uMax,
 			double uBorderMax, int uN, double vBorderMin, double vMax,
@@ -1017,8 +1038,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return bottomRight.a;
 	}
 
-	protected int notDrawn;
-
 	private static void splitRootMesh(Corner first) {
 
 		Corner nextAbove, nextLeft;
@@ -1077,9 +1096,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return true; // went to end of loop
 
 	}
-
-	private Coords3 evaluatedPoint = newCoords3();
-	private Coords3 evaluatedNormal = newCoords3();
 
 	/**
 	 * 
@@ -2518,25 +2534,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	/**
-	 * used to draw "still to split" corners
-	 */
-	protected Corner[] cornerForStillToSplit, cornerToDrawStillToSplit;
-
-	/**
-	 * max distance in real world from view
-	 */
-	private double maxRWPixelDistance;
-	/**
-	 * max distance in real world for splitting
-	 */
-	private double maxRWDistance;
-	/**
-	 * max distance in real world under which we don't check angles
-	 */
-	protected double maxRWDistanceNoAngleCheck;
-	protected double maxBend;
-
-	/**
 	 * 
 	 * @param c1
 	 *            first corner
@@ -3129,11 +3126,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		// return new Corner();
 	}
-
-	final private static int HIT_SAMPLES = 10;
-	final private static double DELTA_SAMPLES = 1.0 / HIT_SAMPLES;
-
-	private double[] xyzuv;
 
 	@Override
 	public boolean hit(Hitting hitting) {

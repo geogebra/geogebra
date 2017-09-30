@@ -19,6 +19,8 @@ import org.geogebra.common.util.MyMath;
  *
  */
 public class DrawImplicitSurface3D extends Drawable3DSurfaces {
+	private final static double[] hitTestParams = new double[] { 0.5, 0.25,
+			0.75, 0.125, 0.375, 0.625, 0.875 };
 
 	/**
 	 * create a new {@link DrawImplicitSurface3D} object
@@ -148,8 +150,5 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		}
 		return false;
 	}
-
-	private final static double[] hitTestParams = new double[] { 0.5, 0.25,
-			0.75, 0.125, 0.375, 0.625, 0.875 };
 
 }

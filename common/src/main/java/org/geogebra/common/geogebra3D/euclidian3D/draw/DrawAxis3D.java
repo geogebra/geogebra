@@ -16,12 +16,14 @@ import org.geogebra.common.util.debug.Log;
 /**
  * Class for drawing axis (Ox), (Oy), ...
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawAxis3D extends DrawLine3D {
 
 	private TreeMap<String, DrawLabel3D> labels;
+	private int numbersXOffset, numbersYOffset;
+	private boolean outsideBox = false;
 
 	/**
 	 * common constructor
@@ -236,8 +238,6 @@ public class DrawAxis3D extends DrawLine3D {
 		brush.setAffineTexture(0f, 0f);
 	}
 
-	private int numbersXOffset, numbersYOffset;
-
 	/**
 	 * update values for ticks and labels
 	 */
@@ -280,8 +280,6 @@ public class DrawAxis3D extends DrawLine3D {
 	protected void updateForView() {
 		// done in 3D view
 	}
-
-	private boolean outsideBox = false;
 
 	/**
 	 * sets the min/max for drawing immediately

@@ -27,6 +27,31 @@ import org.geogebra.common.main.Feature;
  *
  */
 public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
+	private Coords project = Coords.createInhomCoorsInD3(),
+			p1 = Coords.createInhomCoorsInD3(),
+			p2 = Coords.createInhomCoorsInD3();
+
+	private double[] parameters = new double[2];
+	private double[] parameters1 = new double[2];
+	private double[] parameters2 = new double[2];
+	/**
+	 * Last longitude used for painting; helps avoiding updates
+	 */
+	protected int longitude = 0;
+
+	private double scale;
+
+	private double alpha, beta;
+	private Visible visible = Visible.TOTALLY_OUTSIDE;
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private double[] uMinMax, vMinMax;
+
+	private DrawLine3D drawLine;
+	private DrawPlane3D[] drawPlanes;
+
+	private int surfaceDrawTypeAdded;
+
+	private ArrayList<GeoPointND> selectedPoints;
 
 	/**
 	 * common constructor
@@ -201,15 +226,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	/**
-	 * Last longitude used for painting; helps avoiding updates
-	 */
-	protected int longitude = 0;
-
-	private double scale;
-
-	private double alpha, beta;
-
-	/**
 	 * Visibility flag
 	 * 
 	 * @author mathieu
@@ -225,8 +241,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		/** the quadric is partly inside, center inside */
 		CENTER_INSIDE
 	}
-
-	private Visible visible = Visible.TOTALLY_OUTSIDE;
 
 	/**
 	 * check if the sphere is (at least partially) visible
@@ -289,8 +303,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
@@ -309,8 +321,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			break;
 		}
 	}
-
-	private double[] uMinMax, vMinMax;
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -817,8 +827,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		return true;
 	}
 
-	private DrawPlane3D[] drawPlanes;
-
 	private void initDrawPlanes(GeoQuadric3D quadric) {
 		if (drawPlanes == null) {
 			drawPlanes = new DrawPlane3DForQuadrics[2];
@@ -829,8 +837,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 					quadric);
 		}
 	}
-
-	private DrawLine3D drawLine;
 
 	private void initDrawLine(GeoQuadric3D quadric) {
 		if (drawLine == null) {
@@ -1110,8 +1116,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		return false;
 	}
 
-	private int surfaceDrawTypeAdded;
-
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
@@ -1139,8 +1143,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	// //////////////////////////////
 	// Previewable interface
-
-	private ArrayList<GeoPointND> selectedPoints;
 
 	/**
 	 * constructor for previewable
@@ -1203,7 +1205,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public boolean hit(Hitting hitting) {
-
 		if (waitForReset) { // prevent NPE
 			return false;
 		}
@@ -1395,14 +1396,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 		return true;
 	}
-
-	private Coords project = Coords.createInhomCoorsInD3(),
-			p1 = Coords.createInhomCoorsInD3(),
-			p2 = Coords.createInhomCoorsInD3();
-
-	private double[] parameters = new double[2];
-	private double[] parameters1 = new double[2];
-	private double[] parameters2 = new double[2];
 
 	@Override
 	public Drawable3D drawForPicking(Renderer renderer, boolean intersection,

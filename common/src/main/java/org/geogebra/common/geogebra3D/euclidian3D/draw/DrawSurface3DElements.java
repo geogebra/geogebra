@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
  *
  */
 public class DrawSurface3DElements extends DrawSurface3D {
-
+	private int lastIndex;
 	/**
 	 * constructor
 	 * 
@@ -40,8 +40,6 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		((PlotterSurfaceElements) surface).drawIndex(c2.id);
 		((PlotterSurfaceElements) surface).drawIndex(c1.id);
 	}
-
-	private int lastIndex;
 
 	@Override
 	protected void drawCornersAndCenters(PlotterSurface surface) {

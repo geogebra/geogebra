@@ -77,9 +77,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoCasCell extends GeoElement
 		implements VarString, TextProperties {
-	private AssignmentType assignmentType = AssignmentType.NONE;
-
-	private boolean keepInputUsed;
+	private static final int TOOLTIP_SCREEN_WIDTH = 80;
 
 
 	/**
@@ -102,6 +100,9 @@ public class GeoCasCell extends GeoElement
 	private String localizedInput;
 	private String currentLocaleStr;
 	private boolean suppressOutput = false;
+	private AssignmentType assignmentType = AssignmentType.NONE;
+
+	private boolean keepInputUsed;
 
 	// input variables of this cell
 	private TreeSet<String> invars, functionvars;
@@ -121,7 +122,7 @@ public class GeoCasCell extends GeoElement
 
 	private String evalCmd, evalComment;
 	private int row = -1; // for CAS view, set by Construction
-
+	private int preferredRowNumber = -1;
 	// use this cell as text field
 	private boolean useAsText;
 	// for the future, is only holding font infos
@@ -131,6 +132,14 @@ public class GeoCasCell extends GeoElement
 	private ArrayList<Vector<String>> substList;
 
 	private boolean nSolveCmdNeeded = false;
+	// make sure we don't enter setAssignmentVar from itself
+	private boolean ignoreSetAssignment = false;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
+	private ValidExpression expandedEvalVE;
+	private boolean pointList;
+
+	private String tooltip;
 
 	/**
 	 * Creates new CAS cell
@@ -992,9 +1001,6 @@ public class GeoCasCell extends GeoElement
 		// keep internal commands
 		return input1;
 	}
-
-	// make sure we don't enter setAssignmentVar from itself
-	private boolean ignoreSetAssignment = false;
 
 	/**
 	 * Set assignment var of this cell. For example "b := a^2 + 3" has
@@ -2140,10 +2146,6 @@ public class GeoCasCell extends GeoElement
 		}
 	}
 
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
-
-	private ValidExpression expandedEvalVE;
-
 	/**
 	 * @return whether top level command is Substitute
 	 */
@@ -3243,10 +3245,6 @@ public class GeoCasCell extends GeoElement
 		kernel.notifyRepaint();
 	}
 
-	private boolean pointList;
-
-	private String tooltip;
-
 	/**
 	 * Assigns result to a variable if possible
 	 * 
@@ -3404,10 +3402,6 @@ public class GeoCasCell extends GeoElement
 		return outputVE != null && outputVE.hasCoords();
 	}
 
-	private int SCREEN_WIDTH = 80;
-
-	private int preferredRowNumber = -1;
-
 	@Override
 	public String getTooltipText(final boolean colored,
 			final boolean alwaysOn) {
@@ -3419,7 +3413,7 @@ public class GeoCasCell extends GeoElement
 			tooltip = tooltip.replace("gGbSuM(", Unicode.Sigma + "(");
 			tooltip = tooltip.replace("gGbInTeGrAl(", Unicode.INTEGRAL + "(");
 
-			if (tooltip.length() > SCREEN_WIDTH && tooltip.indexOf('{') > -1) {
+			if (tooltip.length() > TOOLTIP_SCREEN_WIDTH && tooltip.indexOf('{') > -1) {
 				int listStart = tooltip.indexOf('{');
 				StringBuilder sb = new StringBuilder(tooltip.length() + 20);
 				sb.append(tooltip.substring(0, listStart + 1));
@@ -3431,7 +3425,7 @@ public class GeoCasCell extends GeoElement
 						if (nextComma == -1) {
 							nextComma = tooltip.length() - 1;
 						}
-						if (currLine + (nextComma - i) > SCREEN_WIDTH) {
+						if (currLine + (nextComma - i) > TOOLTIP_SCREEN_WIDTH) {
 							sb.append(",\n");
 							currLine = 0;
 							i++;

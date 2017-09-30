@@ -35,6 +35,14 @@ public class GeneralPathClipped implements GShape {
 	private double largestCoord;
 	private boolean needClosePath;
 	private GRectangle bounds;
+	private double auxX;
+	private double auxY;
+	// first control point
+	private double cont1X = Double.NaN;
+	private double cont1Y = Double.NaN;
+	// second control point
+	private double cont2X = Double.NaN;
+	private double cont2Y = Double.NaN;
 
 	/**
 	 * Creates new clipped general path
@@ -214,14 +222,6 @@ public class GeneralPathClipped implements GShape {
 		return AwtFactory.getPrototype().newPoint2D(x, y);
 	}
 
-	private double auxX;
-	private double auxY;
-	// first control point
-	private double cont1X = Double.NaN;
-	private double cont1Y = Double.NaN;
-	// second control point
-	private double cont2X = Double.NaN;
-	private double cont2Y = Double.NaN;
 	private void addToGeneralPath(GPoint2D q, SegmentType lineTo) {
 		GPoint2D p = gp.getCurrentPoint();
 		/*

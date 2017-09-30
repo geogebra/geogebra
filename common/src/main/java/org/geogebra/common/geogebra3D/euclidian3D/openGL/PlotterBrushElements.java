@@ -11,7 +11,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *
  */
 public class PlotterBrushElements extends PlotterBrush {
-
+	private int sectionSize = -1;
 	/**
 	 * constructor
 	 * 
@@ -102,20 +102,15 @@ public class PlotterBrushElements extends PlotterBrush {
 		((ManagerShaders) manager).endGeometry(sectionSize, TypeElement.CURVE);
 
 		sectionSize = -1;
-
 	}
-
-	private int sectionSize = -1;
 
 	@Override
 	public void join() {
-
 		// draw curve part
 		for (int i = 0; i < LATITUDES; i++) {
 			draw(start, SINUS[i], COSINUS[i], 0); // bottom of the tube rule
 		}
 		sectionSize++;
-
 	}
 
 	@Override

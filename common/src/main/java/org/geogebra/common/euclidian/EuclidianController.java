@@ -153,11 +153,12 @@ public abstract class EuclidianController {
 	public static final float MAX_TRANSPARENT_ALPHA_VALUE = 0.8f;
 	public static final int MAX_TRANSPARENT_ALPHA_VALUE_INT = (int) (255
 			* MAX_TRANSPARENT_ALPHA_VALUE);
-
 	/**
 	 * max value for alpha to consider an object visible
 	 */
 	public static final float MIN_VISIBLE_ALPHA_VALUE = 0.05f;
+	protected static final int MIN_MOUSE_MOVE_FOR_AXIS_SCALE = 2;
+
 	public static final int MOVE_NONE = 101;
 	public static final int MOVE_POINT = 102;
 	public static final int MOVE_VIEW = 106;
@@ -8177,8 +8178,6 @@ public abstract class EuclidianController {
 	protected void scaleZAxis(boolean repaint) {
 		// not needed in 2D
 	}
-
-	protected static final int MIN_MOUSE_MOVE_FOR_AXIS_SCALE = 2;
 
 	final protected void setScaleAxis(double viewZero, double viewMin,
 			double viewMax, int viewSize, int mouse, double tmp) {

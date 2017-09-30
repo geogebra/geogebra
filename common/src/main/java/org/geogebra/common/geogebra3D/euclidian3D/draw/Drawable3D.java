@@ -136,12 +136,17 @@ public abstract class Drawable3D extends DrawableND {
 
 	private static final int ALPHA_MIN_HIGHLIGHTING = 64;
 	private static final int LIGHT_COLOR = 3 * 127;
+	protected final static double COLOR_SHIFT_SURFACE = 0.75; // 0.2
+	protected final static double COLOR_SHIFT_CURVES = 0.75; // 0.2
+	protected final static double COLOR_SHIFT_POINTS = 0.86;// mostly sqrt(3)/2
+	protected final static double COLOR_SHIFT_NONE = 0;
 
 	/** view3D */
 	private EuclidianView3D m_view3D;
 
 	/** says if it has to be updated */
 	private boolean waitForUpdate;
+	private boolean waitForUpdateVisualStyle = true;
 
 	/** says if the label has to be updated */
 	private boolean labelWaitForUpdate;
@@ -178,6 +183,10 @@ public abstract class Drawable3D extends DrawableND {
 	protected GColor[] surfaceColor = new GColor[]{GColor.BLACK, GColor.BLACK};
 	private GColor tmpColor2;
 	protected Trace trace;
+	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
+	/** alpha value for rendering transparency */
+	private int alpha = 255;
+
 
 	// constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1,
 	// regarding to picking order
@@ -448,8 +457,6 @@ public abstract class Drawable3D extends DrawableND {
 		setLabelWaitForUpdate();
 		setWaitForUpdate();
 	}
-
-	private boolean waitForUpdateVisualStyle = true;
 
 	/**
 	 * wait for reset color
@@ -1148,9 +1155,6 @@ public abstract class Drawable3D extends DrawableND {
 
 	}
 
-	/** alpha value for rendering transparency */
-	private int alpha = 255;
-
 	protected void setAlpha(int alpha) {
 		this.alpha = alpha;
 	}
@@ -1182,11 +1186,6 @@ public abstract class Drawable3D extends DrawableND {
 	protected boolean hasTransparentAlpha() {
 		return getAlpha() > 0 && getAlpha() < 255;
 	}
-
-	protected final static double COLOR_SHIFT_SURFACE = 0.75; // 0.2
-	protected final static double COLOR_SHIFT_CURVES = 0.75; // 0.2
-	protected final static double COLOR_SHIFT_POINTS = 0.86;// mostly sqrt(3)/2
-	protected final static double COLOR_SHIFT_NONE = 0;
 
 	abstract protected double getColorShift();
 
@@ -1289,10 +1288,6 @@ public abstract class Drawable3D extends DrawableND {
 	final public PickingType getPickingType() {
 		return lastPickingType;
 	}
-
-	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
-
-
 
 	protected Trace getTrace() {
 		if (trace == null) {

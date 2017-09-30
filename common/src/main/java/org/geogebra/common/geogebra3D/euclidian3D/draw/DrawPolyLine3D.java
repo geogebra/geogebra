@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
@@ -22,6 +21,8 @@ import org.geogebra.common.util.debug.Log;
 public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	private double[] drawMinMax = new double[2];
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private ArrayList<GeoPointND> selectedPoints;
 
 	/**
 	 * common constructor
@@ -122,8 +123,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		return true;
 	}
 
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
@@ -144,8 +143,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	// //////////////////////////////
 	// Previewable interface
 
-	private ArrayList<GeoPointND> selectedPoints;
-
 	@Override
 	public void updateMousePos(double xRW, double yRW) {
 		// TODO
@@ -153,7 +150,6 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	@Override
 	public void updatePreview() {
-		Log.debug(selectedPoints.size());
 		if (selectedPoints.size() > 0) {
 			GeoPointND[] points = new GeoPointND[selectedPoints.size() + 1];
 

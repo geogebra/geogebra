@@ -36,6 +36,27 @@ public class PlotterSurface {
 	private float uMinFade, uMaxFade, vMinFade, vMaxFade;
 	private float uMinFadeNb, uMaxFadeNb, vMinFadeNb, vMaxFadeNb;
 
+	private ManagerElementForGLList managerElements;
+	private PlotterSurfaceElements plotterElements;
+
+	private Coords[] coordsArray = new Coords[0];
+	private Coords normal2 = new Coords(4);
+
+	private Coords coords1 = new Coords(4);
+
+	protected Coords m = new Coords(4);
+	protected Coords tmpCoords = new Coords(4);
+
+	protected Coords tmpCoords2 = new Coords(4);
+
+	protected Coords tmpCoords3 = new Coords(4);
+
+	protected Coords center1 = new Coords(4);
+
+	protected Coords center2 = new Coords(4);
+
+	private Coords n = new Coords(4);
+
 	/** texture coord for out (alpha = 0) */
 	static final private float TEXTURE_FADE_OUT = 0.75f;
 	/** texture coord for in (alpha = 1) */
@@ -401,9 +422,6 @@ public class PlotterSurface {
 
 	}
 
-	private ManagerElementForGLList managerElements;
-	private PlotterSurfaceElements plotterElements;
-
 	/**
 	 * draw an hyperboloid (one sheet)
 	 * 
@@ -645,8 +663,6 @@ public class PlotterSurface {
 		plotterElements.drawHyperbolicCylinder(center, ev0, ev1, ev2, r1, r2,
 				min, max, lineMin, lineMax, fading);
 	}
-
-	private Coords[] coordsArray = new Coords[0];
 
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
@@ -1001,19 +1017,6 @@ public class PlotterSurface {
 		ellipsePart(center, v1, v2, a, b, start, extent, true);
 
 	}
-
-	protected Coords m = new Coords(4);
-	protected Coords tmpCoords = new Coords(4);
-
-	protected Coords tmpCoords2 = new Coords(4);
-
-	protected Coords tmpCoords3 = new Coords(4);
-
-	protected Coords center1 = new Coords(4);
-
-	protected Coords center2 = new Coords(4);
-
-	private Coords n = new Coords(4);
 
 	/**
 	 * @param center
@@ -1487,8 +1490,6 @@ public class PlotterSurface {
 		drawNV(functional2Var.evaluateNormal(u, v), tmpCoords2);
 	}
 
-	private Coords coords1 = new Coords(4);
-
 	/**
 	 * draws normal and point at center + normal * radius
 	 * 
@@ -1502,8 +1503,6 @@ public class PlotterSurface {
 		// drawNV(normal, center.add(normal.mul(radius)));
 		drawNV(normal, coords1);
 	}
-
-	private Coords normal2 = new Coords(4);
 
 	/**
 	 * draws normal and point at center - normal * radius

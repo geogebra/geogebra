@@ -25,6 +25,10 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 		implements Previewable {
 
 	private double[] drawMinMax = new double[2];
+	private Coords startPoint, endPoint;
+	private ArrayList<GeoPointND> selectedPoints;
+	private Coords project1, project2;
+	private double[] lineCoords, tmp;
 
 	/**
 	 * common constructor
@@ -44,7 +48,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 */
 	public DrawJoinPoints(EuclidianView3D a_view3d) {
 		super(a_view3d);
-
 	}
 
 	/**
@@ -79,8 +82,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 			exportToPrinter3D.export(this, Type.CURVE);
 		}
 	}
-
-	private Coords startPoint, endPoint;
 
 	/**
 	 * 
@@ -212,8 +213,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	// //////////////////////////////
 	// Previewable interface
 
-	private ArrayList<GeoPointND> selectedPoints;
-
 	/**
 	 * constructor for previewable
 	 * 
@@ -285,9 +284,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 */
 	abstract protected void setPreviewableCoords(GeoPointND firstPoint,
 			GeoPointND secondPoint);
-
-	private Coords project1, project2;
-	private double[] lineCoords, tmp;
 
 	@Override
 	public boolean hit(Hitting hitting) {

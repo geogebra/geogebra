@@ -13,10 +13,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Class for drawing lines
  * 
- * @author matthieu
+ * @author mathieu
  *
  */
 public class DrawLine3D extends DrawCoordSys1D implements Previewable {
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	/**
 	 * common constructor
@@ -25,7 +26,6 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 * @param line
 	 */
 	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line) {
-
 		this(a_view3D, line, null);
 	}
 
@@ -38,10 +38,8 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 */
 	public DrawLine3D(EuclidianView3D a_view3D, GeoLineND line,
 			GeoElement geo2) {
-
 		super(a_view3D);
 		init((GeoElement) line, geo2);
-
 	}
 
 	/**
@@ -58,10 +56,8 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 
 	@Override
 	protected boolean updateForItSelf() {
-
 		updateForItSelf(true);
 		return true;
-
 	}
 
 	/**
@@ -71,13 +67,11 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 	 *            update min and max values
 	 */
 	protected void updateForItSelf(boolean updateDrawMinMax) {
-
 		if (updateDrawMinMax) {
 			updateDrawMinMax();
 		}
 
 		super.updateForItSelf();
-
 	}
 
 	/**
@@ -104,8 +98,6 @@ public class DrawLine3D extends DrawCoordSys1D implements Previewable {
 			updateForItSelf();
 		}
 	}
-
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	protected void setStartEndPoints(Coords p1, Coords p2) {

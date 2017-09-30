@@ -17,12 +17,15 @@ import org.geogebra.common.kernel.kernelND.GeoRayND;
  *
  */
 public class DrawRay3D extends DrawCoordSys1D {
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	/**
 	 * common constructor
 	 * 
 	 * @param a_view
+	 *            view
 	 * @param ray
+	 *            ray
 	 */
 	public DrawRay3D(EuclidianView3D a_view, GeoRayND ray) {
 		super(a_view, (GeoElement) ray);
@@ -79,8 +82,6 @@ public class DrawRay3D extends DrawCoordSys1D {
 		}
 	}
 
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-
 	@Override
 	protected void setStartEndPoints(Coords p1, Coords p2) {
 		super.setStartEndPoints(p1, p2);
@@ -114,10 +115,12 @@ public class DrawRay3D extends DrawCoordSys1D {
 	// Previewable interface
 
 	/**
-	 * Constructor for previable
+	 * Constructor for previewable
 	 * 
 	 * @param a_view3D
+	 *            view
 	 * @param selectedPoints
+	 *            preview points
 	 */
 	public DrawRay3D(EuclidianView3D a_view3D,
 			ArrayList<GeoPointND> selectedPoints) {

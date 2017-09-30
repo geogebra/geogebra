@@ -26,6 +26,16 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	private Coords labelCenter = new Coords(4);
 	private Coords vn2 = new Coords(4);
+	private Coords[] drawCoords = null;
+
+	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4),
+			v1 = new Coords(4), v2 = new Coords(4),
+			center = Coords.createInhomCoorsInD3();
+
+	private double size, angleValue, offset;
+
+	private boolean show90degrees;
+	private boolean angleVisible;
 
 	/**
 	 * @param view3d
@@ -45,15 +55,12 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
-
 		renderer.getGeometryManager().draw(getGeometryIndex());
-
 	}
 
 	// method used only if surface is not transparent
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer) {
-
 		if (!isVisible()) {
 			return;
 		}
@@ -65,25 +72,12 @@ public class DrawAngle3D extends Drawable3DCurves {
 		setSurfaceHighlightingColor();
 
 		drawSurfaceGeometry(renderer);
-
 	}
-
-	private boolean angleVisible;
 
 	@Override
 	protected boolean isLabelVisible() {
 		return angleVisible && super.isLabelVisible();
 	}
-
-	private Coords[] drawCoords = null;
-
-	private Coords tmpCoords = new Coords(4), tmpCoords2, vn = new Coords(4),
-			v1 = new Coords(4), v2 = new Coords(4),
-			center = Coords.createInhomCoorsInD3();
-
-	private double size, angleValue, offset;
-
-	private boolean show90degrees;
 
 	@Override
 	protected boolean updateForItSelf() {

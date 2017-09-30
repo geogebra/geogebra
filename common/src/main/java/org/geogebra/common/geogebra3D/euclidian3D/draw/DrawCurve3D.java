@@ -24,6 +24,9 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	/** handle to the curve */
 	private CurveEvaluable curve;
+	private GeoPoint3D hittingPoint;
+	private Coords project;
+	private double[] lineCoords;
 
 	/**
 	 * @param a_view3d
@@ -120,10 +123,6 @@ public class DrawCurve3D extends Drawable3DCurves {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
 	}
-
-	private GeoPoint3D hittingPoint;
-	private Coords project;
-	private double[] lineCoords;
 
 	@Override
 	public boolean hit(Hitting hitting) {

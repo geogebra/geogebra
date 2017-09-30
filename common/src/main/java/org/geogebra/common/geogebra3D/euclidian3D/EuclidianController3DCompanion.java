@@ -31,6 +31,10 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 public class EuclidianController3DCompanion
 		extends EuclidianControllerFor3DCompanion {
 
+	private EuclidianController3D ec3D;
+	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
+	private Coords captureCoords = Coords.createInhomCoorsInD3();
+
 	/**
 	 * constructor
 	 * 
@@ -41,7 +45,6 @@ public class EuclidianController3DCompanion
 		super(ec);
 	}
 
-	private EuclidianController3D ec3D;
 
 	@Override
 	protected void setEuclidianController(EuclidianController ec) {
@@ -49,7 +52,6 @@ public class EuclidianController3DCompanion
 		ec3D = (EuclidianController3D) ec;
 	}
 
-	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 
 	@Override
 	public void movePoint(boolean repaint, AbstractEvent event) {
@@ -412,8 +414,6 @@ public class EuclidianController3DCompanion
 
 		return point3D;
 	}
-
-	private Coords captureCoords = Coords.createInhomCoorsInD3();
 
 	private void hitRegion(GeoPoint3D point3D) {
 		DrawableND d = ec3D.view3D

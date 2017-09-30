@@ -40,6 +40,8 @@ public class PlotterCursor {
 
 	private Manager manager;
 
+	private float r, g, b, a;
+
 	/**
 	 * common constructor
 	 * 
@@ -187,10 +189,7 @@ public class PlotterCursor {
 		index[TYPE_ROTATION] = brush.end();
 
 		manager.setScalerView();
-
 	}
-
-	private float r, g, b, a;
 
 	private void color(float red, float green, float blue, float alpha) {
 		this.r = red;

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  *
  */
 public class ManagerShadersWithTemplates extends ManagerShaders {
+	private int[] pointGeometry;
 
 	/**
 	 * constructor
@@ -32,8 +33,6 @@ public class ManagerShadersWithTemplates extends ManagerShaders {
 		setScalerView();
 
 	}
-
-	private int[] pointGeometry;
 
 	@Override
 	public int drawPoint(int size, Coords center, int index) {

@@ -20,12 +20,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class Drawable3DLists {
+	/** lists of Drawable3D */
+	protected Drawable3DList[] lists;
 
 	protected static class Drawable3DList extends ArrayList<Drawable3D> {
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		@Override
@@ -42,9 +41,6 @@ public class Drawable3DLists {
 
 		}
 	}
-
-	/** lists of Drawable3D */
-	protected Drawable3DList[] lists;
 
 	/**
 	 * default constructor

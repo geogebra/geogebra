@@ -30,11 +30,19 @@ public class DrawPoint3D extends Drawable3DCurves
 	/** factor for drawing points */
 	public static final float DRAW_POINT_FACTOR = 1.5f;
 
+	private Coords center = new Coords(4);
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private Coords project = Coords.createInhomCoorsInD3();
+
+	private double[] parameters = new double[2];
+
 	/**
 	 * common constructor
 	 * 
 	 * @param view3D
+	 *            view
 	 * @param point
+	 *            point
 	 */
 	public DrawPoint3D(EuclidianView3D view3D, GeoPointND point) {
 
@@ -67,8 +75,6 @@ public class DrawPoint3D extends Drawable3DCurves
 		// nothing to do here
 	}
 
-	private Coords center = new Coords(4);
-
 	/**
 	 * 
 	 * @return point center
@@ -76,8 +82,6 @@ public class DrawPoint3D extends Drawable3DCurves
 	public Coords getCenter() {
 		return center;
 	}
-
-	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -133,7 +137,10 @@ public class DrawPoint3D extends Drawable3DCurves
 	// Previewable interface
 
 	/**
+	 * Preview constructor
+	 * 
 	 * @param a_view3D
+	 *            view
 	 */
 	public DrawPoint3D(EuclidianView3D a_view3D) {
 
@@ -311,10 +318,6 @@ public class DrawPoint3D extends Drawable3DCurves
 
 		return false;
 	}
-
-	private Coords project = Coords.createInhomCoorsInD3();
-
-	private double[] parameters = new double[2];
 
 	@Override
 	protected TraceIndex newTraceIndex() {

@@ -12,15 +12,6 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.AsyncOperation;
 
 public class ScriptInputModel extends OptionsModel {
-	public interface IScriptInputListener extends PropertyListener {
-		void setInputText(String text);
-
-		String getInputText();
-
-		void setLanguageIndex(int index, String name);
-
-	}
-
 	private GeoElement geo;
 	private boolean global = false;
 	// private boolean javaScript = false;
@@ -37,6 +28,15 @@ public class ScriptInputModel extends OptionsModel {
 	 * false on init, become true when an edit occurs
 	 */
 	private boolean editOccurred = false;
+
+	public interface IScriptInputListener extends PropertyListener {
+		void setInputText(String text);
+
+		String getInputText();
+
+		void setLanguageIndex(int index, String name);
+
+	}
 
 	public ScriptInputModel(App app, IScriptInputListener listener,
 			boolean updateScript) {

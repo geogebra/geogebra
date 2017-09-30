@@ -42,6 +42,11 @@ public class Hitting {
 	 * current threshold
 	 */
 	protected int threshold;
+	private boolean clippedValuesUpdated;
+
+	public double x0, y0, z0, x1, y1, z1, vx, vy, vz, squareNorm;
+
+	private double[] minmax;
 
 	/**
 	 * constructor
@@ -80,12 +85,6 @@ public class Hitting {
 		setHits();
 
 	}
-
-	private boolean clippedValuesUpdated;
-
-	public double x0, y0, z0, x1, y1, z1, vx, vy, vz, squareNorm;
-
-	private double[] minmax;
 
 	/**
 	 * calculate clipped x, y, z values if not already updated

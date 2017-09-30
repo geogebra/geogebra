@@ -15,6 +15,18 @@ import org.geogebra.common.plugin.GeoClass;
  *
  */
 public class GeoClippingCube3D extends GeoElement3D {
+	/** cube reduction: small */
+	final static public int REDUCTION_SMALL = 0;
+	/** cube reduction: medium */
+	final static public int REDUCTION_MEDIUM = 1;
+	/** cube reduction: large */
+	final static public int REDUCTION_LARGE = 2;
+	/** cube reduction: min */
+	final static public int REDUCTION_MIN = 0;
+	/** cube reduction: max */
+	final static public int REDUCTION_MAX = 2;
+
+	private int reduction = REDUCTION_MEDIUM;
 
 	/**
 	 * @param c
@@ -76,19 +88,6 @@ public class GeoClippingCube3D extends GeoElement3D {
 	public boolean isEqual(GeoElementND geo) {
 		return geo == this;
 	}
-
-	/** cube reduction: small */
-	final static public int REDUCTION_SMALL = 0;
-	/** cube reduction: medium */
-	final static public int REDUCTION_MEDIUM = 1;
-	/** cube reduction: large */
-	final static public int REDUCTION_LARGE = 2;
-	/** cube reduction: min */
-	final static public int REDUCTION_MIN = 0;
-	/** cube reduction: max */
-	final static public int REDUCTION_MAX = 2;
-
-	private int reduction = REDUCTION_MEDIUM;
 
 	/**
 	 * sets the reduction of the cube

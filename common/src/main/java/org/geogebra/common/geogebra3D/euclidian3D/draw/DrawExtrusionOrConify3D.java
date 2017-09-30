@@ -37,6 +37,8 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 	private GeoNumeric height;
 
 	private GeoElement basis;
+	private CreatePolyhedronCallback callback;
+
 	// drawing
 
 	@Override
@@ -249,8 +251,6 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 			}
 		}
 	}
-
-	private CreatePolyhedronCallback callback;
 
 	/**
 	 * Callback after height is entered
