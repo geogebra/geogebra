@@ -2039,14 +2039,20 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral[1 / (s sqrt(2pi)) exp((-(x - m)^2) / (2s^2)), x]", result:"(-1) / 2 s\u00B2 erf(-sqrt(2) ((-1) / 2 m 2 s\u00B2 / s\u00B2 + x) abs(s) / (2s\u00B2)) / (s abs(s)) + c_0", notes:"doesn't work in giac.js" },
 { cat: "SolveUnderdetermined", cmd:"Solve[{a + b = 0, c^2 = 0}, {a, b}]", result:"{{a = -b, b = b}}", notes:"#3563" },
 { cat:"Integral", cmd:"Integral(sqrt(x)/sqrt(a^3-x^3),x)", result:"2 / 3 asin(sqrt(x) x / (sqrt(a) abs(a))) + c_0", notes:"from Giac's tests" },
-{ cat:"Integral", cmd:"Integral(exp(t)*cos(n*t),t,-pi,pi)", result:"(cos(n \u03C0) \u212F^\u03C0 + n sin(n \u03C0) \u212F^\u03C0) / (n\u00B2 + 1) - (cos(n \u03C0) \u212F^(-\u03C0) - n sin(n \u03C0) \u212F^(-\u03C0)) / (n\u00B2 + 1)", notes:"from Giac's tests" },
-{ cat:"Integral", cmd:"Integral[z r^2 2/h^2 (2z-h) (z*(h-z))^(1/2),z]", result:"2r\u00B2 (2sqrt(-z\u00B2 + h z) ((-1) / 64 h\u00B3 + z ((-1) / 96 h\u00B2 + z ((-5) / 24 h + 1 / 4 z))) - 1 / 64 h\u2074 sgn(h) asin((h - 2z) / h)) / h\u00B2 + c_0", notes:"#2594 OK in JNI" },
+{ cat:"Integral", cmd:"Integral(exp(t)*cos(n*t),t,-pi,pi)", result:"(\u212F^\u03C0cos(n\u03C0)+n\u212F^\u03C0sin(n\u03C0))/(n\u00B2+1)-(\u212F^(-\u03C0)cos(n\u03C0)-n\u212F^(-\u03C0)sin(n\u03C0))/(n\u00B2+1)|OR|(cos(n \u03C0) \u212F^\u03C0 + n sin(n \u03C0) \u212F^\u03C0) / (n\u00B2 + 1) - (cos(n \u03C0) \u212F^(-\u03C0) - n sin(n \u03C0) \u212F^(-\u03C0)) / (n\u00B2 + 1)", notes:"from Giac's tests" },
+{ cat:"Integral", cmd:"Integral[z r^2 2/h^2 (2z-h) (z*(h-z))^(1/2),z]", result:"2r\u00B2(2sqrt(-z\u00B2+hz)((-1)/64h\u00B3+z((-1)/96h\u00B2+z((-5)/24h+1/4z)))-1/64h\u2074asin((h-2z)/h)sgn(h))/h\u00B2+c_0|OR|2r\u00B2 (2sqrt(-z\u00B2 + h z) ((-1) / 64 h\u00B3 + z ((-1) / 96 h\u00B2 + z ((-5) / 24 h + 1 / 4 z))) - 1 / 64 h\u2074 sgn(h) asin((h - 2z) / h)) / h\u00B2 + c_0", notes:"#2594 OK in JNI" },
 { cat:"Integral", cmd:"Integral[cos(x)/(x^2+1),0,1]", result:"0.682933031807", round:"0.68", notes:""},
 { cat:"Simplify", cmd:"Simplify[(1/sqrt(2)+cos(pi/6))^2]", result:"(2sqrt(6) + 5) / 4" },
 { cat:"Simplify", cmd:"Simplify(exp(2* \u03AF *pi/7))", result:"nroot((-1)\u00B2,7)" },
+{ cat:"Evaluate", cmd:"Evaluate[x^2 + p x + q]", result:"x\u00B2 + p x + q", notes:"OK in JNI, we want to have x^2 at the beginning" },
+//doesn't work in tests in giac.js seems OK in GUI - odd
+{ cat:"Integral", cmd:"Integral(cos(x/2)^2/(x+sin(x)),x)", result:"1 / 4 ln((4x\u00B2 + 16x tan(1 / 2 x) + 4x\u00B2 tan(1 / 2 x)\u2074 + 16x tan(1 / 2 x)\u00B3 + 8x\u00B2 tan(1 / 2 x)\u00B2 + 16tan(1 / 2 x)\u00B2) / (tan(1 / 2 x)\u2074 + 2tan(1 / 2 x)\u00B2 + 1)) + c_0", notes:"from Giac's tests" },
+{ cat:"Integral", cmd:"Integral[exp(-(x/s)^2)]", result:"(-1) / 2 s sqrt(\u03C0) erf((-x) / s) + c_0", notes:"kills Giac.js" },
+//not working in giac.js yet
+{ cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },
 // JSONEND
-// not working in giac.js yet
-// { cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },
+// +c not at end { cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0" },
+
 // Solve[x<5&&x<13]
 // Solve[x<5||x<13]
 //{ 
@@ -2123,7 +2129,6 @@ var betterForm = [
 { cat:"If", cmd:"If[x<2/3,sin(x),cos(x)]", result:"If[x<2/3,sin(x),cos(x)]", notes:"check" },
 { cat:"Evaluate", cmd:"Evaluate[(1/x)^(1/2)-1/x^(1/2)]", result:"(sqrt(x) abs(x) - x sqrt(x)) / x\u00B2" },
 { cat:"Solve", cmd:"Solve(abs(x+2)<abs(3*x),x)", result:"{x < (-1) / 2, x > 1}", notes:"Reduce can't solve" },
-{ cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0" },
 { cat:"Evaluate",cmd:"Evaluate[(x<3)&&(x<4)]", result:"(x < 3) \u2227 (x < 4)", notes:"#3752" },
 { cat:"Evaluate", cmd:"Evaluate[-3(x<2)]", result:"-3 (x < 2)" },
 { cat:"Evaluate", cmd:"Evaluate[-3(x<=2)]", result:"-3 (x \u2264 2)" },
@@ -2131,7 +2136,6 @@ var betterForm = [
 { cat:"Solve", cmd:"Solve[2\u212f^x<6]", result:"{x<ln(3)}", notes:"#3856" },
 { cat:"Solve", cmd:"Solve[3^(2*x)+6>5*3^x]", result:"x<ln(2)/ln(3), x > 1", notes:"#3856" },
 { cat:"Solve", cmd:"Solve[(2*lg(x)-4)/(lg(x)-1)>=0]", result:"{0 < x  <  10, x \u2265 100}", notes:"#3855, 0 is correct if you allow limits" },
-{ cat:"Evaluate", cmd:"Evaluate[x^2 + p x + q]", result:"x\u00B2 + p x + q", notes:"OK in JNI, we want to have x^2 at the beginning" },
 { cat:"Derivative", cmd:"Derivative[If[x<1,x^2]]", result:"If[x < 1,2x]" },
 
 ];
@@ -2172,9 +2176,6 @@ var problems = [
 
 { cat:"PROBLEM", cmd:"Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/exp(1)]", result:"" },
 { cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
-// doesn't work in tests in giac.js seems OK in GUI - odd
-{ cat:"Integral", cmd:"Integral(cos(x/2)^2/(x+sin(x)),x)", result:"1 / 2 ln(2abs(x tan(1 / 2 x)\u2074 + 2tan(1 / 2 x)\u00B3 + 2x tan(1 / 2 x)\u00B2 + 2tan(1 / 2 x) + x) / (tan(1 / 2 x)\u2074 + 2tan(1 / 2 x)\u00B2 + 1)) + c_0", notes:"from Giac's tests" },
-{ cat:"Integral", cmd:"Integral[exp(-(x/s)^2)]", result:"(((((-1)) / 2 * s) * sqrt(π)) * erf(((-x)) / s)) + c_2", notes:"kills Giac.js" },
 
 // 
 
