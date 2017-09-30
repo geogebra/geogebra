@@ -254,7 +254,7 @@ public abstract class AppW extends App implements SetLabels {
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(getVersion(ae, dimension, laf));
 		this.initialPerspective = ae.getDataParamPerspective();
-		setPrerelease(ae.getDataParamPrerelease());
+		setPrerelease(ArticleElement.getDataParamPrerelease(ae));
 
 		// laf = null in webSimple
 		setUndoRedoEnabled(ae.getDataParamEnableUndoRedo()
@@ -3216,15 +3216,15 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * @param ae
+	 * @param el
 	 *            article element
 	 * @return true if prerelease
 	 * 
 	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
 	 */
-	public static boolean isPrerelease(ArticleElement ae) {
-		return "true".equals(ae.getDataParamPrerelease())
-				|| "canary".equals(ae.getDataParamPrerelease());
+	public static boolean isPrerelease(Element el) {
+		String p = ArticleElement.getDataParamPrerelease(el);
+		return "true".equals(p) || "canary".equals(p);
 	}
 
 	public void hideMenu() {

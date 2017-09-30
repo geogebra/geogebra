@@ -69,8 +69,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el,
-				new GeoGebraFrameSimple(
-						AppW.isPrerelease((ArticleElement) el)),
+				new GeoGebraFrameSimple(AppW.isPrerelease(el)),
 				clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);

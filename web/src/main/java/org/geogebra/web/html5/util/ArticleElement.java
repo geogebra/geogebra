@@ -623,9 +623,10 @@ public final class ArticleElement extends Element {
 
 	/**
 	 * @return data-param-prerelease: whether to use some beta features
+	 * @param el element
 	 */
-	public String getDataParamPrerelease() {
-		return getAttribute("data-param-prerelease").trim().toLowerCase();
+	public static String getDataParamPrerelease(Element el) {
+		return el.getAttribute("data-param-prerelease").trim().toLowerCase();
 	}
 
 	/**
