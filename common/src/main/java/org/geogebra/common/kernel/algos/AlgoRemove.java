@@ -31,6 +31,7 @@ public class AlgoRemove extends AlgoElement {
 	private GeoList inputList, inputList2; // input
 	private GeoList outputList; // output
 	private int size;
+	private ArrayList<GeoElement> geosToRemove = new ArrayList<GeoElement>();
 
 	/**
 	 * Creates new undefined removal algo
@@ -81,8 +82,6 @@ public class AlgoRemove extends AlgoElement {
 	public GeoList getResult() {
 		return outputList;
 	}
-
-	private ArrayList<GeoElement> geosToRemove = new ArrayList<GeoElement>();
 
 	@Override
 	public final void compute() {

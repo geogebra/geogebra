@@ -30,6 +30,8 @@ public class AlgoFunctionInterval extends AlgoElement {
 	private NumberValue a, b; // input
 	private GeoElement ageo, bgeo;
 	private GeoFunction g; // output g
+	private ExpressionNode exp; // current expression of f
+	// (needed to notice change of f)
 
 	/** Creates new AlgoDependentFunction */
 	public AlgoFunctionInterval(Construction cons, String label, GeoFunction f,
@@ -113,10 +115,6 @@ public class AlgoFunctionInterval extends AlgoElement {
 
 		return equal;
 	}
-
-	private ExpressionNode exp; // current expression of f
-								// (needed to notice change of
-								// f)
 
 	@Override
 	final public String toString(StringTemplate tpl) {

@@ -93,9 +93,15 @@ public class DrawLine extends Drawable implements Previewable {
 	private boolean isVisible;
 	private boolean labelVisible;
 
+	private PreviewType previewMode = PreviewType.NONE;
+	private boolean isPreviewVisible;
+
 	private ArrayList<GeoPointND> points;// for preview
 	private ArrayList<GeoLineND> lines; // for preview
 	private GeoPointND startPoint, previewPoint2;
+
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private final Coords coordsForMousePos = new Coords(4);
 
 	// clipping attributes
 	private boolean[] attr1 = new boolean[4], attr2 = new boolean[4];
@@ -135,8 +141,6 @@ public class DrawLine extends Drawable implements Previewable {
 				.getDefaultGeo(ConstructionDefaults.DEFAULT_LINE);
 		updatePreview();
 	}
-
-	private PreviewType previewMode = PreviewType.NONE;
 
 	/**
 	 * Creates a new DrawLine for preview of parallel or perpendicular tool
@@ -512,9 +516,6 @@ public class DrawLine extends Drawable implements Previewable {
 
 	}
 
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
-	private final Coords coordsForMousePos = new Coords(4);
-
 	@Override
 	public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -674,8 +675,6 @@ public class DrawLine extends Drawable implements Previewable {
 		}
 
 	}
-
-	private boolean isPreviewVisible;
 
 	@Override
 	final public void drawPreview(GGraphics2D g2) {

@@ -37,6 +37,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	private GeoPointND center, startPoint, endPoint;
 
 	private PathParameter paramP, paramQ;
+	private Coords p2d;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
@@ -221,8 +222,6 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 		// now take the parameters from the temp points
 		setConicPart(paramP.t, paramQ.t);
 	}
-
-	private Coords p2d;
 
 	/**
 	 * set conic part coord sys and parameters

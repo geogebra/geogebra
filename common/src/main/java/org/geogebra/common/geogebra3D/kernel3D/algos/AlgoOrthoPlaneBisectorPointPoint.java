@@ -28,6 +28,9 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 	private GeoPointND point1; // input
 	private GeoPointND point2; // input
 
+	private Coords normal = new Coords(4),
+			point = Coords.createInhomCoorsInD3();
+
 	/**
 	 * @param cons
 	 *            construction
@@ -57,9 +60,6 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 	public Commands getClassName() {
 		return Commands.PlaneBisector;
 	}
-
-	private Coords normal = new Coords(4),
-			point = Coords.createInhomCoorsInD3();
 
 	@Override
 	protected Coords getNormal() {

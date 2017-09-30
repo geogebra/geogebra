@@ -30,7 +30,18 @@ import org.geogebra.common.main.App;
  * @author Markus
  */
 public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
-
+	/** INTERSECTION TYPE: producing line */
+	public static final int INTERSECTION_PRODUCING_LINE = 1;
+	/** INTERSECTION TYPE: asymptotic line */
+	public static final int INTERSECTION_ASYMPTOTIC_LINE = 2;
+	/** INTERSECTION TYPE: meeting line */
+	public static final int INTERSECTION_MEETING_LINE = 3;
+	/** INTERSECTION TYPE: tangent line */
+	public static final int INTERSECTION_TANGENT_LINE = 4;
+	/** INTERSECTION TYPE: secant line */
+	public static final int INTERSECTION_SECANT_LINE = 5;
+	/** INTERSECTION TYPE: passing line */
+	public static final int INTERSECTION_PASSING_LINE = 6;
 	private GeoLineND g; // input
 	private GeoQuadricND q; // input
 	private GeoPoint3D[] D; // D: old points;
@@ -39,6 +50,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	/** new output points, not yet permuted */
 	protected GeoPoint3D[] Q;
 	private int intersectionType;
+	private boolean permuted;
 
 	/**
 	 * 
@@ -49,7 +61,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	 * @param g
 	 *            line
 	 * @param q
-	 *            auadric
+	 *            quadric
 	 */
 	AlgoIntersectLineQuadric3D(Construction cons, String label, GeoLineND g,
 			GeoQuadric3D q) {
@@ -66,7 +78,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	 * @param g
 	 *            line
 	 * @param q
-	 *            auadric
+	 *            quadric
 	 */
 	AlgoIntersectLineQuadric3D(Construction cons, String[] labels, GeoLineND g,
 			GeoQuadric3D q) {
@@ -91,7 +103,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 	 * @param g
 	 *            line
 	 * @param q
-	 *            auadric
+	 *            qaudric
 	 */
 	AlgoIntersectLineQuadric3D(Construction cons, GeoLineND g, GeoQuadricND q) {
 		super(cons);
@@ -125,10 +137,7 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		setPermutation();
 
 		setInputOutput(); // for AlgoElement
-
 	}
-
-	private boolean permuted;
 
 	// for AlgoElement
 	@Override
@@ -173,19 +182,6 @@ public class AlgoIntersectLineQuadric3D extends AlgoIntersect3D {
 		return getLoc().getPlain("IntersectionPointOfAB", q.getLabel(tpl),
 				((GeoElement) g).getLabel(tpl));
 	}
-
-	/** INTERSECTION TYPE: producing line */
-	public static final int INTERSECTION_PRODUCING_LINE = 1;
-	/** INTERSECTION TYPE: asymptotic line */
-	public static final int INTERSECTION_ASYMPTOTIC_LINE = 2;
-	/** INTERSECTION TYPE: meeting line */
-	public static final int INTERSECTION_MEETING_LINE = 3;
-	/** INTERSECTION TYPE: tangent line */
-	public static final int INTERSECTION_TANGENT_LINE = 4;
-	/** INTERSECTION TYPE: secant line */
-	public static final int INTERSECTION_SECANT_LINE = 5;
-	/** INTERSECTION TYPE: passing line */
-	public static final int INTERSECTION_PASSING_LINE = 6;
 
 	@Override
 	public void compute() {

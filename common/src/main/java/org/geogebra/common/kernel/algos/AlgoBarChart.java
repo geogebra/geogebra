@@ -93,6 +93,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	// local fields
 	private GeoElement ageo, bgeo, widthGeo, isCumulative, isHorizontal, p1geo,
 			p2geo, p3geo, hasJoin, pointType;
+	private GeoNumeric scale;
+
 	private int type;
 	private int N; // # of intervals
 	private double[] yval; // y value (= min) in interval 0 <= i < N
@@ -316,8 +318,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		sum.setLabel(label);
 
 	}
-
-	private GeoNumeric scale;
 
 	/******************************************************
 	 * General constructor

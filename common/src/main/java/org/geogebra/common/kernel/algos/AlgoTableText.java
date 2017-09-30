@@ -32,6 +32,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class AlgoTableText extends AlgoElement implements TableAlgo {
+	// get the lrc.a%p from middle of ABCDlrc.a%pEFGH
+	private final static RegExp matchLRC = RegExp
+			.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
 
 	private GeoList geoList; // input
 	private GeoText text; // output
@@ -197,10 +200,6 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 	public GeoText getResult() {
 		return text;
 	}
-
-	// get the lrc.a%p from middle of ABCDlrc.a%pEFGH
-	private final static RegExp matchLRC = RegExp
-			.compile("([^.%lrcap]*)([.%lrcap]*)([^.%lrcap]*)");
 
 	private void parseArgs() {
 

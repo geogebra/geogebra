@@ -50,6 +50,7 @@ public class DrawInequality extends Drawable {
 	private double minBound = -1000000;
 	private Drawable min;
 	private ArrayList<Pair<Map<Double, Drawable>>> orBounds = new ArrayList<Pair<Map<Double, Drawable>>>();
+	private GeneralPathClipped[] gpAxis;
 
 	/**
 	 * Creates new drawable linear inequality
@@ -381,8 +382,6 @@ public class DrawInequality extends Drawable {
 		setForceNoFill(true);
 		updateRecursive(tree);
 	}
-
-	private GeneralPathClipped[] gpAxis;
 
 	@Override
 	final public void update() {

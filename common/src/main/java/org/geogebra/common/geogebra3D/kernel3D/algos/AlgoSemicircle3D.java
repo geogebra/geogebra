@@ -43,6 +43,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 
 	private GeoPointND M; // midpoint of AB
 	private GeoConic3D conic;
+	private Coords p2d;
 
 	/**
 	 * Creates new semicircle algoritm
@@ -141,8 +142,6 @@ public class AlgoSemicircle3D extends AlgoElement {
 	public GeoConicPart3D getSemicircle() {
 		return conicPart;
 	}
-
-	private Coords p2d;
 
 	@Override
 	public void compute() {

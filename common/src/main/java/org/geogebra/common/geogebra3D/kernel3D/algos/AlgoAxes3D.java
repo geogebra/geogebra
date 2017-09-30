@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
  * @author Markus
  */
 public class AlgoAxes3D extends AlgoAxesQuadricND {
+	private Coords midpoint;
 
 	AlgoAxes3D(Construction cons, String label, GeoQuadricND c) {
 		super(cons, label, c);
@@ -47,8 +48,6 @@ public class AlgoAxes3D extends AlgoAxesQuadricND {
 		}
 
 	}
-
-	private Coords midpoint;
 
 	// calc axes
 	@Override

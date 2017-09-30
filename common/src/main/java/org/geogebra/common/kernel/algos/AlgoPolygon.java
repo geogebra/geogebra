@@ -49,6 +49,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	protected GeoDirectionND direction;
 	/** String builder for description */
 	protected StringBuilder sb;
+	private double[] tmp3;
 
 	public AlgoPolygon(Construction cons, String[] labels, GeoList geoList) {
 		this(cons, labels, null, geoList);
@@ -515,8 +516,6 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		// compute area
 		poly.setArea(calcAreaWithSign(points2d));
 	}
-
-	private double[] tmp3;
 
 	@Override
 	public void calcCentroid(GeoPoint p) {

@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * @author mathieu
  */
 public class AlgoMidpoint3D extends AlgoMidpointND {
+	private Coords tmpCoords;
 
 	/**
 	 * 
@@ -57,13 +58,13 @@ public class AlgoMidpoint3D extends AlgoMidpointND {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param segment
+	 *            segment
 	 */
 	public AlgoMidpoint3D(Construction cons, GeoSegmentND segment) {
 		super(cons, segment);
 	}
-
-	private Coords tmpCoords;
 
 	@Override
 	protected GeoPointND newGeoPoint(Construction cons) {

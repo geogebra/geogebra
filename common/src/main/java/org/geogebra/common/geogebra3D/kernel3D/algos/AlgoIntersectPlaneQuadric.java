@@ -44,6 +44,10 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 	/** intersection */
 	protected GeoConic3D conic;
 
+	private CoordMatrix cm = new CoordMatrix(3, 3);
+	private CoordMatrix tmpMatrix = new CoordMatrix(3, 4);
+	private CoordMatrix parametricMatrix;
+
 	/**
 	 * Creates new AlgoIntersectLinePlane
 	 * 
@@ -131,10 +135,6 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 		intersectPlaneQuadric(plane, quadric, conic);
 
 	}
-
-	private CoordMatrix cm = new CoordMatrix(3, 3);
-	private CoordMatrix tmpMatrix = new CoordMatrix(3, 4);
-	private CoordMatrix parametricMatrix;
 
 	public void intersectPlaneQuadric(GeoCoordSys2D inputPlane,
 			GeoQuadricND inputQuad, GeoConic3D outputConic) {

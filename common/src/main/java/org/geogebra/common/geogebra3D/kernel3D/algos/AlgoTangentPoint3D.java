@@ -28,6 +28,10 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Two tangents through point P to conic section c
  */
 public class AlgoTangentPoint3D extends AlgoTangentPointND {
+	private double[] polarCoords;
+
+	private Coords polarOrigin, polarDirection;
+	private Coords coords2D;
 
 	public AlgoTangentPoint3D(Construction cons, String[] labels, GeoPointND P,
 			GeoConicND c) {
@@ -49,10 +53,6 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 		cons.removeFromConstructionList(algoIntersect);
 		tangentPoints = algoIntersect.getIntersectionPoints();
 	}
-
-	private double[] polarCoords;
-
-	private Coords polarOrigin, polarDirection;
 
 	@Override
 	protected void setTangentFromPolar(int i) {
@@ -106,8 +106,6 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 	protected void updatePolarLine() {
 		c.polarLine(coords2D, polar);
 	}
-
-	private Coords coords2D;
 
 	@Override
 	protected boolean isIntersectionPointIncident() {

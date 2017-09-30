@@ -46,6 +46,14 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
  */
 public class AlgoIntersectLineConic extends AlgoIntersect implements
 		SymbolicParametersBotanaAlgo {
+	// INTERSECTION TYPES
+	public static final int INTERSECTION_PRODUCING_LINE = 1;
+	public static final int INTERSECTION_ASYMPTOTIC_LINE = 2;
+	public static final int INTERSECTION_MEETING_LINE = 3;
+	public static final int INTERSECTION_TANGENT_LINE = 4;
+	public static final int INTERSECTION_SECANT_LINE = 5;
+	public static final int INTERSECTION_PASSING_LINE = 6;
+
 	/** input line */
 	protected GeoLine g;
 	/** input conic */
@@ -83,6 +91,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	protected int specialCasePointOnCircleIndex = 0; // index of point on line
 														// and conic
 	private GeoPointND existingIntersection = null;
+
+	// not initializing this is important for performance
+	private static double[] xyz = new double[3];
 
 	@Override
 	public Commands getClassName() {
@@ -592,14 +603,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				&& c.isIntersectionPointIncident(P, Kernel.MIN_PRECISION);
 	}
 
-	// INTERSECTION TYPES
-	public static final int INTERSECTION_PRODUCING_LINE = 1;
-	public static final int INTERSECTION_ASYMPTOTIC_LINE = 2;
-	public static final int INTERSECTION_MEETING_LINE = 3;
-	public static final int INTERSECTION_TANGENT_LINE = 4;
-	public static final int INTERSECTION_SECANT_LINE = 5;
-	public static final int INTERSECTION_PASSING_LINE = 6;
-
 	/**
 	 * Intersects conic c with line g and always sets two GeoPoints (sol). If
 	 * there are no real intersections, the coords of GeoPoints are set to
@@ -636,9 +639,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		intersectionType = ret;
 		return ret;
 	}
-
-	// not initializing this is important for performance
-	private static double[] xyz = new double[3];
 
 	// do the actual computations
 	public final static synchronized int intersectLineConic(GeoLine g,

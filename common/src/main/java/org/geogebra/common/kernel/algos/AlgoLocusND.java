@@ -86,6 +86,12 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	private TreeSet<GeoElement> Qin;
 
 	private int views = 1;
+	protected boolean[] visibleEV = { false, false, false };
+
+	// small cache of 3 last parameters and Qcopy positions
+	private double[] paramCache = new double[3];
+	private T[] qcopyCache = createQCopyCache(3);
+	private int cacheIndex = 0;
 
 	// private Updater updater;
 
@@ -766,11 +772,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		setQCopyCache(qcopyCache[cacheIndex], Qcopy0);
 	}
 
-	// small cache of 3 last parameters and Qcopy positions
-	private double[] paramCache = new double[3];
-	private T[] qcopyCache = createQCopyCache(3);
-	private int cacheIndex = 0;
-
 	/**
 	 * 
 	 * @param length
@@ -852,8 +853,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 */
 	abstract protected boolean distanceSmall(GeoPointND Q,
 			boolean orInsteadOfAnd);
-
-	protected boolean[] visibleEV = { false, false, false };
 
 	/**
 	 * @param i

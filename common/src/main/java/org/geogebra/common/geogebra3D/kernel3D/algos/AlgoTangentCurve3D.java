@@ -47,6 +47,10 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 	private ExpressionValue pointOnCurveSpecialParam;
 	private AlgoDerivative algo;
 
+	private double feval[] = new double[3];
+	private double dfeval[] = new double[3];
+	private Coords direction = new Coords(0, 0, 0, 1);
+
 	/**
 	 * @param cons
 	 *            construction
@@ -153,15 +157,10 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 		return tangent;
 	}
 
-	private Coords direction = new Coords(0, 0, 0, 1);
-
 	@Override
 	protected GeoPointND getPoint() {
 		return T;
 	}
-
-	private double feval[] = new double[3];
-	private double dfeval[] = new double[3];
 
 	@Override
 	protected Coords getDirection() {

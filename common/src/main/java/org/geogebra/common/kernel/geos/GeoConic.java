@@ -47,6 +47,7 @@ import org.geogebra.common.util.MyMath;
  */
 public class GeoConic extends GeoConicND implements ConicMirrorable,
 		SymbolicParametersBotanaAlgo, EquationValue {
+	private CoordSys coordSys;
 
 	/*
 	 * ( A[0] A[3] A[4] ) matrix = ( A[3] A[1] A[5] ) ( A[4] A[5] A[2] )
@@ -431,8 +432,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	public char getLabelDelimiter() {
 		return ':';
 	}
-
-	private CoordSys coordSys;
 
 	@Override
 	public CoordSys getCoordSys() {

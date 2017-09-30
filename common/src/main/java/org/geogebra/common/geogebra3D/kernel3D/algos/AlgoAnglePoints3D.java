@@ -33,6 +33,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
+	protected Coords center, v1, v2, vn;
+
 	AlgoAnglePoints3D(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		this(cons, A, B, C, null);
@@ -53,8 +55,6 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 		ret.setDrawable(true);
 		return ret;
 	}
-
-	protected Coords center, v1, v2, vn;
 
 	@Override
 	public void compute() {

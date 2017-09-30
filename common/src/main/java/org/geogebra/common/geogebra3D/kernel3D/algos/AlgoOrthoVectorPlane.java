@@ -36,13 +36,13 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
  */
 public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
-	// input
-	/** plane */
+	/** plane (input) */
 	protected GeoCoordSys2D plane;
 
-	// output
-	/** ortho vector */
+	/** ortho vector (output) */
 	private GeoVector3D vector;
+
+	protected Coords vCoords;
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -96,8 +96,6 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 		vector.setCoords(vCoords);
 
 	}
-
-	protected Coords vCoords;
 
 	/**
 	 * 

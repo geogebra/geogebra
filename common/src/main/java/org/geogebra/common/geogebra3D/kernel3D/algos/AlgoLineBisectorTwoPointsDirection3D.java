@@ -34,6 +34,9 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 
 	private GeoLine3D line; // output
 
+	private Coords d = new Coords(3), d1 = new Coords(3),
+			midpoint = new Coords(3);
+
 	public AlgoLineBisectorTwoPointsDirection3D(Construction cons, String label,
 			GeoPointND a, GeoPointND b, GeoDirectionND direction) {
 		super(cons);
@@ -59,9 +62,6 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 		return Commands.LineBisector;
 	}
 
-	private Coords d = new Coords(3), d1 = new Coords(3),
-			midpoint = new Coords(3);
-
 	@Override
 	public void compute() {
 
@@ -81,7 +81,6 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 			midpoint.setAdd3(ca, cb).mulInside3(0.5);
 			line.setCoord(midpoint, d);
 		}
-
 	}
 
 	@Override
@@ -94,7 +93,6 @@ public class AlgoLineBisectorTwoPointsDirection3D extends AlgoElement3D {
 		// direction is line
 		return getLoc().getPlain("PerpendicularBisectorOfAPerpendicularToB",
 				a.getLabel(tpl) + b.getLabel(tpl), direction.getLabel(tpl));
-
 	}
 
 }

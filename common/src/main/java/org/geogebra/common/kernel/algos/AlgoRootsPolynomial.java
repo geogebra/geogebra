@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
  * @author Markus Hohenwarter
  */
 public class AlgoRootsPolynomial extends AlgoIntersect {
+	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	private static final int ROOTS = 0;
 	private static final int INTERSECT_POLYNOMIALS = 1;
@@ -466,8 +467,6 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		return evalFunction;
 
 	}
-
-	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	// roots array and number of roots
 	protected final void setRootPoints(double[] roots, int number) {

@@ -271,6 +271,7 @@ public abstract class EuclidianController {
 	protected GeoPoint rotationCenter;
 	protected int polygonMode = POLYGON_NORMAL;
 	protected double[] transformCoordsOffset = new double[2];
+	protected Hits tempRegionHitsArrayList = new Hits();
 
 	// ==============================================
 	// Pen
@@ -374,6 +375,11 @@ public abstract class EuclidianController {
 	private GeoNumeric circleRadius;
 	private PointerEventType oldEventType = PointerEventType.MOUSE;
 	private Runnable pointerUpCallback;
+
+	protected double newZero, newScale;
+	private boolean objectMenuActive;
+	private CoordSystemListener zoomerListener = null;
+	private MyModeChangedListener modeChangeListener = null;
 
 	public EuclidianController(App app) {
 		this.app = app;
@@ -962,8 +968,6 @@ public abstract class EuclidianController {
 		selection.clearSelection(selectionList, true);
 		view.repaintView();
 	}
-
-	protected Hits tempRegionHitsArrayList = new Hits();
 
 	protected Hits getRegionHits(Hits hits) {
 		return hits.getRegionHits(tempRegionHitsArrayList);
@@ -8133,11 +8137,6 @@ public abstract class EuclidianController {
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
 	}
-
-	protected double newZero, newScale;
-	private boolean objectMenuActive;
-	private CoordSystemListener zoomerListener = null;
-	private MyModeChangedListener modeChangeListener = null;
 
 	protected void scaleXAxis(boolean repaint) {
 		if (repaint) {

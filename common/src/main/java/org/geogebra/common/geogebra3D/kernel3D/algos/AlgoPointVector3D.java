@@ -20,12 +20,11 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class AlgoPointVector3D extends AlgoPointVectorND {
+	private Coords tmpCoords;
 
 	public AlgoPointVector3D(Construction cons, GeoPointND P, GeoVectorND v) {
 		super(cons, P, v);
 	}
-
-	private Coords tmpCoords;
 
 	@Override
 	public final void compute() {

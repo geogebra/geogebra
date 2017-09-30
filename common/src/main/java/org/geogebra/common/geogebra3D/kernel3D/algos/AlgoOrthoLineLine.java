@@ -26,6 +26,7 @@ public abstract class AlgoOrthoLineLine extends AlgoElement3D {
 
 	protected GeoLineND line1; // input
 	private GeoLine3D line; // output
+	protected Coords origin, direction2, origin1, direction1;
 
 	public AlgoOrthoLineLine(Construction cons, GeoLineND line1) {
 		super(cons);
@@ -36,8 +37,6 @@ public abstract class AlgoOrthoLineLine extends AlgoElement3D {
 	public GeoLine3D getLine() {
 		return line;
 	}
-
-	protected Coords origin, direction2, origin1, direction1;
 
 	@Override
 	public void compute() {

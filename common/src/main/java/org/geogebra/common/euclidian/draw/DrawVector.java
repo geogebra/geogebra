@@ -60,6 +60,7 @@ public class DrawVector extends Drawable implements Previewable {
 	private GGeneralPath gp; // for arrow
 	private boolean arrowheadVisible, lineVisible;
 	private ArrayList<GeoPointND> points;
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	/**
 	 * Creates new DrawVector
@@ -324,8 +325,6 @@ public class DrawVector extends Drawable implements Previewable {
 			coordsB[1] = coordsA[1];
 		}
 	}
-
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	@Override
 	final public void updateMousePos(double xRWmouse, double yRWmouse) {

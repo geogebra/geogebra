@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  */
 public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
+	private Coords bottomCenter;
 	/**
 	 * creates a pyramid regarding vertices
 	 * 
@@ -207,8 +208,6 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 	// ///////////////////////////////////////////
 	// END OF THE CONSTRUCTION
 	// //////////////////////////////////////////
-
-	private Coords bottomCenter;
 
 	@Override
 	protected void initCoords() {

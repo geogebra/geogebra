@@ -32,6 +32,8 @@ public class ModeDelete {
 	private ArrayList<GPoint2D> interPoints;
 	private ArrayList<GeoPointND[]> newDataAndRealPoint = new ArrayList<GeoPointND[]>();
 	private AlgorithmSet as = null;
+	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
+			100);
 
 	public ModeDelete(EuclidianView view) {
 		this.ec = view.getEuclidianController();
@@ -39,8 +41,7 @@ public class ModeDelete {
 		this.interPoints = new ArrayList<GPoint2D>();
 	}
 
-	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
-			100);
+
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {

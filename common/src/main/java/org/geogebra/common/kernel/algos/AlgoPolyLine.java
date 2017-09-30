@@ -36,6 +36,7 @@ public class AlgoPolyLine extends AlgoElement {
 	protected GeoList geoList;
 	/** output polyline */
 	protected GeoPolyLine poly;
+	private StringBuilder sb;
 
 	/**
 	 * @param cons
@@ -204,8 +205,6 @@ public class AlgoPolyLine extends AlgoElement {
 		// compute area
 		poly.calcLength();
 	}
-
-	private StringBuilder sb;
 
 	@Override
 	final public String toString(StringTemplate tpl) {

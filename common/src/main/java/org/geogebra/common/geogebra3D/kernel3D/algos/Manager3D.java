@@ -95,6 +95,7 @@ public class Manager3D implements Manager3DInterface {
 
 	private Kernel kernel;
 	private Construction cons;
+	private Coords tmpCoords, tmpCoords2, tmpCoords3;
 
 	/**
 	 * @param kernel
@@ -1922,8 +1923,6 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getOutput();
 
 	}
-
-	private Coords tmpCoords, tmpCoords2, tmpCoords3;
 
 	final private void createTmpCoords() {
 		if (tmpCoords == null) {

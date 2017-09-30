@@ -146,6 +146,13 @@ public class AlgebraProcessor {
 			closeBracket = null;
 
 	private boolean vectorsEnabled = true;
+	private MathMLParser mathmlParserGGB;
+	private MathMLParser mathmlParserLaTeX;
+
+	/**
+	 * Parametric processor (shared with 3D)
+	 */
+	protected ParametricProcessor paramProcessor;
 
 	/**
 	 * @param kernel
@@ -600,14 +607,6 @@ public class AlgebraProcessor {
 			return null;
 		}
 	}
-
-	private MathMLParser mathmlParserGGB;
-	private MathMLParser mathmlParserLaTeX;
-
-	/**
-	 * Parametric processor (shared with 3D)
-	 */
-	protected ParametricProcessor paramProcessor;
 
 	// G.Sturr 2010-7-5
 	// added 'allowErrorDialog' flag to handle the case of unquoted text

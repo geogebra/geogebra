@@ -41,6 +41,9 @@ public abstract class CoordSystemAnimation {
 
 	private CoordSystemListener listener;
 
+	private boolean setStandard = false;
+	private double standardX, standardY;
+
 	/**
 	 * Creates new zoomer
 	 * 
@@ -215,9 +218,6 @@ public abstract class CoordSystemAnimation {
 			getListener().onCoordSystemChanged();
 		}
 	}
-
-	private boolean setStandard = false;
-	private double standardX, standardY;
 
 	/**
 	 * Chain current zoom with resetting standard view

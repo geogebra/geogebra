@@ -37,6 +37,8 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	protected GeoPointND A, B, C; // input
 	protected GeoLine3D bisector; // output
 
+	private Coords o = new Coords(3), d = new Coords(3), v1 = new Coords(3);
+
 	/**
 	 * Creates new AlgoLineBisector
 	 * 
@@ -129,8 +131,6 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	public GeoPointND getC() {
 		return C;
 	}
-
-	private Coords o = new Coords(3), d = new Coords(3), v1 = new Coords(3);
 
 	@Override
 	public final void compute() {

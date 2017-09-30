@@ -39,6 +39,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 
 	protected GeoDirectionND orientation;
+	private GeoPoint A2d, B2d;
+	private Coords project;
 
 	public AlgoConicFociLength3D(
 			// package private
@@ -68,8 +70,6 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 		input[3] = (GeoElement) orientation;
 	}
 
-	private GeoPoint A2d, B2d;
-
 	@Override
 	protected void setInputOutput() {
 
@@ -91,7 +91,6 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 
 	@Override
 	public void compute() {
-
 		if (orientation == kernel.getSpace()) {
 			conic.setUndefined();
 			return;
@@ -136,10 +135,7 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 		B2d.setCoords(project.getX(), project.getY(), project.getW());
 
 		super.compute();
-
 	}
-
-	private Coords project;
 
 	@Override
 	protected void initCoords() {

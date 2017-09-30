@@ -33,6 +33,7 @@ public class AlgoLineBisectorSegmentDirection3D extends AlgoElement3D {
 	private GeoDirectionND direction; // input
 
 	private GeoLine3D line; // output
+	private Coords d = new Coords(3), midpoint = new Coords(3);
 
 	public AlgoLineBisectorSegmentDirection3D(Construction cons, String label,
 			GeoSegmentND segment, GeoDirectionND direction) {
@@ -57,8 +58,6 @@ public class AlgoLineBisectorSegmentDirection3D extends AlgoElement3D {
 	public Commands getClassName() {
 		return Commands.LineBisector;
 	}
-
-	private Coords d = new Coords(3), midpoint = new Coords(3);
 
 	@Override
 	public void compute() {

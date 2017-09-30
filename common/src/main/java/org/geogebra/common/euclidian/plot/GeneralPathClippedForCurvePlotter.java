@@ -22,6 +22,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 		implements PathPlotter {
 
 	private boolean lineDrawn;
+	private Coords tmpCoords = new Coords(4);
 
 	/**
 	 * constructor
@@ -223,8 +224,6 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 	public void endPlot() {
 		// TODO Auto-generated method stub
 	}
-
-	private Coords tmpCoords = new Coords(4);
 
 	@Override
 	public boolean supports(CoordSys transformSys) {

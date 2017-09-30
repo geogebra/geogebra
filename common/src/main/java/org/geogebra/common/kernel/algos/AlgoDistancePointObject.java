@@ -46,6 +46,10 @@ import org.geogebra.common.util.MyMath;
 public class AlgoDistancePointObject extends AlgoElement
 		implements DistanceAlgo {
 
+	private static final double INTERVAL_START = 30;
+	private static final double INTERVAL_GROWTH = 2;
+	private static final double MAX_INTERVAL = 10000;
+
 	private GeoPointND P; // input
 	private GeoElementND g; // input
 	private GeoNumeric dist; // output
@@ -120,10 +124,6 @@ public class AlgoDistancePointObject extends AlgoElement
 				"Distance between %0 and %1", P.getLabel(tpl),
 				g.getLabel(tpl));
 	}
-
-	private static final double INTERVAL_START = 30;
-	private static final double INTERVAL_GROWTH = 2;
-	private static final double MAX_INTERVAL = 10000;
 
 	/**
 	 * Other classes are invited to use this method.

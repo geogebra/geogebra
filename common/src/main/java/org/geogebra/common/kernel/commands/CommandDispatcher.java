@@ -45,6 +45,23 @@ public abstract class CommandDispatcher {
 	 **/
 	protected HashMap<String, CommandProcessor> cmdTable;
 	/** Similar to cmdTable, but for CAS */
+	/** dispatcher for discrete math */
+	protected CommandDispatcherInterface discreteDispatcher = null;
+
+	/** dispatcher for scripting commands */
+	protected CommandDispatcherInterface scriptingDispatcher = null;
+
+	/** dispatcher for CAS commands */
+	protected CommandDispatcherInterface casDispatcher = null;
+	/** dispatcher for advanced commands */
+	protected CommandDispatcherInterface advancedDispatcher = null;
+	private CommandDispatcherStats statsDispatcher = null;
+
+	private CommandDispatcherBasic basicDispatcher = null;
+
+	/** stores internal (String name, CommandProcessor cmdProc) pairs */
+	private MacroProcessor macroProc;
+	private boolean enabled = true;
 
 	/** number of visible tables */
 	public static final int tableCount = 20;
@@ -105,8 +122,6 @@ public abstract class CommandDispatcher {
 		}
 	}
 
-	/** stores internal (String name, CommandProcessor cmdProc) pairs */
-	private MacroProcessor macroProc;
 
 	/**
 	 * Creates new command dispatcher
@@ -797,8 +812,6 @@ public abstract class CommandDispatcher {
 		return null;
 	}
 
-	private CommandDispatcherStats statsDispatcher = null;
-
 	private CommandDispatcherStats getStatsDispatcher() {
 		if (statsDispatcher == null) {
 			statsDispatcher = new CommandDispatcherStats();
@@ -806,8 +819,6 @@ public abstract class CommandDispatcher {
 		return statsDispatcher;
 	}
 
-	/** dispatcher for discrete math */
-	protected CommandDispatcherInterface discreteDispatcher = null;
 
 	/** @return dispatcher for discrete math */
 	protected CommandDispatcherInterface getDiscreteDispatcher() {
@@ -817,9 +828,6 @@ public abstract class CommandDispatcher {
 		return discreteDispatcher;
 	}
 
-	/** dispatcher for CAS commands */
-	protected CommandDispatcherInterface casDispatcher = null;
-
 	/** @return dispatcher for CAS commands */
 	protected CommandDispatcherInterface getCASDispatcher() {
 		if (casDispatcher == null) {
@@ -828,8 +836,6 @@ public abstract class CommandDispatcher {
 		return casDispatcher;
 	}
 
-	/** dispatcher for scripting commands */
-	protected CommandDispatcherInterface scriptingDispatcher = null;
 
 	/** @return dispatcher for scripting commands */
 	protected CommandDispatcherInterface getScriptingDispatcher() {
@@ -839,8 +845,6 @@ public abstract class CommandDispatcher {
 		return scriptingDispatcher;
 	}
 
-	/** dispatcher for advanced commands */
-	protected CommandDispatcherInterface advancedDispatcher = null;
 
 	/** @return dispatcher for advanced commands */
 	protected CommandDispatcherInterface getAdvancedDispatcher() {
@@ -849,9 +853,6 @@ public abstract class CommandDispatcher {
 		}
 		return advancedDispatcher;
 	}
-
-	private CommandDispatcherBasic basicDispatcher = null;
-	private boolean enabled = true;
 
 	private CommandDispatcherBasic getBasicDispatcher() {
 		if (basicDispatcher == null) {

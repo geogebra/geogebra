@@ -34,6 +34,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			outputSegmentsSide, outputSegmentsTop;
 	protected OutputHandler<GeoPolygon3D> outputPolygonsBottom,
 			outputPolygonsSide, outputPolygonsTop;
+	ChangeableCoordParent heightChangeableCoordParent = null;
+	private int shift;
 
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
 
@@ -361,8 +363,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
 
-	ChangeableCoordParent heightChangeableCoordParent = null;
-
 	/**
 	 * init Coords values
 	 */
@@ -449,8 +449,6 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	// ///////////////////////////////////////////
 	// END OF THE CONSTRUCTION
 	// //////////////////////////////////////////
-
-	private int shift;
 
 	/**
 	 * shift used when first top point is input

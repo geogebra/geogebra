@@ -36,6 +36,11 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	private GeoConic3D[] sections; // output
 	private CoordSys coordsys1, coordsys2;
 
+	private CoordMatrix pm = new CoordMatrix(4, 3);
+	private CoordMatrix pmt = new CoordMatrix(3, 4);
+	private Coords o1 = new Coords(3), o2 = new Coords(3), v = new Coords(3),
+			vn1 = new Coords(3), vn2 = new Coords(3);
+
 	/**
 	 * 
 	 * @param labels
@@ -120,13 +125,6 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 	public GeoConic3D[] getSections() {
 		return sections;
 	}
-
-	private CoordMatrix pm = new CoordMatrix(4, 3);
-	private CoordMatrix pmt = new CoordMatrix(3, 4);
-
-	private Coords o1 = new Coords(3), o2 = new Coords(3), v = new Coords(3),
-			vn1 = new Coords(3),
-			vn2 = new Coords(3);
 
 	@Override
 	public final void compute() {

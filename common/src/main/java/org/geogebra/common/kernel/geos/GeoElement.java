@@ -268,6 +268,121 @@ public abstract class GeoElement extends ConstructionElement
 	 * substitute for imageFileName and image - Arpad Fekete; // 2011-12-01
 	 */
 	protected GeoElementGraphicsAdapter graphicsadapter;
+	/** offset for label in EV */
+	public int labelOffsetX = 0;
+	/** offset for label in EV */
+	public int labelOffsetY = 0;
+	private boolean auxiliaryObject = false;
+	private boolean selectionAllowed = true;
+	// on change: see setVisualValues()
+
+	// spreadsheet specific properties
+	private GPoint spreadsheetCoords, oldSpreadsheetCoords;
+	// number of AlgoCellRange using this cell: don't allow renaming when
+	// greater 0
+	private int cellRangeUsers = 0;
+
+	/** condition to show object */
+	protected GeoBoolean condShowObject;
+	/** whether we should send value to CAS (for false we send the name) */
+	protected boolean sendValueToCas = true;
+
+	// function to determine color
+	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
+									// GeoNumeric Blue }
+
+	private boolean useVisualDefaults = true;
+	/** true if color is set */
+	protected boolean isColorSet = false;
+	/** true if geo is highlited */
+	protected boolean highlighted = false;
+	private boolean selected = false;
+	private String strAlgebraDescription, strAlgebraDescTextOrHTML,
+			strAlgebraDescriptionHTML, strLabelTextOrHTML;
+	/** LaTeX string for LaTeX export */
+	protected String strLaTeX;
+	private boolean strAlgebraDescriptionNeedsUpdate = true;
+	private boolean strAlgebraDescTextOrHTMLneedsUpdate = true;
+	private boolean strAlgebraDescriptionHTMLneedsUpdate = true;
+	private boolean strLabelTextOrHTMLUpdate = true;
+	/** true if strLaTex is out of sync */
+	protected boolean strLaTeXneedsUpdate = true;
+
+	// line thickness and line type: s
+	/**
+	 * note: line thickness in Drawable is calculated as lineThickness / 2.0f
+	 */
+	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+	/** line type (full, dashed, ...) see EuclidianStyleConstants.LINE_TYPE */
+	public int lineType = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
+	/** line type for hidden parts (for 3D) */
+	public int lineTypeHidden = EuclidianStyleConstants.DEFAULT_LINE_TYPE_HIDDEN;
+	/** line opacity */
+	protected int lineOpacity = 255;
+
+	/** decoration type */
+	private int decorationType = DECORATION_NONE;
+	private EuclidianViewInterfaceSlim viewForValueString;
+
+	private boolean autoColor;
+	private boolean isEmptySpreadsheetCell = false;
+	private LaTeXCache latexCache = null;
+	private SpreadsheetTraceSettings traceSettings;
+
+	// DECORATION
+
+	/** Decoration type: no decoration */
+	public static final int DECORATION_NONE = 0;
+	// segment decorations
+	/** Decoration type: one tick */
+	public static final int DECORATION_SEGMENT_ONE_TICK = 1;
+	/** Decoration type: two ticks */
+	public static final int DECORATION_SEGMENT_TWO_TICKS = 2;
+	/** Decoration type: three ticks */
+	public static final int DECORATION_SEGMENT_THREE_TICKS = 3;
+	// Michael Borcherds 2007-10-06
+	/** Decoration type: one arow */
+	public static final int DECORATION_SEGMENT_ONE_ARROW = 4;
+	/** Decoration type: two arrows */
+	public static final int DECORATION_SEGMENT_TWO_ARROWS = 5;
+	/** Decoration type: three arrows */
+	public static final int DECORATION_SEGMENT_THREE_ARROWS = 6;
+	// Michael Borcherds 2007-10-06
+	// angle decorations
+	/** Decoration type for angles: two arcs */
+	public static final int DECORATION_ANGLE_TWO_ARCS = 1;
+	/** Decoration type for angles: three arcs */
+	public static final int DECORATION_ANGLE_THREE_ARCS = 2;
+	/** Decoration type for angles: one tick */
+	public static final int DECORATION_ANGLE_ONE_TICK = 3;
+	/** Decoration type for angles: two ticks */
+	public static final int DECORATION_ANGLE_TWO_TICKS = 4;
+	/** Decoration type for angles: three ticks */
+	public static final int DECORATION_ANGLE_THREE_TICKS = 5;
+
+	/**
+	 * Decoration type for angles: counterclockwise arrow
+	 * 
+	 * @author Michael Borcherds, 2007-10-22
+	 */
+	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6;
+	/**
+	 * Decoration type for angles: clockwise arrow
+	 * 
+	 * @author Michael Borcherds, 2007-10-22
+	 */
+	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7;
+	private int defaultGeoType = -1;
+	/** parent algorithm */
+	@Weak
+	protected AlgoElement algoParent = null;
+	/** draw algorithm */
+	protected AlgoElement algoDraw = null;
+	/** directly dependent algos */
+	private ArrayList<AlgoElement> algorithmList;
+
+	/** set of all dependent algos sorted in topological order */
+	protected AlgorithmSet algoUpdateSet;
 
 	/**
 	 * Fill types of elements
@@ -357,6 +472,17 @@ public abstract class GeoElement extends ConstructionElement
 	private int colorSpace = COLORSPACE_RGB;
 
 	private List<Integer> viewFlags = null;
+	private static volatile TreeSet<AlgoElement> tempSet;
+
+	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
+
+		@Override
+		public int compare(AlgoElement o1, AlgoElement o2) {
+			return o1.compareTo(o2);
+		}
+
+	};
+
 
 	/**
 	 * @return used color space (GeoElement.COLORSPACE_*)
@@ -374,8 +500,6 @@ public abstract class GeoElement extends ConstructionElement
 	public void setColorSpace(final int colorSpace) {
 		this.colorSpace = colorSpace;
 	}
-
-	private int defaultGeoType = -1;
 
 	/**
 	 * @return index for ConstructionDefaults or -1 if not default geo
@@ -400,115 +524,6 @@ public abstract class GeoElement extends ConstructionElement
 		defaultGeoType = defaultGT;
 	}
 
-	/** offset for label in EV */
-	public int labelOffsetX = 0;
-	/** offset for label in EV */
-	public int labelOffsetY = 0;
-	private boolean auxiliaryObject = false;
-	private boolean selectionAllowed = true;
-	// on change: see setVisualValues()
-
-	// spreadsheet specific properties
-	private GPoint spreadsheetCoords, oldSpreadsheetCoords;
-	// number of AlgoCellRange using this cell: don't allow renaming when
-	// greater 0
-	private int cellRangeUsers = 0;
-
-	/** condition to show object */
-	protected GeoBoolean condShowObject;
-	/** whether we should send value to CAS (for false we send the name) */
-	protected boolean sendValueToCas = true;
-
-	// function to determine color
-	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
-									// GeoNumeric Blue }
-
-	private boolean useVisualDefaults = true;
-	/** true if color is set */
-	protected boolean isColorSet = false;
-	/** true if geo is highlited */
-	protected boolean highlighted = false;
-	private boolean selected = false;
-	private String strAlgebraDescription, strAlgebraDescTextOrHTML,
-			strAlgebraDescriptionHTML, strLabelTextOrHTML;
-	/** LaTeX string for LaTeX export */
-	protected String strLaTeX;
-	private boolean strAlgebraDescriptionNeedsUpdate = true;
-	private boolean strAlgebraDescTextOrHTMLneedsUpdate = true;
-	private boolean strAlgebraDescriptionHTMLneedsUpdate = true;
-	private boolean strLabelTextOrHTMLUpdate = true;
-	/** true if strLaTex is out of sync */
-	protected boolean strLaTeXneedsUpdate = true;
-
-	// line thickness and line type: s
-	/**
-	 * note: line thickness in Drawable is calculated as lineThickness / 2.0f
-	 */
-	private int lineThickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
-	/** line type (full, dashed, ...) see EuclidianStyleConstants.LINE_TYPE */
-	public int lineType = EuclidianStyleConstants.DEFAULT_LINE_TYPE;
-	/** line type for hidden parts (for 3D) */
-	public int lineTypeHidden = EuclidianStyleConstants.DEFAULT_LINE_TYPE_HIDDEN;
-	/** line opacity */
-	protected int lineOpacity = 255;
-
-	/** decoration type */
-	private int decorationType = DECORATION_NONE;
-
-	// DECORATION
-
-	/** Decoration type: no decoration */
-	public static final int DECORATION_NONE = 0;
-	// segment decorations
-	/** Decoration type: one tick */
-	public static final int DECORATION_SEGMENT_ONE_TICK = 1;
-	/** Decoration type: two ticks */
-	public static final int DECORATION_SEGMENT_TWO_TICKS = 2;
-	/** Decoration type: three ticks */
-	public static final int DECORATION_SEGMENT_THREE_TICKS = 3;
-	// Michael Borcherds 2007-10-06
-	/** Decoration type: one arow */
-	public static final int DECORATION_SEGMENT_ONE_ARROW = 4;
-	/** Decoration type: two arrows */
-	public static final int DECORATION_SEGMENT_TWO_ARROWS = 5;
-	/** Decoration type: three arrows */
-	public static final int DECORATION_SEGMENT_THREE_ARROWS = 6;
-	// Michael Borcherds 2007-10-06
-	// angle decorations
-	/** Decoration type for angles: two arcs */
-	public static final int DECORATION_ANGLE_TWO_ARCS = 1;
-	/** Decoration type for angles: three arcs */
-	public static final int DECORATION_ANGLE_THREE_ARCS = 2;
-	/** Decoration type for angles: one tick */
-	public static final int DECORATION_ANGLE_ONE_TICK = 3;
-	/** Decoration type for angles: two ticks */
-	public static final int DECORATION_ANGLE_TWO_TICKS = 4;
-	/** Decoration type for angles: three ticks */
-	public static final int DECORATION_ANGLE_THREE_TICKS = 5;
-
-	/**
-	 * Decoration type for angles: counterclockwise arrow
-	 * 
-	 * @author Michael Borcherds, 2007-10-22
-	 */
-	public static final int DECORATION_ANGLE_ARROW_ANTICLOCKWISE = 6;
-	/**
-	 * Decoration type for angles: clockwise arrow
-	 * 
-	 * @author Michael Borcherds, 2007-10-22
-	 */
-	public static final int DECORATION_ANGLE_ARROW_CLOCKWISE = 7;
-
-	/** parent algorithm */
-	@Weak
-	protected AlgoElement algoParent = null;
-	/** draw algorithm */
-	protected AlgoElement algoDraw = null;
-	/** directly dependent algos */
-	private ArrayList<AlgoElement> algorithmList;
-
-	/** set of all dependent algos sorted in topological order */
-	protected AlgorithmSet algoUpdateSet;
 
 	/********************************************************/
 
@@ -903,10 +918,6 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public abstract String toValueString(StringTemplate tpl);
-
-	private EuclidianViewInterfaceSlim viewForValueString;
-
-	private boolean autoColor;
 
 	/**
 	 * sets a view for building the value string
@@ -3752,8 +3763,6 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	private boolean isEmptySpreadsheetCell = false;
-
 	/**
 	 * @param isEmptySpreadsheetCell
 	 *            empty spreadsheet cell flag
@@ -3872,8 +3881,6 @@ public abstract class GeoElement extends ConstructionElement
 		// .getEuclidianController().clearSelections();
 		// }
 	}
-
-	private LaTeXCache latexCache = null;
 
 	/**
 	 * @return latex cache
@@ -6784,19 +6791,6 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 
-
-
-	private static volatile TreeSet<AlgoElement> tempSet;
-
-	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
-
-		@Override
-		public int compare(AlgoElement o1, AlgoElement o2) {
-			return o1.compareTo(o2);
-		}
-
-	};
-
 	/**
 	 * @return temporary set of algoritms
 	 */
@@ -7161,8 +7155,6 @@ public abstract class GeoElement extends ConstructionElement
 	public boolean hasSpreadsheetTraceModeTraceable() {
 		return isSpreadsheetTraceable();
 	}
-
-	private SpreadsheetTraceSettings traceSettings;
 
 	/**
 	 * @return spreadsheet trace settings

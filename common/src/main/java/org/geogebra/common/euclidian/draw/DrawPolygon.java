@@ -71,6 +71,12 @@ public class DrawPolygon extends Drawable implements Previewable {
 	private boolean isSquare = false;
 	private GGeneralPath prewPolygon = AwtFactory.getPrototype()
 			.newGeneralPath();
+	private double[][] fanCoords;
+	private boolean fillShape = false;
+
+	private static final int FAN_DELTA = 10;
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+
 	/**
 	 * Creates new DrawPolygon
 	 * 
@@ -234,8 +240,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return true;
 	}
 
-	private boolean fillShape = false;
-
 	@Override
 	final public void draw(GGraphics2D g2) {
 
@@ -278,8 +282,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 			addPointsToPath(size);
 		}
 	}
-
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
@@ -1017,10 +1019,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 			e.printStackTrace();
 		}
 	}
-
-	private double[][] fanCoords;
-
-	private static final int FAN_DELTA = 10;
 
 	private boolean isOutView(double[] c) {
 		return c[0] < -FAN_DELTA || c[1] < -FAN_DELTA

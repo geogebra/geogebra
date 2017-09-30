@@ -61,6 +61,25 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 	private SumType type;
 
+	private NumberValue d; // input: divider for Rectangle sum, 0..1
+	private GeoList list1, list2, list3; // input
+	private GeoElement ageo, bgeo, ngeo, dgeo, widthGeo, densityGeo,
+			useDensityGeo, isCumulative, p1geo, p2geo, p3geo;
+	private GeoNumeric sum; // output sum
+
+	private int N;
+	private double STEP;
+	private double[] yval; // y value (= min) in interval 0 <= i < N
+	private double[] leftBorder; // leftBorder (x val) of interval 0 <= i < N
+	// private double [] widths;
+	private ExtremumFinderI extrFinder;
+
+	// maximum frequency of bar chart
+	// this is used by stat dialogs when setting window dimensions
+	private double freqMax;
+
+	private boolean histogramRight;
+
 	public enum SumType {
 		/** Upper Rieeman sum **/
 
@@ -122,11 +141,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		return p3;
 	}
 
-	private NumberValue d; // input: divider for Rectangle sum, 0..1
-	private GeoList list1, list2, list3; // input
-	private GeoElement ageo, bgeo, ngeo, dgeo, widthGeo, densityGeo,
-			useDensityGeo, isCumulative, p1geo, p2geo, p3geo;
-
 	/**
 	 * @return the densityGeo
 	 */
@@ -147,22 +161,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	public GeoElement getIsCumulative() {
 		return isCumulative;
 	}
-
-	private GeoNumeric sum; // output sum
-
-	private int N;
-	private double STEP;
-	private double[] yval; // y value (= min) in interval 0 <= i < N
-	private double[] leftBorder; // leftBorder (x val) of interval 0 <= i < N
-	// private double [] widths;
-
-	private ExtremumFinderI extrFinder;
-
-	// maximum frequency of bar chart
-	// this is used by stat dialogs when setting window dimensions
-	private double freqMax;
-
-	private boolean histogramRight;
 
 	/**
 	 * Returns maximum frequency of a bar chart or histogram

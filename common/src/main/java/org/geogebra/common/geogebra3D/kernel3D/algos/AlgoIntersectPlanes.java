@@ -41,7 +41,18 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
  */
 public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		implements HasShortSyntax {
+	/** unknown */
+	public static final int RESULTCATEGORY_NA = -1;
+	/** intersecting */
+	public static final int RESULTCATEGORY_GENERAL = 1;
+	/** parallel */
+	public static final int RESULTCATEGORY_PARALLEL = 2;
+	/** identical */
+	public static final int RESULTCATEGORY_CONTAINED = 3;
+
 	private boolean shortSyntax = false;
+	private Coords o, vn, vn1, vn2;
+
 	/**
 	 * Creates new AlgoIntersectLinePlane
 	 * 
@@ -58,17 +69,13 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 			GeoPlaneND cs2) {
 
 		super(cons, label, cs1, cs2, false);
-
 	}
 
 	public AlgoIntersectPlanes(Construction cons, GeoPlaneND cs1,
 			GeoPlaneND cs2) {
 
 		super(cons, cs1, cs2, false);
-
 	}
-
-	private Coords o, vn, vn1, vn2;
 
 	@Override
 	protected GeoElement3D createIntersection(Construction cons) {
@@ -81,7 +88,6 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		vn2 = new Coords(0, 0, 0, 0);
 
 		return ret;
-
 	}
 
 	// /////////////////////////////////////////////
@@ -113,17 +119,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		GeoLine3D l = (GeoLine3D) getIntersection();
 
 		l.setCoord(o, vn);
-
 	}
-
-	/** unknown */
-	public static final int RESULTCATEGORY_NA = -1;
-	/** intersecting */
-	public static final int RESULTCATEGORY_GENERAL = 1;
-	/** parallel */
-	public static final int RESULTCATEGORY_PARALLEL = 2;
-	/** identical */
-	public static final int RESULTCATEGORY_CONTAINED = 3;
 
 	// TODO optimize it, using the coefficients of planes directly
 	public static int getConfigPlanePlane(GeoCoordSys2D plane1,
@@ -184,7 +180,6 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 
 	public void setShortSyntax(boolean b) {
 		this.shortSyntax = b;
-
 	}
 
 }

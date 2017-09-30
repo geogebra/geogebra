@@ -42,6 +42,8 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	// output
 	/** intersection */
 	protected GeoConic3D circle;
+	private Coords o = new Coords(3), v = new Coords(3), vn1 = new Coords(3),
+			vn2 = new Coords(3);
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -106,9 +108,6 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
 	// /////////////////////////////////////////////
 	// COMPUTE
-
-	private Coords o = new Coords(3), v = new Coords(3), vn1 = new Coords(3),
-			vn2 = new Coords(3);
 
 	@Override
 	public void compute() {

@@ -57,6 +57,7 @@ public class AlgoDependentFunction extends AlgoElement
 	private boolean expContainsFunctions; // expression contains functions
 	private HashSet<GeoElement> unconditionalInput;
 	private boolean fast;
+	private StringBuilder sb;
 
 	/**
 	 * @param cons
@@ -439,8 +440,6 @@ public class AlgoDependentFunction extends AlgoElement
 		}
 		return false;
 	}
-
-	private StringBuilder sb;
 
 	@Override
 	public String toString(StringTemplate tpl) {

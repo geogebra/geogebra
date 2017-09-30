@@ -120,6 +120,15 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 
 	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
 
+	/** interval minima for different angle styles */
+	private static final String[] INTERVAL_MIN = { "0" + Unicode.DEGREE_CHAR,
+			"0" + Unicode.DEGREE_CHAR, "180" + Unicode.DEGREE_CHAR,
+			"-" + Unicode.INFINITY };
+	/** interval maxima for different angle styles */
+	private static final String[] INTERVAL_MAX = { "360" + Unicode.DEGREE_CHAR,
+			"180" + Unicode.DEGREE_CHAR, "360" + Unicode.DEGREE_CHAR,
+			"" + Unicode.INFINITY };
+
 	/**
 	 * @author Loic
 	 * @return List of decoration types.
@@ -136,14 +145,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 				Integer.valueOf(GeoElement.DECORATION_ANGLE_ARROW_CLOCKWISE) };
 		return ret;
 	}
-
-	//////////////////////////////////////////
-	// INTERVAL
-	//////////////////////////////////////////
-	/** interval minima for different angle styles */
-	private static final String[] INTERVAL_MIN = { "0" + Unicode.DEGREE_CHAR,
-			"0" + Unicode.DEGREE_CHAR, "180" + Unicode.DEGREE_CHAR,
-			"-" + Unicode.INFINITY };
 
 	/**
 	 * @param i
@@ -169,11 +170,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	public static String getIntervalMaxList(int i) {
 		return INTERVAL_MAX[i];
 	}
-
-	/** interval maxima for different angle styles */
-	private static final String[] INTERVAL_MAX = { "360" + Unicode.DEGREE_CHAR,
-			"180" + Unicode.DEGREE_CHAR, "360" + Unicode.DEGREE_CHAR,
-			"" + Unicode.INFINITY };
 
 	/**
 	 * Creates new GeoAngle

@@ -24,11 +24,6 @@ import org.geogebra.common.plugin.Operation;
  */
 public class AlgoFoldFunctions extends AlgoElement {
 
-	@Override
-	public Commands getClassName() {
-		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
-	}
-
 	private GeoList geoList; // input
 	private GeoNumeric truncate; // input
 	private GeoElement resultFun;
@@ -109,6 +104,11 @@ public class AlgoFoldFunctions extends AlgoElement {
 			this.foldComputer.add(geoList.get(i), op);
 		}
 		foldComputer.finish();
+	}
+
+	@Override
+	public Commands getClassName() {
+		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
 	}
 
 }

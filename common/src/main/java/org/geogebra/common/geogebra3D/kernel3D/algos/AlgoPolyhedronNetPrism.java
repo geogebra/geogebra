@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  *
  */
 public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
-
+	private Coords pp1;
 	/**
 	 * @param c
 	 *            construction
@@ -94,8 +94,6 @@ public class AlgoPolyhedronNetPrism extends AlgoPolyhedronNet {
 		outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[1],
 				false);
 	}
-
-	private Coords pp1;
 
 	@Override
 	public void compute(double fUnsigned, GeoPolygon bottomPolygon,

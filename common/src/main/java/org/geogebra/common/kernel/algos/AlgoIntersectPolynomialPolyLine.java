@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 
 public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
+	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	protected GeoFunction func;
 	protected GeoPoly poly;
@@ -184,8 +185,6 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 			solution.ensureSignChanged(evalFunction, DELTA);
 		}
 	}
-
-	private static final double DELTA = Kernel.MIN_PRECISION * 10;
 
 	// remove roots where the sign of the function's values did not change
 

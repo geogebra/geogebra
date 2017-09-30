@@ -35,7 +35,10 @@ import org.geogebra.common.kernel.geos.GeoText;
 public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 	private GeoText text; // output
+	private StringTemplate oldTpl;
 	// Curve[If[t>1,(t,t)],t,0,5]
+	private ExpressionValue numToTrace;
+	private boolean numToTraceSet;
 
 	/**
 	 * @param cons
@@ -96,8 +99,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	public GeoText getGeoText() {
 		return text;
 	}
-
-	private StringTemplate oldTpl;
 
 	// calc the current value of the arithmetic tree
 	@Override
@@ -180,15 +181,8 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 		text.setSpreadsheetTraceable(copy, numToTrace);
 
-		// AbstractApplication.debug("\nleft string :
-		// "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
-		// AbstractApplication.debug("\nleft string latex :
-		// "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false,
-		// StringTemplate.defaultTemplate));
 
 	}
-
-	private ExpressionValue numToTrace;
 
 	// adpated from ExpressionNode.getCopy()
 	private ExpressionNode getSpecialCopy(ExpressionNode en) {
@@ -270,8 +264,6 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
 	}
-
-	private boolean numToTraceSet;
 
 	private void setNumToTrace(ExpressionValue ev) {
 		if (!numToTraceSet) {

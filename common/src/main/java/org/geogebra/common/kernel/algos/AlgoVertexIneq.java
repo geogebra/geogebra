@@ -30,6 +30,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	private int validVertices;
 	private GeoLine helperLine;
 	private GeoFunction helperFunction;
+	private double[] co = new double[3];
 
 	/**
 	 * Creates algo for Vertex[poly] (many output points) Creates new unlabeled
@@ -427,8 +428,6 @@ public class AlgoVertexIneq extends AlgoElement {
 		}
 
 	}
-
-	private double[] co = new double[3];
 
 	private void intConicY(Inequality a, Inequality b) {
 		GeoPoint[] bz = b.getZeros();

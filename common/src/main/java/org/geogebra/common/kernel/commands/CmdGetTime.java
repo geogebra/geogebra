@@ -20,6 +20,8 @@ import org.geogebra.common.main.MyError;
  */
 public class CmdGetTime extends CommandProcessor {
 
+	private static final int[] month_days = { 31, 28, 31, 30, 31, 30, 31, 31,
+			30, 31, 30, 31 };
 	/**
 	 * Create new command processor
 	 * 
@@ -29,9 +31,6 @@ public class CmdGetTime extends CommandProcessor {
 	public CmdGetTime(Kernel kernel) {
 		super(kernel);
 	}
-
-	private static final int[] month_days = { 31, 28, 31, 30, 31, 30, 31, 31,
-			30, 31, 30, 31 };
 
 	@Override
 	@SuppressWarnings("deprecation")

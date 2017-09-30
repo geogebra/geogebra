@@ -38,6 +38,16 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
+	private ArrayList<ArrayList<Integer>> netMap = new ArrayList<ArrayList<Integer>>();
+	private ArrayList<PolygonInfoElement> polygonInfo = new ArrayList<PolygonInfoElement>();
+	private ArrayList<ArrayList<Integer>> polygonChildSegsList = new ArrayList<ArrayList<Integer>>();
+
+	protected ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
+
+	protected ArrayList<SegmentInfo> segmentInfoList = new ArrayList<SegmentInfo>();
+
+	private boolean netComplete = true;
+	private Coords projCoord;
 
 	static class SegmentInfo {
 		int segmentParent1;
@@ -53,16 +63,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		int segShift;
 		ArrayList<Integer> pointIndex = new ArrayList<Integer>();
 	}
-
-	private ArrayList<ArrayList<Integer>> netMap = new ArrayList<ArrayList<Integer>>();
-	private ArrayList<PolygonInfoElement> polygonInfo = new ArrayList<PolygonInfoElement>();
-	private ArrayList<ArrayList<Integer>> polygonChildSegsList = new ArrayList<ArrayList<Integer>>();
-
-	protected ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
-
-	protected ArrayList<SegmentInfo> segmentInfoList = new ArrayList<SegmentInfo>();
-
-	private boolean netComplete = true;
 
 	/**
 	 * @param c
@@ -374,8 +374,6 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		// rotate faces by recursive call
 		rotateFace(iBottom, f);
 	}
-
-	private Coords projCoord;
 
 	private ArrayList<Integer> rotateFace(int iFace, double fUnsigned) {
 		double f = fUnsigned;

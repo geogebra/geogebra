@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 
 	private GeoPointND[] inputP;
+	private double[] tmpCoords;
 
 	public AlgoConicFivePoints3D(Construction cons, String label,
 			GeoPointND[] P) {
@@ -25,7 +26,6 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 		for (int i = 0; i < 5; i++) {
 			input[i] = (GeoElement) inputP[i];
 		}
-
 	}
 
 	@Override
@@ -47,8 +47,6 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints {
 		ret.setCoordSys(new CoordSys(2));
 		return ret;
 	}
-
-	private double[] tmpCoords;
 
 	@Override
 	protected void initCoords() {

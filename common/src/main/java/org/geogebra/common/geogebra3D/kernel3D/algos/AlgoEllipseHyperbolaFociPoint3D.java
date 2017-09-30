@@ -13,6 +13,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoEllipseHyperbolaFociPoint3D
 		extends AlgoEllipseHyperbolaFociPointND {
+	private GeoPoint A2d, B2d, C2d;
+	private Coords project;
 
 	public AlgoEllipseHyperbolaFociPoint3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C,
@@ -31,8 +33,6 @@ public class AlgoEllipseHyperbolaFociPoint3D
 		ret.setCoordSys(new CoordSys(2));
 		return ret;
 	}
-
-	private GeoPoint A2d, B2d, C2d;
 
 	@Override
 	protected void setInputOutput() {
@@ -107,8 +107,6 @@ public class AlgoEllipseHyperbolaFociPoint3D
 
 		super.compute();
 	}
-
-	private Coords project;
 
 	@Override
 	protected void initCoords() {

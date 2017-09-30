@@ -38,6 +38,16 @@ public class AlgoIteration extends AlgoElement {
 	private GeoElement result; // output
 	private GeoFunctionNVar fNVar;
 
+	private GeoElement expression; // input expression dependent on var
+	private GeoElement[] vars; // input: local variable
+	private int varCount;
+	private GeoList[] over;
+	private boolean isEmpty;
+	private AlgoElement expressionParentAlgo;
+	AlgoIterationList.Type type;
+	boolean updateRunning = false;
+
+
 	public AlgoIteration(Construction cons, String label, GeoFunction f,
 			GeoNumberValue startValue, GeoNumberValue n) {
 		super(cons);
@@ -69,14 +79,6 @@ public class AlgoIteration extends AlgoElement {
 		compute();
 		result.setLabel(label);
 	}
-
-	private GeoElement expression; // input expression dependent on var
-	private GeoElement[] vars; // input: local variable
-	private int varCount;
-	private GeoList[] over;
-	private boolean isEmpty;
-	private AlgoElement expressionParentAlgo;
-	AlgoIterationList.Type type;
 
 	public AlgoIteration(Construction cons, GeoElement expression,
 			GeoElement[] vars, GeoList[] over, GeoNumberValue n) {
@@ -182,8 +184,6 @@ public class AlgoIteration extends AlgoElement {
 		}
 		((GeoNumeric) result).setValue(val);
 	}
-
-	boolean updateRunning = false;
 
 	@Override
 	public final void compute() {

@@ -48,6 +48,9 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	/** 2d points created by using AlgoIntersectLineConic.intersectLineConic */
 	private GeoPoint[] points2d;
 
+	private Coords p2d;
+	private Coords tmpCoords;
+
 	/**
 	 * 
 	 * @param cons
@@ -148,10 +151,8 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	public void compute() {
 
 		intersect(c, P);
-
 	}
 
-	private Coords p2d;
 
 	/**
 	 * calc intersection points with the conic
@@ -221,8 +222,6 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 		checkIsOnFirstGeo(P[1]);
 		checkIsOnConicPart(c, points2d[1], P[1]);
 	}
-
-	private Coords tmpCoords;
 
 	private void checkIsOnConicPart(GeoConicND c, GeoPoint point,
 			GeoPoint3D p3d) {

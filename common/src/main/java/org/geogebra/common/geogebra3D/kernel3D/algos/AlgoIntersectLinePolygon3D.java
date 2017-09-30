@@ -24,12 +24,11 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	protected OutputHandler<GeoElement> outputPoints; // output
 
 	private TreeMap<Double, Coords> newCoords;
+	protected Coords o1, d1;
 
 	public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
 			GeoLineND g, GeoPolygon p) {
-
 		this(c, labels, (GeoElement) g, p);
-
 	}
 
 	public AlgoIntersectLinePolygon3D(Construction c, String[] labels,
@@ -50,7 +49,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 
 		setLabels(labels);
 		update();
-
 	}
 
 	/**
@@ -61,7 +59,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 	 */
 	protected void setFirstInput(GeoElement geo) {
 		this.g = (GeoLineND) geo;
-
 	}
 
 	/**
@@ -99,8 +96,6 @@ public class AlgoIntersectLinePolygon3D extends AlgoElement3D {
 			}
 		});
 	}
-
-	protected Coords o1, d1;
 
 	protected void setIntersectionLine() {
 

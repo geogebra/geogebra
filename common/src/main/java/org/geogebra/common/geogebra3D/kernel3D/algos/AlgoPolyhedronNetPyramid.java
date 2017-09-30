@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  *
  */
 public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
-
+	private Coords p1;
 	/**
 	 * @param c
 	 *            construction
@@ -218,8 +218,6 @@ public class AlgoPolyhedronNetPyramid extends AlgoPolyhedronNet {
 		polygon.calcArea();
 
 	}
-
-	private Coords p1;
 
 	@Override
 	public void compute(double f0, GeoPolygon bottomPolygon, Coords[] points) {

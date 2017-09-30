@@ -14,6 +14,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 public class AlgoQuadricLimitedConicHeightConeForExtrusion
 		extends AlgoQuadricLimitedConicHeightCone implements AlgoForExtrusion {
 
+	private ExtrusionComputer extrusionComputer;
+
 	/**
 	 * 
 	 * @param c
@@ -29,8 +31,6 @@ public class AlgoQuadricLimitedConicHeightConeForExtrusion
 			String[] labels, GeoConicND bottom, NumberValue height) {
 		super(c, labels, bottom, height);
 	}
-
-	private ExtrusionComputer extrusionComputer;
 
 	@Override
 	public void setExtrusionComputer(ExtrusionComputer extrusionComputer) {

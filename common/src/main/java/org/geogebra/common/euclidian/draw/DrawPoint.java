@@ -80,6 +80,7 @@ public final class DrawPoint extends Drawable {
 	private boolean isPreview;
 
 	private double[] coords;
+	private double[] coords1 = new double[2];
 
 	/**
 	 * 
@@ -125,8 +126,6 @@ public final class DrawPoint extends Drawable {
 
 		update();
 	}
-
-	private double[] coords1 = new double[2];
 
 	@Override
 	public void update() {
@@ -357,10 +356,10 @@ public final class DrawPoint extends Drawable {
 		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 	}
 
-	private Drawable drawable;
+
 
 	private void drawClippedSection(GeoElement geo2, GGraphics2D g2) {
-
+		Drawable drawable;
 		switch (geo2.getGeoClassType()) {
 		case LINE:
 			drawable = new DrawLine(view, (GeoLine) geo2);

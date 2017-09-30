@@ -33,6 +33,8 @@ public class ModeDeleteLocus extends ModeDelete {
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
 	private ArrayList<List<MyPoint>> newDataAndRealPoint = new ArrayList<List<MyPoint>>();
+	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
+			100);
 
 	public ModeDeleteLocus(EuclidianView view) {
 		super(view);
@@ -40,9 +42,6 @@ public class ModeDeleteLocus extends ModeDelete {
 		this.view = view;
 		this.interPoints = new ArrayList<GPoint2D>();
 	}
-
-	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
-			100);
 
 	@Override
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,

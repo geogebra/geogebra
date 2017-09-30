@@ -52,7 +52,21 @@ public class DrawTurtle extends Drawable {
 	private double[] currentCoords = new double[2];
 	private GAffineTransform at = AwtFactory.getPrototype()
 			.newAffineTransform();
+	// ===================================================
+	// Turtle Shapes
+	//
+	// TODO: handle images when Common supports loading internal images
+	// ===================================================
 
+	private GEllipse2DDouble ellipse = AwtFactory.getPrototype()
+			.newEllipse2DDouble();
+	private GBasicStroke stroke1 = AwtFactory.getPrototype().newBasicStroke(1f);
+	private GBasicStroke stroke2 = AwtFactory.getPrototype().newBasicStroke(2f);
+	private GGeneralPath gPath = AwtFactory.getPrototype().newGeneralPath();
+	private GShape legs;
+	private GShape head;
+	private GShape body;
+	private GShape dot;
 	/**
 	 * @param view
 	 *            view
@@ -338,21 +352,6 @@ public class DrawTurtle extends Drawable {
 		return boundRect;
 	}
 
-	// ===================================================
-	// Turtle Shapes
-	//
-	// TODO: handle images when Common supports loading internal images
-	// ===================================================
-
-	private GEllipse2DDouble ellipse = AwtFactory.getPrototype()
-			.newEllipse2DDouble();
-	private GBasicStroke stroke1 = AwtFactory.getPrototype().newBasicStroke(1f);
-	private GBasicStroke stroke2 = AwtFactory.getPrototype().newBasicStroke(2f);
-	private GGeneralPath gPath = AwtFactory.getPrototype().newGeneralPath();
-	private GShape legs;
-	private GShape head;
-	private GShape body;
-	private GShape dot;
 
 	private void drawTurtleShape(GGraphics2D g2) {
 		gPath.reset();

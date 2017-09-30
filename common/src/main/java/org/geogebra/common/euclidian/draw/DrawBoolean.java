@@ -233,6 +233,8 @@ public final class DrawBoolean extends Drawable {
 	public static class CheckBoxIcon {
 
 		private EuclidianView ev;
+		private static GBasicStroke stroke13 = null;
+		private static GBasicStroke stroke26 = null;
 
 		/** background color when highlighted */
 		public static final GColor highlightBackground = GColor.newColor(248,
@@ -247,9 +249,6 @@ public final class DrawBoolean extends Drawable {
 		public CheckBoxIcon(EuclidianView ev) {
 			this.ev = ev;
 		}
-
-		private static GBasicStroke stroke13 = null;
-		private static GBasicStroke stroke26 = null;
 
 		/**
 		 * Draws the checkbox on graphics. Based on

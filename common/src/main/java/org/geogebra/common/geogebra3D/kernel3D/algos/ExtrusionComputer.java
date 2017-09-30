@@ -9,6 +9,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 public class ExtrusionComputer {
 
 	private AlgoForExtrusion algo;
+	private int computed;
 
 	/**
 	 * 
@@ -20,8 +21,6 @@ public class ExtrusionComputer {
 		algo.setExtrusionComputer(this);
 		computed = 0;
 	}
-
-	private int computed;
 
 	/**
 	 * compute the algo

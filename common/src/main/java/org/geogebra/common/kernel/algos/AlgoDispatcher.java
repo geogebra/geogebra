@@ -63,18 +63,17 @@ import org.geogebra.common.util.debug.Log;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class AlgoDispatcher {
-
+	protected final static int DETACH_OFFSET = 20;
 	protected Construction cons;
-
-	public AlgoDispatcher(Construction cons) {
-		this.cons = cons;
-	}
-
 	/*
 	 * to avoid multiple calculations of the intersection points of the same two
 	 * objects, we remember all the intersection algorithms created
 	 */
 	protected ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<AlgoIntersectAbstract>();
+
+	public AlgoDispatcher(Construction cons) {
+		this.cons = cons;
+	}
 
 	public void removeIntersectionAlgorithm(AlgoIntersectAbstract algo) {
 		intersectionAlgos.remove(algo);
@@ -1972,8 +1971,6 @@ public class AlgoDispatcher {
 		}
 
 	}
-
-	protected final static int DETACH_OFFSET = 20;
 
 	protected GeoPointND copyFreePoint(GeoPointND point,
 			EuclidianViewInterfaceCommon view) {

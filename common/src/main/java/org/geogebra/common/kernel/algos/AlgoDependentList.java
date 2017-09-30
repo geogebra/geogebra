@@ -34,6 +34,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	private GeoList geoList; // output
 
 	private boolean isCellRange;
+	private StringBuilder sb;
 
 	/**
 	 * Creates a new algorithm that takes a list of GeoElements to build a
@@ -166,8 +167,6 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			}
 		}
 	}
-
-	private StringBuilder sb;
 
 	@Override
 	final public String toString(StringTemplate tpl) {

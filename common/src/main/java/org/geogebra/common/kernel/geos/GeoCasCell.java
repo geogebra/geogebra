@@ -81,27 +81,6 @@ public class GeoCasCell extends GeoElement
 
 	private boolean keepInputUsed;
 
-	/**
-	 * @param assignmentType
-	 *            the {@link AssignmentType} to set
-	 */
-	public void setAssignmentType(AssignmentType assignmentType) {
-		this.assignmentType = assignmentType;
-	}
-
-	/**
-	 * @return the current {@link AssignmentType}
-	 */
-	public AssignmentType getAssignmentType() {
-		return assignmentType;
-	}
-
-	/**
-	 * @return whether KeepInput command is part of this expression
-	 */
-	public boolean isKeepInputUsed() {
-		return keepInputUsed;
-	}
 
 	/**
 	 * Symbol for static reference
@@ -176,6 +155,28 @@ public class GeoCasCell extends GeoElement
 		twinGeo = null;
 		// setGeoText(commentText);
 		substList = new ArrayList<Vector<String>>();
+	}
+
+	/**
+	 * @param assignmentType
+	 *            the {@link AssignmentType} to set
+	 */
+	public void setAssignmentType(AssignmentType assignmentType) {
+		this.assignmentType = assignmentType;
+	}
+
+	/**
+	 * @return the current {@link AssignmentType}
+	 */
+	public AssignmentType getAssignmentType() {
+		return assignmentType;
+	}
+
+	/**
+	 * @return whether KeepInput command is part of this expression
+	 */
+	public boolean isKeepInputUsed() {
+		return keepInputUsed;
 	}
 
 	/**

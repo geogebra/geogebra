@@ -79,6 +79,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	private int previewMode, neededPrevPoints;
 
 	private boolean isPreview = false;
+	private Coords[] ev;
 
 	/**
 	 * @param view
@@ -183,8 +184,6 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 		}
 	}
-
-	private Coords[] ev;
 
 	private void updateEllipse() {
 		draw_type = DRAW_TYPE_ELLIPSE;

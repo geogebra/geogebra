@@ -48,6 +48,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
 	private StringBuilder sbPolyCoeffs = new StringBuilder();
+	private int counter = 1;
 
 	/**
 	 * Creates new CAS interface
@@ -279,8 +280,6 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			StringTemplate tpl) {
 		return getCASCommand(name, args, symbolic, tpl, true);
 	}
-
-	private int counter = 1;
 
 	final synchronized private String getCASCommand(final String name,
 			final ArrayList<ExpressionNode> args, boolean symbolic,

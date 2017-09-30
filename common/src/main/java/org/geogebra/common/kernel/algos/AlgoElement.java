@@ -48,8 +48,14 @@ import org.geogebra.common.util.StringUtil;
 public abstract class AlgoElement extends ConstructionElement
 		implements EuclidianViewCE {
 	private static boolean tempSetLock = false;
+	private static TreeSet<AlgoElement> tempSet;
 	/** input elements */
 	public GeoElement[] input;
+	private ArrayList<GeoPointND> inputPoints;
+	private ArrayList<GeoPointND> freeInputPoints;
+	private boolean protectedInput = false;
+	private AlgoElement updateAfterAlgo;
+
 	/**
 	 * list of output
 	 * 
@@ -70,6 +76,8 @@ public abstract class AlgoElement extends ConstructionElement
 	private boolean mayHaveRandomAncestors = true;
 	/** string builder */
 	protected StringBuilder sbAE = new StringBuilder();
+	/** flag stating whether remove() on this algo was already called */
+	protected boolean removed = false;
 
 	/**
 	 * Creates new algorithm
@@ -679,8 +687,6 @@ public abstract class AlgoElement extends ConstructionElement
 		tempSetLock = false;
 	}
 
-	private static TreeSet<AlgoElement> tempSet;
-
 	private static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null || tempSetLock) {
 			tempSet = new TreeSet<AlgoElement>();
@@ -827,9 +833,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return false;
 	}
 
-	/** flag stating whether remove() on this algo was already called */
-	protected boolean removed = false;
-
 	/**
 	 * delete dependent objects
 	 */
@@ -871,8 +874,6 @@ public abstract class AlgoElement extends ConstructionElement
 			}
 		}
 	}
-
-	private boolean protectedInput = false;
 
 	/**
 	 * sets if the "not labeled" inputs are protected from remove
@@ -1151,8 +1152,6 @@ public abstract class AlgoElement extends ConstructionElement
 		return freeInputPoints;
 	}
 
-	private ArrayList<GeoPointND> freeInputPoints;
-
 	/**
 	 * Returns all input points of this algorithm.
 	 * 
@@ -1170,8 +1169,6 @@ public abstract class AlgoElement extends ConstructionElement
 
 		return inputPoints;
 	}
-
-	private ArrayList<GeoPointND> inputPoints;
 
 	@Override
 	final public boolean isIndependent() {
@@ -1761,8 +1758,6 @@ public abstract class AlgoElement extends ConstructionElement
 	final public void setUpdateAfterAlgo(AlgoElement updateAfterAlgo) {
 		this.updateAfterAlgo = updateAfterAlgo;
 	}
-
-	private AlgoElement updateAfterAlgo;
 
 	/**
 	 * Returns the algorithm the should be updated right before this algorithm.

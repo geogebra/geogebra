@@ -38,6 +38,9 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 	private GeoPlane3D p, q; // input
 	private GeoAngle angle; // output
 
+	private Coords vn, o, v1, v2;
+
+
 	/**
 	 * Creates new unlabeled angle between line and plane
 	 * 
@@ -126,8 +129,6 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 				q.getLabel(tpl));
 
 	}
-
-	private Coords vn, o, v1, v2;
 
 	@Override
 	protected void initCoords() {

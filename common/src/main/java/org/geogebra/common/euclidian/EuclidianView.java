@@ -218,6 +218,70 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	GBasicStroke axesStroke;
 	GBasicStroke tickStroke;
 	private GBasicStroke gridStroke;
+
+	/** minimal visible real world x */
+	private double xmin;
+	/** maximal visible real world x */
+	private double xmax;
+	/** minimal visible real world y */
+	private double ymin;
+	/** maximal visible real world y */
+	private double ymax;
+
+	protected NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
+
+	private double invXscale;
+
+	private double invYscale;
+
+	protected double xZero;
+
+	protected double yZero;
+
+	private double xscale;
+
+	private double yscale;
+
+	// private double scaleRatio = 1.0;
+	/** print scale ratio */
+	protected double printingScale;
+
+	// Map (geo, drawable) for GeoElements and Drawables
+	private HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
+			500);
+
+	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
+
+	protected DrawableList allDrawableList = new DrawableList();
+	/** lists of geos on different layers */
+	public DrawableList drawLayers[];
+
+	// on add: change resetLists()
+	/** list of background images */
+	private DrawableList bgImageList = new DrawableList();
+
+	protected boolean[] piAxisUnit;
+
+	protected int[] axesTickStyles;
+
+	// for axes labeling with numbers
+	protected boolean[] automaticAxesNumberingDistances = { true, true };
+
+	protected double[] axesNumberingDistances;
+	protected GeoNumberValue[] axesDistanceObjects;
+	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
+	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<Integer>();
+	double yLabelMaxWidthPos = 0;
+	double yLabelMaxWidthNeg = 0;
+	double xLabelHeights = 0;
+
+	// axis control vars
+	protected double[] axisCross;
+	protected boolean[] positiveAxes;
+	protected boolean[] drawBorderAxes;
+
+	private boolean needsAllDrawablesUpdate;
+	protected boolean batchUpdate;
 	/** kernel */
 	protected Kernel kernel;
 
@@ -228,10 +292,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			EuclidianStyleConstants.LINE_TYPE_DOTTED,
 			EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED,
 			EuclidianStyleConstants.LINE_TYPE_POINTWISE };
-
-
-
-
 
 	private final static int[] pointStyles = {
 			EuclidianStyleConstants.POINT_STYLE_DOT,
@@ -355,6 +415,20 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	// ggb3D 2009-02-05
 	private final Hits hits;
 
+	private GEllipse2DDouble circle = AwtFactory.getPrototype()
+			.newEllipse2DDouble(); // polar
+									// grid
+									// circles
+	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
+	private GeoElement[] previewFromInputBarGeos;
+	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
+
+	/**
+	 * Get styleBar
+	 */
+	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
+	private DrawGrid drawGrid;
+
 	private static final int MAX_PIXEL_DISTANCE = 10; // pixels
 	private static final double MIN_PIXEL_DISTANCE = 0.5; // pixels
 
@@ -392,6 +466,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private boolean updatingBounds = false;
 	private boolean coordSystemTranslatedByAnimation;
+	/**
+	 * axes ratio if locked; -1 otherwise
+	 */
+	protected double lockedAxesRatio = -1;
+	private boolean updateBackgroundOnNextRepaint;
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -625,7 +704,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	protected NumberValue xminObject, xmaxObject, yminObject, ymaxObject;
 
 	/**
 	 * @return the xminObject
@@ -644,12 +722,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			((GeoNumeric) ymaxObject).setValue(getYmax());
 		}
 	}
-
-	/**
-	 * axes ratio if locked; -1 otherwise
-	 */
-	protected double lockedAxesRatio = -1;
-	private boolean updateBackgroundOnNextRepaint;
 
 	/**
 	 * returns true if the axes ratio is 1
@@ -1272,57 +1344,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return (GeoNumeric) ymaxObject;
 	}
 
-	/** minimal visible real world x */
-	private double xmin;
-	/** maximal visible real world x */
-	private double xmax;
-	/** minimal visible real world y */
-	private double ymin;
-	/** maximal visible real world y */
-	private double ymax;
-
-	private double invXscale;
-
-	private double invYscale;
-
-	protected double xZero;
-
-	protected double yZero;
-
-	private double xscale;
-
-	private double yscale;
-
-	// private double scaleRatio = 1.0;
-	/** print scale ratio */
-	protected double printingScale;
-
-	// Map (geo, drawable) for GeoElements and Drawables
-	private HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
-			500);
-
-	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
-
-	protected DrawableList allDrawableList = new DrawableList();
-	/** lists of geos on different layers */
-	public DrawableList drawLayers[];
-
-	// on add: change resetLists()
-	/** list of background images */
-	private DrawableList bgImageList = new DrawableList();
-
-	protected boolean[] piAxisUnit;
-
-	protected int[] axesTickStyles;
-
-	// for axes labeling with numbers
-	protected boolean[] automaticAxesNumberingDistances = { true, true };
-
-	protected double[] axesNumberingDistances;
-	protected GeoNumberValue[] axesDistanceObjects;
-	private boolean needsAllDrawablesUpdate;
-	protected boolean batchUpdate;
-
 	/**
 	 * This is only needed for second or above euclidian views
 	 * 
@@ -1798,8 +1819,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 	}
 
-	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
-
 	/**
 	 * adds a GeoElement to this view
 	 */
@@ -1825,29 +1844,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		if (createAndAddDrawable(geo)) {
 			repaint();
-
-			// if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			// if (!isDrawingPredecessor(geo)) {
-			// // if (geo.hasChildren()) {
-			// d = companion.newDrawable(geo);
-			//
-			// if (d instanceof Drawable){
-			// if (d instanceof DrawLine){
-			// ((DrawLine) d).updateDynamicStylebarPosition();
-			// this.euclidianController
-			// .setDynamicStylebarVisible(true);
-			// } else if (((Drawable) d).getBounds() != null) {
-			// this.euclidianController.setDynamicStyleBarPosition(
-			// ((Drawable) d).getBounds(), true);
-			// this.euclidianController
-			// .setDynamicStylebarVisible(true);
-			// }
-			//
-			// }
-			// } else {
-			// // this.euclidianController.setDynamicStylebarVisible(false);
-			// }
-			// }
 		}
 
 	}
@@ -1865,13 +1861,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				.getMode() != EuclidianConstants.MODE_SEGMENT) {
 			return true;
 		}
-
-		// Log.debug("has children? - " + geo.getAlgebraDescriptionDefault());
-		// if (!geo.hasChildren()) {
-		// Log.debug("HAS NO");
-		// return true;
-		// }
-		// Log.debug("HAS!");
 
 		return false;
 	}
@@ -1892,7 +1881,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return false;
 	}
 
-	private GeoElement[] previewFromInputBarGeos;
 
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
@@ -2787,11 +2775,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return false;
 		}
 	}
-
-	// axis control vars
-	protected double[] axisCross;
-	protected boolean[] positiveAxes;
-	protected boolean[] drawBorderAxes;
 
 	// getters and Setters for axis control vars
 
@@ -3862,18 +3845,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return isPrimaryEV();
 	}
 
-	private GEllipse2DDouble circle = AwtFactory.getPrototype()
-			.newEllipse2DDouble(); // polar
-									// grid
-									// circles
-	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
-
-	/**
-	 * Get styleBar
-	 */
-	protected org.geogebra.common.euclidian.EuclidianStyleBar styleBar;
-	private DrawGrid drawGrid;
-
 	/**
 	 * Draws grid
 	 * 
@@ -4084,12 +4055,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected int getYOffsetForXAxis(int fontSize1) {
 		return fontSize1 + 4;
 	}
-
-	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
-	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<Integer>();
-	double yLabelMaxWidthPos = 0;
-	double yLabelMaxWidthNeg = 0;
-	double xLabelHeights = 0;
 
 	/**
 	 * @param g

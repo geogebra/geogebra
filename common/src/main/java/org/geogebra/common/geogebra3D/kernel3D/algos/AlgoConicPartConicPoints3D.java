@@ -28,6 +28,7 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 
 	// temp parameters
 	private PathParameter paramP, paramQ;
+	private Coords p2d;
 
 	/**
 	 * Creates a new arc or sector algorithm. The type is either
@@ -76,8 +77,6 @@ public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
 	protected void initCoords() {
 		p2d = new Coords(4);
 	}
-
-	private Coords p2d;
 
 	@Override
 	protected double getStartParameter() {

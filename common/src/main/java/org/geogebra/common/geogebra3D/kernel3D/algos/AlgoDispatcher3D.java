@@ -38,6 +38,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 public class AlgoDispatcher3D extends AlgoDispatcher {
 
+	private Coords tmpCoords;
 	/**
 	 * Constructor
 	 * 
@@ -75,8 +76,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	@Override
 	public GeoPointND IntersectLines(String label, GeoLineND g, GeoLineND h) {
 
-		if (((GeoElement) g).isGeoElement3D()
-				|| ((GeoElement) h).isGeoElement3D()) {
+		if (g.isGeoElement3D() || h.isGeoElement3D()) {
 			return (GeoPointND) getManager3D().Intersect(label, g, h);
 		}
 
@@ -99,8 +99,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public GeoPointND[] IntersectConics(String[] labels, GeoConicND a,
 			GeoConicND b) {
 
-		if (((GeoElement) a).isGeoElement3D()
-				|| ((GeoElement) b).isGeoElement3D()) {
+		if (a.isGeoElement3D() || b.isGeoElement3D()) {
 			return getManager3D().IntersectConics(labels, a, b);
 		}
 		return super.IntersectConics(labels, a, b);
@@ -110,8 +109,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	public GeoPointND[] IntersectLineConic(String[] labels, GeoLineND g,
 			GeoConicND c) {
 
-		if (((GeoElement) g).isGeoElement3D()
-				|| ((GeoElement) c).isGeoElement3D()) {
+		if (g.isGeoElement3D() || c.isGeoElement3D()) {
 			return getManager3D().IntersectLineConic(null, g, c);
 		}
 
@@ -181,8 +179,6 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 
 		return super.SegmentFixed(pointLabel, segmentLabel, A, n);
 	}
-
-	private Coords tmpCoords;
 
 	private GeoElement[] SegmentFixedSphere(String pointLabel,
 			String segmentLabel, GeoPointND A, GeoNumberValue n) {

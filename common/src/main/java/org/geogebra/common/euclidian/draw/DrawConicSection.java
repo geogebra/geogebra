@@ -30,6 +30,9 @@ public class DrawConicSection extends DrawConic {
 	private GLine2D[] lines;
 
 	private GeneralPathClipped hyp;
+	private boolean onlyEdge;
+	private Coords[] endPoints;
+	private boolean drawLeft;
 
 	/**
 	 * constructor
@@ -183,8 +186,6 @@ public class DrawConicSection extends DrawConic {
 		return super.hitEllipse(hitX, hitY, hitThreshold);
 	}
 
-	private boolean onlyEdge;
-
 	@Override
 	protected void updateEllipse() {
 
@@ -289,8 +290,6 @@ public class DrawConicSection extends DrawConic {
 		yLabel = (int) labelCoords[1];
 
 	}
-
-	private Coords[] endPoints;
 
 	@Override
 	protected void updateLines() {
@@ -535,8 +534,6 @@ public class DrawConicSection extends DrawConic {
 		transform.setTransform(view.getCoordTransform());
 		shape = transform.createTransformedShape(line);
 	}
-
-	private boolean drawLeft;
 
 	@Override
 	protected void updateHyperbolaResetPaths() {

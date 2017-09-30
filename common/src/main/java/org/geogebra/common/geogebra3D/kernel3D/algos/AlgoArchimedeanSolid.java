@@ -36,6 +36,20 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 	private Commands name;
 
 	private PlatonicSolid solidDescription;
+	/**
+	 * factor to calculate the volume
+	 */
+	private double volumeFactor;
+
+	/**
+	 * factor to calculate the height
+	 */
+	private double heightFactor;
+
+	/**
+	 * factor to calculate the area
+	 */
+	private double areaFactor;
 
 	/**
 	 * creates an archimedean solid
@@ -264,21 +278,6 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		polyhedron.setOrientedHeight(l * heightFactor);
 
 	}
-
-	/**
-	 * factor to calculate the volume
-	 */
-	private double volumeFactor;
-
-	/**
-	 * factor to calculate the height
-	 */
-	private double heightFactor;
-
-	/**
-	 * factor to calculate the area
-	 */
-	private double areaFactor;
 
 	private void setVolumeAreaAndHeightFactors() {
 

@@ -35,6 +35,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 	private ExpressionNode expression;
 	private FunctionNVar expandedFun;
 	private boolean expContainsFunctions;
+	private StringBuilder sb;
 
 	/**
 	 * @param cons
@@ -130,8 +131,6 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 
 		f.setDefined(isDefined);
 	}
-
-	private StringBuilder sb;
 
 	@Override
 	public String toString(StringTemplate tpl) {

@@ -21,7 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  *
  */
 public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
-
+	private Coords uptranslation;
 	/**
 	 * @param c
 	 * @param labels
@@ -280,8 +280,6 @@ public class AlgoPolyhedronPointsPrism extends AlgoPolyhedronPoints {
 	// ///////////////////////////////////////////
 	// END OF THE CONSTRUCTION
 	// //////////////////////////////////////////
-
-	private Coords uptranslation;
 
 	@Override
 	protected void updateOutputPoints() {

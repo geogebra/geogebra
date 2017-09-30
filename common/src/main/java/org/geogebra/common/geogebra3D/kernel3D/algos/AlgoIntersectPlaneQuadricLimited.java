@@ -47,6 +47,8 @@ public class AlgoIntersectPlaneQuadricLimited
 
 	private GeoPoint3D[] bottomP, topP;
 
+	private Coords tmpCoords;
+
 	/**
 	 * Creates new AlgoIntersectLinePlane
 	 * 
@@ -283,8 +285,6 @@ public class AlgoIntersectPlaneQuadricLimited
 	protected double getTopParameter() {
 		return ((GeoQuadric3DLimited) quadric).getTopParameter();
 	}
-
-	private Coords tmpCoords;
 
 	private boolean planeOutsideAxis() {
 

@@ -26,11 +26,6 @@ import org.geogebra.common.plugin.Operation;
  */
 public class AlgoFoldExpression extends AlgoElement {
 
-	@Override
-	public Commands getClassName() {
-		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
-	}
-
 	private GeoElement expression; // input
 	private GeoNumeric to; // input
 	private GeoElement resultFun;
@@ -155,6 +150,11 @@ public class AlgoFoldExpression extends AlgoElement {
 			expressionParentAlgo.update();
 		}
 
+	}
+
+	@Override
+	public Commands getClassName() {
+		return op == Operation.PLUS ? Commands.Sum : Commands.Product;
 	}
 
 }

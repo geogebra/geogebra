@@ -35,6 +35,10 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 	private GeoConic3D circle; // output
 	private CoordSys coordsys;
 
+	private Coords center = Coords.createInhomCoorsInD3();
+
+	static final private Coords O = new Coords(0, 0);
+
 	public AlgoCircle3DAxisPoint(Construction cons, String label,
 			GeoLineND axis, GeoPointND point) {
 		super(cons);
@@ -61,8 +65,6 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 	public GeoConic3D getCircle() {
 		return circle;
 	}
-
-	private Coords center = Coords.createInhomCoorsInD3();
 
 	@Override
 	public final void compute() {
@@ -111,8 +113,6 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
 		conic.setDefined();
 		conic.setSphereND(O, v1.getNorm());
 	}
-
-	static final private Coords O = new Coords(0, 0);
 
 	@Override
 	public Commands getClassName() {

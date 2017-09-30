@@ -14,14 +14,14 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoEllipseHyperbolaFociPoint3DOriented
 		extends AlgoEllipseHyperbolaFociPoint3D {
 
+	private GeoDirectionND orientation;
+
 	public AlgoEllipseHyperbolaFociPoint3DOriented(Construction cons,
 			String label, GeoPointND A, GeoPointND B, GeoPointND C,
 			GeoDirectionND orientation, final int type) {
 		super(cons, label, A, B, C, orientation, type);
 
 	}
-
-	private GeoDirectionND orientation;
 
 	@Override
 	protected void setOrientation(GeoDirectionND orientation) {

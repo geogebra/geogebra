@@ -23,6 +23,24 @@ import org.geogebra.common.util.debug.Log;
 public class Hits3D extends Hits {
 
 	private static final long serialVersionUID = 1L;
+	/** set of hits by picking order */
+	private TreeSetOfDrawable3D[] hitSet = new TreeSetOfDrawable3D[Drawable3D.DRAW_PICK_ORDER_MAX];
+	/** other hits */
+	private TreeSetOfDrawable3D hitsOthers = new TreeSetOfDrawable3D(
+			new Drawable3D.DrawableComparator());
+	/** label hits */
+	private TreeSetOfDrawable3D hitsLabels = new TreeSetOfDrawable3D(
+			new Drawable3D.DrawableComparator());
+	/** set of all the sets */
+	private TreeSet<TreeSetOfDrawable3D> hitSetSet = new TreeSet<TreeSetOfDrawable3D>(
+			new Drawable3D.SetComparator());
+
+	private Hits topHits = new Hits();
+
+	private ArrayList<Drawable3D> drawables3D = new ArrayList<Drawable3D>();
+
+	/** number of quadrics 2D */
+	private int quadCount;
 
 	/**
 	 * class for tree set of drawable 3D
@@ -55,25 +73,6 @@ public class Hits3D extends Hits {
 		}
 	}
 
-	/** set of hits by picking order */
-	private TreeSetOfDrawable3D[] hitSet = new TreeSetOfDrawable3D[Drawable3D.DRAW_PICK_ORDER_MAX];
-	/** other hits */
-	private TreeSetOfDrawable3D hitsOthers = new TreeSetOfDrawable3D(
-			new Drawable3D.DrawableComparator());
-	/** label hits */
-	private TreeSetOfDrawable3D hitsLabels = new TreeSetOfDrawable3D(
-			new Drawable3D.DrawableComparator());
-	/** set of all the sets */
-	private TreeSet<TreeSetOfDrawable3D> hitSetSet = new TreeSet<TreeSetOfDrawable3D>(
-			new Drawable3D.SetComparator());
-
-	private Hits topHits = new Hits();
-
-	private ArrayList<Drawable3D> drawables3D = new ArrayList<Drawable3D>();
-
-	/** number of quadrics 2D */
-	private int QuadCount;
-
 	/**
 	 * common constructor
 	 */
@@ -86,7 +85,7 @@ public class Hits3D extends Hits {
 		}
 
 		// init counters
-		QuadCount = 0;
+		quadCount = 0;
 	}
 
 	@Override
@@ -94,7 +93,7 @@ public class Hits3D extends Hits {
 
 		Hits3D ret = (Hits3D) super.cloneHits();
 		ret.topHits = this.topHits.cloneHits();
-		ret.QuadCount = QuadCount;
+		ret.quadCount = quadCount;
 
 		// TreeSets are not cloned because they are only used when the hits are
 		// constructed
@@ -116,7 +115,7 @@ public class Hits3D extends Hits {
 		}
 
 		if (geo instanceof GeoQuadric3D) {
-			QuadCount++;
+			quadCount++;
 		}
 
 		return super.add(geo);

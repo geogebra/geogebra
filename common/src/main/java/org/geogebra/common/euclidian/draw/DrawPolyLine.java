@@ -52,6 +52,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	// list of single points created by pen
 	private ArrayList<GPoint2D> pointList = new ArrayList<GPoint2D>();
 	private boolean startPointAdded = false;
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	/**
 	 * @param view
@@ -285,8 +286,6 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			addPointsToPath(pointsArray);
 		}
 	}
-
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {

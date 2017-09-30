@@ -40,6 +40,7 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 	private Equation equation;
 	private ExpressionValue[] ev = new ExpressionValue[4]; // input
 	private GeoPlane3D p; // output
+	private ExpressionNode lhs0z = null;
 
 	/**
 	 * Creates new AlgoDependentPlane
@@ -137,7 +138,4 @@ public class AlgoDependentPlane3D extends AlgoElement3D {
 		return equation.toString(tpl, lhs0z);
 
 	}
-
-	private ExpressionNode lhs0z = null;
-
 }

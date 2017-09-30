@@ -64,6 +64,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	// ButtonListener bl;
 	private InputFieldListener ifListener;
 	private KeyHandler ifKeyListener;
+	private int oldLength = 0;
+	private GFont textFont;
 
 	/**
 	 * @param view
@@ -213,9 +215,6 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		return view.getTextField() != null
 				&& view.getTextField().getInputBox() == geoInputBox;
 	}
-
-	private int oldLength = 0;
-	private GFont textFont;
 
 	@Override
 	final public void update() {

@@ -55,6 +55,30 @@ public class AlgoIntersectRegionPlanePolyhedron
 	protected OutputHandler<GeoSegment3D> outputSegmentsPolyhedron;
 
 	private boolean hasLabels = false;
+	/**
+	 * set for all intersection points coords. Used for intersections equal to
+	 * just one point.
+	 */
+	private TreeSet<Coords> polyhedronVertices;
+
+	/**
+	 * map from intersection parents to set of polygons
+	 */
+	private TreeMap<GeoElementND, TreeSet<GeoPolygon>> parentToPolygons;
+	private VerticesList verticesList;
+
+	private ArrayList<Vertices> polyhedronFaces;
+
+	private TreeSet<Vertices> checkVerticesList;
+
+	private ArrayList<Segment> segmentCoords;
+	private TreeMap<GeoPolygon, ArrayList<Segment>> newCoordsList;
+	private int removeSegmentCoordsIndex;
+	private GeoPolygon removeSegmentCoordsPolygon;
+	/**
+	 * coords for each face
+	 */
+	protected TreeSet<CoordsWithParent> newCoords;
 
 	/**
 	 * class extending Coords with reference to parent geo
@@ -118,11 +142,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 	private TreeSet<GeoPolygon> getPolygons(CoordsWithParent coords) {
 		return parentToPolygons.get(coords.parent);
 	}
-
-	/**
-	 * coords for each face
-	 */
-	protected TreeSet<CoordsWithParent> newCoords;
 
 	/**
 	 * bi-point for each intersection segment
@@ -359,7 +378,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 		}
 
 		update();
-
 	}
 
 	@Override
@@ -372,17 +390,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 		return polyhedron;
 	}
 
-	/**
-	 * set for all intersection points coords. Used for intersections equal to
-	 * just one point.
-	 */
-	private TreeSet<Coords> polyhedronVertices;
-
-	/**
-	 * map from intersection parents to set of polygons
-	 */
-	private TreeMap<GeoElementND, TreeSet<GeoPolygon>> parentToPolygons;
-
 	@Override
 	protected void addCoords(double parameter, Coords coords,
 			GeoElementND parent) {
@@ -394,8 +401,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 			// Log.debug("\nb: "+b+"\nparent: "+parent+"\ncoords:\n"+coords);
 		}
 	}
-
-	private TreeMap<GeoPolygon, ArrayList<Segment>> newCoordsList;
 
 	@Override
 	protected void setNewCoords() {
@@ -593,14 +598,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 	}
 
-	private VerticesList verticesList;
-
-	private ArrayList<Vertices> polyhedronFaces;
-
-	private TreeSet<Vertices> checkVerticesList;
-
-	private ArrayList<Segment> segmentCoords;
-
 	/**
 	 * find next vertex linking the start point of the polygon with new
 	 * intersection segment
@@ -660,9 +657,6 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		return b;
 	}
-
-	private int removeSegmentCoordsIndex;
-	private GeoPolygon removeSegmentCoordsPolygon;
 
 	private void removeSegmentCoords() {
 		removeSegmentCoords(removeSegmentCoordsIndex,

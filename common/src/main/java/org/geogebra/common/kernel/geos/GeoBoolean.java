@@ -41,6 +41,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	private boolean value = false;
 	private boolean isDefined = true;
 	private boolean checkboxFixed;
+	private boolean showExtendedAV = true;
 
 	private ArrayList<GeoElement> condListenersShowObject;
 
@@ -463,8 +464,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
-
-	private boolean showExtendedAV = true;
 
 	@Override
 	public boolean isShowingExtendedAV() {

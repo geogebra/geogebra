@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  * @author mathieu
  */
 public class AlgoTangentLine3D extends AlgoTangentLineND {
+	private Coords direction, direction3D;
 
 	public AlgoTangentLine3D(Construction cons, String[] labels, GeoLineND g,
 			GeoConicND c) {
@@ -100,8 +101,6 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 
 		return false;
 	}
-
-	private Coords direction, direction3D;
 
 	@Override
 	protected void updateDiameterLine() {

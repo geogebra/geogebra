@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 
 public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
+	private Coords[] intersection;
 
 	public AlgoIntersectPlaneConic(Construction cons, GeoCoordSys2D plane,
 			GeoConicND c) {
@@ -19,8 +20,6 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 	public AlgoIntersectPlaneConic(Construction cons) {
 		super(cons);
 	}
-
-	private Coords[] intersection;
 
 	@Override
 	public void compute() {

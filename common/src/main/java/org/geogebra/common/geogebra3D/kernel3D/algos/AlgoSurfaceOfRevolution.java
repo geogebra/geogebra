@@ -55,6 +55,7 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	private GeoLineND line;
 	private FunctionVariable[] funVar;
 	private Path path;
+	private double[] min, max;
 
 	/**
 	 * 
@@ -193,8 +194,6 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	public GeoSurfaceCartesianND getSurface() {
 		return surface;
 	}
-
-	private double[] min, max;
 
 	@Override
 	public final void compute() {

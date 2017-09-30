@@ -53,6 +53,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	private int N;
 	private double[] yval;
 	private double[] leftBorder;
+	private ArrayList<Double> outliers;
 
 	/**
 	 * Creates boxplot given all the quartiles, y-offset and y-scale
@@ -462,8 +463,6 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	public double[] getLeftBorders() {
 		return leftBorder;
 	}
-
-	private ArrayList<Double> outliers;
 
 	public ArrayList<Double> getOutliers() {
 		return outliers;

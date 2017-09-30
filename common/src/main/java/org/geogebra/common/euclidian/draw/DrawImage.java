@@ -56,6 +56,7 @@ public final class DrawImage extends Drawable {
 	private int screenX, screenY;
 	private GRectangle boundingBox;
 	private GGeneralPath highlighting;
+	private double[] hitCoords = new double[2];
 
 	/**
 	 * Creates new drawable image
@@ -359,8 +360,6 @@ public final class DrawImage extends Drawable {
 
 		return rect.intersects(boundingBox);
 	}
-
-	private double[] hitCoords = new double[2];
 
 	@Override
 	public boolean isInside(GRectangle rect) {

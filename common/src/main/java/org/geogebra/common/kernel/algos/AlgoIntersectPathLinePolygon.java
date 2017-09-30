@@ -50,11 +50,17 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	protected OutputHandler<GeoElement> outputSegments; // output
 
 	protected TreeMap<Double, Coords> newCoords;
+	private Coords project = Coords.createInhomCoorsInD3();
+	private Coords project1, project2;
+	private double[] lineCoords, tmp;
+
+	private double[] parameters = new double[2];
 
 	/**
 	 * common constructor
 	 * 
 	 * @param c
+	 *            construction
 	 * @param geo
 	 *            line
 	 * @param p
@@ -210,9 +216,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		return g.respectLimitedPath(t1);
 	}
 
-	private Coords project1, project2;
-	private double[] lineCoords, tmp;
-
 	/**
 	 * calc all intersection points between line and polygon p
 	 * 
@@ -251,11 +254,9 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 					if (checkParameter(t1) && onSegment(t2)) {
 						addCoords(t1, project1, seg);
 					}
-
 				}
 			}
 		}
-
 	}
 
 	final private static boolean onSegment(double t) {
@@ -292,10 +293,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			newCoords.put(0d, g.getStartPoint().getInhomCoordsInD2());
 		}
 	}
-
-	private Coords project = Coords.createInhomCoorsInD3();
-
-	private double[] parameters = new double[2];
 
 	/**
 	 * add polygon points that are on the line
@@ -442,7 +439,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	}
 
 	protected void setLabels(String[] labels) {
-
 		if (labels != null && labels.length == 1 && outputSegments.size() > 1
 				&& labels[0] != null && !labels[0].equals("")) {
 			outputSegments.setIndexLabels(labels[0]);
@@ -450,7 +446,6 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		} else {
 			outputSegments.setLabels(labels);
 		}
-
 	}
 
 }

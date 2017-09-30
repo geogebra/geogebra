@@ -30,6 +30,8 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoAxis extends GeoLine implements GeoAxisND {
 
 	private int type;
+	// for numbers and ticks
+	private int ticksize = 5; // TODO
 
 	/**
 	 * Creates new axis
@@ -144,9 +146,6 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
-	// for numbers and ticks
-	private int ticksize = 5; // TODO
 
 	@Override
 	public int getTickSize() {

@@ -65,6 +65,8 @@ public class DrawBarGraph extends Drawable {
 	private ArrayList<GeoPoint> pts;
 	private ArrayList<DrawPoint> drawPoints;
 
+	private ArrayList<HatchingHandler> hatchingHandlers = null;
+
 	/*************************************************
 	 * @param view
 	 *            view
@@ -114,8 +116,6 @@ public class DrawBarGraph extends Drawable {
 		}
 		return rect;
 	}
-
-	private ArrayList<HatchingHandler> hatchingHandlers = null;
 
 	@Override
 	public void draw(GGraphics2D g2) {

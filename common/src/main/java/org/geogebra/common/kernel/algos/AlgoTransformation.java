@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
  * Algorithms for transformations
  */
 public abstract class AlgoTransformation extends AlgoElement {
+	private GeoPoint transformedPoint;
 
 	/**
 	 * Create new transformation algo
@@ -144,8 +145,6 @@ public abstract class AlgoTransformation extends AlgoElement {
 		// Application.debug(positiveOrientation);
 		return arc == null || arc.positiveOrientation();
 	}
-
-	private GeoPoint transformedPoint;
 
 	/**
 	 * @param a

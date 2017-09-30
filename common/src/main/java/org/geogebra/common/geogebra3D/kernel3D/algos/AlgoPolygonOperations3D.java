@@ -88,6 +88,8 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	protected String[] labels;
 	private boolean silent;
 
+	private Coords o1, d1;
+
 	/**
 	 * special constructor without operation type for CmdDifference. after this
 	 * constructor initiatePolyOperation() must be called
@@ -628,8 +630,6 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 * auxiliary methods for finding intersection segments when the two input
 	 * polygons are on two different not-parallel planes
 	 */
-	private Coords o1, d1;
-
 	private void setIntersectionLine(GeoLineND line) {
 
 		o1 = line.getPointInD(3, 0).getInhomCoordsInSameDimension();

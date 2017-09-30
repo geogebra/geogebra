@@ -35,6 +35,24 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 	private PlatonicSolid solidDescription;
 
+	private Coords v1l = new Coords(4), v2l = new Coords(4),
+			vnl = new Coords(4), tmpCoords = new Coords(4);
+
+	/**
+	 * factor to calculate the volume
+	 */
+	private double volumeFactor;
+
+	/**
+	 * factor to calculate the height
+	 */
+	private double heightFactor;
+
+	/**
+	 * factor to calculate the area
+	 */
+	private double areaFactor;
+
 	/**
 	 * creates an archimedean solid
 	 * 
@@ -190,11 +208,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 			}
 			polyhedron.endCurrentFace();
 		}
-
 	}
-
-	private Coords v1l = new Coords(4), v2l = new Coords(4),
-			vnl = new Coords(4), tmpCoords = new Coords(4);
 
 	@Override
 	public void compute() {
@@ -264,21 +278,6 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 		polyhedron.setOrientedHeight(l * heightFactor);
 
 	}
-
-	/**
-	 * factor to calculate the volume
-	 */
-	private double volumeFactor;
-
-	/**
-	 * factor to calculate the height
-	 */
-	private double heightFactor;
-
-	/**
-	 * factor to calculate the area
-	 */
-	private double areaFactor;
 
 	private void setVolumeAreaAndHeightFactors() {
 

@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 
 	private GeoDirectionND direction;
+	private Coords coordsA, coordsB, vAB, vDirection;
 
 	/**
 	 * constructor
@@ -81,8 +82,6 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 	protected void setDirection(GeoDirectionND direction) {
 		this.direction = direction;
 	}
-
-	private Coords coordsA, coordsB, vAB, vDirection;
 
 	@Override
 	protected void setCenterPoint(int n, double beta) {

@@ -62,6 +62,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	private GLine2D[] decoTicks;
 
 	private BoundingBox boundingBox;
+	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	/**
 	 * Creates new DrawSegment
@@ -501,8 +502,6 @@ public class DrawSegment extends Drawable implements Previewable {
 			}
 		}
 	}
-
-	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 
 	@Override
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {

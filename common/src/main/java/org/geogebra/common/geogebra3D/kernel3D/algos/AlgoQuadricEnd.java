@@ -32,6 +32,9 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	private GeoQuadric3DLimited quadric; // input
 	private GeoConic3D section; // output
 	private CoordSys coordsys;
+	private CoordMatrix pm = new CoordMatrix(4, 3);
+	private CoordMatrix pmt = new CoordMatrix(3, 4);
+	private boolean isHelperAlgo = false;
 
 	// private GeoPoint3D help;
 	/**
@@ -85,9 +88,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 	public GeoConic3D getSection() {
 		return section;
 	}
-
-	private CoordMatrix pm = new CoordMatrix(4, 3);
-	private CoordMatrix pmt = new CoordMatrix(3, 4);
 
 	@Override
 	public final void compute() {
@@ -181,8 +181,6 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 		// section.calcArea();
 
 	}
-
-	private boolean isHelperAlgo = false;
 
 	/**
 	 * says that it's an helper algo for quadric limites (cone/cylinder)

@@ -321,6 +321,14 @@ public class ClipShape {
 	/** A cubic function */
 	static class CFunction implements Function {
 		private double a, b, c, d;
+		/**
+		 * Recycle arrays here. Remember this is possibly going to be 1 object
+		 * called hundreds of times, so reusing the same arrays here will save
+		 * us time & memory allocation. In current setup there is only 1 thread
+		 * that will be using these values.
+		 */
+		private double[] t2;
+		private double[] eqn;
 
 		@Override
 		public String toString() {
@@ -343,15 +351,6 @@ public class ClipShape {
 		public double getDerivative(double t) {
 			return 3 * a * t * t + 2 * b * t + c;
 		}
-
-		/**
-		 * Recycle arrays here. Remember this is possibly going to be 1 object
-		 * called hundreds of times, so reusing the same arrays here will save
-		 * us time & memory allocation. In current setup there is only 1 thread
-		 * that will be using these values.
-		 */
-		private double[] t2;
-		private double[] eqn;
 
 		@Override
 		public int evaluateInverse(double x, double[] dest, int offset) {

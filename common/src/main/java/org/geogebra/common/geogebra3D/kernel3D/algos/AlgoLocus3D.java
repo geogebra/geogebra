@@ -29,6 +29,7 @@ import org.geogebra.common.util.MyMath;
 public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	private double[] maxZdist, farZmin, farZmax;
+	private double lastZ;
 
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
 
@@ -206,8 +207,6 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 			lastFarAway[i] = isFarAway(lastX, lastY, lastZ, i);
 		}
 	}
-
-	private double lastZ;
 
 	private boolean isFarAway(double x, double y, double z, int i) {
 		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]

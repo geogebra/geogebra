@@ -27,12 +27,13 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoAreaPoints3D extends AlgoAreaPoints {
 
+	private CoordSys coordSys;
+	private GeoPoint[] points2D;
+	private double[] tmpCoords;
+
 	public AlgoAreaPoints3D(Construction cons, String label, GeoPointND[] P) {
 		super(cons, label, P);
 	}
-
-	private CoordSys coordSys;
-	private GeoPoint[] points2D;
 
 	@Override
 	protected void createOutput(Construction cons1) {
@@ -43,8 +44,6 @@ public class AlgoAreaPoints3D extends AlgoAreaPoints {
 			points2D[i] = new GeoPoint(cons1, true);
 		}
 	}
-
-	private double[] tmpCoords;
 
 	@Override
 	protected void initCoords() {

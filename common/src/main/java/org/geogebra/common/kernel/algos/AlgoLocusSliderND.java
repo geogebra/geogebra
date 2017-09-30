@@ -88,6 +88,12 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	private TreeSet<GeoElement> Qin;
 
 	private int views = 1;
+	protected boolean visibleEV[] = new boolean[] { false, false, false };
+
+	// small cache of 3 last parameters and Qcopy positions
+	protected double[] paramCache = new double[3];
+	protected T[] qcopyCache;
+	protected int cacheIndex = 0;
 
 	// private Updater updater;
 
@@ -692,17 +698,11 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 
 	protected abstract void setQCopyCache(T t, GeoPointND qCopy2);
 
-	// small cache of 3 last parameters and Qcopy positions
-	protected double[] paramCache = new double[3];
-	protected T[] qcopyCache;
-	protected int cacheIndex = 0;
 
 	protected abstract void insertPoint(GeoPointND point, boolean lineTo);
 
 	protected abstract boolean distanceSmall(GeoPointND Q,
 			boolean orInsteadOfAnd);
-
-	protected boolean visibleEV[] = new boolean[] { false, false, false };
 
 	boolean isVisibleInEV1() {
 		if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) {
