@@ -62,6 +62,32 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private CoordMatrix4x4 eigenMatrix = CoordMatrix4x4.Identity();
 	/** helper for 2d projection */
 	protected double[] tmpDouble2 = new double[2];
+	private double detS;
+
+	private CoordMatrix tmpMatrix3x3;
+
+	private GeoPlane3D[] planes;
+
+	private GeoLine3D line;
+
+	private CoordMatrix eigenvecNDMatrix, semiDiagMatrix;
+
+	private Coords tmpCoords2, tmpCoords3, tmpCoords4, tmpCoords5;
+	private CoordMatrix tmpMatrix4x2, tmpMatrix2x4;
+	private CoordMatrix4x4 tmpMatrix4x4;
+
+	private Coords tmpCoords = new Coords(4);
+
+	private double[] lastHitParameters = null;
+
+	private Coords[] eigenvec;
+
+	private double volume = Double.NaN;
+
+	private boolean showUndefinedInAlgebraView = false;
+	private Coords tmpCoords6;
+
+	private boolean setEigenvectorsCalled = false;
 
 	/**
 	 * @param c
@@ -137,8 +163,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 		}
 	}
-
-	private double detS;
 
 	/**
 	 * Update quadric type and properties
@@ -374,8 +398,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		type = GeoQuadricNDConstants.QUADRIC_LINE;
 	}
 
-	private CoordMatrix tmpMatrix3x3;
-
 	private void findEigenvector(double value, Coords ret) {
 		if (tmpMatrix3x3 == null) {
 			tmpMatrix3x3 = new CoordMatrix(3, 3);
@@ -404,8 +426,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// + "\nsol = \n" + ret);
 	}
 
-	private GeoPlane3D[] planes;
-
 	/**
 	 * 
 	 * @return planes (for degenerate cases)
@@ -421,8 +441,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return planes;
 	}
 
-	private GeoLine3D line;
-
 	/**
 	 * 
 	 * @return line (for degenerate case)
@@ -433,8 +451,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 		return line;
 	}
-
-	private CoordMatrix eigenvecNDMatrix, semiDiagMatrix;
 
 	private void setSemiDiagonalizedMatrix() {
 		if (eigenvecNDMatrix == null) {
@@ -654,8 +670,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		type = QUADRIC_HYPERBOLIC_PARABOLOID;
 
 	}
-
-	private Coords tmpCoords2, tmpCoords3, tmpCoords4, tmpCoords5;
 
 	private void intersectingPlanes(double dx, double dy) {
 
@@ -1366,8 +1380,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// return "" + (v - e);
 	// }
 
-	private Coords[] eigenvec;
-
 	private static final void computeEigenVectorMultiplicity1(double[] m,
 			double mu, Coords v) {
 
@@ -1451,8 +1463,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	// //////////////////////////////
 	// SPHERE
-
-	private double volume = Double.NaN;
 
 	@Override
 	protected void setSphereNDMatrix(Coords M, double r) {
@@ -1889,7 +1899,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
-	private boolean showUndefinedInAlgebraView = false;
 
 	/**
 	 * Set whether this line should be visible in AV when undefined
@@ -2494,16 +2503,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 	}
 
-
-
 	@Override
 	public Coords[] getNormalProjection(Coords coords) {
-
 		getNormalProjectionParameters(coords, tmpDouble2);
 
 		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
 				new Coords(tmpDouble2) };
-
 	}
 
 	/**
@@ -2521,8 +2526,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		getNormalProjectionParameters(coords, parameters);
 		evaluatePoint(parameters[0], parameters[1], ret);
 	}
-	
-	private Coords tmpCoords6;
 
 	/**
 	 * try with t1, then with t2
@@ -2582,7 +2585,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return getPoint(u, v);
 	}
 
-	private CoordMatrix tmpMatrix4x2, tmpMatrix2x4;
 
 	@Override
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
@@ -2702,8 +2704,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 	}
-
-	private double[] lastHitParameters = null;
 
 	/**
 	 * reset last hit parameters
@@ -3103,8 +3103,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	}
 
-	private CoordMatrix4x4 tmpMatrix4x4;
-
 	@Override
 	public void rotate(NumberValue r, GeoPointND S,
 			GeoDirectionND orientation) {
@@ -3194,8 +3192,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 	}
 
-	private Coords tmpCoords = new Coords(4);
-
 	@Override
 	public void mirror(GeoLineND mirrorLine) {
 
@@ -3236,7 +3232,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		else if (type == GeoQuadricNDConstants.QUADRIC_LINE) {
 			this.line.mirror(mirrorLine);
 		}
-
 	}
 
 	@Override
@@ -3373,7 +3368,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	final protected void singlePoint() {
 		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
-
 	}
 
 	@Override
@@ -3416,8 +3410,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		 */
 
 	}
-
-	private boolean setEigenvectorsCalled = false;
 
 	/**
 	 * @param x0

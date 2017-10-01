@@ -27,6 +27,8 @@ public class GeoConicSection extends GeoConic3D
 			edgeEndParam;
 
 	private boolean[] edgeExists;
+	private TreeSet<IndexedParameter> parametersTree = new TreeSet<IndexedParameter>();
+	private IndexedParameter[] parametersArray = new IndexedParameter[4];
 
 	/**
 	 * @param c
@@ -103,9 +105,6 @@ public class GeoConicSection extends GeoConic3D
 		}
 
 	}
-
-	private TreeSet<IndexedParameter> parametersTree = new TreeSet<IndexedParameter>();
-	private IndexedParameter[] parametersArray = new IndexedParameter[4];
 
 	/**
 	 * set parameters for "segments holes" regarding the index

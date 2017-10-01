@@ -3,6 +3,13 @@ package org.geogebra.common.util.clipper;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public interface Clipper {
+	// InitOptions that can be passed to the constructor ...
+	public final static int REVERSE_SOLUTION = 1;
+
+	public final static int STRICTLY_SIMPLE = 2;
+
+	public final static int PRESERVE_COLINEAR = 4;
+
 	public enum ClipType {
 		INTERSECTION, UNION, DIFFERENCE, XOR
 	}
@@ -34,13 +41,6 @@ public interface Clipper {
 		void zFill(DoublePoint bot1, DoublePoint top1, DoublePoint bot2,
 				DoublePoint top2, DoublePoint pt);
 	}
-
-	// InitOptions that can be passed to the constructor ...
-	public final static int REVERSE_SOLUTION = 1;
-
-	public final static int STRICTLY_SIMPLE = 2;
-
-	public final static int PRESERVE_COLINEAR = 4;
 
 	boolean addPath(Path pg, PolyType polyType, boolean Closed);
 

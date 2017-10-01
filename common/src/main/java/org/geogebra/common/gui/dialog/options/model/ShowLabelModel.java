@@ -7,15 +7,15 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 
 public class ShowLabelModel extends OptionsModel {
-	public interface IShowLabelListener extends PropertyListener {
-		void update(boolean isEqualVal, boolean isEqualMode, int mode);
-
-	}
-
 	protected Kernel kernel;
 
 	private boolean showNameValue;
 	private IShowLabelListener listener;
+
+	public interface IShowLabelListener extends PropertyListener {
+		void update(boolean isEqualVal, boolean isEqualMode, int mode);
+
+	}
 
 	public ShowLabelModel(App app, IShowLabelListener listener) {
 		super(app);

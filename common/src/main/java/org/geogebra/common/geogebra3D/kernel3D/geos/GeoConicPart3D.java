@@ -52,6 +52,11 @@ public class GeoConicPart3D extends GeoConic3D
 
 	// parameters (e.g. angles) for arc
 	private GeoConicPartParameters parameters;
+	private StringBuilder sbToString = new StringBuilder(50);
+	private Coords tmpCoords = new Coords(3);
+	private double[] tmpParameters = new double[2];
+
+	private PathParameter tempPP;
 
 	/**
 	 * GeoCirclePart is constructed by AlgoCirclePart...
@@ -271,8 +276,6 @@ public class GeoConicPart3D extends GeoConic3D
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		if (parameters.isValueDefined()) {
@@ -381,8 +384,6 @@ public class GeoConicPart3D extends GeoConic3D
 
 		return result;
 	}
-
-	private PathParameter tempPP;
 
 	private PathParameter getTempPathParameter() {
 		if (tempPP == null) {
@@ -711,9 +712,6 @@ public class GeoConicPart3D extends GeoConic3D
 
 		return parameters.isInRegion(x0, y0);
 	}
-
-	private Coords tmpCoords = new Coords(3);
-	private double[] tmpParameters = new double[2];
 
 	@Override
 	protected void moveBackToRegion(GeoPointND pi, RegionParameters rp) {

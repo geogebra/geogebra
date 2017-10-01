@@ -189,10 +189,6 @@ public abstract class App implements UpdateSelection {
 			"5 decimals", "10 decimals", "15 decimals", "", "3 figures",
 			"5 figures", "10 figures", "15 figures" };
 
-	public static String[] getStrDecimalSpacesAC() {
-		return strDecimalSpacesAC;
-	}
-
 	/** Singular web service (CAS) */
 	private SingularWebService singularWS;
 
@@ -392,6 +388,9 @@ public abstract class App implements UpdateSelection {
 	// TODO: move following methods somewhere else
 	private int tubeID = 0;
 
+	public static String[] getStrDecimalSpacesAC() {
+		return strDecimalSpacesAC;
+	}
 	/**
 	 * Please call setVersion right after this
 	 */

@@ -18,10 +18,6 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
  */
 public final class ImplicitIntersectionFinder {
 
-	private ImplicitIntersectionFinder() {
-		// utility class
-	}
-
 	/**
 	 * Default sampling interval
 	 */
@@ -51,7 +47,9 @@ public final class ImplicitIntersectionFinder {
 
 	private static final double MIN_LAMBDA = 0.0001;
 	
-	
+	private ImplicitIntersectionFinder() {
+		// utility class
+	}
 
 	/**
 	 * 

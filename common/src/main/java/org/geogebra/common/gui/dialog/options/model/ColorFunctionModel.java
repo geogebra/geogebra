@@ -9,6 +9,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
 
 public class ColorFunctionModel extends OptionsModel {
+	private IColorFunctionListener listener;
+	private Kernel kernel;
+
 	public interface IColorFunctionListener extends PropertyListener {
 		void setRedText(final String text);
 
@@ -24,9 +27,6 @@ public class ColorFunctionModel extends OptionsModel {
 
 		void updateSelection(Object[] geos);
 	}
-
-	private IColorFunctionListener listener;
-	private Kernel kernel;
 
 	public ColorFunctionModel(App app, IColorFunctionListener listener) {
 		super(app);

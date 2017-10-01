@@ -11,6 +11,21 @@ import org.geogebra.common.util.debug.Log;
  * (pointLineTest).
  */
 public class Point_dt {
+	public final static int ONSEGMENT = 0;
+
+	/**
+	 * + <br>
+	 */
+	public final static int LEFT = 1;
+
+	/**
+	 * +
+	 */
+	public final static int RIGHT = 2;
+	public final static int INFRONTOFA = 3;
+	public final static int BEHINDB = 4;
+	public final static int ERROR = 5;
+
 	double x, y, z;
 
 	@Override
@@ -212,20 +227,6 @@ public class Point_dt {
 	// pointLineTest
 	// ===============
 	// simple geometry to make things easy!
-	public final static int ONSEGMENT = 0;
-
-	/**
-	 * + <br>
-	 */
-	public final static int LEFT = 1;
-
-	/**
-	 * +
-	 */
-	public final static int RIGHT = 2;
-	public final static int INFRONTOFA = 3;
-	public final static int BEHINDB = 4;
-	public final static int ERROR = 5;
 
 	/**
 	 * tests the relation between this point (as a 2D [x,y] point) and a 2D

@@ -12,6 +12,13 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 
 public class ColorObjectModel extends OptionsModel {
+	public static final int ALL_BARS = 0;
+	private boolean allFillable;
+	private boolean hasBackground;
+	private boolean hasImageGeo;
+	private IColorObjectListener listener;
+	private Kernel kernel;
+
 	public interface IColorObjectListener extends PropertyListener {
 
 		void updateChooser(boolean equalObjColor,
@@ -26,13 +33,6 @@ public class ColorObjectModel extends OptionsModel {
 				boolean updateAlphaOnly, boolean allFillable);
 
 	}
-
-	public static final int ALL_BARS = 0;
-	private boolean allFillable;
-	private boolean hasBackground;
-	private boolean hasImageGeo;
-	private IColorObjectListener listener;
-	private Kernel kernel;
 
 	public ColorObjectModel(App app) {
 		super(app);

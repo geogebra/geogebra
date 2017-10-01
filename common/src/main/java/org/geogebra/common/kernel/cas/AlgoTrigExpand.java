@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoTrigExpand extends AlgoCasBase {
 	private GeoFunction target;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -49,8 +50,6 @@ public class AlgoTrigExpand extends AlgoCasBase {
 		setOnlyOutput(g);
 		setDependencies();
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

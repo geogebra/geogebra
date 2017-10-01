@@ -10,6 +10,13 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 
 public class SliderModel extends OptionsModel {
+	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
+
+	private ISliderOptionsListener listener;
+	private Kernel kernel;
+	private boolean widthUnit;
+	private boolean includeRandom;
+
 	public interface ISliderOptionsListener extends PropertyListener {
 		void setMinText(final String text);
 
@@ -31,13 +38,6 @@ public class SliderModel extends OptionsModel {
 		Object updatePanel(Object[] geos2);
 
 	}
-
-	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
-
-	private ISliderOptionsListener listener;
-	private Kernel kernel;
-	private boolean widthUnit;
-	private boolean includeRandom;
 
 	public SliderModel(App app, ISliderOptionsListener listener) {
 		super(app);

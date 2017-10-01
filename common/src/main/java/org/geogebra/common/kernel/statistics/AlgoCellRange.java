@@ -43,6 +43,14 @@ public class AlgoCellRange extends AlgoElement {
 	private CellRange cellRange;
 	private ArrayList<GeoElement> listItems;
 	private GPoint startCoords, endCoords;
+	/**
+	 * max column location for existing values
+	 */
+	private int maxExistingCol;
+	/**
+	 * max row location for existing values in max column location
+	 */
+	private int maxExistingRow;
 
 	/**
 	 * Creates an algorithm that produces a list of GeoElements for a range of
@@ -217,15 +225,6 @@ public class AlgoCellRange extends AlgoElement {
 		// input[0] = startCell;
 		// input[1] = endCell;
 	}
-
-	/**
-	 * max column location for existing values
-	 */
-	private int maxExistingCol;
-	/**
-	 * max row location for existing values in max column location
-	 */
-	private int maxExistingRow;
 
 	/**
 	 * Builds geoList with current objects in range of spreadsheet. Renaming of

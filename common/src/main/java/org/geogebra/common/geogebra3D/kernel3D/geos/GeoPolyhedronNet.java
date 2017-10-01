@@ -14,6 +14,11 @@ import org.geogebra.common.plugin.GeoClass;
  *
  */
 public class GeoPolyhedronNet extends GeoPolyhedron {
+	private GeoPolygon3D[] oldFaces;
+	private int oldFacesIndex;
+
+	private GeoSegment3D[] oldSegments;
+	private StringBuilder sbToString = new StringBuilder(50);
 
 	/**
 	 * @param c
@@ -49,17 +54,10 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
 	}
-
-	private GeoPolygon3D[] oldFaces;
-	private int oldFacesIndex;
-
-	private GeoSegment3D[] oldSegments;
 
 	@Override
 	public void createFaces() {

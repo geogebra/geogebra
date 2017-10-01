@@ -58,6 +58,7 @@ public abstract class CommandProcessor {
 	/** construction */
 	protected Construction cons;
 	private AlgebraProcessor algProcessor;
+	private StringBuilder errorSb;
 
 	/**
 	 * Creates new command processor
@@ -619,8 +620,6 @@ public abstract class CommandProcessor {
 
 	}
 
-	private StringBuilder sb;
-
 	/**
 	 * Creates wrong argument error
 	 * 
@@ -650,38 +649,38 @@ public abstract class CommandProcessor {
 	protected final MyError argErr(Localization app1, String cmd,
 			ExpressionValue arg) {
 		String localName = app1.getCommand(cmd);
-		if (sb == null) {
-			sb = new StringBuilder();
+		if (errorSb == null) {
+			errorSb = new StringBuilder();
 		} else {
-			sb.setLength(0);
+			errorSb.setLength(0);
 		}
 
 		final boolean reverseOrder = app1.isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
 			// standard order: "Command ..."
-			sb.append(app1.getCommand("Command"));
-			sb.append(' ');
-			sb.append(localName);
+			errorSb.append(app1.getCommand("Command"));
+			errorSb.append(' ');
+			errorSb.append(localName);
 		} else {
 			// reverse order: "... command"
-			sb.append(localName);
-			sb.append(' ');
-			sb.append(app1.getCommand("Command").toLowerCase());
+			errorSb.append(localName);
+			errorSb.append(' ');
+			errorSb.append(app1.getCommand("Command").toLowerCase());
 		}
 
-		sb.append(":\n");
-		sb.append(app1.getError("IllegalArgument"));
-		sb.append(": ");
+		errorSb.append(":\n");
+		errorSb.append(app1.getError("IllegalArgument"));
+		errorSb.append(": ");
 		if (arg instanceof GeoElement) {
-			sb.append(((GeoElement) arg).getNameDescription());
+			errorSb.append(((GeoElement) arg).getNameDescription());
 		} else if (arg != null) {
-			sb.append(arg.toString(StringTemplate.defaultTemplate));
+			errorSb.append(arg.toString(StringTemplate.defaultTemplate));
 		}
-		sb.append("\n\n");
-		sb.append(app1.getMenu("Syntax"));
-		sb.append(":\n");
-		sb.append(app1.getCommandSyntax(cmd));
-		return new MyError(app1, sb.toString(), cmd, null);
+		errorSb.append("\n\n");
+		errorSb.append(app1.getMenu("Syntax"));
+		errorSb.append(":\n");
+		errorSb.append(app1.getCommandSyntax(cmd));
+		return new MyError(app1, errorSb.toString(), cmd, null);
 	}
 
 	/**
@@ -697,13 +696,15 @@ public abstract class CommandProcessor {
 	 */
 
 	private final MyError argNumErr(App app1, Command cmd, int argNumber) {
-		if (sb == null) {
-			sb = new StringBuilder();
+		if (errorSb == null) {
+			errorSb = new StringBuilder();
 		} else {
-			sb.setLength(0);
+			errorSb.setLength(0);
 		}
-		getCommandSyntax(sb, app1.getLocalization(), cmd.getName(), argNumber);
-		return new MyError(app1.getLocalization(), sb.toString(), cmd.getName(),
+		getCommandSyntax(errorSb, app1.getLocalization(), cmd.getName(),
+				argNumber);
+		return new MyError(app1.getLocalization(), errorSb.toString(),
+				cmd.getName(),
 				null);
 	}
 

@@ -37,6 +37,8 @@ public class AnimationManager implements GTimerListener {
 	protected ArrayList<TimerListener> listener = new ArrayList<TimerListener>();
 	private GTimer timer;
 
+	private TreeSet<AlgoElement> tempSet;
+
 	/**
 	 * @param kernel2
 	 *            kernel
@@ -193,8 +195,6 @@ public class AnimationManager implements GTimerListener {
 		}
 
 	}
-
-	private TreeSet<AlgoElement> tempSet;
 
 	private TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {

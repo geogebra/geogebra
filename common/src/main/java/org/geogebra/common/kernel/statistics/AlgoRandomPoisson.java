@@ -32,6 +32,10 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 	protected GeoNumberValue a; // input
 	protected GeoNumeric num; // output
 
+	private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
+
+	private static double logtable[] = new double[10];
+
 	public AlgoRandomPoisson(Construction cons, String label,
 			GeoNumberValue a) {
 		super(cons);
@@ -141,10 +145,6 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 		}
 
 	}
-
-	private static double halflog2pi = 0.5 * Math.log(2 * Math.PI);
-
-	private static double logtable[] = new double[10];
 
 	private static double logOfKFactorial(int k) {
 		if (k < 10) {

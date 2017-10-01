@@ -25,6 +25,8 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 	private double maxFadingStartTop, maxFadingEndTop, middleFading,
 			maxFadingStartBottom, maxFadingEndBottom;
+	private int arrayIndex = 0;
+	private GLBufferIndices arrayI;
 
 	private interface DrawEllipticSurface {
 		public void drawNCr(Coords normal);
@@ -2087,9 +2089,6 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		manager.endGeometry(arrayIndex, TypeElement.SURFACE);
 
 	}
-
-	private int arrayIndex = 0;
-	private GLBufferIndices arrayI;
 
 	@Override
 	public void startTriangles(int size) {

@@ -18,6 +18,7 @@ public class GeoPlane3DConstant extends GeoPlane3D
 		implements SymbolicParametersBotanaAlgo {
 	/** xYo plane */
 	public static final int XOY_PLANE = 1;
+	private boolean gridVisible;
 
 	/**
 	 * construct the plane xOy, ...
@@ -117,8 +118,6 @@ public class GeoPlane3DConstant extends GeoPlane3D
 	public boolean showLineProperties() {
 		return false;
 	}
-
-	private boolean gridVisible;
 
 	/** returns if there is a grid to plot or not */
 	@Override

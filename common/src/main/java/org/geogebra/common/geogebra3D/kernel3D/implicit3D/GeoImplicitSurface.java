@@ -457,10 +457,6 @@ public class GeoImplicitSurface extends GeoElement3D
 
 		protected GeoImplicitSurface s;
 
-		public ImplicitSurface(GeoImplicitSurface s) {
-			this.s = s;
-		}
-
 		private final int[][] EDGE_TABLE = new int[][] { {}, // 0x00, 0xff
 				{ 0, 4, 3 }, // 0x01, 00000001
 				{ 0, 5, 1 }, // 0x02, 00000010
@@ -743,6 +739,10 @@ public class GeoImplicitSurface extends GeoElement3D
 		private final Coords n1 = new Coords(0, 0, 0);
 		private final Coords n2 = new Coords(0, 0, 0);
 		private final Coords n3 = new Coords(0, 0, 0);
+
+		public ImplicitSurface(GeoImplicitSurface s) {
+			this.s = s;
+		}
 
 		public void update(double[] bounds) {
 			this.x1 = bounds[0];

@@ -24,6 +24,10 @@ public class DataCollectionSettings extends AbstractSettings {
 	// private int timeout = Defaults.TIMEOUT;
 
 	private GDimension preferredSize;
+	// Object can be String or GeoElement
+	// Strings needed in case before construction loaded
+	// GeoElements needed later in case geo is renamed
+	private HashMap<Types, Object> mapper = new HashMap<Types, Object>();
 
 	public DataCollectionSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
@@ -34,11 +38,6 @@ public class DataCollectionSettings extends AbstractSettings {
 		super();
 		preferredSize = AwtFactory.getPrototype().newDimension(0, 0);
 	}
-
-	// Object can be String or GeoElement
-	// Strings needed in case before construction loaded
-	// GeoElements needed later in case geo is renamed
-	private HashMap<Types, Object> mapper = new HashMap<Types, Object>();
 
 	/**
 	 * called from loading a saved material

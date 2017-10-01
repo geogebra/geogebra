@@ -44,6 +44,13 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	protected GeoPointND endPoint;
 
 	private boolean isIntersection;
+	/** list of points on this line */
+	protected ArrayList<GeoPointND> pointsOnLine;
+
+	private CoordMatrix4x4 tmpMatrix4x4;
+
+	private Coords tmpCoords1, tmpCoords2;
+	private boolean trace;
 
 	/**
 	 * @param c
@@ -572,9 +579,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	// POINTS ON COORD SYS
 	// ///////////////////////////////////
 
-	/** list of points on this line */
-	protected ArrayList<GeoPointND> pointsOnLine;
-
 	/**
 	 * Returns a list of points that this line passes through. May return null.
 	 * 
@@ -694,8 +698,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 				tmpMatrix4x4.mul(getCoordSys().getVx()));
 	}
 
-	private CoordMatrix4x4 tmpMatrix4x4;
-
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
@@ -733,8 +735,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	// ////////////////
 	// TRACE
 	// ////////////////
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {
@@ -835,8 +835,6 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		setCoord(oRot, vRot);
 
 	}
-
-	private Coords tmpCoords1, tmpCoords2;
 
 	final private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
 

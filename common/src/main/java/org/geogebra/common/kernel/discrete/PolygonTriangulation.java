@@ -28,6 +28,32 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class PolygonTriangulation {
+	final static private boolean DEBUG = false;
+
+	public static final int CORNERS = 4;
+	public static final int CORNERS_ALL = CORNERS * 2;
+	public static final int EXTRA_POINTS = 12;
+	final static double POINT_DELTA = Kernel.STANDARD_PRECISION;
+	final static double ORIENTATION_DELTA = Kernel.STANDARD_PRECISION;
+
+	private GeoPolygon polygon;
+
+	private int maxPointIndex;
+
+	private Point firstPoint;
+
+	private ArrayList<PolygonPoints> polygonPointsList;
+
+	private ArrayList<TriangleFan> fansList;
+
+	private GPoint2D.Double[] pointsArray;
+	protected Point nextNewPointForNonSelfIntersectingPolygon = null;
+	protected Segment comparedSameOrientationSegment;
+	protected int comparedSameOrientationValue;
+
+	protected Segment comparedSameSegment;
+	private Coords[] completeVertices = new Coords[0];
+	private Coords[] corners = null;
 
 	private static class MyTreeSet<E> extends TreeSet<E> {
 
@@ -101,12 +127,6 @@ public class PolygonTriangulation {
 		}
 	}
 
-	final static private boolean DEBUG = false;
-
-	public static final int CORNERS = 4;
-	public static final int CORNERS_ALL = CORNERS * 2;
-	public static final int EXTRA_POINTS = 12;
-
 	/**
 	 * message debug
 	 * 
@@ -130,8 +150,6 @@ public class PolygonTriangulation {
 			Log.error(s);
 		}
 	}
-
-	protected Point nextNewPointForNonSelfIntersectingPolygon = null;
 
 	final private Comparator<Point> nonSelfIntersectingPolygonPointComparator = new Comparator<Point>() {
 
@@ -183,9 +201,6 @@ public class PolygonTriangulation {
 		}
 
 	};
-
-	final static double POINT_DELTA = Kernel.STANDARD_PRECISION;
-	final static double ORIENTATION_DELTA = Kernel.STANDARD_PRECISION;
 
 	private class Point implements Comparable<Point> {
 		public double x, y;
@@ -396,11 +411,6 @@ public class PolygonTriangulation {
 			return 0;
 		}
 	}
-
-	protected Segment comparedSameOrientationSegment;
-	protected int comparedSameOrientationValue;
-
-	protected Segment comparedSameSegment;
 
 	private class Segment implements Comparable<Segment> {
 		double orientation;
@@ -613,18 +623,6 @@ public class PolygonTriangulation {
 		}
 
 	}
-
-	private GeoPolygon polygon;
-
-	private int maxPointIndex;
-
-	private Point firstPoint;
-
-	private ArrayList<PolygonPoints> polygonPointsList;
-
-	private ArrayList<TriangleFan> fansList;
-
-	private GPoint2D.Double[] pointsArray;
 
 	/**
 	 * Constructor
@@ -2178,9 +2176,6 @@ public class PolygonTriangulation {
 		return fansList;
 
 	}
-
-	private Coords[] completeVertices = new Coords[0];
-	private Coords[] corners = null;
 
 	/**
 	 * set complete 3D vertex array (with intersections)

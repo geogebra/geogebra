@@ -24,6 +24,12 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 
 	private CoordSys transformCoordSys;
 	private FunctionNVar functionExpression;
+	private double[] planeEquationNumbers;
+	private static final String[] VAR_STRING = { "x", "y" };
+	private Coords tmpCoords = new Coords(4);
+	private Coords tmpCoords3d = new Coords(4);
+	private double translateZ = 0;
+	private Coords planeEquation = new Coords(4);
 
 	/**
 	 * @param c
@@ -77,9 +83,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		return curve;
 	}
 
-	private double[] planeEquationNumbers;
-	private static final String[] VAR_STRING = { "x", "y" };
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (!isDefined()) {
@@ -125,9 +128,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	public boolean isGeoElement3D() {
 		return true;
 	}
-
-	private Coords tmpCoords = new Coords(4);
-	private Coords tmpCoords3d = new Coords(4);
 
 	@Override
 	protected void locusPointChanged(GeoPointND PI) {
@@ -192,8 +192,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		return functionExpression;
 	}
 
-	private Coords planeEquation = new Coords(4);
-
 	/**
 	 * @param planeEquation
 	 *            normal vector of the plane
@@ -206,8 +204,6 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 	public Coords getPlaneEquation() {
 		return this.planeEquation;
 	}
-
-	private double translateZ = 0;
 
 	@Override
 	public double getTranslateZ() {

@@ -111,6 +111,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	/** temp inhomogeneous coordinates */
 	public Coords inhom = Coords.createInhomCoorsInD3();
+	private Coords inhom2D;
+	private double zScale = 1;
+	private boolean setEuclidianVisibleBySetParentAlgorithm = true;
 
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
@@ -118,6 +121,29 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	private ArrayList<NumberValue> changeableCoordNumbers = null;
 	private boolean hasPolarParentNumbers = false;
+	private CoordMatrix4x4 tmpMatrix4x4;
+	private Coords tmpCoordsLength3;
+	/** move mode */
+	protected int moveMode = MOVE_MODE_TOOL_DEFAULT;
+
+	private Coords moveNormalDirection;
+
+	private boolean showUndefinedInAlgebraView = true;
+
+	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
+
+	private Coords tmpWillingCoords, tmpWillingDirection, tmpCoordsOld;
+
+	/** matrix used as orientation by the {@link Drawable3D} */
+	private CoordMatrix4x4 m_drawingMatrix = null;
+	private ArrayList<GeoElement> incidenceList;
+	private boolean trace;
+
+	private double animationValue;
+
+	private ChangeableCoordParent changeableCoordParent = null;
+
+	private static TreeSet<AlgoElement> tempSet;
 
 	/**
 	 * @return whether getCoordParentNumbers() returns polar variables (r; phi).
@@ -374,8 +400,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 	}
 
-	private Coords inhom2D;
-
 	@Override
 	public Coords getInhomCoordsInD2() {
 
@@ -407,9 +431,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	final public double getInhomZ() {
 		return inhom.getZ();
 	}
-
-	private CoordMatrix4x4 tmpMatrix4x4;
-	private Coords tmpCoordsLength3;
 
 	@Override
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys) {
@@ -712,7 +733,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			rp.setT2(project[1].get(2));
 			rp.setNormal(((GeoElement) reg).getMainDirection());
 		}
-
 	}
 
 	/**
@@ -850,13 +870,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * Make willing direction undefined
 	 */
 	public void setWillingDirectionUndefined() {
-
 		if (this.willingDirection == null) {
 			this.willingDirection = new Coords(4);
 		}
 
 		this.willingDirection.setUndefined();
-
 	}
 
 	/**
@@ -886,8 +904,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public boolean hasWillingDirection() {
 		return willingDirection != null && willingDirection.isDefined();
 	}
-
-	private double zScale = 1;
 
 	/**
 	 * set current zScale from this point (should be set from 3D view)
@@ -1069,7 +1085,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		} else {
 			return false;
 		}
-
 	}
 
 	// /////////////////////////////////////
@@ -1214,7 +1229,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		}
 	}
 
-	private static TreeSet<AlgoElement> tempSet;
 
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
@@ -1273,8 +1287,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// ///////////////////////////////////////
 	// MOVING THE POINT (3D)
 	// ///////////////////////////////////////
-	/** move mode */
-	protected int moveMode = MOVE_MODE_TOOL_DEFAULT;
 
 	@Override
 	public void switchMoveMode(int mode) {
@@ -1353,8 +1365,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return moveMode;
 	}
 
-	private Coords moveNormalDirection;
-
 	/**
 	 * sets the normal to moving directions (for region points)
 	 * 
@@ -1373,8 +1383,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return moveNormalDirection;
 	}
 
-	private boolean showUndefinedInAlgebraView = true;
-
 	@Override
 	public void showUndefinedInAlgebraView(boolean flag) {
 		showUndefinedInAlgebraView = flag;
@@ -1388,17 +1396,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	@Override
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
-		if (algorithm != null)
-		 {
-			setConstructionDefaults(setEuclidianVisibleBySetParentAlgorithm); // set
-																				// colors
-																				// to
-																				// dependent
-																				// colors
+		if (algorithm != null) {
+			// set colors to dependent colors
+			setConstructionDefaults(setEuclidianVisibleBySetParentAlgorithm);
 		}
 	}
-
-	private boolean setEuclidianVisibleBySetParentAlgorithm = true;
 
 	/**
 	 * if the point has a parent algorithm, we may don't want its visibility to
@@ -1590,8 +1592,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		rotate(phiValue.getDouble(), o1, vn);
 	}
 
-	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
-
 	/**
 	 * rotate around line (point + vector) with angle phi
 	 * 
@@ -1710,8 +1710,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return null;
 	}
 
-	private Coords tmpWillingCoords, tmpWillingDirection, tmpCoordsOld;
-
 	@Override
 	public double distanceToPath(PathOrPoint path1) {
 
@@ -1761,9 +1759,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	}
 
-	/** matrix used as orientation by the {@link Drawable3D} */
-	private CoordMatrix4x4 m_drawingMatrix = null;
-
 	/**
 	 * returns a 4x4 matrix for drawing the {@link Drawable3D}
 	 * 
@@ -1782,8 +1777,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix) {
 		this.m_drawingMatrix = a_drawingMatrix;
 	}
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {
@@ -1869,8 +1862,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// currently implemented for
 	// lines: line by two point, intersect lines, line/conic, point on line
 	// TODO: parallel line, perpenticular line
-	private ArrayList<GeoElement> incidenceList;
-
 	/**
 	 * @return list of objects incident by construction
 	 */
@@ -1983,8 +1974,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		return isPointOnPath() && isPointerChangeable();
 	}
 
-	private double animationValue;
-
 	@Override
 	public double getAnimationValue() {
 		return animationValue;
@@ -2090,8 +2079,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			changeableCoordParent = ccp;
 		}
 	}
-
-	private ChangeableCoordParent changeableCoordParent = null;
 
 	@Override
 	public void recordChangeableCoordParentNumbers(EuclidianView view) {

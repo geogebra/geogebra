@@ -14,12 +14,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class AnimationSpeedModel extends MultipleOptionsModel {
+	private boolean showSliders = false;
+	private Kernel kernel;
+
 	public interface IAnimationSpeedListener
 			extends IComboListener, ITextFieldListener {
 	}
-
-	private boolean showSliders = false;
-	private Kernel kernel;
 
 	@Override
 	public IAnimationSpeedListener getListener() {

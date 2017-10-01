@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class ViewLocationModel extends OptionsModel {
+	private IGraphicsViewLocationListener listener;
+
 	public interface IGraphicsViewLocationListener extends PropertyListener {
 		public void selectView(int index, boolean isSelected);
 
@@ -16,8 +18,6 @@ public class ViewLocationModel extends OptionsModel {
 
 		// public void setCheckBoxAlgebraVisible(boolean flag);
 	}
-
-	private IGraphicsViewLocationListener listener;
 
 	public ViewLocationModel(App app, IGraphicsViewLocationListener listener) {
 		super(app);

@@ -41,6 +41,29 @@ public abstract class Renderer {
 	private RendererType type;
 
 	public static final int MOUSE_PICK_DEPTH = 10;
+	/** max latitude viewed -- must be factor of 9 */
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
+	public static final double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
+			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
+
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
+			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
+
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2
+			* EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
+
+	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
+			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
+
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0
+			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
+
+	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN = Math
+			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI
+					/ 360.0);
+
 
 	// other
 	public Drawable3DListsForView drawable3DLists;
@@ -72,6 +95,13 @@ public abstract class Renderer {
 	public static final float AMBIENT_0 = 0.5f;
 	public static final float AMBIENT_1 = 0.4f;
 
+	public boolean enableClipPlanes;
+	protected boolean waitForUpdateClipPlanes = false;
+	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
+	public static final float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
+			SQRT2_DIV2 };
+	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2,
+			0f };
 
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
@@ -341,28 +371,6 @@ public abstract class Renderer {
 	private boolean exportImageEquirectangular = false;
 	// private double exportImageEquirectangularAngle = 0;
 
-	/** max latitude viewed -- must be factor of 9 */
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX = 54;
-	public static final double EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX_TAN = Math
-			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX * Math.PI / 180);
-
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT = 2000;
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT
-			* EXPORT_IMAGE_EQUIRECTANGULAR_LATITUTDE_MAX / 90;
-
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH = 2
-			* EXPORT_IMAGE_EQUIRECTANGULAR_HEIGHT;
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS = 200;
-
-	public static final int EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH_ELEMENT = EXPORT_IMAGE_EQUIRECTANGULAR_WIDTH
-			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
-
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA = 360.0
-			/ EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_STEPS;
-
-	private static double EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_HALF_ELEMENT_TAN = Math
-			.tan(EXPORT_IMAGE_EQUIRECTANGULAR_LONGITUDE_DELTA * Math.PI
-					/ 360.0);
 
 	/**
 	 * says that an export image is needed, and call immediate display
@@ -802,9 +810,6 @@ public abstract class Renderer {
 		disableTextures();
 
 	}
-
-	public boolean enableClipPlanes;
-	protected boolean waitForUpdateClipPlanes = false;
 
 	/**
 	 * sets if clip planes have to be enabled
@@ -1385,12 +1390,6 @@ public abstract class Renderer {
 	// ////////////////////////////////
 	// LIGHTS
 	// ////////////////////////////////
-
-	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
-	public static final float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
-			SQRT2_DIV2 };
-	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2,
-			0f };
 
 	protected void setLightPosition() {
 		setLightPosition(getLightPosition());

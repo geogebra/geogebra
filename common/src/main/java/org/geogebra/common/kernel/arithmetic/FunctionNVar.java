@@ -63,6 +63,11 @@ public class FunctionNVar extends ValidExpression
 	private final static int MAX_CAS_EVAL_MAP_SIZE = 100;
 	private MaxSizeHashMap<String, FunctionNVar> casEvalMap;
 	private boolean shortLHS;
+	private ExpressionNode casEvalExpression;
+	private String casEvalStringSymbolic;
+
+	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
+
 
 	/**
 	 * Creates new Function from expression. Note: call initFunction() after
@@ -376,8 +381,6 @@ public class FunctionNVar extends ValidExpression
 		undecided.clear();
 	}
 
-	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
-
 	/**
 	 * Receives result of evaluate as input, hence may use instanceof
 	 * 
@@ -656,9 +659,6 @@ public class FunctionNVar extends ValidExpression
 		}
 		return resultFun;
 	}
-
-	private ExpressionNode casEvalExpression;
-	private String casEvalStringSymbolic;
 
 	/**
 	 * 

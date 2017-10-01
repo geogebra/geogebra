@@ -31,6 +31,9 @@ public class MyArbitraryConstant {
 			complexNumbers = new ArrayList<GeoNumeric>();
 
 	private ConstructionElement ce;
+	private int position = 0;
+	private boolean blocking;
+	private boolean blocked;
 
 	/**
 	 * Creates new arbitrary constant handler
@@ -41,10 +44,6 @@ public class MyArbitraryConstant {
 	public MyArbitraryConstant(ConstructionElement ce) {
 		this.ce = ce;
 	}
-
-	private int position = 0;
-	private boolean blocking;
-	private boolean blocked;
 
 	/**
 	 * @param myDouble

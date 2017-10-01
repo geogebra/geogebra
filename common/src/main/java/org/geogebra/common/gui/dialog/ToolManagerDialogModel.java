@@ -28,6 +28,11 @@ import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.debug.Log;
 
 public class ToolManagerDialogModel {
+	private App app;
+	final Localization loc;
+	private List<Macro> deletedMacros;
+	private ToolManagerDialogListener listener;
+
 	public interface ToolManagerDialogListener {
 
 		void removeMacroFromToolbar(int i);
@@ -37,11 +42,6 @@ public class ToolManagerDialogModel {
 		void uploadWorksheet(ArrayList<Macro> macros);
 
 	}
-
-	private App app;
-	final Localization loc;
-	private List<Macro> deletedMacros;
-	private ToolManagerDialogListener listener;
 
 	public ToolManagerDialogModel(App app, ToolManagerDialogListener listener) {
 		this.app = app;

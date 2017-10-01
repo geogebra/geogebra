@@ -102,6 +102,8 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// GeoGebra obligatory:
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
+	// Variables in calcultions that tries to prevent rounding off errors:
+	private double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
 
 	/**
 	 * @param cons
@@ -409,9 +411,6 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	}// Logistic_Reg()
 
 	// --- The Logistic Function and its derivates --- //
-
-	// Variables in calcultions that tries to prevent rounding off errors:
-	private double x1, y1, x2, y2, ymult, e1, e2, emult, ydiff;
 
 	/** Logistic function f(x)=c/(1+ae^(-bx)) */
 	private static double f(double x, double a1, double b1, double c1) {

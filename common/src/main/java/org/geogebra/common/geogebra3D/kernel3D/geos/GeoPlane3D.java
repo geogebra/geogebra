@@ -63,6 +63,12 @@ public class GeoPlane3D extends GeoElement3D
 
 	/** coord sys */
 	protected CoordSys coordsys;
+	private boolean showUndefinedInAlgebraView = false;
+	private float fading = 0.10f;
+	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
+
+	private Coords tmpCoords1, tmpCoords2;
+	private boolean trace;
 
 	/** string repre of coordinates */
 	private static final String[] VAR_STRING = { "x", "y", "z" };
@@ -433,8 +439,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	}
 
-	private boolean showUndefinedInAlgebraView = false;
-
 	/**
 	 * Set whether this line should be visible in AV when undefined
 	 * 
@@ -612,8 +616,6 @@ public class GeoPlane3D extends GeoElement3D
 	// ////////////////////////////////
 	// FADING
 
-	private float fading = 0.10f;
-
 	@Override
 	public void setFading(float fading) {
 		this.fading = fading;
@@ -626,8 +628,6 @@ public class GeoPlane3D extends GeoElement3D
 
 	// ////////////////////////////////
 	// 2D VIEW
-
-	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
 	@Override
 	public int getViewID() {
@@ -698,8 +698,6 @@ public class GeoPlane3D extends GeoElement3D
 	public double getMeasure() {
 		return Double.POSITIVE_INFINITY;
 	}
-
-	private Coords tmpCoords1, tmpCoords2;
 
 	@Override
 	public double distance(GeoPointND P) {
@@ -775,8 +773,6 @@ public class GeoPlane3D extends GeoElement3D
 	// ////////////////
 	// TRACE
 	// ////////////////
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {

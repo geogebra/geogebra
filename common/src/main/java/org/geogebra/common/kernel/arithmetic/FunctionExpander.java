@@ -17,6 +17,9 @@ import org.geogebra.common.plugin.Operation;
  * @author Zbynek Konecny
  */
 public class FunctionExpander implements Traversing {
+	private static FunctionExpander collector = new FunctionExpander();
+	// store function variables if needed
+	private FunctionVariable[] variables = null;
 
 	private ExpressionValue expand(GeoElement geo) {
 		if (geo instanceof FunctionalNVar) {
@@ -240,10 +243,6 @@ public class FunctionExpander implements Traversing {
 				}
 		return ev;
 	}
-
-	private static FunctionExpander collector = new FunctionExpander();
-	// store function variables if needed
-	private FunctionVariable[] variables = null;
 
 	/**
 	 * Resets and returns the collector

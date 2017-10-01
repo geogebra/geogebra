@@ -20,6 +20,14 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class TextOptionsModel extends OptionsModel {
+	private ITextOptionsListener listener;
+
+	private boolean justDisplayFontSize;
+
+	private Localization loc;
+	private DynamicTextProcessor dTProcessor;
+	private GeoText editGeo;
+
 	public interface ITextOptionsListener extends PropertyListener {
 
 		void setWidgetsVisible(boolean showFontDetails, boolean isButton);
@@ -45,14 +53,6 @@ public class TextOptionsModel extends OptionsModel {
 		void reinitEditor();
 
 	}
-
-	private ITextOptionsListener listener;
-
-	private boolean justDisplayFontSize;
-
-	private Localization loc;
-	private DynamicTextProcessor dTProcessor;
-	private GeoText editGeo;
 
 	public TextOptionsModel(App app) {
 		super(app);

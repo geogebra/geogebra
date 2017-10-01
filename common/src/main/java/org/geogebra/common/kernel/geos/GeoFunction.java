@@ -114,6 +114,21 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private Function includesFreehandOrDataFun = null;
 	private Function includesNonContinuousIntegralFun = null;
 	private Function includesDivisionByVarFun = null;
+	/** StringBuilder for temporary string manipulation */
+	protected StringBuilder sbToString = new StringBuilder(80);
+
+	private boolean showOnAxis;
+	/**
+	 * we don't care about values of these
+	 */
+	final private static String[] dummy1 = { "", "" };
+	/**
+	 * we don't care about values of these
+	 */
+	final private static char[] dummy2 = { ' ', ' ' };
+
+	private double[] bounds;
+
 
 	private static StringBuilder sbCasCommand;
 	/**
@@ -884,11 +899,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 	}
 
-	/** StringBuilder for temporary string manipulation */
-	protected StringBuilder sbToString = new StringBuilder(80);
-
-	private boolean showOnAxis;
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 
@@ -991,16 +1001,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 	}
 
-	/**
-	 * we don't care about values of these
-	 */
-	final private static String[] dummy1 = { "", "" };
-	/**
-	 * we don't care about values of these
-	 */
-	final private static char[] dummy2 = { ' ', ' ' };
-
-	private double[] bounds;
 
 	/**
 	 * 

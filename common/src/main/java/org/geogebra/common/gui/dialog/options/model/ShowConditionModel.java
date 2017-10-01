@@ -10,14 +10,14 @@ import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.StringUtil;
 
 public class ShowConditionModel extends OptionsModel {
+	private IShowConditionListener listener;
+
 	public interface IShowConditionListener extends PropertyListener {
 		void setText(String text);
 
 		void updateSelection(Object[] geos);
 
 	}
-
-	private IShowConditionListener listener;
 
 	public ShowConditionModel(App app, IShowConditionListener listener) {
 		super(app);

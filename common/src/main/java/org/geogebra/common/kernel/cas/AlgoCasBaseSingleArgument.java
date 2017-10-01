@@ -31,6 +31,7 @@ import org.geogebra.common.main.App;
  * @author Markus Hohenwarter
  */
 public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -48,8 +49,6 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 			CasEvaluableFunction f, Commands cmd, EvalInfo info) {
 		super(cons, label, f, cmd, info);
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

@@ -100,6 +100,7 @@ public interface Inspecting {
 		private boolean isOtherVar;
 		private int nrOfPoints;
 		private static int type, dim;
+		private static UnplottableChecker checker = new UnplottableChecker();
 
 		@Override
 		public boolean check(ExpressionValue v) {
@@ -201,8 +202,6 @@ public interface Inspecting {
 			}
 			return setType(v);
 		}
-
-		private static UnplottableChecker checker = new UnplottableChecker();
 
 		private static boolean setType(ExpressionValue v) {
 			if (v instanceof Command) {

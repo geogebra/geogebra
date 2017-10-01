@@ -11,13 +11,13 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class ReflexAngleModel extends MultipleOptionsModel {
-	public interface IReflexAngleListener extends IComboListener {
-		void setComboLabels();
-	}
-
 	private boolean hasOrientation;
 	private boolean isDrawable;
 	private boolean isDefaults;
+
+	public interface IReflexAngleListener extends IComboListener {
+		void setComboLabels();
+	}
 
 	public ReflexAngleModel(App app, boolean isDefaults) {
 		super(app);

@@ -93,6 +93,7 @@ import org.geogebra.common.plugin.GeoClass;
  */
 
 public class Kernel3D extends Kernel {
+	private double zmin3, zmax3, zscale3;
 
 	/**
 	 * @param app
@@ -369,8 +370,6 @@ public class Kernel3D extends Kernel {
 		}
 		return super.getZscale(i);
 	}
-
-	private double zmin3, zmax3, zscale3;
 
 	/**
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis

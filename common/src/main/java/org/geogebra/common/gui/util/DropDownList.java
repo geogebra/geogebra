@@ -11,11 +11,6 @@ import org.geogebra.common.util.GTimerListener;
 import com.google.j2objc.annotations.Weak;
 
 public class DropDownList {
-	public interface DropDownListener {
-		void onClick(int x, int y);
-
-		void onScroll(int x, int y);
-	}
 
 	protected static final int BOX_ROUND = 8;
 	protected static final int MAX_WIDTH = 40;
@@ -30,6 +25,12 @@ public class DropDownList {
 
 	@Weak
 	private DropDownListener listener;
+
+	public interface DropDownListener {
+		void onClick(int x, int y);
+
+		void onScroll(int x, int y);
+	}
 
 	public DropDownList(App app, DropDownListener listener) {
 		this.listener = listener;

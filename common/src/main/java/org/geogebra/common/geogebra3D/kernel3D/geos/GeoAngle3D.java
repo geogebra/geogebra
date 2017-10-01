@@ -10,6 +10,7 @@ import org.geogebra.common.plugin.GeoClass;
  *
  */
 final public class GeoAngle3D extends GeoAngle {
+	private boolean hasOrientation;
 
 	/**
 	 * @param c
@@ -24,8 +25,6 @@ final public class GeoAngle3D extends GeoAngle {
 	public GeoClass getGeoClassType() {
 		return GeoClass.ANGLE3D;
 	}
-
-	private boolean hasOrientation;
 
 	@Override
 	public boolean hasOrientation() {

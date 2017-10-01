@@ -53,6 +53,15 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	private boolean isPartOfClosedSurface = false;
 
 	private boolean createSegments = true;
+	private ArrayList<GeoPoint3D> points3DArray;
+
+	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
+
+	private CoordMatrix4x4 tmpMatrix4x4;
+
+	private boolean reverseNormal = false;
+	private double[] tmp3;
+
 
 	/**
 	 * default constructor
@@ -263,8 +272,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			updateCoordSys();
 		}
 	}
-
-	private ArrayList<GeoPoint3D> points3DArray;
 
 	@Override
 	public void setCoordSys(GeoPolygon poly) {
@@ -631,10 +638,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public void setRegionChanged(GeoPointND PI, double x, double y) {
-
 		PI.setCoords2D(x, y, 1);
 		PI.updateCoordsFrom2D(false, null);
-
 	}
 
 	@Override
@@ -663,8 +668,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	// ////////////////////////////////
 	// 2D VIEW
-
-	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
 	@Override
 	public int getViewID() {
@@ -761,8 +764,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
 	}
-
-	private CoordMatrix4x4 tmpMatrix4x4;
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
@@ -1010,8 +1011,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	// REVERSE ORIENTATION
 	// /////////////////////////////////
 
-	private boolean reverseNormal = false;
-
 	/**
 	 * set that normal should be reversed
 	 */
@@ -1111,16 +1110,12 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	@Override
 	public boolean isConvexInverseDirection() {
-
 		// face orientation is created by the points
 		return reverseNormal;
 	}
 
-	private double[] tmp3;
-
 	@Override
 	public void calcCentroid(GeoPointND p) {
-
 		// just do long method
 		// could improve by transforming original centroid, but not worth doing
 		// test-case Centroid[Dilate[Polygon[(0,0),(1,1),(1,0)],4]]

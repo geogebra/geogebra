@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoDelauneyTriangulation extends AlgoDiscrete {
+	private static Comparator<MyLine> lineComparator;
 
 	public AlgoDelauneyTriangulation(Construction cons, String label,
 			GeoList inputList) {
@@ -159,7 +160,5 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 
 		return lineComparator;
 	}
-
-	private static Comparator<MyLine> lineComparator;
 
 }

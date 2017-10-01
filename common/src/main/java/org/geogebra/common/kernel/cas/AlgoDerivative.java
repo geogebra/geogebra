@@ -41,6 +41,7 @@ public class AlgoDerivative extends AlgoCasBase {
 
 	// true -> non-CAS version (faster, used by eg AlgoTangentXXX)
 	private boolean fast = false;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -163,8 +164,6 @@ public class AlgoDerivative extends AlgoCasBase {
 		setOnlyOutput(g);
 		setDependencies(); // done by AlgoElement
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

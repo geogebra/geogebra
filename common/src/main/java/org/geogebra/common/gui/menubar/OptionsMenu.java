@@ -8,6 +8,12 @@ import org.geogebra.common.util.Util;
  * This class is not a superclass of OptionsMenu, only common method stack
  */
 public class OptionsMenu {
+	final private static int ROUNDING_MENU_LOOKUP[] = { 0, 1, 2, 3, 4, 5, 10,
+			15, -1, 3, 5, 10, 15 };
+	final private static int DECIMALS_LOOKUP[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
+			-1, 6, -1, -1, -1, -1, 7 };
+	final private static int FIGURES_LOOKUP[] = { -1, -1, -1, 9, -1, 10, -1, -1,
+			-1, -1, 11, -1, -1, -1, -1, 12 };
 
 	private RadioButtonMenuBar menuDecimalPlaces;
 	private RadioButtonMenuBar menuLabeling;
@@ -255,13 +261,6 @@ public class OptionsMenu {
 		// updateMenuViewDescription();
 		updateMenuLabeling();
 	}
-
-	final private static int ROUNDING_MENU_LOOKUP[] = { 0, 1, 2, 3, 4, 5, 10,
-			15, -1, 3, 5, 10, 15 };
-	final private static int DECIMALS_LOOKUP[] = { 0, 1, 2, 3, 4, 5, -1, -1, -1,
-			-1, 6, -1, -1, -1, -1, 7 };
-	final private static int FIGURES_LOOKUP[] = { -1, -1, -1, 9, -1, 10, -1, -1,
-			-1, -1, 11, -1, -1, -1, -1, 12 };
 
 	public static int figuresLookup(int i) {
 		return FIGURES_LOOKUP[i];

@@ -73,6 +73,9 @@ public class Material implements Comparable<Material>, Serializable {
 	 * thumbnail available for the material.
 	 */
 	private String thumbnail;
+	private boolean thumbnailIsBase64 = false;
+
+	private String preview_url;
 
 	/**
 	 * true if a material is featured, false otherwise.
@@ -299,8 +302,6 @@ public class Material implements Comparable<Material>, Serializable {
 		this.url_direct = url_direct;
 	}
 
-	private String preview_url;
-
 	public void setPreviewURL(String preview_url) {
 		this.preview_url = preview_url;
 	}
@@ -312,8 +313,6 @@ public class Material implements Comparable<Material>, Serializable {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
-	private boolean thumbnailIsBase64 = false;
 
 	public void setThumbnailUrl(String url) {
 		this.thumbnail = url;

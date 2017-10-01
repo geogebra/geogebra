@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * @author Markus
  */
 public class GeoLocus extends GeoLocusND<MyPoint> implements GeoLocusable {
+	private Coords changingPoint;
 
 	/**
 	 * Creates new locus
@@ -102,8 +103,6 @@ public class GeoLocus extends GeoLocusND<MyPoint> implements GeoLocusable {
 
 		return segment;
 	}
-
-	private Coords changingPoint;
 
 	@Override
 	protected void setChangingPoint(GeoPointND P) {

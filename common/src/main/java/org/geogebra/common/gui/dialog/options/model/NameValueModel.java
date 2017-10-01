@@ -11,13 +11,12 @@ import org.geogebra.common.main.error.ErrorHandler;
  *
  */
 public class NameValueModel extends ShowLabelModel {
-	// private static final int MODE_CAPTION = 3;
+	private ObjectNameModel nameModel;
+	private boolean forceCaption = false;
 
 	public interface INameValueListener extends IObjectNameListener, IShowLabelListener {
 		// concat two interfaces.
 	}
-	private ObjectNameModel nameModel;
-	private boolean forceCaption = false;
 	/**
 	 * 
 	 * @param app

@@ -4,12 +4,11 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.main.App;
 
 public class ButtonSizeModel extends OptionsModel {
+	private IButtonSizeListener listener;
+
 	public interface IButtonSizeListener extends PropertyListener {
 		void updateSizes(int width, int height, boolean isFixed);
-
 	}
-
-	private IButtonSizeListener listener;
 
 	public ButtonSizeModel(App app) {
 		super(app);

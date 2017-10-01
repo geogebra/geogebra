@@ -24,6 +24,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoLine3D extends GeoCoordSys1D {
 
 	private String parameter = Unicode.lambda + "";
+	private boolean showUndefinedInAlgebraView = false;
 
 	/**
 	 * creates a line joining O and I
@@ -100,8 +101,6 @@ public class GeoLine3D extends GeoCoordSys1D {
 		}
 		return false;
 	}
-
-	private boolean showUndefinedInAlgebraView = false;
 
 	/**
 	 * Set whether this line should be visible in AV when undefined

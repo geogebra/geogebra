@@ -18,6 +18,7 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 
 	private GeoFunctionNVar result;
 	private FunctionalNVar functional;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -50,8 +51,6 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 		setDependencies();
 
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	public void compute() {

@@ -30,6 +30,7 @@ public class AlgoPolynomialCD extends AlgoElement {
 	private GeoFunction g; // output
 
 	private StringBuilder sb = new StringBuilder();
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -76,8 +77,6 @@ public class AlgoPolynomialCD extends AlgoElement {
 	public GeoFunction getResult() {
 		return g;
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	public final void compute() {

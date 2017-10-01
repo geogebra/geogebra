@@ -21,6 +21,9 @@ import org.geogebra.common.plugin.GeoClass;
  *
  */
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
+	private boolean allowOutlyingIntersections = false;
+	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
+															// rotation, ...
 
 	/**
 	 * @param c
@@ -103,10 +106,6 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	// ///////////////////////////////////////
 	// LIMITED PATH
 	// ///////////////////////////////////////
-
-	private boolean allowOutlyingIntersections = false;
-	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
-															// rotation, ...
 
 	@Override
 	final public boolean isLimitedPath() {

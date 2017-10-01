@@ -58,6 +58,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	// corner points for transformations
 	private GeoPoint[] tempPoints;
+	// coords is the 2d result array for (x, y); n is 0, 1, or 2
+	private double[] tempCoords = new double[2];
+	private ArrayList<GeoPointND> al = null;
 
 	/**
 	 * Creates new image
@@ -730,9 +733,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	// coords is the 2d result array for (x, y); n is 0, 1, or 2
-	private double[] tempCoords = new double[2];
-
 	private void getInternalCornerPointCoords(double[] coords, int n) {
 		GeoPoint A = corners[0];
 		GeoPoint B = corners[1];
@@ -973,8 +973,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 		return true;
 	}
-
-	private ArrayList<GeoPointND> al = null;
 
 	/**
 	 * Returns all free parent points of this GeoElement.

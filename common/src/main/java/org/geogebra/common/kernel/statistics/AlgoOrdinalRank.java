@@ -36,6 +36,8 @@ public class AlgoOrdinalRank extends AlgoElement {
 	private GeoList outputList; // output
 	private int size;
 
+	private static Comparator<OrderedPair> comparator;
+
 	public AlgoOrdinalRank(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
@@ -149,7 +151,4 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 		return comparator;
 	}
-
-	private static Comparator<OrderedPair> comparator;
-
 }

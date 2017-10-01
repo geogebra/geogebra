@@ -14,9 +14,10 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.MyError;
 
 /**
- * ZoomIn
+ * SetViewDirection processor
  */
 public class CmdSetViewDirection extends CmdScripting {
+	private Coords tmpCoords;
 	/**
 	 * Creates new ZooomOut command
 	 * 
@@ -26,8 +27,6 @@ public class CmdSetViewDirection extends CmdScripting {
 	public CmdSetViewDirection(Kernel kernel) {
 		super(kernel);
 	}
-
-	private Coords tmpCoords;
 
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {

@@ -114,6 +114,26 @@ public class GeoPolyhedron extends GeoElement3D
 
 	/** face currently constructed */
 	private ConstructionElementCycle currentFace;
+	/**
+	 * last face index (for pyramid/prism)
+	 */
+	private int topFaceIndex;
+	private StringBuilder sb = new StringBuilder();
+	private boolean allLabelsAreSet = false;
+	static private Comparator<GeoPointND> pointIdComparator = null;
+	private TreeMap<GeoPointND, GeoPoint3D> copyPoints;
+	private boolean isDefined = true;
+
+	private boolean trace;
+
+	private double volume = Double.NaN;
+	private double area = Double.NaN;
+	/**
+	 * oriented (positive or negative) height
+	 */
+	private double orientedHeight;
+
+	private StringBuilder sbToString = new StringBuilder(50);
 
 	/**
 	 * constructor
@@ -277,11 +297,6 @@ public class GeoPolyhedron extends GeoElement3D
 	public Collection<Integer> getPolygonsIndices() {
 		return polygonsIndex.values();
 	}
-
-	/**
-	 * last face index (for pyramid/prism)
-	 */
-	private int topFaceIndex;
 
 	/**
 	 * says that current face created is the last face (for pyramid/prism) (warn
@@ -560,8 +575,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	}
 
-	private boolean allLabelsAreSet = false;
-
 	/**
 	 * Returns whether the method initLabels() was called for this polygon. This
 	 * is important to know whether the segments have gotten labels.
@@ -661,8 +674,6 @@ public class GeoPolyhedron extends GeoElement3D
 			point.setLabel(null);
 		}
 	}
-
-	private StringBuilder sb = new StringBuilder();
 
 	/**
 	 * 
@@ -1251,7 +1262,6 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public boolean isDefined() {
-
 		return isDefined;
 	}
 
@@ -1260,8 +1270,6 @@ public class GeoPolyhedron extends GeoElement3D
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	static private Comparator<GeoPointND> pointIdComparator = null;
 
 	@Override
 	public void set(GeoElementND geo) {
@@ -1353,8 +1361,6 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 	}
 
-	private TreeMap<GeoPointND, GeoPoint3D> copyPoints;
-
 	private GeoPoint3D getCopyPoint(GeoPointND point) {
 		GeoPoint3D copyPoint = copyPoints.get(point);
 		if (copyPoint == null) {
@@ -1424,8 +1430,6 @@ public class GeoPolyhedron extends GeoElement3D
 		return true;
 	}
 
-	private boolean isDefined = true;
-
 	@Override
 	public void setUndefined() {
 		isDefined = false;
@@ -1474,8 +1478,6 @@ public class GeoPolyhedron extends GeoElement3D
 	public String toValueString(StringTemplate tpl) {
 		return kernel.format(getVolume(), tpl);
 	}
-
-	private StringBuilder sbToString = new StringBuilder(50);
 
 	@Override
 	public String toString(StringTemplate tpl) {
@@ -1531,8 +1533,6 @@ public class GeoPolyhedron extends GeoElement3D
 	// VOLUME
 	// //////////////////////////
 
-	private double volume = Double.NaN;
-
 	/**
 	 * sets the volume
 	 * 
@@ -1556,8 +1556,6 @@ public class GeoPolyhedron extends GeoElement3D
 	// //////////////////////////
 	// AREA
 	// //////////////////////////
-
-	private double area = Double.NaN;
 
 	/**
 	 * sets the area (total area of the faces)
@@ -1604,8 +1602,6 @@ public class GeoPolyhedron extends GeoElement3D
 	// ////////////////
 	// TRACE
 	// ////////////////
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {
@@ -1787,11 +1783,6 @@ public class GeoPolyhedron extends GeoElement3D
 		orientedHeight *= r;
 
 	}
-
-	/**
-	 * oriented (positive or negative) height
-	 */
-	private double orientedHeight;
 
 	/**
 	 * set oriented (positive or negative) height

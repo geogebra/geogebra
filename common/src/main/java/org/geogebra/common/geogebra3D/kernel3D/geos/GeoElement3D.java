@@ -124,6 +124,8 @@ import org.geogebra.common.kernel.geos.Test;
  * 
  */
 public abstract class GeoElement3D extends GeoElement {
+	private StringBuilder sbToString;
+	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	/********************************************************/
 
@@ -172,8 +174,6 @@ public abstract class GeoElement3D extends GeoElement {
 	// //////////////////////////
 	// for toString()
 
-	private StringBuilder sbToString;
-
 	/**
 	 * @return builder for toString
 	 */
@@ -183,8 +183,6 @@ public abstract class GeoElement3D extends GeoElement {
 		}
 		return sbToString;
 	}
-
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	/**
 	 * @return builder for toValueString

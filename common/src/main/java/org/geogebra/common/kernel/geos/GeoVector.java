@@ -80,6 +80,10 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	private boolean waitingForStartPoint = false;
 	private HashSet<GeoPointND> waitingPointSet;
 
+	private StringBuilder sbToString = new StringBuilder(50);
+	private StringBuilder sbBuildValueString = new StringBuilder(50);
+	private StringBuilder sb;
+
 	/**
 	 * Creates new GeoVector
 	 * 
@@ -496,7 +500,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -561,8 +564,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		}
 		return sbBuildValueString;
 	}
-
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
 
 	/**
 	 * interface VectorValue implementation
@@ -819,8 +820,6 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		sb.append("\\end{tabular}\\hspace{-0.4em} \\right)");
 
 	}
-
-	private StringBuilder sb;
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {

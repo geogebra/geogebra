@@ -13,6 +13,10 @@ import org.geogebra.common.move.views.EventRenderable;
  *
  */
 public class OpenFromGGTOperation extends BaseOperation<EventRenderable> {
+	/**
+	 * Application App
+	 */
+	protected App app;
 
 	/**
 	 * @author gabor App type concerning from where this class called
@@ -27,11 +31,6 @@ public class OpenFromGGTOperation extends BaseOperation<EventRenderable> {
 		 */
 		public final static String DESKTOP = "desktop";
 	}
-
-	/**
-	 * Application App
-	 */
-	protected App app;
 
 	/**
 	 * @param app

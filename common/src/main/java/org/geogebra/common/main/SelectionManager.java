@@ -76,6 +76,8 @@ public class SelectionManager {
 	private final ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<GeoPolyhedronInterface>();
 
 	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<GeoPlaneND>();
+	/** selected geos names just before undo/redo */
+	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
 
 	private boolean geoToggled = false;
 
@@ -1096,9 +1098,6 @@ public class SelectionManager {
 		clearSelection(getSelectedQuadricLimitedList(), false);
 
 	}
-
-	/** selected geos names just before undo/redo */
-	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
 
 	/**
 	 * store selected geos names

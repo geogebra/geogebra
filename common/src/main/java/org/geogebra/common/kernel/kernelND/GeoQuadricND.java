@@ -52,6 +52,9 @@ public abstract class GeoQuadricND extends GeoElement
 	 */
 	protected double[] matrix;
 
+	private CoordMatrix symetricMatrix;
+
+
 	/**
 	 * half axes
 	 */
@@ -85,6 +88,11 @@ public abstract class GeoQuadricND extends GeoElement
 	protected double[] mu = new double[2];
 	/** flag for intersect(quadric, quadric) */
 	protected boolean isIntersection;
+	private CoordMatrix tmpEigenMatrix;
+
+	private ChangeableCoordParent changeableCoordParent = null;
+
+	private boolean trace;
 
 	/**
 	 * default constructor
@@ -179,8 +187,6 @@ public abstract class GeoQuadricND extends GeoElement
 	// MATRIX REPRESENTATION
 	/////////////////////////////////
 
-	private CoordMatrix symetricMatrix;
-
 	/**
 	 * @param vals
 	 *            flat matrix
@@ -222,7 +228,6 @@ public abstract class GeoQuadricND extends GeoElement
 		return getSymetricMatrix(matrix);
 	}
 
-	private CoordMatrix tmpEigenMatrix;
 
 	/**
 	 * sets the matrix values from eigenvectors, midpoint and "diagonal" values
@@ -611,8 +616,6 @@ public abstract class GeoQuadricND extends GeoElement
 	// PARENT NUMBER (HEIGHT OF A PRISM, ...)
 	// ////////////////////////////////////////////////////
 
-	private ChangeableCoordParent changeableCoordParent = null;
-
 	/**
 	 * sets the parents for changing coords
 	 * 
@@ -663,9 +666,6 @@ public abstract class GeoQuadricND extends GeoElement
 	//////////////////
 	// TRACE
 	//////////////////
-
-	private boolean trace;
-
 	@Override
 	public boolean isTraceable() {
 		return true;

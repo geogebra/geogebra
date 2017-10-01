@@ -37,6 +37,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	private GeoFunction g, h; // output
 	private GeoList result;
 	private StringBuilder sb = new StringBuilder();
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -88,8 +89,6 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	public final void compute() {

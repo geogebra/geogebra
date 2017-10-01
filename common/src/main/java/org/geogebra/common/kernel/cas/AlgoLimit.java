@@ -38,6 +38,7 @@ public class AlgoLimit extends AlgoElement
 	/** result */
 	protected GeoNumeric outNum;
 	private String limitString;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -90,8 +91,6 @@ public class AlgoLimit extends AlgoElement
 	public GeoNumeric getResult() {
 		return outNum;
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	public void compute() {

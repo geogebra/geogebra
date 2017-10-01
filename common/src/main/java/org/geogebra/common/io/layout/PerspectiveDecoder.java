@@ -29,37 +29,6 @@ public class PerspectiveDecoder {
 	private static final int INPUT_ROW_HEIGHT = 80;
 	private static final int AV_ROWS_IN_PORTRAIT = 5;
 
-	/**
-	 * @param width
-	 *            applet width
-	 * @return prefered ratio of left panel for AV perspective
-	 */
-	public static double landscapeRatio(double width) {
-		if (width < 300) {
-			return 2.0 / 3.0;
-		}
-		if (width < 600) {
-			return 200 / width;
-		}
-
-		return 100 / width + 1 / 6.0;
-
-	}
-
-	/**
-	 * @param height
-	 *            applet height
-	 * @param graphing
-	 *            whether this is for graphing
-	 * @return prefered ratio for AV perspective in portrait mode.
-	 */
-	public static double portraitRatio(double height, boolean graphing) {
-		if (graphing) {
-			double avHeight = AV_ROWS_IN_PORTRAIT * INPUT_ROW_HEIGHT;
-			return 1 - avHeight / height;
-		}
-		return GEOMETRY_PORTRAIT_RATIO;
-	}
 
 	private static Map<String, DockPanelData> viewCodes = new HashMap<String, DockPanelData>();
 	static {
@@ -139,6 +108,38 @@ public class PerspectiveDecoder {
 								false, false, AwtFactory.getPrototype()
 										.newRectangle(100, 100, 600, 400),
 								"3", 300));
+	}
+	
+	/**
+	 * @param width
+	 *            applet width
+	 * @return prefered ratio of left panel for AV perspective
+	 */
+	public static double landscapeRatio(double width) {
+		if (width < 300) {
+			return 2.0 / 3.0;
+		}
+		if (width < 600) {
+			return 200 / width;
+		}
+
+		return 100 / width + 1 / 6.0;
+
+	}
+
+	/**
+	 * @param height
+	 *            applet height
+	 * @param graphing
+	 *            whether this is for graphing
+	 * @return prefered ratio for AV perspective in portrait mode.
+	 */
+	public static double portraitRatio(double height, boolean graphing) {
+		if (graphing) {
+			double avHeight = AV_ROWS_IN_PORTRAIT * INPUT_ROW_HEIGHT;
+			return 1 - avHeight / height;
+		}
+		return GEOMETRY_PORTRAIT_RATIO;
 	}
 
 	/**

@@ -43,6 +43,12 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	private double rotSpeed;
 
+	private int projection;
+
+	private boolean useClippingCube = false;
+	private int clippingReduction = 1;
+	private boolean showClippingCube = false;
+
 	/**
 	 * default value for eye distance to the screen for perspective
 	 */
@@ -215,8 +221,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return zZero;
 	}
 
-	private boolean useClippingCube = false;
-
 	public void setUseClippingCube(boolean flag) {
 
 		if (useClippingCube != flag) {
@@ -229,8 +233,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return useClippingCube;
 	}
 
-	private boolean showClippingCube = false;
-
 	public void setShowClippingCube(boolean flag) {
 		if (showClippingCube != flag) {
 			showClippingCube = flag;
@@ -241,8 +243,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public boolean showClippingCube() {
 		return showClippingCube;
 	}
-
-	private int clippingReduction = 1;
 
 	public void setClippingReduction(int value) {
 		if (clippingReduction != value) {
@@ -275,8 +275,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		settingChanged();
 
 	}
-
-	private int projection;
 
 	public void setProjection(int projection) {
 		if (this.projection != projection) {

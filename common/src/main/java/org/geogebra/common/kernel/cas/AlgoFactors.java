@@ -32,6 +32,7 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 	private GeoList g; // output
 
 	private StringBuilder sb = new StringBuilder();
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -74,8 +75,6 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 	public GeoList getResult() {
 		return g;
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	public final void compute() {

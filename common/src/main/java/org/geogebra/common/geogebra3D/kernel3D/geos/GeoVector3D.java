@@ -47,6 +47,14 @@ public class GeoVector3D extends GeoVec4D
 
 	private Coords labelPosition = new Coords(0, 0, 0, 0);
 
+	private StringBuilder sbBuildValueString = new StringBuilder(50);
+	private StringBuilder sbToString = new StringBuilder(50);
+
+	private StringBuilder sb;
+
+	private boolean trace;
+
+
 	/**
 	 * simple constructor
 	 * 
@@ -255,8 +263,6 @@ public class GeoVector3D extends GeoVec4D
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
@@ -331,10 +337,6 @@ public class GeoVector3D extends GeoVec4D
 			sbBuildValueString.append(", ");
 		}
 	}
-
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
-
-	private StringBuilder sb;
 
 	@Override
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
@@ -538,8 +540,6 @@ public class GeoVector3D extends GeoVec4D
 		return ret;
 
 	}
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {

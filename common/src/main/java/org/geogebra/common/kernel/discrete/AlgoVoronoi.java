@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoVoronoi extends AlgoDiscrete {
+	private static Comparator<GPoint2D> pointComparator;
 
 	public AlgoVoronoi(Construction cons, String label, GeoList inputList) {
 		super(cons, label, inputList, null);
@@ -185,7 +186,4 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 		return pointComparator;
 	}
-
-	private static Comparator<GPoint2D> pointComparator;
-
 }

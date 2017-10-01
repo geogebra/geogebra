@@ -6,13 +6,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 
 public class DecoAngleModel extends NumberOptionsModel {
-	public interface IDecoAngleListener extends IComboListener {
-
-		void setArcSizeMinValue();
-
-	}
-
 	private IDecoAngleListener listener;
+
+	public interface IDecoAngleListener extends IComboListener {
+		void setArcSizeMinValue();
+	}
 
 	public DecoAngleModel(App app) {
 		super(app);

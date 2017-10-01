@@ -38,6 +38,9 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 	/** for possibly planar object */
 	private boolean isPlanar = false;
 	private Coords normal = null;
+	private Coords tmpCoords;
+
+	private GeoSegment3D seg = new GeoSegment3D(cons);
 
 	/**
 	 * common constructor for 3D.
@@ -130,8 +133,6 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 		return new GeoPoint3D(cons);
 	}
 
-	private GeoSegment3D seg = new GeoSegment3D(cons);
-
 	private void setSegmentPoints(GeoPointND geoPoint, GeoPointND geoPoint2) {
 		seg.setCoord(geoPoint, geoPoint2);
 	}
@@ -191,8 +192,6 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 
 		pp.setT(t);
 	}
-
-	private Coords tmpCoords;
 
 	@Override
 	public void pointChanged(GeoPointND P) {

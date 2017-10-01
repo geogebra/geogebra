@@ -29,6 +29,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 	GeoLocus locus;
 	GeoBoolean weighted;
 	protected ArrayList<MyPoint> al;
+	protected int edgeCount = 0;
 
 	public AlgoShortestDistance(Construction cons, String label,
 			GeoList inputList, GeoPointND start, GeoPointND end,
@@ -202,8 +203,6 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 		locus.setDefined(true);
 
 	}
-
-	protected int edgeCount = 0;
 
 	class MyLink {
 		protected MyNode n1, n2;

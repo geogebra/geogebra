@@ -18,6 +18,7 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 	private GeoNumberValue init;
 	private GeoNumeric result;
 	private boolean next;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -46,8 +47,6 @@ public class AlgoNextPreviousPrime extends AlgoElement implements UsesCAS {
 		input = new GeoElement[] { init.toGeoElement() };
 		setDependencies();
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	public void compute() {

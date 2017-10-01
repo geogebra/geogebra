@@ -11,6 +11,7 @@ import org.geogebra.common.main.App;
  *
  */
 public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
+	private static final String[] EDIT_TEXT_DEFAULT = { "x", "y", "z" };
 
 	private AxisModel[] mAxisModel;
 	private EuclidianView view;
@@ -127,8 +128,6 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 			}
 		}
 	}
-
-	private static final String[] EDIT_TEXT_DEFAULT = {"x", "y", "z"};
 
 	public String getAxisLabel(int i) {
 		String text = getView().getAxisLabel(i, true);

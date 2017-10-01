@@ -43,6 +43,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		RotateableND, Translateable,
 		MirrorableAtPlane, Transformable, Dilateable {
 	private CoordMatrix4x4 tmpMatrix4x4;
+	private boolean trace;
 	
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -247,8 +248,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	// ////////////////
 	// TRACE
 	// ////////////////
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {

@@ -20,6 +20,17 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  */
 public class GeoInterval extends GeoFunction {
+	private StringBuilder sbToString2;
+	// private double rightBound = Double.NaN;
+	// private double leftBound = Double.NaN;
+	private double[] leftRightBoundsField;
+
+	// private String rightStr = "", leftStr = "";
+	private String[] leftRightStrField;
+
+	// private char rightInequality = ' ';
+	// private char leftInequality = ' ';
+	private char[] leftRightInequalityField;
 
 	/**
 	 * Creates new GeoInterval
@@ -93,8 +104,6 @@ public class GeoInterval extends GeoFunction {
 		return GeoClass.INTERVAL;
 	}
 
-	private StringBuilder sbToString2;
-
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (sbToString2 == null) {
@@ -114,17 +123,6 @@ public class GeoInterval extends GeoFunction {
 	public String toValueString(StringTemplate tpl) {
 		return toString(false, tpl);
 	}
-
-	// private double rightBound = Double.NaN;
-	// private double leftBound = Double.NaN;
-	private double[] leftRightBoundsField;
-
-	// private String rightStr = "", leftStr = "";
-	private String leftRightStrField[];
-
-	// private char rightInequality = ' ';
-	// private char leftInequality = ' ';
-	private char[] leftRightInequalityField;
 
 	/**
 	 * Returns string description of the interval

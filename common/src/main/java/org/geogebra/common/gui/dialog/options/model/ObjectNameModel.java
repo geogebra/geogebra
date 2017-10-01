@@ -13,6 +13,13 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
 
 public class ObjectNameModel extends OptionsModel {
+	private IObjectNameListener listener;
+	private RenameInputHandler nameInputHandler;
+	private RedefineInputHandler defInputHandler;
+	private GeoElementND currentGeo;
+	private boolean redefinitionFailed;
+	private boolean busy;
+
 	public interface IObjectNameListener extends PropertyListener {
 		void setNameText(final String text);
 
@@ -28,13 +35,6 @@ public class ObjectNameModel extends OptionsModel {
 
 		void updateName(final String text);
 	}
-
-	private IObjectNameListener listener;
-	private RenameInputHandler nameInputHandler;
-	private RedefineInputHandler defInputHandler;
-	private GeoElementND currentGeo;
-	private boolean redefinitionFailed;
-	private boolean busy;
 
 	public ObjectNameModel(App app, IObjectNameListener listener) {
 		super(app);

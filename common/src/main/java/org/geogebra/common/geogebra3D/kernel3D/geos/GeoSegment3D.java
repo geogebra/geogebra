@@ -36,6 +36,11 @@ import org.geogebra.common.util.ExtendedBoolean;
  */
 public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
+	private boolean allowOutlyingIntersections = false;
+	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
+	private ChangeableCoordParent changeableCoordParent = null;
+	private boolean forceSimpleTransform;
+	private GeoElement meta = null;
 
 	/**
 	 * constructor with no points
@@ -306,9 +311,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	// LIMITED PATH
 	// ///////////////////////////////////////
 
-	private boolean allowOutlyingIntersections = false;
-	private boolean keepTypeOnGeometricTransform = true; // for mirroring,
-
 	// rotation, ...
 
 	@Override
@@ -335,8 +337,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	public void setKeepTypeOnGeometricTransform(boolean flag) {
 		keepTypeOnGeometricTransform = flag;
 	}
-
-	private boolean forceSimpleTransform;
 
 	/**
 	 * creates new transformed segment
@@ -454,8 +454,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	final public boolean isNumberValue() {
 		return true;
 	}
-
-	private GeoElement meta = null;
 
 	@Override
 	public int getMetasLength() {
@@ -595,8 +593,6 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	// ////////////////////////////////////////////////////
 	// PARENT NUMBER (HEIGHT OF A PRISM, ...)
 	// ////////////////////////////////////////////////////
-
-	private ChangeableCoordParent changeableCoordParent = null;
 
 	/**
 	 * Used for polyhedron net: first polygon set it

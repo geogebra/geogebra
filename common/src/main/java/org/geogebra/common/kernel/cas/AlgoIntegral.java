@@ -36,6 +36,7 @@ public class AlgoIntegral extends AlgoCasBase {
 	private boolean allowConstant;
 	private boolean computedSymbolically = true;
 	private boolean numeric;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -80,8 +81,6 @@ public class AlgoIntegral extends AlgoCasBase {
 		setOutput(0, g.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

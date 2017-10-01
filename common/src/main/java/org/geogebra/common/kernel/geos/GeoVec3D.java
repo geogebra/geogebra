@@ -44,6 +44,7 @@ public abstract class GeoVec3D extends GeoElement
 	 * For backward compatibility
 	 */
 	public boolean hasUpdatePrevilege = false;
+	private StringBuilder sbToString = new StringBuilder(50);
 
 	/**
 	 * @param c
@@ -616,8 +617,6 @@ public abstract class GeoVec3D extends GeoElement
 		sbToString.append(')');
 		return sbToString.toString();
 	}
-
-	private StringBuilder sbToString = new StringBuilder(50);
 
 	/**
 	 * returns all class-specific xml tags for saveXML Geogebra File Format

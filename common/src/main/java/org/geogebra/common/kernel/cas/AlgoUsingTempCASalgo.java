@@ -8,6 +8,10 @@ import org.geogebra.common.kernel.algos.AlgoElement;
  */
 public abstract class AlgoUsingTempCASalgo extends AlgoElement
 		implements UsesCAS {
+	/**
+	 * CAS algo helper
+	 */
+	protected AlgoElement algoCAS;
 
 	/**
 	 * @param c
@@ -28,11 +32,6 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement
 		super(c, addToConstructionList);
 		c.addCASAlgo(this);
 	}
-
-	/**
-	 * CAS algo helper
-	 */
-	protected AlgoElement algoCAS;
 
 	@Override
 	public void remove() {

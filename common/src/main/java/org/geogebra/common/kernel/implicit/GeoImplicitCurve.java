@@ -68,6 +68,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	 */
 	static final int[][] MOVE = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 },
 			{ -3, 0 }, { 3, 0 }, { 0, -3 }, { 0, 3 } };
+	/**
+	 * Border mask
+	 */
+	static final int[] MASK = { 0x9, 0xC, 0x6, 0x3 };
+
 	/* The input expression. */
 	private FunctionNVar expression;
 	/*
@@ -1602,11 +1607,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		}
 		return out;
 	}
-
-	/**
-	 * Border mask
-	 */
-	static final int[] MASK = { 0x9, 0xC, 0x6, 0x3 };
 
 	private static class Timer {
 		public long now;

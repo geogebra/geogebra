@@ -51,6 +51,7 @@ final public class Geo3DVec extends ValidExpression
 	private double y = Double.NaN;
 	private double z = Double.NaN;
 	private int mode = Kernel.COORD_CARTESIAN_3D;
+	private StringBuilder sbToString = new StringBuilder(50);
 
 	private Kernel kernel;
 
@@ -428,8 +429,6 @@ final public class Geo3DVec extends ValidExpression
 		sbToString.append(')');
 		return sbToString.toString();
 	}
-
-	private StringBuilder sbToString = new StringBuilder(50);
 
 	/**
 	 * interface VectorValue implementation

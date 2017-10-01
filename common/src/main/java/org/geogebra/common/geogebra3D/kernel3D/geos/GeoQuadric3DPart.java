@@ -23,6 +23,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		FromMeta, GeoQuadric3DPartInterface, GeoQuadric3DLimitedOrPart {
+	private double bottom, top;
 
 	/** min value for limites */
 	private double min;
@@ -30,6 +31,10 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	private double max;
 
 	private double[] tmpDouble2bis = new double[2];
+	private double area;
+	private GeoElement meta = null;
+
+
 
 	/**
 	 * constructor
@@ -81,8 +86,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 			this.max = min;
 		}
 	}
-
-	private double bottom, top;
 
 	@Override
 	public double getBottomParameter() {
@@ -311,7 +314,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	// AREA
 	// ////////////////////////
 
-	private double area;
 
 	/**
 	 * Update the area
@@ -392,9 +394,6 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	// //////////////////////////
 	// META
 	// //////////////////////////
-
-	private GeoElement meta = null;
-
 	@Override
 	public int getMetasLength() {
 		if (meta == null) {

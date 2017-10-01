@@ -53,6 +53,11 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	// private GeoPointND bottomPoint, topPoint;
 
 	private double bottomParameter, topParameter;
+	private Coords direction;
+	private Coords origin;
+	private double radius;
+	private boolean silentTop = false;
+	private double volume;
 
 	/*
 	 * constructor
@@ -67,13 +72,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * @param c
 	 *            construction
 	 */
-	public GeoQuadric3DLimited(Construction c) {// , GeoPointND bottomPoint,
-												// GeoPointND topPoint) {
-
+	public GeoQuadric3DLimited(Construction c) {
 		super(c);
 
 		setConstructionDefaults();
-
 	}
 
 	/*
@@ -211,13 +213,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		return topParameter;
 	}
 
-	private Coords direction;
-
 	public Coords getDirection() {
 		return direction;
 	}
-
-	private Coords origin;
 
 	public Coords getOrigin() {
 		return origin;
@@ -303,8 +301,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		this.topParameter = topParameter;
 
 	}
-
-	private double radius;
 
 	public double getRadius() {
 		return radius;
@@ -556,9 +552,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	// ///////////////////////////////////
 	// GEOQUADRICND
 	// ///////////////////////////////////
-
-	private double volume;
-
 	/**
 	 * Compute volume from radius, halfAxes and parameters
 	 */
@@ -660,8 +653,6 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public boolean isNumberValue() {
 		return true;
 	}
-
-	private boolean silentTop = false;
 
 	/**
 	 * set top as silent part (not in construction)

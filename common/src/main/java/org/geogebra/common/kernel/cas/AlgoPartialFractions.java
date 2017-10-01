@@ -25,6 +25,8 @@ import org.geogebra.common.kernel.geos.CasEvaluableFunction;
  *
  */
 public class AlgoPartialFractions extends AlgoCasBase {
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	/**
 	 * @param cons
 	 *            construction
@@ -39,8 +41,6 @@ public class AlgoPartialFractions extends AlgoCasBase {
 			CasEvaluableFunction f, EvalInfo info) {
 		super(cons, label, f, Commands.PartialFractions, info);
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {

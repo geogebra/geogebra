@@ -38,6 +38,9 @@ public class GeoInputBox extends GeoButton {
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
 	private StringTemplate tpl = StringTemplate.defaultTemplate;
+	private GeoElementND linkedGeo = null;
+
+	private String text = null;
 
 	/**
 	 * Creates new text field
@@ -104,10 +107,6 @@ public class GeoInputBox extends GeoButton {
 	public GeoElementND getLinkedGeo() {
 		return linkedGeo;
 	}
-
-	private GeoElementND linkedGeo = null;
-
-	private String text = null;
 
 	@Override
 	public String toValueString(StringTemplate tpl1) {

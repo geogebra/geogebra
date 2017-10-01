@@ -46,6 +46,7 @@ public class AlgoFrequency extends AlgoElement {
 	private String[] contingencyRowValues, contingencyColumnValues;
 	private Boolean isContingencyTable = false;
 	private double scaleFactor;
+	private GeoNumeric scale;
 
 	/**
 	 * @param cons
@@ -83,8 +84,6 @@ public class AlgoFrequency extends AlgoElement {
 			GeoBoolean useDensity, GeoNumeric density) {
 		this(cons, isCumulative, classList, dataList, useDensity, density, null);
 	}
-
-	private GeoNumeric scale;
 
 	/**
 	 * @param cons

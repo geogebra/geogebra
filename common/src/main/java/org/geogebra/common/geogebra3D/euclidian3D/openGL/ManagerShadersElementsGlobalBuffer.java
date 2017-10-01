@@ -19,6 +19,9 @@ public class ManagerShadersElementsGlobalBuffer
 	private GLBufferIndices curvesIndices, fanDirectIndices, fanIndirectIndices;
 	private int curvesIndicesSize, fanDirectIndicesSize, fanIndirectIndicesSize;
 
+	private boolean indicesDone = false;
+	private TypeElement oldType = TypeElement.NONE;
+
 	final static boolean DEBUG = false;
 
 	/**
@@ -219,8 +222,6 @@ public class ManagerShadersElementsGlobalBuffer
 			// TODO not needed?
 		}
 
-		private TypeElement oldType = TypeElement.NONE;
-
 		/**
 		 * bind the geometry to its GL buffer
 		 * 
@@ -331,8 +332,6 @@ public class ManagerShadersElementsGlobalBuffer
 			r.loadIndicesBuffer(arrayI, indicesLength);
 			r.draw(getType(), indicesLength);
 		}
-
-		private boolean indicesDone = false;
 
 		/**
 		 * 

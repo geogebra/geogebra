@@ -70,10 +70,6 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	public static final int DEFAULT_SURFACE_GRID_THICKNESS = 1;
 
 	// polyhedrons
-	/** default color for polyhedrons */
-	private final GColor colPolyhedron() {
-		return getColPolygon();
-	}
 
 	/** default alpha for polyhedrons and limited quadrics */
 	public static final float DEFAULT_POLYHEDRON_ALPHA = 0.4f;
@@ -98,6 +94,11 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 	public ConstructionDefaults3D(Construction cons) {
 		super(cons);
 		// Application.debug("ConstructionDefaults3D");
+	}
+
+	/** default color for polyhedrons */
+	private final GColor colPolyhedron() {
+		return getColPolygon();
 	}
 
 	@Override

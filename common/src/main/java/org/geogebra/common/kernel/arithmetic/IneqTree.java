@@ -18,6 +18,7 @@ public class IneqTree {
 	private IneqTree right;
 	private Inequality ineq;
 	private Operation operation = Operation.NO_OPERATION;
+	private int size;
 
 	/**
 	 * @param right
@@ -101,8 +102,6 @@ public class IneqTree {
 		}
 		return b;
 	}
-
-	private int size;
 
 	/**
 	 * recomputeSize needed to make this up to date

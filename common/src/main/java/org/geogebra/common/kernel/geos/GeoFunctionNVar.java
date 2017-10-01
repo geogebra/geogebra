@@ -63,15 +63,40 @@ public class GeoFunctionNVar extends GeoElement
 
 	private static final double STRICT_INEQ_OFFSET = 4 * Kernel.MIN_PRECISION;
 	private static final int SEARCH_SAMPLES = 70;
+	/** helper for pointin region dichotomy */
+	public static final int DICHO_FIRST = 0;
+	/** helper for pointin region dichotomy */
+	public static final int DICHO_LAST = 1;
+	/** helper for pointin region dichotomy */
+	public static final int DICHO_MID = 2;
+
+	static private int DICHO_MAX_STEP = 20;
+
+	private static FunctionExpander functionExpander;
+
 	private FunctionNVar fun;
 	/** derivative functions */
 	private FunctionNVar[] fun1;
 	// private List<Inequality> ineqs;
 	private Boolean isInequality;
 	private boolean isDefined = true;
+	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 
 	/** intervals for plotting, may be null (then interval is R) */
 	private double[] from, to;
+	private StringBuilder sbToString = new StringBuilder(80);
+	private Equation equalityChecker;
+	private GeoPoint helper;
+
+	private boolean hasLastHitParameters = false;
+	private double[][] xyzf;
+
+	private double[] tmp = new double[2];
+	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0),
+			normal = new Coords(3);
+
+	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+	private boolean shortLHS;
 
 	/**
 	 * Creates new GeoFunction
@@ -222,8 +247,6 @@ public class GeoFunctionNVar extends GeoElement
 		// reset derivatives
 		fun1 = null;
 	}
-
-	private static FunctionExpander functionExpander;
 
 	@Override
 	public void setDerivatives() {
@@ -428,8 +451,6 @@ public class GeoFunctionNVar extends GeoElement
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(80);
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined()) {
@@ -518,8 +539,6 @@ public class GeoFunctionNVar extends GeoElement
 	public String getVarString(StringTemplate tpl) {
 		return fun == null ? "" : fun.getVarString(tpl);
 	}
-
-	private Equation equalityChecker;
 
 	@Override
 	public boolean isEqual(GeoElementND geo) {
@@ -649,8 +668,6 @@ public class GeoFunctionNVar extends GeoElement
 	// For 3D
 	// ///////////////////////////////////////
 
-	private double[] tmp = new double[2];
-
 	private double evaluateForDrawSurface() {
 		if (isBooleanFunction()) {
 			if (fun.evaluateBoolean(tmp)) {
@@ -766,10 +783,7 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public boolean isInRegion(double x0, double y0) {
 		return fun.evaluateBoolean(new double[] { x0, y0 });
-
 	}
-
-	private GeoPoint helper;
 
 	@Override
 	public void pointChangedForRegion(GeoPointND P) {
@@ -888,10 +902,6 @@ public class GeoFunctionNVar extends GeoElement
 		return getVarNumber() == 2 && !isBooleanFunction();
 	}
 
-	private boolean hasLastHitParameters = false;
-
-	private double[][] xyzf;
-
 	/**
 	 * 
 	 * @return xyzf arrays for dichotomy
@@ -933,15 +943,6 @@ public class GeoFunctionNVar extends GeoElement
 	private boolean hasLastHitParameters() {
 		return hasLastHitParameters;
 	}
-
-	/** helper for pointin region dichotomy */
-	public static final int DICHO_FIRST = 0;
-	/** helper for pointin region dichotomy */
-	public static final int DICHO_LAST = 1;
-	/** helper for pointin region dichotomy */
-	public static final int DICHO_MID = 2;
-
-	static private int DICHO_MAX_STEP = 20;
 
 	final private static boolean isTooFar(double[] xyzf, double zScale) {
 		return !Kernel.isEqual(xyzf[2], xyzf[3],
@@ -1086,7 +1087,6 @@ public class GeoFunctionNVar extends GeoElement
 	@Override
 	public boolean isTranslateable() {
 		return true;
-
 	}
 
 	@Override
@@ -1200,8 +1200,6 @@ public class GeoFunctionNVar extends GeoElement
 	// /////////////////////////
 	// LEVEL OF DETAIL
 
-	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
-
 	@Override
 	public LevelOfDetail getLevelOfDetail() {
 		return levelOfDetail;
@@ -1286,19 +1284,12 @@ public class GeoFunctionNVar extends GeoElement
 		}
 
 		return ret;
-
 	}
 
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
-
-	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0),
-			normal = new Coords(3);
-
-	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
-	private boolean shortLHS;
 
 	private boolean setNormalFromNeighbours(Coords3 p, double u, double v,
 			Coords3 n) {

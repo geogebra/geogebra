@@ -20,6 +20,38 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DataAnalysisModel {
+	// ggb
+	private App app;
+	private Kernel kernel;
+	private StatGeo statGeo;
+
+	public static final int MODE_ONEVAR = EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS;
+	public static final int MODE_REGRESSION = EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS;
+	public static final int MODE_MULTIVAR = EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS;
+
+	// colors
+	public static final int TABLE_GRID_COLOR_IDX = 0;
+	public static final int TABLE_HEADER_COLOR_IDX = 1;
+	public static final int HISTOGRAM_COLOR_IDX = 2;
+	public static final int BOXPLOT_COLOR_IDX = 3;
+	public static final int BARCHART_COLOR_IDX = 4;
+
+	public static final int DOTPLOT_COLOR_IDX = 5;
+	public static final int NQPLOT_COLOR_IDX = 6;
+	public static final int REGRESSION_COLOR_IDX = 7;
+	public static final int OVERLAY_COLOR_IDX = 8;
+	public static final int BLACK_COLOR_IDX = 9;
+	public static final int WHITE_COLOR_IDX = 10;
+
+	// flags
+	private boolean showDataPanel = false;
+	private boolean showStatPanel = false;
+	private boolean showDataDisplayPanel2 = false;
+	private boolean isIniting = true;
+
+	public static final float opacityBarChart = 0.3f;
+	public static final int thicknessCurve = 4;
+	public static final int thicknessBarChart = 3;
 
 	public interface IDataAnalysisListener extends ICreateColor {
 		void onModeChange();
@@ -55,38 +87,6 @@ public class DataAnalysisModel {
 		GColor createColor(int idx);
 	}
 
-	// ggb
-	private App app;
-	private Kernel kernel;
-	private StatGeo statGeo;
-
-	public static final int MODE_ONEVAR = EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS;
-	public static final int MODE_REGRESSION = EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS;
-	public static final int MODE_MULTIVAR = EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS;
-
-	// colors
-	public static final int TABLE_GRID_COLOR_IDX = 0;
-	public static final int TABLE_HEADER_COLOR_IDX = 1;
-	public static final int HISTOGRAM_COLOR_IDX = 2;
-	public static final int BOXPLOT_COLOR_IDX = 3;
-	public static final int BARCHART_COLOR_IDX = 4;
-
-	public static final int DOTPLOT_COLOR_IDX = 5;
-	public static final int NQPLOT_COLOR_IDX = 6;
-	public static final int REGRESSION_COLOR_IDX = 7;
-	public static final int OVERLAY_COLOR_IDX = 8;
-	public static final int BLACK_COLOR_IDX = 9;
-	public static final int WHITE_COLOR_IDX = 10;
-
-	// flags
-	private boolean showDataPanel = false;
-	private boolean showStatPanel = false;
-	private boolean showDataDisplayPanel2 = false;
-	private boolean isIniting = true;
-
-	public static final float opacityBarChart = 0.3f;
-	public static final int thicknessCurve = 4;
-	public static final int thicknessBarChart = 3;
 
 	/**
 	 * @author mrb

@@ -30,6 +30,10 @@ public class GeoConic3D extends GeoConicND
 
 	/** 2D coord sys where the conic exists */
 	private CoordSys coordSys;
+	private Coords midpoint3D;
+	private CoordMatrix4x4 tmpMatrix4x4;
+
+	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
 	/**
 	 * Creates an empty 3D conic with 2D coord sys
@@ -138,8 +142,6 @@ public class GeoConic3D extends GeoConicND
 	public Coords getMidpointND() {
 		return getMidpoint3D();
 	}
-
-	private Coords midpoint3D;
 
 	@Override
 	public Coords getMidpoint3D() {
@@ -462,8 +464,6 @@ public class GeoConic3D extends GeoConicND
 		super.matrixTransform(ret[0], ret[1], 0, ret[2]);
 	}
 
-	private CoordMatrix4x4 tmpMatrix4x4;
-
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
@@ -595,8 +595,6 @@ public class GeoConic3D extends GeoConicND
 
 	// ////////////////////////////////
 	// 2D VIEW
-
-	private EuclidianViewForPlaneCompanionInterface euclidianViewForPlane;
 
 	@Override
 	public int getViewID() {

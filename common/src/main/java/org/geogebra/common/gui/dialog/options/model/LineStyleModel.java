@@ -7,6 +7,13 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 public class LineStyleModel extends OptionsModel {
+	private boolean lineTypeEnabled;
+	private boolean lineStyleHiddenEnabled;
+	private boolean lineOpacityEnabled;
+
+	private static Integer[] lineStyleArray = null;
+	private ILineStyleListener listener;
+
 	public interface ILineStyleListener extends PropertyListener {
 		void setThicknessSliderValue(int value);
 
@@ -25,17 +32,9 @@ public class LineStyleModel extends OptionsModel {
 		void setLineOpacityVisible(boolean value);
 	}
 
-	private ILineStyleListener listener;
-
 	public void setListener(ILineStyleListener listener) {
 		this.listener = listener;
 	}
-
-	private boolean lineTypeEnabled;
-	private boolean lineStyleHiddenEnabled;
-	private boolean lineOpacityEnabled;
-
-	private static Integer[] lineStyleArray = null;
 
 	public static void initStyleArray() {
 		if (lineStyleArray == null) {

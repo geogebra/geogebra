@@ -45,6 +45,15 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private double[] xyzuv;
 	private double lastHitU, lastHitV;
+	private double[] tmp = new double[2];
+	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
+	private boolean trace;
+	private boolean hasLastHitParameters = false;
+
+	private Coords der1 = new Coords(3), der2 = new Coords(3),
+			normal = new Coords(3);
+	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
 	 * 
@@ -82,18 +91,12 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		set(surface);
 	}
 
-	private double[] tmp = new double[2];
-
 	@Override
 	public void evaluatePoint(double u, double v, Coords3 p) {
 		tmp[0] = u;
 		tmp[1] = v;
 		p.set(fun[0].evaluate(tmp), fun[1].evaluate(tmp), fun[2].evaluate(tmp));
 	}
-
-	private Coords der1 = new Coords(3), der2 = new Coords(3),
-			normal = new Coords(3);
-	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
 
 	private boolean setNormalFromNeighbours(Coords3 p, double u, double v,
 			Coords3 n) {
@@ -366,9 +369,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	// /////////////////////////
 	// LEVEL OF DETAIL
-
-	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
-
 	@Override
 	public LevelOfDetail getLevelOfDetail() {
 		return levelOfDetail;
@@ -387,9 +387,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	// ////////////////
 	// TRACE
 	// ////////////////
-
-	private boolean trace;
-
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -520,10 +517,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
-
-
-
-	
 	/**
 	 * find best point on surface colinear to (x0,y0,z0) point in (vx,vy,vz)
 	 * direction
@@ -688,8 +681,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	public void resetLastHitParameters() {
 		hasLastHitParameters = false;
 	}
-
-	private boolean hasLastHitParameters = false;
 
 	private boolean hasLastHitParameters() {
 		return hasLastHitParameters;

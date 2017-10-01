@@ -22,12 +22,12 @@ import org.geogebra.common.main.settings.EuclidianSettings3D;
  * 
  */
 public class EuclidianView3DCompanion extends EuclidianViewCompanion {
+	private EuclidianView3D view3D;
+	private boolean isStereoBuffered = false;
 
 	public EuclidianView3DCompanion(EuclidianView view) {
 		super(view);
 	}
-
-	private EuclidianView3D view3D;
 
 	@Override
 	protected void setView(EuclidianView view) {
@@ -258,8 +258,6 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	public boolean isPolarized() {
 		return false;
 	}
-
-	private boolean isStereoBuffered = false;
 
 	public void setIsStereoBuffered(boolean flag) {
 		isStereoBuffered = flag;

@@ -33,11 +33,7 @@ package org.geogebra.common.util;
  */
 
 public final class DoubleConsts {
-	/**
-	 * Don't let anyone instantiate this class.
-	 */
-	private DoubleConsts() {
-	}
+
 
 	public static final double POSITIVE_INFINITY = java.lang.Double.POSITIVE_INFINITY;
 	public static final double NEGATIVE_INFINITY = java.lang.Double.NEGATIVE_INFINITY;
@@ -101,6 +97,11 @@ public final class DoubleConsts {
 	 */
 	public static final long SIGNIF_BIT_MASK = 0x000FFFFFFFFFFFFFL;
 
+	/**
+	 * Don't let anyone instantiate this class.
+	 */
+	private DoubleConsts() {
+	}
 	// static {
 	// // verify bit masks cover all bit positions and that the bit
 	// // masks are non-overlapping

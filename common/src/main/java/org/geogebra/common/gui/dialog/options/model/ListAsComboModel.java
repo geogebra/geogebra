@@ -4,11 +4,11 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
 
 public class ListAsComboModel extends BooleanOptionModel {
+	private IListAsComboListener listener;
+
 	public interface IListAsComboListener extends IBooleanOptionListener {
 		void drawListAsComboBox(GeoList geo, boolean value);
 	}
-
-	private IListAsComboListener listener;
 
 	public ListAsComboModel(App app, IListAsComboListener listener) {
 		super(listener, app);

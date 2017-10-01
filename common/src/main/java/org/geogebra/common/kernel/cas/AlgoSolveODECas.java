@@ -27,6 +27,7 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	private GeoPointND pt;
 	private String oldCASstring;
 	private boolean nocas = false;
+	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
@@ -76,8 +77,6 @@ public class AlgoSolveODECas extends AlgoUsingTempCASalgo {
 	public Commands getClassName() {
 		return Commands.SolveODE;
 	}
-
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	@Override
 	protected void setInputOutput() {

@@ -52,6 +52,7 @@ public class MyList extends ValidExpression
 
 	// list for list elements
 	private ArrayList<ExpressionValue> listElements;
+	private boolean isDefined = true;
 
 	/**
 	 * Creates new MyList
@@ -190,8 +191,6 @@ public class MyList extends ValidExpression
 			StringTemplate tpl) {
 		apply(operation, value, false, tpl);
 	}
-
-	private boolean isDefined = true;
 
 	final private void matrixMultiply(MyList LHlist, MyList RHlist) {
 		int LHcols = LHlist.getMatrixCols(), LHrows = LHlist.getMatrixRows();

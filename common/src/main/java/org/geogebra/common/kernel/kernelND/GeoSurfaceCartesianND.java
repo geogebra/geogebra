@@ -31,6 +31,10 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		CasEvaluableFunction {
 	protected static final int BIVARIATE_SAMPLES = 8;
 	protected static final int BIVARIATE_JUMPS = 10;
+	private static final int GRADIENT_JUMPS = 100;
+
+	private static FunctionExpander functionExpander;
+
 	/** coordinates functions */
 	protected FunctionNVar[] fun;
 	/** derivative functions */
@@ -50,7 +54,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	protected Coords bivariateVector, bivariateDelta;
 
 	protected CoordMatrix jacobian;
-
 
 	/**
 	 * common constructor
@@ -162,8 +165,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		fun1 = null;
 		fun2 = null;
 	}
-
-	private static FunctionExpander functionExpander;
 
 	/**
 	 * Replaces geo and all its dependent geos in this function's expression by
@@ -457,8 +458,6 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		return false;
 
 	}
-
-	private static final int GRADIENT_JUMPS = 100;
 
 	// private static final int GRADIENT_SAMPLES = 8;
 

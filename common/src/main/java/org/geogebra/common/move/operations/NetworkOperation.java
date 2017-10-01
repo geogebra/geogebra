@@ -8,6 +8,10 @@ import org.geogebra.common.move.views.OfflineView;
  *
  */
 public class NetworkOperation extends BaseOperation<BooleanRenderable> {
+	/**
+	 * The Application is online, or not
+	 */
+	protected boolean online;
 
 	/**
 	 * Creates a new offlineOperation class for Offline functionality
@@ -23,11 +27,6 @@ public class NetworkOperation extends BaseOperation<BooleanRenderable> {
 	public OfflineView getView() {
 		return (OfflineView) view;
 	}
-
-	/**
-	 * The Application is online, or not
-	 */
-	protected boolean online;
 
 	/**
 	 * @return if app state is online

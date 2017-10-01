@@ -84,13 +84,6 @@ public class Construction {
 	 */
 	private TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
 
-	/**
-	 * creates the ConstructionDefaults consDefaults
-	 */
-	final private void newConstructionDefaults() {
-		consDefaults = companion.newConstructionDefaults();
-	}
-
 	// list of Macro commands used in this construction
 	// TODO: specify type once Macro is ported
 	private ArrayList<Macro> usedMacros;
@@ -166,13 +159,6 @@ public class Construction {
 	private GeoElement keepGeo;
 	private ArrayList<GeoElement> latexGeos;
 
-	/**
-	 * @return geo temporarily kept inside this construction
-	 */
-	public GeoElement getKeepGeo() {
-		return keepGeo;
-	}
-
 	// axis objects
 	private GeoAxis xAxis, yAxis;
 	private String xAxisLocalName, yAxisLocalName;
@@ -240,6 +226,13 @@ public class Construction {
 	}
 
 	/**
+	 * @return geo temporarily kept inside this construction
+	 */
+	public GeoElement getKeepGeo() {
+		return keepGeo;
+	}
+
+	/**
 	 * @param selfGeo
 	 *            new value of "self" variable
 	 */
@@ -273,6 +266,13 @@ public class Construction {
 		yAxis = new GeoAxis(this, GeoAxisND.Y_AXIS);
 
 		companion.init();
+	}
+
+	/**
+	 * creates the ConstructionDefaults consDefaults
+	 */
+	final private void newConstructionDefaults() {
+		consDefaults = companion.newConstructionDefaults();
 	}
 
 	/**

@@ -46,6 +46,8 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	private boolean pointOnCurveSpecial;
 	private ExpressionValue pointOnCurveSpecialParam;
 	private AlgoDerivative algo;
+	private double feval[] = new double[2];
+	private double dfeval[] = new double[2];
 
 	/**
 	 * @param cons
@@ -160,9 +162,6 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	GeoPoint getTangentPoint() {
 		return T;
 	}
-
-	private double feval[] = new double[2];
-	private double dfeval[] = new double[2];
 
 	@Override
 	public final void compute() {
