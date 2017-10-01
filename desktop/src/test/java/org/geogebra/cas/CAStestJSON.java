@@ -888,6 +888,11 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testSolveCubic() {
+		testCat("SolveCubic");
+	}
+
+	@Test
 	public void testSolveODE() {
 		testCat("SolveODE");
 	}
