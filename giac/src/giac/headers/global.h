@@ -131,7 +131,7 @@ typedef unsigned char UTF8; /* typically 8 bits */
 typedef unsigned char Boolean; /* 0 or 1 */
 #endif
 
-#ifdef __APPLE__
+#if defined __APPLE__ && __APPLE_CC__>6000
 #include "TargetConditionals.h"
 #if defined(TARGET_IPHONE_SIMULATOR) || defined(TARGET_OS_IPHONE)
 #define system(params) 0

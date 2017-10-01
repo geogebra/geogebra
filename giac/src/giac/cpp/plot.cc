@@ -2141,7 +2141,7 @@ namespace giac {
     int lastxmin=-1,lastxmax=-1,lastymin=-1,lastymax=-1,lastcolor=-1;
     for (;it!=itend;++it){
       if (!it->is_symb_of_sommet(at_pnt)){
-	w.push_back(*it);
+	w.push_back(it->type==_VECT?gen(merge_pixon(*it->_VECTptr),it->subtype):*it);
 	continue;
       }
       gen tmp=remove_at_pnt(*it);
@@ -2150,7 +2150,7 @@ namespace giac {
 	continue;	
       }
       vecteur & f=*tmp._SYMBptr->feuille._VECTptr;
-      if (f.size()<2){
+      if (f.size()<2 || f.size()>=4){
 	w.push_back(*it);
 	continue;	
       }
@@ -2214,8 +2214,10 @@ namespace giac {
       pixon_size=s;
       return n;
     }
-    if (args.type!=_VECT || (s=int(args._VECTptr->size()))<2)
+    if (args.type!=_VECT || (s=int(args._VECTptr->size()))<2){
+      if (s==0) return pixon_size;
       return gensizeerr(contextptr);
+    }
     vecteur v(*args._VECTptr);
     if (s<3)
       v.push_back(default_color(contextptr));

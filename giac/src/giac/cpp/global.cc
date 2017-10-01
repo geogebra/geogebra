@@ -5570,6 +5570,14 @@ unsigned int ConvertUTF8toUTF16 (
 	cur.insert(cur.begin()+pos,indexshift?'1':'0');
 	continue;
       }
+      if (curch==':' && pos<int(cur.size())-1 && cur[pos+1]!='=' && cur[pos+1]!=';'){
+	int posif=cur.find("if ");
+	if (posif>=0 && posif<pos){
+	  cur[pos]=')';
+	  cur.insert(cur.begin()+posif+3,'(');
+	  continue;
+	}
+      }
       if (curch==']' && (prevch==':' || prevch==',')){
 	cur[pos-1]='.';
 	cur.insert(cur.begin()+pos,'.');
@@ -5715,7 +5723,7 @@ unsigned int ConvertUTF8toUTF16 (
 	chkfrom=false;
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
 	  int posdot=cur.find(':',pos);
-	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='='){
+	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='=' && cur[posdot+1]!=';'){
 	    pythonmode=true;
 	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
 	  }
