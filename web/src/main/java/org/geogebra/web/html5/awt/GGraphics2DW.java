@@ -65,8 +65,6 @@ public class GGraphics2DW implements GGraphics2D {
 	 */
 	public double devicePixelRatio = 1;
 
-	private double pathLastX;
-	private double pathLastY;
 	private double[] coords = new double[6];
 
 	/**
@@ -154,28 +152,21 @@ public class GGraphics2DW implements GGraphics2D {
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
 		int width = (int) context.getLineWidth();
 		context.beginPath();
-		if (dash_array == null || nativeDashUsed) {
-			if (MyDouble.isOdd(width)) {
-				context.moveTo(Math.floor(x1) + 0.5, Math.floor(y1) + 0.5);
-				context.lineTo(Math.floor(x2) + 0.5, Math.floor(y2) + 0.5);
-			} else {
-				context.moveTo(Math.round(x1), Math.round(y1));
-				context.lineTo(Math.round(x2), Math.round(y2));
-			}
+
+		if (MyDouble.isOdd(width)) {
+			context.moveTo(Math.floor(x1) + 0.5, Math.floor(y1) + 0.5);
+			context.lineTo(Math.floor(x2) + 0.5, Math.floor(y2) + 0.5);
 		} else {
-			drawStraightDashedLine(x1, y1, x2, y2, jsarrn, context,
-					MyDouble.isOdd(width));
+			context.moveTo(Math.round(x1), Math.round(y1));
+			context.lineTo(Math.round(x2), Math.round(y2));
 		}
+
 		context.stroke();
 	}
 
-	protected void doDrawShape(Shape shape, boolean enableDashEmulation) {
+	protected void doDrawShape(Shape shape) {
 		context.beginPath();
 		GPathIterator it = shape.getPathIterator(null);
-
-		// see #1718
-		// boolean enableDashEmulation = true;//nativeDashUsed ||
-		// App.isFullAppGui();
 
 		while (!it.isDone()) {
 			int cu = it.currentSegment(coords);
@@ -185,36 +176,17 @@ public class GGraphics2DW implements GGraphics2D {
 				break;
 			case GPathIterator.SEG_MOVETO:
 				context.moveTo(coords[0], coords[1]);
-				if (enableDashEmulation) {
-					setLastCoords(coords[0], coords[1]);
-				}
 				break;
 			case GPathIterator.SEG_LINETO:
-				if (dash_array == null || !enableDashEmulation) {
-					context.lineTo(coords[0], coords[1]);
-				} else {
-					if (nativeDashUsed) {
-						context.lineTo(coords[0], coords[1]);
-					} else {
-						drawDashedLine(pathLastX, pathLastY, coords[0],
-						        coords[1], jsarrn, context);
-					}
-				}
-				setLastCoords(coords[0], coords[1]);
+				context.lineTo(coords[0], coords[1]);
 				break;
 			case GPathIterator.SEG_CUBICTO:
 				context.bezierCurveTo(coords[0], coords[1], coords[2],
 				        coords[3], coords[4], coords[5]);
-				if (enableDashEmulation) {
-					setLastCoords(coords[4], coords[5]);
-				}
 				break;
 			case GPathIterator.SEG_QUADTO:
 				context.quadraticCurveTo(coords[0], coords[1], coords[2],
 				        coords[3]);
-				if (enableDashEmulation) {
-					setLastCoords(coords[2], coords[3]);
-				}
 				break;
 			case GPathIterator.SEG_CLOSE:
 				context.closePath();
@@ -222,11 +194,6 @@ public class GGraphics2DW implements GGraphics2D {
 			it.next();
 		}
 		// this.closePath();
-	}
-
-	private void setLastCoords(double x, double y) {
-		pathLastX = x;
-		pathLastY = y;
 	}
 
 	@Override
@@ -549,7 +516,7 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 		Shape shape2 = (Shape) shape;
 
-		doDrawShape(shape2, false);
+		doDrawShape(shape2);
 		// we should call this only if no clip was set or just after another
 		// clip to overwrite
 		// in this case we don't want to double-clip something so let's
@@ -566,10 +533,9 @@ public class GGraphics2DW implements GGraphics2D {
 			return;
 		}
 		if (shape instanceof GeneralPathClipped) {
-			doDrawShape((Shape) ((GeneralPathClipped) shape).getGeneralPath(),
-			        true);
+			doDrawShape((Shape) ((GeneralPathClipped) shape).getGeneralPath());
 		} else {
-			doDrawShape((Shape) shape, true);
+			doDrawShape((Shape) shape);
 		}
 		context.stroke();
 	}
@@ -587,7 +553,7 @@ public class GGraphics2DW implements GGraphics2D {
 			shape = (Shape) gshape;
 		}
 
-		doDrawShape(shape, false);
+		doDrawShape(shape);
 
 		/*
 		 * App.debug((shape instanceof GeneralPath)+""); App.debug((shape
@@ -707,149 +673,6 @@ public class GGraphics2DW implements GGraphics2D {
 		context.fill("evenodd");
 
 	}
-
-	private native void drawStraightDashedLine(double fromX, double fromY,
-	        double toX, double toY, JsArrayNumber pattern, Context2d ctx,
-	        boolean odd) /*-{
-		// Our growth rate for our line can be one of the following:
-		// (+,+), (+,-), (-,+), (-,-)
-		// Because of this, our algorithm needs to understand if the x-coord and
-		// y-coord should be getting smaller or larger and properly cap the values
-		// based on (x,y).
-
-		// make sure we don't get an infinite loop drawing eg
-		//y = -7.85046229341888E-17x
-		var EPSILON = 0.00000001;
-
-		var lt = function(a, b) {
-			return a <= b + EPSILON;
-		};
-		var gt = function(a, b) {
-			return a >= b - EPSILON;
-		};
-		var capmin = function(a, b) {
-			return $wnd.Math.min(a, b);
-		};
-		var capmax = function(a, b) {
-			return $wnd.Math.max(a, b);
-		};
-
-		var checkX = {
-			thereYet : gt,
-			cap : capmin
-		};
-		var checkY = {
-			thereYet : gt,
-			cap : capmin
-		};
-
-		if (fromY - toY > 0) {
-			checkY.thereYet = lt;
-			checkY.cap = capmax;
-		}
-		if (fromX - toX > 0) {
-			checkX.thereYet = lt;
-			checkX.cap = capmax;
-		}
-
-		//ctx.moveTo(fromX, fromY);
-		var offsetX = fromX;
-		var offsetY = fromY;
-		var idx = 0, dash = true;
-		var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
-		var cos = $wnd.Math.cos(ang);
-		var sin = $wnd.Math.sin(ang);
-
-		while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
-
-			var len = pattern[idx];
-
-			offsetX = checkX.cap(toX, offsetX + (cos * len));
-			offsetY = checkY.cap(toY, offsetY + (sin * len));
-
-			if (dash)
-				ctx.lineTo(odd ? $wnd.Math.floor(offsetX) + 0.5 : $wnd.Math
-						.round(offsetX), odd ? $wnd.Math.floor(offsetY) + 0.5
-						: Math.round(offsetY));
-			else
-				ctx.moveTo(odd ? $wnd.Math.floor(offsetX) + 0.5 : $wnd.Math
-						.round(offsetX), odd ? $wnd.Math.floor(offsetY) + 0.5
-						: Math.round(offsetY));
-
-			idx = (idx + 1) % pattern.length;
-			dash = !dash;
-		}
-
-	}-*/;
-
-	private native void drawDashedLine(double fromX, double fromY, double toX,
-	        double toY, JsArrayNumber pattern, Context2d ctx) /*-{
-		// Our growth rate for our line can be one of the following:
-		// (+,+), (+,-), (-,+), (-,-)
-		// Because of this, our algorithm needs to understand if the x-coord and
-		// y-coord should be getting smaller or larger and properly cap the values
-		// based on (x,y).
-
-		// make sure we don't get an infinite loop drawing eg
-		//y = -7.85046229341888E-17x
-		var EPSILON = 0.00000001;
-
-		var lt = function(a, b) {
-			return a <= b + EPSILON;
-		};
-		var gt = function(a, b) {
-			return a >= b - EPSILON;
-		};
-		var capmin = function(a, b) {
-			return $wnd.Math.min(a, b);
-		};
-		var capmax = function(a, b) {
-			return $wnd.Math.max(a, b);
-		};
-
-		var checkX = {
-			thereYet : gt,
-			cap : capmin
-		};
-		var checkY = {
-			thereYet : gt,
-			cap : capmin
-		};
-
-		if (fromY - toY > 0) {
-			checkY.thereYet = lt;
-			checkY.cap = capmax;
-		}
-		if (fromX - toX > 0) {
-			checkX.thereYet = lt;
-			checkX.cap = capmax;
-		}
-
-		//ctx.moveTo(fromX, fromY);
-		var offsetX = fromX;
-		var offsetY = fromY;
-		var idx = 0, dash = true;
-		var ang = $wnd.Math.atan2(toY - fromY, toX - fromX);
-		var cos = $wnd.Math.cos(ang);
-		var sin = $wnd.Math.sin(ang);
-
-		while (!(checkX.thereYet(offsetX, toX) && checkY.thereYet(offsetY, toY))) {
-
-			var len = pattern[idx];
-
-			offsetX = checkX.cap(toX, offsetX + (cos * len));
-			offsetY = checkY.cap(toY, offsetY + (sin * len));
-
-			if (dash)
-				ctx.lineTo(offsetX, offsetY);
-			else
-				ctx.moveTo(offsetX, offsetY);
-
-			idx = (idx + 1) % pattern.length;
-			dash = !dash;
-		}
-
-	}-*/;
 
 	public ImageData getImageData(int x, int y, int width, int height) {
 		return context.getImageData(x, y, width, height);
