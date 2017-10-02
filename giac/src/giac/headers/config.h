@@ -41,3 +41,10 @@
 /* The size of `int' and `long long', as computed by sizeof. */
 #define SIZEOF_INT 4
 #define SIZEOF_LONG_LONG 8
+
+#if defined __APPLE__
+#include "TargetConditionals.h"
+#if defined(TARGET_IPHONE_SIMULATOR) || defined(TARGET_OS_IPHONE)
+#define system(params) 0
+#endif /* defined(TARGET_IPHONE_SIMULATOR) || defined(TARGET_OS_IPHONE) */
+#endif /* __APPLE__ */
