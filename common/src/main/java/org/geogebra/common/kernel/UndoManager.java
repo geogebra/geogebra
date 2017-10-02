@@ -227,7 +227,13 @@ public abstract class UndoManager {
 	 * Notify about properties change
 	 */
 	public void setPropertiesOccured() {
-		storeUndoInfoNeededForProperties = true;
+		if (!storeUndoInfoNeededForProperties) {
+			storeUndoInfoNeededForProperties = true;
+			if (undoPossible()) {
+				pruneStateList();
+				updateUndoActions();
+			}
+		}
 	}
 
 	/**
