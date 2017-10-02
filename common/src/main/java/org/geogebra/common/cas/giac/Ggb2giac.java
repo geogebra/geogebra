@@ -65,8 +65,8 @@ public class Ggb2giac {
 						// if %2 is not a number for BinomialDist[n, p, k, true]
 						// use
 						// Sum[BinomialCoefficient[n, i]p^i(1-p)^(n-i), i, 0, k]
-						+ "when ( type(%2)==DOM_IDENT ,"
-						+ " expand(sum(binomial(%0,ggbtmpvari)*pow(%1,ggbtmpvari)*pow(1-%1,%0-ggbtmpvari),ggbtmpvari,0,%2)),"
+						+ "when ( type(ggbbinarg2)==DOM_IDENT ,"
+						+ " expand(sum(binomial(ggbbinarg0,ggbtmpvari)*pow(ggbbinarg1,ggbtmpvari)*pow(1-ggbbinarg1,ggbbinarg0-ggbtmpvari),ggbtmpvari,0,ggbbinarg2)),"
 						+ " binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2))"
 						+ "else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]");
 
