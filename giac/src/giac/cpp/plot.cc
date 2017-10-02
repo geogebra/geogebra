@@ -735,7 +735,7 @@ namespace giac {
       FILE * stream =fopen("gnuplot.txt","r");
       streamcopy(stream,stream2);
       terminal_stream_replot(terminal,stream2,i,file_extension);
-      system((gnuplot_name+" gnuplot.gp").c_str());
+      system_no_deprecation((gnuplot_name+" gnuplot.gp").c_str());
     }
     else {
       bool clrplot;
@@ -763,7 +763,7 @@ namespace giac {
       FILE * stream2 =fopen("gnuplot.gp","w");
       streamcopy(stream,stream2);
       terminal_stream_replot(terminal,stream2,s.c_str());
-      system((gnuplot_name+" gnuplot.gp").c_str());
+      system_no_deprecation((gnuplot_name+" gnuplot.gp").c_str());
     }
     else {
       bool clrplot;
@@ -802,7 +802,7 @@ namespace giac {
     terminal_stream_replot("png",stream2,gnuplot_fileno,"png");
     fflush(stream2);
     fclose(stream2);
-    system((gnuplot_name+" gnuplot.gp").c_str());
+    system_no_deprecation((gnuplot_name+" gnuplot.gp").c_str());
   }
 
   void kill_gnuplot(){

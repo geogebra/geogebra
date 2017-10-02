@@ -119,6 +119,17 @@ namespace giac {
     return * (double *)(&r); 
   }
 
+#ifdef __clang__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+  int system_no_deprecation(const char *command) {
+    return system(command);
+  }
+#ifdef __clang__
+#pragma GCC diagnostic pop
+#endif
+
   double min_proba_time=10; // in seconds
 
 #ifdef TIMEOUT
@@ -2915,7 +2926,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifdef BESTA_OS
     return false; // return 1;
 #else
-    return !system(browser_command(file).c_str());
+    return !system_no_deprecation(browser_command(file).c_str());
 #endif
 #endif
 #endif

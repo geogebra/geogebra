@@ -3632,31 +3632,31 @@ namespace giac {
       *logptr(contextptr) << "File " << filename << " created." << endl;
       string cmd="indent -br -brf giac_"+funcname+".cpp";
       *logptr(contextptr) << "Running " << cmd << endl;
-      int not_ok=system(cmd.c_str());
+      int not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok)
 	*logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
       cmd="c++ -I.. -I. -fPIC -DPIC -g -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
       *logptr(contextptr) << "Running " << cmd << endl;
-      not_ok=system(cmd.c_str());
+      not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
 	*logptr(contextptr) << "Unable to compile, please fix cpp file" << endl;
 	return -1;
       }
       //cmd="ln -sf giac_"+funcname+".lo giac_"+funcname+".o";
       //*logptr(contextptr) << "Running " << cmd << endl;
-      //not_ok=system(cmd.c_str());
+      //not_ok=system_no_deprecation(cmd.c_str());
       cmd="cc -shared giac_"+funcname+".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"+funcname+"so.0 -o libgiac_"+funcname+".so.0.0.0";
       *logptr(contextptr) << "Running " << cmd << endl;
-      not_ok=system(cmd.c_str());
+      not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
 	*logptr(contextptr) << "Unable to create shared library, perhaps missing libraries?" << endl;
 	return -2;
       }
       //cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so.0";
-      //system(cmd.c_str());
+      //system_no_deprecation(cmd.c_str());
       cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so";
       *logptr(contextptr) << "Running " << cmd << endl;
-      not_ok=system(cmd.c_str());
+      not_ok=system_no_deprecation(cmd.c_str());
       *logptr(contextptr) << "You can now run insmod(\"" << funcname << "\")" << endl;
       return 1;
     }
@@ -3674,7 +3674,7 @@ namespace giac {
     of << s << endl;
     of.close();
     string cmd="indent -br -brf "+filename;
-    system(cmd.c_str());
+    system_no_deprecation(cmd.c_str());
     return 1;
   }
   static const char _cpp_s []="cpp";

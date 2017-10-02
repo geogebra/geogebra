@@ -1978,6 +1978,32 @@ namespace giac {
     testf=testf.evalf(1,contextptr);
     return ck_is_one(testf);
   }
+  // return false if forprog modifies index or stopg
+  bool chk_forprog(const gen & forprog,const gen & index,const gen & stopg){
+    if (forprog.type==_VECT){
+      const_iterateur it=forprog._VECTptr->begin(),itend=forprog._VECTptr->end();
+      for (;it!=itend;++it){
+	if (!chk_forprog(*it,index,stopg))
+	  return false;
+      }
+      return true;
+    }
+    if (forprog.type!=_SYMB)
+      return true;
+    unary_function_ptr & u=forprog._SYMBptr->sommet;
+    if (u==at_sto || u==at_array_sto){
+      gen to=forprog._SYMBptr->feuille[1];
+      if (to==index || to==stopg)
+	return false;
+    }
+    if (u==at_increment || u==at_decrement){
+      gen to=forprog._SYMBptr->feuille;
+      if (to.type==_VECT) to=to._VECTptr->front();
+      if (to==index || to==stopg) 
+	return false;
+    }
+    return chk_forprog(forprog._SYMBptr->feuille,index,stopg);
+  }
   gen _for(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     // for elem in list: for(elem,list), inert form
@@ -2103,7 +2129,7 @@ namespace giac {
 	}
 	// compute idx
 	if (it!=itend && it->second.type==_INT_ 
-     	    && (stop-it->second.val)/step>50){
+     	    && (stop-it->second.val)/step>=19){
 	  idx=&it->second.val;
 	  // adjust stop for a loop with condition *idx!=stop
 	  int niter=-1;
