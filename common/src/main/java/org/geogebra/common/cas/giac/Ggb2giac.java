@@ -55,12 +55,15 @@ public class Ggb2giac {
 		p("Binomial.2", "simplify(binomial(%0,%1))");
 
 		p("BinomialDist.3",
-				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
+				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2], "
+						// round ggbbinarg0 only if number
+						// (to be consistent with the Algebra View version)
+						+ "[ggbbinarg0:=when(type(ggbbinarg0)==DOM_RAT || type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)]],"
 						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg0,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
 
 		p("BinomialDist.4",
 				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2], "
-						// round ggbbinarg2 only if it's a number
+						// round ggbbinarg0 and ggbbinarg2 only if numbers
 						// (to be consistent with the Algebra View version)
 						+ "[ggbbinarg0:=when(type(ggbbinarg0)==DOM_RAT || type(ggbbinarg0)==DOM_FLOAT,round(ggbbinarg0),ggbbinarg0)],"
 						+ "[ggbbinarg2:=when(type(ggbbinarg2)==DOM_RAT || type(ggbbinarg2)==DOM_FLOAT,round(ggbbinarg2),ggbbinarg2)]],"
