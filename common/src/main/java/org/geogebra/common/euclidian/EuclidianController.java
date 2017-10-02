@@ -128,6 +128,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
+import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -9977,8 +9978,10 @@ public abstract class EuclidianController {
 
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
-		
-		app.getGlobalKeyDispatcher().setTabOverGeos(true);
+		GlobalKeyDispatcher gpd = app.getGlobalKeyDispatcher();
+		if (gpd != null) {
+			gpd.setTabOverGeos(true);
+		}
 
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
