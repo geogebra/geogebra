@@ -3301,6 +3301,7 @@ public class MyXMLHandler implements DocHandler {
 				kernel.setElementDefaultAllowed(true);
 				constMode = MODE_DEFAULT_GEO;
 				geo = getGeoElement(attrs);
+				geo.setLineOpacity(255);
 				kernel.setElementDefaultAllowed(old);
 			} else {
 				Log.error("unknown tag in <default>: " + eName);
