@@ -137,6 +137,7 @@ def giacIosDefines(cppCompiler) {
     cppCompiler.define 'NO_SCANDIR'
     cppCompiler.define 'OSX_10_9_CXX'
     cppCompiler.define 'HAVE_CONFIG_H'
+    cppCompiler.define '_IOS_FIX_'
 }
 
 model {

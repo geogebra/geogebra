@@ -131,6 +131,10 @@ typedef unsigned char UTF8; /* typically 8 bits */
 typedef unsigned char Boolean; /* 0 or 1 */
 #endif
 
+#ifdef _IOS_FIX_
+#define system(params) 0
+#endif /* _IOS_FIX_ */
+
 /* Some fundamental constants */
 #define UNI_REPLACEMENT_CHAR (UTF32)0x0000FFFD
 #define UNI_MAX_BMP (UTF32)0x0000FFFF
