@@ -1523,6 +1523,9 @@ public abstract class GlobalKeyDispatcher {
 	 *            to set.
 	 */
 	public void setTabOverGeos(boolean tabOverGeos) {
+		if (!app.has(Feature.TAB_ON_GUI)) {
+			return;
+		}
 		this.tabOverGeos = tabOverGeos;
 
 		if (!tabOverGeos) {
