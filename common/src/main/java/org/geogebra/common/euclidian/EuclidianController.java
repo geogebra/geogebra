@@ -9977,6 +9977,9 @@ public abstract class EuclidianController {
 
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
+		
+		app.getGlobalKeyDispatcher().setTabOverGeos(true);
+
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)
 				: null;
 
