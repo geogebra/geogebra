@@ -3412,8 +3412,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				sw = (int) Math.round(x0 * 2);
 				sh = (int) Math.round(y0 * 2);
 			}
-			int dx = (w - sw) / 2;
-			int dy = (h - sh) / 2;
+			double dx = (w - sw) / 2;
+			double dy = (h - sh) / 2;
 			xZero = getSettings().getXZero() + dx;
 			yZero = getSettings().getYZero() + dy;
 			getSettings().setSize(w, h);
