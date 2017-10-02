@@ -50,7 +50,7 @@ if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "emgiac") 
     LlvmMpfrA = "$emgiacSourceDir/giac/libmpfr.a"
     LlvmGmpA = "$emgiacSourceDir/giac/libgmp.a"
 }
-def emscriptenVer = '201505' // 1.34.1
+def emscriptenVer = '201704' // 1.34.1
 if (System.env['EMSCRIPTEN_VER'] != null) {
     emscriptenVer = System.env['EMSCRIPTEN_VER'];
 }
@@ -59,7 +59,7 @@ def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk-portable")
-def emscriptenVersion = "1.34.1"
+def emscriptenVersion = "1.37.9"
 def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
 
 def emccCommand = "${emscriptenDir}/emcc"
@@ -137,7 +137,6 @@ def giacIosDefines(cppCompiler) {
     cppCompiler.define 'NO_SCANDIR'
     cppCompiler.define 'OSX_10_9_CXX'
     cppCompiler.define 'HAVE_CONFIG_H'
-    cppCompiler.define '_IOS_FIX_'
 }
 
 model {
@@ -573,7 +572,9 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
 
                     }
                     if (emscriptenVer == '201704') {
-                        commandline += "-DNO_STDEXCEPT -DHAVE_UNISTD_H"
+                        commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1" // -fno-exceptions"
+                        commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
+                        commandline += " -DNO_STDEXCEPT -DHAVE_UNISTD_H"
                     }
 
                     commandline += ' -DGIAC_GGB' // from old Makefile
@@ -637,9 +638,10 @@ task emccGiacJs (dependsOn: 'emccCompile') {
             }
             linkerArgs << '-DGIAC_GGB'
             linkerArgs << '-o' << output
+            // linkerArgs << "-s" << "DISABLE_EXCEPTION_CATCHING=0"
             linkerArgs << '-Oz' << '-v' << '-s' << "EXPORTED_FUNCTIONS=['_caseval']"
             linkerArgs << '--memory-init-file' << '0'
-            linkerArgs << '-s' << 'TOTAL_MEMORY=64000000' // consider increasing this if running out of memory on GB computations
+            linkerArgs << '-s' << 'TOTAL_MEMORY=67108864' // consider increasing this if running out of memory on GB computations
             def linkerArgsString = linkerArgs.join(" ")
             println "Linking: ${emccCommand} ${linkerArgsString}"
             commandLine emccCommand
@@ -696,11 +698,11 @@ task installEmsdk (dependsOn: 'downloadEmsdk') {
             workingDir emsdkRunDir
         }
         exec {
-            commandLine "./emsdk install clang-tag-e$emscriptenVersion-64bit".split()
+            commandLine "./emsdk install clang-e$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
         }
         exec {
-            commandLine "./emsdk activate clang-tag-e$emscriptenVersion-64bit".split()
+            commandLine "./emsdk activate clang-e$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
         }
         // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
