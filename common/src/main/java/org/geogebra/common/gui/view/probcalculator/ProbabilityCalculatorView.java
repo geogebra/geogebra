@@ -190,6 +190,7 @@ public abstract class ProbabilityCalculatorView
 
 	protected ProbabilityManager probManager;
 	protected GeoFunction pdfCurve;
+	private TreeSet<AlgoElement> tempSet;
 
 	public ProbabilityCalculatorView(App app) {
 
@@ -1187,8 +1188,6 @@ public abstract class ProbabilityCalculatorView
 		}
 		plotGeoList.clear();
 	}
-
-	private TreeSet<AlgoElement> tempSet;
 
 	private TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {

@@ -3,6 +3,14 @@ package org.geogebra.common.util.clipper;
 import java.util.Comparator;
 
 public abstract class Point<T extends Number & Comparable<T>> {
+	private final static NumberComparator NUMBER_COMPARATOR = new NumberComparator();
+
+	protected T x;
+
+	protected T y;
+
+	protected T z;
+
 	public static class DoublePoint extends Point<Double> {
 		public static double getDeltaX(DoublePoint pt1, DoublePoint pt2) {
 			if (pt1.getY() == pt2.getY()) {
@@ -147,14 +155,6 @@ public abstract class Point<T extends Number & Comparable<T>> {
 			return distanceFromLineSqrd(pt3, pt1, pt2) < distSqrd;
 		}
 	}
-
-	private final static NumberComparator NUMBER_COMPARATOR = new NumberComparator();
-
-	protected T x;
-
-	protected T y;
-
-	protected T z;
 
 	protected Point(Point<T> pt) {
 		this(pt.x, pt.y, pt.z);

@@ -9,51 +9,6 @@ import java.util.HashMap;
  *
  */
 public class NormalizerMinimal {
-
-	/**
-	 * transform the string to lower case and without accents. Better solution
-	 * (non-GWT) for Java 6 in Normalizer6 class
-	 * 
-	 * overridden in Normalizer6
-	 * 
-	 * @param s
-	 *            the string
-	 * @return the string to lower case and without accents
-	 */
-	public String transform(String s) {
-		return transformStatic(s, true);
-	}
-
-	/**
-	 * transform the string to lower case and without accents. Better solution
-	 * (non-GWT) for Java 6 in Normalizer6 class
-	 * 
-	 * @param s
-	 *            the string
-	 * @param lowerCase
-	 *            whether to turn to lowercase or not
-	 * @return the string to lower case and without accents
-	 */
-	public static String transformStatic(String s, boolean lowerCase) {
-		String sCorrectCase = lowerCase ? StringUtil.toLowerCaseUS(s) : s;
-		StringBuilder sb = new StringBuilder(s.length());
-
-		for (int i = 0; i < sCorrectCase.length(); i++) {
-			char ch = sCorrectCase.charAt(i);
-
-			// replace eg Unicode.eAcute with e
-			String replacement = hm.get(ch);
-			if (replacement != null) {
-				sb.append(replacement);
-			} else {
-				sb.append(ch);
-			}
-		}
-
-		return sb.toString();
-
-	}
-
 	static private HashMap<Character, String> hm = new HashMap<Character, String>();
 
 	static {
@@ -141,6 +96,49 @@ public class NormalizerMinimal {
 			}
 		}
 
+	}
+
+	/**
+	 * transform the string to lower case and without accents. Better solution
+	 * (non-GWT) for Java 6 in Normalizer6 class
+	 * 
+	 * overridden in Normalizer6
+	 * 
+	 * @param s
+	 *            the string
+	 * @return the string to lower case and without accents
+	 */
+	public String transform(String s) {
+		return transformStatic(s, true);
+	}
+
+	/**
+	 * transform the string to lower case and without accents. Better solution
+	 * (non-GWT) for Java 6 in Normalizer6 class
+	 * 
+	 * @param s
+	 *            the string
+	 * @param lowerCase
+	 *            whether to turn to lowercase or not
+	 * @return the string to lower case and without accents
+	 */
+	public static String transformStatic(String s, boolean lowerCase) {
+		String sCorrectCase = lowerCase ? StringUtil.toLowerCaseUS(s) : s;
+		StringBuilder sb = new StringBuilder(s.length());
+
+		for (int i = 0; i < sCorrectCase.length(); i++) {
+			char ch = sCorrectCase.charAt(i);
+
+			// replace eg Unicode.eAcute with e
+			String replacement = hm.get(ch);
+			if (replacement != null) {
+				sb.append(replacement);
+			} else {
+				sb.append(ch);
+			}
+		}
+
+		return sb.toString();
 	}
 
 }

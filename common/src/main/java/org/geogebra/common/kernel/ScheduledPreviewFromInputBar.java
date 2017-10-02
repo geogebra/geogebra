@@ -25,6 +25,13 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	 * 
 	 */
 	private final Kernel kernel;
+	private String input = "";
+	private String validInput = "";
+	private ErrorHandler validation;
+	private int maxLength = DEFAULT_MAX_LENGTH;
+	private boolean notFirstInput = false;
+	private GeoElement[] previewGeos;
+	private String[] sliders;
 
 	/**
 	 * @param kernel
@@ -34,12 +41,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		this.kernel = kernel;
 		notFirstInput = false;
 	}
-
-	private String input = "";
-	private String validInput = "";
-	private ErrorHandler validation;
-	private int maxLength = DEFAULT_MAX_LENGTH;
-	private boolean notFirstInput = false;
 
 	private void setInput(String str, ErrorHandler validation) {
 		this.input = str;
@@ -98,9 +99,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		}
 		return ret;
 	}
-
-	private GeoElement[] previewGeos;
-	private String[] sliders;
 
 	@Override
 	public void run() {

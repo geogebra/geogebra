@@ -9,15 +9,53 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public class DefaultClipper extends ClipperBase {
+	private final List<OutRec> polyOuts;
+
+	private ClipType clipType;
+
+	private Scanbeam scanbeam;
+
+	private Edge activeEdges;
+
+	private Edge sortedEdges;
+
+	private final List<IntersectNode> intersectList;
+
+	private PolyFillType clipFillType;
+
+	// ------------------------------------------------------------------------------
+
+	private PolyFillType subjFillType;
+
+	// ------------------------------------------------------------------------------
+
+	private final List<Join> joins;
+
+	// ------------------------------------------------------------------------------
+
+	private final List<Join> ghostJoins;
+
+	private boolean usingPolyTree;
+
+	// public ZFillCallback zFillFunction;
+
+	// ------------------------------------------------------------------------------
+
+	private final boolean reverseSolution;
+
+	// ------------------------------------------------------------------------------
+
+	private final boolean strictlySimple;
+
 	private static class IntersectNode implements Comparator<IntersectNode> {
-		protected IntersectNode() {
-			// avoid synth access warning
-		}
 		Edge edge1;
 		Edge Edge2;
 		// private LongPoint pt;
 		private DoublePoint pt;
 
+		protected IntersectNode() {
+			// avoid synth access warning
+		}
 		/**
 		 * modified to be compatible with double
 		 */
@@ -583,43 +621,6 @@ public class DefaultClipper extends ClipperBase {
 		return result;
 	}
 
-	private final List<OutRec> polyOuts;
-
-	private ClipType clipType;
-
-	private Scanbeam scanbeam;
-
-	private Edge activeEdges;
-
-	private Edge sortedEdges;
-
-	private final List<IntersectNode> intersectList;
-
-	private PolyFillType clipFillType;
-
-	// ------------------------------------------------------------------------------
-
-	private PolyFillType subjFillType;
-
-	// ------------------------------------------------------------------------------
-
-	private final List<Join> joins;
-
-	// ------------------------------------------------------------------------------
-
-	private final List<Join> ghostJoins;
-
-	private boolean usingPolyTree;
-
-	// public ZFillCallback zFillFunction;
-
-	// ------------------------------------------------------------------------------
-
-	private final boolean reverseSolution;
-
-	// ------------------------------------------------------------------------------
-
-	private final boolean strictlySimple;
 
 	public DefaultClipper() {
 		this(0);

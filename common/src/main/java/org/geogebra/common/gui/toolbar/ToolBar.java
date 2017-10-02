@@ -16,6 +16,42 @@ import org.geogebra.common.main.Feature;
  *         This class is not a superclass of ToolBar, only common method stack
  */
 public class ToolBar {
+	static private ToolsRemover defaultToolsRemover = new ToolsRemover();
+
+	/**
+	 * any toolbar composed of a set of following menus should be considered as
+	 * default toolbar (old default toolbar)
+	 */
+	static private final String[][] DEFAULT_TOOLBAR_PRE_5_0_280 = {
+			{ "0", "0 39" }, { "1 501 67 5 19 72", "1 501 67 5 19 72 75 76" },
+			{ "2 15 45 18 65 7 37" }, { "4 3 8 9 13 44 58 47" },
+			{ "16 51 64 70" }, { "10 34 53 11 24 20 22 21 23" },
+			{ "55 56 57 12" }, { "36 46 38 49 50 71" }, { "30 29 54 32 31 33" },
+			{ "17 26 62 73 14 68", "17 26 62 14 66 68",
+					"17 26 62 73 14 66 68" },
+			{ "25 52 60 61" }, { "40 41 42 27 28 35 6" } };
+
+	/**
+	 * any toolbar composed of a set of following menus should be considered as
+	 * default toolbar
+	 */
+	static private final String[][] DEFAULT_TOOLBAR = { { "0 39 73 62 110" },
+			{ "1 501 67 5 19 72 75 76" }, { "2 15 45 18 65 7 37" },
+			{ "4 3 8 9 13 44 58 47" }, { "16 51 64 70" },
+			{ "10 34 53 11 24 20 22 21 23" }, { "55 56 57 12" },
+			{ "36 46 38 49 50 71 14 68" }, { "30 29 54 32 31 33" },
+			{ "25 17 26 60 52 61" }, { "40 41 42 27 28 35 6" } };
+
+	/**
+	 * any toolbar composed of a set of following menus should be considered as
+	 * default toolbar
+	 */
+	static private final String[][] DEFAULT_TOOLBAR_3D = { { "0" },
+			{ "1 501 5 19 67" }, { "2 15 45 18 7 37" }, { "514 3 9 13 44 47" },
+			{ "16" }, { "551 550 11 20 22 21 23 55 56 57 12" }, { "69" },
+			{ "510 511 512 513" }, { "533 531 534 532 522 523 537 536 535" },
+			{ "521 520" }, { "36 38 49 560" }, { "571 30 29 570 31 33" },
+			{ "17" }, { "540 40 41 42 27 28 35 6 502" } };
 
 	/**
 	 * Integer used to indicate a separator in the toolbar.
@@ -1361,59 +1397,6 @@ public class ToolBar {
 		}
 	}
 
-	static private ToolsRemover defaultToolsRemover = new ToolsRemover();
-
-	/**
-	 * any toolbar composed of a set of following menus should be considered as
-	 * default toolbar (old default toolbar)
-	 */
-	static private final String[][] DEFAULT_TOOLBAR_PRE_5_0_280 = {
-			{ "0", "0 39" }, { "1 501 67 5 19 72", "1 501 67 5 19 72 75 76" },
-			{ "2 15 45 18 65 7 37" }, { "4 3 8 9 13 44 58 47" },
-			{ "16 51 64 70" }, { "10 34 53 11 24 20 22 21 23" },
-			{ "55 56 57 12" }, { "36 46 38 49 50 71" }, { "30 29 54 32 31 33" },
-			{ "17 26 62 73 14 68", "17 26 62 14 66 68",
-					"17 26 62 73 14 66 68" },
-			{ "25 52 60 61" }, { "40 41 42 27 28 35 6" } };
-
-	/**
-	 * any toolbar composed of a set of following menus should be considered as
-	 * default toolbar
-	 */
-	static private final String[][] DEFAULT_TOOLBAR = {
-			{"0 39 73 62 110"},
-			{"1 501 67 5 19 72 75 76"},
-			{"2 15 45 18 65 7 37"},
-			{"4 3 8 9 13 44 58 47"},
-			{"16 51 64 70"},
-			{"10 34 53 11 24 20 22 21 23"},
-			{"55 56 57 12"},
-			{"36 46 38 49 50 71 14 68"},
-			{"30 29 54 32 31 33"},
-			{"25 17 26 60 52 61"},
-			{"40 41 42 27 28 35 6"}
-	};
-
-	/**
-	 * any toolbar composed of a set of following menus should be considered as
-	 * default toolbar
-	 */
-	static private final String[][] DEFAULT_TOOLBAR_3D = {
-			{"0"},
-			{"1 501 5 19 67"},
-			{"2 15 45 18 7 37"},
-			{"514 3 9 13 44 47"},
-			{"16"},
-			{"551 550 11 20 22 21 23 55 56 57 12"},
-			{"69"},
-			{"510 511 512 513"},
-			{"533 531 534 532 522 523 537 536 535"},
-			{"521 520"},
-			{"36 38 49 560"},
-			{"571 30 29 570 31 33"},
-			{"17"},
-			{"540 40 41 42 27 28 35 6 502"}
-	};
 
 	final static private String[] split(String definition) {
 		String def2 = definition.replaceAll(",", ""); // remove comas

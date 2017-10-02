@@ -9,12 +9,40 @@ import org.geogebra.common.kernel.Kernel;
  * 
  */
 public class CoordSys {
+	/**
+	 * "identity" coord sys
+	 */
+	public static final CoordSys Identity3D;
+
+	static {
+		Identity3D = new CoordSys(2);
+		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
+		Identity3D.makeOrthoMatrix(true, true);
+
+	}
+
+	/**
+	 * "xOy" coord sys (with vx, vy for first vectors)
+	 */
+	public static final CoordSys XOY;
+	static {
+		XOY = new CoordSys(2);
+
+		// equation z=0
+		XOY.getEquationVector().set(new double[] { 0, 0, 1, 0 });
+		XOY.addPoint(Coords.O);
+		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VX);
+		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VY);
+		XOY.makeOrthoMatrix(false, false);
+
+	}
 
 	// matrix for the coord sys
 	private CoordMatrix matrix;
 	private int dimension;
 	private int madeCoordSys;
 	private CoordMatrix4x4 matrixOrthonormal, drawingMatrix;
+	private CoordMatrix tempMatrix3x3;
 
 	/** vector used for equation of hyperplanes, like ax+by+cz+d=0 for planes */
 	private Coords equationVector;
@@ -73,33 +101,7 @@ public class CoordSys {
 		// vectors=cs.vectors;
 	}
 
-	/**
-	 * "identity" coord sys
-	 */
-	public static final CoordSys Identity3D;
 
-	static {
-		Identity3D = new CoordSys(2);
-		Identity3D.makeCoordSys(new double[] { 0, 0, 1, 0 }); // equation z=0
-		Identity3D.makeOrthoMatrix(true, true);
-
-	}
-
-	/**
-	 * "xOy" coord sys (with vx, vy for first vectors)
-	 */
-	public static final CoordSys XOY;
-	static {
-		XOY = new CoordSys(2);
-
-		// equation z=0
-		XOY.getEquationVector().set(new double[] { 0, 0, 1, 0 });
-		XOY.addPoint(Coords.O);
-		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VX);
-		XOY.addVectorWithoutCheckMadeCoordSys(Coords.VY);
-		XOY.makeOrthoMatrix(false, false);
-
-	}
 
 	public CoordMatrix getMatrix() {
 		return matrix;
@@ -881,8 +883,6 @@ public class CoordSys {
 
 		setDrawingMatrixFromMatrixOrthonormal();
 	}
-
-	private CoordMatrix tempMatrix3x3;
 
 	/**
 	 * rotate by phi around center, parallel to xOy plane

@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoTurtle;
 public class AlgoTurtle extends AlgoElement {
 	/** output turtle */
 	protected GeoTurtle turtle;
+	private StringBuilder sb;
 
 	/**
 	 * @param cons
@@ -103,8 +104,6 @@ public class AlgoTurtle extends AlgoElement {
 
 		// do nothing for now
 	}
-
-	private StringBuilder sb;
 
 	@Override
 	final public String toString(StringTemplate tpl) {

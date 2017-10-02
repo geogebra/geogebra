@@ -44,6 +44,9 @@ public class RelativeCopy {
 
 	App app;
 	// protected MyTable table;
+	protected static final RegExp pattern2 = RegExp
+			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
+	private static GeoElementND redefinedElement;
 
 	public RelativeCopy(Kernel kernel0) {
 		kernel = kernel0;
@@ -417,9 +420,6 @@ public class RelativeCopy {
 			}
 		}
 	}
-
-	protected static final RegExp pattern2 = RegExp
-			.compile("(::|\\$)([A-Z]+)(::|\\$)([0-9]+)");
 
 	public static GeoElementND doCopyNoStoringUndoInfo0(Kernel kernel, App app,
 			GeoElement value, GeoElementND oldValue, int dx, int dy)
@@ -1193,8 +1193,6 @@ public class RelativeCopy {
 			return prepareNewValue(kernel, name, "");
 		}
 	}
-
-	private static GeoElementND redefinedElement;
 
 	/**
 	 * Tests if a string represents a number.

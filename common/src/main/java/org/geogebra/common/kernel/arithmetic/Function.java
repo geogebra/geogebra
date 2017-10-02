@@ -46,6 +46,18 @@ public class Function extends FunctionNVar
 	private Function derivative;
 
 	private static final double MAX_EXPAND_DEGREE = 10;
+	// remember calculated factors
+	// do factoring only if expression changed
+	private ExpressionNode factorParentExp;
+
+	// factors of polynomial function
+	private LinkedList<PolyFunction> symbolicPolyFactorList;
+	private LinkedList<PolyFunction> numericPolyFactorList;
+	private boolean symbolicPolyFactorListDefined;
+	private ExpressionNode zeroExpr = new ExpressionNode(kernel,
+			new MyDouble(kernel, 0));
+
+	private GeoFunction geoDeriv;
 
 	/**
 	 * Creates new Function from expression where x is the variable. Note: call
@@ -323,15 +335,6 @@ public class Function extends FunctionNVar
 	/*
 	 * ******************** POLYNOMIAL FACTORING *******************
 	 */
-
-	// remember calculated factors
-	// do factoring only if expression changed
-	private ExpressionNode factorParentExp;
-
-	// factors of polynomial function
-	private LinkedList<PolyFunction> symbolicPolyFactorList;
-	private LinkedList<PolyFunction> numericPolyFactorList;
-	private boolean symbolicPolyFactorListDefined;
 
 	/**
 	 * Returns all non-constant polynomial factors of this function relevant for
@@ -701,9 +704,6 @@ public class Function extends FunctionNVar
 
 	}
 
-	private ExpressionNode zeroExpr = new ExpressionNode(kernel,
-			new MyDouble(kernel, 0));
-
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
 			boolean symbolic) {
 		PolyFunction polyFun = null;
@@ -791,8 +791,6 @@ public class Function extends FunctionNVar
 		geoDeriv.setDefined(deriv != null);
 		return geoDeriv;
 	}
-
-	private GeoFunction geoDeriv;
 
 	/**
 	 * Returns n-th derivative of this function

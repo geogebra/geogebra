@@ -16,6 +16,15 @@ import org.geogebra.common.main.Localization;
  * 
  */
 public class TwoVarStatModel {
+	protected Localization loc;
+
+	private Integer[] selectedDataIndex = { 0, 1 };
+	private boolean isPairedData = false;
+
+	private double mean1, mean2, sd1, sd2, sdDifference, meanDifference;
+	private long n1, n2;
+	private TwoVarStatListener listener;
+
 	public interface TwoVarStatListener {
 
 		void setValueAt(String value, int row, int col);
@@ -29,15 +38,6 @@ public class TwoVarStatModel {
 		void clear();
 
 	}
-
-	protected Localization loc;
-
-	private Integer[] selectedDataIndex = { 0, 1 };
-	private boolean isPairedData = false;
-
-	private double mean1, mean2, sd1, sd2, sdDifference, meanDifference;
-	private long n1, n2;
-	private TwoVarStatListener listener;
 
 	public TwoVarStatModel(App app, boolean isPairedData,
 			TwoVarStatListener listener) {

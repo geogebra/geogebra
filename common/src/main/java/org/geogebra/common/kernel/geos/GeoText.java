@@ -54,6 +54,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GeoText extends GeoElement
 		implements Locateable, AbsoluteScreenLocateable, TextValue,
 		TextProperties, SpreadsheetTraceable, HasSymbolicMode {
+	private static Comparator<GeoText> comparator;
 
 	private String str;
 	private GeoPointND startPoint; // location of Text on screen
@@ -94,6 +95,17 @@ public class GeoText extends GeoElement
 
 	// for absolute screen location
 	private boolean hasAbsoluteScreenLocation = false;
+
+	/**
+	 */
+	boolean alwaysFixed = false;
+	private StringTemplate tpl = StringTemplate.defaultTemplate;
+	private GeoText linkedText;
+
+	private TraceModesEnum traceModes;
+	private boolean symbolicMode;
+	private int totalHeight;
+	private int totalWidth;
 
 	/**
 	 * Creates new text
@@ -512,11 +524,6 @@ public class GeoText extends GeoElement
 		setIsTextCommand(true);
 	}
 
-	/**
-	 */
-	boolean alwaysFixed = false;
-	private StringTemplate tpl = StringTemplate.defaultTemplate;
-	private GeoText linkedText;
 
 	/**
 	 * For Text[Text[a]] the inner text must use template of the outer
@@ -1130,8 +1137,6 @@ public class GeoText extends GeoElement
 		return comparator;
 	}
 
-	private static Comparator<GeoText> comparator;
-
 	private void updateTemplate() {
 		StringType type = isLaTeX ? StringType.LATEX : StringType.GEOGEBRA;
 
@@ -1273,11 +1278,6 @@ public class GeoText extends GeoElement
 		spreadsheetTraceList.add(numeric);
 
 	}
-
-	private TraceModesEnum traceModes;
-	private boolean symbolicMode;
-	private int totalHeight;
-	private int totalWidth;
 
 	@Override
 	public TraceModesEnum getTraceModes() {

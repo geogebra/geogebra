@@ -387,6 +387,10 @@ public abstract class App implements UpdateSelection {
 
 	// TODO: move following methods somewhere else
 	private int tubeID = 0;
+	private boolean isAutoSaved = true;
+	private AdjustViews adjustViews = null;
+	private AdjustScreen adjustScreen = null;
+	private AdjustScreen adjustScreen2 = null;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -1555,11 +1559,6 @@ public abstract class App implements UpdateSelection {
 		return isSaved || kernel.getConstruction() == null
 				|| !kernel.getConstruction().isStarted();
 	}
-
-	private boolean isAutoSaved = true;
-	private AdjustViews adjustViews = null;
-	private AdjustScreen adjustScreen = null;
-	private AdjustScreen adjustScreen2 = null;
 
 	public final boolean isAutoSaved() {
 		return isAutoSaved;

@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.statistics.AlgoCellRange;
  * 
  */
 public class AlgoCellRangeManager {
+	private HashMap<String, AlgoCellRange> algos;
 
 	/**
 	 * Removes an AlgoCellRange algorithm from the internal algorithm list.
@@ -88,8 +89,6 @@ public class AlgoCellRangeManager {
 			algos.clear();
 		}
 	}
-
-	private HashMap<String, AlgoCellRange> algos;
 
 	/**
 	 * 

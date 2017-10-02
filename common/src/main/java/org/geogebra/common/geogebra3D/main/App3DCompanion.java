@@ -26,6 +26,9 @@ import org.geogebra.common.main.settings.Settings;
 public abstract class App3DCompanion extends AppCompanion {
 	// id of the first view
 	private int viewId = App.VIEW_EUCLIDIAN_FOR_PLANE_START;
+	protected ArrayList<EuclidianViewForPlaneCompanion> euclidianViewForPlaneCompanionList;
+
+	private EuclidianViewForPlaneCompanion euclidianViewForPlaneCompanion;
 
 	/**
 	 * Constructor
@@ -51,10 +54,6 @@ public abstract class App3DCompanion extends AppCompanion {
 	// ///////////////////////////////
 	// EUCLIDIAN VIEW FOR PLANE
 	// ///////////////////////////////
-
-	protected ArrayList<EuclidianViewForPlaneCompanion> euclidianViewForPlaneCompanionList;
-
-	private EuclidianViewForPlaneCompanion euclidianViewForPlaneCompanion;
 
 	/**
 	 * add euclidian views for plane settings

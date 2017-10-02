@@ -44,7 +44,9 @@ public abstract class CopyPasteCut {
 	/**
 	 * Stores construction index values while performing a paste
 	 */
-	private Object[] constructionIndexes;
+	private Record[] constructionIndexes;
+	private static Comparator comparator;
+
 
 	/***************************************
 	 * Constructor
@@ -257,7 +259,7 @@ public abstract class CopyPasteCut {
 
 		int size = (x2 - x1 + 1) * (y2 - y1 + 1);
 		if (constructionIndexes == null || constructionIndexes.length < size) {
-			constructionIndexes = new Object[size];
+			constructionIndexes = new Record[size];
 		}
 
 		int count = 0;
@@ -593,16 +595,15 @@ public abstract class CopyPasteCut {
 
 	/**
 	 * used to sort Records based on the id (which is the construction index)
+	 * 
+	 * @return comparator
 	 */
-	public static Comparator getComparator() {
+	public static Comparator<Record> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator() {
+			comparator = new Comparator<Record>() {
 				@Override
-				public int compare(Object a, Object b) {
-					Record itemA = (Record) a;
-					Record itemB = (Record) b;
-
-					return itemA.id - itemB.id;
+				public int compare(Record a, Record b) {
+					return a.id - b.id;
 				}
 
 			};
@@ -634,7 +635,4 @@ public abstract class CopyPasteCut {
 	protected void setCellBufferGeo(GeoElement[][] cellBufferGeo) {
 		this.cellBufferGeo = cellBufferGeo;
 	}
-
-	private static Comparator comparator;
-
 }

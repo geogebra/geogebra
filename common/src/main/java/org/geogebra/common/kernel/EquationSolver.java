@@ -35,9 +35,17 @@ public class EquationSolver implements EquationSolverInterface {
 	private static final double LAGUERRE_START = -1;
 	private static final int LAGUERRE_MAX_EVAL = 100;
 	private static final double LAGUERRE_EPS = 1E-5;
+
+	private static final int BELOW = -2;
+	private static final int LOWEDGE = -1;
+	private static final int INSIDE = 0;
+	private static final int HIGHEDGE = 1;
+	private static final int ABOVE = 2;
+
 	private LaguerreSolver laguerreSolver;
 	private UnivariateSolver rootFinderBrent;
 	private NewtonSolver rootFinderNewton;
+	private static Comparator<Complex> comparatorReal;
 
 	/**
 	 * Creates new equation solver
@@ -527,12 +535,6 @@ public class EquationSolver implements EquationSolverInterface {
 			}
 		}
 	}
-
-	private static final int BELOW = -2;
-	private static final int LOWEDGE = -1;
-	private static final int INSIDE = 0;
-	private static final int HIGHEDGE = 1;
-	private static final int ABOVE = 2;
 
 	/*
 	 * Determine where coord lies with respect to the range from low to high. It
@@ -1069,6 +1071,4 @@ public class EquationSolver implements EquationSolverInterface {
 
 		return comparatorReal;
 	}
-
-	private static Comparator<Complex> comparatorReal;
 }

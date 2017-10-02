@@ -31,6 +31,7 @@ public class RegionParameters {
 	 * says if the point is on the path defined by the frontier of the region
 	 */
 	private boolean isOnPath = false;
+	private int regionType = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 
 	/**
 	 * Creates new region parameters
@@ -164,8 +165,6 @@ public class RegionParameters {
 	public boolean isNaN() {
 		return isNaN(t1) || isNaN(t2);
 	}
-
-	private int regionType = GeoQuadricNDConstants.QUADRIC_NOT_CLASSIFIED;
 
 	/**
 	 * @return region type (for quadrics)

@@ -54,6 +54,11 @@ import org.geogebra.common.main.Localization;
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class RelationNumerical {
+	private App app;
+	private Localization loc;
+	private Construction cons;
+
+	private Set<Report> reports;
 
 	/**
 	 * Stores information about geometric facts being computed numerically.
@@ -176,12 +181,6 @@ public class RelationNumerical {
 		Report r = new Report(boolres, command, stringres);
 		reports.add(r);
 	}
-
-	private App app;
-	private Localization loc;
-	private Construction cons;
-
-	private Set<Report> reports;
 
 	/**
 	 * Creates new relation

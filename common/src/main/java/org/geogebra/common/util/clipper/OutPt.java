@@ -3,6 +3,13 @@ package org.geogebra.common.util.clipper;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 class OutPt {
+	int idx;
+	// private LongPoint pt;
+	DoublePoint pt;
+	OutPt next;
+
+	OutPt prev;
+
 	public static OutRec getLowerMostRec(OutRec outRec1, OutRec outRec2) {
 		// work out which polygon fragment has the correct hole state ...
 		if (outRec1.bottomPt == null) {
@@ -60,13 +67,6 @@ class OutPt {
 				.abs(DoublePoint.getDeltaX(btmPt2.getPt(), p.getPt()));
 		return dx1p >= dx2p && dx1p >= dx2n || dx1n >= dx2p && dx1n >= dx2n;
 	}
-
-	int idx;
-	// private LongPoint pt;
-	DoublePoint pt;
-	OutPt next;
-
-	OutPt prev;
 
 	public OutPt duplicate(boolean InsertAfter) {
 		final OutPt result = new OutPt();

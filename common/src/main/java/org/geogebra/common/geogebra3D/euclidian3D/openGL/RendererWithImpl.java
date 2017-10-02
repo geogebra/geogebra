@@ -22,8 +22,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class RendererWithImpl extends Renderer
 		implements RendererShadersInterface {
+	/** shift for getting alpha value */
+	private static final int ALPHA_SHIFT = 24;
 
 	private RendererImpl rendererImpl;
+	private Hitting hitting;
 
 	/**
 	 * basic constructor
@@ -588,8 +591,6 @@ public abstract class RendererWithImpl extends Renderer
 
 	}
 
-	private Hitting hitting;
-
 	@Override
 	final public Hitting getHitting() {
 		return hitting;
@@ -632,9 +633,6 @@ public abstract class RendererWithImpl extends Renderer
 		}
 
 	}
-
-	/** shift for getting alpha value */
-	private static final int ALPHA_SHIFT = 24;
 
 	/**
 	 * get alpha channel of the array ARGB description

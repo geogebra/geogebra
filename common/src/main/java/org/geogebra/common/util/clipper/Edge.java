@@ -9,6 +9,43 @@ import org.geogebra.common.util.clipper.Clipper.PolyType;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 class Edge {
+	// private final LongPoint bot;
+	private final DoublePoint bot;
+
+	// private final LongPoint current;
+	private final DoublePoint current;
+
+	// private final LongPoint top;
+	private final DoublePoint top;
+
+	// private final LongPoint delta;
+	private final DoublePoint delta;
+
+	double deltaX;
+
+	PolyType polyTyp;
+
+	Edge.Side side;
+
+	int windDelta; // 1 or -1 depending on winding direction
+
+	int windCnt;
+	int windCnt2; // winding count of the opposite polytype
+	int outIdx;
+	Edge next;
+	Edge prev;
+	Edge nextInLML;
+	Edge nextInAEL;
+	Edge prevInAEL;
+	Edge nextInSEL;
+	Edge prevInSEL;
+
+	protected final static int SKIP = -2;
+
+	protected final static int UNASSIGNED = -1;
+
+	protected final static double HORIZONTAL = -3.4E+38;
+
 	static enum Side {
 		LEFT, RIGHT
 	}
@@ -52,42 +89,6 @@ class Edge {
 				+ edge.deltaX * (currentY - edge.getBot().getY());
 	}
 
-	// private final LongPoint bot;
-	private final DoublePoint bot;
-
-	// private final LongPoint current;
-	private final DoublePoint current;
-
-	// private final LongPoint top;
-	private final DoublePoint top;
-
-	// private final LongPoint delta;
-	private final DoublePoint delta;
-
-	double deltaX;
-
-	PolyType polyTyp;
-
-	Edge.Side side;
-
-	int windDelta; // 1 or -1 depending on winding direction
-
-	int windCnt;
-	int windCnt2; // winding count of the opposite polytype
-	int outIdx;
-	Edge next;
-	Edge prev;
-	Edge nextInLML;
-	Edge nextInAEL;
-	Edge prevInAEL;
-	Edge nextInSEL;
-	Edge prevInSEL;
-
-	protected final static int SKIP = -2;
-
-	protected final static int UNASSIGNED = -1;
-
-	protected final static double HORIZONTAL = -3.4E+38;
 
 	/**
 	 * modified to be compatible with double

@@ -40,6 +40,14 @@ public abstract class GlobalKeyDispatcher {
 	private static final double AUTOSTEPS_PER_KEY = 5;
 
 	private boolean tabOverGeos = true;
+	/** application */
+	protected final App app;
+	/** selection */
+	protected final SelectionManager selection;
+
+	private TreeSet<AlgoElement> tempSet;
+	private Coords tempVec;
+
 	/**
 	 * @param app2
 	 *            app
@@ -82,13 +90,6 @@ public abstract class GlobalKeyDispatcher {
 		}
 	}
 
-	/** application */
-	protected final App app;
-	/** selection */
-	protected final SelectionManager selection;
-
-	private TreeSet<AlgoElement> tempSet;
-
 	/**
 	 * @return temporary set of algos
 	 */
@@ -98,8 +99,6 @@ public abstract class GlobalKeyDispatcher {
 		}
 		return tempSet;
 	}
-
-	private Coords tempVec;
 
 	/**
 	 * Open rename dialog when first letter is typed

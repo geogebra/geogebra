@@ -9,6 +9,8 @@ import java.util.ArrayList;
  *
  */
 public class Paths extends ArrayList<Path> {
+	/** random */
+	private static final long serialVersionUID = 1910552127810480852L;
 
 	public static Paths closedPathsFromPolyTree(PolyTree polytree) {
 		final Paths result = new Paths();
@@ -35,11 +37,6 @@ public class Paths extends ArrayList<Path> {
 		}
 		return result;
 	}
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1910552127810480852L;
 
 	public Paths() {
 		super();

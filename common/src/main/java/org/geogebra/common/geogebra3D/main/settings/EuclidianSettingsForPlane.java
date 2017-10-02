@@ -10,6 +10,10 @@ import org.geogebra.common.main.settings.EuclidianSettings;
  *
  */
 public class EuclidianSettingsForPlane extends EuclidianSettings {
+	private boolean mirror = false;
+	private int rotate = 0;
+	private boolean isFromLoadFile = false;
+
 
 	/**
 	 * constructor
@@ -20,9 +24,6 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	public EuclidianSettingsForPlane(App app) {
 		super(app);
 	}
-
-	private boolean mirror = false;
-	private int rotate = 0;
 
 	/**
 	 * set transform for plane
@@ -58,8 +59,6 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 	public boolean isViewForPlane() {
 		return true;
 	}
-
-	private boolean isFromLoadFile = false;
 
 	/**
 	 * set these settings created from loading file or not

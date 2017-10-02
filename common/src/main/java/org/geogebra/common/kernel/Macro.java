@@ -50,6 +50,7 @@ public class Macro {
 	private Test[] inputTypes;
 	private Integer viewId = null;
 	private LinkedList<AlgoElement> usingAlgos = new LinkedList<AlgoElement>();
+	private boolean copyCaptions;
 
 	/**
 	 * Creates a new macro using the given input and output GeoElements.
@@ -808,8 +809,6 @@ public class Macro {
 		}
 		return geos;
 	}
-
-	private boolean copyCaptions;
 
 	/**
 	 * Set whether the macro should copy captions of resulting objects

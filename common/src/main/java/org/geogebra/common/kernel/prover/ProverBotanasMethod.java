@@ -341,6 +341,30 @@ public class ProverBotanasMethod {
 		private String polys, elimVars, freeVars;
 
 		private PPolynomial[] thesisFactors;
+		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<GeoElement, PPolynomial[]>();
+
+		/**
+		 * Number of maximal fix coordinates. -1 if no limit. Sometimes we need
+		 * to limit the maximum if the construction contains constrained point
+		 * on a path.
+		 */
+		int maxFixcoords = -1;
+
+		/**
+		 * A map of substitutions, used only in locus equations and envelopes.
+		 */
+		public HashMap<PVariable, BigInteger> substitutions;
+		/**
+		 * The variables for x and y, used only in locus equations and
+		 * envelopes.
+		 */
+		public PVariable[] curveVars = new PVariable[2];
+
+		/**
+		 * The result of the proof (even if no computation was done). Sometimes
+		 * it can be predicted without any further computations.
+		 */
+		ProofResult result = null;
 
 		/**
 		 * Return the polynomials of the algebraic structure as a String. Use
@@ -351,8 +375,6 @@ public class ProverBotanasMethod {
 		public String getPolys() {
 			return polys;
 		}
-
-		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<GeoElement, PPolynomial[]>();
 
 		/**
 		 * Retrieve polynomial belonging to a given GeoElement.
@@ -459,29 +481,6 @@ public class ProverBotanasMethod {
 		public void removePolynomial(PPolynomial p) {
 			polynomials.remove(p);
 		}
-
-		/**
-		 * Number of maximal fix coordinates. -1 if no limit. Sometimes we need
-		 * to limit the maximum if the construction contains constrained point
-		 * on a path.
-		 */
-		int maxFixcoords = -1;
-
-		/**
-		 * A map of substitutions, used only in locus equations and envelopes.
-		 */
-		public HashMap<PVariable, BigInteger> substitutions;
-		/**
-		 * The variables for x and y, used only in locus equations and
-		 * envelopes.
-		 */
-		public PVariable[] curveVars = new PVariable[2];
-
-		/**
-		 * The result of the proof (even if no computation was done). Sometimes
-		 * it can be predicted without any further computations.
-		 */
-		ProofResult result = null;
 
 		/**
 		 * The result of the computation.

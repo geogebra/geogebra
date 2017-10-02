@@ -39,6 +39,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 
 	private boolean allowOutlyingIntersections = false;
 	private boolean keepTypeOnGeometricTransform = true;
+	private Coords pnt2D;
 
 	/**
 	 * Creates ray with start point A.
@@ -373,8 +374,6 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				&& ((GeoRay) geo).getStartPoint().isEqual(getStartPoint());
 
 	}
-
-	private Coords pnt2D;
 
 	@Override
 	public boolean isOnPath(Coords Pnd, double eps) {

@@ -60,6 +60,15 @@ public class Command extends ValidExpression
 	private GeoElementND[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
+	private StringBuilder sbToString;
+
+	private ValueType lastType = null;
+
+	/**
+	 * for commands with different output types and that need to know each
+	 * lenght to set labels correctly
+	 */
+	private int[] outputSizes;
 
 	/**
 	 * Creates a new command object.
@@ -412,8 +421,6 @@ public class Command extends ValidExpression
 		}
 	}
 
-	private StringBuilder sbToString;
-
 	private static String toString(ExpressionValue ev, boolean symbolic,
 			boolean LaTeX, StringTemplate tpl) {
 		if (LaTeX) {
@@ -527,8 +534,6 @@ public class Command extends ValidExpression
 	public boolean isNumberValue() {
 		return evaluatesToNumber(false);
 	}
-
-	private ValueType lastType = null;
 
 	@Override
 	public ValueType getValueType() {
@@ -762,12 +767,6 @@ public class Command extends ValidExpression
 		}
 		return true;
 	}
-
-	/**
-	 * for commands with different output types and that need to know each
-	 * lenght to set labels correctly
-	 */
-	private int[] outputSizes;
 
 	/**
 	 * set output sizes

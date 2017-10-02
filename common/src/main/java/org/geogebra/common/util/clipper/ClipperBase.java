@@ -7,6 +7,19 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public abstract class ClipperBase implements Clipper {
+	private final static double LOW_RANGE = 0x3FFFFFFF;
+
+	private final static double HI_RANGE = 0x3FFFFFFFFFFFFFFFL;
+
+	protected LocalMinima minimaList;
+
+	protected LocalMinima currentLM;
+
+	private final List<List<Edge>> edges;
+
+	protected boolean hasOpenPaths;
+
+	protected final boolean preserveCollinear;
 
 	/**
 	 * modified to be compatible with double
@@ -75,20 +88,6 @@ public abstract class ClipperBase implements Clipper {
 		e.prev = null; // flag as removed (see ClipperBase.Clear)
 		return result;
 	}
-
-	private final static double LOW_RANGE = 0x3FFFFFFF;
-
-	private final static double HI_RANGE = 0x3FFFFFFFFFFFFFFFL;
-
-	protected LocalMinima minimaList;
-
-	protected LocalMinima currentLM;
-
-	private final List<List<Edge>> edges;
-
-	protected boolean hasOpenPaths;
-
-	protected final boolean preserveCollinear;
 
 	protected ClipperBase(boolean preserveCollinear) // constructor (nb: no
 														// external

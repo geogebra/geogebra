@@ -20,6 +20,8 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
  * 
  */
 public abstract class Transform {
+	/** construction */
+	protected Construction cons;
 
 	/**
 	 * Creates label for transformed geo by appending '. No more than three 's
@@ -55,9 +57,6 @@ public abstract class Transform {
 	public GeoElement doTransform(GeoElementND geo) {
 		return getTransformAlgo(geo.toGeoElement()).getResult();
 	}
-
-	/** construction */
-	protected Construction cons;
 
 	/**
 	 * @param label

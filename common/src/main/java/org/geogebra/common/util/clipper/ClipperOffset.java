@@ -12,9 +12,6 @@ import org.geogebra.common.util.clipper.Clipper.PolyType;
 import org.geogebra.common.util.clipper.Point.DoublePoint;
 
 public class ClipperOffset {
-	private static boolean nearZero(double val) {
-		return val > -TOLERANCE && val < TOLERANCE;
-	}
 
 	private Paths destPolys;
 	private Path srcPoly;
@@ -51,6 +48,10 @@ public class ClipperOffset {
 		lowest.setX(-1d);
 		polyNodes = new PolyNode();
 		normals = new ArrayList<DoublePoint>();
+	}
+
+	private static boolean nearZero(double val) {
+		return val > -TOLERANCE && val < TOLERANCE;
 	}
 
 	/**

@@ -49,6 +49,9 @@ public class Equation extends ValidExpression implements EquationValue {
 	private ArrayList<ExpressionValue> variableDegrees = null;
 	private boolean isPolynomial = true;
 
+	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
+
+
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
 	 * NumberValue and build an Equation out of them
@@ -286,8 +289,6 @@ public class Equation extends ValidExpression implements EquationValue {
 		}
 		undecided.clear();
 	}
-
-	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
 
 	/**
 	 * @param isFunctionDependent

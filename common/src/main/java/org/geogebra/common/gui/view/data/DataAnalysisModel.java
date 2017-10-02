@@ -48,6 +48,15 @@ public class DataAnalysisModel {
 	private boolean showStatPanel = false;
 	private boolean showDataDisplayPanel2 = false;
 	private boolean isIniting = true;
+	// rounding constants for local number format
+	private int printDecimals = 4, printFigures = -1;
+
+	// public static final int regressionTypes = 9;
+	private int regressionOrder = 2;
+
+	private DataAnalysisController ctrl;
+
+	private IDataAnalysisListener listener;
 
 	public static final float opacityBarChart = 0.3f;
 	public static final int thicknessCurve = 4;
@@ -110,16 +119,6 @@ public class DataAnalysisModel {
 			return label;
 		}
 	}
-
-	// rounding constants for local number format
-	private int printDecimals = 4, printFigures = -1;
-
-	// public static final int regressionTypes = 9;
-	private int regressionOrder = 2;
-
-	private DataAnalysisController ctrl;
-
-	private IDataAnalysisListener listener;
 
 	/*************************************************
 	 * Constructs the view.

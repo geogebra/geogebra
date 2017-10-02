@@ -22,6 +22,26 @@ import org.geogebra.common.util.IndexHTMLBuilder;
  */
 @SuppressWarnings({ "javadoc" })
 public class CreateObjectModel {
+	private CellRangeProcessor cp;
+	private ArrayList<CellRange> selectedCellRanges;
+
+	public static final int TYPE_LIST = 0;
+	public static final int TYPE_MATRIX = 2;
+	public static final int TYPE_LISTOFPOINTS = 1;
+	public static final int TYPE_TABLETEXT = 3;
+	public static final int TYPE_POLYLINE = 4;
+	private int objectType = TYPE_LIST;
+
+	public static final int OPTION_ORDER = 0;
+	public static final int OPTION_XY = 1;
+	public static final int OPTION_TRANSPOSE = 2;
+
+	private GeoElementND newGeo;
+	private boolean keepNewGeo = false;
+	private App app;
+	private ICreateObjectListener listener;
+	private Localization loc;
+
 	public interface ICreateObjectListener {
 		void setName(String name);
 
@@ -42,21 +62,6 @@ public class CreateObjectModel {
 		void updatePreview(String latexStr, boolean isLatexDrawable);
 	}
 
-	private CellRangeProcessor cp;
-	private ArrayList<CellRange> selectedCellRanges;
-
-	public static final int TYPE_LIST = 0;
-	public static final int TYPE_MATRIX = 2;
-	public static final int TYPE_LISTOFPOINTS = 1;
-	public static final int TYPE_TABLETEXT = 3;
-	public static final int TYPE_POLYLINE = 4;
-	private int objectType = TYPE_LIST;
-
-	private GeoElementND newGeo;
-	private boolean keepNewGeo = false;
-	private App app;
-	private ICreateObjectListener listener;
-	private Localization loc;
 
 	public CreateObjectModel(App app, int objectType,
 			ICreateObjectListener listener) {
@@ -323,10 +328,6 @@ public class CreateObjectModel {
 	public void setListType() {
 		objectType = TYPE_LIST;
 	}
-
-	public static final int OPTION_ORDER = 0;
-	public static final int OPTION_XY = 1;
-	public static final int OPTION_TRANSPOSE = 2;
 
 	public int getOptionType() {
 		int idx = 0;

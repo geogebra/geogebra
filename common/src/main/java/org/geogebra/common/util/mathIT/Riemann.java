@@ -57,16 +57,16 @@ import static org.geogebra.common.util.mathIT.Complex.subtract;
  * @version 2.01
  */
 public final class Riemann {
-	// Suppresses default constructor, ensuring non-instantiability.
-	private Riemann() {
-	}
-
 	/**
 	 * The predefined accuracy up to which infinite sums are approximated.
 	 * 
 	 * @see #zeta(double[])
 	 */
 	public static final double EPSILON = 1e-6;
+
+	// Suppresses default constructor, ensuring non-instantiability.
+	private Riemann() {
+	}
 
 	/**
 	 * Returns the value &#967;(<i>s</i>) for a complex number <i>s</i> &#8712;

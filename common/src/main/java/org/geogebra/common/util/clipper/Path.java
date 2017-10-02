@@ -13,6 +13,8 @@ import org.geogebra.common.util.clipper.Point.DoublePoint;
  */
 // public class Path extends ArrayList<LongPoint> {
 public class Path extends ArrayList<DoublePoint> {
+	/** random */
+	private static final long serialVersionUID = -7120161578077546673L;
 
 	private static OutPt excludeOp(OutPt op) {
 		final OutPt result = op.prev;
@@ -21,11 +23,6 @@ public class Path extends ArrayList<DoublePoint> {
 		result.idx = 0;
 		return result;
 	}
-
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -7120161578077546673L;
 
 	public Path() {
 		super();

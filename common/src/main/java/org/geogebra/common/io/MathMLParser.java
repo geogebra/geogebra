@@ -21,8 +21,40 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author (c) Martin Wilke
  */
 public class MathMLParser {
+	/**
+	 * The place holder for blocks in substitutions. If a substitution contains
+	 * a block place holder it is replaced by the LaTeX representation of the
+	 * followig block.<br>
+	 * Syntax: PH_BLOCKSTART + blockNumber + PH_BLOCKEND, e.g. '#BLOCK1#'.
+	 */
+	private final static String PH_BLOCK_START = "%BLOCK";
+	private final static char PH_BLOCK_END = '%';
+
+	private final static char[] specialCharacters = { '%', '_', '$' };
+	private final static char[] leftBraces = { '(', '{', '[' };
+	private final static char[] rightBraces = { ')', '{', ']' };
+
+	private HashMap<String, String> substitutions;
+	// private StringBuilder result;
+	private String strBuf;
+	private int pos;
+	private boolean wrappedEntities;
+	private boolean skipUnknownEntities;
+	private boolean geogebraSyntax;
+
+	// temporary variables (declared global for better performance)
+	// protected String startTag, endTag;
+	private String nextTag;
+	private StringBuilder tagBuf = new StringBuilder(200); // used by
+															// readNextTag() &
+															// getBlockEnd()
+	private StringBuilder entity = new StringBuilder(32); // used by
+															// replaceEntities()
+	private String entitySubst = ""; // used by replaceEntities()
+	private boolean closeBracketNext = false;
 
 	private static HashMap<String, String> geogebraMap;
+	private static HashMap<String, String> latexMap;
 
 	/**
 	 * @return tag->geogebra syntax map
@@ -368,8 +400,6 @@ public class MathMLParser {
 		return geogebraMap;
 	}
 
-	private static HashMap<String, String> latexMap;
-
 	private static synchronized HashMap<String, String> getLatexMap() {
 
 		if (latexMap == null) {
@@ -688,37 +718,6 @@ public class MathMLParser {
 		return latexMap;
 	}
 
-	/**
-	 * The place holder for blocks in substitutions. If a substitution contains
-	 * a block place holder it is replaced by the LaTeX representation of the
-	 * followig block.<br>
-	 * Syntax: PH_BLOCKSTART + blockNumber + PH_BLOCKEND, e.g. '#BLOCK1#'.
-	 */
-	private final static String PH_BLOCK_START = "%BLOCK";
-	private final static char PH_BLOCK_END = '%';
-
-	private final static char[] specialCharacters = { '%', '_', '$' };
-	private final static char[] leftBraces = { '(', '{', '[' };
-	private final static char[] rightBraces = { ')', '{', ']' };
-
-	private HashMap<String, String> substitutions;
-	// private StringBuilder result;
-	private String strBuf;
-	private int pos;
-	private boolean wrappedEntities;
-	private boolean skipUnknownEntities;
-	private boolean geogebraSyntax;
-
-	// temporary variables (declared global for better performance)
-	// protected String startTag, endTag;
-	private String nextTag;
-	private StringBuilder tagBuf = new StringBuilder(200); // used by
-															// readNextTag() &
-															// getBlockEnd()
-	private StringBuilder entity = new StringBuilder(32); // used by
-															// replaceEntities()
-	private String entitySubst = ""; // used by replaceEntities()
-	private boolean closeBracketNext = false;
 
 	/**
 	 * Generates the substitution table from the default file path in field

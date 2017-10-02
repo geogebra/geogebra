@@ -16,21 +16,6 @@ import org.geogebra.common.main.Localization;
  * 
  */
 public class StatisticsModel {
-	public interface IStatisticsModelListener {
-		void addInferenceMode(String item);
-
-		void selectInferenceMode(String string);
-
-		String getSeparator();
-
-		void updateOneVarInference(int mode);
-
-		void updateTwoVarInference(int mode);
-
-		void updateAnovaTable();
-
-	}
-
 	// inference mode constants
 	public static final int SUMMARY_STATISTICS = 0;
 	// one var
@@ -54,6 +39,21 @@ public class StatisticsModel {
 	private DataAnalysisModel daModel;
 	private IStatisticsModelListener listener;
 	private Localization loc;
+
+	public interface IStatisticsModelListener {
+		void addInferenceMode(String item);
+
+		void selectInferenceMode(String string);
+
+		String getSeparator();
+
+		void updateOneVarInference(int mode);
+
+		void updateTwoVarInference(int mode);
+
+		void updateAnovaTable();
+
+	}
 
 	/*************************************
 	 * Constructor

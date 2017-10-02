@@ -40,6 +40,13 @@ public abstract class Log {
 	public static final int LOGFILE_MAXLENGTH = 10000;
 
 	private final StringBuilder memoryLog = new StringBuilder();
+	private Level logLevel = DEBUG; // default
+	private LogDestination logDestination = LogDestination.CONSOLE; // default;
+	private boolean timeShown = true; // default
+	private boolean callerShown = true; // default
+	private boolean levelShown = true; // default
+	/** whether to keep log in memory */
+	protected boolean keepLog = false;
 
 	/**
 	 * Logging level
@@ -106,14 +113,6 @@ public abstract class Log {
 		 */
 		CONSOLE
 	}
-
-	private Level logLevel = DEBUG; // default
-	private LogDestination logDestination = LogDestination.CONSOLE; // default;
-	private boolean timeShown = true; // default
-	private boolean callerShown = true; // default
-	private boolean levelShown = true; // default
-	/** whether to keep log in memory */
-	protected boolean keepLog = false;
 
 	/**
 	 * Sets the current logging level

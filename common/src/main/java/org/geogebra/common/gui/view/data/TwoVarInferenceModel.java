@@ -12,6 +12,27 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class TwoVarInferenceModel {
+	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
+
+	// test type (tail)
+	private static final String tail_left = "<";
+	private static final String tail_right = ">";
+	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
+	private String tail = tail_two;
+
+	// input fields
+	private double confLevel = .95, hypMean = 0;
+
+	// statistics
+	double t, P, df, lower, upper, se, me, n1, n2, diffMeans, mean1, mean2;
+	private TTest tTestImpl;
+	private TDistribution tDist;
+	private boolean pooled = false;
+	private double meanDifference;
+
+	private TwoVarInferenceListener listener;
+	private Localization loc;
+
 	public interface TwoVarInferenceListener {
 
 		void setStatTable(int row, String[] rowNames, int length,
@@ -35,27 +56,6 @@ public class TwoVarInferenceModel {
 		void updatePanel();
 	}
 
-	private int selectedInference = StatisticsModel.INFER_TINT_2MEANS;
-
-	// test type (tail)
-	private static final String tail_left = "<";
-	private static final String tail_right = ">";
-	private static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-	private String tail = tail_two;
-
-	// input fields
-	private double confLevel = .95, hypMean = 0;
-
-	// statistics
-	double t, P, df, lower, upper, se, me, n1, n2, diffMeans, mean1,
-			mean2;
-	private TTest tTestImpl;
-	private TDistribution tDist;
-	private boolean pooled = false;
-	private double meanDifference;
-
-	private TwoVarInferenceListener listener;
-	private Localization loc;
 
 	/**
 	 * Construct a TwoVarInference panel

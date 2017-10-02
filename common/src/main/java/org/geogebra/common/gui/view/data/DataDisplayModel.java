@@ -26,6 +26,24 @@ import org.geogebra.common.util.debug.Log;
  * 
  */
 public class DataDisplayModel {
+	private App app;
+	private DataAnalysisModel daModel;
+	private StatGeo statGeo;
+	// currently selected plot type
+	private PlotType selectedPlot;
+
+	private StatPanelSettings settings;
+
+	private ArrayList<GeoElementND> plotGeoList;
+
+	private GeoElement[] boxPlotTitles;
+	private GeoElementND frequencyPolygon, histogram, barChart, scatterPlotLine;
+	private GeoElement dotPlot, normalCurve, scatterPlot, residualPlot, nqPlot,
+			boxPlot, freqTableGeo;
+
+	private boolean hasControlPanel = true;
+	private IDataDisplayListener listener;
+
 	public interface IDataDisplayListener {
 
 		void addDisplayTypeItem(PlotType histogram);
@@ -68,10 +86,6 @@ public class DataDisplayModel {
 	}
 
 	//
-	// // ggb fields
-	private App app;
-	private DataAnalysisModel daModel;
-	private StatGeo statGeo;
 
 	//
 	// // data view mode
@@ -113,21 +127,6 @@ public class DataDisplayModel {
 		}
 
 	}
-
-	// currently selected plot type
-	private PlotType selectedPlot;
-
-	private StatPanelSettings settings;
-
-	private ArrayList<GeoElementND> plotGeoList;
-
-	private GeoElement[] boxPlotTitles;
-	private GeoElementND frequencyPolygon, histogram, barChart, scatterPlotLine;
-	private GeoElement dotPlot, normalCurve, scatterPlot, residualPlot,
-			nqPlot, boxPlot, freqTableGeo;
-
-	private boolean hasControlPanel = true;
-	private IDataDisplayListener listener;
 
 	/*****************************************
 	 * Constructs a ComboStatPanel
