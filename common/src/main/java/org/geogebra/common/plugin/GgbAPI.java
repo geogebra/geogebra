@@ -644,9 +644,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		if (thickness == -1) {
 			thickness = EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
 		}
-		if (thickness < 1 || thickness > 13) {
-			return;
-		}
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null) {
 			return;
