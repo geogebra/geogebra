@@ -55,11 +55,11 @@ public class Ggb2giac {
 		p("Binomial.2", "simplify(binomial(%0,%1))");
 
 		p("BinomialDist.3",
-				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=ceil(%2)]],"
+				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
 						+ "when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg0,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]");
 
 		p("BinomialDist.4",
-				"[[[ggbbinarg0:=round(%0)], [ggbbinarg1:=%1], [ggbbinarg2:=round(%2)]],"
+				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"
 						+ "if %3==true then "
 						// needed for GGB-841
 						// if %2 is not a number for BinomialDist[n, p, k, true]
