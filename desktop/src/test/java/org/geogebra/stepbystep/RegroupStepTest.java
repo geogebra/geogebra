@@ -25,8 +25,9 @@ public class RegroupStepTest {
 	private boolean needsHeading;
 	private static int caseCounter = 0;
 
-	@Test
+	// @Test
 	public void factorTest() {
+		f("3*x^2*(x+2) + 3*x*(x+2)^2", "(3)(x)((x + 2))");
 		f("4(x+1)^2+(x+1)^4+1", "((((x + 1))^(2) + 2 + nroot(3, 2)))((((x + 1))^(2) + 2-nroot(3, 2)))");
 		f("x^2+4x+1", "((x + 2 + nroot(3, 2)))((x + 2-nroot(3, 2)))");
 		f("(x^2-3)^2+4(x^2-3)+4", "(((x + 1))^(2))(((x-1))^(2))");
@@ -35,6 +36,9 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("1/(sqrt(2)-1)+1/(sqrt(2)+1)-2sqrt(2)", "0");
+		r("1/(sqrt(2)-1)", "(nroot(2, 2) + 1)");
+		r("1/(2+sqrt(5))-1/(2-sqrt(5))-2sqrt(5)", "0");
 		r("-(-x)", "x");
 		r("(x)/((1-x))", "(x)/((1-x))");
 		r("(x^2-3x+2)/(x-1)", "(x-2)");
@@ -59,7 +63,6 @@ public class RegroupStepTest {
 		r("arcsin(1/2)", "(pi)/(6)");
 		r("nroot(1/sqrt(8), 3)", "(nroot(2, 2))/(2)");
 		r("(x+1)/x*10*(x+2)/(x+1)^2*1/5", "((2)((x + 2)))/((x)((x + 1)))");
-		r("1/(sqrt(2)-1)", "(nroot(2, 2) + 1)");
 	}
 
 	@Test

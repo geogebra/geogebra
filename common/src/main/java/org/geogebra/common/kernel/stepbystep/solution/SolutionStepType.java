@@ -176,6 +176,8 @@ public enum SolutionStepType {
 	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
 
 	DIVIDE_BY_ONE("DividedByOne", "Any expression divided by one remains the same"),
+	
+	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Any expression divided by negative one negates the expression"),
 
 	REWRITE_AS_POWER("RevriteAAsB", "Rewrite %0 as %1"),
 
@@ -254,17 +256,17 @@ public enum SolutionStepType {
 	private static String getColorHex(int color) {
 		switch (color % 5) {
 		case 1:
-			return StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
+			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
 		case 2:
-			return StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
+			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
 		case 3:
-			return StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
+			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
 		case 4:
-			return StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
+			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
 		case 0:
-			return StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
+			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
 		default:
-			return StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
+			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
 		}
 	}
 

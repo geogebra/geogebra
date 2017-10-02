@@ -312,6 +312,21 @@ public abstract class StepNode {
 		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getSubTree(1), 2);
 	}
 
+	public boolean containsSquareRoot() {
+		if (isSquareRoot()) {
+			return true;
+		}
+		if (isOperation()) {
+			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
+				if (((StepOperation) this).getSubTree(i).containsSquareRoot()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	/**
 	 * A square is an expression of the form a^(2n), or a nonSpecialConstant. This
 	 * definition is useful for factoring
