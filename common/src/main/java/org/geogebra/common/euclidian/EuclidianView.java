@@ -580,8 +580,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		printScaleNF = FormatFactory.getPrototype().getNumberFormat("#.#####",
 				5);
-        setXscale(1);
-        setYscale(1);
+        setXscale(SCALE_STANDARD);
+        setYscale(SCALE_STANDARD);
 	}
 
 	/**
