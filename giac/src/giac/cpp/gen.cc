@@ -7464,8 +7464,11 @@ namespace giac {
     case _INT___POLY: case _ZINT__POLY: case _CPLX__POLY:
       return divpoly(a,*b._POLYptr);
     case _INT___FRAC: case _ZINT__FRAC:
-      if (is_positive(-b._FRACptr->num,contextptr))
+      if (is_positive(-b._FRACptr->num,contextptr)){
+	// if (is_one(a)) return fraction(-b._FRACptr->den,-b._FRACptr->num);
 	return (-b._FRACptr->den*a)/(-b._FRACptr->num);
+      }
+      // if (is_one(a)) return fraction(b._FRACptr->den,b._FRACptr->num);
       return (b._FRACptr->den*a)/b._FRACptr->num;
     case _INT___VECT: case _ZINT__VECT: case _CPLX__VECT: case _DOUBLE___VECT: case _FLOAT___VECT: case _SYMB__VECT:
       if (b.subtype==_LIST__VECT)

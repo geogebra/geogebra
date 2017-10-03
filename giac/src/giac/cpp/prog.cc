@@ -1978,16 +1978,20 @@ namespace giac {
     testf=testf.evalf(1,contextptr);
     return ck_is_one(testf);
   }
+
   // return false if forprog modifies index or stopg
-  bool chk_forprog(const gen & forprog,const gen & index,const gen & stopg){
-    if (forprog.type==_VECT){
-      const_iterateur it=forprog._VECTptr->begin(),itend=forprog._VECTptr->end();
-      for (;it!=itend;++it){
-	if (!chk_forprog(*it,index,stopg))
-	  return false;
-      }
-      return true;
+  bool chk_forprog(const gen & forprog,const gen & index,const gen & stopg);
+  bool chk_forprog(const vecteur & forprog,const gen & index,const gen & stopg){
+    const_iterateur it=forprog.begin(),itend=forprog.end();
+    for (;it!=itend;++it){
+      if (!chk_forprog(*it,index,stopg))
+	return false;
     }
+    return true;
+  }
+  bool chk_forprog(const gen & forprog,const gen & index,const gen & stopg){
+    if (forprog.type==_VECT)
+      return chk_forprog(*forprog._VECTptr,index,stopg);
     if (forprog.type!=_SYMB)
       return true;
     unary_function_ptr & u=forprog._SYMBptr->sommet;
@@ -2009,10 +2013,11 @@ namespace giac {
     // for elem in list: for(elem,list), inert form
     if (args.type!=_VECT || args._VECTptr->size()==2)
       return symb_for(args);
-    if (args._VECTptr->size()!=4)
+    const vecteur & argsv = *args._VECTptr;
+    if (argsv.size()!=4)
       return gensizeerr(gettext("For must have 4 args"));
     // Initialization
-    gen initialisation=args._VECTptr->front();
+    gen initialisation=argsv.front();
     // add assigned variables to be local
     bool bound=false;
     vecteur loop_var;
@@ -2034,13 +2039,13 @@ namespace giac {
 	return undeferr(gettext("Invalid loop index (hint: i=sqrt(-1)!)"));
       }
     }
-    gen test=(*(args._VECTptr))[1];
+    gen test=argsv[1];
     if (is_equal(test))
       test = symb_same(test._SYMBptr->feuille._VECTptr->front(),test._SYMBptr->feuille._VECTptr->back());
     // FIXME: eval local variables in test that are not in increment and prog
-    gen increment=to_increment((*(args._VECTptr))[2]);
-    gen prog=(*(args._VECTptr))[3];
-    if ( (prog.type==_SYMB) && (prog._SYMBptr->sommet==at_bloc))
+    gen increment=to_increment(argsv[2]);
+    gen prog=argsv[3];
+    if (prog.type==_SYMB && prog._SYMBptr->sommet==at_bloc)
       prog=prog._SYMBptr->feuille;
     vecteur forprog=prog.type==_VECT?*prog._VECTptr:vecteur(1,prog);
     iterateur it,itbeg=forprog.begin(),itend=forprog.end();
@@ -2049,10 +2054,10 @@ namespace giac {
     }
     gen res,oldres;
     // loop
-    int save_current_instruction=debug_ptr(newcontextptr)->current_instruction;
     int eval_lev=eval_level(newcontextptr);
     debug_struct * dbgptr=debug_ptr(newcontextptr);
     int & dbgptr_current_instruction = dbgptr->current_instruction;
+    int save_current_instruction=dbgptr_current_instruction;
     gen testf;
 #ifndef NO_STDEXCEPT
     try {
@@ -2129,7 +2134,7 @@ namespace giac {
 	}
 	// compute idx
 	if (it!=itend && it->second.type==_INT_ 
-     	    && (stop-it->second.val)/step>=19){
+     	    && (stop-it->second.val)/step>=5){
 	  idx=&it->second.val;
 	  // adjust stop for a loop with condition *idx!=stop
 	  int niter=-1;
@@ -2165,23 +2170,8 @@ namespace giac {
 	  }
 	  stop=*idx+niter*step;
 	  // check that index and stopg are not modified inside the loop
-	  vecteur v=mergevecteur(lop(forprog,at_sto),lop(forprog,at_array_sto));
-	  for (int i=0;i<int(v.size());++i){
-	    gen to=v[i]._SYMBptr->feuille[1];
-	    if (to==index || to==stopg){
-	      idx=0;
-	      break;
-	    }
-	  }
-	  v=mergevecteur(lop(forprog,at_increment),lop(forprog,at_decrement));
-	  for (int i=0;i<int(v.size());++i){
-	    gen to=v[i]._SYMBptr->feuille;
-	    if (to.type==_VECT) to=to._VECTptr->front();
-	    if (to==index || to==stopg){
-	      idx=0;
-	      break;
-	    }
-	  }
+	  if (!chk_forprog(forprog,index,stopg))
+	    idx=0;
 	}
       }
       bool oneiter=idx && (itend-itbeg==1) && !dbgptr->debug_mode;

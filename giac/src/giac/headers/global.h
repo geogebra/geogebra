@@ -131,10 +131,6 @@ typedef unsigned char UTF8; /* typically 8 bits */
 typedef unsigned char Boolean; /* 0 or 1 */
 #endif
 
-#ifdef _IOS_FIX_
-#define system(params) 0
-#endif /* _IOS_FIX_ */
-
   int system_no_deprecation(const char *command);
 
 /* Some fundamental constants */

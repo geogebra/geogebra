@@ -630,6 +630,8 @@ namespace giac {
       return "cyan";
     }
     int r,g,b;
+    if (color>=0x100 && color<0x17e)
+      color -= 0x100;
     arc_en_ciel(color,r,g,b);
     return "rgb("+print_INT_(r)+","+print_INT_(g)+","+print_INT_(b)+")";
   }
