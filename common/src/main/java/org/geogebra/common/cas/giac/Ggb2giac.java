@@ -1210,7 +1210,9 @@ public class Ggb2giac {
 						"when(ggbtype==DOM_INT || ggbtype==DOM_FLOAT,ggbtcans,"
 						+
 						// ToComplex[(3,4)]
-						"when(ggbtcans[0]=='pnt',xcoord(%0)+i*ycoord(%0)," +
+						// 27 == ggbvect
+						"when(ggbtcans[0]=='pnt' || (type(ggbtcans)==DOM_LIST && subtype(ggbtcans)==27),xcoord(%0)+i*ycoord(%0),"
+						+
 						// ToComplex[ln(i)], ToComplex[a]
 						"real(ggbtcans)+i*im(ggbtcans)" + "))][3]");
 		p("ToExponential.1", "rectangular2polar(%0)");
