@@ -49,8 +49,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private static final int HDRAGGER_WIDTH = 8;
 
-	private static final int TAB_COUNT = 2;
-
 	private static final int OPEN_ANIM_TIME = 200;
 
 	/** Closed width of header in landscape mode */
@@ -77,6 +75,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	Header header;
 
 	private FlowPanel main;
+	private int tabCount = 0;
 	private StandardButton moveBtn;
 	private Integer lastOpenWidth = null;
 	private AlgebraTab tabAlgebra = null;
@@ -414,6 +413,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		initClickStartHandler();
 	}
 
+	private void add(ToolbarTab tab) {
+		main.add(tab);
+		tabCount++;
+	}
 	/**
 	 * 
 	 * @return width of one tab.
@@ -452,8 +455,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.addStyleName("main");
 		tabAlgebra = new AlgebraTab();
 		tabTools = new ToolsTab();
-		main.add(tabAlgebra);
-		main.add(tabTools);
+		add(tabAlgebra);
+		add(tabTools);
 		addMoveBtn();
 		add(main);
 		ClickStartHandler.initDefaults(main, true, true);
@@ -888,7 +891,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		resizeTabs();
 		main.getElement().getStyle().setProperty("height", "calc(100% - 56px)");
 		main.getElement().getStyle().setProperty("width",
-				(TAB_COUNT * 100) + "%");
+				(tabCount * 100) + "%");
 	}
 
 	/**
