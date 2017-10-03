@@ -119,16 +119,13 @@ namespace giac {
     return * (double *)(&r); 
   }
 
-#ifdef __clang__
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
   int system_no_deprecation(const char *command) {
+    #ifdef _IOS_FIX_
+    return 0;
+    #else
     return system(command);
+    #endif
   }
-#ifdef __clang__
-#pragma GCC diagnostic pop
-#endif
 
   double min_proba_time=10; // in seconds
 
