@@ -3012,7 +3012,7 @@ __GGB__keysVar.sl.menu = {
     "exam_ended": "Konec re\u0161evanja",
     "exam_exit_confirmation": "Res \u017eeli\u0161 zapustiti GeoGebro v na\u010dinu preverjanja?",
     "exam_exit_header": "Izhod iz re\u0161evanja nalog?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press Start\n\u2022 Don't leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start Exam\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
     "exam_log_airplane_mode_off": "Letalski na\u010din izklopljen",
     "exam_log_airplane_mode_on": "Letalski na\u010din vklju\u010den",
     "exam_log_bluetooth_disabled": "Bluetooth onemogo\u010den",

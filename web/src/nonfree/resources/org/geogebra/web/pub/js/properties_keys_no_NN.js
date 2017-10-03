@@ -3012,7 +3012,7 @@ __GGB__keysVar.no_NN.menu = {
     "exam_ended": "Pr\xf8vemodulen er avslutta",
     "exam_exit_confirmation": "Vil du verkeleg avslutte pr\xf8vemodulen i GeoGebra?",
     "exam_exit_header": "Vil du avslutte pr\xf8vemodulen?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press Start\n\u2022 Don't leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start Exam\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
     "exam_log_airplane_mode_off": "Flymodus av",
     "exam_log_airplane_mode_on": "Flymodus p\xe5",
     "exam_log_bluetooth_disabled": "Bl\xe5tann er utilgjengeleg",

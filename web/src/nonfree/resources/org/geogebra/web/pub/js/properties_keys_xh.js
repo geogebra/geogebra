@@ -3012,7 +3012,7 @@ __GGB__keysVar.xh.menu = {
     "exam_ended": "uVavanyo luphelile",
     "exam_exit_confirmation": "Ingaba uqinisekile ukuba ufuna ukuphuma kuJiyo ngoku?",
     "exam_exit_header": "Phuma kuGeoGebraExam ngoku?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press Start\n\u2022 Don't leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start Exam\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
     "exam_log_airplane_mode_off": "Imowdi ye Airplane ivaliwe",
     "exam_log_airplane_mode_on": "I Airplane mode ilaytiwe",
     "exam_log_bluetooth_disabled": "iBluetooth ayisebenzi",

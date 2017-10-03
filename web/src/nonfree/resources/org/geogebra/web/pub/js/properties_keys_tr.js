@@ -3012,7 +3012,7 @@ __GGB__keysVar.tr.menu = {
     "exam_ended": "S\u0131nav sonland\u0131r\u0131ld\u0131",
     "exam_exit_confirmation": "GeoGebra S\u0131nav'dan ger\xe7ekten \xe7\u0131kmak istiyor musunuz?",
     "exam_exit_header": "S\u0131navdan \xc7\u0131k?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press Start\n\u2022 Don't leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start Exam\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
     "exam_log_airplane_mode_off": "U\xe7u\u015f modu kapat\u0131ld\u0131",
     "exam_log_airplane_mode_on": "U\xe7u\u015f modu a\xe7\u0131ld\u0131",
     "exam_log_bluetooth_disabled": "Bluetooth engellendi",

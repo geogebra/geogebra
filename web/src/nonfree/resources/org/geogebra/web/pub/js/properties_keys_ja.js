@@ -3012,7 +3012,7 @@ __GGB__keysVar.ja.menu = {
     "exam_ended": "Exam ended",
     "exam_exit_confirmation": "GeoGebraExam\u3092\u672c\u5f53\u306b\u7d42\u4e86\u3057\u307e\u3059\u304b\uff1f",
     "exam_exit_header": "GeoGebraExam\u3092\u7d42\u4e86\uff1f",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press Start\n\u2022 Don't leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start Exam\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 An Exam Log shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_bluetooth_disabled": "Bluetooth disabled",

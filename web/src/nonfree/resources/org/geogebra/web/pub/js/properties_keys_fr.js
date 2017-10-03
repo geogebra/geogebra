@@ -3012,7 +3012,7 @@ __GGB__keysVar.fr.menu = {
     "exam_ended": "Terminer Examen",
     "exam_exit_confirmation": "Voulez-vous vraiment quitter Examen ?",
     "exam_exit_header": "Quitter Examen ?",
-    "exam_instructions_before_start": "\u2022 Attendre que l'enseignant donne l'ordre de presser D\xe9part\n\u2022 Ne pas quitter GeoGebra pendant l'examen\n\u2022 Un journal d'examen affiche les informations chronologiques de l'examen\n\u2022 Bandeau vert = Tout est correct\n\u2022 Bandeau rouge = Alerte Triche (vous avez quitt\xe9 GeoGebra)",
+    "exam_instructions_before_start": "\u2022 Attendre que l\'enseignant donne l\'ordre de presser \"Commencer\"\n\u2022 Ne pas quitter GeoGebra pendant l\'examen\n\u2022 Un journal d\'examen affiche les informations chronologiques de l\'examen\n\u2022 Bandeau vert = Tout est correct\n\u2022 Bandeau rouge = Alerte Triche (vous avez quitt\xe9 GeoGebra)",
     "exam_log_airplane_mode_off": "Sortie du mode avion",
     "exam_log_airplane_mode_on": "Entr\xe9e en mode avion",
     "exam_log_bluetooth_disabled": "Bluetooth d\xe9sactiv\xe9",
