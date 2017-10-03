@@ -2401,6 +2401,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return null;
 	}
 
+	@Override
+	public void switchToolsToAV() {
+		if (app.isUnbundled()) {
+			((ToolbarDockPanelW) (getLayout().getDockManager()
+					.getPanel(App.VIEW_ALGEBRA))).setToolMode(false);
+		}
+	}
+
 	public void updateFullscreen() {
 		((EuclidianDockPanelWAbstract) layout.getDockManager()
 				.getPanel(App.VIEW_EUCLIDIAN)).updateFullscreen();

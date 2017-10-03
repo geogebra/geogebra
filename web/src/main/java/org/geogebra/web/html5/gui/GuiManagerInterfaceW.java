@@ -128,4 +128,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void onTabModeChange(boolean tabsOnGUI, boolean lastgeo);
 
+	public void switchToolsToAV();
+
 }

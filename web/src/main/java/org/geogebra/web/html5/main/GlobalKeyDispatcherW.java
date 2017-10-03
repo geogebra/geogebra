@@ -358,6 +358,12 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	@Override
+	protected void startEdit(GeoElement geoElement) {
+		((AppW) app).getGuiManager().switchToolsToAV();
+		super.startEdit(geoElement);
+	}
+
+	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		setDownKeys(event);
 		if (inFocus) {

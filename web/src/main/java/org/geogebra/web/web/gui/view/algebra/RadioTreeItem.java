@@ -2098,6 +2098,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void cancelEditing() {
 		this.stopEditing(null, null);
+		this.marblePanel.updateIcons(this.errorMessage != null);
 	}
 
 	protected void blurEditor() {

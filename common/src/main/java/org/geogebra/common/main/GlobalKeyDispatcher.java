@@ -139,6 +139,9 @@ public abstract class GlobalKeyDispatcher {
 		if (ch == ' ') {
 			toggleSelectionVisibility();
 		}
+		if (ch == 13 && selection.selectedGeosSize() == 1) {
+			startEdit(geo = selection.getSelectedGeos().get(0));
+		}
 		EuclidianStyleBar es = app.getActiveEuclidianView()
 				.getDynamicStyleBar();
 		if (es != null) {
@@ -147,6 +150,16 @@ public abstract class GlobalKeyDispatcher {
 		return false;
 	}
 
+	/**
+	 * Start editing in AV
+	 * 
+	 * @param geoElement
+	 */
+	protected void startEdit(GeoElement geoElement) {
+		if (app.getGuiManager() != null && app.getAlgebraView() != null) {
+			app.getAlgebraView().startEditItem(geoElement);
+		}
+	}
 	private void toggleSelectionVisibility() {
 		int selSize = selection.selectedGeosSize();
 		if (selSize > 0 && app.getGuiManager() != null

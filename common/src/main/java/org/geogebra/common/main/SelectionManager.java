@@ -653,26 +653,12 @@ public class SelectionManager {
 
 		tree = new TreeSet<GeoElement>(tree);
 
-		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
-
-		Iterator<GeoElement> it = copy.iterator();
 
 		// remove geos that don't have isSelectionAllowed()==true
 		// or are not visible in the view
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			boolean evVisible = !geo.isSelectionAllowed(ev)
-					|| !geo.isEuclidianVisible()
-					|| !geo.isVisibleInView(ev.getViewID());
-			if ((this.kernel.getApplication().getGuiManager() == null
-					|| !this.kernel.getApplication().getGuiManager()
-							.hasAlgebraViewShowing())
-					&& evVisible) {
-				tree.remove(geo);
-			}
-		}
+		filterInvisible(tree, ev);
 
-		it = tree.iterator();
+		Iterator<GeoElement> it = tree.iterator();
 
 		// none selected, select first geo
 		if (selectedGeos.size() == 0) {
@@ -793,6 +779,26 @@ public class SelectionManager {
 		return true;
 	}
 
+	private void filterInvisible(TreeSet<GeoElement> tree,
+			EuclidianViewInterfaceCommon ev) {
+		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
+
+		Iterator<GeoElement> it = copy.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			boolean evVisible = !geo.isSelectionAllowed(ev)
+					|| !geo.isEuclidianVisible()
+					|| !geo.isVisibleInView(ev.getViewID());
+			if ((this.kernel.getApplication().getGuiManager() == null
+					|| !this.kernel.getApplication().getGuiManager()
+							.hasAlgebraViewShowing())
+					&& evVisible) {
+				tree.remove(geo);
+			}
+		}
+
+	}
+
 	/**
 	 * Select last created geo
 	 * 
@@ -811,19 +817,9 @@ public class SelectionManager {
 
 		tree = new TreeSet<GeoElement>(tree);
 
-		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
-		Iterator<GeoElement> it = copy.iterator();
+		filterInvisible(tree, ev);
 
-		// remove geos that don't have isSelectionAllowed()==true
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed(ev) || !geo.isEuclidianVisible()
-					|| !geo.isVisibleInView(ev.getViewID())) {
-				tree.remove(geo);
-			}
-		}
-
-		it = tree.iterator();
+		Iterator<GeoElement> it = tree.iterator();
 		while (it.hasNext()) {
 			lastGeo = it.next();
 		}
@@ -841,7 +837,6 @@ public class SelectionManager {
 				} else {
 					kernel.getApplication().getActiveEuclidianView()
 							.focusAndShowTextField((GeoInputBox) lastGeo);
-
 				}
 
 				break;
