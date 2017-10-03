@@ -126,7 +126,7 @@ public class AlgoIntegral extends AlgoCasBase {
 		if (f instanceof GeoFunctionNVar && numeric) {
 			FunctionNVar inFun = ((GeoFunctionNVar) f).getFunction();
 			FunctionVariable fv = inFun.getFunctionVariables()[0];
-			for(int i =1;i<inFun.getVarNumber();i++){
+			for (int i = 1; i < inFun.getVarNumber(); i++) {
 				if (inFun.getFunctionVariables()[i]
 						.toString(StringTemplate.defaultTemplate)
 						.equals(var.getLabel(StringTemplate.defaultTemplate))) {
