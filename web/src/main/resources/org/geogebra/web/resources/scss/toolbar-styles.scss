@@ -1,5 +1,5 @@
 @import 'colors';
-
+$tab-transition: all .3s ease;
 .gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
 	margin-left: 10px;
 }
@@ -349,19 +349,29 @@
 	   	 	bottom: 68px;
 	   	 	transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 		}
+		
+		.tab-hidden {
+			visibility: hidden;
+			transition: $tab-transition;
+		}
+	
+		.tab {
+			visibility: visible;		
+			transition: $tab-transition;
+	}		
 	}
 	
 	.algebra {
 		position: absolute;
 		left: 0px;
-		transition: all 0.3s ease;
+		transition: $tab-transition;
     		
 	}
 		
 	.tools {
 		position: absolute;
 		left: -100%;
-		transition: all 0.3s ease;
+		transition: $tab-transition;
     	}
 	
 	.main >* {

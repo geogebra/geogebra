@@ -132,6 +132,16 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		public void onResize() {
 			setHeight("100%");
 		}
+
+		public void setActive(boolean active) {
+			if (active) {
+				removeStyleName("tab-hidden");
+				addStyleName("tab");
+			} else {
+				removeStyleName("tab");
+				addStyleName("tab-hidden");
+			}
+		}
 	}
 
 	private class AlgebraTab extends ToolbarTab {
@@ -414,6 +424,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	private void add(ToolbarTab tab) {
+		tab.addStyleName("tab");
 		main.add(tab);
 		tabCount++;
 	}
@@ -844,6 +855,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
 
+		tabAlgebra.setActive(true);
+		tabTools.setActive(false);
+		hideMoveFloatingButton();
 	}
 
 	/**
@@ -856,7 +870,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
-
+		tabAlgebra.setActive(false);
+		tabTools.setActive(true);
+		updateMoveButton();
 
 	}
 
