@@ -2097,20 +2097,13 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	public void cancelEditing() {
-		this.stopEditing(null, null);
-		this.marblePanel.updateIcons(this.errorMessage != null);
-	}
-
-	protected void blurEditor() {
-		// TODO Auto-generated method stub
-
+		stopEditing(null, null);
+		updateIcons(this.errorMessage != null);
+		app.getActiveEuclidianView().requestFocus();
 	}
 
 	protected void renderLatex(String text0, Widget w, boolean forceMQ) {
-		if (forceMQ) {
-			// TODO
-			// editLatexMQ(text0);
-		} else {
+		if (!forceMQ) {
 			replaceToCanvas(text0, w);
 		}
 	}
