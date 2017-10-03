@@ -524,8 +524,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		// add text decoration buttons
-		if (btnBold.isVisible() && !app.isUnbundled()
-				&& !app.isWhiteboardActive()) {
+		if (btnBold.isVisible() && !app.isUnbundledOrWhiteboard()) {
 			addSeparator();
 		}
 
@@ -551,7 +550,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		if (!app.has(Feature.DYNAMIC_STYLEBAR) || !isDynamicStylebar()
-				|| (!app.isWhiteboardActive() && !app.isUnbundled())) {
+				|| !app.isUnbundledOrWhiteboard()) {
 			addMenuButton();
 		}
 
@@ -567,7 +566,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			addLabelButton();
 		}
 
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addDeleteButton();
 		}
 
@@ -681,11 +680,11 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	// context menu
 	protected void addContextMenuButton() {
 		if (!isBackground()
-				&& (app.isWhiteboardActive() || app.isUnbundled())) {
+				&& app.isUnbundledOrWhiteboard()) {
 			if (btnContextMenu == null) {
 				createContextMenuButton();
 			}
-			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			if (!app.isUnbundledOrWhiteboard()) {
 				btnContextMenu.addStyleName("dynStyleContextButton");
 			} else {
 				btnContextMenu.addStyleName("matDynStyleContextButton");
@@ -711,7 +710,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		return !app.has(Feature.DYNAMIC_STYLEBAR)
 				|| (!isDynamicStylebar()
 						&& !(this.getView() instanceof EuclidianView3D))
-				|| !app.isWhiteboardActive() && !app.isUnbundled();
+				|| !app.isUnbundledOrWhiteboard();
 	}
 	
 	protected boolean isDynamicStylebar(){
@@ -1167,7 +1166,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 						}
 
 						this.setKeepVisible(
-								!app.isUnbundled() && !app.isWhiteboardActive()
+								!app.isUnbundledOrWhiteboard()
 										&& EuclidianConstants
 										.isMoveOrSelectionMode(mode));
 					}
@@ -1366,7 +1365,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 					GeoElement geo = ((GeoElement) geos[i])
 					        .getGeoElementForPropertiesDialog();
 					if (!(geo instanceof GeoText)
-					        && !(geo instanceof GeoButton)) {
+							&& !(geo instanceof GeoButton)) {
 						geosOK = false;
 						break;
 					}
@@ -1415,7 +1414,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		btnBgColor.setEnableTable(true);
 		btnBgColor.setKeepVisible(
-				app.isUnbundled() || app.isWhiteboardActive() ? false : true);
+				app.isUnbundledOrWhiteboard() ? false : true);
 		btnBgColor.addPopupHandler(this);
 	}
 
@@ -1466,7 +1465,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextBoldBtn() {
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			btnBold = new MyToggleButtonW(
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.text_bold_black()
@@ -1550,7 +1549,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	private void createTextItalicBtn() {
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			btnItalic = new MyToggleButtonW(
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.text_italic_black()
@@ -1628,7 +1627,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
 		btnTextSize.setIcon(
-				new ImageOrText(app.isUnbundled() || app.isWhiteboardActive()
+				new ImageOrText(app.isUnbundledOrWhiteboard()
 						? new ImageResourcePrototype(null,
 								MaterialDesignResources.INSTANCE
 										.text_size_black().getSafeUri(),

@@ -43,7 +43,7 @@ public class ContextMenuPopup extends MyCJButton
 	public ContextMenuPopup(AppW app) {
 		super(app);
 		this.app = app;
-		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
+		ImgResourceHelper.setIcon(app.isUnbundledOrWhiteboard()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				:AppResources.INSTANCE.dots(), this);
 		ec = app.getActiveEuclidianView().getEuclidianController();
@@ -126,7 +126,7 @@ public class ContextMenuPopup extends MyCJButton
 							this);
 		} else {
 			ImgResourceHelper
-					.setIcon(app.isUnbundled() || app.isWhiteboardActive()
+					.setIcon(app.isUnbundledOrWhiteboard()
 					? MaterialDesignResources.INSTANCE.more_vert_black()
 					: AppResources.INSTANCE.dots(), this);
 		}
@@ -173,7 +173,7 @@ public class ContextMenuPopup extends MyCJButton
 	 */
 	public void hideMenu() {
 		popup.setMenuShown(false);
-		ImgResourceHelper.setIcon(app.isUnbundled() || app.isWhiteboardActive()
+		ImgResourceHelper.setIcon(app.isUnbundledOrWhiteboard()
 				? MaterialDesignResources.INSTANCE.more_vert_black()
 				: AppResources.INSTANCE.dots(), this);
 		this.removeStyleName("noOpacity");

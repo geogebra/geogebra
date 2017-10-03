@@ -171,13 +171,13 @@ public abstract class PropertiesView implements View {
 	public String getTypeString(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.isUnbundled() || app.isWhiteboardActive()
+			return app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Defaults")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
 		case SPREADSHEET:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
 		case EUCLIDIAN:
-			return app.isUnbundled() || app.isWhiteboardActive()
+			return app.isUnbundledOrWhiteboard()
 					? loc.getMenu("DrawingPad")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
 		case EUCLIDIAN2:
@@ -190,11 +190,11 @@ public abstract class PropertiesView implements View {
 		case CAS:
 			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
 		case GLOBAL:
-			return app.isUnbundled() || app.isWhiteboardActive()
+			return app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Advanced")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
 		case ALGEBRA:
-			return app.isUnbundled() || app.isWhiteboardActive()
+			return app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Algebra")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
 		case OBJECTS:

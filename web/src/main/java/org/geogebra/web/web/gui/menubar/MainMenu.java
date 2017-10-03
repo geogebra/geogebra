@@ -101,7 +101,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 *            application
 	 */
 	public MainMenu(AppW app) {
-		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			this.addStyleName("menubarSMART");
 		}
 		signInMenu = new GMenuBar(true, "signin", app);
@@ -116,7 +116,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(app.enableFileFeatures()){
 			this.createFileMenu();
 		}
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			this.createDownloadAsMenu();
 		}
 
@@ -139,11 +139,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			}
 			
 			menus.add(editMenu);
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				menus.add(downloadMenu);
 			}
 			menus.add(perspectivesMenu);
-			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			if (!app.isUnbundledOrWhiteboard()) {
 				menus.add(viewMenu);
 			}
 
@@ -168,7 +168,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		initLogoMenu();
 
 		if(app.enableFileFeatures()){	
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(fileMenu,
 						getHTMLCollapse(
 								MaterialDesignResources.INSTANCE
@@ -187,7 +187,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			}
 		}
 		if (enableGraph) {
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(editMenu,
 						getExpandCollapseHTML(
 								MaterialDesignResources.INSTANCE.edit_black(),
@@ -200,7 +200,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					true);
 			}
 
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(downloadMenu, getExpandCollapseHTML(
 						MaterialDesignResources.INSTANCE.file_download_black(),
 						"DownloadAs"), true);
@@ -219,7 +219,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							true);
 			}
 
-			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			if (!app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(viewMenu,
 						getHTML(app.isUnbundled()
 								? MaterialDesignResources.INSTANCE.home_black()
@@ -229,14 +229,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 		}
 
-		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			this.menuPanel.add(optionsMenu,
-					getHTML(app.isWhiteboardActive()
-							? MaterialDesignResources.INSTANCE.gere()
-						: GuiResources.INSTANCE.menu_icon_options(),
-							app.isWhiteboardActive()
-								? app.getLocalization().getMenu("Settings")
-								: "Options"),
+					getHTML(GuiResources.INSTANCE.menu_icon_options(),
+							"Options"),
 				true);
 		} else {
 			settingsMenu = new GMenuBar(true, "", app);
@@ -254,8 +250,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			menuTitles.add("Language");
 			menuImgs.add(MaterialDesignResources.INSTANCE.language_black());
 		}
-		if (!app.getLAF().isSmart() && enableGraph && !app.isUnbundled()
-				&& !app.isWhiteboardActive()) {
+		if (!app.getLAF().isSmart() && enableGraph
+				&& !app.isUnbundledOrWhiteboard()) {
 			this.menuPanel.add(toolsMenu,
 					getHTML(app.isUnbundled()
 							? MaterialDesignResources.INSTANCE.tools_black()
@@ -263,7 +259,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					true);
 		}
 		if (!exam) {
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
 								MaterialDesignResources.INSTANCE
 								.icon_help_black(),
@@ -320,12 +316,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.menuPanel = new StackPanel() {
 			@Override
 			public void showStack(int index) {
-				if ((app.isUnbundled() || app.isWhiteboardActive())
+				if (app.isUnbundledOrWhiteboard()
 						&& index == 0) {
 					super.showStack(1);
 				} else {
 					super.showStack(index);
-					if (app.isUnbundled() || app.isWhiteboardActive()) {
+					if (app.isUnbundledOrWhiteboard()) {
 						setStackText(index,
 								getHTMLCollapse(menuImgs.get(index - 1),
 										menuTitles.get(index - 1)),
@@ -337,7 +333,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					}
 				}
 				dispatchOpenEvent();
-				if ((app.isUnbundled() || app.isWhiteboardActive())
+				if (app.isUnbundledOrWhiteboard()
 						&& index == 0) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(1)), false);
@@ -385,7 +381,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 						if (index == this.getSelectedIndex()) {
 							closeAll(this);
-							if (app.isUnbundled() || app.isWhiteboardActive()) {
+							if (app.isUnbundledOrWhiteboard()) {
 								setStackText(index,
 										getHTMLExpand(menuImgs.get(index - 1),
 												menuTitles.get(index - 1)),
@@ -397,7 +393,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							}
 							return;
 						}
-						if ((app.isUnbundled() || app.isWhiteboardActive())
+						if (app.isUnbundledOrWhiteboard()
 								&& this.getSelectedIndex() > 0) {
 							setStackText(this.getSelectedIndex(), getHTMLExpand(
 									menuImgs.get(this.getSelectedIndex() - 1),
@@ -515,14 +511,14 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void createUserMenu() {
 		this.userMenu = new GMenuBar(true, "user", app);
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			this.userMenu.addStyleName("matStackPanel");
 		} else {
 			this.userMenu.addStyleName("GeoGebraMenuBar");
 		}
 		this.userMenu.addItem(
 				getMenuBarHtml(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundledOrWhiteboard()
 								? MaterialDesignResources.INSTANCE
 										.signout_black().getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
@@ -734,7 +730,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
     private void addSignInMenu() {
 		this.menuPanel.add(this.signInMenu,
-				getHTML(app.isUnbundled() || app.isWhiteboardActive()
+				getHTML(app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.signin_black()
 						: GuiResources.INSTANCE.menu_icon_sign_in(),
 						app.getLocalization().getMenu("SignIn")),
@@ -742,7 +738,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
     }
 
     private void addUserMenu() {
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			this.menuPanel.add(this.userMenu,
 					getExpandCollapseHTML(
 							MaterialDesignResources.INSTANCE.person_black(),
@@ -764,7 +760,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public void dispatchOpenEvent() {
 		if (menuPanel != null) {
 			int index = menuPanel.getSelectedIndex();
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				index--;
 			}
 			if (index < 0 || index > menus.size() - 1) {

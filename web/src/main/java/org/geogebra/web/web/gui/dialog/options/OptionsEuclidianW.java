@@ -73,7 +73,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected abstract class EuclidianTab extends FlowPanel implements SetLabels {
 		
 		protected EuclidianTab() {
-			if (app.isUnbundled() || app.isWhiteboardActive()) {
+			if (app.isUnbundledOrWhiteboard()) {
 				setStyleName("propMaterialTab");
 			} else {
 				setStyleName("propertiesTab");
@@ -213,13 +213,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			enableAxesRatio(view.isZoomable() && !view.isLockedAxesRatio());
 			
-			imgLock = new Image(app.isUnbundled() || app.isWhiteboardActive()
+			imgLock = new Image(app.isUnbundledOrWhiteboard()
 					? new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.lock_black()
 									.getSafeUri(),
 							0, 0, 18, 18, false, false)
 					: AppResources.INSTANCE.lock());
-			imgUnlock = new Image(app.isUnbundled() || app.isWhiteboardActive()
+			imgUnlock = new Image(app.isUnbundledOrWhiteboard()
 					? new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.lock_open_black()
 									.getSafeUri(),
@@ -383,7 +383,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			
 			axesStylePopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 					org.geogebra.common.gui.util.SelectionTable.MODE_ICON,
-					app.isUnbundled() || app.isWhiteboardActive()) {
+					app.isUnbundledOrWhiteboard()) {
 				@Override
 				public void handlePopupActionEvent(){
 					int idx = getSelectedIndex();
@@ -1075,7 +1075,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
 			btnGridStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundled() || app.isWhiteboardActive());
+					app.isUnbundledOrWhiteboard());
 			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 

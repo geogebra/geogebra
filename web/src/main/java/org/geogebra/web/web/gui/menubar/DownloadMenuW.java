@@ -22,7 +22,7 @@ public class DownloadMenuW extends GMenuBar {
 	public DownloadMenuW(final AppW app) {
 		super(true, "DownloadAs", app);
 		this.app = app;
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");

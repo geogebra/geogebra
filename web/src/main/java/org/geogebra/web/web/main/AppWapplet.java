@@ -213,7 +213,7 @@ public class AppWapplet extends AppWFull {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard
 					|| (frame.getWidget(i) instanceof FloatingMenuPanel)
-					|| ((isUnbundled() || isWhiteboardActive())
+					|| (isUnbundledOrWhiteboard()
 							&& frame.getWidget(i) instanceof Persistable)
 					|| frame.getWidget(i) instanceof DialogBoxW)) {
 				frame.remove(i);
@@ -396,7 +396,7 @@ public class AppWapplet extends AppWFull {
 			}
 			getGuiManager().updateFrameSize();
 			if (articleElement.getDataParamShowAlgebraInput(false)
-					&& !isWhiteboardActive() && !isUnbundled()) {
+					&& !isUnbundledOrWhiteboard()) {
 				Perspective p2 = getTmpPerspective(p);
 				if (!algebraVisible(p2)
 						&& getInputPosition() == InputPosition.algebraView) {
@@ -746,7 +746,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 	private boolean isFloatingMenu() {
-		return isUnbundled() || isWhiteboardActive();
+		return isUnbundledOrWhiteboard();
 	}
 
 	@Override
@@ -812,7 +812,7 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void closePopups() {
 		super.closePopups();
-		if (isUnbundled() && isWhiteboardActive()) {
+		if (isUnbundledOrWhiteboard()) {
 			hideMenu();
 		}
 	}

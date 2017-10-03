@@ -431,7 +431,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		//
 		btnImage = new PopupMenuButtonW(app, iconArray, -1, 4,
 				SelectionTable.MODE_ICON,
-				app.isUnbundled() || app.isWhiteboardActive()) {
+				app.isUnbundledOrWhiteboard()) {
 			@Override
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
@@ -452,7 +452,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
 		btnClearImage = new PushButton(
-				new Image(app.isUnbundled() || app.isWhiteboardActive()
+				new Image(app.isUnbundledOrWhiteboard()
 				? new ImageResourcePrototype(null,
 						MaterialDesignResources.INSTANCE.delete_black()
 								.getSafeUri(),
@@ -467,7 +467,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		});
 		btnOpenFile = new Button();
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			btnOpenFile.addStyleName("openFileBtn");
 			btnClearImage.addStyleName("clearImgBtn");
 		}
@@ -619,7 +619,8 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		fillingSliderTitle.setText(loc.getMenu("Opacity"));
 		angleSliderTitle.setText(loc.getMenu("Angle"));
 		distanceSliderTitle.setText(loc.getMenu("Spacing"));
-		btnOpenFile.setText(app.isUnbundled() || app.isWhiteboardActive()
+		btnOpenFile.setText(
+				app.isUnbundledOrWhiteboard()
 				? loc.getMenu("ChooseFromFile")
 				: loc.getMenu("ChooseFromFile") + Unicode.ELLIPSIS);
 	}

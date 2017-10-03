@@ -108,7 +108,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		this.comboBox = selectionTextBox;
 
 		setStyleName("advanced-ListPopupPanel");
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matDesign");
 		}
 
@@ -410,7 +410,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 				|| getDropDownPosition() == DropDownPosition.AUTO) {
 			setPopupPosition(getComboBox().getAbsoluteLeft(),
 					getComboBox().getAbsoluteTop()
-							+ (app.isUnbundled() || app.isWhiteboardActive()
+							+ (app.isUnbundledOrWhiteboard()
 									? -5
 									: getComboBox().getOffsetHeight()));
 		}

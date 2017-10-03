@@ -372,7 +372,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		providerPopup = new PopupMenuButtonW(app, ImageOrText.convert(
 		        providerImages, 24), 1, providerCount,
 				SelectionTable.MODE_ICON,
-				app.isUnbundled() || app.isWhiteboardActive());
+				app.isUnbundledOrWhiteboard());
 		this.providerPopup.getMyPopup().addStyleName("providersPopup");
 
 		listBox = new ListBox();

@@ -28,7 +28,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	public OptionsMenuW(AppW app) {
 		super(true, "options", new MenuResources(), app);
 	    this.app = app;
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -75,7 +75,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void addLanguageMenu() {
 		if (!app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled() || app.isWhiteboardActive()
+					app.isUnbundledOrWhiteboard()
 							? MaterialDesignResources.INSTANCE.language_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE

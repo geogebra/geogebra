@@ -34,7 +34,7 @@ public class EditMenuW extends GMenuBar {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.selection = app.getSelectionManager();
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -68,7 +68,7 @@ public class EditMenuW extends GMenuBar {
 		addPropertiesItem();
 		addSeparator();
 		addSelectAllItem(noIcon);
-		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			addSelectCurrentLayer(noIcon);
 			addDescentdantsItem(noIcon);
 			addPredecessorsItem(noIcon);
@@ -121,7 +121,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addDeleteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.delete_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_edit_delete()
@@ -137,7 +137,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addPasteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.paste_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_edit_paste()
@@ -158,7 +158,7 @@ public class EditMenuW extends GMenuBar {
 	private void addSelectAllItem(String noIcon) {
 		// select all menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.select_all_black()
 								.getSafeUri().asString()
 						: noIcon,
@@ -224,13 +224,13 @@ public class EditMenuW extends GMenuBar {
 
 	private void addPropertiesItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.gere().getSafeUri()
 								.asString()
 						: GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 								.asString(),
 				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
-						: app.isUnbundled() || app.isWhiteboardActive()
+						: app.isUnbundledOrWhiteboard()
 								? loc.getMenu("Settings")
 								: loc.getMenu("Options") + " ...",
 				true), true, new MenuCommand(app) {
@@ -245,7 +245,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addCopy() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.copy_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_edit_copy()
@@ -270,7 +270,7 @@ public class EditMenuW extends GMenuBar {
 	private void addUndoRedo() {
 		// undo menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.
 								undo_black().getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -286,7 +286,7 @@ public class EditMenuW extends GMenuBar {
 				});
 		// redo menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.redo_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE

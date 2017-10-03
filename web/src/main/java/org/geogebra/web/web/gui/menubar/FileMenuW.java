@@ -54,12 +54,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				app.fileNew();
 				app.setDefaultCursor();
 				
-				if (!app.isUnbundled() || !app.isWhiteboardActive()) {
+				if (!app.isUnbundledOrWhiteboard()) {
 					app.showPerspectivesPopup();
 				}
 			}
 		};
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -168,7 +168,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		 */
 		// this is enabled always
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.add_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -182,7 +182,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		});
 		// open menu is always visible in menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.search_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -196,7 +196,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				});
 		if(app.getLAF().undoRedoSupported()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled() || app.isWhiteboardActive()
+					app.isUnbundledOrWhiteboard()
 							? MaterialDesignResources.INSTANCE.save_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE
@@ -211,7 +211,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 		addSeparator();
 		shareItem = addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.share_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
@@ -228,21 +228,17 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 							}
 					}
 			});
-		if (app.getLAF().exportSupported() && !app.isUnbundled()
-				&& !app.isWhiteboardActive()) {
+		if (app.getLAF().exportSupported() && !app.isUnbundledOrWhiteboard()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled() || app.isWhiteboardActive()
-					? MaterialDesignResources.INSTANCE.file_download_black()
-							.getSafeUri().asString()
-					: GuiResources.INSTANCE
+					GuiResources.INSTANCE
 							.menu_icons_file_export().getSafeUri().asString(),
 					loc.getMenu("DownloadAs") + Unicode.ELLIPSIS, true),
-					true, new ExportMenuW(app), !app.isWhiteboardActive());
+					true, new ExportMenuW(app), true);
 		}
 		if (app.getLAF().printSupported()) {
 			printItem = new MenuItem(
 					MainMenu.getMenuBarHtml(
-							app.isUnbundled() || app.isWhiteboardActive()
+							app.isUnbundledOrWhiteboard()
 							? MaterialDesignResources.INSTANCE.print_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE

@@ -56,7 +56,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			setTitle(loc.getMenu("DrawingPad"));
 		}
 
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addAxesMenuItem();
 			addGridMenuItem();
 			addSnapToGridMenuItem();
@@ -87,7 +87,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	private void addShowAllObjAndStandView() {
 		String img;
 
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
 					.getSafeUri().asString();
 		} else {
@@ -106,7 +106,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 		String img2;
 
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri().asString();
 		} else {
 			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
@@ -157,12 +157,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			miStandardView.setEnabled(false);
 		}
 
-		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			addZoomMenu();
 		}
 
 		wrappedPopup.addItem(miShowAllObjectsView);
-		if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+		if (!app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.addItem(miStandardView);
 		}
 	}

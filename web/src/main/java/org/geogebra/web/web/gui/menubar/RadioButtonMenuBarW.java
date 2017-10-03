@@ -48,7 +48,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 
 		if (arrow) {
 			MainMenu.addSubmenuArrow(this,
-					app.isWhiteboardActive() || app.isUnbundled());
+					app.isUnbundledOrWhiteboard());
 		}
 
 	}

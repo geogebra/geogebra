@@ -504,14 +504,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 		@Override
 		public void setLabels() {
-			nameLabel.setText(app.isUnbundled() || app.isWhiteboardActive()
+			nameLabel.setText(app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Name")
 					: loc.getMenu("Name") + ":");
-			defLabel.setText(app.isUnbundled() || app.isWhiteboardActive()
+			defLabel.setText(app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Definition")
 					: loc.getMenu("Definition") + ":");
 			captionLabel
-					.setText(app.isUnbundled() || app.isWhiteboardActive()
+					.setText(app.isUnbundledOrWhiteboard()
 							? loc.getMenu("Button.Caption")
 							: loc.getMenu("Button.Caption") + ":");
 		}

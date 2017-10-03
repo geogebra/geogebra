@@ -23,7 +23,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	 */
 	public HelpMenuW(final App app)  {
 		super(true, "help", app);
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
@@ -39,7 +39,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	 // Tutorials
 		tutorials = addItem(
 				MainMenu.getMenuBarHtml(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.tutorial_black()
 								.getSafeUri().asString()
 						: AppResources.INSTANCE.empty().getSafeUri().asString(),
@@ -54,7 +54,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    // Help
 		manual = addItem(
 				MainMenu.getMenuBarHtml(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.manual_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_help().getSafeUri()
@@ -70,7 +70,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 				});
 		forum = addItem(MainMenu
 				.getMenuBarHtml(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundledOrWhiteboard()
 								? MaterialDesignResources.INSTANCE.forum_black()
 										.getSafeUri().asString()
 								: AppResources.INSTANCE.empty().getSafeUri()
@@ -88,7 +88,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	    // Report Bug
 		bug = addItem(
 				MainMenu.getMenuBarHtml(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.bug_report_black()
 								.getSafeUri().asString()
 						: AppResources.INSTANCE.empty().getSafeUri().asString(),
@@ -103,7 +103,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 		addSeparator();
 		about = addItem(
 				MainMenu.getMenuBarHtml(
-						app.isUnbundled() || app.isWhiteboardActive()
+						app.isUnbundledOrWhiteboard()
 								? MaterialDesignResources.INSTANCE.info_black()
 										.getSafeUri().asString()
 								: GuiResources.INSTANCE.menu_icon_help_about()

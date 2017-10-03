@@ -118,7 +118,7 @@ public class OptionsTab extends FlowPanel {
 		this.loc = loc;
 		this.tabPanel = tabPanel;
 		models = new ArrayList<OptionsModel>();
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			setStyleName("propMaterialTab");
 		} else {
 			setStyleName("propertiesTab");
@@ -610,7 +610,7 @@ public class OptionsTab extends FlowPanel {
 			}
 			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 					SelectionTable.MODE_ICON,
-					app.isUnbundled() || app.isWhiteboardActive()) {
+					app.isUnbundledOrWhiteboard()) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -675,7 +675,7 @@ public class OptionsTab extends FlowPanel {
 			}
 			decoPopup = new PopupMenuButtonW(app, iconArray, -1, 1,
 					SelectionTable.MODE_ICON,
-					app.isUnbundled() || app.isWhiteboardActive()) {
+					app.isUnbundledOrWhiteboard()) {
 				@Override
 				public void handlePopupActionEvent() {
 					super.handlePopupActionEvent();
@@ -774,7 +774,7 @@ public class OptionsTab extends FlowPanel {
 			titleLabel = new Label("-");
 			mainPanel.add(titleLabel);
 			btnPointStyle = PointStylePopup.create(app, -1, false,
-					model, app.isUnbundled() || app.isWhiteboardActive());
+					model, app.isUnbundledOrWhiteboard());
 			if (btnPointStyle != null) {
 				btnPointStyle.setKeepVisible(false);
 				mainPanel.add(btnPointStyle);
@@ -882,7 +882,7 @@ public class OptionsTab extends FlowPanel {
 			popupLabel = new Label();
 			stylePanel.add(popupLabel);
 			btnLineStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundled() || app.isWhiteboardActive());
+					app.isUnbundledOrWhiteboard());
 			// slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 

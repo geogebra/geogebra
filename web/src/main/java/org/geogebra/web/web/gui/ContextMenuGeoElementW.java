@@ -448,7 +448,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addShowObjectItem() {
 		GCheckBoxMenuItem cbItem;
-		if (!app.isWhiteboardActive() && !app.isUnbundled()
+		if (!app.isUnbundledOrWhiteboard()
 				&& getGeo().isEuclidianShowable()
 				&& getGeo().getShowObjectCondition() == null
 				&& (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
@@ -782,7 +782,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						cmd, true, app);
 				mi.setSelected(getGeo().isLocked());
 				wrappedPopup.addItem(mi);
-			} else if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			} else if (!app.isUnbundledOrWhiteboard()) {
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
 			}
 		}

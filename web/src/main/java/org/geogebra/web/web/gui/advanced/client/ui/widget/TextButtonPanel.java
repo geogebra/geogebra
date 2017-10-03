@@ -258,7 +258,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 */
 	protected void prepareChoiceButton() {
 		ToggleButton dropDownButton = getChoiceButton();
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			dropDownButton.getUpFace()
 					.setImage(new Image(new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.arrow_drop_down()

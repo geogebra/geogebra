@@ -126,7 +126,7 @@ public class PropertiesViewW extends PropertiesView
 			return;
 		}
 		closeButton = new StandardButton(
-				app.isUnbundled() || app.isWhiteboardActive()
+				app.isUnbundledOrWhiteboard()
 				? new ImageResourcePrototype(null,
 						KeyboardResources.INSTANCE.keyboard_close_black()
 								.getSafeUri(),
@@ -556,11 +556,11 @@ public class PropertiesViewW extends PropertiesView
     @Override
 	public void onResize() {
 		int width = getWrappedPanel().getOffsetWidth()
-				- (app.isUnbundled() || app.isWhiteboardActive() ? 40 : 37);
+				- (app.isUnbundledOrWhiteboard() ? 40 : 37);
     	int height = getWrappedPanel().getOffsetHeight();
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
-		} else if ((app.isUnbundled() || app.isWhiteboardActive())
+		} else if (app.isUnbundledOrWhiteboard()
 				&& width == -40
 				&& getWrappedPanel() != null) {
 			contentsPanel.setWidth("460px");

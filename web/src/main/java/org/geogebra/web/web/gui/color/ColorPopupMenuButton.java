@@ -154,7 +154,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	@Override
 	public ImageOrText getButtonIcon() {
 		ImageOrText icon = super.getButtonIcon();
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			icon = new ImageOrText(new ImageResourcePrototype(null,
 					MaterialDesignResources.INSTANCE.color_black().getSafeUri(),
 					0, 0, 24, 24, false, false));
@@ -218,7 +218,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 				this.setIcon(
 						GeoGebraIconW.createColorSwatchIcon(alpha, gc, null));
 			}
-			if (!app.isUnbundled() && !app.isWhiteboardActive()) {
+			if (!app.isUnbundledOrWhiteboard()) {
 				this.getElement().getStyle().setBorderColor(gc.toString());
 			}
 		} else {

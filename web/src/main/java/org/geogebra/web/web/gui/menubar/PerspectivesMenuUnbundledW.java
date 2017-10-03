@@ -21,7 +21,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	public PerspectivesMenuUnbundledW(AppW app) {
 		super(true, "apps", app);
 		this.app = app;
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanelNoOpacity");
 		} else {
 			addStyleName("GeoGebraMenuBar");

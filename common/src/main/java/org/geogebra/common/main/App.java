@@ -3997,7 +3997,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;// prerelease;
 
 		case MOW_CONTEXT_MENU:
-			return relaunch && (whiteboard || isUnbundled());
+			return relaunch && isUnbundledOrWhiteboard();
 
 		/** MOW-55 */
 		case MOW_BOUNDING_BOXES:
@@ -4019,7 +4019,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease && whiteboard;
 
 		case MOW_CLEAR_VIEW_STYLEBAR:
-			return relaunch && (whiteboard || isUnbundled());
+			return relaunch && isUnbundledOrWhiteboard();
 
 		case MOW_COLORPOPUP_IMPROVEMENTS:
 			return prerelease;
@@ -4179,7 +4179,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		case DYNAMIC_STYLEBAR:
-			return relaunch && (whiteboard || isUnbundled());
+			return relaunch && isUnbundledOrWhiteboard();
 
 		/**
 		 * GGB-1572 Functions fixed by default
@@ -4242,7 +4242,7 @@ public abstract class App implements UpdateSelection {
 			return relaunch || isNativeMobileAppWithNewUI();
 
 		case OBJECT_DEFAULTS_AND_COLOR:
-			return relaunch && (this.isUnbundled() || whiteboard);
+			return relaunch && isUnbundledOrWhiteboard();
 
 		/** GGB-1838 */
 		case ZOOM_PANEL:
@@ -4304,7 +4304,7 @@ public abstract class App implements UpdateSelection {
 			return relaunch;
 	
 		case FLOATING_SETTINGS:
-			return (isUnbundled() || whiteboard) && relaunch;
+			return isUnbundledOrWhiteboard() && relaunch;
 			
 		case GLOBAL_SETTINGS:
 			return relaunch;
@@ -4315,14 +4315,14 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2005 */
 		case TOOLTIP_DESIGN:
-			return (isUnbundled() || whiteboard) && relaunch;
+			return isUnbundledOrWhiteboard() && relaunch;
 
 		case INITIAL_PORTRAIT:
 			return isUnbundled() && relaunch;
 
 		/** GGB-1986 */
 		case DIALOG_DESIGN:
-			return (isUnbundled() || whiteboard) && relaunch;
+			return isUnbundledOrWhiteboard() && relaunch;
 
 		/** GGB-2015 */
 		case GEO_AV_DESCRIPTION:
@@ -4357,6 +4357,10 @@ public abstract class App implements UpdateSelection {
 
 	public boolean isWhiteboardActive() {
 		return false;
+	}
+
+	public boolean isUnbundledOrWhiteboard() {
+		return isUnbundled() || isWhiteboardActive();
 	}
 
 	public boolean canResize() {

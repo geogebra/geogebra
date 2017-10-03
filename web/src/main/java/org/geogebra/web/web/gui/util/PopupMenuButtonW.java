@@ -247,7 +247,7 @@ public class PopupMenuButtonW extends MyCJButton
 				}
 			}
 		};
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			myPopup.addStyleName("matPopupPanel");
 			if (isBorderTeal) {
 				myPopup.addStyleName("tealBorder");
@@ -319,7 +319,7 @@ public class PopupMenuButtonW extends MyCJButton
 
 		myTable = new SelectionTableW(newData, rows, columns, mode,
 		        multiselectionEnabled);
-		if (app.isUnbundled() || app.isWhiteboardActive()) {
+		if (app.isUnbundledOrWhiteboard()) {
 			myTable.addStyleName("matSelectionTable");
 		}
 		if (!multiselectionEnabled) {
