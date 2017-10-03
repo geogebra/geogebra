@@ -328,7 +328,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 * Focus the last available element on GUI before geos.
 	 */
 	public void focusLastGUIElement() {
-		graphicsContextMenuBtn.getElement().focus();
+		if (graphicsContextMenuBtn != null) {
+			graphicsContextMenuBtn.getElement().focus();
+		}
 	}
 	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and

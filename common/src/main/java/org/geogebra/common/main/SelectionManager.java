@@ -661,8 +661,13 @@ public class SelectionManager {
 		// or are not visible in the view
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed(ev) || !geo.isEuclidianVisible()
-					|| !geo.isVisibleInView(ev.getViewID())) {
+			boolean evVisible = !geo.isSelectionAllowed(ev)
+					|| !geo.isEuclidianVisible()
+					|| !geo.isVisibleInView(ev.getViewID());
+			if ((this.kernel.getApplication().getGuiManager() == null
+					|| !this.kernel.getApplication().getGuiManager()
+							.hasAlgebraViewShowing())
+					&& evVisible) {
 				tree.remove(geo);
 			}
 		}

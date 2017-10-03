@@ -562,7 +562,7 @@ public class GlobalKeyDispatcherW extends
 
 		app.getActiveEuclidianView().closeDropdowns();
 
-		if (changeTabMode()) {
+		if (changeTabMode(isShiftDown)) {
 			return true;
 		}
 		
@@ -780,15 +780,22 @@ public class GlobalKeyDispatcherW extends
 		};
 	}
 
-	private boolean changeTabMode() {
+	private boolean changeTabMode(boolean shift) {
+		boolean ret = false;
 		switch (guiSwitchMode) {
 		case FirstGeoToGUI:
-			setTabOverGeos(false);
-			onTabModeChange(false);
+			if (shift) {
+				setTabOverGeos(false);
+				onTabModeChange(false);
+				ret = true;
+			}
 			break;
 		case LastGeoToGUI:
-			setTabOverGeos(false);
-			onTabModeChange(true);
+			if (!shift) {
+				setTabOverGeos(false);
+				onTabModeChange(true);
+				ret = true;
+			}
 			break;
 		case None:
 			return false;
@@ -797,7 +804,7 @@ public class GlobalKeyDispatcherW extends
 		}
 
 		guiSwitchMode = GUISwitchMode.None;
-		return true;
+		return ret;
 	}
 
 	/**

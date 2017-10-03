@@ -2478,7 +2478,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			} else {
 				dp.focusLastGUIElement();
 			}
-			getToolbarPanelV2().setTabIndexes();
+			if (getToolbarPanelV2() != null) {
+				getToolbarPanelV2().setTabIndexes();
+			}
 		} else {
 			// TODO: switch back to geo mode.
 		}
