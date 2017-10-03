@@ -39,18 +39,10 @@
 				padding-bottom: 4px;
 			}
 			
-			.contents >* {
-				display: inline-block;
-			 }
-			 
 			.center {
-				position: relative;
-				margin: auto;
-				width: 64px;
-				display: flex;
-				top: 0px;
-				padding-left: 0;
-				padding-right: 0;
+				position: absolute;
+    			display: inline-flex;
+    			left: calc(50% - 84px);
 				
 				.gwt-Image {
 					width: 24px;
@@ -68,12 +60,9 @@
     				display: inline-table !important;
     				top: 40px;	
     				transition: all 0.3s ease;
-    				left: calc(50% + 10px);
+    				left: calc(50% + -24px);
     				opacity: 0.85;
 			    }
-				
-				
-				
 			}
 		
 			.center.indicatorLeft {
@@ -87,11 +76,7 @@
 					transform: translateX(50%) translateX(30px);
 				}	
 			}
-			
-			.center >* {
-				display: inline-block;
-			}
-
+		
 			.hidden.center >* {
 				display: none !important;
 			}
@@ -128,13 +113,6 @@
 				margin-right: 10px;
 				margin-left: 10px;
 			}
-	
-		 	.center {
-				margin: auto;
-				left: -4px;
-				top: 0px;
-			}
-			
 		}
 		
 		.header-open-portrait {
@@ -148,10 +126,6 @@
 			.contextMenu {
 				margin-right: 10px;	
 			}
-		
-			.center {
-				left: -26px;
-			}	
 		}
 	
 		.header-open-landscape {
@@ -164,12 +138,7 @@
 				float: right;
 				margin-right: 10px;
 				margin-left: 0px;
-			} 
-		
-			.center {
-				left: -25px;	
-			}
-								
+			} 								
 		}
 		
 		.header-close-landscape {
@@ -180,9 +149,11 @@
 			height: 100%;
 		
 			.center {
-				top: 0px;
+				left: 0px;
 				display: table-cell;
-				vertical-align: middle;
+				top: calc(50% - 64px);
+				height: 84px !important;
+				
 				.tabButton {
 					margin-left: 10px !important;	
 				}
@@ -190,10 +161,6 @@
 				.indicator {
 					display: none;
 					visibility: hidden;
-				}
-			
-				.gwt-Image {
-			
 				}
 			}			
 			
@@ -223,9 +190,7 @@
 		position: absolute;
 		bottom: -4px;
 		
-		.center {
-			//left: -52px;
-			
+		.center {			
 			.indicator {
 				display: none;
 				visibility: hidden;
