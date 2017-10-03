@@ -558,6 +558,7 @@ public class GlobalKeyDispatcherW extends
 	@Override
 	public boolean handleTab(boolean isControlDown, boolean isShiftDown, boolean cycle) {
 		if (!app.has(Feature.TAB_ON_GUI)) {
+			super.handleTab(isControlDown, isShiftDown, cycle);
 			return true;
 		}
 
