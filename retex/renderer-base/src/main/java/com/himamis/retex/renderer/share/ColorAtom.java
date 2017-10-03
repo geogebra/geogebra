@@ -57,7 +57,7 @@ import com.himamis.retex.renderer.share.platform.graphics.Color;
  */
 public class ColorAtom extends Atom implements Row {
 
-	public static Map<String, Color> Colors = new HashMap<String, Color>();
+	private static Map<String, Color> Colors;
 
 	// background color
 	private final Color background;
@@ -67,10 +67,6 @@ public class ColorAtom extends Atom implements Row {
 
 	// RowAtom for which the colorsettings apply
 	protected final RowAtom elements;
-
-	static {
-		initColors();
-	}
 
 	@Override
 	public Atom duplicate() {
@@ -207,7 +203,7 @@ public class ColorAtom extends Atom implements Row {
 					}
 				}
 
-				Color c = Colors.get(s.toLowerCase());
+				Color c = getColors().get(s.toLowerCase());
 				if (c != null) {
 					return c;
 				}
@@ -230,6 +226,8 @@ public class ColorAtom extends Atom implements Row {
 	}
 
 	private static void initColors() {
+		Colors = new HashMap<String, Color>();
+				
 		Colors.put("black", ColorUtil.BLACK);
 		Colors.put("white", ColorUtil.WHITE);
 		Colors.put("red", ColorUtil.RED);
@@ -309,6 +307,17 @@ public class ColorAtom extends Atom implements Row {
 		final double kk = 1d - k;
 		return new Graphics().createColor(kk * (1d - c), kk * (1d - m),
 				kk * (1d - y));
+	}
+
+	/**
+	 * @return colors hashmap
+	 */
+	public static Map<String, Color> getColors() {
+		if (Colors == null) {
+			initColors();
+		}
+
+		return Colors;
 	}
 
 }

@@ -1476,7 +1476,7 @@ public class PredefMacros {
 			throw new ParseException("The color model is incorrect !");
 		}
 
-		ColorAtom.Colors.put(args[1], color);
+		ColorAtom.getColors().put(args[1], color);
 		return null;
 	}
 
