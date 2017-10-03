@@ -262,6 +262,7 @@ abstract public class ObjectSettingsModel {
                 if (LabelManager.checkName(geo, checked)) {
                     geo.rename(checked);
                     geo.updateRepaint();
+                    mApp.setPropertiesOccured();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
