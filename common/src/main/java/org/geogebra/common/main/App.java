@@ -1224,27 +1224,10 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Resets the maximal used layer to 0
+	 * Resets the maximal used llayer to 0
 	 */
 	public void resetMaxLayerUsed() {
 		maxLayerUsed = 0;
-	}
-
-	/**
-	 * Sets the maximal used layer
-	 * 
-	 * @param layer
-	 *            layer to which last element was added
-	 */
-	public void setMaxLayerUsed(int layer) {
-		if (!has(Feature.MOW_PEN_ON_TOP_LAYER)) {
-			return;
-		}
-		if (layer > EuclidianStyleConstants.MAX_LAYERS) {
-			maxLayerUsed = EuclidianStyleConstants.MAX_LAYERS;
-		} else {
-			maxLayerUsed = layer;
-		}
 	}
 
 	/**
@@ -4045,9 +4028,6 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		case MOW_COLOR_FILLING_LINE:
-			return prerelease && whiteboard;
-
-		case MOW_PEN_ON_TOP_LAYER:
 			return prerelease && whiteboard;
 
 		// **********************************************************************

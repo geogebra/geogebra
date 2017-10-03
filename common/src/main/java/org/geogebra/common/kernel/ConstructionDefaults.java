@@ -941,18 +941,7 @@ public class ConstructionDefaults {
 				// set to highest used layer
 				setMaxLayerUsed(geo, app);
 			}
-			// MOW-312 make sure penstroke is always above other elements,
-			// image always on bottom
-			if (app.has(Feature.MOW_PEN_ON_TOP_LAYER)) {
-				if (geo.getGeoClassType() == GeoClass.PENSTROKE) {
-					int lastLayerUsed = app.getMaxLayerUsed();
-					geo.setLayer(9);
-					app.setMaxLayerUsed(lastLayerUsed);
-				}
-				if (geo.getGeoClassType() == GeoClass.IMAGE) {
-					geo.setLayer(0);
-				}
-			}
+
 			defaultLabelMode = defaultGeo
 					.getLabelMode() == GeoElement.LABEL_DEFAULT;
 		}
