@@ -1,5 +1,7 @@
 package org.geogebra.keyboard;
 
+import java.io.UnsupportedEncodingException;
+
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
@@ -20,8 +22,13 @@ public class KeyboardLayoutTest {
 						+ button.getActionName());
 			}
 		}
-		Assert.assertEquals(
-				"4oieOuKInlxxdWVzdGVxOuKJn+KJoDriiaDiiKc64oin4oioOuKIqOKGkjrihpLCrDrCrOKKlzriipfiiKU64oil4oqlOuKKpUVNUFRZX0lNQUdFOk5PTkXiiIg64oiI4oqCOuKKguKKhjriiobiiKA64oig4oyKeOKMizrijIrijIh44oyJOuKMiCY6JkA6QCM6I0VNUFRZX0lNQUdFOk5PTkVFTVBUWV9JTUFHRTpOT05FWzpbXTpdOjo6IjoiVHJhbnNsYXRlLmN1cnJlbmN5OlRyYW5zbGF0ZS5jdXJyZW5jecKrOsKrwrs6wrtFTVBUWV9JTUFHRTpOT05FQkFDS1NQQUNFX0RFTEVURTpCQUNLU1BBQ0VfREVMRVRFQUJDOlNXSVRDSF9UT19BQkMsOiwnOicgOiBMRUZUX0FSUk9XOkxFRlRfQ1VSU09SUklHSFRfQVJST1c6UklHSFRfQ1VSU09SUkVUVVJOX0VOVEVSOlJFVFVSTl9FTlRFUg==",
-				Base64.encodeToString(sb.toString().getBytes(), false));
+		try {
+			Assert.assertEquals(new String(
+					Base64.decode(
+							"4oieOuKInlxxdWVzdGVxOuKJn+KJoDriiaDiiKc64oin4oioOuKIqOKGkjrihpLCrDrCrOKKlzriipfiiKU64oil4oqlOuKKpUVNUFRZX0lNQUdFOk5PTkXiiIg64oiI4oqCOuKKguKKhjriiobiiKA64oig4oyKeOKMizrijIrijIh44oyJOuKMiCY6JkA6QCM6I0VNUFRZX0lNQUdFOk5PTkVFTVBUWV9JTUFHRTpOT05FWzpbXTpdOjo6IjoiVHJhbnNsYXRlLmN1cnJlbmN5OlRyYW5zbGF0ZS5jdXJyZW5jecKrOsKrwrs6wrtFTVBUWV9JTUFHRTpOT05FQkFDS1NQQUNFX0RFTEVURTpCQUNLU1BBQ0VfREVMRVRFQUJDOlNXSVRDSF9UT19BQkMsOiwnOicgOiBMRUZUX0FSUk9XOkxFRlRfQ1VSU09SUklHSFRfQVJST1c6UklHSFRfQ1VSU09SUkVUVVJOX0VOVEVSOlJFVFVSTl9FTlRFUg=="),
+					"UTF-8"), sb.toString());
+		} catch (UnsupportedEncodingException e) {
+			Assert.fail();
+		}
 	}
 }
