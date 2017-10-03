@@ -180,13 +180,6 @@ public class ConstructionDefaults {
 	/** default color for lines in Geometry app */
 	private final GColor colLineGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
 
-	private final GColor getLineColor(){
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGeometry()) {
-			return colLineGeometry;
-		}
-		return colLine;
-	}
 	
 	/** default color for inequalities */
 	private static final GColor colInequality = GColor.BLUE;
@@ -195,14 +188,6 @@ public class ConstructionDefaults {
 	protected static final GColor colConic = GColor.BLACK;
 	/** Color for conics in Geometry app */
 	protected static final GColor colConicGeometry = GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY;
-
-	private final GColor getConicColor() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
-				&& cons.getApplication().isUnbundledGeometry()) {
-			return colConicGeometry;
-		}
-		return colConic;
-	}
 	/** default alpha for conics */
 	public static final float DEFAULT_CONIC_ALPHA = 0f;
 
@@ -212,27 +197,10 @@ public class ConstructionDefaults {
 	/** new default color for polygons */
 	public static final GColor colPolygonG = GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE;
 
-	/**
-	 * @return default color for polygons.
-	 */
-	public final GColor getColPolygon() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-			return colPolygonG;
-		}
-		return colPolygon;
-	}
-
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
 	// angles
-	/** default color for angles */
-	private final GColor colAngle() {
-		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
-			return GColor.BLACK;
-		}
-		return GeoGebraColorConstants.GGB_GREEN;
-	}
 
 	/** default alpha for angles */
 	public static final float DEFAULT_ANGLE_ALPHA = 0.1f;
@@ -291,6 +259,45 @@ public class ConstructionDefaults {
 	private float filling = DEFAULT_POLYGON_ALPHA;
 
 	private boolean blackWhiteMode = false;
+	/** suffix for default free point name */
+	protected String strFree = " (free)";
+	/** suffix for default dependent point name */
+	protected String strDependent = " (dependent)";
+	private int colorIndex = 0;
+
+	private final GColor getLineColor() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGeometry()) {
+			return colLineGeometry;
+		}
+		return colLine;
+	}
+
+	private final GColor getConicColor() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+				&& cons.getApplication().isUnbundledGeometry()) {
+			return colConicGeometry;
+		}
+		return colConic;
+	}
+
+	/** default color for angles */
+	private final GColor colAngle() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+			return GColor.BLACK;
+		}
+		return GeoGebraColorConstants.GGB_GREEN;
+	}
+
+	/**
+	 * @return default color for polygons.
+	 */
+	public final GColor getColPolygon() {
+		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)) {
+			return colPolygonG;
+		}
+		return colPolygon;
+	}
 
 	/**
 	 * Creates a new ConstructionDefaults object to manage the default objects
@@ -328,10 +335,6 @@ public class ConstructionDefaults {
 		return defaultGeoElements.entrySet();
 	}
 
-	/** suffix for default free point name */
-	protected String strFree = " (free)";
-	/** suffix for default dependent point name */
-	protected String strDependent = " (dependent)";
 
 	private void setDefaultLineStyle(GeoElement geo) {
 		if (cons.getApplication().has(Feature.DEFAULT_OBJECT_STYLES) || cons
@@ -1216,8 +1219,6 @@ public class ConstructionDefaults {
 			}
 		}
 	}
-
-	private int colorIndex = 0;
 
 	/**
 	 * @return next color in sequence

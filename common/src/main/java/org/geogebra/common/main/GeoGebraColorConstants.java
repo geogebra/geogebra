@@ -166,6 +166,24 @@ public class GeoGebraColorConstants {
 																			// volatile
 	private static final Object lock = new Object();
 
+	/** popup color menu type: standard */
+	public static final int COLORSET_STANDARD = 0;
+	/** popup color menu type: background */
+	public static final int COLORSET_BGCOLOR = 1;
+
+	/**
+	 * Reverse lookup for GeoGebraColors key = RBG color value = color name from
+	 * colors.properties
+	 */
+	private static volatile HashMap<GColor, String> geogebraColorReverse = null;
+	private static volatile GColor[] grayColors = null;
+	private static volatile GColor[] darkPrimaryColors = null;
+	private static volatile GColor[] lightPrimaryColors = null;
+	private static volatile GColor[] primaryColors = null;
+	private static volatile HashMap<String, GColor> colors = null;
+
+	private static final Object lock2 = new Object();
+
 	/**
 	 * initialize (once) only if needed
 	 * 
@@ -231,17 +249,6 @@ public class GeoGebraColorConstants {
 
 		return geogebraColor;
 	}
-
-	/** popup color menu type: standard */
-	public static final int COLORSET_STANDARD = 0;
-	/** popup color menu type: background */
-	public static final int COLORSET_BGCOLOR = 1;
-
-	/**
-	 * Reverse lookup for GeoGebraColors key = RBG color value = color name from
-	 * colors.properties
-	 */
-	private static volatile HashMap<GColor, String> geogebraColorReverse = null;
 
 	private static HashMap<GColor, String> getGeoGebraColorReverse() {
 		if (geogebraColorReverse == null) { // avoid sync penalty if we can
@@ -320,8 +327,6 @@ public class GeoGebraColorConstants {
 		return rgb(grayN, grayN, grayN);
 	}
 
-	private static volatile GColor[] primaryColors = null;
-
 	private static GColor[] getPrimaryColors() {
 
 		if (primaryColors == null) { // avoid sync penalty if we can
@@ -351,8 +356,6 @@ public class GeoGebraColorConstants {
 
 		return primaryColors;
 	}
-
-	private static volatile GColor[] lightPrimaryColors = null;
 
 	private static GColor[] getLightPrimaryColors() {
 
@@ -386,8 +389,6 @@ public class GeoGebraColorConstants {
 		return lightPrimaryColors;
 	}
 
-	private static volatile GColor[] darkPrimaryColors = null;
-
 	private static GColor[] getDarkPrimaryColors() {
 
 		if (darkPrimaryColors == null) { // avoid sync penalty if we can
@@ -416,9 +417,6 @@ public class GeoGebraColorConstants {
 
 		return darkPrimaryColors;
 	}
-
-	private static volatile GColor[] grayColors = null;
-	private static final Object lock2 = new Object();
 
 	private static GColor[] getGrayColors() {
 
@@ -655,8 +653,6 @@ public class GeoGebraColorConstants {
 				scolors[7], scolors[15], scolors[23], scolors[39], scolors[47], scolors[55], scolors[63]
 		};
 	}
-
-	private static volatile HashMap<String, GColor> colors = null;
 
 	/**
 	 * initialize (once) only when needed

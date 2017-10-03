@@ -134,15 +134,6 @@ public abstract class Prover {
 	 */
 	protected AbstractProverReciosMethod reciosProver;
 
-	/**
-	 * Gives the current statement to prove
-	 * 
-	 * @return the statement (usually a GeoBoolean)
-	 */
-	public GeoElement getStatement() {
-		return statement;
-	}
-
 	/* output */
 	private HashSet<NDGCondition> ndgConditions = new HashSet<NDGCondition>();
 	/**
@@ -155,6 +146,8 @@ public abstract class Prover {
 	 * time may be saved.
 	 */
 	private boolean returnExtraNDGs;
+	private List<ProverEngine> proveAutoOrder;
+	private List<ProverEngine> proveDetailsAutoOrder;
 
 	/**
 	 * @author Zoltan Kovacs <zoltan@geogebra.org> An object which contains a
@@ -174,6 +167,11 @@ public abstract class Prover {
 		double readability = 1.0;
 
 		/**
+		 * Array of GeoElements (parameters of the condition)
+		 */
+		GeoElement[] geos;
+
+		/**
 		 * Gets readability score for this NDG condition.
 		 * 
 		 * @return score
@@ -191,11 +189,6 @@ public abstract class Prover {
 		public void setReadability(double readability) {
 			this.readability = readability;
 		}
-
-		/**
-		 * Array of GeoElements (parameters of the condition)
-		 */
-		GeoElement[] geos;
 
 		/**
 		 * A short textual description of the condition
@@ -423,6 +416,15 @@ public abstract class Prover {
 	}
 
 	/**
+	 * Gives the current statement to prove
+	 * 
+	 * @return the statement (usually a GeoBoolean)
+	 */
+	public GeoElement getStatement() {
+		return statement;
+	}
+
+	/**
 	 * Sets the maximal time spent in the Prover for the given proof.
 	 * 
 	 * @param timeout
@@ -490,9 +492,6 @@ public abstract class Prover {
 	public void addNDGcondition(NDGCondition ndgc) {
 		ndgConditions.add(ndgc);
 	}
-
-	private List<ProverEngine> proveAutoOrder;
-	private List<ProverEngine> proveDetailsAutoOrder;
 
 	/**
 	 * The real computation of decision of a statement. The statement is

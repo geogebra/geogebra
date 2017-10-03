@@ -102,6 +102,58 @@ public abstract class Renderer {
 			SQRT2_DIV2 };
 	static final public float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2,
 			0f };
+	public boolean needExportImage = false;
+
+	private boolean exportImageForThumbnail = false;
+
+	private boolean exportImageEquirectangular = false;
+
+	protected boolean waitForUpdateClearColor = false;
+
+	public int left = 0;
+	public int right = 640;
+	public int bottom = 0;
+	public int top = 480;
+
+	public boolean waitForDisableStencilLines = false;
+
+	protected double[] eyeToScreenDistance = new double[2];
+
+	/** distance camera-near plane */
+	private final static double PERSP_NEAR_MIN = 10;
+	public double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
+	public double[] perspLeft = new double[2];
+	public double[] perspRight = new double[2];
+	public double[] perspBottom = new double[2];
+	public double[] perspTop = new double[2];
+	public double[] perspFar = new double[2];
+	public double[] perspDistratio = new double[2];
+	public double[] perspFocus = new double[2];
+	public Coords perspEye;
+
+	public double[] glassesEyeX = new double[2];
+	public double[] glassesEyeX1 = new double[2];
+	public double[] glassesEyeY = new double[2];
+	public double[] glassesEyeY1 = new double[2];
+
+	public static final int EYE_LEFT = 0;
+	public static final int EYE_RIGHT = 1;
+	public int eye = EYE_LEFT;
+
+	public double obliqueX;
+	public double obliqueY;
+	private Coords obliqueOrthoDirection; // direction "orthogonal" to the
+											// screen (i.e. not visible)
+	private ExportType exportType = ExportType.NONE;
+	private int export_n;
+	private double export_val;
+	private double export_min;
+	private double export_max;
+	private double export_step;
+	private int export_i;
+	private AnimationExportSlider export_num;
+	public boolean waitForSetStencilLines = false;
+
 
 	/**
 	 * creates a renderer linked to an {@link EuclidianView3D}
@@ -364,13 +416,7 @@ public abstract class Renderer {
 	 */
 	abstract protected void setExportImageEquirectangularFromTiles();
 
-	public boolean needExportImage = false;
-
-	private boolean exportImageForThumbnail = false;
-
-	private boolean exportImageEquirectangular = false;
 	// private double exportImageEquirectangularAngle = 0;
-
 
 	/**
 	 * says that an export image is needed, and call immediate display
@@ -1418,9 +1464,6 @@ public abstract class Renderer {
 
 	// ////////////////////////////////
 	// clear color
-
-	protected boolean waitForUpdateClearColor = false;
-
 	public void setWaitForUpdateClearColor() {
 		waitForUpdateClearColor = true;
 	}
@@ -1495,11 +1538,6 @@ public abstract class Renderer {
 	abstract public void resumeAnimator();
 
 	// projection mode
-
-	public int left = 0;
-	public int right = 640;
-	public int bottom = 0;
-	public int top = 480;
 
 	public int getLeft() {
 		return left;
@@ -1625,15 +1663,11 @@ public abstract class Renderer {
 	 */
 	abstract protected void setView();
 
-	public boolean waitForDisableStencilLines = false;
-
 	public void setWaitForDisableStencilLines() {
 		waitForDisableStencilLines = true;
 	}
 
 	abstract protected void disableStencilLines();
-
-	public boolean waitForSetStencilLines = false;
 
 	public void setWaitForSetStencilLines() {
 		waitForSetStencilLines = true;
@@ -1693,26 +1727,12 @@ public abstract class Renderer {
 	 */
 	abstract protected void viewOrtho();
 
-	protected double[] eyeToScreenDistance = new double[2];
-
 	final public void setNear(double left, double right) {
 		eyeToScreenDistance[EYE_LEFT] = left;
 		eyeToScreenDistance[EYE_RIGHT] = right;
 		updatePerspValues();
 		updatePerspEye();
 	}
-
-	/** distance camera-near plane */
-	private final static double PERSP_NEAR_MIN = 10;
-	public double[] perspNear = { PERSP_NEAR_MIN, PERSP_NEAR_MIN };
-	public double[] perspLeft = new double[2];
-	public double[] perspRight = new double[2];
-	public double[] perspBottom = new double[2];
-	public double[] perspTop = new double[2];
-	public double[] perspFar = new double[2];
-	public double[] perspDistratio = new double[2];
-	public double[] perspFocus = new double[2];
-	public Coords perspEye;
 
 	protected void updatePerspValues() {
 
@@ -1779,11 +1799,6 @@ public abstract class Renderer {
 
 	abstract protected void viewPersp();
 
-	public double[] glassesEyeX = new double[2];
-	public double[] glassesEyeX1 = new double[2];
-	public double[] glassesEyeY = new double[2];
-	public double[] glassesEyeY1 = new double[2];
-
 	public void updateGlassesValues() {
 		for (int i = 0; i < 2; i++) {
 			// eye values
@@ -1796,10 +1811,6 @@ public abstract class Renderer {
 	}
 
 	abstract protected void viewGlasses();
-
-	public static final int EYE_LEFT = 0;
-	public static final int EYE_RIGHT = 1;
-	public int eye = EYE_LEFT;
 
 	protected void setColorMask() {
 
@@ -1825,19 +1836,6 @@ public abstract class Renderer {
 	public enum ExportType {
 		NONE, ANIMATEDGIF, THUMBNAIL_IN_GGBFILE, PNG, CLIPBOARD, UPLOAD_TO_GEOGEBRATUBE
 	}
-
-	public double obliqueX;
-	public double obliqueY;
-	private Coords obliqueOrthoDirection; // direction "orthogonal" to the
-											// screen (i.e. not visible)
-	private ExportType exportType = ExportType.NONE;
-	private int export_n;
-	private double export_val;
-	private double export_min;
-	private double export_max;
-	private double export_step;
-	private int export_i;
-	private AnimationExportSlider export_num;
 
 	public void updateProjectionObliqueValues() {
 		double angle = Math.toRadians(view3D.getProjectionObliqueAngle());

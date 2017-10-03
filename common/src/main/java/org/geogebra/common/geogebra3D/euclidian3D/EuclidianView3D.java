@@ -303,6 +303,28 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double projectionObliqueFactor = 0.5;
 	private Coords boundsMin, boundsMax;
 	private double fontScale = 1;
+	private EuclidianView3DCompanion companion3D;
+
+	private int mouseMoveDX, mouseMoveDY, mouseMoveMode;
+
+	private double axisScaleFactor, axisScaleOld;
+	private int axisScaleMode;
+
+	private AnimationType animationType = AnimationType.OFF;
+
+	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
+	private Coords cursorNormal = new Coords(3);
+
+	private double screenTranslateAndScaleDX;
+	private double screenTranslateAndScaleDY;
+	private double screenTranslateAndScaleDZ;
+
+	private Coords startPos;
+
+	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
+
+	private boolean doExportToPrinter3D = false;
+	private ExportToPrinter3D exportToPrinter;
 
 	/**
 	 * common constructor
@@ -1058,8 +1080,6 @@ public abstract class EuclidianView3D extends EuclidianView
 				EuclidianController.MOVE_VIEW);
 	}
 
-	private int mouseMoveDX, mouseMoveDY, mouseMoveMode;
-
 	/**
 	 * Sets coord system from mouse move
 	 */
@@ -1104,9 +1124,6 @@ public abstract class EuclidianView3D extends EuclidianView
 			break;
 		}
 	}
-
-	private double axisScaleFactor, axisScaleOld;
-	private int axisScaleMode;
 
 	final public void setCoordSystemFromAxisScale(double factor,
 			double scaleOld, int mode) {
@@ -2117,8 +2134,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		OFF, ANIMATED_SCALE, SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
 	}
 
-	private AnimationType animationType = AnimationType.OFF;
-
 	/**
 	 * animate the view for changing scale, orientation, etc.
 	 */
@@ -2569,9 +2584,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 	}
-
-	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
-	private Coords cursorNormal = new Coords(3);
 
 	/**
 	 * update cursor3D matrix
@@ -4740,10 +4752,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		// not used in 3D
 	}
 
-	private double screenTranslateAndScaleDX;
-	private double screenTranslateAndScaleDY;
-	private double screenTranslateAndScaleDZ;
-
 	public void screenTranslateAndScale(double dx, double dy,
 			double scaleFactor) {
 
@@ -4907,10 +4915,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		setWaitForUpdate();
 	}
 
-	private Coords startPos;
-
-	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
-
 	// private CoordMatrix4x4 startTranslationScreen =
 	// CoordMatrix4x4.Identity();
 
@@ -4976,8 +4980,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		return new Mouse3DEvent(mouse3DLoc);
 	}
 
-	private EuclidianView3DCompanion companion3D;
-
 	@Override
 	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		companion3D = new EuclidianView3DCompanion(this);
@@ -4996,10 +4998,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setFlagForSCADexport() {
 		doExportToPrinter3D = true;
 	}
-	
-	private boolean doExportToPrinter3D = false;
-	private ExportToPrinter3D exportToPrinter;
-	
+
 	abstract protected ExportToPrinter3D createExportToPrinter3D();
 
 	/**

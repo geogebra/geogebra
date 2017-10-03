@@ -45,6 +45,20 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		implements EuclidianViewForPlaneCompanionInterface {
 
 	private ViewCreator plane;
+	private CoordMatrix4x4 transform;
+
+	private boolean initViewJustCreated = false;
+	private Coords tmpCoords = new Coords(4);
+
+	private CoordMatrix4x4 planeMatrix, transformedMatrix;
+	private CoordMatrix inverseTransformedMatrix;
+
+	private int transformMirror;
+	private int transformRotate;
+
+	private DockPanel panel;
+	private int id;
+	private boolean settingsFromLoadFile = false;
 
 	/**
 	 * constructor
@@ -56,16 +70,11 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		super(view);
 	}
 
-	private CoordMatrix4x4 transform;
-
-	private boolean initViewJustCreated = false;
-
 	/**
 	 * @param defPlane
 	 *            planar object
 	 */
 	public void initView(ViewCreator defPlane) {
-
 		setPlane(defPlane);
 
 		if (settingsFromLoadFile) {
@@ -121,8 +130,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		view.setCoordSystem(xZero, yZero, xscale, yscale);
 	}
 
-	private Coords tmpCoords = new Coords(4);
-
 	@Override
 	protected void updateSizeKeepDrawables() {
 
@@ -164,9 +171,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 				view.getYscale());
 
 	}
-
-	private CoordMatrix4x4 planeMatrix, transformedMatrix;
-	private CoordMatrix inverseTransformedMatrix;
 
 	@Override
 	public CoordMatrix getMatrix() {
@@ -223,9 +227,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		inverseTransformedMatrix = transformedMatrix.inverse();
 
 	}
-
-	private int transformMirror;
-	private int transformRotate;
 
 	@Override
 	public void setTransformRegardingView() {
@@ -319,10 +320,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		sbxml.append("\"/>\n");
 
 		view.endXML(sbxml);
-
 	}
-
-	private boolean settingsFromLoadFile = false;
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
@@ -551,8 +549,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 		return super.showGrid(show);
 	}
 
-	private DockPanel panel;
-
 	/**
 	 * set the dock panel of the view
 	 * 
@@ -571,8 +567,6 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	public boolean isPanelVisible() {
 		return panel.isVisible();
 	}
-
-	private int id;
 
 	@Override
 	public int getId() {

@@ -38,6 +38,17 @@ public class CoordMatrix {
 	protected int rows;
 	/** number of columns of the matrix */
 	protected int columns;
+	private CoordMatrix inverse;
+
+	private static double[][] matrixForSolve;
+
+	private PivotSolRes pivotSolRes;
+
+	private PivotSolResDegenerate pivotSolResDegenerate;
+
+	private PivotInverseMatrix pivotInverseMatrix;
+
+	private double[][] pivotMatrix;
 
 	// for rotations
 	/** rotation around x-axis */
@@ -856,8 +867,6 @@ public class CoordMatrix {
 		return getRows() == getColumns();
 	}
 
-	private CoordMatrix inverse;
-
 	/**
 	 * returns inverse matrix (2x2 or larger). You must check with isSquare()
 	 * before calling this
@@ -930,8 +939,6 @@ public class CoordMatrix {
 		return sol;
 
 	}
-
-	private static double[][] matrixForSolve;
 
 	/**
 	 * @param sol
@@ -1063,14 +1070,13 @@ public class CoordMatrix {
 		public boolean handleZeroValue(double value, int step) {
 			return false;
 		}
-
 	}
 
 	static private class PivotSolResDegenerate extends PivotSolRes {
+		private boolean[] nonZeroIndices;
+
 		protected PivotSolResDegenerate() {
 		}
-
-		private boolean[] nonZeroIndices;
 
 		@Override
 		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
@@ -1281,14 +1287,6 @@ public class CoordMatrix {
 		}
 
 	}
-
-	private PivotSolRes pivotSolRes;
-
-	private PivotSolResDegenerate pivotSolResDegenerate;
-
-	private PivotInverseMatrix pivotInverseMatrix;
-
-	private double[][] pivotMatrix;
 
 	private void updatePivotMatrix() {
 		if (pivotMatrix == null) {

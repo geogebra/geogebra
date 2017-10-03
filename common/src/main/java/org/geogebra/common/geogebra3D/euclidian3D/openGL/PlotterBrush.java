@@ -101,6 +101,19 @@ public class PlotterBrush implements PathPlotter {
 	 * curve)
 	 */
 	private float ticksOffset;
+	private Coords drawNormal = new Coords(3), drawPos = new Coords(3);
+
+	private float lengthInScene;
+
+	private Coords m = new Coords(3), vn1 = new Coords(3);
+	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
+			tmpCoords3 = new Coords(3), tmpCoords4 = new Coords(3);
+
+	private Coords f1 = new Coords(4), f2 = new Coords(4), vn2 = new Coords(3);
+
+	private Coords tmpDrawTo = Coords.createInhomCoorsInD3();
+
+	private Coords tmpCopyCoords;
 
 
 	// level of detail
@@ -281,8 +294,6 @@ public class PlotterBrush implements PathPlotter {
 		manager.endGeometry();
 	}
 
-	private Coords drawNormal = new Coords(3), drawPos = new Coords(3);
-
 	/**
 	 * draws a section point
 	 * 
@@ -349,8 +360,6 @@ public class PlotterBrush implements PathPlotter {
 	// //////////////////////////////////
 	// GEOMETRY DRAWING METHODS
 	// //////////////////////////////////
-
-	private float lengthInScene;
 
 	/**
 	 * segment curve
@@ -700,12 +709,6 @@ public class PlotterBrush implements PathPlotter {
 		setThickness(oldThickness);
 
 	}
-
-	private Coords m = new Coords(3), vn1 = new Coords(3);
-	private Coords tmpCoords = new Coords(3), tmpCoords2 = new Coords(3),
-			tmpCoords3 = new Coords(3), tmpCoords4 = new Coords(3);
-
-	private Coords f1 = new Coords(4), f2 = new Coords(4), vn2 = new Coords(3);
 
 	/**
 	 * draws an ellipse
@@ -1142,8 +1145,6 @@ public class PlotterBrush implements PathPlotter {
 	// PATH PLOTTER
 	// //////////////////////////////
 
-	private Coords tmpDrawTo = Coords.createInhomCoorsInD3();
-
 	@Override
 	public void drawTo(double[] pos, SegmentType lineTo) {
 
@@ -1215,8 +1216,6 @@ public class PlotterBrush implements PathPlotter {
 	public double[] newDoubleArray() {
 		return new double[3];
 	}
-
-	private Coords tmpCopyCoords;
 
 	@Override
 	public boolean copyCoords(MyPoint point, double[] ret,

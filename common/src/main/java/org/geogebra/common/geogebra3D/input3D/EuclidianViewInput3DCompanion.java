@@ -39,6 +39,23 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 	private Coords mouse3DScenePosition;
 
 	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
+	private GeoSegment3D stylusBeam;
+	private DrawSegment3D stylusBeamDrawable;
+
+	static private int STYLUS_BEAM_THICKNESS = 9;
+
+	private HittedGeo hittedGeo = new HittedGeo();
+
+	private StationaryCoords stationaryCoords = new StationaryCoords();
+	private double zNearest = 4;
+
+	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4();
+
+	private Coords tmpCoords1 = new Coords(4);
+
+	final static protected float LONG_DELAY = 1500f;
+
+	final private static double GRAY_SCALE_FOR_INPUT3D = 255 * 0.75;
 
 	public EuclidianViewInput3DCompanion(EuclidianView view) {
 		super(view);
@@ -212,8 +229,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	}
 
-	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4();
-
 	@Override
 	public void drawTransp(Renderer renderer1) {
 
@@ -341,11 +356,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		return input3D.hasMouse(getView());
 	}
 
-	private GeoSegment3D stylusBeam;
-	private DrawSegment3D stylusBeamDrawable;
-
-	static private int STYLUS_BEAM_THICKNESS = 9;
-
 	@Override
 	public void initAxisAndPlane() {
 
@@ -365,8 +375,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 
 	}
-
-	private double zNearest = 4;
 
 	@Override
 	public void setZNearest(double zNear) {
@@ -530,8 +538,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 		}
 	}
 
-	final private static double GRAY_SCALE_FOR_INPUT3D = 255 * 0.75;
-
 	@Override
 	public void setBackground(GColor color) {
 
@@ -607,8 +613,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 		return input3D.isThirdButtonPressed() || input3D.isRightPressed();
 	}
-
-	private Coords tmpCoords1 = new Coords(4);
 
 	@Override
 	protected void drawTranslateViewCursor(Renderer renderer1,
@@ -694,8 +698,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			}
 		}
 	}
-
-	final static protected float LONG_DELAY = 1500f;
 
 	private static class HittedGeo {
 
@@ -807,8 +809,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 
 	}
 
-	private HittedGeo hittedGeo = new HittedGeo();
-
 	public class StationaryCoords {
 
 		private Coords startCoords = new Coords(4),
@@ -895,8 +895,6 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			return currentCoords;
 		}
 	}
-
-	private StationaryCoords stationaryCoords = new StationaryCoords();
 
 	public StationaryCoords getStationaryCoords() {
 		return stationaryCoords;

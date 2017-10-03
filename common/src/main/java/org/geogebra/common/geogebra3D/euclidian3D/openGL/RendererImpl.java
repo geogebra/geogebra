@@ -6,6 +6,23 @@ import org.geogebra.common.util.debug.Log;
 public abstract class RendererImpl implements RendererShadersInterface {
 
 	protected EuclidianView3D view3D;
+	private int fboWidth = 1;
+
+	private int fboHeight = 1;
+
+	private Object fboID;
+
+	private int fboColorTextureID;
+
+	private Object fboDepthTextureID;
+
+	private int oldRight;
+
+	private int oldLeft;
+
+	private int oldTop;
+
+	private int oldBottom;
 
 	protected Renderer renderer;
 
@@ -200,24 +217,6 @@ public abstract class RendererImpl implements RendererShadersInterface {
 		renderer.display();
 
 	}
-
-	private int fboWidth = 1;
-
-	private int fboHeight = 1;
-
-	private Object fboID;
-
-	private int fboColorTextureID;
-
-	private Object fboDepthTextureID;
-
-	private int oldRight;
-
-	private int oldLeft;
-
-	private int oldTop;
-
-	private int oldBottom;
 
 	final public void setExportImageDimension(int w, int h) {
 		fboWidth = w;

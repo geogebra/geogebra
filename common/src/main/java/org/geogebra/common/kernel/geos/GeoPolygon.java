@@ -96,6 +96,34 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	private boolean createSegments = true;
 
 	private boolean isShape = false;
+	/** true for polygons created by area intersection methods */
+	protected boolean isIntersection;
+
+	private boolean notFixedPointsLength = false;
+
+	private ArrayList<GeoSegmentND> segmentsArray;
+
+	private ArrayList<GeoPoint> pointsArray;
+
+	private StringBuilder sbToString = new StringBuilder(50);
+
+	private boolean asBoundary = false;
+
+	private boolean trace;
+
+	/**
+	 * orientation (1/-1) when convex
+	 */
+	private int convexOrientation;
+	private HitType lastHitType = HitType.ON_FILLING;
+
+	private Coords labelPosition;
+	private ChangeableCoordParent changeableCoordParent = null;
+
+	private double[] tmp3;
+	private TreeSet<GeoElement> metas;
+	private boolean reverseNormalForDrawing = false;
+	private PolygonTriangulation pt;
 
 	/**
 	 * common constructor for 2D.
@@ -129,9 +157,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setPoints(points, cs, createSegments);
 		setLabelVisible(false);
 	}
-
-	/** true for polygons created by area intersection methods */
-	protected boolean isIntersection;
 
 	/**
 	 * Creates new GeoPolygon
@@ -196,8 +221,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		// 3D only
 	}
 
-	private boolean notFixedPointsLength = false;
-
 	/**
 	 * set that this polygon hasn't fixed points length (e.g. for regular
 	 * polygons with slider). Used in getTypeString() to avoid bad type display
@@ -239,8 +262,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public GeoClass getGeoClassType() {
 		return GeoClass.POLYGON;
 	}
-
-	private HitType lastHitType = HitType.ON_FILLING;
 
 	/**
 	 * @param type
@@ -453,8 +474,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 	}
 
-	private ArrayList<GeoSegmentND> segmentsArray;
-
 	/**
 	 * Updates all segments of this polygon for its point array. Note that the
 	 * point array may be changed: this method makes sure that segments are
@@ -611,11 +630,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return new GeoPolygon(cons, null);
 	}
 
-	private ArrayList<GeoPoint> pointsArray;
-
 	@Override
 	public final void set(GeoElementND geo) {
-
 		set(geo, cons);
 	}
 
@@ -1526,8 +1542,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return kernel.format(getArea(), tpl);
@@ -1924,8 +1938,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	// //////////////////////////
 	// interface GeoSurfaceFinite
 	// /////////////////////////////
-	private boolean asBoundary = false;
-
 	@Override
 	public void setRole(boolean isAsBoundary) {
 		this.asBoundary = isAsBoundary; // false means 'as region'
@@ -2017,8 +2029,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public int getMinimumLineThickness() {
 		return 0;
 	}
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {
@@ -2168,11 +2178,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
-	 * orientation (1/-1) when convex
-	 */
-	private int convexOrientation;
-
-	/**
 	 * 
 	 * @return true if points orientation are not the same as xOy plane (only
 	 *         used in 2D)
@@ -2218,8 +2223,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public boolean hasDrawable3D() {
 		return true;
 	}
-
-	private Coords labelPosition;
 
 	@Override
 	public Coords getLabelPosition() {
@@ -2278,8 +2281,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	// ////////////////////////////////////////////////////
 	// PARENT NUMBER (HEIGHT OF A PRISM, ...)
 	// ////////////////////////////////////////////////////
-
-	private ChangeableCoordParent changeableCoordParent = null;
 
 	/**
 	 * @param ccp
@@ -2476,8 +2477,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		setArea(AlgoPolygon.calcAreaWithSign(getPoints()));
 	}
 
-	private double[] tmp3;
-
 	/**
 	 * Updates given point's coordinates to centroid of this
 	 * 
@@ -2589,8 +2588,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		return ret;
 	}
 
-	private TreeSet<GeoElement> metas;
-
 	/**
 	 * add the polyhedron has meta geo for this (e.g. parent polyhedron, or
 	 * linked polyhedron)
@@ -2633,8 +2630,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	///////////////////////////////////
 	// REVERSE ORIENTATION FOR DRAWING
 	///////////////////////////////////
-
-	private boolean reverseNormalForDrawing = false;
 
 	/**
 	 * set that normal should be reversed for 3D drawing
@@ -2703,8 +2698,6 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
-
-	private PolygonTriangulation pt;
 
 	/**
 	 * 

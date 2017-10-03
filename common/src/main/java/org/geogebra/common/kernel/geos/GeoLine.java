@@ -102,6 +102,16 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	private static final String[] vars = { "x", "y" };
 
 	private PVariable[] botanaVars; // only for an axis or a fixed slope line
+	private PathParameter tempPP;
+
+	private StringBuilder sbToString;
+
+	private StringBuilder sbBuildValueString = new StringBuilder(50);
+
+	private static StringBuilder sbToStringLHS = new StringBuilder("\u221E");
+
+	/** list of points on this line */
+	protected ArrayList<GeoPoint> pointsOnLine;
 
 	/**
 	 * Creates new line
@@ -378,8 +388,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 		return tempParam.t;
 	}
-
-	private PathParameter tempPP;
 
 	/**
 	 * @return temporary path parameter
@@ -981,8 +989,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return sbToStr.toString();
 	}
 
-	private StringBuilder sbToString;
-
 	private StringBuilder getSbToString() {
 		if (sbToString == null) {
 			sbToString = new StringBuilder(50);
@@ -1120,8 +1126,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	}
 
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
-
 	private StringBuilder getSbBuildValueString() {
 		if (sbBuildValueString == null) {
 			sbBuildValueString = new StringBuilder();
@@ -1153,8 +1157,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		}
 		sb.append(sbToStringLHS);
 	}
-
-	private static StringBuilder sbToStringLHS = new StringBuilder("\u221E");
 
 	/**
 	 * returns all class-specific xml tags for saveXML GeoGebra File Format
@@ -1677,9 +1679,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	// //////////////////////////////////
 	// FROM GEOCONIC
 	// //////////////////////////////////
-
-	/** list of points on this line */
-	protected ArrayList<GeoPoint> pointsOnLine;
 
 	/**
 	 * Returns a list of points that this line passes through. May return null.

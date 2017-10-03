@@ -126,6 +126,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/** says if a rotation of the view occurred (with right-button) */
 	protected boolean viewRotationOccured = false;
+	private TextDispatcher3D textDispatcher;
+
+	private boolean dialogOccurred = false;
+
+	private GeoPointND[] pyramidBasis = null;
+
+	private boolean polygonForPyramidBasis = false;
+
+	private int pointMoveMode = GeoPointND.MOVE_MODE_XY;
+
+	protected boolean mouseMoved = false;
+	protected AbstractEvent mouseEvent = null;
 
 	/**
 	 * scale factor for changing angle of view : 2Pi <-> 360 pixels (so 1 pixel
@@ -134,6 +146,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 	static final public double ANGLE_TO_DEGREES = 2 * Math.PI / 360;
 	/** maximum vertical angle */
 	static final public int ANGLE_MAX = 90;
+	private EuclidianController3DCompanion companion3D;
+	private boolean lastGetNewPointWasExistingPoint = false;
+	private GeoElement handledGeo;
+
+	private Coords startPoint3D = new Coords(0, 0, 0, 1);
+	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
+
+	protected Coords translationVec3D = new Coords(4);
+	private Coords translateDirection;
+
+	private Coords scaleAxisVector = new Coords(2), scaleOrigin = new Coords(2);
+	private double scaleOld, scaleDistanceInPixelsStart;
 
 	/** for animated rotation */
 	protected double animatedRotSpeed;
@@ -141,8 +165,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected double timeOld;
 	/** used to record x information */
 	private int xOld;
+	private Coords tmpCoords = new Coords(4);
+	private Coords tmpCoords2 = new Coords(4);
+
+	protected double startPointZ;
 
 	private Hits3D goodHits;
+	/**
+	 * array list for intersection curves
+	 */
+	private ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<IntersectionCurve>();
+	private IntersectionCurve resultedIntersectionCurve;
+
+	private GeoPointND singleIntersectionPoint;
 
 	/**
 	 * Store infos for intersection curve
@@ -173,12 +208,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
-	/**
-	 * array list for intersection curves
-	 */
-	private ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<IntersectionCurve>();
-	// private ArrayList<Drawable3D> intersectionCurves = new
-	// ArrayList<Drawable3D>();
 
 	// SELECTED GEOS
 	/** 2D coord sys (plane, polygon, ...) */
@@ -198,8 +227,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		zMinMax = new double[2];
 
 	}
-
-	private EuclidianController3DCompanion companion3D;
 
 	@Override
 	protected EuclidianControllerCompanion newCompanion() {
@@ -374,9 +401,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		point.setCoords(tmpCoords, true);
 	}
 
-	private Coords tmpCoords = new Coords(4);
-	private Coords tmpCoords2 = new Coords(4);
-
 	protected boolean checkXYMinMax(Coords v) {
 
 		if (getMoveMode() != EuclidianController.MOVE_POINT) {
@@ -490,8 +514,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 		return point3D;
 	}
-
-	private boolean lastGetNewPointWasExistingPoint = false;
 
 	/**
 	 * return a copy of the preview point if one
@@ -675,8 +697,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * protected void updateMovedGeoPoint(GeoPointND point){ //movedGeoPoint3D =
 	 * (GeoPoint3D) point; setMovedGeoPoint((GeoPoint3D) point); }
 	 */
-
-	private GeoPointND singleIntersectionPoint;
 
 	// tries to get a single intersection point for the given hits
 	// i.e. hits has to include two intersectable objects.
@@ -1191,8 +1211,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
-	private TextDispatcher3D textDispatcher;
-
 	@Override
 	protected TextDispatcher3D getTextDispatcher() {
 		if (textDispatcher == null) {
@@ -1369,8 +1387,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
-	private boolean dialogOccurred = false;
-
 	@Override
 	public void setDialogOccurred() {
 		dialogOccurred = true;
@@ -1449,10 +1465,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 		return super.draggingOccurredBeforeRelease(notAlreadyStarted);
 	}
-
-	private GeoPointND[] pyramidBasis = null;
-
-	private boolean polygonForPyramidBasis = false;
 
 	/**
 	 * get basis and top point; create pyramid
@@ -1666,8 +1678,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
-	private int pointMoveMode = GeoPointND.MOVE_MODE_XY;
-
 	@Override
 	protected void switchPointMoveMode() {
 		if (pointMoveMode == GeoPointND.MOVE_MODE_XY) {
@@ -1710,9 +1720,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	// /////////////////////////////////////////
 	// mouse moved
-
-	protected boolean mouseMoved = false;
-	protected AbstractEvent mouseEvent = null;
 
 	@Override
 	public void wrapMousePressed(AbstractEvent e) {
@@ -2952,8 +2959,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		intersectionCurveList.add(new IntersectionCurve(A, B, d));
 	}
 
-	private IntersectionCurve resultedIntersectionCurve;
-
 	private static GeoElement getMetaIfJustOne(GeoElement geo) {
 		if (geo instanceof FromMeta) {
 			if (geo.getMetasLength() == 1) {
@@ -3118,8 +3123,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		MoveGeos.moveObjects(pastePreviewSelected, translationVec3D,
 				tmpCoordsL3, view3D.getViewDirection(), view3D);
 	}
-
-	protected double startPointZ;
 
 	protected double getStartPointZ() {
 		return startPointZ;
@@ -3577,7 +3580,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// HANDLING PARTS OF PREVIEWABLES
 	// //////////////////////////////////////
 
-	private GeoElement handledGeo;
 
 	/**
 	 * sets the geo as an handled geo (for previewables)
@@ -3640,11 +3642,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// //////////////////////////////////////
 	// MOVE OBJECTS
 	// //////////////////////////////////////
-
-	private Coords startPoint3D = new Coords(0, 0, 0, 1);
-	private Coords startPoint3DxOy = new Coords(0, 0, 0, 1);
-
-	protected Coords translationVec3D = new Coords(4);
 
 	/**
 	 * update translation vector
@@ -3778,8 +3775,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 	}
-
-	private Coords translateDirection;
 
 	@Override
 	public void setStartPointLocationWithOrigin(double x, double y) {
@@ -4400,9 +4395,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 			getView().setPreview(null);
 		}
 	}
-
-	private Coords scaleAxisVector = new Coords(2), scaleOrigin = new Coords(2);
-	private double scaleOld, scaleDistanceInPixelsStart;
 
 	@Override
 	protected void setMoveModeIfAxis(Object hit) {

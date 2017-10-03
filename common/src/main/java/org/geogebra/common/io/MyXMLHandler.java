@@ -231,6 +231,72 @@ public class MyXMLHandler implements DocHandler {
 	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<GeoNumericMinMax>();
 	/** errors encountered during load */
 	ArrayList<String> errors = new ArrayList<String>();
+	// construction step stored in <consProtNavigation> : handled after parsing
+	private int consStep;
+
+	private double ggbFileFormat;
+
+	private boolean hasGuiElement = false;
+
+	/**
+	 * The storage container for all GUI related information of the current
+	 * document.
+	 */
+	private Perspective tmp_perspective;
+
+	/**
+	 * A vector with all perspectives we have read in this document.
+	 */
+	private ArrayList<Perspective> tmp_perspectives = new ArrayList<Perspective>();
+
+	/**
+	 * Array lists to store temporary panes and views of a perspective.
+	 */
+	private ArrayList<DockSplitPaneData> tmp_panes;
+	private ArrayList<DockPanelData> tmp_views;
+
+	/**
+	 * Backward compatibility for version < 3.03 where no layout component was
+	 * used. Temporary storage for the split divider location of the split panes
+	 * #1/#2.
+	 */
+	private int tmp_sp1, tmp_sp2;
+
+	/**
+	 * If the split divider is horizontal. (version < 3.03)
+	 */
+	private boolean tmp_spHorizontal = true;
+
+	/**
+	 * If the algebra or spreadsheet view is visible. (version < 3.03)
+	 */
+	private boolean tmp_showAlgebra, tmp_showSpreadsheet;
+
+	/**
+	 * flag so that we can reset EVSettings the first time we get them (for EV1
+	 * and EV2)
+	 */
+	protected boolean resetEVsettingsNeeded = false;
+	/** Euclidian settings */
+	protected EuclidianSettings evSet = null;
+	private static boolean isPreferencesXML = false;
+
+	private boolean lineStyleTagProcessed;
+	private boolean symbolicTagProcessed;
+
+	private TreeMap<String, String> casMap;
+
+	private int casMapParent;
+
+	private HashMap<EuclidianSettings, String> xmin = new HashMap<EuclidianSettings, String>(),
+			xmax = new HashMap<EuclidianSettings, String>(),
+			ymin = new HashMap<EuclidianSettings, String>(),
+			xtick = new HashMap<EuclidianSettings, String>(),
+			ytick = new HashMap<EuclidianSettings, String>(),
+			ztick = new HashMap<EuclidianSettings, String>(),
+			ymax = new HashMap<EuclidianSettings, String>();
+
+	private boolean sliderTagProcessed, fontTagProcessed;
 
 	private static class GeoExpPair {
 		private GeoElement geoElement;
@@ -289,52 +355,6 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	// construction step stored in <consProtNavigation> : handled after parsing
-	private int consStep;
-
-	private double ggbFileFormat;
-
-	private boolean hasGuiElement = false;
-
-	/**
-	 * The storage container for all GUI related information of the current
-	 * document.
-	 */
-	private Perspective tmp_perspective;
-
-	/**
-	 * A vector with all perspectives we have read in this document.
-	 */
-	private ArrayList<Perspective> tmp_perspectives = new ArrayList<Perspective>();
-
-	/**
-	 * Array lists to store temporary panes and views of a perspective.
-	 */
-	private ArrayList<DockSplitPaneData> tmp_panes;
-	private ArrayList<DockPanelData> tmp_views;
-
-	/**
-	 * Backward compatibility for version < 3.03 where no layout component was
-	 * used. Temporary storage for the split divider location of the split panes
-	 * #1/#2.
-	 */
-	private int tmp_sp1, tmp_sp2;
-
-	/**
-	 * If the split divider is horizontal. (version < 3.03)
-	 */
-	private boolean tmp_spHorizontal = true;
-
-	/**
-	 * If the algebra or spreadsheet view is visible. (version < 3.03)
-	 */
-	private boolean tmp_showAlgebra, tmp_showSpreadsheet;
-
-	/**
-	 * flag so that we can reset EVSettings the first time we get them (for EV1
-	 * and EV2)
-	 */
-	protected boolean resetEVsettingsNeeded = false;
 
 	/**
 	 * Creates a new instance of MyXMLHandler
@@ -872,9 +892,6 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	// <euclidianView>
 	// ====================================
-	/** Euclidian settings */
-	protected EuclidianSettings evSet = null;
-
 	/**
 	 * check if eName equals "viewId" and set evSet to the correct settings
 	 * (only used for 3D)
@@ -1260,16 +1277,6 @@ public class MyXMLHandler implements DocHandler {
 	// Log.error("error in <casView>: " + eName);
 	//
 	// }
-
-	private HashMap<EuclidianSettings, String> xmin = new HashMap<EuclidianSettings, String>(),
-			xmax = new HashMap<EuclidianSettings, String>(),
-			ymin = new HashMap<EuclidianSettings, String>(),
-			xtick = new HashMap<EuclidianSettings, String>(),
-			ytick = new HashMap<EuclidianSettings, String>(),
-			ztick = new HashMap<EuclidianSettings, String>(),
-			ymax = new HashMap<EuclidianSettings, String>();
-
-	private boolean sliderTagProcessed, fontTagProcessed;
 
 	private boolean handleCoordSystem(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
@@ -2389,8 +2396,6 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-
-	private static boolean isPreferencesXML = false;
 
 	/**
 	 * Settings of the user, not saved in the file XML but for preferences XML.
@@ -4151,13 +4156,6 @@ public class MyXMLHandler implements DocHandler {
 			return null;
 		}
 	}
-
-	private boolean lineStyleTagProcessed;
-	private boolean symbolicTagProcessed;
-
-	private TreeMap<String, String> casMap;
-
-	private int casMapParent;
 
 	private boolean handleLineStyle(LinkedHashMap<String, String> attrs) {
 		try {

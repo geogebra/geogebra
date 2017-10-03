@@ -38,14 +38,26 @@ public abstract class Localization {
 	 * Use localized labels.
 	 */
 	private boolean useLocalizedLabels = true;
+	/**
+	 * Use localized digits.
+	 */
+	private boolean useLocalizedDigits = false;
 	private HashMap<String, String> translateCommandTable;
+	private boolean reverseNameDescription = false;
+	// For Hebrew and Arabic. Guy Hed, 25.8.2008
+	public boolean rightToLeftReadingOrder = false;
+
+	/** decimal point (different in eg Arabic) */
+	public char unicodeDecimalPoint = '.';
+	/** comma (different in Arabic) */
+	public char unicodeComma = ','; // \u060c for Arabic comma
+	/** zero (different in eg Arabic) */
+	public char unicodeZero = '0';
 
 	public Localization(int dimension, int maxFigures) {
 		this.dimension = dimension;
 		this.maxFigures = maxFigures;
 	}
-
-	private boolean reverseNameDescription = false;
 
 	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
@@ -56,18 +68,6 @@ public abstract class Localization {
 		// for Basque and Hungarian
 		return reverseNameDescription;
 	}
-
-	// For Hebrew and Arabic. Guy Hed, 25.8.2008
-	public boolean rightToLeftReadingOrder = false;
-
-
-
-	/** decimal point (different in eg Arabic) */
-	public char unicodeDecimalPoint = '.';
-	/** comma (different in Arabic) */
-	public char unicodeComma = ','; // \u060c for Arabic comma
-	/** zero (different in eg Arabic) */
-	public char unicodeZero = '0';
 
 	/**
 	 * @return whether current language uses RTL orientation
@@ -873,11 +873,6 @@ public abstract class Localization {
 		}
 		return rightToLeftDigits;
 	}
-
-	/**
-	 * Use localized digits.
-	 */
-	private boolean useLocalizedDigits = false;
 
 	/**
 	 * @return If localized digits are used for certain languages (Arabic,

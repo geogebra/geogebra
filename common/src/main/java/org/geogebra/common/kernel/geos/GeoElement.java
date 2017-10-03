@@ -124,6 +124,8 @@ public abstract class GeoElement extends ConstructionElement
 
 	// maximum label offset distance
 	private static final int MAX_LABEL_OFFSET = 80;
+	/** maximal line width */
+	public static final int MAX_LINE_WIDTH = 13;
 
 	// private static int geoElementID = Integer.MIN_VALUE;
 
@@ -238,6 +240,15 @@ public abstract class GeoElement extends ConstructionElement
 	private GeoNumberValue animationSpeedObj;
 	private GeoCasCell correspondingCasCell; // used by GeoCasCell
 	private boolean animating = false;
+	/** says if it's a pickable object */
+	private boolean isPickable = true;
+	private boolean needsReplacingInExpressionNode = false;
+
+	private Stack<GeoElement> tempClone;
+	private boolean cloneInUse = false;
+
+	private boolean descriptionNeedsUpdateInAV = true;
+
 	/** maximal animation speed */
 	final public static double MAX_ANIMATION_SPEED = 100;
 	/** animation type: oscillating */
@@ -328,6 +339,25 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean isEmptySpreadsheetCell = false;
 	private LaTeXCache latexCache = null;
 	private SpreadsheetTraceSettings traceSettings;
+	/** Spreadsheet tracing on/off flag */
+	private boolean spreadsheetTrace;
+
+	private boolean inTree = false;
+
+	private Script[] scripts = null;
+
+	private boolean showTrimmedIntersectionLines = false;
+
+	private boolean isRandomGeo = false;
+
+	/** Flag for visibility in 3D view(s) */
+	protected ExtendedBoolean visibleInView3D = ExtendedBoolean.UNKNOWN;
+	/** Flag for visibility in plane view(s) */
+	private ExtendedBoolean visibleInViewForPlane = ExtendedBoolean.UNKNOWN;
+
+	private boolean canBeRemovedAsInput = true;
+
+	private ExpressionNode definition;
 
 	// DECORATION
 
@@ -3425,9 +3455,6 @@ public abstract class GeoElement extends ConstructionElement
 		return label1.compareTo(label2);
 
 	}
-
-	/** maximal line width */
-	public static final int MAX_LINE_WIDTH = 13;
 
 	private void doRenameLabel(final String newLabel) {
 		if ((newLabel == null) || newLabel.equals(label)) {
@@ -7105,9 +7132,6 @@ public abstract class GeoElement extends ConstructionElement
 	// New code for spreadsheet tracing with trace manager
 	// ===================================================
 
-	/** Spreadsheet tracing on/off flag */
-	private boolean spreadsheetTrace;
-
 	/** @return true if this geo is tracing to the spreadsheet */
 	@Override
 	public boolean getSpreadsheetTrace() {
@@ -7199,8 +7223,6 @@ public abstract class GeoElement extends ConstructionElement
 		return false;
 	}
 
-	private boolean inTree = false;
-
 	@Override
 	final public boolean isInTree() {
 		return inTree;
@@ -7214,8 +7236,6 @@ public abstract class GeoElement extends ConstructionElement
 	/*
 	 * Scripting
 	 */
-
-	private Script[] scripts = null;
 
 	/**
 	 * @param script
@@ -7296,8 +7316,6 @@ public abstract class GeoElement extends ConstructionElement
 				new Event(EventType.CLICK, this, arg == null ? label : arg));
 	}
 
-	private boolean showTrimmedIntersectionLines = false;
-
 	/**
 	 * @param show
 	 *            true to show trimmed lines
@@ -7329,8 +7347,6 @@ public abstract class GeoElement extends ConstructionElement
 	public void setRandomGeo(final boolean flag) {
 		isRandomGeo = flag;
 	}
-
-	private boolean isRandomGeo = false;
 
 	/**
 	 * @return true for random geos (numbers, lists)
@@ -7544,11 +7560,6 @@ public abstract class GeoElement extends ConstructionElement
 		}
 
 	}
-
-	/** Flag for visibility in 3D view(s) */
-	protected ExtendedBoolean visibleInView3D = ExtendedBoolean.UNKNOWN;
-	/** Flag for visibility in plane view(s) */
-	private ExtendedBoolean visibleInViewForPlane = ExtendedBoolean.UNKNOWN;
 
 	/**
 	 * set if this is visible in 3D view or not
@@ -7796,10 +7807,6 @@ public abstract class GeoElement extends ConstructionElement
 	// 3D
 	// /////////////////////////////
 
-	/** says if it's a pickable object */
-	private boolean isPickable = true;
-	private boolean needsReplacingInExpressionNode = false;
-
 	/**
 	 * sets the pickability of the object
 	 * 
@@ -7858,9 +7865,6 @@ public abstract class GeoElement extends ConstructionElement
 		// in general case do nothing; overriden in GeoPoint, GeoNumeric and
 		// GeoBoolean
 	}
-
-	private Stack<GeoElement> tempClone;
-	private boolean cloneInUse = false;
 
 	/**
 	 * Srore copy of this geo in stack
@@ -8293,10 +8297,6 @@ public abstract class GeoElement extends ConstructionElement
 	// specific input protection
 	/////////////////////////////
 
-	private boolean canBeRemovedAsInput = true;
-
-	private ExpressionNode definition;
-
 	/**
 	 * set this can (not) be removed when input of algo
 	 * 
@@ -8528,8 +8528,6 @@ public abstract class GeoElement extends ConstructionElement
 				: DescriptionMode.VALUE;
 	}
 
-	private boolean descriptionNeedsUpdateInAV = true;
-	
 	/**
 	 * if AV update fails (e.g. if row not visible), we can set this to true to
 	 * force update later

@@ -15,6 +15,16 @@ public abstract class UndoManager {
 	 */
 	private static final int MAX_CAPACITY = 100;
 
+	/** application */
+	public App app;
+	/** construction */
+	protected Construction construction;
+	/** list of undo steps */
+	protected LinkedList<AppState> undoInfoList;
+	/** invariant: iterator.previous() is current state */
+	public ListIterator<AppState> iterator;
+	private boolean storeUndoInfoNeededForProperties = false;
+
 	/**
 	 * Interface for application state
 	 *
@@ -24,16 +34,6 @@ public abstract class UndoManager {
 		void delete();
 
 	}
-
-	/** application */
-	public App app;
-	/** construction */
-	protected Construction construction;
-	/** list of undo steps */
-	protected LinkedList<AppState> undoInfoList;
-	/** invariant: iterator.previous() is current state */
-	public ListIterator<AppState> iterator;
-
 	/**
 	 * @param cons
 	 *            construction
@@ -220,8 +220,6 @@ public abstract class UndoManager {
 		}
 
 	}
-
-	private boolean storeUndoInfoNeededForProperties = false;
 
 	/**
 	 * Notify about properties change

@@ -77,6 +77,15 @@ public class GeoText extends GeoElement
 	private int printDecimals = -1;
 	private int printFigures = -1;
 	private boolean useSignificantFigures = false;
+	/**
+	 * used for eg Text["text",(1,2)] to stop it being editable
+	 */
+	public boolean isTextCommand = false;
+	private StringBuilder sbToString = new StringBuilder(80);
+
+	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
+	private ExpressionValue spreadsheetTraceableValue;
+	private ExpressionNode spreadsheetTraceableLeftTree;
 
 	/** index of exra small modifier */
 	final public static int FONTSIZE_EXTRA_SMALL = 0;
@@ -447,8 +456,6 @@ public class GeoText extends GeoElement
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(80);
-
 	@Override
 	public boolean showInAlgebraView() {
 		return true;
@@ -471,18 +478,12 @@ public class GeoText extends GeoElement
 
 	@Override
 	public boolean isMoveable() {
-
 		if (alwaysFixed) {
 			return false;
 		}
 
 		return !isLocked();
 	}
-
-	/**
-	 * used for eg Text["text",(1,2)] to stop it being editable
-	 */
-	public boolean isTextCommand = false;
 
 	/**
 	 * 
@@ -1197,10 +1198,6 @@ public class GeoText extends GeoElement
 	private static enum SpreadsheetTraceableCase {
 		SPREADSHEET_TRACEABLE_NOT_TESTED, SPREADSHEET_TRACEABLE_TRUE, SPREADSHEET_TRACEABLE_FALSE
 	}
-
-	private SpreadsheetTraceableCase spreadsheetTraceableCase = SpreadsheetTraceableCase.SPREADSHEET_TRACEABLE_NOT_TESTED;
-	private ExpressionValue spreadsheetTraceableValue;
-	private ExpressionNode spreadsheetTraceableLeftTree;
 
 	/**
 	 * set objects for trace to spreadsheet

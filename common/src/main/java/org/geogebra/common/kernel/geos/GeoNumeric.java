@@ -129,6 +129,17 @@ public class GeoNumeric extends GeoElement
 
 	// is a constant depending on a function
 	private boolean isDependentConst = false;
+	private StringBuilder sbToString;
+	private ArrayList<GeoNumeric> minMaxListeners;
+	private boolean randomSlider = false;
+
+	private Double origSliderWidth = null;
+	private Double origSliderX = null;
+	private Double origSliderY = null;
+	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
+
+	private boolean showExtendedAV = true;
+	private static volatile Comparator<GeoNumberValue> comparator;
 
 	/**
 	 * Creates new GeoNumeric
@@ -667,14 +678,6 @@ public class GeoNumeric extends GeoElement
 	public String toValueStringMinimal() {
 		return regrFormat(value);
 	}
-
-	private StringBuilder sbToString;
-	private ArrayList<GeoNumeric> minMaxListeners;
-	private boolean randomSlider = false;
-
-	private Double origSliderWidth = null;
-	private Double origSliderX = null;
-	private Double origSliderY = null;
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -1511,8 +1514,6 @@ public class GeoNumeric extends GeoElement
 		return comparator;
 	}
 
-	private static volatile Comparator<GeoNumberValue> comparator;
-
 	// protected void setRandomNumber(boolean flag) {
 	// isRandomNumber = flag;
 	// }
@@ -1596,8 +1597,6 @@ public class GeoNumeric extends GeoElement
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
-
-	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
 
 	/**
 	 * @param ev
@@ -1736,8 +1735,6 @@ public class GeoNumeric extends GeoElement
 	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
-
-	private boolean showExtendedAV = true;
 
 	@Override
 	public boolean isShowingExtendedAV() {

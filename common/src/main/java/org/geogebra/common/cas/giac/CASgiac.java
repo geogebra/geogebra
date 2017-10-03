@@ -307,6 +307,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		final public String functionName;
 		/** definition string */
 		final public String definitionString;
+		private static List<Entry<CustomFunctions, CustomFunctions>> CustomFunctionsDependencies;
 
 		CustomFunctions(String functionName, String definitionString) {
 			this.functionName = functionName;
@@ -317,8 +318,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		public String toString() {
 			return functionName;
 		}
-
-		private static List<Entry<CustomFunctions, CustomFunctions>> CustomFunctionsDependencies;
 
 		private static void setDependency(CustomFunctions cf1,
 				CustomFunctions cf2) {
@@ -377,6 +376,51 @@ public abstract class CASgiac implements CASGenericInterface {
 	public CASparser casParser;
 
 	private static int nrOfReplacedConst = 0;
+	/**
+	 * Timeout for CAS in milliseconds. This can be changed in the CAS options.
+	 */
+	public long timeoutMillis = 5000;
+	final private static String EVALFA = "evalfa(";
+	private StringBuilder expSB = new StringBuilder(EVALFA);
+
+	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
+	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
+	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
+	// private final static RegExp inequality =
+	// RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) &&
+	// \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
+	// works only for variables in form [A-Za-z]+
+	/** expression with at most 3 levels of brackets */
+	public final static String expression = "(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
+	/**
+	 * inequality a >=? ex1 && ex1 >=? b where a,b are literals and ex1, ex2 are
+	 * expressions with at most 3 brackets
+	 */
+	public final static RegExp inequality = RegExp
+			.compile("^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\("
+					+ expression + ">(=*)([A-Za-z]+)\\)(.*)$", "");
+
+	// eg 3.7 > ggbtmpvarx
+	// eg (37/10) > ggbtmpvarx
+	// eg 333 > ggbtmpvarx
+	// eg (-33) > ggbtmpvarx
+	// private final static RegExp inequalitySimple =
+	// RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar.+)");
+	// works only for variables in form [A-Za-z]+
+	private final static RegExp inequalitySimple = RegExp
+			.compile("^([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)$");
+
+	// eg {3, 3>ggbtmpvarx, x^2}
+	// eg {3, 3>ggbtmpvarx}
+	// eg {3>ggbtmpvarx, x^2}
+	// eg {3>ggbtmpvarx}
+	// works only for variables in form [A-Za-z]+ and if it's a simple number
+	private final static RegExp inequalitySimpleInList = RegExp.compile(
+			"(.*)([,{])(\\(*)?([-0-9.E]+)(\\)*)?>(=*)([A-Za-z]+)([,}\\)])(.*)");
+
+	// old version, causes problems with eg Solve[exp(x)<2]
+	// private final static RegExp inequalitySimpleInList =
+	// RegExp.compile("(.*)([,{\\(])([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)([,}\\)])(.*)");
 
 	/**
 	 * Creates new Giac CAS
@@ -655,11 +699,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 		return ve;
 	}
-
-	/**
-	 * Timeout for CAS in milliseconds. This can be changed in the CAS options.
-	 */
-	public long timeoutMillis = 5000;
 
 	/**
 	 * @return CAS timeout in seconds
@@ -1049,44 +1088,6 @@ public abstract class CASgiac implements CASGenericInterface {
 		return result;
 	}
 
-	// eg {(ggbtmpvarx>(-sqrt(110)/5)) && ((sqrt(110)/5)>ggbtmpvarx)}
-	// eg {(ggbtmpvarx>=(-sqrt(110)/5)) && ((sqrt(110)/5)>=ggbtmpvarx)}
-	// eg (ggbtmpvarx>3) && (4>ggbtmpvarx)
-	// private final static RegExp inequality =
-	// RegExp.compile("(.*)\\((ggbtmpvar[^,}\\(\\)]+)>(=*)(.+)\\) &&
-	// \\((.+)>(=*)(ggbtmpvar[^,}\\(\\)]+)\\)(.*)");
-	// works only for variables in form [A-Za-z]+
-	/** expression with at most 3 levels of brackets */
-	public final static String expression = "(([^\\(\\)]|\\([^\\(\\)]+\\)|\\(([^\\(\\)]|\\([^\\(\\)]+\\))+\\))+)";
-	/**
-	 * inequality a >=? ex1 && ex1 >=? b where a,b are literals and ex1, ex2 are
-	 * expressions with at most 3 brackets
-	 */
-	public final static RegExp inequality = RegExp
-			.compile("^(.*)\\(([A-Za-z]+)>(=*)" + expression + "\\) && \\("
-					+ expression + ">(=*)([A-Za-z]+)\\)(.*)$", "");
-
-	// eg 3.7 > ggbtmpvarx
-	// eg (37/10) > ggbtmpvarx
-	// eg 333 > ggbtmpvarx
-	// eg (-33) > ggbtmpvarx
-	// private final static RegExp inequalitySimple =
-	// RegExp.compile("([-0-9.E/\\(\\)]+)>(=*)(ggbtmpvar.+)");
-	// works only for variables in form [A-Za-z]+
-	private final static RegExp inequalitySimple = RegExp
-			.compile("^([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)$");
-
-	// eg {3, 3>ggbtmpvarx, x^2}
-	// eg {3, 3>ggbtmpvarx}
-	// eg {3>ggbtmpvarx, x^2}
-	// eg {3>ggbtmpvarx}
-	// works only for variables in form [A-Za-z]+ and if it's a simple number
-	private final static RegExp inequalitySimpleInList = RegExp.compile(
-			"(.*)([,{])(\\(*)?([-0-9.E]+)(\\)*)?>(=*)([A-Za-z]+)([,}\\)])(.*)");
-
-	// old version, causes problems with eg Solve[exp(x)<2]
-	// private final static RegExp inequalitySimpleInList =
-	// RegExp.compile("(.*)([,{\\(])([-0-9.E/\\(\\)]+)>(=*)([A-Za-z]+)([,}\\)])(.*)");
 
 	/**
 	 * convert x>3 && x<7 into 3<x<7 convert 3>x into x<3 convert {3>x} into
@@ -1279,9 +1280,6 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return ret;
 	}
-
-	final private static String EVALFA = "evalfa(";
-	private StringBuilder expSB = new StringBuilder(EVALFA);
 
 	/**
 	 * evalfa makes sure rootof() converted to decimal

@@ -13,6 +13,22 @@ import org.geogebra.common.util.mathIT.Riemann;
  * important for minimal applets
  */
 public class MyMath2 {
+	final private static int CANTOR_MAX_ITERATIONS = 1000;
+	private static double TMIN = 2.0;
+	private static int MAXIT = 100; // Maximum number of iterations allowed.
+
+	private static double C2sqrtPi = 1.1283791670955125738961589;
+	private static int factorialTop = 4;
+
+	private static double[] factorialTable = new double[33];
+	static {
+		factorialTable[0] = 1.0;
+		factorialTable[1] = 1.0;
+		factorialTable[2] = 2.0;
+		factorialTable[3] = 6.0;
+		factorialTable[4] = 24.0;
+	}
+
 	final public static double gammaIncomplete(double a, double x) {
 
 		try {
@@ -99,21 +115,10 @@ public class MyMath2 {
 		return factorialTable[n];
 	}
 
-	private static int factorialTop = 4;
-	private static double[] factorialTable = new double[33];
-	static {
-		factorialTable[0] = 1.0;
-		factorialTable[1] = 1.0;
-		factorialTable[2] = 2.0;
-		factorialTable[3] = 6.0;
-		factorialTable[4] = 24.0;
-	}
-
 	final public static double gamma(double x) {
 
 		// Michael Borcherds 2008-05-04
-		if (x <= 0 && Kernel.isEqual(x, Math.round(x)))
-		 {
+		if (x <= 0 && Kernel.isEqual(x, Math.round(x))) {
 			return Double.NaN; // negative integers
 		}
 
@@ -124,8 +129,6 @@ public class MyMath2 {
 		return -Math.PI
 				/ (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
 	}
-
-	final private static int CANTOR_MAX_ITERATIONS = 1000;
 
 	/**
 	 * 
@@ -181,8 +184,6 @@ public class MyMath2 {
 			}
 		}
 	}
-
-	private static double C2sqrtPi = 1.1283791670955125738961589;
 
 	/**
 	 * Inverse of the error function Erf.
@@ -250,9 +251,6 @@ public class MyMath2 {
 			return Double.NaN;
 		}
 	}
-
-	private static double TMIN = 2.0;
-	private static int MAXIT = 100; // Maximum number of iterations allowed.
 
 	private static Complex cisi(double a2) {
 

@@ -17,253 +17,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  *
  */
 public class TableSymbols {
-
-	public final static String[][] basicSymbolsMap(Localization app) {
-
-		String[][] array = {
-				{ Unicode.alpha + "",
-						app.getPlain("GreekCharacterA", Unicode.alpha + "") }, // lowercaseGreekALPHA
-				{ Unicode.beta + "",
-						app.getPlain("GreekCharacterA", Unicode.beta + "") }, // lowercaseGreekBETA
-				{ Unicode.gamma + "",
-						app.getPlain("GreekCharacterA", Unicode.gamma + "") }, // lowercaseGreekGAMMA
-				{ Unicode.delta + "",
-						app.getPlain("GreekCharacterA", Unicode.delta + "") }, // lowercaseGreekDELTA
-				{ Unicode.epsilon + "",
-						app.getPlain("GreekCharacterA", Unicode.epsilon + "") }, // lowercaseGreekEPSILON
-				{ Unicode.zeta + "",
-						app.getPlain("GreekCharacterA", Unicode.zeta + "") }, // lowercaseGreekZETA
-				{ Unicode.eta + "",
-						app.getPlain("GreekCharacterA", Unicode.eta + "") }, // lowercaseGreekETA
-				{ Unicode.theta + "",
-						app.getPlain("GreekCharacterA", Unicode.theta + "") }, // lowercaseGreekTHETA
-				// { "\u03B9" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
-				// "\u03B9"}, //lowercaseGreekIOTA
-				{ Unicode.kappa + "",
-						app.getPlain("GreekCharacterA", Unicode.kappa + "") }, // lowercaseGreekKAPPA
-				{ Unicode.lambda + "",
-						app.getPlain("GreekCharacterA", Unicode.lambda + "") }, // lowercaseGreekLAMDA
-				{ Unicode.mu + "",
-						app.getPlain("GreekCharacterA", Unicode.mu + "") }, // lowercaseGreekMU
-				// { "\u03BD" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
-				// "\u03BD"}, //lowercaseGreekNU
-				{ Unicode.xi + "",
-						app.getPlain("GreekCharacterA", Unicode.xi + "") }, // lowercaseGreekXI
-				// { "\u03BF" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
-				// "\u03BF"}, //lowercaseGreekOMICRON
-				// { "\u03C0" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
-				// "\u03C0"}, //lowercaseGreekPI
-				{ Unicode.rho + "",
-						app.getPlain("GreekCharacterA", Unicode.rho + "") }, // lowercaseGreekRHO
-				// { "\u03C2" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
-				// "\u03C2"}, //lowercaseGreekFINALSIGMA
-				{ Unicode.sigma + "",
-						app.getPlain("GreekCharacterA", Unicode.sigma + "") }, // lowercaseGreekSIGMA
-				{ Unicode.tau + "",
-						app.getPlain("GreekCharacterA", Unicode.tau + "") }, // lowercaseGreekTAU
-				// { "\u03C5" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
-				// "\u03C5"}, //lowercaseGreekUPSILON
-				{ Unicode.phi + "",
-						app.getPlain("GreekCharacterA", Unicode.phi + "") }, // lowercaseGreekPHI
-																				// (\varPhi
-																				// the
-																				// "loopy"
-																				// phi)
-				{ Unicode.phi_symbol + "",
-						app.getPlain("GreekCharacterA",
-								Unicode.phi_symbol + "") }, // lowercaseGreekPHI
-															// \phi
-															// the
-															// "straight"
-															// phi
-				{ Unicode.chi + "",
-						app.getPlain("GreekCharacterA", Unicode.chi + "") }, // lowercaseGreekCHI
-				{ Unicode.psi + "",
-						app.getPlain("GreekCharacterA", Unicode.psi + "") }, // lowercaseGreekPSI
-				{ Unicode.omega + "",
-						app.getPlain("GreekCharacterA", Unicode.omega + "") }, // lowercaseGreekOMEGA
-				{ Unicode.Gamma + "",
-						app.getPlain("GreekCharacterA", Unicode.Gamma + "") }, // uppercaseGreekGAMMA
-				{ Unicode.Delta + "",
-						app.getPlain("GreekCharacterA", Unicode.Delta + "") }, // uppercaseGreekDELTA
-				{ Unicode.Theta + "",
-						app.getPlain("GreekCharacterA", Unicode.Theta + "") }, // uppercaseGreekTHETA
-				// removed - too similar to logical 'and'
-				// { "\u039b" , app.getPlain("GreekCharacterA", "\u039b" ) },
-				// //uppercaseGreekLAMBDA
-				// { "\u039e" , app.getPlain("GreekCharacterA", "\u039e" ) },
-				// //uppercaseGreekXI
-				{ Unicode.Pi + "",
-						app.getPlain("GreekCharacterA", Unicode.Pi + "") }, // uppercaseGreekPI
-				{ Unicode.Sigma + "",
-						app.getPlain("GreekCharacterA", Unicode.Sigma + "") }, // uppercaseGreekSIGMA
-				{ Unicode.Phi + "",
-						app.getPlain("GreekCharacterA", Unicode.Phi + "") }, // uppercaseGreekPHI
-				// { "\u03a8" , app.getPlain("GreekCharacterA", "\u03a8" ) },
-				// //uppercaseGreekPSI
-				{ Unicode.Omega + "",
-						app.getPlain("GreekCharacterA", Unicode.Omega + "") }, // uppercaseGreekOMEGA
-				{ Unicode.INFINITY + "", app.getMenu("Symbol.Infinity") },
-				{ ExpressionNodeConstants.strVECTORPRODUCT,
-						app.getMenu("Symbol.VectorProduct") },
-				{ ExpressionNodeConstants.strEQUAL_BOOLEAN,
-						app.getMenu("Symbol.BooleanEqual") },
-				{ ExpressionNodeConstants.strNOT_EQUAL,
-						app.getMenu("Symbol.NotEqual") },
-				{ ExpressionNodeConstants.strLESS_EQUAL,
-						app.getMenu("Symbol.LessThanEqualTo") },
-				{ ExpressionNodeConstants.strGREATER_EQUAL,
-						app.getMenu("Symbol.GreaterThanEqualTo") },
-				{ ExpressionNodeConstants.strNOT,
-						app.getMenu("Symbol.Negation") },
-				{ ExpressionNodeConstants.strAND, app.getMenu("Symbol.And") },
-				{ ExpressionNodeConstants.strOR, app.getMenu("Symbol.Or") },
-				{ ExpressionNodeConstants.strIMPLIES,
-						app.getMenu("Symbol.Implication") },
-				{ ExpressionNodeConstants.strPARALLEL,
-						app.getMenu("Symbol.Parallel") },
-				{ ExpressionNodeConstants.strPERPENDICULAR,
-						app.getMenu("Symbol.Perpendicular") },
-				{ ExpressionNodeConstants.strIS_ELEMENT_OF,
-						app.getMenu("Symbol.ElementOf") },
-				{ ExpressionNodeConstants.strIS_SUBSET_OF,
-						app.getMenu("Symbol.Subset") },
-				{ ExpressionNodeConstants.strIS_SUBSET_OF_STRICT,
-						app.getMenu("Symbol.StrictSubset") },
-				// { "\u2220" , app.getMenu("Symbol.Angle" )},
-				{ "\u2221", app.getMenu("Symbol.AngleMeasure") },
-				{ Unicode.SUPERSCRIPT_2 + "", app.getMenu("Symbol.Square") }, // exponents^2
-				{ Unicode.SUPERSCRIPT_3 + "", app.getMenu("Symbol.Cube") }, // exponents^3
-				{ Unicode.DEGREE_STRING, app.getMenu("Symbol.Degree") }, // degree
-				{ " " + Unicode.IMAGINARY + " ", Unicode.IMAGINARY + "" }, // sqrt(-1)
-				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
-				{ " " + Unicode.EULER_STRING + " ", Unicode.EULER_STRING }, // e
-				{ Unicode.NBSP + "", app.getMenu("Symbol.NBSP") }, // non-breaking
-																// space
-		};
-
-		return array;
-
-	}
-
-	public final static String[] basicSymbols(Localization app,
-			String[][] map) {
-
-		ArrayList<String> extraSymbols = new ArrayList<String>();
-
-		// create a list of special symbols for the current locale
-		int index = 1;
-		while (app.getSymbol(index) != null) {
-			extraSymbols.add(app.getSymbol(index));
-			index++;
-		}
-
-		// build the array from the basic symbol array and the extra symbol list
-		String[] array = new String[map.length + extraSymbols.size()];
-		for (int i = 0; i < map.length; i++) {
-			array[i] = map[i][0];
-		}
-		for (int i = 0; i < extraSymbols.size(); i++) {
-			array[i + map.length] = extraSymbols.get(i);
-		}
-		return array;
-	}
-
-	public final static String[] basicSymbolsToolTips(Localization app,
-			String[][] map) {
-
-		ArrayList<String> extraTooltips = new ArrayList<String>();
-
-		// create a list of special symbols for the current locale
-		int index = 1;
-		while (app.getSymbol(index) != null) {
-			extraTooltips.add(app.getSymbolTooltip(index));
-			index++;
-		}
-		String[] array = basicSymbols(app, map);
-
-		for (int i = 0; i < map.length; i++) {
-			array[i] = map[i][1];
-		}
-		for (int i = 0; i < extraTooltips.size(); i++) {
-			array[i + map.length] = extraTooltips.get(i);
-		}
-		return array;
-	}
-
-	/**
-	 * convert eg sin(x) into sen(x)
-	 * 
-	 * @param app
-	 *            app
-	 * @return translated names eg sin(x) -> sen(x)
-	 */
-	public final static String[] getTranslatedFunctions(App app) {
-
-		StringBuilder sb = new StringBuilder();
-		Localization loc = app.getLocalization();
-		String[] ret = new String[functions.length];
-		for (int i = 0; i < functions.length; i++) {
-			String[] strs = functions[i].split("\\(");
-
-			String functionName = strs[0].trim();
-			String translatedFunctionName = loc
-					.getMenu("Function." + functionName);
-			if (translatedFunctionName.startsWith("Function.")) {
-				// translation not supported for this function
-				ret[i] = functions[i];
-			} else {
-				sb.setLength(0);
-				sb.append(' ');
-				sb.append(translatedFunctionName);
-				sb.append('(');
-				sb.append(strs[1]);
-				ret[i] = sb.toString();
-			}
-		}
-
-		return ret;
-	}
-
-	/**
-	 * convert eg sin(x) into sen(x)
-	 * 
-	 * @param app
-	 *            app
-	 * @return translated names eg sin(x) -> sen(x)
-	 */
-	public final static String[][] getTranslatedFunctionsGrouped(App app) {
-
-		StringBuilder sb = new StringBuilder();
-		Localization loc = app.getLocalization();
-		String[][] ret = new String[functionsGrouped.length][];
-		for (int i = 0; i < functionsGrouped.length; i++) {
-
-			ret[i] = new String[functionsGrouped[i].length];
-
-			for (int j = 0; j < functionsGrouped[i].length; j++) {
-
-				String[] strs = functionsGrouped[i][j].split("\\(");
-				String functionName = strs[0].trim();
-				String translatedFunctionName = loc
-						.getMenu("Function." + functionName);
-				if (translatedFunctionName.startsWith("Function.")) {
-					// translation not supported for this function
-					ret[i][j] = functionsGrouped[i][j];
-				} else {
-					sb.setLength(0);
-					sb.append(' ');
-					sb.append(translatedFunctionName);
-					sb.append('(');
-					sb.append(strs[1]);
-					ret[i][j] = sb.toString();
-				}
-			}
-		}
-
-		return ret;
-	}
-
 	// spaces either side (for multiply when inserted into the input bar)
 	private final static String[] functions = { " sqrt(x) ",
 
@@ -413,21 +166,6 @@ public class TableSymbols {
 			{ " sinIntegral(x) ", " cosIntegral(x) ", " expIntegral(x) " },
 
 			{ " zeta(x) " }, };
-
-	public final static String[] greekLettersPlusVariants() {
-		ArrayList<String> list = new ArrayList<String>();
-		GeoElement.addAddAllGreekUpperCase(list);
-		GeoElement.addAddAllGreekLowerCaseNoPi(list);
-		list.add("\u03C6"); // LaTeX /varPhi (loopy phi)
-		list.add("\u03B5"); // LaTeX /varEpsilon
-		list.add("\u03D1"); // LaTeX /varTheta (curly theta)
-		list.add("\u03C2"); // LaTeX /varSigma
-
-		String[] s = new String[list.size()];
-		list.toArray(s);
-
-		return s;
-	}
 
 	public final static String[] analysis = {
 
@@ -728,5 +466,266 @@ public class TableSymbols {
 
 	};
 
+
+	public final static String[][] basicSymbolsMap(Localization app) {
+
+		String[][] array = {
+				{ Unicode.alpha + "",
+						app.getPlain("GreekCharacterA", Unicode.alpha + "") }, // lowercaseGreekALPHA
+				{ Unicode.beta + "",
+						app.getPlain("GreekCharacterA", Unicode.beta + "") }, // lowercaseGreekBETA
+				{ Unicode.gamma + "",
+						app.getPlain("GreekCharacterA", Unicode.gamma + "") }, // lowercaseGreekGAMMA
+				{ Unicode.delta + "",
+						app.getPlain("GreekCharacterA", Unicode.delta + "") }, // lowercaseGreekDELTA
+				{ Unicode.epsilon + "",
+						app.getPlain("GreekCharacterA", Unicode.epsilon + "") }, // lowercaseGreekEPSILON
+				{ Unicode.zeta + "",
+						app.getPlain("GreekCharacterA", Unicode.zeta + "") }, // lowercaseGreekZETA
+				{ Unicode.eta + "",
+						app.getPlain("GreekCharacterA", Unicode.eta + "") }, // lowercaseGreekETA
+				{ Unicode.theta + "",
+						app.getPlain("GreekCharacterA", Unicode.theta + "") }, // lowercaseGreekTHETA
+				// { "\u03B9" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
+				// "\u03B9"}, //lowercaseGreekIOTA
+				{ Unicode.kappa + "",
+						app.getPlain("GreekCharacterA", Unicode.kappa + "") }, // lowercaseGreekKAPPA
+				{ Unicode.lambda + "",
+						app.getPlain("GreekCharacterA", Unicode.lambda + "") }, // lowercaseGreekLAMDA
+				{ Unicode.mu + "",
+						app.getPlain("GreekCharacterA", Unicode.mu + "") }, // lowercaseGreekMU
+				// { "\u03BD" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
+				// "\u03BD"}, //lowercaseGreekNU
+				{ Unicode.xi + "",
+						app.getPlain("GreekCharacterA", Unicode.xi + "") }, // lowercaseGreekXI
+				// { "\u03BF" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
+				// "\u03BF"}, //lowercaseGreekOMICRON
+				// { "\u03C0" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
+				// "\u03C0"}, //lowercaseGreekPI
+				{ Unicode.rho + "",
+						app.getPlain("GreekCharacterA", Unicode.rho + "") }, // lowercaseGreekRHO
+				// { "\u03C2" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
+				// "\u03C2"}, //lowercaseGreekFINALSIGMA
+				{ Unicode.sigma + "",
+						app.getPlain("GreekCharacterA", Unicode.sigma + "") }, // lowercaseGreekSIGMA
+				{ Unicode.tau + "",
+						app.getPlain("GreekCharacterA", Unicode.tau + "") }, // lowercaseGreekTAU
+				// { "\u03C5" , app.getMenu("Symbol.GreekCharacter" ) + ": " +
+				// "\u03C5"}, //lowercaseGreekUPSILON
+				{ Unicode.phi + "",
+						app.getPlain("GreekCharacterA", Unicode.phi + "") }, // lowercaseGreekPHI
+																				// (\varPhi
+																				// the
+																				// "loopy"
+																				// phi)
+				{ Unicode.phi_symbol + "",
+						app.getPlain("GreekCharacterA",
+								Unicode.phi_symbol + "") }, // lowercaseGreekPHI
+															// \phi
+															// the
+															// "straight"
+															// phi
+				{ Unicode.chi + "",
+						app.getPlain("GreekCharacterA", Unicode.chi + "") }, // lowercaseGreekCHI
+				{ Unicode.psi + "",
+						app.getPlain("GreekCharacterA", Unicode.psi + "") }, // lowercaseGreekPSI
+				{ Unicode.omega + "",
+						app.getPlain("GreekCharacterA", Unicode.omega + "") }, // lowercaseGreekOMEGA
+				{ Unicode.Gamma + "",
+						app.getPlain("GreekCharacterA", Unicode.Gamma + "") }, // uppercaseGreekGAMMA
+				{ Unicode.Delta + "",
+						app.getPlain("GreekCharacterA", Unicode.Delta + "") }, // uppercaseGreekDELTA
+				{ Unicode.Theta + "",
+						app.getPlain("GreekCharacterA", Unicode.Theta + "") }, // uppercaseGreekTHETA
+				// removed - too similar to logical 'and'
+				// { "\u039b" , app.getPlain("GreekCharacterA", "\u039b" ) },
+				// //uppercaseGreekLAMBDA
+				// { "\u039e" , app.getPlain("GreekCharacterA", "\u039e" ) },
+				// //uppercaseGreekXI
+				{ Unicode.Pi + "",
+						app.getPlain("GreekCharacterA", Unicode.Pi + "") }, // uppercaseGreekPI
+				{ Unicode.Sigma + "",
+						app.getPlain("GreekCharacterA", Unicode.Sigma + "") }, // uppercaseGreekSIGMA
+				{ Unicode.Phi + "",
+						app.getPlain("GreekCharacterA", Unicode.Phi + "") }, // uppercaseGreekPHI
+				// { "\u03a8" , app.getPlain("GreekCharacterA", "\u03a8" ) },
+				// //uppercaseGreekPSI
+				{ Unicode.Omega + "",
+						app.getPlain("GreekCharacterA", Unicode.Omega + "") }, // uppercaseGreekOMEGA
+				{ Unicode.INFINITY + "", app.getMenu("Symbol.Infinity") },
+				{ ExpressionNodeConstants.strVECTORPRODUCT,
+						app.getMenu("Symbol.VectorProduct") },
+				{ ExpressionNodeConstants.strEQUAL_BOOLEAN,
+						app.getMenu("Symbol.BooleanEqual") },
+				{ ExpressionNodeConstants.strNOT_EQUAL,
+						app.getMenu("Symbol.NotEqual") },
+				{ ExpressionNodeConstants.strLESS_EQUAL,
+						app.getMenu("Symbol.LessThanEqualTo") },
+				{ ExpressionNodeConstants.strGREATER_EQUAL,
+						app.getMenu("Symbol.GreaterThanEqualTo") },
+				{ ExpressionNodeConstants.strNOT,
+						app.getMenu("Symbol.Negation") },
+				{ ExpressionNodeConstants.strAND, app.getMenu("Symbol.And") },
+				{ ExpressionNodeConstants.strOR, app.getMenu("Symbol.Or") },
+				{ ExpressionNodeConstants.strIMPLIES,
+						app.getMenu("Symbol.Implication") },
+				{ ExpressionNodeConstants.strPARALLEL,
+						app.getMenu("Symbol.Parallel") },
+				{ ExpressionNodeConstants.strPERPENDICULAR,
+						app.getMenu("Symbol.Perpendicular") },
+				{ ExpressionNodeConstants.strIS_ELEMENT_OF,
+						app.getMenu("Symbol.ElementOf") },
+				{ ExpressionNodeConstants.strIS_SUBSET_OF,
+						app.getMenu("Symbol.Subset") },
+				{ ExpressionNodeConstants.strIS_SUBSET_OF_STRICT,
+						app.getMenu("Symbol.StrictSubset") },
+				// { "\u2220" , app.getMenu("Symbol.Angle" )},
+				{ "\u2221", app.getMenu("Symbol.AngleMeasure") },
+				{ Unicode.SUPERSCRIPT_2 + "", app.getMenu("Symbol.Square") }, // exponents^2
+				{ Unicode.SUPERSCRIPT_3 + "", app.getMenu("Symbol.Cube") }, // exponents^3
+				{ Unicode.DEGREE_STRING, app.getMenu("Symbol.Degree") }, // degree
+				{ " " + Unicode.IMAGINARY + " ", Unicode.IMAGINARY + "" }, // sqrt(-1)
+				{ " " + Unicode.PI_STRING + " ", Unicode.PI_STRING }, // pi
+				{ " " + Unicode.EULER_STRING + " ", Unicode.EULER_STRING }, // e
+				{ Unicode.NBSP + "", app.getMenu("Symbol.NBSP") }, // non-breaking
+																	// space
+		};
+
+		return array;
+
+	}
+
+	public final static String[] basicSymbols(Localization app,
+			String[][] map) {
+
+		ArrayList<String> extraSymbols = new ArrayList<String>();
+
+		// create a list of special symbols for the current locale
+		int index = 1;
+		while (app.getSymbol(index) != null) {
+			extraSymbols.add(app.getSymbol(index));
+			index++;
+		}
+
+		// build the array from the basic symbol array and the extra symbol list
+		String[] array = new String[map.length + extraSymbols.size()];
+		for (int i = 0; i < map.length; i++) {
+			array[i] = map[i][0];
+		}
+		for (int i = 0; i < extraSymbols.size(); i++) {
+			array[i + map.length] = extraSymbols.get(i);
+		}
+		return array;
+	}
+
+	public final static String[] basicSymbolsToolTips(Localization app,
+			String[][] map) {
+
+		ArrayList<String> extraTooltips = new ArrayList<String>();
+
+		// create a list of special symbols for the current locale
+		int index = 1;
+		while (app.getSymbol(index) != null) {
+			extraTooltips.add(app.getSymbolTooltip(index));
+			index++;
+		}
+		String[] array = basicSymbols(app, map);
+
+		for (int i = 0; i < map.length; i++) {
+			array[i] = map[i][1];
+		}
+		for (int i = 0; i < extraTooltips.size(); i++) {
+			array[i + map.length] = extraTooltips.get(i);
+		}
+		return array;
+	}
+
+	/**
+	 * convert eg sin(x) into sen(x)
+	 * 
+	 * @param app
+	 *            app
+	 * @return translated names eg sin(x) -> sen(x)
+	 */
+	public final static String[] getTranslatedFunctions(App app) {
+
+		StringBuilder sb = new StringBuilder();
+		Localization loc = app.getLocalization();
+		String[] ret = new String[functions.length];
+		for (int i = 0; i < functions.length; i++) {
+			String[] strs = functions[i].split("\\(");
+
+			String functionName = strs[0].trim();
+			String translatedFunctionName = loc
+					.getMenu("Function." + functionName);
+			if (translatedFunctionName.startsWith("Function.")) {
+				// translation not supported for this function
+				ret[i] = functions[i];
+			} else {
+				sb.setLength(0);
+				sb.append(' ');
+				sb.append(translatedFunctionName);
+				sb.append('(');
+				sb.append(strs[1]);
+				ret[i] = sb.toString();
+			}
+		}
+
+		return ret;
+	}
+
+	/**
+	 * convert eg sin(x) into sen(x)
+	 * 
+	 * @param app
+	 *            app
+	 * @return translated names eg sin(x) -> sen(x)
+	 */
+	public final static String[][] getTranslatedFunctionsGrouped(App app) {
+
+		StringBuilder sb = new StringBuilder();
+		Localization loc = app.getLocalization();
+		String[][] ret = new String[functionsGrouped.length][];
+		for (int i = 0; i < functionsGrouped.length; i++) {
+
+			ret[i] = new String[functionsGrouped[i].length];
+
+			for (int j = 0; j < functionsGrouped[i].length; j++) {
+
+				String[] strs = functionsGrouped[i][j].split("\\(");
+				String functionName = strs[0].trim();
+				String translatedFunctionName = loc
+						.getMenu("Function." + functionName);
+				if (translatedFunctionName.startsWith("Function.")) {
+					// translation not supported for this function
+					ret[i][j] = functionsGrouped[i][j];
+				} else {
+					sb.setLength(0);
+					sb.append(' ');
+					sb.append(translatedFunctionName);
+					sb.append('(');
+					sb.append(strs[1]);
+					ret[i][j] = sb.toString();
+				}
+			}
+		}
+
+		return ret;
+	}
+
+	public final static String[] greekLettersPlusVariants() {
+		ArrayList<String> list = new ArrayList<String>();
+		GeoElement.addAddAllGreekUpperCase(list);
+		GeoElement.addAddAllGreekLowerCaseNoPi(list);
+		list.add("\u03C6"); // LaTeX /varPhi (loopy phi)
+		list.add("\u03B5"); // LaTeX /varEpsilon
+		list.add("\u03D1"); // LaTeX /varTheta (curly theta)
+		list.add("\u03C2"); // LaTeX /varSigma
+
+		String[] s = new String[list.size()];
+		list.toArray(s);
+
+		return s;
+	}
 
 }

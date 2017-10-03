@@ -13,6 +13,16 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class FormatCollada implements Format {
 	
 	private static float AMBIENT = Renderer.AMBIENT_0;
+	private ArrayList<IdColor> idColors;
+
+	private HashMap<Integer, GColor> materials;
+
+	private HashMap<String, Integer> labels;
+	private String currentLabel = "";
+	private int currentCount = 0;
+	private GColor currentColor;
+
+	private StringBuilder sb2 = new StringBuilder();
 
 	private static class IdColor {
 		public String id;
@@ -24,18 +34,10 @@ public class FormatCollada implements Format {
 		}
 	}
 
-	private ArrayList<IdColor> idColors;
-	
-	private HashMap<Integer, GColor> materials;
-	
-	private HashMap<String, Integer> labels;
-
 	@Override
 	public void getExtension(StringBuilder sb) {
 		sb.append(".dae");
 	}
-	
-	private StringBuilder sb2 = new StringBuilder();
 
 	@Override
 	public void getScriptStart(StringBuilder sb) {
@@ -189,9 +191,6 @@ public class FormatCollada implements Format {
 		materials.clear();
 		labels.clear();
 	}
-
-	private String currentLabel = "";
-	private GColor currentColor;
 		
 	static private void getMaterial(StringBuilder sb, GColor color) {
 		sb.append("M_");
@@ -241,8 +240,6 @@ public class FormatCollada implements Format {
 		sb.append("\n      </mesh>");
 		sb.append("\n    </geometry>");
 	}
-
-	private int currentCount = 0;
 
 	private void getArrayStart(StringBuilder sb, int count, String type) {
 		currentCount = count;

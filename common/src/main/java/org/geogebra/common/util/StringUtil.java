@@ -24,6 +24,15 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	final static public String mp3Marker = "data:audio/mp3;base64,";
 	final static public String pngMarker = "data:image/png;base64,";
+	// table to convert a nibble to a hex char.
+	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
+			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
+	private static StringUtil prototype;
+
+	private static final Object lock = new Object();
+
+	private static StringBuilder sbReplaceExp = new StringBuilder(200);
 
 	/**
 	 * @param data
@@ -106,10 +115,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 		return sb.toString();
 	}
-
-	// table to convert a nibble to a hex char.
-	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	public static String toHTMLString(String title) {
 		return toHTMLString(title, true);
@@ -260,10 +265,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 		return false;
 	}
-
-	private static StringUtil prototype;
-
-	private static final Object lock = new Object();
 
 	public static StringUtil getPrototype() {
 		return prototype;
@@ -421,8 +422,6 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return sb.toString();
 
 	}
-
-	private static StringBuilder sbReplaceExp = new StringBuilder(200);
 
 	public static StringBuilder resetStringBuilder(StringBuilder high) {
 		if (high == null) {

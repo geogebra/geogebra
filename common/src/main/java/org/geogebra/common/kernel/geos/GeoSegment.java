@@ -46,6 +46,14 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 															// rotation, ...
 	
 	private boolean isShape = false;
+	private StringBuilder sbToString = new StringBuilder(30);
+
+	private boolean forceSimpleTransform;
+
+	private Coords pnt2D;
+
+	private GeoElement meta = null;
+
 
 	/** no decoration */
 	public static final int SEGMENT_DECORATION_NONE = 0;
@@ -294,10 +302,6 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		sbToString.append(regrFormat(length));
 		return sbToString.toString();
 	}
-
-	private StringBuilder sbToString = new StringBuilder(30);
-
-	private boolean forceSimpleTransform;
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -624,8 +628,6 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		return super.distance(x0, y0);
 	}
 
-	private Coords pnt2D;
-
 	@Override
 	public boolean isOnPath(Coords Pnd, double eps) {
 		if (pnt2D == null) {
@@ -707,8 +709,6 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		AlgoJoinPointsSegment algo = (AlgoJoinPointsSegment) getParentAlgorithm();
 		algo.modifyInputPoints(P, Q);
 	}
-
-	private GeoElement meta = null;
 
 	@Override
 	public int getMetasLength() {

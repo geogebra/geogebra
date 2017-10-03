@@ -45,15 +45,6 @@ import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
 
-	final public View getConstructionProtocolData() {
-		ConstructionProtocolView view = getConstructionProtocolView();
-		if (view != null) {
-			return view.getData();
-		}
-		// eg Android
-		Log.debug("not implemented");
-		return null;
-	}
 
 	/**
 	 * possible GeoGebraTube syntaxes
@@ -86,6 +77,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	protected Kernel kernel;
 	public App app;
+	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
+	private HashMap<Integer, PlotPanelEuclidianViewInterface> plotPanelIDMap;
+	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
+	private boolean setModeFinished;
+	protected ProbabilityCalculatorView probCalculator;
 
 	/**
 	 * Abstract constructor
@@ -487,6 +483,16 @@ public abstract class GuiManager implements GuiManagerInterface {
 		openHelp(page, Help.GENERIC);
 	}
 
+	final public View getConstructionProtocolData() {
+		ConstructionProtocolView view = getConstructionProtocolView();
+		if (view != null) {
+			return view.getData();
+		}
+		// eg Android
+		Log.debug("not implemented");
+		return null;
+	}
+
 	@Override
 	public void setShowConstructionProtocolNavigation(boolean show, int id) {
 		getConstructionProtocolNavigation(id).setVisible(show);
@@ -509,8 +515,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 		getConstructionProtocolNavigation()
 				.setConsProtButtonVisible(showProtButton);
 	}
-
-	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
 
 	@Override
 	public void updateNavBars() {
@@ -645,8 +649,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	// PlotPanel ID handling
 	// =================================
 
-	private HashMap<Integer, PlotPanelEuclidianViewInterface> plotPanelIDMap;
-	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
 
 	protected HashMap<Integer, PlotPanelEuclidianViewInterface> getPlotPanelIDMap() {
 		if (plotPanelIDMap == null) {
@@ -674,9 +676,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	public PlotPanelEuclidianViewInterface getPlotPanelView(int viewID) {
 		return getPlotPanelIDMap().get(viewID);
 	}
-
-	private boolean setModeFinished;
-	protected ProbabilityCalculatorView probCalculator;
 
 	@Override
 	public void setMode(int mode0, ModeSetter m) {

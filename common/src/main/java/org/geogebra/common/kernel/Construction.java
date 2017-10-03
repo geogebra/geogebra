@@ -145,6 +145,12 @@ public class Construction {
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
+	/** algo set currently updated by GeoElement.updateDependentObjects() */
+	private AlgorithmSet algoSetCurrentlyUpdated;
+
+	private final TreeSet<String> casDummies = new TreeSet<String>();
+
+	private ArrayList<AlgoElement> casAlgos = new ArrayList<AlgoElement>();
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -165,6 +171,25 @@ public class Construction {
 	private GeoPoint origin;
 
 	private GeoElement selfGeo;
+	private boolean undoEnabled = true;
+
+	private boolean isGettingXMLForReplace;
+	private boolean spreadsheetTraces;
+	private boolean allowUnboundedAngles = true;
+
+	private boolean isRemovingGeoToReplaceIt = false;
+	private boolean ignoringNewTypes;
+
+	private MyXMLio xmlio;
+
+	private GeoElement outputGeo;
+
+	private TreeSet<String> registredFV = new TreeSet<String>();
+
+	private boolean fileLoading;
+	private boolean casCellUpdate = false;
+	private boolean notXmlLoading = false;
+	private boolean updateConstructionRunning;
 
 	/**
 	 * Creates a new Construction.
@@ -1382,8 +1407,6 @@ public class Construction {
 
 	}
 
-	private boolean undoEnabled = true;
-
 	/**
 	 * @return true if undo is enabled
 	 */
@@ -1674,8 +1697,6 @@ public class Construction {
 		app.getCompanion().recallViewCreators();
 	}
 
-	private boolean isGettingXMLForReplace;
-
 	/**
 	 * 
 	 * @return true if is getting XML for replace
@@ -1683,9 +1704,6 @@ public class Construction {
 	public boolean isGettingXMLForReplace() {
 		return isGettingXMLForReplace;
 	}
-
-	private boolean isRemovingGeoToReplaceIt = false;
-	private boolean ignoringNewTypes;
 
 	/**
 	 * 
@@ -3082,10 +3100,6 @@ public class Construction {
 		return xmlio;
 	}
 
-	private MyXMLio xmlio;
-
-	private GeoElement outputGeo;
-
 	/**
 	 * Clears the undo info list of this construction and adds the current
 	 * construction state to the undo info list.
@@ -3175,8 +3189,6 @@ public class Construction {
 		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
 	}
 
-	private TreeSet<String> registredFV = new TreeSet<String>();
-
 	/**
 	 * Registers function variable that should be recognized in If and Function
 	 * commands
@@ -3216,11 +3228,6 @@ public class Construction {
 		}
 		return null;
 	}
-
-	private boolean fileLoading;
-	private boolean casCellUpdate = false;
-	private boolean notXmlLoading = false;
-	private boolean updateConstructionRunning;
 
 	/**
 	 * Let construction know about file being loaded. When this is true, user
@@ -3283,8 +3290,6 @@ public class Construction {
 		return updateConstructionRunning;
 	}
 
-	private final TreeSet<String> casDummies = new TreeSet<String>();
-
 	/**
 	 * @return set of names that are used by CAS for dummies
 	 */
@@ -3318,11 +3323,6 @@ public class Construction {
 	 * 
 	 * return algoSet; }
 	 */
-
-	/** algo set currently updated by GeoElement.updateDependentObjects() */
-	private AlgorithmSet algoSetCurrentlyUpdated;
-	private boolean spreadsheetTraces;
-	private boolean allowUnboundedAngles = true;
 
 	/**
 	 * set the algo set currently updated by GeoElement.updateDependentObjects()
@@ -3398,8 +3398,6 @@ public class Construction {
 	public boolean isAllowUnboundedAngles() {
 		return this.allowUnboundedAngles;
 	}
-
-	private ArrayList<AlgoElement> casAlgos = new ArrayList<AlgoElement>();
 
 	/**
 	 * Add algo to a list of algos that need update after CAS load

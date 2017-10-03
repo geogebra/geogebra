@@ -88,6 +88,43 @@ public class GeoList extends GeoElement
 
 	private ArrayList<GeoElement> colorFunctionListener; // Michael Borcherds
 	// 2008-04-02
+	private String typeStringForXML = null;
+	private final StringBuilder sbBuildValueString = new StringBuilder(50);
+
+	// Selection index for lists used in comboBoxes
+	private int selectedIndex = 0;
+
+	private int closestPointIndex;
+
+	private TraceModesEnum traceModes = null;
+
+	private boolean showOnAxis;
+
+	private boolean[] directionInfoArray = null; // true if minParameter is for
+													// start
+	private int[] directionInfoOrdering = null; // simple map to the ordered
+												// indexes
+	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not
+													// enough
+	private boolean locusCalledAlgoLocusList = false;// if a locus ever used
+														// this list as a path
+	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
+	private int pointStyle = -1; // use global option if -1
+	// font options
+	private boolean serifFont = false;
+	private int fontStyle = GFont.PLAIN;
+	private double fontSizeD = 1; // size relative to default font size
+	private int printDecimals = -1;
+	private int printFigures = -1;
+	private boolean useSignificantFigures = false;
+
+	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
+	private boolean emphasizeRightAngle = true;
+	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
+
+	private int totalWidth = 0;
+	private int totalHeight = 0;
+
 
 	/**
 	 * Creates new GeoList, size defaults to 20
@@ -874,8 +911,6 @@ public class GeoList extends GeoElement
 		return sbBuildValueString;
 	}
 
-	private final StringBuilder sbBuildValueString = new StringBuilder(50);
-
 	@Override
 	public boolean isGeoList() {
 		return true;
@@ -999,7 +1034,6 @@ public class GeoList extends GeoElement
 	// needed for eg x(Element[list1,1]) when list1 is saved as an empty list
 	// The Element command needs to know in advance what type of geo the list
 	// will hold
-	private String typeStringForXML = null;
 
 	/**
 	 * needed for eg x(Element[list1,1]) when list1 is saved as an empty list
@@ -1216,9 +1250,6 @@ public class GeoList extends GeoElement
 
 	}
 
-	private int pointSize = EuclidianStyleConstants.DEFAULT_POINT_SIZE;
-	private int pointStyle = -1; // use global option if -1
-
 	@Override
 	public void setPointSize(final int size) {
 		pointSize = size;
@@ -1392,14 +1423,6 @@ public class GeoList extends GeoElement
 
 		return true;
 	}
-
-	// font options
-	private boolean serifFont = false;
-	private int fontStyle = GFont.PLAIN;
-	private double fontSizeD = 1; // size relative to default font size
-	private int printDecimals = -1;
-	private int printFigures = -1;
-	private boolean useSignificantFigures = false;
 
 	@Override
 	public double getFontSizeMultiplier() {
@@ -1639,11 +1662,6 @@ public class GeoList extends GeoElement
 		getScriptTags(sb);
 
 	}
-
-	// Selection index for lists used in comboBoxes
-	private int selectedIndex = 0;
-
-	private int closestPointIndex;
 
 	/**
 	 * @return selected index
@@ -2139,10 +2157,6 @@ public class GeoList extends GeoElement
 
 	}
 
-	private TraceModesEnum traceModes = null;
-
-	private boolean showOnAxis;
-
 	/**
 	 * @param geos
 	 *            list of geos
@@ -2412,15 +2426,6 @@ public class GeoList extends GeoElement
 
 	}
 
-	private boolean[] directionInfoArray = null; // true if minParameter is for
-													// start
-	private int[] directionInfoOrdering = null; // simple map to the ordered
-												// indexes
-	private boolean shouldUseAlgoLocusList = true;// whether AlgoLocus is not
-													// enough
-	private boolean locusCalledAlgoLocusList = false;// if a locus ever used
-														// this list as a path
-
 	/**
 	 * Before creating a locus based on this GeoList as a path, this method
 	 * decides whether the locus algo should be AlgoLocus or AlgoLocusList.
@@ -2668,13 +2673,6 @@ public class GeoList extends GeoElement
 	public boolean isLaTeXTextCommand() {
 		return false;
 	}
-
-	private AngleStyle angleStyle = AngleStyle.ANTICLOCKWISE;
-	private boolean emphasizeRightAngle = true;
-	private int arcSize = EuclidianStyleConstants.DEFAULT_ANGLE_SIZE;
-
-	private int totalWidth = 0;
-	private int totalHeight = 0;
 
 	@Override
 	public void setAngleStyle(int style) {

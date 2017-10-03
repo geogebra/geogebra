@@ -37,6 +37,16 @@ public class EuclidianControllerInput3DCompanion extends
 	static final private double COS_THRESHOLD = Math.sin(Math.PI * 7.5 / 180);
 
 	private Input3D input3D;
+	private double startZNearest;
+
+	protected Coords movedGeoPointStartCoords = new Coords(0, 0, 0, 1);
+	private TreeSet<StickyPoint> stickyPoints;
+	private TreeSet<StickyPointForDirection> stickyPointsForDirection;
+	protected GeoPlane3D movedGeoPlane;
+	protected CoordSys movedGeoPlaneStartCoordSys;
+	private Coords movedGeoStartPosition;
+
+	protected ArrayList<GeoPointND> stickyPointsList;
 
 	/**
 	 * constructor
@@ -257,9 +267,6 @@ public class EuclidianControllerInput3DCompanion extends
 
 	}
 
-	private TreeSet<StickyPoint> stickyPoints;
-	private TreeSet<StickyPointForDirection> stickyPointsForDirection;
-
 	private boolean stickToPoints() {
 		return ec.getView().getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 	}
@@ -445,10 +452,6 @@ public class EuclidianControllerInput3DCompanion extends
 				&& !input3D.currentlyUseMouse2D();
 	}
 
-	private double startZNearest;
-
-	protected Coords movedGeoPointStartCoords = new Coords(0, 0, 0, 1);
-
 	@Override
 	protected void updateMovedGeoPointStartValues(Coords coords,
 			GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
@@ -462,12 +465,6 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 		}
 	}
-
-	protected GeoPlane3D movedGeoPlane;
-	protected CoordSys movedGeoPlaneStartCoordSys;
-	private Coords movedGeoStartPosition;
-
-	protected ArrayList<GeoPointND> stickyPointsList;
 
 	/**
 	 * set plane to move

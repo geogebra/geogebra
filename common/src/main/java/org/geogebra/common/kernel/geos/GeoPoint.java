@@ -90,6 +90,7 @@ import org.geogebra.common.util.debug.Log;
 public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		MatrixTransformable, ConicMirrorable, GeoPointND,
 		Transformable, SymbolicParametersAlgo, SymbolicParametersBotanaAlgo {
+	private static volatile Comparator<GeoPoint> comparatorX;
 
 	// don't set point size here as this would overwrite
 	// setConstructionDefaults()
@@ -122,6 +123,25 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	// list of Locateables (GeoElements) that this point is start point of
 	// if this point is removed, the Locateables have to be notified
 	private LocateableList locateableList;
+	private ArrayList<NumberValue> changeableCoordNumbers = null;
+	private boolean hasPolarParentNumbers = false;
+
+	private PathParameter tempPathParameter;
+
+	private StringBuilder sbToString = new StringBuilder(50);
+
+	private StringBuilder sbBuildValueString = new StringBuilder(50);
+
+	private static volatile TreeSet<AlgoElement> tempSet;
+
+	private Coords coords2D;
+	private Coords inhomCoords3D, inhomCoords2D;
+
+	private CoordMatrix4x4 tmpMatrix4x4;
+
+	private Coords tmpCoords;
+
+	private ArrayList<GeoElement> incidenceList;
 
 	/**
 	 * create an undefined GeoPoint
@@ -628,9 +648,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return changeableCoordNumbers;
 	}
 
-	private ArrayList<NumberValue> changeableCoordNumbers = null;
-	private boolean hasPolarParentNumbers = false;
-
 	/**
 	 * @return whether getCoordParentNumbers() returns polar variables (r; phi).
 	 */
@@ -838,8 +855,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 		updateCoords();
 	}
-
-	private PathParameter tempPathParameter;
 
 	private PathParameter getTempPathparameter() {
 		if (tempPathParameter == null) {
@@ -1479,8 +1494,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
@@ -1703,8 +1716,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	}
 
-	private StringBuilder sbBuildValueString = new StringBuilder(50);
-
 	/**
 	 * interface VectorValue implementation
 	 */
@@ -1855,8 +1866,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		}
 	}
 
-	private static volatile TreeSet<AlgoElement> tempSet;
-
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
 			tempSet = new TreeSet<AlgoElement>();
@@ -1996,8 +2005,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return comparatorX;
 	}
 
-	private static volatile Comparator<GeoPoint> comparatorX;
-
 	// ///////////////////////////////////////////
 	// REGION
 
@@ -2067,9 +2074,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		return inhomCoords2D;
 	}
 
-	private Coords coords2D;
-	private Coords inhomCoords3D, inhomCoords2D;
-
 	@Override
 	public Coords getInhomCoordsInD(int dimension) {
 		switch (dimension) {
@@ -2097,10 +2101,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public Coords getInhomCoordsInD2() {
 		return getInhomCoords();
 	}
-
-	private CoordMatrix4x4 tmpMatrix4x4;
-
-	private Coords tmpCoords;
 
 	@Override
 	public Coords getCoordsInD2IfInPlane(CoordSys coordSys) {
@@ -2442,7 +2442,6 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	// currently implemented for
 	// lines: line by two point, intersect lines, line/conic, point on line
 	// TODO: parallel line, perpenticular line
-	private ArrayList<GeoElement> incidenceList;
 
 	/**
 	 * @return list of objects incident by construction

@@ -47,6 +47,11 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	protected double length;
 	/** whether this is defined */
 	protected boolean defined = false;
+	// dummy segment to use in calculations
+	private GeoSegment seg = new GeoSegment(cons);
+	private StringBuilder sbToString = new StringBuilder(50);
+
+	private boolean trace;
 
 	/**
 	 * common constructor for 2D.
@@ -228,8 +233,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		return sbToString.toString();
 	}
 
-	private StringBuilder sbToString = new StringBuilder(50);
-
 	@Override
 	final public String toValueString(StringTemplate tpl) {
 		return kernel.format(getLength(), tpl);
@@ -306,9 +309,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		}
 		return points[0] == points[points.length - 1];
 	}
-
-	// dummy segment to use in calculations
-	private GeoSegment seg = new GeoSegment(cons);
 
 	@Override
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -455,7 +455,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 * Recompute length of this polyline
 	 */
 	public void calcLength() {
-
 		if (points == null || points.length == 0) {
 			setUndefined();
 			length = Double.NaN;
@@ -557,8 +556,6 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 		}
 		return true;
 	}
-
-	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {

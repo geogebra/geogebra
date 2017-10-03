@@ -47,6 +47,18 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	/** coords of points on locus */
 	protected ArrayList<T> myPointList;
 	private ArrayList<T> poitsWithoutControl;
+	private StringBuilder sbToString = new StringBuilder(80);
+	private double closestPointDist;
+	/**
+	 * index of point closest to changingPoint
+	 */
+	protected int closestPointIndex;
+	/**
+	 * parameter of point closest to changingPoint
+	 */
+	protected double closestPointParameter;
+
+	private boolean trace;
 
 	/**
 	 * Creates new locus
@@ -146,8 +158,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		sbToString.append(getDefinition(tpl));
 		return sbToString.toString();
 	}
-
-	private StringBuilder sbToString = new StringBuilder(80);
 
 	@Override
 	public boolean showInAlgebraView() {
@@ -332,18 +342,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 
 	}
-
-	private double closestPointDist;
-	/**
-	 * index of point closest to changingPoint
-	 */
-	protected int closestPointIndex;
-	/**
-	 * parameter of point closest to changingPoint
-	 */
-	protected double closestPointParameter;
-
-	private boolean trace;
 
 	@Override
 	public void pathChanged(GeoPointND P) {

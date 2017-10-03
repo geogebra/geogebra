@@ -15,7 +15,9 @@ package org.geogebra.common.util;
 import org.geogebra.common.util.debug.Log;
 
 public class Util {
-
+	/** available font sizes (will be reused in OptionsAdvanced) */
+	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
+			32, 48 };
 	/**
 	 * Removes &lt; > " * / ? | \ and replaces them with underscore (_)
 	 * 
@@ -66,10 +68,6 @@ public class Util {
 
 		return nums[nums.length - 1];
 	}
-
-	/** available font sizes (will be reused in OptionsAdvanced) */
-	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
-			32, 48 };
 
 	public static int menuFontSizes(int i) {
 		return MENU_FONT_SIZES[i];

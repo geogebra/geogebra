@@ -64,6 +64,65 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object shaderProgram;
 	protected Object vertShader;
 	protected Object fragShader;
+	private Stack<Object> removedBuffers = new Stack<Object>();
+	private Stack<Object> removedElementBuffers = new Stack<Object>();
+
+	private boolean texturesEnabled;
+
+	private int currentDash = Textures.DASH_INIT;
+
+	private int currentTextureType = TEXTURE_TYPE_NONE;
+	private int oldTextureType = TEXTURE_TYPE_NONE;
+
+	private double perspXZ, perspYZ;
+	private double[] glassesXZ = new double[2], glassesYZ = new double[2];
+
+	private float[] clipPlanesMin = new float[3];
+	private float[] clipPlanesMax = new float[3];
+
+	private float[] pointCenter = new float[4];
+
+	private float[] resetCenter = { 0f, 0f, 0f, 0f };
+
+	private int currentLayer;
+	private float[] eyeOrDirection = new float[4];
+	private float[][] ambiantDiffuse;
+
+	/**
+	 * dash values for shaders
+	 */
+	private static final float[][] DASH_SHADERS_VALUES = {
+			// coeff, a, b, c
+			// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
+			// if (x > a || (x > b && x <= c)) then discard
+			{ 2.0f, 0.5f, -1f, -1f }, // {true, false, true, false}, //
+										// DASH_SHORT
+			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
+										// DASH_LONG_HIDDEN
+			{ 4.0f, 0.5f, -1f, -1f }, // {true, false, true, false, true, false,
+										// true, false}, // DASH_DOTTED
+			{ 2.0f, 0.25f, -1f, -1f }, // {true, false, false, false, true,
+										// false, false, false}, //
+										// DASH_DOTTED_HIDDEN
+			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
+										// DASH_NONE_HIDDEN
+			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
+										// DASH_SHORT_HIDDEN
+			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
+										// DASH_LONG
+			{ 1.0f, 12f / 16f, 7f / 16f, 11f / 16f }, // {true,true,true,true,
+														// true,true,true,false,
+														// false,false,false,true,
+														// false,false,false,false},
+														// // DASH_DOTTED_DASHED
+			{ 1.0f, 12f / 16f, 3f / 16f, 11f / 16f }, // {false,false,true,true,
+														// true,false,false,false,
+														// false,false,false,true,
+														// false,false,false,false}
+														// //
+														// DASH_DOTTED_DASHED_HIDDEN
+
+	};
 
 	public RendererImplShaders(Renderer renderer, EuclidianView3D view) {
 		super(renderer, view);
@@ -78,9 +137,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 			buffer.set(stack.pop());
 		}
 	}
-
-	private Stack<Object> removedBuffers = new Stack<Object>();
-	private Stack<Object> removedElementBuffers = new Stack<Object>();
 
 	@Override
 	final public void createArrayBuffer(GPUBuffer buffer) {
@@ -253,8 +309,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
-	private boolean texturesEnabled;
-
 	@Override
 	final public void enableTextures() {
 		texturesEnabled = true;
@@ -294,8 +348,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setCurrentTextureType(TEXTURE_TYPE_FADING);
 	}
 
-	private int currentDash = Textures.DASH_INIT;
-
 	@Override
 	public void enableDash() {
 		currentDash = Textures.DASH_INIT;
@@ -311,9 +363,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		setCurrentTextureType(TEXTURE_TYPE_TEXT);
 	}
 
-	private int currentTextureType = TEXTURE_TYPE_NONE;
-	private int oldTextureType = TEXTURE_TYPE_NONE;
-
 	private void setCurrentTextureType(int type) {
 		currentTextureType = type;
 		glUniform1i(textureTypeLocation, type);
@@ -323,42 +372,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public boolean areTexturesEnabled() {
 		return texturesEnabled;
 	}
-
-	/**
-	 * dash values for shaders
-	 */
-	private static final float[][] DASH_SHADERS_VALUES = {
-			// coeff, a, b, c
-			// in shaders : x = mod(dashValues[0] * coordTexture.x, 1.0)
-			// if (x > a || (x > b && x <= c)) then discard
-			{ 2.0f, 0.5f, -1f, -1f }, // {true, false, true, false}, //
-										// DASH_SHORT
-			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
-										// DASH_LONG_HIDDEN
-			{ 4.0f, 0.5f, -1f, -1f }, // {true, false, true, false, true, false,
-										// true, false}, // DASH_DOTTED
-			{ 2.0f, 0.25f, -1f, -1f }, // {true, false, false, false, true,
-										// false, false, false}, //
-										// DASH_DOTTED_HIDDEN
-			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
-										// DASH_NONE_HIDDEN
-			{ 1.0f, 0.25f, -1f, -1f }, // {true, false, false, false}, //
-										// DASH_SHORT_HIDDEN
-			{ 1.0f, 0.5f, -1f, -1f }, // {true, true, false, false}, //
-										// DASH_LONG
-			{ 1.0f, 12f / 16f, 7f / 16f, 11f / 16f }, // {true,true,true,true,
-														// true,true,true,false,
-														// false,false,false,true,
-														// false,false,false,false},
-														// // DASH_DOTTED_DASHED
-			{ 1.0f, 12f / 16f, 3f / 16f, 11f / 16f }, // {false,false,true,true,
-														// true,false,false,false,
-														// false,false,false,true,
-														// false,false,false,false}
-														// //
-														// DASH_DOTTED_DASHED_HIDDEN
-
-	};
 
 	@Override
 	public void setDashTexture(int index) {
@@ -652,8 +665,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	}
 
-	private float[] eyeOrDirection = new float[4];
-
 	@Override
 	public void setLightPosition(float[] values) {
 		glUniform3fv(lightPositionLocation, values);
@@ -669,8 +680,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 	}
 
 	abstract protected void glUniform4fv(Object location, float[] values);
-
-	private float[][] ambiantDiffuse;
 
 	@Override
 	public void setLightAmbiantDiffuse(float ambiant0, float diffuse0,
@@ -792,8 +801,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 
 	}
 
-	private double perspXZ, perspYZ;
-	private double[] glassesXZ = new double[2], glassesYZ = new double[2];
 
 	@Override
 	public void updateGlassesValues() {
@@ -848,9 +855,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		projectionMatrix.set(4, 4, 1);
 
 	}
-
-	private float[] clipPlanesMin = new float[3];
-	private float[] clipPlanesMax = new float[3];
 
 	@Override
 	public void setClipPlanes(double[][] minMax) {
@@ -944,8 +948,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		}
 	}
 
-	private float[] pointCenter = new float[4];
-
 	@Override
 	final public void setCenter(Coords center) {
 		center.get4ForGL(pointCenter);
@@ -954,8 +956,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 				.unscale(pointCenter[3] * DrawPoint3D.DRAW_POINT_FACTOR);
 		glUniform4fv(centerLocation, pointCenter);
 	}
-
-	private float[] resetCenter = { 0f, 0f, 0f, 0f };
 
 	@Override
 	final public void resetCenter() {
@@ -1123,8 +1123,6 @@ public abstract class RendererImplShaders extends RendererImpl {
 		currentLayer = layer;
 		glUniform1i(layerLocation, currentLayer);
 	}
-
-	private int currentLayer;
 
 	final private void initLayer() {
 		currentLayer = 0;

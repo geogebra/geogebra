@@ -66,6 +66,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	static {
 		noLocalDefault.localizeCmds = false;
 	}
+	private static final double[] precisions = new double[] { 1, 1E-1, 1E-2,
+			1E-3, 1E-4, 1E-5, 1E-6, 1E-7, 1E-8, 1E-9, 1E-10, 1E-11, 1E-12,
+			1E-13, 1E-14, 1E-15, 1E-16 };
+
+	private boolean allowPiHack = true;
+
+	private boolean supportsFractions = true;
 
 	/**
 	 * Template which prints numbers with maximal precision and adds prefix to
@@ -79,13 +86,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return 1;
 		}
 	};
-
-	/**
-	 * @return whether line breaks are allowed
-	 */
-	public boolean isInsertLineBreaks() {
-		return false;
-	}
 
 	static {
 		prefixedDefault.localizeCmds = false;
@@ -718,14 +718,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return allowMoreDigits;
 	}
 
-	private static final double[] precisions = new double[] { 1, 1E-1, 1E-2,
-			1E-3, 1E-4, 1E-5, 1E-6, 1E-7, 1E-8, 1E-9, 1E-10, 1E-11, 1E-12,
-			1E-13, 1E-14, 1E-15, 1E-16 };
-
-	private boolean allowPiHack = true;
-
-	private boolean supportsFractions = true;
-
 	/**
 	 * Least positive number with given precision
 	 * 
@@ -907,6 +899,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 */
 	protected boolean isNDvector(ExpressionValue v) {
 		return v.evaluatesToNonComplex2DVector() || v.evaluatesTo3DVector();
+	}
+	
+	/**
+	 * @return whether line breaks are allowed
+	 */
+	public boolean isInsertLineBreaks() {
+		return false;
 	}
 
 	/**
