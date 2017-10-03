@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -528,19 +529,24 @@ abstract public class ObjectSettingsModel {
     public boolean hasPointProperties() {
         if (mApp.has(Feature.MOB_SELECT_TOOL)) {
             for (GeoElement geo : mGeoElementsList) {
-                if (!(geo instanceof PointProperties)) {
+                if (!PointStyleModel.match(geo)) {
                     return false;
                 }
             }
             return true;
         }
-        return mGeoElement instanceof PointProperties;
+        return PointStyleModel.match(mGeoElement);
     }
 
     public boolean hasFunctionProperties() {
         if (mApp.has(Feature.MOB_SELECT_TOOL)) {
             for (GeoElement geo : mGeoElementsList) {
-                if (!(geo instanceof GeoFunction)) {
+                if (geo instanceof GeoList) {
+                    GeoElement elementForProperties = geo.getGeoElementForPropertiesDialog();
+                    if (!(elementForProperties instanceof GeoFunction)) {
+                        return false;
+                    }
+                } else if (!(geo instanceof GeoFunction)) {
                     return false;
                 }
             }
