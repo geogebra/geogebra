@@ -3145,13 +3145,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	}
 
-	/**
-	 * GGB-605
-	 * 
-	 * @param algo
-	 *            algorithm to be used for value string instead of secret
-	 *            expression
-	 */
 	public void setSecret(AlgoElement algo) {
 		if (getFunction() != null) {
 			getFunction().setSecret(algo);

@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
 import org.geogebra.common.kernel.arithmetic.Traversing.CopyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
@@ -1482,6 +1483,11 @@ public class FunctionNVar extends ValidExpression
 
 	public void setShortLHS(boolean b) {
 		this.shortLHS = b;
+	}
+
+	@Override
+	public void setSecret(AlgoElement algo) {
+		getExpression().setSecret(algo);
 	}
 
 }

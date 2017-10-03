@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -1428,6 +1429,12 @@ public class GeoFunctionNVar extends GeoElement
 	 */
 	public void setShortLHS(boolean shortLHS) {
 		this.shortLHS = shortLHS;
+	}
+
+	public void setSecret(AlgoElement algo) {
+		if (getFunction() != null) {
+			getFunction().setSecret(algo);
+		}
 	}
 
 }

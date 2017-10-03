@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -127,6 +128,7 @@ public class AlgoIntegral extends AlgoCasBase {
 			FunctionVariable fv = inFun.getFunctionVariables()[0];
 			for(int i =1;i<inFun.getVarNumber();i++){
 				if (inFun.getFunctionVariables()[i]
+						.toString(StringTemplate.defaultTemplate)
 						.equals(var.getLabel(StringTemplate.defaultTemplate))) {
 					fv = inFun.getFunctionVariables()[i];
 				}
@@ -158,8 +160,8 @@ public class AlgoIntegral extends AlgoCasBase {
 	}
 
 	private void updateSecret() {
-		if (g instanceof GeoFunction) {
-			((GeoFunction) g).setSecret(numeric ? this : null);
+		if (g instanceof FunctionalNVar) {
+			((FunctionalNVar) g).setSecret(numeric ? this : null);
 		}
 
 	}

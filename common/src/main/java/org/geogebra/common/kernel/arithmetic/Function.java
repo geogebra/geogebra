@@ -21,7 +21,6 @@ import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -1101,14 +1100,6 @@ public class Function extends FunctionNVar
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv, Kernel kernel0) {
 		return expression.derivative(fv, kernel0);
-	}
-
-	/**
-	 * @param algo
-	 *            secret parent algo
-	 */
-	public void setSecret(AlgoElement algo) {
-		getExpression().setSecret(algo);
 	}
 
 	@Override

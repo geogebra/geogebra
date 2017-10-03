@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.arithmetic;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoElement;
 
 /**
  * Interface for GeoFunction and GeoFunctionNVar
@@ -103,5 +104,14 @@ public interface FunctionalNVar extends Evaluate2Var {
 	 *            whether lhs should be just y= (or z=)
 	 */
 	public void setShortLHS(boolean shortLHS);
+
+	/**
+	 * GGB-605
+	 * 
+	 * @param algo
+	 *            algorithm to be used for value string instead of secret
+	 *            expression
+	 */
+	public void setSecret(AlgoElement algo);
 
 }

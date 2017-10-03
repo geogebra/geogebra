@@ -5199,21 +5199,22 @@ public class ExpressionNode extends ValidExpression
 
 	private ExpressionNode linearIntegral(int i, Operation op,
 			FunctionVariable fv) {
-		if (left == fv) {
-			return new ExpressionNode(kernel, left, op, null).multiplyR(i);
+		ExpressionValue arg = left.unwrap();
+		if (arg == fv) {
+			return new ExpressionNode(kernel, arg, op, null).multiplyR(i);
 		}
 
-		double coeff = getLinearCoefficient(fv, left);
+		double coeff = getLinearCoefficient(fv, arg);
 
 		if (!Double.isNaN(coeff)) {
-			return new ExpressionNode(kernel, left, op, null).multiplyR(i)
+			return new ExpressionNode(kernel, arg, op, null).multiplyR(i)
 					.divide(coeff);
 		}
 
-		coeff = getLinearCoefficientDiv(fv, left);
+		coeff = getLinearCoefficientDiv(fv, arg);
 
 		if (!Double.isNaN(coeff)) {
-			return new ExpressionNode(kernel, left, op, null).multiply(coeff)
+			return new ExpressionNode(kernel, arg, op, null).multiply(coeff)
 					.multiplyR(i);
 		}
 
