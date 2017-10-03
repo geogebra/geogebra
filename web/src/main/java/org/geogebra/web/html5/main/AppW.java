@@ -3609,7 +3609,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void toggleMenu() {
 		// only with GUI
-
 	}
 
 	public int getActivePerspective() {
