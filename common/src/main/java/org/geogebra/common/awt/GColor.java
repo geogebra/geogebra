@@ -83,7 +83,7 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor newColorRGB(int rgb) {
 
-		return newColor(getRed(rgb), getGreen(rgb), getBlue(rgb), 255);
+		return newColor(getRed(rgb), getGreen(rgb), getBlue(rgb));
 	}
 
 	// private void log() {
