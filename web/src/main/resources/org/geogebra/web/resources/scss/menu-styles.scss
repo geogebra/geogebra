@@ -9,7 +9,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			top: 0px;
 			/*left: 6px;*/
 			/*padding: 8px 0px 8px 0px;*/
-			box-shadow: 0 0 16px $black-28;
+			box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+			/*box-shadow: 0 0 16px $black-28;*/
 			background-color: $white;
 			/*border-radius: 2px;*/
 			z-index:  100000;;
