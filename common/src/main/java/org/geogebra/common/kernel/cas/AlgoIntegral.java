@@ -16,6 +16,8 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -23,6 +25,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
@@ -117,6 +120,24 @@ public class AlgoIntegral extends AlgoCasBase {
 				updateSecret();
 				return;
 			}
+		}
+
+		if (f instanceof GeoFunctionNVar && numeric) {
+			FunctionNVar inFun = ((GeoFunctionNVar) f).getFunction();
+			FunctionVariable fv = inFun.getFunctionVariables()[0];
+			for(int i =1;i<inFun.getVarNumber();i++){
+				if (inFun.getFunctionVariables()[i]
+						.equals(var.getLabel(StringTemplate.defaultTemplate))) {
+					fv = inFun.getFunctionVariables()[i];
+				}
+			}
+			inFun = inFun.getIntegralNoCAS(fv);
+
+			((GeoFunctionNVar) g).setFunction(inFun);
+			((GeoFunctionNVar) g).setDefined(true);
+			updateSecret();
+			computedSymbolically = false;
+			return;
 		}
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
 

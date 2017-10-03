@@ -178,8 +178,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 				Log.debug("cas cell ");
 				kernel.notifyUpdatePreviewFromInputBar(null);
 			}
+			// concurrent evaluation with CAS may set validInput to null
 			if (validation != null && previewGeos != null
-					&& validInput.equals(input)) {
+					&& validInput != null && validInput.equals(input)) {
 				validation.resetError();
 			}
 			this.kernel.setSilentMode(silentModeOld);
