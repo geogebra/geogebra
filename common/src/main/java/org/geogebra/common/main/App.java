@@ -2389,7 +2389,7 @@ public abstract class App implements UpdateSelection {
 	public abstract boolean showAlgebraInput();
 
 	/**
-	 * @return global key dispatcher
+	 * @return global key dispatcher. Can be null (eg Android, iOS)
 	 */
 	public abstract GlobalKeyDispatcher getGlobalKeyDispatcher();
 
