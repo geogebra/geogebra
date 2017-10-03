@@ -907,9 +907,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			case 0:
 				return EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC;
 			case 1:
-				return EuclidianStyleConstants.POINT_CAPTURING_ON_GRID;
-			case 2:
 				return EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS;
+			case 2:
+				return EuclidianStyleConstants.POINT_CAPTURING_ON_GRID;
 			case 3:
 				return EuclidianStyleConstants.POINT_CAPTURING_OFF;
 			default:
@@ -941,9 +941,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			switch (mode) {
 			case EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC:
 				return 0;
-			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
-				return 1;
 			case EuclidianStyleConstants.POINT_CAPTURING_STICKY_POINTS:
+				return 1;
+			case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
 				return 2;
 			case EuclidianStyleConstants.POINT_CAPTURING_OFF:
 				return 3;
