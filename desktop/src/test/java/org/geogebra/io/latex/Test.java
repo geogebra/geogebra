@@ -59,8 +59,7 @@ public class Test {
 				System.out.println(GeoGebraSerializer
 						.serialize(mathField.getFormula().getRootComponent()));
 				System.out.println(TeXSerializer.serialize(
-						mathField.getFormula().getRootComponent(),
-						mathField.getMetaModel()));
+						mathField.getFormula().getRootComponent()));
 				System.out.println(mathField.getCurrentWord());
 			}
 

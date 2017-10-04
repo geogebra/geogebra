@@ -134,7 +134,7 @@ public class AppWapplet extends AppWFull {
 			}
 		} else {
 			if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
-				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA))
+				new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 						.checkAvailable(null);
 			}
 		}

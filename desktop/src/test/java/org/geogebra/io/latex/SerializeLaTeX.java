@@ -435,8 +435,7 @@ public class SerializeLaTeX {
 	}
 
 	private static void checkLaTeXRender(MathFormula mf) {
-		String tex = TeXSerializer.serialize(mf.getRootComponent(),
-				new MetaModel());
+		String tex = TeXSerializer.serialize(mf.getRootComponent());
 		TeXFormula tf = new TeXFormula();
 		TeXParser tp = new TeXParser(tex, tf);
 		tp.parse();

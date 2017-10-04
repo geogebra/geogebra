@@ -73,8 +73,12 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	protected final void performRequest(String requestString, boolean login,
 			AjaxCallback callback) {
+		String postUrl = login ? getLoginUrl() : getUrl();
+		if ("null".equals(postUrl)) {
+			return;
+		}
 		HttpRequest request = createHttpRequest();
-		request.sendRequestPost(login ? getLoginUrl() : getUrl(), requestString,
+		request.sendRequestPost(postUrl, requestString,
 				callback);
 	}
 
@@ -375,7 +379,9 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	protected final void performRequest(String requestString,
 			final MaterialCallbackI cb) {
-
+		if ("null".equals(getUrl())) {
+			return;
+		}
 		HttpRequest req = createHttpRequest();
 		req.sendRequestPost(getUrl(), requestString, new AjaxCallback() {
 

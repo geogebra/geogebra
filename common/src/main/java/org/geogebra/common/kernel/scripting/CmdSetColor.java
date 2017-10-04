@@ -45,7 +45,7 @@ public class CmdSetColor extends CmdScripting {
 		// SetBackgroundColor["red"]
 		if (background && n == 1) {
 
-			ExpressionNode en = c.getArguments()[0];
+			ExpressionNode en = c.getArgument(0);
 			ExpressionValue ev = en.evaluate(StringTemplate.defaultTemplate);
 
 			String color = ev.toString(StringTemplate.defaultTemplate);

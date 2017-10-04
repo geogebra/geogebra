@@ -4,7 +4,9 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.util.HttpRequest;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.HttpRequestIE;
 import org.geogebra.web.html5.util.HttpRequestW;
 
@@ -16,8 +18,14 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
 
 
-	public GeoGebraTubeAPIWSimple(boolean beta) {
+	public GeoGebraTubeAPIWSimple(boolean beta, ArticleElement articleElement) {
 		super(beta);
+		if (!StringUtil.empty(articleElement.getMaterialsAPIurl())) {
+			setURL(articleElement.getMaterialsAPIurl());
+		}
+		if (!StringUtil.empty(articleElement.getLoginAPIurl())) {
+			setLoginURL(articleElement.getLoginAPIurl());
+		}
 	}
 	@Override
 	protected HttpRequest createHttpRequest() {
