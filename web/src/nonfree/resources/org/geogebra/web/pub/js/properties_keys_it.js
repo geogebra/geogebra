@@ -3012,7 +3012,7 @@ __GGB__keysVar.it.menu = {
     "exam_ended": "Esame terminato",
     "exam_exit_confirmation": "Uscire dalla modalit\xe0 Esame?",
     "exam_exit_header": "Uscire dall'Esame?",
-    "exam_instructions_before_start": "\u2022 Attendi che l'insegnante ti dica quando premere Avvio\n\u2022 Non uscire dall'app GeoGebra durante un esame\n\u2022 Un Registro dell'esame mostra informazioni durante l'esame\n\u2022 Barra di stato verde = Nessun problema\n\u2022 Barra di stato rossa = Avviso di non regolarit\xe0 (sei uscito dall'app GeoGebra)",
+    "exam_instructions_before_start": "\u2022 Attendi che l\'insegnante ti dica quando premere \"Inizia l\'esame\"\n\u2022 Non uscire dall\'app GeoGebra durante un esame\n\u2022 Un Registro dell\'esame mostra informazioni sul timer durante l\'esame\n\u2022 Barra di stato verde = Nessun problema\n\u2022 Barra di stato rossa = Avviso di non regolarit\xe0 (sei uscito dall\'app GeoGebra)",
     "exam_log_airplane_mode_off": "Modalit\xe0 Aereo non attiva",
     "exam_log_airplane_mode_on": "Modalit\xe0 Aereo attiva",
     "exam_log_bluetooth_disabled": "Bluetooth disattivato",
