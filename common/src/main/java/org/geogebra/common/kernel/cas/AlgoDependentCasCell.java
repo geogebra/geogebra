@@ -118,10 +118,10 @@ public class AlgoDependentCasCell extends AlgoElement
 	@Override
 	public void compute() {
 		// check if all input variables are defined
-		boolean inputDefined = true;
+		GeoElement undefinedGeo = null;
 		for (GeoElement geo : input) {
 			if (!geo.isDefined()) {
-				inputDefined = false;
+				undefinedGeo = geo;
 				break;
 			}
 		}
@@ -132,11 +132,14 @@ public class AlgoDependentCasCell extends AlgoElement
 		 * 
 		 * if (kernel.getApplication().isScreenshotGenerator()) { return; }
 		 */
-		if (inputDefined) {
+		if (undefinedGeo == null) {
 			// compute output of CAS cell and update twin GeoElement
 			casCell.computeOutput();
 		} else {
 			casCell.setUndefined();
+			casCell.setError(kernel.getLocalization()
+					.getError("UndefinedVariable") + ": "
+					+ undefinedGeo.getLabel(StringTemplate.defaultTemplate));
 		}
 	}
 
