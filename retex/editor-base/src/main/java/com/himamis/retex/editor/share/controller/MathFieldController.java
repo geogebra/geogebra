@@ -34,7 +34,7 @@ public class MathFieldController {
 	public MathFieldController(MathField mathField,
 			boolean directFormulaBuilder) {
 		this.mathField = mathField;
-		texSerializer = new TeXSerializer(mathField.getMetaModel());
+		texSerializer = new TeXSerializer();
 		if (directFormulaBuilder) {
 			texBuilder = new TeXBuilder();
 		}

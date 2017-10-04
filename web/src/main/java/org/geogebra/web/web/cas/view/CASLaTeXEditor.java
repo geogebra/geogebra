@@ -31,7 +31,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
@@ -122,7 +121,7 @@ public class CASLaTeXEditor extends FlowPanel
 		if (mf == null) {
 			return "";
 		}
-		TeXSerializer s = new TeXSerializer(new MetaModel());
+		TeXSerializer s = new TeXSerializer();
 		return s.serialize(mf.getFormula());
 	}
 

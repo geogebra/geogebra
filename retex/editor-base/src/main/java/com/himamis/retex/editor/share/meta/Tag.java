@@ -65,11 +65,11 @@ public enum Tag {
 		if (casName == null || casName.length() == 0) {
 			return null;
 		}
-		for (Tag tag : Tag.values())
+		for (Tag tag : Tag.values()) {
 			if (casName.equals(tag.key)) {
 				return tag;
 			}
-
+		}
 		return null;
 	}
 

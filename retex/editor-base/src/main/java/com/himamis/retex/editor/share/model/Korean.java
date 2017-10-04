@@ -809,7 +809,6 @@ public class Korean {
 		char c, c2;
 
 		for (int i = 0; i < str.length() - 1; i++) {
-			int offset = 1;
 			switch (c = str.charAt(i)) {
 
 			case '\u11ab':
@@ -886,7 +885,7 @@ public class Korean {
 			case '\u1162':
 			case '\u1165':
 			case '\u1166':
-				offset++;
+				// offset++;
 				// fall through
 				// case '\u1100' : // these character are "doubled" by adding 1
 				// to their Unicode value
@@ -1092,7 +1091,8 @@ public class Korean {
 
 		if (Korean.isKoreanLeadChar(lastChar, true)
 				&& Korean.isKoreanVowelChar(newChar, true)) {
-			String replaceChar = Korean.unflattenKorean(lastChar + "" + newChar)
+			String replaceChar = Korean
+					.unflattenKorean(lastChar + "" + newChar)
 					.toString();
 			// System.err.println("need to replace " + lastChar + " "
 			// + toHexString(lastChar) + " with " + replaceChar + " "
@@ -1128,8 +1128,6 @@ public class Korean {
 			// newChar = Korean.convertFromCompatibilityJamo(newChar,
 			// false);
 
-			char lastCharFlat2 = lastCharFlat.charAt(2);
-
 			char newLastChar = Korean
 					.unflattenKorean(lastCharFlat.substring(0, 2)).charAt(0);
 
@@ -1137,8 +1135,6 @@ public class Korean {
 					Korean.tailToLead(lastCharFlat.charAt(2)) + "" + newChar)
 					.charAt(0);
 
-			String unmergedChar2 = isKoreanVowelChar(newChar, true)
-					? unmergeDoubleCharacterToLeadTail(lastCharFlat2) : "";
 
 			// System.err.println("lastCharFlat2 = " + lastCharFlat2 + " "
 			// + toJavaString("" + lastCharFlat2));
@@ -1156,8 +1152,8 @@ public class Korean {
 		if (lastCharFlat.length() == 3
 				&& Korean.isKoreanTailChar(newChar, true)) {
 			// System.err.println("case 5 " + lastChar + " " + newChar);
-
-			newChar = Korean.convertFromCompatibilityJamo(newChar, false);
+			char newChar1 = newChar;
+			newChar1 = Korean.convertFromCompatibilityJamo(newChar1, false);
 
 			// System.err.println("newChar = " + newChar);
 
@@ -1166,7 +1162,7 @@ public class Korean {
 
 			// if this is length 1, merge succeeded
 			String doubleCheck = Korean
-					.mergeDoubleCharacters(lastChar2 + "" + newChar);
+					.mergeDoubleCharacters(lastChar2 + "" + newChar1);
 
 			// System.err.println("doubleCheck = " + doubleCheck + " "
 			// + doubleCheck.length());
@@ -1174,12 +1170,12 @@ public class Korean {
 			if (doubleCheck.length() == 1) {
 				// System.err.println("merge check passed");
 
-				newChar = Korean
+				newChar1 = Korean
 						.unflattenKorean(
 								lastCharFlat.substring(0, 2) + "" + doubleCheck)
 						.charAt(0);
 
-				ret[0] = newChar;
+				ret[0] = newChar1;
 				ret[1] = 0;
 				return ret;
 
@@ -1213,12 +1209,12 @@ public class Korean {
 			if (doubleCheck.length() == 1) {
 				// System.err.println("merge check 2 passed");
 
-				newChar = Korean
+				char newChar1 = Korean
 						.unflattenKorean(
 								lastCharFlat.charAt(0) + "" + doubleCheck)
 						.charAt(0);
 
-				ret[0] = newChar;
+				ret[0] = newChar1;
 				ret[1] = 0;
 				return ret;
 

@@ -2228,8 +2228,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	protected String getEditorLatex() {
 		return mf == null ? null
-				: TeXSerializer.serialize(mf.getFormula().getRootComponent(),
-						mf.getMetaModel());
+				: TeXSerializer.serialize(mf.getFormula().getRootComponent());
 	}
 
 	protected void doUpdate() {

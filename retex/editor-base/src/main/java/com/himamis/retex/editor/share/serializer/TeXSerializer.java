@@ -1,6 +1,5 @@
 package com.himamis.retex.editor.share.serializer;
 
-import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathArray;
 import com.himamis.retex.editor.share.model.MathCharacter;
 import com.himamis.retex.editor.share.model.MathFunction;
@@ -20,14 +19,11 @@ public class TeXSerializer extends SerializerAdapter {
 
 
     private static final String characterMissing = "\\nbsp ";
-    private MetaModel metaModel;
 
 	/**
-	 * @param metaModel
-	 *            model
+	 * Creates new TeX serializer
 	 */
-    public TeXSerializer(MetaModel metaModel) {
-        this.metaModel = metaModel;
+	public TeXSerializer() {
     }
 
     @Override
@@ -347,13 +343,11 @@ public class TeXSerializer extends SerializerAdapter {
 	/**
 	 * @param ms
 	 *            sequence
-	 * @param model
-	 *            model
 	 * @return TeX representation of the sequence
 	 */
-	public static String serialize(MathSequence ms, MetaModel model) {
+	public static String serialize(MathSequence ms) {
 		StringBuilder b = new StringBuilder();
-		new TeXSerializer(model).serialize(ms, b);
+		new TeXSerializer().serialize(ms, b);
 		return b.toString();
 	}
 }
