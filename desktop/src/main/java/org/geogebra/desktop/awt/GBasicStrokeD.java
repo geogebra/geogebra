@@ -43,7 +43,7 @@ public class GBasicStrokeD implements GBasicStroke {
 	}
 
 	@Override
-	public GShape createStrokedShape(GShape shape) {
+	public GShape createStrokedShape(GShape shape, int capacity) {
 		Shape shapeD = GGenericShapeD.getAwtShape(shape);
 		if (shapeD instanceof Path2D) {
 			Path2D p2d = (Path2D) shapeD;

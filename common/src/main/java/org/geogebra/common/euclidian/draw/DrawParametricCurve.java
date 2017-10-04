@@ -356,7 +356,7 @@ public class DrawParametricCurve extends Drawable {
 			if (strokedShape == null) {
 				// strokedShape = new
 				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
-				strokedShape = objStroke.createStrokedShape(gp);
+				strokedShape = objStroke.createStrokedShape(gp, 10);
 			}
 			if (geo.isFilled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
@@ -413,7 +413,7 @@ public class DrawParametricCurve extends Drawable {
 			if (strokedShape == null) {
 				// strokedShape = new
 				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
-				strokedShape = objStroke.createStrokedShape(gp);
+				strokedShape = objStroke.createStrokedShape(gp, 10);
 			}
 			if (geo.isFilled()) {
 				return t.intersects(rect);

@@ -1684,7 +1684,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(shape);
+				strokedShape = objStroke.createStrokedShape(shape, 10);
 			}
 			isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
 					hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
@@ -1755,8 +1755,8 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	public boolean hitHyperbola(int hitX, int hitY, int hitThreshold) {
 		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(hypLeft);
-			strokedShape2 = objStroke.createStrokedShape(hypRight);
+			strokedShape = objStroke.createStrokedShape(hypLeft, 10);
+			strokedShape2 = objStroke.createStrokedShape(hypRight, 10);
 		}
 		return strokedShape.intersects(hitX - hitThreshold, hitY - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold)
@@ -1779,7 +1779,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
 		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(shape);
+			strokedShape = objStroke.createStrokedShape(shape, 10);
 		}
 		return (strokedShape.intersects(hitX - hitThreshold,
 				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold))

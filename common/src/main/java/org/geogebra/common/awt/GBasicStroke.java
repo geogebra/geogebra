@@ -8,7 +8,7 @@ public interface GBasicStroke {
 	public static final int JOIN_ROUND = 1;// Java
 	public static final int JOIN_BEVEL = 2;// Java
 
-	GShape createStrokedShape(GShape shape);
+	GShape createStrokedShape(GShape shape, int capacity);
 
 	int getEndCap();
 

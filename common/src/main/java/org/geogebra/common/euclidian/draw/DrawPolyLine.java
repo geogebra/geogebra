@@ -369,7 +369,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 		if (isVisible) {
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(gp);
+				strokedShape = objStroke.createStrokedShape(gp, 10);
 			}
 			boolean intersects = strokedShape.intersects(x - hitThreshold,
 					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
@@ -422,7 +422,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 		if (isVisible) {
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(gp);
+				strokedShape = objStroke.createStrokedShape(gp, 10);
 			}
 			boolean intersects = strokedShape.intersects(rect);
 			if (!intersects && pointList != null) {

@@ -224,7 +224,7 @@ public class DrawLocus extends Drawable {
 			return false;
 		}
 		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(gp);
+			strokedShape = objStroke.createStrokedShape(gp, 10);
 		}
 		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);

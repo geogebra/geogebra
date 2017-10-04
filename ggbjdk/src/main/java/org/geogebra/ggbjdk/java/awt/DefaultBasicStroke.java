@@ -206,15 +206,15 @@ public class DefaultBasicStroke implements GBasicStroke {
 	}
 
 	@Override
-	public GShape createStrokedShape(GShape s) {
+	public GShape createStrokedShape(GShape s, int capacity) {
 		w2 = width / 2.0;
 		curveDelta = getCurveDelta(w2);
 		cornerDelta = getCornerDelta(w2);
 		zeroDelta = getZeroDelta(w2);
 
-		dst = new BufferedPath();
-		lp = new BufferedPath();
-		rp = new BufferedPath();
+		dst = new BufferedPath(capacity);
+		lp = new BufferedPath(capacity);
+		rp = new BufferedPath(capacity);
 
 		if (dash == null) {
 			createSolidShape(s.getPathIterator(null));
@@ -1707,6 +1707,11 @@ public class DefaultBasicStroke implements GBasicStroke {
 		public BufferedPath() {
 			types = new byte[bufCapacity];
 			points = new double[bufCapacity * 2];
+		}
+
+		public BufferedPath(int capacity) {
+			types = new byte[capacity];
+			points = new double[capacity * 2];
 		}
 
 		void checkBuf(int typeCount, int pointCount) {
