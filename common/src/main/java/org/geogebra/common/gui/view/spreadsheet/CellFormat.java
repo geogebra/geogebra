@@ -997,7 +997,7 @@ public class CellFormat implements CellFormatInterface {
 				sb.append(formatDelimiter);
 				sb.append(bgColorToken);
 				sb.append(formatDelimiter);
-				sb.append(bgColor.getRGB()); // convert to RGB integer
+				sb.append(bgColor.getARGB()); // convert to RGB integer
 			}
 
 			Integer fStyle = (Integer) formatMapArray[FORMAT_FONTSTYLE]

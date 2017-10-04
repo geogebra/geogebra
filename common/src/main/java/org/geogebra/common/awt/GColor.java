@@ -310,7 +310,7 @@ public final class GColor implements GPaint {
 	 * 
 	 * @return int ARBG
 	 */
-	public int getRGB() {
+	public int getARGB() {
 		return valueARGB;
 	}
 
