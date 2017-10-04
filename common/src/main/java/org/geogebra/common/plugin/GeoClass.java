@@ -76,7 +76,7 @@ public enum GeoClass {
 	POLYLINE("PolyLine", 51, false),
 
 	/** PENSTROKE */
-	PENSTROKE("PenStroke", 15, false),
+	PENSTROKE("PenStroke", 160, false),
 
 	/** TURTLE */
 	TURTLE("Turtle", 140, false),
