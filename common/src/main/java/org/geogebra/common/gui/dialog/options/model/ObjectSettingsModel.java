@@ -32,8 +32,8 @@ abstract public class ObjectSettingsModel {
     private ArrayList<GeoElement> geoElementsList;
 
     /**
-     *
-     * @param app Application
+     * @param app
+     *         Application
      */
     public ObjectSettingsModel(App app) {
         this.app = app;
@@ -205,6 +205,32 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
+     * @param size
+     *         point size to set
+     */
+    public void setPointSize(int size) {
+        for (GeoElement geo : geoElementsList) {
+            if (geo instanceof PointProperties) {
+                ((PointProperties) geo).setPointSize(size + 1);
+            }
+            geo.updateRepaint();
+        }
+        app.setPropertiesOccured();
+    }
+
+    /**
+     * @param size
+     *         line thickness to set
+     */
+    public void setLineThickness(int size) {
+        for (GeoElement geo : geoElementsList) {
+            geo.setLineThickness(size + geo.getMinimumLineThickness());
+            geo.updateRepaint();
+        }
+        app.setPropertiesOccured();
+    }
+
+    /**
      * @return the minimum size of the point size or the line thickness depending of the geoElement's type
      */
     public int getMinSize() {
@@ -367,9 +393,10 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     *
-     * @param geoElement a single geoElement
-     * @param autoStep boolean, which defines whether the slider's autostep should be turned on or not
+     * @param geoElement
+     *         a single geoElement
+     * @param autoStep
+     *         boolean, which defines whether the slider's autostep should be turned on or not
      */
     private void setSliderAutoStep(GeoElement geoElement, boolean autoStep) {
         if (geoElement instanceof GeoNumeric) {
@@ -451,8 +478,8 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     *
-     * @param geo a single geoElement
+     * @param geo
+     *         a single geoElement
      * @return whether the geoElement has further style or not
      */
     private boolean hasFurtherStyle(GeoElement geo) {
