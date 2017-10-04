@@ -142,6 +142,19 @@ public abstract class GeoConicND extends GeoQuadricND
 	public double errDetS = Kernel.STANDARD_PRECISION;
 
 	private boolean isShape = false;
+	private double[] tmpDouble4;
+
+	private double[] coeffs = new double[6];
+
+	private boolean eigenvectorsSetOnLoad = false;
+	private GgbMat polarMatrix;
+	private boolean isEndOfQuadric = false;
+	private HitType lastHitType = HitType.NONE;
+	private Coords labelPosition, labelPosition3D;
+	private PathParameter labelParameter;
+	private TreeSet<GeoElement> metas;
+	private String parameter = "t";
+	private Coords tmpCoords1, tmpCoords2;
 
 	/**
 	 * 
@@ -324,8 +337,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	public boolean isPath() {
 		return true;
 	}
-
-	private double[] tmpDouble4;
 
 	/**
 	 * compute closest t parameter to point P
@@ -1717,8 +1728,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	// In v3.2 they were put into kernel.GeoConic. It seems both are OK.
 	// -- Zoltan, 2011-08-01
 
-	private double[] coeffs = new double[6];
-
 	@Override
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 		return buildValueString(tpl, matrix);
@@ -2671,8 +2680,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		eigenvectorsSetOnLoad = true;
 	}
 
-	private boolean eigenvectorsSetOnLoad = false;
-
 	@Override
 	protected void setFirstEigenvector(double[] coords) {
 		eigenvecX = coords[0];
@@ -3510,8 +3517,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	private GgbMat polarMatrix;
-
 	/**
 	 * Sets the GeoPoint polar to the pole of line
 	 * 
@@ -4145,8 +4150,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	//////////////////////////
 
 	// for 3D
-	private boolean isEndOfQuadric = false;
-
 	/**
 	 * set if this is end of a quadric
 	 * 
@@ -4182,8 +4185,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	// HIT STUFF
 	//////////////////////////////////////////////
 
-	private HitType lastHitType = HitType.NONE;
-
 	/**
 	 * @param type
 	 *            hit type
@@ -4203,9 +4204,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		// return getTypeString();
 		return "Conic";
 	}
-
-	private Coords labelPosition, labelPosition3D;
-	private PathParameter labelParameter;
 
 	@Override
 	public Coords getLabelPosition() {
@@ -4262,9 +4260,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		metas.toArray(ret);
 		return ret;
 	}
-
-	private TreeSet<GeoElement> metas;
-	private String parameter = "t";
 
 	/**
 	 * add the limited quadric has meta geo for this
@@ -4398,8 +4393,6 @@ public abstract class GeoConicND extends GeoQuadricND
 
 		return ExtendedBoolean.FALSE;
 	}
-
-	private Coords tmpCoords1, tmpCoords2;
 
 	final private void createTmpCoords() {
 		if (tmpCoords1 == null) {

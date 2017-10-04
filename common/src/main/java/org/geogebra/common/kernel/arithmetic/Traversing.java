@@ -55,6 +55,7 @@ public interface Traversing {
 	public class Replacer implements Traversing {
 		private ExpressionValue oldObj;
 		private ExpressionValue newObj;
+		private static Replacer replacer = new Replacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -63,8 +64,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static Replacer replacer = new Replacer();
 
 		/**
 		 * Creates a replacer
@@ -91,6 +90,7 @@ public interface Traversing {
 		private ExpressionValue oldObj;
 		private ExpressionValue newObj;
 		private Kernel kernel;
+		private static CopyReplacer replacer = new CopyReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -100,8 +100,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static CopyReplacer replacer = new CopyReplacer();
 
 		/**
 		 * Creates a replacer
@@ -130,6 +128,7 @@ public interface Traversing {
 	public class CommandReplacer implements Traversing {
 		private Kernel kernel;
 		private boolean cas;
+		private static CommandReplacer replacer = new CommandReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -154,8 +153,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static CommandReplacer replacer = new CommandReplacer();
 
 		/**
 		 * @param kernel
@@ -264,6 +261,7 @@ public interface Traversing {
 	public class VariablePolyReplacer implements Traversing {
 		private FunctionVariable fv;
 		private int replacements;
+		private static VariablePolyReplacer replacer = new VariablePolyReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -285,8 +283,6 @@ public interface Traversing {
 			return replacements;
 		}
 
-		private static VariablePolyReplacer replacer = new VariablePolyReplacer();
-
 		/**
 		 * @param fv
 		 *            function variable
@@ -307,6 +303,7 @@ public interface Traversing {
 		private ExpressionValue newObj;
 		private boolean didReplacement;
 		private boolean replaceFVs;
+		private static GeoDummyReplacer replacer = new GeoDummyReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -319,8 +316,6 @@ public interface Traversing {
 			didReplacement = true;
 			return newObj;
 		}
-
-		private static GeoDummyReplacer replacer = new GeoDummyReplacer();
 
 		/**
 		 * @param varStr
@@ -359,6 +354,7 @@ public interface Traversing {
 		private List<ExpressionValue> newObjs = new ArrayList<ExpressionValue>();
 		private int replacements;
 		private Kernel kernel;
+		private static VariableReplacer replacer = new VariableReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -414,8 +410,6 @@ public interface Traversing {
 			replacer.newObjs.add(replacement);
 		}
 
-		private static VariableReplacer replacer = new VariableReplacer();
-
 		/**
 		 * @param varStr
 		 *            variable name
@@ -465,6 +459,7 @@ public interface Traversing {
 		private List<ExpressionValue> newExps = new ArrayList<ExpressionValue>();
 		private int replacements;
 		private Kernel kernel;
+		private static GeoNumericReplacer replacer = new GeoNumericReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -518,8 +513,6 @@ public interface Traversing {
 			replacer.geoNums.add(geoNum);
 			replacer.newExps.add(replacement);
 		}
-
-		private static GeoNumericReplacer replacer = new GeoNumericReplacer();
 
 		/**
 		 * @param geoNum
@@ -846,6 +839,7 @@ public interface Traversing {
 	 */
 	public class ArbconstReplacer implements Traversing {
 		private MyArbitraryConstant arbconst;
+		private static ArbconstReplacer replacer = new ArbconstReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -891,8 +885,6 @@ public interface Traversing {
 			return en;
 		}
 
-		private static ArbconstReplacer replacer = new ArbconstReplacer();
-
 		/**
 		 * @param arbconst
 		 *            arbitrary constant handler
@@ -912,6 +904,7 @@ public interface Traversing {
 		private boolean toRoot;
 		/** functions with 100th root are numerically unstable */
 		private static int MAX_ROOT = 99;
+		private static PowerRootReplacer replacer = new PowerRootReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -921,8 +914,6 @@ public interface Traversing {
 			((ExpressionNode) ev).replacePowersRoots(toRoot, MAX_ROOT);
 			return ev;
 		}
-
-		private static PowerRootReplacer replacer = new PowerRootReplacer();
 
 		/**
 		 * @param toRoot
@@ -942,7 +933,10 @@ public interface Traversing {
 	 *
 	 */
 	public class DiffReplacer implements Traversing {
-
+		/**
+		 * Singleton instance
+		 */
+		public static final DiffReplacer INSTANCE = new DiffReplacer();
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (!ev.isExpressionNode()) {
@@ -1005,10 +999,6 @@ public interface Traversing {
 					diffArg).multiplyR(mult); // Variable
 		}
 
-		/**
-		 * Singleton instance
-		 */
-		public static final DiffReplacer INSTANCE = new DiffReplacer();
 	}
 
 	/**
@@ -1016,7 +1006,7 @@ public interface Traversing {
 	 * expression nodes into arrays
 	 */
 	public class PrefixRemover implements Traversing {
-
+		private static PrefixRemover collector = new PrefixRemover();
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Variable) {
@@ -1026,8 +1016,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static PrefixRemover collector = new PrefixRemover();
 
 		/**
 		 * Resets and returns the collector
@@ -1046,6 +1034,7 @@ public interface Traversing {
 	 */
 	public class CommandCollector implements Traversing {
 		private Set<Command> commands;
+		private static CommandCollector collector = new CommandCollector();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1054,8 +1043,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static CommandCollector collector = new CommandCollector();
 
 		/**
 		 * Resets and returns the collector
@@ -1077,6 +1064,7 @@ public interface Traversing {
 	 */
 	public class FVarCollector implements Traversing {
 		private Set<String> commands;
+		private static FVarCollector collector = new FVarCollector();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1109,8 +1097,6 @@ public interface Traversing {
 
 		}
 
-		private static FVarCollector collector = new FVarCollector();
-
 		/**
 		 * Resets and returns the collector
 		 * 
@@ -1131,6 +1117,7 @@ public interface Traversing {
 	 */
 	public class GeoCollector implements Traversing {
 		private HashMap<GeoElement, Integer> commands;
+		private static GeoCollector collector = new GeoCollector();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1146,8 +1133,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static GeoCollector collector = new GeoCollector();
 
 		/**
 		 * Resets and returns the collector
@@ -1170,6 +1155,7 @@ public interface Traversing {
 	 */
 	public class NonFunctionCollector implements Traversing {
 		private Set<String> commands;
+		private static NonFunctionCollector collector = new NonFunctionCollector();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1200,8 +1186,6 @@ public interface Traversing {
 
 		}
 
-		private static NonFunctionCollector collector = new NonFunctionCollector();
-
 		/**
 		 * Resets and returns the collector
 		 * 
@@ -1223,6 +1207,7 @@ public interface Traversing {
 	 */
 	public class DummyVariableCollector implements Traversing {
 		private Set<String> commands;
+		private static DummyVariableCollector collector = new DummyVariableCollector();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1255,8 +1240,6 @@ public interface Traversing {
 
 		}
 
-		private static DummyVariableCollector collector = new DummyVariableCollector();
-
 		/**
 		 * Resets and returns the collector
 		 * 
@@ -1276,6 +1259,7 @@ public interface Traversing {
 	 */
 	public class GeoNumericLabelCollector implements Traversing {
 		private Set<String> labels;
+		private static GeoNumericLabelCollector collector = new GeoNumericLabelCollector();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1299,8 +1283,6 @@ public interface Traversing {
 
 		}
 
-		private static GeoNumericLabelCollector collector = new GeoNumericLabelCollector();
-
 		/**
 		 * Resets and returns the collector
 		 * 
@@ -1323,6 +1305,7 @@ public interface Traversing {
 	 */
 	public class NonFunctionReplacer implements Traversing {
 		private Set<String> commands;
+		private static NonFunctionReplacer collector = new NonFunctionReplacer();
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
@@ -1374,8 +1357,6 @@ public interface Traversing {
 			return ev;
 		}
 
-		private static NonFunctionReplacer collector = new NonFunctionReplacer();
-
 		/**
 		 * Resets and returns the collector
 		 * 
@@ -1395,6 +1376,8 @@ public interface Traversing {
 	 * @author Balazs Bencze
 	 */
 	public class FunctionCreator implements Traversing {
+		private static FunctionCreator creator = new FunctionCreator();
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Equation) {
@@ -1412,8 +1395,6 @@ public interface Traversing {
 			return ev;
 		}
 
-		private static FunctionCreator creator = new FunctionCreator();
-
 		/**
 		 * @return instance of FunctionCreater
 		 */
@@ -1427,6 +1408,9 @@ public interface Traversing {
 	 * of the command
 	 */
 	public class CommandRemover implements Traversing {
+		private static CommandRemover remover = new CommandRemover();
+		private static String[] commands;
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
@@ -1439,9 +1423,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		private static CommandRemover remover = new CommandRemover();
-		private static String[] commands;
 
 		/**
 		 * Get the remover
@@ -1463,6 +1444,11 @@ public interface Traversing {
 	 * @author Balazs Bencze
 	 */
 	public class CASCommandReplacer implements Traversing {
+		/**
+		 * Replacer object
+		 */
+		public final static CASCommandReplacer replacer = new CASCommandReplacer();
+
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof Command) {
@@ -1481,11 +1467,6 @@ public interface Traversing {
 			}
 			return ev;
 		}
-
-		/**
-		 * Replacer object
-		 */
-		public final static CASCommandReplacer replacer = new CASCommandReplacer();
 
 	}
 }

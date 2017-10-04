@@ -1,5 +1,7 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -15,8 +17,6 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-
-import java.util.ArrayList;
 
 /**
  * This class represents a model for the object properties
@@ -150,7 +150,7 @@ abstract public class ObjectSettingsModel {
      * @return the current point style of the geoElement, or with POINT_STYLE_DOT if it is null
      */
     public int getPointStyle() {
-        if (geoElement == null || !(geoElement instanceof PointProperties)) {
+		if (!(geoElement instanceof PointProperties)) {
             return EuclidianStyleConstants.POINT_STYLE_DOT;
         }
 

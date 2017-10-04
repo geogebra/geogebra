@@ -320,15 +320,50 @@ public class Kernel {
 	private AlgoDispatcher algoDispatcher;
 	private GeoFactory geoFactory;
 
-
 	private GeoVec2D imaginaryUnit;
-
 
 	private Exercise exercise;
 
 	private Object concurrentModificationLock = new Object();
 
+	private boolean showAnimationButton = true;
+	private boolean loadingMode;
 
+	private final StringBuilder sbFormatAngle = new StringBuilder(40);
+
+	private boolean arcusFunctionCreatesAngle;
+	private ArrayList<AlgoElement> renameListenerAlgos;
+	private boolean spreadsheetBatchRunning;
+	private boolean isGettingUndo;
+	private StringBuilder stateForModeStarting;
+	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
+	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(
+			this);
+	private boolean userStopsLoading = false;
+	protected AnimationManager animationManager;
+
+	private StringBuilder sbFormat;
+	private StringBuilder formatSB;
+	private final StringBuilder sbBuildImplicitEquation = new StringBuilder(80);
+
+	private final StringBuilder sbBuildLHS = new StringBuilder(80);
+	private final StringBuilder sbBuildExplicitConicEquation = new StringBuilder(
+			80);
+	private StringBuilder sbFormatSF;
+	/** default global JavaScript */
+	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
+
+	private String libraryJavaScript = defaultLibraryJavaScript;
+
+	private boolean isSaving;
+	private MaxSizeHashMap<String, String> ggbCasCache;
+	protected double[] xmin = new double[1], xmax = new double[1],
+			ymin = new double[1], ymax = new double[1], xscale = new double[1],
+			yscale = new double[1];
+	private boolean graphicsView2showing = false;
+	private boolean notifyRepaint = true;
+	private EuclidianView lastAttachedEV = null;
+	private boolean notifyViewsActive = true;
 
 	/**
 	 * @param app
@@ -566,15 +601,11 @@ public class Kernel {
 	// public abstract ColorAdapter getColorAdapter(int red, int green, int
 	// blue);
 
-	protected AnimationManager animationManager;
-
 	/*
 	 * If the data-param-showAnimationButton parameter for applet is false, be
 	 * sure not to show the animation button. In this case the value of
 	 * showAnimationButton is false, otherwise true.
 	 */
-	private boolean showAnimationButton = true;
-
 	public void setShowAnimationButton(boolean showAB) {
 		showAnimationButton = showAB;
 	}
@@ -1004,8 +1035,6 @@ public class Kernel {
 
 	// loading mode: true when a ggb file is being loaded. Devised for backward
 	// compatibility.
-	private boolean loadingMode;
-
 	/**
 	 * 
 	 * @param b
@@ -1074,8 +1103,6 @@ public class Kernel {
 		}
 		return sbBuildImplicitEquation;
 	}
-
-	private StringBuilder sbFormat;
 
 	final public void formatSignedCoefficient(double x, StringBuilder sb,
 			StringTemplate tpl) {
@@ -1340,8 +1367,6 @@ public class Kernel {
 		return nfa.format(x);
 	}
 
-	private StringBuilder formatSB;
-
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat.
@@ -1446,8 +1471,6 @@ public class Kernel {
 		}
 		return formatPiERaw(x, numF, tpl);
 	}
-
-	private final StringBuilder sbBuildImplicitEquation = new StringBuilder(80);
 
 	/**
 	 * copy array a to array b
@@ -1670,10 +1693,6 @@ public class Kernel {
 			sb.append(format(Math.abs(coeff), tpl));
 		}
 	}
-
-	private final StringBuilder sbBuildLHS = new StringBuilder(80);
-	private final StringBuilder sbBuildExplicitConicEquation = new StringBuilder(
-			80);
 
 	// y = k x + d
 	/**
@@ -2025,8 +2044,6 @@ public class Kernel {
 		sbFormatSF.append(absStr);
 		return sbFormatSF.toString();
 	}
-
-	private StringBuilder sbFormatSF;
 
 	/**
 	 * append "two coeffs" expression
@@ -2672,13 +2689,7 @@ public class Kernel {
 			}
 			return sbFormatAngle;
 		}
-
 	}
-
-	/** default global JavaScript */
-	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
-
-	private String libraryJavaScript = defaultLibraryJavaScript;
 
 	/** Resets global JavaSrcript to default value */
 	public void resetLibraryJavaScript() {
@@ -2727,8 +2738,6 @@ public class Kernel {
 	 * SAVING
 	 *******************************************************/
 
-	private boolean isSaving;
-
 	public synchronized boolean isSaving() {
 		return isSaving;
 	}
@@ -2736,10 +2745,6 @@ public class Kernel {
 	public synchronized void setSaving(boolean saving) {
 		isSaving = saving;
 	}
-
-	private final StringBuilder sbFormatAngle = new StringBuilder(40);
-
-	private boolean arcusFunctionCreatesAngle;
 
 	/**
 	 * @param returnAngle
@@ -3069,8 +3074,6 @@ public class Kernel {
 		return algebraStyleSpreadsheet;
 	}
 
-	private MaxSizeHashMap<String, String> ggbCasCache;
-
 	/**
 	 * @return Hash map for caching CAS results.
 	 */
@@ -3089,12 +3092,6 @@ public class Kernel {
 		return ggbCasCache != null;
 	}
 
-	protected double[] xmin = new double[1], xmax = new double[1],
-			ymin = new double[1], ymax = new double[1], xscale = new double[1],
-			yscale = new double[1];
-	// for 2nd Graphics View
-
-	private boolean graphicsView2showing = false;
 
 	/**
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
@@ -3667,8 +3664,6 @@ public class Kernel {
 		}
 	}
 
-	private boolean notifyRepaint = true;
-
 	public void setNotifyRepaintActive(boolean flag) {
 		if (flag != notifyRepaint) {
 			notifyRepaint = flag;
@@ -3796,8 +3791,6 @@ public class Kernel {
 	 * ******************************************************
 	 */
 
-	private EuclidianView lastAttachedEV = null;
-
 	final public EuclidianView getLastAttachedEV() {
 		return lastAttachedEV;
 	}
@@ -3838,8 +3831,6 @@ public class Kernel {
 		}
 
 	}
-
-	private boolean notifyViewsActive = true;
 
 	public void detach(View view) {
 
@@ -3889,8 +3880,6 @@ public class Kernel {
 		}
 	}
 
-	private ArrayList<AlgoElement> renameListenerAlgos;
-	private boolean spreadsheetBatchRunning;
 
 	private void notifyRenameListenerAlgos() {
 		// #4073 command Object[] registers rename listeners
@@ -4234,8 +4223,6 @@ public class Kernel {
 	 * *****************************
 	 */
 
-	private boolean isGettingUndo;
-
 	public synchronized boolean isGettingUndo() {
 		return isGettingUndo;
 	}
@@ -4291,8 +4278,6 @@ public class Kernel {
 			app.setUnAutoSaved();
 		}
 	}
-
-	private StringBuilder stateForModeStarting;
 
 	public void restoreStateForInitNewMode() {
 		if (undoActive && getSelectionManager().isGeoToggled()) {
@@ -5152,8 +5137,6 @@ public class Kernel {
 	 * else return formatNF(Math.abs(x)); }
 	 */
 
-	private GeoElementSpreadsheet ges = new GeoElementSpreadsheet();
-
 	public GeoElementSpreadsheet getGeoElementSpreadsheet() {
 		return ges;
 	}
@@ -5544,9 +5527,6 @@ public class Kernel {
 		return geoFactory;
 	}
 
-	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(
-			this);
-
 	/**
 	 * try to create/update preview for input typed
 	 */
@@ -5568,8 +5548,6 @@ public class Kernel {
 			Construction cons) {
 		return new ConstructionCompanion(cons);
 	}
-
-	private boolean userStopsLoading = false;
 
 	public boolean userStopsLoading() {
 		return userStopsLoading;

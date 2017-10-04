@@ -12,17 +12,15 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
  */
 public class GLBufferIndicesJavaNio implements GLBufferIndices {
 	private ShortBuffer impl;
+	private boolean isEmpty;
 
+	private int currentLength;
 	/**
 	 * constructor from float array
 	 */
 	public GLBufferIndicesJavaNio() {
 		isEmpty = true;
 	}
-
-	private boolean isEmpty;
-
-	private int currentLength;
 
 	@Override
 	public boolean isEmpty() {

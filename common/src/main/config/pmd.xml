@@ -51,7 +51,6 @@
 	<rule ref="rulesets/java/design.xml">
 	<exclude name="ImmutableField"/>
 	<exclude name="ConstructorCallsOverridableMethod"/>
-	<exclude name="FieldDeclarationsShouldBeAtStartOfClass"/>
 	<exclude name="UseVarargs"/>
 	<exclude name="DefaultLabelNotLastInSwitchStmt"/>
 	<exclude name="SingularField"/>

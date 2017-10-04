@@ -384,13 +384,21 @@ public abstract class App implements UpdateSelection {
 	private boolean allowPopUps = false;
 
 	private Versions version;
+	/**
+	 * static so that you can copy & paste between instances
+	 */
+	public static volatile CopyPaste copyPaste = null;
+	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
 
+	private ArrayList<String> mLastCommandsSelectedFromHelp;
 	// TODO: move following methods somewhere else
 	private int tubeID = 0;
 	private boolean isAutoSaved = true;
 	private AdjustViews adjustViews = null;
 	private AdjustScreen adjustScreen = null;
 	private AdjustScreen adjustScreen2 = null;
+	private long ceIDcounter = 1;
+	private int nextVariableID = 1;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -4679,8 +4687,6 @@ public abstract class App implements UpdateSelection {
 		// not needed in basic implementation
 	}
 
-	static final protected long SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS = 100;
-
 	public String getURLforID(String id) {
 		String url;
 		if (has(Feature.TUBE_BETA)) {
@@ -4838,11 +4844,6 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	/**
-	 * static so that you can copy & paste between instances
-	 */
-	public static volatile CopyPaste copyPaste = null;
-
 	public CopyPaste getCopyPaste() {
 
 		// return 2D version in AppD, AppW, AppWSimple
@@ -4940,8 +4941,6 @@ public abstract class App implements UpdateSelection {
 	// last commands selected from help (used in Android & iOS native)
 	////////////////////////////////////////////////////
 
-	private ArrayList<String> mLastCommandsSelectedFromHelp;
-
 	public void addToLastCommandsSelectedFromHelp(String commandName) {
 		if (mLastCommandsSelectedFromHelp == null) {
 			mLastCommandsSelectedFromHelp = new ArrayList<String>();
@@ -4992,9 +4991,6 @@ public abstract class App implements UpdateSelection {
 	public boolean nativeCAS() {
 		return true;
 	}
-	
-	private long ceIDcounter = 1;
-	private int nextVariableID = 1;
 
 	/**
 	 * @return next construction element ID

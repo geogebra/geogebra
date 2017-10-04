@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -1313,6 +1314,15 @@ public class CommandsTest extends Assert{
 		((GeoNumeric) get("b")).setSymbolicMode(true,
 				true);
 		t("b", "2.7148917443812293");
+	}
+
+	@Test
+	public void numIntTest() {
+		t("F(t,x)=NIntegral(sin(x)+sin(t-x), x)",
+				"NIntegral[sin(x) + sin(t - x), x]");
+		((FunctionalNVar) get("F")).setSecret(null);
+		Assert.assertEquals("-cos(x) - (-cos(t - x))",
+				get("F").toValueString(StringTemplate.testTemplate));
 	}
 
 	static String unicode(String theSpline) {
