@@ -518,7 +518,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 				shape.intersects(rect);
 			}
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(shape, 10);
+				// AND-547, initial buffer size
+				strokedShape = objStroke.createStrokedShape(shape, 130);
 			}
 			return strokedShape.intersects(rect);
 
@@ -557,7 +558,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		case DRAW_TYPE_ELLIPSE:
 			if (strokedShape == null) {
-				strokedShape = objStroke.createStrokedShape(shape, 10);
+				// AND-547, initial buffer size
+				strokedShape = objStroke.createStrokedShape(shape, 130);
 			}
 			pathHit = strokedShape.intersects(x - hitThreshold,
 					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);

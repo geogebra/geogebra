@@ -224,7 +224,8 @@ public class DrawLocus extends Drawable {
 			return false;
 		}
 		if (strokedShape == null) {
-			strokedShape = objStroke.createStrokedShape(gp, 10);
+			// AND-547, initial buffer size
+			strokedShape = objStroke.createStrokedShape(gp, 2500);
 		}
 		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);
