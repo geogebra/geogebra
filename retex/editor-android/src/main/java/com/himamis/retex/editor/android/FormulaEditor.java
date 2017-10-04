@@ -49,7 +49,7 @@ public class FormulaEditor extends View implements MathField {
     private final static int CURSOR_MARGIN = 5;
     // tolerance for cursor color
     private final static int CURSOR_TOLERANCE = 10;
-    protected static MetaModel sMetaModel = new MetaModel();
+    public static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     private TeXIcon mTeXIcon;
     private Graphics2DA mGraphics;
