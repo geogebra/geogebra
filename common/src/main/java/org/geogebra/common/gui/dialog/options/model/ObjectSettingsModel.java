@@ -24,11 +24,17 @@ import java.util.ArrayList;
 
 abstract public class ObjectSettingsModel {
 
+    /**
+     * Application
+     */
     protected App app;
-
     private GeoElement geoElement;
     private ArrayList<GeoElement> geoElementsList;
 
+    /**
+     *
+     * @param app Application
+     */
     public ObjectSettingsModel(App app) {
         this.app = app;
         geoElementsList = new ArrayList<GeoElement>();
@@ -360,6 +366,11 @@ abstract public class ObjectSettingsModel {
         app.setPropertiesOccured();
     }
 
+    /**
+     *
+     * @param geoElement a single geoElement
+     * @param autoStep boolean, which defines whether the slider's autostep should be turned on or not
+     */
     private void setSliderAutoStep(GeoElement geoElement, boolean autoStep) {
         if (geoElement instanceof GeoNumeric) {
             ((GeoNumeric) geoElement).setAutoStep(autoStep);
@@ -424,7 +435,7 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * @return whether the geoElement has further style or not
+     * @return whether all selected geoElements has further style or not
      */
     public boolean hasFurtherStyle() {
         if (geoElement == null) {
@@ -439,6 +450,11 @@ abstract public class ObjectSettingsModel {
         return true;
     }
 
+    /**
+     *
+     * @param geo a single geoElement
+     * @return whether the geoElement has further style or not
+     */
     private boolean hasFurtherStyle(GeoElement geo) {
         return !(geo instanceof GeoText || geo instanceof GeoInputBox);
     }
