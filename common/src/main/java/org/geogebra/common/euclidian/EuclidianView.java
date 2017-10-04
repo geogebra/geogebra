@@ -407,14 +407,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	/** application */
 	protected App app;
 
-	private final EuclidianSettings settings;
+	private EuclidianSettings settings;
 
 	// member variables
 	/** controller */
 	protected EuclidianController euclidianController;
 
 	// ggb3D 2009-02-05
-	private final Hits hits;
+	private Hits hits;
 
 	private GEllipse2DDouble circle = AwtFactory.getPrototype()
 			.newEllipse2DDouble(); // polar
@@ -540,13 +540,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return pointStyles[i];
 	}
 
+	public EuclidianView() {
+	}
+
+	public EuclidianView(EuclidianController ec, int viewNo,
+		EuclidianSettings settings) {
+
+		init(ec, viewNo, settings);
+	}
+
 	/**
 	 * @param ec
 	 *            controller
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianView(EuclidianController ec, int viewNo,
+	protected void init(EuclidianController ec, int viewNo,
 			EuclidianSettings settings) {
 
 		// 1, 2 or EVNO_GENERAL

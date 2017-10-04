@@ -184,6 +184,19 @@ abstract public class ObjectSettingsModel {
         return geoElement.getLineThickness();
     }
 
+    private void setSize(GeoElement geoElement, int size) {
+        if (geoElement instanceof GeoList) {
+            GeoList geoList = (GeoList) geoElement;
+            for (int i = 0; i < geoList.size(); i++) {
+                setSize(geoList.get(i), size);
+            }
+        } else if (geoElement instanceof PointProperties) {
+            ((PointProperties) geoElement).setPointSize(size + 1);
+        } else if (LineStyleModel.match(geoElement)) {
+            geoElement.setLineThickness(size + geoElement.getMinimumLineThickness());
+        }
+    }
+
     /**
      * @param size
      *         set the size of the geoElement depending on if it is Point or Line
@@ -194,14 +207,21 @@ abstract public class ObjectSettingsModel {
         }
 
         for (GeoElement geo : geoElementsList) {
-            if (geo instanceof PointProperties) {
-                ((PointProperties) geo).setPointSize(size + 1);
-            } else {
-                geo.setLineThickness(size + getMinSize());
-            }
+            setSize(geo, size);
             geo.updateRepaint();
         }
         app.setPropertiesOccured();
+    }
+
+    private void setPointSize(GeoElement geoElement, int size) {
+        if (geoElement instanceof GeoList) {
+            GeoList geoList = (GeoList) geoElement;
+            for (int i = 0; i < geoList.size(); i++) {
+                setPointSize(geoList.get(i), size);
+            }
+        } else if (geoElement instanceof PointProperties){
+            ((PointProperties)geoElement).setPointSize(size + getMinSize());
+        }
     }
 
     /**
@@ -210,12 +230,21 @@ abstract public class ObjectSettingsModel {
      */
     public void setPointSize(int size) {
         for (GeoElement geo : geoElementsList) {
-            if (geo instanceof PointProperties) {
-                ((PointProperties) geo).setPointSize(size + 1);
-            }
+            setPointSize(geo, size);
             geo.updateRepaint();
         }
         app.setPropertiesOccured();
+    }
+
+    private void setLineThickness(GeoElement geoElement, int size) {
+        if (geoElement instanceof GeoList) {
+            GeoList geoList = (GeoList) geoElement;
+            for (int i = 0; i < geoList.size(); i++) {
+                setLineThickness(geoList.get(i), size);
+            }
+        } else if (LineStyleModel.match(geoElement)){
+            geoElement.setLineThickness(size + geoElement.getMinimumLineThickness());
+        }
     }
 
     /**
@@ -224,7 +253,7 @@ abstract public class ObjectSettingsModel {
      */
     public void setLineThickness(int size) {
         for (GeoElement geo : geoElementsList) {
-            geo.setLineThickness(size + geo.getMinimumLineThickness());
+            setLineThickness(geo, size);
             geo.updateRepaint();
         }
         app.setPropertiesOccured();
