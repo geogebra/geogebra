@@ -264,7 +264,7 @@ public class TeXSerializer extends SerializerAdapter {
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);
 		}
-    }
+	}
 
 	private void serializeArguments(StringBuilder stringBuilder,
 			MathFunction function, int offset) {
@@ -279,7 +279,6 @@ public class TeXSerializer extends SerializerAdapter {
 		stringBuilder.append("\\right");
 		stringBuilder.append(function.getClosingBracket());
 		stringBuilder.append("}");
-
 	}
 
 	private void appendIndex(StringBuilder stringBuilder, MathFunction function,
@@ -292,7 +291,8 @@ public class TeXSerializer extends SerializerAdapter {
 						.isOperator())) {
 			stringBuilder.append(characterMissing);
 		}
-		stringBuilder.append(idxType + '{');
+		stringBuilder.append(idxType);
+		stringBuilder.append('{');
 		serialize(function.getArgument(0), stringBuilder);
 		stringBuilder.append('}');
 
@@ -307,11 +307,10 @@ public class TeXSerializer extends SerializerAdapter {
 		if (currentBraces || addBraces) {
 			stringBuilder.append("\\right)");
 		}
-
 	}
 
 	@Override
-    public void serialize(MathArray array, StringBuilder stringBuilder) {
+	public void serialize(MathArray array, StringBuilder stringBuilder) {
 		if (this.currentSelStart == array) {
 			stringBuilder.append(TeXSerializer.selection_start);
 		}

@@ -24,6 +24,9 @@ public class Korean {
 	static StringBuilder sb;
 	static HashMap<Character, Character> koreanLeadToTail = null;
 	static HashMap<Character, Character> koreanTailToLead = null;
+	// table to convert a nibble to a hex char.
+	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
+			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	/**
 	 * @return HashMap for converting Lead char to Tail char
@@ -1282,10 +1285,6 @@ public class Korean {
 		}
 		return sb1.toString();
 	}
-
-	// table to convert a nibble to a hex char.
-	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
-			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	final public static String toHexString(char c) {
 		int i = c + 0;

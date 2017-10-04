@@ -82,6 +82,11 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	private Runnable enterCallback;
 
 	private boolean directFormulaBuilder;
+	private boolean scrollOccured = false;
+
+	private boolean longPressOccured = false;
+
+	private boolean selectionMode = false;
 
 	public MathFieldInternal(MathField mathField) {
 		this(mathField, false);
@@ -386,12 +391,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         }
 		mathField.requestViewFocus();
 	}
-
-    private boolean scrollOccured = false;
-
-    private boolean longPressOccured = false;
-
-    private boolean selectionMode = false;
 
 	/**
 	 * says if dragging over should select or swype

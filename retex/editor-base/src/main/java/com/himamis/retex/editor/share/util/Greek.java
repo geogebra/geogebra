@@ -104,6 +104,8 @@ public enum Greek {
 
 	public char unicode;
 	public boolean upperCase;
+	private static char[] greekLowerCaseNoPi;
+	private static char[] greekUpperCase;
 
 	private Greek(char ch, boolean upper) {
 		this.unicode = ch;
@@ -142,9 +144,6 @@ public enum Greek {
 
 		return null;
 	}
-
-	private static char[] greekLowerCaseNoPi;
-	private static char[] greekUpperCase;
 
 	public static char[] getGreekLowerCaseNoPi() {
 
