@@ -1711,17 +1711,28 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		void checkBuf(int typeCount, int pointCount) {
 			if (typeSize + typeCount > types.length) {
-				byte tmp[] = new byte[typeSize
-						+ Math.max(bufCapacity, typeCount)];
+
+				// increase buffer size exponentially
+				// AND-547
+				byte tmp[] = new byte[typeSize + Math.max(types.length, typeCount)];
+				// byte tmp[] = new byte[typeSize + Math.max(bufCapacity,
+				// typeCount)];
+
 				System.arraycopy(types, 0, tmp, 0, typeSize);
 				types = tmp;
 			}
 			if (pointSize + pointCount > points.length) {
-				double tmp[] = new double[pointSize
-						+ Math.max(bufCapacity * 2, pointCount)];
+
+				// increase buffer size exponentially
+				// AND-547
+				double tmp[] = new double[pointSize + Math.max(points.length, pointCount)];
+				// double tmp[] = new double[pointSize + Math.max(bufCapacity *
+				// 2, pointCount)];
+
 				System.arraycopy(points, 0, tmp, 0, pointSize);
 				points = tmp;
 			}
+
 		}
 
 		boolean isEmpty() {
@@ -1830,12 +1841,12 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		void combine(BufferedPath p) {
 			checkBuf(p.typeSize - 1, p.pointSize - 2);
-			// Skip last point, beacause it's the first point of the second path
+			// Skip last point, because it's the first point of the second path
 			for (int i = p.pointSize - 4; i >= 0; i -= 2) {
 				points[pointSize++] = p.points[i + 0];
 				points[pointSize++] = p.points[i + 1];
 			}
-			// Skip first type, beacuse it's always MOVETO
+			// Skip first type, because it's always MOVETO
 			for (int i = p.typeSize - 1; i >= 1; i--) {
 				types[typeSize++] = p.types[i];
 			}
