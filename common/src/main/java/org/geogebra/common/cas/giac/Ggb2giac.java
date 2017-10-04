@@ -9,7 +9,7 @@ import org.geogebra.common.main.Feature;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /***
- * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ] is
+ * # Command translation table from GeoGebra to giac # e.g. Factor[2(x+3)] is
  * translated to factor(2*(x+3)) ###
  * 
  * Giac Constants
@@ -113,9 +113,9 @@ public class Ggb2giac {
 						// case 2 terms
 						+ " when(odd(degree(ggbcmpsqarg0))==0,when(degree((ggbcmpsqarg0)[2])==0,"
 						// case px^(2n)+r
-						+ " [ [ [n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]] ],equation(p*(lname(ggbcmpsqarg0)[0]^(2n))+r) ][1],"
+						+ " [[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]]],equation(p*(lname(ggbcmpsqarg0)[0]^(2n))+r)][1],"
 						// case px^(2n)+qx^n
-						+ " [ [ [n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[h:=-q/(2*p)],[k:=(-q^2)/(4*p)] ],when(degree((ggbcmpsqarg0)[2])==n,equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k),?) ][1]),"
+						+ " [[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[h:=-q/(2*p)],[k:=(-q^2)/(4*p)]],when(degree((ggbcmpsqarg0)[2])==n,equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k),?)][1]),"
 						// 2 terms with even degree
 						+ " ?),"
 						// case 3 term with degree 2
@@ -123,7 +123,7 @@ public class Ggb2giac {
 						// case 3 term with degree>2
 						+ " when(odd(degree(ggbcmpsqarg0))==0&&degree(ggbsort(ggbcmpsqarg0)[2])==degree(ggbsort(ggbcmpsqarg0)[1]) div 2&&type(ggbsort(ggbcmpsqarg0)[3])==DOM_INT,"
 						// case px^(2n)+qx^n+r
-						+ " [ [ [[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2]],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[3])[0]],[h:=-q/(2*p)],[k:=r-(q^2)/(4*p)] ],equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k) ][1],"
+						+ " [[[[n:=degree(ggbsort(ggbcmpsqarg0)[1]) div 2]],[p:=coeffs(ggbsort(ggbcmpsqarg0)[1])[0]],[q:=coeffs(ggbsort(ggbcmpsqarg0)[2])[0]],[r:=coeffs(ggbsort(ggbcmpsqarg0)[3])[0]],[h:=-q/(2*p)],[k:=r-(q^2)/(4*p)]],equation(p*((lname(ggbcmpsqarg0)[0])^n-h)^2+k)][1],"
 						// invalid equation
 						+ "?))),"
 						// term>3
@@ -260,9 +260,9 @@ public class Ggb2giac {
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		p("Extremum.1",
-				"[[[ggbextremumfun:=%0],[ggbextans:=extrema(%0)],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it))))) ][1]");
+				"[[[ggbextremumfun:=%0],[ggbextans:=extrema(%0)],[ggbextvar:=when(size(lname(ggbextremumfun) intersect [x])==0,lname(ggbextremumfun)[0],x)]],map(ggbextans,it->point(it,normal(regroup(subst(ggbextremumfun,ggbextvar,it)))))][1]");
 		p("TurningPoint.1",
-				"[[[ggbinflfun:=%0],[ggbinflvar:=when(size(lname(ggbinflfun) intersect [x])==0,lname(ggbinflfun)[0],x)],[ggbinflans:=extrema(diff(%0,ggbinflvar))]],map(ggbinflans,it->point(it,normal(regroup(subst(ggbinflfun,ggbinflvar,it))))) ][1]");
+				"[[[ggbinflfun:=%0],[ggbinflvar:=when(size(lname(ggbinflfun) intersect [x])==0,lname(ggbinflfun)[0],x)],[ggbinflans:=extrema(diff(%0,ggbinflvar))]],map(ggbinflans,it->point(it,normal(regroup(subst(ggbinflfun,ggbinflvar,it)))))][1]");
 		// factor over rationals
 		// add x so that Factor[(-k x^2+4k x+x^3)] gives a nicer answer
 		p("Factor.1",
@@ -301,7 +301,7 @@ public class Ggb2giac {
 				"[[[ggbfitpans:=0/0],[ggbvar:=x],[ggbinput:=%0],[ggborder:=%1],"
 						+ "when(ggborder+1==size(ggbinput),"
 						// use exact fit when correct number of points
-						// eg FitPoly[ {(-6.64803509914449,-9.72031412828010),
+						// eg FitPoly[{(-6.64803509914449,-9.72031412828010),
 						// (7.22538138096244,7.18002958385020),
 						// (20.0000000000000,-20.0000000000000),
 						// (32.4497749811568,-13.2517292323073),
@@ -309,7 +309,7 @@ public class Ggb2giac {
 						// adapted from Polynomial.N+evalf()
 						+ "[[xvals := [seq(evalf(xcoord(ggbinput[j])),j=0..size(ggbinput)-1)]],[yvals := [seq(evalf(ycoord(ggbinput[j])),j=0..size(ggbinput)-1)]],[ggbfitpans := normal(lagrange(xvals,yvals,x))]]"
 						+ ","
-						// eg FitPoly[ {(0.44,0.42),(1.7,0.48),(2.7,1.2),
+						// eg FitPoly[{(0.44,0.42),(1.7,0.48),(2.7,1.2),
 						// (3.5,1.78),(4.36,2.64),(5.12,3.76),(5.78,
 						// 4.66)},3]
 						+ "[ggbfitpans:=normal(evalf(horner(polynomial_regression(%0,%1),x)))]"
@@ -410,7 +410,7 @@ public class Ggb2giac {
 		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
 
 		// need to wrap in coordinates() for
-		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
+		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10]]
 		// but not for Intersect[x^2,x^3]
 		// ggbans:=0/0 to make sure if there's an error,we don't output
 		// previous answer
@@ -745,7 +745,7 @@ public class Ggb2giac {
 						// Intersect[Cmd2dLine,2dLine]
 						+ "normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),"
 						+ "when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1))) "
-						+ "))) ]," + "ggbinterans][4]");
+						+ ")))]," + "ggbinterans][4]");
 
 		// Giac currently uses approximation for this
 		// p("Conic.5","equation(conic((%0),(%1),(%2),(%3),(%4)))");
@@ -1074,7 +1074,7 @@ public class Ggb2giac {
 		// default 15,like Input Bar version
 		p("ScientificText.1",
 				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
-						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,15)+\" * 10^ \"+ggbstpower ]],when(ggbstinput==0,0,ggbstans)][1]");
+						+ "[ggbstans:=evalf(ggbstinput/10^ggbstpower,15)+\" * 10^ \"+ggbstpower]],when(ggbstinput==0,0,ggbstans)][1]");
 
 		p("ScientificText.2",
 				" [[[ggbstinput:=%0],[ggbstans:=?],[ggbstabsans:=abs(ggbstinput)],[ggbstpower:=floor(log10(ggbstinput))],"
@@ -1252,7 +1252,7 @@ public class Ggb2giac {
 						+ " regroup(equation(subs(ggbtrsarg0,x=x-xcoord(ggbtrsarg1),y=y-ycoord(ggbtrsarg1)))),"
 						// handle special case: no y in equation
 						+ "regroup(equation(subs(ggbtrsarg0,x=x-xcoord(ggbtrsarg1))))+ycoord(ggbtrsarg1))"
-						+ "))) ][1]");
+						+ ")))][1]");
 		// }
 
 		p("Transpose.1", "transpose(%0)");
@@ -1378,7 +1378,7 @@ public class Ggb2giac {
 		// SolveQuartic[x^(4)-(10 * x^(3))+(35 * x^(2))-(50 * x)+24] =
 		// {1,3,2,4}
 		// SolveQuartic[x^4+2x^3-41x^2-42x+360] = {(-6),(-4),3,5}
-		// SolveQuartic[ x^4+2x^2+6sqrt(10) x+1] approx
+		// SolveQuartic[x^4+2x^2+6sqrt(10) x+1] approx
 		// {(-2.396488591753),(-0.05300115102973),1.224744871392 -
 		// (2.524476846043 * <complexi>),1.224744871392+(2.524476846043 *
 		// <complexi>)}
@@ -1386,7 +1386,7 @@ public class Ggb2giac {
 		// sqrt(3))+1)
 		/// 2,((<complexi> * sqrt(3))+1)/2}
 		// SolveQuartic[x^(4)-(4 * x^(3))+(6 * x^(2))-(4 * x)+1] = {1}
-		// 3 repeated roots,S=0,SolveQuartic[ x^4-5x^3+9x^2-7x+2 ] =
+		// 3 repeated roots,S=0,SolveQuartic[x^4-5x^3+9x^2-7x+2] =
 		// {2,1}
 		// SolveQuartic[x^(4)-(2 * x^(3))-(7 * x^(2))+(16 * x)-5] =
 		// ((x^(2)-(3 * x)+1) * (x^(2)+x-5))
@@ -1555,7 +1555,7 @@ public class Ggb2giac {
 				+ "normal(regroup(angle(point(0,0,0),"
 				+ "point(ggbangarg0[2][2][2][0],ggbangarg0[2][2][2][1],ggbangarg0[2][2][2][2]),"
 				+ "point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)) ))) ,"
-				+ " ?)))))))))))) ][1]");
+				+ " ?))))))))))))][1]");
 
 		p("Angle.3", "[[[ggbangarg0:=%0],[ggbangarg1:=%1],[ggbangarg2:=%2]],"
 				// syntax Angle[Point,Apex,Point]
@@ -1687,7 +1687,7 @@ public class Ggb2giac {
 		p("Vector.2", "when(is_3dpoint(%0)||is_3dpoint(%1)," +
 		// 3D points
 		// "ggbvect[((%1)[1])[0]-((%0)[1])[0],((%1)[1])[1]-((%0)[1])[1],
-		// ((%1)[1])[2]-((%0)[1])[2] ]"+
+		// ((%1)[1])[2]-((%0)[1])[2]]"+
 				"ggbvect[xcoord(%1)-xcoord(%0),ycoord(%1)-ycoord(%0),zcoord(%1)-zcoord(%0)]"
 				+ ","
 
