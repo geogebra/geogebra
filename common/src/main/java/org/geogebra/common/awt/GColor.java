@@ -77,6 +77,10 @@ public final class GColor implements GPaint {
 		this.valueARGB = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
 	}
 
+	private GColor(int argb) {
+		this.valueARGB = argb;
+	}
+
 	/**
 	 * Creates an opaque sRGB color with the specified combined RGB value
 	 * consisting of the red component in bits 16-23, the green component in
@@ -87,10 +91,19 @@ public final class GColor implements GPaint {
 	 * @return new color
 	 */
 	public static GColor newColorRGB(int rgb) {
+		GColor ret;
+		int arbg = rgb | (0xff000000);
+		synchronized (map) {
+			ret = map.get(arbg);
+			if (ret == null) {
+				ret = new GColor(arbg);
+				map.put(arbg, ret);
+			}
+		}
 
-		return newColor(getRed(rgb), getGreen(rgb), getBlue(rgb));
+		return ret;
+
 	}
-
 	// private void log() {
 	// Log.debug("storing " + getColorString(this));
 	// Log.error("map length = " + map.size());
@@ -168,18 +181,19 @@ public final class GColor implements GPaint {
 	 */
 	public static GColor newColor(int r, int g, int b, int a) {
 		GColor ret;
-		int hash = hashRGBA(r, g, b, a);
+		int argb = hashRGBA(r, g, b, a);
 		synchronized (map) {
-			ret = map.get(hash);
+			ret = map.get(argb);
 			if (ret == null) {
 				ret = new GColor(r, g, b, a);
-				map.put(hash, ret);
+				map.put(argb, ret);
 			}
 		}
 
 		return ret;
 
 	}
+
 
 	/**
 	 * Create a more readable (=darker) version of a color, to make it readable
