@@ -14,256 +14,250 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
- * This class represents the model for the object properties in Android and iOS
+ * This class represents a model for the object properties
  */
 
 abstract public class ObjectSettingsModel {
 
-    private static int MAX_SIZE = 9;
-    protected App mApp;
+    protected App app;
 
-    protected GeoElement mGeoElement;
-    protected ArrayList<GeoElement> mGeoElementsList;
+    private GeoElement geoElement;
+    private ArrayList<GeoElement> geoElementsList;
 
     public ObjectSettingsModel(App app) {
-        this.mApp = app;
-        initGeoElement();
-    }
-
-    protected void initGeoElement() {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            mGeoElementsList = new ArrayList<GeoElement>();
-        }
-    }
-
-    public GColor getColor() {
-        if (mGeoElement == null) {
-            return GColor.BLACK;
-        }
-        return mGeoElement.getObjectColor();
-    }
-
-    public void setColor(GColor color) {
-        if (mGeoElement == null) {
-            return;
-        }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            if (!hasFurtherStyle()) {
-                EuclidianStyleBarStatic.applyTextColor(mGeoElementsList, color);
-            } else {
-                EuclidianStyleBarStatic.applyColor(mGeoElementsList, color, mGeoElement.getAlphaValue(), mApp);
-            }
-        } else {
-            if (!hasFurtherStyle()) {
-                EuclidianStyleBarStatic.applyTextColor(Arrays.asList(mGeoElement), color);
-            } else {
-                EuclidianStyleBarStatic.applyColor(Arrays.asList(mGeoElement), color, mGeoElement.getAlphaValue(), mApp);
-            }
-        }
-        mApp.setPropertiesOccured();
-    }
-
-    public boolean isLabelShown() {
-        if (mGeoElement == null) {
-            return false;
-        }
-        return mGeoElement.isLabelVisible();
-    }
-
-    public void showLabel(boolean show) {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                geo.setLabelVisible(show);
-                geo.updateRepaint();
-            }
-        } else {
-            mGeoElement.setLabelVisible(show);
-            mGeoElement.updateRepaint();
-        }
-    }
-
-    public int getLabelStyle() {
-        if (mGeoElement == null) {
-            return GeoElement.LABEL_NAME;
-        }
-        return mGeoElement.getLabelMode();
-    }
-
-    public void setLabelStyle(int mode) {
-        if (mGeoElement == null) {
-            return;
-        }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                geo.setLabelMode(mode);
-            }
-        } else {
-            mGeoElement.setLabelMode(mode);
-        }
-        showLabel(true);
-        mApp.setPropertiesOccured();
-    }
-
-    public String getLabelString() {
-
-        if (mGeoElement == null) {
-            return "";
-        }
-
-        if (!mGeoElement.isLabelVisible()) {
-            return App.getLabelStyleName(mApp, -1);
-        }
-
-        return App.getLabelStyleName(mApp, mGeoElement.getLabelMode());
-    }
-
-    public int getLineStyle() {
-        if (mGeoElement == null) {
-            return EuclidianStyleConstants.DEFAULT_LINE_TYPE;
-        }
-        return mGeoElement.getLineType();
-    }
-
-    public void setLineStyle(int style) {
-        if (mGeoElement == null) {
-            return;
-        }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                geo.setLineType(style);
-                geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
-            }
-        } else {
-            mGeoElement.setLineType(style);
-            mGeoElement.updateVisualStyleRepaint(GProperty.LINE_STYLE);
-        }
-        mApp.setPropertiesOccured();
-    }
-
-    public int getPointStyle() {
-        if (mGeoElement == null) {
-            return EuclidianStyleConstants.POINT_STYLE_DOT;
-        }
-
-        if (mGeoElement instanceof PointProperties) {
-            return ((PointProperties) mGeoElement).getPointStyle();
-        }
-
-        return EuclidianStyleConstants.POINT_STYLE_DOT;
-    }
-
-    public void setPointStyle(int pointStyle) {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                ((PointProperties) geo).setPointStyle(pointStyle);
-                geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-            }
-        } else {
-            ((PointProperties) mGeoElement).setPointStyle(pointStyle);
-            mGeoElement.updateVisualStyleRepaint(GProperty.POINT_STYLE);
-        }
-        mApp.setPropertiesOccured();
-    }
-
-    public int getSize() {
-
-        if (mGeoElement == null) {
-            return EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
-        }
-
-        if (mGeoElement instanceof PointProperties) {
-            return ((PointProperties) mGeoElement).getPointSize();
-        }
-        return mGeoElement.getLineThickness();
+        this.app = app;
+        geoElementsList = new ArrayList<GeoElement>();
     }
 
     /**
-     * @param value
+     * @return the color of the geoElement
      */
-    public void setSize(int value) {
-        if (mGeoElement == null) {
-            return;
-        }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (geo instanceof PointProperties) {
-                    ((PointProperties) geo).setPointSize(value + 1);
-                } else {
-                    geo.setLineThickness(value + getMinSize());
-                }
-                geo.updateRepaint();
-            }
-        } else {
-            if (mGeoElement instanceof PointProperties) {
-                ((PointProperties) mGeoElement).setPointSize(value + 1);
-            } else {
-                mGeoElement.setLineThickness(value + getMinSize());
-            }
-            mGeoElement.updateRepaint();
-        }
-        mApp.setPropertiesOccured();
+    public GColor getColor() {
+        return geoElement != null ? geoElement.getObjectColor() : GColor.BLACK;
     }
 
+    /**
+     * @param color
+     *         GColor which should be set for all selected geoElements
+     */
+    public void setColor(GColor color) {
+        if (geoElement == null) {
+            return;
+        }
+
+        if (!hasFurtherStyle()) {
+            EuclidianStyleBarStatic.applyTextColor(geoElementsList, color);
+        } else {
+            EuclidianStyleBarStatic.applyColor(geoElementsList, color, geoElement.getAlphaValue(), app);
+        }
+
+        app.setPropertiesOccured();
+    }
+
+    /**
+     * @return if the label of the geoElement is visible or not
+     */
+    public boolean isLabelShown() {
+        return geoElement != null && geoElement.isLabelVisible();
+    }
+
+    /**
+     * @param show
+     *         the label of the geoElement should be shown or not
+     */
+    public void showLabel(boolean show) {
+        for (GeoElement geo : geoElementsList) {
+            geo.setLabelVisible(show);
+            geo.updateRepaint();
+        }
+    }
+
+    /**
+     * @return the label mode of the geoElement, default is LABEL_NAME
+     */
+    public int getLabelStyle() {
+        return geoElement != null ? geoElement.getLabelMode() : GeoElement.LABEL_NAME;
+    }
+
+    /**
+     * @param mode
+     *         set it as label mode for all selected geoElement
+     */
+    public void setLabelStyle(int mode) {
+        if (geoElement == null) {
+            return;
+        }
+
+        for (GeoElement geo : geoElementsList) {
+            geo.setLabelMode(mode);
+        }
+
+        showLabel(true);
+        app.setPropertiesOccured();
+    }
+
+    /**
+     * @return the label string of the current label mode of the geoElement or with empty string if it is null
+     */
+    public String getLabelString() {
+        if (geoElement == null) {
+            return "";
+        }
+
+        if (!geoElement.isLabelVisible()) {
+            return App.getLabelStyleName(app, -1);
+        }
+
+        return App.getLabelStyleName(app, geoElement.getLabelMode());
+    }
+
+    /**
+     * @return the current line style of the geoElement or with DEFAULT_LINE_TYPE if it is null
+     */
+    public int getLineStyle() {
+        return geoElement != null ? geoElement.getLineType() : EuclidianStyleConstants.DEFAULT_LINE_TYPE;
+    }
+
+    /**
+     * @param style
+     *         set the line style for all selected geoElements
+     */
+    public void setLineStyle(int style) {
+        if (geoElement == null) {
+            return;
+        }
+
+        for (GeoElement geo : geoElementsList) {
+            geo.setLineType(style);
+            geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
+        }
+
+        app.setPropertiesOccured();
+    }
+
+    /**
+     * @return the current point style of the geoElement, or with POINT_STYLE_DOT if it is null
+     */
+    public int getPointStyle() {
+        if (geoElement == null || !(geoElement instanceof PointProperties)) {
+            return EuclidianStyleConstants.POINT_STYLE_DOT;
+        }
+
+        return ((PointProperties) geoElement).getPointStyle();
+    }
+
+    /**
+     * @param pointStyle
+     *         set the point style for all selected geoElements
+     */
+    public void setPointStyle(int pointStyle) {
+        for (GeoElement geo : geoElementsList) {
+            ((PointProperties) geo).setPointStyle(pointStyle);
+            geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
+        }
+
+        app.setPropertiesOccured();
+    }
+
+    /**
+     * @return the point size or line thickness, depending on the geoElement's type
+     */
+    public int getSize() {
+        if (geoElement == null) {
+            return EuclidianStyleConstants.DEFAULT_LINE_THICKNESS;
+        }
+
+        if (geoElement instanceof PointProperties) {
+            return ((PointProperties) geoElement).getPointSize();
+        }
+        return geoElement.getLineThickness();
+    }
+
+    /**
+     * @param size
+     *         set the size of the geoElement depending on if it is Point or Line
+     */
+    public void setSize(int size) {
+        if (geoElement == null) {
+            return;
+        }
+
+        for (GeoElement geo : geoElementsList) {
+            if (geo instanceof PointProperties) {
+                ((PointProperties) geo).setPointSize(size + 1);
+            } else {
+                geo.setLineThickness(size + getMinSize());
+            }
+            geo.updateRepaint();
+        }
+        app.setPropertiesOccured();
+    }
+
+    /**
+     * @return the minimum size of the point size or the line thickness depending of the geoElement's type
+     */
     public int getMinSize() {
-        if (mGeoElement == null) {
+        if (geoElement == null || geoElement instanceof PointProperties) {
             return 1;
         }
-        if (mGeoElement instanceof PointProperties) {
-            return 1;
-        }
-        return mGeoElement.getMinimumLineThickness();
+
+        return geoElement.getMinimumLineThickness();
     }
 
+    /**
+     * @return max size
+     */
     public int getMaxSize() {
-        return MAX_SIZE;
+        return 9;
     }
 
-    public boolean getObjectFixed() {
-        if (mGeoElement == null) {
-            return false;
-        }
-        return mGeoElement.isLocked();
+    /**
+     * @return whether the geoElement is fixed or not
+     */
+    public boolean isObjectFixed() {
+        return geoElement != null && geoElement.isLocked();
     }
 
+    /**
+     * @param objectFixed
+     *         geoElement should be fixed or not
+     */
     public void setObjectFixed(boolean objectFixed) {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                geo.setFixed(objectFixed);
-            }
-        } else {
-            mGeoElement.setFixed(objectFixed);
+
+        for (GeoElement geo : geoElementsList) {
+            geo.setFixed(objectFixed);
         }
-        mApp.setPropertiesOccured();
+
+        app.setPropertiesOccured();
     }
 
+    /**
+     * @param name
+     *         new name of the geoElement
+     */
     public void rename(String name) {
-        if (mGeoElement != null) {
+        if (geoElement != null) {
             GeoElement geo;
-            if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-                if (mGeoElementsList.size() == 1) {
-                    geo = mGeoElementsList.get(0);
-                } else {
-                    return; // should not happen...
-                }
+            if (geoElementsList.size() == 1) {
+                geo = geoElementsList.get(0);
             } else {
-                geo = mGeoElement;
+                return; // should not happen...
             }
+
             try {
                 String checked = geo.getKernel().getAlgebraProcessor().parseLabel(name);
                 if (LabelManager.checkName(geo, checked)) {
                     geo.rename(checked);
                     geo.updateRepaint();
-                    mApp.setPropertiesOccured();
+                    app.setPropertiesOccured();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -272,94 +266,98 @@ abstract public class ObjectSettingsModel {
         }
     }
 
+    /**
+     * @return name description of the geoElement or empty string if it is null
+     */
     public String getNameDescription() {
-        if (mGeoElement == null) {
-            return "";
-        }
-        return mGeoElement.getNameDescription();
+        return geoElement != null ? geoElement.getNameDescription() : "";
     }
 
+    /**
+     * @return the name of the geoElement or empty string if it is null
+     */
     public String getName() {
-        if (mGeoElement == null) {
-            return "";
-        }
-        return mGeoElement.getLabelSimple();
+        return geoElement != null ? geoElement.getLabelSimple() : "";
     }
 
+    /**
+     * @return the minimum value of the slider, default is -5
+     */
     public double getSliderMin() {
-        if (mGeoElement == null) {
-            return -5;
-        }
-        return ((GeoNumeric) mGeoElement).getIntervalMin();
+        return geoElement != null ? ((GeoNumeric) geoElement).getIntervalMin() : -5;
     }
 
+    /**
+     * @param min
+     *         minimum value for the slider
+     */
     public void setSliderMin(String min) {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return;
         }
-        GeoNumberValue num = mApp.getKernel().getAlgebraProcessor().evaluateToNumeric(min, false);
+        GeoNumberValue num = app.getKernel().getAlgebraProcessor().evaluateToNumeric(min, false);
         if (num == null) {
             return;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                ((GeoNumeric) geo).setIntervalMin(num);
-            }
-        } else {
-            ((GeoNumeric) mGeoElement).setIntervalMin(num);
+
+        for (GeoElement geo : geoElementsList) {
+            ((GeoNumeric) geo).setIntervalMin(num);
         }
-        mApp.setPropertiesOccured();
+
+        app.setPropertiesOccured();
     }
 
+    /**
+     * @return the maximum value of the slider, default is 5
+     */
     public double getSliderMax() {
-        if (mGeoElement == null) {
-            return 5;
-        }
-        return ((GeoNumeric) mGeoElement).getIntervalMax();
+        return geoElement != null ? ((GeoNumeric) geoElement).getIntervalMax() : 5;
     }
 
+    /**
+     * @param max
+     *         maximum value for the slider
+     */
     public void setSliderMax(String max) {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return;
         }
-        GeoNumberValue num = mApp.getKernel().getAlgebraProcessor().evaluateToNumeric(max, false);
+        GeoNumberValue num = app.getKernel().getAlgebraProcessor().evaluateToNumeric(max, false);
         if (num == null) {
             return;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                ((GeoNumeric) geo).setIntervalMax(num);
-            }
-        } else {
-            ((GeoNumeric) mGeoElement).setIntervalMax(num);
+
+        for (GeoElement geo : geoElementsList) {
+            ((GeoNumeric) geo).setIntervalMax(num);
         }
-        mApp.setPropertiesOccured();
+
+        app.setPropertiesOccured();
     }
 
+    /**
+     * @return the step/increment value of the slider, default is 0.1
+     */
     public double getSliderIncrement() {
-        if (mGeoElement == null) {
-            return 0.1;
-        }
-        return mGeoElement.getAnimationStep();
+        return geoElement != null ? geoElement.getAnimationStep() : 0.1;
     }
 
+    /**
+     * @param increment
+     *         step value for the slider
+     */
     public void setSliderIncrement(String increment) {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return;
         }
-        double step = mApp.getKernel().getAlgebraProcessor().evaluateToDouble(increment);
+        double step = app.getKernel().getAlgebraProcessor().evaluateToDouble(increment);
         boolean isNaN = Double.isNaN(step);
 
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                geo.setAnimationStep(step);
-                setSliderAutoStep(geo, isNaN);
-            }
-        } else {
-            mGeoElement.setAnimationStep(step);
-            setSliderAutoStep(mGeoElement, isNaN);
+        for (GeoElement geo : geoElementsList) {
+            geo.setAnimationStep(step);
+            setSliderAutoStep(geo, isNaN);
         }
-        mApp.setPropertiesOccured();
+
+        app.setPropertiesOccured();
     }
 
     private void setSliderAutoStep(GeoElement geoElement, boolean autoStep) {
@@ -368,252 +366,246 @@ abstract public class ObjectSettingsModel {
         }
     }
 
+    /**
+     * @return the current alpha value of the geoElement
+     */
     public float getAlpha() {
-        if (mGeoElement == null) {
-            return 1;
-        }
-        return (float) mGeoElement.getAlphaValue();
+        return geoElement != null ? (float) geoElement.getAlphaValue() : 1;
     }
 
+    /**
+     * @param alpha
+     *         alpha value to be set for the geoElement, it should be between 0 and 100
+     */
     public void setAlpha(float alpha) {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            EuclidianStyleBarStatic.applyColor(mGeoElementsList, mGeoElement.getObjectColor(), alpha, mApp);
-        } else {
-            EuclidianStyleBarStatic.applyColor(Arrays.asList(mGeoElement), mGeoElement.getObjectColor(), alpha, mApp);
-        }
-        mApp.setPropertiesOccured();
+
+        EuclidianStyleBarStatic.applyColor(geoElementsList, geoElement.getObjectColor(), alpha, app);
+
+        app.setPropertiesOccured();
     }
 
+    /**
+     * @return whether the selected geoElements are all fillable or not
+     */
     public boolean isFillable() {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return false;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (!geo.isFillable()) {
-                    return false;
-                }
+
+        for (GeoElement geo : geoElementsList) {
+            if (!geo.isFillable()) {
+                return false;
             }
-            return true;
         }
-        return mGeoElement.isFillable();
+        return true;
     }
 
+    /**
+     * @return whether the geoElement is shown or not
+     */
     public boolean isObjectShown() {
-        if (mGeoElement == null) {
-            return false;
-        }
-        return mGeoElement.isEuclidianVisible();
+        return geoElement != null && geoElement.isEuclidianVisible();
     }
 
-    public void showObject(boolean checked) {
-        if (mGeoElement != null) {
-            if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-                for (GeoElement geo : mGeoElementsList) {
-                    geo.setEuclidianVisible(checked);
-                    geo.updateRepaint();
-                }
-            } else {
-                mGeoElement.setEuclidianVisible(checked);
-                mGeoElement.updateRepaint();
+    /**
+     * @param show
+     *         whether the selected geoElements should be shown or not
+     */
+    public void showObject(boolean show) {
+        if (geoElement != null) {
+            for (GeoElement geo : geoElementsList) {
+                geo.setEuclidianVisible(show);
+                geo.updateRepaint();
             }
         }
     }
 
-    public String getLineStyleName(int id) {
-        switch (id) {
-            case EuclidianStyleConstants.LINE_TYPE_FULL:
-                return "solid";
-            case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-                return "dash_dot";
-            case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-                return "dashed";
-            case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-                return "dotted";
-            default:
-                return "";
-        }
-    }
-
-    public String getPointStyleName(int id) {
-        switch (id) {
-            case EuclidianStyleConstants.POINT_STYLE_DOT:
-                return "point";
-            case EuclidianStyleConstants.POINT_STYLE_CROSS:
-                return "cross";
-            case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-                return "ring";
-            case EuclidianStyleConstants.POINT_STYLE_PLUS:
-                return "plus";
-            case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-                return "diamond";
-            default:
-                return "";
-        }
-    }
-
+    /**
+     * @return whether the geoElement has further style or not
+     */
     public boolean hasFurtherStyle() {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return false;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (!hasFurtherStyle(geo)) {
-                    return false;
-                }
+
+        for (GeoElement geo : geoElementsList) {
+            if (!hasFurtherStyle(geo)) {
+                return false;
             }
-            return true;
         }
-        return hasFurtherStyle(mGeoElement);
+        return true;
     }
 
     private boolean hasFurtherStyle(GeoElement geo) {
         return !(geo instanceof GeoText || geo instanceof GeoInputBox);
     }
 
+    /**
+     * @return whether the tracing is turned on for the geoElement or not
+     */
     public boolean isTraceOn() {
-        if (mGeoElement == null) {
-            return false;
-        }
-        return mGeoElement.getTrace();
+        return geoElement != null && geoElement.getTrace();
     }
 
+    /**
+     * @return whether all selected geoElements are traceable or not
+     */
     public boolean isTraceable() {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return false;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (!geo.isTraceable()) {
-                    return false;
-                }
+
+        for (GeoElement geo : geoElementsList) {
+            if (!geo.isTraceable()) {
+                return false;
             }
-            return true;
         }
-        return mGeoElement.isTraceable();
+        return true;
     }
 
+    /**
+     * @param checked
+     *         whether the tracing should be turned on for the selected geoElements or not
+     */
     public void setTrace(boolean checked) {
-        if (mGeoElement != null && mGeoElement.isTraceable()) {
-            if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-                for (GeoElement geo : mGeoElementsList) {
-                    ((Traceable) geo).setTrace(checked);
-                }
-            } else {
-                ((Traceable) mGeoElement).setTrace(checked);
+        if (geoElement != null && geoElement.isTraceable()) {
+            for (GeoElement geo : geoElementsList) {
+                ((Traceable) geo).setTrace(checked);
             }
         }
     }
 
+    /**
+     * @return whether the selected geoElements are all sliders or not
+     */
     public boolean hasSliderProperties() {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (!hasSliderProperties(geo)) {
-                    return false;
-                }
+        for (GeoElement geo : geoElementsList) {
+            if (!hasSliderProperties(geo)) {
+                return false;
             }
-            return true;
         }
-        return hasSliderProperties(mGeoElement);
+        return true;
     }
 
-    public boolean hasSliderProperties(GeoElement geo) {
+    /**
+     * @param geo
+     *         the GeoElement to check if it is a slider or not
+     * @return if the passed geo if slider or not
+     */
+    private boolean hasSliderProperties(GeoElement geo) {
         return geo instanceof GeoNumeric
                 && ((GeoNumeric) geo).getIntervalMinObject() != null
                 && geo.isIndependent();
     }
 
+    /**
+     * @return true if all the selected geoElement is an instance of the PointProperties
+     */
     public boolean hasPointProperties() {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (!PointStyleModel.match(geo)) {
-                    return false;
-                }
+        for (GeoElement geo : geoElementsList) {
+            if (!PointStyleModel.match(geo)) {
+                return false;
             }
-            return true;
         }
-        return PointStyleModel.match(mGeoElement);
+        return true;
     }
 
+
+    /**
+     * @return true if all the selected geoElement is a GeoFunction
+     */
     public boolean hasFunctionProperties() {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (geo instanceof GeoList) {
-                    GeoElement elementForProperties = geo.getGeoElementForPropertiesDialog();
-                    if (!(elementForProperties instanceof GeoFunction)) {
-                        return false;
-                    }
-                } else if (!(geo instanceof GeoFunction)) {
+        for (GeoElement geo : geoElementsList) {
+            if (geo instanceof GeoList) {
+                GeoElement elementForProperties = geo.getGeoElementForPropertiesDialog();
+                if (!(elementForProperties instanceof GeoFunction)) {
                     return false;
                 }
+            } else if (!(geo instanceof GeoFunction)) {
+                return false;
             }
-            return true;
         }
-        return mGeoElement instanceof GeoFunction;
+        return true;
     }
 
+    /**
+     * @return true if the all the selected geoElements have line properties
+     */
     public boolean hasLineProperties() {
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            for (GeoElement geo : mGeoElementsList) {
-                if (!LineStyleModel.match(geo)) {
-                    return false;
-                }
+        for (GeoElement geo : geoElementsList) {
+            if (!LineStyleModel.match(geo)) {
+                return false;
             }
-            return true;
         }
-        return LineStyleModel.match(mGeoElement);
+        return true;
     }
 
+    /**
+     * @return with the selected geoElement
+     */
     public GeoElement getGeoElement() {
-        return mGeoElement;
+        return geoElement;
     }
 
 
-    public void setGeoElement(GeoElement GeoElement) {
-        this.mGeoElement = GeoElement;
+    /**
+     * @param geo
+     *         initialize geoElement
+     */
+    public void setGeoElement(GeoElement geo) {
+        geoElement = geo;
     }
 
-    public ArrayList<GeoElement> getGeoElementsList() {
-        return mGeoElementsList;
+    /**
+     * @return with the the geoElementsList which are the selected geos
+     */
+    protected ArrayList<GeoElement> getGeoElementsList() {
+        return geoElementsList;
     }
 
-    public void setGeoElementsList(ArrayList<GeoElement> GeoElementsList) {
-        this.mGeoElementsList = GeoElementsList;
+    /**
+     * @param geoList
+     *         initialize geoElementsList
+     */
+    public void setGeoElementsList(ArrayList<GeoElement> geoList) {
+        geoElementsList = geoList;
     }
 
+    /**
+     * Delete the selected geoElements
+     */
     public void deleteGeoElements() {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return;
         }
-        mApp.deleteSelectedObjects(false);
+        app.deleteSelectedObjects(false);
     }
 
+    /**
+     * @return the localized type string if one item is selected, anyway "Selection"
+     */
     public String getTranslatedTypeString() {
-        if (mGeoElement == null) {
+        if (geoElement == null) {
             return "";
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            if (mGeoElementsList.size() > 1) {
-                return mApp.getLocalization().getMenu("Selection");
-            }
-            return mGeoElementsList.get(0).translatedTypeString();
+
+        if (geoElementsList.size() > 1) {
+            return app.getLocalization().getMenu("Selection");
         }
-        return mGeoElement.translatedTypeString();
+        return geoElementsList.get(0).translatedTypeString();
     }
 
+    /**
+     * @return the label of the geoElement if only one geoElement is selected
+     */
     public String getLabel() {
-        if (mGeoElement == null) {
+        if (geoElement == null || geoElementsList.size() > 1) {
             return null;
         }
-        if (mApp.has(Feature.MOB_SELECT_TOOL)) {
-            if (mGeoElementsList.size() > 1) {
-                return null;
-            }
-            return mGeoElementsList.get(0).getLabelSimple();
-        }
-        return mGeoElement.getLabelSimple();
+
+        return geoElementsList.get(0).getLabelSimple();
     }
 }
