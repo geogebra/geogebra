@@ -301,7 +301,7 @@ public abstract class StepNode {
 	 * @return whether the current node is an integer (not Integer..)
 	 */
 	public boolean isInteger() {
-		return this instanceof StepConstant && isEqual(Math.round(this.getValue()), this.getValue());
+		return this.nonSpecialConstant() && isEqual(Math.round(this.getValue()), this.getValue());
 	}
 
 	/**
@@ -322,6 +322,22 @@ public abstract class StepNode {
 					return true;
 				}
 			}
+		}
+
+		return false;
+	}
+
+	public boolean integerCoefficients(StepVariable sv) {
+		if (isPolynomial(this)) {
+			StepNode[] coefficients = convertToPolynomial(this, sv);
+
+			for (int i = 0; i < coefficients.length; i++) {
+				if (coefficients[i] != null && !coefficients[i].isInteger()) {
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		return false;
@@ -542,8 +558,8 @@ public abstract class StepNode {
 			return null;
 		}
 
-		StepNode[] arrayD = StepNode.convertToPolynomial(d, var);
-		StepNode[] arrayR = StepNode.convertToPolynomial(r, var);
+		StepNode[] arrayD = convertToPolynomial(d, var);
+		StepNode[] arrayR = convertToPolynomial(r, var);
 
 		int leadR = arrayR.length - 1;
 		int leadD = arrayD.length - 1;
@@ -556,7 +572,7 @@ public abstract class StepNode {
 					.regroup();
 			q = StepNode.add(q, t);
 
-			StepNode[] td = StepNode.convertToPolynomial(StepNode.multiply(t, d).expand(null), var);
+			StepNode[] td = convertToPolynomial(StepNode.multiply(t, d).expand(null), var);
 
 			for (int i = 0; i < td.length; i++) {
 				if (td[i] != null) {
@@ -613,7 +629,7 @@ public abstract class StepNode {
 	 * @param variableList
 	 *            set of variables found in the tree
 	 */
-	private static void getListOfVariables(StepNode sn, List<StepVariable> variableList) {
+	public static void getListOfVariables(StepNode sn, List<StepVariable> variableList) {
 		if (sn.isOperation()) {
 			StepOperation so = (StepOperation) sn;
 			for (int i = 0; i < so.noOfOperands(); i++) {
@@ -844,7 +860,7 @@ public abstract class StepNode {
 			denominator = null;
 		}
 
-		if (exponent.getValue() > 0) {
+		if (exponent.getValue() >= 0) {
 			if (!isEqual(exponent.getValue(), 1) && closeToAnInteger(1 / exponent.getValue())) {
 				nominator = nonTrivialProduct(nominator, StepNode.root(base, 1 / exponent.getValue()));
 			} else {
@@ -898,6 +914,10 @@ public abstract class StepNode {
 		}
 
 		return multiply(a, b);
+	}
+
+	public static StepNode nonTrivialProduct(double a, StepNode b) {
+		return nonTrivialProduct(new StepConstant(a), b);
 	}
 
 	/**

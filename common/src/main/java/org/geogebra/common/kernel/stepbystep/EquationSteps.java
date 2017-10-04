@@ -232,7 +232,7 @@ public class EquationSteps {
 		}
 
 		// XII. step: finding and factoring rational roots
-		if (StepHelper.integerCoefficients(LHS, variable)) {
+		if (LHS.integerCoefficients(variable)) {
 			findRationalRoots();
 
 			if (solutions.size() > 0) {

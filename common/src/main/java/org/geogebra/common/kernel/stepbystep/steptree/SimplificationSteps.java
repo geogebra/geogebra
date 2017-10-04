@@ -1326,19 +1326,22 @@ public enum SimplificationSteps {
 
 				StepNode.getBasesAndExponents(so.getSubTree(0), null, commonBases, commonExponents);
 
-				for (int i = 1; i < so.noOfOperands(); i++) {
-					List<StepNode> currentBases = new ArrayList<StepNode>();
-					List<StepNode> currentExponents = new ArrayList<StepNode>();
+				List<List<StepNode>> currentBases = new ArrayList<List<StepNode>>();
+				List<List<StepNode>> currentExponents = new ArrayList<List<StepNode>>();
+				
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					currentBases.add(new ArrayList<StepNode>());
+					currentExponents.add(new ArrayList<StepNode>());
 
-					StepNode.getBasesAndExponents(so.getSubTree(i), null, currentBases, currentExponents);
+					StepNode.getBasesAndExponents(so.getSubTree(i), null, currentBases.get(i), currentExponents.get(i));
 
 					boolean[] found = new boolean[commonBases.size()];
 
 					for (int j = 0; j < commonBases.size(); j++) {
-						for (int k = 0; k < currentBases.size(); k++) {
-							if (currentBases.get(k).equals(commonBases.get(j))) {
-								if (currentExponents.get(k).getValue() < commonExponents.get(j).getValue()) {
-									commonExponents.set(j, currentExponents.get(k));
+						for (int k = 0; k < currentBases.get(i).size(); k++) {
+							if (currentBases.get(i).get(k).equals(commonBases.get(j))) {
+								if (currentExponents.get(i).get(k).getValue() < commonExponents.get(j).getValue()) {
+									commonExponents.set(j, currentExponents.get(i).get(k));
 								}
 								found[j] = true;
 							}
@@ -1352,12 +1355,41 @@ public enum SimplificationSteps {
 					}
 				}
 
-				StepNode result = null;
+				StepNode common = null;
 				for (int i = 0; i < commonBases.size(); i++) {
-					result = StepNode.makeFraction(result, commonBases.get(i), commonExponents.get(i));
+					common = StepNode.makeFraction(common, commonBases.get(i), commonExponents.get(i));
 				}
 
-				return result;
+				if (!common.equals(new StepConstant(1))) {
+					StepOperation result = new StepOperation(Operation.PLUS);
+
+					for (int i = 0; i < so.noOfOperands(); i++) {
+						for (int j = 0; j < commonBases.size(); j++) {
+							for (int k = 0; k < currentBases.get(i).size(); k++) {
+								if (currentBases.get(i).get(k).equals(commonBases.get(j))) {
+									StepNode differenceOfPowers = new StepConstant(
+											currentExponents.get(i).get(k).getValue()
+													- commonExponents.get(j).getValue());
+									currentExponents.get(i).set(k, differenceOfPowers);
+								}
+							}
+						}
+
+						StepNode currentProduct = null;
+						for (int j = 0; j < currentBases.get(i).size(); j++) {
+							currentProduct = StepNode.makeFraction(currentProduct, currentBases.get(i).get(j),
+									currentExponents.get(i).get(j));
+						}
+
+						result.addSubTree(currentProduct);
+					}
+
+					colorTracker[0]++;
+					return multiply(common, result);
+				}
+
+				// DON'T go further in! factor only the outermost sum
+				return so;
 			}
 
 			return iterateThrough(this, sn, sb, colorTracker);
@@ -1419,7 +1451,7 @@ public enum SimplificationSteps {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
-				
+
 				if (so.noOfOperands() >= 3) {
 					StepNode first = null, second = null, third = null;
 
@@ -1508,7 +1540,40 @@ public enum SimplificationSteps {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			if (sn.isOperation(Operation.PLUS)) {
-				// TODO
+				StepOperation so = (StepOperation) sn;
+
+				List<StepVariable> variableList = new ArrayList<StepVariable>();
+				StepNode.getListOfVariables(so, variableList);
+
+				if (variableList.size() == 1 && so.integerCoefficients(variableList.get(0))) {
+					StepVariable var = variableList.get(0);
+					StepNode[] polynomialForm = StepNode.convertToPolynomial(so, var);
+					long[] integerForm = new long[polynomialForm.length];
+
+					if (polynomialForm.length < 3) {
+						return iterateThrough(this, sn, sb, colorTracker);
+					}
+					
+					for (int i = 0; i < polynomialForm.length; i++) {
+						integerForm[i] = Math.round(polynomialForm[i].getValue());
+					}
+
+					for (long i = -integerForm[0]; i <= integerForm[0]; i++) {
+						if (i != 0 && integerForm[0] % i == 0 && so.getValueAt(var, i) == 0) {
+							StepOperation reorganized = new StepOperation(Operation.PLUS);
+							
+							for (int j = polynomialForm.length - 1; j > 0; j--) {
+								reorganized.addSubTree(nonTrivialProduct(integerForm[j], nonTrivialPower(var, j)));
+								reorganized.addSubTree(
+										negate(nonTrivialProduct(i * integerForm[j], nonTrivialPower(var, j - 1))));
+								integerForm[j - 1] += i * integerForm[j];
+							}
+
+							colorTracker[0]++;
+							return reorganized;
+						}
+					}
+				}
 			}
 
 			return iterateThrough(this, sn, sb, colorTracker);
@@ -1519,7 +1584,40 @@ public enum SimplificationSteps {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			if (sn.isOperation(Operation.PLUS)) {
-				// TODO
+				StepOperation so = (StepOperation) sn;
+
+				List<StepVariable> variableList = new ArrayList<StepVariable>();
+				StepNode.getListOfVariables(so, variableList);
+
+				if (variableList.size() == 1 && so.integerCoefficients(variableList.get(0))) {
+					StepVariable var = variableList.get(0);
+					StepNode[] polynomialForm = StepNode.convertToPolynomial(so, var);
+					long[] integerForm = new long[polynomialForm.length];
+
+					if(polynomialForm.length < 3) {
+						return iterateThrough(this, sn, sb, colorTracker);
+					}
+					
+					for (int i = 0; i < polynomialForm.length; i++) {
+						integerForm[i] = Math.round(polynomialForm[i].getValue());
+					}
+
+					for (long i = -integerForm[0]; i <= integerForm[0]; i++) {
+						if (i != 0 && integerForm[0] % i == 0 && so.getValueAt(var, i) == 0) {
+							StepOperation factored = new StepOperation(Operation.PLUS);
+
+							StepNode innerSum = add(var, -i);
+							for (int j = polynomialForm.length - 1; j > 0; j--) {
+								factored.addSubTree(multiply(
+										nonTrivialProduct(integerForm[j], nonTrivialPower(var, j - 1)), innerSum));
+								integerForm[j - 1] += i * integerForm[j];
+							}
+
+							colorTracker[0]++;
+							return factored;
+						}
+					}
+				}
 			}
 
 			return iterateThrough(this, sn, sb, colorTracker);
@@ -1713,7 +1811,7 @@ public enum SimplificationSteps {
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationSteps[] strategy,
 			boolean substep) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		int[] colorTracker = new int[] { 1 };
 		SolutionBuilder changes = new SolutionBuilder(sb == null ? null : sb.getLocalization());
@@ -1724,9 +1822,9 @@ public enum SimplificationSteps {
 			newSn = strategy[i].apply(origSn, changes, colorTracker);
 
 			if (printDebug) {
-				Log.error(": " + origSn);
 				if (colorTracker[0] > 1) {
-					Log.error("changed");
+					Log.error("changed at " + strategy[i]);
+					Log.error(": " + newSn);
 				}
 			}
 

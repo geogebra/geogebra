@@ -523,24 +523,6 @@ public class StepHelper {
 		return true;
 	}
 
-	public static boolean integerCoefficients(StepNode sn, StepNode variable) {
-		int degree = degree(sn);
-
-		double constant = getValue(findConstant(sn));
-		if (Math.floor(constant) != constant) {
-			return false;
-		}
-
-		for (int i = 1; i <= degree; i++) {
-			double coeff = getCoefficientValue(sn, StepNode.power(variable, i));
-			if (Math.floor(coeff) != coeff) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	public static boolean shouldMultiply(StepNode sn) {
 		return countOperation(sn, Operation.DIVIDE) > 1
 				|| countNonConstOperation(sn, Operation.DIVIDE) == 1 && linearInInverse(sn) == null;
@@ -746,10 +728,6 @@ public class StepHelper {
 	public static double getCoefficientValue(StepNode sn, StepNode s) {
 		StepNode coeff = findCoefficient(sn, s);
 		return coeff == null ? 0 : coeff.getValue();
-	}
-
-	private static double getValue(StepNode sn) {
-		return sn == null ? 0 : sn.getValue();
 	}
 
 	private static boolean isZero(StepNode sn) {

@@ -25,9 +25,10 @@ public class RegroupStepTest {
 	private boolean needsHeading;
 	private static int caseCounter = 0;
 
-	// @Test
+	@Test
 	public void factorTest() {
-		f("3*x^2*(x+2) + 3*x*(x+2)^2", "(3)(x)((x + 2))");
+		f("x^3 + 6 x^2 + 11 x + 6", "((x + 3))((x + 2))((x + 1))");
+		f("3*x^2*(x+2) + 3*x*(x+2)^2", "(6)(x)((x + 2))((x + 1))");
 		f("4(x+1)^2+(x+1)^4+1", "((((x + 1))^(2) + 2 + nroot(3, 2)))((((x + 1))^(2) + 2-nroot(3, 2)))");
 		f("x^2+4x+1", "((x + 2 + nroot(3, 2)))((x + 2-nroot(3, 2)))");
 		f("(x^2-3)^2+4(x^2-3)+4", "(((x + 1))^(2))(((x-1))^(2))");
