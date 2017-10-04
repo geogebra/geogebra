@@ -54,7 +54,12 @@ public final class GColor implements GPaint {
 	/** MOW PURPLE */
 	public static final GColor MOW_PURPLE = newColor(163, 136, 212);
 
-	private final int value;
+	/**
+	 * color stored as ARGB order chosen so that it can be sent as an integer
+	 * directly to
+	 * https://developer.android.com/reference/android/graphics/Color.html
+	 */
+	private final int valueARGB;
 
 	private static final double FACTOR = 0.7;
 
@@ -69,7 +74,7 @@ public final class GColor implements GPaint {
 	 *            alpha (0-255)
 	 */
 	private GColor(int r, int g, int b, int a) {
-		this.value = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
+		this.valueARGB = hashRGBA(r & 0xFF, g & 0xFF, b & 0xFF, a & 0xFF);
 	}
 
 	/**
@@ -113,28 +118,28 @@ public final class GColor implements GPaint {
 	 * @return red (0 - 255)
 	 */
 	public int getRed() {
-		return getRed(value);
+		return getRed(valueARGB);
 	}
 
 	/**
 	 * @return green (0 - 255)
 	 */
 	public int getGreen() {
-		return getGreen(value);
+		return getGreen(valueARGB);
 	}
 
 	/**
 	 * @return blue (0 - 255)
 	 */
 	public int getBlue() {
-		return getBlue(value);
+		return getBlue(valueARGB);
 	}
 
 	/**
 	 * @return alpha (0 - 255)
 	 */
 	public int getAlpha() {
-		return getAlpha(value);
+		return getAlpha(valueARGB);
 	}
 
 	/**
@@ -292,7 +297,7 @@ public final class GColor implements GPaint {
 	 * @return int ARBG
 	 */
 	public int getRGB() {
-		return value;
+		return valueARGB;
 	}
 
 	/**
@@ -417,12 +422,12 @@ public final class GColor implements GPaint {
 			return false;
 		}
 		GColor other = (GColor) object;
-		return other.value == this.value;
+		return other.valueARGB == this.valueARGB;
 	}
 
 	@Override
 	public int hashCode() {
-		return value;
+		return valueARGB;
 	}
 
 	/**
