@@ -5,6 +5,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastButton;
 
+import com.google.gwt.aria.client.Roles;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
@@ -82,11 +83,11 @@ public class StandardButton extends FastButton {
 		if (label != null) {
 			getUpFace().setText(label);
 		}
-
+		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
 
 	@Override
-    public void setText(String text){
+	public void setText(String text) {
 		this.label = text;
 		setIconAndLabel(this.icon, text, this.width);
 	}
@@ -171,5 +172,6 @@ public class StandardButton extends FastButton {
 	public void setAltText(String altText) {
 		btnImage.getElement().setAttribute("alt", altText);
 		btnImage.getElement().setAttribute("role", "button");
+		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
 }
