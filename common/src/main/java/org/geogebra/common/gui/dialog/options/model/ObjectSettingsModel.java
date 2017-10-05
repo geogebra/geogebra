@@ -1,10 +1,11 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GProperty;
+import org.geogebra.common.kernel.geos.GeoBoolean;
+import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoInputBox;
@@ -17,6 +18,9 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a model for the object properties
@@ -634,7 +638,7 @@ abstract public class ObjectSettingsModel {
     /**
      * @return with the the geoElementsList which are the selected geos
      */
-    protected ArrayList<GeoElement> getGeoElementsList() {
+    public ArrayList<GeoElement> getGeoElementsList() {
         return geoElementsList;
     }
 
@@ -679,5 +683,16 @@ abstract public class ObjectSettingsModel {
         }
 
         return geoElementsList.get(0).getLabelSimple();
+    }
+
+    static public void removeNoPropertiesGeoFromList(App app, List<GeoElement> fromList, List<GeoElement> toList) {
+        Construction cons = app.getKernel().getConstruction();
+        toList.clear();
+        for (GeoElement geo : fromList) {
+            if (cons.isConstantElement(geo) == Construction.Constants.NOT
+                    && !(geo instanceof GeoBoolean || geo instanceof GeoButton)) {
+                toList.add(geo);
+            }
+        }
     }
 }
