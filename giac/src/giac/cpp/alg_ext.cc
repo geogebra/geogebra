@@ -1708,7 +1708,7 @@ namespace giac {
     // = sign(b) if a^2-c*b^2 < 0
     int s=int(v.size());
     if (!s
-#ifdef EMCC
+#if 0 // def EMCC
 	|| s>1
 #endif
 	)
