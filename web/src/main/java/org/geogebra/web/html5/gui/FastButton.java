@@ -62,7 +62,8 @@ public abstract class FastButton extends CustomButton {
 		// I am not going to sink Mouse events since
 		// I don't think we will gain anything
 
-		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS); // Event.TOUCHEVENTS adds
+		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS | Event.KEYEVENTS); // Event.TOUCHEVENTS
+																			// adds
 		                                               // all (Start, End,
 		                                               // Cancel, Change)
 
@@ -173,6 +174,20 @@ public abstract class FastButton extends CustomButton {
 			event.stopPropagation();
 			break;
 		}
+
+		case Event.ONKEYDOWN:
+			char keyCode = (char) event.getKeyCode();
+			if (keyCode == ' ') {
+				onClick(event);
+			}
+			break;
+		case Event.ONKEYPRESS:
+			keyCode = (char) event.getKeyCode();
+			if (keyCode == '\r' || keyCode == '\n') {
+				onClick(event);
+			}
+			break;
+
 		default: {
 			// Let parent handle event if not one of the above (?)
 			try {
