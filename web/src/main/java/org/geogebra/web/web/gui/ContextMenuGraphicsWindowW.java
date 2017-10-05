@@ -222,6 +222,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				app.getActiveEuclidianView().setShowAxis(!axisShown);
 				showAxes.setChecked(!axisShown);
 				app.getActiveEuclidianView().repaintView();
+				app.storeUndoInfo();
 			}
 		});
 		wrappedPopup.addItem(showAxes);
