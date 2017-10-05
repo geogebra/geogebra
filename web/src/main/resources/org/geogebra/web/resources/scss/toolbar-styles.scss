@@ -1,25 +1,27 @@
 @import 'colors';
 $tab-transition: all .3s ease;
-$movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms
-.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
-	margin-left: 10px;
-}
-
-.gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
-	img {
-		opacity: 0.54;
+$movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+.GeoGebraFrame{
+	.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
+		margin-left: 10px;
 	}
-}
-
-.gwt-ToggleButton.flatButton.menu.portraitMenuBtn.gwt-ToggleButton-up-hovering {
-	img {
-		opacity: 0.8;
+	
+	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
+		img {
+			opacity: 0.54;
+		}
 	}
-}
+	
+	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn.gwt-ToggleButton-up-hovering {
+		img {
+			opacity: 0.8;
+		}
+	}
+	
+	.toolbar {
+		overflow: hidden;
 
-.toolbar {
-	overflow: hidden;	
-	.header {
+		.header {
 			background-color: $purple-default;
 			/*box-shadow: 0px 4px 6px 0px rgba(110, 110, 110, 0.46);*/
 			
@@ -183,203 +185,201 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms
 			.selected { 
 				border-bottom: none;
 			}
- 
 		}
 
-	.header-close-portrait	{
-		@extend .header-open-landscape;
-		position: absolute;
-		bottom: -4px;
-		
-		.center {			
-			.indicator {
-				display: none;
-				visibility: hidden;
-			}
-		}	
-	
-		.close {
-			/*position: absolute;*/
-			/*left: 0px;*/
-			margin-left: 10px;
-		}	
-	
-		.contextMenu {
-			display: none;
-		}
-	}	
-	
-	.toolsPanel {
-	
-		padding: 0px 16px 14px 16px;
-		
-		.gwt-Label {
-			cursor: default;
-			height: 48px;
-			line-height: 56px;
-			font-size: 16px;
-		}
-		
-		.categoryPanel {
-			position: relative;
-			line-height: 31px !important;
-		}
-
-		.button {
-			position: relative;
-			display: inline-block;
-			border-radius: 5px;
-			border: 1px solid $tool-border;
-			background-color: $white;
-			padding: 3px;
-			margin: 3px;
-			width: 32px;
-			height: 32px;
-		}
-
-		.button.plusPadding img {
-			padding: 4px;
-		}
-
-		.button[selected=true]{
-			padding: 2px;
-			border: 2px solid $purple-default;
-		}
-
-		.button[selected=false] {
-			border: 1px solid $tool-border;
-
-			&:hover, &:focus {
-				border: 1px solid $purple-default;
-			}
-		}
-
-		.moreLessBtn {
-			border-radius: 2px;
-			font-size: 14px;
-			min-width: 64px;
-			color: $teal-default;
-			text-transform: uppercase;
-			text-align: center;
-			float: left;
-			margin: 16px 0px 16px 0px;
-			padding: 0px 16px 0px 16px;
-			cursor: pointer;
-			transition: background-color 0.3s ease-out;
-		
-			.html-face {
-				line-height: 36px;
-				height: 36px;
-				min-width: 64px;
-				text-align: center;
-				align-content: center;
-				font-family: Roboto,sans-serif;
-				font-weight: 400;
-				letter-spacing: .5px;
-			}
-			
-			&:hover {
-				background-color: $black-10;
-				color: $teal-dark;
-			}
-		}
-	}
-	
-	.main  {
-		position: absolute;
-		
-		.moveFloatingBtn {
-			cursor: pointer;
+		.header-close-portrait	{
+			@extend .header-open-landscape;
 			position: absolute;
-			left: calc(100% - 84px);
-			border-radius: 50%;
-			width: 48px;
-			height: 48px;
-			background: $purple-default;
-			box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
-			transition: background-color 150ms ease 0ms;
+			bottom: -4px;
 			
-			img {
-				width: 24px !important;
-				padding: 12px;	
-			}
-		
-			&:hover {
-				background: $purple-dark;
-			}
-		}
-	
-		.showMoveBtn {
-			@extend .moveFloatingBtn;
-			opacity: 1;	 
-			transition: opacity 0.2s ease;
-		}
-	
-		.hideMoveBtn {
-			@extend .moveFloatingBtn;
-			cursor: default;
-			opacity: 0;	
-			transition: opacity 0.2s ease;
-	
-			img {
-				opacity: 0;
+			.center {			
+				.indicator {
+					display: none;
+					visibility: hidden;
+				}
 			}	
 		
-			&:hover {
-				/*background-color: #666;*/
-				background-color: $selected-menuitem-background;
+			.close {
+				/*position: absolute;*/
+				/*left: 0px;*/
+				margin-left: 10px;
+			}	
+		
+			.contextMenu {
+				display: none;
+			}
+		}	
+	
+		.toolsPanel {
+		
+			padding: 0px 16px 14px 16px;
+			
+			.gwt-Label {
+				cursor: default;
+				height: 48px;
+				line-height: 56px;
+				font-size: 16px;
+			}
+			
+			.categoryPanel {
+				position: relative;
+				line-height: 31px !important;
+			}
+	
+			.button {
+				position: relative;
+				display: inline-block;
+				border-radius: 5px;
+				border: 1px solid $tool-border;
+				background-color: $white;
+				padding: 3px;
+				margin: 3px;
+				width: 32px;
+				height: 32px;
+			}
+	
+			.button.plusPadding img {
+				padding: 4px;
+			}
+	
+			.button[selected=true]{
+				padding: 2px;
+				border: 2px solid $purple-default;
+			}
+	
+			.button[selected=false] {
+				border: 1px solid $tool-border;
+	
+				&:hover, &:focus {
+					border: 1px solid $purple-default;
+				}
+			}
+	
+			.moreLessBtn {
+				border-radius: 2px;
+				font-size: 14px;
+				min-width: 64px;
+				color: $teal-default;
+				text-transform: uppercase;
+				text-align: center;
+				float: left;
+				margin: 16px 0px 16px 0px;
+				padding: 0px 16px 0px 16px;
+				cursor: pointer;
+				transition: background-color 0.3s ease-out;
+			
+				.html-face {
+					line-height: 36px;
+					height: 36px;
+					min-width: 64px;
+					text-align: center;
+					align-content: center;
+					font-family: Roboto,sans-serif;
+					font-weight: 400;
+					letter-spacing: .5px;
+				}
 				
-				img {
-					opacity: 0;	
+				&:hover {
+					background-color: $black-10;
+					color: $teal-dark;
 				}
 			}
 		}
-		.moveMoveBtnUp {
-			bottom: calc(12px + 80px);
-			transition: $movebtn-transition;
-		}
-		.moveMoveBtnDown {
-			bottom: 12px;
-			transition: $movebtn-transition;
-		}
-		.moveMoveBtnUpSmall {
-			bottom: calc(68px + 48px);
-			transition: $movebtn-transition;
-		}
-		.moveMoveBtnDownSmall {
-			bottom: 68px;
-			transition: $movebtn-transition;
+	
+		.main  {
+			position: absolute;
+			
+			.moveFloatingBtn {
+				cursor: pointer;
+				position: absolute;
+				left: calc(100% - 84px);
+				border-radius: 50%;
+				width: 48px;
+				height: 48px;
+				background: $purple-default;
+				box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
+				transition: background-color 150ms ease 0ms;
+				
+				img {
+					width: 24px !important;
+					padding: 12px;	
+				}
+			
+				&:hover {
+					background: $purple-dark;
+				}
+			}
+		
+			.showMoveBtn {
+				@extend .moveFloatingBtn;
+				opacity: 1;	 
+				transition: opacity 0.2s ease;
+			}
+		
+			.hideMoveBtn {
+				@extend .moveFloatingBtn;
+				cursor: default;
+				opacity: 0;	
+				transition: opacity 0.2s ease;
+		
+				img {
+					opacity: 0;
+				}	
+			
+				&:hover {
+					/*background-color: #666;*/
+					background-color: $selected-menuitem-background;
+					
+					img {
+						opacity: 0;	
+					}
+				}
+			}
+			.moveMoveBtnUp {
+				bottom: calc(12px + 80px);
+				transition: $movebtn-transition;
+			}
+			.moveMoveBtnDown {
+				bottom: 12px;
+				transition: $movebtn-transition;
+			}
+			.moveMoveBtnUpSmall {
+				bottom: calc(68px + 48px);
+				transition: $movebtn-transition;
+			}
+			.moveMoveBtnDownSmall {
+				bottom: 68px;
+				transition: $movebtn-transition;
+			}
+	
+			.tab-hidden {
+				visibility: hidden;
+				transition: $tab-transition;
+			}
+		
+			.tab {
+				visibility: visible;		
+				transition: $tab-transition;
+			}
 		}
 
-		.tab-hidden {
-			visibility: hidden;
+		.algebra {
+			position: absolute;
+			left: 0px;
 			transition: $tab-transition;
 		}
 	
-		.tab {
-			visibility: visible;		
+		.tools {
+			position: absolute;
+			left: -100%;
 			transition: $tab-transition;
 		}
+	
+		.main >* {
+			position: absolute !important;
+			display: inline-block;
+		}
+
 	}
 
-	.algebra {
-		position: absolute;
-		left: 0px;
-		transition: $tab-transition;
-	}
-
-	.tools {
-		position: absolute;
-		left: -100%;
-		transition: $tab-transition;
-	}
-
-	.main >* {
-		position: absolute !important;
-		display: inline-block;
-	}
-
- }
-
-
- 
+}
