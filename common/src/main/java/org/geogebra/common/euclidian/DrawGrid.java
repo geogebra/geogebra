@@ -196,7 +196,8 @@ public class DrawGrid {
 					} else {
 
 						// not hitting axis label, just draw it
-						g2.drawStraightLine(left, pix, view.getWidth(), pix);
+						addStraightLineToGeneralPath(g2, left, pix,
+								view.getWidth(), pix);
 					}
 				}
 
@@ -378,7 +379,7 @@ public class DrawGrid {
 						drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 					} else {
 						// not hitting axis label, just draw it
-						g2.drawStraightLine(pix, 0, pix, bottom);
+						addStraightLineToGeneralPath(g2, pix, 0, pix, bottom);
 
 					}
 
@@ -404,7 +405,7 @@ public class DrawGrid {
 				drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 			} else {
 				// not hitting axis label, just draw it
-				g2.drawStraightLine(pix, 0, pix, bottom);
+				addStraightLineToGeneralPath(g2, pix, 0, pix, bottom);
 			}
 		}
 	}
