@@ -893,6 +893,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 						app.getEuclidianView2(1).setPointCapturing(index);
 					}
 					app.setUnsaved();
+					app.storeUndoInfo();
 				}
 			});
 		}
