@@ -3798,6 +3798,10 @@ namespace giac {
         return sqrt(sq(*a._CPLXptr)+sq(*(a._CPLXptr+1)),contextptr) ;
       }
 #else
+      if (a.subtype==3){
+	double ar=a._CPLXptr->_DOUBLE_val,ai=(a._CPLXptr+1)->_DOUBLE_val;
+	return gen(std::sqrt(ar*ar+ai*ai));
+      }
       return sqrt(sq(*a._CPLXptr)+sq(*(a._CPLXptr+1)),contextptr) ;
 #endif
     case _DOUBLE_:
@@ -4321,9 +4325,13 @@ namespace giac {
       return b._DOUBLE_val+real2double(*a._REALptr);
     case _ZINT__DOUBLE_:
       return b._DOUBLE_val+mpz_get_d(*a._ZINTptr);
-    case _CPLX__INT_: case _CPLX__ZINT: case _CPLX__DOUBLE_: case _CPLX__FLOAT_: case _CPLX__REAL:
+    case _CPLX__INT_: 
+      if (b.val==0) return a;
+    case _CPLX__ZINT: case _CPLX__DOUBLE_: case _CPLX__FLOAT_: case _CPLX__REAL:
       return gen(*a._CPLXptr+b,*(a._CPLXptr+1));
-    case _INT___CPLX: case _ZINT__CPLX: case _FLOAT___CPLX: case _DOUBLE___CPLX: case _REAL__CPLX:
+    case _INT___CPLX: 
+      if (a.val==0) return b;
+    case _ZINT__CPLX: case _FLOAT___CPLX: case _DOUBLE___CPLX: case _REAL__CPLX:
       return gen(a+*b._CPLXptr,*(b._CPLXptr+1));
     case _CPLX__CPLX:
       return adjust_complex_display(gen(*a._CPLXptr + *b._CPLXptr, *(a._CPLXptr+1) + *(b._CPLXptr+1)),a,b);
@@ -4390,9 +4398,9 @@ namespace giac {
 	}
       }
     default:
-      if (a.type==_INT_ && a.val==0)
+      if (a.type==_INT_ && a.val==0 && b.type!=_STRNG)
 	return b;
-      if (b.type==_INT_ && b.val==0)
+      if (b.type==_INT_ && b.val==0 && a.type!=_STRNG)
 	return a;
       if (is_undef(a))
 	return a;
@@ -5672,6 +5680,11 @@ namespace giac {
 
   static gen mult_cplx(const gen & a,const gen & b,GIAC_CONTEXT){
     unsigned t= (a._CPLXptr->type | ((a._CPLXptr+1)->type << 8) | (b._CPLXptr->type << 16) | ((b._CPLXptr+1)->type << 24));
+    if (t==(_DOUBLE_ | (_DOUBLE_<<8) | (_DOUBLE_ <<16) | (_DOUBLE_ <<24))){
+      double ar=a._CPLXptr->_DOUBLE_val,ai=(a._CPLXptr+1)->_DOUBLE_val,
+	br=b._CPLXptr->_DOUBLE_val,bi=(b._CPLXptr+1)->_DOUBLE_val;
+      return gen(ar*br-ai* bi, br*ai+ar*bi);
+    }
     if (t==(_ZINT | (_ZINT<<8) | (_ZINT <<16) | (_ZINT <<24))){
       mpz_t & ax=*a._CPLXptr->_ZINTptr;
       mpz_t & ay=*((a._CPLXptr+1)->_ZINTptr);
@@ -5800,9 +5813,13 @@ namespace giac {
       return b._DOUBLE_val*real2double(*a._REALptr);
     case _ZINT__DOUBLE_:
       return mpz_get_d(*a._ZINTptr)*b._DOUBLE_val;
-    case _CPLX__INT_: case _CPLX__ZINT: case _CPLX__DOUBLE_: case _CPLX__FLOAT_: case _CPLX__REAL:
+    case _CPLX__INT_: 
+      if (b.val==1) return a;
+    case _CPLX__ZINT: case _CPLX__DOUBLE_: case _CPLX__FLOAT_: case _CPLX__REAL:
       return gen(*a._CPLXptr*b,*(a._CPLXptr+1)*b);
-    case _INT___CPLX: case _ZINT__CPLX: case _DOUBLE___CPLX: case _FLOAT___CPLX: case _REAL__CPLX:
+    case _INT___CPLX: 
+      return a.val==1?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
+    case _ZINT__CPLX: case _DOUBLE___CPLX: case _FLOAT___CPLX: case _REAL__CPLX:
       return is_one(a)?b:gen(a*(*b._CPLXptr),a*(*(b._CPLXptr+1)));
     case _CPLX__CPLX:
       return adjust_complex_display(mult_cplx(a,b,contextptr),a,b);
@@ -6227,6 +6244,10 @@ namespace giac {
     if (ctrl_c || interrupted) { 
       interrupted = true; ctrl_c=false;
       return gensizeerr(gettext("Stopped by user interruption.")); 
+    }
+    if (exponent.type==_INT_){
+      if (exponent.val==1) return base;
+      if (exponent.val==2 && base.type<=_REAL) return base*base;
     }
     if (is_undef(base))
       return base;

@@ -238,6 +238,12 @@ namespace giac {
     gen xval=x._IDNTptr->eval(1,x,contextptr);
     if (xval!=x){
       _purge(x,contextptr);
+      xval=x._IDNTptr->eval(1,x,contextptr);
+      if (xval!=x){
+	string s="Unable to purge "+x.print(contextptr)+ ", choose another free variable name";
+	*logptr(contextptr) << s << endl;
+	return gensizeerr(s);
+      }
       gen res=residue(g_,x,a,contextptr);
       sto(xval,x,contextptr);
       return res;
