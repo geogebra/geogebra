@@ -5,6 +5,7 @@
 /*****************
 *   TOOLBAR
 ******************/	
+	$toolbarWidth: 600px;
 	
 	.mowToolbar {
 		position: relative;
@@ -121,7 +122,7 @@
 	}
 	
 	.BigScreen {
-		width: 700px;
+		width: $toolbarWidth;
 	} 
 	.SmallScreen {
 		width: 100%;
@@ -214,15 +215,15 @@
 		}
 		.colorPanel {
 			position: absolute;
-			left: 25%; 
+			left: 150px; 
 			margin:0px;
 			.panelRow {
               	padding: 0px;
-              }
+           }
 		} 
 		.sizePanel {
 			position: absolute;
-			left: 35%; 
+			left: 153px; 
 	    	top: 70px;
 		}
 		.disabled, .disabled:hover {

@@ -50,6 +50,8 @@ public class MOWToolbar extends FlowPanel {
 	PersistablePanel undoRedoPanel;
 	private MyToggleButton btnUndo;
 	private MyToggleButton btnRedo;
+
+	private final int maxToolbarWidth = 600;
 	/**
 	 *
 	 * @param app
@@ -169,7 +171,7 @@ public class MOWToolbar extends FlowPanel {
 		undoRedoPanel.getElement().getStyle().setLeft(0, Unit.PX);
 		// toolbar max width = 700 + undoRedoPanel width = 120
 		// 700+2*120 = 940
-		if (app.getWidth() > 940) {
+		if (app.getWidth() > maxToolbarWidth + 240) {
 			undoRedoPanel.getElement().getStyle().setBottom(0, Unit.PX);
 		} else {
 			undoRedoPanel.getElement().getStyle().clearBottom();
@@ -523,7 +525,7 @@ public class MOWToolbar extends FlowPanel {
 	 */
 	public void setResponsivePosition() {
 		// small screen
-		if (app.getWidth() < 700) {
+		if (app.getWidth() < maxToolbarWidth) {
 			removeStyleName("BigScreen");
 			addStyleName("SmallScreen");
 			getElement().getStyle().setLeft(0, Unit.PX);
@@ -531,7 +533,9 @@ public class MOWToolbar extends FlowPanel {
 		else {
 			removeStyleName("SmallScreen");
 			addStyleName("BigScreen");
-			getElement().getStyle().setLeft((app.getWidth() - 700) / 2, Unit.PX);
+			getElement().getStyle()
+					.setLeft((app.getWidth() - maxToolbarWidth) / 2,
+					Unit.PX);
 		}
 	}
 }
