@@ -2023,6 +2023,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (controls != null) {
 			controls.setLabels();
 		}
+
+
 	}
 
 	@Override
@@ -2378,5 +2380,26 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
+	/**
+	 * Sets the tab index of the item.
+	 * 
+	 * @param tabIndex
+	 *            to set.
+	 */
+	public void setTabIndex(int tabIndex) {
+		main.getElement().setTabIndex(tabIndex);
+	}
+
+	/**
+	 * 
+	 * @return the tab index of the item.
+	 */
+	public int getTabIndex() {
+		return main.getElement().getTabIndex();
+	}
+
+	public void setAltText(String alt) {
+		main.getElement().setAttribute("alt", alt);
+	}
 }
 

@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.view.algebra.AnimPanel.AnimPanelListener;
 
 import com.google.gwt.core.client.Scheduler;
@@ -125,6 +126,7 @@ public class ItemControls extends FlowPanel
 
 			});
 		}
+		btnMore.setTabIndex(GUITabs.NO_TAB);
 		return btnMore;
 
 	}

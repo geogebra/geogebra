@@ -8,6 +8,7 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -21,6 +22,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
@@ -32,6 +34,8 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
@@ -40,6 +44,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * 
@@ -80,7 +85,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private Integer lastOpenWidth = null;
 	private AlgebraTab tabAlgebra = null;
 	private ToolsTab tabTools = null;
-	private TabIds selectedTab;
+	private TabIds selectedTabId;
 	private boolean closedByUser = false;
 	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
 
@@ -88,6 +93,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			resize();
 		}
 	};
+
+	private ToolbarTab selectedTab;
 	/**
 	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
 	 * this.
@@ -121,7 +128,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		header.updateUndoRedoPosition();
 	}
 
-	private class ToolbarTab extends ScrollPanel {
+	private abstract class ToolbarTab extends ScrollPanel {
 		public ToolbarTab() {
 			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
@@ -142,6 +149,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				addStyleName("tab-hidden");
 			}
 		}
+		
+		public abstract void focusFirstElement();
+		public abstract void focusLastElement();
 	}
 
 	private class AlgebraTab extends ToolbarTab {
@@ -234,12 +244,22 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 		}
 
+		@Override
+		public void focusFirstElement() {
+			aview.getItem(0).getElement().focus();
+		}
+
+		@Override
+		public void focusLastElement() {
+			aview.getInputTreeItem().getElement().focus();
+		}
+
 	}
 
 	/**
 	 * tab of tools
 	 */
-	class ToolsTab extends ToolbarTab {
+	class ToolsTab extends ToolbarTab implements KeyDownHandler {
 	
 		/**
 		 * panel containing the tools
@@ -288,31 +308,55 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				
 				@Override
 				public void onClick(Widget source) {
-					ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
-					if (level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) { 
-						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
-					} else if (level.equals(ToolsetLevel.STANDARD)) {
-						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
-					}
-					updateContent();
+					onMorePressed();
 				}
 			});
+
 			lessBtn.addFastClickHandler(new FastClickHandler() {
 				
 				@Override
 				public void onClick(Widget source) {
-					ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
-					AppType type = app.getSettings().getToolbarSettings().getType();
-					if (level.equals(ToolsetLevel.ADVANCED)) { 
-						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
-					} else if (level.equals(ToolsetLevel.STANDARD) && type.equals(AppType.GEOMETRY_CALC)) {
-						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-					} else {
-						app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.STANDARD);
-					}
-					updateContent();
+					onLessPressed();
 				}
 			});
+
+			if (app.has(Feature.TAB_ON_GUI)) {
+				moreBtn.addKeyDownHandler(this);
+				lessBtn.addKeyDownHandler(this);
+			}
+		}
+
+		/** More button handler */
+		protected void onMorePressed() {
+			ToolsetLevel level = app.getSettings().getToolbarSettings()
+					.getToolsetLevel();
+			if (level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) {
+				app.getSettings().getToolbarSettings()
+						.setToolsetLevel(ToolsetLevel.STANDARD);
+			} else if (level.equals(ToolsetLevel.STANDARD)) {
+				app.getSettings().getToolbarSettings()
+						.setToolsetLevel(ToolsetLevel.ADVANCED);
+			}
+			updateContent();
+		}
+
+		/** Less button handler */
+		protected void onLessPressed() {
+			ToolsetLevel level = app.getSettings().getToolbarSettings()
+					.getToolsetLevel();
+			AppType type = app.getSettings().getToolbarSettings().getType();
+			if (level.equals(ToolsetLevel.ADVANCED)) {
+				app.getSettings().getToolbarSettings()
+						.setToolsetLevel(ToolsetLevel.STANDARD);
+			} else if (level.equals(ToolsetLevel.STANDARD)
+					&& type.equals(AppType.GEOMETRY_CALC)) {
+				app.getSettings().getToolbarSettings()
+						.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
+			} else {
+				app.getSettings().getToolbarSettings()
+						.setToolsetLevel(ToolsetLevel.STANDARD);
+			}
+			updateContent();
 		}
 
 		/**
@@ -369,6 +413,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
 			sp.clear();
 			sp.add(toolsPanel);
+			setLabels();
 			handleMoreLessButtons();
 		}
 
@@ -406,6 +451,35 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				w = 420;
 			}
 			ToolTipManagerW.sharedInstance().setTooltipWidthOnResize(w);
+		}
+
+		@Override
+		public void focusFirstElement() {
+			toolsPanel.focusFirst();
+		}
+
+		@Override
+		public void focusLastElement() {
+			// TODO Auto-generated method stub
+
+		}
+
+		public void onKeyDown(KeyDownEvent event) {
+			int key = event.getNativeKeyCode();
+			Object source = event.getSource();
+
+			if ((source == moreBtn || source == moreBtn)
+					&& key == GWTKeycodes.KEY_TAB && !event.isShiftKeyDown()) {
+				header.focusMenu();
+			}
+			if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
+				return;
+			}
+			if (source == moreBtn) {
+				onMorePressed();
+			} else if (source == lessBtn) {
+				onLessPressed();
+			}
 		}
 
 	}
@@ -718,8 +792,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (moveBtn == null) {
 			return;
 		}
+
 		moveBtn.addStyleName("showMoveBtn");
 		moveBtn.removeStyleName("hideMoveBtn");
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			moveBtn.setTabIndex(GUITabs.TOOLS_MOVE_TAB);
+		}
 	}
 
 	/**
@@ -732,6 +811,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		moveBtn.addStyleName("hideMoveBtn");
 		moveBtn.removeStyleName("showMoveBtn");
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			moveBtn.setTabIndex(GUITabs.NO_TAB);
+		}
 	}
 
 	/**
@@ -851,6 +934,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void openAlgebra() {
 		header.selectAlgebra();
+		selectedTab = tabAlgebra;
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
@@ -866,6 +950,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public void openTools() {
 		ToolTipManagerW.hideAllToolTips();
 		header.selectTools();
+		selectedTab = tabTools;
 
 		open();
 		main.removeStyleName("algebra");
@@ -949,7 +1034,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * @return true if AV is selected and ready to use.
 	 */
 	public boolean isAlgebraViewActive() {
-		return tabAlgebra != null && selectedTab == TabIds.ALGEBRA;
+		return tabAlgebra != null && selectedTabId == TabIds.ALGEBRA;
 	}
 
 	/**
@@ -965,17 +1050,17 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * 
 	 * @return the selected tab id.
 	 */
-	public TabIds getSelectedTab() {
-		return selectedTab;
+	public TabIds getSelectedTabId() {
+		return selectedTabId;
 	}
 
 	/**
 	 * 
-	 * @param selectedTab
+	 * @param tabId
 	 *            to set.
 	 */
-	public void setSelectedTab(TabIds selectedTab) {
-		this.selectedTab = selectedTab;
+	public void setSelectedTabId(TabIds tabId) {
+		this.selectedTabId = tabId;
 	}
 
 	/**
@@ -1110,5 +1195,16 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void setTabIndexes() {
 		header.setTabIndexes();
+	}
+
+	/** Focus the first element of toolbar under header */
+	public void focusFirstElement() {
+		selectedTab.focusFirstElement();
+
+	}
+
+	/** Focus the lasst element of toolbar under header */
+	public void focusLastElement() {
+		selectedTab.focusLastElement();
 	}
 }

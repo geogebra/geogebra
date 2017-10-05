@@ -282,7 +282,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		center.addStyleName("indicatorLeft");
 		btnAlgebra.addStyleName("selected");
 		btnTools.removeStyleName("selected");
-		toolbarPanel.setSelectedTab(TabIds.ALGEBRA);
+		toolbarPanel.setSelectedTabId(TabIds.ALGEBRA);
 	}
 
 	/**
@@ -293,7 +293,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		center.addStyleName("indicatorRight");
 		btnAlgebra.removeStyleName("selected");
 		btnTools.addStyleName("selected");
-		toolbarPanel.setSelectedTab(TabIds.TOOLS);
+		toolbarPanel.setSelectedTabId(TabIds.TOOLS);
 	}
 
 	/**
@@ -547,7 +547,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		}
 
 		toolbarPanel.showKeyboardButtonDeferred(
-				isOpen() && toolbarPanel.getSelectedTab() != TabIds.TOOLS);
+				isOpen() && toolbarPanel.getSelectedTabId() != TabIds.TOOLS);
 	}
 
 	private void updateDraggerStyle(boolean close) {
@@ -738,5 +738,10 @@ class Header extends FlowPanel implements KeyDownHandler {
 		} else if (source == btnRedo) {
 			onRedoPressed();
 		}
+	}
+
+	/** Sets focus to Burger menu */
+	public void focusMenu() {
+		btnMenu.getElement().focus();
 	}
 }

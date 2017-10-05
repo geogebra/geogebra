@@ -538,12 +538,24 @@ public class ZoomPanel extends FlowPanel
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
 		Object source = event.getSource();
-		if (source == getFirstButton() && key == GWTKeycodes.KEY_TAB
-				&& event.isShiftKeyDown()) {
-			app.getGlobalKeyDispatcher().focusLastGeo();
-			event.stopPropagation();
-			event.preventDefault();
+		if (key == GWTKeycodes.KEY_TAB) {
+			if (source == getFirstButton()	&& event.isShiftKeyDown()) {
+				app.getGlobalKeyDispatcher().focusLastGeo();
+				event.stopPropagation();
+				event.preventDefault();
+			} else  {
+				if (source == getLastButton() && !event.isShiftKeyDown()) {
+					app.getGuiManager().focusToobarFirstElement();
+					event.stopPropagation();
+					event.preventDefault();
+				}
+
+
+			}
+
+
 		}
+		
 		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
 			return;
 		}
@@ -567,6 +579,14 @@ public class ZoomPanel extends FlowPanel
 		}
 	}
 
+	/** Focus the last available button on zoom panel. */
+	public void focusLastButton() {
+		Widget btn = getLastButton();
+		if (btn != null) {
+			btn.getElement().focus();
+		}
+	}
+
 	private Widget getFirstButton() {
 		if (homeBtn != null && homeShown) {
 			return homeBtn;
@@ -577,5 +597,21 @@ public class ZoomPanel extends FlowPanel
 		}
 
 		return fullscreenBtn;
+	}
+
+	private Widget getLastButton() {
+		if (fullscreenBtn != null) {
+			return fullscreenBtn;
+		}
+
+		if (zoomOutBtn != null) {
+			return zoomOutBtn;
+		}
+
+		if (homeBtn != null && homeShown) {
+			return homeBtn;
+		}
+
+		return null;
 	}
 }

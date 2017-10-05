@@ -162,6 +162,15 @@ public class Tools extends FlowPanel implements SetLabels {
 		}
 	}
 
+	/**
+	 * Focus the very first button of the panel.
+	 */
+	public void focusFirst() {
+		if (categoryPanelList != null && !categoryPanelList.isEmpty()) {
+			categoryPanelList.get(0).toolBtnList.get(0).setFocus(true);
+		}
+
+	}
 	private class CategoryPanel extends FlowPanel implements SetLabels {
 		private Category category;
 		private FlowPanel toolsPanel;
@@ -730,4 +739,5 @@ public class Tools extends FlowPanel implements SetLabels {
 			}
 		}
 	}
+
 }

@@ -142,6 +142,7 @@ public class Marble extends SimplePanel
 		else {
 			this.getElement().getStyle().setBackgroundColor(GColor.getColorString(GColor.WHITE));
 		}
+		setAltText(value ? "visible" : "not visible");
 	}
 	
 	/**
@@ -158,4 +159,7 @@ public class Marble extends SimplePanel
 		}
     }
 
+	public void setAltText(String alt) {
+		getElement().setAttribute("alt", alt);
+	}
 }

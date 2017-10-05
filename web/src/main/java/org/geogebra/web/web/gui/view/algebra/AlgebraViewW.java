@@ -36,6 +36,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
@@ -1153,6 +1154,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 			TreeItem parent = getParentNode(geo, forceLayer);
 			RadioTreeItem node = createAVItem(geo);
+
+			node.setTabIndex(getNextTabIndex());
 
 			addRadioTreeItem(parent, node);
 
@@ -2381,5 +2384,9 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private int getDefaultAVWidth() {
 		return (int) (app.getWidth()
 				* PerspectiveDecoder.landscapeRatio(app.getWidth()));
+	}
+
+	private int getNextTabIndex() {
+		return GUITabs.AV_TAB_START + getItemCount();
 	}
 }

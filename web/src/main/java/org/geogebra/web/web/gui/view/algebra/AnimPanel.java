@@ -207,6 +207,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		}
 		btnPlay.setStyleName("avPlayButton");
 
+		btnPlay.setTabIndex(-1);
+
 		ClickStartHandler.init(btnPlay, new ClickStartHandler() {
 			@Override
 			public boolean onClickStart(int x, int y, PointerEventType type,

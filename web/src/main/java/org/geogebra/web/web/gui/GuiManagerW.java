@@ -2493,6 +2493,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			// TODO: switch back to geo mode.
 		}
 	}
+
+	public void focusToobarFirstElement() {
+		if (getToolbarPanelV2() != null) {
+			getToolbarPanelV2().focusFirstElement();
+		}
+	}
+
+	public void focusToobarLastElement() {
+		if (getToolbarPanelV2() != null) {
+			getToolbarPanelV2().focusLastElement();
+		}
+	}
 }
 
 
