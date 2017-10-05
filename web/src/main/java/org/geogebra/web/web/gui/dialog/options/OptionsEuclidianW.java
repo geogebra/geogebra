@@ -858,6 +858,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				@Override
 				public void onClick(ClickEvent event) {
 					enableGrid(cbShowGrid.getValue());
+					app.storeUndoInfo();
 				}
 			});
 			mainPanel = new FlowPanel();
@@ -980,6 +981,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void onChange(ChangeEvent event) {
 	                model.appyGridType(lbGridType.getSelectedIndex());
 					updateView();
+					app.storeUndoInfo();
                 }});
 			// tick intervals
 
@@ -1084,7 +1086,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void fireActionPerformed(PopupMenuButtonW actionButton) {
 					model.appyGridStyle(EuclidianView
 							.getLineType(btnGridStyle.getSelectedIndex()));
-
 				}});
 			btnGridStyle.setKeepVisible(false);
 

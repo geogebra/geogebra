@@ -400,7 +400,6 @@ public class EuclidianOptionsModel {
 		}
 
 		view.setGridLineStyle(style);
-
 	}
 
 	public void appyGridManualTick(boolean value) {
