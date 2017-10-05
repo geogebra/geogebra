@@ -2533,7 +2533,7 @@ __GGB__keysVar.fr.menu = {
     "Settings.ResetDefault": "Configuration par d\xe9faut",
     "Settings.Save": "Sauvegarder la configuration",
     "SeveralVersionsOfA": "Noter qu'il y a plusieurs versions de : %0",
-    "ShapeFreeform": "Freeform",
+    "ShapeFreeform": "Polygone",
     "ShapePolygon": "Regular Polygon",
     "ShapeRectangle": "Rectangle",
     "ShapeRoundedRectangle": "Rounded Rectangle",
