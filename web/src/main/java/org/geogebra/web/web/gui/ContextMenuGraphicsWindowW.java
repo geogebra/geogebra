@@ -198,6 +198,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				}
 				snapToGrid.setChecked(!isSnapToGrid);
 				app.getGuiManager().updatePropertiesView();
+				app.storeUndoInfo();
 			}
 		});
 		wrappedPopup.addItem(snapToGrid);
