@@ -592,6 +592,10 @@ public abstract class ContextMenuGeoElement {
 	protected void setGeo(GeoElement geo) {
 		this.geoLabel = geo.getLabelSimple();
 	}
+
+	public static double[] getZoomfactors() {
+		return zoomFactors;
+	}
 	protected ArrayList<GeoElement> getGeos() {
 		return geos;
 	}

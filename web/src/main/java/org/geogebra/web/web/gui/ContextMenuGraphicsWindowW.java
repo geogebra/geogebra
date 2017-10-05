@@ -24,29 +24,44 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
+/**
+ * euclidian view/graphics view context menu
+ */
 public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
         implements MyActionListener {
 
+	/**
+	 * x position of popup
+	 */
 	protected double px;
+	/**
+	 * y position of popup
+	 */
 	protected double py;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	protected ContextMenuGraphicsWindowW(AppW app) {
 		super(app);
-		/*
-		 * if (isWhiteboard() && !app.isUnbundled()) {
-		 * wrappedPopup.getPopupPanel().addStyleName("contextMenu"); } else
-		 */
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		}
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @param px
+	 *            x pos of popup
+	 * @param py
+	 *            y pos of popup
+	 */
 	public ContextMenuGraphicsWindowW(AppW app, double px, double py) {
 		this(app);
-
 		this.px = px;
 		this.py = py;
-
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		OptionType ot = OptionType.EUCLIDIAN;
 		if (ev.getEuclidianViewNo() == 2) {
@@ -55,18 +70,14 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			setTitle(loc.getMenu("DrawingPad"));
 		}
-
 		if (app.isUnbundledOrWhiteboard()) {
 			addAxesMenuItem();
 			addGridMenuItem();
 			addSnapToGridMenuItem();
 			addClearTraceMenuItem();
 		}
-
 		addShowAllObjAndStandView();
-
 		addMiProperties("DrawingPad", ot);
-
 	}
 
 	private void addClearTraceMenuItem() {
@@ -74,26 +85,22 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getSafeUri().asString();
 		MenuItem miClearTrace = new MenuItem(MainMenu.getMenuBarHtml(imgClearTrace, loc.getMenu("ClearTrace")), true,
 				new Command() {
-
 			        @Override
 					public void execute() {
 						app.refreshViews();
 			        }
-
 		        });
 		wrappedPopup.addItem(miClearTrace);
 	}
 
 	private void addShowAllObjAndStandView() {
 		String img;
-
 		if (app.isUnbundledOrWhiteboard()) {
 			img = MaterialDesignResources.INSTANCE.show_all_objects_black()
 					.getSafeUri().asString();
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-
 		MenuItem miShowAllObjectsView = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")), true,
 				new Command() {
 
@@ -103,15 +110,12 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			        }
 
 		        });
-
 		String img2;
-
 		if (app.isUnbundledOrWhiteboard()) {
 			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri().asString();
 		} else {
 			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-
 		MenuItem miStandardView = new MenuItem(MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")), true,
 				new Command() {
 
@@ -120,47 +124,33 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				        setStandardView();
 			        }
 		        });
-
-
 		if (!hasWhiteboardContextMenu()) {
-
 			addAxesAndGridCheckBoxes();
-
 			addNavigationBar();
-
 			RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(
 					(AppW) this.app, false);
 			addAxesRatioItems(yaxisMenu);
-
 			MenuItem mi = new MenuItem(
 					loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
 					(MenuBar) yaxisMenu);
-
 			mi.addStyleName("mi_no_image_new");
-
 			if (!app.isUnbundled()) {
 				wrappedPopup.addItem(mi);
 			}
-
 			if (!app.getActiveEuclidianView().isZoomable()) {
 				yaxisMenu.setEnabled(false);
 			}
-
 			if (app.getActiveEuclidianView().isLockedAxesRatio()) {
 				yaxisMenu.setEnabled(false);
 			}
-
 		}
-
 		if (!app.getActiveEuclidianView().isZoomable()) {
 			miShowAllObjectsView.setEnabled(false);
 			miStandardView.setEnabled(false);
 		}
-
 		if (!app.isUnbundledOrWhiteboard()) {
 			addZoomMenu();
 		}
-
 		wrappedPopup.addItem(miShowAllObjectsView);
 		if (!app.isUnbundledOrWhiteboard()) {
 			wrappedPopup.addItem(miStandardView);
@@ -182,13 +172,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		GridSubmenu gridSubMenu = new GridSubmenu(ci);
 		gridSubMenu.update();
-
 	}
 
 	private void addSnapToGridMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.snap_to_grid()
 				.getSafeUri().asString();
-
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("SnapToGrid")),
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
@@ -218,7 +206,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	private void addAxesMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
-
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
@@ -226,7 +213,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				app.getSettings().getEuclidian(1).getShowAxis(0)
 						&& app.getSettings().getEuclidian(1).getShowAxis(1));
 		showAxes.setCommand(new Command() {
-
 			@Override
 			public void execute() {
 				boolean axisShown = app.getSettings().getEuclidian(1)
@@ -241,15 +227,22 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(showAxes);
 	}
 
+	/**
+	 * show/hide construction protocol navigation
+	 */
 	void toggleShowConstructionProtocolNavigation() {
 		((AppW) app).toggleShowConstructionProtocolNavigation(app
 				.getActiveEuclidianView().getViewID());
 	}
 
+	/**
+	 * @param name
+	 *            title
+	 * @param type
+	 *            of option
+	 */
 	protected void addMiProperties(String name, final OptionType type) {
-
 		String img;
-
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			img = MaterialDesignResources.INSTANCE.gere().getSafeUri()
 					.asString();
@@ -273,28 +266,35 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(miProperties);
 	}
 
+	/**
+	 * @param type
+	 *            of option
+	 */
 	protected void showOptionsDialog(OptionType type) {
 		if (app.getGuiManager() != null) {
 			app.getDialogManager().showPropertiesDialog(type, null);
 		}
 	}
 
+	/**
+	 * set standard view
+	 */
 	protected void setStandardView() {
 		app.setStandardView();
 	}
 
+	/**
+	 * set show all objects
+	 */
 	public void setViewShowAllObject() {
 		app.setViewShowAllObjects(false);
 	}
 
 	private void addAxesRatioItems(RadioButtonMenuBar menu) {
-
 		double scaleRatio = app.getActiveEuclidianView()
 		        .getScaleRatio();
-
 		String[] items = new String[axesRatios.length + 2];
 		String[] actionCommands = new String[axesRatios.length + 2];
-
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0, j = 0; i < axesRatios.length; i++, j++) {
@@ -309,7 +309,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					items[j++] = "---";
 					separatorAdded = true;
 				}
-
 			} else { // factor
 				if (axesRatios[i] == 1) {
 					// ((MenuBar) menu).addSeparator();
@@ -319,7 +318,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				sb.append("1 : ");
 				sb.append((int) (1.0 / axesRatios[i]));
 			}
-
 			items[j] = sb.toString();
 			actionCommands[j] = "" + axesRatios[i];
 		}
@@ -329,47 +327,45 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		                scaleRatio)) {
 			selPos++;
 		}
-
 		menu.addRadioButtonMenuItems(this, items, actionCommands, selPos, false);
-
 	}
 
+	/**
+	 * @param axesRatio
+	 *            ratio of y axis
+	 */
 	protected void zoomYaxis(double axesRatio) {
 		app.zoomAxesRatio(axesRatio);
 	}
 
+	/**
+	 * app zoom menu
+	 */
 	protected void addZoomMenu() {
 		// zoom for both axes
 		MenuBar zoomMenu = new MenuBar(true);
-
 		String img;
-
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
 					.asString();
 		} else {
 			img = AppResources.INSTANCE.zoom16().getSafeUri().asString();
 		}
-
 		MenuItem zoomMenuItem = new MenuItem(
 				MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Zoom")), true, zoomMenu);
 		if (!hasWhiteboardContextMenu()) {
 			zoomMenuItem.addStyleName("mi_with_image");
 		}
-
 		wrappedPopup.addItem(zoomMenuItem);
 		addZoomItems(zoomMenu);
-
 		if (!app.getActiveEuclidianView().isZoomable()) {
 			zoomMenuItem.setEnabled(false);
 		}
-
 	}
 
 	private void addZoomItems(MenuBar menu) {
 		int perc;
-
 		MenuItem mi;
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
@@ -377,12 +373,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			perc = (int) (zoomFactors[i] * 100.0);
 			// build text like "125%" or "75%"
 			sb.setLength(0);
-
 			if ((perc <= 100) && (!separatorAdded)) {
 				menu.addSeparator();
 				separatorAdded = true;
 			}
-
 			sb.append(perc);
 			sb.append('%');
 			final int index = i;
@@ -390,10 +384,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			// menuItem, this kills the memory, if GWT changes this
 			// get it right!
 			mi = new MenuItem(sb.toString(), new Command() {
-
 				@Override
 				public void execute() {
-					zoom(zoomFactors[index]);
+					zoom(getZoomfactors()[index]);
 				}
 			});
 			menu.addItem(mi);
@@ -401,28 +394,30 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				mi.addStyleName("no-image");
 			}
 		}
-
 	}
 
+	/**
+	 * @param zoomFactor
+	 *            zoom fasctor
+	 */
 	protected void zoom(double zoomFactor) {
 		app.zoom(px, py, zoomFactor);
 	}
 
+	/**
+	 * add axes and grid menu items with checkboxes
+	 */
 	protected void addAxesAndGridCheckBoxes() {
-
 		if (app.getGuiManager() == null) {
 			return;
 		}
-
 		String img;
 		if (hasWhiteboardContextMenu()) {
 			img = AppResources.INSTANCE.axes20().getSafeUri().asString();
 		} else {
 			img = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
 		}
-
 		String htmlString = MainMenu.getMenuBarHtml(img, loc.getMenu("Axes"));
-
 		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
 			GCheckBoxMenuItem cbMenuItem = new GCheckBoxMenuItem(htmlString,
 					((AppW) app).getGuiManager().getShowAxesAction(), true,
@@ -440,17 +435,14 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			checkmarkMenuItem
 					.setChecked(app.getActiveEuclidianView().getShowXaxis()
 		        && (app.getActiveEuclidianView().getShowYaxis()));
-
 			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
 		}
-
 		String img2;
 		if (hasWhiteboardContextMenu()) {
 			img2 = AppResources.INSTANCE.grid20().getSafeUri().asString();
 		} else {
 			img2 = StyleBarResources.INSTANCE.grid().getSafeUri().asString();
 		}
-
 		htmlString = MainMenu.getMenuBarHtml(img2, loc.getMenu("Grid"));
 		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
 			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
@@ -468,9 +460,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					.setChecked(app.getActiveEuclidianView().getShowGrid());
 			wrappedPopup.addItem(checkmarkMenuItem.getMenuItem());
 		}
-
 	}
 
+	/**
+	 * add navigation bar
+	 */
 	protected void addNavigationBar() {
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			return;
@@ -499,6 +493,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			// zoomYaxis(Double.parseDouble(e.getActionCommand()));
 			zoomYaxis(Double.parseDouble(command));
 		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
@@ -507,7 +502,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (!hasWhiteboardContextMenu()) {
 			return;
 		}
-
 		updatePasteItem();
 	}
 
@@ -516,7 +510,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 *
 	 */
 	public class GridSubmenu extends CheckMarkSubMenu {
-
 		/**
 		 * @param parentMenu
 		 *            - parent menu item
@@ -639,7 +632,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		public void update() {
 			// do nothing now
 		}
-
 	}
 
 	/**
