@@ -36,10 +36,24 @@ abstract public class ObjectSettingsModel {
     private ArrayList<GeoElement> geoElementsList;
 
     /**
+     * Default constructor
+     */
+    public ObjectSettingsModel() {
+    }
+
+    /**
      * @param app
      *         Application
      */
     public ObjectSettingsModel(App app) {
+        init(app);
+    }
+
+    /**
+     * @param app
+     *         Application
+     */
+    protected void init(App app) {
         this.app = app;
         geoElementsList = new ArrayList<GeoElement>();
     }
@@ -154,7 +168,7 @@ abstract public class ObjectSettingsModel {
      * @return the current point style of the geoElement, or with POINT_STYLE_DOT if it is null
      */
     public int getPointStyle() {
-		if (!(geoElement instanceof PointProperties)) {
+        if (!(geoElement instanceof PointProperties)) {
             return EuclidianStyleConstants.POINT_STYLE_DOT;
         }
 
@@ -223,8 +237,8 @@ abstract public class ObjectSettingsModel {
             for (int i = 0; i < geoList.size(); i++) {
                 setPointSize(geoList.get(i), size);
             }
-        } else if (geoElement instanceof PointProperties){
-            ((PointProperties)geoElement).setPointSize(size + getMinSize());
+        } else if (geoElement instanceof PointProperties) {
+            ((PointProperties) geoElement).setPointSize(size + getMinSize());
         }
     }
 
@@ -246,7 +260,7 @@ abstract public class ObjectSettingsModel {
             for (int i = 0; i < geoList.size(); i++) {
                 setLineThickness(geoList.get(i), size);
             }
-        } else if (LineStyleModel.match(geoElement)){
+        } else if (LineStyleModel.match(geoElement)) {
             geoElement.setLineThickness(size + geoElement.getMinimumLineThickness());
         }
     }
