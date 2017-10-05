@@ -523,7 +523,6 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		 */
 		public GridSubmenu(GCollapseMenuItem parentMenu) {
 			super(wrappedPopup, parentMenu);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override
@@ -550,6 +549,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_ISOMETRIC);
 					app.getActiveEuclidianView().repaintView();
+					app.storeUndoInfo();
 				}
 			});
 		}
@@ -569,6 +569,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_POLAR);
 					app.getActiveEuclidianView().repaintView();
+					app.storeUndoInfo();
 				}
 			});
 		}
@@ -589,6 +590,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
 					app.getActiveEuclidianView().repaintView();
+					app.storeUndoInfo();
 				}
 			});
 		}
@@ -608,6 +610,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_CARTESIAN);
 					app.getActiveEuclidianView().repaintView();
+					app.storeUndoInfo();
 				}
 			});
 		}
@@ -626,7 +629,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 							.setGridType(EuclidianView.GRID_NOT_SHOWN);
 					app.getSettings().getEuclidian(1).setShowGridSetting(false);
 					app.getActiveEuclidianView().repaintView();
-
+					app.storeUndoInfo();
 				}
 			});
 		}
