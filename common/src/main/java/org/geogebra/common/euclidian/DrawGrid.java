@@ -112,13 +112,7 @@ public class DrawGrid {
 			topSubGrids = Math.round((float) ((start2 - start) / smallStep));
 		}
 
-		double pix = start;
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-			pix = start - tickStepY / n;
-		} else if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
-			pix -= tickStepY;
-		}
 		
 		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
 			// if xCrossPix less than the width of the view, grid won't be drawn
@@ -142,45 +136,95 @@ public class DrawGrid {
 		
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
-		for (int j = 0; pix <= yAxisEnd; j++) {
-			// don't draw the grid line x=0 if the y-axis is showing
-			// or if it's too close (eg sticky axes)
-			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
-				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-					if ((j - topSubGrids - 1) % n == 0) {
-						// g2.setStrokeLineWidth(1);
-						g2.setColor(view.getGridColor());
+		double pix;
 
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES)
+				&& view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
+			// draw main grid
+			g2.startGeneralPath();
+			g2.setColor(view.getGridColor());
+			double startGrid = start + topSubGrids * tickStepY / n;
+			pix = startGrid;
+			for (int j = 0; pix <= yAxisEnd; j++) {
+				drawHorizontalGridLine(g2, pix, left, xCrossPix, yCrossPix);
+				pix = startGrid + (j * tickStepY);
+			}
+			g2.endAndDrawGeneralPath();
+
+			// draw sub grid
+			g2.startGeneralPath();
+			g2.setColor(getBrighterColor(view.getGridColor()));
+			pix = start;
+			for (int j = 0; pix <= yAxisEnd; j++) {
+				if ((j - topSubGrids - 1) % n != 0) {
+					// don't draw over main grid
+					drawHorizontalGridLine(g2, pix, left, xCrossPix, yCrossPix);
+				}
+				pix = start + (j * tickStepY / n);
+			}
+			g2.endAndDrawGeneralPath();
+		} else {
+			pix = start;
+			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+				pix = start - tickStepY / n;
+			} else if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
+				pix -= tickStepY;
+			}
+
+			for (int j = 0; pix <= yAxisEnd; j++) {
+				// don't draw the grid line x=0 if the y-axis is showing
+				// or if it's too close (eg sticky axes)
+				if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
+
+					if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+						if ((j - topSubGrids - 1) % n == 0) {
+							// g2.setStrokeLineWidth(1);
+							g2.setColor(view.getGridColor());
+
+						} else {
+							// g2.setStrokeLineWidth(0.4);
+							g2.setColor(getBrighterColor(view.getGridColor()));
+						}
+					}
+
+					if (view.axesLabelsPositionsY.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))
+							&& !view.getApplication().has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+
+						// hits axis label, draw in 2 sections
+						drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix, xCrossPix);
 					} else {
-						// g2.setStrokeLineWidth(0.4);
-						g2.setColor(getBrighterColor(view.getGridColor()));
+
+						// not hitting axis label, just draw it
+						g2.drawStraightLine(left, pix, view.getWidth(), pix);
 					}
 				}
 
-				if (view.axesLabelsPositionsY.contains(
-						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))
-						&& !view.getApplication()
-								.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
-
-					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix,
-							xCrossPix);
+				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+					pix = start + (j * tickStepY / n);
 				} else {
-
-					// not hitting axis label, just draw it
-					g2.drawStraightLine(left, pix, view.getWidth(), pix);
+					pix = start + (j * tickStepY);
 				}
-			}
 
-			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				pix = start + (j * tickStepY / n);
-			} else {
-				pix = start + (j * tickStepY);
 			}
-
 		}
+	}
 
+	private void drawHorizontalGridLine(GGraphics2D g2, double pix, double left, double xCrossPix, double yCrossPix) {
+		// don't draw the grid line x=0 if the y-axis is showing
+		// or if it's too close (eg sticky axes)
+		if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
+			if (view.axesLabelsPositionsY.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))
+					&& !view.getApplication().has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
+
+				// hits axis label, draw in 2 sections
+				drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix, xCrossPix);
+			} else {
+
+				// not hitting axis label, just draw it
+				addStraightLineToGeneralPath(g2, left, pix, view.getWidth(), pix);
+			}
+		}
 	}
 
 	private void drawHorizontalGridLog(GGraphics2D g2, double xCrossPix,
@@ -192,6 +236,7 @@ public class DrawGrid {
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
+		g2.startGeneralPath();
 		for (int j = 0; pix <= yAxisEnd; j++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
@@ -208,13 +253,14 @@ public class DrawGrid {
 				} else {
 
 					// not hitting axis label, just draw it
-					g2.drawStraightLine(left, pix, view.getWidth(), pix);
+					addStraightLineToGeneralPath(g2, left, pix, view.getWidth(), pix);
 				}
 			}
 
 			pix = start + (j * tickStepY);
 			pow = pow * 10;
 		}
+		g2.endAndDrawGeneralPath();
 
 	}
 
@@ -270,52 +316,97 @@ public class DrawGrid {
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 		final double bottom = view.positiveAxes[1] ? yAxisEnd
 				: view.getHeight();
-		double pix = xAxisStart;
+		double pix;
 
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-			pix = xAxisStart;
-		} else if (pix < EuclidianView.SCREEN_BORDER) {
-			pix += tickStepX;
-		}
+		if (view.getApplication().has(Feature.MINOR_GRIDLINES)
+				&& view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
 
-		for (int i = (view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-				? 1 : 0); pix <= view.getWidth(); i++) {
-			// don't draw the grid line x=0 if the y-axis is showing
-			// or if it's too close (eg sticky axes)
-
-			if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-					if ((i - leftSubGrids - 1) % n == 0) {
-						// g2.setStrokeLineWidth(1);
-						g2.setColor(view.getGridColor());
-
-					} else {
-						// g2.setStrokeLineWidth(0.4);
-						g2.setColor(getBrighterColor(view.getGridColor()));
-					}
-				}
-
-				if (view.axesLabelsPositionsX.contains(
-						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
-
-					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
-				} else {
-					// not hitting axis label, just draw it
-					g2.drawStraightLine(pix, 0, pix, bottom);
-
-				}
-
+			// draw main grid
+			g2.startGeneralPath();
+			g2.setColor(view.getGridColor());
+			double startGrid = xAxisStart + leftSubGrids * tickStepX / n;
+			pix = startGrid;
+			for (int i = 0; pix <= view.getWidth(); i++) {
+				drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
+				pix = startGrid + (i * tickStepX);
 			}
+			g2.endAndDrawGeneralPath();
+
+			// draw sub grid
+			g2.startGeneralPath();
+			g2.setColor(getBrighterColor(view.getGridColor()));
+			pix = xAxisStart;
+			for (int i = (view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES) ? 1 : 0); pix <= view
+					.getWidth(); i++) {
+				if ((i - leftSubGrids - 1) % n != 0) {
+					// don't draw over main grid
+					drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
+				}
+				pix = xAxisStart + (i * tickStepX / n);
+			}
+			g2.endAndDrawGeneralPath();
+
+		} else {
+			pix = xAxisStart;
 
 			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				pix = xAxisStart + (i * tickStepX / n);
-			} else {
-				pix = xAxisStart + (i * tickStepX);
+				pix = xAxisStart;
+			} else if (pix < EuclidianView.SCREEN_BORDER) {
+				pix += tickStepX;
 			}
 
-		}
+			for (int i = (view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES) ? 1 : 0); pix <= view
+					.getWidth(); i++) {
+				// don't draw the grid line x=0 if the y-axis is showing
+				// or if it's too close (eg sticky axes)
 
+				if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
+					if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+						if ((i - leftSubGrids - 1) % n == 0) {
+							// g2.setStrokeLineWidth(1);
+							g2.setColor(view.getGridColor());
+
+						} else {
+							// g2.setStrokeLineWidth(0.4);
+							g2.setColor(getBrighterColor(view.getGridColor()));
+						}
+					}
+
+					if (view.axesLabelsPositionsX.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
+
+						// hits axis label, draw in 2 sections
+						drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
+					} else {
+						// not hitting axis label, just draw it
+						g2.drawStraightLine(pix, 0, pix, bottom);
+
+					}
+
+				}
+
+				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
+					pix = xAxisStart + (i * tickStepX / n);
+				} else {
+					pix = xAxisStart + (i * tickStepX);
+				}
+
+			}
+		}
+	}
+
+	private void drawVerticalGridLine(GGraphics2D g2, double pix, double bottom, double xCrossPix, double yCrossPix) {
+		// don't draw the grid line x=0 if the y-axis is showing
+		// or if it's too close (eg sticky axes)
+		if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
+			if (view.axesLabelsPositionsX.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
+
+				// hits axis label, draw in 2 sections
+				drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
+			} else {
+				// not hitting axis label, just draw it
+				g2.drawStraightLine(pix, 0, pix, bottom);
+			}
+		}
 	}
 
 	private void drawVerticalGridLog(GGraphics2D g2, double xCrossPix,
@@ -333,6 +424,7 @@ public class DrawGrid {
 				: view.getHeight();
 		double pix = 0;
 		double pow = MyMath.nextPrettyNumber(view.getYmin(), 1);
+		g2.startGeneralPath();
 		for (int i = 0; pix <= view.getWidth(); i++) {
 			// don't draw the grid line x=0 if the y-axis is showing
 			// or if it's too close (eg sticky axes)
@@ -347,7 +439,7 @@ public class DrawGrid {
 					drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
 				} else {
 					// not hitting axis label, just draw it
-					g2.drawStraightLine(pix, 0, pix, bottom);
+					addStraightLineToGeneralPath(g2, pix, 0, pix, bottom);
 
 				}
 
@@ -355,6 +447,7 @@ public class DrawGrid {
 			pow = pow * 10;
 			pix = xAxisStart + (i * tickStepX);
 		}
+		g2.endAndDrawGeneralPath();
 
 	}
 
@@ -364,15 +457,15 @@ public class DrawGrid {
 		if ((xCrossPix > x1 && xCrossPix < x2) && !view.getApplication()
 				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
 			// split in 2
-			g2.drawStraightLine(x1, y1,
+			addStraightLineToGeneralPath(g2, x1, y1,
 					xCrossPix - (view.toRealWorldCoordY(y1) > 0
 							? view.yLabelMaxWidthPos : view.yLabelMaxWidthNeg)
 							- 10,
 					y2);
-			g2.drawStraightLine(xCrossPix, y1, x2, y2);
+			addStraightLineToGeneralPath(g2, xCrossPix, y1, x2, y2);
 
 		} else {
-			g2.drawStraightLine(x1, y1, x2, y2);
+			addStraightLineToGeneralPath(g2, x1, y1, x2, y2);
 		}
 	}
 
@@ -381,13 +474,21 @@ public class DrawGrid {
 
 		if (yCrossPix > y1 && yCrossPix < y2) {
 			// split in 2
-			g2.drawStraightLine(x1, y1, x2, yCrossPix);
+			addStraightLineToGeneralPath(g2, x1, y1, x2, yCrossPix);
 
-			g2.drawStraightLine(x1, yCrossPix + view.xLabelHeights + 5, x2, y2);
+			addStraightLineToGeneralPath(g2, x1, yCrossPix + view.xLabelHeights + 5, x2, y2);
 
+		} else {
+			addStraightLineToGeneralPath(g2, x1, y1, x2, y2);
+		}
+	}
+
+	private void addStraightLineToGeneralPath(GGraphics2D g2, double x1, double y1, double x2, double y2) {
+		if (view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
+			g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
 		} else {
 			g2.drawStraightLine(x1, y1, x2, y2);
 		}
-
 	}
+
 }

@@ -4347,6 +4347,10 @@ public abstract class App implements UpdateSelection {
 		case BUTTONS_HAVE_SHADOW:
 			return prerelease;
 
+		/** MOB-1278 */
+		case SPEED_UP_GRID_DRAWING:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

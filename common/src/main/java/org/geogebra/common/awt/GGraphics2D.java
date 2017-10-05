@@ -385,4 +385,29 @@ public interface GGraphics2D {
 	 * <b>saveTransform()</b> was called.
 	 */
 	public void restoreTransform();
+
+	/**
+	 * start a new general path we'll add lines etc. to
+	 */
+	public abstract void startGeneralPath();
+
+	/**
+	 * add straight line to current general path
+	 * 
+	 * @param x1
+	 *            first point x coordinate
+	 * @param y1
+	 *            first point y coordinate
+	 * @param x2
+	 *            second point x coordinate
+	 * @param y2
+	 *            second point y coordinate
+	 */
+	public abstract void addStraightLineToGeneralPath(double x1, double y1, double x2, double y2);
+
+	/**
+	 * end current general path and draw it
+	 */
+	public abstract void endAndDrawGeneralPath();
+
 }

@@ -317,5 +317,9 @@ public enum Feature {
 	TAB_ON_GUI,
 
 	/** GGB-2096 */
-	BUTTONS_HAVE_SHADOW
+	BUTTONS_HAVE_SHADOW,
+
+	/** MOB-1278 */
+	SPEED_UP_GRID_DRAWING
+
 }

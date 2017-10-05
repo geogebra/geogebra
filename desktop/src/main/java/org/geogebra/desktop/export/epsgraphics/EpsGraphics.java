@@ -1292,6 +1292,21 @@ abstract public class EpsGraphics implements GGraphics2D {
 		this.draw(line);
 	}
 
+	@Override
+	public void startGeneralPath() {
+		// do nothing, used in web
+	}
+
+	@Override
+	public void addStraightLineToGeneralPath(double x1, double y1, double x2, double y2) {
+		drawStraightLine(x1, y1, x2, y2);
+	}
+
+	@Override
+	public void endAndDrawGeneralPath() {
+		// do nothing, used in web
+	}
+
 	private LinkedList<GAffineTransform> transformationStack = new LinkedList<GAffineTransform>();
 
 	@Override

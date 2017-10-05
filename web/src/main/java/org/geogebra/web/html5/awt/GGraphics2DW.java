@@ -164,6 +164,28 @@ public class GGraphics2DW implements GGraphics2D {
 		context.stroke();
 	}
 
+	@Override
+	public void startGeneralPath() {
+		context.beginPath();
+	}
+
+	@Override
+	public void addStraightLineToGeneralPath(double x1, double y1, double x2, double y2) {
+		int width = (int) context.getLineWidth();
+		if (MyDouble.isOdd(width)) {
+			context.moveTo(Math.floor(x1) + 0.5, Math.floor(y1) + 0.5);
+			context.lineTo(Math.floor(x2) + 0.5, Math.floor(y2) + 0.5);
+		} else {
+			context.moveTo(Math.round(x1), Math.round(y1));
+			context.lineTo(Math.round(x2), Math.round(y2));
+		}
+	}
+
+	@Override
+	public void endAndDrawGeneralPath() {
+		context.stroke();
+	}
+
 	protected void doDrawShape(Shape shape) {
 		context.beginPath();
 		GPathIterator it = shape.getPathIterator(null);
