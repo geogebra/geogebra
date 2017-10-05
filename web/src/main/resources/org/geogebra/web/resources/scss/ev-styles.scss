@@ -304,12 +304,11 @@
 
 	.zoomPanel {
 		position: absolute;
+		z-index: 11;
+		cursor: default;
 		top: auto !important;
     	left: auto !important;
-    	z-index: 11;
-    	bottom: 8px !important;
     	right: 16px !important;
-    	cursor: default;
     	
     	.zoomPanelBtn {
     		position: relative;
@@ -366,6 +365,12 @@
     		}
     	
 		}
+	}
+	.zoomPanelPosition {
+    	bottom: 8px !important;
+    }
+	.zoomPanelMow {
+		margin-bottom: 58px;
 	}
 
 	.undoRedoPanel {

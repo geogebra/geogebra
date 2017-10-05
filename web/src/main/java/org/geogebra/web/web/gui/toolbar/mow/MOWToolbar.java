@@ -3,11 +3,16 @@ package org.geogebra.web.web.gui.toolbar.mow;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -51,7 +56,10 @@ public class MOWToolbar extends FlowPanel {
 	private MyToggleButton btnUndo;
 	private MyToggleButton btnRedo;
 
+	private StandardButton pageControlButton;
+
 	private final static int MAX_TOOLBAR_WIDTH = 600;
+
 	/**
 	 *
 	 * @param app
@@ -77,6 +85,9 @@ public class MOWToolbar extends FlowPanel {
 		// midddle buttons open submenus
 		createMiddleButtons();
 		createCloseButton();
+		if (app.has(Feature.MOW_MULTI_PAGE)) {
+			createPageControlButton();
+		}
 		add(LayoutUtilW.panelRow(middlePanel, rightPanel));
 
 		subMenuPanel = new FlowPanel();
@@ -90,12 +101,14 @@ public class MOWToolbar extends FlowPanel {
 		// sets the horizontal position of the toolbar
 		setResponsivePosition();
 		updateUndoRedoPosition();
+		updatePageControlButtonPosition();
 		ClickStartHandler.initDefaults(this, true, true);
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
 				setResponsivePosition();
 				updateUndoRedoPosition();
+				updatePageControlButtonPosition();
 			}
 		});
 	}
@@ -167,7 +180,7 @@ public class MOWToolbar extends FlowPanel {
 	/**
 	 * update position of undo+redo panel
 	 */
-	public void updateUndoRedoPosition() {
+	private void updateUndoRedoPosition() {
 		undoRedoPanel.getElement().getStyle().setLeft(0, Unit.PX);
 		// toolbar max width = 700 + undoRedoPanel width = 120
 		// 700+2*120 = 940
@@ -181,6 +194,31 @@ public class MOWToolbar extends FlowPanel {
 			} else {
 				undoRedoPanel.removeStyleName("showSubmenu");
 				undoRedoPanel.addStyleName("hideSubmenu");
+			}
+		}
+	}
+
+	private void updatePageControlButtonPosition() {
+		if (!app.has(Feature.MOW_MULTI_PAGE)) {
+			return;
+		}
+		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+
+		if (app.getWidth() > MAX_TOOLBAR_WIDTH + 150) {
+			pageControlButton.getElement().getStyle().setBottom(10, Unit.PX);
+			dp.setZoomPanelBottom(true);
+		} else {
+			pageControlButton.getElement().getStyle().clearBottom();
+			dp.setZoomPanelBottom(false);
+			if (isSubmenuOpen) {
+				pageControlButton.removeStyleName("hideSubmenu");
+				pageControlButton.addStyleName("showSubmenu");
+				dp.moveZoomPanelUp();
+			} else {
+				pageControlButton.removeStyleName("showSubmenu");
+				pageControlButton.addStyleName("hideSubmenu");
+				dp.moveZoomPanelDown();
 			}
 		}
 	}
@@ -285,6 +323,27 @@ public class MOWToolbar extends FlowPanel {
 		});
 	}
 
+	private void createPageControlButton() {
+		pageControlButton = new StandardButton(
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.mow_page_control()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
+		pageControlButton.setStyleName("pageControlButton");
+		pageControlButton.addFastClickHandler(new FastClickHandler() {
+
+			public void onClick(Widget source) {
+				// TODO open Page Control Panel
+
+			}
+		});
+	}
+
+	public StandardButton getPageControlButton() {
+		return pageControlButton;
+	}
+
 	/**
 	 * set current Menu to Pen Menu, toggle Close Button and set CSS to selected
 	 */
@@ -373,6 +432,7 @@ public class MOWToolbar extends FlowPanel {
 	public void update() {
 		updateUndoRedoPosition();
 		updateUndoRedoActions();
+		updatePageControlButtonPosition();
 	}
 
 	private SubMenuPanel getSubMenuForMode(int mode) {
@@ -510,6 +570,7 @@ public class MOWToolbar extends FlowPanel {
 		addStyleName("mowToolbar");
 		setResponsivePosition();
 		updateUndoRedoPosition();
+		updatePageControlButtonPosition();
 	}
 
 	/**

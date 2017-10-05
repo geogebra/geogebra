@@ -822,6 +822,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 
 		add(mowToolbar.getUndoRedoButtons());
+		if (app1.has(Feature.MOW_MULTI_PAGE)) {
+			add(mowToolbar.getPageControlButton());
+		}
 		int currentMode = mowToolbar.getCurrentMode();
 		if (currentMode != -1) {
 			app1.setMode(currentMode, ModeSetter.TOOLBAR);

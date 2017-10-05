@@ -4038,6 +4038,9 @@ public abstract class App implements UpdateSelection {
 		case MOW_COLOR_FILLING_LINE:
 			return prerelease && whiteboard;
 
+		case MOW_MULTI_PAGE:
+			return false /* prerelease && whiteboard */;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

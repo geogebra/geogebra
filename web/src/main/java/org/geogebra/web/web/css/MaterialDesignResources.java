@@ -386,7 +386,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_person_black_24px.svg")
 	SVGResource person_black();
 
-	// MOW toolbar resources
+	// MOW resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_gesture_black_24px.svg")
 	SVGResource mow_pen_panel();
 
@@ -395,4 +395,7 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_attach_file_black_24px.svg")
 	SVGResource mow_media_panel();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_view_module_white_24px.svg")
+	SVGResource mow_page_control();
 }

@@ -299,6 +299,9 @@ public enum Feature {
 	/** MOW-261 */
 	MOW_COLOR_FILLING_LINE,
 
+	/** MOW-269 */
+	MOW_MULTI_PAGE,
+
 	/** GGB-2015 */
 	GEO_AV_DESCRIPTION,
 

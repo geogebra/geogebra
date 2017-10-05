@@ -73,6 +73,11 @@ public class ZoomPanel extends FlowPanel
 		this.app = (AppW) view.getApplication();
 		view.getEuclidianController().setZoomerListener(this);
 		setStyleName("zoomPanel");
+		if (app.isWhiteboardActive() && app.has(Feature.MOW_MULTI_PAGE)) {
+			addStyleName("zoomPanelMow");
+		} else {
+			addStyleName("zoomPanelPosition");
+		}
 		if (ZoomPanel.needsZoomButtons(app)) {
 			addZoomButtons();
 		}
@@ -483,6 +488,9 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private static boolean needsFullscreenButton(AppW app) {
+		if (app.isWhiteboardActive() && app.has(Feature.MOW_MULTI_PAGE)) {
+			return false;
+		}
 		return app.getArticleElement().getDataParamShowFullscreenButton()
 				|| (app.getArticleElement().getDataParamApp()
 						&& !Browser.isMobile());
