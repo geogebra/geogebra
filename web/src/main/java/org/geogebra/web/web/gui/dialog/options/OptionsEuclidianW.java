@@ -410,6 +410,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void onClick(ClickEvent event) {
 					setShowAxes(cbShowAxes.getValue());
 					updateView();
+					app.storeUndoInfo();
                 }});
 			
 			cbBoldAxes.addClickHandler(new ClickHandler(){
