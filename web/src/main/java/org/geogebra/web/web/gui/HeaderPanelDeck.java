@@ -57,6 +57,7 @@ public interface HeaderPanelDeck
 	 *            listening text field
 	 * @param forceShow
 	 *            whether to force showing
+	 * @return whether keyboard visibility changed
 	 */
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow);

@@ -2,7 +2,18 @@ package org.geogebra.web.web.gui;
 
 import com.google.gwt.dom.client.Element;
 
+/**
+ * Utility class for CSS animations
+ */
 public class CSSAnimation {
+	/**
+	 * @param runnable
+	 *            animation callback
+	 * @param root
+	 *            animated element
+	 * @param classname
+	 *            class to be checked for theanimation and removed afterwards
+	 */
 	public static native void runOnAnimation(Runnable runnable, Element root,
 			String classname) /*-{
 		var reClass = RegExp(classname);
