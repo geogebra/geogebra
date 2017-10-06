@@ -136,7 +136,7 @@ public abstract class GlobalKeyDispatcher {
 				return true;
 			}
 		}
-		if (ch == ' ') {
+		if (ch == '/') {
 			toggleSelectionVisibility();
 		}
 		if (ch == 13 && selection.selectedGeosSize() == 1) {
