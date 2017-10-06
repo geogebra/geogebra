@@ -345,7 +345,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	@Override
 	public boolean onEscape() {
-		if (item.geo != null) {
+		if (item.geo != null || StringUtil.empty(item.getText())) {
 			item.cancelEditing();
 			return true;
 		}

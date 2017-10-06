@@ -1782,7 +1782,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			editItem = true;
 			return;
 		}
-
+		geo.setAnimating(false);
 
 		// open Object Properties for eg GeoImages
 		// also for GeoPenStroke

@@ -1167,8 +1167,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void startEditing(final GeoElement geoElement) {
-		Log.debug("unimplemented");
-
+		if (this.algebraView != null) {
+			algebraView.startEditItem(geoElement);
+		}
 	}
 
 	@Override

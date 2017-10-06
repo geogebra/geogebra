@@ -494,7 +494,6 @@ public class RadioTreeItemController
 
 		GeoElement geo = item.geo;
 		if (!isEditing()) {
-			geo.setAnimating(false);
 			setEditHeigth(item.getOffsetHeight());
 			getAV().startEditItem(geo);
 
