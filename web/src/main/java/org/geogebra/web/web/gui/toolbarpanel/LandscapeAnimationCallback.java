@@ -3,10 +3,21 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 
+/**
+ * Callback for tool panel opening/closing in landscape mode
+ */
 public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 
 	private static final int OPEN_HEIGHT = 56;
 
+	/**
+	 * @param header
+	 *            header
+	 * @param expandFrom
+	 *            original width
+	 * @param expandTo
+	 *            target width
+	 */
 	public LandscapeAnimationCallback(Header header, int expandFrom, int expandTo) {
 		super(header, expandFrom, expandTo);
 	}

@@ -9,7 +9,7 @@ import com.google.gwt.layout.client.Layout.Layer;
  * @author laszlo
  */
 public abstract class HeaderAnimationCallback implements AnimationCallback {
-
+	/** header panel */
 	protected final Header header;
 	private int expandFrom;
 	private int expandTo;
@@ -18,13 +18,20 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 	/**
 	 * @param header
 	 *            to set.
-	 * @param width
 	 */
 	public HeaderAnimationCallback(Header header) {
 		this.header = header;
 		diff = null;
 	}
 
+	/**
+	 * @param header
+	 *            header
+	 * @param expandFrom
+	 *            original width
+	 * @param expandTo
+	 *            target width
+	 */
 	public HeaderAnimationCallback(Header header, int expandFrom,
 			int expandTo) {
 		this.header = header;
@@ -68,30 +75,25 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 		onEnd();
 	}
 
-
-
+	/**
+	 * @return original width
+	 */
 	public int getExpandFrom() {
 		return expandFrom;
 	}
 
-	public void setExpandFrom(int expandFrom) {
-		this.expandFrom = expandFrom;
-	}
-
+	/**
+	 * @return target width
+	 */
 	public int getExpandTo() {
 		return expandTo;
 	}
 
-	public void setExpandTo(int expandTo) {
-		this.expandTo = expandTo;
-	}
-
+	/**
+	 * @return width difference
+	 */
 	public Double getDiff() {
 		return diff;
-	}
-
-	public void setDiff(Double diff) {
-		this.diff = diff;
 	}
 
 }

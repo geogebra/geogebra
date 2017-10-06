@@ -194,7 +194,8 @@ public class ContextMenuAlgebra implements SetLabels {
 		wrappedPopup.show(new GPoint(x, y));
 	}
 
-	private void reposition() {
+	/** Update position */
+	void reposition() {
 		if (x + wrappedPopup.getPopupPanel().getOffsetWidth() > app
 				.getWidth()) {
 			x = (int) (app.getWidth()

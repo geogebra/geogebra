@@ -2,14 +2,15 @@ package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 
+/**
+ * Callback for tool panel opening/closing in portrait mode
+ */
 public class PortraitAnimationCallback extends HeaderAnimationCallback {
 
 
 	/**
-	 * 
 	 * @param header
-	 * @param expandFrom
-	 * @param expandTo
+	 *            header panel
 	 */
 	public PortraitAnimationCallback(Header header) {
 		super(header, 0, 0);
