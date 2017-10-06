@@ -1822,7 +1822,7 @@ __GGB__keysVar.zh_CN.menu = {
     "GeneratePstricks": "\u751f\u6210 PSTricks \u4ee3\u7801",
     "GeoGebra3DGrapher": "GeoGebra 3D \u7ed8\u56fe\u8ba1\u7b97",
     "GeoGebra3DGrapher.short": "3D \u7ed8\u56fe",
-    "GeoGebraForum": "GeoGebra \u8bba\u575b",
+    "GeoGebraForum": "\u8bba\u575b",
     "GeoGebraGeometry": "GeoGebra \u51e0\u4f55",
     "GeoGebraGraphingCalculator": "GeoGebra \u56fe\u5f62\u8ba1\u7b97\u5668",
     "GeoGebraMaterials": "GeoGebra \u7d20\u6750",
