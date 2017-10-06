@@ -126,8 +126,6 @@ public class GPopupMenuW implements AttachedToDOM {
 			left = Window.getClientWidth() - popupPanel.getOffsetWidth()
 			        + Window.getScrollLeft();
 			newPoz = true;
-		} else {
-			left = (int) (left * app.getArticleElement().getScaleX());
 		}
 		if (top + popupPanel.getOffsetHeight()
 		        * app.getArticleElement().getScaleY() > Window
@@ -135,8 +133,6 @@ public class GPopupMenuW implements AttachedToDOM {
 			top = Window.getClientHeight() - popupPanel.getOffsetHeight()
 			        + Window.getScrollTop();
 			newPoz = true;
-		} else {
-			top = (int) (top * app.getArticleElement().getScaleY());
 		}
 
 		if (newPoz || !Kernel.isEqual(1, app.getArticleElement().getScaleX())) {
